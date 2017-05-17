@@ -1,0 +1,18 @@
+# Mac OS
+.DS_Store
+
+# Text editors
+*.sublime*
+.sublime*
+
+# Vendors
+/node_modules
+
+# Logs
+*.log*
+
+# Compiled files
+/dist
+
+# Ignore environment variables
+/.env
