@@ -14,5 +14,8 @@
 # Compiled files
 /dist
 
+# Next files
+.next
+
 # Ignore environment variables
 /.env
