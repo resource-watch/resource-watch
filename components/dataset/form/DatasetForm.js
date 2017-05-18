@@ -27,7 +27,7 @@ class DatasetForm extends React.Component {
     this.onStepChange = this.onStepChange.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.state.dataset) {
       // Start the loading
       this.setState({ loading: true });

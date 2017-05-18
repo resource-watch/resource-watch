@@ -34,6 +34,7 @@
     "lusca": "^1.4.1",
     "next": "^2.0.0",
     "next-redux-wrapper": "^1.1.2",
+    "next-routes": "^1.0.24",
     "node-sass": "^4.5.0",
     "nodemailer": "^2.7.0",
     "normalize.css": "^7.0.0",

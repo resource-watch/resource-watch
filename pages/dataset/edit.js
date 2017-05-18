@@ -4,7 +4,13 @@ import Title from 'components/ui/Title';
 
 export default class DatasetEdit extends React.Component {
 
+  static async getInitialProps({ query }) {
+    const datasetID = query.id;
+    return { datasetID };
+  }
+
   render() {
+    const { datasetID } = this.props;
     return (
       <div className="row">
         <div className="column small-12">
@@ -14,7 +20,7 @@ export default class DatasetEdit extends React.Component {
           <DatasetForm
             application={['rw']}
             authorization={`${process.env.TEMP_TOKEN}`}
-            dataset={gon.data.id}
+            dataset={datasetID}
             onSubmit={() => window.location = '/datasets'}
           />
         </div>
