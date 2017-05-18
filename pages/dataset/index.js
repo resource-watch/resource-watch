@@ -21,7 +21,7 @@ export default class DatasetIndex extends React.Component {
               className="-end"
               buttons={[{
                 label: 'New +',
-                path: '/datasets/new',
+                path: '/admin/datasets/new',
                 className: ''
               }]}
             />

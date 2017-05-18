@@ -1,6 +1,7 @@
 import React from 'react';
 import DatasetForm from 'components/dataset/form/DatasetForm';
 import Title from 'components/ui/Title';
+import Page from 'components/layout/page';
 
 export default class DatasetEdit extends React.Component {
 
@@ -12,19 +13,24 @@ export default class DatasetEdit extends React.Component {
   render() {
     const { datasetID } = this.props;
     return (
-      <div className="row">
-        <div className="column small-12">
-          <Title className="-huge -p-primary">
-            Edit Dataset
-          </Title>
-          <DatasetForm
-            application={['rw']}
-            authorization={`${process.env.TEMP_TOKEN}`}
-            dataset={datasetID}
-            onSubmit={() => window.location = '/datasets'}
-          />
+      <Page
+        title="Edit dataset"
+        description="Edit dataset description..."
+      >
+        <div className="row">
+          <div className="column small-12">
+            <Title className="-huge -p-primary">
+              Edit Dataset
+            </Title>
+            <DatasetForm
+              application={['rw']}
+              authorization={`${process.env.TEMP_TOKEN}`}
+              dataset={datasetID}
+              onSubmit={() => window.location = '/admin/datasets'}
+            />
+          </div>
         </div>
-      </div>
+      </Page>
     );
   }
 }
