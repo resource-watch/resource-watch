@@ -2,6 +2,7 @@ import React from 'react';
 import Title from 'components/ui/Title';
 import Page from 'components/layout/page';
 import DatasetForm from 'components/dataset/form/DatasetForm';
+import { Router } from '../../routes';
 
 export default class DatasetNew extends React.Component {
 
@@ -19,7 +20,7 @@ export default class DatasetNew extends React.Component {
             <DatasetForm
               application={['rw']}
               authorization={`${process.env.TEMP_TOKEN}`}
-              onSubmit={() => window.location = '/admin/datasets'}
+              onSubmit={() => Router.pushRoute('datasets')}
             />
           </div>
         </div>

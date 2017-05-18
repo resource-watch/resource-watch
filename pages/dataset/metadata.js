@@ -1,6 +1,7 @@
 import React from 'react';
 import Title from 'components/ui/Title';
 import MetadataForm from 'components/metadata/MetadataForm';
+import { Router } from '../../routes';
 
 export default class DatasetMetadata extends React.Component {
 
@@ -15,7 +16,7 @@ export default class DatasetMetadata extends React.Component {
             application={'rw'}
             authorization={gon.data.authorization}
             dataset={gon.data.dataset_id}
-            onSubmit={() => window.location = "/datasets"}
+            onSubmit={() => Router.pushRoute('datasets')}
           />
         </div>
       </div>
