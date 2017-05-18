@@ -13,6 +13,7 @@
 
 # Compiled files
 /dist
+.next
 
 # Ignore environment variables
 /.env

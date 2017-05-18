@@ -1,19 +1,25 @@
 import React from 'react';
-import VocabulariesForm from 'components/vocabularies/VocabulariesForm';
+import VocabulariesForm from 'components/vocabularies/form/VocabulariesForm';
+import Page from 'components/layout/page';
 
-class VocabulariesIndex extends React.Component {
+export default class VocabulariesIndex extends React.Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="column small-12">
-          <VocabulariesForm
-            application={'rw'}
-            authorization={gon.data.authorization}
-            language="en"
-          />
+      <Page
+        title="Vocabularies"
+        description="Vocabularies description..."
+      >
+        <div className="row">
+          <div className="column small-12">
+            <VocabulariesForm
+              application={'rw'}
+              authorization={`${process.env.TEMP_TOKEN}`}
+              language="en"
+            />
+          </div>
         </div>
-      </div>
+      </Page>
     );
   }
 }

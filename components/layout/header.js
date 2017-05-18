@@ -12,8 +12,8 @@ export default class Header extends React.Component {
   render() {
     return (
       <header className="l-header c-header">
-        <div className="row">
-          <div className="column small-12">
+        <div className="row collapse">
+          <div className="column">
             <Link prefetch href="/"><img src="/static/images/logo.png" /></Link>
           </div>
           <ul className="menu">

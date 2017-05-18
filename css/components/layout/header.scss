@@ -11,6 +11,8 @@
 
   .menu {
     color: white;
+    list-style: none;
+    display: flex;
 
     li {
       &:last-child {
@@ -21,6 +23,7 @@
     a {
       color: white;
       padding: 15px 20px;
+      text-decoration: none;
 
       &:hover {
         opacity: .7;

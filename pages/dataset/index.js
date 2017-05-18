@@ -3,7 +3,6 @@ import Page from 'components/layout/page';
 import DatasetTable from 'components/dataset/table/DatasetTable';
 import ButtonContainer from 'components/ui/ButtonContainer';
 import Title from 'components/ui/Title';
-import environment from '../../.env';
 
 export default class DatasetIndex extends React.Component {
 
@@ -28,7 +27,7 @@ export default class DatasetIndex extends React.Component {
             />
             <DatasetTable
               application={['rw']}
-              authorization={`${environment.TEMP_TOKEN}`}
+              authorization={`${process.env.TEMP_TOKEN}`}
             />
           </div>
         </div>

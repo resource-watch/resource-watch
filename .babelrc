@@ -1,14 +1,17 @@
 {
   "plugins": [
+    "transform-decorators-legacy",
     [
-      "module-resolver", {
+      "module-resolver",
+      {
         "root": ["."],
         "alias": {
           "css": "./css",
           "components": "./components"
         },
         "cwd": "babelrc"
-    }],
+      }     
+    ],
     [
       "wrap-in-js",
       {
