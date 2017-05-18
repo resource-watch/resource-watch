@@ -1,5 +1,5 @@
 import React from 'react';
-import WidgetForm from 'components/widget/WidgetForm';
+import WidgetForm from 'components/widget/form/WidgetForm';
 import Title from 'components/ui/Title';
 import Page from 'components/layout/page';
 
@@ -28,7 +28,7 @@ export default class WidgetEdit extends React.Component {
               authorization={`${process.env.TEMP_TOKEN}`}
               dataset={datasetID}
               widget={widgetID}
-              onSubmit={() => window.location = `/admin/datasets/${datasetID}/widgets`}
+              onSubmit={() => Router.pushRoute('dataset_widgets', { id: datasetID })}
             />
           </div>
         </div>
