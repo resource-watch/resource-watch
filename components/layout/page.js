@@ -4,6 +4,7 @@ import Session from '../session';
 import Header from 'components/layout/header';
 import Footer from 'components/layout/footer';
 import Head from 'components/layout/head';
+import Icons from 'components/layout/icons';
 
 export default class Page extends React.Component {
 
@@ -21,6 +22,7 @@ export default class Page extends React.Component {
           title={title}
           description={description}
         />
+        <Icons />
         <Header session={this.props.session} />
         <div className="container">
           { this.props.children }
