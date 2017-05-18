@@ -65,11 +65,11 @@ class DatasetTable extends React.Component {
           actions={{
             show: true,
             list: [
-              { name: 'Edit', path: '/datasets/:id/edit', show: true, component: EditAction },
-              { name: 'Remove', path: '/datasets/:id/remove', component: DeleteAction, componentProps: { authorization: this.props.authorization } },
-              { name: 'Metadata', path: '/datasets/:id/metadata', component: MetadataAction },
-              { name: 'Vocabularies', path: '/datasets/:id/dataset_vocabularies', component: VocabularyAction },
-              { name: 'Widgets', path: '/datasets/:id/widgets', component: WidgetAction }
+              { name: 'Edit', path: '/admin/datasets/:id/edit', show: true, component: EditAction },
+              { name: 'Remove', path: '/admin/datasets/:id/remove', component: DeleteAction, componentProps: { authorization: this.props.authorization } },
+              { name: 'Metadata', path: '/admin/datasets/:id/metadata', component: MetadataAction },
+              { name: 'Vocabularies', path: '/admin/datasets/:id/dataset_vocabularies', component: VocabularyAction },
+              { name: 'Widgets', path: '/admin/datasets/:id/widgets', component: WidgetAction }
             ]
           }}
           data={this.state.datasets}

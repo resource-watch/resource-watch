@@ -7,6 +7,7 @@ const routes = module.exports = nextRoutes();
 routes.add('datasets', '/admin/datasets', 'dataset');
 routes.add('edit_dataset', '/admin/datasets/:id/edit', 'dataset/edit');
 routes.add('new_dataset', '/admin/datasets/new', 'dataset/new');
+routes.add('dataset_widgets', '/admin/datasets/:id/widgets', 'widget');
 
 // ----- PARTNERS --------
 routes.add('partners', '/admin/partners', 'dataset');
