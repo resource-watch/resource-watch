@@ -2,17 +2,17 @@
  * An example with custom routing
  */
 
-import Link from 'next/link'
-import React from 'react'
-import Page from '../components/page'
-import Layout from '../components/layout'
+import Link from 'next/link';
+import React from 'react';
+import Page from '../components/page';
+import Layout from '../components/layout';
 
 export default class extends Page {
 
-  static async getInitialProps({req, query}) {
-    let props = await super.getInitialProps({req})
-    props.path = '/route/' + query.id
-    return props
+  static async getInitialProps({ req, query }) {
+    let props = await super.getInitialProps({ req });
+    props.path = '/route/' + query.id;
+    return props;
   }
 
   render() {
@@ -31,7 +31,7 @@ export default class extends Page {
           <li><Link href="/routing/?id=example-two" as="/route/example-two"><a>Example Two</a></Link></li>
         </ul>
       </Layout>
-    )
+    );
   }
 
 }
