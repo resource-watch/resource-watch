@@ -27,6 +27,7 @@
 
     "react/no-danger": 1,
     "react/jsx-space-before-closing": ["error", "always"],
-    "react/forbid-component-props": 0
+    "react/forbid-component-props": 0,
+    "react/jsx-closing-bracket-location": [1, "tag-aligned"]
   }
 }

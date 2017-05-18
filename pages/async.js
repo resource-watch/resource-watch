@@ -4,32 +4,31 @@
  *
  * It does not illustrate best practice and does not implement caching.
  */
-import React from 'react'
-import Page from '../components/page'
-import Layout from '../components/layout'
-import AsyncData from '../components/async-data'
+import React from 'react';
+import Page from 'components/layout/page';
+import AsyncData from 'components/async-data';
 
 export default class extends Page {
 
   /* eslint no-undefined: "error" */
-  static async getInitialProps({req}) {
+  static async getInitialProps({ req }) {
     // Inherit standard props from the Page (i.e. with session data)
-    let props = await super.getInitialProps({req})
+    let props = await super.getInitialProps({ req });
 
     // If running on server, perform Async call
     if (typeof window === 'undefined') {
-      props.posts = await AsyncData.getData()
+      props.posts = await AsyncData.getData();
     }
 
-    return props
+    return props;
   }
 
   // Set posts on page load (only if prop is populated, i.e. running on server)
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       posts: props.posts || []
-    }
+    };
   }
 
   // This is called after rendering, only on the client (not the server)
@@ -38,13 +37,13 @@ export default class extends Page {
   async componentDidMount() {
     this.setState({
       posts: await AsyncData.getData()
-    })
+    });
   }
 
   render() {
-    let loadingMessage
+    let loadingMessage;
     if (this.state.posts.length === 0) {
-      loadingMessage = <p><i>Loading content from jsonplaceholder.typicode.com…</i></p>
+      loadingMessage = <p><i>Loading content from jsonplaceholder.typicode.com…</i></p>;
     }
 
     return (
@@ -68,7 +67,7 @@ export default class extends Page {
           rendering on the client means the initial page render is much faster
           when navigating to this page from another link on the site.
         </p>
-        <hr/>
+        <hr />
         {loadingMessage}
         {
           this.state.posts.map((post, i) => (
@@ -79,7 +78,7 @@ export default class extends Page {
           ))
         }
       </Layout>
-    )
+    );
   }
 
 }

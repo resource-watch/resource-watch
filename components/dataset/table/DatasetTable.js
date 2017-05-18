@@ -33,11 +33,13 @@ class DatasetTable extends React.Component {
     const url = `https://api.resourcewatch.org/v1/dataset?application=${application.join(',')}&includes=widget,layer,metadata&page[size]=${Date.now() / 100000}`;
 
     fetch(new Request(url))
-      .then((response) => {
-        if (response.ok) return response.json();
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
         throw new Error(response.statusText);
       })
-      .then((response) => {
+      .then(response => {
         const datasets = sortBy(response.data.map(dataset =>
           Object.assign({}, dataset.attributes, {
             id: dataset.id
@@ -79,7 +81,7 @@ class DatasetTable extends React.Component {
           }}
           onToggleSelectedRow={(ids) => { console.info(ids); }}
           onRowDelete={(id) => { console.info(id); }}
-        />
+          />
       </div>
     );
   }
