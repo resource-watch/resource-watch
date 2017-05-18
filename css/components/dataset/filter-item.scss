@@ -1,0 +1,38 @@
+.c-datasets-filter-item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  padding: 8px;
+  cursor: pointer;
+
+  > button:last-child {
+    margin-top: 26px;
+  }
+
+  > * {
+    margin: 0 20px 0 0;
+
+    &:last-child { margin: 0; }
+
+  }
+
+  .column {
+
+  }
+
+  > button {
+    margin-top: 25px;
+  }
+
+  .filters {
+    display: flex;
+    justify-content: flex-start;
+
+    > * {
+      margin: 0 20px 0 0;
+
+      &:last-child { margin: 0; }
+    }
+  }
+}

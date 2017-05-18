@@ -1,0 +1,22 @@
+.c-field-container {
+  border: none;
+  margin: 0;
+  padding: 50px 0;
+  border-top: 1px solid $border-color-1;
+
+  &:first-of-type {
+    padding-top: 0;
+    border-top: none;
+  }
+
+  &:last-of-type {
+    padding-bottom: 0;
+  }
+
+  > * {
+    margin: 24px 0 0;
+    &:first-child {
+      margin: 0;
+    }
+  }
+}

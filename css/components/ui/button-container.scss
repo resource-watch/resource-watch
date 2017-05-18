@@ -1,0 +1,28 @@
+.c-button-container {
+  display: flex;
+
+  &.-start {
+    justify-content: flex-start;
+  }
+
+  &.-end {
+    justify-content: flex-end;
+  }
+
+  > ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    list-style: none;
+
+    > li {
+      margin: 0 0 0 20px;
+
+      &:first-child {
+        margin: 0;
+      }
+    }
+  }
+}

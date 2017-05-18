@@ -1,0 +1,51 @@
+.c-button {
+  appearance: none;
+  display: inline-block;
+  margin: 0;
+  padding: $space-1;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: none;
+  outline: none;
+  text-transform: none;
+  font-size: 14px;
+  font-weight: $font-weight-regular;
+  letter-spacing: 0;
+  cursor: pointer;
+  color: $color-secondary;
+
+  // Types
+  &.-primary {
+    color: $color-primary;
+    background: $color-white;
+    border-color: $color-primary;
+
+    // States
+    &:hover {
+      color: $color-white;
+      background: $color-primary;
+    }
+
+    &.-active {
+      background: $color-green;
+      color: $color-white;
+      border-color: $color-green;
+
+      &:hover {
+        background: darken($color-green, 10%);
+      }
+    }
+
+    &.-disabled {
+      background: $color-white;
+      border-color: $border-color-1;
+      color: $color-text-2;
+      cursor: default;
+    }
+  }
+
+  // Helpers
+  &.-fullwidth {
+    width: 100%;
+  }
+}

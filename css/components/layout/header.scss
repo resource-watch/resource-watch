@@ -1,0 +1,30 @@
+.l-header {
+  padding: 25px;
+  background-color: #c32d7b;
+  background-image: linear-gradient(86deg,rgba(195,45,123,.8),rgba(201,14,57,.7));
+
+  > .row .column {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .menu {
+    color: white;
+
+    li {
+      &:last-child {
+        a { padding-right: 0; }
+      }
+    }
+
+    a {
+      color: white;
+      padding: 15px 20px;
+
+      &:hover {
+        opacity: .7;
+      }
+    }
+  }
+}

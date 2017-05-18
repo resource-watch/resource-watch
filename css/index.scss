@@ -1,0 +1,54 @@
+// Reset
+@import "normalize.css";
+
+// Foundation
+@import 'foundation_settings';
+@import '../node_modules/foundation-sites/scss/foundation';
+@include foundation-flex-grid;
+
+// Common files
+@import "./config";
+@import "./base";
+
+// Components
+// UI
+@import "./components/ui/button";
+@import "./components/ui/button-container";
+@import "./components/ui/icon";
+@import "./components/ui/spinner";
+@import "./components/ui/paginator";
+@import "./components/ui/title";
+@import "./components/ui/custom_table";
+@import "./components/ui/table_header_actions";
+@import "./components/ui/table_tooltip";
+@import "./components/ui/modal";
+
+// Layout
+@import "./components/layout/header";
+
+// Form
+@import "./components/form/form";
+@import "./components/form/field";
+@import "./components/form/field-container";
+@import "./components/form/field-buttons";
+@import "./components/form/checkbox";
+@import "./components/form/radio";
+@import "./components/form/select";
+@import "./components/form/token";
+
+
+// Datasets
+@import "./components/dataset/card";
+@import "./components/dataset/filter";
+@import "./components/dataset/filter-item";
+@import "./components/dataset/list";
+@import "./components/dataset/table";
+
+// Widgets
+@import "./components/widget/card";
+@import "./components/widget/list";
+@import "./components/widget/chart";
+
+// Vocabularies
+@import "./components/vocabularies/vocabulary_item";
+@import "./components/vocabularies/vocabularies_form";

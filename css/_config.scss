@@ -1,0 +1,83 @@
+// Susy
+$output-bourbon-deprecation-warnings: false;
+@import "../node_modules/bourbon/app/assets/stylesheets/settings/px-to-em";
+@import "../node_modules/bourbon/app/assets/stylesheets/functions/strip-units";
+@import "../node_modules/bourbon/app/assets/stylesheets/functions/px-to-rem";
+
+/*
+ * Configuring grid
+*/
+$large-screen: 1400px;
+$middle-screen: 800px;
+$small-screen: 320px;
+
+$max-width: 1040px;
+
+$space-1: 8px;
+
+
+$max-width-modal: 1040px;
+$max-width-modal-medium: 900px;
+
+/*
+ * Configuring project settings
+*/
+
+// Colors
+$color-primary: #c32d7b;
+$color-secondary: #3bb2d0;
+$color-tertiary: #f4f5f6;
+$color-white: #fff;
+$color-black: #000;
+$color-gray: #e3e4e6;
+$color-mid-grey: #b9bfc4;
+$color-red: #e23035;
+$color-green: #65b60d;
+$color-mango: #fab72e;
+
+$color-error: $color-red;
+
+
+$color-text-1: #393f44;
+$color-text-2: #999ba1;
+
+
+// Borders
+$border-color-1: #e3e4e6;
+$border-color-2: #ccc;
+
+// Fonts
+$font-size-extra-small:   10px;
+$font-size-small:         12px;
+$font-size-default:       14px;
+$font-size-big:           16px;
+$font-size-extra-big:     18px;
+$font-size-huge:          22px;
+
+// Weights
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-bold: 700;
+
+// Theme
+$bg-color-1: $color-white;
+
+// Text
+$base-font-color: $color-text-1;
+$base-font-family: Lato, Helvetica, Arial, sans;
+$base-line-height: 1.5;
+
+// Times
+$animation-time: .16s;
+$animation-time-2: .24s;
+$animation-time-3: .5s;
+$animation-time-4: .75s;
+
+// Eases
+$ease-in-cubic: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+$ease-out-cubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+$ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1.000);
+
+$ease-in-sine: cubic-bezier(0.470, 0.000, 0.745, 0.715);
+$ease-out-sine: cubic-bezier(0.390, 0.575, 0.565, 1.000);
+$ease-in-out-sine: cubic-bezier(0.445, 0.050, 0.550, 0.950);
