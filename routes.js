@@ -9,16 +9,16 @@ routes.add('edit_dataset', '/admin/datasets/:id/edit', 'dataset/edit');
 routes.add('new_dataset', '/admin/datasets/new', 'dataset/new');
 
 // ----- PARTNERS --------
-routes.add('partners', '/admin/datasets', 'dataset');
+routes.add('partners', '/admin/partners', 'dataset');
 
 // ----- PAGES --------
-routes.add('pages', '/admin/datasets', 'dataset');
+routes.add('pages', '/admin/pages', 'pages');
 
 // ----- INSIGHTS --------
-routes.add('insights', '/admin/datasets', 'dataset');
+routes.add('insights', '/admin/insights', 'insights');
 
 // ----- VOCABULARIES --------
-routes.add('vocabularies', '/admin/datasets', 'dataset');
+routes.add('vocabularies', '/admin/vocabularies', 'vocabularies');
 
 // ----- LOGOUT --------
-routes.add('logout', '/admin/datasets', 'dataset');
+routes.add('logout', '/admin/logout', 'dataset');
