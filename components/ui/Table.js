@@ -99,8 +99,8 @@ export default class Table extends React.Component {
           {this.props.columns.map((col, i) => <td key={i} className={col.cellClasses ? col.cellClasses : ''}>{row[col.name]}</td>)}
           {this.props.actionsColumn ? <td>
             <ul className="menu simple">
-              <li><a href={`/datasets/${row.id}/edit`}>Edit</a></li>
-              <li><a href={`/datasets/${row.id}/remove`}>Remove</a></li>
+              <li><a href={`/admin/datasets/${row.id}/edit`}>Edit</a></li>
+              <li><a href={`/admin/datasets/${row.id}/remove`}>Remove</a></li>
             </ul>
           </td> : null}
         </tr>
@@ -164,8 +164,8 @@ Table.defaultProps = {
   data: [],
   columns: [],
   actionsColumn: true,
-  editablePath: '/datasets/:id/edit',
-  removablePath: '/datasets/:id/remove',
+  editablePath: '/admin/datasets/:id/edit',
+  removablePath: '/admin/datasets/:id/remove',
   paginated: true,
   pageSize: 10,
   initialPage: 0

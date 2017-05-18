@@ -7,7 +7,10 @@ const routes = module.exports = nextRoutes();
 routes.add('datasets', '/admin/datasets', 'dataset');
 routes.add('edit_dataset', '/admin/datasets/:id/edit', 'dataset/edit');
 routes.add('new_dataset', '/admin/datasets/new', 'dataset/new');
+// Widgets
 routes.add('dataset_widgets', '/admin/datasets/:id/widgets', 'widget');
+routes.add('dataset_widgets_edit', '/admin/datasets/:id/widgets/:widget_id/edit', 'widget/edit');
+routes.add('dataset_widgets_new', '/admin/datasets/:id/widgets/new', 'widget/new');
 
 // ----- PARTNERS --------
 routes.add('partners', '/admin/partners', 'dataset');

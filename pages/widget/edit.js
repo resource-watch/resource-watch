@@ -1,25 +1,38 @@
 import React from 'react';
 import WidgetForm from 'components/widget/WidgetForm';
 import Title from 'components/ui/Title';
+import Page from 'components/layout/page';
 
 export default class WidgetEdit extends React.Component {
 
+  static async getInitialProps({ query }) {
+    const datasetID = query.id;
+    const widgetID = query.widget_id;
+    return { datasetID, widgetID };
+  }
+
   render() {
+    const { datasetID, widgetID } = this.props;
     return (
-      <div className="row">
-        <div className="column small-12">
-          <Title className="-huge -p-primary">
-            Edit Widget
-          </Title>
-          <WidgetForm
-            application={['rw']}
-            authorization={gon.data.authorization}
-            dataset={gon.data.dataset_id}
-            widget={gon.data.id}
-            onSubmit={() => window.location = `/datasets/${gon.data.dataset_id}/widgets`}
-          />
+      <Page
+        title="Edit widget"
+        description="Edit widget description..."
+      >
+        <div className="row">
+          <div className="column small-12">
+            <Title className="-huge -p-primary">
+              Edit Widget
+            </Title>
+            <WidgetForm
+              application={['rw']}
+              authorization={`${process.env.TEMP_TOKEN}`}
+              dataset={datasetID}
+              widget={widgetID}
+              onSubmit={() => window.location = `/admin/datasets/${datasetID}/widgets`}
+            />
+          </div>
         </div>
-      </div>
+      </Page>
     );
   }
 }

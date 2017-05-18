@@ -66,7 +66,7 @@ DatasetList.defaultProps = {
   application: ['rw'],
   selectable: false,
   editable: true,
-  editPath: '/datasets/:id/edit'
+  editPath: '/admin/datasets/:id/edit'
 };
 
 DatasetList.propTypes = {

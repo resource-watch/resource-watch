@@ -32,11 +32,13 @@ class WidgetTable extends React.Component {
     const url = `https://api.resourcewatch.org/v1/dataset/${this.props.dataset}/widget?application=${application.join(',')}&page[size]=${Date.now() / 100000}`;
 
     fetch(new Request(url))
-      .then((response) => {
-        if (response.ok) return response.json();
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
         throw new Error(response.statusText);
       })
-      .then((response) => {
+      .then(response => {
         const widgets = sortBy(response.data.map(widget =>
           Object.assign({}, widget.attributes, {
             id: widget.id
@@ -62,8 +64,8 @@ class WidgetTable extends React.Component {
           actions={{
             show: true,
             list: [
-              { name: 'Edit', path: '/datasets/:dataset_id/widgets/:id/edit', show: true, component: EditAction },
-              { name: 'Remove', path: '/datasets/:dataset_id/widgets/:id/remove', show: true, component: DeleteAction, componentProps: { authorization: this.props.authorization } }
+              { name: 'Edit', path: '/admin/datasets/:dataset_id/widgets/:id/edit', show: true, component: EditAction },
+              { name: 'Remove', path: '/admin/datasets/:dataset_id/widgets/:id/remove', show: true, component: DeleteAction, componentProps: { authorization: this.props.authorization } }
             ]
           }}
           data={this.state.widgets}
@@ -73,8 +75,12 @@ class WidgetTable extends React.Component {
             pageSize: 20,
             page: 0
           }}
-          onToggleSelectedRow={(ids) => { console.info(ids); }}
-          onRowDelete={(id) => { console.info(id); }}
+          onToggleSelectedRow={ids => {
+            console.info(ids);
+          }}
+          onRowDelete={id => {
+            console.info(id);
+          }}
         />
       </div>
     );
