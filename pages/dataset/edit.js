@@ -13,9 +13,9 @@ export default class DatasetEdit extends React.Component {
           </Title>
           <DatasetForm
             application={['rw']}
-            authorization={gon.data.authorization}
+            authorization={`${process.env.TEMP_TOKEN}`}
             dataset={gon.data.id}
-            onSubmit={() => window.location = "/datasets"}
+            onSubmit={() => window.location = '/datasets'}
           />
         </div>
       </div>
