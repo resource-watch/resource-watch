@@ -27,7 +27,7 @@ export default class DatasetIndex extends React.Component {
             />
             <DatasetTable
               application={['rw']}
-              authorization={`${process.env.TEMP_TOKEN}`}
+              authorization={process.env.TEMP_TOKEN}
             />
           </div>
         </div>

@@ -5,6 +5,8 @@ import Page from 'components/layout/page';
 export default class VocabulariesIndex extends React.Component {
 
   render() {
+    const authToken = ;
+    console.log(process.env.TEMP_TOKEN);
     return (
       <Page
         title="Vocabularies"
@@ -14,7 +16,7 @@ export default class VocabulariesIndex extends React.Component {
           <div className="column small-12">
             <VocabulariesForm
               application={'rw'}
-              authorization={`${process.env.TEMP_TOKEN}`}
+              authorization={process.env.TEMP_TOKEN}
               language="en"
             />
           </div>

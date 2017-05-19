@@ -36,7 +36,7 @@ export default class WidgetIndex extends React.Component {
             <WidgetTable
               application={['rw']}
               dataset={datasetID}
-              authorization={`${process.env.TEMP_TOKEN}`}
+              authorization={process.env.TEMP_TOKEN}
             />
           </div>
         </div>

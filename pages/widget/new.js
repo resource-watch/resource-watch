@@ -25,7 +25,7 @@ export default class WidgetNew extends React.Component {
             </Title>
             <WidgetForm
               application={['rw']}
-              authorization={`${process.env.TEMP_TOKEN}`}
+              authorization={process.env.TEMP_TOKEN}
               dataset={datasetID}
               onSubmit={() => Router.pushRoute('dataset_widgets', { id: datasetID })}
             />

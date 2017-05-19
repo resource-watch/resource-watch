@@ -1,6 +1,8 @@
 const path = require('path');
 const glob = require('glob');
 
+const webpack = require('webpack');
+
 module.exports = {
   webpack: (config, { dev }) => {
     config.module.rules.push(
@@ -30,6 +32,11 @@ module.exports = {
           }
         ]
       }
+    );
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        'process.env.TEMP_TOKEN': JSON.stringify(process.env.TEMP_TOKEN)
+      })
     );
     return config;
   }

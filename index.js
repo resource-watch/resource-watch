@@ -1,3 +1,7 @@
+// Load environment variables from .env file if present
+var dotenv = require('dotenv');
+dotenv.load();
+
 const { createServer } = require('http');
 const next = require('next');
 const routes = require('./routes');

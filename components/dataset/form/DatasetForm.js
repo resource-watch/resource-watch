@@ -92,8 +92,6 @@ class DatasetForm extends React.Component {
             }],
             onSuccess: (response) => {
               const successMessage = `The dataset "${response.data.id}" - "${response.data.attributes.name}" has been uploaded correctly`;
-              console.info(response);
-              console.info(successMessage);
               alert(successMessage);
 
               this.props.onSubmit && this.props.onSubmit();

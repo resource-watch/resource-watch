@@ -25,7 +25,7 @@ export default class DatasetEdit extends React.Component {
             </Title>
             <DatasetForm
               application={['rw']}
-              authorization={`${process.env.TEMP_TOKEN}`}
+              authorization={process.env.TEMP_TOKEN}
               dataset={datasetID}
               onSubmit={() => Router.pushRoute('datasets')}
             />
