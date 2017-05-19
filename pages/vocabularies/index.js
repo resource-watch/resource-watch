@@ -5,8 +5,6 @@ import Page from 'components/layout/page';
 export default class VocabulariesIndex extends React.Component {
 
   render() {
-    const authToken = ;
-    console.log(process.env.TEMP_TOKEN);
     return (
       <Page
         title="Vocabularies"

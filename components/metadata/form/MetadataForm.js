@@ -27,7 +27,7 @@ class MetadataForm extends React.Component {
     this.state = newState;
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.state.datasetID) {
       // Start the loading
       this.setState({ loading: true });
