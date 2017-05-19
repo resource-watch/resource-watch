@@ -74,7 +74,8 @@ class Step1 extends React.Component {
               type: 'text',
               disabled: true,
               required: true,
-              default: this.props.form.language
+              default: this.props.form.language,
+              instanceId: 'selectLanguage'
             }}
           >
             {Select}

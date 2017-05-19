@@ -15,7 +15,8 @@ routes.add('dataset_widgets_edit', '/admin/datasets/:id/widgets/:widget_id/edit'
 routes.add('dataset_widgets_new', '/admin/datasets/:id/widgets/new', 'widget/new');
 
 // ----- PARTNERS --------
-routes.add('partners', '/admin/partners', 'dataset');
+routes.add('partners', '/admin/partners', 'partners');
+routes.add('new_partner', '/admin/partners/new', 'partners/new');
 
 // ----- PAGES --------
 routes.add('pages', '/admin/pages', 'pages');

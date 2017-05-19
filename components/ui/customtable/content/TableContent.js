@@ -17,6 +17,7 @@ export default class TableContent extends React.Component {
     const { actions, columns, sort, rowSelection } = this.props;
     const { bottom, top } = this.getPageBounds();
     const actionsShowed = actions.list.filter(ac => ac.show || ac.component);
+    console.log('actionsShowed', actionsShowed);
 
     let data = this.props.filteredData;
 
@@ -48,7 +49,6 @@ export default class TableContent extends React.Component {
       <tbody>
         {data.map((row, index) => {
           const selectedClass = classnames({ '-selected': rowSelection.includes(row.id) });
-
           return (
             <tr
               className={`${selectedClass}`}
@@ -59,7 +59,7 @@ export default class TableContent extends React.Component {
                 const value = row[col.value];
                 const td = col.td ?
                   <col.td key={i} value={value} /> :
-                  <td key={i} className={col.className || ''}>{(value.toString) ? value.toString() : value}</td>;
+                  <td key={i} className={col.className || ''}>{(value && value.toString) ? value.toString() : value}</td>;
                 return td;
               }
               )}

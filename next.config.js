@@ -35,7 +35,8 @@ module.exports = {
     );
     config.plugins.push(
       new webpack.DefinePlugin({
-        'process.env.TEMP_TOKEN': JSON.stringify(process.env.TEMP_TOKEN)
+        'process.env.TEMP_TOKEN': JSON.stringify(process.env.TEMP_TOKEN),
+        'process.env.BACKOFFICE_API_URL': JSON.stringify(process.env.BACKOFFICE_API_URL)
       })
     );
     return config;

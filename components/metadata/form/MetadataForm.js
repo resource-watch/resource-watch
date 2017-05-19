@@ -38,7 +38,7 @@ class MetadataForm extends React.Component {
           key: 'Content-Type',
           value: 'application/json'
         }],
-        onSuccess: (response) => {
+        onSuccess: response => {
           const metadata = response.data.attributes.metadata;
 
           this.setState({
@@ -49,7 +49,7 @@ class MetadataForm extends React.Component {
             loading: false
           });
         },
-        onError: (error) => {
+        onError: error => {
           this.setState({ loading: false });
           console.error(error);
         }
@@ -77,12 +77,12 @@ class MetadataForm extends React.Component {
         this.setState({ submitting: true });
 
         // Check if the metadata alerady exists
-        const isPresent = !!this.state.metadata.find((m) => {
+        const isPresent = Boolean(this.state.metadata.find(m => {
           const hasLang = m.attributes.language === this.state.form.language;
           const hasApp = m.attributes.application === this.state.form.application;
 
           return hasLang && hasApp;
-        });
+        }));
 
         post({
           type: (this.state.datasetID && isPresent) ? 'PATCH' : 'POST',
@@ -105,7 +105,7 @@ class MetadataForm extends React.Component {
 
             this.props.onSubmit && this.props.onSubmit();
           },
-          onError: (error) => {
+          onError: error => {
             this.setState({ loading: false });
             console.error(error);
           }
@@ -131,7 +131,7 @@ class MetadataForm extends React.Component {
     const form = Object.keys(this.state.form);
     const newForm = {};
 
-    form.forEach((f) => {
+    form.forEach(f => {
       if (params[f] || this.state.form[f]) {
         newForm[f] = params[f] || this.state.form[f];
       }
@@ -139,7 +139,6 @@ class MetadataForm extends React.Component {
 
     return newForm;
   }
-
 
   render() {
     return (
