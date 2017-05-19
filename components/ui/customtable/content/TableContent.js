@@ -17,7 +17,6 @@ export default class TableContent extends React.Component {
     const { actions, columns, sort, rowSelection } = this.props;
     const { bottom, top } = this.getPageBounds();
     const actionsShowed = actions.list.filter(ac => ac.show || ac.component);
-    console.log('actionsShowed', actionsShowed);
 
     let data = this.props.filteredData;
 
