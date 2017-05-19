@@ -5364,6 +5364,18 @@
       "from": "react-dom@15.4.2",
       "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-15.4.2.tgz"
     },
+    "react-form": {
+      "version": "1.2.7",
+      "from": "react-form@latest",
+      "resolved": "https://registry.npmjs.org/react-form/-/react-form-1.2.7.tgz",
+      "dependencies": {
+        "prop-types": {
+          "version": "15.5.10",
+          "from": "prop-types@>=15.5.8 <16.0.0",
+          "resolved": "https://registry.npmjs.org/prop-types/-/prop-types-15.5.10.tgz"
+        }
+      }
+    },
     "react-hot-loader": {
       "version": "3.0.0-beta.6",
       "from": "react-hot-loader@3.0.0-beta.6",
