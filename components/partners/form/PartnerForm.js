@@ -1,5 +1,6 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
+import { Autobind } from 'es-decorators';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
 
@@ -24,6 +25,11 @@ class PartnerForm extends React.Component {
       partner: {},
       submitting: false,
       loading: false,
+      logoFile: {},
+      whiteLogoFile: {},
+      coverFile: {},
+      iconFile: {},
+      dropzoneActive: false,
       form: Object.assign({}, STATE_DEFAULT.form, {
         application: props.application,
         authorization: props.authorization
@@ -61,13 +67,14 @@ class PartnerForm extends React.Component {
       });
     }
   }
-
+  @Autobind
   handleCancelEditPartner() {
     Router.pushRoute('partners');
   }
-
+  @Autobind
   handleSubmit(event) {
     event.preventDefault();
+    debugger;
     post({
       type: 'PUT',
       url: `${process.env.BACKOFFICE_API_URL}/api/partners/${this.state.partnerID}`,
@@ -87,15 +94,56 @@ class PartnerForm extends React.Component {
       }
     });
   }
-
+  @Autobind
   changePartner(value) {
     const newPartner = Object.assign({}, this.state.partner, value);
     this.setState({ partner: newPartner });
   }
 
+  /**
+   * DROPZONE EVENTS
+   * - onDropLogo
+   * - onDropWhiteLogo
+   * - onDropIcon
+   * - onDropCover
+  */
+  @Autobind
+  onDropLogo(files) {
+    this.setState({ logoFile: files[0] });
+  }
+  @Autobind
+  onDropWhiteLogo(files) {
+    this.setState({ whiteLogoFile: files[0] });
+  }
+  @Autobind
+  onDropIcon(files) {
+    this.setState({ iconFile: files[0] });
+  }
+  @Autobind
+  onDropCover(files) {
+    this.setState({ coverFile: files[0] });
+  }
+
+  @Autobind
+  handleChooseLogo() {
+    this.dropzoneLogo.open();
+  }
+  @Autobind
+  handleChooseWhiteLogo() {
+    this.dropzoneWhiteLogo.open();
+  }
+  @Autobind
+  handleChooseCover() {
+    this.dropzoneCover.open();
+  }
+  @Autobind
+  handleChooseIcon() {
+    this.dropzoneIcon.open();
+  }
+
   render() {
-    const { partner, submitting, loading, partnerName } = this.state;
-    console.log(partner);
+    const { partner, submitting, loading, partnerName, logoFile,
+      whiteLogoFile, iconFile, coverFile } = this.state;
     return (
       <div>
         <Title className="-big">
@@ -157,7 +205,11 @@ class PartnerForm extends React.Component {
               {Input}
             </Field>
             <Field
-              ref={(c) => { if (c) FORM_ELEMENTS.elements.body = c; }}
+              ref={c => {
+                if (c) {
+                  FORM_ELEMENTS.elements.body = c;
+                }
+              }}
               onChange={value => this.changeMetadata({ body: value })}
               properties={{
                 name: 'body',
@@ -217,7 +269,11 @@ class PartnerForm extends React.Component {
               {Input}
             </Field>
             <Field
-              ref={(c) => { if (c) FORM_ELEMENTS.elements.partner_type = c; }}
+              ref={c => {
+                if (c) {
+                  FORM_ELEMENTS.elements.partner_type = c;
+                }
+              }}
               onChange={value => this.changePartner({ partner_type: value })}
               validations={['required']}
               options={[{ label: 'Founding partners', value: 'Founding partners' },
@@ -233,7 +289,11 @@ class PartnerForm extends React.Component {
               {Select}
             </Field>
             <Field
-              ref={(c) => { if (c) FORM_ELEMENTS.elements.featured = c; }}
+              ref={c => {
+                if (c) {
+                  FORM_ELEMENTS.elements.featured = c;
+                }
+              }}
               onChange={value => this.changePartner({ featured: value.checked })}
               properties={{
                 name: 'featured',
@@ -244,7 +304,11 @@ class PartnerForm extends React.Component {
               {Checkbox}
             </Field>
             <Field
-              ref={(c) => { if (c) FORM_ELEMENTS.elements.featured = c; }}
+              ref={c => {
+                if (c) {
+                  FORM_ELEMENTS.elements.featured = c;
+                }
+              }}
               onChange={value => this.changePartner({ published: value.checked })}
               properties={{
                 name: 'published',
@@ -255,12 +319,80 @@ class PartnerForm extends React.Component {
               {Checkbox}
             </Field>
             <div>
-              <Dropzone ref={(node) => { this.dropzoneRef = node; }} onDrop={(accepted, rejected) => { alert(accepted) }}>
-                  <p>Drop files here.</p>
+              <Dropzone
+                ref={(node) => { this.dropzoneLogo = node; }}
+                className="c-dropzone"
+                disableClick={true}
+                onDrop={this.onDropLogo}
+              >
+                <div className="dropzone-file-input">
+                  <button
+                    type="button"
+                    className="c-btn -primary -light"
+                    onClick={this.handleChooseLogo}
+                  >
+                    Choose logo
+                  </button>
+                  {logoFile.name}
+                </div>
               </Dropzone>
-              <button type="button" onClick={() => { this.dropzoneRef.open() }}>
-                  Upload logo
-              </button>
+            </div>
+            <div>
+              <Dropzone
+                ref={(node) => { this.dropzoneWhiteLogo = node; }}
+                className="c-dropzone"
+                disableClick={true}
+                onDrop={this.onDropWhiteLogo}
+              >
+                <div className="dropzone-file-input">
+                  <button
+                    type="button"
+                    className="c-btn -primary -light"
+                    onClick={this.handleChooseWhiteLogo}
+                  >
+                    Choose white logo
+                  </button>
+                  {whiteLogoFile.name}
+                </div>
+              </Dropzone>
+            </div>
+            <div>
+              <Dropzone
+                ref={(node) => { this.dropzoneCover = node; }}
+                className="c-dropzone"
+                disableClick={true}
+                onDrop={this.onDropCover}
+              >
+                <div className="dropzone-file-input">
+                  <button
+                    type="button"
+                    className="c-btn -primary -light"
+                    onClick={this.handleChooseCover}
+                  >
+                    Choose cover
+                  </button>
+                  {coverFile.name}
+                </div>
+              </Dropzone>
+            </div>
+            <div>
+              <Dropzone
+                ref={(node) => { this.dropzoneIcon = node; }}
+                className="c-dropzone"
+                disableClick={true}
+                onDrop={this.onDropIcon}
+              >
+                <div className="dropzone-file-input">
+                  <button
+                    type="button"
+                    className="c-btn -primary -light"
+                    onClick={this.handleChooseIcon}
+                  >
+                    Choose icon
+                  </button>
+                  {iconFile.name}
+                </div>
+              </Dropzone>
             </div>
           </fieldset>
           <div className="button-bar">

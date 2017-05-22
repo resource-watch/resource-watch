@@ -41,6 +41,7 @@
     "now-logs": "0.0.7",
     "orm": "^3.2.3",
     "passport": "^0.3.2",
+    "passport-control-tower": "^0.1.1",
     "passport-facebook": "^2.1.1",
     "passport-google-oauth": "^1.0.0",
     "passport-twitter": "^1.0.4",
