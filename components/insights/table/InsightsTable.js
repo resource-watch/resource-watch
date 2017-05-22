@@ -1,7 +1,7 @@
 import React from 'react';
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
-import DeleteAction from './actions/DeleteAction';
+import DeleteAction from 'components/ui/customtable/actions/DeleteAction';
 import EditAction from 'components/ui/customtable/actions/EditAction';
 import { get } from 'utils/request';
 

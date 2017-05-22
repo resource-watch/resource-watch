@@ -21,7 +21,7 @@ export default class InsightsIndex extends React.Component {
               className="-end"
               buttons={[{
                 label: 'New +',
-                path: '/admin/partners/new',
+                path: '/admin/insights/new',
                 className: ''
               }]}
             />

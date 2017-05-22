@@ -99,7 +99,7 @@ class InsightForm extends React.Component {
         body: this.state.insight,
         onSuccess: response => {
           console.log(response);
-          alert(response.messages[0]);
+          alert(response.messages[0].title);
           Router.pushRoute('insights');
         },
         onError: error => {
@@ -237,7 +237,7 @@ class InsightForm extends React.Component {
                   >
                     Choose photo
                   </button>
-                  {logoFile.name}
+                  {photoFile.name}
                 </div>
               </Dropzone>
             </div>
