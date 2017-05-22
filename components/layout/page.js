@@ -17,7 +17,7 @@ export default class Page extends React.Component {
   render() {
     const { title, description } = this.props;
     return (
-      <div>
+      <div className="c-page">
         <Head
           title={title}
           description={description}

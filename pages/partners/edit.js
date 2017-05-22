@@ -28,6 +28,7 @@ export default class PartnerEdit extends React.Component {
               authorization={process.env.TEMP_TOKEN}
               partner={partnerID}
               onSubmit={() => Router.pushRoute('partners')}
+              mode="edit"
             />
           </div>
         </div>

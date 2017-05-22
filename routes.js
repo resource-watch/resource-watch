@@ -21,9 +21,13 @@ routes.add('edit_partner', '/admin/partners/:id/edit', 'partners/edit');
 
 // ----- PAGES --------
 routes.add('pages', '/admin/pages', 'pages');
+routes.add('new_page', '/admin/pages/new', 'pages/new');
+routes.add('edit_page', '/admin/pages/:id/edit', 'pages/edit');
 
 // ----- INSIGHTS --------
 routes.add('insights', '/admin/insights', 'insights');
+routes.add('new_insight', '/admin/insights/new', 'insights/new');
+routes.add('edit_insight', '/admin/insights/:id/edit', 'insights/edit');
 
 // ----- VOCABULARIES --------
 routes.add('vocabularies', '/admin/vocabularies', 'vocabularies');
