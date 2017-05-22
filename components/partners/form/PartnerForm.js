@@ -2,7 +2,7 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import { Autobind } from 'es-decorators';
 
-import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
+import { FORM_ELEMENTS } from './constants';
 
 import { get, post } from 'utils/request';
 
@@ -17,9 +17,10 @@ import TextArea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
 
 class PartnerForm extends React.Component {
+
   constructor(props) {
     super(props);
-    const newState = Object.assign({}, STATE_DEFAULT, {
+    this.state = {
       partnerID: props.partner,
       partnerName: '',
       partner: {},
@@ -30,17 +31,15 @@ class PartnerForm extends React.Component {
       coverFile: {},
       iconFile: {},
       dropzoneActive: false,
-      form: Object.assign({}, STATE_DEFAULT.form, {
+      form: {
         application: props.application,
         authorization: props.authorization
-      })
-    });
-
-    this.state = newState;
+      }
+    };
   }
 
   componentDidMount() {
-    if (this.state.partnerID) {
+    if (this.props.mode === 'edit' && this.state.partnerID) {
       // Start the loading
       this.setState({ loading: true });
 
@@ -74,25 +73,46 @@ class PartnerForm extends React.Component {
   @Autobind
   handleSubmit(event) {
     event.preventDefault();
-    debugger;
-    post({
-      type: 'PUT',
-      url: `${process.env.BACKOFFICE_API_URL}/api/partners/${this.state.partnerID}`,
-      headers: [
-        { key: 'Content-Type', value: 'application/json' },
-        { key: 'Authorization', value: process.env.TEMP_TOKEN }
-      ],
-      body: this.state.partner,
-      onSuccess: response => {
-        console.log(response);
-        alert('Partner updated successfully!');
-        Router.pushRoute('partners');
-      },
-      onError: error => {
-        this.setState({ loading: false });
-        console.error(error);
-      }
-    });
+    this.setState({ loading: true });
+    if (this.props.mode === 'edit') {
+      post({
+        type: 'PATCH',
+        url: `${process.env.BACKOFFICE_API_URL}/api/partners/${this.state.partnerID}`,
+        headers: [
+          { key: 'Content-Type', value: 'application/json' },
+          { key: 'Authorization', value: process.env.TEMP_TOKEN }
+        ],
+        body: this.state.partner,
+        onSuccess: response => {
+          console.log(response);
+          alert('Partner updated successfully!');
+          Router.pushRoute('partners');
+        },
+        onError: error => {
+          this.setState({ loading: false });
+          console.error(error);
+        }
+      });
+    } else if (this.props.mode === 'new') {
+      post({
+        type: 'POST',
+        url: `${process.env.BACKOFFICE_API_URL}/api/partners`,
+        headers: [
+          { key: 'Content-Type', value: 'application/json' },
+          { key: 'Authorization', value: process.env.TEMP_TOKEN }
+        ],
+        body: this.state.partner,
+        onSuccess: response => {
+          console.log(response);
+          alert(response.messages[0]);
+          Router.pushRoute('partners');
+        },
+        onError: error => {
+          this.setState({ loading: false });
+          console.error(error);
+        }
+      });
+    }
   }
   @Autobind
   changePartner(value) {
@@ -144,13 +164,14 @@ class PartnerForm extends React.Component {
   render() {
     const { partner, submitting, loading, partnerName, logoFile,
       whiteLogoFile, iconFile, coverFile } = this.state;
+    const { mode } = this.props;
     return (
       <div>
         <Title className="-big">
           {partnerName}
         </Title>
         <Spinner className="-light" isLoading={loading} />
-        <form className="c-form" onSubmit={this.handleSubmit} noValidate>
+        <form className="c-form" onSubmit={this.handleSubmit}>
           {this.state.loading && 'loading'}
           <fieldset className="c-field-container">
             <Field
@@ -412,7 +433,8 @@ class PartnerForm extends React.Component {
                 className: '-primary -end'
               }}
             >
-              Update partner
+              {mode === 'edit' && 'Update partner'}
+              {mode === 'new' && 'Create partner'}
             </Button>
           </div>
         </form>
@@ -422,10 +444,10 @@ class PartnerForm extends React.Component {
 }
 
 PartnerForm.propTypes = {
-  partner: React.PropTypes.string.isRequired,
+  partner: React.PropTypes.string,
   application: React.PropTypes.string.isRequired,
   authorization: React.PropTypes.string.isRequired,
-  onSubmit: React.PropTypes.func
+  mode: React.PropTypes.string.isRequired
 };
 
 export default PartnerForm;

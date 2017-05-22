@@ -1233,7 +1233,7 @@
     },
     "body-parser": {
       "version": "1.16.0",
-      "from": "body-parser@>=1.15.2 <2.0.0",
+      "from": "https://registry.npmjs.org/body-parser/-/body-parser-1.16.0.tgz",
       "resolved": "https://registry.npmjs.org/body-parser/-/body-parser-1.16.0.tgz"
     },
     "boom": {
@@ -1604,6 +1604,11 @@
       "version": "0.3.1",
       "from": "cookie@0.3.1",
       "resolved": "https://registry.npmjs.org/cookie/-/cookie-0.3.1.tgz"
+    },
+    "cookie-parser": {
+      "version": "1.4.3",
+      "from": "cookie-parser@latest",
+      "resolved": "https://registry.npmjs.org/cookie-parser/-/cookie-parser-1.4.3.tgz"
     },
     "cookie-signature": {
       "version": "1.0.6",
@@ -4936,7 +4941,7 @@
     },
     "passport-control-tower": {
       "version": "0.1.1",
-      "from": "passport-control-tower@latest",
+      "from": "https://registry.npmjs.org/passport-control-tower/-/passport-control-tower-0.1.1.tgz",
       "resolved": "https://registry.npmjs.org/passport-control-tower/-/passport-control-tower-0.1.1.tgz"
     },
     "passport-facebook": {

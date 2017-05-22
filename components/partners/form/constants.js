@@ -5,22 +5,6 @@ export const LANGUAGE_OPTIONS = [
   { label: 'Português', value: 'pt' }
 ];
 
-export const STATE_DEFAULT = {
-  step: 1,
-  stepLength: 1,
-  submitting: false,
-  loading: false,
-  form: {
-    authorization: '',
-    source: '',
-    description: '',
-    name: '',
-    language: 'en',
-    info: {
-    }
-  }
-};
-
 export const FORM_ELEMENTS = {
   elements: {
   },
