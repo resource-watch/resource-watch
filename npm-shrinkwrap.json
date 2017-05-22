@@ -227,6 +227,11 @@
       "from": "asynckit@>=0.4.0 <0.5.0",
       "resolved": "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz"
     },
+    "attr-accept": {
+      "version": "1.1.0",
+      "from": "attr-accept@>=1.0.3 <2.0.0",
+      "resolved": "https://registry.npmjs.org/attr-accept/-/attr-accept-1.1.0.tgz"
+    },
     "autoprefixer": {
       "version": "7.1.0",
       "from": "autoprefixer@latest",
@@ -5364,17 +5369,10 @@
       "from": "react-dom@15.4.2",
       "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-15.4.2.tgz"
     },
-    "react-form": {
-      "version": "1.2.7",
-      "from": "react-form@latest",
-      "resolved": "https://registry.npmjs.org/react-form/-/react-form-1.2.7.tgz",
-      "dependencies": {
-        "prop-types": {
-          "version": "15.5.10",
-          "from": "prop-types@>=15.5.8 <16.0.0",
-          "resolved": "https://registry.npmjs.org/prop-types/-/prop-types-15.5.10.tgz"
-        }
-      }
+    "react-dropzone": {
+      "version": "3.13.1",
+      "from": "react-dropzone@latest",
+      "resolved": "https://registry.npmjs.org/react-dropzone/-/react-dropzone-3.13.1.tgz"
     },
     "react-hot-loader": {
       "version": "3.0.0-beta.6",
@@ -5438,6 +5436,11 @@
       "version": "2.4.0",
       "from": "react-tokeninput@latest",
       "resolved": "https://registry.npmjs.org/react-tokeninput/-/react-tokeninput-2.4.0.tgz"
+    },
+    "react-upload-file": {
+      "version": "2.0.0-beta.6",
+      "from": "react-upload-file@latest",
+      "resolved": "https://registry.npmjs.org/react-upload-file/-/react-upload-file-2.0.0-beta.6.tgz"
     },
     "read-all-stream": {
       "version": "3.1.0",
