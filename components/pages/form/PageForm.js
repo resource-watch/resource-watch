@@ -259,8 +259,8 @@ class PageForm extends React.Component {
                 className: '-primary -end'
               }}
             >
-              {mode === 'edit' && 'Update page'}
-              {mode === 'new' && 'Create page'}
+              {mode === 'edit' && 'Update Static page'}
+              {mode === 'new' && 'Create Static page'}
             </Button>
           </div>
         </form>

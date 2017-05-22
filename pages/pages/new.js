@@ -14,7 +14,7 @@ export default class PageNew extends React.Component {
         <div className="row">
           <div className="column small-12">
             <Title className="-huge -p-primary">
-              Create Partner
+              Create Static Page
             </Title>
             <PageForm
               application={['rw']}
