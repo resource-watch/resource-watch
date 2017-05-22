@@ -52,7 +52,6 @@ class PartnerForm extends React.Component {
         onSuccess: response => {
           const partner = response.data.attributes;
           this.setState({
-            form: (partner && partner.length) ? this.setFormFromParams(partner[0].attributes) : this.state.form,
             partner,
             partnerName: partner.name,
             // Stop the loading
