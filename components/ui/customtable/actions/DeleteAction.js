@@ -1,5 +1,5 @@
 import React from 'react';
-import { remove } from '../../../../utils/request';
+import { remove } from 'utils/request';
 
 class DeleteAction extends React.Component {
 
@@ -7,16 +7,16 @@ class DeleteAction extends React.Component {
     super(props);
 
     // BINDINGS
-    this.onClickDelete = this.onClickDelete.bind(this);
+    this.handleOnClickDelete = this.handleOnClickDelete.bind(this);
   }
 
-  onClickDelete(e) {
-    const { data } = this.props;
+  handleOnClickDelete(e) {
+    const { data, url } = this.props;
     e && e.preventDefault() && e.stopPropagation();
 
-    if (confirm(`Are you sure that you want to delete the dataset: "${data.name}" `)) {
+    if (confirm(`Are you sure that you want to delete: "${data.name}" `)) {
       remove({
-        url: `https://api.resourcewatch.org/v1/dataset/${data.id}`,
+        url: `${url}/${data.id}`,
         headers: [{
           key: 'Authorization',
           value: this.props.authorization
@@ -25,7 +25,7 @@ class DeleteAction extends React.Component {
           this.props.onRowDelete(data.id);
         },
         onError: () => {
-          console.error('We can\'t delete the dataset');
+          console.error('There was an error with the request. The object was not deleted');
         }
       });
     }
@@ -37,7 +37,7 @@ class DeleteAction extends React.Component {
       <span>
         <a
           href={href}
-          onClick={this.onClickDelete}
+          onClick={this.handleOnClickDelete}
         >
           Remove
         </a>
@@ -49,6 +49,7 @@ class DeleteAction extends React.Component {
 DeleteAction.propTypes = {
   data: React.PropTypes.object,
   href: React.PropTypes.string,
+  url: React.PropTypes.string,
 
   authorization: React.PropTypes.string,
   onRowDelete: React.PropTypes.func

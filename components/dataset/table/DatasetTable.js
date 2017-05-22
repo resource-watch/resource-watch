@@ -2,7 +2,7 @@ import React from 'react';
 import sortBy from 'lodash/sortBy';
 import Spinner from '../../ui/Spinner';
 import CustomTable from '../../ui/customtable/CustomTable';
-import DeleteAction from './actions/DeleteAction';
+import DeleteAction from 'components/ui/customtable/actions/DeleteAction';
 import MetadataAction from './actions/MetadataAction';
 import VocabularyAction from './actions/VocabularyAction';
 import WidgetAction from './actions/WidgetAction';

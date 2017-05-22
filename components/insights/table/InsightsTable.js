@@ -1,33 +1,33 @@
 import React from 'react';
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
-import DeleteAction from 'components/ui/customtable/actions/DeleteAction';
+import DeleteAction from './actions/DeleteAction';
 import EditAction from 'components/ui/customtable/actions/EditAction';
 import { get } from 'utils/request';
 
-class PartnersTable extends React.Component {
+class InsightsTable extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      partners: [],
+      insights: [],
       loading: true
     };
   }
 
   componentDidMount() {
-    this.getPartners();
+    this.getInsights();
   }
 
   /**
    * HELPERS
-   * - getPartners
+   * - getInsights
   */
-  getPartners() {
+  getInsights() {
     get(
       {
-        url: `${process.env.BACKOFFICE_API_URL}/api/partners`,
+        url: `${process.env.BACKOFFICE_API_URL}/api/insights`,
         headers: [
           { key: 'Content-Type', value: 'application/json' },
           { key: 'Authorization', value: this.props.authorization }
@@ -35,15 +35,15 @@ class PartnersTable extends React.Component {
         onSuccess: response => {
           console.log('success!');
           console.log(response);
-          const partners = response.data.map(partner =>
-            Object.assign({}, partner.attributes, {
-              id: partner.id
+          const insights = response.data.map(insight =>
+            Object.assign({}, insight.attributes, {
+              id: insight.id
             })
           );
-          this.setState({ partners, loading: false });
+          this.setState({ insights, loading: false });
         },
         onError: error => {
-          this.setState({ message: `Error loading partners: ${error}`, loading: false });
+          this.setState({ message: `Error loading insights: ${error}`, loading: false });
         }
       }
     );
@@ -51,7 +51,7 @@ class PartnersTable extends React.Component {
 
   render() {
     return (
-      <div className="c-partners-table">
+      <div className="c-insights-table">
         <Spinner className="-light" isLoading={this.state.loading} />
         <CustomTable
           columns={[
@@ -62,17 +62,11 @@ class PartnersTable extends React.Component {
           actions={{
             show: true,
             list: [
-              { name: 'Edit', path: '/admin/partners/:id/edit', show: true, component: EditAction },
-              {
-                name: 'Remove',
-                path: '/admin/partners/:id/remove',
-                show: true,
-                component: DeleteAction,
-                componentProps: { url: `${process.env.WRI_API_URL}/partners` }
-              }
+              { name: 'Edit', path: '/admin/insights/:id/edit', show: true, component: EditAction },
+              { name: 'Remove', path: '/admin/insights/:id/remove', show: true, component: DeleteAction }
             ]
           }}
-          data={this.state.partners}
+          data={this.state.insights}
           pageSize={20}
           pagination={{
             enabled: true,
@@ -85,14 +79,14 @@ class PartnersTable extends React.Component {
   }
 }
 
-PartnersTable.defaultProps = {
+InsightsTable.defaultProps = {
   application: ['rw'],
   columns: [],
   actions: {}
 };
 
-PartnersTable.propTypes = {
+InsightsTable.propTypes = {
   authorization: React.PropTypes.string
 };
 
-export default PartnersTable;
+export default InsightsTable;
