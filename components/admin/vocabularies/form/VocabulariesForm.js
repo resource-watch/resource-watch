@@ -4,12 +4,12 @@ import sortBy from 'lodash/sortBy';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
 
-import Button from '../../ui/Button';
-import Field from '../../form/Field';
-import Input from '../../form/Input';
+import Button from 'components/ui/Button';
+import Field from 'components/form/Field';
+import Input from 'components/form/Input';
 import VocabulariesTable from '../table/VocabulariesTable';
-import Spinner from '../../ui/Spinner';
-import { get, post } from '../../../utils/request';
+import Spinner from 'components/ui/Spinner';
+import { get, post } from 'utils/request';
 
 class VocabulariesForm extends React.Component {
 

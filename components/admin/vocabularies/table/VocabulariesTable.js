@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomTable from '../../ui/customtable/CustomTable';
+import CustomTable from 'components/ui/customtable/CustomTable';
 
 class VocabulariesTable extends React.Component {
 

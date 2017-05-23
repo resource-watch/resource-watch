@@ -1,10 +1,10 @@
 import React from 'react';
 import sortBy from 'lodash/sortBy';
-import Spinner from '../../ui/Spinner';
-import CustomTable from '../../ui/customtable/CustomTable';
+import Spinner from 'components/ui/Spinner';
+import CustomTable from 'components/ui/customtable/CustomTable';
 // Actions
-import EditAction from './actions/EditAction';
-import DeleteAction from './actions/DeleteAction';
+import EditAction from 'components/ui/customtable/actions/EditAction';
+import DeleteAction from 'components/ui/customtable/actions/DeleteAction';
 
 class WidgetTable extends React.Component {
 

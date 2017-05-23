@@ -3,10 +3,10 @@ import omit from 'lodash/omit';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
 
-import { get, post } from '../../../utils/request';
+import { get, post } from 'utils/request';
 
 import Step1 from './steps/Step1';
-import Navigation from '../../form/Navigation';
+import Navigation from 'components/form/Navigation';
 
 class WidgetForm extends React.Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class WidgetForm extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.state.dataset && this.state.widget) {
       // Start the loading
       this.setState({ loading: true });

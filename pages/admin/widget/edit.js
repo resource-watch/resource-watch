@@ -1,7 +1,7 @@
 import React from 'react';
-import WidgetForm from 'components/widget/form/WidgetForm';
+import WidgetForm from 'components/admin/widget/form/WidgetForm';
 import Title from 'components/ui/Title';
-import Page from 'components/layout/page';
+import Page from 'components/admin/layout/page';
 
 export default class WidgetEdit extends React.Component {
 
