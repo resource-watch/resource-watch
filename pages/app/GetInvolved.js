@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router';
-import Banner from 'components/common/Banner';
-import Intro from 'components/common/Intro';
-import CardStatic from 'components/common/CardStatic';
+import Link from 'next/router';
+import Banner from 'components/app/common/Banner';
+import Intro from 'components/app/common/Intro';
+import CardStatic from 'components/app/common/CardStatic';
 
 const cards = [
   {
@@ -65,7 +65,7 @@ const cards = [
 ];
 
 class GetInvolved extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.getStaticData('get-involved', 'getInvolved');
   }
 
