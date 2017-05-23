@@ -19,8 +19,7 @@
   },
   "plugins": [ "babel", "react" ],
   "extends": [
-    "xo-space",
-    "xo-react/space"
+    "vizzuality"
   ],
   "rules": {
     "object-curly-spacing": ["error", "always"],
