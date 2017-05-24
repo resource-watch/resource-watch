@@ -84,7 +84,7 @@ class GetInvolved extends React.Component {
     );
 
     const cardsStatic = cards.map((c, i) =>
-      <div key={i} className="column small-12 medium-6">
+      (<div key={i} className="column small-12 medium-6">
         <CardStatic className={`-light ${c.className}`} background={c.background}>
           <div>
             <h2 className="title c-text -header-normal -thin">{c.title}</h2>
@@ -98,7 +98,7 @@ class GetInvolved extends React.Component {
             ))}
           </div>
         </CardStatic>
-      </div>
+      </div>)
     );
 
     return (

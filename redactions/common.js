@@ -1,4 +1,4 @@
-import { push } from 'react-router-redux';
+// import { push } from 'react-router-redux';
 
 const initialState = {};
 
@@ -14,7 +14,7 @@ export default function (state = initialState, action) {
  */
 
 export function redirectTo(url) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(push(url));
   };
 }

@@ -9,7 +9,7 @@ export const STATE_DEFAULT = {
   vocabularies: []
 };
 
-export let FORM_ELEMENTS = {
+export const FORM_ELEMENTS = {
   validate() {
     Object.keys(this.children).forEach((key) => {
       this.children[key].validate();
@@ -23,4 +23,4 @@ export let FORM_ELEMENTS = {
     return valid;
   },
   children: {}
-}
+};

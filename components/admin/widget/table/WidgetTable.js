@@ -32,13 +32,13 @@ class WidgetTable extends React.Component {
     const url = `https://api.resourcewatch.org/v1/dataset/${this.props.dataset}/widget?application=${application.join(',')}&page[size]=${Date.now() / 100000}`;
 
     fetch(new Request(url))
-      .then(response => {
+      .then((response) => {
         if (response.ok) {
           return response.json();
         }
         throw new Error(response.statusText);
       })
-      .then(response => {
+      .then((response) => {
         const widgets = sortBy(response.data.map(widget =>
           Object.assign({}, widget.attributes, {
             id: widget.id
@@ -75,10 +75,10 @@ class WidgetTable extends React.Component {
             pageSize: 20,
             page: 0
           }}
-          onToggleSelectedRow={ids => {
+          onToggleSelectedRow={(ids) => {
             console.info(ids);
           }}
-          onRowDelete={id => {
+          onRowDelete={(id) => {
             console.info(id);
           }}
         />

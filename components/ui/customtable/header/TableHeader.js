@@ -18,25 +18,23 @@ export default class TableHeader extends React.Component {
     return (
       <thead>
         <tr>
-          {columns.map((c, index) => {
-            return (
-              <th key={index} className={c.type || ''}>
-                <span className="th-wrapper">
-                  <span>{c.label}</span>
+          {columns.map((c, index) => (
+            <th key={index} className={c.type || ''}>
+              <span className="th-wrapper">
+                <span>{c.label}</span>
 
-                  <TableHeaderActions
-                    field={c.value}
-                    values={columnValues[c.value]}
-                    selected={columnQueries[c.value]}
-                    sort={sort}
-                    onFilter={onFilter}
-                    onSort={onSort}
-                    onSearch={onSearch}
-                  />
-                </span>
-              </th>
-            );
-          })}
+                <TableHeaderActions
+                  field={c.value}
+                  values={columnValues[c.value]}
+                  selected={columnQueries[c.value]}
+                  sort={sort}
+                  onFilter={onFilter}
+                  onSort={onSort}
+                  onSearch={onSearch}
+                />
+              </span>
+            </th>
+            ))}
           {actions.show && actionsShowed.length &&
             <th colSpan={`${actionsShowed.length}`} />
           }

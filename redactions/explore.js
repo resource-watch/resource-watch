@@ -2,7 +2,7 @@
 import 'whatwg-fetch';
 import flatten from 'lodash/flatten';
 import uniq from 'lodash/uniq';
-import { replace } from 'react-router-redux';
+// import { replace } from 'react-router-redux';
 
 /**
  * CONSTANTS

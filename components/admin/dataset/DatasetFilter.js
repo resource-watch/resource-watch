@@ -150,7 +150,7 @@ class DatasetFilter extends React.Component {
         <div className="list">
           {!!columns.length &&
             filters.map((filter, i) =>
-              <DatasetFilterItem
+              (<DatasetFilterItem
                 key={i}
                 index={i}
                 columns={this.getColumns(i)}
@@ -158,7 +158,7 @@ class DatasetFilter extends React.Component {
                 selected={filter.selected}
                 onChange={value => this.triggerChangeFilters(value, i)}
                 onDelete={() => this.triggerDeleteFilters(i)}
-              />
+              />)
             )
           }
         </div>

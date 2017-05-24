@@ -2,6 +2,9 @@ import React from 'react';
 import Link from 'next/link';
 import Banner from 'components/app/common/Banner';
 import Intro from 'components/app/common/Intro';
+import withRedux from 'next-redux-wrapper';
+import { getStaticData } from 'redactions/static_pages';
+import { initStore } from 'store';
 
 class About extends React.Component {
   componentDidMount() {
@@ -12,7 +15,7 @@ class About extends React.Component {
     const { data } = this.props;
     const styles = {};
     if (data.photo) {
-      styles.backgroundImage = `url(${config.CMS_API_URL}${data.photo.large})`;
+      styles.backgroundImage = `url(${process.env.CMS_API_URL}${data.photo.large})`;
     }
 
     return (
@@ -51,5 +54,13 @@ About.propTypes = {
   data: React.PropTypes.object,
   getStaticData: React.PropTypes.func
 };
+
+const mapDispatchToProps = dispatch => ({
+  getStaticData: (slug, ref) => {
+    dispatch(getStaticData(slug, ref));
+  }
+});
+
+About = withRedux(initStore, state => ({ data: state.staticPages.about }), mapDispatchToProps)(About);
 
 export default About;

@@ -10,7 +10,7 @@ const classesDic = {
   }
 };
 
-class StatusTD extends React.Component{
+class StatusTD extends React.Component {
 
   render() {
     const { value, index } = this.props;

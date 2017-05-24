@@ -32,7 +32,7 @@ class PagesTable extends React.Component {
           { key: 'Content-Type', value: 'application/json' },
           { key: 'Authorization', value: this.props.authorization }
         ],
-        onSuccess: response => {
+        onSuccess: (response) => {
           console.log('success!');
           console.log(response);
           const pages = response.data.map(page =>
@@ -42,7 +42,7 @@ class PagesTable extends React.Component {
           );
           this.setState({ pages, loading: false });
         },
-        onError: error => {
+        onError: (error) => {
           this.setState({ message: `Error loading pages: ${error}`, loading: false });
         }
       }

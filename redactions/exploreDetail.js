@@ -137,7 +137,7 @@ export function getDataset(datasetId) {
   };
 }
 
-export function getSimilarDatasets(tags){
+export function getSimilarDatasets(tags) {
   return (dispatch) => {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_SIMILAR_DATASETS_LOADING });

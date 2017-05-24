@@ -1,0 +1,60 @@
+@import "../../../styles/config";
+
+.p-explore {
+  .intro {
+    .c-title {
+      margin-bottom: 30px;
+    }
+
+    .search-container {
+      .column {
+        padding-right: 6px;
+
+        &:last-child { padding-right: 0; }
+      }
+
+      .custom-select-search {
+        color: $color-text-1;
+      }
+    }
+
+    .c-title {
+      // Fit due to typo left space
+      margin-left: -4px;
+    }
+  }
+
+  .share-button {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 100px;
+    right: 24px;
+    width: 31px;
+    height: 32px;
+    z-index: 999;
+    background: transparent;
+    border: 1px solid rgba($color-white, .3);
+    border-radius: 3px;
+    cursor: pointer;
+
+    &:focus { outline: none; }
+
+    &:hover {
+      background-color: $color-white;
+
+      & svg {
+        fill: $color-black;
+      }
+    }
+
+    a {
+      color: $color-white;
+    }
+
+    svg {
+      fill: $color-white;
+    }
+  }
+}

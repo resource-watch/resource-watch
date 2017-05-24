@@ -64,15 +64,13 @@ export default class Table extends React.Component {
   renderTableHead() {
     return (
       <tr>
-        {this.props.columns.map((c, index) => {
-          return (
-            <th key={index}>
-              <span className="th-wrapper">
-                <span>{c.name}</span>
-              </span>
-            </th>
-          );
-        })}
+        {this.props.columns.map((c, index) => (
+          <th key={index}>
+            <span className="th-wrapper">
+              <span>{c.name}</span>
+            </span>
+          </th>
+          ))}
         {this.props.actionsColumn ? <th>Actions</th> : null}
       </tr>
     );
@@ -93,19 +91,17 @@ export default class Table extends React.Component {
     /* Apply pagination to filteredData */
     const paginatedData = filteredData.slice(bottom, top);
 
-    return paginatedData.map((row, index) => {
-      return (
-        <tr key={index}>
-          {this.props.columns.map((col, i) => <td key={i} className={col.cellClasses ? col.cellClasses : ''}>{row[col.name]}</td>)}
-          {this.props.actionsColumn ? <td>
-            <ul className="menu simple">
-              <li><a href={`/admin/datasets/${row.id}/edit`}>Edit</a></li>
-              <li><a href={`/admin/datasets/${row.id}/remove`}>Remove</a></li>
-            </ul>
-          </td> : null}
-        </tr>
-      );
-    });
+    return paginatedData.map((row, index) => (
+      <tr key={index}>
+        {this.props.columns.map((col, i) => <td key={i} className={col.cellClasses ? col.cellClasses : ''}>{row[col.name]}</td>)}
+        {this.props.actionsColumn ? <td>
+          <ul className="menu simple">
+            <li><a href={`/admin/datasets/${row.id}/edit`}>Edit</a></li>
+            <li><a href={`/admin/datasets/${row.id}/remove`}>Remove</a></li>
+          </ul>
+        </td> : null}
+      </tr>
+      ));
   }
 
   renderTableFooter() {

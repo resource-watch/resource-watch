@@ -22,6 +22,8 @@
 @import "./components/ui/table_header_actions";
 @import "./components/ui/table_tooltip";
 @import "./components/ui/modal";
+@import "./components/ui/tooltip";
+
 
 // Layout
 @import "./components/layout/header";
@@ -53,3 +55,6 @@
 // Vocabularies
 @import "./components/vocabularies/vocabulary_item";
 @import "./components/vocabularies/vocabularies_form";
+
+// ================== APP ======================
+@import "./components/app/pages/about";

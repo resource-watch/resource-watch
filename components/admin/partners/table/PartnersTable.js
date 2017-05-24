@@ -32,7 +32,7 @@ class PartnersTable extends React.Component {
           { key: 'Content-Type', value: 'application/json' },
           { key: 'Authorization', value: this.props.authorization }
         ],
-        onSuccess: response => {
+        onSuccess: (response) => {
           console.log('success!');
           console.log(response);
           const partners = response.data.map(partner =>
@@ -42,7 +42,7 @@ class PartnersTable extends React.Component {
           );
           this.setState({ partners, loading: false });
         },
-        onError: error => {
+        onError: (error) => {
           this.setState({ message: `Error loading partners: ${error}`, loading: false });
         }
       }

@@ -1,0 +1,113 @@
+
+.p-home {
+  .c-banner {
+    &.intro {
+      background-image: url('../images/backgrounds/image_header.jpg');
+      background-position: top center;
+
+      .title {
+        margin: 0;
+        margin-bottom: 25px;
+      }
+
+      .scroll-icon {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        left: 50%;
+        bottom: -8px;;
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        z-index: 1;
+        background-color: $color-white;
+        transform: translate(-50%, 50%);
+
+        .c-icon {
+          fill: $color-primary;
+        }
+      }
+    }
+
+    &.get-involved {
+      background-image: url('../images/backgrounds/mod_getInvolved.jpg');
+      background-position: top center;
+      text-align: left;
+
+      .title {
+        margin: 0;
+        margin-bottom: 10px;
+      }
+
+      p {
+        margin: 0;
+        margin-bottom: 32px;
+      }
+
+      .c-btn {
+        text-transform: none;
+        font-weight: normal;
+        padding: 15px 10px;
+        width: 100%;
+      }
+    }
+
+    .l-container { width: 100%; }
+  }
+
+  .c-card-static {
+    height: 590px;
+  }
+
+  .l-section {
+    .title {
+      margin-bottom: 10px;
+
+      a {
+        &:hover {
+          opacity: .7;
+        }
+      }
+    }
+
+    .intro {
+      margin-bottom: 45px;
+    }
+
+    &.insights {
+      .dual {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        .c-card-static {
+          height: auto;
+          margin-bottom: 20px;
+          flex-grow: 1;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      .buttons {
+        margin-top: 50px;
+
+        .c-btn {
+          display: inline-block;
+          text-align: center;
+          width: 100%;
+          text-transform: capitalize;
+          font-weight: normal;
+          font-size: 16px;
+        }
+      }
+    }
+
+    &.explore {
+      button { width: 100%; }
+    }
+  }
+}

@@ -1,8 +1,10 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import { browserHistory } from 'react-router';
-import thunk from 'redux-thunk';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 
 import * as reducers from 'redactions';
+
+
+const emptyState = {};
 
 /**
  * Reducers
@@ -13,6 +15,6 @@ const reducer = combineReducers({
   ...reducers
 });
 
-const makeStore = initialState => {
-  return createStore(reducer, initialState);
-};
+export const initStore = (initialState = emptyState) => {
+  return createStore(reducer, initialState, applyMiddleware(thunkMiddleware));
+}

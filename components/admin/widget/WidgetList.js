@@ -83,7 +83,7 @@ class WidgetList extends React.Component {
         }
         <ul className="list">
           {this.state.widgets.map(widget =>
-            <li
+            (<li
               key={widget.id}
               className="list-item"
             >
@@ -95,7 +95,7 @@ class WidgetList extends React.Component {
                 }}
                 onClick={this.triggerClick}
               />
-            </li>
+            </li>)
           )}
           <li
             className="list-item"

@@ -47,9 +47,7 @@ class DatasetList extends React.Component {
     const { mode } = this.props;
     const datasets = (
       <ul className="list">
-        {this.state.datasets.map(dataset => {
-          return (<li key={dataset.id} className="list-item">{dataset.name}</li>);
-        })}
+        {this.state.datasets.map(dataset => (<li key={dataset.id} className="list-item">{dataset.name}</li>))}
       </ul>
     );
 

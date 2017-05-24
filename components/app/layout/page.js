@@ -1,25 +1,44 @@
 import React from 'react';
-import withRedux from 'next-redux-wrapper';
+import Modal from 'components/ui/Modal';
+import Header from 'components/app/layout/Header';
+import Footer from 'components/app/layout/Footer';
+import Tooltip from 'components/ui/Tooltip';
 
-const makeStore = initialState => {
-  return createStore(reducer, initialState);
-};
+export default class Page extends React.Component {
 
-class Page extends React.Component {
-  static getInitialProps({ store, isServer, pathname, query }) {
-    store.dispatch({ type: 'FOO', payload: 'foo' }); // component will be able to read from store's state when rendered
-    return { custom: 'custom' }; // you can pass some custom props to component from here
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalOpen: props.modal.open || false
+    };
   }
+
   render() {
+    const { title, description } = this.props;
     return (
       <div>
-        <div>Prop from Redux {this.props.foo}</div>
-        <div>Prop from getInitialProps {this.props.custom}</div>
+        <Header fullScreen={fullScreen} />
+        { this.props.children }
+        {!fullScreen && <Footer />}
+
+        <Tooltip />
+        <Modal
+          open={this.state.modalOpen}
+          options={modal.options}
+          loading={modal.loading}
+          toggleModal={this.props.toggleModal}
+          setModalOptions={this.props.setModalOptions}
+        />
       </div>
     );
   }
+
 }
 
-Page = withRedux(makeStore, state => ({ foo: state.foo }))(Page);
-
-export default Page;
+Page.propTypes = {
+  children: React.PropTypes.element.isRequired,
+  location: React.PropTypes.object,
+  modal: React.PropTypes.object,
+  toggleModal: React.PropTypes.func,
+  setModalOptions: React.PropTypes.func
+};

@@ -37,7 +37,7 @@ routes.add('edit_insight', '/admin/insights/:id/edit', 'admin/insights/edit');
 routes.add('vocabularies', '/admin/vocabularies', 'admin/vocabularies');
 
 // ----- LOGOUT --------
-routes.add('logout', '/admin/logout', 'admin/dataset');
+// routes.add('logout', '/admin/logout', '/');
 
 // ========================= APP ROUTES =====================
 

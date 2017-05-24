@@ -1,0 +1,16 @@
+
+.p-contribute-data {
+  // Page banners backgrounds
+  .c-banner {
+    &.intro {
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+  }
+
+    &.partners {
+      background-image: url('../images/backgrounds/partners-02@2x.jpg');
+      background-position: top center;
+    }
+  }
+}

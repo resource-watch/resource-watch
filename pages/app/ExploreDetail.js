@@ -106,7 +106,7 @@ class ExploreDetail extends React.Component {
   }
 
   getDatasetRawData(dataset) {
-    const query = getQueryByFilters(dataset.tableName) + ' LIMIT 10'; // temporal fix
+    const query = `${getQueryByFilters(dataset.tableName)} LIMIT 10`; // temporal fix
     this.datasetService.fetchFilteredData(query)
       .then((response) => {
         if (response) {

@@ -136,7 +136,7 @@ class Step1 extends React.Component {
 
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.function = c; }}
-            onChange={value => this.changeMetadata({ info: { 'function': value } })}
+            onChange={value => this.changeMetadata({ info: { function: value } })}
             hint="Briefly describes the purpose of the data and what it represents"
             properties={{
               name: 'function',

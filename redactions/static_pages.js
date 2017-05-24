@@ -25,10 +25,10 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_STATIC_SUCCESS: {
-      let staticData = {};
+      const staticData = {};
       staticData[action.payload.name] = action.payload.data;
 
-      return Object.assign({}, state, 
+      return Object.assign({}, state,
         {
           loading: false,
           error: false
@@ -64,7 +64,7 @@ export function getStaticData(slug, ref) {
   return (dispatch) => {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_STATIC_LOADING });
-    fetch(new Request(`${config.CMS_API_URL}/api/static_pages/${slug}`))
+    fetch(new Request(`${process.env.CMS_API_URL}/api/static_pages/${slug}`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);

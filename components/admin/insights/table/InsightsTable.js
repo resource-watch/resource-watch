@@ -32,7 +32,7 @@ class InsightsTable extends React.Component {
           { key: 'Content-Type', value: 'application/json' },
           { key: 'Authorization', value: this.props.authorization }
         ],
-        onSuccess: response => {
+        onSuccess: (response) => {
           console.log('success!');
           console.log(response);
           const insights = response.data.map(insight =>
@@ -42,7 +42,7 @@ class InsightsTable extends React.Component {
           );
           this.setState({ insights, loading: false });
         },
-        onError: error => {
+        onError: (error) => {
           this.setState({ message: `Error loading insights: ${error}`, loading: false });
         }
       }

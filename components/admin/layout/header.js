@@ -10,6 +10,7 @@ export default class Header extends React.Component {
   }
 
   render() {
+      // <li><Link route="logout"><a>Logout</a></Link></li>
     return (
       <header className="l-header c-header">
         <div className="row collapse">
@@ -22,7 +23,7 @@ export default class Header extends React.Component {
             <li><Link route="pages"><a>Pages</a></Link></li>
             <li><Link route="insights"><a>Insights</a></Link></li>
             <li><Link route="vocabularies"><a>Vocabularies</a></Link></li>
-            <li><Link route="logout"><a>Logout</a></Link></li>
+
           </ul>
         </div>
       </header>

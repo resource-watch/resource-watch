@@ -9,7 +9,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getStaticData: (slug, ref) => {
     dispatch(getStaticData(slug, ref));
-  },
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GetInvolved);

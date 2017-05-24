@@ -78,12 +78,10 @@ class DatasetFilterItem extends React.Component {
       <div className="c-datasets-filter-item">
         <div className="column">
           <Field
-            options={columns.map((column) => {
-              return {
-                label: column.columnName,
-                value: column.columnName
-              };
-            })}
+            options={columns.map(column => ({
+              label: column.columnName,
+              value: column.columnName
+            }))}
             properties={{
               name: 'column',
               label: 'Column',
@@ -162,12 +160,10 @@ class DatasetFilterItem extends React.Component {
         {selected.columnType === 'string' &&
           <div className="filters">
             <Field
-              options={selected.properties.values.map((value) => {
-                return {
-                  label: value,
-                  value
-                };
-              })}
+              options={selected.properties.values.map(value => ({
+                label: value,
+                value
+              }))}
               properties={{
                 name: 'values',
                 label: 'Values',

@@ -37,7 +37,8 @@ module.exports = {
       new webpack.DefinePlugin({
         'process.env.TEMP_TOKEN': JSON.stringify(process.env.TEMP_TOKEN),
         'process.env.BACKOFFICE_API_URL': JSON.stringify(process.env.BACKOFFICE_API_URL),
-        'process.env.WRI_API_URL': JSON.stringify(process.env.WRI_API_URL)
+        'process.env.WRI_API_URL': JSON.stringify(process.env.WRI_API_URL),
+        'process.env.CMS_API_URL': JSON.stringify(process.env.CMS_API_URL)
       })
     );
     return config;
