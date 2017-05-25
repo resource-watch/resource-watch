@@ -1,5 +1,5 @@
 import React from 'react';
-import VegaChart from 'containers/widgets/VegaChart';
+import VegaChart from 'components/widgets/VegaChart';
 import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
 import vegaThumbnailTheme from 'utils/widgets/vega-theme-thumbnails.json';

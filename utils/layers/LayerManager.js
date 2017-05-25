@@ -2,11 +2,13 @@
 /* eslint import/extensions: 0 */
 
 import 'whatwg-fetch';
-import L from 'leaflet/dist/leaflet';
-import esri from 'esri-leaflet';
-
-// adding support for esri
-L.esri = esri;
+let L;
+if (typeof window !== 'undefined') {
+  L = require('leaflet/dist/leaflet');
+  // adding support for esri
+  const esri = require('esri-leaflet');
+  L.esri = esri;
+}
 
 export default class LayerManager {
 

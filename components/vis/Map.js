@@ -1,10 +1,11 @@
 import React from 'react';
-import L from 'leaflet/dist/leaflet';
 import 'leaflet/dist/leaflet.css';
 import isEqual from 'lodash/isEqual';
 import Spinner from 'components/ui/Spinner';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+
+const L = (typeof window !== 'undefined') ? require('leaflet/dist/leaflet') : null;
 
 const MAP_CONFIG = {
   zoom: 2,
