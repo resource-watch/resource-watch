@@ -1,0 +1,39 @@
+{
+  "render": {
+    "retina": true
+  },
+  "axis": {
+    "gridColor": "#eeeeee",
+    "gridOpacity": 1,
+    "tickColor": "#eeeeee",
+    "tickLabelColor": "#758290",
+    "tickLabelFont": "\"Roboto\"",
+    "titleFont": "\"Roboto\"",
+    "titleFontSize": 12,
+    "titleFontWeight": "regular",
+    "titleColor": "#758290"
+  },
+  "range": {
+    "colorRange1":[
+      "#3bb2d0",
+      "#54d2f2",
+      "#54bad4",
+      "#2a8da5"
+    ],
+    "colorRange2":[
+      "#f4f4f1",
+      "#fffbca",
+      "#ffe01b",
+      "#f6bb0f",
+      "#f6811d",
+      "#e24e2c"
+    ],
+    "colorRange3": [
+      "#D23782",
+      "#1230a5",
+      "#32866d",
+      "#ffe01b",
+      "#6e23bd"
+    ]
+  }
+}

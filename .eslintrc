@@ -6,13 +6,10 @@
     "es6": true
   },
   "globals": {
-    "config": true,
-    "Stats": true
+    "L": true,
+    "config": true
   },
   "parser": "babel-eslint",
-  "extends": [
-    "vizzuality"
-  ],
   "parserOptions": {
     "ecmaVersion": 7,
     "ecmaFeatures": {
@@ -20,9 +17,9 @@
     },
     "sourceType": "module"
   },
-  "rules": {
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
-  },
+  "extends": [
+    "vizzuality"
+  ],
   "plugins": [
     "babel"
   ],
@@ -31,5 +28,8 @@
       "babel-module": {
       }
     }
+  },
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
   }
 }

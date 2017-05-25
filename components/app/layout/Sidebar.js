@@ -1,7 +1,10 @@
 import React from 'react';
 import Icon from 'components/ui/Icon';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+import { setSidebar} from 'redactions/explore';
 
-export default class Sidebar extends React.Component {
+class Sidebar extends React.Component {
 
   constructor(props) {
     super(props);
@@ -64,3 +67,13 @@ Sidebar.propTypes = {
   sidebar: React.PropTypes.object,
   setSidebar: React.PropTypes.func
 };
+
+const mapDispatchToProps = dispatch => ({
+  setSidebar: (options) => { dispatch(setSidebar(options)); }
+});
+
+const mapStateToProps = state => ({
+  sidebar: state.explore.sidebar
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Sidebar)

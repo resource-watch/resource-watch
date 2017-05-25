@@ -2,17 +2,19 @@ import React from 'react';
 
 // Components
 import Title from 'components/ui/Title';
-import Sidebar from 'containers/explore/Sidebar';
-import DatasetListHeader from 'containers/explore/DatasetListHeader';
-import DatasetList from 'components/explore/DatasetList';
+import Sidebar from 'components/app/layout/Sidebar';
+import DatasetListHeader from 'components/app/explore/DatasetListHeader';
+import DatasetList from 'components/app/explore/DatasetList';
 import Paginator from 'components/ui/Paginator';
-import Map from 'containers/explore/Map';
+import Map from 'components/vis/Map';
 import ShareModal from 'components/modal/ShareModal';
 import Legend from 'components/ui/Legend';
 import CustomSelect from 'components/ui/CustomSelect';
 import LayerManager from 'utils/layers/LayerManager';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 const mapConfig = {
   zoom: 3,
@@ -185,5 +187,4 @@ Explore.propTypes = {
   toggleDatasetActive: React.PropTypes.func
 };
 
-
-export default Explore;
+export default withRedux(initStore, null, mapDispatchToProps)(Explore);
