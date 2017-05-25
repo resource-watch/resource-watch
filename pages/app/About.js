@@ -2,9 +2,10 @@ import React from 'react';
 import Link from 'next/link';
 import Banner from 'components/app/common/Banner';
 import Intro from 'components/app/common/Intro';
-import withRedux from 'next-redux-wrapper';
-import { getStaticData } from 'redactions/static_pages';
+import Page from 'components/app/layout/Page';
 import { initStore } from 'store';
+import { getStaticData } from 'redactions/static_pages'
+import withRedux from 'next-redux-wrapper';
 
 class About extends React.Component {
   componentDidMount() {
@@ -14,21 +15,21 @@ class About extends React.Component {
   render() {
     const { data } = this.props;
     const styles = {};
-    if (data.photo) {
+    if (data && data.photo) {
       styles.backgroundImage = `url(${process.env.CMS_API_URL}${data.photo.large})`;
     }
 
     return (
       <div className="p-about">
         <div className="c-page">
-          <Intro title={data.title} intro={data.summary} styles={styles} />
+          <Intro title={data && data.title} intro={data && data.summary} styles={styles} />
           <section className="l-section">
             <div className="l-container">
               <div className="row collapse">
                 {/* Convert string content to html */}
                 <div
                   className="description column small-12 medium-8 medium-offset-2"
-                  dangerouslySetInnerHTML={{ __html: data.description }}
+                  dangerouslySetInnerHTML={{ __html: data && data.description }}
                 />
               </div>
             </div>
@@ -61,6 +62,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-About = withRedux(initStore, state => ({ data: state.staticPages.about }), mapDispatchToProps)(About);
-
-export default About;
+export default withRedux(initStore, null, mapDispatchToProps)(About)

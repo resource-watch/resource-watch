@@ -23,7 +23,6 @@ export default class Header extends React.Component {
             <li><Link route="pages"><a>Pages</a></Link></li>
             <li><Link route="insights"><a>Insights</a></Link></li>
             <li><Link route="vocabularies"><a>Vocabularies</a></Link></li>
-
           </ul>
         </div>
       </header>

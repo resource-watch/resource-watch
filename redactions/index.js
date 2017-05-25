@@ -1,4 +1,3 @@
-export default {};
 export { default as common } from './common';
 export { default as explore } from './explore';
 export { default as exploreDetail } from './exploreDetail';

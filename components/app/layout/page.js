@@ -3,8 +3,17 @@ import Modal from 'components/ui/Modal';
 import Header from 'components/app/layout/Header';
 import Footer from 'components/app/layout/Footer';
 import Tooltip from 'components/ui/Tooltip';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+import { toggleModal, setModalOptions } from 'redactions/modal';
 
-export default class Page extends React.Component {
+const fullScreenPages = [
+  '/explore',
+  '/planet-pulse'
+];
+
+
+class Page extends React.Component {
 
   constructor(props) {
     super(props);
@@ -13,8 +22,15 @@ export default class Page extends React.Component {
     };
   }
 
+  componentWillReceiveProps(newProps) {
+    if (this.state.modalOpen !== newProps.modal.open) {
+      this.setState({ modalOpen: newProps.modal.open });
+    }
+  }
+
   render() {
-    const { title, description } = this.props;
+    const { title, description, modal } = this.props;
+    const fullScreen = fullScreenPages.indexOf(this.props.location.pathname) !== -1;
     return (
       <div>
         <Header fullScreen={fullScreen} />
@@ -42,3 +58,16 @@ Page.propTypes = {
   toggleModal: React.PropTypes.func,
   setModalOptions: React.PropTypes.func
 };
+
+const mapDispatchToProps = dispatch => ({
+  toggleModal: () => {
+    dispatch(toggleModal());
+  },
+  setModalOptions: () => {
+    dispatch(setModalOptions());
+  }
+});
+
+Page = withRedux(initStore, state => ({ modal: state.modal }), mapDispatchToProps)(Page);
+
+export default Page;
