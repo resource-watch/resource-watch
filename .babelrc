@@ -9,7 +9,8 @@
           "css": "./css",
           "components": "./components",
           "redactions": "./redactions",
-          "utils": "./utils"
+          "utils": "./utils",
+          "selectors": "./selectors"
         }
       }
     ],

@@ -208,7 +208,7 @@ class Map extends React.Component {
 
   // RENDER
   render() {
-    const spinnerStyles = { marginLeft: this.setSpinnerPosition()};
+    const spinnerStyles = (typeof window === 'undefined') ? {} : { marginLeft: this.setSpinnerPosition()};
     const mapClass = !this.state.sidebar.open ? '-fullWidth' : '';
 
     return (

@@ -6,16 +6,16 @@ import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
 
 // Components
 import Globe from 'components/vis/Globe';
-import LayerNav from 'components/pulse/LayerNav';
-import Legend from 'components/pulse/Legend';
+import LayerNav from 'components/app/pulse/LayerNav';
+import Legend from 'components/app/pulse/Legend';
 import LayerDescription from 'components/pulse/LayerDescription';
 import Spinner from 'components/ui/Spinner';
 import ZoomControl from 'components/ui/ZoomControl';
-import GlobeTooltip from 'components/pulse/GlobeTooltip';
+import GlobeTooltip from 'components/app/pulse/GlobeTooltip';
 
-import earthImage from '../../images/components/vis/earth-min.jpg';
-import earthBumpImage from '../../images/components/vis/earth-bump.jpg';
-import cloudsImage from '../../images/components/vis/clouds-min.png';
+import earthImage from 'static/images/components/vis/earth-min.jpg';
+import earthBumpImage from 'static/images/components/vis/earth-bump.jpg';
+import cloudsImage from 'static/images/components/vis/clouds-min.png';
 
 class Pulse extends React.Component {
 

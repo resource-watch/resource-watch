@@ -1,5 +1,5 @@
 /* global config */
-import 'whatwg-fetch';
+import 'isomorphic-fetch';
 import flatten from 'lodash/flatten';
 import uniq from 'lodash/uniq';
 // import { replace } from 'react-router-redux';
@@ -157,7 +157,7 @@ export function getDatasets() {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_DATASETS_LOADING });
     // TODO: remove the date now
-    fetch(new Request(`${config.API_URL}/dataset?application=rw&status=saved&includes=widget,layer,metadata,vocabulary&page[size]=${Date.now() / 100000}`))
+    fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=rw&status=saved&includes=widget,layer,metadata,vocabulary&page[size]=${Date.now() / 100000}`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
@@ -188,7 +188,7 @@ export function getVocabularies() {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_VOCABULARIES_LOADING });
     // TODO: remove the date now
-    fetch(new Request(`${config.API_URL}/vocabulary`))
+    fetch(new Request(`${process.env.WRI_API_URL}/vocabulary`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);

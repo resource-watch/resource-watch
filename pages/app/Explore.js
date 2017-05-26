@@ -13,8 +13,12 @@ import CustomSelect from 'components/ui/CustomSelect';
 import LayerManager from 'utils/layers/LayerManager';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
+import { getDatasets, setDatasetsPage, setUrlParams, setDatasetsActive, setDatasetsHidden, setDatasetsFilters, toggleDatasetActive, getVocabularies } from 'redactions/explore';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import getpaginatedDatasets from 'selectors/explore/datasetsPaginatedExplore';
+import getFilteredDatasets from 'selectors/explore/filterDatasets';
+import getActiveLayers from 'selectors/explore/layersActiveExplore';
 
 const mapConfig = {
   zoom: 3,
@@ -187,4 +191,38 @@ Explore.propTypes = {
   toggleDatasetActive: React.PropTypes.func
 };
 
-export default withRedux(initStore, null, mapDispatchToProps)(Explore);
+const mapStateToProps = (state) => {
+  const datasets = state.explore.filters.length ?
+    Object.assign({}, state.explore.datasets, { list: getFilteredDatasets(state) }) :
+    state.explore.datasets;
+
+  const explore = Object.assign({}, state.explore, { datasets });
+
+  return {
+    explore,
+    paginatedDatasets: getpaginatedDatasets(explore),
+    allDatasets: state.explore.datasets.list,
+    layersActive: getActiveLayers(state)
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  getDatasets: () => { dispatch(getDatasets()); },
+  getVocabularies: () => { dispatch(getVocabularies()); },
+  setDatasetsActive: (active) => { dispatch(setDatasetsActive(active)); },
+  setDatasetsHidden: (hidden) => { dispatch(setDatasetsHidden(hidden)); },
+  setDatasetsFilters: (filters) => { dispatch(setDatasetsFilters(filters)); },
+  redirectTo: (url) => { dispatch(redirectTo(url)); },
+  toggleModal: (open) => { dispatch(toggleModal(open)); },
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
+  setDatasetsPage: (page) => {
+    dispatch(setDatasetsPage(page));
+    dispatch(setUrlParams());
+  },
+  toggleDatasetActive: (id) => {
+    dispatch(toggleDatasetActive(id));
+    dispatch(setUrlParams());
+  }
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Explore)
