@@ -5,7 +5,7 @@ import Spinner from 'components/ui/Spinner';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
-const L = (typeof window !== 'undefined') ? require('leaflet/dist/leaflet') : null;
+// const L = (typeof window !== 'undefined') ? require('leaflet/dist/leaflet') : null;
 
 const MAP_CONFIG = {
   zoom: 2,
@@ -41,21 +41,21 @@ class Map extends React.Component {
       scrollWheelZoom: isNaN(this.props.mapConfig) ? false : !!this.props.mapConfig.scrollWheelZoom
     };
 
-    this.map = L.map(this.mapNode, mapOptions);
+    // this.map = L.map(this.mapNode, mapOptions);
 
-    if (this.props.mapConfig && this.props.mapConfig.bounds) {
-      this.fitBounds(this.props.mapConfig.bounds.geometry);
-    }
-
-    // SETTERS
-    this.setAttribution();
-    this.setZoomControl();
-    this.setBasemap();
-    this.setMapEventListeners();
-
-    // Add layers
-    this.setLayerManager();
-    this.addLayers(this.props.layersActive, this.props.filters);
+    // if (this.props.mapConfig && this.props.mapConfig.bounds) {
+    //   this.fitBounds(this.props.mapConfig.bounds.geometry);
+    // }
+    //
+    // // SETTERS
+    // this.setAttribution();
+    // this.setZoomControl();
+    // this.setBasemap();
+    // this.setMapEventListeners();
+    //
+    // // Add layers
+    // this.setLayerManager();
+    // this.addLayers(this.props.layersActive, this.props.filters);
   }
 
   componentWillReceiveProps(nextProps) {

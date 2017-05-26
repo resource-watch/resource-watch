@@ -7,8 +7,8 @@
 @include foundation-flex-grid;
 
 // Common files
-@import "./config";
-@import "./base";
+@import "css/config";
+@import "css/base";
 
 // Components
 // UI
@@ -60,6 +60,7 @@
 // PAGES
 @import "./components/app/pages/explore";
 @import "./components/app/pages/about";
+@import "./components/app/pages/pulse";
 
 // LAYOUT
 @import "./components/app/layout/page";

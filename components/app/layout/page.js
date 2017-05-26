@@ -3,6 +3,7 @@ import Modal from 'components/ui/Modal';
 import Header from 'components/app/layout/Header';
 import Footer from 'components/app/layout/Footer';
 import Tooltip from 'components/ui/Tooltip';
+import Head from 'components/admin/layout/head';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { toggleModal, setModalOptions } from 'redactions/modal';
@@ -32,11 +33,14 @@ class Page extends React.Component {
     const { title, description, modal } = this.props;
     const fullScreen = fullScreenPages.indexOf(this.props.location.pathname) !== -1;
     return (
-      <div>
+      <div className="c-page">
+        <Head
+          title={title}
+          description={description}
+        />
         <Header fullScreen={fullScreen} />
         { this.props.children }
         {!fullScreen && <Footer />}
-
         <Tooltip />
         <Modal
           open={this.state.modalOpen}
