@@ -1,0 +1,45 @@
+.c-map {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  transition: width .3s ease;
+
+  &.-fullWidth {
+    width: 100%;
+  }
+
+  .map-leaflet {
+    width: 100%;
+    height: 100%;
+    background: $color-black;
+  }
+
+  & .leaflet-touch .leaflet-bar a {
+    font-size: 17px !important;
+    font-weight: lighter !important;
+  }
+
+  & .leaflet-right .leaflet-control {
+    margin-top: $fullscreen-margin !important;
+    margin-right: $fullscreen-margin !important;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, .3);
+  }
+
+  & .leaflet-control-zoom-in {
+    border-radius: 3px 3px 0 0;
+    border-color: rgba(255, 255, 255, .3);
+    background-color: transparent;
+    color: $color-white;
+  }
+
+  & .leaflet-control-zoom-out {
+    border-radius: 0 0 3px 3px;
+    border-color: rgba(255, 255, 255, .3);
+    background-color: transparent!important;
+    color: $color-white;
+  }
+}

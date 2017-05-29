@@ -33,6 +33,10 @@
 @import "./components/ui/tooltip-global";
 @import "./components/ui/zoom_control";
 
+// VIS
+@import "./components/vis/globe";
+@import "./components/vis/map";
+
 // Layout
 @import "./components/layout/header";
 @import "./components/layout/page";
@@ -59,6 +63,9 @@
 @import "./components/widget/card";
 @import "./components/widget/list";
 @import "./components/widget/chart";
+@import "./components/widget/widget_chart";
+@import "./components/widget/placeholder_chart";
+@import "./components/widget/layer_chart";
 
 // Vocabularies
 @import "./components/vocabularies/vocabulary_item";
