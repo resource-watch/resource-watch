@@ -9,8 +9,8 @@ import { initStore } from 'store';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 
 const fullScreenPages = [
-  '/explore',
-  '/planet-pulse'
+  '/app/Explore',
+  '/app/Pulse'
 ];
 
 
@@ -30,9 +30,10 @@ class Page extends React.Component {
   }
 
   render() {
-    const { title, description, modal } = this.props;
-    // const fullScreen = fullScreenPages.indexOf(this.props.location.pathname) !== -1;
-    const fullScreen = false;
+    const { title, description, pathname } = this.props;
+    const fullScreen = fullScreenPages.indexOf(pathname) !== -1;
+    debugger;
+    console.log(fullScreen, 'full');
     return (
       <div className="c-page">
         <Head
@@ -40,8 +41,10 @@ class Page extends React.Component {
           description={description}
         />
         <Header fullScreen={fullScreen} />
-        { this.props.children }
-        {!fullScreen && <Footer />}
+        <div className="container">
+          { this.props.children }
+          {!fullScreen && <Footer />}
+        </div>
         <Tooltip />
       </div>
     );
