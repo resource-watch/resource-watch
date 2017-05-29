@@ -1,6 +1,8 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import Switch from 'components/ui/Switch';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+import { toggleActiveLayer, getLayerPoints } from 'redactions/pulse';
 
 class LayerNavDropdown extends React.Component {
 
@@ -44,7 +46,20 @@ class LayerNavDropdown extends React.Component {
 LayerNavDropdown.propTypes = {
   layers: React.PropTypes.array,
   layerActive: React.PropTypes.object,
-  toggleActiveLayer: React.PropTypes.func,
+  toggleActiveLayer: React.PropTypes.func
 };
 
-export default LayerNavDropdown;
+const mapStateToProps = state => ({
+  layerActive: state.pulse.layerActive
+});
+
+const mapDispatchToProps = dispatch => ({
+  toggleActiveLayer: (id, threedimensional, hemisphere) => {
+    dispatch(toggleActiveLayer(id, threedimensional, hemisphere));
+  },
+  getLayerPoints: (id, tableName) => {
+    dispatch(getLayerPoints(id, tableName));
+  }
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(LayerNavDropdown);

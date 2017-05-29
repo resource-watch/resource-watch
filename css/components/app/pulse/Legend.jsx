@@ -1,5 +1,5 @@
 import React from 'react';
-import LegendType from 'components/ui/LegendType';
+import LegendType from 'components/pulse/LegendType';
 
 class Legend extends React.Component {
 
@@ -15,10 +15,7 @@ class Legend extends React.Component {
                     <span className="name">{this.props.layerActive.name}</span>
                   </h3>
                 </header>
-                <LegendType
-                  config={this.props.layerActive.legendConfig}
-                  className={this.props.className}
-                />
+                <LegendType config={this.props.layerActive.legendConfig} className={this.props.className} />
               </li>
             </ul>
           </div>

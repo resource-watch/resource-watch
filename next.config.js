@@ -32,6 +32,10 @@ module.exports = {
           }
         ]
       }
+      , {
+        test: /\.(png|jpg|gif|svg)$/,
+        loader: 'url-loader?prefix=image/&limit=5000&context=/static/images'
+      }
     );
     config.plugins.push(
       new webpack.DefinePlugin({

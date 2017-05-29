@@ -8,10 +8,16 @@ import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
 import Globe from 'components/vis/Globe';
 import LayerNav from 'components/app/pulse/LayerNav';
 import Legend from 'components/app/pulse/Legend';
-import LayerDescription from 'components/pulse/LayerDescription';
+import LayerDescription from 'components/app/pulse/LayerDescription';
 import Spinner from 'components/ui/Spinner';
 import ZoomControl from 'components/ui/ZoomControl';
 import GlobeTooltip from 'components/app/pulse/GlobeTooltip';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+import { getLayers, getLayerPoints } from 'redactions/pulse';
+import getLayersGroupPulse from 'selectors/pulse/layersGroupPulse';
+import getActiveLayersPulse from 'selectors/pulse/layersActivePulse';
+import { toggleTooltip } from 'redactions/tooltip';
 
 import earthImage from 'static/images/components/vis/earth-min.jpg';
 import earthBumpImage from 'static/images/components/vis/earth-bump.jpg';
@@ -253,5 +259,22 @@ Pulse.propTypes = {
   toggleTooltip: React.PropTypes.func
 };
 
+const mapStateToProps = state => ({
+  pulse: state.pulse,
+  layersGroup: getLayersGroupPulse(state),
+  layerActive: getActiveLayersPulse(state)
+});
 
-export default Pulse;
+const mapDispatchToProps = dispatch => ({
+  getLayers: () => {
+    dispatch(getLayers());
+  },
+  toggleTooltip: (opened, opts) => {
+    dispatch(toggleTooltip(opened, opts));
+  },
+  getLayerPoints: (id, tableName) => {
+    dispatch(getLayerPoints(id, tableName));
+  }
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Pulse)

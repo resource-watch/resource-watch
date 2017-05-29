@@ -1,5 +1,5 @@
 import React from 'react';
-import LayerNavDropdown from 'containers/pulse/LayerNavDropdown';
+import LayerNavDropdown from 'components/app/pulse/LayerNavDropdown';
 
 const LayerNav = ({ layerActive, layersGroup }) => {
   function createItemGroup(group) {
