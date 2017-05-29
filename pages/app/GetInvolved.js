@@ -73,7 +73,7 @@ class GetInvolved extends React.Component {
     const { data } = this.props;
     const styles = {};
     if (data.photo) {
-      styles.backgroundImage = `url(${config.CMS_API_URL}${data.photo.large})`;
+      styles.backgroundImage = `url(${process.env.CMS_API_URL}${data.photo.large})`;
     }
 
     const introLines = intro => (

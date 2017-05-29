@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 function PartnerBlock(props) {
   const partner = props.item.attributes;
-  const imgPath = `${config.CMS_API_URL}${partner.logo.medium}`;
+  const imgPath = `${process.env.CMS_API_URL}${partner.logo.medium}`;
 
   return (
     <article className="c-partners-block column small-12 medium-6">

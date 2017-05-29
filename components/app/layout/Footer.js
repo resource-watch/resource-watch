@@ -44,7 +44,7 @@ class Footer extends React.Component {
     return featured.map((p, i) => (
       <div key={i} className="item">
         <Link to={`/about/partners/${p.id}`}>
-          <img className="-img" src={`${config.CMS_API_URL}${p.attributes.logo.thumb}`} alt={p.attributes.name} />
+          <img className="-img" src={`${process.env.CMS_API_URL}${p.attributes.logo.thumb}`} alt={p.attributes.name} />
         </Link>
       </div>
     ));

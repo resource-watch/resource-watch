@@ -1,0 +1,46 @@
+$switch-width: 20px;
+$switch-height: 12px;
+$switch-margin: 1px;
+
+.c-switch {
+  display: flex;
+  cursor: pointer;
+
+  &.-secondary {
+    .switch-element {
+      background-color: $color-grey;
+
+      &.-active {
+        background-color: $color-secondary;
+
+        & > span { background-color: $color-white; }
+      }
+
+      & > span { background-color: $color-white; }
+    }
+  }
+
+  .switch-element {
+    width: $switch-width;
+    height: $switch-height;
+    border-radius: $switch-height;
+    background: #ccc;
+
+    span {
+      display: block;
+      position: absolute;
+      width: $switch-height - ($switch-margin * 2);
+      height: $switch-height - ($switch-margin * 2);
+      background: $color-white;
+      border-radius: 50%;
+      margin: $switch-margin;
+      transition: transform $animation-time $ease-in-out-sine;
+    }
+
+    // Switch position
+    &.-active > span {
+      background-color: $color-primary;
+      transform: translate(($switch-width / 2) - 2px,0);
+    }
+  }
+}
