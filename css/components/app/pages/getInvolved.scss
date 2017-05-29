@@ -29,7 +29,7 @@
 
       .c-card-static {
         &.insights { background: url('static/images/backgrounds/jellyfish.jpg'); }
-        &.contribute { background: $color-primary url('../images/components/layout/header-bg-texture.png') no-repeat center; }
+        &.contribute { background: $color-primary url('static/images/components/layout/header-bg-texture.png') no-repeat center; }
         &.join { background: $color-secondary; }
         &.develop { background: url('static/images/backgrounds/develop_app.jpg'); }
       }

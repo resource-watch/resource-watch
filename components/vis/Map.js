@@ -102,7 +102,7 @@ class Map extends React.Component {
     return loadingChanged || sidebarWidthChanged;
   }
 
-  componentWillUnmount() {
+  componentDidUnmount() {
     this._mounted = false;
     // Remember to remove the listeners before removing the map
     // or they will stay in memory

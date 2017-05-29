@@ -7,6 +7,7 @@ import Head from 'components/app/layout/head';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { toggleModal, setModalOptions } from 'redactions/modal';
+import Icons from 'components/app/layout/icons';
 
 const fullScreenPages = [
   '/app/Explore',
@@ -38,6 +39,7 @@ class Page extends React.Component {
           title={title}
           description={description}
         />
+        <Icons />
         <Header fullScreen={fullScreen} />
         <div className="container">
           { this.props.children }

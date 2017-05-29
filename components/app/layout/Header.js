@@ -74,23 +74,23 @@ class Header extends React.Component {
           <ul className="data-dropdown">
             <li>
               <Link
-                to="/explore"
+                route="explore"
                 onClick={e => this.toggleDataDropdown(e, 'dataDropdownActive', false)}
               >
                 Explore Datasets
               </Link>
             </li>
             <li>
-              <a
-                href="/countries"
+              <Link
+                route="dashboards"
                 onClick={e => this.toggleDataDropdown(e, 'dataDropdownActive', false)}
               >
                 Dashboards
-              </a>
+              </Link>
             </li>
             <li>
               <Link
-                to="/planet-pulse"
+                route="pulse"
                 onClick={e => this.toggleDataDropdown(e, 'dataDropdownActive', false)}
               >
                 Planet Pulse
@@ -98,7 +98,7 @@ class Header extends React.Component {
             </li>
             <li>
               <Link
-                to="/get-involved/apps"
+                route="get_involved"
                 onClick={e => this.toggleDataDropdown(e, 'dataDropdownActive', false)}
               >
                 Explore Tools
