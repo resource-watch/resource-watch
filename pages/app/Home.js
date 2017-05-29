@@ -4,6 +4,7 @@ import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
 import Rating from 'components/app/common/Rating';
 import Icon from 'components/ui/Icon';
+import Page from 'components/app/layout/Page';
 import MoveTo from 'moveto';
 
 const insightsCards = [
@@ -134,115 +135,120 @@ class Home extends React.Component {
     const insightsCardsStatic = this.insightsCardsStatic();
 
     return (
-      <div className="p-home">
-        <div className="c-page">
-          <Banner className="intro" containerGrid={false}>
-            <h1 className="title c-text -header-huge -thin">
-                Quick and easy access<br />to data that matters
-            </h1>
-            <p className="c-text -huge -thin">
-              Explore the latest data, find insights, and help build a more sustainable planet
-            </p>
-            <a className="scroll-icon js-scroll" href="#discoverIsights">
-              <Icon name="icon-arrow-down" />
-            </a>
-          </Banner>
-          <section id="discoverIsights" className="l-section insights">
-            <div className="l-container">
-              <header className="row">
-                <div className="column small-12 medium-8">
-                  <h1 className="title c-text -header-big -primary -thin">Discover Insights</h1>
+      <Page
+        title="Resource Watch"
+        description="Resource Watch description"
+      >
+        <div className="p-home">
+          <div className="c-page">
+            <Banner className="intro" containerGrid={false}>
+              <h1 className="title c-text -header-huge -thin">
+                  Quick and easy access<br />to data that matters
+              </h1>
+              <p className="c-text -huge -thin">
+                Explore the latest data, find insights, and help build a more sustainable planet
+              </p>
+              <a className="scroll-icon js-scroll" href="#discoverIsights">
+                <Icon name="icon-arrow-down" />
+              </a>
+            </Banner>
+            <section id="discoverIsights" className="l-section insights">
+              <div className="l-container">
+                <header className="row">
+                  <div className="column small-12 medium-8">
+                    <h1 className="title c-text -header-big -primary -thin">Discover Insights</h1>
+                  </div>
+                </header>
+
+                <div className="row">
+                  <article className="column small-12 medium-5">
+                    <p className="intro c-text -extra-big">
+                      Read the latest analysis from our community or submit your own original story.
+                    </p>
+                  </article>
                 </div>
-              </header>
 
-              <div className="row">
-                <article className="column small-12 medium-5">
-                  <p className="intro c-text -extra-big">
-                    Read the latest analysis from our community or submit your own original story.
-                  </p>
-                </article>
-              </div>
+                <div className="row insight-cards">
+                  <div className="column small-12 medium-8">
+                    {insightsCardsStatic[0]}
+                  </div>
 
-              <div className="row insight-cards">
-                <div className="column small-12 medium-8">
-                  {insightsCardsStatic[0]}
+                  <div className="column small-12 medium-4">
+                    <div className="dual">
+                      {insightsCardsStatic[1]}
+                      {insightsCardsStatic[2]}
+                    </div>
+                  </div>
                 </div>
-
-                <div className="column small-12 medium-4">
-                  <div className="dual">
-                    {insightsCardsStatic[1]}
-                    {insightsCardsStatic[2]}
+                <div className="row buttons">
+                  <div className="column small-12 medium-4 medium-offset-4">
+                    <a href="/insights" className="c-btn -filled -primary">More insights</a>
                   </div>
                 </div>
               </div>
-              <div className="row buttons">
-                <div className="column small-12 medium-4 medium-offset-4">
-                  <a href="/insights" className="c-btn -filled -primary">More insights</a>
+            </section>
+
+
+            <section className="l-section -bg-grey explore">
+              <div className="l-container">
+                <header className="row">
+                  <div className="column small-12 medium-8">
+                    <h1 className="title c-text -header-big -primary -thin">Explore the data</h1>
+                  </div>
+                </header>
+
+                <div className="row">
+                  <article className="column small-12 medium-5">
+                    <p className="intro c-text -extra-big">
+                      Explore, create visualizations, receive updates and contribute with your data.
+                    </p>
+                  </article>
+                </div>
+
+                <div className="row explore-cards">
+                  {exploreCardsStatic}
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
 
-
-          <section className="l-section -bg-grey explore">
-            <div className="l-container">
-              <header className="row">
-                <div className="column small-12 medium-8">
-                  <h1 className="title c-text -header-big -primary -thin">Explore the data</h1>
-                </div>
-              </header>
-
+            <Banner className="get-involved">
               <div className="row">
-                <article className="column small-12 medium-5">
-                  <p className="intro c-text -extra-big">
-                    Explore, create visualizations, receive updates and contribute with your data.
+                <div className="column small-12 medium-6">
+                  <h1 className="title c-text -header-huge -thin">Get Involved</h1>
+                  <p className="c-text -big">
+                    We've brought together the best datasets related to natural resources,
+                     so you can find new insights, influence decisions and change the world.
+                     There's a world of opportunity to take this futher. Here are
+                     some ideas to get you started.
                   </p>
-                </article>
+                </div>
               </div>
-
-              <div className="row explore-cards">
-                {exploreCardsStatic}
+              <div className="row">
+                <div className="column small-12 medium-3">
+                  <button className="c-btn -transparent">
+                    <Link to="/get-involved/contribute-data">Contribute data</Link>
+                  </button>
+                </div>
+                <div className="column small-12 medium-3">
+                  <button className="c-btn -transparent">
+                    <Link to="/get-involved/join-community">Join the community</Link>
+                  </button>
+                </div>
+                <div className="column small-12 medium-3">
+                  <button className="c-btn -transparent">
+                    <Link to="/get-involved/submit-insight">Submit an insight</Link>
+                  </button>
+                </div>
+                <div className="column small-12 medium-3">
+                  <button className="c-btn -transparent">
+                    <Link to="/get-involved/develop-app">Develop your app</Link>
+                  </button>
+                </div>
               </div>
-            </div>
-          </section>
-
-          <Banner className="get-involved">
-            <div className="row">
-              <div className="column small-12 medium-6">
-                <h1 className="title c-text -header-huge -thin">Get Involved</h1>
-                <p className="c-text -big">
-                  We've brought together the best datasets related to natural resources,
-                   so you can find new insights, influence decisions and change the world.
-                   There's a world of opportunity to take this futher. Here are
-                   some ideas to get you started.
-                </p>
-              </div>
-            </div>
-            <div className="row">
-              <div className="column small-12 medium-3">
-                <button className="c-btn -transparent">
-                  <Link to="/get-involved/contribute-data">Contribute data</Link>
-                </button>
-              </div>
-              <div className="column small-12 medium-3">
-                <button className="c-btn -transparent">
-                  <Link to="/get-involved/join-community">Join the community</Link>
-                </button>
-              </div>
-              <div className="column small-12 medium-3">
-                <button className="c-btn -transparent">
-                  <Link to="/get-involved/submit-insight">Submit an insight</Link>
-                </button>
-              </div>
-              <div className="column small-12 medium-3">
-                <button className="c-btn -transparent">
-                  <Link to="/get-involved/develop-app">Develop your app</Link>
-                </button>
-              </div>
-            </div>
-          </Banner>
+            </Banner>
+          </div>
         </div>
-      </div>
+      </Page>
     );
   }
 }

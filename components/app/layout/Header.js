@@ -133,7 +133,7 @@ class Header extends React.Component {
           >
             <li>
               <Link
-                to="/about"
+                route="about"
                 onClick={e => this.toggleDataDropdown(e, 'aboutDropdownActive', false)}
               >
                 About
@@ -141,7 +141,7 @@ class Header extends React.Component {
             </li>
             <li>
               <Link
-                to="/about/partners"
+                route="about_partners"
                 onClick={e => this.toggleDataDropdown(e, 'aboutDropdownActive', false)}
               >
                 Partners
