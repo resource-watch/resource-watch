@@ -2,14 +2,15 @@ import React from 'react';
 import classNames from 'classnames';
 import TetherComponent from 'react-tether';
 
-import WidgetConfigurator from 'components/explore/WidgetConfigurator';
+import WidgetConfigurator from 'components/app/explore/WidgetConfigurator';
 import Button from 'components/ui/Button';
 import Icon from 'components/ui/Icon';
 import bar from 'utils/widgets/bar';
 import pie from 'utils/widgets/pie';
 import line from 'utils/widgets/line';
 import Spinner from 'components/ui/Spinner';
-import { getQueryByFilters, VegaChart } from 'rw-components/dist/utils/getQueryByFilters';
+import VegaChart from 'components/widgets/VegaChart';
+import getQueryByFiltersfrom 'utils/getQueryByFilters';
 
 const chartTypes = { bar, pie, line };
 
