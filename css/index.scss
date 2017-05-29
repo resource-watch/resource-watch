@@ -57,6 +57,14 @@
 @import "./components/vocabularies/vocabularies_form";
 
 // ================== APP ======================
+
+// COMMON
+@import "./components/app/common/banner";
+@import "./components/app/common/btn";
+@import "./components/app/common/rating";
+@import "./components/app/common/text";
+@import "./components/app/common/viel";
+
 // PAGES
 @import "./components/app/pages/explore";
 @import "./components/app/pages/about";
@@ -64,6 +72,10 @@
 
 // LAYOUT
 @import "./components/app/layout/page";
+@import "./components/app/layout/footer";
+@import "./components/app/layout/sidebar";
+@import "./components/app/layout/logo";
+@import "./components/app/layout/header";
 
 // PULSE
 @import "./components/app/pulse/globe_tooltip";

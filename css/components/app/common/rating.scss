@@ -4,9 +4,9 @@
   align-items: center;
 
   &.-yellow {
-    color: $mango;
+    color: $color-mango;
 
-    .c-icon { fill: $mango; }
+    .c-icon { fill: $color-mango; }
   }
 
   .c-icon {

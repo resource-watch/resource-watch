@@ -32,8 +32,6 @@ class Page extends React.Component {
   render() {
     const { title, description, pathname } = this.props;
     const fullScreen = fullScreenPages.indexOf(pathname) !== -1;
-    debugger;
-    console.log(fullScreen, 'full');
     return (
       <div className="c-page">
         <Head

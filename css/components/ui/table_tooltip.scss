@@ -26,7 +26,7 @@ $_footer-height: 40px;
     flex-direction: column;
     margin: $_arrow-width 0 0;
     background: $color-white;
-    border: 1px solid $color-gray;
+    border: 1px solid $color-grey;
     box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.2);
 
     // Arrow
@@ -39,8 +39,8 @@ $_footer-height: 40px;
       height: $_arrow-width;
       margin: -#{$_arrow-width/2} 0px 0px -#{$_arrow-width/2};
       background: $color-white;
-      border-top: 1px solid $color-gray;
-      border-left: 1px solid $color-gray;
+      border-top: 1px solid $color-grey;
+      border-left: 1px solid $color-grey;
       transform: rotate(45deg);
     }
 
