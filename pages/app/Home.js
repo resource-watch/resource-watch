@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router';
-import Banner from 'components/common/Banner';
-import CardStatic from 'components/common/CardStatic';
-import Rating from 'components/common/Rating';
+import { Link } from 'routes';
+import Banner from 'components/app/common/Banner';
+import CardStatic from 'components/app/common/CardStatic';
+import Rating from 'components/app/common/Rating';
 import Icon from 'components/ui/Icon';
 import MoveTo from 'moveto';
 
@@ -18,7 +18,7 @@ const insightsCards = [
     tag: 'Feb 25, 2017',
     title: 'The Water Guardians of the Andes',
     slug: 'slideshow-peru',
-    source: { name: 'ESPA', path: '#', img: require('../../images/avatars/espa_avatar.png') },
+    source: { name: 'ESPA', path: '#', img: '../static/images/avatars/espa_avatar.png' },
     background: 'url(/tempImages/backgrounds/andes.jpg) center'
   },
   {

@@ -1,6 +1,6 @@
 import React from 'react';
-import Page from 'components/layout/page';
-import PagesTable from 'components/pages/table/PagesTable';
+import Page from 'components/admin/layout/page';
+import PagesTable from 'components/admin/pages/table/PagesTable';
 import ButtonContainer from 'components/ui/ButtonContainer';
 import Title from 'components/ui/Title';
 

@@ -41,6 +41,7 @@ routes.add('vocabularies', '/admin/vocabularies', 'admin/vocabularies');
 
 // ========================= APP ROUTES =====================
 
+routes.add('home', '/home', 'app/Home');
 routes.add('about', '/about', 'app/About');
 routes.add('explore', '/explore', 'app/Explore');
 routes.add('get_involved', '/get-involved', 'app/GetInvolved');

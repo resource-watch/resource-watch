@@ -1,7 +1,7 @@
 import React from 'react';
-import PageForm from 'components/pages/form/PageForm';
+import PageForm from 'components/admin/pages/form/PageForm';
 import Title from 'components/ui/Title';
-import Page from 'components/layout/page';
+import Page from 'components/admin/layout/page';
 
 export default class PageNew extends React.Component {
 

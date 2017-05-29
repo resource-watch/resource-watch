@@ -1,8 +1,8 @@
 import React from 'react';
-import PageForm from 'components/pages/form/PageForm';
+import PageForm from 'components/admin/pages/form/PageForm';
 import Title from 'components/ui/Title';
-import Page from 'components/layout/page';
-import { Router } from '../../routes';
+import Page from 'components/admin/layout/page';
+import { Router } from 'routes';
 
 export default class PageEdit extends React.Component {
 

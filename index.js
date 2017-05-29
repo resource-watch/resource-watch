@@ -1,20 +1,20 @@
-
-// Load environment variables from .env file if present
-const dotenv = require('dotenv');
-dotenv.load();
 const express = require('express');
 const passport = require('passport');
 const next = require('next');
+const session = require('express-session');
 const ControlTowerStrategy = require('passport-control-tower');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const { parse } = require('url');
 const routes = require('./routes');
 
+// Load environment variables from .env file if present
+const dotenv = require('dotenv').load();
+
 const port = process.env.PORT || 3000;
+const dev = process.env.NODE_ENV !== 'production';
 
 // Next app creation
-const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = routes.getRequestHandler(app);
 
@@ -29,7 +29,7 @@ function isAuthenticated(req, res, nextAction) {
 
 // Use the Control Tower Strategy within Passport.
 passport.use(new ControlTowerStrategy({
-  apiUrl: process.env.LOGIN_URL,
+  apiUrl: process.env.CONTROL_TOWER_API_URL,
   callbackUrl: process.env.CALLBACK_URL
 }));
 
@@ -47,28 +47,29 @@ passport.deserializeUser(function (obj, done) {
 server.use(cookieParser());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
-server.use(require('express-session')({ secret: process.env.SECRET, resave: false, saveUninitialized: false }));
+server.use(session({
+  secret: process.env.SECRET || 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+}));
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
 server.use(passport.initialize());
 server.use(passport.session());
-server.use(handle);
 
 // Initializing next app before express server
 app.prepare()
   .then(() => {
     // Public/landing page
     server.get('/', function (req, res) {
-      return app.render(req, res, '/landing');
+      return app.render(req, res, '/app/Home');
     });
 
-    // This should be callback URL
     server.get('/login', passport.authenticate('control-tower'), function (req, res) {
       // Success
-      // res.redirect('/admin/datasets');
-      const parsedUrl = parse(req.url, true);
-      return handle(req, res, parsedUrl);
+      res.redirect('/admin');
     });
+
 
     server.get('/logout', function (req, res) {
       req.session.destroy();
@@ -77,10 +78,12 @@ app.prepare()
       res.redirect('/');
     });
 
-    server.get('/admin*', isAuthenticated, function (req, res) {
+    server.get('/admin', isAuthenticated, function (req, res) {
       const parsedUrl = parse(req.url, true);
       return handle(req, res, parsedUrl);
     });
+
+    server.use(handle);
 
     server.listen(port, (err) => {
       if (err) throw err;

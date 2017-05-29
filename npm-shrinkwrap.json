@@ -5028,6 +5028,11 @@
       "from": "moment@>=2.11.2 <3.0.0",
       "resolved": "https://registry.npmjs.org/moment/-/moment-2.18.1.tgz"
     },
+    "moveto": {
+      "version": "1.6.1",
+      "from": "moveto@latest",
+      "resolved": "https://registry.npmjs.org/moveto/-/moveto-1.6.1.tgz"
+    },
     "mozjpeg": {
       "version": "4.1.1",
       "from": "mozjpeg@>=4.0.0 <5.0.0",
