@@ -30,6 +30,11 @@ const mapConfig = {
 };
 
 class Explore extends React.Component {
+
+  static async getInitialProps({ pathname }) {
+    return { pathname };
+  }
+
   constructor(props) {
     super(props);
 
