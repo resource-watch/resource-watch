@@ -7844,9 +7844,9 @@
       "resolved": "https://registry.npmjs.org/thenify-all/-/thenify-all-1.6.0.tgz"
     },
     "three": {
-      "version": "0.85.2",
-      "from": "three@latest",
-      "resolved": "https://registry.npmjs.org/three/-/three-0.85.2.tgz"
+      "version": "0.83.0",
+      "from": "three@0.83.0",
+      "resolved": "https://registry.npmjs.org/three/-/three-0.83.0.tgz"
     },
     "through": {
       "version": "2.3.8",

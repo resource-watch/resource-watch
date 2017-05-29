@@ -89,6 +89,8 @@ export function toggleActiveLayer(id, threedimensional, markerType) {
         });
       })
       .catch((err) => {
+        console.log(err);
+        debugger;
         // Fetch from server ko -> Dispatch error
         dispatch({
           type: SET_ACTIVE_LAYER,
