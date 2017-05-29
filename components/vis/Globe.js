@@ -9,7 +9,7 @@ import orbitControls from './OrbitControls';
 import chroma from 'chroma-js';
 
 /* global Stats */
-// const OrbitControls = orbitControls();
+const OrbitControls = orbitControls();
 const imageLoader = new TextureLoader();
 
 class Globe extends React.Component {
@@ -37,110 +37,110 @@ class Globe extends React.Component {
   }
 
   componentDidMount() {
-    // const { useHalo, useDefaultLayer } = this.props;
-    //
-    // this.createScene();
-    // this.createEarth();
-    // if (useHalo) {
-    //   this.addHalo();
-    // }
-    // if (useDefaultLayer) {
-    //   this.setTexture();
-    // }
-    // this.addLights();
-    // this.addControls();
-    //
-    // // Start!
-    // this.draw();
-    //
-    // window.addEventListener('resize', this.onResize);
+    const { useHalo, useDefaultLayer } = this.props;
+
+    this.createScene();
+    this.createEarth();
+    if (useHalo) {
+      this.addHalo();
+    }
+    if (useDefaultLayer) {
+      this.setTexture();
+    }
+    this.addLights();
+    this.addControls();
+
+    // Start!
+    this.draw();
+
+    window.addEventListener('resize', this.onResize);
   }
 
   componentWillReceiveProps(nextProps) {
-    // if (nextProps.texture !== this.props.texture) {
-    //   this.setState({ texture: nextProps.texture || null });
-    // }
-    // if (nextProps.width !== this.props.width) {
-    //   this.setState({ width: nextProps.width });
-    // }
-    // if (nextProps.height !== this.props.height) {
-    //   this.setState({ height: nextProps.height });
-    // }
-    // if (nextProps.layerPoints !== this.props.layerPoints) {
-    //   this.slideToRight();
-    // }
-    // if (nextProps.layerPoints.length > 0) {
-    //   if (this.currentTexture != null) {
-    //     this.removeTexture();
-    //   }
-    //   if (this.state.markers.length > 0) {
-    //     this.removeMarkers();
-    //   }
-    //   const { markerType } = nextProps;
-    //   const pointObjects = nextProps.layerPoints.map((value) => {
-    //     const normalVector = this.convertLatLonToCoordinates(value.lat, value.lon);
-    //     const geometryColor = this.getMarkerColor(value);
-    //     const height = this.getMarkerHeight(value);
-    //
-    //     let geometry;
-    //
-    //     switch (markerType) {
-    //       case 'bar':
-    //         geometry = new CylinderGeometry(0.3, 0.3, height);
-    //         break;
-    //       case 'volcano':
-    //         geometry = new CylinderGeometry(0.3, 1.3, height);
-    //         break;
-    //       case 'hemisphere':
-    //         geometry = new SphereGeometry(0.5, 8, 8);
-    //         break;
-    //       default:
-    //         geometry = new CylinderGeometry(0.3, 0.3, height);
-    //     }
-    //
-    //     // Translate the geometry so the base sits at the origin.
-    //     geometry.applyMatrix(new Matrix4().makeTranslation(0, 0, 0));
-    //
-    //     // Rotate the geometry so the top points in the direction of the positive-Z axis.
-    //     geometry.applyMatrix(new Matrix4().makeRotationX(Math.PI / 2));
-    //
-    //     // Create the mesh.
-    //     const material = new MeshPhongMaterial({ color: geometryColor });
-    //     const obj = new Mesh(geometry, material);
-    //     obj.lookAt(normalVector);
-    //     obj.position.copy(normalVector);
-    //     obj.name = value;
-    //
-    //     this.scene.add(obj);
-    //
-    //     return obj;
-    //   });
-    //   this.setState({ markers: pointObjects });
-    // } else if (this.props.layerPoints.length > 0) {
-    //   this.removeMarkers();
-    // }
+    if (nextProps.texture !== this.props.texture) {
+      this.setState({ texture: nextProps.texture || null });
+    }
+    if (nextProps.width !== this.props.width) {
+      this.setState({ width: nextProps.width });
+    }
+    if (nextProps.height !== this.props.height) {
+      this.setState({ height: nextProps.height });
+    }
+    if (nextProps.layerPoints !== this.props.layerPoints) {
+      this.slideToRight();
+    }
+    if (nextProps.layerPoints.length > 0) {
+      if (this.currentTexture != null) {
+        this.removeTexture();
+      }
+      if (this.state.markers.length > 0) {
+        this.removeMarkers();
+      }
+      const { markerType } = nextProps;
+      const pointObjects = nextProps.layerPoints.map((value) => {
+        const normalVector = this.convertLatLonToCoordinates(value.lat, value.lon);
+        const geometryColor = this.getMarkerColor(value);
+        const height = this.getMarkerHeight(value);
+
+        let geometry;
+
+        switch (markerType) {
+          case 'bar':
+            geometry = new CylinderGeometry(0.3, 0.3, height);
+            break;
+          case 'volcano':
+            geometry = new CylinderGeometry(0.3, 1.3, height);
+            break;
+          case 'hemisphere':
+            geometry = new SphereGeometry(0.5, 8, 8);
+            break;
+          default:
+            geometry = new CylinderGeometry(0.3, 0.3, height);
+        }
+
+        // Translate the geometry so the base sits at the origin.
+        geometry.applyMatrix(new Matrix4().makeTranslation(0, 0, 0));
+
+        // Rotate the geometry so the top points in the direction of the positive-Z axis.
+        geometry.applyMatrix(new Matrix4().makeRotationX(Math.PI / 2));
+
+        // Create the mesh.
+        const material = new MeshPhongMaterial({ color: geometryColor });
+        const obj = new Mesh(geometry, material);
+        obj.lookAt(normalVector);
+        obj.position.copy(normalVector);
+        obj.name = value;
+
+        this.scene.add(obj);
+
+        return obj;
+      });
+      this.setState({ markers: pointObjects });
+    } else if (this.props.layerPoints.length > 0) {
+      this.removeMarkers();
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // if (prevState.texture !== this.state.texture) {
-    //   if (prevState.texture === null && this.state.texture !== null) {
-    //     this.setTexture();
-    //   }
-    //   this.slideToRight();
-    // }
-    // if ((prevState.width !== this.state.width) ||
-    //   (prevState.height !== this.state.height)) {
-    //   this.update();
-    // }
-    // if (this.state.selectedMarker) {
-    //   this.state.selectedMarker.object.material = new MeshPhongMaterial(
-    //     { color: this.props.markerSelectedColor });
-    // }
+    if (prevState.texture !== this.state.texture) {
+      if (prevState.texture === null && this.state.texture !== null) {
+        this.setTexture();
+      }
+      this.slideToRight();
+    }
+    if ((prevState.width !== this.state.width) ||
+      (prevState.height !== this.state.height)) {
+      this.update();
+    }
+    if (this.state.selectedMarker) {
+      this.state.selectedMarker.object.material = new MeshPhongMaterial(
+        { color: this.props.markerSelectedColor });
+    }
   }
 
-  // componentWillUnmount() {
-  //   window.removeEventListener('resize', this.onResize);
-  // }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+  }
 
   getMarkerHeight(value) {
     let data = value;
@@ -207,7 +207,6 @@ class Globe extends React.Component {
     }
     return color;
   }
-
 
 
   onResize() {
@@ -565,8 +564,8 @@ class Globe extends React.Component {
 Globe.defaultProps = {
 
   // Size
-  width: window.innerWidth,
-  height: window.innerHeight,
+  width: (typeof window === 'undefined') ? 1024 : window.innerWidth,
+  height: (typeof window === 'undefined') ? 768 : window.innerHeight,
 
   // Lights
   ambientLightColor: 0x262626,

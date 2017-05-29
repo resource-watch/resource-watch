@@ -10,7 +10,8 @@
           "components": "./components",
           "redactions": "./redactions",
           "utils": "./utils",
-          "selectors": "./selectors"
+          "selectors": "./selectors",
+          "static": "./static"
         }
       }
     ],

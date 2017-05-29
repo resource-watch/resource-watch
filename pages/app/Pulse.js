@@ -12,6 +12,7 @@ import LayerDescription from 'components/app/pulse/LayerDescription';
 import Spinner from 'components/ui/Spinner';
 import ZoomControl from 'components/ui/ZoomControl';
 import GlobeTooltip from 'components/app/pulse/GlobeTooltip';
+import Page from 'components/app/layout/Page';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { getLayers, getLayerPoints } from 'redactions/pulse';
@@ -19,9 +20,9 @@ import getLayersGroupPulse from 'selectors/pulse/layersGroupPulse';
 import getActiveLayersPulse from 'selectors/pulse/layersActivePulse';
 import { toggleTooltip } from 'redactions/tooltip';
 
-import earthImage from 'static/images/components/vis/earth-min.jpg';
-import earthBumpImage from 'static/images/components/vis/earth-bump.jpg';
-import cloudsImage from 'static/images/components/vis/clouds-min.png';
+const earthImage = 'static/images/components/vis/earth-min.jpg';
+const earthBumpImage = 'static/images/components/vis/earth-bump.jpg';
+const cloudsImage = 'static/images/components/vis/clouds-min.png';
 
 class Pulse extends React.Component {
 
@@ -44,7 +45,7 @@ class Pulse extends React.Component {
    * - componentWillReceiveProps
    * - componentWillUnmount
   */
-  componentWillMount() {
+  componentDidMount() {
     // This is not sending anything, for the moment
     this.props.getLayers();
     document.addEventListener('click', this.triggerMouseDown);
@@ -202,51 +203,58 @@ class Pulse extends React.Component {
 
   render() {
     const { markerType } = this.state;
+    const globeWidht = (typeof window === 'undefined') ? 500 : window.innerWidth;
+    const globeHeight = (typeof window === 'undefined') ? 300 : window.innerHeight - 130; // TODO: 130 is the header height
     return (
-      <div
-        className="c-page -dark"
+      <Page
+        title="Planet Pulse"
+        description="Planet Pulse description"
       >
-        <LayerNav
-          layerActive={this.props.layerActive}
-          layersGroup={this.props.layersGroup}
-        />
-        <Legend
-          layerActive={this.props.layerActive}
-        />
-        <LayerDescription
-          layerActive={this.props.layerActive}
-        />
-        <Spinner
-          isLoading={this.state.loading}
-        />
-        <Globe
-          ref={globe => (this.globe = globe)}
-          width={window.innerWidth}
-          height={window.innerHeight - 130} // TODO: 130 is the header height
-          pointLightColor={0xcccccc}
-          ambientLightColor={0x444444}
-          enableZoom
-          lightPosition={'right'}
-          texture={this.state.texture}
-          layerPoints={this.state.layerPoints}
-          markerType={markerType}
-          earthImagePath={earthImage}
-          earthBumpImagePath={earthBumpImage}
-          defaultLayerImagePath={cloudsImage}
-          segments={64}
-          rings={64}
-          useHalo
-          useDefaultLayer={this.state.useDefaultLayer}
-          onMarkerSelected={this.handleMarkerSelected}
-          onEarthClicked={this.handleEarthClicked}
-          onClickInEmptyRegion={this.handleClickInEmptyRegion}
-        />
-        <ZoomControl
-          ref={zoomControl => (this.zoomControl = zoomControl)}
-          onZoomIn={this.triggerZoomIn}
-          onZoomOut={this.triggerZoomOut}
-        />
-      </div>
+        <div
+          className="c-page -dark"
+        >
+          <LayerNav
+            layerActive={this.props.layerActive}
+            layersGroup={this.props.layersGroup}
+          />
+          <Legend
+            layerActive={this.props.layerActive}
+          />
+          <LayerDescription
+            layerActive={this.props.layerActive}
+          />
+          <Spinner
+            isLoading={this.state.loading}
+          />
+          <Globe
+            ref={globe => (this.globe = globe)}
+            width={globeWidht}
+            height={globeHeight}
+            pointLightColor={0xcccccc}
+            ambientLightColor={0x444444}
+            enableZoom
+            lightPosition={'right'}
+            texture={this.state.texture}
+            layerPoints={this.state.layerPoints}
+            markerType={markerType}
+            earthImagePath={earthImage}
+            earthBumpImagePath={earthBumpImage}
+            defaultLayerImagePath={cloudsImage}
+            segments={64}
+            rings={64}
+            useHalo
+            useDefaultLayer={this.state.useDefaultLayer}
+            onMarkerSelected={this.handleMarkerSelected}
+            onEarthClicked={this.handleEarthClicked}
+            onClickInEmptyRegion={this.handleClickInEmptyRegion}
+          />
+          <ZoomControl
+            ref={zoomControl => (this.zoomControl = zoomControl)}
+            onZoomIn={this.triggerZoomIn}
+            onZoomOut={this.triggerZoomOut}
+          />
+        </div>
+      </Page>
     );
   }
 }

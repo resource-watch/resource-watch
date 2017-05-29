@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'routes';
 import CompoundMenu from 'components/ui/CompoundMenu';
 import Carousel from 'components/ui/Carousel';
+import { getPartners } from 'redactions/partners';
+import { initStore } from 'store';
+import withRedux from 'next-redux-wrapper';
 
 const data = [
   { name: 'Data', path: '#' },
@@ -84,4 +87,12 @@ Footer.propTypes = {
   list: React.PropTypes.array
 };
 
-export default Footer;
+const mapStateToProps = state => ({
+  list: state.partners.list
+});
+
+const mapDispatchToProps = dispatch => ({
+  getPartners: () => { dispatch(getPartners()); }
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Footer)

@@ -13,6 +13,7 @@ import CustomSelect from 'components/ui/CustomSelect';
 import LayerManager from 'utils/layers/LayerManager';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
+import Page from 'components/app/layout/Page';
 import { getDatasets, setDatasetsPage, setUrlParams, setDatasetsActive, setDatasetsHidden, setDatasetsFilters, toggleDatasetActive, getVocabularies } from 'redactions/explore';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
@@ -84,89 +85,94 @@ class Explore extends React.Component {
     ));
 
     return (
-      <div className="p-explore">
-        <div className="c-page -dark">
-          <Sidebar>
-            <div className="intro">
-              <div className="row collapse">
-                <div className="column small-12">
-                  <Title className="-primary -huge">
-                    Explore
-                  </Title>
-                </div>
-              </div>
-              <div className="search-container">
+      <Page
+        title="Explore"
+        description="Explore description"
+      >
+        <div className="p-explore">
+          <div className="c-page -dark">
+            <Sidebar>
+              <div className="intro">
                 <div className="row collapse">
-                  <div className="column small-12 medium-6">
-                    <CustomSelect
-                      options={datasetsSearchList}
-                      onValueChange={this.handleRedirect}
-                      onKeyPressed={this.handleFilterDatasets}
-                      search
-                      placeholder="Search dataset"
-                      hideList
-                    />
+                  <div className="column small-12">
+                    <Title className="-primary -huge">
+                      Explore
+                    </Title>
                   </div>
-                  <div className="column small-12 medium-6">
-                    <CustomSelect
-                      options={this.state.vocabularies}
-                      onValueChange={this.handleFilterDatasets}
-                      placeholder="Select issue"
-                    />
+                </div>
+                <div className="search-container">
+                  <div className="row collapse">
+                    <div className="column small-12 medium-6">
+                      <CustomSelect
+                        options={datasetsSearchList}
+                        onValueChange={this.handleRedirect}
+                        onKeyPressed={this.handleFilterDatasets}
+                        search
+                        placeholder="Search dataset"
+                        hideList
+                      />
+                    </div>
+                    <div className="column small-12 medium-6">
+                      <CustomSelect
+                        options={this.state.vocabularies}
+                        onValueChange={this.handleFilterDatasets}
+                        placeholder="Select issue"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <DatasetListHeader
-              list={explore.datasets.list}
-              mode={explore.datasets.mode}
-            />
-            <Spinner
-              isLoading={explore.datasets.loading}
-              className="-light"
-            />
-            <DatasetList
-              active={explore.datasets.active}
-              list={paginatedDatasets}
-              mode={explore.datasets.mode}
-            />
+              <DatasetListHeader
+                list={explore.datasets.list}
+                mode={explore.datasets.mode}
+              />
+              <Spinner
+                isLoading={explore.datasets.loading}
+                className="-light"
+              />
+              <DatasetList
+                active={explore.datasets.active}
+                list={paginatedDatasets}
+                mode={explore.datasets.mode}
+              />
 
-            <Paginator
-              options={{
-                page: explore.datasets.page,
-                limit: explore.datasets.limit,
-                size: explore.datasets.list.length
-              }}
-              onChange={page => this.props.setDatasetsPage(page)}
-            />
-          </Sidebar>
+              <Paginator
+                options={{
+                  page: explore.datasets.page,
+                  limit: explore.datasets.limit,
+                  size: explore.datasets.list.length
+                }}
+                onChange={page => this.props.setDatasetsPage(page)}
+              />
+            </Sidebar>
 
-          <Map
-            LayerManager={LayerManager}
-            mapConfig={mapConfig}
-            layersActive={this.state.layersActive}
-            toggledDataset={this.props.toggledDataset}
-          />
-
-          <button className="share-button" onClick={() => this.handleShareModal()}>
-            <Icon name="icon-share" className="-small" />
-          </button>
-
-          {this.state.layersActive && this.state.layersActive.length &&
-            <Legend
+            <Map
+              LayerManager={LayerManager}
+              mapConfig={mapConfig}
               layersActive={this.state.layersActive}
-              layersHidden={this.props.explore.datasets.hidden}
-              className={{ color: '-dark' }}
-              setDatasetsActive={this.props.setDatasetsActive}
-              toggleDatasetActive={this.props.toggleDatasetActive}
-              setDatasetsHidden={this.props.setDatasetsHidden}
-              toggleModal={this.props.toggleModal}
-              setModalOptions={this.props.setModalOptions}
+              toggledDataset={this.props.toggledDataset}
             />
-          }
+
+            <button className="share-button" onClick={() => this.handleShareModal()}>
+              <Icon name="icon-share" className="-small" />
+            </button>
+
+            {this.state.layersActive && this.state.layersActive.length &&
+              <Legend
+                layersActive={this.state.layersActive}
+                layersHidden={this.props.explore.datasets.hidden}
+                className={{ color: '-dark' }}
+                setDatasetsActive={this.props.setDatasetsActive}
+                toggleDatasetActive={this.props.toggleDatasetActive}
+                setDatasetsHidden={this.props.setDatasetsHidden}
+                toggleModal={this.props.toggleModal}
+                setModalOptions={this.props.setModalOptions}
+              />
+            }
+          </div>
         </div>
-      </div>
+      </Page>
     );
   }
 }
