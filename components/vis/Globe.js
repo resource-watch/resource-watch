@@ -122,7 +122,6 @@ class Globe extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('componentDidUpdate');
     if (prevState.texture !== this.state.texture) {
       if (prevState.texture === null && this.state.texture !== null) {
         this.setTexture();
