@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router';
-import Banner from 'components/common/Banner';
+import { Link } from 'routes';
+import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 const breadcrumbs = [

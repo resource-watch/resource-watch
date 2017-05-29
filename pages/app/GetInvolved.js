@@ -1,8 +1,12 @@
 import React from 'react';
-import Link from 'next/router';
+import Link from 'routes';
+import withRedux from 'next-redux-wrapper';
+import { getStaticData } from 'redactions/static_pages';
+import { initStore } from 'store';
 import Banner from 'components/app/common/Banner';
 import Intro from 'components/app/common/Intro';
 import CardStatic from 'components/app/common/CardStatic';
+import Page from 'components/app/layout/Page';
 
 const cards = [
   {
@@ -65,7 +69,7 @@ const cards = [
 ];
 
 class GetInvolved extends React.Component {
-  componentDidMount() {
+  componentWillMount() {
     this.props.getStaticData('get-involved', 'getInvolved');
   }
 
@@ -102,31 +106,36 @@ class GetInvolved extends React.Component {
     );
 
     return (
-      <div className="p-get-involved">
-        <div className="c-page">
-          <Intro title={data.title} intro={data.summary} styles={styles} />
-          <section className="l-section -header">
-            <div className="l-container">
-              <div className="cards row collapse">
-                {cardsStatic}
+      <Page
+        title="Get Involved"
+        description="Get Involved description"
+      >
+        <div className="p-get-involved">
+          <div className="c-page">
+            <Intro title={data.title} intro={data.summary} styles={styles} />
+            <section className="l-section -header">
+              <div className="l-container">
+                <div className="cards row collapse">
+                  {cardsStatic}
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
 
-          <div className="row collapse">
-            <div className="column small-12">
-              <Banner className="partners">
-                <h3 className="c-text -header-normal -thin">
-                  See yourself as part <br />of this team?
-                </h3>
-                <button className="c-btn -primary">
-                  Get in touch
-                </button>
-              </Banner>
+            <div className="row collapse">
+              <div className="column small-12">
+                <Banner className="partners">
+                  <h3 className="c-text -header-normal -thin">
+                    See yourself as part <br />of this team?
+                  </h3>
+                  <button className="c-btn -primary">
+                    Get in touch
+                  </button>
+                </Banner>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </Page>
     );
   }
 }
@@ -136,4 +145,14 @@ GetInvolved.propTypes = {
   getStaticData: React.PropTypes.func
 };
 
-export default GetInvolved;
+const mapStateToProps = state => ({
+  data: state.staticPages.getInvolved
+});
+
+const mapDispatchToProps = dispatch => ({
+  getStaticData: (slug, ref) => {
+    dispatch(getStaticData(slug, ref));
+  }
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(GetInvolved)

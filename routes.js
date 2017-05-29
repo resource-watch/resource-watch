@@ -45,6 +45,7 @@ routes.add('home', '/home', 'app/Home');
 routes.add('about', '/about', 'app/About');
 routes.add('explore', '/explore', 'app/Explore');
 routes.add('get_involved', '/get-involved', 'app/GetInvolved');
-routes.add('about_partners', '/about/partners', 'app/Partners');
+routes.add('about_partners', '/about_partners', 'app/Partners');
 routes.add('pulse', '/pulse', 'app/Pulse');
 routes.add('dashboards', '/home', 'app/dashboards');
+routes.add('partner', '/about/partners/:id', 'app/PartnerDetail');

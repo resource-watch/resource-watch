@@ -11,9 +11,9 @@ const breadcrumbs = [
   }
 ];
 
-class ContributeData extends React.Component {
+class SubmitInsight extends React.Component {
   componentWillMount() {
-    this.props.getStaticData('contribute-data', 'contributeData');
+    this.props.getStaticData('submit-an-insight', 'submitInsight');
   }
 
   render() {
@@ -21,10 +21,9 @@ class ContributeData extends React.Component {
 
     return (
       <Page
-        title="Contribute data"
-        description="Contribute data description"
-      >
-        <div className="p-contribute-data">
+        title="Submit Insight"
+        description="Submit insight description">
+        <div className="p-submit-insight">
           <div className="c-page">
             <section className="l-section -header">
               <div className="l-container">
@@ -68,9 +67,9 @@ class ContributeData extends React.Component {
   }
 }
 
-ContributeData.propTypes = {
+SubmitInsight.propTypes = {
   data: React.PropTypes.object,
   getStaticData: React.PropTypes.func
 };
 
-export default ContributeData;
+export default SubmitInsight;

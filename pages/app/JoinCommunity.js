@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'routes';
-import Banner from 'components/app/common/Banner';
+import { Link } from 'next';
+import Banner from 'components/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Page from 'components/app/layout/Page';
 
@@ -11,9 +11,9 @@ const breadcrumbs = [
   }
 ];
 
-class ContributeData extends React.Component {
+class JoinCommunity extends React.Component {
   componentWillMount() {
-    this.props.getStaticData('contribute-data', 'contributeData');
+    this.props.getStaticData('join-the-community', 'joinCommunity');
   }
 
   render() {
@@ -21,10 +21,10 @@ class ContributeData extends React.Component {
 
     return (
       <Page
-        title="Contribute data"
-        description="Contribute data description"
+        title="Join Community"
+        description="Join Community description"
       >
-        <div className="p-contribute-data">
+        <div className="p-join-community">
           <div className="c-page">
             <section className="l-section -header">
               <div className="l-container">
@@ -54,7 +54,9 @@ class ContributeData extends React.Component {
             <div className="row collapse">
               <div className="column small-12">
                 <Banner className="partners">
-                  <h3 className="c-text -header-normal -normal">We have a massive opportunity<br />to build a sustainable society</h3>
+                  <h3 className="c-text -header-normal -normal">
+                    We have a massive opportunity<br />to build a sustainable society
+                  </h3>
                   <button className="c-btn -primary -filled">
                     <Link to="/about/partners">Partners list</Link>
                   </button>
@@ -68,9 +70,9 @@ class ContributeData extends React.Component {
   }
 }
 
-ContributeData.propTypes = {
+JoinCommunity.propTypes = {
   data: React.PropTypes.object,
   getStaticData: React.PropTypes.func
 };
 
-export default ContributeData;
+export default JoinCommunity;

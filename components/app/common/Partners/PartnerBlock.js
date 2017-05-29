@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'routes';
 
 function PartnerBlock(props) {
   const partner = props.item.attributes;
@@ -8,12 +8,12 @@ function PartnerBlock(props) {
   return (
     <article className="c-partners-block column small-12 medium-6">
       <div className="logo-container">
-        <Link to={`/about/partners/${props.item.id}`}>
+        <Link route={`/about/partners/${props.item.id}`}>
           <img src={imgPath} className="logo" title={partner.name} alt={partner.name} />
         </Link>
       </div>
       <p className="description c-text -extra-big">{partner.summary}</p>
-      <Link to={`/about/partners/${props.item.id}`} className="action c-btn -transparent -primary c-text -extra-big">Read more</Link>
+      <Link route={`/about/partners/${props.item.id}`} className="action c-btn -transparent -primary c-text -extra-big">Read more</Link>
     </article>
   );
 }
