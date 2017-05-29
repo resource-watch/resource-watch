@@ -3,6 +3,9 @@ import { Link } from 'routes';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Page from 'components/app/layout/Page';
+import { initStore } from 'store';
+import { getStaticData } from 'redactions/static_pages';
+import withRedux from 'next-redux-wrapper';
 
 const breadcrumbs = [
   {
@@ -22,7 +25,8 @@ class SubmitInsight extends React.Component {
     return (
       <Page
         title="Submit Insight"
-        description="Submit insight description">
+        description="Submit insight description"
+      >
         <div className="p-submit-insight">
           <div className="c-page">
             <section className="l-section -header">
@@ -72,4 +76,14 @@ SubmitInsight.propTypes = {
   getStaticData: React.PropTypes.func
 };
 
-export default SubmitInsight;
+const mapStateToProps = state => ({
+  data: state.staticPages.submitInsight
+});
+
+const mapDispatchToProps = dispatch => ({
+  getStaticData: (slug, ref) => {
+    dispatch(getStaticData(slug, ref));
+  }
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(SubmitInsight)

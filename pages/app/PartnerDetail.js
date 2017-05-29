@@ -1,6 +1,9 @@
 import React from 'react';
 import Banner from 'components/app/common/Banner';
 import Page from 'components/app/layout/Page';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+import { getPartnerData } from 'redactions/partnerDetail';
 
 class PartnerDetail extends React.Component {
   componentWillMount() {
@@ -88,4 +91,12 @@ PartnerDetail.defaultProps = {
   data: {}
 };
 
-export default PartnerDetail;
+const mapStateToProps = state => ({
+  data: state.partnerDetail.data
+});
+
+const mapDispatchToProps = dispatch => ({
+  getPartnerData: (id) => { dispatch(getPartnerData(id)); }
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(PartnerDetail)

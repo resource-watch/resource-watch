@@ -1,6 +1,7 @@
 import React from 'react';
 import { initStore } from 'store';
-import { getPartners } from 'redactions/partners';
+import { getStaticData } from 'redactions/static_pages';
+import withRedux from 'next-redux-wrapper';
 import Page from 'components/app/layout/Page';
 
 class SignUp extends React.Component {

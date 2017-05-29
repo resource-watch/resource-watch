@@ -1,19 +1,22 @@
 import React from 'react';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 import classNames from 'classnames';
+import { getDataset, resetDataset, getSimilarDatasets, toggleLayerShown } from 'redactions/exploreDetail';
 
 // Components
 import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Button from 'components/ui/Button';
 import Icon from 'components/ui/Icon';
-import DatasetList from 'components/explore/DatasetList';
+import DatasetList from 'components/app/explore/DatasetList';
 import Spinner from 'components/ui/Spinner';
-import Sidebar from 'containers/explore/Sidebar';
-import Map from 'containers/explore/Map';
+import Sidebar from 'components/app/layout/Sidebar';
+import Map from 'components/vis/Map';
 import Legend from 'components/ui/Legend';
 import LayerManager from 'utils/layers/LayerManager';
 import ConfigurableWidget from 'components/explore/ConfigurableWidget';
-import getQueryByFilters from 'rw-components/dist/utils/getQueryByFilters';
+import getQueryByFilters from 'utils/getQueryByFilters';
 import DatasetService from 'rw-components/dist/services/DatasetService';
 
 const breadcrumbs = [
@@ -314,4 +317,9 @@ ExploreDetail.propTypes = {
   toggleLayerShown: React.PropTypes.func
 };
 
-export default ExploreDetail;
+const mapStateToProps = state => ({
+  exploreDetail: state.exploreDetail,
+  layersShown: updateLayersShown(state)
+});
+
+export default withRedux(initStore, mapStateToProps, { getDataset, resetDataset, getSimilarDatasets, toggleLayerShown })(ExploreDetail)

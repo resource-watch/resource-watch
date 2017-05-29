@@ -3,6 +3,9 @@ import { Link } from 'next';
 import Banner from 'components/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Page from 'components/app/layout/Page';
+import { initStore } from 'store';
+import { getStaticData } from 'redactions/static_pages';
+import withRedux from 'next-redux-wrapper';
 
 const breadcrumbs = [
   {
@@ -75,4 +78,14 @@ JoinCommunity.propTypes = {
   getStaticData: React.PropTypes.func
 };
 
-export default JoinCommunity;
+const mapStateToProps = state => ({
+  data: state.staticPages.joinCommunity
+});
+
+const mapDispatchToProps = dispatch => ({
+  getStaticData: (slug, ref) => {
+    dispatch(getStaticData(slug, ref));
+  }
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(JoinCommunity)

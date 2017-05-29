@@ -11,7 +11,8 @@
           "redactions": "./redactions",
           "utils": "./utils",
           "selectors": "./selectors",
-          "static": "./static"
+          "static": "./static",
+          "services": "./services"
         }
       }
     ],
