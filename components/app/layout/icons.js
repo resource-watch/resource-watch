@@ -4,7 +4,7 @@ export default class Icons extends React.Component {
 
   render() {
     return (
-      <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <svg style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }} version="1.1" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <symbol id="icon-arrow-down" viewBox="0 0 24 24">
             <title>arrow-down</title>
