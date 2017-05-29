@@ -1,0 +1,28 @@
+$tooltip-arrow-size: 10px;
+.c-tooltip-global {
+  position: fixed;
+  background-color: $color-white;
+  border-radius: 2px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, .2);
+  padding: 10px;
+  z-index: 10001;
+  transform: translate(-50%, calc(-100% - 10px));
+  pointer-events: none;
+
+  &.-hidden {
+    display: none;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    background: $color-white;
+    width: $tooltip-arrow-size;
+    height: $tooltip-arrow-size;
+    border-right: 1px solid $border-color-2;
+    border-bottom: 1px solid $border-color-2;
+    transform: translate(-50%, $tooltip-arrow-size/2) rotate(45deg);
+  }
+}

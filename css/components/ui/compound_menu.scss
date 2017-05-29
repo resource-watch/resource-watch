@@ -1,0 +1,41 @@
+$item-color: $color-charcoal-grey;
+$hover-color: $color-secondary;
+
+.c-compound-menu {
+  display: flex;
+
+  .submenu {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+
+    .item {
+      list-style: none;
+
+      &.title {
+        h3 {
+          margin: 0;
+          margin-bottom: 7px;
+        }
+
+        a {
+          font-size: $font-size-huger;
+          font-weight: 300;
+          line-height: 1.38;
+          opacity: 1;
+        }
+      }
+
+      a {
+        font-size: $font-size-big;
+        font-weight: normal;
+        line-height: 1.62;
+        color: $item-color;
+        opacity: .5;
+
+        &:hover { color: $hover-color; }
+      }
+    }
+  }
+}
