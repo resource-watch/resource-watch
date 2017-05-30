@@ -27,6 +27,7 @@ export default class Head extends React.Component {
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="Vizzuality" />
+        <link rel="icon" href="/static/favicon.ico" />
         {stylesheet}
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
       </HeadNext>
