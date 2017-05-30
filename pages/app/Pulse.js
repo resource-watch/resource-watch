@@ -7,8 +7,8 @@ import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
 // Components
 import Globe from 'components/vis/Globe';
 import LayerNav from 'components/app/pulse/LayerNav';
-import Legend from 'components/app/pulse/Legend';
-import LayerDescription from 'components/app/pulse/LayerDescription';
+import LayerCard from 'components/app/pulse/LayerCard';
+
 import Spinner from 'components/ui/Spinner';
 import ZoomControl from 'components/ui/ZoomControl';
 import GlobeTooltip from 'components/app/pulse/GlobeTooltip';
@@ -206,6 +206,8 @@ class Pulse extends React.Component {
   }
 
   render() {
+    const { pathname, layersGroup } = this.props;
+    const layerActive = this.props.pulse.layerActive;
     const { markerType } = this.state;
     const globeWidht = (typeof window === 'undefined') ? 500 : window.innerWidth;
     const globeHeight = (typeof window === 'undefined') ? 300 : window.innerHeight - 130; // TODO: 130 is the header height
@@ -213,20 +215,17 @@ class Pulse extends React.Component {
       <Page
         title="Planet Pulse"
         description="Planet Pulse description"
-        pathname={this.props.pathname}
+        pathname={pathname}
       >
         <div
           className="c-page -dark"
         >
           <LayerNav
-            layerActive={this.props.layerActive}
-            layersGroup={this.props.layersGroup}
+            layerActive={layerActive}
+            layersGroup={layersGroup}
           />
-          <Legend
-            layerActive={this.props.layerActive}
-          />
-          <LayerDescription
-            layerActive={this.props.layerActive}
+          <LayerCard
+            layerActive={layerActive}
           />
           <Spinner
             isLoading={this.state.loading}
