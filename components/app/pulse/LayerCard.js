@@ -5,7 +5,6 @@ import { Link } from 'routes';
 
 function LayerCard(props) {
   const { layerActive } = props;
-  console.log('layerActive', layerActive);
 
   const className = classNames({
     'c-layer-card': true,
