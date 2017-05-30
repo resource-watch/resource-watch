@@ -9,7 +9,7 @@ class LegendType extends React.Component {
         const items = config.items;
 
         return (
-          <div className={`type -${process.env.type}`}>
+          <div className={`type -${config.type}`}>
             <div className="type-list">
               {items.map(item => (
                 <div className="type-list-item" key={`type-list-item-${item.value || item.name}`}>
@@ -29,7 +29,7 @@ class LegendType extends React.Component {
         const values = [items[0], items[items.length - 1]];
 
         return (
-          <div className={`type -${process.env.type}`}>
+          <div className={`type -${config.type}`}>
             <div className="type-list">
               <div className="type-list-item" style={{ width: '100%', backgroundImage: `linear-gradient(to right, ${gradient.join(',')})` }}>
                 <span className="color" />
@@ -49,7 +49,7 @@ class LegendType extends React.Component {
 
       case 'choropleth': {
         return (
-          <div className={`type -${process.env.type}`}>
+          <div className={`type -${config.type}`}>
             <div className="type-list">
               {config.items.map(item => (
                 <div

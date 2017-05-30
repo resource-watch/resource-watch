@@ -16,7 +16,7 @@ class Legend extends React.Component {
                   </h3>
                 </header>
                 <LegendType
-                  config={this.props.layerActive.legendConfig}
+                  config={this.props.layerActive.attributes.legendConfig}
                   className={this.props.className}
                 />
               </li>

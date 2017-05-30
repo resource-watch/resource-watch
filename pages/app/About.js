@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'next/link';
+import Link from 'routes';
 import Banner from 'components/app/common/Banner';
 import Intro from 'components/app/common/Intro';
 import Page from 'components/app/layout/Page';

@@ -44,6 +44,7 @@ routes.add('vocabularies', '/admin/vocabularies', 'admin/vocabularies');
 routes.add('home', '/home', 'app/Home');
 routes.add('about', '/about', 'app/About');
 routes.add('explore', '/explore', 'app/Explore');
+routes.add('explore_detail', '/explore/:id', 'app/ExploreDetail');
 routes.add('get_involved', '/get-involved', 'app/GetInvolved');
 routes.add('about_partners', '/about_partners', 'app/Partners');
 routes.add('pulse', '/pulse', 'app/Pulse');
