@@ -15,9 +15,9 @@ import Sidebar from 'components/app/layout/Sidebar';
 import Map from 'components/vis/Map';
 import Legend from 'components/ui/Legend';
 import LayerManager from 'utils/layers/LayerManager';
-import ConfigurableWidget from 'components/explore/ConfigurableWidget';
+import ConfigurableWidget from 'components/app/explore/ConfigurableWidget';
 import getQueryByFilters from 'utils/getQueryByFilters';
-import DatasetService from 'rw-components/dist/services/DatasetService';
+import DatasetService from 'services/DatasetService';
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
