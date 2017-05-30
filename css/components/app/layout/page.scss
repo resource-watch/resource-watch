@@ -1,0 +1,9 @@
+.c-page {
+  position: relative;
+  background: $color-white;
+  min-height: calc(100vh - 130px);
+
+  &.-dark {
+    background-color: #242426;
+  }
+}

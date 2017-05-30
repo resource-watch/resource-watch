@@ -1,0 +1,19 @@
+.c-layer-description {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba($color-black, 0.3);
+  color: $color-white;
+  text-align: center;
+  padding: 20px 0;
+
+  .layer-description-container {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  p {
+    margin: 0;
+  }
+}

@@ -1,0 +1,21 @@
+.c-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+  padding-top: 70px;
+  padding-bottom: 70px;
+
+  &.intro {
+    padding-top: 190px;
+    padding-bottom: 160px;
+  }
+
+  &.-light * { color: $color-white; }
+
+  &.-left { align-items: flex-start; }
+  &.-rigth { align-items: flex-end; }
+}

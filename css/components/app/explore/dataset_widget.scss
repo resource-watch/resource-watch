@@ -1,0 +1,53 @@
+.c-dataset-list-item {
+  background: $color-tertiary;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+
+  .info {
+    background: $color-white;
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .detail {
+      padding: 16px;
+
+      p {
+        margin-top: 20px 0 0;
+        word-break: break-word;
+      }
+    }
+
+    .actions {
+      margin: 0 5px 5px;
+    }
+  }
+
+  &.-list {
+
+    .info {
+      flex-direction: row;
+
+      .detail {
+        padding-left: 0px;
+        max-width: calc(100% - 150px);
+      }
+    }
+
+    .actions {
+      margin-top: 10px;
+      margin-right: 0px;
+      min-width: 145px;
+    }
+  }
+
+  &.-grid {
+    border: 1px solid $border-color-1;
+
+    .info {
+      flex-direction: column;
+    }
+  }
+}

@@ -7,10 +7,14 @@
         "root": ["."],
         "alias": {
           "css": "./css",
-          "components": "./components"
-        },
-        "cwd": "babelrc"
-      }     
+          "components": "./components",
+          "redactions": "./redactions",
+          "utils": "./utils",
+          "selectors": "./selectors",
+          "static": "./static",
+          "services": "./services"
+        }
+      }
     ],
     [
       "wrap-in-js",

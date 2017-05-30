@@ -210,11 +210,7 @@ export default class CustomTable extends React.Component {
         filteredBySearch = row[search.field].toString().toLowerCase().includes(search.value.toString().toLowerCase());
       }
 
-      const filteredByQuery = Object.keys(columnQueries).map((field) => {
-        return columnQueries[field].map((val) => {
-          return row[field].toString().toLowerCase() === val.toString().toLowerCase();
-        }).some(match => match);
-      }).every(match => match);
+      const filteredByQuery = Object.keys(columnQueries).map(field => columnQueries[field].map(val => row[field].toString().toLowerCase() === val.toString().toLowerCase()).some(match => match)).every(match => match);
 
       return filteredByQuery && filteredBySearch;
     });

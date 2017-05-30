@@ -1,0 +1,59 @@
+.c-layer-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  // List
+  .layer-nav-list {
+    display: flex;
+    justify-content: flex-start;
+    padding: 0;
+    margin: 30px 0 0;
+    list-style: none;
+
+    > li {
+      position: relative;
+      margin: 0 24px 0 0;
+      &:last-child { margin: 0; }
+
+      // NAME
+      > .name {
+        display: inline-block;
+        text-transform: uppercase;
+        color: $color-white;
+        font-size: $font-size-default;
+        padding: 14px;
+        border-radius: 3px;
+        border: 1px solid transparent;
+
+        &:after {
+          content: "";
+          width: 0;
+          height: 0;
+        }
+      }
+
+      // DROPDOWN
+      > .dropdown {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      &:hover {
+        // DROPDOWN
+        > .dropdown {
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+
+      &.-active {
+        // NAME
+        > .name {
+          border-color: rgba($color-white, .2);
+        }
+      }
+    }
+  }
+}

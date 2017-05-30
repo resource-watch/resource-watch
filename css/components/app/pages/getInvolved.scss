@@ -1,0 +1,38 @@
+
+.p-get-involved {
+  // Page banners backgrounds
+  .c-banner {
+    &.intro {
+      background-position: top center;
+    }
+
+    &.partners {
+      background-image: url('static/images/backgrounds/partners-02@2x.jpg');
+      background-position: top center;
+    }
+
+    .c-btn {
+      color: $color-primary;
+
+      & * { color: $color-primary; }
+    }
+  }
+
+  .cards {
+    .column {
+      height: 400px;
+      padding-bottom: 20px;
+
+      &:nth-child(odd) {
+        padding-right: 20px;
+      }
+
+      .c-card-static {
+        &.insights { background: url('static/images/backgrounds/jellyfish.jpg'); }
+        &.contribute { background: $color-primary url('static/images/components/layout/header-bg-texture.png') no-repeat center; }
+        &.join { background: $color-secondary; }
+        &.develop { background: url('static/images/backgrounds/develop_app.jpg'); }
+      }
+    }
+  }
+}

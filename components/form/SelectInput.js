@@ -38,17 +38,16 @@ class SelectInput extends FormElement {
           onChange={this.triggerChange}
         />
       );
-    } else {
-      return (
-        <Creatable
-          {...properties}
-          options={options}
-          id={`select-${properties.name}`}
-          value={this.state.value}
-          onChange={this.triggerChange}
-        />
-      );
     }
+    return (
+      <Creatable
+        {...properties}
+        options={options}
+        id={`select-${properties.name}`}
+        value={this.state.value}
+        onChange={this.triggerChange}
+      />
+    );
   }
 }
 

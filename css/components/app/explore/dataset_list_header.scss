@@ -1,0 +1,28 @@
+.c-dataset-list-header {
+  display: flex;
+  justify-content: space-between;
+
+  .total {
+    margin-top: 12px;
+    margin-left: 6px;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  button{
+
+    fill: $color-grey;
+
+    &:hover {
+      fill: $color-black;
+    }
+
+    &.-active {
+      fill: $color-black;
+    }
+
+  }
+}

@@ -1,50 +1,50 @@
 const line = {
-  "width": 500,
-  "height": 200,
-  "padding": {"top": 10, "left": 30, "bottom": 30, "right": 10},
-  "data": [
+  width: 500,
+  height: 200,
+  padding: { top: 10, left: 30, bottom: 30, right: 10 },
+  data: [
     {
-      "name": "table"
+      name: 'table'
     }
   ],
-  "scales": [
+  scales: [
     {
-      "name": "x",
-      "type": "linear",
-      "range": "width",
-      "zero": false,
-      "domain": {"data": "table", "field": "x"}
+      name: 'x',
+      type: 'linear',
+      range: 'width',
+      zero: false,
+      domain: { data: 'table', field: 'x' }
     },
     {
-      "name": "y",
-      "type": "linear",
-      "range": "height",
-      "nice": true,
-      "domain": {"data": "table", "field": "y"}
+      name: 'y',
+      type: 'linear',
+      range: 'height',
+      nice: true,
+      domain: { data: 'table', field: 'y' }
     }
   ],
-  "axes": [
-    {"type": "x", "scale": "x", "ticks": 20},
-    {"type": "y", "scale": "y"}
+  axes: [
+    { type: 'x', scale: 'x', ticks: 20 },
+    { type: 'y', scale: 'y' }
   ],
-  "marks": [
+  marks: [
     {
-      "type": "line",
-      "from": {"data": "table"},
-      "properties": {
-        "enter": {
-          "interpolate": {"value": "monotone"},
-          "x": {"scale": "x", "field": "x"},
-          "y": {"scale": "y", "field": "y"},
-          "y2": {"scale": "y", "value": 0},
-          "fill": {"value": "transparent"},
-          "stroke": {"value": "steelblue"}
+      type: 'line',
+      from: { data: 'table' },
+      properties: {
+        enter: {
+          interpolate: { value: 'monotone' },
+          x: { scale: 'x', field: 'x' },
+          y: { scale: 'y', field: 'y' },
+          y2: { scale: 'y', value: 0 },
+          fill: { value: 'transparent' },
+          stroke: { value: 'steelblue' }
         },
-        "update": {
-          "fillOpacity": {"value": 1}
+        update: {
+          fillOpacity: { value: 1 }
         },
-        "hover": {
-          "fillOpacity": {"value": 0.5}
+        hover: {
+          fillOpacity: { value: 0.5 }
         }
       }
     }

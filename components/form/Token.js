@@ -13,9 +13,7 @@ class Token extends FormElement {
       value: this.props.properties.default,
       items: this.props.options || [],
       options: this.props.options || [],
-      selected: this.props.properties.default.map((s) => {
-        return { id: s, name: s };
-      }),
+      selected: this.props.properties.default.map(s => ({ id: s, name: s })),
       valid: null,
       error: []
     };
@@ -93,7 +91,7 @@ class Token extends FormElement {
     }
 
     // Define a RegExp
-    const regExp = new RegExp('^' + userInput, 'i');
+    const regExp = new RegExp(`^${userInput}`, 'i');
 
     const filteredNames = items.filter(option =>
       regExp.test(option.label) || regExp.test(option.value)
@@ -114,12 +112,12 @@ class Token extends FormElement {
   renderComboboxOptions() {
     const { options } = this.state;
     return options.map(option =>
-      <Option
+      (<Option
         key={option.value}
         value={option.label}
       >
         {option.label}
-      </Option>
+      </Option>)
     );
   }
 

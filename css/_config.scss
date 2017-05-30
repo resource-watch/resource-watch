@@ -13,8 +13,8 @@ $small-screen: 320px;
 
 $max-width: 1040px;
 
+$fullscreen-margin: 24px;
 $space-1: 8px;
-
 
 $max-width-modal: 1040px;
 $max-width-modal-medium: 900px;
@@ -29,14 +29,20 @@ $color-secondary: #3bb2d0;
 $color-tertiary: #f4f5f6;
 $color-white: #fff;
 $color-black: #000;
-$color-gray: #e3e4e6;
+$color-pale-grey: #f4f5f6;
+$battleship-grey: #6c7379;
+$color-dark-grey: #9aa2a9;
+$color-grey: #e3e4e6;
+$color-charcoal-grey: #393f44;
+$color-silver: #b9bfc4;
 $color-mid-grey: #b9bfc4;
 $color-red: #e23035;
 $color-green: #65b60d;
 $color-mango: #fab72e;
+$color-dark-pink: #c32d7b;
+$color-text-headers: $color-charcoal-grey;
 
 $color-error: $color-red;
-
 
 $color-text-1: #393f44;
 $color-text-2: #999ba1;
@@ -53,6 +59,10 @@ $font-size-default:       14px;
 $font-size-big:           16px;
 $font-size-extra-big:     18px;
 $font-size-huge:          22px;
+$font-size-huger:         26px;
+$font-size-header-normal: 38px;
+$font-size-header-big:    48px;
+$font-size-header-huge:   64px;
 
 // Weights
 $font-weight-light: 300;
@@ -61,6 +71,7 @@ $font-weight-bold: 700;
 
 // Theme
 $bg-color-1: $color-white;
+$bg-color-2: $color-pale-grey;
 
 // Text
 $base-font-color: $color-text-1;

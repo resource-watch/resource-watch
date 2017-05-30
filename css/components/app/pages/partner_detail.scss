@@ -1,0 +1,33 @@
+.c-page.partner-detail {
+  .c-banner {
+    &.intro {
+      background-image: url('static/images/backgrounds/bitmap.jpg');
+      background-position: top center;
+
+      .title {
+        margin-bottom: 40px;
+        letter-spacing: 3px;
+      }
+
+      .logo-container {
+        display: inline-block;
+        margin-bottom: 80px;
+        padding: 15px 20px;
+      }
+
+      .description {
+        padding: 0 150px;
+        text-align: left;
+      }
+    }
+
+    &.learn-more {
+      background-image: url('static/images/backgrounds/jellyfish.jpg');
+      background-position: top center;
+
+      .c-btn {
+        padding: rem(15) rem(30);
+      }
+    }
+  }
+}
