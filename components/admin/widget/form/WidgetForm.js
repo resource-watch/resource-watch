@@ -127,6 +127,7 @@ class WidgetForm extends React.Component {
             ref={(c) => { this.step = c; }}
             onChange={value => this.onChange(value)}
             form={this.state.form}
+            dataset={this.state.dataset}
           />
         }
 

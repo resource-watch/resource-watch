@@ -6,6 +6,7 @@ import Page from 'components/admin/layout/page';
 export default class WidgetEdit extends React.Component {
 
   static async getInitialProps({ query }) {
+    console.log('query', query);
     const datasetID = query.id;
     const widgetID = query.widget_id;
     return { datasetID, widgetID };

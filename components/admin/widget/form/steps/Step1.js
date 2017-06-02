@@ -5,11 +5,15 @@ import { FORM_ELEMENTS } from '../constants';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Textarea from 'components/form/TextArea';
-import Code from 'components/form/Code';
 import Checkbox from 'components/form/Checkbox';
+import WidgetConfigurator from 'components/app/explore/WidgetConfigurator';
 
 class Step1 extends React.Component {
+
   render() {
+    const { dataset } = this.props;
+    //console.log('dataset', dataset);
+
     return (
       <fieldset className="c-field-container">
         {!this.props.form.authorization &&
@@ -113,18 +117,9 @@ class Step1 extends React.Component {
           {Input}
         </Field>
 
-        <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.widgetConfig = c; }}
-          onChange={value => this.props.onChange({ widgetConfig: value })}
-          properties={{
-            name: 'widgetConfig',
-            label: 'Widget config',
-            type: 'textarea',
-            default: this.props.form.widgetConfig
-          }}
-        >
-          {Code}
-        </Field>
+        <WidgetConfigurator
+          dataset={dataset}
+        />
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.default = c; }}

@@ -3,7 +3,7 @@ import sortBy from 'lodash/sortBy';
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 // Actions
-import EditAction from 'components/ui/customtable/actions/EditAction';
+import EditAction from 'components/admin/widget/table/actions/EditAction';
 import DeleteAction from 'components/ui/customtable/actions/DeleteAction';
 
 class WidgetTable extends React.Component {

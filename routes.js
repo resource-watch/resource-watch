@@ -6,6 +6,7 @@ const routes = module.exports = nextRoutes();
 // ========================= ADMIN ROUTES =====================
 
 // ----- DATASET --------
+routes.add('admin_home', '/admin', 'admin/dataset');
 routes.add('datasets', '/admin/datasets', 'admin/dataset');
 routes.add('edit_dataset', '/admin/datasets/:id/edit', 'admin/dataset/edit');
 routes.add('new_dataset', '/admin/datasets/new', 'admin/dataset/new');

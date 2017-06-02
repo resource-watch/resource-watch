@@ -2183,6 +2183,16 @@
       "from": "diffie-hellman@>=5.0.0 <6.0.0",
       "resolved": "https://registry.npmjs.org/diffie-hellman/-/diffie-hellman-5.0.2.tgz"
     },
+    "disposables": {
+      "version": "1.0.1",
+      "from": "disposables@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/disposables/-/disposables-1.0.1.tgz"
+    },
+    "dnd-core": {
+      "version": "2.4.0",
+      "from": "dnd-core@>=2.4.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/dnd-core/-/dnd-core-2.4.0.tgz"
+    },
     "doctrine": {
       "version": "1.5.0",
       "from": "doctrine@>=1.2.2 <2.0.0",
@@ -6011,6 +6021,23 @@
       "version": "2.0.1",
       "from": "react-deep-force-update@>=2.0.1 <3.0.0",
       "resolved": "https://registry.npmjs.org/react-deep-force-update/-/react-deep-force-update-2.0.1.tgz"
+    },
+    "react-dnd": {
+      "version": "2.4.0",
+      "from": "react-dnd@latest",
+      "resolved": "https://registry.npmjs.org/react-dnd/-/react-dnd-2.4.0.tgz",
+      "dependencies": {
+        "prop-types": {
+          "version": "15.5.10",
+          "from": "prop-types@>=15.5.8 <16.0.0",
+          "resolved": "https://registry.npmjs.org/prop-types/-/prop-types-15.5.10.tgz"
+        }
+      }
+    },
+    "react-dnd-html5-backend": {
+      "version": "2.4.1",
+      "from": "react-dnd-html5-backend@latest",
+      "resolved": "https://registry.npmjs.org/react-dnd-html5-backend/-/react-dnd-html5-backend-2.4.1.tgz"
     },
     "react-dom": {
       "version": "15.4.2",

@@ -1,9 +1,10 @@
 import React from 'react';
-import Jiminy from 'jiminy';
+import { Autobind } from 'es-decorators';
 
 // Components
 import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
+import DatasetService from 'services/DatasetService';
 
 const chartConfig = [
   {
@@ -122,6 +123,7 @@ class WidgetConfigurator extends React.Component {
     super(props);
 
     this.state = {
+      dataset: {},
       chartTypeOptions: [], // Chart types available
       allColumns: [],
       xAxisOptions: [],
@@ -134,15 +136,7 @@ class WidgetConfigurator extends React.Component {
       }
     };
 
-    this.jiminy = new Jiminy(this.props.dataset, chartConfig);
-
-    // BINDINGS
-  }
-
-  componentWillMount() {
-    if (this.props.dataset.length) {
-      this.getChartTypeOptions();
-    }
+    this.DatasetService = new DatasetService(this.props.dataset, { apiURL: process.env.WRI_API_URL });
   }
 
   onChartTypeChanged(value) {
@@ -157,6 +151,20 @@ class WidgetConfigurator extends React.Component {
       xAxisOptions: allColumnsArray,
       yAxisOptions: allColumnsArray
     });
+  }
+
+  getFieldOptions(el) {
+    return this.state[`${el.name}Options`].map(option => ({ label: option, value: option }));
+  }
+
+  componentDidMount() {
+    this.setState({ loading: true });
+    this.DatasetService.fetchData().then(
+      (response) => {
+
+
+    });
+    this.loadDataset(this.props.dataset);
   }
 
   getChartTypeOptions() {
@@ -198,9 +206,6 @@ class WidgetConfigurator extends React.Component {
     }
   }
 
-  getFieldOptions(el) {
-    return this.state[`${el.name}Options`].map(option => ({ label: option, value: option }));
-  }
 
   render() {
     const { chartTypeOptions } = this.state;
@@ -251,7 +256,7 @@ class WidgetConfigurator extends React.Component {
 }
 
 WidgetConfigurator.propTypes = {
-  dataset: React.PropTypes.array.isRequired,
+  dataset: React.PropTypes.string.isRequired,
   // functions
   onSelectionChange: React.PropTypes.func.isRequired
 };
