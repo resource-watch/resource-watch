@@ -61,7 +61,7 @@ class JoinCommunity extends React.Component {
                     We have a massive opportunity<br />to build a sustainable society
                   </h3>
                   <button className="c-btn -primary -filled">
-                    <Link to="/about/partners">Partners list</Link>
+                    <Link route="about_partners"><a>Partners list</a></Link>
                   </button>
                 </Banner>
               </div>

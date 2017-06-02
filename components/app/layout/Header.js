@@ -77,7 +77,7 @@ class Header extends React.Component {
                 route="explore"
                 onClick={e => this.toggleDataDropdown(e, 'dataDropdownActive', false)}
               >
-                Explore Datasets
+                <a>Explore Datasets</a>
               </Link>
             </li>
             <li>
@@ -85,7 +85,7 @@ class Header extends React.Component {
                 route="dashboards"
                 onClick={e => this.toggleDataDropdown(e, 'dataDropdownActive', false)}
               >
-                Dashboards
+                <a>Dashboards</a>
               </Link>
             </li>
             <li>
@@ -93,7 +93,7 @@ class Header extends React.Component {
                 route="pulse"
                 onClick={e => this.toggleDataDropdown(e, 'dataDropdownActive', false)}
               >
-                Planet Pulse
+                <a>Planet Pulse</a>
               </Link>
             </li>
             <li>
@@ -101,7 +101,7 @@ class Header extends React.Component {
                 route="get_involved"
                 onClick={e => this.toggleDataDropdown(e, 'dataDropdownActive', false)}
               >
-                Explore Tools
+                <a>Explore Tools</a>
               </Link>
             </li>
           </ul>
@@ -136,7 +136,7 @@ class Header extends React.Component {
                 route="about"
                 onClick={e => this.toggleDataDropdown(e, 'aboutDropdownActive', false)}
               >
-                About
+                <a>About</a>
               </Link>
             </li>
             <li>
@@ -144,7 +144,7 @@ class Header extends React.Component {
                 route="about_partners"
                 onClick={e => this.toggleDataDropdown(e, 'aboutDropdownActive', false)}
               >
-                Partners
+                <a>Partners</a>
               </Link>
             </li>
           </ul>

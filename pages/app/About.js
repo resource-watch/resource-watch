@@ -44,7 +44,7 @@ class About extends React.Component {
                 <Banner className="partners">
                   <h3 className="c-text -header-normal -normal">We have a massive opportunity<br />to build a sustainable society</h3>
                   <button className="c-btn -primary -filled">
-                    <Link href="about_partners">Partners list</Link>
+                    <Link href="about_partners"><a>Partners list</a></Link>
                   </button>
                 </Banner>
               </div>

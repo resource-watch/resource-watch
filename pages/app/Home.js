@@ -226,17 +226,17 @@ class Home extends React.Component {
               <div className="row">
                 <div className="column small-12 medium-3">
                   <button className="c-btn -transparent">
-                    <Link to="/get-involved/contribute-data">Contribute data</Link>
+                    <Link route="contribute_data"><a>Contribute data</a></Link>
                   </button>
                 </div>
                 <div className="column small-12 medium-3">
                   <button className="c-btn -transparent">
-                    <Link to="/get-involved/join-community">Join the community</Link>
+                    <Link route="get_involved"><a>Join the community</a></Link>
                   </button>
                 </div>
                 <div className="column small-12 medium-3">
                   <button className="c-btn -transparent">
-                    <Link to="/get-involved/submit-insight">Submit an insight</Link>
+                    <Link route="submit_insight"><a>Submit an insight</a></Link>
                   </button>
                 </div>
                 <div className="column small-12 medium-3">

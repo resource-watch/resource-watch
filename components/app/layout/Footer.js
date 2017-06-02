@@ -57,7 +57,7 @@ class Footer extends React.Component {
     return (
       <footer className="c-footer">
         <div className="footer-intro">
-          <h1 className="title"><Link to="/about/partners">Partners</Link></h1>
+          <h1 className="title"><Link to="/about/partners"><a>Partners</a></Link></h1>
           <div className="partners row">
             <div className="column small-12">
               {items.length ? <Carousel items={items} /> : ''}

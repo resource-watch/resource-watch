@@ -147,7 +147,7 @@ class DatasetWidget extends React.Component {
             {/* Title */}
             <Title className="-default -primary">
               <Link to={`/explore/${dataset.id}`}>
-                {dataset.attributes.name}
+                <a>{dataset.attributes.name}</a>
               </Link>
             </Title>
 
