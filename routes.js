@@ -46,13 +46,14 @@ routes.add('home', '/home', 'app/Home');
 routes.add('about', '/about', 'app/About');
 routes.add('explore', '/explore', 'app/Explore');
 routes.add('explore_detail', '/explore/:id', 'app/ExploreDetail');
-routes.add('get_involved', '/get-involved', 'app/GetInvolved');
 routes.add('about_partners', '/about_partners', 'app/Partners');
 routes.add('pulse', '/pulse', 'app/Pulse');
 routes.add('dashboards', '/home', 'app/dashboards');
 routes.add('partner', '/about/partners/:id', 'app/PartnerDetail');
 // ----- GET INVOLVED -----
+routes.add('get_involved', '/get-involved', 'app/GetInvolved');
 routes.add('contribute_data', '/get-involved/contribute-data', 'app/ContributeData');
-routes.add('join_community', '/get-involved/join-community', 'app/ContributeData');
+routes.add('join_community', '/get-involved/join-community', 'app/JoinCommunity');
 routes.add('submit_insight', '/get-involved/submit-insight', 'app/SubmitInsight');
 routes.add('develop_app', '/get-involved/develop-app', 'app/DevelopApp');
+routes.add('apps', '/get-involved/apps', 'app/Apps');

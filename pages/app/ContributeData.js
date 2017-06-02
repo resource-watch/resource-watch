@@ -3,11 +3,14 @@ import { Link } from 'routes';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Page from 'components/app/layout/Page';
+import { initStore } from 'store';
+import { getStaticData } from 'redactions/static_pages';
+import withRedux from 'next-redux-wrapper';
 
 const breadcrumbs = [
   {
     name: 'Get Involved',
-    url: '/get-involved'
+    url: 'get_involved'
   }
 ];
 
@@ -56,7 +59,7 @@ class ContributeData extends React.Component {
                 <Banner className="partners">
                   <h3 className="c-text -header-normal -normal">We have a massive opportunity<br />to build a sustainable society</h3>
                   <button className="c-btn -primary -filled">
-                    <Link to="/about/partners">Partners list</Link>
+                    <Link route="about_partners"><a>Partners list</a></Link>
                   </button>
                 </Banner>
               </div>
@@ -73,4 +76,14 @@ ContributeData.propTypes = {
   getStaticData: React.PropTypes.func
 };
 
-export default ContributeData;
+const mapStateToProps = state => ({
+  data: state.staticPages.contributeData
+});
+
+const mapDispatchToProps = dispatch => ({
+  getStaticData: (slug, ref) => {
+    dispatch(getStaticData(slug, ref));
+  }
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ContributeData)

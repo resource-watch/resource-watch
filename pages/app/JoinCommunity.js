@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'next';
-import Banner from 'components/common/Banner';
+import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Page from 'components/app/layout/Page';
 import { initStore } from 'store';
@@ -10,7 +10,7 @@ import withRedux from 'next-redux-wrapper';
 const breadcrumbs = [
   {
     name: 'Get Involved',
-    url: '/get-involved'
+    url: 'get_involved'
   }
 ];
 

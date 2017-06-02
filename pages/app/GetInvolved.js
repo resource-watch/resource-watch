@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'routes';
+import { Link } from 'routes';
 import withRedux from 'next-redux-wrapper';
 import { getStaticData } from 'redactions/static_pages';
 import { initStore } from 'store';
@@ -16,7 +16,7 @@ const cards = [
     buttons: [
       {
         text: 'Submit an insight',
-        path: '/get-involved/submit-insight',
+        path: 'submit_insight',
         className: '-filled'
       }
     ],
@@ -29,7 +29,7 @@ const cards = [
     buttons: [
       {
         text: 'Contribute data',
-        path: '/get-involved/contribute-data',
+        path: 'contribute_data',
         className: '-filled'
       }
     ],
@@ -42,7 +42,7 @@ const cards = [
     buttons: [
       {
         text: 'Join the community',
-        path: '/get-involved/join-community',
+        path: 'join_community',
         className: '-filled'
       }
     ],
@@ -55,12 +55,12 @@ const cards = [
     buttons: [
       {
         text: 'Develop your app',
-        path: '/get-involved/develop-app',
+        path: 'develop_app',
         className: '-filled'
       },
       {
         text: 'Apps gallery',
-        path: '/get-involved/apps',
+        path: 'apps',
         className: '-transparent -secondary'
       }
     ],
@@ -97,7 +97,7 @@ class GetInvolved extends React.Component {
           <div className="buttons">
             {c.buttons.map((b, j) => (
               <button key={j} className={`c-btn ${b.className}`}>
-                <Link to={b.path}>{b.text}</Link>
+                <Link route={b.path}><a>{b.text}</a></Link>
               </button>
             ))}
           </div>

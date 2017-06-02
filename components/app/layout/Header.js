@@ -156,7 +156,7 @@ class Header extends React.Component {
       { name: dataDropDown },
       { name: <a href="/insights">Insights</a> },
       { name: aboutDropDown },
-      { name: 'Get Involved', path: '/get-involved' }
+      { name: <Link route="get_involved"><a>Get Involved</a></Link> }
     ];
 
     const mainClass = this.props.fullScreen ? '-fullScreen' : '';

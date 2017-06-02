@@ -10,7 +10,7 @@ import withRedux from 'next-redux-wrapper';
 const breadcrumbs = [
   {
     name: 'Get Involved',
-    url: '/get-involved'
+    url: 'get_involved'
   }
 ];
 
@@ -59,7 +59,7 @@ class SubmitInsight extends React.Component {
                 <Banner className="partners">
                   <h3 className="c-text -header-normal -normal">We have a massive opportunity<br />to build a sustainable society</h3>
                   <button className="c-btn -primary -filled">
-                    <Link to="about_partners"><a>Partners list</a></Link>
+                    <Link route="about_partners"><a>Partners list</a></Link>
                   </button>
                 </Banner>
               </div>
