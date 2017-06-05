@@ -1,10 +1,13 @@
 import React from 'react';
 import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+import { addFilter } from 'redactions/widgetEditor';
 
 const boxTarget = {
-  drop() {
-
+  drop(props, monitor) {
+    props.addFilter(monitor.getItem());
   }
 }
 
@@ -52,7 +55,23 @@ class FilterContainer extends React.Component {
 FilterContainer.propTypes = {
   connectDropTarget: React.PropTypes.func.isRequired,
   isOver: React.PropTypes.bool.isRequired,
-  canDrop: React.PropTypes.bool.isRequired
+  canDrop: React.PropTypes.bool.isRequired,
+
+  // STORE
+  filters: React.PropTypes.array,
+
+  // ACTIONS
+  addFilter: React.PropTypes.func
 };
 
-export default FilterContainer;
+const mapStateToProps = state => ({
+  filters: state.filters
+});
+
+const mapDispatchToProps = dispatch => ({
+  addFilter: (filter) => {
+    dispatch(addFilter(filter));
+  }
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(FilterContainer);

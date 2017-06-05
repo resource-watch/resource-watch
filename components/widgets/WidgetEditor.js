@@ -5,6 +5,8 @@ import { DragDropContext } from 'react-dnd';
 import DatasetService from 'services/DatasetService';
 import ColumnBox from 'components/widgets/ColumnBox';
 import FilterContainer from 'components/widgets/FilterContainer';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 @DragDropContext(HTML5Backend)
 class WidgetEditor extends React.Component {

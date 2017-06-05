@@ -35,7 +35,7 @@ class ColumnBox extends React.Component {
 
   render() {
     const { isDragging, connectDragSource, name, type } = this.props;
-    const iconName = ( type === 'string' ) ? 'icon-type' : 'icon-hash';
+    const iconName = (type === 'string') ? 'icon-type' : 'icon-hash';
     const boxClass = classNames({
       'c-columnbox': true,
       '-dimmed': isDragging
