@@ -6,13 +6,11 @@ import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Textarea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
-import WidgetConfigurator from 'components/app/explore/WidgetConfigurator';
 
 class Step1 extends React.Component {
 
   render() {
     const { dataset } = this.props;
-    //console.log('dataset', dataset);
 
     return (
       <fieldset className="c-field-container">
@@ -116,10 +114,6 @@ class Step1 extends React.Component {
         >
           {Input}
         </Field>
-
-        <WidgetConfigurator
-          dataset={dataset}
-        />
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.default = c; }}

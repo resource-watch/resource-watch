@@ -1,23 +1,32 @@
 import React from 'react';
 
-import Step from '../../form/steps/Step1';
-import Title from '../../../ui/Title';
-import WidgetList from '../../../widget/WidgetList';
+import Title from 'components/ui/Title';
+import DatasetFilter from 'components/admin/dataset/DatasetFilter';
 
-class Step2 extends Step {
+class Step2 extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    // BINDINGS
+    this.triggerChange = this.triggerChange.bind(this);
+  }
+
+  triggerChange(obj) {
+    this.props.onChange(obj);
+  }
+
   render() {
-    const { wizard } = this.props;
+    const { dataset, wizard } = this.props;
     return (
       <fieldset className="c-field-container">
         <Title className="-primary -big">
-          Select a widget or create a new one
+          Filter your dataset
         </Title>
-        <WidgetList
-          ref={(c) => { if (c) this.children.push(c); }}
-          dataset={wizard.dataset}
-          selected={wizard.widget}
-          application={['rw']}
-          onChange={value => this.props.onChange({ widget: value })}
+        <DatasetFilter
+          dataset={dataset}
+          wizard={wizard}
+          onChange={this.triggerChange}
         />
       </fieldset>
     );
@@ -25,6 +34,7 @@ class Step2 extends Step {
 }
 
 Step2.propTypes = {
+  dataset: React.PropTypes.object,
   wizard: React.PropTypes.object,
   onChange: React.PropTypes.func
 };

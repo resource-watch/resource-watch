@@ -1,10 +1,10 @@
 import React from 'react';
 
-import DatasetService from '../../services/DatasetService';
-import getQueryByFilters from '../../utils/getQueryByFilters';
+import DatasetService from 'services/DatasetService';
+import getQueryByFilters from 'utils/getQueryByFilters';
 import DatasetFilterItem from './DatasetFilterItem';
-import Spinner from '../ui/Spinner';
-import Button from '../ui/Button';
+import Spinner from 'components/ui/Spinner';
+import Button from 'components/ui/Button';
 
 class DatasetFilter extends React.Component {
 

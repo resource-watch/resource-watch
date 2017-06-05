@@ -39,10 +39,6 @@
 @import "./components/vis/globe";
 @import "./components/vis/map";
 
-// Layout
-@import "./components/layout/header";
-@import "./components/layout/page";
-
 // Form
 @import "./components/form/form";
 @import "./components/form/field";
@@ -53,25 +49,30 @@
 @import "./components/form/select";
 @import "./components/form/token";
 
+// ================== ADMIN ======================
+
+// Layout
+@import "./components/admin/layout/header";
+@import "./components/admin/layout/page";
 
 // Datasets
-@import "./components/dataset/card";
-@import "./components/dataset/filter";
-@import "./components/dataset/filter-item";
-@import "./components/dataset/list";
-@import "./components/dataset/table";
+@import "./components/admin/dataset/card";
+@import "./components/admin/dataset/filter";
+@import "./components/admin/dataset/filter-item";
+@import "./components/admin/dataset/list";
+@import "./components/admin/dataset/table";
 
 // Widgets
-@import "./components/widget/card";
-@import "./components/widget/list";
-@import "./components/widget/chart";
-@import "./components/widget/widget_chart";
-@import "./components/widget/placeholder_chart";
-@import "./components/widget/layer_chart";
+@import "./components/admin/widget/card";
+@import "./components/admin/widget/list";
+@import "./components/admin/widget/chart";
+@import "./components/admin/widget/widget_chart";
+@import "./components/admin/widget/placeholder_chart";
+@import "./components/admin/widget/layer_chart";
 
 // Vocabularies
-@import "./components/vocabularies/vocabulary_item";
-@import "./components/vocabularies/vocabularies_form";
+@import "./components/admin/vocabularies/vocabulary_item";
+@import "./components/admin/vocabularies/vocabularies_form";
 
 // ================== APP ======================
 

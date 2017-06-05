@@ -164,7 +164,6 @@ class WidgetConfigurator extends React.Component {
 
 
     });
-    this.loadDataset(this.props.dataset);
   }
 
   getChartTypeOptions() {
