@@ -31,7 +31,7 @@ class DatasetWidgetChart extends React.Component {
   render() {
     const { name, widgetConfig } = this.state.widget;
 
-    console.log(name, `https://api.resourcewatch.org/v1/dataset/${this.state.widget.dataset}/widget/${this.state.widget.id}`);
+    console.log(name, `${process.env.WRI_API_URL}/dataset/${this.state.widget.dataset}/widget/${this.state.widget.id}`);
 
     return (
       <div className="c-widget-chart">

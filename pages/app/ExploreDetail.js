@@ -48,7 +48,7 @@ class ExploreDetail extends React.Component {
 
     // DatasetService
     this.datasetService = new DatasetService(this.props.params.id, {
-      apiURL: 'https://api.resourcewatch.org/v1'
+      apiURL: '${process.env.WRI_API_URL}'
     });
 
     // BINDINGS

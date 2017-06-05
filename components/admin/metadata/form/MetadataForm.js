@@ -33,7 +33,7 @@ class MetadataForm extends React.Component {
       this.setState({ loading: true });
 
       get({
-        url: `https://api.resourcewatch.org/v1/dataset/${this.state.datasetID}/?includes=metadata&cache=${Date.now()}`,
+        url: `${process.env.WRI_API_URL}/dataset/${this.state.datasetID}/?includes=metadata&cache=${Date.now()}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -86,7 +86,7 @@ class MetadataForm extends React.Component {
 
         post({
           type: (this.state.datasetID && isPresent) ? 'PATCH' : 'POST',
-          url: `https://api.resourcewatch.org/v1/dataset/${this.state.datasetID}/metadata`,
+          url: `${process.env.WRI_API_URL}/dataset/${this.state.datasetID}/metadata`,
           body: {
             application: this.state.form.application,
             // Remove unnecesary atributtes to prevent 'Unprocessable Entity error'

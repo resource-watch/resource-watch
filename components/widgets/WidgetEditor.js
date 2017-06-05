@@ -4,6 +4,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import DatasetService from 'services/DatasetService';
 import ColumnBox from 'components/widgets/ColumnBox';
+import FilterContainer from 'components/widgets/FilterContainer';
 
 @DragDropContext(HTML5Backend)
 class WidgetEditor extends React.Component {
@@ -23,7 +24,7 @@ class WidgetEditor extends React.Component {
     // BINDINGS
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.datasetService.getFields().then((response) => {
       this.setState({ fields: response });
     }).catch((error) => {
@@ -33,7 +34,6 @@ class WidgetEditor extends React.Component {
 
   render() {
     const { fields } = this.state;
-    console.log('fields', fields);
     return (
       <div className="c-widget-editor">
         <h2>Customize Visualization</h2>
@@ -43,10 +43,15 @@ class WidgetEditor extends React.Component {
         </div>
         <div className="fields">
           <h5>Columns</h5>
-          {fields && fields.fields && fields.fields.map(val =>
-            <ColumnBox name={val.columnName}/>
+          {fields && fields.fields && fields.fields.map((val, i) =>
+            <ColumnBox
+              key={`${i}-columnbox`}
+              name={val.columnName}
+              type={val.columnType}
+            />
           )}
         </div>
+        <FilterContainer />
       </div>
     );
   }
