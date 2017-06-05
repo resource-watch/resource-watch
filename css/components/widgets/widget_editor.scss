@@ -1,0 +1,15 @@
+.c-widget-editor{
+  background-color: $color-white;
+  padding: 20px;
+  h2 {
+    color: $color-dark-pink;
+  }
+
+  .fields{
+    display: inline-flex;
+    flex-direction: column;
+    .c-columnbox {
+      margin-top: 5px;
+    }
+  }
+}
