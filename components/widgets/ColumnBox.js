@@ -46,7 +46,7 @@ class ColumnBox extends React.Component {
         {name}
         <Icon
           name={iconName}
-          className="-small"
+          className="-smaller"
         />
       </div>
     );
