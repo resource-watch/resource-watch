@@ -36,17 +36,18 @@ class FilterContainer extends React.Component {
     const filters = widgetEditor.filters;
 
     const containerDivClass = classNames({
-      'filter-box': true,
+      '-filter-box': true,
       '-release': isActive
     });
+
+    const boxText = isActive ? 'Release to drop' : 'Drag a column here';
 
     return connectDropTarget(
       <div className="c-filter-container">
         <h5>Filters</h5>
         <div className={containerDivClass}>
-          {isActive ?
-            'Release to drop' :
-            'Drag a column here'
+          { (!filters || filters.length === 0) &&
+            boxText
           }
           {filters && filters.length > 0 && filters.map((val, i) =>
             <ColumnBox

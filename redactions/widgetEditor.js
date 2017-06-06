@@ -35,7 +35,6 @@ export default function (state = initialState, action) {
         }
       }
       filters.splice(index, 1);
-      console.log('filters', filters);
       return Object.assign({}, state, {
         filters
       });

@@ -70,6 +70,7 @@ ColumnBox.propTypes = {
   name: React.PropTypes.string.isRequired,
   type: React.PropTypes.string.isRequired,
   closable: React.PropTypes.bool,
+  configurable: React.PropTypes.bool,
   // Injected by React DnD:
   isDragging: React.PropTypes.bool.isRequired,
   connectDragSource: React.PropTypes.func.isRequired,
