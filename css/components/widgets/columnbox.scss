@@ -8,6 +8,10 @@
   .c-icon {
     margin-left: 5px;
     fill: $color-white;
+
+    &.close-button {
+      cursor: pointer;
+    }
   }
 
 }

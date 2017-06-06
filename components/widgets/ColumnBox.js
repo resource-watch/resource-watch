@@ -1,6 +1,10 @@
 import React from 'react';
 import { DragSource } from 'react-dnd';
+import { Autobind } from 'es-decorators';
 import classNames from 'classnames';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+import { removeFilter } from 'redactions/widgetEditor';
 import Icon from 'components/ui/Icon';
 
 /**
@@ -27,15 +31,14 @@ function collect(connect, monitor) {
 
 class ColumnBox extends React.Component {
 
-  constructor(props) {
-    super(props);
-
-    // BINDINGS
+  @Autobind
+  triggerClose() {
+    this.props.removeFilter({ name: this.props.name, type: this.props.type });
   }
 
   render() {
-    const { isDragging, connectDragSource, name, type } = this.props;
-    const iconName = (type === 'string') ? 'icon-type' : 'icon-hash';
+    const { isDragging, connectDragSource, name, type, closable } = this.props;
+    const iconName = (type.toLowerCase() === 'string') ? 'icon-type' : 'icon-hash';
     const boxClass = classNames({
       'c-columnbox': true,
       '-dimmed': isDragging
@@ -48,17 +51,36 @@ class ColumnBox extends React.Component {
           name={iconName}
           className="-smaller"
         />
+        {closable &&
+          <a
+            onClick={this.triggerClose}
+          >
+            <Icon
+              name="icon-cross"
+              className="-smaller close-button"
+            />
+          </a>
+        }
       </div>
     );
   }
 }
 
 ColumnBox.propTypes = {
-  name: React.PropTypes.string,
-  type: React.PropTypes.string,
+  name: React.PropTypes.string.isRequired,
+  type: React.PropTypes.string.isRequired,
+  closable: React.PropTypes.bool,
   // Injected by React DnD:
   isDragging: React.PropTypes.bool.isRequired,
-  connectDragSource: React.PropTypes.func.isRequired
+  connectDragSource: React.PropTypes.func.isRequired,
+  // ACTIONS
+  removeFilter: React.PropTypes.func
 };
 
-export default DragSource('columnbox', columnBoxSource, collect)(ColumnBox);
+const mapDispatchToProps = dispatch => ({
+  removeFilter: (filter) => {
+    dispatch(removeFilter(filter));
+  }
+});
+
+export default DragSource('columnbox', columnBoxSource, collect)(withRedux(initStore, null, mapDispatchToProps)(ColumnBox));
