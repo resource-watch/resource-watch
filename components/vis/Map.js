@@ -1,11 +1,11 @@
 import React from 'react';
-import 'leaflet/dist/leaflet.css';
 import isEqual from 'lodash/isEqual';
 import Spinner from 'components/ui/Spinner';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
-// const L = (typeof window !== 'undefined') ? require('leaflet/dist/leaflet') : null;
+// Leaflet can't be imported on the server because it's not isomorphic
+const L = (typeof window !== 'undefined') ? require('leaflet') : null;
 
 const MAP_CONFIG = {
   zoom: 2,
@@ -31,37 +31,44 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    this._mounted = true;
+    this.hasBeenMounted = true;
+
     const mapOptions = {
       minZoom: MAP_CONFIG.minZoom,
       zoom: isNaN(this.props.mapConfig) ? MAP_CONFIG.zoom : this.props.mapConfig.zoom,
-      zoomControl: isNaN(this.props.mapConfig) ? MAP_CONFIG.zoomControl : this.props.mapConfig.zoomControl,
-      center: isNaN(this.props.mapConfig) ? [MAP_CONFIG.latLng.lat, MAP_CONFIG.latLng.lng] : [this.props.mapConfig.latLng.lat, this.props.mapConfig.latLng.lng],
+      zoomControl: isNaN(this.props.mapConfig)
+        ? MAP_CONFIG.zoomControl
+        : this.props.mapConfig.zoomControl,
+      center: isNaN(this.props.mapConfig)
+        ? [MAP_CONFIG.latLng.lat, MAP_CONFIG.latLng.lng]
+        : [this.props.mapConfig.latLng.lat, this.props.mapConfig.latLng.lng],
       detectRetina: true,
       scrollWheelZoom: isNaN(this.props.mapConfig) ? false : !!this.props.mapConfig.scrollWheelZoom
     };
 
-    // this.map = L.map(this.mapNode, mapOptions);
+    // If leaflet haven't been imported, we can just skip the next steps
+    if (!L) return;
 
-    // if (this.props.mapConfig && this.props.mapConfig.bounds) {
-    //   this.fitBounds(this.props.mapConfig.bounds.geometry);
-    // }
-    //
-    // // SETTERS
-    // this.setAttribution();
-    // this.setZoomControl();
-    // this.setBasemap();
-    // this.setMapEventListeners();
-    //
-    // // Add layers
-    // this.setLayerManager();
-    // this.addLayers(this.props.layersActive, this.props.filters);
+    this.map = L.map(this.mapNode, mapOptions);
+
+    if (this.props.mapConfig && this.props.mapConfig.bounds) {
+      this.fitBounds(this.props.mapConfig.bounds.geometry);
+    }
+
+    // SETTERS
+    this.setAttribution();
+    this.setZoomControl();
+    this.setBasemap();
+    this.setMapEventListeners();
+
+    // Add layers
+    this.setLayerManager();
+    this.addLayers(this.props.layersActive, this.props.filters);
   }
 
   componentWillReceiveProps(nextProps) {
     const filtersChanged = !isEqual(nextProps.filters, this.props.filters);
     const layersActiveChanged = !isEqual(nextProps.layersActive, this.props.layersActive);
-    const _this = this;
 
     if (filtersChanged || layersActiveChanged) {
       const newLayers = nextProps.layersActive.map(l => l.dataset);
@@ -77,12 +84,12 @@ class Map extends React.Component {
       if (newLayers.length === oldLayers.length && !difference.length) {
         this.layerManager.setZIndex(nextProps.layersActive);
       } else {
-        union.forEach(parsedLayer => {
+        union.forEach((parsedLayer) => {
           if (!setOld.has(parsedLayer)) {
             layer = nextProps.layersActive.filter(l => l.dataset === parsedLayer)[0];
             this.addLayers(layer);
           } else if (!setNew.has(parsedLayer)) {
-            layer = _this.props.layersActive.filter(l => l.dataset === parsedLayer)[0];
+            layer = this.props.layersActive.filter(l => l.dataset === parsedLayer)[0];
             this.removeLayers(layer);
           }
         });
@@ -91,7 +98,7 @@ class Map extends React.Component {
 
     if (this.props.sidebar.width !== nextProps.sidebar.width) {
       this.setState({
-        sidebar: nextProps.sidebar,
+        sidebar: nextProps.sidebar
       });
     }
   }
@@ -103,11 +110,12 @@ class Map extends React.Component {
   }
 
   componentWillUnmount() {
-    this._mounted = false;
+    this.hasBeenMounted = false;
+
     // Remember to remove the listeners before removing the map
     // or they will stay in memory
-    this.props.setMapParams && this.removeMapEventListeners();
-    this.map.remove();
+    if (this.props.setMapParams) this.removeMapEventListeners();
+    if (this.map) this.map.remove();
   }
 
 
@@ -115,9 +123,8 @@ class Map extends React.Component {
   setLayerManager() {
     const stopLoading = () => {
       // Don't execute callback if component has been unmounted
-      this._mounted && this.setState({
-        loading: false
-      });
+      if (!this.hasBeenMounted) return;
+      this.setState({ loading: false });
     };
 
     this.layerManager = new this.props.LayerManager(this.map, {
@@ -131,7 +138,9 @@ class Map extends React.Component {
   }
 
   setZoomControl() {
-    this.map.zoomControl && this.map.zoomControl.setPosition('topright');
+    if (this.map.zoomControl) {
+      this.map.zoomControl.setPosition('topright');
+    }
   }
 
   setBasemap() {
@@ -154,15 +163,6 @@ class Map extends React.Component {
 
   getZoom() { return this.map.getZoom(); }
 
-  fitBounds(geoJson, sidebarWidth) {
-    const geojsonLayer = L.geoJson(geoJson);
-    this.map.fitBounds(geojsonLayer.getBounds(), {
-      paddingTopLeft: [sidebarWidth || 0, 0],
-      paddingBottomRight: [0, 0]
-    });
-  }
-
-
   // MAP LISTENERS
   setMapEventListeners() {
     function mapChangeHandler() {
@@ -174,6 +174,21 @@ class Map extends React.Component {
       this.map.on('zoomend', mapChangeHandler.bind(this));
       this.map.on('dragend', mapChangeHandler.bind(this));
     }
+  }
+
+  setSpinnerPosition() {
+    const windowWidth = window.innerWidth;
+    const sidebarWidth = this.state.sidebar.width;
+
+    return ((windowWidth - sidebarWidth) / 2);
+  }
+
+  fitBounds(geoJson, sidebarWidth) {
+    const geojsonLayer = L.geoJson(geoJson);
+    this.map.fitBounds(geojsonLayer.getBounds(), {
+      paddingTopLeft: [sidebarWidth || 0, 0],
+      paddingBottomRight: [0, 0]
+    });
   }
 
   removeMapEventListeners() {
@@ -199,16 +214,9 @@ class Map extends React.Component {
     else this.layerManager.removeLayers();
   }
 
-  setSpinnerPosition() {
-    const windowWidth = window.innerWidth;
-    const sidebarWidth = this.state.sidebar.width;
-
-    return ((windowWidth - sidebarWidth) / 2);
-  }
-
   // RENDER
   render() {
-    const spinnerStyles = (typeof window === 'undefined') ? {} : { marginLeft: this.setSpinnerPosition()};
+    const spinnerStyles = (typeof window === 'undefined') ? {} : { marginLeft: this.setSpinnerPosition() };
     const mapClass = !this.state.sidebar.open ? '-fullWidth' : '';
 
     return (
@@ -235,4 +243,4 @@ const mapStateToProps = state => ({
   sidebar: state.explore.sidebar
 });
 
-export default withRedux(initStore, mapStateToProps, null)(Map)
+export default withRedux(initStore, mapStateToProps, null)(Map);

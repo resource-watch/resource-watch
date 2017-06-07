@@ -3812,7 +3812,8 @@
       "integrity": "sha1-MIrMr6C8SDo4Z7S28rlQYlHRuDU="
     },
     "leaflet": {
-      "version": "https://registry.npmjs.org/leaflet/-/leaflet-1.0.3.tgz",
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/leaflet/-/leaflet-1.0.3.tgz",
       "integrity": "sha1-H0AbmLRcgZITTGyNaWhiU4BQB8g="
     },
     "leaflet-virtual-grid": {

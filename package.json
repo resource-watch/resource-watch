@@ -30,6 +30,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jiminy": "^0.1.1",
     "json-loader": "https://registry.npmjs.org/json-loader/-/json-loader-0.5.4.tgz",
+    "leaflet": "^1.0.3",
     "lodash": "https://registry.npmjs.org/lodash/-/lodash-4.17.4.tgz",
     "lusca": "^1.4.1",
     "moveto": "^1.6.1",
