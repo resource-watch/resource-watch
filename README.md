@@ -30,3 +30,16 @@ We discarded the approach followed by nextjs-starter and decided to use [**passp
 
 We're using the package [**next-routes**](https://www.npmjs.com/package/next-routes) for routing. This package allows us to define routes with unique names in a very straightforward way and, thanks to this, we can reference them from anywhere in the code without having to specify the route itself everywhere - _which could result into errors when updating the value of a route in several places_.
 
+The routes are defined in the file [**routes.js**](/routes.js). Here's an excerpt of the file:
+
+``` javascript
+// ----- DATASET --------
+routes.add('admin_home', '/admin', 'admin/dataset');
+routes.add('datasets', '/admin/datasets', 'admin/dataset');
+routes.add('edit_dataset', '/admin/datasets/:id/edit', 'admin/dataset/edit');
+```
+
+The first value of the method represents the unique name of the route, the second is the route itself, while the third represents the path to the page that should be rendered (starting from the folder **_pages_**).
+
+
+
