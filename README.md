@@ -20,5 +20,13 @@
 
 ## Architecture
 
-The application is built on top of [**Next.js**](https://github.com/zeit/next.js/) -_a framework for server-rendered React apps_- and was created starting from the template created with [**nextjs-starter**](https://github.com/iaincollins/nextjs-starter) -_a starter project for Next.js with oAuth and email based authentication_-
+The application is built on top of [**Next.js**](https://github.com/zeit/next.js/) - _a framework for server-rendered React apps_ - and was created starting from the template created with [**nextjs-starter**](https://github.com/iaincollins/nextjs-starter) - _a starter project for Next.js with oAuth and email based authentication_ -. The code created by this starter kit was however modified and improved so that it better fitted our needs.
+
+### Authentication
+
+We discarded the approach followed by nextjs-starter and decided to use [**passport-control-tower**](https://github.com/control-tower/passport-control-tower) instead.
+
+### Routing
+
+We're using the package [**next-routes**](https://www.npmjs.com/package/next-routes) for routing. This package allows us to define routes with unique names in a very straightforward way and, thanks to this, we can reference them from anywhere in the code without having to specify the route itself everywhere - _which could result into errors when updating the value of a route in several places_.
 
