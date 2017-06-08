@@ -48,7 +48,8 @@ Top level files:
 
 ![screen shot 2017-06-08 at 12 14 06 pm](https://user-images.githubusercontent.com/545342/26923943-fdd8662c-4c43-11e7-94d4-5075612c4221.png)
 
-**pages** 
+Pages that are part of the back office are located under the sub-folder _admin_, pages that are part of the public portal are located under _app_ respectively.
+
 
 ## Authentication
 
