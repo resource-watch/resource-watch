@@ -38,11 +38,11 @@ Application components under **app** folder and back office ones under **admin**
 
 Top level files:
 
-- _*index.scss*_: used to load all the styles
-- _*config.scss*_: configuration and variables
-- _*layouts.scss*_: general layout styles
-- _*base.scss*_: base styles
-- _*foundation_settings.scss*_: main styles for foundation
+- _**index.scss**_: used to load all the styles
+- _**config.scss**_: configuration and variables
+- _**layouts.scss**_: general layout styles
+- _**base.scss**_: base styles
+- _**foundation_settings.scss**_: main styles for foundation
 
 **pages** Folder where Next.js will look for pages that should be rendered according to the routes definition
 
