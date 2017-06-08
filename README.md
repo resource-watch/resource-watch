@@ -47,14 +47,14 @@ RW uses [**Redux**](http://redux.js.org/) together with the [**next-redux-wrappe
 
 Import the store and withRedux
 
-```
+``` javascript
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 ```
 
 Deine the functions **mapStateToProps** and **mapDispatchToProps** if necessary _(simply pass null otherwise)_
 
-```
+``` javascript
 const mapStateToProps = state => ({
   layerActive: state.pulse.layerActive
 });
@@ -71,7 +71,7 @@ const mapDispatchToProps = dispatch => ({
 
 Export the class using the function **withRedux**
 
-```
+``` javascript
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(LayerNavDropdown);
 ```
 
