@@ -24,25 +24,16 @@ The application is built on top of [**Next.js**](https://github.com/zeit/next.js
 
 ## Folder structure
 
-.
-+-- _config.yml
-+-- _drafts
-|   +-- begin-with-the-crazy-ideas.textile
-|   +-- on-simplicity-in-technology.markdown
-+-- _includes
-|   +-- footer.html
-|   +-- header.html
-+-- _layouts
-|   +-- default.html
-|   +-- post.html
-+-- _posts
-|   +-- 2007-10-29-why-every-programmer-should-play-nethack.textile
-|   +-- 2009-04-26-barcamp-boston-4-roundup.textile
-+-- _data
-|   +-- members.yml
-+-- _site
-+-- index.html
+![screen shot 2017-06-08 at 10 25 52 am](https://user-images.githubusercontent.com/545342/26919119-e2963ea2-4c34-11e7-9743-c8f22a10181e.png)
 
+**components** React components _(.js file extension instead of .jsx due to Next.js)_
+
+![screen shot 2017-06-08 at 10 28 26 am](https://user-images.githubusercontent.com/545342/26919216-3ed12d26-4c35-11e7-88db-933be59cc9cb.png)
+
+Application components under **app** folder and back office ones under **admin**. The rest of folders are used to store components that could be used in any of the two.
+
+**css** Styles _Replicating folder structure of React components_
+**pages** 
 
 ## Authentication
 
