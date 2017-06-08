@@ -45,10 +45,33 @@ The first value of the method represents the unique name of the route, the secon
 
 RW uses [**Redux**](http://redux.js.org/) together with the [**next-redux-wrapper**](https://github.com/kirill-konshin/next-redux-wrapper). In order to wrap a React component with Redux we have to do the following:
 
-* Import the store and withRedux
+Import the store and withRedux
 
 ```
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+```
+
+Deine the functions **mapStateToProps** and **mapDispatchToProps** if necessary _(simply pass null otherwise)_
+
+```
+const mapStateToProps = state => ({
+  layerActive: state.pulse.layerActive
+});
+
+const mapDispatchToProps = dispatch => ({
+  toggleActiveLayer: (id, threedimensional, hemisphere) => {
+    dispatch(toggleActiveLayer(id, threedimensional, hemisphere));
+  },
+  getLayerPoints: (id, tableName) => {
+    dispatch(getLayerPoints(id, tableName));
+  }
+});
+```
+
+Export the class using the function **withRedux**
+
+```
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(LayerNavDropdown);
 ```
 
