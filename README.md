@@ -38,11 +38,11 @@ Application components under **app** folder and back office ones under **admin**
 
 Top level files:
 
-- index.scss: used to load all the styles
-- config.scss: configuration and variables
-- layouts.scss: general layout styles
-- base.scss: base styles
-- foundation_settings.scss: main styles for foundation
+- _*index.scss*_: used to load all the styles
+- _*config.scss*_: configuration and variables
+- _*layouts.scss*_: general layout styles
+- _*base.scss*_: base styles
+- _*foundation_settings.scss*_: main styles for foundation
 
 **pages** 
 
