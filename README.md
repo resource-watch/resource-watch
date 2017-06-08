@@ -4,7 +4,7 @@
 
 ## Useful links
 
-* RW API documentation:  https://resource-watch.github.io/doc-api/
+* [RW API documentation](https://resource-watch.github.io/doc-api/)
 * [Basecamp](https://basecamp.com/1756858/projects/8955129)
 * [PivotalTracker](https://www.pivotaltracker.com/n/projects/1374154)
 
