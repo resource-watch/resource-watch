@@ -18,5 +18,7 @@
 * [resource-watch-manager](https://github.com/resource-watch/resource-watch-manager/) _Old repository for the back office_ 
 * [rw-components](https://github.com/resource-watch/rw-components/) _Old repository used to store components that were used in both resource-watch-app and resource-watch-manager_ 
 
+## Architecture
 
+The application is built on top of [**Next.js**](https://github.com/zeit/next.js/) -_a framework for server-rendered React apps_- and was created starting from the template created with [**nextjs-starter**](https://github.com/iaincollins/nextjs-starter) -_a starter project for Next.js with oAuth and email based authentication_-
 
