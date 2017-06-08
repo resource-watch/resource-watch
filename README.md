@@ -50,6 +50,12 @@ Top level files:
 
 Pages that are part of the back office are located under the sub-folder _admin_, pages that are part of the public portal are located under _app_ respectively.
 
+**services** One file per entity _(dataset, widget, layer...)_ that includes the logic necessary to perform operations over it _(CRUD)_
+
+**static** Equivalent to **public** folder in used with other technologies. This folder is used to store the assets needed across the application.
+
+**utils** General logic that could potentially be used anywhere in the code.
+
 
 ## Authentication
 
