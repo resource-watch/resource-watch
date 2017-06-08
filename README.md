@@ -11,9 +11,12 @@
 ### Related repositories
 
 * [resource-watch/graph](https://github.com/resource-watch/graph) _Knowledge graph and future recommendation system_
-* [resource-watch-app](https://github.com/resource-watch/resource-watch-app/) _*DEPRECATED* Old repository for the app_ 
-* [resource-watch-manager](https://github.com/resource-watch/resource-watch-manager/) _*DEPRECATED* Old repository for the back office_ 
-* [rw-components](https://github.com/resource-watch/rw-components/) _*DEPRECATED* Old repository used to store components that were used in both resource-watch-app and resource-watch-manager_ 
+
+### DEPRECATED repositories
+
+* [resource-watch-app](https://github.com/resource-watch/resource-watch-app/) _Old repository for the app_ 
+* [resource-watch-manager](https://github.com/resource-watch/resource-watch-manager/) _Old repository for the back office_ 
+* [rw-components](https://github.com/resource-watch/rw-components/) _Old repository used to store components that were used in both resource-watch-app and resource-watch-manager_ 
 
 
 
