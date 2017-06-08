@@ -33,6 +33,17 @@ The application is built on top of [**Next.js**](https://github.com/zeit/next.js
 Application components under **app** folder and back office ones under **admin**. The rest of folders are used to store components that could be used in any of the two.
 
 **css** Styles _Replicating folder structure of React components_
+
+![screen shot 2017-06-08 at 12 08 28 pm](https://user-images.githubusercontent.com/545342/26923714-3a379242-4c43-11e7-95b2-cc0d3ddc2179.png)
+
+Top level files:
+
+- index.scss: used to load all the styles
+- config.scss: configuration and variables
+- layouts.scss: general layout styles
+- base.scss: base styles
+- foundation_settings.scss: main styles for foundation
+
 **pages** 
 
 ## Authentication
