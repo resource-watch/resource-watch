@@ -37,7 +37,7 @@ class ColumnBox extends React.Component {
   }
 
   render() {
-    const { isDragging, connectDragSource, name, type, closable } = this.props;
+    const { isDragging, connectDragSource, name, type, closable, configurable } = this.props;
     const iconName = (type.toLowerCase() === 'string') ? 'icon-type' : 'icon-hash';
     const boxClass = classNames({
       'c-columnbox': true,
@@ -46,11 +46,11 @@ class ColumnBox extends React.Component {
 
     return connectDragSource(
       <div className={boxClass}>
-        {name}
         <Icon
           name={iconName}
           className="-smaller"
         />
+        {name}
         {closable &&
           <a
             onClick={this.triggerClose}
@@ -58,6 +58,16 @@ class ColumnBox extends React.Component {
             <Icon
               name="icon-cross"
               className="-smaller close-button"
+            />
+          </a>
+        }
+        {configurable &&
+          <a
+            onClick={this.triggerConfigure}
+          >
+            <Icon
+              name="icon-cog"
+              className="-smaller configure-button"
             />
           </a>
         }

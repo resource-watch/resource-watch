@@ -55,6 +55,7 @@ class FilterContainer extends React.Component {
               name={val.name}
               type={val.type}
               closable={true}
+              configurable={true}
             />
           )}
         </div>

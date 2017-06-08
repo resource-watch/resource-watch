@@ -6,10 +6,15 @@
   padding: 5px 5px 5px 10px;
 
   .c-icon {
-    margin-left: 5px;
+    margin-right: 5px;
     fill: $color-white;
 
     &.close-button {
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    &.configure-button {
       cursor: pointer;
     }
   }
