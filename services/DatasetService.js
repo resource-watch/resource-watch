@@ -7,7 +7,7 @@ import Promise from 'bluebird';
  * @example:
     import DatasetService from '..path';
     const ds = new DatasetService('42de3f98-ba1c-4572-a227-2e18d45239a5', {
-      apiURL: '${process.env.WRI_API_URL}'
+      apiURL: 'https://api.resourcewatch.org/v1'
     });
     ds.getFilters().then((data) => {
       console.log(data)
@@ -50,6 +50,18 @@ export default class DatasetService {
     });
   }
 
+  /**
+   * Get Jiminy chart suggestions
+   * @returns {Promise}
+   */
+  fetchJiminy(query) {
+    return new Promise((resolve) => {
+      fetch(`${this.opts.apiURL}/jiminy/?sql=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(jsonData => resolve(jsonData.data));
+    });
+  }
+
 
   /**
    *  Get max and min or values depending on field type
@@ -74,10 +86,7 @@ export default class DatasetService {
   getFilters() {
     return new Promise((resolve) => {
       this.getFields().then((fieldsData) => {
-        const filteredFields = fieldsData.fields.filter((field) => {
-          return field.columnType === 'number' || field.columnType === 'date' ||
-            field.columnType === 'string';
-        });
+        const filteredFields = fieldsData.fields.filter(field => field.columnType === 'number' || field.columnType === 'date' || field.columnType === 'string');
         const promises = _.map(filteredFields, (field) => {
           if (field.columnType === 'number' || field.columnType === 'date') {
             return this.getMinAndMax(field.columnName, fieldsData.tableName);
@@ -130,7 +139,7 @@ export default class DatasetService {
     const query = `SELECT Min(${columnName}) AS min, Max(${columnName}) AS max FROM ${table}`;
     return new Promise((resolve) => {
       // TODO: remove cache param
-      fetch(`${process.env.WRI_API_URL}/query/${this.datasetId}?sql=${query}&cache=${Date.now()}`)
+      fetch(`https://api.resourcewatch.org/v1/query/${this.datasetId}?sql=${query}`)
         .then(response => response.json())
         .then((jsonData) => {
           if (jsonData.data) {
@@ -151,7 +160,7 @@ export default class DatasetService {
     const query = `SELECT ${columnName} FROM ${table} ${uniqQueryPart} ORDER BY ${columnName}`;
     return new Promise((resolve) => {
       // TODO: remove cache param
-      fetch(`${process.env.WRI_API_URL}/query/${this.datasetId}?sql=${query}&cache=${Date.now()}`)
+      fetch(`https://api.resourcewatch.org/v1/query/${this.datasetId}?sql=${query}`)
         .then(response => response.json())
         .then((jsonData) => {
           const parsedData = _.map(jsonData.data, data => data[columnName]);

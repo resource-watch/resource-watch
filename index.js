@@ -62,6 +62,7 @@ app.prepare()
   .then(() => {
     // Public/landing page
     server.get('/', function (req, res) {
+      console.log('requser', req.user);
       return app.render(req, res, '/app/Home');
     });
 
