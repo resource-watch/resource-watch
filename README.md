@@ -44,6 +44,10 @@ Top level files:
 - _*base.scss*_: base styles
 - _*foundation_settings.scss*_: main styles for foundation
 
+**pages** Folder where Next.js will look for pages that should be rendered according to the routes definition
+
+![screen shot 2017-06-08 at 12 14 06 pm](https://user-images.githubusercontent.com/545342/26923943-fdd8662c-4c43-11e7-94d4-5075612c4221.png)
+
 **pages** 
 
 ## Authentication
