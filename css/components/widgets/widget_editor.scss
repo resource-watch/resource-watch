@@ -16,9 +16,15 @@
   }
 
   .chart-type {
-    .chart-type-selector {
+
+    .Select-control, .Select-arrow-zone, .Select-placeholder,
+    .Select, .Select-input, .Select-value-label, .Select-clear {
       background-color: $color-dark-pink;
-      color: $color-white;
+      color: $color-white !important;
+    }
+
+    .Select-arrow {
+      fill: $color-white;
     }
   }
 
