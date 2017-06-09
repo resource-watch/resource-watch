@@ -1,5 +1,6 @@
 import React from 'react';
 import HTML5Backend from 'react-dnd-html5-backend';
+import { Autobind } from 'es-decorators';
 import { DragDropContext } from 'react-dnd';
 import DatasetService from 'services/DatasetService';
 import ColumnBox from 'components/widgets/ColumnBox';
@@ -8,6 +9,8 @@ import Select from 'components/form/SelectInput';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
+const oneDimensionalChartTypes = ['pie', '1d_scatter', '1d_tick'];
+
 @DragDropContext(HTML5Backend)
 class WidgetEditor extends React.Component {
 
@@ -15,6 +18,7 @@ class WidgetEditor extends React.Component {
     super(props);
 
     this.state = {
+      selectedChartType: null,
       loading: true,
       fields: [],
       // Jiminy
@@ -26,7 +30,6 @@ class WidgetEditor extends React.Component {
       apiURL: process.env.WRI_API_URL
     });
 
-    // BINDINGS
   }
 
   componentDidMount() {
@@ -57,7 +60,6 @@ class WidgetEditor extends React.Component {
           loading: false,
           jiminy
         });
-        console.log('jiminy', jiminy);
       })
       .catch((err) => {
         console.error(err);
@@ -65,12 +67,16 @@ class WidgetEditor extends React.Component {
       });
   }
 
-  handleChartTypeChange() {
-
+  @Autobind
+  handleChartTypeChange(val) {
+    this.setState({
+      selectedChartType: val
+    })
   }
 
   render() {
-    const { fields, jiminy } = this.state;
+    const { fields, jiminy, selectedChartType } = this.state;
+    const bidimensionalChart = !oneDimensionalChartTypes.includes(selectedChartType);
     return (
       <div className="c-widget-editor">
         <h2>Customize Visualization</h2>
@@ -99,11 +105,15 @@ class WidgetEditor extends React.Component {
             <h5>Columns</h5>
             {fields && fields.fields && fields.fields.map((val, i) => {
               if (val.columnType !== 'geometry') {
-                return (<ColumnBox
-                  key={`${i}-columnbox`}
-                  name={val.columnName}
-                  type={val.columnType}
-                />);
+                return (
+                  <div>
+                    <ColumnBox
+                      key={`${i}-columnbox`}
+                      name={val.columnName}
+                      type={val.columnType}
+                    />
+                  </div>
+                );
               }
             }
             )}
@@ -111,7 +121,14 @@ class WidgetEditor extends React.Component {
           <div >
             <div className="dimensions-box">
               <h5>Dimensions</h5>
-
+              <div className="dimension-box">
+                x
+              </div>
+              { bidimensionalChart &&
+                <div className="dimension-box">
+                  y
+                </div>
+              }
             </div>
             <div className="color-box">
               <h5>Color</h5>
