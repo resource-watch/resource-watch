@@ -62,7 +62,7 @@ app.prepare()
   .then(() => {
     // Public/landing page
     server.get('/', function (req, res) {
-      console.log('requser', req.user);
+      console.log('requser', req);
       return app.render(req, res, '/app/Home');
     });
 

@@ -15,7 +15,10 @@ class WidgetEditor extends React.Component {
     super(props);
 
     this.state = {
-      fields: []
+      loading: true,
+      fields: [],
+      // Jiminy
+      jiminy: {}
     };
 
     // DatasetService
@@ -27,11 +30,39 @@ class WidgetEditor extends React.Component {
   }
 
   componentDidMount() {
-    this.datasetService.getFields().then((response) => {
-      this.setState({ fields: response });
-    }).catch((error) => {
-      console.log('error', error);
+    this.datasetService.getFields()
+      .then((response) => {
+        this.setState({
+          loading: false,
+          fields: response
+        }, () => {
+          this.getJiminy();
+        });
+      })
+      .catch((error) => {
+        console.log('error', error);
+      });
+  }
+
+  getJiminy() {
+    const fieldsSt = this.state.fields.fields.map((elem) => {
+      if (elem.columnType !== 'geometry') {
+        return elem.columnName;
+      }
     });
+    const querySt = `SELECT ${fieldsSt} FROM ${this.props.dataset}`;
+    this.datasetService.fetchJiminy(querySt)
+      .then((jiminy) => {
+        this.setState({
+          loading: false,
+          jiminy
+        });
+        console.log('jiminy', jiminy);
+      })
+      .catch((err) => {
+        console.error(err);
+        this.setState({ loading: false });
+      });
   }
 
   render() {
@@ -43,17 +74,35 @@ class WidgetEditor extends React.Component {
           <h5>Chart</h5>
 
         </div>
-        <div className="fields">
-          <h5>Columns</h5>
-          {fields && fields.fields && fields.fields.map((val, i) =>
-            <ColumnBox
-              key={`${i}-columnbox`}
-              name={val.columnName}
-              type={val.columnType}
-            />
-          )}
+        <div className="actions-div">
+          <div className="fields">
+            <h5>Columns</h5>
+            {fields && fields.fields && fields.fields.map((val, i) => {
+              if (val.columnType !== 'geometry') {
+                return (<ColumnBox
+                  key={`${i}-columnbox`}
+                  name={val.columnName}
+                  type={val.columnType}
+                />);
+              } 
+            }
+            )}
+          </div>
+          <div >
+            <div>
+              <h5>Axis</h5>
+
+            </div>
+            <div>
+              <h5>Color</h5>
+            </div>
+            <div>
+              <h5>Size</h5>
+
+            </div>
+            <FilterContainer />
+          </div>
         </div>
-        <FilterContainer />
       </div>
     );
   }

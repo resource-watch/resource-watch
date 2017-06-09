@@ -147,7 +147,7 @@ class Pulse extends React.Component {
       children: GlobeTooltip,
       childrenProps: { value: obj },
       position: { x: event.clientX, y: event.clientY }
-    });
+    });    
   }
   @Autobind
   handleEarthClicked(latLon, clientX, clientY) {

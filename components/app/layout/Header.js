@@ -28,6 +28,7 @@ class Header extends React.Component {
   }
 
   onScreenClick(e) {
+
     const el = document.querySelector('.c-tooltip');
     const clickOutside = el && el.contains && !el.contains(e.target);
     const isDataBtn = this.dataDropdownBtn.contains(e.target);
