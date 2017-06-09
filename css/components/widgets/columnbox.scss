@@ -1,5 +1,6 @@
 .c-columnbox {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   background-color: $color-blue-turquoise;
   border-radius: 15px;
   color: $color-white;

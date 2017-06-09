@@ -1,10 +1,10 @@
 import React from 'react';
-import { Select } from 'react-select';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import DatasetService from 'services/DatasetService';
 import ColumnBox from 'components/widgets/ColumnBox';
 import FilterContainer from 'components/widgets/FilterContainer';
+import Select from 'components/form/SelectInput';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
@@ -50,7 +50,7 @@ class WidgetEditor extends React.Component {
         return elem.columnName;
       }
     });
-    const querySt = `SELECT ${fieldsSt} FROM ${this.props.dataset}`;
+    const querySt = `SELECT ${fieldsSt} FROM ${this.props.dataset} LIMIT 100`;
     this.datasetService.fetchJiminy(querySt)
       .then((jiminy) => {
         this.setState({
@@ -65,14 +65,34 @@ class WidgetEditor extends React.Component {
       });
   }
 
+  handleChartTypeChange() {
+
+  }
+
   render() {
-    const { fields } = this.state;
+    const { fields, jiminy } = this.state;
     return (
       <div className="c-widget-editor">
         <h2>Customize Visualization</h2>
-        <div>
+        <div className="chart-type">
           <h5>Chart</h5>
+          {
+              jiminy && jiminy.general &&
+              <Select
+                properties={{
+                  className: 'chart-type-selector'
+                }}
+                options={jiminy.general.map(val => (
+                  {
+                    label: val,
+                    value: val
+                  }
+                ))}
+                name="chart-type"
+                onChange={this.handleChartTypeChange}
 
+              />
+          }
         </div>
         <div className="actions-div">
           <div className="fields">
@@ -84,19 +104,19 @@ class WidgetEditor extends React.Component {
                   name={val.columnName}
                   type={val.columnType}
                 />);
-              } 
+              }
             }
             )}
           </div>
           <div >
-            <div>
-              <h5>Axis</h5>
+            <div className="dimensions-box">
+              <h5>Dimensions</h5>
 
             </div>
-            <div>
+            <div className="color-box">
               <h5>Color</h5>
             </div>
-            <div>
+            <div className="color-box">
               <h5>Size</h5>
 
             </div>
