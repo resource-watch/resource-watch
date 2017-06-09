@@ -106,13 +106,11 @@ class WidgetEditor extends React.Component {
             {fields && fields.fields && fields.fields.map((val, i) => {
               if (val.columnType !== 'geometry') {
                 return (
-                  <div>
-                    <ColumnBox
-                      key={`${i}-columnbox`}
-                      name={val.columnName}
-                      type={val.columnType}
-                    />
-                  </div>
+                  <ColumnBox
+                    key={`${i}-columnbox`}
+                    name={val.columnName}
+                    type={val.columnType}
+                  />
                 );
               }
             }
