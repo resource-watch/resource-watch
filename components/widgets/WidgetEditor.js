@@ -129,11 +129,10 @@ class WidgetEditor extends React.Component {
               }
             </div>
             <div className="color-box">
-              <h5>Color</h5>
+              Color
             </div>
-            <div className="color-box">
-              <h5>Size</h5>
-
+            <div className="size-box">
+              Size
             </div>
             <FilterContainer />
           </div>
