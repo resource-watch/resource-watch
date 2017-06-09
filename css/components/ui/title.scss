@@ -20,6 +20,10 @@
     font-weight: $font-weight-light;
   }
 
+  &.-small {
+    font-size: rem(12px);
+  }
+
   // Paddings
   &.-p-primary {
     padding: 40px 0 25px;
@@ -33,4 +37,9 @@
   &.-secondary {
     color: $color-secondary;
   }
+
+  // Aligns
+  &.-left { text-align: left; }
+  &.-center { text-align: center; }
+  &.-right { text-align: right; }
 }

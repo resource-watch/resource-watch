@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from 'components/ui/Modal';
+import PropTypes from 'prop-types';
 import Header from 'components/app/layout/Header';
 import Footer from 'components/app/layout/Footer';
 import Tooltip from 'components/ui/Tooltip';
@@ -24,15 +24,15 @@ class Page extends React.Component {
     };
   }
 
-  componentWillReceiveProps(newProps) {
+  // componentWillReceiveProps(newProps) {
     // if (this.state.modalOpen !== newProps.modal.open) {
     //   this.setState({ modalOpen: newProps.modal.open });
     // }
-  }
+  // }
 
   render() {
     const { title, description, pathname } = this.props;
-    const fullScreen = fullScreenPages.indexOf(pathname) !== -1;
+    const fullScreen = pathname && fullScreenPages.indexOf(pathname) !== -1;
     return (
       <div className="c-page">
         <Head
@@ -61,11 +61,10 @@ class Page extends React.Component {
 }
 
 Page.propTypes = {
-  children: React.PropTypes.element.isRequired,
-  title: React.PropTypes.string,
-  description: React.PropTypes.string,
-  toggleModal: React.PropTypes.func,
-  setModalOptions: React.PropTypes.func
+  children: PropTypes.element.isRequired,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  pathname: PropTypes.string
 };
 
 const mapDispatchToProps = dispatch => ({

@@ -1,3 +1,7 @@
+*, *:after, *:before {
+  box-sizing: border-box;
+}
+
 body {
   font-family: $base-font-family;
   color: $base-font-color;

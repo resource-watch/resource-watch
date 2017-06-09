@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Components
 import Title from 'components/ui/Title';
@@ -97,6 +98,7 @@ class Explore extends React.Component {
       <Page
         title="Explore"
         description="Explore description"
+        pathname={this.props.pathname}
       >
         <div className="p-explore">
           <div className="c-page -dark">
@@ -188,22 +190,23 @@ class Explore extends React.Component {
 
 Explore.propTypes = {
   // STORE
-  explore: React.PropTypes.object,
-  paginatedDatasets: React.PropTypes.array,
-  layersActive: React.PropTypes.array,
-  toggledDataset: React.PropTypes.string,
+  explore: PropTypes.object,
+  paginatedDatasets: PropTypes.array,
+  layersActive: PropTypes.array,
+  toggledDataset: PropTypes.string,
+  pathname: PropTypes.string,
 
   // ACTIONS
-  getDatasets: React.PropTypes.func,
-  getVocabularies: React.PropTypes.func,
-  setDatasetsPage: React.PropTypes.func,
-  redirectTo: React.PropTypes.func,
-  setDatasetsActive: React.PropTypes.func,
-  setDatasetsHidden: React.PropTypes.func,
-  setDatasetsFilters: React.PropTypes.func,
-  toggleModal: React.PropTypes.func,
-  setModalOptions: React.PropTypes.func,
-  toggleDatasetActive: React.PropTypes.func
+  getDatasets: PropTypes.func,
+  getVocabularies: PropTypes.func,
+  setDatasetsPage: PropTypes.func,
+  redirectTo: PropTypes.func,
+  setDatasetsActive: PropTypes.func,
+  setDatasetsHidden: PropTypes.func,
+  setDatasetsFilters: PropTypes.func,
+  toggleModal: PropTypes.func,
+  setModalOptions: PropTypes.func,
+  toggleDatasetActive: PropTypes.func
 };
 
 const mapStateToProps = (state) => {
