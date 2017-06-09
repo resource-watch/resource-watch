@@ -20,6 +20,8 @@ import { initStore } from 'store';
 import getpaginatedDatasets from 'selectors/explore/datasetsPaginatedExplore';
 import getFilteredDatasets from 'selectors/explore/filterDatasets';
 import getActiveLayers from 'selectors/explore/layersActiveExplore';
+import { redirectTo } from 'redactions/common';
+import { toggleModal, setModalOptions } from 'redactions/modal';
 
 const mapConfig = {
   zoom: 3,
@@ -61,7 +63,9 @@ class Explore extends React.Component {
   }
 
   handleRedirect(item) {
-    item && item.value && this.props.redirectTo(`explore/${item.value}`);
+    if (item && item.value) {
+      this.props.redirectTo(`explore/${item.value}`);
+    }
   }
 
   handleFilterDatasets(item, levels, key) {
@@ -203,9 +207,9 @@ Explore.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const datasets = state.explore.filters.length ?
-    Object.assign({}, state.explore.datasets, { list: getFilteredDatasets(state) }) :
-    state.explore.datasets;
+  const datasets = state.explore.filters.length
+    ? Object.assign({}, state.explore.datasets, { list: getFilteredDatasets(state) })
+    : state.explore.datasets;
 
   const explore = Object.assign({}, state.explore, { datasets });
 

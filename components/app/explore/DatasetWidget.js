@@ -47,40 +47,6 @@ class DatasetWidget extends React.Component {
    * - getDescription
    * - getButton
   */
-  hideLayer(dataset) {
-    let newLayersHidden = this.props.layersHidden.slice();
-    this.props.layersHidden.includes(dataset) ?
-      newLayersHidden = this.props.layersHidden.filter(l => l !== dataset) :
-      newLayersHidden.push(dataset);
-
-    this.props.setDatasetsHidden(newLayersHidden);
-  }
-
-  getDescription(_text) {
-    let text = _text;
-    if (typeof text === 'string' && text.length > 70) {
-      text = text.replace(/^(.{70}[^\s]*).*/, '$1');
-      return `${text}...`;
-    }
-    return text;
-  }
-
-  getWidgetOrLayer() {
-    if (this.state.hasWidget) {
-      return {
-        ...this.state.widget.attributes,
-        ...{ id: this.state.widget.id }
-      };
-    }
-    if (this.state.hasLayer) {
-      return {
-        ...this.state.layer.attributes,
-        ...{ id: this.state.layer.id }
-      };
-    }
-    return null;
-  }
-
   getButton() {
     const { active, layer } = this.state;
     const buttonText = (active) ? 'Active' : 'Add to map';
@@ -112,6 +78,42 @@ class DatasetWidget extends React.Component {
     );
   }
 
+  getWidgetOrLayer() {
+    if (this.state.hasWidget) {
+      return {
+        ...this.state.widget.attributes,
+        id: this.state.widget.id
+      };
+    }
+    if (this.state.hasLayer) {
+      return {
+        ...this.state.layer.attributes,
+        id: this.state.layer.id
+      };
+    }
+    return null;
+  }
+
+  getDescription(_text) {
+    let text = _text;
+    if (typeof text === 'string' && text.length > 70) {
+      text = text.replace(/^(.{70}[^\s]*).*/, '$1');
+      return `${text}...`;
+    }
+    return text;
+  }
+
+  hideLayer(dataset) {
+    let newLayersHidden = this.props.layersHidden.slice();
+    if (this.props.layersHidden.includes(dataset)) {
+      newLayersHidden = this.props.layersHidden.filter(l => l !== dataset);
+    } else {
+      newLayersHidden.push(dataset);
+    }
+
+    this.props.setDatasetsHidden(newLayersHidden);
+  }
+
   /**
    * UI EVENTS
    * - triggerToggleLayer (e)
@@ -119,7 +121,9 @@ class DatasetWidget extends React.Component {
   triggerToggleLayer() {
     const { dataset } = this.state;
     this.props.toggleDatasetActive(dataset.id);
-    this.props.layersHidden.includes(dataset.id) && this.hideLayer(dataset.id);
+    if (this.props.layersHidden.includes(dataset.id)) {
+      this.hideLayer(dataset.id);
+    }
   }
 
   render() {
