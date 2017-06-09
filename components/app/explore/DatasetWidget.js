@@ -1,4 +1,7 @@
 import React from 'react';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+import { Link } from 'routes';
 
 // Components
 import Title from 'components/ui/Title';
@@ -6,8 +9,7 @@ import Button from 'components/ui/Button';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import DatasetLayerChart from 'components/app/explore/DatasetLayerChart';
 import DatasetPlaceholderChart from 'components/app/explore/DatasetPlaceholderChart';
-import { Link } from 'routes';
-
+import { toggleDatasetActive, setUrlParams, setDatasetsHidden } from 'redactions/explore';
 
 class DatasetWidget extends React.Component {
 
@@ -191,4 +193,16 @@ DatasetWidget.propTypes = {
   setDatasetsHidden: React.PropTypes.func
 };
 
-export default DatasetWidget;
+const mapStateToProps = state => ({
+  layersHidden: state.explore.datasets.hidden
+});
+
+const mapDispatchToProps = dispatch => ({
+  toggleDatasetActive: (id) => {
+    dispatch(toggleDatasetActive(id));
+    dispatch(setUrlParams());
+  },
+  setDatasetsHidden: (id) => { dispatch(setDatasetsHidden(id)); }
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(DatasetWidget);

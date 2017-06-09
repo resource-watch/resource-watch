@@ -2,7 +2,7 @@
 import 'isomorphic-fetch';
 import flatten from 'lodash/flatten';
 import uniq from 'lodash/uniq';
-// import { replace } from 'react-router-redux';
+import { Router } from 'routes';
 
 /**
  * CONSTANTS
@@ -262,17 +262,16 @@ export function toggleDatasetActive(id) {
 // Let's use {replace} instead of {push}, that's how we will allow users to
 // go away from the current page
 export function setUrlParams() {
-  return (dispatch, state) => {
-    const { explore } = state();
+  return (dispatch, getState) => {
+    const { explore } = getState();
     const { active, page } = explore.datasets;
-    const locationDescriptor = {
-      pathname: '/explore',
-      query: {
-        active: active.length ? active.join(',') : undefined,
-        page
-      }
-    };
-    dispatch(replace(locationDescriptor));
+
+    const query = { page };
+    if (active.length) {
+      query.active = active.join(',');
+    }
+
+    Router.replaceRoute('explore', query);
   };
 }
 

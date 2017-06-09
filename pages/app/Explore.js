@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 // Components
 import Title from 'components/ui/Title';
@@ -16,8 +18,6 @@ import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
 import Page from 'components/app/layout/Page';
 import { getDatasets, setDatasetsPage, setUrlParams, setDatasetsActive, setDatasetsHidden, setDatasetsFilters, toggleDatasetActive, getVocabularies } from 'redactions/explore';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
 import getpaginatedDatasets from 'selectors/explore/datasetsPaginatedExplore';
 import getFilteredDatasets from 'selectors/explore/filterDatasets';
 import getActiveLayers from 'selectors/explore/layersActiveExplore';
@@ -34,8 +34,8 @@ const mapConfig = {
 
 class Explore extends React.Component {
 
-  static async getInitialProps({ pathname }) {
-    return { pathname };
+  static async getInitialProps({ pathname, query }) {
+    return { pathname, query };
   }
 
   constructor(props) {
@@ -52,6 +52,14 @@ class Explore extends React.Component {
   }
 
   componentWillMount() {
+    if (this.props.query.page) {
+      this.props.setDatasetsPage(+this.props.query.page);
+    }
+
+    if (this.props.query.active) {
+      this.props.setDatasetsActive(this.props.query.active.split(','));
+    }
+
     this.props.getDatasets();
     this.props.getVocabularies();
   }
@@ -189,6 +197,9 @@ class Explore extends React.Component {
 }
 
 Explore.propTypes = {
+  // ROUTER
+  query: PropTypes.object,
+
   // STORE
   explore: PropTypes.object,
   paginatedDatasets: PropTypes.array,
@@ -235,11 +246,11 @@ const mapDispatchToProps = dispatch => ({
   setModalOptions: (options) => { dispatch(setModalOptions(options)); },
   setDatasetsPage: (page) => {
     dispatch(setDatasetsPage(page));
-    dispatch(setUrlParams());
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
   },
   toggleDatasetActive: (id) => {
     dispatch(toggleDatasetActive(id));
-    dispatch(setUrlParams());
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
   }
 });
 
