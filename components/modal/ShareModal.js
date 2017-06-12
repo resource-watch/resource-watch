@@ -25,7 +25,7 @@ class ShareModal extends React.Component {
     const { url } = this.props;
     const content = (
       <div className="url-container">
-        <input ref={n => this.input = n} value={url} className="url" readOnly />
+        <input ref={(n) => { this.input = n; }} value={url} className="url" readOnly />
         <button className="c-btn -primary -filled" onClick={() => this.onCopyClick()}>
           Copy
         </button>
