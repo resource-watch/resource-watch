@@ -80,6 +80,9 @@ class Explore extends React.Component {
   handleFilterDatasets(item, levels, key) {
     const filter = item ? [{ levels, value: item.value, key }] : [];
     this.props.setDatasetsFilters(filter);
+
+    // We move the user to the first page
+    this.props.setDatasetsPage(1);
   }
 
   handleShareModal() {
