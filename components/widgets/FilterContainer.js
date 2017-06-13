@@ -10,7 +10,7 @@ const boxTarget = {
   drop(props, monitor) {
     props.addFilter(monitor.getItem());
   }
-}
+};
 
 @DropTarget('columnbox', boxTarget, (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),

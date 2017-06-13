@@ -18,7 +18,8 @@
   .chart-type {
 
     .Select-control, .Select-arrow-zone, .Select-placeholder,
-    .Select, .Select-input, .Select-value-label, .Select-clear {
+    .Select, .Select-input, .Select-value-label, .Select-clear,
+    .Select-arrow-zone, .Select-arrow {
       background-color: $color-dark-pink;
       color: $color-white !important;
     }
