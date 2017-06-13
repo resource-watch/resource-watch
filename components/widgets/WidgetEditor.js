@@ -10,6 +10,7 @@ import SizeContainer from 'components/widgets/SizeContainer';
 import DimensionXContainer from 'components/widgets/DimensionXContainer';
 import DimensionYContainer from 'components/widgets/DimensionYContainer';
 import Select from 'components/form/SelectInput';
+import Spinner from 'components/ui/Spinner'
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
@@ -24,6 +25,8 @@ class WidgetEditor extends React.Component {
     this.state = {
       selectedChartType: null,
       loading: true,
+      fieldsLoaded: false,
+      jiminyLoaded: false,
       fields: [],
       // Jiminy
       jiminy: {}
@@ -39,7 +42,8 @@ class WidgetEditor extends React.Component {
     this.datasetService.getFields()
       .then((response) => {
         this.setState({
-          loading: false,
+          loading: !this.state.jiminyLoaded,
+          fieldsLoaded: true,
           fields: response
         }, () => {
           this.getJiminy();
@@ -60,7 +64,8 @@ class WidgetEditor extends React.Component {
     this.datasetService.fetchJiminy(querySt)
       .then((jiminy) => {
         this.setState({
-          loading: false,
+          loading: !this.state.fieldsLoaded,
+          jiminyLoaded: true,
           jiminy
         });
       })
@@ -78,10 +83,14 @@ class WidgetEditor extends React.Component {
   }
 
   render() {
-    const { fields, jiminy, selectedChartType } = this.state;
+    const { fields, jiminy, selectedChartType, loading } = this.state;
     const bidimensionalChart = !oneDimensionalChartTypes.includes(selectedChartType);
     return (
       <div className="c-widget-editor">
+        <Spinner
+          className="-light"
+          isLoading={loading}
+        />
         <h2>Customize Visualization</h2>
         <div className="chart-type">
           <h5>Chart</h5>

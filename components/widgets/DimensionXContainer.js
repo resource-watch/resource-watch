@@ -40,7 +40,7 @@ class DimensionXContainer extends React.Component {
 
     return connectDropTarget(
       <div className={containerDivClass}>
-        X
+        x
         {dimensionX &&
           <ColumnBox
             name={dimensionX.name}
