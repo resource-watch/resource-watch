@@ -3,9 +3,9 @@
 */
 const ADD_FILTER = 'widgetEditor/ADD_FILTER';
 const REMOVE_FILTER = 'widgetEditor/REMOVE_FILTER';
-const ADD_COLOR = 'widgetEditor/ADD_COLOR';
+const SET_COLOR = 'widgetEditor/SET_COLOR';
 const REMOVE_COLOR = 'widgetEditor/REMOVE_COLOR';
-const ADD_SIZE = 'widgetEditor/ADD_SIZE';
+const SET_SIZE = 'widgetEditor/SET_SIZE';
 const REMOVE_SIZE = 'widgetEditor/REMOVE_SIZE';
 const SET_DIMENSION_X = 'widgetEditor/SET_DIMENSION_X';
 const REMOVE_DIMENSION_X = 'widgetEditor/REMOVE_DIMENSION_X';
@@ -17,8 +17,8 @@ const REMOVE_DIMENSION_Y = 'widgetEditor/REMOVE_DIMENSION_Y';
 */
 const initialState = {
   filters: [],
-  colors: [],
-  sizes: [],
+  color: null,
+  size: null,
   dimensionX: null,
   dimensionY: null
 };
@@ -52,57 +52,27 @@ export default function (state = initialState, action) {
       });
     }
 
-    case ADD_COLOR: {
-      const colors = state.colors.slice(0);
-      const element = action.payload;
-      const found = colors.find(val => val.name === element.name);
-      if (!found) {
-        colors.push(action.payload);
-      }
+    case SET_COLOR: {
       return Object.assign({}, state, {
-        colors
+        color: action.payload
       });
     }
 
     case REMOVE_COLOR: {
-      const colors = state.colors.slice(0);
-      const element = action.payload;
-      let index = 0;
-      for (let i = 0; i < colors.length; i++) {
-        if (colors[i].name === element.name) {
-          index = i;
-        }
-      }
-      colors.splice(index, 1);
       return Object.assign({}, state, {
-        colors
+        color: null
       });
     }
 
-    case ADD_SIZE: {
-      const sizes = state.sizes.slice(0);
-      const element = action.payload;
-      const found = sizes.find(val => val.name === element.name);
-      if (!found) {
-        sizes.push(action.payload);
-      }
+    case SET_SIZE: {
       return Object.assign({}, state, {
-        sizes
+        size: action.payload
       });
     }
 
     case REMOVE_SIZE: {
-      const sizes = state.sizes.slice(0);
-      const element = action.payload;
-      let index = 0;
-      for (let i = 0; i < sizes.length; i++) {
-        if (sizes[i].name === element.name) {
-          index = i;
-        }
-      }
-      sizes.splice(index, 1);
       return Object.assign({}, state, {
-        sizes
+        size: null
       });
     }
 
@@ -139,9 +109,9 @@ export default function (state = initialState, action) {
  * ACTIONS
  * - addFilter
  * - removeFilter
- * - addColor
+ * - setColor
  * - removeColor
- * - addSize
+ * - setSize
  * - removeSize
  * - setDimensionX
  * - removeDimensionX
@@ -154,14 +124,14 @@ export function addFilter(filter) {
 export function removeFilter(filter) {
   return dispatch => dispatch({ type: REMOVE_FILTER, payload: filter });
 }
-export function addColor(color) {
-  return dispatch => dispatch({ type: ADD_COLOR, payload: color });
+export function setColor(color) {
+  return dispatch => dispatch({ type: SET_COLOR, payload: color });
 }
 export function removeColor(color) {
   return dispatch => dispatch({ type: REMOVE_COLOR, payload: color });
 }
-export function addSize(size) {
-  return dispatch => dispatch({ type: ADD_SIZE, payload: size });
+export function setSize(size) {
+  return dispatch => dispatch({ type: SET_SIZE, payload: size });
 }
 export function removeSize(size) {
   return dispatch => dispatch({ type: REMOVE_SIZE, payload: size });

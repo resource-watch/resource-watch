@@ -128,7 +128,7 @@ class WidgetEditor extends React.Component {
             }
             )}
           </div>
-          <div >
+          <div className="customization-container">
             <div className="dimensions-box">
               <h5>Dimensions</h5>
               <DimensionXContainer />

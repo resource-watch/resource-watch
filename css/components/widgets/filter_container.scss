@@ -1,10 +1,16 @@
 .c-filter-container{
   min-width: 200px;
+  max-width: 400px;
 
   .-filter-box {
     padding: 20px;
     border-style: solid;
     border-width: 1px;
+
+    .c-columnbox {
+      margin-bottom: 5px;
+      margin-right: 5px;
+    }
   }
 
   .-release{

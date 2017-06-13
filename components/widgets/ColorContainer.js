@@ -3,12 +3,12 @@ import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { addColor } from 'redactions/widgetEditor';
+import { setColor } from 'redactions/widgetEditor';
 import ColumnBox from 'components/widgets/ColumnBox';
 
 const boxTarget = {
   drop(props, monitor) {
-    props.addColor(monitor.getItem());
+    props.setColor(monitor.getItem());
   }
 };
 
@@ -23,7 +23,7 @@ class ColorContainer extends React.Component {
     super(props);
 
     this.state = {
-      colors: []
+      color: null
     };
 
     // BINDINGS
@@ -33,7 +33,7 @@ class ColorContainer extends React.Component {
   render() {
     const { canDrop, isOver, connectDropTarget, widgetEditor } = this.props;
     const isActive = canDrop && isOver;
-    const colors = widgetEditor.colors;
+    const color = widgetEditor.color;
 
     const containerDivClass = classNames({
       'c-color-container': true,
@@ -43,16 +43,15 @@ class ColorContainer extends React.Component {
     return connectDropTarget(
       <div className={containerDivClass}>
         Color
-        {colors && colors.length > 0 && colors.map((val, i) =>
+        {color &&
           <ColumnBox
-            key={`${i}-columnbox`}
-            name={val.name}
-            type={val.type}
+            name={color.name}
+            type={color.type}
             closable={true}
             configurable={true}
             isA="color"
           />
-        )}
+        }
       </div>
     );
   }
@@ -67,7 +66,7 @@ ColorContainer.propTypes = {
   colors: React.PropTypes.array,
 
   // ACTIONS
-  addColor: React.PropTypes.func
+  setColor: React.PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -75,8 +74,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addColor: (color) => {
-    dispatch(addColor(color));
+  setColor: (color) => {
+    dispatch(setColor(color));
   }
 });
 
