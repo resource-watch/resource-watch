@@ -4,7 +4,7 @@ import { Autobind } from 'es-decorators';
 import classNames from 'classnames';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { removeFilter } from 'redactions/widgetEditor';
+import { removeFilter, removeColor, removeDimension, removeSize } from 'redactions/widgetEditor';
 import Icon from 'components/ui/Icon';
 
 /**
@@ -33,7 +33,23 @@ class ColumnBox extends React.Component {
 
   @Autobind
   triggerClose() {
-    this.props.removeFilter({ name: this.props.name, type: this.props.type });
+    const { isA } = this.props;
+    switch (isA) {
+      case 'color':
+        this.props.removeColor({ name: this.props.name });
+        break;
+      case 'size':
+        this.props.removeSize({ name: this.props.name });
+        break;
+      case 'filter':
+        this.props.removeFilter({ name: this.props.name });
+        break;
+      case 'dimension':
+        this.props.removeDimension({ name: this.props.name });
+        break;
+      default:
+        console.log('Unknown column box isA value: ', isA);
+    }
   }
 
   render() {
@@ -79,13 +95,17 @@ class ColumnBox extends React.Component {
 ColumnBox.propTypes = {
   name: React.PropTypes.string.isRequired,
   type: React.PropTypes.string.isRequired,
+  isA: React.PropTypes.string,
   closable: React.PropTypes.bool,
   configurable: React.PropTypes.bool,
   // Injected by React DnD:
   isDragging: React.PropTypes.bool.isRequired,
   connectDragSource: React.PropTypes.func.isRequired,
   // ACTIONS
-  removeFilter: React.PropTypes.func
+  removeFilter: React.PropTypes.func.isRequired,
+  removeSize: React.PropTypes.func.isRequired,
+  removeColor: React.PropTypes.func.isRequired.isRequired,
+  removeDimension: React.PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({

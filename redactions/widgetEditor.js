@@ -46,6 +46,87 @@ export default function (state = initialState, action) {
       });
     }
 
+    case ADD_COLOR: {
+      const colors = state.colors.slice(0);
+      const element = action.payload;
+      const found = colors.find(val => val.name === element.name);
+      if (!found) {
+        colors.push(action.payload);
+      }
+      return Object.assign({}, state, {
+        colors
+      });
+    }
+
+    case REMOVE_COLOR: {
+      const colors = state.colors.slice(0);
+      const element = action.payload;
+      let index = 0;
+      for (let i = 0; i < colors.length; i++) {
+        if (colors[i].name === element.name) {
+          index = i;
+        }
+      }
+      colors.splice(index, 1);
+      return Object.assign({}, state, {
+        colors
+      });
+    }
+
+    case ADD_SIZE: {
+      const sizes = state.sizes.slice(0);
+      const element = action.payload;
+      const found = sizes.find(val => val.name === element.name);
+      if (!found) {
+        sizes.push(action.payload);
+      }
+      return Object.assign({}, state, {
+        sizes
+      });
+    }
+
+    case REMOVE_SIZE: {
+      const sizes = state.sizes.slice(0);
+      const element = action.payload;
+      let index = 0;
+      for (let i = 0; i < sizes.length; i++) {
+        if (sizes[i].name === element.name) {
+          index = i;
+        }
+      }
+      sizes.splice(index, 1);
+      return Object.assign({}, state, {
+        sizes
+      });
+    }
+
+    case ADD_DIMENSION: {
+      const dimensions = state.dimensions.slice(0);
+      const element = action.payload;
+      const found = dimensions.find(val => val.name === element.name);
+      if (!found) {
+        dimensions.push(action.payload);
+      }
+      return Object.assign({}, state, {
+        dimensions
+      });
+    }
+
+    case REMOVE_DIMENSION: {
+      const dimensions = state.dimensions.slice(0);
+      const element = action.payload;
+      let index = 0;
+      for (let i = 0; i < dimensions.length; i++) {
+        if (dimensions[i].name === element.name) {
+          index = i;
+        }
+      }
+      dimensions.splice(index, 1);
+      return Object.assign({}, state, {
+        dimensions
+      });
+    }
+
     default:
       return state;
   }
