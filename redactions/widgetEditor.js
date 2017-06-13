@@ -14,7 +14,8 @@ const REMOVE_DIMENSION = 'widgetEditor/REMOVE_DIMENSION';
  * REDUCER
 */
 const initialState = {
-  filters: []
+  filters: [],
+  colors: []
 };
 
 export default function (state = initialState, action) {

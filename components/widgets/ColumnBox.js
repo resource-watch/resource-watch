@@ -111,6 +111,15 @@ ColumnBox.propTypes = {
 const mapDispatchToProps = dispatch => ({
   removeFilter: (filter) => {
     dispatch(removeFilter(filter));
+  },
+  removeColor: (color) => {
+    dispatch(removeColor(color));
+  },
+  removeSize: (size) => {
+    dispatch(removeSize(size));
+  },
+  removeDimension: (dimension) => {
+    dispatch(removeDimension(dimension));
   }
 });
 

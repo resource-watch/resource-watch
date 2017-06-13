@@ -5,6 +5,7 @@ import { DragDropContext } from 'react-dnd';
 import DatasetService from 'services/DatasetService';
 import ColumnBox from 'components/widgets/ColumnBox';
 import FilterContainer from 'components/widgets/FilterContainer';
+import ColorContainer from 'components/widgets/ColorContainer';
 import Select from 'components/form/SelectInput';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
@@ -128,9 +129,7 @@ class WidgetEditor extends React.Component {
                 </div>
               }
             </div>
-            <div className="color-box">
-              Color
-            </div>
+            <ColorContainer />
             <div className="size-box">
               Size
             </div>
