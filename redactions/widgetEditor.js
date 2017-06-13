@@ -19,8 +19,8 @@ const initialState = {
   filters: [],
   colors: [],
   sizes: [],
-  dimensionX: {},
-  dimensionY: {}
+  dimensionX: null,
+  dimensionY: null
 };
 
 export default function (state = initialState, action) {
@@ -106,30 +106,27 @@ export default function (state = initialState, action) {
       });
     }
 
-    case ADD_DIMENSION: {
-      const dimensions = state.dimensions.slice(0);
-      const element = action.payload;
-      const found = dimensions.find(val => val.name === element.name);
-      if (!found) {
-        dimensions.push(action.payload);
-      }
+    case SET_DIMENSION_X: {
       return Object.assign({}, state, {
-        dimensions
+        dimensionX: action.payload
       });
     }
 
-    case REMOVE_DIMENSION: {
-      const dimensions = state.dimensions.slice(0);
-      const element = action.payload;
-      let index = 0;
-      for (let i = 0; i < dimensions.length; i++) {
-        if (dimensions[i].name === element.name) {
-          index = i;
-        }
-      }
-      dimensions.splice(index, 1);
+    case REMOVE_DIMENSION_X: {
       return Object.assign({}, state, {
-        dimensions
+        dimensionX: null
+      });
+    }
+
+    case SET_DIMENSION_Y: {
+      return Object.assign({}, state, {
+        dimensionY: action.payload
+      });
+    }
+
+    case REMOVE_DIMENSION_Y: {
+      return Object.assign({}, state, {
+        dimensionY: null
       });
     }
 

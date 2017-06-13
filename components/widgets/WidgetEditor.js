@@ -7,6 +7,8 @@ import ColumnBox from 'components/widgets/ColumnBox';
 import FilterContainer from 'components/widgets/FilterContainer';
 import ColorContainer from 'components/widgets/ColorContainer';
 import SizeContainer from 'components/widgets/SizeContainer';
+import DimensionXContainer from 'components/widgets/DimensionXContainer';
+import DimensionYContainer from 'components/widgets/DimensionYContainer';
 import Select from 'components/form/SelectInput';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
@@ -120,13 +122,9 @@ class WidgetEditor extends React.Component {
           <div >
             <div className="dimensions-box">
               <h5>Dimensions</h5>
-              <div className="dimension-box">
-                x
-              </div>
+              <DimensionXContainer />
               { bidimensionalChart &&
-                <div className="dimension-box">
-                  y
-                </div>
+                <DimensionYContainer />
               }
             </div>
             <ColorContainer />

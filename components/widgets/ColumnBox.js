@@ -4,7 +4,7 @@ import { Autobind } from 'es-decorators';
 import classNames from 'classnames';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { removeFilter, removeColor, removeDimension, removeSize } from 'redactions/widgetEditor';
+import { removeFilter, removeColor, removeDimensionX, removeDimensionY, removeSize } from 'redactions/widgetEditor';
 import Icon from 'components/ui/Icon';
 
 /**
@@ -44,8 +44,11 @@ class ColumnBox extends React.Component {
       case 'filter':
         this.props.removeFilter({ name: this.props.name });
         break;
-      case 'dimension':
-        this.props.removeDimension({ name: this.props.name });
+      case 'dimensionX':
+        this.props.removeDimensionX();
+        break;
+      case 'dimensionY':
+        this.props.removeDimensionY();
         break;
       default:
         console.log('Unknown column box isA value: ', isA);
@@ -105,7 +108,8 @@ ColumnBox.propTypes = {
   removeFilter: React.PropTypes.func.isRequired,
   removeSize: React.PropTypes.func.isRequired,
   removeColor: React.PropTypes.func.isRequired.isRequired,
-  removeDimension: React.PropTypes.func.isRequired
+  removeDimensionX: React.PropTypes.func.isRequired,
+  removeDimensionY: React.PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -118,8 +122,11 @@ const mapDispatchToProps = dispatch => ({
   removeSize: (size) => {
     dispatch(removeSize(size));
   },
-  removeDimension: (dimension) => {
-    dispatch(removeDimension(dimension));
+  removeDimensionX: (dimensionX) => {
+    dispatch(removeDimensionX(dimensionX));
+  },
+  removeDimensionY: (dimensionY) => {
+    dispatch(removeDimensionY(dimensionY));
   }
 });
 
