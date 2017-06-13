@@ -7,15 +7,20 @@ const ADD_COLOR = 'widgetEditor/ADD_COLOR';
 const REMOVE_COLOR = 'widgetEditor/REMOVE_COLOR';
 const ADD_SIZE = 'widgetEditor/ADD_SIZE';
 const REMOVE_SIZE = 'widgetEditor/REMOVE_SIZE';
-const ADD_DIMENSION = 'widgetEditor/ADD_DIMENSION';
-const REMOVE_DIMENSION = 'widgetEditor/REMOVE_DIMENSION';
+const SET_DIMENSION_X = 'widgetEditor/SET_DIMENSION_X';
+const REMOVE_DIMENSION_X = 'widgetEditor/REMOVE_DIMENSION_X';
+const SET_DIMENSION_Y = 'widgetEditor/SET_DIMENSION_Y';
+const REMOVE_DIMENSION_Y = 'widgetEditor/REMOVE_DIMENSION_Y';
 
 /**
  * REDUCER
 */
 const initialState = {
   filters: [],
-  colors: []
+  colors: [],
+  sizes: [],
+  dimensionX: {},
+  dimensionY: {}
 };
 
 export default function (state = initialState, action) {
@@ -141,8 +146,10 @@ export default function (state = initialState, action) {
  * - removeColor
  * - addSize
  * - removeSize
- * - addDimension
- * - removeDimension
+ * - setDimensionX
+ * - removeDimensionX
+ * - setDimensionY
+ * - removeDimensionY
 */
 export function addFilter(filter) {
   return dispatch => dispatch({ type: ADD_FILTER, payload: filter });
@@ -162,9 +169,15 @@ export function addSize(size) {
 export function removeSize(size) {
   return dispatch => dispatch({ type: REMOVE_SIZE, payload: size });
 }
-export function addDimension(dimension) {
-  return dispatch => dispatch({ type: ADD_DIMENSION, payload: dimension });
+export function setDimensionX(dimensionX) {
+  return dispatch => dispatch({ type: SET_DIMENSION_X, payload: dimensionX });
 }
-export function removeDimension(dimension) {
-  return dispatch => dispatch({ type: REMOVE_DIMENSION, payload: dimension });
+export function removeDimensionX(dimensionX) {
+  return dispatch => dispatch({ type: REMOVE_DIMENSION_X, payload: dimensionX });
+}
+export function setDimensionY(dimensionY) {
+  return dispatch => dispatch({ type: SET_DIMENSION_Y, payload: dimensionY });
+}
+export function removeDimensionY(dimensionY) {
+  return dispatch => dispatch({ type: REMOVE_DIMENSION_Y, payload: dimensionY });
 }

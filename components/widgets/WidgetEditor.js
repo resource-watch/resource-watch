@@ -6,6 +6,7 @@ import DatasetService from 'services/DatasetService';
 import ColumnBox from 'components/widgets/ColumnBox';
 import FilterContainer from 'components/widgets/FilterContainer';
 import ColorContainer from 'components/widgets/ColorContainer';
+import SizeContainer from 'components/widgets/SizeContainer';
 import Select from 'components/form/SelectInput';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
@@ -30,7 +31,6 @@ class WidgetEditor extends React.Component {
     this.datasetService = new DatasetService(props.dataset, {
       apiURL: process.env.WRI_API_URL
     });
-
   }
 
   componentDidMount() {
@@ -130,9 +130,7 @@ class WidgetEditor extends React.Component {
               }
             </div>
             <ColorContainer />
-            <div className="size-box">
-              Size
-            </div>
+            <SizeContainer />
             <FilterContainer />
           </div>
         </div>
