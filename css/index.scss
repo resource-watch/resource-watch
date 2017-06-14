@@ -6,6 +6,9 @@
 @import '../node_modules/foundation-sites/scss/foundation';
 @include foundation-flex-grid;
 
+// Leaflet
+@import 'leaflet/dist/leaflet.css';
+
 // Common files
 @import "css/config";
 @import "css/base";

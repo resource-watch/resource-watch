@@ -1,10 +1,11 @@
 import React from 'react';
-import Modal from 'components/ui/Modal';
+import PropTypes from 'prop-types';
 import Header from 'components/app/layout/Header';
 import Footer from 'components/app/layout/Footer';
 import Tooltip from 'components/ui/Tooltip';
 import Head from 'components/app/layout/head';
 import withRedux from 'next-redux-wrapper';
+import Modal from 'components/ui/Modal';
 import { initStore } from 'store';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import Icons from 'components/app/layout/icons';
@@ -25,14 +26,15 @@ class Page extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    // if (this.state.modalOpen !== newProps.modal.open) {
-    //   this.setState({ modalOpen: newProps.modal.open });
-    // }
+    if (this.state.modalOpen !== newProps.modal.open) {
+      this.setState({ modalOpen: newProps.modal.open });
+    }
   }
 
   render() {
-    const { title, description, pathname } = this.props;
-    const fullScreen = fullScreenPages.indexOf(pathname) !== -1;
+    const { title, description, pathname, modal } = this.props;
+    const fullScreen = pathname && fullScreenPages.indexOf(pathname) !== -1;
+
     return (
       <div className="c-page">
         <Head
@@ -46,27 +48,32 @@ class Page extends React.Component {
           {!fullScreen && <Footer />}
         </div>
         <Tooltip />
+        <Modal
+          open={this.state.modalOpen}
+          options={modal.options}
+          loading={modal.loading}
+          toggleModal={this.props.toggleModal}
+          setModalOptions={this.props.setModalOptions}
+        />
       </div>
     );
-
-    // <Modal
-    //   open={this.state.modalOpen}
-    //   options={modal.options}
-    //   loading={modal.loading}
-    //   toggleModal={this.props.toggleModal}
-    //   setModalOptions={this.props.setModalOptions}
-    // />
   }
 
 }
 
 Page.propTypes = {
-  children: React.PropTypes.element.isRequired,
-  title: React.PropTypes.string,
-  description: React.PropTypes.string,
-  toggleModal: React.PropTypes.func,
-  setModalOptions: React.PropTypes.func
+  children: PropTypes.element.isRequired,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  pathname: PropTypes.string,
+  modal: PropTypes.object,
+  toggleModal: PropTypes.func,
+  setModalOptions: PropTypes.func
 };
+
+const mapStateToProps = state => ({
+  modal: state.modal
+});
 
 const mapDispatchToProps = dispatch => ({
   toggleModal: () => {
@@ -77,4 +84,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRedux(initStore, state => ({ modal: state.modal }), mapDispatchToProps)(Page);
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Page);

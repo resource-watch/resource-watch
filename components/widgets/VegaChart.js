@@ -1,4 +1,7 @@
 import React from 'react';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+import { toggleTooltip } from 'redactions/tooltip';
 import { bisector } from 'd3';
 import vega from 'vega';
 import debounce from 'lodash/debounce';
@@ -135,4 +138,12 @@ VegaChart.propTypes = {
   toggleTooltip: React.PropTypes.func
 };
 
-export default VegaChart;
+const mapStateToProps = ({ tooltip }) => ({
+  tooltip
+});
+
+const mapDispatchToProps = dispatch => ({
+  toggleTooltip: (visibility, options) => dispatch(toggleTooltip(visibility, options))
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(VegaChart);

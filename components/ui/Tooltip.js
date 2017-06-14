@@ -39,7 +39,8 @@ class Tooltip extends React.Component {
     const topPos = this.props.tooltip.position.y;
     const bottomPos = this.props.tooltip.position.x;
     if (this.el) {
-      // TODO: modify topPos and bottomPos for recalculating toooltip position if it is out of viewport
+      // TODO: modify topPos and bottomPos for recalculating toooltip
+      // position if it is out of viewport
     }
     return {
       position: 'fixed',
@@ -92,7 +93,7 @@ const mapStateToProps = ({ tooltip }) => ({
 
 const mapDispatchToProps = dispatch => ({
   toggleTooltip: () => { dispatch(toggleTooltip()); },
-  setTooltipPosition: () => { dispatch(setTooltipPosition()); }
+  setTooltipPosition: (pos) => { dispatch(setTooltipPosition(pos)); }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Tooltip)
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Tooltip);

@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 // Components
 import Title from 'components/ui/Title';
@@ -15,11 +18,11 @@ import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
 import Page from 'components/app/layout/Page';
 import { getDatasets, setDatasetsPage, setUrlParams, setDatasetsActive, setDatasetsHidden, setDatasetsFilters, toggleDatasetActive, getVocabularies } from 'redactions/explore';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
 import getpaginatedDatasets from 'selectors/explore/datasetsPaginatedExplore';
 import getFilteredDatasets from 'selectors/explore/filterDatasets';
 import getActiveLayers from 'selectors/explore/layersActiveExplore';
+import { redirectTo } from 'redactions/common';
+import { toggleModal, setModalOptions } from 'redactions/modal';
 
 const mapConfig = {
   zoom: 3,
@@ -31,8 +34,8 @@ const mapConfig = {
 
 class Explore extends React.Component {
 
-  static async getInitialProps({ pathname }) {
-    return { pathname };
+  static async getInitialProps({ pathname, query }) {
+    return { pathname, query };
   }
 
   constructor(props) {
@@ -49,6 +52,14 @@ class Explore extends React.Component {
   }
 
   componentWillMount() {
+    if (this.props.query.page) {
+      this.props.setDatasetsPage(+this.props.query.page);
+    }
+
+    if (this.props.query.active) {
+      this.props.setDatasetsActive(this.props.query.active.split(','));
+    }
+
     this.props.getDatasets();
     this.props.getVocabularies();
   }
@@ -61,12 +72,17 @@ class Explore extends React.Component {
   }
 
   handleRedirect(item) {
-    item && item.value && this.props.redirectTo(`explore/${item.value}`);
+    if (item && item.value) {
+      this.props.redirectTo(`explore/${item.value}`);
+    }
   }
 
   handleFilterDatasets(item, levels, key) {
     const filter = item ? [{ levels, value: item.value, key }] : [];
     this.props.setDatasetsFilters(filter);
+
+    // We move the user to the first page
+    this.props.setDatasetsPage(1);
   }
 
   handleShareModal() {
@@ -93,6 +109,7 @@ class Explore extends React.Component {
       <Page
         title="Explore"
         description="Explore description"
+        pathname={this.props.pathname}
       >
         <div className="p-explore">
           <div className="c-page -dark">
@@ -183,29 +200,33 @@ class Explore extends React.Component {
 }
 
 Explore.propTypes = {
+  // ROUTER
+  query: PropTypes.object,
+
   // STORE
-  explore: React.PropTypes.object,
-  paginatedDatasets: React.PropTypes.array,
-  layersActive: React.PropTypes.array,
-  toggledDataset: React.PropTypes.string,
+  explore: PropTypes.object,
+  paginatedDatasets: PropTypes.array,
+  layersActive: PropTypes.array,
+  toggledDataset: PropTypes.string,
+  pathname: PropTypes.string,
 
   // ACTIONS
-  getDatasets: React.PropTypes.func,
-  getVocabularies: React.PropTypes.func,
-  setDatasetsPage: React.PropTypes.func,
-  redirectTo: React.PropTypes.func,
-  setDatasetsActive: React.PropTypes.func,
-  setDatasetsHidden: React.PropTypes.func,
-  setDatasetsFilters: React.PropTypes.func,
-  toggleModal: React.PropTypes.func,
-  setModalOptions: React.PropTypes.func,
-  toggleDatasetActive: React.PropTypes.func
+  getDatasets: PropTypes.func,
+  getVocabularies: PropTypes.func,
+  setDatasetsPage: PropTypes.func,
+  redirectTo: PropTypes.func,
+  setDatasetsActive: PropTypes.func,
+  setDatasetsHidden: PropTypes.func,
+  setDatasetsFilters: PropTypes.func,
+  toggleModal: PropTypes.func,
+  setModalOptions: PropTypes.func,
+  toggleDatasetActive: PropTypes.func
 };
 
 const mapStateToProps = (state) => {
-  const datasets = state.explore.filters.length ?
-    Object.assign({}, state.explore.datasets, { list: getFilteredDatasets(state) }) :
-    state.explore.datasets;
+  const datasets = state.explore.filters.length
+    ? Object.assign({}, state.explore.datasets, { list: getFilteredDatasets(state) })
+    : state.explore.datasets;
 
   const explore = Object.assign({}, state.explore, { datasets });
 
@@ -228,12 +249,12 @@ const mapDispatchToProps = dispatch => ({
   setModalOptions: (options) => { dispatch(setModalOptions(options)); },
   setDatasetsPage: (page) => {
     dispatch(setDatasetsPage(page));
-    dispatch(setUrlParams());
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
   },
   toggleDatasetActive: (id) => {
     dispatch(toggleDatasetActive(id));
-    dispatch(setUrlParams());
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
   }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Explore)
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Explore);
