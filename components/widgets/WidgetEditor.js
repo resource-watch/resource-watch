@@ -10,7 +10,7 @@ import SizeContainer from 'components/widgets/SizeContainer';
 import DimensionXContainer from 'components/widgets/DimensionXContainer';
 import DimensionYContainer from 'components/widgets/DimensionYContainer';
 import Select from 'components/form/SelectInput';
-import Spinner from 'components/ui/Spinner'
+import Spinner from 'components/ui/Spinner';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
@@ -79,7 +79,7 @@ class WidgetEditor extends React.Component {
   handleChartTypeChange(val) {
     this.setState({
       selectedChartType: val
-    })
+    });
   }
 
   render() {
@@ -91,10 +91,11 @@ class WidgetEditor extends React.Component {
           className="-light"
           isLoading={loading}
         />
-        <h2>Customize Visualization</h2>
-        <div className="chart-type">
-          <h5>Chart</h5>
-          {
+        <div className="customize-visualization">
+          <h2>Customize Visualization</h2>
+          <div className="chart-type">
+            <h5>Chart</h5>
+            {
               jiminy && jiminy.general &&
               <Select
                 properties={{
@@ -111,34 +112,35 @@ class WidgetEditor extends React.Component {
 
               />
           }
-        </div>
-        <div className="actions-div">
-          <div className="fields">
-            <h5>Columns</h5>
-            {fields && fields.fields && fields.fields.map((val, i) => {
-              if (val.columnType !== 'geometry') {
-                return (
-                  <ColumnBox
-                    key={`${i}-columnbox`}
-                    name={val.columnName}
-                    type={val.columnType}
-                  />
-                );
-              }
-            }
-            )}
           </div>
-          <div className="customization-container">
-            <div className="dimensions-box">
-              <h5>Dimensions</h5>
-              <DimensionXContainer />
-              { bidimensionalChart &&
+          <div className="actions-div">
+            <div className="fields">
+              <h5>Columns</h5>
+              {fields && fields.fields && fields.fields.map((val, i) => {
+                if (val.columnType !== 'geometry') {
+                  return (
+                    <ColumnBox
+                      key={`${i}-columnbox`}
+                      name={val.columnName}
+                      type={val.columnType}
+                    />
+                  );
+                }
+              }
+            )}
+            </div>
+            <div className="customization-container">
+              <div className="dimensions-box">
+                <h5>Dimensions</h5>
+                <DimensionXContainer />
+                { bidimensionalChart &&
                 <DimensionYContainer />
               }
+              </div>
+              <ColorContainer />
+              <SizeContainer />
+              <FilterContainer />
             </div>
-            <ColorContainer />
-            <SizeContainer />
-            <FilterContainer />
           </div>
         </div>
       </div>

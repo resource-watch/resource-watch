@@ -1,8 +1,12 @@
 .c-widget-editor {
+
   background-color: $color-white;
-  padding: 20px;
-  h2 {
-    color: $color-dark-pink;
+
+  .customize-visualization {
+
+    color: $color-white;
+    padding: 20px;
+    background-color: $color-blue-turquoise;
   }
 
   .fields {
@@ -17,20 +21,6 @@
 
   .customization-container {
     margin-left: 20px;
-  }
-
-  .chart-type {
-
-    .Select-control, .Select-arrow-zone, .Select-placeholder,
-    .Select, .Select-input, .Select-value-label, .Select-clear,
-    .Select-arrow-zone, .Select-arrow {
-      background-color: $color-dark-pink;
-      color: $color-white !important;
-    }
-
-    .Select-arrow {
-      fill: $color-white;
-    }
   }
 
   .dimensions-box {

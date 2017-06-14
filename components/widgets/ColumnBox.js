@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { removeFilter, removeColor, removeDimensionX, removeDimensionY, removeSize } from 'redactions/widgetEditor';
+import { toggleTooltip } from 'redactions/tooltip';
 import Icon from 'components/ui/Icon';
 
 /**
@@ -53,6 +54,36 @@ class ColumnBox extends React.Component {
       default:
         console.log('Unknown column box isA value: ', isA);
     }
+  }
+
+  @Autobind
+  triggerConfigure(event) {
+    const { isA } = this.props;
+    switch (isA) {
+      case 'color':
+        console.log('color', this.props);
+        break;
+      case 'size':
+        console.log('size', this.props);
+        break;
+      case 'filter':
+        console.log('color', this.props);
+        break;
+      case 'dimensionX':
+        console.log('dimensionX', this.props);
+        break;
+      case 'dimensionY':
+        console.log('dimensionY', this.props);
+        break;
+      default:
+        console.log('Unknown column box isA value: ', isA);
+    }
+
+    this.props.toggleTooltip(true, {
+      follow: false,
+      position: { x: event.clientX, y: event.clientY }
+    });
+    debugger;
   }
 
   render() {
@@ -109,7 +140,8 @@ ColumnBox.propTypes = {
   removeSize: React.PropTypes.func.isRequired,
   removeColor: React.PropTypes.func.isRequired.isRequired,
   removeDimensionX: React.PropTypes.func.isRequired,
-  removeDimensionY: React.PropTypes.func.isRequired
+  removeDimensionY: React.PropTypes.func.isRequired,
+  toggleTooltip: React.PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -127,7 +159,10 @@ const mapDispatchToProps = dispatch => ({
   },
   removeDimensionY: (dimensionY) => {
     dispatch(removeDimensionY(dimensionY));
-  }
+  },
+  toggleTooltip: (opened, opts) => {
+    dispatch(toggleTooltip(opened, opts));
+  },
 });
 
 export default DragSource('columnbox', columnBoxSource, collect)(withRedux(initStore, null, mapDispatchToProps)(ColumnBox));
