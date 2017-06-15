@@ -11,8 +11,6 @@ import DimensionXContainer from 'components/widgets/DimensionXContainer';
 import DimensionYContainer from 'components/widgets/DimensionYContainer';
 import Select from 'components/form/SelectInput';
 import Spinner from 'components/ui/Spinner';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
 
 const oneDimensionalChartTypes = ['pie', '1d_scatter', '1d_tick'];
 

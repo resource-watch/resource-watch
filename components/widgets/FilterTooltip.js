@@ -1,4 +1,8 @@
 import React from 'react';
+import { Autobind } from 'es-decorators';
+import { toggleTooltip } from 'redactions/tooltip';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 class FilterTooltip extends React.Component {
 
@@ -7,8 +11,20 @@ class FilterTooltip extends React.Component {
 
   }
 
+  componentDidMount() {
+    document.addEventListener('mousedown', this.triggerMouseDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.triggerMouseDown);
+  }
+
+  @Autobind
+  triggerMouseDown() {
+    this.props.toggleTooltip(false);
+  }
+
   render() {
-    console.log('tooltip props', this.props);
     return (
       <div className="c-filter-tooltip">
         Tooltip
@@ -22,4 +38,10 @@ FilterTooltip.propTypes = {
   value: React.PropTypes.object
 };
 
-export default FilterTooltip;
+const mapDispatchToProps = dispatch => ({
+  toggleTooltip: (opened, opts) => {
+    dispatch(toggleTooltip(opened, opts));
+  }
+});
+
+export default withRedux(initStore, null, mapDispatchToProps)(FilterTooltip);

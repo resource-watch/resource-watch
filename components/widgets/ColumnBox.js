@@ -167,7 +167,7 @@ const mapDispatchToProps = dispatch => ({
   },
   toggleTooltip: (opened, opts) => {
     dispatch(toggleTooltip(opened, opts));
-  },
+  }
 });
 
 export default DragSource('columnbox', columnBoxSource, collect)(withRedux(initStore, null, mapDispatchToProps)(ColumnBox));
