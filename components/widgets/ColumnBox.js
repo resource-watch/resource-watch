@@ -126,12 +126,12 @@ ColumnBox.propTypes = {
   closable: React.PropTypes.bool,
   configurable: React.PropTypes.bool,
   // Injected by React DnD:
-  isDragging: React.PropTypes.bool.isRequired,
-  connectDragSource: React.PropTypes.func.isRequired,
+  isDragging: React.PropTypes.bool,
+  connectDragSource: React.PropTypes.func,
   // ACTIONS
   removeFilter: React.PropTypes.func.isRequired,
   removeSize: React.PropTypes.func.isRequired,
-  removeColor: React.PropTypes.func.isRequired.isRequired,
+  removeColor: React.PropTypes.func.isRequired,
   removeDimensionX: React.PropTypes.func.isRequired,
   removeDimensionY: React.PropTypes.func.isRequired,
   toggleTooltip: React.PropTypes.func.isRequired

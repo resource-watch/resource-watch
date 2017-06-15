@@ -57,9 +57,9 @@ class DimensionYContainer extends React.Component {
 }
 
 DimensionYContainer.propTypes = {
-  connectDropTarget: PropTypes.func.isRequired,
-  isOver: PropTypes.bool.isRequired,
-  canDrop: PropTypes.bool.isRequired,
+  connectDropTarget: PropTypes.func,
+  isOver: PropTypes.bool,
+  canDrop: PropTypes.bool,
   widgetEditor: PropTypes.object
 };
 
