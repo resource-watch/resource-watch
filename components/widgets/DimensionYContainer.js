@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
 import withRedux from 'next-redux-wrapper';
@@ -45,8 +46,8 @@ class DimensionYContainer extends React.Component {
           <ColumnBox
             name={dimensionY.name}
             type={dimensionY.type}
-            closable={true}
-            configurable={true}
+            closable
+            configurable
             isA="dimensionY"
           />
         }
@@ -56,15 +57,10 @@ class DimensionYContainer extends React.Component {
 }
 
 DimensionYContainer.propTypes = {
-  connectDropTarget: React.PropTypes.func.isRequired,
-  isOver: React.PropTypes.bool.isRequired,
-  canDrop: React.PropTypes.bool.isRequired,
-
-  // STORE
-  dimensionY: React.PropTypes.object,
-
-  // ACTIONS
-  setDimensionY: React.PropTypes.func
+  connectDropTarget: PropTypes.func.isRequired,
+  isOver: PropTypes.bool.isRequired,
+  canDrop: PropTypes.bool.isRequired,
+  widgetEditor: PropTypes.object
 };
 
 const mapStateToProps = state => ({

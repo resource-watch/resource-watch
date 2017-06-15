@@ -48,16 +48,12 @@ class WidgetEditor extends React.Component {
         });
       })
       .catch((error) => {
-        console.log('error', error);
+        console.log('error', error); // eslint-disable-line no-console
       });
   }
 
   getJiminy() {
-    const fieldsSt = this.state.fields.fields.map((elem) => {
-      if (elem.columnType !== 'geometry') {
-        return elem.columnName;
-      }
-    });
+    const fieldsSt = this.state.fields.fields.map(elem => elem.columnType !== 'geometry' && elem.columnName);
     const querySt = `SELECT ${fieldsSt} FROM ${this.props.dataset} LIMIT 100`;
     this.datasetService.fetchJiminy(querySt)
       .then((jiminy) => {
@@ -114,18 +110,15 @@ class WidgetEditor extends React.Component {
           <div className="actions-div">
             <div className="fields">
               <h5>Columns</h5>
-              {fields && fields.fields && fields.fields.map((val, i) => {
-                if (val.columnType !== 'geometry') {
-                  return (
-                    <ColumnBox
-                      key={`${i}-columnbox`}
-                      name={val.columnName}
-                      type={val.columnType}
-                    />
-                  );
-                }
-              }
-            )}
+              {fields && fields.fields && fields.fields.map(val =>
+                val.columnType !== 'geometry' && (
+                  <ColumnBox
+                    key={val.columnName}
+                    name={val.columnName}
+                    type={val.columnType}
+                  />
+                )
+              )}
             </div>
             <div className="customization-container">
               <div className="dimensions-box">

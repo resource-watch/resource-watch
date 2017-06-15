@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
 import withRedux from 'next-redux-wrapper';
@@ -49,13 +50,13 @@ class FilterContainer extends React.Component {
           { (!filters || filters.length === 0) &&
             boxText
           }
-          {filters && filters.length > 0 && filters.map((val, i) =>
+          {filters && filters.length > 0 && filters.map(val =>
             <ColumnBox
-              key={`${i}-columnbox`}
+              key={val.name}
               name={val.name}
               type={val.type}
-              closable={true}
-              configurable={true}
+              closable
+              configurable
               isA="filter"
             />
           )}
@@ -66,15 +67,10 @@ class FilterContainer extends React.Component {
 }
 
 FilterContainer.propTypes = {
-  connectDropTarget: React.PropTypes.func.isRequired,
-  isOver: React.PropTypes.bool.isRequired,
-  canDrop: React.PropTypes.bool.isRequired,
-
-  // STORE
-  filters: React.PropTypes.array,
-
-  // ACTIONS
-  addFilter: React.PropTypes.func
+  connectDropTarget: PropTypes.func.isRequired,
+  isOver: PropTypes.bool.isRequired,
+  canDrop: PropTypes.bool.isRequired,
+  widgetEditor: PropTypes.object
 };
 
 const mapStateToProps = state => ({

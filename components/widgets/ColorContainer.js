@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
 import withRedux from 'next-redux-wrapper';
@@ -47,8 +48,8 @@ class ColorContainer extends React.Component {
           <ColumnBox
             name={color.name}
             type={color.type}
-            closable={true}
-            configurable={true}
+            closable
+            configurable
             isA="color"
           />
         }
@@ -58,15 +59,10 @@ class ColorContainer extends React.Component {
 }
 
 ColorContainer.propTypes = {
-  connectDropTarget: React.PropTypes.func.isRequired,
-  isOver: React.PropTypes.bool.isRequired,
-  canDrop: React.PropTypes.bool.isRequired,
-
-  // STORE
-  colors: React.PropTypes.array,
-
-  // ACTIONS
-  setColor: React.PropTypes.func
+  connectDropTarget: PropTypes.func.isRequired,
+  isOver: PropTypes.bool.isRequired,
+  canDrop: PropTypes.bool.isRequired,
+  widgetEditor: PropTypes.object
 };
 
 const mapStateToProps = state => ({

@@ -53,7 +53,6 @@ class ColumnBox extends React.Component {
         this.props.removeDimensionY();
         break;
       default:
-        console.log('Unknown column box isA value: ', isA);
     }
   }
 
@@ -62,10 +61,8 @@ class ColumnBox extends React.Component {
     const { isA } = this.props;
     switch (isA) {
       case 'color':
-        console.log('color', this.props);
         break;
       case 'size':
-        console.log('size', this.props);
         break;
       case 'filter':
         this.props.toggleTooltip(true, {
@@ -79,13 +76,10 @@ class ColumnBox extends React.Component {
         });
         break;
       case 'dimensionX':
-        console.log('dimensionX', this.props);
         break;
       case 'dimensionY':
-        console.log('dimensionY', this.props);
         break;
       default:
-        console.log('Unknown column box isA value: ', isA);
     }
   }
 
@@ -105,24 +99,20 @@ class ColumnBox extends React.Component {
         />
         {name}
         {closable &&
-          <a
-            onClick={this.triggerClose}
-          >
+          <button onClick={this.triggerClose}>
             <Icon
               name="icon-cross"
               className="-smaller close-button"
             />
-          </a>
+          </button>
         }
         {configurable &&
-          <a
-            onClick={this.triggerConfigure}
-          >
+          <button onClick={this.triggerConfigure}>
             <Icon
               name="icon-cog"
               className="-smaller configure-button"
             />
-          </a>
+          </button>
         }
       </div>
     );
