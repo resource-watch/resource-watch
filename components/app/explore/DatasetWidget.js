@@ -152,7 +152,10 @@ class DatasetWidget extends React.Component {
           <div className="detail">
             {/* Title */}
             <Title className="-default -primary">
-              <Link route="explore_detail" params={{ id: dataset.id }}>
+              <Link
+                route={'explore_detail'}
+                params={{ id: dataset.id }}
+              >
                 <a className="explore_detail_link">{dataset.attributes.name}</a>
               </Link>
             </Title>

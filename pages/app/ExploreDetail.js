@@ -2,7 +2,8 @@ import React from 'react';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import classNames from 'classnames';
-import { getDataset, resetDataset, getSimilarDatasets, toggleLayerShown } from 'redactions/exploreDetail';
+import { resetDataset, toggleLayerShown } from 'redactions/exploreDetail';
+import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 
 // Components
 import Title from 'components/ui/Title';
@@ -34,6 +35,11 @@ const mapConfig = {
 
 class ExploreDetail extends React.Component {
 
+  static async getInitialProps({ query }) {
+    const datasetID = query.id;
+    return { datasetID };
+  }
+
   constructor(props) {
     super(props);
 
@@ -47,8 +53,8 @@ class ExploreDetail extends React.Component {
     };
 
     // DatasetService
-    this.datasetService = new DatasetService(this.props.params.id, {
-      apiURL: 'https://api.resourcewatch.org/v1'
+    this.datasetService = new DatasetService(this.props.datasetID, {
+      apiURL: process.env.WRI_API_URL
     });
 
     // BINDINGS
@@ -56,11 +62,17 @@ class ExploreDetail extends React.Component {
   }
 
   componentWillMount() {
-    this.props.getDataset(this.props.params.id);
+    this.getDataset();
+  }
+
+  getDataset() {
+    this.datasetService.fetchData().then((response) => {
+
+    });
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.params.id !== nextProps.params.id) {
+    if (this.props.datasetID !== nextProps.datasetID) {
       this.props.resetDataset();
       this.setState({
         similarDatasetsLoaded: false,
@@ -68,7 +80,7 @@ class ExploreDetail extends React.Component {
         datasetDataError: false,
         datasetLoaded: false
       }, () => {
-        this.props.getDataset(this.props.params.id);
+        this.getDataset();
       });
     }
 
@@ -198,7 +210,7 @@ class ExploreDetail extends React.Component {
       row: true,
       'similar-datasets-row': true,
       '-active': exploreDetail.similarDatasets.list.filter(value =>
-                  value.id !== this.props.params.id
+                  value.id !== this.props.datasetID
                 ).length > 0
     });
 
@@ -263,7 +275,7 @@ class ExploreDetail extends React.Component {
             <DatasetList
               active={exploreDetail.similarDatasets.list.map(value => value.id)}
               list={exploreDetail.similarDatasets.list.filter(value =>
-                value.id !== this.props.params.id
+                value.id !== this.props.datasetID
               )}
               mode="grid"
             />
@@ -311,9 +323,7 @@ ExploreDetail.propTypes = {
   exploreDetail: React.PropTypes.object,
 
   // ACTIONS
-  getDataset: React.PropTypes.func,
   resetDataset: React.PropTypes.func,
-  getSimilarDatasets: React.PropTypes.func,
   toggleLayerShown: React.PropTypes.func
 };
 
@@ -322,4 +332,4 @@ const mapStateToProps = state => ({
   layersShown: updateLayersShown(state)
 });
 
-export default withRedux(initStore, mapStateToProps, { getDataset, resetDataset, getSimilarDatasets, toggleLayerShown })(ExploreDetail)
+export default withRedux(initStore, mapStateToProps, { resetDataset, toggleLayerShown })(ExploreDetail)
