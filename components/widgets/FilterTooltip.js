@@ -35,7 +35,9 @@ class FilterTooltip extends React.Component {
 
 FilterTooltip.propTypes = {
   // Define the chart data
-  value: React.PropTypes.object
+  value: React.PropTypes.object,
+  // store
+  toggleTooltip: React.PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({

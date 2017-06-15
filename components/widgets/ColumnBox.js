@@ -68,7 +68,15 @@ class ColumnBox extends React.Component {
         console.log('size', this.props);
         break;
       case 'filter':
-        console.log('color', this.props);
+        this.props.toggleTooltip(true, {
+          follow: false,
+          position: { x: event.clientX, y: event.clientY },
+          children: FilterTooltip,
+          childrenProps: {
+            name: this.props.name,
+            type: this.props.type
+          }
+        });
         break;
       case 'dimensionX':
         console.log('dimensionX', this.props);
@@ -79,16 +87,6 @@ class ColumnBox extends React.Component {
       default:
         console.log('Unknown column box isA value: ', isA);
     }
-
-    this.props.toggleTooltip(true, {
-      follow: false,
-      position: { x: event.clientX, y: event.clientY },
-      children: FilterTooltip,
-      childrenProps: {
-        name: this.props.name,
-        type: this.props.type
-      }
-    });
   }
 
   render() {
