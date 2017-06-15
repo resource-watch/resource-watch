@@ -8,6 +8,7 @@ class FilterTooltip extends React.Component {
   }
 
   render() {
+    console.log('tooltip props', this.props);
     return (
       <div className="c-filter-tooltip">
         Tooltip

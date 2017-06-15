@@ -7,6 +7,7 @@ import { initStore } from 'store';
 import { removeFilter, removeColor, removeDimensionX, removeDimensionY, removeSize } from 'redactions/widgetEditor';
 import { toggleTooltip } from 'redactions/tooltip';
 import Icon from 'components/ui/Icon';
+import FilterTooltip from 'components/widgets/FilterTooltip';
 
 /**
  * Implements the drag source contract.
@@ -81,9 +82,13 @@ class ColumnBox extends React.Component {
 
     this.props.toggleTooltip(true, {
       follow: false,
-      position: { x: event.clientX, y: event.clientY }
+      position: { x: event.clientX, y: event.clientY },
+      children: FilterTooltip,
+      childrenProps: {
+        name: this.props.name,
+        type: this.props.type
+      }
     });
-    debugger;
   }
 
   render() {

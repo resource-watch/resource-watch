@@ -2,7 +2,7 @@ import React from 'react';
 import WidgetTable from 'components/admin/widget/table/WidgetTable';
 import ButtonContainer from 'components/ui/ButtonContainer';
 import Title from 'components/ui/Title';
-import Page from 'components/admin/layout/page';
+import Page from 'components/admin/layout/Page';
 
 export default class WidgetIndex extends React.Component {
 

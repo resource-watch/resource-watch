@@ -1,6 +1,6 @@
 import React from 'react';
 import Title from 'components/ui/Title';
-import Page from 'components/admin/layout/page';
+import Page from 'components/admin/layout/Page';
 import DatasetForm from 'components/admin/dataset/form/DatasetForm';
 import { Router } from 'routes';
 
