@@ -14,6 +14,10 @@
     .detail {
       padding: 16px;
 
+      a {
+        text-decoration: none;
+      }
+
       p {
         margin-top: 20px 0 0;
         word-break: break-word;
@@ -33,6 +37,11 @@
       .detail {
         padding-left: 0px;
         max-width: calc(100% - 150px);
+
+        a {
+          text-decoration: none;
+        }
+
       }
     }
 
