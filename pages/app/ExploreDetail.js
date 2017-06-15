@@ -6,6 +6,7 @@ import { resetDataset, toggleLayerShown } from 'redactions/exploreDetail';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 
 // Components
+import Page from 'components/app/layout/Page';
 import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Button from 'components/ui/Button';
@@ -16,13 +17,11 @@ import Sidebar from 'components/app/layout/Sidebar';
 import Map from 'components/vis/Map';
 import Legend from 'components/ui/Legend';
 import LayerManager from 'utils/layers/LayerManager';
-import ConfigurableWidget from 'components/app/explore/ConfigurableWidget';
-import getQueryByFilters from 'utils/getQueryByFilters';
 import DatasetService from 'services/DatasetService';
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Explore', url: '/explore' }
+  { name: 'Home', url: 'home' },
+  { name: 'Explore', url: 'explore' }
 ];
 
 const mapConfig = {
@@ -45,11 +44,9 @@ class ExploreDetail extends React.Component {
 
     this.state = {
       similarDatasetsLoaded: false,
-      datasetRawDataLoaded: false,
-      datasetLoaded: false,
-      datasetData: null,
+      dataset: null,
       mapSectionOpened: false,
-      datasetDataError: false
+      loading: false
     };
 
     // DatasetService
@@ -61,14 +58,8 @@ class ExploreDetail extends React.Component {
     this.triggerOpenLayer = this.triggerOpenLayer.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getDataset();
-  }
-
-  getDataset() {
-    this.datasetService.fetchData().then((response) => {
-
-    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -77,42 +68,10 @@ class ExploreDetail extends React.Component {
       this.setState({
         similarDatasetsLoaded: false,
         datasetRawDataLoaded: false,
-        datasetDataError: false,
         datasetLoaded: false
       }, () => {
         this.getDataset();
       });
-    }
-
-    const dataset = nextProps.exploreDetail.dataset.detail.attributes;
-
-    if (dataset) {
-      if (!this.props.exploreDetail.dataset.detail.attributes) {
-        this.setState({ datasetLoaded: true });
-      }
-
-      if (dataset.vocabulary && dataset.vocabulary.length) {
-        const vocabulary = dataset.vocabulary.find(v => v.attributes.name === 'legacy');
-        if (vocabulary) {
-          const tags = vocabulary.attributes.tags;
-          if (!this.state.similarDatasetsLoaded) {
-            this.setState({ similarDatasetsLoaded: true }, () => {
-              this.props.getSimilarDatasets(tags);
-            });
-          }
-        }
-      }
-
-      if (dataset.tableName) {
-        if (!this.state.datasetRawDataLoaded) {
-          this.getDatasetRawData(dataset);
-        }
-      } else if (this.state.datasetLoaded || dataset.application) {
-        this.setState({
-          datasetRawDataLoaded: true,
-          datasetDataError: true
-        });
-      }
     }
   }
 
@@ -120,35 +79,26 @@ class ExploreDetail extends React.Component {
     this.props.resetDataset();
   }
 
-  getDatasetRawData(dataset) {
-    const query = `${getQueryByFilters(dataset.tableName)} LIMIT 10`; // temporal fix
-    this.datasetService.fetchFilteredData(query)
-      .then((response) => {
-        if (response) {
-          this.setState({
-            datasetRawDataLoaded: true,
-            datasetData: response
-          });
-        } else {
-          this.setState({
-            datasetDataError: true,
-            datasetRawDataLoaded: true
-          });
-        }
-      })
-      .catch((error) => {
-        console.info('error', error);
-        this.setState({
-          datasetDataError: true,
-          datasetRawDataLoaded: true
-        });
+  getDataset() {
+    this.setState({
+      loading: true
+    });
+    this.datasetService.fetchData().then((response) => {
+      this.setState({
+        dataset: response,
+        datasetLoaded: true,
+        loading: false
       });
+    }).catch((error) => {
+      this.setState({
+        loading: false
+      });
+    });
   }
 
   getOpenMapButton() {
-    const { mapSectionOpened } = this.state;
-    const { dataset } = this.props.exploreDetail;
-    const hasDefaultLayer = !!dataset.detail.attributes.layer.find(
+    const { mapSectionOpened, dataset } = this.state;
+    const hasDefaultLayer = dataset && dataset.detail.attributes.layer.find(
       value => value.attributes.default === true);
     const buttonText = (mapSectionOpened) ? 'Active' : 'Open in data map';
     const buttonClass = classNames({
@@ -183,7 +133,7 @@ class ExploreDetail extends React.Component {
   }
 
   triggerOpenLayer() {
-    const { dataset } = this.props.exploreDetail;
+    const { dataset } = this.state;
 
     this.setState(
       {
@@ -201,41 +151,32 @@ class ExploreDetail extends React.Component {
   }
 
   render() {
-    const { exploreDetail } = this.props;
-    const { dataset } = exploreDetail;
-    const { layersShown } = this.props;
-    const { datasetData } = this.state;
+    const { layersShown, exploreDetail } = this.props;
+    const { dataset, loading } = this.state;
+    const metadata = dataset && dataset.detail.attributes.metadata;
 
-    const similarDatasetsSectionClass = classNames({
-      row: true,
-      'similar-datasets-row': true,
-      '-active': exploreDetail.similarDatasets.list.filter(value =>
-                  value.id !== this.props.datasetID
-                ).length > 0
-    });
+    // const similarDatasetsSectionClass = classNames({
+    //   row: true,
+    //   'similar-datasets-row': true,
+    //   '-active': exploreDetail.similarDatasets.list.filter(value =>
+    //               value.id !== this.props.datasetID
+    //             ).length > 0
+    // });
 
     const pageStructure = (
       <div className="c-page c-page-explore-detail">
         <div className="row">
           <div className="column small-12">
             <Breadcrumbs items={breadcrumbs} />
-            <Title className="-primary -huge title" >{ dataset.detail.attributes &&
+            <Title className="-primary -huge title" >{ dataset && dataset.detail.attributes &&
                 dataset.detail.attributes.name}</Title>
           </div>
         </div>
         <div className="row widget-row">
           <div className="column small-12 ">
-            {this.state.datasetRawDataLoaded && !this.state.datasetDataError &&
-              <ConfigurableWidget
-                dataset={dataset.detail}
-                datasetData={datasetData}
-              />
-            }
-            {this.state.datasetDataError &&
-              <h3>No widget can be shown for this dataset</h3>
-            }
+            <h2>WidgetEditor</h2>
             <Spinner
-              isLoading={!this.state.datasetRawDataLoaded}
+              isLoading={loading}
               className="-light"
             />
           </div>
@@ -247,13 +188,13 @@ class ExploreDetail extends React.Component {
           </div>
           <div className="column small-7">
             {/* Description */}
-            {dataset.detail.attributes.metadata && (dataset.detail.attributes.metadata.length > 0)
-              && dataset.detail.attributes.metadata[0].attributes.description &&
-              <p>{dataset.detail.attributes.metadata[0].attributes.description}</p>
+            {metadata && (metadata.length > 0)
+              && metadata[0].attributes.description &&
+              <p>{metadata[0].attributes.description}</p>
             }
           </div>
           <div className="column small-3 actions">
-            {this.getOpenMapButton()}
+            {dataset && this.getOpenMapButton()}
             <Button
               properties={{
                 disabled: true,
@@ -265,7 +206,7 @@ class ExploreDetail extends React.Component {
             </Button>
           </div>
         </div>
-        <div className={similarDatasetsSectionClass} >
+        <div>
           <div className="column small-12">
             <Title className="-secondary title">
               Similar datasets
@@ -290,33 +231,43 @@ class ExploreDetail extends React.Component {
 
     if (!this.state.mapSectionOpened) {
       return (
-        <div className="c-page c-page-explore-detail">
-          {pageStructure}
-        </div>
+        <Page
+          title="Explore detail"
+          description="Explore detail description..."
+        >
+          <div className="c-page-explore-detail">
+            {pageStructure}
+          </div>
+        </Page>
       );
     }
+
     return (
-      <div className="c-page c-page-explore-detail">
-        <Sidebar>
-          {pageStructure}
-        </Sidebar>
-        <Map
-          LayerManager={LayerManager}
-          mapConfig={mapConfig}
-          layersActive={layersShown}
-        />
-        <Legend
-          layersActive={layersShown}
-          className={{ color: '-dark' }}
-        />
-      </div>
+      <Page
+        title="Explore detail"
+        description="Explore detail description..."
+      >
+        <div className="c-page-explore-detail">
+          <Sidebar>
+            {pageStructure}
+          </Sidebar>
+          <Map
+            LayerManager={LayerManager}
+            mapConfig={mapConfig}
+            layersActive={layersShown}
+          />
+          <Legend
+            layersActive={layersShown}
+            className={{ color: '-dark' }}
+          />
+        </div>
+      </Page>
     );
   }
 }
 
 ExploreDetail.propTypes = {
 
-  params: React.PropTypes.object,
   layersShown: React.PropTypes.array,
 
   // STORE
@@ -332,4 +283,13 @@ const mapStateToProps = state => ({
   layersShown: updateLayersShown(state)
 });
 
-export default withRedux(initStore, mapStateToProps, { resetDataset, toggleLayerShown })(ExploreDetail)
+const mapDispatchToProps = dispatch => ({
+  resetDataset: () => {
+    dispatch(resetDataset());
+  },
+  toggleLayerShown: (id) => {
+    dispatch(toggleLayerShown(id));
+  }
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail)
