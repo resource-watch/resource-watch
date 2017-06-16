@@ -82,24 +82,27 @@ class ExploreDetail extends React.Component {
   getDataset() {
     this.setState({
       loading: true
-    });
-    this.datasetService.fetchData().then((response) => {
-      this.setState({
-        dataset: response,
-        datasetLoaded: true,
-        loading: false
-      });
-    }).catch((error) => {
-      this.setState({
-        loading: false
+    }, () => {
+      this.datasetService.fetchData('layer,metadata').then((response) => {
+        this.setState({
+          dataset: response,
+          datasetLoaded: true,
+          loading: false
+        });
+      }).catch((error) => {
+        console.log(error);
+        this.setState({
+          loading: false
+        });
       });
     });
   }
 
   getOpenMapButton() {
     const { mapSectionOpened, dataset } = this.state;
-    const hasDefaultLayer = dataset && dataset.detail.attributes.layer.find(
-      value => value.attributes.default === true);
+    console.log(dataset);
+    const hasDefaultLayer = dataset && dataset.attributes.layer &&
+      dataset.attributes.layer.find(value => value.attributes.default === true);
     const buttonText = (mapSectionOpened) ? 'Active' : 'Open in data map';
     const buttonClass = classNames({
       '-active': hasDefaultLayer,
@@ -141,7 +144,7 @@ class ExploreDetail extends React.Component {
       }
     );
 
-    const defaultLayerId = dataset.detail.attributes.layer.find(
+    const defaultLayerId = dataset.attributes.layer.find(
       value => value.attributes.default === true).id;
     this.props.toggleLayerShown(defaultLayerId);
   }
@@ -153,7 +156,7 @@ class ExploreDetail extends React.Component {
   render() {
     const { layersShown, exploreDetail } = this.props;
     const { dataset, loading } = this.state;
-    const metadata = dataset && dataset.detail.attributes.metadata;
+    const metadata = dataset && dataset.attributes.metadata;
 
     // const similarDatasetsSectionClass = classNames({
     //   row: true,
@@ -168,8 +171,8 @@ class ExploreDetail extends React.Component {
         <div className="row">
           <div className="column small-12">
             <Breadcrumbs items={breadcrumbs} />
-            <Title className="-primary -huge title" >{ dataset && dataset.detail.attributes &&
-                dataset.detail.attributes.name}</Title>
+            <Title className="-primary -huge title" >{ dataset && dataset.attributes &&
+                dataset.attributes.name}</Title>
           </div>
         </div>
         <div className="row widget-row">
@@ -206,28 +209,29 @@ class ExploreDetail extends React.Component {
             </Button>
           </div>
         </div>
-        <div>
-          <div className="column small-12">
-            <Title className="-secondary title">
-              Similar datasets
-            </Title>
-          </div>
-          <div className="column small-12">
-            <DatasetList
-              active={exploreDetail.similarDatasets.list.map(value => value.id)}
-              list={exploreDetail.similarDatasets.list.filter(value =>
-                value.id !== this.props.datasetID
-              )}
-              mode="grid"
-            />
-            <Spinner
-              isLoading={exploreDetail.similarDatasets.loading}
-              className="-relative"
-            />
-          </div>
-        </div>
       </div>
     );
+
+    // <div>
+    //   <div className="column small-12">
+    //     <Title className="-secondary title">
+    //       Similar datasets
+    //     </Title>
+    //   </div>
+    //   <div className="column small-12">
+    //     <DatasetList
+    //       active={exploreDetail.similarDatasets.list.map(value => value.id)}
+    //       list={exploreDetail.similarDatasets.list.filter(value =>
+    //         value.id !== this.props.datasetID
+    //       )}
+    //       mode="grid"
+    //     />
+    //     <Spinner
+    //       isLoading={exploreDetail.similarDatasets.loading}
+    //       className="-relative"
+    //     />
+    //   </div>
+    // </div>
 
     if (!this.state.mapSectionOpened) {
       return (

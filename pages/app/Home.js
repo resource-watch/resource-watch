@@ -101,7 +101,7 @@ class Home extends React.Component {
           <div className="buttons">
             {c.buttons.map((b, j) => (
               <button key={j} className={`c-btn ${b.className}`}>
-                <Link to={b.path}>{b.text}</Link>
+                <Link route={b.path}><a>{b.text}</a></Link>
               </button>
             ))}
           </div>

@@ -37,6 +37,7 @@
 @import "./components/ui/tooltip";
 @import "./components/ui/tooltip-global";
 @import "./components/ui/zoom_control";
+@import "./components/ui/breadcrumbs";
 
 // VIS
 @import "./components/vis/globe";
@@ -90,6 +91,7 @@
 
 // PAGES
 @import "./components/app/pages/explore";
+@import "./components/app/pages/explore_detail";
 @import "./components/app/pages/about";
 @import "./components/app/pages/pulse";
 @import "./components/app/pages/home";

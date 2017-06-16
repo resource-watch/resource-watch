@@ -30,9 +30,9 @@ export default class DatasetService {
    * Get dataset info
    * @returns {Promise}
    */
-  fetchData() {
+  fetchData(includes = '') {
     return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/dataset/${this.datasetId}`)
+      fetch(`${this.opts.apiURL}/dataset/${this.datasetId}?includes=${includes}`)
         .then(response => response.json())
         .then(jsonData => resolve(jsonData.data));
     });
