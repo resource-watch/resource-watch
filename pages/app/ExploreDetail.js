@@ -46,7 +46,8 @@ class ExploreDetail extends React.Component {
       similarDatasetsLoaded: false,
       dataset: null,
       mapSectionOpened: false,
-      loading: false
+      loading: false,
+      layers: []
     };
 
     // DatasetService
@@ -100,7 +101,6 @@ class ExploreDetail extends React.Component {
 
   getOpenMapButton() {
     const { mapSectionOpened, dataset } = this.state;
-    console.log(dataset);
     const hasDefaultLayer = dataset && dataset.attributes.layer &&
       dataset.attributes.layer.find(value => value.attributes.default === true);
     const buttonText = (mapSectionOpened) ? 'Active' : 'Open in data map';
@@ -137,16 +137,15 @@ class ExploreDetail extends React.Component {
 
   triggerOpenLayer() {
     const { dataset } = this.state;
+    const defaultLayer = dataset.attributes.layer.find(
+      value => value.attributes.default === true);
 
     this.setState(
       {
+        layers: [defaultLayer.attributes],
         mapSectionOpened: !this.state.mapSectionOpened
       }
     );
-
-    const defaultLayerId = dataset.attributes.layer.find(
-      value => value.attributes.default === true).id;
-    this.props.toggleLayerShown(defaultLayerId);
   }
 
   triggerDownload() {
@@ -154,8 +153,7 @@ class ExploreDetail extends React.Component {
   }
 
   render() {
-    const { layersShown, exploreDetail } = this.props;
-    const { dataset, loading } = this.state;
+    const { dataset, loading, layers } = this.state;
     const metadata = dataset && dataset.attributes.metadata;
 
     // const similarDatasetsSectionClass = classNames({
@@ -258,10 +256,10 @@ class ExploreDetail extends React.Component {
           <Map
             LayerManager={LayerManager}
             mapConfig={mapConfig}
-            layersActive={layersShown}
+            layersActive={layers}
           />
           <Legend
-            layersActive={layersShown}
+            layersActive={layers}
             className={{ color: '-dark' }}
           />
         </div>
@@ -271,15 +269,9 @@ class ExploreDetail extends React.Component {
 }
 
 ExploreDetail.propTypes = {
-
-  layersShown: React.PropTypes.array,
-
-  // STORE
-  exploreDetail: React.PropTypes.object,
-
+  datasetID: React.PropTypes.string.isRequired,
   // ACTIONS
-  resetDataset: React.PropTypes.func,
-  toggleLayerShown: React.PropTypes.func
+  resetDataset: React.PropTypes.func
 };
 
 const mapStateToProps = state => ({
