@@ -39,7 +39,7 @@ const exploreCards = [
     buttons: [
       {
         text: 'Explore data',
-        path: '/explore',
+        path: 'explore',
         className: '-primary'
       }
     ],
@@ -52,7 +52,7 @@ const exploreCards = [
     buttons: [
       {
         text: 'View dashboards',
-        path: '/dashboards',
+        path: 'dashboards',
         className: '-primary'
       }
     ],
@@ -65,7 +65,7 @@ const exploreCards = [
     buttons: [
       {
         text: 'Launch planet pulse',
-        path: '/planet-pulse',
+        path: 'pulse',
         className: '-primary'
       }
     ],

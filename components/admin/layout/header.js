@@ -15,7 +15,7 @@ export default class Header extends React.Component {
       <header className="l-header c-header">
         <div className="row collapse">
           <div className="column">
-            <Link href="/"><img alt="" src="/static/images/logo.png" /></Link>
+            <Link route="admin_home"><a><img alt="" src="/static/images/logo.png" /></a></Link>
           </div>
           <ul className="menu">
             <li><Link route="datasets"><a>Datasets</a></Link></li>

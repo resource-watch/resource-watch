@@ -168,7 +168,7 @@ class Header extends React.Component {
         </div>
         <div className={`header-main ${mainClass}`}>
           <div className="brand">
-            <Link to="/"><Logo /></Link>
+            <Link route="home"><a><Logo /></a></Link>
           </div>
           <div className="menu">
             <Menu items={navigationLinks} />
