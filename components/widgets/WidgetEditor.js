@@ -1,7 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Autobind } from 'es-decorators';
 import { DragDropContext } from 'react-dnd';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
 import DatasetService from 'services/DatasetService';
 import ColumnBox from 'components/widgets/ColumnBox';
 import FilterContainer from 'components/widgets/FilterContainer';
@@ -11,8 +15,21 @@ import DimensionXContainer from 'components/widgets/DimensionXContainer';
 import DimensionYContainer from 'components/widgets/DimensionYContainer';
 import Select from 'components/form/SelectInput';
 import Spinner from 'components/ui/Spinner';
+import VegaChart from 'components/widgets/VegaChart';
+import getQueryByFilters from 'utils/getQueryByFilters';
+import BarChart from 'utils/widgets/bar';
+import LineChart from 'utils/widgets/line';
+import PieChart from 'utils/widgets/pie';
 
 const oneDimensionalChartTypes = ['pie', '1d_scatter', '1d_tick'];
+const CHART_TYPES = {
+  bar: BarChart,
+  line: LineChart,
+  pie: PieChart,
+  scatter: null,
+  '1d_scatter': null,
+  '1d_line': null
+};
 
 @DragDropContext(HTML5Backend)
 class WidgetEditor extends React.Component {
@@ -26,6 +43,7 @@ class WidgetEditor extends React.Component {
       fieldsLoaded: false,
       jiminyLoaded: false,
       fields: [],
+      tableName: null,
       // Jiminy
       jiminy: {}
     };
@@ -45,6 +63,7 @@ class WidgetEditor extends React.Component {
           fields: response
         }, () => {
           this.getJiminy();
+          this.getTableName();
         });
       })
       .catch((error) => {
@@ -69,6 +88,70 @@ class WidgetEditor extends React.Component {
       });
   }
 
+  getTableName() {
+    this.datasetService.fetchData()
+      .then(({ attributes }) => {
+        this.setState({
+          tableName: attributes.tableName
+        });
+      });
+  }
+
+  getDataURL() {
+    const { widgetEditor } = this.props;
+    const { dimensionX } = widgetEditor;
+    const { dimensionY } = widgetEditor;
+
+    if (!dimensionX || !dimensionY) return '';
+
+    const columns = [
+      { key: 'x', value: dimensionX.name, as: true },
+      { key: 'y', value: dimensionY.name, as: true }
+    ];
+
+    const tableName = this.state.tableName;
+    const query = getQueryByFilters(tableName, [], columns);
+
+    // TODO: remove the limit
+    return `${process.env.WRI_API_URL}/query/${this.props.dataset}?sql=${query} LIMIT 200`;
+  }
+
+  getChartConfig() {
+    return Object.assign({}, CHART_TYPES[this.state.selectedChartType], {
+      data: [
+        {
+          url: this.getDataURL(),
+          name: 'table',
+          format: {
+            type: 'json',
+            property: 'data'
+          }
+        }
+      ]
+    });
+  }
+
+  isBidimensionalChart() {
+    return !oneDimensionalChartTypes.includes(this.state.selectedChartType);
+  }
+
+  canRenderChart() {
+    const { widgetEditor } = this.props;
+    const { dimensionX } = widgetEditor;
+    const { dimensionY } = widgetEditor;
+
+    return this.state.selectedChartType
+      && dimensionX
+      && dimensionX.name
+      && (
+        (this.isBidimensionalChart()
+          && dimensionY
+          && dimensionY.name
+        )
+        || !this.isBidimensionalChart()
+      );
+  }
+
   @Autobind
   handleChartTypeChange(val) {
     this.setState({
@@ -77,8 +160,19 @@ class WidgetEditor extends React.Component {
   }
 
   render() {
-    const { fields, jiminy, selectedChartType, loading } = this.state;
-    const bidimensionalChart = !oneDimensionalChartTypes.includes(selectedChartType);
+    const { fields, jiminy, loading } = this.state;
+
+    let visualization = null;
+    if (!this.state.tableName) {
+      visualization = 'Loading...';
+    } else if (!this.canRenderChart()) {
+      visualization = 'Select a type of chart and columns';
+    } else if (!CHART_TYPES[this.state.selectedChartType]) {
+      visualization = `This chart can't be previewed`; // eslint-disable-line quotes
+    } else {
+      visualization = <VegaChart data={this.getChartConfig()} />;
+    }
+
     return (
       <div className="c-widget-editor">
         <Spinner
@@ -124,9 +218,7 @@ class WidgetEditor extends React.Component {
               <div className="dimensions-box">
                 <h5>Dimensions</h5>
                 <DimensionXContainer />
-                { bidimensionalChart &&
-                <DimensionYContainer />
-              }
+                { this.isBidimensionalChart() && <DimensionYContainer /> }
               </div>
               <ColorContainer />
               <SizeContainer />
@@ -134,13 +226,20 @@ class WidgetEditor extends React.Component {
             </div>
           </div>
         </div>
+        <div className="visualization">
+          {visualization}
+        </div>
       </div>
     );
   }
 }
 
+const mapStateToProps = ({ widgetEditor }) => ({ widgetEditor });
+const mapDispatchToProps = () => ({});
+
 WidgetEditor.propTypes = {
-  dataset: React.PropTypes.string
+  dataset: PropTypes.string, // Dataset ID
+  widgetEditor: PropTypes.object
 };
 
-export default WidgetEditor;
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(WidgetEditor);

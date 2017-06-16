@@ -1839,25 +1839,10 @@
       "from": "d3@>=3.0.0 <4.0.0",
       "resolved": "https://registry.npmjs.org/d3/-/d3-3.5.17.tgz"
     },
-    "d3-array": {
-      "version": "1.2.0",
-      "from": "d3-array@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/d3-array/-/d3-array-1.2.0.tgz"
-    },
-    "d3-collection": {
-      "version": "1.0.3",
-      "from": "d3-collection@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/d3-collection/-/d3-collection-1.0.3.tgz"
-    },
-    "d3-color": {
-      "version": "1.0.3",
-      "from": "d3-color@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/d3-color/-/d3-color-1.0.3.tgz"
-    },
-    "d3-contour": {
-      "version": "1.1.0",
-      "from": "d3-contour@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/d3-contour/-/d3-contour-1.1.0.tgz"
+    "d3-cloud": {
+      "version": "1.2.4",
+      "from": "d3-cloud@>=1.2.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/d3-cloud/-/d3-cloud-1.2.4.tgz"
     },
     "d3-dispatch": {
       "version": "1.0.3",
@@ -1869,94 +1854,20 @@
       "from": "d3-dsv@>=0.1.0 <0.2.0",
       "resolved": "https://registry.npmjs.org/d3-dsv/-/d3-dsv-0.1.14.tgz"
     },
-    "d3-force": {
-      "version": "1.0.6",
-      "from": "d3-force@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/d3-force/-/d3-force-1.0.6.tgz"
-    },
     "d3-format": {
       "version": "0.4.2",
       "from": "d3-format@>=0.4.0 <0.5.0",
       "resolved": "https://registry.npmjs.org/d3-format/-/d3-format-0.4.2.tgz"
-    },
-    "d3-geo": {
-      "version": "1.6.4",
-      "from": "d3-geo@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/d3-geo/-/d3-geo-1.6.4.tgz"
     },
     "d3-geo-projection": {
       "version": "0.2.16",
       "from": "d3-geo-projection@>=0.2.0 <0.3.0",
       "resolved": "https://registry.npmjs.org/d3-geo-projection/-/d3-geo-projection-0.2.16.tgz"
     },
-    "d3-hierarchy": {
-      "version": "1.1.4",
-      "from": "d3-hierarchy@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/d3-hierarchy/-/d3-hierarchy-1.1.4.tgz"
-    },
-    "d3-interpolate": {
-      "version": "1.1.5",
-      "from": "d3-interpolate@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/d3-interpolate/-/d3-interpolate-1.1.5.tgz"
-    },
-    "d3-path": {
-      "version": "1.0.5",
-      "from": "d3-path@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/d3-path/-/d3-path-1.0.5.tgz"
-    },
-    "d3-quadtree": {
-      "version": "1.0.3",
-      "from": "d3-quadtree@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/d3-quadtree/-/d3-quadtree-1.0.3.tgz"
-    },
     "d3-queue": {
       "version": "2.0.3",
       "from": "d3-queue@>=2.0.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/d3-queue/-/d3-queue-2.0.3.tgz"
-    },
-    "d3-request": {
-      "version": "1.0.5",
-      "from": "d3-request@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/d3-request/-/d3-request-1.0.5.tgz",
-      "dependencies": {
-        "d3-dsv": {
-          "version": "1.0.5",
-          "from": "d3-dsv@1",
-          "resolved": "https://registry.npmjs.org/d3-dsv/-/d3-dsv-1.0.5.tgz"
-        }
-      }
-    },
-    "d3-scale": {
-      "version": "1.0.6",
-      "from": "d3-scale@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/d3-scale/-/d3-scale-1.0.6.tgz",
-      "dependencies": {
-        "d3-format": {
-          "version": "1.2.0",
-          "from": "d3-format@1",
-          "resolved": "https://registry.npmjs.org/d3-format/-/d3-format-1.2.0.tgz"
-        },
-        "d3-time": {
-          "version": "1.0.6",
-          "from": "d3-time@1",
-          "resolved": "https://registry.npmjs.org/d3-time/-/d3-time-1.0.6.tgz"
-        },
-        "d3-time-format": {
-          "version": "2.0.5",
-          "from": "d3-time-format@2",
-          "resolved": "https://registry.npmjs.org/d3-time-format/-/d3-time-format-2.0.5.tgz"
-        }
-      }
-    },
-    "d3-scale-chromatic": {
-      "version": "1.1.1",
-      "from": "d3-scale-chromatic@>=1.1.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/d3-scale-chromatic/-/d3-scale-chromatic-1.1.1.tgz"
-    },
-    "d3-shape": {
-      "version": "1.2.0",
-      "from": "d3-shape@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/d3-shape/-/d3-shape-1.2.0.tgz"
     },
     "d3-time": {
       "version": "0.1.1",
@@ -1967,16 +1878,6 @@
       "version": "0.2.1",
       "from": "d3-time-format@>=0.2.0 <0.3.0",
       "resolved": "https://registry.npmjs.org/d3-time-format/-/d3-time-format-0.2.1.tgz"
-    },
-    "d3-timer": {
-      "version": "1.0.5",
-      "from": "d3-timer@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/d3-timer/-/d3-timer-1.0.5.tgz"
-    },
-    "d3-voronoi": {
-      "version": "1.1.2",
-      "from": "d3-voronoi@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/d3-voronoi/-/d3-voronoi-1.1.2.tgz"
     },
     "damerau-levenshtein": {
       "version": "1.0.4",
@@ -2557,6 +2458,12 @@
       "version": "1.0.3",
       "from": "eslint-config-vizzuality@1.0.3",
       "resolved": "https://registry.npmjs.org/eslint-config-vizzuality/-/eslint-config-vizzuality-1.0.3.tgz",
+      "dev": true
+    },
+    "eslint-import-resolver-babel-module": {
+      "version": "3.0.0",
+      "from": "eslint-import-resolver-babel-module@>=3.0.0 <4.0.0",
+      "resolved": "https://registry.npmjs.org/eslint-import-resolver-babel-module/-/eslint-import-resolver-babel-module-3.0.0.tgz",
       "dev": true
     },
     "eslint-import-resolver-node": {
@@ -8170,14 +8077,14 @@
       "resolved": "https://registry.npmjs.org/vary/-/vary-1.1.0.tgz"
     },
     "vega": {
-      "version": "3.0.0-beta.31",
-      "from": "vega@latest",
-      "resolved": "https://registry.npmjs.org/vega/-/vega-3.0.0-beta.31.tgz",
+      "version": "2.6.5",
+      "from": "vega@>=2.6.0 <3.0.0",
+      "resolved": "https://registry.npmjs.org/vega/-/vega-2.6.5.tgz",
       "dependencies": {
         "camelcase": {
-          "version": "3.0.0",
-          "from": "camelcase@>=3.0.0 <4.0.0",
-          "resolved": "https://registry.npmjs.org/camelcase/-/camelcase-3.0.0.tgz"
+          "version": "2.1.1",
+          "from": "camelcase@>=2.0.1 <3.0.0",
+          "resolved": "https://registry.npmjs.org/camelcase/-/camelcase-2.1.1.tgz"
         },
         "cliui": {
           "version": "3.2.0",
@@ -8185,152 +8092,41 @@
           "resolved": "https://registry.npmjs.org/cliui/-/cliui-3.2.0.tgz"
         },
         "window-size": {
-          "version": "0.2.0",
-          "from": "window-size@>=0.2.0 <0.3.0",
-          "resolved": "https://registry.npmjs.org/window-size/-/window-size-0.2.0.tgz"
+          "version": "0.1.4",
+          "from": "window-size@>=0.1.4 <0.2.0",
+          "resolved": "https://registry.npmjs.org/window-size/-/window-size-0.1.4.tgz"
         },
         "yargs": {
-          "version": "4.8.1",
-          "from": "yargs@>=4.0.0 <5.0.0",
-          "resolved": "https://registry.npmjs.org/yargs/-/yargs-4.8.1.tgz"
-        },
-        "yargs-parser": {
-          "version": "2.4.1",
-          "from": "yargs-parser@>=2.4.1 <3.0.0",
-          "resolved": "https://registry.npmjs.org/yargs-parser/-/yargs-parser-2.4.1.tgz"
+          "version": "3.32.0",
+          "from": "yargs@>=3.30.0 <4.0.0",
+          "resolved": "https://registry.npmjs.org/yargs/-/yargs-3.32.0.tgz"
         }
       }
-    },
-    "vega-crossfilter": {
-      "version": "1.0.0-beta",
-      "from": "vega-crossfilter@>=1.0.0-beta",
-      "resolved": "https://registry.npmjs.org/vega-crossfilter/-/vega-crossfilter-1.0.0-beta.tgz"
     },
     "vega-dataflow": {
-      "version": "2.0.0-beta.22",
-      "from": "vega-dataflow@>=2.0.0-beta",
-      "resolved": "https://registry.npmjs.org/vega-dataflow/-/vega-dataflow-2.0.0-beta.22.tgz"
-    },
-    "vega-encode": {
-      "version": "1.0.0-beta.18",
-      "from": "vega-encode@>=1.0.0-beta",
-      "resolved": "https://registry.npmjs.org/vega-encode/-/vega-encode-1.0.0-beta.18.tgz",
-      "dependencies": {
-        "d3-format": {
-          "version": "1.2.0",
-          "from": "d3-format@>=1.0.0 <2.0.0",
-          "resolved": "https://registry.npmjs.org/d3-format/-/d3-format-1.2.0.tgz"
-        }
-      }
+      "version": "1.4.3",
+      "from": "vega-dataflow@>=1.4.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/vega-dataflow/-/vega-dataflow-1.4.3.tgz"
     },
     "vega-event-selector": {
-      "version": "2.0.0-beta",
-      "from": "vega-event-selector@>=2.0.0-beta",
-      "resolved": "https://registry.npmjs.org/vega-event-selector/-/vega-event-selector-2.0.0-beta.tgz"
+      "version": "1.1.0",
+      "from": "vega-event-selector@>=1.0.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/vega-event-selector/-/vega-event-selector-1.1.0.tgz"
     },
     "vega-expression": {
-      "version": "2.2.0",
-      "from": "vega-expression@>=2.0.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/vega-expression/-/vega-expression-2.2.0.tgz"
+      "version": "1.2.1",
+      "from": "vega-expression@>=1.2.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/vega-expression/-/vega-expression-1.2.1.tgz"
     },
-    "vega-force": {
-      "version": "1.0.0-beta.2",
-      "from": "vega-force@>=1.0.0-beta",
-      "resolved": "https://registry.npmjs.org/vega-force/-/vega-force-1.0.0-beta.2.tgz"
-    },
-    "vega-geo": {
-      "version": "1.0.0-beta.4",
-      "from": "vega-geo@>=1.0.0-beta",
-      "resolved": "https://registry.npmjs.org/vega-geo/-/vega-geo-1.0.0-beta.4.tgz"
-    },
-    "vega-hierarchy": {
-      "version": "1.0.0-beta.2",
-      "from": "vega-hierarchy@>=1.0.0-beta",
-      "resolved": "https://registry.npmjs.org/vega-hierarchy/-/vega-hierarchy-1.0.0-beta.2.tgz"
-    },
-    "vega-loader": {
-      "version": "2.0.0-beta.8",
-      "from": "vega-loader@>=2.0.0-beta.5",
-      "resolved": "https://registry.npmjs.org/vega-loader/-/vega-loader-2.0.0-beta.8.tgz",
-      "dependencies": {
-        "d3-dsv": {
-          "version": "1.0.5",
-          "from": "d3-dsv@>=1.0.0 <2.0.0",
-          "resolved": "https://registry.npmjs.org/d3-dsv/-/d3-dsv-1.0.5.tgz"
-        },
-        "d3-time": {
-          "version": "1.0.6",
-          "from": "d3-time@>=1.0.0 <2.0.0",
-          "resolved": "https://registry.npmjs.org/d3-time/-/d3-time-1.0.6.tgz"
-        },
-        "d3-time-format": {
-          "version": "2.0.5",
-          "from": "d3-time-format@>=2.0.0 <3.0.0",
-          "resolved": "https://registry.npmjs.org/d3-time-format/-/d3-time-format-2.0.5.tgz"
-        }
-      }
-    },
-    "vega-parser": {
-      "version": "1.0.0-beta.53",
-      "from": "vega-parser@>=1.0.0-beta",
-      "resolved": "https://registry.npmjs.org/vega-parser/-/vega-parser-1.0.0-beta.53.tgz",
-      "dependencies": {
-        "d3-format": {
-          "version": "1.2.0",
-          "from": "d3-format@1",
-          "resolved": "https://registry.npmjs.org/d3-format/-/d3-format-1.2.0.tgz"
-        },
-        "d3-time": {
-          "version": "1.0.6",
-          "from": "d3-time@1",
-          "resolved": "https://registry.npmjs.org/d3-time/-/d3-time-1.0.6.tgz"
-        },
-        "d3-time-format": {
-          "version": "2.0.5",
-          "from": "d3-time-format@2",
-          "resolved": "https://registry.npmjs.org/d3-time-format/-/d3-time-format-2.0.5.tgz"
-        }
-      }
-    },
-    "vega-runtime": {
-      "version": "1.0.0-beta.6",
-      "from": "vega-runtime@>=1.0.0-beta",
-      "resolved": "https://registry.npmjs.org/vega-runtime/-/vega-runtime-1.0.0-beta.6.tgz"
-    },
-    "vega-scale": {
-      "version": "2.0.0-beta.4",
-      "from": "vega-scale@>=2.0.0-beta",
-      "resolved": "https://registry.npmjs.org/vega-scale/-/vega-scale-2.0.0-beta.4.tgz"
+    "vega-logging": {
+      "version": "1.0.2",
+      "from": "vega-logging@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/vega-logging/-/vega-logging-1.0.2.tgz"
     },
     "vega-scenegraph": {
-      "version": "2.0.0-beta.29",
-      "from": "vega-scenegraph@>=2.0.0-beta.11",
-      "resolved": "https://registry.npmjs.org/vega-scenegraph/-/vega-scenegraph-2.0.0-beta.29.tgz"
-    },
-    "vega-statistics": {
-      "version": "1.1.2",
-      "from": "vega-statistics@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/vega-statistics/-/vega-statistics-1.1.2.tgz"
-    },
-    "vega-util": {
-      "version": "1.2.0",
-      "from": "vega-util@>=1.2.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/vega-util/-/vega-util-1.2.0.tgz"
-    },
-    "vega-view": {
-      "version": "1.0.0-beta.32",
-      "from": "vega-view@>=1.0.0-beta",
-      "resolved": "https://registry.npmjs.org/vega-view/-/vega-view-1.0.0-beta.32.tgz"
-    },
-    "vega-voronoi": {
-      "version": "1.0.0-beta.1",
-      "from": "vega-voronoi@>=1.0.0-beta",
-      "resolved": "https://registry.npmjs.org/vega-voronoi/-/vega-voronoi-1.0.0-beta.1.tgz"
-    },
-    "vega-wordcloud": {
-      "version": "1.0.0-beta.4",
-      "from": "vega-wordcloud@>=1.0.0-beta",
-      "resolved": "https://registry.npmjs.org/vega-wordcloud/-/vega-wordcloud-1.0.0-beta.4.tgz"
+      "version": "1.1.0",
+      "from": "vega-scenegraph@>=1.0.16 <2.0.0",
+      "resolved": "https://registry.npmjs.org/vega-scenegraph/-/vega-scenegraph-1.1.0.tgz"
     },
     "verror": {
       "version": "1.3.6",
@@ -8504,11 +8300,6 @@
       "version": "0.1.27",
       "from": "xmldom@>=0.1.0 <0.2.0",
       "resolved": "https://registry.npmjs.org/xmldom/-/xmldom-0.1.27.tgz"
-    },
-    "xmlhttprequest": {
-      "version": "1.8.0",
-      "from": "xmlhttprequest@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/xmlhttprequest/-/xmlhttprequest-1.8.0.tgz"
     },
     "xmlhttprequest-ssl": {
       "version": "1.5.3",

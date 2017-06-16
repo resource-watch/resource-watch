@@ -1,12 +1,16 @@
 .c-widget-editor {
-
+  display: flex;
   background-color: $color-white;
 
   .customize-visualization {
-
+    flex-shrink: 0;
     color: $color-white;
     padding: 20px;
     background-color: $color-blue-turquoise;
+  }
+
+  .visualization {
+    flex-grow: 1;
   }
 
   .fields {
