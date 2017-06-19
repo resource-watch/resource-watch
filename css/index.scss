@@ -6,6 +6,9 @@
 @import '../node_modules/foundation-sites/scss/foundation';
 @include foundation-flex-grid;
 
+// React input range
+@import 'react-input-range/lib/css/index.css';
+
 // Common files
 @import "css/config";
 @import "css/base";
@@ -57,6 +60,7 @@
 @import "./components/widgets/size_container";
 @import "./components/widgets/dimensionx_container";
 @import "./components/widgets/dimensiony_container";
+@import "./components/widgets/filter_tooltip";
 
 // ================== ADMIN ======================
 

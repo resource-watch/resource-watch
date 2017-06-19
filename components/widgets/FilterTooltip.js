@@ -5,6 +5,8 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import DatasetService from 'services/DatasetService';
 import CheckboxGroup from 'components/form/CheckboxGroup';
+import Spinner from 'components/ui/Spinner';
+import InputRange from 'react-input-range';
 
 class FilterTooltip extends React.Component {
 
@@ -12,7 +14,9 @@ class FilterTooltip extends React.Component {
     super(props);
 
     this.state = {
-      values: []
+      values: [],
+      rangeValue: null,
+      loading: true
     }
 
     // DatasetService
@@ -28,12 +32,17 @@ class FilterTooltip extends React.Component {
       console.log(result);
       const values = props.type === 'string' ? result.properties.map(val => ({ name: val, label: val, value: val })) : null;
       this.setState({
+        loading: false,
         values,
+        min: result.properties.min,
         max: result.properties.max,
-        min: result.properties.min
+        rangeValue: { min: result.properties.min, max: result.properties.max }
       })
     }).catch((error) => {
       console.log(error);
+      this.setState({
+        loading: false
+      });
     });
   }
 
@@ -56,17 +65,31 @@ class FilterTooltip extends React.Component {
 
   render() {
     const { type } = this.props;
-    const { values } = this.state;
+    const { values, rangeValue, min, max, loading } = this.state;
+    console.log(this.state);
     return (
       <div className="c-filter-tooltip">
+        <Spinner
+          className="-light"
+          isLoading={loading}
+        />
         { type === 'string' &&
-          <CheckboxGroup
-            options={values}
-          />
+          <div>
+            <CheckboxGroup
+              options={values}
+            />
+            <div>
+              <button>Clear All</button>
+              <button>Select All</button>
+            </div>
+          </div>
         }
-        { type !== 'string' &&
-          <CheckboxGroup
-            options={values}
+        { type !== 'string' && !loading &&
+          <InputRange
+            maxValue={max}
+            minValue={min}
+            value={{ min: rangeValue.min, max: rangeValue.max }}
+            onChange={opts => this.setState({ rangeValue: { min: opts.min, max: opts.max } })}
           />
         }
       </div>

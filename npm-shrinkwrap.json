@@ -253,6 +253,11 @@
       "from": "attr-accept@>=1.0.3 <2.0.0",
       "resolved": "https://registry.npmjs.org/attr-accept/-/attr-accept-1.1.0.tgz"
     },
+    "autobind-decorator": {
+      "version": "1.4.1",
+      "from": "autobind-decorator@>=1.3.4 <2.0.0",
+      "resolved": "https://registry.npmjs.org/autobind-decorator/-/autobind-decorator-1.4.1.tgz"
+    },
     "autoprefixer": {
       "version": "7.1.0",
       "from": "autoprefixer@latest",
@@ -1841,7 +1846,7 @@
     },
     "d3-cloud": {
       "version": "1.2.4",
-      "from": "d3-cloud@>=1.2.1 <2.0.0",
+      "from": "d3-cloud@https://registry.npmjs.org/d3-cloud/-/d3-cloud-1.2.4.tgz",
       "resolved": "https://registry.npmjs.org/d3-cloud/-/d3-cloud-1.2.4.tgz"
     },
     "d3-dispatch": {
@@ -5980,6 +5985,18 @@
         }
       }
     },
+    "react-input-range": {
+      "version": "1.1.4",
+      "from": "react-input-range@latest",
+      "resolved": "https://registry.npmjs.org/react-input-range/-/react-input-range-1.1.4.tgz",
+      "dependencies": {
+        "prop-types": {
+          "version": "15.5.10",
+          "from": "prop-types@>=15.5.8 <16.0.0",
+          "resolved": "https://registry.npmjs.org/prop-types/-/prop-types-15.5.10.tgz"
+        }
+      }
+    },
     "react-proxy": {
       "version": "3.0.0-alpha.1",
       "from": "react-proxy@>=3.0.0-alpha.0 <4.0.0",
@@ -8083,7 +8100,7 @@
       "dependencies": {
         "camelcase": {
           "version": "2.1.1",
-          "from": "camelcase@>=2.0.1 <3.0.0",
+          "from": "camelcase@https://registry.npmjs.org/camelcase/-/camelcase-2.1.1.tgz",
           "resolved": "https://registry.npmjs.org/camelcase/-/camelcase-2.1.1.tgz"
         },
         "cliui": {
@@ -8093,39 +8110,39 @@
         },
         "window-size": {
           "version": "0.1.4",
-          "from": "window-size@>=0.1.4 <0.2.0",
+          "from": "window-size@https://registry.npmjs.org/window-size/-/window-size-0.1.4.tgz",
           "resolved": "https://registry.npmjs.org/window-size/-/window-size-0.1.4.tgz"
         },
         "yargs": {
           "version": "3.32.0",
-          "from": "yargs@>=3.30.0 <4.0.0",
+          "from": "yargs@https://registry.npmjs.org/yargs/-/yargs-3.32.0.tgz",
           "resolved": "https://registry.npmjs.org/yargs/-/yargs-3.32.0.tgz"
         }
       }
     },
     "vega-dataflow": {
       "version": "1.4.3",
-      "from": "vega-dataflow@>=1.4.0 <2.0.0",
+      "from": "vega-dataflow@https://registry.npmjs.org/vega-dataflow/-/vega-dataflow-1.4.3.tgz",
       "resolved": "https://registry.npmjs.org/vega-dataflow/-/vega-dataflow-1.4.3.tgz"
     },
     "vega-event-selector": {
       "version": "1.1.0",
-      "from": "vega-event-selector@>=1.0.0 <2.0.0",
+      "from": "vega-event-selector@https://registry.npmjs.org/vega-event-selector/-/vega-event-selector-1.1.0.tgz",
       "resolved": "https://registry.npmjs.org/vega-event-selector/-/vega-event-selector-1.1.0.tgz"
     },
     "vega-expression": {
       "version": "1.2.1",
-      "from": "vega-expression@>=1.2.0 <2.0.0",
+      "from": "vega-expression@https://registry.npmjs.org/vega-expression/-/vega-expression-1.2.1.tgz",
       "resolved": "https://registry.npmjs.org/vega-expression/-/vega-expression-1.2.1.tgz"
     },
     "vega-logging": {
       "version": "1.0.2",
-      "from": "vega-logging@>=1.0.1 <2.0.0",
+      "from": "vega-logging@https://registry.npmjs.org/vega-logging/-/vega-logging-1.0.2.tgz",
       "resolved": "https://registry.npmjs.org/vega-logging/-/vega-logging-1.0.2.tgz"
     },
     "vega-scenegraph": {
       "version": "1.1.0",
-      "from": "vega-scenegraph@>=1.0.16 <2.0.0",
+      "from": "vega-scenegraph@https://registry.npmjs.org/vega-scenegraph/-/vega-scenegraph-1.1.0.tgz",
       "resolved": "https://registry.npmjs.org/vega-scenegraph/-/vega-scenegraph-1.1.0.tgz"
     },
     "verror": {
