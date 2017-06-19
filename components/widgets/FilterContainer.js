@@ -55,6 +55,8 @@ class FilterContainer extends React.Component {
               key={val.name}
               name={val.name}
               type={val.type}
+              datasetID={val.datasetID}
+              tableName={val.tableName}
               closable
               configurable
               isA="filter"

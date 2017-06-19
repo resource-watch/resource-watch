@@ -16,7 +16,9 @@ const columnBoxSource = {
   beginDrag(props) {
     return {
       name: props.name,
-      type: props.type
+      type: props.type,
+      datasetID: props.datasetID,
+      tableName: props.tableName
     };
   }
 };
@@ -58,7 +60,7 @@ class ColumnBox extends React.Component {
 
   @Autobind
   triggerConfigure(event) {
-    const { isA } = this.props;
+    const { isA, name, type, datasetID, tableName } = this.props;
     switch (isA) {
       case 'color':
         break;
@@ -70,8 +72,10 @@ class ColumnBox extends React.Component {
           position: { x: event.clientX, y: event.clientY },
           children: FilterTooltip,
           childrenProps: {
-            name: this.props.name,
-            type: this.props.type
+            name,
+            type,
+            datasetID,
+            tableName
           }
         });
         break;
@@ -120,6 +124,8 @@ class ColumnBox extends React.Component {
 }
 
 ColumnBox.propTypes = {
+  tableName: React.PropTypes.string.isRequired,
+  datasetID: React.PropTypes.string.isRequired,
   name: React.PropTypes.string.isRequired,
   type: React.PropTypes.string.isRequired,
   isA: React.PropTypes.string,

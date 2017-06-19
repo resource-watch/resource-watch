@@ -196,7 +196,8 @@ class WidgetEditor extends React.Component {
   }
 
   render() {
-    const { fields, jiminy, loading } = this.state;
+    const { fields, jiminy, loading, tableName } = this.state;
+    const { dataset } = this.props;
 
     let visualization = null;
     if (!this.state.tableName) {
@@ -246,6 +247,8 @@ class WidgetEditor extends React.Component {
                     key={val.columnName}
                     name={val.columnName}
                     type={val.columnType}
+                    datasetID={dataset}
+                    tableName={tableName}
                   />
                 )
               )}
