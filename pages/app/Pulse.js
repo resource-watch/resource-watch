@@ -113,6 +113,7 @@ class Pulse extends React.Component {
 
   componentWillUnmount() {
     document.removeEventListener('click', this.triggerMouseDown);
+    this.props.toggleTooltip(false);
     this.mounted = false;
   }
 
