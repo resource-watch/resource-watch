@@ -1,7 +1,10 @@
-const bar = {
+import deepClone from 'lodash/cloneDeep';
+
+/* eslint-disable */
+const defaultChart = {
   width: 400,
   height: 200,
-  padding: { top: 10, left: 30, bottom: 30, right: 10 },
+  padding: { top: 10, left: 50, bottom: 30, right: 10 },
   data: [
     {
       name: 'table'
@@ -35,17 +38,45 @@ const bar = {
           x: { scale: 'x', field: 'x' },
           width: { scale: 'x', band: true, offset: -1 },
           y: { scale: 'y', field: 'y' },
-          y2: { scale: 'y', value: 0 }
-        },
-        update: {
-          fill: { value: 'steelblue' }
-        },
-        hover: {
-          fill: { value: 'red' }
+          y2: { scale: 'y', value: 0 },
+          "fill": {"value": "steelblue"}
         }
       }
     }
   ]
 };
 
-export default bar;
+/**
+ * Return the Vega chart configuration
+ * 
+ * @export
+ * @param {any} { columns, data } 
+ */
+export default function ({ columns, data }) {
+  const config = deepClone(defaultChart);
+
+  // We set the URL of the dataset
+  config.data[0].url = data.url;
+  config.data[0].format = {
+    "type": "json",
+    "property": data.property
+  };
+
+  if (columns.color.present) {
+    // We add the color scale
+    config.scales.push({
+      "name": "c",
+      "type": "ordinal",
+      "domain": {"data": "table", "field": "color"},
+      "range": "category10"
+    });
+
+    // We update the marks
+    config.marks[0].properties.enter.fill = {
+      "scale": "c",
+      "field": "color"
+    };
+  }
+
+  return config;
+};
