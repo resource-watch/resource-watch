@@ -20,15 +20,18 @@ import getQueryByFilters from 'utils/getQueryByFilters';
 import BarChart from 'utils/widgets/bar';
 import LineChart from 'utils/widgets/line';
 import PieChart from 'utils/widgets/pie';
+import OneDScatterChart from 'utils/widgets/1d_scatter';
+import OneDTickChart from 'utils/widgets/1d_tick';
+import ScatterChart from 'utils/widgets/scatter';
 
 const oneDimensionalChartTypes = ['pie', '1d_scatter', '1d_tick'];
 const CHART_TYPES = {
   bar: BarChart,
   line: LineChart,
   pie: PieChart,
-  scatter: null,
-  '1d_scatter': null,
-  '1d_line': null
+  scatter: ScatterChart,
+  '1d_scatter': OneDScatterChart,
+  '1d_tick': OneDTickChart
 };
 
 @DragDropContext(HTML5Backend)
@@ -101,13 +104,27 @@ class WidgetEditor extends React.Component {
     const { widgetEditor } = this.props;
     const { dimensionX } = widgetEditor;
     const { dimensionY } = widgetEditor;
+    const { color } = widgetEditor;
+    const { size } = widgetEditor;
+    const isBidimensional = this.isBidimensionalChart();
 
-    if (!dimensionX || !dimensionY) return '';
+    if (!dimensionX || (isBidimensional && !dimensionY)) return '';
 
     const columns = [
-      { key: 'x', value: dimensionX.name, as: true },
-      { key: 'y', value: dimensionY.name, as: true }
+      { key: 'x', value: dimensionX.name, as: true }
     ];
+
+    if (isBidimensional) {
+      columns.push({ key: 'y', value: dimensionY.name, as: true });
+    }
+
+    if (color) {
+      columns.push({ key: 'color', value: color.name, as: true });
+    }
+
+    if (size) {
+      columns.push({ key: 'size', value: size.name, as: true });
+    }
 
     const tableName = this.state.tableName;
     const query = getQueryByFilters(tableName, [], columns);
@@ -117,18 +134,37 @@ class WidgetEditor extends React.Component {
   }
 
   getChartConfig() {
-    return Object.assign({}, CHART_TYPES[this.state.selectedChartType], {
-      data: [
-        {
-          url: this.getDataURL(),
-          name: 'table',
-          format: {
-            type: 'json',
-            property: 'data'
-          }
-        }
-      ]
+    const { widgetEditor } = this.props;
+    const { dimensionY } = widgetEditor;
+    const { color } = widgetEditor;
+    const { size } = widgetEditor;
+
+    return CHART_TYPES[this.state.selectedChartType]({
+      // In the future, we could pass the type of the columns so the chart
+      // could select the right scale
+      columns: {
+        x: { present: true },
+        y: { present: !!dimensionY },
+        color: { present: !!color },
+        size: { present: !!size }
+      },
+      data: {
+        url: this.getDataURL(),
+        property: 'data'
+      }
     });
+    // return Object.assign({}, CHART_TYPES[this.state.selectedChartType], {
+    //   data: [
+    //     {
+    //       url: this.getDataURL(),
+    //       name: 'table',
+    //       format: {
+    //         type: 'json',
+    //         property: 'data'
+    //       }
+    //     }
+    //   ]
+    // });
   }
 
   isBidimensionalChart() {
