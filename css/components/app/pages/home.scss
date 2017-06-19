@@ -102,12 +102,27 @@
           text-transform: capitalize;
           font-weight: normal;
           font-size: 16px;
+          text-decoration: none;          
         }
       }
     }
 
     &.explore {
       button { width: 100%; }
+
+      .explore-cards {
+        .c-card-static {
+          .buttons {
+            .c-btn {
+
+              a {
+                color: $color-dark-pink;
+                text-decoration: none;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
