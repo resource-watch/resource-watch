@@ -6,3 +6,10 @@ body {
   font-family: $base-font-family;
   color: $base-font-color;
 }
+
+button {
+  appearance: none;
+  background: none;
+  border: none;
+  outline: none;
+}

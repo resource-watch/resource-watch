@@ -50,10 +50,12 @@ class Pulse extends React.Component {
    * - componentWillUnmount
   */
   componentDidMount() {
+    this.mounted = true;
     // This is not sending anything, for the moment
     this.props.getLayers();
     document.addEventListener('click', this.triggerMouseDown);
   }
+
   componentWillReceiveProps(nextProps) {
     const { layerActive } = this.props.pulse;
     const nextLayerActive = nextProps.pulse.layerActive;
@@ -111,6 +113,7 @@ class Pulse extends React.Component {
 
   componentWillUnmount() {
     document.removeEventListener('click', this.triggerMouseDown);
+    this.mounted = false;
   }
 
   /**
@@ -142,12 +145,14 @@ class Pulse extends React.Component {
         obj[key] = marker[key];
       }
     });
-    this.props.toggleTooltip(true, {
-      follow: false,
-      children: GlobeTooltip,
-      childrenProps: { value: obj },
-      position: { x: event.clientX, y: event.clientY }
-    });
+    if (this.mounted) {
+      this.props.toggleTooltip(true, {
+        follow: false,
+        children: GlobeTooltip,
+        childrenProps: { value: obj },
+        position: { x: event.clientX, y: event.clientY }
+      });
+    }
   }
   @Autobind
   handleEarthClicked(latLon, clientX, clientY) {
