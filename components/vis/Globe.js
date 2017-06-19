@@ -123,7 +123,7 @@ class Globe extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.texture !== this.state.texture) {
-      if (prevState.texture === null && this.state.texture !== null) {
+      if (this.state.texture !== null) {
         this.setTexture();
       }
       this.slideToRight();
