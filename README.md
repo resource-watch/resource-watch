@@ -7,6 +7,7 @@
 * [RW API documentation](https://resource-watch.github.io/doc-api/)
 * [Basecamp](https://basecamp.com/1756858/projects/8955129)
 * [PivotalTracker](https://www.pivotaltracker.com/n/projects/1374154)
+* [PostMan recipes](https://www.getpostman.com/collections/5f3e83c82ad5a6066657)
 
 ### Related repositories
 
