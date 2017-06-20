@@ -176,7 +176,6 @@ class ExploreDetail extends React.Component {
         </div>
         <div className="row widget-row">
           <div className="column small-12 ">
-            <h2>WidgetEditor</h2>
             {dataset &&
               <WidgetEditor
                 dataset={dataset.id}

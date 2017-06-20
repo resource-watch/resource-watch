@@ -1,16 +1,25 @@
 .c-widget-editor {
   display: flex;
-  background-color: $color-white;
 
   .customize-visualization {
+    margin-top: -20px;
+    margin-bottom: -20px;
     flex-shrink: 0;
-    color: $color-white;
     padding: 20px;
-    background-color: $color-blue-turquoise;
+    background-color: $color-white;
+    border-style: solid;
+    border-width: 1px;
+    border-color: $color-dark-grey;
+
+    .title {
+      color: $color-dark-pink;
+      font-weight: normal;
+    }
   }
 
   .visualization {
     flex-grow: 1;
+    margin-left: 10px;
   }
 
   .fields {

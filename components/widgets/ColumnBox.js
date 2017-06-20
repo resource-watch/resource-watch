@@ -35,6 +35,13 @@ function collect(connect, monitor) {
 
 class ColumnBox extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      aggregageFunction: null
+    };
+  }
+
   @Autobind
   triggerClose() {
     const { isA } = this.props;
@@ -70,16 +77,29 @@ class ColumnBox extends React.Component {
         this.props.toggleTooltip(true, {
           follow: false,
           position: { x: event.clientX, y: event.clientY },
-          children: FilterTooltip,
+          children: AggregateFunctionTooltip,
           childrenProps: {
             name,
             type,
             datasetID,
-            tableName
+            tableName,
+            dimension: 'x'
           }
         });
         break;
       case 'dimensionX':
+        this.props.toggleTooltip(true, {
+          follow: false,
+          position: { x: event.clientX, y: event.clientY },
+          children: AggregateFunctionTooltip,
+          childrenProps: {
+            name,
+            type,
+            datasetID,
+            tableName,
+            dimension: 'y'
+          }
+        });
         break;
       case 'dimensionY':
         break;
@@ -88,6 +108,7 @@ class ColumnBox extends React.Component {
   }
 
   render() {
+    const { aggregageFunction } = this.state;
     const { isDragging, connectDragSource, name, type, closable, configurable } = this.props;
     const iconName = (type.toLowerCase() === 'string') ? 'icon-type' : 'icon-hash';
     const boxClass = classNames({
@@ -102,6 +123,11 @@ class ColumnBox extends React.Component {
           className="-smaller"
         />
         {name}
+        {aggregageFunction &&
+          <div className="aggregate-function">
+            {aggregageFunction}
+          </div>
+        }
         {closable &&
           <button onClick={this.triggerClose}>
             <Icon
