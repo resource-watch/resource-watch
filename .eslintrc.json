@@ -1,0 +1,22 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "mocha": true,
+    "es6": true
+  },
+  "globals": {
+    "L": true,
+    "config": true
+  },
+  "extends": "vizzuality",
+  "rules": {
+    "import/prefer-default-export": 0,
+    "import/extensions": 0,
+    "import/no-extraneous-dependencies": 0,
+    "import/no-unresolved": 0,
+    "import/named": 0,
+    "react/jsx-filename-extension": 0,
+    "linebreak-style": 0
+  }
+}
