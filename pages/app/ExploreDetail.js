@@ -18,6 +18,7 @@ import Map from 'components/vis/Map';
 import Legend from 'components/ui/Legend';
 import LayerManager from 'utils/layers/LayerManager';
 import DatasetService from 'services/DatasetService';
+import WidgetEditor from 'components/widgets/WidgetEditor';
 
 const breadcrumbs = [
   { name: 'Home', url: 'home' },
@@ -176,6 +177,11 @@ class ExploreDetail extends React.Component {
         <div className="row widget-row">
           <div className="column small-12 ">
             <h2>WidgetEditor</h2>
+            {dataset &&
+              <WidgetEditor
+                dataset={dataset.id}
+              />
+            }
             <Spinner
               isLoading={loading}
               className="-light"
@@ -288,4 +294,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail)
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);
