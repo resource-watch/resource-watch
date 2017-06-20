@@ -35,8 +35,8 @@ class Header extends React.Component {
     const isAboutBtn = this.aboutDropdownBtn.contains(e.target);
 
     if (clickOutside) {
-      (!isDataBtn) ? this.toggleDataDropdown(e, 'dataDropdownActive', false) : null;
-      (!isAboutBtn) ? this.toggleDataDropdown(e, 'aboutDropdownActive', false) : null;
+      if (!isDataBtn) this.toggleDataDropdown(e, 'dataDropdownActive', false);
+      if (!isAboutBtn) this.toggleDataDropdown(e, 'aboutDropdownActive', false);
     }
   }
 
@@ -64,8 +64,9 @@ class Header extends React.Component {
         }}
       >
         {/* First child: This is what the item will be tethered to */}
-        <a
-          ref={c => this.dataDropdownBtn = c}
+        <a // eslint-disable-line jsx-a11y/no-static-element-interactions
+          ref={(c) => { this.dataDropdownBtn = c; }}
+          role="link"
           onClick={e => this.toggleDataDropdown(e, 'dataDropdownActive', !this.state.dataDropdownActive)}
         >
           Data
@@ -122,9 +123,11 @@ class Header extends React.Component {
         }}
       >
         {/* First child: This is what the item will be tethered to */}
-        <a
-          ref={c => this.aboutDropdownBtn = c}
-          onClick={e => this.toggleDataDropdown(e, 'aboutDropdownActive', !this.state.aboutDropdownActive)} >
+        <a // eslint-disable-line jsx-a11y/no-static-element-interactions
+          ref={(c) => { this.aboutDropdownBtn = c; }}
+          role="link"
+          onClick={e => this.toggleDataDropdown(e, 'aboutDropdownActive', !this.state.aboutDropdownActive)}
+        >
           About
         </a>
         {/* Second child: If present, this item will be tethered to the the first child */}

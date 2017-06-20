@@ -50,4 +50,8 @@
       & * { color: $color-primary; }
     }
   }
+
+  & > a {
+    text-decoration: none;
+  }
 }

@@ -19,7 +19,7 @@
   box-sizing: border-box;
 }
 .Select.is-disabled > .Select-control {
-  background-color: #f9f9f9;
+  background-color: $color-off-white;
 }
 .Select.is-disabled > .Select-control:hover {
   box-shadow: none;

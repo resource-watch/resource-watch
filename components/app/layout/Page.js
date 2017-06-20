@@ -62,7 +62,7 @@ class Page extends React.Component {
 }
 
 Page.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.node.isRequired,
   title: PropTypes.string,
   description: PropTypes.string,
   pathname: PropTypes.string,
