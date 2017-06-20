@@ -40,11 +40,14 @@ class Footer extends React.Component {
 
   setPartnersList() {
     const featured = this.props.list.filter(p => p.attributes.featured);
+    const baseURL = process.env.CMS_API_URL.slice(0, process.env.CMS_API_URL.length - 4);
 
     return featured.map(p => (
       <div key={p.id} className="item">
         <Link to={`/about/partners/${p.id}`}>
-          <img className="-img" src={`${process.env.CMS_API_URL}${p.attributes.logo.thumb}`} alt={p.attributes.name} />
+          <a>
+            <img className="-img" src={`${baseURL}${p.attributes.logo.thumb}`} alt={p.attributes.name} />
+          </a>
         </Link>
       </div>
     ));
