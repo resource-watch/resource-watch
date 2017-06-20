@@ -3,10 +3,13 @@ import { Autobind } from 'es-decorators';
 import { toggleTooltip } from 'redactions/tooltip';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import InputRange from 'react-input-range';
+import classNames from 'classnames';
 import DatasetService from 'services/DatasetService';
 import CheckboxGroup from 'components/form/CheckboxGroup';
 import Spinner from 'components/ui/Spinner';
-import InputRange from 'react-input-range';
+import Button from 'components/ui/Button';
+
 
 class FilterTooltip extends React.Component {
 
@@ -15,9 +18,10 @@ class FilterTooltip extends React.Component {
 
     this.state = {
       values: [],
+      selected: [],
       rangeValue: null,
       loading: true
-    }
+    };
 
     // DatasetService
     this.datasetService = new DatasetService(props.datasetID, {
@@ -37,7 +41,7 @@ class FilterTooltip extends React.Component {
         min: result.properties.min,
         max: result.properties.max,
         rangeValue: { min: result.properties.min, max: result.properties.max }
-      })
+      });
     }).catch((error) => {
       console.log(error);
       this.setState({
@@ -65,26 +69,45 @@ class FilterTooltip extends React.Component {
 
   render() {
     const { type } = this.props;
-    const { values, rangeValue, min, max, loading } = this.state;
-    console.log(this.state);
+    const { values, rangeValue, min, max, loading, selected } = this.state;
+    const categoryValue = type === 'string';
+    const classNameValue = classNames({
+      'c-filter-tooltip': true,
+      overflow: categoryValue
+    });
     return (
-      <div className="c-filter-tooltip">
+      <div className={classNameValue}>
         <Spinner
           className="-light"
           isLoading={loading}
         />
-        { type === 'string' &&
+        { categoryValue &&
           <div>
             <CheckboxGroup
+              selected={selected}
               options={values}
             />
-            <div>
-              <button>Clear All</button>
-              <button>Select All</button>
+            <div className="buttons">
+              <Button
+                properties={{
+                  type: 'button',
+                  className: '-primary'
+                }}
+              >
+              Clear All
+              </Button>
+              <Button
+                properties={{
+                  type: 'button',
+                  className: '-primary'
+                }}
+              >
+                Select All
+              </Button>
             </div>
           </div>
         }
-        { type !== 'string' && !loading &&
+        { !categoryValue && !loading &&
           <InputRange
             maxValue={max}
             minValue={min}

@@ -76,7 +76,7 @@ class WidgetEditor extends React.Component {
 
   getJiminy() {
     const fieldsSt = this.state.fields.fields.map(elem => elem.columnType !== 'geometry' && elem.columnName);
-    const querySt = `SELECT ${fieldsSt} FROM ${this.props.dataset} LIMIT 100`;
+    const querySt = `SELECT ${fieldsSt} FROM ${this.props.dataset} LIMIT 300`;
     this.datasetService.fetchJiminy(querySt)
       .then((jiminy) => {
         this.setState({

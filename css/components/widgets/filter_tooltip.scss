@@ -1,8 +1,24 @@
 .c-filter-tooltip {
   padding: 40px;
-  overflow: auto;
   min-width: 150px;
   max-width: 300px;
   min-height: 80px;
   max-height: 250px;
+
+  &.overflow {
+    padding: 10px;
+    overflow: auto;
+  }
+
+  .buttons {
+
+    margin-top: 10px;
+
+    button {
+      &:last-of-type {
+        margin-left: 10px;
+      }
+    }
+  }
+
 }
