@@ -217,9 +217,13 @@ class WidgetEditor extends React.Component {
           isLoading={loading}
         />
         <div className="customize-visualization">
-          <h2>Customize Visualization</h2>
+          <h2
+            className="title"
+          >
+            Customize Visualization
+          </h2>
           <div className="chart-type">
-            <h5>Chart</h5>
+            <h5>Visualization type</h5>
             {
               jiminy && jiminy.general &&
               <Select

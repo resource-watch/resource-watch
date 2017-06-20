@@ -1,8 +1,8 @@
 .c-columnbox {
   display: inline-flex;
   align-items: center;
-  background-color: $color-white;
-  color: $color-dark-grey;
+  background-color: $color-blue-turquoise;
+  color: $color-white;
   border-radius: 15px;
   padding: 5px 5px 5px 10px;
 
@@ -15,7 +15,7 @@
 
   .c-icon {
     margin-right: 5px;
-    fill: $color-dark-grey;
+    fill: $color-white;
 
     &.close-button {
       cursor: pointer;
