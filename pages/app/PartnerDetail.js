@@ -6,13 +6,19 @@ import { initStore } from 'store';
 import { getPartnerData } from 'redactions/partnerDetail';
 
 class PartnerDetail extends React.Component {
+
+  static async getInitialProps({ query }) {
+    const partnerID = query.id;
+    return { partnerID };
+  }
+
   componentWillMount() {
-    this.props.getPartnerData(this.props.params.id);
+    this.props.getPartnerData(this.props.partnerID);
   }
 
   componentWillReceiveProps(newProps) {
-    if (this.props.params.id !== newProps.params.id) {
-      this.props.getPartnerData(newProps.params.id);
+    if (this.props.partnerID !== newProps.partnerID) {
+      this.props.getPartnerData(newProps.partnerID);
     }
   }
 
@@ -82,8 +88,8 @@ class PartnerDetail extends React.Component {
 }
 
 PartnerDetail.propTypes = {
+  partnerID: React.PropTypes.string,
   data: React.PropTypes.object,
-  params: React.PropTypes.object,
   getPartnerData: React.PropTypes.func
 };
 

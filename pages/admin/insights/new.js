@@ -1,7 +1,7 @@
 import React from 'react';
 import InsightForm from 'components/admin/insights/form/InsightForm';
 import Title from 'components/ui/Title';
-import Page from 'components/admin/layout/page';
+import Page from 'components/admin/layout/Page';
 
 export default class InsightEdit extends React.Component {
 

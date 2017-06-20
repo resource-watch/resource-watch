@@ -24,6 +24,7 @@ $hover-color: $color-secondary;
           font-weight: 300;
           line-height: 1.38;
           opacity: 1;
+          text-decoration: none;
         }
       }
 
@@ -33,8 +34,9 @@ $hover-color: $color-secondary;
         line-height: 1.62;
         color: $item-color;
         opacity: .5;
+        text-decoration: none;
 
-        &:hover { color: $hover-color; }
+        &[href]:hover { color: $hover-color; }
       }
     }
   }

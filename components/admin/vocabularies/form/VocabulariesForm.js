@@ -40,7 +40,7 @@ class VocabulariesForm extends React.Component {
    * - getVocabularies
   */
   getVocabularies() {
-    const url = 'https://api.resourcewatch.org/v1/vocabulary';
+    const url = '${process.env.WRI_API_URL}/vocabulary';
 
     get({
       url,
@@ -70,7 +70,7 @@ class VocabulariesForm extends React.Component {
     e.preventDefault();
     this.setState({ submitting: true });
     post({
-      url: 'https://api.resourcewatch.org/v1/vocabulary',
+      url: '${process.env.WRI_API_URL}/vocabulary',
       headers: [{
         key: 'Content-Type', value: 'application/json'
       }, {

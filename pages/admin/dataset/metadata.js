@@ -2,7 +2,7 @@ import React from 'react';
 import Title from 'components/ui/Title';
 import MetadataForm from 'components/admin/metadata/form/MetadataForm';
 import { Router } from 'routes';
-import Page from 'components/admin/layout/page';
+import Page from 'components/admin/layout/Page';
 
 export default class DatasetMetadata extends React.Component {
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PartnerForm from 'components/admin/partners/form/PartnerForm';
 import Title from 'components/ui/Title';
-import Page from 'components/admin/layout/page';
+import Page from 'components/admin/layout/Page';
 import { Router } from 'routes';
 
 export default class PartnerEdit extends React.Component {

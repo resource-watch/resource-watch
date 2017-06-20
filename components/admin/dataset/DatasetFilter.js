@@ -20,7 +20,7 @@ class DatasetFilter extends React.Component {
 
     // DatasetService
     this.datasetService = new DatasetService(props.dataset.id, {
-      apiURL: 'https://api.resourcewatch.org/v1'
+      apiURL: '${process.env.WRI_API_URL}'
     });
 
     // BINDINGS

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Header from 'components/admin/layout/header';
 import Head from 'components/admin/layout/head';
 import Icons from 'components/admin/layout/icons';
+import Tooltip from 'components/ui/Tooltip';
 
 export default class Page extends React.Component {
 
@@ -25,6 +26,7 @@ export default class Page extends React.Component {
         <div className="container">
           { this.props.children }
         </div>
+        <Tooltip />
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import Page from 'components/admin/layout/page';
+import Page from 'components/admin/layout/Page';
 import PartnersTable from 'components/admin/partners/table/PartnersTable';
 import ButtonContainer from 'components/ui/ButtonContainer';
 import Title from 'components/ui/Title';

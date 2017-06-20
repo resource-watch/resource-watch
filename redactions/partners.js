@@ -1,5 +1,5 @@
 /* global config */
-import 'whatwg-fetch';
+import 'isomorphic-fetch';
 
 /**
  * CONSTANTS

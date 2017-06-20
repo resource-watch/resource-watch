@@ -1,6 +1,6 @@
 import React from 'react';
 import VocabulariesForm from 'components/admin/vocabularies/form/VocabulariesForm';
-import Page from 'components/admin/layout/page';
+import Page from 'components/admin/layout/Page';
 
 export default class VocabulariesIndex extends React.Component {
 

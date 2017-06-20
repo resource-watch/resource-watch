@@ -7,29 +7,29 @@ import { initStore } from 'store';
 import withRedux from 'next-redux-wrapper';
 
 const data = [
-  { name: 'Data', path: '#' },
-  { name: 'Explore Datasets', path: '/explore' },
-  { name: 'Dashboards', path: '/dashboards' },
-  { name: 'Planet Pulse', path: '/planet-pulse' },
-  { name: 'Explore Tools', path: '/get-involved/apps' }
+  { name: 'Data' },
+  { name: 'Explore Datasets', route: 'explore' },
+  { name: 'Dashboards', route: 'dashboards' },
+  { name: 'Planet Pulse', route: 'pulse' },
+  { name: 'Explore Tools', route: 'apps' }
 ];
 
 const about = [
-  { name: 'About', path: '/about' },
-  { name: 'Partners', path: '/about/partners' }
+  { name: 'About', route: 'about' },
+  { name: 'Partners', route: 'about_partners' }
 ];
 
 const insights = [
-  { name: 'Insights', path: '/insights' },
-  { name: 'Recent insights', path: '#' },
-  { name: 'Highlighted insights', path: '#' }
+  { name: 'Insights', route: 'insights' },
+  { name: 'Recent insights' },
+  { name: 'Highlighted insights' }
 ];
 
 const getInvolved = [
-  { name: 'Get involved', path: '/get-involved' },
-  { name: 'Submit an insight', path: '/get-involved/submit-insight' },
-  { name: 'Contribute data', path: '/get-involved/contribute-data' },
-  { name: 'Join the community', path: '/get-involved/join-community' }
+  { name: 'Get involved', route: 'get_involved' },
+  { name: 'Submit an insight', route: 'submit_insight' },
+  { name: 'Contribute data', route: 'contribute_data' },
+  { name: 'Join the community', route: 'join_community' }
 ];
 
 class Footer extends React.Component {
@@ -40,11 +40,14 @@ class Footer extends React.Component {
 
   setPartnersList() {
     const featured = this.props.list.filter(p => p.attributes.featured);
+    const baseURL = process.env.CMS_API_URL.slice(0, process.env.CMS_API_URL.length - 4);
 
-    return featured.map((p, i) => (
-      <div key={i} className="item">
-        <Link to={`/about/partners/${p.id}`}>
-          <img className="-img" src={`${process.env.CMS_API_URL}${p.attributes.logo.thumb}`} alt={p.attributes.name} />
+    return featured.map(p => (
+      <div key={p.id} className="item">
+        <Link route="partner" params={{ id: p.id }}>
+          <a>
+            <img className="-img" src={`${baseURL}${p.attributes.logo.thumb}`} alt={p.attributes.name} />
+          </a>
         </Link>
       </div>
     ));
@@ -95,4 +98,4 @@ const mapDispatchToProps = dispatch => ({
   getPartners: () => { dispatch(getPartners()); }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Footer)
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Footer);

@@ -66,7 +66,7 @@ class DatasetVocabulariesForm extends React.Component {
           post(
             {
               type: 'PUT',
-              url: `https://api.resourcewatch.org/v1/dataset/${this.state.datasetID}/vocabulary`,
+              url: `${process.env.WRI_API_URL}/dataset/${this.state.datasetID}/vocabulary`,
               headers: [
                 { key: 'Content-Type', value: 'application/json' },
                 { key: 'Authorization', value: this.state.form.authorization }
@@ -134,7 +134,7 @@ class DatasetVocabulariesForm extends React.Component {
 
       get(
         {
-          url: `https://api.resourcewatch.org/v1/dataset/${this.state.datasetID}?includes=vocabulary&cache=${Date.now()}`,
+          url: `${process.env.WRI_API_URL}/dataset/${this.state.datasetID}?includes=vocabulary&cache=${Date.now()}`,
           headers: [{ key: 'Content-Type', value: 'application/json' }],
           onSuccess: (response) => {
             const attrs = response.data.attributes;
@@ -164,7 +164,7 @@ class DatasetVocabulariesForm extends React.Component {
   loadAllVocabularies() {
     get(
       {
-        url: 'https://api.resourcewatch.org/v1/vocabulary',
+        url: '${process.env.WRI_API_URL}/vocabulary',
         headers: [{ key: 'Content-Type', value: 'application/json' }],
         onSuccess: (response) => {
           const allVocabularies = response.data

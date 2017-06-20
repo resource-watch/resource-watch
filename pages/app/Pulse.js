@@ -146,6 +146,7 @@ class Pulse extends React.Component {
         obj[key] = marker[key];
       }
     });
+
     if (this.mounted) {
       this.props.toggleTooltip(true, {
         follow: false,

@@ -6,6 +6,7 @@ import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Textarea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
+import WidgetEditor from 'components/widgets/WidgetEditor';
 
 class Step1 extends React.Component {
 
@@ -114,6 +115,10 @@ class Step1 extends React.Component {
         >
           {Input}
         </Field>
+
+        <WidgetEditor
+          dataset={dataset}
+        />
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.default = c; }}

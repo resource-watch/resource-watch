@@ -33,7 +33,7 @@ class DatasetForm extends React.Component {
       this.setState({ loading: true });
 
       get({
-        url: `https://api.resourcewatch.org/v1/dataset/${this.state.dataset}`,
+        url: `${process.env.WRI_API_URL}/dataset/${this.state.dataset}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -83,7 +83,7 @@ class DatasetForm extends React.Component {
 
           post({
             type: requestOptions.type,
-            url: `https://api.resourcewatch.org/v1/dataset/${dataset || ''}`,
+            url: `${process.env.WRI_API_URL}/dataset/${dataset || ''}`,
             body: omit(this.state.form, requestOptions.omit),
             headers: [{
               key: 'Content-Type', value: 'application/json'

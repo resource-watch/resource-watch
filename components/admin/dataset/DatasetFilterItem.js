@@ -1,10 +1,10 @@
 import React from 'react';
 import find from 'lodash/find';
 
-import Field from '../form/Field';
-import Select from '../form/SelectInput';
-import Input from '../form/Input';
-import Button from '../ui/Button';
+import Field from 'components/form/Field';
+import Select from 'components/form/SelectInput';
+import Input from 'components/form/Input';
+import Button from 'components/ui/Button';
 
 const defaults = {
   selected: {

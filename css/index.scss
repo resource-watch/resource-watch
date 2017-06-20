@@ -9,6 +9,13 @@
 // Leaflet
 @import 'leaflet/dist/leaflet.css';
 
+// React input range
+@import 'react-input-range/lib/css/index.css';
+
+// Slick
+@import 'slick-carousel/slick/slick.css';
+@import 'slick-carousel/slick/slick-theme.css';
+
 // Common files
 @import "css/config";
 @import "css/base";
@@ -52,6 +59,16 @@
 @import "./components/form/radio";
 @import "./components/form/select";
 @import "./components/form/token";
+
+// WIDGETS
+@import "./components/widgets/columnbox";
+@import "./components/widgets/widget_editor";
+@import "./components/widgets/filter_container";
+@import "./components/widgets/color_container";
+@import "./components/widgets/size_container";
+@import "./components/widgets/dimensionx_container";
+@import "./components/widgets/dimensiony_container";
+@import "./components/widgets/filter_tooltip";
 
 // ================== ADMIN ======================
 

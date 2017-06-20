@@ -30,7 +30,7 @@ class WidgetForm extends React.Component {
       this.setState({ loading: true });
 
       get({
-        url: `https://api.resourcewatch.org/v1/dataset/${this.state.dataset}/widget/${this.state.widget}?cache=${Date.now()}`,
+        url: `${process.env.WRI_API_URL}/dataset/${this.state.dataset}/widget/${this.state.widget}?cache=${Date.now()}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -71,7 +71,7 @@ class WidgetForm extends React.Component {
 
         post({
           type: (this.state.dataset && this.state.widget) ? 'PATCH' : 'POST',
-          url: `https://api.resourcewatch.org/v1/dataset/${this.state.dataset}/widget/${this.state.widget || ''}`,
+          url: `${process.env.WRI_API_URL}/dataset/${this.state.dataset}/widget/${this.state.widget || ''}`,
           body: omit(this.state.form, ['authorization']),
           headers: [{
             key: 'Content-Type',
