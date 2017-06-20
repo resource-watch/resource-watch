@@ -32,7 +32,7 @@ class WidgetWizard extends React.Component {
       this.setState({ loading: true });
 
       get({
-        url: `https://api.resourcewatch.org/v1/dataset/${this.props.dataset}`,
+        url: `${process.env.WRI_API_URL}/dataset/${this.props.dataset}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -88,7 +88,7 @@ class WidgetWizard extends React.Component {
 
           post({
             type: (this.state.dataset && this.state.widget) ? 'PATCH' : 'POST',
-            url: `https://api.resourcewatch.org/v1/dataset/${this.state.dataset.id}/widget/${this.state.widget || ''}`,
+            url: `${process.env.WRI_API_URL}/dataset/${this.state.dataset.id}/widget/${this.state.widget || ''}`,
             body: this.state.form,
             headers: [{
               key: 'Content-Type',

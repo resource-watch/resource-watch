@@ -1,5 +1,5 @@
 /* global config */
-import 'whatwg-fetch';
+import 'isomorphic-fetch';
 import { LAYERS_PLANET_PULSE } from '/utils/layers/pulse_layers';
 
 

@@ -1,7 +1,10 @@
-const line = {
+import deepClone from 'lodash/cloneDeep';
+
+/* eslint-disable */
+const defaultChart = {
   width: 500,
   height: 200,
-  padding: { top: 10, left: 30, bottom: 30, right: 10 },
+  padding: { top: 10, left: 50, bottom: 30, right: 10 },
   data: [
     {
       name: 'table'
@@ -38,17 +41,29 @@ const line = {
           y: { scale: 'y', field: 'y' },
           y2: { scale: 'y', value: 0 },
           fill: { value: 'transparent' },
-          stroke: { value: 'steelblue' }
-        },
-        update: {
-          fillOpacity: { value: 1 }
-        },
-        hover: {
-          fillOpacity: { value: 0.5 }
+          stroke: { value: 'steelblue' },
+          "strokeWidth": {"value": 2}
         }
       }
     }
   ]
 };
 
-export default line;
+/**
+ * Return the Vega chart configuration
+ * 
+ * @export
+ * @param {any} { columns, data } 
+ */
+export default function ({ columns, data }) {
+  const config = deepClone(defaultChart);
+
+  // We set the URL of the dataset
+  config.data[0].url = data.url;
+  config.data[0].format = {
+    "type": "json",
+    "property": data.property
+  };
+
+  return config;
+};

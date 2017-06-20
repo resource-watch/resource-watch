@@ -1,6 +1,6 @@
 import React from 'react';
 import DatasetVocabulariesForm from 'components/admin/dataset/vocabularies/DatasetVocabulariesForm';
-import Page from 'components/admin/layout/page';
+import Page from 'components/admin/layout/Page';
 
 export default class DatasetVocabularies extends React.Component {
 

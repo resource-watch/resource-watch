@@ -55,7 +55,7 @@ class ConfigurableWidget extends React.Component {
         {
           data:
           [{
-            url: `https://api.resourcewatch.org/v1/query/${this.props.dataset.id}?sql=${sql}`,
+            url: `${process.env.WRI_API_URL}/query/${this.props.dataset.id}?sql=${sql}`,
             name: 'table',
             format: {
               type: 'json',

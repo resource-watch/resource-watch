@@ -1,10 +1,12 @@
+
 import compact from 'lodash/compact';
+
 /**
  * It returns a string query using filters Data
  * @param  {Array} filters
  * @return {String}
  */
-export default function getQueryByFilters(tableName, arrFilters = [], arrColumns = []) {
+export default function getQueryByFilters(tableName, arrFilters = [], arrColumns = [], arrOrder = []) {
   const filtersQuery = compact(arrFilters.map((element) => {
     const filter = element.filters;
     // Check that there is a filter present
@@ -20,14 +22,32 @@ export default function getQueryByFilters(tableName, arrFilters = [], arrColumns
       return `${min}${(min && max) ? ' AND ' : ''}${max}`;
     }
 
-    const values = `'${filter.properties.values.join("','")}'`;
+    const values = `'${filter.properties.values.join("', '")}'`;
 
     // Check that it's a string column
     return `${filter.columnName} IN (${values})`;
   })).join(' AND ');
 
-  const columns = (arrColumns.length) ? arrColumns.map(column => `${column.value} as ${column.key}`).join(', ') : '*';
+
+  // Get column names
+  let columns = '*';
+  if (arrColumns.length) {
+    columns = arrColumns.map((column) => {
+      if (column.as) {
+        return `${column.value} as ${column.key}`;
+      }
+      return `${column.value}`;
+    }).join(', ');
+  }
+
+  let orderBy = '';
+  if (arrOrder.length) {
+    const orders = arrOrder.map(order => order.name).join(' ');
+
+    orderBy = `ORDER BY ${orders}`;
+  }
+
   const where = (filtersQuery.length) ? `WHERE ${filtersQuery}` : '';
 
-  return `SELECT ${columns} FROM ${tableName} ${where}`;
+  return `SELECT ${columns} FROM ${tableName} ${where} ${orderBy}`;
 }

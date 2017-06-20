@@ -1,7 +1,7 @@
 import React from 'react';
 import DatasetForm from 'components/admin/dataset/form/DatasetForm';
 import Title from 'components/ui/Title';
-import Page from 'components/admin/layout/page';
+import Page from 'components/admin/layout/Page';
 import { Router } from 'routes';
 
 export default class DatasetEdit extends React.Component {

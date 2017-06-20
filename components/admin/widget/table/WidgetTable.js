@@ -29,7 +29,7 @@ class WidgetTable extends React.Component {
   */
   getWidgets() {
     const { application } = this.props;
-    const url = `https://api.resourcewatch.org/v1/dataset/${this.props.dataset}/widget?application=${application.join(',')}&page[size]=${Date.now() / 100000}`;
+    const url = `${process.env.WRI_API_URL}/dataset/${this.props.dataset}/widget?application=${application.join(',')}&page[size]=${Date.now() / 100000}`;
 
     fetch(new Request(url))
       .then((response) => {

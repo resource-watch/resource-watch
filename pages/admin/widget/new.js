@@ -1,7 +1,7 @@
 import React from 'react';
 import WidgetForm from 'components/admin/widget/form/WidgetForm';
 import Title from 'components/ui/Title';
-import Page from 'components/admin/layout/page';
+import Page from 'components/admin/layout/Page';
 import { Router } from 'routes';
 
 export default class WidgetNew extends React.Component {

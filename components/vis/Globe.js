@@ -525,14 +525,15 @@ class Globe extends React.Component {
 
     if (intersects.length > 0) {
       let markerClicked = false;
-      const obj = intersects[0];
-      const objName = obj.object.name;
 
-      if (objName !== 'halo' && objName !== 'earth' && objName !== 'texture') {
-        this.setState({ selectedMarker: obj });
-        this.props.onMarkerSelected(objName, event);
-        markerClicked = true;
-      }
+      intersects.forEach((obj) => {
+        const objName = obj.object.name;
+        if (objName !== 'halo' && objName !== 'earth' && objName !== 'texture') {
+          this.setState({ selectedMarker: obj });
+          this.props.onMarkerSelected(objName, event);
+          markerClicked = true;
+        }
+      });
 
       if (!markerClicked) {
         this.props.onClickInEmptyRegion();

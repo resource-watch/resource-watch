@@ -1,4 +1,7 @@
-const pie = {
+import deepClone from 'lodash/cloneDeep';
+
+/* eslint-disable */
+const defaultChart = {
   "width": 400,
   "height": 200,
   "data": [
@@ -10,8 +13,14 @@ const pie = {
     {
       "name": "r",
       "type": "sqrt",
-      "domain": {"data": "table", "field": "data"},
+      "domain": {"data": "table", "field": "x"},
       "range": [20, 100]
+    },
+    {
+      "name": "c",
+      "type": "ordinal",
+      "domain": {"data": "table", "field": "x"},
+      "range": "category20"
     }
   ],
   "marks": [
@@ -25,14 +34,8 @@ const pie = {
           "startAngle": {"field": "layout_start"},
           "endAngle": {"field": "layout_end"},
           "innerRadius": {"value": 20},
-          "outerRadius": {"scale": "r", "field": "data"},
-          "stroke": {"value": "#fff"}
-        },
-        "update": {
-          "fill": {"value": "#ccc"}
-        },
-        "hover": {
-          "fill": {"value": "pink"}
+          "outerRadius": {"value": 100},
+          "fill": {"scale": "c", "field": "x"}
         }
       }
     },
@@ -43,16 +46,66 @@ const pie = {
         "enter": {
           "x": {"field": {"group": "width"}, "mult": 0.5},
           "y": {"field": {"group": "height"}, "mult": 0.5},
-          "radius": {"scale": "r", "field": "data", "offset": 8},
+          "radius": {"value": 110},
           "theta": {"field": "layout_mid"},
           "fill": {"value": "#000"},
           "align": {"value": "center"},
           "baseline": {"value": "middle"},
-          "text": {"field": "data"}
+          "text": {"field": "x"},
+          "opacity": {"value": 0.6}
         }
       }
     }
   ]
 }
 
-export default pie;
+/**
+ * Return the Vega chart configuration
+ * 
+ * @export
+ * @param {any} { columns, data } 
+ */
+export default function ({ columns, data }) {
+  const config = deepClone(defaultChart);
+
+  // We set the URL of the dataset
+  config.data[0].url = data.url;
+  config.data[0].format = {
+    "type": "json",
+    "property": data.property,
+  };
+  config.data[0].transform = [{
+    "type": "pie", "field": "x"
+  }];
+
+  if (columns.color.present) {
+    const colorScale = config.scales.find(scale => scale.name === 'c');
+    colorScale.domain.field = 'color';
+  }
+
+  if (columns.size.present) {
+    // We add the scale
+    config.scales.push({
+      "name": "s",
+      "type": "sqrt",
+      "domain": {"data": "table", "field": "size"},
+      "range": [10, 150],
+      "zero": false
+    });
+
+    const arcMark = config.marks.find(mark => mark.type === 'arc');
+    arcMark.properties.enter.outerRadius = {
+      "scale": "s",
+      "field": "size"
+    };
+
+    const textMark = config.marks.find(mark => mark.type === 'text');
+    textMark.properties.enter.radius = {
+      "scale": "s",
+      "field": "size",
+      "offset": 10
+    }
+  }
+
+  return config;
+};

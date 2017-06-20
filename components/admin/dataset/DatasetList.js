@@ -23,7 +23,7 @@ class DatasetList extends React.Component {
   */
   getDatasets() {
     const { application } = this.props;
-    const url = `https://api.resourcewatch.org/v1/dataset?application=${application.join(',')}&includes=widget,layer&page[size]=${Date.now() / 100000}`;
+    const url = `${process.env.WRI_API_URL}/dataset?application=${application.join(',')}&includes=widget,layer&page[size]=${Date.now() / 100000}`;
 
     fetch(new Request(url))
       .then((response) => {

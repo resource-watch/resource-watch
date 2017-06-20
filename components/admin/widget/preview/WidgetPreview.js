@@ -38,7 +38,7 @@ class WidgetPreview extends React.Component {
 
     // DatasetService
     this.datasetService = new DatasetService(props.wizard.dataset.id, {
-      apiURL: 'https://api.resourcewatch.org/v1'
+      apiURL: '${process.env.WRI_API_URL}'
     });
 
     // BINDINGS
@@ -90,7 +90,7 @@ class WidgetPreview extends React.Component {
 
     const parsedConfig = {
       data: [{
-        url: `https://api.resourcewatch.org/v1/query/${wizard.dataset.id}?sql=${sql}`,
+        url: `${process.env.WRI_API_URL}/query/${wizard.dataset.id}?sql=${sql}`,
         name: 'table',
         format: {
           type: 'json',
