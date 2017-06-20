@@ -6,9 +6,13 @@ const CompoundMenu = ({ items }) => {
   const menuItems = items.map(submenu => (
     <ul key={submenu[0].name} className="submenu column small-12 medium-3 large-3">
       {submenu.map((item, j) => { // eslint-disable-line arrow-body-style
+        const linkParams = {};
+        if (item.route) linkParams.route = item.route;
+        if (item.params) linkParams.params = item.params;
+
         return j === 0
-        ? <li key={item.name} className="item title"><h3><Link to={item.path}><a>{item.name}</a></Link></h3></li>
-        : <li key={item.name} className="item"><Link to={item.path}><a>{item.name}</a></Link></li>;
+          ? <li key={item.name} className="item title"><h3><Link {...linkParams}><a>{item.name}</a></Link></h3></li>
+          : <li key={item.name} className="item"><Link {...linkParams}><a>{item.name}</a></Link></li>;
       })}
     </ul>
     )
