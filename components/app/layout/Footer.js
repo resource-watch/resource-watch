@@ -41,8 +41,8 @@ class Footer extends React.Component {
   setPartnersList() {
     const featured = this.props.list.filter(p => p.attributes.featured);
 
-    return featured.map((p, i) => (
-      <div key={i} className="item">
+    return featured.map(p => (
+      <div key={p.id} className="item">
         <Link to={`/about/partners/${p.id}`}>
           <img className="-img" src={`${process.env.CMS_API_URL}${p.attributes.logo.thumb}`} alt={p.attributes.name} />
         </Link>
@@ -95,4 +95,4 @@ const mapDispatchToProps = dispatch => ({
   getPartners: () => { dispatch(getPartners()); }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Footer)
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Footer);
