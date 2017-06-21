@@ -84,8 +84,11 @@
     "whatwg-fetch": "^2.0.2"
   },
   "devDependencies": {
+    "babel-eslint": "^7.2.3",
     "eslint": "^3.7.1",
-    "eslint-config-vizzuality": "^1.0.5"
+    "eslint-config-vizzuality": "^1.0.5",
+    "eslint-import-resolver-babel-module": "^3.0.0",
+    "eslint-plugin-babel": "^4.1.1"
   },
   "scripts": {
     "test": "eslint .",

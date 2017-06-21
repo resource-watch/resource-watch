@@ -77,7 +77,7 @@ class ColumnBox extends React.Component {
         this.props.toggleTooltip(true, {
           follow: false,
           position: { x: event.clientX, y: event.clientY },
-          children: AggregateFunctionTooltip,
+          children: FilterTooltip,
           childrenProps: {
             name,
             type,
