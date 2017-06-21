@@ -32,7 +32,7 @@
   ],
   "settings": {
     "import/resolver": {
-      "babelmodule": {
+      "babel-module": {
       }
     }
   }
