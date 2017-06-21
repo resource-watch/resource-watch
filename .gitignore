@@ -16,5 +16,8 @@
 /dist
 .next
 
+# Next files
+.next
+
 # Ignore environment variables
 /.env
