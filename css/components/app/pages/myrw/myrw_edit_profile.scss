@@ -6,6 +6,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    button {
+      width: 150px;
+    }
+  }
+
+  .bottom-section {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    button {
+      width: 150px;
+    } 
   }
 
 }
