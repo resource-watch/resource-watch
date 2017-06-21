@@ -4,6 +4,7 @@
 # Text editors
 *.sublime*
 .sublime*
+.vscode*
 
 # Vendors
 /node_modules
