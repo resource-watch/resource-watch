@@ -3,7 +3,9 @@ FROM node:6.11-alpine
 ENV USER resource-watch
 
 RUN apk update && apk upgrade && \
-    apk add --no-cache --update bash git build-base
+    apk add --no-cache --update bash git build-base \
+    automake autoconf libtool cairo-dev nasm
+RUN npm install -g node-gyp
 RUN addgroup $USER && adduser -s /bin/bash -D -G $USER $USER
 USER $USER
 
