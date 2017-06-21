@@ -196,15 +196,15 @@ class WidgetEditor extends React.Component {
   }
 
   render() {
-    const { fields, jiminy, loading, tableName } = this.state;
+    const { fields, jiminy, loading, tableName, selectedChartType } = this.state;
     const { dataset } = this.props;
 
     let visualization = null;
-    if (!this.state.tableName) {
+    if (!tableName) {
       visualization = 'Loading...';
     } else if (!this.canRenderChart()) {
       visualization = 'Select a type of chart and columns';
-    } else if (!CHART_TYPES[this.state.selectedChartType]) {
+    } else if (!CHART_TYPES[selectedChartType]) {
       visualization = `This chart can't be previewed`; // eslint-disable-line quotes
     } else {
       visualization = <VegaChart data={this.getChartConfig()} />;
@@ -245,7 +245,7 @@ class WidgetEditor extends React.Component {
           <div className="actions-div">
             <div className="fields">
               <h5>Columns</h5>
-              {fields && fields.fields && fields.fields.map(val =>
+              {tableName && fields && fields.fields && fields.fields.map(val =>
                 val.columnType !== 'geometry' && (
                   <ColumnBox
                     key={val.columnName}

@@ -150,10 +150,12 @@ class ColumnBox extends React.Component {
 }
 
 ColumnBox.propTypes = {
-  tableName: React.PropTypes.string.isRequired,
-  datasetID: React.PropTypes.string.isRequired,
-  name: React.PropTypes.string.isRequired,
-  type: React.PropTypes.string.isRequired,
+  // NOTE: Don't make any of the following props as required as React will
+  // throw prop checks errors because of react-dnd (don't know why)
+  tableName: React.PropTypes.string,
+  datasetID: React.PropTypes.string,
+  name: React.PropTypes.string,
+  type: React.PropTypes.string,
   isA: React.PropTypes.string,
   closable: React.PropTypes.bool,
   configurable: React.PropTypes.bool,
