@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'routes';
+import debounce from 'lodash/debounce';
 
 // Components
-import Menu from 'components/ui/Menu';
 import TetherComponent from 'react-tether';
 
 class Header extends React.Component {
@@ -18,89 +18,74 @@ class Header extends React.Component {
     this.listeners = {};
 
     // BINDINGS
-    this.toggleDataDropdown = this.toggleDataDropdown.bind(this);
-    this.onScreenClick = this.onScreenClick.bind(this);
+    this.toggleDropdown = debounce(this.toggleDropdown.bind(this), 50);
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('click', this.onScreenClick);
-  }
-
-  onScreenClick(e) {
-
-    const el = document.querySelector('.c-tooltip');
-    const clickOutside = el && el.contains && !el.contains(e.target);
-    const isDataBtn = this.dataDropdownBtn.contains(e.target);
-    const isAboutBtn = this.aboutDropdownBtn.contains(e.target);
-
-    if (clickOutside) {
-      if (!isDataBtn) this.toggleDataDropdown(e, 'dataDropdownActive', false);
-      if (!isAboutBtn) this.toggleDataDropdown(e, 'aboutDropdownActive', false);
-    }
-  }
-
-  toggleDataDropdown(e, specificDropdown, to) {
+  // This function is debounced. If you don't do that insane things will happen
+  toggleDropdown(specificDropdown, to) {
     this.setState({
+      ...{ dataDropdownActive: false, aboutDropdownActive: false },
       [specificDropdown]: to
-    });
-
-    requestAnimationFrame(() => {
-      window[!to ?
-        'removeEventListener' : 'addEventListener']('click', this.onScreenClick, true);
     });
   }
 
   render() {
     const dataDropDown = (
       <TetherComponent
-        attachment="top right"
+        attachment="top center"
         constraints={[{
           to: 'window'
         }]}
-        targetOffset="0px 100%"
+        targetOffset="-4px 0"
         classes={{
-          element: 'c-tooltip -arrow-right -menu'
+          element: 'c-header-dropdown'
         }}
       >
         {/* First child: This is what the item will be tethered to */}
-        <a // eslint-disable-line jsx-a11y/no-static-element-interactions
-          ref={(c) => { this.dataDropdownBtn = c; }}
-          role="link"
-          onClick={e => this.toggleDataDropdown(e, 'dataDropdownActive', !this.state.dataDropdownActive)}
-        >
-          Data
-        </a>
+        <Link route="data" >
+          <a
+            ref={(c) => { this.dataDropdownBtn = c; }}
+            onMouseEnter={e => this.toggleDropdown('dataDropdownActive', true)}
+            onMouseLeave={e => this.toggleDropdown('dataDropdownActive', false)}
+          >
+            Data
+          </a>
+        </Link>
         {/* Second child: If present, this item will be tethered to the the first child */}
         {this.state.dataDropdownActive &&
-          <ul className="data-dropdown">
-            <li>
+          <ul
+            className="header-dropdown-list"
+            onMouseEnter={e => this.toggleDropdown('dataDropdownActive', true)}
+            onMouseLeave={e => this.toggleDropdown('dataDropdownActive', false)}
+          >
+            <li className="header-dropdown-list-item">
               <Link
                 route="explore"
-                onClick={e => this.toggleDataDropdown(e, 'dataDropdownActive', false)}
+                onClick={e => this.toggleDropdown('dataDropdownActive', false)}
               >
                 <a>Explore Datasets</a>
               </Link>
             </li>
-            <li>
+            <li className="header-dropdown-list-item">
               <Link
                 route="dashboards"
-                onClick={e => this.toggleDataDropdown(e, 'dataDropdownActive', false)}
+                onClick={e => this.toggleDropdown('dataDropdownActive', false)}
               >
                 <a>Dashboards</a>
               </Link>
             </li>
-            <li>
+            <li className="header-dropdown-list-item">
               <Link
                 route="pulse"
-                onClick={e => this.toggleDataDropdown(e, 'dataDropdownActive', false)}
+                onClick={e => this.toggleDropdown('dataDropdownActive', false)}
               >
                 <a>Planet Pulse</a>
               </Link>
             </li>
-            <li>
+            <li className="header-dropdown-list-item">
               <Link
                 route="get_involved"
-                onClick={e => this.toggleDataDropdown(e, 'dataDropdownActive', false)}
+                onClick={e => this.toggleDropdown('dataDropdownActive', false)}
               >
                 <a>Explore Tools</a>
               </Link>
@@ -112,40 +97,45 @@ class Header extends React.Component {
 
     const aboutDropDown = (
       <TetherComponent
-        attachment="top right"
+        attachment="top center"
         constraints={[{
           to: 'window'
         }]}
-        targetOffset="0px 100%"
+        targetOffset="-4px 0"
         classes={{
-          element: 'c-tooltip -arrow-right -menu'
+          element: 'c-header-dropdown'
         }}
       >
         {/* First child: This is what the item will be tethered to */}
-        <a // eslint-disable-line jsx-a11y/no-static-element-interactions
-          ref={(c) => { this.aboutDropdownBtn = c; }}
-          role="link"
-          onClick={e => this.toggleDataDropdown(e, 'aboutDropdownActive', !this.state.aboutDropdownActive)}
-        >
-          About
-        </a>
+        <Link route="about" >
+          <a
+            ref={(c) => { this.aboutDropdownBtn = c; }}
+            onMouseEnter={e => this.toggleDropdown('aboutDropdownActive', true)}
+            onMouseLeave={e => this.toggleDropdown('aboutDropdownActive', false)}
+          >
+            About
+          </a>
+        </Link>
+
         {/* Second child: If present, this item will be tethered to the the first child */}
         {this.state.aboutDropdownActive &&
           <ul
-            className="data-dropdown"
+            className="header-dropdown-list"
+            onMouseEnter={e => this.toggleDropdown('aboutDropdownActive', true)}
+            onMouseLeave={e => this.toggleDropdown('aboutDropdownActive', false)}
           >
-            <li>
+            <li className="header-dropdown-list-item">
               <Link
                 route="about"
-                onClick={e => this.toggleDataDropdown(e, 'aboutDropdownActive', false)}
+                onClick={e => this.toggleDropdown('aboutDropdownActive', false)}
               >
                 <a>About</a>
               </Link>
             </li>
-            <li>
+            <li className="header-dropdown-list-item">
               <Link
                 route="about_partners"
-                onClick={e => this.toggleDataDropdown(e, 'aboutDropdownActive', false)}
+                onClick={e => this.toggleDropdown('aboutDropdownActive', false)}
               >
                 <a>Partners</a>
               </Link>
@@ -153,23 +143,21 @@ class Header extends React.Component {
           </ul>
         }
       </TetherComponent>
-      );
+    );
 
-    const navigationLinks = [
-      { name: dataDropDown },
-      { name: <a href="/insights">Insights</a> },
-      { name: aboutDropDown },
-      { name: <Link route="get_involved"><a>Get Involved</a></Link> }
+    const items = [
+      { name: 'Data', component: dataDropDown },
+      { name: 'Insights', component: <Link route="insights"><a>Insights</a></Link> },
+      { name: 'About', component: aboutDropDown },
+      { name: 'Get Involved', component: <Link route="get_involved"><a>Get Involved</a></Link> }
     ];
-
-    const mainClass = this.props.fullScreen ? '-fullScreen' : '';
 
     return (
       <header className="c-header">
         <div className="header-secondary">
           {/* We will load the script generated */}
         </div>
-        <div className={`header-main ${mainClass}`}>
+        <div className="header-main">
           <h1 className="header-logo">
             <Link route="home">
               <a>
@@ -178,9 +166,15 @@ class Header extends React.Component {
               </a>
             </Link>
           </h1>
-          <div className="header-menu">
-            <Menu items={navigationLinks} />
-          </div>
+          <nav className="header-menu">
+            <ul>
+              {items.map(item => (
+                <li key={item.name}>
+                  {item.component}
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       </header>
     );
