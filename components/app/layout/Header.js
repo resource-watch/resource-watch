@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'routes';
 
 // Components
-import Logo from 'components/app/layout/Logo';
 import Menu from 'components/ui/Menu';
 import TetherComponent from 'react-tether';
 
@@ -168,13 +167,18 @@ class Header extends React.Component {
     return (
       <header className="c-header">
         <div className="header-secondary">
-          {/* Language selector */}
+          {/* We will load the script generated */}
         </div>
         <div className={`header-main ${mainClass}`}>
-          <div className="brand">
-            <Link route="home"><a><Logo /></a></Link>
-          </div>
-          <div className="menu">
+          <h1 className="header-logo">
+            <Link route="home">
+              <a>
+                <svg><use xlinkHref="#icon-logo" /></svg>
+                <span>Resource Watch</span>
+              </a>
+            </Link>
+          </h1>
+          <div className="header-menu">
             <Menu items={navigationLinks} />
           </div>
         </div>
