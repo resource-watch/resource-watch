@@ -1,0 +1,15 @@
+
+.c-rating {
+  display: flex;
+  align-items: center;
+
+  &.-yellow {
+    color: $color-mango;
+
+    .c-icon { fill: $color-mango; }
+  }
+
+  .c-icon {
+    margin-right: 6px;
+  }
+}

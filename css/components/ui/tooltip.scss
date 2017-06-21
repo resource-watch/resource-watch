@@ -1,0 +1,43 @@
+.c-tooltip {
+  position: fixed;
+  background-color: $color-white;
+  border-radius: 5px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, .5);
+  padding: 10px;
+  z-index: 10001;
+
+  &.-arrow{
+    &-right {
+      &:after {
+        content: '';
+        position: absolute;
+        right: 20px;
+        top: -14px;
+        border-top: 7px solid $color-white;
+        border-bottom: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-left: 7px solid transparent;
+        transform: rotate(180deg);
+      }
+    }
+    &-left {
+      &:after {
+        content: '';
+        position: absolute;
+        left: 20px;
+        top: -14px;
+        border-top: 7px solid $color-white;
+        border-bottom: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-left: 7px solid transparent;
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+.c-tooltip-invisible-div {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+}

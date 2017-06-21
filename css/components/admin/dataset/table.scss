@@ -1,0 +1,39 @@
+.c-table {
+  .table {
+  }
+
+  // COLOUR DICTIONARY
+  td.status {
+    &:before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-right: 5px;
+      margin-bottom: 1px;
+    }
+
+    &.-success,
+    &.-saved,
+    &.-completed {
+      color: $color-green;
+      &:before { background-color: $color-green; }
+    }
+
+    &.-pending {
+      color: $color-mid-grey;
+      &:before { background-color: $color-mid-grey; }
+    }
+
+    &.-failed {
+      color: $color-mango;
+      &:before { background-color: $color-mango; }
+    }
+
+    &.-deleted {
+      color: $color-error;
+      &:before { background-color: $color-error; }
+    }
+  }
+}

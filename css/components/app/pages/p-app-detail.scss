@@ -1,0 +1,47 @@
+
+.p-app-detail {
+  h1.title {
+    margin: 0;
+    margin-bottom: 20px;
+  }
+
+  h3 { margin-top: 0; }
+
+  .l-section {
+    padding-bottom: 0;
+
+    p {
+      margin-bottom: 30px;
+    }
+  }
+
+  .intro {
+    .title {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .source {
+      margin-bottom: 70px;
+    }
+
+    .actions {
+      width: 100%;
+
+      .c-btn {
+        text-transform: none;
+        font-weight: normal;
+        margin-bottom: 10px;
+        width: 100%;
+
+        &:last-child { margin-bottom: 0; }
+      }
+    }
+  }
+
+  .c-banner.pulse {
+    background-image: url('../images/backgrounds/planet-pulse.jpg');
+  }
+}

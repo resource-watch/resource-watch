@@ -1,0 +1,88 @@
+.c-field {
+  .label {
+    font-size: 14px;
+    display: block;
+    position: relative;
+    padding: 0 0 5px;
+    color: $color-text-1;
+    background: none;
+    font-weight: 700;
+  }
+
+  .hint {
+    font-style: italic;
+    padding: 0 0 5px;
+    font-size: 12px;
+    margin: 0;
+  }
+
+  .error {
+    color: $color-red;
+    margin: 3px 0 0;
+    font-size: 12px;
+  }
+
+  > input[type=text],
+  > input[type=password],
+  > input[type=email],
+  > input[type=number],
+  > input[type=tel],
+  > input[type=date],
+  > input[type=time],
+  > input[type=url],
+  > input,
+  > textarea {
+    display: inline-block;
+    border: 1px solid $border-color-1;
+    box-shadow: none;
+    outline: none;
+    font-size: 16px;
+    padding: 8px;
+    width: 100%;
+    max-width: 400px;
+    font-family: inherit;
+    color: $color-text-1;
+    margin: 0;
+
+    &:hover {
+      border-color: $border-color-2;
+    }
+  }
+
+  &.-valid {
+    > input[type=text],
+    > input[type=password],
+    > input[type=email],
+    > input[type=number],
+    > input[type=tel],
+    > input[type=date],
+    > input[type=time],
+    > input[type=url],
+    > input,
+    > textarea,
+    > select,
+    .Select-control,
+    .ic-tokens {
+      border-color: $color-green;
+    }
+  }
+
+
+  &.-error {
+    > input[type=text],
+    > input[type=password],
+    > input[type=email],
+    > input[type=number],
+    > input[type=tel],
+    > input[type=date],
+    > input[type=time],
+    > input[type=url],
+    > input,
+    > textarea,
+    > select,
+    .Select-control,
+    .ic-tokens {
+      border-color: $color-red;
+    }
+  }
+}

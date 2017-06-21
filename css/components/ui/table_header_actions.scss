@@ -1,0 +1,45 @@
+
+.c-table-header-actions {
+  ul { margin-left: 10px; }
+
+  .action {
+    cursor: pointer;
+
+    button {
+      cursor: pointer;
+
+      &:focus { outline: none; }
+      &:hover { opacity: .5; }
+
+      &.-active {
+        svg {
+          stroke: $color-secondary;
+          fill: $color-secondary;
+        }
+      }
+    }
+
+  }
+
+  .sortby-action {
+    position: absolute;
+    top: 20px;
+    left: 14px;
+
+    div {
+      display: flex;
+      flex-direction: column;
+
+      button {
+        display: flex;
+        height: 10px;
+      }
+
+      svg {
+        fill: $color-mid-grey;
+        stroke: $color-mid-grey;
+        stroke-width: 3px;
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+.c-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+
+  &.-tiny {
+    width: 7px;
+    height: 7px;
+  }
+
+  &.-smaller {
+    width: 10px;
+    height: 10px;
+  }
+
+  &.-small {
+    width: 14px;
+    height: 14px;
+  }
+
+  &.-medium {
+    width: 24px;
+    height: 24px;
+  }
+
+  &.-big {
+    width: 32px;
+    height: 32px;
+  }
+
+  &.-huge {
+    width: 65px;
+    height: 65px;
+  }
+}

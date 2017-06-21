@@ -1,0 +1,56 @@
+.l-container {
+  position: relative;
+  max-width: $max-width;
+  margin: 0 auto;
+}
+
+.l-section {
+  position: relative;
+  padding-top: 70px;
+  padding-bottom: 70px;
+  width: 100%;
+
+  header h1 {
+    margin: 0;
+    margin-bottom: 30px;
+  }
+
+  &.-breadcrumbs {
+    padding-top: 28px;
+  }
+
+  &.-bg {
+    background-size: cover;
+    background-position: center;
+  }
+
+  &.-header {
+    padding-top: 30px;
+    padding-bottom: 20px;
+  }
+
+  &.-light * { color: $color-white; }
+
+  &.-bg-grey { background-color: $color-pale-grey; }
+  &.-bg-dark { background-color: $color-black; }
+  &.-bg-light { background-color: $color-white; }
+
+  .description {
+    p {
+      font-size: $font-size-extra-big;
+      color: $color-text-headers;
+    }
+  }
+
+  .cols {
+    display: flex;
+
+    p {
+      margin-right: 30px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}

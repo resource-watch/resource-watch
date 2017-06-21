@@ -1,0 +1,30 @@
+{
+  "plugins": [
+    "transform-decorators-legacy",
+    [
+      "module-resolver",
+      {
+        "root": ["."],
+        "alias": {
+          "css": "./css",
+          "components": "./components",
+          "redactions": "./redactions",
+          "utils": "./utils",
+          "selectors": "./selectors",
+          "static": "./static",
+          "services": "./services"
+        }
+      }
+    ],
+    [
+      "wrap-in-js",
+      {
+        "extensions": ["css$", "scss$"]
+      }
+    ]
+  ],
+  "presets": [
+    "next/babel"
+  ],
+  "ignore": []
+}

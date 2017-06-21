@@ -1,0 +1,66 @@
+.c-spinner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 998;
+  background: rgba($color-black, 0.5);
+  visibility: hidden;
+  opacity: 0;
+
+  // Colors
+  &.-light {
+    background: rgba($color-white, 0.5);
+  }
+
+  // Position
+  &.-fixed { position: fixed;}
+  &.-relative { position: relative;}
+
+  // State
+  &.-loading {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .spinner-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+
+    .icon {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      margin: 0 auto;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: $color-primary;
+      animation: rotate $animation-time-4 infinite $ease-in-out-sine;
+    }
+
+    button {
+      margin: 10px 0 0;
+    }
+  }
+}
+
+ // ROTATE
+ @-webkit-keyframes rotate {
+   from { transform: rotate(0deg);}
+   to { transform: rotate(360deg);}
+ }
+ @-moz-keyframes rotate {
+   from { transform: rotate(0deg);}
+   to { transform: rotate(360deg);}
+ }
+ @-ms-keyframes rotate {
+   from { transform: rotate(0deg);}
+   to { transform: rotate(360deg);}
+ }
+ @keyframes rotate {
+   from { transform: rotate(0deg);}
+   to { transform: rotate(360deg);}
+ }

@@ -1,0 +1,45 @@
+.c-title {
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+
+  // Sizes
+  &.-default {
+    font-size: rem(16px);
+    font-weight: $font-weight-bold;
+  }
+
+  &.-big {
+    font-size: rem(32px);
+    font-weight: $font-weight-light;
+  }
+
+  &.-huge {
+    font-size: rem(48px);
+    font-weight: $font-weight-light;
+  }
+
+  &.-small {
+    font-size: rem(12px);
+  }
+
+  // Paddings
+  &.-p-primary {
+    padding: 40px 0 25px;
+  }
+
+  // Colors
+  &.-primary {
+    color: $color-text-1;
+  }
+
+  &.-secondary {
+    color: $color-secondary;
+  }
+
+  // Aligns
+  &.-left { text-align: left; }
+  &.-center { text-align: center; }
+  &.-right { text-align: right; }
+}
