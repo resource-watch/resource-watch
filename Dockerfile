@@ -1,18 +1,18 @@
-FROM node:8.1-alpine
+FROM node:6.11-alpine
 
-ENV NAME resource-watch
+ENV USER resource-watch
 
 RUN apk update && apk upgrade && \
-    apk add --no-cache --update bash git
+    apk add --no-cache --update bash git build-base
+RUN addgroup $USER && adduser -s /bin/bash -D -G $USER $USER
+USER $USER
 
-RUN mkdir /opt/$NAME && cd /opt/$NAME
-COPY ./package.json /opt/$NAME/package.json
-COPY ./npm-shrinkwrap.json /opt/$NAME/npm-shrinkwrap.json
-RUN cd /opt/$NAME && npm install
+COPY ./package.json /home/$USER/package.json
+RUN cd /home/$USER && npm install
 
-WORKDIR /opt/$NAME/app
-COPY . /opt/$NAME/app
+WORKDIR /home/$USER/app
+COPY . /home/$USER/app
 
-EXPOSE 8000
+EXPOSE 3000
 
 CMD ["npm", "start"]
