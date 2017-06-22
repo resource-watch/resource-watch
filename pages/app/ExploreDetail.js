@@ -121,64 +121,62 @@ class ExploreDetail extends React.Component {
         pageHeader
       >
         <div className="c-page-explore-detail">
-          <div className="c-page-explore-detail">
-            <div className="c-page-header">
-              <div className="l-container">
-                <div className="page-header-content">
-                  <Breadcrumbs
-                    items={[{ name: 'Explore datasets', url: 'explore' }]}
-                  />
+          <div className="c-page-header">
+            <div className="l-container">
+              <div className="page-header-content -padding-b-2">
+                <Breadcrumbs
+                  items={[{ name: 'Explore datasets', url: 'explore' }]}
+                />
 
-                  <Title className="-primary -huge page-header-title" >
-                    { dataset && dataset.attributes && dataset.attributes.name}
-                  </Title>
+                <Title className="-primary -huge page-header-title" >
+                  { dataset && dataset.attributes && dataset.attributes.name}
+                </Title>
 
-                  <div className="page-header-info">
-                    <ul>
-                      <li>Source: {(metadata && metadata.length > 0 && metadata[0].source) || '-'}</li>
-                      <li>Last update: {dataset && dataset.attributes && new Date(dataset.attributes.updatedAt).toJSON().slice(0, 10).replace(/-/g, '/')}</li>
-                      {/* Favorites <li>Last update: {dataset && dataset.attributes && dataset.attributes.updatedAt}</li> */}
-                    </ul>
-                  </div>
+                <div className="page-header-info">
+                  <ul>
+                    <li>Source: {(metadata && metadata.length > 0 && metadata[0].source) || '-'}</li>
+                    <li>Last update: {dataset && dataset.attributes && new Date(dataset.attributes.updatedAt).toJSON().slice(0, 10).replace(/-/g, '/')}</li>
+                    {/* Favorites <li>Last update: {dataset && dataset.attributes && dataset.attributes.updatedAt}</li> */}
+                  </ul>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="row">
-              <div className="column small-12 ">
-                {dataset &&
-                  <WidgetEditor
-                    dataset={dataset.id}
-                  />
-                }
-                <Spinner
-                  isLoading={loading}
-                  className="-light"
+          <div className="row">
+            <div className="column small-12 ">
+              {dataset &&
+                <WidgetEditor
+                  dataset={dataset.id}
                 />
-              </div>
+              }
+              <Spinner
+                isLoading={loading}
+                className="-light"
+              />
             </div>
-            <div className="row description-row">
-              <div className="column small-2 social" >
-                <Icon name="icon-twitter" className="-small" />
-                <Icon name="icon-facebook" className="-small" />
-              </div>
-              <div className="column small-7">
-                {/* Description */}
-                {metadata && (metadata.length > 0)
-                  && metadata[0].attributes.description &&
-                  <p>{metadata[0].attributes.description}</p>
-                }
-              </div>
-              <div className="column small-3">
-                {dataset && this.getOpenMapButton()}
-                <button
-                  disabled
-                  className="c-button -primary -fullwidth -disabled"
-                  onClick={this.triggerDownload}
-                >
-                  Download
-                </button>
-              </div>
+          </div>
+          <div className="row description-row">
+            <div className="column small-2 social" >
+              <Icon name="icon-twitter" className="-small" />
+              <Icon name="icon-facebook" className="-small" />
+            </div>
+            <div className="column small-7">
+              {/* Description */}
+              {metadata && (metadata.length > 0)
+                && metadata[0].attributes.description &&
+                <p>{metadata[0].attributes.description}</p>
+              }
+            </div>
+            <div className="column small-3">
+              {dataset && this.getOpenMapButton()}
+              <button
+                disabled
+                className="c-button -primary -fullwidth -disabled"
+                onClick={this.triggerDownload}
+              >
+                Download
+              </button>
             </div>
           </div>
         </div>

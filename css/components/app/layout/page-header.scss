@@ -14,7 +14,11 @@
 
   .page-header-content {
     color: $color-white;
-    padding: $space-1 * 4 0 $space-1 * 8;
+    padding: $space-1 * 4 0;
+
+    &.-padding-b-0 { padding: $space-1 * 4 0 0; }
+    &.-padding-b-1 { padding: $space-1 * 4 0; }
+    &.-padding-b-2 { padding: $space-1 * 4 0 $space-1 * 8; }
   }
 
   .page-header-title {

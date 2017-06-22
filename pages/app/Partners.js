@@ -1,15 +1,16 @@
 import React from 'react';
-import PartnerBlock from 'components/app/common/Partners/PartnerBlock';
-import Banner from 'components/app/common/Banner';
-import Breadcrumbs from 'components/ui/Breadcrumbs';
+
+// Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { getPartners } from 'redactions/partners';
-import Page from 'components/app/layout/Page';
 
-const breadcrumbs = [
-  { name: 'About', url: 'about' }
-];
+// Components
+import Page from 'components/app/layout/Page';
+import Title from 'components/ui/Title';
+import PartnerBlock from 'components/app/common/Partners/PartnerBlock';
+import Banner from 'components/app/common/Banner';
+import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 
 class Partners extends React.Component {
@@ -26,16 +27,22 @@ class Partners extends React.Component {
         title="Partners"
         description="Partners description"
       >
+        <div className="c-page-header">
+          <div className="l-container">
+            <div className="page-header-content">
+              <Breadcrumbs
+                items={[{ name: 'About', url: 'about' }]}
+              />
+
+              <Title className="-primary -huge page-header-title" >
+                Partners
+              </Title>
+            </div>
+          </div>
+        </div>
+
         <div className="p-partners">
           <div className="c-page">
-            <section className="l-section -header">
-              <div className="l-container">
-                <Breadcrumbs items={breadcrumbs} />
-                <header>
-                  <h1 className="c-text -header-big -thin">Partners</h1>
-                </header>
-              </div>
-            </section>
 
             <section className="l-section -bg-grey">
               <div className="l-container">
