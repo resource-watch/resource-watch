@@ -43,7 +43,8 @@ module.exports = {
         'process.env.BACKOFFICE_API_URL': JSON.stringify(process.env.BACKOFFICE_API_URL),
         'process.env.WRI_API_URL': JSON.stringify(process.env.WRI_API_URL),
         'process.env.CMS_API_URL': JSON.stringify(process.env.CMS_API_URL),
-        'process.env.BASEMAP_TILE_URL': JSON.stringify(process.env.BASEMAP_TILE_URL)
+        'process.env.BASEMAP_TILE_URL': JSON.stringify(process.env.BASEMAP_TILE_URL),
+        'process.env.CONTROL_TOWER_URL': JSON.stringify(process.env.CONTROL_TOWER_URL)
       })
     );
     return config;
