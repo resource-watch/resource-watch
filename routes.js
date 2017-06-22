@@ -41,7 +41,6 @@ routes.add('vocabularies', '/admin/vocabularies', 'admin/vocabularies');
 // routes.add('logout', '/admin/logout', '/');
 
 // ========================= APP ROUTES =====================
-
 routes.add('home', '/home', 'app/Home');
 routes.add('about', '/about', 'app/About');
 routes.add('data', '/data', 'app/Explore'); // TODO: create the data page
@@ -51,6 +50,7 @@ routes.add('about_partners', '/about_partners', 'app/Partners');
 routes.add('pulse', '/pulse', 'app/Pulse');
 routes.add('dashboards', '/home', 'app/dashboards');
 routes.add('partner', '/about/partners/:id', 'app/PartnerDetail');
+
 // ----- GET INVOLVED -----
 routes.add('get_involved', '/get-involved', 'app/GetInvolved');
 routes.add('contribute_data', '/get-involved/contribute-data', 'app/ContributeData');
@@ -62,5 +62,10 @@ routes.add('apps', '/get-involved/apps', 'app/Apps');
 // ------ MY RW ------------
 routes.add('myrw_editprofile', '/myrw/profile/editprofile', 'app/myrw/MyRWEditProfile');
 routes.add('myrw_activity', '/myrw/profile/activity', 'app/myrw/MyRWActivity');
+
+routes.add('myrw_dashboards', '/myrw/dashboards', 'app/myrw/MyRWDashboards');
+routes.add('myrw_dashboards', '/myrw/dashboards', 'app/myrw/MyRWDashboards');
+
 routes.add('myrw_widgets', '/myrw/widgets', 'app/myrw/MyRWWidgets');
+routes.add('myrw_insights', '/myrw/insights', 'app/myrw/MyRWInsights');
 routes.add('myrw_subscriptions', '/myrw/subscriptions', 'app/myrw/MyRWSubscriptions');

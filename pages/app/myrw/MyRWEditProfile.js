@@ -1,9 +1,14 @@
 import React from 'react';
 
+// Services
+import UserService from 'services/UserService';
+
+// Components
+import Page from 'components/app/layout/Page';
+import Tabs from 'components/ui/Tabs';
+import Title from 'components/ui/Title';
 import Button from 'components/ui/Button';
 import Checkbox from 'components/form/Checkbox';
-import Page from 'components/app/layout/Page';
-import UserService from 'services/UserService';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 
@@ -64,7 +69,42 @@ class MyRWEditProfile extends React.Component {
       <Page
         title="My Resource Watch Edit Profile"
         description="My Resource Watch Edit Profile description"
+        pageHeader
       >
+        <div className="c-page-header">
+          <div className="l-container">
+            <div className="page-header-content -padding-b-0">
+              <Title className="-primary -huge page-header-title" >
+                My RW
+              </Title>
+              <Tabs
+                options={[{
+                  label: 'Profile',
+                  value: 'profile',
+                  route: 'myrw_activity'
+                }, {
+                  label: 'Dashboards',
+                  value: 'dashboards',
+                  route: 'myrw_activity'
+                }, {
+                  label: 'Widgets',
+                  value: 'widgets',
+                  route: 'myrw_activity'
+                }, {
+                  label: 'Insights',
+                  value: 'insights',
+                  route: 'myrw_activity'
+                }, {
+                  label: 'Subscriptions',
+                  value: 'subscriptions',
+                  route: 'myrw_activity'
+                }]}
+                defaultSelected={'dashboards'}
+                selected={'dashboards'}
+              />
+            </div>
+          </div>
+        </div>
         <div className="c-page p-myrw-edit-profile">
           <div className="row">
             <div className="column small-12">
