@@ -12,14 +12,33 @@
     }
   }
 
+  .delete-account-checkbox {
+
+    .c-field {
+      display: flex;
+      flex-direction: row-reverse;
+    }
+  }
+
+  .photo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-style: dashed;
+    border-width: 1px;
+    width: 130px;
+    height: 130px;
+  }
+
   .bottom-section {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
+    padding-top: 40px;
 
     button {
       width: 150px;
-    } 
+    }
   }
 
 }
