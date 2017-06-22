@@ -3,8 +3,9 @@ import { Link } from 'routes';
 import debounce from 'lodash/debounce';
 
 // Components
-import HeaderDropdownData from 'components/ui/dropdowns/HeaderDropdownData';
-import HeaderDropdownAbout from 'components/ui/dropdowns/HeaderDropdownAbout';
+import HeaderDropdownData from 'components/app/layout/header/HeaderDropdownData';
+import HeaderDropdownAbout from 'components/app/layout/header/HeaderDropdownAbout';
+import HeaderUser from 'components/app/layout/header/HeaderUser';
 
 class Header extends React.Component {
 
@@ -55,6 +56,10 @@ class Header extends React.Component {
       {
         name: 'Get Involved',
         component: <Link route="get_involved"><a>Get Involved</a></Link>
+      },
+      {
+        name: 'My RW',
+        component: <HeaderUser />
       }
     ];
 
@@ -91,7 +96,7 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  fullScreen: React.PropTypes.bool
+
 };
 
 export default Header;

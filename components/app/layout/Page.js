@@ -41,13 +41,18 @@ class Page extends React.Component {
           title={title}
           description={description}
         />
+
         <Icons />
-        <Header fullScreen={fullScreen} />
+
+        <Header />
+
         <div className="container">
-          { this.props.children }
+          {this.props.children}
           {!fullScreen && <Footer />}
         </div>
+
         <Tooltip />
+
         <Modal
           open={this.state.modalOpen}
           options={modal.options}
@@ -55,6 +60,7 @@ class Page extends React.Component {
           toggleModal={this.props.toggleModal}
           setModalOptions={this.props.setModalOptions}
         />
+
       </div>
     );
   }
