@@ -5,7 +5,7 @@ export default function HeaderUser(props) {
   const { user } = props;
   return (
     <div className="c-avatar" style={{ backgroundImage: `url(${user.avatar})` }}>
-      <Link route="home">
+      <Link route="myrw_editprofile">
         <a>
           <span className="avatar-notifications">{user.notifications}</span>
         </a>
