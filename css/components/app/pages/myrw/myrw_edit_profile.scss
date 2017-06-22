@@ -2,6 +2,12 @@
 
   padding-top: 50px;
 
+  h1,
+  h2 {
+    color: $color-dark-pink;
+    font-weight: normal;
+  }
+
   .title-section {
     display: flex;
     justify-content: space-between;

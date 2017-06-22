@@ -69,7 +69,7 @@ class MyRWEditProfile extends React.Component {
           <div className="row">
             <div className="column small-12">
               <div className="title-section">
-                <h2>Edit Profile</h2>
+                <h1>Edit Profile</h1>
                 <Button
                   properties={{
                     type: 'button',
