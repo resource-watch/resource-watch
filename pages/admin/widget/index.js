@@ -25,7 +25,7 @@ export default class WidgetIndex extends React.Component {
             </Title>
 
             <ButtonContainer
-              className="-end"
+              className="-j-end"
               buttons={[{
                 label: 'New +',
                 path: `/admin/datasets/${datasetID}/widgets/new`,

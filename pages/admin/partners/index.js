@@ -18,7 +18,7 @@ export default class PartnersIndex extends React.Component {
               Partners
             </Title>
             <ButtonContainer
-              className="-end"
+              className="-j-end"
               buttons={[{
                 label: 'New +',
                 path: '/admin/partners/new',

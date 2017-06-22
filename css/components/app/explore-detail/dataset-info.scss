@@ -1,0 +1,10 @@
+.c-dataset-info {
+  .dataset-info-description {
+    line-height: 1.5;
+
+    > * {
+      margin: $space-1 * 2 0 0;
+      &:first-child { margin: 0; }
+    }
+  }
+}

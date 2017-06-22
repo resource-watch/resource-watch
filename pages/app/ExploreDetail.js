@@ -9,15 +9,16 @@ import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 // Next
 import { Link } from 'routes';
 
+// Services
+import DatasetService from 'services/DatasetService';
+
 // Components
 import Page from 'components/app/layout/Page';
 import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
-import Icon from 'components/ui/Icon';
-// import DatasetList from 'components/app/explore/DatasetList';
 import Spinner from 'components/ui/Spinner';
-import DatasetService from 'services/DatasetService';
 import WidgetEditor from 'components/widgets/WidgetEditor';
+// import DatasetList from 'components/app/explore/DatasetList';
 
 class ExploreDetail extends React.Component {
 
@@ -41,6 +42,12 @@ class ExploreDetail extends React.Component {
     });
   }
 
+  /**
+   * Component Lifecycle
+   * - componentDidMount
+   * - componentWillReceiveProps
+   * - componentWillUnmount
+  */
   componentDidMount() {
     this.getDataset();
   }
@@ -62,6 +69,11 @@ class ExploreDetail extends React.Component {
     this.props.resetDataset();
   }
 
+  /**
+   * HELPERS
+   * - getDataset
+   * - getOpenMapButton
+  */
   getDataset() {
     this.setState({
       loading: true
@@ -106,6 +118,10 @@ class ExploreDetail extends React.Component {
     );
   }
 
+  /**
+   * UI EVENTS
+   * - triggerDownload
+  */
   triggerDownload() {
     console.info('triggerDownload');
   }
@@ -121,6 +137,7 @@ class ExploreDetail extends React.Component {
         pageHeader
       >
         <div className="c-page-explore-detail">
+          {/* PAGE HEADER */}
           <div className="c-page-header">
             <div className="l-container">
               <div className="page-header-content -padding-b-2">
@@ -143,6 +160,7 @@ class ExploreDetail extends React.Component {
             </div>
           </div>
 
+          {/* WIDGET EDITOR */}
           <div className="row">
             <div className="column small-12 ">
               {dataset &&
@@ -156,29 +174,53 @@ class ExploreDetail extends React.Component {
               />
             </div>
           </div>
-          <div className="row description-row">
-            <div className="column small-2 social" >
-              <Icon name="icon-twitter" className="-small" />
-              <Icon name="icon-facebook" className="-small" />
-            </div>
-            <div className="column small-7">
-              {/* Description */}
-              {metadata && (metadata.length > 0)
-                && metadata[0].attributes.description &&
-                <p>{metadata[0].attributes.description}</p>
-              }
-            </div>
-            <div className="column small-3">
-              {dataset && this.getOpenMapButton()}
-              <button
-                disabled
-                className="c-button -primary -fullwidth -disabled"
-                onClick={this.triggerDownload}
-              >
-                Download
-              </button>
-            </div>
+
+          {/* DATASET INFO && ACTIONS */}
+          <div className="c-page-section">
+            <section className="c-dataset-info">
+              <div className="row">
+                <div className="column small-12 medium-7">
+                  {/* Description */}
+                  {/* {metadata && (metadata.length > 0)
+                    && metadata[0].attributes.description &&
+                    <p>{metadata[0].attributes.description}</p>
+                  } */}
+                  <div className="dataset-info-description">
+                    <p>Metadata lorem ipsum casius tesebe Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Sed posuere consectetur est at lobortis. Sed posuere consectetur est at lobortis. Curabitur blandit tempus porttitor. Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+                    <p>Cem sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur blandit tempus porttitor. Nulla vitae elit libero, a pharetra augue. Sed posuere consectetur est at lobortis. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia.</p>
+                    <p>Casius tesebe Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odi</p>
+                  </div>
+                </div>
+                <div className="column large-offset-2 small-3">
+                  <div className="dataset-info-actions">
+                    <div className="row flex-dir-column">
+                      <div className="column">
+                        {dataset && this.getOpenMapButton()}
+                      </div>
+                      <div className="column">
+                        <button
+                          disabled
+                          className="c-button -primary -fullwidth -disabled"
+                          onClick={this.triggerDownload}
+                        >
+                          Download
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
           </div>
+
+
+          {/* RELATED TOOLS */}
+
+          {/* SIMILAR DATASETS */}
+
+          {/* RELATED INSIGHTS */}
+
+          {/* PLANET PULSE */}
         </div>
       </Page>
     );

@@ -1,8 +1,7 @@
 import 'isomorphic-fetch';
-import _ from 'lodash';
 import Promise from 'bluebird';
 
-export default class DatasetService {
+export default class UserService {
 
   constructor(options) {
     if (!options) {

@@ -124,6 +124,7 @@
 // LAYOUT
 @import "./components/app/layout/page";
 @import "./components/app/layout/page-header";
+@import "./components/app/layout/page-section";
 @import "./components/app/layout/footer";
 @import "./components/app/layout/sidebar";
 @import "./components/app/layout/header";
@@ -142,6 +143,9 @@
 @import "./components/app/explore/dataset_list";
 @import "./components/app/explore/dataset_widget";
 @import "./components/app/explore/widget_configurator";
+
+// EXPLORE DETAIL
+@import "./components/app/explore-detail/dataset-info";
 
 // MyRW
 @import "./components/app/pages/myrw/myrw_activity";
