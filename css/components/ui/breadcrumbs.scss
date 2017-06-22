@@ -11,33 +11,27 @@
     list-style: none;
     margin-right: 20px;
 
-    &:after {
-      content: '';
-      position: absolute;
-      top: 10px;
-      right: -10px;
-      width: 4px;
-      height: 4px;
-      border-top: 1px solid $color-dark-grey;
-      border-right: 1px solid $color-dark-grey;
-      transform: rotate(45deg);
-    }
-
-    &:last-child {
-      &:after { display: none; }
-    }
-
-    &.-current {
-      color: $color-dark-grey;
-      cursor: default;
-    }
-
     a {
-      color: $color-dark-grey;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      color: $color-mango;
+      fill: $color-mango;
       text-decoration: none;
       cursor: pointer;
 
-      &:hover { color: $color-secondary; }
+      > * {
+        margin-right: 5px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+
+      &:hover {
+        color: darken($color-mango, 10%);
+        fill: darken($color-mango, 10%);
+      }
     }
   }
 }

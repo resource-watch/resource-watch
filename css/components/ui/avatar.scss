@@ -1,0 +1,28 @@
+.c-avatar {
+  width: rem(50);
+  height: rem(50);
+  position: relative;
+  border-radius: 50%;
+  background-size: cover;
+
+  a {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .avatar-notifications {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: rem(20);
+    height: rem(20);
+    border-radius: 50%;
+    font-size: $font-size-extra-small;
+    color: $color-white;
+    background: $color-mango;
+  }
+}

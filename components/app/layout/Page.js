@@ -32,7 +32,7 @@ class Page extends React.Component {
   }
 
   render() {
-    const { title, description, pathname, modal } = this.props;
+    const { title, description, pathname, pageHeader, modal } = this.props;
     const fullScreen = pathname && fullScreenPages.indexOf(pathname) !== -1;
 
     return (
@@ -41,13 +41,18 @@ class Page extends React.Component {
           title={title}
           description={description}
         />
+
         <Icons />
-        <Header fullScreen={fullScreen} />
+
+        <Header pageHeader={pageHeader} />
+
         <div className="container">
-          { this.props.children }
+          {this.props.children}
           {!fullScreen && <Footer />}
         </div>
+
         <Tooltip />
+
         <Modal
           open={this.state.modalOpen}
           options={modal.options}
@@ -55,6 +60,7 @@ class Page extends React.Component {
           toggleModal={this.props.toggleModal}
           setModalOptions={this.props.setModalOptions}
         />
+
       </div>
     );
   }
@@ -66,6 +72,7 @@ Page.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   pathname: PropTypes.string,
+  pageHeader: PropTypes.bool,
   modal: PropTypes.object,
   toggleModal: PropTypes.func,
   setModalOptions: PropTypes.func

@@ -44,6 +44,7 @@ routes.add('vocabularies', '/admin/vocabularies', 'admin/vocabularies');
 
 routes.add('home', '/home', 'app/Home');
 routes.add('about', '/about', 'app/About');
+routes.add('data', '/data', 'app/Explore'); // TODO: create the data page
 routes.add('explore', '/explore', 'app/Explore');
 routes.add('explore_detail', '/explore/:id', 'app/ExploreDetail');
 routes.add('about_partners', '/about_partners', 'app/Partners');

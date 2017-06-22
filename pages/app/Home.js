@@ -143,10 +143,10 @@ class Home extends React.Component {
           <div className="c-page">
             <Banner className="intro" containerGrid={false}>
               <h1 className="title c-text -header-huge -thin">
-                  Quick and easy access<br />to data that matters
+                Quick and easy access <br />to a world of resource data
               </h1>
               <p className="c-text -huge -thin">
-                Explore the latest data, find insights, and help build a more sustainable planet
+                Explore the latest data, make insights, and help build a more sustainable planet
               </p>
               <a className="scroll-icon js-scroll" href="#discoverIsights">
                 <Icon name="icon-arrow-down" />
@@ -156,7 +156,7 @@ class Home extends React.Component {
               <div className="l-container">
                 <header className="row">
                   <div className="column small-12 medium-8">
-                    <h1 className="title c-text -header-big -primary -thin">Discover Insights</h1>
+                    <h1 className="title c-text -header-huge -primary -thin">Discover Insights</h1>
                   </div>
                 </header>
 
@@ -193,7 +193,7 @@ class Home extends React.Component {
               <div className="l-container">
                 <header className="row">
                   <div className="column small-12 medium-8">
-                    <h1 className="title c-text -header-big -primary -thin">Explore the data</h1>
+                    <h1 className="title c-text -header-huge -primary -thin">Explore the data</h1>
                   </div>
                 </header>
 
