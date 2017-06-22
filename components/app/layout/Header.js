@@ -1,6 +1,10 @@
 import React from 'react';
-import { Link } from 'routes';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import debounce from 'lodash/debounce';
+
+// Next
+import { Link } from 'routes';
 
 // Components
 import HeaderDropdownData from 'components/app/layout/header/HeaderDropdownData';
@@ -63,8 +67,12 @@ class Header extends React.Component {
       }
     ];
 
+    const headerClass = classnames({
+      '-transparent': this.props.pageHeader
+    })
+
     return (
-      <header className="c-header">
+      <header className={`c-header ${headerClass}`}>
         <div className="header-secondary">
           {/* We will load the script generated */}
         </div>
@@ -95,8 +103,13 @@ class Header extends React.Component {
 
 }
 
-Header.propTypes = {
+Header.defaultProps = {
+  pageHeader: false
+};
 
+
+Header.propTypes = {
+  pageHeader: PropTypes.bool
 };
 
 export default Header;

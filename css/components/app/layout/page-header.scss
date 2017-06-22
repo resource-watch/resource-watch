@@ -1,0 +1,44 @@
+.c-page-header {
+  background-color: $header-bg-color;
+  background-image: $header-bg-image,
+    linear-gradient(
+      86deg,
+      $header-gradient-color-1 0%,
+      $header-gradient-color-2 100%
+    );
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: cover;
+  margin: -($header-main-height + $header-secondary-height) 0 0;
+  padding: ($header-main-height + $header-secondary-height) 0 0;
+
+  .page-header-content {
+    color: $color-white;
+    padding: $space-1 * 4 0 $space-1 * 8;
+  }
+
+  .page-header-title {
+    color: $color-white;
+  }
+
+  .page-header-info {
+    margin: $space-1 * 2 0 0 $space-1;
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      list-style: none;
+
+      li {
+        margin: 0 0 0 $space-1 * 4;
+
+        &:first-child { margin: 0; }
+      }
+    }
+  }
+
+}
