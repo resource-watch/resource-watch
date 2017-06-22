@@ -10,8 +10,7 @@
   padding-bottom: 70px;
 
   &.intro {
-    padding-top: 190px;
-    padding-bottom: 160px;
+    padding: 160px 0;
   }
 
   &.-light * { color: $color-white; }

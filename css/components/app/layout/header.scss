@@ -21,7 +21,7 @@ $header-gradient-color-2: rgba(#c90e39, 0.7);
 
 
   // MAIN
-  > .header-main {
+  .header-main {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -33,7 +33,7 @@ $header-gradient-color-2: rgba(#c90e39, 0.7);
 
 
   // SECONDARY
-  > .header-secondary {
+  .header-secondary {
     height: $header-secondary-height;
     background: rgba($color-black, .1);
   }

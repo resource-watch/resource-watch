@@ -63,24 +63,26 @@ class Header extends React.Component {
         <div className="header-secondary">
           {/* We will load the script generated */}
         </div>
-        <div className="header-main">
-          <h1 className="header-logo">
-            <Link route="home">
-              <a>
-                <svg><use xlinkHref="#icon-logo" /></svg>
-                <span>Resource Watch</span>
-              </a>
-            </Link>
-          </h1>
-          <nav className="header-menu">
-            <ul>
-              {items.map(item => (
-                <li key={item.name}>
-                  {item.component}
-                </li>
-              ))}
-            </ul>
-          </nav>
+        <div className="l-container">
+          <div className="header-main">
+            <h1 className="header-logo">
+              <Link route="home">
+                <a>
+                  <svg><use xlinkHref="#icon-logo" /></svg>
+                  <span>Resource Watch</span>
+                </a>
+              </Link>
+            </h1>
+            <nav className="header-menu">
+              <ul>
+                {items.map(item => (
+                  <li key={item.name}>
+                    {item.component}
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
         </div>
       </header>
     );
