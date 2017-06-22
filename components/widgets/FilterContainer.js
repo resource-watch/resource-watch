@@ -37,7 +37,7 @@ class FilterContainer extends React.Component {
     const filters = widgetEditor.filters;
 
     const containerDivClass = classNames({
-      '-filter-box': true,
+      'filter-box': true,
       '-release': isActive
     });
 

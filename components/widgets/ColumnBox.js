@@ -91,7 +91,7 @@ class ColumnBox extends React.Component {
         this.props.toggleTooltip(true, {
           follow: false,
           position: { x: event.clientX, y: event.clientY },
-          children: AggregateFunctionTooltip,
+          // children: AggregateFunctionTooltip,
           childrenProps: {
             name,
             type,
@@ -111,13 +111,9 @@ class ColumnBox extends React.Component {
     const { aggregageFunction } = this.state;
     const { isDragging, connectDragSource, name, type, closable, configurable } = this.props;
     const iconName = (type.toLowerCase() === 'string') ? 'icon-type' : 'icon-hash';
-    const boxClass = classNames({
-      'c-columnbox': true,
-      '-dimmed': isDragging
-    });
 
     return connectDragSource(
-      <div className={boxClass}>
+      <div className={classNames({ 'c-columnbox': true, '-dimmed': isDragging })}>
         <Icon
           name={iconName}
           className="-smaller"

@@ -37,7 +37,7 @@ class ColorContainer extends React.Component {
     const color = widgetEditor.color;
 
     const containerDivClass = classNames({
-      'c-color-container': true,
+      'c-column-container': true,
       '-release': isActive
     });
 

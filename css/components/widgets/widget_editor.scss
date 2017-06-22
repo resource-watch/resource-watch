@@ -1,69 +1,69 @@
 .c-widget-editor {
   display: flex;
+  position: relative;
+  background-color: $color-pale-grey;
 
   .customize-visualization {
     margin-top: -20px;
     margin-bottom: -20px;
+    flex-basis: 430px;
     flex-shrink: 0;
-    padding: 20px;
+    flex-grow: 0;
+    padding: 20px 40px;
+    border: 1px solid rgba($color-black, .15);
+    box-shadow: 0 1px 2px 0 rgba($color-black, .09);
     background-color: $color-white;
-    border-style: solid;
-    border-width: 1px;
-    border-color: $color-dark-grey;
 
     .title {
+      margin: 20px 0;
       color: $color-dark-pink;
-      font-weight: normal;
+      font-weight: $font-weight-light;
+    }
+
+    > h5,
+    .chart-type h5 {
+      margin: 0 0 10px;
+      font-size: $font-size-default;
+    }
+
+    .actions-div {
+      display: flex;
+      margin-top: 22px;
+      justify-content: flex-start;
+
+      .fields {
+        flex-shrink: 0;
+        flex-basis: 160px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .c-columnbox {
+          margin-bottom: 10px;
+        }
+      }
+
+      .customization-container {
+        flex-grow: 1;
+        margin-left: 20px;
+
+        .c-column-container {
+          margin-bottom: 10px;
+        }
+      }
+    }
+
+    .visualization {
+      flex-grow: 1;
+      margin-left: 10px;
     }
   }
 
   .visualization {
-    flex-grow: 1;
-    margin-left: 10px;
-  }
-
-  .fields {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-    .c-columnbox {
-      margin-top: 10px;
-    }
-  }
-
-  .customization-container {
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
     margin-left: 20px;
   }
-
-  .dimensions-box {
-    .dimension-box {
-      border-style: solid;
-      border-width: 1px;
-      padding: 5px;
-      &:last-child {
-        margin-top: 10px;
-      }
-    }
-  }
-
-  .color-box {
-    border-style: solid;
-    border-width: 1px;
-    margin-top: 10px;
-    padding: 5px;
-  }
-
-  .size-box {
-    border-style: solid;
-    border-width: 1px;
-    margin-top: 10px;
-    padding: 5px;
-  }
-
-  .actions-div {
-    display: flex;
-    justify-content: flex-start;
-  }
-
 }

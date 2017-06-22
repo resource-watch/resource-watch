@@ -35,7 +35,7 @@ class DimensionYContainer extends React.Component {
     const dimensionY = widgetEditor.dimensionY;
 
     const containerDivClass = classNames({
-      'c-dimensiony-container': true,
+      'c-column-container': true,
       '-release': isActive
     });
 

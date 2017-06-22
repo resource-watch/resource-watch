@@ -37,7 +37,7 @@ class SizeContainer extends React.Component {
     const size = widgetEditor.size;
 
     const containerDivClass = classNames({
-      'c-size-container': true,
+      'c-column-container': true,
       '-release': isActive
     });
 

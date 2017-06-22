@@ -35,7 +35,7 @@ class DimensionXContainer extends React.Component {
     const dimensionX = widgetEditor.dimensionX;
 
     const containerDivClass = classNames({
-      'c-dimensionx-container': true,
+      'c-column-container': true,
       '-release': isActive
     });
 

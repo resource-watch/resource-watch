@@ -212,10 +212,7 @@ class WidgetEditor extends React.Component {
 
     return (
       <div className="c-widget-editor">
-        <Spinner
-          className="-light"
-          isLoading={loading}
-        />
+        { loading && <Spinner className="-light" isLoading={loading} /> }
         <div className="customize-visualization">
           <h2
             className="title"
@@ -258,11 +255,9 @@ class WidgetEditor extends React.Component {
               )}
             </div>
             <div className="customization-container">
-              <div className="dimensions-box">
-                <h5>Dimensions</h5>
-                <DimensionXContainer />
-                { this.isBidimensionalChart() && <DimensionYContainer /> }
-              </div>
+              <h5>Dimensions</h5>
+              <DimensionXContainer />
+              { this.isBidimensionalChart() && <DimensionYContainer /> }
               <ColorContainer />
               <SizeContainer />
               <FilterContainer />
