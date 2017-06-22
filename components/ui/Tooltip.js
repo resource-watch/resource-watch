@@ -17,8 +17,10 @@ class Tooltip extends React.Component {
     if (tooltip.follow && tooltip.follow !== this.props.tooltip.follow) {
       document.addEventListener('mousemove', this.onMouseMove);
     }
+
     const stopFollowing = tooltip.follow === false && tooltip.follow !== this.props.tooltip.follow;
     const isEmpty = !tooltip.opened && tooltip.opened !== this.props.tooltip.opened;
+
     if (stopFollowing || isEmpty) {
       document.removeEventListener('mousemove', this.onMouseMove);
     }
@@ -31,8 +33,14 @@ class Tooltip extends React.Component {
   }
 
   getContent() {
-    return this.props.tooltip.children ?
-      <this.props.tooltip.children {...this.props.tooltip.childrenProps} /> : null;
+    return this.props.tooltip.children
+      ? (
+        <this.props.tooltip.children
+          {...this.props.tooltip.childrenProps}
+          onResize={() => this.tether && this.tether.position()}
+        />
+      )
+      : null;
   }
 
   getStyles() {
@@ -43,11 +51,11 @@ class Tooltip extends React.Component {
       // position if it is out of viewport
     }
     return {
-      position: 'fixed',
+      position: 'absolute',
       top: `${topPos}px`,
       left: `${bottomPos}px`,
-      width: '1px',
-      height: '1px',
+      width: '10px',
+      height: '10px',
       visibility: 'hidden'
     };
   }
@@ -55,11 +63,12 @@ class Tooltip extends React.Component {
   render() {
     return (
       <TetherComponent
+        ref={(node) => { this.tether = node; }}
         attachment="bottom center"
         targetAttachment="top center"
-        constraints={[{
-          to: 'window',
-          pin: true
+        constraints={[{ // Make the tooltip follow the page (i.e. can be hidden if scrolled)
+          to: 'scrollParent',
+          attachment: 'together'
         }]}
         classes={{
           element: `c-tooltip ${this.props.tooltip.opened ? '' : '-hidden'}`
@@ -70,11 +79,7 @@ class Tooltip extends React.Component {
           style={this.getStyles()}
         />
         { this.props.tooltip.opened &&
-        <div
-          ref={(node) => { this.el = node; }}
-        >
-          {this.getContent()}
-        </div>
+          <div ref={(node) => { this.el = node; }}>{this.getContent()}</div>
         }
       </TetherComponent>
     );

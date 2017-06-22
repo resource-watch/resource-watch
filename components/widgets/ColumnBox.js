@@ -35,6 +35,21 @@ function collect(connect, monitor) {
 
 class ColumnBox extends React.Component {
 
+  /**
+   * Return the position of the click within the page taking
+   * into account the scroll (relative to the page, not the
+   * viewport )
+   * @static
+   * @param {MouseEvent} e Event
+   * @returns {{ x: number, y: number }}
+   */
+  static getClickPosition(e) {
+    return {
+      x: window.scrollX + e.clientX,
+      y: window.scrollY + e.clientY
+    };
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -68,6 +83,7 @@ class ColumnBox extends React.Component {
   @Autobind
   triggerConfigure(event) {
     const { isA, name, type, datasetID, tableName } = this.props;
+
     switch (isA) {
       case 'color':
         break;
@@ -76,7 +92,7 @@ class ColumnBox extends React.Component {
       case 'filter':
         this.props.toggleTooltip(true, {
           follow: false,
-          position: { x: event.clientX, y: event.clientY },
+          position: ColumnBox.getClickPosition(event),
           children: FilterTooltip,
           childrenProps: {
             name,
@@ -90,7 +106,7 @@ class ColumnBox extends React.Component {
       case 'dimensionX':
         this.props.toggleTooltip(true, {
           follow: false,
-          position: { x: event.clientX, y: event.clientY },
+          position: ColumnBox.getClickPosition(event),
           // children: AggregateFunctionTooltip,
           childrenProps: {
             name,

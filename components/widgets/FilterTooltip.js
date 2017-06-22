@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import { toggleTooltip } from 'redactions/tooltip';
 import withRedux from 'next-redux-wrapper';
@@ -27,14 +28,32 @@ class FilterTooltip extends React.Component {
     this.datasetService = new DatasetService(props.datasetID, {
       apiURL: process.env.WRI_API_URL
     });
+  }
 
+  componentDidMount() {
+    this.getFilter();
+    document.addEventListener('mousedown', this.triggerMouseDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.triggerMouseDown);
+  }
+
+  /**
+   * Fetch the data about the column and update the state
+   * consequently
+   */
+  getFilter() {
     this.datasetService.getFilter({
-      columnType: props.type,
-      tableName: props.tableName,
-      columnName: props.name
-    }).then((result) => {
-      console.log(result);
-      const values = props.type === 'string' ? result.properties.map(val => ({ name: val, label: val, value: val })) : null;
+      columnType: this.props.type,
+      tableName: this.props.tableName,
+      columnName: this.props.name
+    })
+    .then((result) => {
+      const values = this.props.type === 'string'
+        ? result.properties.map(val => ({ name: val, label: val, value: val }))
+        : null;
+
       this.setState({
         loading: false,
         values,
@@ -42,20 +61,14 @@ class FilterTooltip extends React.Component {
         max: result.properties.max,
         rangeValue: { min: result.properties.min, max: result.properties.max }
       });
-    }).catch((error) => {
-      console.log(error);
-      this.setState({
-        loading: false
-      });
-    });
-  }
 
-  componentDidMount() {
-    document.addEventListener('mousedown', this.triggerMouseDown);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.triggerMouseDown);
+      // We let the tooltip know that the component has been resized
+      if (this.props.onResize) {
+        this.props.onResize();
+      }
+    })
+    .catch(error => console.error(error))
+    .then(() => this.setState({ loading: false }));
   }
 
   @Autobind
@@ -121,12 +134,13 @@ class FilterTooltip extends React.Component {
 }
 
 FilterTooltip.propTypes = {
-  tableName: React.PropTypes.string.isRequired,
-  datasetID: React.PropTypes.string.isRequired,
-  name: React.PropTypes.string.isRequired,
-  type: React.PropTypes.string.isRequired,
+  tableName: PropTypes.string.isRequired,
+  datasetID: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  onResize: PropTypes.func, // Passed from the tooltip component
   // store
-  toggleTooltip: React.PropTypes.func.isRequired
+  toggleTooltip: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({

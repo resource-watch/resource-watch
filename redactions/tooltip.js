@@ -52,7 +52,10 @@ export function toggleTooltip(opened, opts = {}) {
         }
       }
       if (!opts.follow && opts.position) {
-        dispatch({ type: TOOLTIP_SET_POSITION, payload: { x: opts.position.x, y: opts.position.y } });
+        dispatch({
+          type: TOOLTIP_SET_POSITION,
+          payload: { x: opts.position.x, y: opts.position.y }
+        });
       }
       if (opts.follow) {
         dispatch({ type: TOOLTIP_FOLLOW_TOGGLE, payload: true });

@@ -32,7 +32,7 @@ class DimensionXContainer extends React.Component {
   render() {
     const { canDrop, isOver, connectDropTarget, widgetEditor } = this.props;
     const isActive = canDrop && isOver;
-    const dimensionX = widgetEditor.dimensionX;
+    const { dimensionX } = widgetEditor;
 
     const containerDivClass = classNames({
       'c-column-container': true,
