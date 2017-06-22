@@ -58,3 +58,9 @@ routes.add('join_community', '/get-involved/join-community', 'app/JoinCommunity'
 routes.add('submit_insight', '/get-involved/submit-insight', 'app/SubmitInsight');
 routes.add('develop_app', '/get-involved/develop-app', 'app/DevelopApp');
 routes.add('apps', '/get-involved/apps', 'app/Apps');
+
+// ------ MY RW ------------
+routes.add('myrw_editprofile', '/myrw/profile/editprofile', 'app/myrw/MyRWEditProfile');
+routes.add('myrw_activity', '/myrw/profile/activity', 'app/myrw/MyRWActivity');
+routes.add('myrw_widgets', '/myrw/widgets', 'app/myrw/MyRWWidgets');
+routes.add('myrw_subscriptions', '/myrw/subscriptions', 'app/myrw/MyRWSubscriptions');

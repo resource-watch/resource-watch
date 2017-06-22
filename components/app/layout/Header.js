@@ -69,7 +69,7 @@ class Header extends React.Component {
 
     const headerClass = classnames({
       '-transparent': this.props.pageHeader
-    })
+    });
 
     return (
       <header className={`c-header ${headerClass}`}>
