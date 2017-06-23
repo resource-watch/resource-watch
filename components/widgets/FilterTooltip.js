@@ -1,12 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
-import { toggleTooltip } from 'redactions/tooltip';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-import InputRange from 'react-input-range';
 import classNames from 'classnames';
+import InputRange from 'react-input-range';
+import debounce from 'lodash/debounce';
+
+// Redux
+import { initStore } from 'store';
+import withRedux from 'next-redux-wrapper';
+import { toggleTooltip } from 'redactions/tooltip';
+
+// Services
 import DatasetService from 'services/DatasetService';
+
+// Components
 import CheckboxGroup from 'components/form/CheckboxGroup';
 import Spinner from 'components/ui/Spinner';
 import Button from 'components/ui/Button';
@@ -19,7 +26,9 @@ class FilterTooltip extends React.Component {
 
     this.state = {
       values: [],
+      // Selected strings in the filters
       selected: [],
+      // Selected range in the filters
       rangeValue: null,
       loading: true
     };
@@ -39,7 +48,17 @@ class FilterTooltip extends React.Component {
     document.removeEventListener('mousedown', this.triggerMouseDown);
   }
 
-  /**
+  onClearAll() {
+    this.setState({ selected: [] });
+  }
+
+  onSelectAll() {
+    this.setState({
+      selected: this.state.values.map(value => value.value)
+    });
+  }
+
+    /**
    * Fetch the data about the column and update the state
    * consequently
    */
@@ -57,9 +76,14 @@ class FilterTooltip extends React.Component {
       this.setState({
         loading: false,
         values,
-        min: result.properties.min,
-        max: result.properties.max,
-        rangeValue: { min: result.properties.min, max: result.properties.max }
+        // We round the values to have a nicer UI
+        min: Math.floor(result.properties.min),
+        max: Math.ceil(result.properties.max),
+        // The default selection is the whole range
+        rangeValue: {
+          min: Math.floor(result.properties.min),
+          max: Math.ceil(result.properties.max)
+        }
       });
 
       // We let the tooltip know that the component has been resized
@@ -80,13 +104,61 @@ class FilterTooltip extends React.Component {
     }
   }
 
+  renderCheckboxes() {
+    const { values, selected } = this.state;
+
+    return (
+      <div className="checkboxes">
+        <div className="buttons">
+          <button type="button" onClick={() => this.onClearAll()}>Clear all</button>
+          <button type="button" onClick={() => this.onSelectAll()}>Select all</button>
+        </div>
+        <CheckboxGroup
+          selected={selected}
+          options={values}
+          onChange={vals => this.setState({ selected: vals })}
+        />
+      </div>
+    );
+  }
+
+  renderRange() {
+    // Min and max values of the dataset
+    const min = this.state.min;
+    const max = this.state.max;
+
+    // The step musn't depend on rangeMin and rangeMax otherwise
+    // when moving either of them, both of them will be updated
+    // to the nearest multiple of the step
+    const step = Math.floor((max - min) / 100);
+
+    // Min and max values of the selected range
+    const rangeMin = this.state.rangeValue.min;
+    const rangeMax = this.state.rangeValue.max;
+
+    // We debounce the method to avoid having to update the state
+    // to often (around 60 FPS)
+    const updateRange = debounce(range => this.setState({ rangeValue: range }), 16);
+
+    return (
+      <div className="range">
+        <InputRange
+          maxValue={max}
+          minValue={min}
+          value={{ min: rangeMin, max: rangeMax }}
+          step={step}
+          onChange={range => updateRange(range)}
+        />
+      </div>
+    );
+  }
+
   render() {
     const { type } = this.props;
-    const { values, rangeValue, min, max, loading, selected } = this.state;
+    const { loading } = this.state;
     const categoryValue = type === 'string';
     const classNameValue = classNames({
-      'c-filter-tooltip': true,
-      overflow: categoryValue
+      'c-filter-tooltip': true
     });
     return (
       <div className={classNameValue}>
@@ -94,40 +166,16 @@ class FilterTooltip extends React.Component {
           className="-light"
           isLoading={loading}
         />
-        { categoryValue &&
-          <div>
-            <CheckboxGroup
-              selected={selected}
-              options={values}
-            />
-            <div className="buttons">
-              <Button
-                properties={{
-                  type: 'button',
-                  className: '-primary'
-                }}
-              >
-              Clear All
-              </Button>
-              <Button
-                properties={{
-                  type: 'button',
-                  className: '-primary'
-                }}
-              >
-                Select All
-              </Button>
-            </div>
-          </div>
-        }
-        { !categoryValue && !loading &&
-          <InputRange
-            maxValue={max}
-            minValue={min}
-            value={{ min: rangeValue.min, max: rangeValue.max }}
-            onChange={opts => this.setState({ rangeValue: { min: opts.min, max: opts.max } })}
-          />
-        }
+
+        { categoryValue && this.renderCheckboxes() }
+        { !categoryValue && !loading && this.renderRange() }
+
+        <Button
+          properties={{ type: 'button', className: '-primary' }}
+          onClick={() => this.props.toggleTooltip(false)}
+        >
+          Done
+        </Button>
       </div>
     );
   }
