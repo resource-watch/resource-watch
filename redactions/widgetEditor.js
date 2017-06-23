@@ -12,6 +12,7 @@ const SET_DIMENSION_X = 'widgetEditor/SET_DIMENSION_X';
 const REMOVE_DIMENSION_X = 'widgetEditor/REMOVE_DIMENSION_X';
 const SET_DIMENSION_Y = 'widgetEditor/SET_DIMENSION_Y';
 const REMOVE_DIMENSION_Y = 'widgetEditor/REMOVE_DIMENSION_Y';
+const RESET = 'widgetEditor/RESET';
 
 /**
  * REDUCER
@@ -112,6 +113,10 @@ export default function (state = initialState, action) {
       });
     }
 
+    case RESET: {
+      return Object.assign({}, initialState);
+    }
+
     default:
       return state;
   }
@@ -162,4 +167,7 @@ export function setDimensionY(dimensionY) {
 }
 export function removeDimensionY(dimensionY) {
   return dispatch => dispatch({ type: REMOVE_DIMENSION_Y, payload: dimensionY });
+}
+export function resetWidgetEditor() {
+  return dispatch => dispatch({ type: RESET });
 }

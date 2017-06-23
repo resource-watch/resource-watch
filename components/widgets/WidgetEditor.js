@@ -3,10 +3,16 @@ import PropTypes from 'prop-types';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Autobind } from 'es-decorators';
 import { DragDropContext } from 'react-dnd';
+
+// Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import { resetWidgetEditor } from 'redactions/widgetEditor';
 
+// Services
 import DatasetService from 'services/DatasetService';
+
+// Components
 import ColumnBox from 'components/widgets/ColumnBox';
 import FilterContainer from 'components/widgets/FilterContainer';
 import ColorContainer from 'components/widgets/ColorContainer';
@@ -16,6 +22,8 @@ import DimensionYContainer from 'components/widgets/DimensionYContainer';
 import Select from 'components/form/SelectInput';
 import Spinner from 'components/ui/Spinner';
 import VegaChart from 'components/widgets/VegaChart';
+
+// Utils
 import getQueryByFilters from 'utils/getQueryByFilters';
 import BarChart from 'utils/widgets/bar';
 import LineChart from 'utils/widgets/line';
@@ -50,6 +58,10 @@ class WidgetEditor extends React.Component {
       // Jiminy
       jiminy: {}
     };
+
+    // Each time the editor is opened again, we reset the Redux's state
+    // associated with it
+    props.resetWidgetEditor();
 
     // DatasetService
     this.datasetService = new DatasetService(props.dataset, {
@@ -262,11 +274,14 @@ class WidgetEditor extends React.Component {
 }
 
 const mapStateToProps = ({ widgetEditor }) => ({ widgetEditor });
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = dispatch => ({
+  resetWidgetEditor: () => dispatch(resetWidgetEditor())
+});
 
 WidgetEditor.propTypes = {
   dataset: PropTypes.string, // Dataset ID
-  widgetEditor: PropTypes.object
+  widgetEditor: PropTypes.object,
+  resetWidgetEditor: PropTypes.func.isRequired
 };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(WidgetEditor);
