@@ -154,10 +154,10 @@ class FilterTooltip extends React.Component {
     const min = this.state.min;
     const max = this.state.max;
 
-    // The step musn't depend on rangeMin and rangeMax otherwise
-    // when moving either of them, both of them will be updated
-    // to the nearest multiple of the step
-    const step = Math.floor((max - min) / 100);
+    // The step must be 1 or lower, otherwise the react-input-range will
+    // automatically move the minimum and the maximum to a multiple of it
+    // See: https://github.com/davidchin/react-input-range/issues/46
+    const step = Math.min(Math.floor((max - min) / 100), 1);
 
     // Min and max values of the selected range
     const rangeMin = this.state.rangeValue.min;
