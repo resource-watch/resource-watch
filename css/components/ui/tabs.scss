@@ -1,14 +1,6 @@
 .c-tabs {
   margin: $space-1 * 4 0 0;
 
-  .column {
-    margin: 0 $space-1 * 5 0 0;
-
-    &:last-child {
-      margin: 0;
-    }
-  }
-
   // Tabs-btn
   .tabs-btn {
     display: flex;

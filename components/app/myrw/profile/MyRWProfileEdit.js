@@ -4,9 +4,6 @@ import React from 'react';
 import UserService from 'services/UserService';
 
 // Components
-import Page from 'components/app/layout/Page';
-import Tabs from 'components/ui/Tabs';
-import Title from 'components/ui/Title';
 import Button from 'components/ui/Button';
 import Checkbox from 'components/form/Checkbox';
 import Field from 'components/form/Field';
@@ -66,135 +63,95 @@ class MyRWEditProfile extends React.Component {
     const { user } = this.state;
 
     return (
-      <Page
-        title="My Resource Watch Edit Profile"
-        description="My Resource Watch Edit Profile description"
-        pageHeader
-      >
-        <div className="c-page-header">
-          <div className="l-container">
-            <div className="page-header-content -padding-b-0">
-              <Title className="-primary -huge page-header-title" >
-                My RW
-              </Title>
-              <Tabs
-                options={[{
-                  label: 'Profile',
-                  value: 'profile',
-                  route: 'myrw/profile/activity'
-                }, {
-                  label: 'Dashboards',
-                  value: 'dashboards',
-                  route: 'myrw/profile/activity'
-                }, {
-                  label: 'Widgets',
-                  value: 'widgets',
-                  route: 'myrw/profile/activity'
-                }, {
-                  label: 'Insights',
-                  value: 'insights',
-                  route: 'myrw/profile/activity'
-                }, {
-                  label: 'Subscriptions',
-                  value: 'subscriptions',
-                  route: 'myrw/profile/activity'
-                }]}
-                defaultSelected={'dashboards'}
-                selected={'dashboards'}
-              />
+      <div className="c-myrw-profile-edit">
+        <div className="row">
+          <div className="column small-12">
+            <div className="title-section">
+              <h1>Edit Profile</h1>
+              <Button
+                properties={{
+                  type: 'button',
+                  className: '-primary -end'
+                }}
+                onClick={this.triggerSaveProfile}
+              >
+                Save
+              </Button>
             </div>
-          </div>
-        </div>
-        <div className="c-page p-myrw-edit-profile">
-          <div className="row">
-            <div className="column small-12">
-              <div className="title-section">
-                <h1>Edit Profile</h1>
-                <Button
-                  properties={{
-                    type: 'button',
-                    className: '-primary -end'
-                  }}
-                  onClick={this.triggerSaveProfile}
-                >
-                  Save
-                </Button>
-              </div>
-              <fieldset className="c-field-container">
+            <fieldset className="c-field-container">
+              <Field
+                ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
+                onChange={value => this.handleFormChange({ name: value })}
+                validations={['required']}
+                properties={{
+                  name: 'name',
+                  label: 'Name',
+                  type: 'text',
+                  required: true,
+                  default: user.name
+                }}
+              >
+                {Input}
+              </Field>
+              <Field
+                ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
+                onChange={value => this.handleFormChange({ email: value })}
+                validations={['required']}
+                properties={{
+                  name: 'email',
+                  label: 'Email',
+                  type: 'email',
+                  required: true,
+                  default: user.email
+                }}
+              >
+                {Input}
+              </Field>
+              <Field
+                ref={(c) => { if (c) FORM_ELEMENTS.elements.new_password = c; }}
+                onChange={value => this.handleFormChange({ new_password: value })}
+                properties={{
+                  name: 'new_password',
+                  label: 'Change password',
+                  type: 'password',
+                  default: user.new_password
+                }}
+              >
+                {Input}
+              </Field>
+            </fieldset>
+            <h5>Photo</h5>
+            <div className="photo-container">
+              Add
+            </div>
+            <div className="bottom-section">
+              <div className="delete-account-checkbox">
                 <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
-                  onChange={value => this.handleFormChange({ name: value })}
-                  validations={['required']}
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.wri_funded = c; }}
+                  onChange={value => this.changeMetadata({ deleteAccount: value.checked })}
                   properties={{
-                    name: 'name',
-                    label: 'Name',
-                    type: 'text',
-                    required: true,
-                    default: user.name
-                  }}
-                >
-                  {Input}
-                </Field>
-                <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
-                  onChange={value => this.handleFormChange({ email: value })}
-                  validations={['required']}
-                  properties={{
-                    name: 'email',
-                    label: 'Email',
-                    type: 'email',
-                    required: true,
-                    default: user.email
-                  }}
-                >
-                  {Input}
-                </Field>
-                <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.new_password = c; }}
-                  onChange={value => this.handleFormChange({ new_password: value })}
-                  properties={{
-                    name: 'new_password',
-                    label: 'Change password',
-                    type: 'password',
-                    default: user.new_password
-                  }}
-                >
-                  {Input}
-                </Field>
-              </fieldset>
-              <h5>Photo</h5>
-              <div className="photo-container">
-                Add
-              </div>
-              <div className="bottom-section">
-                <div className="delete-account-checkbox">
-                  <Field
-                    ref={(c) => { if (c) FORM_ELEMENTS.elements.wri_funded = c; }}
-                    onChange={value => this.changeMetadata({ deleteAccount: value.checked })}
-                    properties={{
-                      name: 'delete_account',
-                      label: 'Delete account',
-                      checked: false,
+                    name: 'delete_account',
+                    label: 'Delete account',
+                    checked: false,
 
-                    }}
-                  >
-                    {Checkbox}
-                  </Field>
-                </div>
-                <Button
-                  properties={{
-                    type: 'button',
-                    className: '-primary -end'
                   }}
-                  onClick={this.triggerSaveProfile}
                 >
-                  Save
-                </Button>
+                  {Checkbox}
+                </Field>
               </div>
+              <Button
+                properties={{
+                  type: 'button',
+                  className: '-primary -end'
+                }}
+                onClick={this.triggerSaveProfile}
+              >
+                Save
+              </Button>
             </div>
           </div>
         </div>
-      </Page>
+      </div>
     );
   }
 }

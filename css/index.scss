@@ -2,9 +2,12 @@
 @import "normalize.css";
 
 // Foundation
-@import 'foundation_settings';
 @import '../node_modules/foundation-sites/scss/foundation';
+@include foundation-flex-classes;
 @include foundation-flex-grid;
+@include foundation-responsive-embed;
+@import 'foundation_settings';
+
 
 // Leaflet
 @import 'leaflet/dist/leaflet.css';
@@ -23,6 +26,7 @@
 
 // Components
 // UI
+@import "./components/ui/aside";
 @import "./components/ui/avatar";
 @import "./components/ui/button";
 @import "./components/ui/button-container";
