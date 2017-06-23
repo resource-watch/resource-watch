@@ -1,20 +1,25 @@
 .c-button-container {
   display: flex;
 
-  &.-start {
-    justify-content: flex-start;
-  }
+  // Justify
+  &.-j-start { justify-content: flex-start; }
+  &.-j-center { justify-content: center; }
+  &.-j-end { justify-content: flex-end; }
+  &.-j-between { justify-content: space-between; }
+  &.-j-around { justify-content: space-around; }
 
-  &.-end {
-    justify-content: flex-end;
-  }
+  // Align
+  &.-a-start { align-items: flex-start; }
+  &.-a-center { align-items: center; }
+  &.-a-end { align-items: flex-end; }
+  &.-a-stretch { align-items: stretch; }
 
   > ul {
     margin: 0;
     padding: 0;
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: flex-start;
     list-style: none;
 
     > li {

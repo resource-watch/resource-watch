@@ -2,17 +2,20 @@
   appearance: none;
   display: inline-block;
   margin: 0;
-  padding: $space-1;
+  padding: 12px;
   border: 1px solid transparent;
   border-radius: 4px;
   background: none;
   outline: none;
+  text-align: center;
   text-transform: none;
-  font-size: 14px;
+  font-size: $font-size-big;
   font-weight: $font-weight-regular;
+  font-family: inherit;
   letter-spacing: 0;
   cursor: pointer;
   color: $color-secondary;
+  text-decoration: none;
 
   // Types
   &.-primary {

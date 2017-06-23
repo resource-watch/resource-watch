@@ -1,37 +1,24 @@
 import React from 'react';
+
+// Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import classNames from 'classnames';
 import { resetDataset, toggleLayerShown } from 'redactions/exploreDetail';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
+
+// Next
+import { Link } from 'routes';
+
+// Services
+import DatasetService from 'services/DatasetService';
 
 // Components
 import Page from 'components/app/layout/Page';
 import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
-import Button from 'components/ui/Button';
-import Icon from 'components/ui/Icon';
-import DatasetList from 'components/app/explore/DatasetList';
 import Spinner from 'components/ui/Spinner';
-import Sidebar from 'components/app/layout/Sidebar';
-import Map from 'components/vis/Map';
-import Legend from 'components/ui/Legend';
-import LayerManager from 'utils/layers/LayerManager';
-import DatasetService from 'services/DatasetService';
 import WidgetEditor from 'components/widgets/WidgetEditor';
-
-const breadcrumbs = [
-  { name: 'Home', url: 'home' },
-  { name: 'Explore', url: 'explore' }
-];
-
-const mapConfig = {
-  zoom: 3,
-  latLng: {
-    lat: 0,
-    lng: 0
-  }
-};
+// import DatasetList from 'components/app/explore/DatasetList';
 
 class ExploreDetail extends React.Component {
 
@@ -46,20 +33,21 @@ class ExploreDetail extends React.Component {
     this.state = {
       similarDatasetsLoaded: false,
       dataset: null,
-      mapSectionOpened: false,
-      loading: false,
-      layers: []
+      loading: false
     };
 
     // DatasetService
     this.datasetService = new DatasetService(this.props.datasetID, {
       apiURL: process.env.WRI_API_URL
     });
-
-    // BINDINGS
-    this.triggerOpenLayer = this.triggerOpenLayer.bind(this);
   }
 
+  /**
+   * Component Lifecycle
+   * - componentDidMount
+   * - componentWillReceiveProps
+   * - componentWillUnmount
+  */
   componentDidMount() {
     this.getDataset();
   }
@@ -81,6 +69,11 @@ class ExploreDetail extends React.Component {
     this.props.resetDataset();
   }
 
+  /**
+   * HELPERS
+   * - getDataset
+   * - getOpenMapButton
+  */
   getDataset() {
     this.setState({
       loading: true
@@ -92,7 +85,7 @@ class ExploreDetail extends React.Component {
           loading: false
         });
       }).catch((error) => {
-        console.log(error);
+        console.error(error);
         this.setState({
           loading: false
         });
@@ -101,172 +94,133 @@ class ExploreDetail extends React.Component {
   }
 
   getOpenMapButton() {
-    const { mapSectionOpened, dataset } = this.state;
+    const { dataset } = this.state;
     const hasDefaultLayer = dataset && dataset.attributes.layer &&
       dataset.attributes.layer.find(value => value.attributes.default === true);
-    const buttonText = (mapSectionOpened) ? 'Active' : 'Open in data map';
-    const buttonClass = classNames({
-      '-active': hasDefaultLayer,
-      '-primary': true,
-      '-fullwidth': true
-    });
+
 
     if (hasDefaultLayer) {
       return (
-        <Button
-          properties={{
-            className: buttonClass
-          }}
-          onClick={this.triggerOpenLayer}
-        >
-          {buttonText}
-        </Button>
+        <Link route="explore" params={{ active: [dataset.id] }}>
+          <a className="c-button -primary -fullwidth">
+            Open in data map
+          </a>
+        </Link>
       );
     }
     return (
-      <Button
-        properties={{
-          disabled: true,
-          className: '-primary -fullwidth -disabled'
-        }}
+      <button
+        disabled
+        className="c-button -primary -fullwidth -disabled"
       >
         Not displayable
-      </Button>
-
+      </button>
     );
   }
 
-  triggerOpenLayer() {
-    const { dataset } = this.state;
-    const defaultLayer = dataset.attributes.layer.find(
-      value => value.attributes.default === true);
-
-    this.setState(
-      {
-        layers: [defaultLayer.attributes],
-        mapSectionOpened: !this.state.mapSectionOpened
-      }
-    );
-  }
-
+  /**
+   * UI EVENTS
+   * - triggerDownload
+  */
   triggerDownload() {
     console.info('triggerDownload');
   }
 
   render() {
-    const { dataset, loading, layers } = this.state;
+    const { dataset, loading } = this.state;
     const metadata = dataset && dataset.attributes.metadata;
-
-    // const similarDatasetsSectionClass = classNames({
-    //   row: true,
-    //   'similar-datasets-row': true,
-    //   '-active': exploreDetail.similarDatasets.list.filter(value =>
-    //               value.id !== this.props.datasetID
-    //             ).length > 0
-    // });
-
-    const pageStructure = (
-      <div className="c-page c-page-explore-detail">
-        <div className="row">
-          <div className="column small-12">
-            <Breadcrumbs items={breadcrumbs} />
-            <Title className="-primary -huge title" >{ dataset && dataset.attributes &&
-                dataset.attributes.name}</Title>
-          </div>
-        </div>
-        <div className="row widget-row">
-          <div className="column small-12 ">
-            {dataset &&
-              <WidgetEditor
-                dataset={dataset.id}
-              />
-            }
-            <Spinner
-              isLoading={loading}
-              className="-light"
-            />
-          </div>
-        </div>
-        <div className="row description-row">
-          <div className="column small-2 social" >
-            <Icon name="icon-twitter" className="-small" />
-            <Icon name="icon-facebook" className="-small" />
-          </div>
-          <div className="column small-7">
-            {/* Description */}
-            {metadata && (metadata.length > 0)
-              && metadata[0].attributes.description &&
-              <p>{metadata[0].attributes.description}</p>
-            }
-          </div>
-          <div className="column small-3 actions">
-            {dataset && this.getOpenMapButton()}
-            <Button
-              properties={{
-                disabled: true,
-                className: '-primary -fullwidth -disabled'
-              }}
-              onClick={this.triggerDownload}
-            >
-              Download
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-
-    // <div>
-    //   <div className="column small-12">
-    //     <Title className="-secondary title">
-    //       Similar datasets
-    //     </Title>
-    //   </div>
-    //   <div className="column small-12">
-    //     <DatasetList
-    //       active={exploreDetail.similarDatasets.list.map(value => value.id)}
-    //       list={exploreDetail.similarDatasets.list.filter(value =>
-    //         value.id !== this.props.datasetID
-    //       )}
-    //       mode="grid"
-    //     />
-    //     <Spinner
-    //       isLoading={exploreDetail.similarDatasets.loading}
-    //       className="-relative"
-    //     />
-    //   </div>
-    // </div>
-
-    if (!this.state.mapSectionOpened) {
-      return (
-        <Page
-          title="Explore detail"
-          description="Explore detail description..."
-        >
-          <div className="c-page-explore-detail">
-            {pageStructure}
-          </div>
-        </Page>
-      );
-    }
 
     return (
       <Page
         title="Explore detail"
         description="Explore detail description..."
+        pageHeader
       >
         <div className="c-page-explore-detail">
-          <Sidebar>
-            {pageStructure}
-          </Sidebar>
-          <Map
-            LayerManager={LayerManager}
-            mapConfig={mapConfig}
-            layersActive={layers}
-          />
-          <Legend
-            layersActive={layers}
-            className={{ color: '-dark' }}
-          />
+          {/* PAGE HEADER */}
+          <div className="c-page-header">
+            <div className="l-container">
+              <div className="page-header-content -padding-b-2">
+                <Breadcrumbs
+                  items={[{ name: 'Explore datasets', url: 'explore' }]}
+                />
+
+                <Title className="-primary -huge page-header-title" >
+                  { dataset && dataset.attributes && dataset.attributes.name}
+                </Title>
+
+                <div className="page-header-info">
+                  <ul>
+                    <li>Source: {(metadata && metadata.length > 0 && metadata[0].source) || '-'}</li>
+                    <li>Last update: {dataset && dataset.attributes && new Date(dataset.attributes.updatedAt).toJSON().slice(0, 10).replace(/-/g, '/')}</li>
+                    {/* Favorites <li>Last update: {dataset && dataset.attributes && dataset.attributes.updatedAt}</li> */}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* WIDGET EDITOR */}
+          <div className="row">
+            <div className="column small-12 ">
+              {dataset &&
+                <WidgetEditor
+                  dataset={dataset.id}
+                />
+              }
+              <Spinner
+                isLoading={loading}
+                className="-light"
+              />
+            </div>
+          </div>
+
+          {/* DATASET INFO && ACTIONS */}
+          <div className="c-page-section">
+            <section className="c-dataset-info">
+              <div className="row">
+                <div className="column small-12 medium-7">
+                  {/* Description */}
+                  {/* {metadata && (metadata.length > 0)
+                    && metadata[0].attributes.description &&
+                    <p>{metadata[0].attributes.description}</p>
+                  } */}
+                  <div className="dataset-info-description">
+                    <p>Metadata lorem ipsum casius tesebe Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Sed posuere consectetur est at lobortis. Sed posuere consectetur est at lobortis. Curabitur blandit tempus porttitor. Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+                    <p>Cem sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur blandit tempus porttitor. Nulla vitae elit libero, a pharetra augue. Sed posuere consectetur est at lobortis. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia.</p>
+                    <p>Casius tesebe Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odi</p>
+                  </div>
+                </div>
+                <div className="column large-offset-2 small-3">
+                  <div className="dataset-info-actions">
+                    <div className="row flex-dir-column">
+                      <div className="column">
+                        {dataset && this.getOpenMapButton()}
+                      </div>
+                      <div className="column">
+                        <button
+                          disabled
+                          className="c-button -primary -fullwidth -disabled"
+                          onClick={this.triggerDownload}
+                        >
+                          Download
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+
+          {/* RELATED TOOLS */}
+
+          {/* SIMILAR DATASETS */}
+
+          {/* RELATED INSIGHTS */}
+
+          {/* PLANET PULSE */}
         </div>
       </Page>
     );

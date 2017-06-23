@@ -29,7 +29,7 @@ function isAuthenticated(req, res, nextAction) {
 
 // Use the Control Tower Strategy within Passport.
 passport.use(new ControlTowerStrategy({
-  apiUrl: process.env.CONTROL_TOWER_API_URL,
+  apiUrl: process.env.CONTROL_TOWER_URL,
   callbackUrl: process.env.CALLBACK_URL
 }));
 

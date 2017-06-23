@@ -44,6 +44,7 @@ routes.add('vocabularies', '/admin/vocabularies', 'admin/vocabularies');
 
 routes.add('home', '/home', 'app/Home');
 routes.add('about', '/about', 'app/About');
+routes.add('data', '/data', 'app/Explore'); // TODO: create the data page
 routes.add('explore', '/explore', 'app/Explore');
 routes.add('explore_detail', '/explore/:id', 'app/ExploreDetail');
 routes.add('about_partners', '/about_partners', 'app/Partners');
@@ -57,3 +58,9 @@ routes.add('join_community', '/get-involved/join-community', 'app/ContributeData
 routes.add('submit_insight', '/get-involved/submit-insight', 'app/SubmitInsight');
 routes.add('develop_app', '/get-involved/develop-app', 'app/DevelopApp');
 routes.add('apps', '/get-involved/apps', 'app/Apps');
+
+// ------ MY RW ------------
+routes.add('myrw_editprofile', '/myrw/profile/editprofile', 'app/myrw/MyRWEditProfile');
+routes.add('myrw_activity', '/myrw/profile/activity', 'app/myrw/MyRWActivity');
+routes.add('myrw_widgets', '/myrw/widgets', 'app/myrw/MyRWWidgets');
+routes.add('myrw_subscriptions', '/myrw/subscriptions', 'app/myrw/MyRWSubscriptions');

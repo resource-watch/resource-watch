@@ -18,7 +18,7 @@ export default class InsightsIndex extends React.Component {
               Insights
             </Title>
             <ButtonContainer
-              className="-end"
+              className="-j-end"
               buttons={[{
                 label: 'New +',
                 path: '/admin/insights/new',
