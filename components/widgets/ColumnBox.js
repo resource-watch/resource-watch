@@ -1,11 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { DragSource } from 'react-dnd';
 import { Autobind } from 'es-decorators';
 import classNames from 'classnames';
+
+// Store
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { removeFilter, removeColor, removeDimensionX, removeDimensionY, removeSize } from 'redactions/widgetEditor';
 import { toggleTooltip } from 'redactions/tooltip';
+
+// Components
 import Icon from 'components/ui/Icon';
 import FilterTooltip from 'components/widgets/FilterTooltip';
 
@@ -53,8 +58,19 @@ class ColumnBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      aggregageFunction: null
+      aggregageFunction: null,
+      // Value of the filter
+      filter: null
     };
+  }
+
+  @Autobind
+  onApplyFilter(filter) {
+    this.setState({ filter });
+
+    if (this.props.onConfigure) {
+      this.props.onConfigure({ name: this.props.name, value: filter });
+    }
   }
 
   @Autobind
@@ -99,7 +115,9 @@ class ColumnBox extends React.Component {
             type,
             datasetID,
             tableName,
-            dimension: 'x'
+            dimension: 'x',
+            filter: this.state.filter,
+            onApply: this.onApplyFilter
           }
         });
         break;
@@ -164,23 +182,24 @@ class ColumnBox extends React.Component {
 ColumnBox.propTypes = {
   // NOTE: Don't make any of the following props as required as React will
   // throw prop checks errors because of react-dnd (don't know why)
-  tableName: React.PropTypes.string,
-  datasetID: React.PropTypes.string,
-  name: React.PropTypes.string,
-  type: React.PropTypes.string,
-  isA: React.PropTypes.string,
-  closable: React.PropTypes.bool,
-  configurable: React.PropTypes.bool,
+  tableName: PropTypes.string,
+  datasetID: PropTypes.string,
+  name: PropTypes.string,
+  type: PropTypes.string,
+  isA: PropTypes.string,
+  closable: PropTypes.bool,
+  configurable: PropTypes.bool,
+  onConfigure: PropTypes.func,
   // Injected by React DnD:
-  isDragging: React.PropTypes.bool,
-  connectDragSource: React.PropTypes.func,
+  isDragging: PropTypes.bool,
+  connectDragSource: PropTypes.func,
   // ACTIONS
-  removeFilter: React.PropTypes.func.isRequired,
-  removeSize: React.PropTypes.func.isRequired,
-  removeColor: React.PropTypes.func.isRequired,
-  removeDimensionX: React.PropTypes.func.isRequired,
-  removeDimensionY: React.PropTypes.func.isRequired,
-  toggleTooltip: React.PropTypes.func.isRequired
+  removeFilter: PropTypes.func.isRequired,
+  removeSize: PropTypes.func.isRequired,
+  removeColor: PropTypes.func.isRequired,
+  removeDimensionX: PropTypes.func.isRequired,
+  removeDimensionY: PropTypes.func.isRequired,
+  toggleTooltip: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({

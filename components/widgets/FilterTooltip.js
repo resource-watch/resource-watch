@@ -27,9 +27,13 @@ class FilterTooltip extends React.Component {
     this.state = {
       values: [],
       // Selected strings in the filters
-      selected: [],
+      selected: this.isCategorical(props) && props.filter
+        ? props.filter
+        : [],
       // Selected range in the filters
-      rangeValue: null,
+      rangeValue: !this.isCategorical(props) && props.filter
+        ? { min: props.filter[0], max: props.filter[1] }
+        : null,
       loading: true
     };
 
@@ -58,6 +62,16 @@ class FilterTooltip extends React.Component {
     });
   }
 
+  onApply() {
+    this.props.onApply(this.isCategorical()
+      ? this.state.selected
+      : [this.state.rangeValue.min, this.state.rangeValue.max]
+    );
+
+    // We close the tooltip
+    this.props.toggleTooltip(false);
+  }
+
     /**
    * Fetch the data about the column and update the state
    * consequently
@@ -74,17 +88,26 @@ class FilterTooltip extends React.Component {
         : null;
 
       this.setState({
-        loading: false,
         values,
         // We round the values to have a nicer UI
         min: Math.floor(result.properties.min),
-        max: Math.ceil(result.properties.max),
-        // The default selection is the whole range
-        rangeValue: {
-          min: Math.floor(result.properties.min),
-          max: Math.ceil(result.properties.max)
-        }
+        max: Math.ceil(result.properties.max)
       });
+
+      // If we don't have values already set for the filter, then we
+      // set the whole range as the filter
+      if (!this.state.rangeValue) {
+        this.setState({
+          rangeValue: {
+            min: Math.floor(result.properties.min),
+            max: Math.ceil(result.properties.max)
+          }
+        });
+      }
+
+      // We remove the loading state only after being sure we've
+      // updated the range values (if needed)
+      this.setState({ loading: false });
 
       // We let the tooltip know that the component has been resized
       if (this.props.onResize) {
@@ -102,6 +125,10 @@ class FilterTooltip extends React.Component {
     if (clickOutside) {
       this.props.toggleTooltip(false);
     }
+  }
+
+  isCategorical(props) {
+    return (props || this.props).type === 'string';
   }
 
   renderCheckboxes() {
@@ -154,9 +181,8 @@ class FilterTooltip extends React.Component {
   }
 
   render() {
-    const { type } = this.props;
     const { loading } = this.state;
-    const categoryValue = type === 'string';
+    const categoryValue = this.isCategorical();
     const classNameValue = classNames({
       'c-filter-tooltip': true
     });
@@ -172,7 +198,7 @@ class FilterTooltip extends React.Component {
 
         <Button
           properties={{ type: 'button', className: '-primary' }}
-          onClick={() => this.props.toggleTooltip(false)}
+          onClick={() => this.onApply()}
         >
           Done
         </Button>
@@ -186,7 +212,9 @@ FilterTooltip.propTypes = {
   datasetID: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
+  filter: PropTypes.any, // Current value of the filter
   onResize: PropTypes.func, // Passed from the tooltip component
+  onApply: PropTypes.func.isRequired,
   // store
   toggleTooltip: PropTypes.func.isRequired
 };

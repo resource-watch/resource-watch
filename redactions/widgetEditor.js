@@ -2,6 +2,7 @@
  * CONSTANTS
 */
 const ADD_FILTER = 'widgetEditor/ADD_FILTER';
+const SET_FILTER_VALUE = 'widgetEditor/SET_FILTER_VALUE';
 const REMOVE_FILTER = 'widgetEditor/REMOVE_FILTER';
 const SET_COLOR = 'widgetEditor/SET_COLOR';
 const REMOVE_COLOR = 'widgetEditor/REMOVE_COLOR';
@@ -35,6 +36,17 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, {
         filters
       });
+    }
+
+    case SET_FILTER_VALUE: {
+      const index = state.filters.findIndex(f => f.name === action.payload.name);
+      const filters = state.filters.map((filter, i) => {
+        if (i !== index) return filter;
+        return Object.assign({}, filter, {
+          value: action.payload.value
+        });
+      });
+      return Object.assign({}, state, { filters });
     }
 
     case REMOVE_FILTER: {
@@ -120,6 +132,9 @@ export default function (state = initialState, action) {
 */
 export function addFilter(filter) {
   return dispatch => dispatch({ type: ADD_FILTER, payload: filter });
+}
+export function setFilterValue(name, value) {
+  return dispatch => dispatch({ type: SET_FILTER_VALUE, payload: { name, value } });
 }
 export function removeFilter(filter) {
   return dispatch => dispatch({ type: REMOVE_FILTER, payload: filter });
