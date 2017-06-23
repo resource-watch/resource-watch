@@ -1,28 +1,62 @@
 import React from 'react';
+import { StickyContainer, Sticky } from 'react-sticky';
 
 // Components
-import Title from 'components/ui/Title';
+import Aside from 'components/ui/Aside';
 
+// My RW Widgets
+import MyRWWidgetsStarred from 'components/app/myrw/widgets/MyRWWidgetsStarred';
+import MyRWWidgetsMy from 'components/app/myrw/widgets/MyRWWidgetsMy';
+
+// Constants
+const MYRW_SUBTABS = [{
+  label: 'Starred',
+  value: 'starred',
+  route: 'myrw',
+  params: { tab: 'widgets', subtab: 'starred' }
+}, {
+  label: 'My widgets',
+  value: 'my-widgets',
+  route: 'myrw',
+  params: { tab: 'widgets', subtab: 'my-widgets' }
+}];
 
 class MyRWWidgets extends React.Component {
   render() {
     const subtab = this.props.subtab || 'starred';
 
     return (
-      <div className="c-myrw-widgets">
+      <div className="c-page-section">
         <div className="l-container">
-          {subtab === 'starred' &&
-            <Title className="-primary -huge" >
-              Starred
-            </Title>
-          }
+          <StickyContainer>
+            <div className="row custom-row">
+              <div className="columns small-12 medium-3">
+                <Sticky>
+                  {
+                    ({ style }) => (
+                      <Aside
+                        items={MYRW_SUBTABS}
+                        selected={subtab}
+                        style={style}
+                      />
+                    )
+                  }
+                </Sticky>
+              </div>
+
+              <div className="columns small-12 medium-9">
+                {subtab === 'starred' &&
+                  <MyRWWidgetsStarred />
+                }
 
 
-          {subtab === 'my-widgets' &&
-            <Title className="-primary -huge" >
-              My Widgets
-            </Title>
-          }
+                {subtab === 'my-widgets' &&
+                  <MyRWWidgetsMy />
+                }
+              </div>
+
+            </div>
+          </StickyContainer>
         </div>
       </div>
     );
