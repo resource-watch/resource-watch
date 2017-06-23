@@ -34,11 +34,12 @@ class MyRWDashboards extends React.Component {
                 <Sticky>
                   {
                     ({ style }) => (
-                      <Aside
-                        items={MYRW_SUBTABS}
-                        selected={subtab}
-                        style={style}
-                      />
+                      <div style={style}>
+                        <Aside
+                          items={MYRW_SUBTABS}
+                          selected={subtab}
+                        />
+                      </div>
                     )
                   }
                 </Sticky>
