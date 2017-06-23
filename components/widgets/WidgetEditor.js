@@ -106,6 +106,7 @@ class WidgetEditor extends React.Component {
     const { dimensionY } = widgetEditor;
     const { color } = widgetEditor;
     const { size } = widgetEditor;
+    const { filters } = widgetEditor;
     const isBidimensional = this.isBidimensionalChart();
 
     if (!dimensionX || (isBidimensional && !dimensionY)) return '';
@@ -127,10 +128,10 @@ class WidgetEditor extends React.Component {
     }
 
     const tableName = this.state.tableName;
-    const query = getQueryByFilters(tableName, [], columns);
+    const query = getQueryByFilters(tableName, filters, columns);
 
     // TODO: remove the limit
-    return `${process.env.WRI_API_URL}/query/${this.props.dataset}?sql=${query} LIMIT 200`;
+    return `${process.env.WRI_API_URL}/query/${this.props.dataset}?sql=${query} LIMIT 1000`;
   }
 
   getChartConfig() {
@@ -153,18 +154,6 @@ class WidgetEditor extends React.Component {
         property: 'data'
       }
     });
-    // return Object.assign({}, CHART_TYPES[this.state.selectedChartType], {
-    //   data: [
-    //     {
-    //       url: this.getDataURL(),
-    //       name: 'table',
-    //       format: {
-    //         type: 'json',
-    //         property: 'data'
-    //       }
-    //     }
-    //   ]
-    // });
   }
 
   isBidimensionalChart() {

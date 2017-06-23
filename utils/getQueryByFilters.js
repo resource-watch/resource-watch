@@ -1,33 +1,40 @@
-
-import compact from 'lodash/compact';
-
 /**
  * It returns a string query using filters Data
  * @param  {Array} filters
  * @return {String}
  */
-export default function getQueryByFilters(tableName, arrFilters = [], arrColumns = [], arrOrder = []) {
-  const filtersQuery = compact(arrFilters.map((element) => {
-    const filter = element.filters;
-    // Check that there is a filter present
-    if (!filter || !filter.columnType || !filter.columnName) {
-      return null;
+
+/**
+ * Return the query to fetch the data of the dataset
+ * @export
+ * @param {string} tableName Name of the table
+ * @param {{ name: string, type: string, value: any[] }[]} [filters=[]]
+ * @param {any} [arrColumns=[]]
+ * @param {any} [arrOrder=[]]
+ * @returns {string} SQL query
+ */
+export default function getQueryByFilters(
+  tableName,
+  filters = [],
+  arrColumns = [],
+  arrOrder = []
+) {
+  // We compute the WHERE part of the query which corresponds
+  // to the filters
+  const filtersQuery = filters.map((filter) => {
+    if (!filter.value || !filter.value.length) return null;
+
+    if (filter.type === 'string') {
+      return `${filter.name} IN ('${filter.value.join('\', \'')}')`;
     }
 
-    // Check that it's a number/date column
-    if (filter.columnType === 'number' || filter.columnName === 'date') {
-      const min = (filter.properties.min) ? `${filter.columnName} >= ${filter.properties.min}` : '';
-      const max = (filter.properties.max) ? `${filter.columnName} <= ${filter.properties.max}` : '';
-
-      return `${min}${(min && max) ? ' AND ' : ''}${max}`;
+    if (filter.type === 'number') {
+      return `${filter.name} >= ${filter.value[0]} AND ${filter.name} <= ${filter.value[1]}`;
     }
 
-    const values = `'${filter.properties.values.join("', '")}'`;
-
-    // Check that it's a string column
-    return `${filter.columnName} IN (${values})`;
-  })).join(' AND ');
-
+    return null;
+  }).filter(filter => !!filter)
+    .join(' AND ');
 
   // Get column names
   let columns = '*';
