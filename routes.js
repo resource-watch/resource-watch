@@ -60,12 +60,4 @@ routes.add('develop_app', '/get-involved/develop-app', 'app/DevelopApp');
 routes.add('apps', '/get-involved/apps', 'app/Apps');
 
 // ------ MY RW ------------
-routes.add('myrw_editprofile', '/myrw/profile/editprofile', 'app/myrw/MyRWEditProfile');
-routes.add('myrw_activity', '/myrw/profile/activity', 'app/myrw/MyRWActivity');
-
-routes.add('myrw_dashboards', '/myrw/dashboards', 'app/myrw/MyRWDashboards');
-routes.add('myrw_dashboards', '/myrw/dashboards', 'app/myrw/MyRWDashboards');
-
-routes.add('myrw_widgets', '/myrw/widgets', 'app/myrw/MyRWWidgets');
-routes.add('myrw_insights', '/myrw/insights', 'app/myrw/MyRWInsights');
-routes.add('myrw_subscriptions', '/myrw/subscriptions', 'app/myrw/MyRWSubscriptions');
+routes.add('myrw', '/myrw/:tab?/:subtab?', 'app/MyRW');

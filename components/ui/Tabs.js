@@ -40,7 +40,7 @@ export default class Tabs extends React.Component {
                 key={option.value}
                 className="column shrink"
               >
-                <Link route={option.route} >
+                <Link route={option.route} params={option.params} >
                   <a className={`tabs-btn ${btnClasses}`}>
                     <span className="title">{option.label}</span>
                     {!!option.number && <span className="number">{option.number}</span>}

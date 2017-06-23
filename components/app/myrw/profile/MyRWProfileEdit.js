@@ -81,23 +81,23 @@ class MyRWEditProfile extends React.Component {
                 options={[{
                   label: 'Profile',
                   value: 'profile',
-                  route: 'myrw_activity'
+                  route: 'myrw/profile/activity'
                 }, {
                   label: 'Dashboards',
                   value: 'dashboards',
-                  route: 'myrw_activity'
+                  route: 'myrw/profile/activity'
                 }, {
                   label: 'Widgets',
                   value: 'widgets',
-                  route: 'myrw_activity'
+                  route: 'myrw/profile/activity'
                 }, {
                   label: 'Insights',
                   value: 'insights',
-                  route: 'myrw_activity'
+                  route: 'myrw/profile/activity'
                 }, {
                   label: 'Subscriptions',
                   value: 'subscriptions',
-                  route: 'myrw_activity'
+                  route: 'myrw/profile/activity'
                 }]}
                 defaultSelected={'dashboards'}
                 selected={'dashboards'}
