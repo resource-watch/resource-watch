@@ -64,6 +64,15 @@ class ColumnBox extends React.Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    // We add a dragging cursor to the column box if it's being dragged
+    // We have to set the CSS property to the body otherwise it won't be
+    // taken into account
+    if (nextProps.isDragging !== this.props.isDragging) {
+      document.body.classList.toggle('-dragging', nextProps.isDragging);
+    }
+  }
+
   @Autobind
   onApplyFilter(filter) {
     this.setState({ filter });

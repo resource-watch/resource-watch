@@ -5,6 +5,10 @@
 body {
   font-family: $base-font-family;
   color: $base-font-color;
+
+  &.-dragging * {
+    cursor: -webkit-grabbing;
+  }
 }
 
 button {
