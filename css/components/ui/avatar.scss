@@ -22,7 +22,9 @@
     height: rem(20);
     border-radius: 50%;
     font-size: $font-size-extra-small;
+    font-weight: $font-weight-bold;
     color: $color-white;
     background: $color-mango;
+    box-shadow: 0 2px 4px 0 rgba($color-black, 0.1);
   }
 }
