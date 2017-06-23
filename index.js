@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const next = require('next');
-const session = require('express-session');
+const cookieSession = require('cookie-session');
 const ControlTowerStrategy = require('passport-control-tower');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -47,11 +47,15 @@ passport.deserializeUser(function (obj, done) {
 server.use(cookieParser());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
-server.use(session({
-  secret: process.env.SECRET || 'keyboard cat',
-  resave: false,
-  saveUninitialized: false
-}));
+// server.use(session({
+//   secret: process.env.SECRET || 'keyboard cat',
+//   resave: false,
+//   saveUninitialized: false
+// }));
+server.use(cookieSession({
+  name: 'session',
+  keys: [process.env.SECRET || 'keyboard cat']
+}))
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
 server.use(passport.initialize());

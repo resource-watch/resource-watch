@@ -1,19 +1,25 @@
-FROM node:6.11-alpine
+FROM node:8.1.2
 
-ENV USER resource-watch
+ENV NODE_ENV production
+USER root
 
-RUN apk update && apk upgrade && \
-    apk add --no-cache --update bash git build-base \
-    automake autoconf libtool cairo-dev nasm
-RUN npm install -g node-gyp
-RUN addgroup $USER && adduser -s /bin/bash -D -G $USER $USER
-USER $USER
+RUN apt-get update && \
+    apt-get install -y bash git build-essential \
+    automake autoconf make g++ libtool libcairo2-dev
+RUN npm install -g node-gyp --loglevel warn
 
-COPY ./package.json /home/$USER/package.json
-RUN cd /home/$USER && npm install
+# Create app directory
+RUN mkdir -p /usr/src/app && mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-WORKDIR /home/$USER/app
-COPY . /home/$USER/app
+# Install app dependencies
+COPY package.json /usr/src/app/
+COPY npm-shrinkwrap.json /usr/src/app/
+RUN npm install --loglevel warn
+
+# Bundle app source
+COPY . /usr/src/app
+RUN npm run build
 
 EXPOSE 3000
 

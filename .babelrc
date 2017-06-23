@@ -13,7 +13,8 @@
           "selectors": "./selectors",
           "static": "./static",
           "services": "./services"
-        }
+        },
+        "cwd": "babelrc"
       }
     ],
     [
