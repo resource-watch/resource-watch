@@ -1,12 +1,7 @@
 import React from 'react';
-import classnames from 'classnames';
 import { StickyContainer, Sticky } from 'react-sticky';
 
-// Next
-import { Link } from 'routes';
-
 // Components
-import Icon from 'components/ui/Icon';
 import Aside from 'components/ui/Aside';
 
 // My RW Profile
