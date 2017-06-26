@@ -8,9 +8,11 @@ import withRedux from 'next-redux-wrapper';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
-// import CheckboxGroup from 'components/form/CheckboxGroup';
-// import Button from 'components/ui/Button';
+import Button from 'components/ui/Button';
 
+const AGGREGATE_FUNCTIONS = [
+  'sum', 'avg', 'max', 'min', 'none'
+];
 
 class AggregateFunctionTooltip extends React.Component {
 
@@ -18,7 +20,7 @@ class AggregateFunctionTooltip extends React.Component {
     super(props);
 
     this.state = {
-
+      selected: null
     };
   }
 
@@ -39,16 +41,55 @@ class AggregateFunctionTooltip extends React.Component {
     }
   }
 
+  onApply() {
+    this.props.onApply(this.state.selected);
+
+    // We close the tooltip
+    this.props.toggleTooltip(false);
+  }
+
+  @Autobind
+  handleInputChange(event) {
+    this.setState({ selected: event.target.value });
+  }
+
   render() {
     return (
-      <div>
+      <div className="c-aggregate-function-tooltip">
         Aggregate functions
+        <div>
+          {AGGREGATE_FUNCTIONS.map((val, i) =>
+            (
+              <div className="radio-button">
+                <input
+                  id={`radio${i}`}
+                  type="radio"
+                  name="functions"
+                  value={val}
+                  onChange={this.handleInputChange}
+                />
+                <label
+                  htmlFor={`radio${i}`}
+                >
+                  {val}
+                </label>
+              </div>
+            )
+          )}
+        </div>
+        <Button
+          properties={{ type: 'button', className: '-primary' }}
+          onClick={() => this.onApply()}
+        >
+          Done
+        </Button>
       </div>
     );
   }
 }
 
 AggregateFunctionTooltip.propTypes = {
+  onApply: PropTypes.func.isRequired,
   // store
   toggleTooltip: PropTypes.func.isRequired
 };

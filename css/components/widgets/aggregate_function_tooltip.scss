@@ -1,0 +1,22 @@
+.c-aggregate-function-tooltip {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  input, label {
+    cursor: pointer;
+  }
+
+  .radio-button {
+    margin-top: 5px;
+
+    label {
+      margin-left: 5px;
+    }
+
+    &:last-child {
+      margin-bottom: 10px;
+    }
+  }
+}

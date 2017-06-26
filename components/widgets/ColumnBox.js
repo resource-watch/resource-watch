@@ -59,7 +59,10 @@ class ColumnBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      aggregageFunction: null,
+      // Value of the aggregate function for dimension X
+      aggregateFunctionX: null,
+      // Value of the aggregate function for dimension Y
+      aggregateFunctionY: null,
       // Value of the filter
       filter: null
     };
@@ -81,6 +84,12 @@ class ColumnBox extends React.Component {
     if (this.props.onConfigure) {
       this.props.onConfigure({ name: this.props.name, value: filter });
     }
+  }
+
+  @Autobind
+  onApplyAggregateFunction(aggregateFunction) {
+    this.setState({ aggregateFunction });
+    console.log(aggregateFunction);
   }
 
   @Autobind
@@ -141,7 +150,8 @@ class ColumnBox extends React.Component {
             type,
             datasetID,
             tableName,
-            dimension: 'x'
+            dimension: 'x',
+            onApply: this.onApplyAggregateFunction
           }
         });
         break;
@@ -155,7 +165,8 @@ class ColumnBox extends React.Component {
             type,
             datasetID,
             tableName,
-            dimension: 'y'
+            dimension: 'y',
+            onApply: this.onApplyAggregateFunction
           }
         });
         break;
@@ -164,7 +175,7 @@ class ColumnBox extends React.Component {
   }
 
   render() {
-    const { aggregageFunction } = this.state;
+    const { aggregateFunction } = this.state;
     const { isDragging, connectDragSource, name, type, closable, configurable } = this.props;
     const iconName = (type.toLowerCase() === 'string') ? 'icon-type' : 'icon-hash';
 
@@ -175,9 +186,9 @@ class ColumnBox extends React.Component {
           className="-smaller"
         />
         {name}
-        {aggregageFunction &&
+        {aggregateFunction &&
           <div className="aggregate-function">
-            {aggregageFunction}
+            {aggregateFunction}
           </div>
         }
         {closable &&
