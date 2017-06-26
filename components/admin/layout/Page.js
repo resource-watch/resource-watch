@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from 'components/admin/layout/header';
+import Header from 'components/admin/layout/Header';
 import Head from 'components/admin/layout/head';
 import Icons from 'components/admin/layout/icons';
 import Tooltip from 'components/ui/Tooltip';

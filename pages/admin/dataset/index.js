@@ -6,6 +6,17 @@ import Title from 'components/ui/Title';
 
 export default class DatasetIndex extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    const { url } = props;
+
+    this.state = {
+      tab: url.query.tab || 'datasets',
+      subtab: url.query.subtab
+    };
+  }
+
   render() {
     return (
       <Page
