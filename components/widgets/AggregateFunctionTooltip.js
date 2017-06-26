@@ -54,6 +54,7 @@ class AggregateFunctionTooltip extends React.Component {
   }
 
   render() {
+    const { aggregateFunction } = this.props;
     return (
       <div className="c-aggregate-function-tooltip">
         Aggregate functions
@@ -67,6 +68,7 @@ class AggregateFunctionTooltip extends React.Component {
                   name="functions"
                   value={val}
                   onChange={this.handleInputChange}
+                  checked={val === aggregateFunction}
                 />
                 <label
                   htmlFor={`radio${i}`}
@@ -90,6 +92,7 @@ class AggregateFunctionTooltip extends React.Component {
 
 AggregateFunctionTooltip.propTypes = {
   onApply: PropTypes.func.isRequired,
+  aggregateFunction: PropTypes.string,
   // store
   toggleTooltip: PropTypes.func.isRequired
 };

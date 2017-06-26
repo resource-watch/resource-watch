@@ -114,6 +114,7 @@ class ColumnBox extends React.Component {
 
   @Autobind
   triggerConfigure(event) {
+    const { filter, aggregateFunction } = this.state;
     const { isA, name, type, datasetID, tableName } = this.props;
 
     switch (isA) {
@@ -132,7 +133,7 @@ class ColumnBox extends React.Component {
             datasetID,
             tableName,
             dimension: 'x',
-            filter: this.state.filter,
+            filter,
             onApply: this.onApplyFilter
           }
         });
@@ -148,6 +149,7 @@ class ColumnBox extends React.Component {
             datasetID,
             tableName,
             dimension: 'x',
+            aggregateFunction,
             onApply: this.onApplyAggregateFunction
           }
         });
@@ -163,6 +165,7 @@ class ColumnBox extends React.Component {
             datasetID,
             tableName,
             dimension: 'y',
+            aggregateFunction,
             onApply: this.onApplyAggregateFunction
           }
         });

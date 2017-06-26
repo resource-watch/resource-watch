@@ -47,7 +47,7 @@ class DimensionYContainer extends React.Component {
             name={dimensionY.name}
             type={dimensionY.type}
             closable
-            configurable
+            configurable={dimensionY.type === 'number'}
             isA="dimensionY"
           />
         }

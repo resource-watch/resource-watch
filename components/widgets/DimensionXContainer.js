@@ -47,7 +47,7 @@ class DimensionXContainer extends React.Component {
             name={dimensionX.name}
             type={dimensionX.type}
             closable
-            configurable
+            configurable={dimensionX.type === 'number'}
             isA="dimensionX"
           />
         }
