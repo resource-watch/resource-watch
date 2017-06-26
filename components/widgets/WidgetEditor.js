@@ -215,8 +215,8 @@ class WidgetEditor extends React.Component {
       <div className="c-widget-editor">
         <div className="l-container">
           <div className="row expanded">
-            { loading && <Spinner className="-light" isLoading={loading} /> }
             <div className="customize-visualization">
+              { loading && <Spinner className="-light" isLoading={loading} /> }
               <h2
                 className="title"
               >

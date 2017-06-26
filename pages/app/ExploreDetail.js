@@ -137,6 +137,11 @@ class ExploreDetail extends React.Component {
         pageHeader
       >
         <div className="c-page-explore-detail">
+          <Spinner
+            isLoading={loading}
+            className="-fixed -light"
+          />
+
           {/* PAGE HEADER */}
           <div className="c-page-header">
             <div className="l-container">
@@ -166,10 +171,6 @@ class ExploreDetail extends React.Component {
               dataset={dataset.id}
             />
           }
-          <Spinner
-            isLoading={loading}
-            className="-light"
-          />
 
           {/* DATASET INFO && ACTIONS */}
           <div className="c-page-section">
