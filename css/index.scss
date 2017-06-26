@@ -3,11 +3,10 @@
 
 // Foundation
 @import '../node_modules/foundation-sites/scss/foundation';
+@import 'foundation_settings';
 @include foundation-flex-classes;
 @include foundation-flex-grid;
 @include foundation-responsive-embed;
-@import 'foundation_settings';
-
 
 // Leaflet
 @import 'leaflet/dist/leaflet.css';

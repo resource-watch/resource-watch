@@ -213,60 +213,64 @@ class WidgetEditor extends React.Component {
 
     return (
       <div className="c-widget-editor">
-        { loading && <Spinner className="-light" isLoading={loading} /> }
-        <div className="customize-visualization">
-          <h2
-            className="title"
-          >
-            Customize Visualization
-          </h2>
-          <div className="chart-type">
-            <h5>Visualization type</h5>
-            {
-              jiminy && jiminy.general &&
-              <Select
-                properties={{
-                  className: 'chart-type-selector'
-                }}
-                options={jiminy.general.map(val => (
-                  {
-                    label: val,
-                    value: val
-                  }
-                ))}
-                name="chart-type"
-                onChange={this.handleChartTypeChange}
+        <div className="l-container">
+          <div className="row expanded">
+            { loading && <Spinner className="-light" isLoading={loading} /> }
+            <div className="customize-visualization">
+              <h2
+                className="title"
+              >
+                Customize Visualization
+              </h2>
+              <div className="chart-type">
+                <h5>Visualization type</h5>
+                {
+                  jiminy && jiminy.general &&
+                  <Select
+                    properties={{
+                      className: 'chart-type-selector'
+                    }}
+                    options={jiminy.general.map(val => (
+                      {
+                        label: val,
+                        value: val
+                      }
+                    ))}
+                    name="chart-type"
+                    onChange={this.handleChartTypeChange}
 
-              />
-          }
-          </div>
-          <div className="actions-div">
-            <div className="fields">
-              <h5>Columns</h5>
-              {tableName && fields && fields.fields && fields.fields.map(val =>
-                val.columnType !== 'geometry' && (
-                  <ColumnBox
-                    key={val.columnName}
-                    name={val.columnName}
-                    type={val.columnType}
-                    datasetID={dataset}
-                    tableName={tableName}
                   />
-                )
-              )}
+              }
+              </div>
+              <div className="actions-div">
+                <div className="fields">
+                  <h5>Columns</h5>
+                  {tableName && fields && fields.fields && fields.fields.map(val =>
+                    val.columnType !== 'geometry' && (
+                      <ColumnBox
+                        key={val.columnName}
+                        name={val.columnName}
+                        type={val.columnType}
+                        datasetID={dataset}
+                        tableName={tableName}
+                      />
+                    )
+                  )}
+                </div>
+                <div className="customization-container">
+                  <h5>Dimensions</h5>
+                  <DimensionXContainer />
+                  { this.isBidimensionalChart() && <DimensionYContainer /> }
+                  <ColorContainer />
+                  <SizeContainer />
+                  <FilterContainer />
+                </div>
+              </div>
             </div>
-            <div className="customization-container">
-              <h5>Dimensions</h5>
-              <DimensionXContainer />
-              { this.isBidimensionalChart() && <DimensionYContainer /> }
-              <ColorContainer />
-              <SizeContainer />
-              <FilterContainer />
+            <div className="visualization">
+              {visualization}
             </div>
           </div>
-        </div>
-        <div className="visualization">
-          {visualization}
         </div>
       </div>
     );

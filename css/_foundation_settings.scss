@@ -18,8 +18,3 @@ $grid-column-gutter: (
   medium: 30px,
 );
 $block-grid-max: 8;
-
-// GRID
-.custom-row {
-  @include flex-grid-row(nest, expand, null, false, $grid-column-gutter);
-}

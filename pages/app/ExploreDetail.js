@@ -161,19 +161,15 @@ class ExploreDetail extends React.Component {
           </div>
 
           {/* WIDGET EDITOR */}
-          <div className="row">
-            <div className="column small-12 ">
-              {dataset &&
-                <WidgetEditor
-                  dataset={dataset.id}
-                />
-              }
-              <Spinner
-                isLoading={loading}
-                className="-light"
-              />
-            </div>
-          </div>
+          {dataset &&
+            <WidgetEditor
+              dataset={dataset.id}
+            />
+          }
+          <Spinner
+            isLoading={loading}
+            className="-light"
+          />
 
           {/* DATASET INFO && ACTIONS */}
           <div className="c-page-section">

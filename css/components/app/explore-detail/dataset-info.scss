@@ -1,10 +1,18 @@
 .c-dataset-info {
+
   .dataset-info-description {
     line-height: 1.5;
 
     > * {
       margin: $space-1 * 2 0 0;
       &:first-child { margin: 0; }
+    }
+  }
+
+  .dataset-info-actions {
+    .column {
+      margin-top: $space-1 * 2;
+      &:first-child { margin-top: 0; }
     }
   }
 }
