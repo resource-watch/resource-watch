@@ -20,7 +20,7 @@ class AggregateFunctionTooltip extends React.Component {
     super(props);
 
     this.state = {
-      selected: null
+      aggregateFunction: props.aggregateFunction
     };
   }
 
@@ -42,7 +42,7 @@ class AggregateFunctionTooltip extends React.Component {
   }
 
   onApply() {
-    this.props.onApply(this.state.selected);
+    this.props.onApply(this.state.aggregateFunction);
 
     // We close the tooltip
     this.props.toggleTooltip(false);
@@ -50,11 +50,11 @@ class AggregateFunctionTooltip extends React.Component {
 
   @Autobind
   handleInputChange(event) {
-    this.setState({ selected: event.target.value });
+    this.setState({ aggregateFunction: event.target.value });
   }
 
   render() {
-    const { aggregateFunction } = this.props;
+    const { aggregateFunction } = this.state;
     return (
       <div className="c-aggregate-function-tooltip">
         Aggregate functions
