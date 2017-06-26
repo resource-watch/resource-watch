@@ -7,7 +7,7 @@ import classNames from 'classnames';
 // Store
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { removeFilter, removeColor, removeDimensionX, removeDimensionY, removeSize } from 'redactions/widgetEditor';
+import { removeFilter, removeColor, removeCategory, removeValue, removeSize } from 'redactions/widgetEditor';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
@@ -102,11 +102,11 @@ class ColumnBox extends React.Component {
       case 'filter':
         this.props.removeFilter({ name: this.props.name });
         break;
-      case 'dimensionX':
-        this.props.removeDimensionX();
+      case 'category':
+        this.props.removeCategory();
         break;
-      case 'dimensionY':
-        this.props.removeDimensionY();
+      case 'value':
+        this.props.removeValue();
         break;
       default:
     }
@@ -132,13 +132,12 @@ class ColumnBox extends React.Component {
             type,
             datasetID,
             tableName,
-            dimension: 'x',
             filter,
             onApply: this.onApplyFilter
           }
         });
         break;
-      case 'dimensionX':
+      case 'category':
         this.props.toggleTooltip(true, {
           follow: false,
           position: ColumnBox.getClickPosition(event),
@@ -149,12 +148,11 @@ class ColumnBox extends React.Component {
             datasetID,
             tableName,
             dimension: 'x',
-            aggregateFunction,
             onApply: this.onApplyAggregateFunction
           }
         });
         break;
-      case 'dimensionY':
+      case 'value':
         this.props.toggleTooltip(true, {
           follow: false,
           position: ColumnBox.getClickPosition(event),
@@ -230,8 +228,8 @@ ColumnBox.propTypes = {
   removeFilter: PropTypes.func.isRequired,
   removeSize: PropTypes.func.isRequired,
   removeColor: PropTypes.func.isRequired,
-  removeDimensionX: PropTypes.func.isRequired,
-  removeDimensionY: PropTypes.func.isRequired,
+  removeCategory: PropTypes.func.isRequired,
+  removeValue: PropTypes.func.isRequired,
   toggleTooltip: PropTypes.func.isRequired
 };
 
@@ -245,11 +243,11 @@ const mapDispatchToProps = dispatch => ({
   removeSize: (size) => {
     dispatch(removeSize(size));
   },
-  removeDimensionX: (dimensionX) => {
-    dispatch(removeDimensionX(dimensionX));
+  removeCategory: (category) => {
+    dispatch(removeCategory(category));
   },
-  removeDimensionY: (dimensionY) => {
-    dispatch(removeDimensionY(dimensionY));
+  removeValue: (value) => {
+    dispatch(removeValue(value));
   },
   toggleTooltip: (opened, opts) => {
     dispatch(toggleTooltip(opened, opts));

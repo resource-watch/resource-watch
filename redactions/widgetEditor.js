@@ -8,10 +8,10 @@ const SET_COLOR = 'widgetEditor/SET_COLOR';
 const REMOVE_COLOR = 'widgetEditor/REMOVE_COLOR';
 const SET_SIZE = 'widgetEditor/SET_SIZE';
 const REMOVE_SIZE = 'widgetEditor/REMOVE_SIZE';
-const SET_DIMENSION_X = 'widgetEditor/SET_DIMENSION_X';
-const REMOVE_DIMENSION_X = 'widgetEditor/REMOVE_DIMENSION_X';
-const SET_DIMENSION_Y = 'widgetEditor/SET_DIMENSION_Y';
-const REMOVE_DIMENSION_Y = 'widgetEditor/REMOVE_DIMENSION_Y';
+const SET_CATEGORY = 'widgetEditor/SET_CATEGORY';
+const REMOVE_CATEGORY = 'widgetEditor/REMOVE_CATEGORY';
+const SET_VALUE = 'widgetEditor/SET_VALUE';
+const REMOVE_VALUE = 'widgetEditor/REMOVE_VALUE';
 const RESET = 'widgetEditor/RESET';
 
 /**
@@ -21,8 +21,8 @@ const initialState = {
   filters: [],
   color: null,
   size: null,
-  dimensionX: null,
-  dimensionY: null
+  category: null,
+  value: null
 };
 
 export default function (state = initialState, action) {
@@ -89,27 +89,27 @@ export default function (state = initialState, action) {
       });
     }
 
-    case SET_DIMENSION_X: {
+    case SET_CATEGORY: {
       return Object.assign({}, state, {
-        dimensionX: action.payload
+        category: action.payload
       });
     }
 
-    case REMOVE_DIMENSION_X: {
+    case REMOVE_CATEGORY: {
       return Object.assign({}, state, {
-        dimensionX: null
+        category: null
       });
     }
 
-    case SET_DIMENSION_Y: {
+    case SET_VALUE: {
       return Object.assign({}, state, {
-        dimensionY: action.payload
+        value: action.payload
       });
     }
 
-    case REMOVE_DIMENSION_Y: {
+    case REMOVE_VALUE: {
       return Object.assign({}, state, {
-        dimensionY: null
+        value: null
       });
     }
 
@@ -130,10 +130,10 @@ export default function (state = initialState, action) {
  * - removeColor
  * - setSize
  * - removeSize
- * - setDimensionX
- * - removeDimensionX
- * - setDimensionY
- * - removeDimensionY
+ * - setCategory
+ * - removeCategory
+ * - setValue
+ * - removeValue
 */
 export function addFilter(filter) {
   return dispatch => dispatch({ type: ADD_FILTER, payload: filter });
@@ -156,17 +156,17 @@ export function setSize(size) {
 export function removeSize(size) {
   return dispatch => dispatch({ type: REMOVE_SIZE, payload: size });
 }
-export function setDimensionX(dimensionX) {
-  return dispatch => dispatch({ type: SET_DIMENSION_X, payload: dimensionX });
+export function setCategory(category) {
+  return dispatch => dispatch({ type: SET_CATEGORY, payload: category });
 }
-export function removeDimensionX(dimensionX) {
-  return dispatch => dispatch({ type: REMOVE_DIMENSION_X, payload: dimensionX });
+export function removeCategory(category) {
+  return dispatch => dispatch({ type: REMOVE_CATEGORY, payload: category });
 }
-export function setDimensionY(dimensionY) {
-  return dispatch => dispatch({ type: SET_DIMENSION_Y, payload: dimensionY });
+export function setValue(value) {
+  return dispatch => dispatch({ type: SET_VALUE, payload: value });
 }
-export function removeDimensionY(dimensionY) {
-  return dispatch => dispatch({ type: REMOVE_DIMENSION_Y, payload: dimensionY });
+export function removeValue(value) {
+  return dispatch => dispatch({ type: REMOVE_VALUE, payload: value });
 }
 export function resetWidgetEditor() {
   return dispatch => dispatch({ type: RESET });

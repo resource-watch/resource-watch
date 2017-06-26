@@ -32,6 +32,13 @@ class AggregateFunctionTooltip extends React.Component {
     document.removeEventListener('mousedown', this.triggerMouseDown);
   }
 
+  onApply() {
+    this.props.onApply(this.state.aggregateFunction);
+
+    // We close the tooltip
+    this.props.toggleTooltip(false);
+  }
+
   @Autobind
   triggerMouseDown(e) {
     const el = document.querySelector('.c-tooltip');
@@ -39,13 +46,6 @@ class AggregateFunctionTooltip extends React.Component {
     if (clickOutside) {
       this.props.toggleTooltip(false);
     }
-  }
-
-  onApply() {
-    this.props.onApply(this.state.aggregateFunction);
-
-    // We close the tooltip
-    this.props.toggleTooltip(false);
   }
 
   @Autobind

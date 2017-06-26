@@ -4,12 +4,12 @@ import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { setDimensionX } from 'redactions/widgetEditor';
+import { setCategory } from 'redactions/widgetEditor';
 import ColumnBox from 'components/widgets/ColumnBox';
 
 const boxTarget = {
   drop(props, monitor) {
-    props.setDimensionX(monitor.getItem());
+    props.setCategory(monitor.getItem());
   }
 };
 
@@ -18,13 +18,13 @@ const boxTarget = {
   isOver: monitor.isOver(),
   canDrop: monitor.canDrop()
 }))
-class DimensionXContainer extends React.Component {
+class CategoryContainer extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      dimensionX: null
+      category: null
     };
   }
 
@@ -32,7 +32,7 @@ class DimensionXContainer extends React.Component {
   render() {
     const { canDrop, isOver, connectDropTarget, widgetEditor } = this.props;
     const isActive = canDrop && isOver;
-    const { dimensionX } = widgetEditor;
+    const { category } = widgetEditor;
 
     const containerDivClass = classNames({
       'c-column-container': true,
@@ -41,14 +41,14 @@ class DimensionXContainer extends React.Component {
 
     return connectDropTarget(
       <div className={containerDivClass}>
-        x
-        {dimensionX &&
+        Category
+        {category &&
           <ColumnBox
-            name={dimensionX.name}
-            type={dimensionX.type}
+            name={category.name}
+            type={category.type}
             closable
-            configurable={dimensionX.type === 'number'}
-            isA="dimensionX"
+            configurable={category.type === 'number'}
+            isA="category"
           />
         }
       </div>
@@ -56,7 +56,7 @@ class DimensionXContainer extends React.Component {
   }
 }
 
-DimensionXContainer.propTypes = {
+CategoryContainer.propTypes = {
   connectDropTarget: PropTypes.func,
   isOver: PropTypes.bool,
   canDrop: PropTypes.bool,
@@ -68,9 +68,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setDimensionX: (dimensionX) => {
-    dispatch(setDimensionX(dimensionX));
+  setCategory: (category) => {
+    dispatch(setCategory(category));
   }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(DimensionXContainer);
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(CategoryContainer);

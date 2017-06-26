@@ -17,8 +17,8 @@ import ColumnBox from 'components/widgets/ColumnBox';
 import FilterContainer from 'components/widgets/FilterContainer';
 import ColorContainer from 'components/widgets/ColorContainer';
 import SizeContainer from 'components/widgets/SizeContainer';
-import DimensionXContainer from 'components/widgets/DimensionXContainer';
-import DimensionYContainer from 'components/widgets/DimensionYContainer';
+import CategoryContainer from 'components/widgets/CategoryContainer';
+import ValueContainer from 'components/widgets/ValueContainer';
 import Select from 'components/form/SelectInput';
 import Spinner from 'components/ui/Spinner';
 import VegaChart from 'components/widgets/VegaChart';
@@ -114,22 +114,23 @@ class WidgetEditor extends React.Component {
 
   getDataURL() {
     const { widgetEditor } = this.props;
-    const { dimensionX } = widgetEditor;
-    const { dimensionY } = widgetEditor;
+    const { category } = widgetEditor;
+    const { value } = widgetEditor;
     const { color } = widgetEditor;
     const { size } = widgetEditor;
     const { filters } = widgetEditor;
     const isBidimensional = this.isBidimensionalChart();
 
-    if (!dimensionX || (isBidimensional && !dimensionY)) return '';
+    if (!category || (isBidimensional && !value)) return '';
 
     const columns = [
-      { key: 'x', value: dimensionX.name, as: true }
+      { key: 'x', value: category.name, as: true },
+      { key: 'y', value: value.name, as: true }
     ];
 
-    if (isBidimensional) {
-      columns.push({ key: 'y', value: dimensionY.name, as: true });
-    }
+    // if (isBidimensional) {
+    //   columns.push({ key: 'y', value: value.name, as: true });
+    // }
 
     if (color) {
       columns.push({ key: 'color', value: color.name, as: true });
@@ -148,7 +149,7 @@ class WidgetEditor extends React.Component {
 
   getChartConfig() {
     const { widgetEditor } = this.props;
-    const { dimensionY } = widgetEditor;
+    const { value } = widgetEditor;
     const { color } = widgetEditor;
     const { size } = widgetEditor;
 
@@ -157,7 +158,7 @@ class WidgetEditor extends React.Component {
       // could select the right scale
       columns: {
         x: { present: true },
-        y: { present: !!dimensionY },
+        y: { present: !!value },
         color: { present: !!color },
         size: { present: !!size }
       },
@@ -174,16 +175,16 @@ class WidgetEditor extends React.Component {
 
   canRenderChart() {
     const { widgetEditor } = this.props;
-    const { dimensionX } = widgetEditor;
-    const { dimensionY } = widgetEditor;
+    const { category } = widgetEditor;
+    const { value } = widgetEditor;
 
     return this.state.selectedChartType
-      && dimensionX
-      && dimensionX.name
+      && category
+      && category.name
       && (
         (this.isBidimensionalChart()
-          && dimensionY
-          && dimensionY.name
+          && value
+          && value.name
         )
         || !this.isBidimensionalChart()
       );
@@ -257,8 +258,8 @@ class WidgetEditor extends React.Component {
             </div>
             <div className="customization-container">
               <h5>Dimensions</h5>
-              <DimensionXContainer />
-              { this.isBidimensionalChart() && <DimensionYContainer /> }
+              <CategoryContainer />
+              <ValueContainer />
               <ColorContainer />
               <SizeContainer />
               <FilterContainer />
