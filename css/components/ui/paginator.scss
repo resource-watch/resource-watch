@@ -1,18 +1,17 @@
 .c-paginator {
   overflow: hidden;
+  margin: $space-1 * 2 0 0;
 
   .rc-pagination {
     position: relative;
     display: flex;
     align-items: center;
-    left: 50%;
     float: left;
     font-size: 12px;
     font-family: 'Arial';
     user-select: none;
     margin: 0 auto;
     padding: 0;
-    transform: translate(-50%,0);
 
     &:after {
       content: " ";
@@ -47,6 +46,7 @@
       background-color: $color-white;
       margin-right: 8px;
       border: 1px solid $color-pale-grey;
+      outline: none;
 
       a {
         text-decoration: none;
@@ -77,6 +77,73 @@
       }
     }
 
+    // -prev & -next
+    &-prev, &-next, &-jump-prev, &-jump-next {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #666;
+      font-size: 10px;
+      border: none;
+      border-radius: 6px;
+      list-style: none;
+      min-width: 28px;
+      padding: 0 $space-1;
+      font-size: 28px;
+      line-height: 28px;
+      float: left;
+      text-align: center;
+      outline: none;
+
+      a {
+        color: $color-text-1;
+
+        &:after {
+          display: block;
+          color: $color-text-1;
+          font-weight: normal;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+        }
+      }
+    }
+
+    &-prev, &-next {
+      transform: translate(0, -2px);
+      &:hover {
+        color: $color-secondary;
+
+        a {
+          color: $color-secondary;
+
+          &:after {
+            color: $color-secondary;
+          }
+        }
+      }
+    }
+
+    &-prev {
+      margin-right: 8px;
+
+      a {
+        &:after {
+          content: "\2039";
+        }
+      }
+    }
+
+    &-next {
+      a {
+        &:after {
+          content: "\203A";
+        }
+      }
+    }
+
+    // jump-prev & jump-next
+    // ...
     &-jump-prev, &-jump-next {
       &:after {
         content: "...";
@@ -86,117 +153,21 @@
         font-size: 12px;
         margin-top: 1px;
       }
-
-      &:hover {
-        &:after {
-          color: $color-secondary;
-        }
-      }
     }
 
-    &-jump-prev {
-      &:hover {
-        border: 1px solid $color-secondary;
-
-        &:after {
-          color: $color-black;
-        }
-      }
-    }
-
-    &-jump-next {
-      &:hover {
-        border: 1px solid $color-secondary;
-
-        &:after {
-          color: $color-black;
-        }
-      }
-    }
-
-    &-prev {
-      margin-right: 8px;
-    }
-
-    &-prev, &-next, &-jump-prev, &-jump-next {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: #666;
-      font-size: 10px;
-      height: 45px;
-      border-radius: 6px;
-      list-style: none;
-      min-width: 28px;
-      padding-left: 16px;
-      padding-right: 16px;
-      line-height: 28px;
-      float: left;
-      text-align: center;
-      background-color: $color-primary;
-    }
-
-    &-jump-prev, &-jump-next {
-      height: 35px;
-      background-color: transparent;
-      padding-left: 8px;
-      padding-right: 8px;
-    }
-
-    &-prev,
-    &-next {
-       a {
-        &:after {
-          display: block;
-          color: $color-white;
-          font-weight: normal;
-          font-size: 13px;
-          letter-spacing: 1px;
-          text-transform: uppercase;
-        }
-      }
-    }
-
-    &-prev {
-      a {
-        &:after {
-          content: "Prev";
-        }
-      }
-    }
-
-    &-next {
-      a {
-        &:after {
-          content: "Next";
-        }
-      }
-    }
-
-    &-prev, &-next {
-      border: 1px solid $border-color-1;
-      font-size: 18px;
-      
-      &:hover {
-        background-image: linear-gradient(to bottom, #ae286e, #a01d61);
-      }
-
-      a {
-        color: #666;
-      }
-    }
-
+    // disabled
     &-disabled {
+      pointer-events: none;
       cursor: not-allowed;
-      a {
-        color: #ccc;
-      }
+      opacity: 0.25;
+
+      a { color: #ccc; }
     }
 
     &-options {
       float: left;
       margin-left: 15px;
+
       &-size-changer {
         float: left;
         width: 80px;
@@ -229,10 +200,9 @@
     &-simple {
       .rc-pagination-prev, .rc-pagination-next {
         border: none;
-        height: 24px;
-        line-height: 24px;
         margin: 0;
         font-size: 18px;
+        color: $color-text-1;
       }
 
       .rc-pagination-simple-pager {
