@@ -46,11 +46,6 @@
       .customization-container {
         flex-grow: 1;
         margin-left: 20px;
-
-        .c-column-container {
-          margin-bottom: $space-1;
-          &:last-child { margin-bottom: 0; }
-        }
       }
     }
 

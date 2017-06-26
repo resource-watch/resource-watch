@@ -65,9 +65,10 @@
 @import "./components/form/token";
 
 // WIDGETS
-@import "./components/widgets/columnbox";
 @import "./components/widgets/widget_editor";
+@import "./components/widgets/columnbox";
 @import "./components/widgets/column_container";
+@import "./components/widgets/dimension-container";
 @import "./components/widgets/filter_container";
 @import "./components/widgets/filter_tooltip";
 

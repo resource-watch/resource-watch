@@ -258,11 +258,15 @@ class WidgetEditor extends React.Component {
                   )}
                 </div>
                 <div className="customization-container">
-                  <h5>Dimensions</h5>
-                  <DimensionXContainer />
-                  { this.isBidimensionalChart() && <DimensionYContainer /> }
-                  <ColorContainer />
-                  <SizeContainer />
+                  {/* TODO: should we create a component wrapping the dimensions? */}
+                  <div className="c-dimensions-container">
+                    <h5>Dimensions</h5>
+                    <DimensionXContainer />
+                    { this.isBidimensionalChart() && <DimensionYContainer /> }
+                    <ColorContainer />
+                    <SizeContainer />
+                  </div>
+
                   <FilterContainer />
                 </div>
               </div>
