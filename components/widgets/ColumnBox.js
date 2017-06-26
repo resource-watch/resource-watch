@@ -59,10 +59,8 @@ class ColumnBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // Value of the aggregate function for dimension X
-      aggregateFunctionX: null,
-      // Value of the aggregate function for dimension Y
-      aggregateFunctionY: null,
+      // Value of the aggregate function
+      aggregateFunction: null,
       // Value of the filter
       filter: null
     };
@@ -89,7 +87,6 @@ class ColumnBox extends React.Component {
   @Autobind
   onApplyAggregateFunction(aggregateFunction) {
     this.setState({ aggregateFunction });
-    console.log(aggregateFunction);
   }
 
   @Autobind
@@ -186,7 +183,7 @@ class ColumnBox extends React.Component {
           className="-smaller"
         />
         {name}
-        {aggregateFunction &&
+        {aggregateFunction && aggregateFunction !== 'none' &&
           <div className="aggregate-function">
             {aggregateFunction}
           </div>
