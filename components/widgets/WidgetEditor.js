@@ -3,10 +3,16 @@ import PropTypes from 'prop-types';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Autobind } from 'es-decorators';
 import { DragDropContext } from 'react-dnd';
+
+// Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import { resetWidgetEditor } from 'redactions/widgetEditor';
 
+// Services
 import DatasetService from 'services/DatasetService';
+
+// Components
 import ColumnBox from 'components/widgets/ColumnBox';
 import FilterContainer from 'components/widgets/FilterContainer';
 import ColorContainer from 'components/widgets/ColorContainer';
@@ -16,6 +22,8 @@ import DimensionYContainer from 'components/widgets/DimensionYContainer';
 import Select from 'components/form/SelectInput';
 import Spinner from 'components/ui/Spinner';
 import VegaChart from 'components/widgets/VegaChart';
+
+// Utils
 import getQueryByFilters from 'utils/getQueryByFilters';
 import BarChart from 'utils/widgets/bar';
 import LineChart from 'utils/widgets/line';
@@ -50,6 +58,10 @@ class WidgetEditor extends React.Component {
       // Jiminy
       jiminy: {}
     };
+
+    // Each time the editor is opened again, we reset the Redux's state
+    // associated with it
+    props.resetWidgetEditor();
 
     // DatasetService
     this.datasetService = new DatasetService(props.dataset, {
@@ -106,6 +118,7 @@ class WidgetEditor extends React.Component {
     const { dimensionY } = widgetEditor;
     const { color } = widgetEditor;
     const { size } = widgetEditor;
+    const { filters } = widgetEditor;
     const isBidimensional = this.isBidimensionalChart();
 
     if (!dimensionX || (isBidimensional && !dimensionY)) return '';
@@ -127,10 +140,10 @@ class WidgetEditor extends React.Component {
     }
 
     const tableName = this.state.tableName;
-    const query = getQueryByFilters(tableName, [], columns);
+    const query = getQueryByFilters(tableName, filters, columns);
 
     // TODO: remove the limit
-    return `${process.env.WRI_API_URL}/query/${this.props.dataset}?sql=${query} LIMIT 200`;
+    return `${process.env.WRI_API_URL}/query/${this.props.dataset}?sql=${query} LIMIT 1000`;
   }
 
   getChartConfig() {
@@ -153,18 +166,6 @@ class WidgetEditor extends React.Component {
         property: 'data'
       }
     });
-    // return Object.assign({}, CHART_TYPES[this.state.selectedChartType], {
-    //   data: [
-    //     {
-    //       url: this.getDataURL(),
-    //       name: 'table',
-    //       format: {
-    //         type: 'json',
-    //         property: 'data'
-    //       }
-    //     }
-    //   ]
-    // });
   }
 
   isBidimensionalChart() {
@@ -196,15 +197,15 @@ class WidgetEditor extends React.Component {
   }
 
   render() {
-    const { fields, jiminy, loading, tableName } = this.state;
+    const { fields, jiminy, loading, tableName, selectedChartType } = this.state;
     const { dataset } = this.props;
 
     let visualization = null;
-    if (!this.state.tableName) {
+    if (!tableName) {
       visualization = 'Loading...';
     } else if (!this.canRenderChart()) {
       visualization = 'Select a type of chart and columns';
-    } else if (!CHART_TYPES[this.state.selectedChartType]) {
+    } else if (!CHART_TYPES[selectedChartType]) {
       visualization = `This chart can't be previewed`; // eslint-disable-line quotes
     } else {
       visualization = <VegaChart data={this.getChartConfig()} />;
@@ -212,10 +213,7 @@ class WidgetEditor extends React.Component {
 
     return (
       <div className="c-widget-editor">
-        <Spinner
-          className="-light"
-          isLoading={loading}
-        />
+        { loading && <Spinner className="-light" isLoading={loading} /> }
         <div className="customize-visualization">
           <h2
             className="title"
@@ -245,7 +243,7 @@ class WidgetEditor extends React.Component {
           <div className="actions-div">
             <div className="fields">
               <h5>Columns</h5>
-              {fields && fields.fields && fields.fields.map(val =>
+              {tableName && fields && fields.fields && fields.fields.map(val =>
                 val.columnType !== 'geometry' && (
                   <ColumnBox
                     key={val.columnName}
@@ -258,11 +256,9 @@ class WidgetEditor extends React.Component {
               )}
             </div>
             <div className="customization-container">
-              <div className="dimensions-box">
-                <h5>Dimensions</h5>
-                <DimensionXContainer />
-                { this.isBidimensionalChart() && <DimensionYContainer /> }
-              </div>
+              <h5>Dimensions</h5>
+              <DimensionXContainer />
+              { this.isBidimensionalChart() && <DimensionYContainer /> }
               <ColorContainer />
               <SizeContainer />
               <FilterContainer />
@@ -278,11 +274,14 @@ class WidgetEditor extends React.Component {
 }
 
 const mapStateToProps = ({ widgetEditor }) => ({ widgetEditor });
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = dispatch => ({
+  resetWidgetEditor: () => dispatch(resetWidgetEditor())
+});
 
 WidgetEditor.propTypes = {
   dataset: PropTypes.string, // Dataset ID
-  widgetEditor: PropTypes.object
+  widgetEditor: PropTypes.object,
+  resetWidgetEditor: PropTypes.func.isRequired
 };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(WidgetEditor);

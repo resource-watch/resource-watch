@@ -2,9 +2,16 @@
   display: inline-flex;
   align-items: center;
   background-color: $color-blue-turquoise;
+  font-size: $font-size-default;
+  font-weight: $font-weight-regular;
   color: $color-white;
   border-radius: 15px;
-  padding: 5px 5px 5px 10px;
+  padding: 3px 15px 3px 10px;
+  cursor: -webkit-grab;
+
+  &.-dimmed {
+    opacity: 0.5;
+  }
 
   button {
     margin: 0;
@@ -27,8 +34,4 @@
     }
   }
 
-}
-
-.dimmed {
-  opacity: 0.5;
 }

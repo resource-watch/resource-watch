@@ -31,11 +31,9 @@ export default class DatasetService {
    * @returns {Promise}
    */
   fetchData(includes = '') {
-    return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/dataset/${this.datasetId}?includes=${includes}`)
-        .then(response => response.json())
-        .then(jsonData => resolve(jsonData.data));
-    });
+    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}?includes=${includes}`)
+      .then(response => response.json())
+      .then(jsonData => jsonData.data);
   }
 
   /**
@@ -43,11 +41,9 @@ export default class DatasetService {
    * @returns {Promise}
    */
   fetchFilteredData(query) {
-    return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/query/${this.datasetId}?sql=${query}`)
-        .then(response => response.json())
-        .then(jsonData => resolve(jsonData.data));
-    });
+    return fetch(`${this.opts.apiURL}/query/${this.datasetId}?sql=${query}`)
+      .then(response => response.json())
+      .then(jsonData => jsonData.data);
   }
 
   /**
@@ -55,11 +51,9 @@ export default class DatasetService {
    * @returns {Promise}
    */
   fetchJiminy(query) {
-    return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/jiminy/?sql=${encodeURIComponent(query)}`)
-        .then(response => response.json())
-        .then(jsonData => resolve(jsonData.data));
-    });
+    return fetch(`${this.opts.apiURL}/jiminy/?sql=${encodeURIComponent(query)}`)
+      .then(response => response.json())
+      .then(jsonData => jsonData.data);
   }
 
 
@@ -115,20 +109,18 @@ export default class DatasetService {
   }
 
   getFields() {
-    return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/fields/${this.datasetId}`)
-        .then(response => response.json())
-        .then((jsonData) => {
-          const parsedData = {
-            tableName: jsonData.tableName,
-            fields: _.map(jsonData.fields, (value, key) => ({
-              columnName: key,
-              columnType: value.type
-            }))
-          };
-          resolve(parsedData);
-        });
-    });
+    return fetch(`${this.opts.apiURL}/fields/${this.datasetId}`)
+      .then(response => response.json())
+      .then((jsonData) => {
+        const parsedData = {
+          tableName: jsonData.tableName,
+          fields: _.map(jsonData.fields, (value, key) => ({
+            columnName: key,
+            columnType: value.type
+          }))
+        };
+        return parsedData;
+      });
   }
 
   getMinAndMax(columnName, tableName) {

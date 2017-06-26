@@ -1,13 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { DragSource } from 'react-dnd';
 import { Autobind } from 'es-decorators';
 import classNames from 'classnames';
+
+// Store
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { removeFilter, removeColor, removeDimensionX, removeDimensionY, removeSize } from 'redactions/widgetEditor';
 import { toggleTooltip } from 'redactions/tooltip';
+
+// Components
 import Icon from 'components/ui/Icon';
 import FilterTooltip from 'components/widgets/FilterTooltip';
+import AggregateFunctionTooltip from 'components/widgets/AggregateFunctionTooltip';
 
 /**
  * Implements the drag source contract.
@@ -35,11 +41,46 @@ function collect(connect, monitor) {
 
 class ColumnBox extends React.Component {
 
+  /**
+   * Return the position of the click within the page taking
+   * into account the scroll (relative to the page, not the
+   * viewport )
+   * @static
+   * @param {MouseEvent} e Event
+   * @returns {{ x: number, y: number }}
+   */
+  static getClickPosition(e) {
+    return {
+      x: window.scrollX + e.clientX,
+      y: window.scrollY + e.clientY
+    };
+  }
+
   constructor(props) {
     super(props);
     this.state = {
-      aggregageFunction: null
+      aggregageFunction: null,
+      // Value of the filter
+      filter: null
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // We add a dragging cursor to the column box if it's being dragged
+    // We have to set the CSS property to the body otherwise it won't be
+    // taken into account
+    if (nextProps.isDragging !== this.props.isDragging) {
+      document.body.classList.toggle('-dragging', nextProps.isDragging);
+    }
+  }
+
+  @Autobind
+  onApplyFilter(filter) {
+    this.setState({ filter });
+
+    if (this.props.onConfigure) {
+      this.props.onConfigure({ name: this.props.name, value: filter });
+    }
   }
 
   @Autobind
@@ -68,6 +109,7 @@ class ColumnBox extends React.Component {
   @Autobind
   triggerConfigure(event) {
     const { isA, name, type, datasetID, tableName } = this.props;
+
     switch (isA) {
       case 'color':
         break;
@@ -76,8 +118,24 @@ class ColumnBox extends React.Component {
       case 'filter':
         this.props.toggleTooltip(true, {
           follow: false,
-          position: { x: event.clientX, y: event.clientY },
+          position: ColumnBox.getClickPosition(event),
           children: FilterTooltip,
+          childrenProps: {
+            name,
+            type,
+            datasetID,
+            tableName,
+            dimension: 'x',
+            filter: this.state.filter,
+            onApply: this.onApplyFilter
+          }
+        });
+        break;
+      case 'dimensionX':
+        this.props.toggleTooltip(true, {
+          follow: false,
+          position: ColumnBox.getClickPosition(event),
+          children: AggregateFunctionTooltip,
           childrenProps: {
             name,
             type,
@@ -87,10 +145,10 @@ class ColumnBox extends React.Component {
           }
         });
         break;
-      case 'dimensionX':
+      case 'dimensionY':
         this.props.toggleTooltip(true, {
           follow: false,
-          position: { x: event.clientX, y: event.clientY },
+          position: ColumnBox.getClickPosition(event),
           children: AggregateFunctionTooltip,
           childrenProps: {
             name,
@@ -101,8 +159,6 @@ class ColumnBox extends React.Component {
           }
         });
         break;
-      case 'dimensionY':
-        break;
       default:
     }
   }
@@ -111,13 +167,9 @@ class ColumnBox extends React.Component {
     const { aggregageFunction } = this.state;
     const { isDragging, connectDragSource, name, type, closable, configurable } = this.props;
     const iconName = (type.toLowerCase() === 'string') ? 'icon-type' : 'icon-hash';
-    const boxClass = classNames({
-      'c-columnbox': true,
-      '-dimmed': isDragging
-    });
 
     return connectDragSource(
-      <div className={boxClass}>
+      <div className={classNames({ 'c-columnbox': true, '-dimmed': isDragging })}>
         <Icon
           name={iconName}
           className="-smaller"
@@ -150,23 +202,26 @@ class ColumnBox extends React.Component {
 }
 
 ColumnBox.propTypes = {
-  tableName: React.PropTypes.string.isRequired,
-  datasetID: React.PropTypes.string.isRequired,
-  name: React.PropTypes.string.isRequired,
-  type: React.PropTypes.string.isRequired,
-  isA: React.PropTypes.string,
-  closable: React.PropTypes.bool,
-  configurable: React.PropTypes.bool,
+  // NOTE: Don't make any of the following props as required as React will
+  // throw prop checks errors because of react-dnd (don't know why)
+  tableName: PropTypes.string,
+  datasetID: PropTypes.string,
+  name: PropTypes.string,
+  type: PropTypes.string,
+  isA: PropTypes.string,
+  closable: PropTypes.bool,
+  configurable: PropTypes.bool,
+  onConfigure: PropTypes.func,
   // Injected by React DnD:
-  isDragging: React.PropTypes.bool,
-  connectDragSource: React.PropTypes.func,
+  isDragging: PropTypes.bool,
+  connectDragSource: PropTypes.func,
   // ACTIONS
-  removeFilter: React.PropTypes.func.isRequired,
-  removeSize: React.PropTypes.func.isRequired,
-  removeColor: React.PropTypes.func.isRequired,
-  removeDimensionX: React.PropTypes.func.isRequired,
-  removeDimensionY: React.PropTypes.func.isRequired,
-  toggleTooltip: React.PropTypes.func.isRequired
+  removeFilter: PropTypes.func.isRequired,
+  removeSize: PropTypes.func.isRequired,
+  removeColor: PropTypes.func.isRequired,
+  removeDimensionX: PropTypes.func.isRequired,
+  removeDimensionY: PropTypes.func.isRequired,
+  toggleTooltip: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
