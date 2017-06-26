@@ -13,6 +13,7 @@ import { toggleTooltip } from 'redactions/tooltip';
 // Components
 import Icon from 'components/ui/Icon';
 import FilterTooltip from 'components/widgets/FilterTooltip';
+import AggregateFunctionTooltip from 'components/widgets/AggregateFunctionTooltip';
 
 /**
  * Implements the drag source contract.
@@ -134,7 +135,21 @@ class ColumnBox extends React.Component {
         this.props.toggleTooltip(true, {
           follow: false,
           position: ColumnBox.getClickPosition(event),
-          // children: AggregateFunctionTooltip,
+          children: AggregateFunctionTooltip,
+          childrenProps: {
+            name,
+            type,
+            datasetID,
+            tableName,
+            dimension: 'x'
+          }
+        });
+        break;
+      case 'dimensionY':
+        this.props.toggleTooltip(true, {
+          follow: false,
+          position: ColumnBox.getClickPosition(event),
+          children: AggregateFunctionTooltip,
           childrenProps: {
             name,
             type,
@@ -143,8 +158,6 @@ class ColumnBox extends React.Component {
             dimension: 'y'
           }
         });
-        break;
-      case 'dimensionY':
         break;
       default:
     }
