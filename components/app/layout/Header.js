@@ -100,8 +100,6 @@ class Header extends React.Component {
                     '-active': item.pathnames && item.pathnames.includes(url.pathname)
                   });
 
-                  console.log(item.pathnames, url.pathname);
-
                   return (
                     <li key={item.name} className={activeClassName}>
                       {item.component}
