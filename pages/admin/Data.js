@@ -1,9 +1,12 @@
 import React from 'react';
+
+// Layout
 import Page from 'components/admin/layout/Page';
-import DatasetTable from 'components/admin/dataset/table/DatasetTable';
+import Tabs from 'components/ui/Tabs';
+
+// Components
 import ButtonContainer from 'components/ui/ButtonContainer';
 import Title from 'components/ui/Title';
-import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 // Contants
 const DATA_TABS = [{
@@ -47,6 +50,8 @@ export default class Data extends React.Component {
   }
 
   render() {
+    const { tab, subtab } = this.state;
+
     return (
       <Page
         title="Data"
@@ -55,31 +60,38 @@ export default class Data extends React.Component {
         {/* PAGE HEADER */}
         <div className="c-page-header">
           <div className="l-container">
-            <div className="page-header-content -padding-b-2">
+            <div className="page-header-content -padding-b-0">
               <Title className="-primary -huge page-header-title" >
                 Data
               </Title>
+              <Tabs
+                options={DATA_TABS}
+                defaultSelected={tab}
+                selected={tab}
+              />
             </div>
           </div>
         </div>
         <div className="row">
-          <div className="column small-12">
-            <Title className="-huge -p-primary">
-              Datasets
-            </Title>
-            <ButtonContainer
-              className="-j-end"
-              buttons={[{
-                label: 'New +',
-                path: '/admin/datasets/new',
-                className: ''
-              }]}
-            />
-            <DatasetTable
-              application={['rw']}
-              authorization={process.env.TEMP_TOKEN}
-            />
-          </div>
+          {tab === 'datasets' &&
+            <h2>Datasets</h2>
+          }
+
+          {tab === 'widgets' &&
+            <h2>Widgets</h2>
+          }
+
+          {tab === 'layers' &&
+            <h2>Layers</h2>
+          }
+
+          {tab === 'dashboards' &&
+            <h2>Dashboards</h2>
+          }
+
+          {tab === 'vocabularies' &&
+            <h2>Vocabularies</h2>
+          }
         </div>
       </Page>
     );

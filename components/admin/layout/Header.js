@@ -10,26 +10,6 @@ export default class Header extends React.Component {
   }
 
   render() {
-      // <li><Link route="logout"><a>Logout</a></Link></li>
-    return (
-      <header className="l-header c-header">
-        <div className="row collapse">
-          <div className="column">
-            <Link route="admin_home"><a><img alt="" src="/static/images/logo.png" /></a></Link>
-          </div>
-          <ul className="menu">
-            <li><Link route="datasets"><a>Datasets</a></Link></li>
-            <li><Link route="partners"><a>Partners</a></Link></li>
-            <li><Link route="pages"><a>Pages</a></Link></li>
-            <li><Link route="insights"><a>Insights</a></Link></li>
-            <li><Link route="vocabularies"><a>Vocabularies</a></Link></li>
-          </ul>
-        </div>
-      </header>
-    );
-  }
-
-  render() {
     const items = [
       {
         name: 'Data',
@@ -37,15 +17,19 @@ export default class Header extends React.Component {
       },
       {
         name: 'Pages',
-        component: <Link route="admin_pages"><a>Insights</a></Link>
+        component: <Link route="admin_pages"><a>Pages</a></Link>
       },
       {
         name: 'Users',
-        component: <Link route="admin_users"><a>Insights</a></Link>
+        component: <Link route="admin_users"><a>Users</a></Link>
       },
       {
         name: 'Partners',
-        component: <Link route="admin_partners"><a>Get Involved</a></Link>
+        component: <Link route="admin_partners"><a>Partners</a></Link>
+      },
+      {
+        name: 'Logout',
+        component: <Link route="logout"><a>Log out</a></Link>
       }
     ];
 

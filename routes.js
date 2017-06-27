@@ -19,7 +19,7 @@ routes.add('admin_pages', '/admin/pages/:tab?/:subtab?', 'admin/pages');
 routes.add('admin_users', '/admin/users/:tab?/:subtab?', 'admin/users');
 
 // ----- LOGOUT --------
-// routes.add('logout', '/admin/logout', '/');
+routes.add('logout', '/admin/logout', '/');
 
 // ========================= APP ROUTES =====================
 routes.add('home', '/home', 'app/Home');
