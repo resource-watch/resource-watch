@@ -13,12 +13,14 @@ const REMOVE_CATEGORY = 'widgetEditor/REMOVE_CATEGORY';
 const SET_VALUE = 'widgetEditor/SET_VALUE';
 const REMOVE_VALUE = 'widgetEditor/REMOVE_VALUE';
 const SET_CHART_TYPE = 'widgetEditor/SET_CHART_TYPE';
+const SET_AGGREGATE_FN = 'widgetEditor/SET_AGGREGATE_FN';
 const RESET = 'widgetEditor/RESET';
 
 /**
  * REDUCER
 */
 const initialState = {
+  aggregateFunction: null,
   filters: [],
   color: null,
   size: null,
@@ -120,6 +122,12 @@ export default function (state = initialState, action) {
       });
     }
 
+    case SET_AGGREGATE_FN: {
+      return Object.assign({}, state, {
+        aggregateFunction: action.payload
+      });
+    }
+
     case RESET: {
       return Object.assign({}, initialState);
     }
@@ -179,6 +187,9 @@ export function removeValue(value) {
 }
 export function setChartType(type) {
   return dispatch => dispatch({ type: SET_CHART_TYPE, payload: type });
+}
+export function setAggregateFunction(value) {
+  return dispatch => dispatch({ type: SET_AGGREGATE_FN, payload: value });
 }
 export function resetWidgetEditor() {
   return dispatch => dispatch({ type: RESET });

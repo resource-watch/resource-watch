@@ -86,7 +86,15 @@ class ColumnBox extends React.Component {
 
   @Autobind
   onApplyAggregateFunction(aggregateFunction) {
-    this.setState({ aggregateFunction });
+    const fn = aggregateFunction === 'none'
+      ? null
+      : aggregateFunction;
+
+    this.setState({ aggregateFunction: fn });
+
+    if (this.props.onConfigure) {
+      this.props.onConfigure({ name: this.props.name, value: fn });
+    }
   }
 
   @Autobind
@@ -172,7 +180,7 @@ class ColumnBox extends React.Component {
           className="-smaller"
         />
         {name}
-        {aggregateFunction && aggregateFunction !== 'none' &&
+        {aggregateFunction &&
           <div className="aggregate-function">
             {aggregateFunction}
           </div>

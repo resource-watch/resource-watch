@@ -117,11 +117,7 @@ class WidgetEditor extends React.Component {
 
   getDataURL() {
     const { widgetEditor } = this.props;
-    const { category } = widgetEditor;
-    const { value } = widgetEditor;
-    const { color } = widgetEditor;
-    const { size } = widgetEditor;
-    const { filters } = widgetEditor;
+    const { category, value, color, size, filters, aggregateFunction } = widgetEditor;
     const isBidimensional = this.isBidimensionalChart();
 
     if (!category || (isBidimensional && !value)) return '';
@@ -132,6 +128,16 @@ class WidgetEditor extends React.Component {
 
     if (isBidimensional) {
       columns.push({ key: 'y', value: value.name, as: true });
+
+      if (aggregateFunction) {
+        // If there's an aggregate function, we group the results
+        // with the first column (dimension x)
+        columns[0].group = true;
+
+        // We then apply the aggregate function to the current
+        // column
+        columns[1].aggregateFunction = aggregateFunction;
+      }
     }
 
     if (color) {

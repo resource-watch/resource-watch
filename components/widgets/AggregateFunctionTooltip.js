@@ -61,20 +61,16 @@ class AggregateFunctionTooltip extends React.Component {
         <div>
           {AGGREGATE_FUNCTIONS.map((val, i) =>
             (
-              <div className="radio-button">
+              <div className="radio-button" key={val}>
                 <input
-                  id={`radio${i}`}
+                  id={`radio-aggregate-${i}`}
                   type="radio"
                   name="functions"
                   value={val}
                   onChange={this.handleInputChange}
                   checked={val === aggregateFunction}
                 />
-                <label
-                  htmlFor={`radio${i}`}
-                >
-                  {val}
-                </label>
+                <label htmlFor={`radio-aggregate-${i}`}>{val}</label>
               </div>
             )
           )}

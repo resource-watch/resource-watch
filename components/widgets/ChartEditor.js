@@ -17,25 +17,6 @@ import CategoryContainer from 'components/widgets/CategoryContainer';
 import ValueContainer from 'components/widgets/ValueContainer';
 import Select from 'components/form/SelectInput';
 
-// Utils
-import getQueryByFilters from 'utils/getQueryByFilters';
-import BarChart from 'utils/widgets/bar';
-import LineChart from 'utils/widgets/line';
-import PieChart from 'utils/widgets/pie';
-import OneDScatterChart from 'utils/widgets/1d_scatter';
-import OneDTickChart from 'utils/widgets/1d_tick';
-import ScatterChart from 'utils/widgets/scatter';
-
-const oneDimensionalChartTypes = ['pie', '1d_scatter', '1d_tick'];
-const CHART_TYPES = {
-  bar: BarChart,
-  line: LineChart,
-  pie: PieChart,
-  scatter: ScatterChart,
-  '1d_scatter': OneDScatterChart,
-  '1d_tick': OneDTickChart
-};
-
 @DragDropContext(HTML5Backend)
 class ChartEditor extends React.Component {
 

@@ -4,7 +4,7 @@ import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { setValue } from 'redactions/widgetEditor';
+import { setValue, setAggregateFunction } from 'redactions/widgetEditor';
 import ColumnBox from 'components/widgets/ColumnBox';
 
 const boxTarget = {
@@ -28,6 +28,9 @@ class DimensionYContainer extends React.Component {
     };
   }
 
+  setAggregateFunction({ value }) {
+    this.props.setAggregateFunction(value);
+  }
 
   render() {
     const { canDrop, isOver, connectDropTarget, widgetEditor } = this.props;
@@ -48,6 +51,7 @@ class DimensionYContainer extends React.Component {
             type={value.type}
             closable
             configurable={value.type === 'number'}
+            onConfigure={aggregateFunction => this.setAggregateFunction(aggregateFunction)}
             isA="value"
           />
         }
@@ -60,7 +64,9 @@ DimensionYContainer.propTypes = {
   connectDropTarget: PropTypes.func,
   isOver: PropTypes.bool,
   canDrop: PropTypes.bool,
-  widgetEditor: PropTypes.object
+  widgetEditor: PropTypes.object,
+  // Redux
+  setAggregateFunction: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -70,6 +76,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   setValue: (value) => {
     dispatch(setValue(value));
+  },
+  setAggregateFunction: (value) => {
+    dispatch(setAggregateFunction(value));
   }
 });
 
