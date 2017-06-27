@@ -149,11 +149,9 @@ class WidgetEditor extends React.Component {
 
   getChartConfig() {
     const { widgetEditor } = this.props;
-    const { value } = widgetEditor;
-    const { color } = widgetEditor;
-    const { size } = widgetEditor;
+    const { value, size, color, chartType } = widgetEditor;
 
-    return CHART_TYPES[this.state.selectedChartType]({
+    return CHART_TYPES[chartType]({
       // In the future, we could pass the type of the columns so the chart
       // could select the right scale
       columns: {
@@ -170,15 +168,14 @@ class WidgetEditor extends React.Component {
   }
 
   isBidimensionalChart() {
-    return !oneDimensionalChartTypes.includes(this.state.selectedChartType);
+    return !oneDimensionalChartTypes.includes(this.props.widgetEditor.chartType);
   }
 
   canRenderChart() {
     const { widgetEditor } = this.props;
-    const { category } = widgetEditor;
-    const { value } = widgetEditor;
+    const { category, value, chartType } = widgetEditor;
 
-    return this.state.selectedChartType
+    return chartType
       && category
       && category.name
       && (
@@ -191,11 +188,6 @@ class WidgetEditor extends React.Component {
   }
 
   @Autobind
-  handleChartEditorChange(val) {
-    console.log(val);
-  }
-
-  @Autobind
   handleVisualizationTypeChange(val) {
     this.setState({
       selectedVisualizationType: val
@@ -203,16 +195,16 @@ class WidgetEditor extends React.Component {
   }
 
   render() {
-    const { loading, tableName, selectedChartType, selectedVisualizationType,
-      jiminy, fields } = this.state;
-    const { dataset } = this.props;
+    const { loading, tableName, selectedVisualizationType, jiminy, fields } = this.state;
+    const { dataset, widgetEditor } = this.props;
+    const { chartType } = widgetEditor;
 
     let visualization = null;
     if (!tableName) {
       visualization = 'Loading...';
     } else if (!this.canRenderChart()) {
       visualization = 'Select a type of chart and columns';
-    } else if (!CHART_TYPES[selectedChartType]) {
+    } else if (!CHART_TYPES[chartType]) {
       visualization = `This chart can't be previewed`; // eslint-disable-line quotes
     } else {
       visualization = <VegaChart data={this.getChartConfig()} />;
@@ -250,9 +242,9 @@ class WidgetEditor extends React.Component {
                   fields={fields}
                 />
               }
-              <div className="visualization">
-                {visualization}
-              </div>
+            </div>
+            <div className="visualization">
+              {visualization}
             </div>
           </div>
         </div>
