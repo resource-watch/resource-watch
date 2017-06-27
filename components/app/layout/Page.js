@@ -32,8 +32,8 @@ class Page extends React.Component {
   }
 
   render() {
-    const { title, description, pathname, pageHeader, modal } = this.props;
-    const fullScreen = pathname && fullScreenPages.indexOf(pathname) !== -1;
+    const { title, description, url, pageHeader, modal } = this.props;
+    const fullScreen = url.pathname && fullScreenPages.indexOf(url.pathname) !== -1;
 
     return (
       <div className="c-page">
@@ -44,7 +44,10 @@ class Page extends React.Component {
 
         <Icons />
 
-        <Header pageHeader={pageHeader} />
+        <Header
+          pageHeader={pageHeader}
+          url={url}
+        />
 
         <div className="container">
           {this.props.children}
@@ -71,7 +74,7 @@ Page.propTypes = {
   children: PropTypes.node.isRequired,
   title: PropTypes.string,
   description: PropTypes.string,
-  pathname: PropTypes.string,
+  url: PropTypes.object,
   pageHeader: PropTypes.bool,
   modal: PropTypes.object,
   toggleModal: PropTypes.func,

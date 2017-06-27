@@ -23,6 +23,7 @@ class About extends React.Component {
       <Page
         title="About"
         description="About description..."
+        url={this.props.url}
       >
         <div className="p-about">
           <div className="c-page">
@@ -57,6 +58,10 @@ class About extends React.Component {
 }
 
 About.propTypes = {
+  // ROUTER
+  url: React.PropTypes.object,
+
+  // STORE
   data: React.PropTypes.object,
   getStaticData: React.PropTypes.func
 };

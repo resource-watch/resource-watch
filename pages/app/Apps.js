@@ -15,6 +15,7 @@ function Apps() {
     <Page
       title="Apps"
       description="Apps description"
+      url={this.props.url}
     >
       <div className="p-apps">
         <div className="c-page">

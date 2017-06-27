@@ -5,7 +5,6 @@ import Page from 'components/admin/layout/Page';
 import Tabs from 'components/ui/Tabs';
 
 // Components
-import ButtonContainer from 'components/ui/ButtonContainer';
 import Title from 'components/ui/Title';
 
 // Contants
@@ -36,7 +35,7 @@ const DATA_TABS = [{
   params: { tab: 'vocabularies' }
 }];
 
-export default class Data extends React.Component {
+class Data extends React.Component {
 
   constructor(props) {
     super(props);
@@ -49,16 +48,27 @@ export default class Data extends React.Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { url } = nextProps;
+
+    this.setState({
+      tab: url.query.tab || 'datasets',
+      subtab: url.query.subtab
+    });
+  }
+
   render() {
+    const { url } = this.props;
     const { tab, subtab } = this.state;
 
     return (
       <Page
         title="Data"
         description="Data description..."
+        url={url}
       >
         {/* PAGE HEADER */}
-        <div className="c-page-header">
+        <div className="c-page-header -admin">
           <div className="l-container">
             <div className="page-header-content -padding-b-0">
               <Title className="-primary -huge page-header-title" >
@@ -97,3 +107,10 @@ export default class Data extends React.Component {
     );
   }
 }
+
+Data.propTypes = {
+  url: React.PropTypes.object
+};
+
+
+export default Data;

@@ -84,6 +84,7 @@ class MyRW extends React.Component {
       <Page
         title="My Resource Watch Edit Profile"
         description="My Resource Watch Edit Profile description"
+        url={this.props.url}
         pageHeader
       >
         <div className="c-page-header">

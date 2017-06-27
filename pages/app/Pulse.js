@@ -25,11 +25,6 @@ const earthBumpImage = 'static/images/components/vis/earth-bump.jpg';
 const cloudsImage = 'static/images/components/vis/clouds-min.png';
 
 class Pulse extends React.Component {
-
-  static async getInitialProps({ pathname }) {
-    return { pathname };
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -213,7 +208,7 @@ class Pulse extends React.Component {
   }
 
   render() {
-    const { pathname, layersGroup } = this.props;
+    const { url, layersGroup } = this.props;
     const layerActive = this.props.pulse.layerActive;
     const { markerType } = this.state;
     const globeWidht = (typeof window === 'undefined') ? 500 : window.innerWidth;
@@ -222,7 +217,7 @@ class Pulse extends React.Component {
       <Page
         title="Planet Pulse"
         description="Planet Pulse description"
-        pathname={pathname}
+        url={url}
       >
         <div
           className="c-page -dark"
@@ -271,6 +266,10 @@ class Pulse extends React.Component {
 }
 
 Pulse.propTypes = {
+  // ROUTER
+  url: React.PropTypes.object,
+
+  // STORE
   layersGroup: React.PropTypes.array,
   layerActive: React.PropTypes.object,
   getLayers: React.PropTypes.func,

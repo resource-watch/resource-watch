@@ -138,6 +138,7 @@ class Home extends React.Component {
       <Page
         title="Resource Watch"
         description="Resource Watch description"
+        url={this.props.url}
       >
         <div className="p-home">
           <div className="c-page">

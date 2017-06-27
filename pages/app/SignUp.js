@@ -14,6 +14,7 @@ class SignUp extends React.Component {
       <Page
         title="Sign Up"
         description="Sign Up description"
+        url={this.props.url}
       >
         <div className="p-about">
           <div className="c-page">

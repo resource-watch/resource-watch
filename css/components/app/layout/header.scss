@@ -81,14 +81,42 @@
         &:last-child { margin-right: 0; }
 
         > a {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: $header-main-height;
+          padding: 0 rem($space-1 * 2);
           color: $color-white;
           text-decoration: none;
-          padding: rem(20) rem(15);
 
-          &:hover {
-            color: darken($color-white, 15%);
+          &:after {
+            content: "";
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%,0);
+            width: calc(100% - #{($space-1 * 2) * 2});
+            height: 7px;
+            background: $color-mango;
           }
         }
+
+        &:hover {
+          > a {
+            color: $color-mango;
+          }
+        }
+
+        &.-active {
+          > a {
+            color: $color-mango;
+
+            &:after { display: block; }
+          }
+        }
+
       }
     }
   }

@@ -26,7 +26,8 @@ class DevelopApp extends React.Component {
       <Page
         title="Develop App"
         description="Develop App description"
-        >
+        url={this.props.url}
+      >
         <div className="p-develop-app">
           <div className="c-page">
             <section className="l-section -header">

@@ -109,6 +109,7 @@ class GetInvolved extends React.Component {
       <Page
         title="Get Involved"
         description="Get Involved description"
+        url={this.props.url}
       >
         <div className="p-get-involved">
           <div className="c-page">

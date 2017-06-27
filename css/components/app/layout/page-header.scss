@@ -12,6 +12,16 @@
   margin: -($header-main-height + $header-secondary-height) 0 0;
   padding: ($header-main-height + $header-secondary-height) 0 0;
 
+  &.-admin {
+    background-color: #A5177E;
+    background-image: $header-bg-image,
+      linear-gradient(
+        86deg,
+        #950851 0%,
+        #A5177E 100%
+      );
+  }
+
   .page-header-content {
     color: $color-white;
     padding: $space-1 * 4 0;

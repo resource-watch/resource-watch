@@ -26,6 +26,7 @@ class ContributeData extends React.Component {
       <Page
         title="Contribute data"
         description="Contribute data description"
+        url={this.props.url}
       >
         <div className="p-contribute-data">
           <div className="c-page">

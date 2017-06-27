@@ -26,6 +26,7 @@ class SubmitInsight extends React.Component {
       <Page
         title="Submit Insight"
         description="Submit insight description"
+        url={this.props.url}
       >
         <div className="p-submit-insight">
           <div className="c-page">

@@ -19,6 +19,7 @@ function AppDetail(props) {
     <Page
       title="App detail"
       description="App detail description"
+      url={this.props.url}
     >
       <div className="p-app-detail">
         <div className="c-page">

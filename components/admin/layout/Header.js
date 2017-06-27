@@ -44,7 +44,7 @@ export default class Header extends React.Component {
               <Link route="home">
                 <a>
                   <svg><use xlinkHref="#icon-logo" /></svg>
-                  <span>Resource Watch</span>
+                  <span>Resource Watch Content Manager</span>
                 </a>
               </Link>
             </h1>

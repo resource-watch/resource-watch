@@ -45,6 +45,7 @@ class PartnerDetail extends React.Component {
       <Page
         title="Partner detail"
         description="Partner detail description"
+        url={this.props.url}
       >
         <div className="c-page partner-detail">
           <Banner className="intro">

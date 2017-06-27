@@ -26,6 +26,7 @@ class Partners extends React.Component {
       <Page
         title="Partners"
         description="Partners description"
+        url={this.props.url}
       >
         <div className="c-page-header">
           <div className="l-container">

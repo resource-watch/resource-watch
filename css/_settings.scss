@@ -98,7 +98,7 @@ $ease-in-out-sine: cubic-bezier(0.445, 0.050, 0.550, 0.950);
 
 // Header
 $header-main-height: rem(75);
-$header-secondary-height: rem(30);
+$header-secondary-height: rem(0);
 $header-bg-color: $color-primary;
 $header-bg-image: url("/static/images/components/layout/header-bg-texture.png");
 $header-gradient-color-1: rgba(#c32d7b, 0.8);
