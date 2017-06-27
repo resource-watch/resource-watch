@@ -53,11 +53,7 @@ routes.add('partner', '/about/partners/:id', 'app/PartnerDetail');
 
 // ----- GET INVOLVED -----
 routes.add('get_involved', '/get-involved', 'app/GetInvolved');
-routes.add('contribute_data', '/get-involved/contribute-data', 'app/ContributeData');
-routes.add('join_community', '/get-involved/join-community', 'app/ContributeData');
-routes.add('submit_insight', '/get-involved/submit-insight', 'app/SubmitInsight');
-routes.add('develop_app', '/get-involved/develop-app', 'app/DevelopApp');
-routes.add('apps', '/get-involved/apps', 'app/Apps');
+routes.add('get_involved_detail', '/get-involved/:id', 'app/GetInvolvedDetail');
 
 // ------ MY RW ------------
 routes.add('myrw', '/myrw/:tab?/:subtab?', 'app/MyRW');

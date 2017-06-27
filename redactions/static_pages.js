@@ -16,10 +16,11 @@ const initialState = {
   error: false,
   about: {},
   getInvolved: {},
-  submitInsight: {},
-  joinCommunity: {},
-  developApp: {},
-  contributeData: {}
+  apps: {},
+  'submit-an-insight': {},
+  'join-community': {},
+  'develop-app': {},
+  'contribute-data': {}
 };
 
 export default function (state = initialState, action) {
@@ -60,11 +61,11 @@ export default function (state = initialState, action) {
  * ACTIONS
  * - getStaticData
 */
-export function getStaticData(slug, ref) {
+export function getStaticData(slug) {
   return (dispatch) => {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_STATIC_LOADING });
-    fetch(new Request(`${process.env.CMS_API_URL}/api/static_pages/${slug}`))
+    fetch(new Request(`${process.env.CMS_API_URL}/static_pages/${slug}`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
@@ -72,7 +73,7 @@ export function getStaticData(slug, ref) {
       .then((response) => {
         dispatch({
           type: GET_STATIC_SUCCESS,
-          payload: { name: ref || slug, data: response.data.attributes }
+          payload: { name: slug || slug, data: response.data.attributes }
         });
       })
       .catch((err) => {
