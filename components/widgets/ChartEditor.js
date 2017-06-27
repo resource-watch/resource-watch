@@ -48,8 +48,6 @@ class ChartEditor extends React.Component {
     const { dataset, tableName, jiminy, fields, widgetEditor } = this.props;
     const { chartType } = widgetEditor;
 
-    console.log('chartType', chartType);
-
     return (
       <div className="c-chart-editor">
         <div className="chart-type">
