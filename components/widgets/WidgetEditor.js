@@ -220,37 +220,40 @@ class WidgetEditor extends React.Component {
 
     return (
       <div className="c-widget-editor">
-        { loading && <Spinner className="-light" isLoading={loading} /> }
-        <div className="customize-visualization">
-          <h2
-            className="title"
-          >
-            Customize Visualization
-          </h2>
-          <div className="visualization-type">
-            <h5>Visualization type</h5>
-            <Select
-              properties={{
-                className: 'chart-type-selector',
-                name: 'visualization-type',
-                value: selectedVisualizationType
-              }}
-              options={VISUALIZATION_TYPES}
-              onChange={this.handleVisualizationTypeChange}
-            />
-          </div>
-          {
-            selectedVisualizationType === 'chart' &&
-            <ChartEditor
-              tableName={tableName}
-              dataset={dataset}
-              jiminy={jiminy}
-              fields={fields}
-            />
-          }
-
-          <div className="visualization">
-            {visualization}
+        <div className="l-container">
+          <div className="row expanded">
+            <div className="customize-visualization">
+              { loading && <Spinner className="-light" isLoading={loading} /> }
+              <h2
+                className="title"
+              >
+                Customize Visualization
+              </h2>
+              <div className="visualization-type">
+                <h5>Visualization type</h5>
+                <Select
+                  properties={{
+                    className: 'chart-type-selector',
+                    name: 'visualization-type',
+                    value: selectedVisualizationType
+                  }}
+                  options={VISUALIZATION_TYPES}
+                  onChange={this.handleVisualizationTypeChange}
+                />
+              </div>
+              {
+                selectedVisualizationType === 'chart' &&
+                <ChartEditor
+                  tableName={tableName}
+                  dataset={dataset}
+                  jiminy={jiminy}
+                  fields={fields}
+                />
+              }
+              <div className="visualization">
+                {visualization}
+              </div>
+            </div>
           </div>
         </div>
       </div>

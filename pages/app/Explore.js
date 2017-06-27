@@ -1,7 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+// Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import { getDatasets, setDatasetsPage, setUrlParams, setDatasetsActive, setDatasetsHidden, setDatasetsFilters, toggleDatasetActive, getVocabularies } from 'redactions/explore';
+import { redirectTo } from 'redactions/common';
+import { toggleModal, setModalOptions } from 'redactions/modal';
+import getpaginatedDatasets from 'selectors/explore/datasetsPaginatedExplore';
+import getFilteredDatasets from 'selectors/explore/filterDatasets';
+import getActiveLayers from 'selectors/explore/layersActiveExplore';
 
 // Components
 import Title from 'components/ui/Title';
@@ -13,16 +21,13 @@ import Map from 'components/vis/Map';
 import ShareModal from 'components/modal/ShareModal';
 import Legend from 'components/ui/Legend';
 import CustomSelect from 'components/ui/CustomSelect';
-import LayerManager from 'utils/layers/LayerManager';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
 import Page from 'components/app/layout/Page';
-import { getDatasets, setDatasetsPage, setUrlParams, setDatasetsActive, setDatasetsHidden, setDatasetsFilters, toggleDatasetActive, getVocabularies } from 'redactions/explore';
-import getpaginatedDatasets from 'selectors/explore/datasetsPaginatedExplore';
-import getFilteredDatasets from 'selectors/explore/filterDatasets';
-import getActiveLayers from 'selectors/explore/layersActiveExplore';
-import { redirectTo } from 'redactions/common';
-import { toggleModal, setModalOptions } from 'redactions/modal';
+
+// Utils
+import LayerManager from 'utils/layers/LayerManager';
+
 
 const mapConfig = {
   zoom: 3,

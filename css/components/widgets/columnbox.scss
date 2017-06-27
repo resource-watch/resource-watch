@@ -2,12 +2,12 @@
   display: inline-flex;
   align-items: center;
   background-color: $color-blue-turquoise;
-  font-size: $font-size-default;
-  font-weight: $font-weight-regular;
+  font-size: $font-size-small-medium;
+  font-weight: $font-weight-bold;
   color: $color-white;
   border-radius: 15px;
-  padding: 3px 15px 3px 10px;
-  cursor: -webkit-grab;
+  padding: 3px 15px 4px 10px;
+  cursor: grab;
 
   &.-dimmed {
     opacity: 0.5;

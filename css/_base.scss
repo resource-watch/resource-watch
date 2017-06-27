@@ -4,7 +4,13 @@
 
 body {
   font-family: $base-font-family;
+  background: $color-tertiary;
   color: $base-font-color;
+
+  font-weight: 400;
+  line-height: 1.25;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
   &.-dragging * {
     cursor: -webkit-grabbing;

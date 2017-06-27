@@ -4,6 +4,9 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { Autobind } from 'es-decorators';
 import { DragDropContext } from 'react-dnd';
 
+// Redux
+import { setChartType } from 'redactions/widgetEditor';
+
 // Components
 import ColumnBox from 'components/widgets/ColumnBox';
 import FilterContainer from 'components/widgets/FilterContainer';
@@ -126,6 +129,7 @@ class ChartEditor extends React.Component {
     this.setState({
       selectedChartType: val
     });
+    setChartType(val);
   }
 
   render() {
@@ -169,11 +173,14 @@ class ChartEditor extends React.Component {
             )}
           </div>
           <div className="customization-container">
-            <h5>Dimensions</h5>
-            <CategoryContainer />
-            <ValueContainer />
-            <ColorContainer />
-            <SizeContainer />
+            {/* TODO: should we create a component wrapping the dimensions? */}
+            <div className="c-dimensions-container">
+              <h5>Dimensions</h5>
+              <CategoryContainer />
+              <ValueContainer />
+              <ColorContainer />
+              <SizeContainer />
+            </div>
             <FilterContainer />
           </div>
         </div>

@@ -6,7 +6,7 @@ import { FORM_ELEMENTS } from './constants';
 
 import { get, post } from 'utils/request';
 
-import { Router } from '../../../routes';
+import { Router } from '../../../../routes';
 import Spinner from 'components/ui/Spinner';
 import Title from 'components/ui/Title';
 import Button from 'components/ui/Button';

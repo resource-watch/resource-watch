@@ -1,10 +1,11 @@
 const express = require('express');
 const passport = require('passport');
 const next = require('next');
-const session = require('express-session');
+const cookieSession = require('cookie-session');
 const ControlTowerStrategy = require('passport-control-tower');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const basicAuth = require('basic-auth');
 const { parse } = require('url');
 const routes = require('./routes');
 
@@ -21,6 +22,21 @@ const handle = routes.getRequestHandler(app);
 // Express app creation
 const server = express();
 
+function auth(username, password) {
+  return function authMiddleware(req, res, next) {
+    const user = basicAuth(req);
+    if (!user || user.name !== username || user.pass !== password) {
+      res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+      return res.sendStatus(401);
+    }
+    return next();
+  };
+}
+
+if (process.env.NODE_ENV === 'production') {
+  server.use(auth(process.env.USERNAME, process.env.PASSWORD));
+}
+
 function isAuthenticated(req, res, nextAction) {
   if (req.isAuthenticated()) return nextAction();
   // if they aren't redirect them to the home page
@@ -29,7 +45,7 @@ function isAuthenticated(req, res, nextAction) {
 
 // Use the Control Tower Strategy within Passport.
 passport.use(new ControlTowerStrategy({
-  apiUrl: process.env.CONTROL_TOWER_API_URL,
+  apiUrl: process.env.CONTROL_TOWER_URL,
   callbackUrl: process.env.CALLBACK_URL
 }));
 
@@ -47,11 +63,11 @@ passport.deserializeUser(function (obj, done) {
 server.use(cookieParser());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
-server.use(session({
-  secret: process.env.SECRET || 'keyboard cat',
-  resave: false,
-  saveUninitialized: false
+server.use(cookieSession({
+  name: 'session',
+  keys: [process.env.SECRET || 'keyboard cat']
 }));
+
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
 server.use(passport.initialize());

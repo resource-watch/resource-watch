@@ -2,9 +2,11 @@
 @import "normalize.css";
 
 // Foundation
-@import 'foundation_settings';
 @import '../node_modules/foundation-sites/scss/foundation';
+@import 'foundation_settings';
+@include foundation-flex-classes;
 @include foundation-flex-grid;
+@include foundation-responsive-embed;
 
 // Leaflet
 @import 'leaflet/dist/leaflet.css';
@@ -17,21 +19,22 @@
 @import 'slick-carousel/slick/slick-theme.scss';
 
 // Common files
-@import "css/config";
+@import "css/settings";
 @import "css/base";
 @import "css/layouts";
 
 // Components
 // UI
+@import "./components/ui/aside";
+@import "./components/ui/avatar";
 @import "./components/ui/button";
 @import "./components/ui/button-container";
 @import "./components/ui/compound_menu";
 @import "./components/ui/custom_select";
 @import "./components/ui/custom_table";
-@import "./components/ui/dropdown";
+@import "./components/ui/header-dropdown";
 @import "./components/ui/icon";
 @import "./components/ui/legend";
-@import "./components/ui/menu";
 @import "./components/ui/modal";
 @import "./components/ui/paginator";
 @import "./components/ui/spinner";
@@ -39,6 +42,7 @@
 @import "./components/ui/custom_table";
 @import "./components/ui/table_header_actions";
 @import "./components/ui/table_tooltip";
+@import "./components/ui/tabs";
 @import "./components/ui/title";
 @import "./components/ui/modal";
 @import "./components/ui/tooltip";
@@ -61,9 +65,10 @@
 @import "./components/form/token";
 
 // WIDGETS
-@import "./components/widgets/columnbox";
 @import "./components/widgets/widget_editor";
+@import "./components/widgets/columnbox";
 @import "./components/widgets/column_container";
+@import "./components/widgets/dimension-container";
 @import "./components/widgets/filter_container";
 @import "./components/widgets/filter_tooltip";
 @import "./components/widgets/aggregate_function_tooltip";
@@ -122,9 +127,10 @@
 
 // LAYOUT
 @import "./components/app/layout/page";
+@import "./components/app/layout/page-header";
+@import "./components/app/layout/page-section";
 @import "./components/app/layout/footer";
 @import "./components/app/layout/sidebar";
-@import "./components/app/layout/logo";
 @import "./components/app/layout/header";
 
 // PULSE
@@ -141,3 +147,12 @@
 @import "./components/app/explore/dataset_list";
 @import "./components/app/explore/dataset_widget";
 @import "./components/app/explore/widget_configurator";
+
+// EXPLORE DETAIL
+@import "./components/app/explore-detail/dataset-info";
+
+// MyRW
+// @import "./components/app/pages/myrw/activity";
+@import "./components/app/pages/myrw/myrw_edit_profile";
+@import "./components/app/pages/myrw/myrw_subscriptions";
+@import "./components/app/pages/myrw/myrw_widgets";

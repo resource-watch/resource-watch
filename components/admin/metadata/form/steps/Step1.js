@@ -135,15 +135,15 @@ class Step1 extends React.Component {
           </Title>
 
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.function = c; }}
-            onChange={value => this.changeMetadata({ info: { function: value } })}
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.functions = c; }}
+            onChange={value => this.changeMetadata({ info: { functions: value } })}
             hint="Briefly describes the purpose of the data and what it represents"
             properties={{
-              name: 'function',
+              name: 'functions',
               label: 'Function',
               type: 'text',
               rows: '6',
-              default: this.props.form.info.function
+              default: this.props.form.info.functions
             }}
           >
             {TextArea}

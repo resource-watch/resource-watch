@@ -1,11 +1,4 @@
 .c-page-explore-detail {
-
-  padding-top: 28px;
-
-  .title {
-    margin-top: 35px;
-  }
-
   .c-configurable-widget {
 
     position:relative;
@@ -38,50 +31,5 @@
     margin-top: 60px;
     width: 100%;
     min-height: 100px;
-  }
-
-  .description-row {
-
-    margin-top: 48px;
-
-    .actions {
-      button {
-        min-width: 145px;
-        min-height: 45px;
-
-        &:last-of-type {
-          margin-top: 15px;
-        }
-      }
-    }
-
-    .social {
-      svg {
-        cursor: pointer;
-
-        &:not(:first-child) {
-          margin-left: 10px;
-        }
-      }
-    }
-  }
-
-  .similar-datasets-row {
-
-    display: none;
-
-    margin-top: 85px;
-
-    .title {
-      font-size: 26px !important;
-    }
-
-    .c-dataset-list {
-      margin-top: 16px;
-    }
-
-    &.-active {
-      display: flex;
-    }
   }
 }

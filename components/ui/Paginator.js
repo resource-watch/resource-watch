@@ -53,9 +53,7 @@ class Paginator extends React.Component {
 }
 
 Paginator.propTypes = {
-  size: React.PropTypes.number,
-  page: React.PropTypes.number,
-  limit: React.PropTypes.number,
+  options: React.PropTypes.object,
   onChange: React.PropTypes.func
 };
 

@@ -18,7 +18,7 @@ export default class PagesIndex extends React.Component {
               Pages
             </Title>
             <ButtonContainer
-              className="-end"
+              className="-j-end"
               buttons={[{
                 label: 'New +',
                 path: '/admin/insights/new',
