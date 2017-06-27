@@ -3,6 +3,7 @@ import Page from 'components/admin/layout/Page';
 import DatasetTable from 'components/admin/dataset/table/DatasetTable';
 import ButtonContainer from 'components/ui/ButtonContainer';
 import Title from 'components/ui/Title';
+import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 // Contants
 const DATA_TABS = [{
@@ -55,21 +56,9 @@ export default class Data extends React.Component {
         <div className="c-page-header">
           <div className="l-container">
             <div className="page-header-content -padding-b-2">
-              <Breadcrumbs
-                items={[{ name: 'Explore datasets', url: 'explore' }]}
-              />
-
               <Title className="-primary -huge page-header-title" >
                 Data
               </Title>
-
-              <div className="page-header-info">
-                <ul>
-                  <li>Source: {(metadata && metadata.length > 0 && metadata[0].source) || '-'}</li>
-                  <li>Last update: {dataset && dataset.attributes && new Date(dataset.attributes.updatedAt).toJSON().slice(0, 10).replace(/-/g, '/')}</li>
-                  {/* Favorites <li>Last update: {dataset && dataset.attributes && dataset.attributes.updatedAt}</li> */}
-                </ul>
-              </div>
             </div>
           </div>
         </div>

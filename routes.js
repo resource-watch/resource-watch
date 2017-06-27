@@ -7,7 +7,7 @@ const routes = module.exports = nextRoutes();
 routes.add('admin_home', '/admin', 'admin/data');
 
 // ----- DATA --------
-routes.add('admin_data', '/admin/data/:tab?/:subtab?', 'admin/data');
+routes.add('admin_data', '/admin/data/:tab?/:subtab?', 'admin/Data');
 
 // ----- PARTNERS --------
 routes.add('admin_partners', '/admin/partners/:tab?/:subtab?', 'admin/partners');
@@ -31,6 +31,7 @@ routes.add('about_partners', '/about_partners', 'app/Partners');
 routes.add('pulse', '/pulse', 'app/Pulse');
 routes.add('dashboards', '/home', 'app/dashboards');
 routes.add('partner', '/about/partners/:id', 'app/PartnerDetail');
+routes.add('insights', '/insights', 'app/Home');
 
 // ----- GET INVOLVED -----
 routes.add('get_involved', '/get-involved', 'app/GetInvolved');
