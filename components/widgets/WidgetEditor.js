@@ -88,7 +88,9 @@ class WidgetEditor extends React.Component {
   }
 
   getJiminy() {
-    const fieldsSt = this.state.fields.fields.map(elem => elem.columnType !== 'geometry' && elem.columnName);
+    const fieldsSt = this.state.fields.fields
+      .map(elem => elem.columnType !== 'geometry' && elem.columnName)
+      .filter(field => !!field);
     const querySt = `SELECT ${fieldsSt} FROM ${this.props.dataset} LIMIT 300`;
     this.datasetService.fetchJiminy(querySt)
       .then((jiminy) => {
@@ -128,8 +130,7 @@ class WidgetEditor extends React.Component {
       { key: 'x', value: category.name, as: true }
     ];
 
-    if (isBidimensional || value) {
-      console.log('value', value);
+    if (isBidimensional) {
       columns.push({ key: 'y', value: value.name, as: true });
     }
 
