@@ -29,10 +29,26 @@
   }
 
   .visualization {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-grow: 1;
     margin-left: 20px;
+
+    > .c-chart {
+      display: flex;
+      align-items: center;
+      height: 100%;
+
+      .chart {
+        height: calc(100% - 100px);
+      }
+    }
+  }
+
+  // We want the visualisation and the editor to be at the same level
+  > .l-container > .row {
+    flex-wrap: nowrap;
   }
 }

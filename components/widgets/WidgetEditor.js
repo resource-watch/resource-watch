@@ -26,13 +26,14 @@ import PieChart from 'utils/widgets/pie';
 import OneDScatterChart from 'utils/widgets/1d_scatter';
 import OneDTickChart from 'utils/widgets/1d_tick';
 import ScatterChart from 'utils/widgets/scatter';
+import ChartTheme from 'utils/widgets/theme';
 
 const VISUALIZATION_TYPES = [
   { label: 'Chart', value: 'chart' },
   { label: 'Map', value: 'map' },
   { label: 'Table', value: 'table' }
 ];
-const oneDimensionalChartTypes = ['pie', '1d_scatter', '1d_tick'];
+const oneDimensionalChartTypes = ['1d_scatter', '1d_tick'];
 const CHART_TYPES = {
   bar: BarChart,
   line: LineChart,
@@ -148,6 +149,12 @@ class WidgetEditor extends React.Component {
     return `${process.env.WRI_API_URL}/query/${this.props.dataset}?sql=${query} LIMIT 1000`;
   }
 
+  getChartTheme() {
+    return ChartTheme({
+      chart: this.state.selectedChartType
+    });
+  }
+
   getChartConfig() {
     const { widgetEditor } = this.props;
     const { value, size, color, chartType } = widgetEditor;
@@ -202,13 +209,13 @@ class WidgetEditor extends React.Component {
 
     let visualization = null;
     if (!tableName) {
-      visualization = 'Loading...';
+      visualization = <Spinner className="-light" isLoading />;
     } else if (!this.canRenderChart()) {
       visualization = 'Select a type of chart and columns';
     } else if (!CHART_TYPES[chartType]) {
       visualization = `This chart can't be previewed`; // eslint-disable-line quotes
     } else {
-      visualization = <VegaChart data={this.getChartConfig()} />;
+      visualization = <VegaChart data={this.getChartConfig()} theme={this.getChartTheme()} />;
     }
 
     return (
