@@ -12,27 +12,27 @@ import Title from 'components/ui/Title';
 const DATA_TABS = [{
   label: 'Datasets',
   value: 'datasets',
-  route: 'data',
+  route: 'admin_data',
   params: { tab: 'datasets' }
 }, {
   label: 'Widgets',
   value: 'widgets',
-  route: 'data',
+  route: 'admin_data',
   params: { tab: 'widgets' }
 }, {
   label: 'Layers',
   value: 'layers',
-  route: 'myrw',
+  route: 'admin_data',
   params: { tab: 'layers' }
 }, {
   label: 'Dashboards',
   value: 'dashboards',
-  route: 'data',
+  route: 'admin_data',
   params: { tab: 'dashboards' }
 }, {
   label: 'Vocabularies',
   value: 'vocabularies',
-  route: 'data',
+  route: 'admin_data',
   params: { tab: 'vocabularies' }
 }];
 
