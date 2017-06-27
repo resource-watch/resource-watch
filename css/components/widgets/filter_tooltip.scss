@@ -1,24 +1,73 @@
 .c-filter-tooltip {
-  padding: 40px;
-  min-width: 150px;
-  max-width: 300px;
+  position: relative;
+  transform: translate(0, 0);
+  width: 168px;
   min-height: 80px;
-  max-height: 250px;
 
-  &.overflow {
-    padding: 10px;
-    overflow: auto;
-  }
+  .checkboxes {
+    max-height: 200px;
+    overflow-y: auto;
+    padding-top: 30px;
 
-  .buttons {
+    .buttons {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      background-color: $color-white;
 
-    margin-top: 10px;
-
-    button {
-      &:last-of-type {
-        margin-left: 10px;
+      button {
+        padding: 0;
+        margin: 0;
+        font-size: $font-size-default;
+        font-family: $base-font-family;
+        color: $base-font-color;
+        font-weight: $font-weight-bold;
+        cursor: pointer;
       }
     }
+  }
+
+  .range {
+    width: calc(100% - 40px);
+    position: relative;
+    top: 0;
+    left: 20px;
+    margin: 20px 0;
+
+    .input-range {
+      // We hide the min and max values
+      > .input-range__label {
+        display: none;
+      }
+
+      // These are the values of the current range
+      .input-range__label {
+        font-family: $base-font-family;
+        font-size: $font-size-small;
+        font-weight: $font-weight-bold;
+        color: $base-font-color;
+      }
+
+      .input-range__track,
+      .input-range__slider-container {
+        transition: none;
+      }
+
+      .input-range__slider,
+      .input-range__track--active {
+        background-color: $color-secondary;
+        border-color: $color-secondary;
+      }
+    }
+  }
+
+  .c-button {
+    margin-top: 10px;
+    width: 100%;
   }
 
 }

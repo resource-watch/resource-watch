@@ -4,7 +4,7 @@ import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { addFilter } from 'redactions/widgetEditor';
+import { addFilter, setFilterValue } from 'redactions/widgetEditor';
 import ColumnBox from 'components/widgets/ColumnBox';
 
 const boxTarget = {
@@ -26,8 +26,10 @@ class FilterContainer extends React.Component {
     this.state = {
       fields: []
     };
+  }
 
-    // BINDINGS
+  setFilter({ name, value }) {
+    this.props.setFilterValue(name, value);
   }
 
 
@@ -37,7 +39,7 @@ class FilterContainer extends React.Component {
     const filters = widgetEditor.filters;
 
     const containerDivClass = classNames({
-      '-filter-box': true,
+      'filter-box': true,
       '-release': isActive
     });
 
@@ -60,6 +62,7 @@ class FilterContainer extends React.Component {
               closable
               configurable
               isA="filter"
+              onConfigure={filter => this.setFilter(filter)}
             />
           )}
         </div>
@@ -72,7 +75,9 @@ FilterContainer.propTypes = {
   connectDropTarget: PropTypes.func,
   isOver: PropTypes.bool,
   canDrop: PropTypes.bool,
-  widgetEditor: PropTypes.object
+  widgetEditor: PropTypes.object,
+  // Redux
+  setFilterValue: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -82,6 +87,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   addFilter: (filter) => {
     dispatch(addFilter(filter));
+  },
+  setFilterValue: (name, value) => {
+    dispatch(setFilterValue(name, value));
   }
 });
 

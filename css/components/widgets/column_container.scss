@@ -1,0 +1,19 @@
+.c-column-container {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid rgba($color-silver, .85);
+  border-radius: 4px;
+  font-size: $font-size-small-medium;
+  font-weight: $font-weight-bold;
+  line-height: 1;
+
+  &.-release {
+    border-color: $color-secondary;
+  }
+
+  .c-columnbox {
+    margin-left: 8px;
+  }
+}
