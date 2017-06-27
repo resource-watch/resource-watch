@@ -124,13 +124,12 @@ class WidgetEditor extends React.Component {
     if (!category || (isBidimensional && !value)) return '';
 
     const columns = [
-      { key: 'x', value: category.name, as: true },
-      { key: 'y', value: value.name, as: true }
+      { key: 'x', value: category.name, as: true }
     ];
 
-    // if (isBidimensional) {
-    //   columns.push({ key: 'y', value: value.name, as: true });
-    // }
+    if (isBidimensional || value) {
+      columns.push({ key: 'y', value: value.name, as: true });
+    }
 
     if (color) {
       columns.push({ key: 'color', value: color.name, as: true });
@@ -234,12 +233,12 @@ class WidgetEditor extends React.Component {
                 />
               </div>
               {
-                selectedVisualizationType === 'chart' &&
+                selectedVisualizationType === 'chart' && fields && tableName &&
                 <ChartEditor
-                  tableName={tableName}
                   dataset={dataset}
                   jiminy={jiminy}
                   fields={fields}
+                  tableName={tableName}
                 />
               }
             </div>

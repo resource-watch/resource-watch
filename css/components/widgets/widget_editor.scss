@@ -26,34 +26,6 @@
       font-size: $font-size-small-medium;
     }
 
-    .actions-div {
-      display: flex;
-      margin-top: 22px;
-      justify-content: flex-start;
-
-      .fields {
-        flex-shrink: 0;
-        flex-basis: 160px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-
-        .c-columnbox {
-          margin-bottom: $space-1;
-          &:last-child { margin-bottom: 0; }
-        }
-      }
-
-      .customization-container {
-        flex-grow: 1;
-        margin-left: 20px;
-      }
-    }
-
-    .visualization {
-      flex-grow: 1;
-      margin-left: 10px;
-    }
   }
 
   .visualization {

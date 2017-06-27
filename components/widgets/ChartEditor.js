@@ -194,10 +194,11 @@ class ChartEditor extends React.Component {
 ChartEditor.propTypes = {
   tableName: PropTypes.string.isRequired,
   jiminy: PropTypes.object.isRequired,
-  fields: PropTypes.array.isRequired,
+  fields: PropTypes.object.isRequired,
   dataset: PropTypes.string.isRequired, // Dataset ID
   // Store
-  widgetEditor: PropTypes.object
+  widgetEditor: PropTypes.object,
+  setChartType: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
