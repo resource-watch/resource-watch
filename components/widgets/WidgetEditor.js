@@ -243,9 +243,12 @@ class WidgetEditor extends React.Component {
                 />
               }
             </div>
-            <div className="visualization">
-              {visualization}
-            </div>
+            {
+              selectedVisualizationType === 'chart' &&
+              <div className="visualization">
+                {visualization}
+              </div>
+            }
           </div>
         </div>
       </div>
