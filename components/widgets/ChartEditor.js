@@ -39,102 +39,16 @@ const CHART_TYPES = {
 @DragDropContext(HTML5Backend)
 class ChartEditor extends React.Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      selectedChartType: null
-    };
-  }
-
-  getDataURL() {
-    const { widgetEditor } = this.props;
-    const { category } = widgetEditor;
-    const { value } = widgetEditor;
-    const { color } = widgetEditor;
-    const { size } = widgetEditor;
-    const { filters } = widgetEditor;
-    const isBidimensional = this.isBidimensionalChart();
-
-    if (!category || (isBidimensional && !value)) return '';
-
-    const columns = [
-      { key: 'x', value: category.name, as: true },
-      { key: 'y', value: value.name, as: true }
-    ];
-
-    // if (isBidimensional) {
-    //   columns.push({ key: 'y', value: value.name, as: true });
-    // }
-
-    if (color) {
-      columns.push({ key: 'color', value: color.name, as: true });
-    }
-
-    if (size) {
-      columns.push({ key: 'size', value: size.name, as: true });
-    }
-
-    const tableName = this.state.tableName;
-    const query = getQueryByFilters(tableName, filters, columns);
-
-    // TODO: remove the limit
-    return `${process.env.WRI_API_URL}/query/${this.props.dataset}?sql=${query} LIMIT 1000`;
-  }
-
-  getChartConfig() {
-    const { widgetEditor } = this.props;
-    const { value } = widgetEditor;
-    const { color } = widgetEditor;
-    const { size } = widgetEditor;
-
-    return CHART_TYPES[this.state.selectedChartType]({
-      // In the future, we could pass the type of the columns so the chart
-      // could select the right scale
-      columns: {
-        x: { present: true },
-        y: { present: !!value },
-        color: { present: !!color },
-        size: { present: !!size }
-      },
-      data: {
-        url: this.getDataURL(),
-        property: 'data'
-      }
-    });
-  }
-
-  isBidimensionalChart() {
-    return !oneDimensionalChartTypes.includes(this.state.selectedChartType);
-  }
-
-  canRenderChart() {
-    const { widgetEditor } = this.props;
-    const { category } = widgetEditor;
-    const { value } = widgetEditor;
-
-    return this.state.selectedChartType
-      && category
-      && category.name
-      && (
-        (this.isBidimensionalChart()
-          && value
-          && value.name
-        )
-        || !this.isBidimensionalChart()
-      );
-  }
-
   @Autobind
   handleChartTypeChange(val) {
-    this.setState({
-      selectedChartType: val
-    });
     this.props.setChartType(val);
   }
 
   render() {
-    const { dataset, tableName, jiminy, fields } = this.props;
+    const { dataset, tableName, jiminy, fields, widgetEditor } = this.props;
+    const { chartType } = widgetEditor;
+
+    console.log('chartType', chartType);
 
     return (
       <div className="c-chart-editor">
@@ -144,7 +58,9 @@ class ChartEditor extends React.Component {
               jiminy && jiminy.general &&
               <Select
                 properties={{
-                  className: 'chart-type-selector'
+                  className: 'chart-type-selector',
+                  name: 'chart-type',
+                  value: chartType
                 }}
                 options={jiminy.general.map(val => (
                   {
@@ -152,7 +68,6 @@ class ChartEditor extends React.Component {
                     value: val
                   }
                 ))}
-                name="chart-type"
                 onChange={this.handleChartTypeChange}
 
               />
@@ -197,14 +112,15 @@ ChartEditor.propTypes = {
   fields: PropTypes.object.isRequired,
   dataset: PropTypes.string.isRequired, // Dataset ID
   // Store
-  widgetEditor: PropTypes.object,
+  widgetEditor: PropTypes.object.isRequired,
   setChartType: PropTypes.func.isRequired
 };
 
+const mapStateToProps = ({ widgetEditor }) => ({ widgetEditor });
 const mapDispatchToProps = dispatch => ({
   setChartType: (type) => {
     dispatch(setChartType(type));
   }
 });
 
-export default withRedux(initStore, null, mapDispatchToProps)(ChartEditor);
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ChartEditor);
