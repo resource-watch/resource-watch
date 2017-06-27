@@ -138,6 +138,8 @@ class ColumnBox extends React.Component {
         });
         break;
       case 'category':
+        break;
+      case 'value':
         this.props.toggleTooltip(true, {
           follow: false,
           position: ColumnBox.getClickPosition(event),
@@ -152,8 +154,6 @@ class ColumnBox extends React.Component {
           }
         });
         break;
-      case 'value':
-        break;
       default:
     }
   }
@@ -163,7 +163,7 @@ class ColumnBox extends React.Component {
     const { isDragging, connectDragSource, name, type, closable, configurable, isA } = this.props;
     const iconName = (type.toLowerCase() === 'string') ? 'icon-type' : 'icon-hash';
 
-    const isConfigurable = (isA === 'filter') || (isA === 'category');
+    const isConfigurable = (isA === 'filter') || (isA === 'value');
 
     return connectDragSource(
       <div className={classNames({ 'c-columnbox': true, '-dimmed': isDragging })}>

@@ -12,6 +12,7 @@ const SET_CATEGORY = 'widgetEditor/SET_CATEGORY';
 const REMOVE_CATEGORY = 'widgetEditor/REMOVE_CATEGORY';
 const SET_VALUE = 'widgetEditor/SET_VALUE';
 const REMOVE_VALUE = 'widgetEditor/REMOVE_VALUE';
+const SET_CHART_TYPE = 'widgetEditor/SET_CHART_TYPE';
 const RESET = 'widgetEditor/RESET';
 
 /**
@@ -113,6 +114,12 @@ export default function (state = initialState, action) {
       });
     }
 
+    case SET_CHART_TYPE: {
+      return Object.assign({}, state, {
+        chartType: action.payload
+      });
+    }
+
     case RESET: {
       return Object.assign({}, initialState);
     }
@@ -167,6 +174,9 @@ export function setValue(value) {
 }
 export function removeValue(value) {
   return dispatch => dispatch({ type: REMOVE_VALUE, payload: value });
+}
+export function setChartType(type) {
+  return dispatch => dispatch({ type: SET_CHART_TYPE, payload: type });
 }
 export function resetWidgetEditor() {
   return dispatch => dispatch({ type: RESET });

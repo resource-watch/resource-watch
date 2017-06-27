@@ -13,15 +13,10 @@ import { resetWidgetEditor } from 'redactions/widgetEditor';
 import DatasetService from 'services/DatasetService';
 
 // Components
-import ColumnBox from 'components/widgets/ColumnBox';
-import FilterContainer from 'components/widgets/FilterContainer';
-import ColorContainer from 'components/widgets/ColorContainer';
-import SizeContainer from 'components/widgets/SizeContainer';
-import CategoryContainer from 'components/widgets/CategoryContainer';
-import ValueContainer from 'components/widgets/ValueContainer';
 import Select from 'components/form/SelectInput';
 import Spinner from 'components/ui/Spinner';
 import VegaChart from 'components/widgets/VegaChart';
+import ChartEditor from 'components/widgets/ChartEditor';
 
 // Utils
 import getQueryByFilters from 'utils/getQueryByFilters';
@@ -32,6 +27,11 @@ import OneDScatterChart from 'utils/widgets/1d_scatter';
 import OneDTickChart from 'utils/widgets/1d_tick';
 import ScatterChart from 'utils/widgets/scatter';
 
+const VISUALIZATION_TYPES = [
+  { label: 'Chart', value: 'chart' },
+  { label: 'Map', value: 'map' },
+  { label: 'Table', value: 'table' }
+];
 const oneDimensionalChartTypes = ['pie', '1d_scatter', '1d_tick'];
 const CHART_TYPES = {
   bar: BarChart,
@@ -49,7 +49,7 @@ class WidgetEditor extends React.Component {
     super(props);
 
     this.state = {
-      selectedChartType: null,
+      selectedVisualizationType: 'chart',
       loading: true,
       fieldsLoaded: false,
       jiminyLoaded: false,
@@ -191,14 +191,20 @@ class WidgetEditor extends React.Component {
   }
 
   @Autobind
-  handleChartTypeChange(val) {
+  handleChartEditorChange(val) {
+    console.log(val);
+  }
+
+  @Autobind
+  handleVisualizationTypeChange(val) {
     this.setState({
-      selectedChartType: val
+      selectedVisualizationType: val
     });
   }
 
   render() {
-    const { fields, jiminy, loading, tableName, selectedChartType } = this.state;
+    const { loading, tableName, selectedChartType, selectedVisualizationType,
+      jiminy, fields } = this.state;
     const { dataset } = this.props;
 
     let visualization = null;
@@ -221,53 +227,31 @@ class WidgetEditor extends React.Component {
           >
             Customize Visualization
           </h2>
-          <div className="chart-type">
+          <div className="visualization-type">
             <h5>Visualization type</h5>
-            {
-              jiminy && jiminy.general &&
-              <Select
-                properties={{
-                  className: 'chart-type-selector'
-                }}
-                options={jiminy.general.map(val => (
-                  {
-                    label: val,
-                    value: val
-                  }
-                ))}
-                name="chart-type"
-                onChange={this.handleChartTypeChange}
-
-              />
+            <Select
+              properties={{
+                className: 'chart-type-selector',
+                name: 'visualization-type',
+                value: selectedVisualizationType
+              }}
+              options={VISUALIZATION_TYPES}
+              onChange={this.handleVisualizationTypeChange}
+            />
+          </div>
+          {
+            selectedVisualizationType === 'chart' &&
+            <ChartEditor
+              tableName={tableName}
+              dataset={dataset}
+              jiminy={jiminy}
+              fields={fields}
+            />
           }
+
+          <div className="visualization">
+            {visualization}
           </div>
-          <div className="actions-div">
-            <div className="fields">
-              <h5>Columns</h5>
-              {tableName && fields && fields.fields && fields.fields.map(val =>
-                val.columnType !== 'geometry' && (
-                  <ColumnBox
-                    key={val.columnName}
-                    name={val.columnName}
-                    type={val.columnType}
-                    datasetID={dataset}
-                    tableName={tableName}
-                  />
-                )
-              )}
-            </div>
-            <div className="customization-container">
-              <h5>Dimensions</h5>
-              <CategoryContainer />
-              <ValueContainer />
-              <ColorContainer />
-              <SizeContainer />
-              <FilterContainer />
-            </div>
-          </div>
-        </div>
-        <div className="visualization">
-          {visualization}
         </div>
       </div>
     );
@@ -281,6 +265,7 @@ const mapDispatchToProps = dispatch => ({
 
 WidgetEditor.propTypes = {
   dataset: PropTypes.string, // Dataset ID
+  // Store
   widgetEditor: PropTypes.object,
   resetWidgetEditor: PropTypes.func.isRequired
 };
