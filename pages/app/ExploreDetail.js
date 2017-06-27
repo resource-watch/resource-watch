@@ -13,7 +13,6 @@ import Button from 'components/ui/Button';
 import Icon from 'components/ui/Icon';
 import DatasetList from 'components/app/explore/DatasetList';
 import Spinner from 'components/ui/Spinner';
-import Sidebar from 'components/app/layout/Sidebar';
 import Map from 'components/vis/Map';
 import Legend from 'components/ui/Legend';
 import LayerManager from 'utils/layers/LayerManager';
@@ -46,7 +45,6 @@ class ExploreDetail extends React.Component {
     this.state = {
       similarDatasetsLoaded: false,
       dataset: null,
-      mapSectionOpened: false,
       loading: false,
       layers: []
     };
@@ -55,9 +53,6 @@ class ExploreDetail extends React.Component {
     this.datasetService = new DatasetService(this.props.datasetID, {
       apiURL: process.env.WRI_API_URL
     });
-
-    // BINDINGS
-    this.triggerOpenLayer = this.triggerOpenLayer.bind(this);
   }
 
   componentDidMount() {
@@ -98,55 +93,6 @@ class ExploreDetail extends React.Component {
         });
       });
     });
-  }
-
-  getOpenMapButton() {
-    const { mapSectionOpened, dataset } = this.state;
-    const hasDefaultLayer = dataset && dataset.attributes.layer &&
-      dataset.attributes.layer.find(value => value.attributes.default === true);
-    const buttonText = (mapSectionOpened) ? 'Active' : 'Open in data map';
-    const buttonClass = classNames({
-      '-active': hasDefaultLayer,
-      '-primary': true,
-      '-fullwidth': true
-    });
-
-    if (hasDefaultLayer) {
-      return (
-        <Button
-          properties={{
-            className: buttonClass
-          }}
-          onClick={this.triggerOpenLayer}
-        >
-          {buttonText}
-        </Button>
-      );
-    }
-    return (
-      <Button
-        properties={{
-          disabled: true,
-          className: '-primary -fullwidth -disabled'
-        }}
-      >
-        Not displayable
-      </Button>
-
-    );
-  }
-
-  triggerOpenLayer() {
-    const { dataset } = this.state;
-    const defaultLayer = dataset.attributes.layer.find(
-      value => value.attributes.default === true);
-
-    this.setState(
-      {
-        layers: [defaultLayer.attributes],
-        mapSectionOpened: !this.state.mapSectionOpened
-      }
-    );
   }
 
   triggerDownload() {
@@ -200,7 +146,6 @@ class ExploreDetail extends React.Component {
             }
           </div>
           <div className="column small-3 actions">
-            {dataset && this.getOpenMapButton()}
             <Button
               properties={{
                 disabled: true,
@@ -236,37 +181,13 @@ class ExploreDetail extends React.Component {
     //   </div>
     // </div>
 
-    if (!this.state.mapSectionOpened) {
-      return (
-        <Page
-          title="Explore detail"
-          description="Explore detail description..."
-        >
-          <div className="c-page-explore-detail">
-            {pageStructure}
-          </div>
-        </Page>
-      );
-    }
-
     return (
       <Page
         title="Explore detail"
         description="Explore detail description..."
       >
         <div className="c-page-explore-detail">
-          <Sidebar>
-            {pageStructure}
-          </Sidebar>
-          <Map
-            LayerManager={LayerManager}
-            mapConfig={mapConfig}
-            layersActive={layers}
-          />
-          <Legend
-            layersActive={layers}
-            className={{ color: '-dark' }}
-          />
+          {pageStructure}
         </div>
       </Page>
     );

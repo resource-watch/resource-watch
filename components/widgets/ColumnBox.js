@@ -147,26 +147,12 @@ class ColumnBox extends React.Component {
             type,
             datasetID,
             tableName,
-            dimension: 'x',
-            onApply: this.onApplyAggregateFunction
+            onApply: this.onApplyAggregateFunction,
+            aggregateFunction
           }
         });
         break;
       case 'value':
-        this.props.toggleTooltip(true, {
-          follow: false,
-          position: ColumnBox.getClickPosition(event),
-          children: AggregateFunctionTooltip,
-          childrenProps: {
-            name,
-            type,
-            datasetID,
-            tableName,
-            dimension: 'y',
-            aggregateFunction,
-            onApply: this.onApplyAggregateFunction
-          }
-        });
         break;
       default:
     }
@@ -174,8 +160,10 @@ class ColumnBox extends React.Component {
 
   render() {
     const { aggregateFunction } = this.state;
-    const { isDragging, connectDragSource, name, type, closable, configurable } = this.props;
+    const { isDragging, connectDragSource, name, type, closable, configurable, isA } = this.props;
     const iconName = (type.toLowerCase() === 'string') ? 'icon-type' : 'icon-hash';
+
+    const isConfigurable = (isA === 'filter') || (isA === 'category');
 
     return connectDragSource(
       <div className={classNames({ 'c-columnbox': true, '-dimmed': isDragging })}>
@@ -197,7 +185,7 @@ class ColumnBox extends React.Component {
             />
           </button>
         }
-        {configurable &&
+        {configurable && isConfigurable &&
           <button onClick={this.triggerConfigure}>
             <Icon
               name="icon-cog"
