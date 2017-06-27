@@ -20,4 +20,5 @@
 .next
 
 # Ignore environment variables
-/.env
+.env
+package-lock.json
