@@ -141,6 +141,8 @@ export default function (state = initialState, action) {
  * - removeCategory
  * - setValue
  * - removeValue
+ * - setChartType
+ * - resetWidgetEditor
 */
 export function addFilter(filter) {
   return dispatch => dispatch({ type: ADD_FILTER, payload: filter });

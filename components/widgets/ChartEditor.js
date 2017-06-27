@@ -4,7 +4,8 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { Autobind } from 'es-decorators';
 import { DragDropContext } from 'react-dnd';
 
-// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 import { setChartType } from 'redactions/widgetEditor';
 
 // Components
@@ -129,7 +130,7 @@ class ChartEditor extends React.Component {
     this.setState({
       selectedChartType: val
     });
-    setChartType(val);
+    this.props.setChartType(val);
   }
 
   render() {
@@ -199,4 +200,10 @@ ChartEditor.propTypes = {
   widgetEditor: PropTypes.object
 };
 
-export default ChartEditor;
+const mapDispatchToProps = dispatch => ({
+  setChartType: (type) => {
+    dispatch(setChartType(type));
+  }
+});
+
+export default withRedux(initStore, null, mapDispatchToProps)(ChartEditor);
