@@ -29,7 +29,7 @@ export default class Tabs extends React.Component {
 
     return (
       <header className="c-tabs">
-        <div className="row custom-row">
+        <div className="row l-row">
           {options.map((option) => {
             const btnClasses = classnames({
               '-active': option.value === selected

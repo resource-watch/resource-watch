@@ -137,6 +137,11 @@ class ExploreDetail extends React.Component {
         pageHeader
       >
         <div className="c-page-explore-detail">
+          <Spinner
+            isLoading={loading}
+            className="-fixed -light"
+          />
+
           {/* PAGE HEADER */}
           <div className="c-page-header">
             <div className="l-container">
@@ -161,19 +166,11 @@ class ExploreDetail extends React.Component {
           </div>
 
           {/* WIDGET EDITOR */}
-          <div className="row">
-            <div className="column small-12 ">
-              {dataset &&
-                <WidgetEditor
-                  dataset={dataset.id}
-                />
-              }
-              <Spinner
-                isLoading={loading}
-                className="-light"
-              />
-            </div>
-          </div>
+          {dataset &&
+            <WidgetEditor
+              dataset={dataset.id}
+            />
+          }
 
           {/* DATASET INFO && ACTIONS */}
           <div className="c-page-section">
