@@ -17,6 +17,9 @@ import Select from 'components/form/SelectInput';
 import Spinner from 'components/ui/Spinner';
 import VegaChart from 'components/widgets/VegaChart';
 import ChartEditor from 'components/widgets/ChartEditor';
+import MapEditor from 'components/widgets/MapEditor';
+import Map from 'components/vis/Map';
+import Legend from 'components/ui/Legend';
 
 // Utils
 import getQueryByFilters from 'utils/getQueryByFilters';
@@ -27,6 +30,7 @@ import OneDScatterChart from 'utils/widgets/1d_scatter';
 import OneDTickChart from 'utils/widgets/1d_tick';
 import ScatterChart from 'utils/widgets/scatter';
 import ChartTheme from 'utils/widgets/theme';
+import LayerManager from 'utils/layers/LayerManager';
 
 const VISUALIZATION_TYPES = [
   { label: 'Chart', value: 'chart' },
@@ -41,6 +45,13 @@ const CHART_TYPES = {
   scatter: ScatterChart,
   '1d_scatter': OneDScatterChart,
   '1d_tick': OneDTickChart
+};
+const mapConfig = {
+  zoom: 3,
+  latLng: {
+    lat: 0,
+    lng: 0
+  }
 };
 
 @DragDropContext(HTML5Backend)
@@ -211,18 +222,42 @@ class WidgetEditor extends React.Component {
   render() {
     const { loading, tableName, selectedVisualizationType, jiminy, fields } = this.state;
     const { dataset, widgetEditor } = this.props;
-    const { chartType } = widgetEditor;
+    const { chartType, layer } = widgetEditor;
 
     let visualization = null;
-    if (!tableName) {
-      visualization = <Spinner className="-light" isLoading />;
-    } else if (!this.canRenderChart()) {
-      visualization = 'Select a type of chart and columns';
-    } else if (!CHART_TYPES[chartType]) {
-      visualization = `This chart can't be previewed`; // eslint-disable-line quotes
-    } else {
-      visualization = <VegaChart data={this.getChartConfig()} theme={this.getChartTheme()} />;
+    switch (selectedVisualizationType) {
+      case 'chart':
+        if (!tableName) {
+          visualization = <Spinner className="-light" isLoading />;
+        } else if (!this.canRenderChart()) {
+          visualization = 'Select a type of chart and columns';
+        } else if (!CHART_TYPES[chartType]) {
+          visualization = `This chart can't be previewed`; // eslint-disable-line quotes
+        } else {
+          visualization = <VegaChart data={this.getChartConfig()} theme={this.getChartTheme()} />;
+        }
+        break;
+      case 'map':
+        if (layer) {
+          visualization = (
+            <div>
+              <Map
+                LayerManager={LayerManager}
+                mapConfig={mapConfig}
+                layersActive={[layer]}
+              />
+            {/*<Legend
+                layersActive={[layer]}
+                className={{ color: '-dark' }}
+              />*/}
+            </div>
+          );
+        }
+        break;
+      default:
+
     }
+
 
     return (
       <div className="c-widget-editor">
@@ -256,13 +291,17 @@ class WidgetEditor extends React.Component {
                   tableName={tableName}
                 />
               }
+              {
+                selectedVisualizationType === 'map' &&
+                <MapEditor
+                  dataset={dataset}
+                  tableName={tableName}
+                />
+              }
             </div>
-            {
-              selectedVisualizationType === 'chart' &&
-              <div className="visualization">
-                {visualization}
-              </div>
-            }
+            <div className="visualization">
+              {visualization}
+            </div>
           </div>
         </div>
       </div>

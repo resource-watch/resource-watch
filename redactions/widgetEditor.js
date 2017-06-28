@@ -14,6 +14,7 @@ const SET_VALUE = 'widgetEditor/SET_VALUE';
 const REMOVE_VALUE = 'widgetEditor/REMOVE_VALUE';
 const SET_CHART_TYPE = 'widgetEditor/SET_CHART_TYPE';
 const SET_AGGREGATE_FN = 'widgetEditor/SET_AGGREGATE_FN';
+const SHOW_LAYER = 'widgetEditor/SHOW_LAYER';
 const RESET = 'widgetEditor/RESET';
 
 /**
@@ -25,7 +26,8 @@ const initialState = {
   color: null,
   size: null,
   category: null,
-  value: null
+  value: null,
+  layer: null
 };
 
 export default function (state = initialState, action) {
@@ -132,6 +134,12 @@ export default function (state = initialState, action) {
       return Object.assign({}, initialState);
     }
 
+    case SHOW_LAYER: {
+      return Object.assign({}, state, {
+        layer: action.payload
+      });
+    }
+
     default:
       return state;
   }
@@ -193,4 +201,7 @@ export function setAggregateFunction(value) {
 }
 export function resetWidgetEditor() {
   return dispatch => dispatch({ type: RESET });
+}
+export function showLayer(layer) {
+  return dispatch => dispatch({ type: SHOW_LAYER, payload: layer });
 }
