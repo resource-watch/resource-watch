@@ -28,7 +28,14 @@ class MapEditor extends React.Component {
   componentWillMount() {
     this.datasetService.getLayers().then((response) => {
       this.setState({
-        layers: response
+        layers: response.map(val => ({
+          id: val.id,
+          name: val.attributes.name,
+          subtitle: val.attributes.subtitle,
+          ...val.attributes,
+          order: 1,
+          hidden: false
+        }))
       });
     }).catch((err) => {
       console.log(err);
@@ -36,15 +43,7 @@ class MapEditor extends React.Component {
   }
 
   @Autobind
-  handleLayerChange(val) {
-    const layer = {
-      id: val.id,
-      name: val.attributes.name,
-      subtitle: val.attributes.subtitle,
-      ...val.attributes,
-      order: 1,
-      hidden: false
-    };
+  handleLayerChange(layer) {
     this.props.showLayer(layer);
   }
 
@@ -65,7 +64,7 @@ class MapEditor extends React.Component {
           }}
           options={layers.map(val => (
             {
-              label: val.attributes.name,
+              label: val.name,
               value: val
             }
           ))}
