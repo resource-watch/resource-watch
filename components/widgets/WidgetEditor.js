@@ -220,21 +220,14 @@ class WidgetEditor extends React.Component {
     });
   }
 
-  render() {
-    const {
-      loading,
-      tableName,
-      selectedVisualizationType,
-      jiminy,
-      fields,
-      chartLoading
-    } = this.state;
-    const { dataset, widgetEditor } = this.props;
+  getVisualization() {
+    const { tableName, selectedVisualizationType, chartLoading } = this.state;
+    const { widgetEditor } = this.props;
     const { chartType, layer } = widgetEditor;
 
     let visualization = null;
-
     switch (selectedVisualizationType) {
+
       case 'chart':
         if (!tableName) {
           visualization = (
@@ -267,6 +260,7 @@ class WidgetEditor extends React.Component {
           );
         }
         break;
+
       case 'map':
         if (layer) {
           visualization = (
@@ -276,7 +270,7 @@ class WidgetEditor extends React.Component {
                 mapConfig={mapConfig}
                 layersActive={[layer]}
               />
-            {/*<Legend
+              {/* <Legend
                 layersActive={[layer]}
                 className={{ color: '-dark' }}
               />*/}
@@ -288,6 +282,25 @@ class WidgetEditor extends React.Component {
 
     }
 
+    return visualization;
+  }
+
+  render() {
+    const {
+      loading,
+      tableName,
+      selectedVisualizationType,
+      jiminy,
+      fields
+    } = this.state;
+    const { dataset } = this.props;
+
+    const visualization = this.getVisualization();
+
+    // We filter out the visualizations that aren't present in
+    // this.props.availableVisualizations
+    const visualizationsOptions = VISUALIZATION_TYPES
+      .filter(viz => this.props.availableVisualizations.includes(viz.value));
 
     return (
       <div className="c-widget-editor">
@@ -308,7 +321,7 @@ class WidgetEditor extends React.Component {
                     name: 'visualization-type',
                     value: selectedVisualizationType
                   }}
-                  options={VISUALIZATION_TYPES}
+                  options={visualizationsOptions}
                   onChange={this.handleVisualizationTypeChange}
                 />
               </div>
@@ -344,9 +357,16 @@ const mapDispatchToProps = dispatch => ({
 
 WidgetEditor.propTypes = {
   dataset: PropTypes.string, // Dataset ID
+  availableVisualizations: PropTypes.arrayOf(
+    PropTypes.oneOf(VISUALIZATION_TYPES.map(viz => viz.value))
+  ),
   // Store
   widgetEditor: PropTypes.object,
   resetWidgetEditor: PropTypes.func.isRequired
+};
+
+WidgetEditor.defaultProps = {
+  availableVisualizations: VISUALIZATION_TYPES.map(viz => viz.value)
 };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(WidgetEditor);
