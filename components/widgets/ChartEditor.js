@@ -56,7 +56,7 @@ class ChartEditor extends React.Component {
           <div className="fields">
             <h5>Columns</h5>
             {tableName && fields && fields.fields && fields.fields.map(val =>
-              val.columnType !== 'geometry' && (
+              val.columnType !== 'geometry' && val.columnName !== 'cartodb_id' && (
                 <ColumnBox
                   key={val.columnName}
                   name={val.columnName}
