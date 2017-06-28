@@ -239,25 +239,25 @@ class WidgetEditor extends React.Component {
       case 'chart':
         if (!tableName) {
           visualization = (
-            <div className="visualization">
+            <div className="visualization -chart">
               <Spinner className="-light" isLoading />
             </div>
           );
         } else if (!this.canRenderChart()) {
           visualization = (
-            <div className="visualization">
+            <div className="visualization -chart">
               Select a type of chart and columns
             </div>
           );
         } else if (!CHART_TYPES[chartType]) {
           visualization = (
-            <div className="visualization">
+            <div className="visualization -chart">
               {'This chart can\'t be previewed'}
             </div>
           );
         } else {
           visualization = (
-            <div className="visualization">
+            <div className="visualization -chart">
               <Spinner className="-light" isLoading={chartLoading} />
               <VegaChart
                 data={this.getChartConfig()}
