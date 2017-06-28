@@ -5087,9 +5087,9 @@
       "integrity": "sha1-ndAJ+RXo/glbASSgG4+C2gdRAQI="
     },
     "passport-control-tower": {
-      "version": "0.1.3",
-      "resolved": "https://registry.npmjs.org/passport-control-tower/-/passport-control-tower-0.1.3.tgz",
-      "integrity": "sha512-oo6hM5WQ4FcnDDGRIeIyZeDqQvHSSHLNhNZCL2doevLNgv5w5JwNZuqZAFY4eS0z/s4gnlY5j+HKuaQvAhXGhg=="
+      "version": "0.1.4",
+      "resolved": "https://registry.npmjs.org/passport-control-tower/-/passport-control-tower-0.1.4.tgz",
+      "integrity": "sha512-IfZ8VkHL6/mzget1S7EX84UVqmmqWC2Oy7jUM0n4jaCgWcMW5F1CKWTNletnwFBn1aj9lIoNU6nsgP3hY0u/ew=="
     },
     "passport-facebook": {
       "version": "2.1.1",
