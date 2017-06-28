@@ -43,8 +43,8 @@ class MapEditor extends React.Component {
   }
 
   @Autobind
-  handleLayerChange(layer) {
-    this.props.showLayer(layer);
+  handleLayerChange(layerID) {
+    this.props.showLayer(this.state.layers.find(val => val.id === layerID));
   }
 
   render() {
@@ -60,12 +60,12 @@ class MapEditor extends React.Component {
         <Select
           properties={{
             name: 'layer-selector',
-            value: layer
+            value: layer && layer.id
           }}
           options={layers.map(val => (
             {
               label: val.name,
-              value: val
+              value: val.id
             }
           ))}
           onChange={this.handleLayerChange}
