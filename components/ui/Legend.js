@@ -1,5 +1,7 @@
 import React from 'react';
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc';
+
+// Components
 import LegendType from 'components/ui/LegendType';
 import Icon from 'components/ui/Icon';
 import Switch from 'components/ui/Switch';

@@ -8,6 +8,7 @@ import { DragDropContext } from 'react-dnd';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { resetWidgetEditor } from 'redactions/widgetEditor';
+import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -270,10 +271,12 @@ class WidgetEditor extends React.Component {
                 mapConfig={mapConfig}
                 layersActive={[layer]}
               />
-              {/* <Legend
+              <Legend
                 layersActive={[layer]}
                 className={{ color: '-dark' }}
-              />*/}
+                toggleModal={this.props.toggleModal}
+                setModalOptions={this.props.setModalOptions}
+              />
             </div>
           );
         }
@@ -352,7 +355,9 @@ class WidgetEditor extends React.Component {
 
 const mapStateToProps = ({ widgetEditor }) => ({ widgetEditor });
 const mapDispatchToProps = dispatch => ({
-  resetWidgetEditor: () => dispatch(resetWidgetEditor())
+  resetWidgetEditor: () => dispatch(resetWidgetEditor()),
+  toggleModal: (open) => { dispatch(toggleModal(open)); },
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); }
 });
 
 WidgetEditor.propTypes = {
@@ -362,7 +367,9 @@ WidgetEditor.propTypes = {
   ),
   // Store
   widgetEditor: PropTypes.object,
-  resetWidgetEditor: PropTypes.func.isRequired
+  resetWidgetEditor: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  setModalOptions: PropTypes.func.isRequired,
 };
 
 WidgetEditor.defaultProps = {
