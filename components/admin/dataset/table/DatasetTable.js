@@ -35,7 +35,7 @@ class DatasetTable extends React.Component {
   getDatasets() {
     const { application } = this.props;
     const url = `${process.env.WRI_API_URL}/dataset?application=${application.join(',')}&includes=widget,layer,metadata,vocabulary&page[size]=${Date.now() / 100000}`;
-    console.log(url);
+
     fetch(new Request(url))
       .then((response) => {
         if (response.ok) {
