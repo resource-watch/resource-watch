@@ -4,12 +4,12 @@ import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { setDimensionY } from 'redactions/widgetEditor';
+import { setValue, setAggregateFunction } from 'redactions/widgetEditor';
 import ColumnBox from 'components/widgets/ColumnBox';
 
 const boxTarget = {
   drop(props, monitor) {
-    props.setDimensionY(monitor.getItem());
+    props.setValue(monitor.getItem());
   }
 };
 
@@ -24,15 +24,30 @@ class DimensionYContainer extends React.Component {
     super(props);
 
     this.state = {
-      dimensionY: null
+      value: null
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const currentValue = this.props.widgetEditor.value
+      && this.props.widgetEditor.value.name;
+    const nextValue = nextProps.widgetEditor.value
+      && nextProps.widgetEditor.value.name;
+
+    // If the column changes, we reset the aggregate function
+    if (currentValue !== nextValue) {
+      this.props.setAggregateFunction(null);
+    }
+  }
+
+  setAggregateFunction({ value }) {
+    this.props.setAggregateFunction(value);
+  }
 
   render() {
     const { canDrop, isOver, connectDropTarget, widgetEditor } = this.props;
     const isActive = canDrop && isOver;
-    const dimensionY = widgetEditor.dimensionY;
+    const value = widgetEditor.value;
 
     const containerDivClass = classNames({
       'c-column-container': true,
@@ -41,14 +56,15 @@ class DimensionYContainer extends React.Component {
 
     return connectDropTarget(
       <div className={containerDivClass}>
-        y
-        {dimensionY &&
+        Value
+        {value &&
           <ColumnBox
-            name={dimensionY.name}
-            type={dimensionY.type}
+            name={value.name}
+            type={value.type}
             closable
-            configurable
-            isA="dimensionY"
+            configurable={value.type === 'number'}
+            onConfigure={aggregateFunction => this.setAggregateFunction(aggregateFunction)}
+            isA="value"
           />
         }
       </div>
@@ -60,7 +76,9 @@ DimensionYContainer.propTypes = {
   connectDropTarget: PropTypes.func,
   isOver: PropTypes.bool,
   canDrop: PropTypes.bool,
-  widgetEditor: PropTypes.object
+  widgetEditor: PropTypes.object,
+  // Redux
+  setAggregateFunction: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -68,8 +86,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setDimensionY: (dimensionY) => {
-    dispatch(setDimensionY(dimensionY));
+  setValue: (value) => {
+    dispatch(setValue(value));
+  },
+  setAggregateFunction: (value) => {
+    dispatch(setAggregateFunction(value));
   }
 });
 

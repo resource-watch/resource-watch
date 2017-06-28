@@ -27,9 +27,7 @@ class Tooltip extends React.Component {
   }
 
   onMouseMove({ clientX, clientY }) {
-    this.props.setTooltipPosition({ x: clientX, y: clientY });
-    this.clientX = clientX;
-    this.clientY = clientY;
+    this.props.setTooltipPosition({ x: window.scrollX + clientX, y: window.scrollY + clientY });
   }
 
   getContent() {

@@ -5,6 +5,7 @@ import { toggleTooltip } from 'redactions/tooltip';
 import { bisector } from 'd3';
 import vega from 'vega';
 import debounce from 'lodash/debounce';
+import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
 import VegaChartTooltip from './VegaChartTooltip';
 
@@ -81,7 +82,7 @@ class VegaChart extends React.Component {
         vis.update();
 
         // Tooltip
-        vis.onSignal('onMousemove', (event, x0) => {
+        vis.onSignal('onMousemove', throttle((event, x0) => {
           const visData = vis.data().table;
           let item;
 
@@ -107,7 +108,7 @@ class VegaChart extends React.Component {
             });
           }
           return null;
-        });
+        }, 16));
       }
     });
   }

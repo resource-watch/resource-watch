@@ -160,4 +160,10 @@ export default class DatasetService {
         });
     });
   }
+
+  getLayers() {
+    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}/layer`)
+      .then(response => response.json())
+      .then(jsonData => jsonData.data);
+  }
 }
