@@ -28,6 +28,18 @@ class DimensionYContainer extends React.Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const currentValue = this.props.widgetEditor.value
+      && this.props.widgetEditor.value.name;
+    const nextValue = nextProps.widgetEditor.value
+      && nextProps.widgetEditor.value.name;
+
+    // If the column changes, we reset the aggregate function
+    if (currentValue !== nextValue) {
+      this.props.setAggregateFunction(null);
+    }
+  }
+
   setAggregateFunction({ value }) {
     this.props.setAggregateFunction(value);
   }

@@ -23,8 +23,28 @@ const defaultChart = {
     }
   ],
   axes: [
-    { type: 'x', scale: 'x' },
-    { type: 'y', scale: 'y' }
+    {
+      "type": "x",
+      "scale": "x",
+      "tickSizeEnd": 0,
+      "offset": 5,
+      "properties": {
+        "axis": {
+          "strokeWidth": { "value": 0 }
+        }
+      }
+    },
+    {
+      "type": "y",
+      "scale": "y",
+      "tickSizeEnd": 0,
+      "offset": 5,
+      "properties": {
+        "axis": {
+          "strokeWidth": { "value": 0 }
+        }
+      }
+    }
   ],
   marks: [
     {
@@ -33,7 +53,7 @@ const defaultChart = {
       properties: {
         enter: {
           x: { scale: 'x', field: 'x' },
-          width: { scale: 'x', band: true, offset: -1 },
+          width: { scale: 'x', band: true, offset: -3 },
           y: { scale: 'y', field: 'y' },
           y2: { scale: 'y', value: 0 }
         }

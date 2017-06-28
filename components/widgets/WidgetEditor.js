@@ -67,6 +67,8 @@ class WidgetEditor extends React.Component {
       jiminyLoaded: false,
       fields: [],
       tableName: null,
+      // Whether the chart is loading its data/rendering
+      chartLoading: false,
       // Jiminy
       jiminy: {}
     };
@@ -220,21 +222,50 @@ class WidgetEditor extends React.Component {
   }
 
   render() {
-    const { loading, tableName, selectedVisualizationType, jiminy, fields } = this.state;
+    const {
+      loading,
+      tableName,
+      selectedVisualizationType,
+      jiminy,
+      fields,
+      chartLoading
+    } = this.state;
     const { dataset, widgetEditor } = this.props;
     const { chartType, layer } = widgetEditor;
 
     let visualization = null;
+
     switch (selectedVisualizationType) {
       case 'chart':
         if (!tableName) {
-          visualization = <Spinner className="-light" isLoading />;
+          visualization = (
+            <div className="visualization">
+              <Spinner className="-light" isLoading />
+            </div>
+          );
         } else if (!this.canRenderChart()) {
-          visualization = 'Select a type of chart and columns';
+          visualization = (
+            <div className="visualization">
+              Select a type of chart and columns
+            </div>
+          );
         } else if (!CHART_TYPES[chartType]) {
-          visualization = `This chart can't be previewed`; // eslint-disable-line quotes
+          visualization = (
+            <div className="visualization">
+              {'This chart can\'t be previewed'}
+            </div>
+          );
         } else {
-          visualization = <VegaChart data={this.getChartConfig()} theme={this.getChartTheme()} />;
+          visualization = (
+            <div className="visualization">
+              <Spinner className="-light" isLoading={chartLoading} />
+              <VegaChart
+                data={this.getChartConfig()}
+                theme={this.getChartTheme()}
+                toggleLoading={val => this.setState({ chartLoading: val })}
+              />
+            </div>
+          );
         }
         break;
       case 'map':
