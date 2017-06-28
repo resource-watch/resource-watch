@@ -1,9 +1,11 @@
 import deepClone from 'lodash/cloneDeep';
 
 const defaultTheme = {
-  width: 400,
-  height: 200,
-  autopadInset: 10,
+  height: 0,
+  padding: 'strict', // Do not set something different than 'strict'
+                     // or the autopadInset property because it will cause the
+                     // graph to increase its size each time it is rendered
+                     // again
   marks: {
     color: '#3BB2D0'
   },
