@@ -5,6 +5,8 @@
 
   .customize-visualization {
     position: relative;
+    min-height: 600px;
+    max-height: 600px;
     margin-top: -20px;
     margin-bottom: -20px;
     flex-basis: 430px;
@@ -34,7 +36,10 @@
     justify-content: center;
     align-items: center;
     flex-grow: 1;
-    margin-left: 20px;
+
+    &.-chart {
+      margin-left: 20px;
+    }    
 
     > .c-chart {
       display: flex;
