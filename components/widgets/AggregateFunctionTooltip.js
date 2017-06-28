@@ -8,9 +8,11 @@ import withRedux from 'next-redux-wrapper';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
-// import CheckboxGroup from 'components/form/CheckboxGroup';
-// import Button from 'components/ui/Button';
+import Button from 'components/ui/Button';
 
+const AGGREGATE_FUNCTIONS = [
+  'sum', 'avg', 'max', 'min', 'none'
+];
 
 class AggregateFunctionTooltip extends React.Component {
 
@@ -18,7 +20,7 @@ class AggregateFunctionTooltip extends React.Component {
     super(props);
 
     this.state = {
-
+      aggregateFunction: props.aggregateFunction
     };
   }
 
@@ -30,6 +32,13 @@ class AggregateFunctionTooltip extends React.Component {
     document.removeEventListener('mousedown', this.triggerMouseDown);
   }
 
+  onApply() {
+    this.props.onApply(this.state.aggregateFunction);
+
+    // We close the tooltip
+    this.props.toggleTooltip(false);
+  }
+
   @Autobind
   triggerMouseDown(e) {
     const el = document.querySelector('.c-tooltip');
@@ -39,16 +48,47 @@ class AggregateFunctionTooltip extends React.Component {
     }
   }
 
+  @Autobind
+  handleInputChange(event) {
+    this.setState({ aggregateFunction: event.target.value });
+  }
+
   render() {
+    const { aggregateFunction } = this.state;
     return (
-      <div>
+      <div className="c-aggregate-function-tooltip">
         Aggregate functions
+        <div>
+          {AGGREGATE_FUNCTIONS.map((val, i) =>
+            (
+              <div className="radio-button" key={val}>
+                <input
+                  id={`radio-aggregate-${i}`}
+                  type="radio"
+                  name="functions"
+                  value={val}
+                  onChange={this.handleInputChange}
+                  checked={val === aggregateFunction}
+                />
+                <label htmlFor={`radio-aggregate-${i}`}>{val}</label>
+              </div>
+            )
+          )}
+        </div>
+        <Button
+          properties={{ type: 'button', className: '-primary' }}
+          onClick={() => this.onApply()}
+        >
+          Done
+        </Button>
       </div>
     );
   }
 }
 
 AggregateFunctionTooltip.propTypes = {
+  onApply: PropTypes.func.isRequired,
+  aggregateFunction: PropTypes.string,
   // store
   toggleTooltip: PropTypes.func.isRequired
 };

@@ -7,7 +7,7 @@ import classNames from 'classnames';
 // Store
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { removeFilter, removeColor, removeDimensionX, removeDimensionY, removeSize } from 'redactions/widgetEditor';
+import { removeFilter, removeColor, removeCategory, removeValue, removeSize } from 'redactions/widgetEditor';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
@@ -59,7 +59,8 @@ class ColumnBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      aggregageFunction: null,
+      // Value of the aggregate function
+      aggregateFunction: null,
       // Value of the filter
       filter: null
     };
@@ -84,6 +85,19 @@ class ColumnBox extends React.Component {
   }
 
   @Autobind
+  onApplyAggregateFunction(aggregateFunction) {
+    const fn = aggregateFunction === 'none'
+      ? null
+      : aggregateFunction;
+
+    this.setState({ aggregateFunction: fn });
+
+    if (this.props.onConfigure) {
+      this.props.onConfigure({ name: this.props.name, value: fn });
+    }
+  }
+
+  @Autobind
   triggerClose() {
     const { isA } = this.props;
     switch (isA) {
@@ -96,11 +110,11 @@ class ColumnBox extends React.Component {
       case 'filter':
         this.props.removeFilter({ name: this.props.name });
         break;
-      case 'dimensionX':
-        this.props.removeDimensionX();
+      case 'category':
+        this.props.removeCategory();
         break;
-      case 'dimensionY':
-        this.props.removeDimensionY();
+      case 'value':
+        this.props.removeValue();
         break;
       default:
     }
@@ -108,6 +122,7 @@ class ColumnBox extends React.Component {
 
   @Autobind
   triggerConfigure(event) {
+    const { filter, aggregateFunction } = this.state;
     const { isA, name, type, datasetID, tableName } = this.props;
 
     switch (isA) {
@@ -125,27 +140,14 @@ class ColumnBox extends React.Component {
             type,
             datasetID,
             tableName,
-            dimension: 'x',
-            filter: this.state.filter,
+            filter,
             onApply: this.onApplyFilter
           }
         });
         break;
-      case 'dimensionX':
-        this.props.toggleTooltip(true, {
-          follow: false,
-          position: ColumnBox.getClickPosition(event),
-          children: AggregateFunctionTooltip,
-          childrenProps: {
-            name,
-            type,
-            datasetID,
-            tableName,
-            dimension: 'x'
-          }
-        });
+      case 'category':
         break;
-      case 'dimensionY':
+      case 'value':
         this.props.toggleTooltip(true, {
           follow: false,
           position: ColumnBox.getClickPosition(event),
@@ -155,7 +157,8 @@ class ColumnBox extends React.Component {
             type,
             datasetID,
             tableName,
-            dimension: 'y'
+            onApply: this.onApplyAggregateFunction,
+            aggregateFunction
           }
         });
         break;
@@ -164,9 +167,11 @@ class ColumnBox extends React.Component {
   }
 
   render() {
-    const { aggregageFunction } = this.state;
-    const { isDragging, connectDragSource, name, type, closable, configurable } = this.props;
+    const { aggregateFunction } = this.state;
+    const { isDragging, connectDragSource, name, type, closable, configurable, isA } = this.props;
     const iconName = (type.toLowerCase() === 'string') ? 'icon-type' : 'icon-hash';
+
+    const isConfigurable = (isA === 'filter') || (isA === 'value');
 
     return connectDragSource(
       <div className={classNames({ 'c-columnbox': true, '-dimmed': isDragging })}>
@@ -175,9 +180,9 @@ class ColumnBox extends React.Component {
           className="-smaller"
         />
         {name}
-        {aggregageFunction &&
+        {aggregateFunction &&
           <div className="aggregate-function">
-            {aggregageFunction}
+            {aggregateFunction}
           </div>
         }
         {closable &&
@@ -188,7 +193,7 @@ class ColumnBox extends React.Component {
             />
           </button>
         }
-        {configurable &&
+        {configurable && isConfigurable &&
           <button onClick={this.triggerConfigure}>
             <Icon
               name="icon-cog"
@@ -219,8 +224,8 @@ ColumnBox.propTypes = {
   removeFilter: PropTypes.func.isRequired,
   removeSize: PropTypes.func.isRequired,
   removeColor: PropTypes.func.isRequired,
-  removeDimensionX: PropTypes.func.isRequired,
-  removeDimensionY: PropTypes.func.isRequired,
+  removeCategory: PropTypes.func.isRequired,
+  removeValue: PropTypes.func.isRequired,
   toggleTooltip: PropTypes.func.isRequired
 };
 
@@ -234,11 +239,11 @@ const mapDispatchToProps = dispatch => ({
   removeSize: (size) => {
     dispatch(removeSize(size));
   },
-  removeDimensionX: (dimensionX) => {
-    dispatch(removeDimensionX(dimensionX));
+  removeCategory: (category) => {
+    dispatch(removeCategory(category));
   },
-  removeDimensionY: (dimensionY) => {
-    dispatch(removeDimensionY(dimensionY));
+  removeValue: (value) => {
+    dispatch(removeValue(value));
   },
   toggleTooltip: (opened, opts) => {
     dispatch(toggleTooltip(opened, opts));
