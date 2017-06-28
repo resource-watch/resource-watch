@@ -8,7 +8,7 @@ import { Link } from 'routes';
 // Components
 import Icon from 'components/ui/Icon';
 
-function Breadcrumbs(props) {
+function Aside(props) {
   return (
     <aside className="c-aside" style={props.style}>
       <nav>
@@ -34,16 +34,16 @@ function Breadcrumbs(props) {
   );
 }
 
-Breadcrumbs.propTypes = {
+Aside.propTypes = {
   items: PropTypes.array,
   style: PropTypes.object,
   selected: PropTypes.string
 };
 
-Breadcrumbs.defaultProps = {
+Aside.defaultProps = {
   items: [],
   style: {},
   selected: null
 };
 
-export default Breadcrumbs;
+export default Aside;

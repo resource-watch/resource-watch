@@ -4,6 +4,9 @@ import React from 'react';
 import Page from 'components/admin/layout/Page';
 import Tabs from 'components/ui/Tabs';
 
+// Tabs
+import DatasetTab from 'components/admin/dataset/DatasetTab';
+
 // Components
 import Title from 'components/ui/Title';
 
@@ -44,6 +47,7 @@ class Data extends React.Component {
 
     this.state = {
       tab: url.query.tab || 'datasets',
+      id: url.query.id,
       subtab: url.query.subtab
     };
   }
@@ -53,13 +57,14 @@ class Data extends React.Component {
 
     this.setState({
       tab: url.query.tab || 'datasets',
+      id: url.query.id,
       subtab: url.query.subtab
     });
   }
 
   render() {
     const { url } = this.props;
-    const { tab, subtab } = this.state;
+    const { tab, subtab, id } = this.state;
 
     return (
       <Page
@@ -82,26 +87,28 @@ class Data extends React.Component {
             </div>
           </div>
         </div>
-        <div className="row">
-          {tab === 'datasets' &&
-            <h2>Datasets</h2>
-          }
+        <div className="c-page-section">
+          <div className="l-container">
+            {tab === 'datasets' &&
+              <DatasetTab tab={tab} subtab={subtab} id={id} />
+            }
 
-          {tab === 'widgets' &&
-            <h2>Widgets</h2>
-          }
+            {tab === 'widgets' &&
+              <h2>Widgets</h2>
+            }
 
-          {tab === 'layers' &&
-            <h2>Layers</h2>
-          }
+            {tab === 'layers' &&
+              <h2>Layers</h2>
+            }
 
-          {tab === 'dashboards' &&
-            <h2>Dashboards</h2>
-          }
+            {tab === 'dashboards' &&
+              <h2>Dashboards</h2>
+            }
 
-          {tab === 'vocabularies' &&
-            <h2>Vocabularies</h2>
-          }
+            {tab === 'vocabularies' &&
+              <h2>Vocabularies</h2>
+            }
+          </div>
         </div>
       </Page>
     );

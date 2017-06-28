@@ -3,13 +3,13 @@ import uniqBy from 'lodash/uniqBy';
 import flatten from 'lodash/flatten';
 import { Autobind } from 'es-decorators';
 
-import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
-
 import VocabularyItem from 'components/admin/vocabularies/form/VocabularyItem';
 import Title from 'components/ui/Title';
 import Button from 'components/ui/Button';
 import Spinner from 'components/ui/Spinner';
 import { get, post } from 'utils/request';
+
+import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
 
 class DatasetVocabulariesForm extends React.Component {
 
@@ -164,7 +164,7 @@ class DatasetVocabulariesForm extends React.Component {
   loadAllVocabularies() {
     get(
       {
-        url: '${process.env.WRI_API_URL}/vocabulary',
+        url: `${process.env.WRI_API_URL}/vocabulary`,
         headers: [{ key: 'Content-Type', value: 'application/json' }],
         onSuccess: (response) => {
           const allVocabularies = response.data
@@ -192,12 +192,6 @@ class DatasetVocabulariesForm extends React.Component {
     const { vocabularies, allVocabularies, allVocabulariesNotFiltered } = this.state;
     return (
       <div>
-        <Title className="-huge -p-primary">
-          {this.state.datasetName}
-        </Title>
-        <h1 className="-p-primary">
-          Vocabularies
-        </h1>
         {!this.state.loading &&
           <Button
             onClick={this.triggerNewVocabulary}
@@ -224,7 +218,7 @@ class DatasetVocabulariesForm extends React.Component {
                 );
                 return (
                   <div
-                    className="small-6 medium-4 column"
+                    className="small-12 medium-6 column"
                     key={i}
                   >
                     <VocabularyItem

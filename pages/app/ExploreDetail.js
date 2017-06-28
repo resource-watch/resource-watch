@@ -142,7 +142,7 @@ class ExploreDetail extends React.Component {
             <div className="l-container">
               <div className="page-header-content -padding-b-2">
                 <Breadcrumbs
-                  items={[{ name: 'Explore datasets', url: 'explore' }]}
+                  items={[{ name: 'Explore datasets', route: 'explore' }]}
                 />
 
                 <Title className="-primary -huge page-header-title" >

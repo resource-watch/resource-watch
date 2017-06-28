@@ -7,7 +7,7 @@ function Breadcrumbs(props) {
     <ul className="c-breadcrumbs">
       {props.items.map((item, i) => (
         <li key={i} className="item">
-          <Link route={item.url}>
+          <Link route={item.route} params={item.params}>
             <a>
               {props.items.length === 1 &&
                 <Icon className="c-icon -smaller" name="icon-arrow-left" />

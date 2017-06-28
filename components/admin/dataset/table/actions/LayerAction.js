@@ -1,6 +1,6 @@
 import React from 'react';
 
-class VocabularyAction extends React.Component {
+class LayerAction extends React.Component {
 
   parseHref() {
     const { action, data } = this.props;
@@ -16,7 +16,7 @@ class VocabularyAction extends React.Component {
       <span>
         {(data.status === 'saved') &&
           <a href={this.parseHref()}>
-            Vocabularies
+            Layers
           </a>
         }
       </span>
@@ -24,9 +24,9 @@ class VocabularyAction extends React.Component {
   }
 }
 
-VocabularyAction.propTypes = {
+LayerAction.propTypes = {
   data: React.PropTypes.object,
   action: React.PropTypes.object
 };
 
-export default VocabularyAction;
+export default LayerAction;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-class MetadataAction extends React.Component {
+class WidgetAction extends React.Component {
 
   parseHref() {
     const { action, data } = this.props;
@@ -24,9 +24,9 @@ class MetadataAction extends React.Component {
   }
 }
 
-MetadataAction.propTypes = {
+WidgetAction.propTypes = {
   data: React.PropTypes.object,
   action: React.PropTypes.object
 };
 
-export default MetadataAction;
+export default WidgetAction;

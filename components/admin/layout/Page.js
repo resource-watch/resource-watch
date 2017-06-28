@@ -14,18 +14,25 @@ export default class Page extends React.Component {
   }
 
   render() {
-    const { title, description } = this.props;
+    const { title, url, description } = this.props;
     return (
       <div className="c-page">
         <Head
           title={title}
           description={description}
         />
+
         <Icons />
-        <Header session={this.props.session} />
+
+        <Header
+          url={url}
+          session={this.props.session}
+        />
+
         <div className="container">
           { this.props.children }
         </div>
+
         <Tooltip />
       </div>
     );
@@ -34,6 +41,10 @@ export default class Page extends React.Component {
 }
 
 Page.propTypes = {
+  // ROUTER
+  url: PropTypes.object,
+
+  //
   session: PropTypes.object.isRequired,
   children: PropTypes.any.isRequired,
   title: PropTypes.string.isRequired,

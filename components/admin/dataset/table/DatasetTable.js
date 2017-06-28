@@ -1,12 +1,17 @@
 import React from 'react';
 import sortBy from 'lodash/sortBy';
+
+// Components
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
-import DeleteAction from 'components/ui/customtable/actions/DeleteAction';
+
+// Table components
 import MetadataAction from './actions/MetadataAction';
 import VocabularyAction from './actions/VocabularyAction';
 import WidgetAction from './actions/WidgetAction';
+import LayerAction from './actions/LayerAction';
 import EditAction from './actions/EditAction';
+import DeleteAction from './actions/DeleteAction';
 import StatusTD from './td/StatusTD';
 
 class DatasetTable extends React.Component {
@@ -65,11 +70,12 @@ class DatasetTable extends React.Component {
           actions={{
             show: true,
             list: [
-              { name: 'Edit', path: '/admin/datasets/:id/edit', show: true, component: EditAction },
-              { name: 'Remove', path: '/admin/datasets/:id/remove', component: DeleteAction, componentProps: { authorization: this.props.authorization } },
-              { name: 'Metadata', path: '/admin/datasets/:id/metadata', component: MetadataAction },
-              { name: 'Vocabularies', path: '/admin/datasets/:id/dataset_vocabularies', component: VocabularyAction },
-              { name: 'Widgets', path: '/admin/datasets/:id/widgets', component: WidgetAction }
+              { name: 'Edit', route: 'admin_data', params: { tab: 'datasets', subtab: 'edit', id: ':id' }, path: '/admin/data/datasets/:id/edit', show: true, component: EditAction },
+              { name: 'Remove', route: 'admin_data', params: { tab: 'datasets', subtab: 'remove', id: ':id' }, path: '/admin/data/datasets/:id/remove', component: DeleteAction, componentProps: { authorization: this.props.authorization } },
+              { name: 'Metadata', route: 'admin_data', params: { tab: 'datasets', subtab: 'metadata', id: ':id' }, path: '/admin/data/datasets/:id/metadata', component: MetadataAction },
+              { name: 'Vocabularies', route: 'admin_data', params: { tab: 'datasets', subtab: 'vocabularies', id: ':id' }, path: '/admin/data/datasets/:id/vocabularies', component: VocabularyAction },
+              { name: 'Widgets', route: 'admin_data', params: { tab: 'datasets', subtab: 'widgets', id: ':id' }, path: '/admin/data/datasets/:id/widgets', component: WidgetAction }
+              // { name: 'Layers', route: 'admin_data', params: { tab: 'datasets', subtab: 'layers', id: ':id' }, path: '/admin/data/datasets/:id/layers', component: LayerAction }
             ]
           }}
           data={this.state.datasets}

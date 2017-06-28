@@ -6,7 +6,7 @@ import Page from 'components/app/layout/Page';
 const breadcrumbs = [
   {
     name: 'Get Involved',
-    url: '/get-involved'
+    route: 'get_involved'
   }
 ];
 

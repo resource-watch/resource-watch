@@ -7,8 +7,8 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Page from 'components/app/layout/Page';
 
 const breadcrumbs = [
-  { name: 'Get Involved', url: '/get-involved' },
-  { name: 'Apps', url: '/get-involved/apps' }
+  { name: 'Get Involved', route: 'get_involved', params: {} },
+  { name: 'Apps', route: 'get_involved', params: {} }
 ];
 
 function AppDetail(props) {
