@@ -271,7 +271,7 @@ class WidgetEditor extends React.Component {
       case 'map':
         if (layer) {
           visualization = (
-            <div>
+            <div className="visualization">
               <Map
                 LayerManager={LayerManager}
                 mapConfig={mapConfig}
@@ -330,9 +330,7 @@ class WidgetEditor extends React.Component {
                 />
               }
             </div>
-            <div className="visualization">
-              {visualization}
-            </div>
+            {visualization}
           </div>
         </div>
       </div>

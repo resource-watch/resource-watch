@@ -37,7 +37,15 @@ class MapEditor extends React.Component {
 
   @Autobind
   handleLayerChange(val) {
-    this.props.showLayer(val);
+    const layer = {
+      id: val.id,
+      name: val.attributes.name,
+      subtitle: val.attributes.subtitle,
+      ...val.attributes,
+      order: 1,
+      hidden: false
+    };
+    this.props.showLayer(layer);
   }
 
   render() {
