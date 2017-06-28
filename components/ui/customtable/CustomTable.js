@@ -244,6 +244,7 @@ export default class CustomTable extends React.Component {
             columnValues={this.state.columnValues}
             columnQueries={this.state.columnQueries}
             filteredData={this.state.filteredData}
+            filters={this.props.filters}
             sort={this.state.sort}
             onFilter={this.onFilter}
             onSearch={this.onSearch}
@@ -273,9 +274,10 @@ export default class CustomTable extends React.Component {
 /* Property typing */
 CustomTable.propTypes = {
   actions: React.PropTypes.object,
-  data: React.PropTypes.array,
   columns: React.PropTypes.array,
+  data: React.PropTypes.array,
   pagination: React.PropTypes.object,
+  filters: React.PropTypes.bool,
   onToggleSelectedRow: React.PropTypes.func,
   onRowDelete: React.PropTypes.func
 };
@@ -297,6 +299,7 @@ CustomTable.defaultProps = {
       { name: 'Remove', path: '#' }
     ]
   },
+  filters: true,
   onToggleSelectedRow: null,
   onRowDelete: null
 };

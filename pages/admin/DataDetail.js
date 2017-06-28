@@ -1,6 +1,9 @@
 import React from 'react';
 import { singular } from 'pluralize';
 
+// Utils
+import { capitalizeFirstLetter } from 'utils/utils';
+
 // Services
 import DatasetService from 'services/DatasetService';
 
@@ -99,7 +102,7 @@ class Data extends React.Component {
           <div className="l-container">
             <div className="page-header-content">
               <Breadcrumbs
-                items={[{ name: tab, route: 'admin_data', params: { tab } }]}
+                items={[{ name: capitalizeFirstLetter(tab), route: 'admin_data', params: { tab } }]}
               />
               <Title className="-primary -huge page-header-title" >
                 {this.getName()}

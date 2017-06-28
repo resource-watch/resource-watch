@@ -47,6 +47,25 @@
     }
   }
 
+
+  &.-secondary {
+    color: $color-white;
+    background: $color-primary;
+    border-color: $color-primary;
+
+    // States
+    &:hover {
+      background: darken($color-primary, 10%);
+    }
+
+    &.-disabled {
+      background: $color-white;
+      border-color: $border-color-1;
+      color: $color-text-2;
+      cursor: default;
+    }
+  }
+
   // Helpers
   &.-fullwidth {
     width: 100%;

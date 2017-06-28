@@ -8,10 +8,10 @@ export default function DatasetIndex() {
       <ButtonContainer
         className="-j-end"
         buttons={[{
-          label: 'New +',
+          label: 'New Dataset',
           route: 'admin_data_detail',
           params: { tab: 'datasets', id: 'new' },
-          className: ''
+          className: 'c-button -secondary'
         }]}
       />
       <DatasetTable

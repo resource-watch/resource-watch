@@ -11,15 +11,16 @@ class DeleteAction extends React.Component {
   }
 
   handleOnClickDelete(e) {
-    const { data } = this.props;
     e && e.preventDefault() && e.stopPropagation();
+
+    const { data, authorization } = this.props;
 
     if (confirm(`Are you sure that you want to delete: "${data.name}" `)) {
       remove({
         url: `${process.env.WRI_API_URL}/dataset/${data.id}`,
         headers: [{
           key: 'Authorization',
-          value: this.props.authorization
+          value: authorization
         }],
         onSuccess: () => {
           this.props.onRowDelete(data.id);
@@ -32,15 +33,9 @@ class DeleteAction extends React.Component {
   }
 
   render() {
-    const { href } = this.props;
     return (
       <span>
-        <a
-          href={href}
-          onClick={this.handleOnClickDelete}
-        >
-          Remove
-        </a>
+        <a href="#delete-dataset" onClick={this.handleOnClickDelete}> Remove </a>
       </span>
     );
   }
@@ -48,8 +43,6 @@ class DeleteAction extends React.Component {
 
 DeleteAction.propTypes = {
   data: React.PropTypes.object,
-  href: React.PropTypes.string,
-  url: React.PropTypes.string,
 
   authorization: React.PropTypes.string,
   onRowDelete: React.PropTypes.func
