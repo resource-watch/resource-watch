@@ -29,28 +29,25 @@ class ChartEditor extends React.Component {
     const { dataset, tableName, jiminy, fields, widgetEditor } = this.props;
     const { chartType } = widgetEditor;
 
+    const chartOptions = (
+        jiminy
+        && jiminy.general
+        && jiminy.general.map(val => ({ label: val, value: val }))
+      ) || [];
+
     return (
       <div className="c-chart-editor">
         <div className="chart-type">
           <h5>Chart type</h5>
-          {
-              jiminy && jiminy.general &&
-              <Select
-                properties={{
-                  className: 'chart-type-selector',
-                  name: 'chart-type',
-                  value: chartType
-                }}
-                options={jiminy.general.map(val => (
-                  {
-                    label: val,
-                    value: val
-                  }
-                ))}
-                onChange={this.handleChartTypeChange}
-
-              />
-          }
+          <Select
+            properties={{
+              className: 'chart-type-selector',
+              name: 'chart-type',
+              value: chartType
+            }}
+            options={chartOptions}
+            onChange={this.handleChartTypeChange}
+          />
         </div>
         <div className="actions-div">
           <div className="fields">
@@ -87,7 +84,7 @@ class ChartEditor extends React.Component {
 
 ChartEditor.propTypes = {
   tableName: PropTypes.string.isRequired,
-  jiminy: PropTypes.object.isRequired,
+  jiminy: PropTypes.object,
   fields: PropTypes.object.isRequired,
   dataset: PropTypes.string.isRequired, // Dataset ID
   // Store
