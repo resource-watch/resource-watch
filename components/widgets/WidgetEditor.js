@@ -35,7 +35,8 @@ import LayerManager from 'utils/layers/LayerManager';
 
 const VISUALIZATION_TYPES = [
   { label: 'Chart', value: 'chart' },
-  { label: 'Map', value: 'map' }
+  { label: 'Map', value: 'map' },
+  { label: 'Table', value: 'table' }
 ];
 const oneDimensionalChartTypes = ['1d_scatter', '1d_tick'];
 const CHART_TYPES = {
@@ -280,6 +281,13 @@ class WidgetEditor extends React.Component {
             </div>
           );
         }
+        break;
+      case 'table':
+        visualization = (
+          <div className="visualization">
+
+          </div>
+        );
         break;
       default:
 

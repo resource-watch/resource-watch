@@ -15,6 +15,7 @@ import ColorContainer from 'components/widgets/ColorContainer';
 import SizeContainer from 'components/widgets/SizeContainer';
 import CategoryContainer from 'components/widgets/CategoryContainer';
 import ValueContainer from 'components/widgets/ValueContainer';
+import FieldsContainer from 'components/widgets/FieldsContainer';
 import Select from 'components/form/SelectInput';
 
 @DragDropContext(HTML5Backend)
@@ -50,20 +51,13 @@ class ChartEditor extends React.Component {
           />
         </div>
         <div className="actions-div">
-          <div className="fields">
-            <h5>Columns</h5>
-            {tableName && fields && fields.fields && fields.fields.map(val =>
-              val.columnType !== 'geometry' && val.columnName !== 'cartodb_id' && (
-                <ColumnBox
-                  key={val.columnName}
-                  name={val.columnName}
-                  type={val.columnType}
-                  datasetID={dataset}
-                  tableName={tableName}
-                />
-              )
-            )}
-          </div>
+          {tableName && fields && fields.fields &&
+            <FieldsContainer
+              dataset={dataset}
+              tableName={tableName}
+              fields={fields.fields}
+            />
+          }
           <div className="customization-container">
             {/* TODO: should we create a component wrapping the dimensions? */}
             <div className="c-dimensions-container">
