@@ -1,18 +1,22 @@
 import React from 'react';
 import isEmpty from 'lodash/isEmpty';
+import classnames from 'classnames';
 import { Link } from 'routes';
 
 export default function HeaderUser(props) {
   const { user } = props;
 
-  console.log(user);
-
   if (!isEmpty(user)) {
+    const activeNotificationClassName = classnames({
+      '-active': !!user.notifications
+    });
+
     return (
       <div className="c-avatar" style={{ backgroundImage: `url(${user.avatar})` }}>
         <Link route="myrw">
           <a>
-            <span className="avatar-notifications">{user.notifications}</span>
+            {!user.avatar && <span className="avatar-letter">{user.email.split('')[0]}</span>}
+            {user.notifications && <span className={`avatar-notifications ${activeNotificationClassName}`}>{user.notifications}</span>}
           </a>
         </Link>
       </div>

@@ -74,7 +74,6 @@ export default class User {
             // this.user.expires = Date.now() + this.user.clientMaxAge;
 
             // Save changes to user
-            debugger;
             this.saveLocalStore('user', this.user);
 
             resolve(this.user);
