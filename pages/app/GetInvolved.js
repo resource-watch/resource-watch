@@ -110,6 +110,7 @@ class GetInvolved extends Page {
       <Layout
         title="Get Involved"
         description="Get Involved description"
+        user={this.props.user}
       >
         <div className="p-get-involved">
           <div className="c-page">

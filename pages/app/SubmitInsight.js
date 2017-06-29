@@ -27,6 +27,7 @@ class SubmitInsight extends Page {
       <Layout
         title="Submit Insight"
         description="Submit insight description"
+        user={this.props.user}
       >
         <div className="p-submit-insight">
           <div className="c-page">

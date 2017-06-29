@@ -1,14 +1,14 @@
 import React from 'react';
-import Session from 'components/session';
+import User from 'components/user';
 
 export default class extends React.Component {
 
   // Expose session to all pages
   static async getInitialProps(props) {
-    const session = new Session({ req: props.req });
+    const user = new User({ req: props.req });
 
     return {
-      session: await session.getSession()
+      user: await user.getUser()
     };
   }
 

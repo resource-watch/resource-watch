@@ -32,7 +32,7 @@ class Layout extends React.Component {
   }
 
   render() {
-    const { title, description, pathname, pageHeader, modal } = this.props;
+    const { title, description, pathname, user, pageHeader, modal } = this.props;
     const fullScreen = pathname && fullScreenPages.indexOf(pathname) !== -1;
 
     return (
@@ -44,7 +44,10 @@ class Layout extends React.Component {
 
         <Icons />
 
-        <Header pageHeader={pageHeader} />
+        <Header
+          user={user}
+          pageHeader={pageHeader}
+        />
 
         <div className="container">
           {this.props.children}
@@ -71,6 +74,7 @@ Layout.propTypes = {
   children: PropTypes.node.isRequired,
   title: PropTypes.string,
   description: PropTypes.string,
+  user: PropTypes.object,
   pathname: PropTypes.string,
   pageHeader: PropTypes.bool,
   modal: PropTypes.object,

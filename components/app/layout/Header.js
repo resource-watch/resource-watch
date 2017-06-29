@@ -63,7 +63,7 @@ class Header extends React.Component {
       },
       {
         name: 'My RW',
-        component: <HeaderUser />
+        component: <HeaderUser user={this.props.user} />
       }
     ];
 
@@ -109,7 +109,8 @@ Header.defaultProps = {
 
 
 Header.propTypes = {
-  pageHeader: PropTypes.bool
+  pageHeader: PropTypes.bool,
+  user: PropTypes.object
 };
 
 export default Header;

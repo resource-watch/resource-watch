@@ -40,6 +40,7 @@ class PartnerDetail extends Page {
       <Layout
         title="Partner detail"
         description="Partner detail description"
+        user={this.props.user}
       >
         <div className="c-page partner-detail">
           <Banner className="intro">

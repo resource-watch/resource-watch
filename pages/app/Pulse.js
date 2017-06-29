@@ -28,11 +28,6 @@ const earthBumpImage = 'static/images/components/vis/earth-bump.jpg';
 const cloudsImage = 'static/images/components/vis/clouds-min.png';
 
 class Pulse extends Page {
-
-  static async getInitialProps({ pathname }) {
-    return { pathname };
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -216,7 +211,7 @@ class Pulse extends Page {
   }
 
   render() {
-    const { pathname, layersGroup } = this.props;
+    const { url, layersGroup } = this.props;
     const layerActive = this.props.pulse.layerActive;
     const { markerType } = this.state;
     const globeWidht = (typeof window === 'undefined') ? 500 : window.innerWidth;
@@ -225,7 +220,8 @@ class Pulse extends Page {
       <Layout
         title="Planet Pulse"
         description="Planet Pulse description"
-        pathname={pathname}
+        pathname={url.pathname}
+        user={this.props.user}
       >
         <div
           className="c-page -dark"

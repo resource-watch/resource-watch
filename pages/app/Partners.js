@@ -27,6 +27,7 @@ class Partners extends Page {
       <Layout
         title="Partners"
         description="Partners description"
+        user={this.props.user}
       >
         <div className="c-page-header">
           <div className="l-container">

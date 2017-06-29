@@ -27,6 +27,7 @@ class ContributeData extends Page {
       <Layout
         title="Contribute data"
         description="Contribute data description"
+        user={this.props.user}
       >
         <div className="p-contribute-data">
           <div className="c-page">

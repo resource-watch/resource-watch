@@ -20,6 +20,7 @@ function AppDetail(props) {
     <Layout
       title="App detail"
       description="App detail description"
+      user={this.props.user}
     >
       <div className="p-app-detail">
         <div className="c-page">

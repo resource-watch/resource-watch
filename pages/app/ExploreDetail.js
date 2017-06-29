@@ -22,12 +22,6 @@ import WidgetEditor from 'components/widgets/WidgetEditor';
 // import DatasetList from 'components/app/explore/DatasetList';
 
 class ExploreDetail extends Page {
-
-  static async getInitialProps({ query }) {
-    const datasetID = query.id;
-    return { datasetID };
-  }
-
   constructor(props) {
     super(props);
 
@@ -38,7 +32,7 @@ class ExploreDetail extends Page {
     };
 
     // DatasetService
-    this.datasetService = new DatasetService(this.props.datasetID, {
+    this.datasetService = new DatasetService(this.props.url.query.id, {
       apiURL: process.env.WRI_API_URL
     });
   }
@@ -54,7 +48,7 @@ class ExploreDetail extends Page {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.datasetID !== nextProps.datasetID) {
+    if (this.props.url.query.id !== nextProps.url.query.id) {
       this.props.resetDataset();
       this.setState({
         similarDatasetsLoaded: false,
@@ -109,6 +103,7 @@ class ExploreDetail extends Page {
       <Layout
         title="Explore detail"
         description="Explore detail description..."
+        user={this.props.user}
         pageHeader
       >
         <div className="c-page-explore-detail">
@@ -193,7 +188,7 @@ class ExploreDetail extends Page {
 }
 
 ExploreDetail.propTypes = {
-  datasetID: React.PropTypes.string.isRequired,
+  url: React.PropTypes.string.isRequired,
   // ACTIONS
   resetDataset: React.PropTypes.func
 };

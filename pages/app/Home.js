@@ -1,12 +1,14 @@
 import React from 'react';
+import MoveTo from 'moveto';
 import { Link } from 'routes';
+
+import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
+
 import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
 import Rating from 'components/app/common/Rating';
 import Icon from 'components/ui/Icon';
-import Page from 'components/app/layout/Page';
-import Layout from 'components/app/layout/Layout';
-import MoveTo from 'moveto';
 
 const insightsCards = [
   {

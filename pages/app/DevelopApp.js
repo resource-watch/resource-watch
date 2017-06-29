@@ -27,7 +27,8 @@ class DevelopApp extends Page {
       <Layout
         title="Develop App"
         description="Develop App description"
-        >
+        user={this.props.user}
+      >
         <div className="p-develop-app">
           <div className="c-page">
             <section className="l-section -header">

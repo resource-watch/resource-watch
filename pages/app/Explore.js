@@ -39,11 +39,6 @@ const mapConfig = {
 };
 
 class Explore extends Page {
-
-  static async getInitialProps({ pathname, query }) {
-    return { pathname, query };
-  }
-
   constructor(props) {
     super(props);
 
@@ -58,12 +53,12 @@ class Explore extends Page {
   }
 
   componentWillMount() {
-    if (this.props.query.page) {
-      this.props.setDatasetsPage(+this.props.query.page);
+    if (this.props.url.query.page) {
+      this.props.setDatasetsPage(+this.props.url.query.page);
     }
 
-    if (this.props.query.active) {
-      this.props.setDatasetsActive(this.props.query.active.split(','));
+    if (this.props.url.query.active) {
+      this.props.setDatasetsActive(this.props.url.query.active.split(','));
     }
 
     this.props.getDatasets();
@@ -115,7 +110,8 @@ class Explore extends Page {
       <Layout
         title="Explore"
         description="Explore description"
-        pathname={this.props.pathname}
+        pathname={this.props.url.pathname}
+        user={this.props.user}
       >
         <div className="p-explore">
           <div className="c-page -dark">
@@ -214,7 +210,7 @@ Explore.propTypes = {
   paginatedDatasets: PropTypes.array,
   layersActive: PropTypes.array,
   toggledDataset: PropTypes.string,
-  pathname: PropTypes.string,
+  url: PropTypes.object,
 
   // ACTIONS
   getDatasets: PropTypes.func,

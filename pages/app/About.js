@@ -24,6 +24,7 @@ class About extends Page {
       <Layout
         title="About"
         description="About description..."
+        user={this.props.user}
       >
         <div className="p-about">
           <div className="c-page">

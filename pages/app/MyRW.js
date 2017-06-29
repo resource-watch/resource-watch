@@ -85,6 +85,7 @@ class MyRW extends Page {
       <Layout
         title="My Resource Watch Edit Profile"
         description="My Resource Watch Edit Profile description"
+        user={this.props.user}
         pageHeader
       >
         <div className="c-page-header">
@@ -130,7 +131,8 @@ MyRW.defaultProps = {
 };
 
 MyRW.propTypes = {
-  url: React.PropTypes.object
+  url: React.PropTypes.object,
+  user: React.PropTypes.object
 };
 
 

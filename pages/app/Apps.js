@@ -16,6 +16,7 @@ function Apps() {
     <Layout
       title="Apps"
       description="Apps description"
+      user={this.props.user}
     >
       <div className="p-apps">
         <div className="c-page">
