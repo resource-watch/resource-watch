@@ -23,8 +23,8 @@ class ChartEditor extends React.Component {
   }
 
   render() {
-    const { dataset, tableName, jiminy, fields, widgetEditor } = this.props;
-    const { chartType } = widgetEditor;
+    const { dataset, tableName, jiminy, widgetEditor, tableViewMode } = this.props;
+    const { chartType, fields } = widgetEditor;
 
     const chartOptions = (
         jiminy
@@ -34,24 +34,26 @@ class ChartEditor extends React.Component {
 
     return (
       <div className="c-chart-editor">
-        <div className="chart-type">
-          <h5>Chart type</h5>
-          <Select
-            properties={{
-              className: 'chart-type-selector',
-              name: 'chart-type',
-              value: chartType
-            }}
-            options={chartOptions}
-            onChange={this.handleChartTypeChange}
-          />
-        </div>
+        {!tableViewMode &&
+          <div className="chart-type">
+            <h5>Chart type</h5>
+            <Select
+              properties={{
+                className: 'chart-type-selector',
+                name: 'chart-type',
+                value: chartType
+              }}
+              options={chartOptions}
+              onChange={this.handleChartTypeChange}
+            />
+          </div>
+        }
         <div className="actions-div">
-          {tableName && fields && fields.fields &&
+          {fields &&
             <FieldsContainer
               dataset={dataset}
               tableName={tableName}
-              fields={fields.fields}
+              fields={fields}
             />
           }
           <div className="customization-container">
@@ -68,8 +70,8 @@ class ChartEditor extends React.Component {
 ChartEditor.propTypes = {
   tableName: PropTypes.string.isRequired,
   jiminy: PropTypes.object,
-  fields: PropTypes.object.isRequired,
   dataset: PropTypes.string.isRequired, // Dataset ID
+  tableViewMode: PropTypes.bool.isRequired,
   // Store
   widgetEditor: PropTypes.object.isRequired,
   setChartType: PropTypes.func.isRequired

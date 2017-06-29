@@ -7,7 +7,7 @@ import { DragDropContext } from 'react-dnd';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { resetWidgetEditor } from 'redactions/widgetEditor';
+import { resetWidgetEditor, setFields } from 'redactions/widgetEditor';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Services
@@ -21,6 +21,7 @@ import ChartEditor from 'components/widgets/ChartEditor';
 import MapEditor from 'components/widgets/MapEditor';
 import Map from 'components/vis/Map';
 import Legend from 'components/ui/Legend';
+import TableView from 'components/widgets/TableView';
 
 // Utils
 import getQueryByFilters from 'utils/getQueryByFilters';
@@ -87,10 +88,10 @@ class WidgetEditor extends React.Component {
   componentDidMount() {
     this.datasetService.getFields()
       .then((response) => {
+        this.props.setFields(response.fields);
         this.setState({
           loading: !this.state.jiminyLoaded,
-          fieldsLoaded: true,
-          fields: response
+          fieldsLoaded: true
         }, () => {
           this.getJiminy();
           this.getTableName();
@@ -102,7 +103,7 @@ class WidgetEditor extends React.Component {
   }
 
   getJiminy() {
-    const fieldsSt = this.state.fields.fields
+    const fieldsSt = this.props.widgetEditor.fields
       .map(elem => (elem.columnType !== 'geometry') && (elem.columnName !== 'cartodb_id') && elem.columnName)
       .filter(field => !!field);
     const querySt = `SELECT ${fieldsSt} FROM ${this.props.dataset} LIMIT 300`;
@@ -224,8 +225,8 @@ class WidgetEditor extends React.Component {
 
   getVisualization() {
     const { tableName, selectedVisualizationType, chartLoading } = this.state;
-    const { widgetEditor } = this.props;
-    const { chartType, layer } = widgetEditor;
+    const { widgetEditor, dataset } = this.props;
+    const { chartType, layer, fields } = widgetEditor;
 
     let visualization = null;
     switch (selectedVisualizationType) {
@@ -285,7 +286,10 @@ class WidgetEditor extends React.Component {
       case 'table':
         visualization = (
           <div className="visualization">
-
+            <TableView
+              dataset={dataset}
+              tableName={tableName}
+            />
           </div>
         );
         break;
@@ -301,10 +305,11 @@ class WidgetEditor extends React.Component {
       loading,
       tableName,
       selectedVisualizationType,
-      jiminy,
-      fields
+      jiminy
     } = this.state;
-    const { dataset } = this.props;
+
+    const { dataset, widgetEditor } = this.props;
+    const { fields } = widgetEditor;
 
     const visualization = this.getVisualization();
 
@@ -337,12 +342,12 @@ class WidgetEditor extends React.Component {
                 />
               </div>
               {
-                selectedVisualizationType === 'chart' && fields && tableName &&
+                selectedVisualizationType !== 'map' && fields && tableName &&
                 <ChartEditor
                   dataset={dataset}
                   jiminy={jiminy}
-                  fields={fields}
                   tableName={tableName}
+                  tableViewMode={selectedVisualizationType === 'table'}
                 />
               }
               {
@@ -365,7 +370,8 @@ const mapStateToProps = ({ widgetEditor }) => ({ widgetEditor });
 const mapDispatchToProps = dispatch => ({
   resetWidgetEditor: () => dispatch(resetWidgetEditor()),
   toggleModal: (open) => { dispatch(toggleModal(open)); },
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); }
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
+  setFields: (fields) => { dispatch(setFields(fields)); }
 });
 
 WidgetEditor.propTypes = {
@@ -378,6 +384,7 @@ WidgetEditor.propTypes = {
   resetWidgetEditor: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
+  setFields: PropTypes.func.isRequired
 };
 
 WidgetEditor.defaultProps = {
