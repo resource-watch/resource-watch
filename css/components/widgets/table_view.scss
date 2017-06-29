@@ -1,0 +1,14 @@
+.c-table-view{
+  max-width: 600px;
+  max-height: 400px;
+  overflow: auto;
+
+  table, th, td {
+    border: 1px solid $color-dark-grey;
+    border-collapse: collapse;
+  }
+
+  th {
+    text-align: left;
+  }
+}
