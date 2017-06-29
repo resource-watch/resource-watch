@@ -9,12 +9,8 @@ import { initStore } from 'store';
 import { setChartType } from 'redactions/widgetEditor';
 
 // Components
-import ColumnBox from 'components/widgets/ColumnBox';
 import FilterContainer from 'components/widgets/FilterContainer';
-import ColorContainer from 'components/widgets/ColorContainer';
-import SizeContainer from 'components/widgets/SizeContainer';
-import CategoryContainer from 'components/widgets/CategoryContainer';
-import ValueContainer from 'components/widgets/ValueContainer';
+import DimensionsContainer from 'components/widgets/DimensionsContainer';
 import FieldsContainer from 'components/widgets/FieldsContainer';
 import Select from 'components/form/SelectInput';
 
@@ -59,14 +55,7 @@ class ChartEditor extends React.Component {
             />
           }
           <div className="customization-container">
-            {/* TODO: should we create a component wrapping the dimensions? */}
-            <div className="c-dimensions-container">
-              <h5>Dimensions</h5>
-              <CategoryContainer />
-              <ValueContainer />
-              <ColorContainer />
-              <SizeContainer />
-            </div>
+            <DimensionsContainer />
             <FilterContainer />
           </div>
         </div>
