@@ -103,7 +103,7 @@ class DatasetShow extends React.Component {
               }
 
               {subtab === 'widgets' &&
-                <WidgetIndex dataset={id} />
+                <WidgetIndex dataset={id} embed />
               }
 
               {subtab === 'layers' &&
