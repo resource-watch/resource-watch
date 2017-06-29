@@ -1,12 +1,12 @@
 import React from 'react';
 import VocabulariesForm from 'components/admin/vocabularies/form/VocabulariesForm';
-import Page from 'components/admin/layout/Page';
+import Layout from 'components/admin/layout/Layout';
 
 export default class VocabulariesIndex extends React.Component {
 
   render() {
     return (
-      <Page
+      <Layout
         title="Vocabularies"
         description="Vocabularies description..."
       >
@@ -19,7 +19,7 @@ export default class VocabulariesIndex extends React.Component {
             />
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

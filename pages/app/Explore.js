@@ -24,6 +24,7 @@ import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
 import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
@@ -37,7 +38,7 @@ const mapConfig = {
   }
 };
 
-class Explore extends React.Component {
+class Explore extends Page {
 
   static async getInitialProps({ pathname, query }) {
     return { pathname, query };
@@ -111,7 +112,7 @@ class Explore extends React.Component {
     ));
 
     return (
-      <Page
+      <Layout
         title="Explore"
         description="Explore description"
         pathname={this.props.pathname}
@@ -199,7 +200,7 @@ class Explore extends React.Component {
             }
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

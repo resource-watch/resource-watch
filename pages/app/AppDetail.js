@@ -5,6 +5,7 @@ import Rating from 'components/app/common/Rating';
 import Button from 'components/ui/Button';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
 
 const breadcrumbs = [
   { name: 'Get Involved', url: '/get-involved' },
@@ -16,7 +17,7 @@ function AppDetail(props) {
   const properties = { className: buttonClasses };
 
   return (
-    <Page
+    <Layout
       title="App detail"
       description="App detail description"
     >
@@ -74,7 +75,7 @@ function AppDetail(props) {
           </section>
         </div>
       </div>
-    </Page>
+    </Layout>
   );
 }
 

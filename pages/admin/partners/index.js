@@ -1,5 +1,5 @@
 import React from 'react';
-import Page from 'components/admin/layout/Page';
+import Layout from 'components/admin/layout/Layout';
 import PartnersTable from 'components/admin/partners/table/PartnersTable';
 import ButtonContainer from 'components/ui/ButtonContainer';
 import Title from 'components/ui/Title';
@@ -8,7 +8,7 @@ export default class PartnersIndex extends React.Component {
 
   render() {
     return (
-      <Page
+      <Layout
         title="Partners"
         description="Partners description..."
       >
@@ -31,7 +31,7 @@ export default class PartnersIndex extends React.Component {
             />
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import Title from 'components/ui/Title';
 import MetadataForm from 'components/admin/metadata/form/MetadataForm';
 import { Router } from 'routes';
-import Page from 'components/admin/layout/Page';
+import Layout from 'components/admin/layout/Layout';
 
 export default class DatasetMetadata extends React.Component {
 
@@ -15,7 +15,7 @@ export default class DatasetMetadata extends React.Component {
     const { datasetID } = this.props;
 
     return (
-      <Page
+      <Layout
         title="Dataset Metadata"
         description="Dataset Metadata description..."
       >
@@ -32,7 +32,7 @@ export default class DatasetMetadata extends React.Component {
             />
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

@@ -1,13 +1,13 @@
 import React from 'react';
 import PartnerForm from 'components/admin/partners/form/PartnerForm';
 import Title from 'components/ui/Title';
-import Page from 'components/admin/layout/Page';
+import Layout from 'components/admin/layout/Layout';
 
 export default class PartnerNew extends React.Component {
 
   render() {
     return (
-      <Page
+      <Layout
         title="New partner"
         description="Edit partner description..."
       >
@@ -24,7 +24,7 @@ export default class PartnerNew extends React.Component {
             />
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

@@ -3,15 +3,16 @@ import { initStore } from 'store';
 import { getStaticData } from 'redactions/static_pages';
 import withRedux from 'next-redux-wrapper';
 import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
 
-class SignUp extends React.Component {
+class SignUp extends Page {
   componentWillMount() {
     this.props.getStaticData('about');
   }
 
   render() {
     return (
-      <Page
+      <Layout
         title="Sign Up"
         description="Sign Up description"
       >
@@ -26,7 +27,7 @@ class SignUp extends React.Component {
             </section>
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

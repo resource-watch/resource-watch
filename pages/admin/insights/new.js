@@ -1,13 +1,13 @@
 import React from 'react';
 import InsightForm from 'components/admin/insights/form/InsightForm';
 import Title from 'components/ui/Title';
-import Page from 'components/admin/layout/Page';
+import Layout from 'components/admin/layout/Layout';
 
 export default class InsightEdit extends React.Component {
 
   render() {
     return (
-      <Page
+      <Layout
         title="New insight"
         description="Edit insight description..."
       >
@@ -24,7 +24,7 @@ export default class InsightEdit extends React.Component {
             />
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

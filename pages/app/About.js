@@ -3,11 +3,12 @@ import { Link } from 'routes';
 import Banner from 'components/app/common/Banner';
 import Intro from 'components/app/common/Intro';
 import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
 import { initStore } from 'store';
-import { getStaticData } from 'redactions/static_pages'
+import { getStaticData } from 'redactions/static_pages';
 import withRedux from 'next-redux-wrapper';
 
-class About extends React.Component {
+class About extends Page {
   componentDidMount() {
     this.props.getStaticData('about');
   }
@@ -20,7 +21,7 @@ class About extends React.Component {
     }
 
     return (
-      <Page
+      <Layout
         title="About"
         description="About description..."
       >
@@ -51,7 +52,7 @@ class About extends React.Component {
             </div>
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import Title from 'components/ui/Title';
-import Page from 'components/admin/layout/Page';
+import Layout from 'components/admin/layout/Layout';
 import DatasetForm from 'components/admin/dataset/form/DatasetForm';
 import { Router } from 'routes';
 
@@ -8,7 +8,7 @@ export default class DatasetNew extends React.Component {
 
   render() {
     return (
-      <Page
+      <Layout
         title="New dataset"
         description="New dataset description..."
       >
@@ -24,7 +24,7 @@ export default class DatasetNew extends React.Component {
             />
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

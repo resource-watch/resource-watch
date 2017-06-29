@@ -3,6 +3,7 @@ import { Link } from 'routes';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
 import { initStore } from 'store';
 import { getStaticData } from 'redactions/static_pages';
 import withRedux from 'next-redux-wrapper';
@@ -14,7 +15,7 @@ const breadcrumbs = [
   }
 ];
 
-class ContributeData extends React.Component {
+class ContributeData extends Page {
   componentWillMount() {
     this.props.getStaticData('contribute-data', 'contributeData');
   }
@@ -23,7 +24,7 @@ class ContributeData extends React.Component {
     const { data } = this.props;
 
     return (
-      <Page
+      <Layout
         title="Contribute data"
         description="Contribute data description"
       >
@@ -66,7 +67,7 @@ class ContributeData extends React.Component {
             </div>
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

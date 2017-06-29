@@ -1,24 +1,19 @@
 import React from 'react';
 import Banner from 'components/app/common/Banner';
 import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { getPartnerData } from 'redactions/partnerDetail';
 
-class PartnerDetail extends React.Component {
-
-  static async getInitialProps({ query }) {
-    const partnerID = query.id;
-    return { partnerID };
-  }
-
+class PartnerDetail extends Page {
   componentWillMount() {
-    this.props.getPartnerData(this.props.partnerID);
+    this.props.getPartnerData(this.props.url.query.id);
   }
 
   componentWillReceiveProps(newProps) {
-    if (this.props.partnerID !== newProps.partnerID) {
-      this.props.getPartnerData(newProps.partnerID);
+    if (this.props.url.query.id !== newProps.url.query.id) {
+      this.props.getPartnerData(newProps.url.query.id);
     }
   }
 
@@ -42,7 +37,7 @@ class PartnerDetail extends React.Component {
       <img src={`${process.env.CMS_API_URL}${imgPath}`} className="logo" title={data.name} alt={data.name} />;
 
     return (
-      <Page
+      <Layout
         title="Partner detail"
         description="Partner detail description"
       >
@@ -82,13 +77,13 @@ class PartnerDetail extends React.Component {
             </div>
           </Banner>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }
 
 PartnerDetail.propTypes = {
-  partnerID: React.PropTypes.string,
+  url: React.PropTypes.object,
   data: React.PropTypes.object,
   getPartnerData: React.PropTypes.func
 };

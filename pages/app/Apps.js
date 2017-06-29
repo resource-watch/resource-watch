@@ -2,6 +2,7 @@ import React from 'react';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
 
 const breadcrumbs = [
   {
@@ -12,7 +13,7 @@ const breadcrumbs = [
 
 function Apps() {
   return (
-    <Page
+    <Layout
       title="Apps"
       description="Apps description"
     >
@@ -55,7 +56,7 @@ function Apps() {
           </div>
         </div>
       </div>
-    </Page>
+    </Layout>
   );
 }
 

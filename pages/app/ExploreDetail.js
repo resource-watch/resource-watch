@@ -14,13 +14,14 @@ import DatasetService from 'services/DatasetService';
 
 // Components
 import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
 import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
 import WidgetEditor from 'components/widgets/WidgetEditor';
 // import DatasetList from 'components/app/explore/DatasetList';
 
-class ExploreDetail extends React.Component {
+class ExploreDetail extends Page {
 
   static async getInitialProps({ query }) {
     const datasetID = query.id;
@@ -105,7 +106,7 @@ class ExploreDetail extends React.Component {
     const metadata = dataset && dataset.attributes.metadata;
 
     return (
-      <Page
+      <Layout
         title="Explore detail"
         description="Explore detail description..."
         pageHeader
@@ -186,7 +187,7 @@ class ExploreDetail extends React.Component {
 
           {/* PLANET PULSE */}
         </div>
-      </Page>
+      </Layout>
     );
   }
 }
