@@ -2,7 +2,7 @@ import React from 'react';
 import WidgetTable from 'components/admin/widget/table/WidgetTable';
 import ButtonContainer from 'components/ui/ButtonContainer';
 import Title from 'components/ui/Title';
-import Page from 'components/admin/layout/Page';
+import Layout from 'components/admin/layout/Layout';
 
 export default class WidgetIndex extends React.Component {
 
@@ -14,7 +14,7 @@ export default class WidgetIndex extends React.Component {
   render() {
     const { datasetID } = this.props;
     return (
-      <Page
+      <Layout
         title="Dataset widgets"
         description="Dataset widgets description"
       >
@@ -40,7 +40,7 @@ export default class WidgetIndex extends React.Component {
             />
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

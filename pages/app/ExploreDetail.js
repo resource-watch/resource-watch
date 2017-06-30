@@ -14,19 +14,14 @@ import DatasetService from 'services/DatasetService';
 
 // Components
 import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
 import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
 import WidgetEditor from 'components/widgets/WidgetEditor';
 // import DatasetList from 'components/app/explore/DatasetList';
 
-class ExploreDetail extends React.Component {
-
-  static async getInitialProps({ query }) {
-    const datasetID = query.id;
-    return { datasetID };
-  }
-
+class ExploreDetail extends Page {
   constructor(props) {
     super(props);
 
@@ -37,7 +32,7 @@ class ExploreDetail extends React.Component {
     };
 
     // DatasetService
-    this.datasetService = new DatasetService(this.props.datasetID, {
+    this.datasetService = new DatasetService(this.props.url.query.id, {
       apiURL: process.env.WRI_API_URL
     });
   }
@@ -53,7 +48,7 @@ class ExploreDetail extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.datasetID !== nextProps.datasetID) {
+    if (this.props.url.query.id !== nextProps.url.query.id) {
       this.props.resetDataset();
       this.setState({
         similarDatasetsLoaded: false,
@@ -105,9 +100,10 @@ class ExploreDetail extends React.Component {
     const metadata = dataset && dataset.attributes.metadata;
 
     return (
-      <Page
+      <Layout
         title="Explore detail"
         description="Explore detail description..."
+        user={this.props.user}
         pageHeader
       >
         <div className="c-page-explore-detail">
@@ -186,13 +182,13 @@ class ExploreDetail extends React.Component {
 
           {/* PLANET PULSE */}
         </div>
-      </Page>
+      </Layout>
     );
   }
 }
 
 ExploreDetail.propTypes = {
-  datasetID: React.PropTypes.string.isRequired,
+  url: React.PropTypes.string.isRequired,
   // ACTIONS
   resetDataset: React.PropTypes.func
 };

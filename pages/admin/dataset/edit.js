@@ -1,7 +1,7 @@
 import React from 'react';
 import DatasetForm from 'components/admin/dataset/form/DatasetForm';
 import Title from 'components/ui/Title';
-import Page from 'components/admin/layout/Page';
+import Layout from 'components/admin/layout/Layout';
 import { Router } from 'routes';
 
 export default class DatasetEdit extends React.Component {
@@ -14,7 +14,7 @@ export default class DatasetEdit extends React.Component {
   render() {
     const { datasetID } = this.props;
     return (
-      <Page
+      <Layout
         title="Edit dataset"
         description="Edit dataset description..."
       >
@@ -31,7 +31,7 @@ export default class DatasetEdit extends React.Component {
             />
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

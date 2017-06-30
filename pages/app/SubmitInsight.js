@@ -3,6 +3,7 @@ import { Link } from 'routes';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
 import { initStore } from 'store';
 import { getStaticData } from 'redactions/static_pages';
 import withRedux from 'next-redux-wrapper';
@@ -14,7 +15,7 @@ const breadcrumbs = [
   }
 ];
 
-class SubmitInsight extends React.Component {
+class SubmitInsight extends Page {
   componentWillMount() {
     this.props.getStaticData('submit-an-insight', 'submitInsight');
   }
@@ -23,9 +24,10 @@ class SubmitInsight extends React.Component {
     const { data } = this.props;
 
     return (
-      <Page
+      <Layout
         title="Submit Insight"
         description="Submit insight description"
+        user={this.props.user}
       >
         <div className="p-submit-insight">
           <div className="c-page">
@@ -66,7 +68,7 @@ class SubmitInsight extends React.Component {
             </div>
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

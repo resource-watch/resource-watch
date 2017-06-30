@@ -92,6 +92,11 @@ app.prepare()
       res.redirect('/myrw');
     });
 
+    server.get('/auth/user', function (req, res) {
+      // On success, redirecting to My RW
+      return res.json(req.user);
+    });
+
     server.get('/login', function(req, res) {
       controlTowerStrategy.login(req, res);
     });

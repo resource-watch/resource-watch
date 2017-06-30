@@ -6,6 +6,7 @@ import { initStore } from 'store';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
 
 const breadcrumbs = [
   {
@@ -14,7 +15,7 @@ const breadcrumbs = [
   }
 ];
 
-class DevelopApp extends React.Component {
+class DevelopApp extends Page {
   componentWillMount() {
     this.props.getStaticData('develop-app', 'developApp');
   }
@@ -23,10 +24,11 @@ class DevelopApp extends React.Component {
     const { data } = this.props;
 
     return (
-      <Page
+      <Layout
         title="Develop App"
         description="Develop App description"
-        >
+        user={this.props.user}
+      >
         <div className="p-develop-app">
           <div className="c-page">
             <section className="l-section -header">
@@ -66,7 +68,7 @@ class DevelopApp extends React.Component {
             </div>
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }
