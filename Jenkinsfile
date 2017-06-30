@@ -11,7 +11,7 @@ node {
     stage('Deploy') {
 
       if (env.BRANCH_NAME == "develop") {
-        sshagent (credentials: ['rw-staging']) {
+        sshagent (credentials: ['jenkins-cred']) {
           sh 'ssh ${RW_STAGING} "cd /home/ubuntu/projects/resource-watch && ./start.sh"'
         }
       } else {
