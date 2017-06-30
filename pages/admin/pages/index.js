@@ -1,5 +1,5 @@
 import React from 'react';
-import Page from 'components/admin/layout/Page';
+import Layout from 'components/admin/layout/Layout';
 import PagesTable from 'components/admin/pages/table/PagesTable';
 import ButtonContainer from 'components/ui/ButtonContainer';
 import Title from 'components/ui/Title';
@@ -8,7 +8,7 @@ export default class PagesIndex extends React.Component {
 
   render() {
     return (
-      <Page
+      <Layout
         title="Pages"
         description="Pages description..."
       >
@@ -25,13 +25,13 @@ export default class PagesIndex extends React.Component {
                 className: ''
               }]}
             />
-            <PagesTable
+            <LayoutsTable
               application={['rw']}
               authorization={process.env.TEMP_TOKEN}
             />
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

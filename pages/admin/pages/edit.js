@@ -1,7 +1,7 @@
 import React from 'react';
 import PageForm from 'components/admin/pages/form/PageForm';
 import Title from 'components/ui/Title';
-import Page from 'components/admin/layout/Page';
+import Layout from 'components/admin/layout/Layout';
 import { Router } from '../../../routes';
 
 export default class PageEdit extends React.Component {
@@ -14,7 +14,7 @@ export default class PageEdit extends React.Component {
   render() {
     const { pageID } = this.props;
     return (
-      <Page
+      <Layout
         title="Edit page"
         description="Edit page description..."
       >
@@ -23,7 +23,7 @@ export default class PageEdit extends React.Component {
             <Title className="-huge -p-primary">
               Edit Page
             </Title>
-            <PageForm
+            <LayoutForm
               application={['rw']}
               authorization={process.env.TEMP_TOKEN}
               page={pageID}
@@ -32,7 +32,7 @@ export default class PageEdit extends React.Component {
             />
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

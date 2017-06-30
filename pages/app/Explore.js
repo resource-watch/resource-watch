@@ -1,7 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+// Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import { getDatasets, setDatasetsPage, setUrlParams, setDatasetsActive, setDatasetsHidden, setDatasetsFilters, toggleDatasetActive, getVocabularies } from 'redactions/explore';
+import { redirectTo } from 'redactions/common';
+import { toggleModal, setModalOptions } from 'redactions/modal';
+import getpaginatedDatasets from 'selectors/explore/datasetsPaginatedExplore';
+import getFilteredDatasets from 'selectors/explore/filterDatasets';
+import getActiveLayers from 'selectors/explore/layersActiveExplore';
 
 // Components
 import Title from 'components/ui/Title';
@@ -13,16 +21,14 @@ import Map from 'components/vis/Map';
 import ShareModal from 'components/modal/ShareModal';
 import Legend from 'components/ui/Legend';
 import CustomSelect from 'components/ui/CustomSelect';
-import LayerManager from 'utils/layers/LayerManager';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
 import Page from 'components/app/layout/Page';
-import { getDatasets, setDatasetsPage, setUrlParams, setDatasetsActive, setDatasetsHidden, setDatasetsFilters, toggleDatasetActive, getVocabularies } from 'redactions/explore';
-import getpaginatedDatasets from 'selectors/explore/datasetsPaginatedExplore';
-import getFilteredDatasets from 'selectors/explore/filterDatasets';
-import getActiveLayers from 'selectors/explore/layersActiveExplore';
-import { redirectTo } from 'redactions/common';
-import { toggleModal, setModalOptions } from 'redactions/modal';
+import Layout from 'components/app/layout/Layout';
+
+// Utils
+import LayerManager from 'utils/layers/LayerManager';
+
 
 const mapConfig = {
   zoom: 3,
@@ -32,12 +38,7 @@ const mapConfig = {
   }
 };
 
-class Explore extends React.Component {
-
-  static async getInitialProps({ pathname, query }) {
-    return { pathname, query };
-  }
-
+class Explore extends Page {
   constructor(props) {
     super(props);
 
@@ -52,12 +53,12 @@ class Explore extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.query.page) {
-      this.props.setDatasetsPage(+this.props.query.page);
+    if (this.props.url.query.page) {
+      this.props.setDatasetsPage(+this.props.url.query.page);
     }
 
-    if (this.props.query.active) {
-      this.props.setDatasetsActive(this.props.query.active.split(','));
+    if (this.props.url.query.active) {
+      this.props.setDatasetsActive(this.props.url.query.active.split(','));
     }
 
     this.props.getDatasets();
@@ -106,10 +107,11 @@ class Explore extends React.Component {
     ));
 
     return (
-      <Page
+      <Layout
         title="Explore"
         description="Explore description"
-        pathname={this.props.pathname}
+        pathname={this.props.url.pathname}
+        user={this.props.user}
       >
         <div className="p-explore">
           <div className="c-page -dark">
@@ -194,7 +196,7 @@ class Explore extends React.Component {
             }
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }
@@ -208,7 +210,7 @@ Explore.propTypes = {
   paginatedDatasets: PropTypes.array,
   layersActive: PropTypes.array,
   toggledDataset: PropTypes.string,
-  pathname: PropTypes.string,
+  url: PropTypes.object,
 
   // ACTIONS
   getDatasets: PropTypes.func,

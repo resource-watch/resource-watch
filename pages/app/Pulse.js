@@ -1,6 +1,14 @@
 import React from 'react';
 import { Autobind } from 'es-decorators';
 
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+import { getLayers, getLayerPoints } from 'redactions/pulse';
+import getLayersGroupPulse from 'selectors/pulse/layersGroupPulse';
+import getActiveLayersPulse from 'selectors/pulse/layersActivePulse';
+import { toggleTooltip } from 'redactions/tooltip';
+
 // Helpers
 import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
 
@@ -13,23 +21,13 @@ import Spinner from 'components/ui/Spinner';
 import ZoomControl from 'components/ui/ZoomControl';
 import GlobeTooltip from 'components/app/pulse/GlobeTooltip';
 import Page from 'components/app/layout/Page';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-import { getLayers, getLayerPoints } from 'redactions/pulse';
-import getLayersGroupPulse from 'selectors/pulse/layersGroupPulse';
-import getActiveLayersPulse from 'selectors/pulse/layersActivePulse';
-import { toggleTooltip } from 'redactions/tooltip';
+import Layout from 'components/app/layout/Layout';
 
 const earthImage = 'static/images/components/vis/earth-min.jpg';
 const earthBumpImage = 'static/images/components/vis/earth-bump.jpg';
 const cloudsImage = 'static/images/components/vis/clouds-min.png';
 
-class Pulse extends React.Component {
-
-  static async getInitialProps({ pathname }) {
-    return { pathname };
-  }
-
+class Pulse extends Page {
   constructor(props) {
     super(props);
     this.state = {
@@ -50,6 +48,7 @@ class Pulse extends React.Component {
    * - componentWillUnmount
   */
   componentDidMount() {
+    super.componentDidMount();
     this.mounted = true;
     // This is not sending anything, for the moment
     this.props.getLayers();
@@ -213,16 +212,17 @@ class Pulse extends React.Component {
   }
 
   render() {
-    const { pathname, layersGroup } = this.props;
+    const { url, layersGroup } = this.props;
     const layerActive = this.props.pulse.layerActive;
     const { markerType } = this.state;
     const globeWidht = (typeof window === 'undefined') ? 500 : window.innerWidth;
     const globeHeight = (typeof window === 'undefined') ? 300 : window.innerHeight - 130; // TODO: 130 is the header height
     return (
-      <Page
+      <Layout
         title="Planet Pulse"
         description="Planet Pulse description"
-        pathname={pathname}
+        pathname={url.pathname}
+        user={this.props.user}
       >
         <div
           className="c-page -dark"
@@ -265,7 +265,7 @@ class Pulse extends React.Component {
             onZoomOut={this.triggerZoomOut}
           />
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

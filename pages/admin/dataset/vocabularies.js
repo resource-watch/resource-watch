@@ -1,6 +1,6 @@
 import React from 'react';
 import DatasetVocabulariesForm from 'components/admin/dataset/vocabularies/DatasetVocabulariesForm';
-import Page from 'components/admin/layout/Page';
+import Layout from 'components/admin/layout/Layout';
 
 export default class DatasetVocabularies extends React.Component {
 
@@ -13,7 +13,7 @@ export default class DatasetVocabularies extends React.Component {
     const { datasetID } = this.props;
 
     return (
-      <Page
+      <Layout
         title="Dataset Vocabularies"
         description="Dataset Vocabularies description..."
       >
@@ -27,7 +27,7 @@ export default class DatasetVocabularies extends React.Component {
             />
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

@@ -1,8 +1,13 @@
 .l-container {
+  width: 100%;
   position: relative;
-  max-width: $max-width;
+  max-width: $max-width + (20 * 2);
   margin: 0 auto;
   padding: 0 rem(20);
+}
+
+.l-row {
+  @include flex-grid-row(nest, expand, null, false, $grid-column-gutter);
 }
 
 .l-section {

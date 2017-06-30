@@ -8,20 +8,19 @@ import { DragDropContext } from 'react-dnd';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { resetWidgetEditor } from 'redactions/widgetEditor';
+import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Services
 import DatasetService from 'services/DatasetService';
 
 // Components
-import ColumnBox from 'components/widgets/ColumnBox';
-import FilterContainer from 'components/widgets/FilterContainer';
-import ColorContainer from 'components/widgets/ColorContainer';
-import SizeContainer from 'components/widgets/SizeContainer';
-import DimensionXContainer from 'components/widgets/DimensionXContainer';
-import DimensionYContainer from 'components/widgets/DimensionYContainer';
 import Select from 'components/form/SelectInput';
 import Spinner from 'components/ui/Spinner';
 import VegaChart from 'components/widgets/VegaChart';
+import ChartEditor from 'components/widgets/ChartEditor';
+import MapEditor from 'components/widgets/MapEditor';
+import Map from 'components/vis/Map';
+import Legend from 'components/ui/Legend';
 
 // Utils
 import getQueryByFilters from 'utils/getQueryByFilters';
@@ -31,8 +30,14 @@ import PieChart from 'utils/widgets/pie';
 import OneDScatterChart from 'utils/widgets/1d_scatter';
 import OneDTickChart from 'utils/widgets/1d_tick';
 import ScatterChart from 'utils/widgets/scatter';
+import ChartTheme from 'utils/widgets/theme';
+import LayerManager from 'utils/layers/LayerManager';
 
-const oneDimensionalChartTypes = ['pie', '1d_scatter', '1d_tick'];
+const VISUALIZATION_TYPES = [
+  { label: 'Chart', value: 'chart' },
+  { label: 'Map', value: 'map' }
+];
+const oneDimensionalChartTypes = ['1d_scatter', '1d_tick'];
 const CHART_TYPES = {
   bar: BarChart,
   line: LineChart,
@@ -40,6 +45,13 @@ const CHART_TYPES = {
   scatter: ScatterChart,
   '1d_scatter': OneDScatterChart,
   '1d_tick': OneDTickChart
+};
+const mapConfig = {
+  zoom: 3,
+  latLng: {
+    lat: 0,
+    lng: 0
+  }
 };
 
 @DragDropContext(HTML5Backend)
@@ -49,12 +61,14 @@ class WidgetEditor extends React.Component {
     super(props);
 
     this.state = {
-      selectedChartType: null,
+      selectedVisualizationType: 'chart',
       loading: true,
       fieldsLoaded: false,
       jiminyLoaded: false,
       fields: [],
       tableName: null,
+      // Whether the chart is loading its data/rendering
+      chartLoading: false,
       // Jiminy
       jiminy: {}
     };
@@ -87,7 +101,9 @@ class WidgetEditor extends React.Component {
   }
 
   getJiminy() {
-    const fieldsSt = this.state.fields.fields.map(elem => elem.columnType !== 'geometry' && elem.columnName);
+    const fieldsSt = this.state.fields.fields
+      .map(elem => (elem.columnType !== 'geometry') && (elem.columnName !== 'cartodb_id') && elem.columnName)
+      .filter(field => !!field);
     const querySt = `SELECT ${fieldsSt} FROM ${this.props.dataset} LIMIT 300`;
     this.datasetService.fetchJiminy(querySt)
       .then((jiminy) => {
@@ -114,21 +130,27 @@ class WidgetEditor extends React.Component {
 
   getDataURL() {
     const { widgetEditor } = this.props;
-    const { dimensionX } = widgetEditor;
-    const { dimensionY } = widgetEditor;
-    const { color } = widgetEditor;
-    const { size } = widgetEditor;
-    const { filters } = widgetEditor;
+    const { category, value, color, size, filters, aggregateFunction } = widgetEditor;
     const isBidimensional = this.isBidimensionalChart();
 
-    if (!dimensionX || (isBidimensional && !dimensionY)) return '';
+    if (!category || (isBidimensional && !value)) return '';
 
     const columns = [
-      { key: 'x', value: dimensionX.name, as: true }
+      { key: 'x', value: category.name, as: true }
     ];
 
     if (isBidimensional) {
-      columns.push({ key: 'y', value: dimensionY.name, as: true });
+      columns.push({ key: 'y', value: value.name, as: true });
+
+      if (aggregateFunction) {
+        // If there's an aggregate function, we group the results
+        // with the first column (dimension x)
+        columns[0].group = true;
+
+        // We then apply the aggregate function to the current
+        // column
+        columns[1].aggregateFunction = aggregateFunction;
+      }
     }
 
     if (color) {
@@ -146,18 +168,22 @@ class WidgetEditor extends React.Component {
     return `${process.env.WRI_API_URL}/query/${this.props.dataset}?sql=${query} LIMIT 1000`;
   }
 
+  getChartTheme() {
+    return ChartTheme({
+      chart: this.state.selectedChartType
+    });
+  }
+
   getChartConfig() {
     const { widgetEditor } = this.props;
-    const { dimensionY } = widgetEditor;
-    const { color } = widgetEditor;
-    const { size } = widgetEditor;
+    const { value, size, color, chartType } = widgetEditor;
 
-    return CHART_TYPES[this.state.selectedChartType]({
+    return CHART_TYPES[chartType]({
       // In the future, we could pass the type of the columns so the chart
       // could select the right scale
       columns: {
         x: { present: true },
-        y: { present: !!dimensionY },
+        y: { present: !!value },
         color: { present: !!color },
         size: { present: !!size }
       },
@@ -169,104 +195,158 @@ class WidgetEditor extends React.Component {
   }
 
   isBidimensionalChart() {
-    return !oneDimensionalChartTypes.includes(this.state.selectedChartType);
+    return !oneDimensionalChartTypes.includes(this.props.widgetEditor.chartType);
   }
 
   canRenderChart() {
     const { widgetEditor } = this.props;
-    const { dimensionX } = widgetEditor;
-    const { dimensionY } = widgetEditor;
+    const { category, value, chartType } = widgetEditor;
 
-    return this.state.selectedChartType
-      && dimensionX
-      && dimensionX.name
+    return chartType
+      && category
+      && category.name
       && (
         (this.isBidimensionalChart()
-          && dimensionY
-          && dimensionY.name
+          && value
+          && value.name
         )
         || !this.isBidimensionalChart()
       );
   }
 
   @Autobind
-  handleChartTypeChange(val) {
+  handleVisualizationTypeChange(val) {
     this.setState({
-      selectedChartType: val
+      selectedVisualizationType: val
     });
   }
 
-  render() {
-    const { fields, jiminy, loading, tableName, selectedChartType } = this.state;
-    const { dataset } = this.props;
+  getVisualization() {
+    const { tableName, selectedVisualizationType, chartLoading } = this.state;
+    const { widgetEditor } = this.props;
+    const { chartType, layer } = widgetEditor;
 
     let visualization = null;
-    if (!tableName) {
-      visualization = 'Loading...';
-    } else if (!this.canRenderChart()) {
-      visualization = 'Select a type of chart and columns';
-    } else if (!CHART_TYPES[selectedChartType]) {
-      visualization = `This chart can't be previewed`; // eslint-disable-line quotes
-    } else {
-      visualization = <VegaChart data={this.getChartConfig()} />;
+    switch (selectedVisualizationType) {
+
+      case 'chart':
+        if (!tableName) {
+          visualization = (
+            <div className="visualization -chart">
+              <Spinner className="-light" isLoading />
+            </div>
+          );
+        } else if (!this.canRenderChart()) {
+          visualization = (
+            <div className="visualization -chart">
+              Select a type of chart and columns
+            </div>
+          );
+        } else if (!CHART_TYPES[chartType]) {
+          visualization = (
+            <div className="visualization -chart">
+              {'This chart can\'t be previewed'}
+            </div>
+          );
+        } else {
+          visualization = (
+            <div className="visualization -chart">
+              <Spinner className="-light" isLoading={chartLoading} />
+              <VegaChart
+                data={this.getChartConfig()}
+                theme={this.getChartTheme()}
+                toggleLoading={val => this.setState({ chartLoading: val })}
+              />
+            </div>
+          );
+        }
+        break;
+
+      case 'map':
+        if (layer) {
+          visualization = (
+            <div className="visualization">
+              <Map
+                LayerManager={LayerManager}
+                mapConfig={mapConfig}
+                layersActive={[layer]}
+              />
+              <Legend
+                layersActive={[layer]}
+                className={{ color: '-dark' }}
+                toggleModal={this.props.toggleModal}
+                setModalOptions={this.props.setModalOptions}
+              />
+            </div>
+          );
+        }
+        break;
+      default:
+
     }
+
+    return visualization;
+  }
+
+  render() {
+    const {
+      loading,
+      tableName,
+      selectedVisualizationType,
+      jiminy,
+      fields
+    } = this.state;
+    const { dataset } = this.props;
+
+    const visualization = this.getVisualization();
+
+    // We filter out the visualizations that aren't present in
+    // this.props.availableVisualizations
+    const visualizationsOptions = VISUALIZATION_TYPES
+      .filter(viz => this.props.availableVisualizations.includes(viz.value));
 
     return (
       <div className="c-widget-editor">
-        { loading && <Spinner className="-light" isLoading={loading} /> }
-        <div className="customize-visualization">
-          <h2
-            className="title"
-          >
-            Customize Visualization
-          </h2>
-          <div className="chart-type">
-            <h5>Visualization type</h5>
-            {
-              jiminy && jiminy.general &&
-              <Select
-                properties={{
-                  className: 'chart-type-selector'
-                }}
-                options={jiminy.general.map(val => (
-                  {
-                    label: val,
-                    value: val
-                  }
-                ))}
-                name="chart-type"
-                onChange={this.handleChartTypeChange}
-
-              />
-          }
-          </div>
-          <div className="actions-div">
-            <div className="fields">
-              <h5>Columns</h5>
-              {tableName && fields && fields.fields && fields.fields.map(val =>
-                val.columnType !== 'geometry' && (
-                  <ColumnBox
-                    key={val.columnName}
-                    name={val.columnName}
-                    type={val.columnType}
-                    datasetID={dataset}
-                    tableName={tableName}
-                  />
-                )
-              )}
+        <div className="l-container">
+          <div className="row expanded">
+            <div className="customize-visualization">
+              { loading && <Spinner className="-light" isLoading={loading} /> }
+              <h2
+                className="title"
+              >
+                Customize Visualization
+              </h2>
+              <div className="visualization-type">
+                <h5>Visualization type</h5>
+                <Select
+                  properties={{
+                    className: 'chart-type-selector',
+                    name: 'visualization-type',
+                    value: selectedVisualizationType
+                  }}
+                  options={visualizationsOptions}
+                  onChange={this.handleVisualizationTypeChange}
+                />
+              </div>
+              {
+                selectedVisualizationType === 'chart' && fields && tableName &&
+                <ChartEditor
+                  dataset={dataset}
+                  jiminy={jiminy}
+                  fields={fields}
+                  tableName={tableName}
+                />
+              }
+              {
+                selectedVisualizationType === 'map' &&
+                <MapEditor
+                  dataset={dataset}
+                  tableName={tableName}
+                />
+              }
             </div>
-            <div className="customization-container">
-              <h5>Dimensions</h5>
-              <DimensionXContainer />
-              { this.isBidimensionalChart() && <DimensionYContainer /> }
-              <ColorContainer />
-              <SizeContainer />
-              <FilterContainer />
-            </div>
+            {visualization}
           </div>
-        </div>
-        <div className="visualization">
-          {visualization}
         </div>
       </div>
     );
@@ -275,13 +355,25 @@ class WidgetEditor extends React.Component {
 
 const mapStateToProps = ({ widgetEditor }) => ({ widgetEditor });
 const mapDispatchToProps = dispatch => ({
-  resetWidgetEditor: () => dispatch(resetWidgetEditor())
+  resetWidgetEditor: () => dispatch(resetWidgetEditor()),
+  toggleModal: (open) => { dispatch(toggleModal(open)); },
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); }
 });
 
 WidgetEditor.propTypes = {
   dataset: PropTypes.string, // Dataset ID
+  availableVisualizations: PropTypes.arrayOf(
+    PropTypes.oneOf(VISUALIZATION_TYPES.map(viz => viz.value))
+  ),
+  // Store
   widgetEditor: PropTypes.object,
-  resetWidgetEditor: PropTypes.func.isRequired
+  resetWidgetEditor: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  setModalOptions: PropTypes.func.isRequired,
+};
+
+WidgetEditor.defaultProps = {
+  availableVisualizations: VISUALIZATION_TYPES.map(viz => viz.value)
 };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(WidgetEditor);

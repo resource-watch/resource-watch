@@ -118,6 +118,7 @@ class Step1 extends React.Component {
 
         <WidgetEditor
           dataset={dataset}
+          availableVisualizations={['chart']}
         />
 
         <Field

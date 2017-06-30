@@ -71,25 +71,24 @@ class Map extends React.Component {
     const layersActiveChanged = !isEqual(nextProps.layersActive, this.props.layersActive);
 
     if (filtersChanged || layersActiveChanged) {
-      const newLayers = nextProps.layersActive.map(l => l.dataset);
-      const oldLayers = this.props.layersActive.map(l => l.dataset);
+      const newLayers = nextProps.layersActive.map(l => l.id);
+      const oldLayers = this.props.layersActive.map(l => l.id);
 
       const setNew = new Set(newLayers);
       const setOld = new Set(oldLayers);
       const union = new Set([...newLayers, ...oldLayers]);
       const difference = newLayers.filter(n => !setOld.has(n));
       let layer;
-
       // Test whether old & new layers are the same & only have to change the order
       if (newLayers.length === oldLayers.length && !difference.length) {
         this.layerManager.setZIndex(nextProps.layersActive);
       } else {
         union.forEach((parsedLayer) => {
           if (!setOld.has(parsedLayer)) {
-            layer = nextProps.layersActive.filter(l => l.dataset === parsedLayer)[0];
+            layer = nextProps.layersActive.filter(l => l.id === parsedLayer)[0];
             this.addLayers(layer);
           } else if (!setNew.has(parsedLayer)) {
-            layer = this.props.layersActive.filter(l => l.dataset === parsedLayer)[0];
+            layer = this.props.layersActive.filter(l => l.id === parsedLayer)[0];
             this.removeLayers(layer);
           }
         });

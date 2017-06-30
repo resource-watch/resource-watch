@@ -1,11 +1,14 @@
 import React from 'react';
+import MoveTo from 'moveto';
 import { Link } from 'routes';
+
+import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
+
 import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
 import Rating from 'components/app/common/Rating';
 import Icon from 'components/ui/Icon';
-import Page from 'components/app/layout/Page';
-import MoveTo from 'moveto';
 
 const insightsCards = [
   {
@@ -73,8 +76,9 @@ const exploreCards = [
   }
 ];
 
-class Home extends React.Component {
+class Home extends Page {
   componentDidMount() {
+    super.componentDidMount();
     this.setAnchorScroll('discoverIsights', 'js-scroll');
   }
 
@@ -135,9 +139,10 @@ class Home extends React.Component {
     const insightsCardsStatic = this.insightsCardsStatic();
 
     return (
-      <Page
+      <Layout
         title="Resource Watch"
         description="Resource Watch description"
+        user={this.props.user}
       >
         <div className="p-home">
           <div className="c-page">
@@ -248,7 +253,7 @@ class Home extends React.Component {
             </Banner>
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

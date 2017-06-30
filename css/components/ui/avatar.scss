@@ -3,15 +3,28 @@
   height: rem(50);
   position: relative;
   border-radius: 50%;
+  background-color: $color-text-1;
   background-size: cover;
 
   a {
     display: block;
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .avatar-letter {
+    color: $color-white;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: $font-size-huge;
   }
 
   .avatar-notifications {
+    display: none;
     position: absolute;
     top: 0;
     right: 0;

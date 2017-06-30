@@ -52,7 +52,7 @@ class FilterContainer extends React.Component {
           { (!filters || filters.length === 0) &&
             boxText
           }
-          {filters && filters.length > 0 && filters.map(val =>
+          {filters && filters.length > 0 && filters.map(val => (
             <ColumnBox
               key={val.name}
               name={val.name}
@@ -64,7 +64,7 @@ class FilterContainer extends React.Component {
               isA="filter"
               onConfigure={filter => this.setFilter(filter)}
             />
-          )}
+          ))}
         </div>
       </div>
     );

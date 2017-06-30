@@ -7,6 +7,7 @@ import Banner from 'components/app/common/Banner';
 import Intro from 'components/app/common/Intro';
 import CardStatic from 'components/app/common/CardStatic';
 import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
 
 const cards = [
   {
@@ -73,7 +74,7 @@ const cards = [
   }
 ];
 
-class GetInvolved extends React.Component {
+class GetInvolved extends Page {
   componentWillMount() {
     this.props.getStaticData('get-involved', 'getInvolved');
   }
@@ -111,9 +112,10 @@ class GetInvolved extends React.Component {
     );
 
     return (
-      <Page
+      <Layout
         title="Get Involved"
         description="Get Involved description"
+        user={this.props.user}
       >
         <div className="p-get-involved">
           <div className="c-page">
@@ -140,7 +142,7 @@ class GetInvolved extends React.Component {
             </div>
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

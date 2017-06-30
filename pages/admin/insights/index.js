@@ -1,5 +1,5 @@
 import React from 'react';
-import Page from 'components/admin/layout/Page';
+import Layout from 'components/admin/layout/Layout';
 import InsightsTable from 'components/admin/insights/table/InsightsTable';
 import ButtonContainer from 'components/ui/ButtonContainer';
 import Title from 'components/ui/Title';
@@ -8,7 +8,7 @@ export default class InsightsIndex extends React.Component {
 
   render() {
     return (
-      <Page
+      <Layout
         title="Insights"
         description="Insights description..."
       >
@@ -31,7 +31,7 @@ export default class InsightsIndex extends React.Component {
             />
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }
