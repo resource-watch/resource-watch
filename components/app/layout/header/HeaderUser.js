@@ -3,6 +3,10 @@ import isEmpty from 'lodash/isEmpty';
 import classnames from 'classnames';
 import { Link } from 'routes';
 
+// Components
+import TetherComponent from 'react-tether';
+
+
 export default function HeaderUser(props) {
   const { user } = props;
 
@@ -15,12 +19,49 @@ export default function HeaderUser(props) {
 
     return (
       <div className="c-avatar" style={{ backgroundImage: avatar }}>
-        <Link route="myrw">
-          <a>
-            {!user.avatar && <span className="avatar-letter">{user.email.split('')[0]}</span>}
-            {user.notifications && <span className={`avatar-notifications ${activeNotificationClassName}`}>{user.notifications}</span>}
-          </a>
-        </Link>
+        <TetherComponent
+          attachment="top center"
+          constraints={[{
+            to: 'window'
+          }]}
+          targetOffset="-4px 0"
+          classes={{
+            element: 'c-header-dropdown'
+          }}
+        >
+          {/* First child: This is what the item will be tethered to */}
+          <Link route="myrw">
+            <a
+              onMouseEnter={props.onMouseEnter}
+              onMouseLeave={props.onMouseLeave}
+            >
+              {!user.avatar && <span className="avatar-letter">{user.email.split('')[0]}</span>}
+              {user.notifications && <span className={`avatar-notifications ${activeNotificationClassName}`}>{user.notifications}</span>}
+            </a>
+          </Link>
+          {/* Second child: If present, this item will be tethered to the the first child */}
+          {props.active &&
+            <ul
+              className="header-dropdown-list"
+              onMouseEnter={props.onMouseEnter}
+              onMouseLeave={props.onMouseLeave}
+            >
+              <li className="header-dropdown-list-item">
+                <Link route="myrw">
+                  <a>My RW</a>
+                </Link>
+              </li>
+              {user.role === 'ADMIN' &&
+                <li className="header-dropdown-list-item">
+                  <a href="/admin" target="_blank">Admin</a>
+                </li>
+              }
+              <li className="header-dropdown-list-item">
+                <a href="/logout">Logout</a>
+              </li>
+            </ul>
+          }
+        </TetherComponent>
       </div>
     );
   }
@@ -36,10 +77,9 @@ export default function HeaderUser(props) {
   return null;
 }
 
-HeaderUser.defaultProps = {
-  user: {}
-};
-
 HeaderUser.propTypes = {
-  user: React.PropTypes.object
+  user: React.PropTypes.object,
+  active: React.PropTypes.bool,
+  onMouseEnter: React.PropTypes.func,
+  onMouseLeave: React.PropTypes.func
 };
