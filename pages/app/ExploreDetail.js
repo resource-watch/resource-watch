@@ -44,6 +44,7 @@ class ExploreDetail extends Page {
    * - componentWillUnmount
   */
   componentDidMount() {
+    super.componentDidMount();
     this.getDataset();
   }
 
