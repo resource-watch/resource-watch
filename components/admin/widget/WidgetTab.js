@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 // Components
 import WidgetIndex from 'components/admin/widget/pages/index';
-// import WidgetNew from 'components/admin/widget/pages/new';
+import WidgetNew from 'components/admin/widget/pages/new';
 import WidgetShow from 'components/admin/widget/pages/show';
 
 export default function WidgetTab(props) {
@@ -15,9 +15,9 @@ export default function WidgetTab(props) {
         <WidgetIndex tab={tab} subtab={subtab} id={id} />
       }
 
-      {/* {id && id === 'new' &&
+      {id && id === 'new' &&
         <WidgetNew tab={tab} subtab={subtab} id={id} />
-      */}
+      }
 
       {id && id !== 'new' &&
         <WidgetShow tab={tab} subtab={subtab} id={id} />

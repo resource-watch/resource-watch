@@ -3,6 +3,7 @@ import omit from 'lodash/omit';
 
 // Components
 import Step1 from 'components/admin/widget/form/steps/Step1';
+import Step2 from 'components/admin/widget/form/steps/Step2';
 import Navigation from 'components/form/Navigation';
 
 // Store
@@ -16,6 +17,8 @@ class WidgetForm extends React.Component {
     super(props);
     this.state = Object.assign({}, STATE_DEFAULT, {
       loading: !!props.widget,
+      // If the user creates a widget, we have 2 steps
+      stepLength: props.widget ? 1 : 2,
       widget: props.widget,
       form: Object.assign({}, STATE_DEFAULT.form, {
         application: props.application,
@@ -65,8 +68,11 @@ class WidgetForm extends React.Component {
     // Set a timeout due to the setState function of react
     setTimeout(() => {
       const valid = FORM_ELEMENTS.isValid();
+      if (!valid) return;
 
-      if (valid) {
+      if (this.state.step !== this.state.stepLength) {
+        this.setState({ step: this.state.step + 1 });
+      } else {
         // Start the submitting
         this.setState({ submitting: true });
 
@@ -97,8 +103,12 @@ class WidgetForm extends React.Component {
   }
 
   onChange(obj) {
-    const form = Object.assign({}, this.state.form, obj);
-    this.setState({ form }, () => console.info(this.state.form));
+    if (obj.dataset) {
+      this.setState({ dataset: obj.dataset });
+    } else {
+      const form = Object.assign({}, this.state.form, obj);
+      this.setState({ form });
+    }
   }
 
   onBack(step) {
@@ -123,8 +133,27 @@ class WidgetForm extends React.Component {
     return (
       <form className="c-form" onSubmit={this.onSubmit} noValidate>
         {this.state.loading && 'loading'}
-        {(this.state.step === 1 && !this.state.loading) &&
+
+        {(!this.state.loading && this.state.stepLength === 2 && this.state.step === 1) &&
           <Step1
+            ref={(c) => { this.step = c; }}
+            dataset={this.state.dataset} // If we have a value, we set it as a default
+            onChange={value => this.onChange(value)}
+            application={this.props.application}
+          />
+        }
+
+        {(!this.state.loading && this.state.stepLength === 2 && this.state.step === 2) &&
+          <Step2
+            ref={(c) => { this.step = c; }}
+            onChange={value => this.onChange(value)}
+            form={this.state.form}
+            dataset={this.state.dataset}
+          />
+        }
+
+        {(!this.state.loading && this.state.stepLength === 1) &&
+          <Step2
             ref={(c) => { this.step = c; }}
             onChange={value => this.onChange(value)}
             form={this.state.form}
@@ -137,7 +166,7 @@ class WidgetForm extends React.Component {
             step={this.state.step}
             stepLength={this.state.stepLength}
             submitting={this.state.submitting}
-            onBack={step => this.onBack(step)}
+            onStepChange={step => this.onBack(step)}
           />
         }
       </form>
