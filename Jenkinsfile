@@ -1,7 +1,9 @@
 #!groovy
 
+def SLACK_CHANNEL='#resourcewatch'
+
 node {
-  def SLACK_CHANNEL='#resourcewatch'
+
   currentBuild.result = "SUCCESS"
   // checkout sources
   checkout scm
