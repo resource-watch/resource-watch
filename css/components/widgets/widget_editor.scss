@@ -7,6 +7,8 @@
     position: relative;
     min-height: 600px;
     max-height: 600px;
+    min-width: 430px;
+    max-width: 430px;
     margin-top: -20px;
     margin-bottom: -20px;
     flex-basis: 430px;
@@ -39,7 +41,7 @@
 
     &.-chart {
       margin-left: 20px;
-    }    
+    }
 
     > .c-chart {
       display: flex;
