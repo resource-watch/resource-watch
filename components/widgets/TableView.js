@@ -43,18 +43,16 @@ class TableView extends React.Component {
     const { filters, fields, value, aggregateFunction, category } = widgetEditor;
     const arrColumns = fields.filter(val => val.columnName !== 'cartodb_id' && val.columnType !== 'geometry').map(
       (val) => {
-        if (value && value.name === val.columnName && aggregateFunction && category) {
+        if (value && value.name === val.columnName && aggregateFunction) {
           return { value: val.columnName, aggregateFunction };
         } else if (category && category.name === val.columnName && aggregateFunction) {
-          return { value: val.columnName, group: true };
+          return { value: val.columnName, group: true, key: val.columnName };
         } else {
           return { value: val.columnName };
         }
       }
     );
     const query = `${getQueryByFilters(tableName, filters, arrColumns)} LIMIT 30`;
-
-    console.log('query', query);
 
     this.setState({ loading: true });
     this.datasetService.fetchFilteredData(query).then((response) => {
