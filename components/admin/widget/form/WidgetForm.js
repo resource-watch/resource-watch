@@ -1,18 +1,21 @@
 import React from 'react';
 import omit from 'lodash/omit';
 
-import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
-
-import { get, post } from 'utils/request';
-
-import Step1 from './steps/Step1';
+// Components
+import Step1 from 'components/admin/widget/form/steps/Step1';
 import Navigation from 'components/form/Navigation';
+
+// Store
+import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/widget/form/constants';
+
+// Utils
+import { get, post } from 'utils/request';
 
 class WidgetForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = Object.assign({}, STATE_DEFAULT, {
-      dataset: props.dataset,
+      loading: !!props.widget,
       widget: props.widget,
       form: Object.assign({}, STATE_DEFAULT.form, {
         application: props.application,
@@ -25,12 +28,9 @@ class WidgetForm extends React.Component {
   }
 
   componentDidMount() {
-    if (this.state.dataset && this.state.widget) {
-      // Start the loading
-      this.setState({ loading: true });
-
+    if (this.state.widget) {
       get({
-        url: `${process.env.WRI_API_URL}/dataset/${this.state.dataset}/widget/${this.state.widget}?cache=${Date.now()}`,
+        url: `${process.env.WRI_API_URL}/widget/${this.state.widget}?cache=${Date.now()}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -39,7 +39,8 @@ class WidgetForm extends React.Component {
           this.setState({
             form: this.setFormFromParams(omit(response.data.attributes, ['status', 'published', 'verified'])),
             // Stop the loading
-            loading: false
+            loading: false,
+            dataset: response.data.attributes.dataset
           });
         },
         onError: (error) => {
@@ -70,8 +71,8 @@ class WidgetForm extends React.Component {
         this.setState({ submitting: true });
 
         post({
-          type: (this.state.dataset && this.state.widget) ? 'PATCH' : 'POST',
-          url: `${process.env.WRI_API_URL}/dataset/${this.state.dataset}/widget/${this.state.widget || ''}`,
+          type: this.state.widget ? 'PATCH' : 'POST',
+          url: `${process.env.WRI_API_URL}/widget/${this.state.widget || ''}`,
           body: omit(this.state.form, ['authorization']),
           headers: [{
             key: 'Content-Type',
@@ -84,7 +85,7 @@ class WidgetForm extends React.Component {
             const successMessage = 'Widget has been uploaded correctly';
             alert(successMessage);
 
-            this.props.onSubmit && this.props.onSubmit();
+            if (this.props.onSubmit) this.props.onSubmit();
           },
           onError: (error) => {
             this.setState({ loading: false });
@@ -147,7 +148,6 @@ class WidgetForm extends React.Component {
 WidgetForm.propTypes = {
   application: React.PropTypes.array,
   authorization: React.PropTypes.string,
-  dataset: React.PropTypes.string.isRequired,
   widget: React.PropTypes.string,
   onSubmit: React.PropTypes.func
 };

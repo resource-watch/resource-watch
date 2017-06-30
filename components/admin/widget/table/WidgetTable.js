@@ -8,7 +8,6 @@ import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 
 // Actions
-import EditAction from 'components/admin/widget/table/actions/EditAction';
 import DeleteAction from 'components/ui/customtable/actions/DeleteAction';
 
 class WidgetTable extends React.Component {
@@ -63,7 +62,13 @@ class WidgetTable extends React.Component {
 
   render() {
     const actions = [
-      { name: 'Edit', path: '/admin/datasets/:dataset_id/widgets/:id/edit', show: true, component: EditAction },
+      {
+        name: 'Edit',
+        show: true,
+        component: ({ data }) => (
+          <Link route="admin_data_detail" params={{ tab: 'widgets', id: data.id, subtab: 'edit' }}><a>Edit</a></Link>
+        )
+      },
       { name: 'Remove', path: '/admin/datasets/:dataset_id/widgets/:id/remove', show: true, component: DeleteAction, componentProps: { authorization: this.props.authorization } }
     ];
 
