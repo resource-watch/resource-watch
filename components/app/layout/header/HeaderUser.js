@@ -11,8 +11,10 @@ export default function HeaderUser(props) {
       '-active': !!user.notifications
     });
 
+    const avatar = (user.avatar) ? `url(${user.avatar})` : 'none';
+
     return (
-      <div className="c-avatar" style={{ backgroundImage: `url(${user.avatar})` }}>
+      <div className="c-avatar" style={{ backgroundImage: avatar }}>
         <Link route="myrw">
           <a>
             {!user.avatar && <span className="avatar-letter">{user.email.split('')[0]}</span>}
