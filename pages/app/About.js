@@ -10,6 +10,7 @@ import withRedux from 'next-redux-wrapper';
 
 class About extends Page {
   componentDidMount() {
+    super.componentDidMount();
     this.props.getStaticData('about');
   }
 

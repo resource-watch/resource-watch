@@ -94,7 +94,7 @@ app.prepare()
 
     server.get('/auth/user', function (req, res) {
       // On success, redirecting to My RW
-      return res.json(req.user);
+      return res.json(req.user || {});
     });
 
     server.get('/login', function(req, res) {
