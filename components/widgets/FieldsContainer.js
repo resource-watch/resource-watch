@@ -9,19 +9,21 @@ class FieldsContainer extends React.Component {
     return (
       <div className="c-fields-container">
         <h5>Columns</h5>
-        {
-        fields.map(val =>
-          val.columnType !== 'geometry' && val.columnName !== 'cartodb_id' && (
-            <ColumnBox
-              key={val.columnName}
-              name={val.columnName}
-              type={val.columnType}
-              datasetID={dataset}
-              tableName={tableName}
-            />
+        <div className="fields">
+          {
+          fields.map(val =>
+            val.columnType !== 'geometry' && val.columnName !== 'cartodb_id' && (
+              <ColumnBox
+                key={val.columnName}
+                name={val.columnName}
+                type={val.columnType}
+                datasetID={dataset}
+                tableName={tableName}
+              />
+            )
           )
-        )
-      }
+          }
+        </div>
       </div>
     );
   }
