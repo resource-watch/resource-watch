@@ -27,7 +27,7 @@ class PagesTable extends React.Component {
   getPages() {
     get(
       {
-        url: `${process.env.BACKOFFICE_API_URL}/api/static_pages`,
+        url: `${process.env.BACKOFFICE_API_URL}/static_pages`,
         headers: [
           { key: 'Content-Type', value: 'application/json' },
           { key: 'Authorization', value: this.props.authorization }

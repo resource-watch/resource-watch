@@ -231,22 +231,22 @@ class Home extends Page {
               <div className="row">
                 <div className="column small-12 medium-3">
                   <button className="c-btn -transparent">
-                    <Link route="contribute_data"><a>Contribute data</a></Link>
+                    <Link route="get_involved_detail" params={{ id: 'contribute-data' }}><a>Contribute data</a></Link>
                   </button>
                 </div>
                 <div className="column small-12 medium-3">
                   <button className="c-btn -transparent">
-                    <Link route="get_involved"><a>Join the community</a></Link>
+                    <Link route="get_involved_detail" params={{ id: 'join-community' }}><a>Join the community</a></Link>
                   </button>
                 </div>
                 <div className="column small-12 medium-3">
                   <button className="c-btn -transparent">
-                    <Link route="submit_insight"><a>Submit an insight</a></Link>
+                    <Link route="get_involved_detail" params={{ id: 'submit-an-insight' }}><a>Submit an insight</a></Link>
                   </button>
                 </div>
                 <div className="column small-12 medium-3">
                   <button className="c-btn -transparent">
-                    <Link to="/get-involved/develop-app">Develop your app</Link>
+                    <Link route="get_involved_detail" params={{ id: 'develop-app' }}>Develop your app</Link>
                   </button>
                 </div>
               </div>

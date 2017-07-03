@@ -7,7 +7,7 @@
     }
 
     &.partners {
-      background-image: url('static/images/backgrounds/partners-02@2x.jpg');
+      background-image: url('/static/images/backgrounds/partners-02@2x.jpg');
       background-position: top center;
     }
 
@@ -28,10 +28,10 @@
       }
 
       .c-card-static {
-        &.insights { background: url('static/images/backgrounds/jellyfish.jpg'); }
-        &.contribute { background: $color-primary url('static/images/components/layout/header-bg-texture.png') no-repeat center; }
+        &.insights { background: url('/static/images/backgrounds/jellyfish.jpg'); }
+        &.contribute { background: $color-primary url('/static/images/components/layout/header-bg-texture.png') no-repeat center; }
         &.join { background: $color-secondary; }
-        &.develop { background: url('static/images/backgrounds/develop_app.jpg'); }
+        &.develop { background: url('/static/images/backgrounds/develop_app.jpg'); }
       }
     }
   }

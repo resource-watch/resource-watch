@@ -17,7 +17,8 @@ const cards = [
     buttons: [
       {
         text: 'Submit an insight',
-        path: 'submit_insight',
+        route: 'get_involved_detail',
+        params: { id: 'submit-an-insight' },
         className: '-filled'
       }
     ],
@@ -30,7 +31,8 @@ const cards = [
     buttons: [
       {
         text: 'Contribute data',
-        path: 'contribute_data',
+        route: 'get_involved_detail',
+        params: { id: 'contribute-data' },
         className: '-filled'
       }
     ],
@@ -43,7 +45,8 @@ const cards = [
     buttons: [
       {
         text: 'Join the community',
-        path: 'join_community',
+        route: 'get_involved_detail',
+        params: { id: 'join-community' },
         className: '-filled'
       }
     ],
@@ -56,12 +59,14 @@ const cards = [
     buttons: [
       {
         text: 'Develop your app',
-        path: 'develop_app',
+        route: 'get_involved_detail',
+        params: { id: 'develop-app' },
         className: '-filled'
       },
       {
         text: 'Apps gallery',
-        path: 'apps',
+        route: 'get_involved_detail',
+        params: { id: 'apps' },
         className: '-transparent -secondary'
       }
     ],
@@ -98,7 +103,7 @@ class GetInvolved extends Page {
           <div className="buttons">
             {c.buttons.map((b, j) => (
               <button key={j} className={`c-btn ${b.className}`}>
-                <Link route={b.path}><a>{b.text}</a></Link>
+                <Link route={b.route} params={b.params}><a>{b.text}</a></Link>
               </button>
             ))}
           </div>
