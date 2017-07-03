@@ -42,13 +42,14 @@
     }
   }
 
-  &:not(.-closed).-search {
-    .custom-select-text span {
-      opacity: 0;
+  &.-search:not(.-closed) {
+    .custom-select-text > div {
+      display: none;
     }
   }
 
   .icon-btn {
+    display: flex; // Vertically align the icon
     border: 0;
     background: none;
     cursor: pointer;
@@ -93,7 +94,9 @@
       white-space: nowrap;
       line-height: 17px;
       align-items: center;
-      text-transform: capitalize;
+      // Don't capitalise the text here because the case of the
+      // content of the input won't match the case of the text
+      // when the focus is somewhere else
     }
   }
 
@@ -180,5 +183,6 @@
     // padding-bottom: 2px;
     z-index: 10;
     padding: 10px 20px;
+    font-family: $base-font-family;
   }
 }
