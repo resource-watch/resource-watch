@@ -159,6 +159,7 @@ class Explore extends Page {
                 active={explore.datasets.active}
                 list={paginatedDatasets}
                 mode={explore.datasets.mode}
+                showActions
               />
 
               <Paginator

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import classNames from 'classnames';
 
@@ -6,6 +7,7 @@ import classNames from 'classnames';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { resetDataset, toggleLayerShown } from 'redactions/exploreDetail';
+import { toggleModal, setModalOptions } from 'redactions/modal';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 
 // Next
@@ -21,7 +23,9 @@ import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
 import WidgetEditor from 'components/widgets/WidgetEditor';
-// import DatasetList from 'components/app/explore/DatasetList';
+import ShareModal from 'components/modal/ShareModal';
+import SubscribeToAlertsModal from 'components/modal/SubscribeToAlertsModal';
+import DatasetList from 'components/app/explore/DatasetList';
 
 class ExploreDetail extends Page {
   constructor(props) {
@@ -29,6 +33,7 @@ class ExploreDetail extends Page {
 
     this.state = {
       similarDatasetsLoaded: false,
+      similarDatasets: null,
       dataset: null,
       loading: false,
       downloadURI: null
@@ -49,6 +54,7 @@ class ExploreDetail extends Page {
   componentDidMount() {
     super.componentDidMount();
     this.getDataset();
+    this.getSimilarDatasets();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -56,10 +62,10 @@ class ExploreDetail extends Page {
       this.props.resetDataset();
       this.setState({
         similarDatasetsLoaded: false,
-        datasetRawDataLoaded: false,
         datasetLoaded: false
       }, () => {
         this.getDataset();
+        this.getSimilarDatasets();
       });
     }
   }
@@ -71,12 +77,13 @@ class ExploreDetail extends Page {
   /**
    * HELPERS
    * - getDataset
+   * - getSimilarDatasets
   */
   getDataset() {
     this.setState({
       loading: true
     }, () => {
-      this.datasetService.fetchData('layer,metadata').then((response) => {
+      this.datasetService.fetchData('layer,metadata,vocabulary').then((response) => {
         this.setState({
           dataset: response,
           datasetLoaded: true,
@@ -90,19 +97,58 @@ class ExploreDetail extends Page {
       });
     });
   }
+  getSimilarDatasets() {
+    this.setState({
+      similarDatasetsLoaded: false
+    });
+    this.datasetService.getSimilarDatasets('water').then((response) => { // Temporal, meanwhile we start using the Knowledge Graph
+      const datasetIDs = response[0].attributes.resources.map(val => val.id).slice(0, 3);
+      this.datasetService.getDatasets(datasetIDs).then((res) => {
+        this.setState({
+          similarDatasets: res,
+          similarDatasetsLoaded: true
+        });
+      });
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
 
   /**
    * UI EVENTS
    * - triggerDownload
+   * - handleShare
+   * - handleSubscribe
   */
   @Autobind
   triggerDownload() {
     const { tableName, name } = this.state.dataset.attributes;
     this.datasetService.getDownloadURI(tableName, name);
   }
+  @Autobind
+  handleShare() {
+    const options = {
+      children: ShareModal,
+      childrenProps: {
+        url: window.location.href
+      }
+    };
+    this.props.toggleModal(true);
+    this.props.setModalOptions(options);
+  }
+  @Autobind
+  handleSubscribe() {
+    const options = {
+      children: SubscribeToAlertsModal,
+      childrenProps: {
+      }
+    };
+    this.props.toggleModal(true);
+    this.props.setModalOptions(options);
+  }
 
   render() {
-    const { dataset, loading, downloadURI } = this.state;
+    const { dataset, loading, downloadURI, similarDatasets, similarDatasetsLoaded } = this.state;
     const metadata = dataset && dataset.attributes.metadata;
 
     const downloadButtonClass = classNames({
@@ -169,17 +215,26 @@ class ExploreDetail extends Page {
                 </div>
                 <div className="column large-offset-2 small-3">
                   <div className="dataset-info-actions">
-                    <div className="row flex-dir-column">
-                      <div className="column">
-                        <button
-                          className={downloadButtonClass}
-                          onClick={this.triggerDownload}
-                          disabled={downloadURI}
-                        >
-                          Download
-                        </button>
-                      </div>
-                    </div>
+
+                    <button
+                      className="c-button -primary -fullwidth"
+                      onClick={this.handleShare}
+                    >
+                      Share
+                    </button>
+                    <button
+                      className={downloadButtonClass}
+                      onClick={this.triggerDownload}
+                      disabled={downloadURI}
+                    >
+                      Download
+                    </button>
+                    <button
+                      className="c-button -primary -fullwidth"
+                      onClick={this.handleSubscribe}
+                    >
+                      Subscribe to alerts
+                    </button>
                   </div>
                 </div>
               </div>
@@ -190,6 +245,25 @@ class ExploreDetail extends Page {
           {/* RELATED TOOLS */}
 
           {/* SIMILAR DATASETS */}
+          <div className="c-page-section similar-datasets">
+            <div className="row">
+              <div className="column small-12">
+                <h2>Similar datasets</h2>
+                <Spinner
+                  isLoading={!similarDatasetsLoaded}
+                  className="-relative -light"
+                />
+                {similarDatasets &&
+                <DatasetList
+                  active={[]}
+                  list={similarDatasets}
+                  mode="grid"
+                  showActions={false}
+                />
+                }
+              </div>
+            </div>
+          </div>
 
           {/* RELATED INSIGHTS */}
 
@@ -222,9 +296,11 @@ class ExploreDetail extends Page {
 }
 
 ExploreDetail.propTypes = {
-  url: React.PropTypes.string.isRequired,
+  url: React.PropTypes.object.isRequired,
   // ACTIONS
-  resetDataset: React.PropTypes.func
+  resetDataset: React.PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  setModalOptions: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -238,7 +314,9 @@ const mapDispatchToProps = dispatch => ({
   },
   toggleLayerShown: (id) => {
     dispatch(toggleLayerShown(id));
-  }
+  },
+  toggleModal: (open) => { dispatch(toggleModal(open)); },
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); }
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);
