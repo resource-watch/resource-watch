@@ -5,6 +5,7 @@ import UserService from 'services/UserService';
 
 // Components
 import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
 import Tabs from 'components/ui/Tabs';
 import Title from 'components/ui/Title';
 
@@ -43,7 +44,7 @@ const MYRW_TABS = [{
   params: { tab: 'subscriptions' }
 }];
 
-class MyRW extends React.Component {
+class MyRW extends Page {
 
   constructor(props) {
     super(props);
@@ -81,10 +82,11 @@ class MyRW extends React.Component {
     const { tab, subtab } = this.state;
 
     return (
-      <Page
+      <Layout
         title="My Resource Watch Edit Profile"
         description="My Resource Watch Edit Profile description"
         url={this.props.url}
+        user={this.props.user}
         pageHeader
       >
         <div className="c-page-header">
@@ -121,7 +123,7 @@ class MyRW extends React.Component {
         {tab === 'subscriptions' &&
           <MyRWSubscriptions subtab={subtab} />
         }
-      </Page>
+      </Layout>
     );
   }
 }
@@ -130,7 +132,8 @@ MyRW.defaultProps = {
 };
 
 MyRW.propTypes = {
-  url: React.PropTypes.object
+  url: React.PropTypes.object,
+  user: React.PropTypes.object
 };
 
 

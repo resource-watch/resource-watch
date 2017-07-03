@@ -1,11 +1,14 @@
 import React from 'react';
+import MoveTo from 'moveto';
 import { Link } from 'routes';
+
+import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
+
 import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
 import Rating from 'components/app/common/Rating';
 import Icon from 'components/ui/Icon';
-import Page from 'components/app/layout/Page';
-import MoveTo from 'moveto';
 
 const insightsCards = [
   {
@@ -73,8 +76,9 @@ const exploreCards = [
   }
 ];
 
-class Home extends React.Component {
+class Home extends Page {
   componentDidMount() {
+    super.componentDidMount();
     this.setAnchorScroll('discoverIsights', 'js-scroll');
   }
 
@@ -135,10 +139,11 @@ class Home extends React.Component {
     const insightsCardsStatic = this.insightsCardsStatic();
 
     return (
-      <Page
+      <Layout
         title="Resource Watch"
         description="Resource Watch description"
         url={this.props.url}
+        user={this.props.user}
       >
         <div className="p-home">
           <div className="c-page">
@@ -227,29 +232,29 @@ class Home extends React.Component {
               <div className="row">
                 <div className="column small-12 medium-3">
                   <button className="c-btn -transparent">
-                    <Link route="contribute_data"><a>Contribute data</a></Link>
+                    <Link route="get_involved_detail" params={{ id: 'contribute-data' }}><a>Contribute data</a></Link>
                   </button>
                 </div>
                 <div className="column small-12 medium-3">
                   <button className="c-btn -transparent">
-                    <Link route="get_involved"><a>Join the community</a></Link>
+                    <Link route="get_involved_detail" params={{ id: 'join-community' }}><a>Join the community</a></Link>
                   </button>
                 </div>
                 <div className="column small-12 medium-3">
                   <button className="c-btn -transparent">
-                    <Link route="submit_insight"><a>Submit an insight</a></Link>
+                    <Link route="get_involved_detail" params={{ id: 'submit-an-insight' }}><a>Submit an insight</a></Link>
                   </button>
                 </div>
                 <div className="column small-12 medium-3">
                   <button className="c-btn -transparent">
-                    <Link to="/get-involved/develop-app">Develop your app</Link>
+                    <Link route="get_involved_detail" params={{ id: 'develop-app' }}>Develop your app</Link>
                   </button>
                 </div>
               </div>
             </Banner>
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

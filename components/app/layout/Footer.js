@@ -10,8 +10,7 @@ const data = [
   { name: 'Data' },
   { name: 'Explore Datasets', route: 'explore' },
   { name: 'Dashboards', route: 'dashboards' },
-  { name: 'Planet Pulse', route: 'pulse' },
-  { name: 'Explore Tools', route: 'apps' }
+  { name: 'Planet Pulse', route: 'pulse' }
 ];
 
 const about = [
@@ -27,9 +26,9 @@ const insights = [
 
 const getInvolved = [
   { name: 'Get involved', route: 'get_involved' },
-  { name: 'Submit an insight', route: 'submit_insight' },
-  { name: 'Contribute data', route: 'contribute_data' },
-  { name: 'Join the community', route: 'join_community' }
+  { name: 'Submit an insight', route: 'get_involved_detail', params: { id: 'submit-an-insight' } },
+  { name: 'Contribute data', route: 'get_involved_detail', params: { id: 'contribute-data' } },
+  { name: 'Join the community', route: 'get_involved_detail', params: { id: 'join-community' } }
 ];
 
 class Footer extends React.Component {

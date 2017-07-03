@@ -136,10 +136,6 @@ class FilterTooltip extends React.Component {
 
     return (
       <div className="checkboxes">
-        <div className="buttons">
-          <button type="button" onClick={() => this.onClearAll()}>Clear all</button>
-          <button type="button" onClick={() => this.onSelectAll()}>Select all</button>
-        </div>
         <CheckboxGroup
           selected={selected}
           options={values}
@@ -196,12 +192,26 @@ class FilterTooltip extends React.Component {
         { categoryValue && this.renderCheckboxes() }
         { !categoryValue && !loading && this.renderRange() }
 
-        <Button
-          properties={{ type: 'button', className: '-primary' }}
-          onClick={() => this.onApply()}
-        >
-          Done
-        </Button>
+        <div className="buttons">
+          <Button
+            properties={{ type: 'button', className: '-secondary' }}
+            onClick={() => this.onSelectAll()}
+          >
+            Select all
+          </Button>
+          <Button
+            properties={{ type: 'button', className: '-secondary' }}
+            onClick={() => this.onClearAll()}
+          >
+            Clear
+          </Button>
+          <Button
+            properties={{ type: 'button', className: '-primary' }}
+            onClick={() => this.onApply()}
+          >
+            Done
+          </Button>
+        </div>
       </div>
     );
   }

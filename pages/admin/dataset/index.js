@@ -1,5 +1,5 @@
 import React from 'react';
-import Page from 'components/admin/layout/Page';
+import Layout from 'components/admin/layout/Layout';
 import DatasetTable from 'components/admin/dataset/table/DatasetTable';
 import ButtonContainer from 'components/ui/ButtonContainer';
 import Title from 'components/ui/Title';
@@ -19,7 +19,7 @@ export default class DatasetIndex extends React.Component {
 
   render() {
     return (
-      <Page
+      <Layout
         title="Datasets"
         description="Dataset description..."
       >
@@ -42,7 +42,7 @@ export default class DatasetIndex extends React.Component {
             />
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

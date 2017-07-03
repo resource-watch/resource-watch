@@ -176,8 +176,9 @@ export default class LayerManager {
       ))
       .then((data) => {
         const tileUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
-        this._mapLayers[layer.id] = L.tileLayer(tileUrl).addTo(this._map)
-          .setZIndex(layer.hidden ? -1 : layer.order);
+        this._mapLayers[layer.id] = L.tileLayer(tileUrl).addTo(this._map);
+
+        this._mapLayers[layer.id].setZIndex(layer.hidden ? -1 : layer.order);
 
         this._mapLayers[layer.id].on('load', () => {
           delete this._layersLoading[layer.id];

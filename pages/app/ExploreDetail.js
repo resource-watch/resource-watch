@@ -14,13 +14,14 @@ import DatasetService from 'services/DatasetService';
 
 // Components
 import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
 import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
 import WidgetEditor from 'components/widgets/WidgetEditor';
 // import DatasetList from 'components/app/explore/DatasetList';
 
-class ExploreDetail extends React.Component {
+class ExploreDetail extends Page {
   constructor(props) {
     super(props);
 
@@ -43,6 +44,7 @@ class ExploreDetail extends React.Component {
    * - componentWillUnmount
   */
   componentDidMount() {
+    super.componentDidMount();
     this.getDataset();
   }
 
@@ -66,7 +68,6 @@ class ExploreDetail extends React.Component {
   /**
    * HELPERS
    * - getDataset
-   * - getOpenMapButton
   */
   getDataset() {
     this.setState({
@@ -87,31 +88,6 @@ class ExploreDetail extends React.Component {
     });
   }
 
-  getOpenMapButton() {
-    const { dataset } = this.state;
-    const hasDefaultLayer = dataset && dataset.attributes.layer &&
-      dataset.attributes.layer.find(value => value.attributes.default === true);
-
-
-    if (hasDefaultLayer) {
-      return (
-        <Link route="explore" params={{ active: [dataset.id] }}>
-          <a className="c-button -primary -fullwidth">
-            Open in data map
-          </a>
-        </Link>
-      );
-    }
-    return (
-      <button
-        disabled
-        className="c-button -primary -fullwidth -disabled"
-      >
-        Not displayable
-      </button>
-    );
-  }
-
   /**
    * UI EVENTS
    * - triggerDownload
@@ -125,10 +101,11 @@ class ExploreDetail extends React.Component {
     const metadata = dataset && dataset.attributes.metadata;
 
     return (
-      <Page
+      <Layout
         title="Explore detail"
         description="Explore detail description..."
         url={this.props.url}
+        user={this.props.user}
         pageHeader
       >
         <div className="c-page-explore-detail">
@@ -173,22 +150,15 @@ class ExploreDetail extends React.Component {
               <div className="row">
                 <div className="column small-12 medium-7">
                   {/* Description */}
-                  {/* {metadata && (metadata.length > 0)
-                    && metadata[0].attributes.description &&
-                    <p>{metadata[0].attributes.description}</p>
-                  } */}
                   <div className="dataset-info-description">
-                    <p>Metadata lorem ipsum casius tesebe Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Sed posuere consectetur est at lobortis. Sed posuere consectetur est at lobortis. Curabitur blandit tempus porttitor. Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-                    <p>Cem sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur blandit tempus porttitor. Nulla vitae elit libero, a pharetra augue. Sed posuere consectetur est at lobortis. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia.</p>
-                    <p>Casius tesebe Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odi</p>
+                    {metadata && (metadata.length > 0) && metadata[0].attributes.description &&
+                      metadata[0].attributes.description
+                    }
                   </div>
                 </div>
                 <div className="column large-offset-2 small-3">
                   <div className="dataset-info-actions">
                     <div className="row flex-dir-column">
-                      <div className="column">
-                        {dataset && this.getOpenMapButton()}
-                      </div>
                       <div className="column">
                         <button
                           disabled
@@ -214,14 +184,13 @@ class ExploreDetail extends React.Component {
 
           {/* PLANET PULSE */}
         </div>
-      </Page>
+      </Layout>
     );
   }
 }
 
 ExploreDetail.propTypes = {
-  // ROUTER
-  url: React.PropTypes.object,
+  url: React.PropTypes.string.isRequired,
   // ACTIONS
   resetDataset: React.PropTypes.func
 };

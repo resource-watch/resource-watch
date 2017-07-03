@@ -1,7 +1,7 @@
 import React from 'react';
 import WidgetForm from 'components/admin/widget/form/WidgetForm';
 import Title from 'components/ui/Title';
-import Page from 'components/admin/layout/Page';
+import Layout from 'components/admin/layout/Layout';
 import { Router } from 'routes';
 
 export default class WidgetNew extends React.Component {
@@ -14,7 +14,7 @@ export default class WidgetNew extends React.Component {
   render() {
     const { datasetID } = this.props;
     return (
-      <Page
+      <Layout
         title="Dataset widgets"
         description="Dataset widgets description"
       >
@@ -31,7 +31,7 @@ export default class WidgetNew extends React.Component {
             />
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

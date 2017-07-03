@@ -7,6 +7,7 @@ import Banner from 'components/app/common/Banner';
 import Intro from 'components/app/common/Intro';
 import CardStatic from 'components/app/common/CardStatic';
 import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
 
 const cards = [
   {
@@ -16,7 +17,8 @@ const cards = [
     buttons: [
       {
         text: 'Submit an insight',
-        path: 'submit_insight',
+        route: 'get_involved_detail',
+        params: { id: 'submit-an-insight' },
         className: '-filled'
       }
     ],
@@ -29,7 +31,8 @@ const cards = [
     buttons: [
       {
         text: 'Contribute data',
-        path: 'contribute_data',
+        route: 'get_involved_detail',
+        params: { id: 'contribute-data' },
         className: '-filled'
       }
     ],
@@ -42,7 +45,8 @@ const cards = [
     buttons: [
       {
         text: 'Join the community',
-        path: 'join_community',
+        route: 'get_involved_detail',
+        params: { id: 'join-community' },
         className: '-filled'
       }
     ],
@@ -55,12 +59,14 @@ const cards = [
     buttons: [
       {
         text: 'Develop your app',
-        path: 'develop_app',
+        route: 'get_involved_detail',
+        params: { id: 'develop-app' },
         className: '-filled'
       },
       {
         text: 'Apps gallery',
-        path: 'apps',
+        route: 'get_involved_detail',
+        params: { id: 'apps' },
         className: '-transparent -secondary'
       }
     ],
@@ -68,7 +74,7 @@ const cards = [
   }
 ];
 
-class GetInvolved extends React.Component {
+class GetInvolved extends Page {
   componentWillMount() {
     this.props.getStaticData('get-involved', 'getInvolved');
   }
@@ -97,7 +103,7 @@ class GetInvolved extends React.Component {
           <div className="buttons">
             {c.buttons.map((b, j) => (
               <button key={j} className={`c-btn ${b.className}`}>
-                <Link route={b.path}><a>{b.text}</a></Link>
+                <Link route={b.route} params={b.params}><a>{b.text}</a></Link>
               </button>
             ))}
           </div>
@@ -106,10 +112,11 @@ class GetInvolved extends React.Component {
     );
 
     return (
-      <Page
+      <Layout
         title="Get Involved"
         description="Get Involved description"
         url={this.props.url}
+        user={this.props.user}
       >
         <div className="p-get-involved">
           <div className="c-page">
@@ -136,7 +143,7 @@ class GetInvolved extends React.Component {
             </div>
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

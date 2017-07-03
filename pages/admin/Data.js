@@ -2,6 +2,7 @@ import React from 'react';
 
 // Layout
 import Page from 'components/admin/layout/Page';
+import Layout from 'components/admin/layout/Layout';
 import Tabs from 'components/ui/Tabs';
 
 // Tabs
@@ -39,7 +40,7 @@ const DATA_TABS = [{
   params: { tab: 'vocabularies' }
 }];
 
-class Data extends React.Component {
+class Data extends Page {
 
   constructor(props) {
     super(props);
@@ -64,13 +65,14 @@ class Data extends React.Component {
   }
 
   render() {
-    const { url } = this.props;
+    const { url, user } = this.props;
     const { tab, subtab, id } = this.state;
 
     return (
-      <Page
+      <Layout
         title="Data"
         description="Data description..."
+        user={user}
         url={url}
       >
         {/* PAGE HEADER */}
@@ -111,12 +113,13 @@ class Data extends React.Component {
             }
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }
 
 Data.propTypes = {
+  user: React.PropTypes.object,
   url: React.PropTypes.object
 };
 

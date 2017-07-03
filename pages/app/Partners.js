@@ -7,13 +7,14 @@ import { getPartners } from 'redactions/partners';
 
 // Components
 import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
 import Title from 'components/ui/Title';
 import PartnerBlock from 'components/app/common/Partners/PartnerBlock';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 
-class Partners extends React.Component {
+class Partners extends Page {
   componentWillMount() {
     this.props.getPartners();
   }
@@ -23,10 +24,11 @@ class Partners extends React.Component {
     const funders = this.props.list.filter(p => p.attributes['partner-type'] === 'funders');
 
     return (
-      <Page
+      <Layout
         title="Partners"
         description="Partners description"
         url={this.props.url}
+        user={this.props.user}
       >
         <div className="c-page-header">
           <div className="l-container">
@@ -118,7 +120,7 @@ class Partners extends React.Component {
             </div>
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

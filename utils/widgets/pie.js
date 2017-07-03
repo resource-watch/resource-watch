@@ -2,8 +2,6 @@ import deepClone from 'lodash/cloneDeep';
 
 /* eslint-disable */
 const defaultChart = {
-  "width": 400,
-  "height": 200,
   "data": [
     {
       "name": "table"
@@ -13,7 +11,7 @@ const defaultChart = {
     {
       "name": "r",
       "type": "sqrt",
-      "domain": {"data": "table", "field": "x"},
+      "domain": {"data": "table", "field": "y"},
       "range": [20, 100]
     },
     {
@@ -34,7 +32,7 @@ const defaultChart = {
           "startAngle": {"field": "layout_start"},
           "endAngle": {"field": "layout_end"},
           "innerRadius": {"value": 20},
-          "outerRadius": {"value": 100},
+          "outerRadius": {"value": 150},
           "fill": {"scale": "c", "field": "x"}
         }
       }
@@ -75,7 +73,7 @@ export default function ({ columns, data }) {
     "property": data.property,
   };
   config.data[0].transform = [{
-    "type": "pie", "field": "x"
+    "type": "pie", "field": "y"
   }];
 
   if (columns.color.present) {

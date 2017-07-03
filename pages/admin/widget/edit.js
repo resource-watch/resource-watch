@@ -1,7 +1,7 @@
 import React from 'react';
 import WidgetForm from 'components/admin/widget/form/WidgetForm';
 import Title from 'components/ui/Title';
-import Page from 'components/admin/layout/Page';
+import Layout from 'components/admin/layout/Layout';
 
 export default class WidgetEdit extends React.Component {
 
@@ -15,7 +15,7 @@ export default class WidgetEdit extends React.Component {
   render() {
     const { datasetID, widgetID } = this.props;
     return (
-      <Page
+      <Layout
         title="Edit widget"
         description="Edit widget description..."
       >
@@ -33,7 +33,7 @@ export default class WidgetEdit extends React.Component {
             />
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

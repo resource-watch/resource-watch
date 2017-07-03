@@ -1,14 +1,22 @@
 import React from 'react';
-import { Link } from 'routes';
-import Banner from 'components/app/common/Banner';
-import Intro from 'components/app/common/Intro';
-import Page from 'components/app/layout/Page';
-import { initStore } from 'store';
-import { getStaticData } from 'redactions/static_pages'
-import withRedux from 'next-redux-wrapper';
 
-class About extends React.Component {
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+import { getStaticData } from 'redactions/static_pages';
+
+// Next components
+import { Link } from 'routes';
+
+// Components
+import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
+import Intro from 'components/app/common/Intro';
+import Banner from 'components/app/common/Banner';
+
+class About extends Page {
   componentDidMount() {
+    super.componentDidMount();
     this.props.getStaticData('about');
   }
 
@@ -20,10 +28,11 @@ class About extends React.Component {
     }
 
     return (
-      <Page
+      <Layout
         title="About"
         description="About description..."
         url={this.props.url}
+        user={this.props.user}
       >
         <div className="p-about">
           <div className="c-page">
@@ -52,7 +61,7 @@ class About extends React.Component {
             </div>
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

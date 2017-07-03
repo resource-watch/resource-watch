@@ -2,9 +2,6 @@ import deepClone from 'lodash/cloneDeep';
 
 /* eslint-disable */
 const defaultChart = {
-  width: 500,
-  height: 200,
-  padding: { top: 10, left: 50, bottom: 30, right: 10 },
   data: [
     {
       name: 'table'
@@ -40,8 +37,6 @@ const defaultChart = {
           x: { scale: 'x', field: 'x' },
           y: { scale: 'y', field: 'y' },
           y2: { scale: 'y', value: 0 },
-          fill: { value: 'transparent' },
-          stroke: { value: 'steelblue' },
           "strokeWidth": {"value": 2}
         }
       }

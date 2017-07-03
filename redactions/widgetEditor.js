@@ -8,21 +8,28 @@ const SET_COLOR = 'widgetEditor/SET_COLOR';
 const REMOVE_COLOR = 'widgetEditor/REMOVE_COLOR';
 const SET_SIZE = 'widgetEditor/SET_SIZE';
 const REMOVE_SIZE = 'widgetEditor/REMOVE_SIZE';
-const SET_DIMENSION_X = 'widgetEditor/SET_DIMENSION_X';
-const REMOVE_DIMENSION_X = 'widgetEditor/REMOVE_DIMENSION_X';
-const SET_DIMENSION_Y = 'widgetEditor/SET_DIMENSION_Y';
-const REMOVE_DIMENSION_Y = 'widgetEditor/REMOVE_DIMENSION_Y';
+const SET_CATEGORY = 'widgetEditor/SET_CATEGORY';
+const REMOVE_CATEGORY = 'widgetEditor/REMOVE_CATEGORY';
+const SET_VALUE = 'widgetEditor/SET_VALUE';
+const REMOVE_VALUE = 'widgetEditor/REMOVE_VALUE';
+const SET_CHART_TYPE = 'widgetEditor/SET_CHART_TYPE';
+const SET_AGGREGATE_FN = 'widgetEditor/SET_AGGREGATE_FN';
+const SHOW_LAYER = 'widgetEditor/SHOW_LAYER';
+const SET_FIELDS = 'widgetEditor/SET_FIELDS';
 const RESET = 'widgetEditor/RESET';
 
 /**
  * REDUCER
 */
 const initialState = {
+  aggregateFunction: null,
   filters: [],
   color: null,
   size: null,
-  dimensionX: null,
-  dimensionY: null
+  category: null,
+  value: null,
+  layer: null,
+  fields: []
 };
 
 export default function (state = initialState, action) {
@@ -89,32 +96,56 @@ export default function (state = initialState, action) {
       });
     }
 
-    case SET_DIMENSION_X: {
+    case SET_CATEGORY: {
       return Object.assign({}, state, {
-        dimensionX: action.payload
+        category: action.payload
       });
     }
 
-    case REMOVE_DIMENSION_X: {
+    case REMOVE_CATEGORY: {
       return Object.assign({}, state, {
-        dimensionX: null
+        category: null
       });
     }
 
-    case SET_DIMENSION_Y: {
+    case SET_VALUE: {
       return Object.assign({}, state, {
-        dimensionY: action.payload
+        value: action.payload
       });
     }
 
-    case REMOVE_DIMENSION_Y: {
+    case REMOVE_VALUE: {
       return Object.assign({}, state, {
-        dimensionY: null
+        value: null
+      });
+    }
+
+    case SET_CHART_TYPE: {
+      return Object.assign({}, state, {
+        chartType: action.payload
+      });
+    }
+
+    case SET_AGGREGATE_FN: {
+      return Object.assign({}, state, {
+        aggregateFunction: action.payload
       });
     }
 
     case RESET: {
       return Object.assign({}, initialState);
+    }
+
+    case SHOW_LAYER: {
+      return Object.assign({}, state, {
+        layer: action.payload
+      });
+    }
+
+    case SET_FIELDS: {
+      return Object.assign({}, state, {
+        fields: action.payload
+      });
     }
 
     default:
@@ -130,10 +161,14 @@ export default function (state = initialState, action) {
  * - removeColor
  * - setSize
  * - removeSize
- * - setDimensionX
- * - removeDimensionX
- * - setDimensionY
- * - removeDimensionY
+ * - setCategory
+ * - removeCategory
+ * - setValue
+ * - removeValue
+ * - setChartType
+ * - resetWidgetEditor
+ * - showLayer
+ * - setFields
 */
 export function addFilter(filter) {
   return dispatch => dispatch({ type: ADD_FILTER, payload: filter });
@@ -156,18 +191,30 @@ export function setSize(size) {
 export function removeSize(size) {
   return dispatch => dispatch({ type: REMOVE_SIZE, payload: size });
 }
-export function setDimensionX(dimensionX) {
-  return dispatch => dispatch({ type: SET_DIMENSION_X, payload: dimensionX });
+export function setCategory(category) {
+  return dispatch => dispatch({ type: SET_CATEGORY, payload: category });
 }
-export function removeDimensionX(dimensionX) {
-  return dispatch => dispatch({ type: REMOVE_DIMENSION_X, payload: dimensionX });
+export function removeCategory(category) {
+  return dispatch => dispatch({ type: REMOVE_CATEGORY, payload: category });
 }
-export function setDimensionY(dimensionY) {
-  return dispatch => dispatch({ type: SET_DIMENSION_Y, payload: dimensionY });
+export function setValue(value) {
+  return dispatch => dispatch({ type: SET_VALUE, payload: value });
 }
-export function removeDimensionY(dimensionY) {
-  return dispatch => dispatch({ type: REMOVE_DIMENSION_Y, payload: dimensionY });
+export function removeValue(value) {
+  return dispatch => dispatch({ type: REMOVE_VALUE, payload: value });
+}
+export function setChartType(type) {
+  return dispatch => dispatch({ type: SET_CHART_TYPE, payload: type });
+}
+export function setAggregateFunction(value) {
+  return dispatch => dispatch({ type: SET_AGGREGATE_FN, payload: value });
 }
 export function resetWidgetEditor() {
   return dispatch => dispatch({ type: RESET });
+}
+export function showLayer(layer) {
+  return dispatch => dispatch({ type: SHOW_LAYER, payload: layer });
+}
+export function setFields(layer) {
+  return dispatch => dispatch({ type: SET_FIELDS, payload: layer });
 }

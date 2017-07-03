@@ -1,0 +1,25 @@
+.c-chart-editor {
+
+  margin-top: 20px;
+
+  .chart-type {
+
+    h5 {
+      margin: 0 0 10px;
+      font-size: $font-size-small-medium;
+    }
+  }
+
+  .actions-div {
+
+    display: flex;
+    margin-top: 22px;
+    justify-content: flex-start;
+
+    .customization-container {
+      flex-grow: 1;
+      margin-left: 20px;
+    }
+  }
+
+}

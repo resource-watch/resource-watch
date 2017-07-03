@@ -24,6 +24,7 @@ import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
 import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
@@ -37,8 +38,7 @@ const mapConfig = {
   }
 };
 
-class Explore extends React.Component {
-
+class Explore extends Page {
   constructor(props) {
     super(props);
 
@@ -107,10 +107,11 @@ class Explore extends React.Component {
     ));
 
     return (
-      <Page
+      <Layout
         title="Explore"
         description="Explore description"
         url={this.props.url}
+        user={this.props.user}
       >
         <div className="p-explore">
           <div className="c-page -dark">
@@ -195,7 +196,7 @@ class Explore extends React.Component {
             }
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }
@@ -209,6 +210,10 @@ Explore.propTypes = {
   paginatedDatasets: PropTypes.array,
   layersActive: PropTypes.array,
   toggledDataset: PropTypes.string,
+<<<<<<< HEAD
+=======
+  url: PropTypes.object,
+>>>>>>> 3d5aac06044101aa4d74e6aa701f3d5c6e666f6e
 
   // ACTIONS
   getDatasets: PropTypes.func,

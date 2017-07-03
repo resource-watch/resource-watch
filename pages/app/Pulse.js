@@ -1,6 +1,14 @@
 import React from 'react';
 import { Autobind } from 'es-decorators';
 
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+import { getLayers, getLayerPoints } from 'redactions/pulse';
+import getLayersGroupPulse from 'selectors/pulse/layersGroupPulse';
+import getActiveLayersPulse from 'selectors/pulse/layersActivePulse';
+import { toggleTooltip } from 'redactions/tooltip';
+
 // Helpers
 import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
 
@@ -13,18 +21,17 @@ import Spinner from 'components/ui/Spinner';
 import ZoomControl from 'components/ui/ZoomControl';
 import GlobeTooltip from 'components/app/pulse/GlobeTooltip';
 import Page from 'components/app/layout/Page';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-import { getLayers, getLayerPoints } from 'redactions/pulse';
-import getLayersGroupPulse from 'selectors/pulse/layersGroupPulse';
-import getActiveLayersPulse from 'selectors/pulse/layersActivePulse';
-import { toggleTooltip } from 'redactions/tooltip';
+import Layout from 'components/app/layout/Layout';
 
 const earthImage = 'static/images/components/vis/earth-min.jpg';
 const earthBumpImage = 'static/images/components/vis/earth-bump.jpg';
 const cloudsImage = 'static/images/components/vis/clouds-min.png';
 
+<<<<<<< HEAD
 class Pulse extends React.Component {
+=======
+class Pulse extends Page {
+>>>>>>> 3d5aac06044101aa4d74e6aa701f3d5c6e666f6e
   constructor(props) {
     super(props);
     this.state = {
@@ -45,6 +52,7 @@ class Pulse extends React.Component {
    * - componentWillUnmount
   */
   componentDidMount() {
+    super.componentDidMount();
     this.mounted = true;
     // This is not sending anything, for the moment
     this.props.getLayers();
@@ -214,10 +222,15 @@ class Pulse extends React.Component {
     const globeWidht = (typeof window === 'undefined') ? 500 : window.innerWidth;
     const globeHeight = (typeof window === 'undefined') ? 300 : window.innerHeight - 130; // TODO: 130 is the header height
     return (
-      <Page
+      <Layout
         title="Planet Pulse"
         description="Planet Pulse description"
+<<<<<<< HEAD
         url={url}
+=======
+        pathname={url.pathname}
+        user={this.props.user}
+>>>>>>> 3d5aac06044101aa4d74e6aa701f3d5c6e666f6e
       >
         <div
           className="c-page -dark"
@@ -260,7 +273,7 @@ class Pulse extends React.Component {
             onZoomOut={this.triggerZoomOut}
           />
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

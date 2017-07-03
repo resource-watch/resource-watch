@@ -1,52 +1,29 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Header from 'components/admin/layout/Header';
-import Head from 'components/admin/layout/head';
-import Icons from 'components/admin/layout/icons';
-import Tooltip from 'components/ui/Tooltip';
+import User from 'components/user';
+import isEmpty from 'lodash/isEmpty';
 
 export default class Page extends React.Component {
 
   // Expose session to all pages
   static async getInitialProps({ req }) {
-    const session = new Session({ req });
-    return { session: await session.getSession() };
+    this.user = new User({ req });
+
+    return {
+      user: await this.user.getUser()
+    };
   }
 
-  render() {
-    const { title, url, description } = this.props;
-    return (
-      <div className="c-page">
-        <Head
-          title={title}
-          description={description}
-        />
-
-        <Icons />
-
-        <Header
-          url={url}
-          session={this.props.session}
-        />
-
-        <div className="container">
-          { this.props.children }
-        </div>
-
-        <Tooltip />
-      </div>
-    );
+  componentDidMount() {
+    if (isEmpty(this.props.user)) {
+      try {
+        localStorage.removeItem('user');
+      } catch (err) {
+        console.info(err);
+      }
+    }
   }
-
 }
 
 Page.propTypes = {
-  // ROUTER
-  url: PropTypes.object,
-
-  //
-  session: PropTypes.object.isRequired,
-  children: PropTypes.any.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired
+  user: React.PropTypes.object
 };

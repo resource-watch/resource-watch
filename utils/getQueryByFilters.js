@@ -9,7 +9,7 @@
  * @export
  * @param {string} tableName Name of the table
  * @param {{ name: string, type: string, value: any[] }[]} [filters=[]]
- * @param {any} [arrColumns=[]]
+ * @param {{ key: string, value: string, as?: boolean, aggregateFunction: string, group: boolean }} [arrColumns=[]]
  * @param {any} [arrOrder=[]]
  * @returns {string} SQL query
  */
@@ -40,10 +40,19 @@ export default function getQueryByFilters(
   let columns = '*';
   if (arrColumns.length) {
     columns = arrColumns.map((column) => {
-      if (column.as) {
-        return `${column.value} as ${column.key}`;
+      let res = `${column.value}`;
+
+      // We eventually apply a aggregate function to the column
+      if (column.aggregateFunction) {
+        res = `${column.aggregateFunction.toUpperCase()}(${res})`;
       }
-      return `${column.value}`;
+
+      // We eventually rename the column
+      if (column.as) {
+        res = `${res} as ${column.key}`;
+      }
+
+      return res;
     }).join(', ');
   }
 
@@ -56,5 +65,16 @@ export default function getQueryByFilters(
 
   const where = (filtersQuery.length) ? `WHERE ${filtersQuery}` : '';
 
-  return `SELECT ${columns} FROM ${tableName} ${where} ${orderBy}`;
+  // The column used to group the data, if exist
+  const groupingColumns = arrColumns.filter(col => col.group);
+
+  let groupBy = 'GROUP BY ';
+  groupingColumns.forEach(val => (groupBy = `${groupBy} ${val.key},`));
+  if (groupingColumns.length === 0) {
+    groupBy = '';
+  } else {
+    groupBy = groupBy.slice(0, -1); // remove extra comma at the end
+  }
+
+  return `SELECT ${columns} FROM ${tableName} ${where} ${groupBy} ${orderBy}`;
 }

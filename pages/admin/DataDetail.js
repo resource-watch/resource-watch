@@ -10,6 +10,7 @@ import WidgetService from 'services/WidgetService';
 
 // Layout
 import Page from 'components/admin/layout/Page';
+import Layout from 'components/admin/layout/Layout';
 
 // Tabs
 import DatasetTab from 'components/admin/dataset/DatasetTab';
@@ -19,7 +20,7 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 // Components
 import Title from 'components/ui/Title';
 
-class Data extends React.Component {
+class Data extends Page {
 
   constructor(props) {
     super(props);
@@ -99,13 +100,14 @@ class Data extends React.Component {
   }
 
   render() {
-    const { url } = this.props;
+    const { url, user } = this.props;
     const { tab, subtab, id } = this.state;
 
     return (
-      <Page
+      <Layout
         title={this.getName()}
         description="Data detail..."
+        user={user}
         url={url}
       >
         {/* PAGE HEADER */}
@@ -144,12 +146,13 @@ class Data extends React.Component {
             }
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }
 
 Data.propTypes = {
+  user: React.PropTypes.object,
   url: React.PropTypes.object
 };
 

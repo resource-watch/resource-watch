@@ -1,7 +1,7 @@
 import React from 'react';
 import PartnerForm from 'components/admin/partners/form/PartnerForm';
 import Title from 'components/ui/Title';
-import Page from 'components/admin/layout/Page';
+import Layout from 'components/admin/layout/Layout';
 import { Router } from 'routes';
 
 export default class PartnerEdit extends React.Component {
@@ -14,7 +14,7 @@ export default class PartnerEdit extends React.Component {
   render() {
     const { partnerID } = this.props;
     return (
-      <Page
+      <Layout
         title="Edit partner"
         description="Edit partner description..."
       >
@@ -32,7 +32,7 @@ export default class PartnerEdit extends React.Component {
             />
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

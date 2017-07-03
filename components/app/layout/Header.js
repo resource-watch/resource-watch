@@ -18,7 +18,8 @@ class Header extends React.Component {
 
     this.state = {
       dataActive: false,
-      aboutActive: false
+      aboutActive: false,
+      myrwActive: false
     };
 
     this.listeners = {};
@@ -30,7 +31,7 @@ class Header extends React.Component {
   // This function is debounced. If you don't do that insane things will happen
   toggleDropdown(specificDropdown, to) {
     this.setState({
-      ...{ dataActive: false, aboutActive: false },
+      ...{ dataActive: false, aboutActive: false, myrwActive: false },
       [specificDropdown]: to
     });
   }
@@ -70,7 +71,12 @@ class Header extends React.Component {
       },
       {
         name: 'My RW',
-        component: <HeaderUser />
+        component: <HeaderUser
+          user={this.props.user}
+          active={this.state.myrwActive}
+          onMouseEnter={() => this.toggleDropdown('myrwActive', true)}
+          onMouseLeave={() => this.toggleDropdown('myrwActive', false)}
+        />
       }
     ];
 
@@ -80,9 +86,7 @@ class Header extends React.Component {
 
     return (
       <header className={`c-header ${headerClass}`}>
-        <div className="header-secondary">
-          {/* We will load the script generated */}
-        </div>
+        {/* <div className="header-secondary"></div> */}
         <div className="l-container">
           <div className="header-main">
             <h1 className="header-logo">
@@ -123,6 +127,7 @@ Header.defaultProps = {
 
 
 Header.propTypes = {
+  user: PropTypes.object,
   url: PropTypes.object,
   pageHeader: PropTypes.bool
 };
