@@ -11,7 +11,7 @@ const DatasetNew = function DatasetNew(props) {
       <WidgetForm
         application={['rw']}
         authorization={`${process.env.TEMP_TOKEN}`}
-        onSubmit={() => Router.pushRoute('admin_data', { tab: 'datasets' })}
+        onSubmit={() => Router.pushRoute('admin_data', { tab: 'widgets' })}
         dataset={props.id}
       />
     </div>
