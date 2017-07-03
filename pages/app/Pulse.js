@@ -221,12 +221,8 @@ class Pulse extends Page {
       <Layout
         title="Planet Pulse"
         description="Planet Pulse description"
-<<<<<<< HEAD
         url={url}
-=======
-        pathname={url.pathname}
         user={this.props.user}
->>>>>>> 3d5aac06044101aa4d74e6aa701f3d5c6e666f6e
       >
         <div
           className="c-page -dark"
