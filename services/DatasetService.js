@@ -183,4 +183,16 @@ export default class DatasetService {
     a.click();
     document.body.removeChild(a);
   }
+
+  getSimilarDatasets(tags) {
+    return fetch(`${this.opts.apiURL}/dataset/vocabulary/find?legacy=${tags}`)
+      .then(response => response.json())
+      .then(jsonData => jsonData.data);
+  }
+
+  getDatasets(datasetIDs) {
+    return fetch(`${this.opts.apiURL}/dataset/?ids=${datasetIDs}&includes=widget,layer`)
+      .then(response => response.json())
+      .then(jsonData => jsonData.data);
+  }
 }

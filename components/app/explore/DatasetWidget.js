@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { Link } from 'routes';
@@ -130,6 +131,7 @@ class DatasetWidget extends React.Component {
 
   render() {
     const { hasWidget, hasLayer, mode, dataset } = this.state;
+    const { showActions } = this.props;
     const gridMode = (mode === 'grid');
     const element = this.getWidgetOrLayer();
 
@@ -174,7 +176,7 @@ class DatasetWidget extends React.Component {
           </div>
           <div className="actions">
             {/* Layer Button */}
-            {this.getButton()}
+            {showActions && this.getButton()}
           </div>
 
         </div>
@@ -185,15 +187,16 @@ class DatasetWidget extends React.Component {
 
 DatasetWidget.propTypes = {
   // STATE
-  active: React.PropTypes.bool,
-  layersHidden: React.PropTypes.array,
-  dataset: React.PropTypes.object,
-  widget: React.PropTypes.object,
-  layer: React.PropTypes.object,
-  mode: React.PropTypes.string,
+  active: PropTypes.bool,
+  layersHidden: PropTypes.array,
+  dataset: PropTypes.object,
+  widget: PropTypes.object,
+  layer: PropTypes.object,
+  mode: PropTypes.string,
+  showActions: PropTypes.bool,
   // ACTIONS
-  toggleDatasetActive: React.PropTypes.func,
-  setDatasetsHidden: React.PropTypes.func
+  toggleDatasetActive: PropTypes.func,
+  setDatasetsHidden: PropTypes.func
 };
 
 const mapStateToProps = state => ({
