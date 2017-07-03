@@ -2,7 +2,7 @@
 .p-home {
   .c-banner {
     &.intro {
-      background-image: url('static/images/backgrounds/image_header.jpg');
+      background-image: url('/static/images/backgrounds/image_header.jpg');
       background-position: top center;
 
       .title {
@@ -31,7 +31,7 @@
     }
 
     &.get-involved {
-      background-image: url('static/images/backgrounds/mod_getInvolved.jpg');
+      background-image: url('/static/images/backgrounds/mod_getInvolved.jpg');
       background-position: top center;
       text-align: left;
 

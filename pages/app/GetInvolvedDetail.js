@@ -11,11 +11,12 @@ import { Link } from 'routes';
 
 // Components
 import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
 import Title from 'components/ui/Title';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
-class GetInvolved extends React.Component {
+class GetInvolved extends Page {
   componentWillMount() {
     const { url, data } = this.props;
     const id = url.query.id;
@@ -26,14 +27,16 @@ class GetInvolved extends React.Component {
   }
 
   render() {
-    const id = this.props.url.query.id;
-    const data = this.props.data[id];
-    console.log(data);
+    const { url, user, data } = this.props;
+    const id = url.query.id;
+    const selectedData = data[id];
 
     return (
-      <Page
+      <Layout
         title={data.title || 'Get Involved detail'}
         description={data.summary || 'Get Involved summary'}
+        url={url}
+        user={user}
       >
         <div className="c-page">
           {/* PAGE HEADER */}
@@ -45,7 +48,7 @@ class GetInvolved extends React.Component {
                 />
 
                 <Title className="-primary -huge page-header-title" >
-                  {data.title}
+                  {selectedData.title}
                 </Title>
               </div>
             </div>
@@ -55,13 +58,13 @@ class GetInvolved extends React.Component {
             <div className="l-container">
               <header className="row">
                 <div className="column small-12 medium-8">
-                  <h1 className="c-text -header-big -primary -thin">{data.summary}</h1>
+                  <h1 className="c-text -header-big -primary -thin">{selectedData.summary}</h1>
                 </div>
               </header>
               <div className="row description">
                 <div
                   className="cols column small-12"
-                  dangerouslySetInnerHTML={{ __html: data.description }}
+                  dangerouslySetInnerHTML={{ __html: selectedData.description }}
                 />
               </div>
             </div>
@@ -71,14 +74,14 @@ class GetInvolved extends React.Component {
             <div className="column small-12">
               <Banner className="partners">
                 <h3 className="c-text -header-normal -normal">We have a massive opportunity<br />to build a sustainable society</h3>
-                <button className="c-btn -primary -filled">
-                  <Link route="about_partners"><a>Partners list</a></Link>
-                </button>
+                <Link route="about_partners">
+                  <a className="c-button -primary">Partners list</a>
+                </Link>
               </Banner>
             </div>
           </div>
         </div>
-      </Page>
+      </Layout>
     );
   }
 }

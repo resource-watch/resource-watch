@@ -1,7 +1,7 @@
 .c-page.partner-detail {
   .c-banner {
     &.intro {
-      background-image: url('static/images/backgrounds/bitmap.jpg');
+      background-image: url('/static/images/backgrounds/bitmap.jpg');
       background-position: top center;
 
       .title {
@@ -22,7 +22,7 @@
     }
 
     &.learn-more {
-      background-image: url('static/images/backgrounds/jellyfish.jpg');
+      background-image: url('/static/images/backgrounds/jellyfish.jpg');
       background-position: top center;
 
       .c-btn {
