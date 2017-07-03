@@ -63,10 +63,10 @@ class Step1 extends React.Component {
             properties={{
               name: 'dataset',
               label: 'Dataset',
-              required: true
+              required: true,
+              default: this.props.dataset
             }}
             options={this.state.datasets}
-            defaultValue={this.props.dataset || null}
           >
             {SelectInput}
           </Field>

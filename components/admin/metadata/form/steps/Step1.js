@@ -1,12 +1,11 @@
 import React from 'react';
 
-import { FORM_ELEMENTS, LANGUAGE_OPTIONS } from '../constants';
+import { FORM_ELEMENTS, LANGUAGE_OPTIONS } from 'components/admin/metadata/form/constants';
 
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Select from 'components/form/SelectInput';
 import TextArea from 'components/form/TextArea';
-import Checkbox from 'components/form/Checkbox';
 import Title from 'components/ui/Title';
 
 class Step1 extends React.Component {
@@ -49,6 +48,21 @@ class Step1 extends React.Component {
           </Field>
 
           <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.short_title = c; }}
+            onChange={value => this.changeMetadata({ info: { short_title: value } })}
+            validations={['required']}
+            properties={{
+              name: 'short_title',
+              label: 'Short title',
+              type: 'text',
+              required: true,
+              default: this.props.form.info.short_title
+            }}
+          >
+            {Input}
+          </Field>
+
+          <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
             onChange={value => this.changeMetadata({ description: value })}
             validations={['required']}
@@ -74,57 +88,11 @@ class Step1 extends React.Component {
               type: 'text',
               disabled: true,
               required: true,
-              default: this.props.form.language,
+              default: this.props.form.language || 'en',
               instanceId: 'selectLanguage'
             }}
           >
             {Select}
-          </Field>
-
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.wri_funded = c; }}
-            onChange={value => this.changeMetadata({ info: { wri_funded: value.checked } })}
-            properties={{
-              name: 'wri_funded',
-              label: 'WRI funded',
-              title: 'Is this dataset funded by WRI?',
-              checked: this.props.form.info.wri_funded
-            }}
-          >
-            {Checkbox}
-          </Field>
-        </fieldset>
-
-        <fieldset className="c-field-container">
-          <Title className="-big">
-            Contact
-          </Title>
-
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.contact_person_name = c; }}
-            onChange={value => this.changeMetadata({ info: { contact_person_name: value } })}
-            properties={{
-              name: 'contact_person_name',
-              label: 'Contact Person Name',
-              type: 'text',
-              default: this.props.form.info.contact_person_name
-            }}
-          >
-            {Input}
-          </Field>
-
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.contact_person_email = c; }}
-            onChange={value => this.changeMetadata({ info: { contact_person_email: value } })}
-            validations={['email']}
-            properties={{
-              name: 'contact_person_email',
-              label: 'Contact Person Email',
-              type: 'text',
-              default: this.props.form.info.contact_person_email
-            }}
-          >
-            {Input}
           </Field>
 
         </fieldset>
@@ -233,19 +201,6 @@ class Step1 extends React.Component {
               label: 'Frequency of Updates',
               type: 'text',
               default: this.props.form.info.frequency_of_updates
-            }}
-          >
-            {Input}
-          </Field>
-
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.scientific_paper = c; }}
-            onChange={value => this.changeMetadata({ info: { scientific_paper: value } })}
-            properties={{
-              name: 'scientific_paper',
-              label: 'Scientific Paper',
-              type: 'text',
-              default: this.props.form.info.scientific_paper
             }}
           >
             {Input}
@@ -393,14 +348,14 @@ class Step1 extends React.Component {
           </Field>
 
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.data_visualization_link = c; }}
-            onChange={value => this.changeMetadata({ info: { data_visualization_link: value } })}
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.data_download_original_link = c; }}
+            onChange={value => this.changeMetadata({ info: { data_download_original_link: value } })}
             validations={['url']}
             properties={{
-              name: 'data_visualization_link',
-              label: 'Data Visualization link',
+              name: 'data_download_original_link',
+              label: 'Download from Original Source link',
               type: 'text',
-              default: this.props.form.info.data_visualization_link
+              default: this.props.form.info.data_download_original_link
             }}
           >
             {Input}

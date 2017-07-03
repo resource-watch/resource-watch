@@ -88,12 +88,12 @@ class Data extends Page {
   getName() {
     const { tab, id, data } = this.state;
 
-    if (data.name) {
-      return data.name;
-    }
-
     if (id === 'new') {
       return `New ${singular(tab)}`;
+    }
+
+    if (data.name) {
+      return data.name;
     }
 
     return '-';

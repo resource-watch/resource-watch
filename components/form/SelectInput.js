@@ -7,8 +7,9 @@ class SelectInput extends FormElement {
 
   constructor(props) {
     super(props);
+
     this.state = {
-      value: props.defaultValue || null
+      value: props.properties.default || null
     };
   }
 
