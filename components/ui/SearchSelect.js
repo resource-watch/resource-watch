@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 
+// Components
+import Icon from 'components/ui/Icon';
+
 export default class SearchSelect extends React.Component {
   constructor(props) {
     super(props);
@@ -150,10 +153,10 @@ export default class SearchSelect extends React.Component {
       <div ref={(node) => { this.el = node; }} className={cNames.join(' ')}>
         <span className="custom-select-text" onClick={this.toggle}>
           <div>
-            <span>{this.state.value ?
-              this.state.value :
-              this.props.placeholder}
-            </span>
+            <span>{ this.state.value ? this.state.value : this.props.placeholder }</span>
+            <button className="icon-btn" onClick={this.toggle}>
+              <Icon name="icon-search" className="-small" />
+            </button>
           </div>
           <input
             ref={(node) => { this.input = node; }}

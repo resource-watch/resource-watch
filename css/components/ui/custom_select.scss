@@ -49,6 +49,7 @@
   }
 
   .icon-btn {
+    display: flex; // Vertically align the icon
     border: 0;
     background: none;
     cursor: pointer;
