@@ -27,11 +27,7 @@ const earthImage = 'static/images/components/vis/earth-min.jpg';
 const earthBumpImage = 'static/images/components/vis/earth-bump.jpg';
 const cloudsImage = 'static/images/components/vis/clouds-min.png';
 
-<<<<<<< HEAD
-class Pulse extends React.Component {
-=======
 class Pulse extends Page {
->>>>>>> 3d5aac06044101aa4d74e6aa701f3d5c6e666f6e
   constructor(props) {
     super(props);
     this.state = {

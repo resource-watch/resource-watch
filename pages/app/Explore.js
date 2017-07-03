@@ -210,10 +210,7 @@ Explore.propTypes = {
   paginatedDatasets: PropTypes.array,
   layersActive: PropTypes.array,
   toggledDataset: PropTypes.string,
-<<<<<<< HEAD
-=======
   url: PropTypes.object,
->>>>>>> 3d5aac06044101aa4d74e6aa701f3d5c6e666f6e
 
   // ACTIONS
   getDatasets: PropTypes.func,

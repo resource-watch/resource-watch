@@ -39,7 +39,7 @@ export default class Header extends React.Component {
       },
       {
         name: 'Logout',
-        component: <Link route="logout"><a>Log out</a></Link>
+        component: <a href="/logout">Log out</a>
       }
     ];
 
