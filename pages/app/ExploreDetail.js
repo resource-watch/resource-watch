@@ -101,10 +101,6 @@ class ExploreDetail extends Page {
     this.datasetService.getDownloadURI(tableName, name);
   }
 
-  triggerLaunchPlanetPulse() {
-    Router.pushRoute('pulse');
-  }
-
   render() {
     const { dataset, loading, downloadURI } = this.state;
     const metadata = dataset && dataset.attributes.metadata;
