@@ -7,7 +7,6 @@ import { resetDataset, toggleLayerShown } from 'redactions/exploreDetail';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 
 // Next
-import { Router } from 'routes';
 import { Link } from 'routes';
 
 // Services
@@ -191,17 +190,17 @@ class ExploreDetail extends Page {
             <div className="row">
               <div className="column small-12">
                 <div className="pulse-banner">
-                  <h1>Planet Pulse</h1>
+                  <h2>Planet Pulse</h2>
                   <div className="pulse-banner-container">
                     <div className="action-container">
                       <h1>Take the pulse of our planet</h1>
-                      <button
-                        disabled
-                        className="c-button -primary"
-                        onClick={this.triggerLaunchPlanetPulse}
-                      >
-                        Launch planet pulse
-                      </button>
+                      <Link route="pulse">
+                        <a
+                          className="c-button -primary"
+                        >
+                          Launch planet pulse
+                        </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
