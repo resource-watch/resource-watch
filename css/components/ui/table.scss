@@ -111,6 +111,22 @@
   }
 
   // CUSTOM TDs
+  // Main
+  td.main {
+    color: $color-text-1;
+    font-weight: 500;
+
+    a {
+      color: $color-text-1;
+      text-decoration: none;
+
+      &:hover {
+        color: darken($color-text-1, 10%);
+        text-decoration: underline;
+      }
+    }
+  }
+
   // Related content
   td.related-content {
     > ul {

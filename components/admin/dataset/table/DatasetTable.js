@@ -10,6 +10,7 @@ import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
 
 // TDs
+import NameTD from './td/NameTD';
 import StatusTD from './td/StatusTD';
 import RelatedContentTD from './td/RelatedContentTD';
 
@@ -63,7 +64,7 @@ class DatasetTable extends React.Component {
 
         <CustomTable
           columns={[
-            { label: 'Name', value: 'name' },
+            { label: 'Name', value: 'name', td: NameTD },
             { label: 'Status', value: 'status', td: StatusTD },
             { label: 'Provider', value: 'provider' },
             { label: 'Related content', value: 'status', td: RelatedContentTD }

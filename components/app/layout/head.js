@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import HeadNext from 'next/head';
-import Package from '../../../package';
 
 // Styles
 import styles from 'css/index.scss';
@@ -11,7 +10,7 @@ export default class Head extends React.Component {
   render() {
     const { title, description } = this.props;
 
-    let stylesheet = <style dangerouslySetInnerHTML={{ __html: styles }} />;
+    const stylesheet = <style dangerouslySetInnerHTML={{ __html: styles }} />;
 
     return (
       <HeadNext>
