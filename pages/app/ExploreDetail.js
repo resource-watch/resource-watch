@@ -24,6 +24,7 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
 import WidgetEditor from 'components/widgets/WidgetEditor';
 import ShareModal from 'components/modal/ShareModal';
+import SubscribeToAlertsModal from 'components/modal/SubscribeToAlertsModal';
 // import DatasetList from 'components/app/explore/DatasetList';
 
 class ExploreDetail extends Page {
@@ -98,6 +99,7 @@ class ExploreDetail extends Page {
    * UI EVENTS
    * - triggerDownload
    * - handleShare
+   * - handleSubscribe
   */
   @Autobind
   triggerDownload() {
@@ -110,6 +112,16 @@ class ExploreDetail extends Page {
       children: ShareModal,
       childrenProps: {
         url: window.location.href
+      }
+    };
+    this.props.toggleModal(true);
+    this.props.setModalOptions(options);
+  }
+  @Autobind
+  handleSubscribe() {
+    const options = {
+      children: SubscribeToAlertsModal,
+      childrenProps: {
       }
     };
     this.props.toggleModal(true);
@@ -201,7 +213,6 @@ class ExploreDetail extends Page {
                     <button
                       className="c-button -primary -fullwidth"
                       onClick={this.handleSubscribe}
-                      disabled
                     >
                       Subscribe to alerts
                     </button>
