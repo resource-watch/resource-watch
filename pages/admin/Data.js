@@ -6,6 +6,7 @@ import Tabs from 'components/ui/Tabs';
 
 // Tabs
 import DatasetTab from 'components/admin/dataset/DatasetTab';
+import WidgetTab from 'components/admin/widget/WidgetTab';
 
 // Components
 import Title from 'components/ui/Title';
@@ -94,7 +95,7 @@ class Data extends React.Component {
             }
 
             {tab === 'widgets' &&
-              <h2>Widgets</h2>
+              <WidgetTab tab={tab} subtab={subtab} id={id} />
             }
 
             {tab === 'layers' &&

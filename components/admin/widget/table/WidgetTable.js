@@ -1,9 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import sortBy from 'lodash/sortBy';
+import { Link } from 'routes';
+
+// Components
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
+
 // Actions
-import EditAction from 'components/admin/widget/table/actions/EditAction';
 import DeleteAction from 'components/ui/customtable/actions/DeleteAction';
 
 class WidgetTable extends React.Component {
@@ -29,7 +33,12 @@ class WidgetTable extends React.Component {
   */
   getWidgets() {
     const { application } = this.props;
-    const url = `${process.env.WRI_API_URL}/dataset/${this.props.dataset}/widget?application=${application.join(',')}&page[size]=${Date.now() / 100000}`;
+    const url = [
+      process.env.WRI_API_URL,
+      // If a dataset is passed, we only display its widgets
+      this.props.dataset ? `/dataset/${this.props.dataset}` : '',
+      `/widget?application=${application.join(',')}&page[size]=${Date.now() / 100000}`
+    ].join('');
 
     fetch(new Request(url))
       .then((response) => {
@@ -52,22 +61,41 @@ class WidgetTable extends React.Component {
   }
 
   render() {
+    const actions = [
+      {
+        name: 'Edit',
+        show: true,
+        component: ({ data }) => (
+          <Link route="admin_data_detail" params={{ tab: 'widgets', id: data.id, subtab: 'edit' }}><a>Edit</a></Link>
+        )
+      },
+      { name: 'Remove', path: '/admin/datasets/:dataset_id/widgets/:id/remove', show: true, component: DeleteAction, componentProps: { authorization: this.props.authorization } }
+    ];
+
+    if (!this.props.dataset) {
+      actions.unshift({
+        name: 'Go to dataset',
+        show: true,
+        component: ({ data }) => (
+          <Link route="admin_data_detail" params={{ tab: 'datasets', id: data.dataset, subtab: 'edit' }}><a>Go to dataset</a></Link>
+        )
+      });
+    }
+
     return (
       <div className="c-widget-table">
         <Spinner className="-light" isLoading={this.state.loading} />
         <CustomTable
           columns={[
-            { label: 'name', value: 'name' },
-            { label: 'status', value: 'status' },
-            { label: 'default', value: 'default' }
+            { label: 'Name', value: 'name' },
+            { label: 'Source', value: 'source' },
+            { label: 'Default', value: 'default', td: ({ value, index }) => (<td key={index}>{value ? 'Yes' : 'No'}</td>) }
           ]}
           actions={{
             show: true,
-            list: [
-              { name: 'Edit', path: '/admin/datasets/:dataset_id/widgets/:id/edit', show: true, component: EditAction },
-              { name: 'Remove', path: '/admin/datasets/:dataset_id/widgets/:id/remove', show: true, component: DeleteAction, componentProps: { authorization: this.props.authorization } }
-            ]
+            list: actions
           }}
+          filters={false}
           data={this.state.widgets}
           pageSize={20}
           pagination={{
@@ -94,9 +122,9 @@ WidgetTable.defaultProps = {
 };
 
 WidgetTable.propTypes = {
-  application: React.PropTypes.array.isRequired,
-  dataset: React.PropTypes.string.isRequired,
-  authorization: React.PropTypes.string.isRequired
+  application: PropTypes.array.isRequired,
+  authorization: PropTypes.string.isRequired,
+  dataset: PropTypes.string
 };
 
 export default WidgetTable;

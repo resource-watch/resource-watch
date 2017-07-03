@@ -6,12 +6,14 @@ import { capitalizeFirstLetter } from 'utils/utils';
 
 // Services
 import DatasetService from 'services/DatasetService';
+import WidgetService from 'services/WidgetService';
 
 // Layout
 import Page from 'components/admin/layout/Page';
 
 // Tabs
 import DatasetTab from 'components/admin/dataset/DatasetTab';
+import WidgetTab from 'components/admin/widget/WidgetTab';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 // Components
@@ -41,6 +43,15 @@ class Data extends React.Component {
           });
         }
         break;
+
+      case 'widgets':
+        if (id !== 'new') {
+          this.service = new WidgetService(id, {
+            apiURL: process.env.WRI_API_URL
+          });
+        }
+        break;
+
       // TODO: do the same service for widgets and layers
       default:
 
@@ -117,7 +128,7 @@ class Data extends React.Component {
             }
 
             {tab === 'widgets' &&
-              <h2>Widgets</h2>
+              <WidgetTab tab={tab} subtab={subtab} id={id} />
             }
 
             {tab === 'layers' &&
