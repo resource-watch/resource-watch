@@ -1,4 +1,6 @@
 import React from 'react';
+import { Autobind } from 'es-decorators';
+import classNames from 'classnames';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -28,7 +30,8 @@ class ExploreDetail extends Page {
     this.state = {
       similarDatasetsLoaded: false,
       dataset: null,
-      loading: false
+      loading: false,
+      downloadURI: null
     };
 
     // DatasetService
@@ -92,13 +95,22 @@ class ExploreDetail extends Page {
    * UI EVENTS
    * - triggerDownload
   */
+  @Autobind
   triggerDownload() {
-    console.info('triggerDownload');
+    const { tableName, name } = this.state.dataset.attributes;
+    this.datasetService.getDownloadURI(tableName, name);
   }
 
   render() {
-    const { dataset, loading } = this.state;
+    const { dataset, loading, downloadURI } = this.state;
     const metadata = dataset && dataset.attributes.metadata;
+
+    const downloadButtonClass = classNames({
+      '-disabled': downloadURI,
+      'c-button': true,
+      '-primary': true,
+      '-fullwidth': true
+    });
 
     return (
       <Layout
@@ -160,9 +172,9 @@ class ExploreDetail extends Page {
                     <div className="row flex-dir-column">
                       <div className="column">
                         <button
-                          disabled
-                          className="c-button -primary -fullwidth -disabled"
+                          className={downloadButtonClass}
                           onClick={this.triggerDownload}
+                          disabled={downloadURI}
                         >
                           Download
                         </button>

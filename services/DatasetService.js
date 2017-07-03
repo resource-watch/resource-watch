@@ -166,4 +166,15 @@ export default class DatasetService {
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
+
+  getDownloadURI(tableName, datasetName) {
+    // emulates trigger of download creating a link in memory and clicking on it
+    const a = document.createElement('a');
+    a.href = `${this.opts.apiURL}/download/${this.datasetId}?sql=SELECT * FROM ${tableName}`;
+    a.style.display = 'none';
+    a.download = datasetName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
 }
