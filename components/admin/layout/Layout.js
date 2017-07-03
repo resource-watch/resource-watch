@@ -7,18 +7,22 @@ import Tooltip from 'components/ui/Tooltip';
 
 export default class Layout extends React.Component {
   render() {
-    const { title, description } = this.props;
+    const { title, description, url, user } = this.props;
     return (
       <div className="c-page">
         <Head
           title={title}
           description={description}
         />
+
         <Icons />
-        <Header user={this.props.user} />
+
+        <Header url={url} user={user} />
+
         <div className="container">
           { this.props.children }
         </div>
+
         <Tooltip />
       </div>
     );
@@ -28,6 +32,7 @@ export default class Layout extends React.Component {
 
 Layout.propTypes = {
   user: PropTypes.object.isRequired,
+  url: PropTypes.object.isRequired,
   children: PropTypes.any.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired

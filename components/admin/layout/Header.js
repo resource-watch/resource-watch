@@ -9,7 +9,7 @@ export default class Header extends React.Component {
 
   static propTypes() {
     return {
-      session: PropTypes.object.isRequired
+      user: PropTypes.object.isRequired
     };
   }
 
