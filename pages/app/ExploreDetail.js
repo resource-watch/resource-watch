@@ -101,6 +101,10 @@ class ExploreDetail extends Page {
     this.datasetService.getDownloadURI(tableName, name);
   }
 
+  triggerLaunchPlanetPulse() {
+    Router.pushRoute('pulse');
+  }
+
   render() {
     const { dataset, loading, downloadURI } = this.state;
     const metadata = dataset && dataset.attributes.metadata;
@@ -194,6 +198,27 @@ class ExploreDetail extends Page {
           {/* RELATED INSIGHTS */}
 
           {/* PLANET PULSE */}
+          <div className="c-page-section pulse-banner-section">
+            <div className="row">
+              <div className="column small-12">
+                <div className="pulse-banner">
+                  <h2>Planet Pulse</h2>
+                  <div className="pulse-banner-container">
+                    <div className="action-container">
+                      <h1>Take the pulse of our planet</h1>
+                      <Link route="pulse">
+                        <a
+                          className="c-button -primary"
+                        >
+                          Launch planet pulse
+                        </a>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </Layout>
     );
