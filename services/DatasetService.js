@@ -51,7 +51,13 @@ export default class DatasetService {
    * @returns {Promise}
    */
   fetchJiminy(query) {
-    return fetch(`${this.opts.apiURL}/jiminy/?sql=${encodeURIComponent(query)}`)
+    return fetch(`${this.opts.apiURL}/jiminy`, {
+      method: 'POST',
+      body: JSON.stringify({ sql: query }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
