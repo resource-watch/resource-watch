@@ -32,4 +32,24 @@
     width: 100%;
     min-height: 100px;
   }
+
+  .c-page-section, .pulse-banner-section {
+    background-image: url('static/images/pages/app/bg-banner-planetPulse.jpg');
+    display: flex;
+    justify-content: center;
+
+    .pulse-banner-container {
+      width: 230px;
+
+      h1 {
+        text-align: center;
+      }
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
 }

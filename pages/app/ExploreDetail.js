@@ -7,6 +7,7 @@ import { resetDataset, toggleLayerShown } from 'redactions/exploreDetail';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 
 // Next
+import { Router } from 'routes';
 import { Link } from 'routes';
 
 // Services
@@ -96,6 +97,10 @@ class ExploreDetail extends Page {
     console.info('triggerDownload');
   }
 
+  triggerLaunchPlanetPulse() {
+    Router.pushRoute('pulse');
+  }
+
   render() {
     const { dataset, loading } = this.state;
     const metadata = dataset && dataset.attributes.metadata;
@@ -182,6 +187,22 @@ class ExploreDetail extends Page {
           {/* RELATED INSIGHTS */}
 
           {/* PLANET PULSE */}
+          <div className="c-page-section pulse-banner-section">
+            <div className="row">
+              <div className="column small-12">
+                <div className="pulse-banner-container">
+                  <h1>Take the pulse of our planet</h1>
+                  <button
+                    disabled
+                    className="c-button -primary"
+                    onClick={this.triggerLaunchPlanetPulse}
+                  >
+                    Launch planet pulse
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </Layout>
     );
