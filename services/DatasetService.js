@@ -166,4 +166,8 @@ export default class DatasetService {
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
+
+  getDownloadURI(tableName) {
+    return `${this.opts.apiURL}/download/${this.datasetId}?sql=SELECT * FROM ${tableName}`;
+  }
 }
