@@ -9,12 +9,9 @@ import { initStore } from 'store';
 import { setChartType } from 'redactions/widgetEditor';
 
 // Components
-import ColumnBox from 'components/widgets/ColumnBox';
 import FilterContainer from 'components/widgets/FilterContainer';
-import ColorContainer from 'components/widgets/ColorContainer';
-import SizeContainer from 'components/widgets/SizeContainer';
-import CategoryContainer from 'components/widgets/CategoryContainer';
-import ValueContainer from 'components/widgets/ValueContainer';
+import DimensionsContainer from 'components/widgets/DimensionsContainer';
+import FieldsContainer from 'components/widgets/FieldsContainer';
 import Select from 'components/form/SelectInput';
 
 @DragDropContext(HTML5Backend)
@@ -26,8 +23,8 @@ class ChartEditor extends React.Component {
   }
 
   render() {
-    const { dataset, tableName, jiminy, fields, widgetEditor } = this.props;
-    const { chartType } = widgetEditor;
+    const { dataset, tableName, jiminy, widgetEditor, tableViewMode } = this.props;
+    const { chartType, fields } = widgetEditor;
 
     const chartOptions = (
         jiminy
@@ -37,42 +34,30 @@ class ChartEditor extends React.Component {
 
     return (
       <div className="c-chart-editor">
-        <div className="chart-type">
-          <h5>Chart type</h5>
-          <Select
-            properties={{
-              className: 'chart-type-selector',
-              name: 'chart-type',
-              value: chartType
-            }}
-            options={chartOptions}
-            onChange={this.handleChartTypeChange}
-          />
-        </div>
-        <div className="actions-div">
-          <div className="fields">
-            <h5>Columns</h5>
-            {tableName && fields && fields.fields && fields.fields.map(val =>
-              val.columnType !== 'geometry' && val.columnName !== 'cartodb_id' && (
-                <ColumnBox
-                  key={val.columnName}
-                  name={val.columnName}
-                  type={val.columnType}
-                  datasetID={dataset}
-                  tableName={tableName}
-                />
-              )
-            )}
+        {!tableViewMode &&
+          <div className="chart-type">
+            <h5>Chart type</h5>
+            <Select
+              properties={{
+                className: 'chart-type-selector',
+                name: 'chart-type',
+                value: chartType
+              }}
+              options={chartOptions}
+              onChange={this.handleChartTypeChange}
+            />
           </div>
+        }
+        <div className="actions-div">
+          {fields &&
+            <FieldsContainer
+              dataset={dataset}
+              tableName={tableName}
+              fields={fields}
+            />
+          }
           <div className="customization-container">
-            {/* TODO: should we create a component wrapping the dimensions? */}
-            <div className="c-dimensions-container">
-              <h5>Dimensions</h5>
-              <CategoryContainer />
-              <ValueContainer />
-              <ColorContainer />
-              <SizeContainer />
-            </div>
+            <DimensionsContainer />
             <FilterContainer />
           </div>
         </div>
@@ -85,8 +70,8 @@ class ChartEditor extends React.Component {
 ChartEditor.propTypes = {
   tableName: PropTypes.string.isRequired,
   jiminy: PropTypes.object,
-  fields: PropTypes.object.isRequired,
   dataset: PropTypes.string.isRequired, // Dataset ID
+  tableViewMode: PropTypes.bool.isRequired,
   // Store
   widgetEditor: PropTypes.object.isRequired,
   setChartType: PropTypes.func.isRequired

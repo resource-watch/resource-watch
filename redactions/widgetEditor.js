@@ -15,6 +15,7 @@ const REMOVE_VALUE = 'widgetEditor/REMOVE_VALUE';
 const SET_CHART_TYPE = 'widgetEditor/SET_CHART_TYPE';
 const SET_AGGREGATE_FN = 'widgetEditor/SET_AGGREGATE_FN';
 const SHOW_LAYER = 'widgetEditor/SHOW_LAYER';
+const SET_FIELDS = 'widgetEditor/SET_FIELDS';
 const RESET = 'widgetEditor/RESET';
 
 /**
@@ -27,7 +28,8 @@ const initialState = {
   size: null,
   category: null,
   value: null,
-  layer: null
+  layer: null,
+  fields: []
 };
 
 export default function (state = initialState, action) {
@@ -140,6 +142,12 @@ export default function (state = initialState, action) {
       });
     }
 
+    case SET_FIELDS: {
+      return Object.assign({}, state, {
+        fields: action.payload
+      });
+    }
+
     default:
       return state;
   }
@@ -159,6 +167,8 @@ export default function (state = initialState, action) {
  * - removeValue
  * - setChartType
  * - resetWidgetEditor
+ * - showLayer
+ * - setFields
 */
 export function addFilter(filter) {
   return dispatch => dispatch({ type: ADD_FILTER, payload: filter });
@@ -204,4 +214,7 @@ export function resetWidgetEditor() {
 }
 export function showLayer(layer) {
   return dispatch => dispatch({ type: SHOW_LAYER, payload: layer });
+}
+export function setFields(layer) {
+  return dispatch => dispatch({ type: SET_FIELDS, payload: layer });
 }
