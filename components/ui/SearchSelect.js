@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 
 export default class SearchSelect extends React.Component {
@@ -78,7 +79,7 @@ export default class SearchSelect extends React.Component {
         const filteredOptions = this.props.options.filter(item => item.label
           .toLowerCase().match(value.toLowerCase()));
         this.setState({ filteredOptions }, () => {
-          this.props.onKeyPressed && this.props.onKeyPressed({ value }, [], 'name');
+          if (this.props.onKeyPressed) this.props.onKeyPressed({ value }, [], 'name');
         });
         break;
       }
@@ -109,7 +110,7 @@ export default class SearchSelect extends React.Component {
   selectItem(item) {
     this.setState({ selectedItem: item });
     this.close();
-    this.props.onValueChange && this.props.onValueChange(item);
+    if (this.props.onValueChange) this.props.onValueChange(item);
   }
 
   toggle() {
@@ -122,7 +123,7 @@ export default class SearchSelect extends React.Component {
     window.addEventListener('click', this.onScreenClick);
 
     this.setState({ closed: false }, () => {
-      this.input && this.input.focus();
+      if (this.input) this.input.focus();
     });
   }
 
@@ -140,8 +141,8 @@ export default class SearchSelect extends React.Component {
   render() {
     // Class names
     const cNames = ['c-custom-select -search'];
-    this.props.className && cNames.push(this.props.className);
-    this.state.closed && cNames.push('-closed');
+    if (this.props.className) cNames.push(this.props.className);
+    if (this.state.closed) cNames.push('-closed');
 
     const noResults = !!(this.props.options.length && !this.state.filteredOptions.length);
 
@@ -173,7 +174,7 @@ export default class SearchSelect extends React.Component {
               return (
                 <li
                   className={cName}
-                  key={index}
+                  key={item.label}
                   onMouseEnter={() => { this.setSelectedIndex(index); }}
                   onMouseDown={() => this.selectItem(item)}
                 >
@@ -189,11 +190,11 @@ export default class SearchSelect extends React.Component {
 }
 
 SearchSelect.propTypes = {
-  options: React.PropTypes.array,
-  hideList: React.PropTypes.bool,
-  value: React.PropTypes.string,
-  className: React.PropTypes.string,
-  placeholder: React.PropTypes.string,
-  onValueChange: React.PropTypes.func,
-  onKeyPressed: React.PropTypes.func
+  options: PropTypes.array,
+  hideList: PropTypes.bool,
+  value: PropTypes.string,
+  className: PropTypes.string,
+  placeholder: PropTypes.string,
+  onValueChange: PropTypes.func,
+  onKeyPressed: PropTypes.func
 };
