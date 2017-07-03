@@ -33,23 +33,38 @@
     min-height: 100px;
   }
 
-  .c-page-section, .pulse-banner-section {
-    background-image: url('static/images/pages/app/bg-banner-planetPulse.jpg');
-    display: flex;
-    justify-content: center;
+  .c-page-section.pulse-banner-section {
 
-    .pulse-banner-container {
-      width: 230px;
+    .pulse-banner {
 
       h1 {
-        text-align: center;
+        font-weight:normal;
+        color: $color-dark-pink;
       }
 
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      .pulse-banner-container {
+        background-image: url('/static/images/pages/app/bg-banner-planetPulse.jpg');
+        width: 100%;
+        height: 280px;
+        display: flex;
+        justify-content: center;
+
+        .action-container {
+          width: 230px;
+
+          h1 {
+            text-align: center;
+            color: $color-white;
+          }
+
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+      }
     }
+
   }
 
 }
