@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import classNames from 'classnames';
 
@@ -6,6 +7,7 @@ import classNames from 'classnames';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { resetDataset, toggleLayerShown } from 'redactions/exploreDetail';
+import { toggleModal, setModalOptions } from 'redactions/modal';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 
 // Next
@@ -21,6 +23,7 @@ import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
 import WidgetEditor from 'components/widgets/WidgetEditor';
+import ShareModal from 'components/modal/ShareModal';
 // import DatasetList from 'components/app/explore/DatasetList';
 
 class ExploreDetail extends Page {
@@ -94,11 +97,23 @@ class ExploreDetail extends Page {
   /**
    * UI EVENTS
    * - triggerDownload
+   * - handleShare
   */
   @Autobind
   triggerDownload() {
     const { tableName, name } = this.state.dataset.attributes;
     this.datasetService.getDownloadURI(tableName, name);
+  }
+  @Autobind
+  handleShare() {
+    const options = {
+      children: ShareModal,
+      childrenProps: {
+        url: window.location.href
+      }
+    };
+    this.props.toggleModal(true);
+    this.props.setModalOptions(options);
   }
 
   render() {
@@ -169,17 +184,20 @@ class ExploreDetail extends Page {
                 </div>
                 <div className="column large-offset-2 small-3">
                   <div className="dataset-info-actions">
-                    <div className="row flex-dir-column">
-                      <div className="column">
-                        <button
-                          className={downloadButtonClass}
-                          onClick={this.triggerDownload}
-                          disabled={downloadURI}
-                        >
-                          Download
-                        </button>
-                      </div>
-                    </div>
+
+                    <button
+                      className="c-button -primary -fullwidth"
+                      onClick={this.handleShare}
+                    >
+                      Share
+                    </button>
+                    <button
+                      className={downloadButtonClass}
+                      onClick={this.triggerDownload}
+                      disabled={downloadURI}
+                    >
+                      Download
+                    </button>
                   </div>
                 </div>
               </div>
@@ -224,7 +242,9 @@ class ExploreDetail extends Page {
 ExploreDetail.propTypes = {
   url: React.PropTypes.string.isRequired,
   // ACTIONS
-  resetDataset: React.PropTypes.func
+  resetDataset: React.PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  setModalOptions: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -238,7 +258,9 @@ const mapDispatchToProps = dispatch => ({
   },
   toggleLayerShown: (id) => {
     dispatch(toggleLayerShown(id));
-  }
+  },
+  toggleModal: (open) => { dispatch(toggleModal(open)); },
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); }
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);
