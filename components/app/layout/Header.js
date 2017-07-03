@@ -79,9 +79,7 @@ class Header extends React.Component {
 
     return (
       <header className={`c-header ${headerClass}`}>
-        <div className="header-secondary">
-          {/* We will load the script generated */}
-        </div>
+        {/* <div className="header-secondary"></div> */}
         <div className="l-container">
           <div className="header-main">
             <h1 className="header-logo">
