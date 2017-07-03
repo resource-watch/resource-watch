@@ -198,6 +198,13 @@ class ExploreDetail extends Page {
                     >
                       Download
                     </button>
+                    <button
+                      className="c-button -primary -fullwidth"
+                      onClick={this.handleSubscribe}
+                      disabled
+                    >
+                      Subscribe to alerts
+                    </button>
                   </div>
                 </div>
               </div>
@@ -240,7 +247,7 @@ class ExploreDetail extends Page {
 }
 
 ExploreDetail.propTypes = {
-  url: React.PropTypes.string.isRequired,
+  url: React.PropTypes.object.isRequired,
   // ACTIONS
   resetDataset: React.PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
