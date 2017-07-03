@@ -97,7 +97,8 @@ class ExploreDetail extends Page {
   */
   @Autobind
   triggerDownload() {
-    window.location.href = this.datasetService.getDownloadURI(this.state.dataset.attributes.tableName);
+    const { tableName, name } = this.state.dataset.attributes;
+    this.datasetService.getDownloadURI(tableName, name);
   }
 
   render() {
