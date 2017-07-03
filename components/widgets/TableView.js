@@ -44,11 +44,15 @@ class TableView extends React.Component {
     const arrColumns = fields.filter(val => val.columnName !== 'cartodb_id' && val.columnType !== 'geometry').map(
       (val) => {
         if (value && value.name === val.columnName && aggregateFunction) {
-          return { value: val.columnName, aggregateFunction };
+          return { value: val.columnName, key: val.columnName, aggregateFunction };
         } else if (category && category.name === val.columnName && aggregateFunction) {
-          return { value: val.columnName, group: true, key: val.columnName };
+          return { value: val.columnName, key: val.columnName, group: true };
         } else {
-          return { value: val.columnName };
+          return {
+            value: val.columnName,
+            key: val.columnName,
+            group: aggregateFunction && category && value && true
+          };
         }
       }
     );

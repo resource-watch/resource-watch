@@ -66,11 +66,14 @@ export default function getQueryByFilters(
   const where = (filtersQuery.length) ? `WHERE ${filtersQuery}` : '';
 
   // The column used to group the data, if exist
-  const groupingColumn = arrColumns.find(col => col.group);
+  const groupingColumns = arrColumns.filter(col => col.group);
 
-  let groupBy = '';
-  if (groupingColumn) {
-    groupBy = `GROUP BY ${groupingColumn.key}`;
+  let groupBy = 'GROUP BY ';
+  groupingColumns.forEach(val => (groupBy = `${groupBy} ${val.key},`));
+  if (groupingColumns.length === 0) {
+    groupBy = '';
+  } else {
+    groupBy = groupBy.slice(0, -1); // remove extra comma at the end
   }
 
   return `SELECT ${columns} FROM ${tableName} ${where} ${groupBy} ${orderBy}`;
