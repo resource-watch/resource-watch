@@ -24,6 +24,11 @@ class ChartEditor extends React.Component {
     this.props.setChartType(val);
   }
 
+  @Autobind
+  handleSaveWidget() {
+    console.log('save widget');
+  }
+
   render() {
     const { dataset, tableName, jiminy, widgetEditor, tableViewMode } = this.props;
     const { chartType, fields } = widgetEditor;
@@ -64,6 +69,13 @@ class ChartEditor extends React.Component {
             <SortContainer />
             <LimitContainer />
           </div>
+        </div>
+        <div className="save-widget-container">
+          <a
+            onClick={this.handleSaveWidget}
+          >
+            Save widget
+          </a>
         </div>
       </div>
     );

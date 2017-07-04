@@ -22,4 +22,15 @@
     }
   }
 
+  .save-widget-container {
+    color: $color-dark-pink;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+
+    a {
+      cursor: pointer;
+    }
+  }
+
 }
