@@ -11,7 +11,7 @@ import { toggleTooltip } from 'redactions/tooltip';
 import Button from 'components/ui/Button';
 
 const AGGREGATE_FUNCTIONS = [
-  'sum', 'avg', 'max', 'min', 'none'
+  'sum', 'avg', 'max', 'min', 'count', 'none'
 ];
 
 class AggregateFunctionTooltip extends React.Component {
