@@ -60,6 +60,10 @@ class SelectInput extends FormElement {
   }
 }
 
+SelectInput.defaultProps = {
+  options: []
+};
+
 SelectInput.propTypes = {
   properties: PropTypes.object.isRequired,
   options: PropTypes.array.isRequired,

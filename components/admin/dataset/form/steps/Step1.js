@@ -281,7 +281,7 @@ class Step1 extends React.Component {
         }
 
         {isDocument &&
-          <div>
+          <div className="c-field-row">
             <div className="row l-row">
               <div className="column small-12 medium-6">
                 <Field

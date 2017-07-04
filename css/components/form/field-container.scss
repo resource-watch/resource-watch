@@ -23,12 +23,9 @@
 
 
 .c-field-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
+  margin: 0;
 
-  > * {
-    width: 25%;
+  .c-field {
+    margin: $space-1 * 3 0 0;
   }
 }
