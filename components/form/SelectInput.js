@@ -1,8 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Select, Creatable } from 'react-select';
 import FormElement from './FormElement';
 
 class SelectInput extends FormElement {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      value: props.properties.default || null
+    };
+  }
 
   /**
    * UI EVENTS
@@ -52,10 +61,11 @@ class SelectInput extends FormElement {
 }
 
 SelectInput.propTypes = {
-  properties: React.PropTypes.object.isRequired,
-  options: React.PropTypes.array.isRequired,
-  creatable: React.PropTypes.bool,
-  onChange: React.PropTypes.func
+  properties: PropTypes.object.isRequired,
+  options: PropTypes.array.isRequired,
+  creatable: PropTypes.bool,
+  onChange: PropTypes.func,
+  defaultValue: PropTypes.any
 };
 
 export default SelectInput;

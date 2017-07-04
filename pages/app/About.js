@@ -1,12 +1,18 @@
 import React from 'react';
-import { Link } from 'routes';
-import Banner from 'components/app/common/Banner';
-import Intro from 'components/app/common/Intro';
-import Page from 'components/app/layout/Page';
-import Layout from 'components/app/layout/Layout';
+
+// Redux
+import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { getStaticData } from 'redactions/static_pages';
-import withRedux from 'next-redux-wrapper';
+
+// Next components
+import { Link } from 'routes';
+
+// Components
+import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
+import Intro from 'components/app/common/Intro';
+import Banner from 'components/app/common/Banner';
 
 class About extends Page {
   componentDidMount() {
@@ -25,6 +31,7 @@ class About extends Page {
       <Layout
         title="About"
         description="About description..."
+        url={this.props.url}
         user={this.props.user}
       >
         <div className="p-about">
@@ -60,6 +67,10 @@ class About extends Page {
 }
 
 About.propTypes = {
+  // ROUTER
+  url: React.PropTypes.object,
+
+  // STORE
   data: React.PropTypes.object,
   getStaticData: React.PropTypes.func
 };

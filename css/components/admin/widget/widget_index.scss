@@ -1,0 +1,18 @@
+.c-widgets-index {
+  .table {
+    td {
+      max-width: 400px;
+    }
+  }
+
+  &:not(.-embed) {
+    .table {
+      td {
+        &.individual-actions {
+          min-width: 300px;
+          text-align: right;
+        }
+      }
+    }
+  }
+}

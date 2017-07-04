@@ -40,7 +40,7 @@ class ExploreDetail extends Page {
     };
 
     // DatasetService
-    this.datasetService = new DatasetService(this.props.url.query.id, {
+    this.datasetService = new DatasetService(props.url.query.id, {
       apiURL: process.env.WRI_API_URL
     });
   }
@@ -162,6 +162,7 @@ class ExploreDetail extends Page {
       <Layout
         title="Explore detail"
         description="Explore detail description..."
+        url={this.props.url}
         user={this.props.user}
         pageHeader
       >
@@ -176,7 +177,7 @@ class ExploreDetail extends Page {
             <div className="l-container">
               <div className="page-header-content -padding-b-2">
                 <Breadcrumbs
-                  items={[{ name: 'Explore datasets', url: 'explore' }]}
+                  items={[{ name: 'Explore datasets', route: 'explore' }]}
                 />
 
                 <Title className="-primary -huge page-header-title" >

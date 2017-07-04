@@ -37,9 +37,13 @@ class Header extends React.Component {
   }
 
   render() {
+    // TODO: improve pathnames behaviour
+    const { pageHeader, url } = this.props;
+
     const items = [
       {
         name: 'Data',
+        pathnames: ['/app/Explore', '/app/ExploreDetail', '/app/Pulse'],
         component: <HeaderDropdownData
           active={this.state.dataActive}
           onMouseEnter={() => this.toggleDropdown('dataActive', true)}
@@ -48,10 +52,12 @@ class Header extends React.Component {
       },
       {
         name: 'Insights',
+        pathnames: ['/app/Insights'],
         component: <Link route="insights"><a>Insights</a></Link>
       },
       {
         name: 'About',
+        pathnames: ['/app/About'],
         component: <HeaderDropdownAbout
           active={this.state.aboutActive}
           onMouseEnter={() => this.toggleDropdown('aboutActive', true)}
@@ -60,6 +66,7 @@ class Header extends React.Component {
       },
       {
         name: 'Get Involved',
+        pathnames: ['/app/GetInvolved'],
         component: <Link route="get_involved"><a>Get Involved</a></Link>
       },
       {
@@ -74,7 +81,7 @@ class Header extends React.Component {
     ];
 
     const headerClass = classnames({
-      '-transparent': this.props.pageHeader
+      '-transparent': pageHeader
     });
 
     return (
@@ -92,11 +99,17 @@ class Header extends React.Component {
             </h1>
             <nav className="header-menu">
               <ul>
-                {items.map(item => (
-                  <li key={item.name}>
-                    {item.component}
-                  </li>
-                ))}
+                {items.map((item) => {
+                  const activeClassName = classnames({
+                    '-active': item.pathnames && item.pathnames.includes(url.pathname)
+                  });
+
+                  return (
+                    <li key={item.name} className={activeClassName}>
+                      {item.component}
+                    </li>
+                  );
+                })}
               </ul>
             </nav>
           </div>
@@ -108,13 +121,15 @@ class Header extends React.Component {
 }
 
 Header.defaultProps = {
+  url: {},
   pageHeader: false
 };
 
 
 Header.propTypes = {
-  pageHeader: PropTypes.bool,
-  user: PropTypes.object
+  user: PropTypes.object,
+  url: PropTypes.object,
+  pageHeader: PropTypes.bool
 };
 
 export default Header;

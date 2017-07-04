@@ -44,18 +44,18 @@ export default class TableContent extends React.Component {
 
     return (
       <tbody>
-        {data.map((row, index) => {
+        {data.map((row) => {
           const selectedClass = classnames({ '-selected': rowSelection.includes(row.id) });
           return (
             <tr
               className={`${selectedClass}`}
               // onClick={() => this.props.onToggleSelectedRow(row.id)}
-              key={index}
+              key={row.id}
             >
               {columns.map((col, i) => {
                 const value = row[col.value];
                 const td = col.td ?
-                  <col.td key={i} value={value} /> :
+                  <col.td key={i} row={row} value={value} /> :
                   <td key={i} className={col.className || ''}>{(value && value.toString) ? value.toString() : value}</td>;
                 return td;
               }

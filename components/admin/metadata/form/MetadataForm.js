@@ -3,13 +3,16 @@ import omit from 'lodash/omit';
 
 import { Autobind } from 'es-decorators';
 
-import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
-
+// Utils
 import { get, post } from 'utils/request';
 
-import Step1 from './steps/Step1';
-import Title from 'components/ui/Title';
+// Contants
+import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/metadata/form/constants';
+
+// Components
 import Navigation from 'components/form/Navigation';
+import Step1 from 'components/admin/metadata/form/steps/Step1';
+
 
 class MetadataForm extends React.Component {
   constructor(props) {
@@ -142,10 +145,7 @@ class MetadataForm extends React.Component {
 
   render() {
     return (
-      <div>
-        <Title className="-big">
-          {this.state.datasetName}
-        </Title>
+      <div className="c-metadata-form">
         <form className="c-form" onSubmit={this.onSubmit} noValidate>
           {this.state.loading && 'loading'}
           {!this.state.loading &&

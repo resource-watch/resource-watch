@@ -1,23 +1,30 @@
 import React from 'react';
 
+// Utils
+import { substitution } from 'utils/utils';
+
+// Next components
+import { Link } from 'routes';
+
 class EditAction extends React.Component {
 
-  parseHref() {
-    const { action, data } = this.props;
-    const id = data.id;
-    const path = action.path;
+  getParsedParams() {
+    const { data, action } = this.props;
 
-    return path.replace(':id', id);
+    return JSON.parse(substitution(JSON.stringify(action.params), [{ key: 'id', value: data.id }]))
   }
 
   render() {
-    const { data } = this.props;
+    const { data, action } = this.props;
     return (
       <span>
         {(data.status === 'saved') &&
-          <a href={this.parseHref()}>
-            Edit
-          </a>
+          <Link
+            route={action.route}
+            params={this.getParsedParams(action.params)}
+          >
+            <a>Edit</a>
+          </Link>
         }
       </span>
     );

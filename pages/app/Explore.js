@@ -110,7 +110,7 @@ class Explore extends Page {
       <Layout
         title="Explore"
         description="Explore description"
-        pathname={this.props.url.pathname}
+        url={this.props.url}
         user={this.props.user}
       >
         <div className="p-explore">
@@ -204,7 +204,7 @@ class Explore extends Page {
 
 Explore.propTypes = {
   // ROUTER
-  query: PropTypes.object,
+  url: PropTypes.object,
 
   // STORE
   explore: PropTypes.object,

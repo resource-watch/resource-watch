@@ -142,6 +142,7 @@ class Home extends Page {
       <Layout
         title="Resource Watch"
         description="Resource Watch description"
+        url={this.props.url}
         user={this.props.user}
       >
         <div className="p-home">

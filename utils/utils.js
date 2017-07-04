@@ -29,9 +29,9 @@ export function concatenation(string, params) {
   return str;
 }
 
-export function filterDatasetsBy(list, key, value) {
-  return list.filter(it => {
-    const issues = it.attributes[key];
-    return issues && issues.indexOf(value) != -1;
-  });
+export function capitalizeFirstLetter(string) {
+  if (typeof string === 'string') {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  }
+  return string;
 }

@@ -1,12 +1,11 @@
 import React from 'react';
 
-import { FORM_ELEMENTS, LANGUAGE_OPTIONS } from '../constants';
+import { FORM_ELEMENTS, LANGUAGE_OPTIONS } from 'components/admin/metadata/form/constants';
 
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Select from 'components/form/SelectInput';
 import TextArea from 'components/form/TextArea';
-import Checkbox from 'components/form/Checkbox';
 import Title from 'components/ui/Title';
 
 class Step1 extends React.Component {
@@ -29,20 +28,22 @@ class Step1 extends React.Component {
     return (
       <div>
         <fieldset className="c-field-container">
-          <Title className="-default">
+          <Title className="-big">
             Global
           </Title>
 
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
-            onChange={value => this.changeMetadata({ name: value })}
+            onChange={value => this.changeMetadata({ info: { name: value } })}
             validations={['required']}
+            hint="Max length of 75 characters"
             properties={{
               name: 'name',
               label: 'Title',
               type: 'text',
+              maxLength: '75',
               required: true,
-              default: this.props.form.name
+              default: this.props.form.info.name
             }}
           >
             {Input}
@@ -74,75 +75,44 @@ class Step1 extends React.Component {
               type: 'text',
               disabled: true,
               required: true,
-              default: this.props.form.language,
+              default: this.props.form.language || 'en',
               instanceId: 'selectLanguage'
             }}
           >
             {Select}
           </Field>
 
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.wri_funded = c; }}
-            onChange={value => this.changeMetadata({ info: { wri_funded: value.checked } })}
-            properties={{
-              name: 'wri_funded',
-              label: 'WRI funded',
-              title: 'Is this dataset funded by WRI?',
-              checked: this.props.form.info.wri_funded
-            }}
-          >
-            {Checkbox}
-          </Field>
         </fieldset>
 
         <fieldset className="c-field-container">
-          <Title className="-default">
-            Contact
-          </Title>
-
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.contact_person_name = c; }}
-            onChange={value => this.changeMetadata({ info: { contact_person_name: value } })}
-            properties={{
-              name: 'contact_person_name',
-              label: 'Contact Person Name',
-              type: 'text',
-              default: this.props.form.info.contact_person_name
-            }}
-          >
-            {Input}
-          </Field>
-
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.contact_person_email = c; }}
-            onChange={value => this.changeMetadata({ info: { contact_person_email: value } })}
-            validations={['email']}
-            properties={{
-              name: 'contact_person_email',
-              label: 'Contact Person Email',
-              type: 'text',
-              default: this.props.form.info.contact_person_email
-            }}
-          >
-            {Input}
-          </Field>
-
-        </fieldset>
-
-        <fieldset className="c-field-container">
-          <Title className="-default">
+          <Title className="-big">
             Data info
           </Title>
 
           <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.technical_title = c; }}
+            onChange={value => this.changeMetadata({ technical_title: value })}
+            validations={['required']}
+            properties={{
+              name: 'technical_title',
+              label: 'Technical title',
+              type: 'text',
+              required: true,
+              default: this.props.form.technical_title
+            }}
+          >
+            {Input}
+          </Field>
+          <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.functions = c; }}
             onChange={value => this.changeMetadata({ info: { functions: value } })}
-            hint="Briefly describes the purpose of the data and what it represents"
+            hint="Briefly describes the purpose of the data and what it represents. Max length of 200 characters"
             properties={{
               name: 'functions',
               label: 'Function',
               type: 'text',
               rows: '6',
+              maxLength: '200',
               default: this.props.form.info.functions
             }}
           >
@@ -239,19 +209,6 @@ class Step1 extends React.Component {
           </Field>
 
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.scientific_paper = c; }}
-            onChange={value => this.changeMetadata({ info: { scientific_paper: value } })}
-            properties={{
-              name: 'scientific_paper',
-              label: 'Scientific Paper',
-              type: 'text',
-              default: this.props.form.info.scientific_paper
-            }}
-          >
-            {Input}
-          </Field>
-
-          <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.license = c; }}
             onChange={value => this.changeMetadata({ info: { license: value } })}
             hint="License under which data are published"
@@ -310,7 +267,7 @@ class Step1 extends React.Component {
         </fieldset>
 
         <fieldset className="c-field-container">
-          <Title className="-default">
+          <Title className="-big">
             Translated
           </Title>
 
@@ -360,7 +317,7 @@ class Step1 extends React.Component {
         </fieldset>
 
         <fieldset className="c-field-container">
-          <Title className="-default">
+          <Title className="-big">
             Links
           </Title>
 
@@ -393,14 +350,14 @@ class Step1 extends React.Component {
           </Field>
 
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.data_visualization_link = c; }}
-            onChange={value => this.changeMetadata({ info: { data_visualization_link: value } })}
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.data_download_original_link = c; }}
+            onChange={value => this.changeMetadata({ info: { data_download_original_link: value } })}
             validations={['url']}
             properties={{
-              name: 'data_visualization_link',
-              label: 'Data Visualization link',
+              name: 'data_download_original_link',
+              label: 'Download from Original Source link',
               type: 'text',
-              default: this.props.form.info.data_visualization_link
+              default: this.props.form.info.data_download_original_link
             }}
           >
             {Input}

@@ -115,6 +115,7 @@ class GetInvolved extends Page {
       <Layout
         title="Get Involved"
         description="Get Involved description"
+        url={this.props.url}
         user={this.props.user}
       >
         <div className="p-get-involved">

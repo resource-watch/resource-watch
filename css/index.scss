@@ -31,7 +31,6 @@
 @import "./components/ui/button-container";
 @import "./components/ui/compound_menu";
 @import "./components/ui/custom_select";
-@import "./components/ui/custom_table";
 @import "./components/ui/header-dropdown";
 @import "./components/ui/icon";
 @import "./components/ui/legend";
@@ -39,7 +38,7 @@
 @import "./components/ui/paginator";
 @import "./components/ui/spinner";
 @import "./components/ui/switch";
-@import "./components/ui/custom_table";
+@import "./components/ui/table";
 @import "./components/ui/table_header_actions";
 @import "./components/ui/table_tooltip";
 @import "./components/ui/tabs";
@@ -80,16 +79,12 @@
 
 // ================== ADMIN ======================
 
-// Layout
-@import "./components/admin/layout/header";
-@import "./components/admin/layout/page";
-
 // Datasets
+@import "./components/admin/dataset/datasets_index";
 @import "./components/admin/dataset/card";
 @import "./components/admin/dataset/filter";
 @import "./components/admin/dataset/filter-item";
 @import "./components/admin/dataset/list";
-@import "./components/admin/dataset/table";
 
 // Widgets
 @import "./components/admin/widget/card";
@@ -98,6 +93,7 @@
 @import "./components/admin/widget/widget_chart";
 @import "./components/admin/widget/placeholder_chart";
 @import "./components/admin/widget/layer_chart";
+@import "./components/admin/widget/widget_index";
 
 // Vocabularies
 @import "./components/admin/vocabularies/vocabulary_item";

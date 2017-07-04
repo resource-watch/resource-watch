@@ -8,7 +8,7 @@
       padding: 0;
 
       > li {
-        margin: $space-1 0 0;
+        margin: $space-1 * 2 0 0;
         cursor: pointer;
 
         &:first-child { margin: 0 }
@@ -24,7 +24,7 @@
             top: 50%;
             right: 100%;
             transform: translate(-4px, -50%);
-            fill: $color-text-1;
+            fill: $color-primary;
           }
 
           &:hover {

@@ -1,47 +1,47 @@
 import React from 'react';
 import TableHeaderActions from './TableHeaderActions';
 
-export default class TableHeader extends React.Component {
-  render() {
-    const {
-      actions,
-      columns,
-      columnValues,
-      columnQueries,
-      sort,
-      onFilter,
-      onSort,
-      onSearch
-    } = this.props;
-    const actionsShowed = actions.list.filter(a => a.show);
+export default function TableHeader(props) {
+  const {
+    actions,
+    columns,
+    columnValues,
+    columnQueries,
+    filters,
+    sort,
+    onFilter,
+    onSort,
+    onSearch
+  } = props;
+  const actionsShowed = actions.list.filter(a => a.show);
 
-    return (
-      <thead>
-        <tr>
-          {columns.map((c, index) => (
-            <th key={index} className={c.type || ''}>
-              <span className="th-wrapper">
-                <span>{c.label}</span>
+  return (
+    <thead>
+      <tr>
+        {columns.map((c, index) => (
+          <th key={index} className={c.type || ''}>
+            <span className="th-wrapper">
+              <span>{c.label}</span>
 
-                <TableHeaderActions
-                  field={c.value}
-                  values={columnValues[c.value]}
-                  selected={columnQueries[c.value]}
-                  sort={sort}
-                  onFilter={onFilter}
-                  onSort={onSort}
-                  onSearch={onSearch}
-                />
-              </span>
-            </th>
-            ))}
-          {actions.show && actionsShowed.length &&
-            <th colSpan={`${actionsShowed.length}`} />
-          }
-        </tr>
-      </thead>
-    );
-  }
+              <TableHeaderActions
+                field={c.value}
+                values={columnValues[c.value]}
+                selected={columnQueries[c.value]}
+                filters={filters}
+                sort={sort}
+                onFilter={onFilter}
+                onSort={onSort}
+                onSearch={onSearch}
+              />
+            </span>
+          </th>
+          ))}
+        {actions.show && actionsShowed.length &&
+          <th colSpan={`${actionsShowed.length}`} />
+        }
+      </tr>
+    </thead>
+  );
 }
 
 TableHeader.propTypes = {
@@ -49,7 +49,7 @@ TableHeader.propTypes = {
   columns: React.PropTypes.array,
   columnValues: React.PropTypes.object,
   columnQueries: React.PropTypes.object,
-  filteredData: React.PropTypes.array,
+  filters: React.PropTypes.bool,
   sort: React.PropTypes.object,
   onFilter: React.PropTypes.func,
   onSort: React.PropTypes.func,
@@ -60,6 +60,7 @@ TableHeader.defaultProps = {
   columns: [],
   columnValues: {},
   columnQueries: {},
+  filters: true,
   filteredData: [],
   onFilter: null,
   onSort: null,

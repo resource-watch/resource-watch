@@ -221,7 +221,7 @@ class Pulse extends Page {
       <Layout
         title="Planet Pulse"
         description="Planet Pulse description"
-        pathname={url.pathname}
+        url={url}
         user={this.props.user}
       >
         <div
@@ -271,6 +271,10 @@ class Pulse extends Page {
 }
 
 Pulse.propTypes = {
+  // ROUTER
+  url: React.PropTypes.object,
+
+  // STORE
   layersGroup: React.PropTypes.array,
   layerActive: React.PropTypes.object,
   getLayers: React.PropTypes.func,
