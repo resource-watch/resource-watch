@@ -74,10 +74,6 @@ class DatasetTable extends React.Component {
             list: [
               { name: 'Edit', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
               { name: 'Remove', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization } }
-              // { name: 'Metadata', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'metadata', id: '{{id}}' }, path: '/admin/data/datasets/:id/metadata', component: MetadataAction },
-              // { name: 'Vocabularies', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'vocabularies', id: '{{id}}' }, path: '/admin/data/datasets/:id/vocabularies', component: VocabularyAction },
-              // { name: 'Widgets', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'widgets', id: '{{id}}' }, path: '/admin/data/datasets/:id/widgets', component: WidgetAction }
-              // { name: 'Layers', route: 'admin_data', params: { tab: 'datasets', subtab: 'layers', id: ':id' }, path: '/admin/data/datasets/:id/layers', component: LayerAction }
             ]
           }}
           filters={false}
