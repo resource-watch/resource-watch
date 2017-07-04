@@ -178,14 +178,14 @@ class WidgetEditor extends React.Component {
 
   getChartConfig() {
     const { widgetEditor } = this.props;
-    const { value, size, color, chartType } = widgetEditor;
+    const { category, value, size, color, chartType } = widgetEditor;
 
     return CHART_TYPES[chartType]({
       // In the future, we could pass the type of the columns so the chart
       // could select the right scale
       columns: {
-        x: { present: true },
-        y: { present: !!value },
+        x: { present: true, type: category.type },
+        y: { present: !!value, type: value.type },
         color: { present: !!color },
         size: { present: !!size }
       },
