@@ -6,6 +6,9 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { getDatasets } from 'redactions/admin/datasets';
 
+// Selectors
+import getFilteredDatasets from 'selectors/admin/datasets';
+
 // Components
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
@@ -89,10 +92,10 @@ DatasetTable.propTypes = {
   getDatasets: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({ datasets }) => ({
-  loading: datasets.datasets.loading,
-  datasets: datasets.datasets.list,
-  error: datasets.datasets.error
+const mapStateToProps = state => ({
+  loading: state.datasets.datasets.loading,
+  datasets: getFilteredDatasets(state),
+  error: state.datasets.datasets.error
 });
 const mapDispatchToProps = dispatch => ({
   getDatasets: () => dispatch(getDatasets())

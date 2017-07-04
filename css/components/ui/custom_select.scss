@@ -77,7 +77,6 @@
     font-size: $font-size-big;
     font-weight: normal;
     line-height: 2;
-    color: palette(white);
     display: block;
     width: 100%;
     position: relative;
@@ -172,7 +171,7 @@
   .custom-select-search {
     background-color: transparent;
     cursor: pointer;
-    color: $color-white;
+    color: $base-font-color;
     outline: none;
     border: none;
     position: absolute;
