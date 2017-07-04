@@ -164,7 +164,12 @@ class WidgetEditor extends React.Component {
     }
 
     const tableName = this.state.tableName;
-    const orderByColumn = orderBy ? [orderBy] : [];
+    let orderByColumn = orderBy ? [orderBy] : [];
+    if (orderByColumn.length > 0 && value && category && aggregateFunction && orderByColumn[0].name === value.name) {
+      orderByColumn = [{ name: 'y' }];
+    } else if (orderByColumn.length > 0 && value && category && aggregateFunction && orderByColumn[0].name === category.name) {
+      orderByColumn = [{ name: 'x' }];
+    }
     const sortOrder = orderBy ? orderBy.orderType : 'asc';
     const query = `${getQueryByFilters(tableName, filters, columns, orderByColumn, sortOrder)} LIMIT ${limit}`;
 
