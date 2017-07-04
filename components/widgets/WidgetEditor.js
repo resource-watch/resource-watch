@@ -132,7 +132,7 @@ class WidgetEditor extends React.Component {
 
   getDataURL() {
     const { widgetEditor } = this.props;
-    const { category, value, color, size, filters, aggregateFunction, orderBy } = widgetEditor;
+    const { category, value, color, size, filters, aggregateFunction, orderBy, limit } = widgetEditor;
     const isBidimensional = this.isBidimensionalChart();
 
     if (!category || (isBidimensional && !value)) return '';
@@ -166,10 +166,10 @@ class WidgetEditor extends React.Component {
     const tableName = this.state.tableName;
     const orderByColumn = orderBy ? [orderBy] : [];
     const sortOrder = orderBy ? orderBy.orderType : 'asc';
-    const query = getQueryByFilters(tableName, filters, columns, orderByColumn, sortOrder);
+    const query = `${getQueryByFilters(tableName, filters, columns, orderByColumn, sortOrder)} LIMIT ${limit}`;
 
     // TODO: remove the limit
-    return `${process.env.WRI_API_URL}/query/${this.props.dataset}?sql=${query} LIMIT 1000`;
+    return `${process.env.WRI_API_URL}/query/${this.props.dataset}?sql=${query}`;
   }
 
   getChartTheme() {
