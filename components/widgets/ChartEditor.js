@@ -13,6 +13,7 @@ import FilterContainer from 'components/widgets/FilterContainer';
 import DimensionsContainer from 'components/widgets/DimensionsContainer';
 import FieldsContainer from 'components/widgets/FieldsContainer';
 import SortContainer from 'components/widgets/SortContainer';
+import LimitContainer from 'components/widgets/LimitContainer';
 import Select from 'components/form/SelectInput';
 
 @DragDropContext(HTML5Backend)
@@ -61,6 +62,7 @@ class ChartEditor extends React.Component {
             <DimensionsContainer />
             <FilterContainer />
             <SortContainer />
+            <LimitContainer />
           </div>
         </div>
       </div>

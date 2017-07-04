@@ -18,6 +18,7 @@ const SET_ORDER_BY = "widgetEditor/SET_ORDER_BY";
 const REMOVE_ORDER_BY = 'widgetEditor/REMOVE_ORDER_BY';
 const SHOW_LAYER = 'widgetEditor/SHOW_LAYER';
 const SET_FIELDS = 'widgetEditor/SET_FIELDS';
+const SET_LIMIT = 'widgetEditor/SET_LIMIT';
 const RESET = 'widgetEditor/RESET';
 
 /**
@@ -32,7 +33,8 @@ const initialState = {
   category: null,
   value: null,
   layer: null,
-  fields: []
+  fields: [],
+  limit: 1000
 };
 
 export default function (state = initialState, action) {
@@ -163,6 +165,12 @@ export default function (state = initialState, action) {
       });
     }
 
+    case SET_LIMIT: {
+      return Object.assign({}, state, {
+        limit: action.payload
+      });
+    }
+
     default:
       return state;
   }
@@ -186,6 +194,7 @@ export default function (state = initialState, action) {
  * - setFields
  * - setOrderBy
  * - removeOrderBy
+ * - setLimit
 */
 export function addFilter(filter) {
   return dispatch => dispatch({ type: ADD_FILTER, payload: filter });
@@ -240,4 +249,7 @@ export function showLayer(layer) {
 }
 export function setFields(layer) {
   return dispatch => dispatch({ type: SET_FIELDS, payload: layer });
+}
+export function setLimit(limit) {
+  return dispatch => dispatch({ type: SET_LIMIT, payload: limit });
 }

@@ -20,17 +20,6 @@ const boxTarget = {
 }))
 class ColorContainer extends React.Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      color: null
-    };
-
-    // BINDINGS
-  }
-
-
   render() {
     const { canDrop, isOver, connectDropTarget, widgetEditor } = this.props;
     const isActive = canDrop && isOver;
