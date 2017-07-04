@@ -7,13 +7,14 @@ import classNames from 'classnames';
 // Store
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { removeFilter, removeColor, removeCategory, removeValue, removeSize } from 'redactions/widgetEditor';
+import { removeFilter, removeColor, removeCategory, removeValue, removeSize, removeOrderBy } from 'redactions/widgetEditor';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import Icon from 'components/ui/Icon';
 import FilterTooltip from 'components/widgets/FilterTooltip';
 import AggregateFunctionTooltip from 'components/widgets/AggregateFunctionTooltip';
+import OrderByTooltip from 'components/widgets/OrderByTooltip';
 
 /**
  * Implements the drag source contract.
@@ -98,6 +99,15 @@ class ColumnBox extends React.Component {
   }
 
   @Autobind
+  onApplyOrderBy(orderBy) {
+    this.setState({ orderBy });
+
+    if (this.props.onSetOrderType) {
+      this.props.onSetOrderType(orderBy);
+    }
+  }
+
+  @Autobind
   triggerClose() {
     const { isA } = this.props;
     switch (isA) {
@@ -116,6 +126,9 @@ class ColumnBox extends React.Component {
       case 'value':
         this.props.removeValue();
         break;
+      case 'orderBy':
+        this.props.removeOrderBy();
+        break;
       default:
     }
   }
@@ -123,7 +136,8 @@ class ColumnBox extends React.Component {
   @Autobind
   triggerConfigure(event) {
     const { filter, aggregateFunction } = this.state;
-    const { isA, name, type, datasetID, tableName } = this.props;
+    const { isA, name, type, datasetID, tableName, widgetEditor } = this.props;
+    const { orderBy } = widgetEditor;
 
     switch (isA) {
       case 'color':
@@ -162,16 +176,31 @@ class ColumnBox extends React.Component {
           }
         });
         break;
+      case 'orderBy':
+        this.props.toggleTooltip(true, {
+          follow: false,
+          position: ColumnBox.getClickPosition(event),
+          children: OrderByTooltip,
+          childrenProps: {
+            name,
+            type,
+            onApply: this.onApplyOrderBy,
+            orderBy
+          }
+        });
+        break;
       default:
     }
   }
 
   render() {
     const { aggregateFunction } = this.state;
-    const { isDragging, connectDragSource, name, type, closable, configurable, isA } = this.props;
+    const { isDragging, connectDragSource, name, type, closable, configurable, isA, widgetEditor } = this.props;
+    const { orderBy } = widgetEditor;
+    const orderType = orderBy ? orderBy.orderType : null;
     const iconName = (type.toLowerCase() === 'string') ? 'icon-type' : 'icon-hash';
 
-    const isConfigurable = (isA === 'filter') || (isA === 'value');
+    const isConfigurable = (isA === 'filter') || (isA === 'value') || (isA === 'orderBy');
 
     return connectDragSource(
       <div className={classNames({ 'c-columnbox': true, '-dimmed': isDragging })}>
@@ -183,6 +212,11 @@ class ColumnBox extends React.Component {
         {aggregateFunction &&
           <div className="aggregate-function">
             {aggregateFunction}
+          </div>
+        }
+        {isA === 'orderBy' && orderType &&
+          <div className="order-by">
+            {orderType}
           </div>
         }
         {closable &&
@@ -217,6 +251,9 @@ ColumnBox.propTypes = {
   closable: PropTypes.bool,
   configurable: PropTypes.bool,
   onConfigure: PropTypes.func,
+  onSetOrderType: PropTypes.func,
+  // Store
+  widgetEditor: PropTypes.object.isRequired,
   // Injected by React DnD:
   isDragging: PropTypes.bool,
   connectDragSource: PropTypes.func,
@@ -226,8 +263,13 @@ ColumnBox.propTypes = {
   removeColor: PropTypes.func.isRequired,
   removeCategory: PropTypes.func.isRequired,
   removeValue: PropTypes.func.isRequired,
+  removeOrderBy: PropTypes.func.isRequired,
   toggleTooltip: PropTypes.func.isRequired
 };
+
+const mapStateToProps = state => ({
+  widgetEditor: state.widgetEditor
+});
 
 const mapDispatchToProps = dispatch => ({
   removeFilter: (filter) => {
@@ -245,9 +287,13 @@ const mapDispatchToProps = dispatch => ({
   removeValue: (value) => {
     dispatch(removeValue(value));
   },
+  removeOrderBy: (value) => {
+    dispatch(removeOrderBy(value));
+  },
   toggleTooltip: (opened, opts) => {
     dispatch(toggleTooltip(opened, opts));
   }
 });
 
-export default DragSource('columnbox', columnBoxSource, collect)(withRedux(initStore, null, mapDispatchToProps)(ColumnBox));
+
+export default DragSource('columnbox', columnBoxSource, collect)(withRedux(initStore, mapStateToProps, mapDispatchToProps)(ColumnBox));

@@ -1,0 +1,28 @@
+.c-order-by-tooltip {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+
+  input, label {
+    cursor: pointer;
+  }
+
+  .button-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .radio-button {
+    margin-top: 5px;
+
+    label {
+      margin-left: 5px;
+    }
+
+    &:last-child {
+      margin-bottom: 10px;
+    }
+  }
+}

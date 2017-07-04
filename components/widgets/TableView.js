@@ -40,7 +40,7 @@ class TableView extends React.Component {
 
   getDataForTable(props) {
     const { tableName, widgetEditor } = props;
-    const { filters, fields, value, aggregateFunction, category } = widgetEditor;
+    const { filters, fields, value, aggregateFunction, category, orderBy } = widgetEditor;
     const arrColumns = fields.filter(val => val.columnName !== 'cartodb_id' && val.columnType !== 'geometry').map(
       (val) => {
         if (value && value.name === val.columnName && aggregateFunction) {
@@ -56,7 +56,9 @@ class TableView extends React.Component {
         }
       }
     );
-    const query = `${getQueryByFilters(tableName, filters, arrColumns)} LIMIT 30`;
+    const orderByColumn = orderBy ? [orderBy] : [];
+    const sortOrder = orderBy ? orderBy.orderType : 'asc';
+    const query = `${getQueryByFilters(tableName, filters, arrColumns, orderByColumn, sortOrder)} LIMIT 30`;
 
     this.setState({ loading: true });
     this.datasetService.fetchFilteredData(query).then((response) => {
