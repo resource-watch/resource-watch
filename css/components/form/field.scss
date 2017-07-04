@@ -1,6 +1,6 @@
 .c-field {
   .label {
-    font-size: 14px;
+    font-size: $font-size-small-medium;
     display: block;
     position: relative;
     padding: 0 0 5px;
@@ -46,6 +46,10 @@
 
     &:hover {
       border-color: $border-color-2;
+    }
+
+    &.-fluid {
+      max-width: none;
     }
   }
 

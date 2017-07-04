@@ -9,6 +9,7 @@ import { PROVIDER_TYPES_DICTIONARY, FORM_ELEMENTS } from 'components/admin/datas
 // Components
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
+// import UrlFileInput from 'components/form/UrlFileInput';
 import Select from 'components/form/SelectInput';
 
 class Step1 extends React.Component {
@@ -29,8 +30,10 @@ class Step1 extends React.Component {
     this.setState({ form: nextProps.form });
   }
 
-  /*
-    UI EVENTS
+  /**
+    * UI EVENTS
+    * - onCartoFieldsChange
+    * - onLegendChange
   */
   onCartoFieldsChange() {
     const { cartoAccountUsername, tableName } = this.state.carto;
@@ -46,9 +49,18 @@ class Step1 extends React.Component {
     });
   }
 
+  onLegendChange(obj) {
+    const legend = Object.assign({}, this.props.form.legend, obj);
+    this.props.onChange({ legend });
+  }
+
+
   render() {
     const { dataset } = this.state;
     const { provider } = this.state.form;
+
+    // Reset FORM_ELEMENTS
+    FORM_ELEMENTS.elements = {};
 
     const isCarto = (provider === 'cartodb');
     const isGee = (provider === 'gee');
@@ -57,11 +69,12 @@ class Step1 extends React.Component {
     const isCsv = (provider === 'csv');
     const isTsv = (provider === 'tsv');
     const isXml = (provider === 'xml');
+    const isDocument = (isJson || isXml || isCsv || isTsv);
 
     return (
       <fieldset className="c-field-container">
         <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.step1.name = c; }}
+          ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
           onChange={value => this.props.onChange({ name: value })}
           validations={['required']}
           properties={{
@@ -76,7 +89,7 @@ class Step1 extends React.Component {
         </Field>
 
         <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.step1.subtitle = c; }}
+          ref={(c) => { if (c) FORM_ELEMENTS.elements.subtitle = c; }}
           onChange={value => this.props.onChange({ subtitle: value })}
           properties={{
             name: 'subtitle',
@@ -89,10 +102,11 @@ class Step1 extends React.Component {
         </Field>
 
         <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.step1.provider = c; }}
+          ref={(c) => { if (c) FORM_ELEMENTS.elements.provider = c; }}
           onChange={value => this.props.onChange({
             provider: value,
-            connectorType: PROVIDER_TYPES_DICTIONARY[value].connectorType
+            connectorType: (PROVIDER_TYPES_DICTIONARY[value]) ?
+              PROVIDER_TYPES_DICTIONARY[value].connectorType : null
           })}
           validations={['required']}
           blank
@@ -122,7 +136,7 @@ class Step1 extends React.Component {
         */}
         {isCarto && !dataset &&
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.step1.cartoAccountUsername = c; }}
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.cartoAccountUsername = c; }}
             onChange={(value) => {
               this.setState(
                 { carto: { ...this.state.carto, cartoAccountUsername: value } }, () => {
@@ -144,7 +158,7 @@ class Step1 extends React.Component {
 
         {isCarto && !dataset &&
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.step1.tableName = c; }}
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.tableName = c; }}
             onChange={(value) => {
               this.setState({ carto: { ...this.state.carto, tableName: value } }, () => {
                 this.onCartoFieldsChange('tableName', value);
@@ -165,7 +179,7 @@ class Step1 extends React.Component {
 
         {isCarto && !!dataset &&
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.step1.connectorUrl = c; }}
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.connectorUrl = c; }}
             validations={['required']}
             properties={{
               name: 'connectorUrl',
@@ -187,7 +201,7 @@ class Step1 extends React.Component {
         */}
         {isGee &&
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.step1.tableName = c; }}
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.tableName = c; }}
             onChange={value => this.props.onChange({ tableName: value })}
             validations={['required']}
             hint="Example: projects/wri-datalab/HansenComposite_14-15"
@@ -203,9 +217,14 @@ class Step1 extends React.Component {
           </Field>
         }
 
+        {/*
+          *****************************************************
+          ****************** FEATURE SERVICE ****************
+          *****************************************************
+        */}
         {isFeatureservice &&
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.step1.connectorUrl = c; }}
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.connectorUrl = c; }}
             onChange={value => this.props.onChange({ connectorUrl: value })}
             validations={['required', 'url']}
             hint="Example: http://gis-gfw.wri.org/arcgis/rest/services/prep/nex_gddp_indicators/MapServer/6?f=pjson"
@@ -220,6 +239,133 @@ class Step1 extends React.Component {
             {Input}
           </Field>
         }
+
+        {/*
+          *****************************************************
+          ****************** DOCUMENT ****************
+          *****************************************************
+        */}
+        {isDocument &&
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.connectorUrl = c; }}
+            onChange={value => this.props.onChange({ connectorUrl: value })}
+            validations={['required', 'url']}
+            properties={{
+              name: 'connectorUrl',
+              label: 'Url data endpoint',
+              type: 'text',
+              default: this.state.form.connectorUrl,
+              required: true
+            }}
+          >
+            {Input}
+          </Field>
+        }
+
+        {(isJson || isXml) &&
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.dataPath = c; }}
+            onChange={value => this.props.onChange({ dataPath: value })}
+            hint="Name of the element that you want to import"
+            validations={(isXml) ? ['required'] : []}
+            properties={{
+              name: 'dataPath',
+              label: 'Data path',
+              type: 'text',
+              default: this.state.form.dataPath,
+              required: isXml
+            }}
+          >
+            {Input}
+          </Field>
+        }
+
+        {isDocument &&
+          <div>
+            <div className="row l-row">
+              <div className="column small-12 medium-6">
+                <Field
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.lat = c; }}
+                  onChange={value => this.onLegendChange({ lat: value })}
+                  hint="Name of column with latitude value"
+                  properties={{
+                    name: 'lat',
+                    label: 'Latitude',
+                    type: 'text',
+                    default: this.state.form.legend.lat
+                  }}
+                >
+                  {Input}
+                </Field>
+              </div>
+
+              <div className="column small-12 medium-6">
+                <Field
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.long = c; }}
+                  onChange={value => this.onLegendChange({ long: value })}
+                  hint="Name of column with longitude value"
+                  properties={{
+                    name: 'long',
+                    label: 'Longitude',
+                    type: 'text',
+                    default: this.state.form.legend.long
+                  }}
+                >
+                  {Input}
+                </Field>
+              </div>
+
+              <div className="column small-12 medium-6">
+                <Field
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.date = c; }}
+                  onChange={value => this.onLegendChange({ date: value })}
+                  hint="Name of columns with date value (ISO Format)"
+                  properties={{
+                    name: 'date',
+                    label: 'Date',
+                    multi: true,
+                    type: 'text',
+                    creatable: true,
+                    placeholder: 'Type the columns...',
+                    default: this.state.form.legend.date.map(
+                      tag => ({ label: tag, value: tag })
+                    ),
+                    value: this.state.form.legend.date.map(
+                      tag => ({ label: tag, value: tag })
+                    )
+                  }}
+                >
+                  {Select}
+                </Field>
+              </div>
+
+              <div className="column small-12 medium-6">
+                <Field
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.country = c; }}
+                  onChange={value => this.onLegendChange({ country: value })}
+                  hint="Name of columns with country value (ISO3 code)"
+                  properties={{
+                    name: 'country',
+                    label: 'Country',
+                    multi: true,
+                    type: 'text',
+                    creatable: true,
+                    placeholder: 'Type the columns...',
+                    default: this.state.form.legend.country.map(
+                      tag => ({ label: tag, value: tag })
+                    ),
+                    value: this.state.form.legend.country.map(
+                      tag => ({ label: tag, value: tag })
+                    )
+                  }}
+                >
+                  {Select}
+                </Field>
+              </div>
+            </div>
+          </div>
+        }
+
       </fieldset>
     );
   }

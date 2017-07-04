@@ -3,24 +3,6 @@ export const APPLICATIONS = [
   { label: 'Aqueduct', value: 'aqueduct' }
 ];
 
-export const TOPICS = [
-  { label: 'Cities', value: 'cities' },
-  { label: 'Climate', value: 'climate' },
-  { label: 'Energy', value: 'energy' },
-  { label: 'Forests', value: 'forests' },
-  { label: 'Food', value: 'food' },
-  { label: 'Land classification', value: 'land_classification' },
-  { label: 'Society', value: 'society' },
-  { label: 'Supply chain', value: 'supply_chain' },
-  { label: 'Water', value: 'water' }
-];
-
-export const CONNECTOR_TYPES = [
-  { label: 'REST', value: 'rest' },
-  { label: 'Document', value: 'document' },
-  { label: 'WMS', value: 'wms' }
-];
-
 export const PROVIDER_TYPES_DICTIONARY = {
   cartodb: {
     label: 'CartoDB',
@@ -74,7 +56,7 @@ export const PROVIDER_TYPES_DICTIONARY = {
 
 export const STATE_DEFAULT = {
   step: 1,
-  stepLength: 2,
+  stepLength: 1,
   submitting: false,
   loading: false,
   dataset: {},
@@ -102,18 +84,15 @@ export const STATE_DEFAULT = {
 
 
 export const FORM_ELEMENTS = {
-  elements: {
-    step1: {},
-    step2: {}
-  },
-  validate(step) {
-    const elements = this.elements[`step${step}`] || this.elements;
+  elements: {},
+  validate() {
+    const elements = this.elements;
     Object.keys(elements).forEach((k) => {
       elements[k].validate();
     });
   },
-  isValid(step) {
-    const elements = this.elements[`step${step}`] || this.elements;
+  isValid() {
+    const elements = this.elements;
     const valid = Object.keys(elements)
       .map(k => elements[k].isValid())
       .filter(v => v !== null)
