@@ -2,14 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
+import { Autobind } from 'es-decorators';
+
+// Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { setOrderBy } from 'redactions/widgetEditor';
+
+// Components
 import ColumnBox from 'components/widgets/ColumnBox';
 
 const boxTarget = {
   drop(props, monitor) {
-    props.setOrderBy(monitor.getItem());
+    props.setOrderBy(Object.assign({}, monitor.getItem(), { orderType: 'asc' }));
   }
 };
 
@@ -19,6 +24,11 @@ const boxTarget = {
   canDrop: monitor.canDrop()
 }))
 class SortContainer extends React.Component {
+
+  @Autobind
+  handleSetOrderType(orderBy) {
+    this.props.setOrderBy(orderBy);
+  }
 
   render() {
     const { canDrop, isOver, connectDropTarget, widgetEditor } = this.props;
@@ -41,6 +51,7 @@ class SortContainer extends React.Component {
             closable
             configurable
             isA="orderBy"
+            onSetOrderType={this.handleSetOrderType}
           />
         }
       </div>
@@ -52,6 +63,8 @@ SortContainer.propTypes = {
   connectDropTarget: PropTypes.func,
   isOver: PropTypes.bool,
   canDrop: PropTypes.bool,
+  // Store
+  setOrderBy: PropTypes.func,
   widgetEditor: PropTypes.object
 };
 

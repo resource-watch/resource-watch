@@ -63,9 +63,7 @@ class ColumnBox extends React.Component {
       // Value of the aggregate function
       aggregateFunction: null,
       // Value of the filter
-      filter: null,
-      // Value of orderBy
-      orderBy: null
+      filter: null
     };
   }
 
@@ -101,6 +99,15 @@ class ColumnBox extends React.Component {
   }
 
   @Autobind
+  onApplyOrderBy(orderBy) {
+    this.setState({ orderBy });
+
+    if (this.props.onSetOrderType) {
+      this.props.onSetOrderType(orderBy);
+    }
+  }
+
+  @Autobind
   triggerClose() {
     const { isA } = this.props;
     switch (isA) {
@@ -128,8 +135,9 @@ class ColumnBox extends React.Component {
 
   @Autobind
   triggerConfigure(event) {
-    const { filter, aggregateFunction, orderBy } = this.state;
-    const { isA, name, type, datasetID, tableName } = this.props;
+    const { filter, aggregateFunction } = this.state;
+    const { isA, name, type, datasetID, tableName, widgetEditor } = this.props;
+    const { orderBy } = widgetEditor;
 
     switch (isA) {
       case 'color':
@@ -187,7 +195,9 @@ class ColumnBox extends React.Component {
 
   render() {
     const { aggregateFunction } = this.state;
-    const { isDragging, connectDragSource, name, type, closable, configurable, isA } = this.props;
+    const { isDragging, connectDragSource, name, type, closable, configurable, isA, widgetEditor } = this.props;
+    const { orderBy } = widgetEditor;
+    const orderType = orderBy ? orderBy.orderType : null;
     const iconName = (type.toLowerCase() === 'string') ? 'icon-type' : 'icon-hash';
 
     const isConfigurable = (isA === 'filter') || (isA === 'value') || (isA === 'orderBy');
@@ -202,6 +212,11 @@ class ColumnBox extends React.Component {
         {aggregateFunction &&
           <div className="aggregate-function">
             {aggregateFunction}
+          </div>
+        }
+        {orderType &&
+          <div className="order-by">
+            {orderType}
           </div>
         }
         {closable &&
@@ -236,6 +251,9 @@ ColumnBox.propTypes = {
   closable: PropTypes.bool,
   configurable: PropTypes.bool,
   onConfigure: PropTypes.func,
+  onSetOrderType: PropTypes.func,
+  // Store
+  widgetEditor: PropTypes.object.isRequired,
   // Injected by React DnD:
   isDragging: PropTypes.bool,
   connectDragSource: PropTypes.func,
@@ -248,6 +266,10 @@ ColumnBox.propTypes = {
   removeOrderBy: PropTypes.func.isRequired,
   toggleTooltip: PropTypes.func.isRequired
 };
+
+const mapStateToProps = state => ({
+  widgetEditor: state.widgetEditor
+});
 
 const mapDispatchToProps = dispatch => ({
   removeFilter: (filter) => {
@@ -273,4 +295,5 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default DragSource('columnbox', columnBoxSource, collect)(withRedux(initStore, null, mapDispatchToProps)(ColumnBox));
+
+export default DragSource('columnbox', columnBoxSource, collect)(withRedux(initStore, mapStateToProps, mapDispatchToProps)(ColumnBox));

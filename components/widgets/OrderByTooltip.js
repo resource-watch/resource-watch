@@ -33,7 +33,7 @@ class OrderByTooltip extends React.Component {
   }
 
   onApply() {
-    this.props.onApply(this.state.aggregateFunction);
+    this.props.onApply(this.state.orderBy);
 
     // We close the tooltip
     this.props.toggleTooltip(false);
@@ -50,27 +50,28 @@ class OrderByTooltip extends React.Component {
 
   @Autobind
   handleInputChange(event) {
-    this.setState({ aggregateFunction: event.target.value });
+    const newOrderBy = Object.assign({}, this.state.orderBy, { orderType: event.target.value });
+    this.setState({ orderBy: newOrderBy });
   }
 
   render() {
-    const { aggregateFunction } = this.state;
+    const { orderBy } = this.state;
     return (
-      <div className="c-aggregate-function-tooltip">
-        Aggregate functions
-        <div>
-          {AGGREGATE_FUNCTIONS.map((val, i) =>
+      <div className="c-order-by-tooltip">
+        Order by
+        <div className="button-container">
+          {ORDER_BY_OPTIONS.map((val, i) =>
             (
               <div className="radio-button" key={val}>
                 <input
-                  id={`radio-aggregate-${i}`}
+                  id={`radio-orderby-${i}`}
                   type="radio"
-                  name="functions"
+                  name="order"
                   value={val}
                   onChange={this.handleInputChange}
-                  checked={val === aggregateFunction}
+                  checked={val === orderBy.orderType}
                 />
-                <label htmlFor={`radio-aggregate-${i}`}>{val}</label>
+                <label htmlFor={`radio-orderby-${i}`}>{val}</label>
               </div>
             )
           )}
@@ -88,7 +89,7 @@ class OrderByTooltip extends React.Component {
 
 OrderByTooltip.propTypes = {
   onApply: PropTypes.func.isRequired,
-  aggregateFunction: PropTypes.string,
+  orderBy: PropTypes.string,
   // store
   toggleTooltip: PropTypes.func.isRequired
 };
