@@ -11,6 +11,7 @@ import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 // import UrlFileInput from 'components/form/UrlFileInput';
 import Select from 'components/form/SelectInput';
+import Title from 'components/ui/Title';
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -73,6 +74,12 @@ class Step1 extends React.Component {
 
     return (
       <fieldset className="c-field-container">
+        {dataset &&
+          <Title className="form-title -big -secondary">
+            Edit dataset
+          </Title>
+        }
+
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
           onChange={value => this.props.onChange({ name: value })}
@@ -327,6 +334,8 @@ class Step1 extends React.Component {
                     type: 'text',
                     creatable: true,
                     placeholder: 'Type the columns...',
+                    noResultsText: 'Please, type the name of the columns and press enter',
+                    promptTextCreator: label => `The name of the column is "${label}"`,
                     default: this.state.form.legend.date.map(
                       tag => ({ label: tag, value: tag })
                     ),
@@ -351,6 +360,8 @@ class Step1 extends React.Component {
                     type: 'text',
                     creatable: true,
                     placeholder: 'Type the columns...',
+                    noResultsText: 'Please, type the name of the columns and press enter',
+                    promptTextCreator: label => `The name of the column is "${label}"`,
                     default: this.state.form.legend.country.map(
                       tag => ({ label: tag, value: tag })
                     ),
