@@ -34,29 +34,16 @@ class Step1 extends React.Component {
 
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
-            onChange={value => this.changeMetadata({ name: value })}
+            onChange={value => this.changeMetadata({ info: { name: value } })}
             validations={['required']}
+            hint="Max length of 75 characters"
             properties={{
               name: 'name',
               label: 'Title',
               type: 'text',
+              maxLength: '75',
               required: true,
-              default: this.props.form.name
-            }}
-          >
-            {Input}
-          </Field>
-
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.short_title = c; }}
-            onChange={value => this.changeMetadata({ info: { short_title: value } })}
-            validations={['required']}
-            properties={{
-              name: 'short_title',
-              label: 'Short title',
-              type: 'text',
-              required: true,
-              default: this.props.form.info.short_title
+              default: this.props.form.info.name
             }}
           >
             {Input}
@@ -103,14 +90,29 @@ class Step1 extends React.Component {
           </Title>
 
           <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.technical_title = c; }}
+            onChange={value => this.changeMetadata({ technical_title: value })}
+            validations={['required']}
+            properties={{
+              name: 'technical_title',
+              label: 'Technical title',
+              type: 'text',
+              required: true,
+              default: this.props.form.technical_title
+            }}
+          >
+            {Input}
+          </Field>
+          <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.functions = c; }}
             onChange={value => this.changeMetadata({ info: { functions: value } })}
-            hint="Briefly describes the purpose of the data and what it represents"
+            hint="Briefly describes the purpose of the data and what it represents. Max length of 200 characters"
             properties={{
               name: 'functions',
               label: 'Function',
               type: 'text',
               rows: '6',
+              maxLength: '200',
               default: this.props.form.info.functions
             }}
           >
