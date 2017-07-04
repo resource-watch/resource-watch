@@ -9,7 +9,7 @@ import ColumnBox from 'components/widgets/ColumnBox';
 
 const boxTarget = {
   drop(props, monitor) {
-    props.setSize(monitor.getItem());
+    props.setOrderBy(monitor.getItem());
   }
 };
 
@@ -18,28 +18,29 @@ const boxTarget = {
   isOver: monitor.isOver(),
   canDrop: monitor.canDrop()
 }))
-class SizeContainer extends React.Component {
+class SortContainer extends React.Component {
 
   render() {
     const { canDrop, isOver, connectDropTarget, widgetEditor } = this.props;
     const isActive = canDrop && isOver;
-    const size = widgetEditor.size;
+    const orderBy = widgetEditor.orderBy;
 
     const containerDivClass = classNames({
       'c-column-container': true,
+      'c-sort-container': true,
       '-release': isActive
     });
 
     return connectDropTarget(
       <div className={containerDivClass}>
-        Size
-        {size &&
+        Sorting
+        {orderBy &&
           <ColumnBox
-            name={size.name}
-            type={size.type}
+            name={orderBy.name}
+            type={orderBy.type}
             closable
             configurable
-            isA="size"
+            isA="orderBy"
           />
         }
       </div>
@@ -47,7 +48,7 @@ class SizeContainer extends React.Component {
   }
 }
 
-SizeContainer.propTypes = {
+SortContainer.propTypes = {
   connectDropTarget: PropTypes.func,
   isOver: PropTypes.bool,
   canDrop: PropTypes.bool,
@@ -64,4 +65,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(SizeContainer);
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(SortContainer);
