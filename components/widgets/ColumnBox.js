@@ -7,13 +7,14 @@ import classNames from 'classnames';
 // Store
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { removeFilter, removeColor, removeCategory, removeValue, removeSize } from 'redactions/widgetEditor';
+import { removeFilter, removeColor, removeCategory, removeValue, removeSize, removeOrderBy } from 'redactions/widgetEditor';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import Icon from 'components/ui/Icon';
 import FilterTooltip from 'components/widgets/FilterTooltip';
 import AggregateFunctionTooltip from 'components/widgets/AggregateFunctionTooltip';
+import OrderByTooltip from 'components/widgets/OrderByTooltip';
 
 /**
  * Implements the drag source contract.
@@ -62,7 +63,9 @@ class ColumnBox extends React.Component {
       // Value of the aggregate function
       aggregateFunction: null,
       // Value of the filter
-      filter: null
+      filter: null,
+      // Value of orderBy
+      orderBy: null
     };
   }
 
@@ -116,13 +119,16 @@ class ColumnBox extends React.Component {
       case 'value':
         this.props.removeValue();
         break;
+      case 'orderBy':
+        this.props.removeOrderBy();
+        break;
       default:
     }
   }
 
   @Autobind
   triggerConfigure(event) {
-    const { filter, aggregateFunction } = this.state;
+    const { filter, aggregateFunction, orderBy } = this.state;
     const { isA, name, type, datasetID, tableName } = this.props;
 
     switch (isA) {
@@ -162,6 +168,19 @@ class ColumnBox extends React.Component {
           }
         });
         break;
+      case 'orderBy':
+        this.props.toggleTooltip(true, {
+          follow: false,
+          position: ColumnBox.getClickPosition(event),
+          children: OrderByTooltip,
+          childrenProps: {
+            name,
+            type,
+            onApply: this.onApplyOrderBy,
+            orderBy
+          }
+        });
+        break;
       default:
     }
   }
@@ -171,7 +190,7 @@ class ColumnBox extends React.Component {
     const { isDragging, connectDragSource, name, type, closable, configurable, isA } = this.props;
     const iconName = (type.toLowerCase() === 'string') ? 'icon-type' : 'icon-hash';
 
-    const isConfigurable = (isA === 'filter') || (isA === 'value');
+    const isConfigurable = (isA === 'filter') || (isA === 'value') || (isA === 'orderBy');
 
     return connectDragSource(
       <div className={classNames({ 'c-columnbox': true, '-dimmed': isDragging })}>
@@ -226,6 +245,7 @@ ColumnBox.propTypes = {
   removeColor: PropTypes.func.isRequired,
   removeCategory: PropTypes.func.isRequired,
   removeValue: PropTypes.func.isRequired,
+  removeOrderBy: PropTypes.func.isRequired,
   toggleTooltip: PropTypes.func.isRequired
 };
 
@@ -244,6 +264,9 @@ const mapDispatchToProps = dispatch => ({
   },
   removeValue: (value) => {
     dispatch(removeValue(value));
+  },
+  removeOrderBy: (value) => {
+    dispatch(removeOrderBy(value));
   },
   toggleTooltip: (opened, opts) => {
     dispatch(toggleTooltip(opened, opts));

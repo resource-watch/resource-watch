@@ -14,6 +14,8 @@ const SET_VALUE = 'widgetEditor/SET_VALUE';
 const REMOVE_VALUE = 'widgetEditor/REMOVE_VALUE';
 const SET_CHART_TYPE = 'widgetEditor/SET_CHART_TYPE';
 const SET_AGGREGATE_FN = 'widgetEditor/SET_AGGREGATE_FN';
+const SET_ORDER_BY = "widgetEditor/SET_ORDER_BY";
+const REMOVE_ORDER_BY = 'widgetEditor/REMOVE_ORDER_BY';
 const SHOW_LAYER = 'widgetEditor/SHOW_LAYER';
 const SET_FIELDS = 'widgetEditor/SET_FIELDS';
 const RESET = 'widgetEditor/RESET';
@@ -23,6 +25,7 @@ const RESET = 'widgetEditor/RESET';
 */
 const initialState = {
   aggregateFunction: null,
+  orderBy: null,
   filters: [],
   color: null,
   size: null,
@@ -120,6 +123,18 @@ export default function (state = initialState, action) {
       });
     }
 
+    case SET_ORDER_BY: {
+      return Object.assign({}, state, {
+        orderBy: action.payload
+      });
+    }
+
+    case REMOVE_ORDER_BY: {
+      return Object.assign({}, state, {
+        orderBy: null
+      });
+    }
+
     case SET_CHART_TYPE: {
       return Object.assign({}, state, {
         chartType: action.payload
@@ -169,6 +184,8 @@ export default function (state = initialState, action) {
  * - resetWidgetEditor
  * - showLayer
  * - setFields
+ * - setOrderBy
+ * - removeOrderBy
 */
 export function addFilter(filter) {
   return dispatch => dispatch({ type: ADD_FILTER, payload: filter });
@@ -202,6 +219,12 @@ export function setValue(value) {
 }
 export function removeValue(value) {
   return dispatch => dispatch({ type: REMOVE_VALUE, payload: value });
+}
+export function setOrderBy(orderBy) {
+  return dispatch => dispatch({ type: SET_ORDER_BY, payload: orderBy });
+}
+export function removeOrderBy(orderBy) {
+  return dispatch => dispatch({ type: REMOVE_ORDER_BY, payload: orderBy });
 }
 export function setChartType(type) {
   return dispatch => dispatch({ type: SET_CHART_TYPE, payload: type });
