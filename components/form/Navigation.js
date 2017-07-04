@@ -48,7 +48,7 @@ class Navigation extends React.Component {
               properties={{
                 type: 'submit',
                 name: 'commit',
-                className: '-primary'
+                className: '-secondary'
               }}
             >
               Next
@@ -62,7 +62,7 @@ class Navigation extends React.Component {
                 type: 'submit',
                 name: 'commit',
                 disabled: submitting,
-                className: `-primary ${submitting ? '-disabled' : ''}`
+                className: `-secondary ${submitting ? '-disabled' : ''}`
               }}
             >
               Submit
