@@ -11,13 +11,15 @@
  * @param {{ name: string, type: string, value: any[] }[]} [filters=[]]
  * @param {{ key: string, value: string, as?: boolean, aggregateFunction: string, group: boolean }} [arrColumns=[]]
  * @param {any} [arrOrder=[]]
+ * @param {asc|desc} sortOrder
  * @returns {string} SQL query
  */
 export default function getQueryByFilters(
   tableName,
   filters = [],
   arrColumns = [],
-  arrOrder = []
+  arrOrder = [],
+  sortOrder = 'asc'
 ) {
   // We compute the WHERE part of the query which corresponds
   // to the filters
@@ -60,7 +62,7 @@ export default function getQueryByFilters(
   if (arrOrder.length) {
     const orders = arrOrder.map(order => order.name).join(' ');
 
-    orderBy = `ORDER BY ${orders}`;
+    orderBy = `ORDER BY ${orders} ${sortOrder}`;
   }
 
   const where = (filtersQuery.length) ? `WHERE ${filtersQuery}` : '';

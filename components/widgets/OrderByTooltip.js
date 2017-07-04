@@ -89,7 +89,7 @@ class OrderByTooltip extends React.Component {
 
 OrderByTooltip.propTypes = {
   onApply: PropTypes.func.isRequired,
-  orderBy: PropTypes.string,
+  orderBy: PropTypes.object,
   // store
   toggleTooltip: PropTypes.func.isRequired
 };

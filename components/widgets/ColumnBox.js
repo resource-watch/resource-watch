@@ -214,7 +214,7 @@ class ColumnBox extends React.Component {
             {aggregateFunction}
           </div>
         }
-        {orderType &&
+        {isA === 'orderBy' && orderType &&
           <div className="order-by">
             {orderType}
           </div>
