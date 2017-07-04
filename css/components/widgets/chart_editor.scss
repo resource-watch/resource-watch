@@ -1,5 +1,4 @@
 .c-chart-editor {
-
   margin-top: 20px;
 
   .chart-type {
@@ -11,10 +10,11 @@
   }
 
   .actions-div {
-
     display: flex;
     margin-top: 22px;
     justify-content: flex-start;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $color-grey;
 
     .customization-container {
       flex-grow: 1;
