@@ -20,6 +20,15 @@ const boxTarget = {
 }))
 class SizeContainer extends React.Component {
 
+  setAggregateFunction(value) {
+    const newSize = Object.assign(
+      {},
+      this.props.widgetEditor.size,
+      { aggregateFunction: value }
+    );
+    this.props.setSize(newSize);
+  }
+
   render() {
     const { canDrop, isOver, connectDropTarget, widgetEditor } = this.props;
     const isActive = canDrop && isOver;
@@ -39,6 +48,7 @@ class SizeContainer extends React.Component {
             type={size.type}
             closable
             configurable
+            onConfigure={aggregateFunction => this.setAggregateFunction(aggregateFunction)}
             isA="size"
           />
         }
@@ -51,7 +61,9 @@ SizeContainer.propTypes = {
   connectDropTarget: PropTypes.func,
   isOver: PropTypes.bool,
   canDrop: PropTypes.bool,
-  widgetEditor: PropTypes.object
+  // Store
+  widgetEditor: PropTypes.object.isRequired,
+  setSize: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

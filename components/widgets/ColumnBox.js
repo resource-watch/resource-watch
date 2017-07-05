@@ -62,6 +62,10 @@ class ColumnBox extends React.Component {
     this.state = {
       // Value of the aggregate function
       aggregateFunction: null,
+      // Value of the aggregate function for size
+      aggregateFunctionSize: null,
+      // Value of the aggregate function for color
+      aggregateFunctionColor: null,
       // Value of the filter
       filter: null
     };
@@ -93,6 +97,24 @@ class ColumnBox extends React.Component {
 
     if (this.props.onConfigure) {
       this.props.onConfigure({ name: this.props.name, value: aggregateFunction });
+    }
+  }
+
+  @Autobind
+  onApplyAggregateFunctionSize(aggregateFunctionSize) {
+    this.setState({ aggregateFunctionSize });
+
+    if (this.props.onConfigure) {
+      this.props.onConfigure(aggregateFunctionSize);
+    }
+  }
+
+  @Autobind
+  onApplyAggregateFunctionColor(aggregateFunctionColor) {
+    this.setState({ aggregateFunctionColor });
+
+    if (this.props.onConfigure) {
+      this.props.onConfigure(aggregateFunctionColor);
     }
   }
 
@@ -139,8 +161,38 @@ class ColumnBox extends React.Component {
 
     switch (isA) {
       case 'color':
+        this.props.toggleTooltip(true, {
+          follow: false,
+          position: ColumnBox.getClickPosition(event),
+          children: AggregateFunctionTooltip,
+          childrenProps: {
+            name,
+            type,
+            datasetID,
+            tableName,
+            onApply: this.onApplyAggregateFunctionColor,
+            aggregateFunction,
+            onlyCount: type !== 'number',
+            isA
+          }
+        });
         break;
       case 'size':
+        this.props.toggleTooltip(true, {
+          follow: false,
+          position: ColumnBox.getClickPosition(event),
+          children: AggregateFunctionTooltip,
+          childrenProps: {
+            name,
+            type,
+            datasetID,
+            tableName,
+            onApply: this.onApplyAggregateFunctionSize,
+            aggregateFunction,
+            onlyCount: type !== 'number',
+            isA
+          }
+        });
         break;
       case 'filter':
         this.props.toggleTooltip(true, {
@@ -171,7 +223,8 @@ class ColumnBox extends React.Component {
             tableName,
             onApply: this.onApplyAggregateFunction,
             aggregateFunction,
-            onlyCount: type !== 'number'
+            onlyCount: type !== 'number',
+            isA
           }
         });
         break;
@@ -195,11 +248,16 @@ class ColumnBox extends React.Component {
   render() {
     const { aggregateFunction } = this.state;
     const { isDragging, connectDragSource, name, type, closable, configurable, isA, widgetEditor } = this.props;
-    const { orderBy } = widgetEditor;
+    const { orderBy, size, color } = widgetEditor;
+
+    const aggregateFunctionSize = size && size.aggregateFunction;
+    const aggregateFunctionColor = color && color.aggregateFunction;
+
     const orderType = orderBy ? orderBy.orderType : null;
     const iconName = (type.toLowerCase() === 'string') ? 'icon-type' : 'icon-hash';
 
-    const isConfigurable = (isA === 'filter') || (isA === 'value') || (isA === 'orderBy');
+    const isConfigurable = (isA === 'filter') || (isA === 'value') ||
+      (isA === 'orderBy') || (isA === 'color') || (isA === 'size');
 
     return connectDragSource(
       <div className={classNames({ 'c-columnbox': true, '-dimmed': isDragging })}>
@@ -211,6 +269,16 @@ class ColumnBox extends React.Component {
         {aggregateFunction && aggregateFunction !== 'none' &&
           <div className="aggregate-function">
             {aggregateFunction}
+          </div>
+        }
+        {aggregateFunctionSize && aggregateFunctionSize !== 'none' &&
+          <div className="aggregate-function">
+            {aggregateFunctionSize}
+          </div>
+        }
+        {aggregateFunctionColor && aggregateFunctionColor !== 'none' &&
+          <div className="aggregate-function">
+            {aggregateFunctionColor}
           </div>
         }
         {isA === 'orderBy' && orderType &&

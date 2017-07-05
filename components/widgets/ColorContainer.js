@@ -39,6 +39,7 @@ class ColorContainer extends React.Component {
             type={color.type}
             closable
             configurable
+            onConfigure={aggregateFunction => this.setAggregateFunction(aggregateFunction)}
             isA="color"
           />
         }
