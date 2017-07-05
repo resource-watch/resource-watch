@@ -66,16 +66,16 @@ export const STATE_DEFAULT = {
     name: '',
     subtitle: '',
     application: [],
-    provider: '',
-    connectorType: '',
+    provider: 'csv',
+    connectorType: 'document',
     connectorUrlHint: '',
 
     // STEP 2
     connectorUrl: '',
     dataPath: '',
     legend: {
-      lat: null,
-      long: null,
+      lat: undefined,
+      long: undefined,
       date: [],
       country: []
     }

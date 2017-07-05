@@ -24,6 +24,16 @@
     opacity: 1;
   }
 
+  // Sizes
+  &.-small {
+    .spinner-box {
+      .icon {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
   .spinner-box {
     position: absolute;
     top: 50%;

@@ -9,7 +9,7 @@ import { PROVIDER_TYPES_DICTIONARY, FORM_ELEMENTS } from 'components/admin/datas
 // Components
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
-// import UrlFileInput from 'components/form/UrlFileInput';
+import File from 'components/form/File';
 import Select from 'components/form/SelectInput';
 import Title from 'components/ui/Title';
 
@@ -20,11 +20,13 @@ class Step1 extends React.Component {
     this.state = {
       dataset: props.dataset,
       form: props.form,
-      carto: {}
+      carto: {},
+      document: {}
     };
 
     // BINDINGS
     this.onCartoFieldsChange = this.onCartoFieldsChange.bind(this);
+    this.onDocumentsFieldsChange = this.onDocumentsFieldsChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -34,20 +36,20 @@ class Step1 extends React.Component {
   /**
     * UI EVENTS
     * - onCartoFieldsChange
+    * - onDocumentsFieldsChange
     * - onLegendChange
   */
   onCartoFieldsChange() {
     const { cartoAccountUsername, tableName } = this.state.carto;
-
-    const url = 'https://{{cartoAccountUsername}}.carto.com/tables/{{tableName}}/public';
-    const params = [
-      { key: 'cartoAccountUsername', value: cartoAccountUsername },
-      { key: 'tableName', value: tableName }
-    ];
+    const connectorUrl = `https://${cartoAccountUsername}.carto.com/tables/${tableName}/public`;
 
     this.props.onChange({
-      connectorUrl: substitution(url, params)
+      connectorUrl
     });
+  }
+
+  onDocumentsFieldsChange() {
+
   }
 
   onLegendChange(obj) {
@@ -147,10 +149,14 @@ class Step1 extends React.Component {
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.cartoAccountUsername = c; }}
             onChange={(value) => {
-              this.setState(
-                { carto: { ...this.state.carto, cartoAccountUsername: value } }, () => {
-                  this.onCartoFieldsChange('cartoAccountUsername', value);
-                });
+              this.setState({
+                carto: {
+                  ...this.state.carto,
+                  cartoAccountUsername: value
+                }
+              }, () => {
+                this.onCartoFieldsChange('cartoAccountUsername', value);
+              });
             }}
             validations={['required']}
             className="-fluid"
@@ -170,7 +176,12 @@ class Step1 extends React.Component {
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.tableName = c; }}
             onChange={(value) => {
-              this.setState({ carto: { ...this.state.carto, tableName: value } }, () => {
+              this.setState({
+                carto: {
+                  ...this.state.carto,
+                  tableName: value
+                }
+              }, () => {
                 this.onCartoFieldsChange('tableName', value);
               });
             }}
@@ -264,19 +275,23 @@ class Step1 extends React.Component {
         {isDocument &&
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.connectorUrl = c; }}
-            onChange={value => this.props.onChange({ connectorUrl: value })}
+            onChange={(value) => {
+              this.props.onChange({ connectorUrl: value });
+            }}
             validations={['required', 'url']}
             className="-fluid"
             properties={{
               name: 'connectorUrl',
-              label: 'Url data endpoint',
+              label: 'Url data endpoint / File',
               type: 'text',
+              placeholder: 'Paste a URL here or browse file',
+              authorization: this.state.form.authorization,
               default: this.state.form.connectorUrl,
               disabled: !!this.state.dataset,
               required: true
             }}
           >
-            {Input}
+            {File}
           </Field>
         }
 
@@ -351,6 +366,7 @@ class Step1 extends React.Component {
                     multi: true,
                     disabled: !!this.state.dataset,
                     creatable: true,
+                    instanceId: 'selectLegendDate',
                     placeholder: 'Type the columns...',
                     noResultsText: 'Please, type the name of the columns and press enter',
                     promptTextCreator: label => `The name of the column is "${label}"`,
@@ -378,6 +394,7 @@ class Step1 extends React.Component {
                     multi: true,
                     disabled: !!this.state.dataset,
                     creatable: true,
+                    instanceId: 'selectLegendCountry',
                     placeholder: 'Type the columns...',
                     noResultsText: 'Please, type the name of the columns and press enter',
                     promptTextCreator: label => `The name of the column is "${label}"`,

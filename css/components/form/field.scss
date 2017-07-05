@@ -24,7 +24,8 @@
 
   > input,
   > textarea,
-  > select, {
+  > select,
+  .input {
     display: inline-block;
     border: 1px solid $border-color-1;
     box-shadow: none;
@@ -43,6 +44,14 @@
     }
   }
 
+  > input::placeholder,
+  > textarea::placeholder,
+  > select::placeholder,
+  .input::placeholder {
+    color: $color-text-2;
+  }
+
+
   /**
    * STATES
    * -fluid
@@ -53,6 +62,7 @@
     > input,
     > textarea,
     > select,
+    .input,
     .Select {
       max-width: none;
     }
@@ -62,6 +72,7 @@
     > input,
     > textarea,
     > select,
+    .input,
     .Select {
       background: $color-tertiary;
     }
@@ -71,6 +82,7 @@
     > input,
     > textarea,
     > select,
+    .input,
     .Select-control {
       border-color: $color-green;
     }
@@ -80,6 +92,7 @@
     > input,
     > textarea,
     > select,
+    .input,
     .Select-control {
       border-color: $color-red;
     }

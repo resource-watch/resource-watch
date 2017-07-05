@@ -70,7 +70,7 @@ class Field extends React.Component {
             if (err) {
               return (
                 <p key={i} className="error">
-                  {err.message}
+                  {err.message || err.detail}
                 </p>
               );
             }
