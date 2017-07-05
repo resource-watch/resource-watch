@@ -20,3 +20,12 @@
     }
   }
 }
+
+
+.c-field-row {
+  margin: 0;
+
+  .c-field {
+    margin: $space-1 * 3 0 0;
+  }
+}

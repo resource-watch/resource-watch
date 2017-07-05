@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Select, Creatable } from 'react-select';
+import Select, { Creatable } from 'react-select';
 import FormElement from './FormElement';
 
 class SelectInput extends FormElement {
@@ -35,11 +35,11 @@ class SelectInput extends FormElement {
   }
 
   render() {
-    const { options, properties, creatable } = this.props;
+    const { options, properties } = this.props;
 
-    if (creatable) {
+    if (properties.creatable) {
       return (
-        <Select
+        <Creatable
           {...properties}
           options={options}
           id={`select-${properties.name}`}
@@ -49,7 +49,7 @@ class SelectInput extends FormElement {
       );
     }
     return (
-      <Creatable
+      <Select
         {...properties}
         options={options}
         id={`select-${properties.name}`}
@@ -59,6 +59,10 @@ class SelectInput extends FormElement {
     );
   }
 }
+
+SelectInput.defaultProps = {
+  options: []
+};
 
 SelectInput.propTypes = {
   properties: PropTypes.object.isRequired,

@@ -51,8 +51,10 @@ class FormElement extends React.Component {
 
 
   triggerValidate() {
-    const { validations } = this.props;
-    const { value } = this.state;
+    const { validations: validationsProps } = this.props;
+    const { validations: validationsState, value } = this.state;
+
+    const validations = validationsState || validationsProps;
 
     const isValuePresent = (Array.isArray(value)) ? value.length > 0 : value;
     let valid;

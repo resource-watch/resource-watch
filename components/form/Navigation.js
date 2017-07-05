@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 
 import Button from '../ui/Button';
 
@@ -26,6 +27,10 @@ class Navigation extends React.Component {
 
   render() {
     const { step, stepLength, submitting } = this.props;
+    const submittingClassName = classnames({
+      '-submitting': submitting
+    });
+
     return (
       <ul className="c-field-buttons">
         {step !== 1 &&
@@ -34,7 +39,7 @@ class Navigation extends React.Component {
               properties={{
                 type: 'button',
                 name: 'commit',
-                className: '-primary'
+                className: '-primary -expanded'
               }}
               onClick={this.onStepChange}
             >
@@ -48,7 +53,7 @@ class Navigation extends React.Component {
               properties={{
                 type: 'submit',
                 name: 'commit',
-                className: '-primary'
+                className: '-secondary -expanded'
               }}
             >
               Next
@@ -62,10 +67,10 @@ class Navigation extends React.Component {
                 type: 'submit',
                 name: 'commit',
                 disabled: submitting,
-                className: `-primary ${submitting ? '-disabled' : ''}`
+                className: `-secondary -expanded ${submittingClassName}`
               }}
             >
-              Submit
+              Save
             </Button>
           </li>
         }

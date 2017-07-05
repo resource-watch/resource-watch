@@ -11,7 +11,7 @@ $print-breakpoint: large;
 $breakpoint-classes: (small medium large);
 
 //  Grid
-$grid-row-width: 1040px;
+$grid-row-width: $max-width + (20 * 2);
 $grid-column-count: 12;
 $grid-column-gutter: (
   small: 10px,

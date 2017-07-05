@@ -21,14 +21,14 @@ function get({ url, headers = [], onSuccess, onError }) {
   return request;
 }
 
-function post({ type, url, body, headers = [], onSuccess, onError }) {
+function post({ type, url, body, headers = [], onSuccess, onError, multipart }) {
   const request = new XMLHttpRequest();
-  request.open(type || 'POST', url);
+  request.open(type || 'POST', url, true);
   // Set request headers
   headers.forEach((h) => {
     request.setRequestHeader(h.key, h.value);
   });
-  request.send(JSON.stringify(body));
+  request.send((multipart) ? body : JSON.stringify(body));
 
   request.onreadystatechange = () => {
     if (request.readyState === 4) {
@@ -36,7 +36,12 @@ function post({ type, url, body, headers = [], onSuccess, onError }) {
         const data = JSON.parse(request.responseText);
         onSuccess(data);
       } else {
-        onError('error');
+        try {
+          const data = JSON.parse(request.responseText);
+          onError(data.errors);
+        } catch (e) {
+          onError('error');
+        }
       }
     }
   };

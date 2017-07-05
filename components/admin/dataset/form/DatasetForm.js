@@ -1,13 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 
 import { get, post } from 'utils/request';
 
-import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
+import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/dataset/form/constants';
 
-import Step1 from './steps/Step1';
-import Step2 from './steps/Step2';
 import Navigation from 'components/form/Navigation';
+import Step1 from 'components/admin/dataset/form/steps/Step1';
+import Step2 from 'components/admin/dataset/form/steps/Step2';
+import Spinner from 'components/ui/Spinner';
 
 class DatasetForm extends React.Component {
   constructor(props) {
@@ -15,6 +17,7 @@ class DatasetForm extends React.Component {
 
     this.state = Object.assign({}, STATE_DEFAULT, {
       dataset: props.dataset,
+      loading: !!props.dataset,
       form: Object.assign({}, STATE_DEFAULT.form, {
         application: props.application,
         authorization: props.authorization
@@ -28,10 +31,10 @@ class DatasetForm extends React.Component {
   }
 
   componentDidMount() {
-    if (this.state.dataset) {
-      // Start the loading
-      this.setState({ loading: true });
+    // Get the dataset and fill the
+    // state with its params if it exists
 
+    if (this.state.dataset) {
       get({
         url: `${process.env.WRI_API_URL}/dataset/${this.state.dataset}`,
         headers: [{
@@ -67,8 +70,11 @@ class DatasetForm extends React.Component {
 
     // Set a timeout due to the setState function of react
     setTimeout(() => {
+      // Validate all the inputs on the current step
       const valid = FORM_ELEMENTS.isValid(this.state.step);
+
       if (valid) {
+        // if we are in the last step we will submit the form
         if (this.state.step === this.state.stepLength && !this.state.submitting) {
           const dataset = this.state.dataset;
 
@@ -136,7 +142,8 @@ class DatasetForm extends React.Component {
   render() {
     return (
       <form className="c-form" onSubmit={this.onSubmit} noValidate>
-        {this.state.loading && 'loading'}
+        <Spinner isLoading={this.state.loading} className="-light" />
+
         {(this.state.step === 1 && !this.state.loading) &&
           <Step1
             onChange={value => this.onChange(value)}
@@ -167,10 +174,10 @@ class DatasetForm extends React.Component {
 }
 
 DatasetForm.propTypes = {
-  application: React.PropTypes.array,
-  authorization: React.PropTypes.string,
-  dataset: React.PropTypes.string,
-  onSubmit: React.PropTypes.func
+  application: PropTypes.array,
+  authorization: PropTypes.string,
+  dataset: PropTypes.string,
+  onSubmit: PropTypes.func
 };
 
 export default DatasetForm;

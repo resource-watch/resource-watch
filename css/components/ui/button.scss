@@ -16,6 +16,7 @@
   cursor: pointer;
   color: $color-secondary;
   text-decoration: none;
+  white-space: nowrap;
 
   // Types
   &.-primary {
@@ -66,7 +67,16 @@
     }
   }
 
-  // Helpers
+  // Paddings
+  &.-compressed {
+    padding: 6px 16px;
+  }
+
+  &.-expanded {
+    padding: 12px 32px;
+  }
+
+  // Sizes
   &.-fullwidth {
     width: 100%;
   }
