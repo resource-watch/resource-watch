@@ -19,7 +19,8 @@ const defaultChart = {
       type: 'linear',
       range: 'height',
       domain: { data: 'table', field: 'y' },
-      nice: true
+      nice: true,
+      zero: false
     }
   ],
   axes: [
@@ -55,7 +56,7 @@ const defaultChart = {
           x: { scale: 'x', field: 'x' },
           width: { scale: 'x', band: true, offset: -3 },
           y: { scale: 'y', field: 'y' },
-          y2: { scale: 'y', value: 0 }
+          "y2": {"field": {"group": "height"}}
         }
       }
     }
@@ -92,6 +93,17 @@ export default function ({ columns, data }) {
       "scale": "c",
       "field": "color"
     };
+  }
+
+  // If the x column is a date, we need to use a
+  // a temporal x axis and parse the x column as a date
+  if (columns.x.type === 'date') {
+    // We update the axis
+    const xAxis = config.axes.find(axis => axis.type === 'x');
+    xAxis.formatType = 'time';
+
+    // We parse the x column as a date
+    config.data[0].format.parse = { x: 'date' };
   }
 
   return config;
