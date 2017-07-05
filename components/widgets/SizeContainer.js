@@ -9,7 +9,12 @@ import ColumnBox from 'components/widgets/ColumnBox';
 
 const boxTarget = {
   drop(props, monitor) {
-    props.setSize(monitor.getItem());
+    const newSize = Object.assign(
+      {},
+      monitor.getItem(),
+      { aggregateFunction: 'none' }
+    );
+    props.setSize(newSize);
   }
 };
 

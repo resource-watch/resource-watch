@@ -144,7 +144,7 @@ class WidgetEditor extends React.Component {
     if (isBidimensional) {
       columns.push({ key: 'y', value: value.name, as: true });
 
-      if (aggregateFunction) {
+      if (aggregateFunction && aggregateFunction !== 'none') {
         // If there's an aggregate function, we group the results
         // with the first column (dimension x)
         columns[0].group = true;
@@ -172,6 +172,8 @@ class WidgetEditor extends React.Component {
     }
     const sortOrder = orderBy ? orderBy.orderType : 'asc';
     const query = `${getQueryByFilters(tableName, filters, columns, orderByColumn, sortOrder)} LIMIT ${limit}`;
+
+    console.log('query', query);
 
     // TODO: remove the limit
     return `${process.env.WRI_API_URL}/query/${this.props.dataset}?sql=${query}`;

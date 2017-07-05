@@ -80,6 +80,12 @@ class ColumnBox extends React.Component {
     }
 
     this.setState({ aggregateFunction: nextProps.widgetEditor.aggregateFunction });
+
+    const sizeAggregateFunc = nextProps.widgetEditor.size && nextProps.widgetEditor.size.aggregateFunction;
+    this.setState({ aggregateFunctionSize: sizeAggregateFunc });
+
+    const colorAggregateFunc = nextProps.widgetEditor.color && nextProps.widgetEditor.color.aggregateFunction;
+    this.setState({ aggregateFunctionColor: colorAggregateFunc });
   }
 
   @Autobind
@@ -263,17 +269,17 @@ class ColumnBox extends React.Component {
           className="-smaller"
         />
         {name}
-        {aggregateFunction && aggregateFunction !== 'none' &&
+        {isA === 'value' && aggregateFunction && aggregateFunction !== 'none' &&
           <div className="aggregate-function">
             {aggregateFunction}
           </div>
         }
-        {aggregateFunctionSize && aggregateFunctionSize !== 'none' &&
+        {isA === 'size' && aggregateFunctionSize && aggregateFunctionSize !== 'none' &&
           <div className="aggregate-function">
             {aggregateFunctionSize}
           </div>
         }
-        {aggregateFunctionColor && aggregateFunctionColor !== 'none' &&
+        {isA === 'color' && aggregateFunctionColor && aggregateFunctionColor !== 'none' &&
           <div className="aggregate-function">
             {aggregateFunctionColor}
           </div>
