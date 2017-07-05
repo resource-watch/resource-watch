@@ -16,7 +16,7 @@ class RelatedContentTD extends React.Component {
 
     this.state = {
       widgetsActive: false,
-      vocabulariesActive: false,
+      layersActive: false,
       metadataActive: false
     };
 
@@ -26,7 +26,7 @@ class RelatedContentTD extends React.Component {
 
   toggleTooltip(specificDropdown, to) {
     this.setState({
-      ...{ widgetsActive: false, vocabulariesActive: false, metadataActive: false },
+      ...{ widgetsActive: false, layersActive: false, metadataActive: false },
       [specificDropdown]: to
     });
   }
@@ -51,11 +51,10 @@ class RelatedContentTD extends React.Component {
             >
               <Link route="admin_data_detail" params={{ tab: 'datasets', id: row.id, subtab: 'widgets' }}>
                 <a
-                  className={classnames({ '-empty': (!row.widget || !row.widget.length) })}
                   onMouseEnter={() => this.toggleTooltip('widgetsActive', true)}
                   onMouseLeave={() => this.toggleTooltip('widgetsActive', false)}
                 >
-                  <Icon name="icon-hash" className="c-icon -smaller" />
+                  <Icon name="icon-widgets" className="c-icon -small" />
                   <span>{(row.widget && row.widget.length) || 0}</span>
                 </a>
               </Link>
@@ -78,20 +77,22 @@ class RelatedContentTD extends React.Component {
                 element: 'c-tooltip'
               }}
             >
-              <Link route="admin_data_detail" params={{ tab: 'datasets', id: row.id, subtab: 'metadata' }}>
+              <Link
+                route="admin_data_detail"
+                params={{ tab: 'datasets', id: row.id, subtab: 'layers' }}
+              >
                 <a
-                  className={classnames({ '-empty': (!row.metadata || !row.metadata.length) })}
-                  onMouseEnter={() => this.toggleTooltip('metadataActive', true)}
-                  onMouseLeave={() => this.toggleTooltip('metadataActive', false)}
+                  onMouseEnter={() => this.toggleTooltip('layersActive', true)}
+                  onMouseLeave={() => this.toggleTooltip('layersActive', false)}
                 >
-                  <Icon name="icon-hash" className="c-icon -smaller" />
-                  <span>{(row.metadata && row.metadata.length) || 0}</span>
+                  <Icon name="icon-layers" className="c-icon -small" />
+                  <span>{(row.layers && row.layers.length) || 0}</span>
                 </a>
               </Link>
 
-              {this.state.metadataActive &&
+              {this.state.layersActive &&
                 <div>
-                  <span>{(row.metadata && row.metadata.length) || 0} metadata</span>
+                  <span>{(row.layers && row.layers.length) || 0} layers</span>
                 </div>
               }
             </TetherComponent>
@@ -107,23 +108,20 @@ class RelatedContentTD extends React.Component {
                 element: 'c-tooltip'
               }}
             >
-              <Link
-                route="admin_data_detail"
-                params={{ tab: 'datasets', id: row.id, subtab: 'vocabularies' }}
-              >
+              <Link route="admin_data_detail" params={{ tab: 'datasets', id: row.id, subtab: 'metadata' }}>
                 <a
-                  className={classnames({ '-empty': (!row.vocabulary || !row.vocabulary.length) })}
-                  onMouseEnter={() => this.toggleTooltip('vocabulariesActive', true)}
-                  onMouseLeave={() => this.toggleTooltip('vocabulariesActive', false)}
+                  className={classnames({ '-empty': (!row.metadata || !row.metadata.length) })}
+                  onMouseEnter={() => this.toggleTooltip('metadataActive', true)}
+                  onMouseLeave={() => this.toggleTooltip('metadataActive', false)}
                 >
-                  <Icon name="icon-hash" className="c-icon -smaller" />
-                  <span>{(row.vocabulary && row.vocabulary.length) || 0}</span>
+                  <Icon name="icon-metadata" className="c-icon -small" />
+                  <span>{(row.metadata && row.metadata.length) || 0}</span>
                 </a>
               </Link>
 
-              {this.state.vocabulariesActive &&
+              {this.state.metadataActive &&
                 <div>
-                  <span>{(row.vocabulary && row.vocabulary.length) || 0} vocabularies</span>
+                  <span>{(row.metadata && row.metadata.length) || 0} metadata</span>
                 </div>
               }
             </TetherComponent>

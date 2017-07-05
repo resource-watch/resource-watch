@@ -26,8 +26,7 @@
 
     // States
     &:hover {
-      color: $color-white;
-      background: $color-primary;
+      background: rgba(195,45,123,0.05);
     }
 
     &.-active {
@@ -56,7 +55,25 @@
 
     // States
     &:hover {
-      background: darken($color-primary, 10%);
+      box-shadow: 0 5px 20px rgba($color-black, 0.1);
+    }
+
+    &.-disabled {
+      background: $color-white;
+      border-color: $border-color-1;
+      color: $color-text-2;
+      cursor: default;
+    }
+  }
+
+  &.-tertiary {
+    color: $color-primary;
+    background: $color-white;
+    border-color: $color-white;
+
+    // States
+    &:hover {
+      background: rgba(195,45,123,0.05);
     }
 
     &.-disabled {

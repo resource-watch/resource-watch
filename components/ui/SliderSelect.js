@@ -215,12 +215,12 @@ export default class SliderSelect extends React.Component {
             <span>{this.state.selectedItem ? this.state.selectedItem.label : this.props.placeholder}</span>
             {!this.state.selectedItem && this.state.closed &&
               <button className="icon-btn" onClick={this.toggle}>
-                <Icon name="icon-arrow-down" className="-tiny icon-arrow-down" />
+                <Icon name="icon-arrow-down" className="-small icon-arrow-down" />
               </button>
             }
             {this.state.selectedItem &&
               <button className="icon-btn" onClick={this.clearSearch}>
-                <Icon name="icon-cross" className="-tiny icon-cross" />
+                <Icon name="icon-cross" className="-small icon-cross" />
               </button>
             }
           </div>
@@ -240,7 +240,7 @@ export default class SliderSelect extends React.Component {
             {this.state.selectedLevels.length > 0 &&
               <li className="title" onClick={this.onSliderPrev}>
                 <div>
-                  <Icon name="icon-arrow-left" className="-tiny icon-arrow-left" />
+                  <Icon name="icon-arrow-left" className="-small icon-arrow-left" />
                   <span>{this.state.selectedLevels[this.state.selectedLevels.length - 1].label}</span>
                 </div>
               </li>
@@ -260,7 +260,7 @@ export default class SliderSelect extends React.Component {
 
                   {item.hasItems &&
                     <div className="next" onClick={e => this.onSliderNext(e, item)}>
-                      <Icon name="icon-arrow-right" className="-tiny icon-arrow-right" />
+                      <Icon name="icon-arrow-right" className="-small icon-arrow-right" />
                     </div>
                   }
                 </li>
