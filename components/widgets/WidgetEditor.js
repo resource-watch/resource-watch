@@ -183,8 +183,6 @@ class WidgetEditor extends React.Component {
     const sortOrder = orderBy ? orderBy.orderType : 'asc';
     const query = `${getQueryByFilters(tableName, filters, columns, orderByColumn, sortOrder)} LIMIT ${limit}`;
 
-    console.log('query', query);
-
     // TODO: remove the limit
     return `${process.env.WRI_API_URL}/query/${this.props.dataset}?sql=${query}`;
   }
