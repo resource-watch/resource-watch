@@ -13,6 +13,7 @@ import Button from 'components/ui/Button';
 const AGGREGATE_FUNCTIONS = [
   'sum', 'avg', 'max', 'min', 'count', 'none'
 ];
+const AGGREGATE_FUNCTIONS_ONLY_COUNT = ['count', 'none'];
 
 class AggregateFunctionTooltip extends React.Component {
 
@@ -55,11 +56,13 @@ class AggregateFunctionTooltip extends React.Component {
 
   render() {
     const { aggregateFunction } = this.state;
+    const { onlyCount } = this.props;
+    const functions = onlyCount ? AGGREGATE_FUNCTIONS_ONLY_COUNT : AGGREGATE_FUNCTIONS;
     return (
       <div className="c-aggregate-function-tooltip">
         Aggregate functions
         <div>
-          {AGGREGATE_FUNCTIONS.map((val, i) =>
+          {functions.map((val, i) =>
             (
               <div className="radio-button" key={val}>
                 <input
@@ -87,6 +90,7 @@ class AggregateFunctionTooltip extends React.Component {
 }
 
 AggregateFunctionTooltip.propTypes = {
+  onlyCount: PropTypes.bool.isRequired,
   onApply: PropTypes.func.isRequired,
   aggregateFunction: PropTypes.string,
   // store

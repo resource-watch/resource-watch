@@ -62,7 +62,7 @@ class DimensionYContainer extends React.Component {
             name={value.name}
             type={value.type}
             closable
-            configurable={value.type === 'number'}
+            configurable
             onConfigure={aggregateFunction => this.setAggregateFunction(aggregateFunction)}
             isA="value"
           />
