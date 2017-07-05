@@ -9,7 +9,12 @@ import ColumnBox from 'components/widgets/ColumnBox';
 
 const boxTarget = {
   drop(props, monitor) {
-    props.setColor(monitor.getItem());
+    const newColor = Object.assign(
+      {},
+      monitor.getItem(),
+      { aggregateFunction: 'none' }
+    );
+    props.setColor(newColor);
   }
 };
 
@@ -19,6 +24,15 @@ const boxTarget = {
   canDrop: monitor.canDrop()
 }))
 class ColorContainer extends React.Component {
+
+  setAggregateFunction(value) {
+    const newColor = Object.assign(
+      {},
+      this.props.widgetEditor.color,
+      { aggregateFunction: value }
+    );
+    this.props.setColor(newColor);
+  }
 
   render() {
     const { canDrop, isOver, connectDropTarget, widgetEditor } = this.props;
@@ -39,6 +53,7 @@ class ColorContainer extends React.Component {
             type={color.type}
             closable
             configurable
+            onConfigure={aggregateFunction => this.setAggregateFunction(aggregateFunction)}
             isA="color"
           />
         }
@@ -51,7 +66,10 @@ ColorContainer.propTypes = {
   connectDropTarget: PropTypes.func,
   isOver: PropTypes.bool,
   canDrop: PropTypes.bool,
-  widgetEditor: PropTypes.object
+
+  // Store
+  widgetEditor: PropTypes.object.isRequired,
+  setColor: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

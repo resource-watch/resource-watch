@@ -10,6 +10,7 @@ import ColumnBox from 'components/widgets/ColumnBox';
 const boxTarget = {
   drop(props, monitor) {
     props.setValue(monitor.getItem());
+    props.setAggregateFunction('none');
   }
 };
 
@@ -36,7 +37,7 @@ class DimensionYContainer extends React.Component {
 
     // If the column changes, we reset the aggregate function
     if (currentValue !== nextValue) {
-      this.props.setAggregateFunction(null);
+      this.props.setAggregateFunction('none');
     }
   }
 
@@ -62,7 +63,7 @@ class DimensionYContainer extends React.Component {
             name={value.name}
             type={value.type}
             closable
-            configurable={value.type === 'number'}
+            configurable
             onConfigure={aggregateFunction => this.setAggregateFunction(aggregateFunction)}
             isA="value"
           />

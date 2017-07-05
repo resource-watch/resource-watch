@@ -9,7 +9,12 @@ import ColumnBox from 'components/widgets/ColumnBox';
 
 const boxTarget = {
   drop(props, monitor) {
-    props.setSize(monitor.getItem());
+    const newSize = Object.assign(
+      {},
+      monitor.getItem(),
+      { aggregateFunction: 'none' }
+    );
+    props.setSize(newSize);
   }
 };
 
@@ -19,6 +24,15 @@ const boxTarget = {
   canDrop: monitor.canDrop()
 }))
 class SizeContainer extends React.Component {
+
+  setAggregateFunction(value) {
+    const newSize = Object.assign(
+      {},
+      this.props.widgetEditor.size,
+      { aggregateFunction: value }
+    );
+    this.props.setSize(newSize);
+  }
 
   render() {
     const { canDrop, isOver, connectDropTarget, widgetEditor } = this.props;
@@ -39,6 +53,7 @@ class SizeContainer extends React.Component {
             type={size.type}
             closable
             configurable
+            onConfigure={aggregateFunction => this.setAggregateFunction(aggregateFunction)}
             isA="size"
           />
         }
@@ -51,7 +66,9 @@ SizeContainer.propTypes = {
   connectDropTarget: PropTypes.func,
   isOver: PropTypes.bool,
   canDrop: PropTypes.bool,
-  widgetEditor: PropTypes.object
+  // Store
+  widgetEditor: PropTypes.object.isRequired,
+  setSize: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

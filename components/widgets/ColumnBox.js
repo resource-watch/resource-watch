@@ -62,6 +62,10 @@ class ColumnBox extends React.Component {
     this.state = {
       // Value of the aggregate function
       aggregateFunction: null,
+      // Value of the aggregate function for size
+      aggregateFunctionSize: null,
+      // Value of the aggregate function for color
+      aggregateFunctionColor: null,
       // Value of the filter
       filter: null
     };
@@ -74,6 +78,14 @@ class ColumnBox extends React.Component {
     if (nextProps.isDragging !== this.props.isDragging) {
       document.body.classList.toggle('-dragging', nextProps.isDragging);
     }
+
+    this.setState({ aggregateFunction: nextProps.widgetEditor.aggregateFunction });
+
+    const sizeAggregateFunc = nextProps.widgetEditor.size && nextProps.widgetEditor.size.aggregateFunction;
+    this.setState({ aggregateFunctionSize: sizeAggregateFunc });
+
+    const colorAggregateFunc = nextProps.widgetEditor.color && nextProps.widgetEditor.color.aggregateFunction;
+    this.setState({ aggregateFunctionColor: colorAggregateFunc });
   }
 
   @Autobind
@@ -87,14 +99,28 @@ class ColumnBox extends React.Component {
 
   @Autobind
   onApplyAggregateFunction(aggregateFunction) {
-    const fn = aggregateFunction === 'none'
-      ? null
-      : aggregateFunction;
-
-    this.setState({ aggregateFunction: fn });
+    this.setState({ aggregateFunction });
 
     if (this.props.onConfigure) {
-      this.props.onConfigure({ name: this.props.name, value: fn });
+      this.props.onConfigure({ name: this.props.name, value: aggregateFunction });
+    }
+  }
+
+  @Autobind
+  onApplyAggregateFunctionSize(aggregateFunctionSize) {
+    this.setState({ aggregateFunctionSize });
+
+    if (this.props.onConfigure) {
+      this.props.onConfigure(aggregateFunctionSize);
+    }
+  }
+
+  @Autobind
+  onApplyAggregateFunctionColor(aggregateFunctionColor) {
+    this.setState({ aggregateFunctionColor });
+
+    if (this.props.onConfigure) {
+      this.props.onConfigure(aggregateFunctionColor);
     }
   }
 
@@ -135,14 +161,44 @@ class ColumnBox extends React.Component {
 
   @Autobind
   triggerConfigure(event) {
-    const { filter, aggregateFunction } = this.state;
+    const { filter } = this.state;
     const { isA, name, type, datasetID, tableName, widgetEditor } = this.props;
-    const { orderBy } = widgetEditor;
+    const { orderBy, aggregateFunction } = widgetEditor;
 
     switch (isA) {
       case 'color':
+        this.props.toggleTooltip(true, {
+          follow: false,
+          position: ColumnBox.getClickPosition(event),
+          children: AggregateFunctionTooltip,
+          childrenProps: {
+            name,
+            type,
+            datasetID,
+            tableName,
+            onApply: this.onApplyAggregateFunctionColor,
+            aggregateFunction,
+            onlyCount: type !== 'number',
+            isA
+          }
+        });
         break;
       case 'size':
+        this.props.toggleTooltip(true, {
+          follow: false,
+          position: ColumnBox.getClickPosition(event),
+          children: AggregateFunctionTooltip,
+          childrenProps: {
+            name,
+            type,
+            datasetID,
+            tableName,
+            onApply: this.onApplyAggregateFunctionSize,
+            aggregateFunction,
+            onlyCount: type !== 'number',
+            isA
+          }
+        });
         break;
       case 'filter':
         this.props.toggleTooltip(true, {
@@ -172,7 +228,9 @@ class ColumnBox extends React.Component {
             datasetID,
             tableName,
             onApply: this.onApplyAggregateFunction,
-            aggregateFunction
+            aggregateFunction,
+            onlyCount: type !== 'number',
+            isA
           }
         });
         break;
@@ -194,13 +252,15 @@ class ColumnBox extends React.Component {
   }
 
   render() {
-    const { aggregateFunction } = this.state;
+    const { aggregateFunction, aggregateFunctionSize, aggregateFunctionColor } = this.state;
     const { isDragging, connectDragSource, name, type, closable, configurable, isA, widgetEditor } = this.props;
     const { orderBy } = widgetEditor;
+
     const orderType = orderBy ? orderBy.orderType : null;
     const iconName = (type.toLowerCase() === 'string') ? 'icon-type' : 'icon-hash';
 
-    const isConfigurable = (isA === 'filter') || (isA === 'value') || (isA === 'orderBy');
+    const isConfigurable = (isA === 'filter') || (isA === 'value') ||
+      (isA === 'orderBy') || (isA === 'color') || (isA === 'size');
 
     return connectDragSource(
       <div className={classNames({ 'c-columnbox': true, '-dimmed': isDragging })}>
@@ -209,9 +269,19 @@ class ColumnBox extends React.Component {
           className="-smaller"
         />
         {name}
-        {aggregateFunction &&
+        {isA === 'value' && aggregateFunction && aggregateFunction !== 'none' &&
           <div className="aggregate-function">
             {aggregateFunction}
+          </div>
+        }
+        {isA === 'size' && aggregateFunctionSize && aggregateFunctionSize !== 'none' &&
+          <div className="aggregate-function">
+            {aggregateFunctionSize}
+          </div>
+        }
+        {isA === 'color' && aggregateFunctionColor && aggregateFunctionColor !== 'none' &&
+          <div className="aggregate-function">
+            {aggregateFunctionColor}
           </div>
         }
         {isA === 'orderBy' && orderType &&

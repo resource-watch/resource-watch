@@ -133,6 +133,8 @@ class WidgetEditor extends React.Component {
   getDataURL() {
     const { widgetEditor } = this.props;
     const { category, value, color, size, filters, aggregateFunction, orderBy, limit } = widgetEditor;
+    const aggregateFunctionColor = color && color.aggregateFunction;
+    const aggregateFunctionSize = size && size.aggregateFunction;
     const isBidimensional = this.isBidimensionalChart();
 
     if (!category || (isBidimensional && !value)) return '';
@@ -144,7 +146,7 @@ class WidgetEditor extends React.Component {
     if (isBidimensional) {
       columns.push({ key: 'y', value: value.name, as: true });
 
-      if (aggregateFunction) {
+      if (aggregateFunction && aggregateFunction !== 'none') {
         // If there's an aggregate function, we group the results
         // with the first column (dimension x)
         columns[0].group = true;
@@ -156,11 +158,19 @@ class WidgetEditor extends React.Component {
     }
 
     if (color) {
-      columns.push({ key: 'color', value: color.name, as: true });
+      const colorColumn = { key: 'color', value: color.name, as: true };
+      if (aggregateFunctionColor && aggregateFunctionColor !== 'none') {
+        colorColumn.aggregateFunction = aggregateFunctionColor;
+      }
+      columns.push(colorColumn);
     }
 
     if (size) {
-      columns.push({ key: 'size', value: size.name, as: true });
+      const sizeColumn = { key: 'size', value: size.name, as: true };
+      if (aggregateFunctionSize && aggregateFunctionSize !== 'none') {
+        sizeColumn.aggregateFunction = aggregateFunctionSize;
+      }
+      columns.push(sizeColumn);
     }
 
     const tableName = this.state.tableName;
@@ -185,14 +195,14 @@ class WidgetEditor extends React.Component {
 
   getChartConfig() {
     const { widgetEditor } = this.props;
-    const { value, size, color, chartType } = widgetEditor;
+    const { category, value, size, color, chartType } = widgetEditor;
 
     return CHART_TYPES[chartType]({
       // In the future, we could pass the type of the columns so the chart
       // could select the right scale
       columns: {
-        x: { present: true },
-        y: { present: !!value },
+        x: { present: true, type: category.type },
+        y: { present: !!value, type: value.type },
         color: { present: !!color },
         size: { present: !!size }
       },

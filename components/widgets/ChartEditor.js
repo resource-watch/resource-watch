@@ -48,7 +48,8 @@ class ChartEditor extends React.Component {
               properties={{
                 className: 'chart-type-selector',
                 name: 'chart-type',
-                value: chartType
+                value: chartType,
+                default: chartType
               }}
               options={chartOptions}
               onChange={this.handleChartTypeChange}
