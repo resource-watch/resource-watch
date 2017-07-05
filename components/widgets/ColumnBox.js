@@ -172,7 +172,8 @@ class ColumnBox extends React.Component {
             datasetID,
             tableName,
             onApply: this.onApplyAggregateFunction,
-            aggregateFunction
+            aggregateFunction,
+            onlyCount: type !== 'number'
           }
         });
         break;
