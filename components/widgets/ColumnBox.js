@@ -74,6 +74,8 @@ class ColumnBox extends React.Component {
     if (nextProps.isDragging !== this.props.isDragging) {
       document.body.classList.toggle('-dragging', nextProps.isDragging);
     }
+
+    this.setState({ aggregateFunction: nextProps.widgetEditor.aggregateFunction });
   }
 
   @Autobind
@@ -87,14 +89,10 @@ class ColumnBox extends React.Component {
 
   @Autobind
   onApplyAggregateFunction(aggregateFunction) {
-    const fn = aggregateFunction === 'none'
-      ? null
-      : aggregateFunction;
-
-    this.setState({ aggregateFunction: fn });
+    this.setState({ aggregateFunction });
 
     if (this.props.onConfigure) {
-      this.props.onConfigure({ name: this.props.name, value: fn });
+      this.props.onConfigure({ name: this.props.name, value: aggregateFunction });
     }
   }
 
@@ -135,9 +133,9 @@ class ColumnBox extends React.Component {
 
   @Autobind
   triggerConfigure(event) {
-    const { filter, aggregateFunction } = this.state;
+    const { filter } = this.state;
     const { isA, name, type, datasetID, tableName, widgetEditor } = this.props;
-    const { orderBy } = widgetEditor;
+    const { orderBy, aggregateFunction } = widgetEditor;
 
     switch (isA) {
       case 'color':
@@ -210,7 +208,7 @@ class ColumnBox extends React.Component {
           className="-smaller"
         />
         {name}
-        {aggregateFunction &&
+        {aggregateFunction && aggregateFunction !== 'none' &&
           <div className="aggregate-function">
             {aggregateFunction}
           </div>
