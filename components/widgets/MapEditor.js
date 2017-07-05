@@ -60,7 +60,8 @@ class MapEditor extends React.Component {
         <Select
           properties={{
             name: 'layer-selector',
-            value: layer && layer.id
+            value: layer && layer.id,
+            default: layer && layer.id
           }}
           options={layers.map(val => (
             {
