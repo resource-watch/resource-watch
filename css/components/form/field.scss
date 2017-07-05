@@ -22,70 +22,65 @@
     font-size: 12px;
   }
 
-  > input[type=text],
-  > input[type=password],
-  > input[type=email],
-  > input[type=number],
-  > input[type=tel],
-  > input[type=date],
-  > input[type=time],
-  > input[type=url],
   > input,
-  > textarea {
+  > textarea,
+  > select, {
     display: inline-block;
     border: 1px solid $border-color-1;
     box-shadow: none;
     outline: none;
-    font-size: 16px;
-    padding: 8px;
+    font-size: $font-size-big;
+    padding: 12px;
     width: 100%;
     max-width: 400px;
     font-family: inherit;
     color: $color-text-1;
     margin: 0;
+    border-radius: 4px;
 
     &:hover {
       border-color: $border-color-2;
     }
+  }
 
-    &.-fluid {
+  /**
+   * STATES
+   * -fluid
+   * -valid
+   * -error
+  */
+  &.-fluid {
+    > input,
+    > textarea,
+    > select,
+    .Select {
       max-width: none;
     }
   }
 
-  &.-valid {
-    > input[type=text],
-    > input[type=password],
-    > input[type=email],
-    > input[type=number],
-    > input[type=tel],
-    > input[type=date],
-    > input[type=time],
-    > input[type=url],
+  &.-disabled {
     > input,
     > textarea,
     > select,
-    .Select-control,
-    .ic-tokens {
+    .Select {
+      background: $color-tertiary;
+    }
+  }
+
+  &.-valid {
+    > input,
+    > textarea,
+    > select,
+    .Select-control {
       border-color: $color-green;
     }
   }
 
-
   &.-error {
-    > input[type=text],
-    > input[type=password],
-    > input[type=email],
-    > input[type=number],
-    > input[type=tel],
-    > input[type=date],
-    > input[type=time],
-    > input[type=url],
     > input,
     > textarea,
     > select,
-    .Select-control,
-    .ic-tokens {
+    .Select-control {
       border-color: $color-red;
     }
   }

@@ -67,6 +67,10 @@
   }
 
   // Helpers
+  &.-expanded {
+    padding: 12px 32px;
+  }
+
   &.-fullwidth {
     width: 100%;
   }

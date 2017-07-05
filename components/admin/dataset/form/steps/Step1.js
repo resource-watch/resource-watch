@@ -84,6 +84,7 @@ class Step1 extends React.Component {
           ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
           onChange={value => this.props.onChange({ name: value })}
           validations={['required']}
+          className="-fluid"
           properties={{
             name: 'name',
             label: 'Title',
@@ -98,6 +99,7 @@ class Step1 extends React.Component {
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.subtitle = c; }}
           onChange={value => this.props.onChange({ subtitle: value })}
+          className="-fluid"
           properties={{
             name: 'subtitle',
             label: 'Subtitle',
@@ -115,8 +117,8 @@ class Step1 extends React.Component {
             connectorType: (PROVIDER_TYPES_DICTIONARY[value]) ?
               PROVIDER_TYPES_DICTIONARY[value].connectorType : null
           })}
+          className="-fluid"
           validations={['required']}
-          blank
           options={Object.keys(PROVIDER_TYPES_DICTIONARY).map(key => (
             {
               label: PROVIDER_TYPES_DICTIONARY[key].label,
@@ -151,6 +153,7 @@ class Step1 extends React.Component {
                 });
             }}
             validations={['required']}
+            className="-fluid"
             properties={{
               name: 'cartoAccountUsername',
               label: 'Carto account username',
@@ -172,6 +175,7 @@ class Step1 extends React.Component {
               });
             }}
             validations={['required']}
+            className="-fluid"
             properties={{
               name: 'tableName',
               label: 'Table name',
@@ -188,12 +192,13 @@ class Step1 extends React.Component {
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.connectorUrl = c; }}
             validations={['required']}
+            className="-fluid"
             properties={{
               name: 'connectorUrl',
               label: 'connectorUrl',
               type: 'text',
               default: this.state.form.connectorUrl,
-              disabled: true,
+              disabled: !!this.state.dataset,
               required: true
             }}
           >
@@ -211,12 +216,14 @@ class Step1 extends React.Component {
             ref={(c) => { if (c) FORM_ELEMENTS.elements.tableName = c; }}
             onChange={value => this.props.onChange({ tableName: value })}
             validations={['required']}
+            className="-fluid"
             hint="Example: projects/wri-datalab/HansenComposite_14-15"
             properties={{
               name: 'tableName',
               label: 'Table name',
               type: 'text',
               default: this.state.form.tableName,
+              disabled: !!this.state.dataset,
               required: true
             }}
           >
@@ -234,12 +241,14 @@ class Step1 extends React.Component {
             ref={(c) => { if (c) FORM_ELEMENTS.elements.connectorUrl = c; }}
             onChange={value => this.props.onChange({ connectorUrl: value })}
             validations={['required', 'url']}
+            className="-fluid"
             hint="Example: http://gis-gfw.wri.org/arcgis/rest/services/prep/nex_gddp_indicators/MapServer/6?f=pjson"
             properties={{
               name: 'connectorUrl',
               label: 'Url data endpoint',
               type: 'text',
               default: this.state.form.connectorUrl,
+              disabled: !!this.state.dataset,
               required: true
             }}
           >
@@ -257,11 +266,13 @@ class Step1 extends React.Component {
             ref={(c) => { if (c) FORM_ELEMENTS.elements.connectorUrl = c; }}
             onChange={value => this.props.onChange({ connectorUrl: value })}
             validations={['required', 'url']}
+            className="-fluid"
             properties={{
               name: 'connectorUrl',
               label: 'Url data endpoint',
               type: 'text',
               default: this.state.form.connectorUrl,
+              disabled: !!this.state.dataset,
               required: true
             }}
           >
@@ -275,11 +286,13 @@ class Step1 extends React.Component {
             onChange={value => this.props.onChange({ dataPath: value })}
             hint="Name of the element that you want to import"
             validations={(isXml) ? ['required'] : []}
+            className="-fluid"
             properties={{
               name: 'dataPath',
               label: 'Data path',
               type: 'text',
               default: this.state.form.dataPath,
+              disabled: !!this.state.dataset,
               required: isXml
             }}
           >
@@ -295,10 +308,12 @@ class Step1 extends React.Component {
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.lat = c; }}
                   onChange={value => this.onLegendChange({ lat: value })}
                   hint="Name of column with latitude value"
+                  className="-fluid"
                   properties={{
                     name: 'lat',
                     label: 'Latitude',
                     type: 'text',
+                    disabled: !!this.state.dataset,
                     default: this.state.form.legend.lat
                   }}
                 >
@@ -311,10 +326,12 @@ class Step1 extends React.Component {
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.long = c; }}
                   onChange={value => this.onLegendChange({ long: value })}
                   hint="Name of column with longitude value"
+                  className="-fluid"
                   properties={{
                     name: 'long',
                     label: 'Longitude',
                     type: 'text',
+                    disabled: !!this.state.dataset,
                     default: this.state.form.legend.long
                   }}
                 >
@@ -327,11 +344,12 @@ class Step1 extends React.Component {
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.date = c; }}
                   onChange={value => this.onLegendChange({ date: value })}
                   hint="Name of columns with date value (ISO Format)"
+                  className="-fluid"
                   properties={{
                     name: 'date',
                     label: 'Date',
                     multi: true,
-                    type: 'text',
+                    disabled: !!this.state.dataset,
                     creatable: true,
                     placeholder: 'Type the columns...',
                     noResultsText: 'Please, type the name of the columns and press enter',
@@ -353,11 +371,12 @@ class Step1 extends React.Component {
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.country = c; }}
                   onChange={value => this.onLegendChange({ country: value })}
                   hint="Name of columns with country value (ISO3 code)"
+                  className="-fluid"
                   properties={{
                     name: 'country',
                     label: 'Country',
                     multi: true,
-                    type: 'text',
+                    disabled: !!this.state.dataset,
                     creatable: true,
                     placeholder: 'Type the columns...',
                     noResultsText: 'Please, type the name of the columns and press enter',
