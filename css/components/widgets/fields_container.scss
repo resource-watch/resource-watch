@@ -1,15 +1,22 @@
 .c-fields-container {
+  // We prevent the columns with long names to
+  // take too much space
+  flex-grow: 0;
+  flex-basis: 160px;
+  overflow: hidden;
 
+  // This is the direct ancestor of the columns
+  // We limit the height of it so the widget editor
+  // doesn't get too high
   .fields {
-    max-width: 150px;
-    max-height: 220px;
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    float: left;
-    clear: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow: auto;
+    max-height: 330px;
 
     .c-columnbox {
+      flex-shrink: 0;
       margin-bottom: $space-1;
       &:last-child { margin-bottom: 0; }
     }

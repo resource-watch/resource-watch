@@ -1,6 +1,12 @@
 .c-dimensions-container {
   .c-column-container {
     margin-bottom: $space-1;
+    // Here we prevent the columns from growing too much
+    // This isn't an ideal solution at all, but that's the
+    // easiest that doesn't reduce the usability of the tool
+    // (i.e. the user can still see the full name of the column)
+    max-width: 172px;
+    overflow-x: scroll;
     &:last-child { margin-bottom: 0; }
   }
 }
