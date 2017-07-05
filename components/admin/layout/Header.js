@@ -20,7 +20,7 @@ export default class Header extends React.Component {
       {
         name: 'Data',
         pathnames: ['/admin/Data', '/admin/DataDetail'],
-        component: <Link route="admin_data" params={{ tab: 'datasets' }}><a>Data</a></Link>
+        component: <Link route="admin_data" params={{ tab: 'data', subtab: 'edit' }}><a>Data</a></Link>
       },
       {
         name: 'Pages',
@@ -50,10 +50,10 @@ export default class Header extends React.Component {
         </div>
         <div className="l-container">
           <div className="header-main">
-            <h1 className="header-logo">
+            <h1 className="header-logo -admin">
               <Link route="admin_home">
                 <a>
-                  <svg><use xlinkHref="#icon-logo" /></svg>
+                  <svg><use xlinkHref="#icon-logo-cms" /></svg>
                   <span>Resource Watch Content Manager</span>
                 </a>
               </Link>
