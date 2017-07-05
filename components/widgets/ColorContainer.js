@@ -10,6 +10,7 @@ import ColumnBox from 'components/widgets/ColumnBox';
 const boxTarget = {
   drop(props, monitor) {
     props.setColor(monitor.getItem());
+    props.setAggregateFunction('none');
   }
 };
 

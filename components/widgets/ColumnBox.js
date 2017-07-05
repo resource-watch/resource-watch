@@ -246,12 +246,9 @@ class ColumnBox extends React.Component {
   }
 
   render() {
-    const { aggregateFunction } = this.state;
+    const { aggregateFunction, aggregateFunctionSize, aggregateFunctionColor } = this.state;
     const { isDragging, connectDragSource, name, type, closable, configurable, isA, widgetEditor } = this.props;
-    const { orderBy, size, color } = widgetEditor;
-
-    const aggregateFunctionSize = size && size.aggregateFunction;
-    const aggregateFunctionColor = color && color.aggregateFunction;
+    const { orderBy } = widgetEditor;
 
     const orderType = orderBy ? orderBy.orderType : null;
     const iconName = (type.toLowerCase() === 'string') ? 'icon-type' : 'icon-hash';
