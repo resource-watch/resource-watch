@@ -272,7 +272,7 @@ class Step1 extends React.Component {
           ****************** DOCUMENT ****************
           *****************************************************
         */}
-        {isDocument &&
+        {isDocument && !dataset &&
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.connectorUrl = c; }}
             onChange={(value) => {
@@ -292,6 +292,27 @@ class Step1 extends React.Component {
             }}
           >
             {File}
+          </Field>
+        }
+
+        {isDocument && !!dataset &&
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.connectorUrl = c; }}
+            onChange={(value) => {
+              this.props.onChange({ connectorUrl: value });
+            }}
+            validations={['required', 'url']}
+            className="-fluid"
+            properties={{
+              name: 'connectorUrl',
+              label: 'Url data endpoint / File',
+              type: 'text',
+              default: this.state.form.connectorUrl,
+              disabled: !!this.state.dataset,
+              required: true
+            }}
+          >
+            {Input}
           </Field>
         }
 

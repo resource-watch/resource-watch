@@ -66,8 +66,8 @@ export const STATE_DEFAULT = {
     name: '',
     subtitle: '',
     application: [],
-    provider: 'csv',
-    connectorType: 'document',
+    provider: '',
+    connectorType: '',
     connectorUrlHint: '',
 
     // STEP 2

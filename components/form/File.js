@@ -1,5 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
+import omit from 'lodash/omit';
+
 import Dropzone from 'react-dropzone';
 
 // Utils
@@ -174,7 +176,7 @@ class File extends FormElement {
           } */}
 
           <input
-            {...properties}
+            {...omit(properties, 'authorization')}
             className={`input ${inputClassName}`}
             value={this.state.value}
             id={`input-${properties.name}`}
