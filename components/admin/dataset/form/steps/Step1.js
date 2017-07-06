@@ -72,6 +72,7 @@ class Step1 extends React.Component {
     const isCsv = (provider === 'csv');
     const isTsv = (provider === 'tsv');
     const isXml = (provider === 'xml');
+    const isWMS = (provider === 'wms');
     const isDocument = (isJson || isXml || isCsv || isTsv);
 
     return (
@@ -254,6 +255,31 @@ class Step1 extends React.Component {
             validations={['required', 'url']}
             className="-fluid"
             hint="Example: http://gis-gfw.wri.org/arcgis/rest/services/prep/nex_gddp_indicators/MapServer/6?f=pjson"
+            properties={{
+              name: 'connectorUrl',
+              label: 'Url data endpoint',
+              type: 'text',
+              default: this.state.form.connectorUrl,
+              disabled: !!this.state.dataset,
+              required: true
+            }}
+          >
+            {Input}
+          </Field>
+        }
+
+        {/*
+          *****************************************************
+          ****************** WMS ****************
+          *****************************************************
+        */}
+        {isWMS &&
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.connectorUrl = c; }}
+            onChange={value => this.props.onChange({ connectorUrl: value })}
+            validations={['required', 'url']}
+            className="-fluid"
+            // hint="Example: http://gis-gfw.wri.org/arcgis/rest/services/prep/nex_gddp_indicators/MapServer/6?f=pjson"
             properties={{
               name: 'connectorUrl',
               label: 'Url data endpoint',
