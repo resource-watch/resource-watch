@@ -18,18 +18,20 @@ export default class WidgetService {
     const widgetObj = {
       application: ['rw'],
       published: false,
-      default: false
+      default: false,
+      dataset: datasetId
     };
     const bodyObj = Object.assign({}, widget, widgetObj);
-    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget`, {
-      method: 'POST',
-      body: JSON.stringify(bodyObj),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(jsonData => jsonData.data);
+    console.log(bodyObj);
+    // return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget`, {
+    //   method: 'POST',
+    //   body: JSON.stringify(bodyObj),
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // })
+    //   .then(response => response.json())
+    //   .then(jsonData => jsonData.data);
   }
 
 }

@@ -1,11 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 // Components
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Button from 'components/ui/Button';
 import Spinner from 'components/ui/Spinner';
+
+// Services
+import WidgetService from 'services/WidgetService';
 
 const FORM_ELEMENTS = {
   elements: {
@@ -35,8 +43,13 @@ class SaveWidgetModal extends React.Component {
 
     this.state = {
       submitting: false,
-      loading: false
+      loading: false,
+      widget: {}
     };
+
+    this.widgetService = new WidgetService(null, {
+      apiURL: process.env.WRI_API_URL
+    });
   }
 
   @Autobind
@@ -44,12 +57,17 @@ class SaveWidgetModal extends React.Component {
     event.preventDefault();
     this.setState({
       loading: true
+    }, () => {
+      
     });
+    this.widgetService.saveUserWidget(this.state.widget, this.props.dataset);
+
   }
 
   @Autobind
   handleChange(value) {
-    this.setState(value);
+    const newWidgetObj = Object.assign({}, this.state.widget, value);
+    this.setState({ widget: newWidgetObj });
   }
 
   render() {
@@ -118,7 +136,12 @@ class SaveWidgetModal extends React.Component {
 }
 
 SaveWidgetModal.propTypes = {
+  dataset: PropTypes.string.isRequired
 };
 
+const mapStateToProps = state => ({
+  widgetEditor: state.widgetEditor
+});
 
-export default SaveWidgetModal;
+
+export default withRedux(initStore, mapStateToProps, null)(SaveWidgetModal);
