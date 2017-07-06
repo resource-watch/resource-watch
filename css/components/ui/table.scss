@@ -141,6 +141,8 @@
         &:first-child { margin: 0; }
 
         a {
+          display: flex;
+          align-items: center;
           text-decoration: none;
           color: $color-text-1;
           fill: $color-text-1;

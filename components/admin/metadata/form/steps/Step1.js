@@ -28,8 +28,12 @@ class Step1 extends React.Component {
     return (
       <div>
         <fieldset className="c-field-container">
-          <Title className="-big">
-            Global
+          <Title className="-big -secondary">
+            Edit metadata
+          </Title>
+
+          <Title className="-default -secondary">
+            General
           </Title>
 
           <Field
@@ -85,7 +89,7 @@ class Step1 extends React.Component {
         </fieldset>
 
         <fieldset className="c-field-container">
-          <Title className="-big">
+          <Title className="-default -secondary">
             Data info
           </Title>
 
@@ -267,7 +271,7 @@ class Step1 extends React.Component {
         </fieldset>
 
         <fieldset className="c-field-container">
-          <Title className="-big">
+          <Title className="-default -secondary">
             Translated
           </Title>
 
@@ -317,7 +321,7 @@ class Step1 extends React.Component {
         </fieldset>
 
         <fieldset className="c-field-container">
-          <Title className="-big">
+          <Title className="-default -secondary">
             Links
           </Title>
 

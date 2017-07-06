@@ -11,7 +11,7 @@ class NameTD extends React.Component {
     return (
       <td key={index} className="main">
         <Link route="admin_data_detail" params={{ tab: 'datasets', id: row.id }}>
-          {value}
+          <a>{value}</a>
         </Link>
       </td>
     );

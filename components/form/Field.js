@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 
 class Field extends React.Component {
 
@@ -35,15 +36,19 @@ class Field extends React.Component {
   }
 
   render() {
-    const { properties, hint } = this.props;
+    const { properties, className, hint } = this.props;
     const { valid, error } = this.state;
 
     // Set classes
-    const validClass = valid === true ? '-valid' : '';
-    const errorClass = valid === false ? '-error' : '';
+    const fieldClasses = classnames({
+      [className]: !!className,
+      '-disabled': properties.disabled,
+      '-valid': (valid === true),
+      '-error': (valid === false)
+    });
 
     return (
-      <div className={`c-field ${validClass} ${errorClass}`}>
+      <div className={`c-field ${fieldClasses}`}>
         {properties.label &&
           <label htmlFor={`input-${properties.name}`} className="label">
             {properties.label} {properties.required && <abbr title="required">*</abbr>}
@@ -65,7 +70,7 @@ class Field extends React.Component {
             if (err) {
               return (
                 <p key={i} className="error">
-                  {err.message}
+                  {err.message || err.detail}
                 </p>
               );
             }
@@ -80,7 +85,8 @@ class Field extends React.Component {
 
 Field.propTypes = {
   properties: React.PropTypes.object.isRequired,
-  hint: React.PropTypes.string
+  hint: React.PropTypes.string,
+  className: React.PropTypes.string
 };
 
 export default Field;

@@ -1,3 +1,5 @@
+@import "css/settings";
+
 // Reset
 @import "normalize.css";
 
@@ -19,7 +21,6 @@
 @import 'slick-carousel/slick/slick-theme.scss';
 
 // Common files
-@import "css/settings";
 @import "css/base";
 @import "css/layouts";
 
@@ -61,6 +62,7 @@
 @import "./components/form/field";
 @import "./components/form/field-container";
 @import "./components/form/field-buttons";
+@import "./components/form/file";
 @import "./components/form/checkbox";
 @import "./components/form/radio";
 @import "./components/form/select";
