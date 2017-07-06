@@ -1,6 +1,6 @@
 #!groovy
 
-def SLACK_CHANNEL='#resourcewatch'
+def SLACK_CHANNEL='#resourcewatch-jenkins'
 
 node {
 
