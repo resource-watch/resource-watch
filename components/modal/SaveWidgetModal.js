@@ -15,6 +15,9 @@ import Spinner from 'components/ui/Spinner';
 // Services
 import WidgetService from 'services/WidgetService';
 
+// utils
+import { getChartConfig } from 'utils/widgets/WidgetHelper';
+
 const FORM_ELEMENTS = {
   elements: {
   },
@@ -61,20 +64,23 @@ class SaveWidgetModal extends React.Component {
     }, () => {
 
     });
+    const { widgetEditor, tableName, dataset } = this.props;
+    const { limit, value, category, color, size, orderBy, aggregateFunction } = widgetEditor;
 
-    const { limit, value, category, color, size, orderBy, aggregateFunction } = this.props.widgetEditor;
-
-    const widgetConfig = {
-      paramsConfig: {
-        limit,
-        value,
-        category,
-        color,
-        size,
-        orderBy,
-        aggregateFunction
-      }
-    };
+    const widgetConfig = { widgetConfig: Object.assign(
+      {},
+      { paramsConfig: {
+          limit,
+          value,
+          category,
+          color,
+          size,
+          orderBy,
+          aggregateFunction
+        }
+      },
+      getChartConfig(widgetEditor, tableName, dataset)
+    )};
     const widgetObj = Object.assign({}, this.state.widget, widgetConfig);
 
     this.widgetService.saveUserWidget(widgetObj, this.props.dataset, this.props.user.token)
@@ -158,6 +164,7 @@ class SaveWidgetModal extends React.Component {
 
 SaveWidgetModal.propTypes = {
   dataset: PropTypes.string.isRequired,
+  tableName: PropTypes.string.isRequired,
   // Store
   user: PropTypes.object.isRequired,
   widgetEditor: PropTypes.object.isRequired
