@@ -4,6 +4,7 @@ import { initStore } from 'store';
 import { toggleTooltip } from 'redactions/tooltip';
 import { bisector } from 'd3';
 import vega from 'vega';
+import isEmpty from 'lodash/isEmpty';
 import debounce from 'lodash/debounce';
 import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
@@ -38,6 +39,62 @@ class VegaChart extends React.Component {
     window.removeEventListener('resize', this.triggerResize);
   }
 
+  /**
+   * Event handler for the mouse move events on the chart
+   * @param {object} vegaConfig Vega configuration of the chart
+   * @param {object[]} visData Data fetched by Vega and used to draw the chart
+   * @param {string|number} x x value associated with the position of the cursor
+   * @param {object} item Data associated with the hovered mark, if exist
+   */
+  onMousemove(vegaConfig, visData, x, item) {
+    // If the cursor is on top of a mark, we display the data
+    // associated to that mark
+    if (!isEmpty(item) && item.datum.x) {
+      return this.props.toggleTooltip(true, {
+        follow: true,
+        children: VegaChartTooltip,
+        childrenProps: { item: item.datum }
+      });
+    }
+
+    // If the chart doesn't have an x axis, we don't determine the
+    // data to show in the tooltip depending on the x position of the
+    // cursor (based on the x scale)
+    // We actually hide the tooltip
+    const hasXAxis = !!(vegaConfig.axes && vegaConfig.axes.find(axis => axis.type === 'x'));
+    if (!hasXAxis) {
+      return this.props.toggleTooltip(false);
+    }
+
+    // d3's bisector function needs sorted data because it
+    // determines the closest index using with a log2(n)
+    // complexity (i.e. splitting the array in two in each
+    // iteration)
+    const sortedVisData = visData.sort((d1, d2) => d1.x - d2.x);
+
+    // If not, then we retrieve the x position of the cursor,
+    // and display the data of the closest point/line/bar
+    let data; // eslint-disable-line no-shadow
+    if (typeof x === 'string') data = visData.find(d => d.x === x);
+    if (typeof x === 'number') {
+      const bisectDate = bisector(d => d.x).left;
+      const i = bisectDate(sortedVisData, x, 1);
+      const d0 = visData[i - 1];
+      const d1 = visData[i];
+      data = (d0 && d1 && (x - d0.x > d1.x - x)) ? d1 : d0;
+    }
+
+    if (data) {
+      return this.props.toggleTooltip(true, {
+        follow: true,
+        children: VegaChartTooltip,
+        childrenProps: { item: data }
+      });
+    }
+
+    return null;
+  }
+
   setSize() {
     if (this.chart) {
       this.width = this.chart.offsetWidth;
@@ -45,71 +102,81 @@ class VegaChart extends React.Component {
     }
   }
 
-  parseVega() {
-    const theme = this.props.theme || {};
+  /**
+   * Return the Vega configuration of the chart
+   * This method is necessary because we need to define the size of
+   * the chart, as well as a signal to display a tooltip
+   * @returns {object}
+   */
+  getVegaConfig() {
     const padding = this.props.data.padding || { top: 20, right: 20, bottom: 20, left: 20 };
     const size = {
       width: this.width - padding.left - padding.right,
       height: this.height - padding.top - padding.bottom
     };
 
-    const signals = {
-      signals: [{
-        name: 'onMousemove',
-        streams: [{
-          type: 'mousemove',
-          expr: 'eventX()',
-          scale: {
-            name: 'x',
-            invert: true
-          }
-        }]
+    // This signal is used for the tooltip
+    const signal = {
+      /* eslint-disable */
+      "name": "onMousemove",
+      "streams": [{
+        "type": "mousemove",
+        "expr": "{ x: iscale('x', eventX()), item: eventItem() }"
       }]
+      /* eslint-enable */
     };
 
-    const data = Object.assign({}, this.props.data, size, signals);
+    const config = Object.assign({}, this.props.data, size);
 
-    if (this.mounted && this.props.toggleLoading) this.props.toggleLoading(true);
+    // If the configuration already has signals, we don't override it
+    // but push a new one instead
+    if (config.signals) {
+      config.signals.push(signal);
+    } else {
+      config.signals = [signal];
+    }
 
-    vega.parse.spec(data, theme, (err, chart) => {
-      if (this.mounted && this.props.toggleLoading) this.props.toggleLoading(false);
-      if (!err && this.mounted) {
-        const vis = chart({
-          el: this.chart,
-          renderer: 'canvas'
-        });
+    return config;
+  }
 
-        vis.update();
+  /**
+   * Toggle the visibility of the loader depending of the
+   * passed value
+   * @param {boolean} isLoading
+   */
+  toggleLoading(isLoading) {
+    if (this.mounted && this.props.toggleLoading) {
+      this.props.toggleLoading(isLoading);
+    }
+  }
 
-        // Tooltip
-        vis.onSignal('onMousemove', throttle((event, x0) => {
-          const visData = vis.data().table;
-          let item;
+  parseVega() {
+    const theme = this.props.theme || {};
+    const vegaConfig = this.getVegaConfig();
 
-          if (typeof x0 === 'string') {
-            item = visData.find(d => d.x === x0);
-          }
+    // While Vega parses the configuration and renders the chart
+    // we display a loader
+    this.toggleLoading(true);
 
-          if (typeof x0 === 'number') {
-            const bisectDate = bisector(d => d.x).left;
-            const i = bisectDate(visData, x0, 1);
-            const d0 = visData[i - 1];
-            const d1 = visData[i];
-            item = (d0 && d1 && (x0 - d0.x > d1.x - x0)) ? d1 : d0;
-          }
+    vega.parse.spec(vegaConfig, theme, (err, chart) => {
+      // If there's an error or the component has been unmounted
+      // we don't do anything
+      if (err || !this.mounted) return;
 
-          if (item) {
-            return this.props.toggleTooltip(true, {
-              follow: true,
-              children: VegaChartTooltip,
-              childrenProps: {
-                item
-              }
-            });
-          }
-          return null;
-        }, 16));
-      }
+      // We render the chart
+      const vis = chart({ el: this.chart, renderer: 'canvas' });
+      vis.update();
+
+      // We toggle off the loader once we've rendered the chart
+      this.toggleLoading(false);
+
+      // Data fetched by Vega and used to draw the chart
+      const data = vis.data().table;
+
+      // We display a tooltip at maximum 60 FPS (approximatively)
+      vis.onSignal('onMousemove', throttle((_, { x, item }) => {
+        this.onMousemove(vegaConfig, data, x, item);
+      }, 16));
     });
   }
 
