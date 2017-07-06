@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import { toggleModal, setModalOptions } from 'redactions/modal';
 import { setUser } from 'redactions/user';
 
 // Components
@@ -54,6 +55,12 @@ Layout.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
+  toggleModal: () => {
+    dispatch(toggleModal());
+  },
+  setModalOptions: () => {
+    dispatch(setModalOptions());
+  },
   setUser: (user) => {
     dispatch(setUser(user));
   }
