@@ -1,8 +1,11 @@
 import React from 'react';
-import User from 'components/user';
+import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 
-export default class Page extends React.Component {
+// Components
+import User from 'components/user';
+
+class Page extends React.Component {
 
   // Expose session to all pages
   static async getInitialProps({ req }) {
@@ -21,9 +24,15 @@ export default class Page extends React.Component {
         console.info(err);
       }
     }
+    // Save user in the store
+    this.props.setUser(this.props.user);
   }
 }
 
 Page.propTypes = {
-  user: React.PropTypes.object
+  user: PropTypes.object,
+  // Store
+  setUser: PropTypes.func.isRequired
 };
+
+export default Page;
