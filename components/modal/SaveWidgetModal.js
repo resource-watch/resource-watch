@@ -52,64 +52,62 @@ class SaveWidgetModal extends React.Component {
   }
 
   render() {
-
     const { submitting } = this.state;
 
     return (
       <div className="c-save-widget-modal">
         <h1 className="c-text -header-normal -thin title">Save widget</h1>
-        <div className="container">
-          <form className="c-form" onSubmit={this.onSubmit} noValidate>
-            <fieldset className="c-field-container">
-              <Field
-                ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
-                onChange={value => this.handleChange({ title: value })}
-                validations={['required']}
-                properties={{
-                  title: 'title',
-                  label: 'Title',
-                  type: 'text',
-                  required: true,
-                  placeholder: 'Widget title'
-                }}
-              >
-                {Input}
-              </Field>
-              <Field
-                ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
-                onChange={value => this.handleChange({ description: value })}
-                properties={{
-                  description: 'description',
-                  label: 'Description',
-                  type: 'text',
-                  placeholder: 'Widget description'
-                }}
-              >
-                {Input}
-              </Field>
-            </fieldset>
-            <div className="buttons-container">
-              <Button
-                properties={{
-                  type: 'submit',
-                  disabled: submitting,
-                  className: '-primary'
-                }}
-              >
+
+        <form className="c-form" onSubmit={this.onSubmit} noValidate>
+          <fieldset className="c-field-container">
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
+              onChange={value => this.handleChange({ title: value })}
+              validations={['required']}
+              properties={{
+                title: 'title',
+                label: 'Title',
+                type: 'text',
+                required: true,
+                placeholder: 'Widget title'
+              }}
+            >
+              {Input}
+            </Field>
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
+              onChange={value => this.handleChange({ description: value })}
+              properties={{
+                description: 'description',
+                label: 'Description',
+                type: 'text',
+                placeholder: 'Widget description'
+              }}
+            >
+              {Input}
+            </Field>
+          </fieldset>
+          <div className="buttons-container">
+            <Button
+              properties={{
+                type: 'submit',
+                disabled: submitting,
+                className: '-primary'
+              }}
+            >
                 Save
               </Button>
-              <Button
-                properties={{
-                  type: 'submit',
-                  disabled: submitting,
-                  className: '-secondary'
-                }}
-              >
+            <Button
+              properties={{
+                type: 'submit',
+                disabled: submitting,
+                className: '-secondary'
+              }}
+            >
                 Cancel
               </Button>
-            </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     );
   }
