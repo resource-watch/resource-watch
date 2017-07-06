@@ -1,9 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Router } from 'routes';
+
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
+// Components
 import PartnerForm from 'components/admin/partners/form/PartnerForm';
 import Title from 'components/ui/Title';
 import Layout from 'components/admin/layout/Layout';
 
-export default class PartnerNew extends React.Component {
+class PartnerNew extends React.Component {
 
   render() {
     return (
@@ -18,7 +26,7 @@ export default class PartnerNew extends React.Component {
             </Title>
             <PartnerForm
               application={['rw']}
-              authorization={process.env.TEMP_TOKEN}
+              authorization={this.props.user.token}
               onSubmit={() => Router.pushRoute('partners')}
               mode="new"
             />
@@ -28,3 +36,14 @@ export default class PartnerNew extends React.Component {
     );
   }
 }
+
+PartnerNew.propTypes = {
+  // Store
+  user: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default withRedux(initStore, mapStateToProps, null)(PartnerNew);

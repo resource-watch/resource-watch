@@ -1,14 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+import { toggleModal, setModalOptions } from 'redactions/modal';
+import { setUser } from 'redactions/user';
+
+// Components
+import Icons from 'components/app/layout/icons';
 import Header from 'components/app/layout/Header';
 import Footer from 'components/app/layout/Footer';
 import Tooltip from 'components/ui/Tooltip';
 import Head from 'components/app/layout/head';
-import withRedux from 'next-redux-wrapper';
 import Modal from 'components/ui/Modal';
-import { initStore } from 'store';
-import { toggleModal, setModalOptions } from 'redactions/modal';
-import Icons from 'components/app/layout/icons';
 
 const fullScreenPages = [
   '/app/Explore',
@@ -23,6 +28,10 @@ class Layout extends React.Component {
     this.state = {
       modalOpen: false
     };
+  }
+
+  componentDidMount() {
+    this.props.setUser(this.props.user);
   }
 
   componentWillReceiveProps(newProps) {
@@ -77,9 +86,11 @@ Layout.propTypes = {
   user: PropTypes.object,
   url: PropTypes.object,
   pageHeader: PropTypes.bool,
+  // Store
   modal: PropTypes.object,
   toggleModal: PropTypes.func,
-  setModalOptions: PropTypes.func
+  setModalOptions: PropTypes.func,
+  setUser: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -92,6 +103,9 @@ const mapDispatchToProps = dispatch => ({
   },
   setModalOptions: () => {
     dispatch(setModalOptions());
+  },
+  setUser: (user) => {
+    dispatch(setUser(user));
   }
 });
 

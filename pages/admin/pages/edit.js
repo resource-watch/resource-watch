@@ -1,10 +1,17 @@
 import React from 'react';
-import PageForm from 'components/admin/pages/form/PageForm';
-import Title from 'components/ui/Title';
-import Layout from 'components/admin/layout/Layout';
+import PropTypes from 'prop-types';
 import { Router } from '../../../routes';
 
-export default class PageEdit extends React.Component {
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
+// Components
+import Title from 'components/ui/Title';
+import Layout from 'components/admin/layout/Layout';
+import PageForm from 'components/admin/pages/PageForm';
+
+class PageEdit extends React.Component {
 
   static async getInitialProps({ query }) {
     const pageID = query.id;
@@ -23,9 +30,9 @@ export default class PageEdit extends React.Component {
             <Title className="-huge -p-primary">
               Edit Page
             </Title>
-            <LayoutForm
+            <PageForm
               application={['rw']}
-              authorization={process.env.TEMP_TOKEN}
+              authorization={this.props.user.token}
               page={pageID}
               onSubmit={() => Router.pushRoute('pages')}
               mode="edit"
@@ -36,3 +43,14 @@ export default class PageEdit extends React.Component {
     );
   }
 }
+
+PageEdit.propTypes = {
+  // Store
+  user: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default withRedux(initStore, mapStateToProps, null)(PageEdit);

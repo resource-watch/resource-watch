@@ -1,21 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
 // Components
 import WidgetForm from 'components/admin/widget/form/WidgetForm';
 
-const WidgetShow = function WidgetShow(props) {
-  return (
-    <WidgetForm
-      application={['rw']}
-      authorization={process.env.TEMP_TOKEN}
-      widget={props.id}
-    />
-  );
-};
+class WidgetShow extends React.Component {
+
+  render() {
+    return (
+      <WidgetForm
+        application={['rw']}
+        authorization={this.props.user.token}
+        widget={this.props.id}
+      />
+    );
+  }
+
+}
 
 WidgetShow.propTypes = {
-  id: PropTypes.string
+  id: PropTypes.string,
+  // Store
+  user: PropTypes.object.isRequired
 };
 
-export default WidgetShow;
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default withRedux(initStore, mapStateToProps, null)(WidgetShow);

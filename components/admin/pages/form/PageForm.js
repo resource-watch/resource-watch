@@ -1,6 +1,11 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
 import { Autobind } from 'es-decorators';
+import PropTypes from 'prop-types';
+
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 import { FORM_ELEMENTS } from './constants';
 
@@ -43,7 +48,7 @@ class PageForm extends React.Component {
         url: `${process.env.BACKOFFICE_API_URL}/api/pages/${this.state.pageID}`,
         headers: [
           { key: 'Content-Type', value: 'application/json' },
-          { key: 'Authorization', value: process.env.TEMP_TOKEN }
+          { key: 'Authorization', value: this.props.user.token }
         ],
         onSuccess: response => {
           const page = response.data.attributes;
@@ -75,7 +80,7 @@ class PageForm extends React.Component {
         url: `${process.env.BACKOFFICE_API_URL}/api/pages/${this.state.pageID}`,
         headers: [
           { key: 'Content-Type', value: 'application/json' },
-          { key: 'Authorization', value: process.env.TEMP_TOKEN }
+          { key: 'Authorization', value: this.props.user.token }
         ],
         body: this.state.page,
         onSuccess: response => {
@@ -94,7 +99,7 @@ class PageForm extends React.Component {
         url: `${process.env.BACKOFFICE_API_URL}/api/pages`,
         headers: [
           { key: 'Content-Type', value: 'application/json' },
-          { key: 'Authorization', value: process.env.TEMP_TOKEN }
+          { key: 'Authorization', value: this.props.user.token }
         ],
         body: this.state.page,
         onSuccess: response => {
@@ -270,10 +275,16 @@ class PageForm extends React.Component {
 }
 
 PageForm.propTypes = {
-  page: React.PropTypes.string,
-  application: React.PropTypes.string.isRequired,
-  authorization: React.PropTypes.string.isRequired,
-  mode: React.PropTypes.string.isRequired
+  page: PropTypes.string,
+  application: PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired,
+  mode: PropTypes.string.isRequired
+  // Store
+  user: PropTypes.object.isRequired
 };
 
-export default PageForm;
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default withRedux(initStore, mapStateToProps, null)(PageForm);

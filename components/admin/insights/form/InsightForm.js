@@ -1,10 +1,15 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
+import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 
 import { FORM_ELEMENTS } from './constants';
 
 import { get, post } from 'utils/request';
+
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 import { Router } from 'routes';
 import Spinner from 'components/ui/Spinner';
@@ -43,7 +48,7 @@ class InsightForm extends React.Component {
         url: `${process.env.BACKOFFICE_API_URL}/api/insights/${this.state.insightID}`,
         headers: [
           { key: 'Content-Type', value: 'application/json' },
-          { key: 'Authorization', value: process.env.TEMP_TOKEN }
+          { key: 'Authorization', value: this.props.user.token }
         ],
         onSuccess: response => {
           const insight = response.data.attributes;
@@ -75,7 +80,7 @@ class InsightForm extends React.Component {
         url: `${process.env.BACKOFFICE_API_URL}/api/insights/${this.state.insightID}`,
         headers: [
           { key: 'Content-Type', value: 'application/json' },
-          { key: 'Authorization', value: process.env.TEMP_TOKEN }
+          { key: 'Authorization', value: this.props.user.token }
         ],
         body: this.state.insight,
         onSuccess: response => {
@@ -94,7 +99,7 @@ class InsightForm extends React.Component {
         url: `${process.env.BACKOFFICE_API_URL}/api/insights`,
         headers: [
           { key: 'Content-Type', value: 'application/json' },
-          { key: 'Authorization', value: process.env.TEMP_TOKEN }
+          { key: 'Authorization', value: this.props.user.token }
         ],
         body: this.state.insight,
         onSuccess: response => {
@@ -270,10 +275,17 @@ class InsightForm extends React.Component {
 }
 
 InsightForm.propTypes = {
-  insight: React.PropTypes.string,
-  application: React.PropTypes.string.isRequired,
-  authorization: React.PropTypes.string.isRequired,
-  mode: React.PropTypes.string.isRequired
+  insight: PropTypes.string,
+  application: PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired,
+  mode: PropTypes.string.isRequired,
+  // Store
+  user: PropTypes.object.isRequired
 };
 
-export default InsightForm;
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+
+export default withRedux(initStore, mapStateToProps, null)(InsightForm);
