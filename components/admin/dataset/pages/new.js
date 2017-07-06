@@ -31,7 +31,7 @@ DatasetNew.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  widgetEditor: state.widgetEditor
+  user: state.user
 });
 
 export default withRedux(initStore, mapStateToProps, null)(DatasetNew);
