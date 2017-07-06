@@ -1,3 +1,5 @@
+import 'isomorphic-fetch';
+
 export default class WidgetService {
 
   constructor(widgetId, options) {
@@ -14,7 +16,7 @@ export default class WidgetService {
       .then(jsonData => jsonData.data);
   }
 
-  saveUserWidget(widget, datasetId) {
+  saveUserWidget(widget, datasetId, token) {
     const widgetObj = {
       application: ['rw'],
       published: false,
@@ -22,16 +24,16 @@ export default class WidgetService {
       dataset: datasetId
     };
     const bodyObj = Object.assign({}, widget, widgetObj);
-    console.log(bodyObj);
-    // return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget`, {
-    //   method: 'POST',
-    //   body: JSON.stringify(bodyObj),
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // })
-    //   .then(response => response.json())
-    //   .then(jsonData => jsonData.data);
+    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget`, {
+      method: 'POST',
+      body: JSON.stringify(bodyObj),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(response => response.json())
+    .then(jsonData => jsonData.data);
   }
 
 }

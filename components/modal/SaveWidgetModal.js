@@ -58,9 +58,9 @@ class SaveWidgetModal extends React.Component {
     this.setState({
       loading: true
     }, () => {
-      
+
     });
-    this.widgetService.saveUserWidget(this.state.widget, this.props.dataset);
+    this.widgetService.saveUserWidget(this.state.widget, this.props.dataset, this.props.user.token);
 
   }
 
@@ -136,11 +136,13 @@ class SaveWidgetModal extends React.Component {
 }
 
 SaveWidgetModal.propTypes = {
-  dataset: PropTypes.string.isRequired
+  dataset: PropTypes.string.isRequired,
+  // Store
+  user: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
-  widgetEditor: state.widgetEditor
+  user: state.user
 });
 
 
