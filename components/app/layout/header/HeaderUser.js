@@ -35,7 +35,7 @@ export default function HeaderUser(props) {
               onMouseEnter={props.onMouseEnter}
               onMouseLeave={props.onMouseLeave}
             >
-              {!user.avatar && <span className="avatar-letter">{user.email.split('')[0]}</span>}
+              {!user.avatar && <span className="avatar-letter">{user.email && user.email.split('')[0]}</span>}
               {user.notifications && <span className={`avatar-notifications ${activeNotificationClassName}`}>{user.notifications}</span>}
             </a>
           </Link>

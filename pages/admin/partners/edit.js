@@ -1,10 +1,17 @@
 import React from 'react';
+import { Router } from 'routes';
+import PropTypes from 'prop-types';
+
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
+// Components
 import PartnerForm from 'components/admin/partners/form/PartnerForm';
 import Title from 'components/ui/Title';
 import Layout from 'components/admin/layout/Layout';
-import { Router } from 'routes';
 
-export default class PartnerEdit extends React.Component {
+class PartnerEdit extends React.Component {
 
   static async getInitialProps({ query }) {
     const partnerID = query.id;
@@ -25,7 +32,7 @@ export default class PartnerEdit extends React.Component {
             </Title>
             <PartnerForm
               application={['rw']}
-              authorization={process.env.TEMP_TOKEN}
+              authorization={this.props.user.token}
               partner={partnerID}
               onSubmit={() => Router.pushRoute('partners')}
               mode="edit"
@@ -36,3 +43,15 @@ export default class PartnerEdit extends React.Component {
     );
   }
 }
+
+PartnerEdit.propTypes = {
+  partnerID: PropTypes.string,
+  // Store
+  user: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default withRedux(initStore, mapStateToProps, null)(PartnerEdit);

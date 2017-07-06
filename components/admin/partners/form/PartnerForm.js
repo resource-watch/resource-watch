@@ -1,6 +1,7 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
 import { Autobind } from 'es-decorators';
+import PropTypes from 'prop-types';
 
 import { FORM_ELEMENTS } from './constants';
 
@@ -47,7 +48,7 @@ class PartnerForm extends React.Component {
         url: `${process.env.BACKOFFICE_API_URL}/api/partners/${this.state.partnerID}`,
         headers: [
           { key: 'Content-Type', value: 'application/json' },
-          { key: 'Authorization', value: process.env.TEMP_TOKEN }
+          { key: 'Authorization', value: this.props.user.token }
         ],
         onSuccess: response => {
           const partner = response.data.attributes;
@@ -79,7 +80,7 @@ class PartnerForm extends React.Component {
         url: `${process.env.BACKOFFICE_API_URL}/api/partners/${this.state.partnerID}`,
         headers: [
           { key: 'Content-Type', value: 'application/json' },
-          { key: 'Authorization', value: process.env.TEMP_TOKEN }
+          { key: 'Authorization', value: this.props.user.token }
         ],
         body: this.state.partner,
         onSuccess: response => {
@@ -98,7 +99,7 @@ class PartnerForm extends React.Component {
         url: `${process.env.BACKOFFICE_API_URL}/api/partners`,
         headers: [
           { key: 'Content-Type', value: 'application/json' },
-          { key: 'Authorization', value: process.env.TEMP_TOKEN }
+          { key: 'Authorization', value: this.props.user.token }
         ],
         body: this.state.partner,
         onSuccess: response => {
@@ -443,10 +444,12 @@ class PartnerForm extends React.Component {
 }
 
 PartnerForm.propTypes = {
-  partner: React.PropTypes.string,
-  application: React.PropTypes.string.isRequired,
-  authorization: React.PropTypes.string.isRequired,
-  mode: React.PropTypes.string.isRequired
+  partner: PropTypes.string,
+  application: PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired,
+  mode: PropTypes.string.isRequired,
+  // Store
+  user: PropTypes.object.isRequired
 };
 
 export default PartnerForm;

@@ -1,8 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
+// Components
 import VocabulariesForm from 'components/admin/vocabularies/form/VocabulariesForm';
 import Layout from 'components/admin/layout/Layout';
 
-export default class VocabulariesIndex extends React.Component {
+class VocabulariesIndex extends React.Component {
 
   render() {
     return (
@@ -14,7 +21,7 @@ export default class VocabulariesIndex extends React.Component {
           <div className="column small-12">
             <VocabulariesForm
               application={'rw'}
-              authorization={process.env.TEMP_TOKEN}
+              authorization={this.props.user.token}
               language="en"
             />
           </div>
@@ -23,3 +30,14 @@ export default class VocabulariesIndex extends React.Component {
     );
   }
 }
+
+VocabulariesIndex.propTypes = {
+  // Store
+  user: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default withRedux(initStore, mapStateToProps, null)(VocabulariesIndex);

@@ -75,7 +75,6 @@ export default class User {
 
             // Save changes to user
             this.saveLocalStore('user', this.user);
-
             resolve(this.user);
           } else {
             reject(Error('XMLHttpRequest failed: Unable to get user'));

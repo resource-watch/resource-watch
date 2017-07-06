@@ -1,10 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
+// Components
 import WidgetTable from 'components/admin/widget/table/WidgetTable';
 import ButtonContainer from 'components/ui/ButtonContainer';
 import Title from 'components/ui/Title';
 import Layout from 'components/admin/layout/Layout';
 
-export default class WidgetIndex extends React.Component {
+class WidgetIndex extends React.Component {
 
   static async getInitialProps({ query }) {
     const datasetID = query.id;
@@ -36,7 +43,7 @@ export default class WidgetIndex extends React.Component {
             <WidgetTable
               application={['rw']}
               dataset={datasetID}
-              authorization={process.env.TEMP_TOKEN}
+              authorization={this.props.user.token}
             />
           </div>
         </div>
@@ -44,3 +51,15 @@ export default class WidgetIndex extends React.Component {
     );
   }
 }
+
+WidgetIndex.propTypes = {
+  datasetID: PropTypes.string.isRequired,
+  // Store
+  user: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default withRedux(initStore, mapStateToProps, null)(WidgetIndex);

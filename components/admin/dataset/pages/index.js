@@ -40,6 +40,7 @@ class DatasetIndex extends React.Component {
   }
 
   render() {
+    const { user } = this.props;
     return (
       <div className="c-datasets-index">
         <div className="actions">
@@ -56,7 +57,7 @@ class DatasetIndex extends React.Component {
         </div>
         <DatasetTable
           application={['rw']}
-          authorization={process.env.TEMP_TOKEN}
+          authorization={user.token}
         />
       </div>
     );
@@ -73,8 +74,9 @@ DatasetIndex.defaultProps = {
   datasets: []
 };
 
-const mapStateToProps = ({ datasets }) => ({
-  datasets: datasets.datasets.list
+const mapStateToProps = ({ datasets, user }) => ({
+  datasets: datasets.datasets.list,
+  user
 });
 
 const mapDispatchToProps = dispatch => ({

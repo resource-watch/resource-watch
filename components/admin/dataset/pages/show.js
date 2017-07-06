@@ -1,9 +1,14 @@
 import React from 'react';
 import { Router } from 'routes';
 import { StickyContainer, Sticky } from 'react-sticky';
+import PropTypes from 'prop-types';
 
 // Utils
 import { substitution } from 'utils/utils';
+
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 // Components
 import Aside from 'components/ui/Aside';
@@ -52,7 +57,7 @@ class DatasetShow extends React.Component {
   }
 
   render() {
-    const { id } = this.props;
+    const { id, user } = this.props;
     const subtab = this.props.subtab || 'edit';
 
     return (
@@ -78,7 +83,7 @@ class DatasetShow extends React.Component {
               {subtab === 'edit' &&
                 <DatasetForm
                   application={['rw']}
-                  authorization={process.env.TEMP_TOKEN}
+                  authorization={user.token}
                   dataset={id}
                   onSubmit={() => Router.pushRoute('admin_data', { tab: 'datasets' })}
                 />
@@ -87,7 +92,7 @@ class DatasetShow extends React.Component {
               {subtab === 'metadata' &&
                 <MetadataForm
                   application={'rw'}
-                  authorization={process.env.TEMP_TOKEN}
+                  authorization={user.token}
                   dataset={id}
                   onSubmit={() => Router.pushRoute('admin_data', { tab: 'datasets', id })}
                 />
@@ -96,7 +101,7 @@ class DatasetShow extends React.Component {
               {subtab === 'vocabularies' &&
                 <VocabulariesAssociationForm
                   application={'rw'}
-                  authorization={process.env.TEMP_TOKEN}
+                  authorization={user.token}
                   dataset={id}
                   language="en"
                 />
@@ -119,9 +124,16 @@ class DatasetShow extends React.Component {
 }
 
 DatasetShow.propTypes = {
-  tab: React.PropTypes.string,
-  id: React.PropTypes.string,
-  subtab: React.PropTypes.string
+  tab: PropTypes.string,
+  id: PropTypes.string,
+  subtab: PropTypes.string,
+
+  // Store
+  user: PropTypes.object.isRequired
 };
 
-export default DatasetShow;
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default withRedux(initStore, mapStateToProps, null)(DatasetShow);
