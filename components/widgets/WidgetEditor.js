@@ -24,13 +24,7 @@ import Legend from 'components/ui/Legend';
 import TableView from 'components/widgets/TableView';
 
 // Utils
-import getQueryByFilters from 'utils/getQueryByFilters';
-import BarChart from 'utils/widgets/bar';
-import LineChart from 'utils/widgets/line';
-import PieChart from 'utils/widgets/pie';
-import OneDScatterChart from 'utils/widgets/1d_scatter';
-import OneDTickChart from 'utils/widgets/1d_tick';
-import ScatterChart from 'utils/widgets/scatter';
+import { getChartConfig, canRenderChart, getChartType } from 'utils/widgets/WidgetHelper';
 import ChartTheme from 'utils/widgets/theme';
 import LayerManager from 'utils/layers/LayerManager';
 
@@ -39,15 +33,8 @@ const VISUALIZATION_TYPES = [
   { label: 'Map', value: 'map' },
   { label: 'Table', value: 'table' }
 ];
-const oneDimensionalChartTypes = ['1d_scatter', '1d_tick'];
-const CHART_TYPES = {
-  bar: BarChart,
-  line: LineChart,
-  pie: PieChart,
-  scatter: ScatterChart,
-  '1d_scatter': OneDScatterChart,
-  '1d_tick': OneDTickChart
-};
+
+
 const mapConfig = {
   zoom: 3,
   latLng: {
@@ -130,107 +117,10 @@ class WidgetEditor extends React.Component {
       });
   }
 
-  getDataURL() {
-    const { widgetEditor } = this.props;
-    const { category, value, color, size, filters, aggregateFunction, orderBy, limit } = widgetEditor;
-    const aggregateFunctionColor = color && color.aggregateFunction;
-    const aggregateFunctionSize = size && size.aggregateFunction;
-    const isBidimensional = this.isBidimensionalChart();
-
-    if (!category || (isBidimensional && !value)) return '';
-
-    const columns = [
-      { key: 'x', value: category.name, as: true }
-    ];
-
-    if (isBidimensional) {
-      columns.push({ key: 'y', value: value.name, as: true });
-
-      if (aggregateFunction && aggregateFunction !== 'none') {
-        // If there's an aggregate function, we group the results
-        // with the first column (dimension x)
-        columns[0].group = true;
-
-        // We then apply the aggregate function to the current
-        // column
-        columns[1].aggregateFunction = aggregateFunction;
-      }
-    }
-
-    if (color) {
-      const colorColumn = { key: 'color', value: color.name, as: true };
-      if (aggregateFunctionColor && aggregateFunctionColor !== 'none') {
-        colorColumn.aggregateFunction = aggregateFunctionColor;
-      }
-      columns.push(colorColumn);
-    }
-
-    if (size) {
-      const sizeColumn = { key: 'size', value: size.name, as: true };
-      if (aggregateFunctionSize && aggregateFunctionSize !== 'none') {
-        sizeColumn.aggregateFunction = aggregateFunctionSize;
-      }
-      columns.push(sizeColumn);
-    }
-
-    const tableName = this.state.tableName;
-    let orderByColumn = orderBy ? [orderBy] : [];
-    if (orderByColumn.length > 0 && value && category && aggregateFunction && orderByColumn[0].name === value.name) {
-      orderByColumn = [{ name: 'y' }];
-    } else if (orderByColumn.length > 0 && value && category && aggregateFunction && orderByColumn[0].name === category.name) {
-      orderByColumn = [{ name: 'x' }];
-    }
-    const sortOrder = orderBy ? orderBy.orderType : 'asc';
-    const query = `${getQueryByFilters(tableName, filters, columns, orderByColumn, sortOrder)} LIMIT ${limit}`;
-
-    // TODO: remove the limit
-    return `${process.env.WRI_API_URL}/query/${this.props.dataset}?sql=${query}`;
-  }
-
   getChartTheme() {
     return ChartTheme({
       chart: this.state.selectedChartType
     });
-  }
-
-  getChartConfig() {
-    const { widgetEditor } = this.props;
-    const { category, value, size, color, chartType } = widgetEditor;
-
-    return CHART_TYPES[chartType]({
-      // In the future, we could pass the type of the columns so the chart
-      // could select the right scale
-      columns: {
-        x: { present: true, type: category.type },
-        y: { present: !!value, type: value.type },
-        color: { present: !!color },
-        size: { present: !!size }
-      },
-      data: {
-        url: this.getDataURL(),
-        property: 'data'
-      }
-    });
-  }
-
-  isBidimensionalChart() {
-    return !oneDimensionalChartTypes.includes(this.props.widgetEditor.chartType);
-  }
-
-  canRenderChart() {
-    const { widgetEditor } = this.props;
-    const { category, value, chartType } = widgetEditor;
-
-    return chartType
-      && category
-      && category.name
-      && (
-        (this.isBidimensionalChart()
-          && value
-          && value.name
-        )
-        || !this.isBidimensionalChart()
-      );
   }
 
   @Autobind
@@ -255,13 +145,13 @@ class WidgetEditor extends React.Component {
               <Spinner className="-light" isLoading />
             </div>
           );
-        } else if (!this.canRenderChart()) {
+        } else if (!canRenderChart(widgetEditor)) {
           visualization = (
             <div className="visualization -chart">
               Select a type of chart and columns
             </div>
           );
-        } else if (!CHART_TYPES[chartType]) {
+        } else if (!getChartType(chartType)) {
           visualization = (
             <div className="visualization -chart">
               {'This chart can\'t be previewed'}
@@ -272,7 +162,7 @@ class WidgetEditor extends React.Component {
             <div className="visualization -chart">
               <Spinner className="-light" isLoading={chartLoading} />
               <VegaChart
-                data={this.getChartConfig()}
+                data={getChartConfig(widgetEditor)}
                 theme={this.getChartTheme()}
                 toggleLoading={val => this.setState({ chartLoading: val })}
               />

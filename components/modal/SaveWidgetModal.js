@@ -55,13 +55,34 @@ class SaveWidgetModal extends React.Component {
   @Autobind
   onSubmit(event) {
     event.preventDefault();
+
     this.setState({
       loading: true
     }, () => {
 
     });
-    this.widgetService.saveUserWidget(this.state.widget, this.props.dataset, this.props.user.token);
 
+    const { limit, value, category, color, size, orderBy, aggregateFunction } = this.props.widgetEditor;
+
+    const widgetConfig = {
+      paramsConfig: {
+        limit,
+        value,
+        category,
+        color,
+        size,
+        orderBy,
+        aggregateFunction
+      }
+    };
+    const widgetObj = Object.assign({}, this.state.widget, widgetConfig);
+
+    this.widgetService.saveUserWidget(widgetObj, this.props.dataset, this.props.user.token)
+      .then((response) => {
+        console.log('response', response);
+      }).catch((err) => {
+        console.log(err);
+      });
   }
 
   @Autobind
@@ -84,7 +105,7 @@ class SaveWidgetModal extends React.Component {
           <fieldset className="c-field-container">
             <Field
               ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
-              onChange={value => this.handleChange({ title: value })}
+              onChange={value => this.handleChange({ name: value })}
               validations={['required']}
               properties={{
                 title: 'title',
@@ -138,11 +159,13 @@ class SaveWidgetModal extends React.Component {
 SaveWidgetModal.propTypes = {
   dataset: PropTypes.string.isRequired,
   // Store
-  user: PropTypes.string.isRequired
+  user: PropTypes.object.isRequired,
+  widgetEditor: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  widgetEditor: state.widgetEditor
 });
 
 
