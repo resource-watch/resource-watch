@@ -202,7 +202,7 @@ class WidgetEditor extends React.Component {
       // could select the right scale
       columns: {
         x: { present: true, type: category.type },
-        y: { present: !!value, type: value.type },
+        y: { present: !!value, type: value && value.type },
         color: { present: !!color },
         size: { present: !!size }
       },
