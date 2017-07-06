@@ -14,4 +14,22 @@ export default class WidgetService {
       .then(jsonData => jsonData.data);
   }
 
+  saveUserWidget(widget, datasetId) {
+    const widgetObj = {
+      application: ['rw'],
+      published: false,
+      default: false
+    };
+    const bodyObj = Object.assign({}, widget, widgetObj);
+    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget`, {
+      method: 'POST',
+      body: JSON.stringify(bodyObj),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(jsonData => jsonData.data);
+  }
+
 }

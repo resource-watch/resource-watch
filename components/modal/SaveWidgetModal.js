@@ -5,6 +5,7 @@ import { Autobind } from 'es-decorators';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Button from 'components/ui/Button';
+import Spinner from 'components/ui/Spinner';
 
 const FORM_ELEMENTS = {
   elements: {
@@ -39,7 +40,7 @@ class SaveWidgetModal extends React.Component {
   }
 
   @Autobind
-  onSubmit() {
+  onSubmit(event) {
     event.preventDefault();
     this.setState({
       loading: true
@@ -52,13 +53,16 @@ class SaveWidgetModal extends React.Component {
   }
 
   render() {
-    const { submitting } = this.state;
+    const { submitting, loading } = this.state;
 
     return (
       <div className="c-save-widget-modal">
         <h1 className="c-text -header-normal -thin title">Save widget</h1>
-
-        <form className="c-form" onSubmit={this.onSubmit} noValidate>
+        <Spinner
+          isLoading={loading}
+          className="-light -relative"
+        />
+        <form className="c-form" onSubmit={this.onSubmit}>
           <fieldset className="c-field-container">
             <Field
               ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
@@ -78,7 +82,7 @@ class SaveWidgetModal extends React.Component {
               ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
               onChange={value => this.handleChange({ description: value })}
               properties={{
-                description: 'description',
+                title: 'description',
                 label: 'Description',
                 type: 'text',
                 placeholder: 'Widget description'
