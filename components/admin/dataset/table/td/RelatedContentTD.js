@@ -17,7 +17,8 @@ class RelatedContentTD extends React.Component {
     this.state = {
       widgetsActive: false,
       layersActive: false,
-      metadataActive: false
+      metadataActive: false,
+      vocabulariesActive: false
     };
 
     // BINDINGS
@@ -26,7 +27,7 @@ class RelatedContentTD extends React.Component {
 
   toggleTooltip(specificDropdown, to) {
     this.setState({
-      ...{ widgetsActive: false, layersActive: false, metadataActive: false },
+      ...{ widgetsActive: false, layersActive: false, metadataActive: false, vocabulariesActive: false },
       [specificDropdown]: to
     });
   }
@@ -86,13 +87,13 @@ class RelatedContentTD extends React.Component {
                   onMouseLeave={() => this.toggleTooltip('layersActive', false)}
                 >
                   <Icon name="icon-layers" className="c-icon -small" />
-                  <span>{(row.layers && row.layers.length) || 0}</span>
+                  <span>{(row.layer && row.layer.length) || 0}</span>
                 </a>
               </Link>
 
               {this.state.layersActive &&
                 <div>
-                  <span>{(row.layers && row.layers.length) || 0} layers</span>
+                  <span>{(row.layer && row.layer.length) || 0} layers</span>
                 </div>
               }
             </TetherComponent>
@@ -122,6 +123,35 @@ class RelatedContentTD extends React.Component {
               {this.state.metadataActive &&
                 <div>
                   <span>{(row.metadata && row.metadata.length) || 0} metadata</span>
+                </div>
+              }
+            </TetherComponent>
+          </li>
+          <li>
+            <TetherComponent
+              attachment="bottom center"
+              constraints={[{
+                to: 'window'
+              }]}
+              targetOffset="-4px 0"
+              classes={{
+                element: 'c-tooltip'
+              }}
+            >
+              <Link route="admin_data_detail" params={{ tab: 'datasets', id: row.id, subtab: 'vocabularies' }}>
+                <a
+                  className={classnames({ '-empty': (!row.vocabulary || !row.vocabulary.length) })}
+                  onMouseEnter={() => this.toggleTooltip('vocabulariesActive', true)}
+                  onMouseLeave={() => this.toggleTooltip('vocabulariesActive', false)}
+                >
+                  <Icon name="icon-type" className="c-icon -smaller" />
+                  <span>{(row.vocabulary && row.vocabulary.length) || 0}</span>
+                </a>
+              </Link>
+
+              {this.state.vocabulariesActive &&
+                <div>
+                  <span>{(row.vocabulary && row.vocabulary.length) || 0} vocabularies</span>
                 </div>
               }
             </TetherComponent>
