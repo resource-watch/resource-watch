@@ -11,7 +11,7 @@ import ButtonContainer from 'components/ui/ButtonContainer';
 import Title from 'components/ui/Title';
 import Layout from 'components/admin/layout/Layout';
 
-export default class WidgetIndex extends React.Component {
+class WidgetIndex extends React.Component {
 
   static async getInitialProps({ query }) {
     const datasetID = query.id;
@@ -53,6 +53,7 @@ export default class WidgetIndex extends React.Component {
 }
 
 WidgetIndex.propTypes = {
+  datasetID: PropTypes.string.isRequired,
   // Store
   user: PropTypes.object.isRequired
 };
