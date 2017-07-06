@@ -92,6 +92,9 @@ const mapDispatchToProps = dispatch => ({
   },
   setModalOptions: () => {
     dispatch(setModalOptions());
+  },
+  setUser: (user) => {
+    dispatch(setUser(user));
   }
 });
 
