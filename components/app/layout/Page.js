@@ -2,7 +2,11 @@ import React from 'react';
 import User from 'components/user';
 import isEmpty from 'lodash/isEmpty';
 
-export default class Page extends React.Component {
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
+class Page extends React.Component {
 
   // Expose session to all pages
   static async getInitialProps({ req }) {
@@ -27,3 +31,5 @@ export default class Page extends React.Component {
 Page.propTypes = {
   user: React.PropTypes.object
 };
+
+export default withRedux(initStore, mapDispatchToProps)(Page);
