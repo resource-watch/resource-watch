@@ -50,6 +50,8 @@ export default class User {
     // Attempt to load user data from userStore on every call
     this.user = this.getLocalStore('user');
 
+    debugger;
+
     // If user data exists, has not expired AND forceUpdate is not set then
     // return the stored user we already have.
     if (this.user && Object.keys(this.user).length > 0) {
@@ -75,7 +77,7 @@ export default class User {
 
             // Save changes to user
             this.saveLocalStore('user', this.user);
-
+            debugger;
             resolve(this.user);
           } else {
             reject(Error('XMLHttpRequest failed: Unable to get user'));
