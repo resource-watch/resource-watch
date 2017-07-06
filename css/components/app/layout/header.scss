@@ -53,10 +53,17 @@
     }
 
     svg {
-      width: rem(200);
+      width: rem(200px);
       height: rem(35px);
       display: block;
       fill: $color-white;
+    }
+
+    &.-admin {
+      svg {
+        width: rem(255px);
+        height: rem(46px);
+      }
     }
   }
 
