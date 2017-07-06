@@ -1,10 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
+// Components
 import Layout from 'components/admin/layout/Layout';
 import InsightsTable from 'components/admin/insights/table/InsightsTable';
 import ButtonContainer from 'components/ui/ButtonContainer';
 import Title from 'components/ui/Title';
 
-export default class InsightsIndex extends React.Component {
+class InsightsIndex extends React.Component {
 
   render() {
     return (
@@ -27,7 +34,7 @@ export default class InsightsIndex extends React.Component {
             />
             <InsightsTable
               application={['rw']}
-              authorization={process.env.TEMP_TOKEN}
+              authorization={this.props.user.token}
             />
           </div>
         </div>
@@ -35,3 +42,14 @@ export default class InsightsIndex extends React.Component {
     );
   }
 }
+
+InsightsIndex.propTypes = {
+  // Store
+  user: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default withRedux(initStore, mapStateToProps, null)(InsightsIndex);

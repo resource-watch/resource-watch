@@ -1,9 +1,17 @@
 import React from 'react';
+import { Router } from 'routes';
+import PropTypes from 'prop-types';
+
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
+// Components
 import InsightForm from 'components/admin/insights/form/InsightForm';
 import Title from 'components/ui/Title';
 import Layout from 'components/admin/layout/Layout';
 
-export default class InsightEdit extends React.Component {
+class InsightEdit extends React.Component {
 
   render() {
     return (
@@ -18,7 +26,7 @@ export default class InsightEdit extends React.Component {
             </Title>
             <InsightForm
               application={['rw']}
-              authorization={process.env.TEMP_TOKEN}
+              authorization={this.props.user.token}
               onSubmit={() => Router.pushRoute('insights')}
               mode="new"
             />
@@ -28,3 +36,14 @@ export default class InsightEdit extends React.Component {
     );
   }
 }
+
+InsightEdit.propTypes = {
+  // Store
+  user: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default withRedux(initStore, mapStateToProps, null)(InsightEdit);
