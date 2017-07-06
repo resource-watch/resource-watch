@@ -44,11 +44,11 @@ export function canRenderChart(widgetEditor) {
     );
 }
 
-export function getDataURL(widgetEditor) {
+export function getDataURL(widgetEditor, tableName, dataset) {
   const { category, value, color, size, filters, aggregateFunction, orderBy, limit } = widgetEditor;
   const aggregateFunctionColor = color && color.aggregateFunction;
   const aggregateFunctionSize = size && size.aggregateFunction;
-  const isBidimensional = this.isBidimensionalChart();
+  const isBidimensional = isBidimensionalChart(widgetEditor);
 
   if (!category || (isBidimensional && !value)) return '';
 
@@ -86,7 +86,6 @@ export function getDataURL(widgetEditor) {
     columns.push(sizeColumn);
   }
 
-  const tableName = this.state.tableName;
   let orderByColumn = orderBy ? [orderBy] : [];
   if (orderByColumn.length > 0 && value && category && aggregateFunction && orderByColumn[0].name === value.name) {
     orderByColumn = [{ name: 'y' }];
@@ -97,10 +96,10 @@ export function getDataURL(widgetEditor) {
   const query = `${getQueryByFilters(tableName, filters, columns, orderByColumn, sortOrder)} LIMIT ${limit}`;
 
   // TODO: remove the limit
-  return `${process.env.WRI_API_URL}/query/${this.props.dataset}?sql=${query}`;
+  return `${process.env.WRI_API_URL}/query/${dataset}?sql=${query}`;
 }
 
-export function getChartConfig(widgetEditor) {
+export function getChartConfig(widgetEditor, tableName, dataset) {
   const { category, value, size, color, chartType } = widgetEditor;
 
   return CHART_TYPES[chartType]({
@@ -113,7 +112,7 @@ export function getChartConfig(widgetEditor) {
       size: { present: !!size }
     },
     data: {
-      url: getDataURL(widgetEditor),
+      url: getDataURL(widgetEditor, tableName, dataset),
       property: 'data'
     }
   });
