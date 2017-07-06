@@ -1,12 +1,19 @@
 import React from 'react';
+import { Router } from 'routes';
+import PropTypes from 'prop-types';
+
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
+// Components
 import WidgetForm from 'components/admin/widget/form/WidgetForm';
 import Title from 'components/ui/Title';
 import Layout from 'components/admin/layout/Layout';
 
-export default class WidgetEdit extends React.Component {
+class WidgetEdit extends React.Component {
 
   static async getInitialProps({ query }) {
-    console.log('query', query);
     const datasetID = query.id;
     const widgetID = query.widget_id;
     return { datasetID, widgetID };
@@ -26,7 +33,7 @@ export default class WidgetEdit extends React.Component {
             </Title>
             <WidgetForm
               application={['rw']}
-              authorization={process.env.TEMP_TOKEN}
+              authorization={this.props.user.token}
               dataset={datasetID}
               widget={widgetID}
               onSubmit={() => Router.pushRoute('dataset_widgets', { id: datasetID })}
@@ -37,3 +44,16 @@ export default class WidgetEdit extends React.Component {
     );
   }
 }
+
+WidgetEdit.propTypes = {
+  datasetID: PropTypes.string.isRequired,
+  widgetID: PropTypes.string.isRequired,
+  // Store
+  user: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default withRedux(initStore, mapStateToProps, null)(WidgetEdit);
