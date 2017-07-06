@@ -8,7 +8,6 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { resetDataset, toggleLayerShown } from 'redactions/exploreDetail';
 import { toggleModal, setModalOptions } from 'redactions/modal';
-import { setUser } from 'redactions/user';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 
 // Next
@@ -318,8 +317,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(toggleLayerShown(id));
   },
   toggleModal: (open) => { dispatch(toggleModal(open)); },
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
-  setUser: (user) => { dispatch(setUser(user)); }
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); }
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);

@@ -24,15 +24,11 @@ class Page extends React.Component {
         console.info(err);
       }
     }
-    // Save user in the store
-    this.props.setUser(this.props.user);
   }
 }
 
 Page.propTypes = {
-  user: PropTypes.object,
-  // Store
-  setUser: PropTypes.func.isRequired
+  user: PropTypes.object
 };
 
 export default Page;
