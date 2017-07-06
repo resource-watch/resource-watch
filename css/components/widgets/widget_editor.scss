@@ -6,7 +6,9 @@
   .customize-visualization {
     position: relative;
     min-height: 630px;
-    max-height: 630px;
+    // We don't set a max-height because the height will be
+    // determined by the number of columns so the max-height
+    // will be defined in c-fields-container
     min-width: 430px;
     max-width: 430px;
     margin-top: -20px;
