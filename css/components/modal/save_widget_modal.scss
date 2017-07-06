@@ -1,0 +1,21 @@
+.c-save-widget-modal {
+
+  .container {
+    margin-top: 20px;
+    margin-bottom: 60px;
+  }
+
+  h1 {
+    color: $color-dark-pink;
+  }
+
+  .buttons-container {
+
+    button {
+      width: 120px;
+      &:first-child {
+        margin-right: 20px;
+      }
+    }
+  }
+}

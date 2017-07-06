@@ -4,8 +4,10 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { Autobind } from 'es-decorators';
 import { DragDropContext } from 'react-dnd';
 
+// Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import { toggleModal, setModalOptions } from 'redactions/modal';
 import { setChartType } from 'redactions/widgetEditor';
 
 // Components
@@ -15,6 +17,7 @@ import FieldsContainer from 'components/widgets/FieldsContainer';
 import SortContainer from 'components/widgets/SortContainer';
 import LimitContainer from 'components/widgets/LimitContainer';
 import Select from 'components/form/SelectInput';
+import SaveWidgetModal from 'components/modal/SaveWidgetModal';
 
 @DragDropContext(HTML5Backend)
 class ChartEditor extends React.Component {
@@ -26,7 +29,13 @@ class ChartEditor extends React.Component {
 
   @Autobind
   handleSaveWidget() {
-    console.log('save widget');
+    const options = {
+      children: SaveWidgetModal,
+      childrenProps: {
+      }
+    };
+    this.props.toggleModal(true);
+    this.props.setModalOptions(options);
   }
 
   render() {
@@ -91,14 +100,18 @@ ChartEditor.propTypes = {
   tableViewMode: PropTypes.bool.isRequired,
   // Store
   widgetEditor: PropTypes.object.isRequired,
-  setChartType: PropTypes.func.isRequired
+  setChartType: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  setModalOptions: PropTypes.func.isRequired
 };
 
 const mapStateToProps = ({ widgetEditor }) => ({ widgetEditor });
 const mapDispatchToProps = dispatch => ({
   setChartType: (type) => {
     dispatch(setChartType(type));
-  }
+  },
+  toggleModal: (open) => { dispatch(toggleModal(open)); },
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); }
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ChartEditor);
