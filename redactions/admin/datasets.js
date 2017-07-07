@@ -78,6 +78,7 @@ export function getDatasets(applications = ['rw']) {
   return (dispatch) => {
     dispatch({ type: GET_DATASETS_LOADING });
 
+    console.log('load datasets!!');
     // TODO: remove the date now
     // ⬆️ Copied from redations/explore.js, no idea what
     // the date is used for

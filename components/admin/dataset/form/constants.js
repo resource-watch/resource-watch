@@ -69,6 +69,7 @@ export const STATE_DEFAULT = {
     provider: '',
     connectorType: '',
     connectorUrlHint: '',
+    published: false,
 
     // STEP 2
     connectorUrl: '',
