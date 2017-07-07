@@ -29,9 +29,9 @@ import ChartTheme from 'utils/widgets/theme';
 import LayerManager from 'utils/layers/LayerManager';
 
 const VISUALIZATION_TYPES = [
-  { label: 'Chart', value: 'chart' },
-  { label: 'Map', value: 'map' },
-  { label: 'Table', value: 'table' }
+  { label: 'Chart', value: 'chart', available: true },
+  { label: 'Map', value: 'map', available: true },
+  { label: 'Table', value: 'table', available: true }
 ];
 
 
@@ -76,13 +76,18 @@ class WidgetEditor extends React.Component {
   componentDidMount() {
     this.datasetService.getFields()
       .then((response) => {
-        this.props.setFields(response.fields);
+        const fieldsError = !response.fields || response.fields.length <= 0;
+
         this.setState({
-          loading: !this.state.jiminyLoaded,
-          fieldsLoaded: true
+          loading: !fieldsError && !this.state.jiminyLoaded,
+          fieldsLoaded: true,
+          fieldsError
         }, () => {
-          this.getJiminy();
-          this.getTableName();
+          if (!fieldsError) {
+            this.props.setFields(response.fields);
+            this.getJiminy();
+            this.getTableName();
+          }
         });
       })
       .catch((error) => {
@@ -134,7 +139,7 @@ class WidgetEditor extends React.Component {
   getVisualization() {
     const { tableName, selectedVisualizationType, chartLoading } = this.state;
     const { widgetEditor, dataset } = this.props;
-    const { chartType, layer, fields } = widgetEditor;
+    const { chartType, layer } = widgetEditor;
 
     let visualization = null;
     switch (selectedVisualizationType) {
@@ -213,7 +218,8 @@ class WidgetEditor extends React.Component {
       loading,
       tableName,
       selectedVisualizationType,
-      jiminy
+      jiminy,
+      fieldsError
     } = this.state;
 
     const { dataset, widgetEditor } = this.props;
@@ -223,8 +229,13 @@ class WidgetEditor extends React.Component {
 
     // We filter out the visualizations that aren't present in
     // this.props.availableVisualizations
-    const visualizationsOptions = VISUALIZATION_TYPES
+    let visualizationsOptions = VISUALIZATION_TYPES
       .filter(viz => this.props.availableVisualizations.includes(viz.value));
+    // If theere was an error retrieving the fields we remove chart and table
+    // as visualization options
+    if (fieldsError) {
+      visualizationsOptions = visualizationsOptions.filter(val => val.value === 'map');
+    }
 
     return (
       <div className="c-widget-editor">
@@ -250,7 +261,7 @@ class WidgetEditor extends React.Component {
                 />
               </div>
               {
-                selectedVisualizationType !== 'map' && fields && tableName &&
+                selectedVisualizationType !== 'map' && !fieldsError && tableName &&
                 <ChartEditor
                   dataset={dataset}
                   jiminy={jiminy}
