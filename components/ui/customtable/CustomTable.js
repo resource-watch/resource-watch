@@ -85,12 +85,16 @@ export default class CustomTable extends React.Component {
     const nextLength = nextProps.data.length;
     const nextColumnsKeys = CustomTable.getColumnKeys(nextProps.data).sort();
 
-    if (currentLength !== nextLength) {
-      // TODO: check if the data has changed to reload all the data or only to filter it
-      this.setState(CustomTable.setTableData(nextProps), () => {
-        this.filter();
-      });
-    }
+
+    // TODO: check if the data has changed to reload all the data or only to filter it
+    // if you only check the length, sometimes you have only edited one dataset,
+    // so the table will not render the new values
+
+    // if (currentLength !== nextLength) {
+    this.setState(CustomTable.setTableData(nextProps), () => {
+      this.filter();
+    });
+    // }
 
     if (!isEqual(currentColumnsKeys, nextColumnsKeys)) {
       this.setState({

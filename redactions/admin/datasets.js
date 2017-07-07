@@ -78,11 +78,10 @@ export function getDatasets(applications = ['rw']) {
   return (dispatch) => {
     dispatch({ type: GET_DATASETS_LOADING });
 
-    console.log('load datasets!!');
     // TODO: remove the date now
     // ⬆️ Copied from redations/explore.js, no idea what
     // the date is used for
-    fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=${applications.join(',')}&status=saved&includes=widget,layer,metadata,vocabulary&page[size]=${Date.now() / 100000}`))
+    fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=${applications.join(',')}&includes=widget,layer,metadata,vocabulary&page[size]=${Date.now() / 100000}`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
