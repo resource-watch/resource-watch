@@ -10,37 +10,7 @@ import { showLayer } from 'redactions/widgetEditor';
 // Components
 import Select from 'components/form/SelectInput';
 
-// Services
-import DatasetService from 'services/DatasetService';
-
 class MapEditor extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      layers: []
-    };
-
-    this.datasetService = new DatasetService(props.dataset, { apiURL: process.env.WRI_API_URL });
-  }
-
-  componentWillMount() {
-    this.datasetService.getLayers().then((response) => {
-      this.setState({
-        layers: response.map(val => ({
-          id: val.id,
-          name: val.attributes.name,
-          subtitle: val.attributes.subtitle,
-          ...val.attributes,
-          order: 1,
-          hidden: false
-        }))
-      });
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
 
   @Autobind
   handleLayerChange(layerID) {
@@ -48,8 +18,7 @@ class MapEditor extends React.Component {
   }
 
   render() {
-    const { layers } = this.state;
-    const { widgetEditor } = this.props;
+    const { widgetEditor, layers } = this.props;
     const { layer } = widgetEditor;
 
     return (
@@ -79,7 +48,7 @@ class MapEditor extends React.Component {
 
 
 MapEditor.propTypes = {
-  dataset: PropTypes.string.isRequired, // Dataset ID
+  layers: PropTypes.array.isRequired, // Dataset ID
   // Store
   showLayer: PropTypes.func.isRequired,
   widgetEditor: PropTypes.object.isRequired
