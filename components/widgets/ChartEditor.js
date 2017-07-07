@@ -32,7 +32,8 @@ class ChartEditor extends React.Component {
     const options = {
       children: SaveWidgetModal,
       childrenProps: {
-        dataset: this.props.dataset
+        dataset: this.props.dataset,
+        tableName: this.props.tableName
       }
     };
     this.props.toggleModal(true);
