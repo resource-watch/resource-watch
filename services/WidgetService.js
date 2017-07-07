@@ -29,7 +29,7 @@ export default class WidgetService {
       body: JSON.stringify(bodyObj),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        'Authorization': token
       }
     })
     .then(response => response.json())
