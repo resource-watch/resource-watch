@@ -173,26 +173,28 @@ class SaveWidgetModal extends React.Component {
           </form>
         }
         {saved &&
-        <div className="icon-container">
-          <img alt="" src="static/images/components/modal/widget-saved.svg" />
-        </div>
-        <div className="buttons-widget-saved">
-          <Button
-            properties={{
-              className: '-primary'
-            }}
-            onClick={this.handleCancel}
-          >
-              OK
-            </Button>
-          <Button
-            properties={{
-              className: '-secondary'
-            }}
-            onClick={Router.pushRoute('myrw')}
-          >
-              Check my widgets
-            </Button>
+        <div>
+          <div className="icon-container">
+            <img alt="" src="static/images/components/modal/widget-saved.svg" />
+          </div>
+          <div className="buttons-widget-saved">
+            <Button
+              properties={{
+                className: '-primary'
+              }}
+              onClick={this.handleCancel}
+            >
+                OK
+              </Button>
+            <Button
+              properties={{
+                className: '-secondary'
+              }}
+              onClick={Router.pushRoute('myrw')}
+            >
+                Check my widgets
+              </Button>
+          </div>
         </div>
         }
       </div>
