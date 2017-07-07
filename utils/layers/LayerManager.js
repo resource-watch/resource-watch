@@ -27,12 +27,26 @@ export default class LayerManager {
   */
   addLayer(layer, opts = {}) {
     const method = {
+      // legacy/deprecated
       leaflet: this._addLeafletLayer,
       arcgis: this._addEsriLayer,
-      cartodb: this._addCartoLayer
+      // carto
+      cartodb: this._addCartoLayer,
+      carto: this._addCartoLayer,
+      // wms
+      wmsservice: this._addLeafletLayer,
+      wms: this._addLeafletLayer,
+      // arcgis
+      featureservice: this._addEsriLayer,
+      mapservice: this._addEsriLayer,
+      tileservice: this._addEsriLayer,
+      esrifeatureservice: this._addEsriLayer,
+      esrimapservice: this._addEsriLayer,
+      esritileservice: this._addEsriLayer
     }[layer.provider];
 
     method && method.call(this, layer, opts);
+
     this._execCallback()
       .then(() => {
         this._onLayerAddedSuccess && this._onLayerAddedSuccess();
@@ -95,7 +109,9 @@ export default class LayerManager {
         layer = new L.tileLayer.wms(layerData.url, layerData.body); // eslint-disable-line
         break;
       case 'tileLayer':
-        if (layerData.body.indexOf('style: "function') >= 0) {
+        if (layerData.body.style &&
+            typeof layerData.body.style === 'string' &&
+            layerData.body.indexOf('style: "function') >= 0) {
           layerData.body.style = eval(`(${layerData.body.style})`); // eslint-disable-line
         }
         layer = new L.tileLayer(layerData.url, layerData.body); // eslint-disable-line
@@ -120,6 +136,7 @@ export default class LayerManager {
 
   _addEsriLayer(layerSpec, { zIndex }) {
     const layer = layerSpec.layerConfig;
+    const layerData = layerSpec.layerConfig;
     layer.id = layerSpec.id;
 
     this._layersLoading[layer.id] = true;
@@ -129,7 +146,28 @@ export default class LayerManager {
       .replace(/"mosaic-rule":/g, '"mosaicRule":')
       .replace(/"use-cors"/g, '"useCors"');
 
-    if (L.esri[layer.type]) {
+    // first, we check if layer exist in leaflet
+    if (L[layer.type]) {
+      if (layerData.body.style &&
+          typeof layerData.body.style === 'string' &&
+          layerData.body.indexOf('style: "function') >= 0) {
+        layerData.body.style = eval(`(${layerData.body.style})`); // eslint-disable-line
+      }
+      const newLayer = new L.tileLayer(layerData.url, layerData.body); // eslint-disable-line
+
+      newLayer.on('load', () => {
+        delete this._layersLoading[layer.id];
+        const layerElement = this._map.getPane('tilePane').lastChild;
+        if (zIndex) {
+          layerElement.style.zIndex = zIndex;
+        }
+        layerElement.id = layer.id;
+      });
+
+      newLayer.addTo(this._map);
+
+      this._mapLayers[layer.id] = newLayer;
+    } else if (L.esri[layer.type]) {
       const layerConfig = JSON.parse(bodyStringified);
       layerConfig.pane = 'tilePane';
       if (layerConfig.style &&
@@ -175,7 +213,9 @@ export default class LayerManager {
         response.json()
       ))
       .then((data) => {
-        const tileUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
+        // const tileUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
+        const tileUrl = `${data.cdn_url.templates.https.url}/${layer.account}/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
+
         this._mapLayers[layer.id] = L.tileLayer(tileUrl).addTo(this._map);
 
         this._mapLayers[layer.id].setZIndex(layer.hidden ? -1 : layer.order);
