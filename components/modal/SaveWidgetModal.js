@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Router } from 'routes';
 import { Autobind } from 'es-decorators';
 
 // Redux
@@ -113,7 +114,7 @@ class SaveWidgetModal extends React.Component {
         <h1 className="c-text -header-normal -thin title">Save widget</h1>
         }
         {saved &&
-        <h1 className="c-text -header-normal -thin title -green">Subscription saved</h1>
+        <h1 className="c-text -header-normal -thin title -green">Widget saved!</h1>
         }
         <Spinner
           isLoading={loading}
@@ -170,6 +171,29 @@ class SaveWidgetModal extends React.Component {
                 </Button>
             </div>
           </form>
+        }
+        {saved &&
+        <div className="icon-container">
+          <img alt="" src="static/images/components/modal/widget-saved.svg" />
+        </div>
+        <div className="buttons-widget-saved">
+          <Button
+            properties={{
+              className: '-primary'
+            }}
+            onClick={this.handleCancel}
+          >
+              OK
+            </Button>
+          <Button
+            properties={{
+              className: '-secondary'
+            }}
+            onClick={Router.pushRoute('myrw')}
+          >
+              Check my widgets
+            </Button>
+        </div>
         }
       </div>
     );
