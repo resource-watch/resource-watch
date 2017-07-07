@@ -43,7 +43,7 @@ class TableView extends React.Component {
     const { filters, fields, value, aggregateFunction, category, orderBy, limit } = widgetEditor;
     const arrColumns = fields.filter(val => val.columnName !== 'cartodb_id' && val.columnType !== 'geometry').map(
       (val) => {
-        if (value && value.name === val.columnName && aggregateFunction) {
+        if (value && value.name === val.columnName && aggregateFunction && aggregateFunction !== 'none') {
           return { value: val.columnName, key: val.columnName, aggregateFunction };
         } else if (category && category.name === val.columnName && aggregateFunction) {
           return { value: val.columnName, key: val.columnName, group: true };
@@ -51,7 +51,7 @@ class TableView extends React.Component {
           return {
             value: val.columnName,
             key: val.columnName,
-            group: aggregateFunction && category && value && true
+            group: true
           };
         }
       }
