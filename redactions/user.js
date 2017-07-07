@@ -1,5 +1,6 @@
 /* global config */
 import 'isomorphic-fetch';
+import isEmpty from 'lodash/isEmpty';
 
 /**
  * CONSTANTS
@@ -33,5 +34,14 @@ export default function (state = initialState, action) {
  * - setUser
 */
 export function setUser(user) {
-  return dispatch => dispatch({ type: SET_USER, payload: user });
+  let userObj = user;
+
+  // Add 'Bearer' to token
+  if (!isEmpty(user)) {
+    userObj = {
+      ...userObj,
+      token: `Bearer ${userObj.token}`
+    };
+  }
+  return dispatch => dispatch({ type: SET_USER, payload: userObj });
 }

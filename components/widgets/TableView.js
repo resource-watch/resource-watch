@@ -41,21 +41,27 @@ class TableView extends React.Component {
   getDataForTable(props) {
     const { tableName, widgetEditor } = props;
     const { filters, fields, value, aggregateFunction, category, orderBy, limit } = widgetEditor;
+    const aggregateFunctionExists = aggregateFunction && aggregateFunction !== 'none';
+
     const arrColumns = fields.filter(val => val.columnName !== 'cartodb_id' && val.columnType !== 'geometry').map(
       (val) => {
-        if (value && value.name === val.columnName && aggregateFunction && aggregateFunction !== 'none') {
-          return { value: val.columnName, key: val.columnName, aggregateFunction };
-        } else if (category && category.name === val.columnName && aggregateFunction) {
+        if (value && value.name === val.columnName && aggregateFunctionExists) {
+          // Value
+          return { value: val.columnName, key: val.columnName, aggregateFunction, group: false };
+        } else if (category && category.name === val.columnName && aggregateFunctionExists) {
+          // Category
           return { value: val.columnName, key: val.columnName, group: true };
         } else {
+          // Rest of columns
           return {
             value: val.columnName,
             key: val.columnName,
-            group: true
+            remove: aggregateFunctionExists
           };
         }
       }
-    );
+    ).filter(val => !val.remove);
+
     let orderByColumn = orderBy ? [orderBy] : [];
     if (orderByColumn.length > 0 && value && category && aggregateFunction && orderByColumn[0].name === value.name) {
       orderByColumn = [{ name: 'y' }];
@@ -71,6 +77,7 @@ class TableView extends React.Component {
         data: response,
         loading: false
       });
+      console.log('response', response);
     }).catch(err => console.log(err));
   }
 

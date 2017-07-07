@@ -65,6 +65,7 @@ class DatasetIndex extends React.Component {
 }
 
 DatasetIndex.propTypes = {
+  user: PropTypes.object.isRequired,
   datasets: PropTypes.array.isRequired,
   // Redux
   setFilters: PropTypes.func.isRequired

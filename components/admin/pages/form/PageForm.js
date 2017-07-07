@@ -278,7 +278,7 @@ PageForm.propTypes = {
   page: PropTypes.string,
   application: PropTypes.string.isRequired,
   authorization: PropTypes.string.isRequired,
-  mode: PropTypes.string.isRequired
+  mode: PropTypes.string.isRequired,
   // Store
   user: PropTypes.object.isRequired
 };
