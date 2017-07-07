@@ -29,9 +29,9 @@ import ChartTheme from 'utils/widgets/theme';
 import LayerManager from 'utils/layers/LayerManager';
 
 const VISUALIZATION_TYPES = [
-  { label: 'Chart', value: 'chart' },
-  { label: 'Map', value: 'map' },
-  { label: 'Table', value: 'table' }
+  { label: 'Chart', value: 'chart', available: true },
+  { label: 'Map', value: 'map', available: true },
+  { label: 'Table', value: 'table', available: true }
 ];
 
 
@@ -52,15 +52,20 @@ class WidgetEditor extends React.Component {
     this.state = {
       selectedVisualizationType: 'chart',
       loading: true,
+      // fields
       fieldsLoaded: false,
-      jiminyLoaded: false,
       fieldsError: false,
-      fields: [],
+      // tablename
       tableName: null,
       // Whether the chart is loading its data/rendering
       chartLoading: false,
       // Jiminy
-      jiminy: {}
+      jiminy: {},
+      jiminyLoaded: false,
+      // Layers
+      layers: [],
+      layersLoaded: false,
+      layersError: false
     };
 
     // Each time the editor is opened again, we reset the Redux's state
@@ -76,18 +81,45 @@ class WidgetEditor extends React.Component {
   componentDidMount() {
     this.datasetService.getFields()
       .then((response) => {
-        this.props.setFields(response.fields);
+        const fieldsError = !response.fields || response.fields.length <= 0;
+
         this.setState({
-          loading: !this.state.jiminyLoaded,
-          fieldsLoaded: true
+          loading: !fieldsError && !this.state.jiminyLoaded,
+          fieldsLoaded: true,
+          fieldsError
         }, () => {
-          this.getJiminy();
-          this.getTableName();
+          if (!fieldsError) {
+            this.props.setFields(response.fields);
+            this.getJiminy();
+            this.getTableName();
+          }
         });
       })
       .catch((error) => {
         console.log('error', error); // eslint-disable-line no-console
       });
+  }
+
+  getLayers() {
+    this.datasetService.getLayers().then((response) => {
+      this.setState({
+        layers: response.map(val => ({
+          id: val.id,
+          name: val.attributes.name,
+          subtitle: val.attributes.subtitle,
+          ...val.attributes,
+          order: 1,
+          hidden: false
+        })),
+        layersLoaded: true
+      });
+    }).catch((err) => {
+      this.setState({
+        layersLoaded: true,
+        layersError: true
+      });
+      console.log(err);
+    });
   }
 
   getJiminy() {
@@ -134,7 +166,7 @@ class WidgetEditor extends React.Component {
   getVisualization() {
     const { tableName, selectedVisualizationType, chartLoading } = this.state;
     const { widgetEditor, dataset } = this.props;
-    const { chartType, layer, fields } = widgetEditor;
+    const { chartType, layer } = widgetEditor;
 
     let visualization = null;
     switch (selectedVisualizationType) {
@@ -213,62 +245,72 @@ class WidgetEditor extends React.Component {
       loading,
       tableName,
       selectedVisualizationType,
-      jiminy
+      jiminy,
+      fieldsError,
+      layersError,
+      layers
     } = this.state;
 
-    const { dataset, widgetEditor } = this.props;
-    const { fields } = widgetEditor;
+    const { dataset } = this.props;
 
     const visualization = this.getVisualization();
+    const componentShouldNotShow = fieldsError && (layersError || (layers && layers.length === 0));
 
     // We filter out the visualizations that aren't present in
     // this.props.availableVisualizations
-    const visualizationsOptions = VISUALIZATION_TYPES
+    let visualizationsOptions = VISUALIZATION_TYPES
       .filter(viz => this.props.availableVisualizations.includes(viz.value));
+    // If theere was an error retrieving the fields we remove chart and table
+    // as visualization options
+    if (fieldsError) {
+      visualizationsOptions = visualizationsOptions.filter(val => val.value === 'map');
+    }
 
     return (
       <div className="c-widget-editor">
-        <div className="l-container">
-          <div className="row expanded">
-            <div className="customize-visualization">
-              { loading && <Spinner className="-light" isLoading={loading} /> }
-              <h2
-                className="title"
-              >
-                Customize Visualization
-              </h2>
-              <div className="visualization-type">
-                <h5>Visualization type</h5>
-                <Select
-                  properties={{
-                    className: 'chart-type-selector',
-                    name: 'visualization-type',
-                    value: selectedVisualizationType
-                  }}
-                  options={visualizationsOptions}
-                  onChange={this.handleVisualizationTypeChange}
-                />
+        {!componentShouldNotShow &&
+          <div className="l-container">
+            <div className="row expanded">
+              <div className="customize-visualization">
+                { loading && <Spinner className="-light" isLoading={loading} /> }
+                <h2
+                  className="title"
+                >
+                  Customize Visualization
+                </h2>
+                <div className="visualization-type">
+                  <h5>Visualization type</h5>
+                  <Select
+                    properties={{
+                      className: 'chart-type-selector',
+                      name: 'visualization-type',
+                      value: selectedVisualizationType
+                    }}
+                    options={visualizationsOptions}
+                    onChange={this.handleVisualizationTypeChange}
+                  />
+                </div>
+                {
+                  selectedVisualizationType !== 'map' && !fieldsError && tableName &&
+                  <ChartEditor
+                    dataset={dataset}
+                    jiminy={jiminy}
+                    tableName={tableName}
+                    tableViewMode={selectedVisualizationType === 'table'}
+                  />
+                }
+                {
+                  selectedVisualizationType === 'map' && layers && layers.length > 0 &&
+                  <MapEditor
+                    layers={layers}
+                    tableName={tableName}
+                  />
+                }
               </div>
-              {
-                selectedVisualizationType !== 'map' && fields && tableName &&
-                <ChartEditor
-                  dataset={dataset}
-                  jiminy={jiminy}
-                  tableName={tableName}
-                  tableViewMode={selectedVisualizationType === 'table'}
-                />
-              }
-              {
-                selectedVisualizationType === 'map' &&
-                <MapEditor
-                  dataset={dataset}
-                  tableName={tableName}
-                />
-              }
+              {visualization}
             </div>
-            {visualization}
           </div>
-        </div>
+        }
       </div>
     );
   }
