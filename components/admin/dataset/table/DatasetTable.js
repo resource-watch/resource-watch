@@ -19,6 +19,7 @@ import DeleteAction from './actions/DeleteAction';
 
 // TDs
 import NameTD from './td/NameTD';
+import PublishedTD from './td/PublishedTD';
 import StatusTD from './td/StatusTD';
 import RelatedContentTD from './td/RelatedContentTD';
 
@@ -47,6 +48,7 @@ class DatasetTable extends React.Component {
             columns={[
               { label: 'Name', value: 'name', td: NameTD },
               { label: 'Status', value: 'status', td: StatusTD },
+              { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Provider', value: 'provider' },
               { label: 'Related content', value: 'status', td: RelatedContentTD }
             ]}
@@ -56,6 +58,10 @@ class DatasetTable extends React.Component {
                 { name: 'Edit', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
                 { name: 'Remove', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization } }
               ]
+            }}
+            sort={{
+              field: 'name',
+              value: 1
             }}
             filters={false}
             data={this.getDatasets()}

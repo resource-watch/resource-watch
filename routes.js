@@ -13,8 +13,6 @@ routes.add('admin_partners', '/admin/partners/:tab?/:subtab?', 'admin/partners')
 routes.add('admin_pages', '/admin/pages/:tab?/:subtab?', 'admin/pages');
 // USERS
 routes.add('admin_users', '/admin/users/:tab?/:subtab?', 'admin/users');
-// LOGOUT
-routes.add('logout', '/admin/logout', '/');
 
 // ========================= APP ROUTES =====================
 routes.add('home', '/home', 'app/Home');

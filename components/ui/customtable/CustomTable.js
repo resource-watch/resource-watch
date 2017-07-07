@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import uniq from 'lodash/uniq';
 import flatten from 'lodash/flatten';
 import isEqual from 'lodash/isEqual';
@@ -49,7 +50,7 @@ export default class CustomTable extends React.Component {
     this.state = {
       pagination: props.pagination,
       // Sort
-      sort: {},
+      sort: props.sort,
       // Search
       search: {},
       // Columns
@@ -84,18 +85,22 @@ export default class CustomTable extends React.Component {
     const nextLength = nextProps.data.length;
     const nextColumnsKeys = CustomTable.getColumnKeys(nextProps.data).sort();
 
-    if (currentLength !== nextLength) {
-      // TODO: check if the data has changed to reload all the data or only to filter it
-      this.setState(CustomTable.setTableData(nextProps), () => {
-        this.filter();
-      });
-    }
+
+    // TODO: check if the data has changed to reload all the data or only to filter it
+    // if you only check the length, sometimes you have only edited one dataset,
+    // so the table will not render the new values
+
+    // if (currentLength !== nextLength) {
+    this.setState(CustomTable.setTableData(nextProps), () => {
+      this.filter();
+    });
+    // }
 
     if (!isEqual(currentColumnsKeys, nextColumnsKeys)) {
       this.setState({
         ...CustomTable.setTableData(nextProps),
         // Sort
-        sort: {},
+        sort: nextProps.sort,
         // Search
         search: {},
         // Columns
@@ -273,13 +278,14 @@ export default class CustomTable extends React.Component {
 
 /* Property typing */
 CustomTable.propTypes = {
-  actions: React.PropTypes.object,
-  columns: React.PropTypes.array,
-  data: React.PropTypes.array,
-  pagination: React.PropTypes.object,
-  filters: React.PropTypes.bool,
-  onToggleSelectedRow: React.PropTypes.func,
-  onRowDelete: React.PropTypes.func
+  actions: PropTypes.object,
+  columns: PropTypes.array,
+  data: PropTypes.array,
+  pagination: PropTypes.object,
+  filters: PropTypes.bool,
+  sort: PropTypes.object,
+  onToggleSelectedRow: PropTypes.func,
+  onRowDelete: PropTypes.func
 };
 
 /* Property default values */
@@ -292,6 +298,7 @@ CustomTable.defaultProps = {
     page: 0,
     total: null
   },
+  sort: {},
   actions: {
     show: true,
     list: [

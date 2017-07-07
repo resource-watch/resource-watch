@@ -103,6 +103,10 @@ class WidgetTable extends React.Component {
             pageSize: 20,
             page: 0
           }}
+          sort={{
+            field: 'name',
+            value: 1
+          }}
           onToggleSelectedRow={(ids) => {
             console.info(ids);
           }}

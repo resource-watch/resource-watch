@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-// Utils
-import { substitution } from 'utils/utils';
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 // Constants
 import { PROVIDER_TYPES_DICTIONARY, FORM_ELEMENTS } from 'components/admin/dataset/form/constants';
@@ -12,6 +14,7 @@ import Input from 'components/form/Input';
 import File from 'components/form/File';
 import Select from 'components/form/SelectInput';
 import Title from 'components/ui/Title';
+import Checkbox from 'components/form/Checkbox';
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -59,6 +62,7 @@ class Step1 extends React.Component {
 
 
   render() {
+    const { user } = this.props;
     const { dataset } = this.state;
     const { provider } = this.state.form;
 
@@ -81,6 +85,24 @@ class Step1 extends React.Component {
           <Title className="form-title -big -secondary">
             Edit dataset
           </Title>
+        }
+
+        {user.role === 'ADMIN' &&
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
+            onChange={value => this.props.onChange({ published: value.checked })}
+            validations={['required']}
+            properties={{
+              name: 'published',
+              label: 'Do you want to set this dataset as published?',
+              value: 'published',
+              title: 'Published',
+              defaultChecked: (!dataset) ? user.role === 'ADMIN' : this.props.form.published,
+              checked: this.props.form.published
+            }}
+          >
+            {Checkbox}
+          </Field>
         }
 
         <Field
@@ -466,9 +488,16 @@ class Step1 extends React.Component {
 }
 
 Step1.propTypes = {
-  dataset: React.PropTypes.string,
-  form: React.PropTypes.object,
-  onChange: React.PropTypes.func
+  dataset: PropTypes.string,
+  form: PropTypes.object,
+  onChange: PropTypes.func,
+
+  // Store
+  user: PropTypes.object.isRequired
 };
 
-export default Step1;
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default withRedux(initStore, mapStateToProps, null)(Step1);
