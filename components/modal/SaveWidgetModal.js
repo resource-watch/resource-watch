@@ -5,6 +5,7 @@ import { Autobind } from 'es-decorators';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import { toggleModal } from 'redactions/modal';
 
 // Components
 import Field from 'components/form/Field';
@@ -47,12 +48,18 @@ class SaveWidgetModal extends React.Component {
     this.state = {
       submitting: false,
       loading: false,
+      saved: false,
       widget: {}
     };
 
     this.widgetService = new WidgetService(null, {
       apiURL: process.env.WRI_API_URL
     });
+  }
+
+  @Autobind
+  handleCancel() {
+    this.props.toggleModal(false);
   }
 
   @Autobind
@@ -98,65 +105,72 @@ class SaveWidgetModal extends React.Component {
   }
 
   render() {
-    const { submitting, loading } = this.state;
+    const { submitting, loading, saved } = this.state;
 
     return (
       <div className="c-save-widget-modal">
+        {!saved &&
         <h1 className="c-text -header-normal -thin title">Save widget</h1>
+        }
+        {saved &&
+        <h1 className="c-text -header-normal -thin title -green">Subscription saved</h1>
+        }
         <Spinner
           isLoading={loading}
           className="-light -relative"
         />
-        <form className="c-form" onSubmit={this.onSubmit}>
-          <fieldset className="c-field-container">
-            <Field
-              ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
-              onChange={value => this.handleChange({ name: value })}
-              validations={['required']}
-              properties={{
-                title: 'title',
-                label: 'Title',
-                type: 'text',
-                required: true,
-                placeholder: 'Widget title'
-              }}
-            >
-              {Input}
-            </Field>
-            <Field
-              ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
-              onChange={value => this.handleChange({ description: value })}
-              properties={{
-                title: 'description',
-                label: 'Description',
-                type: 'text',
-                placeholder: 'Widget description'
-              }}
-            >
-              {Input}
-            </Field>
-          </fieldset>
-          <div className="buttons-container">
-            <Button
-              properties={{
-                type: 'submit',
-                disabled: submitting,
-                className: '-primary'
-              }}
-            >
-                Save
-              </Button>
-            <Button
-              properties={{
-                type: 'submit',
-                disabled: submitting,
-                className: '-secondary'
-              }}
-            >
-                Cancel
-              </Button>
-          </div>
-        </form>
+        {!saved &&
+          <form className="c-form" onSubmit={this.onSubmit}>
+            <fieldset className="c-field-container">
+              <Field
+                ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
+                onChange={value => this.handleChange({ name: value })}
+                validations={['required']}
+                properties={{
+                  title: 'title',
+                  label: 'Title',
+                  type: 'text',
+                  required: true,
+                  placeholder: 'Widget title'
+                }}
+              >
+                {Input}
+              </Field>
+              <Field
+                ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
+                onChange={value => this.handleChange({ description: value })}
+                properties={{
+                  title: 'description',
+                  label: 'Description',
+                  type: 'text',
+                  placeholder: 'Widget description'
+                }}
+              >
+                {Input}
+              </Field>
+            </fieldset>
+            <div className="buttons-container">
+              <Button
+                properties={{
+                  type: 'submit',
+                  disabled: submitting,
+                  className: '-primary'
+                }}
+              >
+                  Save
+                </Button>
+              <Button
+                properties={{
+                  disabled: submitting,
+                  className: '-secondary'
+                }}
+                onClick={this.handleCancel}
+              >
+                  Cancel
+                </Button>
+            </div>
+          </form>
+        }
       </div>
     );
   }
@@ -167,7 +181,8 @@ SaveWidgetModal.propTypes = {
   tableName: PropTypes.string.isRequired,
   // Store
   user: PropTypes.object.isRequired,
-  widgetEditor: PropTypes.object.isRequired
+  widgetEditor: PropTypes.object.isRequired,
+  toggleModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -175,5 +190,9 @@ const mapStateToProps = state => ({
   widgetEditor: state.widgetEditor
 });
 
+const mapDispatchToProps = dispatch => ({
+  toggleModal: (open) => { dispatch(toggleModal(open)); }
+});
 
-export default withRedux(initStore, mapStateToProps, null)(SaveWidgetModal);
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(SaveWidgetModal);
