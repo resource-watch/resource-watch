@@ -149,7 +149,10 @@ class ExploreDetail extends Page {
 
   render() {
     const { dataset, loading, downloadURI, similarDatasets, similarDatasetsLoaded } = this.state;
-    const metadata = dataset && dataset.attributes.metadata;
+    const metadataObj = dataset && dataset.attributes.metadata;
+    const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
+    const metadataAttributes = metadata && metadata.attributes;
+    const metadataInfo = metadataAttributes && metadataAttributes.info;
 
     const downloadButtonClass = classNames({
       '-disabled': downloadURI,
@@ -186,7 +189,7 @@ class ExploreDetail extends Page {
 
                 <div className="page-header-info">
                   <ul>
-                    <li>Source: {(metadata && metadata.length > 0 && metadata[0].source) || '-'}</li>
+                    <li>Source: {(metadata && metadata.source) || '-'}</li>
                     <li>Last update: {dataset && dataset.attributes && new Date(dataset.attributes.updatedAt).toJSON().slice(0, 10).replace(/-/g, '/')}</li>
                     {/* Favorites <li>Last update: {dataset && dataset.attributes && dataset.attributes.updatedAt}</li> */}
                   </ul>
@@ -209,9 +212,7 @@ class ExploreDetail extends Page {
                 <div className="column small-12 medium-7">
                   {/* Description */}
                   <div className="dataset-info-description">
-                    {metadata && (metadata.length > 0) && metadata[0].attributes.description &&
-                      metadata[0].attributes.description
-                    }
+                    {metadataAttributes && metadataAttributes.description}
                   </div>
                 </div>
                 <div className="column large-offset-2 small-3">
@@ -230,12 +231,50 @@ class ExploreDetail extends Page {
                     >
                       Download
                     </button>
+                    {metadataInfo && !metadataInfo.learn_more_link &&
+                      <a
+                        className="c-button -primary -fullwidth"
+                        href={metadataInfo && !metadataInfo.learn_more_link}
+                      >
+                        Learn more
+                      </a>
+                    }
                     <button
                       className="c-button -primary -fullwidth"
                       onClick={this.handleSubscribe}
                     >
                       Subscribe to alerts
                     </button>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="column small-12 medium-7">
+                  <div className="dataset-info-rest-of-fields">
+                    <h5>Function</h5>
+                    <p>{metadataInfo && metadataInfo.functions }</p>
+                    <h5>Cautions</h5>
+                    <p>{metadataInfo && metadataInfo.cautions }</p>
+                    <h5>Citation</h5>
+                    <p>{metadataInfo && metadataInfo.citation }</p>
+                    <h5>Geographic coverage</h5>
+                    <p>{metadataInfo && metadataInfo.geographic_coverage }</p>
+                    <h5>Spatial resolution</h5>
+                    <p>{metadataInfo && metadataInfo.spatial_resolution }</p>
+                    <h5>Date of content</h5>
+                    <p>{metadataInfo && metadataInfo.date_of_content }</p>
+                    <h5>Frequency of updates</h5>
+                    <p>{metadataInfo && metadataInfo.frequency_of_updates }</p>
+                    <h5>License</h5>
+                    <a href={metadataInfo && metadataInfo.license_link}>{metadataInfo && metadataInfo.license }</a>
+                    <h5>Language</h5>
+                    <p>{metadataAttributes && metadataAttributes.language}</p>
+                    {metadataAttributes && metadataAttributes.language !== 'en' &&
+                      <div>
+                        <h5>Translated title</h5>
+                        <p>{metadataInfo && metadataInfo.translated_title}</p>
+                      </div>
+                    }
                   </div>
                 </div>
               </div>
