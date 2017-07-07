@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Router } from '../../../routes';
+import { Router } from 'routes';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -9,7 +9,7 @@ import { initStore } from 'store';
 // Components
 import Title from 'components/ui/Title';
 import Layout from 'components/admin/layout/Layout';
-import PageForm from 'components/admin/pages/PageForm';
+import PageForm from 'components/admin/pages/form/PageForm';
 
 class PageEdit extends React.Component {
 

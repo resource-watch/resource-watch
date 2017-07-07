@@ -12,7 +12,7 @@ function PublishedTD(props) {
 }
 
 PublishedTD.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.bool,
   index: PropTypes.string
 };
 
