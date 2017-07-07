@@ -54,6 +54,7 @@ class WidgetEditor extends React.Component {
       loading: true,
       fieldsLoaded: false,
       jiminyLoaded: false,
+      fieldsError: false,
       fields: [],
       tableName: null,
       // Whether the chart is loading its data/rendering
