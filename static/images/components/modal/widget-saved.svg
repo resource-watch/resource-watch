@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="163px" height="117px" viewBox="0 0 163 117" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Subscription-saved</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Explore-Modal-Subscribe-Success" transform="translate(-386.000000, -245.000000)" fill-rule="nonzero" fill="#65B60D">
+            <path d="M526.057807,261 L524.057807,263 L391,263 C389.343146,263 388,264.343146 388,266 L388,357 C388,358.656854 389.343146,360 391,360 L530,360 C531.656854,360 533,358.656854 533,357 L533,268.199943 L535,266.199943 L535,357 C535,359.761424 532.761424,362 530,362 L391,362 C388.238576,362 386,359.761424 386,357 L386,266 C386,263.238576 388.238576,261 391,261 L526.057807,261 Z M420.792893,294.707107 L422.207107,293.292893 L458.693117,329.778904 C459.86469,330.950477 461.764185,330.950477 462.935758,329.778904 L547.5,245 L549,246.5 L464.349971,331.193117 C462.39735,333.145739 459.231525,333.145739 457.278904,331.193117 L420.792893,294.707107 Z" id="Subscription-saved"></path>
+        </g>
+    </g>
+</svg>
