@@ -231,10 +231,18 @@ class ExploreDetail extends Page {
                     >
                       Download
                     </button>
-                    {metadataInfo && !metadataInfo.learn_more_link &&
+                    {metadataInfo && metadataInfo.data_download_original_link &&
                       <a
                         className="c-button -primary -fullwidth"
-                        href={metadataInfo && !metadataInfo.learn_more_link}
+                        href={metadataInfo && metadataInfo.data_download_original_link}
+                      >
+                        Download from source
+                      </a>
+                    }
+                    {metadataInfo && metadataInfo.learn_more_link &&
+                      <a
+                        className="c-button -primary -fullwidth"
+                        href={metadataInfo && metadataInfo.learn_more_link}
                       >
                         Learn more
                       </a>
