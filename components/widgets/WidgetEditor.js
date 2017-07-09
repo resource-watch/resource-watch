@@ -53,6 +53,7 @@ class WidgetEditor extends React.Component {
       selectedVisualizationType: 'chart',
       loading: true,
       // fields
+      fields: [],
       fieldsLoaded: false,
       fieldsError: false,
       // tablename
@@ -91,7 +92,8 @@ class WidgetEditor extends React.Component {
         this.setState({
           loading: !fieldsError && !this.state.jiminyLoaded,
           fieldsLoaded: true,
-          fieldsError
+          fieldsError,
+          fields: response.fields
         }, () => {
           if (!fieldsError) {
             this.props.setFields(response.fields);
@@ -128,7 +130,7 @@ class WidgetEditor extends React.Component {
   }
 
   getJiminy() {
-    const fieldsSt = this.props.widgetEditor.fields
+    const fieldsSt = this.state.fields
       .map(elem => (elem.columnType !== 'geometry') && (elem.columnName !== 'cartodb_id') && elem.columnName)
       .filter(field => !!field);
     const querySt = `SELECT ${fieldsSt} FROM ${this.props.dataset} LIMIT 300`;
