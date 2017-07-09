@@ -14,7 +14,7 @@ class MapEditor extends React.Component {
 
   @Autobind
   handleLayerChange(layerID) {
-    this.props.showLayer(this.state.layers.find(val => val.id === layerID));
+    this.props.showLayer(this.props.layers.find(val => val.id === layerID));
   }
 
   render() {

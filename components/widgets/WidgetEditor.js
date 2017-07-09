@@ -79,6 +79,11 @@ class WidgetEditor extends React.Component {
   }
 
   componentDidMount() {
+    this.getFields();
+    this.getLayers();
+  }
+
+  getFields() {
     this.datasetService.getFields()
       .then((response) => {
         const fieldsError = !response.fields || response.fields.length <= 0;
