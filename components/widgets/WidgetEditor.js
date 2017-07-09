@@ -34,6 +34,16 @@ const VISUALIZATION_TYPES = [
   { label: 'Table', value: 'table', available: true }
 ];
 
+const ALL_CHART_TYPES = {
+  general: [
+    '1d_scatter',
+    '1d_tick',
+    'bar',
+    'line',
+    'pie',
+    'scatter'
+  ]
+};
 
 const mapConfig = {
   zoom: 3,
@@ -63,6 +73,7 @@ class WidgetEditor extends React.Component {
       // Jiminy
       jiminy: {},
       jiminyLoaded: false,
+      jiminyError: false,
       // Layers
       layers: [],
       layersLoaded: false,
@@ -139,12 +150,17 @@ class WidgetEditor extends React.Component {
         this.setState({
           loading: !this.state.fieldsLoaded,
           jiminyLoaded: true,
-          jiminy
+          jiminy,
+          jiminyError: typeof jiminy === 'undefined'
         });
       })
       .catch((err) => {
-        console.error(err);
-        this.setState({ loading: false });
+        console.error('jiminy error', err);
+        this.setState({
+          loading: false,
+          jiminyLoaded: true,
+          jiminyError: true
+        });
       });
   }
 
@@ -252,13 +268,13 @@ class WidgetEditor extends React.Component {
       loading,
       tableName,
       selectedVisualizationType,
-      jiminy,
+      jiminyError,
       fieldsError,
       layersError,
       layersLoaded,
       layers
     } = this.state;
-
+    let { jiminy } = this.state;
     const { dataset } = this.props;
 
     const visualization = this.getVisualization();
@@ -277,6 +293,10 @@ class WidgetEditor extends React.Component {
     // from the options
     if (layersLoaded && (!layers || (layers && layers.length === 0))) {
       visualizationsOptions = visualizationsOptions.filter(val => val.value !== 'map');
+    }
+
+    if (jiminyError) {
+      jiminy = ALL_CHART_TYPES;
     }
 
     return (
