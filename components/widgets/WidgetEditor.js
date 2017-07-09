@@ -253,6 +253,7 @@ class WidgetEditor extends React.Component {
       jiminy,
       fieldsError,
       layersError,
+      layersLoaded,
       layers
     } = this.state;
 
@@ -269,6 +270,11 @@ class WidgetEditor extends React.Component {
     // as visualization options
     if (fieldsError) {
       visualizationsOptions = visualizationsOptions.filter(val => val.value === 'map');
+    }
+    // If there are no layers created for this dataset we remove the map optiion
+    // from the options
+    if (layersLoaded && (!layers || (layers && layers.length === 0))) {
+      visualizationsOptions = visualizationsOptions.filter(val => val.value !== 'map');
     }
 
     return (
