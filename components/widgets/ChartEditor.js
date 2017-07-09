@@ -42,9 +42,9 @@ class ChartEditor extends React.Component {
 
   render() {
     const { dataset, tableName, jiminy, widgetEditor, tableViewMode } = this.props;
-    const { chartType, fields, category } = widgetEditor;
+    const { chartType, fields, category, value } = widgetEditor;
 
-    const showSaveButton = chartType && category;
+    const showSaveButton = chartType && category && value;
 
     const chartOptions = (
         jiminy
