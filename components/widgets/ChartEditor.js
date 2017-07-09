@@ -42,7 +42,9 @@ class ChartEditor extends React.Component {
 
   render() {
     const { dataset, tableName, jiminy, widgetEditor, tableViewMode } = this.props;
-    const { chartType, fields } = widgetEditor;
+    const { chartType, fields, category } = widgetEditor;
+
+    const showSaveButton = chartType && category;
 
     const chartOptions = (
         jiminy
@@ -82,13 +84,15 @@ class ChartEditor extends React.Component {
             <LimitContainer />
           </div>
         </div>
-        <div className="save-widget-container">
-          <a
-            onClick={this.handleSaveWidget}
-          >
-            Save widget
-          </a>
-        </div>
+        {showSaveButton &&
+          <div className="save-widget-container">
+            <a
+              onClick={this.handleSaveWidget}
+            >
+              Save widget
+            </a>
+          </div>
+        }
       </div>
     );
   }
