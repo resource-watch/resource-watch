@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Autobind } from 'es-decorators';
+
+// Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { Link } from 'routes';
+import { Link, Router } from 'routes';
 
 // Components
 import Title from 'components/ui/Title';
@@ -120,12 +123,19 @@ class DatasetWidget extends React.Component {
   /**
    * UI EVENTS
    * - triggerToggleLayer (e)
+   * - handleClick
   */
   triggerToggleLayer() {
     const { dataset } = this.state;
     this.props.toggleDatasetActive(dataset.id);
     if (this.props.layersHidden.includes(dataset.id)) {
       this.hideLayer(dataset.id);
+    }
+  }
+  @Autobind
+  handleClick(event) {
+    if (event.target.type !== 'submit') {
+      Router.pushRoute('explore_detail', { id: this.props.dataset.id });
     }
   }
 
@@ -136,7 +146,10 @@ class DatasetWidget extends React.Component {
     const element = this.getWidgetOrLayer();
 
     return (
-      <div className={`c-dataset-list-item -${mode}`}>
+      <div
+        className={`c-dataset-list-item -${mode}`}
+        onClick={this.handleClick}
+      >
         {/* If it has widget we want to renderize the default widget one */}
         {hasWidget && gridMode &&
           <DatasetWidgetChart widget={element} />
