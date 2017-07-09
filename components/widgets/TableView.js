@@ -77,7 +77,6 @@ class TableView extends React.Component {
         data: response,
         loading: false
       });
-      console.log('response', response);
     }).catch(err => console.log(err));
   }
 
