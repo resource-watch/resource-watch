@@ -187,8 +187,9 @@ export function getVocabularies() {
   return (dispatch) => {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_VOCABULARIES_LOADING });
-    // TODO: remove the date now
-    fetch(new Request(`${process.env.WRI_API_URL}/vocabulary`))
+    // Hardcoding vocabulary
+    // old URL: `${process.env.WRI_API_URL}/vocabulary`
+    fetch(new Request('/static/data/vocabulary.json'))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
