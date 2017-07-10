@@ -3,6 +3,8 @@ import isEmpty from 'lodash/isEmpty';
 import classnames from 'classnames';
 import { Link } from 'routes';
 
+// Utils
+import { get } from 'utils/request';
 
 // Components
 import TetherComponent from 'react-tether';
@@ -14,22 +16,18 @@ class HeaderUser extends React.Component {
   */
   logout(e) {
     e && e.preventDefault();
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'https://production-api.globalforestwatch.org/auth/logout', true);
-    xhr.withCredentials = true;
-    xhr.onload = () => {
-      const responseStatus = xhr.status;
-      if (responseStatus !== 200) {
-        window.location.href = `/logout?callbackUrl=${window.location.href}`;
-      } else {
-        window.location.href = `/logout?callbackUrl=${window.location.href}`;
-      }
-    };
 
-    xhr.onerror = (err) => {
-      console.error(err);
-    };
-    xhr.send();
+    // Get to logout
+    get({
+      url: `${process.env.CONTROL_TOWER_URL}/auth/logout`,
+      withCredentials: true,
+      onSuccess: () => {
+        window.location.href = `/logout?callbackUrl=${window.location.href}`;
+      },
+      onError: (err) => {
+        console.error(err);
+      }
+    });
   }
 
 
@@ -83,7 +81,7 @@ class HeaderUser extends React.Component {
                   </li>
                 }
                 <li className="header-dropdown-list-item">
-                  <a onClick={this.logout} href="https://production-api.globalforestwatch.org/auth/logout">Logout</a>
+                  <a onClick={this.logout} href="/logout">Logout</a>
                 </li>
               </ul>
             }

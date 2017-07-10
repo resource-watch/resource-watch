@@ -1,6 +1,7 @@
-function get({ url, headers = [], onSuccess, onError }) {
+function get({ url, headers = [], withCredentials, onSuccess, onError }) {
   const request = new XMLHttpRequest();
   request.open('GET', url);
+  request.withCredentials = withCredentials;
   // Set request headers
   headers.forEach((h) => {
     request.setRequestHeader(h.key, h.value);
@@ -10,8 +11,12 @@ function get({ url, headers = [], onSuccess, onError }) {
   request.onreadystatechange = () => {
     if (request.readyState === 4) {
       if (request.status === 200 || request.status === 201) {
-        const data = JSON.parse(request.responseText);
-        onSuccess(data);
+        try {
+          const data = JSON.parse(request.responseText);
+          onSuccess(data);
+        } catch (e) {
+          onSuccess(request.responseText);
+        }
       } else {
         onError('error');
       }
