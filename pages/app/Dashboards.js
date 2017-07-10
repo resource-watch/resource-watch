@@ -7,10 +7,15 @@ import Layout from 'components/app/layout/Layout';
 import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import TextChart from 'components/widgets/TextChart';
+import VegaChart from 'components/widgets/VegaChart';
+
+// Utils
+import getChartTheme from 'utils/widgets/theme';
 
 // Temporarily hard-code the list of dashboards
 // Needs to be updated so the widgets can be shared between various
 // dashboards instead of copying them.
+/* eslint-disable */
 const DASHBOARDS = [
   {
     name: 'Water',
@@ -41,7 +46,94 @@ const DASHBOARDS = [
       },
       {
         name: 'Countries that will experience the greatest increase in projected water stress in the year 2040 if we continue business as usual',
-        categories: ['Water', 'Society']
+        categories: ['Water', 'Society'],
+        data: {
+          attributes: {
+            widgetConfig: {
+              "height":300,
+              "padding": {"top": 25,"left": 0,"bottom": 30,"right": 0},
+              "data": [
+                {
+                  "name": "table",
+                  "url": "https://wri-rw.carto.com/api/v2/sql?q=SELECT country, values, iso, row_number() over (order by values desc) as rank FROM aqueduct_water_stress_country_ranking_bau where type = 'all' and year = '2040' and values!=0 order by values desc",
+                  "format": {"type": "json","property": "rows"},
+                  "transform": [{"type": "sort","by": "rank"}]
+                },
+                {
+                  "name": "max",
+                  "source": "table",
+                  "transform": [{"type": "aggregate","summarize": {"rank": ["max"]}}]
+                },
+                {
+                  "name": "head",
+                  "source": "table",
+                  "transform": [
+                    {
+                      "type": "cross",
+                      "with": "max",
+                      "filter": "datum.a.rank===datum.b.max_rank || datum.a.rank<=10"
+                    },
+                    {"type": "sort","by": "a.rank"} 
+                  ]
+                }
+              ],
+              "scales": [
+                {
+                  "name": "bar",
+                  "type": "linear",
+                  "range": "width",
+                  "domain": {"data": "table","field": "values"}
+                },
+                {
+                  "name": "vertical_head",
+                  "type": "ordinal",
+                  "range": "height",
+                  "domain": {
+                    "data": "head",
+                    "field": "a.rank"
+                  }
+                }
+              ],
+              "marks": [
+                {
+                  "type": "text",
+                  "from": {"data": "head"},
+                  "properties": {
+                    "enter": {
+                      "x": {"value": 20},
+                      "y": {"field": "a.rank","scale": "vertical_head"},
+                      "text": {
+                        "template": "{{datum.a.rank}}.- {{datum.a.country}}"
+                      },
+                      "baseline": {"value": "middle"},
+                      "fontSize": {"value": 13},
+                      "fill": {"value": "#555555"},
+                      "align": {"value": "left"}
+                    }
+                  }
+                },
+                {
+                  "name": "head",
+                  "type": "rect",
+                  "from": {"data": "head"},
+                  "properties": {
+                    "enter": {
+                      "x":{"field": {"group": "width"},"mult": 0.35},
+                      "width":{"scale": "bar", "field": "a.values","mult": 0.5},
+                      "y": {
+                        "field": "a.rank",
+                        "scale": "vertical_head",
+                        "offset": -6
+                      },
+                      "height": {"value": 10},
+                      "fillOpacity": {"value": 1}
+                    }
+                  }
+                }   
+              ]
+            }
+          }
+        }
       },
       {
         name: '% crop growing in high water risk areas by 2040',
@@ -53,7 +145,55 @@ const DASHBOARDS = [
       },
       {
         name: 'Watersheds are at risk due to deforestation',
-        categories: ['Water', 'Forests']
+        categories: ['Water', 'Forests'],
+        data: {
+          attributes: {
+            widgetConfig: {
+              "padding": {"top": 0,"left": 0,"right": 0,"bottom": 0},
+              "data": [
+                {
+                  "url": "https://wri-rw.carto.com/api/v2/sql?q=SELECT count(rs_tl_c) x, rs_tl_c as y FROM river_basins where rs_tl_c != 10  group by rs_tl_c",
+                  "name": "table",
+                  "format": {"type": "json","property": "rows"}
+                },
+                {
+                  "from":"table",
+                  "name": "pie",
+                  "transform": [{"type": "pie","field": "x"}]
+                }
+              ],
+              "marks": [
+                {
+                  "from": {
+                    "data": "table",
+                    "transform": [{"type": "pie","field": "x"}]
+                  },
+                  "type": "arc",
+                  "properties": {
+                    "enter": {
+                      "x": {"mult": 0.5,"field": {"group": "width"}},
+                      "y": {"mult": 0.5,"field": {"group": "height"}},
+                      "fill": {"field": "x","scale": "color"},
+                      "stroke": {"value": "white"},
+                      "endAngle": {"field": "layout_end"},
+                      "startAngle": {"field": "layout_start"},
+                      "innerRadius": {"value": 45},
+                      "outerRadius": {"value": 65}
+                    }
+                  }
+                }
+              ],
+              "scales": [
+                {
+                  "name": "color",
+                  "type": "ordinal",
+                  "range": "category20c",
+                  "domain": {"data": "table","field": "x_percent"}
+                }
+              ]
+            }
+          }
+        }
       },
       {
         name: 'Watersheds are at risk due to erosion',
@@ -145,6 +285,7 @@ const DASHBOARDS = [
     widgets: []
   }
 ];
+/* eslint-enable */
 
 class Dashboards extends Page {
 
@@ -276,6 +417,10 @@ class Dashboards extends Page {
                       { widget.data
                         && widget.data.attributes.widgetConfig.type === 'text'
                         && <TextChart widgetConfig={widget.data.attributes.widgetConfig} />
+                      }
+                      { widget.data
+                        && widget.data.attributes.widgetConfig.type !== 'text'
+                        && <VegaChart data={widget.data.attributes.widgetConfig} theme={getChartTheme()} />
                       }
                     </div>
                   </div>
