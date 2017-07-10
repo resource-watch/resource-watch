@@ -6,6 +6,7 @@ import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
+import TextChart from 'components/widgets/TextChart';
 
 // Temporarily hard-code the list of dashboards
 // Needs to be updated so the widgets can be shared between various
@@ -19,7 +20,24 @@ const DASHBOARDS = [
     widgets: [
       {
         name: 'Cities with > 1,000,000 people in high water risk areas',
-        categories: ['Water', 'Cities']
+        categories: ['Water', 'Cities'],
+        data: {
+          attributes: {
+            widgetConfig: {
+              type: 'text',
+              data: {
+                url: 'https://api.resourcewatch.org/v1/query/6d99441e-5faa-4c61-967f-01c9fe60624b?sql=SELECT count(*) over () total, (count(*) Filter (where _default>=4) over ()) as n_cities,  (100*(count(*) Filter (where _default>=4) over ())/(count(*) over ()))::numeric perc  FROM water_plus_cities limit 1'
+              },
+              template: '{{n_cities}} or {{perc}} ({{n_cities}}/{{total}}) of cities with 1,000,000 people or more are in high water risk areas',
+              params_config: [],
+              template_config: [
+                { key: 'n_cities' },
+                { key: 'perc', suffix: '%' },
+                { key: 'total' }
+              ]
+            }
+          }
+        }
       },
       {
         name: 'Countries that will experience the greatest increase in projected water stress in the year 2040 if we continue business as usual',
@@ -47,7 +65,22 @@ const DASHBOARDS = [
       },
       {
         name: 'Population at risk of flooding in 1/50 year events in 2030',
-        categories: ['Water', 'Disasters', 'Society']
+        categories: ['Water', 'Disasters', 'Society'],
+        data: {
+          attributes: {
+            widgetConfig: {
+              type: 'text',
+              data: {
+                url: 'https://api.resourcewatch.org/v1/query/01ddff59-8cbc-4420-8c0d-9d8317a63292?sql=SELECT round(sum(p30_24_50)/1000000) people FROM aqueduct_global_flood_risk_data_by_country_20150304'
+              },
+              template: '{{people}} of people affected by floods for 1/50 year storm events in 2030',
+              params_config: [],
+              template_config: [
+                { key: 'people', suffix: ' millions' }
+              ]
+            }
+          }
+        }
       },
       {
         name: 'Surface water is changing over time',
@@ -239,7 +272,12 @@ class Dashboards extends Page {
                         {widget.categories.map(category => <li key={category}>{category}</li>)}
                       </ul>
                     </header>
-                    <div className="widget-container" />
+                    <div className="widget-container">
+                      { widget.data
+                        && widget.data.attributes.widgetConfig.type === 'text'
+                        && <TextChart widgetConfig={widget.data.attributes.widgetConfig} />
+                      }
+                    </div>
                   </div>
                 ))
               }
