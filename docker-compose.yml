@@ -1,0 +1,21 @@
+version: "2"
+services:
+  nginx:
+    image: nginx
+    volumes:
+      - "./nginx:/etc/nginx"
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+  app:
+    command: "npm start"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: ./.env
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    restart: always
+    container_name: resource-watch
