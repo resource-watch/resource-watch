@@ -32,7 +32,7 @@ class WidgetEdit extends React.Component {
               Edit Widget
             </Title>
             <WidgetForm
-              application={['rw']}
+              application={[process.env.APPLICATIONS]}
               authorization={this.props.user.token}
               dataset={datasetID}
               widget={widgetID}

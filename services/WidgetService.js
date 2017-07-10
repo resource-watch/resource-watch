@@ -18,7 +18,7 @@ export default class WidgetService {
 
   saveUserWidget(widget, datasetId, token) {
     const widgetObj = {
-      application: ['rw'],
+      application: [process.env.APPLICATIONS],
       published: false,
       default: false,
       dataset: datasetId

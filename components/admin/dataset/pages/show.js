@@ -82,7 +82,7 @@ class DatasetShow extends React.Component {
             <div className="columns small-12 medium-9">
               {subtab === 'edit' &&
                 <DatasetForm
-                  application={['rw']}
+                  application={[process.env.APPLICATIONS]}
                   authorization={user.token}
                   dataset={id}
                   onSubmit={() => Router.pushRoute('admin_data', { tab: 'datasets' })}
@@ -91,7 +91,7 @@ class DatasetShow extends React.Component {
 
               {subtab === 'metadata' &&
                 <MetadataForm
-                  application={'rw'}
+                  application={process.env.APPLICATIONS}
                   authorization={user.token}
                   dataset={id}
                   onSubmit={() => Router.pushRoute('admin_data', { tab: 'datasets', id })}
@@ -100,7 +100,7 @@ class DatasetShow extends React.Component {
 
               {subtab === 'vocabularies' &&
                 <VocabulariesAssociationForm
-                  application={'rw'}
+                  application={process.env.APPLICATIONS}
                   authorization={user.token}
                   dataset={id}
                   language="en"

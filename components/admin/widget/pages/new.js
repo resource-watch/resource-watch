@@ -13,7 +13,7 @@ const DatasetNew = function DatasetNew(props) {
   return (
     <div className="c-widgets-new">
       <WidgetForm
-        application={['rw']}
+        application={[process.env.APPLICATIONS]}
         authorization={props.user.token}
         onSubmit={() => Router.pushRoute('admin_data', { tab: 'widgets' })}
         dataset={props.id}

@@ -120,7 +120,7 @@ class WidgetTable extends React.Component {
 }
 
 WidgetTable.defaultProps = {
-  application: ['rw'],
+  application: [],
   columns: [],
   actions: {}
 };

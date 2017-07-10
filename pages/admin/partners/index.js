@@ -33,7 +33,7 @@ class PartnersIndex extends React.Component {
               }]}
             />
             <PartnersTable
-              application={['rw']}
+              application={[process.env.APPLICATIONS]}
               authorization={this.props.user.token}
             />
           </div>

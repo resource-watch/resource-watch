@@ -41,7 +41,7 @@ class WidgetIndex extends React.Component {
             />
 
             <WidgetTable
-              application={['rw']}
+              application={[process.env.APPLICATIONS]}
               dataset={datasetID}
               authorization={this.props.user.token}
             />

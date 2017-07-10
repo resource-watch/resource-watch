@@ -33,7 +33,7 @@ class PagesIndex extends React.Component {
               }]}
             />
             <PagesTable
-              application={['rw']}
+              application={[process.env.APPLICATIONS]}
               authorization={this.props.user.token}
             />
           </div>

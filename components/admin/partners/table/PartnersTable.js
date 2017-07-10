@@ -86,7 +86,7 @@ class PartnersTable extends React.Component {
 }
 
 PartnersTable.defaultProps = {
-  application: ['rw'],
+  application: [process.env.APPLICATIONS],
   columns: [],
   actions: {}
 };

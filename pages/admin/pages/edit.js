@@ -31,7 +31,7 @@ class PageEdit extends React.Component {
               Edit Page
             </Title>
             <PageForm
-              application={['rw']}
+              application={[process.env.APPLICATIONS]}
               authorization={this.props.user.token}
               page={pageID}
               onSubmit={() => Router.pushRoute('pages')}

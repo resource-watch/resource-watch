@@ -1,8 +1,3 @@
-export const APPLICATIONS = [
-  { label: 'Resource Watch', value: 'rw' },
-  { label: 'Aqueduct', value: 'aqueduct' }
-];
-
 export const PROVIDER_TYPES_DICTIONARY = {
   cartodb: {
     label: 'CartoDB',
