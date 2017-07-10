@@ -111,7 +111,6 @@ class SaveWidgetModal extends React.Component {
           });
         }
       }).catch((err) => {
-        console.log(err);
         this.setState({
           saved: false,
           error: true
@@ -142,7 +141,7 @@ class SaveWidgetModal extends React.Component {
         />
         {error &&
         <div className="error-container">
-          <h5>Error:</h5>
+          <div>Error</div>
           <p>{errorMessage}</p>
         </div>
         }
