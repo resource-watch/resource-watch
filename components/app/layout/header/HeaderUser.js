@@ -68,9 +68,52 @@ export default function HeaderUser(props) {
 
   if (isEmpty(user)) {
     return (
-      <a href="/login">
-        Log in
-      </a>
+      <TetherComponent
+        attachment="top center"
+        constraints={[{
+          to: 'window'
+        }]}
+        targetOffset="-4px 0"
+        classes={{
+          element: 'c-header-dropdown'
+        }}
+      >
+        {/* First child: This is what the item will be tethered to */}
+        <a
+          href="/login"
+          onMouseEnter={props.onMouseEnter}
+          onMouseLeave={props.onMouseLeave}
+        >
+          Log in
+        </a>
+        {/* Second child: If present, this item will be tethered to the the first child */}
+        {props.active &&
+          <ul
+            className="header-dropdown-list"
+            onMouseEnter={props.onMouseEnter}
+            onMouseLeave={props.onMouseLeave}
+          >
+            <li className="header-dropdown-list-item">
+              <a href={`https://production-api.globalforestwatch.org/auth/facebook?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`}>
+                Facebook
+              </a>
+            </li>
+            <li className="header-dropdown-list-item">
+              <a href={`https://production-api.globalforestwatch.org/auth/google?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`}>
+                Google
+              </a>
+            </li>
+            <li className="header-dropdown-list-item">
+              <a href={`https://production-api.globalforestwatch.org/auth/twitter?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`}>
+                Twitter
+              </a>
+            </li>
+            <li className="header-dropdown-list-item">
+              <a href="/login">Admin</a>
+            </li>
+          </ul>
+        }
+      </TetherComponent>
     );
   }
 

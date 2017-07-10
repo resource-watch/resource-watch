@@ -108,6 +108,7 @@ app.prepare()
     });
 
     server.get('/logout', function (req, res) {
+      // controlTowerStrategy.logout(req, res);
       req.logout();
       res.redirect('/');
     });
