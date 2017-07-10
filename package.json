@@ -46,6 +46,7 @@
     "next-routes": "^1.0.27",
     "node-sass": "^4.5.0",
     "nodemailer": "^2.7.0",
+    "nodemon": "^1.11.0",
     "normalize.css": "^7.0.0",
     "now-logs": "0.0.7",
     "orm": "^3.2.3",
