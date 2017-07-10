@@ -39,11 +39,11 @@ export default class Header extends React.Component {
       {
         name: 'Data',
         pathnames: ['/admin/Data', '/admin/DataDetail'],
-        component: <Link route="admin_data" params={{ tab: 'data', subtab: 'edit' }}><a>Data</a></Link>
+        component: <Link route="admin_data"><a>Data</a></Link>
       },
       {
         name: 'Pages',
-        pathnames: ['/admin/Pages'],
+        pathnames: ['/admin/Pages', '/admin/PagesDetail'],
         component: <Link route="admin_pages"><a>Pages</a></Link>
       },
       {

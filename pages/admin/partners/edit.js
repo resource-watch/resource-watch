@@ -31,7 +31,7 @@ class PartnerEdit extends React.Component {
               Edit Partner
             </Title>
             <PartnerForm
-              application={['rw']}
+              application={[process.env.APPLICATIONS]}
               authorization={this.props.user.token}
               partner={partnerID}
               onSubmit={() => Router.pushRoute('partners')}

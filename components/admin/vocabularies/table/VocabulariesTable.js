@@ -27,7 +27,7 @@ class VocabulariesTable extends React.Component {
 }
 
 VocabulariesTable.defaultProps = {
-  application: ['rw'],
+  application: [],
   columns: [],
   actions: {}
 };

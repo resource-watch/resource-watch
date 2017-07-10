@@ -25,7 +25,7 @@ class PartnerNew extends React.Component {
               Create Partner
             </Title>
             <PartnerForm
-              application={['rw']}
+              application={[process.env.APPLICATIONS]}
               authorization={this.props.user.token}
               onSubmit={() => Router.pushRoute('partners')}
               mode="new"
