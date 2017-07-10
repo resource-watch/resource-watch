@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import 'isomorphic-fetch';
 import { format } from 'd3-format';
 
-// Components
-import Spinner from 'components/ui/Spinner';
-
 class TextChart extends React.Component {
 
   constructor(props) {
@@ -25,7 +22,10 @@ class TextChart extends React.Component {
    * Fetch the data of the widget
    */
   getData() {
+    // We let the parent component we're loading
+    this.props.toggleLoading(true);
     this.setState({ loading: true });
+
     const url = this.props.widgetConfig.data.url;
 
     fetch(url)
@@ -35,7 +35,10 @@ class TextChart extends React.Component {
       })
       .then(data => this.setState({ data: data.data[0], error: null }))
       .catch(err => this.setState({ error: err.message }))
-      .then(() => this.setState({ loading: false }));
+      .then(() => {
+        this.props.toggleLoading(false);
+        this.setState({ loading: false });
+      });
   }
 
   /**
@@ -62,7 +65,6 @@ class TextChart extends React.Component {
   render() {
     return (
       <div className="c-text-chart">
-        <Spinner isLoading={this.state.loading} className="-light -small" />
         { this.state.error && <div className="error">Unable to load the widget <span>{this.state.error}</span></div> }
         { this.state.data
           && <div className="content" dangerouslySetInnerHTML={{ __html: this.getContent() }} />  // eslint-disable-line react/no-danger
@@ -77,7 +79,12 @@ class TextChart extends React.Component {
 }
 
 TextChart.propTypes = {
-  widgetConfig: PropTypes.object.isRequired
+  widgetConfig: PropTypes.object.isRequired,
+  toggleLoading: PropTypes.func // Will be called with the loading state
+};
+
+TextChart.defaultProps = {
+  toggleLoading: () => {}
 };
 
 export default TextChart;

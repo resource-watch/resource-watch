@@ -6,11 +6,7 @@ import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
-import TextChart from 'components/widgets/TextChart';
-import VegaChart from 'components/widgets/VegaChart';
-
-// Utils
-import getChartTheme from 'utils/widgets/theme';
+import DashboardCard from 'components/app/dashboards/DashboardCard';
 
 // Temporarily hard-code the list of dashboards
 // Needs to be updated so the widgets can be shared between various
@@ -406,27 +402,12 @@ class Dashboards extends Page {
             <div className="column small-12 widgets-list">
               {
                 this.state.selectedDashboard.widgets.map(widget => (
-                  <div className="c-dashboard-card" key={widget.name}>
-                    <header>
-                      <Title className="-default">{widget.name}</Title>
-                      <ul className="categories">
-                        {widget.categories.map(category => <li key={category}>{category}</li>)}
-                      </ul>
-                    </header>
-                    <div className="widget-container">
-                      { widget.data
-                        && widget.data.attributes.widgetConfig.type === 'text'
-                        && <TextChart widgetConfig={widget.data.attributes.widgetConfig} />
-                      }
-                      { widget.data
-                        && widget.data.attributes.widgetConfig.type !== 'text'
-                        && <VegaChart data={widget.data.attributes.widgetConfig} theme={getChartTheme()} />
-                      }
-                      { !widget.data
-                       && <div className="no-data"><span>No data</span></div>
-                      }
-                    </div>
-                  </div>
+                  <DashboardCard
+                    key={widget.name}
+                    name={widget.name}
+                    categories={widget.categories}
+                    data={widget.data}
+                  />
                 ))
               }
             </div>
