@@ -9,10 +9,27 @@
     color: $color-dark-pink;
   }
 
+  .icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+  }
+
   .buttons-container {
 
     button {
       width: 120px;
+      &:first-child {
+        margin-right: 20px;
+      }
+    }
+  }
+
+  .buttons-widget-saved {
+
+    button {
+      width: 180px;
       &:first-child {
         margin-right: 20px;
       }
