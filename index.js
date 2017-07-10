@@ -80,7 +80,7 @@ server.use(session({
   resave: false,
   saveUninitialized: true
 }));
-server.use(express.static('static'));
+server.use('/static', express.static('static'));
 
 // Initialize Passport!
 server.use(passport.initialize());
