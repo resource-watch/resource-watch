@@ -1,0 +1,36 @@
+.c-dashboard-card {
+  background-color: $color-white;
+  border: 1px solid rgba($color-black, .1);
+  border-radius: 4px;
+  box-shadow: 0 1px 2px 0 rgba($color-black, .05);
+
+  header {
+    padding: 15px;
+    border-bottom: 2px solid rgba($color-black, .05);
+
+    .categories {
+      margin: 5px 0 0;
+      padding: 0;
+      list-style: none;
+
+      li {
+        display: inline-block;
+        text-transform: uppercase;
+        font-size: $font-size-small-medium;
+        font-weight: $font-weight-bold;
+        color: $color-secondary;
+
+        &:not(:last-of-type)::after {
+          display: inline-block;
+          margin: 0 .5ch;
+          color: $color-text-2;
+          content: '+';
+        }
+      }
+    }
+  }
+
+  .widget-container {
+    padding: 15px;
+  }
+}
