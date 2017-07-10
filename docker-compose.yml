@@ -1,13 +1,5 @@
 version: "2"
 services:
-  nginx:
-    image: nginx
-    volumes:
-      - "./nginx:/etc/nginx"
-    depends_on:
-      - app
-    ports:
-      - "80:80"
   app:
     build:
       context: .
@@ -16,5 +8,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
+    ports:
+      - "3000:3000"
     restart: always
     container_name: resource-watch
