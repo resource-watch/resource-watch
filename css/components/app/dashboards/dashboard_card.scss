@@ -39,6 +39,13 @@
       flex-basis: 100%;
     }
 
+    > .no-data {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: $font-weight-bold;
+    }
+
     .c-chart {
       height: auto;
     }

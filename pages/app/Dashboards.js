@@ -422,6 +422,9 @@ class Dashboards extends Page {
                         && widget.data.attributes.widgetConfig.type !== 'text'
                         && <VegaChart data={widget.data.attributes.widgetConfig} theme={getChartTheme()} />
                       }
+                      { !widget.data
+                       && <div className="no-data"><span>No data</span></div>
+                      }
                     </div>
                   </div>
                 ))
