@@ -65,7 +65,7 @@ class SaveWidgetModal extends React.Component {
   }
 
   handleGoToMyRW() {
-    Router.pushRoute('myrw');
+    Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my-widgets' });
   }
 
   @Autobind
