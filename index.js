@@ -41,7 +41,13 @@ if (process.env.NODE_ENV === 'production') {
 function isAuthenticated(req, res, nextAction) {
   if (req.isAuthenticated()) return nextAction();
   // if they aren't redirect them to the home page
-  res.redirect('/');
+  return res.redirect('/');
+}
+
+function isAdmin(req, res, nextAction) {
+  if (req.user.role === 'ADMIN') return nextAction();
+  // if they aren't redirect them to the home page
+  return res.redirect('/');
 }
 
 // Use the Control Tower Strategy within Passport.
@@ -111,7 +117,7 @@ app.prepare()
       return handle(req, res, parsedUrl);
     });
 
-    server.get('/admin*?', isAuthenticated, function (req, res) {
+    server.get('/admin*?', isAuthenticated, isAdmin, function (req, res) {
       const parsedUrl = parse(req.url, true);
       return handle(req, res, parsedUrl);
     });
