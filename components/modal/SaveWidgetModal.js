@@ -142,7 +142,7 @@ class SaveWidgetModal extends React.Component {
         {error &&
         <div className="error-container">
           <div>Error</div>
-          <p>{errorMessage}</p>
+          {errorMessage}
         </div>
         }
         {!saved &&
