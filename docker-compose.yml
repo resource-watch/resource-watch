@@ -9,7 +9,6 @@ services:
     ports:
       - "80:80"
   app:
-    command: "npm start"
     build:
       context: .
       dockerfile: Dockerfile

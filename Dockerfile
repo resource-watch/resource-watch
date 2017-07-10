@@ -1,7 +1,5 @@
 FROM node:8.1.2
-
-ENV NODE_ENV production
-USER root
+MAINTAINER David Inga <david.inga@vizzuality.com>
 
 RUN apt-get update && \
     apt-get install -y bash git build-essential \
