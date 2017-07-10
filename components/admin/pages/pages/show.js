@@ -7,25 +7,25 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
 // Components
-import DatasetForm from 'components/admin/dataset/form/DatasetForm';
+import PageForm from 'components/admin/pages/form/PageForm';
 
-class DatasetNew extends React.Component {
+class PageNew extends React.Component {
 
   render() {
     const { user } = this.props;
     return (
-      <div className="c-datasets-new">
-        <DatasetForm
+      <div className="c-pages-new">
+        <PageForm
           application={[process.env.APPLICATIONS]}
           authorization={user.token}
-          onSubmit={() => Router.pushRoute('admin_data', { tab: 'datasets' })}
+          onSubmit={() => Router.pushRoute('admin_pages', { tab: 'pages' })}
         />
       </div>
     );
   }
 }
 
-DatasetNew.propTypes = {
+PageNew.propTypes = {
   // Store
   user: PropTypes.object.isRequired
 };
@@ -34,4 +34,4 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default withRedux(initStore, mapStateToProps, null)(DatasetNew);
+export default withRedux(initStore, mapStateToProps, null)(PageNew);

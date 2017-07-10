@@ -13,7 +13,7 @@ class WidgetShow extends React.Component {
   render() {
     return (
       <WidgetForm
-        application={['rw']}
+        application={[process.env.APPLICATIONS]}
         authorization={this.props.user.token}
         widget={this.props.id}
       />

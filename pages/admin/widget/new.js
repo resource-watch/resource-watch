@@ -31,7 +31,7 @@ class WidgetNew extends React.Component {
               New Widget
             </Title>
             <WidgetForm
-              application={['rw']}
+              application={[process.env.APPLICATIONS]}
               authorization={this.props.user.token}
               dataset={datasetID}
               onSubmit={() => Router.pushRoute('dataset_widgets', { id: datasetID })}

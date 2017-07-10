@@ -80,7 +80,7 @@ class InsightsTable extends React.Component {
 }
 
 InsightsTable.defaultProps = {
-  application: ['rw'],
+  application: [],
   columns: [],
   actions: {}
 };

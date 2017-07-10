@@ -25,7 +25,7 @@ class InsightEdit extends React.Component {
               Create Insight
             </Title>
             <InsightForm
-              application={['rw']}
+              application={[process.env.APPLICATIONS]}
               authorization={this.props.user.token}
               onSubmit={() => Router.pushRoute('insights')}
               mode="new"

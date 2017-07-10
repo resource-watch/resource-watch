@@ -20,7 +20,7 @@ class VocabulariesIndex extends React.Component {
         <div className="row">
           <div className="column small-12">
             <VocabulariesForm
-              application={'rw'}
+              application={process.env.APPLICATIONS}
               authorization={this.props.user.token}
               language="en"
             />

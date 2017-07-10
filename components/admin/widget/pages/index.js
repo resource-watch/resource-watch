@@ -25,7 +25,7 @@ function WidgetIndex(props) {
         }]}
       />
       <WidgetTable
-        application={['rw']}
+        application={[process.env.APPLICATIONS]}
         dataset={props.dataset}
         authorization={props.user.token}
       />

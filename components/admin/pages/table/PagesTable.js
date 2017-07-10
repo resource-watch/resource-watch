@@ -80,12 +80,13 @@ class PagesTable extends React.Component {
 }
 
 PagesTable.defaultProps = {
-  application: ['rw'],
+  application: [],
   columns: [],
   actions: {}
 };
 
 PagesTable.propTypes = {
+  application: React.PropTypes.array,
   authorization: React.PropTypes.string
 };
 

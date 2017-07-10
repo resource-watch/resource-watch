@@ -81,7 +81,7 @@ class DatasetTable extends React.Component {
 }
 
 DatasetTable.defaultProps = {
-  application: ['rw'],
+  application: [],
   columns: [],
   actions: {},
   // Store
