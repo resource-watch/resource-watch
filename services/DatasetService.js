@@ -168,7 +168,7 @@ export default class DatasetService {
   }
 
   getLayers() {
-    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}/layer`)
+    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}/layer?app=rw`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
