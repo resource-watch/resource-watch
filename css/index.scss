@@ -69,6 +69,7 @@
 @import "./components/form/token";
 
 // WIDGETS
+@import "./components/widgets/text_chart";
 @import "./components/widgets/widget_editor";
 @import "./components/widgets/columnbox";
 @import "./components/widgets/column_container";
@@ -121,6 +122,7 @@
 // PAGES
 @import "./components/app/pages/explore";
 @import "./components/app/pages/explore_detail";
+@import "./components/app/pages/dashboards";
 @import "./components/app/pages/about";
 @import "./components/app/pages/pulse";
 @import "./components/app/pages/home";
@@ -159,6 +161,9 @@
 
 // EXPLORE DETAIL
 @import "./components/app/explore-detail/dataset-info";
+
+// DASHBOARDS
+@import './components/app/dashboards/dashboard_card';
 
 // MyRW
 // @import "./components/app/pages/myrw/activity";

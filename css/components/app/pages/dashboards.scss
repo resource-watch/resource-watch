@@ -1,0 +1,116 @@
+.c-page-dashboards {
+
+  .info {
+    padding: 50px 0 70px;
+    background-color: $bg-color-2;
+  }
+
+  .dashboards-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      position: relative;
+      margin: 0 20px 20px 0;
+      flex-basis: calc((100% - 5 * 20px) / 6);
+      height: 135px;
+      border-radius: 4px;
+      background-color: $battleship-grey;
+      background-size: cover;
+      background-position: center center;
+
+      &:nth-of-type(6n) {
+        margin-right: 0;
+      }
+
+      // The input is just here for an accessibility matter
+      // we don't want it to be visually present
+      input[type="radio"] {
+        position: absolute;
+        top: 0;
+        left: -10000px;
+
+        &:focus + .content {
+          border: 1px solid $color-primary;
+        }
+      }
+
+      .content {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-end;
+        width: 100%;
+        height: 100%;
+        padding: 15px 20px;
+        font-size: $font-size-extra-big;
+        font-weight: $font-weight-bold;
+        color: $color-white;
+        border-radius: 4px;
+        border: 1px solid transparent;
+        cursor: pointer;
+      }
+
+      &.-active .content {
+        background-color: rgba($color-secondary, .9);
+      }
+
+      &.-disabled {
+        opacity: .3;
+
+        .content { cursor: auto; }
+      }
+
+      &.-toggle {
+        background-color: transparent;
+        border: 1px solid $color-primary;
+
+        // .-toggle is a button and buttons can't be flex
+        // containers, that's why we have an extra span
+        // to align the text at the bottom
+        .content {
+          display: block;
+          color: $color-primary;
+          cursor: pointer;
+
+          &:focus {
+            background: rgba($color-primary, .2);
+          }
+
+          span {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-end;
+            height: 100%;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  .dashboard-info {
+    padding-top: 30px;
+
+    p {
+      margin: 10px 0 0;
+      line-height: 1.625;
+    }
+  }
+
+  .widgets-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: stretch;
+    margin-top: -20px;
+
+    .c-dashboard-card {
+      flex-basis: calc(50% - 10px);
+      margin-bottom: 20px;
+    }
+  }
+
+}

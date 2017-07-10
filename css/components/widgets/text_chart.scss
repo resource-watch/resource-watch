@@ -1,0 +1,26 @@
+.c-text-chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  min-height: 20px; // Necessary for the spinner
+
+  .error,
+  .no-data {
+    font-weight: $font-weight-bold;
+    text-align: center;
+
+    span {
+      display: block;
+      font-weight: $font-weight-regular;
+      font-size: $font-size-default;
+    }
+  }
+
+  .content {
+    .token {
+      color: $color-secondary;
+      font-weight: $font-weight-bold;
+    }
+  }
+}

@@ -15,6 +15,11 @@
     font-weight: $font-weight-light;
   }
 
+  &.-extrabig {
+    font-size: rem(42px);
+    font-weight: $font-weight-light;
+  }
+
   &.-huge {
     font-size: rem(64px);
     font-weight: $font-weight-light;
