@@ -34,10 +34,6 @@ function auth(username, password) {
   };
 }
 
-if (process.env.NODE_ENV === 'production') {
-  server.use(auth(process.env.USERNAME, process.env.PASSWORD));
-}
-
 function isAuthenticated(req, res, nextAction) {
   if (req.isAuthenticated()) return nextAction();
   // if they aren't redirect them to the home page
@@ -81,6 +77,10 @@ server.use(session({
   saveUninitialized: true
 }));
 server.use('/static', express.static('static'));
+
+if (process.env.NODE_ENV === 'production') {
+  server.use(auth(process.env.USERNAME, process.env.PASSWORD));
+}
 
 // Initialize Passport!
 server.use(passport.initialize());
