@@ -146,7 +146,7 @@ class SaveWidgetModal extends React.Component {
         </div>
         }
         {!saved &&
-          <form className="c-form" onSubmit={this.onSubmit}>
+          <form className="form-container" onSubmit={this.onSubmit}>
             <fieldset className="c-field-container">
               <Field
                 ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
@@ -180,7 +180,7 @@ class SaveWidgetModal extends React.Component {
                 properties={{
                   type: 'submit',
                   disabled: submitting,
-                  className: '-primary'
+                  className: '-secondary'
                 }}
               >
                   Save
@@ -188,7 +188,7 @@ class SaveWidgetModal extends React.Component {
               <Button
                 properties={{
                   disabled: submitting,
-                  className: '-secondary'
+                  className: '-primary'
                 }}
                 onClick={this.handleCancel}
               >
