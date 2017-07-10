@@ -1,17 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import debounce from 'lodash/debounce';
 
 // Next components
 import { Link } from 'routes';
 
-export default class Header extends React.Component {
+// Components
+import HeaderUser from 'components/app/layout/header/HeaderUser';
 
-  static propTypes() {
-    return {
-      user: PropTypes.object.isRequired
+export default class Header extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      myrwActive: false
     };
+
+    this.listeners = {};
+
+    // BINDINGS
+    this.toggleDropdown = debounce(this.toggleDropdown.bind(this), 50);
   }
+
+  // This function is debounced. If you don't do that insane things will happen
+  toggleDropdown(specificDropdown, to) {
+    this.setState({
+      ...{ myrwActive: false },
+      [specificDropdown]: to
+    });
+  }
+
 
   render() {
     const { url } = this.props;
@@ -38,8 +57,13 @@ export default class Header extends React.Component {
         component: <Link route="admin_partners"><a>Partners</a></Link>
       },
       {
-        name: 'Logout',
-        component: <a href="/logout">Log out</a>
+        name: 'My RW',
+        component: <HeaderUser
+          user={this.props.user}
+          active={this.state.myrwActive}
+          onMouseEnter={() => this.toggleDropdown('myrwActive', true)}
+          onMouseLeave={() => this.toggleDropdown('myrwActive', false)}
+        />
       }
     ];
 
@@ -86,5 +110,6 @@ Header.defaultProps = {
 
 
 Header.propTypes = {
-  url: PropTypes.object
+  url: PropTypes.object,
+  user: PropTypes.object
 };

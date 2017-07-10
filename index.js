@@ -109,7 +109,7 @@ app.prepare()
 
     server.get('/logout', function (req, res) {
       req.logout();
-      res.redirect('/');
+      res.redirect(req.query.callbackUrl)
     });
 
     server.get('/myrw*?', isAuthenticated, function (req, res) {
