@@ -224,6 +224,14 @@ const DASHBOARDS = [
       }
     ]
   },
+  /* The following dashboard is not a real one, but instead a link to the old
+   * country dashboard */
+  {
+    name: 'Countries',
+    slug: 'countries',
+    image: 'static/images/dashboards/dashboard-Cities.jpg',
+    widgets: [{}]
+  },
   {
     name: 'Cities',
     slug: 'cities',
@@ -306,6 +314,13 @@ class Dashboards extends Page {
    * @param {string} slug Slug of the selected dashboard
    */
   onChangeDashboard(slug) {
+    // If the selected dashboard is the old country dashboard
+    // we redirect the user there
+    if (slug === 'countries') {
+      location.href = 'http://staging.resourcewatch.org/countries';
+      return;
+    }
+
     this.setState({
       selectedDashboard: this.state.dashboards.find(dashboard => dashboard.slug === slug)
     });
