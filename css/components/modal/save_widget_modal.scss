@@ -9,6 +9,13 @@
     color: $color-dark-pink;
   }
 
+  .error-container {
+    padding: 10px 20px 10px 20px;
+    width: 100%;
+    background-color: $color-pale-grey;
+    border-radius: 4px;
+  }
+
   .icon-container {
     display: flex;
     justify-content: center;

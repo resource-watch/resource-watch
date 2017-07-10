@@ -96,10 +96,20 @@ class SaveWidgetModal extends React.Component {
 
     this.widgetService.saveUserWidget(widgetObj, this.props.dataset, this.props.user.token)
       .then((response) => {
-        this.setState({
-          saved: true,
-          loading: false
-        });
+        if (response.errors) {
+          this.setState({
+            saved: false,
+            loading: false,
+            error: true,
+            errorMessage: response.errors[0].detail
+          });
+        } else {
+          this.setState({
+            saved: true,
+            loading: false,
+            error: false
+          });
+        }
       }).catch((err) => {
         console.log(err);
         this.setState({
@@ -116,7 +126,7 @@ class SaveWidgetModal extends React.Component {
   }
 
   render() {
-    const { submitting, loading, saved } = this.state;
+    const { submitting, loading, saved, error, errorMessage } = this.state;
 
     return (
       <div className="c-save-widget-modal">
@@ -130,6 +140,12 @@ class SaveWidgetModal extends React.Component {
           isLoading={loading}
           className="-light -relative"
         />
+        {error &&
+        <div className="error-container">
+          <h5>Error:</h5>
+          <p>{errorMessage}</p>
+        </div>
+        }
         {!saved &&
           <form className="c-form" onSubmit={this.onSubmit}>
             <fieldset className="c-field-container">

@@ -32,8 +32,7 @@ export default class WidgetService {
         'Authorization': token
       }
     })
-    .then(response => response.json())
-    .then(jsonData => jsonData.data);
+    .then(response => response.json());
   }
 
 }
