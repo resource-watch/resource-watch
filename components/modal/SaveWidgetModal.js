@@ -111,7 +111,6 @@ class SaveWidgetModal extends React.Component {
           });
         }
       }).catch((err) => {
-        console.log(err);
         this.setState({
           saved: false,
           error: true
@@ -142,12 +141,12 @@ class SaveWidgetModal extends React.Component {
         />
         {error &&
         <div className="error-container">
-          <h5>Error:</h5>
-          <p>{errorMessage}</p>
+          <div>Error</div>
+          {errorMessage}
         </div>
         }
         {!saved &&
-          <form className="c-form" onSubmit={this.onSubmit}>
+          <form className="form-container" onSubmit={this.onSubmit}>
             <fieldset className="c-field-container">
               <Field
                 ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
@@ -181,7 +180,7 @@ class SaveWidgetModal extends React.Component {
                 properties={{
                   type: 'submit',
                   disabled: submitting,
-                  className: '-primary'
+                  className: '-secondary'
                 }}
               >
                   Save
@@ -189,7 +188,7 @@ class SaveWidgetModal extends React.Component {
               <Button
                 properties={{
                   disabled: submitting,
-                  className: '-secondary'
+                  className: '-primary'
                 }}
                 onClick={this.handleCancel}
               >

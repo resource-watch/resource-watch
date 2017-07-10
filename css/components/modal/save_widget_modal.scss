@@ -1,5 +1,9 @@
 .c-save-widget-modal {
 
+  .form-container {
+    margin-top: 60px;
+  }
+
   .c-field-container {
     margin-top: 20px;
     margin-bottom: 60px;
@@ -10,10 +14,20 @@
   }
 
   .error-container {
+    display: flex;
+    align-items: center;
     padding: 10px 20px 10px 20px;
     width: 100%;
-    background-color: $color-pale-grey;
+    background-color: rgba(250,183,46,0.2);
     border-radius: 4px;
+
+    div {
+      margin-right: 10px;
+      color: $color-white;
+      background-color: $color-mango;
+      border-radius: 4px;
+      padding: 5px;
+    }
   }
 
   .icon-container {
