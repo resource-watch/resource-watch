@@ -29,7 +29,7 @@ routes.add('explore_detail', '/explore/:id', 'app/ExploreDetail');
 
 routes.add('pulse', '/pulse', 'app/Pulse');
 
-routes.add('dashboards', '/dashboards', 'app/Dashboards'); // TODO: create the dashboards page
+routes.add('dashboards', '/dashboards/:slug?', 'app/Dashboards');
 
 routes.add('insights', '/insights', 'app/Home'); // TODO: create the insights page
 

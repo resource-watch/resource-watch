@@ -1,6 +1,9 @@
 import React from 'react';
 import classnames from 'classnames';
 
+// Router
+import { Router } from 'routes';
+
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
@@ -313,7 +316,9 @@ class Dashboards extends Page {
    * Event handler executed when a different dashboard is selected
    * @param {string} slug Slug of the selected dashboard
    */
-  onChangeDashboard(slug) {
+  onChangeDashboard(slug, dash) {
+    const dashboards = dash || this.state.dashboards;
+
     // If the selected dashboard is the old country dashboard
     // we redirect the user there
     if (slug === 'countries') {
@@ -321,22 +326,33 @@ class Dashboards extends Page {
       return;
     }
 
-    this.setState({
-      selectedDashboard: this.state.dashboards.find(dashboard => dashboard.slug === slug)
-    });
+    // If we can't find the dashboard with the specified slug, we just
+    // set the first dashboard as the active one
+    const selectedDashboard = dashboards.find(dashboard => dashboard.slug === slug)
+      || dashboards[0];
+
+    this.setState({ selectedDashboard });
+
+    // We update the URL anyway (only on the client)
+    if (typeof window !== 'undefined') {
+      Router.replaceRoute('dashboards', { slug: selectedDashboard.slug });
+    }
   }
 
   /**
-   * Fetch the dashboards, save them in the state and set a default
-   * selected dashboard
+   * Fetch the dashboards, save them in the state, set a default
+   * selected dashboard and update the URL
    */
   getDashboards() {
+    // We store the dashboards in the state
     const dashboards = DASHBOARDS;
+    this.setState({ dashboards });
 
-    this.setState({
-      dashboards,
-      selectedDashboard: dashboards[0]
-    });
+    // If the default selected dashboard:
+    // - if the URL contains a slug, then we try to set the associated
+    // dashboard
+    // - if not, the first dashboard will be set as default
+    this.onChangeDashboard(this.props.url.query.slug, dashboards);
   }
 
   render() {
@@ -373,7 +389,7 @@ class Dashboards extends Page {
                             '-disabled': !dashboard.widgets.length
                           })}
                           key={dashboard.slug}
-                          style={{ backgroundImage: `url(${dashboard.image})` }}
+                          style={{ backgroundImage: `url(/${dashboard.image})` }}
                         >
                           <input
                             type="radio"
