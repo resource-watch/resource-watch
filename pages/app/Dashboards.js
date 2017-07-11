@@ -23,25 +23,8 @@ const DASHBOARDS = [
     image: 'static/images/dashboards/dashboard-water.jpg',
     widgets: [
       {
-        name: 'Cities with > 1,000,000 people in high water risk areas',
+        widgetId: '6f01a91e-bb68-4d10-9da4-e48b553193f3',
         categories: ['Water', 'Cities'],
-        data: {
-          attributes: {
-            widgetConfig: {
-              type: 'text',
-              data: {
-                url: 'https://api.resourcewatch.org/v1/query/6d99441e-5faa-4c61-967f-01c9fe60624b?sql=SELECT count(*) over () total, (count(*) Filter (where _default>=4) over ()) as n_cities,  (100*(count(*) Filter (where _default>=4) over ())/(count(*) over ()))::numeric perc  FROM water_plus_cities limit 1'
-              },
-              template: '{{n_cities}} or {{perc}} ({{n_cities}}/{{total}}) of cities with 1,000,000 people or more are in high water risk areas',
-              params_config: [],
-              template_config: [
-                { key: 'n_cities' },
-                { key: 'perc', suffix: '%' },
-                { key: 'total' }
-              ]
-            }
-          }
-        }
       },
       {
         name: 'Countries that will experience the greatest increase in projected water stress in the year 2040 if we continue business as usual',
@@ -135,7 +118,7 @@ const DASHBOARDS = [
         }
       },
       {
-        name: '% crop growing in high water risk areas by 2040',
+        widgetId: '04b1610b-74ef-413b-b167-3a0169f77b3f',
         categories: ['Water', 'Food']
       },
       {
@@ -199,27 +182,12 @@ const DASHBOARDS = [
         categories: ['Water', 'Forests']
       },
       {
-        name: 'Bleaching events are bad and are increasingly likely to happen',
+        widgetId: '73c574b9-f9ab-4f77-87be-651ff8dac5fe',
         categories: ['Water', 'Biodiversity', 'Climate']
       },
       {
-        name: 'Population at risk of flooding in 1/50 year events in 2030',
+        widgetId: '7cdad4dc-0074-4bd4-b3bd-db6ffc4e0180',
         categories: ['Water', 'Disasters', 'Society'],
-        data: {
-          attributes: {
-            widgetConfig: {
-              type: 'text',
-              data: {
-                url: 'https://api.resourcewatch.org/v1/query/01ddff59-8cbc-4420-8c0d-9d8317a63292?sql=SELECT round(sum(p30_24_50)/1000000) people FROM aqueduct_global_flood_risk_data_by_country_20150304'
-              },
-              template: '{{people}} of people affected by floods for 1/50 year storm events in 2030',
-              params_config: [],
-              template_config: [
-                { key: 'people', suffix: ' millions' }
-              ]
-            }
-          }
-        }
       },
       {
         name: 'Surface water is changing over time',
@@ -434,9 +402,12 @@ class Dashboards extends Page {
               {
                 this.state.selectedDashboard.widgets.map(widget => (
                   <DashboardCard
-                    key={widget.name}
-                    name={widget.name}
+                    key={widget.name || widget.widgetId}
+                    widgetId={widget.widgetId}
                     categories={widget.categories}
+                    // The following attributes will be deprecated once all the
+                    // widgets are fetched from the API
+                    name={widget.name}
                     data={widget.data}
                   />
                 ))
