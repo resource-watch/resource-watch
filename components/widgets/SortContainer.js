@@ -31,12 +31,11 @@ class SortContainer extends React.Component {
   }
 
   render() {
-    const { canDrop, isOver, connectDropTarget, widgetEditor } = this.props;
-    const isActive = canDrop && isOver;
+    const { canDrop, connectDropTarget, widgetEditor } = this.props;
     const orderBy = widgetEditor.orderBy;
 
     const containerDivClass = classNames({
-      '-release': isActive,
+      '-release': canDrop,
       'columnbox-container': true
     });
 
@@ -46,6 +45,11 @@ class SortContainer extends React.Component {
           Order
         </span>
         <div className={containerDivClass}>
+          {!orderBy &&
+          <span className="placeholder">
+            Drop here
+          </span>
+          }
           {orderBy &&
             <ColumnBox
               name={orderBy.name}

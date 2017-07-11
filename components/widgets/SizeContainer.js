@@ -35,12 +35,11 @@ class SizeContainer extends React.Component {
   }
 
   render() {
-    const { canDrop, isOver, connectDropTarget, widgetEditor } = this.props;
-    const isActive = canDrop && isOver;
+    const { canDrop, connectDropTarget, widgetEditor } = this.props;
     const size = widgetEditor.size;
 
     const containerDivClass = classNames({
-      '-release': isActive,
+      '-release': canDrop,
       'columnbox-container': true
     });
 

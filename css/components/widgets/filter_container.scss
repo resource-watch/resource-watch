@@ -29,6 +29,10 @@
 
     &.-release{
       border-color: $color-secondary;
+      
+      .placeholder {
+        color: $color-silver;
+      }
     }
 
     .c-columnbox {
