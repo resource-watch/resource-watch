@@ -29,10 +29,27 @@ export default class WidgetService {
       body: JSON.stringify(bodyObj),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': token
+        Authorization: token
       }
     })
     .then(response => response.json());
+  }
+
+  removeUserWidget(widgetId, token) {
+    return fetch(`${this.opts.apiURL}/widget/${widgetId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token
+      }
+    })
+    .then(response => response.json());
+  }
+
+  getUserWidgets(userId) {
+    return fetch(`${this.opts.apiURL}/widget/?userId=${userId}`)
+      .then(response => response.json())
+      .then(jsonData => jsonData.data);
   }
 
 }

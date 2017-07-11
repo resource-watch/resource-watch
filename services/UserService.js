@@ -17,9 +17,13 @@ export default class UserService {
    * Gets the user that is currently logged
    * @returns {Promise}
    */
-  getLoggedUser() {
+  getLoggedUser(token) {
     return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/auth/check-logged`)
+      fetch(`${this.opts.apiURL}/auth/check-logged`, {
+        headers: {
+          Authorization: token
+        }
+      })
         .then(response => response.json())
         .then(jsonData => resolve(jsonData.data));
     });
