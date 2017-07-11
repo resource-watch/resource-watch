@@ -43,16 +43,16 @@ class FilterContainer extends React.Component {
       '-release': isActive
     });
 
-    const boxText = isActive ? 'Release to drop' : 'Drag a column here';
-
     return connectDropTarget(
       <div className="c-filter-container">
         <span className="text">
           Filters
         </span>
         <div className={containerDivClass}>
-          { (!filters || filters.length === 0) &&
-            boxText
+          {(!filters || filters.length === 0) &&
+          <span className="placeholder">
+            Drop here
+          </span>
           }
           {filters && filters.length > 0 && filters.map(val => (
             <ColumnBox

@@ -50,6 +50,11 @@ class ColorContainer extends React.Component {
           Color
         </span>
         <div className={containerDivClass}>
+          {!color &&
+          <span className="placeholder">
+            Drop here
+          </span>
+          }
           {color &&
             <ColumnBox
               name={color.name}

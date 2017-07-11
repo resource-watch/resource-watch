@@ -61,6 +61,11 @@ class DimensionYContainer extends React.Component {
           Value
         </span>
         <div className={containerDivClass}>
+          {!value &&
+          <span className="placeholder">
+            Drop here
+          </span>
+          }
           {value &&
             <ColumnBox
               name={value.name}

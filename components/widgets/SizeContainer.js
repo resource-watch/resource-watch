@@ -50,6 +50,11 @@ class SizeContainer extends React.Component {
           Size
         </span>
         <div className={containerDivClass}>
+          {!size &&
+          <span className="placeholder">
+            Drop here
+          </span>
+          }
           {size &&
             <ColumnBox
               name={size.name}

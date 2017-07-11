@@ -45,6 +45,11 @@ class CategoryContainer extends React.Component {
           Category
         </span>
         <div className={containerDivClass}>
+          {!category &&
+          <span className="placeholder">
+            Drop here
+          </span>
+          }
           {category &&
             <ColumnBox
               name={category.name}

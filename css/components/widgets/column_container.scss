@@ -13,7 +13,6 @@
 
   .columnbox-container {
     display: flex;
-    align-items: center;
     width: 150px;
     height: 30px;
     border: 1px solid rgba($color-silver, .85);
@@ -22,6 +21,22 @@
 
     &.-release {
       border-color: $color-secondary;
+    }
+
+    .c-columnbox {
+      width: 100%;
+      height: 100%;
+      border-radius: 0px;
+    }
+
+    .placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 100%;
+
+      padding-right: 10px;
+      color: $color-silver;
     }
   }
 
