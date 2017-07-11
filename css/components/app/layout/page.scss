@@ -1,7 +1,7 @@
 .c-page {
   position: relative;
   background: $color-white;
-  min-height: calc(100vh - 105px);
+  min-height: calc(100vh - #{$header-main-height + $header-secondary-height});
 
   &.-dark {
     background-color: #242426;
