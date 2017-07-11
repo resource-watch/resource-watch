@@ -24,9 +24,8 @@
   .save-widget-container {
     color: $color-dark-pink;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     padding-top: 10px;
-    padding-bottom: 20px;
 
     a {
       cursor: pointer;

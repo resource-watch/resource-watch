@@ -193,18 +193,22 @@ class FilterTooltip extends React.Component {
         { !categoryValue && !loading && this.renderRange() }
 
         <div className="buttons">
-          <Button
-            properties={{ type: 'button', className: '-secondary' }}
-            onClick={() => this.onSelectAll()}
-          >
-            Select all
-          </Button>
-          <Button
-            properties={{ type: 'button', className: '-secondary' }}
-            onClick={() => this.onClearAll()}
-          >
-            Clear
-          </Button>
+          { categoryValue &&
+            <Button
+              properties={{ type: 'button', className: '-secondary' }}
+              onClick={() => this.onSelectAll()}
+            >
+              Select all
+            </Button>
+          }
+          { categoryValue &&
+            <Button
+              properties={{ type: 'button', className: '-secondary' }}
+              onClick={() => this.onClearAll()}
+            >
+              Clear
+            </Button>
+          }
           <Button
             properties={{ type: 'button', className: '-primary' }}
             onClick={() => this.onApply()}

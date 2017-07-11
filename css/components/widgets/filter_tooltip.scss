@@ -3,6 +3,7 @@
   transform: translate(0, 0);
   padding: 20px;
   min-height: 80px;
+  min-width: 200px;
   max-width: 350px;
 
   .checkboxes {
@@ -14,6 +15,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    button {
+      margin-right: 10px;
+      &:last-child{
+        margin-right: 0px;
+      }
+    }
   }
 
   .range {
