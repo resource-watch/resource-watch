@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { toggleModal, setModalOptions } from 'redactions/modal';
+import { toggleTooltip } from 'redactions/tooltip';
 import { setUser } from 'redactions/user';
 
 // Components
@@ -28,6 +29,15 @@ class Layout extends React.Component {
     this.state = {
       modalOpen: false
     };
+  }
+
+  componentWillMount() {
+    // When a tooltip is shown and the router navigates to a
+    // another page, the tooltip stays in place because it is
+    // managed in Redux
+    // In order to hide it every time a new page is loaded,
+    // we toggle it off each the Layout component is mounted
+    this.props.toggleTooltip(false);
   }
 
   componentDidMount() {
@@ -89,6 +99,7 @@ Layout.propTypes = {
   // Store
   modal: PropTypes.object,
   toggleModal: PropTypes.func,
+  toggleTooltip: PropTypes.func,
   setModalOptions: PropTypes.func,
   setUser: PropTypes.func.isRequired
 };
@@ -98,6 +109,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  toggleTooltip: () => dispatch(toggleTooltip()),
   toggleModal: () => {
     dispatch(toggleModal());
   },
