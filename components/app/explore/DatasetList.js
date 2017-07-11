@@ -19,7 +19,7 @@ const DatasetList = (props) => {
 
   return (
     <div className="c-dataset-list">
-      <div className="list row">
+      <div className="l-row row list">
         {list.map(dataset =>
           (<div className={newClassName} key={dataset.id}>
             <DatasetWidget
