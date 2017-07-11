@@ -1,10 +1,10 @@
 .c-dataset-list-header {
+  margin: $space-1 * 2 0 0;
   display: flex;
   justify-content: space-between;
 
   .total {
-    margin-top: 12px;
-    margin-left: 6px;
+    margin: 13px 0 0 6px;
   }
 
   .actions {

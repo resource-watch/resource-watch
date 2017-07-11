@@ -53,7 +53,7 @@ class DatasetListHeader extends React.Component {
               }}
               onClick={this.triggerSetDatasetMode}
             >
-              <Icon name="icon-view_grid" className="-medium" />
+              <Icon name="icon-view-grid" />
             </Button>
             <Button
               properties={{
@@ -62,7 +62,7 @@ class DatasetListHeader extends React.Component {
               }}
               onClick={this.triggerSetDatasetMode}
             >
-              <Icon name="icon-view_list" className="-medium" />
+              <Icon name="icon-view-list" />
             </Button>
           </div>
           {/* <div className="filter-container">

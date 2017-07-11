@@ -1,7 +1,6 @@
 .c-dataset-list {
 
   > .list {
-    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -9,8 +8,7 @@
     > .list-item {
       display: flex;
       flex-direction: column;
-      padding: 0 6px;
-      margin-bottom: 12px;
+      margin-bottom: $space-1 * 4;
 
       &.-list {
         padding-top: 12px;

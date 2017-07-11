@@ -176,9 +176,10 @@ class DatasetWidget extends React.Component {
             </Title>
 
             {/* Description */}
-            {dataset.attributes.metadata && (dataset.attributes.metadata.length > 0)
-              && dataset.attributes.metadata[0].attributes.description &&
-              <p>{this.getDescription(dataset.attributes.metadata[0].attributes.description)}</p>
+            {dataset.attributes.metadata && (dataset.attributes.metadata.length > 0) &&
+             dataset.attributes.metadata[0].attributes.info &&
+             dataset.attributes.metadata[0].attributes.info.functions &&
+             <p>{this.getDescription(dataset.attributes.metadata[0].attributes.info.functions)}</p>
             }
 
             {/* Source */}
