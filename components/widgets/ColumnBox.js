@@ -16,6 +16,8 @@ import FilterTooltip from 'components/widgets/FilterTooltip';
 import AggregateFunctionTooltip from 'components/widgets/AggregateFunctionTooltip';
 import OrderByTooltip from 'components/widgets/OrderByTooltip';
 
+const NAME_MAX_LENGTH = 9;
+
 /**
  * Implements the drag source contract.
  */
@@ -263,12 +265,15 @@ class ColumnBox extends React.Component {
       (isA === 'orderBy') || (isA === 'color') || (isA === 'size');
 
     return connectDragSource(
-      <div className={classNames({ 'c-columnbox': true, '-dimmed': isDragging })}>
+      <div
+        className={classNames({ 'c-columnbox': true, '-dimmed': isDragging })}
+        title={name}
+      >
         <Icon
           name={iconName}
           className="-smaller"
         />
-        {name}
+        { (name.length > NAME_MAX_LENGTH) ? `${name.substr(0, NAME_MAX_LENGTH - 1)}...` : name }
         {isA === 'value' && aggregateFunction && aggregateFunction !== 'none' &&
           <div className="aggregate-function">
             {aggregateFunction}

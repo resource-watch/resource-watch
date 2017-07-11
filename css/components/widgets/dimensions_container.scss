@@ -1,4 +1,7 @@
 .c-dimensions-container {
+  border-bottom: 1px solid $color-grey;
+  padding-bottom: 10px;
+
   .c-column-container {
     margin-bottom: $space-1;
     &:last-child { margin-bottom: 0; }
