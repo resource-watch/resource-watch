@@ -41,7 +41,7 @@
     "lodash": "^4.17.4",
     "lusca": "^1.4.1",
     "moveto": "^1.6.1",
-    "next": "^2.4.3",
+    "next": "^3.0.1-beta",
     "next-redux-wrapper": "^1.1.2",
     "next-routes": "^1.0.27",
     "node-sass": "^4.5.0",
