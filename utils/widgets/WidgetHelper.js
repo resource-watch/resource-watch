@@ -90,7 +90,7 @@ export function getDataURL(widgetEditor, tableName, dataset) {
   if (orderByColumn.length > 0 && orderByColumn[0].name === value.name && aggregateFunction && aggregateFunction !== 'none') {
     orderByColumn[0].name = `${aggregateFunction}(${value.name})`;
   }
-  console.log('orderByColumn', orderByColumn);
+
   // if (orderByColumn.length > 0 && value && category && aggregateFunction && orderByColumn[0].name === value.name) {
   //   orderByColumn = [{ name: 'y' }];
   // } else if (orderByColumn.length > 0 && value && category && aggregateFunction && orderByColumn[0].name === category.name) {
@@ -98,8 +98,6 @@ export function getDataURL(widgetEditor, tableName, dataset) {
   // }
   const sortOrder = orderBy ? orderBy.orderType : 'asc';
   const query = `${getQueryByFilters(tableName, filters, columns, orderByColumn, sortOrder)} LIMIT ${limit}`;
-
-  console.log('query', query);
 
   // TODO: remove the limit
   return `${process.env.WRI_API_URL}/query/${dataset}?sql=${query}`;
