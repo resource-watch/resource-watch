@@ -1,23 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 import { Link, Router } from 'routes';
 
 // Components
 import Title from 'components/ui/Title';
-import Button from 'components/ui/Button';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 
+// Services
+import WidgetService from 'services/WidgetService';
 
-export default class WidgetCard extends React.Component {
+
+class WidgetCard extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.state = {
-    };
-
+    this.widgetService = new WidgetService(null, {
+      apiURL: process.env.WRI_API_URL
+    });
   }
+
 
   /**
    * HELPERS
@@ -30,6 +37,20 @@ export default class WidgetCard extends React.Component {
       return `${text}...`;
     }
     return text;
+  }
+
+
+    @Autobind
+  handleRemoveWidget() {
+    const widgetId = this.props.widget.id;
+    const widgetName = this.props.widget.attributes.name;
+    if (confirm(`Are you sure you want to remove the widget: ${widgetName}?`)) {
+      this.widgetService.removeUserWidget(widgetId, this.props.user.token)
+        .then((response) => {
+          this.props.onWidgetRemove();
+        })
+        .catch(err => console.log(err));
+    }
   }
 
   render() {
@@ -54,6 +75,12 @@ export default class WidgetCard extends React.Component {
             </Title>
           </div>
           <div className="actions">
+            <a
+              className="c-button"
+              onClick={this.handleRemoveWidget}
+            >
+            Remove
+            </a>
           </div>
 
         </div>
@@ -63,7 +90,16 @@ export default class WidgetCard extends React.Component {
 }
 
 WidgetCard.propTypes = {
-  // STATE
-  widget: PropTypes.object,
-  mode: PropTypes.string
+  widget: PropTypes.object.isRequired,
+  mode: PropTypes.string,
+  // Callbacks
+  onWidgetRemove: PropTypes.func.isRequired,
+  // Store
+  user: PropTypes.object.isRequired
 };
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default withRedux(initStore, mapStateToProps, null)(WidgetCard);

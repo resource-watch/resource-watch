@@ -22,10 +22,9 @@ export default class WidgetList extends React.Component {
     }
   }
 
+  handleWidgetRemoved() {
 
-  /**
-   * UI EVENTS
-  */
+  }
 
   render() {
     const { loading } = this.state;
@@ -45,6 +44,7 @@ export default class WidgetList extends React.Component {
               <WidgetCard
                 widget={widget}
                 onClick={this.triggerClick}
+                onWidgetRemove={this.handleWidgetRemoved}
               />
             </li>)
           )}

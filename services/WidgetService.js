@@ -36,6 +36,17 @@ export default class WidgetService {
     .then(jsonData => jsonData.data);
   }
 
+  removeUserWidget(widgetId, token) {
+    return fetch(`${this.opts.apiURL}/widget/${widgetId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token
+      }
+    })
+    .then(response => response.json());
+  }
+
   getUserWidgets(userId) {
     return fetch(`${this.opts.apiURL}/widget/?userId=${userId}`)
       .then(response => response.json())

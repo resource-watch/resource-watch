@@ -6,9 +6,6 @@
   flex: 1 0 auto;
   cursor: pointer;
 
-  -webkit-box-shadow: 0 0 0 rgba(0,0,0,0.1);
-  transition: all 0.3s;
-
   .info {
     background: $color-white;
     flex: 1 0 auto;
@@ -33,11 +30,6 @@
     .actions {
       margin: 0 5px 5px;
     }
-  }
-
-  &:hover {
-    -webkit-box-shadow: 0 20px 30px rgba(0,0,0,0.2);
-    transform: translateY(-4px);
   }
 
 }

@@ -31,13 +31,24 @@ class MyRWWidgetsMy extends React.Component {
 
   componentWillReceiveProps(props) {
     if (!this.state.myWidgetsLoaded) {
-      this.widgetService.getUserWidgets(props.user.id).then((response) => {
-        this.setState({
-          myWidgetsLoaded: true,
-          myWidgets: response
-        });
-      }).catch(err => console.log(err));
+      this.loadWidgets(props);
     }
+  }
+
+  loadWidgets(props) {
+    this.setState({
+      myWidgetsLoaded: false
+    });
+    this.widgetService.getUserWidgets(props.user.id).then((response) => {
+      this.setState({
+        myWidgetsLoaded: true,
+        myWidgets: response
+      });
+    }).catch(err => console.log(err));
+  }
+
+  handleWidgetRemoved() {
+    this.loadWidgets(this.props);
   }
 
   render() {
@@ -54,6 +65,7 @@ class MyRWWidgetsMy extends React.Component {
             <WidgetList
               widgets={myWidgets}
               mode="grid"
+              onWidgetRemove={this.handleWidgetRemoved}
             />
             }
           </div>
