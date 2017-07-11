@@ -1,9 +1,19 @@
 .c-limit-container {
-  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 8px;
+
+  font-size: $font-size-small-medium;
+  font-weight: $font-weight-bold;
+
+  .text {
+    margin-right: 8px;
+  }
 
   input {
     height: 28px;
-    width: 100%;
+    width: 150px;
     text-align: right;
   }
 }

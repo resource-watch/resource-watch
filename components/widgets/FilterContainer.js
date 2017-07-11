@@ -47,6 +47,9 @@ class FilterContainer extends React.Component {
 
     return connectDropTarget(
       <div className="c-filter-container">
+        <span className="text">
+          Filters
+        </span>
         <div className={containerDivClass}>
           { (!filters || filters.length === 0) &&
             boxText

@@ -35,12 +35,15 @@ class CategoryContainer extends React.Component {
     const { category } = widgetEditor;
 
     const containerDivClass = classNames({
-      '-release': isActive
+      '-release': isActive,
+      'columnbox-container': true
     });
 
     return connectDropTarget(
       <div className="c-column-container">
-        Category
+        <span className="text">
+          Category
+        </span>
         <div className={containerDivClass}>
           {category &&
             <ColumnBox

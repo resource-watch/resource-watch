@@ -40,23 +40,27 @@ class SizeContainer extends React.Component {
     const size = widgetEditor.size;
 
     const containerDivClass = classNames({
-      'c-column-container': true,
-      '-release': isActive
+      '-release': isActive,
+      'columnbox-container': true
     });
 
     return connectDropTarget(
-      <div className={containerDivClass}>
-        Size
-        {size &&
-          <ColumnBox
-            name={size.name}
-            type={size.type}
-            closable
-            configurable
-            onConfigure={aggregateFunction => this.setAggregateFunction(aggregateFunction)}
-            isA="size"
-          />
-        }
+      <div className="c-column-container">
+        <span className="text">
+          Size
+        </span>
+        <div className={containerDivClass}>
+          {size &&
+            <ColumnBox
+              name={size.name}
+              type={size.type}
+              closable
+              configurable
+              onConfigure={aggregateFunction => this.setAggregateFunction(aggregateFunction)}
+              isA="size"
+            />
+          }
+        </div>
       </div>
     );
   }

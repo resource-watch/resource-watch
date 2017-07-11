@@ -36,24 +36,27 @@ class SortContainer extends React.Component {
     const orderBy = widgetEditor.orderBy;
 
     const containerDivClass = classNames({
-      'c-column-container': true,
-      'c-sort-container': true,
-      '-release': isActive
+      '-release': isActive,
+      'columnbox-container': true
     });
 
     return connectDropTarget(
-      <div className={containerDivClass}>
-        Sorting
-        {orderBy &&
-          <ColumnBox
-            name={orderBy.name}
-            type={orderBy.type}
-            closable
-            configurable
-            isA="orderBy"
-            onSetOrderType={this.handleSetOrderType}
-          />
-        }
+      <div className="c-column-container c-sort-container">
+        <span className="text">
+          Order
+        </span>
+        <div className={containerDivClass}>
+          {orderBy &&
+            <ColumnBox
+              name={orderBy.name}
+              type={orderBy.type}
+              closable
+              configurable
+              isA="orderBy"
+              onSetOrderType={this.handleSetOrderType}
+            />
+          }
+        </div>
       </div>
     );
   }

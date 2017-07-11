@@ -51,23 +51,27 @@ class DimensionYContainer extends React.Component {
     const value = widgetEditor.value;
 
     const containerDivClass = classNames({
-      'c-column-container': true,
-      '-release': isActive
+      '-release': isActive,
+      'columnbox-container': true
     });
 
     return connectDropTarget(
-      <div className={containerDivClass}>
-        Value
-        {value &&
-          <ColumnBox
-            name={value.name}
-            type={value.type}
-            closable
-            configurable
-            onConfigure={aggregateFunction => this.setAggregateFunction(aggregateFunction)}
-            isA="value"
-          />
-        }
+      <div className="c-column-container">
+        <span className="text">
+          Value
+        </span>
+        <div className={containerDivClass}>
+          {value &&
+            <ColumnBox
+              name={value.name}
+              type={value.type}
+              closable
+              configurable
+              onConfigure={aggregateFunction => this.setAggregateFunction(aggregateFunction)}
+              isA="value"
+            />
+          }
+        </div>
       </div>
     );
   }

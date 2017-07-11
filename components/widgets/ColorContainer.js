@@ -40,23 +40,27 @@ class ColorContainer extends React.Component {
     const color = widgetEditor.color;
 
     const containerDivClass = classNames({
-      'c-column-container': true,
-      '-release': isActive
+      '-release': isActive,
+      'columnbox-container': true
     });
 
     return connectDropTarget(
-      <div className={containerDivClass}>
-        Color
-        {color &&
-          <ColumnBox
-            name={color.name}
-            type={color.type}
-            closable
-            configurable
-            onConfigure={aggregateFunction => this.setAggregateFunction(aggregateFunction)}
-            isA="color"
-          />
-        }
+      <div className="c-column-container">
+        <span className="text">
+          Color
+        </span>
+        <div className={containerDivClass}>
+          {color &&
+            <ColumnBox
+              name={color.name}
+              type={color.type}
+              closable
+              configurable
+              onConfigure={aggregateFunction => this.setAggregateFunction(aggregateFunction)}
+              isA="color"
+            />
+          }
+        </div>
       </div>
     );
   }

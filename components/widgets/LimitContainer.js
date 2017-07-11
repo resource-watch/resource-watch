@@ -29,6 +29,9 @@ class LimitContainer extends React.Component {
 
     return (
       <div className="c-limit-container">
+        <span className="text">
+          Limit
+        </span>
         <input
           value={limit}
           onChange={this.handleLimitChange}
