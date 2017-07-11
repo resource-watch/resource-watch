@@ -29,7 +29,6 @@ class LimitContainer extends React.Component {
 
     return (
       <div className="c-limit-container">
-        <h5>Limit</h5>
         <input
           value={limit}
           onChange={this.handleLimitChange}

@@ -1,19 +1,25 @@
 .c-column-container {
+
   display: flex;
   align-items: center;
-  height: 30px;
-  padding: 0 10px;
-  border: 1px solid rgba($color-silver, .85);
-  border-radius: 4px;
+  justify-content: flex-end;
+
   font-size: $font-size-small-medium;
   font-weight: $font-weight-bold;
-  line-height: 1;
 
-  &.-release {
-    border-color: $color-secondary;
-  }
-
-  .c-columnbox {
+  div {
+    display: flex;
+    align-items: center;
+    width: 150px;
+    height: 30px;
+    border: 1px solid rgba($color-silver, .85);
+    border-radius: 4px;
+    line-height: 1;
     margin-left: 8px;
+
+    &.-release {
+      border-color: $color-secondary;
+    }
   }
+
 }

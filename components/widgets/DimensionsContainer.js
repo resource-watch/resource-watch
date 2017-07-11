@@ -9,7 +9,6 @@ class DimensionsContainer extends React.Component {
   render() {
     return (
       <div className="c-dimensions-container">
-        <h5>Dimensions</h5>
         <CategoryContainer />
         <ValueContainer />
         <ColorContainer />
