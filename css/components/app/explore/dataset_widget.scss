@@ -55,6 +55,17 @@
       margin-right: 0px;
       min-width: 145px;
     }
+
+    &:hover {
+      .info {
+        .detail {
+          a {
+            color: darken($color-text-1, 10%);
+            text-decoration: underline;
+          }
+        }
+      }
+    }
   }
 
   &.-grid {
@@ -63,10 +74,10 @@
     .info {
       flex-direction: column;
     }
-  }
 
-  &:hover {
-    -webkit-box-shadow: 0 20px 30px rgba(0,0,0,0.2);
-    transform: translateY(-4px);
+    &:hover {
+      -webkit-box-shadow: 0 20px 30px rgba(0,0,0,0.2);
+      transform: translateY(-4px);
+    }
   }
 }
