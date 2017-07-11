@@ -11,7 +11,7 @@ import WidgetService from 'services/WidgetService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import DatasetList from 'components/app/explore/DatasetList';
+import WidgetList from 'components/widgets/WidgetList';
 
 class MyRWWidgetsMy extends React.Component {
 
@@ -51,11 +51,9 @@ class MyRWWidgetsMy extends React.Component {
               className="-relative -light"
             />
             {myWidgets &&
-            <DatasetList
-              active={[]}
-              list={myWidgets}
+            <WidgetList
+              widgets={myWidgets}
               mode="grid"
-              showActions={false}
             />
             }
           </div>
