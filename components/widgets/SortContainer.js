@@ -31,29 +31,36 @@ class SortContainer extends React.Component {
   }
 
   render() {
-    const { canDrop, isOver, connectDropTarget, widgetEditor } = this.props;
-    const isActive = canDrop && isOver;
+    const { canDrop, connectDropTarget, widgetEditor } = this.props;
     const orderBy = widgetEditor.orderBy;
 
     const containerDivClass = classNames({
-      'c-column-container': true,
-      'c-sort-container': true,
-      '-release': isActive
+      '-release': canDrop,
+      'columnbox-container': true
     });
 
     return connectDropTarget(
-      <div className={containerDivClass}>
-        Sorting
-        {orderBy &&
-          <ColumnBox
-            name={orderBy.name}
-            type={orderBy.type}
-            closable
-            configurable
-            isA="orderBy"
-            onSetOrderType={this.handleSetOrderType}
-          />
-        }
+      <div className="c-column-container c-sort-container">
+        <span className="text">
+          Order
+        </span>
+        <div className={containerDivClass}>
+          {!orderBy &&
+          <span className="placeholder">
+            Drop here
+          </span>
+          }
+          {orderBy &&
+            <ColumnBox
+              name={orderBy.name}
+              type={orderBy.type}
+              closable
+              configurable
+              isA="orderBy"
+              onSetOrderType={this.handleSetOrderType}
+            />
+          }
+        </div>
       </div>
     );
   }

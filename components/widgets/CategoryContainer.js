@@ -30,28 +30,37 @@ class CategoryContainer extends React.Component {
 
 
   render() {
-    const { canDrop, isOver, connectDropTarget, widgetEditor } = this.props;
-    const isActive = canDrop && isOver;
+    const { canDrop, connectDropTarget, widgetEditor } = this.props;
     const { category } = widgetEditor;
 
     const containerDivClass = classNames({
-      'c-column-container': true,
-      '-release': isActive
+      '-release': canDrop,
+      'columnbox-container': true
     });
 
     return connectDropTarget(
-      <div className={containerDivClass}>
-        Category
-        {category &&
-          <ColumnBox
-            name={category.name}
-            type={category.type}
-            closable
-            configurable={category.type === 'number'}
-            isA="category"
-          />
-        }
+      <div className="c-column-container">
+        <span className="text">
+          Category
+        </span>
+        <div className={containerDivClass}>
+          {!category &&
+          <span className="placeholder">
+            Drop here
+          </span>
+          }
+          {category &&
+            <ColumnBox
+              name={category.name}
+              type={category.type}
+              closable
+              configurable={category.type === 'number'}
+              isA="category"
+            />
+          }
+        </div>
       </div>
+
     );
   }
 }

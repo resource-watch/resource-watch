@@ -14,7 +14,6 @@
     margin-top: 22px;
     justify-content: flex-start;
     padding-bottom: 20px;
-    border-bottom: 1px solid $color-grey;
 
     .customization-container {
       flex-grow: 1;
@@ -25,9 +24,8 @@
   .save-widget-container {
     color: $color-dark-pink;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     padding-top: 10px;
-    padding-bottom: 20px;
 
     a {
       cursor: pointer;

@@ -35,28 +35,36 @@ class ColorContainer extends React.Component {
   }
 
   render() {
-    const { canDrop, isOver, connectDropTarget, widgetEditor } = this.props;
-    const isActive = canDrop && isOver;
+    const { canDrop, connectDropTarget, widgetEditor } = this.props;
     const color = widgetEditor.color;
 
     const containerDivClass = classNames({
-      'c-column-container': true,
-      '-release': isActive
+      '-release': canDrop,
+      'columnbox-container': true
     });
 
     return connectDropTarget(
-      <div className={containerDivClass}>
-        Color
-        {color &&
-          <ColumnBox
-            name={color.name}
-            type={color.type}
-            closable
-            configurable
-            onConfigure={aggregateFunction => this.setAggregateFunction(aggregateFunction)}
-            isA="color"
-          />
-        }
+      <div className="c-column-container">
+        <span className="text">
+          Color
+        </span>
+        <div className={containerDivClass}>
+          {!color &&
+          <span className="placeholder">
+            Drop here
+          </span>
+          }
+          {color &&
+            <ColumnBox
+              name={color.name}
+              type={color.type}
+              closable
+              configurable
+              onConfigure={aggregateFunction => this.setAggregateFunction(aggregateFunction)}
+              isA="color"
+            />
+          }
+        </div>
       </div>
     );
   }
