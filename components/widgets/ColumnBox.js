@@ -7,7 +7,7 @@ import classNames from 'classnames';
 // Store
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { removeFilter, removeColor, removeCategory, removeValue, removeSize, removeOrderBy } from 'redactions/widgetEditor';
+import { removeFilter, removeColor, removeCategory, removeValue, removeSize, removeOrderBy, setOrderBy } from 'redactions/widgetEditor';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
@@ -137,7 +137,8 @@ class ColumnBox extends React.Component {
 
   @Autobind
   triggerClose() {
-    const { isA } = this.props;
+    const { isA, widgetEditor } = this.props;
+    const { aggregateFunction, orderBy, value } = widgetEditor;
     switch (isA) {
       case 'color':
         this.props.removeColor({ name: this.props.name });
@@ -152,6 +153,17 @@ class ColumnBox extends React.Component {
         this.props.removeCategory();
         break;
       case 'value':
+        if (aggregateFunction && orderBy) {
+          let orderByNameNoAggFunc = orderBy.name;
+          orderByNameNoAggFunc = orderByNameNoAggFunc.replace(aggregateFunction, '');
+          orderByNameNoAggFunc = orderByNameNoAggFunc.replace('(', '').replace(')', '');
+          if (orderByNameNoAggFunc === value.name) {
+            const newOrderBy = orderBy;
+            newOrderBy.name = value.name;
+            this.props.setOrderBy(newOrderBy);
+          }
+        }
+        debugger;
         this.props.removeValue();
         break;
       case 'orderBy':
@@ -339,6 +351,7 @@ ColumnBox.propTypes = {
   removeCategory: PropTypes.func.isRequired,
   removeValue: PropTypes.func.isRequired,
   removeOrderBy: PropTypes.func.isRequired,
+  setOrderBy: PropTypes.func.isRequired,
   toggleTooltip: PropTypes.func.isRequired
 };
 
@@ -364,6 +377,9 @@ const mapDispatchToProps = dispatch => ({
   },
   removeOrderBy: (value) => {
     dispatch(removeOrderBy(value));
+  },
+  setOrderBy: (value) => {
+    dispatch(setOrderBy(value));
   },
   toggleTooltip: (opened, opts) => {
     dispatch(toggleTooltip(opened, opts));
