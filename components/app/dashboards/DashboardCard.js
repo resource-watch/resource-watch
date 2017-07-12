@@ -132,13 +132,13 @@ class DashboardCard extends React.Component {
         </header>
         <div className="widget-container">
           <Spinner isLoading={this.state.loading} className="-light -small" />
-          { widgetType === 'text'
+          { !this.state.error && widgetType === 'text'
             && <TextChart
               widgetConfig={widgetConfig}
               toggleLoading={loading => this.setState({ loading })}
             />
           }
-          { widgetConfig && widgetType === 'vega'
+          { !this.state.error && widgetConfig && widgetType === 'vega'
             && <VegaChart
               data={widgetConfig}
               theme={getChartTheme()}
@@ -146,7 +146,7 @@ class DashboardCard extends React.Component {
             />
           }
           {
-            widgetConfig && widgetType === 'map' && this.state.layer
+            !this.state.error && widgetConfig && widgetType === 'map' && this.state.layer
               && (
                 <div>
                   <Map
@@ -165,8 +165,15 @@ class DashboardCard extends React.Component {
                 </div>
               )
           }
-          { !this.props.data && !this.props.widgetId
-            && <div className="no-data"><span>No data</span></div>
+          { !this.state.error && !this.props.data && !this.props.widgetId
+            && <div className="message">
+              <div className="no-data">No data</div>
+            </div>
+          }
+          { this.state.error
+            && <div className="message">
+              <div className="error">Unable to load the widget <span>{this.state.error}</span></div>
+            </div>
           }
         </div>
       </div>
