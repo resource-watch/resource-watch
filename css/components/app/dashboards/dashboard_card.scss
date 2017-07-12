@@ -1,4 +1,6 @@
 .c-dashboard-card {
+  display: flex;
+  flex-direction: column;
   background-color: $color-white;
   border: 1px solid rgba($color-black, .1);
   border-radius: 4px;
@@ -35,16 +37,28 @@
     display: flex;
     padding: 15px;
     min-height: 300px;
+    flex-grow: 1;
 
     > * {
       flex-basis: 100%;
     }
 
-    > .no-data {
+    > .message {
       display: flex;
       justify-content: center;
       align-items: center;
-      font-weight: $font-weight-bold;
+
+      .no-data,
+      .error {
+        font-weight: $font-weight-bold;
+        text-align: center;
+
+        span {
+          display: block;
+          font-weight: $font-weight-regular;
+          font-size: $font-size-default;
+        }
+      }
     }
 
     .c-chart {
