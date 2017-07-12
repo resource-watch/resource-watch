@@ -23,9 +23,9 @@ import GlobeTooltip from 'components/app/pulse/GlobeTooltip';
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 
-const earthImage = 'static/images/components/vis/earth-min.jpg';
-const earthBumpImage = 'static/images/components/vis/earth-bump.jpg';
-const cloudsImage = 'static/images/components/vis/clouds-min.png';
+const earthImage = '/static/images/components/vis/earth-min.jpg';
+const earthBumpImage = '/static/images/components/vis/earth-bump.jpg';
+const cloudsImage = '/static/images/components/vis/clouds-min.png';
 
 class Pulse extends Page {
   constructor(props) {
@@ -216,7 +216,7 @@ class Pulse extends Page {
     const layerActive = this.props.pulse.layerActive;
     const { markerType } = this.state;
     const globeWidht = (typeof window === 'undefined') ? 500 : window.innerWidth;
-    const globeHeight = (typeof window === 'undefined') ? 300 : window.innerHeight - 130; // TODO: 130 is the header height
+    const globeHeight = (typeof window === 'undefined') ? 300 : window.innerHeight - 75; // TODO: 75 is the header height
     return (
       <Layout
         title="Planet Pulse"

@@ -42,9 +42,6 @@ class DatasetWidgetChart extends React.Component {
           theme={vegaThumbnailTheme}
           toggleLoading={this.triggerToggleLoading}
         />
-        <Title className="-small -center">
-          {name}
-        </Title>
       </div>
     );
   }

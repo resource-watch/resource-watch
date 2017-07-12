@@ -16,21 +16,18 @@ routes.add('admin_pages_detail', '/admin/pages/:tab/:id/:subtab?', 'admin/PagesD
 routes.add('admin_users', '/admin/users/:tab?/:subtab?', 'admin/users');
 
 // ========================= APP ROUTES =====================
-routes.add('home', '/home', 'app/Home');
+routes.add('home', '/', 'app/Home');
 
 routes.add('about', '/about', 'app/About');
-routes.add('about_partners', '/about_partners', 'app/Partners');
+routes.add('about_partners', '/about/partners', 'app/Partners');
 routes.add('partner', '/about/partners/:id', 'app/PartnerDetail');
 
 routes.add('data', '/data', 'app/Explore'); // TODO: create the data page
-routes.add('explore', '/explore', 'app/Explore');
-routes.add('explore_detail', '/explore/:id', 'app/ExploreDetail');
-
-routes.add('pulse', '/pulse', 'app/Pulse');
-
-routes.add('dashboards', '/dashboards/:slug?', 'app/Dashboards');
-
-routes.add('insights', '/insights', 'app/Home'); // TODO: create the insights page
+routes.add('explore', '/data/explore', 'app/Explore');
+routes.add('explore_detail', '/data/explore/:id', 'app/ExploreDetail');
+routes.add('pulse', '/data/pulse', 'app/Pulse');
+routes.add('dashboards', '/data/dashboards/:slug?', 'app/Dashboards');
+routes.add('insights', '/data/insights', 'app/Home'); // TODO: create the insights page
 
 // ----- GET INVOLVED -----
 routes.add('get_involved', '/get-involved', 'app/GetInvolved');
