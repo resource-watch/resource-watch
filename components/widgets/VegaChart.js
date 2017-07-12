@@ -57,12 +57,12 @@ class VegaChart extends React.Component {
       });
     }
 
-    // If the chart doesn't have an x axis, we don't determine the
-    // data to show in the tooltip depending on the x position of the
-    // cursor (based on the x scale)
+    // If the chart doesn't have an x axis or if the data is undefined,
+    // we don't determine the data to show in the tooltip depending on
+    // the x position of the cursor (based on the x scale)
     // We actually hide the tooltip
     const hasXAxis = !!(vegaConfig.axes && vegaConfig.axes.find(axis => axis.type === 'x'));
-    if (!hasXAxis) {
+    if (!hasXAxis || !visData) {
       return this.props.toggleTooltip(false);
     }
 
