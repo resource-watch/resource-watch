@@ -87,15 +87,11 @@ export function getDataURL(widgetEditor, tableName, dataset) {
   }
 
   const orderByColumn = orderBy ? [orderBy] : [];
-  if (orderByColumn.length > 0 && orderByColumn[0].name === value.name && aggregateFunction && aggregateFunction !== 'none') {
+
+  if (orderByColumn.length > 0 && value && orderByColumn[0].name === value.name && aggregateFunction && aggregateFunction !== 'none') {
     orderByColumn[0].name = `${aggregateFunction}(${value.name})`;
   }
 
-  // if (orderByColumn.length > 0 && value && category && aggregateFunction && orderByColumn[0].name === value.name) {
-  //   orderByColumn = [{ name: 'y' }];
-  // } else if (orderByColumn.length > 0 && value && category && aggregateFunction && orderByColumn[0].name === category.name) {
-  //   orderByColumn = [{ name: 'x' }];
-  // }
   const sortOrder = orderBy ? orderBy.orderType : 'asc';
   const query = `${getQueryByFilters(tableName, filters, columns, orderByColumn, sortOrder)} LIMIT ${limit}`;
 
