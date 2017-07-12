@@ -18,3 +18,28 @@
   &.-left { align-items: flex-start; }
   &.-rigth { align-items: flex-end; }
 }
+
+.c-banner-video {
+  position: relative;
+  width: 100%;
+  height: 474px;
+  overflow: hidden;
+
+  .c-banner-video-foreground,
+  .c-banner-video-foreground iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+}
+
+@media (min-aspect-ratio: 16/9) {
+  .c-banner-video >.c-banner-video-foreground { height: 300%; top: -100%; }
+}
+@media (max-aspect-ratio: 16/9) {
+  .c-banner-video > .c-banner-video-foreground { height: 180%; top: -30%; }
+}
+

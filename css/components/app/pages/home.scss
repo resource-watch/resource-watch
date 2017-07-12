@@ -2,8 +2,8 @@
 .p-home {
   .c-banner {
     &.intro {
-      background-image: url('/static/images/backgrounds/image_header.jpg');
-      background-position: top center;
+      // background-image: url('/static/images/backgrounds/image_header.jpg');
+      // background-position: top center;
 
       .title {
         margin: 0;
@@ -102,7 +102,7 @@
           text-transform: capitalize;
           font-weight: normal;
           font-size: 16px;
-          text-decoration: none;          
+          text-decoration: none;
         }
       }
     }

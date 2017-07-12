@@ -147,17 +147,24 @@ class Home extends Page {
       >
         <div className="p-home">
           <div className="c-page">
-            <Banner className="intro" containerGrid={false}>
-              <h1 className="title c-text -header-huge -thin">
-                Quick and easy access <br />to a world of resource data
-              </h1>
-              <p className="c-text -huge -thin">
-                Explore the latest data, make insights, and help build a more sustainable planet
-              </p>
-              <a className="scroll-icon js-scroll" href="#discoverIsights">
-                <Icon name="icon-arrow-down" />
-              </a>
-            </Banner>
+            <div className="c-banner-video">
+              <div className="c-banner-video-foreground">
+                <iframe frameBorder="0" allowFullScreen
+                src="https://youtube.com/embed/W0LHTWG-UmQ?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=W0LHTWG-UmQ">
+                </iframe>
+              </div>
+              <Banner className="intro" containerGrid={false}>
+                <h1 className="title c-text -header-huge -thin">
+                  Quick and easy access <br />to a world of resource data
+                </h1>
+                <p className="c-text -huge -thin">
+                  Explore the latest data, make insights, and help build a more sustainable planet
+                </p>
+                <a className="scroll-icon js-scroll" href="#discoverIsights">
+                  <Icon name="icon-arrow-down" />
+                </a>
+              </Banner>
+            </div>
             <section id="discoverIsights" className="l-section insights">
               <div className="l-container">
                 <header className="row">
