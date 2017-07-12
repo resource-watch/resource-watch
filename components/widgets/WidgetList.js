@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Autobind } from 'es-decorators';
 
 import Spinner from 'components/ui/Spinner';
 import WidgetCard from 'components/widgets/WidgetCard';
@@ -22,8 +23,9 @@ export default class WidgetList extends React.Component {
     }
   }
 
+  @Autobind
   handleWidgetRemoved() {
-
+    this.props.onWidgetRemove();
   }
 
   render() {
@@ -31,7 +33,7 @@ export default class WidgetList extends React.Component {
     const { widgets } = this.props;
 
     return (
-      <div className="c-widgets-list">
+      <div className="c-widget-list">
         {this.state.loading &&
           <Spinner className="-light" isLoading={loading} />
         }
@@ -55,5 +57,7 @@ export default class WidgetList extends React.Component {
 }
 
 WidgetList.propTypes = {
-  widgets: PropTypes.array.isRequired
+  widgets: PropTypes.array.isRequired,
+  // Callbacks
+  onWidgetRemove: PropTypes.func.isRequired
 };
