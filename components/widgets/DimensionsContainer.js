@@ -11,7 +11,7 @@ class DimensionsContainer extends React.Component {
       <div className="c-dimensions-container">
         <CategoryContainer />
         <ValueContainer />
-        <ColorContainer />
+        {false && <ColorContainer />  /* temporal while we have legends*/}
         <SizeContainer />
       </div>
     );
