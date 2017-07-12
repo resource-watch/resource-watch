@@ -53,11 +53,11 @@ class WidgetCard extends React.Component {
   }
 
   render() {
-    const { widget, mode } = this.props;
+    const { widget } = this.props;
 
     return (
       <div
-        className={`c-widget-card -${mode}`}
+        className={`c-widget-card`}
         onClick={this.handleClick}
       >
         {widget &&
@@ -90,7 +90,6 @@ class WidgetCard extends React.Component {
 
 WidgetCard.propTypes = {
   widget: PropTypes.object.isRequired,
-  mode: PropTypes.string,
   // Callbacks
   onWidgetRemove: PropTypes.func.isRequired,
   // Store

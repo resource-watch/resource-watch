@@ -1,10 +1,20 @@
 .c-widget-card {
-
+  max-width: 200px;
   background: $color-tertiary;
   display: flex;
   flex-direction: column;
   flex: 1 0 auto;
   cursor: pointer;
+
+  .c-widget-chart {
+    .c-chart {
+
+      canvas {
+        width: 100%;
+      }
+
+    }
+  }
 
   .info {
     background: $color-white;

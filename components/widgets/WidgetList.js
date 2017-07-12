@@ -33,7 +33,7 @@ export default class WidgetList extends React.Component {
     const { widgets } = this.props;
 
     return (
-      <div className="c-widgets-list">
+      <div className="c-widget-list">
         {this.state.loading &&
           <Spinner className="-light" isLoading={loading} />
         }
