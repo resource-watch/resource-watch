@@ -5,7 +5,6 @@ import { Autobind } from 'es-decorators';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { Link, Router } from 'routes';
 
 // Components
 import Title from 'components/ui/Title';
@@ -40,7 +39,7 @@ class WidgetCard extends React.Component {
   }
 
 
-    @Autobind
+  @Autobind
   handleRemoveWidget() {
     const widgetId = this.props.widget.id;
     const widgetName = this.props.widget.attributes.name;
@@ -53,12 +52,24 @@ class WidgetCard extends React.Component {
     }
   }
 
+  /*
+  * HELPERS
+  */
+  getDescription(_text) {
+    let text = _text;
+    if (typeof text === 'string' && text.length > 70) {
+      text = text.replace(/^(.{70}[^\s]*).*/, '$1');
+      return `${text}...`;
+    }
+    return text;
+  }
+
   render() {
-    const { widget, mode } = this.props;
+    const { widget } = this.props;
 
     return (
       <div
-        className={`c-widget-card -${mode}`}
+        className={`c-widget-card`}
         onClick={this.handleClick}
       >
         {widget &&
@@ -73,6 +84,7 @@ class WidgetCard extends React.Component {
             <Title className="-default -primary">
               {widget.attributes.name}
             </Title>
+            <p>{this.getDescription(widget.attributes.description)}</p>
           </div>
           <div className="actions">
             <a
@@ -91,7 +103,6 @@ class WidgetCard extends React.Component {
 
 WidgetCard.propTypes = {
   widget: PropTypes.object.isRequired,
-  mode: PropTypes.string,
   // Callbacks
   onWidgetRemove: PropTypes.func.isRequired,
   // Store
