@@ -161,7 +161,7 @@ class Home extends Page {
                 <h1 className="title c-text -header-huge -thin">
                   Quick and easy access <br />to a world of resource data
                 </h1>
-                <p className="c-text -huge -thin">
+                <p className="c-text -huge">
                   Explore the latest data, make insights, and help build a more sustainable planet
                 </p>
               </Banner>
