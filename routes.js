@@ -29,7 +29,8 @@ routes.add('explore_detail', '/data/explore/:id', 'app/ExploreDetail');
 
 routes.add('pulse', '/data/pulse', 'app/Pulse');
 
-routes.add('dashboards', '/data/dashboards/:slug?', 'app/Dashboards');
+routes.add('dashboards', '/data/dashboards/', 'app/Dashboards');
+routes.add('dashboards_detail', '/data/dashboards/:slug', 'app/DashboardsDetail');
 
 routes.add('insights', '/data/insights', 'app/Home'); // TODO: create the insights page
 
