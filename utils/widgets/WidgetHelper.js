@@ -87,9 +87,11 @@ export function getDataURL(widgetEditor, tableName, dataset) {
   }
 
   const orderByColumn = orderBy ? [orderBy] : [];
+
   if (orderByColumn.length > 0 && value && orderByColumn[0].name === value.name && aggregateFunction && aggregateFunction !== 'none') {
     orderByColumn[0].name = `${aggregateFunction}(${value.name})`;
   }
+
   const sortOrder = orderBy ? orderBy.orderType : 'asc';
   const query = `${getQueryByFilters(tableName, filters, columns, orderByColumn, sortOrder)} LIMIT ${limit}`;
 
