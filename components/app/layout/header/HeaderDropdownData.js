@@ -11,7 +11,7 @@ export default function HeaderDropdownData(props) {
       constraints={[{
         to: 'window'
       }]}
-      targetOffset="-4px 0"
+      targetOffset="-10px 0"
       classes={{
         element: 'c-header-dropdown'
       }}

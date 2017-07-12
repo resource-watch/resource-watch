@@ -18,6 +18,7 @@ import SortContainer from 'components/widgets/SortContainer';
 import LimitContainer from 'components/widgets/LimitContainer';
 import Select from 'components/form/SelectInput';
 import SaveWidgetModal from 'components/modal/SaveWidgetModal';
+import HowToWidgetEditorModal from 'components/modal/HowToWidgetEditorModal';
 
 @DragDropContext(HTML5Backend)
 class ChartEditor extends React.Component {
@@ -35,6 +36,16 @@ class ChartEditor extends React.Component {
         dataset: this.props.dataset,
         tableName: this.props.tableName
       }
+    };
+    this.props.toggleModal(true);
+    this.props.setModalOptions(options);
+  }
+
+  @Autobind
+  handleNeedHelp() {
+    const options = {
+      children: HowToWidgetEditorModal,
+      childrenProps: {}
     };
     this.props.toggleModal(true);
     this.props.setModalOptions(options);
@@ -84,15 +95,21 @@ class ChartEditor extends React.Component {
             <LimitContainer />
           </div>
         </div>
-        {showSaveButton &&
-          <div className="save-widget-container">
-            <a
-              onClick={this.handleSaveWidget}
-            >
-              Save widget
-            </a>
-          </div>
-        }
+        <div className="save-widget-container">
+          <button
+            className="c-button -primary"
+            onClick={this.handleNeedHelp}
+          >
+            Need help?
+          </button>
+          {showSaveButton &&
+          <a
+            onClick={this.handleSaveWidget}
+          >
+            Save widget
+          </a>
+          }
+        </div>
       </div>
     );
   }

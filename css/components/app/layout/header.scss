@@ -87,7 +87,7 @@
         &:first-child { margin-left: 0; }
         &:last-child { margin-right: 0; }
 
-        > a {
+        > a, .header-menu-link {
           position: relative;
           display: flex;
           align-items: center;

@@ -48,7 +48,7 @@ class HeaderUser extends React.Component {
             constraints={[{
               to: 'window'
             }]}
-            targetOffset="-4px 0"
+            targetOffset="10px 0"
             classes={{
               element: 'c-header-dropdown'
             }}
@@ -97,19 +97,19 @@ class HeaderUser extends React.Component {
           constraints={[{
             to: 'window'
           }]}
-          targetOffset="-4px 0"
+          targetOffset="-10px 0"
           classes={{
             element: 'c-header-dropdown'
           }}
         >
           {/* First child: This is what the item will be tethered to */}
-          <a
-            href="/login"
+          <span
+            className="header-menu-link"
             onMouseEnter={this.props.onMouseEnter}
             onMouseLeave={this.props.onMouseLeave}
           >
             Log in
-          </a>
+          </span>
           {/* Second child: If present, this item will be tethered to the the first child */}
           {this.props.active &&
             <ul

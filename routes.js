@@ -22,11 +22,15 @@ routes.add('about', '/about', 'app/About');
 routes.add('about_partners', '/about/partners', 'app/Partners');
 routes.add('partner', '/about/partners/:id', 'app/PartnerDetail');
 
+// ----- DATA -----
 routes.add('data', '/data', 'app/Explore'); // TODO: create the data page
 routes.add('explore', '/data/explore', 'app/Explore');
 routes.add('explore_detail', '/data/explore/:id', 'app/ExploreDetail');
+
 routes.add('pulse', '/data/pulse', 'app/Pulse');
+
 routes.add('dashboards', '/data/dashboards/:slug?', 'app/Dashboards');
+
 routes.add('insights', '/data/insights', 'app/Home'); // TODO: create the insights page
 
 // ----- GET INVOLVED -----
