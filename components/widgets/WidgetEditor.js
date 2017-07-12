@@ -100,8 +100,10 @@ class WidgetEditor extends React.Component {
       .then((response) => {
         const fieldsError = !response.fields || response.fields.length <= 0;
 
+        console.log('loading', !fieldsError && !this.state.jiminyLoaded && !this.state.layersLoaded);
+
         this.setState({
-          loading: !fieldsError && !this.state.jiminyLoaded,
+          loading: !fieldsError && !this.state.jiminyLoaded && !this.state.layersLoaded,
           fieldsLoaded: true,
           fieldsError,
           fields: response.fields
@@ -120,6 +122,7 @@ class WidgetEditor extends React.Component {
 
   getLayers() {
     this.datasetService.getLayers().then((response) => {
+      const { fieldsError, fieldsLoaded, jiminyLoaded } = this.state;
       this.setState({
         layers: response.map(val => ({
           id: val.id,
@@ -129,7 +132,8 @@ class WidgetEditor extends React.Component {
           order: 1,
           hidden: false
         })),
-        layersLoaded: true
+        layersLoaded: true,
+        loading: !fieldsError && !fieldsLoaded && !jiminyLoaded
       });
     }).catch((err) => {
       this.setState({
@@ -148,7 +152,7 @@ class WidgetEditor extends React.Component {
     this.datasetService.fetchJiminy(querySt)
       .then((jiminy) => {
         this.setState({
-          loading: !this.state.fieldsLoaded,
+          loading: !this.state.layersLoaded,
           jiminyLoaded: true,
           jiminy,
           jiminyError: typeof jiminy === 'undefined'
