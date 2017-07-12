@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Autobind } from 'es-decorators';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -47,6 +48,7 @@ class MyRWWidgetsMy extends React.Component {
     }).catch(err => console.log(err));
   }
 
+  @Autobind
   handleWidgetRemoved() {
     this.loadWidgets(this.props);
   }

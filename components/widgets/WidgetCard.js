@@ -5,7 +5,6 @@ import { Autobind } from 'es-decorators';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { Link, Router } from 'routes';
 
 // Components
 import Title from 'components/ui/Title';
@@ -40,7 +39,7 @@ class WidgetCard extends React.Component {
   }
 
 
-    @Autobind
+  @Autobind
   handleRemoveWidget() {
     const widgetId = this.props.widget.id;
     const widgetName = this.props.widget.attributes.name;
