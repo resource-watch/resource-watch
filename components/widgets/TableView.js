@@ -63,7 +63,7 @@ class TableView extends React.Component {
     ).filter(val => !val.remove);
 
     const orderByColumn = orderBy ? [orderBy] : [];
-    if (orderByColumn.length > 0 && orderByColumn[0].name === value.name && aggregateFunction && aggregateFunction !== 'none') {
+    if (orderByColumn.length > 0 && value && orderByColumn[0].name === value.name && aggregateFunction && aggregateFunction !== 'none') {
       orderByColumn[0].name = `${aggregateFunction}(${value.name})`;
     }
 

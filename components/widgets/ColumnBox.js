@@ -163,7 +163,6 @@ class ColumnBox extends React.Component {
             this.props.setOrderBy(newOrderBy);
           }
         }
-        debugger;
         this.props.removeValue();
         break;
       case 'orderBy':
