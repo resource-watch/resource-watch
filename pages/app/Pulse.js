@@ -23,9 +23,9 @@ import GlobeTooltip from 'components/app/pulse/GlobeTooltip';
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 
-const earthImage = 'static/images/components/vis/earth-min.jpg';
-const earthBumpImage = 'static/images/components/vis/earth-bump.jpg';
-const cloudsImage = 'static/images/components/vis/clouds-min.png';
+const earthImage = '/static/images/components/vis/earth-min.jpg';
+const earthBumpImage = '/static/images/components/vis/earth-bump.jpg';
+const cloudsImage = '/static/images/components/vis/clouds-min.png';
 
 class Pulse extends Page {
   constructor(props) {
