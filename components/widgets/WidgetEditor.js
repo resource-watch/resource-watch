@@ -101,7 +101,7 @@ class WidgetEditor extends React.Component {
         const fieldsError = !response.fields || response.fields.length <= 0;
 
         this.setState({
-          loading: !fieldsError && !this.state.jiminyLoaded,
+          loading: !fieldsError && !this.state.jiminyLoaded && !this.state.layersLoaded,
           fieldsLoaded: true,
           fieldsError,
           fields: response.fields
@@ -120,6 +120,7 @@ class WidgetEditor extends React.Component {
 
   getLayers() {
     this.datasetService.getLayers().then((response) => {
+      const { fieldsError, fieldsLoaded, jiminyLoaded } = this.state;
       this.setState({
         layers: response.map(val => ({
           id: val.id,
@@ -129,7 +130,8 @@ class WidgetEditor extends React.Component {
           order: 1,
           hidden: false
         })),
-        layersLoaded: true
+        layersLoaded: true,
+        loading: !fieldsError && !fieldsLoaded && !jiminyLoaded
       });
     }).catch((err) => {
       this.setState({
@@ -148,7 +150,7 @@ class WidgetEditor extends React.Component {
     this.datasetService.fetchJiminy(querySt)
       .then((jiminy) => {
         this.setState({
-          loading: !this.state.fieldsLoaded,
+          loading: !this.state.layersLoaded,
           jiminyLoaded: true,
           jiminy,
           jiminyError: typeof jiminy === 'undefined'
@@ -187,7 +189,7 @@ class WidgetEditor extends React.Component {
   }
 
   getVisualization() {
-    const { tableName, selectedVisualizationType, chartLoading } = this.state;
+    const { tableName, selectedVisualizationType, chartLoading, loading } = this.state;
     const { widgetEditor, dataset } = this.props;
     const { chartType, layer } = widgetEditor;
 
@@ -198,7 +200,7 @@ class WidgetEditor extends React.Component {
         if (!tableName) {
           visualization = (
             <div className="visualization -chart">
-              <Spinner className="-light" isLoading />
+              <Spinner className="-light" isLoading={loading} />
             </div>
           );
         } else if (!canRenderChart(widgetEditor)) {
