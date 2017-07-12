@@ -100,8 +100,6 @@ class WidgetEditor extends React.Component {
       .then((response) => {
         const fieldsError = !response.fields || response.fields.length <= 0;
 
-        console.log('loading', !fieldsError && !this.state.jiminyLoaded && !this.state.layersLoaded);
-
         this.setState({
           loading: !fieldsError && !this.state.jiminyLoaded && !this.state.layersLoaded,
           fieldsLoaded: true,
@@ -191,7 +189,7 @@ class WidgetEditor extends React.Component {
   }
 
   getVisualization() {
-    const { tableName, selectedVisualizationType, chartLoading } = this.state;
+    const { tableName, selectedVisualizationType, chartLoading, loading } = this.state;
     const { widgetEditor, dataset } = this.props;
     const { chartType, layer } = widgetEditor;
 
@@ -202,7 +200,7 @@ class WidgetEditor extends React.Component {
         if (!tableName) {
           visualization = (
             <div className="visualization -chart">
-              <Spinner className="-light" isLoading />
+              <Spinner className="-light" isLoading={loading} />
             </div>
           );
         } else if (!canRenderChart(widgetEditor)) {
