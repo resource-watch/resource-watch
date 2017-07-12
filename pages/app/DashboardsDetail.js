@@ -85,9 +85,10 @@ class DashboardsDetail extends Page {
   }
 
   render() {
+    const dashboardName = this.state.selectedDashboard ? `${this.state.selectedDashboard.name} dashboard` : '–';
     return (
       <Layout
-        title="Dashboards"
+        title={dashboardName}
         description="Resource Watch Dashboards"
         url={this.props.url}
         user={this.props.user}
@@ -99,8 +100,10 @@ class DashboardsDetail extends Page {
           <div className="c-page-header">
             <div className="l-container">
               <div className="page-header-content -padding-b-2">
-                <Breadcrumbs items={[{ name: 'Data', route: 'data' }]} />
-                <Title className="-primary -huge page-header-title">Dashboards</Title>
+                <Breadcrumbs items={[{ name: 'Dashboards', route: 'dashboards' }]} />
+                <Title className="-primary -huge page-header-title">
+                  {dashboardName}
+                </Title>
               </div>
             </div>
           </div>
