@@ -1,0 +1,36 @@
+.c-how-to-widget-editor-modal {
+
+  h1 {
+    color: $color-dark-pink;
+  }
+
+  .container {
+    display: flex;
+    padding-bottom: 60px;
+
+    .container1 {
+      width: 50%;
+
+      .image-container {
+        padding-top: 20px;
+
+        img {
+          width: 80%;
+        }
+      }
+
+    }
+
+    .container2 {
+      width: 50%;
+
+      .image-container {
+        padding-top: 20px;
+
+        img {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
