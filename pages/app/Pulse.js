@@ -216,7 +216,7 @@ class Pulse extends Page {
     const layerActive = this.props.pulse.layerActive;
     const { markerType } = this.state;
     const globeWidht = (typeof window === 'undefined') ? 500 : window.innerWidth;
-    const globeHeight = (typeof window === 'undefined') ? 300 : window.innerHeight - 130; // TODO: 130 is the header height
+    const globeHeight = (typeof window === 'undefined') ? 300 : window.innerHeight - 75; // TODO: 75 is the header height
     return (
       <Layout
         title="Planet Pulse"
