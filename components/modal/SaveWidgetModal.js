@@ -94,8 +94,6 @@ class SaveWidgetModal extends React.Component {
     ) };
     const widgetObj = Object.assign({}, this.state.widget, widgetConfig);
 
-    debugger;
-
     this.widgetService.saveUserWidget(widgetObj, this.props.dataset, this.props.user.token)
       .then((response) => {
         if (response.errors) {
