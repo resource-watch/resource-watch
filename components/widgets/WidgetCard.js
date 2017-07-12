@@ -52,6 +52,18 @@ class WidgetCard extends React.Component {
     }
   }
 
+  /*
+  * HELPERS
+  */
+  getDescription(_text) {
+    let text = _text;
+    if (typeof text === 'string' && text.length > 70) {
+      text = text.replace(/^(.{70}[^\s]*).*/, '$1');
+      return `${text}...`;
+    }
+    return text;
+  }
+
   render() {
     const { widget } = this.props;
 
@@ -72,6 +84,7 @@ class WidgetCard extends React.Component {
             <Title className="-default -primary">
               {widget.attributes.name}
             </Title>
+            <p>{this.getDescription(widget.attributes.description)}</p>
           </div>
           <div className="actions">
             <a
