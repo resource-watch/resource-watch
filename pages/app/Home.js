@@ -160,9 +160,9 @@ class Home extends Page {
                 <p className="c-text -huge -thin">
                   Explore the latest data, make insights, and help build a more sustainable planet
                 </p>
-                <a className="scroll-icon js-scroll" href="#discoverIsights">
-                  <Icon name="icon-arrow-down" />
-                </a>
+                // <a className="scroll-icon js-scroll" href="#discoverIsights">
+                //   <Icon name="icon-arrow-down" />
+                // </a>
               </Banner>
             </div>
             <section id="discoverIsights" className="l-section insights">
