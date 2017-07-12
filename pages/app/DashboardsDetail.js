@@ -1,6 +1,5 @@
 import React from 'react';
 import classnames from 'classnames';
-import isEmpty from 'lodash/isEmpty';
 
 // Router
 import { Router } from 'routes';
@@ -29,24 +28,6 @@ class DashboardsDetail extends Page {
     };
   }
 
-  static async getInitialProps(params) {
-    const { query, res } = params;
-    const slug = query.slug;
-
-    // If the slug is "countries" then we make a redirection to the
-    // old country dashboard on the client
-    // We can't do it on the server, it doesn't work, despite the
-    // documentation:
-    // https://github.com/zeit/next.js/wiki/Redirecting-in-%60getInitialProps%60
-    if (!res && slug === 'countries') {
-      // NOTE: This won't probably work on a dev environment
-      history.replaceState(null, null, '/countries');
-    }
-
-    // We always need to return an object
-    return super.getInitialProps(params);
-  }
-
   componentWillMount() {
     this.getDashboards();
   }
@@ -56,6 +37,13 @@ class DashboardsDetail extends Page {
    * @param {string} slug Slug of the selected dashboard
    */
   onChangeDashboard(slug, dash) {
+    // The countries dashboard is still ran by the old
+    // application, so the URL is different
+    if (slug === 'countries') {
+      window.location = '/countries';
+      return;
+    }
+
     const dashboards = dash || this.state.dashboards;
 
     // If we can't find the dashboard with the specified slug, we just
@@ -164,18 +152,17 @@ class DashboardsDetail extends Page {
           <div className="row">
             <div className="column small-12 widgets-list">
               {
-                this.state.selectedDashboard.widgets.map(widget =>
-                  !isEmpty(widget) // Only useful for the countries dashboard
-                    && <DashboardCard
-                      key={widget.name || widget.widgetId}
-                      widgetId={widget.widgetId}
-                      categories={widget.categories}
-                      // The following attributes will be deprecated once all the
-                      // widgets are fetched from the API
-                      name={widget.name}
-                      data={widget.data}
-                    />
-                )
+                this.state.selectedDashboard.widgets.map(widget => (
+                  <DashboardCard
+                    key={widget.name || widget.widgetId}
+                    widgetId={widget.widgetId}
+                    categories={widget.categories}
+                    // The following attributes will be deprecated once all the
+                    // widgets are fetched from the API
+                    name={widget.name}
+                    data={widget.data}
+                  />
+                ))
               }
             </div>
           </div>

@@ -32,6 +32,13 @@ class Dashboards extends Page {
    * @param {string} slug Slug of the selected dashboard
    */
   static onChangeDashboard(slug) {
+    // The countries dashboard is still ran by the old
+    // application, so the URL is different
+    if (slug === 'countries') {
+      window.location = '/countries';
+      return;
+    }
+
     Router.pushRoute('dashboards_detail', { slug });
   }
 
