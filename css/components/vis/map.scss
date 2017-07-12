@@ -43,3 +43,8 @@
     color: $color-white;
   }
 }
+
+// Class to define marker icon path
+.leaflet-default-icon-path {
+  background-image: url("https://unpkg.com/leaflet@1.1.0/dist/images/marker-icon.png");
+}
