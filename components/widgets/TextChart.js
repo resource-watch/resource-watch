@@ -33,7 +33,17 @@ class TextChart extends React.Component {
         if (res.ok) return res.json();
         throw new Error(res.statusText);
       })
-      .then(data => this.setState({ data: data.data[0], error: null }))
+      .then((res) => {
+        // RW's API uses res.data, Carto, res.rows
+        const data = null || (res.data && res.data.length && res.data[0])
+          || (res.rows && res.rows.length && res.rows[0]);
+
+        // If the data is not set at this point, then the render function
+        // will display "no data"
+        if (!data) return;
+
+        this.setState({ data, error: null });
+      })
       .catch(err => this.setState({ error: err.message }))
       .then(() => {
         this.props.toggleLoading(false);
@@ -46,10 +56,19 @@ class TextChart extends React.Component {
    */
   getContent() {
     const { template_config, template } = this.props.widgetConfig;
+    // List the keys that can't be found in the data
+    const missingKeys = [];
 
-    return template_config.reduce((res, config) => {
+    const content = template_config.reduce((res, config) => {
       const key = config.key;
       const value = this.state.data[key];
+
+      // If the value can't be found, we just skip the substitution
+      if (!value) {
+        missingKeys.push(key);
+        return res;
+      }
+
       const suffix = config.suffix || '';
       const formatter = config.format && !isNaN(parseInt(value, 10))
         ? val => format(config.format)(parseInt(val, 10))
@@ -60,16 +79,26 @@ class TextChart extends React.Component {
 
       return res.replace(new RegExp(`{{${key}}}`, 'g'), substitution);
     }, template);
+
+    // If there's at least one key that couldn't be found, we display
+    // an error message
+    if (missingKeys.length) {
+      this.setState({
+        error: `The widget is malformed: the key${missingKeys.length > 1 ? 's' : ''} ${missingKeys.join(', ')} can't be found in the data`
+      });
+    }
+
+    return content;
   }
 
   render() {
     return (
       <div className="c-text-chart">
         { this.state.error && <div className="error">Unable to load the widget <span>{this.state.error}</span></div> }
-        { this.state.data
+        { !this.state.error && this.state.data
           && <div className="content" dangerouslySetInnerHTML={{ __html: this.getContent() }} />  // eslint-disable-line react/no-danger
         }
-        { !this.state.data && !this.state.loading && !this.state.error
+        { !this.state.error && !this.state.loading && !this.state.data
           && <div className="no-data">No data</div>
         }
       </div>
