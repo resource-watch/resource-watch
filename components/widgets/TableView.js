@@ -70,8 +70,6 @@ class TableView extends React.Component {
     const sortOrder = orderBy ? orderBy.orderType : 'asc';
     const query = `${getQueryByFilters(tableName, filters, arrColumns, orderByColumn, sortOrder)} LIMIT ${limit}`;
 
-    console.log('query', query);
-
     this.setState({ loading: true });
     this.datasetService.fetchFilteredData(query).then((response) => {
       this.setState({
