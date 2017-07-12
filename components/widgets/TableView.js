@@ -62,12 +62,11 @@ class TableView extends React.Component {
       }
     ).filter(val => !val.remove);
 
-    let orderByColumn = orderBy ? [orderBy] : [];
-    if (orderByColumn.length > 0 && value && category && aggregateFunction && orderByColumn[0].name === value.name) {
-      orderByColumn = [{ name: 'y' }];
-    } else if (orderByColumn.length > 0 && value && category && aggregateFunction && orderByColumn[0].name === category.name) {
-      orderByColumn = [{ name: 'x' }];
+    const orderByColumn = orderBy ? [orderBy] : [];
+    if (orderByColumn.length > 0 && value && orderByColumn[0].name === value.name && aggregateFunction && aggregateFunction !== 'none') {
+      orderByColumn[0].name = `${aggregateFunction}(${value.name})`;
     }
+
     const sortOrder = orderBy ? orderBy.orderType : 'asc';
     const query = `${getQueryByFilters(tableName, filters, arrColumns, orderByColumn, sortOrder)} LIMIT ${limit}`;
 

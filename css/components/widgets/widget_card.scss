@@ -1,0 +1,35 @@
+.c-widget-card {
+
+  background: $color-tertiary;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  cursor: pointer;
+
+  .info {
+    background: $color-white;
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .detail {
+      padding: 16px;
+
+      a {
+        text-decoration: none;
+        color: $color-text-1;
+      }
+
+      p {
+        margin-top: 20px 0 0;
+        word-break: break-word;
+      }
+    }
+
+    .actions {
+      margin: 0 5px 5px;
+    }
+  }
+
+}
