@@ -8,6 +8,7 @@ class LayerChart extends React.Component {
     super(props);
 
     this.state = {
+      basemap: '',
       background: ''
     };
   }
@@ -30,8 +31,8 @@ class LayerChart extends React.Component {
 
   getSize() {
     return {
-      width: this.chart.offsetWidth,
-      height: this.chart.offsetHeight
+      width: this.chart ? this.chart.offsetWidth : 0,
+      height: this.chart ? this.chart.offsetHeight : 0
     };
   }
 

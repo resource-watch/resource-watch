@@ -157,7 +157,7 @@ export function getDatasets() {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_DATASETS_LOADING });
     // TODO: remove the date now
-    fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=rw&status=saved&published=true&includes=widget,layer,metadata,vocabulary&page[size]=${Date.now() / 100000}`))
+    fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=rw&status=saved&published=true&includes=widget,layer,metadata,vocabulary&page[size]=9999&_d=${Date.now()}`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
@@ -167,7 +167,6 @@ export function getDatasets() {
         // Filtering datasets that have widget or layer
         // and only belong to RW app
         const datasets = response.data;
-
         dispatch({
           type: GET_DATASETS_SUCCESS,
           payload: datasets
