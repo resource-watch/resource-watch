@@ -41,10 +41,10 @@ class ChartEditor extends React.Component {
   }
 
   render() {
-    const { dataset, tableName, jiminy, widgetEditor, tableViewMode } = this.props;
+    const { dataset, tableName, jiminy, widgetEditor, tableViewMode, user } = this.props;
     const { chartType, fields, category, value } = widgetEditor;
 
-    const showSaveButton = chartType && category && value;
+    const showSaveButton = chartType && category && value && user && user.token;
 
     const chartOptions = (
         jiminy
@@ -106,12 +106,13 @@ ChartEditor.propTypes = {
   tableViewMode: PropTypes.bool.isRequired,
   // Store
   widgetEditor: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   setChartType: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({ widgetEditor }) => ({ widgetEditor });
+const mapStateToProps = ({ widgetEditor, user }) => ({ widgetEditor, user });
 const mapDispatchToProps = dispatch => ({
   setChartType: (type) => {
     dispatch(setChartType(type));
