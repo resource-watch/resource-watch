@@ -88,10 +88,8 @@ class DashboardsDetail extends Page {
           <div className="c-page-header">
             <div className="l-container">
               <div className="page-header-content -padding-b-2">
-                <Breadcrumbs items={[{ name: 'Dashboards', route: 'dashboards' }]} />
-                <Title className="-primary -huge page-header-title">
-                  {dashboardName}
-                </Title>
+                <Breadcrumbs items={[{ name: 'Data', route: 'data' }]} />
+                <Title className="-primary -huge page-header-title">Dashboards</Title>
               </div>
             </div>
           </div>
