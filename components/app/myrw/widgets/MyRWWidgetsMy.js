@@ -30,17 +30,30 @@ class MyRWWidgetsMy extends React.Component {
     this.widgetService = new WidgetService(null, { apiURL: process.env.CONTROL_TOWER_URL });
   }
 
-  componentWillReceiveProps(props) {
-    if (!this.state.myWidgetsLoaded) {
-      this.loadWidgets(props);
+  componentDidMount() {
+    if (!this.props.user.id) {
+      this.waitForUserToBeLoaded();
+    } else {
+      this.loadWidgets();
     }
   }
 
-  loadWidgets(props) {
+  waitForUserToBeLoaded() {
+    setTimeout(() => {
+      if (this.props.user.id) {
+        this.loadWidgets();
+      } else {
+        this.waitForUserToBeLoaded();
+      }
+    }, 1000);
+  }
+
+  loadWidgets() {
     this.setState({
       myWidgetsLoaded: false
     });
-    this.widgetService.getUserWidgets(props.user.id).then((response) => {
+    console.log(this.props.user);
+    this.widgetService.getUserWidgets(this.props.user.id).then((response) => {
       this.setState({
         myWidgetsLoaded: true,
         myWidgets: response
