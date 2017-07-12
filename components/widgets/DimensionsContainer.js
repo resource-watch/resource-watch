@@ -15,13 +15,13 @@ class DimensionsContainer extends React.Component {
 
   render() {
     const { chartType } = this.props.widgetEditor;
-  
+    const showSize = chartType && (chartType === 'scatter' || chartType === '1d_scatter' || chartType === '1d_tick');
     return (
       <div className="c-dimensions-container">
         <CategoryContainer />
         <ValueContainer />
         {false && <ColorContainer />  /* temporal while we have legends*/}
-        { chartType && chartType === 'scatter' &&
+        {showSize &&
         <SizeContainer />
         }
       </div>
