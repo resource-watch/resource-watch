@@ -28,7 +28,7 @@ class Legend extends React.Component {
     super(props);
 
     this.state = {
-      open: true
+      open: props.expanded
     };
 
     // BINDINGS
@@ -84,14 +84,18 @@ class Legend extends React.Component {
         <button className="info" onClick={() => this.onLayerInfoModal(layer)}>
           <Icon name="icon-info" className="-smaller" />
         </button>
-        <Switch
-          onChange={() => this.onHideLayer(layer.dataset)}
-          active={!layer.hidden}
-          classNames="-secondary"
-        />
-        <button className="close" onClick={() => this.onDeactivateLayer(layer.dataset)}>
-          <Icon name="icon-cross" className="-smaller" />
-        </button>
+        { !this.props.readonly
+          && <Switch
+            onChange={() => this.onHideLayer(layer.dataset)}
+            active={!layer.hidden}
+            classNames="-secondary"
+          />
+        }
+        { !this.props.readonly
+          && <button className="close" onClick={() => this.onDeactivateLayer(layer.dataset)}>
+            <Icon name="icon-cross" className="-smaller" />
+          </button>
+        }
       </div>
     );
   }
@@ -155,6 +159,10 @@ Legend.propTypes = {
   layersActive: React.PropTypes.array,
   layersHidden: React.PropTypes.array,
   className: React.PropTypes.object,
+  // Layers can't be removed or hidden
+  readonly: React.PropTypes.bool,
+  // Whether by default the legend is expanded or not
+  expanded: React.PropTypes.bool,
 
   // Functions
   toggleDatasetActive: React.PropTypes.func,
@@ -162,6 +170,11 @@ Legend.propTypes = {
   toggleModal: React.PropTypes.func,
   setModalOptions: React.PropTypes.func,
   setDatasetsHidden: React.PropTypes.func
+};
+
+Legend.defaultProps = {
+  readonly: false,
+  expanded: true
 };
 
 export default Legend;

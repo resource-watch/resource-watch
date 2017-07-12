@@ -1,4 +1,6 @@
 .c-dashboard-card {
+  display: flex;
+  flex-direction: column;
   background-color: $color-white;
   border: 1px solid rgba($color-black, .1);
   border-radius: 4px;
@@ -35,6 +37,7 @@
     display: flex;
     padding: 15px;
     min-height: 300px;
+    flex-grow: 1;
 
     > * {
       flex-basis: 100%;

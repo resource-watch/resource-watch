@@ -178,7 +178,7 @@ const DASHBOARDS = [
         }
       },
       {
-        name: 'Watersheds are at risk due to erosion',
+        widgetId: '2528cfdb-fd03-4965-bf77-3550a43b5055',
         categories: ['Water', 'Forests']
       },
       {
