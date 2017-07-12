@@ -150,7 +150,7 @@ class Home extends Page {
             <div className="c-banner-video">
               <div className="c-banner-video-foreground">
                 <iframe frameBorder="0" allowFullScreen
-                src="https://youtube.com/embed/W0LHTWG-UmQ?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=W0LHTWG-UmQ">
+                src="https://youtube.com/embed/LI1RrCnnkDA?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=LI1RrCnnkDA">
                 </iframe>
               </div>
               <Banner className="intro" containerGrid={false}>
