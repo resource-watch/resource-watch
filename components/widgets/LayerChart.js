@@ -76,7 +76,7 @@ class LayerChart extends React.Component {
           };
 
           this.setState({
-            basemap: `https://${basemap.account}.carto.com/api/v1/map/static/center/${options.token}/${options.z}/${options.lat}/${options.lng}/${options.width}/${options.height}.${options.format}`
+            basemap: `https://${response.cdn_url.https}/${basemap.account}/api/v1/map/static/center/${options.token}/${options.z}/${options.lat}/${options.lng}/${options.width}/${options.height}.${options.format}`
           });
         } else {
           console.error('Basemap could not be loaded');
@@ -118,7 +118,7 @@ class LayerChart extends React.Component {
           };
 
           this.setState({
-            background: `https://${data.account}.carto.com/api/v1/map/static/center/${options.token}/${options.z}/${options.lat}/${options.lng}/${options.width}/${options.height}.${options.format}`
+            background: `https://${response.cdn_url.https}/${data.account}/api/v1/map/static/center/${options.token}/${options.z}/${options.lat}/${options.lng}/${options.width}/${options.height}.${options.format}`
           });
         } else {
           console.error('Image could not be loaded');
