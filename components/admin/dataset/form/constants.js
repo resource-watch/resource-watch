@@ -61,7 +61,7 @@ export const STATE_DEFAULT = {
     name: '',
     subtitle: '',
     application: [],
-    provider: '',
+    provider: null,
     connectorType: '',
     connectorUrlHint: '',
     published: false,

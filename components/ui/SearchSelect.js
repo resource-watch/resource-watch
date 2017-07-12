@@ -131,13 +131,13 @@ export default class SearchSelect extends React.Component {
   }
 
   // Method that closes the options list
-  close(e) {
+  close() {
     window.removeEventListener('click', this.onScreenClick);
 
     this.setState({
       closed: true,
       filteredOptions: this.props.options,
-      value: e.currentTarget.value
+      value: this.input.value
     }, this.resetSelectedIndex);
   }
 
