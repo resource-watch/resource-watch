@@ -1,8 +1,7 @@
 import React from 'react';
 import VegaChart from 'components/widgets/VegaChart';
-import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
-import vegaThumbnailTheme from 'utils/widgets/vega-theme-thumbnails.json';
+import ChartTheme from 'utils/widgets/theme';
 
 class DatasetWidgetChart extends React.Component {
 
@@ -39,7 +38,7 @@ class DatasetWidgetChart extends React.Component {
         />
         <VegaChart
           data={widgetConfig}
-          theme={vegaThumbnailTheme}
+          theme={ChartTheme()}
           toggleLoading={this.triggerToggleLoading}
         />
       </div>
