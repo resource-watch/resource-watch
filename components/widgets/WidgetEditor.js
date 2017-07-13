@@ -226,10 +226,10 @@ class WidgetEditor extends React.Component {
 
     this.widgetService.updateUserWidget(widgetObj, dataset, user.token)
       .then((response) => {
-        console.log('response', response);
         this.setState({
           updating: false
-        })
+        });
+        alert("Widget updated successfully!");
       });
   }
 

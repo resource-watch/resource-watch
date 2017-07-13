@@ -28,7 +28,8 @@ class MyRWWidgetsEdit extends React.Component {
 
     // User service
     this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
-    this.widgetService = new WidgetService(this.props.widgetId, { apiURL: process.env.CONTROL_TOWER_URL });
+    this.widgetService = new WidgetService(this.props.widgetId,
+      { apiURL: process.env.CONTROL_TOWER_URL });
   }
 
   componentWillMount() {
@@ -44,7 +45,6 @@ class MyRWWidgetsEdit extends React.Component {
 
   loadWidgetIntoRedux() {
     const { paramsConfig } = this.state.widget.attributes.widgetConfig;
-    console.log('paramsConfig', paramsConfig);
     const {
         value,
         category,
