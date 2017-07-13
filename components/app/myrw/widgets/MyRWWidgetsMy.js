@@ -52,7 +52,6 @@ class MyRWWidgetsMy extends React.Component {
     this.setState({
       myWidgetsLoaded: false
     });
-    console.log(this.props.user);
     this.widgetService.getUserWidgets(this.props.user.id).then((response) => {
       this.setState({
         myWidgetsLoaded: true,
