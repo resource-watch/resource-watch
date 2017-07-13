@@ -3,4 +3,15 @@
   height: 100%;
   padding: 20px;
   min-height: 150px;
+
+  .info {
+    .widget-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    a {
+      text-decoration: none;
+    }
+  }
 }

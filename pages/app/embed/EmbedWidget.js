@@ -1,5 +1,6 @@
 import React from 'react';
 import { Autobind } from 'es-decorators';
+import { Link } from 'routes';
 
 // Layout
 import Head from 'components/app/layout/head';
@@ -60,11 +61,26 @@ export default class EmbedWidget extends React.Component {
           className="-light"
         />
         {widget &&
-          <VegaChart
-            data={widget.attributes.widgetConfig}
-            theme={vegaThumbnailTheme}
-            toggleLoading={this.triggerToggleLoading}
-          />
+          <div>
+            <VegaChart
+              data={widget.attributes.widgetConfig}
+              theme={vegaThumbnailTheme}
+              toggleLoading={this.triggerToggleLoading}
+            />
+            <div className="info">
+              <div className="widget-title">
+                <h2>
+                  <Link
+                    route="explore_detail"
+                    params={{ id: widget.attributes.dataset }}
+                  >
+                    <a>{widget.attributes.name}</a>
+                  </Link>
+                </h2>
+              </div>
+              <p>{widget.attributes.description}</p>
+            </div>
+          </div>
         }
       </div>
     );
