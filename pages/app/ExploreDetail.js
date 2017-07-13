@@ -64,6 +64,11 @@ class ExploreDetail extends Page {
         similarDatasetsLoaded: false,
         datasetLoaded: false
       }, () => {
+        this.datasetService = new DatasetService(nextProps.url.query.id, {
+          apiURL: process.env.WRI_API_URL
+        });
+        // Scroll to the top of the page
+        window.scrollTo(0, 0);
         this.getDataset();
         this.getSimilarDatasets();
       });

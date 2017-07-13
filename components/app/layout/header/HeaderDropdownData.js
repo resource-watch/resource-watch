@@ -17,14 +17,13 @@ export default function HeaderDropdownData(props) {
       }}
     >
       {/* First child: This is what the item will be tethered to */}
-      <Link route="data">
-        <a
-          onMouseEnter={props.onMouseEnter}
-          onMouseLeave={props.onMouseLeave}
-        >
-          Data
-        </a>
-      </Link>
+      <a
+        href="/data"
+        onMouseEnter={props.onMouseEnter}
+        onMouseLeave={props.onMouseLeave}
+      >
+        Data
+      </a>
       {/* Second child: If present, this item will be tethered to the the first child */}
       {props.active &&
         <ul

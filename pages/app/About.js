@@ -22,9 +22,12 @@ class About extends Page {
 
   render() {
     const { data } = this.props;
+
+    if (!data) return null;
+
     const styles = {};
     if (data && data.photo) {
-      styles.backgroundImage = `url(${process.env.CMS_API_URL}${data.photo.large})`;
+      styles.backgroundImage = `url(${process.env.CMS_API_URL}/../${data.photo.large})`;
     }
 
     return (
@@ -75,10 +78,14 @@ About.propTypes = {
   getStaticData: React.PropTypes.func
 };
 
+const mapStateToProps = state => ({
+  data: state.staticPages.about
+});
+
 const mapDispatchToProps = dispatch => ({
   getStaticData: (slug, ref) => {
     dispatch(getStaticData(slug, ref));
   }
 });
 
-export default withRedux(initStore, null, mapDispatchToProps)(About)
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(About)

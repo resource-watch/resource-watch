@@ -30,8 +30,8 @@ export default class DatasetService {
    * Get dataset info
    * @returns {Promise}
    */
-  fetchData(includes = '') {
-    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}?includes=${includes}`)
+  fetchData(includes = '', applications = [process.env.APPLICATIONS]) {
+    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&includes=${includes}`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }

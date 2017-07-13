@@ -1,12 +1,18 @@
 import React from 'react';
-import brace from 'brace';
-import AceEditor from 'react-ace';
+import PropTypes from 'prop-types';
 
-import 'brace/mode/json';
-import 'brace/theme/github';
-
+// Components
 import FormElement from './FormElement';
 
+let AceEditor;
+if (typeof window !== 'undefined') {
+  /* eslint-disable */
+  require('brace');
+  require('brace/mode/json');
+  require('brace/theme/github');
+  AceEditor = require('react-ace').default;
+  /* eslint-enable */
+}
 
 class Code extends FormElement {
   constructor(props) {
@@ -37,26 +43,31 @@ class Code extends FormElement {
   }
 
   render() {
-    return (
-      <AceEditor
-        mode="json"
-        theme="github"
-        value={this.state.value}
-        tabSize={2}
-        width="100%"
-        wrapEnabled
-        showPrintMargin={false}
-        editorProps={{ $blockScrolling: true }}
-        onChange={this.triggerChange}
-      />
-    );
+    if (typeof window !== 'undefined') {
+      return (
+        <AceEditor
+          name={this.props.properties.name}
+          mode="json"
+          theme="github"
+          value={this.state.value}
+          tabSize={2}
+          width="100%"
+          wrapEnabled
+          showPrintMargin={false}
+          editorProps={{ $blockScrolling: true }}
+          onChange={this.triggerChange}
+        />
+      );
+    }
+
+    return null;
   }
 }
 
 Code.propTypes = {
-  properties: React.PropTypes.object.isRequired,
-  validations: React.PropTypes.array,
-  onChange: React.PropTypes.func
+  properties: PropTypes.object.isRequired,
+  validations: PropTypes.array,
+  onChange: PropTypes.func
 };
 
 export default Code;

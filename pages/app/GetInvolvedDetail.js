@@ -44,7 +44,7 @@ class GetInvolved extends Page {
             <div className="l-container">
               <div className="page-header-content -padding-b-2">
                 <Breadcrumbs
-                  items={[{ name: 'Get Involved', url: 'get_involved' }]}
+                  items={[{ name: 'Get Involved', route: 'get_involved' }]}
                 />
 
                 <Title className="-primary -huge page-header-title" >
@@ -75,7 +75,7 @@ class GetInvolved extends Page {
               <Banner className="partners">
                 <h3 className="c-text -header-normal -normal">We have a massive opportunity<br />to build a sustainable society</h3>
                 <Link route="about_partners">
-                  <a className="c-button -primary">Partners list</a>
+                  <a className="c-btn -transparent -secondary">Partners list</a>
                 </Link>
               </Banner>
             </div>

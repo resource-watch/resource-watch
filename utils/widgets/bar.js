@@ -2,63 +2,104 @@ import deepClone from 'lodash/cloneDeep';
 
 /* eslint-disable */
 const defaultChart = {
+  width: 1,
+  height: 1,
   data: [
     {
       name: 'table'
-    }
-  ],
-  scales: [
-    {
-      name: 'x',
-      type: 'ordinal',
-      range: 'width',
-      domain: { data: 'table', field: 'x' }
     },
     {
-      name: 'y',
-      type: 'linear',
-      range: 'height',
-      domain: { data: 'table', field: 'y' },
-      nice: true,
-      zero: false
-    }
-  ],
-  axes: [
-    {
-      "type": "x",
-      "scale": "x",
-      "tickSizeEnd": 0,
-      "offset": 5,
-      "properties": {
-        "axis": {
-          "strokeWidth": { "value": 0 }
-        }
-      }
-    },
-    {
-      "type": "y",
-      "scale": "y",
-      "tickSizeEnd": 0,
-      "offset": 5,
-      "properties": {
-        "axis": {
-          "strokeWidth": { "value": 0 }
-        }
-      }
+      "name": "layout",
+      "source": "table",
+      "transform": [
+        {
+          "type": "aggregate",
+          "summarize": [{"field": "x","ops": ["distinct"]}]
+        },
+        {
+          "type": "formula",
+          "field": "width",
+          "expr": "(datum[\"distinct_x\"] + 1) * 15"
+        },
+        {"type": "formula","field": "height","expr": "300"}
+      ]
     }
   ],
   marks: [
     {
-      type: 'rect',
-      from: { data: 'table' },
-      properties: {
-        enter: {
-          x: { scale: 'x', field: 'x' },
-          width: { scale: 'x', band: true, offset: -3 },
-          y: { scale: 'y', field: 'y' },
-          "y2": {"field": {"group": "height"}}
+      "type": "group",
+      "from": {"data": "layout"},
+      "properties": {
+        "update": {
+          "width": {"field": "width"},
+          "height": {"field": "height"}
         }
-      }
+      },
+      "marks": [
+        {
+          type: 'rect',
+          from: { data: 'table' },
+          properties: {
+            enter: {
+              xc: { scale: 'x', field: 'x' },
+              width: { scale: 'x', band: true, offset: -8 },
+              y: { scale: 'y', field: 'y' },
+              "y2": {"field": {"group": "height"}}
+            }
+          }
+        }
+      ],
+       scales: [
+        {
+          name: 'x',
+          type: 'ordinal',
+          range: 'width',
+          domain: { data: 'table', field: 'x' },
+          "bandSize": 15,
+          "round": true,
+          "points": true,
+          "padding": 1
+        },
+        {
+          name: 'y',
+          type: 'linear',
+          "rangeMin": 300,
+          "rangeMax": 0,
+          domain: { data: 'table', field: 'y' },
+          nice: true,
+          zero: false
+        }
+      ],
+      axes: [
+        {
+          "type": "x",
+          "scale": "x",
+          "tickSizeEnd": 0,
+          "offset": 5,
+          "properties": {
+            "axis": {
+              "strokeWidth": { "value": 0 }
+            },
+            "labels": {
+              "text": {"template": "{{ datum[\"data\"] | truncate:25 }}"},
+              "angle": {"value": 270},
+              "align": {"value": "right"},
+              "baseline": {"value": "middle"}
+            }
+          }
+        },
+        {
+          "type": "y",
+          "scale": "y",
+          "tickSizeEnd": 0,
+          "offset": 5,
+          "properties": {
+            "axis": {
+              "strokeWidth": { "value": 0 }
+            }
+          }
+        }
+      ]
     }
   ]
 };
@@ -89,7 +130,7 @@ export default function ({ columns, data }) {
     });
 
     // We update the marks
-    config.marks[0].properties.enter.fill = {
+    config.marks[0].marks[0].properties.enter.fill = {
       "scale": "c",
       "field": "color"
     };
@@ -99,11 +140,29 @@ export default function ({ columns, data }) {
   // a temporal x axis and parse the x column as a date
   if (columns.x.type === 'date') {
     // We update the axis
-    const xAxis = config.axes.find(axis => axis.type === 'x');
+    const xAxis = config.marks[0].axes.find(axis => axis.type === 'x');
     xAxis.formatType = 'time';
 
     // We parse the x column as a date
     config.data[0].format.parse = { x: 'date' };
+
+    // The x axis has a template used to truncate the
+    // text. Nevertheless, when using it, a date will
+    // be displayed as a timestamp.
+    // One solution could be to change the template to
+    // format the string, but we don't know in which
+    // format the date should be displayed so we can't
+    // use it.
+    // The other solution is just to remove the template
+    // and Vega will use d3 to determine the best format.
+    // In such a case, we don't truncate the tick, but
+    // it shouldn't be necessary because usually the
+    // result is short.
+    // NOTE: actually if we just remove the template,
+    // "text" will be an empty object and Vega won't
+    // display any tick, so we need to remove text
+    // instead
+    delete xAxis.properties.labels.text;
   }
 
   return config;
