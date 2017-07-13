@@ -37,7 +37,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 100%;
+    overflow-x: auto;
 
     &.-chart {
       margin-left: 20px;
