@@ -5,6 +5,8 @@ import { Autobind } from 'es-decorators';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import { setFilter, setColor, setCategory, setValue, setSize, setOrderBy,
+  setAggregateFunction, setLimit } from 'redactions/widgetEditor';
 
 // Services
 import UserService from 'services/UserService';
@@ -34,8 +36,50 @@ class MyRWWidgetsEdit extends React.Component {
       this.setState({
         widget: data,
         loading: false
+      }, () => {
+        this.loadWidgetIntoRedux();
       });
     });
+  }
+
+  loadWidgetIntoRedux() {
+    const { paramsConfig } = this.state.widget.attributes.widgetConfig;
+    console.log('paramsConfig', paramsConfig);
+    const {
+        value,
+        category,
+        color,
+        size,
+        aggregateFunction,
+        orderBy,
+        filters,
+        limit
+      } = paramsConfig;
+
+    if (aggregateFunction) {
+      this.props.setAggregateFunction(aggregateFunction);
+    }
+    if (value) {
+      this.props.setValue(value);
+    }
+    if (size) {
+      this.props.setSize(size);
+    }
+    if (color) {
+      this.props.setColor(color);
+    }
+    if (orderBy) {
+      this.props.setOrderBy(orderBy);
+    }
+    if (category) {
+      this.props.setCategory(category);
+    }
+    if (filters) {
+      this.props.setFilter(filters);
+    }
+    if (limit) {
+      this.props.setLimit(limit);
+    }
   }
 
 
@@ -43,7 +87,7 @@ class MyRWWidgetsEdit extends React.Component {
     const { loading, widget } = this.state;
 
     return (
-      <div className="c-my-widgets-edit">
+      <div className="c-myrw-widgets-edit">
         <h1 className="c-text -header-normal -thin title">Edit Widget</h1>
         <Spinner
           className="-relative -light"
@@ -51,6 +95,10 @@ class MyRWWidgetsEdit extends React.Component {
         />
         {widget &&
         <WidgetEditor
+          widget={widget}
+          dataset={widget.attributes.dataset}
+          availableVisualizations={['chart', 'table']}
+          mode="widget"
         />
         }
       </div>
@@ -61,11 +109,47 @@ class MyRWWidgetsEdit extends React.Component {
 MyRWWidgetsEdit.propTypes = {
   widgetId: PropTypes.string.isRequired,
   // Store
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  // ACTIONS
+  setFilter: PropTypes.func.isRequired,
+  setSize: PropTypes.func.isRequired,
+  setColor: PropTypes.func.isRequired,
+  setCategory: PropTypes.func.isRequired,
+  setValue: PropTypes.func.isRequired,
+  setOrderBy: PropTypes.func.isRequired,
+  setAggregateFunction: PropTypes.func.isRequired,
+  setLimit: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user
 });
 
-export default withRedux(initStore, mapStateToProps, null)(MyRWWidgetsEdit);
+const mapDispatchToProps = dispatch => ({
+  setFilter: (filter) => {
+    dispatch(setFilter(filter));
+  },
+  setColor: (color) => {
+    dispatch(setColor(color));
+  },
+  setSize: (size) => {
+    dispatch(setSize(size));
+  },
+  setCategory: (category) => {
+    dispatch(setCategory(category));
+  },
+  setValue: (value) => {
+    dispatch(setValue(value));
+  },
+  setOrderBy: (value) => {
+    dispatch(setOrderBy(value));
+  },
+  setAggregateFunction: (value) => {
+    dispatch(setAggregateFunction(value));
+  },
+  setLimit: (value) => {
+    dispatch(setLimit(value));
+  }
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(MyRWWidgetsEdit);

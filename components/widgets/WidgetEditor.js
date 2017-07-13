@@ -91,7 +91,9 @@ class WidgetEditor extends React.Component {
 
   componentDidMount() {
     this.getFields();
-    this.getLayers();
+    if (this.props.mode === 'dataset') {
+      this.getLayers();
+    }
   }
 
   getFields() {
@@ -185,10 +187,10 @@ class WidgetEditor extends React.Component {
 
   getVisualization() {
     const { tableName, selectedVisualizationType, chartLoading, layersLoaded, fieldsError, jiminyLoaded } = this.state;
-    const { widgetEditor, dataset } = this.props;
+    const { widgetEditor, dataset, mode } = this.props;
     const { chartType, layer } = widgetEditor;
 
-    const loading = !layersLoaded || (!fieldsError && !jiminyLoaded);
+    const loading = (mode === 'dataset' && !layersLoaded) || (!fieldsError && !jiminyLoaded);
 
     let visualization = null;
     switch (selectedVisualizationType) {
@@ -274,9 +276,9 @@ class WidgetEditor extends React.Component {
       layers
     } = this.state;
     let { jiminy } = this.state;
-    const { dataset } = this.props;
+    const { dataset, mode } = this.props;
 
-    const loading = !layersLoaded || (!fieldsError && !jiminyLoaded);
+    const loading = (mode === 'dataset' && !layersLoaded) || (!fieldsError && !jiminyLoaded);
 
     const visualization = this.getVisualization();
     const componentShouldNotShow = fieldsError && (layersError || (layers && layers.length === 0));
@@ -359,7 +361,9 @@ const mapDispatchToProps = dispatch => ({
 });
 
 WidgetEditor.propTypes = {
+  mode: PropTypes.string.isRequired, // 'dataset' or 'widget'
   dataset: PropTypes.string, // Dataset ID
+  widget: PropTypes.object, // Widget object
   availableVisualizations: PropTypes.arrayOf(
     PropTypes.oneOf(VISUALIZATION_TYPES.map(viz => viz.value))
   ),
