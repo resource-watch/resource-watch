@@ -12,7 +12,6 @@ import Tooltip from 'components/ui/Tooltip';
 
 // Services
 import DatasetService from 'services/DatasetService';
-import WidgetService from 'services/WidgetService';
 
 // Utils
 import vegaThumbnailTheme from 'utils/widgets/vega-theme-thumbnails.json';
