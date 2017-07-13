@@ -78,7 +78,9 @@ export default class EmbedWidget extends React.Component {
                   </Link>
                 </h2>
               </div>
-              <p>{widget.attributes.description}</p>
+              <div className="widget-description">
+                {widget.attributes.description}
+              </div>
             </div>
           </div>
         }
