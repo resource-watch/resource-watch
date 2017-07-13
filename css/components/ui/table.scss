@@ -20,10 +20,7 @@
         font-weight: 500;
         white-space: nowrap;
 
-        padding-top: 20px;
-        padding-bottom: $space-1;
-        padding-left: 30px;
-        padding-right: 25px;
+        padding: $space-1 * 2 $space-1 * 2 $space-1;
 
         .filter-action {
           fill: $color-mid-grey;
@@ -46,7 +43,7 @@
       }
 
       td {
-        padding: 15px 30px;
+        padding: $space-1 * 2;
         color: rgba($color-text-1, .5);
         font-size: $font-size-big;
 

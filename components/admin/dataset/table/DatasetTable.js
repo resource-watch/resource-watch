@@ -24,6 +24,7 @@ import NameTD from './td/NameTD';
 import PublishedTD from './td/PublishedTD';
 import StatusTD from './td/StatusTD';
 import RelatedContentTD from './td/RelatedContentTD';
+import UpdatedAtTD from './td/UpdatedAtTD';
 
 class DatasetTable extends React.Component {
 
@@ -79,6 +80,7 @@ class DatasetTable extends React.Component {
               { label: 'Status', value: 'status', td: StatusTD },
               { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Provider', value: 'provider' },
+              { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
               { label: 'Related content', value: 'status', td: RelatedContentTD }
             ]}
             actions={{
