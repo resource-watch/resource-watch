@@ -124,7 +124,6 @@ class DatasetShow extends React.Component {
 }
 
 DatasetShow.propTypes = {
-  tab: PropTypes.string,
   id: PropTypes.string,
   subtab: PropTypes.string,
 
