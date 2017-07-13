@@ -3,7 +3,7 @@ import { Link } from 'routes';
 
 function PartnerBlock(props) {
   const partner = props.item.attributes;
-  const imgPath = `${process.env.CMS_API_URL}${partner.logo.medium}`;
+  const imgPath = `${process.env.CMS_API_URL}/../${partner.logo.medium}`;
 
   return (
     <article className="c-partners-block column small-12 medium-6">
@@ -19,9 +19,8 @@ function PartnerBlock(props) {
       <Link
         route={'partner'}
         params={{ id: props.item.id }}
-        className="action c-btn -transparent -primary c-text -extra-big"
       >
-      Read more
+        <a className="action c-btn -transparent -primary -extra-big">Read more</a>
       </Link>
     </article>
   );
