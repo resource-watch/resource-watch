@@ -61,7 +61,6 @@ class WidgetEditor extends React.Component {
 
     this.state = {
       selectedVisualizationType: 'chart',
-      loading: true,
       // fields
       fields: [],
       fieldsLoaded: false,
@@ -101,7 +100,6 @@ class WidgetEditor extends React.Component {
         const fieldsError = !response.fields || response.fields.length <= 0;
 
         this.setState({
-          loading: !fieldsError && !this.state.jiminyLoaded && !this.state.layersLoaded,
           fieldsLoaded: true,
           fieldsError,
           fields: response.fields
@@ -130,8 +128,7 @@ class WidgetEditor extends React.Component {
           order: 1,
           hidden: false
         })),
-        layersLoaded: true,
-        loading: !fieldsError && !fieldsLoaded && !jiminyLoaded
+        layersLoaded: true
       });
     }).catch((err) => {
       this.setState({
@@ -150,7 +147,6 @@ class WidgetEditor extends React.Component {
     this.datasetService.fetchJiminy(querySt)
       .then((jiminy) => {
         this.setState({
-          loading: !this.state.layersLoaded,
           jiminyLoaded: true,
           jiminy,
           jiminyError: typeof jiminy === 'undefined'
@@ -159,7 +155,6 @@ class WidgetEditor extends React.Component {
       .catch((err) => {
         console.error('jiminy error', err);
         this.setState({
-          loading: false,
           jiminyLoaded: true,
           jiminyError: true
         });
@@ -189,9 +184,11 @@ class WidgetEditor extends React.Component {
   }
 
   getVisualization() {
-    const { tableName, selectedVisualizationType, chartLoading, loading } = this.state;
+    const { tableName, selectedVisualizationType, chartLoading, layersLoaded, fieldsError, jiminyLoaded } = this.state;
     const { widgetEditor, dataset } = this.props;
     const { chartType, layer } = widgetEditor;
+
+    const loading = !layersLoaded || (!fieldsError && !jiminyLoaded);
 
     let visualization = null;
     switch (selectedVisualizationType) {
@@ -267,10 +264,10 @@ class WidgetEditor extends React.Component {
 
   render() {
     const {
-      loading,
       tableName,
       selectedVisualizationType,
       jiminyError,
+      jiminyLoaded,
       fieldsError,
       layersError,
       layersLoaded,
@@ -278,6 +275,8 @@ class WidgetEditor extends React.Component {
     } = this.state;
     let { jiminy } = this.state;
     const { dataset } = this.props;
+
+    const loading = !layersLoaded || (!fieldsError && !jiminyLoaded);
 
     const visualization = this.getVisualization();
     const componentShouldNotShow = fieldsError && (layersError || (layers && layers.length === 0));
