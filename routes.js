@@ -39,4 +39,4 @@ routes.add('get_involved', '/get-involved', 'app/GetInvolved');
 routes.add('get_involved_detail', '/get-involved/:id', 'app/GetInvolvedDetail');
 
 // ------ MY RW ------------
-routes.add('myrw', '/myrw/:tab?/:subtab?', 'app/MyRW');
+routes.add('myrw', '/myrw/:tab?/:subtab?/:element?', 'app/MyRW');
