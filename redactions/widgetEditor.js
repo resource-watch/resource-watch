@@ -3,6 +3,7 @@
 */
 const ADD_FILTER = 'widgetEditor/ADD_FILTER';
 const SET_FILTER_VALUE = 'widgetEditor/SET_FILTER_VALUE';
+const SET_FILTERS = 'widgetEditor/SET_FILTERS';
 const REMOVE_FILTER = 'widgetEditor/REMOVE_FILTER';
 const SET_COLOR = 'widgetEditor/SET_COLOR';
 const REMOVE_COLOR = 'widgetEditor/REMOVE_COLOR';
@@ -171,6 +172,12 @@ export default function (state = initialState, action) {
       });
     }
 
+    case SET_FILTERS: {
+      return Object.assign({}, state, {
+        filters: action.payload
+      });
+    }
+
     default:
       return state;
   }
@@ -179,7 +186,9 @@ export default function (state = initialState, action) {
 /**
  * ACTIONS
  * - addFilter
+ * - setFilterValue
  * - removeFilter
+ * - setFilters
  * - setColor
  * - removeColor
  * - setSize
@@ -201,6 +210,9 @@ export function addFilter(filter) {
 }
 export function setFilterValue(name, value) {
   return dispatch => dispatch({ type: SET_FILTER_VALUE, payload: { name, value } });
+}
+export function setFilters(filters) {
+  return dispatch => dispatch({ type: setFilters, payload: filters });
 }
 export function removeFilter(filter) {
   return dispatch => dispatch({ type: REMOVE_FILTER, payload: filter });
