@@ -77,7 +77,7 @@ class HeaderUser extends React.Component {
                 </li>
                 {user.role === 'ADMIN' &&
                   <li className="header-dropdown-list-item">
-                    <a href="/admin" target="_blank">Admin</a>
+                    <a href="/admin">Admin</a>
                   </li>
                 }
                 <li className="header-dropdown-list-item">
@@ -131,9 +131,6 @@ class HeaderUser extends React.Component {
                 <a href={`https://production-api.globalforestwatch.org/auth/twitter?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`}>
                   Twitter
                 </a>
-              </li>
-              <li className="header-dropdown-list-item">
-                <a href="/login">Admin</a>
               </li>
             </ul>
           }

@@ -37,13 +37,13 @@ function auth(username, password) {
 function isAuthenticated(req, res, nextAction) {
   if (req.isAuthenticated()) return nextAction();
   // if they aren't redirect them to the home page
-  return res.redirect('/');
+  return res.redirect('/login');
 }
 
 function isAdmin(req, res, nextAction) {
   if (req.user.role === 'ADMIN') return nextAction();
   // if they aren't redirect them to the home page
-  return res.redirect('/');
+  return res.redirect('/myrw');
 }
 
 // Use the Control Tower Strategy within Passport.
@@ -109,7 +109,7 @@ app.prepare()
 
     server.get('/logout', function (req, res) {
       req.logout();
-      res.redirect(req.query.callbackUrl || '/');
+      res.redirect('/');
     });
 
     server.get('/myrw*?', isAuthenticated, function (req, res) {
