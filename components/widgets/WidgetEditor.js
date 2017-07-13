@@ -195,7 +195,7 @@ class WidgetEditor extends React.Component {
       updating: true
     });
 
-    const { widgetEditor, dataset, user } = this.props;
+    const { widgetEditor, dataset, user, widget } = this.props;
     const { limit, value, category, color, size, orderBy, aggregateFunction, chartType, filters, tableName } = widgetEditor;
 
     const widgetConfig = { widgetConfig: Object.assign(
@@ -214,7 +214,7 @@ class WidgetEditor extends React.Component {
       },
       getChartConfig(widgetEditor, tableName, dataset)
     ) };
-    const widgetObj = Object.assign({}, this.state.widget, widgetConfig);
+    const widgetObj = Object.assign({}, widget.attributes, widgetConfig);
 
     this.widgetService.updateUserWidget(widgetObj, dataset, user.token)
       .then((response) => {
@@ -422,7 +422,8 @@ WidgetEditor.propTypes = {
     PropTypes.oneOf(VISUALIZATION_TYPES.map(viz => viz.value))
   ),
   // Store
-  widgetEditor: PropTypes.object,
+  user: PropTypes.object.isRequired,
+  widgetEditor: PropTypes.object.isRequired,
   resetWidgetEditor: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
