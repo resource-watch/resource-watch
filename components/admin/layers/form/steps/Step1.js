@@ -1,18 +1,23 @@
 import React from 'react';
 
-import Step from './step';
+// Constants
+import { PROVIDER_OPTIONS, FORM_ELEMENTS } from 'components/admin/layers/form/constants';
+
+
+// Components
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
+import Select from 'components/form/SelectInput';
 import Textarea from 'components/form/TextArea';
-import Code from 'components/form/Code';
 import Checkbox from 'components/form/Checkbox';
+import Code from 'components/form/Code';
 
-class Step1 extends Step {
+class Step1 extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      dataset: props.dataset,
+      id: props.id,
       form: props.form
     };
   }
@@ -20,25 +25,28 @@ class Step1 extends Step {
   render() {
     return (
       <fieldset className="c-field-container">
-        {!this.state.form.authorization &&
+        {!this.state.id &&
           <Field
-            ref={(c) => { if (c) this.children.push(c); }}
-            onChange={value => this.props.onChange({ authorization: value })}
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.dataset = c; }}
+            onChange={value => this.props.onChangeDataset(value)}
             validations={['required']}
+            options={this.props.datasets.map(dataset =>
+              ({ label: dataset.name, value: dataset.id })
+            )}
             properties={{
-              name: 'authorization',
-              label: 'Authorization token',
+              name: 'dataset',
+              label: 'Dataset',
               type: 'text',
               required: true,
-              default: this.state.form.authorization || ''
+              default: this.state.form.dataset
             }}
           >
-            {Input}
+            {Select}
           </Field>
         }
 
         <Field
-          ref={(c) => { if (c) this.children.push(c); }}
+          ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
           onChange={value => this.props.onChange({ name: value })}
           validations={['required']}
           properties={{
@@ -53,9 +61,10 @@ class Step1 extends Step {
         </Field>
 
         <Field
-          ref={(c) => { if (c) this.children.push(c); }}
+          ref={(c) => { if (c) FORM_ELEMENTS.elements.provider = c; }}
           onChange={value => this.props.onChange({ provider: value })}
           validations={['required']}
+          options={PROVIDER_OPTIONS}
           properties={{
             name: 'provider',
             label: 'Provider',
@@ -64,11 +73,11 @@ class Step1 extends Step {
             default: this.state.form.provider
           }}
         >
-          {Input}
+          {Select}
         </Field>
 
         <Field
-          ref={(c) => { if (c) this.children.push(c); }}
+          ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
           onChange={value => this.props.onChange({ description: value })}
           properties={{
             name: 'description',
@@ -81,7 +90,7 @@ class Step1 extends Step {
         </Field>
 
         <Field
-          ref={(c) => { if (c) this.children.push(c); }}
+          ref={(c) => { if (c) FORM_ELEMENTS.elements.layerConfig = c; }}
           onChange={value => this.props.onChange({ layerConfig: value })}
           properties={{
             name: 'layerConfig',
@@ -94,7 +103,7 @@ class Step1 extends Step {
         </Field>
 
         <Field
-          ref={(c) => { if (c) this.children.push(c); }}
+          ref={(c) => { if (c) FORM_ELEMENTS.elements.legendConfig = c; }}
           onChange={value => this.props.onChange({ legendConfig: value })}
           properties={{
             name: 'legendConfig',
@@ -107,13 +116,15 @@ class Step1 extends Step {
         </Field>
 
         <Field
-          ref={(c) => { if (c) this.children.push(c); }}
-          onChange={value => this.props.onChange({ default: value })}
+          ref={(c) => { if (c) FORM_ELEMENTS.elements.default = c; }}
+          onChange={value => this.props.onChange({ default: value.checked })}
           option={{ label: 'Default' }}
           properties={{
             name: 'default',
             label: 'Do you want to set this layer as the default one. (Only one default layer per dataset is allowed at a time)',
-            default: [this.state.form.default]
+            value: 'default',
+            title: 'Default',
+            checked: this.props.form.default
           }}
         >
           {Checkbox}
@@ -125,10 +136,16 @@ class Step1 extends Step {
   }
 }
 
+Step1.defaultPropTypes = {
+  datasets: []
+};
+
 Step1.propTypes = {
-  dataset: React.PropTypes.string,
+  id: React.PropTypes.string,
+  datasets: React.PropTypes.array,
   form: React.PropTypes.object,
-  onChange: React.PropTypes.func
+  onChange: React.PropTypes.func,
+  onChangeDataset: React.PropTypes.func
 };
 
 export default Step1;
