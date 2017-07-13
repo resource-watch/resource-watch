@@ -9,20 +9,18 @@ import { initStore } from 'store';
 // Components
 import DatasetForm from 'components/admin/dataset/form/DatasetForm';
 
-class DatasetNew extends React.Component {
+function DatasetNew(props) {
+  const { user } = props;
 
-  render() {
-    const { user } = this.props;
-    return (
-      <div className="c-datasets-new">
-        <DatasetForm
-          application={[process.env.APPLICATIONS]}
-          authorization={user.token}
-          onSubmit={() => Router.pushRoute('admin_data', { tab: 'datasets' })}
-        />
-      </div>
-    );
-  }
+  return (
+    <div className="c-datasets-new">
+      <DatasetForm
+        application={[process.env.APPLICATIONS]}
+        authorization={user.token}
+        onSubmit={() => Router.pushRoute('admin_data', { tab: 'datasets' })}
+      />
+    </div>
+  );
 }
 
 DatasetNew.propTypes = {

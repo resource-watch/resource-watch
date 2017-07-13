@@ -16,6 +16,7 @@ import DatasetForm from 'components/admin/dataset/form/DatasetForm';
 import MetadataForm from 'components/admin/metadata/form/MetadataForm';
 import VocabulariesAssociationForm from 'components/admin/vocabularies/association/VocabulariesAssociationForm';
 import WidgetIndex from 'components/admin/widget/pages/index';
+import LayersIndex from 'components/admin/layers/pages/index';
 
 // Constants
 const DATASET_SUBTABS = [{
@@ -112,7 +113,7 @@ class DatasetShow extends React.Component {
               }
 
               {subtab === 'layers' &&
-                'Layers'
+                <LayersIndex user={user} dataset={id} />
               }
             </div>
 
@@ -124,7 +125,6 @@ class DatasetShow extends React.Component {
 }
 
 DatasetShow.propTypes = {
-  tab: PropTypes.string,
   id: PropTypes.string,
   subtab: PropTypes.string,
 

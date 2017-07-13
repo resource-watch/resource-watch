@@ -5,10 +5,10 @@ import { Autobind } from 'es-decorators';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { getDatasets, setFilters } from 'redactions/admin/datasets';
+import { getLayers, setFilters } from 'redactions/admin/layers';
 
 // Selectors
-import getFilteredDatasets from 'selectors/admin/datasets';
+import getFilteredLayers from 'selectors/admin/layers';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -18,22 +18,22 @@ import TableHeaderSearch from 'components/ui/customtable/header/TableHeaderSearc
 // Table components
 import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
+import GoToDatasetAction from './actions/GoToDatasetAction';
+
 
 // TDs
 import NameTD from './td/NameTD';
-import PublishedTD from './td/PublishedTD';
-import StatusTD from './td/StatusTD';
-import RelatedContentTD from './td/RelatedContentTD';
 
-class DatasetTable extends React.Component {
+class LayersTable extends React.Component {
 
   componentDidMount() {
+    const { dataset, application } = this.props;
     this.props.setFilters([]);
-    this.props.getDatasets(this.props.application);
+    this.props.getLayers({ dataset, application });
   }
 
   /**
-   * Event handler executed when the user search for a dataset
+   * Event handler executed when the user search for a layer
    * @param {string} { value } Search keywords
    */
   @Autobind
@@ -45,14 +45,14 @@ class DatasetTable extends React.Component {
     }
   }
 
-  getDatasets() {
-    return this.props.datasets
-      .map(dataset => Object.assign({}, dataset.attributes, { id: dataset.id }));
+  getLayers() {
+    return this.props.layers
+      .map(layer => Object.assign({}, layer.attributes, { id: layer.id }));
   }
 
   render() {
     return (
-      <div className="c-dataset-table">
+      <div className="c-layer-table">
         <Spinner className="-light" isLoading={this.props.loading} />
 
         {this.props.error && (
@@ -61,12 +61,12 @@ class DatasetTable extends React.Component {
 
         <TableHeaderSearch
           input={{
-            placeholder: 'Search dataset'
+            placeholder: 'Search layer'
           }}
           link={{
-            label: 'New dataset',
+            label: 'New layer',
             route: 'admin_data_detail',
-            params: { tab: 'datasets', id: 'new' }
+            params: { tab: 'layers', id: 'new' }
           }}
           onSearch={this.onSearch}
         />
@@ -76,16 +76,14 @@ class DatasetTable extends React.Component {
           <CustomTable
             columns={[
               { label: 'Name', value: 'name', td: NameTD },
-              { label: 'Status', value: 'status', td: StatusTD },
-              { label: 'Published', value: 'published', td: PublishedTD },
-              { label: 'Provider', value: 'provider' },
-              { label: 'Related content', value: 'status', td: RelatedContentTD }
+              { label: 'Provider', value: 'provider' }
             ]}
             actions={{
               show: true,
               list: [
-                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
-                { name: 'Remove', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization } }
+                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'layers', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
+                { name: 'Remove', route: 'admin_data_detail', params: { tab: 'layers', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization } },
+                { name: 'Go to dataset', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, component: GoToDatasetAction }
               ]
             }}
             sort={{
@@ -93,7 +91,7 @@ class DatasetTable extends React.Component {
               value: 1
             }}
             filters={false}
-            data={this.getDatasets()}
+            data={this.getLayers()}
             pageSize={20}
             pagination={{
               enabled: true,
@@ -109,35 +107,37 @@ class DatasetTable extends React.Component {
   }
 }
 
-DatasetTable.defaultProps = {
+LayersTable.defaultProps = {
   application: [],
   columns: [],
   actions: {},
   // Store
-  datasets: []
+  layers: []
 };
 
-DatasetTable.propTypes = {
+LayersTable.propTypes = {
+  dataset: PropTypes.string,
   application: PropTypes.array.isRequired,
   authorization: PropTypes.string,
+
   // Store
   loading: PropTypes.bool.isRequired,
-  datasets: PropTypes.array.isRequired,
+  layers: PropTypes.array.isRequired,
   error: PropTypes.string,
 
   // Actions
-  getDatasets: PropTypes.func.isRequired,
+  getLayers: PropTypes.func.isRequired,
   setFilters: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  loading: state.datasets.datasets.loading,
-  datasets: getFilteredDatasets(state),
-  error: state.datasets.datasets.error
+  loading: state.layers.layers.loading,
+  layers: getFilteredLayers(state),
+  error: state.layers.layers.error
 });
 const mapDispatchToProps = dispatch => ({
-  getDatasets: () => dispatch(getDatasets()),
+  getLayers: ({ dataset, application }) => dispatch(getLayers({ dataset, application })),
   setFilters: filters => dispatch(setFilters(filters))
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(DatasetTable);
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(LayersTable);

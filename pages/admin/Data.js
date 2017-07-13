@@ -8,6 +8,7 @@ import Tabs from 'components/ui/Tabs';
 // Tabs
 import DatasetTab from 'components/admin/dataset/DatasetTab';
 import WidgetTab from 'components/admin/widget/WidgetTab';
+import LayersTab from 'components/admin/layers/LayersTab';
 
 // Components
 import Title from 'components/ui/Title';
@@ -101,7 +102,7 @@ class Data extends Page {
             }
 
             {tab === 'layers' &&
-              <h2>Layers</h2>
+              <LayersTab tab={tab} subtab={subtab} id={id} />
             }
 
             {tab === 'dashboards' &&

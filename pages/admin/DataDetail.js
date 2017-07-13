@@ -7,15 +7,17 @@ import { capitalizeFirstLetter } from 'utils/utils';
 // Services
 import DatasetService from 'services/DatasetService';
 import WidgetService from 'services/WidgetService';
+import LayersService from 'services/LayersService';
 
 // Layout
 import Page from 'components/admin/layout/Page';
 import Layout from 'components/admin/layout/Layout';
+import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 // Tabs
 import DatasetTab from 'components/admin/dataset/DatasetTab';
 import WidgetTab from 'components/admin/widget/WidgetTab';
-import Breadcrumbs from 'components/ui/Breadcrumbs';
+import LayersTab from 'components/admin/layers/LayersTab';
 
 // Components
 import Title from 'components/ui/Title';
@@ -53,16 +55,23 @@ class Data extends Page {
         }
         break;
 
-      // TODO: do the same service for widgets and layers
+      case 'layers':
+        if (id !== 'new') {
+          this.service = new LayersService();
+        }
+        break;
+
       default:
 
     }
   }
 
   componentWillMount() {
+    const { id } = this.state;
+
     if (this.service) {
       // Fetch the dataset / layer / widget depending on the tab
-      this.service.fetchData()
+      this.service.fetchData({ id })
         .then((data) => {
           this.setState({
             data: { ...data.attributes, id: data.id }
@@ -134,7 +143,7 @@ class Data extends Page {
             }
 
             {tab === 'layers' &&
-              <h2>Layers</h2>
+              <LayersTab tab={tab} subtab={subtab} id={id} />
             }
 
             {tab === 'dashboards' &&
