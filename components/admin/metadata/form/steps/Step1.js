@@ -95,14 +95,14 @@ class Step1 extends React.Component {
 
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.technical_title = c; }}
-            onChange={value => this.changeMetadata({ technical_title: value })}
+            onChange={value => this.changeMetadata({ info: { technical_title: value } })}
             validations={['required']}
             properties={{
               name: 'technical_title',
               label: 'Technical title',
               type: 'text',
               required: true,
-              default: this.props.form.technical_title
+              default: this.props.form.info.technical_title
             }}
           >
             {Input}
