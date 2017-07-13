@@ -219,7 +219,8 @@ class WidgetEditor extends React.Component {
       {},
       {
         application: widget.attributes.application,
-        name: widget.attributes.name
+        name: widget.attributes.name,
+        id: widget.id
       },
       widgetConfig);
 

@@ -36,7 +36,7 @@ export default class WidgetService {
   }
 
   updateUserWidget(widget, datasetId, token) {
-    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget`, {
+    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget/${widget.id}`, {
       method: 'PATCH',
       body: JSON.stringify(widget),
       headers: {
