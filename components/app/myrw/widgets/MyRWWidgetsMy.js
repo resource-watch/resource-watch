@@ -52,7 +52,6 @@ class MyRWWidgetsMy extends React.Component {
     this.setState({
       myWidgetsLoaded: false
     });
-    console.log(this.props.user);
     this.widgetService.getUserWidgets(this.props.user.id).then((response) => {
       this.setState({
         myWidgetsLoaded: true,
@@ -69,7 +68,7 @@ class MyRWWidgetsMy extends React.Component {
   render() {
     const { myWidgetsLoaded, myWidgets } = this.state;
     return (
-      <div className="my-widgets">
+      <div className="c-myrw-widgets-my">
         <div className="row">
           <div className="column small-12">
             <Spinner
@@ -82,6 +81,11 @@ class MyRWWidgetsMy extends React.Component {
               mode="grid"
               onWidgetRemove={this.handleWidgetRemoved}
             />
+            }
+            {myWidgets && myWidgets.length === 0 &&
+            <div className="no-widgets-div">
+              You currently have no widgets
+            </div>
             }
           </div>
         </div>

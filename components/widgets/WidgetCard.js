@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import { Router } from 'routes';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -38,20 +39,6 @@ class WidgetCard extends React.Component {
     return text;
   }
 
-
-  @Autobind
-  handleRemoveWidget() {
-    const widgetId = this.props.widget.id;
-    const widgetName = this.props.widget.attributes.name;
-    if (confirm(`Are you sure you want to remove the widget: ${widgetName}?`)) {
-      this.widgetService.removeUserWidget(widgetId, this.props.user.token)
-        .then((response) => {
-          this.props.onWidgetRemove();
-        })
-        .catch(err => console.log(err));
-    }
-  }
-
   /*
   * HELPERS
   */
@@ -64,12 +51,39 @@ class WidgetCard extends React.Component {
     return text;
   }
 
+
+  /*
+  * UI EVENTS
+  *
+  * - handleRemoveWidget
+  * - handleClick
+  */
+  @Autobind
+  handleRemoveWidget() {
+    const widgetId = this.props.widget.id;
+    const widgetName = this.props.widget.attributes.name;
+    if (confirm(`Are you sure you want to remove the widget: ${widgetName}?`)) {
+      this.widgetService.removeUserWidget(widgetId, this.props.user.token)
+        .then((response) => {
+          this.props.onWidgetRemove();
+        })
+        .catch(err => console.log(err));
+    }
+  }
+  @Autobind
+  handleClick(event) {
+    const { widget } = this.props;
+    if (event.target.tagName !== 'A') {
+      Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my-widgets', element: widget.id });
+    }
+  }
+
   render() {
     const { widget } = this.props;
 
     return (
       <div
-        className={`c-widget-card`}
+        className={'c-widget-card'}
         onClick={this.handleClick}
       >
         {widget &&
