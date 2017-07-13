@@ -111,8 +111,11 @@ class VegaChart extends React.Component {
   getVegaConfig() {
     const padding = this.props.data.padding || { top: 20, right: 20, bottom: 20, left: 20 };
     const size = {
-      width: this.width - padding.left - padding.right,
-      height: this.height - padding.top - padding.bottom
+      // Please don't change these conditions, the bar chart
+      // needs its height and width to not be overriden to display
+      // properly
+      width: this.props.data.width || (this.width - padding.left - padding.right),
+      height: this.props.data.height || (this.height - padding.top - padding.bottom)
     };
 
     // This signal is used for the tooltip

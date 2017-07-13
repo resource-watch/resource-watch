@@ -51,7 +51,16 @@
       height: 100%;
 
       .chart {
-        height: calc(100% - 100px);
+        // The height will be set either by VegaChart or Vega itself
+        height: auto;
+
+        .vega {
+          // We can't use display: flex; here otherwise
+          // the user won't be able to see all of the
+          // widgets with scrolling (especially the left
+          // hand side which will be cut)
+          text-align: center;
+        }
       }
     }
   }

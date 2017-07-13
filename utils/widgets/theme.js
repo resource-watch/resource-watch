@@ -1,11 +1,12 @@
 import deepClone from 'lodash/cloneDeep';
 
 const defaultTheme = {
-  height: 0,
-  padding: 'strict', // Do not set something different than 'strict'
-                     // or the autopadInset property because it will cause the
-                     // graph to increase its size each time it is rendered
-                     // again
+  height: 0, // Don't touch this without testing all the charts
+             // and particularly the bar chart with or without
+             // scrolling and its vertical alignment
+  padding: 'auto', // Do not set something different than 'auto'
+                   // because it will break several graphs
+                   // (primarly the bar and pie ones)
   marks: {
     color: '#3BB2D0'
   },
@@ -19,7 +20,6 @@ const defaultTheme = {
     tickLabelFontSize: 13
   },
   axis_y: {
-    orient: 'right',
     axisWidth: 0,
     tickSize: 0,
     ticks: 5,

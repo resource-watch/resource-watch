@@ -2,6 +2,8 @@ import deepClone from 'lodash/cloneDeep';
 
 /* eslint-disable */
 const defaultChart = {
+  "width": 1,
+  "height": 1,
   "data": [
     {
       "name": "table"
