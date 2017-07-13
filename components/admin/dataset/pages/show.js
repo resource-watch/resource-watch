@@ -6,10 +6,6 @@ import PropTypes from 'prop-types';
 // Utils
 import { substitution } from 'utils/utils';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-
 // Components
 import Aside from 'components/ui/Aside';
 import DatasetForm from 'components/admin/dataset/form/DatasetForm';
@@ -132,8 +128,4 @@ DatasetShow.propTypes = {
   user: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-  user: state.user
-});
-
-export default withRedux(initStore, mapStateToProps, null)(DatasetShow);
+export default DatasetShow;
