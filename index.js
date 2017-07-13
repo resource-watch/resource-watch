@@ -89,9 +89,8 @@ server.use(passport.session());
 // Initializing next app before express server
 app.prepare()
   .then(() => {
-    // Public/landing page
-    server.get('/', function (req, res) {
-      return app.render(req, res, '/app/Home');
+    server.get('/data', function (req, res) {
+      return res.redirect('/data/explore');
     });
 
     server.get('/auth', passport.authenticate('control-tower', { failureRedirect: '/' }), function (req, res) {
