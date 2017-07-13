@@ -6,7 +6,7 @@ import { Autobind } from 'es-decorators';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { setFilter, setColor, setCategory, setValue, setSize, setOrderBy,
-  setAggregateFunction, setLimit } from 'redactions/widgetEditor';
+  setAggregateFunction, setLimit, setChartType } from 'redactions/widgetEditor';
 
 // Services
 import UserService from 'services/UserService';
@@ -53,7 +53,8 @@ class MyRWWidgetsEdit extends React.Component {
         aggregateFunction,
         orderBy,
         filters,
-        limit
+        limit,
+        chartType
       } = paramsConfig;
 
     if (aggregateFunction) {
@@ -79,6 +80,9 @@ class MyRWWidgetsEdit extends React.Component {
     }
     if (limit) {
       this.props.setLimit(limit);
+    }
+    if (chartType) {
+      this.props.setChartType(chartType);
     }
   }
 
@@ -118,7 +122,8 @@ MyRWWidgetsEdit.propTypes = {
   setValue: PropTypes.func.isRequired,
   setOrderBy: PropTypes.func.isRequired,
   setAggregateFunction: PropTypes.func.isRequired,
-  setLimit: PropTypes.func.isRequired
+  setLimit: PropTypes.func.isRequired,
+  setChartType: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -149,6 +154,9 @@ const mapDispatchToProps = dispatch => ({
   },
   setLimit: (value) => {
     dispatch(setLimit(value));
+  },
+  setChartType: (value) => {
+    dispatch(setChartType(value));
   }
 });
 
