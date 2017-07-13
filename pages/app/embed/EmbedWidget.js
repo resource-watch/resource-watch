@@ -1,10 +1,18 @@
 import React from 'react';
+import { Autobind } from 'es-decorators';
+
+// Layout
+import Head from 'components/app/layout/head';
 
 // Components
 import Spinner from 'components/ui/Spinner';
+import VegaChart from 'components/widgets/VegaChart';
 
 // Services
 import WidgetService from 'services/WidgetService';
+
+// Utils
+import vegaThumbnailTheme from 'utils/widgets/vega-theme-thumbnails.json';
 
 export default class EmbedWidget extends React.Component {
 
@@ -22,7 +30,7 @@ export default class EmbedWidget extends React.Component {
     });
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.widgetService.fetchData().then((data) => {
       this.setState({
         loading: false,
@@ -31,16 +39,31 @@ export default class EmbedWidget extends React.Component {
     });
   }
 
+  @Autobind
+  triggerToggleLoading(loading) {
+    this.setState({ loading });
+  }
+
   render() {
     const { widget, loading } = this.state;
-    console.log('widget', widget);
 
     return (
       <div className="c-embed-widget">
+        <Head
+          title={widget && widget.attributes.name}
+          description={widget && widget.attributes.name}
+        />
         <Spinner
           isLoading={loading}
           className="-light"
         />
+        {widget &&
+          <VegaChart
+            data={widget.attributes.widgetConfig}
+            theme={vegaThumbnailTheme}
+            toggleLoading={this.triggerToggleLoading}
+          />
+        }
       </div>
     );
   }
