@@ -76,7 +76,7 @@ class SaveWidgetModal extends React.Component {
       loading: true
     });
     const { widgetEditor, tableName, dataset } = this.props;
-    const { limit, value, category, color, size, orderBy, aggregateFunction, chartType } = widgetEditor;
+    const { limit, value, category, color, size, orderBy, aggregateFunction, chartType, filters } = widgetEditor;
 
     const widgetConfig = { widgetConfig: Object.assign(
       {},
@@ -88,7 +88,8 @@ class SaveWidgetModal extends React.Component {
         size,
         orderBy,
         aggregateFunction,
-        chartType
+        chartType,
+        filters
       }
       },
       getChartConfig(widgetEditor, tableName, dataset)
@@ -116,6 +117,7 @@ class SaveWidgetModal extends React.Component {
           saved: false,
           error: true
         });
+        console.log(err); // eslint-disable-line no-console
       });
   }
 

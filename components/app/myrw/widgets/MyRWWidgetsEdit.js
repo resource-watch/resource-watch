@@ -5,7 +5,7 @@ import { Autobind } from 'es-decorators';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { setFilter, setColor, setCategory, setValue, setSize, setOrderBy,
+import { setFilters, setColor, setCategory, setValue, setSize, setOrderBy,
   setAggregateFunction, setLimit, setChartType } from 'redactions/widgetEditor';
 
 // Services
@@ -76,7 +76,7 @@ class MyRWWidgetsEdit extends React.Component {
       this.props.setCategory(category);
     }
     if (filters) {
-      this.props.setFilter(filters);
+      this.props.setFilters(filters);
     }
     if (limit) {
       this.props.setLimit(limit);
@@ -115,7 +115,7 @@ MyRWWidgetsEdit.propTypes = {
   // Store
   user: PropTypes.object.isRequired,
   // ACTIONS
-  setFilter: PropTypes.func.isRequired,
+  setFilters: PropTypes.func.isRequired,
   setSize: PropTypes.func.isRequired,
   setColor: PropTypes.func.isRequired,
   setCategory: PropTypes.func.isRequired,
@@ -131,8 +131,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setFilter: (filter) => {
-    dispatch(setFilter(filter));
+  setFilters: (filter) => {
+    dispatch(setFilters(filter));
   },
   setColor: (color) => {
     dispatch(setColor(color));

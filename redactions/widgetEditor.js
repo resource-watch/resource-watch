@@ -173,6 +173,7 @@ export default function (state = initialState, action) {
     }
 
     case SET_FILTERS: {
+      console.log('alalalal');
       return Object.assign({}, state, {
         filters: action.payload
       });
@@ -212,7 +213,7 @@ export function setFilterValue(name, value) {
   return dispatch => dispatch({ type: SET_FILTER_VALUE, payload: { name, value } });
 }
 export function setFilters(filters) {
-  return dispatch => dispatch({ type: setFilters, payload: filters });
+  return dispatch => dispatch({ type: SET_FILTERS, payload: filters });
 }
 export function removeFilter(filter) {
   return dispatch => dispatch({ type: REMOVE_FILTER, payload: filter });
