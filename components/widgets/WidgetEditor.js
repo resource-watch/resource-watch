@@ -214,7 +214,14 @@ class WidgetEditor extends React.Component {
       },
       getChartConfig(widgetEditor, tableName, dataset)
     ) };
-    const widgetObj = Object.assign({}, widget.attributes, widgetConfig);
+
+    const widgetObj = Object.assign(
+      {},
+      {
+        application: widget.attributes.application,
+        name: widget.attributes.name
+      },
+      widgetConfig);
 
     this.widgetService.updateUserWidget(widgetObj, dataset, user.token)
       .then((response) => {
