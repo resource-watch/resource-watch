@@ -53,7 +53,8 @@ class MyRW extends Page {
 
     this.state = {
       tab: url.query.tab || 'profile',
-      subtab: url.query.subtab
+      subtab: url.query.subtab,
+      element: url.query.element
     };
   }
 
@@ -62,12 +63,13 @@ class MyRW extends Page {
 
     this.setState({
       tab: url.query.tab || 'profile',
-      subtab: url.query.subtab
+      subtab: url.query.subtab,
+      element: url.query.element
     });
   }
 
   render() {
-    const { tab, subtab } = this.state;
+    const { tab, subtab, element } = this.state;
 
     return (
       <Layout
@@ -101,7 +103,7 @@ class MyRW extends Page {
         }
 
         {tab === 'widgets' &&
-          <MyRWWidgets subtab={subtab} />
+          <MyRWWidgets subtab={subtab} element={element} />
         }
 
         {tab === 'insights' &&

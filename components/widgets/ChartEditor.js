@@ -42,6 +42,13 @@ class ChartEditor extends React.Component {
   }
 
   @Autobind
+  handleUpdateWidget() {
+    if (confirm('Are you sure you want to update your widget?')) {
+      this.props.onUpdateWidget();
+    }
+  }
+
+  @Autobind
   handleNeedHelp() {
     const options = {
       children: HowToWidgetEditorModal,
@@ -52,10 +59,11 @@ class ChartEditor extends React.Component {
   }
 
   render() {
-    const { dataset, tableName, jiminy, widgetEditor, tableViewMode, user } = this.props;
+    const { dataset, tableName, jiminy, widgetEditor, tableViewMode, user, mode } = this.props;
     const { chartType, fields, category, value } = widgetEditor;
 
     const showSaveButton = chartType && category && value && user && user.token;
+    const showUpdateButton = showSaveButton;
 
     const chartOptions = (
         jiminy
@@ -102,11 +110,18 @@ class ChartEditor extends React.Component {
           >
             Need help?
           </button>
-          {showSaveButton &&
+          {showSaveButton && mode === 'save' &&
           <a
             onClick={this.handleSaveWidget}
           >
             Save widget
+          </a>
+          }
+          {showUpdateButton && mode === 'update' &&
+          <a
+            onClick={this.handleUpdateWidget}
+          >
+            Update widget
           </a>
           }
         </div>
@@ -117,6 +132,7 @@ class ChartEditor extends React.Component {
 
 
 ChartEditor.propTypes = {
+  mode: PropTypes.string.isRequired, // save | update
   tableName: PropTypes.string.isRequired,
   jiminy: PropTypes.object,
   dataset: PropTypes.string.isRequired, // Dataset ID
@@ -126,7 +142,9 @@ ChartEditor.propTypes = {
   user: PropTypes.object.isRequired,
   setChartType: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired
+  setModalOptions: PropTypes.func.isRequired,
+  // Callback
+  onUpdateWidget: PropTypes.func
 };
 
 const mapStateToProps = ({ widgetEditor, user }) => ({ widgetEditor, user });
