@@ -45,7 +45,17 @@ export function canRenderChart(widgetEditor) {
 }
 
 export function getDataURL(widgetEditor, tableName, dataset) {
-  const { category, value, color, size, filters, aggregateFunction, orderBy, limit } = widgetEditor;
+  const {
+    category,
+    value,
+    color,
+    size,
+    filters,
+    aggregateFunction,
+    orderBy,
+    limit,
+    chartType
+  } = widgetEditor;
   const aggregateFunctionColor = color && color.aggregateFunction;
   const aggregateFunctionSize = size && size.aggregateFunction;
   const isBidimensional = isBidimensionalChart(widgetEditor);
@@ -87,6 +97,12 @@ export function getDataURL(widgetEditor, tableName, dataset) {
   }
 
   const orderByColumn = orderBy ? [orderBy] : [];
+
+  // If the visualization is a line chart and the user doesn't sort
+  // the data, by default we sort it with the category column
+  if (!orderByColumn.length && chartType === 'line') {
+    orderByColumn.push({ name: category.name });
+  }
 
   if (orderByColumn.length > 0 && value && orderByColumn[0].name === value.name && aggregateFunction && aggregateFunction !== 'none') {
     orderByColumn[0].name = `${aggregateFunction}(${value.name})`;
