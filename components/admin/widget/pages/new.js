@@ -2,14 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Router } from 'routes';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-
 // Components
 import WidgetForm from 'components/admin/widget/form/WidgetForm';
 
-const DatasetNew = function DatasetNew(props) {
+function WidgetNew(props) {
   return (
     <div className="c-widgets-new">
       <WidgetForm
@@ -20,16 +16,12 @@ const DatasetNew = function DatasetNew(props) {
       />
     </div>
   );
-};
+}
 
-DatasetNew.propTypes = {
+WidgetNew.propTypes = {
   id: PropTypes.string,
   // Store
   user: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-  user: state.user
-});
-
-export default withRedux(initStore, mapStateToProps, null)(DatasetNew);
+export default WidgetNew;
