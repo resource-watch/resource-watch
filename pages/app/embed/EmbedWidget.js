@@ -1,5 +1,6 @@
 import React from 'react';
 import { Autobind } from 'es-decorators';
+import { Link } from 'routes';
 
 // Layout
 import Head from 'components/app/layout/head';
@@ -7,6 +8,7 @@ import Head from 'components/app/layout/head';
 // Components
 import Spinner from 'components/ui/Spinner';
 import VegaChart from 'components/widgets/VegaChart';
+import Tooltip from 'components/ui/Tooltip';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -53,16 +55,34 @@ export default class EmbedWidget extends React.Component {
           title={widget && widget.attributes.name}
           description={widget && widget.attributes.name}
         />
+        <Tooltip />
         <Spinner
           isLoading={loading}
           className="-light"
         />
         {widget &&
-          <VegaChart
-            data={widget.attributes.widgetConfig}
-            theme={vegaThumbnailTheme}
-            toggleLoading={this.triggerToggleLoading}
-          />
+          <div>
+            <VegaChart
+              data={widget.attributes.widgetConfig}
+              theme={vegaThumbnailTheme}
+              toggleLoading={this.triggerToggleLoading}
+            />
+            <div className="info">
+              <div className="widget-title">
+                <h2>
+                  <Link
+                    route="explore_detail"
+                    params={{ id: widget.attributes.dataset }}
+                  >
+                    <a>{widget.attributes.name}</a>
+                  </Link>
+                </h2>
+              </div>
+              <div className="widget-description">
+                {widget.attributes.description}
+              </div>
+            </div>
+          </div>
         }
       </div>
     );
