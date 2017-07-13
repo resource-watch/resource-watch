@@ -17,7 +17,7 @@ export default function HeaderDropdownData(props) {
       }}
     >
       {/* First child: This is what the item will be tethered to */}
-      <Link route="data" >
+      <Link route="data">
         <a
           onMouseEnter={props.onMouseEnter}
           onMouseLeave={props.onMouseLeave}
@@ -33,12 +33,12 @@ export default function HeaderDropdownData(props) {
           onMouseLeave={props.onMouseLeave}
         >
           <li className="header-dropdown-list-item">
-            <Link route="explore">
+            <Link route="explore" prefetch={true}>
               <a>Explore Datasets</a>
             </Link>
           </li>
           <li className="header-dropdown-list-item">
-            <Link route="dashboards">
+            <Link route="dashboards" prefetch={true}>
               <a>Dashboards</a>
             </Link>
           </li>

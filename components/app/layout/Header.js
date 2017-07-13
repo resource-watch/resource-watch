@@ -68,7 +68,7 @@ class Header extends React.Component {
       {
         name: 'Get Involved',
         pathnames: ['/app/GetInvolved'],
-        component: <Link route="get_involved"><a>Get Involved</a></Link>
+        component: <Link route="get_involved" prefetch={true}><a>Get Involved</a></Link>
       },
       {
         name: 'My RW',
