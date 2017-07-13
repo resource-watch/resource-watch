@@ -29,7 +29,7 @@ class DatasetWidgetChart extends React.Component {
   }
 
   render() {
-    const { name, widgetConfig } = this.state.widget;
+    const { widgetConfig } = this.state.widget;
 
     return (
       <div className="c-widget-chart">

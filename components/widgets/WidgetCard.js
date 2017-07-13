@@ -16,26 +16,23 @@ import WidgetService from 'services/WidgetService';
 
 class WidgetCard extends React.Component {
 
-  constructor(props) {
-    super(props);
-
-    this.widgetService = new WidgetService(null, {
-      apiURL: process.env.WRI_API_URL
-    });
-  }
-
-
   /**
    * HELPERS
    * - getDescription
   */
-  getDescription(_text) {
+  static getDescription(_text) {
     let text = _text;
     if (typeof text === 'string' && text.length > 70) {
       text = text.replace(/^(.{70}[^\s]*).*/, '$1');
       return `${text}...`;
     }
     return text;
+  }
+
+  componentWillMount() {
+    this.widgetService = new WidgetService(null, {
+      apiURL: process.env.WRI_API_URL
+    });
   }
 
 
@@ -43,35 +40,19 @@ class WidgetCard extends React.Component {
   handleRemoveWidget() {
     const widgetId = this.props.widget.id;
     const widgetName = this.props.widget.attributes.name;
+    // eslint-disable-next-line no-alert
     if (confirm(`Are you sure you want to remove the widget: ${widgetName}?`)) {
       this.widgetService.removeUserWidget(widgetId, this.props.user.token)
-        .then((response) => {
-          this.props.onWidgetRemove();
-        })
-        .catch(err => console.log(err));
+        .then(() => this.props.onWidgetRemove())
+        .catch(err => console.log(err)); // eslint-disable-line no-console
     }
-  }
-
-  /*
-  * HELPERS
-  */
-  getDescription(_text) {
-    let text = _text;
-    if (typeof text === 'string' && text.length > 70) {
-      text = text.replace(/^(.{70}[^\s]*).*/, '$1');
-      return `${text}...`;
-    }
-    return text;
   }
 
   render() {
     const { widget } = this.props;
 
     return (
-      <div
-        className={`c-widget-card`}
-        onClick={this.handleClick}
-      >
+      <div className="c-widget-card">
         {widget &&
           <DatasetWidgetChart
             widget={widget.attributes}
@@ -84,12 +65,14 @@ class WidgetCard extends React.Component {
             <Title className="-default -primary">
               {widget.attributes.name}
             </Title>
-            <p>{this.getDescription(widget.attributes.description)}</p>
+            <p>{WidgetCard.getDescription(widget.attributes.description)}</p>
           </div>
           <div className="actions">
             <a
               className="c-button"
               onClick={this.handleRemoveWidget}
+              role="button"
+              tabIndex="0"
             >
             Remove
             </a>
