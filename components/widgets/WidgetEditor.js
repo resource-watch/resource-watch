@@ -12,6 +12,7 @@ import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Services
 import DatasetService from 'services/DatasetService';
+import WidgetService from 'services/WidgetService';
 
 // Components
 import Select from 'components/form/SelectInput';
@@ -87,6 +88,10 @@ class WidgetEditor extends React.Component {
     this.datasetService = new DatasetService(props.dataset, {
       apiURL: process.env.WRI_API_URL
     });
+    // WidgetService
+    this.widgetService = new WidgetService(props.dataset, {
+      apiURL: process.env.WRI_API_URL
+    });
   }
 
   componentDidMount() {
@@ -120,7 +125,6 @@ class WidgetEditor extends React.Component {
 
   getLayers() {
     this.datasetService.getLayers().then((response) => {
-      const { fieldsError, fieldsLoaded, jiminyLoaded } = this.state;
       this.setState({
         layers: response.map(val => ({
           id: val.id,
@@ -137,7 +141,7 @@ class WidgetEditor extends React.Component {
         layersLoaded: true,
         layersError: true
       });
-      console.log(err);
+      console.log(err); // eslint-disable-line no-console
     });
   }
 
@@ -185,12 +189,55 @@ class WidgetEditor extends React.Component {
     });
   }
 
+  @Autobind
+  handleUpdateWidget() {
+    this.setState({
+      updating: true
+    });
+
+    const { widgetEditor, dataset, user } = this.props;
+    const { limit, value, category, color, size, orderBy, aggregateFunction, chartType, filters, tableName } = widgetEditor;
+
+    const widgetConfig = { widgetConfig: Object.assign(
+      {},
+      { paramsConfig: {
+        limit,
+        value,
+        category,
+        color,
+        size,
+        orderBy,
+        aggregateFunction,
+        chartType,
+        filters
+      }
+      },
+      getChartConfig(widgetEditor, tableName, dataset)
+    ) };
+    const widgetObj = Object.assign({}, this.state.widget, widgetConfig);
+
+    this.widgetService.updateUserWidget(widgetObj, dataset, user.token)
+      .then((response) => {
+        console.log('response', response);
+        this.setState({
+          updating: false
+        })
+      });
+  }
+
   getVisualization() {
-    const { tableName, selectedVisualizationType, chartLoading, layersLoaded, fieldsError, jiminyLoaded } = this.state;
+    const {
+      tableName,
+      selectedVisualizationType,
+      chartLoading,
+      layersLoaded,
+      fieldsError,
+      jiminyLoaded } = this.state;
     const { widgetEditor, dataset, mode } = this.props;
     const { chartType, layer } = widgetEditor;
 
-    const loading = (mode === 'dataset' && !layersLoaded) || (!fieldsError && !jiminyLoaded);
+    const loading = (mode === 'dataset' && !layersLoaded) ||
+      (!fieldsError && !jiminyLoaded);
 
     let visualization = null;
     switch (selectedVisualizationType) {
@@ -273,12 +320,17 @@ class WidgetEditor extends React.Component {
       fieldsError,
       layersError,
       layersLoaded,
-      layers
+      layers,
+      updating
     } = this.state;
     let { jiminy } = this.state;
     const { dataset, mode } = this.props;
 
-    const loading = (mode === 'dataset' && !layersLoaded) || (!fieldsError && !jiminyLoaded);
+    const loading = (mode === 'dataset' && !layersLoaded) ||
+      (!fieldsError && !jiminyLoaded) ||
+      (mode === 'widget' && updating);
+
+    const chartEditorMode = (mode === 'dataset') ? 'save' : 'update';
 
     const visualization = this.getVisualization();
     const componentShouldNotShow = fieldsError && (layersError || (layers && layers.length === 0));
@@ -333,6 +385,8 @@ class WidgetEditor extends React.Component {
                     jiminy={jiminy}
                     tableName={tableName}
                     tableViewMode={selectedVisualizationType === 'table'}
+                    mode={chartEditorMode}
+                    onUpdateWidget={this.handleUpdateWidget}
                   />
                 }
                 {
@@ -352,7 +406,7 @@ class WidgetEditor extends React.Component {
   }
 }
 
-const mapStateToProps = ({ widgetEditor }) => ({ widgetEditor });
+const mapStateToProps = ({ widgetEditor, user }) => ({ widgetEditor, user });
 const mapDispatchToProps = dispatch => ({
   resetWidgetEditor: () => dispatch(resetWidgetEditor()),
   toggleModal: (open) => { dispatch(toggleModal(open)); },

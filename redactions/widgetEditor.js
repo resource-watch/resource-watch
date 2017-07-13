@@ -173,7 +173,6 @@ export default function (state = initialState, action) {
     }
 
     case SET_FILTERS: {
-      console.log('alalalal');
       return Object.assign({}, state, {
         filters: action.payload
       });
