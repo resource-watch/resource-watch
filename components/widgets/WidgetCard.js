@@ -6,10 +6,12 @@ import { Router } from 'routes';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Components
 import Title from 'components/ui/Title';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
+import EmbedMyWidgetModal from 'components/modal/EmbedMyWidgetModal';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -61,6 +63,17 @@ class WidgetCard extends React.Component {
       Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my-widgets', element: widget.id });
     }
   }
+  @Autobind
+  handleEmbed() {
+    const options = {
+      children: EmbedMyWidgetModal,
+      childrenProps: {
+        widgetId: this.props.widget.id
+      }
+    };
+    this.props.toggleModal(true);
+    this.props.setModalOptions(options);
+  }
 
   render() {
     const { widget } = this.props;
@@ -93,6 +106,14 @@ class WidgetCard extends React.Component {
             >
             Remove
             </a>
+            <a
+              className="c-button"
+              onClick={this.handleEmbed}
+              role="button"
+              tabIndex="0"
+            >
+            Embed
+            </a>
           </div>
 
         </div>
@@ -106,11 +127,18 @@ WidgetCard.propTypes = {
   // Callbacks
   onWidgetRemove: PropTypes.func.isRequired,
   // Store
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  setModalOptions: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user
 });
 
-export default withRedux(initStore, mapStateToProps, null)(WidgetCard);
+const mapDispatchToProps = dispatch => ({
+  toggleModal: (open) => { dispatch(toggleModal(open)); },
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); }
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(WidgetCard);
