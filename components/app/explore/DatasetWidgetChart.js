@@ -1,7 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+// Components
 import VegaChart from 'components/widgets/VegaChart';
 import Spinner from 'components/ui/Spinner';
+
+// Themes
 import ChartTheme from 'utils/widgets/theme';
+import ThumbnailTheme from 'utils/widgets/vega-theme-thumbnails.json'
 
 class DatasetWidgetChart extends React.Component {
 
@@ -29,6 +35,8 @@ class DatasetWidgetChart extends React.Component {
 
   render() {
     const { widgetConfig } = this.state.widget;
+    const { mode } = this.props;
+    const themeObj = (mode === 'thumbnail') ? ThumbnailTheme : ChartTheme();
 
     return (
       <div className="c-widget-chart">
@@ -38,7 +46,7 @@ class DatasetWidgetChart extends React.Component {
         />
         <VegaChart
           data={widgetConfig}
-          theme={ChartTheme()}
+          theme={themeObj}
           toggleLoading={this.triggerToggleLoading}
         />
       </div>
@@ -47,8 +55,9 @@ class DatasetWidgetChart extends React.Component {
 }
 
 DatasetWidgetChart.propTypes = {
+  mode: PropTypes.string.isRequired,
   // STATE
-  widget: React.PropTypes.object
+  widget: PropTypes.object
 };
 
 export default DatasetWidgetChart;
