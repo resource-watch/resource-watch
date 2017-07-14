@@ -203,6 +203,7 @@
 }
 .Select--multi .Select-multi-value-wrapper {
   display: inline-block;
+  margin: 0 0 $space-1;
 }
 .Select .Select-aria-only {
   display: inline-block;
@@ -303,8 +304,7 @@
   display: inline-block;
   font-size: 0.9em;
   line-height: 1.4;
-  margin-left: 8px;
-  margin-top: 8px;
+  margin: $space-1 0 0 $space-1;
   vertical-align: top;
 }
 .Select--multi .Select-value-icon,

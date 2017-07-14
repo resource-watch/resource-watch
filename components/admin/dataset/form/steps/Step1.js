@@ -29,7 +29,6 @@ class Step1 extends React.Component {
 
     // BINDINGS
     this.onCartoFieldsChange = this.onCartoFieldsChange.bind(this);
-    this.onDocumentsFieldsChange = this.onDocumentsFieldsChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -39,7 +38,6 @@ class Step1 extends React.Component {
   /**
     * UI EVENTS
     * - onCartoFieldsChange
-    * - onDocumentsFieldsChange
     * - onLegendChange
   */
   onCartoFieldsChange() {
@@ -51,10 +49,6 @@ class Step1 extends React.Component {
     });
   }
 
-  onDocumentsFieldsChange() {
-
-  }
-
   onLegendChange(obj) {
     const legend = Object.assign({}, this.props.form.legend, obj);
     this.props.onChange({ legend });
@@ -62,7 +56,7 @@ class Step1 extends React.Component {
 
 
   render() {
-    const { user } = this.props;
+    const { user, columns } = this.props;
     const { dataset } = this.state;
     const { provider } = this.state.form;
 
@@ -482,6 +476,61 @@ class Step1 extends React.Component {
           </div>
         }
 
+        {this.state.form.provider && dataset && columns.length &&
+          <div className="c-field-row">
+            <div className="l-row row">
+              <div className="column small-12 medium-6">
+                <Field
+                  options={columns.map(c => ({ label: c.name, value: c.name }))}
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.widgetRelevantProps = c; }}
+                  onChange={value => this.props.onChange({ widgetRelevantProps: value })}
+                  hint="Widget relevant columns"
+                  className="-fluid"
+                  properties={{
+                    name: 'widgetRelevantProps',
+                    label: 'Widget relevant columns',
+                    multi: true,
+                    instanceId: 'selectWidgetRelevantProps',
+                    placeholder: 'Select the dataset columns...',
+                    default: this.state.form.widgetRelevantProps.map(
+                      column => ({ label: column, value: column })
+                    ),
+                    value: this.state.form.widgetRelevantProps.map(
+                      column => ({ label: column, value: column })
+                    )
+                  }}
+                >
+                  {Select}
+                </Field>
+              </div>
+
+              <div className="column small-12 medium-6">
+                <Field
+                  options={columns.map(c => ({ label: c.name, value: c.name }))}
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.layerRelevantProps = c; }}
+                  onChange={value => this.props.onChange({ layerRelevantProps: value })}
+                  hint="Layer relevant columns"
+                  className="-fluid"
+                  properties={{
+                    name: 'layerRelevantProps',
+                    label: 'Layer relevant columns',
+                    multi: true,
+                    instanceId: 'selectLayerRelevantProps',
+                    placeholder: 'Select the dataset columns...',
+                    default: this.state.form.layerRelevantProps.map(
+                      column => ({ label: column, value: column })
+                    ),
+                    value: this.state.form.layerRelevantProps.map(
+                      column => ({ label: column, value: column })
+                    )
+                  }}
+                >
+                  {Select}
+                </Field>
+              </div>
+            </div>
+          </div>
+        }
       </fieldset>
     );
   }
@@ -490,6 +539,7 @@ class Step1 extends React.Component {
 Step1.propTypes = {
   dataset: PropTypes.string,
   form: PropTypes.object,
+  columns: PropTypes.array,
   onChange: PropTypes.func,
 
   // Store
