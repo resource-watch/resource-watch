@@ -58,6 +58,25 @@
     }
   }
 
+  .text-inputs-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+    input {
+      width: 100%;
+
+      &.-first {
+        margin-right: 10px;
+      }
+
+      &.-last {
+        margin-left: 10px;
+      }
+    }
+  }
+
   .c-button {
     margin-top: 10px;
     width: 100%;

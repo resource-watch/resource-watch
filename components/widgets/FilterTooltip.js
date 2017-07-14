@@ -176,8 +176,29 @@ class FilterTooltip extends React.Component {
     );
   }
 
+  @Autobind
+  handleMinChange(event) {
+    const newValue = event.target.value;
+    this.setState({
+      rangeValue: {
+        min: newValue,
+        max: this.state.rangeValue.max
+      }
+    });
+  }
+  @Autobind
+  handleMaxChange(event) {
+    const newValue = event.target.value;
+    this.setState({
+      rangeValue: {
+        min: this.state.rangeValue.min,
+        max: newValue
+      }
+    });
+  }
+
   render() {
-    const { loading } = this.state;
+    const { loading, rangeValue } = this.state;
     const categoryValue = this.isCategorical();
     const classNameValue = classNames({
       'c-filter-tooltip': true
@@ -191,6 +212,13 @@ class FilterTooltip extends React.Component {
 
         { categoryValue && this.renderCheckboxes() }
         { !categoryValue && !loading && this.renderRange() }
+        { !categoryValue && !loading &&
+          <div className="text-inputs-container">
+            <input className="-first" type="number" value={rangeValue.min} onChange={this.handleMinChange} />
+            -
+            <input className="-last" type="number" value={rangeValue.max} onChange={this.handleMaxChange} />
+          </div>
+        }
 
         <div className="buttons">
           { categoryValue &&
