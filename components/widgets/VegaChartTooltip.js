@@ -44,8 +44,9 @@ class VegaChartTooltip extends React.Component {
 VegaChartTooltip.propTypes = {
   // Define the chart data
   item: PropTypes.shape({
-    x: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    y: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    // PropTypes.object being a date object
+    x: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
+    y: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object])
   })
 };
 
