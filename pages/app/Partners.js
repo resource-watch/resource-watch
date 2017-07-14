@@ -34,7 +34,7 @@ class Partners extends Page {
           <div className="l-container">
             <div className="page-header-content">
               <Breadcrumbs
-                items={[{ name: 'About', url: 'about' }]}
+                items={[{ name: 'About', route: 'about' }]}
               />
 
               <Title className="-primary -huge page-header-title" >

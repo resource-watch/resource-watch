@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import { Router } from 'routes';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -36,6 +37,12 @@ class WidgetCard extends React.Component {
   }
 
 
+  /*
+  * UI EVENTS
+  *
+  * - handleRemoveWidget
+  * - handleClick
+  */
   @Autobind
   handleRemoveWidget() {
     const widgetId = this.props.widget.id;
@@ -47,12 +54,22 @@ class WidgetCard extends React.Component {
         .catch(err => console.log(err)); // eslint-disable-line no-console
     }
   }
+  @Autobind
+  handleClick(event) {
+    const { widget } = this.props;
+    if (event.target.tagName !== 'A') {
+      Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my-widgets', element: widget.id });
+    }
+  }
 
   render() {
     const { widget } = this.props;
 
     return (
-      <div className="c-widget-card">
+      <div
+        className={'c-widget-card'}
+        onClick={this.handleClick}
+      >
         {widget &&
           <DatasetWidgetChart
             widget={widget.attributes}

@@ -12,6 +12,7 @@ import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Services
 import DatasetService from 'services/DatasetService';
+import WidgetService from 'services/WidgetService';
 
 // Components
 import Select from 'components/form/SelectInput';
@@ -61,7 +62,6 @@ class WidgetEditor extends React.Component {
 
     this.state = {
       selectedVisualizationType: 'chart',
-      loading: true,
       // fields
       fields: [],
       fieldsLoaded: false,
@@ -88,11 +88,17 @@ class WidgetEditor extends React.Component {
     this.datasetService = new DatasetService(props.dataset, {
       apiURL: process.env.WRI_API_URL
     });
+    // WidgetService
+    this.widgetService = new WidgetService(props.dataset, {
+      apiURL: process.env.WRI_API_URL
+    });
   }
 
   componentDidMount() {
     this.getFields();
-    this.getLayers();
+    if (this.props.mode === 'dataset') {
+      this.getLayers();
+    }
   }
 
   getFields() {
@@ -101,7 +107,6 @@ class WidgetEditor extends React.Component {
         const fieldsError = !response.fields || response.fields.length <= 0;
 
         this.setState({
-          loading: !fieldsError && !this.state.jiminyLoaded && !this.state.layersLoaded,
           fieldsLoaded: true,
           fieldsError,
           fields: response.fields
@@ -120,7 +125,6 @@ class WidgetEditor extends React.Component {
 
   getLayers() {
     this.datasetService.getLayers().then((response) => {
-      const { fieldsError, fieldsLoaded, jiminyLoaded } = this.state;
       this.setState({
         layers: response.map(val => ({
           id: val.id,
@@ -130,15 +134,14 @@ class WidgetEditor extends React.Component {
           order: 1,
           hidden: false
         })),
-        layersLoaded: true,
-        loading: !fieldsError && !fieldsLoaded && !jiminyLoaded
+        layersLoaded: true
       });
     }).catch((err) => {
       this.setState({
         layersLoaded: true,
         layersError: true
       });
-      console.log(err);
+      console.log(err); // eslint-disable-line no-console
     });
   }
 
@@ -150,7 +153,6 @@ class WidgetEditor extends React.Component {
     this.datasetService.fetchJiminy(querySt)
       .then((jiminy) => {
         this.setState({
-          loading: !this.state.layersLoaded,
           jiminyLoaded: true,
           jiminy,
           jiminyError: typeof jiminy === 'undefined'
@@ -159,7 +161,6 @@ class WidgetEditor extends React.Component {
       .catch((err) => {
         console.error('jiminy error', err);
         this.setState({
-          loading: false,
           jiminyLoaded: true,
           jiminyError: true
         });
@@ -188,10 +189,63 @@ class WidgetEditor extends React.Component {
     });
   }
 
+  @Autobind
+  handleUpdateWidget() {
+    this.setState({
+      updating: true
+    });
+
+    const { widgetEditor, dataset, user, widget } = this.props;
+    const { limit, value, category, color, size, orderBy, aggregateFunction, chartType, filters, tableName } = widgetEditor;
+
+    const widgetConfig = { widgetConfig: Object.assign(
+      {},
+      { paramsConfig: {
+        limit,
+        value,
+        category,
+        color,
+        size,
+        orderBy,
+        aggregateFunction,
+        chartType,
+        filters
+      }
+      },
+      getChartConfig(widgetEditor, tableName, dataset)
+    ) };
+
+    const widgetObj = Object.assign(
+      {},
+      {
+        application: widget.attributes.application,
+        name: widget.attributes.name,
+        id: widget.id
+      },
+      widgetConfig);
+
+    this.widgetService.updateUserWidget(widgetObj, dataset, user.token)
+      .then((response) => {
+        this.setState({
+          updating: false
+        });
+        alert("Widget updated successfully!");
+      });
+  }
+
   getVisualization() {
-    const { tableName, selectedVisualizationType, chartLoading, loading } = this.state;
-    const { widgetEditor, dataset } = this.props;
+    const {
+      tableName,
+      selectedVisualizationType,
+      chartLoading,
+      layersLoaded,
+      fieldsError,
+      jiminyLoaded } = this.state;
+    const { widgetEditor, dataset, mode } = this.props;
     const { chartType, layer } = widgetEditor;
+
+    const loading = (mode === 'dataset' && !layersLoaded) ||
+      (!fieldsError && !jiminyLoaded);
 
     let visualization = null;
     switch (selectedVisualizationType) {
@@ -267,17 +321,24 @@ class WidgetEditor extends React.Component {
 
   render() {
     const {
-      loading,
       tableName,
       selectedVisualizationType,
       jiminyError,
+      jiminyLoaded,
       fieldsError,
       layersError,
       layersLoaded,
-      layers
+      layers,
+      updating
     } = this.state;
     let { jiminy } = this.state;
-    const { dataset } = this.props;
+    const { dataset, mode } = this.props;
+
+    const loading = (mode === 'dataset' && !layersLoaded) ||
+      (!fieldsError && !jiminyLoaded) ||
+      (mode === 'widget' && updating);
+
+    const chartEditorMode = (mode === 'dataset') ? 'save' : 'update';
 
     const visualization = this.getVisualization();
     const componentShouldNotShow = fieldsError && (layersError || (layers && layers.length === 0));
@@ -332,6 +393,8 @@ class WidgetEditor extends React.Component {
                     jiminy={jiminy}
                     tableName={tableName}
                     tableViewMode={selectedVisualizationType === 'table'}
+                    mode={chartEditorMode}
+                    onUpdateWidget={this.handleUpdateWidget}
                   />
                 }
                 {
@@ -351,7 +414,7 @@ class WidgetEditor extends React.Component {
   }
 }
 
-const mapStateToProps = ({ widgetEditor }) => ({ widgetEditor });
+const mapStateToProps = ({ widgetEditor, user }) => ({ widgetEditor, user });
 const mapDispatchToProps = dispatch => ({
   resetWidgetEditor: () => dispatch(resetWidgetEditor()),
   toggleModal: (open) => { dispatch(toggleModal(open)); },
@@ -360,12 +423,15 @@ const mapDispatchToProps = dispatch => ({
 });
 
 WidgetEditor.propTypes = {
+  mode: PropTypes.string.isRequired, // 'dataset' or 'widget'
   dataset: PropTypes.string, // Dataset ID
+  widget: PropTypes.object, // Widget object
   availableVisualizations: PropTypes.arrayOf(
     PropTypes.oneOf(VISUALIZATION_TYPES.map(viz => viz.value))
   ),
   // Store
-  widgetEditor: PropTypes.object,
+  user: PropTypes.object.isRequired,
+  widgetEditor: PropTypes.object.isRequired,
   resetWidgetEditor: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,

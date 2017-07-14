@@ -23,7 +23,7 @@ routes.add('about_partners', '/about/partners', 'app/Partners');
 routes.add('partner', '/about/partners/:id', 'app/PartnerDetail');
 
 // ----- DATA -----
-routes.add('data', '/data', 'app/Explore'); // TODO: create the data page
+// routes.add('data', '/data', 'app/Explore'); // TODO: create the data page
 routes.add('explore', '/data/explore', 'app/Explore');
 routes.add('explore_detail', '/data/explore/:id', 'app/ExploreDetail');
 
@@ -39,4 +39,8 @@ routes.add('get_involved', '/get-involved', 'app/GetInvolved');
 routes.add('get_involved_detail', '/get-involved/:id', 'app/GetInvolvedDetail');
 
 // ------ MY RW ------------
-routes.add('myrw', '/myrw/:tab?/:subtab?', 'app/MyRW');
+routes.add('myrw', '/myrw/:tab?/:subtab?/:element?', 'app/MyRW');
+
+// ------ EMBED -------------
+routes.add('embed_widget', '/embed/widget/:id', 'app/embed/EmbedWidget');
+routes.add('embed_dataset', '/embed/dataset/:id', 'app/embed/EmbedDataset');

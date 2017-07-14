@@ -41,6 +41,7 @@
 @import "./components/ui/switch";
 @import "./components/ui/table";
 @import "./components/ui/table_header_actions";
+@import "./components/ui/table_header_search";
 @import "./components/ui/table_tooltip";
 @import "./components/ui/tabs";
 @import "./components/ui/title";
@@ -92,7 +93,6 @@
 // ================== ADMIN ======================
 
 // Datasets
-@import "./components/admin/dataset/datasets_index";
 @import "./components/admin/dataset/card";
 @import "./components/admin/dataset/filter";
 @import "./components/admin/dataset/filter-item";
@@ -173,3 +173,8 @@
 @import "./components/app/pages/myrw/myrw_edit_profile";
 @import "./components/app/pages/myrw/myrw_subscriptions";
 @import "./components/app/pages/myrw/myrw_widgets";
+@import "./components/app/pages/myrw/myrw_widgets_edit";
+@import "./components/app/pages/myrw/myrw_widgets_my";
+
+// Embed
+@import "./components/app/pages/embed/embed_widget";

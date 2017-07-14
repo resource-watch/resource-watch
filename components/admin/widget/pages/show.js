@@ -1,25 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-
 // Components
 import WidgetForm from 'components/admin/widget/form/WidgetForm';
 
-class WidgetShow extends React.Component {
+function WidgetShow(props) {
+  const { id, user } = props;
+  console.log(user.token);
 
-  render() {
-    return (
-      <WidgetForm
-        application={[process.env.APPLICATIONS]}
-        authorization={this.props.user.token}
-        widget={this.props.id}
-      />
-    );
-  }
-
+  return (
+    <WidgetForm
+      application={[process.env.APPLICATIONS]}
+      authorization={user.token}
+      widget={id}
+    />
+  );
 }
 
 WidgetShow.propTypes = {
@@ -28,8 +23,4 @@ WidgetShow.propTypes = {
   user: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-  user: state.user
-});
-
-export default withRedux(initStore, mapStateToProps, null)(WidgetShow);
+export default WidgetShow;

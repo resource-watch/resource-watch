@@ -1,33 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
 // Components
 import WidgetIndex from 'components/admin/widget/pages/index';
 import WidgetNew from 'components/admin/widget/pages/new';
 import WidgetShow from 'components/admin/widget/pages/show';
 
-export default function WidgetTab(props) {
-  const { tab, subtab, id } = props;
+function WidgetTab(props) {
+  const { tab, subtab, id, user } = props;
 
   return (
     <div className="c-widgets-tab">
-      {!id &&
-        <WidgetIndex tab={tab} subtab={subtab} id={id} />
+      {!id && user.token &&
+        <WidgetIndex tab={tab} subtab={subtab} id={id} user={user} />
       }
 
-      {id && id === 'new' &&
-        <WidgetNew tab={tab} subtab={subtab} id={id} />
+      {id && id === 'new' && user.token &&
+        <WidgetNew tab={tab} subtab={subtab} id={id} user={user} />
       }
 
-      {id && id !== 'new' &&
-        <WidgetShow tab={tab} subtab={subtab} id={id} />
+      {id && id !== 'new' && user.token &&
+        <WidgetShow tab={tab} subtab={subtab} id={id} user={user} />
       }
     </div>
   );
 }
 
 WidgetTab.propTypes = {
+  user: PropTypes.object,
   tab: PropTypes.string,
   id: PropTypes.string,
   subtab: PropTypes.string
 };
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default withRedux(initStore, mapStateToProps, null)(WidgetTab);

@@ -73,7 +73,7 @@ export function getStaticData(slug) {
       .then((response) => {
         dispatch({
           type: GET_STATIC_SUCCESS,
-          payload: { name: slug || slug, data: response.data.attributes }
+          payload: { name: slug, data: response.data.attributes }
         });
       })
       .catch((err) => {

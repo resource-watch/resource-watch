@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { StickyContainer, Sticky } from 'react-sticky';
 
 // Components
@@ -7,6 +8,7 @@ import Aside from 'components/ui/Aside';
 // My RW Widgets
 import MyRWWidgetsStarred from 'components/app/myrw/widgets/MyRWWidgetsStarred';
 import MyRWWidgetsMy from 'components/app/myrw/widgets/MyRWWidgetsMy';
+import MyRWWidgetsEdit from 'components/app/myrw/widgets/MyRWWidgetsEdit';
 
 // Constants
 const MYRW_SUBTABS = [{
@@ -24,6 +26,7 @@ const MYRW_SUBTABS = [{
 class MyRWWidgets extends React.Component {
   render() {
     const subtab = this.props.subtab || 'starred';
+    const element = this.props.element;
 
     return (
       <div className="c-page-section">
@@ -49,10 +52,13 @@ class MyRWWidgets extends React.Component {
                 {subtab === 'starred' &&
                   <MyRWWidgetsStarred />
                 }
-
-
-                {subtab === 'my-widgets' &&
+                {subtab === 'my-widgets' && !element &&
                   <MyRWWidgetsMy />
+                }
+                {subtab === 'my-widgets' && element &&
+                  <MyRWWidgetsEdit
+                    widgetId={element}
+                  />
                 }
               </div>
 
@@ -65,7 +71,8 @@ class MyRWWidgets extends React.Component {
 }
 
 MyRWWidgets.propTypes = {
-  subtab: React.PropTypes.string
+  subtab: PropTypes.string,
+  element: PropTypes.string
 };
 
 export default MyRWWidgets;

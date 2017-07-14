@@ -6,16 +6,13 @@ import PropTypes from 'prop-types';
 // Utils
 import { substitution } from 'utils/utils';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-
 // Components
 import Aside from 'components/ui/Aside';
 import DatasetForm from 'components/admin/dataset/form/DatasetForm';
 import MetadataForm from 'components/admin/metadata/form/MetadataForm';
 import VocabulariesAssociationForm from 'components/admin/vocabularies/association/VocabulariesAssociationForm';
 import WidgetIndex from 'components/admin/widget/pages/index';
+import LayersIndex from 'components/admin/layers/pages/index';
 
 // Constants
 const DATASET_SUBTABS = [{
@@ -108,11 +105,11 @@ class DatasetShow extends React.Component {
               }
 
               {subtab === 'widgets' &&
-                <WidgetIndex dataset={id} embed />
+                <WidgetIndex user={user} dataset={id} embed />
               }
 
               {subtab === 'layers' &&
-                'Layers'
+                <LayersIndex user={user} dataset={id} />
               }
             </div>
 
@@ -124,7 +121,6 @@ class DatasetShow extends React.Component {
 }
 
 DatasetShow.propTypes = {
-  tab: PropTypes.string,
   id: PropTypes.string,
   subtab: PropTypes.string,
 
@@ -132,8 +128,4 @@ DatasetShow.propTypes = {
   user: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-  user: state.user
-});
-
-export default withRedux(initStore, mapStateToProps, null)(DatasetShow);
+export default DatasetShow;

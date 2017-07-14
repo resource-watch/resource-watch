@@ -9,6 +9,9 @@
   padding-top: 70px;
   padding-bottom: 70px;
 
+  background-image: url('/static/images/backgrounds/image_header.jpg');
+  background-position: top center;
+
   &.intro {
     padding: 160px 0;
   }
@@ -22,7 +25,7 @@
 .c-banner-video {
   position: relative;
   width: 100%;
-  height: 474px;
+  height: 554px;
   overflow: hidden;
 
   .c-banner-video-foreground,
@@ -40,6 +43,6 @@
   .c-banner-video >.c-banner-video-foreground { height: 300%; top: -100%; }
 }
 @media (max-aspect-ratio: 16/9) {
-  .c-banner-video > .c-banner-video-foreground { height: 180%; top: -30%; }
+  .c-banner-video > .c-banner-video-foreground { height: 250%; top: -75%; }
 }
 

@@ -2,10 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-
 // Components
 import WidgetTable from 'components/admin/widget/table/WidgetTable';
 import ButtonContainer from 'components/ui/ButtonContainer';
@@ -41,12 +37,8 @@ WidgetIndex.propTypes = {
   user: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-  user: state.user
-});
-
 WidgetIndex.defaultProps = {
   embed: false
 };
 
-export default withRedux(initStore, mapStateToProps, null)(WidgetIndex);
+export default WidgetIndex;

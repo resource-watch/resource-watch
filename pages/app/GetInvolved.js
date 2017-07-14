@@ -75,15 +75,19 @@ const cards = [
 ];
 
 class GetInvolved extends Page {
-  componentWillMount() {
-    this.props.getStaticData('get-involved', 'getInvolved');
+  componentDidMount() {
+    super.componentDidMount();
+    this.props.getStaticData('get-involved');
   }
 
   render() {
     const { data } = this.props;
     const styles = {};
-    if (data.photo) {
-      styles.backgroundImage = `url(${process.env.CMS_API_URL}${data.photo.large})`;
+
+    if (!data) return null;
+
+    if (data && data.photo) {
+      styles.backgroundImage = `url(${process.env.CMS_API_URL}/../${data.photo.large})`;
     }
 
     const introLines = intro => (
@@ -102,7 +106,7 @@ class GetInvolved extends Page {
           </div>
           <div className="buttons">
             {c.buttons.map((b, j) => (
-              <button key={j} className={`c-btn ${b.className}`}>
+              <button key={j} className={`action c-btn -transparent -secondary -extra-big ${b.className}`}>
                 <Link route={b.route} params={b.params}><a>{b.text}</a></Link>
               </button>
             ))}
@@ -154,7 +158,7 @@ GetInvolved.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  data: state.staticPages.getInvolved
+  data: state.staticPages['get-involved']
 });
 
 const mapDispatchToProps = dispatch => ({
