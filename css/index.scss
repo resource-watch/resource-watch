@@ -45,7 +45,6 @@
 @import "./components/ui/table_tooltip";
 @import "./components/ui/tabs";
 @import "./components/ui/title";
-@import "./components/ui/modal";
 @import "./components/ui/tooltip";
 @import "./components/ui/tooltip-global";
 @import "./components/ui/zoom_control";
@@ -54,6 +53,7 @@
 // Modal
 @import "./components/modal/save_widget_modal";
 @import "./components/modal/how_to_widget_editor_modal";
+@import "./components/modal/embed-my-widget-modal";
 
 // VIS
 @import "./components/vis/globe";
