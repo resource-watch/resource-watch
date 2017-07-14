@@ -5,8 +5,6 @@ import omit from 'lodash/omit';
 // Service
 import DatasetsService from 'services/DatasetsService';
 
-import { post } from 'utils/request';
-
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/dataset/form/constants';
 
 import Navigation from 'components/form/Navigation';
@@ -97,26 +95,22 @@ class DatasetForm extends React.Component {
             omit: (dataset) ? ['connectorUrlHint', 'authorization', 'connectorType', 'provider'] : ['connectorUrlHint', 'authorization']
           };
 
-          post({
+          // Save the data
+          this.service.saveData({
             type: requestOptions.type,
-            url: `${process.env.WRI_API_URL}/dataset/${dataset || ''}`,
-            body: omit(this.state.form, requestOptions.omit),
-            headers: [{
-              key: 'Content-Type', value: 'application/json'
-            }, {
-              key: 'Authorization', value: this.state.form.authorization
-            }],
-            onSuccess: (response) => {
-              const successMessage = `The dataset "${response.data.id}" - "${response.data.attributes.name}" has been uploaded correctly`;
+            id: dataset,
+            body: omit(this.state.form, requestOptions.omit)
+          })
+            .then((data) => {
+              const successMessage = `The dataset "${data.id}" - "${data.attributes.name}" has been uploaded correctly`;
               alert(successMessage);
 
               this.props.onSubmit && this.props.onSubmit();
-            },
-            onError: (error) => {
+            })
+            .catch((err) => {
               this.setState({ submitting: false });
-              console.error(error);
-            }
-          });
+              console.error(err);
+            });
         } else {
           this.setState({
             step: this.state.step + 1

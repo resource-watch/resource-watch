@@ -51,7 +51,7 @@ export default class DatasetsService {
     });
   }
 
-  saveData({ type, body, id }) {
+  saveData({ type, body, id = '' }) {
     return new Promise((resolve, reject) => {
       post({
         url: `${process.env.WRI_API_URL}/dataset/${id}`,
