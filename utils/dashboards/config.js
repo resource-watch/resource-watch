@@ -110,63 +110,12 @@ export default [
         categories: ['Water', 'Food']
       },
       {
-        name: '% of power plants exposed to water risk',
-        categories: ['Water', 'Energy']
-      },
-      {
         name: 'Watersheds are at risk due to deforestation',
         categories: ['Water', 'Forests'],
-        data: {
-          attributes: {
-            widgetConfig: {
-              "padding": {"top": 0,"left": 0,"right": 0,"bottom": 0},
-              "data": [
-                {
-                  "url": "https://wri-rw.carto.com/api/v2/sql?q=SELECT count(rs_tl_c) x, rs_tl_c as y FROM river_basins where rs_tl_c != 10  group by rs_tl_c",
-                  "name": "table",
-                  "format": {"type": "json","property": "rows"}
-                },
-                {
-                  "from":"table",
-                  "name": "pie",
-                  "transform": [{"type": "pie","field": "x"}]
-                }
-              ],
-              "marks": [
-                {
-                  "from": {
-                    "data": "table",
-                    "transform": [{"type": "pie","field": "x"}]
-                  },
-                  "type": "arc",
-                  "properties": {
-                    "enter": {
-                      "x": {"mult": 0.5,"field": {"group": "width"}},
-                      "y": {"mult": 0.5,"field": {"group": "height"}},
-                      "fill": {"field": "x","scale": "color"},
-                      "stroke": {"value": "white"},
-                      "endAngle": {"field": "layout_end"},
-                      "startAngle": {"field": "layout_start"},
-                      "innerRadius": {"value": 45},
-                      "outerRadius": {"value": 65}
-                    }
-                  }
-                }
-              ],
-              "scales": [
-                {
-                  "name": "color",
-                  "type": "ordinal",
-                  "range": "category20c",
-                  "domain": {"data": "table","field": "x_percent"}
-                }
-              ]
-            }
-          }
-        }
+        widgetId: '42756e3f-2c35-4d28-a221-47b0751380f7',
       },
       {
-        widgetId: '2528cfdb-fd03-4965-bf77-3550a43b5055',
+        widgetId: 'aac54e4e-4133-4127-8a4f-643db2429248',
         categories: ['Water', 'Forests']
       },
       {
@@ -176,10 +125,6 @@ export default [
       {
         widgetId: '7cdad4dc-0074-4bd4-b3bd-db6ffc4e0180',
         categories: ['Water', 'Disasters', 'Society'],
-      },
-      {
-        name: 'Surface water is changing over time',
-        categories: ['Water']
       }
     ]
   },
