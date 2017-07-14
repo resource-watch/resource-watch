@@ -44,10 +44,6 @@
   &.-thumbnail {
     max-height: 180px;
 
-    .chart {
-      overflow-x: hidden;
-    }
-
     .c-chart {
       display: block;
       height: 300px;
@@ -55,6 +51,9 @@
       .chart {
         display: block;
         height: 100%;
+        // We need to set this since otherwise an horizontal scroll bar appears
+        // in the Explore cards
+        overflow-x: hidden;
       }
     }
   }
