@@ -91,4 +91,28 @@ export default class DatasetsService {
       });
     });
   }
+
+  fetchFields({ id }) {
+    return new Promise((resolve, reject) => {
+      get({
+        url: `${process.env.WRI_API_URL}/fields/${id}`,
+        headers: [{
+          key: 'Content-Type',
+          value: 'application/json'
+        }, {
+          key: 'Authorization',
+          value: this.opts.authorization
+        }],
+        onSuccess: (data) => {
+          resolve(Object.keys(data.fields).map(field => ({
+            name: field,
+            type: data.fields[field].type
+          })));
+        },
+        onError: (error) => {
+          reject(error);
+        }
+      });
+    });
+  }
 }
