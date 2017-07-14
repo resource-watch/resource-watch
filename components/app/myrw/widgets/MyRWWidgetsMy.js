@@ -57,7 +57,7 @@ class MyRWWidgetsMy extends React.Component {
         myWidgetsLoaded: true,
         myWidgets: response
       });
-    }).catch(err => console.log(err));
+    }).catch(err => console.log(err)); // eslint-disable-line no-console
   }
 
   @Autobind

@@ -1,5 +1,5 @@
 .c-widget-card {
-  max-width: 200px;
+  width: 100%;
   background: $color-tertiary;
   display: flex;
   flex-direction: column;
@@ -10,11 +10,14 @@
 
   .c-widget-chart {
     .c-chart {
+      .chart {
+        display: flex;
 
-      canvas {
-        width: 100%;
+        canvas {
+          width: 100%;
+          height: 100%;
+        }
       }
-
     }
   }
 
