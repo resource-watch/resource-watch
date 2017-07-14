@@ -14,7 +14,7 @@ import Tooltip from 'components/ui/Tooltip';
 import WidgetService from 'services/WidgetService';
 
 // Utils
-import vegaThumbnailTheme from 'utils/widgets/vega-theme-thumbnails.json';
+import ChartTheme from 'utils/widgets/theme';
 
 export default class EmbedWidget extends React.Component {
 
@@ -64,7 +64,7 @@ export default class EmbedWidget extends React.Component {
           <div>
             <VegaChart
               data={widget.attributes.widgetConfig}
-              theme={vegaThumbnailTheme}
+              theme={ChartTheme()}
               toggleLoading={this.triggerToggleLoading}
             />
             <div className="info">

@@ -29,6 +29,31 @@ const defaultTheme = {
     grid: true,
     gridColor: '#A9ABAD',
     gridOpacity: 1
+  },
+  // This is used by old widgets, generally the one that are
+  // used to represent a dataset
+  range: {
+    colorRange1: [
+      '#3bb2d0',
+      '#54d2f2',
+      '#54bad4',
+      '#2a8da5'
+    ],
+    colorRange2: [
+      '#f4f4f1',
+      '#fffbca',
+      '#ffe01b',
+      '#f6bb0f',
+      '#f6811d',
+      '#e24e2c'
+    ],
+    colorRange3: [
+      '#D23782',
+      '#1230a5',
+      '#32866d',
+      '#ffe01b',
+      '#6e23bd'
+    ]
   }
 };
 

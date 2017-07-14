@@ -14,7 +14,7 @@ import Tooltip from 'components/ui/Tooltip';
 import DatasetService from 'services/DatasetService';
 
 // Utils
-import vegaThumbnailTheme from 'utils/widgets/vega-theme-thumbnails.json';
+import ChartTheme from 'utils/widgets/theme';
 
 export default class EmbedDataset extends React.Component {
 
@@ -70,7 +70,7 @@ export default class EmbedDataset extends React.Component {
           <div>
             <VegaChart
               data={widget.attributes.widgetConfig}
-              theme={vegaThumbnailTheme}
+              theme={ChartTheme()}
               toggleLoading={this.triggerToggleLoading}
             />
             <div className="info">
