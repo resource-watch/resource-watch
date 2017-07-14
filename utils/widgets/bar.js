@@ -25,6 +25,30 @@ const defaultChart = {
       ]
     }
   ],
+  // This scale is not the one used by the marks
+  // but is necessary for the tooltip to show
+  scales: [
+    {		
+      name: 'x',		
+      type: 'ordinal',		
+      range: 'width',		
+      domain: { data: 'table', field: 'x' }		
+    }
+  ],
+  // This axis is not used by the marks
+  // but is necessary for the tooltip to show
+  axes: [
+    {
+      "type": "x",
+      "scale": "x",
+      "tickSize": 0,
+      "properties": {
+        "labels": {
+          "text": {"template": ""},
+        }
+      }
+    }
+  ],
   marks: [
     {
       "type": "group",
