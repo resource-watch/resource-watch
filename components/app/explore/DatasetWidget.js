@@ -152,7 +152,7 @@ class DatasetWidget extends React.Component {
       >
         {/* If it has widget we want to renderize the default widget one */}
         {hasWidget && gridMode &&
-          <DatasetWidgetChart widget={element} />
+          <DatasetWidgetChart widget={element} mode="thumbnail" />
         }
         {/* If it doesn't have widget but has layer we want to renderize the default layer one */}
         {!hasWidget && hasLayer && gridMode &&
