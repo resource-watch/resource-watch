@@ -44,6 +44,10 @@
   &.-thumbnail {
     max-height: 180px;
 
+    .chart {
+      overflow-x: hidden;
+    }
+
     .c-chart {
       display: block;
       height: 300px;
