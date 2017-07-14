@@ -46,7 +46,7 @@ class About extends Page {
                   {/* Convert string content to html */}
                   <div
                     className="description column small-12 medium-8 medium-offset-2"
-                    dangerouslySetInnerHTML={{ __html: data && data.description }}
+                    dangerouslySetInnerHTML={{ __html: data && data.content }}
                   />
                 </div>
               </div>

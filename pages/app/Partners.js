@@ -60,21 +60,8 @@ class Partners extends Page {
                 <div className="row">
                   <article className="column small-12 medium-6">
                     <p className="c-text -extra-big">
-                      Mauris non tempor quam, et lacinia sapien. Mauris accumsan
-                       eros eget libero posuere vulputate. Etiam elit elit, elementum
-                       sed varius at, adipiscing vitae est. Sed nec felis pellentesque,
-                       lacinia dui sed, ultricies sapien. Pellentesque orci lectus,
-                       consectetur vel posuere posuere, rutrum eu ipsum. Aliquam
+                      Resource Watch brings together leading technology companies and data providers dedicated to making new streams of data actionable. This powerful coupling allows for seamless exploration of trusted, decision-relevant data from remote sensing systems, peer-reviewed research, and other sources. State-of-the-art technology and data services support open-access web and mobile apps to deliver insightful data to the people that need it.
                     </p>
-                  </article>
-                  <article className="column small-12 medium-6">
-                    <p className="c-text -extra-big">
-                      eget odio sed ligula iaculis consequat at eget orci. Mauris
-                       molestie sit amet metus mattis varius.  Mauris non tempor quam,
-                       et lacinia sapien. Mauris accumsan eros eget libero posuere vulputate.
-                       Etiam elit elit, elementum sed varius at, adipiscing vitae est.
-                       Sed nec felis pellentesque.
-                     </p>
                   </article>
                 </div>
               </div>

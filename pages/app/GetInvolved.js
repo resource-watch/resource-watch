@@ -13,7 +13,7 @@ const cards = [
   {
     id: 'insights',
     title: 'Submit an insight',
-    intro: ['Lorem ipsum sit amet casius sem', 'lacinia quam venenatis vestibulum'],
+    intro: ['Tell a story with data. Share content seamlessly with the world and inspire action.'],
     buttons: [
       {
         text: 'Submit an insight',
@@ -27,7 +27,7 @@ const cards = [
   {
     id: 'data',
     title: 'Contribute data',
-    intro: ['Lorem ipsum sit amet casius sem', 'lacinia quam venenatis vestibulum'],
+    intro: ['Extend the reach and impact of your datasets. Upload for private or public use, and see how many are using it.'],
     buttons: [
       {
         text: 'Contribute data',
@@ -41,7 +41,7 @@ const cards = [
   {
     id: 'join',
     title: 'Join the community',
-    intro: ['Lorem ipsum sit amet casius sem', 'lacinia quam venenatis vestibulum'],
+    intro: ['Resource Watch is an open platform for everyone to explore data and insights about our planet.'],
     buttons: [
       {
         text: 'Join the community',
@@ -55,7 +55,7 @@ const cards = [
   {
     id: 'app',
     title: 'Develop your app',
-    intro: ['Lorem ipsum sit amet casius sem', 'lacinia quam venenatis vestibulum'],
+    intro: ['Power your application with the Resource Watch API, or build on our open source code for your next project.'],
     buttons: [
       {
         text: 'Develop your app',
