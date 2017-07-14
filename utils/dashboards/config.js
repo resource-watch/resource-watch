@@ -110,7 +110,6 @@ export default [
         categories: ['Water', 'Food']
       },
       {
-        name: 'Watersheds are at risk due to deforestation',
         categories: ['Water', 'Forests'],
         widgetId: '42756e3f-2c35-4d28-a221-47b0751380f7',
       },
