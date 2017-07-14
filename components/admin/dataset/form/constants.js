@@ -65,6 +65,8 @@ export const STATE_DEFAULT = {
     connectorType: '',
     connectorUrlHint: '',
     published: false,
+    widgetRelevantProps: [],
+    layerRelevantProps: [],
 
     // STEP 2
     connectorUrl: '',
