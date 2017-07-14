@@ -19,7 +19,7 @@ const defaultChart = {
         {
           "type": "formula",
           "field": "width",
-          "expr": "(datum[\"distinct_x\"] + 1) * 15"
+          "expr": "(datum[\"distinct_x\"] + 1) * 25"
         },
         {"type": "formula","field": "height","expr": "300"}
       ]
@@ -42,7 +42,7 @@ const defaultChart = {
           properties: {
             enter: {
               xc: { scale: 'x', field: 'x' },
-              width: { scale: 'x', band: true, offset: -8 },
+              width: { scale: 'x', band: true, offset: -15 },
               y: { scale: 'y', field: 'y' },
               "y2": {"field": {"group": "height"}}
             }
@@ -55,7 +55,7 @@ const defaultChart = {
           type: 'ordinal',
           range: 'width',
           domain: { data: 'table', field: 'x' },
-          "bandSize": 15,
+          "bandSize": 25,
           "round": true,
           "points": true,
           "padding": 1
