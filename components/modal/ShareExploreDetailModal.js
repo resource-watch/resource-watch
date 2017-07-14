@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+// Components
 import Icon from 'components/ui/Icon';
 
 class ShareExploreDetailModal extends React.Component {
@@ -57,31 +60,34 @@ class ShareExploreDetailModal extends React.Component {
   }
 
   render() {
-    const { datasetId } = this.props;
+    const { datasetId, showEmbed } = this.props;
     const embedSt = `<iframe src="https://staging.resourcewatch.org/embed/dataset/${datasetId}" width="100%" height="474px" frameBorder="0"></iframe>`;
 
     return (
       <div className="share-modal">
         {this.getContent()}
-        <div className="embed-content">
-          <h1 className="c-text -thin title">Share into your web</h1>
-          <p>You may include this content on your webpage. To do this, copy the following html
-          code and insert it into the source code of your page:</p>
-          <div className="url-container">
-            <input ref={(n) => { this.input = n; }} value={embedSt} className="url" readOnly />
-            <button className="c-btn -primary -filled" onClick={() => this.onCopyClick()}>
-              Copy
-            </button>
+        {showEmbed &&
+          <div className="embed-content">
+            <h1 className="c-text -thin title">Share into your web</h1>
+            <p>You may include this content on your webpage. To do this, copy the following html
+            code and insert it into the source code of your page:</p>
+            <div className="url-container">
+              <input ref={(n) => { this.input = n; }} value={embedSt} className="url" readOnly />
+              <button className="c-btn -primary -filled" onClick={() => this.onCopyClick()}>
+                Copy
+              </button>
+            </div>
           </div>
-        </div>
+        }
       </div>
     );
   }
 }
 
 ShareExploreDetailModal.propTypes = {
-  url: React.PropTypes.string,
-  datasetId: React.PropTypes.string
+  url: PropTypes.string,
+  datasetId: PropTypes.string,
+  showEmbed: PropTypes.bool.isRequired
 };
 
 

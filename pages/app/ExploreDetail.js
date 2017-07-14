@@ -88,7 +88,7 @@ class ExploreDetail extends Page {
     this.setState({
       loading: true
     }, () => {
-      this.datasetService.fetchData('layer,metadata,vocabulary').then((response) => {
+      this.datasetService.fetchData('layer,metadata,vocabulary,widget').then((response) => {
         this.setState({
           dataset: response,
           datasetLoaded: true,
@@ -132,11 +132,19 @@ class ExploreDetail extends Page {
   }
   @Autobind
   handleShare() {
+    const { dataset } = this.state;
+    const widgets = dataset && dataset.attributes.widget;
+    let widget = null;
+    if (widgets) {
+      widget = widgets.find(value => value.attributes.default === true);
+    }
+    console.log('widget', widget);
     const options = {
       children: ShareExploreDetailModal,
       childrenProps: {
         url: window.location.href,
-        datasetId: this.state.dataset.id
+        datasetId: this.state.dataset.id,
+        showEmbed: widget && widget.attributes
       }
     };
     this.props.toggleModal(true);
