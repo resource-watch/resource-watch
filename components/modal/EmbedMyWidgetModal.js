@@ -23,7 +23,7 @@ class EmbedMyWidgetModal extends React.Component {
 
   render() {
     const { widgetId } = this.props;
-    const url = `http://staging.resourcewatch.org/embed/widget/${widgetId}`;
+    const url = `https://staging.resourcewatch.org/embed/widget/${widgetId}`;
     const iframeText = `<iframe src="${url}>"</iframe>`;
     return (
       <div className="c-embed-my-widget-modal">

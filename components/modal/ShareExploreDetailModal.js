@@ -58,7 +58,7 @@ class ShareExploreDetailModal extends React.Component {
 
   render() {
     const { datasetId } = this.props;
-    const embedSt = `<iframe src="http://staging.resourcewatch.org/embed/dataset/${datasetId}"></iframe>`;
+    const embedSt = `<iframe src="https://staging.resourcewatch.org/embed/dataset/${datasetId}"></iframe>`;
 
     return (
       <div className="share-modal">
