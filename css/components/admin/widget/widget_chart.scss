@@ -6,14 +6,52 @@
   // These following styles are used in MY RW,
   // specifically in "My Widgets"
   .c-chart {
-    height: 300px;
+    // The pie and bar chart will overflow without
+    // this property because they auto determine the
+    // space they need
+    height: auto;
+    // For the other charts, we need a minimum height
+    // and to make the container "flex" so we force the
+    // chart to use at least the min-height
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    // In case of a bar chart with scrolling, we need
+    // to use an overflow
+    overflow-x: auto;
+    max-width: 100%;
 
     .chart {
-      height: 100%;
+      // For smaller charts than the 300px, we center them
+      // both vertically and horizontally
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      // This is needed for the scatter and 1d_* charts
+      // in order to take the whole 300px vertically
+      flex-basis: 100%;
+      flex-grow: 1;
+
+      .vega {
+        text-align: center;
+      }
     }
   }
 
+  // These styles are used in the Explore page
+  // (the list of datasets)
   &.-thumbnail {
     max-height: 180px;
+
+    .c-chart {
+      display: block;
+      height: 300px;
+
+      .chart {
+        display: block;
+        height: 100%;
+      }
+    }
   }
 }
