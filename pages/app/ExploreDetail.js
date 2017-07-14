@@ -23,7 +23,7 @@ import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
 import WidgetEditor from 'components/widgets/WidgetEditor';
-import ShareModal from 'components/modal/ShareModal';
+import ShareExploreDetailModal from 'components/modal/ShareExploreDetailModal';
 import SubscribeToAlertsModal from 'components/modal/SubscribeToAlertsModal';
 import DatasetList from 'components/app/explore/DatasetList';
 
@@ -133,9 +133,10 @@ class ExploreDetail extends Page {
   @Autobind
   handleShare() {
     const options = {
-      children: ShareModal,
+      children: ShareExploreDetailModal,
       childrenProps: {
-        url: window.location.href
+        url: window.location.href,
+        datasetId: this.state.dataset.id
       }
     };
     this.props.toggleModal(true);
@@ -225,10 +226,10 @@ class ExploreDetail extends Page {
                   <div className="dataset-info-actions">
 
                     <button
-                      className="c-button -primary -fullwidth"
+                      className="c-button -secondary -fullwidth"
                       onClick={this.handleShare}
                     >
-                      Share
+                      Share/Embed
                     </button>
                     <button
                       className={downloadButtonClass}
