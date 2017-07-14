@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 // Components
 import VegaChart from 'components/widgets/VegaChart';
@@ -37,9 +38,13 @@ class DatasetWidgetChart extends React.Component {
     const { widgetConfig } = this.state.widget;
     const { mode } = this.props;
     const themeObj = (mode === 'thumbnail') ? ThumbnailTheme : ChartTheme();
+    const classname = classnames({
+      'c-widget-chart': true,
+      '-thumbnail': (mode === 'thumbnail')
+    });
 
     return (
-      <div className="c-widget-chart">
+      <div className={classname}>
         <Spinner
           isLoading={this.state.loading}
           className="-light"
