@@ -17,7 +17,8 @@ export const STATE_DEFAULT = {
     name: '',
     language: 'en',
     info: {
-    }
+    },
+    columns: {}
   }
 };
 

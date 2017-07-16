@@ -25,6 +25,8 @@ class Step1 extends React.Component {
   }
 
   render() {
+    const { form, columns } = this.props;
+
     return (
       <div>
         <fieldset className="c-field-container">
@@ -367,6 +369,90 @@ class Step1 extends React.Component {
             {Input}
           </Field>
         </fieldset>
+
+        {columns.length &&
+          <fieldset className="c-field-container">
+            <Title className="-default -secondary">
+              Columns
+            </Title>
+
+            <div className="c-field-row">
+              {columns.map(column => (
+                <div key={column.name} className="l-row row">
+                  <div className="columns small-2">
+                    <Field
+                      properties={{
+                        name: 'column_name',
+                        label: 'Column name',
+                        type: 'text',
+                        disabled: true,
+                        readOnly: true,
+                        default: column.name
+                      }}
+                    >
+                      {Input}
+                    </Field>
+                  </div>
+
+                  <div className="columns small-5">
+                    <Field
+                      ref={(c) => {
+                        if (c) FORM_ELEMENTS.elements[`columns_${column.name}_alias`] = c;
+                      }}
+                      onChange={(value) => {
+                        this.changeMetadata({
+                          columns: {
+                            ...form.columns,
+                            [column.name]: {
+                              ...form.columns[column.name],
+                              alias: value
+                            }
+                          }
+                        });
+                      }}
+                      properties={{
+                        name: 'alias',
+                        label: 'Alias',
+                        type: 'text',
+                        default: (this.props.form.columns[column.name]) ? this.props.form.columns[column.name].alias : ''
+                      }}
+                    >
+                      {Input}
+                    </Field>
+                  </div>
+
+                  <div className="columns small-5">
+                    <Field
+                      ref={(c) => {
+                        if (c) FORM_ELEMENTS.elements[`columns_${column.name}_description`] = c;
+                      }}
+                      onChange={(value) => {
+                        this.changeMetadata({
+                          columns: {
+                            ...form.columns,
+                            [column.name]: {
+                              ...form.columns[column.name],
+                              description: value
+                            }
+                          }
+                        });
+                      }}
+
+                      properties={{
+                        name: 'description',
+                        label: 'Description',
+                        type: 'text',
+                        default: (this.props.form.columns[column.name]) ? this.props.form.columns[column.name].description : ''
+                      }}
+                    >
+                      {Input}
+                    </Field>
+                  </div>
+                </div>
+                ))}
+            </div>
+          </fieldset>
+        }
       </div>
     );
   }
@@ -374,6 +460,7 @@ class Step1 extends React.Component {
 
 Step1.propTypes = {
   form: React.PropTypes.object,
+  columns: React.PropTypes.array,
   onChange: React.PropTypes.func
 };
 

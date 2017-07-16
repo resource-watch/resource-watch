@@ -9,7 +9,7 @@ export default class DatasetsService {
   }
 
   // GET ALL DATA
-  fetchAllData({ applications, includes }) {
+  fetchAllData({ applications = [process.env.APPLICATIONS], includes }) {
     return new Promise((resolve, reject) => {
       get({
         url: `${process.env.WRI_API_URL}/dataset?application=${applications.join(',')}&includes=${includes}&page[size]=${Date.now() / 100000}`,
@@ -30,10 +30,10 @@ export default class DatasetsService {
     });
   }
 
-  fetchData({ id }) {
+  fetchData({ id, applications = [process.env.APPLICATIONS], includes }) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/dataset/${id}`,
+        url: `${process.env.WRI_API_URL}/dataset/${id}?application=${applications.join(',')}&includes=${includes}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -55,6 +55,29 @@ export default class DatasetsService {
     return new Promise((resolve, reject) => {
       post({
         url: `${process.env.WRI_API_URL}/dataset/${id}`,
+        type,
+        body,
+        headers: [{
+          key: 'Content-Type',
+          value: 'application/json'
+        }, {
+          key: 'Authorization',
+          value: this.opts.authorization
+        }],
+        onSuccess: (response) => {
+          resolve(response.data);
+        },
+        onError: (error) => {
+          reject(error);
+        }
+      });
+    });
+  }
+
+  saveMetadata({ type, body, id = '' }) {
+    return new Promise((resolve, reject) => {
+      post({
+        url: `${process.env.WRI_API_URL}/dataset/${id}/metadata`,
         type,
         body,
         headers: [{
