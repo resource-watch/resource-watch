@@ -103,8 +103,6 @@ class MetadataForm extends React.Component {
           omit: ['authorization']
         };
 
-        console.log(omit(this.state.form, requestOptions.omit));
-        debugger;
         // Save the data
         this.service.saveMetadata({
           type: requestOptions.type,
