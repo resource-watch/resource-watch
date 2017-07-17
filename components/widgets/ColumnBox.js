@@ -76,7 +76,16 @@ class ColumnBox extends React.Component {
     };
   }
 
+
   componentWillReceiveProps(nextProps) {
+    // Open the filter tooltip the when the columnbox has been dropped
+    if (this.props.isA && this.props.isA === 'filter' && !this.state.filterTooltipAlreadyOpened) {
+      this.openFilterTooltip();
+      this.setState({
+        filterTooltipAlreadyOpened: true
+      });
+    }
+
     // We add a dragging cursor to the column box if it's being dragged
     // We have to set the CSS property to the body otherwise it won't be
     // taken into account
@@ -177,9 +186,28 @@ class ColumnBox extends React.Component {
     }
   }
 
+  openFilterTooltip() {
+    const { filter } = this.state;
+    const { name, type, datasetID, tableName } = this.props;
+
+    this.props.toggleTooltip(true, {
+      follow: false,
+      position: ColumnBox.getClickPosition(event),
+      children: FilterTooltip,
+      childrenProps: {
+        name,
+        type,
+        datasetID,
+        tableName,
+        filter,
+        onApply: this.onApplyFilter,
+        isA: 'filter'
+      }
+    });
+  }
+
   @Autobind
   triggerConfigure(event) {
-    const { filter } = this.state;
     const { isA, name, type, datasetID, tableName, widgetEditor } = this.props;
     const { orderBy, aggregateFunction } = widgetEditor;
 
@@ -197,7 +225,7 @@ class ColumnBox extends React.Component {
             onApply: this.onApplyAggregateFunctionColor,
             aggregateFunction,
             onlyCount: type !== 'number',
-            isA
+            isA: 'color'
           }
         });
         break;
@@ -214,24 +242,12 @@ class ColumnBox extends React.Component {
             onApply: this.onApplyAggregateFunctionSize,
             aggregateFunction,
             onlyCount: type !== 'number',
-            isA
+            isA: 'size'
           }
         });
         break;
       case 'filter':
-        this.props.toggleTooltip(true, {
-          follow: false,
-          position: ColumnBox.getClickPosition(event),
-          children: FilterTooltip,
-          childrenProps: {
-            name,
-            type,
-            datasetID,
-            tableName,
-            filter,
-            onApply: this.onApplyFilter
-          }
-        });
+        this.openFilterTooltip();
         break;
       case 'category':
         break;
@@ -248,7 +264,7 @@ class ColumnBox extends React.Component {
             onApply: this.onApplyAggregateFunction,
             aggregateFunction,
             onlyCount: type !== 'number',
-            isA
+            isA: 'value'
           }
         });
         break;
@@ -261,7 +277,8 @@ class ColumnBox extends React.Component {
             name,
             type,
             onApply: this.onApplyOrderBy,
-            orderBy
+            orderBy,
+            isA: 'orderBy'
           }
         });
         break;
