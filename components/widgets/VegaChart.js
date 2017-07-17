@@ -88,6 +88,13 @@ class VegaChart extends React.Component {
       const d1 = visData[i];
       data = (d0 && d1 && (x - d0.x > d1.x - x)) ? d1 : d0;
     }
+    if (x instanceof Date) {
+      const bisectDate = bisector(d => d.x).left;
+      const i = bisectDate(sortedVisData, x.getTime(), 1);
+      const d0 = visData[i - 1];
+      const d1 = visData[i];
+      data = (d0 && d1 && (x.getTime() - d0.x > d1.x - x.getTime())) ? d1 : d0;
+    }
 
     if (data) {
       return this.props.toggleTooltip(true, {
