@@ -57,6 +57,10 @@
   .footer-main {
     border-top: 1px solid $border-color-1;
     padding: rem(32) 0 rem(50);
+
+    a:hover {
+      opacity: 1;
+    }
   }
 
   .footer-terms {
