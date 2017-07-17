@@ -168,7 +168,11 @@ class Explore extends Page {
                   limit: explore.datasets.limit,
                   size: explore.datasets.list.length
                 }}
-                onChange={page => this.props.setDatasetsPage(page)}
+                onChange={(page) => {
+                  this.props.setDatasetsPage(page);
+                  // Scroll to the top of the list
+                  document.getElementsByClassName('sidebar-content')[0].scrollTop = 0;
+                }}
               />
             </Sidebar>
 
