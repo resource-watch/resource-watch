@@ -25,6 +25,7 @@ const ALLOWED_FIELD_TYPES = [
   { name: 'esriFieldTypeSingle', type: 'number', provider: 'esri' },
   { name: 'esriFieldTypeDouble', type: 'number', provider: 'esri' },
   { name: 'numeric', type: 'number', provider: 'psql' },
+  { name: 'number', type: 'number', provider: 'carto' },
   { name: 'int', type: 'number', provider: 'psql' },
   { name: 'integer', type: 'number', provider: 'psql' },
   { name: 'float', type: 'number', provider: 'sql' },
