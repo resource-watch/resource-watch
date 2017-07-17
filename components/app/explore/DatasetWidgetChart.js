@@ -52,6 +52,7 @@ class DatasetWidgetChart extends React.Component {
         <VegaChart
           data={widgetConfig}
           theme={themeObj}
+          reloadOnResize={mode !== 'thumbnail'}
           toggleLoading={this.triggerToggleLoading}
         />
       </div>
