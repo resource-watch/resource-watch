@@ -3,8 +3,8 @@ import omit from 'lodash/omit';
 
 import { Autobind } from 'es-decorators';
 
-// Utils
-import { get, post } from 'utils/request';
+// Service
+import DatasetsService from 'services/DatasetsService';
 
 // Contants
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/metadata/form/constants';
@@ -17,46 +17,53 @@ import Step1 from 'components/admin/metadata/form/steps/Step1';
 class MetadataForm extends React.Component {
   constructor(props) {
     super(props);
+
     const newState = Object.assign({}, STATE_DEFAULT, {
-      datasetID: props.dataset,
-      datasetName: '',
       metadata: [],
+      columns: [],
+      loading: !!props.dataset,
       form: Object.assign({}, STATE_DEFAULT.form, {
         application: props.application,
         authorization: props.authorization
       })
     });
 
+    this.service = new DatasetsService({
+      authorization: props.authorization
+    });
+
     this.state = newState;
   }
 
   componentDidMount() {
-    if (this.state.datasetID) {
-      // Start the loading
-      this.setState({ loading: true });
-
-      get({
-        url: `${process.env.WRI_API_URL}/dataset/${this.state.datasetID}/?includes=metadata&cache=${Date.now()}`,
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }],
-        onSuccess: response => {
-          const metadata = response.data.attributes.metadata;
+    if (this.props.dataset) {
+      this.service.fetchData({ id: this.props.dataset, includes: 'metadata' })
+        .then((data) => {
+          const metadata = data.attributes.metadata;
 
           this.setState({
-            datasetName: response.data.attributes.name,
-            form: (metadata && metadata.length) ? this.setFormFromParams(metadata[0].attributes) : this.state.form,
+            form: (metadata && metadata.length) ?
+              this.setFormFromParams(metadata[0].attributes) :
+              this.state.form,
             metadata,
             // Stop the loading
             loading: false
           });
-        },
-        onError: error => {
+        })
+        .catch((err) => {
           this.setState({ loading: false });
-          console.error(error);
-        }
-      });
+          console.error(err);
+        });
+
+      this.service.fetchFields({ id: this.props.dataset })
+        .then((data) => {
+          this.setState({
+            columns: data
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
   }
 
@@ -76,43 +83,42 @@ class MetadataForm extends React.Component {
     setTimeout(() => {
       const valid = FORM_ELEMENTS.isValid();
       if (valid) {
+        const { dataset } = this.props;
+        const { metadata, form } = this.state;
+
         // Start the submitting
         this.setState({ submitting: true });
 
         // Check if the metadata alerady exists
-        const isPresent = Boolean(this.state.metadata.find(m => {
-          const hasLang = m.attributes.language === this.state.form.language;
-          const hasApp = m.attributes.application === this.state.form.application;
+        const thereIsMetadata = Boolean(metadata.find((m) => {
+          const hasLang = m.attributes.language === form.language;
+          const hasApp = m.attributes.application === form.application;
 
           return hasLang && hasApp;
         }));
 
-        post({
-          type: (this.state.datasetID && isPresent) ? 'PATCH' : 'POST',
-          url: `${process.env.WRI_API_URL}/dataset/${this.state.datasetID}/metadata`,
-          body: {
-            application: this.state.form.application,
-            // Remove unnecesary atributtes to prevent 'Unprocessable Entity error'
-            ...omit(this.state.form, ['authorization'])
-          },
-          headers: [{
-            key: 'Content-Type',
-            value: 'application/json'
-          }, {
-            key: 'Authorization',
-            value: this.state.form.authorization
-          }],
-          onSuccess: () => {
+        // Set the request
+        const requestOptions = {
+          type: (dataset && thereIsMetadata) ? 'PATCH' : 'POST',
+          omit: ['authorization']
+        };
+
+        // Save the data
+        this.service.saveMetadata({
+          type: requestOptions.type,
+          id: dataset,
+          body: omit(this.state.form, requestOptions.omit)
+        })
+          .then(() => {
             const successMessage = 'Metadata has been uploaded correctly';
             alert(successMessage);
 
             this.props.onSubmit && this.props.onSubmit();
-          },
-          onError: error => {
-            this.setState({ loading: false });
-            console.error(error);
-          }
-        });
+          })
+          .catch((err) => {
+            this.setState({ submitting: false });
+            console.error(err);
+          });
       }
     }, 0);
   }
@@ -125,7 +131,7 @@ class MetadataForm extends React.Component {
   }
 
   @Autobind
-  onBack(step) {
+  onStepChange(step) {
     this.setState({ step });
   }
 
@@ -134,7 +140,7 @@ class MetadataForm extends React.Component {
     const form = Object.keys(this.state.form);
     const newForm = {};
 
-    form.forEach(f => {
+    form.forEach((f) => {
       if (params[f] || this.state.form[f]) {
         newForm[f] = params[f] || this.state.form[f];
       }
@@ -151,6 +157,7 @@ class MetadataForm extends React.Component {
           {!this.state.loading &&
             <Step1
               onChange={value => this.onChange(value)}
+              columns={this.state.columns}
               form={this.state.form}
             />
           }
@@ -160,7 +167,7 @@ class MetadataForm extends React.Component {
               step={this.state.step}
               stepLength={this.state.stepLength}
               submitting={this.state.submitting}
-              onBack={step => this.onBack(step)}
+              onStepChange={this.onStepChange}
             />
           }
         </form>
