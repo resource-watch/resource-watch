@@ -83,10 +83,12 @@ class ColumnBox extends React.Component {
 
     this.setState({ aggregateFunction: nextProps.widgetEditor.aggregateFunction });
 
-    const sizeAggregateFunc = nextProps.widgetEditor.size && nextProps.widgetEditor.size.aggregateFunction;
+    const sizeAggregateFunc = nextProps.widgetEditor.size &&
+      nextProps.widgetEditor.size.aggregateFunction;
     this.setState({ aggregateFunctionSize: sizeAggregateFunc });
 
-    const colorAggregateFunc = nextProps.widgetEditor.color && nextProps.widgetEditor.color.aggregateFunction;
+    const colorAggregateFunc = nextProps.widgetEditor.color &&
+      nextProps.widgetEditor.color.aggregateFunction;
     this.setState({ aggregateFunctionColor: colorAggregateFunc });
   }
 
@@ -266,7 +268,8 @@ class ColumnBox extends React.Component {
 
   render() {
     const { aggregateFunction, aggregateFunctionSize, aggregateFunctionColor } = this.state;
-    const { isDragging, connectDragSource, name, type, closable, configurable, isA, widgetEditor } = this.props;
+    const { isDragging, connectDragSource, name, type, closable, configurable,
+    isA, widgetEditor } = this.props;
     const { orderBy } = widgetEditor;
 
     const orderType = orderBy ? orderBy.orderType : null;

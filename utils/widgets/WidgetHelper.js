@@ -18,11 +18,44 @@ const CHART_TYPES = {
   '1d_tick': OneDTickChart
 };
 
+const ALLOWED_FIELD_TYPES = [
+  // --- NUMBER ----
+  { name: 'esriFieldTypeSmallInteger', type: 'number', provider: 'esri' },
+  { name: 'esriFieldTypeInteger', type: 'number', provider: 'esri' },
+  { name: 'esriFieldTypeSingle', type: 'number', provider: 'esri' },
+  { name: 'esriFieldTypeDouble', type: 'number', provider: 'esri' },
+  { name: 'numeric', type: 'number', provider: 'psql' },
+  { name: 'int', type: 'number', provider: 'psql' },
+  { name: 'integer', type: 'number', provider: 'psql' },
+  { name: 'float', type: 'number', provider: 'sql' },
+  { name: 'real', type: 'number', provider: 'sql' },
+  { name: 'decimal', type: 'number', provider: 'sql' },
+  { name: 'esriFieldTypeString', type: 'text', provider: 'esri' },
+  // ----- TEXT -----
+  { name: 'string', type: 'text', provider: 'sql' },
+  { name: 'char', type: 'text', provider: 'sql' },
+  { name: 'varchar', type: 'text', provider: 'sql' },
+  // ----- DATE ----
+  { name: 'esriFieldTypeDate', type: 'date', provider: 'esri' },
+  { name: 'date', type: 'date', provider: 'sql' },
+  { name: 'time', type: 'date', provider: 'sql' },
+  { name: 'timestamp', type: 'date', provider: 'sql' },
+  { name: 'interval', type: 'date', provider: 'sql' },
+  // ------ BOOLEAN -----
+  { name: 'boolean', type: 'boolean', provider: 'sql' },
+  // ------ ARRAY -------
+  { name: 'array', type: 'array', provider: 'sql' }
+];
+
 
 const oneDimensionalChartTypes = ['1d_scatter', '1d_tick'];
 
 function isBidimensionalChart(widgetEditor) {
   return !oneDimensionalChartTypes.includes(widgetEditor.chartType);
+}
+
+export function isFieldAllowed(fieldType) {
+  return ALLOWED_FIELD_TYPES.find(val => val.name.toLowerCase() === fieldType.toLowerCase());
 }
 
 export function getChartType(type) {
