@@ -7,10 +7,11 @@ import { initStore } from 'store';
 import withRedux from 'next-redux-wrapper';
 
 const data = [
-  { name: 'Data' },
+  { name: 'Data', route: 'explore' },
   { name: 'Explore Datasets', route: 'explore' },
   { name: 'Dashboards', route: 'dashboards' },
-  { name: 'Planet Pulse', route: 'pulse' }
+  { name: 'Planet Pulse', route: 'pulse' },
+  { name: 'Explore Tools', route: 'get_involved' }
 ];
 
 const about = [
