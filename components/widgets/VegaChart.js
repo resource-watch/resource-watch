@@ -54,7 +54,9 @@ class VegaChart extends React.Component {
   onMousemove(vegaConfig, visData, x, item) {
     // If the cursor is on top of a mark, we display the data
     // associated to that mark
-    if (!isEmpty(item) && item.datum.x) {
+    // The only exception is for the lines because the data
+    // they own is always the first one (first point)
+    if (!isEmpty(item) && item.datum.x && item.mark.marktype !== 'line') {
       return this.props.toggleTooltip(true, {
         follow: true,
         children: VegaChartTooltip,
@@ -87,6 +89,13 @@ class VegaChart extends React.Component {
       const d0 = visData[i - 1];
       const d1 = visData[i];
       data = (d0 && d1 && (x - d0.x > d1.x - x)) ? d1 : d0;
+    }
+    if (x instanceof Date) {
+      const bisectDate = bisector(d => d.x).left;
+      const i = bisectDate(sortedVisData, x.getTime(), 1);
+      const d0 = visData[i - 1];
+      const d1 = visData[i];
+      data = (d0 && d1 && (x.getTime() - d0.x > d1.x - x.getTime())) ? d1 : d0;
     }
 
     if (data) {
