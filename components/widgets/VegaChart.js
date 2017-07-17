@@ -1,13 +1,18 @@
 import React from 'react';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-import { toggleTooltip } from 'redactions/tooltip';
+import PropTypes from 'prop-types';
 import { bisector } from 'd3';
 import vega from 'vega';
 import isEmpty from 'lodash/isEmpty';
 import debounce from 'lodash/debounce';
 import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
+
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+import { toggleTooltip } from 'redactions/tooltip';
+
+// Components
 import VegaChartTooltip from './VegaChartTooltip';
 
 class VegaChart extends React.Component {
@@ -184,7 +189,9 @@ class VegaChart extends React.Component {
   }
 
   triggerResize() {
-    this.renderChart();
+    if (this.props.reloadOnResize) {
+      this.renderChart();
+    }
   }
 
   renderChart() {
@@ -202,11 +209,13 @@ class VegaChart extends React.Component {
 }
 
 VegaChart.propTypes = {
+  reloadOnResize: PropTypes.bool.isRequired,
   // Define the chart data
-  data: React.PropTypes.object,
-  theme: React.PropTypes.object,
-  toggleLoading: React.PropTypes.func,
-  toggleTooltip: React.PropTypes.func
+  data: PropTypes.object,
+  theme: PropTypes.object,
+  // Callbacks
+  toggleLoading: PropTypes.func,
+  toggleTooltip: PropTypes.func
 };
 
 const mapStateToProps = ({ tooltip }) => ({
