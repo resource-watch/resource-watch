@@ -43,6 +43,9 @@
 
     &.-chart {
       margin-left: 20px;
+      // This padding avoids the chart to touch the top and
+      // the bottom of the container
+      padding: 20px 0;
     }
 
     > .c-chart {

@@ -110,9 +110,9 @@ class VegaChart extends React.Component {
   }
 
   setSize() {
-    if (this.chart) {
-      this.width = this.chart.offsetWidth;
-      this.height = this.chart.offsetHeight;
+    if (this.chartViewportContainer) {
+      this.width = this.chartViewportContainer.offsetWidth;
+      this.height = this.chartViewportContainer.offsetHeight;
     }
   }
 
@@ -210,7 +210,11 @@ class VegaChart extends React.Component {
 
   render() {
     return (
-      <div className="c-chart" onMouseOut={() => this.props.toggleTooltip(false)}>
+      <div
+        className="c-chart"
+        onMouseOut={() => this.props.toggleTooltip(false)}
+        ref={(el) => { this.chartViewportContainer = el; }}
+      >
         <div ref={(c) => { this.chart = c; }} className="chart" />
       </div>
     );
