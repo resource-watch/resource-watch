@@ -1,29 +1,51 @@
 import React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import { Router } from 'routes';
+import { Autobind } from 'es-decorators';
 
-function CardStatic(props) {
-  const style = { background: props.background, backgroundSize: props.backgroundSize || 'cover' };
-  const className = classNames({
-    'c-card-static': true,
-    [props.className]: props.className
-  });
+export default class CardStatic extends React.Component {
 
-  return (
-    <div className={className} style={style}>
-      {props.children}
-    </div>
-  );
+  @Autobind
+  handleClick() {
+    const { clickable, route } = this.props;
+    if (clickable) {
+      Router.pushRoute(route);
+    }
+  }
+
+  render() {
+    const { background, backgroundSize, className, children } = this.props;
+    const style = { background, backgroundSize: backgroundSize || 'cover' };
+    const classNameObj = classNames({
+      'c-card-static': true,
+      [className]: className
+    });
+
+    return (
+      <div
+        className={classNameObj}
+        style={style}
+        onClick={this.handleClick}
+        role="link"
+        tabIndex="0"
+      >
+        {children}
+      </div>
+    );
+  }
+
 }
 
 CardStatic.propTypes = {
-  children: React.PropTypes.any.isRequired,
-  background: React.PropTypes.string,
-  backgroundSize: React.PropTypes.any,
-  className: React.PropTypes.any
+  children: PropTypes.any.isRequired,
+  background: PropTypes.string,
+  backgroundSize: PropTypes.any,
+  className: PropTypes.any,
+  clickable: PropTypes.bool.isRequired,
+  route: PropTypes.string
 };
 
 CardStatic.defaultProps = {
   children: ''
 };
-
-export default CardStatic;

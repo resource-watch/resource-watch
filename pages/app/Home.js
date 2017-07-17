@@ -2,13 +2,14 @@ import React from 'react';
 import MoveTo from 'moveto';
 import { Link } from 'routes';
 
+// Layout
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 
+// Components
 import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
 import Rating from 'components/app/common/Rating';
-import Icon from 'components/ui/Icon';
 
 const insightsCards = [
   {
@@ -95,8 +96,13 @@ class Home extends Page {
 
   exploreCardsStatic() {
     return exploreCards.map((c, i) =>
-      <div key={i} className="column small-12 medium-4">
-        <CardStatic className="-light" background={c.background}>
+      (<div key={`explore-card-${i}`} className="column small-12 medium-4">
+        <CardStatic
+          className="-light"
+          background={c.background}
+          clickable
+          route={c.buttons[0].path}
+        >
           <div>
             <h5 className="tag c-text -small -bold -uppercase">{c.tag}</h5>
             <h1 className="card-title c-text -extra-big -bold">{c.title}</h1>
@@ -110,13 +116,19 @@ class Home extends Page {
             ))}
           </div>
         </CardStatic>
-      </div>
+      </div>)
     );
   }
 
   insightsCardsStatic() {
     return insightsCards.map((c, i) =>
-      <CardStatic key={i} className="-light" background={c.background}>
+      (<CardStatic
+        key={`insight-card-${i}`}
+        className="-light"
+        background={c.background}
+        clickable
+        route={c.source.path}
+      >
         <div>
           <h5 className="tag c-text -small -bold -uppercase">{c.tag}</h5>
           <h1 className="card-title c-text -extra-big -bold"><a href={`/insights/${c.slug}`}>{c.title}</a></h1>
@@ -130,7 +142,7 @@ class Home extends Page {
           </div>
           {c.ranking && <Rating rating={c.ranking} />}
         </div>
-      </CardStatic>
+      </CardStatic>)
     );
   }
 
@@ -153,9 +165,12 @@ class Home extends Page {
           <div className="c-page">
             <div className="c-banner-video">
               <div className="c-banner-video-foreground">
-                <iframe frameBorder="0" allowFullScreen
-                src="https://youtube.com/embed/LI1RrCnnkDA?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=LI1RrCnnkDA">
-                </iframe>
+                <iframe
+                  title="banner-vide-foreground"
+                  frameBorder="0"
+                  allowFullScreen
+                  src="https://youtube.com/embed/LI1RrCnnkDA?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=LI1RrCnnkDA"
+                />
               </div>
               <Banner className="intro" containerGrid={false}>
                 <h1 className="title c-text -header-huge -thin">
