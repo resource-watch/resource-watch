@@ -16,6 +16,9 @@ import FilterTooltip from 'components/widgets/FilterTooltip';
 import AggregateFunctionTooltip from 'components/widgets/AggregateFunctionTooltip';
 import OrderByTooltip from 'components/widgets/OrderByTooltip';
 
+// Utils
+import { isFieldAllowed } from 'utils/widgets/WidgetHelper';
+
 const NAME_MAX_LENGTH = 9;
 
 /**
@@ -83,10 +86,12 @@ class ColumnBox extends React.Component {
 
     this.setState({ aggregateFunction: nextProps.widgetEditor.aggregateFunction });
 
-    const sizeAggregateFunc = nextProps.widgetEditor.size && nextProps.widgetEditor.size.aggregateFunction;
+    const sizeAggregateFunc = nextProps.widgetEditor.size &&
+      nextProps.widgetEditor.size.aggregateFunction;
     this.setState({ aggregateFunctionSize: sizeAggregateFunc });
 
-    const colorAggregateFunc = nextProps.widgetEditor.color && nextProps.widgetEditor.color.aggregateFunction;
+    const colorAggregateFunc = nextProps.widgetEditor.color &&
+      nextProps.widgetEditor.color.aggregateFunction;
     this.setState({ aggregateFunctionColor: colorAggregateFunc });
   }
 
@@ -266,11 +271,25 @@ class ColumnBox extends React.Component {
 
   render() {
     const { aggregateFunction, aggregateFunctionSize, aggregateFunctionColor } = this.state;
-    const { isDragging, connectDragSource, name, type, closable, configurable, isA, widgetEditor } = this.props;
+    const { isDragging, connectDragSource, name, type, closable, configurable,
+    isA, widgetEditor } = this.props;
     const { orderBy } = widgetEditor;
 
     const orderType = orderBy ? orderBy.orderType : null;
-    const iconName = (type.toLowerCase() === 'string') ? 'icon-type' : 'icon-hash';
+    let iconName;
+    switch (isFieldAllowed(type).type) {
+      case 'number':
+        iconName = 'icon-item-number';
+        break;
+      case 'text':
+        iconName = 'icon-item-category';
+        break;
+      case 'date':
+        iconName = 'icon-item-date';
+        break;
+      default:
+        iconName = 'icon-item-unknown';
+    }
 
     const isConfigurable = (isA === 'filter') || (isA === 'value') ||
       (isA === 'orderBy') || (isA === 'color') || (isA === 'size');

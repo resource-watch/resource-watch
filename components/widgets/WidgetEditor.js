@@ -25,7 +25,7 @@ import Legend from 'components/ui/Legend';
 import TableView from 'components/widgets/TableView';
 
 // Utils
-import { getChartConfig, canRenderChart, getChartType } from 'utils/widgets/WidgetHelper';
+import { getChartConfig, canRenderChart, getChartType, isFieldAllowed } from 'utils/widgets/WidgetHelper';
 import ChartTheme from 'utils/widgets/theme';
 import LayerManager from 'utils/layers/LayerManager';
 
@@ -112,7 +112,7 @@ class WidgetEditor extends React.Component {
           fields: response.fields
         }, () => {
           if (!fieldsError) {
-            this.props.setFields(response.fields);
+            this.props.setFields(response.fields.filter(field => !!isFieldAllowed(field.columnType)));
             this.getJiminy();
             this.getTableName();
           }
@@ -147,8 +147,8 @@ class WidgetEditor extends React.Component {
 
   getJiminy() {
     const fieldsSt = this.state.fields
-      .map(elem => (elem.columnType !== 'geometry') && (elem.columnName !== 'cartodb_id') && elem.columnName)
-      .filter(field => !!field);
+      .filter(field => isFieldAllowed(field.columnType))
+      .map(elem => elem.columnName);
     const querySt = `SELECT ${fieldsSt} FROM ${this.props.dataset} LIMIT 300`;
     this.datasetService.fetchJiminy(querySt)
       .then((jiminy) => {
