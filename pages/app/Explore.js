@@ -66,6 +66,10 @@ class Explore extends Page {
       this.props.setDatasetsSearchFilter({ value: this.props.url.query.search, key: 'name' });
     }
 
+    if (this.props.url.query.issue) {
+      this.props.setDatasetsIssueFilter(JSON.parse(this.props.url.query.issue));
+    }
+
     this.props.getDatasets();
     this.props.getVocabularies();
   }
@@ -122,7 +126,6 @@ class Explore extends Page {
       }
     ));
     const { search, issue } = explore.filters;
-    console.log('datasetsSearchList', datasetsSearchList);
 
     return (
       <Layout
@@ -152,6 +155,7 @@ class Explore extends Page {
                         search
                         placeholder="Search dataset"
                         hideList
+                        value={search && search.value}
                       />
                     </div>
                     <div className="column small-12 medium-6">

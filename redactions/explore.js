@@ -291,7 +291,7 @@ export function setUrlParams() {
     }
 
     if (issue) {
-      query.issue = issue;
+      query.issue = JSON.stringify(issue);
     }
 
     Router.replaceRoute('explore', query);
