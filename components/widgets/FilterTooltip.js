@@ -17,6 +17,7 @@ import DatasetService from 'services/DatasetService';
 import CheckboxGroup from 'components/form/CheckboxGroup';
 import Spinner from 'components/ui/Spinner';
 import Button from 'components/ui/Button';
+import Checkbox from 'components/ui/Checkbox';
 
 
 class FilterTooltip extends React.Component {
@@ -34,6 +35,7 @@ class FilterTooltip extends React.Component {
       rangeValue: !this.isCategorical(props) && props.filter
         ? { min: props.filter[0], max: props.filter[1] }
         : null,
+      notNullSelected: false,
       loading: true
     };
 
@@ -196,9 +198,15 @@ class FilterTooltip extends React.Component {
       }
     });
   }
+  @Autobind
+  handleNotNullSelection(value) {
+    this.setState({
+
+    });
+  }
 
   render() {
-    const { loading, rangeValue } = this.state;
+    const { loading, rangeValue, notNullSelected } = this.state;
     const categoryValue = this.isCategorical();
     const classNameValue = classNames({
       'c-filter-tooltip': true
@@ -209,7 +217,15 @@ class FilterTooltip extends React.Component {
           className="-light"
           isLoading={loading}
         />
-
+        { !loading &&
+          <Checkbox
+            properties={{
+              title: 'Not null values',
+              default: false
+            }}
+            onChange={elem => this.handleNotNullSelection(elem.checked)}
+          />
+        }
         { categoryValue && this.renderCheckboxes() }
         { !categoryValue && !loading && this.renderRange() }
         { !categoryValue && !loading &&
