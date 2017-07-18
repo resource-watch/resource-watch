@@ -287,8 +287,11 @@ export function setUrlParams() {
     }
 
     if (search) {
-      console.log('search', search);
       query.search = search.value;
+    }
+
+    if (issue) {
+      query.issue = issue;
     }
 
     Router.replaceRoute('explore', query);
@@ -309,10 +312,10 @@ export function setDatasetsSearchFilter(search) {
   };
 }
 
-export function setDatasetsIssueFilter(search) {
+export function setDatasetsIssueFilter(issue) {
   return {
-    type: SET_DATASETS_SEARCH_FILTER,
-    payload: search
+    type: SET_DATASETS_ISSUE_FILTER,
+    payload: issue
   };
 }
 

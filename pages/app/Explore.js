@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import debounce from 'lodash/debounce';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -9,6 +10,8 @@ import { getDatasets, setDatasetsPage, setUrlParams, setDatasetsActive, setDatas
   setDatasetsSearchFilter, setDatasetsIssueFilter, toggleDatasetActive, getVocabularies } from 'redactions/explore';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
+
+// Selectors
 import getpaginatedDatasets from 'selectors/explore/datasetsPaginatedExplore';
 import getFilteredDatasets from 'selectors/explore/filterDatasets';
 import getActiveLayers from 'selectors/explore/layersActiveExplore';
@@ -93,7 +96,7 @@ class Explore extends Page {
   @Autobind
   handleFilterDatasetsIssue(item, levels, key) {
     const filter = item ? [{ levels, value: item.value, key }] : [];
-    this.props.setDatasetsIssueFilter([filter]);
+    this.props.setDatasetsIssueFilter(filter);
 
     // We move the user to the first page
     this.props.setDatasetsPage(1);
@@ -143,7 +146,7 @@ class Explore extends Page {
                       <CustomSelect
                         options={datasetsSearchList}
                         onValueChange={this.handleRedirect}
-                        onKeyPressed={this.handleFilterDatasetsSearch}
+                        onKeyPressed={debounce(this.handleFilterDatasetsSearch, 500)}
                         search
                         placeholder="Search dataset"
                         hideList
