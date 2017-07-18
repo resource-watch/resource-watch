@@ -60,7 +60,7 @@ class Explore extends Page {
     }
 
     if (this.props.url.query.search) {
-
+      this.props.setDatasetsSearchFilter({ value: this.props.url.query.search });
     }
 
     this.props.getDatasets();
@@ -82,8 +82,8 @@ class Explore extends Page {
   }
 
   @Autobind
-  handleFilterDatasetsSearch(item, levels, key) {
-    const filter = item ? [{ levels, value: item.value, key }] : [];
+  handleFilterDatasetsSearch(item) {
+    const filter = item ? { value: item.value } : {};
     this.props.setDatasetsSearchFilter(filter);
 
     // We move the user to the first page
@@ -263,7 +263,10 @@ const mapDispatchToProps = dispatch => ({
   getVocabularies: () => { dispatch(getVocabularies()); },
   setDatasetsActive: (active) => { dispatch(setDatasetsActive(active)); },
   setDatasetsHidden: (hidden) => { dispatch(setDatasetsHidden(hidden)); },
-  setDatasetsSearchFilter: (search) => { dispatch(setDatasetsSearchFilter(search)); },
+  setDatasetsSearchFilter: (search) => {
+    dispatch(setDatasetsSearchFilter(search));
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
+  },
   setDatasetsIssueFilter: (issue) => { dispatch(setDatasetsIssueFilter(issue)); },
   redirectTo: (url) => { dispatch(redirectTo(url)); },
   toggleModal: (open) => { dispatch(toggleModal(open)); },

@@ -38,7 +38,10 @@ const initialState = {
     limit: 9,
     mode: 'grid' // 'grid' or 'list'
   },
-  filters: [],
+  filters: {
+    search: null,
+    issue: null
+  },
   vocabularies: {
     list: [],
     loading: false,
@@ -276,10 +279,16 @@ export function setUrlParams() {
   return (dispatch, getState) => {
     const { explore } = getState();
     const { active, page } = explore.datasets;
+    const { search, issue } = explore.filters;
 
     const query = { page };
     if (active.length) {
       query.active = active.join(',');
+    }
+
+    if (search) {
+      console.log('search', search);
+      query.search = search.value;
     }
 
     Router.replaceRoute('explore', query);
