@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 
 // Next
 import { Link } from 'routes';
@@ -9,16 +8,25 @@ import { Link } from 'routes';
 import Icon from 'components/ui/Icon';
 
 class SearchInput extends React.Component {
-  /**
-   * Event handler executed when the user search
-   * @param {string} { value } Search keywords
-   */
-  @Autobind
-  onSearch(event) {
-    this.props.onSearch(event.target.value);
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      value: props.input.value || undefined
+    };
+  }
+
+  onSearch = (e) => {
+    this.setState({
+      value: e.currentTarget.value || ''
+    }, () => {
+      if (this.props.onSearch) this.props.onSearch(this.state.value);
+    });
   }
 
   render() {
+    const { value } = this.state;
     const { link, input } = this.props;
 
     return (
@@ -28,7 +36,7 @@ class SearchInput extends React.Component {
             className="-fluid"
             onChange={this.onSearch}
             placeholder={input.placeholder}
-            value={input.value ? input.value : ''}
+            value={value}
             type="search"
           />
           <Icon name="icon-search" className="-small" />

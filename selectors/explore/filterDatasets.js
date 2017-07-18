@@ -42,6 +42,7 @@ const getFilteredDatasets = (_list, _filters) => {
 
     const searchCheck = (search && searchFilterPassed) || !search;
     const issueCheck = (issue && vocabularyFilterPassed) || !issue;
+
     return searchCheck && issueCheck;
   });
 };

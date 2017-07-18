@@ -54,6 +54,10 @@ class Explore extends Page {
       layersActive: props.layersActive,
       vocabularies: props.explore.vocabularies.list || []
     };
+
+    // BINDINGS
+    this.handleFilterDatasetsSearch = debounce(this.handleFilterDatasetsSearch.bind(this), 500);
+    this.handleFilterDatasetsIssue = this.handleFilterDatasetsIssue.bind(this);
   }
 
   componentWillMount() {
@@ -91,16 +95,14 @@ class Explore extends Page {
     }
   }
 
-  @Autobind
   handleFilterDatasetsSearch(value) {
-    const filter = value ? { value, key: 'name' } : {};
+    const filter = { value: value || '', key: 'name' };
     this.props.setDatasetsSearchFilter(filter);
 
     // We move the user to the first page
     this.props.setDatasetsPage(1);
   }
 
-  @Autobind
   handleFilterDatasetsIssue(item, levels, key) {
     const filter = item ? [{ levels, value: item.value, key }] : null;
     this.props.setDatasetsIssueFilter(filter);
@@ -152,7 +154,7 @@ class Explore extends Page {
                   <div className="row collapse">
                     <div className="column small-12 medium-6">
                       <SearchInput
-                        onSearch={debounce(this.handleFilterDatasetsSearch, 500)}
+                        onSearch={this.handleFilterDatasetsSearch}
                         input={{
                           value: search && search.value,
                           placeholder: 'Search dataset'

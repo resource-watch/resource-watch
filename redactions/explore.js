@@ -286,7 +286,7 @@ export function setUrlParams() {
       query.active = active.join(',');
     }
 
-    if (search) {
+    if (search && search.value) {
       query.search = search.value;
     }
 
