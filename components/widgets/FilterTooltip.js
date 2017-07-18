@@ -156,8 +156,8 @@ class FilterTooltip extends React.Component {
     const step = Math.min(Math.floor((max - min) / 100), 1);
 
     // Min and max values of the selected range
-    const rangeMin = this.state.rangeValue.min;
-    const rangeMax = this.state.rangeValue.max;
+    const rangeMin = +this.state.rangeValue.min;
+    const rangeMax = +this.state.rangeValue.max;
 
     // We debounce the method to avoid having to update the state
     // to often (around 60 FPS)
@@ -214,9 +214,9 @@ class FilterTooltip extends React.Component {
         { !categoryValue && !loading && this.renderRange() }
         { !categoryValue && !loading &&
           <div className="text-inputs-container">
-            <input className="-first" type="number" value={rangeValue.min} onChange={debounce(this.handleMinChange, 60)} />
+            <input className="-first" type="number" value={rangeValue.min} onChange={this.handleMinChange} />
             -
-            <input className="-last" type="number" value={rangeValue.max} onChange={debounce(this.handleMaxChange, 60)} />
+            <input className="-last" type="number" value={rangeValue.max} onChange={this.handleMaxChange} />
           </div>
         }
 
