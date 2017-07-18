@@ -1,4 +1,5 @@
 import deepClone from 'lodash/cloneDeep';
+import isArray from 'lodash/isArray';
 
 /* eslint-disable */
 const defaultChart = {
@@ -67,13 +68,22 @@ const defaultChart = {
  */
 export default function ({ columns, data }) {
   const config = deepClone(defaultChart);
+  // Whether we have access to the data instead
+  // of having its URL
+  const hasAccessToData = isArray(data);
 
-  // We set the URL of the dataset
-  config.data[0].url = data.url;
-  config.data[0].format = {
-    "type": "json",
-    "property": data.property,
-  };
+  if (hasAccessToData) {
+    // We directly set the data
+    config.data[0].values = data;
+  } else {
+    // We set the URL of the dataset
+    config.data[0].url = data.url;
+    config.data[0].format = {
+      "type": "json",
+      "property": data.property
+    };
+  }
+
   config.data[0].transform = [{
     "type": "pie", "field": "y"
   }];

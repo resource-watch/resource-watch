@@ -1,3 +1,5 @@
+import 'isomorphic-fetch';
+
 // Components
 import BarChart from 'utils/widgets/bar';
 import LineChart from 'utils/widgets/line';
@@ -159,13 +161,32 @@ export function getDataURL(widgetEditor, tableName, dataset) {
 
 /**
  * Fetch the data of the chart
+ * NOTE: if the request fails, an empty array will be
+ * returned
  * @export
  * @param {string} url URL of the data
  * @returns {object[]}
  */
 export async function fetchData(url) { // eslint-disable-line no-unused-vars
-  // TODO: implement this
-  return setTimeout(() => ({}), 100);
+  let data;
+
+  try {
+    const response = await fetch(url);
+
+    if (response.ok) {
+      data = await response.json();
+      data = data.data;
+    }
+  } catch (err) {
+    // TODO: properly handle this error case in the UI
+    console.error('Unable to load the data of the chart');
+  }
+
+  if (!data) {
+    data = [];
+  }
+
+  return data;
 }
 
 /**
@@ -187,9 +208,7 @@ export async function getChartConfig(widgetEditor, tableName, dataset, mustFetch
   const url = getDataURL(widgetEditor, tableName, dataset);
 
   // In case we must fetch the data, we save it in this variable
-  // TODO: conditionally use the data var
-  // eslint-disable-next-line no-unused-vars
-  const data = mustFetchData && fetchData(url);
+  const data = mustFetchData && await fetchData(url);
 
   return CHART_TYPES[chartType]({
     // In the future, we could pass the type of the columns so the chart
@@ -200,7 +219,7 @@ export async function getChartConfig(widgetEditor, tableName, dataset, mustFetch
       color: { present: !!color },
       size: { present: !!size }
     },
-    data: {
+    data: data || {
       url,
       property: 'data'
     }

@@ -349,6 +349,8 @@ class WidgetEditor extends React.Component {
   /**
    * Fetch the Vega chart configuration and store it in
    * the state
+   * NOTE: the vega chart *will* contain the whole dataset
+   * inside and not the URL of the data
    */
   fetchChartConfig() {
     const { widgetEditor, dataset } = this.props;
@@ -356,7 +358,7 @@ class WidgetEditor extends React.Component {
 
     this.setState({ chartConfigLoading: true });
 
-    getChartConfig(widgetEditor, tableName, dataset)
+    getChartConfig(widgetEditor, tableName, dataset, true)
       .then(chartConfig => this.setState({ chartConfig, chartConfigError: null }))
       .catch(({ message }) => this.setState({ chartConfig: null, chartConfigError: message }))
       .then(() => this.setState({ chartConfigLoading: false }));
