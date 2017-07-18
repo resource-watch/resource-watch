@@ -153,8 +153,10 @@ class Explore extends Page {
                     <div className="column small-12 medium-6">
                       <SearchInput
                         onSearch={debounce(this.handleFilterDatasetsSearch, 500)}
-                        placeholder="Search dataset"
-                        input={search.value}
+                        input={{
+                          value: search && search.value,
+                          placeholder: 'Search dataset'
+                        }}
                       />
                     </div>
                     <div className="column small-12 medium-6">

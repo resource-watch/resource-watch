@@ -28,10 +28,11 @@ class SearchInput extends React.Component {
             className="-fluid"
             onKeyUp={this.onSearch}
             placeholder={input.placeholder}
+            value={input.value}
           />
           <Icon name="icon-search" className="-small" />
         </div>
-        {link &&
+        {link.route &&
           <Link route={link.route} params={link.params}>
             <a className="c-button -secondary">{link.label}</a>
           </Link>
