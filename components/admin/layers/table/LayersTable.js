@@ -37,7 +37,7 @@ class LayersTable extends React.Component {
    * @param {string} { value } Search keywords
    */
   @Autobind
-  onSearch({ value }) {
+  onSearch(value) {
     if (!value.length) {
       this.props.setFilters([]);
     } else {
