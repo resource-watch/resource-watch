@@ -17,7 +17,7 @@ import DatasetService from 'services/DatasetService';
 import CheckboxGroup from 'components/form/CheckboxGroup';
 import Spinner from 'components/ui/Spinner';
 import Button from 'components/ui/Button';
-import Checkbox from 'components/ui/Checkbox';
+import Checkbox from 'components/form/Checkbox';
 
 
 class FilterTooltip extends React.Component {
@@ -35,7 +35,7 @@ class FilterTooltip extends React.Component {
       rangeValue: !this.isCategorical(props) && props.filter
         ? { min: props.filter[0], max: props.filter[1] }
         : null,
-      notNullSelected: false,
+      notNullSelected: props.notNullSelected,
       loading: true
     };
 
@@ -65,10 +65,9 @@ class FilterTooltip extends React.Component {
   }
 
   onApply() {
-    this.props.onApply(this.isCategorical()
-      ? this.state.selected
-      : [this.state.rangeValue.min, this.state.rangeValue.max]
-    );
+    const { selected, rangeValue, notNullSelected } = this.state;
+    const filter = this.isCategorical() ? selected : [rangeValue.min, rangeValue.max];
+    this.props.onApply(filter, notNullSelected);
 
     // We close the tooltip
     this.props.toggleTooltip(false);
@@ -201,7 +200,7 @@ class FilterTooltip extends React.Component {
   @Autobind
   handleNotNullSelection(value) {
     this.setState({
-
+      notNullSelected: value
     });
   }
 
@@ -221,6 +220,7 @@ class FilterTooltip extends React.Component {
           <Checkbox
             properties={{
               title: 'Not null values',
+              checked: notNullSelected,
               default: false
             }}
             onChange={elem => this.handleNotNullSelection(elem.checked)}
@@ -271,6 +271,7 @@ FilterTooltip.propTypes = {
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   filter: PropTypes.any, // Current value of the filter
+  notNullSelected: PropTypes.bool, // Current value of the filter
   onResize: PropTypes.func, // Passed from the tooltip component
   onApply: PropTypes.func.isRequired,
   // store

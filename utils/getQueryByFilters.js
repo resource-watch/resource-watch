@@ -28,12 +28,12 @@ export default function getQueryByFilters(
 
     if (filter.type === 'string') {
       const whereClause = `${filter.name} IN ('${filter.value.join('\', \'')}')`;
-      return filter.notNull ? `${whereClause} AND ${filter.name} NOT NULL` : whereClause;
+      return filter.notNull ? `${whereClause} AND ${filter.name} IS NOT NULL` : whereClause;
     }
 
     if (filter.type === 'number') {
       const whereClause = `${filter.name} >= ${filter.value[0]} AND ${filter.name} <= ${filter.value[1]}`;
-      return filter.notNull ? `${whereClause} AND ${filter.name} NOT NULL` : whereClause;
+      return filter.notNull ? `${whereClause} AND ${filter.name} IS NOT NULL` : whereClause;
     }
 
     return null;
