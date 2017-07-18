@@ -92,8 +92,8 @@ class Explore extends Page {
   }
 
   @Autobind
-  handleFilterDatasetsSearch(item) {
-    const filter = item ? { value: item.value, key: 'name' } : {};
+  handleFilterDatasetsSearch(value) {
+    const filter = value ? { value, key: 'name' } : {};
     this.props.setDatasetsSearchFilter(filter);
 
     // We move the user to the first page
@@ -102,7 +102,7 @@ class Explore extends Page {
 
   @Autobind
   handleFilterDatasetsIssue(item, levels, key) {
-    const filter = item ? [{ levels, value: item.value, key }] : [];
+    const filter = item ? [{ levels, value: item.value, key }] : null;
     this.props.setDatasetsIssueFilter(filter);
 
     // We move the user to the first page

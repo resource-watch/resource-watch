@@ -14,8 +14,8 @@ class SearchInput extends React.Component {
    * @param {string} { value } Search keywords
    */
   @Autobind
-  onSearch(e) {
-    this.props.onSearch({ value: e.currentTarget.value });
+  onSearch(event) {
+    this.props.onSearch(event.target.value);
   }
 
   render() {
@@ -26,9 +26,9 @@ class SearchInput extends React.Component {
         <div className="c-field -fluid">
           <input
             className="-fluid"
-            onKeyUp={this.onSearch}
+            onChange={this.onSearch}
             placeholder={input.placeholder}
-            value={input.value}
+            value={input.value ? input.value : ''}
             type="search"
           />
           <Icon name="icon-search" className="-small" />
