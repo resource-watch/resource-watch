@@ -78,6 +78,14 @@ export function canRenderChart(widgetEditor) {
     );
 }
 
+/**
+ * Return the URL of the data needed for the Vega chart
+ * @export
+ * @param {object} widgetEditor Configuration of the widget editor from the store
+ * @param {string} tableName Name of dataset's table
+ * @param {string} dataset ID of the dataset
+ * @returns {string} URL of the data
+ */
 export function getDataURL(widgetEditor, tableName, dataset) {
   const {
     category,
@@ -149,8 +157,39 @@ export function getDataURL(widgetEditor, tableName, dataset) {
   return `${process.env.WRI_API_URL}/query/${dataset}?sql=${query}`;
 }
 
-export function getChartConfig(widgetEditor, tableName, dataset) {
+/**
+ * Fetch the data of the chart
+ * @export
+ * @param {string} url URL of the data
+ * @returns {object[]}
+ */
+export async function fetchData(url) { // eslint-disable-line no-unused-vars
+  // TODO: implement this
+  return setTimeout(() => ({}), 100);
+}
+
+/**
+ * Generate the chart configuration (Vega's) according to the
+ * current state of the store
+ * @export
+ * @param {any} widgetEditor State of the editor (coming from the store)
+ * @param {string} tableName Name of the dataset's table
+ * @param {string} dataset ID of the dataset
+ * @param {boolean} [mustFetchData=false] Whether the the configuration
+ * should store the URL of the raw data (might be needed for smarter
+ * charts)
+ * @returns {object} JSON object
+ */
+export async function getChartConfig(widgetEditor, tableName, dataset, mustFetchData = false) {
   const { category, value, size, color, chartType } = widgetEditor;
+
+  // URL of the data needed to display the chart
+  const url = getDataURL(widgetEditor, tableName, dataset);
+
+  // In case we must fetch the data, we save it in this variable
+  // TODO: conditionally use the data var
+  // eslint-disable-next-line no-unused-vars
+  const data = mustFetchData && fetchData(url);
 
   return CHART_TYPES[chartType]({
     // In the future, we could pass the type of the columns so the chart
@@ -162,7 +201,7 @@ export function getChartConfig(widgetEditor, tableName, dataset) {
       size: { present: !!size }
     },
     data: {
-      url: getDataURL(widgetEditor, tableName, dataset),
+      url,
       property: 'data'
     }
   });

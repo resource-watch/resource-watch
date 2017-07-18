@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Autobind } from 'es-decorators';
 import { DragDropContext } from 'react-dnd';
+import isEqual from 'lodash/isEqual';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -70,6 +71,12 @@ class WidgetEditor extends React.Component {
       tableName: null,
       // Whether the chart is loading its data/rendering
       chartLoading: false,
+
+      // CHART CONFIG
+      chartConfig: null, // Vega chart configuration
+      chartConfigError: null, // Error message when fetching the chart configuration
+      chartConfigLoading: false, // Whether we're loading the config
+      
       // Jiminy
       jiminy: {},
       jiminyLoaded: false,
@@ -105,6 +112,17 @@ class WidgetEditor extends React.Component {
 
     if (this.props.mode === 'dataset') {
       this.getLayers();
+    }
+  }
+
+  componentDidUpdate(previousProps) {
+    // If the configuration of the chart is updated, then we
+    // fetch the Vega chart config again
+    // NOTE: this can't be moved to componentWillUpdate because
+    // this.fetchChartConfig uses the store
+    if (canRenderChart(this.props.widgetEditor)
+      && !isEqual(previousProps.widgetEditor, this.props.widgetEditor)) {
+      this.fetchChartConfig();
     }
   }
 
@@ -248,7 +266,7 @@ class WidgetEditor extends React.Component {
               <Spinner className="-light" isLoading={loading} />
             </div>
           );
-        } else if (!canRenderChart(widgetEditor)) {
+        } else if (!canRenderChart(widgetEditor) || !this.state.chartConfig) {
           visualization = (
             <div className="visualization -chart">
               Select a type of chart and columns
@@ -260,12 +278,27 @@ class WidgetEditor extends React.Component {
               {'This chart can\'t be previewed'}
             </div>
           );
+        } else if (this.state.chartConfigLoading) {
+          visualization = (
+            <div className="visualization -chart">
+              <Spinner className="-light" isLoading />
+            </div>
+          );
+        } else if (this.state.chartConfigError) {
+          visualization = (
+            <div className="visualization -error">
+              <div>
+                {'Unfortunately, the chart couldn\'t be rendered'}
+                <span>{this.state.chartConfigError}</span>
+              </div>
+            </div>
+          );
         } else {
           visualization = (
             <div className="visualization -chart">
               <Spinner className="-light" isLoading={chartLoading} />
               <VegaChart
-                data={getChartConfig(widgetEditor, tableName, dataset)}
+                data={this.state.chartConfig}
                 theme={this.getChartTheme()}
                 toggleLoading={val => this.setState({ chartLoading: val })}
               />
@@ -314,10 +347,26 @@ class WidgetEditor extends React.Component {
   }
 
   /**
+   * Fetch the Vega chart configuration and store it in
+   * the state
+   */
+  fetchChartConfig() {
+    const { widgetEditor, dataset } = this.props;
+    const { tableName } = this.state;
+
+    this.setState({ chartConfigLoading: true });
+
+    getChartConfig(widgetEditor, tableName, dataset)
+      .then(chartConfig => this.setState({ chartConfig, chartConfigError: null }))
+      .catch(({ message }) => this.setState({ chartConfig: null, chartConfigError: message }))
+      .then(() => this.setState({ chartConfigLoading: false }));
+  }
+
+  /**
    * Update the user's widget
    */
   @Autobind
-  handleUpdateWidget() {
+  async handleUpdateWidget() {
     this.setState({ updating: true });
 
     const { widgetEditor, dataset, user, widget } = this.props;
@@ -334,6 +383,14 @@ class WidgetEditor extends React.Component {
       tableName
     } = widgetEditor;
 
+    let chartConfig;
+    try {
+      chartConfig = await getChartConfig(widgetEditor, tableName, dataset);
+    } catch (err) {
+      // TODO: properly handle the error case in the UI
+      alert('Unable to update the widget'); // eslint-disable-line no-alert
+    }
+
     const widgetConfig = {
       widgetConfig: Object.assign({},
         {
@@ -349,7 +406,7 @@ class WidgetEditor extends React.Component {
             filters
           }
         },
-        getChartConfig(widgetEditor, tableName, dataset)
+        chartConfig
       )
     };
 
