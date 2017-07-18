@@ -83,7 +83,7 @@ class Explore extends Page {
 
   @Autobind
   handleFilterDatasetsSearch(item) {
-    const filter = item ? { value: item.value } : {};
+    const filter = item ? { value: item.value, key: 'name' } : {};
     this.props.setDatasetsSearchFilter(filter);
 
     // We move the user to the first page
@@ -93,7 +93,7 @@ class Explore extends Page {
   @Autobind
   handleFilterDatasetsIssue(item, levels, key) {
     const filter = item ? [{ levels, value: item.value, key }] : [];
-    this.props.setDatasetsIssueFilter(filter);
+    this.props.setDatasetsIssueFilter([filter]);
 
     // We move the user to the first page
     this.props.setDatasetsPage(1);
@@ -244,7 +244,7 @@ Explore.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const datasets = state.explore.filters.length
+  const datasets = (state.explore.filters.search || state.explore.filters.issue)
     ? Object.assign({}, state.explore.datasets, { list: getFilteredDatasets(state) })
     : state.explore.datasets;
 
