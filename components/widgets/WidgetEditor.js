@@ -88,6 +88,7 @@ class WidgetEditor extends React.Component {
     this.datasetService = new DatasetService(props.dataset, {
       apiURL: process.env.WRI_API_URL
     });
+
     // WidgetService
     this.widgetService = new WidgetService(props.dataset, {
       apiURL: process.env.WRI_API_URL
@@ -95,144 +96,131 @@ class WidgetEditor extends React.Component {
   }
 
   componentDidMount() {
-    this.getFields();
+    this.getFields()
+      .then(() => {
+        this.getJiminy();
+        this.getTableName();
+      })
+      .catch(() => console.error('Unable to retrieve the fields'));
+
     if (this.props.mode === 'dataset') {
       this.getLayers();
     }
   }
 
+  /**
+   * Fetch the fields and save them in the state
+   * @returns {Promise<void>}
+   */
   getFields() {
+    // Functions to resolve and reject the promise
+    let resolve;
+    let reject;
+
+    // Actual promise
+    const promise = new Promise((res, rej) => {
+      resolve = res;
+      reject = rej;
+    });
+
     this.datasetService.getFields()
       .then((response) => {
-        const fieldsError = !response.fields || response.fields.length <= 0;
+        const fieldsError = !response.fields || !response.fields.length;
 
         this.setState({
           fieldsLoaded: true,
           fieldsError,
           fields: response.fields
         }, () => {
-          if (!fieldsError) {
-            this.props.setFields(response.fields.filter(field => !!isFieldAllowed(field.columnType)));
-            this.getJiminy();
-            this.getTableName();
-          }
+          // We wait for the state to be updated before doing anything
+          // else
+          if (fieldsError) return;
+
+          const fields = response.fields.filter(field => !!isFieldAllowed(field.columnType));
+          this.props.setFields(fields);
+          resolve();
         });
       })
-      .catch((error) => {
-        console.log('error', error); // eslint-disable-line no-console
-      });
+      // TODO: handle the error case in the UI
+      .catch(() => this.setState({ fieldsError: true }))
+      // If we reach this point, either we have already resolved the promise
+      // and so rejecting it has no effect, or we haven't and so we reject it
+      .then(reject);
+
+    return promise;
   }
 
+  /**
+   * Fetch the information about the layers and save it in the state
+   */
   getLayers() {
-    this.datasetService.getLayers().then((response) => {
-      this.setState({
-        layers: response.map(val => ({
-          id: val.id,
-          name: val.attributes.name,
-          subtitle: val.attributes.subtitle,
-          ...val.attributes,
-          order: 1,
-          hidden: false
-        })),
-        layersLoaded: true
+    this.datasetService.getLayers()
+      .then((response) => {
+        this.setState({
+          layers: response.map(val => ({
+            id: val.id,
+            name: val.attributes.name,
+            subtitle: val.attributes.subtitle,
+            ...val.attributes,
+            order: 1,
+            hidden: false
+          })),
+          layersLoaded: true
+        });
+      })
+      // TODO: properly handle this in the UI
+      .catch(() => {
+        this.setState({
+          layersLoaded: true,
+          layersError: true
+        });
+        console.error('Unable to fetch the layers');
       });
-    }).catch((err) => {
-      this.setState({
-        layersLoaded: true,
-        layersError: true
-      });
-      console.log(err); // eslint-disable-line no-console
-    });
   }
 
+  /**
+   * Fetch the recommendations from Jiminy and save them in the
+   * state
+   */
   getJiminy() {
+    // We get the name of the columns that we can use to build the
+    // charts
     const fieldsSt = this.state.fields
       .filter(field => isFieldAllowed(field.columnType))
       .map(elem => elem.columnName);
+
     const querySt = `SELECT ${fieldsSt} FROM ${this.props.dataset} LIMIT 300`;
+
     this.datasetService.fetchJiminy(querySt)
-      .then((jiminy) => {
-        this.setState({
-          jiminyLoaded: true,
-          jiminy,
-          jiminyError: typeof jiminy === 'undefined'
-        });
-      })
-      .catch((err) => {
-        console.error('jiminy error', err);
-        this.setState({
-          jiminyLoaded: true,
-          jiminyError: true
-        });
-      });
+      .then(jiminy => this.setState({ jiminy, jiminyError: typeof jiminy === 'undefined' }))
+      .catch(() => this.setState({ jiminyError: true }))
+      .then(() => this.setState({ jiminyLoaded: true }));
   }
 
+  /**
+   * Fetch the name of the dataset's table and save it in the state
+   */
   getTableName() {
     this.datasetService.fetchData()
-      .then(({ attributes }) => {
-        this.setState({
-          tableName: attributes.tableName
-        });
-      });
+      .then(({ attributes }) => this.setState({ tableName: attributes.tableName }))
+      // TODO: handle the error case
+      .catch(() => console.error('Unable to load the table name'));
   }
 
+  /**
+   * Return the theme of the charts
+   * @return {object} JSON object
+   */
   getChartTheme() {
     return ChartTheme({
       chart: this.state.selectedChartType
     });
   }
 
-  @Autobind
-  handleVisualizationTypeChange(val) {
-    this.setState({
-      selectedVisualizationType: val
-    });
-  }
-
-  @Autobind
-  handleUpdateWidget() {
-    this.setState({
-      updating: true
-    });
-
-    const { widgetEditor, dataset, user, widget } = this.props;
-    const { limit, value, category, color, size, orderBy, aggregateFunction, chartType, filters, tableName } = widgetEditor;
-
-    const widgetConfig = { widgetConfig: Object.assign(
-      {},
-      { paramsConfig: {
-        limit,
-        value,
-        category,
-        color,
-        size,
-        orderBy,
-        aggregateFunction,
-        chartType,
-        filters
-      }
-      },
-      getChartConfig(widgetEditor, tableName, dataset)
-    ) };
-
-    const widgetObj = Object.assign(
-      {},
-      {
-        application: widget.attributes.application,
-        name: widget.attributes.name,
-        id: widget.id
-      },
-      widgetConfig);
-
-    this.widgetService.updateUserWidget(widgetObj, dataset, user.token)
-      .then((response) => {
-        this.setState({
-          updating: false
-        });
-        alert("Widget updated successfully!");
-      });
-  }
-
+  /**
+   * Return the visualization itself
+   * @returns {HTMLElement}
+   */
   getVisualization() {
     const {
       tableName,
@@ -240,16 +228,19 @@ class WidgetEditor extends React.Component {
       chartLoading,
       layersLoaded,
       fieldsError,
-      jiminyLoaded } = this.state;
+      jiminyLoaded
+    } = this.state;
+
     const { widgetEditor, dataset, mode } = this.props;
     const { chartType, layer } = widgetEditor;
 
+    // Whether we are still waiting for some info
     const loading = (mode === 'dataset' && !layersLoaded) ||
       (!fieldsError && !jiminyLoaded);
 
     let visualization = null;
     switch (selectedVisualizationType) {
-
+      // Vega chart
       case 'chart':
         if (!tableName) {
           visualization = (
@@ -283,6 +274,7 @@ class WidgetEditor extends React.Component {
         }
         break;
 
+      // Leaflet map
       case 'map':
         if (layer) {
           visualization = (
@@ -302,6 +294,8 @@ class WidgetEditor extends React.Component {
           );
         }
         break;
+
+      // HTML table
       case 'table':
         visualization = (
           <div className="visualization">
@@ -312,11 +306,78 @@ class WidgetEditor extends React.Component {
           </div>
         );
         break;
-      default:
 
+      default:
     }
 
     return visualization;
+  }
+
+  /**
+   * Update the user's widget
+   */
+  @Autobind
+  handleUpdateWidget() {
+    this.setState({ updating: true });
+
+    const { widgetEditor, dataset, user, widget } = this.props;
+    const {
+      limit,
+      value,
+      category,
+      color,
+      size,
+      orderBy,
+      aggregateFunction,
+      chartType,
+      filters,
+      tableName
+    } = widgetEditor;
+
+    const widgetConfig = {
+      widgetConfig: Object.assign({},
+        {
+          paramsConfig: {
+            limit,
+            value,
+            category,
+            color,
+            size,
+            orderBy,
+            aggregateFunction,
+            chartType,
+            filters
+          }
+        },
+        getChartConfig(widgetEditor, tableName, dataset)
+      )
+    };
+
+    const widgetObj = Object.assign({},
+      {
+        application: widget.attributes.application,
+        name: widget.attributes.name,
+        id: widget.id
+      },
+      widgetConfig
+    );
+
+    this.widgetService.updateUserWidget(widgetObj, dataset, user.token)
+      .then(() => {
+        this.setState({ updating: false });
+        alert('Widget updated successfully!'); // eslint-disable-line no-alert
+      })
+      // TODO: properly handle the error case
+      .catch(() => console.error('Unable to update the widget'));
+  }
+
+  /**
+   * Change the selected visualization in the state
+   * @param {string} selectedVisualizationType Visualization type
+   */
+  @Autobind
+  handleVisualizationTypeChange(selectedVisualizationType) {
+    this.setState({ selectedVisualizationType });
   }
 
   render() {
@@ -334,30 +395,40 @@ class WidgetEditor extends React.Component {
     let { jiminy } = this.state;
     const { dataset, mode } = this.props;
 
-    const loading = (mode === 'dataset' && !layersLoaded) ||
-      (!fieldsError && !jiminyLoaded) ||
-      (mode === 'widget' && updating);
+    // Whether we're still waiting for some data
+    const loading = (mode === 'dataset' && !layersLoaded)
+      || (!fieldsError && !jiminyLoaded)
+      || (mode === 'widget' && updating);
 
     const chartEditorMode = (mode === 'dataset') ? 'save' : 'update';
 
     const visualization = this.getVisualization();
+
+    // TODO: instead of hiding the whole UI, let's show an error message or
+    // some kind of feedback for the user
     const componentShouldNotShow = fieldsError && (layersError || (layers && layers.length === 0));
 
     // We filter out the visualizations that aren't present in
     // this.props.availableVisualizations
+    // We don't use this.props.availableVisualizations directly
+    // because we want access to the whole object
     let visualizationsOptions = VISUALIZATION_TYPES
       .filter(viz => this.props.availableVisualizations.includes(viz.value));
-    // If theere was an error retrieving the fields we remove chart and table
+
+    // If there was an error retrieving the fields we remove chart and table
     // as visualization options
     if (fieldsError) {
       visualizationsOptions = visualizationsOptions.filter(val => val.value === 'map');
     }
+
     // If there are no layers created for this dataset we remove the map optiion
     // from the options
     if (layersLoaded && (!layers || (layers && layers.length === 0))) {
       visualizationsOptions = visualizationsOptions.filter(val => val.value !== 'map');
     }
 
+    // In case Jiminy failed to give back a result, we let the user the possibility
+    // to render any chart
     if (jiminyError) {
       jiminy = ALL_CHART_TYPES;
     }
@@ -423,7 +494,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 WidgetEditor.propTypes = {
-  mode: PropTypes.string.isRequired, // 'dataset' or 'widget'
+  mode: PropTypes.oneOf(['dataset', 'widget']),
   dataset: PropTypes.string, // Dataset ID
   widget: PropTypes.object, // Widget object
   availableVisualizations: PropTypes.arrayOf(
