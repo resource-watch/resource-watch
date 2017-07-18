@@ -1,4 +1,7 @@
 import React from 'react';
+import classnames from 'classnames';
+
+// Components
 import Icon from 'components/ui/Icon';
 
 export default class SliderSelect extends React.Component {
@@ -32,6 +35,16 @@ export default class SliderSelect extends React.Component {
         fullList: newProps.options || [],
         filteredOptions: this.filterItemsList(newProps.options) || []
       });
+    }
+
+    if (newProps.options !== this.props.options) {
+      const selectedItem = newProps.options && newProps.value ?
+        newProps.options.find(item => item.value === newProps.value) : null;
+      if (selectedItem) {
+        this.setState({
+          selectedItem
+        });
+      }
     }
   }
 
@@ -201,24 +214,31 @@ export default class SliderSelect extends React.Component {
   }
 
   render() {
-    // Class names
-    const cNames = ['c-custom-select -search'];
-    this.props.className && cNames.push(this.props.className);
-    this.state.closed && cNames.push('-closed');
+    const { className, options, placeholder } = this.props;
+    const { closed, filteredOptions, selectedItem, selectedLevels, selectedIndex } = this.state;
 
-    const noResults = !!(this.props.options.length && !this.state.filteredOptions.length);
+    // Class names
+    let cNames = classnames({
+      'c-custom-select -search': true,
+      '-closed': closed
+    });
+    if (className) {
+      cNames = `${cNames} ${className}`;
+    }
+
+    const noResults = !!(options.length && !filteredOptions.length);
 
     return (
-      <div ref={(node) => { this.el = node; }} className={cNames.join(' ')}>
+      <div ref={(node) => { this.el = node; }} className={cNames}>
         <span className="custom-select-text" onClick={this.toggle}>
           <div>
-            <span>{this.state.selectedItem ? this.state.selectedItem.label : this.props.placeholder}</span>
-            {!this.state.selectedItem && this.state.closed &&
+            <span>{selectedItem ? selectedItem.label : placeholder}</span>
+            {!selectedItem && closed &&
               <button className="icon-btn" onClick={this.toggle}>
                 <Icon name="icon-arrow-down" className="-small icon-arrow-down" />
               </button>
             }
-            {this.state.selectedItem &&
+            {selectedItem &&
               <button className="icon-btn" onClick={this.clearSearch}>
                 <Icon name="icon-cross" className="-small icon-cross" />
               </button>
@@ -237,16 +257,16 @@ export default class SliderSelect extends React.Component {
         }
         {this.state.closed ||
           <ul className="custom-select-options">
-            {this.state.selectedLevels.length > 0 &&
+            {selectedLevels.length > 0 &&
               <li className="title" onClick={this.onSliderPrev}>
                 <div>
                   <Icon name="icon-arrow-left" className="-small icon-arrow-left" />
-                  <span>{this.state.selectedLevels[this.state.selectedLevels.length - 1].label}</span>
+                  <span>{selectedLevels[selectedLevels.length - 1].label}</span>
                 </div>
               </li>
             }
-            {this.state.filteredOptions.map((item, index) => {
-              const cName = (index === this.state.selectedIndex) ? '-selected' : '';
+            {filteredOptions.map((item, index) => {
+              const cName = (index === selectedIndex) ? '-selected' : '';
 
               return (
                 <li className={cName} key={index}>

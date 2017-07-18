@@ -29,6 +29,7 @@ class SearchInput extends React.Component {
             onKeyUp={this.onSearch}
             placeholder={input.placeholder}
             value={input.value}
+            type="search"
           />
           <Icon name="icon-search" className="-small" />
         </div>
