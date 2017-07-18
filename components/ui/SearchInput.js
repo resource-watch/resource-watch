@@ -8,7 +8,7 @@ import { Link } from 'routes';
 // Components
 import Icon from 'components/ui/Icon';
 
-class TableHeaderSearch extends React.Component {
+class SearchInput extends React.Component {
   /**
    * Event handler executed when the user search
    * @param {string} { value } Search keywords
@@ -22,7 +22,7 @@ class TableHeaderSearch extends React.Component {
     const { link, input } = this.props;
 
     return (
-      <div className="c-table-header-search">
+      <div className="c-search-input">
         <div className="c-field -fluid">
           <input
             className="-fluid"
@@ -31,23 +31,25 @@ class TableHeaderSearch extends React.Component {
           />
           <Icon name="icon-search" className="-small" />
         </div>
-        <Link route={link.route} params={link.params}>
-          <a className="c-button -secondary">{link.label}</a>
-        </Link>
+        {link &&
+          <Link route={link.route} params={link.params}>
+            <a className="c-button -secondary">{link.label}</a>
+          </Link>
+        }
       </div>
     );
   }
 }
 
-TableHeaderSearch.propTypes = {
+SearchInput.propTypes = {
   input: PropTypes.object.isRequired,
   link: PropTypes.object.isRequired,
   onSearch: PropTypes.func.isRequired
 };
 
-TableHeaderSearch.defaultProps = {
+SearchInput.defaultProps = {
   input: {},
   link: {}
 };
 
-export default TableHeaderSearch;
+export default SearchInput;

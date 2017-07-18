@@ -13,7 +13,7 @@ import getFilteredLayers from 'selectors/admin/layers';
 // Components
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
-import TableHeaderSearch from 'components/ui/customtable/header/TableHeaderSearch';
+import SearchInput from 'components/ui/SearchInput';
 
 // Table components
 import EditAction from './actions/EditAction';
@@ -59,7 +59,7 @@ class LayersTable extends React.Component {
           <p>Error: {this.props.error}</p>
         )}
 
-        <TableHeaderSearch
+        <SearchInput
           input={{
             placeholder: 'Search layer'
           }}

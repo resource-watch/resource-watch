@@ -28,6 +28,9 @@ import Legend from 'components/ui/Legend';
 import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
+import SearchInput from 'components/ui/SearchInput';
+
+// Layout
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 
@@ -148,14 +151,10 @@ class Explore extends Page {
                 <div className="search-container">
                   <div className="row collapse">
                     <div className="column small-12 medium-6">
-                      <CustomSelect
-                        options={datasetsSearchList}
-                        onValueChange={this.handleRedirect}
-                        onKeyPressed={debounce(this.handleFilterDatasetsSearch, 500)}
-                        search
+                      <SearchInput
+                        onSearch={debounce(this.handleFilterDatasetsSearch, 500)}
                         placeholder="Search dataset"
-                        hideList
-                        value={search && search.value}
+                        input={search.value}
                       />
                     </div>
                     <div className="column small-12 medium-6">
@@ -277,7 +276,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setDatasetsSearchFilter(search));
     if (typeof window !== 'undefined') dispatch(setUrlParams());
   },
-  setDatasetsIssueFilter: (issue) => { dispatch(setDatasetsIssueFilter(issue)); },
+  setDatasetsIssueFilter: (issue) => {
+    dispatch(setDatasetsIssueFilter(issue));
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
+  },
   redirectTo: (url) => { dispatch(redirectTo(url)); },
   toggleModal: (open) => { dispatch(toggleModal(open)); },
   setModalOptions: (options) => { dispatch(setModalOptions(options)); },
