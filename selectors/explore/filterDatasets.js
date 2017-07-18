@@ -19,18 +19,15 @@ const getFilteredDatasets = (_list, _filters) => {
       }
     }
     if (issue) {
-      console.log('issue', issue);
       // Deafult filter by vocabulary
       for (let i = 0; i < issue.length; i++) { // eslint-disable-line
         const filter = issue[i];
-        console.log('filter', filter);
 
         // Set vocabulary name wether the whole vocabulary is selected or only a specific tag
         // TODO: search in cascade if vocabularies get more levels (picking levels[0] by default)
-        const vocName = (filter.levels.length && filter.levels.length > 0) ? filter.levels[0] : filter.value;
-        console.log('vocName', vocName);
+        const vocName = (filter.levels.length && filter.levels.length > 0)
+          ? filter.levels[0] : filter.value;
         const vocabulary = it.attributes.vocabulary.find(voc => voc.attributes.name === vocName);
-
 
           // Levels specify wether it is necessary to search into the vocabulary or not
         if (filter.levels.length && filter.levels.length > 0) {

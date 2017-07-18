@@ -63,7 +63,7 @@ class Explore extends Page {
     }
 
     if (this.props.url.query.search) {
-      this.props.setDatasetsSearchFilter({ value: this.props.url.query.search });
+      this.props.setDatasetsSearchFilter({ value: this.props.url.query.search, key: 'name' });
     }
 
     this.props.getDatasets();
@@ -121,6 +121,8 @@ class Explore extends Page {
         label: d.attributes.name
       }
     ));
+    const { search, issue } = explore.filters;
+    console.log('datasetsSearchList', datasetsSearchList);
 
     return (
       <Layout
