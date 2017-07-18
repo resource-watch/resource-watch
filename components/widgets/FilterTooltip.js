@@ -214,9 +214,9 @@ class FilterTooltip extends React.Component {
         { !categoryValue && !loading && this.renderRange() }
         { !categoryValue && !loading &&
           <div className="text-inputs-container">
-            <input className="-first" type="number" value={rangeValue.min} onChange={this.handleMinChange} />
+            <input className="-first" type="number" value={rangeValue.min} onChange={debounce(this.handleMinChange, 60)} />
             -
-            <input className="-last" type="number" value={rangeValue.max} onChange={this.handleMaxChange} />
+            <input className="-last" type="number" value={rangeValue.max} onChange={debounce(this.handleMaxChange, 60)} />
           </div>
         }
 

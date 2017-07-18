@@ -59,6 +59,16 @@ export function isFieldAllowed(fieldType) {
   return ALLOWED_FIELD_TYPES.find(val => val.name.toLowerCase() === fieldType.toLowerCase());
 }
 
+export function isFieldNumber(fieldType) {
+  const field = isFieldAllowed(fieldType);
+  return field ? field.type === 'number' : false;
+}
+
+export function isFieldDate(fieldType) {
+  const field = isFieldAllowed(fieldType);
+  return field ? field.type === 'date' : false;
+}
+
 export function getChartType(type) {
   return CHART_TYPES[type];
 }
