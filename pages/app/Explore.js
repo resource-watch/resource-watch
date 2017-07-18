@@ -163,6 +163,7 @@ class Explore extends Page {
                         options={this.state.vocabularies}
                         onValueChange={this.handleFilterDatasetsIssue}
                         placeholder="Select issue"
+                        value={issue && issue.length > 0 && issue[0].value}
                       />
                     </div>
                   </div>
