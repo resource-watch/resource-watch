@@ -2,6 +2,10 @@ import 'isomorphic-fetch';
 import _ from 'lodash';
 import Promise from 'bluebird';
 
+
+// Utils
+import { isFieldDate, isFieldNumber } from 'utils/widgets/WidgetHelper';
+
 /**
  * Dataset service
  * @example:
@@ -69,7 +73,7 @@ export default class DatasetService {
    */
   getFilter(fieldData) {
     return new Promise((resolve) => {
-      if (fieldData.columnType === 'number' || fieldData.columnType === 'date') {
+      if (isFieldNumber(fieldData.columnType) || isFieldDate(fieldData.columnType)) {
         this.getMinAndMax(fieldData.columnName, fieldData.tableName).then((data) => {
           fieldData.properties = data;
           resolve(fieldData);

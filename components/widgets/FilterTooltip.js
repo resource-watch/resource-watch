@@ -156,8 +156,8 @@ class FilterTooltip extends React.Component {
     const step = Math.min(Math.floor((max - min) / 100), 1);
 
     // Min and max values of the selected range
-    const rangeMin = this.state.rangeValue.min;
-    const rangeMax = this.state.rangeValue.max;
+    const rangeMin = +this.state.rangeValue.min;
+    const rangeMax = +this.state.rangeValue.max;
 
     // We debounce the method to avoid having to update the state
     // to often (around 60 FPS)
