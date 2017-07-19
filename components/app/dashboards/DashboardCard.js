@@ -237,7 +237,7 @@ class DashboardCard extends React.Component {
 }
 
 DashboardCard.propTypes = {
-  widgetId: PropTypes.string,
+  widgetId: PropTypes.string.isRequired,
   categories: PropTypes.arrayOf(PropTypes.string).isRequired,
   isFavourite: PropTypes.bool.isRequired,
   // Redux

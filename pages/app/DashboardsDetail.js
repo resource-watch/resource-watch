@@ -4,10 +4,6 @@ import classnames from 'classnames';
 // Router
 import { Router } from 'routes';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
@@ -21,7 +17,7 @@ import UserService from 'services/UserService';
 // Utils
 import DASHBOARDS from 'utils/dashboards/config';
 
-class DashboardsDetail extends Page {
+export default class DashboardsDetail extends Page {
 
   constructor(props) {
     super(props);
@@ -62,7 +58,7 @@ class DashboardsDetail extends Page {
   }
 
   loadFavourites() {
-    this.userService.getFavourites(this.props.user.token)
+    this.userService.getFavourites(`Bearer ${this.props.user.token}`)
       .then((response) => {
         console.log('response', response);
       });
@@ -109,13 +105,14 @@ class DashboardsDetail extends Page {
   }
 
   render() {
+    const { url, user } = this.props;
     const dashboardName = this.state.selectedDashboard ? `${this.state.selectedDashboard.name} dashboard` : '–';
     return (
       <Layout
         title={dashboardName}
         description="Resource Watch Dashboards"
-        url={this.props.url}
-        user={this.props.user}
+        url={url}
+        user={user}
         pageHeader
       >
         <div className="c-page-dashboards">
@@ -207,9 +204,3 @@ class DashboardsDetail extends Page {
   }
 
 }
-
-const mapStateToProps = state => ({
-  user: state.user
-});
-
-export default withRedux(initStore, mapStateToProps, null)(DashboardsDetail);

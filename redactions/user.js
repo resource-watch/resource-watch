@@ -35,7 +35,6 @@ export default function (state = initialState, action) {
 */
 export function setUser(user) {
   let userObj = user;
-
   // Add 'Bearer' to token
   if (!isEmpty(user)) {
     userObj = {

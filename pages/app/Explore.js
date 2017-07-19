@@ -151,12 +151,6 @@ class Explore extends Page {
 
   render() {
     const { explore, paginatedDatasets } = this.props;
-    const datasetsSearchList = explore.datasets.list.map(d => (
-      {
-        value: d.id,
-        label: d.attributes.name
-      }
-    ));
     const { search, issue } = explore.filters;
 
     return (
