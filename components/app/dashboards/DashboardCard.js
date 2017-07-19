@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import 'isomorphic-fetch';
+import { Autobind } from 'es-decorators';
 
 // Components
 import Title from 'components/ui/Title';
@@ -20,6 +21,9 @@ import { toggleModal, setModalOptions } from 'redactions/modal';
 import getChartTheme from 'utils/widgets/theme';
 import LayerManager from 'utils/layers/LayerManager';
 
+// Services
+import UserService from 'services/UserService';
+
 class DashboardCard extends React.Component {
 
   constructor(props) {
@@ -29,13 +33,25 @@ class DashboardCard extends React.Component {
       loading: false,
       name: null, // Name of the widget
       widgetConfig: null, // Vega config of the widget
-      layer: null // Map's layer
+      layer: null, // Map's layer,
+      isFavourite: props.isFavourite
     };
+
+    // Services
+    this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
   }
 
   componentDidMount() {
     if (this.props.widgetId) {
       this.getData();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isFavourite !== this.state.isFavourite) {
+      this.setState({
+        isFavourite: nextProps.isFavourite
+      });
     }
   }
 
@@ -117,20 +133,52 @@ class DashboardCard extends React.Component {
     return (widgetConfig && widgetConfig.type) || 'vega';
   }
 
+  @Autobind
+  handleFavouriteClick() {
+    const { isFavourite, widgetId, user } = this.props;
+    this.setState({
+      loading: true
+    });
+    if (!isFavourite) {
+      this.userService.createFavouriteWidget(widgetId, user.token)
+        .then((response) => {
+          this.setState({
+            isFavourite: true,
+            loading: false
+          });
+        }
+      ).catch(err => console.log(err));
+    } else {
+      this.userService.deleteFavourite(widgetId, user.token)
+        .then((response) => {
+          this.setState({
+            isFavourite: false,
+            loading: false
+          });
+        }
+      ).catch(err => console.log(err));
+    }
+  }
+
   render() {
+    const { isFavourite } = this.state;
     const widgetConfig = this.getWidgetConfig();
 
     // Type of the widget: "vega", "text" or "map"
     const widgetType = (widgetConfig && widgetConfig.type) || 'vega';
 
-    const iconName = 'star-full';
+    const iconName = isFavourite ? 'star-full' : 'star-empty';
 
     return (
       <div className="c-dashboard-card">
         <header>
           <div className="header-container">
             <Title className="-default">{this.state.name || this.props.name || '–'}</Title>
-            <Icon name={`icon-${iconName}`} className="c-icon -small" />
+            <button
+              onClick={this.handleFavouriteClick}
+            >
+              <Icon name={`icon-${iconName}`} className="c-icon -small" />
+            </button>
           </div>
           <ul className="categories">
             {this.props.categories.map(category => <li key={category}>{category}</li>)}
@@ -191,10 +239,11 @@ class DashboardCard extends React.Component {
 DashboardCard.propTypes = {
   widgetId: PropTypes.string,
   categories: PropTypes.arrayOf(PropTypes.string).isRequired,
-  isFavorite: PropTypes.bool.isRequired,
+  isFavourite: PropTypes.bool.isRequired,
   // Redux
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
   // NOTE:
   // The following props will be deprecated once the dashboards
   // have all of their widgets in the API
@@ -202,7 +251,9 @@ DashboardCard.propTypes = {
   data: PropTypes.object // Raw data from the server: { data: { attributes: { ... } } }
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({
+  user: state.user
+});
 
 const mapDispatchToProps = dispatch => ({
   toggleModal: open => dispatch(toggleModal(open)),

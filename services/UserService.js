@@ -46,4 +46,53 @@ export default class UserService {
     });
   }
 
+  /**
+   * Deletes a favourite
+   * @param {resourceId} ID of the resource that will be unfavourited
+   * @param {token} User token
+   * @returns {Promise}
+   */
+  deleteFavourite(resourceId, token) {
+    return fetch(`${this.opts.apiURL}/favourite/${resourceId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: token
+      }
+    })
+    .then(response => response.json());
+  }
+
+  /**
+   * Creates a new favourite for a widget
+   * @param {widgetId} Widget ID
+   * @param {token} User token
+   * @returns {Promise}
+   */
+  createFavouriteWidget(widgetId, token) {
+    return this.createFavourite('widget', widgetId, token);
+  }
+
+  /**
+   * Creates a new favourite for a resource
+   * @param {resourceType} Type of the resource (dataset|layer|widget)
+   * @param {resourceId} Resource ID
+   * @param {token} User token
+   * @returns {Promise}
+   */
+  createFavourite(resourceType, resourceId, token) {
+    const bodyObj = {
+      resourceType,
+      resourceId
+    };
+    return fetch(`${this.opts.apiURL}/favourite`, {
+      method: 'POST',
+      body: JSON.stringify(bodyObj),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token
+      }
+    })
+    .then(response => response.json());
+  }
+
 }
