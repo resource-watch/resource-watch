@@ -266,7 +266,8 @@ class WidgetEditor extends React.Component {
               <Spinner className="-light" isLoading={loading} />
             </div>
           );
-        } else if (!canRenderChart(widgetEditor) || !this.state.chartConfig) {
+        } else if (!this.state.chartConfigError
+          && (!canRenderChart(widgetEditor) || !this.state.chartConfig)) {
           visualization = (
             <div className="visualization -chart">
               Select a type of chart and columns
