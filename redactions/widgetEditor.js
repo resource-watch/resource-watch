@@ -35,7 +35,7 @@ const initialState = {
   value: null,
   layer: null,
   fields: [],
-  limit: 1000
+  limit: 500
 };
 
 export default function (state = initialState, action) {
