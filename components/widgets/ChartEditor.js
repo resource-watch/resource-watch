@@ -30,6 +30,7 @@ class ChartEditor extends React.Component {
 
   @Autobind
   handleSaveWidget() {
+    console.log('handleSaveWidget!');
     const options = {
       children: SaveWidgetModal,
       childrenProps: {

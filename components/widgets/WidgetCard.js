@@ -86,6 +86,7 @@ class WidgetCard extends React.Component {
         {widget &&
           <DatasetWidgetChart
             widget={widget.attributes}
+            mode="full"
           />
         }
 
