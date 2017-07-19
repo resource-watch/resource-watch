@@ -266,19 +266,6 @@ class WidgetEditor extends React.Component {
               <Spinner className="-light" isLoading={loading} />
             </div>
           );
-        } else if (!this.state.chartConfigError
-          && (!canRenderChart(widgetEditor) || !this.state.chartConfig)) {
-          visualization = (
-            <div className="visualization -chart">
-              Select a type of chart and columns
-            </div>
-          );
-        } else if (!getChartType(chartType)) {
-          visualization = (
-            <div className="visualization -chart">
-              {'This chart can\'t be previewed'}
-            </div>
-          );
         } else if (this.state.chartConfigLoading) {
           visualization = (
             <div className="visualization -chart">
@@ -292,6 +279,18 @@ class WidgetEditor extends React.Component {
                 {'Unfortunately, the chart couldn\'t be rendered'}
                 <span>{this.state.chartConfigError}</span>
               </div>
+            </div>
+          );
+        } else if (!canRenderChart(widgetEditor) || !this.state.chartConfig) {
+          visualization = (
+            <div className="visualization -chart">
+              Select a type of chart and columns
+            </div>
+          );
+        } else if (!getChartType(chartType)) {
+          visualization = (
+            <div className="visualization -chart">
+              {'This chart can\'t be previewed'}
             </div>
           );
         } else {
