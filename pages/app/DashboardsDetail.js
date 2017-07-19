@@ -4,12 +4,19 @@ import classnames from 'classnames';
 // Router
 import { Router } from 'routes';
 
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import DashboardCard from 'components/app/dashboards/DashboardCard';
+
+// Services
+import UserService from 'services/UserService';
 
 // Utils
 import DASHBOARDS from 'utils/dashboards/config';
@@ -26,10 +33,39 @@ class DashboardsDetail extends Page {
       // Whether to show all the dashboards or just a few
       showMore: false
     };
+
+    // Services
+    this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
   }
 
   componentWillMount() {
     this.getDashboards();
+    // Load favorites
+    if (!this.props.user.id) {
+      this.waitForUserToBeLoaded();
+    } else {
+      this.loadFavourites();
+    }
+  }
+
+  /**
+    Waits for the user object to be loaded into the store
+  */
+  waitForUserToBeLoaded() {
+    setTimeout(() => {
+      if (this.props.user.id) {
+        this.loadFavourites();
+      } else {
+        this.waitForUserToBeLoaded();
+      }
+    }, 500);
+  }
+
+  loadFavourites() {
+    this.userService.getFavourites(this.props.user.token)
+      .then((response) => {
+        console.log('response', response);
+      });
   }
 
   /**
@@ -172,4 +208,8 @@ class DashboardsDetail extends Page {
 
 }
 
-export default DashboardsDetail;
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default withRedux(initStore, mapStateToProps, null)(DashboardsDetail);

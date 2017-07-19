@@ -29,4 +29,21 @@ export default class UserService {
     });
   }
 
+  /**
+   * Gets the contents that have been starred/favourited by the user that is
+   * currently logged
+   * @returns {Promise}
+   */
+  getFavourites(token) {
+    return new Promise((resolve) => {
+      fetch(`${this.opts.apiURL}/favourite`, {
+        headers: {
+          Authorization: token
+        }
+      })
+        .then(response => response.json())
+        .then(jsonData => resolve(jsonData.data));
+    });
+  }
+
 }
