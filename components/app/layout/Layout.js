@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Router } from 'routes';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -35,9 +36,17 @@ class Layout extends React.Component {
     // When a tooltip is shown and the router navigates to a
     // another page, the tooltip stays in place because it is
     // managed in Redux
-    // In order to hide it every time a new page is loaded,
-    // we toggle it off each the Layout component is mounted
-    this.props.toggleTooltip(false);
+    // The way we prevent this is by listening to the router
+    // and whenever we navigate, we hide the tooltip
+    // NOTE: we can't just call this.props.toggleTooltip here
+    // because for some pages, we don't re-mount the Layout
+    // component. If we listen for events from the router,
+    // we're sure to not miss any page.
+    if (!Router.onRouteChangeStart) {
+      Router.onRouteChangeStart = () => {
+        this.props.toggleTooltip(false);
+      };
+    }
   }
 
   componentDidMount() {
