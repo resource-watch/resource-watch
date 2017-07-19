@@ -10,6 +10,12 @@
     padding: 15px;
     border-bottom: 2px solid rgba($color-black, .05);
 
+    .header-container {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
     .categories {
       margin: 5px 0 0;
       padding: 0;

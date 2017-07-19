@@ -9,6 +9,7 @@ import VegaChart from 'components/widgets/VegaChart';
 import Map from 'components/vis/Map';
 import Legend from 'components/ui/Legend';
 import Spinner from 'components/ui/Spinner';
+import Icon from 'components/ui/Icon';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -122,10 +123,15 @@ class DashboardCard extends React.Component {
     // Type of the widget: "vega", "text" or "map"
     const widgetType = (widgetConfig && widgetConfig.type) || 'vega';
 
+    const iconName = 'star-full';
+
     return (
       <div className="c-dashboard-card">
         <header>
-          <Title className="-default">{this.state.name || this.props.name || '–'}</Title>
+          <div className="header-container">
+            <Title className="-default">{this.state.name || this.props.name || '–'}</Title>
+            <Icon name={`icon-${iconName}`} className="c-icon -small" />
+          </div>
           <ul className="categories">
             {this.props.categories.map(category => <li key={category}>{category}</li>)}
           </ul>
@@ -185,6 +191,7 @@ class DashboardCard extends React.Component {
 DashboardCard.propTypes = {
   widgetId: PropTypes.string,
   categories: PropTypes.arrayOf(PropTypes.string).isRequired,
+  isFavorite: PropTypes.bool.isRequired,
   // Redux
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
