@@ -32,6 +32,17 @@ export default class UserService {
   /**
    * Gets the contents that have been starred/favourited by the user that is
    * currently logged
+   * @param {token} User token
+   * @returns {Promise}
+   */
+  getFavouriteWidgets(token) {
+    return this.getFavourites(token).then(response => response.filter(favorite => favorite.attributes.resourceType === 'widget'));
+  }
+
+  /**
+   * Gets the contents that have been starred/favourited by the user that is
+   * currently logged
+    * @param {token} User token
    * @returns {Promise}
    */
   getFavourites(token) {
