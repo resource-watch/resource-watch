@@ -122,6 +122,33 @@ class Explore extends Page {
     this.props.setModalOptions(options);
   }
 
+  /**
+   * Return the current value of the vocabulary filter
+   * @returns {string}
+   */
+  getCurrentVocabularyFilter() {
+    const filters = this.props.explore.filters;
+    if (!filters.length) return null;
+
+    const filter = filters.find(f => f.key === 'vocabulary');
+
+    return filter && filter.value;
+  }
+
+  /**
+   * Return the current search made on the name of the
+   * datasets
+   * @returns {string}
+   */
+  getCurrentNameFilter() {
+    const filters = this.props.explore.filters;
+    if (!filters.length) return null;
+
+    const filter = filters.find(f => f.key === 'name');
+
+    return filter && filter.value;
+  }
+
   render() {
     const { explore, paginatedDatasets } = this.props;
     const datasetsSearchList = explore.datasets.list.map(d => (

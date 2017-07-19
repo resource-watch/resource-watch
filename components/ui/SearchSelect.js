@@ -13,7 +13,7 @@ export default class SearchSelect extends React.Component {
       closed: true,
       filteredOptions: props.options || [],
       selectedIndex: 0,
-      value: null
+      value: props.value
     };
 
     // Bindings
@@ -162,6 +162,7 @@ export default class SearchSelect extends React.Component {
             ref={(node) => { this.input = node; }}
             className="custom-select-search"
             type="search"
+            defaultValue={this.props.value}
             onBlur={this.close}
             onFocus={this.onEnterSearch}
             onChange={this.onType}

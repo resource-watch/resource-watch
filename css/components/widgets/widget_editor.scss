@@ -41,8 +41,22 @@
     flex-basis: 100%;
     overflow-x: auto;
 
+    &.-error {
+      text-align: center;
+
+      span {
+        display: block;
+        margin-top: 10px;
+        font-size: $font-size-small;
+        font-weight: $font-weight-bold;
+      }
+    }
+
     &.-chart {
       margin-left: 20px;
+      // This padding avoids the chart to touch the top and
+      // the bottom of the container
+      padding: 20px 0;
     }
 
     > .c-chart {
