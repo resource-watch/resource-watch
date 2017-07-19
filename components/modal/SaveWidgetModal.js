@@ -69,7 +69,7 @@ class SaveWidgetModal extends React.Component {
   }
 
   @Autobind
-  onSubmit(event) {
+  async onSubmit(event) {
     event.preventDefault();
 
     this.setState({
@@ -78,22 +78,39 @@ class SaveWidgetModal extends React.Component {
     const { widgetEditor, tableName, dataset } = this.props;
     const { limit, value, category, color, size, orderBy, aggregateFunction, chartType, filters } = widgetEditor;
 
-    const widgetConfig = { widgetConfig: Object.assign(
-      {},
-      { paramsConfig: {
-        limit,
-        value,
-        category,
-        color,
-        size,
-        orderBy,
-        aggregateFunction,
-        chartType,
-        filters
-      }
-      },
-      getChartConfig(widgetEditor, tableName, dataset)
-    ) };
+    let chartConfig;
+    try {
+      chartConfig = await getChartConfig(widgetEditor, tableName, dataset);
+    } catch (err) {
+      this.setState({
+        saved: false,
+        error: true,
+        errorMessage: 'Unable to generate the configuration of the chart'
+      });
+
+      return;
+    }
+
+    const widgetConfig = {
+      widgetConfig: Object.assign(
+        {},
+        {
+          paramsConfig: {
+            limit,
+            value,
+            category,
+            color,
+            size,
+            orderBy,
+            aggregateFunction,
+            chartType,
+            filters
+          }
+        },
+        chartConfig
+      )
+    };
+
     const widgetObj = Object.assign({}, this.state.widget, widgetConfig);
 
     this.widgetService.saveUserWidget(widgetObj, this.props.dataset, this.props.user.token)
