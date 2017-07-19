@@ -27,11 +27,13 @@ export default function getQueryByFilters(
     if (!filter.value || !filter.value.length) return null;
 
     if (filter.type === 'string') {
-      return `${filter.name} IN ('${filter.value.join('\', \'')}')`;
+      const whereClause = `${filter.name} IN ('${filter.value.join('\', \'')}')`;
+      return filter.notNull ? `${whereClause} AND ${filter.name} IS NOT NULL` : whereClause;
     }
 
     if (filter.type === 'number') {
-      return `${filter.name} >= ${filter.value[0]} AND ${filter.name} <= ${filter.value[1]}`;
+      const whereClause = `${filter.name} >= ${filter.value[0]} AND ${filter.name} <= ${filter.value[1]}`;
+      return filter.notNull ? `${whereClause} AND ${filter.name} IS NOT NULL` : whereClause;
     }
 
     return null;

@@ -105,11 +105,11 @@ class ColumnBox extends React.Component {
   }
 
   @Autobind
-  onApplyFilter(filter) {
-    this.setState({ filter });
+  onApplyFilter(filter, notNullSelected) {
+    this.setState({ filter, notNullSelected });
 
     if (this.props.onConfigure) {
-      this.props.onConfigure({ name: this.props.name, value: filter });
+      this.props.onConfigure({ name: this.props.name, value: filter, notNull: notNullSelected });
     }
   }
 
@@ -187,7 +187,7 @@ class ColumnBox extends React.Component {
   }
 
   openFilterTooltip() {
-    const { filter } = this.state;
+    const { filter, notNullSelected } = this.state;
     const { name, type, datasetID, tableName } = this.props;
 
     this.props.toggleTooltip(true, {
@@ -201,7 +201,8 @@ class ColumnBox extends React.Component {
         tableName,
         filter,
         onApply: this.onApplyFilter,
-        isA: 'filter'
+        isA: 'filter',
+        notNullSelected
       }
     });
   }

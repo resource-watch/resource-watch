@@ -28,8 +28,8 @@ class FilterContainer extends React.Component {
     };
   }
 
-  setFilter({ name, value }) {
-    this.props.setFilterValue(name, value);
+  setFilter({ name, value, notNull }) {
+    this.props.setFilterValue(name, value, notNull);
   }
 
 
@@ -89,8 +89,8 @@ const mapDispatchToProps = dispatch => ({
   addFilter: (filter) => {
     dispatch(addFilter(filter));
   },
-  setFilterValue: (name, value) => {
-    dispatch(setFilterValue(name, value));
+  setFilterValue: (name, value, notNull) => {
+    dispatch(setFilterValue(name, value, notNull));
   }
 });
 
