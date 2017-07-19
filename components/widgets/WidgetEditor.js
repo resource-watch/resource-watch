@@ -298,6 +298,7 @@ class WidgetEditor extends React.Component {
             <div className="visualization -chart">
               <Spinner className="-light" isLoading={chartLoading} />
               <VegaChart
+                reloadOnResize
                 data={this.state.chartConfig}
                 theme={this.getChartTheme()}
                 toggleLoading={val => this.setState({ chartLoading: val })}
