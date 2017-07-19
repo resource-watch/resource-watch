@@ -17,6 +17,16 @@ class SearchInput extends React.Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { input } = nextProps;
+    const { value } = this.state;
+    if (input && input.value && input.value !== value) {
+      this.setState({
+        value: input.value
+      });
+    }
+  }
+
   onSearch = (e) => {
     this.setState({
       value: e.currentTarget.value || ''
