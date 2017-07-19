@@ -8,12 +8,15 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { setLimit } from 'redactions/widgetEditor';
 
+// Maximum value for the query limit
+const LIMIT_MAX_VALUE = 500;
+
 class LimitContainer extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      limit: props.widgetEditor.limit || 1000
+      limit: props.widgetEditor.limit || LIMIT_MAX_VALUE
     };
   }
 
@@ -22,8 +25,8 @@ class LimitContainer extends React.Component {
     // We round the number to an integer
     let limit = Math.round(newLimit);
 
-    // We also restrict it to [[1, 1000]]
-    limit = Math.max(Math.min(limit, 1000), 1);
+    // We also restrict it to [[1, LIMIT_MAX_VALUE]]
+    limit = Math.max(Math.min(limit, LIMIT_MAX_VALUE), 1);
 
     this.setState({ limit });
     this.props.setLimit(limit);
@@ -39,7 +42,7 @@ class LimitContainer extends React.Component {
           type="number"
           step="1"
           min="1"
-          max="1000"
+          max={LIMIT_MAX_VALUE}
           value={this.state.limit}
           onChange={e => this.handleLimitChange(e.target.value)}
         />
