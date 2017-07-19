@@ -177,6 +177,7 @@ export default function ({ columns, data }) {
     xAxis.formatType = 'time';
 
     // We parse the x column as a date
+    if (!config.data[0].format) config.data[0].format = {};
     config.data[0].format.parse = { x: 'date' };
 
     // The x axis has a template used to truncate the

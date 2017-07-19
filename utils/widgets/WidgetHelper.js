@@ -78,7 +78,7 @@ export function getChartType(type) {
 export function canRenderChart(widgetEditor) {
   const { category, value, chartType } = widgetEditor;
 
-  return chartType
+  return !!(chartType
     && category
     && category.name
     && (
@@ -87,7 +87,7 @@ export function canRenderChart(widgetEditor) {
         && value.name
       )
       || !isBidimensionalChart(widgetEditor)
-    );
+    ));
 }
 
 /**
