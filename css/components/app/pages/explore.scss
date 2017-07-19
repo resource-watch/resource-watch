@@ -11,8 +11,16 @@
         &:last-child { padding-right: 0; }
       }
 
-      .custom-select-search {
+      .c-search-input {
         color: $color-text-1;
+        margin: 0;
+        height: 100%;
+        .c-field {
+          height: 100%;
+          input {
+            height: 100%;
+          }
+        }
       }
     }
   }

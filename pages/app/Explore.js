@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Autobind } from 'es-decorators';
+import debounce from 'lodash/debounce';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { getDatasets, setDatasetsPage, setUrlParams, setDatasetsActive, setDatasetsHidden, setDatasetsFilters, toggleDatasetActive, getVocabularies } from 'redactions/explore';
+import { getDatasets, setDatasetsPage, setUrlParams, setDatasetsActive, setDatasetsHidden,
+  setDatasetsSearchFilter, setDatasetsIssueFilter, toggleDatasetActive, getVocabularies } from 'redactions/explore';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
+
+// Selectors
 import getpaginatedDatasets from 'selectors/explore/datasetsPaginatedExplore';
 import getFilteredDatasets from 'selectors/explore/filterDatasets';
 import getActiveLayers from 'selectors/explore/layersActiveExplore';
@@ -23,6 +28,9 @@ import Legend from 'components/ui/Legend';
 import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
+import SearchInput from 'components/ui/SearchInput';
+
+// Layout
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 
@@ -47,9 +55,9 @@ class Explore extends Page {
       vocabularies: props.explore.vocabularies.list || []
     };
 
-    // Bindings
-    this.handleRedirect = this.handleRedirect.bind(this);
-    this.handleFilterDatasets = this.handleFilterDatasets.bind(this);
+    // BINDINGS
+    this.handleFilterDatasetsSearch = debounce(this.handleFilterDatasetsSearch.bind(this), 500);
+    this.handleFilterDatasetsIssue = this.handleFilterDatasetsIssue.bind(this);
   }
 
   componentWillMount() {
@@ -59,6 +67,14 @@ class Explore extends Page {
 
     if (this.props.url.query.active) {
       this.props.setDatasetsActive(this.props.url.query.active.split(','));
+    }
+
+    if (this.props.url.query.search) {
+      this.props.setDatasetsSearchFilter({ value: this.props.url.query.search, key: 'name' });
+    }
+
+    if (this.props.url.query.issue) {
+      this.props.setDatasetsIssueFilter(JSON.parse(this.props.url.query.issue));
     }
 
     this.props.getDatasets();
@@ -72,15 +88,24 @@ class Explore extends Page {
     });
   }
 
+  @Autobind
   handleRedirect(item) {
     if (item && item.value) {
       this.props.redirectTo(`explore/${item.value}`);
     }
   }
 
-  handleFilterDatasets(item, levels, key) {
-    const filter = item ? [{ levels, value: item.value, key }] : [];
-    this.props.setDatasetsFilters(filter);
+  handleFilterDatasetsSearch(value) {
+    const filter = { value: value || '', key: 'name' };
+    this.props.setDatasetsSearchFilter(filter);
+
+    // We move the user to the first page
+    this.props.setDatasetsPage(1);
+  }
+
+  handleFilterDatasetsIssue(item, levels, key) {
+    const filter = item ? [{ levels, value: item.value, key }] : null;
+    this.props.setDatasetsIssueFilter(filter);
 
     // We move the user to the first page
     this.props.setDatasetsPage(1);
@@ -132,6 +157,7 @@ class Explore extends Page {
         label: d.attributes.name
       }
     ));
+    const { search, issue } = explore.filters;
 
     return (
       <Layout
@@ -154,22 +180,20 @@ class Explore extends Page {
                 <div className="search-container">
                   <div className="row collapse">
                     <div className="column small-12 medium-6">
-                      <CustomSelect
-                        options={datasetsSearchList}
-                        onValueChange={this.handleRedirect}
-                        onKeyPressed={this.handleFilterDatasets}
-                        search
-                        value={this.getCurrentNameFilter()}
-                        placeholder="Search dataset"
-                        hideList
+                      <SearchInput
+                        onSearch={this.handleFilterDatasetsSearch}
+                        input={{
+                          value: search && search.value,
+                          placeholder: 'Search dataset'
+                        }}
                       />
                     </div>
                     <div className="column small-12 medium-6">
                       <CustomSelect
                         options={this.state.vocabularies}
-                        onValueChange={this.handleFilterDatasets}
-                        value={this.getCurrentVocabularyFilter()}
+                        onValueChange={this.handleFilterDatasetsIssue}
                         placeholder="Select issue"
+                        value={issue && issue.length > 0 && issue[0].value}
                       />
                     </div>
                   </div>
@@ -260,7 +284,7 @@ Explore.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const datasets = state.explore.filters.length
+  const datasets = (state.explore.filters.search || state.explore.filters.issue)
     ? Object.assign({}, state.explore.datasets, { list: getFilteredDatasets(state) })
     : state.explore.datasets;
 
@@ -279,7 +303,14 @@ const mapDispatchToProps = dispatch => ({
   getVocabularies: () => { dispatch(getVocabularies()); },
   setDatasetsActive: (active) => { dispatch(setDatasetsActive(active)); },
   setDatasetsHidden: (hidden) => { dispatch(setDatasetsHidden(hidden)); },
-  setDatasetsFilters: (filters) => { dispatch(setDatasetsFilters(filters)); },
+  setDatasetsSearchFilter: (search) => {
+    dispatch(setDatasetsSearchFilter(search));
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
+  },
+  setDatasetsIssueFilter: (issue) => {
+    dispatch(setDatasetsIssueFilter(issue));
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
+  },
   redirectTo: (url) => { dispatch(redirectTo(url)); },
   toggleModal: (open) => { dispatch(toggleModal(open)); },
   setModalOptions: (options) => { dispatch(setModalOptions(options)); },

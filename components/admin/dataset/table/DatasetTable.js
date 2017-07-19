@@ -13,7 +13,7 @@ import getFilteredDatasets from 'selectors/admin/datasets';
 // Components
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
-import TableHeaderSearch from 'components/ui/customtable/header/TableHeaderSearch';
+import SearchInput from 'components/ui/SearchInput';
 
 // Table components
 import EditAction from './actions/EditAction';
@@ -38,7 +38,7 @@ class DatasetTable extends React.Component {
    * @param {string} { value } Search keywords
    */
   @Autobind
-  onSearch({ value }) {
+  onSearch(value) {
     if (!value.length) {
       this.props.setFilters([]);
     } else {
@@ -60,7 +60,7 @@ class DatasetTable extends React.Component {
           <p>Error: {this.props.error}</p>
         )}
 
-        <TableHeaderSearch
+        <SearchInput
           input={{
             placeholder: 'Search dataset'
           }}

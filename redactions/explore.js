@@ -18,7 +18,8 @@ const GET_VOCABULARIES_LOADING = 'explore/GET_VOCABULARIES_LOADING';
 const SET_DATASETS_ACTIVE = 'explore/SET_DATASETS_ACTIVE';
 const SET_DATASETS_HIDDEN = 'explore/SET_DATASETS_HIDDEN';
 const SET_DATASETS_PAGE = 'explore/SET_DATASETS_PAGE';
-const SET_DATASETS_FILTERS = 'explore/SET_DATASETS_FILTERS';
+const SET_DATASETS_SEARCH_FILTER = 'explore/SET_DATASETS_SEARCH_FILTER';
+const SET_DATASETS_ISSUE_FILTER = 'explore/SET_DATASETS_ISSUE_FILTER';
 const SET_DATASETS_MODE = 'explore/SET_DATASETS_MODE';
 
 const SET_SIDEBAR = 'explore/SET_SIDEBAR';
@@ -37,7 +38,10 @@ const initialState = {
     limit: 9,
     mode: 'grid' // 'grid' or 'list'
   },
-  filters: [],
+  filters: {
+    search: null,
+    issue: null
+  },
   vocabularies: {
     list: [],
     loading: false,
@@ -131,8 +135,18 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { datasets });
     }
 
-    case SET_DATASETS_FILTERS: {
-      return Object.assign({}, state, { filters: action.payload });
+    case SET_DATASETS_SEARCH_FILTER: {
+      const filters = Object.assign({}, state.filters, {
+        search: action.payload
+      });
+      return Object.assign({}, state, { filters });
+    }
+
+    case SET_DATASETS_ISSUE_FILTER: {
+      const filters = Object.assign({}, state.filters, {
+        issue: action.payload
+      });
+      return Object.assign({}, state, { filters });
     }
 
     case SET_SIDEBAR: {
@@ -265,10 +279,19 @@ export function setUrlParams() {
   return (dispatch, getState) => {
     const { explore } = getState();
     const { active, page } = explore.datasets;
+    const { search, issue } = explore.filters;
 
     const query = { page };
     if (active.length) {
       query.active = active.join(',');
+    }
+
+    if (search && search.value) {
+      query.search = search.value;
+    }
+
+    if (issue) {
+      query.issue = JSON.stringify(issue);
     }
 
     Router.replaceRoute('explore', query);
@@ -282,10 +305,17 @@ export function setSidebar(options) {
   };
 }
 
-export function setDatasetsFilters(filters) {
+export function setDatasetsSearchFilter(search) {
   return {
-    type: SET_DATASETS_FILTERS,
-    payload: filters
+    type: SET_DATASETS_SEARCH_FILTER,
+    payload: search
+  };
+}
+
+export function setDatasetsIssueFilter(issue) {
+  return {
+    type: SET_DATASETS_ISSUE_FILTER,
+    payload: issue
   };
 }
 
