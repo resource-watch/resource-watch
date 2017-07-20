@@ -208,5 +208,20 @@ export default function ({ columns, data }) {
     delete xAxis.properties.labels.text;
   }
 
+  // In case the dataset contains only one value (thus one)
+  // column, Vega fails to render the chart:
+  // https://github.com/vega/vega/issues/927
+  // As a temporary solution, we force domain of the scale
+  // to be around the value
+  if (data.length === 1) {
+    const yScale = config.marks[0].scales.find(scale => scale.name === 'y');
+
+    // The step is 20% of the value
+    const step = data[0].y * 0.02;
+    
+    // We fix the domain around the value
+    yScale.domain = [data[0].y - step, data[0].y + step];
+  }
+
   return config;
 };
