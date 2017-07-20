@@ -1,6 +1,9 @@
 import deepClone from 'lodash/cloneDeep';
 import isArray from 'lodash/isArray';
 
+// Helpers
+import { getTimeFormat } from 'utils/widgets/WidgetHelper';
+
 /* eslint-disable */
 const defaultChart = {
   width: 1,
@@ -180,15 +183,21 @@ export default function ({ columns, data }) {
     if (!config.data[0].format) config.data[0].format = {};
     config.data[0].format.parse = { x: 'date' };
 
+    // If we have access to the data, we should be able to
+    // compute an optimal format for the ticks
+    if (hasAccessToData) {
+      const temporalData = data.map(d => d.x);
+      const format = getTimeFormat(temporalData);
+      if (format) xAxis.format = format;
+    }
+
     // The x axis has a template used to truncate the
     // text. Nevertheless, when using it, a date will
     // be displayed as a timestamp.
-    // One solution could be to change the template to
-    // format the string, but we don't know in which
-    // format the date should be displayed so we can't
-    // use it.
-    // The other solution is just to remove the template
-    // and Vega will use d3 to determine the best format.
+    // One solution is just to remove the template
+    // and Vega will use d3 to determine the best format
+    // or the provided format if we have access to the
+    // data.
     // In such a case, we don't truncate the tick, but
     // it shouldn't be necessary because usually the
     // result is short.
@@ -197,6 +206,21 @@ export default function ({ columns, data }) {
     // display any tick, so we need to remove text
     // instead
     delete xAxis.properties.labels.text;
+  }
+
+  // In case the dataset contains only one value (thus one)
+  // column, Vega fails to render the chart:
+  // https://github.com/vega/vega/issues/927
+  // As a temporary solution, we force domain of the scale
+  // to be around the value
+  if (data.length === 1) {
+    const yScale = config.marks[0].scales.find(scale => scale.name === 'y');
+
+    // The step is 20% of the value
+    const step = data[0].y * 0.02;
+    
+    // We fix the domain around the value
+    yScale.domain = [data[0].y - step, data[0].y + step];
   }
 
   return config;
