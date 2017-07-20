@@ -1,6 +1,9 @@
 import deepClone from 'lodash/cloneDeep';
 import isArray from 'lodash/isArray';
 
+// Helpers
+import { getTimeFormat } from 'utils/widgets/WidgetHelper';
+
 /* eslint-disable */
 const defaultChart = {
   data: [
@@ -78,7 +81,20 @@ export default function ({ columns, data }) {
     xScale.type = 'utc';
 
     // We parse the x column as a date
+    if (!config.data[0].format) config.data[0].format = {};
     config.data[0].format.parse = { x: 'date' };
+
+    // We make the axis use temporal ticks
+    const xAxis = config.axes.find(axis => axis.type === 'x');
+    xAxis.formatType = 'time';
+
+    // If we have access to the data, we should be able to
+    // compute an optimal format for the ticks
+    if (hasAccessToData) {
+      const temporalData = data.map(d => d.x);
+      const format = getTimeFormat(temporalData);
+      if (format) xAxis.format = format;
+    }
   }
 
   return config;

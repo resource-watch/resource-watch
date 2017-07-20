@@ -200,6 +200,43 @@ export async function fetchData(url) { // eslint-disable-line no-unused-vars
 }
 
 /**
+ * Return the optimal time format for the temporal data passed
+ * as argument
+ * The format will be one of d3's:
+ * https://github.com/d3/d3-3.x-api-reference/blob/master/Time-Formatting.md#format
+ * NOTE: the function might return null if the strings can't
+ * be parsed as dates
+ * @param {object[]} data array of strings parseable as dates
+ * @returns {string} date format
+ */
+export function getTimeFormat(data) {
+  const timestamps = data.map(d => +(new Date(d)));
+
+  const min = Math.min(...timestamps);
+  const max = Math.max(...timestamps);
+
+  // If some of the dates couldn't be parsed, we return null
+  if (Number.isNaN(min) || Number.isNaN(max)) {
+    return null;
+  }
+
+  // Number of milliseconds in a...
+  const day = 1000 * 60 * 60 * 24;
+  const month = 31 * day;
+  const year = 12 * month;
+
+  if (max - min <= 2 * day) {
+    return '%H:%M'; // ex: 10:00
+  } else if (max - min <= 2 * month) {
+    return '%d %b'; // ex: 20 Jul
+  } else if (max - min <= 2 * year) {
+    return '%b %Y'; // ex: Jul 2017
+  }
+
+  return '%Y'; // ex: 2017
+}
+
+/**
  * Generate the chart configuration (Vega's) according to the
  * current state of the store
  * @export
