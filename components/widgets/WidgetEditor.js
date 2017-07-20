@@ -76,7 +76,7 @@ class WidgetEditor extends React.Component {
       chartConfig: null, // Vega chart configuration
       chartConfigError: null, // Error message when fetching the chart configuration
       chartConfigLoading: false, // Whether we're loading the config
-      
+
       // Jiminy
       jiminy: {},
       jiminyLoaded: false,
@@ -453,7 +453,7 @@ class WidgetEditor extends React.Component {
       updating
     } = this.state;
     let { jiminy } = this.state;
-    const { dataset, mode } = this.props;
+    const { dataset, mode, showSaveButton } = this.props;
 
     // Whether we're still waiting for some data
     const loading = (mode === 'dataset' && !layersLoaded)
@@ -526,6 +526,7 @@ class WidgetEditor extends React.Component {
                     tableViewMode={selectedVisualizationType === 'table'}
                     mode={chartEditorMode}
                     onUpdateWidget={this.handleUpdateWidget}
+                    showSaveButton
                   />
                 }
                 {
@@ -555,6 +556,7 @@ const mapDispatchToProps = dispatch => ({
 
 WidgetEditor.propTypes = {
   mode: PropTypes.oneOf(['dataset', 'widget']),
+  showSaveButton: PropTypes.bool.isRequired, // Show save button in chart editor or not
   dataset: PropTypes.string, // Dataset ID
   widget: PropTypes.object, // Widget object
   availableVisualizations: PropTypes.arrayOf(

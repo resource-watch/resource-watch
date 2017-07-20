@@ -33,7 +33,7 @@ export const LAYERS_PLANET_PULSE = [
       },
       {
         label: 'Landslide Risk Locations (NASA)',
-        id: '3a6c18d8-bc56-418f-a390-e559f269d9c5',
+        id: '64f78c2e-2692-4842-b904-bf6aeb3d9c68',
         '3d': true,
         markerType: 'bar'
       }

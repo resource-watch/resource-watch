@@ -103,6 +103,7 @@ class MyRWWidgetsEdit extends React.Component {
           dataset={widget.attributes.dataset}
           availableVisualizations={['chart', 'table']}
           mode="widget"
+          showSaveButton
         />
         }
       </div>
