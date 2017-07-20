@@ -5,6 +5,10 @@
 
     .c-button{
 
+      &:hover {
+        color: $color-white;
+      }
+
       a {
         text-decoration: none;
       }
@@ -17,6 +21,21 @@
 
       &:not(:last-of-type) {
         margin-right: 10px;
+      }
+
+      &.-transparent {
+        background: none;
+        border-color: $color-white;
+      }
+
+      &:hover {
+        a {
+          color: $color-white;
+        }
+
+        &.contribute-data {
+          border-color: $color-white;
+        }
       }
     }
   }
@@ -34,6 +53,11 @@
 
       .c-button {
         width: 150px;
+        color: $color-primary;
+
+        &:hover {
+          color: $color-white;
+        }
       }
     }
   }
