@@ -19,7 +19,7 @@ const cards = [
         text: 'Submit an insight',
         route: 'get_involved_detail',
         params: { id: 'submit-an-insight' },
-        className: '-filled'
+        className: ''
       }
     ],
     className: 'insights'
@@ -33,7 +33,7 @@ const cards = [
         text: 'Contribute data',
         route: 'get_involved_detail',
         params: { id: 'contribute-data' },
-        className: '-filled'
+        className: ''
       }
     ],
     className: 'contribute'
@@ -47,7 +47,7 @@ const cards = [
         text: 'Join the community',
         route: 'get_involved_detail',
         params: { id: 'join-community' },
-        className: '-filled'
+        className: ''
       }
     ],
     className: 'join'
@@ -61,13 +61,13 @@ const cards = [
         text: 'Develop your app',
         route: 'get_involved_detail',
         params: { id: 'develop-app' },
-        className: '-filled'
+        className: ''
       },
       {
         text: 'Apps gallery',
         route: 'get_involved_detail',
         params: { id: 'apps' },
-        className: '-transparent -secondary'
+        className: ''
       }
     ],
     className: 'develop'
@@ -106,7 +106,7 @@ class GetInvolved extends Page {
           </div>
           <div className="buttons">
             {c.buttons.map((b, j) => (
-              <button key={j} className={`action c-btn -transparent -secondary -extra-big ${b.className}`}>
+              <button key={j} className={`c-button -primary ${b.className}`}>
                 <Link route={b.route} params={b.params}><a>{b.text}</a></Link>
               </button>
             ))}
@@ -139,7 +139,7 @@ class GetInvolved extends Page {
                   <h3 className="c-text -header-normal -thin">
                     See yourself as part <br />of this team?
                   </h3>
-                  <button className="c-btn -primary">
+                  <button className="c-button -primary">
                     Get in touch
                   </button>
                 </Banner>

@@ -1,5 +1,27 @@
 
 .p-get-involved {
+
+  .buttons {
+
+    .c-button{
+
+      a {
+        text-decoration: none;
+      }
+
+      &.-primary {
+        color: $color-primary;
+
+        & * { color: $color-primary; }
+      }
+
+      &:not(:last-of-type) {
+        margin-right: 10px;
+      }
+    }
+  }
+
+
   // Page banners backgrounds
   .c-banner {
     &.intro {
@@ -9,12 +31,10 @@
     &.partners {
       background-image: url('/static/images/backgrounds/partners-02@2x.jpg');
       background-position: top center;
-    }
 
-    .c-btn {
-      color: $color-primary;
-
-      & * { color: $color-primary; }
+      .c-button {
+        width: 150px;
+      }
     }
   }
 
