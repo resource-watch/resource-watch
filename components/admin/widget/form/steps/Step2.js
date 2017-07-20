@@ -121,6 +121,7 @@ class Step2 extends React.Component {
         <WidgetEditor
           dataset={dataset}
           mode="dataset"
+          showSaveButton={false}
         />
 
         <Field

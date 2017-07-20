@@ -59,11 +59,21 @@ class ChartEditor extends React.Component {
   }
 
   render() {
-    const { dataset, tableName, jiminy, widgetEditor, tableViewMode, user, mode } = this.props;
+    const {
+      dataset,
+      tableName,
+      jiminy,
+      widgetEditor,
+      tableViewMode,
+      user,
+      mode,
+      showSaveButton
+     } = this.props;
     const { chartType, fields, category, value } = widgetEditor;
 
-    const showSaveButton = chartType && category && value && user && user.token;
-    const showUpdateButton = showSaveButton;
+    const showSaveButtonFlag =
+      chartType && category && value && user && user.token && showSaveButton;
+    const showUpdateButton = showSaveButtonFlag;
 
     const chartOptions = (
         jiminy
@@ -110,7 +120,7 @@ class ChartEditor extends React.Component {
           >
             Need help?
           </button>
-          {showSaveButton && mode === 'save' &&
+          {showSaveButtonFlag && mode === 'save' &&
           <a
             onClick={this.handleSaveWidget}
           >
@@ -137,6 +147,7 @@ ChartEditor.propTypes = {
   jiminy: PropTypes.object,
   dataset: PropTypes.string.isRequired, // Dataset ID
   tableViewMode: PropTypes.bool.isRequired,
+  showSaveButton: PropTypes.bool.isRequired,
   // Store
   widgetEditor: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,

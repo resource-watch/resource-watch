@@ -217,6 +217,7 @@ class ExploreDetail extends Page {
             <WidgetEditor
               dataset={dataset.id}
               mode="dataset"
+              showSaveButton
             />
           }
 
