@@ -19,7 +19,7 @@ const cards = [
         text: 'Submit an insight',
         route: 'get_involved_detail',
         params: { id: 'submit-an-insight' },
-        className: '-filled'
+        className: '-primary'
       }
     ],
     className: 'insights'
@@ -33,7 +33,7 @@ const cards = [
         text: 'Contribute data',
         route: 'get_involved_detail',
         params: { id: 'contribute-data' },
-        className: '-filled'
+        className: '-primary contribute-data'
       }
     ],
     className: 'contribute'
@@ -47,7 +47,7 @@ const cards = [
         text: 'Join the community',
         route: 'get_involved_detail',
         params: { id: 'join-community' },
-        className: '-filled'
+        className: '-primary'
       }
     ],
     className: 'join'
@@ -61,13 +61,13 @@ const cards = [
         text: 'Develop your app',
         route: 'get_involved_detail',
         params: { id: 'develop-app' },
-        className: '-filled'
+        className: '-primary'
       },
       {
         text: 'Apps gallery',
         route: 'get_involved_detail',
         params: { id: 'apps' },
-        className: '-transparent -secondary'
+        className: '-transparent'
       }
     ],
     className: 'develop'
@@ -97,16 +97,23 @@ class GetInvolved extends Page {
         </span>))
     );
 
-    const cardsStatic = cards.map((c, i) =>
-      (<div key={i} className="column small-12 medium-6">
-        <CardStatic className={`-light ${c.className}`} background={c.background}>
+    const cardsStatic = cards.map(c =>
+      (<div
+        key={c.id}
+        className="column small-12 medium-6"
+      >
+        <CardStatic
+          className={`-light ${c.className}`}
+          background={c.background}
+          clickable={false}
+        >
           <div>
             <h2 className="title c-text -header-normal -thin">{c.title}</h2>
             <p className="c-text -big">{introLines(c.intro)}</p>
           </div>
           <div className="buttons">
             {c.buttons.map((b, j) => (
-              <button key={j} className={`action c-btn -transparent -secondary -extra-big ${b.className}`}>
+              <button key={j} className={`c-button ${b.className}`}>
                 <Link route={b.route} params={b.params}><a>{b.text}</a></Link>
               </button>
             ))}
@@ -127,19 +134,19 @@ class GetInvolved extends Page {
             <Intro title={data.title} intro={data.summary} styles={styles} />
             <section className="l-section -header">
               <div className="l-container">
-                <div className="cards row collapse">
+                <div className="cards row">
                   {cardsStatic}
                 </div>
               </div>
             </section>
 
-            <div className="row collapse">
+            <div className="row">
               <div className="column small-12">
                 <Banner className="partners">
                   <h3 className="c-text -header-normal -thin">
                     See yourself as part <br />of this team?
                   </h3>
-                  <button className="c-btn -primary">
+                  <button className="c-button -primary">
                     Get in touch
                   </button>
                 </Banner>
@@ -167,4 +174,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(GetInvolved)
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(GetInvolved);
