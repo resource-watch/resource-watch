@@ -78,10 +78,7 @@ export function getDatasets(applications = [process.env.APPLICATIONS]) {
   return (dispatch) => {
     dispatch({ type: GET_PAGES_LOADING });
 
-    // TODO: remove the date now
-    // ⬆️ Copied from redations/explore.js, no idea what
-    // the date is used for
-    fetch(new Request(`${process.env.WRI_API_URL}/pages?application=${applications.join(',')}&includes=widget,layer,metadata,vocabulary&page[size]=${Date.now() / 100000}`))
+    fetch(new Request(`${process.env.WRI_API_URL}/pages?application=${applications.join(',')}&includes=widget,layer,metadata,vocabulary`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
