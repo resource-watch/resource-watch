@@ -42,72 +42,71 @@ const dataset_subtabs = id => [{
   params: { tab: 'datasets', id, subtab: 'layers' }
 }];
 
-const DatasetShow = props => {
-    const { id, user } = props;
-    const subtab = props.subtab || 'edit';
+const DatasetShow = (props) => {
+  const { id, user } = props;
+  const subtab = props.subtab || 'edit';
 
-    return (
-      <div className="c-datasets-show">
-        <StickyContainer>
-          <div className="row l-row">
-            <div className="columns small-12 medium-3">
-              <Sticky>
-                {
-                  ({ style }) => (
-                    <div style={style}>
-                      <Aside
-                        items={dataset_subtabs(id)}
-                        selected={subtab}
-                      />
-                    </div>
-                  )
-                }
-              </Sticky>
-            </div>
-
-            <div className="columns small-12 medium-9">
-              {subtab === 'edit' &&
-                <DatasetForm
-                  application={[process.env.APPLICATIONS]}
-                  authorization={user.token}
-                  dataset={id}
-                  onSubmit={() => Router.pushRoute('admin_data', { tab: 'datasets' })}
-                />
+  return (
+    <div className="c-datasets-show">
+      <StickyContainer>
+        <div className="row l-row">
+          <div className="columns small-12 medium-3">
+            <Sticky>
+              {
+                ({ style }) => (
+                  <div style={style}>
+                    <Aside
+                      items={dataset_subtabs(id)}
+                      selected={subtab}
+                    />
+                  </div>
+                )
               }
-
-              {subtab === 'metadata' &&
-                <MetadataForm
-                  application={process.env.APPLICATIONS}
-                  authorization={user.token}
-                  dataset={id}
-                  onSubmit={() => Router.pushRoute('admin_data', { tab: 'datasets', id })}
-                />
-              }
-
-              {subtab === 'vocabularies' &&
-                <VocabulariesAssociationForm
-                  application={process.env.APPLICATIONS}
-                  authorization={user.token}
-                  dataset={id}
-                  language="en"
-                />
-              }
-
-              {subtab === 'widgets' &&
-                <WidgetIndex user={user} dataset={id} embed />
-              }
-
-              {subtab === 'layers' &&
-                <LayersIndex user={user} dataset={id} />
-              }
-            </div>
-
+            </Sticky>
           </div>
-        </StickyContainer>
-      </div>
-    );
-  }
-}
+
+          <div className="columns small-12 medium-9">
+            {subtab === 'edit' &&
+              <DatasetForm
+                application={[process.env.APPLICATIONS]}
+                authorization={user.token}
+                dataset={id}
+                onSubmit={() => Router.pushRoute('admin_data', { tab: 'datasets' })}
+              />
+            }
+
+            {subtab === 'metadata' &&
+              <MetadataForm
+                application={process.env.APPLICATIONS}
+                authorization={user.token}
+                dataset={id}
+                onSubmit={() => Router.pushRoute('admin_data', { tab: 'datasets', id })}
+              />
+            }
+
+            {subtab === 'vocabularies' &&
+              <VocabulariesAssociationForm
+                application={process.env.APPLICATIONS}
+                authorization={user.token}
+                dataset={id}
+                language="en"
+              />
+            }
+
+            {subtab === 'widgets' &&
+              <WidgetIndex user={user} dataset={id} embed />
+            }
+
+            {subtab === 'layers' &&
+              <LayersIndex user={user} dataset={id} />
+            }
+          </div>
+
+        </div>
+      </StickyContainer>
+    </div>
+  );
+};
 
 DatasetShow.propTypes = {
   id: PropTypes.string,
