@@ -29,6 +29,6 @@ const getFilteredContent = (data, filters) => {
 };
 
 export default {
-  layers: createSelector(layerSelector, layerFilterSelector, getFilteredContent),
+  getFilteredLayers: createSelector(layerSelector, layerFilterSelector, getFilteredContent),
   getFilteredDatasets: createSelector(datasetSelector, datasetFilterSelector, getFilteredContent)
 };
