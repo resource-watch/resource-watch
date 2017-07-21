@@ -8,7 +8,7 @@ import { initStore } from 'store';
 import { getDatasets, setFilters } from 'redactions/admin/datasets';
 
 // Selectors
-import getFilteredDatasets from 'selectors/admin/datasets';
+import { getFilteredDatasets } from 'selectors/admin';
 
 // Components
 import Spinner from 'components/ui/Spinner';

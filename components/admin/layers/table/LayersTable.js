@@ -8,7 +8,7 @@ import { initStore } from 'store';
 import { getLayers, setFilters } from 'redactions/admin/layers';
 
 // Selectors
-import getFilteredLayers from 'selectors/admin/layers';
+import { getFilteredLayers } from 'selectors/admin';
 
 // Components
 import Spinner from 'components/ui/Spinner';
