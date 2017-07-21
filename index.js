@@ -112,15 +112,13 @@ app.prepare()
       res.redirect('/');
     });
 
-    server.get('/myrw*?', isAuthenticated, function (req, res) {
+    const handleUrl = (req, res) => {
       const parsedUrl = parse(req.url, true);
       return handle(req, res, parsedUrl);
-    });
+    };
 
-    server.get('/admin*?', isAuthenticated, isAdmin, function (req, res) {
-      const parsedUrl = parse(req.url, true);
-      return handle(req, res, parsedUrl);
-    });
+    server.get('/myrw*?', isAuthenticated, handleUrl);
+    server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);
 
     server.use(handle);
 
