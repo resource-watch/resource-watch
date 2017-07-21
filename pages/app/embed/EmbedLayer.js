@@ -24,14 +24,15 @@ const mapConfig = {
   }
 };
 
-export default class EmbedLayers extends React.Component {
+export default class EmbedLayer extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
       layer: null,
-      loading: true
+      loading: true,
+      layersActive: [{ id: this.props.url.query.id }]
     };
 
     // LayersService
@@ -41,7 +42,7 @@ export default class EmbedLayers extends React.Component {
   }
 
   componentDidMount() {
-    this.layersService.fetchData().then((data) => {
+    this.layersService.fetchData({ id: this.props.url.query.id }).then((data) => {
       this.setState({
         loading: false,
         layer: data
@@ -57,6 +58,19 @@ export default class EmbedLayers extends React.Component {
   render() {
     const { layer, loading } = this.state;
 
+    console.log('layer', layer);
+
+    // <Legend
+    //   layersActive={this.state.layersActive}
+    //   layersHidden={this.props.explore.datasets.hidden}
+    //   className={{ color: '-dark' }}
+    //   setDatasetsActive={this.props.setDatasetsActive}
+    //   toggleDatasetActive={this.props.toggleDatasetActive}
+    //   setDatasetsHidden={this.props.setDatasetsHidden}
+    //   toggleModal={this.props.toggleModal}
+    //   setModalOptions={this.props.setModalOptions}
+    // />
+
     return (
       <div className="c-embed-layer">
         <Head
@@ -68,36 +82,25 @@ export default class EmbedLayers extends React.Component {
           className="-light"
         />
         {layer &&
-          <div>
+          <div className="container">
             <Map
               LayerManager={LayerManager}
               mapConfig={mapConfig}
               layersActive={this.state.layersActive}
-              toggledDataset={this.props.toggledDataset}
-            />
-            <Legend
-              layersActive={this.state.layersActive}
-              layersHidden={this.props.explore.datasets.hidden}
-              className={{ color: '-dark' }}
-              setDatasetsActive={this.props.setDatasetsActive}
-              toggleDatasetActive={this.props.toggleDatasetActive}
-              setDatasetsHidden={this.props.setDatasetsHidden}
-              toggleModal={this.props.toggleModal}
-              setModalOptions={this.props.setModalOptions}
             />
             <div className="info">
-              <div className="widget-title">
+              <div className="layer-title">
                 <h2>
                   <Link
                     route="explore_detail"
-                    params={{ id: widget.attributes.dataset }}
+                    params={{ id: layer.attributes.dataset }}
                   >
-                    <a>{widget.attributes.name}</a>
+                    <a>{layer.attributes.name}</a>
                   </Link>
                 </h2>
               </div>
-              <div className="widget-description">
-                {widget.attributes.description}
+              <div className="layer-description">
+                {layer.attributes.description}
               </div>
             </div>
           </div>
@@ -107,6 +110,6 @@ export default class EmbedLayers extends React.Component {
   }
 }
 
-EmbedLayers.propTypes = {
+EmbedLayer.propTypes = {
   url: React.PropTypes.object.isRequired
 };

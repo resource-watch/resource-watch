@@ -268,7 +268,6 @@ Explore.propTypes = {
   paginatedDatasets: PropTypes.array,
   layersActive: PropTypes.array,
   toggledDataset: PropTypes.string,
-  url: PropTypes.object,
 
   // ACTIONS
   getDatasets: PropTypes.func,

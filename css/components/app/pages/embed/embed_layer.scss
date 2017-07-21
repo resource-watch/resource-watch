@@ -1,0 +1,36 @@
+.c-embed-layer {
+  min-width: 100%;
+  min-height: 100%;
+  padding: 20px;
+  min-height: 150px;
+
+  .container {
+
+    .info {
+
+      width: 100%;
+
+      .layer-title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .layer-description {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      a {
+        text-decoration: none;
+      }
+    }
+
+    .c-map {
+      width: 100%;
+      height: 100%;
+      margin-top: 20px;
+    }
+  }
+}
