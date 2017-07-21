@@ -15,47 +15,36 @@ import WidgetIndex from 'components/admin/widget/pages/index';
 import LayersIndex from 'components/admin/layers/pages/index';
 
 // Constants
-const DATASET_SUBTABS = [{
+const dataset_subtabs = id => [{
   label: 'Edit dataset',
   value: 'edit',
   route: 'admin_data_detail',
-  params: { tab: 'datasets', id: '{{id}}', subtab: 'edit' }
+  params: { tab: 'datasets', id, subtab: 'edit' }
 }, {
   label: 'Metadata',
   value: 'metadata',
   route: 'admin_data_detail',
-  params: { tab: 'datasets', id: '{{id}}', subtab: 'metadata' }
+  params: { tab: 'datasets', id, subtab: 'metadata' }
 }, {
   label: 'Vocabularies',
   value: 'vocabularies',
   route: 'admin_data_detail',
-  params: { tab: 'datasets', id: '{{id}}', subtab: 'vocabularies' }
+  params: { tab: 'datasets', id, subtab: 'vocabularies' }
 }, {
   label: 'Widgets',
   value: 'widgets',
   route: 'admin_data_detail',
-  params: { tab: 'datasets', id: '{{id}}', subtab: 'widgets' }
+  params: { tab: 'datasets', id, subtab: 'widgets' }
 }, {
   label: 'Layers',
   value: 'layers',
   route: 'admin_data_detail',
-  params: { tab: 'datasets', id: '{{id}}', subtab: 'layers' }
+  params: { tab: 'datasets', id, subtab: 'layers' }
 }];
 
-class DatasetShow extends React.Component {
-
-  /**
-   * HELPERS
-   * - parseTabs
-  */
-  parseTabs(obj) {
-    const { id } = this.props;
-    return JSON.parse(substitution(JSON.stringify(obj), [{ key: 'id', value: id }]));
-  }
-
-  render() {
-    const { id, user } = this.props;
-    const subtab = this.props.subtab || 'edit';
+const DatasetShow = props => {
+    const { id, user } = props;
+    const subtab = props.subtab || 'edit';
 
     return (
       <div className="c-datasets-show">
@@ -67,7 +56,7 @@ class DatasetShow extends React.Component {
                   ({ style }) => (
                     <div style={style}>
                       <Aside
-                        items={this.parseTabs(DATASET_SUBTABS)}
+                        items={dataset_subtabs(id)}
                         selected={subtab}
                       />
                     </div>
