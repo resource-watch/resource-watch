@@ -37,6 +37,13 @@ const defaultChart = {
       type: 'ordinal',		
       range: 'width',		
       domain: { data: 'table', field: 'x' }		
+    },
+    {		
+      name: 'y',
+      type: 'linear',
+      "rangeMin": 300,
+      "rangeMax": 0,
+      domain: { data: 'table', field: 'y' },
     }
   ],
   // This axis is not used by the marks
@@ -45,6 +52,20 @@ const defaultChart = {
     {
       "type": "x",
       "scale": "x",
+      "ticks": 0,
+      "tickSize": 0,
+      "properties": {
+        "labels": {
+          "text": {"template": ""},
+        }
+      }
+    },
+    {
+      "type": "y",
+      // We don't care about any value below but
+      // Vega requires a scale to be defined
+      "scale": "y",
+      "ticks": 0,
       "tickSize": 0,
       "properties": {
         "labels": {
@@ -154,6 +175,17 @@ export default function ({ columns, data }) {
       "type": "json",
       "property": data.property
     };
+  }
+
+  // We add the name of the axis
+  // NOTE: we reduce the scope of the variables to
+  // not interfere with the variables designating
+  // the "real" axis
+  {
+    const xAxis = config.axes.find(a => a.type === 'x');
+    const yAxis = config.axes.find(a => a.type === 'y');
+    xAxis.name = columns.x.name;
+    yAxis.name = columns.y.name;
   }
 
   if (columns.color.present) {

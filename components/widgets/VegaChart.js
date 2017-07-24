@@ -69,6 +69,16 @@ class VegaChart extends React.Component {
       return 'string';
     };
 
+    // Return the label of the specified column
+    const getLabel = (columnName) => {
+      if (!vegaConfig) return null;
+
+      const axis = vegaConfig.axes.find(a => a.type === columnName);
+      if (!axis) return null;
+
+      return axis.name;
+    };
+
 
     // If the cursor is on top of a mark, we display the data
     // associated to that mark
@@ -82,10 +92,12 @@ class VegaChart extends React.Component {
           item: {
             x: {
               type: getType('x', item.datum.x),
+              label: getLabel('x'),
               value: item.datum.x
             },
             y: {
               type: getType('y', item.datum.y),
+              label: getLabel('y'),
               value: item.datum.y
             }
           }
@@ -136,6 +148,7 @@ class VegaChart extends React.Component {
           item: {
             x: {
               type: getType('x', x), // Don't use data.x here
+              label: getLabel('x'),
               value: data.x,
               range: getType('x', x) === 'date'
                 // We don't need to pass the full array
@@ -144,6 +157,7 @@ class VegaChart extends React.Component {
             },
             y: {
               type: getType('y', data.y),
+              label: getLabel('y'),
               value: data.y,
               range: getType('y', data.y) === 'date'
                 // We don't need to pass the full array

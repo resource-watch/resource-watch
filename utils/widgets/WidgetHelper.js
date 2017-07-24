@@ -261,8 +261,8 @@ export async function getChartConfig(widgetEditor, tableName, dataset, mustFetch
     // In the future, we could pass the type of the columns so the chart
     // could select the right scale
     columns: {
-      x: { present: true, type: category.type },
-      y: { present: !!value, type: value.type },
+      x: { present: true, type: category.type, name: category.name },
+      y: { present: !!value, type: value && value.type, name: value && value.name },
       color: { present: !!color },
       size: { present: !!size }
     },

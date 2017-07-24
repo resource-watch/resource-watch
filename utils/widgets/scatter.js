@@ -69,6 +69,13 @@ export default function ({ columns, data }) {
       "property": data.property
     };
   }
+
+  // We add the name of the axis
+  const xAxis = config.axes.find(a => a.type === 'x');
+  const yAxis = config.axes.find(a => a.type === 'y');
+  xAxis.name = columns.x.name;
+  yAxis.name = columns.y.name;
+
   if (columns.color.present) {
     // We add the color scale
     config.scales.push({

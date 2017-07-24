@@ -67,6 +67,10 @@ export default function ({ columns, data }) {
     };
   }
 
+  // We add the name of the axis
+  const xAxis = config.axes.find(a => a.type === 'x');
+  xAxis.name = columns.x.name;
+
   if (columns.color.present) {
     // We add the color scale
     config.scales.push({

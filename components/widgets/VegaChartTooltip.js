@@ -48,7 +48,9 @@ class VegaChartTooltip extends React.Component {
   render() {
     return (
       <div>
+        { this.props.item.x.label && <div>{this.props.item.x.label}</div> }
         <div>{this.getParsedX()}</div>
+        { this.props.item.y && this.props.item.y.label && <div>{this.props.item.y.label}</div> }
         <div>{this.getParsedY()}</div>
       </div>
     );
@@ -57,6 +59,7 @@ class VegaChartTooltip extends React.Component {
 
 const columnType = PropTypes.shape({
   type: PropTypes.oneOf(['number', 'string', 'date']),
+  label: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
   // Range needed to properly display the dates
   range: PropTypes.arrayOf(PropTypes.number)
