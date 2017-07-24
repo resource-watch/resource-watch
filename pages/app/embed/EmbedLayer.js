@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import { Link } from 'routes';
 
@@ -104,5 +105,5 @@ export default class EmbedLayer extends React.Component {
 }
 
 EmbedLayer.propTypes = {
-  url: React.PropTypes.object.isRequired
+  url: PropTypes.object.isRequired
 };

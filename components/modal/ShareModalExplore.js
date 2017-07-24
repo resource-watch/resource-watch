@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+// Components
 import Icon from 'components/ui/Icon';
 
 class ShareModal extends React.Component {
@@ -22,7 +25,9 @@ class ShareModal extends React.Component {
   }
 
   render() {
-    const { url } = this.props;
+    const { url, layers } = this.props;
+    const showEmbed = layers && layers.length !== null && layers.length > 0;
+
     return (
       <div className="c-share-modal-explore">
         <h1 className="c-text -header-normal -thin title">Share</h1>
@@ -51,22 +56,30 @@ class ShareModal extends React.Component {
             <Icon name="icon-twitter" className="-medium" />
           </a>
         </div>
-        <div className="url-container">
-          <h5>Code to embed</h5>
-          <div className="url-input-div">
-            <input ref={(n) => { this.input = n; }} value={url} className="url" readOnly />
-            <button className="c-button -primary" onClick={() => this.onCopyClick()}>
-              Copy code
-            </button>
+        {showEmbed &&
+          <div className="url-container">
+            <h5>Code to embed</h5>
+            <div className="url-input-div">
+              <input
+                ref={(n) => { this.input = n; }}
+                value={`<iframe src="https://staging.resourcewatch.org/embed/layer/${layers[0].id}"></iframe>"`}
+                className="url"
+                readOnly
+              />
+              <button className="c-button -primary" onClick={() => this.onCopyClick()}>
+                Copy code
+              </button>
+            </div>
           </div>
-        </div>
+        }
       </div>
     );
   }
 }
 
 ShareModal.propTypes = {
-  url: React.PropTypes.string
+  url: PropTypes.string.isRequired,
+  layers: PropTypes.array
 };
 
 
