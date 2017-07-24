@@ -48,18 +48,21 @@
 
   .c-page-section.similar-datasets {
 
+    padding: 0px;
+
     h2 {
-      font-weight:normal;
       color: $color-dark-pink;
     }
   }
 
   .c-page-section.pulse-banner-section {
 
+    padding: 0px;
+    margin-top: 30px;
+
     .pulse-banner {
 
       h2 {
-        font-weight:normal;
         color: $color-dark-pink;
       }
 

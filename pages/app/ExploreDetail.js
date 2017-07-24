@@ -320,7 +320,7 @@ class ExploreDetail extends Page {
           <div className="c-page-section similar-datasets">
             <div className="row">
               <div className="column small-12">
-                <h2>Similar datasets</h2>
+                <h2 className="c-text title -thin">Similar datasets</h2>
                 <Spinner
                   isLoading={!similarDatasetsLoaded}
                   className="-relative -light"
@@ -344,7 +344,7 @@ class ExploreDetail extends Page {
             <div className="row">
               <div className="column small-12">
                 <div className="pulse-banner">
-                  <h2>Planet Pulse</h2>
+                  <h2 className="c-text title -thin">Planet Pulse</h2>
                   <div className="pulse-banner-container">
                     <div className="action-container">
                       <h1>Take the pulse of our planet</h1>
