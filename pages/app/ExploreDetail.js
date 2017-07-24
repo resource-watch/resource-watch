@@ -138,13 +138,13 @@ class ExploreDetail extends Page {
     if (widgets) {
       widget = widgets.find(value => value.attributes.default === true);
     }
-    console.log('widget', widget);
     const options = {
       children: ShareExploreDetailModal,
       childrenProps: {
         url: window.location.href,
         datasetId: this.state.dataset.id,
-        showEmbed: widget && widget.attributes
+        showEmbed: widget && widget.attributes !== null,
+        toggleModal: this.props.toggleModal
       }
     };
     this.props.toggleModal(true);
