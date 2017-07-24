@@ -170,7 +170,7 @@ export function getDatasets() {
   return (dispatch) => {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_DATASETS_LOADING });
-    fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=rw&status=saved&published=true&includes=widget,layer,metadata,vocabulary`))
+    fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=rw&status=saved&published=true&includes=widget,layer,metadata,vocabulary&page[size]=999`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);

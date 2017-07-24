@@ -81,7 +81,7 @@ export function getDatasets(applications = [process.env.APPLICATIONS]) {
     // TODO: remove the date now
     // ⬆️ Copied from redations/explore.js, no idea what
     // the date is used for
-    fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=${applications.join(',')}&includes=widget,layer,metadata,vocabulary`))
+    fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=${applications.join(',')}&includes=widget,layer,metadata,vocabulary&page[size]=999`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);

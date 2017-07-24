@@ -11,7 +11,7 @@ export default class WidgetService {
   }
 
   fetchData(includes = '') {
-    return fetch(`${this.opts.apiURL}/widget/${this.widgetId}?includes=${includes}`)
+    return fetch(`${this.opts.apiURL}/widget/${this.widgetId}?includes=${includes}&page[size]=999`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }

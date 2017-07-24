@@ -12,7 +12,7 @@ export default class DatasetsService {
   fetchAllData({ applications = [process.env.APPLICATIONS], includes }) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/dataset?application=${applications.join(',')}&includes=${includes}`,
+        url: `${process.env.WRI_API_URL}/dataset?application=${applications.join(',')}&includes=${includes}&page[size]=999`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'

@@ -13,7 +13,7 @@ export default class LayersService {
   fetchAllData({ applications, dataset = '' }) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/dataset/${dataset}?application=${applications.join(',')}&includes=layer`,
+        url: `${process.env.WRI_API_URL}/dataset/${dataset}?application=${applications.join(',')}&includes=layer&page[size]=999`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'

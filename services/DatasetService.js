@@ -35,7 +35,7 @@ export default class DatasetService {
    * @returns {Promise}
    */
   fetchData(includes = '', applications = [process.env.APPLICATIONS]) {
-    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&includes=${includes}`)
+    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&includes=${includes}&page[size]=999`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
@@ -195,7 +195,7 @@ export default class DatasetService {
   }
 
   getDatasets(datasetIDs) {
-    return fetch(`${this.opts.apiURL}/dataset/?ids=${datasetIDs}&includes=widget,layer`)
+    return fetch(`${this.opts.apiURL}/dataset/?ids=${datasetIDs}&includes=widget,layer&page[size]=999`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
