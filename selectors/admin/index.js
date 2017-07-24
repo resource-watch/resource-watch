@@ -28,7 +28,14 @@ const getFilteredContent = (data, filters) => {
   );
 };
 
-export default {
-  getFilteredLayers: createSelector(layerSelector, layerFilterSelector, getFilteredContent),
-  getFilteredDatasets: createSelector(datasetSelector, datasetFilterSelector, getFilteredContent)
+const getFilteredLayers = createSelector(
+  layerSelector, layerFilterSelector, getFilteredContent
+);
+const getFilteredDatasets = createSelector(
+  datasetSelector, datasetFilterSelector, getFilteredContent
+);
+
+export {
+  getFilteredLayers,
+  getFilteredDatasets
 };

@@ -8,7 +8,7 @@ import { initStore } from 'store';
 import { getDatasets, setFilters } from 'redactions/admin/datasets';
 
 // Selectors
-import adminSelectors from 'selectors/admin';
+import { getFilteredDatasets } from 'selectors/admin';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -134,7 +134,7 @@ DatasetTable.propTypes = {
 
 const mapStateToProps = state => ({
   loading: state.datasets.datasets.loading,
-  datasets: adminSelectors.getFilteredDatasets(state),
+  datasets: getFilteredDatasets(state),
   error: state.datasets.datasets.error
 });
 const mapDispatchToProps = dispatch => ({
