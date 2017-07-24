@@ -13,29 +13,42 @@
 
     .url-input-div {
       display: flex;
+      align-items: center;
+      border: 1px solid $border-color-1;
+      border-radius: 4px;
 
       input {
+        border: none;
         flex-grow: 1;
         height: 45px;
         padding: 0 15px;
-        margin-right: 20px;
       }
 
-      button {
+      .media {
+        a {
+          fill: $color-dark-pink;
+          margin-right: 10px;
+          cursor: pointer;
+        }
+      }
+
+      .copy-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
         width: 100px;
-      }
-    }
-  }
+        margin: 4px;
 
-  .media {
-    a {
-      margin-right: 20px;
+        cursor: pointer;
+        color: $color-dark-pink;
 
-      &:last-child { margin-right: 0; }
+        a {
+          text-align: center;
+        }
 
-      &:hover {
-        svg {
-          fill: $color-secondary;
+        &:hover {
+          background-color: rgba(195,45,123,0.05);
         }
       }
     }

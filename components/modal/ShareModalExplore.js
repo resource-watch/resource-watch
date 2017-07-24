@@ -35,26 +35,28 @@ class ShareModal extends React.Component {
           <h5>Public url to share</h5>
           <div className="url-input-div">
             <input ref={(n) => { this.input = n; }} value={url} className="url" readOnly />
-            <button className="c-button -primary" onClick={() => this.onCopyClick()}>
-              Copy link
-            </button>
+            <div className="media">
+              <a
+                href={`http://www.facebook.com/sharer/sharer.php?u=${url}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon name="icon-facebook" className="-medium" />
+              </a>
+              <a
+                href={`https://twitter.com/share?url=${url}&text=Resource watch, explore datasets`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon name="icon-twitter" className="-medium" />
+              </a>
+            </div>
+            <div className="copy-button">
+              <a tabIndex={0} role="button" onClick={() => this.onCopyClick()}>
+                Copy link
+              </a>
+            </div>
           </div>
-        </div>
-        <div className="media">
-          <a
-            href={`http://www.facebook.com/sharer/sharer.php?u=${url}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Icon name="icon-facebook" className="-medium" />
-          </a>
-          <a
-            href={`https://twitter.com/share?url=${url}&text=Resource watch, explore datasets`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Icon name="icon-twitter" className="-medium" />
-          </a>
         </div>
         {showEmbed &&
           <div className="url-container">
@@ -62,13 +64,15 @@ class ShareModal extends React.Component {
             <div className="url-input-div">
               <input
                 ref={(n) => { this.input = n; }}
-                value={`<iframe src="https://staging.resourcewatch.org/embed/layer/${layers[0].id}"></iframe>"`}
+                value={`<iframe src="https://staging.resourcewatch.org/embed/layer/${layers[0].id}"></iframe>`}
                 className="url"
                 readOnly
               />
-              <button className="c-button -primary" onClick={() => this.onCopyClick()}>
-                Copy code
-              </button>
+              <div className="copy-button">
+                <a tabIndex={0} role="button" onClick={() => this.onCopyClick()}>
+                  Copy code
+                </a>
+              </div>
             </div>
           </div>
         }
