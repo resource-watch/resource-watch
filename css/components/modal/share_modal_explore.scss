@@ -1,0 +1,47 @@
+.c-share-modal-explore {
+  .title {
+    margin-bottom: 50px;
+    color: $color-dark-pink;
+  }
+
+  .url-container {
+    margin-bottom: 30px;
+
+    h5 {
+      margin-bottom: 10px;
+    }
+
+    .url-input-div {
+      display: flex;
+
+      input {
+        flex-grow: 1;
+        height: 45px;
+        padding: 0 15px;
+        margin-right: 20px;
+      }
+
+      button {
+        width: 100px;
+      }
+    }
+  }
+
+  .media {
+    a {
+      margin-right: 20px;
+
+      &:last-child { margin-right: 0; }
+
+      &:hover {
+        svg {
+          fill: $color-secondary;
+        }
+      }
+    }
+  }
+
+  .buttons-div {
+    margin-top: 60px;
+  }
+}

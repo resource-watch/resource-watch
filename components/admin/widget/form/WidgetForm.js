@@ -33,7 +33,7 @@ class WidgetForm extends React.Component {
   componentDidMount() {
     if (this.state.widget) {
       get({
-        url: `${process.env.WRI_API_URL}/widget/${this.state.widget}?cache=${Date.now()}`,
+        url: `${process.env.WRI_API_URL}/widget/${this.state.widget}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'

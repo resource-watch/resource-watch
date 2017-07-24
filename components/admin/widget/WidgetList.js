@@ -31,7 +31,7 @@ class WidgetList extends React.Component {
   */
   getWidgets() {
     const { dataset, application } = this.props;
-    const url = `${process.env.WRI_API_URL}/dataset/${dataset.id}/widget?application=${application.join(',')}&includes=widget&page[size]=9999&_d=${Date.now()}`;
+    const url = `${process.env.WRI_API_URL}/dataset/${dataset.id}/widget?application=${application.join(',')}&includes=widget`;
 
     fetch(new Request(url))
       .then((response) => {

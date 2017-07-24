@@ -29,7 +29,7 @@ class Step1 extends React.Component {
       process.env.WRI_API_URL,
       '/dataset?application=',
       this.props.application.join(','),
-      '&includes=widget,layer,metadata,vocabulary&page[size]=',
+      '&includes=widget,layer,metadata,vocabulary',
       Date.now() / 100000
     ].join('');
 

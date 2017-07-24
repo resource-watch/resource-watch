@@ -1,0 +1,48 @@
+.c-embed-layer {
+  min-width: 100%;
+  min-height: 100%;
+  padding: 20px;
+  min-height: 150px;
+
+  .container {
+
+    .info {
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+      padding: 20px;
+      height: 20%;
+      width: 100%;
+
+      .layer-title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .layer-description {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      a {
+        text-decoration: none;
+      }
+    }
+
+    .c-map {
+      position: absolute;
+      top: 0px;
+      width: 100%;
+      height: calc(100% - 220px);
+    }
+
+    .c-legend-map {
+      position: absolute;
+      right: 10px;
+      bottom: 220px;
+      height: 180px;
+    }
+  }
+}

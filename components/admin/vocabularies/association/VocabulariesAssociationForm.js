@@ -134,7 +134,7 @@ class DatasetVocabulariesForm extends React.Component {
 
       get(
         {
-          url: `${process.env.WRI_API_URL}/dataset/${this.state.datasetID}?includes=vocabulary&cache=${Date.now()}`,
+          url: `${process.env.WRI_API_URL}/dataset/${this.state.datasetID}?includes=vocabulary`,
           headers: [{ key: 'Content-Type', value: 'application/json' }],
           onSuccess: (response) => {
             const attrs = response.data.attributes;

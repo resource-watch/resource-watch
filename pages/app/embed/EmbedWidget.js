@@ -88,3 +88,7 @@ export default class EmbedWidget extends React.Component {
     );
   }
 }
+
+EmbedWidget.propTypes = {
+  url: React.PropTypes.object.isRequired
+};

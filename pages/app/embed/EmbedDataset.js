@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import { Link } from 'routes';
 
@@ -94,3 +95,7 @@ export default class EmbedDataset extends React.Component {
     );
   }
 }
+
+EmbedDataset.propTypes = {
+  url: PropTypes.object.isRequired
+};

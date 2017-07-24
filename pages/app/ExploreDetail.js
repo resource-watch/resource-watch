@@ -360,9 +360,9 @@ class ExploreDetail extends Page {
 }
 
 ExploreDetail.propTypes = {
-  url: React.PropTypes.object.isRequired,
+  url: PropTypes.object.isRequired,
   // ACTIONS
-  resetDataset: React.PropTypes.func.isRequired,
+  resetDataset: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired
 };

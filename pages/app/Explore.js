@@ -23,7 +23,7 @@ import DatasetListHeader from 'components/app/explore/DatasetListHeader';
 import DatasetList from 'components/app/explore/DatasetList';
 import Paginator from 'components/ui/Paginator';
 import Map from 'components/vis/Map';
-import ShareModal from 'components/modal/ShareModal';
+import ShareModalExplore from 'components/modal/ShareModalExplore';
 import Legend from 'components/ui/Legend';
 import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
@@ -113,9 +113,11 @@ class Explore extends Page {
 
   handleShareModal() {
     const options = {
-      children: ShareModal,
+      children: ShareModalExplore,
       childrenProps: {
-        url: window.location.href
+        url: window.location.href,
+        layers: this.props.layersActive,
+        toggleModal: this.props.toggleModal
       }
     };
     this.props.toggleModal(true);
@@ -268,7 +270,6 @@ Explore.propTypes = {
   paginatedDatasets: PropTypes.array,
   layersActive: PropTypes.array,
   toggledDataset: PropTypes.string,
-  url: PropTypes.object,
 
   // ACTIONS
   getDatasets: PropTypes.func,

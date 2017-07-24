@@ -44,3 +44,4 @@ routes.add('myrw', '/myrw/:tab?/:subtab?/:element?', 'app/MyRW');
 // ------ EMBED -------------
 routes.add('embed_widget', '/embed/widget/:id', 'app/embed/EmbedWidget');
 routes.add('embed_dataset', '/embed/dataset/:id', 'app/embed/EmbedDataset');
+routes.add('embed_layer', '/embed/layer/:id', 'app/embed/EmbedLayer');
