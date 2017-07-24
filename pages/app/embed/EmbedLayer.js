@@ -56,27 +56,20 @@ export default class EmbedLayer extends React.Component {
   }
 
   render() {
-    const { layer, loading } = this.state;
-
-    console.log('layer', layer);
-
-    // <Legend
-    //   layersActive={this.state.layersActive}
-    //   layersHidden={this.props.explore.datasets.hidden}
-    //   className={{ color: '-dark' }}
-    //   setDatasetsActive={this.props.setDatasetsActive}
-    //   toggleDatasetActive={this.props.toggleDatasetActive}
-    //   setDatasetsHidden={this.props.setDatasetsHidden}
-    //   toggleModal={this.props.toggleModal}
-    //   setModalOptions={this.props.setModalOptions}
-    // />
+    const {
+      layer,
+      loading,
+      layersActive
+    } = this.state;
 
     return (
       <div className="c-embed-layer">
-        <Head
-          title={layer && layer.attributes.name}
-          description={layer && layer.attributes.name}
-        />
+        {layer &&
+          <Head
+            title={layer.attributes.name}
+            description={layer.attributes.name}
+          />
+        }
         <Spinner
           isLoading={loading}
           className="-light"
@@ -86,7 +79,11 @@ export default class EmbedLayer extends React.Component {
             <Map
               LayerManager={LayerManager}
               mapConfig={mapConfig}
-              layersActive={this.state.layersActive}
+              layersActive={layersActive}
+            />
+            <Legend
+              layersActive={[layer.attributes]}
+              className={{ color: '-dark' }}
             />
             <div className="info">
               <div className="layer-title">
