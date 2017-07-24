@@ -55,7 +55,10 @@ class MyRWWidgetsStarred extends React.Component {
     this.userService.getFavouriteWidgets(this.props.user.token)
     .then((response) => {
       this.setState({
-        starredWidgets: response,
+        starredWidgets: response.map((elem) => {
+          const favouriteId = elem.id;
+          return Object.assign({}, elem.attributes.resource, { favouriteId });
+        }),
         starredWidgetsLoaded: true
       });
     }).catch(err => console.log(err)); // eslint-disable-line no-console
@@ -80,7 +83,8 @@ class MyRWWidgetsStarred extends React.Component {
             <WidgetList
               widgets={starredWidgets}
               mode="grid"
-              onWidgetRemove={this.handleWidgetRemoved}
+              showRemove={false}
+              showEmbed={false}
             />
             }
             {starredWidgets && starredWidgets.length === 0 &&
