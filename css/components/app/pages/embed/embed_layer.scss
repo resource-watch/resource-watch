@@ -33,14 +33,14 @@
 
     .c-map {
       position: absolute;
-      bottom: 220px;
-      top: unset;
+      top: 0px;
       width: 100%;
-      height: 100%;
+      height: calc(100% - 220px);
     }
 
     .c-legend-map {
       position: absolute;
+      right: 10px;
       bottom: 220px;
       height: 180px;
     }

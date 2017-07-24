@@ -1,0 +1,31 @@
+.c-share-modal-explore {
+  .title {
+    margin-bottom: 50px;
+  }
+
+  .url-container {
+    display: flex;
+    margin-bottom: 30px;
+
+    input {
+      flex-grow: 1;
+      height: 45px;
+      padding: 0 15px;
+      margin-right: 20px;
+    }
+  }
+
+  .media {
+    a {
+      margin-right: 20px;
+
+      &:last-child { margin-right: 0; }
+
+      &:hover {
+        svg {
+          fill: $color-secondary;
+        }
+      }
+    }
+  }
+}

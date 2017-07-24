@@ -21,21 +21,17 @@ class ShareModal extends React.Component {
     }
   }
 
-  getContent() {
+  render() {
     const { url } = this.props;
-    const content = (
-      <div className="url-container">
-        <input ref={(n) => { this.input = n; }} value={url} className="url" readOnly />
-        <button className="c-btn -primary -filled" onClick={() => this.onCopyClick()}>
+    return (
+      <div className="c-share-modal-explore">
+        <h1 className="c-text -header-normal -thin title">Share this page</h1>
+        <div className="url-container">
+          <input ref={(n) => { this.input = n; }} value={url} className="url" readOnly />
+          <button className="c-btn -primary -filled" onClick={() => this.onCopyClick()}>
           Copy
         </button>
-      </div>
-    );
-
-    return (
-      <div className="share-content">
-        <h1 className="c-text -header-normal -thin title">Share this page</h1>
-        {content}
+        </div>
         <div className="media">
           <a
             href={`http://www.facebook.com/sharer/sharer.php?u=${url}`}
@@ -52,14 +48,6 @@ class ShareModal extends React.Component {
             <Icon name="icon-twitter" className="-medium" />
           </a>
         </div>
-      </div>
-    );
-  }
-
-  render() {
-    return (
-      <div className="share-modal">
-        {this.getContent()}
       </div>
     );
   }

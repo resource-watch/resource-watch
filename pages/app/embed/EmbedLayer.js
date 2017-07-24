@@ -31,14 +31,11 @@ export default class EmbedLayer extends React.Component {
 
     this.state = {
       layer: null,
-      loading: true,
-      layersActive: [{ id: this.props.url.query.id }]
+      loading: true
     };
 
     // LayersService
-    this.layersService = new LayersService(this.props.url.query.id, {
-      apiURL: process.env.WRI_API_URL
-    });
+    this.layersService = new LayersService();
   }
 
   componentDidMount() {
@@ -58,8 +55,7 @@ export default class EmbedLayer extends React.Component {
   render() {
     const {
       layer,
-      loading,
-      layersActive
+      loading
     } = this.state;
 
     return (
@@ -79,7 +75,7 @@ export default class EmbedLayer extends React.Component {
             <Map
               LayerManager={LayerManager}
               mapConfig={mapConfig}
-              layersActive={layersActive}
+              layersActive={[layer.attributes]}
             />
             <Legend
               layersActive={[layer.attributes]}
