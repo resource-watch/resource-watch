@@ -255,10 +255,10 @@ class VegaChart extends React.Component {
       // Data fetched by Vega and used to draw the chart
       const data = vis.data().table;
 
-      // We display a tooltip at maximum 60 FPS (approximatively)
+      // We display a tooltip at maximum 30 FPS (approximatively)
       vis.onSignal('onMousemove', throttle((_, { x, item }) => {
         this.onMousemove(vegaConfig, data, x, item);
-      }, 16));
+      }, 30));
     });
   }
 

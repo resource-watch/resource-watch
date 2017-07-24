@@ -63,15 +63,21 @@ export function toggleTooltip(opened, opts = {}) {
 
       if (opts.follow) {
         dispatch({ type: TOOLTIP_FOLLOW_TOGGLE, payload: true });
+        // NOTE: if this doesn't break anything, let's remove it
+        // The current issue with it is that it is the third listener
+        // for the tooltip on the charts:
+        //  1. Listener from Vega
+        //  2. Listener for the follow option (in Tooltip.js)
+        //  3. This one
 
-        // User has to move the mouse to receive the position
-        document.addEventListener('mousemove', function onMouseMove({ clientX, clientY }) {
-          dispatch({
-            type: TOOLTIP_SET_POSITION,
-            payload: { x: window.scrollX + clientX, y: window.scrollY + clientY }
-          });
-          document.removeEventListener('mousemove', onMouseMove);
-        });
+        // // User has to move the mouse to receive the position
+        // document.addEventListener('mousemove', function onMouseMove({ clientX, clientY }) {
+        //   dispatch({
+        //     type: TOOLTIP_SET_POSITION,
+        //     payload: { x: window.scrollX + clientX, y: window.scrollY + clientY }
+        //   });
+        //   document.removeEventListener('mousemove', onMouseMove);
+        // });
       } else if (opts.position) {
         dispatch({
           type: TOOLTIP_SET_POSITION,
