@@ -315,6 +315,13 @@ class ExploreDetail extends Page {
 
 
           {/* RELATED TOOLS */}
+          <div className="c-page-section related-tools">
+            <div className="row">
+              <div className="column small-12">
+                <h2 className="c-text title -thin">Related Tools</h2>
+              </div>
+            </div>
+          </div>
 
           {/* SIMILAR DATASETS */}
           <div className="c-page-section similar-datasets">
@@ -338,6 +345,13 @@ class ExploreDetail extends Page {
           </div>
 
           {/* RELATED INSIGHTS */}
+          <div className="c-page-section related-insights">
+            <div className="row">
+              <div className="column small-12">
+                <h2 className="c-text title -thin">Related Insights</h2>
+              </div>
+            </div>
+          </div>
 
           {/* PLANET PULSE */}
           <div className="c-page-section pulse-banner-section">
