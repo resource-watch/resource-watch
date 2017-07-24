@@ -21,8 +21,8 @@ class MyRWWidgetsStarred extends React.Component {
 
     this.state = {
       user: null,
-      myWidgetsLoaded: false,
-      myWidgets: null
+      starredWidgets: false,
+      starredWidgetsLoaded: null
     };
 
     // User service
@@ -50,9 +50,18 @@ class MyRWWidgetsStarred extends React.Component {
 
   loadWidgets() {
     this.setState({
-      myWidgetsLoaded: false
+      starredWidgets: false
     });
-    // TO-DO Implement logic to retrieve starred widgets
+    this.userService.getFavouriteWidgets(this.props.user.token)
+    .then((response) => {
+      this.setState({
+        starredWidgets: response.map((elem) => {
+          const favouriteId = elem.id;
+          return Object.assign({}, elem.attributes.resource, { favouriteId });
+        }),
+        starredWidgetsLoaded: true
+      });
+    }).catch(err => console.log(err)); // eslint-disable-line no-console
   }
 
   @Autobind
@@ -61,23 +70,24 @@ class MyRWWidgetsStarred extends React.Component {
   }
 
   render() {
-    const { myWidgetsLoaded, myWidgets } = this.state;
+    const { starredWidgets, starredWidgetsLoaded } = this.state;
     return (
       <div className="c-myrw-widgets-starred">
         <div className="row">
           <div className="column small-12">
             <Spinner
-              isLoading={!myWidgetsLoaded}
+              isLoading={!starredWidgetsLoaded}
               className="-relative -light"
             />
-            {myWidgets &&
+            {starredWidgets &&
             <WidgetList
-              widgets={myWidgets}
+              widgets={starredWidgets}
               mode="grid"
-              onWidgetRemove={this.handleWidgetRemoved}
+              showRemove={false}
+              showEmbed={false}
             />
             }
-            {myWidgets && myWidgets.length === 0 &&
+            {starredWidgets && starredWidgets.length === 0 &&
             <div className="no-widgets-div">
               You currently have no widgets
             </div>

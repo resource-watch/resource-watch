@@ -30,7 +30,7 @@ export default class WidgetList extends React.Component {
 
   render() {
     const { loading } = this.state;
-    const { widgets } = this.props;
+    const { widgets, showRemove, showEmbed } = this.props;
 
     return (
       <div className="c-widget-list">
@@ -47,6 +47,8 @@ export default class WidgetList extends React.Component {
                 widget={widget}
                 onClick={this.triggerClick}
                 onWidgetRemove={this.handleWidgetRemoved}
+                showEmbed={showEmbed}
+                showRemove={showRemove}
               />
             </li>)
           )}
@@ -56,8 +58,16 @@ export default class WidgetList extends React.Component {
   }
 }
 
+WidgetCard.defaultProps = {
+  showEmbed: true,
+  showRemove: true
+};
+
+
 WidgetList.propTypes = {
   widgets: PropTypes.array.isRequired,
+  showEmbed: PropTypes.bool,
+  showRemove: PropTypes.bool,
   // Callbacks
-  onWidgetRemove: PropTypes.func.isRequired
+  onWidgetRemove: PropTypes.func
 };

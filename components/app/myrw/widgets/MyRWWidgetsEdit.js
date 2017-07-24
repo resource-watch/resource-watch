@@ -26,7 +26,7 @@ class MyRWWidgetsEdit extends React.Component {
       widget: null
     };
 
-    // User service
+    // Services
     this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
     this.widgetService = new WidgetService(this.props.widgetId,
       { apiURL: process.env.CONTROL_TOWER_URL });

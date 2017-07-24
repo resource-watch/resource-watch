@@ -76,10 +76,12 @@ class WidgetCard extends React.Component {
   }
 
   render() {
-    const { widget } = this.props;
+    const { widget, showEmbed, showRemove } = this.props;
 
     return (
       <div
+        role="button"
+        tabIndex={0}
         className={'c-widget-card'}
         onClick={this.handleClick}
       >
@@ -99,32 +101,42 @@ class WidgetCard extends React.Component {
             <p>{WidgetCard.getDescription(widget.attributes.description)}</p>
           </div>
           <div className="actions">
-            <a
-              className="c-button"
-              onClick={this.handleRemoveWidget}
-              role="button"
-              tabIndex="0"
-            >
-            Remove
-            </a>
-            <a
-              className="c-button"
-              onClick={this.handleEmbed}
-              role="button"
-              tabIndex="0"
-            >
-            Embed
-            </a>
+            {showRemove &&
+              <a
+                className="c-button"
+                onClick={this.handleRemoveWidget}
+                role="button"
+                tabIndex="0"
+              >
+              Remove
+              </a>
+            }
+            {showEmbed &&
+              <a
+                className="c-button"
+                onClick={this.handleEmbed}
+                role="button"
+                tabIndex="0"
+              >
+              Embed
+              </a>
+            }
           </div>
-
         </div>
       </div>
     );
   }
 }
 
+WidgetCard.defaultProps = {
+  showEmbed: true,
+  showRemove: true
+};
+
 WidgetCard.propTypes = {
   widget: PropTypes.object.isRequired,
+  showEmbed: PropTypes.bool,
+  showRemove: PropTypes.bool,
   // Callbacks
   onWidgetRemove: PropTypes.func.isRequired,
   // Store

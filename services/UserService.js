@@ -29,4 +29,82 @@ export default class UserService {
     });
   }
 
+  /**
+   * Gets the contents that have been starred/favourited by the user that is
+   * currently logged
+   * @param {token} User token
+   * @returns {Promise}
+   */
+  getFavouriteWidgets(token) {
+    return this.getFavourites(token, 'widget', true);
+  }
+
+  /**
+   * Gets the contents that have been starred/favourited by the user that is
+   * currently logged
+    * @param {token} User token
+   * @returns {Promise}
+   */
+  getFavourites(token, resourceType = null, include = true) {
+    const resourceTypeSt = (resourceType !== null) ? `&resourceType=${resourceType}` : '';
+    return new Promise((resolve) => {
+      fetch(`${this.opts.apiURL}/favourite?include=${include}${resourceTypeSt}`, {
+        headers: {
+          Authorization: token
+        }
+      })
+        .then(response => response.json())
+        .then(jsonData => resolve(jsonData.data));
+    });
+  }
+
+  /**
+   * Deletes a favourite
+   * @param {resourceId} ID of the resource that will be unfavourited
+   * @param {token} User token
+   * @returns {Promise}
+   */
+  deleteFavourite(resourceId, token) {
+    return fetch(`${this.opts.apiURL}/favourite/${resourceId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: token
+      }
+    })
+    .then(response => response.json());
+  }
+
+  /**
+   * Creates a new favourite for a widget
+   * @param {widgetId} Widget ID
+   * @param {token} User token
+   * @returns {Promise}
+   */
+  createFavouriteWidget(widgetId, token) {
+    return this.createFavourite('widget', widgetId, token);
+  }
+
+  /**
+   * Creates a new favourite for a resource
+   * @param {resourceType} Type of the resource (dataset|layer|widget)
+   * @param {resourceId} Resource ID
+   * @param {token} User token
+   * @returns {Promise}
+   */
+  createFavourite(resourceType, resourceId, token) {
+    const bodyObj = {
+      resourceType,
+      resourceId
+    };
+    return fetch(`${this.opts.apiURL}/favourite`, {
+      method: 'POST',
+      body: JSON.stringify(bodyObj),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token
+      }
+    })
+    .then(response => response.json());
+  }
+
 }

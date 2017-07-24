@@ -11,10 +11,13 @@ import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import DashboardCard from 'components/app/dashboards/DashboardCard';
 
+// Services
+import UserService from 'services/UserService';
+
 // Utils
 import DASHBOARDS from 'utils/dashboards/config';
 
-class DashboardsDetail extends Page {
+export default class DashboardsDetail extends Page {
 
   constructor(props) {
     super(props);
@@ -24,12 +27,63 @@ class DashboardsDetail extends Page {
       // Pointer to the selected dashboard
       selectedDashboard: null,
       // Whether to show all the dashboards or just a few
-      showMore: false
+      showMore: false,
+      // User favourites
+      favourites: []
     };
+
+    // Services
+    this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
   }
 
   componentWillMount() {
     this.getDashboards();
+  }
+
+  componentDidMount() {
+    // Load favorites
+    if (!this.props.user.id) {
+      this.waitForUserToBeLoaded();
+    } else {
+      this.loadFavourites();
+    }
+  }
+
+  /**
+    Waits for the user object to be loaded into the store
+  */
+  waitForUserToBeLoaded() {
+    setTimeout(() => {
+      if (this.props.user.id) {
+        this.loadFavourites();
+      } else {
+        this.waitForUserToBeLoaded();
+      }
+    }, 500);
+  }
+
+  /**
+  * Loads all favourite resources from the user that is logged in
+  */
+  loadFavourites() {
+    this.userService.getFavourites(`Bearer ${this.props.user.token}`)
+      .then((response) => {
+        this.setState({
+          favourites: response
+        });
+      });
+  }
+
+  /**
+  * Checks whether the widget is one the user favourites
+  */
+  isFavourite(widgetId) {
+    const { favourites } = this.state;
+    let found = false;
+    if (favourites) {
+      found = favourites.find(val => val.attributes.resourceId === widgetId);
+    }
+    return found;
   }
 
   /**
@@ -73,13 +127,15 @@ class DashboardsDetail extends Page {
   }
 
   render() {
-    const dashboardName = this.state.selectedDashboard ? `${this.state.selectedDashboard.name} dashboard` : '–';
+    const { url, user } = this.props;
+    const { selectedDashboard, showMore, dashboards } = this.state;
+    const dashboardName = this.state.selectedDashboard ? `${selectedDashboard.name} dashboard` : '–';
     return (
       <Layout
         title={dashboardName}
         description="Resource Watch Dashboards"
-        url={this.props.url}
-        user={this.props.user}
+        url={url}
+        user={user}
         pageHeader
       >
         <div className="c-page-dashboards">
@@ -103,7 +159,7 @@ class DashboardsDetail extends Page {
                       .map(dashboard => (
                         <li
                           className={classnames({
-                            '-active': this.state.selectedDashboard === dashboard,
+                            '-active': selectedDashboard === dashboard,
                             '-disabled': !dashboard.widgets.length
                           })}
                           key={dashboard.slug}
@@ -114,7 +170,7 @@ class DashboardsDetail extends Page {
                             name="dashboard"
                             id={`dashboard-${dashboard.slug}`}
                             value={dashboard.slug}
-                            checked={this.state.selectedDashboard === dashboard}
+                            checked={selectedDashboard === dashboard}
                             disabled={!dashboard.widgets.length}
                             onChange={e => this.onChangeDashboard(e.target.value)}
                           />
@@ -123,13 +179,13 @@ class DashboardsDetail extends Page {
                           </label>
                         </li>
                       ))
-                      .slice(0, this.state.showMore ? this.state.dashboards.length : 5)
+                      .slice(0, showMore ? dashboards.length : 5)
                   }
                   <li className="-toggle">
                     <button
                       type="button"
                       className="content"
-                      onClick={() => this.setState({ showMore: !this.state.showMore })}
+                      onClick={() => this.setState({ showMore: !showMore })}
                     >
                       <span>{ this.state.showMore ? 'Close' : 'More' }</span>
                     </button>
@@ -139,9 +195,9 @@ class DashboardsDetail extends Page {
             </div>
             <div className="row">
               <div className="column small-12 large-7 dashboard-info">
-                <Title className="-extrabig -secondary">{this.state.selectedDashboard.name}</Title>
+                <Title className="-extrabig -secondary">{selectedDashboard.name}</Title>
                 <p className="description">
-                  {this.state.selectedDashboard.description}
+                  {selectedDashboard.description}
                 </p>
               </div>
             </div>
@@ -150,11 +206,12 @@ class DashboardsDetail extends Page {
           <div className="row">
             <div className="column small-12 widgets-list">
               {
-                this.state.selectedDashboard.widgets.map(widget => (
+                selectedDashboard.widgets.map(widget => (
                   <DashboardCard
                     key={widget.name || widget.widgetId}
                     widgetId={widget.widgetId}
                     categories={widget.categories}
+                    isFavourite={this.isFavourite(widget.widgetId)}
                     // The following attributes will be deprecated once all the
                     // widgets are fetched from the API
                     name={widget.name}
@@ -171,5 +228,3 @@ class DashboardsDetail extends Page {
   }
 
 }
-
-export default DashboardsDetail;
