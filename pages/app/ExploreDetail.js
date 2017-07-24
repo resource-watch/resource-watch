@@ -212,15 +212,6 @@ class ExploreDetail extends Page {
             </div>
           </div>
 
-          {/* WIDGET EDITOR */}
-          {dataset &&
-            <WidgetEditor
-              dataset={dataset.id}
-              mode="dataset"
-              showSaveButton
-            />
-          }
-
           {/* DATASET INFO && ACTIONS */}
           <div className="c-page-section">
             <section className="c-dataset-info">
@@ -272,30 +263,47 @@ class ExploreDetail extends Page {
                   </div>
                 </div>
               </div>
+            </section>
+          </div>
+
+          {/* WIDGET EDITOR */}
+          {dataset &&
+            <WidgetEditor
+              dataset={dataset.id}
+              mode="dataset"
+              showSaveButton
+            />
+          }
+
+          {/* METADATA */}
+          <div className="c-page-section">
+            <section className="c-dataset-metadata">
               <div className="row">
                 <div className="column small-12 medium-7">
                   <div className="dataset-info-rest-of-fields">
-                    <h5>Function</h5>
+                    <h2 className="c-text title -thin">Function</h2>
                     <p>{metadataInfo && metadataInfo.functions }</p>
-                    <h5>Cautions</h5>
+                    <h2 className="c-text title -thin">Cautions</h2>
                     <p>{metadataInfo && metadataInfo.cautions }</p>
-                    <h5>Citation</h5>
+                    <h2 className="c-text title -thin">Citation</h2>
                     <p>{metadataInfo && metadataInfo.citation }</p>
-                    <h5>Geographic coverage</h5>
+                    <h2 className="c-text title -thin">Geographic coverage</h2>
                     <p>{metadataInfo && metadataInfo.geographic_coverage }</p>
-                    <h5>Spatial resolution</h5>
+                    <h2 className="c-text title -thin">Spatial resolution</h2>
                     <p>{metadataInfo && metadataInfo.spatial_resolution }</p>
-                    <h5>Date of content</h5>
+                    <h2 className="c-text title -thin">Date of content</h2>
                     <p>{metadataInfo && metadataInfo.date_of_content }</p>
-                    <h5>Frequency of updates</h5>
+                    <h2 className="c-text title -thin">Frequency of updates</h2>
                     <p>{metadataInfo && metadataInfo.frequency_of_updates }</p>
-                    <h5>License</h5>
-                    <a href={metadataInfo && metadataInfo.license_link}>{metadataInfo && metadataInfo.license }</a>
-                    <h5>Language</h5>
+                    <h2 className="c-text title -thin">License</h2>
+                    <a href={metadataInfo && metadataInfo.license_link}>
+                      {metadataInfo && metadataInfo.license }
+                    </a>
+                    <h2 className="c-text title -thin">Language</h2>
                     <p>{metadataAttributes && metadataAttributes.language}</p>
                     {metadataAttributes && metadataAttributes.language !== 'en' &&
                       <div>
-                        <h5>Translated title</h5>
+                        <h2 className="c-text title -thin">Translated title</h2>
                         <p>{metadataInfo && metadataInfo.translated_title}</p>
                       </div>
                     }
@@ -307,12 +315,19 @@ class ExploreDetail extends Page {
 
 
           {/* RELATED TOOLS */}
+          <div className="c-page-section related-tools">
+            <div className="row">
+              <div className="column small-12">
+                <h2 className="c-text title -thin">Related Tools</h2>
+              </div>
+            </div>
+          </div>
 
           {/* SIMILAR DATASETS */}
           <div className="c-page-section similar-datasets">
             <div className="row">
               <div className="column small-12">
-                <h2>Similar datasets</h2>
+                <h2 className="c-text title -thin">Similar datasets</h2>
                 <Spinner
                   isLoading={!similarDatasetsLoaded}
                   className="-relative -light"
@@ -330,13 +345,20 @@ class ExploreDetail extends Page {
           </div>
 
           {/* RELATED INSIGHTS */}
+          <div className="c-page-section related-insights">
+            <div className="row">
+              <div className="column small-12">
+                <h2 className="c-text title -thin">Related Insights</h2>
+              </div>
+            </div>
+          </div>
 
           {/* PLANET PULSE */}
           <div className="c-page-section pulse-banner-section">
             <div className="row">
               <div className="column small-12">
                 <div className="pulse-banner">
-                  <h2>Planet Pulse</h2>
+                  <h2 className="c-text title -thin">Planet Pulse</h2>
                   <div className="pulse-banner-container">
                     <div className="action-container">
                       <h1>Take the pulse of our planet</h1>

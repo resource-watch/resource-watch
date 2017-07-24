@@ -39,22 +39,30 @@
     }
   }
 
-  .c-page-section.similar-datasets {
-
+  .dataset-info-rest-of-fields {
     h2 {
-      font-weight:normal;
-      color: $color-dark-pink;
+      margin-top: 50px;
     }
+  }
+
+  .c-page-section.related-insights {
+    padding: 0px;
+  }
+
+  .c-page-section.related-tools {
+    padding: 0px;
+  }
+
+  .c-page-section.similar-datasets {
+    padding: 0px;
   }
 
   .c-page-section.pulse-banner-section {
 
-    .pulse-banner {
+    padding: 0px;
+    margin-top: 30px;
 
-      h2 {
-        font-weight:normal;
-        color: $color-dark-pink;
-      }
+    .pulse-banner {
 
       .pulse-banner-container {
         background-image: url('/static/images/pages/app/bg-banner-planetPulse.jpg');
@@ -80,6 +88,10 @@
       }
     }
 
+  }
+
+  h2 {
+    color: $color-dark-pink;
   }
 
 }
