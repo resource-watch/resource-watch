@@ -87,6 +87,7 @@ class VegaChart extends React.Component {
     if (!isEmpty(item) && item.datum.x && item.mark.marktype !== 'line') {
       return this.props.toggleTooltip(true, {
         follow: true,
+        direction: 'bottom',
         children: VegaChartTooltip,
         childrenProps: {
           item: {
@@ -143,6 +144,7 @@ class VegaChart extends React.Component {
     if (data) {
       return this.props.toggleTooltip(true, {
         follow: true,
+        direction: 'bottom',
         children: VegaChartTooltip,
         childrenProps: {
           item: {
