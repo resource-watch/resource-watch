@@ -21,7 +21,8 @@ class AggregateFunctionTooltip extends React.Component {
     super(props);
 
     this.state = {
-      aggregateFunction: props.aggregateFunction
+      // null (store) === none (state)
+      aggregateFunction: !props.aggregateFunction ? 'none' : props.aggregateFunction
     };
   }
 

@@ -249,7 +249,7 @@ export function getTimeFormat(data) {
  * @returns {object} JSON object
  */
 export async function getChartConfig(widgetEditor, tableName, dataset, mustFetchData = false) {
-  const { category, value, size, color, chartType } = widgetEditor;
+  const { category, value, size, color, chartType, aggregateFunction } = widgetEditor;
 
   // URL of the data needed to display the chart
   const url = getDataURL(widgetEditor, tableName, dataset);
@@ -257,12 +257,35 @@ export async function getChartConfig(widgetEditor, tableName, dataset, mustFetch
   // In case we must fetch the data, we save it in this variable
   const data = mustFetchData && await fetchData(url);
 
+  // We compute the name of the x column
+  const xLabel = category.name[0].toUpperCase() + category.name.slice(1, category.name.length);
+
+  // We compute the name of the y column
+  let yLabel = value && value.name;
+  if (yLabel) {
+    // We make the first letter uppercase
+    yLabel = yLabel[0].toUpperCase() + yLabel.slice(1, yLabel.length);
+
+    // If there's an aggregation, we add it next to the name
+    if (aggregateFunction) {
+      yLabel = `${yLabel} (${aggregateFunction})`;
+    }
+  }
+
   return CHART_TYPES[chartType]({
     // In the future, we could pass the type of the columns so the chart
     // could select the right scale
     columns: {
-      x: { present: true, type: category.type, name: category.name },
-      y: { present: !!value, type: value && value.type, name: value && value.name },
+      x: {
+        present: true,
+        type: category.type,
+        name: xLabel
+      },
+      y: {
+        present: !!value,
+        type: value && value.type,
+        name: yLabel
+      },
       color: { present: !!color },
       size: { present: !!size }
     },
