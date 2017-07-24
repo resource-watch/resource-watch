@@ -12,8 +12,8 @@ class ShareModal extends React.Component {
     };
   }
 
-  onCopyClick() {
-    const copyTextarea = this.input;
+  onCopyClick(input) {
+    const copyTextarea = (input === 'embed') ? this.embedInput : this.input;
     copyTextarea.select();
 
     try {
@@ -52,7 +52,7 @@ class ShareModal extends React.Component {
               </a>
             </div>
             <div className="copy-button">
-              <a tabIndex={0} role="button" onClick={() => this.onCopyClick()}>
+              <a tabIndex={0} role="button" onClick={() => this.onCopyClick('url')}>
                 Copy link
               </a>
             </div>
@@ -63,13 +63,13 @@ class ShareModal extends React.Component {
             <h5>Code to embed</h5>
             <div className="url-input-div">
               <input
-                ref={(n) => { this.input = n; }}
-                value={`<iframe src="https://staging.resourcewatch.org/embed/layer/${layers[0].id}"></iframe>`}
+                ref={(n) => { this.embedInput = n; }}
+                value={`<iframe src="https://staging.resourcewatch.org/embed/layer/${layers[0].id}" width="100%" height="474px" frameBorder="0"></iframe>`}
                 className="url"
                 readOnly
               />
               <div className="copy-button">
-                <a tabIndex={0} role="button" onClick={() => this.onCopyClick()}>
+                <a tabIndex={0} role="button" onClick={() => this.onCopyClick('embed')}>
                   Copy code
                 </a>
               </div>

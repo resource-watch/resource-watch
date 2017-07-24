@@ -12,8 +12,8 @@ class ShareExploreDetailModal extends React.Component {
     };
   }
 
-  onCopyClick() {
-    const copyTextarea = this.input;
+  onCopyClick(input) {
+    const copyTextarea = (input === 'embed') ? this.embedInput : this.input;
     copyTextarea.select();
 
     try {
@@ -24,61 +24,63 @@ class ShareExploreDetailModal extends React.Component {
     }
   }
 
-  getContent() {
-    const { url } = this.props;
-    const content = (
-      <div className="url-container">
-        <input ref={(n) => { this.input = n; }} value={url} className="url" readOnly />
-        <button className="c-btn -primary -filled" onClick={() => this.onCopyClick()}>
-          Copy
-        </button>
-      </div>
-    );
-
-    return (
-      <div className="share-content">
-        <h1 className="c-text -header-normal -thin title">Share this page</h1>
-        {content}
-        <div className="media">
-          <a
-            href={`http://www.facebook.com/sharer/sharer.php?u=${url}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Icon name="icon-facebook" className="-medium" />
-          </a>
-          <a
-            href={`https://twitter.com/share?url=${url}&text=Resource watch, explore datasets`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Icon name="icon-twitter" className="-medium" />
-          </a>
-        </div>
-      </div>
-    );
-  }
-
   render() {
-    const { datasetId, showEmbed } = this.props;
+    const { datasetId, showEmbed, url } = this.props;
     const embedSt = `<iframe src="https://staging.resourcewatch.org/embed/dataset/${datasetId}" width="100%" height="474px" frameBorder="0"></iframe>`;
 
     return (
-      <div className="share-modal">
-        {this.getContent()}
+      <div className="c-share-modal-explore">
+        <h1 className="c-text -header-normal -thin title">Share</h1>
+        <div className="url-container">
+          <h5>Public url to share</h5>
+          <div className="url-input-div">
+            <input ref={(n) => { this.input = n; }} value={url} className="url" readOnly />
+            <div className="media">
+              <a
+                href={`http://www.facebook.com/sharer/sharer.php?u=${url}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon name="icon-facebook" className="-medium" />
+              </a>
+              <a
+                href={`https://twitter.com/share?url=${url}&text=Resource watch, explore datasets`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon name="icon-twitter" className="-medium" />
+              </a>
+            </div>
+            <div className="copy-button">
+              <a tabIndex={0} role="button" onClick={() => this.onCopyClick('url')}>
+                Copy link
+              </a>
+            </div>
+          </div>
+        </div>
         {showEmbed &&
-          <div className="embed-content">
-            <h1 className="c-text -thin title">Share into your web</h1>
-            <p>You may include this content on your webpage. To do this, copy the following html
-            code and insert it into the source code of your page:</p>
-            <div className="url-container">
-              <input ref={(n) => { this.input = n; }} value={embedSt} className="url" readOnly />
-              <button className="c-btn -primary -filled" onClick={() => this.onCopyClick()}>
-                Copy
-              </button>
+          <div className="url-container">
+            <h5>Code to embed</h5>
+            <div className="url-input-div">
+              <input
+                ref={(n) => { this.embedInput = n; }}
+                value={embedSt}
+                className="url"
+                readOnly
+              />
+              <div className="copy-button">
+                <a tabIndex={0} role="button" onClick={() => this.onCopyClick('embed')}>
+                  Copy code
+                </a>
+              </div>
             </div>
           </div>
         }
+        <div className="buttons-div">
+          <button className="c-button -secondary" onClick={() => this.props.toggleModal()}>
+            Close
+          </button>
+        </div>
       </div>
     );
   }
@@ -87,7 +89,8 @@ class ShareExploreDetailModal extends React.Component {
 ShareExploreDetailModal.propTypes = {
   url: PropTypes.string,
   datasetId: PropTypes.string,
-  showEmbed: PropTypes.bool.isRequired
+  showEmbed: PropTypes.bool.isRequired,
+  toggleModal: PropTypes.func.isRequired
 };
 
 
