@@ -116,7 +116,8 @@ class Explore extends Page {
       children: ShareModalExplore,
       childrenProps: {
         url: window.location.href,
-        layers: this.props.layersActive
+        layers: this.props.layersActive,
+        toggleModal: this.props.toggleModal
       }
     };
     this.props.toggleModal(true);

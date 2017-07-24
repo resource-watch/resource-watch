@@ -72,6 +72,11 @@ class ShareModal extends React.Component {
             </div>
           </div>
         }
+        <div className="buttons-div">
+          <button className="c-button -secondary" onClick={() => this.props.toggleModal()}>
+            Close
+          </button>
+        </div>
       </div>
     );
   }
@@ -79,7 +84,8 @@ class ShareModal extends React.Component {
 
 ShareModal.propTypes = {
   url: PropTypes.string.isRequired,
-  layers: PropTypes.array
+  layers: PropTypes.array,
+  toggleModal: PropTypes.func.isRequired
 };
 
 
