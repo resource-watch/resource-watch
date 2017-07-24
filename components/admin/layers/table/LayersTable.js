@@ -8,7 +8,7 @@ import { initStore } from 'store';
 import { getLayers, setFilters } from 'redactions/admin/layers';
 
 // Selectors
-import adminSelectors from 'selectors/admin';
+import { getFilteredLayers } from 'selectors/admin';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -132,7 +132,7 @@ LayersTable.propTypes = {
 
 const mapStateToProps = state => ({
   loading: state.layers.layers.loading,
-  layers: adminSelectors.getFilteredLayers(state),
+  layers: getFilteredLayers(state),
   error: state.layers.layers.error
 });
 const mapDispatchToProps = dispatch => ({
