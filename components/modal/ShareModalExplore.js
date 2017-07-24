@@ -25,12 +25,15 @@ class ShareModal extends React.Component {
     const { url } = this.props;
     return (
       <div className="c-share-modal-explore">
-        <h1 className="c-text -header-normal -thin title">Share this page</h1>
+        <h1 className="c-text -header-normal -thin title">Share</h1>
         <div className="url-container">
-          <input ref={(n) => { this.input = n; }} value={url} className="url" readOnly />
-          <button className="c-btn -primary -filled" onClick={() => this.onCopyClick()}>
-          Copy
-        </button>
+          <h5>Public url to share</h5>
+          <div className="url-input-div">
+            <input ref={(n) => { this.input = n; }} value={url} className="url" readOnly />
+            <button className="c-button -primary" onClick={() => this.onCopyClick()}>
+              Copy link
+            </button>
+          </div>
         </div>
         <div className="media">
           <a
@@ -47,6 +50,15 @@ class ShareModal extends React.Component {
           >
             <Icon name="icon-twitter" className="-medium" />
           </a>
+        </div>
+        <div className="url-container">
+          <h5>Code to embed</h5>
+          <div className="url-input-div">
+            <input ref={(n) => { this.input = n; }} value={url} className="url" readOnly />
+            <button className="c-button -primary" onClick={() => this.onCopyClick()}>
+              Copy code
+            </button>
+          </div>
         </div>
       </div>
     );

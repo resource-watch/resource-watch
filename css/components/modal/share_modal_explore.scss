@@ -1,17 +1,29 @@
 .c-share-modal-explore {
   .title {
     margin-bottom: 50px;
+    color: $color-dark-pink;
   }
 
   .url-container {
-    display: flex;
     margin-bottom: 30px;
 
-    input {
-      flex-grow: 1;
-      height: 45px;
-      padding: 0 15px;
-      margin-right: 20px;
+    h5 {
+      margin-bottom: 10px;
+    }
+
+    .url-input-div {
+      display: flex;
+
+      input {
+        flex-grow: 1;
+        height: 45px;
+        padding: 0 15px;
+        margin-right: 20px;
+      }
+
+      button {
+        width: 100px;
+      }
     }
   }
 
