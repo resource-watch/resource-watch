@@ -45,6 +45,22 @@ class VegaChart extends React.Component {
   }
 
   /**
+   * Event handler executed when the mouse goes out of the chart
+   */
+  onMouseOut() {
+    // Right after this instruction, we hide the tooltip
+    // Nevertheless, because the onMouseMove is throttled, an
+    // execution might be delayed causing the tooltip from
+    // leaking out of the chart container
+    // The solution is to cancel any further executions at
+    // this point
+    if (this.throttledMouseMove) this.throttledMouseMove.cancel();
+
+    // We hide the tooltip
+    this.props.toggleTooltip(false);
+  }
+
+  /**
    * Event handler for the mouse move events on the chart
    * @param {object} vegaConfig Vega configuration of the chart
    * @param {object[]} visData Data fetched by Vega and used to draw the chart
@@ -256,9 +272,14 @@ class VegaChart extends React.Component {
       const data = vis.data().table;
 
       // We display a tooltip at maximum 30 FPS (approximatively)
-      vis.onSignal('onMousemove', throttle((_, { x, item }) => {
+      // We save the throttled function in a global variable so
+      // we can eventually cancel pending executions when the
+      // cursor goes out of the chart's container
+      this.throttledMouseMove = throttle((_, { x, item }) => {
         this.onMousemove(vegaConfig, data, x, item);
-      }, 30));
+      }, 30);
+
+      vis.onSignal('onMousemove', this.throttledMouseMove);
     });
   }
 
@@ -277,7 +298,7 @@ class VegaChart extends React.Component {
     return (
       <div
         className="c-chart"
-        onMouseOut={() => this.props.toggleTooltip(false)}
+        onMouseOut={() => this.onMouseOut()}
         ref={(el) => { this.chartViewportContainer = el; }}
       >
         <div ref={(c) => { this.chart = c; }} className="chart" />
