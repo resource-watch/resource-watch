@@ -52,10 +52,13 @@ class MyRWWidgetsStarred extends React.Component {
     this.setState({
       starredWidgets: false
     });
-    this.userService.getFavouriteWidgets(this.props.user.token).then((response) => {
-      const widgetsIds = response.map(val => val.attributes.resourceId);
-      console.log(widgetsIds);
-    });
+    this.userService.getFavouriteWidgets(this.props.user.token)
+    .then((response) => {
+      this.setState({
+        starredWidgets: response,
+        starredWidgetsLoaded: true
+      });
+    }).catch(err => console.log(err)); // eslint-disable-line no-console
   }
 
   @Autobind
@@ -73,7 +76,7 @@ class MyRWWidgetsStarred extends React.Component {
               isLoading={!starredWidgetsLoaded}
               className="-relative -light"
             />
-          {starredWidgets &&
+            {starredWidgets &&
             <WidgetList
               widgets={starredWidgets}
               mode="grid"
