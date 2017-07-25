@@ -127,6 +127,13 @@ class ChartEditor extends React.Component {
             Save widget
           </a>
           }
+          {mode === 'update' &&
+          <a
+            onClick={this.handleShareEmbed}
+          >
+            Sahre/embed
+          </a>
+          }
           {showUpdateButton && mode === 'update' &&
           <a
             onClick={this.handleUpdateWidget}
