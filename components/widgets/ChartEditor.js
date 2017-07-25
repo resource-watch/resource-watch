@@ -60,7 +60,7 @@ class ChartEditor extends React.Component {
 
   @Autobind
   handleShareEmbed() {
-    
+
   }
 
   render() {
@@ -140,7 +140,7 @@ class ChartEditor extends React.Component {
             tabIndex={-1}
             onClick={this.handleShareEmbed}
           >
-            Sahre/embed
+            Share/embed
           </a>
           }
           {showUpdateButton && mode === 'update' &&

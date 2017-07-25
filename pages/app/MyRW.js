@@ -1,7 +1,5 @@
 import React from 'react';
-
-// Services
-import UserService from 'services/UserService';
+import PropTypes from 'prop-types';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -122,8 +120,8 @@ MyRW.defaultProps = {
 };
 
 MyRW.propTypes = {
-  url: React.PropTypes.object,
-  user: React.PropTypes.object
+  url: PropTypes.object,
+  user: PropTypes.object
 };
 
 

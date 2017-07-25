@@ -19,6 +19,9 @@ import Button from 'components/ui/Button';
 import Input from 'components/form/Input';
 import Field from 'components/form/Field';
 
+// utils
+import { getChartConfig } from 'utils/widgets/WidgetHelper';
+
 const FORM_ELEMENTS = {
   elements: {
   },
@@ -67,6 +70,94 @@ class MyRWWidgetsEdit extends React.Component {
     });
   }
 
+  @Autobind
+  async onSubmit(event) {
+    event.preventDefault();
+
+    this.setState({
+      loading: true
+    });
+    const { widget } = this.state;
+    const widgetAtts = widget.attributes;
+    const dataset = widgetAtts.dataset;
+    const { widgetEditor, tableName, user } = this.props;
+    const { limit, value, category, color, size, orderBy, aggregateFunction,
+      chartType, filters } = widgetEditor;
+
+    let chartConfig;
+    try {
+      chartConfig = await getChartConfig(widgetEditor, tableName, dataset);
+    } catch (err) {
+      this.setState({
+        saved: false,
+        error: true,
+        errorMessage: 'Unable to generate the configuration of the chart'
+      });
+
+      return;
+    }
+
+    const widgetConfig = {
+      widgetConfig: Object.assign(
+        {},
+        {
+          paramsConfig: {
+            limit,
+            value,
+            category,
+            color,
+            size,
+            orderBy,
+            aggregateFunction,
+            chartType,
+            filters
+          }
+        },
+        chartConfig
+      )
+    };
+
+    const widgetObj = Object.assign(
+      {},
+      {
+        id: widget.id,
+        application: widgetAtts.application,
+        name: widgetAtts.name,
+        description: widgetAtts.description,
+        authors: widgetAtts.authors,
+        source: widgetAtts.source,
+        sourceUrl: widgetAtts.sourceUrl
+      },
+      widgetConfig
+    );
+
+    this.widgetService.updateUserWidget(widgetObj, dataset, user.token)
+      .then((response) => {
+        if (response.errors) {
+          const errorMessage = response.errors[0].detail;
+          this.setState({
+            saved: false,
+            loading: false,
+            error: true,
+            errorMessage
+          });
+          alert(errorMessage); // eslint-disable-line no-alert
+        } else {
+          this.setState({
+            saved: true,
+            loading: false,
+            error: false
+          });
+        }
+      }).catch((err) => {
+        this.setState({
+          saved: false,
+          error: true
+        });
+        console.log(err); // eslint-disable-line no-console
+      });
+  }
+
   loadWidgetIntoRedux() {
     const { paramsConfig } = this.state.widget.attributes.widgetConfig;
     const {
@@ -110,9 +201,16 @@ class MyRWWidgetsEdit extends React.Component {
     }
   }
 
+  @Autobind
+  handleChange(value) {
+    const newWidgetAtts = Object.assign({}, this.state.widget.attributes, value);
+    const newWidgetObj = Object.assign({}, this.state.widget, { attributes: newWidgetAtts });
+    this.setState({ widget: newWidgetObj });
+  }
 
   render() {
     const { loading, widget, submitting } = this.state;
+    const widgetAtts = widget && widget.attributes;
 
     return (
       <div className="c-myrw-widgets-edit">
@@ -142,6 +240,7 @@ class MyRWWidgetsEdit extends React.Component {
                     label: 'Title',
                     type: 'text',
                     required: true,
+                    default: widgetAtts.name,
                     placeholder: 'Widget title'
                   }}
                 >
@@ -154,6 +253,7 @@ class MyRWWidgetsEdit extends React.Component {
                     title: 'description',
                     label: 'Description',
                     type: 'text',
+                    default: widgetAtts.description,
                     placeholder: 'Widget description'
                   }}
                 >
@@ -166,6 +266,7 @@ class MyRWWidgetsEdit extends React.Component {
                     title: 'authors',
                     label: 'Authors',
                     type: 'text',
+                    default: widgetAtts.authors,
                     placeholder: 'Author name'
                   }}
                 >
@@ -179,6 +280,7 @@ class MyRWWidgetsEdit extends React.Component {
                       title: 'source',
                       label: 'Source name',
                       type: 'text',
+                      default: widgetAtts.source,
                       placeholder: 'Source name'
                     }}
                   >
@@ -191,6 +293,7 @@ class MyRWWidgetsEdit extends React.Component {
                       title: 'sourceUrl',
                       label: 'Source URL',
                       type: 'text',
+                      default: widgetAtts.sourceUrl,
                       placeholder: 'Paste a URL here'
                     }}
                   >
@@ -235,7 +338,8 @@ MyRWWidgetsEdit.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  widgetEditor: state.widgetEditor
 });
 
 const mapDispatchToProps = dispatch => ({
