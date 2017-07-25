@@ -49,10 +49,12 @@ class VegaChartTooltip extends React.Component {
   render() {
     return (
       <div className="c-chart-tooltip">
-        <div className="labels">
-          <span>{this.props.item.y && this.props.item.y.label}</span>
-          <span>{this.props.item.x.label}</span>
-        </div>
+        { this.props.item.x.label && (
+          <div className="labels">
+            <span>{this.props.item.y && this.props.item.y.label}</span>
+            <span>{this.props.item.x.label}</span>
+          </div>
+        )}
         <div className="values">
           <span>{this.getParsedY()}</span>
           <span>{this.getParsedX()}</span>
