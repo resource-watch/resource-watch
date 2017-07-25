@@ -72,7 +72,9 @@ class MyRWWidgetsEdit extends React.Component {
 
   @Autobind
   async onSubmit(event) {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
 
     this.setState({
       loading: true
@@ -148,6 +150,7 @@ class MyRWWidgetsEdit extends React.Component {
             loading: false,
             error: false
           });
+          alert('Widget updated successfully!'); // eslint-disable-line no-alert
         }
       }).catch((err) => {
         this.setState({
@@ -226,6 +229,7 @@ class MyRWWidgetsEdit extends React.Component {
             dataset={widget.attributes.dataset}
             availableVisualizations={['chart', 'table']}
             mode="widget"
+            onUpdateWidget={this.onSubmit}
             showSaveButton
           />
           <div className="form-container">

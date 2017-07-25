@@ -375,66 +375,8 @@ class WidgetEditor extends React.Component {
    * Update the user's widget
    */
   @Autobind
-  async handleUpdateWidget() {
-    this.setState({ updating: true });
-
-    const { widgetEditor, dataset, user, widget } = this.props;
-    const {
-      limit,
-      value,
-      category,
-      color,
-      size,
-      orderBy,
-      aggregateFunction,
-      chartType,
-      filters,
-      tableName
-    } = widgetEditor;
-
-    let chartConfig;
-    try {
-      chartConfig = await getChartConfig(widgetEditor, tableName, dataset);
-    } catch (err) {
-      // TODO: properly handle the error case in the UI
-      alert('Unable to update the widget'); // eslint-disable-line no-alert
-    }
-
-    const widgetConfig = {
-      widgetConfig: Object.assign({},
-        {
-          paramsConfig: {
-            limit,
-            value,
-            category,
-            color,
-            size,
-            orderBy,
-            aggregateFunction,
-            chartType,
-            filters
-          }
-        },
-        chartConfig
-      )
-    };
-
-    const widgetObj = Object.assign({},
-      {
-        application: widget.attributes.application,
-        name: widget.attributes.name,
-        id: widget.id
-      },
-      widgetConfig
-    );
-
-    this.widgetService.updateUserWidget(widgetObj, dataset, user.token)
-      .then(() => {
-        this.setState({ updating: false });
-        alert('Widget updated successfully!'); // eslint-disable-line no-alert
-      })
-      // TODO: properly handle the error case
-      .catch(() => console.error('Unable to update the widget'));
+  handleUpdateWidget() {
+    this.props.onUpdateWidget();
   }
 
   /**
@@ -455,16 +397,14 @@ class WidgetEditor extends React.Component {
       fieldsError,
       layersError,
       layersLoaded,
-      layers,
-      updating
+      layers
     } = this.state;
     let { jiminy } = this.state;
     const { dataset, mode, showSaveButton } = this.props;
 
     // Whether we're still waiting for some data
     const loading = (mode === 'dataset' && !layersLoaded)
-      || (!fieldsError && !jiminyLoaded)
-      || (mode === 'widget' && updating);
+      || (!fieldsError && !jiminyLoaded);
 
     const chartEditorMode = (mode === 'dataset') ? 'save' : 'update';
 
@@ -568,6 +508,7 @@ WidgetEditor.propTypes = {
   availableVisualizations: PropTypes.arrayOf(
     PropTypes.oneOf(VISUALIZATION_TYPES.map(viz => viz.value))
   ),
+  onUpdateWidget: PropTypes.func,
   // Store
   user: PropTypes.object.isRequired,
   widgetEditor: PropTypes.object.isRequired,

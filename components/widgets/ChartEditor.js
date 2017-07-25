@@ -43,9 +43,7 @@ class ChartEditor extends React.Component {
 
   @Autobind
   handleUpdateWidget() {
-    if (confirm('Are you sure you want to update your widget?')) { // eslint-disable-line no-alert
-      this.props.onUpdateWidget();
-    }
+    this.props.onUpdateWidget();
   }
 
   @Autobind
@@ -149,7 +147,7 @@ class ChartEditor extends React.Component {
             tabIndex={0}
             onClick={this.handleUpdateWidget}
           >
-            Update widget
+            Save widget
           </a>
           }
         </div>
