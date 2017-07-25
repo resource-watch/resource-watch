@@ -128,7 +128,7 @@ class MyRWWidgetsMy extends React.Component {
             </div>
             <Spinner
               isLoading={!myWidgetsLoaded}
-              className="-relative -light"
+              className="-fixed -light"
             />
             {myWidgets &&
             <WidgetList
