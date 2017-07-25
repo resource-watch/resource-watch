@@ -156,7 +156,7 @@ class VegaChart extends React.Component {
       const d1 = visData[i];
       data = (d0 && d1 && (x - d0.x > d1.x - x)) ? d1 : d0;
     }
-    if (getType('x', x)) {
+    if (getType('x', x) === 'date') {
       const timestamp = x.getTime ? x.getTime() : x;
       const bisectDate = bisector(d => d.x).left;
       const i = bisectDate(sortedVisData, timestamp, 1);
