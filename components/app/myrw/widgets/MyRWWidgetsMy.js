@@ -13,6 +13,7 @@ import WidgetService from 'services/WidgetService';
 // Components
 import Spinner from 'components/ui/Spinner';
 import WidgetList from 'components/widgets/WidgetList';
+import Icon from 'components/ui/Icon';
 
 class MyRWWidgetsMy extends React.Component {
 
@@ -22,7 +23,8 @@ class MyRWWidgetsMy extends React.Component {
     this.state = {
       user: null,
       myWidgetsLoaded: false,
-      myWidgets: null
+      myWidgets: null,
+      mode: 'grid'
     };
 
     // User service
@@ -65,12 +67,35 @@ class MyRWWidgetsMy extends React.Component {
     this.loadWidgets(this.props);
   }
 
+  @Autobind
+  setMode(value) {
+    this.setState({
+      mode: value
+    });
+  }
+
   render() {
-    const { myWidgetsLoaded, myWidgets } = this.state;
+    const { myWidgetsLoaded, myWidgets, mode } = this.state;
     return (
       <div className="c-myrw-widgets-my">
         <div className="row">
           <div className="column small-12">
+            <div className="list-actions">
+              <button
+                className={(mode === 'grid' ? '-active' : '')}
+                onClick={() => this.setMode('grid')}
+                title="Grid view"
+              >
+                <Icon name="icon-view-grid" />
+              </button>
+              <button
+                className={(mode === 'list' ? '-active' : '')}
+                onClick={() => this.setMode('list')}
+                title="List view"
+              >
+                <Icon name="icon-view-list" />
+              </button>
+            </div>
             <Spinner
               isLoading={!myWidgetsLoaded}
               className="-relative -light"
@@ -78,7 +103,7 @@ class MyRWWidgetsMy extends React.Component {
             {myWidgets &&
             <WidgetList
               widgets={myWidgets}
-              mode="grid"
+              mode={mode}
               onWidgetRemove={this.handleWidgetRemoved}
             />
             }

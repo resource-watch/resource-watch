@@ -1,5 +1,18 @@
 .c-myrw-widgets-my {
 
+  .list-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      cursor: pointer;
+
+      &.-active {
+        fill: $color-grey;
+      }
+    }
+  }
+
   .no-widgets-div {
     display: flex;
     justify-content: center;
