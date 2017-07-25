@@ -122,18 +122,20 @@ class VegaChart extends React.Component {
       });
     }
 
-    // If the chart doesn't have an x axis, if the data is undefined
-    // or if the chart is a scatter plot [1], we don't determine the
-    // data to show in the tooltip depending on the x position of
-    // the cursor (based on the x scale)
+    // If the chart doesn't have an x axis, if the data is undefined,
+    // if the x value is null [1] or if the chart is a scatter plot [2],
+    // we don't determine the data to show in the tooltip depending
+    // on the x position of the cursor (based on the x scale)
     // We actually hide the tooltip
     //
-    // [1] As the scatter plot can have several points at the same
+    // [1] Null or undefined values can arise from the padding of
+    //     the charts
+    // [2] As the scatter plot can have several points at the same
     //     x position, we want to avoid showing the data of a
     //     random point when not hovering a dot
     const hasXAxis = !!(vegaConfig.axes && vegaConfig.axes.find(axis => axis.type === 'x'));
     const isScatter = vegaConfig.marks.length === 1 && vegaConfig.marks[0].type === 'symbol';
-    if (!hasXAxis || !visData || isScatter) {
+    if (!hasXAxis || !visData || x === undefined || x === null || isScatter) {
       return this.props.toggleTooltip(false);
     }
 
