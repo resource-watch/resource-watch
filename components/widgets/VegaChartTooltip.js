@@ -6,7 +6,8 @@ import { format, time } from 'd3';
 import { getTimeFormat } from 'utils/widgets/WidgetHelper';
 
 // Global functions
-const getRoundNumber = format('.0f');
+// eslint-disable-next-line no-confusing-arrow
+const getRoundNumber = number => Math.abs(number % 1) > 0 ? format('.2f')(number) : number;
 const getSINumber = format('.2s');
 
 class VegaChartTooltip extends React.Component {
