@@ -3,4 +3,42 @@
   .c-widget-editor {
     margin-top: 40px;
   }
+
+  .form-container {
+    margin-top: 100px;
+
+    .c-field-container {
+
+      input {
+        min-width: 100%;
+      }
+
+      border-bottom: 1px solid #CBCCD0;
+      padding-bottom: 50px;
+
+    }
+
+    .source-container {
+      display: flex;
+      justify-content: space-between;
+
+      .c-field {
+        width: 100%;
+
+        &:last-of-type {
+          margin-left: 20px;
+        }
+      }
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 48px;
+
+      button {
+        width: 110px  ;
+      }
+    }
+  }
 }

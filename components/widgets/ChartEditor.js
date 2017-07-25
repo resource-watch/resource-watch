@@ -43,7 +43,7 @@ class ChartEditor extends React.Component {
 
   @Autobind
   handleUpdateWidget() {
-    if (confirm('Are you sure you want to update your widget?')) {
+    if (confirm('Are you sure you want to update your widget?')) { // eslint-disable-line no-alert
       this.props.onUpdateWidget();
     }
   }
@@ -56,6 +56,11 @@ class ChartEditor extends React.Component {
     };
     this.props.toggleModal(true);
     this.props.setModalOptions(options);
+  }
+
+  @Autobind
+  handleShareEmbed() {
+
   }
 
   render() {
@@ -122,13 +127,26 @@ class ChartEditor extends React.Component {
           </button>
           {showSaveButtonFlag && mode === 'save' &&
           <a
+            role="button"
+            tabIndex={-2}
             onClick={this.handleSaveWidget}
           >
             Save widget
           </a>
           }
+          {mode === 'update' &&
+          <a
+            role="button"
+            tabIndex={-1}
+            onClick={this.handleShareEmbed}
+          >
+            Share/embed
+          </a>
+          }
           {showUpdateButton && mode === 'update' &&
           <a
+            role="button"
+            tabIndex={0}
             onClick={this.handleUpdateWidget}
           >
             Update widget

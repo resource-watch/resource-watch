@@ -121,7 +121,8 @@ class WidgetEditor extends React.Component {
     // NOTE: this can't be moved to componentWillUpdate because
     // this.fetchChartConfig uses the store
     if (canRenderChart(this.props.widgetEditor)
-      && !isEqual(previousProps.widgetEditor, this.props.widgetEditor)) {
+      && !isEqual(previousProps.widgetEditor, this.props.widgetEditor)
+      && this.state.tableName !== null) {
       this.fetchChartConfig();
     }
   }
@@ -220,7 +221,12 @@ class WidgetEditor extends React.Component {
    */
   getTableName() {
     this.datasetService.fetchData()
-      .then(({ attributes }) => this.setState({ tableName: attributes.tableName }))
+      .then(({ attributes }) => {
+        this.setState({ tableName: attributes.tableName });
+        if (this.props.mode === 'widget') {
+          this.fetchChartConfig();
+        }
+      })
       // TODO: handle the error case
       .catch(() => console.error('Unable to load the table name'));
   }
