@@ -24,7 +24,8 @@ class MyRWWidgetsMy extends React.Component {
       user: null,
       myWidgetsLoaded: false,
       myWidgets: null,
-      mode: 'grid'
+      mode: 'grid',
+      orderDirection: 'asc'
     };
 
     // User service
@@ -74,27 +75,53 @@ class MyRWWidgetsMy extends React.Component {
     });
   }
 
+  @Autobind
+  handleOrderChange() {
+    const newOrder = this.state.orderDirection === 'asc' ? 'desc' : 'asc';
+    this.setState({
+      orderDirection: newOrder
+    });
+  }
+
   render() {
-    const { myWidgetsLoaded, myWidgets, mode } = this.state;
+    const { myWidgetsLoaded, myWidgets, mode, orderDirection } = this.state;
     return (
       <div className="c-myrw-widgets-my">
         <div className="row">
           <div className="column small-12">
             <div className="list-actions">
-              <button
-                className={(mode === 'grid' ? '-active' : '')}
-                onClick={() => this.setMode('grid')}
-                title="Grid view"
+              <div
+                role="button"
+                tabIndex={0}
+                className="last-modified-container"
+                onClick={this.handleOrderChange}
               >
-                <Icon name="icon-view-grid" />
-              </button>
-              <button
-                className={(mode === 'list' ? '-active' : '')}
-                onClick={() => this.setMode('list')}
-                title="List view"
-              >
-                <Icon name="icon-view-list" />
-              </button>
+                <a>
+                  Last modified
+                </a>
+                {orderDirection === 'asc' &&
+                  <Icon className="-small" name="icon-arrow-up" />
+                }
+                {orderDirection === 'desc' &&
+                  <Icon className="-small" name="icon-arrow-down" />
+                }
+              </div>
+              <div className="mode-buttons">
+                <button
+                  className={(mode === 'grid' ? '-active' : '')}
+                  onClick={() => this.setMode('grid')}
+                  title="Grid view"
+                >
+                  <Icon name="icon-view-grid" />
+                </button>
+                <button
+                  className={(mode === 'list' ? '-active' : '')}
+                  onClick={() => this.setMode('list')}
+                  title="List view"
+                >
+                  <Icon name="icon-view-list" />
+                </button>
+              </div>
             </div>
             <Spinner
               isLoading={!myWidgetsLoaded}

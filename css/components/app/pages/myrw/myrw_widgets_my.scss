@@ -2,7 +2,19 @@
 
   .list-actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
+
+    .last-modified-container {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      svg {
+        margin-left: 5px;
+        fill: $color-grey;
+      }
+    }
 
     button {
       cursor: pointer;
