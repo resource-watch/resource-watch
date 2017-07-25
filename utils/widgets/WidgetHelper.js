@@ -58,11 +58,8 @@ function isBidimensionalChart(widgetEditor) {
 }
 
 export function isFieldAllowed(fieldType) {
-  let res = ALLOWED_FIELD_TYPES
+  return ALLOWED_FIELD_TYPES
     .find(val => val.name.toLowerCase() === fieldType.toLowerCase());
-  console.log(res);
-  // console.log(res.filter(val => val.name !== 'cartodb_id'));
-  return res;
 }
 
 export function isFieldNumber(fieldType) {
