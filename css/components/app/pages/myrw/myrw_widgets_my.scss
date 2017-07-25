@@ -6,9 +6,10 @@
 
     button {
       cursor: pointer;
+      fill: $color-grey;
 
       &.-active {
-        fill: $color-grey;
+        fill: $color-black;
       }
     }
   }
@@ -17,5 +18,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .list {
+    padding: 0px;
+
+    .list-item {
+      padding: 0px;
+    }
   }
 }
