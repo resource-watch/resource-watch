@@ -52,10 +52,12 @@ class MyRWWidgetsMy extends React.Component {
   }
 
   loadWidgets() {
+    const { orderDirection } = this.state;
     this.setState({
       myWidgetsLoaded: false
     });
-    this.widgetService.getUserWidgets(this.props.user.id).then((response) => {
+    this.widgetService.getUserWidgets(this.props.user.id, true, orderDirection)
+    .then((response) => {
       this.setState({
         myWidgetsLoaded: true,
         myWidgets: response
@@ -80,7 +82,8 @@ class MyRWWidgetsMy extends React.Component {
     const newOrder = this.state.orderDirection === 'asc' ? 'desc' : 'asc';
     this.setState({
       orderDirection: newOrder
-    });
+    },
+    () => this.loadWidgets());
   }
 
   render() {
