@@ -58,8 +58,10 @@ export default class WidgetService {
     .then(response => response.json());
   }
 
-  getUserWidgets(userId) {
-    return fetch(`${this.opts.apiURL}/widget/?userId=${userId}`)
+  getUserWidgets(userId, sortByUpdatedAt = true, direction = 'asc') {
+    const directionPart = (direction === 'asc') ? '&sort=updatedAt' : '&sort=-updatedAt';
+    const sortSt = sortByUpdatedAt ? directionPart : '';
+    return fetch(`${this.opts.apiURL}/widget/?userId=${userId}${sortSt}`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
