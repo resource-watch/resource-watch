@@ -67,7 +67,8 @@ const columnType = PropTypes.shape({
   label: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
   // Range needed to properly display the dates
-  range: PropTypes.arrayOf(PropTypes.number)
+  // Either a timestamp or a date object
+  range: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.object]))
 });
 
 VegaChartTooltip.propTypes = {
