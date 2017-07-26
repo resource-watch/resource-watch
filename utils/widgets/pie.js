@@ -1,5 +1,6 @@
 import deepClone from 'lodash/cloneDeep';
 import isArray from 'lodash/isArray';
+import { scale } from 'd3';
 
 /* eslint-disable */
 const defaultChart = {
@@ -21,6 +22,8 @@ const defaultChart = {
       "name": "c",
       "type": "ordinal",
       "domain": {"data": "table", "field": "x"},
+      // If you update this range, don't forget to
+      // update the code below
       "range": "category20"
     }
   ],
@@ -65,24 +68,27 @@ const defaultChart = {
           "fill": {"scale": "c", "field": "x"}
         }
       }
-    },
-    {
-      "type": "text",
-      "from": {"data": "table"},
-      "properties": {
-        "enter": {
-          "x": {"field": {"group": "width"}, "mult": 0.5},
-          "y": {"field": {"group": "height"}, "mult": 0.5},
-          "radius": {"value": 110},
-          "theta": {"field": "layout_mid"},
-          "fill": {"value": "#000"},
-          "align": {"value": "center"},
-          "baseline": {"value": "middle"},
-          "text": {"field": "x"},
-          "opacity": {"value": 0.6}
-        }
-      }
     }
+    // If everyone's ok having the value displayed in the
+    // legend instead of on the chart, we can permanently
+    // delete the following bit
+    // {
+    //   "type": "text",
+    //   "from": {"data": "table"},
+    //   "properties": {
+    //     "enter": {
+    //       "x": {"field": {"group": "width"}, "mult": 0.5},
+    //       "y": {"field": {"group": "height"}, "mult": 0.5},
+    //       "radius": {"value": 110},
+    //       "theta": {"field": "layout_mid"},
+    //       "fill": {"value": "#000"},
+    //       "align": {"value": "center"},
+    //       "baseline": {"value": "middle"},
+    //       "text": {"field": "x"},
+    //       "opacity": {"value": 0.6}
+    //     }
+    //   }
+    // }
   ]
 }
 
@@ -149,6 +155,20 @@ export default function ({ columns, data }) {
       "field": "size",
       "offset": 10
     }
+  }
+
+  // We add a default legend to the chart
+  // In the default template above, category20 is used
+  if (hasAccessToData) {
+    const colorRange = scale.category20().range();
+    config.legend = [
+      {
+        type: 'color',
+        label: null,
+        shape: 'square',
+        values: data.map((d, i) => ({ label: d.x, value: colorRange[i % 20] }))
+      }
+    ];
   }
 
   return config;

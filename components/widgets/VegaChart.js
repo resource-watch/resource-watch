@@ -14,6 +14,7 @@ import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import VegaChartTooltip from './VegaChartTooltip';
+import VegaChartLegend from './VegaChartLegend';
 
 class VegaChart extends React.Component {
 
@@ -303,6 +304,8 @@ class VegaChart extends React.Component {
   }
 
   render() {
+    const vegaConfig = this.getVegaConfig();
+
     return (
       <div
         className="c-chart"
@@ -310,6 +313,7 @@ class VegaChart extends React.Component {
         ref={(el) => { this.chartViewportContainer = el; }}
       >
         <div ref={(c) => { this.chart = c; }} className="chart" />
+        { vegaConfig.legend && <VegaChartLegend config={vegaConfig.legend} /> }
       </div>
     );
   }
