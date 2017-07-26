@@ -73,6 +73,12 @@ export default function ({ columns, data }) {
     };
   }
 
+  // We add the name of the axis
+  const xAxis = config.axes.find(a => a.type === 'x');
+  const yAxis = config.axes.find(a => a.type === 'y');
+  xAxis.name = columns.x.name;
+  yAxis.name = columns.y.name;
+
   // If the x column is a date, we need to use a
   // temporal x scale and parse the x column as a date
   if (columns.x.type === 'date') {
@@ -85,7 +91,6 @@ export default function ({ columns, data }) {
     config.data[0].format.parse = { x: 'date' };
 
     // We make the axis use temporal ticks
-    const xAxis = config.axes.find(axis => axis.type === 'x');
     xAxis.formatType = 'time';
 
     // If we have access to the data, we should be able to

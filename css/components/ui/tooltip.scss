@@ -1,12 +1,48 @@
 .c-tooltip {
   position: fixed;
+  padding: 15px;
   background-color: $color-white;
   border-radius: 3px;
-  padding: $space-1;
-  box-shadow: 0 0 4px rgba(0, 0, 0, .5);
+  border: 1px solid rgba(26, 28, 34, .1);
+  box-shadow: 0 20px 30px 0 rgba(0, 0, 0, .1);
   z-index: 10001;
 
-  &.-arrow{
+  &.-arrow {
+    &-top {
+      &::after {
+        display: block;
+        position: absolute;
+        top: -8px;
+        left: 50%;
+        width: 15px;
+        height: 15px;
+        background-color: $color-white;
+        border: 1px solid rgba(26, 28, 34, .1);
+        border-bottom-color: transparent;
+        border-left-color: transparent;
+        transform: translateX(-50%) rotate(-45deg);
+        content: '';
+      }
+    }
+
+    &-bottom {
+      &::after {
+        display: block;
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        width: 15px;
+        height: 15px;
+        background-color: $color-white;
+        border: 1px solid rgba(26, 28, 34, .1);
+        border-top-color: transparent;
+        border-left-color: transparent;
+        transform: translateX(-50%) rotate(45deg);
+        content: '';
+      }
+    }
+
+    // TODO: Legacy, check if used somewhere
     &-right {
       &:after {
         content: '';

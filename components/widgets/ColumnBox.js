@@ -117,8 +117,12 @@ class ColumnBox extends React.Component {
   onApplyAggregateFunction(aggregateFunction) {
     this.setState({ aggregateFunction });
 
+    // We don't want to save "none" in the store when in reality
+    // there isn't any aggregate function applied
+    const value = aggregateFunction === 'none' ? null : aggregateFunction;
+
     if (this.props.onConfigure) {
-      this.props.onConfigure({ name: this.props.name, value: aggregateFunction });
+      this.props.onConfigure({ name: this.props.name, value });
     }
   }
 
@@ -322,7 +326,7 @@ class ColumnBox extends React.Component {
           className="-smaller"
         />
         { (name.length > NAME_MAX_LENGTH) ? `${name.substr(0, NAME_MAX_LENGTH - 1)}...` : name }
-        {isA === 'value' && aggregateFunction && aggregateFunction !== 'none' &&
+        {isA === 'value' && aggregateFunction &&
           <div className="aggregate-function">
             {aggregateFunction}
           </div>

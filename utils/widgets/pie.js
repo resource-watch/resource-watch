@@ -24,6 +24,32 @@ const defaultChart = {
       "range": "category20"
     }
   ],
+  // This axis is not used by the marks
+  // but is necessary for the tooltip to show
+  axes: [
+    {
+      "type": "x",
+      "scale": "r",
+      "ticks": 0,
+      "tickSize": 0,
+      "properties": {
+        "labels": {
+          "text": {"template": ""},
+        }
+      }
+    },
+    {
+      "type": "y",
+      "scale": "r",
+      "ticks": 0,
+      "tickSize": 0,
+      "properties": {
+        "labels": {
+          "text": {"template": ""},
+        }
+      }
+    }
+  ],
   "marks": [
     {
       "type": "arc",
@@ -87,6 +113,14 @@ export default function ({ columns, data }) {
   config.data[0].transform = [{
     "type": "pie", "field": "y"
   }];
+
+  // We add the name of the axis
+  // We don't have real x and y axis for the pie
+  // chart but we use them for the tooltip
+  const xAxis = config.axes.find(a => a.type === 'x');
+  const yAxis = config.axes.find(a => a.type === 'y');
+  xAxis.name = columns.x.name;
+  yAxis.name = columns.y.name;
 
   if (columns.color.present) {
     const colorScale = config.scales.find(scale => scale.name === 'c');
