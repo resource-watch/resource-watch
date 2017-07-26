@@ -144,7 +144,8 @@ class WidgetEditor extends React.Component {
 
     this.datasetService.getFields()
       .then((response) => {
-        const fieldsError = !response.fields || !response.fields.length;
+        const fields = response.fields.filter(field => !!isFieldAllowed(field));
+        const fieldsError = !response.fields || !response.fields.length || fields.length === 0;
 
         this.setState({
           fieldsLoaded: true,
@@ -155,7 +156,6 @@ class WidgetEditor extends React.Component {
           // else
           if (fieldsError) return;
 
-          const fields = response.fields.filter(field => !!isFieldAllowed(field.columnType));
           this.props.setFields(fields);
           resolve();
         });
@@ -205,7 +205,7 @@ class WidgetEditor extends React.Component {
     // We get the name of the columns that we can use to build the
     // charts
     const fieldsSt = this.state.fields
-      .filter(field => isFieldAllowed(field.columnType))
+      .filter(field => isFieldAllowed(field))
       .map(elem => elem.columnName);
 
     const querySt = `SELECT ${fieldsSt} FROM ${this.props.dataset} LIMIT 300`;

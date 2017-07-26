@@ -295,7 +295,7 @@ class ColumnBox extends React.Component {
 
     const orderType = orderBy ? orderBy.orderType : null;
     let iconName;
-    switch (isFieldAllowed(type).type) {
+    switch (isFieldAllowed({ columnType: type }).type) {
       case 'number':
         iconName = 'icon-item-number';
         break;
