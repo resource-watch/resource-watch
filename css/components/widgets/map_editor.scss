@@ -1,5 +1,20 @@
 .c-map-editor {
-
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 370px;
   margin-top: 20px;
 
+
+  .actions-container {
+    color: $color-dark-pink;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 10px;
+
+    a {
+      cursor: pointer;
+    }
+  }
 }

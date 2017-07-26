@@ -17,30 +17,47 @@ class MapEditor extends React.Component {
     this.props.showLayer(this.props.layers.find(val => val.id === layerID));
   }
 
+  @Autobind
+  handleEmbedMap() {
+    const { layer } = this.props.widgetEditor;
+  }
+
   render() {
     const { widgetEditor, layers } = this.props;
     const { layer } = widgetEditor;
 
     return (
       <div className="c-map-editor">
-        <h5>
-          Layers
-        </h5>
-        <Select
-          properties={{
-            name: 'layer-selector',
-            value: layer && layer.id,
-            default: layer && layer.id
-          }}
-          options={layers.map(val => (
-            {
-              label: val.name,
-              value: val.id
-            }
-          ))}
-          onChange={this.handleLayerChange}
-
-        />
+        <div className="selector-container">
+          <h5>
+            Layers
+          </h5>
+          <Select
+            properties={{
+              name: 'layer-selector',
+              value: layer && layer.id,
+              default: layer && layer.id
+            }}
+            options={layers.map(val => (
+              {
+                label: val.name,
+                value: val.id
+              }
+            ))}
+            onChange={this.handleLayerChange}
+          />
+        </div>
+        {layer &&
+          <div className="actions-container">
+            <a
+              tabIndex={0}
+              role="button"
+              onClick={this.handleEmbedMap}
+            >
+              Embed Map
+            </a>
+          </div>
+        }
       </div>
     );
   }
