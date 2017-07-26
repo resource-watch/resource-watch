@@ -183,13 +183,13 @@ class Home extends Page {
             </div>
             <section id="discoverIsights" className="l-section insights">
               <div className="l-container">
-                <header className="row">
+                <header className="l-row row">
                   <div className="column small-12 medium-8">
                     <h1 className="title c-text -header-huge -primary -thin">Discover Insights</h1>
                   </div>
                 </header>
 
-                <div className="row">
+                <div className="l-row row">
                   <article className="column small-12 medium-5">
                     <p className="intro c-text -extra-big">
                       Read the latest analysis from our community or submit your own original story.
@@ -197,7 +197,7 @@ class Home extends Page {
                   </article>
                 </div>
 
-                <div className="row insight-cards">
+                <div className="l-row row insight-cards">
                   <div className="column small-12 medium-8">
                     {insightsCardsStatic[0]}
                   </div>
@@ -209,7 +209,7 @@ class Home extends Page {
                     </div>
                   </div>
                 </div>
-                <div className="row buttons">
+                <div className="l-row row buttons">
                   <div className="column small-12 medium-4 medium-offset-4">
                     <a href="/insights" className="c-btn -filled -primary">More insights</a>
                   </div>
@@ -220,13 +220,13 @@ class Home extends Page {
 
             <section className="l-section -bg-grey explore">
               <div className="l-container">
-                <header className="row">
+                <header className="l-row row">
                   <div className="column small-12 medium-8">
                     <h1 className="title c-text -header-huge -primary -thin">Explore the data</h1>
                   </div>
                 </header>
 
-                <div className="row">
+                <div className="l-row row">
                   <article className="column small-12 medium-5">
                     <p className="intro c-text -extra-big">
                       Explore, create visualizations, receive updates and contribute with your data.
@@ -234,14 +234,14 @@ class Home extends Page {
                   </article>
                 </div>
 
-                <div className="row explore-cards">
+                <div className="l-row row explore-cards">
                   {exploreCardsStatic}
                 </div>
               </div>
             </section>
 
             <Banner className="get-involved">
-              <div className="row">
+              <div className="l-row row">
                 <div className="column small-12 medium-6">
                   <h1 className="title c-text -header-huge -thin">Get Involved</h1>
                   <p className="c-text -big">
@@ -252,7 +252,7 @@ class Home extends Page {
                   </p>
                 </div>
               </div>
-              <div className="row">
+              <div className="l-row row">
                 <div className="column small-12 medium-3">
                   <button className="c-btn -transparent">
                     <Link route="get_involved_detail" params={{ id: 'contribute-data' }}><a>Contribute data</a></Link>
