@@ -1,0 +1,16 @@
+.c-embed-layer-modal {
+
+  h1 {
+    color: $color-dark-pink;
+    margin-bottom: 40px;
+  }
+
+  .url-container {
+    display: flex;
+
+    input {
+      width: 100%;
+      margin-right: 20px;
+    }
+  }
+}
