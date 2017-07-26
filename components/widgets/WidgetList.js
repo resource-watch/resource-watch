@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { Autobind } from 'es-decorators';
 
 import Spinner from 'components/ui/Spinner';
@@ -30,7 +31,15 @@ export default class WidgetList extends React.Component {
 
   render() {
     const { loading } = this.state;
-    const { widgets, showRemove, showEmbed } = this.props;
+    const { widgets, showRemove, showEmbed, mode } = this.props;
+
+    const newClassName = classNames({
+      column: true,
+      'list-item': true,
+      'small-12': true,
+      'medium-4': mode === 'grid',
+      [`-${mode}`]: true
+    });
 
     return (
       <div className="c-widget-list">
@@ -41,7 +50,7 @@ export default class WidgetList extends React.Component {
           {widgets.map(widget =>
             (<li
               key={widget.id}
-              className="list-item"
+              className={newClassName}
             >
               <WidgetCard
                 widget={widget}
@@ -68,6 +77,7 @@ WidgetList.propTypes = {
   widgets: PropTypes.array.isRequired,
   showEmbed: PropTypes.bool,
   showRemove: PropTypes.bool,
+  mode: PropTypes.string.isRequired, // grid|list
   // Callbacks
   onWidgetRemove: PropTypes.func
 };

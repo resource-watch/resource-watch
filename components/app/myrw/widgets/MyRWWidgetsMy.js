@@ -13,6 +13,7 @@ import WidgetService from 'services/WidgetService';
 // Components
 import Spinner from 'components/ui/Spinner';
 import WidgetList from 'components/widgets/WidgetList';
+import Icon from 'components/ui/Icon';
 
 class MyRWWidgetsMy extends React.Component {
 
@@ -22,7 +23,9 @@ class MyRWWidgetsMy extends React.Component {
     this.state = {
       user: null,
       myWidgetsLoaded: false,
-      myWidgets: null
+      myWidgets: null,
+      mode: 'grid',
+      orderDirection: 'asc'
     };
 
     // User service
@@ -49,10 +52,12 @@ class MyRWWidgetsMy extends React.Component {
   }
 
   loadWidgets() {
+    const { orderDirection } = this.state;
     this.setState({
       myWidgetsLoaded: false
     });
-    this.widgetService.getUserWidgets(this.props.user.id).then((response) => {
+    this.widgetService.getUserWidgets(this.props.user.id, true, orderDirection)
+    .then((response) => {
       this.setState({
         myWidgetsLoaded: true,
         myWidgets: response
@@ -65,20 +70,70 @@ class MyRWWidgetsMy extends React.Component {
     this.loadWidgets(this.props);
   }
 
+  @Autobind
+  setMode(value) {
+    this.setState({
+      mode: value
+    });
+  }
+
+  @Autobind
+  handleOrderChange() {
+    const newOrder = this.state.orderDirection === 'asc' ? 'desc' : 'asc';
+    this.setState({
+      orderDirection: newOrder
+    },
+    () => this.loadWidgets());
+  }
+
   render() {
-    const { myWidgetsLoaded, myWidgets } = this.state;
+    const { myWidgetsLoaded, myWidgets, mode, orderDirection } = this.state;
     return (
       <div className="c-myrw-widgets-my">
         <div className="row">
           <div className="column small-12">
+            <div className="list-actions">
+              <div
+                role="button"
+                tabIndex={0}
+                className="last-modified-container"
+                onClick={this.handleOrderChange}
+              >
+                <a>
+                  Last modified
+                </a>
+                {orderDirection === 'asc' &&
+                  <Icon className="-small" name="icon-arrow-up" />
+                }
+                {orderDirection === 'desc' &&
+                  <Icon className="-small" name="icon-arrow-down" />
+                }
+              </div>
+              <div className="mode-buttons">
+                <button
+                  className={(mode === 'grid' ? '-active' : '')}
+                  onClick={() => this.setMode('grid')}
+                  title="Grid view"
+                >
+                  <Icon name="icon-view-grid" />
+                </button>
+                <button
+                  className={(mode === 'list' ? '-active' : '')}
+                  onClick={() => this.setMode('list')}
+                  title="List view"
+                >
+                  <Icon name="icon-view-list" />
+                </button>
+              </div>
+            </div>
             <Spinner
               isLoading={!myWidgetsLoaded}
-              className="-relative -light"
+              className="-fixed -light"
             />
             {myWidgets &&
             <WidgetList
               widgets={myWidgets}
-              mode="grid"
+              mode={mode}
               onWidgetRemove={this.handleWidgetRemoved}
             />
             }

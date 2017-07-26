@@ -121,7 +121,8 @@ class WidgetEditor extends React.Component {
     // NOTE: this can't be moved to componentWillUpdate because
     // this.fetchChartConfig uses the store
     if (canRenderChart(this.props.widgetEditor)
-      && !isEqual(previousProps.widgetEditor, this.props.widgetEditor)) {
+      && !isEqual(previousProps.widgetEditor, this.props.widgetEditor)
+      && this.state.tableName !== null) {
       this.fetchChartConfig();
     }
   }
@@ -143,7 +144,8 @@ class WidgetEditor extends React.Component {
 
     this.datasetService.getFields()
       .then((response) => {
-        const fieldsError = !response.fields || !response.fields.length;
+        const fields = response.fields.filter(field => !!isFieldAllowed(field));
+        const fieldsError = !response.fields || !response.fields.length || fields.length === 0;
 
         this.setState({
           fieldsLoaded: true,
@@ -154,7 +156,6 @@ class WidgetEditor extends React.Component {
           // else
           if (fieldsError) return;
 
-          const fields = response.fields.filter(field => !!isFieldAllowed(field.columnType));
           this.props.setFields(fields);
           resolve();
         });
@@ -204,7 +205,7 @@ class WidgetEditor extends React.Component {
     // We get the name of the columns that we can use to build the
     // charts
     const fieldsSt = this.state.fields
-      .filter(field => isFieldAllowed(field.columnType))
+      .filter(field => isFieldAllowed(field))
       .map(elem => elem.columnName);
 
     const querySt = `SELECT ${fieldsSt} FROM ${this.props.dataset} LIMIT 300`;
@@ -220,7 +221,12 @@ class WidgetEditor extends React.Component {
    */
   getTableName() {
     this.datasetService.fetchData()
-      .then(({ attributes }) => this.setState({ tableName: attributes.tableName }))
+      .then(({ attributes }) => {
+        this.setState({ tableName: attributes.tableName });
+        if (this.props.mode === 'widget') {
+          this.fetchChartConfig();
+        }
+      })
       // TODO: handle the error case
       .catch(() => console.error('Unable to load the table name'));
   }
@@ -369,66 +375,8 @@ class WidgetEditor extends React.Component {
    * Update the user's widget
    */
   @Autobind
-  async handleUpdateWidget() {
-    this.setState({ updating: true });
-
-    const { widgetEditor, dataset, user, widget } = this.props;
-    const {
-      limit,
-      value,
-      category,
-      color,
-      size,
-      orderBy,
-      aggregateFunction,
-      chartType,
-      filters,
-      tableName
-    } = widgetEditor;
-
-    let chartConfig;
-    try {
-      chartConfig = await getChartConfig(widgetEditor, tableName, dataset);
-    } catch (err) {
-      // TODO: properly handle the error case in the UI
-      alert('Unable to update the widget'); // eslint-disable-line no-alert
-    }
-
-    const widgetConfig = {
-      widgetConfig: Object.assign({},
-        {
-          paramsConfig: {
-            limit,
-            value,
-            category,
-            color,
-            size,
-            orderBy,
-            aggregateFunction,
-            chartType,
-            filters
-          }
-        },
-        chartConfig
-      )
-    };
-
-    const widgetObj = Object.assign({},
-      {
-        application: widget.attributes.application,
-        name: widget.attributes.name,
-        id: widget.id
-      },
-      widgetConfig
-    );
-
-    this.widgetService.updateUserWidget(widgetObj, dataset, user.token)
-      .then(() => {
-        this.setState({ updating: false });
-        alert('Widget updated successfully!'); // eslint-disable-line no-alert
-      })
-      // TODO: properly handle the error case
-      .catch(() => console.error('Unable to update the widget'));
+  handleUpdateWidget() {
+    this.props.onUpdateWidget();
   }
 
   /**
@@ -449,16 +397,14 @@ class WidgetEditor extends React.Component {
       fieldsError,
       layersError,
       layersLoaded,
-      layers,
-      updating
+      layers
     } = this.state;
     let { jiminy } = this.state;
     const { dataset, mode, showSaveButton } = this.props;
 
     // Whether we're still waiting for some data
     const loading = (mode === 'dataset' && !layersLoaded)
-      || (!fieldsError && !jiminyLoaded)
-      || (mode === 'widget' && updating);
+      || (!fieldsError && !jiminyLoaded);
 
     const chartEditorMode = (mode === 'dataset') ? 'save' : 'update';
 
@@ -562,6 +508,7 @@ WidgetEditor.propTypes = {
   availableVisualizations: PropTypes.arrayOf(
     PropTypes.oneOf(VISUALIZATION_TYPES.map(viz => viz.value))
   ),
+  onUpdateWidget: PropTypes.func,
   // Store
   user: PropTypes.object.isRequired,
   widgetEditor: PropTypes.object.isRequired,

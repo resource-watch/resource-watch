@@ -1,8 +1,42 @@
 .c-myrw-widgets-my {
 
+  .list-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .last-modified-container {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      svg {
+        margin-left: 5px;
+        fill: $color-grey;
+      }
+    }
+
+    button {
+      cursor: pointer;
+      fill: $color-grey;
+
+      &.-active {
+        fill: $color-black;
+      }
+    }
+  }
+
   .no-widgets-div {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .list {
+    padding: 0px;
+
+    .list-item {
+      padding: 0px;
+    }
   }
 }

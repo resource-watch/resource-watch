@@ -97,5 +97,20 @@ export default function ({ columns, data }) {
     }
   }
 
+  // If all the "dots" have the exact same y position,
+  // the chart won't have any height
+  // To fix that, we force the domain of the y scale
+  // to be around the value
+  const oneYValue = data.length && data.every(d => d.y === data[0].y);
+  if (data.length === 1 || oneYValue) {
+    const yScale = config.scales.find(scale => scale.name === 'y');
+
+    // The step is 20% of the value
+    const step = data[0].y * 0.2;
+    
+    // We fix the domain around the value
+    yScale.domain = [data[0].y - step, data[0].y + step];
+  }
+
   return config;
 };

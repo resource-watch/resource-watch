@@ -84,7 +84,7 @@ class MyRWWidgetsStarred extends React.Component {
               widgets={starredWidgets}
               mode="grid"
               showRemove={false}
-              showEmbed={false}
+              showEmbed
             />
             }
             {starredWidgets && starredWidgets.length === 0 &&

@@ -73,7 +73,7 @@ export default class DatasetService {
    */
   getFilter(fieldData) {
     return new Promise((resolve) => {
-      if (isFieldNumber(fieldData.columnType) || isFieldDate(fieldData.columnType)) {
+      if (isFieldNumber(fieldData) || isFieldDate(fieldData)) {
         this.getMinAndMax(fieldData.columnName, fieldData.tableName).then((data) => {
           fieldData.properties = data;
           resolve(fieldData);

@@ -76,7 +76,8 @@ class SaveWidgetModal extends React.Component {
       loading: true
     });
     const { widgetEditor, tableName, dataset } = this.props;
-    const { limit, value, category, color, size, orderBy, aggregateFunction, chartType, filters } = widgetEditor;
+    const { limit, value, category, color, size, orderBy, aggregateFunction,
+      chartType, filters } = widgetEditor;
 
     let chartConfig;
     try {

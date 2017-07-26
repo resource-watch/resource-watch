@@ -57,18 +57,22 @@ function isBidimensionalChart(widgetEditor) {
   return !oneDimensionalChartTypes.includes(widgetEditor.chartType);
 }
 
-export function isFieldAllowed(fieldType) {
-  return ALLOWED_FIELD_TYPES.find(val => val.name.toLowerCase() === fieldType.toLowerCase());
+export function isFieldAllowed(field) {
+  const fieldTypeAllowed = ALLOWED_FIELD_TYPES
+    .find(val => val.name.toLowerCase() === field.columnType.toLowerCase());
+  const isCartodbId = field.columnName === 'cartodb_id';
+  const result = !isCartodbId && fieldTypeAllowed;
+  return result;
 }
 
-export function isFieldNumber(fieldType) {
-  const field = isFieldAllowed(fieldType);
-  return field ? field.type === 'number' : false;
+export function isFieldNumber(field) {
+  const fieldd = isFieldAllowed(field);
+  return fieldd ? field.type === 'number' : false;
 }
 
-export function isFieldDate(fieldType) {
-  const field = isFieldAllowed(fieldType);
-  return field ? field.type === 'date' : false;
+export function isFieldDate(field) {
+  const fieldd = isFieldAllowed(field);
+  return fieldd ? field.type === 'date' : false;
 }
 
 export function getChartType(type) {
