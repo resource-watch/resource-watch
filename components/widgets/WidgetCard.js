@@ -14,10 +14,11 @@ import Title from 'components/ui/Title';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import EmbedMyWidgetModal from 'components/modal/EmbedMyWidgetModal';
 import WidgetActionsTooltip from 'components/widgets/WidgetActionsTooltip';
+import Icon from 'components/ui/Icon';
 
 // Services
 import WidgetService from 'services/WidgetService';
-
+import UserService from 'services/UserService';
 
 class WidgetCard extends React.Component {
 
@@ -49,12 +50,15 @@ class WidgetCard extends React.Component {
     return text;
   }
 
-  componentWillMount() {
+  constructor(props) {
+    super(props);
+
+    // Services
+    this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
     this.widgetService = new WidgetService(null, {
       apiURL: process.env.WRI_API_URL
     });
   }
-
 
   /*
   * UI EVENTS
@@ -76,7 +80,8 @@ class WidgetCard extends React.Component {
   @Autobind
   handleClick(event) {
     const { widget } = this.props;
-    if (event.target.tagName !== 'A') {
+    const tagName = event.target.tagName;
+    if (tagName !== 'A' && tagName !== 'use') {
       Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my-widgets', element: widget.id });
     }
   }
@@ -114,9 +119,20 @@ class WidgetCard extends React.Component {
       }
     });
   }
+  @Autobind
+  handleStarClick(event) {
+    event.preventDefault();
+    const { widget, user } = this.props;
+    if (confirm(`Are you sure you want to unfavourite the widget ${widget.attributes.name}`)) { // eslint-disable-line no-alert
+      this.userService.deleteFavourite(widget.favouriteId, user.token)
+        .then(() => {
+          this.props.onWidgetUnfavourited();
+        });
+    }
+  }
 
   render() {
-    const { widget, showRemove, showActions, showEmbed } = this.props;
+    const { widget, showRemove, showActions, showEmbed, showStar } = this.props;
 
     return (
       <div
@@ -175,6 +191,16 @@ class WidgetCard extends React.Component {
             </div>
           }
         </div>
+        {showStar &&
+          <a
+            className="star-icon"
+            role="button"
+            tabIndex={0}
+            onClick={this.handleStarClick}
+          >
+            <Icon name="icon-star-full" className="c-icon -small" />
+          </a>
+        }
       </div>
     );
   }
@@ -190,8 +216,10 @@ WidgetCard.propTypes = {
   showActions: PropTypes.bool,
   showRemove: PropTypes.bool,
   showEmbed: PropTypes.bool,
+  showStar: PropTypes.bool,
   // Callbacks
-  onWidgetRemove: PropTypes.func.isRequired,
+  onWidgetRemove: PropTypes.func,
+  onWidgetUnfavourited: PropTypes.func,
   // Store
   user: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,

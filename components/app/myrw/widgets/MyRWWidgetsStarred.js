@@ -69,6 +69,11 @@ class MyRWWidgetsStarred extends React.Component {
     this.loadWidgets(this.props);
   }
 
+  @Autobind
+  handleWidgetUnfavourited() {
+    this.loadWidgets(this.props);
+  }
+
   render() {
     const { starredWidgets, starredWidgetsLoaded } = this.state;
     return (
@@ -84,6 +89,8 @@ class MyRWWidgetsStarred extends React.Component {
               widgets={starredWidgets}
               mode="grid"
               showEmbed
+              showStar
+              onWidgetUnfavourited={this.handleWidgetUnfavourited}
             />
             }
             {starredWidgets && starredWidgets.length === 0 &&
