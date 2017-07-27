@@ -83,7 +83,6 @@ class MyRWWidgetsStarred extends React.Component {
             <WidgetList
               widgets={starredWidgets}
               mode="grid"
-              showRemove={false}
               showEmbed
             />
             }
