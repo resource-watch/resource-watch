@@ -136,7 +136,6 @@ class DashboardCard extends React.Component {
   @Autobind
   handleFavouriteClick() {
     const { isFavourite, widgetId, user } = this.props;
-    console.log('isFavourite', isFavourite);
     this.setState({
       loading: true
     });
