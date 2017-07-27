@@ -43,7 +43,13 @@
     }
 
     .actions {
+      display: flex;
+      justify-content: space-between;
       margin: 0 5px 5px;
+
+      a {
+        color: $color-dark-pink;
+      }
     }
   }
 

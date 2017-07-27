@@ -7,11 +7,13 @@ import { Router } from 'routes';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { toggleModal, setModalOptions } from 'redactions/modal';
+import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import Title from 'components/ui/Title';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import EmbedMyWidgetModal from 'components/modal/EmbedMyWidgetModal';
+import WidgetActionsTooltip from 'components/widgets/WidgetActionsTooltip';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -74,9 +76,21 @@ class WidgetCard extends React.Component {
     this.props.toggleModal(true);
     this.props.setModalOptions(options);
   }
+  @Autobind
+  handleWidgetActionsClick(event) {
+    const position = { x: event.clientX, y: event.clientY };
+    this.props.toggleTooltip(true, {
+      follow: false,
+      position,
+      children: WidgetActionsTooltip,
+      childrenProps: {
+        toggleTooltip: this.props.toggleTooltip
+      }
+    });
+  }
 
   render() {
-    const { widget, showEmbed, showRemove } = this.props;
+    const { widget, showRemove, showActions } = this.props;
 
     return (
       <div
@@ -101,6 +115,16 @@ class WidgetCard extends React.Component {
             <p>{WidgetCard.getDescription(widget.attributes.description)}</p>
           </div>
           <div className="actions">
+            {showActions &&
+              <a
+                className="c-button"
+                onClick={this.handleWidgetActionsClick}
+                role="button"
+                tabIndex="0"
+              >
+              Widget actions
+              </a>
+            }
             {showRemove &&
               <a
                 className="c-button"
@@ -108,17 +132,7 @@ class WidgetCard extends React.Component {
                 role="button"
                 tabIndex="0"
               >
-              Remove
-              </a>
-            }
-            {showEmbed &&
-              <a
-                className="c-button"
-                onClick={this.handleEmbed}
-                role="button"
-                tabIndex="0"
-              >
-              Embed
+              Delete
               </a>
             }
           </div>
@@ -129,20 +143,21 @@ class WidgetCard extends React.Component {
 }
 
 WidgetCard.defaultProps = {
-  showEmbed: true,
+  showActions: true,
   showRemove: true
 };
 
 WidgetCard.propTypes = {
   widget: PropTypes.object.isRequired,
-  showEmbed: PropTypes.bool,
+  showActions: PropTypes.bool,
   showRemove: PropTypes.bool,
   // Callbacks
   onWidgetRemove: PropTypes.func.isRequired,
   // Store
   user: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired
+  setModalOptions: PropTypes.func.isRequired,
+  toggleTooltip: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -151,7 +166,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   toggleModal: (open) => { dispatch(toggleModal(open)); },
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); }
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
+  toggleTooltip: (opened, opts) => {
+    dispatch(toggleTooltip(opened, opts));
+  }
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(WidgetCard);
