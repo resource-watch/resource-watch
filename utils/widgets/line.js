@@ -41,7 +41,6 @@ const defaultChart = {
           interpolate: { value: 'linear' },
           x: { scale: 'x', field: 'x' },
           y: { scale: 'y', field: 'y' },
-          y2: { scale: 'y', value: 0 },
           "strokeWidth": {"value": 2}
         }
       }
