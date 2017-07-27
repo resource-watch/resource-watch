@@ -22,6 +22,21 @@ import WidgetService from 'services/WidgetService';
 class WidgetCard extends React.Component {
 
   /**
+   * Return the position of the click within the page taking
+   * into account the scroll (relative to the page, not the
+   * viewport )
+   * @static
+   * @param {MouseEvent} e Event
+   * @returns {{ x: number, y: number }}
+   */
+  static getClickPosition(e) {
+    return {
+      x: window.scrollX + e.clientX,
+      y: window.scrollY + e.clientY
+    };
+  }
+
+  /**
    * HELPERS
    * - getDescription
   */
@@ -78,7 +93,7 @@ class WidgetCard extends React.Component {
   }
   @Autobind
   handleWidgetActionsClick(event) {
-    const position = { x: event.clientX, y: event.clientY };
+    const position = WidgetCard.getClickPosition(event);
     this.props.toggleTooltip(true, {
       follow: false,
       position,
