@@ -23,6 +23,14 @@ import HowToWidgetEditorModal from 'components/modal/HowToWidgetEditorModal';
 @DragDropContext(HTML5Backend)
 class ChartEditor extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      areaOptions: []
+    };
+  }
+
   @Autobind
   handleChartTypeChange(val) {
     this.props.setChartType(val);
@@ -72,7 +80,8 @@ class ChartEditor extends React.Component {
       mode,
       showSaveButton
      } = this.props;
-    const { chartType, fields, category, value } = widgetEditor;
+    const { chartType, fields, category, value, areaIntersection } = widgetEditor;
+    const { areaOptions } = this.state;
 
     const showSaveButtonFlag =
       chartType && category && value && user && user.token && showSaveButton;
@@ -86,21 +95,38 @@ class ChartEditor extends React.Component {
 
     return (
       <div className="c-chart-editor">
-        {!tableViewMode &&
-          <div className="chart-type">
-            <h5>Chart type</h5>
+        <div className="selectors-container">
+          {!tableViewMode &&
+            <div className="chart-type">
+              <h5>Chart style</h5>
+              <Select
+                properties={{
+                  name: 'chart-type',
+                  value: chartType,
+                  default: chartType
+                }}
+                options={chartOptions}
+                onChange={this.handleChartTypeChange}
+              />
+            </div>
+          }
+          <div className="area-intersection">
+            <h5>Area intersection</h5>
             <Select
               properties={{
-                className: 'chart-type-selector',
-                name: 'chart-type',
-                value: chartType,
-                default: chartType
+                className: 'area-intersection-selector',
+                name: 'area-intersection',
+                value: areaIntersection,
+                default: areaIntersection
               }}
-              options={chartOptions}
-              onChange={this.handleChartTypeChange}
+              options={areaOptions}
+              onChange={this.handleAreaIntersectionChange}
             />
           </div>
-        }
+        </div>
+        <div className="text-container">
+          Drag and drop elements from the list to the boxes:
+        </div>
         <div className="actions-div">
           {fields &&
             <FieldsContainer
@@ -109,6 +135,9 @@ class ChartEditor extends React.Component {
               fields={fields}
             />
           }
+          <div className="arrow-container">
+            <img alt="" src="/static/images/components/widgets/Arrow.svg" />
+          </div>
           <div className="customization-container">
             <DimensionsContainer />
             <FilterContainer />

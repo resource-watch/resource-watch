@@ -25,7 +25,7 @@ class HowToWidgetEditorModal extends React.Component {
               Start selecting a visualization type
             </div>
             <div className="image-container">
-            <img alt="" src="/static/images/components/modal/howto-step1.png" />
+              <img alt="" src="/static/images/components/modal/howto-step1.png" />
             </div>
           </div>
           <div className="container2">

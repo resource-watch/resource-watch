@@ -6,9 +6,9 @@
   .customize-visualization {
     position: relative;
     min-height: 580px;
-    max-height: 640px;
-    min-width: 430px;
-    max-width: 430px;
+    max-height: 702px;
+    min-width: 522px;
+    max-width: 522px;
     margin-top: -20px;
     margin-bottom: -20px;
     flex-basis: 430px;
@@ -28,6 +28,10 @@
     h5 {
       margin: 0 0 10px;
       font-size: $font-size-small-medium;
+    }
+
+    .visualization-type-selector {
+      max-width: none;
     }
 
   }

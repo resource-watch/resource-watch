@@ -455,7 +455,7 @@ class WidgetEditor extends React.Component {
                   <h5>Visualization type</h5>
                   <Select
                     properties={{
-                      className: 'chart-type-selector',
+                      className: 'visualization-type-selector',
                       name: 'visualization-type',
                       value: selectedVisualizationType
                     }}
@@ -472,7 +472,7 @@ class WidgetEditor extends React.Component {
                     tableViewMode={selectedVisualizationType === 'table'}
                     mode={chartEditorMode}
                     onUpdateWidget={this.handleUpdateWidget}
-                    showSaveButton
+                    showSaveButton={showSaveButton}
                   />
                 }
                 {
