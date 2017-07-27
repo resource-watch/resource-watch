@@ -1,8 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Autobind } from 'es-decorators';
 
 class WidgetActionsTooltip extends React.Component {
 
+  componentDidMount() {
+    document.addEventListener('mousedown', this.triggerMouseDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.triggerMouseDown);
+  }
+
+  @Autobind
+  triggerMouseDown(e) {
+    const el = document.querySelector('.c-tooltip');
+    const clickOutside = el && el.contains && !el.contains(e.target);
+    if (clickOutside) {
+      this.props.toggleTooltip(false);
+    }
+  }
+
+  @Autobind
   handleClick(link) {
     switch (link) { // eslint-disable-line default-case
       case 'go_to_dataset':
