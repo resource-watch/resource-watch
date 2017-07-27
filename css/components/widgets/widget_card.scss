@@ -46,14 +46,24 @@
     .actions {
       display: flex;
       justify-content: space-between;
+      height: 30px;
 
       a {
         color: $color-dark-pink;
+        padding: 0px;
+        vertical-align: middle;
+
+        &.widget-actions {
+          padding: 4px;
+          border: 1px solid $color-dark-pink;
+        }
+
+        &:not(.widget-actions) {
+          padding-top: 4px;
+        }
       }
 
-      .widget-actions {
-        border: 1px solid $color-dark-pink;
-      }
+
     }
   }
 
