@@ -169,8 +169,8 @@ class WidgetCard extends React.Component {
 }
 
 WidgetCard.defaultProps = {
-  showActions: true,
-  showRemove: true
+  showActions: false,
+  showRemove: false
 };
 
 WidgetCard.propTypes = {

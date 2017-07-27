@@ -35,7 +35,7 @@ class WidgetActionsTooltip extends React.Component {
             <a
               role="button"
               tabIndex={0}
-              onClick={() => this.handleClick('go_to_dataset')}
+              onClick={() => this.handleClick('add_to_dashboard')}
             >
               Add to dashboard
             </a>
