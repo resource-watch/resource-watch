@@ -30,7 +30,7 @@
   }
 
   .container {
-    padding: 15px 0; // The padding bottom won't be applicated...
+    padding: 15px 0 0; // The padding bottom won't be applicated anyway..
     max-height: 150px;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -63,6 +63,8 @@
       width: 10px;
       height: 10px;
       border: 1px solid rgba(26, 28, 34, .1);
+      // The color might be overridden by some JS
+      background-color: $color-secondary;
 
       &.-circle {
         border-radius: 100%;
@@ -76,6 +78,33 @@
 
       .shape {
         margin-right: 10px;
+      }
+    }
+
+    &.-size {
+      .items {
+        display: flex;
+        justify-content: flex-start;
+        align-items: stretch;
+      }
+
+      .item {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+
+        & + .item {
+          margin-left: 15px;
+        }
+      }
+
+      .shape-container {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 5px;
       }
     }
   }

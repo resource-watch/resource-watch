@@ -1,14 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format, time } from 'd3';
+import { time } from 'd3';
 
 // Helpers
-import { getTimeFormat } from 'utils/widgets/WidgetHelper';
-
-// Global functions
-// eslint-disable-next-line no-confusing-arrow
-const getRoundNumber = number => Math.abs(number % 1) > 0 ? format('.2f')(number) : number;
-const getSINumber = format('.2s');
+import { getTimeFormat, get2DecimalFixedNumber, getSINumber } from 'utils/widgets/WidgetHelper';
 
 class VegaChartTooltip extends React.Component {
 
@@ -19,7 +14,7 @@ class VegaChartTooltip extends React.Component {
     const { x } = item;
 
     if (x.type === 'number') {
-      return getRoundNumber(x.value);
+      return get2DecimalFixedNumber(x.value);
     } else if (x.type === 'date') {
       const date = new Date(x.value);
       return time.format(getTimeFormat(x.range))(date);

@@ -93,12 +93,18 @@ export default function ({ columns, data }) {
   }
 
   if (columns.size.present) {
+    const sizeScaleType = 'linear';
+    const sizeScaleRange = [10, 150];
+    // The following formula comes from:
+    // https://github.com/vega/vega-scenegraph/blob/master/src/path/symbols.js#L10
+    const getCircleRadius = (d) => Math.sqrt(d) / 2;
+
     // We add the scale
     config.scales.push({
       "name": "s",
-      "type": "linear",
+      "type": sizeScaleType,
       "domain": {"data": "table", "field": "size"},
-      "range": [10, 150],
+      "range": sizeScaleRange,
       "zero": false
     });
 
@@ -107,6 +113,30 @@ export default function ({ columns, data }) {
       "scale": "s",
       "field": "size"
     };
+
+    // We add a legend to explain what the size
+    // variation means
+    if (hasAccessToData) {
+      const sizeDate = data.map(d => d.size);
+      config.legend = [
+        {
+          type: 'size',
+          label: columns.size.alias || columns.size.name,
+          shape: 'circle',
+          scale: sizeScaleType,
+          values: [
+            {
+              label: Math.max(...sizeDate),
+              value: getCircleRadius(sizeScaleRange[1])
+            },
+            {
+              label: Math.min(...sizeDate),
+              value: getCircleRadius(sizeScaleRange[0])
+            }
+          ]
+        }
+      ];
+    }
   }
 
   // If all the dots have the exact same y position,
