@@ -92,6 +92,14 @@ class WidgetCard extends React.Component {
     this.props.setModalOptions(options);
   }
   @Autobind
+  handleAddToDashboard() {
+    // TO-DO implement this
+  }
+  @Autobind
+  handleGoToDataset() {
+    Router.pushRoute('explore_detail', { id: this.props.widget.attributes.dataset });
+  }
+  @Autobind
   handleWidgetActionsClick(event) {
     const position = WidgetCard.getClickPosition(event);
     this.props.toggleTooltip(true, {
@@ -99,7 +107,10 @@ class WidgetCard extends React.Component {
       position,
       children: WidgetActionsTooltip,
       childrenProps: {
-        toggleTooltip: this.props.toggleTooltip
+        toggleTooltip: this.props.toggleTooltip,
+        onShareEmbed: this.handleEmbed,
+        onAddToDashboard: this.handleAddToDashboard,
+        onGoToDataset: this.handleGoToDataset
       }
     });
   }
@@ -132,7 +143,7 @@ class WidgetCard extends React.Component {
           <div className="actions">
             {showActions &&
               <a
-                className="c-button"
+                className="c-button widget-actions"
                 onClick={this.handleWidgetActionsClick}
                 role="button"
                 tabIndex="0"
