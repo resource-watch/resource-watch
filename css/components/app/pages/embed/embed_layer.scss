@@ -1,23 +1,31 @@
 .c-embed-layer {
-  min-width: 100%;
-  min-height: 100%;
-  padding: 20px;
-  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  // Be careful in iOS devices with the vh
+  height: 100vh;
 
   .container {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 
     .info {
-      position: absolute;
+      flex: 0;
       bottom: 0px;
-      right: 0px;
-      padding: 20px;
-      height: 220px;
       width: 100%;
+      padding: $space-1 * 4;
 
       .layer-title {
         display: flex;
         justify-content: center;
         align-items: center;
+        margin: 0 0 $space-1;
+
+        h2 {
+          margin: 0;
+        }
       }
 
       .layer-description {
@@ -31,18 +39,23 @@
       }
     }
 
-    .c-map {
-      position: absolute;
-      top: 0px;
-      width: 100%;
-      height: calc(100% - 220px);
+    .map-container {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      position: relative;
     }
+
+    // MAP CONTAINER
+    // .c-map {
+    //   display: block;
+    //   position: relative;
+    // }
 
     .c-legend-map {
       position: absolute;
-      right: 10px;
-      bottom: 220px;
-      height: 180px;
+      right: $space-1 * 2;
+      bottom: $space-1 * 3;
     }
   }
 }

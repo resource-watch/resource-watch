@@ -49,21 +49,23 @@ class Map extends React.Component {
     // If leaflet haven't been imported, we can just skip the next steps
     if (!L) return;
 
-    this.map = L.map(this.mapNode, mapOptions);
+    requestAnimationFrame(() => {
+      this.map = L.map(this.mapNode, mapOptions);
 
-    if (this.props.mapConfig && this.props.mapConfig.bounds) {
-      this.fitBounds(this.props.mapConfig.bounds.geometry);
-    }
+      if (this.props.mapConfig && this.props.mapConfig.bounds) {
+        this.fitBounds(this.props.mapConfig.bounds.geometry);
+      }
 
-    // SETTERS
-    this.setAttribution();
-    this.setZoomControl();
-    this.setBasemap();
-    this.setMapEventListeners();
+      // SETTERS
+      this.setAttribution();
+      this.setZoomControl();
+      this.setBasemap();
+      this.setMapEventListeners();
 
-    // Add layers
-    this.setLayerManager();
-    this.addLayers(this.props.layersActive, this.props.filters);
+      // Add layers
+      this.setLayerManager();
+      this.addLayers(this.props.layersActive, this.props.filters);
+    });
   }
 
   componentWillReceiveProps(nextProps) {
