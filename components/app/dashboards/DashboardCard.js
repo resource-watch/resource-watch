@@ -136,23 +136,24 @@ class DashboardCard extends React.Component {
   @Autobind
   handleFavouriteClick() {
     const { isFavourite, widgetId, user } = this.props;
+    console.log('isFavourite', isFavourite);
     this.setState({
       loading: true
     });
-    if (!isFavourite) {
-      this.userService.createFavouriteWidget(widgetId, user.token)
-        .then((response) => {
+    if (isFavourite) {
+      this.userService.deleteFavourite(isFavourite.id, user.token)
+        .then(() => {
           this.setState({
-            isFavourite: true,
+            isFavourite: false,
             loading: false
           });
         }
       ).catch(err => console.log(err));
     } else {
-      this.userService.deleteFavourite(widgetId, user.token)
-        .then((response) => {
+      this.userService.createFavouriteWidget(widgetId, user.token)
+        .then(() => {
           this.setState({
-            isFavourite: false,
+            isFavourite: true,
             loading: false
           });
         }
@@ -167,7 +168,7 @@ class DashboardCard extends React.Component {
     // Type of the widget: "vega", "text" or "map"
     const widgetType = (widgetConfig && widgetConfig.type) || 'vega';
 
-    const iconName = isFavourite ? 'star-full' : 'star-empty';
+    const iconName = (isFavourite && isFavourite.id) ? 'star-full' : 'star-empty';
 
     return (
       <div className="c-dashboard-card">
