@@ -31,7 +31,7 @@ export default class WidgetList extends React.Component {
 
   render() {
     const { loading } = this.state;
-    const { widgets, showRemove, showActions, mode } = this.props;
+    const { widgets, showRemove, showActions, showEmbed, mode } = this.props;
 
     const newClassName = classNames({
       column: true,
@@ -58,6 +58,7 @@ export default class WidgetList extends React.Component {
                 onWidgetRemove={this.handleWidgetRemoved}
                 showActions={showActions}
                 showRemove={showRemove}
+                showEmbed={showEmbed}
               />
             </li>)
           )}
@@ -68,8 +69,9 @@ export default class WidgetList extends React.Component {
 }
 
 WidgetCard.defaultProps = {
-  showActions: true,
-  showRemove: true
+  showActions: false,
+  showRemove: false,
+  showEmbed: false
 };
 
 
@@ -77,6 +79,7 @@ WidgetList.propTypes = {
   widgets: PropTypes.array.isRequired,
   showActions: PropTypes.bool,
   showRemove: PropTypes.bool,
+  showEmbed: PropTypes.bool,
   mode: PropTypes.string.isRequired, // grid|list
   // Callbacks
   onWidgetRemove: PropTypes.func

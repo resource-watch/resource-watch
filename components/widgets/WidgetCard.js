@@ -116,7 +116,7 @@ class WidgetCard extends React.Component {
   }
 
   render() {
-    const { widget, showRemove, showActions } = this.props;
+    const { widget, showRemove, showActions, showEmbed } = this.props;
 
     return (
       <div
@@ -140,28 +140,40 @@ class WidgetCard extends React.Component {
             </Title>
             <p>{WidgetCard.getDescription(widget.attributes.description)}</p>
           </div>
-          <div className="actions">
-            {showActions &&
-              <a
-                className="c-button widget-actions"
-                onClick={this.handleWidgetActionsClick}
-                role="button"
-                tabIndex="0"
-              >
-              Widget actions
-              </a>
-            }
-            {showRemove &&
-              <a
-                className="c-button"
-                onClick={this.handleRemoveWidget}
-                role="button"
-                tabIndex="0"
-              >
-              Delete
-              </a>
-            }
-          </div>
+          {(showActions || showRemove || showEmbed) &&
+            <div className="actions">
+              {showActions &&
+                <a
+                  className="c-button widget-actions"
+                  onClick={this.handleWidgetActionsClick}
+                  role="button"
+                  tabIndex="0"
+                >
+                Widget actions
+                </a>
+              }
+              {showRemove &&
+                <a
+                  className="c-button"
+                  onClick={this.handleRemoveWidget}
+                  role="button"
+                  tabIndex="0"
+                >
+                Delete
+                </a>
+              }
+              {showEmbed &&
+                <a
+                  className="c-button"
+                  onClick={this.handleEmbed}
+                  role="button"
+                  tabIndex="0"
+                >
+                Embed
+                </a>
+              }
+            </div>
+          }
         </div>
       </div>
     );
@@ -177,6 +189,7 @@ WidgetCard.propTypes = {
   widget: PropTypes.object.isRequired,
   showActions: PropTypes.bool,
   showRemove: PropTypes.bool,
+  showEmbed: PropTypes.bool,
   // Callbacks
   onWidgetRemove: PropTypes.func.isRequired,
   // Store
