@@ -213,13 +213,15 @@ class VegaChart extends React.Component {
    * @returns {object}
    */
   getVegaConfig() {
-    const padding = this.props.data.padding || { top: 20, right: 20, bottom: 20, left: 20 };
+    const padding = this.props.data.padding || 'strict';
     const size = {
       // Please don't change these conditions, the bar chart
       // needs its height and width to not be overriden to display
       // properly
-      width: this.props.data.width || (this.width - padding.left - padding.right),
-      height: this.props.data.height || (this.height - padding.top - padding.bottom)
+      width: this.props.data.width
+        || this.width - (padding.left && padding.right ? (padding.left + padding.right) : 0),
+      height: this.props.data.height
+        || this.height - (padding.top && padding.bottom ? (padding.top + padding.bottom) : 0)
     };
 
     // This signal is used for the tooltip
@@ -233,7 +235,7 @@ class VegaChart extends React.Component {
       /* eslint-enable */
     };
 
-    const config = Object.assign({}, this.props.data, size);
+    const config = Object.assign({}, this.props.data, size, { padding });
 
     // If the configuration already has signals, we don't override it
     // but push a new one instead

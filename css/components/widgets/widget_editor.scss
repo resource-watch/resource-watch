@@ -43,7 +43,7 @@
     align-items: center;
     flex-shrink: 1;
     flex-basis: 100%;
-    overflow-x: auto;
+    overflow-x: hidden;
 
     &.-error {
       text-align: center;
@@ -71,6 +71,7 @@
       .chart {
         // The height will be set either by VegaChart or Vega itself
         height: auto;
+        overflow-x: auto;
 
         .vega {
           // We can't use display: flex; here otherwise
