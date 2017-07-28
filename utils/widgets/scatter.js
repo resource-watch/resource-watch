@@ -50,23 +50,20 @@ const defaultChart = {
  * Return the Vega chart configuration
  * 
  * @export
- * @param {any} { columns, data } 
+ * @param {any} { columns, data, url, embedData } 
  */
-export default function ({ columns, data }) {
+export default function ({ columns, data, url, embedData }) {
   const config = deepClone(defaultChart);
-  // Whether we have access to the data instead
-  // of having its URL
-  const hasAccessToData = isArray(data);
 
-  if (hasAccessToData) {
+  if (embedData) {
     // We directly set the data
     config.data[0].values = data;
   } else {
     // We set the URL of the dataset
-    config.data[0].url = data.url;
+    config.data[0].url = url;
     config.data[0].format = {
       "type": "json",
-      "property": data.property
+      "property": "data"
     };
   }
 
@@ -116,27 +113,25 @@ export default function ({ columns, data }) {
 
     // We add a legend to explain what the size
     // variation means
-    if (hasAccessToData) {
-      const sizeDate = data.map(d => d.size);
-      config.legend = [
-        {
-          type: 'size',
-          label: columns.size.alias || columns.size.name,
-          shape: 'circle',
-          scale: sizeScaleType,
-          values: [
-            {
-              label: Math.max(...sizeDate),
-              value: getCircleRadius(sizeScaleRange[1])
-            },
-            {
-              label: Math.min(...sizeDate),
-              value: getCircleRadius(sizeScaleRange[0])
-            }
-          ]
-        }
-      ];
-    }
+    const sizeDate = data.map(d => d.size);
+    config.legend = [
+      {
+        type: 'size',
+        label: columns.size.alias || columns.size.name,
+        shape: 'circle',
+        scale: sizeScaleType,
+        values: [
+          {
+            label: Math.max(...sizeDate),
+            value: getCircleRadius(sizeScaleRange[1])
+          },
+          {
+            label: Math.min(...sizeDate),
+            value: getCircleRadius(sizeScaleRange[0])
+          }
+        ]
+      }
+    ];
   }
 
   // If all the dots have the exact same y position,

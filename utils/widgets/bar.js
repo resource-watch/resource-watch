@@ -157,23 +157,20 @@ const defaultChart = {
  * Return the Vega chart configuration
  * 
  * @export
- * @param {any} { columns, data } 
+ * @param {any} { columns, data, url, embedData  } 
  */
-export default function ({ columns, data }) {
+export default function ({ columns, data, url, embedData  }) {
   const config = deepClone(defaultChart);
-  // Whether we have access to the data instead
-  // of having its URL
-  const hasAccessToData = isArray(data);
 
-  if (hasAccessToData) {
+  if (embedData) {
     // We directly set the data
     config.data[0].values = data;
   } else {
     // We set the URL of the dataset
-    config.data[0].url = data.url;
+    config.data[0].url = url;
     config.data[0].format = {
       "type": "json",
-      "property": data.property
+      "property": "data"
     };
   }
 
@@ -215,13 +212,10 @@ export default function ({ columns, data }) {
     if (!config.data[0].format) config.data[0].format = {};
     config.data[0].format.parse = { x: 'date' };
 
-    // If we have access to the data, we should be able to
-    // compute an optimal format for the ticks
-    if (hasAccessToData) {
-      const temporalData = data.map(d => d.x);
-      const format = getTimeFormat(temporalData);
-      if (format) xAxis.format = format;
-    }
+    // We compute an optimal format for the ticks
+    const temporalData = data.map(d => d.x);
+    const format = getTimeFormat(temporalData);
+    if (format) xAxis.format = format;
 
     // The x axis has a template used to truncate the
     // text. Nevertheless, when using it, a date will

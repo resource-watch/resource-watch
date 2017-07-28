@@ -248,19 +248,18 @@ export function getTimeFormat(data) {
  * @param {any} widgetEditor State of the editor (coming from the store)
  * @param {string} tableName Name of the dataset's table
  * @param {string} dataset ID of the dataset
- * @param {boolean} [mustFetchData=false] Whether the the configuration
- * should store the URL of the raw data (might be needed for smarter
- * charts)
+ * @param {boolean} [embedData=false] Whether the configuration should
+ * be saved with the data in it or just its URL
  * @returns {object} JSON object
  */
-export async function getChartConfig(widgetEditor, tableName, dataset, mustFetchData = false) {
+export async function getChartConfig(widgetEditor, tableName, dataset, embedData = false) {
   const { category, value, size, color, chartType, aggregateFunction, fields } = widgetEditor;
 
   // URL of the data needed to display the chart
   const url = getDataURL(widgetEditor, tableName, dataset);
 
-  // In case we must fetch the data, we save it in this variable
-  const data = mustFetchData && await fetchData(url);
+  // We fetch the data to have clever charts
+  const data = await fetchData(url);
 
   // We compute the name of the x column
   const xLabel = category.name[0].toUpperCase() + category.name.slice(1, category.name.length);
@@ -302,10 +301,9 @@ export async function getChartConfig(widgetEditor, tableName, dataset, mustFetch
         alias: size && fields.find(f => f.columnName === size.name).alias
       }
     },
-    data: data || {
-      url,
-      property: 'data'
-    }
+    data,
+    url,
+    embedData
   });
 }
 
