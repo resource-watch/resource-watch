@@ -67,6 +67,7 @@
       display: flex;
       align-items: center;
       height: 100%;
+      padding-top: 20px; // Space for the legend
 
       .chart {
         // The height will be set either by VegaChart or Vega itself

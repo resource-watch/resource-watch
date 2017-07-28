@@ -84,11 +84,97 @@ class VegaChartLegend extends React.Component {
     }
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      opened: false
+    };
+
+    this.onClick = this.onClick.bind(this);
+  }
+
+  componentDidUpdate(previousProps, previousState) {
+    // We move the focus to the legend when it's being
+    // opened and we add a listener for the clicks
+    if (!previousState.opened && this.state.opened) {
+      this.legend.focus();
+      window.addEventListener('click', this.onClick);
+    } else if (previousState.opened && !this.state.opened) {
+      // We remove the listener when the legend is hidden
+      window.removeEventListener('click', this.onClick);
+    }
+  }
+
+  componentWillUnmount() {
+    // In case the component is unmounted and the legend
+    // wasn't closed, we still remove the listener
+    window.removeEventListener('click', this.onClick);
+  }
+
+  /**
+   * Event handler executed when the user presses a key while
+   * the focus is on the legend
+   * @param {KeyboardEvent} e Event object
+   */
+  onKeyDown(e) {
+    const code = e.keyCode;
+
+    // If the user presses the ESC key, we close the legend
+    if (code === 27) {
+      e.preventDefault();
+      this.setState({ opened: false });
+    }
+  }
+
+  /**
+   * Event handler executed when the user clicks somewhere
+   * @param {MouseEvent} e Event object
+   */
+  onClick(e) {
+    const target = e.target;
+
+    // If the legend is opened and the user clicks outside
+    // of it then we close it
+    // NOTE: we use as a reference the top level element
+    // because if we use this.legend, the legend will
+    // instantly open and close because the click handler
+    // is executed right before the setState
+    if (this.state.opened && !this.el.contains(target)) {
+      e.preventDefault();
+      this.setState({ opened: false });
+    }
+  }
+
   render() {
+    // Kind of a trick, if there's something better, use it
+    const uniqueId = this.props.config[0].label
+      || (this.props.config[0].values.length && this.props.config[0].values[0].value)
+      || +(new Date());
+
     return (
-      <div className="c-vega-chart-legend">
-        <div className="container">
-          { this.props.config.map(config => VegaChartLegend.renderLegend(config)) }
+      <div className="c-vega-chart-legend" ref={(node) => { this.el = node; }}>
+        <button
+          type="button"
+          className="toggle-button"
+          aria-label="Toggle the legend of the chart"
+          aria-controls={`chart-legend-${uniqueId}`}
+          onClick={() => this.setState({ opened: !this.state.opened })}
+        >
+          <span>i</span>
+          Legend
+        </button>
+        <div // eslint-disable-line jsx-a11y/no-noninteractive-element-interactions
+          className="container"
+          id={`chart-legend-${uniqueId}`}
+          aria-hidden={!this.state.opened}
+          role="tooltip"
+          tabIndex="0" // eslint-disable-line jsx-a11y/no-noninteractive-tabindex
+          ref={(node) => { this.legend = node; }}
+          onKeyDown={e => this.onKeyDown(e)}
+        >
+          <div className="content">
+            { this.props.config.map(config => VegaChartLegend.renderLegend(config)) }
+          </div>
         </div>
       </div>
     );
