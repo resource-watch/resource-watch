@@ -132,7 +132,7 @@ class WidgetCard extends React.Component {
   }
 
   render() {
-    const { widget, showRemove, showActions, showEmbed, showStar } = this.props;
+    const { widget, showRemove, showActions, showEmbed, showStar, mode } = this.props;
 
     return (
       <div
@@ -144,7 +144,7 @@ class WidgetCard extends React.Component {
         {widget &&
           <DatasetWidgetChart
             widget={widget.attributes}
-            mode="full"
+            mode={mode}
           />
         }
 
@@ -217,6 +217,7 @@ WidgetCard.propTypes = {
   showRemove: PropTypes.bool,
   showEmbed: PropTypes.bool,
   showStar: PropTypes.bool,
+  mode: PropTypes.oneOf(['thumbnail', 'full']), // How to show the graph
   // Callbacks
   onWidgetRemove: PropTypes.func,
   onWidgetUnfavourited: PropTypes.func,

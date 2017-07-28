@@ -29,6 +29,18 @@ class VegaChart extends React.Component {
     this.mounted = true;
     this.renderChart();
     window.addEventListener('resize', this.triggerResize);
+
+    // We pass the callback to force the re-render of the chart
+    if (this.props.getForceUpdate) {
+      this.props.getForceUpdate(this.forceUpdate.bind(this));
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // We pass the callback to force the re-render of the chart
+    if (nextProps.getForceUpdate) {
+      nextProps.getForceUpdate(this.forceUpdate.bind(this));
+    }
   }
 
   shouldComponentUpdate(nextProps) {
@@ -36,7 +48,6 @@ class VegaChart extends React.Component {
   }
 
   componentDidUpdate() {
-    // We should check if the data has changed
     this.renderChart();
   }
 
@@ -315,7 +326,8 @@ class VegaChart extends React.Component {
         ref={(el) => { this.chartViewportContainer = el; }}
       >
         <div ref={(c) => { this.chart = c; }} className="chart" />
-        { vegaConfig.legend && <VegaChartLegend config={vegaConfig.legend} /> }
+        { this.props.showLegend && vegaConfig.legend
+          && <VegaChartLegend config={vegaConfig.legend} /> }
       </div>
     );
   }
@@ -323,12 +335,20 @@ class VegaChart extends React.Component {
 
 VegaChart.propTypes = {
   reloadOnResize: PropTypes.bool.isRequired,
+  showLegend: PropTypes.bool,
   // Define the chart data
   data: PropTypes.object,
   theme: PropTypes.object,
   // Callbacks
   toggleLoading: PropTypes.func,
-  toggleTooltip: PropTypes.func
+  toggleTooltip: PropTypes.func,
+  // This callback should be passed the function
+  // to force the re-render of the chart
+  getForceUpdate: PropTypes.func
+};
+
+VegaChart.defaultProps = {
+  showLegend: true
 };
 
 const mapStateToProps = ({ tooltip }) => ({
