@@ -166,7 +166,7 @@ export default function ({ columns, data }) {
         type: 'color',
         label: null,
         shape: 'square',
-        values: data.map((d, i) => ({ label: d.x, value: colorRange[i % 20] }))
+        values: data.map((d, i) => ({ label: d.x, value: colorRange[i % 20], type: columns.x.type }))
       }
     ];
   }

@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { time } from 'd3';
+import uniqBy from 'lodash/uniqBy';
 
 // Components
 import Title from 'components/ui/Title';
 
 // Helpers
-import { getSINumber } from 'utils/widgets/WidgetHelper';
+import { getSINumber, getTimeFormat } from 'utils/widgets/WidgetHelper';
 
 class VegaChartLegend extends React.Component {
 
@@ -20,17 +22,34 @@ class VegaChartLegend extends React.Component {
     // Kind of a trick, if there's something better, use it
     const uniqueId = config.values.slice(0, 5).map(v => v.label).join('');
 
+    // This is only used if the labels are dates
+    let timeFormat;
+    const formatDateLabel = (values, label) => {
+      if (!timeFormat) timeFormat = getTimeFormat(values.map(v => v.label));
+      return time.format(timeFormat)(new Date(label));
+    };
+
+    // Format the label according to its type
+    const formatLabel = (values, value) => {
+      if (value.type === 'date') return formatDateLabel(values, value.label);
+      return value.label;
+    };
+
+    // We use uniqBy to remove the duplicates in case the user
+    // hasn't use an aggregation method yet
+    const items = uniqBy(config.values, 'label');
+
     return (
       <div className="legend -color" key={uniqueId}>
         { config.label && <Title className="-default">{config.label}</Title> }
         <div className="items">
-          { config.values.map(value => (
-            <div className="item" key={value.label}>
+          { items.map((item, i, values) => (
+            <div className="item" key={item.label}>
               <span
                 className={`shape -${config.shape || 'square'}`}
-                style={{ backgroundColor: value.value }}
+                style={{ backgroundColor: item.value }}
               />
-              <span className="label">{value.label}</span>
+              <span className="label">{formatLabel(values, item)}</span>
             </div>
           ))}
         </div>
