@@ -189,7 +189,7 @@ export default class DatasetService {
   }
 
   getSimilarDatasets(tags) {
-    return fetch(`${this.opts.apiURL}/dataset/vocabulary/find?legacy=${tags}`)
+    return fetch(`${this.opts.apiURL}/dataset?app=rw&vocabulary[legacy]=${tags}`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
