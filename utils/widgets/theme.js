@@ -8,7 +8,7 @@ const defaultTheme = {
                    // because it will break several graphs
                    // (primarly the bar and pie ones)
   marks: {
-    color: '#3BB2D0'
+    color: '#1f77b4'
   },
   axis_x: {
     axisColor: '#A9ABAD',

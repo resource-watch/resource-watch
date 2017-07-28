@@ -1,4 +1,5 @@
 import 'isomorphic-fetch';
+import { format } from 'd3';
 
 // Components
 import BarChart from 'utils/widgets/bar';
@@ -247,19 +248,18 @@ export function getTimeFormat(data) {
  * @param {any} widgetEditor State of the editor (coming from the store)
  * @param {string} tableName Name of the dataset's table
  * @param {string} dataset ID of the dataset
- * @param {boolean} [mustFetchData=false] Whether the the configuration
- * should store the URL of the raw data (might be needed for smarter
- * charts)
+ * @param {boolean} [embedData=false] Whether the configuration should
+ * be saved with the data in it or just its URL
  * @returns {object} JSON object
  */
-export async function getChartConfig(widgetEditor, tableName, dataset, mustFetchData = false) {
-  const { category, value, size, color, chartType, aggregateFunction } = widgetEditor;
+export async function getChartConfig(widgetEditor, tableName, dataset, embedData = false) {
+  const { category, value, size, color, chartType, aggregateFunction, fields } = widgetEditor;
 
   // URL of the data needed to display the chart
   const url = getDataURL(widgetEditor, tableName, dataset);
 
-  // In case we must fetch the data, we save it in this variable
-  const data = mustFetchData && await fetchData(url);
+  // We fetch the data to have clever charts
+  const data = await fetchData(url);
 
   // We compute the name of the x column
   const xLabel = category.name[0].toUpperCase() + category.name.slice(1, category.name.length);
@@ -283,19 +283,54 @@ export async function getChartConfig(widgetEditor, tableName, dataset, mustFetch
       x: {
         present: true,
         type: category.type,
-        name: xLabel
+        name: xLabel,
+        alias: fields.find(f => f.columnName === category.name).alias
       },
       y: {
         present: !!value,
         type: value && value.type,
-        name: yLabel
+        name: yLabel,
+        alias: value && fields.find(f => f.columnName === value.name).alias
       },
-      color: { present: !!color },
-      size: { present: !!size }
+      color: {
+        present: !!color,
+        alias: color && fields.find(f => f.columnName === color.name).alias
+      },
+      size: {
+        present: !!size,
+        alias: size && fields.find(f => f.columnName === size.name).alias
+      }
     },
-    data: data || {
-      url,
-      property: 'data'
-    }
+    data,
+    url,
+    embedData
   });
+}
+
+// TOOLTIP & LEGEND
+
+/**
+ * Return a two-decimal fixed number (as a string) if the number
+ * isn't an integer, if it is, just return the number
+ * For example:
+ *  * 1773.38    => 1,773.38
+ *  *    2.76557 =>     2.76
+ *  *    2.7     =>     2.70
+ *  *    2       =>     2
+ * @export
+ * @param {number} number Number to format
+ * @return {string}
+ */
+export function get2DecimalFixedNumber(number) {
+  return Math.abs(number % 1) > 0 ? format(',.2f')(number) : `${number}`;
+}
+
+/**
+ * Return the number in the SI format
+ * @export
+ * @param {number} number Number to format
+ * @return {string}
+ */
+export function getSINumber(number) {
+  return format('.2s')(number);
 }

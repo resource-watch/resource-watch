@@ -66,6 +66,7 @@ export default class WidgetList extends React.Component {
                 showRemove={showRemove}
                 showEmbed={showEmbed}
                 showStar={showStar}
+                mode={mode === 'grid' ? 'thumbnail' : 'full'}
               />
             </li>)
           )}
@@ -89,7 +90,7 @@ WidgetList.propTypes = {
   showRemove: PropTypes.bool,
   showEmbed: PropTypes.bool,
   showStar: PropTypes.bool,
-  mode: PropTypes.string.isRequired, // grid|list
+  mode: PropTypes.oneOf(['grid', 'list']).isRequired,
   // Callbacks
   onWidgetRemove: PropTypes.func
 };

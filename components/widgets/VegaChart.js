@@ -14,6 +14,7 @@ import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import VegaChartTooltip from './VegaChartTooltip';
+import VegaChartLegend from './VegaChartLegend';
 
 class VegaChart extends React.Component {
 
@@ -28,6 +29,18 @@ class VegaChart extends React.Component {
     this.mounted = true;
     this.renderChart();
     window.addEventListener('resize', this.triggerResize);
+
+    // We pass the callback to force the re-render of the chart
+    if (this.props.getForceUpdate) {
+      this.props.getForceUpdate(this.forceUpdate.bind(this));
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // We pass the callback to force the re-render of the chart
+    if (nextProps.getForceUpdate) {
+      nextProps.getForceUpdate(this.forceUpdate.bind(this));
+    }
   }
 
   shouldComponentUpdate(nextProps) {
@@ -35,7 +48,6 @@ class VegaChart extends React.Component {
   }
 
   componentDidUpdate() {
-    // We should check if the data has changed
     this.renderChart();
   }
 
@@ -212,13 +224,15 @@ class VegaChart extends React.Component {
    * @returns {object}
    */
   getVegaConfig() {
-    const padding = this.props.data.padding || { top: 20, right: 20, bottom: 20, left: 20 };
+    const padding = this.props.data.padding || 'strict';
     const size = {
       // Please don't change these conditions, the bar chart
       // needs its height and width to not be overriden to display
       // properly
-      width: this.props.data.width || (this.width - padding.left - padding.right),
-      height: this.props.data.height || (this.height - padding.top - padding.bottom)
+      width: this.props.data.width
+        || this.width - (padding.left && padding.right ? (padding.left + padding.right) : 0),
+      height: this.props.data.height
+        || this.height - (padding.top && padding.bottom ? (padding.top + padding.bottom) : 0)
     };
 
     // This signal is used for the tooltip
@@ -232,7 +246,7 @@ class VegaChart extends React.Component {
       /* eslint-enable */
     };
 
-    const config = Object.assign({}, this.props.data, size);
+    const config = Object.assign({}, this.props.data, size, { padding });
 
     // If the configuration already has signals, we don't override it
     // but push a new one instead
@@ -303,6 +317,8 @@ class VegaChart extends React.Component {
   }
 
   render() {
+    const vegaConfig = this.getVegaConfig();
+
     return (
       <div
         className="c-chart"
@@ -310,6 +326,8 @@ class VegaChart extends React.Component {
         ref={(el) => { this.chartViewportContainer = el; }}
       >
         <div ref={(c) => { this.chart = c; }} className="chart" />
+        { this.props.showLegend && vegaConfig.legend
+          && <VegaChartLegend config={vegaConfig.legend} /> }
       </div>
     );
   }
@@ -317,12 +335,20 @@ class VegaChart extends React.Component {
 
 VegaChart.propTypes = {
   reloadOnResize: PropTypes.bool.isRequired,
+  showLegend: PropTypes.bool,
   // Define the chart data
   data: PropTypes.object,
   theme: PropTypes.object,
   // Callbacks
   toggleLoading: PropTypes.func,
-  toggleTooltip: PropTypes.func
+  toggleTooltip: PropTypes.func,
+  // This callback should be passed the function
+  // to force the re-render of the chart
+  getForceUpdate: PropTypes.func
+};
+
+VegaChart.defaultProps = {
+  showLegend: true
 };
 
 const mapStateToProps = ({ tooltip }) => ({
