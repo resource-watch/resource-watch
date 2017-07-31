@@ -197,6 +197,7 @@ class DashboardCard extends React.Component {
               data={widgetConfig}
               theme={getChartTheme()}
               toggleLoading={loading => this.setState({ loading })}
+              reloadOnResize
             />
           }
           {
