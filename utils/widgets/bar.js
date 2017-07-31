@@ -1,5 +1,4 @@
 import deepClone from 'lodash/cloneDeep';
-import isArray from 'lodash/isArray';
 
 // Helpers
 import { getTimeFormat } from 'utils/widgets/WidgetHelper';
@@ -32,13 +31,13 @@ const defaultChart = {
   // This scale is not the one used by the marks
   // but is necessary for the tooltip to show
   scales: [
-    {		
-      name: 'x',		
-      type: 'ordinal',		
-      range: 'width',		
-      domain: { data: 'table', field: 'x' }		
+    {
+      name: 'x',
+      type: 'ordinal',
+      range: 'width',
+      domain: { data: 'table', field: 'x' }
     },
-    {		
+    {
       name: 'y',
       type: 'linear',
       "rangeMin": 300,
@@ -155,9 +154,9 @@ const defaultChart = {
 
 /**
  * Return the Vega chart configuration
- * 
+ *
  * @export
- * @param {any} { columns, data, url, embedData  } 
+ * @param {any} { columns, data, url, embedData  }
  */
 export default function ({ columns, data, url, embedData  }) {
   const config = deepClone(defaultChart);
@@ -246,7 +245,7 @@ export default function ({ columns, data, url, embedData  }) {
 
     // The step is 20% of the value
     const step = data[0].y * 0.2;
-    
+
     // We fix the domain around the value
     yScale.domain = [data[0].y - step, data[0].y + step];
   }

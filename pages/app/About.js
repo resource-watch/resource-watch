@@ -27,7 +27,7 @@ class About extends Page {
 
     const styles = {};
     if (data && data.photo) {
-      styles.backgroundImage = `url(${process.env.CMS_API_URL}/..${data.photo.cover})`;
+      styles.backgroundImage = `url(${process.env.API_URL}/..${data.photo.cover})`;
     }
 
     return (
@@ -88,4 +88,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(About)
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(About);
