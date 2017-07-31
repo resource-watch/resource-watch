@@ -99,7 +99,7 @@ class VegaChart extends React.Component {
 
     // Return the label of the specified column
     const getLabel = (columnName) => {
-      if (!vegaConfig) return null;
+      if (!vegaConfig || !vegaConfig.axes) return null;
 
       const axis = vegaConfig.axes.find(a => a.type === columnName);
       if (!axis) return null;
