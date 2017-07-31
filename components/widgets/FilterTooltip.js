@@ -120,6 +120,35 @@ class FilterTooltip extends React.Component {
   }
 
   @Autobind
+  handleMinChange(event) {
+    const newValue = event.target.value;
+    this.setState({
+      rangeValue: {
+        min: newValue,
+        max: this.state.rangeValue.max
+      }
+    });
+  }
+
+  @Autobind
+  handleMaxChange(event) {
+    const newValue = event.target.value;
+    this.setState({
+      rangeValue: {
+        min: this.state.rangeValue.min,
+        max: newValue
+      }
+    });
+  }
+
+  @Autobind
+  handleNotNullSelection(value) {
+    this.setState({
+      notNullSelected: value
+    });
+  }
+
+  @Autobind
   triggerMouseDown(e) {
     const el = document.querySelector('.c-tooltip');
     const clickOutside = el && el.contains && !el.contains(e.target);
@@ -175,33 +204,6 @@ class FilterTooltip extends React.Component {
         />
       </div>
     );
-  }
-
-  @Autobind
-  handleMinChange(event) {
-    const newValue = event.target.value;
-    this.setState({
-      rangeValue: {
-        min: newValue,
-        max: this.state.rangeValue.max
-      }
-    });
-  }
-  @Autobind
-  handleMaxChange(event) {
-    const newValue = event.target.value;
-    this.setState({
-      rangeValue: {
-        min: this.state.rangeValue.min,
-        max: newValue
-      }
-    });
-  }
-  @Autobind
-  handleNotNullSelection(value) {
-    this.setState({
-      notNullSelected: value
-    });
   }
 
   render() {
@@ -271,7 +273,7 @@ FilterTooltip.propTypes = {
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   filter: PropTypes.any, // Current value of the filter
-  notNullSelected: PropTypes.bool, // Current value of the filter
+  notNullSelected: PropTypes.bool,
   onResize: PropTypes.func, // Passed from the tooltip component
   onApply: PropTypes.func.isRequired,
   // store
