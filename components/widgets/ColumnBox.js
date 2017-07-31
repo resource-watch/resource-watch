@@ -62,6 +62,22 @@ class ColumnBox extends React.Component {
     };
   }
 
+  /**
+   * Return the position of the center of the element within
+   * the page taking into account the scroll (relative to
+   * the page, not the viewport)
+   * @static
+   * @param {HTMLElement} node HTML node
+   * @returns  {{ x: number, y: number }}
+   */
+  static getElementPosition(node) {
+    const clientRect = node.getBoundingClientRect();
+    return {
+      x: window.scrollX + clientRect.left + (clientRect.width / 2),
+      y: window.scrollY + clientRect.top + (clientRect.height / 2)
+    };
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -190,13 +206,17 @@ class ColumnBox extends React.Component {
     }
   }
 
-  openFilterTooltip() {
+  openFilterTooltip(event) {
     const { filter, notNullSelected } = this.state;
     const { name, type, datasetID, tableName } = this.props;
 
+    const position = event
+      ? ColumnBox.getClickPosition(event)
+      : ColumnBox.getElementPosition(this.settingsButton);
+
     this.props.toggleTooltip(true, {
       follow: false,
-      position: ColumnBox.getClickPosition(event),
+      position,
       children: FilterTooltip,
       childrenProps: {
         name,
@@ -252,7 +272,7 @@ class ColumnBox extends React.Component {
         });
         break;
       case 'filter':
-        this.openFilterTooltip();
+        this.openFilterTooltip(event);
         break;
       case 'category':
         break;
@@ -355,7 +375,7 @@ class ColumnBox extends React.Component {
           </button>
         }
         {configurable && isConfigurable &&
-          <button onClick={this.triggerConfigure}>
+          <button onClick={this.triggerConfigure} ref={(node) => { this.settingsButton = node; }}>
             <Icon
               name="icon-cog"
               className="-smaller configure-button"
