@@ -1,5 +1,4 @@
 import deepClone from 'lodash/cloneDeep';
-import isArray from 'lodash/isArray';
 
 /* eslint-disable */
 const defaultChart = {
@@ -45,9 +44,9 @@ const defaultChart = {
 
 /**
  * Return the Vega chart configuration
- * 
+ *
  * @export
- * @param {any} { columns, data, url, embedData } 
+ * @param {any} { columns, data, url, embedData }
  */
 export default function ({ columns, data, url, embedData }) {
   const config = deepClone(defaultChart);

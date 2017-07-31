@@ -1,7 +1,9 @@
 /* eslint import/no-unresolved: 0 */
 /* eslint import/extensions: 0 */
+/* eslint global-require: 0 */
 
 import 'whatwg-fetch';
+
 let L;
 if (typeof window !== 'undefined') {
   L = require('leaflet/dist/leaflet');
@@ -14,12 +16,12 @@ export default class LayerManager {
 
   // Constructor
   constructor(map, options = {}) {
-    this._map = map;
-    this._mapLayers = {};
-    this._layersLoading = {};
-    this._rejectLayersLoading = false;
-    this._onLayerAddedSuccess = options.onLayerAddedSuccess;
-    this._onLayerAddedError = options.onLayerAddedError;
+    this.map = map;
+    this.mapLayers = {};
+    this.layersLoading = {};
+    this.rejectLayersLoading = false;
+    this.onLayerAddedSuccess = options.onLayerAddedSuccess;
+    this.onLayerAddedError = options.onLayerAddedError;
   }
 
   /*
@@ -28,74 +30,74 @@ export default class LayerManager {
   addLayer(layer, opts = {}) {
     const method = {
       // legacy/deprecated
-      leaflet: this._addLeafletLayer,
-      arcgis: this._addEsriLayer,
+      leaflet: this.addLeafletLayer,
+      arcgis: this.addEsriLayer,
       // carto
-      cartodb: this._addCartoLayer,
-      carto: this._addCartoLayer,
+      cartodb: this.addCartoLayer,
+      carto: this.addCartoLayer,
       // wms
-      wmsservice: this._addLeafletLayer,
-      wms: this._addLeafletLayer,
+      wmsservice: this.addLeafletLayer,
+      wms: this.addLeafletLayer,
       // arcgis
-      featureservice: this._addEsriLayer,
-      mapservice: this._addEsriLayer,
-      tileservice: this._addEsriLayer,
-      esrifeatureservice: this._addEsriLayer,
-      esrimapservice: this._addEsriLayer,
-      esritileservice: this._addEsriLayer
+      featureservice: this.addEsriLayer,
+      mapservice: this.addEsriLayer,
+      tileservice: this.addEsriLayer,
+      esrifeatureservice: this.addEsriLayer,
+      esrimapservice: this.addEsriLayer,
+      esritileservice: this.addEsriLayer
     }[layer.provider];
 
-    method && method.call(this, layer, opts);
+    if (method) method.call(this, layer, opts);
 
-    this._execCallback()
+    this.execCallback()
       .then(() => {
-        this._onLayerAddedSuccess && this._onLayerAddedSuccess();
+        if (this.onLayerAddedSuccess) this.onLayerAddedSuccess();
       })
       .catch(() => {
-        this._layersLoading = {};
-        this._rejectLayersLoading = false;
-        this._onLayerAddedError && this._onLayerAddedError();
+        this.layersLoading = {};
+        this.rejectLayersLoading = false;
+        if (this.onLayerAddedError) this.onLayerAddedError();
       });
   }
 
   removeLayer(layerId) {
-    if (this._mapLayers[layerId]) {
-      this._map.removeLayer(this._mapLayers[layerId]);
-      delete this._mapLayers[layerId];
+    if (this.mapLayers[layerId]) {
+      this.map.removeLayer(this.mapLayers[layerId]);
+      delete this.mapLayers[layerId];
     }
   }
 
   removeLayers() {
-    Object.keys(this._mapLayers).forEach((id) => {
-      if (this._mapLayers[id]) {
-        this._map.removeLayer(this._mapLayers[id]);
-        delete this._mapLayers[id];
+    Object.keys(this.mapLayers).forEach((id) => {
+      if (this.mapLayers[id]) {
+        this.map.removeLayer(this.mapLayers[id]);
+        delete this.mapLayers[id];
       }
     });
-    this._layersLoading = {};
+    this.layersLoading = {};
   }
 
   /*
     Private methods
   */
-  _execCallback() {
+  execCallback() {
     return new Promise((resolve, reject) => {
       const loop = () => {
-        if (!Object.keys(this._layersLoading).length) return resolve();
-        if (this._rejectLayersLoading) return reject();
-        setTimeout(loop);
+        if (!Object.keys(this.layersLoading).length) return resolve();
+        if (this.rejectLayersLoading) return reject();
+        return setTimeout(loop);
       };
-      setTimeout(loop);
+      return setTimeout(loop);
     });
   }
 
-  _addLeafletLayer(layerSpec, { zIndex }) {
+  addLeafletLayer(layerSpec, { zIndex }) {
     const layerData = layerSpec.layerConfig;
 
     let layer;
 
     layerData.id = layerSpec.id;
-    this._layersLoading[layerData.id] = true;
+    this.layersLoading[layerData.id] = true;
 
     // Transforming data layer
     // TODO: improve this
@@ -117,7 +119,7 @@ export default class LayerManager {
         layer = new L.tileLayer(layerData.url, layerData.body); // eslint-disable-line
         break;
       default:
-        delete this._layersLoading[layerData.id];
+        delete this.layersLoading[layerData.id];
         throw new Error('"type" specified in layer spec doesn`t exist');
     }
 
@@ -125,21 +127,21 @@ export default class LayerManager {
       const eventName = (layerData.type === 'wms' ||
       layerData.type === 'tileLayer') ? 'tileload' : 'load';
       layer.on(eventName, () => {
-        delete this._layersLoading[layerData.id];
+        delete this.layersLoading[layerData.id];
       });
       if (zIndex) {
         layer.setZIndex(zIndex);
       }
-      this._mapLayers[layerData.id] = layer;
+      this.mapLayers[layerData.id] = layer;
     }
   }
 
-  _addEsriLayer(layerSpec, { zIndex }) {
+  addEsriLayer(layerSpec, { zIndex }) {
     const layer = layerSpec.layerConfig;
     const layerData = layerSpec.layerConfig;
     layer.id = layerSpec.id;
 
-    this._layersLoading[layer.id] = true;
+    this.layersLoading[layer.id] = true;
     // Transforming layer
     // TODO: change this please @ra
     const bodyStringified = JSON.stringify(layer.body || {})
@@ -156,17 +158,17 @@ export default class LayerManager {
       const newLayer = new L.tileLayer(layerData.url, layerData.body); // eslint-disable-line
 
       newLayer.on('load', () => {
-        delete this._layersLoading[layer.id];
-        const layerElement = this._map.getPane('tilePane').lastChild;
+        delete this.layersLoading[layer.id];
+        const layerElement = this.map.getPane('tilePane').lastChild;
         if (zIndex) {
           layerElement.style.zIndex = zIndex;
         }
         layerElement.id = layer.id;
       });
 
-      newLayer.addTo(this._map);
+      newLayer.addTo(this.map);
 
-      this._mapLayers[layer.id] = newLayer;
+      this.mapLayers[layer.id] = newLayer;
     } else if (L.esri[layer.type]) {
       const layerConfig = JSON.parse(bodyStringified);
       layerConfig.pane = 'tilePane';
@@ -177,29 +179,29 @@ export default class LayerManager {
       const newLayer = L.esri[layer.type](layerConfig);
 
       newLayer.on('load', () => {
-        delete this._layersLoading[layer.id];
-        const layerElement = this._map.getPane('tilePane').lastChild;
+        delete this.layersLoading[layer.id];
+        const layerElement = this.map.getPane('tilePane').lastChild;
         if (zIndex) {
           layerElement.style.zIndex = zIndex;
         }
         layerElement.id = layer.id;
       });
-      newLayer.addTo(this._map);
-      this._mapLayers[layer.id] = newLayer;
+      newLayer.addTo(this.map);
+      this.mapLayers[layer.id] = newLayer;
     } else {
-      this._rejectLayersLoading = true;
+      this.rejectLayersLoading = true;
       throw new Error('"type" specified in layer spec doesn`t exist');
     }
   }
 
-  _addCartoLayer(layerSpec, opts) {
+  addCartoLayer(layerSpec) {
     const layer = Object.assign({}, layerSpec.layerConfig, {
       id: layerSpec.id,
       order: layerSpec.order,
       hidden: layerSpec.hidden
     });
 
-    this._layersLoading[layer.id] = true;
+    this.layersLoading[layer.id] = true;
 
     const layerTpl = {
       version: '1.3.0',
@@ -216,27 +218,27 @@ export default class LayerManager {
         // const tileUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
         const tileUrl = `${data.cdn_url.templates.https.url}/${layer.account}/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
 
-        this._mapLayers[layer.id] = L.tileLayer(tileUrl).addTo(this._map);
+        this.mapLayers[layer.id] = L.tileLayer(tileUrl).addTo(this.map);
 
-        this._mapLayers[layer.id].setZIndex(layer.hidden ? -1 : layer.order);
+        this.mapLayers[layer.id].setZIndex(layer.hidden ? -1 : layer.order);
 
-        this._mapLayers[layer.id].on('load', () => {
-          delete this._layersLoading[layer.id];
+        this.mapLayers[layer.id].on('load', () => {
+          delete this.layersLoading[layer.id];
         });
-        this._mapLayers[layer.id].on('tileerror', () => {
-          this._rejectLayersLoading = true;
+        this.mapLayers[layer.id].on('tileerror', () => {
+          this.rejectLayersLoading = true;
         });
       })
       .then(() => {
-        this._rejectLayersLoading = true;
+        this.rejectLayersLoading = true;
       });
   }
 
   setZIndex(layersActive) {
-    Object.keys(this._mapLayers).forEach((key) => {
+    Object.keys(this.mapLayers).forEach((key) => {
       const order = layersActive.filter(l => l.id === key)[0].order;
       const hidden = layersActive.filter(l => l.id === key)[0].hidden;
-      this._mapLayers[key].setZIndex(hidden ? -1 : order);
+      this.mapLayers[key].setZIndex(hidden ? -1 : order);
     });
   }
 }

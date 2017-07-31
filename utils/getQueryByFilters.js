@@ -9,7 +9,8 @@
  * @export
  * @param {string} tableName Name of the table
  * @param {{ name: string, type: string, value: any[] }[]} [filters=[]]
- * @param {{ key: string, value: string, as?: boolean, aggregateFunction: string, group: boolean }} [arrColumns=[]]
+ * @param {{ key: string, value: string, as?: boolean,
+    aggregateFunction: string, group: boolean }} [arrColumns=[]]
  * @param {any} [arrOrder=[]]
  * @param {asc|desc} sortOrder
  * @returns {string} SQL query
