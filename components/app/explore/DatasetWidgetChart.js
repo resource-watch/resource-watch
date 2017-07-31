@@ -6,9 +6,8 @@ import classnames from 'classnames';
 import VegaChart from 'components/widgets/VegaChart';
 import Spinner from 'components/ui/Spinner';
 
-// Themes
+// Helpers
 import ChartTheme from 'utils/widgets/theme';
-import ThumbnailTheme from 'utils/widgets/vega-theme-thumbnails.json';
 
 class DatasetWidgetChart extends React.Component {
 
@@ -49,7 +48,7 @@ class DatasetWidgetChart extends React.Component {
   render() {
     const { widgetConfig } = this.state.widget;
     const { mode } = this.props;
-    const themeObj = (mode === 'thumbnail') ? ThumbnailTheme : ChartTheme();
+    const themeObj = ChartTheme(mode === 'thumbnail');
     const classname = classnames({
       'c-widget-chart': true,
       '-thumbnail': (mode === 'thumbnail')

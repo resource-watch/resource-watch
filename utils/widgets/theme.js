@@ -7,6 +7,9 @@ const defaultTheme = {
   padding: 'auto', // Do not set something different than 'auto'
                    // because it will break several graphs
                    // (primarly the bar and pie ones)
+  render: {
+    retina: true
+  },
   marks: {
     color: '#1f77b4'
   },
@@ -34,14 +37,27 @@ const defaultTheme = {
 
 /**
  * Return the theme of the vega chart
- * @param {{ chart: string }}
+ * @param {boolean} [thumbnail=false]
  * @return {object}
  */
-export default function () {
+export default function (thumbnail = false) {
   const theme = deepClone(defaultTheme);
 
-  // Change here the default theme if you need to
-  // The name of the chart get passed in the parameter
+  if (thumbnail) {
+    // We remove the configuration of each of
+    // the axes
+    delete theme.axis_x;
+    delete theme.axis_y;
+
+    // We hide the axes and their ticks and
+    // labels
+    theme.axis = {
+      ticks: 0,
+      tickSize: 0,
+      axisWidth: 0,
+      tickLabelFontSize: 0
+    };
+  }
 
   return theme;
 }
