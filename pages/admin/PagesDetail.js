@@ -124,8 +124,7 @@ class Data extends Page {
           </div>
         </div>
         <div className="c-page-section">
-          <div className="l-container">
-          </div>
+          <div className="l-container" />
         </div>
       </Layout>
     );

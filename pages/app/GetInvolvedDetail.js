@@ -102,4 +102,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(GetInvolved)
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(GetInvolved);

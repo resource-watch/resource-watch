@@ -1,5 +1,4 @@
 import 'isomorphic-fetch';
-import flatten from 'lodash/flatten';
 
 // Services
 import LayersService from 'services/LayersService';

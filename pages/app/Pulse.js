@@ -192,9 +192,8 @@ class Pulse extends Page {
       .then((response) => {
         if (response.ok) {
           return response.json();
-        } else {
-          throw new Error(response.statusText);
         }
+        throw new Error(response.statusText);
       }).then((response) => {
         if (response.data.length > 0) {
           const obj = response.data[0];
@@ -300,4 +299,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Pulse)
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Pulse);
