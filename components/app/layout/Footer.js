@@ -40,7 +40,7 @@ class Footer extends React.Component {
 
   setPartnersList() {
     const featured = this.props.list.filter(p => p.attributes.featured);
-    const baseURL = process.env.CMS_API_URL.slice(0, process.env.CMS_API_URL.length - 4);
+    const baseURL = process.env.API_URL.slice(0, process.env.API_URL.length - 4);
 
     return featured.map(p => (
       <div key={p.id} className="item">

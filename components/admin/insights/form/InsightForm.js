@@ -45,7 +45,7 @@ class InsightForm extends React.Component {
       this.setState({ loading: true });
 
       get({
-        url: `${process.env.BACKOFFICE_API_URL}/api/insights/${this.state.insightID}`,
+        url: `${process.env.API_URL}/api/insights/${this.state.insightID}`,
         headers: [
           { key: 'Content-Type', value: 'application/json' },
           { key: 'Authorization', value: this.props.user.token }
@@ -77,7 +77,7 @@ class InsightForm extends React.Component {
     if (this.props.mode === 'edit') {
       post({
         type: 'PATCH',
-        url: `${process.env.BACKOFFICE_API_URL}/api/insights/${this.state.insightID}`,
+        url: `${process.env.API_URL}/api/insights/${this.state.insightID}`,
         headers: [
           { key: 'Content-Type', value: 'application/json' },
           { key: 'Authorization', value: this.props.user.token }
@@ -96,7 +96,7 @@ class InsightForm extends React.Component {
     } else if (this.props.mode === 'new') {
       post({
         type: 'POST',
-        url: `${process.env.BACKOFFICE_API_URL}/api/insights`,
+        url: `${process.env.API_URL}/api/insights`,
         headers: [
           { key: 'Content-Type', value: 'application/json' },
           { key: 'Authorization', value: this.props.user.token }

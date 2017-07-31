@@ -27,14 +27,12 @@ class PartnersTable extends React.Component {
   getPartners() {
     get(
       {
-        url: `${process.env.BACKOFFICE_API_URL}/api/partners`,
+        url: `${process.env.API_URL}/partners`,
         headers: [
           { key: 'Content-Type', value: 'application/json' },
           { key: 'Authorization', value: this.props.authorization }
         ],
         onSuccess: (response) => {
-          console.log('success!');
-          console.log(response);
           const partners = response.data.map(partner =>
             Object.assign({}, partner.attributes, {
               id: partner.id

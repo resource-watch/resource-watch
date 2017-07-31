@@ -32,9 +32,9 @@ class PartnerDetail extends Page {
     const imgPath = data['white-logo'] ? data['white-logo'].medium : '';
     const logo = data.website !== '' ?
       (<a href={data.website} target="_blank" rel="noopener noreferrer">
-        <img src={`${process.env.CMS_API_URL}/../${imgPath}`} className="logo" title={data.name} alt={data.name} />
+        <img src={`${process.env.API_URL}/../${imgPath}`} className="logo" title={data.name} alt={data.name} />
       </a>) :
-      <img src={`${process.env.CMS_API_URL}/../${imgPath}`} className="logo" title={data.name} alt={data.name} />;
+      <img src={`${process.env.API_URL}/../${imgPath}`} className="logo" title={data.name} alt={data.name} />;
 
     return (
       <Layout
