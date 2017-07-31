@@ -1,4 +1,3 @@
-import find from 'lodash/find';
 import { createSelector } from 'reselect';
 // import layerSpec from 'utils/layers/layer_spec.json';
 
@@ -15,7 +14,7 @@ const getActiveLayers = (_datasets, _activeLayers, _hiddenLayers) => {
 
   if (_datasets.length) {
     _activeLayers.forEach((id) => {
-      const matchDataset = _datasets.filter((d) => d.id === id)[0];
+      const matchDataset = _datasets.filter(d => d.id === id)[0];
       activeDatasets.push(matchDataset);
     });
 
