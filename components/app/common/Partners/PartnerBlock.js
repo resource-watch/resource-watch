@@ -10,7 +10,7 @@ function PartnerBlock(props) {
       <div className="logo-container">
         <Link
           route={'partner'}
-          params={{ id: props.item.id }}
+          params={{ id: partner.slug }}
         >
           <img src={imgPath} className="logo" title={partner.name} alt={partner.name} />
         </Link>
@@ -18,7 +18,7 @@ function PartnerBlock(props) {
       <p className="description c-text -extra-big">{partner.summary}</p>
       <Link
         route={'partner'}
-        params={{ id: props.item.id }}
+        params={{ id: partner.slug }}
       >
         <a className="action c-btn -transparent -primary -extra-big">Read more</a>
       </Link>
