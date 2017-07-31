@@ -1,3 +1,5 @@
+require('dotenv').load();
+
 const express = require('express');
 const passport = require('passport');
 const next = require('next');
@@ -10,9 +12,6 @@ const basicAuth = require('basic-auth');
 const { parse } = require('url');
 const routes = require('./routes');
 
-// Load environment variables from .env file if present
-const dotenv = require('dotenv').load();
-
 const port = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -24,13 +23,13 @@ const handle = routes.getRequestHandler(app);
 const server = express();
 
 function auth(username, password) {
-  return function authMiddleware(req, res, next) {
+  return function authMiddleware(req, res, nextAction) {
     const user = basicAuth(req);
     if (!user || user.name !== username || user.pass !== password) {
       res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
       return res.sendStatus(401);
     }
-    return next();
+    return nextAction();
   };
 }
 
@@ -56,12 +55,8 @@ passport.use(controlTowerStrategy);
 // Passport session setup.
 // To support persistent login sessions, Passport needs to be able to
 // serialize users into and deserialize users out of the session.
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
-passport.deserializeUser(function (obj, done) {
-  done(null, obj);
-});
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((obj, done) => done(null, obj));
 
 // configure Express
 server.use(cookieParser());
@@ -89,27 +84,19 @@ server.use(passport.session());
 // Initializing next app before express server
 app.prepare()
   .then(() => {
-    server.get('/data', function (req, res) {
-      return res.redirect('/data/explore');
-    });
+    server.get('/data', (req, res) => res.redirect('/data/explore'));
 
-    server.get('/auth', passport.authenticate('control-tower', { failureRedirect: '/' }), function (req, res) {
-      // On success, redirecting to My RW
-      res.redirect('/myrw');
-    });
+    // On success, redirecting to My RW
+    server.get('/auth', passport.authenticate('control-tower', { failureRedirect: '/' }),
+      (req, res) => res.redirect('/myrw'));
 
-    server.get('/auth/user', function (req, res) {
-      // On success, redirecting to My RW
-      return res.json(req.user || {});
-    });
+    server.get('/auth/user', (req, res) => res.json(req.user || {}));
 
-    server.get('/login', function(req, res) {
-      controlTowerStrategy.login(req, res);
-    });
+    server.get('/login', (req, res) => controlTowerStrategy.login(req, res));
 
-    server.get('/logout', function (req, res) {
+    server.get('/logout', (req, res) => {
       req.logout();
-      res.redirect('/');
+      return res.redirect('/');
     });
 
     const handleUrl = (req, res) => {
@@ -124,6 +111,6 @@ app.prepare()
 
     server.listen(port, (err) => {
       if (err) throw err;
-      console.log(`> Ready on http://localhost:${port}`);
+      console.info(`> Ready on http://localhost:${port}`);
     });
   });

@@ -1,6 +1,7 @@
 // routes.js
 const nextRoutes = require('next-routes');
-const routes = module.exports = nextRoutes();
+
+const routes = nextRoutes();
 
 // ========================= ADMIN ROUTES =====================
 routes.add('admin_home', '/admin', 'admin/Data');
@@ -45,3 +46,5 @@ routes.add('myrw', '/myrw/:tab?/:subtab?/:element?', 'app/MyRW');
 routes.add('embed_widget', '/embed/widget/:id', 'app/embed/EmbedWidget');
 routes.add('embed_dataset', '/embed/dataset/:id', 'app/embed/EmbedDataset');
 routes.add('embed_layer', '/embed/layer/:id', 'app/embed/EmbedLayer');
+
+module.exports = routes;
