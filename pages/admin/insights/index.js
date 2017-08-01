@@ -11,36 +11,33 @@ import InsightsTable from 'components/admin/insights/table/InsightsTable';
 import ButtonContainer from 'components/ui/ButtonContainer';
 import Title from 'components/ui/Title';
 
-class InsightsIndex extends React.Component {
-
-  render() {
-    return (
-      <Layout
-        title="Insights"
-        description="Insights description..."
-      >
-        <div className="row">
-          <div className="column small-12">
-            <Title className="-huge -p-primary">
-              Insights
-            </Title>
-            <ButtonContainer
-              className="-j-end"
-              buttons={[{
-                label: 'New +',
-                path: '/admin/insights/new',
-                className: ''
-              }]}
-            />
-            <InsightsTable
-              application={[process.env.APPLICATIONS]}
-              authorization={this.props.user.token}
-            />
-          </div>
+function InsightsIndex(props) {
+  return (
+    <Layout
+      title="Insights"
+      description="Insights description..."
+    >
+      <div className="row">
+        <div className="column small-12">
+          <Title className="-huge -p-primary">
+            Insights
+          </Title>
+          <ButtonContainer
+            className="-j-end"
+            buttons={[{
+              label: 'New +',
+              path: '/admin/insights/new',
+              className: ''
+            }]}
+          />
+          <InsightsTable
+            application={[process.env.APPLICATIONS]}
+            authorization={props.user.token}
+          />
         </div>
-      </Layout>
-    );
-  }
+      </div>
+    </Layout>
+  );
 }
 
 InsightsIndex.propTypes = {

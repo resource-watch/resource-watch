@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'routes';
 import withRedux from 'next-redux-wrapper';
 import { getStaticData } from 'redactions/static_pages';
@@ -90,13 +91,6 @@ class GetInvolved extends Page {
       styles.backgroundImage = `url(${process.env.API_URL}/../${data.photo.large})`;
     }
 
-    const introLines = intro => (
-      intro.map((line, i) => (
-        <span key={i}>
-          {line}{(i !== intro.length - 1) && <br />}
-        </span>))
-    );
-
     const cardsStatic = cards.map(c =>
       (<div
         key={c.id}
@@ -109,11 +103,11 @@ class GetInvolved extends Page {
         >
           <div>
             <h2 className="title c-text -header-normal -thin">{c.title}</h2>
-            <p className="c-text -big">{introLines(c.intro)}</p>
+            <p className="c-text -big">{c.intro}</p>
           </div>
           <div className="buttons">
-            {c.buttons.map((b, j) => (
-              <button key={j} className={`c-button ${b.className}`}>
+            {c.buttons.map(b => (
+              <button key={b.route + b.params.id} className={`c-button ${b.className}`}>
                 <Link route={b.route} params={b.params}><a>{b.text}</a></Link>
               </button>
             ))}
@@ -160,8 +154,8 @@ class GetInvolved extends Page {
 }
 
 GetInvolved.propTypes = {
-  data: React.PropTypes.object,
-  getStaticData: React.PropTypes.func
+  data: PropTypes.object,
+  getStaticData: PropTypes.func
 };
 
 const mapStateToProps = state => ({

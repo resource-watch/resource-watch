@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -118,8 +119,8 @@ class Partners extends Page {
 }
 
 Partners.propTypes = {
-  list: React.PropTypes.array.isRequired,
-  getPartners: React.PropTypes.func
+  list: PropTypes.array.isRequired,
+  getPartners: PropTypes.func
 };
 
 Partners.defaultProps = {

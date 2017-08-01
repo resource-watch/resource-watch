@@ -11,30 +11,27 @@ import InsightForm from 'components/admin/insights/form/InsightForm';
 import Title from 'components/ui/Title';
 import Layout from 'components/admin/layout/Layout';
 
-class InsightEdit extends React.Component {
-
-  render() {
-    return (
-      <Layout
-        title="New insight"
-        description="Edit insight description..."
-      >
-        <div className="row">
-          <div className="column small-12">
-            <Title className="-huge -p-primary">
-              Create Insight
-            </Title>
-            <InsightForm
-              application={[process.env.APPLICATIONS]}
-              authorization={this.props.user.token}
-              onSubmit={() => Router.pushRoute('insights')}
-              mode="new"
-            />
-          </div>
+function InsightEdit(props) {
+  return (
+    <Layout
+      title="New insight"
+      description="Edit insight description..."
+    >
+      <div className="row">
+        <div className="column small-12">
+          <Title className="-huge -p-primary">
+            Create Insight
+          </Title>
+          <InsightForm
+            application={[process.env.APPLICATIONS]}
+            authorization={props.user.token}
+            onSubmit={() => Router.pushRoute('insights')}
+            mode="new"
+          />
         </div>
-      </Layout>
-    );
-  }
+      </div>
+    </Layout>
+  );
 }
 
 InsightEdit.propTypes = {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -71,11 +72,11 @@ class About extends Page {
 
 About.propTypes = {
   // ROUTER
-  url: React.PropTypes.object,
+  url: PropTypes.object,
 
   // STORE
-  data: React.PropTypes.object,
-  getStaticData: React.PropTypes.func
+  data: PropTypes.object,
+  getStaticData: PropTypes.func
 };
 
 const mapStateToProps = state => ({

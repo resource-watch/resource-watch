@@ -13,8 +13,8 @@ import Page from 'components/admin/layout/Page';
 import Layout from 'components/admin/layout/Layout';
 
 // Tabs
-import DatasetTab from 'components/admin/dataset/DatasetTab';
-import WidgetTab from 'components/admin/widget/WidgetTab';
+// import DatasetTab from 'components/admin/dataset/DatasetTab';
+// import WidgetTab from 'components/admin/widget/WidgetTab';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 // Components
@@ -101,7 +101,7 @@ class Data extends Page {
 
   render() {
     const { url, user } = this.props;
-    const { tab, subtab, id } = this.state;
+    const { tab } = this.state;
 
     return (
       <Layout

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Banner from 'components/app/common/Banner';
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
@@ -81,9 +82,9 @@ class PartnerDetail extends Page {
 }
 
 PartnerDetail.propTypes = {
-  url: React.PropTypes.object,
-  data: React.PropTypes.object,
-  getPartnerData: React.PropTypes.func
+  url: PropTypes.object,
+  data: PropTypes.object,
+  getPartnerData: PropTypes.func
 };
 
 PartnerDetail.defaultProps = {
