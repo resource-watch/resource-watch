@@ -10,13 +10,23 @@ import Icon from 'components/ui/Icon';
 // Types
 /**
  * Item of the selector
- * @typedef {{ label: string, value: string, items?: Item[] }} Item
+ * The "as" attribute is an alternate label displayed when the
+ * option is selected and the dropdown is closed as the placeholder
+ * of the component
+ * @typedef {{ label: string, value: string, as?: string, items?: Item[] }} Item
  */
 
 export default class SliderSelect extends React.Component {
 
   constructor(props) {
     super(props);
+
+    // If the parent component asked for the method to reset
+    // the component, we give it
+    if (props.getResetCallback) {
+      props.getResetCallback(this.reset.bind(this));
+    }
+
     this.state = {
       /** @type {Item} */
       selectedItem: props.options
@@ -42,11 +52,27 @@ export default class SliderSelect extends React.Component {
 
     // If we get new options...
     if (newProps.options !== this.props.options) {
-      const selectedItem = (newProps.options && newProps.value)
-        ? newProps.options.find(item => item.value === newProps.value)
+      const selectedIndex = (newProps.options && newProps.value)
+        ? newProps.options.findIndex(item => item.value === newProps.value)
+        : -1;
+
+      const selectedItem = selectedIndex !== -1
+        ? newProps.options[selectedIndex]
         : null;
 
-      this.setState({ selectedItem });
+      this.setState({
+        fullList: newProps.options || [],
+        filteredOptions: newProps.options || [],
+        selectedItem,
+        selectedIndex: selectedIndex !== -1 ? selectedIndex : 0,
+        pathToCurrentItemsList: [],
+        pathToSelectedItem: []
+      });
+    }
+
+    // If the callback to get the reset method changes...
+    if (this.props.getResetCallback !== newProps.getResetCallback && newProps.getResetCallback) {
+      newProps.getResetCallback(this.reset.bind(this));
     }
   }
 
@@ -193,6 +219,14 @@ export default class SliderSelect extends React.Component {
     // don't do anything
     if (e.target instanceof HTMLButtonElement) return;
 
+    // If the user must select a leaf node, then if the
+    // option they clicked is not a leaf, we display
+    // the nested items of that item
+    if (!this.props.allowNonLeafSelection && item.items && item.items.length) {
+      this.onSliderNext(e, item);
+      return;
+    }
+
     e.stopPropagation();
     this.selectItem(item);
   }
@@ -306,8 +340,10 @@ export default class SliderSelect extends React.Component {
   /**
    * Reset the component to its initial state
    */
-  resetSelect() {
+  reset() {
     this.setState({
+      selectedItem: null,
+      selectedIndex: 0,
       pathToCurrentItemsList: [],
       pathToSelectedItem: [],
       filteredOptions: this.state.fullList
@@ -362,7 +398,7 @@ export default class SliderSelect extends React.Component {
             onKeyDown={this.onType}
           />
           <div>
-            <span>{selectedItem ? selectedItem.label : placeholder}</span>
+            <span>{selectedItem ? selectedItem.as || selectedItem.label : placeholder}</span>
             {!selectedItem && closed &&
               <button className="icon-btn" onClick={this.toggle}>
                 <Icon name="icon-arrow-down" className="-small icon-arrow-down" />
@@ -426,9 +462,13 @@ SliderSelect.propTypes = {
   /** @type {string} */
   value: PropTypes.string, // Initial selected value (value of an Item)
   className: PropTypes.string,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  // Whether the user can select an intermediate node (not a leaf)
+  allowNonLeafSelection: PropTypes.bool,
+  getResetCallback: PropTypes.func // Callback to execute to pass a function to reset the component
 };
 
 SliderSelect.defaultProps = {
-  onValueChange: () => {}
+  onValueChange: () => {},
+  allowNonLeafSelection: true
 };
