@@ -46,6 +46,7 @@ class PageEdit extends React.Component {
 
 PageEdit.propTypes = {
   // Store
+  pageID: PropTypes.number,
   user: PropTypes.object.isRequired
 };
 

@@ -11,36 +11,33 @@ import PartnersTable from 'components/admin/partners/table/PartnersTable';
 import ButtonContainer from 'components/ui/ButtonContainer';
 import Title from 'components/ui/Title';
 
-class PartnersIndex extends React.Component {
-
-  render() {
-    return (
-      <Layout
-        title="Partners"
-        description="Partners description..."
-      >
-        <div className="row">
-          <div className="column small-12">
-            <Title className="-huge -p-primary">
-              Partners
-            </Title>
-            <ButtonContainer
-              className="-j-end"
-              buttons={[{
-                label: 'New +',
-                path: '/admin/partners/new',
-                className: ''
-              }]}
-            />
-            <PartnersTable
-              application={[process.env.APPLICATIONS]}
-              authorization={this.props.user.token}
-            />
-          </div>
+function PartnersIndex(props) {
+  return (
+    <Layout
+      title="Partners"
+      description="Partners description..."
+    >
+      <div className="row">
+        <div className="column small-12">
+          <Title className="-huge -p-primary">
+            Partners
+          </Title>
+          <ButtonContainer
+            className="-j-end"
+            buttons={[{
+              label: 'New +',
+              path: '/admin/partners/new',
+              className: ''
+            }]}
+          />
+          <PartnersTable
+            application={[process.env.APPLICATIONS]}
+            authorization={props.user.token}
+          />
         </div>
-      </Layout>
-    );
-  }
+      </div>
+    </Layout>
+  );
 }
 
 PartnersIndex.propTypes = {
