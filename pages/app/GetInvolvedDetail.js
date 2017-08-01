@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 
 // Redux
@@ -87,9 +88,9 @@ class GetInvolved extends Page {
 }
 
 GetInvolved.propTypes = {
-  url: React.PropTypes.object,
-  data: React.PropTypes.object,
-  getStaticData: React.PropTypes.func
+  url: PropTypes.object,
+  data: PropTypes.object,
+  getStaticData: PropTypes.func
 };
 
 const mapStateToProps = state => ({

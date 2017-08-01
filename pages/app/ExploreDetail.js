@@ -1,3 +1,4 @@
+/* eslint max-len: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
