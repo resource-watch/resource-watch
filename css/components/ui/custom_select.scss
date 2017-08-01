@@ -34,7 +34,12 @@
 
   &.-closed {
     .custom-select-search {
-      display: none;
+      // Don't use display: none here
+      // For accessibility reasons (focus) the input
+      // can't be hidden
+      opacity: 0;
+      visibility: none;
+      cursor: pointer;
     }
 
     &:after {
@@ -57,6 +62,10 @@
     &:focus {
       outline: none;
     }
+  }
+
+  .clear-button {
+    z-index: 20; // Must be superior than the z-index of custom-select-search
   }
 
   .no-results {
@@ -150,6 +159,10 @@
         background-color: rgba($color-charcoal-grey, .05);
       }
 
+      &[aria-selected="true"] {
+        color: $color-primary;
+      }
+
       & .label {
         flex-grow: 1;
         display: inline-block;
@@ -160,6 +173,7 @@
       .next {
         padding: 17px;
         height: 100%;
+        cursor: pointer;
 
         &:hover {
           background-color: rgba(#4a81b9, .05);
@@ -170,7 +184,6 @@
 
   .custom-select-search {
     background-color: transparent;
-    cursor: pointer;
     color: $base-font-color;
     outline: none;
     border: none;
