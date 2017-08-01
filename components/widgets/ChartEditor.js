@@ -16,9 +16,24 @@ import DimensionsContainer from 'components/widgets/DimensionsContainer';
 import FieldsContainer from 'components/widgets/FieldsContainer';
 import SortContainer from 'components/widgets/SortContainer';
 import LimitContainer from 'components/widgets/LimitContainer';
+import CustomSelect from 'components/ui/CustomSelect';
 import Select from 'components/form/SelectInput';
 import SaveWidgetModal from 'components/modal/SaveWidgetModal';
 import HowToWidgetEditorModal from 'components/modal/HowToWidgetEditorModal';
+import UploadAreaIntersectionModal from 'components/modal/UploadAreaIntersectionModal';
+
+const AREAS = [
+  {
+    label: 'Custom area',
+    value: 'custom',
+    items: [
+      {
+        label: 'Upload new area',
+        value: 'upload'
+      }
+    ]
+  }
+];
 
 @DragDropContext(HTML5Backend)
 class ChartEditor extends React.Component {
@@ -29,6 +44,32 @@ class ChartEditor extends React.Component {
     this.state = {
       areaOptions: []
     };
+  }
+
+  componentWillMount() {
+    this.fetchAreas();
+  }
+
+  /**
+   * Event handler executed when the selected area
+   * intersection is changed
+   * @param {{ label: string, value: string }} item Option of the selector
+   */
+  @Autobind
+  onChangeAreaIntersection(item) {
+    if (item.value === 'upload') {
+      this.props.toggleModal(true, {
+        children: UploadAreaIntersectionModal,
+        childrenProps: {
+          onAreaUploaded: (id) => {
+            // We close the modal
+            this.props.toggleModal(false, {});
+
+            // TODO: do something with the id
+          }
+        }
+      });
+    }
   }
 
   @Autobind
@@ -64,9 +105,12 @@ class ChartEditor extends React.Component {
     this.props.setModalOptions(options);
   }
 
-  @Autobind
-  handleShareEmbed() {
-
+  /**
+   * Fetch the list of the areas for the area intersection
+   * filter
+   */
+  fetchAreas() {
+    this.setState({ areaOptions: AREAS });
   }
 
   render() {
@@ -112,7 +156,8 @@ class ChartEditor extends React.Component {
           }
           <div className="area-intersection">
             <h5>Area intersection</h5>
-            <Select
+            <CustomSelect placeholder="Select area" options={areaOptions} onValueChange={this.onChangeAreaIntersection} />
+            {/* <Select
               properties={{
                 className: 'area-intersection-selector',
                 name: 'area-intersection',
@@ -121,7 +166,7 @@ class ChartEditor extends React.Component {
               }}
               options={areaOptions}
               onChange={this.handleAreaIntersectionChange}
-            />
+            /> */}
           </div>
         </div>
         <div className="text-container">
@@ -208,7 +253,7 @@ const mapDispatchToProps = dispatch => ({
   setChartType: (type) => {
     dispatch(setChartType(type));
   },
-  toggleModal: (open) => { dispatch(toggleModal(open)); },
+  toggleModal: (open, opts) => { dispatch(toggleModal(open, opts)); },
   setModalOptions: (options) => { dispatch(setModalOptions(options)); }
 });
 
