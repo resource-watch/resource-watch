@@ -59,14 +59,6 @@ class SaveWidgetModal extends React.Component {
     });
   }
 
-  @Autobind
-  handleCancel() {
-    this.props.toggleModal(false);
-  }
-
-  handleGoToMyRW() {
-    Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my-widgets' });
-  }
 
   @Autobind
   async onSubmit(event) {
@@ -137,6 +129,17 @@ class SaveWidgetModal extends React.Component {
         });
         console.log(err); // eslint-disable-line no-console
       });
+  }
+
+  @Autobind
+  handleCancel() {
+    this.props.toggleModal(false);
+  }
+
+  @Autobind
+  handleGoToMyRW() {
+    this.props.toggleModal(false);
+    Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my-widgets' });
   }
 
   @Autobind
@@ -225,21 +228,17 @@ class SaveWidgetModal extends React.Component {
           </div>
           <div className="buttons-widget-saved">
             <Button
-              properties={{
-                className: '-primary'
-              }}
+              properties={{ className: '-primary' }}
               onClick={this.handleCancel}
             >
-                OK
-              </Button>
+              OK
+            </Button>
             <Button
-              properties={{
-                className: '-secondary'
-              }}
+              properties={{ className: '-secondary' }}
               onClick={this.handleGoToMyRW}
             >
-                Check my widgets
-              </Button>
+              Check my widgets
+            </Button>
           </div>
         </div>
         }
@@ -249,11 +248,8 @@ class SaveWidgetModal extends React.Component {
 }
 
 SaveWidgetModal.propTypes = {
-  dataset: PropTypes.string.isRequired,
-  tableName: PropTypes.string.isRequired,
   // Store
   user: PropTypes.object.isRequired,
-  widgetEditor: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired
 };
 

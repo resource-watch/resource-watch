@@ -1,5 +1,4 @@
 import deepClone from 'lodash/cloneDeep';
-import isArray from 'lodash/isArray';
 
 // Helpers
 import { getTimeFormat } from 'utils/widgets/WidgetHelper';
@@ -32,11 +31,18 @@ const defaultChart = {
   // This scale is not the one used by the marks
   // but is necessary for the tooltip to show
   scales: [
-    {		
-      name: 'x',		
-      type: 'ordinal',		
-      range: 'width',		
-      domain: { data: 'table', field: 'x' }		
+    {
+      name: 'x',
+      type: 'ordinal',
+      range: 'width',
+      domain: { data: 'table', field: 'x' }
+    },
+    {
+      name: 'y',
+      type: 'linear',
+      "rangeMin": 300,
+      "rangeMax": 0,
+      domain: { data: 'table', field: 'y' },
     }
   ],
   // This axis is not used by the marks
@@ -45,6 +51,20 @@ const defaultChart = {
     {
       "type": "x",
       "scale": "x",
+      "ticks": 0,
+      "tickSize": 0,
+      "properties": {
+        "labels": {
+          "text": {"template": ""},
+        }
+      }
+    },
+    {
+      "type": "y",
+      // We don't care about any value below but
+      // Vega requires a scale to be defined
+      "scale": "y",
+      "ticks": 0,
       "tickSize": 0,
       "properties": {
         "labels": {
@@ -134,26 +154,34 @@ const defaultChart = {
 
 /**
  * Return the Vega chart configuration
- * 
+ *
  * @export
- * @param {any} { columns, data } 
+ * @param {any} { columns, data, url, embedData  }
  */
-export default function ({ columns, data }) {
+export default function ({ columns, data, url, embedData  }) {
   const config = deepClone(defaultChart);
-  // Whether we have access to the data instead
-  // of having its URL
-  const hasAccessToData = isArray(data);
 
-  if (hasAccessToData) {
+  if (embedData) {
     // We directly set the data
     config.data[0].values = data;
   } else {
     // We set the URL of the dataset
-    config.data[0].url = data.url;
+    config.data[0].url = url;
     config.data[0].format = {
       "type": "json",
-      "property": data.property
+      "property": "data"
     };
+  }
+
+  // We add the name of the axis
+  // NOTE: we reduce the scope of the variables to
+  // not interfere with the variables designating
+  // the "real" axis
+  {
+    const xAxis = config.axes.find(a => a.type === 'x');
+    const yAxis = config.axes.find(a => a.type === 'y');
+    xAxis.name = columns.x.name;
+    yAxis.name = columns.y.name;
   }
 
   if (columns.color.present) {
@@ -183,13 +211,10 @@ export default function ({ columns, data }) {
     if (!config.data[0].format) config.data[0].format = {};
     config.data[0].format.parse = { x: 'date' };
 
-    // If we have access to the data, we should be able to
-    // compute an optimal format for the ticks
-    if (hasAccessToData) {
-      const temporalData = data.map(d => d.x);
-      const format = getTimeFormat(temporalData);
-      if (format) xAxis.format = format;
-    }
+    // We compute an optimal format for the ticks
+    const temporalData = data.map(d => d.x);
+    const format = getTimeFormat(temporalData);
+    if (format) xAxis.format = format;
 
     // The x axis has a template used to truncate the
     // text. Nevertheless, when using it, a date will
@@ -220,7 +245,7 @@ export default function ({ columns, data }) {
 
     // The step is 20% of the value
     const step = data[0].y * 0.2;
-    
+
     // We fix the domain around the value
     yScale.domain = [data[0].y - step, data[0].y + step];
   }

@@ -5,6 +5,7 @@ const TOOLTIP_LOADING = 'TOOLTIP_LOADING';
 const TOOLTIP_SET_CHILDREN_PROPS = 'TOOLTIP_SET_CHILDREN_PROPS';
 const TOOLTIP_SET_POSITION = 'TOOLTIP_SET_POSITION';
 const TOOLTIP_FOLLOW_TOGGLE = 'TOOLTIP_FOLLOW_TOGGLE';
+const TOOLTIP_DIRECTION = 'TOOLTIP_DIRECTION';
 
 // REDUCER
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
   children: null,
   loading: false,
   follow: false,
+  direction: 'bottom',
   childrenProps: {},
   position: {
     x: 0,
@@ -33,6 +35,8 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { position: { x: action.payload.x, y: action.payload.y } });
     case TOOLTIP_FOLLOW_TOGGLE:
       return Object.assign({}, state, { follow: action.payload });
+    case TOOLTIP_DIRECTION:
+      return Object.assign({}, state, { direction: action.payload });
     default:
       return state;
   }
@@ -53,17 +57,27 @@ export function toggleTooltip(opened, opts = {}) {
         }
       }
 
+      if (opts.direction) {
+        dispatch({ type: TOOLTIP_DIRECTION, payload: opts.direction });
+      }
+
       if (opts.follow) {
         dispatch({ type: TOOLTIP_FOLLOW_TOGGLE, payload: true });
+        // NOTE: if this doesn't break anything, let's remove it
+        // The current issue with it is that it is the third listener
+        // for the tooltip on the charts:
+        //  1. Listener from Vega
+        //  2. Listener for the follow option (in Tooltip.js)
+        //  3. This one
 
-        // User has to move the mouse to receive the position
-        document.addEventListener('mousemove', function onMouseMove({ clientX, clientY }) {
-          dispatch({
-            type: TOOLTIP_SET_POSITION,
-            payload: { x: window.scrollX + clientX, y: window.scrollY + clientY }
-          });
-          document.removeEventListener('mousemove', onMouseMove);
-        });
+        // // User has to move the mouse to receive the position
+        // document.addEventListener('mousemove', function onMouseMove({ clientX, clientY }) {
+        //   dispatch({
+        //     type: TOOLTIP_SET_POSITION,
+        //     payload: { x: window.scrollX + clientX, y: window.scrollY + clientY }
+        //   });
+        //   document.removeEventListener('mousemove', onMouseMove);
+        // });
       } else if (opts.position) {
         dispatch({
           type: TOOLTIP_SET_POSITION,
@@ -72,6 +86,10 @@ export function toggleTooltip(opened, opts = {}) {
       }
     } else {
       dispatch({ type: TOOLTIP_FOLLOW_TOGGLE, payload: false });
+
+      // We reset the position of the tip each time the tooltip is
+      // hidden, this way we avoid leaks
+      dispatch({ type: TOOLTIP_DIRECTION, payload: initialState.direction });
     }
 
     dispatch({ type: TOOLTIP_TOGGLE, payload: opened });

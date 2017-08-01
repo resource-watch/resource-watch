@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import { Link } from 'routes';
 
@@ -90,5 +91,5 @@ export default class EmbedWidget extends React.Component {
 }
 
 EmbedWidget.propTypes = {
-  url: React.PropTypes.object.isRequired
+  url: PropTypes.object.isRequired
 };

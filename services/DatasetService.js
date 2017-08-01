@@ -59,7 +59,7 @@ export default class DatasetService {
       method: 'POST',
       body: JSON.stringify({ sql: query }),
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       }
     })
       .then(response => response.json())
@@ -73,15 +73,16 @@ export default class DatasetService {
    */
   getFilter(fieldData) {
     return new Promise((resolve) => {
+      const newFieldData = fieldData;
       if (isFieldNumber(fieldData) || isFieldDate(fieldData)) {
         this.getMinAndMax(fieldData.columnName, fieldData.tableName).then((data) => {
-          fieldData.properties = data;
-          resolve(fieldData);
+          newFieldData.properties = data;
+          resolve(newFieldData);
         });
       } else {
         this.getValues(fieldData.columnName, fieldData.tableName).then((data) => {
-          fieldData.properties = data;
-          resolve(fieldData);
+          newFieldData.properties = data;
+          resolve(newFieldData);
         });
       }
     });
@@ -189,7 +190,7 @@ export default class DatasetService {
   }
 
   getSimilarDatasets(tags) {
-    return fetch(`${this.opts.apiURL}/dataset/vocabulary/find?legacy=${tags}`)
+    return fetch(`${this.opts.apiURL}/dataset?app=rw&vocabulary[legacy]=${tags}`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }

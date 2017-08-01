@@ -6,9 +6,9 @@
   .customize-visualization {
     position: relative;
     min-height: 580px;
-    max-height: 640px;
-    min-width: 430px;
-    max-width: 430px;
+    max-height: 702px;
+    min-width: 522px;
+    max-width: 522px;
     margin-top: -20px;
     margin-bottom: -20px;
     flex-basis: 430px;
@@ -30,6 +30,10 @@
       font-size: $font-size-small-medium;
     }
 
+    .visualization-type-selector {
+      max-width: none;
+    }
+
   }
 
   .visualization {
@@ -39,7 +43,7 @@
     align-items: center;
     flex-shrink: 1;
     flex-basis: 100%;
-    overflow-x: auto;
+    overflow-x: hidden;
 
     &.-error {
       text-align: center;
@@ -63,10 +67,12 @@
       display: flex;
       align-items: center;
       height: 100%;
+      padding-top: 20px; // Space for the legend
 
       .chart {
         // The height will be set either by VegaChart or Vega itself
         height: auto;
+        overflow-x: auto;
 
         .vega {
           // We can't use display: flex; here otherwise

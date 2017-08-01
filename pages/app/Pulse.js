@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 
 // Redux
@@ -192,9 +193,8 @@ class Pulse extends Page {
       .then((response) => {
         if (response.ok) {
           return response.json();
-        } else {
-          throw new Error(response.statusText);
         }
+        throw new Error(response.statusText);
       }).then((response) => {
         if (response.data.length > 0) {
           const obj = response.data[0];
@@ -272,14 +272,14 @@ class Pulse extends Page {
 
 Pulse.propTypes = {
   // ROUTER
-  url: React.PropTypes.object,
+  url: PropTypes.object,
 
   // STORE
-  layersGroup: React.PropTypes.array,
-  layerActive: React.PropTypes.object,
-  getLayers: React.PropTypes.func,
-  getLayerPoints: React.PropTypes.func,
-  toggleTooltip: React.PropTypes.func
+  layersGroup: PropTypes.array,
+  layerActive: PropTypes.object,
+  getLayers: PropTypes.func,
+  getLayerPoints: PropTypes.func,
+  toggleTooltip: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -300,4 +300,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Pulse)
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Pulse);

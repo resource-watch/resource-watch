@@ -135,6 +135,8 @@ class MyRWWidgetsMy extends React.Component {
               widgets={myWidgets}
               mode={mode}
               onWidgetRemove={this.handleWidgetRemoved}
+              showActions
+              showRemove
             />
             }
             {myWidgets && myWidgets.length === 0 &&

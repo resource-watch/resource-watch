@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
+import isEqual from 'lodash/isEqual';
 
 // Next
 import { Link } from 'routes';
@@ -26,6 +27,13 @@ class Header extends React.Component {
 
     // BINDINGS
     this.toggleDropdown = debounce(this.toggleDropdown.bind(this), 50);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.pageHeader !== this.props.pageHeader
+      || !isEqual(nextProps.user, this.props.user)
+      || !isEqual(nextProps.url, this.props.url)
+      || !isEqual(nextState, this.state);
   }
 
   // This function is debounced. If you don't do that insane things will happen
@@ -68,7 +76,7 @@ class Header extends React.Component {
       {
         name: 'Get Involved',
         pathnames: ['/app/GetInvolved'],
-        component: <Link route="get_involved" prefetch={true}><a>Get Involved</a></Link>
+        component: <Link route="get_involved" prefetch><a>Get Involved</a></Link>
       },
       {
         name: 'My RW',

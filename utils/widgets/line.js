@@ -1,5 +1,4 @@
 import deepClone from 'lodash/cloneDeep';
-import isArray from 'lodash/isArray';
 
 // Helpers
 import { getTimeFormat } from 'utils/widgets/WidgetHelper';
@@ -41,7 +40,6 @@ const defaultChart = {
           interpolate: { value: 'linear' },
           x: { scale: 'x', field: 'x' },
           y: { scale: 'y', field: 'y' },
-          y2: { scale: 'y', value: 0 },
           "strokeWidth": {"value": 2}
         }
       }
@@ -51,27 +49,30 @@ const defaultChart = {
 
 /**
  * Return the Vega chart configuration
- * 
+ *
  * @export
- * @param {any} { columns, data } 
+ * @param {any} { columns, data, url, embedData }
  */
-export default function ({ columns, data }) {
+export default function ({ columns, data, url, embedData }) {
   const config = deepClone(defaultChart);
-  // Whether we have access to the data instead
-  // of having its URL
-  const hasAccessToData = isArray(data);
 
-  if (hasAccessToData) {
+  if (embedData) {
     // We directly set the data
     config.data[0].values = data;
   } else {
     // We set the URL of the dataset
-    config.data[0].url = data.url;
+    config.data[0].url = url;
     config.data[0].format = {
       "type": "json",
-      "property": data.property
+      "property": "data"
     };
   }
+
+  // We add the name of the axis
+  const xAxis = config.axes.find(a => a.type === 'x');
+  const yAxis = config.axes.find(a => a.type === 'y');
+  xAxis.name = columns.x.name;
+  yAxis.name = columns.y.name;
 
   // If the x column is a date, we need to use a
   // temporal x scale and parse the x column as a date
@@ -85,16 +86,12 @@ export default function ({ columns, data }) {
     config.data[0].format.parse = { x: 'date' };
 
     // We make the axis use temporal ticks
-    const xAxis = config.axes.find(axis => axis.type === 'x');
     xAxis.formatType = 'time';
 
-    // If we have access to the data, we should be able to
-    // compute an optimal format for the ticks
-    if (hasAccessToData) {
-      const temporalData = data.map(d => d.x);
-      const format = getTimeFormat(temporalData);
-      if (format) xAxis.format = format;
-    }
+    // We compute an optimal format for the ticks
+    const temporalData = data.map(d => d.x);
+    const format = getTimeFormat(temporalData);
+    if (format) xAxis.format = format;
   }
 
   // If all the "dots" have the exact same y position,
@@ -107,7 +104,7 @@ export default function ({ columns, data }) {
 
     // The step is 20% of the value
     const step = data[0].y * 0.2;
-    
+
     // We fix the domain around the value
     yScale.domain = [data[0].y - step, data[0].y + step];
   }

@@ -1,10 +1,11 @@
+require('dotenv').load();
+
 const path = require('path');
 const glob = require('glob');
-const dotenv = require('dotenv').load();
 const webpack = require('webpack');
 
 module.exports = {
-  webpack: (config, { dev }) => {
+  webpack: (config) => {
     config.module.rules.push(
       {
         test: /\.(css|scss)/,
@@ -25,8 +26,8 @@ module.exports = {
           { loader: 'sass-loader',
             options: {
               includePaths: ['styles', 'node_modules', '../node_modules']
-                .map((d) => path.join(__dirname, d))
-                .map((g) => glob.sync(g))
+                .map(d => path.join(__dirname, d))
+                .map(g => glob.sync(g))
                 .reduce((a, c) => a.concat(c), [])
             }
           }
@@ -43,10 +44,9 @@ module.exports = {
     config.plugins.push(
       new webpack.DefinePlugin({
         'process.env.APPLICATIONS': JSON.stringify(process.env.APPLICATIONS),
-        'process.env.BACKOFFICE_API_URL': JSON.stringify(process.env.BACKOFFICE_API_URL),
+        'process.env.API_URL': JSON.stringify(process.env.API_URL),
         'process.env.BASEMAP_TILE_URL': JSON.stringify(process.env.BASEMAP_TILE_URL),
         'process.env.CALLBACK_URL': JSON.stringify(process.env.CALLBACK_URL),
-        'process.env.CMS_API_URL': JSON.stringify(process.env.CMS_API_URL),
         'process.env.CONTROL_TOWER_URL': JSON.stringify(process.env.CONTROL_TOWER_URL),
         'process.env.WRI_API_URL': JSON.stringify(process.env.WRI_API_URL)
       })

@@ -63,14 +63,12 @@ class WidgetEditor extends React.Component {
 
     this.state = {
       selectedVisualizationType: 'chart',
-      // fields
-      fields: [],
+      // FIELDS
       fieldsLoaded: false,
       fieldsError: false,
-      // tablename
-      tableName: null,
-      // Whether the chart is loading its data/rendering
-      chartLoading: false,
+
+      tableName: null, // Name of the table
+      chartLoading: false, // Whether the chart is loading its data/rendering
 
       // CHART CONFIG
       chartConfig: null, // Vega chart configuration
@@ -106,7 +104,7 @@ class WidgetEditor extends React.Component {
     this.getFields()
       .then(() => {
         this.getJiminy();
-        this.getTableName();
+        this.getDatasetInfo();
       })
       .catch(() => console.error('Unable to retrieve the fields'));
 
@@ -115,14 +113,14 @@ class WidgetEditor extends React.Component {
     }
   }
 
-  componentDidUpdate(previousProps) {
+  componentDidUpdate(previousProps, previousState) {
     // If the configuration of the chart is updated, then we
     // fetch the Vega chart config again
     // NOTE: this can't be moved to componentWillUpdate because
     // this.fetchChartConfig uses the store
     if (canRenderChart(this.props.widgetEditor)
-      && !isEqual(previousProps.widgetEditor, this.props.widgetEditor)
-      && this.state.tableName !== null) {
+      && (!isEqual(previousProps.widgetEditor, this.props.widgetEditor)
+      || previousState.tableName !== this.state.tableName)) {
       this.fetchChartConfig();
     }
   }
@@ -148,9 +146,12 @@ class WidgetEditor extends React.Component {
         const fieldsError = !response.fields || !response.fields.length || fields.length === 0;
 
         this.setState({
-          fieldsLoaded: true,
-          fieldsError,
-          fields: response.fields
+          // We still need to fetch the aliases in getDatasetInfo
+          // so we let the loader spinning
+          // FIXME: once the fields enpoint is updated, the aliases
+          // should come with this query
+          fieldsLoaded: false,
+          fieldsError
         }, () => {
           // We wait for the state to be updated before doing anything
           // else
@@ -161,7 +162,7 @@ class WidgetEditor extends React.Component {
         });
       })
       // TODO: handle the error case in the UI
-      .catch(() => this.setState({ fieldsError: true }))
+      .catch(() => this.setState({ fieldsError: true, fieldsLoaded: true }))
       // If we reach this point, either we have already resolved the promise
       // and so rejecting it has no effect, or we haven't and so we reject it
       .then(reject);
@@ -204,8 +205,7 @@ class WidgetEditor extends React.Component {
   getJiminy() {
     // We get the name of the columns that we can use to build the
     // charts
-    const fieldsSt = this.state.fields
-      .filter(field => isFieldAllowed(field))
+    const fieldsSt = this.props.widgetEditor.fields
       .map(elem => elem.columnName);
 
     const querySt = `SELECT ${fieldsSt} FROM ${this.props.dataset} LIMIT 300`;
@@ -217,18 +217,36 @@ class WidgetEditor extends React.Component {
   }
 
   /**
-   * Fetch the name of the dataset's table and save it in the state
+   * Fetch the name of the table and the aliases and descriptions
+   * of the columns and save all of that in the store
    */
-  getTableName() {
-    this.datasetService.fetchData()
+  getDatasetInfo() {
+    this.datasetService.fetchData('metadata')
       .then(({ attributes }) => {
+        const metadata = attributes.metadata.length
+          && attributes.metadata[0]
+          && attributes.metadata[0].attributes.columns;
+
+        // Return the metadata's field for the specified column
+        const getMetadata = (column, field) => (metadata
+          && metadata[column]
+          && metadata[column][field]
+        );
+
+        // We add the aliases and descriptions to the fields
+        const fields = this.props.widgetEditor.fields.map(field => Object.assign({}, field, {
+          alias: getMetadata(field.columnName, 'alias'),
+          description: getMetadata(field.columnName, 'description')
+        }));
+
         this.setState({ tableName: attributes.tableName });
-        if (this.props.mode === 'widget') {
-          this.fetchChartConfig();
-        }
+        this.props.setFields(fields);
       })
-      // TODO: handle the error case
-      .catch(() => console.error('Unable to load the table name'));
+      // TODO: handle the error case in the UI
+      .catch(() => console.error('Unable to load the information about the dataset'))
+      // FIXME: should be removed once the getFields method can fetch the aliases
+      // and description
+      .then(() => this.setState({ fieldsLoaded: true }));
   }
 
   /**
@@ -395,6 +413,7 @@ class WidgetEditor extends React.Component {
       jiminyError,
       jiminyLoaded,
       fieldsError,
+      fieldsLoaded,
       layersError,
       layersLoaded,
       layers
@@ -404,7 +423,9 @@ class WidgetEditor extends React.Component {
 
     // Whether we're still waiting for some data
     const loading = (mode === 'dataset' && !layersLoaded)
-      || (!fieldsError && !jiminyLoaded);
+      || !fieldsLoaded
+      || !jiminyLoaded
+      || (mode === 'widget' && updating);
 
     const chartEditorMode = (mode === 'dataset') ? 'save' : 'update';
 
@@ -455,7 +476,7 @@ class WidgetEditor extends React.Component {
                   <h5>Visualization type</h5>
                   <Select
                     properties={{
-                      className: 'chart-type-selector',
+                      className: 'visualization-type-selector',
                       name: 'visualization-type',
                       value: selectedVisualizationType
                     }}
@@ -472,7 +493,7 @@ class WidgetEditor extends React.Component {
                     tableViewMode={selectedVisualizationType === 'table'}
                     mode={chartEditorMode}
                     onUpdateWidget={this.handleUpdateWidget}
-                    showSaveButton
+                    showSaveButton={showSaveButton}
                   />
                 }
                 {

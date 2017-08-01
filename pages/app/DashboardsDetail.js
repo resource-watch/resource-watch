@@ -40,26 +40,17 @@ export default class DashboardsDetail extends Page {
     this.getDashboards();
   }
 
-  componentDidMount() {
-    // Load favorites
-    if (!this.props.user.id) {
-      this.waitForUserToBeLoaded();
-    } else {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user.id && !this.props.user.id) {
       this.loadFavourites();
     }
   }
 
-  /**
-    Waits for the user object to be loaded into the store
-  */
-  waitForUserToBeLoaded() {
-    setTimeout(() => {
-      if (this.props.user.id) {
-        this.loadFavourites();
-      } else {
-        this.waitForUserToBeLoaded();
-      }
-    }, 500);
+  componentDidMount() {
+    // Load favorites
+    if (this.props.user.id) {
+      this.loadFavourites();
+    }
   }
 
   /**
@@ -75,15 +66,15 @@ export default class DashboardsDetail extends Page {
   }
 
   /**
-  * Checks whether the widget is one the user favourites
-  */
+   * Checks whether the widget is one the user favourites
+   * @param {string} widgetId Widget's ID
+   * @returns {boolean}
+   */
   isFavourite(widgetId) {
     const { favourites } = this.state;
-    let found = false;
-    if (favourites) {
-      found = favourites.find(val => val.attributes.resourceId === widgetId);
-    }
-    return found;
+    const isFavourite = favourites
+      && favourites.find(val => val.attributes.resourceId === widgetId);
+    return !!isFavourite;
   }
 
   /**
@@ -144,7 +135,7 @@ export default class DashboardsDetail extends Page {
           <div className="c-page-header">
             <div className="l-container">
               <div className="page-header-content -padding-b-2">
-                <Breadcrumbs items={[{ name: 'Data', route: 'data' }]} />
+                <Breadcrumbs items={[{ name: 'Data', href: '/data' }]} />
                 <Title className="-primary -huge page-header-title">Dashboards</Title>
               </div>
             </div>
@@ -209,6 +200,8 @@ export default class DashboardsDetail extends Page {
                 selectedDashboard.widgets.map(widget => (
                   <DashboardCard
                     key={widget.name || widget.widgetId}
+                    // widget.widgetId doesn't exist for the "fake" widget
+                    // so React can complain about a null widgetId
                     widgetId={widget.widgetId}
                     categories={widget.categories}
                     isFavourite={this.isFavourite(widget.widgetId)}

@@ -9,26 +9,23 @@ import { initStore } from 'store';
 import VocabulariesForm from 'components/admin/vocabularies/form/VocabulariesForm';
 import Layout from 'components/admin/layout/Layout';
 
-class VocabulariesIndex extends React.Component {
-
-  render() {
-    return (
-      <Layout
-        title="Vocabularies"
-        description="Vocabularies description..."
-      >
-        <div className="row">
-          <div className="column small-12">
-            <VocabulariesForm
-              application={process.env.APPLICATIONS}
-              authorization={this.props.user.token}
-              language="en"
-            />
-          </div>
+function VocabulariesIndex(props) {
+  return (
+    <Layout
+      title="Vocabularies"
+      description="Vocabularies description..."
+    >
+      <div className="row">
+        <div className="column small-12">
+          <VocabulariesForm
+            application={process.env.APPLICATIONS}
+            authorization={props.user.token}
+            language="en"
+          />
         </div>
-      </Layout>
-    );
-  }
+      </div>
+    </Layout>
+  );
 }
 
 VocabulariesIndex.propTypes = {

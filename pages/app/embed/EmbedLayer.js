@@ -73,15 +73,17 @@ export default class EmbedLayer extends React.Component {
         />
         {layer &&
           <div className="container">
-            <Map
-              LayerManager={LayerManager}
-              mapConfig={mapConfig}
-              layersActive={[layer.attributes]}
-            />
-            <Legend
-              layersActive={[layer.attributes]}
-              className={{ color: '-dark' }}
-            />
+            <div className="map-container">
+              <Map
+                LayerManager={LayerManager}
+                mapConfig={mapConfig}
+                layersActive={[layer.attributes]}
+              />
+              <Legend
+                layersActive={[layer.attributes]}
+                className={{ color: '-dark' }}
+              />
+            </div>
             <div className="info">
               <div className="layer-title">
                 <h2>

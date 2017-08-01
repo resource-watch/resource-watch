@@ -11,30 +11,27 @@ import PartnerForm from 'components/admin/partners/form/PartnerForm';
 import Title from 'components/ui/Title';
 import Layout from 'components/admin/layout/Layout';
 
-class PartnerNew extends React.Component {
-
-  render() {
-    return (
-      <Layout
-        title="New partner"
-        description="Edit partner description..."
-      >
-        <div className="row">
-          <div className="column small-12">
-            <Title className="-huge -p-primary">
-              Create Partner
-            </Title>
-            <PartnerForm
-              application={[process.env.APPLICATIONS]}
-              authorization={this.props.user.token}
-              onSubmit={() => Router.pushRoute('partners')}
-              mode="new"
-            />
-          </div>
+function PartnerNew(props) {
+  return (
+    <Layout
+      title="New partner"
+      description="Edit partner description..."
+    >
+      <div className="row">
+        <div className="column small-12">
+          <Title className="-huge -p-primary">
+            Create Partner
+          </Title>
+          <PartnerForm
+            application={[process.env.APPLICATIONS]}
+            authorization={props.user.token}
+            onSubmit={() => Router.pushRoute('partners')}
+            mode="new"
+          />
         </div>
-      </Layout>
-    );
-  }
+      </div>
+    </Layout>
+  );
 }
 
 PartnerNew.propTypes = {

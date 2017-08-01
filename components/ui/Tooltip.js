@@ -1,5 +1,6 @@
 import React from 'react';
 import TetherComponent from 'react-tether';
+import classnames from 'classnames';
 import { initStore } from 'store';
 import withRedux from 'next-redux-wrapper';
 import { toggleTooltip, setTooltipPosition } from 'redactions/tooltip';
@@ -52,13 +53,20 @@ class Tooltip extends React.Component {
       position: 'absolute',
       top: `${topPos}px`,
       left: `${bottomPos}px`,
-      width: '10px',
-      height: '10px',
+      width: '1px',
+      height: '1px',
       visibility: 'hidden'
     };
   }
 
   render() {
+    const tooltipClasses = classnames({
+      'c-tooltip': true,
+      '-hidden': !this.props.tooltip.opened,
+      '-arrow-top': this.props.tooltip.direction === 'top',
+      '-arrow-bottom': this.props.tooltip.direction === 'bottom'
+    });
+
     return (
       <TetherComponent
         ref={(node) => { this.tether = node; }}
@@ -69,9 +77,9 @@ class Tooltip extends React.Component {
           attachment: 'together'
         }]}
         classes={{
-          element: `c-tooltip ${this.props.tooltip.opened ? '' : '-hidden'}`
+          element: tooltipClasses
         }}
-        offset="10px 0"
+        offset="20px 0" // The offset is needed for the follow option
       >
         <div
           style={this.getStyles()}

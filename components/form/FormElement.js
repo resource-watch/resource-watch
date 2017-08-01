@@ -9,7 +9,9 @@ class FormElement extends React.Component {
     super(props);
 
     this.state = {
-      value: this.props.properties.default,
+      // NOTE: Please add a default value such as ''
+      // otherwise React will throw a warning
+      value: this.props.properties.default || '',
       valid: null,
       error: []
     };

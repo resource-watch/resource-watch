@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -60,7 +61,12 @@ class Partners extends Page {
                 <div className="row">
                   <article className="column small-12 medium-6">
                     <p className="c-text -extra-big">
-                      Resource Watch brings together leading technology companies and data providers dedicated to making new streams of data actionable. This powerful coupling allows for seamless exploration of trusted, decision-relevant data from remote sensing systems, peer-reviewed research, and other sources. State-of-the-art technology and data services support open-access web and mobile apps to deliver insightful data to the people that need it.
+                      Resource Watch brings together leading technology companies and data providers
+                      dedicated to making new streams of data actionable. This powerful coupling
+                      allows for seamless exploration of trusted, decision-relevant data
+                      from remote sensing systems, peer-reviewed research, and other sources.
+                      State-of-the-art technology and data services support open-access
+                      web and mobile apps to deliver insightful data to the people that need it.
                     </p>
                   </article>
                 </div>
@@ -75,7 +81,7 @@ class Partners extends Page {
                   </div>
                 </div>
                 <div className="row">
-                  {founders.map((p, i) => <PartnerBlock key={i} item={p} />)}
+                  {founders.map(p => <PartnerBlock key={p.id} item={p} />)}
                 </div>
               </div>
             </section>
@@ -88,7 +94,7 @@ class Partners extends Page {
                   </div>
                 </div>
                 <div className="row">
-                  {funders.map((p, i) => <PartnerBlock key={i} item={p} />)}
+                  {funders.map(p => <PartnerBlock key={p.id} item={p} />)}
                 </div>
               </div>
             </section>
@@ -113,8 +119,8 @@ class Partners extends Page {
 }
 
 Partners.propTypes = {
-  list: React.PropTypes.array.isRequired,
-  getPartners: React.PropTypes.func
+  list: PropTypes.array.isRequired,
+  getPartners: PropTypes.func
 };
 
 Partners.defaultProps = {
@@ -129,4 +135,4 @@ const mapDispatchToProps = dispatch => ({
   getPartners: () => { dispatch(getPartners()); }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Partners)
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Partners);

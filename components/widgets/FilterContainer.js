@@ -74,7 +74,6 @@ class FilterContainer extends React.Component {
 
 FilterContainer.propTypes = {
   connectDropTarget: PropTypes.func,
-  isOver: PropTypes.bool,
   canDrop: PropTypes.bool,
   widgetEditor: PropTypes.object,
   // Redux

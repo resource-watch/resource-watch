@@ -34,26 +34,30 @@
       flex-grow: 1;
 
       .vega {
-        text-align: center;
+        display: flex;
+        justify-content: center;
+
+        canvas {
+          display: block; // Mandatory to avoid a gap below it
+        }
       }
     }
   }
 
   // These styles are used in the Explore page
-  // (the list of datasets)
+  // (the list of datasets) and My RW > Widgets
+  // when in grid mode
   &.-thumbnail {
     max-height: 180px;
 
     .c-chart {
       display: block;
-      height: 300px;
+      height: 160px;
+      min-height: 160px; // Override a rule above
 
       .chart {
         display: block;
         height: 100%;
-        // We need to set this since otherwise an horizontal scroll bar appears
-        // in the Explore cards
-        overflow-x: hidden;
       }
     }
   }

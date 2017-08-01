@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import debounce from 'lodash/debounce';
+import isEqual from 'lodash/isEqual';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -86,6 +87,11 @@ class Explore extends Page {
       layersActive: nextProps.layersActive,
       vocabularies: nextProps.explore.vocabularies.list
     });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !isEqual(nextProps.explore, this.props.explore)
+      || !isEqual(nextState, this.state);
   }
 
   @Autobind

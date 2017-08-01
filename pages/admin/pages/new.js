@@ -11,30 +11,27 @@ import PageForm from 'components/admin/pages/form/PageForm';
 import Title from 'components/ui/Title';
 import Layout from 'components/admin/layout/Layout';
 
-class PageNew extends React.Component {
-
-  render() {
-    return (
-      <Layout
-        title="New page"
-        description="Edit page description..."
-      >
-        <div className="row">
-          <div className="column small-12">
-            <Title className="-huge -p-primary">
-              Create Static Page
-            </Title>
-            <PageForm
-              application={[process.env.APPLICATIONS]}
-              authorization={this.props.user.token}
-              onSubmit={() => Router.pushRoute('pages')}
-              mode="new"
-            />
-          </div>
+function PageNew(props) {
+  return (
+    <Layout
+      title="New page"
+      description="Edit page description..."
+    >
+      <div className="row">
+        <div className="column small-12">
+          <Title className="-huge -p-primary">
+            Create Static Page
+          </Title>
+          <PageForm
+            application={[process.env.APPLICATIONS]}
+            authorization={props.user.token}
+            onSubmit={() => Router.pushRoute('pages')}
+            mode="new"
+          />
         </div>
-      </Layout>
-    );
-  }
+      </div>
+    </Layout>
+  );
 }
 
 PageNew.propTypes = {

@@ -1,23 +1,51 @@
 .c-chart-editor {
   margin-top: 20px;
 
-  .chart-type {
+  .selectors-container {
+    display: flex;
+    justify-content: space-between;
 
-    h5 {
-      margin: 0 0 10px;
-      font-size: $font-size-small-medium;
+    .chart-type {
+      width: 100%;
+      margin-right: 20px;
+
+      h5 {
+        margin: 0 0 10px;
+        font-size: $font-size-small-medium;
+      }
     }
+
+    .area-intersection {
+      width: 100%;
+
+      .area-intersection-selector {
+        max-width: none;
+      }
+    }
+  }
+
+  .text-container {
+    margin-top: 20px;
+  }
+
+  .arrow-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 15px;
+    margin-right: 15px;
   }
 
   .actions-div {
     display: flex;
-    margin-top: 22px;
+    margin-top: 14px;
     justify-content: flex-start;
     padding-bottom: 20px;
 
     .customization-container {
       flex-grow: 1;
-      margin-left: 20px;
+      border: 1px solid $color-grey;
+      padding: 10px;
     }
   }
 

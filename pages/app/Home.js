@@ -78,12 +78,13 @@ const exploreCards = [
 ];
 
 class Home extends Page {
+
   componentDidMount() {
     super.componentDidMount();
-    this.setAnchorScroll('discoverIsights', 'js-scroll');
+    Home.setAnchorScroll('discoverIsights', 'js-scroll');
   }
 
-  setAnchorScroll(target, trigger) {
+  static setAnchorScroll(target, trigger) {
     const triggerEl = document.getElementsByClassName(trigger)[0];
     const moveTo = new MoveTo({
       tolerance: 0,
@@ -94,9 +95,9 @@ class Home extends Page {
     moveTo.registerTrigger(triggerEl);
   }
 
-  exploreCardsStatic() {
-    return exploreCards.map((c, i) =>
-      (<div key={`explore-card-${i}`} className="column small-12 medium-4">
+  static exploreCardsStatic() {
+    return exploreCards.map(c =>
+      (<div key={`explore-card-${c.title}`} className="column small-12 medium-4">
         <CardStatic
           className="-light"
           background={c.background}
@@ -109,8 +110,8 @@ class Home extends Page {
             <p className="c-text -big">{c.intro}</p>
           </div>
           <div className="buttons">
-            {c.buttons.map((b, j) => (
-              <button key={j} className={`c-btn ${b.className}`}>
+            {c.buttons.map(b => (
+              <button key={b.path} className={`c-btn ${b.className}`}>
                 <Link route={b.path}><a>{b.text}</a></Link>
               </button>
             ))}
@@ -120,10 +121,10 @@ class Home extends Page {
     );
   }
 
-  insightsCardsStatic() {
-    return insightsCards.map((c, i) =>
+  static insightsCardsStatic() {
+    return insightsCards.map(c =>
       (<CardStatic
-        key={`insight-card-${i}`}
+        key={`insight-card-${c.tag}`}
         className="-light"
         background={c.background}
         clickable
@@ -147,8 +148,8 @@ class Home extends Page {
   }
 
   render() {
-    const exploreCardsStatic = this.exploreCardsStatic();
-    const insightsCardsStatic = this.insightsCardsStatic();
+    const exploreCardsStatic = Home.exploreCardsStatic();
+    const insightsCardsStatic = Home.insightsCardsStatic();
 
     // <a className="scroll-icon js-scroll" href="#discoverIsights">
     //   <Icon name="icon-arrow-down" />
@@ -245,10 +246,10 @@ class Home extends Page {
                 <div className="column small-12 medium-6">
                   <h1 className="title c-text -header-huge -thin">Get Involved</h1>
                   <p className="c-text -big">
-                    We've brought together the best datasets related to natural resources,
-                     so you can find new insights, influence decisions and change the world.
-                     There's a world of opportunity to take this futher. Here are
-                     some ideas to get you started.
+                    We{'´'}ve brought together the best datasets related to natural resources,
+                    so you can find new insights, influence decisions and change the world.
+                    There{'´'}s a world of opportunity to take this futher. Here are
+                    some ideas to get you started.
                   </p>
                 </div>
               </div>
@@ -270,7 +271,7 @@ class Home extends Page {
                 </div>
                 <div className="column small-12 medium-3">
                   <button className="c-btn -transparent">
-                    <Link route="get_involved_detail" params={{ id: 'develop-app' }}>Develop your app</Link>
+                    <Link route="get_involved_detail" params={{ id: 'develop-app' }}><span>Develop your app</span></Link>
                   </button>
                 </div>
               </div>

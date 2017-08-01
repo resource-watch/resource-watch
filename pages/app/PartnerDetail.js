@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Banner from 'components/app/common/Banner';
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
@@ -17,7 +18,7 @@ class PartnerDetail extends Page {
     }
   }
 
-  splitInTwoParts(str) {
+  static splitInTwoParts(str) {
     const strArray = str.split(' ');
     const midIndex = Math.floor(strArray.length / 2);
     return [
@@ -28,13 +29,13 @@ class PartnerDetail extends Page {
 
   render() {
     const { data } = this.props;
-    const description = data.summary ? this.splitInTwoParts(data.summary) : ['', ''];
+    // const description = data.summary ? this.splitInTwoParts(data.summary) : ['', ''];
     const imgPath = data['white-logo'] ? data['white-logo'].medium : '';
     const logo = data.website !== '' ?
       (<a href={data.website} target="_blank" rel="noopener noreferrer">
-        <img src={`${process.env.CMS_API_URL}/../${imgPath}`} className="logo" title={data.name} alt={data.name} />
+        <img src={`${process.env.API_URL}/../${imgPath}`} className="logo" title={data.name} alt={data.name} />
       </a>) :
-      <img src={`${process.env.CMS_API_URL}/../${imgPath}`} className="logo" title={data.name} alt={data.name} />;
+      <img src={`${process.env.API_URL}/../${imgPath}`} className="logo" title={data.name} alt={data.name} />;
 
     return (
       <Layout
@@ -53,12 +54,8 @@ class PartnerDetail extends Page {
                 </div>
                 <div className="description">
                   <div className="row">
-                    <div className="column small-12 medium-6">
-                      <p className="c-text -extra-big">{description[0]}</p>
-                    </div>
-
-                    <div className="column small-12 medium-6">
-                      <p className="c-text -extra-big">{description[1]}</p>
+                    <div className="column small-12 medium-12">
+                      <p className="c-text -extra-big">{data.summary}</p>
                     </div>
                   </div>
                 </div>
@@ -85,9 +82,9 @@ class PartnerDetail extends Page {
 }
 
 PartnerDetail.propTypes = {
-  url: React.PropTypes.object,
-  data: React.PropTypes.object,
-  getPartnerData: React.PropTypes.func
+  url: PropTypes.object,
+  data: PropTypes.object,
+  getPartnerData: PropTypes.func
 };
 
 PartnerDetail.defaultProps = {
@@ -102,4 +99,4 @@ const mapDispatchToProps = dispatch => ({
   getPartnerData: (id) => { dispatch(getPartnerData(id)); }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(PartnerDetail)
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(PartnerDetail);

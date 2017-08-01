@@ -1,3 +1,4 @@
+/* eslint max-len: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
@@ -26,6 +27,9 @@ import WidgetEditor from 'components/widgets/WidgetEditor';
 import ShareExploreDetailModal from 'components/modal/ShareExploreDetailModal';
 import SubscribeToAlertsModal from 'components/modal/SubscribeToAlertsModal';
 import DatasetList from 'components/app/explore/DatasetList';
+
+// Temporal: Only while we are not using the Knowledge Graph
+const SIMILAR_DATASETS = ['11de2bc1-368b-42ed-a207-aaff8ece752b', '3de46aa8-120c-454f-b022-464a236f45ed', '8ecf07f5-3cae-4275-adfe-918d04439a1a'];
 
 class ExploreDetail extends Page {
   constructor(props) {
@@ -106,13 +110,10 @@ class ExploreDetail extends Page {
     this.setState({
       similarDatasetsLoaded: false
     });
-    this.datasetService.getSimilarDatasets('water').then((response) => { // Temporal, meanwhile we start using the Knowledge Graph
-      const datasetIDs = response[0].attributes.resources.map(val => val.id).slice(0, 3);
-      this.datasetService.getDatasets(datasetIDs).then((res) => {
-        this.setState({
-          similarDatasets: res,
-          similarDatasetsLoaded: true
-        });
+    this.datasetService.getDatasets(SIMILAR_DATASETS).then((res) => {
+      this.setState({
+        similarDatasets: res,
+        similarDatasetsLoaded: true
       });
     }).catch((error) => {
       console.error(error);

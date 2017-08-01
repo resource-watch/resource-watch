@@ -55,6 +55,7 @@
 @import "./components/modal/how_to_widget_editor_modal";
 @import "./components/modal/embed_my_widget_modal";
 @import "./components/modal/share_modal_explore";
+@import "./components/modal/embed_layer_modal";
 
 // VIS
 @import "./components/vis/globe";
@@ -89,6 +90,9 @@
 @import "./components/widgets/limit_container";
 @import "./components/widgets/widget_list";
 @import "./components/widgets/widget_card";
+@import "./components/widgets/chart_tooltip";
+@import "./components/widgets/widget_actions_tooltip";
+@import "./components/widgets/vega_chart_legend";
 
 
 // ================== ADMIN ======================

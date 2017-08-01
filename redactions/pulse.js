@@ -1,6 +1,6 @@
 /* global config */
 import 'isomorphic-fetch';
-import { LAYERS_PLANET_PULSE } from '/utils/layers/pulse_layers';
+import { LAYERS_PLANET_PULSE } from 'utils/layers/pulse_layers';
 
 
 /**
@@ -88,7 +88,7 @@ export function toggleActiveLayer(id, threedimensional, markerType) {
           payload: layer
         });
       })
-      .catch((err) => {
+      .catch(() => {
         // Fetch from server ko -> Dispatch error
         dispatch({
           type: SET_ACTIVE_LAYER,

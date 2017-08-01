@@ -7,8 +7,11 @@ const defaultTheme = {
   padding: 'auto', // Do not set something different than 'auto'
                    // because it will break several graphs
                    // (primarly the bar and pie ones)
+  render: {
+    retina: true
+  },
   marks: {
-    color: '#3BB2D0'
+    color: '#1f77b4'
   },
   axis_x: {
     axisColor: '#A9ABAD',
@@ -29,44 +32,32 @@ const defaultTheme = {
     grid: true,
     gridColor: '#A9ABAD',
     gridOpacity: 1
-  },
-  // This is used by old widgets, generally the one that are
-  // used to represent a dataset
-  range: {
-    colorRange1: [
-      '#3bb2d0',
-      '#54d2f2',
-      '#54bad4',
-      '#2a8da5'
-    ],
-    colorRange2: [
-      '#f4f4f1',
-      '#fffbca',
-      '#ffe01b',
-      '#f6bb0f',
-      '#f6811d',
-      '#e24e2c'
-    ],
-    colorRange3: [
-      '#D23782',
-      '#1230a5',
-      '#32866d',
-      '#ffe01b',
-      '#6e23bd'
-    ]
   }
 };
 
 /**
  * Return the theme of the vega chart
- * @param {{ chart: string }}
+ * @param {boolean} [thumbnail=false]
  * @return {object}
  */
-export default function () {
+export default function (thumbnail = false) {
   const theme = deepClone(defaultTheme);
 
-  // Change here the default theme if you need to
-  // The name of the chart get passed in the parameter
+  if (thumbnail) {
+    // We remove the configuration of each of
+    // the axes
+    delete theme.axis_x;
+    delete theme.axis_y;
+
+    // We hide the axes and their ticks and
+    // labels
+    theme.axis = {
+      ticks: 0,
+      tickSize: 0,
+      axisWidth: 0,
+      tickLabelFontSize: 0
+    };
+  }
 
   return theme;
 }

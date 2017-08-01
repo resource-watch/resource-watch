@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -27,7 +28,7 @@ class About extends Page {
 
     const styles = {};
     if (data && data.photo) {
-      styles.backgroundImage = `url(${process.env.CMS_API_URL}/../${data.photo.large})`;
+      styles.backgroundImage = `url(${process.env.API_URL}/..${data.photo.cover})`;
     }
 
     return (
@@ -71,11 +72,11 @@ class About extends Page {
 
 About.propTypes = {
   // ROUTER
-  url: React.PropTypes.object,
+  url: PropTypes.object,
 
   // STORE
-  data: React.PropTypes.object,
-  getStaticData: React.PropTypes.func
+  data: PropTypes.object,
+  getStaticData: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -88,4 +89,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(About)
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(About);

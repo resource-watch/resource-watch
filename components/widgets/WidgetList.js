@@ -29,9 +29,14 @@ export default class WidgetList extends React.Component {
     this.props.onWidgetRemove();
   }
 
+  @Autobind
+  handleWidgetUnfavourited() {
+    this.props.onWidgetUnfavourited();
+  }
+
   render() {
     const { loading } = this.state;
-    const { widgets, showRemove, showEmbed, mode } = this.props;
+    const { widgets, showRemove, showActions, showEmbed, showStar, mode } = this.props;
 
     const newClassName = classNames({
       column: true,
@@ -56,8 +61,12 @@ export default class WidgetList extends React.Component {
                 widget={widget}
                 onClick={this.triggerClick}
                 onWidgetRemove={this.handleWidgetRemoved}
-                showEmbed={showEmbed}
+                onWidgetUnfavourited={this.handleWidgetUnfavourited}
+                showActions={showActions}
                 showRemove={showRemove}
+                showEmbed={showEmbed}
+                showStar={showStar}
+                mode={mode === 'grid' ? 'thumbnail' : 'full'}
               />
             </li>)
           )}
@@ -68,16 +77,20 @@ export default class WidgetList extends React.Component {
 }
 
 WidgetCard.defaultProps = {
-  showEmbed: true,
-  showRemove: true
+  showActions: false,
+  showRemove: false,
+  showEmbed: false,
+  showStar: false
 };
 
 
 WidgetList.propTypes = {
   widgets: PropTypes.array.isRequired,
-  showEmbed: PropTypes.bool,
+  showActions: PropTypes.bool,
   showRemove: PropTypes.bool,
-  mode: PropTypes.string.isRequired, // grid|list
+  showEmbed: PropTypes.bool,
+  showStar: PropTypes.bool,
+  mode: PropTypes.oneOf(['grid', 'list']).isRequired,
   // Callbacks
   onWidgetRemove: PropTypes.func
 };

@@ -1,4 +1,5 @@
 .c-widget-card {
+  position: relative;
   width: 100%;
   background: $color-tertiary;
   display: flex;
@@ -6,7 +7,8 @@
   flex: 1 0 auto;
   cursor: pointer;
 
-  border: 1px solid $color-pale-grey;
+  border: 1px solid rgba(26,28,34,0.1);
+  border-radius: 4px;
 
   .c-widget-chart {
     .c-chart {
@@ -27,9 +29,9 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding: 16px;
 
     .detail {
-      padding: 16px;
 
       a {
         text-decoration: none;
@@ -43,7 +45,35 @@
     }
 
     .actions {
-      margin: 0 5px 5px;
+      display: flex;
+      justify-content: space-between;
+      height: 30px;
+
+      a {
+        color: $color-dark-pink;
+        padding: 0px;
+        vertical-align: middle;
+
+        &.widget-actions {
+          padding: 4px;
+          border: 1px solid $color-dark-pink;
+        }
+
+        &:not(.widget-actions) {
+          padding-top: 4px;
+        }
+      }
+    }
+  }
+
+  .star-icon {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    cursor: pointer;
+
+    svg {
+      fill: #FAB72E;
     }
   }
 
