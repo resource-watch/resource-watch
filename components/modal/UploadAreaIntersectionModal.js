@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import Dropzone from 'react-dropzone';
+import classnames from 'classnames';
 
 // Components
 import Spinner from 'components/ui/Spinner';
+import Title from 'components/ui/Title';
 
 class UploadAreaIntersectionModal extends React.Component {
 
@@ -61,7 +63,7 @@ class UploadAreaIntersectionModal extends React.Component {
       multipart: true
     })
       .then((response) => {
-        if (!response.ok) throw new Error('The file couldn\'t be processed correctly. Try again in a few minutes.');
+        if (!response.ok) throw new Error('The file couldn\'t be processed correctly. Make sure the format is supported. If it is, try again in a few minutes.');
         return response.json();
       })
       .then(({ data }) => {
@@ -86,18 +88,20 @@ class UploadAreaIntersectionModal extends React.Component {
    */
   static processFile(file) {
     // First step: we convert the file to a geojson format
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const fileType = UploadAreaIntersectionModal.getFileType(file);
 
       // If the file is already a geojson, we don't need to convert it
       if (fileType === 'geojson') {
         // If there's an error, it will be caught at a higher level
         UploadAreaIntersectionModal.readJSONFile(file)
-          .then(resolve);
+          .then(resolve)
+          .catch(reject);
       } else { // Otherwise, we convert it
         // If there's an error, it will be caught at a higher level
         UploadAreaIntersectionModal.convertToJSON(file)
-          .then(resolve);
+          .then(resolve)
+          .catch(reject);
       }
     })
     // Second: we store it in the geostore
@@ -167,7 +171,7 @@ class UploadAreaIntersectionModal extends React.Component {
       if (this.state.accepted) {
         UploadAreaIntersectionModal.processFile(this.state.accepted)
           .then(id => this.props.onUploadArea(id))
-          .catch(err => this.setState({ errors: [err.message] }))
+          .catch(err => this.setState({ errors: [err] }))
           .then(() => this.setState({ loading: false }));
       }
     });
@@ -185,9 +189,17 @@ class UploadAreaIntersectionModal extends React.Component {
   render() {
     const { dropzoneActive, loading, errors } = this.state;
 
+    let fileInputContent = 'Select a file';
+    if (dropzoneActive) {
+      fileInputContent = 'Drop the file here';
+    } else if (this.state.accepted) {
+      fileInputContent = UploadAreaIntersectionModal.getFileName(this.state.accepted);
+    }
+
     return (
       <div className="c-upload-area-intersection-modal">
-        <Spinner isLoading={loading} />
+        <Spinner isLoading={loading} className="-light" />
+        <Title className="-extrabig -secondary">Upload a new area</Title>
 
         <Dropzone
           ref={(node) => { this.dropzone = node; }}
@@ -201,64 +213,55 @@ class UploadAreaIntersectionModal extends React.Component {
           onDragEnter={this.onDragEnter}
           onDragLeave={this.onDragLeave}
         >
-          {dropzoneActive &&
-            <div className="dropzone-active">
-              <h2>Drop files...</h2>
+          <p>
+            Drop a file in the designated area below or click the button to upload it.
+            The recommended maximum file size is 1MB.
+            Anything larger than that may not work properly.
+          </p>
+          <p>
+            If you want to draw the area, you can use&nbsp;
+            <a href="http://geojson.io" target="_blank" rel="noopener noreferrer">geojson.io</a>
+            &nbsp;and download a file with one of the supported format below.
+          </p>
+
+
+          <div className={classnames({ 'dropzone-file-input': true, '-active': dropzoneActive })}>
+            <div
+              role="presentation" // Disable the accessibility warning, don't know which other role to give
+              className="dropzone-file-name"
+              onClick={this.onOpenDialog}
+            >
+              { fileInputContent }
             </div>
+            <button
+              className="c-button -tertiary"
+              onClick={this.onOpenDialog}
+            >
+              Select file
+            </button>
+          </div>
+
+          {!!errors.length &&
+            <ul className="dropzone-file-errors">
+              {errors.map((err, index) =>
+                <li key={err}>{index === 0 && <span>Error</span>} {err.message}</li>
+              )}
+            </ul>
           }
 
-          <header className="dropzone-header">
-            <h2>Import files</h2>
+          <div className="complementary-info">
             <p>
-              Drop a file in the designated area to upload it.
-              The recommended maximum file size is 1MB.
-              Anything larger than that may not work properly.
-            </p>
-            <p>
-              List of supported file formats
-              <i>(click on any format to download the template)</i>:
+              List of supported file formats:
             </p>
             <ul>
               <li>
-                Unzipped: .csv, .geojson, .kml, .kmz, .wkt
-                <i>(.csv files must contain a geom column that contains geographic information)</i>
+                Unzipped: <strong>.csv</strong> (must contain a geom column that contains geographic information), <strong>
+                .geojson</strong>, <strong>.kml</strong>, <strong>.kmz</strong>, <strong>.wkt</strong>
               </li>
               <li>
-                Zipped: .shp
-                <i>(zipped shapefiles must include .shp, .shx, .dbf and .prj files)</i>
+                Zipped: <strong>.shp</strong> (must include the .shp, .shx, .dbf and .prj files)
               </li>
             </ul>
-          </header>
-
-          <div className="dropzone-file">
-            <div className="dropzone-file-input">
-              <div
-                role="presentation" // Disable the accessibility warning, don't know which other role to give
-                className="dropzone-file-name"
-                onClick={this.onOpenDialog}
-              >
-                { this.state.accepted
-                  ? UploadAreaIntersectionModal.getFileName(this.state.accepted)
-                  : 'Select file to import data'
-                }
-              </div>
-              <button
-                className="c-btn -primary -light"
-                onClick={this.onOpenDialog}
-              >
-                Select file
-              </button>
-            </div>
-
-            {errors && Array.isArray(errors) && !!errors.length &&
-              <div className="dropzone-file-errors">
-                <ul>
-                  {errors.map(err =>
-                    <li key={err}>{err}</li>
-                  )}
-                </ul>
-              </div>
-            }
           </div>
         </Dropzone>
       </div>
