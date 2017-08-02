@@ -21,12 +21,6 @@ export default class SliderSelect extends React.Component {
   constructor(props) {
     super(props);
 
-    // If the parent component asked for the method to reset
-    // the component, we give it
-    if (props.getResetCallback) {
-      props.getResetCallback(this.reset.bind(this));
-    }
-
     this.state = {
       /** @type {Item} */
       selectedItem: props.options
@@ -69,11 +63,6 @@ export default class SliderSelect extends React.Component {
         pathToSelectedItem: []
       });
     }
-
-    // If the callback to get the reset method changes...
-    if (this.props.getResetCallback !== newProps.getResetCallback && newProps.getResetCallback) {
-      newProps.getResetCallback(this.reset.bind(this));
-    }
   }
 
   componentWillUnmount() {
@@ -88,7 +77,7 @@ export default class SliderSelect extends React.Component {
    * @param {KeyboardEvent} evt
    */
   @Autobind
-  onType(evt) {
+  async onType(evt) {
     switch (evt.keyCode) {
 
       // key up
@@ -113,7 +102,7 @@ export default class SliderSelect extends React.Component {
       case 13: {
         if (this.state.selectedIndex !== -1 && this.state.filteredOptions.length) {
           const selectedItem = this.state.filteredOptions[this.state.selectedIndex];
-          this.selectItem(selectedItem);
+          await this.selectItem(selectedItem);
         }
         break;
       }
@@ -213,7 +202,7 @@ export default class SliderSelect extends React.Component {
    * @param {Item} item Associated item
    */
   @Autobind
-  onMouseDownOption(e, item) {
+  async onMouseDownOption(e, item) {
     // If the element is not the option itself but
     // the button to go a level deeper then we
     // don't do anything
@@ -228,7 +217,7 @@ export default class SliderSelect extends React.Component {
     }
 
     e.stopPropagation();
-    this.selectItem(item);
+    await this.selectItem(item);
   }
 
   /**
@@ -325,29 +314,28 @@ export default class SliderSelect extends React.Component {
 
   /**
    * Set the selected item
+   * NOTE: this is an asynchronous method
    * @param {Item} item
    */
   @Autobind
-  selectItem(item) {
+  async selectItem(item) {
     const path = this.state.pathToCurrentItemsList;
-    this.setState({
-      selectedItem: item,
-      pathToSelectedItem: path
-    }, () => this.close());
-    this.props.onValueChange(item, path.map(it => it.value), 'vocabulary');
-  }
 
-  /**
-   * Reset the component to its initial state
-   */
-  reset() {
-    this.setState({
-      selectedItem: null,
-      selectedIndex: 0,
-      pathToCurrentItemsList: [],
-      pathToSelectedItem: [],
-      filteredOptions: this.state.fullList
-    });
+    // We wait for the confirmation to select this option
+    return new Promise(async (resolve, reject) => {
+      const res = await this.props.onValueChange(item, path.map(it => it.value), 'vocabulary');
+      if (!this.props.waitForChangeConfirmation || !!res) resolve();
+      else reject();
+    })
+      // If we've the confirmation the user can select this option, then we set it
+      .then(() => {
+        this.setState({
+          selectedItem: item,
+          pathToSelectedItem: path
+        }, () => this.close());
+      })
+      // If that's denied, we don't care, we just don't do anything
+      .catch(() => {});
   }
 
   /**
@@ -457,18 +445,27 @@ export default class SliderSelect extends React.Component {
 SliderSelect.propTypes = {
   /** @type {Item[]} */
   options: PropTypes.array, // List of the options (see the type Item)
-  /** @type {(item: Item, path?: string[]) => void} */
-  onValueChange: PropTypes.func, // Callback when the selected option changes
+  // Callback exectued when the selected option changes
+  // If waitForChangeConfirmation is set to true, then the component
+  // waits for this callback to return either true or false to confirm
+  // if the choice can be made
+  // A promise can be returned for asynchronous confirmation
+  /** @type {(item: Item, path?: string[]) => (void|boolean|Promise<boolean>)} */
+  onValueChange: PropTypes.func,
   /** @type {string} */
   value: PropTypes.string, // Initial selected value (value of an Item)
   className: PropTypes.string,
   placeholder: PropTypes.string,
   // Whether the user can select an intermediate node (not a leaf)
   allowNonLeafSelection: PropTypes.bool,
-  getResetCallback: PropTypes.func // Callback to execute to pass a function to reset the component
+  // Whether the component should wait for the onValueChange callback to
+  // return true before confirming the user's choice; if false, then
+  // nothing would happen
+  waitForChangeConfirmation: PropTypes.bool
 };
 
 SliderSelect.defaultProps = {
   onValueChange: () => {},
-  allowNonLeafSelection: true
+  allowNonLeafSelection: true,
+  waitForChangeConfirmation: false
 };

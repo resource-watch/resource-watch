@@ -74,63 +74,48 @@ class ChartEditor extends React.Component {
    * @param {{ label: string, value: string }} item Option of the selector
    */
   @Autobind
-  onChangeAreaIntersection(item) {
-    if (!item) {
-      this.props.setAreaIntersection(null);
-    } else if (item.value === 'upload') {
-      this.props.toggleModal(true, {
-        children: UploadAreaIntersectionModal,
-        childrenProps: {
-          onUploadArea: this.onUploadArea
-        },
-        onCloseModal: this.onCloseUploadAreaModal
-      });
-    } else { // We assume the user selected a country
-      this.setState({ loadingAreaIntersection: true });
+  async onChangeAreaIntersection(item) {
+    return new Promise((resolve) => {
+      // The user unselected the option
+      if (!item) {
+        this.props.setAreaIntersection(null);
+      } else if (item.value === 'upload') {
+        this.props.toggleModal(true, {
+          children: UploadAreaIntersectionModal,
+          childrenProps: {
+            onUploadArea: (id) => {
+              // We close the modal
+              this.props.toggleModal(false, {});
 
-      ChartEditor.getCountryGeostoreId(item.value)
-        .then(id => this.props.setAreaIntersection(id))
-        .catch((err) => {
-          console.error(err);
+              // We save the ID of the area
+              this.props.setAreaIntersection(id);
 
-          // In case of an error, we reset the selector and the selected area
-          this.resetAreaIntersection();
-          this.props.setAreaIntersection(null);
+              resolve(true);
+            }
+          },
+          onCloseModal: () => resolve(false)
+        });
+      } else { // We assume the user selected a country
+        this.setState({ loadingAreaIntersection: true });
 
-          // TODO: improve this 💩
-          alert('Unable to filter with this country.'); // eslint-disable-line no-alert
-        })
-        .then(() => this.setState({ loadingAreaIntersection: false }));
-    }
-  }
+        ChartEditor.getCountryGeostoreId(item.value)
+          .then((id) => {
+            this.props.setAreaIntersection(id);
+            resolve(true);
+          })
+          .catch((err) => {
+            console.error(err);
 
-  /**
-   * Callback executed when the user has successfully
-   * uploaded an area
-   * @param {string} id ID of the geostore's object
-   */
-  @Autobind
-  onUploadArea(id) {
-    // We close the modal
-    this.props.toggleModal(false, {});
+            // In case of an error, we prevent the selector from setting
+            // the area as selected
+            resolve(false);
 
-    // We save the ID of the area
-    this.props.setAreaIntersection(id);
-  }
-
-  /**
-   * Callback executed when the user closes the modal
-   * that lets them upload an area
-   */
-  @Autobind
-  onCloseUploadAreaModal() {
-    if (this.resetAreaIntersection) {
-      // FIXME: this doesn't work when an area is already selected
-      // then the user clicks the "upload" option and close the modal
-      // the selector should stay with the previous area
-      this.resetAreaIntersection();
-      this.props.setAreaIntersection(null);
-    }
+            // TODO: improve this 💩
+            alert('Unable to filter with this country.'); // eslint-disable-line no-alert
+          })
+          .then(() => this.setState({ loadingAreaIntersection: false }));
+      }
+    });
   }
 
   @Autobind
@@ -235,7 +220,7 @@ class ChartEditor extends React.Component {
               options={areaOptions}
               onValueChange={this.onChangeAreaIntersection}
               allowNonLeafSelection={false}
-              getResetCallback={(func) => { this.resetAreaIntersection = func; }}
+              waitForChangeConfirmation
             />
           </div>
         </div>
