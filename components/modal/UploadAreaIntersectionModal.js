@@ -36,9 +36,9 @@ class UploadAreaIntersectionModal extends React.Component {
     return new Promise((resolve) => {
       // We read the file and resolve the json object
       const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
+      reader.onload = () => resolve(JSON.parse(reader.result));
       reader.onerror = () => {
-        throw new Error('Unable to read the geojson file. Please try to upload it again.')
+        throw new Error('Unable to read the geojson file. Please try to upload it again.');
       };
       reader.readAsText(file);
     });
@@ -103,6 +103,9 @@ class UploadAreaIntersectionModal extends React.Component {
     // Second: we store it in the geostore
     .then(geojson => fetch(`${process.env.WRI_API_URL}/geostore`, {
       method: 'POST',
+      headers: new Headers({
+        'content-type': 'application/json'
+      }),
       body: JSON.stringify({ geojson })
     }))
     .then((response) => {
@@ -110,7 +113,7 @@ class UploadAreaIntersectionModal extends React.Component {
       return response.json();
     })
     // Finally: we return the id of the geojson
-    .then(({ id }) => id);
+    .then(({ data }) => data.id);
   }
 
   constructor(props) {
@@ -163,7 +166,7 @@ class UploadAreaIntersectionModal extends React.Component {
     }, () => {
       if (this.state.accepted) {
         UploadAreaIntersectionModal.processFile(this.state.accepted)
-          .then(id => this.props.onAreaUploaded(id))
+          .then(id => this.props.onUploadArea(id))
           .catch(err => this.setState({ errors: [err.message] }))
           .then(() => this.setState({ loading: false }));
       }
@@ -251,7 +254,7 @@ class UploadAreaIntersectionModal extends React.Component {
               <div className="dropzone-file-errors">
                 <ul>
                   {errors.map(err =>
-                    <li key={err.detail}>{err.detail}</li>
+                    <li key={err}>{err}</li>
                   )}
                 </ul>
               </div>
@@ -266,7 +269,7 @@ class UploadAreaIntersectionModal extends React.Component {
 
 UploadAreaIntersectionModal.propTypes = {
   // Callback to call with the id of the area
-  onAreaUploaded: PropTypes.func.isRequired
+  onUploadArea: PropTypes.func.isRequired
 };
 
 export default UploadAreaIntersectionModal;

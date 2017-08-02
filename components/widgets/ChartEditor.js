@@ -8,7 +8,7 @@ import { DragDropContext } from 'react-dnd';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { toggleModal, setModalOptions } from 'redactions/modal';
-import { setChartType } from 'redactions/widgetEditor';
+import { setChartType, setAreaIntersection } from 'redactions/widgetEditor';
 
 // Components
 import FilterContainer from 'components/widgets/FilterContainer';
@@ -29,7 +29,8 @@ const AREAS = [
     items: [
       {
         label: 'Upload new area',
-        value: 'upload'
+        value: 'upload',
+        as: 'Custom area'
       }
     ]
   }
@@ -57,18 +58,45 @@ class ChartEditor extends React.Component {
    */
   @Autobind
   onChangeAreaIntersection(item) {
-    if (item.value === 'upload') {
+    if (!item) {
+      this.props.setAreaIntersection(null);
+    } else if (item.value === 'upload') {
       this.props.toggleModal(true, {
         children: UploadAreaIntersectionModal,
         childrenProps: {
-          onAreaUploaded: (id) => {
-            // We close the modal
-            this.props.toggleModal(false, {});
-
-            // TODO: do something with the id
-          }
-        }
+          onUploadArea: this.onUploadArea
+        },
+        onCloseModal: this.onCloseUploadAreaModal
       });
+    }
+  }
+
+  /**
+   * Callback executed when the user has successfully
+   * uploaded an area
+   * @param {string} id ID of the geostore's object
+   */
+  @Autobind
+  onUploadArea(id) {
+    // We close the modal
+    this.props.toggleModal(false, {});
+
+    // We save the ID of the area
+    this.props.setAreaIntersection(id);
+  }
+
+  /**
+   * Callback executed when the user closes the modal
+   * that lets them upload an area
+   */
+  @Autobind
+  onCloseUploadAreaModal() {
+    if (this.resetAreaIntersection) {
+      // FIXME: this doesn't work when an area is already selected
+      // then the user clicks the "upload" option and close the modal
+      // the selector should stay with the previous area
+      this.resetAreaIntersection();
+      this.props.setAreaIntersection(null);
     }
   }
 
@@ -124,7 +152,7 @@ class ChartEditor extends React.Component {
       mode,
       showSaveButton
      } = this.props;
-    const { chartType, fields, category, value, areaIntersection } = widgetEditor;
+    const { chartType, fields, category, value } = widgetEditor;
     const { areaOptions } = this.state;
 
     const showSaveButtonFlag =
@@ -156,17 +184,13 @@ class ChartEditor extends React.Component {
           }
           <div className="area-intersection">
             <h5>Area intersection</h5>
-            <CustomSelect placeholder="Select area" options={areaOptions} onValueChange={this.onChangeAreaIntersection} />
-            {/* <Select
-              properties={{
-                className: 'area-intersection-selector',
-                name: 'area-intersection',
-                value: areaIntersection,
-                default: areaIntersection
-              }}
+            <CustomSelect
+              placeholder="Select area"
               options={areaOptions}
-              onChange={this.handleAreaIntersectionChange}
-            /> */}
+              onValueChange={this.onChangeAreaIntersection}
+              allowNonLeafSelection={false}
+              getResetCallback={(func) => { this.resetAreaIntersection = func; }}
+            />
           </div>
         </div>
         <div className="text-container">
@@ -244,6 +268,7 @@ ChartEditor.propTypes = {
   setChartType: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
+  setAreaIntersection: PropTypes.func.isRequired,
   // Callback
   onUpdateWidget: PropTypes.func
 };
@@ -254,7 +279,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setChartType(type));
   },
   toggleModal: (open, opts) => { dispatch(toggleModal(open, opts)); },
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); }
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
+  setAreaIntersection: id => dispatch(setAreaIntersection(id))
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ChartEditor);

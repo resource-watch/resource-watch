@@ -457,7 +457,7 @@ export default class SliderSelect extends React.Component {
 SliderSelect.propTypes = {
   /** @type {Item[]} */
   options: PropTypes.array, // List of the options (see the type Item)
-  /** @type {(item: Item, path: string[]) => void} */
+  /** @type {(item: Item, path?: string[]) => void} */
   onValueChange: PropTypes.func, // Callback when the selected option changes
   /** @type {string} */
   value: PropTypes.string, // Initial selected value (value of an Item)
