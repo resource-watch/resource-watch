@@ -5,18 +5,23 @@
     display: flex;
     justify-content: space-between;
 
-    .chart-type {
-      width: 100%;
-      margin-right: 20px;
+    h5 {
+      font-size: $font-size-small-medium;
+      line-height: 23px; // Height needed for the spinner
+      margin-bottom: 2px;
 
-      h5 {
-        margin: 0 0 10px;
-        font-size: $font-size-small-medium;
+      .c-spinner {
+        margin-left: 5px;
+        vertical-align: middle;
       }
     }
 
+    .chart-type {
+      width: 100%;
+      margin-right: 20px;
+    }
+
     .area-intersection {
-      position: relative; // Needed for the spinner
       width: 100%;
 
       .area-intersection-selector {

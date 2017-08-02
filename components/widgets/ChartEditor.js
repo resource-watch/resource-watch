@@ -213,8 +213,7 @@ class ChartEditor extends React.Component {
             </div>
           }
           <div className="area-intersection">
-            { loadingAreaIntersection && <Spinner isLoading className="-light -small" /> }
-            <h5>Area intersection</h5>
+            <h5>Area intersection { loadingAreaIntersection && <Spinner isLoading className="-light -small -inline" /> }</h5>
             <CustomSelect
               placeholder="Select area"
               options={areaOptions}
