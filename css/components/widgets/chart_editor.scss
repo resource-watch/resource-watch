@@ -16,6 +16,7 @@
     }
 
     .area-intersection {
+      position: relative; // Needed for the spinner
       width: 100%;
 
       .area-intersection-selector {

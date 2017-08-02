@@ -21,6 +21,7 @@ import Select from 'components/form/SelectInput';
 import SaveWidgetModal from 'components/modal/SaveWidgetModal';
 import HowToWidgetEditorModal from 'components/modal/HowToWidgetEditorModal';
 import UploadAreaIntersectionModal from 'components/modal/UploadAreaIntersectionModal';
+import Spinner from 'components/ui/Spinner';
 
 const AREAS = [
   {
@@ -39,11 +40,27 @@ const AREAS = [
 @DragDropContext(HTML5Backend)
 class ChartEditor extends React.Component {
 
+  /**
+   * Return the geostore id associated with the country's ISO
+   * NOTE: errors are not caught intentionally
+   * @param {string} iso Valid 3-letter ISO
+   * @returns {Promise<string>}
+   */
+  static getCountryGeostoreId(iso) {
+    return fetch(`${process.env.WRI_API_URL}/geostore/admin/${iso}`)
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error(`Unable to get the geostore id associated with the ISO ${iso}`);
+      })
+      .then(({ data }) => data.id);
+  }
+
   constructor(props) {
     super(props);
 
     this.state = {
-      areaOptions: []
+      areaOptions: [],
+      loadingAreaIntersection: false
     };
   }
 
@@ -68,6 +85,22 @@ class ChartEditor extends React.Component {
         },
         onCloseModal: this.onCloseUploadAreaModal
       });
+    } else { // We assume the user selected a country
+      this.setState({ loadingAreaIntersection: true });
+
+      ChartEditor.getCountryGeostoreId(item.value)
+        .then(id => this.props.setAreaIntersection(id))
+        .catch((err) => {
+          console.error(err);
+
+          // In case of an error, we reset the selector and the selected area
+          this.resetAreaIntersection();
+          this.props.setAreaIntersection(null);
+
+          // TODO: improve this 💩
+          alert('Unable to filter with this country.'); // eslint-disable-line no-alert
+        })
+        .then(() => this.setState({ loadingAreaIntersection: false }));
     }
   }
 
@@ -138,7 +171,19 @@ class ChartEditor extends React.Component {
    * filter
    */
   fetchAreas() {
-    this.setState({ areaOptions: AREAS });
+    this.setState({ loadingAreaIntersection: true });
+
+    // When this resolves, we'll also be able to display the countries
+    fetch(`${process.env.WRI_API_URL}/query/134caa0a-21f7-451d-a7fe-30db31a424aa?sql=SELECT iso as value, name_engli as label from gadm28_countries order by name_engli asc`)
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error('Unable to load the list of countries for the Intersection Area selector.');
+      })
+      .then(({ data }) => this.setState({ areaOptions: [...AREAS, ...data] }))
+      // We don't really care if the countries don't load, we can still
+      // let the user use a custom area
+      .catch(err => console.error(err))
+      .then(() => this.setState({ loadingAreaIntersection: false }));
   }
 
   render() {
@@ -153,7 +198,7 @@ class ChartEditor extends React.Component {
       showSaveButton
      } = this.props;
     const { chartType, fields, category, value } = widgetEditor;
-    const { areaOptions } = this.state;
+    const { areaOptions, loadingAreaIntersection } = this.state;
 
     const showSaveButtonFlag =
       chartType && category && value && user && user.token && showSaveButton;
@@ -183,6 +228,7 @@ class ChartEditor extends React.Component {
             </div>
           }
           <div className="area-intersection">
+            { loadingAreaIntersection && <Spinner isLoading className="-light -small" /> }
             <h5>Area intersection</h5>
             <CustomSelect
               placeholder="Select area"
