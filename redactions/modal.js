@@ -25,7 +25,12 @@ export default function (state = initialState, action) {
     case MODAL_TOGGLE:
       return Object.assign({}, state, { open: action.payload });
     case MODAL_SET_OPTIONS:
-      return Object.assign({}, state, { options: action.payload });
+      return Object.assign({}, state, {
+        options: Object.assign({}, state.options, action.payload, {
+          // We remove the callback if not present
+          onCloseModal: action.payload.onCloseModal ? action.payload.onCloseModal : null
+        })
+      });
     case MODAL_LOADING:
       return Object.assign({}, state, { loading: action.payload });
     case MODAL_EXECUTE_CLOSE_CALLBACK:
