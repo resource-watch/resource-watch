@@ -1,5 +1,11 @@
+// 1. Global (related with grid)
+// -----------------------------
 
-// Breakpoints
+$global-width: rem-calc(1260);
+
+// 2. Breakpoints
+// --------------
+
 $breakpoints: (
   small: 0,
   medium: 640px,
@@ -10,11 +16,15 @@ $breakpoints: (
 $print-breakpoint: large;
 $breakpoint-classes: (small medium large);
 
-//  Grid
-$grid-row-width: $max-width + (20 * 2);
+// 3. The Grid
+// -----------
+
+$grid-row-width: $global-width;
 $grid-column-count: 12;
 $grid-column-gutter: (
   small: 10px,
-  medium: 30px,
+  medium: 20px,
 );
+$grid-column-align-edge: true;
+$grid-column-alias: 'columns';
 $block-grid-max: 8;

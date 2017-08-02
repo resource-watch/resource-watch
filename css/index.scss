@@ -1,28 +1,26 @@
-@import "css/settings";
-
 // Reset
 @import "normalize.css";
 
-// Foundation
-@import '../node_modules/foundation-sites/scss/foundation';
+// Foundation:
+// We are using this library only for grid system
+@import 'foundation-sites/scss/foundation';
 @import 'foundation_settings';
 @include foundation-flex-classes;
 @include foundation-flex-grid;
 @include foundation-responsive-embed;
 
-// Leaflet
+// Libraries
 @import 'leaflet/dist/leaflet.css';
-
-// React input range
 @import 'react-input-range/lib/css/index.css';
-
-// Slick
 @import 'slick-carousel/slick/slick.scss';
 @import 'slick-carousel/slick/slick-theme.scss';
 
+// Project settings (it doesn't include Grid system)
+@import "settings";
+
 // Common files
-@import "css/base";
-@import "css/layouts";
+@import "base";
+@import "layouts";
 
 // Components
 // UI
@@ -126,6 +124,7 @@
 @import "./components/app/common/viel";
 @import "./components/app/common/card_static";
 @import "./components/app/common/partner_block";
+@import "./components/app/common/partners_slider";
 
 // PAGES
 @import "./components/app/pages/explore";

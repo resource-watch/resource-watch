@@ -2,13 +2,19 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: $base-font-family;
-  background: $color-tertiary;
-  color: $base-font-color;
+html {
+  box-sizing: border-box;
+  font-size: $global-font-size;
+}
 
-  font-weight: 400;
-  line-height: 1.25;
+body {
+  background: $body-background;
+
+  font-family: $body-font-family;
+  font-weight: $global-weight-normal;
+  line-height: $global-lineheight;
+  color: $body-font-color;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
@@ -17,9 +23,72 @@ body {
   }
 }
 
+a {
+  color: $body-font-color;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+img {
+  // Get rid of gap under images by making them display: inline-block; by default
+  display: inline-block;
+  vertical-align: middle;
+
+  // Grid defaults to get images and embeds to work properly
+  max-width: 100%;
+  height: auto;
+  -ms-interpolation-mode: bicubic;
+}
+
 button {
   appearance: none;
   background: none;
   border: none;
   outline: none;
+}
+
+h1, h2, h3, h4 {
+  margin-top: 0;
+  color: $header-font-color;
+  margin-bottom: 0.5rem;
+
+  & > a {
+    color: $header-font-color;
+  }
+}
+
+h1 {
+  margin-top: 0;
+
+  font-size: $font-size-h1;
+  font-weight: 300;
+  line-height: 1;
+  color: $base-font-color;
+}
+
+h2 {
+  font-size: $font-size-h2;
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+h3 {
+  font-size: $font-size-h3;
+  font-weight: 300;
+  line-height: 1.35;
+  margin-bottom: 0.7rem;
+}
+
+h4 {
+  font-size: $font-size-h4;
+  font-weight: bold;
+  color: $base-font-color;
+  margin-bottom: 1rem;
+
+  & > a {
+    color: $base-font-color;
+  }
 }

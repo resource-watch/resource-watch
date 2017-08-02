@@ -1,106 +1,63 @@
-// Susy
+/*
+* Project settings
+* ================
+*
+* This file doesn't include grid system configuration,
+* in this case you should take a look '_foundation_settings' file.
+*/
+
+// Bourbon settings
 $output-bourbon-deprecation-warnings: false;
 @import "../node_modules/bourbon/app/assets/stylesheets/settings/px-to-em";
 @import "../node_modules/bourbon/app/assets/stylesheets/functions/strip-units";
 @import "../node_modules/bourbon/app/assets/stylesheets/functions/px-to-rem";
 
-/*
- * Configuring grid
-*/
-$large-screen: 1400px;
-$middle-screen: 800px;
-$small-screen: 320px;
-
-$max-width: 1060px;
-
-$fullscreen-margin: 24px;
-$space-1: 8px;
-
-$max-width-modal: 880px;
-$max-width-modal-medium: 900px;
-
-/*
- * Configuring project settings
-*/
+// It should be removed
+@import "deprecated";
 
 // Colors
-$color-primary: #c32d7b;
-$color-secondary: #3bb2d0;
-$color-tertiary: #f4f5f6;
-$color-white: #fff;
-$color-black: #000;
-$color-pale-grey: #f4f5f6;
-$battleship-grey: #6c7379;
-$color-dark-grey: #9aa2a9;
-$color-grey: #e3e4e6;
-$color-charcoal-grey: #393f44;
-$color-silver: #b9bfc4;
-$color-mid-grey: #b9bfc4;
-$color-red: #e23035;
-$color-green: #65b60d;
-$color-mango: #fab72e;
-$color-dark-pink: #c32d7b;
-$color-text-headers: $color-charcoal-grey;
-$color-blue-turquoise: #00B4D3;
-$color-off-white: #f9f9f9;
-
-$color-error: $color-red;
-
-$color-text-1: #393f44;
-$color-text-2: #999ba1;
-$color-text-3: #717171;
-
-
-// Borders
-$border-color-1: #e3e4e6;
-$border-color-2: #ccc;
-
-// Fonts
-$font-size-extra-small:   10px;
-$font-size-small:         12px;
-$font-size-small-medium:  13px;
-$font-size-default:       14px;
-$font-size-big:           16px;
-$font-size-extra-big:     18px;
-$font-size-huge:          22px;
-$font-size-huger:         26px;
-$font-size-header-normal: 38px;
-$font-size-header-big:    48px;
-$font-size-header-huge:   64px;
-
-// Weights
-$font-weight-light: 300;
-$font-weight-regular: 400;
-$font-weight-bold: 700;
+$dark-pink: #c32d7b;
+$yellow: #FAB72E;
+$blue-turquoise: #3bb2d0;
+$charcoal-grey: #393f44;
+$dove-grey: #717171;
+$light-grey: #CACCD0;
+$porcelain: #F4F6F7;
+$white: #ffffff;
 
 // Theme
-$bg-color-1: $color-white;
-$bg-color-2: $color-pale-grey;
+$base-font-color: $charcoal-grey;
+$header-font-color: $dark-pink;
+$link-font-color: $dark-pink;
+$active-font-color: $yellow;
+$ui-font-color: $dove-grey;
+$alt-font-color: $white;
+$ui-bg-color: $porcelain;
+$base-bg-color: $white;
 
-// Text
-$base-font-color: $color-text-1;
-$base-font-family: Lato, Helvetica, Arial, sans;
-$base-line-height: 1.5;
+$border-color-1: $light-grey;
+$border-color-2: $porcelain; // It's not used
+$alt-border-color: $white;
 
-// Times
-$animation-time: .16s;
-$animation-time-2: .24s;
-$animation-time-3: .5s;
-$animation-time-4: .75s;
+$color-primary: $dark-pink;
+$color-secondary: $blue-turquoise;
 
-// Eases
-$ease-in-cubic: cubic-bezier(0.550, 0.055, 0.675, 0.190);
-$ease-out-cubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-$ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1.000);
+// Typography
+$font-size-extra-small: 12px;
+$font-size-small: 13px;
+$font-size-normal: 14px;
+$font-size-medium: 16px;
 
-$ease-in-sine: cubic-bezier(0.470, 0.000, 0.745, 0.715);
-$ease-out-sine: cubic-bezier(0.390, 0.575, 0.565, 1.000);
-$ease-in-out-sine: cubic-bezier(0.445, 0.050, 0.550, 0.950);
+$font-size-h1: 64px;
+$font-size-h2: 42px;
+$font-size-h3: 26px;
+$font-size-h4: 16px;
 
-// Header
-$header-main-height: rem(75);
-$header-secondary-height: rem(0);
-$header-bg-color: $color-primary;
-$header-bg-image: url("/static/images/components/layout/header-bg-texture.png");
-$header-gradient-color-1: rgba(#c32d7b, 0.8);
-$header-gradient-color-2: rgba(#c90e39, 0.7);
+$body-font-color: $base-font-color;
+$body-font-family: Lato, 'Helvetica Neue', Helvetica, Arial, sans;
+$global-weight-normal: normal;
+$global-lineheight: 1.625;
+$global-font-size: $font-size-medium;
+
+// Layout
+$margin-size: 32px;

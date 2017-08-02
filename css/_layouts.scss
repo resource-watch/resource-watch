@@ -1,13 +1,18 @@
 .l-container {
   width: 100%;
   position: relative;
-  max-width: $max-width + (20 * 2);
+  max-width: $grid-row-width;
   margin: 0 auto;
-  padding: 0 rem(20);
+  padding: 0 (map-get($grid-column-gutter, small)/2);
+  box-sizing: border-box;
+
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    padding: 0 (map-get($grid-column-gutter, medium)/2);
+  }
 }
 
 .l-row {
-  @include flex-grid-row(nest, expand, null, false, $grid-column-gutter);
+  // @include flex-grid-row(nest, expand, null, false, $grid-column-gutter);
 }
 
 .l-section {
