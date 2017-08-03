@@ -17,6 +17,16 @@
   // Position
   &.-fixed { position: fixed;}
   &.-relative { position: relative;}
+  &.-inline {
+    position: static;
+    display: inline-block;
+    background: none;
+
+    .spinner-box {
+      position: static;
+      transform: none;
+    }
+  }
 
   // State
   &.-loading {

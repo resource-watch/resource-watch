@@ -113,7 +113,8 @@ export function getDataURL(widgetEditor, tableName, dataset) {
     aggregateFunction,
     orderBy,
     limit,
-    chartType
+    chartType,
+    areaIntersection
   } = widgetEditor;
   const aggregateFunctionColor = color && color.aggregateFunction;
   const aggregateFunctionSize = size && size.aggregateFunction;
@@ -170,8 +171,9 @@ export function getDataURL(widgetEditor, tableName, dataset) {
   const sortOrder = orderBy ? orderBy.orderType : 'asc';
   const query = `${getQueryByFilters(tableName, filters, columns, orderByColumn, sortOrder)} LIMIT ${limit}`;
 
-  // TODO: remove the limit
-  return `${process.env.WRI_API_URL}/query/${dataset}?sql=${query}`;
+  const geostore = areaIntersection ? `&geostore=${areaIntersection}` : '';
+
+  return `${process.env.WRI_API_URL}/query/${dataset}?sql=${query}${geostore}`;
 }
 
 /**

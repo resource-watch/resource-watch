@@ -84,7 +84,7 @@ class MyRWWidgetsEdit extends React.Component {
     const dataset = widgetAtts.dataset;
     const { widgetEditor, tableName, user } = this.props;
     const { limit, value, category, color, size, orderBy, aggregateFunction,
-      chartType, filters } = widgetEditor;
+      chartType, filters, areaIntersection } = widgetEditor;
 
     let chartConfig;
     try {
@@ -112,7 +112,8 @@ class MyRWWidgetsEdit extends React.Component {
             orderBy,
             aggregateFunction,
             chartType,
-            filters
+            filters,
+            areaIntersection
           }
         },
         chartConfig

@@ -1,291 +1,440 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { Autobind } from 'es-decorators';
 
 // Components
 import Icon from 'components/ui/Icon';
 
+
+// Types
+/**
+ * Item of the selector
+ * The "as" attribute is an alternate label displayed when the
+ * option is selected and the dropdown is closed as the placeholder
+ * of the component
+ * @typedef {{ label: string, value: string, as?: string, items?: Item[] }} Item
+ */
+
 export default class SliderSelect extends React.Component {
+
   constructor(props) {
     super(props);
-    this.state = {
-      selectedItem: props.options ? props.options.find(item => item.value === props.value) : null,
-      closed: true,
-      fullList: props.options || [],
-      filteredOptions: this.filterItemsList(props.options) || [],
-      selectedLevels: [],
-      selectedIndex: 0
-    };
 
-    // Bindings
-    this.open = this.open.bind(this);
-    this.close = this.close.bind(this);
-    this.toggle = this.toggle.bind(this);
-    this.selectItem = this.selectItem.bind(this);
-    this.onType = this.onType.bind(this);
-    this.onEnterSearch = this.onEnterSearch.bind(this);
-    this.onScreenClick = this.onScreenClick.bind(this);
-    this.resetSelectedIndex = this.resetSelectedIndex.bind(this);
-    this.clearSearch = this.clearSearch.bind(this);
-    this.onSliderPrev = this.onSliderPrev.bind(this);
+    this.state = {
+      /** @type {Item} */
+      selectedItem: props.options
+        ? props.options.find(item => item.value === props.value)
+        : null,
+      closed: true,
+      fullList: props.options || [], // Original list of options
+      filteredOptions: props.options || [], // Filtered list of options
+      pathToCurrentItemsList: [], // List of all of the items leading to the current list
+      pathToSelectedItem: [], // Same as pathToCurrentItemsList but for the selected item
+      selectedIndex: 0 // Index of the selected option (via the keyboard)
+    };
   }
 
   componentWillReceiveProps(newProps) {
+    // If we get the list of options asynchronously...
     if (newProps.options.length && !this.state.fullList.length) {
       this.setState({
         fullList: newProps.options || [],
-        filteredOptions: this.filterItemsList(newProps.options) || []
+        filteredOptions: newProps.options || []
       });
     }
 
+    // If we get new options...
     if (newProps.options !== this.props.options) {
-      const selectedItem = newProps.options && newProps.value ?
-        newProps.options.find(item => item.value === newProps.value) : null;
-      if (selectedItem) {
-        this.setState({
-          selectedItem
-        });
-      }
+      const selectedIndex = (newProps.options && newProps.value)
+        ? newProps.options.findIndex(item => item.value === newProps.value)
+        : -1;
+
+      const selectedItem = selectedIndex !== -1
+        ? newProps.options[selectedIndex]
+        : null;
+
+      this.setState({
+        fullList: newProps.options || [],
+        filteredOptions: newProps.options || [],
+        selectedItem,
+        selectedIndex: selectedIndex !== -1 ? selectedIndex : 0,
+        pathToCurrentItemsList: [],
+        pathToSelectedItem: []
+      });
     }
   }
 
   componentWillUnmount() {
+    // We remove the handler that is used to close the
+    // dropdown when the user clicks outside
     window.removeEventListener('click', this.onScreenClick);
   }
 
-  filterItemsList(items) {
-    return items.map(it => ({
-      label: it.label, value: it.value, hasItems: !!it.items
-    }));
-  }
-
-  // Event handler for event keyup on search input
-  onType(evt) {
+  /**
+   * Event handler executed when the user types in the
+   * search input
+   * @param {KeyboardEvent} evt
+   */
+  @Autobind
+  async onType(evt) {
     switch (evt.keyCode) {
+
       // key up
       case 38: {
-        const index = this.state.selectedIndex > 0 ?
-          this.state.selectedIndex - 1 :
-          this.state.filteredOptions.length - 1;
+        const index = this.state.selectedIndex > 0
+          ? this.state.selectedIndex - 1
+          : this.state.filteredOptions.length - 1;
         this.setSelectedIndex(index);
         break;
       }
+
       // key down
       case 40: {
-        const index = (this.state.selectedIndex < this.state.filteredOptions.length - 1) ?
-          this.state.selectedIndex + 1 :
-          0;
+        const index = (this.state.selectedIndex < this.state.filteredOptions.length - 1)
+          ? this.state.selectedIndex + 1
+          : 0;
         this.setSelectedIndex(index);
         break;
       }
+
       // enter key
       case 13: {
         if (this.state.selectedIndex !== -1 && this.state.filteredOptions.length) {
           const selectedItem = this.state.filteredOptions[this.state.selectedIndex];
-          this.resetSelectedIndex();
-          this.selectItem(selectedItem);
+          await this.selectItem(selectedItem);
         }
         break;
       }
+
       // esc key
       case 27: {
         this.close();
         break;
       }
+
       // Typing text
       default: {
-        const value = evt.currentTarget.value;
-        const listTofilter = this.searchItems(this.state.selectedLevels);
-        const foundItems = listTofilter.filter(item => item.label.toLowerCase()
-          .match(value.toLowerCase()));
-        const filteredOptions = foundItems.map(it => ({
-          value: it.value,
-          label: it.label,
-          hasItems: it.items && !!it.items.length
-        }));
-        this.setState({ filteredOptions });
+        const target = evt.currentTarget;
+
+        // We can't get the value of the input before
+        // the input gets updated
+        setTimeout(() => {
+          /** @type {string} */
+          const value = target.value;
+          const listTofilter = this.getItemsListAtCurrentLevel(this.state.pathToCurrentItemsList);
+          const filteredOptions = listTofilter
+            .filter(item => item.label.toLowerCase().match(value.toLowerCase()));
+          this.setState({ filteredOptions });
+        }, 0);
         break;
       }
     }
   }
 
-  resetSelectedIndex() {
-    this.setSelectedIndex(0);
-  }
-
-  setSelectedIndex(index) {
-    this.setState({ selectedIndex: index });
-  }
-
-  // Event handler for enter event on search input
+  /**
+   * Event handler executed when the user places the
+   * focus on the search input
+   */
+  @Autobind
   onEnterSearch() {
-    this.setState({ closed: false });
+    if (this.state.closed) this.open();
   }
 
-  // Event handler for mouseup event on options list item
-  selectItem(item) {
-    const levels = this.state.selectedLevels.map(lev => lev.value);
-    this.setState({ selectedItem: item });
-    this.close();
-    this.props.onValueChange && this.props.onValueChange(item, levels, 'vocabulary');
+  /**
+   * Event handler executed when the user clicks on the right
+   * arrow of an options (meaning the options has sub-items)
+   * @param {MouseEvent} e Event object
+   * @param {Item} item Item that is clicked
+   */
+  onSliderNext(e, item) {
+    e.stopPropagation();
+
+    const newPath = this.state.pathToCurrentItemsList.slice();
+    newPath.push(item);
+    const items = this.getItemsListAtCurrentLevel(newPath);
+
+    this.setState({
+      pathToCurrentItemsList: newPath,
+      filteredOptions: items
+    });
   }
 
+  /**
+   * Event handler executed when the user returns to a previous
+   * level
+   * @param {MouseEvent} e Event object
+   */
+  @Autobind
+  onSliderPrev(e) {
+    e.stopPropagation();
+
+    const newPath = this.state.pathToCurrentItemsList.slice();
+    newPath.pop();
+    const items = this.getItemsListAtCurrentLevel(newPath);
+
+    this.setState({
+      pathToCurrentItemsList: newPath,
+      filteredOptions: items
+    });
+  }
+
+  /**
+   * Event handler executed when the user clicks somewhere
+   * This handler is used to close the dropdown if the user
+   * clicks outside of it
+   * @param {MouseEvent} evt
+   */
+  @Autobind
   onScreenClick(evt) {
     if (this.el.contains && !this.el.contains(evt.target)) {
-      this.resetSelect();
       this.close();
+
+      // We remove the now useless hander
       window.removeEventListener('click', this.onScreenClick);
     }
   }
 
-  toggle(e) {
-    e.stopPropagation();
-    return this.state.closed ? this.open() : this.close();
-  }
+  /**
+   * Event handler executed when the user clicks on
+   * an option
+   * @param {MouseEvent} e Event object
+   * @param {Item} item Associated item
+   */
+  @Autobind
+  async onMouseDownOption(e, item) {
+    // If the element is not the option itself but
+    // the button to go a level deeper then we
+    // don't do anything
+    if (e.target instanceof HTMLButtonElement) return;
 
-  // Method than shows the option list
-  open() {
-    // Close select when clicking outside it
-    window.addEventListener('click', this.onScreenClick);
-
-    this.setState({ closed: false }, () => {
-      this.input && this.input.focus();
-    });
-  }
-
-  // Method that closes the options list
-  close() {
-    window.removeEventListener('click', this.onScreenClick);
-
-    this.setState({
-      closed: true
-    }, this.resetSelectedIndex);
-    if (this.input) {
-      this.input.value = '';
+    // If the user must select a leaf node, then if the
+    // option they clicked is not a leaf, we display
+    // the nested items of that item
+    if (!this.props.allowNonLeafSelection && item.items && item.items.length) {
+      this.onSliderNext(e, item);
+      return;
     }
+
+    e.stopPropagation();
+    await this.selectItem(item);
   }
 
-  searchItems(selectedLevels) {
+  /**
+   * Set the selected options (via keyboard)
+   * @param {number} index
+   */
+  setSelectedIndex(index) {
+    this.setState({ selectedIndex: index });
+  }
+
+  /**
+   * Return the list of items that are located at the branch
+   * designated by the list of items passed as argument
+   * @param {Item[]} path List of items
+   * @returns {Item[]}
+   */
+  getItemsListAtCurrentLevel(path) {
     let list = this.state.fullList;
 
-    if (selectedLevels.length) {
-      for (let i = 0; i < selectedLevels.length; i++) {
-        list = list.find(it => it.value === selectedLevels[i].value).items;
+    if (path.length) {
+      for (let i = 0; i < path.length; i++) {
+        const item = list.find(it => it.value === path[i].value);
+        if (item.items) list = item.items;
+        else break;
       }
     }
 
     return list;
   }
 
-  onSliderNext(e, item) {
-    e.stopPropagation();
-    const newSelectedLevels = this.state.selectedLevels.slice();
-    newSelectedLevels.push({ value: item.value, label: item.label });
-    const items = this.searchItems(newSelectedLevels);
+  /**
+   * Toggle the dropdown
+   * @param {MouseEvent} e
+   */
+  @Autobind
+  toggle(e) {
+    if (e.target === this.input) return;
 
-    this.setState({
-      selectedLevels: newSelectedLevels,
-      filteredOptions: this.filterItemsList(items)
+    e.stopPropagation();
+    if (this.state.closed) this.open();
+    else this.close();
+  }
+
+  /**
+   * Expand the dropdown
+   */
+  @Autobind
+  open() {
+    // This listener is used to close the dropdown
+    // when the user clicks outside of it
+    window.addEventListener('click', this.onScreenClick);
+
+    this.setState({ closed: false }, () => {
+      if (this.input) this.input.focus();
     });
   }
 
-  onSliderPrev(e) {
-    e.stopPropagation();
-    const newSelectedLevels = this.state.selectedLevels.slice();
-    newSelectedLevels.pop();
-    const items = this.searchItems(newSelectedLevels);
+  /**
+   * Close the dropdown
+   */
+  @Autobind
+  close() {
+    // We remove the handler that is used to close the
+    // dropdown when the user clicks outside
+    window.removeEventListener('click', this.onScreenClick);
 
-    this.setState({
-      selectedLevels: newSelectedLevels,
-      filteredOptions: this.filterItemsList(items)
-    });
+    // We close the dropdown and reset the selected index
+    this.setState({ closed: true });
+
+    // If there's is no selected item, then we completely reset
+    // the state of the dropdown
+    if (!this.state.selectedItem) {
+      this.setState({
+        pathToCurrentItemsList: [],
+        pathToSelectedItem: [],
+        filteredOptions: this.state.fullList,
+        selectedIndex: 0
+      });
+    } else {
+      // If there's a selected option then we restore the
+      // dropdown to the state where the option is
+      const filteredOptions = this.getItemsListAtCurrentLevel(this.state.pathToSelectedItem);
+      this.setState({
+        pathToCurrentItemsList: this.state.pathToSelectedItem,
+        filteredOptions,
+        selectedIndex: filteredOptions.findIndex(item => item === this.state.selectedItem)
+      });
+    }
+
+    if (this.input) {
+      this.input.value = '';
+    }
   }
 
-  resetSelect() {
-    this.setState({
-      selectedLevels: [],
-      filteredOptions: this.filterItemsList(this.state.fullList)
-    });
+  /**
+   * Set the selected item
+   * NOTE: this is an asynchronous method
+   * @param {Item} item
+   */
+  @Autobind
+  async selectItem(item) {
+    const path = this.state.pathToCurrentItemsList;
+
+    // We wait for the confirmation to select this option
+    return new Promise(async (resolve, reject) => {
+      const res = await this.props.onValueChange(item, path.map(it => it.value), 'vocabulary');
+      if (!this.props.waitForChangeConfirmation || !!res) resolve();
+      else reject();
+    })
+      // If we've the confirmation the user can select this option, then we set it
+      .then(() => {
+        this.setState({
+          selectedItem: item,
+          pathToSelectedItem: path
+        }, () => this.close());
+      })
+      // If that's denied, we don't care, we just don't do anything
+      .catch(() => {});
   }
 
-  clearSearch(e) {
+  /**
+   * Reset the selected item
+   * @param {MouseEvent} e
+   */
+  @Autobind
+  clearSelectedItem(e) {
     e.stopPropagation();
-    this.setState({ selectedItem: null, closed: true });
-    this.props.onValueChange && this.props.onValueChange();
+    this.setState({
+      selectedItem: null,
+      pathToCurrentItemsList: [],
+      pathToSelectedItem: [],
+      filteredOptions: this.state.fullList,
+      selectedIndex: 0
+    });
+    this.props.onValueChange();
   }
 
   render() {
     const { className, options, placeholder } = this.props;
-    const { closed, filteredOptions, selectedItem, selectedLevels, selectedIndex } = this.state;
+    const {
+      closed,
+      filteredOptions,
+      selectedItem,
+      pathToCurrentItemsList,
+      selectedIndex
+    } = this.state;
 
-    // Class names
-    let cNames = classnames({
+    const cNames = classnames({
       'c-custom-select -search': true,
       '-closed': closed
-    });
-    if (className) {
-      cNames = `${cNames} ${className}`;
-    }
+    }, className);
 
     const noResults = !!(options.length && !filteredOptions.length);
 
     return (
       <div ref={(node) => { this.el = node; }} className={cNames}>
-        <span className="custom-select-text" onClick={this.toggle}>
-          <div>
-            <span>{selectedItem ? selectedItem.label : placeholder}</span>
-            {!selectedItem && closed &&
-              <button className="icon-btn" onClick={this.toggle}>
-                <Icon name="icon-arrow-down" className="-small icon-arrow-down" />
-              </button>
-            }
-            {selectedItem &&
-              <button className="icon-btn" onClick={this.clearSearch}>
-                <Icon name="icon-cross" className="-small icon-cross" />
-              </button>
-            }
-          </div>
+        <div
+          className="custom-select-text"
+        >
           <input
+            aria-label={placeholder}
             ref={(node) => { this.input = node; }}
             className="custom-select-search"
             type="search"
             onFocus={this.onEnterSearch}
             onKeyDown={this.onType}
           />
-        </span>
+          <div>
+            <span>{selectedItem ? selectedItem.as || selectedItem.label : placeholder}</span>
+            {!selectedItem && closed &&
+              <button className="icon-btn" onClick={this.toggle}>
+                <Icon name="icon-arrow-down" className="-small icon-arrow-down" />
+              </button>
+            }
+            {selectedItem &&
+              <button className="icon-btn clear-button" onClick={this.clearSelectedItem}>
+                <Icon name="icon-cross" className="-small icon-cross" />
+              </button>
+            }
+          </div>
+        </div>
         {noResults &&
           <span className="no-results">No results</span>
         }
         {this.state.closed ||
-          <ul className="custom-select-options">
-            {selectedLevels.length > 0 &&
-              <li className="title" onClick={this.onSliderPrev}>
+          <ul className="custom-select-options" role="listbox" aria-label={placeholder} ref={(node) => { this.options = node; }}>
+            {pathToCurrentItemsList.length > 0 &&
+              <li
+                role="option"
+                aria-selected="false"
+                aria-label="Go back to the parent options"
+                className="title"
+                onClick={this.onSliderPrev}
+              >
                 <div>
                   <Icon name="icon-arrow-left" className="-small icon-arrow-left" />
-                  <span>{selectedLevels[selectedLevels.length - 1].label}</span>
+                  <span>{pathToCurrentItemsList[pathToCurrentItemsList.length - 1].label}</span>
                 </div>
               </li>
             }
-            {filteredOptions.map((item, index) => {
-              const cName = (index === selectedIndex) ? '-selected' : '';
-
-              return (
-                <li className={cName} key={index}>
-                  <span
-                    className="label"
-                    onMouseEnter={() => { this.setSelectedIndex(index); }}
-                    onMouseDown={() => this.selectItem(item)}
-                  >
-                    {item.label}
-                  </span>
-
-                  {item.hasItems &&
-                    <div className="next" onClick={e => this.onSliderNext(e, item)}>
-                      <Icon name="icon-arrow-right" className="-small icon-arrow-right" />
-                    </div>
-                  }
-                </li>
-              );
-            })}
+            {filteredOptions.map((item, index) => (
+              <li
+                role="option"
+                aria-selected={item === selectedItem}
+                className={classnames({ '-selected': index === selectedIndex })}
+                key={item.label}
+                onMouseEnter={() => { this.setSelectedIndex(index); }}
+                onMouseDown={e => this.onMouseDownOption(e, item)}
+              >
+                <span className="label">{item.label}</span>
+                {item.items && item.items.length &&
+                  <button className="next" onClick={e => this.onSliderNext(e, item)}>
+                    <Icon name="icon-arrow-right" className="-small icon-arrow-right" />
+                  </button>
+                }
+              </li>
+            ))}
           </ul>
         }
       </div>
@@ -294,9 +443,29 @@ export default class SliderSelect extends React.Component {
 }
 
 SliderSelect.propTypes = {
-  options: React.PropTypes.array,
-  onValueChange: React.PropTypes.func,
-  value: React.PropTypes.string,
-  className: React.PropTypes.string,
-  placeholder: React.PropTypes.string
+  /** @type {Item[]} */
+  options: PropTypes.array, // List of the options (see the type Item)
+  // Callback exectued when the selected option changes
+  // If waitForChangeConfirmation is set to true, then the component
+  // waits for this callback to return either true or false to confirm
+  // if the choice can be made
+  // A promise can be returned for asynchronous confirmation
+  /** @type {(item: Item, path?: string[]) => (void|boolean|Promise<boolean>)} */
+  onValueChange: PropTypes.func,
+  /** @type {string} */
+  value: PropTypes.string, // Initial selected value (value of an Item)
+  className: PropTypes.string,
+  placeholder: PropTypes.string,
+  // Whether the user can select an intermediate node (not a leaf)
+  allowNonLeafSelection: PropTypes.bool,
+  // Whether the component should wait for the onValueChange callback to
+  // return true before confirming the user's choice; if false, then
+  // nothing would happen
+  waitForChangeConfirmation: PropTypes.bool
+};
+
+SliderSelect.defaultProps = {
+  onValueChange: () => {},
+  allowNonLeafSelection: true,
+  waitForChangeConfirmation: false
 };
