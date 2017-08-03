@@ -38,33 +38,48 @@ class About extends Page {
         url={this.props.url}
         user={this.props.user}
       >
-        <div className="p-about">
-          <div className="c-page">
-            <Intro title={data && data.title} intro={data && data.summary} styles={styles} />
-            <section className="l-section">
-              <div className="l-container">
-                <div className="row collapse">
-                  {/* Convert string content to html */}
-                  <div
-                    className="description column small-12 medium-8 medium-offset-2"
-                    dangerouslySetInnerHTML={{ __html: data && data.content }}
-                  />
+        <section className="l-content">
+          <header className="l-content-header">
+            <div className="l-container">
+              <div className="row align-center">
+                <div className="column small-12">
+                  <div className="cover" style={styles} />
                 </div>
               </div>
-            </section>
+              <div className="row align-center">
+                <div className="column small-12 medium-8">
+                  <h1>{data.title}</h1>
+                  <p>{data.summary}</p>
+                </div>
+              </div>
+            </div>
+          </header>
+          <article className="l-content-body">
+            <div className="l-container">
+              <div className="row align-center">
+                <div className="column small-12 medium-8">
+                  <div dangerouslySetInnerHTML={{ __html: data && data.content }} />
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
 
-            <div className="row collapse">
+        <aside className="l-postcontent">
+          <div className="l-container">
+            <div className="row align-center">
               <div className="column small-12">
                 <Banner className="partners">
-                  <h3 className="c-text -header-normal -normal">We have a massive opportunity<br />to build a sustainable society</h3>
-                  <button className="c-btn -primary -filled">
+                  <p>We have a massive opportunity<br />to build a sustainable society</p>
+                  <button className="c-button -secondary">
                     <Link href="about_partners"><a>Partners list</a></Link>
                   </button>
                 </Banner>
               </div>
             </div>
           </div>
-        </div>
+        </aside>
+
       </Layout>
     );
   }

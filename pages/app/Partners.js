@@ -45,34 +45,30 @@ class Partners extends Page {
           </div>
         </div>
 
-        <div className="p-partners">
-          <div className="c-page">
-
-            <section className="l-section -bg-grey">
-              <div className="l-container">
-                <header className="row">
-                  <div className="column small-12 medium-8">
-                    <h1 className="c-text -header-big -primary -thin">
-                      We have a massive opportunity to build a sustainable society
-                    </h1>
-                  </div>
-                </header>
-
-                <div className="row">
-                  <article className="column small-12 medium-6">
-                    <p className="c-text -extra-big">
-                      Resource Watch brings together leading technology companies and data providers
-                      dedicated to making new streams of data actionable. This powerful coupling
-                      allows for seamless exploration of trusted, decision-relevant data
-                      from remote sensing systems, peer-reviewed research, and other sources.
-                      State-of-the-art technology and data services support open-access
-                      web and mobile apps to deliver insightful data to the people that need it.
-                    </p>
-                  </article>
+        <section className="l-section">
+          <header className="l-section-header">
+            <div className="l-container">
+              <div className="row">
+                <div className="column small-12">
+                  <h2 className="c-text -header-big -primary -thin">
+                    We have a massive opportunity {<br />} to build a sustainable society
+                  </h2>
+                  <p className="-columnize">
+                    Resource Watch brings together leading technology companies and data providers
+                    dedicated to making new streams of data actionable. This powerful coupling
+                    allows for seamless exploration of trusted, decision-relevant data
+                    from remote sensing systems, peer-reviewed research, and other sources.
+                    State-of-the-art technology and data services support open-access
+                    web and mobile apps to deliver insightful data to the people that need it.
+                  </p>
                 </div>
               </div>
-            </section>
+            </div>
+          </header>
+        </section>
 
+        <div className="p-partners">
+          <div className="c-page">
             <section className="l-section -partners -first">
               <div className="l-container">
                 <div className="row">

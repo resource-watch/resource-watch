@@ -77,10 +77,9 @@ class Layout extends React.Component {
           pageHeader={pageHeader}
         />
 
-        <div className="container">
-          {this.props.children}
-          {!fullScreen && <Footer />}
-        </div>
+        {this.props.children}
+
+        {!fullScreen && <Footer />}
 
         <Tooltip />
 

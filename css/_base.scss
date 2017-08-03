@@ -53,7 +53,7 @@ button {
 h1, h2, h3, h4 {
   margin-top: 0;
   color: $header-font-color;
-  margin-bottom: 0.5rem;
+  margin-bottom: $margin-size;
 
   & > a {
     color: $header-font-color;
@@ -79,7 +79,7 @@ h3 {
   font-size: $font-size-h3;
   font-weight: 300;
   line-height: 1.35;
-  margin-bottom: 0.7rem;
+  margin-bottom: $font-size-h3 * 0.7;
 }
 
 h4 {
@@ -91,4 +91,22 @@ h4 {
   & > a {
     color: $base-font-color;
   }
+}
+
+input, button, select, textarea {
+  font-family: $body-font-family;
+}
+
+.-big {
+  font-size: $font-size-big;
+  line-height: 1.33;
+}
+
+.-text-center {
+  text-align: center;
+}
+
+.-columnize {
+  columns: 2;
+  column-gap: 50px;
 }

@@ -74,11 +74,6 @@ class Header extends React.Component {
         />
       },
       {
-        name: 'Get Involved',
-        pathnames: ['/app/GetInvolved'],
-        component: <Link route="get_involved" prefetch><a>Get Involved</a></Link>
-      },
-      {
         name: 'My RW',
         component: <HeaderUser
           user={this.props.user}
@@ -86,6 +81,11 @@ class Header extends React.Component {
           onMouseEnter={() => this.toggleDropdown('myrwActive', true)}
           onMouseLeave={() => this.toggleDropdown('myrwActive', false)}
         />
+      },
+      {
+        name: 'Get Involved',
+        pathnames: ['/app/GetInvolved'],
+        component: <Link route="get_involved" prefetch><a className="-bordered">Get Involved</a></Link>
       }
     ];
 
@@ -97,32 +97,36 @@ class Header extends React.Component {
       <header className={`c-header ${headerClass}`}>
         {/* <div className="header-secondary"></div> */}
         <div className="l-container">
-          <div className="header-main">
-            <h1 className="header-logo">
-              <Link route="home">
-                <a>
-                  <svg><use xlinkHref="#icon-logo" /></svg>
-                  <span>Resource Watch</span>
-                </a>
-              </Link>
-            </h1>
-            <nav className="header-menu">
-              <ul>
-                {items.map((item) => {
-                  const activeClassName = classnames({
-                    '-active': item.pathnames && item.pathnames.includes(url.pathname)
-                  });
+          <div className="row">
+            <div className="column small-12">
+              <div className="header-main">
+                <div className="header-logo">
+                  <Link route="home">
+                    <a>
+                      <svg className="brand-logo"><use xlinkHref="#icon-logo" /></svg>
+                      <h1 className="brand-title">Resource Watch</h1>
+                    </a>
+                  </Link>
+                </div>
+                <nav className="header-menu">
+                  <ul>
+                    {items.map((item) => {
+                      const activeClassName = classnames({
+                        '-active': item.pathnames && item.pathnames.includes(url.pathname)
+                      });
 
-                  return (
-                    <li key={item.name} className={activeClassName}>
-                      {item.component}
-                    </li>
-                  );
-                })}
-              </ul>
-            </nav>
+                      return (
+                        <li key={item.name} className={activeClassName}>
+                          {item.component}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </nav>
+              </div>
+            </div>
+            </div>
           </div>
-        </div>
       </header>
     );
   }
