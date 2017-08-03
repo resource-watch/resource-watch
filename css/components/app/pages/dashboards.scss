@@ -1,8 +1,14 @@
 .c-page-dashboards {
 
   .info {
+    position: relative; // Needed for the spinner
     padding: 50px 0 70px;
     background-color: $bg-color-2;
+  }
+
+  .error {
+    text-align: center;
+    font-weight: $font-weight-bold;
   }
 
   .dashboards-list {
@@ -101,6 +107,11 @@
   }
 
   .widgets-list {
+    // For some reasons, because .info has a relative position,
+    // if this selector doesn't have it too, the cards inside of
+    // it are cut at the top (probably a conflict with the
+    // negative margin)
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -111,6 +122,10 @@
       flex-basis: calc(50% - 10px);
       margin-bottom: 20px;
     }
+  }
+
+  .user-content {
+    margin-top: 30px;
   }
 
 }
