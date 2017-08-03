@@ -119,9 +119,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   toggleTooltip: () => dispatch(toggleTooltip()),
-  toggleModal: () => {
-    dispatch(toggleModal());
-  },
+  toggleModal: open => dispatch(toggleModal(open, {}, true)),
   setModalOptions: () => {
     dispatch(setModalOptions());
   },

@@ -69,7 +69,7 @@ class SaveWidgetModal extends React.Component {
     });
     const { widgetEditor, tableName, dataset } = this.props;
     const { limit, value, category, color, size, orderBy, aggregateFunction,
-      chartType, filters } = widgetEditor;
+      chartType, filters, areaIntersection } = widgetEditor;
 
     let chartConfig;
     try {
@@ -97,7 +97,8 @@ class SaveWidgetModal extends React.Component {
             orderBy,
             aggregateFunction,
             chartType,
-            filters
+            filters,
+            areaIntersection
           }
         },
         chartConfig

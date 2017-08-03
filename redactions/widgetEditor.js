@@ -21,6 +21,7 @@ const SHOW_LAYER = 'widgetEditor/SHOW_LAYER';
 const SET_FIELDS = 'widgetEditor/SET_FIELDS';
 const SET_LIMIT = 'widgetEditor/SET_LIMIT';
 const RESET = 'widgetEditor/RESET';
+const SET_AREA_INTERSEACTION = 'widgetEditor/SET_AREA_INTERSEACTION';
 
 /**
  * REDUCER
@@ -35,7 +36,8 @@ const initialState = {
   value: null,
   layer: null,
   fields: [],
-  limit: 500
+  limit: 500,
+  areaIntersection: null // ID of the geostore object
 };
 
 export default function (state = initialState, action) {
@@ -179,6 +181,12 @@ export default function (state = initialState, action) {
       });
     }
 
+    case SET_AREA_INTERSEACTION: {
+      return Object.assign({}, state, {
+        areaIntersection: action.payload
+      });
+    }
+
     default:
       return state;
   }
@@ -265,4 +273,8 @@ export function setFields(layer) {
 }
 export function setLimit(limit) {
   return dispatch => dispatch({ type: SET_LIMIT, payload: limit });
+}
+
+export function setAreaIntersection(id) {
+  return dispatch => dispatch({ type: SET_AREA_INTERSEACTION, payload: id });
 }
