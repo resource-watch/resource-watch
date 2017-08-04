@@ -182,7 +182,9 @@ export default class DashboardsDetail extends Page {
                             '-active': selectedDashboard === dashboard
                           })}
                           key={dashboard.slug}
-                          style={{ backgroundImage: `url(/${dashboard.photo})` }}
+                          style={{ backgroundImage: dashboard.photo && (
+                            dashboard.photo.startsWith('data:image/') ? `url(${dashboard.photo})` : `url(/${dashboard.photo})`
+                          ) }}
                         >
                           <input
                             type="radio"
