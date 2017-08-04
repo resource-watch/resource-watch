@@ -1,100 +1,96 @@
-.c-button {
-  appearance: none;
-  display: inline-block;
-  margin: 0;
-  padding: 12px;
+$btn-bg-hover-color: rgba(195, 45, 123,0.05);
+$btn-bg-hover-alt-color: rgba(255, 255, 255, 0.1);
+$btn-border-color: rgba(195, 45, 123, 0.3);
+$btn-border-alt-color: rgba(255, 255, 255, 0.3);
+$btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
+
+.c-button, .c-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 45px;
+  padding: 0 $margin-size;
+
   border: 1px solid transparent;
   border-radius: 4px;
-  background: none;
   outline: none;
-  text-align: center;
-  text-transform: none;
-  font-size: $font-size-big;
+
+  background: none;
+
+  color: $color-primary;
+  font-size: $font-size-medium;
   font-weight: $font-weight-regular;
   font-family: inherit;
   letter-spacing: 0;
-  cursor: pointer;
-  color: $color-secondary;
+  line-height: 0.8;
+  text-align: center;
   text-decoration: none;
+  text-transform: none;
   white-space: nowrap;
 
-  // Types
-  &.-primary {
-    color: $color-primary;
-    background: $color-white;
-    border-color: $color-primary;
+  appearance: none;
 
-    // States
+  transition: all .16s ease-in-out;
+
+  &:hover {
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  &.-compressed {
+    padding-left: $margin-size/2;
+    padding-right: $margin-size/2;
+    height: 30px;
+  }
+
+  &.-a, &.-primary {
+    color: $alt-font-color;
+    background-color: $color-primary;
     &:hover {
-      background: rgba(195,45,123,0.05);
+      box-shadow: $btn-hover-shadow;
     }
-
-    &.-active {
-      background: $color-green;
-      color: $color-white;
-      border-color: $color-green;
-
-      &:hover {
-        background: darken($color-green, 10%);
+    &.-alt {
+      background-color: $base-bg-color;
+      color: $color-primary;
+      &:hover{
+        box-shadow: $btn-hover-shadow;
       }
     }
-
-    &.-disabled {
-      background: $color-white;
-      border-color: $border-color-1;
-      color: $color-text-2;
-      cursor: default;
-    }
   }
 
-
-  &.-secondary {
-    color: $color-white;
-    background: $color-primary;
-    border-color: $color-primary;
-
-    // States
-    &:hover {
-      box-shadow: 0 5px 20px rgba($color-black, 0.1);
-    }
-
-    &.-disabled {
-      background: $color-white;
-      border-color: $border-color-1;
-      color: $color-text-2;
-      cursor: default;
-    }
-  }
-
-  &.-tertiary {
+  &.-b, &.-secondary {
     color: $color-primary;
-    background: $color-white;
-    border-color: $color-white;
-
-    // States
+    background-color: $base-bg-color;
+    border-color: $btn-border-color;
     &:hover {
-      background: rgba(195,45,123,0.05);
+      background-color: $btn-bg-hover-color;
     }
-
-    &.-disabled {
-      background: $color-white;
-      border-color: $border-color-1;
-      color: $color-text-2;
-      cursor: default;
+    &.-alt {
+      background-color: transparent;
+      color: $alt-font-color;
+      border-color: $btn-border-alt-color;
+      &:hover{
+        background-color: $btn-bg-hover-alt-color;
+      }
     }
   }
 
-  // Paddings
-  &.-compressed {
-    padding: 6px 16px;
+  &.-c, &.-tertiary {
+    &:hover {
+      background-color: $btn-bg-hover-color;
+    }
+    &.-alt {
+      color: $alt-font-color;
+
+      &:hover{
+        background-color: rgba($base-bg-color, 0.1);
+      }
+    }
   }
 
-  &.-expanded {
-    padding: 12px 32px;
-  }
-
-  // Sizes
   &.-fullwidth {
     width: 100%;
+    padding-left: $margin-size/2;
+    padding-right: $margin-size/2;
   }
 }

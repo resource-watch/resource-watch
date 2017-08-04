@@ -46,13 +46,6 @@
         margin: 0;
         margin-bottom: 32px;
       }
-
-      .c-btn {
-        text-transform: none;
-        font-weight: normal;
-        padding: 15px 10px;
-        width: 100%;
-      }
     }
 
     .l-container { width: 100%; }
@@ -90,38 +83,6 @@
 
           &:last-child {
             margin-bottom: 0;
-          }
-        }
-      }
-
-      .buttons {
-        margin-top: 50px;
-
-        .c-btn {
-          display: inline-block;
-          text-align: center;
-          width: 100%;
-          text-transform: capitalize;
-          font-weight: normal;
-          font-size: 16px;
-          text-decoration: none;
-        }
-      }
-    }
-
-    &.explore {
-      button { width: 100%; }
-
-      .explore-cards {
-        .c-card-static {
-          .buttons {
-            .c-btn {
-
-              a {
-                color: $color-dark-pink;
-                text-decoration: none;
-              }
-            }
           }
         }
       }

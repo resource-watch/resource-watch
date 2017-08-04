@@ -3,11 +3,13 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  text-align: center;
   background-size: cover;
   background-position: center;
   padding-top: 70px;
   padding-bottom: 70px;
+
+  color: $alt-font-color;
+  text-align: center;
 
   background-image: url('/static/images/backgrounds/image_header.jpg');
   background-position: top center;
@@ -16,7 +18,9 @@
     padding: 160px 0;
   }
 
-  &.-light * { color: $color-white; }
+  a, h1, h2, h3 {
+    color: $alt-font-color;
+  }
 
   &.-left { align-items: flex-start; }
   &.-rigth { align-items: flex-end; }

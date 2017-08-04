@@ -17,7 +17,11 @@
   &.-light {
     color: $color-white;
 
-    & * { color: $color-white; }
+    h1, h2, h3 {
+      color: $color-white;
+    }
+
+    // & * { color: $color-white; }
   }
 
   .tag {
@@ -32,17 +36,6 @@
 
     a {
       text-decoration: none;
-    }
-  }
-
-  .buttons {
-    .c-btn {
-      padding: 12px 22px;
-      text-transform: none;
-      font-weight: normal;
-      margin-right: 10px;
-
-      &:last-child { margin: 0; }
     }
   }
 

@@ -111,9 +111,7 @@ class Home extends Page {
           </div>
           <div className="buttons">
             {c.buttons.map(b => (
-              <button key={b.path} className={`c-btn ${b.className}`}>
-                <Link route={b.path}><a>{b.text}</a></Link>
-              </button>
+              <Link route={b.path} key={b.path}><a className={`c-btn -alt ${b.className}`}>{b.text}</a></Link>
             ))}
           </div>
         </CardStatic>
@@ -212,7 +210,7 @@ class Home extends Page {
                 </div>
                 <div className="l-row row buttons">
                   <div className="column small-12 medium-4 medium-offset-4">
-                    <a href="/insights" className="c-btn -filled -primary">More insights</a>
+                    <a href="/insights" className="c-btn -primary">More insights</a>
                   </div>
                 </div>
               </div>
@@ -255,24 +253,16 @@ class Home extends Page {
               </div>
               <div className="l-row row">
                 <div className="column small-12 medium-3">
-                  <button className="c-btn -transparent">
-                    <Link route="get_involved_detail" params={{ id: 'contribute-data' }}><a>Contribute data</a></Link>
-                  </button>
+                  <Link route="get_involved_detail" params={{ id: 'contribute-data' }}><a className="c-btn -b -alt">Contribute data</a></Link>
                 </div>
                 <div className="column small-12 medium-3">
-                  <button className="c-btn -transparent">
-                    <Link route="get_involved_detail" params={{ id: 'join-community' }}><a>Join the community</a></Link>
-                  </button>
+                  <Link route="get_involved_detail" params={{ id: 'join-community' }}><a className="c-btn -b -alt">Join the community</a></Link>
                 </div>
                 <div className="column small-12 medium-3">
-                  <button className="c-btn -transparent">
-                    <Link route="get_involved_detail" params={{ id: 'submit-an-insight' }}><a>Submit an insight</a></Link>
-                  </button>
+                  <Link route="get_involved_detail" params={{ id: 'submit-an-insight' }}><a className="c-btn -b -alt">Submit an insight</a></Link>
                 </div>
                 <div className="column small-12 medium-3">
-                  <button className="c-btn -transparent">
-                    <Link route="get_involved_detail" params={{ id: 'develop-app' }}><span>Develop your app</span></Link>
-                  </button>
+                  <Link route="get_involved_detail" params={{ id: 'develop-app' }}><a className="c-btn -b -alt">Develop your app</a></Link>
                 </div>
               </div>
             </Banner>
