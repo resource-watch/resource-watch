@@ -253,7 +253,7 @@ export default class DashboardsDetail extends Page {
             ) }
             { selectedDashboard && !selectedDashboard.widgets && (
               <div
-                className="column small-12 user-content"
+                className="user-content column small-12 large-8 large-offset-2"
                 dangerouslySetInnerHTML={{ __html: selectedDashboard.content }} // eslint-disable-line react/no-danger, max-len
               />
             ) }
