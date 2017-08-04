@@ -71,9 +71,7 @@ class About extends Page {
               <div className="column small-12">
                 <Banner className="partners">
                   <p>We have a massive opportunity<br />to build a sustainable society</p>
-                  <button className="c-button -secondary">
-                    <Link href="about_partners"><a>Partners list</a></Link>
-                  </button>
+                  <Link href="about_partners"><a className="c-button -alt -primary">Partners list</a></Link>
                 </Banner>
               </div>
             </div>

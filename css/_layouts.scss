@@ -7,7 +7,16 @@
   box-sizing: border-box;
 
   @media screen and (min-width: map-get($breakpoints, medium)) {
+    max-width: map-get($breakpoints, medium);
+  }
+
+  @media screen and (min-width: map-get($breakpoints, large)) {
+    max-width: map-get($breakpoints, large);
     padding: 0 (map-get($grid-column-gutter, medium)/2);
+  }
+
+  @media screen and (min-width: map-get($breakpoints, xlarge)) {
+    max-width: 1080px;
   }
 }
 

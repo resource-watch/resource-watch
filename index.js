@@ -84,6 +84,16 @@ server.use(passport.session());
 // Initializing next app before express server
 app.prepare()
   .then(() => {
+    // Add route to serve compiled SCSS from /assets/{build id}/main.css
+    // Note: This is is only used in production, in development it is inlined
+    const sassResult = sass.renderSync({ file: './css/index.scss', outputStyle: 'compressed' });
+    server.get('/styles/:id/index.css', (req, res) => {
+      res.setHeader('Content-Type', 'text/css');
+      res.setHeader('Cache-Control', 'public, max-age=2592000');
+      res.setHeader('Expires', new Date(Date.now() + 2592000000).toUTCString());
+      res.send(sassResult.css);
+    });
+
     server.get('/data', (req, res) => res.redirect('/data/explore'));
 
     // On success, redirecting to My RW
