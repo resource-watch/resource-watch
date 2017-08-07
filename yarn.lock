@@ -5821,9 +5821,9 @@ react-proxy@^3.0.0-alpha.0:
   dependencies:
     lodash "^4.6.1"
 
-react-redux-toastr@^7.1.3:
-  version "7.1.3"
-  resolved "https://registry.yarnpkg.com/react-redux-toastr/-/react-redux-toastr-7.1.3.tgz#be95376f9e853da980464b71395b6b9b90326652"
+react-redux-toastr@7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/react-redux-toastr/-/react-redux-toastr-7.0.0.tgz#455beda58f7f75c7eccce430112f3ec8df362a42"
   dependencies:
     classnames "^2.2.3"
     eventemitter3 "^2.0.3"

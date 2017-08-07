@@ -7,7 +7,6 @@
 */
 .Select {
   position: relative;
-  z-index: 5;
   min-width: 200px;
   max-width: 400px;
 }
@@ -243,7 +242,7 @@
   position: absolute;
   top: 100%;
   width: 100%;
-  z-index: 1;
+  z-index: 10;
   -webkit-overflow-scrolling: touch;
 }
 .Select-menu {

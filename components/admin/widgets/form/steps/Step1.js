@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
+import { toastr } from 'react-redux-toastr';
+
 // Constants
 import { FORM_ELEMENTS, CONFIG_TEMPLATE, CONFIG_TEMPLATE_OPTIONS } from 'components/admin/widgets/form/constants';
 
@@ -56,7 +58,8 @@ class Step1 extends React.Component {
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.dataset = c; }}
             onChange={value => this.props.onChange({
-              dataset: value
+              dataset: value,
+              widgetConfig: {}
             })}
             validations={['required']}
             className="-fluid"
@@ -85,39 +88,6 @@ class Step1 extends React.Component {
               type: 'text',
               required: true,
               default: this.state.form.name
-            }}
-          >
-            {Input}
-          </Field>
-
-          {/* SLUG */}
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.slug = c; }}
-            onChange={value => this.props.onChange({ slug: value })}
-            validations={['required']}
-            className="-fluid"
-            properties={{
-              name: 'slug',
-              label: 'Slug',
-              type: 'text',
-              required: true,
-              default: this.state.form.slug
-            }}
-          >
-            {Input}
-          </Field>
-
-          {/* QUERY */}
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.queryUrl = c; }}
-            onChange={value => this.props.onChange({ queryUrl: value })}
-            className="-fluid"
-            properties={{
-              name: 'queryUrl',
-              label: 'Query',
-              type: 'text',
-              required: true,
-              default: this.state.form.queryUrl
             }}
           >
             {Input}
@@ -179,6 +149,10 @@ class Step1 extends React.Component {
                 mode="dataset"
                 showSaveButton={false}
                 onChange={(value) => { this.props.onChange({ widgetConfig: value }); }}
+                onError={() => {
+                  toastr.error('Error', 'This dataset doesn\'t allow editor mode');
+                  this.setState({ mode: 'advanced' });
+                }}
               />
             }
 
@@ -203,7 +177,6 @@ class Step1 extends React.Component {
                 properties={{
                   name: 'widgetConfig',
                   label: 'Widget config',
-                  type: 'textarea',
                   default: this.state.form.widgetConfig,
                   value: this.state.form.widgetConfig
                 }}
