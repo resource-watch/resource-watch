@@ -139,4 +139,18 @@ export default class UserService {
     .then(response => response.json());
   }
 
+  /**
+   *  Get Subscriptions
+   */
+  getSubscriptions(token) {
+    return new Promise((resolve) => {
+      fetch(`${this.opts.apiURL}/subscriptions`, {
+        headers: {
+          Authorization: token
+        }
+      })
+        .then(response => response.json())
+        .then(jsonData => resolve(jsonData.data));
+    });
+  }
 }
