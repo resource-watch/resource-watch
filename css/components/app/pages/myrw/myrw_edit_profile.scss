@@ -6,7 +6,7 @@
   }
 
   .c-field:not(:first-of-type) {
-    margin-top: 32px;
+    margin-top: 20px;
   }
 
   .title-section {
@@ -35,6 +35,11 @@
   .photo-section {
     border-bottom: 1px solid $color-grey;
     padding-bottom: 50px;
+
+    h5 {
+      margin-bottom: 5px;
+      margin-top: 20px;
+    }
 
     .photo-container {
       display: flex;
