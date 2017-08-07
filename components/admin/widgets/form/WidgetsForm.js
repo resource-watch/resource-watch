@@ -1,46 +1,42 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Services
+import WidgetsService from 'services/WidgetsService';
 import DatasetsService from 'services/DatasetsService';
-import LayersService from 'services/LayersService';
+
 import { toastr } from 'react-redux-toastr';
 
 // Constants
-import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/layers/form/constants';
+import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/widgets/form/constants';
 
 // Components
-import Step1 from 'components/admin/layers/form/steps/Step1';
 import Navigation from 'components/form/Navigation';
+import Step1 from 'components/admin/widgets/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
-class LayersForm extends React.Component {
+class WidgetsForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = Object.assign({}, STATE_DEFAULT, {
       id: props.id,
-      dataset: props.dataset,
-      datasets: [],
-      form: Object.assign({}, STATE_DEFAULT.form, {
-        application: props.application
-      }),
-      loading: !!props.id
-    });
-
-    // Service
-    this.datasetsService = new DatasetsService({
-      authorization: props.authorization
-    });
-
-    this.service = new LayersService({
-      authorization: props.authorization
+      loading: !!props.id,
+      form: STATE_DEFAULT.form
     });
 
     // BINDINGS
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.onChangeDataset = this.onChangeDataset.bind(this);
     this.onStepChange = this.onStepChange.bind(this);
+
+    this.service = new WidgetsService({
+      authorization: props.authorization
+    });
+
+    this.datasetsService = new DatasetsService({
+      authorization: props.authorization
+    });
   }
 
   componentDidMount() {
@@ -61,11 +57,11 @@ class LayersForm extends React.Component {
         const current = response[1];
 
         this.setState({
-          // CURRENT LAYER
+          // CURRENT DASHBOARD
           form: (id) ? this.setFormFromParams(current) : this.state.form,
           loading: false,
           // OPTIONS
-          datasets: datasets.map(d => ({ label: d.name, value: d.id }))
+          datasets: datasets.map(p => ({ label: p.name, value: p.id }))
         });
       })
       .catch((err) => {
@@ -77,7 +73,6 @@ class LayersForm extends React.Component {
    * UI EVENTS
    * - onSubmit
    * - onChange
-   * - onChangeDataset
   */
   onSubmit(event) {
     event.preventDefault();
@@ -93,19 +88,21 @@ class LayersForm extends React.Component {
       if (valid) {
         // if we are in the last step we will submit the form
         if (this.state.step === this.state.stepLength && !this.state.submitting) {
-          const { id, dataset } = this.state;
+          const { id } = this.state;
 
           // Start the submitting
           this.setState({ submitting: true });
 
+          // Save data
           this.service.saveData({
-            dataset,
+            dataset: this.state.form.dataset,
             id: id || '',
             type: (id) ? 'PATCH' : 'POST',
-            body: { layer: this.state.form }
+            body: this.state.form
           })
             .then((data) => {
-              toastr.success('Success', `The layer "${data.id}" - "${data.name}" has been uploaded correctly`);
+              toastr.success('Success', `The widget "${data.id}" - "${data.name}" has been uploaded correctly`);
+
               if (this.props.onSubmit) this.props.onSubmit();
             })
             .catch((err) => {
@@ -127,10 +124,6 @@ class LayersForm extends React.Component {
   onChange(obj) {
     const form = Object.assign({}, this.state.form, obj);
     this.setState({ form }, () => console.info(this.state.form));
-  }
-
-  onChangeDataset(dataset) {
-    this.setState({ dataset });
   }
 
   onStepChange(step) {
@@ -162,13 +155,11 @@ class LayersForm extends React.Component {
 
         {(this.state.step === 1 && !this.state.loading) &&
           <Step1
-            ref={(c) => { this.step = c; }}
-            form={this.state.form}
             id={this.state.id}
-            dataset={this.state.dataset}
+            form={this.state.form}
+            partners={this.state.partners}
             datasets={this.state.datasets}
             onChange={value => this.onChange(value)}
-            onChangeDataset={value => this.onChangeDataset(value)}
           />
         }
 
@@ -185,12 +176,10 @@ class LayersForm extends React.Component {
   }
 }
 
-LayersForm.propTypes = {
-  id: React.PropTypes.string,
-  dataset: React.PropTypes.string,
-  authorization: React.PropTypes.string,
-  application: React.PropTypes.array,
-  onSubmit: React.PropTypes.func
+WidgetsForm.propTypes = {
+  authorization: PropTypes.string,
+  id: PropTypes.string,
+  onSubmit: PropTypes.func
 };
 
-export default LayersForm;
+export default WidgetsForm;

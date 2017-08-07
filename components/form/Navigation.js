@@ -12,6 +12,7 @@ class Navigation extends React.Component {
     };
 
     this.onStepChange = this.onStepChange.bind(this);
+    this.onBack = this.onBack.bind(this);
   }
 
   /**
@@ -23,6 +24,12 @@ class Navigation extends React.Component {
 
     // Send the step to the form
     if (this.props.onStepChange) this.props.onStepChange(this.props.step - 1);
+  }
+
+  onBack(e) {
+    e.preventDefault();
+
+    window.history.back();
   }
 
   render() {
@@ -60,6 +67,21 @@ class Navigation extends React.Component {
             </Button>
           </li>
         }
+        {stepLength === 1 &&
+          <li>
+            <Button
+              properties={{
+                type: 'submit',
+                name: 'commit',
+                className: '-primary -expanded'
+              }}
+              onClick={this.onBack}
+            >
+              Cancel
+            </Button>
+          </li>
+        }
+
         {step === stepLength &&
           <li>
             <Button

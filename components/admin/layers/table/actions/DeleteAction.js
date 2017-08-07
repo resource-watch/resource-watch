@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 // Services
 import LayersService from 'services/LayersService';
+import { toastr } from 'react-redux-toastr';
 
 class DeleteAction extends React.Component {
 
@@ -21,15 +23,20 @@ class DeleteAction extends React.Component {
     e && e.preventDefault() && e.stopPropagation();
     const { data } = this.props;
 
-    if (confirm(`Are you sure that you want to delete: "${data.name}" `)) {
-      this.service.deleteData({ id: data.id, dataset: data.dataset })
-        .then(() => {
-          this.props.onRowDelete(data.id);
-        })
-        .catch((err) => {
-          console.error('There was an error with the request. The object was not deleted');
-        });
-    }
+    toastr.confirm(`Are you sure that you want to delete: "${data.name}"`, {
+      onOk: () => {
+        this.service.deleteData({ id: data.id, dataset: data.dataset })
+          .then(() => {
+            this.props.onRowDelete(data.id);
+            toastr.success('Success', `The layer "${data.id}" - "${data.name}" has been removed correctly`);
+          })
+          .catch((err) => {
+            toastr.error('Error', `The layer "${data.id}" - "${data.name}" was not deleted. Try again`);
+            console.error(err);
+          });
+      },
+      onCancel: () => console.info('canceled')
+    });
   }
 
   render() {
