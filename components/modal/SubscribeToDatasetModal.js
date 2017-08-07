@@ -61,10 +61,10 @@ class SubscribeToDatasetModal extends React.Component {
     const { selectedArea } = this.state;
     const { dataset, user } = this.props;
 
-    this.setState({
-      loading: true
-    });
     if (selectedArea) {
+      this.setState({
+        loading: true
+      });
       this.userService.createSubscriptionToDataset(dataset.id, selectedArea.value, user)
         .then(() => {
           this.setState({
@@ -85,10 +85,11 @@ class SubscribeToDatasetModal extends React.Component {
   render() {
     const { areaOptions, loadingAreaOptions, selectedArea, loading, saved } = this.state;
     const { dataset } = this.props;
-    const headerText = saved ? 'Subscription creatd!' : `Subscribe to ${dataset.attributes.name}`;
+    const headerText = saved ? 'Subscription saved!' : `Subscribe to ${dataset.attributes.name}`;
     const paragraphText = saved ?
       'Your subscription was successfully created. Please check your email address to confirm it' :
       'Metadata lorem ipsum casius tesebe Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui.';
+    const cancelButtonText = saved ? 'Ok' : 'Cancel';
 
     return (
       <div className="c-subscribe-to-dataset-modal">
@@ -108,26 +109,34 @@ class SubscribeToDatasetModal extends React.Component {
             />
           </div>
         }
+
         {saved &&
           <div className="icon-container">
             <img alt="" src="/static/images/components/modal/widget-saved.svg" />
           </div>
         }
-        <div className="buttons-div">
-          {!saved &&
+
+        {!saved &&
+          <div className="buttons-div">
             <button className="c-btn -primary" onClick={this.handleSubscribe}>
               Subscribe
             </button>
-          }
-          {saved &&
+            <button className="c-btn -secondary" onClick={() => this.props.toggleModal()}>
+              Cancel
+            </button>
+          </div>
+        }
+
+        {saved &&
+          <div className="buttons-div">
+            <button className="c-btn -secondary" onClick={() => this.props.toggleModal()}>
+              Ok
+            </button>
             <button className="c-btn -primary" onClick={this.handleGoToMySubscriptions}>
               Check my subscriptions
             </button>
-          }
-          <button className="c-btn -secondary" onClick={() => this.props.toggleModal()}>
-            Cancel
-          </button>
-        </div>
+          </div>
+        }
       </div>
     );
   }
