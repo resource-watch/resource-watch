@@ -1,17 +1,23 @@
-.p-myrw-edit-profile {
-
+.c-myrw-edit-profile {
   padding-top: 50px;
 
-  h1,
-  h2 {
-    color: $color-dark-pink;
-    font-weight: normal;
+  input {
+    min-width: 100%;
+  }
+
+  .c-field:not(:first-of-type) {
+    margin-top: 32px;
   }
 
   .title-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 50px;
+
+    h1 {
+      color: $color-dark-pink;
+    }
 
     button {
       width: 150px;
@@ -26,25 +32,28 @@
     }
   }
 
-  .photo-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-style: dashed;
-    border-width: 1px;
-    width: 130px;
-    height: 130px;
-  }
+  .photo-section {
+    border-bottom: 1px solid $color-grey;
+    padding-bottom: 50px;
 
+    .photo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-style: dashed;
+      border-width: 1px;
+      width: 130px;
+      height: 130px;
+    }
+  }
   .bottom-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 40px;
+    padding-top: 50px;
 
     button {
       width: 150px;
     }
   }
-
 }

@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-// Services
-import UserService from 'services/UserService';
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 // Components
 import Button from 'components/ui/Button';
@@ -37,22 +39,35 @@ class MyRWEditProfile extends React.Component {
     super(props);
 
     this.state = {
-      user: {}
+      user: props.user
     };
-
-    this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
   }
 
-  componentWillMount() {
-    this.userService.getLoggedUser().then((response) => {
-      console.log('get logged user: ', response);
-    }).catch((err) => {
-      console.log(err);
+  componentDidMount() {
+    if (!this.props.user.id) {
+      this.waitForUserToBeLoaded();
+    } else {
+      this.loadUser();
+    }
+  }
+
+  waitForUserToBeLoaded() {
+    setTimeout(() => {
+      if (this.props.user.id) {
+        this.loadUser();
+      } else {
+        this.waitForUserToBeLoaded();
+      }
+    }, 1000);
+  }
+
+  loadUser() {
+    this.setState({
+      user: this.props.user
     });
   }
 
   triggerSaveProfile() {
-
   }
 
   handleFormChange(value) {
@@ -63,15 +78,16 @@ class MyRWEditProfile extends React.Component {
     const { user } = this.state;
 
     return (
-      <div className="c-myrw-profile-edit">
+      <div className="c-myrw-edit-profile">
         <div className="row">
           <div className="column small-12">
             <div className="title-section">
-              <h1>Edit Profile</h1>
+              <h1 className="-thin c-text">Edit Profile</h1>
               <Button
                 properties={{
                   type: 'button',
-                  className: '-primary -end'
+                  className: '-primary -end',
+                  disabled: true
                 }}
                 onClick={this.triggerSaveProfile}
               >
@@ -82,13 +98,13 @@ class MyRWEditProfile extends React.Component {
               <Field
                 ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
                 onChange={value => this.handleFormChange({ name: value })}
-                validations={['required']}
                 properties={{
                   name: 'name',
                   label: 'Name',
                   type: 'text',
                   required: true,
-                  default: user.name
+                  default: user.name,
+                  disabled: true
                 }}
               >
                 {Input}
@@ -96,13 +112,13 @@ class MyRWEditProfile extends React.Component {
               <Field
                 ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
                 onChange={value => this.handleFormChange({ email: value })}
-                validations={['required']}
                 properties={{
                   name: 'email',
                   label: 'Email',
                   type: 'email',
                   required: true,
-                  default: user.email
+                  default: user.email,
+                  disabled: true
                 }}
               >
                 {Input}
@@ -114,15 +130,18 @@ class MyRWEditProfile extends React.Component {
                   name: 'new_password',
                   label: 'Change password',
                   type: 'password',
-                  default: user.new_password
+                  default: user.new_password,
+                  disabled: true
                 }}
               >
                 {Input}
               </Field>
             </fieldset>
-            <h5>Photo</h5>
-            <div className="photo-container">
-              Add
+            <div className="photo-section">
+              <h5>Photo</h5>
+              <div className="photo-container">
+                Add
+              </div>
             </div>
             <div className="bottom-section">
               <div className="delete-account-checkbox">
@@ -133,7 +152,7 @@ class MyRWEditProfile extends React.Component {
                     name: 'delete_account',
                     label: 'Delete account',
                     checked: false,
-
+                    disabled: true
                   }}
                 >
                   {Checkbox}
@@ -142,7 +161,8 @@ class MyRWEditProfile extends React.Component {
               <Button
                 properties={{
                   type: 'button',
-                  className: '-primary -end'
+                  className: '-a -end',
+                  disabled: true
                 }}
                 onClick={this.triggerSaveProfile}
               >
@@ -156,4 +176,13 @@ class MyRWEditProfile extends React.Component {
   }
 }
 
-export default MyRWEditProfile;
+MyRWEditProfile.propTypes = {
+  // Store
+  user: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default withRedux(initStore, mapStateToProps, null)(MyRWEditProfile);
