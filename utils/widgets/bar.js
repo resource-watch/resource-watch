@@ -35,7 +35,8 @@ const defaultChart = {
       name: 'x',
       type: 'ordinal',
       range: 'width',
-      domain: { data: 'table', field: 'x' }
+      domain: { data: 'table', field: 'x' },
+      real: false
     },
     {
       name: 'y',
@@ -43,6 +44,7 @@ const defaultChart = {
       "rangeMin": 300,
       "rangeMax": 0,
       domain: { data: 'table', field: 'y' },
+      real: false
     }
   ],
   // This axis is not used by the marks
