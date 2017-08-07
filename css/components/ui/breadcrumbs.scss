@@ -1,9 +1,10 @@
-
 .c-breadcrumbs {
   display: flex;
   width: 100%;
   padding: 0;
-  margin: 0;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
   margin-bottom: 2px;
 
   .item {
@@ -15,8 +16,8 @@
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      color: $color-mango;
-      fill: $color-mango;
+      color: $active-font-color;
+      fill: $active-font-color;
       text-decoration: none;
       cursor: pointer;
 
@@ -29,8 +30,8 @@
       }
 
       &:hover {
-        color: darken($color-mango, 10%);
-        fill: darken($color-mango, 10%);
+        color: darken($active-font-color, 10%);
+        fill: darken($active-font-color, 10%);
       }
     }
   }

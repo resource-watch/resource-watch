@@ -1,9 +1,26 @@
-.c-page-dashboards {
+.page-dashboards {
 
-  .info {
-    padding: 50px 0 70px;
-    background-color: $bg-color-2;
-  }
+  // .widgets-list {
+  //   display: flex;
+  //   flex-wrap: wrap;
+  //   justify-content: space-between;
+  //   align-items: stretch;
+  //   margin-top: -20px;
+
+  //   .c-dashboard-card {
+  //     flex-basis: calc(50% - 10px);
+  //     margin-bottom: 20px;
+  //   }
+  // }
+
+  // .dashboard-info {
+  //   padding-top: 30px;
+
+  //   p {
+  //     margin: 10px 0 0;
+  //     line-height: 1.625;
+  //   }
+  // }
 
   .dashboards-list {
     display: flex;
@@ -88,28 +105,6 @@
           }
         }
       }
-    }
-  }
-
-  .dashboard-info {
-    padding-top: 30px;
-
-    p {
-      margin: 10px 0 0;
-      line-height: 1.625;
-    }
-  }
-
-  .widgets-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: stretch;
-    margin-top: -20px;
-
-    .c-dashboard-card {
-      flex-basis: calc(50% - 10px);
-      margin-bottom: 20px;
     }
   }
 

@@ -1,6 +1,6 @@
 .c-compound-menu .submenu {
   padding: 0;
-  margin: 0 0 20px 0;
+  margin: 0 0 $margin-size 0;
   list-style: none;
 
   .item {
@@ -14,5 +14,9 @@
     &.title a {
       color: $header-font-color;
     }
+  }
+
+  @media screen and (min-width: map-get($breakpoints, small)) {
+    margin-bottom: 0;
   }
 }

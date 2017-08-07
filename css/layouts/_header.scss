@@ -1,4 +1,4 @@
-.c-header {
+.l-header {
   $header-main-height: 75px;
   $header-secondary-height: rem(0);
   $header-bg-color: $color-primary;
@@ -19,6 +19,11 @@
   background-position: center;
   background-size: cover;
   z-index: 10;
+
+  &.-transparent {
+    background-image: none;
+    background-color: transparent;
+  }
 
   .header-main {
     display: flex;

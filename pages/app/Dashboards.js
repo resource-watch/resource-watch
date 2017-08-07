@@ -58,59 +58,55 @@ class Dashboards extends Page {
         description="Resource Watch Dashboards"
         url={this.props.url}
         user={this.props.user}
-        pageHeader
+        className="page-dashboards"
+        pageHeader={true}
       >
-        <div className="c-page-dashboards">
-
-          {/* PAGE HEADER */}
-          <div className="c-page-header">
-            <div className="l-container">
-              <div className="page-header-content -padding-b-2">
-                <Breadcrumbs items={[{ name: 'Data', href: '/data' }]} />
-                <Title className="-primary -huge page-header-title">Dashboards</Title>
-              </div>
+        <div className="l-page-header">
+          <div className="l-container">
+            <div className="page-header-content">
+              <Breadcrumbs items={[{ name: 'Data', href: '/data' }]} />
+              <h1>Dashboards</h1>
             </div>
           </div>
-
-          <div className="info">
-            <div className="row">
-              <div className="column small-12">
-                <ul className="dashboards-list">
-                  {
-                    this.state.dashboards
-                      .map(dashboard => (
-                        <li
-                          className={classnames({
-                            '-disabled': !dashboard.widgets.length
-                          })}
-                          key={dashboard.slug}
-                          style={{ backgroundImage: `url(/${dashboard.image})` }}
-                        >
-                          <input
-                            type="radio"
-                            name="dashboard"
-                            id={`dashboard-${dashboard.slug}`}
-                            value={dashboard.slug}
-                            disabled={!dashboard.widgets.length}
-                            onChange={e => Dashboards.onChangeDashboard(e.target.value)}
-                          />
-                          <label className="content" htmlFor={`dashboard-${dashboard.slug}`}>
-                            {dashboard.name}
-                          </label>
-                        </li>
-                      ))
-                  }
-                </ul>
-              </div>
-            </div>
-            <div className="row">
-              <div className="column small-12 large-7 dashboard-info">
-                <Title className="-extrabig -secondary">Select a topic to start exploring</Title>
-              </div>
-            </div>
-          </div>
-
         </div>
+
+        <section className="l-section -secondary">
+          <div className="row">
+            <div className="column small-12">
+              <h2>Select a topic to start exploring</h2>
+            </div>
+          </div>
+          <div className="row">
+            <div className="column small-12">
+              <ul className="dashboards-list">
+                {
+                  this.state.dashboards
+                    .map(dashboard => (
+                      <li
+                        className={classnames({
+                          '-disabled': !dashboard.widgets.length
+                        })}
+                        key={dashboard.slug}
+                        style={{ backgroundImage: `url(/${dashboard.image})` }}
+                      >
+                        <input
+                          type="radio"
+                          name="dashboard"
+                          id={`dashboard-${dashboard.slug}`}
+                          value={dashboard.slug}
+                          disabled={!dashboard.widgets.length}
+                          onChange={e => Dashboards.onChangeDashboard(e.target.value)}
+                        />
+                        <label className="content" htmlFor={`dashboard-${dashboard.slug}`}>
+                          {dashboard.name}
+                        </label>
+                      </li>
+                    ))
+                }
+              </ul>
+            </div>
+          </div>
+        </section>
       </Layout>
     );
   }

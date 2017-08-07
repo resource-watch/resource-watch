@@ -94,7 +94,7 @@ class Header extends React.Component {
     });
 
     return (
-      <header className={`c-header ${headerClass}`}>
+      <header className={`l-header ${headerClass}`}>
         {/* <div className="header-secondary"></div> */}
         <div className="l-container">
           <div className="row">

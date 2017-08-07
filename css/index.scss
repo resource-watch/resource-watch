@@ -20,7 +20,15 @@
 
 // Common files
 @import "base";
-@import "layouts";
+@import "layouts/container",
+  "layouts/page",
+  "layouts/section",
+  "layouts/header",
+  "layouts/content",
+  "layouts/postcontent",
+  "layouts/footer",
+  "layouts/sidebar",
+  "layouts/map";
 
 // Components
 // UI
@@ -119,7 +127,6 @@
 
 // COMMON
 @import "./components/app/common/banner";
-@import "./components/app/common/btn";
 @import "./components/app/common/rating";
 @import "./components/app/common/text";
 @import "./components/app/common/viel";
@@ -144,12 +151,12 @@
 
 
 // LAYOUT
-@import "./components/app/layout/page";
-@import "./components/app/layout/page-header";
-@import "./components/app/layout/page-section";
-@import "./components/app/layout/footer";
-@import "./components/app/layout/sidebar";
-@import "./components/app/layout/header";
+// @import "./components/app/layout/page";
+// @import "./components/app/layout/page-header";
+// @import "./components/app/layout/page-section";
+// @import "./components/app/layout/footer";
+// @import "./components/app/layout/sidebar";
+// @import "./components/app/layout/header";
 
 // PULSE
 @import "./components/app/pulse/globe_tooltip";

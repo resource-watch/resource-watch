@@ -58,7 +58,7 @@ class Footer extends React.Component {
     const items = this.setPartnersList();
 
     return (
-      <footer className="c-footer">
+      <footer className="l-footer">
         <div className="footer-intro">
           <div className="title">
             <Link to="/about/partners"><a>Partners</a></Link>

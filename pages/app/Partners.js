@@ -30,6 +30,7 @@ class Partners extends Page {
         description="Partners description"
         url={this.props.url}
         user={this.props.user}
+        pageHeader={true}
       >
         <div className="c-page-header">
           <div className="l-container">
@@ -37,20 +38,17 @@ class Partners extends Page {
               <Breadcrumbs
                 items={[{ name: 'About', route: 'about' }]}
               />
-
-              <Title className="-primary -huge page-header-title" >
-                Partners
-              </Title>
+              <h1>Partners</h1>
             </div>
           </div>
         </div>
 
-        <section className="l-section">
+        <section className="l-section -secondary">
           <header className="l-section-header">
             <div className="l-container">
               <div className="row">
                 <div className="column small-12">
-                  <h2 className="c-text -header-big -primary -thin">
+                  <h2>
                     We have a massive opportunity {<br />} to build a sustainable society
                   </h2>
                   <p className="-columnize">
@@ -67,46 +65,50 @@ class Partners extends Page {
           </header>
         </section>
 
-        <div className="p-partners">
-          <div className="c-page">
-            <section className="l-section -partners -first">
-              <div className="l-container">
-                <div className="row">
-                  <div className="column small-12">
-                    <h2 className="title c-text -huger -primary -thin">Founding partners</h2>
-                  </div>
-                </div>
-                <div className="row">
-                  {founders.map(p => <PartnerBlock key={p.id} item={p} />)}
-                </div>
-              </div>
-            </section>
-
-            <section className="l-section -partners">
-              <div className="l-container">
-                <div className="row">
-                  <div className="column small-12">
-                    <h2 className="title c-text -huger -primary -thin">Funders</h2>
-                  </div>
-                </div>
-                <div className="row">
-                  {funders.map(p => <PartnerBlock key={p.id} item={p} />)}
-                </div>
-              </div>
-            </section>
-
+        <section className="l-section">
+          <div className="l-container">
             <div className="row">
               <div className="column small-12">
-                <Banner>
-                  <h3 className="c-text -header-normal -normal">
-                    See yourself as part<br /> of this team?
-                  </h3>
-                  <button className="c-btn -primary -filled">
-                    Get in touch
-                  </button>
-                </Banner>
+                <h2 className="-text-center">Founding partners</h2>
               </div>
             </div>
+            <div className="row">
+              {founders.map(p =>
+                <div className="column small-12 medium-6" key={p.id}>
+                  <PartnerBlock item={p} />
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
+        <section className="l-section -secondary">
+          <div className="l-container">
+            <div className="row">
+              <div className="column small-12">
+                <h2 className="-text-center">Funders</h2>
+              </div>
+            </div>
+            <div className="row">
+              {funders.map(p =>
+                <div className="column small-12 medium-6" key={p.id}>
+                  <PartnerBlock item={p} />
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
+        <div className="row">
+          <div className="column small-12">
+            <Banner>
+              <h3 className="c-text -header-normal -normal">
+                See yourself as part<br /> of this team?
+              </h3>
+              <button className="c-btn -primary -alt">
+                Get in touch
+              </button>
+            </Banner>
           </div>
         </div>
       </Layout>

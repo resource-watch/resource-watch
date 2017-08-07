@@ -6,7 +6,7 @@ function PartnerBlock(props) {
   const imgPath = `${process.env.API_URL}/../${partner.logo.medium}`;
 
   return (
-    <article className="c-partners-block column small-12 medium-6">
+    <article className="c-partners-block">
       <div className="logo-container">
         <Link
           route={'partner'}
@@ -15,13 +15,15 @@ function PartnerBlock(props) {
           <img src={imgPath} className="logo" title={partner.name} alt={partner.name} />
         </Link>
       </div>
-      <p className="description c-text -extra-big">{partner.summary}</p>
-      <Link
-        route={'partner'}
-        params={{ id: partner.slug }}
-      >
-        <a className="action c-btn -transparent -primary -extra-big">Read more</a>
-      </Link>
+      <p>{partner.summary}</p>
+      <div className="buttons">
+        <Link
+          route={'partner'}
+          params={{ id: partner.slug }}
+        >
+          <a className="c-btn -secondary">Read more</a>
+        </Link>
+      </div>
     </article>
   );
 }

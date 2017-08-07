@@ -8,8 +8,7 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 45px;
-  padding: 0 $margin-size;
+  padding: 4px;
 
   border: 1px solid transparent;
   border-radius: 4px;
@@ -41,6 +40,12 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
     padding-left: $margin-size/2;
     padding-right: $margin-size/2;
     height: 30px;
+  }
+
+  &.-a, &.-b, &.-c,
+  &.-primary, &.-secondary, &.-tertiary {
+    padding: 0 $margin-size;
+    height: 45px;
   }
 
   &.-a, &.-primary {
@@ -93,4 +98,8 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
     padding-left: $margin-size/2;
     padding-right: $margin-size/2;
   }
+}
+
+.buttons {
+  margin-top: $margin-size-small;
 }

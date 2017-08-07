@@ -53,7 +53,6 @@ button {
 h1, h2, h3, h4 {
   margin-top: 0;
   color: $header-font-color;
-  margin-bottom: $margin-size;
 
   & > a {
     color: $header-font-color;
@@ -62,6 +61,7 @@ h1, h2, h3, h4 {
 
 h1 {
   margin-top: 0;
+  margin-bottom: $font-size-h1 * 0.5;
 
   font-size: $font-size-h1;
   font-weight: 300;
@@ -73,13 +73,15 @@ h2 {
   font-size: $font-size-h2;
   font-weight: 300;
   line-height: 1.1;
+
+  margin-bottom: $font-size-h2 * 0.5;
 }
 
 h3 {
   font-size: $font-size-h3;
   font-weight: 300;
   line-height: 1.35;
-  margin-bottom: $font-size-h3 * 0.7;
+  margin-bottom: $font-size-h3 * 0.5;
 }
 
 h4 {
@@ -91,6 +93,14 @@ h4 {
 
   & > a {
     color: $base-font-color;
+  }
+}
+
+p {
+  margin-top: 0;
+
+  &:last-child {
+    margin-bottom: 0;
   }
 }
 
@@ -113,6 +123,6 @@ input, button, select, textarea {
   column-gap: 50px;
 }
 
-.-alt {
-  color: $alt-font-color;
-}
+// .-alt {
+//   color: $alt-font-color;
+// }

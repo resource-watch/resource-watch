@@ -1,16 +1,48 @@
-$header-main-height: rem(75);
-$header-secondary-height: rem(0);
+// .c-intro {
+//   background-color: #F4F5F6;
+// }
 
-.c-intro {
-  background-color: #F4F5F6;
-}
+// Use .c-page or .l-page for static pages's detail
+// example: https://projects.invisionapp.com/d/main#/console/11337456/239640960/preview
+// .c-page,
+// .l-page {
+//   $header-main-height: rem(75);
 
-.c-page {
-  position: relative;
-  background: $color-white;
-  min-height: calc(100vh - #{$header-main-height + $header-secondary-height});
+//   position: relative;
+//   min-height: calc(100vh - #{$header-main-height});
 
-  &.-dark {
-    background-color: #242426;
-  }
-}
+//   &.-dark {
+//     background-color: #242426;
+//   }
+
+//   .l-content-header,
+//   .page-header {
+//     padding: $margin-size 0;
+//     background-color: $ui-bg-color;
+//     text-align: center;
+//     margin-top: 210px;
+
+//     p {
+//       font-size: $font-size-big;
+//       font-style: italic;
+//       line-height: 1.33;
+//       color: $ui-font-color;
+//       max-width: 80%;
+//       margin: 1rem auto;
+//     }
+//   }
+
+//   .page-cover {
+//     width: 100%;
+//     height: 432px;
+//     margin-top: -180px;
+//     margin-bottom: $margin-size;
+//     border-radius: 4px;
+//     overflow: hidden;
+//   }
+
+//   .l-content-body,
+//   .page-body {
+//     padding: $margin-size 0;
+//   }
+// }

@@ -60,11 +60,11 @@ class Layout extends React.Component {
   }
 
   render() {
-    const { title, description, url, user, pageHeader, modal } = this.props;
+    const { title, description, url, user, pageHeader, modal, className } = this.props;
     const fullScreen = url.pathname && fullScreenPages.indexOf(url.pathname) !== -1;
 
     return (
-      <div className="c-page">
+      <div className={`l-page ${className}`}>
         <Head
           title={title}
           description={description}

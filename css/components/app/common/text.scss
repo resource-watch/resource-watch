@@ -1,55 +1,55 @@
-.c-text {
+// .c-text {
 
-  // SIZE
-  &.-extra-small {
-    font-size: $font-size-extra-small;
-  }
-  &.-small {
-    font-size: $font-size-small;
-  }
-  &.-default {
-    font-size: $font-size-default;
-  }
-  &.-big {
-    font-size: $font-size-big;
-  }
-  &.-extra-big {
-    font-size: $font-size-extra-big;
-  }
-  &.-huge {
-    font-size: $font-size-huge;
-  }
-  &.-huger {
-    font-size: $font-size-huger;
-  }
-  &.-header-normal {
-    font-size: $font-size-header-normal;
-  }
-  &.-header-big {
-    font-size: $font-size-header-big;
-  }
-  &.-header-huge {
-    font-size: $font-size-header-huge;
-    // I set this margin left because without it it doesn't fit
-    // to the left, we should check it in all cases...
-    margin-left: -5px;
-  }
+//   // SIZE
+//   &.-extra-small {
+//     font-size: $font-size-extra-small;
+//   }
+//   &.-small {
+//     font-size: $font-size-small;
+//   }
+//   &.-default {
+//     font-size: $font-size-default;
+//   }
+//   &.-big {
+//     font-size: $font-size-big;
+//   }
+//   &.-extra-big {
+//     font-size: $font-size-extra-big;
+//   }
+//   &.-huge {
+//     font-size: $font-size-huge;
+//   }
+//   &.-huger {
+//     font-size: $font-size-huger;
+//   }
+//   &.-header-normal {
+//     font-size: $font-size-header-normal;
+//   }
+//   &.-header-big {
+//     font-size: $font-size-header-big;
+//   }
+//   &.-header-huge {
+//     font-size: $font-size-header-huge;
+//     // I set this margin left because without it it doesn't fit
+//     // to the left, we should check it in all cases...
+//     margin-left: -5px;
+//   }
 
-  // COLOURS
-  &.-dark { color: $color-text-headers; }
-  &.-light { color: $color-white; }
-  &.-primary { color: $color-primary; }
+//   // COLOURS
+//   &.-dark { color: $color-text-headers; }
+//   &.-light { color: $color-white; }
+//   &.-primary { color: $color-primary; }
 
-  // WEIGHT
-  &.-bold { font-weight: bold; }
-  &.-normal { font-weight: normal; }
-  &.-thin { font-weight: 300; }
+//   // WEIGHT
+//   &.-bold { font-weight: bold; }
+//   &.-normal { font-weight: normal; }
+//   &.-thin { font-weight: 300; }
 
-  // TRANSFORM
-  &.-uppercase { text-transform: uppercase; }
-  &.-lowercase { text-transform: lowercase; }
-  &.-capitalize { text-transform: capitalize; }
+//   // TRANSFORM
+//   &.-uppercase { text-transform: uppercase; }
+//   &.-lowercase { text-transform: lowercase; }
+//   &.-capitalize { text-transform: capitalize; }
 
-  // STYLE
-  &.-italic { font-style: italic; }
-}
+//   // STYLE
+//   &.-italic { font-style: italic; }
+// }
