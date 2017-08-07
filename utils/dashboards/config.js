@@ -7,8 +7,8 @@ export default [
   {
     name: 'Water',
     slug: 'water',
-    description: 'Water is vital to the natural and manmade systems of our planet. Understanding global water challenges requires timely, relevant information about the many factors that impact water quantity and quality, the health of freshwater ecosystems, and access to safe water sources.',
-    image: 'static/images/dashboards/dashboard-water.jpg',
+    summary: 'Water is vital to the natural and manmade systems of our planet. Understanding global water challenges requires timely, relevant information about the many factors that impact water quantity and quality, the health of freshwater ecosystems, and access to safe water sources.',
+    photo: 'static/images/dashboards/dashboard-water.jpg',
     widgets: [
       {
         widgetId: '6f01a91e-bb68-4d10-9da4-e48b553193f3',
@@ -132,64 +132,64 @@ export default [
   {
     name: 'Countries',
     slug: 'countries',
-    image: 'static/images/dashboards/dashboard-Cities.jpg',
+    photo: 'static/images/dashboards/dashboard-Cities.jpg',
     widgets: [{}]
   },
-  {
-    name: 'Cities',
-    slug: 'cities',
-    description: '',
-    image: 'static/images/dashboards/dashboard-Cities.jpg',
-    widgets: []
-  },
-  {
-    name: 'Society',
-    slug: 'society',
-    description: '',
-    image: 'static/images/dashboards/dashboard-Society.jpg',
-    widgets: []
-  },
-  {
-    name: 'Food',
-    slug: 'food',
-    description: '',
-    image: 'static/images/dashboards/dashboard-Food.jpg',
-    widgets: []
-  },
-  {
-    name: 'Energy',
-    slug: 'energy',
-    description: '',
-    image: 'static/images/dashboards/dashboard-Energy.jpg',
-    widgets: []
-  },
-  {
-    name: 'Forests',
-    slug: 'forests',
-    description: '',
-    image: 'static/images/dashboards/dashboard-Forests.jpg',
-    widgets: []
-  },
-  {
-    name: 'Biodiversity',
-    slug: 'biodiversity',
-    description: '',
-    image: 'static/images/dashboards/dashboard-Biodiversity.jpg',
-    widgets: []
-  },
-  {
-    name: 'Climate',
-    slug: 'climate',
-    description: '',
-    image: 'static/images/dashboards/dashboard-Climate.jpg',
-    widgets: []
-  },
-  {
-    name: 'Disasters',
-    slug: 'disasters',
-    description: '',
-    image: 'static/images/dashboards/dashboard-Disasters.jpg',
-    widgets: []
-  }
+  // {
+  //   name: 'Cities',
+  //   slug: 'cities',
+  //   summary: '',
+  //   photo: 'static/images/dashboards/dashboard-Cities.jpg',
+  //   widgets: []
+  // },
+  // {
+  //   name: 'Society',
+  //   slug: 'society',
+  //   summary: '',
+  //   photo: 'static/images/dashboards/dashboard-Society.jpg',
+  //   widgets: []
+  // },
+  // {
+  //   name: 'Food',
+  //   slug: 'food',
+  //   summary: '',
+  //   photo: 'static/images/dashboards/dashboard-Food.jpg',
+  //   widgets: []
+  // },
+  // {
+  //   name: 'Energy',
+  //   slug: 'energy',
+  //   summary: '',
+  //   photo: 'static/images/dashboards/dashboard-Energy.jpg',
+  //   widgets: []
+  // },
+  // {
+  //   name: 'Forests',
+  //   slug: 'forests',
+  //   summary: '',
+  //   photo: 'static/images/dashboards/dashboard-Forests.jpg',
+  //   widgets: []
+  // },
+  // {
+  //   name: 'Biodiversity',
+  //   slug: 'biodiversity',
+  //   summary: '',
+  //   photo: 'static/images/dashboards/dashboard-Biodiversity.jpg',
+  //   widgets: []
+  // },
+  // {
+  //   name: 'Climate',
+  //   slug: 'climate',
+  //   summary: '',
+  //   photo: 'static/images/dashboards/dashboard-Climate.jpg',
+  //   widgets: []
+  // },
+  // {
+  //   name: 'Disasters',
+  //   slug: 'disasters',
+  //   summary: '',
+  //   photo: 'static/images/dashboards/dashboard-Disasters.jpg',
+  //   widgets: []
+  // }
 ];
 /* eslint-enable */

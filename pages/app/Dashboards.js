@@ -1,5 +1,4 @@
 import React from 'react';
-import classnames from 'classnames';
 
 // Router
 import { Router } from 'routes';
@@ -9,17 +8,36 @@ import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
+import Spinner from 'components/ui/Spinner';
 
 // Utils
 import DASHBOARDS from 'utils/dashboards/config';
 
 class Dashboards extends Page {
 
+  /**
+   * Fetch the list of dashboards
+   * @static
+   * @returns {Promise<{ name: string, slug: string, photo: string }[]>}
+   */
+  static async fetchDashboards() {
+    return fetch(`${process.env.API_URL}/dashboards?fields[dashboards]=name,slug,photo`)
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error('Unable to fetch the dashboards');
+      })
+      .then(({ data }) => data.map(d => d.attributes));
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       // List of dashboards
-      dashboards: []
+      dashboards: [],
+      // Whether we're loading the dashboards
+      loading: false,
+      // Error message
+      error: null
     };
   }
 
@@ -45,10 +63,18 @@ class Dashboards extends Page {
   /**
    * Fetch the dashboards and save them in the state
    */
-  getDashboards() {
-    // We store the dashboards in the state
-    const dashboards = DASHBOARDS;
-    this.setState({ dashboards });
+  async getDashboards() {
+    this.setState({ loading: true, error: null });
+
+    try {
+      const staticDashboards = DASHBOARDS;
+      const dynamicDashboards = await Dashboards.fetchDashboards();
+      this.setState({ dashboards: [...staticDashboards, ...dynamicDashboards] });
+    } catch (err) {
+      this.setState({ error: err.message });
+    } finally {
+      this.setState({ loading: false });
+    }
   }
 
   render() {
@@ -73,6 +99,7 @@ class Dashboards extends Page {
           </div>
 
           <div className="info">
+            { this.state.loading && <Spinner isLoading className="-light" /> }
             <div className="row">
               <div className="column small-12">
                 <ul className="dashboards-list">
@@ -80,18 +107,16 @@ class Dashboards extends Page {
                     this.state.dashboards
                       .map(dashboard => (
                         <li
-                          className={classnames({
-                            '-disabled': !dashboard.widgets.length
-                          })}
                           key={dashboard.slug}
-                          style={{ backgroundImage: `url(/${dashboard.image})` }}
+                          style={{ backgroundImage: dashboard.photo && (
+                            dashboard.photo.startsWith('data:image/') ? `url(${dashboard.photo})` : `url(/${dashboard.photo})`
+                          ) }}
                         >
                           <input
                             type="radio"
                             name="dashboard"
                             id={`dashboard-${dashboard.slug}`}
                             value={dashboard.slug}
-                            disabled={!dashboard.widgets.length}
                             onChange={e => Dashboards.onChangeDashboard(e.target.value)}
                           />
                           <label className="content" htmlFor={`dashboard-${dashboard.slug}`}>
@@ -104,9 +129,16 @@ class Dashboards extends Page {
               </div>
             </div>
             <div className="row">
-              <div className="column small-12 large-7 dashboard-info">
-                <Title className="-extrabig -secondary">Select a topic to start exploring</Title>
-              </div>
+              { this.state.error && (
+                <div className="column small-12">
+                  <p className="error">{this.state.error}</p>
+                </div>
+              ) }
+              { !this.state.loading && !this.state.error && (
+                <div className="column small-12 large-7 dashboard-info">
+                  <Title className="-extrabig -secondary">Select a topic to start exploring</Title>
+                </div>
+              ) }
             </div>
           </div>
 
