@@ -1,6 +1,6 @@
 import 'isomorphic-fetch';
 import { get, post, remove } from 'utils/request';
-
+import sortBy from 'lodash/sortBy';
 
 export default class DatasetsService {
 
@@ -12,7 +12,7 @@ export default class DatasetsService {
   fetchAllData({ applications = [process.env.APPLICATIONS], includes }) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/dataset?application=${applications.join(',')}&includes=${includes}&page[size]=999`,
+        url: `${process.env.WRI_API_URL}/dataset?application=${applications.join(',')}&includes=${includes}&page[size]=${Date.now() / 100000}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -21,7 +21,8 @@ export default class DatasetsService {
           value: this.opts.authorization
         }],
         onSuccess: ({ data }) => {
-          resolve(data.map(dataset => ({ ...dataset.attributes, id: dataset.id })));
+          const datasets = data.map(dataset => ({ ...dataset.attributes, id: dataset.id }));
+          resolve(sortBy(datasets, 'name'));
         },
         onError: (error) => {
           reject(error);
@@ -42,7 +43,10 @@ export default class DatasetsService {
           value: this.opts.authorization
         }],
         onSuccess: (response) => {
-          resolve(response.data);
+          resolve({
+            ...response.data.attributes,
+            id: response.data.id
+          });
         },
         onError: (error) => {
           reject(error);
@@ -65,7 +69,10 @@ export default class DatasetsService {
           value: this.opts.authorization
         }],
         onSuccess: (response) => {
-          resolve(response.data);
+          resolve({
+            ...response.data.attributes,
+            id: response.data.id
+          });
         },
         onError: (error) => {
           reject(error);
@@ -88,7 +95,10 @@ export default class DatasetsService {
           value: this.opts.authorization
         }],
         onSuccess: (response) => {
-          resolve(response.data);
+          resolve({
+            ...response.data.attributes,
+            id: response.data.id
+          });
         },
         onError: (error) => {
           reject(error);
@@ -97,7 +107,7 @@ export default class DatasetsService {
     });
   }
 
-  deleteData({ id }) {
+  deleteData(id) {
     return new Promise((resolve, reject) => {
       remove({
         url: `${process.env.WRI_API_URL}/dataset/${id}`,
@@ -105,8 +115,8 @@ export default class DatasetsService {
           key: 'Authorization',
           value: this.opts.authorization
         }],
-        onSuccess: (response) => {
-          resolve(response.data);
+        onSuccess: () => {
+          resolve();
         },
         onError: (error) => {
           reject(error);

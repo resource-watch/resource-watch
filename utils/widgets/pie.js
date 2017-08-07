@@ -38,7 +38,8 @@ const defaultChart = {
         "labels": {
           "text": {"template": ""},
         }
-      }
+      },
+      "real": false
     },
     {
       "type": "y",
@@ -49,7 +50,8 @@ const defaultChart = {
         "labels": {
           "text": {"template": ""},
         }
-      }
+      },
+      "real": false
     }
   ],
   "marks": [

@@ -10,6 +10,7 @@ import Layout from 'components/app/layout/Layout';
 import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import DashboardCard from 'components/app/dashboards/DashboardCard';
+import Spinner from 'components/ui/Spinner';
 
 // Services
 import UserService from 'services/UserService';
@@ -19,9 +20,27 @@ import DASHBOARDS from 'utils/dashboards/config';
 
 export default class DashboardsDetail extends Page {
 
+  /**
+   * Fetch the list of dashboards
+   * @static
+   * @returns {Promise<{ name: string, slug: string, photo: string }[]>}
+   */
+  static async fetchDashboards() {
+    return fetch(`${process.env.API_URL}/dashboards?fields[dashboards]=name,slug,photo`)
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error('Unable to fetch the dashboards');
+      })
+      .then(({ data }) => data.map(d => d.attributes));
+  }
+
   constructor(props) {
     super(props);
     this.state = {
+      // Whether we're loading the dashboards
+      loading: false,
+      // Error message
+      error: null,
       // List of dashboards
       dashboards: [],
       // Pointer to the selected dashboard
@@ -108,13 +127,22 @@ export default class DashboardsDetail extends Page {
    * Fetch the dashboards, save them in the state, set a default
    * selected dashboard and update the URL
    */
-  getDashboards() {
-    // We store the dashboards in the state
-    const dashboards = DASHBOARDS;
-    this.setState({ dashboards });
+  async getDashboards() {
+    this.setState({ loading: true, error: null });
 
-    // We set the dashboard associated with the slug
-    this.onChangeDashboard(this.props.url.query.slug, dashboards);
+    try {
+      const staticDashboards = DASHBOARDS;
+      const dynamicDashboards = await DashboardsDetail.fetchDashboards();
+      const dashboards = [...staticDashboards, ...dynamicDashboards];
+      this.setState({ dashboards });
+
+      // We set the dashboard associated with the slug
+      this.onChangeDashboard(this.props.url.query.slug, dashboards);
+    } catch (err) {
+      this.setState({ error: err.message });
+    } finally {
+      this.setState({ loading: false });
+    }
   }
 
   render() {
@@ -124,7 +152,7 @@ export default class DashboardsDetail extends Page {
     return (
       <Layout
         title={dashboardName}
-        description="Resource Watch Dashboards"
+        description={selectedDashboard ? selectedDashboard.summary : 'Resource Watch Dashboards'}
         url={url}
         user={user}
         pageHeader
@@ -142,6 +170,7 @@ export default class DashboardsDetail extends Page {
           </div>
 
           <div className="info">
+            { this.state.loading && <Spinner isLoading className="-light" /> }
             <div className="row">
               <div className="column small-12">
                 <ul className="dashboards-list">
@@ -150,11 +179,12 @@ export default class DashboardsDetail extends Page {
                       .map(dashboard => (
                         <li
                           className={classnames({
-                            '-active': selectedDashboard === dashboard,
-                            '-disabled': !dashboard.widgets.length
+                            '-active': selectedDashboard === dashboard
                           })}
                           key={dashboard.slug}
-                          style={{ backgroundImage: `url(/${dashboard.image})` }}
+                          style={{ backgroundImage: dashboard.photo && (
+                            dashboard.photo.startsWith('data:image/') ? `url(${dashboard.photo})` : `url(/${dashboard.photo})`
+                          ) }}
                         >
                           <input
                             type="radio"
@@ -162,7 +192,6 @@ export default class DashboardsDetail extends Page {
                             id={`dashboard-${dashboard.slug}`}
                             value={dashboard.slug}
                             checked={selectedDashboard === dashboard}
-                            disabled={!dashboard.widgets.length}
                             onChange={e => this.onChangeDashboard(e.target.value)}
                           />
                           <label className="content" htmlFor={`dashboard-${dashboard.slug}`}>
@@ -172,47 +201,64 @@ export default class DashboardsDetail extends Page {
                       ))
                       .slice(0, showMore ? dashboards.length : 5)
                   }
-                  <li className="-toggle">
-                    <button
-                      type="button"
-                      className="content"
-                      onClick={() => this.setState({ showMore: !showMore })}
-                    >
-                      <span>{ this.state.showMore ? 'Close' : 'More' }</span>
-                    </button>
-                  </li>
+                  { dashboards.length > 5 && (
+                    <li className="-toggle">
+                      <button
+                        type="button"
+                        className="content"
+                        onClick={() => this.setState({ showMore: !showMore })}
+                      >
+                        <span>{ this.state.showMore ? 'Close' : 'More' }</span>
+                      </button>
+                    </li>
+                  ) }
                 </ul>
               </div>
             </div>
-            <div className="row">
-              <div className="column small-12 large-7 dashboard-info">
-                <Title className="-extrabig -secondary">{selectedDashboard.name}</Title>
-                <p className="description">
-                  {selectedDashboard.description}
-                </p>
+            { this.state.error && (
+              <div className="column small-12">
+                <p className="error">{this.state.error}</p>
               </div>
-            </div>
+            ) }
+            { selectedDashboard && (
+              <div className="row">
+                <div className="column small-12 large-7 dashboard-info">
+                  <Title className="-extrabig -secondary">{selectedDashboard.name}</Title>
+                  <p className="description">
+                    {selectedDashboard.summary}
+                  </p>
+                </div>
+              </div>
+            ) }
           </div>
 
           <div className="row">
-            <div className="column small-12 widgets-list">
-              {
-                selectedDashboard.widgets.map(widget => (
-                  <DashboardCard
-                    key={widget.name || widget.widgetId}
-                    // widget.widgetId doesn't exist for the "fake" widget
-                    // so React can complain about a null widgetId
-                    widgetId={widget.widgetId}
-                    categories={widget.categories}
-                    isFavourite={this.isFavourite(widget.widgetId)}
-                    // The following attributes will be deprecated once all the
-                    // widgets are fetched from the API
-                    name={widget.name}
-                    data={widget.data}
-                  />
-                ))
-              }
-            </div>
+            { selectedDashboard && selectedDashboard.widgets && (
+              <div className="column small-12 widgets-list">
+                {
+                  selectedDashboard.widgets.map(widget => (
+                    <DashboardCard
+                      key={widget.name || widget.widgetId}
+                      // widget.widgetId doesn't exist for the "fake" widget
+                      // so React can complain about a null widgetId
+                      widgetId={widget.widgetId}
+                      categories={widget.categories}
+                      isFavourite={this.isFavourite(widget.widgetId)}
+                      // The following attributes will be deprecated once all the
+                      // widgets are fetched from the API
+                      name={widget.name}
+                      data={widget.data}
+                    />
+                  ))
+                }
+              </div>
+            ) }
+            { selectedDashboard && !selectedDashboard.widgets && (
+              <div
+                className="user-content column small-12 large-8 large-offset-2"
+                dangerouslySetInnerHTML={{ __html: selectedDashboard.content }} // eslint-disable-line react/no-danger, max-len
+              />
+            ) }
           </div>
 
         </div>

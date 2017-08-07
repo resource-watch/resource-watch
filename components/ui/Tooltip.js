@@ -3,7 +3,7 @@ import TetherComponent from 'react-tether';
 import classnames from 'classnames';
 import { initStore } from 'store';
 import withRedux from 'next-redux-wrapper';
-import { toggleTooltip, setTooltipPosition } from 'redactions/tooltip';
+import { setTooltipPosition } from 'redactions/tooltip';
 
 class Tooltip extends React.Component {
 
@@ -72,9 +72,11 @@ class Tooltip extends React.Component {
         ref={(node) => { this.tether = node; }}
         attachment="bottom center"
         targetAttachment="top center"
-        constraints={[{ // Make the tooltip follow the page (i.e. can be hidden if scrolled)
-          to: 'scrollParent',
-          attachment: 'together'
+        constraints={[{
+          // Don't use the "together attachement" without making sure
+          // the tooltip doesn't disappear in an embedded widget when
+          // the cursor is at the top of the iframe
+          to: 'scrollParent'
         }]}
         classes={{
           element: tooltipClasses
@@ -103,7 +105,6 @@ const mapStateToProps = ({ tooltip }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleTooltip: () => { dispatch(toggleTooltip()); },
   setTooltipPosition: (pos) => { dispatch(setTooltipPosition(pos)); }
 });
 

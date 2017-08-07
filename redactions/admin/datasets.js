@@ -1,4 +1,5 @@
 import 'isomorphic-fetch';
+import DatasetsService from 'services/DatasetsService';
 
 /**
  * CONSTANTS
@@ -21,6 +22,8 @@ const initialState = {
     filters: []     // Filters for the list of datasets
   }
 };
+
+const service = new DatasetsService();
 
 /**
  * REDUCER
@@ -74,20 +77,17 @@ export default function (state = initialState, action) {
  * @export
  * @param {string[]} applications Name of the applications to load the datasets from
  */
-export function getDatasets(applications = [process.env.APPLICATIONS]) {
+export function getDatasets() {
   return (dispatch) => {
     dispatch({ type: GET_DATASETS_LOADING });
 
-    // TODO: remove the date now
-    // ⬆️ Copied from redations/explore.js, no idea what
-    // the date is used for
-    fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=${applications.join(',')}&includes=widget,layer,metadata,vocabulary&page[size]=999`))
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
+    service.fetchAllData({ includes: 'widget,layer,metadata,vocabulary' })
+      .then((data) => {
+        dispatch({ type: GET_DATASETS_SUCCESS, payload: data });
       })
-      .then(({ data }) => dispatch({ type: GET_DATASETS_SUCCESS, payload: data }))
-      .catch(err => dispatch({ type: GET_DATASETS_ERROR, payload: err.message }));
+      .catch((err) => {
+        dispatch({ type: GET_DATASETS_ERROR, payload: err.message });
+      });
   };
 }
 

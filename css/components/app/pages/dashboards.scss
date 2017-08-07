@@ -1,26 +1,9 @@
 .page-dashboards {
 
-  // .widgets-list {
-  //   display: flex;
-  //   flex-wrap: wrap;
-  //   justify-content: space-between;
-  //   align-items: stretch;
-  //   margin-top: -20px;
-
-  //   .c-dashboard-card {
-  //     flex-basis: calc(50% - 10px);
-  //     margin-bottom: 20px;
-  //   }
-  // }
-
-  // .dashboard-info {
-  //   padding-top: 30px;
-
-  //   p {
-  //     margin: 10px 0 0;
-  //     line-height: 1.625;
-  //   }
-  // }
+  .error {
+    text-align: center;
+    font-weight: $font-weight-bold;
+  }
 
   .dashboards-list {
     display: flex;
@@ -107,5 +90,4 @@
       }
     }
   }
-
 }

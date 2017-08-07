@@ -145,7 +145,8 @@ class VegaChart extends React.Component {
     // [2] As the scatter plot can have several points at the same
     //     x position, we want to avoid showing the data of a
     //     random point when not hovering a dot
-    const hasXAxis = !!(vegaConfig.axes && vegaConfig.axes.find(axis => axis.type === 'x'));
+    const xAxis = vegaConfig.axes && vegaConfig.axes.find(axis => axis.type === 'x');
+    const hasXAxis = !!(xAxis && (xAxis.real === undefined || xAxis.real));
     const isScatter = vegaConfig.marks.length === 1 && vegaConfig.marks[0].type === 'symbol';
     if (!hasXAxis || !visData || x === undefined || x === null || isScatter) {
       return this.props.toggleTooltip(false);

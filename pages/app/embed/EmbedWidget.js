@@ -53,8 +53,8 @@ export default class EmbedWidget extends React.Component {
     return (
       <div className="c-embed-widget">
         <Head
-          title={widget && widget.attributes.name}
-          description={widget && widget.attributes.name}
+          title={(widget && widget.attributes.name) || 'Loading...'}
+          description={(widget && widget.attributes.name) || 'Loading..'}
         />
         <Tooltip />
         <Spinner
@@ -67,6 +67,7 @@ export default class EmbedWidget extends React.Component {
               data={widget.attributes.widgetConfig}
               theme={ChartTheme()}
               toggleLoading={this.triggerToggleLoading}
+              reloadOnResize
             />
             <div className="info">
               <div className="widget-title">
