@@ -143,7 +143,7 @@
       }
     }
 
-    .columns {
+    .dashboard-row {
       display: flex;
       justify-content: space-between;
       align-items: stretch;
@@ -160,7 +160,7 @@
       }
 
       @for $i from 1 through 2 {
-        > .column-#{$i} {
+        > .dashboard-column-#{$i} {
           flex-basis: 100%;
           flex-shrink: 0;
           flex-grow: 0;
@@ -169,7 +169,7 @@
             flex-basis: calc(#{100% / $i} - #{(($i - 1) * 20px) / $i});
           }
 
-          & + .column-#{$i} {
+          & + .dashboard-column-#{$i} {
             margin-top: 20px;
 
             @media screen and (min-width: map-get($breakpoints, medium)) {
