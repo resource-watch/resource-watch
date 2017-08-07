@@ -1,9 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Router } from 'routes';
 import { Autobind } from 'es-decorators';
+
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 // Services
 import AreasService from 'services/AreasService';
+import UserService from 'services/UserService';
 
 // components
 import CustomSelect from 'components/ui/CustomSelect';
@@ -18,13 +24,27 @@ class SubscribeToDatasetModal extends React.Component {
     this.state = {
       areaOptions: [],
       loadingAreaOptions: false,
-      selectedArea: null
+      selectedArea: null,
+      loading: false,
+      saved: false
     };
 
-    this.areasService = new AreasService({ apiURL: process.env.API_URL });
+    this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
+    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
   }
 
   componentDidMount() {
+    this.loadAreas();
+  }
+
+  @Autobind
+  onChangeSelectedArea(value) {
+    this.setState({
+      selectedArea: value
+    });
+  }
+
+  loadAreas() {
     this.setState({
       loadingAreaOptions: true
     });
@@ -37,47 +57,73 @@ class SubscribeToDatasetModal extends React.Component {
   }
 
   @Autobind
-  onChangeSelectedArea(value) {
-    this.setState({
-      selectedArea: value
-    });
-  }
-
-  @Autobind
   handleSubscribe() {
     const { selectedArea } = this.state;
-    if (selectedArea) {
+    const { dataset, user } = this.props;
 
+    this.setState({
+      loading: true
+    });
+    if (selectedArea) {
+      this.userService.createSubscriptionToDataset(dataset.id, selectedArea.value, user)
+        .then(() => {
+          this.setState({
+            loading: false,
+            saved: true
+          });
+        })
+        .catch(err => this.setState({ error: err, loading: false }));
     }
   }
 
+  @Autobind
+  handleGoToMySubscriptions() {
+    this.props.toggleModal(false);
+    Router.pushRoute('myrw', { tab: 'subscriptions' });
+  }
+
   render() {
-    const { areaOptions, loadingAreaOptions, selectedArea } = this.state;
+    const { areaOptions, loadingAreaOptions, selectedArea, loading, saved } = this.state;
     const { dataset } = this.props;
-    const headerText = `Subscribe to ${dataset.attributes.name}`;
+    const headerText = saved ? 'Subscription creatd!' : `Subscribe to ${dataset.attributes.name}`;
+    const paragraphText = saved ?
+      'Your subscription was successfully created. Please check your email address to confirm it' :
+      'Metadata lorem ipsum casius tesebe Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui.';
 
     return (
       <div className="c-subscribe-to-dataset-modal">
-        <div className="share-content">
+        <div className="header-div">
           <h1 className="c-text -header-normal -thin title">{headerText}</h1>
-          <p>Metadata lorem ipsum casius tesebe Integer posuere erat a ante venenatis
-             dapibus posuere velit aliquet. Praesent commodo cursus magna,
-             vel scelerisque nisl consectetur et. Donec sed odio dui.</p>
+          <p>{paragraphText}</p>
         </div>
-        <div className="area-selector">
-          <Spinner isLoading={loadingAreaOptions} className="-light -small" />
-          <CustomSelect
-            placeholder="Select area"
-            options={areaOptions}
-            onValueChange={this.onChangeSelectedArea}
-            allowNonLeafSelection={false}
-            value={selectedArea}
-          />
-        </div>
+        {!saved &&
+          <div className="area-selector">
+            <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
+            <CustomSelect
+              placeholder="Select area"
+              options={areaOptions}
+              onValueChange={this.onChangeSelectedArea}
+              allowNonLeafSelection={false}
+              value={selectedArea && selectedArea.value}
+            />
+          </div>
+        }
+        {saved &&
+          <div className="icon-container">
+            <img alt="" src="/static/images/components/modal/widget-saved.svg" />
+          </div>
+        }
         <div className="buttons-div">
-          <button className="c-btn -primary" onClick={this.handleSubscribe}>
-            Subscribe
-          </button>
+          {!saved &&
+            <button className="c-btn -primary" onClick={this.handleSubscribe}>
+              Subscribe
+            </button>
+          }
+          {saved &&
+            <button className="c-btn -primary" onClick={this.handleGoToMySubscriptions}>
+              Check my subscriptions
+            </button>
+          }
           <button className="c-btn -secondary" onClick={() => this.props.toggleModal()}>
             Cancel
           </button>
@@ -89,8 +135,13 @@ class SubscribeToDatasetModal extends React.Component {
 
 SubscribeToDatasetModal.propTypes = {
   toggleModal: PropTypes.func.isRequired,
-  dataset: PropTypes.object.isRequired
+  dataset: PropTypes.object.isRequired,
+  // Store
+  user: PropTypes.object.isRequired
 };
 
+const mapStateToProps = state => ({
+  user: state.user
+});
 
-export default SubscribeToDatasetModal;
+export default withRedux(initStore, mapStateToProps, null)(SubscribeToDatasetModal);

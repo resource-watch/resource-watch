@@ -107,4 +107,36 @@ export default class UserService {
     .then(response => response.json());
   }
 
+  /**
+   * Creates a subscription for a pair of dataset and country
+   * @param {datasetID} ID of the dataset
+   * @param {countryISO} ISO of the country
+   * @returns {Promise}
+   */
+  createSubscriptionToDataset(datasetID, countryISO, user) {
+    const bodyObj = {
+      application: 'rw',
+      language: 'en',
+      datasets: [datasetID],
+      resource: {
+        type: 'EMAIL',
+        content: user.email
+      },
+      params: {
+        iso: {
+          country: countryISO
+        }
+      }
+    };
+    return fetch(`${this.opts.apiURL}/subscriptions`, {
+      method: 'POST',
+      body: JSON.stringify(bodyObj),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    })
+    .then(response => response.json());
+  }
+
 }
