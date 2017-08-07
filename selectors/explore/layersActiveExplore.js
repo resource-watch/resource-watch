@@ -9,14 +9,11 @@ const hiddenLayers = state => state.explore.datasets.hidden;
 // Create a function to compare the current active datatasets and the current datasetsIds
 const getActiveLayers = (_datasets, _activeLayers, _hiddenLayers) => {
   const layerList = [];
-  const activeDatasets = [];
+  let activeDatasets = [];
   let layer;
 
   if (_datasets.length) {
-    _activeLayers.forEach((id) => {
-      const matchDataset = _datasets.filter(d => d.id === id)[0];
-      activeDatasets.push(matchDataset);
-    });
+    activeDatasets = _activeLayers.map(id => _datasets.filter(d => d.id === id)[0]);
 
     activeDatasets.forEach((dataset, i) => {
       if (dataset && dataset.attributes.layer.length) {

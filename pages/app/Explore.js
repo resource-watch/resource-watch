@@ -52,7 +52,6 @@ class Explore extends Page {
     super(props);
 
     this.state = {
-      layersActive: props.layersActive,
       vocabularies: props.explore.vocabularies.list || []
     };
 
@@ -84,7 +83,6 @@ class Explore extends Page {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      layersActive: nextProps.layersActive,
       vocabularies: nextProps.explore.vocabularies.list
     });
   }
@@ -231,7 +229,6 @@ class Explore extends Page {
                 }}
               />
             </Sidebar>
-
             <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
               <div className="l-map">
                 <Map

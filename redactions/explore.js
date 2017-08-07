@@ -261,9 +261,9 @@ export function toggleDatasetActive(id) {
     const { explore } = getState();
     let active = explore.datasets.active.slice();
 
-    active = active.includes(id) ?
-      active.filter(a => a !== id) :
-      active.concat(id);
+    active = active.includes(id)
+      ? active.filter(a => a !== id)
+      : active.concat(id);
 
     dispatch({
       type: SET_DATASETS_ACTIVE,

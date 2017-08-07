@@ -18,7 +18,7 @@ const DragHandle = SortableHandle(() => (
 const SortableList = SortableContainer(({ items }) => (
   <ul className="legend-list">
     {items.map((value, index) =>
-      <SortableItem key={`item-${index}`} index={index} value={value} />
+      <SortableItem key={`item-${value}`} index={index} value={value} />
     )}
   </ul>
 ));
@@ -33,8 +33,8 @@ class Legend extends React.Component {
 
     // BINDINGS
     this.onSortEnd = this.onSortEnd.bind(this);
-    this.onSortStart = this.onSortStart.bind(this);
-    this.onSortMove = this.onSortMove.bind(this);
+    // this.onSortStart = this.onSortStart.bind(this);
+    // this.onSortMove = this.onSortMove.bind(this);
   }
 
   onSortEnd({ oldIndex, newIndex }) {
@@ -46,23 +46,27 @@ class Legend extends React.Component {
     this.props.setDatasetsActive(newLayersActive);
   }
 
-  onSortStart(opts) {
-    // const node = opts.node;
-  }
+  // onSortStart(opts) {
+  //   // const node = opts.node;
+  // }
 
-  onSortMove(ev) {
-  }
+  // onSortMove(ev) {
+  // }
 
   onDeactivateLayer(dataset) {
     this.props.toggleDatasetActive(dataset);
-    this.props.layersHidden.includes(dataset) && this.onHideLayer(dataset);
+    if (this.props.layersHidden.includes(dataset)) {
+      this.onHideLayer(dataset);
+    }
   }
 
   onHideLayer(dataset) {
     let newLayersHidden = this.props.layersHidden.slice();
-    this.props.layersHidden.includes(dataset) ?
-      newLayersHidden = this.props.layersHidden.filter(l => l !== dataset) :
+    if (this.props.layersHidden.includes(dataset)) {
+      newLayersHidden = this.props.layersHidden.filter(l => l !== dataset);
+    } else {
       newLayersHidden.push(dataset);
+    }
 
     this.props.setDatasetsHidden(newLayersHidden);
   }
@@ -103,8 +107,8 @@ class Legend extends React.Component {
   getLegendItems() {
     // Reverse layers to show first the last one added
     const layersActiveReversed = this.props.layersActive.slice().reverse();
-    return layersActiveReversed.map((layer, i) => (
-      <li key={i} className="c-legend-unit">
+    return layersActiveReversed.map(layer => (
+      <li key={layer.name} className="c-legend-unit">
         <div className="legend-info">
           <header className="legend-item-header">
             <h3 className={this.props.className.color}>
