@@ -33,8 +33,6 @@ class PagesTable extends React.Component {
           { key: 'Authorization', value: this.props.authorization }
         ],
         onSuccess: (response) => {
-          console.log('success!');
-          console.log(response);
           const pages = response.data.map(page =>
             Object.assign({}, page.attributes, {
               id: page.id
