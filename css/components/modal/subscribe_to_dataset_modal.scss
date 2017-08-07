@@ -1,6 +1,23 @@
 .c-subscribe-to-dataset-modal {
+  position: relative;
+  height: 400px;
 
   h1 {
     color: $color-dark-pink;
   }
+
+  .custom-select-options {
+    max-height: 200px;
+  }
+
+  .area-selector {
+    margin-top: 50px;
+  }
+
+  .buttons-div {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+  }
+
 }
