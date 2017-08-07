@@ -15,14 +15,33 @@ const GET_VOCABULARIES_SUCCESS = 'explore/GET_VOCABULARIES_SUCCESS';
 const GET_VOCABULARIES_ERROR = 'explore/GET_VOCABULARIES_ERROR';
 const GET_VOCABULARIES_LOADING = 'explore/GET_VOCABULARIES_LOADING';
 
-const SET_DATASETS_ACTIVE = 'explore/SET_DATASETS_ACTIVE';
-const SET_DATASETS_HIDDEN = 'explore/SET_DATASETS_HIDDEN';
+const SET_DATASETS_ACTIVE = 'explore/SET_DATASETS_ACTIVE'; // TODO: remove
+const SET_DATASETS_HIDDEN = 'explore/SET_DATASETS_HIDDEN'; // TODO: remove
 const SET_DATASETS_PAGE = 'explore/SET_DATASETS_PAGE';
 const SET_DATASETS_SEARCH_FILTER = 'explore/SET_DATASETS_SEARCH_FILTER';
 const SET_DATASETS_ISSUE_FILTER = 'explore/SET_DATASETS_ISSUE_FILTER';
 const SET_DATASETS_MODE = 'explore/SET_DATASETS_MODE';
 
+const SET_LAYERGROUP_TOGGLE = 'explore/SET_LAYERGROUP_TOGGLE';
+const SET_LAYERGROUP_VISIBILITY = 'explore/SET_LAYERGROUP_VISIBILITY';
+const SET_LAYERGROUP_ACTIVE_LAYER = 'explore/SET_LAYERGROUP_ACTIVE_LAYER';
+
 const SET_SIDEBAR = 'explore/SET_SIDEBAR';
+
+/**
+ * Layer
+ * @typedef {Object} Layer
+ * @property {string} id - ID of the associated layer
+ * @property {boolean} active - If the layer is the one to be displayed
+ */
+
+/**
+ * Group of layers
+ * @typedef {Object} LayerGroup
+ * @property {string} dataset - ID of the associated dataset
+ * @property {boolean} visible - Indicates whether the group is visible
+ * @property {Layer[]} layers - Actual list of layers
+ */
 
 /**
  * REDUCER
@@ -38,6 +57,19 @@ const initialState = {
     limit: 9,
     mode: 'grid' // 'grid' or 'list'
   },
+  // List of layers (corresponding to the datasets
+  // set as active)
+  //
+  // NOTES:
+  //  * If a layer is removed from the map, it is removed
+  // from this list
+  //  * This list does not contain the attributes of the
+  // layers, just the information necessary to retrieve
+  // the layers in the list of datasets
+  //  * The groups are sorted according to the order the
+  // user has set in the legend
+  /** @type {LayerGroup[]} */
+  layers: [],
   filters: {
     search: null,
     issue: null
@@ -105,7 +137,44 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { vocabularies });
     }
 
-    case SET_DATASETS_ACTIVE: {
+    case SET_LAYERGROUP_TOGGLE: {
+      if (action.payload.add) { // We add a layer group
+        const dataset = state.datasets.list.find(d => d.id === action.payload.dataset);
+        if (!dataset) return state;
+        const layers = [...state.layers];
+        layers.unshift({
+          dataset: dataset.id,
+          visible: true,
+          layers: dataset.attributes.layer.map((l, index) => ({ id: l.id, active: index === 0 }))
+        });
+        return Object.assign({}, state, { layers });
+      // eslint-disable-next-line no-else-return
+      } else { // We remove a layer group
+        const layers = state.layers.filter(l => l.dataset !== action.payload.dataset);
+        return Object.assign({}, state, { layers });
+      }
+    }
+
+    case SET_LAYERGROUP_VISIBILITY: {
+      const layers = state.layers.map((l) => {
+        if (l.dataset !== action.payload.dataset) return l;
+        return Object.assign({}, l, { visible: action.payload.visible });
+      });
+      return Object.assign({}, state, { layers });
+    }
+
+    case SET_LAYERGROUP_ACTIVE_LAYER: {
+      const layerGroups = state.layers.map((l) => {
+        if (l.dataset !== action.payload.dataset) return l;
+        const layers = l.layers.map((la) => { // eslint-disable-line arrow-body-style
+          return Object.assign({}, la, { visible: la.id === action.payload.layer });
+        });
+        return Object.assign({}, l, { layers });
+      });
+      return Object.assign({}, state, { layers: layerGroups });
+    }
+
+    case SET_DATASETS_ACTIVE: { // TODO: remove
       const datasets = Object.assign({}, state.datasets, {
         active: action.payload
       });
@@ -113,7 +182,7 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { datasets });
     }
 
-    case SET_DATASETS_HIDDEN: {
+    case SET_DATASETS_HIDDEN: { // TODO: remove
       const datasets = Object.assign({}, state.datasets, {
         hidden: action.payload
       });
@@ -241,14 +310,55 @@ export function setDatasetsPage(page) {
   };
 }
 
-export function setDatasetsActive(active) {
+
+/**
+ * Add or remove a layer group from the map and legend
+ * @export
+ * @param {string} dataset - ID of the dataset
+ * @param {boolean} addLayer - Whether to add the group or remove it
+ */
+export function toggleLayerGroup(dataset, addLayer) {
+  return {
+    type: SET_LAYERGROUP_TOGGLE,
+    payload: { dataset, [addLayer ? 'add' : 'remove']: true }
+  };
+}
+
+/**
+ * Show or hide a layer group on the map
+ * @export
+ * @param {string} dataset - ID of the dataset
+ * @param {boolean} visible - Whether to show the group or hide it
+ */
+export function toggleLayerGroupVisibility(dataset, visible) {
+  return {
+    type: SET_LAYERGROUP_VISIBILITY,
+    action: { dataset, visible }
+  };
+}
+
+/**
+ * Set which of the layer group's layers is the active one
+ * (the one to be displayed)
+ * @export
+ * @param {string} dataset - ID of the dataset
+ * @param {string} layer - ID of the layer
+ */
+export function setLayerGroupActiveLayer(dataset, layer) {
+  return {
+    type: SET_LAYERGROUP_ACTIVE_LAYER,
+    action: { dataset, layer }
+  };
+}
+
+export function setDatasetsActive(active) { // TODO: remove
   return {
     type: SET_DATASETS_ACTIVE,
     payload: active
   };
 }
 
-export function setDatasetsHidden(hidden) {
+export function setDatasetsHidden(hidden) { // TODO: remove
   return {
     type: SET_DATASETS_HIDDEN,
     payload: hidden
@@ -256,7 +366,7 @@ export function setDatasetsHidden(hidden) {
 }
 
 
-export function toggleDatasetActive(id) {
+export function toggleDatasetActive(id) { // TODO: remove
   return (dispatch, getState) => {
     const { explore } = getState();
     let active = explore.datasets.active.slice();
