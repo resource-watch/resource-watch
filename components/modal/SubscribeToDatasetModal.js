@@ -89,7 +89,6 @@ class SubscribeToDatasetModal extends React.Component {
     const paragraphText = saved ?
       'Your subscription was successfully created. Please check your email address to confirm it' :
       'Metadata lorem ipsum casius tesebe Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui.';
-    const cancelButtonText = saved ? 'Ok' : 'Cancel';
 
     return (
       <div className="c-subscribe-to-dataset-modal">
@@ -121,7 +120,7 @@ class SubscribeToDatasetModal extends React.Component {
             <button className="c-btn -primary" onClick={this.handleSubscribe}>
               Subscribe
             </button>
-            <button className="c-btn -secondary" onClick={() => this.props.toggleModal()}>
+            <button className="c-btn -secondary" onClick={() => this.props.toggleModal(false)}>
               Cancel
             </button>
           </div>
@@ -129,7 +128,7 @@ class SubscribeToDatasetModal extends React.Component {
 
         {saved &&
           <div className="buttons-div">
-            <button className="c-btn -secondary" onClick={() => this.props.toggleModal()}>
+            <button className="c-btn -secondary" onClick={() => this.props.toggleModal(false)}>
               Ok
             </button>
             <button className="c-btn -primary" onClick={this.handleGoToMySubscriptions}>
