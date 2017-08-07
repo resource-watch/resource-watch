@@ -1,20 +1,28 @@
+import bar from 'utils/widgets/bar.json';
+import pie from 'utils/widgets/pie.json';
+import line from 'utils/widgets/line.json';
+
+
 export const STATE_DEFAULT = {
   step: 1,
   stepLength: 1,
   submitting: false,
   loading: false,
+  partners: [],
   form: {
+    // STEP 1
     name: '',
+    queryUrl: '',
     description: '',
-    provider: null,
-    layerConfig: {},
-    legendConfig: {},
-    status: 1,
+    dataset: null,
+    source: '',
+    sourceUrl: '',
+    authors: '',
+    widgetConfig: {},
     default: false,
-    published: true
+    published: false
   }
 };
-
 
 export const FORM_ELEMENTS = {
   elements: {
@@ -36,9 +44,14 @@ export const FORM_ELEMENTS = {
   }
 };
 
+export const CONFIG_TEMPLATE = {
+  bar,
+  line,
+  pie
+};
 
-export const PROVIDER_OPTIONS = [
-  { label: 'Carto', value: 'cartodb' },
-  { label: 'ARCGIS: Feature service', value: 'arcgis' },
-  { label: 'Leaflet', value: 'leaflet' }
+export const CONFIG_TEMPLATE_OPTIONS = [
+  { label: 'Bar', value: 'bar' },
+  { label: 'Line', value: 'line' },
+  { label: 'Pie', value: 'pie' }
 ];

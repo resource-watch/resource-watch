@@ -8,7 +8,7 @@ import { initStore } from 'store';
 import { getLayers, setFilters } from 'redactions/admin/layers';
 
 // Selectors
-import { getFilteredLayers } from 'selectors/admin';
+import getFilteredLayers from 'selectors/admin/layers';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -46,8 +46,7 @@ class LayersTable extends React.Component {
   }
 
   getLayers() {
-    return this.props.layers
-      .map(layer => Object.assign({}, layer.attributes, { id: layer.id }));
+    return this.props.layers;
   }
 
   render() {

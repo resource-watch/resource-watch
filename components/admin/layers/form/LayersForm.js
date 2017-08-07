@@ -3,6 +3,7 @@ import React from 'react';
 // Services
 import DatasetsService from 'services/DatasetsService';
 import LayersService from 'services/LayersService';
+import { toastr } from 'react-redux-toastr';
 
 // Constants
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/layers/form/constants';
@@ -69,8 +70,8 @@ class LayersForm extends React.Component {
       this.service.fetchData({ id })
         .then((data) => {
           this.setState({
-            dataset: data.attributes.dataset,
-            form: this.setFormFromParams(data.attributes),
+            dataset: data.dataset,
+            form: this.setFormFromParams(data),
             // Stop the loading
             loading: false
           });
@@ -111,13 +112,12 @@ class LayersForm extends React.Component {
             body: { layer: this.state.form }
           })
             .then((data) => {
-              const successMessage = `The layer "${data.id}" - "${data.attributes.name}" has been uploaded correctly`;
-              alert(successMessage);
-
+              toastr.success('Success', `The layer "${data.id}" - "${data.name}" has been uploaded correctly`);
               if (this.props.onSubmit) this.props.onSubmit();
             })
             .catch((err) => {
               this.setState({ submitting: false });
+              toastr.error('Error', `Oops! There was an error, try again`);
               console.error(err);
             });
         } else {
@@ -125,6 +125,8 @@ class LayersForm extends React.Component {
             step: this.state.step + 1
           }, () => console.info(this.state));
         }
+      } else {
+        toastr.error('Error', 'Fill all the required fields');
       }
     }, 0);
   }

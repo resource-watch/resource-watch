@@ -24,6 +24,15 @@ class Code extends FormElement {
       error: []
     };
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.properties.value) {
+      this.setState({
+        value: JSON.stringify(nextProps.properties.value || {}, null, 2)
+      });
+    }
+  }
+
   /**
    * UI EVENTS
    * - triggerChange

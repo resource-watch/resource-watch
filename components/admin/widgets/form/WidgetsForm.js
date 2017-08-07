@@ -1,69 +1,72 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import omit from 'lodash/omit';
 
-// Service
+// Services
+import WidgetsService from 'services/WidgetsService';
 import DatasetsService from 'services/DatasetsService';
+
 import { toastr } from 'react-redux-toastr';
 
-import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/dataset/form/constants';
+// Constants
+import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/widgets/form/constants';
 
+// Components
 import Navigation from 'components/form/Navigation';
-import Step1 from 'components/admin/dataset/form/steps/Step1';
-import Step2 from 'components/admin/dataset/form/steps/Step2';
+import Step1 from 'components/admin/widgets/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
-class DatasetForm extends React.Component {
+class WidgetsForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = Object.assign({}, STATE_DEFAULT, {
-      loading: !!props.dataset,
-      columns: [],
-      form: Object.assign({}, STATE_DEFAULT.form, {
-        application: props.application,
-        authorization: props.authorization
-      })
-    });
-
-    this.service = new DatasetsService({
-      authorization: props.authorization
+      id: props.id,
+      loading: !!props.id,
+      form: STATE_DEFAULT.form
     });
 
     // BINDINGS
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onStepChange = this.onStepChange.bind(this);
+
+    this.service = new WidgetsService({
+      authorization: props.authorization
+    });
+
+    this.datasetsService = new DatasetsService({
+      authorization: props.authorization
+    });
   }
 
   componentDidMount() {
-    // Get the dataset and fill the
-    // state with its params if it exists
+    const { id } = this.state;
 
-    if (this.props.dataset) {
-      this.service.fetchData({ id: this.props.dataset })
-        .then((data) => {
-          this.setState({
-            form: this.setFormFromParams(data),
-            // Stop the loading
-            loading: false
-          });
-        })
-        .catch((err) => {
-          this.setState({ loading: false });
-          console.error(err);
-        });
+    const promises = [
+      this.datasetsService.fetchAllData({})
+    ];
 
-      this.service.fetchFields({ id: this.props.dataset })
-        .then((data) => {
-          this.setState({
-            columns: data
-          });
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+    // Add the dashboard promise if the id exists
+    if (id) {
+      promises.push(this.service.fetchData({ id }));
     }
+
+    Promise.all(promises)
+      .then((response) => {
+        const datasets = response[0];
+        const current = response[1];
+
+        this.setState({
+          // CURRENT DASHBOARD
+          form: (id) ? this.setFormFromParams(current) : this.state.form,
+          loading: false,
+          // OPTIONS
+          datasets: datasets.map(p => ({ label: p.name, value: p.id }))
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   /**
@@ -85,26 +88,21 @@ class DatasetForm extends React.Component {
       if (valid) {
         // if we are in the last step we will submit the form
         if (this.state.step === this.state.stepLength && !this.state.submitting) {
-          const dataset = this.props.dataset;
+          const { id } = this.state;
 
           // Start the submitting
           this.setState({ submitting: true });
 
-          // Set the request
-          const requestOptions = {
-            type: (dataset) ? 'PATCH' : 'POST',
-            omit: (dataset) ? ['connectorUrlHint', 'authorization', 'connectorType', 'provider'] : ['connectorUrlHint', 'authorization']
-          };
-
-          // Save the data
+          // Save data
           this.service.saveData({
-            type: requestOptions.type,
-            id: dataset,
-            body: omit(this.state.form, requestOptions.omit)
+            id: id || '',
+            type: (id) ? 'PATCH' : 'POST',
+            body: this.state.form
           })
             .then((data) => {
-              toastr.success('Success', `The dataset "${data.id}" - "${data.name}" has been uploaded correctly`);
-              this.props.onSubmit && this.props.onSubmit();
+              toastr.success('Success', `The widget "${data.id}" - "${data.title}" has been uploaded correctly`);
+
+              if (this.props.onSubmit) this.props.onSubmit();
             })
             .catch((err) => {
               this.setState({ submitting: false });
@@ -133,14 +131,20 @@ class DatasetForm extends React.Component {
 
   // HELPERS
   setFormFromParams(params) {
-    const form = Object.keys(this.state.form);
     const newForm = {};
 
-    form.forEach((f) => {
-      if (params[f] || this.state.form[f]) {
-        newForm[f] = params[f] || this.state.form[f];
+    Object.keys(params).forEach((f) => {
+      switch (f) {
+        default: {
+          if ((typeof params[f] !== 'undefined' || params[f] !== null) ||
+              (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
+            newForm[f] = params[f] || this.state.form[f];
+          }
+        }
       }
     });
+
+    console.log(newForm);
 
     return newForm;
   }
@@ -152,18 +156,11 @@ class DatasetForm extends React.Component {
 
         {(this.state.step === 1 && !this.state.loading) &&
           <Step1
-            onChange={value => this.onChange(value)}
+            id={this.state.id}
             form={this.state.form}
-            dataset={this.props.dataset}
-            columns={this.state.columns}
-          />
-        }
-
-        {(this.state.step === 2 && !this.state.loading) &&
-          <Step2
+            partners={this.state.partners}
+            datasets={this.state.datasets}
             onChange={value => this.onChange(value)}
-            form={this.state.form}
-            dataset={this.props.dataset}
           />
         }
 
@@ -180,11 +177,10 @@ class DatasetForm extends React.Component {
   }
 }
 
-DatasetForm.propTypes = {
-  application: PropTypes.array,
+WidgetsForm.propTypes = {
   authorization: PropTypes.string,
-  dataset: PropTypes.string,
+  id: PropTypes.string,
   onSubmit: PropTypes.func
 };
 
-export default DatasetForm;
+export default WidgetsForm;

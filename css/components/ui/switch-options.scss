@@ -1,0 +1,52 @@
+$switch-width: 28px;
+
+.c-switch-options {
+  display: flex;
+  align-items: center;
+  font-size: $font-size-small-medium;
+
+  > * {
+    display: block;
+    margin: 0 0 0 5px;
+    cursor: pointer;
+
+    &:first-child {
+      margin: 0;
+    }
+  }
+
+  .switch-label {
+    font-weight: 700;
+    color: lighten($color-text-1, 25%);
+
+    &:hover {
+      color: lighten($color-text-1, 12.5%);
+    }
+
+    &.-selected {
+      color: $color-text-1;
+    }
+  }
+
+  .switch-element {
+    width: $switch-width;
+    height: $switch-width/2;
+    border-radius: 20px;
+    background: $color-dark-grey;
+
+    span {
+      display: block;
+      position: absolute;
+      width: $switch-width/2 - 4px;
+      height: $switch-width/2 - 4px;
+      background: $color-primary;
+      border-radius: 50%;
+      margin: 2px;
+      transition: transform $animation-time $ease-in-out-sine;
+    }
+
+    // Switch position
+    &.-left > span { transform: translate(0,0); }
+    &.-right > span { transform: translate($switch-width/2,0); }
+  }
+}
