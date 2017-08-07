@@ -8,6 +8,9 @@ import { initStore } from 'store';
 // Services
 import UserService from 'services/UserService';
 
+// Components
+import Spinner from 'components/ui/Spinner';
+
 
 class MyRWSubscriptions extends React.Component {
 
@@ -50,6 +53,7 @@ class MyRWSubscriptions extends React.Component {
           subscriptions: data,
           loading: false
         });
+        console.log('data', data);
       })
       .catch((err) => {
         this.setState({
@@ -60,10 +64,12 @@ class MyRWSubscriptions extends React.Component {
   }
 
   render() {
+    const { loading } = this.state;
+
     return (
       <div className="c-page-section">
         <div className="l-container">
-
+          <Spinner isLoading={loading} className="-small -light" />
         </div>
       </div>
     );
