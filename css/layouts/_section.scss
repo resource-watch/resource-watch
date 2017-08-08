@@ -1,7 +1,17 @@
 .l-section {
   padding: $margin-size-big 0;
 
+  // .page-home & {
+  //   padding-top: $margin-size-big;
+  //   padding-bottom: $margin-size-big;
+  // }
+
   &.-secondary {
     background-color: $ui-bg-color;
+  }
+
+  .l-section-mod {
+    margin-top: $margin-size-small;
+    margin-bottom: $margin-size-small;
   }
 }
