@@ -15,8 +15,6 @@ const GET_VOCABULARIES_SUCCESS = 'explore/GET_VOCABULARIES_SUCCESS';
 const GET_VOCABULARIES_ERROR = 'explore/GET_VOCABULARIES_ERROR';
 const GET_VOCABULARIES_LOADING = 'explore/GET_VOCABULARIES_LOADING';
 
-const SET_DATASETS_ACTIVE = 'explore/SET_DATASETS_ACTIVE'; // TODO: remove
-const SET_DATASETS_HIDDEN = 'explore/SET_DATASETS_HIDDEN'; // TODO: remove
 const SET_DATASETS_PAGE = 'explore/SET_DATASETS_PAGE';
 const SET_DATASETS_SEARCH_FILTER = 'explore/SET_DATASETS_SEARCH_FILTER';
 const SET_DATASETS_ISSUE_FILTER = 'explore/SET_DATASETS_ISSUE_FILTER';
@@ -52,8 +50,6 @@ const initialState = {
     list: [],
     loading: false,
     error: false,
-    active: [],
-    hidden: [],
     page: 1,
     limit: 9,
     mode: 'grid' // 'grid' or 'list'
@@ -180,22 +176,6 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { layers });
     }
 
-    case SET_DATASETS_ACTIVE: { // TODO: remove
-      const datasets = Object.assign({}, state.datasets, {
-        active: action.payload
-      });
-
-      return Object.assign({}, state, { datasets });
-    }
-
-    case SET_DATASETS_HIDDEN: { // TODO: remove
-      const datasets = Object.assign({}, state.datasets, {
-        hidden: action.payload
-      });
-
-      return Object.assign({}, state, { datasets });
-    }
-
     case SET_DATASETS_PAGE: {
       const datasets = Object.assign({}, state.datasets, {
         page: action.payload
@@ -239,7 +219,6 @@ export default function (state = initialState, action) {
  * ACTIONS
  * - getDatasets
  * - setDatasetsPage
- * - toggleDatasetActive
 */
 export function getDatasets() {
   return (dispatch) => {
@@ -370,49 +349,19 @@ export function setLayerGroupsOrder(datasets) {
   };
 }
 
-export function setDatasetsActive(active) { // TODO: remove
-  return {
-    type: SET_DATASETS_ACTIVE,
-    payload: active
-  };
-}
-
-export function setDatasetsHidden(hidden) { // TODO: remove
-  return {
-    type: SET_DATASETS_HIDDEN,
-    payload: hidden
-  };
-}
-
-
-export function toggleDatasetActive(id) { // TODO: remove
-  return (dispatch, getState) => {
-    const { explore } = getState();
-    let active = explore.datasets.active.slice();
-
-    active = active.includes(id)
-      ? active.filter(a => a !== id)
-      : active.concat(id);
-
-    dispatch({
-      type: SET_DATASETS_ACTIVE,
-      payload: active
-    });
-  };
-}
-
 // Let's use {replace} instead of {push}, that's how we will allow users to
 // go away from the current page
 export function setUrlParams() {
   return (dispatch, getState) => {
     const { explore } = getState();
-    const { active, page } = explore.datasets;
+    const { page } = explore.datasets;
     const { search, issue } = explore.filters;
 
     const query = { page };
-    if (active.length) {
-      query.active = active.join(',');
-    }
+    // TODO: reimplement
+    // if (active.length) {
+    //   query.active = active.join(',');
+    // }
 
     if (search && search.value) {
       query.search = search.value;

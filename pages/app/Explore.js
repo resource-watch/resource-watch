@@ -75,7 +75,7 @@ class Explore extends Page {
     }
 
     if (this.props.url.query.active) {
-      // FIXME: reimplement the feature
+      // TODO: reimplement the feature
       // this.props.setDatasetsActive(this.props.url.query.active.split(','));
     }
 
