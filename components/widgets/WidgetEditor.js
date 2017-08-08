@@ -385,7 +385,7 @@ class WidgetEditor extends React.Component {
               <Map
                 LayerManager={LayerManager}
                 mapConfig={mapConfig}
-                layersActive={[layer]}
+                layerGroups={layerGroups}
               />
               <Legend
                 layerGroups={layerGroups}
