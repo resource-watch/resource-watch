@@ -53,7 +53,6 @@ class MyRWSubscriptions extends React.Component {
           subscriptions: data,
           loading: false
         });
-        console.log('data', data);
       })
       .catch((err) => {
         this.setState({
@@ -72,16 +71,20 @@ class MyRWSubscriptions extends React.Component {
           <Spinner isLoading={loading} className="-small -light" />
           <div className="row">
             {subscriptions && subscriptions.map(val =>
-              (<div
-                className="subscription-card medium-4 small-12"
-                key={val.id}
-              >
-                {val.attributes.name && <h4>{val.attributes.name}</h4>}
-                <h5>Dataset</h5>
-                {val.attributes.datasets[0]}
-                <h5 className="country-label">Country</h5>
-                {val.attributes.params.iso.country}
-              </div>)
+              (
+                <div
+                  className="card-container"
+                  key={val.id}
+                >
+                  <div className="subscription-card medium-4 small-12">
+                    {val.attributes.name && <h4>{val.attributes.name}</h4>}
+                    <h5>Dataset</h5>
+                    {val.attributes.datasets[0]}
+                    <h5 className="country-label">Country</h5>
+                    {val.attributes.params.iso.country}
+                  </div>
+                </div>
+              )
             )}
           </div>
         </div>
