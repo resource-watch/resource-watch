@@ -32,16 +32,24 @@ const MYRW_TABS = [{
   value: 'widgets',
   route: 'myrw',
   params: { tab: 'widgets' }
-}, {
-  label: 'Insights',
-  value: 'insights',
-  route: 'myrw',
-  params: { tab: 'insights' }
-}, {
+},
+// {
+//   label: 'Insights',
+//   value: 'insights',
+//   route: 'myrw',
+//   params: { tab: 'insights' }
+// },
+{
   label: 'Subscriptions',
   value: 'subscriptions',
   route: 'myrw',
   params: { tab: 'subscriptions' }
+},
+{
+  label: 'Areas',
+  value: 'areas',
+  route: 'myrw',
+  params: { tab: 'areas' }
 }];
 
 class MyRW extends Page {

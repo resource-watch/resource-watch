@@ -26,7 +26,7 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
 import WidgetEditor from 'components/widgets/WidgetEditor';
 import ShareExploreDetailModal from 'components/modal/ShareExploreDetailModal';
-import SubscribeToAlertsModal from 'components/modal/SubscribeToAlertsModal';
+import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
 
@@ -156,8 +156,10 @@ class ExploreDetail extends Page {
   @Autobind
   handleSubscribe() {
     const options = {
-      children: SubscribeToAlertsModal,
+      children: SubscribeToDatasetModal,
       childrenProps: {
+        toggleModal: this.props.toggleModal,
+        dataset: this.state.dataset
       }
     };
     this.props.toggleModal(true);

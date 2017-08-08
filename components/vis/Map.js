@@ -36,9 +36,9 @@ class Map extends React.Component {
     const mapOptions = {
       minZoom: MAP_CONFIG.minZoom,
       zoom: isNaN(this.props.mapConfig) ? MAP_CONFIG.zoom : this.props.mapConfig.zoom,
-      zoomControl: isNaN(this.props.mapConfig)
-        ? MAP_CONFIG.zoomControl
-        : this.props.mapConfig.zoomControl,
+      zoomControl: this.props.mapConfig
+        ? this.props.mapConfig.zoomControl
+        : MAP_CONFIG.zoomControl,
       center: isNaN(this.props.mapConfig)
         ? [MAP_CONFIG.latLng.lat, MAP_CONFIG.latLng.lng]
         : [this.props.mapConfig.latLng.lat, this.props.mapConfig.latLng.lng],
