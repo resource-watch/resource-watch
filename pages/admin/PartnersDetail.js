@@ -49,7 +49,7 @@ class Partners extends Page {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { id } = this.state;
 
     if (this.service) {

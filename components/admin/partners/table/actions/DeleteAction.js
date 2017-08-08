@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Services
 import PartnersService from 'services/PartnersService';
@@ -13,7 +14,9 @@ class DeleteAction extends React.Component {
     this.handleOnClickDelete = this.handleOnClickDelete.bind(this);
 
     // SERVICES
-    this.service = new PartnersService();
+    this.service = new PartnersService({
+      authorization: props.authorization
+    });
   }
 
   handleOnClickDelete(e) {
@@ -47,8 +50,9 @@ class DeleteAction extends React.Component {
 }
 
 DeleteAction.propTypes = {
-  data: React.PropTypes.object,
-  onRowDelete: React.PropTypes.func
+  data: PropTypes.object,
+  authorization: PropTypes.string,
+  onRowDelete: PropTypes.func
 };
 
 export default DeleteAction;

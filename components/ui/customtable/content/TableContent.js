@@ -41,7 +41,7 @@ export default class TableContent extends React.Component {
         const rowACondition = (rowAField && rowAField.toString) ?
           rowAField.toString().toLowerCase().trim() :
           rowAField;
-        const rowBCondition = (rowAField && rowBField.toString) ?
+        const rowBCondition = (rowBField && rowBField.toString) ?
           rowBField.toString().toLowerCase().trim() :
           rowBField;
 
