@@ -120,9 +120,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   toggleTooltip: () => dispatch(toggleTooltip()),
   toggleModal: open => dispatch(toggleModal(open, {}, true)),
-  setModalOptions: () => {
-    dispatch(setModalOptions());
-  },
+  setModalOptions: options => dispatch(setModalOptions(options)),
   setUser: (user) => {
     dispatch(setUser(user));
   }
