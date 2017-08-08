@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Autobind } from 'es-decorators';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -63,6 +64,11 @@ class MyRWSubscriptions extends React.Component {
       });
   }
 
+  @Autobind
+  handleSubscriptionRemoved() {
+    this.loadSubscriptions();
+  }
+
   render() {
     const { loading, subscriptions } = this.state;
     const { user } = this.props;
@@ -79,11 +85,9 @@ class MyRWSubscriptions extends React.Component {
                   key={val.id}
                 >
                   <SubscriptionCard
-                    datasetId={val.attributes.datasets[0]}
-                    name={val.attributes.name}
-                    iso={val.attributes.params.iso.country}
                     token={user.token}
-                    subscriptionId={val.id}
+                    subscription={val}
+                    onSubscriptionRemoved={this.handleSubscriptionRemoved}
                   />
                 </div>
               )
