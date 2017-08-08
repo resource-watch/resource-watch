@@ -70,17 +70,20 @@ class MyRWSubscriptions extends React.Component {
       <div className="c-page-section c-myrw-subscriptions">
         <div className="l-container">
           <Spinner isLoading={loading} className="-small -light" />
-          {subscriptions && subscriptions.map(val =>
-            (<div
-              className="subscription-card"
-              key={val.id}
-            >
-              <h5>Dataset</h5>
-              {val.attributes.datasets[0]}
-              <h5>Country</h5>
-              {val.attributes.params.iso.country}
-            </div>)
-          )}
+          <div className="row">
+            {subscriptions && subscriptions.map(val =>
+              (<div
+                className="subscription-card medium-4 small-12"
+                key={val.id}
+              >
+                {val.attributes.name && <h4>{val.attributes.name}</h4>}
+                <h5>Dataset</h5>
+                {val.attributes.datasets[0]}
+                <h5 className="country-label">Country</h5>
+                {val.attributes.params.iso.country}
+              </div>)
+            )}
+          </div>
         </div>
       </div>
     );

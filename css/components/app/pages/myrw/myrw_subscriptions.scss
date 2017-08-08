@@ -6,9 +6,21 @@
     border: 1px solid $color-grey;
     border-radius: 4px;
 
+    h4 {
+      margin-top: 0px;
+    }
+
     h5 {
       margin-top: 0px;
       margin-bottom: 8px;
+    }
+
+    .country-label {
+      margin-top: 8px;
+    }
+
+    &:not(:last-of-type) {
+      margin-right: 20px;
     }
   }
 }
