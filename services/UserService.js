@@ -154,4 +154,20 @@ export default class UserService {
         .then(jsonData => resolve(jsonData.data));
     });
   }
+
+  /**
+   * Deletes a subscription
+   * @param {subscriptionId} ID of the subscription that will be unfavourited
+   * @param {token} User token
+   * @returns {Promise}
+   */
+  deleteSubscription(subscriptionId, token) {
+    return fetch(`${this.opts.apiURL}/subscriptions/${subscriptionId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: token
+      }
+    })
+    .then(response => response.json());
+  }
 }

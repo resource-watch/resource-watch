@@ -8,6 +8,7 @@ import Spinner from 'components/ui/Spinner';
 // Services
 import DatasetService from 'services/DatasetService';
 import AreasService from 'services/AreasService';
+import UserService from 'services/UserService';
 
 class SubscriptionCard extends React.Component {
 
@@ -23,6 +24,7 @@ class SubscriptionCard extends React.Component {
     // Services
     this.datasetService = new DatasetService(props.datasetId, { apiURL: process.env.WRI_API_URL });
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
+    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
   }
 
   componentDidMount() {
@@ -45,6 +47,10 @@ class SubscriptionCard extends React.Component {
     .catch(err => console.log(err));
   }
 
+  handleDeleteSubscription() {
+
+  }
+
   render() {
     const { loading, dataset, country } = this.state;
     const { name } = this.props;
@@ -52,9 +58,11 @@ class SubscriptionCard extends React.Component {
     return (
       <div className="c-subscription-card medium-4 small-12">
         <Spinner isLoading={loading} className="-small -light -relative -center" />
-        <div className="name-container">
-          <h4>{name}</h4>
-        </div>
+        { name &&
+          <div className="name-container">
+            <h4>{name}</h4>
+          </div>
+        }
         <div className="data-container">
           <div className="location-container">
             <h5>Location</h5>
@@ -65,6 +73,15 @@ class SubscriptionCard extends React.Component {
             {dataset && dataset.attributes.name}
           </div>
         </div>
+        <div className="actions-div">
+          <a
+            tabIndex={-1}
+            role="button"
+            onClick={this.handleDeleteSubscription}
+          >
+            Delete
+          </a>
+        </div>
       </div>
     );
   }
@@ -74,7 +91,11 @@ class SubscriptionCard extends React.Component {
 SubscriptionCard.propTypes = {
   iso: PropTypes.string.isRequired,
   datasetId: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
+  subscription: PropTypes.object.isRequired,
+  // Callbacks
+  onSubscriptionRemoved: PropTypes.func.isRequired
 };
 
 export default SubscriptionCard;

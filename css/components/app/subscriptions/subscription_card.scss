@@ -1,5 +1,9 @@
 .c-subscription-card {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
   min-width: 300px;
+  min-height: 120px;
   width: 100%;
   padding: 10px;
   border: 1px solid $color-grey;
@@ -33,6 +37,16 @@
       h5 {
         margin-right: 23px;
       }
+    }
+  }
+
+  .actions-div {
+    display: flex;
+    justify-content: flex-end;
+
+    a {
+      color: $color-dark-pink;
+      cursor: pointer;
     }
   }
 }

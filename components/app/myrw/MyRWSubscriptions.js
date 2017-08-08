@@ -65,6 +65,7 @@ class MyRWSubscriptions extends React.Component {
 
   render() {
     const { loading, subscriptions } = this.state;
+    const { user } = this.props;
 
     return (
       <div className="c-page-section c-myrw-subscriptions">
@@ -81,6 +82,8 @@ class MyRWSubscriptions extends React.Component {
                     datasetId={val.attributes.datasets[0]}
                     name={val.attributes.name}
                     iso={val.attributes.params.iso.country}
+                    token={user.token}
+                    subscriptionId={val.id}
                   />
                 </div>
               )
