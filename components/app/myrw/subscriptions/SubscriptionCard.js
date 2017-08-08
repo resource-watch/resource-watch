@@ -62,7 +62,7 @@ class SubscriptionCard extends React.Component {
             {
               type: 'Feature',
               properties: {},
-              geometry: country.geojson
+              geometry: JSON.parse(country.geojson)
             }
           ]
         };

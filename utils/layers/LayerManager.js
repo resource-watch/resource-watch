@@ -94,44 +94,8 @@ export default class LayerManager {
   }
 
   addGeoJsonLayer(layer) {
-    const lalala = {
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          properties: {},
-          geometry: {
-            type: 'Polygon',
-            coordinates: [
-              [
-                [
-                  0.3515625,
-                  38.54816542304656
-                ],
-                [
-                  15.1171875,
-                  7.013667927566642
-                ],
-                [
-                  30.937499999999996,
-                  54.97761367069628
-                ],
-                [
-                  3.1640625,
-                  53.9560855309879
-                ],
-                [
-                  0.3515625,
-                  38.54816542304656
-                ]
-              ]
-            ]
-          }
-        }
-      ]
-    };
-    console.log(layer);
-    const geojsonLayer = L.geoJSON(layer.layerConfig.data).addTo(this.map);
+    const geojsonLayer = L.geoJSON(layer.layerConfig.data);
+    geojsonLayer.addTo(this.map);
 
 
     if (layer.layerConfig.fitBounds) {
