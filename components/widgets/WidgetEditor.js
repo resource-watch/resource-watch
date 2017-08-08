@@ -9,7 +9,7 @@ import isEqual from 'lodash/isEqual';
 import { connect } from 'react-redux';
 
 import { resetWidgetEditor, setFields } from 'redactions/widgetEditor';
-import { toggleModal, setModalOptions } from 'redactions/modal';
+import { toggleModal } from 'redactions/modal';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -370,6 +370,16 @@ class WidgetEditor extends React.Component {
       // Leaflet map
       case 'map':
         if (layer) {
+          const layerGroups = [{
+            dataset: layer.dataset,
+            visible: true,
+            layers: [{
+              id: layer.id,
+              active: true,
+              ...layer
+            }]
+          }];
+
           visualization = (
             <div className="visualization">
               <Map
@@ -378,10 +388,12 @@ class WidgetEditor extends React.Component {
                 layersActive={[layer]}
               />
               <Legend
-                layersActive={[layer]}
+                layerGroups={layerGroups}
                 className={{ color: '-dark' }}
                 toggleModal={this.props.toggleModal}
-                setModalOptions={this.props.setModalOptions}
+                setLayerGroupsOrder={() => {}}
+                readonly
+                expanded={false}
               />
             </div>
           );
@@ -557,8 +569,7 @@ class WidgetEditor extends React.Component {
 const mapStateToProps = ({ widgetEditor, user }) => ({ widgetEditor, user });
 const mapDispatchToProps = dispatch => ({
   resetWidgetEditor: () => dispatch(resetWidgetEditor()),
-  toggleModal: (open) => { dispatch(toggleModal(open)); },
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
+  toggleModal: (open, options) => dispatch(toggleModal(open, options)),
   setFields: (fields) => { dispatch(setFields(fields)); }
 });
 
@@ -578,7 +589,6 @@ WidgetEditor.propTypes = {
   widgetEditor: PropTypes.object.isRequired,
   resetWidgetEditor: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired,
   setFields: PropTypes.func.isRequired
 };
 
