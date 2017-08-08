@@ -15,7 +15,7 @@ import Icon from 'components/ui/Icon';
 // Redux
 import { connect } from 'react-redux';
 
-import { toggleModal, setModalOptions } from 'redactions/modal';
+import { toggleModal } from 'redactions/modal';
 
 // Utils
 import getChartTheme from 'utils/widgets/theme';
@@ -99,6 +99,7 @@ class DashboardCard extends React.Component {
       })
       .then(({ data }) => {
         this.setState({
+          // TODO: remove once everything is migrated to the layer groups
           layer: {
             id: data.id,
             name: data.attributes.name,
@@ -106,7 +107,16 @@ class DashboardCard extends React.Component {
             ...data.attributes,
             order: 1,
             hidden: false
-          }
+          },
+          layers: [{
+            dataset: data.attributes.dataset,
+            visible: true,
+            layers: [{
+              id: data.id,
+              active: true,
+              ...data.attributes
+            }]
+          }]
         });
       })
       .catch(err => this.setState({ error: err.message }))
@@ -147,7 +157,7 @@ class DashboardCard extends React.Component {
             loading: false
           });
         }
-      ).catch(err => console.log(err));
+      ).catch(err => console.error(err));
     } else {
       this.userService.createFavouriteWidget(widgetId, user.token)
         .then(() => {
@@ -156,7 +166,7 @@ class DashboardCard extends React.Component {
             loading: false
           });
         }
-      ).catch(err => console.log(err));
+      ).catch(err => console.error(err));
     }
   }
 
@@ -210,10 +220,10 @@ class DashboardCard extends React.Component {
                     layersActive={[this.state.layer]}
                   />
                   <Legend
-                    layersActive={[this.state.layer]}
+                    layerGroups={this.state.layers}
                     className={{ color: '-dark' }}
                     toggleModal={this.props.toggleModal}
-                    setModalOptions={this.props.setModalOptions}
+                    setLayerGroupsOrder={() => {}}
                     expanded={false}
                     readonly
                   />
@@ -243,7 +253,6 @@ DashboardCard.propTypes = {
   isFavourite: PropTypes.bool.isRequired,
   // Redux
   toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   // NOTE:
   // The following props will be deprecated once the dashboards
@@ -257,8 +266,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleModal: open => dispatch(toggleModal(open)),
-  setModalOptions: options => dispatch(setModalOptions(options))
+  toggleModal: (...args) => dispatch(toggleModal(...args))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardCard);
