@@ -8,11 +8,22 @@
       &:first-child { margin: 0; }
     }
   }
+}
 
-  .dataset-info-actions {
-    .column {
-      margin-top: $space-1 * 2;
-      &:first-child { margin-top: 0; }
-    }
+.dataset-info-actions {
+  margin-top: $margin-size-small;
+
+  .column {
+    margin-top: $space-1 * 2;
+    &:first-child { margin-top: 0; }
+  }
+
+  .c-button, .c-btn {
+    margin-bottom: $margin-size-extra-small;
+    &:last-child { margin-bottom: 0; }
+  }
+
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    margin-top: 0;
   }
 }

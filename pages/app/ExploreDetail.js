@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import classNames from 'classnames';
+import MediaQuery from 'react-responsive';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -224,7 +225,7 @@ class ExploreDetail extends Page {
                     {metadataAttributes && metadataAttributes.description}
                   </div>
                 </div>
-                <div className="column large-offset-2 small-3">
+                <div className="column large-offset-2 small-12 medium-3">
                   <div className="dataset-info-actions">
                     <button
                       className="c-button -secondary -fullwidth"
@@ -268,13 +269,15 @@ class ExploreDetail extends Page {
           </section>
 
           {/* WIDGET EDITOR */}
-          {dataset &&
-            <WidgetEditor
-              dataset={dataset.id}
-              mode="dataset"
-              showSaveButton
-            />
-          }
+          <MediaQuery minDeviceWidth={720} values={{deviceWidth: 720}}>
+            {dataset &&
+              <WidgetEditor
+                dataset={dataset.id}
+                mode="dataset"
+                showSaveButton
+              />
+            }
+          </MediaQuery>
 
           {/* METADATA */}
           <section className="l-section">
