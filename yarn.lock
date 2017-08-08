@@ -2062,6 +2062,10 @@ download@^4.0.0, download@^4.1.2:
     vinyl-fs "^2.2.0"
     ware "^1.2.0"
 
+draftjs-utils@^0.8.03:
+  version "0.8.4"
+  resolved "https://registry.yarnpkg.com/draftjs-utils/-/draftjs-utils-0.8.4.tgz#b8d6500d71a7b33fcc690c67afa8f3f8c12ff503"
+
 duplexer2@0.0.2, duplexer2@~0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/duplexer2/-/duplexer2-0.0.2.tgz#c614dcf67e2fb14995a91711e5a617e8a60a31db"
@@ -5781,6 +5785,14 @@ react-dom@^15.5.4:
     fbjs "^0.8.9"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
+    prop-types "^15.5.10"
+
+react-draft-wysiwyg@^1.10.7:
+  version "1.10.7"
+  resolved "https://registry.yarnpkg.com/react-draft-wysiwyg/-/react-draft-wysiwyg-1.10.7.tgz#4c9acf9515b125af6b0bfaa22d7b92800d22a418"
+  dependencies:
+    classnames "^2.2.5"
+    draftjs-utils "^0.8.03"
     prop-types "^15.5.10"
 
 react-dropzone@^3.13.3:

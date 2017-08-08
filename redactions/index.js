@@ -13,7 +13,10 @@ export { default as user } from './user';
 // Admin
 export { default as datasets } from './admin/datasets';
 export { default as layers } from './admin/layers';
-export { default as pages } from './admin/pages';
-export { default as partners } from './admin/partners';
 export { default as widgets } from './admin/widgets';
+export { default as dashboards } from './admin/dashboards';
+export { default as partners } from './admin/partners';
+export { default as pages } from './admin/pages';
+
+// Toastr
 export { reducer as toastr } from 'react-redux-toastr';
