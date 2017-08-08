@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
+import MediaQuery from 'react-responsive';
 
 // Next
 import { Link } from 'routes';
@@ -108,21 +109,23 @@ class Header extends React.Component {
                     </a>
                   </Link>
                 </div>
-                <nav className="header-menu">
-                  <ul>
-                    {items.map((item) => {
-                      const activeClassName = classnames({
-                        '-active': item.pathnames && item.pathnames.includes(url.pathname)
-                      });
+                <MediaQuery minDeviceWidth={720} values={{deviceWidth: 720}}>
+                  <nav className="header-menu">
+                    <ul>
+                      {items.map((item) => {
+                        const activeClassName = classnames({
+                          '-active': item.pathnames && item.pathnames.includes(url.pathname)
+                        });
 
-                      return (
-                        <li key={item.name} className={activeClassName}>
-                          {item.component}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </nav>
+                        return (
+                          <li key={item.name} className={activeClassName}>
+                            {item.component}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </nav>
+                </MediaQuery>
               </div>
             </div>
             </div>

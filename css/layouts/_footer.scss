@@ -53,6 +53,7 @@
     display: flex;
     align-items: center;
     padding: 10px 0;
+    text-align: center;
 
     color: $ui-font-color;
 
@@ -66,6 +67,7 @@
     @media screen and (min-width: map-get($breakpoints, medium)) {
       height: 31px;
       padding: 0;
+      text-align: inherit;
 
       .terms {
         display: flex;

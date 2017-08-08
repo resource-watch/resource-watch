@@ -63,14 +63,14 @@ h1 {
   margin-top: 0;
   margin-bottom: $font-size-h1 * 0.5;
 
-  font-size: $font-size-h1;
+  font-size: $font-size-h1 / 2;
   font-weight: 300;
   line-height: 1;
   color: $base-font-color;
 }
 
 h2 {
-  font-size: $font-size-h2;
+  font-size: $font-size-h2 / 2;
   font-weight: 300;
   line-height: 1.1;
 
@@ -78,8 +78,8 @@ h2 {
 }
 
 h3 {
-  font-size: $font-size-h3;
-  font-weight: 300;
+  font-size: $base-font-size;
+  font-weight: bold;
   line-height: 1.35;
   margin-bottom: $font-size-h3 * 0.5;
 }
@@ -119,10 +119,27 @@ input, button, select, textarea {
 }
 
 .-columnize {
-  columns: 2;
-  column-gap: 50px;
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    columns: 2;
+    column-gap: 50px;
+  }
 }
 
-// .-alt {
-//   color: $alt-font-color;
-// }
+@media screen and (min-width: map-get($breakpoints, medium)) {
+  h1 {
+    font-size: $font-size-h1;
+  }
+
+  h2 {
+    font-size: $font-size-h2;
+  }
+
+  h3 {
+    font-size: $font-size-h3;
+    font-weight: 300;
+  }
+
+  h4 {
+    font-size: $font-size-h4;
+  }
+}

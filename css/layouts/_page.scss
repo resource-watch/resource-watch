@@ -45,15 +45,12 @@
 
     .page-header-content {
       color: $alt-font-color;
-      padding: $margin-size 0;
+      padding: $margin-size-extra-small 0;
 
       h1 {
         color: $alt-font-color;
+        margin-bottom: 0;
       }
-
-      // &.-padding-b-0 { padding: $margin-size 0 0; }
-      // &.-padding-b-1 { padding: $margin-size 0; }
-      // &.-padding-b-2 { padding: $margin-size 0; }
     }
 
     .page-header-title {
@@ -76,6 +73,15 @@
           margin: 0 0 0 $space-1 * 4;
 
           &:first-child { margin: 0; }
+        }
+      }
+    }
+
+    @media screen and (min-width: map-get($breakpoints, medium)) {
+      .page-header-content {
+        padding: $margin-size 0;
+        h1 {
+          margin-bottom: inherit;
         }
       }
     }

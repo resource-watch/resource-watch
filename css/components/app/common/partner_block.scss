@@ -1,7 +1,6 @@
 .c-partners-block {
-  padding: 0 $margin-size;
   text-align: center;
-  margin: $margin-size 0;
+  margin: $margin-size-extra-small 0;
 
   .logo-container {
     height: 80px;
@@ -21,4 +20,9 @@
   //   padding: 10px 30px;
   //   letter-spacing: 0;
   // }
+
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    padding: 0 $margin-size;
+    margin: $margin-size 0;
+  }
 }

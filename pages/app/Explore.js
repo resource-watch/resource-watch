@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
+import MediaQuery from 'react-responsive';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -232,31 +233,33 @@ class Explore extends Page {
               />
             </Sidebar>
 
-            <div className="l-map">
-              <Map
-                LayerManager={LayerManager}
-                mapConfig={mapConfig}
-                layersActive={this.state.layersActive}
-                toggledDataset={this.props.toggledDataset}
-              />
-
-              <button className="share-button" onClick={() => this.handleShareModal()}>
-                <Icon name="icon-share" className="-small" />
-              </button>
-
-              {this.state.layersActive && this.state.layersActive.length &&
-                <Legend
+            <MediaQuery minDeviceWidth={720} values={{deviceWidth: 720}}>
+              <div className="l-map">
+                <Map
+                  LayerManager={LayerManager}
+                  mapConfig={mapConfig}
                   layersActive={this.state.layersActive}
-                  layersHidden={this.props.explore.datasets.hidden}
-                  className={{ color: '-dark' }}
-                  setDatasetsActive={this.props.setDatasetsActive}
-                  toggleDatasetActive={this.props.toggleDatasetActive}
-                  setDatasetsHidden={this.props.setDatasetsHidden}
-                  toggleModal={this.props.toggleModal}
-                  setModalOptions={this.props.setModalOptions}
+                  toggledDataset={this.props.toggledDataset}
                 />
-              }
-            </div>
+
+                <button className="share-button" onClick={() => this.handleShareModal()}>
+                  <Icon name="icon-share" className="-small" />
+                </button>
+
+                {this.state.layersActive && this.state.layersActive.length &&
+                  <Legend
+                    layersActive={this.state.layersActive}
+                    layersHidden={this.props.explore.datasets.hidden}
+                    className={{ color: '-dark' }}
+                    setDatasetsActive={this.props.setDatasetsActive}
+                    toggleDatasetActive={this.props.toggleDatasetActive}
+                    setDatasetsHidden={this.props.setDatasetsHidden}
+                    toggleModal={this.props.toggleModal}
+                    setModalOptions={this.props.setModalOptions}
+                  />
+                }
+              </div>
+            </MediaQuery>
           </div>
         </div>
       </Layout>

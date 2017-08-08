@@ -1,5 +1,5 @@
 .l-section {
-  padding: $margin-size-big 0;
+  padding: $margin-size-small 0;
 
   // .page-home & {
   //   padding-top: $margin-size-big;
@@ -13,5 +13,9 @@
   .l-section-mod {
     margin-top: $margin-size-small;
     margin-bottom: $margin-size-small;
+  }
+
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    padding: $margin-size-big 0;
   }
 }
