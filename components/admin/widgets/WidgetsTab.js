@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 // Redux
 import { connect } from 'react-redux';
-import { initStore } from 'store';
+
 
 // Components
 import WidgetsIndex from 'components/admin/widgets/pages/index';

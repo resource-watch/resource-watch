@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 // Redux
 import { connect } from 'react-redux';
-import { initStore } from 'store';
+
 
 import { FORM_ELEMENTS } from './constants';
 

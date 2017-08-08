@@ -2,6 +2,8 @@ import React from 'react';
 
 // Router
 import { Router } from 'routes';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -147,4 +149,4 @@ class Dashboards extends Page {
 
 }
 
-export default Dashboards;
+export default withRedux(initStore, null, null)(Dashboards);

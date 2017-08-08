@@ -4,7 +4,7 @@ import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
-import { initStore } from 'store';
+
 import { setFilters, setColor, setCategory, setValue, setSize, setOrderBy,
   setAggregateFunction, setLimit, setChartType } from 'redactions/widgetEditor';
 

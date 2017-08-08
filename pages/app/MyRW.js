@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -124,5 +126,4 @@ MyRW.propTypes = {
   user: PropTypes.object
 };
 
-
-export default MyRW;
+export default withRedux(initStore, null, null)(MyRW);

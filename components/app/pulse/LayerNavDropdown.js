@@ -1,7 +1,7 @@
 import React from 'react';
 import Switch from 'components/ui/Switch';
 import { connect } from 'react-redux';
-import { initStore } from 'store';
+
 import { toggleActiveLayer, getLayerPoints } from 'redactions/pulse';
 
 class LayerNavDropdown extends React.Component {

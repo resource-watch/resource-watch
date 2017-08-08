@@ -2,7 +2,7 @@ import React from 'react';
 import Button from 'components/ui/Button';
 import Icon from 'components/ui/Icon';
 import { connect } from 'react-redux';
-import { initStore } from 'store';
+
 import { setDatasetsMode} from 'redactions/explore';
 
 class DatasetListHeader extends React.Component {

@@ -9,7 +9,7 @@ import isEqual from 'lodash/isEqual';
 
 // Redux
 import { connect } from 'react-redux';
-import { initStore } from 'store';
+
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Components

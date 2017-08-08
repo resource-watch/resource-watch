@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 // Store
 import { connect } from 'react-redux';
-import { initStore } from 'store';
+
 import { removeFilter, removeColor, removeCategory, removeValue, removeSize, removeOrderBy, setOrderBy } from 'redactions/widgetEditor';
 import { toggleTooltip } from 'redactions/tooltip';
 

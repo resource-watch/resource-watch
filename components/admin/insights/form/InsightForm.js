@@ -9,7 +9,7 @@ import { get, post } from 'utils/request';
 
 // Redux
 import { connect } from 'react-redux';
-import { initStore } from 'store';
+
 
 import { Router } from 'routes';
 import Spinner from 'components/ui/Spinner';

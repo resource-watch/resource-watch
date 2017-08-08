@@ -2,7 +2,7 @@ import React from 'react';
 import isEqual from 'lodash/isEqual';
 import Spinner from 'components/ui/Spinner';
 import { connect } from 'react-redux';
-import { initStore } from 'store';
+
 
 // Leaflet can't be imported on the server because it's not isomorphic
 const L = (typeof window !== 'undefined') ? require('leaflet') : null;

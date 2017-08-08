@@ -1,6 +1,8 @@
 import React from 'react';
 import MoveTo from 'moveto';
 import { Link } from 'routes';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 // Layout
 import Page from 'components/app/layout/Page';
@@ -266,4 +268,4 @@ class Home extends Page {
   }
 }
 
-export default Home;
+export default withRedux(initStore, null, null)(Home);

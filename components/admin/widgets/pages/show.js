@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 // Redux
 import { connect } from 'react-redux';
-import { initStore } from 'store';
+
 
 // Components
 import WidgetsForm from 'components/admin/widgets/form/WidgetsForm';

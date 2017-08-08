@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { initStore } from 'store';
+
 import { setColor } from 'redactions/widgetEditor';
 import ColumnBox from 'components/widgets/ColumnBox';
 

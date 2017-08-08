@@ -3,6 +3,8 @@ import classnames from 'classnames';
 
 // Router
 import { Router } from 'routes';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -18,7 +20,7 @@ import UserService from 'services/UserService';
 // Utils
 import DASHBOARDS from 'utils/dashboards/config';
 
-export default class DashboardsDetail extends Page {
+class DashboardsDetail extends Page {
 
   /**
    * Fetch the list of dashboards
@@ -267,3 +269,5 @@ export default class DashboardsDetail extends Page {
   }
 
 }
+
+export default withRedux(initStore, null, null)(DashboardsDetail);

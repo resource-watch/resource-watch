@@ -3,7 +3,7 @@ import { Link } from 'routes';
 import CompoundMenu from 'components/ui/CompoundMenu';
 import Carousel from 'components/ui/Carousel';
 import { getPartners } from 'redactions/partners';
-import { initStore } from 'store';
+
 import { connect } from 'react-redux';
 
 const data = [

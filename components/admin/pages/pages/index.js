@@ -7,7 +7,7 @@ import { Link } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
-import { initStore } from 'store';
+
 import { setFilters } from 'redactions/admin/pages';
 
 // Components

@@ -6,7 +6,7 @@ import { DragDropContext } from 'react-dnd';
 
 // Redux
 import { connect } from 'react-redux';
-import { initStore } from 'store';
+
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import { setChartType, setAreaIntersection } from 'redactions/widgetEditor';
 

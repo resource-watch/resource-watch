@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 // Redux
 import { connect } from 'react-redux';
-import { initStore } from 'store';
+
 import { setSize } from 'redactions/widgetEditor';
 
 // Components

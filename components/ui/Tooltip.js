@@ -1,7 +1,7 @@
 import React from 'react';
 import TetherComponent from 'react-tether';
 import classnames from 'classnames';
-import { initStore } from 'store';
+
 import { connect } from 'react-redux';
 import { setTooltipPosition } from 'redactions/tooltip';
 

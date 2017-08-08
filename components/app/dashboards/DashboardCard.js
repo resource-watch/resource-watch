@@ -14,7 +14,7 @@ import Icon from 'components/ui/Icon';
 
 // Redux
 import { connect } from 'react-redux';
-import { initStore } from 'store';
+
 import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Utils

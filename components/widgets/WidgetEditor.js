@@ -7,7 +7,7 @@ import isEqual from 'lodash/isEqual';
 
 // Redux
 import { connect } from 'react-redux';
-import { initStore } from 'store';
+
 import { resetWidgetEditor, setFields } from 'redactions/widgetEditor';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 

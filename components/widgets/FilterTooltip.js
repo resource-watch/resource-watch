@@ -6,7 +6,7 @@ import InputRange from 'react-input-range';
 import debounce from 'lodash/debounce';
 
 // Redux
-import { initStore } from 'store';
+
 import { connect } from 'react-redux';
 import { toggleTooltip } from 'redactions/tooltip';
 

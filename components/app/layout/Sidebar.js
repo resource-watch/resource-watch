@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from 'components/ui/Icon';
 import { connect } from 'react-redux';
-import { initStore } from 'store';
+
 import { setSidebar} from 'redactions/explore';
 import MediaQuery from 'react-responsive';
 
