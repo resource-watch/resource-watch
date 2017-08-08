@@ -1,26 +1,24 @@
 import React from 'react';
 import { singular } from 'pluralize';
 
+// Services
+import PagesService from 'services/PagesService';
+
 // Utils
 import { capitalizeFirstLetter } from 'utils/utils';
-
-// Services
-import DatasetService from 'services/DatasetService';
-import WidgetService from 'services/WidgetService';
 
 // Layout
 import Page from 'components/admin/layout/Page';
 import Layout from 'components/admin/layout/Layout';
 
 // Tabs
-// import DatasetTab from 'components/admin/dataset/DatasetTab';
-// import WidgetTab from 'components/admin/widget/WidgetTab';
+import PagesTab from 'components/admin/pages/PagesTab';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 // Components
 import Title from 'components/ui/Title';
 
-class Data extends Page {
+class Pages extends Page {
 
   constructor(props) {
     super(props);
@@ -34,38 +32,31 @@ class Data extends Page {
       data: {}
     };
 
+
     this.service = null;
 
     switch (tab) {
-      case 'datasets':
+      case 'pages':
         if (id !== 'new') {
-          this.service = new DatasetService(id, {
-            apiURL: process.env.WRI_API_URL
+          this.service = new PagesService({
+            authorization: props.user.token
           });
         }
         break;
-
-      case 'widgets':
-        if (id !== 'new') {
-          this.service = new WidgetService(id, {
-            apiURL: process.env.WRI_API_URL
-          });
-        }
-        break;
-
       // TODO: do the same service for widgets and layers
       default:
 
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    const { id } = this.state;
+
     if (this.service) {
-      // Fetch the dataset / layer / widget depending on the tab
-      this.service.fetchData()
+      this.service.fetchData(id)
         .then((data) => {
           this.setState({
-            data: { ...data.attributes, id: data.id }
+            data: data || {}
           });
         })
         .catch((err) => {
@@ -92,8 +83,8 @@ class Data extends Page {
       return `New ${singular(tab)}`;
     }
 
-    if (data.name) {
-      return data.name;
+    if (data.title) {
+      return data.title;
     }
 
     return '-';
@@ -101,12 +92,12 @@ class Data extends Page {
 
   render() {
     const { url, user } = this.props;
-    const { tab } = this.state;
+    const { tab, subtab, id } = this.state;
 
     return (
       <Layout
         title={this.getName()}
-        description="Data detail..."
+        description="Pages detail..."
         user={user}
         url={url}
       >
@@ -124,17 +115,21 @@ class Data extends Page {
           </div>
         </div>
         <div className="c-page-section">
-          <div className="l-container" />
+          <div className="l-container">
+            {tab === 'pages' &&
+              <PagesTab tab={tab} subtab={subtab} id={id} />
+            }
+          </div>
         </div>
       </Layout>
     );
   }
 }
 
-Data.propTypes = {
+Pages.propTypes = {
   user: React.PropTypes.object,
   url: React.PropTypes.object
 };
 
 
-export default Data;
+export default Pages;

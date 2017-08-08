@@ -1,9 +1,21 @@
-export const LANGUAGE_OPTIONS = [
-  { label: 'English', value: 'en' },
-  { label: 'Español', value: 'es' },
-  { label: 'Français', value: 'fr' },
-  { label: 'Português', value: 'pt' }
-];
+export const STATE_DEFAULT = {
+  step: 1,
+  stepLength: 1,
+  submitting: false,
+  loading: false,
+  dataset: {},
+  form: {
+    // STEP 1
+    name: '',
+    summary: '',
+    description: '',
+    content: '',
+    // Images
+    photo: '',
+    // States
+    published: false
+  }
+};
 
 export const FORM_ELEMENTS = {
   elements: {

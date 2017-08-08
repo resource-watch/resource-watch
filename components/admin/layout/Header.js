@@ -52,6 +52,11 @@ export default class Header extends React.Component {
         component: <Link route="admin_partners"><a>Partners</a></Link>
       },
       {
+        name: 'Pages',
+        pathnames: ['/admin/Pages', '/admin/PagesDetail'],
+        component: <Link route="admin_pages"><a>Pages</a></Link>
+      },
+      {
         name: 'My RW',
         component: <HeaderUser
           user={this.props.user}

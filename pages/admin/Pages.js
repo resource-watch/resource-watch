@@ -6,7 +6,7 @@ import Layout from 'components/admin/layout/Layout';
 import Tabs from 'components/ui/Tabs';
 
 // Tabs
-import PageTab from 'components/admin/pages/PageTab';
+import PagesTab from 'components/admin/pages/PagesTab';
 
 // Components
 import Title from 'components/ui/Title';
@@ -17,11 +17,6 @@ const DATA_TABS = [{
   value: 'pages',
   route: 'admin_pages',
   params: { tab: 'pages' }
-}, {
-  label: 'Partners',
-  value: 'partners',
-  route: 'admin_pages',
-  params: { tab: 'partners' }
 }];
 
 class Pages extends Page {
@@ -77,7 +72,7 @@ class Pages extends Page {
         <div className="c-page-section">
           <div className="l-container">
             {tab === 'pages' &&
-              <PageTab tab={tab} subtab={subtab} id={id} />
+              <PagesTab tab={tab} subtab={subtab} id={id} />
             }
           </div>
         </div>
