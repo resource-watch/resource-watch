@@ -72,7 +72,8 @@ class SubscriptionCard extends React.Component {
           provider: 'geojson',
           layerConfig: {
             data: newGeoJson,
-            fitBounds: true
+            fitBounds: true,
+            bounds: JSON.parse(country.bounds)
           }
         };
 

@@ -94,14 +94,16 @@ export default class LayerManager {
   }
 
   addGeoJsonLayer(layer) {
-    const geojsonLayer = L.geoJSON(layer.layerConfig.data);
-    geojsonLayer.addTo(this.map);
-
+    const geojsonLayer = L.geoJSON(layer.layerConfig.data).addTo(this.map);
+    this.mapLayers[layer.id] = geojsonLayer;
 
     if (layer.layerConfig.fitBounds) {
-      this.map.fitBounds(geojsonLayer.getBounds());
+      const bounds = geojsonLayer.getBounds();
+      this.map.fitBounds([
+        bounds.getNorthWest(),
+        bounds.getSouthEast()
+      ], { padding: [20, 20] });
     }
-    this.mapLayers[layer.id] = geojsonLayer;
   }
 
   addLeafletLayer(layerSpec, { zIndex }) {

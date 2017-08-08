@@ -20,7 +20,7 @@ export default class AreasService {
    * Get country
    */
   getCountry(iso) {
-    return fetch(`${process.env.WRI_API_URL}/query/134caa0a-21f7-451d-a7fe-30db31a424aa?sql=SELECT name_engli as label, st_asgeojson(the_geom_simple) as geojson from gadm28_countries WHERE iso = '${iso}'`)
+    return fetch(`${process.env.WRI_API_URL}/query/134caa0a-21f7-451d-a7fe-30db31a424aa?sql=SELECT name_engli as label, st_asgeojson(the_geom_simple) as geojson, bbox as bounds from gadm28_countries WHERE iso = '${iso}'`)
     .then(response => response.json());
   }
 }
