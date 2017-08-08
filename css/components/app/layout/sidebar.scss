@@ -5,18 +5,9 @@ $min-width-sidebar-closed: 10px;
 .c-sidebar {
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50%; /* Magic? Let's see... */
-  height: 100%;
   max-width: $max-width-sidebar;
-  min-width: $min-width-sidebar;
   background-color: $color-white;
   color: $color-text-1;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
-  transform: translate(calc(-100% + #{$min-width-sidebar-closed}),0);
-  transition: all $animation-time-2 $ease-in-out-sine;
   z-index: 3;
 
   &.-opened {
@@ -60,5 +51,17 @@ $min-width-sidebar-closed: 10px;
     &:hover {
       background-color: rgba(darken($color-white, 25%), .3);
     }
+  }
+
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    min-width: $min-width-sidebar;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    transform: translate(calc(-100% + #{$min-width-sidebar-closed}),0);
+    transition: all $animation-time-2 $ease-in-out-sine;
   }
 }

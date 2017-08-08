@@ -16,7 +16,7 @@
     }
   }
 
-  @media screen and (min-width: map-get($breakpoints, small)) {
+  @media screen and (min-width: map-get($breakpoints, medium)) {
     margin-bottom: 0;
   }
 }
