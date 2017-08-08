@@ -3,7 +3,7 @@
   justify-content: space-between;
   flex-direction: column;
   min-width: 300px;
-  min-height: 120px;
+  min-height: 160px;
   width: 100%;
   padding: 10px;
   border: 1px solid $color-grey;
@@ -42,7 +42,11 @@
 
   .actions-div {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+
+    .pending-label {
+      color: $color-blue-turquoise;
+    }
 
     a {
       color: $color-dark-pink;
