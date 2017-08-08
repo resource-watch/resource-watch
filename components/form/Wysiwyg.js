@@ -1,38 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isEqual from 'lodash/isEqual';
+
+import { EditorState, ContentState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 
 // Components
 import FormElement from './FormElement';
 
-let Editor;
-if (typeof window !== 'undefined') {
-  /* eslint-disable */
-  AceEditor = require('react-draft-wysiwyg').Editor;
-  /* eslint-enable */
-}
+class Wysiwyg extends FormElement {
 
-class Code extends FormElement {
+  static getValue(html) {
+    const draft = htmlToDraft(html);
+
+    if (html) {
+      const contentState = ContentState.createFromBlockArray(draft.contentBlocks);
+      return EditorState.createWithContent(contentState);
+    }
+
+    return '';
+  }
+
   constructor(props) {
     super(props);
 
     this.state = {
-      value: JSON.stringify(this.props.properties.default || {}, null, 2),
+      value: Wysiwyg.getValue(this.props.properties.default),
       valid: null,
       error: []
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    try {
-      if (!isEqual(nextProps.properties.value, JSON.parse(this.state.value))) {
-        this.setState({
-          value: JSON.stringify(nextProps.properties.value || {}, null, 2)
-        });
-      }
-    } catch (e) {
-      // do nothing
-    }
   }
 
   /**
@@ -41,33 +39,39 @@ class Code extends FormElement {
   */
   triggerChange(value) {
     this.setState({ value }, () => {
-      try {
-        // Trigger validation
-        this.triggerValidate();
-        // Publish the new value to the form
-        const parsedValue = JSON.parse(value);
-        if (this.props.onChange) this.props.onChange(parsedValue);
-      } catch (err) {
-        // console.error(err);
+      // Validate
+      this.triggerValidate();
+
+      if (this.props.onChange) {
+        const content = this.state.value.getCurrentContent();
+        this.props.onChange(draftToHtml(convertToRaw(content)));
       }
     });
   }
 
   render() {
-    if (typeof window !== 'undefined') {
-      return (
-        <Editor />
-      );
-    }
-
-    return null;
+    const { value } = this.state;
+    return (
+      <Editor
+        editorState={value}
+        toolbar={{
+          options: ['inline', 'list', 'link', 'embedded', 'image', 'remove', 'history'],
+          inline: {
+            options: ['bold', 'italic', 'underline']
+          },
+          list: {
+            options: ['unordered', 'ordered']
+          }
+        }}
+        onEditorStateChange={this.triggerChange}
+      />
+    );
   }
 }
 
-Code.propTypes = {
+Wysiwyg.propTypes = {
   properties: PropTypes.object.isRequired,
-  validations: PropTypes.array,
   onChange: PropTypes.func
 };
 
-export default Code;
+export default Wysiwyg;

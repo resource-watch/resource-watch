@@ -142,7 +142,7 @@ class Step1 extends React.Component {
           {Input}
         </Field>
 
-        {/* THUMBNAIL */}
+        {/* IMAGES */}
         <div className="c-field-row">
           <div className="row l-row">
             <div className="column small-12 medium-4">

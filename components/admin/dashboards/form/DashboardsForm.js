@@ -122,31 +122,12 @@ class DashboardsForm extends React.Component {
     Object.keys(params).forEach((f) => {
       switch (f) {
         // TODO: if the API doesn't send it we won't need to handle it
-        case 'logo': {
+        case 'photo': {
           if (params[f] && params[f].original !== '/images/original/missing.png') {
             newForm[f] = params[f].original;
           }
           break;
         }
-        case 'white_logo': {
-          if (params[f] && params[f].original !== '/images/original/missing.png') {
-            newForm[f] = params[f].original;
-          }
-          break;
-        }
-        case 'cover': {
-          if (params[f] && params[f].original !== '/images/original/missing.png') {
-            newForm[f] = params[f].original;
-          }
-          break;
-        }
-        case 'icon': {
-          if (params[f] && params[f].original !== '/images/original/missing.png') {
-            newForm[f] = params[f].original;
-          }
-          break;
-        }
-
         default: {
           if ((typeof params[f] !== 'undefined' || params[f] !== null) ||
               (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {

@@ -7,19 +7,12 @@ export const STATE_DEFAULT = {
   form: {
     // STEP 1
     name: '',
-    dashboard_type: null,
     summary: '',
-    body: '',
-    website: '',
-    contact_name: '',
-    contact_email: '',
+    description: '',
+    content: '',
     // Images
-    logo: '',
-    white_logo: '',
-    cover: '',
-    icon: '',
+    photo: '',
     // States
-    featured: false,
     published: false
   }
 };
@@ -43,14 +36,3 @@ export const FORM_ELEMENTS = {
     return valid;
   }
 };
-
-export const DASHBOARD_TYPES = [{
-  label: 'Dashboard',
-  value: 'dashboard'
-}, {
-  label: 'Founding dashboard',
-  value: 'founding_dashboards'
-}, {
-  label: 'Funder',
-  value: 'funders'
-}];

@@ -20,6 +20,9 @@
 @import 'slick-carousel/slick/slick.scss';
 @import 'slick-carousel/slick/slick-theme.scss';
 
+// Editor
+@import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg';
+
 // Common files
 @import "css/base";
 @import "css/layouts";

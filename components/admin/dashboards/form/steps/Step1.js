@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Constants
-import { FORM_ELEMENTS, DASHBOARD_TYPES } from 'components/admin/dashboards/form/constants';
+import { FORM_ELEMENTS } from 'components/admin/dashboards/form/constants';
 
 // Components
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import TextArea from 'components/form/TextArea';
 import FileImage from 'components/form/FileImage';
-import Select from 'components/form/SelectInput';
 import Checkbox from 'components/form/Checkbox';
+import Wysiwyg from 'components/form/Wysiwyg';
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -31,235 +31,114 @@ class Step1 extends React.Component {
     FORM_ELEMENTS.elements = {};
 
     return (
-      <fieldset className="c-field-container">
-        {/* NAME */}
-        <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
-          onChange={value => this.props.onChange({ name: value })}
-          validations={['required']}
-          className="-fluid"
-          properties={{
-            name: 'name',
-            label: 'Name',
-            type: 'text',
-            required: true,
-            default: this.state.form.name
-          }}
-        >
-          {Input}
-        </Field>
+      <div>
+        <fieldset className="c-field-container">
+          {/* NAME */}
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
+            onChange={value => this.props.onChange({ name: value })}
+            validations={['required']}
+            className="-fluid"
+            properties={{
+              name: 'name',
+              label: 'Name',
+              type: 'text',
+              required: true,
+              default: this.state.form.name
+            }}
+          >
+            {Input}
+          </Field>
 
-        {/* TYPE */}
-        <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.dashboard_type = c; }}
-          onChange={value => this.props.onChange({
-            dashboard_type: value
-          })}
-          validations={['required']}
-          className="-fluid"
-          options={DASHBOARD_TYPES}
-          properties={{
-            name: 'dashboard_type',
-            label: 'Dashboard Type',
-            default: this.state.form.dashboard_type,
-            value: this.state.form.dashboard_type,
-            required: true,
-            instanceId: 'selectDashboardType'
-          }}
-        >
-          {Select}
-        </Field>
+          {/* SUMMARY */}
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.summary = c; }}
+            onChange={value => this.props.onChange({ summary: value })}
+            className="-fluid"
+            properties={{
+              name: 'summary',
+              label: 'Summary',
+              default: this.state.form.summary
+            }}
+          >
+            {TextArea}
+          </Field>
 
-        {/* DESCRIPTION */}
-        <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.summary = c; }}
-          onChange={value => this.props.onChange({ summary: value })}
-          className="-fluid"
-          properties={{
-            name: 'summary',
-            label: 'Summary',
-            default: this.state.form.summary
-          }}
-        >
-          {TextArea}
-        </Field>
+          {/* DESCRIPTION */}
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
+            onChange={value => this.props.onChange({ description: value })}
+            className="-fluid"
+            properties={{
+              name: 'description',
+              label: 'Description',
+              default: this.state.form.description
+            }}
+          >
+            {TextArea}
+          </Field>
 
-        {/* CONTENT */}
-        <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.body = c; }}
-          onChange={value => this.props.onChange({ body: value })}
-          className="-fluid"
-          properties={{
-            name: 'body',
-            label: 'Body',
-            default: this.state.form.body
-          }}
-        >
-          {TextArea}
-        </Field>
-
-        {/* URL */}
-        <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.website = c; }}
-          onChange={value => this.props.onChange({ website: value })}
-          validations={['url']}
-          className="-fluid"
-          properties={{
-            name: 'website',
-            label: 'Website',
-            default: this.state.form.website
-          }}
-        >
-          {Input}
-        </Field>
-
-        {/* CONTACT NAME */}
-        <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.contact_name = c; }}
-          onChange={value => this.props.onChange({ contact_name: value })}
-          className="-fluid"
-          properties={{
-            name: 'contact_name',
-            label: 'Contact name',
-            default: this.state.form.contact_name
-          }}
-        >
-          {Input}
-        </Field>
-
-        {/* CONTACT EMAIL */}
-        <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.contact_email = c; }}
-          onChange={value => this.props.onChange({ contact_email: value })}
-          validations={['email']}
-          className="-fluid"
-          properties={{
-            name: 'contact_email',
-            label: 'Contact email',
-            default: this.state.form.contact_email
-          }}
-        >
-          {Input}
-        </Field>
-
-        {/* THUMBNAIL */}
-        <div className="c-field-row">
-          <div className="row l-row">
-            <div className="column small-12 medium-4">
-              <Field
-                ref={(c) => { if (c) FORM_ELEMENTS.elements.logo = c; }}
-                onChange={(value) => {
-                  this.props.onChange({ logo: value });
-                }}
-                validations={['required']}
-                className="-fluid"
-                properties={{
-                  name: 'logo',
-                  label: 'Logo',
-                  placeholder: 'Browse file',
-                  default: this.state.form.logo,
-                  required: true
-                }}
-              >
-                {FileImage}
-              </Field>
-            </div>
-
-            <div className="column small-12 medium-4">
-              <Field
-                ref={(c) => { if (c) FORM_ELEMENTS.elements.white_logo = c; }}
-                onChange={(value) => {
-                  this.props.onChange({ white_logo: value });
-                }}
-                validations={['required']}
-                className="-fluid"
-                properties={{
-                  name: 'white_logo',
-                  label: 'White logo',
-                  placeholder: 'Browse file',
-                  default: this.state.form.white_logo,
-                  required: true
-                }}
-              >
-                {FileImage}
-              </Field>
-            </div>
-
-            <div className="column small-12 medium-4">
-              <Field
-                ref={(c) => { if (c) FORM_ELEMENTS.elements.cover = c; }}
-                onChange={(value) => {
-                  this.props.onChange({ cover: value });
-                }}
-                validations={['required']}
-                className="-fluid"
-                properties={{
-                  name: 'cover',
-                  label: 'Cover',
-                  placeholder: 'Browse file',
-                  default: this.state.form.cover,
-                  required: true
-                }}
-              >
-                {FileImage}
-              </Field>
-            </div>
-
-            <div className="column small-12 medium-4">
-              <Field
-                ref={(c) => { if (c) FORM_ELEMENTS.elements.icon = c; }}
-                onChange={(value) => {
-                  this.props.onChange({ icon: value });
-                }}
-                validations={['required']}
-                className="-fluid"
-                properties={{
-                  name: 'icon',
-                  label: 'Icon',
-                  placeholder: 'Browse file',
-                  default: this.state.form.icon,
-                  required: true
-                }}
-              >
-                {FileImage}
-              </Field>
+          {/* THUMBNAIL */}
+          <div className="c-field-row">
+            <div className="row l-row">
+              <div className="column small-12 medium-6">
+                <Field
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.photo = c; }}
+                  onChange={(value) => {
+                    this.props.onChange({ photo: value });
+                  }}
+                  validations={['required']}
+                  className="-fluid"
+                  properties={{
+                    name: 'photo',
+                    label: 'Photo',
+                    placeholder: 'Browse file',
+                    default: this.state.form.photo,
+                    required: true
+                  }}
+                >
+                  {FileImage}
+                </Field>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* FEATURED */}
-        <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.featured = c; }}
-          onChange={value => this.props.onChange({ featured: value.checked })}
-          properties={{
-            name: 'featured',
-            label: 'Do you want to set this dashboard as featured?',
-            value: 'featured',
-            title: 'Featured',
-            defaultChecked: this.props.form.featured,
-            checked: this.props.form.featured
-          }}
-        >
-          {Checkbox}
-        </Field>
+          {/* PUBLISHED */}
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
+            onChange={value => this.props.onChange({ published: value.checked })}
+            properties={{
+              name: 'published',
+              label: 'Do you want to set this dasboard as published?',
+              value: 'published',
+              title: 'Published',
+              defaultChecked: this.props.form.published,
+              checked: this.props.form.published
+            }}
+          >
+            {Checkbox}
+          </Field>
+        </fieldset>
 
-        {/* PUBLISHED */}
-        <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
-          onChange={value => this.props.onChange({ published: value.checked })}
-          properties={{
-            name: 'published',
-            label: 'Do you want to set this dashboard as published?',
-            value: 'published',
-            title: 'Published',
-            defaultChecked: this.props.form.published,
-            checked: this.props.form.published
-          }}
-        >
-          {Checkbox}
-        </Field>
-
-      </fieldset>
+        <fieldset className="c-field-container">
+          {/* CONTENT */}
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.content = c; }}
+            onChange={value => this.props.onChange({ content: value })}
+            validations={['required']}
+            className="-fluid"
+            properties={{
+              name: 'content',
+              label: 'Content',
+              type: 'text',
+              required: true,
+              default: this.state.form.content
+            }}
+          >
+            {Wysiwyg}
+          </Field>
+        </fieldset>
+      </div>
     );
   }
 }
