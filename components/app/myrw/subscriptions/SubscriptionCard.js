@@ -5,11 +5,23 @@ import { Router } from 'routes';
 
 // Components
 import Spinner from 'components/ui/Spinner';
+import Map from 'components/vis/Map';
 
 // Services
 import DatasetService from 'services/DatasetService';
 import AreasService from 'services/AreasService';
 import UserService from 'services/UserService';
+
+// Utils
+import LayerManager from 'utils/layers/LayerManager';
+
+const mapConfig = {
+  zoom: 3,
+  latLng: {
+    lat: 0,
+    lng: 0
+  }
+};
 
 class SubscriptionCard extends React.Component {
 
@@ -19,7 +31,8 @@ class SubscriptionCard extends React.Component {
     this.state = {
       loading: false,
       dataset: null,
-      country: null
+      country: null,
+      layer: {}
     };
 
     // Services
@@ -37,12 +50,36 @@ class SubscriptionCard extends React.Component {
     this.setState({ loading: true });
     this.datasetService.fetchData()
     .then((response) => {
-      this.setState({ dataset: response });
+      const dataset = response;
+      this.setState({ dataset });
       this.areasService.getCountry(this.props.subscription.attributes.params.iso.country)
       .then((res) => {
+        const country = res.data[0];
+
+        const newGeoJson = {
+          type: 'FeatureCollection',
+          features: [
+            {
+              type: 'Feature',
+              properties: {},
+              geometry: country.geojson
+            }
+          ]
+        };
+
+        const fakeLayer = {
+          id: `${dataset.id}-${country.label}`,
+          provider: 'geojson',
+          layerConfig: {
+            data: newGeoJson,
+            fitBounds: true
+          }
+        };
+
         this.setState({
           loading: false,
-          country: res.data[0].label
+          country: country.label,
+          layer: fakeLayer
         });
       })
     })
@@ -69,19 +106,24 @@ class SubscriptionCard extends React.Component {
   }
 
   render() {
-    const { loading, dataset, country } = this.state;
+    const { loading, dataset, country, layer } = this.state;
     const { subscription } = this.props;
     const confirmed = subscription.attributes.confirmed;
     const name = subscription.attributes.name;
 
     return (
       <div className="c-subscription-card medium-4 small-12">
+        <div className="map-container">
+          <Map
+            LayerManager={LayerManager}
+            mapConfig={mapConfig}
+            layersActive={[layer]}
+          />
+        </div>
         <Spinner isLoading={loading} className="-small -light -relative -center" />
-        { name &&
-          <div className="name-container">
-            <h4>{name}</h4>
-          </div>
-        }
+        <div className="name-container">
+          <h4>{name}</h4>
+        </div>
         <div className="data-container">
           <div className="location-container">
             <h5>Location</h5>

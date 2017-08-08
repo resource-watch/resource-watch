@@ -13,8 +13,16 @@
     margin: 0px;
   }
 
+  .map-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+  }
+
   .name-container {
+    margin-top: 10px;
     margin-bottom: 10px;
+    min-height: 20px;
   }
 
   .data-container {

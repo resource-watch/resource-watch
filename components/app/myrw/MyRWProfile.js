@@ -9,17 +9,20 @@ import MyRWProfileActivity from 'components/app/myrw/profile/MyRWProfileActivity
 import MyRWProfileEdit from 'components/app/myrw/profile/MyRWProfileEdit';
 
 // Constants
-const MYRW_SUBTABS = [{
-  label: 'Activity',
-  value: 'activity',
-  route: 'myrw',
-  params: { tab: 'profile', subtab: 'activity' }
-}, {
-  label: 'Edit profile',
-  value: 'edit',
-  route: 'myrw',
-  params: { tab: 'profile', subtab: 'edit' }
-}];
+const MYRW_SUBTABS = [
+//   {
+//   label: 'Activity',
+//   value: 'activity',
+//   route: 'myrw',
+//   params: { tab: 'profile', subtab: 'activity' }
+// },
+  {
+    label: 'Edit profile',
+    value: 'edit',
+    route: 'myrw',
+    params: { tab: 'profile', subtab: 'edit' }
+  }
+];
 
 class MyRWProfile extends React.Component {
   render() {
@@ -46,11 +49,6 @@ class MyRWProfile extends React.Component {
               </div>
 
               <div className="columns small-12 medium-9">
-                {subtab === 'activity' &&
-                  <MyRWProfileActivity />
-                }
-
-
                 {subtab === 'edit' &&
                   <MyRWProfileEdit />
                 }
