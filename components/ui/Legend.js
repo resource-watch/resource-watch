@@ -110,9 +110,12 @@ class Legend extends React.Component {
         <button className="layers" onClick={() => this.onClickLayers()} aria-label="Select other layer">
           <Icon name="icon-layers" />
         </button>
-        <button className="opacity" onClick={() => this.onClickOpacity()} aria-label="Change opacity">
-          <Icon name="icon-opacity" />
-        </button>
+        { // eslint-disable-next-line max-len
+        /* <button className="opacity" onClick={() => this.onClickOpacity()} aria-label="Change opacity">
+             <Icon name="icon-opacity" />
+           </button>
+        */
+        }
         { !this.props.readonly && (
           <button
             className="toggle"
