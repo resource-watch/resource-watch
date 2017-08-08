@@ -12,6 +12,7 @@ import {
   toggleLayerGroupVisibility,
   toggleLayerGroup,
   setLayerGroupsOrder,
+  setLayerGroupActiveLayer,
   getDatasets,
   setDatasetsPage,
   setUrlParams,
@@ -169,6 +170,17 @@ class Explore extends Page {
   }
 
   /**
+   * Event handler executed when the user change the active
+   * layer of a layer group
+   * @param {string} dataset - Dataset ID
+   * @param {string} layer - Layer ID
+   */
+  @Autobind
+  onSetLayerGroupActiveLayer(dataset, layer) {
+    this.props.setLayerGroupActiveLayer(dataset, layer);
+  }
+
+  /**
    * Return the current value of the vocabulary filter
    * @returns {string}
    */
@@ -284,10 +296,10 @@ class Explore extends Page {
                   <Legend
                     layerGroups={this.props.layerGroups}
                     className={{ color: '-dark' }}
-                    toggleModal={this.props.toggleModal}
                     toggleLayerGroupVisibility={this.onToggleLayerGroupVisibility}
                     setLayerGroupsOrder={this.onSetLayerGroupsOrder}
                     removeLayerGroup={this.onRemoveLayerGroup}
+                    setLayerGroupActiveLayer={this.onSetLayerGroupActiveLayer}
                   />
                 }
               </div>
@@ -322,7 +334,9 @@ Explore.propTypes = {
   // Toggle the visibility of a layer group based on the layer passed as argument
   toggleLayerGroupVisibility: PropTypes.func.isRequired,
   // Remove the layer group
-  removeLayerGroup: PropTypes.func.isRequired
+  removeLayerGroup: PropTypes.func.isRequired,
+  // Set the active layer of a layer group
+  setLayerGroupActiveLayer: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -362,7 +376,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(toggleLayerGroupVisibility(dataset, visible));
   },
   removeLayerGroup: dataset => dispatch(toggleLayerGroup(dataset, false)),
-  setLayerGroupsOrder: datasets => dispatch(setLayerGroupsOrder(datasets))
+  setLayerGroupsOrder: datasets => dispatch(setLayerGroupsOrder(datasets)),
+  setLayerGroupActiveLayer: (dataset, layer) => dispatch(setLayerGroupActiveLayer(dataset, layer))
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Explore);

@@ -164,7 +164,7 @@ export default function (state = initialState, action) {
       const layerGroups = state.layers.map((l) => {
         if (l.dataset !== action.payload.dataset) return l;
         const layers = l.layers.map((la) => { // eslint-disable-line arrow-body-style
-          return Object.assign({}, la, { visible: la.id === action.payload.layer });
+          return Object.assign({}, la, { active: la.id === action.payload.layer });
         });
         return Object.assign({}, l, { layers });
       });

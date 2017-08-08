@@ -1,11 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc';
+import isEqual from 'lodash/isEqual';
+
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+import { toggleModal } from 'redactions/modal';
+import { toggleTooltip, setTooltipPosition } from 'redactions/tooltip';
 
 // Components
 import LegendType from 'components/ui/LegendType';
 import Icon from 'components/ui/Icon';
 import LayerInfoModal from 'components/modal/LayerInfoModal';
+import LayersTooltip from 'components/app/explore/LayersTooltip';
+import Button from 'components/ui/Button';
 
 const SortableItem = SortableElement(({ value }) => value);
 
@@ -24,15 +33,73 @@ const SortableList = SortableContainer(({ items }) => (
 ));
 
 class Legend extends React.Component {
+
+  /**
+   * Return the position of a DOM element
+   * @static
+   * @param {HTMLElement} node
+   * @returns {{ x: number, y: number }}
+   */
+  static getElementPosition(node) {
+    const clientRect = node.getBoundingClientRect();
+    return {
+      x: window.scrollX + clientRect.left + (clientRect.width / 2),
+      y: window.scrollY + clientRect.top + (clientRect.height / 2)
+    };
+  }
+
   constructor(props) {
     super(props);
 
     this.state = {
-      open: props.expanded
+      open: props.expanded,
+      layersTooltipOpen: false,
+      layersTourTooltipOpen: false,
+      // Show a "tour" tooltip if the user adds a multi-layer
+      // layer group for the first time
+      hasShownLayersTourTooltip: false
     };
+
+    // List of the layers buttons
+    this.layersButtons = [];
 
     // BINDINGS
     this.onSortEnd = this.onSortEnd.bind(this);
+  }
+
+  componentDidMount() {
+    // Show the layers tour tooltip
+    if (!this.state.hasShownLayersTourTooltip) {
+      this.showLayersTourTooltip();
+    }
+  }
+
+  componentDidUpdate(previousProps) {
+    const haveLayerGroupsChanged = !isEqual(this.props.layerGroups, previousProps.layerGroups);
+    // If the layers tooltip is opened and the layer groups changed in
+    // some way, then the height of the legend might change and we need
+    // to reposition the tooltip
+    if (this.state.layersTooltipOpen
+      && this.activeLayersButton
+      && haveLayerGroupsChanged) {
+      this.props.setTooltipPosition(Legend.getElementPosition(this.activeLayersButton));
+    }
+
+    // Show the layers tour tooltip
+    if (haveLayerGroupsChanged && !this.state.hasShownLayersTourTooltip) {
+      this.showLayersTourTooltip();
+    }
+  }
+
+  /**
+   * Event handler executed when the user starts dragging
+   * a layer group
+   */
+  onSortStart() {
+    // If the layers tour tooltip is opened, then we close it
+    if (this.state.layersTourTooltipOpen) {
+      this.closeLayersTourTooltip();
+    }
   }
 
   /**
@@ -92,10 +159,33 @@ class Legend extends React.Component {
   /**
    * Event handler executed when the user clicks the button
    * to switch the layer for another one of the same dataset
+   * @param {MouseEvent} e
+   * @param {LayerGroup} layerGroup
    */
-  onClickLayers() { // eslint-disable-line class-methods-use-this
-    // TODO: implement
-    alert('Not implemented yet'); // eslint-disable-line no-alert
+  onClickLayers(e, layerGroup) {
+    this.setState({ layersTooltipOpen: true });
+
+    // If the user is opening the tooltip to select a layer
+    // then the tour doesn't make any sense anymore
+    this.closeLayersTourTooltip();
+
+    // We save the button that was used to open the tooltip
+    // so we can compute its position later
+    this.activeLayersButton = e.target;
+
+    this.props.toggleTooltip(true, {
+      follow: false,
+      position: Legend.getElementPosition(this.activeLayersButton),
+      children: LayersTooltip,
+      childrenProps: {
+        layerGroup,
+        onChangeLayer: this.props.setLayerGroupActiveLayer,
+        onClose: () => {
+          this.setState({ layersTooltipOpen: false });
+          this.props.toggleTooltip(false);
+        }
+      }
+    });
   }
 
   /**
@@ -107,9 +197,16 @@ class Legend extends React.Component {
   getItemsActions(layerGroup) {
     return (
       <div className="item-actions">
-        <button className="layers" onClick={() => this.onClickLayers()} aria-label="Select other layer">
-          <Icon name="icon-layers" />
-        </button>
+        { layerGroup.layers.length > 1 && (
+          <button
+            className="layers"
+            onClick={e => this.onClickLayers(e, layerGroup)}
+            aria-label="Select other layer"
+            ref={(node) => { this.layersButtons.push(node); }}
+          >
+            <Icon name="icon-layers" />
+          </button>
+        ) }
         { // eslint-disable-next-line max-len
         /* <button className="opacity" onClick={() => this.onClickOpacity()} aria-label="Change opacity">
              <Icon name="icon-opacity" />
@@ -161,7 +258,63 @@ class Legend extends React.Component {
     });
   }
 
+  /**
+   * Show the layers tour tooltip on the first layer group
+   * that has several layers
+   */
+  showLayersTourTooltip() {
+    const multiLayerLayerGroupIndex = this.props.layerGroups.findIndex(l => l.layers.length > 1);
+
+    if (multiLayerLayerGroupIndex === -1) {
+      // If there's no multi-layer layer group and the tooltip
+      // is shown, we remove it
+      if (this.state.layersTourTooltipOpen) this.closeLayersTourTooltip();
+      return;
+    }
+
+    const button = this.layersButtons[multiLayerLayerGroupIndex];
+    if (!button) return;
+
+    this.setState({ layersTourTooltipOpen: true });
+
+    this.props.toggleTooltip(true, {
+      follow: false,
+      position: Legend.getElementPosition(this.layersButtons[multiLayerLayerGroupIndex]),
+      children: props => (
+        <div>
+          This dataset has {props.layersCount} layers
+          <div style={{ textAlign: 'center', marginTop: '5px' }}>
+            <Button
+              properties={{ className: '-tertiary' }}
+              onClick={() => this.closeLayersTourTooltip()}
+            >
+              Ok
+            </Button>
+          </div>
+        </div>
+      ),
+      childrenProps: {
+        layersCount: this.props.layerGroups.find(l => l.layers.length > 1).layers.length
+      }
+    });
+  }
+
+  /**
+   * Hide the layers tour tooltip
+   */
+  closeLayersTourTooltip() {
+    this.setState({
+      layersTourTooltipOpen: false,
+      hasShownLayersTourTooltip: true
+    });
+    this.props.toggleTooltip(false);
+  }
+
   render() {
+    // We reset the list of button each time we render
+    // the component again
+    this.layersButtons = [];
+
     return (
       <div className="c-legend-map">
         <div className={`open-legend ${this.state.open ? '-active' : ''}`}>
@@ -171,9 +324,8 @@ class Legend extends React.Component {
           <SortableList
             items={this.getLegendItems()}
             helperClass="c-legend-unit -sort"
+            onSortStart={() => this.onSortStart()}
             onSortEnd={this.onSortEnd}
-            onSortStart={this.onSortStart}
-            onSortMove={this.onSortMove}
             axis="y"
             lockAxis="y"
             lockToContainerEdges
@@ -205,14 +357,23 @@ Legend.propTypes = {
 
   // Functions
 
-  // Toggle the modal
-  toggleModal: PropTypes.func,
   // Callback to hide/show a layer group
   toggleLayerGroupVisibility: PropTypes.func,
   // Callback to re-order the layer groups
   setLayerGroupsOrder: PropTypes.func.isRequired,
   // Callback to remove a layer group
-  removeLayerGroup: PropTypes.func
+  removeLayerGroup: PropTypes.func,
+  // Callback to change which layer of the layer group is active
+  setLayerGroupActiveLayer: PropTypes.func.isRequired,
+
+  // Redux
+
+  // Toggle the modal
+  toggleModal: PropTypes.func.isRequired,
+  // Toggle the tooltip
+  toggleTooltip: PropTypes.func.isRequired,
+  // Set the position of the tooltip
+  setTooltipPosition: PropTypes.func.isRequired
 };
 
 Legend.defaultProps = {
@@ -220,4 +381,11 @@ Legend.defaultProps = {
   expanded: true
 };
 
-export default Legend;
+const mapStateToProps = () => ({});
+const mapDispatchToProps = dispatch => ({
+  toggleModal: (open, options) => dispatch(toggleModal(open, options)),
+  toggleTooltip: (open, options) => dispatch(toggleTooltip(open, options)),
+  setTooltipPosition: pos => dispatch(setTooltipPosition(pos))
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Legend);

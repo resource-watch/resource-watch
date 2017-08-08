@@ -9,7 +9,6 @@ import isEqual from 'lodash/isEqual';
 import { connect } from 'react-redux';
 
 import { resetWidgetEditor, setFields } from 'redactions/widgetEditor';
-import { toggleModal } from 'redactions/modal';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -390,8 +389,8 @@ class WidgetEditor extends React.Component {
               <Legend
                 layerGroups={layerGroups}
                 className={{ color: '-dark' }}
-                toggleModal={this.props.toggleModal}
                 setLayerGroupsOrder={() => {}}
+                setLayerGroupActiveLayer={() => {}}
                 readonly
                 expanded={false}
               />
@@ -569,7 +568,6 @@ class WidgetEditor extends React.Component {
 const mapStateToProps = ({ widgetEditor, user }) => ({ widgetEditor, user });
 const mapDispatchToProps = dispatch => ({
   resetWidgetEditor: () => dispatch(resetWidgetEditor()),
-  toggleModal: (open, options) => dispatch(toggleModal(open, options)),
   setFields: (fields) => { dispatch(setFields(fields)); }
 });
 
@@ -588,7 +586,6 @@ WidgetEditor.propTypes = {
   user: PropTypes.object.isRequired,
   widgetEditor: PropTypes.object.isRequired,
   resetWidgetEditor: PropTypes.func.isRequired,
-  toggleModal: PropTypes.func.isRequired,
   setFields: PropTypes.func.isRequired
 };
 
