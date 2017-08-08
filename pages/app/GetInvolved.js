@@ -123,18 +123,44 @@ class GetInvolved extends Page {
         url={this.props.url}
         user={this.props.user}
       >
-        <div className="p-get-involved">
-          <div className="c-page">
-            <Intro title={data.title} intro={data.summary} styles={styles} />
-            <section className="l-section -header">
-              <div className="l-container">
-                <div className="cards row">
-                  {cardsStatic}
+        <section className="l-content">
+          <header className="l-content-header">
+            <div className="l-container">
+              <div className="row align-center">
+                <div className="column small-12">
+                  <div className="cover" style={styles} />
                 </div>
               </div>
-            </section>
+              <div className="row align-center">
+                <div className="column small-12 medium-8">
+                  <h1>{data.title}</h1>
+                  <p>{data.summary}</p>
+                </div>
+              </div>
+            </div>
+          </header>
+          <article className="l-content-body">
+            <div className="l-container">
+              <div className="row align-center">
+                <div className="column small-12 medium-8">
+                  <div dangerouslySetInnerHTML={{ __html: data && data.content }} />
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
 
-            <div className="row">
+        <section className="l-section">
+          <div className="l-container">
+            <div className="cards row">
+              {cardsStatic}
+            </div>
+          </div>
+        </section>
+
+        <aside className="l-postcontent">
+          <div className="l-container">
+            <div className="row align-center">
               <div className="column small-12">
                 <Banner className="partners">
                   <h3 className="c-text -header-normal -thin">
@@ -147,7 +173,8 @@ class GetInvolved extends Page {
               </div>
             </div>
           </div>
-        </div>
+        </aside>
+
       </Layout>
     );
   }

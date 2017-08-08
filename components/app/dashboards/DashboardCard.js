@@ -13,7 +13,7 @@ import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 
@@ -261,4 +261,4 @@ const mapDispatchToProps = dispatch => ({
   setModalOptions: options => dispatch(setModalOptions(options))
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(DashboardCard);
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardCard);

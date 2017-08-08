@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 import { getLayers, setFilters } from 'redactions/admin/layers';
 
@@ -139,4 +139,4 @@ const mapDispatchToProps = dispatch => ({
   setFilters: filters => dispatch(setFilters(filters))
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(LayersTable);
+export default connect(mapStateToProps, mapDispatchToProps)(LayersTable);

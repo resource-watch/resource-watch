@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { Autobind } from 'es-decorators';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 import { setOrderBy } from 'redactions/widgetEditor';
 
@@ -85,4 +85,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(SortContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(SortContainer);

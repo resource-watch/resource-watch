@@ -43,7 +43,7 @@
     "lusca": "^1.4.1",
     "moveto": "^1.6.1",
     "next": "^3.0.1-beta",
-    "next-redux-wrapper": "^1.1.2",
+    "next-redux-wrapper": "1.1.2",
     "next-routes": "^1.0.27",
     "node-sass": "^4.5.3",
     "nodemailer": "^2.7.0",

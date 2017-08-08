@@ -6,7 +6,7 @@ import { Autobind } from 'es-decorators';
 import { Link } from 'routes';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 import { setFilters } from 'redactions/admin/pages';
 
@@ -84,4 +84,4 @@ const mapDispatchToProps = dispatch => ({
   setFilters: filters => dispatch(setFilters(filters))
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(PageIndex);
+export default connect(mapStateToProps, mapDispatchToProps)(PageIndex);

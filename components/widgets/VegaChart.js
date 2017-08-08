@@ -8,7 +8,7 @@ import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 import { toggleTooltip } from 'redactions/tooltip';
 
@@ -360,4 +360,4 @@ const mapDispatchToProps = dispatch => ({
   toggleTooltip: (visibility, options) => dispatch(toggleTooltip(visibility, options))
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(VegaChart);
+export default connect(mapStateToProps, mapDispatchToProps)(VegaChart);

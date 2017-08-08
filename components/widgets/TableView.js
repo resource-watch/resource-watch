@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 
 // Components
@@ -131,4 +131,4 @@ TableView.propTypes = {
 
 const mapStateToProps = ({ widgetEditor }) => ({ widgetEditor });
 
-export default withRedux(initStore, mapStateToProps, null)(TableView);
+export default connect(mapStateToProps, null)(TableView);

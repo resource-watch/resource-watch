@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from 'components/ui/Icon';
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 import { setSidebar} from 'redactions/explore';
 import MediaQuery from 'react-responsive';
@@ -79,4 +79,4 @@ const mapStateToProps = state => ({
   sidebar: state.explore.sidebar
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Sidebar)
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)

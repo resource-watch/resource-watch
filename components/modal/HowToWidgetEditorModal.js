@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 import { toggleModal } from 'redactions/modal';
 
@@ -61,4 +61,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-export default withRedux(initStore, null, mapDispatchToProps)(HowToWidgetEditorModal);
+export default connect(null, mapDispatchToProps)(HowToWidgetEditorModal);

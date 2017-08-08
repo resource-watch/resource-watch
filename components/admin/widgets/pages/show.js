@@ -3,7 +3,7 @@ import { Router } from 'routes';
 import PropTypes from 'prop-types';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 
 // Components
@@ -33,4 +33,4 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default withRedux(initStore, mapStateToProps, null)(WidgetsShow);
+export default connect(mapStateToProps, null)(WidgetsShow);

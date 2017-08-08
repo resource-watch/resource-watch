@@ -4,7 +4,7 @@ import { Autobind } from 'es-decorators';
 import PropTypes from 'prop-types';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 
 import { FORM_ELEMENTS } from './constants';
@@ -287,4 +287,4 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default withRedux(initStore, mapStateToProps, null)(PageForm);
+export default connect(mapStateToProps, null)(PageForm);

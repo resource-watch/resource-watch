@@ -8,7 +8,7 @@ import { FORM_ELEMENTS } from './constants';
 import { get, post } from 'utils/request';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 
 import { Router } from 'routes';
@@ -288,4 +288,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default withRedux(initStore, mapStateToProps, null)(InsightForm);
+export default connect(mapStateToProps, null)(InsightForm);

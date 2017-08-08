@@ -4,7 +4,7 @@ import { Autobind } from 'es-decorators';
 import debounce from 'lodash/debounce';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 import { setLimit } from 'redactions/widgetEditor';
 
@@ -67,4 +67,4 @@ const mapDispatchToProps = dispatch => ({
   }, 500)
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(LimitContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(LimitContainer);

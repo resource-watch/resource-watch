@@ -4,7 +4,7 @@ import { Autobind } from 'es-decorators';
 
 // Redux
 import { initStore } from 'store';
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
@@ -104,4 +104,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRedux(initStore, null, mapDispatchToProps)(AggregateFunctionTooltip);
+export default connect(null, mapDispatchToProps)(AggregateFunctionTooltip);

@@ -4,7 +4,7 @@ import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 import { setSize } from 'redactions/widgetEditor';
 
@@ -93,4 +93,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(SizeContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(SizeContainer);

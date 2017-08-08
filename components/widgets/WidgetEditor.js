@@ -6,7 +6,7 @@ import { DragDropContext } from 'react-dnd';
 import isEqual from 'lodash/isEqual';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 import { resetWidgetEditor, setFields } from 'redactions/widgetEditor';
 import { toggleModal, setModalOptions } from 'redactions/modal';
@@ -586,4 +586,4 @@ WidgetEditor.defaultProps = {
   availableVisualizations: VISUALIZATION_TYPES.map(viz => viz.value)
 };
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(WidgetEditor);
+export default connect(mapStateToProps, mapDispatchToProps)(WidgetEditor);

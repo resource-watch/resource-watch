@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 import { Link, Router } from 'routes';
 
@@ -225,4 +225,4 @@ const mapDispatchToProps = dispatch => ({
   setDatasetsHidden: (id) => { dispatch(setDatasetsHidden(id)); }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(DatasetWidget);
+export default connect(mapStateToProps, mapDispatchToProps)(DatasetWidget);

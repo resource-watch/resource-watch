@@ -4,7 +4,7 @@ import { Router } from 'routes';
 import { Autobind } from 'es-decorators';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 import { toggleModal } from 'redactions/modal';
 
@@ -264,4 +264,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(SaveWidgetModal);
+export default connect(mapStateToProps, mapDispatchToProps)(SaveWidgetModal);
