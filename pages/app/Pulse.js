@@ -225,7 +225,7 @@ class Pulse extends Page {
         user={this.props.user}
       >
         <div
-          className="c-page -dark"
+          className="l-map -dark"
         >
           <LayerNav
             layerActive={layerActive}
