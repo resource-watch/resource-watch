@@ -30,9 +30,7 @@ class Step1 extends React.Component {
             ref={(c) => { if (c) FORM_ELEMENTS.elements.dataset = c; }}
             onChange={value => this.props.onChangeDataset(value)}
             validations={['required']}
-            options={this.props.datasets.map(dataset =>
-              ({ label: dataset.name, value: dataset.id })
-            )}
+            options={this.props.datasets}
             properties={{
               name: 'dataset',
               label: 'Dataset',
@@ -96,7 +94,8 @@ class Step1 extends React.Component {
             name: 'layerConfig',
             label: 'Layer config',
             type: 'textarea',
-            default: this.state.form.layerConfig
+            default: this.state.form.layerConfig,
+            value: this.state.form.layerConfig
           }}
         >
           {Code}
@@ -109,7 +108,8 @@ class Step1 extends React.Component {
             name: 'legendConfig',
             label: 'Legend config',
             type: 'textarea',
-            default: this.state.form.legendConfig
+            default: this.state.form.legendConfig,
+            value: this.state.form.legendConfig
           }}
         >
           {Code}

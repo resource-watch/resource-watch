@@ -367,7 +367,10 @@ class ColumnBox extends React.Component {
           </div>
         }
         {closable &&
-          <button onClick={this.triggerClose}>
+          <button
+            type="button"
+            onClick={this.triggerClose}
+          >
             <Icon
               name="icon-cross"
               className="-smaller close-button"
@@ -375,7 +378,11 @@ class ColumnBox extends React.Component {
           </button>
         }
         {configurable && isConfigurable &&
-          <button onClick={this.triggerConfigure} ref={(node) => { this.settingsButton = node; }}>
+          <button
+            type="button"
+            onClick={this.triggerConfigure}
+            ref={(node) => { this.settingsButton = node; }}
+          >
             <Icon
               name="icon-cog"
               className="-smaller configure-button"

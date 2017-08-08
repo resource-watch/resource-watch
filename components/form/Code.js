@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import isEqual from 'lodash/isEqual';
 
 // Components
 import FormElement from './FormElement';
@@ -24,6 +25,19 @@ class Code extends FormElement {
       error: []
     };
   }
+
+  componentWillReceiveProps(nextProps) {
+    try {
+      if (!isEqual(nextProps.properties.value, JSON.parse(this.state.value))) {
+        this.setState({
+          value: JSON.stringify(nextProps.properties.value || {}, null, 2)
+        });
+      }
+    } catch (e) {
+      // do nothing
+    }
+  }
+
   /**
    * UI EVENTS
    * - triggerChange

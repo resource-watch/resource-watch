@@ -171,33 +171,29 @@ class Explore extends Page {
         <div className="p-explore">
           <div className="c-page -dark">
             <Sidebar>
-              <div className="intro">
-                <div className="row collapse">
-                  <div className="column small-12">
-                    <Title className="-primary -huge">
-                      Explore
-                    </Title>
-                  </div>
+              <div className="row collapse">
+                <div className="column small-12">
+                  <h1>Explore</h1>
                 </div>
-                <div className="search-container">
-                  <div className="row collapse">
-                    <div className="column small-12 medium-6">
-                      <SearchInput
-                        onSearch={this.handleFilterDatasetsSearch}
-                        input={{
-                          value: search && search.value,
-                          placeholder: 'Search dataset'
-                        }}
-                      />
-                    </div>
-                    <div className="column small-12 medium-6">
-                      <CustomSelect
-                        options={this.state.vocabularies}
-                        onValueChange={this.handleFilterDatasetsIssue}
-                        placeholder="Select issue"
-                        value={issue && issue.length > 0 && issue[0].value}
-                      />
-                    </div>
+              </div>
+              <div className="search-container">
+                <div className="row collapse">
+                  <div className="column small-12 medium-6">
+                    <SearchInput
+                      onSearch={this.handleFilterDatasetsSearch}
+                      input={{
+                        value: search && search.value,
+                        placeholder: 'Search dataset'
+                      }}
+                    />
+                  </div>
+                  <div className="column small-12 medium-6">
+                    <CustomSelect
+                      options={this.state.vocabularies}
+                      onValueChange={this.handleFilterDatasetsIssue}
+                      placeholder="Select issue"
+                      value={issue && issue.length > 0 && issue[0].value}
+                    />
                   </div>
                 </div>
               </div>
@@ -210,12 +206,17 @@ class Explore extends Page {
                 isLoading={explore.datasets.loading}
                 className="-light"
               />
-              <DatasetList
-                active={explore.datasets.active}
-                list={paginatedDatasets}
-                mode={explore.datasets.mode}
-                showActions
-              />
+
+              <div className="row collapse">
+                <div className="column small-12">
+                  <DatasetList
+                    active={explore.datasets.active}
+                    list={paginatedDatasets}
+                    mode={explore.datasets.mode}
+                    showActions
+                  />
+                </div>
+              </div>
 
               <Paginator
                 options={{
@@ -231,29 +232,31 @@ class Explore extends Page {
               />
             </Sidebar>
 
-            <Map
-              LayerManager={LayerManager}
-              mapConfig={mapConfig}
-              layersActive={this.state.layersActive}
-              toggledDataset={this.props.toggledDataset}
-            />
-
-            <button className="share-button" onClick={() => this.handleShareModal()}>
-              <Icon name="icon-share" className="-small" />
-            </button>
-
-            {this.state.layersActive && this.state.layersActive.length &&
-              <Legend
+            <div className="l-map">
+              <Map
+                LayerManager={LayerManager}
+                mapConfig={mapConfig}
                 layersActive={this.state.layersActive}
-                layersHidden={this.props.explore.datasets.hidden}
-                className={{ color: '-dark' }}
-                setDatasetsActive={this.props.setDatasetsActive}
-                toggleDatasetActive={this.props.toggleDatasetActive}
-                setDatasetsHidden={this.props.setDatasetsHidden}
-                toggleModal={this.props.toggleModal}
-                setModalOptions={this.props.setModalOptions}
+                toggledDataset={this.props.toggledDataset}
               />
-            }
+
+              <button className="share-button" onClick={() => this.handleShareModal()}>
+                <Icon name="icon-share" className="-small" />
+              </button>
+
+              {this.state.layersActive && this.state.layersActive.length &&
+                <Legend
+                  layersActive={this.state.layersActive}
+                  layersHidden={this.props.explore.datasets.hidden}
+                  className={{ color: '-dark' }}
+                  setDatasetsActive={this.props.setDatasetsActive}
+                  toggleDatasetActive={this.props.toggleDatasetActive}
+                  setDatasetsHidden={this.props.setDatasetsHidden}
+                  toggleModal={this.props.toggleModal}
+                  setModalOptions={this.props.setModalOptions}
+                />
+              }
+            </div>
           </div>
         </div>
       </Layout>

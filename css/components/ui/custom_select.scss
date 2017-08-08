@@ -78,12 +78,12 @@
     font-style: italic;
     color: palette(blue);
     background-color: $color-white;
-    font-size: $font-size-big;
+    font-size: $font-size-normal;
     box-shadow: 0 -2px 4px 0 rgba(33, 62, 118, 0.09), 0 2px 4px 0 rgba(33, 62, 118, 0.09);
   }
 
   .custom-select-text {
-    font-size: $font-size-big;
+    font-size: $font-size-normal;
     font-weight: normal;
     line-height: 2;
     display: block;
@@ -126,7 +126,7 @@
       display: flex;
       justify-content: space-between;
       color: $color-text-headers;
-      font-size: $font-size-big;
+      font-size: $font-size-normal;
       font-weight: normal;
       line-height: 2;
       cursor: pointer;

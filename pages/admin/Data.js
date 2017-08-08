@@ -7,39 +7,33 @@ import Tabs from 'components/ui/Tabs';
 
 // Tabs
 import DatasetTab from 'components/admin/dataset/DatasetTab';
-import WidgetTab from 'components/admin/widget/WidgetTab';
+import WidgetsTab from 'components/admin/widgets/WidgetsTab';
 import LayersTab from 'components/admin/layers/LayersTab';
 
 // Components
 import Title from 'components/ui/Title';
 
 // Contants
-const DATA_TABS = [{
-  label: 'Datasets',
-  value: 'datasets',
-  route: 'admin_data',
-  params: { tab: 'datasets' }
-}, {
-  label: 'Widgets',
-  value: 'widgets',
-  route: 'admin_data',
-  params: { tab: 'widgets' }
-}, {
-  label: 'Layers',
-  value: 'layers',
-  route: 'admin_data',
-  params: { tab: 'layers' }
-}, {
-  label: 'Dashboards',
-  value: 'dashboards',
-  route: 'admin_data',
-  params: { tab: 'dashboards' }
-}, {
-  label: 'Vocabularies',
-  value: 'vocabularies',
-  route: 'admin_data',
-  params: { tab: 'vocabularies' }
-}];
+const DATA_TABS = [
+  {
+    label: 'Datasets',
+    value: 'datasets',
+    route: 'admin_data',
+    params: { tab: 'datasets' }
+  },
+  {
+    label: 'Widgets',
+    value: 'widgets',
+    route: 'admin_data',
+    params: { tab: 'widgets' }
+  },
+  {
+    label: 'Layers',
+    value: 'layers',
+    route: 'admin_data',
+    params: { tab: 'layers' }
+  }
+];
 
 class Data extends Page {
 
@@ -98,19 +92,11 @@ class Data extends Page {
             }
 
             {tab === 'widgets' &&
-              <WidgetTab tab={tab} subtab={subtab} id={id} />
+              <WidgetsTab tab={tab} subtab={subtab} id={id} />
             }
 
             {tab === 'layers' &&
               <LayersTab tab={tab} subtab={subtab} id={id} />
-            }
-
-            {tab === 'dashboards' &&
-              <h2>Dashboards</h2>
-            }
-
-            {tab === 'vocabularies' &&
-              <h2>Vocabularies</h2>
             }
           </div>
         </div>

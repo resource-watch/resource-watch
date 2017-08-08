@@ -55,35 +55,37 @@ const mapConfig = {
   }
 };
 
+const DEFAULT_STATE = {
+  selectedVisualizationType: 'chart',
+  // FIELDS
+  fieldsLoaded: false,
+  fieldsError: false,
+
+  tableName: null, // Name of the table
+  chartLoading: false, // Whether the chart is loading its data/rendering
+
+  // CHART CONFIG
+  chartConfig: null, // Vega chart configuration
+  chartConfigError: null, // Error message when fetching the chart configuration
+  chartConfigLoading: false, // Whether we're loading the config
+
+  // Jiminy
+  jiminy: {},
+  jiminyLoaded: false,
+  jiminyError: false,
+  // Layers
+  layers: [],
+  layersLoaded: false,
+  layersError: false
+};
+
 @DragDropContext(HTML5Backend)
 class WidgetEditor extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.state = {
-      selectedVisualizationType: 'chart',
-      // FIELDS
-      fieldsLoaded: false,
-      fieldsError: false,
-
-      tableName: null, // Name of the table
-      chartLoading: false, // Whether the chart is loading its data/rendering
-
-      // CHART CONFIG
-      chartConfig: null, // Vega chart configuration
-      chartConfigError: null, // Error message when fetching the chart configuration
-      chartConfigLoading: false, // Whether we're loading the config
-
-      // Jiminy
-      jiminy: {},
-      jiminyLoaded: false,
-      jiminyError: false,
-      // Layers
-      layers: [],
-      layersLoaded: false,
-      layersError: false
-    };
+    this.state = DEFAULT_STATE;
 
     // Each time the editor is opened again, we reset the Redux's state
     // associated with it
@@ -106,10 +108,43 @@ class WidgetEditor extends React.Component {
         this.getJiminy();
         this.getDatasetInfo();
       })
-      .catch(() => console.error('Unable to retrieve the fields'));
+      .catch(() => {
+        console.error('Unable to retrieve the fields');
+        this.props.onError && this.props.onError();
+      });
 
     if (this.props.mode === 'dataset') {
       this.getLayers();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.dataset !== this.props.dataset) {
+      this.setState(DEFAULT_STATE, () => {
+        // DatasetService
+        this.datasetService = new DatasetService(nextProps.dataset, {
+          apiURL: process.env.WRI_API_URL
+        });
+
+        // WidgetService
+        this.widgetService = new WidgetService(nextProps.dataset, {
+          apiURL: process.env.WRI_API_URL
+        });
+
+        this.getFields()
+          .then(() => {
+            this.getJiminy();
+            this.getDatasetInfo();
+          })
+          .catch(() => {
+            console.error('Unable to retrieve the fields');
+            this.props.onError && this.props.onError();
+          });
+
+        if (this.props.mode === 'dataset') {
+          this.getLayers();
+        }
+      });
     }
   }
 
@@ -384,8 +419,14 @@ class WidgetEditor extends React.Component {
     this.setState({ chartConfigLoading: true });
 
     getChartConfig(widgetEditor, tableName, dataset, true)
-      .then(chartConfig => this.setState({ chartConfig, chartConfigError: null }))
-      .catch(({ message }) => this.setState({ chartConfig: null, chartConfigError: message }))
+      .then((chartConfig) => {
+        this.setState({ chartConfig, chartConfigError: null });
+        this.props.onChange && this.props.onChange(chartConfig);
+      })
+      .catch(({ message }) => {
+        this.setState({ chartConfig: null, chartConfigError: message });
+        this.props.onChange && this.props.onChange(null);
+      })
       .then(() => this.setState({ chartConfigLoading: false }));
   }
 
@@ -530,6 +571,8 @@ WidgetEditor.propTypes = {
     PropTypes.oneOf(VISUALIZATION_TYPES.map(viz => viz.value))
   ),
   onUpdateWidget: PropTypes.func,
+  onChange: PropTypes.func,
+  onError: PropTypes.func,
   // Store
   user: PropTypes.object.isRequired,
   widgetEditor: PropTypes.object.isRequired,

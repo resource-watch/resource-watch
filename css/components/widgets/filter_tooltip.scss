@@ -15,13 +15,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    button {
-      margin-right: 10px;
-      &:last-child{
-        margin-right: 0px;
-      }
-    }
   }
 
   .range {
@@ -76,10 +69,4 @@
       }
     }
   }
-
-  .c-button {
-    margin-top: 10px;
-    width: 100%;
-  }
-
 }

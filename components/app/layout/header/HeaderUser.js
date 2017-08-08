@@ -22,7 +22,12 @@ class HeaderUser extends React.Component {
       url: `${process.env.CONTROL_TOWER_URL}/auth/logout`,
       withCredentials: true,
       onSuccess: () => {
-        window.location.href = `/logout?callbackUrl=${window.location.href}`;
+        try {
+          localStorage.removeItem('user');
+          window.location.href = `/logout?callbackUrl=${window.location.href}`;
+        } catch (err) {
+          window.location.href = `/logout?callbackUrl=${window.location.href}`;
+        }
       },
       onError: (err) => {
         console.error(err);
