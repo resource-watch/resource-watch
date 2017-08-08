@@ -10,6 +10,7 @@ import UserService from 'services/UserService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
+import SubscriptionCard from 'components/app/myrw/subscriptions/SubscriptionCard';
 
 
 class MyRWSubscriptions extends React.Component {
@@ -76,13 +77,11 @@ class MyRWSubscriptions extends React.Component {
                   className="card-container"
                   key={val.id}
                 >
-                  <div className="subscription-card medium-4 small-12">
-                    {val.attributes.name && <h4>{val.attributes.name}</h4>}
-                    <h5>Dataset</h5>
-                    {val.attributes.datasets[0]}
-                    <h5 className="country-label">Country</h5>
-                    {val.attributes.params.iso.country}
-                  </div>
+                  <SubscriptionCard
+                    datasetId={val.attributes.datasets[0]}
+                    name={val.attributes.name}
+                    iso={val.attributes.params.iso.country}
+                  />
                 </div>
               )
             )}

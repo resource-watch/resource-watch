@@ -1,0 +1,38 @@
+.c-subscription-card {
+  min-width: 300px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid $color-grey;
+  border-radius: 4px;
+
+  h4, h5 {
+    margin: 0px;
+  }
+
+  .name-container {
+    margin-bottom: 10px;
+  }
+
+  .data-container {
+    display: flex;
+    flex-direction: column;
+
+    .location-container {
+      display: flex;
+      align-items: center;
+
+      h5 {
+        margin-right: 20px;
+      }
+    }
+
+    .dataset-container {
+      display: flex;
+      align-items: baseline;
+
+      h5 {
+        margin-right: 23px;
+      }
+    }
+  }
+}
