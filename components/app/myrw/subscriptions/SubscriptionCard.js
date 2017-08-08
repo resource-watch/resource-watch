@@ -15,12 +15,13 @@ import UserService from 'services/UserService';
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
 
-const mapConfig = {
+const MAP_CONFIG = {
   zoom: 3,
   latLng: {
     lat: 0,
     lng: 0
-  }
+  },
+  zoomControl: false
 };
 
 class SubscriptionCard extends React.Component {
@@ -117,7 +118,7 @@ class SubscriptionCard extends React.Component {
         <div className="map-container">
           <Map
             LayerManager={LayerManager}
-            mapConfig={mapConfig}
+            mapConfig={MAP_CONFIG}
             layersActive={[layer]}
           />
         </div>
