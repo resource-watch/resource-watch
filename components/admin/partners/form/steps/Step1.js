@@ -147,26 +147,6 @@ class Step1 extends React.Component {
           <div className="row l-row">
             <div className="column small-12 medium-4">
               <Field
-                ref={(c) => { if (c) FORM_ELEMENTS.elements.thumbnail = c; }}
-                onChange={(value) => {
-                  this.props.onChange({ thumbnail: value });
-                }}
-                validations={['required']}
-                className="-fluid"
-                properties={{
-                  name: 'thumbnail',
-                  label: 'Thumbnail',
-                  placeholder: 'Browse file',
-                  default: this.state.form.thumbnail,
-                  required: true
-                }}
-              >
-                {FileImage}
-              </Field>
-            </div>
-
-            <div className="column small-12 medium-4">
-              <Field
                 ref={(c) => { if (c) FORM_ELEMENTS.elements.logo = c; }}
                 onChange={(value) => {
                   this.props.onChange({ logo: value });
@@ -198,6 +178,46 @@ class Step1 extends React.Component {
                   label: 'White logo',
                   placeholder: 'Browse file',
                   default: this.state.form.white_logo,
+                  required: true
+                }}
+              >
+                {FileImage}
+              </Field>
+            </div>
+
+            <div className="column small-12 medium-4">
+              <Field
+                ref={(c) => { if (c) FORM_ELEMENTS.elements.cover = c; }}
+                onChange={(value) => {
+                  this.props.onChange({ cover: value });
+                }}
+                validations={['required']}
+                className="-fluid"
+                properties={{
+                  name: 'cover',
+                  label: 'Cover',
+                  placeholder: 'Browse file',
+                  default: this.state.form.cover,
+                  required: true
+                }}
+              >
+                {FileImage}
+              </Field>
+            </div>
+
+            <div className="column small-12 medium-4">
+              <Field
+                ref={(c) => { if (c) FORM_ELEMENTS.elements.icon = c; }}
+                onChange={(value) => {
+                  this.props.onChange({ icon: value });
+                }}
+                validations={['required']}
+                className="-fluid"
+                properties={{
+                  name: 'icon',
+                  label: 'Icon',
+                  placeholder: 'Browse file',
+                  default: this.state.form.icon,
                   required: true
                 }}
               >

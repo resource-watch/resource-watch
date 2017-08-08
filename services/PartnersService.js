@@ -1,6 +1,8 @@
 import 'isomorphic-fetch';
 import { get, post, remove } from 'utils/request';
+
 import sortBy from 'lodash/sortBy';
+import { Deserializer } from 'jsonapi-serializer';
 
 export default class PartnersService {
 
@@ -12,7 +14,7 @@ export default class PartnersService {
   fetchAllData() {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/partners/?published=all`,
+        url: `${process.env.API_URL}/api/partners/?published=all`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -21,10 +23,11 @@ export default class PartnersService {
           value: this.opts.authorization
         }],
         onSuccess: (response) => {
-          const partners = response.data.map(partner =>
-            ({ ...partner.attributes, id: partner.id })
-          );
-          resolve(sortBy(partners, 'name'));
+          new Deserializer({
+            keyForAttribute: 'underscore_case'
+          }).deserialize(response, (err, partners) => {
+            resolve(sortBy(partners, 'name'));
+          });
         },
         onError: (error) => {
           reject(error);
@@ -36,7 +39,7 @@ export default class PartnersService {
   fetchData(id) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/partners/${id}`,
+        url: `${process.env.API_URL}/api/partners/${id}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -45,8 +48,11 @@ export default class PartnersService {
           value: this.opts.authorization
         }],
         onSuccess: (response) => {
-          const partner = ({ ...response.data.attributes, id: response.data.id });
-          resolve(partner);
+          new Deserializer({
+            keyForAttribute: 'underscore_case'
+          }).deserialize(response, (err, partner) => {
+            resolve(partner);
+          });
         },
         onError: (error) => {
           reject(error);
@@ -58,7 +64,7 @@ export default class PartnersService {
   saveData({ type, body, id }) {
     return new Promise((resolve, reject) => {
       post({
-        url: `${process.env.API_URL}/partners/${id}`,
+        url: `${process.env.API_URL}/api/partners/${id}`,
         type,
         body,
         headers: [{
@@ -69,8 +75,11 @@ export default class PartnersService {
           value: this.opts.authorization
         }],
         onSuccess: (response) => {
-          const partner = ({ ...response.data.attributes, id: response.data.id });
-          resolve(partner);
+          new Deserializer({
+            keyForAttribute: 'underscore_case'
+          }).deserialize(response, (err, partner) => {
+            resolve(partner);
+          });
         },
         onError: (error) => {
           reject(error);
@@ -82,7 +91,7 @@ export default class PartnersService {
   deleteData(id) {
     return new Promise((resolve, reject) => {
       remove({
-        url: `${process.env.API_URL}/partners/${id}`,
+        url: `${process.env.API_URL}/api/partners/${id}`,
         headers: [{
           key: 'Authorization',
           value: this.opts.authorization

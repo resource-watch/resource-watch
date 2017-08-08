@@ -8,14 +8,17 @@ export const STATE_DEFAULT = {
     // STEP 1
     name: '',
     partner_type: null,
-    description: '',
-    content: '',
-    url: '',
+    summary: '',
+    body: '',
+    website: '',
     contact_name: '',
     contact_email: '',
-    thumbnail: '',
+    // Images
     logo: '',
     white_logo: '',
+    cover: '',
+    icon: '',
+    // States
     featured: false,
     published: false
   }
@@ -46,5 +49,8 @@ export const PARTNER_TYPES = [{
   value: 'partner'
 }, {
   label: 'Founding partner',
-  value: 'founding partner'
+  value: 'founding_partners'
+}, {
+  label: 'Funder',
+  value: 'funders'
 }];

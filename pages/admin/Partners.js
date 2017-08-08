@@ -15,7 +15,7 @@ import Title from 'components/ui/Title';
 const DATA_TABS = [{
   label: 'Partners',
   value: 'partners',
-  route: 'admin_resources',
+  route: 'admin_partners',
   params: { tab: 'partners' }
 }];
 

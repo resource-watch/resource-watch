@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Serializer } from 'jsonapi-serializer';
 
 
 // Services
@@ -79,7 +80,10 @@ class PartnersForm extends React.Component {
           this.service.saveData({
             id: id || '',
             type: (id) ? 'PATCH' : 'POST',
-            body: this.state.form
+            body: new Serializer('partner', {
+              keyForAttribute: 'dash-case',
+              attributes: Object.keys(this.state.form)
+            }).serialize(this.state.form)
           })
             .then((data) => {
               toastr.success('Success', `The partner "${data.id}" - "${data.name}" has been uploaded correctly`);
@@ -119,26 +123,26 @@ class PartnersForm extends React.Component {
       switch (f) {
         // TODO: if the API doesn't send it we won't need to handle it
         case 'logo': {
-          if (params[f] && params[f] !== '/logos/original/missing.png') {
-            newForm[f] = params[f];
+          if (params[f] && params[f].original !== '/images/original/missing.png') {
+            newForm[f] = params[f].original;
           }
           break;
         }
-        case 'white-logo': {
-          if (params[f] && params[f] !== '/white_logos/original/missing.png') {
-            newForm[f] = params[f];
+        case 'white_logo': {
+          if (params[f] && params[f].original !== '/images/original/missing.png') {
+            newForm[f] = params[f].original;
           }
           break;
         }
         case 'cover': {
-          if (params[f] && params[f] !== '/covers/original/missing.png') {
-            newForm[f] = params[f];
+          if (params[f] && params[f].original !== '/images/original/missing.png') {
+            newForm[f] = params[f].original;
           }
           break;
         }
         case 'icon': {
-          if (params[f] && params[f] !== '/icons/original/missing.png') {
-            newForm[f] = params[f];
+          if (params[f] && params[f].original !== '/images/original/missing.png') {
+            newForm[f] = params[f].original;
           }
           break;
         }

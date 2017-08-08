@@ -34,19 +34,18 @@ const getInvolved = [
 
 class Footer extends React.Component {
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.getPartners();
   }
 
   setPartnersList() {
     const featured = this.props.list.filter(p => p.attributes.featured);
-    const baseURL = process.env.API_URL.slice(0, process.env.API_URL.length - 4);
 
     return featured.map(p => (
       <div key={p.id} className="item">
         <Link route="partner" params={{ id: p.id }}>
           <a>
-            <img className="-img" src={`${baseURL}${p.attributes.logo.thumb}`} alt={p.attributes.name} />
+            <img className="-img" src={`${process.env.API_URL}${p.attributes.logo.thumb}`} alt={p.attributes.name} />
           </a>
         </Link>
       </div>
