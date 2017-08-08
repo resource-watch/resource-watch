@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc';
 
 // Components
@@ -32,53 +33,51 @@ class Legend extends React.Component {
 
     // BINDINGS
     this.onSortEnd = this.onSortEnd.bind(this);
-    // this.onSortStart = this.onSortStart.bind(this);
-    // this.onSortMove = this.onSortMove.bind(this);
   }
 
+  /**
+   * Event handler executed when the user drops the layer group
+   * they were dragging
+   * @param {any} { oldIndex, newIndex }
+   */
   onSortEnd({ oldIndex, newIndex }) {
-    const reversed = this.props.layersActive.reverse();
-    const newLayersOrder = arrayMove(reversed, oldIndex, newIndex);
-    // Unreverse layers to set them in their real order
-    const newLayersActive = newLayersOrder.map(l => l.dataset).reverse();
-
-    this.props.setDatasetsActive(newLayersActive);
+    const layers = [...this.props.layerGroups];
+    const datasets = arrayMove(layers, oldIndex, newIndex)
+      .map(l => l.dataset);
+    this.props.setLayerGroupsOrder(datasets);
   }
 
-  // onSortStart(opts) {
-  //   // const node = opts.node;
-  // }
-
-  // onSortMove(ev) {
-  // }
-
-  onDeactivateLayer(dataset) {
-    this.props.toggleDatasetActive(dataset);
-    if (this.props.layersHidden.includes(dataset)) {
-      this.onHideLayer(dataset);
-    }
+  /**
+   * Event handler executed when the user clicks the button
+   * to toggle the visibility of a layer
+   * @param {object} layer
+   */
+  onToggleLayerGroupVisibility(layerGroup) {
+    this.props.toggleLayerGroupVisibility(layerGroup);
   }
 
-  onHideLayer(dataset) {
-    let newLayersHidden = this.props.layersHidden.slice();
-    if (this.props.layersHidden.includes(dataset)) {
-      newLayersHidden = this.props.layersHidden.filter(l => l !== dataset);
-    } else {
-      newLayersHidden.push(dataset);
-    }
-
-    this.props.setDatasetsHidden(newLayersHidden);
+  /**
+   * Event handler executed when the user clicks the button
+   * to remove a layer group from the map
+   * @param {LayerGroup} layerGroup
+   */
+  onRemoveLayerGroup(layerGroup) {
+    this.props.removeLayerGroup(layerGroup);
   }
 
-  onLayerInfoModal(layer) {
-    const options = {
+  /**
+   * Event handler executed when the user clicks the info
+   * button of a layer group
+   * @param {LayerGroup} layerGroup
+   */
+  onLayerInfoModal(layerGroup) {
+    const activeLayer = layerGroup.layers.find(l => l.active);
+    this.props.toggleModal(true, {
       children: LayerInfoModal,
       childrenProps: {
-        data: layer
+        data: activeLayer
       }
-    };
-    this.props.toggleModal(true);
-    this.props.setModalOptions(options);
+    });
   }
 
   /**
@@ -99,7 +98,13 @@ class Legend extends React.Component {
     alert('Not implemented yet'); // eslint-disable-line no-alert
   }
 
-  getItemsActions(layer) {
+  /**
+   * Return the action buttons associated to a
+   * layer group
+   * @param {LayerGroup} layerGroup
+   * @returns {HTMLElement}
+   */
+  getItemsActions(layerGroup) {
     return (
       <div className="item-actions">
         <button className="layers" onClick={() => this.onClickLayers()} aria-label="Select other layer">
@@ -109,15 +114,19 @@ class Legend extends React.Component {
           <Icon name="icon-opacity" />
         </button>
         { !this.props.readonly && (
-          <button className="toggle" onClick={() => this.onHideLayer(layer.dataset)} aria-label="Toggle the visibility">
-            <Icon name={this.isLayerVisible(layer) ? 'icon-hide' : 'icon-show'} />
+          <button
+            className="toggle"
+            onClick={() => this.onToggleLayerGroupVisibility(layerGroup)}
+            aria-label="Toggle the visibility"
+          >
+            <Icon name={layerGroup.visible ? 'icon-hide' : 'icon-show'} />
           </button>
         ) }
-        <button className="info" onClick={() => this.onLayerInfoModal(layer)} aria-label="More information">
+        <button className="info" onClick={() => this.onLayerInfoModal(layerGroup)} aria-label="More information">
           <Icon name="icon-info" />
         </button>
         { !this.props.readonly
-          && <button className="close" onClick={() => this.onDeactivateLayer(layer.dataset)} aria-label="Remove">
+          && <button className="close" onClick={() => this.onRemoveLayerGroup(layerGroup)} aria-label="Remove">
             <Icon name="icon-cross" />
           </button>
         }
@@ -125,32 +134,28 @@ class Legend extends React.Component {
     );
   }
 
-  getLegendItems() {
-    // Reverse layers to show first the last one added
-    const layersActiveReversed = this.props.layersActive.slice().reverse();
-    return layersActiveReversed.map(layer => (
-      <li key={layer.slug} className="c-legend-unit">
-        <div className="legend-info">
-          <header className="legend-item-header">
-            <h3 className={this.props.className.color}>
-              <span className="name">{layer.name}</span>
-            </h3>
-            {this.getItemsActions(layer)}
-          </header>
-          <LegendType config={layer.legendConfig} className={this.props.className} />
-        </div>
-        <DragHandle />
-      </li>
-    ));
-  }
-
   /**
-   * Return whether the layer is hidden or not
-   * @param {object} layer
-   * @returns {boolean}
+   * Return the list of layers
+   * @returns {HTMLElement[]}
    */
-  isLayerVisible(layer) {
-    return !this.props.layersHidden.includes(layer.dataset);
+  getLegendItems() {
+    return this.props.layerGroups.map((layerGroup) => {
+      const activeLayer = layerGroup.layers.find(l => l.active);
+      return (
+        <li key={layerGroup.dataset} className="c-legend-unit">
+          <div className="legend-info">
+            <header className="legend-item-header">
+              <h3 className={this.props.className.color}>
+                <span className="name">{activeLayer.name}</span>
+              </h3>
+              {this.getItemsActions(layerGroup)}
+            </header>
+            <LegendType config={activeLayer.legendConfig} className={this.props.className} />
+          </div>
+          <DragHandle />
+        </li>
+      );
+    });
   }
 
   render() {
@@ -187,20 +192,24 @@ class Legend extends React.Component {
 }
 
 Legend.propTypes = {
-  layersActive: React.PropTypes.array,
-  layersHidden: React.PropTypes.array,
-  className: React.PropTypes.object,
+  className: PropTypes.object,
+  // List of LayerGroup items
+  layerGroups: PropTypes.array,
   // Layers can't be removed or hidden
-  readonly: React.PropTypes.bool,
+  readonly: PropTypes.bool,
   // Whether by default the legend is expanded or not
-  expanded: React.PropTypes.bool,
+  expanded: PropTypes.bool,
 
   // Functions
-  toggleDatasetActive: React.PropTypes.func,
-  setDatasetsActive: React.PropTypes.func,
-  toggleModal: React.PropTypes.func,
-  setModalOptions: React.PropTypes.func,
-  setDatasetsHidden: React.PropTypes.func
+
+  // Toggle the modal
+  toggleModal: PropTypes.func,
+  // Callback to hide/show a layer group
+  toggleLayerGroupVisibility: PropTypes.func,
+  // Callback to re-order the layer groups
+  setLayerGroupsOrder: PropTypes.func.isRequired,
+  // Callback to remove a layer group
+  removeLayerGroup: PropTypes.func
 };
 
 Legend.defaultProps = {

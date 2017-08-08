@@ -8,15 +8,24 @@ import MediaQuery from 'react-responsive';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { getDatasets, setDatasetsPage, setUrlParams, setDatasetsActive, setDatasetsHidden,
-  setDatasetsSearchFilter, setDatasetsIssueFilter, toggleDatasetActive, getVocabularies } from 'redactions/explore';
+import {
+  toggleLayerGroupVisibility,
+  toggleLayerGroup,
+  setLayerGroupsOrder,
+  getDatasets,
+  setDatasetsPage,
+  setUrlParams,
+  setDatasetsSearchFilter,
+  setDatasetsIssueFilter,
+  getVocabularies
+} from 'redactions/explore';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Selectors
 import getpaginatedDatasets from 'selectors/explore/datasetsPaginatedExplore';
 import getFilteredDatasets from 'selectors/explore/filterDatasets';
-import getActiveLayers from 'selectors/explore/layersActiveExplore';
+import getLayerGroups from 'selectors/explore/layersExplore';
 
 // Components
 import Sidebar from 'components/app/layout/Sidebar';
@@ -66,7 +75,8 @@ class Explore extends Page {
     }
 
     if (this.props.url.query.active) {
-      this.props.setDatasetsActive(this.props.url.query.active.split(','));
+      // FIXME: reimplement the feature
+      // this.props.setDatasetsActive(this.props.url.query.active.split(','));
     }
 
     if (this.props.url.query.search) {
@@ -120,12 +130,42 @@ class Explore extends Page {
       children: ShareModalExplore,
       childrenProps: {
         url: window.location.href,
-        layers: this.props.layersActive,
+        layers: this.props.layers,
         toggleModal: this.props.toggleModal
       }
     };
     this.props.toggleModal(true);
     this.props.setModalOptions(options);
+  }
+
+  /**
+   * Event handler executed when the user toggles the visibility
+   * of a layer group in the legend
+   * @param {LayerGroup} layerGroup
+   */
+  @Autobind
+  onToggleLayerGroupVisibility(layerGroup) {
+    this.props.toggleLayerGroupVisibility(layerGroup.dataset, !layerGroup.visible);
+  }
+
+  /**
+   * Event handler executed when the user removes a layer
+   * group from the map
+   * @param {LayerGroup} layerGroup
+   */
+  @Autobind
+  onRemoveLayerGroup(layerGroup) {
+    this.props.removeLayerGroup(layerGroup.dataset);
+  }
+
+  /**
+   * Event handler executed when the user re-orders the
+   * layer groups
+   * @param {string[]} datasets - List of datasets IDs
+   */
+  @Autobind
+  onSetLayerGroupsOrder(datasets) {
+    this.props.setLayerGroupsOrder(datasets);
   }
 
   /**
@@ -208,7 +248,6 @@ class Explore extends Page {
               <div className="row collapse">
                 <div className="column small-12">
                   <DatasetList
-                    active={explore.datasets.active}
                     list={paginatedDatasets}
                     mode={explore.datasets.mode}
                     showActions
@@ -234,7 +273,7 @@ class Explore extends Page {
                 <Map
                   LayerManager={LayerManager}
                   mapConfig={mapConfig}
-                  layersActive={this.state.layersActive}
+                  layersActive={this.props.layers}
                   toggledDataset={this.props.toggledDataset}
                 />
 
@@ -242,16 +281,14 @@ class Explore extends Page {
                   <Icon name="icon-share" className="-small" />
                 </button>
 
-                {this.state.layersActive && this.state.layersActive.length &&
+                {this.props.layerGroups && this.props.layerGroups.length &&
                   <Legend
-                    layersActive={this.state.layersActive}
-                    layersHidden={this.props.explore.datasets.hidden}
+                    layerGroups={this.props.layerGroups}
                     className={{ color: '-dark' }}
-                    setDatasetsActive={this.props.setDatasetsActive}
-                    toggleDatasetActive={this.props.toggleDatasetActive}
-                    setDatasetsHidden={this.props.setDatasetsHidden}
                     toggleModal={this.props.toggleModal}
-                    setModalOptions={this.props.setModalOptions}
+                    toggleLayerGroupVisibility={this.onToggleLayerGroupVisibility}
+                    setLayerGroupsOrder={this.onSetLayerGroupsOrder}
+                    removeLayerGroup={this.onRemoveLayerGroup}
                   />
                 }
               </div>
@@ -270,20 +307,23 @@ Explore.propTypes = {
   // STORE
   explore: PropTypes.object,
   paginatedDatasets: PropTypes.array,
-  layersActive: PropTypes.array,
+  layerGroups: PropTypes.array,
   toggledDataset: PropTypes.string,
 
   // ACTIONS
+
   getDatasets: PropTypes.func,
   getVocabularies: PropTypes.func,
   setDatasetsPage: PropTypes.func,
   redirectTo: PropTypes.func,
-  setDatasetsActive: PropTypes.func,
-  setDatasetsHidden: PropTypes.func,
   setDatasetsFilters: PropTypes.func,
   toggleModal: PropTypes.func,
   setModalOptions: PropTypes.func,
-  toggleDatasetActive: PropTypes.func
+
+  // Toggle the visibility of a layer group based on the layer passed as argument
+  toggleLayerGroupVisibility: PropTypes.func.isRequired,
+  // Remove the layer group
+  removeLayerGroup: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -297,15 +337,13 @@ const mapStateToProps = (state) => {
     explore,
     paginatedDatasets: getpaginatedDatasets(explore),
     allDatasets: state.explore.datasets.list,
-    layersActive: getActiveLayers(state)
+    layerGroups: getLayerGroups(state)
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   getDatasets: () => { dispatch(getDatasets()); },
   getVocabularies: () => { dispatch(getVocabularies()); },
-  setDatasetsActive: (active) => { dispatch(setDatasetsActive(active)); },
-  setDatasetsHidden: (hidden) => { dispatch(setDatasetsHidden(hidden)); },
   setDatasetsSearchFilter: (search) => {
     dispatch(setDatasetsSearchFilter(search));
     if (typeof window !== 'undefined') dispatch(setUrlParams());
@@ -315,16 +353,17 @@ const mapDispatchToProps = dispatch => ({
     if (typeof window !== 'undefined') dispatch(setUrlParams());
   },
   redirectTo: (url) => { dispatch(redirectTo(url)); },
-  toggleModal: (open) => { dispatch(toggleModal(open)); },
+  toggleModal: (open, options) => dispatch(toggleModal(open, options)),
   setModalOptions: (options) => { dispatch(setModalOptions(options)); },
   setDatasetsPage: (page) => {
     dispatch(setDatasetsPage(page));
     if (typeof window !== 'undefined') dispatch(setUrlParams());
   },
-  toggleDatasetActive: (id) => {
-    dispatch(toggleDatasetActive(id));
-    if (typeof window !== 'undefined') dispatch(setUrlParams());
-  }
+  toggleLayerGroupVisibility: (dataset, visible) => {
+    dispatch(toggleLayerGroupVisibility(dataset, visible));
+  },
+  removeLayerGroup: dataset => dispatch(toggleLayerGroup(dataset, false)),
+  setLayerGroupsOrder: datasets => dispatch(setLayerGroupsOrder(datasets))
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Explore);

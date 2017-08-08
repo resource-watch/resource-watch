@@ -25,6 +25,7 @@ const SET_DATASETS_MODE = 'explore/SET_DATASETS_MODE';
 const SET_LAYERGROUP_TOGGLE = 'explore/SET_LAYERGROUP_TOGGLE';
 const SET_LAYERGROUP_VISIBILITY = 'explore/SET_LAYERGROUP_VISIBILITY';
 const SET_LAYERGROUP_ACTIVE_LAYER = 'explore/SET_LAYERGROUP_ACTIVE_LAYER';
+const SET_LAYERGROUP_ORDER = 'explore/SET_LAYERGROUP_ORDER';
 
 const SET_SIDEBAR = 'explore/SET_SIDEBAR';
 
@@ -172,6 +173,11 @@ export default function (state = initialState, action) {
         return Object.assign({}, l, { layers });
       });
       return Object.assign({}, state, { layers: layerGroups });
+    }
+
+    case SET_LAYERGROUP_ORDER: {
+      const layers = action.payload.map(d => state.layers.find(l => l.dataset === d));
+      return Object.assign({}, state, { layers });
     }
 
     case SET_DATASETS_ACTIVE: { // TODO: remove
@@ -333,7 +339,7 @@ export function toggleLayerGroup(dataset, addLayer) {
 export function toggleLayerGroupVisibility(dataset, visible) {
   return {
     type: SET_LAYERGROUP_VISIBILITY,
-    action: { dataset, visible }
+    payload: { dataset, visible }
   };
 }
 
@@ -347,7 +353,20 @@ export function toggleLayerGroupVisibility(dataset, visible) {
 export function setLayerGroupActiveLayer(dataset, layer) {
   return {
     type: SET_LAYERGROUP_ACTIVE_LAYER,
-    action: { dataset, layer }
+    payload: { dataset, layer }
+  };
+}
+
+/**
+ * Change the order of the layer groups according to the
+ * order of the dataset IDs
+ * @export
+ * @param {string[]} datasets - List of dataset IDs
+ */
+export function setLayerGroupsOrder(datasets) {
+  return {
+    type: SET_LAYERGROUP_ORDER,
+    payload: datasets
   };
 }
 
