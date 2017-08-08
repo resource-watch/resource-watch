@@ -113,8 +113,9 @@ export default class UserService {
    * @param {countryISO} ISO of the country
    * @returns {Promise}
    */
-  createSubscriptionToDataset(datasetID, countryISO, user) {
+  createSubscriptionToDataset(datasetID, countryISO, user, name = '') {
     const bodyObj = {
+      name,
       application: 'rw',
       language: 'en',
       datasets: [datasetID],

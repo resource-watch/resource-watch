@@ -26,7 +26,8 @@ class SubscribeToDatasetModal extends React.Component {
       loadingAreaOptions: false,
       selectedArea: null,
       loading: false,
-      saved: false
+      saved: false,
+      name: ''
     };
 
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
@@ -58,14 +59,14 @@ class SubscribeToDatasetModal extends React.Component {
 
   @Autobind
   handleSubscribe() {
-    const { selectedArea } = this.state;
+    const { selectedArea, name } = this.state;
     const { dataset, user } = this.props;
 
     if (selectedArea) {
       this.setState({
         loading: true
       });
-      this.userService.createSubscriptionToDataset(dataset.id, selectedArea.value, user)
+      this.userService.createSubscriptionToDataset(dataset.id, selectedArea.value, user, name)
         .then(() => {
           this.setState({
             loading: false,
@@ -78,17 +79,35 @@ class SubscribeToDatasetModal extends React.Component {
 
   @Autobind
   handleGoToMySubscriptions() {
+    this.setState({
+      saved: false
+    });
     this.props.toggleModal(false);
     Router.pushRoute('myrw', { tab: 'subscriptions' });
   }
 
+  @Autobind
+  handleNameChange(event) {
+    this.setState({
+      name: event.target.value
+    });
+  }
+
+  @Autobind
+  handleCancel() {
+    this.setState({
+      saved: false
+    });
+    this.props.toggleModal(false);
+  }
+
   render() {
-    const { areaOptions, loadingAreaOptions, selectedArea, loading, saved } = this.state;
+    const { areaOptions, loadingAreaOptions, selectedArea, loading, saved, name } = this.state;
     const { dataset } = this.props;
     const headerText = saved ? 'Subscription saved!' : `Subscribe to ${dataset.attributes.name}`;
     const paragraphText = saved ?
       'Your subscription was successfully created. Please check your email address to confirm it' :
-      'Metadata lorem ipsum casius tesebe Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui.';
+      'Please enter a name and select an area for the subscription';
 
     return (
       <div className="c-subscribe-to-dataset-modal">
@@ -97,15 +116,21 @@ class SubscribeToDatasetModal extends React.Component {
           <p>{paragraphText}</p>
         </div>
         {!saved &&
-          <div className="area-selector">
-            <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
-            <CustomSelect
-              placeholder="Select area"
-              options={areaOptions}
-              onValueChange={this.onChangeSelectedArea}
-              allowNonLeafSelection={false}
-              value={selectedArea && selectedArea.value}
-            />
+          <div>
+            <div className="name-container">
+              <h5>Subscription name</h5>
+              <input value={name} onChange={this.handleNameChange} />
+            </div>
+            <div className="area-selector">
+              <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
+              <CustomSelect
+                placeholder="Select area"
+                options={areaOptions}
+                onValueChange={this.onChangeSelectedArea}
+                allowNonLeafSelection={false}
+                value={selectedArea && selectedArea.value}
+              />
+            </div>
           </div>
         }
 
@@ -120,7 +145,7 @@ class SubscribeToDatasetModal extends React.Component {
             <button className="c-btn -primary" onClick={this.handleSubscribe}>
               Subscribe
             </button>
-            <button className="c-btn -secondary" onClick={() => this.props.toggleModal(false)}>
+            <button className="c-btn -secondary" onClick={this.handleCancel}>
               Cancel
             </button>
           </div>
@@ -128,7 +153,7 @@ class SubscribeToDatasetModal extends React.Component {
 
         {saved &&
           <div className="buttons-div">
-            <button className="c-btn -secondary" onClick={() => this.props.toggleModal(false)}>
+            <button className="c-btn -secondary" onClick={this.handleCancel}>
               Ok
             </button>
             <button className="c-btn -primary" onClick={this.handleGoToMySubscriptions}>

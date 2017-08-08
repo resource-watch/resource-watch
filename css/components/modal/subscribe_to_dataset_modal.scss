@@ -10,8 +10,22 @@
     max-height: 200px;
   }
 
+  .name-container {
+    margin-top: 10px;
+
+    input {
+      width: 100%;
+      height: 45px;
+    }
+
+    h5 {
+      margin-top: 0px;
+      margin-bottom: 10px;
+    }
+  }
+
   .area-selector {
-    margin-top: 50px;
+    margin-top: 20px;
   }
 
   .icon-container {
