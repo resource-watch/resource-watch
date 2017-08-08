@@ -62,7 +62,7 @@ class DatasetWidget extends React.Component {
       return (
         <Button
           properties={{
-            className: `-primary -fullwidth ${buttonClass}`
+            className: `-secondary -fullwidth ${buttonClass}`
           }}
           onClick={this.triggerToggleLayer}
         >
@@ -74,7 +74,7 @@ class DatasetWidget extends React.Component {
       <Button
         properties={{
           disabled: true,
-          className: '-primary -fullwidth -disabled'
+          className: '-secondary -fullwidth -disabled'
         }}
         onClick={this.triggerToggleLayer}
       >
@@ -166,14 +166,14 @@ class DatasetWidget extends React.Component {
         <div className="info">
           <div className="detail">
             {/* Title */}
-            <Title className="-default -primary">
+            <h4>
               <Link
                 route={'explore_detail'}
                 params={{ id: dataset.id }}
               >
                 <a className="explore_detail_link">{dataset.attributes.name}</a>
               </Link>
-            </Title>
+            </h4>
 
             {/* Description */}
             {dataset.attributes.metadata && (dataset.attributes.metadata.length > 0) &&
