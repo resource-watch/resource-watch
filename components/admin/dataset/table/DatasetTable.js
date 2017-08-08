@@ -8,7 +8,7 @@ import { initStore } from 'store';
 import { getDatasets, setFilters } from 'redactions/admin/datasets';
 
 // Selectors
-import { getFilteredDatasets } from 'selectors/admin';
+import getFilteredDatasets from 'selectors/admin/datasets';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -47,8 +47,7 @@ class DatasetTable extends React.Component {
   }
 
   getDatasets() {
-    return this.props.datasets
-      .map(dataset => Object.assign({}, dataset.attributes, { id: dataset.id }));
+    return this.props.datasets;
   }
 
   render() {

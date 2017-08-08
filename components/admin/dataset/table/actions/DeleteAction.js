@@ -1,5 +1,9 @@
 import React from 'react';
-import { remove } from 'utils/request';
+
+// SERVICES
+import DatasetsService from 'services/DatasetsService';
+import { toastr } from 'react-redux-toastr';
+
 
 class DeleteAction extends React.Component {
 
@@ -8,28 +12,32 @@ class DeleteAction extends React.Component {
 
     // BINDINGS
     this.handleOnClickDelete = this.handleOnClickDelete.bind(this);
+
+    // SERVICES
+    this.service = new DatasetsService({
+      authorization: props.authorization
+    });
   }
 
   handleOnClickDelete(e) {
     e && e.preventDefault() && e.stopPropagation();
 
-    const { data, authorization } = this.props;
+    const { data } = this.props;
 
-    if (confirm(`Are you sure that you want to delete: "${data.name}" `)) {
-      remove({
-        url: `${process.env.WRI_API_URL}/dataset/${data.id}`,
-        headers: [{
-          key: 'Authorization',
-          value: authorization
-        }],
-        onSuccess: () => {
-          this.props.onRowDelete(data.id);
-        },
-        onError: () => {
-          console.error('There was an error with the request. The object was not deleted');
-        }
-      });
-    }
+    toastr.confirm(`Are you sure that you want to delete: "${data.name}"`, {
+      onOk: () => {
+        this.service.deleteData(data.id)
+          .then(() => {
+            this.props.onRowDelete(data.id);
+            toastr.success('Success', `The dataset "${data.id}" - "${data.name}" has been removed correctly`);
+          })
+          .catch((err) => {
+            toastr.error('Error', `The dataset "${data.id}" - "${data.name}" was not deleted. Try again`);
+            console.error(err);
+          });
+      },
+      onCancel: () => console.info('canceled')
+    });
   }
 
   render() {

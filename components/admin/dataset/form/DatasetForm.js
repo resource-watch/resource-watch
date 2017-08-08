@@ -4,6 +4,7 @@ import omit from 'lodash/omit';
 
 // Service
 import DatasetsService from 'services/DatasetsService';
+import { toastr } from 'react-redux-toastr';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/dataset/form/constants';
 
@@ -43,7 +44,7 @@ class DatasetForm extends React.Component {
       this.service.fetchData({ id: this.props.dataset })
         .then((data) => {
           this.setState({
-            form: this.setFormFromParams(data.attributes),
+            form: this.setFormFromParams(data),
             // Stop the loading
             loading: false
           });
@@ -102,13 +103,12 @@ class DatasetForm extends React.Component {
             body: omit(this.state.form, requestOptions.omit)
           })
             .then((data) => {
-              const successMessage = `The dataset "${data.id}" - "${data.attributes.name}" has been uploaded correctly`;
-              alert(successMessage);
-
+              toastr.success('Success', `The dataset "${data.id}" - "${data.name}" has been uploaded correctly`);
               this.props.onSubmit && this.props.onSubmit();
             })
             .catch((err) => {
               this.setState({ submitting: false });
+              toastr.error('Error', `Oops! There was an error, try again`);
               console.error(err);
             });
         } else {
@@ -116,6 +116,8 @@ class DatasetForm extends React.Component {
             step: this.state.step + 1
           }, () => console.info(this.state));
         }
+      } else {
+        toastr.error('Error', 'Fill all the required fields');
       }
     }, 0);
   }

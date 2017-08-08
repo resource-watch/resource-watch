@@ -58,12 +58,18 @@ class Footer extends React.Component {
     const items = this.setPartnersList();
 
     return (
-      <footer className="c-footer">
+      <footer className="l-footer">
         <div className="footer-intro">
-          <h1 className="title"><Link to="/about/partners"><a>Partners</a></Link></h1>
-          <div className="partners row">
-            <div className="column small-12">
-              {items.length ? <Carousel items={items} /> : ''}
+          <div className="title">
+            <Link to="/about/partners"><a>Partners</a></Link>
+          </div>
+          <div className="l-container">
+            <div className="row">
+              <div className="column small-12">
+                <div className="c-partners-slider">
+                  {items.length ? <Carousel items={items} /> : ''}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -74,10 +80,12 @@ class Footer extends React.Component {
 
         <div className="footer-terms">
           <div className="l-container">
-            <div className="l-row">
-              <div className="terms column">
-                <p>Terms of Service — Privacy</p>
-                <p>© 2017 - Resource Watch</p>
+            <div className="row">
+              <div className="column small-12">
+                <div className="terms">
+                  <p>Terms of Service — Privacy</p>
+                  <p>© 2017 - Resource Watch</p>
+                </div>
               </div>
             </div>
           </div>

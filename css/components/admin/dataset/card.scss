@@ -1,20 +1,20 @@
-// Colors
-$color-primary: #c32d7b;
-$color-secondary: #3bb2d0;
-$color-tertiary: #f4f5f6;
-$color-white: #fff;
-$color-black: #000;
-$color-grey: #e3e4e6;
-$color-red: #e23035;
-$color-green: #65b60d;
-
-$border-color-1: #e3e4e6;
-$border-color-2: #ccc;
-
-$color-text-1: #393f44;
-$color-text-2: #999ba1;
-
 .c-datasets-card {
+  // Colors
+  $color-primary: #c32d7b;
+  $color-secondary: #3bb2d0;
+  $color-tertiary: #f4f5f6;
+  $color-white: #fff;
+  $color-black: #000;
+  $color-grey: #e3e4e6;
+  $color-red: #e23035;
+  $color-green: #65b60d;
+
+  $border-color-1: #e3e4e6;
+  $border-color-2: #ccc;
+
+  $color-text-1: #393f44;
+  $color-text-2: #999ba1;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
