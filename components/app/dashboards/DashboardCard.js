@@ -33,7 +33,7 @@ class DashboardCard extends React.Component {
       loading: false,
       name: null, // Name of the widget
       widgetConfig: null, // Vega config of the widget
-      layer: null, // Map's layer,
+      layers: [], // Map's layers
       isFavourite: props.isFavourite
     };
 
@@ -99,15 +99,6 @@ class DashboardCard extends React.Component {
       })
       .then(({ data }) => {
         this.setState({
-          // TODO: remove once everything is migrated to the layer groups
-          layer: {
-            id: data.id,
-            name: data.attributes.name,
-            subtitle: data.attributes.subtitle,
-            ...data.attributes,
-            order: 1,
-            hidden: false
-          },
           layers: [{
             dataset: data.attributes.dataset,
             visible: true,
@@ -211,13 +202,13 @@ class DashboardCard extends React.Component {
             />
           }
           {
-            !this.state.error && widgetConfig && widgetType === 'map' && this.state.layer
+            !this.state.error && widgetConfig && widgetType === 'map' && this.state.layers
               && (
                 <div>
                   <Map
                     LayerManager={LayerManager}
                     mapConfig={{}}
-                    layersActive={[this.state.layer]}
+                    layerGroups={this.state.layers}
                   />
                   <Legend
                     layerGroups={this.state.layers}
