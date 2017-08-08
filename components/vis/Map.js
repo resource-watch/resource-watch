@@ -1,6 +1,6 @@
 import React from 'react';
-import isEqual from 'lodash/isEqual';
 import PropTypes from 'prop-types';
+import isEqual from 'lodash/isEqual';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -69,34 +69,42 @@ class Map extends React.Component {
 
       // Add layers
       this.setLayerManager();
-      this.addLayers(this.props.layersActive, this.props.filters);
+      const layers = this.props.layerGroups
+        .filter(l => l.visible)
+        .map(l => l.layers.find(la => la.active));
+      this.addLayers(layers, this.props.filters);
     });
   }
 
   componentWillReceiveProps(nextProps) {
     const filtersChanged = !isEqual(nextProps.filters, this.props.filters);
-    const layersActiveChanged = !isEqual(nextProps.layersActive, this.props.layersActive);
 
-    if (filtersChanged || layersActiveChanged) {
-      const newLayers = nextProps.layersActive.map(l => l.id);
-      const oldLayers = this.props.layersActive.map(l => l.id);
+    const layerGroups = this.props.layerGroups.filter(l => l.visible);
+    const nextLayerGroups = nextProps.layerGroups.filter(l => l.visible);
 
-      const setNew = new Set(newLayers);
-      const setOld = new Set(oldLayers);
-      const union = new Set([...newLayers, ...oldLayers]);
-      const difference = newLayers.filter(n => !setOld.has(n));
-      let layer;
+    const layerGroupsChanged = !isEqual(layerGroups, nextLayerGroups);
+
+    if (filtersChanged || layerGroupsChanged) {
+      const layers = layerGroups
+        .map(l => l.layers.find(la => la.active));
+      const nextLayers = nextLayerGroups
+        .map(l => l.layers.find(la => la.active));
+
+      const layersIds = layers.map(l => l.id);
+      const nextLayersIds = nextLayers.map(l => l.id);
+
+      const union = new Set([...layers, ...nextLayers]);
+      const difference = layersIds.filter(id => !nextLayersIds.find(id2 => id === id2));
+
       // Test whether old & new layers are the same & only have to change the order
-      if (newLayers.length === oldLayers.length && !difference.length) {
-        this.layerManager.setZIndex(nextProps.layersActive);
+      if (layers.length === nextLayers.length && !difference.length) {
+        this.layerManager.setZIndex(nextLayers);
       } else {
-        union.forEach((parsedLayer) => {
-          if (!setOld.has(parsedLayer)) {
-            layer = nextProps.layersActive.filter(l => l.id === parsedLayer)[0];
-            this.addLayers(layer);
-          } else if (!setNew.has(parsedLayer)) {
-            layer = this.props.layersActive.filter(l => l.id === parsedLayer)[0];
-            this.removeLayers(layer);
+        union.forEach((layer) => {
+          if (!layersIds.find(id => id === layer.id)) {
+            this.addLayers([layer]);
+          } else if (!nextLayersIds.find(id => id === layer.id)) {
+            this.removeLayer(layer);
           }
         });
       }
@@ -204,18 +212,16 @@ class Map extends React.Component {
 
   // LAYER METHODS
   addLayers(layers, filters) {
-    if (!layers) return;
-    const arrayLayers = layers instanceof Array ? layers : [layers];
-
-    arrayLayers.forEach((layer) => {
-      this.setState({
-        loading: true
+    if (layers.length) this.setState({ loading: true });
+    layers.forEach((layer) => {
+      this.layerManager.addLayer(layer, {
+        ...(filters || this.props.filters),
+        zIndex: layer.order
       });
-      this.layerManager.addLayer(layer, filters || this.props.filters);
     });
   }
 
-  removeLayers(layer) {
+  removeLayer(layer) {
     if (layer) this.layerManager.removeLayer(layer.id);
     else this.layerManager.removeLayers();
   }
@@ -245,7 +251,7 @@ Map.propTypes = {
   filters: PropTypes.object,
   sidebar: PropTypes.object,
   LayerManager: PropTypes.func,
-  layersActive: PropTypes.array,
+  layerGroups: PropTypes.array, // List of LayerGroup items
   // ACTIONS
   setMapParams: PropTypes.func
 };

@@ -273,8 +273,7 @@ class Explore extends Page {
                 <Map
                   LayerManager={LayerManager}
                   mapConfig={mapConfig}
-                  layersActive={this.props.layers}
-                  toggledDataset={this.props.toggledDataset}
+                  layerGroups={this.props.layerGroups}
                 />
 
                 <button className="share-button" onClick={() => this.handleShareModal()}>
