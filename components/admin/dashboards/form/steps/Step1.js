@@ -127,6 +127,15 @@ class Step1 extends React.Component {
             onChange={value => this.props.onChange({ content: value })}
             validations={['required']}
             className="-fluid"
+            toolbar={{
+              options: ['inline', 'list', 'link', 'embedded', 'image', 'remove', 'history'],
+              inline: {
+                options: ['bold', 'italic', 'underline']
+              },
+              list: {
+                options: ['unordered', 'ordered']
+              }
+            }}
             properties={{
               name: 'content',
               label: 'Content',

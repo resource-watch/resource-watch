@@ -54,15 +54,7 @@ class Wysiwyg extends FormElement {
     return (
       <Editor
         editorState={value}
-        toolbar={{
-          options: ['inline', 'list', 'link', 'embedded', 'image', 'remove', 'history'],
-          inline: {
-            options: ['bold', 'italic', 'underline']
-          },
-          list: {
-            options: ['unordered', 'ordered']
-          }
-        }}
+        toolbar={this.props.toolbar}
         onEditorStateChange={this.triggerChange}
       />
     );
