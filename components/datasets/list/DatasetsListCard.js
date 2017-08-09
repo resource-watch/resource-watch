@@ -6,6 +6,7 @@ import { Link } from 'routes';
 
 // Components
 import Title from 'components/ui/Title';
+import DatasetsRelatedContent from 'components/datasets/common/DatasetsRelatedContent';
 
 class DatasetsListCard extends React.Component {
 
@@ -29,7 +30,15 @@ class DatasetsListCard extends React.Component {
             </header>
 
             <div className="card-content">
-
+              {dataset.status === 'saved' &&
+                <DatasetsRelatedContent
+                  dataset={dataset}
+                  route={routes.detail}
+                />
+              }
+              {dataset.status !== 'saved' &&
+                dataset.status
+              }
             </div>
           </div>
         </a>

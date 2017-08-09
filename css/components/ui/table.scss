@@ -141,51 +141,6 @@ $table-font-size: $font-size-normal;
     }
   }
 
-  // Related content
-  td.related-content {
-    > ul {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: flex;
-      align-items: flex-start;
-      justify-content: flex-start;
-
-      > li {
-        margin: 0 0 0 $space-1;
-        &:first-child { margin: 0; }
-
-        a {
-          display: flex;
-          align-items: center;
-          text-decoration: none;
-          color: $color-text-1;
-          fill: $color-text-1;
-          padding: $space-1 / 2 6px;
-          border-radius: 4px;
-          font-size: $font-size-default;
-
-          > * {
-            margin: 0 0 0 $space-1/2;
-            &:first-child { margin: 0; }
-          }
-
-          &.-empty {
-            color: $color-white;
-            fill: $color-white;
-            background: $color-mango;
-          }
-
-          &:hover {
-            color: $color-white;
-            fill: $color-white;
-            background: $color-text-1;
-          }
-        }
-      }
-    }
-  }
-
   // Status
   td.status {
     &:before {

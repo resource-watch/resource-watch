@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
@@ -27,6 +26,12 @@ import UpdatedAtTD from './td/UpdatedAtTD';
 
 class DatasetsTable extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    this.onSearch = this.onSearch.bind(this);
+  }
+
   componentDidMount() {
     const { getDatasetsFilters } = this.props;
     this.props.setFilters([]);
@@ -41,7 +46,6 @@ class DatasetsTable extends React.Component {
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  @Autobind
   onSearch(value) {
     if (!value.length) {
       this.props.setFilters([]);

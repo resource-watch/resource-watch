@@ -10,9 +10,18 @@ import { getDatasets, setFilters } from 'redactions/admin/datasets';
 import getFilteredDatasets from 'selectors/admin/datasets';
 
 // Components
+import Spinner from 'components/ui/Spinner';
+import SearchInput from 'components/ui/SearchInput';
 import DatasetsListCard from 'components/datasets/list/DatasetsListCard';
 
 class DatasetsList extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.onSearch = this.onSearch.bind(this);
+  }
+
   componentDidMount() {
     const { getDatasetsFilters } = this.props;
 
@@ -23,11 +32,37 @@ class DatasetsList extends React.Component {
     });
   }
 
+  /**
+   * UI EVENTS
+   * - onSearch
+  */
+  onSearch(value) {
+    if (!value.length) {
+      this.props.setFilters([]);
+    } else {
+      this.props.setFilters([{ key: 'name', value }]);
+    }
+  }
+
   render() {
     const { datasets, routes } = this.props;
 
     return (
       <div className="c-dataset-list">
+        <Spinner className="-light" isLoading={this.props.loading} />
+
+        <SearchInput
+          input={{
+            placeholder: 'Search dataset'
+          }}
+          link={{
+            label: 'New dataset',
+            route: routes.detail,
+            params: { tab: 'datasets', id: 'new' }
+          }}
+          onSearch={this.onSearch}
+        />
+
         <div className="l-row row list">
           {datasets.map(dataset => (
             <div
@@ -63,6 +98,7 @@ DatasetsList.propTypes = {
   // Store
   user: PropTypes.object,
   datasets: PropTypes.array.isRequired,
+  loading: PropTypes.bool,
 
   // Actions
   getDatasets: PropTypes.func.isRequired,

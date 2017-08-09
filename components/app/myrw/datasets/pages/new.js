@@ -14,7 +14,7 @@ function DatasetsNew(props) {
         minimized
         application={[process.env.APPLICATIONS]}
         authorization={user.token}
-        onSubmit={() => Router.pushRoute('admin_data', { tab: 'datasets' })}
+        onSubmit={() => Router.pushRoute('myrw', { tab: 'datasets' })}
       />
     </div>
   );

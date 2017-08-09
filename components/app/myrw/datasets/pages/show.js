@@ -18,27 +18,27 @@ import LayersIndex from 'components/admin/layers/pages/index';
 const DATASET_SUBTABS = [{
   label: 'Edit dataset',
   value: 'edit',
-  route: 'admin_data_detail',
+  route: 'myrw_detail',
   params: { tab: 'datasets', id: '{{id}}', subtab: 'edit' }
 }, {
   label: 'Metadata',
   value: 'metadata',
-  route: 'admin_data_detail',
+  route: 'myrw_detail',
   params: { tab: 'datasets', id: '{{id}}', subtab: 'metadata' }
 }, {
   label: 'Vocabularies',
   value: 'vocabularies',
-  route: 'admin_data_detail',
+  route: 'myrw_detail',
   params: { tab: 'datasets', id: '{{id}}', subtab: 'vocabularies' }
 }, {
   label: 'Widgets',
   value: 'widgets',
-  route: 'admin_data_detail',
+  route: 'myrw_detail',
   params: { tab: 'datasets', id: '{{id}}', subtab: 'widgets' }
 }, {
   label: 'Layers',
   value: 'layers',
-  route: 'admin_data_detail',
+  route: 'myrw_detail',
   params: { tab: 'datasets', id: '{{id}}', subtab: 'layers' }
 }];
 
@@ -82,7 +82,7 @@ class DatasetsShow extends React.Component {
                   application={[process.env.APPLICATIONS]}
                   authorization={user.token}
                   dataset={id}
-                  onSubmit={() => Router.pushRoute('admin_data', { tab: 'datasets' })}
+                  onSubmit={() => Router.pushRoute('myrw', { tab: 'datasets' })}
                 />
               }
 
@@ -91,7 +91,7 @@ class DatasetsShow extends React.Component {
                   application={process.env.APPLICATIONS}
                   authorization={user.token}
                   dataset={id}
-                  onSubmit={() => Router.pushRoute('admin_data', { tab: 'datasets', id })}
+                  onSubmit={() => Router.pushRoute('myrw', { tab: 'datasets', id })}
                 />
               }
 
