@@ -120,6 +120,7 @@ class SubscriptionCard extends React.Component {
             LayerManager={LayerManager}
             mapConfig={MAP_CONFIG}
             layersActive={[layer]}
+            interactionEnabled={false}
           />
         </div>
         <Spinner isLoading={loading} className="-small -light -relative -center" />
