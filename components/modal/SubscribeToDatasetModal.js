@@ -72,10 +72,10 @@ class SubscribeToDatasetModal extends React.Component {
   }
 
   loadDatasets() {
-    this.datasetService.getAllDatasets().then((response) => {
+    this.datasetService.getSubscribableDatasets().then((response) => {
       this.setState({
         loadingDatasets: false,
-        datasets: response.map(val => (
+        datasets: response.filter(val => val.attributes.subscribable).map(val => (
           { label: val.attributes.name, value: val.attributes.name, id: val.id }))
       });
     }).catch(err => console.log(err));
@@ -84,21 +84,23 @@ class SubscribeToDatasetModal extends React.Component {
   @Autobind
   handleSubscribe() {
     const { selectedArea, name, selectedDataset } = this.state;
-    const { dataset, user } = this.props;
-    const datasetId = dataset ? dataset.id : selectedDataset.id;
+    const { dataset, user, showDatasetSelector } = this.props;
+    const datasetId = dataset ? dataset.id : (selectedDataset && selectedDataset.id);
 
     if (selectedArea) {
-      this.setState({
-        loading: true
-      });
-      this.userService.createSubscriptionToDataset(datasetId, selectedArea.value, user, name)
-        .then(() => {
-          this.setState({
-            loading: false,
-            saved: true
-          });
-        })
-        .catch(err => this.setState({ error: err, loading: false }));
+      if (!showDatasetSelector || (showDatasetSelector && selectedDataset)) {
+        this.setState({
+          loading: true
+        });
+        this.userService.createSubscriptionToDataset(datasetId, selectedArea.value, user, name)
+          .then(() => {
+            this.setState({
+              loading: false,
+              saved: true
+            });
+          })
+          .catch(err => this.setState({ error: err, loading: false }));
+      }
     }
   }
 

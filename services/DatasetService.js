@@ -31,10 +31,10 @@ export default class DatasetService {
   }
 
   /**
-   * Get all datasets
+   * Get subscribable datasets
    */
-  getAllDatasets(includes = '') {
-    return fetch(`${this.opts.apiURL}/dataset?application=rw&includes=${includes}&page[size]=999`)
+  getSubscribableDatasets(includes = '') {
+    return fetch(`${this.opts.apiURL}/dataset?application=rw&includes=${includes}&subscribable=true&page[size]=999`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
