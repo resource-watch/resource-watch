@@ -28,8 +28,13 @@ import UpdatedAtTD from './td/UpdatedAtTD';
 class DatasetsTable extends React.Component {
 
   componentDidMount() {
+    const { getDatasetsFilters } = this.props;
     this.props.setFilters([]);
-    this.props.getDatasets();
+
+    this.props.getDatasets({
+      includes: 'widget,layer,metadata,vocabulary',
+      filters: getDatasetsFilters
+    });
   }
 
   /**
@@ -81,7 +86,7 @@ class DatasetsTable extends React.Component {
               { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Provider', value: 'provider' },
               { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
-              { label: 'Related content', value: 'status', td: RelatedContentTD }
+              { label: 'Related content', value: 'status', td: RelatedContentTD, tdProps: { route: routes.detail } }
             ]}
             actions={{
               show: true,
@@ -91,8 +96,8 @@ class DatasetsTable extends React.Component {
               ]
             }}
             sort={{
-              field: 'name',
-              value: 1
+              field: 'updatedAt',
+              value: -1
             }}
             filters={false}
             data={this.getDatasets()}
@@ -118,12 +123,14 @@ DatasetsTable.defaultProps = {
   },
   columns: [],
   actions: {},
+  getDatasetsFilters: {},
   // Store
   datasets: []
 };
 
 DatasetsTable.propTypes = {
   routes: PropTypes.object,
+  getDatasetsFilters: PropTypes.object,
 
   // Store
   user: PropTypes.object,
@@ -143,7 +150,7 @@ const mapStateToProps = state => ({
   error: state.datasets.datasets.error
 });
 const mapDispatchToProps = dispatch => ({
-  getDatasets: () => dispatch(getDatasets()),
+  getDatasets: options => dispatch(getDatasets(options)),
   setFilters: filters => dispatch(setFilters(filters))
 });
 

@@ -53,7 +53,7 @@ class SearchInput extends React.Component {
         </div>
         {link.route &&
           <Link route={link.route} params={link.params}>
-            <a className="c-button -secondary">{link.label}</a>
+            <a className="c-button -primary">{link.label}</a>
           </Link>
         }
       </div>

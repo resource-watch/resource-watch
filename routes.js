@@ -43,7 +43,7 @@ routes.add('get_involved_detail', '/get-involved/:id', 'app/GetInvolvedDetail');
 
 // ------ MY RW ------------
 routes.add('myrw', '/myrw/:tab?/:subtab?', 'app/MyRW');
-routes.add('myrw_detail', '/myrw-detail/:tab?/:id?', 'app/MyRWDetail');
+routes.add('myrw_detail', '/myrw-detail/:tab?/:id?/:subtab?', 'app/MyRWDetail');
 
 // ------ EMBED -------------
 routes.add('embed_widget', '/embed/widget/:id', 'app/embed/EmbedWidget');

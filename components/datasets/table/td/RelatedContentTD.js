@@ -27,14 +27,19 @@ class RelatedContentTD extends React.Component {
 
   toggleTooltip(specificDropdown, to) {
     this.setState({
-      ...{ widgetsActive: false, layersActive: false, metadataActive: false, vocabulariesActive: false },
+      ...{
+        widgetsActive: false,
+        layersActive: false,
+        metadataActive: false,
+        vocabulariesActive: false
+      },
       [specificDropdown]: to
     });
   }
 
 
   render() {
-    const { row, index } = this.props;
+    const { row, index, route } = this.props;
 
     return (
       <td key={index} className="related-content">
@@ -50,7 +55,7 @@ class RelatedContentTD extends React.Component {
                 element: 'c-tooltip'
               }}
             >
-              <Link route="admin_data_detail" params={{ tab: 'datasets', id: row.id, subtab: 'widgets' }}>
+              <Link route={route} params={{ tab: 'datasets', id: row.id, subtab: 'widgets' }}>
                 <a
                   onMouseEnter={() => this.toggleTooltip('widgetsActive', true)}
                   onMouseLeave={() => this.toggleTooltip('widgetsActive', false)}
@@ -79,7 +84,7 @@ class RelatedContentTD extends React.Component {
               }}
             >
               <Link
-                route="admin_data_detail"
+                route={route}
                 params={{ tab: 'datasets', id: row.id, subtab: 'layers' }}
               >
                 <a
@@ -109,7 +114,7 @@ class RelatedContentTD extends React.Component {
                 element: 'c-tooltip'
               }}
             >
-              <Link route="admin_data_detail" params={{ tab: 'datasets', id: row.id, subtab: 'metadata' }}>
+              <Link route={route} params={{ tab: 'datasets', id: row.id, subtab: 'metadata' }}>
                 <a
                   className={classnames({ '-empty': (!row.metadata || !row.metadata.length) })}
                   onMouseEnter={() => this.toggleTooltip('metadataActive', true)}
@@ -138,7 +143,7 @@ class RelatedContentTD extends React.Component {
                 element: 'c-tooltip'
               }}
             >
-              <Link route="admin_data_detail" params={{ tab: 'datasets', id: row.id, subtab: 'vocabularies' }}>
+              <Link route={route} params={{ tab: 'datasets', id: row.id, subtab: 'vocabularies' }}>
                 <a
                   className={classnames({ '-empty': (!row.vocabulary || !row.vocabulary.length) })}
                   onMouseEnter={() => this.toggleTooltip('vocabulariesActive', true)}
@@ -164,6 +169,7 @@ class RelatedContentTD extends React.Component {
 
 RelatedContentTD.propTypes = {
   row: React.PropTypes.object,
+  route: React.PropTypes.string,
   index: React.PropTypes.string
 };
 
