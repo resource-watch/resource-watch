@@ -6,14 +6,14 @@ import omit from 'lodash/omit';
 import DatasetsService from 'services/DatasetsService';
 import { toastr } from 'react-redux-toastr';
 
-import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/dataset/form/constants';
+import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/datasets/form/constants';
 
 import Navigation from 'components/form/Navigation';
-import Step1 from 'components/admin/dataset/form/steps/Step1';
-import Step2 from 'components/admin/dataset/form/steps/Step2';
+import Step1 from 'components/datasets/form/steps/Step1';
+import Step2 from 'components/datasets/form/steps/Step2';
 import Spinner from 'components/ui/Spinner';
 
-class DatasetForm extends React.Component {
+class DatasetsForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -180,11 +180,11 @@ class DatasetForm extends React.Component {
   }
 }
 
-DatasetForm.propTypes = {
+DatasetsForm.propTypes = {
   application: PropTypes.array,
   authorization: PropTypes.string,
   dataset: PropTypes.string,
   onSubmit: PropTypes.func
 };
 
-export default DatasetForm;
+export default DatasetsForm;

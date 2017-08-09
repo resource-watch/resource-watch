@@ -6,11 +6,11 @@ import { Link } from 'routes';
 class NameTD extends React.Component {
 
   render() {
-    const { row, value, index } = this.props;
+    const { row, value, index, route } = this.props;
 
     return (
       <td key={index} className="main">
-        <Link route="admin_data_detail" params={{ tab: 'datasets', id: row.id }}>
+        <Link route={route} params={{ tab: 'datasets', id: row.id }}>
           <a>{value}</a>
         </Link>
       </td>
@@ -20,6 +20,7 @@ class NameTD extends React.Component {
 
 NameTD.propTypes = {
   row: React.PropTypes.object,
+  route: React.PropTypes.string,
   value: React.PropTypes.string,
   index: React.PropTypes.string
 };

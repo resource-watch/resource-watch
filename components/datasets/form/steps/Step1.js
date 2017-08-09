@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 
 // Constants
-import { PROVIDER_TYPES_DICTIONARY, FORM_ELEMENTS } from 'components/admin/dataset/form/constants';
+import { PROVIDER_TYPES_DICTIONARY, FORM_ELEMENTS } from 'components/datasets/form/constants';
 
 // Components
 import Field from 'components/form/Field';

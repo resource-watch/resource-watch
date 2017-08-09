@@ -42,7 +42,8 @@ routes.add('get_involved', '/get-involved', 'app/GetInvolved');
 routes.add('get_involved_detail', '/get-involved/:id', 'app/GetInvolvedDetail');
 
 // ------ MY RW ------------
-routes.add('myrw', '/myrw/:tab?/:subtab?/:element?', 'app/MyRW');
+routes.add('myrw', '/myrw/:tab?/:subtab?', 'app/MyRW');
+routes.add('myrw_detail', '/myrw-detail/:tab?/:id?', 'app/MyRWDetail');
 
 // ------ EMBED -------------
 routes.add('embed_widget', '/embed/widget/:id', 'app/embed/EmbedWidget');

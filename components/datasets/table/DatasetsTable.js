@@ -26,7 +26,7 @@ import StatusTD from './td/StatusTD';
 import RelatedContentTD from './td/RelatedContentTD';
 import UpdatedAtTD from './td/UpdatedAtTD';
 
-class DatasetTable extends React.Component {
+class DatasetsTable extends React.Component {
 
   componentDidMount() {
     this.props.setFilters([]);
@@ -51,6 +51,8 @@ class DatasetTable extends React.Component {
   }
 
   render() {
+    const { routes } = this.props;
+
     return (
       <div className="c-dataset-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -65,7 +67,7 @@ class DatasetTable extends React.Component {
           }}
           link={{
             label: 'New dataset',
-            route: 'admin_data_detail',
+            route: routes.detail,
             params: { tab: 'datasets', id: 'new' }
           }}
           onSearch={this.onSearch}
@@ -75,7 +77,7 @@ class DatasetTable extends React.Component {
         {!this.props.error && (
           <CustomTable
             columns={[
-              { label: 'Name', value: 'name', td: NameTD },
+              { label: 'Name', value: 'name', td: NameTD, tdProps: { route: routes.detail } },
               { label: 'Status', value: 'status', td: StatusTD },
               { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Provider', value: 'provider' },
@@ -85,8 +87,8 @@ class DatasetTable extends React.Component {
             actions={{
               show: true,
               list: [
-                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
-                { name: 'Remove', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization } }
+                { name: 'Edit', route: routes.detail, params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction, componentProps: { route: routes.detail } },
+                { name: 'Remove', route: routes.detail, params: { tab: 'datasets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.user.token } }
               ]
             }}
             sort={{
@@ -110,7 +112,11 @@ class DatasetTable extends React.Component {
   }
 }
 
-DatasetTable.defaultProps = {
+DatasetsTable.defaultProps = {
+  routes: {
+    index: '',
+    detail: ''
+  },
   application: [],
   columns: [],
   actions: {},
@@ -118,10 +124,12 @@ DatasetTable.defaultProps = {
   datasets: []
 };
 
-DatasetTable.propTypes = {
+DatasetsTable.propTypes = {
+  routes: PropTypes.object,
   application: PropTypes.array.isRequired,
-  authorization: PropTypes.string,
+
   // Store
+  user: PropTypes.object,
   loading: PropTypes.bool.isRequired,
   datasets: PropTypes.array.isRequired,
   error: PropTypes.string,
@@ -132,6 +140,7 @@ DatasetTable.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  user: state.user,
   loading: state.datasets.datasets.loading,
   datasets: getFilteredDatasets(state),
   error: state.datasets.datasets.error
@@ -141,4 +150,4 @@ const mapDispatchToProps = dispatch => ({
   setFilters: filters => dispatch(setFilters(filters))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DatasetTable);
+export default connect(mapStateToProps, mapDispatchToProps)(DatasetsTable);

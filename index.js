@@ -106,6 +106,7 @@ app.prepare()
     };
 
     server.get('/myrw*?', isAuthenticated, handleUrl);
+    server.get('/myrw-detail*?', isAuthenticated, handleUrl);
     server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);
 
     server.use(handle);

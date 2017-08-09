@@ -67,7 +67,7 @@ export default class TableContent extends React.Component {
               {columns.map((col, i) => {
                 const value = row[col.value];
                 const td = col.td ?
-                  <col.td key={i} row={row} value={value} /> :
+                  <col.td {...col.tdProps} key={i} row={row} value={value} /> :
                   <td key={i} className={col.className || ''}>{(value && value.toString) ? value.toString() : value}</td>;
                 return td;
               }

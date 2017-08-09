@@ -5,12 +5,12 @@ import DatasetsTable from 'components/datasets/table/DatasetsTable';
 
 function DatasetsIndex() {
   return (
-    <div className="c-partners-index">
+    <div className="c-datasets-index">
       <DatasetsTable
         application={[process.env.APPLICATIONS]}
         routes={{
-          index: 'admin_data',
-          detail: 'admin_data_detail'
+          index: 'myrw',
+          detail: 'myrw_detail'
         }}
       />
     </div>
