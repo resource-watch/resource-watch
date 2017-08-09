@@ -16,7 +16,6 @@ import DatasetService from 'services/DatasetService';
 import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
 
-
 class SubscribeToDatasetModal extends React.Component {
 
   constructor(props) {
@@ -47,9 +46,25 @@ class SubscribeToDatasetModal extends React.Component {
   }
 
   @Autobind
-  onChangeSelectedArea(value) {
-    this.setState({
-      selectedArea: value
+  async onChangeSelectedArea(value) {
+    return new Promise((resolve) => {
+      if (value.value === 'upload') {
+        this.props.toggleModal(true, {
+          children: UploadAreaIntersectionModal,
+          childrenProps: {
+            onUploadArea: (id) => {
+              // We close the modal
+              this.props.toggleModal(false, {});
+              resolve(true);
+            }
+          },
+          onCloseModal: () => resolve(false)
+        });
+      } else {
+        this.setState({
+          selectedArea: value
+        });
+      }
     });
   }
 
@@ -178,6 +193,7 @@ class SubscribeToDatasetModal extends React.Component {
                 onValueChange={this.onChangeSelectedArea}
                 allowNonLeafSelection={false}
                 value={selectedArea && selectedArea.value}
+                waitForChangeConfirmation
               />
               {showDatasetSelector &&
                 <CustomSelect
