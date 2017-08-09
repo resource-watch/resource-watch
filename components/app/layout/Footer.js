@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'routes';
 import CompoundMenu from 'components/ui/CompoundMenu';
 import Carousel from 'components/ui/Carousel';
-import { getPartners } from 'redactions/partners';
+import { getPartners } from 'redactions/admin/partners';
 
 import { connect } from 'react-redux';
 
@@ -39,13 +39,13 @@ class Footer extends React.Component {
   }
 
   setPartnersList() {
-    const featured = this.props.list.filter(p => p.attributes.featured);
+    const featured = this.props.partners.filter(p => p.featured);
 
     return featured.map(p => (
       <div key={p.id} className="item">
         <Link route="partner" params={{ id: p.id }}>
           <a>
-            <img className="-img" src={`${process.env.API_URL}${p.attributes.logo.thumb}`} alt={p.attributes.name} />
+            <img className="-img" src={`${process.env.API_URL}${p.logo.thumb}`} alt={p.name} />
           </a>
         </Link>
       </div>
@@ -96,11 +96,11 @@ class Footer extends React.Component {
 
 Footer.propTypes = {
   getPartners: React.PropTypes.func,
-  list: React.PropTypes.array
+  partners: React.PropTypes.array
 };
 
 const mapStateToProps = state => ({
-  list: state.partners.list
+  partners: state.partners.partners.list
 });
 
 const mapDispatchToProps = dispatch => ({
