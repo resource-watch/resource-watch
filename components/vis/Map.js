@@ -228,7 +228,13 @@ class Map extends React.Component {
 
   // RENDER
   render() {
-    const spinnerStyles = (typeof window === 'undefined') ? {} : { marginLeft: this.setSpinnerPosition() };
+    // FIXME: First, the loader can't me just moved like that because the map
+    // can be used in a variety of context (different pages).
+    // Second, even in the case of the Explore page this rule doesn't make sense:
+    // if the sidebar is collapsed, the loader shouldn't be on the side
+    // eslint-disable-next-line max-len
+    // const spinnerStyles = (typeof window === 'undefined') ? {} : { marginLeft: this.setSpinnerPosition() };
+    const spinnerStyles = {};
     const mapClass = !this.state.sidebar.open ? '-fullWidth' : '';
 
     return (

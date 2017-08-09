@@ -204,9 +204,21 @@ export default class DatasetService {
       .then(jsonData => jsonData.data);
   }
 
-  getDatasets(datasetIDs) {
-    return fetch(`${this.opts.apiURL}/dataset/?ids=${datasetIDs}&includes=widget,layer&page[size]=999`)
-      .then(response => response.json())
+  /**
+   * Fetch several datasets at once
+   * @static
+   * @param {string[]} datasetIDs - List of dataset IDs
+   * @param {string} [includes=''] - List of entities to fetch
+   * (string of values separated with commas)
+   * @param {string[]} [applications=[process.env.APPLICATIONS]] List of applications
+   * @returns {object[]}
+   */
+  static getDatasets(datasetIDs, includes = '', applications = [process.env.APPLICATIONS]) {
+    return fetch(`${process.env.WRI_API_URL}/dataset/?ids=${datasetIDs}&includes=${includes}&application=${applications.join(',')}&page[size]=999`)
+      .then((response) => {
+        if (!response.ok) throw new Error(response.statusText);
+        return response.json();
+      })
       .then(jsonData => jsonData.data);
   }
 }

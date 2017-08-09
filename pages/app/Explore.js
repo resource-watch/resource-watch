@@ -136,7 +136,7 @@ class Explore extends Page {
       children: ShareModalExplore,
       childrenProps: {
         url: window.location.href,
-        layers: this.props.layers,
+        layerGroups: this.props.rawLayerGroups,
         toggleModal: this.props.toggleModal
       }
     };
@@ -357,7 +357,8 @@ const mapStateToProps = (state) => {
     explore,
     paginatedDatasets: getpaginatedDatasets(explore),
     allDatasets: state.explore.datasets.list,
-    layerGroups: getLayerGroups(state)
+    layerGroups: getLayerGroups(state),
+    rawLayerGroups: state.explore.layers
   };
 };
 

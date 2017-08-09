@@ -111,7 +111,7 @@ class ExploreDetail extends Page {
     this.setState({
       similarDatasetsLoaded: false
     });
-    this.datasetService.getDatasets(SIMILAR_DATASETS).then((res) => {
+    DatasetService.getDatasets(SIMILAR_DATASETS).then((res) => {
       this.setState({
         similarDatasets: res,
         similarDatasetsLoaded: true

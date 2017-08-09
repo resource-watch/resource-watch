@@ -69,12 +69,12 @@ class Legend extends React.Component {
 
   componentDidMount() {
     // Show the layers tour tooltip
-    if (!this.state.hasShownLayersTourTooltip) {
+    if (!this.state.hasShownLayersTourTooltip && this.state.open) {
       this.showLayersTourTooltip();
     }
   }
 
-  componentDidUpdate(previousProps) {
+  componentDidUpdate(previousProps, previousState) {
     const haveLayerGroupsChanged = !isEqual(this.props.layerGroups, previousProps.layerGroups);
     // If the layers tooltip is opened and the layer groups changed in
     // some way, then the height of the legend might change and we need
@@ -86,8 +86,9 @@ class Legend extends React.Component {
     }
 
     // Show the layers tour tooltip
-    if (haveLayerGroupsChanged && !this.state.hasShownLayersTourTooltip) {
-      this.showLayersTourTooltip();
+    if ((haveLayerGroupsChanged || this.state.open !== previousState.open)
+      && !this.state.hasShownLayersTourTooltip) {
+      if (this.state.open) this.showLayersTourTooltip();
     }
   }
 
@@ -202,7 +203,7 @@ class Legend extends React.Component {
             className="layers"
             onClick={e => this.onClickLayers(e, layerGroup)}
             aria-label="Select other layer"
-            ref={(node) => { this.layersButtons.push(node); }}
+            ref={(node) => { if (node) this.layersButtons.push(node); }}
           >
             <Icon name="icon-layers" />
           </button>
@@ -213,15 +214,13 @@ class Legend extends React.Component {
            </button>
         */
         }
-        { !this.props.readonly && (
-          <button
-            className="toggle"
-            onClick={() => this.onToggleLayerGroupVisibility(layerGroup)}
-            aria-label="Toggle the visibility"
-          >
-            <Icon name={layerGroup.visible ? 'icon-hide' : 'icon-show'} />
-          </button>
-        ) }
+        <button
+          className="toggle"
+          onClick={() => this.onToggleLayerGroupVisibility(layerGroup)}
+          aria-label="Toggle the visibility"
+        >
+          <Icon name={layerGroup.visible ? 'icon-hide' : 'icon-show'} />
+        </button>
         <button className="info" onClick={() => this.onLayerInfoModal(layerGroup)} aria-label="More information">
           <Icon name="icon-info" />
         </button>
@@ -239,6 +238,9 @@ class Legend extends React.Component {
    * @returns {HTMLElement[]}
    */
   getLegendItems() {
+    // We reset the buttons each time we render the legend again
+    this.layersButtons = [];
+
     return this.props.layerGroups.map((layerGroup) => {
       const activeLayer = layerGroup.layers.find(l => l.active);
       return (
@@ -358,7 +360,7 @@ Legend.propTypes = {
   // Functions
 
   // Callback to hide/show a layer group
-  toggleLayerGroupVisibility: PropTypes.func,
+  toggleLayerGroupVisibility: PropTypes.func.isRequired,
   // Callback to re-order the layer groups
   setLayerGroupsOrder: PropTypes.func.isRequired,
   // Callback to remove a layer group
