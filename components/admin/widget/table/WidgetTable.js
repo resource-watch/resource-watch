@@ -66,7 +66,7 @@ class WidgetTable extends React.Component {
         name: 'Edit',
         show: true,
         component: ({ data }) => (
-          <Link route="admin_data_detail" params={{ tab: 'widgets', id: data.id, subtab: 'edit' }}><a>Edit</a></Link>
+          <Link route="admin_data_detail" params={{ tab: 'widgets', id: data.id, subtab: 'edit' }}><a className="c-btn">Edit</a></Link>
         )
       },
       { name: 'Remove', path: '/admin/datasets/:dataset_id/widgets/:id/remove', show: true, component: DeleteAction, componentProps: { authorization: this.props.authorization } }
@@ -77,7 +77,7 @@ class WidgetTable extends React.Component {
         name: 'Go to dataset',
         show: true,
         component: ({ data }) => (
-          <Link route="admin_data_detail" params={{ tab: 'datasets', id: data.dataset, subtab: 'edit' }}><a>Go to dataset</a></Link>
+          <Link route="admin_data_detail" params={{ tab: 'datasets', id: data.dataset, subtab: 'edit' }}><a className="c-btn">Go to dataset</a></Link>
         )
       });
     }

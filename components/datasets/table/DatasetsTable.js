@@ -4,7 +4,6 @@ import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
-
 import { getDatasets, setFilters } from 'redactions/admin/datasets';
 
 // Selectors

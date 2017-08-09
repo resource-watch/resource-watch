@@ -23,7 +23,7 @@ class EditAction extends React.Component {
             route={action.route}
             params={this.getParsedParams(action.params)}
           >
-            <a>Edit</a>
+            <a className="c-btn">Edit</a>
           </Link>
         }
       </span>

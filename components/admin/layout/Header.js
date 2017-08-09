@@ -73,30 +73,34 @@ export default class Header extends React.Component {
           {/* We will load the script generated */}
         </div>
         <div className="l-container">
-          <div className="header-main">
-            <h1 className="header-logo -admin">
-              <Link route="admin_home">
-                <a>
-                  <svg><use xlinkHref="#icon-logo-cms" /></svg>
-                  <span>Resource Watch Content Manager</span>
-                </a>
-              </Link>
-            </h1>
-            <nav className="header-menu">
-              <ul>
-                {items.map((item) => {
-                  const activeClassName = classnames({
-                    '-active': item.pathnames && item.pathnames.includes(url.pathname)
-                  });
+          <div className="row">
+            <div className="column small-12">
+              <div className="header-main">
+                <div className="header-logo -main">
+                  <Link route="home">
+                    <a>
+                      <svg className="brand-logo"><use xlinkHref="#icon-logo" /></svg>
+                      <h1 className="brand-title">Resource Watch</h1>
+                    </a>
+                  </Link>
+                </div>
+                <nav className="header-menu">
+                  <ul>
+                    {items.map((item) => {
+                      const activeClassName = classnames({
+                        '-active': item.pathnames && item.pathnames.includes(url.pathname)
+                      });
 
-                  return (
-                    <li key={item.name} className={activeClassName}>
-                      {item.component}
-                    </li>
-                  );
-                })}
-              </ul>
-            </nav>
+                      return (
+                        <li key={item.name} className={activeClassName}>
+                          {item.component}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </nav>
+              </div>
+            </div>
           </div>
         </div>
       </header>

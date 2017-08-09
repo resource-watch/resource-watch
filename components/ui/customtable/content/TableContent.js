@@ -91,7 +91,7 @@ export default class TableContent extends React.Component {
                       }
                       return (
                         <li key={j}>
-                          <a href={ac.path} >
+                          <a href={ac.path} className="c-btn">
                             {ac.name}
                           </a>
                         </li>
