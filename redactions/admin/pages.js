@@ -1,12 +1,13 @@
 import 'isomorphic-fetch';
+import PagesService from 'services/PagesService';
 
 /**
  * CONSTANTS
 */
-const GET_PAGES_SUCCESS = 'pages/GET_PAGES_SUCCESS';
-const GET_PAGES_ERROR = 'pages/GET_PAGES_ERROR';
-const GET_PAGES_LOADING = 'pages/GET_PAGES_LOADING';
-const SET_PAGES_FILTERS = 'pages/SET_PAGES_FILTERS';
+const GET_DASHBOARDS_SUCCESS = 'pages/GET_DASHBOARDS_SUCCESS';
+const GET_DASHBOARDS_ERROR = 'pages/GET_DASHBOARDS_ERROR';
+const GET_DASHBOARDS_LOADING = 'pages/GET_DASHBOARDS_LOADING';
+const SET_DASHBOARDS_FILTERS = 'pages/SET_DASHBOARDS_FILTERS';
 
 /**
  * STORE
@@ -22,6 +23,7 @@ const initialState = {
   }
 };
 
+const service = new PagesService();
 /**
  * REDUCER
  * @export
@@ -30,7 +32,7 @@ const initialState = {
  */
 export default function (state = initialState, action) {
   switch (action.type) {
-    case GET_PAGES_LOADING: {
+    case GET_DASHBOARDS_LOADING: {
       const pages = Object.assign({}, state.pages, {
         loading: true,
         error: null
@@ -38,7 +40,7 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { pages });
     }
 
-    case GET_PAGES_SUCCESS: {
+    case GET_DASHBOARDS_SUCCESS: {
       const pages = Object.assign({}, state.pages, {
         list: action.payload,
         loading: false,
@@ -47,7 +49,7 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { pages });
     }
 
-    case GET_PAGES_ERROR: {
+    case GET_DASHBOARDS_ERROR: {
       const pages = Object.assign({}, state.pages, {
         loading: false,
         error: action.payload
@@ -55,7 +57,7 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { pages });
     }
 
-    case SET_PAGES_FILTERS: {
+    case SET_DASHBOARDS_FILTERS: {
       const pages = Object.assign({}, state.pages, { filters: action.payload });
       return Object.assign({}, state, { pages });
     }
@@ -74,17 +76,17 @@ export default function (state = initialState, action) {
  * @export
  * @param {string[]} applications Name of the applications to load the pages from
  */
-export function getDatasets(applications = [process.env.APPLICATIONS]) {
+export function getPages() {
   return (dispatch) => {
-    dispatch({ type: GET_PAGES_LOADING });
+    dispatch({ type: GET_DASHBOARDS_LOADING });
 
-    fetch(new Request(`${process.env.WRI_API_URL}/pages?application=${applications.join(',')}&includes=widget,layer,metadata,vocabulary`))
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
+    service.fetchAllData()
+      .then((data) => {
+        dispatch({ type: GET_DASHBOARDS_SUCCESS, payload: data });
       })
-      .then(({ data }) => dispatch({ type: GET_PAGES_SUCCESS, payload: data }))
-      .catch(err => dispatch({ type: GET_PAGES_ERROR, payload: err.message }));
+      .catch((err) => {
+        dispatch({ type: GET_DASHBOARDS_ERROR, payload: err.message });
+      });
   };
 }
 
@@ -95,7 +97,7 @@ export function getDatasets(applications = [process.env.APPLICATIONS]) {
  */
 export function setFilters(filters) {
   return dispatch => dispatch({
-    type: SET_PAGES_FILTERS,
+    type: SET_DASHBOARDS_FILTERS,
     payload: filters
   });
 }

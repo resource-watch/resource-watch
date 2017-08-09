@@ -5,27 +5,23 @@ import PropTypes from 'prop-types';
 // Redux
 import { connect } from 'react-redux';
 
-
 // Components
-import PageForm from 'components/admin/pages/form/PageForm';
+import PagesForm from 'components/admin/pages/form/PagesForm';
 
-class PageNew extends React.Component {
+function PagesNew(props) {
+  const { user } = props;
 
-  render() {
-    const { user } = this.props;
-    return (
-      <div className="c-pages-new">
-        <PageForm
-          application={[process.env.APPLICATIONS]}
-          authorization={user.token}
-          onSubmit={() => Router.pushRoute('admin_pages', { tab: 'pages' })}
-        />
-      </div>
-    );
-  }
+  return (
+    <div className="c-pages-new">
+      <PagesForm
+        authorization={user.token}
+        onSubmit={() => Router.pushRoute('admin_pages', { tab: 'pages' })}
+      />
+    </div>
+  );
 }
 
-PageNew.propTypes = {
+PagesNew.propTypes = {
   // Store
   user: PropTypes.object.isRequired
 };
@@ -34,4 +30,4 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default connect(mapStateToProps, null)(PageNew);
+export default connect(mapStateToProps, null)(PagesNew);

@@ -34,9 +34,21 @@ export default class TableContent extends React.Component {
 
     /* Apply sorting to data */
     if (!isEmpty(sort)) {
-      data = data.slice().sort((rowA, rowB) => rowA[sort.field].toString().toLowerCase() > rowB[sort.field].toString().toLowerCase() ?
-          sort.value :
-          (sort.value * -1));
+      data = data.slice().sort((rowA, rowB) => {
+        const rowAField = rowA[sort.field];
+        const rowBField = rowB[sort.field];
+
+        const rowACondition = (rowAField && rowAField.toString) ?
+          rowAField.toString().toLowerCase().trim() :
+          rowAField;
+        const rowBCondition = (rowBField && rowBField.toString) ?
+          rowBField.toString().toLowerCase().trim() :
+          rowBField;
+
+        return (rowACondition > rowBCondition) ?
+            sort.value :
+            sort.value * -1;
+      });
     }
 
     /* Apply pagination to data */
@@ -79,7 +91,7 @@ export default class TableContent extends React.Component {
                       }
                       return (
                         <li key={j}>
-                          <a href={ac.path} >
+                          <a href={ac.path} className="c-btn">
                             {ac.name}
                           </a>
                         </li>

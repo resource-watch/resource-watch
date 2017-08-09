@@ -42,19 +42,19 @@ export default class Header extends React.Component {
         component: <Link route="admin_data"><a>Data</a></Link>
       },
       {
-        name: 'Pages',
-        pathnames: ['/admin/Pages', '/admin/PagesDetail'],
-        component: <Link route="admin_pages"><a>Pages</a></Link>
-      },
-      {
-        name: 'Users',
-        pathnames: ['/admin/Users'],
-        component: <Link route="admin_users"><a>Users</a></Link>
+        name: 'Dashboards',
+        pathnames: ['/admin/Dashboards', '/admin/DashboardsDetail'],
+        component: <Link route="admin_dashboards"><a>Dashboards</a></Link>
       },
       {
         name: 'Partners',
-        pathnames: ['/admin/Partners'],
+        pathnames: ['/admin/Partners', '/admin/PartnersDetail'],
         component: <Link route="admin_partners"><a>Partners</a></Link>
+      },
+      {
+        name: 'Pages',
+        pathnames: ['/admin/Pages', '/admin/PagesDetail'],
+        component: <Link route="admin_pages"><a>Pages</a></Link>
       },
       {
         name: 'My RW',
@@ -68,35 +68,39 @@ export default class Header extends React.Component {
     ];
 
     return (
-      <header className="c-header -transparent">
+      <header className="l-header -transparent">
         <div className="header-secondary">
           {/* We will load the script generated */}
         </div>
         <div className="l-container">
-          <div className="header-main">
-            <h1 className="header-logo -admin">
-              <Link route="admin_home">
-                <a>
-                  <svg><use xlinkHref="#icon-logo-cms" /></svg>
-                  <span>Resource Watch Content Manager</span>
-                </a>
-              </Link>
-            </h1>
-            <nav className="header-menu">
-              <ul>
-                {items.map((item) => {
-                  const activeClassName = classnames({
-                    '-active': item.pathnames && item.pathnames.includes(url.pathname)
-                  });
+          <div className="row">
+            <div className="column small-12">
+              <div className="header-main">
+                <div className="header-logo -main">
+                  <Link route="home">
+                    <a>
+                      <svg className="brand-logo"><use xlinkHref="#icon-logo" /></svg>
+                      <h1 className="brand-title">Resource Watch</h1>
+                    </a>
+                  </Link>
+                </div>
+                <nav className="header-menu">
+                  <ul>
+                    {items.map((item) => {
+                      const activeClassName = classnames({
+                        '-active': item.pathnames && item.pathnames.includes(url.pathname)
+                      });
 
-                  return (
-                    <li key={item.name} className={activeClassName}>
-                      {item.component}
-                    </li>
-                  );
-                })}
-              </ul>
-            </nav>
+                      return (
+                        <li key={item.name} className={activeClassName}>
+                          {item.component}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </nav>
+              </div>
+            </div>
           </div>
         </div>
       </header>

@@ -38,6 +38,7 @@ class DeleteAction extends React.Component {
         <a
           href={href}
           onClick={this.handleOnClickDelete}
+          className="c-btn"
         >
           Remove
         </a>

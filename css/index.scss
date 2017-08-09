@@ -1,4 +1,7 @@
 // Reset
+// Project settings (it doesn't include Grid system)
+@import "settings";
+
 @import "normalize.css";
 
 // Foundation:
@@ -15,8 +18,8 @@
 @import 'slick-carousel/slick/slick.scss';
 @import 'slick-carousel/slick/slick-theme.scss';
 
-// Project settings (it doesn't include Grid system)
-@import "settings";
+// Editor
+@import 'react-draft-wysiwyg/dist/react-draft-wysiwyg';
 
 // Common files
 @import "base";
@@ -77,6 +80,7 @@
 @import "./components/form/field-container";
 @import "./components/form/field-buttons";
 @import "./components/form/file";
+@import "./components/form/file-image";
 @import "./components/form/checkbox";
 @import "./components/form/radio";
 @import "./components/form/select";

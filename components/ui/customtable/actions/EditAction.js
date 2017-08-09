@@ -13,7 +13,7 @@ class EditAction extends React.Component {
   render() {
     return (
       <span>
-        <a href={this.parseHref()}>
+        <a href={this.parseHref()} className="c-btn">
           Edit
         </a>
       </span>

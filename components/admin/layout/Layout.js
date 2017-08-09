@@ -42,7 +42,7 @@ class Layout extends React.Component {
   render() {
     const { title, description, url, user } = this.props;
     return (
-      <div className="c-page">
+      <div className="l-page">
         <Head
           title={title}
           description={description}

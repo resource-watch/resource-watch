@@ -3,7 +3,7 @@ import { Link } from 'routes';
 
 function PartnerBlock(props) {
   const partner = props.item.attributes;
-  const imgPath = `${process.env.API_URL}/../${partner.logo.medium}`;
+  const imgPath = `${process.env.API_URL}${partner.logo.medium}`;
 
   return (
     <article className="c-partners-block">

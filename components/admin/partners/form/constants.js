@@ -1,9 +1,28 @@
-export const LANGUAGE_OPTIONS = [
-  { label: 'English', value: 'en' },
-  { label: 'Español', value: 'es' },
-  { label: 'Français', value: 'fr' },
-  { label: 'Português', value: 'pt' }
-];
+export const STATE_DEFAULT = {
+  step: 1,
+  stepLength: 1,
+  submitting: false,
+  loading: false,
+  dataset: {},
+  form: {
+    // STEP 1
+    name: '',
+    partner_type: null,
+    summary: '',
+    body: '',
+    website: '',
+    contact_name: '',
+    contact_email: '',
+    // Images
+    logo: '',
+    white_logo: '',
+    cover: '',
+    icon: '',
+    // States
+    featured: false,
+    published: false
+  }
+};
 
 export const FORM_ELEMENTS = {
   elements: {
@@ -24,3 +43,14 @@ export const FORM_ELEMENTS = {
     return valid;
   }
 };
+
+export const PARTNER_TYPES = [{
+  label: 'Partner',
+  value: 'partner'
+}, {
+  label: 'Founding partner',
+  value: 'founding_partners'
+}, {
+  label: 'Funder',
+  value: 'funders'
+}];

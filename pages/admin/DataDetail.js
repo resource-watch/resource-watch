@@ -1,6 +1,10 @@
 import React from 'react';
 import { singular } from 'pluralize';
 
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
 // Utils
 import { capitalizeFirstLetter } from 'utils/utils';
 
@@ -22,7 +26,7 @@ import LayersTab from 'components/admin/layers/LayersTab';
 // Components
 import Title from 'components/ui/Title';
 
-class Data extends Page {
+class DataDetail extends Page {
 
   constructor(props) {
     super(props);
@@ -118,16 +122,19 @@ class Data extends Page {
         {/* PAGE HEADER */}
         <div className="c-page-header -admin">
           <div className="l-container">
-            <div className="page-header-content">
-              <Breadcrumbs
-                items={[{ name: capitalizeFirstLetter(tab), route: 'admin_data', params: { tab } }]}
-              />
-              <Title className="-primary -huge page-header-title" >
-                {this.getName()}
-              </Title>
+            <div className="row">
+              <div className="column small-12">
+                <div className="page-header-content">
+                  <Breadcrumbs
+                    items={[{ name: capitalizeFirstLetter(tab), route: 'admin_data', params: { tab } }]}
+                  />
+                  <h1>{this.getName()}</h1>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
         <div className="c-page-section">
           <div className="l-container">
             {tab === 'datasets' &&
@@ -148,10 +155,10 @@ class Data extends Page {
   }
 }
 
-Data.propTypes = {
+DataDetail.propTypes = {
   user: React.PropTypes.object,
   url: React.PropTypes.object
 };
 
 
-export default Data;
+export default withRedux(initStore, null, null)(DataDetail);

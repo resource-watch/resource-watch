@@ -87,7 +87,7 @@ class GetInvolved extends Page {
     if (!data) return null;
 
     if (data && data.photo) {
-      styles.backgroundImage = `url(${process.env.API_URL}/../${data.photo.large})`;
+      styles.backgroundImage = `url(${process.env.API_URL}${data.photo.large})`;
     }
 
     const cardsStatic = cards.map(c =>
