@@ -2,8 +2,13 @@ import React from 'react';
 import { Link } from 'routes';
 
 function PartnerBlock(props) {
-  const partner = props.item.attributes;
-  const imgPath = `${process.env.API_URL}${partner.logo.medium}`;
+  const partner = props.item;
+
+  if (!partner) {
+    return null;
+  }
+
+  const imgPath = partner.logo ? `${process.env.API_URL}${partner.logo.medium}` : '';
 
   return (
     <article className="c-partners-block">
