@@ -5,7 +5,6 @@ import withRedux from 'next-redux-wrapper';
 import { getStaticData } from 'redactions/static_pages';
 import { initStore } from 'store';
 import Banner from 'components/app/common/Banner';
-import Intro from 'components/app/common/Intro';
 import CardStatic from 'components/app/common/CardStatic';
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';

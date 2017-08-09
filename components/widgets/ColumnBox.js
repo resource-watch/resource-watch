@@ -38,9 +38,9 @@ const columnBoxSource = {
 /**
  * Specifies the props to inject into your component.
  */
-function collect(connect, monitor) {
+function collect(connectDrop, monitor) {
   return {
-    connectDragSource: connect.dragSource(),
+    connectDragSource: connectDrop.dragSource(),
     isDragging: monitor.isDragging()
   };
 }

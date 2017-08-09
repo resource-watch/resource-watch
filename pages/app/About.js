@@ -12,7 +12,6 @@ import { Link } from 'routes';
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
-import Intro from 'components/app/common/Intro';
 import Banner from 'components/app/common/Banner';
 
 class About extends Page {

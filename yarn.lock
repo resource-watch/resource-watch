@@ -127,8 +127,8 @@ aproba@^1.0.3:
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.1.2.tgz#45c6629094de4e96f693ef7eab74ae079c240fc1"
 
 arcgis-to-geojson-utils@^1.0.1:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/arcgis-to-geojson-utils/-/arcgis-to-geojson-utils-1.0.2.tgz#412efad836ab7cbc5ae4698f44c7037c2d7fba8d"
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/arcgis-to-geojson-utils/-/arcgis-to-geojson-utils-1.0.3.tgz#6f1a5fabb1b7a49e2421ee77f29f9ee58cace324"
 
 archive-type@^3.0.0, archive-type@^3.0.1:
   version "3.2.0"
@@ -892,7 +892,7 @@ babel-runtime@6.23.0:
     core-js "^2.4.0"
     regenerator-runtime "^0.10.0"
 
-babel-runtime@6.x, babel-runtime@^6.11.6, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.20.0, babel-runtime@^6.22.0, babel-runtime@^6.25.0:
+babel-runtime@^6.11.6, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.20.0, babel-runtime@^6.22.0, babel-runtime@^6.25.0:
   version "6.25.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.25.0.tgz#33b98eaa5d482bb01a8d1aa6b437ad2b01aec41c"
   dependencies:
@@ -1190,10 +1190,10 @@ browserify-zlib@^0.1.4:
     pako "~0.2.0"
 
 browserslist@^2.1.2, browserslist@^2.1.5:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-2.3.0.tgz#b2aa76415c71643fe2368f6243b43bbbb4211752"
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-2.3.1.tgz#39500a2090330b2a090120ea6c7fc78b6e091c5e"
   dependencies:
-    caniuse-lite "^1.0.30000710"
+    caniuse-lite "^1.0.30000712"
     electron-to-chromium "^1.3.17"
 
 buffer-crc32@~0.2.3:
@@ -1286,9 +1286,9 @@ can-use-dom@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/can-use-dom/-/can-use-dom-0.1.0.tgz#22cc4a34a0abc43950f42c6411024a3f6366b45a"
 
-caniuse-lite@^1.0.30000697, caniuse-lite@^1.0.30000710:
-  version "1.0.30000712"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000712.tgz#b4732def2459224f3f78c6a9ba103abfcc705670"
+caniuse-lite@^1.0.30000697, caniuse-lite@^1.0.30000712:
+  version "1.0.30000713"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000713.tgz#33957ecb4a2154a5d40a60d13d8bf1cfa0881a8a"
 
 canvas@^1.2.9, canvas@^1.3.4:
   version "1.6.6"
@@ -1602,7 +1602,7 @@ core-js@^2.4.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.0.tgz#569c050918be6486b3837552028ae0466b717086"
 
-core-util-is@1.0.2, core-util-is@^1.0.2, core-util-is@~1.0.0:
+core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
@@ -4419,10 +4419,10 @@ lru-cache@^4.0.1:
     yallist "^2.1.2"
 
 lusca@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/lusca/-/lusca-1.4.1.tgz#498ad9edc4b77d858d0b1c237db8da7f850b36ec"
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/lusca/-/lusca-1.5.0.tgz#63b57251bdee137414f15b31fa5243d0f7763a1c"
   dependencies:
-    core-util-is "^1.0.2"
+    tsscmp "^1.0.5"
 
 mailcomposer@4.0.1:
   version "4.0.1"
@@ -5751,11 +5751,10 @@ raw-loader@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/raw-loader/-/raw-loader-0.5.1.tgz#0c3d0beaed8a01c966d9787bf778281252a979aa"
 
-rc-pagination@^1.8.8:
-  version "1.10.4"
-  resolved "https://registry.yarnpkg.com/rc-pagination/-/rc-pagination-1.10.4.tgz#0ceb33c2af457c4cb8b805d2f11354750a9511a5"
+rc-pagination@1.8.8:
+  version "1.8.8"
+  resolved "https://registry.yarnpkg.com/rc-pagination/-/rc-pagination-1.8.8.tgz#932108de47b02a735d2b77afae705c18f7d2f25e"
   dependencies:
-    babel-runtime "6.x"
     prop-types "^15.5.7"
 
 rc@^1.0.1, rc@^1.1.2, rc@^1.1.7:
@@ -5777,8 +5776,8 @@ react-ace@^4.3.0:
     prop-types "^15.5.8"
 
 react-deep-force-update@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-2.0.1.tgz#4f7f6c12c3e7de42f345992a3c518236fa1ecad3"
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-2.1.0.tgz#1c5f36ea96bcbf411605ec063f36c568ea4df86c"
 
 react-dnd-html5-backend@^2.4.1:
   version "2.4.1"
@@ -7126,6 +7125,10 @@ trim-right@^1.0.1:
 tryit@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/tryit/-/tryit-1.0.3.tgz#393be730a9446fd1ead6da59a014308f36c289cb"
+
+tsscmp@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/tsscmp/-/tsscmp-1.0.5.tgz#7dc4a33af71581ab4337da91d85ca5427ebd9a97"
 
 tty-browserify@0.0.0:
   version "0.0.0"

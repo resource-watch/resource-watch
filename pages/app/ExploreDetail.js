@@ -271,7 +271,7 @@ class ExploreDetail extends Page {
           </section>
 
           {/* WIDGET EDITOR */}
-          <MediaQuery minDeviceWidth={720} values={{deviceWidth: 720}}>
+          <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
             {dataset &&
               <WidgetEditor
                 dataset={dataset.id}
@@ -382,7 +382,7 @@ class ExploreDetail extends Page {
           */}
 
           {/* SIMILAR DATASETS */}
-          {/*<div className="l-section similar-datasets">
+          {/* <div className="l-section similar-datasets">
             <div className="row">
               <div className="column small-12">
                 <h3 className="c-text title -thin">Similar datasets</h3>
@@ -400,16 +400,16 @@ class ExploreDetail extends Page {
                 }
               </div>
             </div>
-          </div>*/}
+          </div> */}
 
           {/* RELATED INSIGHTS */}
-          {/*<div className="c-page-section related-insights">
+          {/* <div className="c-page-section related-insights">
             <div className="row">
               <div className="column small-12">
                 <h2 className="c-text title -thin">Related Insights</h2>
               </div>
             </div>
-          </div>*/}
+          </div> */}
 
           {/* PLANET PULSE */}
           <div className="c-page-section pulse-banner-section">
