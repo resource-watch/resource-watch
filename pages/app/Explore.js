@@ -19,7 +19,6 @@ import getFilteredDatasets from 'selectors/explore/filterDatasets';
 import getActiveLayers from 'selectors/explore/layersActiveExplore';
 
 // Components
-import Title from 'components/ui/Title';
 import Sidebar from 'components/app/layout/Sidebar';
 import DatasetListHeader from 'components/app/explore/DatasetListHeader';
 import DatasetList from 'components/app/explore/DatasetList';

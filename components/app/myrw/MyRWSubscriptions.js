@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
+import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Services
 import UserService from 'services/UserService';
@@ -12,6 +12,7 @@ import UserService from 'services/UserService';
 // Components
 import Spinner from 'components/ui/Spinner';
 import SubscriptionCard from 'components/app/myrw/subscriptions/SubscriptionCard';
+import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 
 
 class MyRWSubscriptions extends React.Component {
@@ -69,6 +70,19 @@ class MyRWSubscriptions extends React.Component {
     this.loadSubscriptions();
   }
 
+  @Autobind
+  handleNewSubscription() {
+    const options = {
+      children: SubscribeToDatasetModal,
+      childrenProps: {
+        toggleModal: this.props.toggleModal,
+        showDatasetSelector: true
+      }
+    };
+    this.props.toggleModal(true);
+    this.props.setModalOptions(options);
+  }
+
   render() {
     const { loading, subscriptions } = this.state;
     const { user } = this.props;
@@ -77,6 +91,15 @@ class MyRWSubscriptions extends React.Component {
       <div className="c-page-section c-myrw-subscriptions">
         <div className="l-container">
           <Spinner isLoading={loading} className="-small -light" />
+          <div className="actions-div">
+            <a
+              onClick={this.handleNewSubscription}
+              role="button"
+              tabIndex={-1}
+            >
+              New Subscription
+            </a>
+          </div>
           <div className="row">
             {subscriptions && subscriptions.map(val =>
               (
@@ -101,11 +124,18 @@ class MyRWSubscriptions extends React.Component {
 
 MyRWSubscriptions.propTypes = {
   // Store
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  setModalOptions: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user
 });
 
-export default withRedux(initStore, mapStateToProps, null)(MyRWSubscriptions);
+const mapDispatchToProps = dispatch => ({
+  toggleModal: (open) => { dispatch(toggleModal(open)); },
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyRWSubscriptions);

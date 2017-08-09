@@ -120,44 +120,47 @@ class SubscriptionCard extends React.Component {
             LayerManager={LayerManager}
             mapConfig={MAP_CONFIG}
             layersActive={[layer]}
+            interactionEnabled={false}
           />
         </div>
         <Spinner isLoading={loading} className="-small -light -relative -center" />
-        <div className="name-container">
-          <h4>{name}</h4>
-        </div>
-        <div className="data-container">
-          <div className="location-container">
-            <h5>Location</h5>
-            {country}
+        <div className="text-container">
+          <div className="name-container">
+            <h4>{name}</h4>
           </div>
-          <div className="dataset-container">
-            <h5>Dataset</h5>
-            {dataset && dataset.attributes.name}
+          <div className="data-container">
+            <div className="location-container">
+              <h5>Location</h5>
+              {country}
+            </div>
+            <div className="dataset-container">
+              <h5>Dataset</h5>
+              {dataset && dataset.attributes.name}
+            </div>
           </div>
-        </div>
-        <div className="actions-div">
-          {confirmed &&
+          <div className="actions-div">
+            {confirmed &&
+              <a
+                tabIndex={-1}
+                role="button"
+                onClick={this.handleGoToDataset}
+              >
+                Go to Dataset
+              </a>
+            }
+            {!confirmed &&
+              <span className="pending-label">
+                Pending
+              </span>
+            }
             <a
               tabIndex={-1}
               role="button"
-              onClick={this.handleGoToDataset}
+              onClick={this.handleDeleteSubscription}
             >
-              Go to Dataset
+              Delete
             </a>
-          }
-          {!confirmed &&
-            <span className="pending-label">
-              Pending
-            </span>
-          }
-          <a
-            tabIndex={-1}
-            role="button"
-            onClick={this.handleDeleteSubscription}
-          >
-            Delete
-          </a>
+          </div>
         </div>
       </div>
     );

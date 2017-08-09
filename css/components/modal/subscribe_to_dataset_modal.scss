@@ -2,7 +2,7 @@
   position: relative;
   height: 400px;
 
-  h1 {
+  h2 {
     color: $color-dark-pink;
   }
 
@@ -24,8 +24,13 @@
     }
   }
 
-  .area-selector {
+  .selectors-container {
+    display: flex;
     margin-top: 20px;
+
+    .c-custom-select:last-of-type {
+      margin-left: 10px;
+    }
   }
 
   .icon-container {
@@ -38,6 +43,10 @@
     position: absolute;
     bottom: 0px;
     left: 0px;
+
+    button:last-of-type {
+      margin-left: 10px;
+    }
   }
 
 }
