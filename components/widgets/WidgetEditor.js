@@ -84,7 +84,20 @@ class WidgetEditor extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = DEFAULT_STATE;
+    this.state = {
+      ...DEFAULT_STATE,
+      layerGroups: props.widgetEditor.layer
+        ? [{
+          dataset: props.widgetEditor.layer.dataset,
+          visible: true,
+          layers: [{
+            id: props.widgetEditor.layer.id,
+            active: true,
+            ...props.widgetEditor.layer
+          }]
+        }]
+        : []
+    };
 
     // Each time the editor is opened again, we reset the Redux's state
     // associated with it
@@ -119,7 +132,20 @@ class WidgetEditor extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.dataset !== this.props.dataset) {
-      this.setState(DEFAULT_STATE, () => {
+      this.setState({
+        ...DEFAULT_STATE,
+        layerGroups: nextProps.widgetEditor.layer
+          ? [{
+            dataset: nextProps.widgetEditor.layer.dataset,
+            visible: true,
+            layers: [{
+              id: nextProps.widgetEditor.layer.id,
+              active: true,
+              ...nextProps.widgetEditor.layer
+            }]
+          }]
+          : []
+      }, () => {
         // DatasetService
         this.datasetService = new DatasetService(nextProps.dataset, {
           apiURL: process.env.WRI_API_URL
@@ -137,12 +163,27 @@ class WidgetEditor extends React.Component {
           })
           .catch(() => {
             console.error('Unable to retrieve the fields');
-            this.props.onError && this.props.onError();
+            if (this.props.onError) this.props.onError();
           });
 
         if (this.props.mode === 'dataset') {
           this.getLayers();
         }
+      });
+    } else if (!isEqual(this.props.widgetEditor.layer, nextProps.widgetEditor.layer)) {
+      // We update the layerGroups each time the layer changes
+      this.setState({
+        layerGroups: nextProps.widgetEditor.layer
+          ? [{
+            dataset: nextProps.widgetEditor.layer.dataset,
+            visible: true,
+            layers: [{
+              id: nextProps.widgetEditor.layer.id,
+              active: true,
+              ...nextProps.widgetEditor.layer
+            }]
+          }]
+          : []
       });
     }
   }
@@ -157,6 +198,20 @@ class WidgetEditor extends React.Component {
       || previousState.tableName !== this.state.tableName)) {
       this.fetchChartConfig();
     }
+  }
+
+  /**
+   * Event handler executed when the user toggles the
+   * visibility of a layer group
+   * @param {LayerGroup} layerGroup - Layer group to toggle
+   */
+  onToggleLayerGroupVisibility(layerGroup) {
+    const layerGroups = this.state.layerGroups.map((l) => {
+      if (l.dataset !== layerGroup.dataset) return l;
+      return Object.assign({}, l, { visible: !layerGroup.visible });
+    });
+
+    this.setState({ layerGroups: [...layerGroups] });
   }
 
   /**
@@ -369,26 +424,19 @@ class WidgetEditor extends React.Component {
       // Leaflet map
       case 'map':
         if (layer) {
-          const layerGroups = [{
-            dataset: layer.dataset,
-            visible: true,
-            layers: [{
-              id: layer.id,
-              active: true,
-              ...layer
-            }]
-          }];
-
           visualization = (
             <div className="visualization">
               <Map
                 LayerManager={LayerManager}
                 mapConfig={mapConfig}
-                layerGroups={layerGroups}
+                layerGroups={this.state.layerGroups}
               />
               <Legend
-                layerGroups={layerGroups}
+                layerGroups={this.state.layerGroups}
                 className={{ color: '-dark' }}
+                toggleLayerGroupVisibility={
+                  layerGroup => this.onToggleLayerGroupVisibility(layerGroup)
+                }
                 setLayerGroupsOrder={() => {}}
                 setLayerGroupActiveLayer={() => {}}
                 readonly
