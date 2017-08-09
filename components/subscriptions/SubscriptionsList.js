@@ -7,7 +7,7 @@ import UserService from 'services/UserService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import SubscriptionCard from 'components/app/myrw/subscriptions/SubscriptionCard';
+import SubscriptionCard from 'components/subscriptions/SubscriptionCard';
 
 class SubscriptionsList extends React.Component {
 
