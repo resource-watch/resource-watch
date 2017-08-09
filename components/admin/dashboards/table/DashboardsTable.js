@@ -82,8 +82,6 @@ class DashboardsTable extends React.Component {
           <CustomTable
             columns={[
               { label: 'Name', value: 'name', td: NameTD },
-              { label: 'Dashboard type', value: 'dashboard_type' },
-              { label: 'Featured', value: 'featured', td: FeaturedTD },
               { label: 'Published', value: 'published', td: PublishedTD }
             ]}
             actions={{

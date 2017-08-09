@@ -43,6 +43,7 @@
       }
 
       td {
+        width: 100%; // It will force the tds to be expanded along the table
         padding: $space-1 * 2;
         color: rgba($color-text-1, .5);
         font-size: $font-size-big;
@@ -73,6 +74,7 @@
           color: $color-primary;
           font-size: $font-size-big;
           text-decoration: none;
+          white-space: nowrap;
 
           &:hover {
             color: darken($color-primary, 10%);

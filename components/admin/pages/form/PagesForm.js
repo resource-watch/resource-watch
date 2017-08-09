@@ -86,7 +86,7 @@ class PagesForm extends React.Component {
             }).serialize(this.state.form)
           })
             .then((data) => {
-              toastr.success('Success', `The page "${data.id}" - "${data.name}" has been uploaded correctly`);
+              toastr.success('Success', `The page "${data.id}" - "${data.title}" has been uploaded correctly`);
 
               if (this.props.onSubmit) this.props.onSubmit();
             })

@@ -24,15 +24,15 @@ class DeleteAction extends React.Component {
 
     const { data } = this.props;
 
-    toastr.confirm(`Are you sure that you want to delete: "${data.name}"`, {
+    toastr.confirm(`Are you sure that you want to delete: "${data.title}"`, {
       onOk: () => {
         this.service.deleteData(data.id)
           .then(() => {
             this.props.onRowDelete(data.id);
-            toastr.success('Success', `The page "${data.id}" - "${data.name}" has been removed correctly`);
+            toastr.success('Success', `The page "${data.id}" - "${data.title}" has been removed correctly`);
           })
           .catch((err) => {
-            toastr.error('Error', `The page "${data.id}" - "${data.name}" was not deleted. Try again`);
+            toastr.error('Error', `The page "${data.id}" - "${data.title}" was not deleted. Try again`);
             console.error(err);
           });
       },
