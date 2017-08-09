@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Router } from 'routes';
 import { Autobind } from 'es-decorators';
+import classnames from 'classnames';
 
 // Redux
 import { connect } from 'react-redux';
@@ -152,6 +153,10 @@ class SubscribeToDatasetModal extends React.Component {
     const paragraphText = saved ?
       'Your subscription was successfully created. Please check your email address to confirm it' :
       'Please enter a name and select an area for the subscription';
+    const selectorsContainerClassName = classnames({
+      'selectors-container': true,
+      '-use-margin': showDatasetSelector
+    });
 
     return (
       <div className="c-subscribe-to-dataset-modal">
@@ -165,7 +170,7 @@ class SubscribeToDatasetModal extends React.Component {
               <h5>Subscription name</h5>
               <input value={name} onChange={this.handleNameChange} />
             </div>
-            <div className="selectors-container">
+            <div className={selectorsContainerClassName}>
               <Spinner isLoading={loadingAreaOptions || loadingDatasets || loading} className="-light -small" />
               <CustomSelect
                 placeholder="Select area"
