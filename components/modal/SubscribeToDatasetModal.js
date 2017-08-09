@@ -112,7 +112,7 @@ class SubscribeToDatasetModal extends React.Component {
     return (
       <div className="c-subscribe-to-dataset-modal">
         <div className="header-div">
-          <h1 className="c-text -header-normal -thin title">{headerText}</h1>
+          <h2 className="c-text -header-normal -thin title">{headerText}</h2>
           <p>{paragraphText}</p>
         </div>
         {!saved &&
