@@ -1,5 +1,9 @@
 import React from 'react';
 
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
 // Layout
 import Page from 'components/admin/layout/Page';
 import Layout from 'components/admin/layout/Layout';
@@ -87,4 +91,4 @@ Dashboards.propTypes = {
 };
 
 
-export default Dashboards;
+export default withRedux(initStore, null, null)(Dashboards);

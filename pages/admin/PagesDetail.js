@@ -1,6 +1,10 @@
 import React from 'react';
 import { singular } from 'pluralize';
 
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
 // Services
 import PagesService from 'services/PagesService';
 
@@ -18,7 +22,7 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 // Components
 import Title from 'components/ui/Title';
 
-class Pages extends Page {
+class PagesDetail extends Page {
 
   constructor(props) {
     super(props);
@@ -126,10 +130,10 @@ class Pages extends Page {
   }
 }
 
-Pages.propTypes = {
+PagesDetail.propTypes = {
   user: React.PropTypes.object,
   url: React.PropTypes.object
 };
 
 
-export default Pages;
+export default withRedux(initStore, null, null)(PagesDetail);

@@ -1,6 +1,10 @@
 import React from 'react';
 import { singular } from 'pluralize';
 
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
 // Services
 import PartnersService from 'services/PartnersService';
 
@@ -18,7 +22,7 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 // Components
 import Title from 'components/ui/Title';
 
-class Partners extends Page {
+class PartnersDetail extends Page {
 
   constructor(props) {
     super(props);
@@ -126,10 +130,10 @@ class Partners extends Page {
   }
 }
 
-Partners.propTypes = {
+PartnersDetail.propTypes = {
   user: React.PropTypes.object,
   url: React.PropTypes.object
 };
 
 
-export default Partners;
+export default withRedux(initStore, null, null)(PartnersDetail);

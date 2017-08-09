@@ -1,6 +1,10 @@
 import React from 'react';
 import { singular } from 'pluralize';
 
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
 // Services
 import DashboardsService from 'services/DashboardsService';
 
@@ -18,7 +22,7 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 // Components
 import Title from 'components/ui/Title';
 
-class Dashboards extends Page {
+class DashboardsDetail extends Page {
 
   constructor(props) {
     super(props);
@@ -126,10 +130,9 @@ class Dashboards extends Page {
   }
 }
 
-Dashboards.propTypes = {
+DashboardsDetail.propTypes = {
   user: React.PropTypes.object,
   url: React.PropTypes.object
 };
 
-
-export default Dashboards;
+export default withRedux(initStore, null, null)(DashboardsDetail);

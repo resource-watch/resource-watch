@@ -1,6 +1,10 @@
 import React from 'react';
 import { singular } from 'pluralize';
 
+// Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+
 // Utils
 import { capitalizeFirstLetter } from 'utils/utils';
 
@@ -22,7 +26,7 @@ import LayersTab from 'components/admin/layers/LayersTab';
 // Components
 import Title from 'components/ui/Title';
 
-class Data extends Page {
+class DataDetail extends Page {
 
   constructor(props) {
     super(props);
@@ -148,10 +152,10 @@ class Data extends Page {
   }
 }
 
-Data.propTypes = {
+DataDetail.propTypes = {
   user: React.PropTypes.object,
   url: React.PropTypes.object
 };
 
 
-export default Data;
+export default withRedux(initStore, null, null)(DataDetail);

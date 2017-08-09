@@ -1,4 +1,7 @@
 // Reset
+// Project settings (it doesn't include Grid system)
+@import "settings";
+
 @import "normalize.css";
 
 // Foundation:
@@ -17,9 +20,6 @@
 
 // Editor
 @import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg';
-
-// Project settings (it doesn't include Grid system)
-@import "settings";
 
 // Common files
 @import "base";
