@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc';
 import isEqual from 'lodash/isEqual';
+import throttle from 'lodash/throttle';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -65,6 +66,7 @@ class Legend extends React.Component {
 
     // BINDINGS
     this.onSortEnd = this.onSortEnd.bind(this);
+    this.onScrollLegend = throttle(this.onScrollLegend.bind(this), 30);
   }
 
   componentDidMount() {
@@ -187,6 +189,24 @@ class Legend extends React.Component {
         }
       }
     });
+  }
+
+  /**
+   * Event handler executed when the user scrolls in the legend
+   */
+  onScrollLegend() {
+    // If the user scrolls in the legend, we close the tooltip
+    // to avoid having it pointing to anything that is not the
+    // layers button
+    if (!this.state.hasShownLayersTourTooltip && this.state.layersTourTooltipOpen) {
+      this.closeLayersTourTooltip();
+    }
+
+    // The same happens with the layers tooltip
+    if (this.state.layersTooltipOpen) {
+      this.props.toggleTooltip(false);
+      this.setState({ layersTooltipOpen: false });
+    }
   }
 
   /**
@@ -319,7 +339,7 @@ class Legend extends React.Component {
 
     return (
       <div className="c-legend-map">
-        <div className={`open-legend ${this.state.open ? '-active' : ''}`}>
+        <div className={`open-legend ${this.state.open ? '-active' : ''}`} onScroll={this.onScrollLegend}>
           <button className="toggle-legend" onClick={() => this.setState({ open: false })}>
             <Icon name="icon-arrow-down" className="-small" />
           </button>
