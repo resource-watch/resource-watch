@@ -21,7 +21,6 @@ import DatasetService from 'services/DatasetService';
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
-import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
 import WidgetEditor from 'components/widgets/WidgetEditor';
@@ -159,7 +158,8 @@ class ExploreDetail extends Page {
       children: SubscribeToDatasetModal,
       childrenProps: {
         toggleModal: this.props.toggleModal,
-        dataset: this.state.dataset
+        dataset: this.state.dataset,
+        showDatasetSelector: false
       }
     };
     this.props.toggleModal(true);

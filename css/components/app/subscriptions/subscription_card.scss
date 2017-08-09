@@ -5,7 +5,6 @@
   min-width: 300px;
   min-height: 160px;
   width: 100%;
-  padding: 10px;
   border: 1px solid $color-grey;
   border-radius: 4px;
 
@@ -19,46 +18,51 @@
     height: 200px;
   }
 
-  .name-container {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    min-height: 20px;
-  }
+  .text-container {
+    padding: 15px;
 
-  .data-container {
-    display: flex;
-    flex-direction: column;
+    .name-container {
+      margin-bottom: 10px;
+      min-height: 20px;
+    }
 
-    .location-container {
+    .data-container {
       display: flex;
-      align-items: center;
+      flex-direction: column;
 
-      h5 {
-        margin-right: 20px;
+      .location-container {
+        display: flex;
+        align-items: center;
+
+        h5 {
+          margin-right: 20px;
+        }
+      }
+
+      .dataset-container {
+        display: flex;
+        align-items: baseline;
+
+        h5 {
+          margin-right: 23px;
+        }
       }
     }
 
-    .dataset-container {
+    .actions-div {
       display: flex;
-      align-items: baseline;
+      justify-content: space-between;
+      margin-top: 5px;
+      margin-bottom: 0px;
 
-      h5 {
-        margin-right: 23px;
+      .pending-label {
+        color: $color-blue-turquoise;
       }
-    }
-  }
 
-  .actions-div {
-    display: flex;
-    justify-content: space-between;
-
-    .pending-label {
-      color: $color-blue-turquoise;
-    }
-
-    a {
-      color: $color-dark-pink;
-      cursor: pointer;
+      a {
+        color: $color-dark-pink;
+        cursor: pointer;
+      }
     }
   }
 }
