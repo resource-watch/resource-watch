@@ -54,6 +54,20 @@ class DashboardCard extends React.Component {
   }
 
   /**
+   * Event handler executed when the user toggles the
+   * visibility of a layer group
+   * @param {LayerGroup} layerGroup - Layer group to toggle
+   */
+  onToggleLayerGroupVisibility(layerGroup) {
+    const layerGroups = this.state.layers.map((l) => {
+      if (l.dataset !== layerGroup.dataset) return l;
+      return Object.assign({}, l, { visible: !layerGroup.visible });
+    });
+
+    this.setState({ layers: [...layerGroups] });
+  }
+
+  /**
    * Fetch the widget's data and set a few properties in the
    * state once done
    */
@@ -211,6 +225,9 @@ class DashboardCard extends React.Component {
                   <Legend
                     layerGroups={this.state.layers}
                     className={{ color: '-dark' }}
+                    toggleLayerGroupVisibility={
+                      layerGroup => this.onToggleLayerGroupVisibility(layerGroup)
+                    }
                     setLayerGroupsOrder={() => {}}
                     setLayerGroupActiveLayer={() => {}}
                     expanded={false}
