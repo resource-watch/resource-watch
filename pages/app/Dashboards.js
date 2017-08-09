@@ -8,7 +8,6 @@ import { initStore } from 'store';
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
-import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
 
@@ -29,6 +28,26 @@ class Dashboards extends Page {
         throw new Error('Unable to fetch the dashboards');
       })
       .then(({ data }) => data.map(d => d.attributes));
+  }
+
+  /**
+   * Return the URL of the dashboard image
+   * NOTE: return null if no image
+   * @static
+   * @param {string|object} image
+   */
+  static getDashboardImageUrl(image) {
+    if (!image) return null;
+
+    if (typeof image === 'object') {
+      // If no image has been uploaded, we just don't display anything
+      if (/missing\.png$/.test(image.original)) return null;
+      return `${process.env.API_URL}${image.original}`;
+    } else if (typeof image === 'string') {
+      return `/${image}`;
+    }
+
+    return null;
   }
 
   constructor(props) {
@@ -87,7 +106,7 @@ class Dashboards extends Page {
         url={this.props.url}
         user={this.props.user}
         className="page-dashboards"
-        pageHeader={true}
+        pageHeader
       >
         <div className="l-page-header">
           <div className="l-container">
@@ -106,6 +125,7 @@ class Dashboards extends Page {
                   <p className="error">{this.state.error}</p>
                 </div>
               ) }
+              { !this.state.error && this.state.loading && <Spinner isLoading className="-light" /> }
               { !this.state.loading && !this.state.error && (
                 <div className="column small-12 large-7">
                   <h2>Select a topic to start exploring</h2>
@@ -122,9 +142,11 @@ class Dashboards extends Page {
                     .map(dashboard => (
                       <li
                         key={dashboard.slug}
-                        style={{ backgroundImage: dashboard.photo && (
-                          dashboard.photo.startsWith('data:image/') ? `url(${dashboard.photo})` : `url(/${dashboard.photo})`
-                        ) }}
+                        style={{
+                          backgroundImage: dashboard.photo
+                            && Dashboards.getDashboardImageUrl(dashboard.photo)
+                            && `url(${Dashboards.getDashboardImageUrl(dashboard.photo)})`
+                        }}
                       >
                         <input
                           type="radio"
