@@ -5,63 +5,66 @@
   min-width: 300px;
   min-height: 160px;
   width: 100%;
-  border: 1px solid $color-grey;
   border-radius: 4px;
 
   h4, h5 {
     margin: 0px;
   }
 
-  .map-container {
-    position: relative;
-    width: 100%;
-    height: 200px;
-  }
-
-  .text-container {
-    padding: 15px;
-
-    .name-container {
-      margin-bottom: 10px;
-      min-height: 20px;
+  .border-container {
+    border: 1px solid $color-grey;
+    margin: 10px;
+    .map-container {
+      position: relative;
+      width: 100%;
+      height: 200px;
     }
 
-    .data-container {
-      display: flex;
-      flex-direction: column;
+    .text-container {
+      padding: 15px;
 
-      .location-container {
+      .name-container {
+        margin-bottom: 10px;
+        min-height: 20px;
+      }
+
+      .data-container {
         display: flex;
-        align-items: center;
+        flex-direction: column;
 
-        h5 {
-          margin-right: 20px;
+        .location-container {
+          display: flex;
+          align-items: center;
+
+          h5 {
+            margin-right: 20px;
+          }
+        }
+
+        .dataset-container {
+          display: flex;
+          align-items: baseline;
+
+          h5 {
+            margin-right: 23px;
+          }
         }
       }
 
-      .dataset-container {
+      .actions-div {
         display: flex;
-        align-items: baseline;
+        justify-content: space-between;
+        margin-top: 5px;
+        margin-bottom: 0px;
 
-        h5 {
-          margin-right: 23px;
+        .pending-label {
+          color: $color-blue-turquoise;
         }
-      }
-    }
 
-    .actions-div {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 5px;
-      margin-bottom: 0px;
-
-      .pending-label {
-        color: $color-blue-turquoise;
-      }
-
-      a {
-        color: $color-dark-pink;
-        cursor: pointer;
+        a {
+          color: $color-dark-pink;
+          cursor: pointer;
+        }
       }
     }
   }

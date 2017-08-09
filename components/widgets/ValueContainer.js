@@ -14,8 +14,8 @@ const boxTarget = {
   }
 };
 
-@DropTarget('columnbox', boxTarget, (connect, monitor) => ({
-  connectDropTarget: connect.dropTarget(),
+@DropTarget('columnbox', boxTarget, (connectDrop, monitor) => ({
+  connectDropTarget: connectDrop.dropTarget(),
   isOver: monitor.isOver(),
   canDrop: monitor.canDrop()
 }))

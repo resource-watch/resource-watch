@@ -39,14 +39,14 @@ const MYRW_TABS = [{
 //   route: 'myrw',
 //   params: { tab: 'insights' }
 // },
+// {
+//   label: 'Subscriptions',
+//   value: 'subscriptions',
+//   route: 'myrw',
+//   params: { tab: 'subscriptions' }
+// },
 {
-  label: 'Subscriptions',
-  value: 'subscriptions',
-  route: 'myrw',
-  params: { tab: 'subscriptions' }
-},
-{
-  label: 'Areas',
+  label: 'Areas of interest',
   value: 'areas',
   route: 'myrw',
   params: { tab: 'areas' }
@@ -118,7 +118,7 @@ class MyRW extends Page {
           <MyRWInsights subtab={subtab} />
         }
 
-        {tab === 'subscriptions' &&
+        {tab === 'areas' &&
           <MyRWSubscriptions subtab={subtab} />
         }
       </Layout>

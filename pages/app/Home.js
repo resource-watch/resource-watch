@@ -166,6 +166,8 @@ class Home extends Page {
         <div className="video-intro">
           <div className="video-foreground">
             <iframe
+              id="video-intro"
+              title="Video Intro"
               frameBorder="0"
               allowFullScreen
               src="https://youtube.com/embed/LI1RrCnnkDA?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=LI1RrCnnkDA"
