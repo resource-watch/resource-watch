@@ -48,10 +48,13 @@
 
       .detail {
         padding-left: 0px;
-        max-width: calc(100% - 150px);
 
         a {
           text-decoration: none;
+        }
+
+        @media screen and (min-width: map-get($breakpoints, medium)) {
+          max-width: calc(100% - 150px);
         }
       }
     }

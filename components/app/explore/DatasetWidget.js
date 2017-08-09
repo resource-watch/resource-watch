@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import MediaQuery from 'react-responsive';
 
 // Redux
 import { connect } from 'react-redux';
@@ -188,11 +189,12 @@ class DatasetWidget extends React.Component {
               <p>Source: {dataset.attributes.metadata[0].attributes.source}</p>
             }
           </div>
-          <div className="actions">
-            {/* Layer Button */}
-            {showActions && this.getButton()}
-          </div>
-
+          <MediaQuery minDeviceWidth={720} values={{deviceWidth: 720}}>
+            <div className="actions">
+              {/* Layer Button */}
+              {showActions && this.getButton()}
+            </div>
+          </MediaQuery>
         </div>
       </div>
     );
