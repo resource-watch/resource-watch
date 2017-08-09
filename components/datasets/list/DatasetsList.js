@@ -14,8 +14,13 @@ import DatasetsListCard from 'components/datasets/list/DatasetsListCard';
 
 class DatasetsList extends React.Component {
   componentDidMount() {
+    const { getDatasetsFilters } = this.props;
+
     this.props.setFilters([]);
-    this.props.getDatasets();
+    this.props.getDatasets({
+      includes: 'widget,layer,metadata,vocabulary',
+      filters: getDatasetsFilters
+    });
   }
 
   render() {
@@ -46,12 +51,14 @@ DatasetsList.defaultProps = {
     index: '',
     detail: ''
   },
+  getDatasetsFilters: {},
   // Store
   datasets: []
 };
 
 DatasetsList.propTypes = {
   routes: PropTypes.object,
+  getDatasetsFilters: PropTypes.object,
 
   // Store
   user: PropTypes.object,
@@ -69,7 +76,7 @@ const mapStateToProps = state => ({
   error: state.datasets.datasets.error
 });
 const mapDispatchToProps = dispatch => ({
-  getDatasets: () => dispatch(getDatasets()),
+  getDatasets: options => dispatch(getDatasets(options)),
   setFilters: filters => dispatch(setFilters(filters))
 });
 
