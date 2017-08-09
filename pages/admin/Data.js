@@ -10,7 +10,7 @@ import Layout from 'components/admin/layout/Layout';
 import Tabs from 'components/ui/Tabs';
 
 // Tabs
-import DatasetTab from 'components/admin/dataset/DatasetTab';
+import DatasetsTab from 'components/admin/datasets/DatasetsTab';
 import WidgetsTab from 'components/admin/widgets/WidgetsTab';
 import LayersTab from 'components/admin/layers/LayersTab';
 
@@ -92,7 +92,7 @@ class Data extends Page {
         <div className="c-page-section">
           <div className="l-container">
             {tab === 'datasets' &&
-              <DatasetTab tab={tab} subtab={subtab} id={id} />
+              <DatasetsTab tab={tab} subtab={subtab} id={id} />
             }
 
             {tab === 'widgets' &&

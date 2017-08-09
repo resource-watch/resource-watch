@@ -7,7 +7,6 @@ function DatasetsIndex() {
   return (
     <div className="c-datasets-index">
       <DatasetsTable
-        application={[process.env.APPLICATIONS]}
         routes={{
           index: 'myrw',
           detail: 'myrw_detail'

@@ -6,31 +6,31 @@ import { connect } from 'react-redux';
 
 
 // Components
-import DatasetIndex from 'components/app/myrw/datasets/pages/index';
-import DatasetNew from 'components/app/myrw/datasets/pages/new';
-import DatasetShow from 'components/app/myrw/datasets/pages/show';
+import DatasetsIndex from 'components/app/myrw/datasets/pages/index';
+import DatasetsNew from 'components/app/myrw/datasets/pages/new';
+import DatasetsShow from 'components/app/myrw/datasets/pages/show';
 
-function DatasetTab(props) {
+function DatasetsTab(props) {
   const { tab, subtab, id, user } = props;
 
   return (
     <div className="c-datasets-tab">
       {!id && user.token &&
-        <DatasetIndex tab={tab} subtab={subtab} id={id} user={user} />
+        <DatasetsIndex tab={tab} subtab={subtab} id={id} user={user} />
       }
 
       {id && id === 'new' && user.token &&
-        <DatasetNew tab={tab} subtab={subtab} id={id} user={user} />
+        <DatasetsNew tab={tab} subtab={subtab} id={id} user={user} />
       }
 
       {id && id !== 'new' && user.token &&
-        <DatasetShow tab={tab} subtab={subtab} id={id} user={user} />
+        <DatasetsShow tab={tab} subtab={subtab} id={id} user={user} />
       }
     </div>
   );
 }
 
-DatasetTab.propTypes = {
+DatasetsTab.propTypes = {
   user: PropTypes.object,
   tab: PropTypes.string,
   id: PropTypes.string,
@@ -41,4 +41,4 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default connect(mapStateToProps, null)(DatasetTab);
+export default connect(mapStateToProps, null)(DatasetsTab);

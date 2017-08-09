@@ -9,7 +9,7 @@ import { initStore } from 'store';
 import { capitalizeFirstLetter } from 'utils/utils';
 
 // Services
-import DatasetService from 'services/DatasetService';
+import DatasetsService from 'services/DatasetsService';
 import WidgetsService from 'services/WidgetsService';
 import LayersService from 'services/LayersService';
 
@@ -19,7 +19,7 @@ import Layout from 'components/admin/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 // Tabs
-import DatasetTab from 'components/admin/dataset/DatasetTab';
+import DatasetsTab from 'components/admin/datasets/DatasetsTab';
 import WidgetsTab from 'components/admin/widgets/WidgetsTab';
 import LayersTab from 'components/admin/layers/LayersTab';
 
@@ -45,9 +45,7 @@ class DataDetail extends Page {
     switch (tab) {
       case 'datasets':
         if (id !== 'new') {
-          this.service = new DatasetService(id, {
-            apiURL: process.env.WRI_API_URL
-          });
+          this.service = new DatasetsService();
         }
         break;
 
@@ -68,7 +66,7 @@ class DataDetail extends Page {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { id } = this.state;
 
     if (this.service) {
@@ -135,7 +133,7 @@ class DataDetail extends Page {
         <div className="c-page-section">
           <div className="l-container">
             {tab === 'datasets' &&
-              <DatasetTab tab={tab} subtab={subtab} id={id} />
+              <DatasetsTab tab={tab} subtab={subtab} id={id} />
             }
 
             {tab === 'widgets' &&

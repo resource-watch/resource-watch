@@ -30,7 +30,7 @@ class DatasetsTable extends React.Component {
 
   componentDidMount() {
     this.props.setFilters([]);
-    this.props.getDatasets(this.props.application);
+    this.props.getDatasets();
   }
 
   /**
@@ -117,7 +117,6 @@ DatasetsTable.defaultProps = {
     index: '',
     detail: ''
   },
-  application: [],
   columns: [],
   actions: {},
   // Store
@@ -126,7 +125,6 @@ DatasetsTable.defaultProps = {
 
 DatasetsTable.propTypes = {
   routes: PropTypes.object,
-  application: PropTypes.array.isRequired,
 
   // Store
   user: PropTypes.object,
