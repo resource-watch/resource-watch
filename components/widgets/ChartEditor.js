@@ -5,8 +5,8 @@ import { Autobind } from 'es-decorators';
 import { DragDropContext } from 'react-dnd';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
+
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import { setChartType, setAreaIntersection } from 'redactions/widgetEditor';
 
@@ -314,4 +314,4 @@ const mapDispatchToProps = dispatch => ({
   setAreaIntersection: id => dispatch(setAreaIntersection(id))
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ChartEditor);
+export default connect(mapStateToProps, mapDispatchToProps)(ChartEditor);

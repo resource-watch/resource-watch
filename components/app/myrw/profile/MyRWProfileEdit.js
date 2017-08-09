@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
+
 
 // Components
 import Button from 'components/ui/Button';
@@ -185,4 +185,4 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default withRedux(initStore, mapStateToProps, null)(MyRWEditProfile);
+export default connect(mapStateToProps, null)(MyRWEditProfile);

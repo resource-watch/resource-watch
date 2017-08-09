@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
+
 
 // Components
 import CategoryContainer from 'components/widgets/CategoryContainer';
@@ -38,4 +38,4 @@ const mapStateToProps = state => ({
   widgetEditor: state.widgetEditor
 });
 
-export default withRedux(initStore, mapStateToProps, null)(DimensionsContainer);
+export default connect(mapStateToProps, null)(DimensionsContainer);

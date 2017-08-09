@@ -1,8 +1,8 @@
 import React from 'react';
 import Button from 'components/ui/Button';
 import Icon from 'components/ui/Icon';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
+
 import { setDatasetsMode} from 'redactions/explore';
 
 class DatasetListHeader extends React.Component {
@@ -88,4 +88,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRedux(initStore, null, mapDispatchToProps)(DatasetListHeader);
+export default connect(null, mapDispatchToProps)(DatasetListHeader);

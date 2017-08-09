@@ -31,6 +31,15 @@ export default class DatasetService {
   }
 
   /**
+   * Get all datasets
+   */
+  getAllDatasets(includes = '') {
+    return fetch(`${this.opts.apiURL}/dataset?application=rw&includes=${includes}&page[size]=999`)
+      .then(response => response.json())
+      .then(jsonData => jsonData.data);
+  }
+
+  /**
    * Get dataset info
    * @returns {Promise}
    */

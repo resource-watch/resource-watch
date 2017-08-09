@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Router } from 'routes';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import { toggleTooltip } from 'redactions/tooltip';
 import { setUser } from 'redactions/user';
@@ -60,11 +59,11 @@ class Layout extends React.Component {
   }
 
   render() {
-    const { title, description, url, user, pageHeader, modal } = this.props;
+    const { title, description, url, user, pageHeader, modal, className } = this.props;
     const fullScreen = url.pathname && fullScreenPages.indexOf(url.pathname) !== -1;
 
     return (
-      <div className="c-page">
+      <div className={`l-page ${className}`}>
         <Head
           title={title}
           description={description}
@@ -77,10 +76,9 @@ class Layout extends React.Component {
           pageHeader={pageHeader}
         />
 
-        <div className="container">
-          {this.props.children}
-          {!fullScreen && <Footer />}
-        </div>
+        {this.props.children}
+
+        {!fullScreen && <Footer />}
 
         <Tooltip />
 
@@ -120,12 +118,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   toggleTooltip: () => dispatch(toggleTooltip()),
   toggleModal: open => dispatch(toggleModal(open, {}, true)),
-  setModalOptions: () => {
-    dispatch(setModalOptions());
-  },
+  setModalOptions: options => dispatch(setModalOptions(options)),
   setUser: (user) => {
     dispatch(setUser(user));
   }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Layout);
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);

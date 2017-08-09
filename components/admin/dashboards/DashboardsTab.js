@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
+
 
 // Components
 import DashboardsIndex from 'components/admin/dashboards/pages/index';
@@ -41,4 +41,4 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default withRedux(initStore, mapStateToProps, null)(DashboardsTab);
+export default connect(mapStateToProps, null)(DashboardsTab);

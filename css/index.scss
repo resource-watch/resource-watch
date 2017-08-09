@@ -1,31 +1,37 @@
-@import "css/settings";
-
 // Reset
 @import "normalize.css";
 
-// Foundation
-@import '../node_modules/foundation-sites/scss/foundation';
+// Foundation:
+// We are using this library only for grid system
+@import 'foundation-sites/scss/foundation';
 @import 'foundation_settings';
 @include foundation-flex-classes;
 @include foundation-flex-grid;
 @include foundation-responsive-embed;
 
-// Leaflet
+// Libraries
 @import 'leaflet/dist/leaflet.css';
-
-// React input range
 @import 'react-input-range/lib/css/index.css';
-
-// Slick
 @import 'slick-carousel/slick/slick.scss';
 @import 'slick-carousel/slick/slick-theme.scss';
 
 // Editor
 @import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg';
 
+// Project settings (it doesn't include Grid system)
+@import "settings";
+
 // Common files
-@import "css/base";
-@import "css/layouts";
+@import "base";
+@import "layouts/container",
+  "layouts/page",
+  "layouts/section",
+  "layouts/header",
+  "layouts/content",
+  "layouts/postcontent",
+  "layouts/footer",
+  "layouts/sidebar",
+  "layouts/map";
 
 // Components
 // UI
@@ -62,6 +68,7 @@
 @import "./components/modal/share_modal_explore";
 @import "./components/modal/embed_layer_modal";
 @import "./components/modal/upload_area_intersection_modal";
+@import "./components/modal/subscribe_to_dataset_modal";
 
 // VIS
 @import "./components/vis/globe";
@@ -127,12 +134,12 @@
 
 // COMMON
 @import "./components/app/common/banner";
-@import "./components/app/common/btn";
 @import "./components/app/common/rating";
 @import "./components/app/common/text";
 @import "./components/app/common/viel";
 @import "./components/app/common/card_static";
 @import "./components/app/common/partner_block";
+@import "./components/app/common/partners_slider";
 
 // PAGES
 @import "./components/app/pages/explore";
@@ -151,12 +158,12 @@
 
 
 // LAYOUT
-@import "./components/app/layout/page";
-@import "./components/app/layout/page-header";
-@import "./components/app/layout/page-section";
-@import "./components/app/layout/footer";
-@import "./components/app/layout/sidebar";
-@import "./components/app/layout/header";
+// @import "./components/app/layout/page";
+// @import "./components/app/layout/page-header";
+// @import "./components/app/layout/page-section";
+// @import "./components/app/layout/footer";
+// @import "./components/app/layout/sidebar";
+// @import "./components/app/layout/header";
 
 // PULSE
 @import "./components/app/pulse/globe_tooltip";
@@ -192,3 +199,6 @@
 // Embed
 @import "./components/app/pages/embed/embed_widget";
 @import "./components/app/pages/embed/embed_layer";
+
+// Subscriptions
+@import "./components/app/subscriptions/subscription_card";

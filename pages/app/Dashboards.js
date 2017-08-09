@@ -2,11 +2,12 @@ import React from 'react';
 
 // Router
 import { Router } from 'routes';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
-import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
 
@@ -27,6 +28,26 @@ class Dashboards extends Page {
         throw new Error('Unable to fetch the dashboards');
       })
       .then(({ data }) => data.map(d => d.attributes));
+  }
+
+  /**
+   * Return the URL of the dashboard image
+   * NOTE: return null if no image
+   * @static
+   * @param {string|object} image
+   */
+  static getDashboardImageUrl(image) {
+    if (!image) return null;
+
+    if (typeof image === 'object') {
+      // If no image has been uploaded, we just don't display anything
+      if (/missing\.png$/.test(image.original)) return null;
+      return `${process.env.API_URL}${image.original}`;
+    } else if (typeof image === 'string') {
+      return `/${image}`;
+    }
+
+    return null;
   }
 
   constructor(props) {
@@ -84,69 +105,70 @@ class Dashboards extends Page {
         description="Resource Watch Dashboards"
         url={this.props.url}
         user={this.props.user}
+        className="page-dashboards"
         pageHeader
       >
-        <div className="c-page-dashboards">
-
-          {/* PAGE HEADER */}
-          <div className="c-page-header">
-            <div className="l-container">
-              <div className="page-header-content -padding-b-2">
-                <Breadcrumbs items={[{ name: 'Data', href: '/data' }]} />
-                <Title className="-primary -huge page-header-title">Dashboards</Title>
-              </div>
+        <div className="l-page-header">
+          <div className="l-container">
+            <div className="page-header-content">
+              <Breadcrumbs items={[{ name: 'Data', href: '/data' }]} />
+              <h1>Dashboards</h1>
             </div>
           </div>
+        </div>
 
-          <div className="info">
-            { this.state.loading && <Spinner isLoading className="-light" /> }
-            <div className="row">
-              <div className="column small-12">
-                <ul className="dashboards-list">
-                  {
-                    this.state.dashboards
-                      .map(dashboard => (
-                        <li
-                          key={dashboard.slug}
-                          style={{ backgroundImage: dashboard.photo && (
-                            dashboard.photo.startsWith('data:image/') ? `url(${dashboard.photo})` : `url(/${dashboard.photo})`
-                          ) }}
-                        >
-                          <input
-                            type="radio"
-                            name="dashboard"
-                            id={`dashboard-${dashboard.slug}`}
-                            value={dashboard.slug}
-                            onChange={e => Dashboards.onChangeDashboard(e.target.value)}
-                          />
-                          <label className="content" htmlFor={`dashboard-${dashboard.slug}`}>
-                            {dashboard.name}
-                          </label>
-                        </li>
-                      ))
-                  }
-                </ul>
-              </div>
-            </div>
-            <div className="row">
+        <section className="l-section -secondary">
+          <div className="row">
+            <div className="column small-12">
               { this.state.error && (
                 <div className="column small-12">
                   <p className="error">{this.state.error}</p>
                 </div>
               ) }
+              { !this.state.error && this.state.loading && <Spinner isLoading className="-light" /> }
               { !this.state.loading && !this.state.error && (
-                <div className="column small-12 large-7 dashboard-info">
-                  <Title className="-extrabig -secondary">Select a topic to start exploring</Title>
+                <div className="column small-12 large-7">
+                  <h2>Select a topic to start exploring</h2>
                 </div>
               ) }
+
             </div>
           </div>
-
-        </div>
+          <div className="row">
+            <div className="column small-12">
+              <ul className="dashboards-list">
+                {
+                  this.state.dashboards
+                    .map(dashboard => (
+                      <li
+                        key={dashboard.slug}
+                        style={{
+                          backgroundImage: dashboard.photo
+                            && Dashboards.getDashboardImageUrl(dashboard.photo)
+                            && `url(${Dashboards.getDashboardImageUrl(dashboard.photo)})`
+                        }}
+                      >
+                        <input
+                          type="radio"
+                          name="dashboard"
+                          id={`dashboard-${dashboard.slug}`}
+                          value={dashboard.slug}
+                          onChange={e => Dashboards.onChangeDashboard(e.target.value)}
+                        />
+                        <label className="content" htmlFor={`dashboard-${dashboard.slug}`}>
+                          {dashboard.name}
+                        </label>
+                      </li>
+                    ))
+                }
+              </ul>
+            </div>
+          </div>
+        </section>
       </Layout>
     );
   }
 
 }
 
-export default Dashboards;
+export default withRedux(initStore, null, null)(Dashboards);

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
+
 import { setFilters, setColor, setCategory, setValue, setSize, setOrderBy,
   setAggregateFunction, setLimit, setChartType } from 'redactions/widgetEditor';
 
@@ -377,4 +377,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(MyRWWidgetsEdit);
+export default connect(mapStateToProps, mapDispatchToProps)(MyRWWidgetsEdit);

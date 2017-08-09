@@ -107,4 +107,67 @@ export default class UserService {
     .then(response => response.json());
   }
 
+  /**
+   * Creates a subscription for a pair of dataset and country
+   * @param {datasetID} ID of the dataset
+   * @param {countryISO} ISO of the country
+   * @returns {Promise}
+   */
+  createSubscriptionToDataset(datasetID, countryISO, user, name = '') {
+    const bodyObj = {
+      name,
+      application: 'rw',
+      language: 'en',
+      datasets: [datasetID],
+      resource: {
+        type: 'EMAIL',
+        content: user.email
+      },
+      params: {
+        iso: {
+          country: countryISO
+        }
+      }
+    };
+    return fetch(`${this.opts.apiURL}/subscriptions`, {
+      method: 'POST',
+      body: JSON.stringify(bodyObj),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    })
+    .then(response => response.json());
+  }
+
+  /**
+   *  Get Subscriptions
+   */
+  getSubscriptions(token) {
+    return new Promise((resolve) => {
+      fetch(`${this.opts.apiURL}/subscriptions`, {
+        headers: {
+          Authorization: token
+        }
+      })
+        .then(response => response.json())
+        .then(jsonData => resolve(jsonData.data));
+    });
+  }
+
+  /**
+   * Deletes a subscription
+   * @param {subscriptionId} ID of the subscription that will be unfavourited
+   * @param {token} User token
+   * @returns {Promise}
+   */
+  deleteSubscription(subscriptionId, token) {
+    return fetch(`${this.opts.apiURL}/subscriptions/${subscriptionId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: token
+      }
+    })
+    .then(response => response.json());
+  }
 }

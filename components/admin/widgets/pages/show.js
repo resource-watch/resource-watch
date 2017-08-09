@@ -3,8 +3,8 @@ import { Router } from 'routes';
 import PropTypes from 'prop-types';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
+
 
 // Components
 import WidgetsForm from 'components/admin/widgets/form/WidgetsForm';
@@ -33,4 +33,4 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default withRedux(initStore, mapStateToProps, null)(WidgetsShow);
+export default connect(mapStateToProps, null)(WidgetsShow);

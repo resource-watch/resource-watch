@@ -1,0 +1,67 @@
+$max-width-sidebar: none;
+$min-width-sidebar: 650px;
+$min-width-sidebar-closed: 10px;
+
+.c-sidebar {
+  display: flex;
+  flex-direction: column;
+  max-width: $max-width-sidebar;
+  background-color: $color-white;
+  color: $color-text-1;
+  z-index: 3;
+
+  &.-opened {
+    transform: translate(0,0);
+  }
+
+  .sidebar-content {
+    position: relative;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    padding: 32px $fullscreen-margin;
+
+    > * {
+      &:last-child {
+        padding: 0;
+      }
+    }
+  }
+
+  // Toggle button
+  .btn-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: absolute;
+    width: 30px;
+    height: 50px;
+    top: 20px;
+    left: 100%;
+    cursor: pointer;
+    background-color: rgba($color-white, .3);
+    border: none;
+    outline: none;
+    transition: background $animation-time-2 $ease-in-out-sine;
+
+    svg {
+      fill: $color-white;
+    }
+
+    &:hover {
+      background-color: rgba(darken($color-white, 25%), .3);
+    }
+  }
+
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    position: absolute;
+    top: 75px;
+    left: 0;
+    bottom: 0;
+    width: 50%;
+    min-width: $min-width-sidebar;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    transform: translate(calc(-100% + #{$min-width-sidebar-closed}),0);
+    transition: all $animation-time-2 $ease-in-out-sine;
+  }
+}

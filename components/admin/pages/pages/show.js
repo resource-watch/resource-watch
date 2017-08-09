@@ -3,8 +3,7 @@ import { Router } from 'routes';
 import PropTypes from 'prop-types';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
 
 // Components
 import PagesForm from 'components/admin/pages/form/PagesForm';
@@ -33,4 +32,4 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default withRedux(initStore, mapStateToProps, null)(PagesShow);
+export default connect(mapStateToProps, null)(PagesShow);

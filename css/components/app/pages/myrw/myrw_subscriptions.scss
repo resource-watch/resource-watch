@@ -1,3 +1,17 @@
-.p-myrw-subscriptions {
+.c-myrw-subscriptions {
 
+  .actions-div {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+
+    a {
+      color: $color-dark-pink;
+      cursor: pointer;
+    }
+  }
+
+  .card-container {
+    margin-bottom: 20px;
+  }
 }

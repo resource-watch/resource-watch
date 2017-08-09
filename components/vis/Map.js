@@ -1,8 +1,13 @@
 import React from 'react';
 import isEqual from 'lodash/isEqual';
+import PropTypes from 'prop-types';
+
+// Components
 import Spinner from 'components/ui/Spinner';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+
+// Redux
+import { connect } from 'react-redux';
+
 
 // Leaflet can't be imported on the server because it's not isomorphic
 const L = (typeof window !== 'undefined') ? require('leaflet') : null;
@@ -33,18 +38,8 @@ class Map extends React.Component {
   componentDidMount() {
     this.hasBeenMounted = true;
 
-    const mapOptions = {
-      minZoom: MAP_CONFIG.minZoom,
-      zoom: isNaN(this.props.mapConfig) ? MAP_CONFIG.zoom : this.props.mapConfig.zoom,
-      zoomControl: isNaN(this.props.mapConfig)
-        ? MAP_CONFIG.zoomControl
-        : this.props.mapConfig.zoomControl,
-      center: isNaN(this.props.mapConfig)
-        ? [MAP_CONFIG.latLng.lat, MAP_CONFIG.latLng.lng]
-        : [this.props.mapConfig.latLng.lat, this.props.mapConfig.latLng.lng],
-      detectRetina: true,
-      scrollWheelZoom: isNaN(this.props.mapConfig) ? false : !!this.props.mapConfig.scrollWheelZoom
-    };
+    const mapOptions = Object.assign({}, MAP_CONFIG, this.props.mapConfig || {});
+    mapOptions.center = [mapOptions.latLng.lat, mapOptions.latLng.lng];
 
     // If leaflet haven't been imported, we can just skip the next steps
     if (!L) return;
@@ -54,6 +49,16 @@ class Map extends React.Component {
 
       if (this.props.mapConfig && this.props.mapConfig.bounds) {
         this.fitBounds(this.props.mapConfig.bounds.geometry);
+      }
+
+      // Disable interaction if necessary
+      if (!this.props.interactionEnabled) {
+        this.map.dragging.disable();
+        this.map.touchZoom.disable();
+        this.map.doubleClickZoom.disable();
+        this.map.scrollWheelZoom.disable();
+        this.map.boxZoom.disable();
+        this.map.keyboard.disable();
       }
 
       // SETTERS
@@ -229,19 +234,24 @@ class Map extends React.Component {
   }
 }
 
+Map.defaultProps = {
+  interactionEnabled: true
+};
+
 Map.propTypes = {
+  interactionEnabled: PropTypes.bool.isRequired,
   // STORE
-  mapConfig: React.PropTypes.object,
-  filters: React.PropTypes.object,
-  sidebar: React.PropTypes.object,
-  LayerManager: React.PropTypes.func,
-  layersActive: React.PropTypes.array,
+  mapConfig: PropTypes.object,
+  filters: PropTypes.object,
+  sidebar: PropTypes.object,
+  LayerManager: PropTypes.func,
+  layersActive: PropTypes.array,
   // ACTIONS
-  setMapParams: React.PropTypes.func
+  setMapParams: PropTypes.func
 };
 
 const mapStateToProps = state => ({
   sidebar: state.explore.sidebar
 });
 
-export default withRedux(initStore, mapStateToProps, null)(Map);
+export default connect(mapStateToProps, null)(Map);

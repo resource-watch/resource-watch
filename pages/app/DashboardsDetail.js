@@ -3,6 +3,8 @@ import classnames from 'classnames';
 
 // Router
 import { Router } from 'routes';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -18,7 +20,7 @@ import UserService from 'services/UserService';
 // Utils
 import DASHBOARDS from 'utils/dashboards/config';
 
-export default class DashboardsDetail extends Page {
+class DashboardsDetail extends Page {
 
   /**
    * Fetch the list of dashboards
@@ -32,6 +34,26 @@ export default class DashboardsDetail extends Page {
         throw new Error('Unable to fetch the dashboards');
       })
       .then(({ data }) => data.map(d => d.attributes));
+  }
+
+  /**
+   * Return the URL of the dashboard image
+   * NOTE: return null if no image
+   * @static
+   * @param {string|object} image
+   */
+  static getDashboardImageUrl(image) {
+    if (!image) return null;
+
+    if (typeof image === 'object') {
+      // If no image has been uploaded, we just don't display anything
+      if (/missing\.png$/.test(image.original)) return null;
+      return `${process.env.API_URL}${image.original}`;
+    } else if (typeof image === 'string') {
+      return `/${image}`;
+    }
+
+    return null;
   }
 
   constructor(props) {
@@ -156,6 +178,7 @@ export default class DashboardsDetail extends Page {
         url={url}
         user={user}
         pageHeader
+        className="page-dashboards"
       >
         <div className="c-page-dashboards">
 
@@ -182,9 +205,11 @@ export default class DashboardsDetail extends Page {
                             '-active': selectedDashboard === dashboard
                           })}
                           key={dashboard.slug}
-                          style={{ backgroundImage: dashboard.photo && (
-                            dashboard.photo.startsWith('data:image/') ? `url(${dashboard.photo})` : `url(/${dashboard.photo})`
-                          ) }}
+                          style={{
+                            backgroundImage: dashboard.photo
+                              && DashboardsDetail.getDashboardImageUrl(dashboard.photo)
+                              && `url(${DashboardsDetail.getDashboardImageUrl(dashboard.photo)})`
+                          }}
                         >
                           <input
                             type="radio"
@@ -267,3 +292,5 @@ export default class DashboardsDetail extends Page {
   }
 
 }
+
+export default withRedux(initStore, null, null)(DashboardsDetail);

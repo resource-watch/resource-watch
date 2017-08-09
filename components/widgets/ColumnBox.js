@@ -5,8 +5,8 @@ import { Autobind } from 'es-decorators';
 import classNames from 'classnames';
 
 // Store
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
+
 import { removeFilter, removeColor, removeCategory, removeValue, removeSize, removeOrderBy, setOrderBy } from 'redactions/widgetEditor';
 import { toggleTooltip } from 'redactions/tooltip';
 
@@ -454,4 +454,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-export default DragSource('columnbox', columnBoxSource, collect)(withRedux(initStore, mapStateToProps, mapDispatchToProps)(ColumnBox));
+export default DragSource('columnbox', columnBoxSource, collect)(connect(mapStateToProps, mapDispatchToProps)(ColumnBox));

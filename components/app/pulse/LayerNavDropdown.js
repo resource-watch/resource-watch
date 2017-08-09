@@ -1,7 +1,7 @@
 import React from 'react';
 import Switch from 'components/ui/Switch';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
+
 import { toggleActiveLayer, getLayerPoints } from 'redactions/pulse';
 
 class LayerNavDropdown extends React.Component {
@@ -62,4 +62,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(LayerNavDropdown);
+export default connect(mapStateToProps, mapDispatchToProps)(LayerNavDropdown);

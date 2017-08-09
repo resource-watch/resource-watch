@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
+
 import { getDatasets, setFilters } from 'redactions/admin/datasets';
 
 // Selectors
@@ -141,4 +141,4 @@ const mapDispatchToProps = dispatch => ({
   setFilters: filters => dispatch(setFilters(filters))
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(DatasetTable);
+export default connect(mapStateToProps, mapDispatchToProps)(DatasetTable);

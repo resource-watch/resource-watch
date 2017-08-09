@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
+
 import { showLayer } from 'redactions/widgetEditor';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 
@@ -91,4 +91,4 @@ const mapDispatchToProps = dispatch => ({
   setModalOptions: (options) => { dispatch(setModalOptions(options)); }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(MapEditor);
+export default connect(mapStateToProps, mapDispatchToProps)(MapEditor);

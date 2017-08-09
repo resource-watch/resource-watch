@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
+
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -131,4 +131,4 @@ TableView.propTypes = {
 
 const mapStateToProps = ({ widgetEditor }) => ({ widgetEditor });
 
-export default withRedux(initStore, mapStateToProps, null)(TableView);
+export default connect(mapStateToProps, null)(TableView);

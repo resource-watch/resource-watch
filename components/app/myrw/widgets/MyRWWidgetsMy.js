@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
+
 
 // Services
 import UserService from 'services/UserService';
@@ -160,4 +160,4 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default withRedux(initStore, mapStateToProps, null)(MyRWWidgetsMy);
+export default connect(mapStateToProps, null)(MyRWWidgetsMy);

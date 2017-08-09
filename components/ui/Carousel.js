@@ -14,6 +14,11 @@ const defaultSettings = {
 function Carousel(props) {
   const settings = props.settings || defaultSettings;
 
+  if (window.innerWidth < 720) {
+    settings.slidesToShow = 2;
+    settings.slidesToScroll = 2;
+  }
+
   return (
     <div className="c-carousel">
       <Slider {...settings}>

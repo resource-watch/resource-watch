@@ -1,8 +1,10 @@
 .c-dataset-list-item {
-  background: $color-tertiary;
   display: flex;
   flex-direction: column;
   flex: 1 0 auto;
+
+  background: $ui-bg-color;
+
   cursor: pointer;
 
   -webkit-box-shadow: 0 0 0 rgba(0,0,0,0.1);
@@ -16,7 +18,8 @@
     justify-content: space-between;
 
     .detail {
-      padding: 16px;
+      font-size: $font-size-normal;
+      padding: $margin-size-extra-small;
 
       a {
         text-decoration: none;
@@ -24,29 +27,35 @@
       }
 
       p {
-        margin-top: 20px 0 0;
         word-break: break-word;
+      }
+
+      p:last-child {
+        margin-bottom: 0;
       }
     }
 
     .actions {
-      margin: 0 5px 5px;
+      padding-left: $margin-size-extra-small;
+      padding-bottom: $margin-size-extra-small;
+      padding-right: $margin-size-extra-small;
     }
   }
 
   &.-list {
-
     .info {
       flex-direction: row;
 
       .detail {
         padding-left: 0px;
-        max-width: calc(100% - 150px);
 
         a {
           text-decoration: none;
         }
 
+        @media screen and (min-width: map-get($breakpoints, medium)) {
+          max-width: calc(100% - 150px);
+        }
       }
     }
 
@@ -70,6 +79,7 @@
 
   &.-grid {
     border: 1px solid $border-color-1;
+    border-radius: 4px;
 
     .info {
       flex-direction: column;

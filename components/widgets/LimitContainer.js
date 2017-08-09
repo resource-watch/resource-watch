@@ -4,8 +4,8 @@ import { Autobind } from 'es-decorators';
 import debounce from 'lodash/debounce';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
+
 import { setLimit } from 'redactions/widgetEditor';
 
 // Maximum value for the query limit
@@ -67,4 +67,4 @@ const mapDispatchToProps = dispatch => ({
   }, 500)
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(LimitContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(LimitContainer);

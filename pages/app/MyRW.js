@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -30,16 +32,24 @@ const MYRW_TABS = [{
   value: 'widgets',
   route: 'myrw',
   params: { tab: 'widgets' }
-}, {
-  label: 'Insights',
-  value: 'insights',
-  route: 'myrw',
-  params: { tab: 'insights' }
-}, {
+},
+// {
+//   label: 'Insights',
+//   value: 'insights',
+//   route: 'myrw',
+//   params: { tab: 'insights' }
+// },
+{
   label: 'Subscriptions',
   value: 'subscriptions',
   route: 'myrw',
   params: { tab: 'subscriptions' }
+},
+{
+  label: 'Areas',
+  value: 'areas',
+  route: 'myrw',
+  params: { tab: 'areas' }
 }];
 
 class MyRW extends Page {
@@ -124,5 +134,4 @@ MyRW.propTypes = {
   user: PropTypes.object
 };
 
-
-export default MyRW;
+export default withRedux(initStore, null, null)(MyRW);

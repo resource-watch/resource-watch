@@ -3,8 +3,8 @@ import { Router } from 'routes';
 import PropTypes from 'prop-types';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
+
 
 // Components
 import DashboardsForm from 'components/admin/dashboards/form/DashboardsForm';
@@ -33,4 +33,4 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default withRedux(initStore, mapStateToProps, null)(DashboardsShow);
+export default connect(mapStateToProps, null)(DashboardsShow);

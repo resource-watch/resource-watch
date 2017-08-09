@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import classNames from 'classnames';
+import MediaQuery from 'react-responsive';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -20,13 +21,13 @@ import DatasetService from 'services/DatasetService';
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
-import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
 import WidgetEditor from 'components/widgets/WidgetEditor';
 import ShareExploreDetailModal from 'components/modal/ShareExploreDetailModal';
-import SubscribeToAlertsModal from 'components/modal/SubscribeToAlertsModal';
+import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import DatasetList from 'components/app/explore/DatasetList';
+import Banner from 'components/app/common/Banner';
 
 // Temporal: Only while we are not using the Knowledge Graph
 const SIMILAR_DATASETS = ['11de2bc1-368b-42ed-a207-aaff8ece752b', '3de46aa8-120c-454f-b022-464a236f45ed', '8ecf07f5-3cae-4275-adfe-918d04439a1a'];
@@ -154,8 +155,11 @@ class ExploreDetail extends Page {
   @Autobind
   handleSubscribe() {
     const options = {
-      children: SubscribeToAlertsModal,
+      children: SubscribeToDatasetModal,
       childrenProps: {
+        toggleModal: this.props.toggleModal,
+        dataset: this.state.dataset,
+        showDatasetSelector: false
       }
     };
     this.props.toggleModal(true);
@@ -193,14 +197,14 @@ class ExploreDetail extends Page {
           {/* PAGE HEADER */}
           <div className="c-page-header">
             <div className="l-container">
-              <div className="page-header-content -padding-b-2">
+              <div className="page-header-content">
                 <Breadcrumbs
                   items={[{ name: 'Explore datasets', route: 'explore' }]}
                 />
 
-                <Title className="-primary -huge page-header-title" >
+                <h1>
                   { dataset && dataset.attributes && dataset.attributes.name}
-                </Title>
+                </h1>
 
                 <div className="page-header-info">
                   <ul>
@@ -214,8 +218,8 @@ class ExploreDetail extends Page {
           </div>
 
           {/* DATASET INFO && ACTIONS */}
-          <div className="c-page-section">
-            <section className="c-dataset-info">
+          <section className="l-section">
+            <div className="l-container">
               <div className="row">
                 <div className="column small-12 medium-7">
                   {/* Description */}
@@ -223,9 +227,8 @@ class ExploreDetail extends Page {
                     {metadataAttributes && metadataAttributes.description}
                   </div>
                 </div>
-                <div className="column large-offset-2 small-3">
+                <div className="column large-offset-2 small-12 medium-3">
                   <div className="dataset-info-actions">
-
                     <button
                       className="c-button -secondary -fullwidth"
                       onClick={this.handleShare}
@@ -264,71 +267,125 @@ class ExploreDetail extends Page {
                   </div>
                 </div>
               </div>
-            </section>
-          </div>
+            </div>
+          </section>
 
           {/* WIDGET EDITOR */}
-          {dataset &&
-            <WidgetEditor
-              dataset={dataset.id}
-              mode="dataset"
-              showSaveButton
-            />
-          }
+          <MediaQuery minDeviceWidth={720} values={{deviceWidth: 720}}>
+            {dataset &&
+              <WidgetEditor
+                dataset={dataset.id}
+                mode="dataset"
+                showSaveButton
+              />
+            }
+          </MediaQuery>
 
           {/* METADATA */}
-          <div className="c-page-section">
-            <section className="c-dataset-metadata">
-              <div className="row">
-                <div className="column small-12 medium-7">
-                  <div className="dataset-info-rest-of-fields">
-                    <h2 className="c-text title -thin">Function</h2>
-                    <p>{metadataInfo && metadataInfo.functions }</p>
-                    <h2 className="c-text title -thin">Cautions</h2>
-                    <p>{metadataInfo && metadataInfo.cautions }</p>
-                    <h2 className="c-text title -thin">Citation</h2>
-                    <p>{metadataInfo && metadataInfo.citation }</p>
-                    <h2 className="c-text title -thin">Geographic coverage</h2>
-                    <p>{metadataInfo && metadataInfo.geographic_coverage }</p>
-                    <h2 className="c-text title -thin">Spatial resolution</h2>
-                    <p>{metadataInfo && metadataInfo.spatial_resolution }</p>
-                    <h2 className="c-text title -thin">Date of content</h2>
-                    <p>{metadataInfo && metadataInfo.date_of_content }</p>
-                    <h2 className="c-text title -thin">Frequency of updates</h2>
-                    <p>{metadataInfo && metadataInfo.frequency_of_updates }</p>
-                    <h2 className="c-text title -thin">License</h2>
-                    <a href={metadataInfo && metadataInfo.license_link}>
-                      {metadataInfo && metadataInfo.license }
-                    </a>
-                    <h2 className="c-text title -thin">Language</h2>
-                    <p>{metadataAttributes && metadataAttributes.language}</p>
-                    {metadataAttributes && metadataAttributes.language !== 'en' &&
-                      <div>
-                        <h2 className="c-text title -thin">Translated title</h2>
-                        <p>{metadataInfo && metadataInfo.translated_title}</p>
-                      </div>
-                    }
+          <section className="l-section">
+            <div className="row">
+              <div className="column small-12 medium-7">
+                <div className="l-section-mod">
+                  <h3>Function</h3>
+                  <p>{metadataInfo && metadataInfo.functions }</p>
+                </div>
+                <div className="l-section-mod">
+                  <h3>Cautions</h3>
+                  <p>{metadataInfo && metadataInfo.cautions }</p>
+                </div>
+                <div className="l-section-mod">
+                  <h3>Citation</h3>
+                  <p>{metadataInfo && metadataInfo.citation }</p>
+                </div>
+                <div className="l-section-mod">
+                  <h3>Geographic coverage</h3>
+                  <p>{metadataInfo && metadataInfo.geographic_coverage }</p>
+                </div>
+                <div className="l-section-mod">
+                  <h3>Spatial resolution</h3>
+                  <p>{metadataInfo && metadataInfo.spatial_resolution }</p>
+                </div>
+                <div className="l-section-mod">
+                  <h3>Date of content</h3>
+                  <p>{metadataInfo && metadataInfo.date_of_content }</p>
+                </div>
+                <div className="l-section-mod">
+                  <h3>Frequency of updates</h3>
+                  <p>{metadataInfo && metadataInfo.frequency_of_updates }</p>
+                </div>
+                <div className="l-section-mod">
+                  <h3>License</h3>
+                  <a href={metadataInfo && metadataInfo.license_link}>
+                    {metadataInfo && metadataInfo.license }
+                  </a>
+                </div>
+                <div className="l-section-mod">
+                  <h3>Language</h3>
+                  <p>{metadataAttributes && metadataAttributes.language}</p>
+                </div>
+                <div className="l-section-mod">
+                  {metadataAttributes && metadataAttributes.language !== 'en' &&
+                    <div>
+                      <h3>Translated title</h3>
+                      <p>{metadataInfo && metadataInfo.translated_title}</p>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="column small-12">
+                {/* SIMILAR DATASETS */}
+                <div className="l-section-mod similar-datasets">
+                  <div className="row">
+                    <div className="column small-12">
+                      <h3>Similar datasets</h3>
+                      <Spinner
+                        isLoading={!similarDatasetsLoaded}
+                        className="-relative -light"
+                      />
+                      {similarDatasets &&
+                      <DatasetList
+                        active={[]}
+                        list={similarDatasets}
+                        mode="grid"
+                        showActions={false}
+                      />
+                      }
+                    </div>
                   </div>
                 </div>
               </div>
-            </section>
-          </div>
+            </div>
+
+            <div className="row">
+              <div className="column small-12">
+                <Banner className="partners">
+                  <p>We have a massive opportunity<br />to build a sustainable society</p>
+                  <Link href="about_partners"><a className="c-button -alt -primary">Partners list</a></Link>
+                </Banner>
+              </div>
+            </div>
+          </section>
 
 
           {/* RELATED TOOLS */}
-          <div className="c-page-section related-tools">
+          {/*
+          <div className="l-section related-tools">
             <div className="row">
               <div className="column small-12">
-                <h2 className="c-text title -thin">Related Tools</h2>
+                <h3 className="c-text title -thin">Related Tools</h3>
               </div>
             </div>
           </div>
+          */}
 
           {/* SIMILAR DATASETS */}
-          <div className="c-page-section similar-datasets">
+          {/*<div className="l-section similar-datasets">
             <div className="row">
               <div className="column small-12">
-                <h2 className="c-text title -thin">Similar datasets</h2>
+                <h3 className="c-text title -thin">Similar datasets</h3>
                 <Spinner
                   isLoading={!similarDatasetsLoaded}
                   className="-relative -light"
@@ -343,16 +400,16 @@ class ExploreDetail extends Page {
                 }
               </div>
             </div>
-          </div>
+          </div>*/}
 
           {/* RELATED INSIGHTS */}
-          <div className="c-page-section related-insights">
+          {/*<div className="c-page-section related-insights">
             <div className="row">
               <div className="column small-12">
                 <h2 className="c-text title -thin">Related Insights</h2>
               </div>
             </div>
-          </div>
+          </div>*/}
 
           {/* PLANET PULSE */}
           <div className="c-page-section pulse-banner-section">

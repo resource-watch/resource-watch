@@ -1,130 +1,72 @@
+.page-home {
+  .video-intro {
+    position: relative;
+    width: 100%;
+    height: 390px;
+    overflow: hidden;
 
-.p-home {
-  .c-banner {
-    &.intro {
+    .video-foreground,
+    .video-foreground iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .video-text {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      color: $alt-font-color;
+      font-size: $font-size-big;
+      text-align: center;
       text-shadow: 0 2px 1px rgba(0, 0, 0, .2);
-      background-image: none;
-      // background-image: url('/static/images/backgrounds/image_header.jpg');
-      // background-position: top center;
 
-      .title {
-        margin: 0;
-        margin-bottom: 25px;
-      }
+      z-index: 1;
 
-      .scroll-icon {
-        position: absolute;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        left: 50%;
-        bottom: -8px;;
-        width: 55px;
-        height: 55px;
-        border-radius: 50%;
-        z-index: 1;
-        background-color: $color-white;
-        transform: translate(-50%, 50%);
-
-        .c-icon {
-          fill: $color-primary;
-        }
+      h1 {
+        color: $alt-font-color;
       }
     }
 
-    &.get-involved {
-      background-image: url('/static/images/backgrounds/mod_getInvolved.jpg');
-      background-position: top center;
-      text-align: left;
-
-      .title {
-        margin: 0;
-        margin-bottom: 10px;
-      }
-
-      p {
-        margin: 0;
-        margin-bottom: 32px;
-      }
-
-      .c-btn {
-        text-transform: none;
-        font-weight: normal;
-        padding: 15px 10px;
-        width: 100%;
-      }
+    @media screen and (min-width: map-get($breakpoints, medium)) {
+      height: 560px;
     }
-
-    .l-container { width: 100%; }
   }
 
-  .c-card-static {
+  @media (min-aspect-ratio: 16/9) {
+    .video-intro >.video-foreground { height: 300%; top: -100%; }
+  }
+  @media (max-aspect-ratio: 16/9) {
+    .video-intro > .video-foreground { height: 250%; top: -75%; }
+  }
+
+  .insight-cards {
+    .c-card-static {
+      margin-top: $margin-size;
+      height: 590px;
+    }
+
+    .dual {
+      margin-top: $margin-size;
+      .c-card-static {
+        margin-top: $margin-size-extra-small;
+        height: 288px;
+      }
+    }
+  }
+
+  .explore-cards .c-card-static {
     height: 590px;
-  }
-
-  .l-section {
-    .title {
-      margin-bottom: 10px;
-
-      a {
-        &:hover {
-          opacity: .7;
-        }
-      }
-    }
-
-    .intro {
-      margin-bottom: 45px;
-    }
-
-    &.insights {
-      .dual {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-
-        .c-card-static {
-          height: auto;
-          margin-bottom: 20px;
-          flex-grow: 1;
-
-          &:last-child {
-            margin-bottom: 0;
-          }
-        }
-      }
-
-      .buttons {
-        margin-top: 50px;
-
-        .c-btn {
-          display: inline-block;
-          text-align: center;
-          width: 100%;
-          text-transform: capitalize;
-          font-weight: normal;
-          font-size: 16px;
-          text-decoration: none;
-        }
-      }
-    }
-
-    &.explore {
-      button { width: 100%; }
-
-      .explore-cards {
-        .c-card-static {
-          .buttons {
-            .c-btn {
-
-              a {
-                color: $color-dark-pink;
-                text-decoration: none;
-              }
-            }
-          }
-        }
-      }
-    }
+    margin-top: $margin-size;
   }
 }
+

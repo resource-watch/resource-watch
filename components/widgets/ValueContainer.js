@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
+
 import { setValue, setAggregateFunction } from 'redactions/widgetEditor';
 import ColumnBox from 'components/widgets/ColumnBox';
 
@@ -103,4 +103,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(DimensionYContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(DimensionYContainer);

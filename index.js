@@ -9,6 +9,7 @@ const ControlTowerStrategy = require('passport-control-tower');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const basicAuth = require('basic-auth');
+const sass = require('node-sass');
 const { parse } = require('url');
 const routes = require('./routes');
 

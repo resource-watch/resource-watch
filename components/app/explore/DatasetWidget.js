@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import MediaQuery from 'react-responsive';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
+
 import { Link, Router } from 'routes';
 
 // Components
@@ -62,7 +63,7 @@ class DatasetWidget extends React.Component {
       return (
         <Button
           properties={{
-            className: `-primary -fullwidth ${buttonClass}`
+            className: `-secondary -fullwidth ${buttonClass}`
           }}
           onClick={this.triggerToggleLayer}
         >
@@ -74,7 +75,7 @@ class DatasetWidget extends React.Component {
       <Button
         properties={{
           disabled: true,
-          className: '-primary -fullwidth -disabled'
+          className: '-secondary -fullwidth -disabled'
         }}
         onClick={this.triggerToggleLayer}
       >
@@ -166,14 +167,14 @@ class DatasetWidget extends React.Component {
         <div className="info">
           <div className="detail">
             {/* Title */}
-            <Title className="-default -primary">
+            <h4>
               <Link
                 route={'explore_detail'}
                 params={{ id: dataset.id }}
               >
                 <a className="explore_detail_link">{dataset.attributes.name}</a>
               </Link>
-            </Title>
+            </h4>
 
             {/* Description */}
             {dataset.attributes.metadata && (dataset.attributes.metadata.length > 0) &&
@@ -188,11 +189,12 @@ class DatasetWidget extends React.Component {
               <p>Source: {dataset.attributes.metadata[0].attributes.source}</p>
             }
           </div>
-          <div className="actions">
-            {/* Layer Button */}
-            {showActions && this.getButton()}
-          </div>
-
+          <MediaQuery minDeviceWidth={720} values={{deviceWidth: 720}}>
+            <div className="actions">
+              {/* Layer Button */}
+              {showActions && this.getButton()}
+            </div>
+          </MediaQuery>
         </div>
       </div>
     );
@@ -225,4 +227,4 @@ const mapDispatchToProps = dispatch => ({
   setDatasetsHidden: (id) => { dispatch(setDatasetsHidden(id)); }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(DatasetWidget);
+export default connect(mapStateToProps, mapDispatchToProps)(DatasetWidget);

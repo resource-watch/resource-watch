@@ -1,43 +1,22 @@
-$item-color: $color-charcoal-grey;
-$hover-color: $color-secondary;
+.c-compound-menu .submenu {
+  padding: 0;
+  margin: 0 0 $margin-size 0;
+  list-style: none;
 
-.c-compound-menu {
-  display: flex;
-
-  .submenu {
-    display: flex;
-    flex-direction: column;
+  .item {
     padding: 0;
     margin: 0;
 
-    .item {
-      list-style: none;
-
-      &.title {
-        h3 {
-          margin: 0;
-          margin-bottom: 7px;
-        }
-
-        a {
-          font-size: $font-size-huger;
-          font-weight: 300;
-          line-height: 1.38;
-          opacity: 1;
-          text-decoration: none;
-        }
-      }
-
-      a {
-        font-size: $font-size-big;
-        font-weight: normal;
-        line-height: 1.62;
-        color: $item-color;
-        opacity: .5;
-        text-decoration: none;
-
-        &[href]:hover { color: $hover-color; }
-      }
+    a {
+      color: $ui-font-color;
     }
+
+    &.title a {
+      color: $header-font-color;
+    }
+  }
+
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    margin-bottom: 0;
   }
 }

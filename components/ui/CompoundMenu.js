@@ -5,26 +5,32 @@ import { Link } from 'routes';
 
 const CompoundMenu = ({ items }) => {
   const menuItems = items.map(submenu => (
-    <ul key={submenu[0].name} className="submenu column small-12 medium-3 large-3">
-      {submenu.map((item, j) => { // eslint-disable-line arrow-body-style
-        const linkParams = { route: item.route, params: item.params };
-        const link = item.route
-          ? <Link {...linkParams}><a>{item.name}</a></Link>
-          : <a>{item.name}</a>;
+    <div className="column small-6 medium-3" key={submenu[0].name}>
+      <ul className="submenu">
+        {submenu.map((item, j) => { // eslint-disable-line arrow-body-style
+          const linkParams = { route: item.route, params: item.params };
+          const link = item.route
+            ? <Link {...linkParams}><a>{item.name}</a></Link>
+            : <a>{item.name}</a>;
 
-        return (
-          <li key={item.name} className={classnames('item', { title: j === 0 })}>
-            {j === 0 ? <h3>{link}</h3> : link}
-          </li>
-        );
-      })}
-    </ul>
+          return (
+            <li key={item.name} className={classnames('item', { title: j === 0 })}>
+              {j === 0 ? <h3>{link}</h3> : link}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
     )
   );
 
   return (
-    <nav className="c-compound-menu row">
-      {menuItems}
+    <nav className="c-compound-menu">
+      <div className="l-container">
+        <div className="row">
+          {menuItems}
+        </div>
+      </div>
     </nav>
   );
 };
@@ -32,8 +38,6 @@ const CompoundMenu = ({ items }) => {
 CompoundMenu.propTypes = {
   /* Array of arrays */
   items: PropTypes.array
-  // orientation: PropTypes.string,
-  // align: PropTypes.string
 };
 
 CompoundMenu.defaultProps = {

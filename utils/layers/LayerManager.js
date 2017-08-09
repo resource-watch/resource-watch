@@ -44,7 +44,9 @@ export default class LayerManager {
       tileservice: this.addEsriLayer,
       esrifeatureservice: this.addEsriLayer,
       esrimapservice: this.addEsriLayer,
-      esritileservice: this.addEsriLayer
+      esritileservice: this.addEsriLayer,
+      // geojson
+      geojson: this.addGeoJsonLayer
     }[layer.provider];
 
     if (method) method.call(this, layer, opts);
@@ -89,6 +91,19 @@ export default class LayerManager {
       };
       return setTimeout(loop);
     });
+  }
+
+  addGeoJsonLayer(layer) {
+    const geojsonLayer = L.geoJSON(layer.layerConfig.data).addTo(this.map);
+    this.mapLayers[layer.id] = geojsonLayer;
+
+    if (layer.layerConfig.fitBounds) {
+      const bounds = geojsonLayer.getBounds();
+      this.map.fitBounds([
+        bounds.getNorthWest(),
+        bounds.getSouthEast()
+      ], { padding: [20, 20] });
+    }
   }
 
   addLeafletLayer(layerSpec, { zIndex }) {
