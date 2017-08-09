@@ -5,7 +5,7 @@ import { StickyContainer, Sticky } from 'react-sticky';
 import Aside from 'components/ui/Aside';
 
 // My RW Profile
-import MyRWProfileActivity from 'components/app/myrw/profile/MyRWProfileActivity';
+// import MyRWProfileActivity from 'components/app/myrw/profile/MyRWProfileActivity';
 import MyRWProfileEdit from 'components/app/myrw/profile/MyRWProfileEdit';
 
 // Constants
@@ -26,7 +26,7 @@ const MYRW_SUBTABS = [
 
 class MyRWProfile extends React.Component {
   render() {
-    const subtab = this.props.subtab || 'activity';
+    const subtab = this.props.subtab || 'edit';
 
     return (
       <div className="c-page-section">

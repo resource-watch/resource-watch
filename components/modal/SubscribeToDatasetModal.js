@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Router } from 'routes';
 import { Autobind } from 'es-decorators';
+import classnames from 'classnames';
 
 // Redux
 import { connect } from 'react-redux';
@@ -72,31 +73,35 @@ class SubscribeToDatasetModal extends React.Component {
   }
 
   loadDatasets() {
-    this.datasetService.getAllDatasets().then((response) => {
+    this.datasetService.getSubscribableDatasets().then((response) => {
       this.setState({
         loadingDatasets: false,
-        datasets: response.map(val => ({ label: val.attributes.name, value: val.attributes.name }))
+        datasets: response.filter(val => val.attributes.subscribable).map(val => (
+          { label: val.attributes.name, value: val.attributes.name, id: val.id }))
       });
     }).catch(err => console.log(err));
   }
 
   @Autobind
   handleSubscribe() {
-    const { selectedArea, name } = this.state;
-    const { dataset, user } = this.props;
+    const { selectedArea, name, selectedDataset } = this.state;
+    const { dataset, user, showDatasetSelector } = this.props;
+    const datasetId = dataset ? dataset.id : (selectedDataset && selectedDataset.id);
 
     if (selectedArea) {
-      this.setState({
-        loading: true
-      });
-      this.userService.createSubscriptionToDataset(dataset.id, selectedArea.value, user, name)
-        .then(() => {
-          this.setState({
-            loading: false,
-            saved: true
-          });
-        })
-        .catch(err => this.setState({ error: err, loading: false }));
+      if (!showDatasetSelector || (showDatasetSelector && selectedDataset)) {
+        this.setState({
+          loading: true
+        });
+        this.userService.createSubscriptionToDataset(datasetId, selectedArea.value, user, name)
+          .then(() => {
+            this.setState({
+              loading: false,
+              saved: true
+            });
+          })
+          .catch(err => this.setState({ error: err, loading: false }));
+      }
     }
   }
 
@@ -106,7 +111,7 @@ class SubscribeToDatasetModal extends React.Component {
       saved: false
     });
     this.props.toggleModal(false);
-    Router.pushRoute('myrw', { tab: 'subscriptions' });
+    Router.pushRoute('myrw', { tab: 'areas' });
   }
 
   @Autobind
@@ -148,6 +153,10 @@ class SubscribeToDatasetModal extends React.Component {
     const paragraphText = saved ?
       'Your subscription was successfully created. Please check your email address to confirm it' :
       'Please enter a name and select an area for the subscription';
+    const selectorsContainerClassName = classnames({
+      'selectors-container': true,
+      '-use-margin': showDatasetSelector
+    });
 
     return (
       <div className="c-subscribe-to-dataset-modal">
@@ -161,7 +170,7 @@ class SubscribeToDatasetModal extends React.Component {
               <h5>Subscription name</h5>
               <input value={name} onChange={this.handleNameChange} />
             </div>
-            <div className="selectors-container">
+            <div className={selectorsContainerClassName}>
               <Spinner isLoading={loadingAreaOptions || loadingDatasets || loading} className="-light -small" />
               <CustomSelect
                 placeholder="Select area"

@@ -9,7 +9,6 @@ import { getPartners } from 'redactions/admin/partners';
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
-import Title from 'components/ui/Title';
 import PartnerBlock from 'components/app/common/Partners/PartnerBlock';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
@@ -30,7 +29,7 @@ class Partners extends Page {
         description="Partners description"
         url={this.props.url}
         user={this.props.user}
-        pageHeader={true}
+        pageHeader
       >
         <div className="c-page-header">
           <div className="l-container">
@@ -74,9 +73,9 @@ class Partners extends Page {
             </div>
             <div className="row">
               {founders.map(p =>
-                <div className="column small-12 medium-6" key={p.id}>
+                (<div className="column small-12 medium-6" key={p.id}>
                   <PartnerBlock item={p} />
-                </div>
+                </div>)
               )}
             </div>
           </div>
@@ -91,9 +90,9 @@ class Partners extends Page {
             </div>
             <div className="row">
               {funders.map(p =>
-                <div className="column small-12 medium-6" key={p.id}>
+                (<div className="column small-12 medium-6" key={p.id}>
                   <PartnerBlock item={p} />
-                </div>
+                </div>)
               )}
             </div>
           </div>

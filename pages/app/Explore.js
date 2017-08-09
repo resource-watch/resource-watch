@@ -232,7 +232,7 @@ class Explore extends Page {
               />
             </Sidebar>
 
-            <MediaQuery minDeviceWidth={720} values={{deviceWidth: 720}}>
+            <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
               <div className="l-map">
                 <Map
                   LayerManager={LayerManager}

@@ -247,7 +247,7 @@ class ChartEditor extends React.Component {
         <div className="save-widget-container">
           <button
             type="button"
-            className="c-button -primary"
+            className="c-button -secondary"
             onClick={this.handleNeedHelp}
           >
             Need help?
