@@ -75,21 +75,23 @@ class SubscribeToDatasetModal extends React.Component {
     this.datasetService.getAllDatasets().then((response) => {
       this.setState({
         loadingDatasets: false,
-        datasets: response.map(val => ({ label: val.attributes.name, value: val.attributes.name }))
+        datasets: response.map(val => (
+          { label: val.attributes.name, value: val.attributes.name, id: val.id }))
       });
     }).catch(err => console.log(err));
   }
 
   @Autobind
   handleSubscribe() {
-    const { selectedArea, name } = this.state;
+    const { selectedArea, name, selectedDataset } = this.state;
     const { dataset, user } = this.props;
+    const datasetId = dataset ? dataset.id : selectedDataset.id;
 
     if (selectedArea) {
       this.setState({
         loading: true
       });
-      this.userService.createSubscriptionToDataset(dataset.id, selectedArea.value, user, name)
+      this.userService.createSubscriptionToDataset(datasetId, selectedArea.value, user, name)
         .then(() => {
           this.setState({
             loading: false,
