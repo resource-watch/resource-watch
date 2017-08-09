@@ -68,7 +68,7 @@ export default class Header extends React.Component {
     ];
 
     return (
-      <header className="c-header -transparent">
+      <header className="l-header -transparent">
         <div className="header-secondary">
           {/* We will load the script generated */}
         </div>
