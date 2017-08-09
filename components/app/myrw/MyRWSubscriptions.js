@@ -97,7 +97,7 @@ class MyRWSubscriptions extends React.Component {
               role="button"
               tabIndex={-1}
             >
-              New Subscription
+              New
             </a>
           </div>
           <div className="row">
