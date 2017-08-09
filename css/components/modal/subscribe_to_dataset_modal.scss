@@ -28,8 +28,10 @@
     display: flex;
     margin-top: 20px;
 
-    .c-custom-select:last-of-type {
-      margin-left: 10px;
+    &.-use-margin {
+      .c-custom-select:last-of-type {
+        margin-left: 10px;
+      }
     }
   }
 

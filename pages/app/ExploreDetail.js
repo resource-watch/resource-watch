@@ -258,12 +258,14 @@ class ExploreDetail extends Page {
                         Learn more
                       </a>
                     }
-                    <button
-                      className="c-button -primary -fullwidth"
-                      onClick={this.handleSubscribe}
-                    >
-                      Subscribe to alerts
-                    </button>
+                    {dataset && dataset.attributes && dataset.attributes.subscribable &&
+                      <button
+                        className="c-button -primary -fullwidth"
+                        onClick={this.handleSubscribe}
+                      >
+                        Subscribe to alerts
+                      </button>
+                    }
                   </div>
                 </div>
               </div>
