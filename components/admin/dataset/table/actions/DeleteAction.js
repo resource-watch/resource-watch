@@ -43,7 +43,7 @@ class DeleteAction extends React.Component {
   render() {
     return (
       <span>
-        <a href="#delete-dataset" onClick={this.handleOnClickDelete}> Remove </a>
+        <a className="c-btn" href="#delete-dataset" onClick={this.handleOnClickDelete}> Remove </a>
       </span>
     );
   }

@@ -77,31 +77,38 @@ class Data extends Page {
         {/* PAGE HEADER */}
         <div className="c-page-header -admin">
           <div className="l-container">
-            <div className="page-header-content -padding-b-0">
-              <Title className="-primary -huge page-header-title" >
-                Data
-              </Title>
-              <Tabs
-                options={DATA_TABS}
-                defaultSelected={tab}
-                selected={tab}
-              />
+            <div className="row">
+              <div className="column small-12">
+                <div className="page-header-content">
+                  <h1>Data</h1>
+                  <Tabs
+                    options={DATA_TABS}
+                    defaultSelected={tab}
+                    selected={tab}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
         <div className="c-page-section">
           <div className="l-container">
-            {tab === 'datasets' &&
-              <DatasetTab tab={tab} subtab={subtab} id={id} />
-            }
+            <div className="row">
+              <div className="column small-12">
+                {tab === 'datasets' &&
+                  <DatasetTab tab={tab} subtab={subtab} id={id} />
+                }
 
-            {tab === 'widgets' &&
-              <WidgetsTab tab={tab} subtab={subtab} id={id} />
-            }
+                {tab === 'widgets' &&
+                  <WidgetsTab tab={tab} subtab={subtab} id={id} />
+                }
 
-            {tab === 'layers' &&
-              <LayersTab tab={tab} subtab={subtab} id={id} />
-            }
+                {tab === 'layers' &&
+                  <LayersTab tab={tab} subtab={subtab} id={id} />
+                }
+              </div>
+            </div>
           </div>
         </div>
       </Layout>
