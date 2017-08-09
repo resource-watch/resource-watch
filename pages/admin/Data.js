@@ -76,7 +76,7 @@ class Data extends Page {
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
-                <div className="page-header-content">
+                <div className="page-header-content -with-tabs">
                   <h1>Data</h1>
                   <Tabs
                     options={DATA_TABS}

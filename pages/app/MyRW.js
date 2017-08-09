@@ -83,7 +83,7 @@ class MyRW extends Page {
       >
         <div className="c-page-header">
           <div className="l-container">
-            <div className="page-header-content -padding-b-0">
+            <div className="page-header-content -with-tabs">
               <Title className="-primary -huge page-header-title" >
                 My RW
               </Title>

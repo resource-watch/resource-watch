@@ -1,5 +1,4 @@
 import React from 'react';
-import find from 'lodash/find';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -11,7 +10,7 @@ import { getDatasets, setFilters } from 'redactions/admin/datasets';
 import getFilteredDatasets from 'selectors/admin/datasets';
 
 // Components
-import DatasetsWidget from 'components/datasets/list/DatasetsWidget';
+import DatasetsListCard from 'components/datasets/list/DatasetsListCard';
 
 class DatasetsList extends React.Component {
   componentDidMount() {
@@ -20,30 +19,22 @@ class DatasetsList extends React.Component {
   }
 
   render() {
-    const { datasets, mode, showActions } = this.props;
-
-    const newClassName = classNames({
-      column: true,
-      'list-item': true,
-      'small-12': true,
-      'medium-4': mode === 'grid',
-      [`-${mode}`]: true
-    });
+    const { datasets, routes } = this.props;
 
     return (
       <div className="c-dataset-list">
         <div className="l-row row list">
-          {datasets.map(dataset =>
-            (<div className={newClassName} key={dataset.id}>
-              <DatasetsWidget
+          {datasets.map(dataset => (
+            <div
+              className="column list-item small-12 medium-4"
+              key={dataset.id}
+            >
+              <DatasetsListCard
                 dataset={dataset}
-                widget={find(dataset.attributes.widget, { attributes: { default: true } })}
-                layer={find(dataset.attributes.layer, { attributes: { default: true } })}
-                mode={mode}
-                showActions={showActions}
+                routes={routes}
               />
-            </div>)
-          )}
+            </div>
+          ))}
         </div>
       </div>
     );
@@ -55,16 +46,12 @@ DatasetsList.defaultProps = {
     index: '',
     detail: ''
   },
-  showActions: true,
   // Store
-  datasets: [],
-  mode: 'grid'
+  datasets: []
 };
 
 DatasetsList.propTypes = {
   routes: PropTypes.object,
-  mode: PropTypes.string,
-  showActions: PropTypes.bool,
 
   // Store
   user: PropTypes.object,
