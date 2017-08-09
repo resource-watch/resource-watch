@@ -110,7 +110,7 @@ class SubscribeToDatasetModal extends React.Component {
       saved: false
     });
     this.props.toggleModal(false);
-    Router.pushRoute('myrw', { tab: 'subscriptions' });
+    Router.pushRoute('myrw', { tab: 'areas' });
   }
 
   @Autobind
