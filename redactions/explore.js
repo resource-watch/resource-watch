@@ -24,6 +24,7 @@ const SET_LAYERGROUP_TOGGLE = 'explore/SET_LAYERGROUP_TOGGLE';
 const SET_LAYERGROUP_VISIBILITY = 'explore/SET_LAYERGROUP_VISIBILITY';
 const SET_LAYERGROUP_ACTIVE_LAYER = 'explore/SET_LAYERGROUP_ACTIVE_LAYER';
 const SET_LAYERGROUP_ORDER = 'explore/SET_LAYERGROUP_ORDER';
+const SET_LAYERGROUPS = 'explore/SET_LAYERGROUPS';
 
 const SET_SIDEBAR = 'explore/SET_SIDEBAR';
 
@@ -176,6 +177,10 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { layers });
     }
 
+    case SET_LAYERGROUPS: {
+      return Object.assign({}, state, { layers: action.payload });
+    }
+
     case SET_DATASETS_PAGE: {
       const datasets = Object.assign({}, state.datasets, {
         page: action.payload
@@ -215,11 +220,33 @@ export default function (state = initialState, action) {
   }
 }
 
-/**
- * ACTIONS
- * - getDatasets
- * - setDatasetsPage
-*/
+// Let's use {replace} instead of {push}, that's how we will allow users to
+// go away from the current page
+export function setUrlParams() {
+  return (dispatch, getState) => {
+    const { explore } = getState();
+    const layerGroups = explore.layers;
+    const { page } = explore.datasets;
+    const { search, issue } = explore.filters;
+
+    const query = { page };
+
+    if (layerGroups.length) {
+      query.layers = encodeURIComponent(JSON.stringify(layerGroups));
+    }
+
+    if (search && search.value) {
+      query.search = search.value;
+    }
+
+    if (issue) {
+      query.issue = JSON.stringify(issue);
+    }
+
+    Router.replaceRoute('explore', query);
+  };
+}
+
 export function getDatasets() {
   return (dispatch) => {
     // Waiting for fetch from server -> Dispatch loading
@@ -289,12 +316,16 @@ export function getVocabularies() {
 }
 
 export function setDatasetsPage(page) {
-  return {
-    type: SET_DATASETS_PAGE,
-    payload: page
+  return (dispatch) => {
+    dispatch({
+      type: SET_DATASETS_PAGE,
+      payload: page
+    });
+
+    // We also update the URL
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
   };
 }
-
 
 /**
  * Add or remove a layer group from the map and legend
@@ -303,9 +334,14 @@ export function setDatasetsPage(page) {
  * @param {boolean} addLayer - Whether to add the group or remove it
  */
 export function toggleLayerGroup(dataset, addLayer) {
-  return {
-    type: SET_LAYERGROUP_TOGGLE,
-    payload: { dataset, [addLayer ? 'add' : 'remove']: true }
+  return (dispatch) => {
+    dispatch({
+      type: SET_LAYERGROUP_TOGGLE,
+      payload: { dataset, [addLayer ? 'add' : 'remove']: true }
+    });
+
+    // We also update the URL
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
   };
 }
 
@@ -316,9 +352,14 @@ export function toggleLayerGroup(dataset, addLayer) {
  * @param {boolean} visible - Whether to show the group or hide it
  */
 export function toggleLayerGroupVisibility(dataset, visible) {
-  return {
-    type: SET_LAYERGROUP_VISIBILITY,
-    payload: { dataset, visible }
+  return (dispatch) => {
+    dispatch({
+      type: SET_LAYERGROUP_VISIBILITY,
+      payload: { dataset, visible }
+    });
+
+    // We also update the URL
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
   };
 }
 
@@ -330,9 +371,14 @@ export function toggleLayerGroupVisibility(dataset, visible) {
  * @param {string} layer - ID of the layer
  */
 export function setLayerGroupActiveLayer(dataset, layer) {
-  return {
-    type: SET_LAYERGROUP_ACTIVE_LAYER,
-    payload: { dataset, layer }
+  return (dispatch) => {
+    dispatch({
+      type: SET_LAYERGROUP_ACTIVE_LAYER,
+      payload: { dataset, layer }
+    });
+
+    // We also update the URL
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
   };
 }
 
@@ -343,35 +389,33 @@ export function setLayerGroupActiveLayer(dataset, layer) {
  * @param {string[]} datasets - List of dataset IDs
  */
 export function setLayerGroupsOrder(datasets) {
-  return {
-    type: SET_LAYERGROUP_ORDER,
-    payload: datasets
+  return (dispatch) => {
+    dispatch({
+      type: SET_LAYERGROUP_ORDER,
+      payload: datasets
+    });
+
+    // We also update the URL
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
   };
 }
 
-// Let's use {replace} instead of {push}, that's how we will allow users to
-// go away from the current page
-export function setUrlParams() {
-  return (dispatch, getState) => {
-    const { explore } = getState();
-    const { page } = explore.datasets;
-    const { search, issue } = explore.filters;
+/**
+ * Set the layer attribute of the store
+ * This method is used when the layer groups are retrieved
+ * from the URL to restore the state
+ * @export
+ * @param {LayerGroup[]} layerGroups
+ */
+export function setLayerGroups(layerGroups) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_LAYERGROUPS,
+      payload: layerGroups
+    });
 
-    const query = { page };
-    // TODO: reimplement
-    // if (active.length) {
-    //   query.active = active.join(',');
-    // }
-
-    if (search && search.value) {
-      query.search = search.value;
-    }
-
-    if (issue) {
-      query.issue = JSON.stringify(issue);
-    }
-
-    Router.replaceRoute('explore', query);
+    // We also update the URL
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
   };
 }
 
@@ -383,16 +427,26 @@ export function setSidebar(options) {
 }
 
 export function setDatasetsSearchFilter(search) {
-  return {
-    type: SET_DATASETS_SEARCH_FILTER,
-    payload: search
+  return (dispatch) => {
+    dispatch({
+      type: SET_DATASETS_SEARCH_FILTER,
+      payload: search
+    });
+
+    // We also update the URL
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
   };
 }
 
 export function setDatasetsIssueFilter(issue) {
-  return {
-    type: SET_DATASETS_ISSUE_FILTER,
-    payload: issue
+  return (dispatch) => {
+    dispatch({
+      type: SET_DATASETS_ISSUE_FILTER,
+      payload: issue
+    });
+
+    // We also update the URL
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
   };
 }
 

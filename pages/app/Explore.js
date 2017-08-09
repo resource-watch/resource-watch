@@ -13,9 +13,9 @@ import {
   toggleLayerGroup,
   setLayerGroupsOrder,
   setLayerGroupActiveLayer,
+  setLayerGroups,
   getDatasets,
   setDatasetsPage,
-  setUrlParams,
   setDatasetsSearchFilter,
   setDatasetsIssueFilter,
   getVocabularies
@@ -71,21 +71,26 @@ class Explore extends Page {
   }
 
   componentWillMount() {
-    if (this.props.url.query.page) {
-      this.props.setDatasetsPage(+this.props.url.query.page);
+    const query = this.props.url.query;
+    if (query.page) {
+      this.props.setDatasetsPage(+query.page);
     }
 
-    if (this.props.url.query.active) {
-      // TODO: reimplement the feature
-      // this.props.setDatasetsActive(this.props.url.query.active.split(','));
+    if (query.layers) {
+      try {
+        const layerGroups = JSON.parse(decodeURIComponent(query.layers));
+        this.props.setLayerGroups(layerGroups);
+      } catch (e) {
+        this.props.setLayerGroups([]);
+      }
     }
 
-    if (this.props.url.query.search) {
-      this.props.setDatasetsSearchFilter({ value: this.props.url.query.search, key: 'name' });
+    if (query.search) {
+      this.props.setDatasetsSearchFilter({ value: query.search, key: 'name' });
     }
 
-    if (this.props.url.query.issue) {
-      this.props.setDatasetsIssueFilter(JSON.parse(this.props.url.query.issue));
+    if (query.issue) {
+      this.props.setDatasetsIssueFilter(JSON.parse(query.issue));
     }
 
     this.props.getDatasets();
@@ -336,7 +341,9 @@ Explore.propTypes = {
   // Remove the layer group
   removeLayerGroup: PropTypes.func.isRequired,
   // Set the active layer of a layer group
-  setLayerGroupActiveLayer: PropTypes.func.isRequired
+  setLayerGroupActiveLayer: PropTypes.func.isRequired,
+  // Set the layer groups
+  setLayerGroups: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -357,27 +364,19 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
   getDatasets: () => { dispatch(getDatasets()); },
   getVocabularies: () => { dispatch(getVocabularies()); },
-  setDatasetsSearchFilter: (search) => {
-    dispatch(setDatasetsSearchFilter(search));
-    if (typeof window !== 'undefined') dispatch(setUrlParams());
-  },
-  setDatasetsIssueFilter: (issue) => {
-    dispatch(setDatasetsIssueFilter(issue));
-    if (typeof window !== 'undefined') dispatch(setUrlParams());
-  },
+  setDatasetsSearchFilter: search => dispatch(setDatasetsSearchFilter(search)),
+  setDatasetsIssueFilter: issue => dispatch(setDatasetsIssueFilter(issue)),
   redirectTo: (url) => { dispatch(redirectTo(url)); },
   toggleModal: (open, options) => dispatch(toggleModal(open, options)),
   setModalOptions: (options) => { dispatch(setModalOptions(options)); },
-  setDatasetsPage: (page) => {
-    dispatch(setDatasetsPage(page));
-    if (typeof window !== 'undefined') dispatch(setUrlParams());
-  },
+  setDatasetsPage: page => dispatch(setDatasetsPage(page)),
   toggleLayerGroupVisibility: (dataset, visible) => {
     dispatch(toggleLayerGroupVisibility(dataset, visible));
   },
   removeLayerGroup: dataset => dispatch(toggleLayerGroup(dataset, false)),
   setLayerGroupsOrder: datasets => dispatch(setLayerGroupsOrder(datasets)),
-  setLayerGroupActiveLayer: (dataset, layer) => dispatch(setLayerGroupActiveLayer(dataset, layer))
+  setLayerGroupActiveLayer: (dataset, layer) => dispatch(setLayerGroupActiveLayer(dataset, layer)),
+  setLayerGroups: layerGroups => dispatch(setLayerGroups(layerGroups))
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Explore);
