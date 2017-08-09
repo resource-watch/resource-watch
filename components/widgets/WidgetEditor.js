@@ -599,6 +599,7 @@ class WidgetEditor extends React.Component {
                 {
                   selectedVisualizationType === 'map' && layers && layers.length > 0 &&
                   <MapEditor
+                    layerGroups={this.state.layerGroups}
                     layers={layers}
                     tableName={tableName}
                   />
