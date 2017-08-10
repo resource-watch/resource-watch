@@ -59,7 +59,7 @@ class SubscriptionsList extends React.Component {
     const { user } = this.props;
 
     return (
-      <div className="c-page-section c-myrw-subscriptions">
+      <div className="c-myrw-subscriptions">
         <div className="l-container">
           <Spinner isLoading={loading} className="-small -light" />
           <div className="actions-div">

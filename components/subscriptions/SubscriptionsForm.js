@@ -8,6 +8,28 @@ import { connect } from 'react-redux';
 // Components
 import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
+import Field from 'components/form/Field';
+import Input from 'components/form/Input';
+
+const FORM_ELEMENTS = {
+  elements: {
+  },
+  validate() {
+    const elements = this.elements;
+    Object.keys(elements).forEach((k) => {
+      elements[k].validate();
+    });
+  },
+  isValid() {
+    const elements = this.elements;
+    const valid = Object.keys(elements)
+      .map(k => elements[k].isValid())
+      .filter(v => v !== null)
+      .every(element => element);
+
+    return valid;
+  }
+};
 
 class SubscriptionsForm extends React.Component {
   constructor(props) {
@@ -31,6 +53,11 @@ class SubscriptionsForm extends React.Component {
     });
   }
 
+  onSubmit(e) {
+    e.preventDefault();
+    console.log('onSubmit!');
+  }
+
   render() {
     const {
       areaOptions,
@@ -44,11 +71,21 @@ class SubscriptionsForm extends React.Component {
     } = this.state;
     return (
       <div className="c-subscriptions-form">
-        <div>
-          <div className="name-container">
-            <h5>Name</h5>
-            <input value={name} onChange={this.handleNameChange} />
-          </div>
+        <form className="c-form" onSubmit={this.onSubmit} noValidate>
+          <fieldset className="c-field-container">
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
+              onChange={this.handleNameChange}
+              properties={{
+                name: 'name',
+                label: 'Name',
+                type: 'text',
+                value: name
+              }}
+            >
+              {Input}
+            </Field>
+          </fieldset>
           <div className="selectors-container">
             <Spinner isLoading={loadingAreaOptions || loadingDatasets || loading} className="-light -small" />
             <CustomSelect
@@ -67,12 +104,12 @@ class SubscriptionsForm extends React.Component {
               value={selectedDataset && selectedDataset.value}
             />
           </div>
-        </div>
-        <div className="buttons-div">
-          <button className="c-btn -primary" onClick={this.handleSubscribe}>
+          <div className="buttons-div">
+            <button type="submit" className="c-btn -primary">
             Subscribe
           </button>
-        </div>
+          </div>
+        </form>
       </div>
     );
   }
