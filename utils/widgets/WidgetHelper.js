@@ -68,12 +68,12 @@ export function isFieldAllowed(field) {
 
 export function isFieldNumber(field) {
   const fieldd = isFieldAllowed(field);
-  return fieldd ? field.type === 'number' : false;
+  return fieldd ? fieldd.type === 'number' : false;
 }
 
 export function isFieldDate(field) {
   const fieldd = isFieldAllowed(field);
-  return fieldd ? field.type === 'date' : false;
+  return fieldd ? fieldd.type === 'date' : false;
 }
 
 export function getChartType(type) {
