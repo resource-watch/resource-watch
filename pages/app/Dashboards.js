@@ -110,58 +110,60 @@ class Dashboards extends Page {
       >
         <div className="l-page-header">
           <div className="l-container">
-            <div className="page-header-content">
-              <Breadcrumbs items={[{ name: 'Data', href: '/data' }]} />
-              <h1>Dashboards</h1>
+            <div className="row">
+              <div className="column small-12">
+                <div className="page-header-content">
+                  <Breadcrumbs items={[{ name: 'Data', href: '/data' }]} />
+                  <h1>Dashboards</h1>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <section className="l-section -secondary">
-          <div className="row">
-            <div className="column small-12">
-              { this.state.error && (
-                <div className="column small-12">
+          <div className="l-container">
+            <div className="row">
+              <div className="column small-12">
+                { this.state.error && (
                   <p className="error">{this.state.error}</p>
-                </div>
-              ) }
-              { !this.state.error && this.state.loading && <Spinner isLoading className="-light" /> }
-              { !this.state.loading && !this.state.error && (
-                <div className="column small-12 large-7">
+                ) }
+                { !this.state.error && this.state.loading && <Spinner isLoading className="-light" /> }
+                { !this.state.loading && !this.state.error && (
                   <h2>Select a topic to start exploring</h2>
-                </div>
-              ) }
-
+                ) }
+              </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="column small-12">
-              <ul className="dashboards-list">
-                {
-                  this.state.dashboards
-                    .map(dashboard => (
-                      <li
-                        key={dashboard.slug}
-                        style={{
-                          backgroundImage: dashboard.photo
-                            && Dashboards.getDashboardImageUrl(dashboard.photo)
-                            && `url(${Dashboards.getDashboardImageUrl(dashboard.photo)})`
-                        }}
-                      >
-                        <input
-                          type="radio"
-                          name="dashboard"
-                          id={`dashboard-${dashboard.slug}`}
-                          value={dashboard.slug}
-                          onChange={e => Dashboards.onChangeDashboard(e.target.value)}
-                        />
-                        <label className="content" htmlFor={`dashboard-${dashboard.slug}`}>
-                          {dashboard.name}
-                        </label>
-                      </li>
-                    ))
-                }
-              </ul>
+
+            <div className="row">
+              <div className="column small-12">
+                <ul className="dashboards-list">
+                  {
+                    this.state.dashboards
+                      .map(dashboard => (
+                        <li
+                          key={dashboard.slug}
+                          style={{
+                            backgroundImage: dashboard.photo
+                              && Dashboards.getDashboardImageUrl(dashboard.photo)
+                              && `url(${Dashboards.getDashboardImageUrl(dashboard.photo)})`
+                          }}
+                        >
+                          <input
+                            type="radio"
+                            name="dashboard"
+                            id={`dashboard-${dashboard.slug}`}
+                            value={dashboard.slug}
+                            onChange={e => Dashboards.onChangeDashboard(e.target.value)}
+                          />
+                          <label className="content" htmlFor={`dashboard-${dashboard.slug}`}>
+                            {dashboard.name}
+                          </label>
+                        </li>
+                      ))
+                  }
+                </ul>
+              </div>
             </div>
           </div>
         </section>

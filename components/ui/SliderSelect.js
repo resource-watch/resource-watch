@@ -387,16 +387,16 @@ export default class SliderSelect extends React.Component {
           />
           <div>
             <span>{selectedItem ? selectedItem.as || selectedItem.label : placeholder}</span>
-            {!selectedItem && closed &&
+            {/*!selectedItem && closed &&
               <button className="icon-btn" onClick={this.toggle}>
                 <Icon name="icon-arrow-down" className="-small icon-arrow-down" />
               </button>
-            }
-            {selectedItem &&
+            */}
+            {/*selectedItem &&
               <button className="icon-btn clear-button" onClick={this.clearSelectedItem}>
                 <Icon name="icon-cross" className="-small icon-cross" />
               </button>
-            }
+            */}
           </div>
         </div>
         {noResults &&

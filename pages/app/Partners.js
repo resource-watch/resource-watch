@@ -99,18 +99,22 @@ class Partners extends Page {
           </div>
         </section>
 
-        <div className="row">
-          <div className="column small-12">
-            <Banner>
-              <h3 className="c-text -header-normal -normal">
-                See yourself as part<br /> of this team?
-              </h3>
-              <button className="c-btn -primary -alt">
-                Get in touch
-              </button>
-            </Banner>
+        <aside className="l-postcontent">
+          <div className="l-container">
+            <div className="row align-center">
+              <div className="column small-12">
+                <Banner>
+                  <h3>
+                    See yourself as part<br /> of this team?
+                  </h3>
+                  <button className="c-btn -primary -alt">
+                    Get in touch
+                  </button>
+                </Banner>
+              </div>
+            </div>
           </div>
-        </div>
+        </aside>
       </Layout>
     );
   }

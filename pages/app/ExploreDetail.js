@@ -52,12 +52,11 @@ class ExploreDetail extends Page {
 
   /**
    * Component Lifecycle
-   * - componentDidMount
+   * - componentWillMount
    * - componentWillReceiveProps
    * - componentWillUnmount
   */
-  componentDidMount() {
-    super.componentDidMount();
+  componentWillMount() {
     this.getDataset();
     this.getSimilarDatasets();
   }
@@ -107,6 +106,7 @@ class ExploreDetail extends Page {
       });
     });
   }
+
   getSimilarDatasets() {
     this.setState({
       similarDatasetsLoaded: false

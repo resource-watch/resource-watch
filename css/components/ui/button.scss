@@ -36,12 +36,6 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
   }
 
-  &.-compressed {
-    padding-left: $margin-size/2;
-    padding-right: $margin-size/2;
-    height: 30px;
-  }
-
   &.-a, &.-b, &.-c,
   &.-primary, &.-secondary, &.-tertiary {
     padding: 0 $margin-size;
@@ -78,6 +72,16 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
         background-color: $btn-bg-hover-alt-color;
       }
     }
+
+    &[disabled], &.-disabled {
+      color: rgba($ui-font-color, 0.5);
+      border-color: $border-color-1;
+      cursor: default;
+
+      &:hover{
+        background-color: transparent;
+      }
+    }
   }
 
   &.-c, &.-tertiary {
@@ -98,8 +102,28 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
     padding-left: $margin-size/2;
     padding-right: $margin-size/2;
   }
+
+  &.-compressed {
+    padding-left: $margin-size/2;
+    padding-right: $margin-size/2;
+    height: 30px;
+  }
 }
 
 .buttons {
   margin-top: $margin-size-small;
+
+  @media screen and (max-width: map-get($breakpoints, medium)) {
+    .c-btn, .c-button {
+      margin-top: $margin-size-extra-small;
+      width: 100%;
+      padding-left: $margin-size/2;
+      padding-right: $margin-size/2;
+    }
+  }
+
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    display: flex;
+    justify-content: space-between;
+  }
 }

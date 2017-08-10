@@ -2,7 +2,7 @@
   $header-main-height: rem(75);
 
   position: relative;
-  min-height: calc(100vh - #{$header-main-height});
+  // min-height: calc(100vh - #{$header-main-height});
 
   &.-dark {
     background-color: #242426;

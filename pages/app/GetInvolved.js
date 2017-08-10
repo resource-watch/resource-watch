@@ -19,7 +19,7 @@ const cards = [
         text: 'Submit an insight',
         route: 'get_involved_detail',
         params: { id: 'submit-an-insight' },
-        className: '-primary'
+        className: '-secondary'
       }
     ],
     className: 'insights'
@@ -33,7 +33,7 @@ const cards = [
         text: 'Contribute data',
         route: 'get_involved_detail',
         params: { id: 'contribute-data' },
-        className: '-primary contribute-data'
+        className: '-secondary contribute-data'
       }
     ],
     className: 'contribute'
@@ -47,7 +47,7 @@ const cards = [
         text: 'Join the community',
         route: 'get_involved_detail',
         params: { id: 'join-community' },
-        className: '-primary'
+        className: '-secondary'
       }
     ],
     className: 'join'
@@ -61,13 +61,13 @@ const cards = [
         text: 'Develop your app',
         route: 'get_involved_detail',
         params: { id: 'develop-app' },
-        className: '-primary'
+        className: '-secondary'
       },
       {
         text: 'Apps gallery',
         route: 'get_involved_detail',
         params: { id: 'apps' },
-        className: '-transparent'
+        className: '-secondary -alt'
       }
     ],
     className: 'develop'
@@ -96,19 +96,19 @@ class GetInvolved extends Page {
         className="column small-12 medium-6"
       >
         <CardStatic
-          className={`-light ${c.className}`}
+          className={`-alt ${c.className}`}
           background={c.background}
           clickable={false}
         >
           <div>
-            <h2 className="title c-text -header-normal -thin">{c.title}</h2>
-            <p className="c-text -big">{c.intro}</p>
+            <h2>{c.title}</h2>
+            <p>{c.intro}</p>
           </div>
           <div className="buttons">
             {c.buttons.map(b => (
-              <button key={b.route + b.params.id} className={`c-button ${b.className}`}>
-                <Link route={b.route} params={b.params}><a>{b.text}</a></Link>
-              </button>
+              <Link key={b.route + b.params.id} route={b.route} params={b.params}>
+                <a className={`c-button ${b.className}`}>{b.text}</a>
+              </Link>
             ))}
           </div>
         </CardStatic>
@@ -121,6 +121,7 @@ class GetInvolved extends Page {
         description="Get Involved description"
         url={this.props.url}
         user={this.props.user}
+        className={'-get-involved'}
       >
         <section className="l-content">
           <header className="l-content-header">
@@ -138,21 +139,20 @@ class GetInvolved extends Page {
               </div>
             </div>
           </header>
-          <article className="l-content-body">
-            <div className="l-container">
-              <div className="row align-center">
-                <div className="column small-12 medium-8">
-                  <div dangerouslySetInnerHTML={{ __html: data && data.content }} />
+          <div className="l-content-body">
+            { data.content ? (<article>
+              <div className="l-container">
+                <div className="row align-center">
+                  <div className="column small-12 medium-8">
+                    <div dangerouslySetInnerHTML={{ __html: data && data.content }} />
+                  </div>
                 </div>
               </div>
-            </div>
-          </article>
-        </section>
-
-        <section className="l-section">
-          <div className="l-container">
-            <div className="cards row">
-              {cardsStatic}
+            </article>) : null }
+            <div className="l-container">
+              <div className="row">
+                {cardsStatic}
+              </div>
             </div>
           </div>
         </section>

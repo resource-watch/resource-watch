@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import { Link } from 'routes';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 
 // Layout
 import Head from 'components/app/layout/head';
@@ -17,7 +19,7 @@ import WidgetService from 'services/WidgetService';
 // Utils
 import ChartTheme from 'utils/widgets/theme';
 
-export default class EmbedWidget extends React.Component {
+class EmbedWidget extends React.Component {
 
   constructor(props) {
     super(props);
@@ -94,3 +96,5 @@ export default class EmbedWidget extends React.Component {
 EmbedWidget.propTypes = {
   url: PropTypes.object.isRequired
 };
+
+export default withRedux(initStore, null, null)(EmbedWidget);
