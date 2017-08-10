@@ -55,7 +55,7 @@ export function getPartners() {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_PARTNERS_LOADING });
     // TODO: remove the date now
-    fetch(new Request(`${process.env.API_URL}/api/partners`))
+    fetch(new Request(`${process.env.API_URL}/partners`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);

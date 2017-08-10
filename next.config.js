@@ -49,7 +49,8 @@ module.exports = {
         'process.env.BASEMAP_TILE_URL': JSON.stringify(process.env.BASEMAP_TILE_URL),
         'process.env.CALLBACK_URL': JSON.stringify(process.env.CALLBACK_URL),
         'process.env.CONTROL_TOWER_URL': JSON.stringify(process.env.CONTROL_TOWER_URL),
-        'process.env.WRI_API_URL': JSON.stringify(process.env.WRI_API_URL)
+        'process.env.WRI_API_URL': JSON.stringify(process.env.WRI_API_URL),
+        'process.env.STATIC_SERVER_URL': JSON.stringify(process.env.STATIC_SERVER_URL)
       })
     );
 
