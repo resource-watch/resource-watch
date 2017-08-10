@@ -81,12 +81,6 @@
       }
     }
 
-    &.-admin {
-      .page-header-content {
-        padding-bottom: 0;
-      }
-    }
-
     @media screen and (min-width: map-get($breakpoints, medium)) {
       .page-header-content {
         padding: $margin-size 0;
