@@ -172,9 +172,11 @@ export default class LayerManager {
       }
       const newLayer = new L.tileLayer(layerData.url, layerData.body); // eslint-disable-line
 
+      let layerElement;
+
       newLayer.on('load', () => {
         delete this.layersLoading[layer.id];
-        const layerElement = this.map.getPane('tilePane').lastChild;
+        layerElement = this.map.getPane('tilePane').lastChild;
         if (zIndex) {
           layerElement.style.zIndex = zIndex;
         }
@@ -182,6 +184,11 @@ export default class LayerManager {
       });
 
       newLayer.addTo(this.map);
+
+      // This method is called in setZIndex
+      newLayer.setZIndex = (index) => {
+        layerElement.style.zIndex = index;
+      };
 
       this.mapLayers[layer.id] = newLayer;
     } else if (L.esri[layer.type]) {
@@ -193,15 +200,24 @@ export default class LayerManager {
       }
       const newLayer = L.esri[layer.type](layerConfig);
 
+      let layerElement;
+
       newLayer.on('load', () => {
         delete this.layersLoading[layer.id];
-        const layerElement = this.map.getPane('tilePane').lastChild;
+        layerElement = this.map.getPane('tilePane').lastChild;
         if (zIndex) {
           layerElement.style.zIndex = zIndex;
         }
         layerElement.id = layer.id;
       });
+
       newLayer.addTo(this.map);
+
+      // This method is called in setZIndex
+      newLayer.setZIndex = (index) => {
+        layerElement.style.zIndex = index;
+      };
+
       this.mapLayers[layer.id] = newLayer;
     } else {
       this.rejectLayersLoading = true;
@@ -249,11 +265,11 @@ export default class LayerManager {
       });
   }
 
-  setZIndex(layersActive) {
-    Object.keys(this.mapLayers).forEach((key) => {
-      const order = layersActive.filter(l => l.id === key)[0].order;
-      const hidden = layersActive.filter(l => l.id === key)[0].hidden;
-      this.mapLayers[key].setZIndex(hidden ? -1 : order);
+  setZIndex(layers) {
+    const layerIds = Object.keys(this.mapLayers);
+    layerIds.forEach((layerId) => {
+      const order = layers.find(l => l.id === layerId).order;
+      this.mapLayers[layerId].setZIndex(order);
     });
   }
 }

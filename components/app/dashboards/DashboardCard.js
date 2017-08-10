@@ -15,8 +15,6 @@ import Icon from 'components/ui/Icon';
 // Redux
 import { connect } from 'react-redux';
 
-import { toggleModal, setModalOptions } from 'redactions/modal';
-
 // Utils
 import getChartTheme from 'utils/widgets/theme';
 import LayerManager from 'utils/layers/LayerManager';
@@ -33,7 +31,7 @@ class DashboardCard extends React.Component {
       loading: false,
       name: null, // Name of the widget
       widgetConfig: null, // Vega config of the widget
-      layer: null, // Map's layer,
+      layers: [], // Map's layers
       isFavourite: props.isFavourite
     };
 
@@ -53,6 +51,20 @@ class DashboardCard extends React.Component {
         isFavourite: nextProps.isFavourite
       });
     }
+  }
+
+  /**
+   * Event handler executed when the user toggles the
+   * visibility of a layer group
+   * @param {LayerGroup} layerGroup - Layer group to toggle
+   */
+  onToggleLayerGroupVisibility(layerGroup) {
+    const layerGroups = this.state.layers.map((l) => {
+      if (l.dataset !== layerGroup.dataset) return l;
+      return Object.assign({}, l, { visible: !layerGroup.visible });
+    });
+
+    this.setState({ layers: [...layerGroups] });
   }
 
   /**
@@ -99,14 +111,15 @@ class DashboardCard extends React.Component {
       })
       .then(({ data }) => {
         this.setState({
-          layer: {
-            id: data.id,
-            name: data.attributes.name,
-            subtitle: data.attributes.subtitle,
-            ...data.attributes,
-            order: 1,
-            hidden: false
-          }
+          layers: [{
+            dataset: data.attributes.dataset,
+            visible: true,
+            layers: [{
+              id: data.id,
+              active: true,
+              ...data.attributes
+            }]
+          }]
         });
       })
       .catch(err => this.setState({ error: err.message }))
@@ -147,7 +160,7 @@ class DashboardCard extends React.Component {
             loading: false
           });
         }
-      ).catch(err => console.log(err));
+      ).catch(err => console.error(err));
     } else {
       this.userService.createFavouriteWidget(widgetId, user.token)
         .then(() => {
@@ -156,7 +169,7 @@ class DashboardCard extends React.Component {
             loading: false
           });
         }
-      ).catch(err => console.log(err));
+      ).catch(err => console.error(err));
     }
   }
 
@@ -201,19 +214,22 @@ class DashboardCard extends React.Component {
             />
           }
           {
-            !this.state.error && widgetConfig && widgetType === 'map' && this.state.layer
+            !this.state.error && widgetConfig && widgetType === 'map' && this.state.layers
               && (
                 <div>
                   <Map
                     LayerManager={LayerManager}
                     mapConfig={{}}
-                    layersActive={[this.state.layer]}
+                    layerGroups={this.state.layers}
                   />
                   <Legend
-                    layersActive={[this.state.layer]}
+                    layerGroups={this.state.layers}
                     className={{ color: '-dark' }}
-                    toggleModal={this.props.toggleModal}
-                    setModalOptions={this.props.setModalOptions}
+                    toggleLayerGroupVisibility={
+                      layerGroup => this.onToggleLayerGroupVisibility(layerGroup)
+                    }
+                    setLayerGroupsOrder={() => {}}
+                    setLayerGroupActiveLayer={() => {}}
                     expanded={false}
                     readonly
                   />
@@ -242,8 +258,6 @@ DashboardCard.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.string).isRequired,
   isFavourite: PropTypes.bool.isRequired,
   // Redux
-  toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   // NOTE:
   // The following props will be deprecated once the dashboards
@@ -256,9 +270,6 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-const mapDispatchToProps = dispatch => ({
-  toggleModal: open => dispatch(toggleModal(open)),
-  setModalOptions: options => dispatch(setModalOptions(options))
-});
+const mapDispatchToProps = () => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardCard);
