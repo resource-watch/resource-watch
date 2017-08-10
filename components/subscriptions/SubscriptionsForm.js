@@ -40,6 +40,20 @@ const FORM_ELEMENTS = {
   }
 };
 
+const AREAS = [
+  {
+    label: 'Custom area',
+    value: 'custom',
+    items: [
+      {
+        label: 'Upload new area',
+        value: 'upload',
+        as: 'Custom area'
+      }
+    ]
+  }
+];
+
 class SubscriptionsForm extends React.Component {
   constructor(props) {
     super(props);
@@ -131,7 +145,7 @@ class SubscriptionsForm extends React.Component {
     });
     this.areasService.fetchCountries().then((response) => {
       this.setState({
-        areaOptions: response.data,
+        areaOptions: [...AREAS, ...response.data],
         loadingAreaOptions: false
       });
     });
