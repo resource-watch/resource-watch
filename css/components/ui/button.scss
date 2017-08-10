@@ -112,4 +112,18 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
 
 .buttons {
   margin-top: $margin-size-small;
+
+  @media screen and (max-width: map-get($breakpoints, medium)) {
+    .c-btn, .c-button {
+      margin-top: $margin-size-extra-small;
+      width: 100%;
+      padding-left: $margin-size/2;
+      padding-right: $margin-size/2;
+    }
+  }
+
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    display: flex;
+    justify-content: space-between;
+  }
 }

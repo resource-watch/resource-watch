@@ -1,73 +1,83 @@
 
-.p-get-involved {
+// .p-get-involved {
 
-  .buttons {
+//   .buttons {
 
-    .c-button{
+//     .c-button{
 
-      &:hover {
-        color: $color-white;
-      }
+//       &:hover {
+//         color: $color-white;
+//       }
 
-      a {
-        text-decoration: none;
-      }
+//       a {
+//         text-decoration: none;
+//       }
 
-      &.-primary {
-        color: $color-primary;
+//       &.-primary {
+//         color: $color-primary;
 
-        & * { color: $color-primary; }
-      }
+//         & * { color: $color-primary; }
+//       }
 
-      &:not(:last-of-type) {
-        margin-right: 10px;
-      }
+//       &:not(:last-of-type) {
+//         margin-right: 10px;
+//       }
 
-      &.-transparent {
-        background: none;
-        border-color: $color-white;
-      }
+//       &.-transparent {
+//         background: none;
+//         border-color: $color-white;
+//       }
 
-      &:hover {
-        a {
-          color: $color-white;
-        }
+//       &:hover {
+//         a {
+//           color: $color-white;
+//         }
 
-        &.contribute-data {
-          border-color: $color-white;
-        }
-      }
-    }
-  }
+//         &.contribute-data {
+//           border-color: $color-white;
+//         }
+//       }
+//     }
+//   }
 
 
-  // Page banners backgrounds
-  .c-banner {
-    &.intro {
-      background-position: top center;
-    }
+//   // Page banners backgrounds
+//   .c-banner {
+//     &.intro {
+//       background-position: top center;
+//     }
 
-    &.partners {
-      background-image: url('/static/images/backgrounds/partners-02@2x.jpg');
-      background-position: top center;
-    }
-  }
+//     &.partners {
+//       background-image: url('/static/images/backgrounds/partners-02@2x.jpg');
+//       background-position: top center;
+//     }
+//   }
 
-  .cards {
-    .column {
-      height: 400px;
-      padding-bottom: 20px;
+//   .cards {
+//     .column {
+//       height: 400px;
+//       padding-bottom: 20px;
 
-      &:nth-child(odd) {
-        padding-right: 20px;
-      }
+//       &:nth-child(odd) {
+//         padding-right: 20px;
+//       }
 
-      .c-card-static {
-        &.insights { background: url('/static/images/backgrounds/jellyfish.jpg'); }
-        &.contribute { background: $color-primary url('/static/images/components/layout/header-bg-texture.png') no-repeat center; }
-        &.join { background: $color-secondary; }
-        &.develop { background: url('/static/images/backgrounds/develop_app.jpg'); }
-      }
-    }
-  }
+//       .c-card-static {
+//         &.insights { background: url('/static/images/backgrounds/jellyfish.jpg'); }
+//         &.contribute { background: $color-primary url('/static/images/components/layout/header-bg-texture.png') no-repeat center; }
+//         &.join { background: $color-secondary; }
+//         &.develop { background: url('/static/images/backgrounds/develop_app.jpg'); }
+//       }
+//     }
+//   }
+// }
+
+.c-card-static {
+  height: 400px;
+  margin-top: 20px;
+
+  &.insights { background: url('/static/images/backgrounds/jellyfish.jpg'); }
+  &.contribute { background: $color-primary url('/static/images/components/layout/header-bg-texture.png') no-repeat center; }
+  &.join { background: $color-secondary; }
+  &.develop { background: url('/static/images/backgrounds/develop_app.jpg'); }
 }

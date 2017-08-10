@@ -5,8 +5,7 @@ import isEqual from 'lodash/isEqual';
 import throttle from 'lodash/throttle';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
 import { toggleModal } from 'redactions/modal';
 import { toggleTooltip, setTooltipPosition } from 'redactions/tooltip';
 
@@ -410,4 +409,4 @@ const mapDispatchToProps = dispatch => ({
   setTooltipPosition: pos => dispatch(setTooltipPosition(pos))
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Legend);
+export default connect(mapStateToProps, mapDispatchToProps)(Legend);
