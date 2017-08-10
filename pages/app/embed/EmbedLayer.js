@@ -140,8 +140,7 @@ class EmbedLayer extends Page {
   render() {
     return (
       <div className="c-embed-layer">
-        <Head /* TODO: name of the page */
-          title={'Name' || 'Loading...'}
+        <Head
           description={'Name' || 'Loading..'}
         />
         <Tooltip />
