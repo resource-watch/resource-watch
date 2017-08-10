@@ -1,8 +1,9 @@
 import React from 'react';
 import Icon from 'components/ui/Icon';
+import classnames from 'classnames';
 import { connect } from 'react-redux';
 
-import { setSidebar} from 'redactions/explore';
+import { setSidebar } from 'redactions/explore';
 import MediaQuery from 'react-responsive';
 
 class Sidebar extends React.Component {
@@ -46,14 +47,9 @@ class Sidebar extends React.Component {
 
     return (
       <aside ref={(node) => { this.sidebarNode = node; }} className={`c-sidebar ${openedClass}`}>
-        <MediaQuery minDeviceWidth={720} values={{deviceWidth: 720}}>
+        <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
           <button type="button" className={`l-sidebar-toggle btn-toggle ${openedClass}`} onClick={this.triggerToggle}>
-            {this.state.open &&
-              <Icon className="-little" name="icon-arrow-left" />
-            }
-            {!this.state.open &&
-              <Icon className="-little" name="icon-arrow-right" />
-            }
+            <Icon className={classnames('-little', `-${this.state.open ? 'left' : 'right'}`)} name="icon-arrow-down" />
           </button>
         </MediaQuery>
 

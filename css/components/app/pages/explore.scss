@@ -30,24 +30,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    top: 100px;
-    right: 24px;
-    width: 31px;
-    height: 32px;
-    z-index: 999;
-    background: transparent;
-    border: 1px solid rgba($color-white, .3);
+    top: 90px;
+    right: 30px;
+    width: 30px;
+    height: 30px;
+    background-color: $color-white;
     border-radius: 3px;
     cursor: pointer;
-
-    &:focus { outline: none; }
+    z-index: 999;
 
     &:hover {
-      background-color: $color-white;
-
-      & svg {
-        fill: $color-black;
-      }
+      background-color: mix($dark-pink, $color-white, 5%);
     }
 
     a {
@@ -55,7 +48,7 @@
     }
 
     svg {
-      fill: $color-white;
+      fill: $color-black;
     }
   }
 }
