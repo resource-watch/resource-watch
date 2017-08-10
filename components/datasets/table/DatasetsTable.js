@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
-
 import { getDatasets, setFilters } from 'redactions/admin/datasets';
 
 // Selectors
@@ -28,16 +26,26 @@ import UpdatedAtTD from './td/UpdatedAtTD';
 
 class DatasetsTable extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    this.onSearch = this.onSearch.bind(this);
+  }
+
   componentDidMount() {
+    const { getDatasetsFilters } = this.props;
     this.props.setFilters([]);
-    this.props.getDatasets(this.props.application);
+
+    this.props.getDatasets({
+      includes: 'widget,layer,metadata,vocabulary',
+      filters: getDatasetsFilters
+    });
   }
 
   /**
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  @Autobind
   onSearch(value) {
     if (!value.length) {
       this.props.setFilters([]);
@@ -82,7 +90,7 @@ class DatasetsTable extends React.Component {
               { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Provider', value: 'provider' },
               { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
-              { label: 'Related content', value: 'status', td: RelatedContentTD }
+              { label: 'Related content', value: 'status', td: RelatedContentTD, tdProps: { route: routes.detail } }
             ]}
             actions={{
               show: true,
@@ -92,8 +100,8 @@ class DatasetsTable extends React.Component {
               ]
             }}
             sort={{
-              field: 'name',
-              value: 1
+              field: 'updatedAt',
+              value: -1
             }}
             filters={false}
             data={this.getDatasets()}
@@ -117,16 +125,16 @@ DatasetsTable.defaultProps = {
     index: '',
     detail: ''
   },
-  application: [],
   columns: [],
   actions: {},
+  getDatasetsFilters: {},
   // Store
   datasets: []
 };
 
 DatasetsTable.propTypes = {
   routes: PropTypes.object,
-  application: PropTypes.array.isRequired,
+  getDatasetsFilters: PropTypes.object,
 
   // Store
   user: PropTypes.object,
@@ -146,7 +154,7 @@ const mapStateToProps = state => ({
   error: state.datasets.datasets.error
 });
 const mapDispatchToProps = dispatch => ({
-  getDatasets: () => dispatch(getDatasets()),
+  getDatasets: options => dispatch(getDatasets(options)),
   setFilters: filters => dispatch(setFilters(filters))
 });
 

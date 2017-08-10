@@ -1,6 +1,7 @@
 import 'isomorphic-fetch';
 import { get, post, remove } from 'utils/request';
 import sortBy from 'lodash/sortBy';
+import isEmpty from 'lodash/isEmpty';
 
 export default class DatasetsService {
 
@@ -9,10 +10,17 @@ export default class DatasetsService {
   }
 
   // GET ALL DATA
-  fetchAllData({ applications = [process.env.APPLICATIONS], includes }) {
+  fetchAllData({ applications = [process.env.APPLICATIONS], includes, filters }) {
+    const qParams = {
+      application: applications.join(','),
+      includes,
+      'page[size]': Date.now() / 100000,
+      ...filters
+    };
+
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/dataset?application=${applications.join(',')}&includes=${includes}&page[size]=${Date.now() / 100000}`,
+        url: `${process.env.WRI_API_URL}/dataset?${Object.keys(qParams).map(k => `${k}=${qParams[k]}`).join('&')}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'

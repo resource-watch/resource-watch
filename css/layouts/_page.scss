@@ -51,6 +51,10 @@
         color: $alt-font-color;
         margin-bottom: 0;
       }
+
+      &.-with-tabs {
+        padding: $margin-size-extra-small 0 0;
+      }
     }
 
     .page-header-title {

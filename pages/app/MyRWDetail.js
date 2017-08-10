@@ -18,8 +18,8 @@ import Layout from 'components/app/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 // Tabs
-import DatasetTab from 'components/app/myrw/datasets/DatasetsTab';
 import SubscriptionsTab from 'components/app/myrw/subscriptions/SubscriptionsTab';
+import DatasetsTab from 'components/app/myrw/datasets/DatasetsTab';
 // import WidgetsTab from 'components/app/myrw/widgets/WidgetsTab';
 // import LayersTab from 'components/app/myrw/layers/LayersTab';
 
@@ -60,7 +60,7 @@ class MyRWDetail extends Page {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { id } = this.state;
 
     if (this.service) {
@@ -127,7 +127,7 @@ class MyRWDetail extends Page {
         <div className="c-page-section">
           <div className="l-container">
             {tab === 'datasets' &&
-              <DatasetTab tab={tab} subtab={subtab} id={id} />
+              <DatasetsTab tab={tab} subtab={subtab} id={id} />
             }
             {tab === 'areas' &&
               <SubscriptionsTab tab={tab} subtab={subtab} id={id} />

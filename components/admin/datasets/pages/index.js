@@ -7,7 +7,6 @@ function DatasetsIndex() {
   return (
     <div className="c-partners-index">
       <DatasetsTable
-        application={[process.env.APPLICATIONS]}
         routes={{
           index: 'admin_data',
           detail: 'admin_data_detail'

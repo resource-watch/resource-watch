@@ -43,14 +43,15 @@ class GetInvolved extends Page {
           {/* PAGE HEADER */}
           <div className="c-page-header">
             <div className="l-container">
-              <div className="page-header-content -padding-b-2">
-                <Breadcrumbs
-                  items={[{ name: 'Get Involved', route: 'get_involved' }]}
-                />
-
-                <Title className="-primary -huge page-header-title" >
-                  {selectedData.title}
-                </Title>
+              <div className="row">
+                <div className="column small-12">
+                  <div className="page-header-content">
+                    <Breadcrumbs
+                      items={[{ name: 'Get Involved', route: 'get_involved' }]}
+                    />
+                    <h1>{selectedData.title}</h1>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

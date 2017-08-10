@@ -77,11 +77,11 @@ export default function (state = initialState, action) {
  * @export
  * @param {string[]} applications Name of the applications to load the datasets from
  */
-export function getDatasets() {
+export function getDatasets(options) {
   return (dispatch) => {
     dispatch({ type: GET_DATASETS_LOADING });
 
-    service.fetchAllData({ includes: 'widget,layer,metadata,vocabulary' })
+    service.fetchAllData(options)
       .then((data) => {
         dispatch({ type: GET_DATASETS_SUCCESS, payload: data });
       })

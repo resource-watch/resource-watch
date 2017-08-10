@@ -53,7 +53,7 @@ class HeaderUser extends React.Component {
             constraints={[{
               to: 'window'
             }]}
-            targetOffset="10px 0"
+            targetOffset="0 0"
             classes={{
               element: 'c-header-dropdown'
             }}
@@ -102,7 +102,7 @@ class HeaderUser extends React.Component {
           constraints={[{
             to: 'window'
           }]}
-          targetOffset="-10px 0"
+          targetOffset="0 0"
           classes={{
             element: 'c-header-dropdown'
           }}

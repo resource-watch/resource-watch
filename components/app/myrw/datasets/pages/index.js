@@ -1,13 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+// Redux
+import { connect } from 'react-redux';
 
 // Components
-import DatasetsTable from 'components/datasets/table/DatasetsTable';
+import DatasetsList from 'components/datasets/list/DatasetsList';
 
-function DatasetsIndex() {
+function DatasetsIndex(props) {
   return (
     <div className="c-datasets-index">
-      <DatasetsTable
-        application={[process.env.APPLICATIONS]}
+      <DatasetsList
+        getDatasetsFilters={{
+          userId: props.user.id
+        }}
         routes={{
           index: 'myrw',
           detail: 'myrw_detail'
@@ -17,4 +23,13 @@ function DatasetsIndex() {
   );
 }
 
-export default DatasetsIndex;
+DatasetsIndex.propTypes = {
+  // Store
+  user: PropTypes.object
+};
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps, null)(DatasetsIndex);

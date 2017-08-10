@@ -19,7 +19,7 @@
 @import 'slick-carousel/slick/slick-theme.scss';
 
 // Editor
-@import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg';
+@import 'react-draft-wysiwyg/dist/react-draft-wysiwyg';
 
 // Common files
 @import "base";
@@ -41,6 +41,7 @@
 @import "./components/ui/breadcrumbs";
 @import "./components/ui/button";
 @import "./components/ui/button-container";
+@import "./components/ui/card";
 @import "./components/ui/compound_menu";
 @import "./components/ui/custom_select";
 @import "./components/ui/header-dropdown";
@@ -48,6 +49,7 @@
 @import "./components/ui/legend";
 @import "./components/ui/modal";
 @import "./components/ui/paginator";
+@import "./components/ui/related-content";
 @import "./components/ui/search-input";
 @import "./components/ui/spinner";
 @import "./components/ui/switch-options";

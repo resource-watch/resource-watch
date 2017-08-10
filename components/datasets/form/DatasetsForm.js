@@ -10,7 +10,6 @@ import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/datasets/form/constants
 
 import Navigation from 'components/form/Navigation';
 import Step1 from 'components/datasets/form/steps/Step1';
-import Step2 from 'components/datasets/form/steps/Step2';
 import Spinner from 'components/ui/Spinner';
 
 class DatasetsForm extends React.Component {
@@ -153,17 +152,10 @@ class DatasetsForm extends React.Component {
         {(this.state.step === 1 && !this.state.loading) &&
           <Step1
             onChange={value => this.onChange(value)}
+            minimized={this.props.minimized}
             form={this.state.form}
             dataset={this.props.dataset}
             columns={this.state.columns}
-          />
-        }
-
-        {(this.state.step === 2 && !this.state.loading) &&
-          <Step2
-            onChange={value => this.onChange(value)}
-            form={this.state.form}
-            dataset={this.props.dataset}
           />
         }
 
@@ -184,6 +176,7 @@ DatasetsForm.propTypes = {
   application: PropTypes.array,
   authorization: PropTypes.string,
   dataset: PropTypes.string,
+  minimized: PropTypes.bool,
   onSubmit: PropTypes.func
 };
 

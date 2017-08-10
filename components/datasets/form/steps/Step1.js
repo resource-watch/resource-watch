@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import compact from 'lodash/compact';
 
 // Redux
 import { connect } from 'react-redux';
@@ -54,9 +55,37 @@ class Step1 extends React.Component {
     this.props.onChange({ legend });
   }
 
+  /**
+   * HELPERS
+   * - setProviderOptions
+  */
+  setProviderOptions() {
+    const { minimized } = this.props;
+
+    const options = Object.keys(PROVIDER_TYPES_DICTIONARY).map((key) => {
+      if (minimized) {
+        if (PROVIDER_TYPES_DICTIONARY[key].minimized) {
+          return {
+            label: PROVIDER_TYPES_DICTIONARY[key].label,
+            value: PROVIDER_TYPES_DICTIONARY[key].value
+          };
+        }
+
+        return null;
+      }
+
+      return {
+        label: PROVIDER_TYPES_DICTIONARY[key].label,
+        value: PROVIDER_TYPES_DICTIONARY[key].value
+      };
+    });
+
+    return (minimized) ? compact(options) : options;
+  }
+
 
   render() {
-    const { user, columns } = this.props;
+    const { user, columns, minimized } = this.props;
     const { dataset } = this.state;
     const { provider } = this.state.form;
 
@@ -81,7 +110,7 @@ class Step1 extends React.Component {
           </Title>
         }
 
-        {user.role === 'ADMIN' &&
+        {user.role === 'ADMIN' && !minimized &&
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
             onChange={value => this.props.onChange({ published: value.checked })}
@@ -138,12 +167,7 @@ class Step1 extends React.Component {
           })}
           className="-fluid"
           validations={['required']}
-          options={Object.keys(PROVIDER_TYPES_DICTIONARY).map(key => (
-            {
-              label: PROVIDER_TYPES_DICTIONARY[key].label,
-              value: PROVIDER_TYPES_DICTIONARY[key].value
-            }
-          ))}
+          options={this.setProviderOptions()}
           properties={{
             name: 'provider',
             label: 'Provider',
@@ -540,6 +564,7 @@ Step1.propTypes = {
   dataset: PropTypes.string,
   form: PropTypes.object,
   columns: PropTypes.array,
+  minimized: PropTypes.bool,
   onChange: PropTypes.func,
 
   // Store
