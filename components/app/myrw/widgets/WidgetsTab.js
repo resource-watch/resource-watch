@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 // Components
 import WidgetsIndex from 'components/app/myrw/widgets/pages/index';
-import WidgetsNew from 'components/app/myrw/widgets/pages/new';
+import WidgetsEdit from 'components/app/myrw/widgets/pages/edit';
 
 function WidgetsTab(props) {
   const { tab, subtab, id, user } = props;
@@ -16,8 +16,8 @@ function WidgetsTab(props) {
         <WidgetsIndex tab={tab} subtab={subtab} id={id} />
       }
 
-      {id && id === 'new' && user.token &&
-        <WidgetsNew tab={tab} subtab={subtab} id={id} />
+      {id && id === 'edit' && user.token &&
+        <WidgetsEdit tab={tab} subtab={subtab} id={id} />
       }
     </div>
   );
