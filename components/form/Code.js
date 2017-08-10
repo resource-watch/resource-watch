@@ -27,15 +27,20 @@ class Code extends FormElement {
   }
 
   componentWillReceiveProps(nextProps) {
-    // try {
-    //   if (!isEqual(nextProps.properties.value, JSON.parse(this.state.value))) {
-    //     this.setState({
-    //       value: JSON.stringify(nextProps.properties.value || {}, null, 2)
-    //     });
-    //   }
-    // } catch (e) {
-    //   // do nothing
-    // }
+    if (nextProps.properties.value) {
+      try {
+        const stateValueStringify = JSON.stringify(JSON.parse(this.state.value), null, 2);
+        const propsValueStringify = JSON.stringify(nextProps.properties.value, null, 2);
+
+        if (propsValueStringify !== stateValueStringify) {
+          this.setState({
+            value: propsValueStringify
+          });
+        }
+      } catch (e) {
+        // do nothing
+      }
+    }
   }
 
   /**
@@ -51,7 +56,7 @@ class Code extends FormElement {
         const parsedValue = JSON.parse(value);
         if (this.props.onChange) this.props.onChange(parsedValue);
       } catch (err) {
-        // console.error(err);
+        // do nothing
       }
     });
   }
