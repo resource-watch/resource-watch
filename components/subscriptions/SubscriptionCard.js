@@ -141,7 +141,7 @@ class SubscriptionCard extends React.Component {
     const name = subscription.attributes.name;
 
     return (
-      <div className="c-subscription-card medium-4 small-12">
+      <div className="c-subscription-card">
         <div className="border-container">
           <div className="map-container">
             <Map

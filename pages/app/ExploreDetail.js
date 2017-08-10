@@ -461,7 +461,7 @@ const mapDispatchToProps = dispatch => ({
   toggleLayerShown: (id) => {
     dispatch(toggleLayerShown(id));
   },
-  toggleModal: (open) => { dispatch(toggleModal(open)); },
+  toggleModal: (open, opts) => { dispatch(toggleModal(open, opts)); },
   setModalOptions: (options) => { dispatch(setModalOptions(options)); }
 });
 

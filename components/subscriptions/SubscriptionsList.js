@@ -72,15 +72,17 @@ class SubscriptionsList extends React.Component {
           <div className="row">
             {subscriptions && subscriptions.map(val =>
               (
-                <div
-                  className="card-container"
-                  key={val.id}
-                >
-                  <SubscriptionCard
-                    token={user.token}
-                    subscription={val}
-                    onSubscriptionRemoved={this.handleSubscriptionRemoved}
-                  />
+                <div className="column small-12 medium-4">
+                  <div
+                    className="card-container"
+                    key={val.id}
+                  >
+                    <SubscriptionCard
+                      token={user.token}
+                      subscription={val}
+                      onSubscriptionRemoved={this.handleSubscriptionRemoved}
+                    />
+                  </div>
                 </div>
               )
             )}
