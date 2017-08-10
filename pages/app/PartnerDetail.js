@@ -62,20 +62,24 @@ class PartnerDetail extends Page {
               </div>
             </div>
           </Banner>
+        </div>
 
-          <Banner className="learn-more">
-            <div className="row">
+        <aside className="l-postcontent">
+          <div className="l-container">
+            <div className="row align-center">
               <div className="column small-12">
-                <h3 className="c-text -header-big -thin">
-                  Important work,<br /> beautifully crafted
-                </h3>
-                <button className="c-btn -primary -filled">
-                  LEARN ABOUT OUR WORK
-                </button>
+                <Banner className="-text-center">
+                  <p className="-claim">
+                    Important work,<br /> beautifully crafted
+                  </p>
+                  <button className="c-btn -primary -filled">
+                    LEARN ABOUT OUR WORK
+                  </button>
+                </Banner>
               </div>
             </div>
-          </Banner>
-        </div>
+          </div>
+        </aside>
       </Layout>
     );
   }

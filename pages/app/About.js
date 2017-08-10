@@ -68,8 +68,8 @@ class About extends Page {
           <div className="l-container">
             <div className="row align-center">
               <div className="column small-12">
-                <Banner className="partners">
-                  <p>We have a massive opportunity<br />to build a sustainable society</p>
+                <Banner className="partners -text-center">
+                  <p className="-claim">We have a massive opportunity<br />to build a sustainable society</p>
                   <Link href="about_partners"><a className="c-button -alt -primary">Partners list</a></Link>
                 </Banner>
               </div>
