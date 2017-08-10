@@ -56,6 +56,10 @@ class SubscribeToDatasetModal extends React.Component {
             onUploadArea: (id) => {
               // We close the modal
               this.props.toggleModal(false, {});
+
+              // We save the ID of the area
+              //this.props.setAreaIntersection(id);
+
               resolve(true);
             }
           },

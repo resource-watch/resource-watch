@@ -110,10 +110,14 @@ export default class UserService {
   /**
    * Creates a subscription for a pair of dataset and country
    * @param {datasetID} ID of the dataset
-   * @param {countryISO} ISO of the country
+   * @param {object} Either { type; 'iso', id:'ESP' } or { type: 'geostore', id: 'sakldfa7ads0ka'}
    * @returns {Promise}
    */
-  createSubscriptionToDataset(datasetID, countryISO, user, name = '') {
+  createSubscriptionToDataset(datasetID, object, user, name = '') {
+    const paramsObj = (object.type === 'iso') ?
+      { iso: { country: object.id } } :
+      { geostore: object.id };
+
     const bodyObj = {
       name,
       application: 'rw',
@@ -123,11 +127,7 @@ export default class UserService {
         type: 'EMAIL',
         content: user.email
       },
-      params: {
-        iso: {
-          country: countryISO
-        }
-      }
+      params: paramsObj
     };
     return fetch(`${this.opts.apiURL}/subscriptions`, {
       method: 'POST',

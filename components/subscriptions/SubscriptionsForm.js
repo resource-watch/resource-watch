@@ -66,7 +66,8 @@ class SubscriptionsForm extends React.Component {
       selectedArea: null,
       selectedDataset: null,
       loading: false,
-      name: ''
+      name: '',
+      geostore: null
     };
 
     // Services
@@ -84,15 +85,15 @@ class SubscriptionsForm extends React.Component {
   onSubmit(e) {
     e.preventDefault();
 
-    const { selectedArea, name, selectedDataset } = this.state;
+    const { selectedArea, name, selectedDataset, geostore } = this.state;
     const { user } = this.props;
 
-    if (selectedArea && selectedDataset) {
+    if ((selectedArea || geostore) && selectedDataset) {
       this.setState({
         loading: true
       });
-      this.userService.createSubscriptionToDataset(
-        selectedDataset.id, selectedArea.value, user, name)
+      const areaObj = geostore ? { type: 'geostore', id: geostore } : { type: 'iso', id: selectedArea.value };
+      this.userService.createSubscriptionToDataset(selectedDataset.id, areaObj, user, name)
         .then(() => {
           Router.pushRoute('myrw', { tab: 'areas' });
           toastr.success('Success', 'Subscription successfully created!');
@@ -109,6 +110,10 @@ class SubscriptionsForm extends React.Component {
           children: UploadAreaIntersectionModal,
           childrenProps: {
             onUploadArea: (id) => {
+              this.setState({
+                geostore: id
+              });
+
               // We close the modal
               this.props.toggleModal(false, {});
               resolve(true);
@@ -232,7 +237,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleModal: (open) => { dispatch(toggleModal(open)); },
+  toggleModal: (open, opts) => { dispatch(toggleModal(open, opts)); },
   setModalOptions: (options) => { dispatch(setModalOptions(options)); }
 });
 

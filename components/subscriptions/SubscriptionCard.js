@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import { Router } from 'routes';
+import { toastr } from 'react-redux-toastr';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -53,37 +54,61 @@ class SubscriptionCard extends React.Component {
     .then((response) => {
       const dataset = response;
       this.setState({ dataset });
-      this.areasService.getCountry(this.props.subscription.attributes.params.iso.country)
-      .then((res) => {
-        const country = res.data[0];
+      const paramsObj = this.props.subscription.attributes.params;
 
-        const newGeoJson = {
-          type: 'FeatureCollection',
-          features: [
-            {
-              type: 'Feature',
-              properties: {},
-              geometry: JSON.parse(country.geojson)
+      if (paramsObj.geostore) {
+        this.areasService.getGeostore(paramsObj.geostore)
+          .then((res) => {
+            const obj = res.data;
+            const fakeLayer = {
+              id: `${dataset.id}-${obj.id}`,
+              provider: 'geojson',
+              layerConfig: {
+                data: obj.attributes.geojson,
+                fitBounds: true,
+                bounds: obj.attributes.bbox
+              }
+            };
+
+            this.setState({
+              loading: false,
+              country: obj.id,
+              layer: fakeLayer
+            });
+          });
+      } else if (paramsObj.iso.country) {
+        this.areasService.getCountry(paramsObj.iso.country)
+        .then((res) => {
+          const country = res.data[0];
+
+          const newGeoJson = {
+            type: 'FeatureCollection',
+            features: [
+              {
+                type: 'Feature',
+                properties: {},
+                geometry: JSON.parse(country.geojson)
+              }
+            ]
+          };
+
+          const fakeLayer = {
+            id: `${dataset.id}-${country.label}`,
+            provider: 'geojson',
+            layerConfig: {
+              data: newGeoJson,
+              fitBounds: true,
+              bounds: JSON.parse(country.bounds)
             }
-          ]
-        };
+          };
 
-        const fakeLayer = {
-          id: `${dataset.id}-${country.label}`,
-          provider: 'geojson',
-          layerConfig: {
-            data: newGeoJson,
-            fitBounds: true,
-            bounds: JSON.parse(country.bounds)
-          }
-        };
-
-        this.setState({
-          loading: false,
-          country: country.label,
-          layer: fakeLayer
+          this.setState({
+            loading: false,
+            country: country.label,
+            layer: fakeLayer
+          });
         });
-      })
+      }
     })
     .catch(err => console.log(err));
   }
@@ -91,15 +116,17 @@ class SubscriptionCard extends React.Component {
   @Autobind
   handleDeleteSubscription() {
     const { subscription, token } = this.props;
-
-    if (confirm('Are you sure you want to delete the subscription?')) {
-      this.setState({ loading: true });
-      this.userService.deleteSubscription(subscription.id, token)
-        .then(() => {
-          this.props.onSubscriptionRemoved();
-        })
-        .catch(err => console.log(err));
-    }
+    const toastrConfirmOptions = {
+      onOk: () => {
+        this.setState({ loading: true });
+        this.userService.deleteSubscription(subscription.id, token)
+          .then(() => {
+            this.props.onSubscriptionRemoved();
+          })
+          .catch(err => console.log(err));
+      }
+    };
+    toastr.confirm('Are you sure you want to delete the subscription?', toastrConfirmOptions);
   }
 
   @Autobind
