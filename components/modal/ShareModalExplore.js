@@ -25,8 +25,8 @@ class ShareModal extends React.Component {
   }
 
   render() {
-    const { url, layers } = this.props;
-    const showEmbed = layers && layers.length !== null && layers.length > 0;
+    const { url, layerGroups } = this.props;
+    const showEmbed = layerGroups && layerGroups.length > 0;
 
     return (
       <div className="c-share-modal-explore">
@@ -64,7 +64,7 @@ class ShareModal extends React.Component {
             <div className="url-input-div">
               <input
                 ref={(n) => { this.embedInput = n; }}
-                value={`<iframe src="https://staging.resourcewatch.org/embed/layer/${layers[0].id}" width="100%" height="474px" frameBorder="0"></iframe>`}
+                value={`<iframe src="https://staging.resourcewatch.org/embed/layers/?layers=${encodeURIComponent(JSON.stringify(layerGroups))}" width="100%" height="474px" frameBorder="0"></iframe>`}
                 className="url"
                 readOnly
               />
@@ -88,7 +88,7 @@ class ShareModal extends React.Component {
 
 ShareModal.propTypes = {
   url: PropTypes.string.isRequired,
-  layers: PropTypes.array,
+  layerGroups: PropTypes.array,
   toggleModal: PropTypes.func.isRequired
 };
 

@@ -22,7 +22,6 @@ class EmbedLayerModal extends React.Component {
   }
 
   render() {
-    const { layerId } = this.props;
     return (
       <div className="c-embed-layer-modal">
         <h1 className="c-text -header-big -thin title">Share into my web</h1>
@@ -32,7 +31,7 @@ class EmbedLayerModal extends React.Component {
         <div className="url-container">
           <input
             ref={(n) => { this.input = n; }}
-            value={`<iframe src="https://staging.resourcewatch.org/embed/layer/${layerId}" width="100%" height="474px" frameBorder="0"></iframe>`}
+            value={`<iframe src="https://staging.resourcewatch.org/embed/layers?layers=${encodeURIComponent(JSON.stringify(this.props.layerGroups))}" width="100%" height="474px" frameBorder="0"></iframe>`}
             className="url"
             readOnly
           />
@@ -46,7 +45,7 @@ class EmbedLayerModal extends React.Component {
 }
 
 EmbedLayerModal.propTypes = {
-  layerId: PropTypes.string.isRequired
+  layerGroups: PropTypes.array.isRequired
 };
 
 export default EmbedLayerModal;

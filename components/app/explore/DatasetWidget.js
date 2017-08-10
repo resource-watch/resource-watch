@@ -1,167 +1,128 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import MediaQuery from 'react-responsive';
+import classnames from 'classnames';
 
 // Redux
 import { connect } from 'react-redux';
-
-import { Link, Router } from 'routes';
+import { Link } from 'routes';
 
 // Components
-import Title from 'components/ui/Title';
 import Button from 'components/ui/Button';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import DatasetLayerChart from 'components/app/explore/DatasetLayerChart';
 import DatasetPlaceholderChart from 'components/app/explore/DatasetPlaceholderChart';
-import { toggleDatasetActive, setUrlParams, setDatasetsHidden } from 'redactions/explore';
+import { toggleLayerGroup } from 'redactions/explore';
 
 class DatasetWidget extends React.Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      active: props.active,
-      dataset: props.dataset,
-      widget: props.widget,
-      layer: props.layer,
-      hasWidget: !!props.widget,
-      hasLayer: !!props.layer,
-      mode: props.mode
-    };
-
-    // BINDINGS
-    this.triggerToggleLayer = this.triggerToggleLayer.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      active: nextProps.active,
-      dataset: nextProps.dataset,
-      widget: nextProps.widget,
-      layer: nextProps.layer,
-      hasWidget: !!nextProps.widget,
-      hasLayer: !!nextProps.layer,
-      mode: nextProps.mode
-    });
+  /**
+   * Shorten text to 70 character maximum and add
+   * an ellipsis at the end
+   * @static
+   * @param {string} text - Text to shorten
+   * @returns {string}
+   */
+  static shortenText(text) {
+    let res = text;
+    if (typeof text === 'string' && text.length > 70) {
+      res = res.replace(/^(.{70}[^\s]*).*/, '$1');
+      return `${text}...`;
+    }
+    return res;
   }
 
   /**
-   * HELPERS
-   * - hideLayer
-   * - getWidgetOrLayer
-   * - getDescription
-   * - getButton
-  */
+   * Return the button to show the layer on the map
+   * @returns {HTMLElement}
+   */
   getButton() {
-    const { active, layer } = this.state;
-    const buttonText = (active) ? 'Active' : 'Add to map';
-    const buttonClass = (active) ? '-active' : '';
+    const isActive = this.props.isLayerGroupAdded(this.props.dataset.id);
+    const hasLayer = this.props.layer;
 
-    if (layer) {
-      return (
-        <Button
-          properties={{
-            className: `-secondary -fullwidth ${buttonClass}`
-          }}
-          onClick={this.triggerToggleLayer}
-        >
-          {buttonText}
-        </Button>
-      );
-    }
+    const classes = classnames({
+      '-secondary': !isActive,
+      '-primary': isActive,
+      '-fullwidth': true,
+      '-disable': !hasLayer
+    });
+
     return (
       <Button
-        properties={{
-          disabled: true,
-          className: '-secondary -fullwidth -disabled'
-        }}
-        onClick={this.triggerToggleLayer}
+        properties={{ className: classes }}
+        disabled={!hasLayer}
+        onClick={() => this.triggerToggleLayerGroup()}
       >
-        Not displayable
+        {isActive ? 'Active' : 'Add to map'}
       </Button>
-
     );
   }
 
+  /**
+   * Get the data of the widget or layer depending on the
+   * dataset
+   * @returns {object}
+   */
   getWidgetOrLayer() {
-    if (this.state.hasWidget) {
+    if (this.props.widget) {
       return {
-        ...this.state.widget.attributes,
-        id: this.state.widget.id
+        ...this.props.widget.attributes,
+        id: this.props.widget.id
       };
     }
-    if (this.state.hasLayer) {
+
+    if (this.props.layer) {
       return {
-        ...this.state.layer.attributes,
-        id: this.state.layer.id
+        ...this.props.layer.attributes,
+        id: this.props.layer.id
       };
     }
+
     return null;
   }
 
-  getDescription(_text) {
-    let text = _text;
-    if (typeof text === 'string' && text.length > 70) {
-      text = text.replace(/^(.{70}[^\s]*).*/, '$1');
-      return `${text}...`;
-    }
-    return text;
-  }
-
-  hideLayer(dataset) {
-    let newLayersHidden = this.props.layersHidden.slice();
-    if (this.props.layersHidden.includes(dataset)) {
-      newLayersHidden = this.props.layersHidden.filter(l => l !== dataset);
-    } else {
-      newLayersHidden.push(dataset);
-    }
-
-    this.props.setDatasetsHidden(newLayersHidden);
-  }
-
   /**
-   * UI EVENTS
-   * - triggerToggleLayer (e)
-   * - handleClick
-  */
-  triggerToggleLayer() {
-    const { dataset } = this.state;
-    this.props.toggleDatasetActive(dataset.id);
-    if (this.props.layersHidden.includes(dataset.id)) {
-      this.hideLayer(dataset.id);
-    }
-  }
-  @Autobind
-  handleClick(event) {
-    if (event.target.type !== 'submit') {
-      Router.pushRoute('explore_detail', { id: this.props.dataset.id });
-    }
+   * Add or remove a layer group from the map
+   */
+  triggerToggleLayerGroup() {
+    const datasetID = this.props.dataset.id;
+    const addLayerGroup = !this.props.isLayerGroupAdded(datasetID);
+    this.props.toggleLayerGroup(datasetID, addLayerGroup);
   }
 
   render() {
-    const { hasWidget, hasLayer, mode, dataset } = this.state;
+    const { widget, layer, mode } = this.props;
+    const dataset = this.props.dataset.attributes;
     const { showActions } = this.props;
     const gridMode = (mode === 'grid');
     const element = this.getWidgetOrLayer();
 
     return (
-      <div
-        className={`c-dataset-list-item -${mode}`}
-        onClick={this.handleClick}
-      >
+      <div className={`c-dataset-list-item -${mode}`}>
         {/* If it has widget we want to renderize the default widget one */}
-        {hasWidget && gridMode &&
-          <DatasetWidgetChart widget={element} mode="thumbnail" />
-        }
-        {/* If it doesn't have widget but has layer we want to renderize the default layer one */}
-        {!hasWidget && hasLayer && gridMode &&
-          <DatasetLayerChart layer={element} />
+        {widget && gridMode &&
+          <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
+            <a>
+              <DatasetWidgetChart widget={element} mode="thumbnail" />
+            </a>
+          </Link>
         }
 
-        {!hasWidget && !hasLayer && gridMode &&
-          <DatasetPlaceholderChart />
+        {/* If it doesn't have widget but has layer we want to renderize the default layer one */}
+        {!widget && layer && gridMode &&
+          <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
+            <a>
+              <DatasetLayerChart layer={element} />
+            </a>
+          </Link>
+        }
+
+        {!widget && !layer && gridMode &&
+          <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
+            <a>
+              <DatasetPlaceholderChart />
+            </a>
+          </Link>
         }
 
         <div className="info">
@@ -170,23 +131,27 @@ class DatasetWidget extends React.Component {
             <h4>
               <Link
                 route={'explore_detail'}
-                params={{ id: dataset.id }}
+                params={{ id: this.props.dataset.id }}
               >
-                <a className="explore_detail_link">{dataset.attributes.name}</a>
+                <a>{dataset.name}</a>
               </Link>
             </h4>
 
             {/* Description */}
-            {dataset.attributes.metadata && (dataset.attributes.metadata.length > 0) &&
-             dataset.attributes.metadata[0].attributes.info &&
-             dataset.attributes.metadata[0].attributes.info.functions &&
-             <p>{this.getDescription(dataset.attributes.metadata[0].attributes.info.functions)}</p>
+            {dataset.metadata && (dataset.metadata.length > 0)
+              && dataset.metadata[0].info
+              && dataset.metadata[0].attributes.info.functions
+              && (
+                <p>
+                  {DatasetWidget.shortenText(dataset.metadata[0].attributes.info.functions)}
+                </p>
+              )
             }
 
             {/* Source */}
-            {dataset.attributes.metadata && (dataset.attributes.metadata.length > 0)
-              && dataset.attributes.metadata[0].attributes.source &&
-              <p>Source: {dataset.attributes.metadata[0].attributes.source}</p>
+            {dataset.metadata && (dataset.metadata.length > 0)
+              && dataset.metadata[0].attributes.source
+              && <p>Source: {dataset.metadata[0].attributes.source}</p>
             }
           </div>
           <MediaQuery minDeviceWidth={720} values={{deviceWidth: 720}}>
@@ -203,28 +168,26 @@ class DatasetWidget extends React.Component {
 
 DatasetWidget.propTypes = {
   // STATE
-  active: PropTypes.bool,
-  layersHidden: PropTypes.array,
   dataset: PropTypes.object,
   widget: PropTypes.object,
   layer: PropTypes.object,
   mode: PropTypes.string,
   showActions: PropTypes.bool,
-  // ACTIONS
-  toggleDatasetActive: PropTypes.func,
-  setDatasetsHidden: PropTypes.func
+
+  // STORE
+
+  // Return whether a layer group is already added to the map
+  isLayerGroupAdded: PropTypes.func.isRequired,
+  // Add or remove a layer group from the map
+  toggleLayerGroup: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  layersHidden: state.explore.datasets.hidden
+const mapStateToProps = ({ explore }) => ({
+  isLayerGroupAdded: dataset => !!explore.layers.find(l => l.dataset === dataset)
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleDatasetActive: (id) => {
-    dispatch(toggleDatasetActive(id));
-    dispatch(setUrlParams());
-  },
-  setDatasetsHidden: (id) => { dispatch(setDatasetsHidden(id)); }
+  toggleLayerGroup: (dataset, addLayer) => dispatch(toggleLayerGroup(dataset, addLayer))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetWidget);

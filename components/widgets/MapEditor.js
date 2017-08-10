@@ -21,12 +21,11 @@ class MapEditor extends React.Component {
 
   @Autobind
   handleEmbedMap() {
-    const { layer } = this.props.widgetEditor;
     const options = {
       children: EmbedLayerModal,
       childrenProps: {
         url: window.location.href,
-        layerId: layer.id
+        layerGroups: this.props.layerGroups
       }
     };
     this.props.toggleModal(true);
@@ -76,6 +75,7 @@ class MapEditor extends React.Component {
 
 
 MapEditor.propTypes = {
+  layerGroups: PropTypes.array, // List of layer groups
   layers: PropTypes.array.isRequired, // Dataset ID
   // Store
   showLayer: PropTypes.func.isRequired,

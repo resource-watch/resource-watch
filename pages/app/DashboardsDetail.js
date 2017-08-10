@@ -178,22 +178,30 @@ class DashboardsDetail extends Page {
         url={url}
         user={user}
         pageHeader
-        className="page-dashboards"
+        className="page-dashboards c-page-dashboards"
       >
-        <div className="c-page-dashboards">
-
-          {/* PAGE HEADER */}
-          <div className="c-page-header">
-            <div className="l-container">
-              <div className="page-header-content -padding-b-2">
-                <Breadcrumbs items={[{ name: 'Data', href: '/data' }]} />
-                <Title className="-primary -huge page-header-title">Dashboards</Title>
+        <header className="l-page-header">
+          <div className="l-container">
+            <div className="row">
+              <div className="column small-12">
+                <div className="page-header-content">
+                  <Breadcrumbs items={[{ name: 'Data', href: '/data' }]} />
+                  <h1>Dashboards</h1>
+                </div>
               </div>
             </div>
           </div>
+        </header>
 
-          <div className="info">
-            { this.state.loading && <Spinner isLoading className="-light" /> }
+        <section className="l-section -secondary">
+          <div className="l-container">
+            <div className="row">
+              <div className="column small-12">
+                { this.state.loading && <Spinner isLoading className="-light" /> }
+
+              </div>
+            </div>
+
             <div className="row">
               <div className="column small-12">
                 <ul className="dashboards-list">
@@ -240,22 +248,24 @@ class DashboardsDetail extends Page {
                 </ul>
               </div>
             </div>
-            { this.state.error && (
+
+            <div className="row">
               <div className="column small-12">
-                <p className="error">{this.state.error}</p>
+                { this.state.error && (
+                  <p className="error">{this.state.error}</p>
+                ) }
+                { selectedDashboard && (
+                  <div>
+                    <h2>{selectedDashboard.name}</h2>
+                    <p>{selectedDashboard.summary}</p>
+                  </div>
+                ) }
               </div>
-            ) }
-            { selectedDashboard && (
-              <div className="row">
-                <div className="column small-12 large-7 dashboard-info">
-                  <Title className="-extrabig -secondary">{selectedDashboard.name}</Title>
-                  <p className="description">
-                    {selectedDashboard.summary}
-                  </p>
-                </div>
-              </div>
-            ) }
+            </div>
           </div>
+        </section>
+
+        <div className="l-container">
 
           <div className="row">
             { selectedDashboard && selectedDashboard.widgets && (
@@ -264,13 +274,9 @@ class DashboardsDetail extends Page {
                   selectedDashboard.widgets.map(widget => (
                     <DashboardCard
                       key={widget.name || widget.widgetId}
-                      // widget.widgetId doesn't exist for the "fake" widget
-                      // so React can complain about a null widgetId
                       widgetId={widget.widgetId}
                       categories={widget.categories}
                       isFavourite={this.isFavourite(widget.widgetId)}
-                      // The following attributes will be deprecated once all the
-                      // widgets are fetched from the API
                       name={widget.name}
                       data={widget.data}
                     />

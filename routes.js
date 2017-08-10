@@ -48,6 +48,6 @@ routes.add('myrw_detail', '/myrw-detail/:tab?/:id?/:subtab?', 'app/MyRWDetail');
 // ------ EMBED -------------
 routes.add('embed_widget', '/embed/widget/:id', 'app/embed/EmbedWidget');
 routes.add('embed_dataset', '/embed/dataset/:id', 'app/embed/EmbedDataset');
-routes.add('embed_layer', '/embed/layer/:id', 'app/embed/EmbedLayer');
+routes.add('embed_layer', '/embed/layers', 'app/embed/EmbedLayer');
 
 module.exports = routes;

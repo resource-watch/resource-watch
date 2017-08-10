@@ -9,7 +9,6 @@ import isEqual from 'lodash/isEqual';
 import { connect } from 'react-redux';
 
 import { resetWidgetEditor, setFields } from 'redactions/widgetEditor';
-import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -85,7 +84,20 @@ class WidgetEditor extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = DEFAULT_STATE;
+    this.state = {
+      ...DEFAULT_STATE,
+      layerGroups: props.widgetEditor.layer
+        ? [{
+          dataset: props.widgetEditor.layer.dataset,
+          visible: true,
+          layers: [{
+            id: props.widgetEditor.layer.id,
+            active: true,
+            ...props.widgetEditor.layer
+          }]
+        }]
+        : []
+    };
 
     // Each time the editor is opened again, we reset the Redux's state
     // associated with it
@@ -120,7 +132,20 @@ class WidgetEditor extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.dataset !== this.props.dataset) {
-      this.setState(DEFAULT_STATE, () => {
+      this.setState({
+        ...DEFAULT_STATE,
+        layerGroups: nextProps.widgetEditor.layer
+          ? [{
+            dataset: nextProps.widgetEditor.layer.dataset,
+            visible: true,
+            layers: [{
+              id: nextProps.widgetEditor.layer.id,
+              active: true,
+              ...nextProps.widgetEditor.layer
+            }]
+          }]
+          : []
+      }, () => {
         // DatasetService
         this.datasetService = new DatasetService(nextProps.dataset, {
           apiURL: process.env.WRI_API_URL
@@ -138,12 +163,27 @@ class WidgetEditor extends React.Component {
           })
           .catch(() => {
             console.error('Unable to retrieve the fields');
-            this.props.onError && this.props.onError();
+            if (this.props.onError) this.props.onError();
           });
 
         if (this.props.mode === 'dataset') {
           this.getLayers();
         }
+      });
+    } else if (!isEqual(this.props.widgetEditor.layer, nextProps.widgetEditor.layer)) {
+      // We update the layerGroups each time the layer changes
+      this.setState({
+        layerGroups: nextProps.widgetEditor.layer
+          ? [{
+            dataset: nextProps.widgetEditor.layer.dataset,
+            visible: true,
+            layers: [{
+              id: nextProps.widgetEditor.layer.id,
+              active: true,
+              ...nextProps.widgetEditor.layer
+            }]
+          }]
+          : []
       });
     }
   }
@@ -158,6 +198,20 @@ class WidgetEditor extends React.Component {
       || previousState.tableName !== this.state.tableName)) {
       this.fetchChartConfig();
     }
+  }
+
+  /**
+   * Event handler executed when the user toggles the
+   * visibility of a layer group
+   * @param {LayerGroup} layerGroup - Layer group to toggle
+   */
+  onToggleLayerGroupVisibility(layerGroup) {
+    const layerGroups = this.state.layerGroups.map((l) => {
+      if (l.dataset !== layerGroup.dataset) return l;
+      return Object.assign({}, l, { visible: !layerGroup.visible });
+    });
+
+    this.setState({ layerGroups: [...layerGroups] });
   }
 
   /**
@@ -285,16 +339,6 @@ class WidgetEditor extends React.Component {
   }
 
   /**
-   * Return the theme of the charts
-   * @return {object} JSON object
-   */
-  getChartTheme() {
-    return ChartTheme({
-      chart: this.state.selectedChartType
-    });
-  }
-
-  /**
    * Return the visualization itself
    * @returns {HTMLElement}
    */
@@ -359,7 +403,7 @@ class WidgetEditor extends React.Component {
               <VegaChart
                 reloadOnResize
                 data={this.state.chartConfig}
-                theme={this.getChartTheme()}
+                theme={ChartTheme()}
                 toggleLoading={val => this.setState({ chartLoading: val })}
               />
             </div>
@@ -375,13 +419,18 @@ class WidgetEditor extends React.Component {
               <Map
                 LayerManager={LayerManager}
                 mapConfig={mapConfig}
-                layersActive={[layer]}
+                layerGroups={this.state.layerGroups}
               />
               <Legend
-                layersActive={[layer]}
+                layerGroups={this.state.layerGroups}
                 className={{ color: '-dark' }}
-                toggleModal={this.props.toggleModal}
-                setModalOptions={this.props.setModalOptions}
+                toggleLayerGroupVisibility={
+                  layerGroup => this.onToggleLayerGroupVisibility(layerGroup)
+                }
+                setLayerGroupsOrder={() => {}}
+                setLayerGroupActiveLayer={() => {}}
+                readonly
+                expanded={false}
               />
             </div>
           );
@@ -540,6 +589,7 @@ class WidgetEditor extends React.Component {
                 {
                   selectedVisualizationType === 'map' && layers && layers.length > 0 &&
                   <MapEditor
+                    layerGroups={this.state.layerGroups}
                     layers={layers}
                     tableName={tableName}
                   />
@@ -557,8 +607,6 @@ class WidgetEditor extends React.Component {
 const mapStateToProps = ({ widgetEditor, user }) => ({ widgetEditor, user });
 const mapDispatchToProps = dispatch => ({
   resetWidgetEditor: () => dispatch(resetWidgetEditor()),
-  toggleModal: (open) => { dispatch(toggleModal(open)); },
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
   setFields: (fields) => { dispatch(setFields(fields)); }
 });
 
@@ -577,8 +625,6 @@ WidgetEditor.propTypes = {
   user: PropTypes.object.isRequired,
   widgetEditor: PropTypes.object.isRequired,
   resetWidgetEditor: PropTypes.func.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired,
   setFields: PropTypes.func.isRequired
 };
 

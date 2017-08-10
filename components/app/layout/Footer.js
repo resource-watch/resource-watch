@@ -60,7 +60,7 @@ class Footer extends React.Component {
       <footer className="l-footer">
         <div className="footer-intro">
           <div className="title">
-            <Link to="/about/partners"><a>Partners</a></Link>
+            <Link route="about_partners"><a>Partners</a></Link>
           </div>
           <div className="l-container">
             <div className="row">

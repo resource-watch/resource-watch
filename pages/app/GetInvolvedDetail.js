@@ -31,6 +31,13 @@ class GetInvolved extends Page {
     const { url, user, data } = this.props;
     const id = url.query.id;
     const selectedData = data[id];
+    const styles = {};
+
+    if (!data) return null;
+
+    if (data && data.photo) {
+      styles.backgroundImage = `url(${process.env.STATIC_SERVER_URL}${data.photo.large})`;
+    }
 
     return (
       <Layout
@@ -39,50 +46,59 @@ class GetInvolved extends Page {
         url={url}
         user={user}
       >
-        <div className="c-page">
-          {/* PAGE HEADER */}
-          <div className="c-page-header">
+        <header className="l-page-header">
+          <div className="l-container">
+            <div className="row">
+              <div className="column small-12">
+                <div className="page-header-content">
+                  <Breadcrumbs items={[{ name: 'Data', href: '/data' }]} />
+                  <h1>{selectedData.title}</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <section className="l-section -secondary">
+          <header className="l-section-header">
             <div className="l-container">
               <div className="row">
                 <div className="column small-12">
-                  <div className="page-header-content">
-                    <Breadcrumbs
-                      items={[{ name: 'Get Involved', route: 'get_involved' }]}
-                    />
-                    <h1>{selectedData.title}</h1>
-                  </div>
+                  <h2>
+                    {selectedData.summary}
+                  </h2>
                 </div>
               </div>
             </div>
-          </div>
+          </header>
+        </section>
 
-          <section className="l-section -bg-grey">
+        <section className="l-content">
+          <article className="l-content-body">
             <div className="l-container">
-              <header className="row">
+              <div className="row align-center">
                 <div className="column small-12 medium-8">
-                  <h1 className="c-text -header-big -primary -thin">{selectedData.summary}</h1>
+                  <div dangerouslySetInnerHTML={{ __html: data && data.content }} />
                 </div>
-              </header>
-              <div className="row description">
-                <div
-                  className="cols column small-12"
-                  dangerouslySetInnerHTML={{ __html: selectedData.description }}
-                />
               </div>
             </div>
-          </section>
+          </article>
+        </section>
 
-          <div className="row collapse">
-            <div className="column small-12">
-              <Banner className="partners">
-                <h3 className="c-text -header-normal -normal">We have a massive opportunity<br />to build a sustainable society</h3>
-                <Link route="about_partners">
-                  <a className="c-btn -transparent -secondary">Partners list</a>
-                </Link>
-              </Banner>
+        <aside className="l-postcontent">
+          <div className="l-container">
+            <div className="row align-center">
+              <div className="column small-12">
+                <Banner className="partners">
+                  <h3 className="c-text -header-normal -normal">We have a massive opportunity<br />to build a sustainable society</h3>
+                  <Link route="about_partners">
+                    <a className="c-btn -transparent -secondary">Partners list</a>
+                  </Link>
+                </Banner>
+              </div>
             </div>
           </div>
-        </div>
+        </aside>
       </Layout>
     );
   }

@@ -16,30 +16,38 @@
     background: $color-black;
   }
 
-  & .leaflet-touch .leaflet-bar a {
-    font-size: 17px !important;
-    font-weight: lighter !important;
-  }
-
-  & .leaflet-right .leaflet-control {
+  .leaflet-right .leaflet-control {
     margin-top: $fullscreen-margin !important;
-    margin-right: $fullscreen-margin !important;
+    margin-right: 30px !important;
     border-width: 1px;
-    border-color: rgba(255, 255, 255, .3);
   }
 
-  & .leaflet-control-zoom-in {
-    border-radius: 3px 3px 0 0;
-    border-color: rgba(255, 255, 255, .3);
-    background-color: transparent;
-    color: $color-white;
+  .leaflet-control-zoom-in,
+  .leaflet-control-zoom-out {
+    width: 30px;
+    height: 30px;
+    font-size: 17px !important;
+    background-color: $color-white;
+
+    &:hover {
+      width: 30px;
+      height: 30px;
+      background-color: mix($dark-pink, $color-white, 5%);
+    }
   }
 
-  & .leaflet-control-zoom-out {
-    border-radius: 0 0 3px 3px;
-    border-color: rgba(255, 255, 255, .3);
-    background-color: transparent!important;
+  .leaflet-control-attribution {
+    padding: 5px 8px;
+    background-color: rgba($color-white, .1);
+    border-radius: 2px 2px 0 0;
     color: $color-white;
+    font: $body-font-family;
+    font-size: $font-size-extra-small;
+
+    a {
+      color: $color-white;
+      text-decoration: underline;
+    }
   }
 }
 

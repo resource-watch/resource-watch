@@ -1,11 +1,12 @@
 .c-legend-map {
   position: absolute;
-  bottom: 30px;
+  bottom: 35px;
   right: 30px;
-  width: 400px;
-  background: white;
+  min-width: 400px;
+  max-width: 500px;
+  background: $color-white;
   z-index: 2;
-  border-radius: 3px;
+  border-radius: 4px;
 
   .legend-title {
     display: flex;
@@ -15,24 +16,26 @@
     padding: 10px 15px;
     text-transform: uppercase;
     color: $color-dark-grey;
+    font-weight: $font-weight-regular;
     font-size: 11px;
+  }
 
-    .toggle-legend {
-      position: absolute;
-      right: 0px;
-      width: 32px;
-      height: 32px;
-      top: -32px;
-      border: 0;
-      background-color: rgba($color-black, .7);
-      cursor: pointer;
+  .toggle-legend {
+    position: absolute;
+    right: 0px;
+    width: 40px;
+    height: 32px;
+    top: -28px;
+    border: 0;
+    border-radius: 2px 2px 0 0;
+    background-color: rgba($color-white, .2);
+    cursor: pointer;
 
-      &:focus { outline: none; }
+    &:focus { outline: none; }
 
-      svg {
-        margin-top: 4px;
-        fill: $color-white;
-      }
+    svg {
+      margin-top: 4px;
+      fill: $color-white;
     }
   }
 
@@ -43,11 +46,14 @@
     height: 0;
     overflow: hidden;
     opacity: 0;
-    transition: all $animation-time-2 $ease-out-cubic;
-
+    // Without an auto height, the legend looks a bit 💩
+    // but we can't animate the height if max-height is
+    // used
+    // I've prefered to remove the animation than having
+    // a legend too tall - Clément
 
     &.-active {
-      height: 200px;
+      height: auto;
       opacity: 1;
       overflow: auto;
     }
@@ -92,9 +98,8 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 14px 15px;
+  padding: 14px 15px 14px 10px; // We reduce the left padding because of the handle
   border-bottom: 1px solid $color-grey;
-  background-color: $color-white;
 
   &:last-child {
     border-bottom: 0;
@@ -102,7 +107,7 @@
 
   .legend-info {
     flex-grow: 1;
-    padding-left: 25px;
+    padding-left: 20px;
   }
 
   .legend-item-header {
@@ -110,30 +115,10 @@
     justify-content: space-between;
     align-items: flex-start;
 
-    .item-actions {
-      display: flex;
-      align-items: center;
-
-      button { display: flex; }
-
-      > * {
-        margin-right: 5px;
-
-        &:last-child { margin-right: 0; }
-      }
-
-      .info {
-        border: 1px solid $color-grey;
-        border-radius: 50%;
-        padding: 2px;
-        margin-right: 10px;
-
-        &:hover { border-color: $color-secondary; }
-      }
-
-      .close {
-        margin-left: 10px;
-      }
+    > h3 {
+      font-weight: $font-weight-bold;
+      flex-grow: 1;
+      flex-shrink: 1;
     }
   }
 
@@ -146,7 +131,6 @@
   }
 
   h3 {
-    font-weight: 500;
     font-size: $font-size-default;
     color: $color-white;
     margin: 0;
@@ -162,29 +146,54 @@
   }
 
   .item-actions {
+    margin-left: 20px; // Margin with the title
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+
     button {
-      background-color: transparent;
+      margin-right: 12px;
+      padding: 0;
       border: 0;
+      background-color: transparent;
       cursor: pointer;
-      margin-right: 5px;
 
       &:last-child {
         margin-right: 0;
       }
-
-      &:focus { outline: none; }
 
       &:hover .c-icon {
         fill: $color-secondary;
       }
 
       .c-icon {
-        fill: $color-dark-grey;
+        fill: $color-charcoal-grey;
       }
+    }
+
+    .info {
+      .c-icon { width: 14px; }
+    }
+
+    .close {
+      .c-icon { width: 11px; }
+    }
+
+    .toggle {
+      .c-icon { width: 16px; }
+    }
+
+    .opacity {
+      .c-icon { width: 11px; }
+    }
+
+    .layers {
+      .c-icon { width: 15px; }
     }
   }
 
   &.-sort {
     background-color: rgba(255, 255, 255, .9);
+    border-radius: 4px;
   }
 }

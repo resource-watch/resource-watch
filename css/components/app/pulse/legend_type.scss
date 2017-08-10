@@ -49,5 +49,20 @@
         }
       }
     }
+
+    &.-choropleth {
+      .type-list-item {
+
+        > .value {
+          display: inline-block;
+          width: 100%;
+          margin: 0;
+          padding: 2px;
+          text-align: center;
+          text-overflow: ellipsis;          
+          overflow: hidden;
+        }
+      }
+    }
   }
 }

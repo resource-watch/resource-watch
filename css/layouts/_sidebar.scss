@@ -35,17 +35,21 @@ $min-width-sidebar-closed: 10px;
     align-items: flex-start;
     position: absolute;
     width: 30px;
-    height: 50px;
+    height: 40px;
     top: 20px;
     left: 100%;
     cursor: pointer;
-    background-color: rgba($color-white, .3);
+    background-color: rgba($color-white, .1);
     border: none;
-    outline: none;
+    border-radius: 0 2px 2px 0;
     transition: background $animation-time-2 $ease-in-out-sine;
 
-    svg {
+    .c-icon {
+      width: 12px;
       fill: $color-white;
+
+      &.-left { transform: rotate(90deg); }
+      &.-right { transform: rotate(-90deg); }
     }
 
     &:hover {
