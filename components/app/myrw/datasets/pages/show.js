@@ -20,17 +20,19 @@ const DATASET_SUBTABS = [{
   value: 'edit',
   route: 'myrw_detail',
   params: { tab: 'datasets', id: '{{id}}', subtab: 'edit' }
-}, {
-  label: 'Metadata',
-  value: 'metadata',
-  route: 'myrw_detail',
-  params: { tab: 'datasets', id: '{{id}}', subtab: 'metadata' }
-}, {
-  label: 'Vocabularies',
-  value: 'vocabularies',
-  route: 'myrw_detail',
-  params: { tab: 'datasets', id: '{{id}}', subtab: 'vocabularies' }
-}, {
+},
+// {
+//   label: 'Metadata',
+//   value: 'metadata',
+//   route: 'myrw_detail',
+//   params: { tab: 'datasets', id: '{{id}}', subtab: 'metadata' }
+// }, {
+//   label: 'Vocabularies',
+//   value: 'vocabularies',
+//   route: 'myrw_detail',
+//   params: { tab: 'datasets', id: '{{id}}', subtab: 'vocabularies' }
+// },
+{
   label: 'Widgets',
   value: 'widgets',
   route: 'myrw_detail',
