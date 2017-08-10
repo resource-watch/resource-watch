@@ -15,6 +15,7 @@ import DatasetService from 'services/DatasetService';
 // Components
 import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
+import UploadAreaIntersectionModal from 'components/modal/UploadAreaIntersectionModal';
 
 class SubscribeToDatasetModal extends React.Component {
 
