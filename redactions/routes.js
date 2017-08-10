@@ -1,6 +1,6 @@
 import ReactGA from 'react-ga';
 import { dispatch } from 'main';
-import { setDatasetsPage, setDatasetsActive } from 'redactions/explore';
+import { setDatasetsPage } from 'redactions/explore';
 
 export function onEnterExploreUrlParams(nextState, replace, done) {
   const nextLocation = nextState.location;
@@ -9,8 +9,9 @@ export function onEnterExploreUrlParams(nextState, replace, done) {
   }
 
   if (nextLocation.query.active) {
-    const active = nextLocation.query.active.split(',');
-    dispatch(setDatasetsActive(active));
+    // TODO: reimplement this feature
+    // const active = nextLocation.query.active.split(',');
+    // dispatch(setDatasetsActive(active));
   }
 
   done();
@@ -25,8 +26,9 @@ export function onChangeExploreUrlParams(prevState, nextState, replace, done) {
   }
 
   if (nextLocation.query.active) {
-    const active = nextLocation.query.active.split(',');
-    dispatch(setDatasetsActive(active));
+    // TODO: reimplement this feature
+    // const active = nextLocation.query.active.split(',');
+    // dispatch(setDatasetsActive(active));
   }
 
   done();

@@ -22,7 +22,7 @@ export default class Head extends React.Component {
 
     return (
       <HeadNext>
-        <title>{title} | Resource Watch</title>
+        <title>{title ? `${title} | Resource Watch` : 'Resource Watch'}</title>
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="Vizzuality" />
@@ -37,6 +37,6 @@ export default class Head extends React.Component {
 }
 
 Head.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string, // Some pages don't have any title (think embed)
   description: PropTypes.string.isRequired
 };

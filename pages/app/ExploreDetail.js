@@ -8,7 +8,7 @@ import MediaQuery from 'react-responsive';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { resetDataset, toggleLayerShown } from 'redactions/exploreDetail';
+import { resetDataset } from 'redactions/exploreDetail';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 
@@ -111,7 +111,7 @@ class ExploreDetail extends Page {
     this.setState({
       similarDatasetsLoaded: false
     });
-    this.datasetService.getDatasets(SIMILAR_DATASETS).then((res) => {
+    DatasetService.getDatasets(SIMILAR_DATASETS).then((res) => {
       this.setState({
         similarDatasets: res,
         similarDatasetsLoaded: true
@@ -394,7 +394,6 @@ class ExploreDetail extends Page {
                 />
                 {similarDatasets &&
                 <DatasetList
-                  active={[]}
                   list={similarDatasets}
                   mode="grid"
                   showActions={false}
@@ -457,9 +456,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   resetDataset: () => {
     dispatch(resetDataset());
-  },
-  toggleLayerShown: (id) => {
-    dispatch(toggleLayerShown(id));
   },
   toggleModal: (open) => { dispatch(toggleModal(open)); },
   setModalOptions: (options) => { dispatch(setModalOptions(options)); }

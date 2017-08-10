@@ -1,5 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
+// Components
 import FormElement from './FormElement';
 
 class RadioGroup extends FormElement {
@@ -57,10 +59,11 @@ class RadioGroup extends FormElement {
 }
 
 RadioGroup.propTypes = {
-  options: React.PropTypes.array.isRequired,
-  properties: React.PropTypes.object.isRequired,
-  className: React.PropTypes.string,
-  onChange: React.PropTypes.func
+  name: PropTypes.string.isRequired,
+  options: PropTypes.array.isRequired,
+  properties: PropTypes.object.isRequired,
+  className: PropTypes.string,
+  onChange: PropTypes.func
 };
 
 export default RadioGroup;
