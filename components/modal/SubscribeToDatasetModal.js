@@ -12,7 +12,7 @@ import AreasService from 'services/AreasService';
 import UserService from 'services/UserService';
 import DatasetService from 'services/DatasetService';
 
-// components
+// Components
 import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
 

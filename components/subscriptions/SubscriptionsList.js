@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import { Link } from 'routes';
+
+// Redux
+import { connect } from 'react-redux';
 
 // Services
 import UserService from 'services/UserService';
@@ -50,11 +54,6 @@ class SubscriptionsList extends React.Component {
     this.loadSubscriptions();
   }
 
-  @Autobind
-  handleNewSubscription() {
-    console.log('new subscriptions!');
-  }
-
   render() {
     const { loading, subscriptions } = this.state;
     const { user } = this.props;
@@ -64,13 +63,11 @@ class SubscriptionsList extends React.Component {
         <div className="l-container">
           <Spinner isLoading={loading} className="-small -light" />
           <div className="actions-div">
-            <a
-              onClick={this.handleNewSubscription}
-              role="button"
-              tabIndex={-1}
-            >
-              New
-            </a>
+            <Link route="myrw_detail" params={{ id: 'new', tab: 'areas' }}>
+              <a>
+                New
+              </a>
+            </Link>
           </div>
           <div className="row">
             {subscriptions && subscriptions.map(val =>
@@ -98,4 +95,8 @@ SubscriptionsList.propTypes = {
   user: PropTypes.object.isRequired
 };
 
-export default SubscriptionsList;
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps, null)(SubscriptionsList);
