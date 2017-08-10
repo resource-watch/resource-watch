@@ -339,16 +339,6 @@ class WidgetEditor extends React.Component {
   }
 
   /**
-   * Return the theme of the charts
-   * @return {object} JSON object
-   */
-  getChartTheme() {
-    return ChartTheme({
-      chart: this.state.selectedChartType
-    });
-  }
-
-  /**
    * Return the visualization itself
    * @returns {HTMLElement}
    */
@@ -413,7 +403,7 @@ class WidgetEditor extends React.Component {
               <VegaChart
                 reloadOnResize
                 data={this.state.chartConfig}
-                theme={this.getChartTheme()}
+                theme={ChartTheme()}
                 toggleLoading={val => this.setState({ chartLoading: val })}
               />
             </div>
