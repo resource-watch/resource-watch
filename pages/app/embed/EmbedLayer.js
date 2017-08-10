@@ -145,18 +145,17 @@ class EmbedLayer extends Page {
         />
         <Tooltip />
 
-        {this.state.error /* FIXME: styles */}
-        {/* {layer &&
-          <Head
-            title={layer.attributes.name}
-            description={layer.attributes.name}
-          />
-        } */}
+        { this.state.error
+          && <div className="message">
+            <div className="error">Unable to load the map <span>{this.state.error}</span></div>
+          </div>
+        }
+
         <Spinner
           isLoading={this.state.loading}
           className="-light"
         />
-        {this.state.layerGroups.length &&
+        {!!this.state.layerGroups.length &&
           <div className="container">
             <div className="map-container">
               <Map
