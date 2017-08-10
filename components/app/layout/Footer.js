@@ -45,7 +45,7 @@ class Footer extends React.Component {
       <div key={p.id} className="item">
         <Link route="partner" params={{ id: p.id }}>
           <a>
-            <img className="-img" src={`${process.env.API_URL}${p.logo.thumb}`} alt={p.name} />
+            <img className="-img" src={`${process.env.STATIC_SERVER_URL}${p.logo.thumb}`} alt={p.name} />
           </a>
         </Link>
       </div>
