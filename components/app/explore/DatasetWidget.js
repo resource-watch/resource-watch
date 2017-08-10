@@ -40,18 +40,17 @@ class DatasetWidget extends React.Component {
     const isActive = this.props.isLayerGroupAdded(this.props.dataset.id);
     const hasLayer = this.props.layer;
 
-    if (!hasLayer) return null;
-
     const classes = classnames({
       '-secondary': !isActive,
       '-primary': isActive,
       '-fullwidth': true,
-      '-active': isActive
+      '-disable': !hasLayer
     });
 
     return (
       <Button
         properties={{ className: classes }}
+        disabled={!hasLayer}
         onClick={() => this.triggerToggleLayerGroup()}
       >
         {isActive ? 'Active' : 'Add to map'}

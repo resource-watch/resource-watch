@@ -31,7 +31,19 @@ class Button extends React.Component {
 
 
   render() {
-    const { children, properties, onClick, onMouseOver, onMouseOut } = this.props;
+    const { children, properties, onClick, onMouseOver, onMouseOut, disabled } = this.props;
+
+    if (disabled) {
+      return (
+        <button
+          {...properties}
+          disabled={true}
+          className={`c-button ${properties.className || ''}`}
+        >
+          {children}
+        </button>
+      );
+    }
 
     return (
       <button
