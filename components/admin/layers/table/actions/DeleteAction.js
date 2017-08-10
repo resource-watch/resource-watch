@@ -44,7 +44,7 @@ class DeleteAction extends React.Component {
 
     return (
       <span>
-        <a href={`/admin/data/layers/${data.id}/remove`} onClick={this.handleOnClickDelete}> Remove </a>
+        <a className="c-btn" href={`/admin/data/layers/${data.id}/remove`} onClick={this.handleOnClickDelete}> Remove </a>
       </span>
     );
   }

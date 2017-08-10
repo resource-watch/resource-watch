@@ -27,15 +27,15 @@ class Code extends FormElement {
   }
 
   componentWillReceiveProps(nextProps) {
-    try {
-      if (!isEqual(nextProps.properties.value, JSON.parse(this.state.value))) {
-        this.setState({
-          value: JSON.stringify(nextProps.properties.value || {}, null, 2)
-        });
-      }
-    } catch (e) {
-      // do nothing
-    }
+    // try {
+    //   if (!isEqual(nextProps.properties.value, JSON.parse(this.state.value))) {
+    //     this.setState({
+    //       value: JSON.stringify(nextProps.properties.value || {}, null, 2)
+    //     });
+    //   }
+    // } catch (e) {
+    //   // do nothing
+    // }
   }
 
   /**

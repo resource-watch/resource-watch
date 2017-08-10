@@ -63,12 +63,6 @@ $table-font-size: $font-size-normal;
       td {
         width: 100%; // It will force the tds to be expanded along the table
         padding: $table-column-padding;
-
-        // button {
-        //   display: flex;
-        //   justify-content: center;
-        //   align-items: center;
-        // }
       }
 
       .individual-actions {
@@ -85,17 +79,6 @@ $table-font-size: $font-size-normal;
             }
           }
         }
-
-        // a {
-        //   color: $color-primary;
-        //   font-size: $font-size-big;
-        //   text-decoration: none;
-        //   white-space: nowrap;
-
-        //   &:hover {
-        //     color: darken($color-primary, 10%);
-        //   }
-        // }
       }
     }
   }

@@ -21,7 +21,7 @@ class EditAction extends React.Component {
         route={action.route}
         params={this.getParsedParams(action.params)}
       >
-        <a>Go to dataset</a>
+        <a className="c-btn">Go to dataset</a>
       </Link>
     );
   }
