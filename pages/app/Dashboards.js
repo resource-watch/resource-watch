@@ -42,7 +42,7 @@ class Dashboards extends Page {
     if (typeof image === 'object') {
       // If no image has been uploaded, we just don't display anything
       if (/missing\.png$/.test(image.original)) return null;
-      return `${process.env.API_URL}${image.original}`;
+      return `${process.env.STATIC_SERVER_URL}${image.original}`;
     } else if (typeof image === 'string') {
       return `/${image}`;
     }
