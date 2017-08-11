@@ -95,6 +95,7 @@ class SubscriptionCard extends React.Component {
           const fakeLayer = {
             id: `${dataset.id}-${country.label}`,
             provider: 'geojson',
+            active: true,
             layerConfig: {
               data: newGeoJson,
               fitBounds: true,
@@ -105,7 +106,11 @@ class SubscriptionCard extends React.Component {
           this.setState({
             loading: false,
             country: country.label,
-            layer: fakeLayer
+            layerGroups: [{
+              dataset,
+              visible: true,
+              layers: [fakeLayer]
+            }]
           });
         });
       }
@@ -135,7 +140,7 @@ class SubscriptionCard extends React.Component {
   }
 
   render() {
-    const { loading, dataset, country, layer } = this.state;
+    const { loading, dataset, country, layerGroups } = this.state;
     const { subscription } = this.props;
     const confirmed = subscription.attributes.confirmed;
     const name = subscription.attributes.name;
@@ -147,11 +152,7 @@ class SubscriptionCard extends React.Component {
             <Map
               LayerManager={LayerManager}
               mapConfig={MAP_CONFIG}
-              layersActive={[{
-                dataset,
-                visible: true,
-                layers: [layer]
-              }]}
+              layerGroups={layerGroups || []}
               interactionEnabled={false}
             />
           </div>

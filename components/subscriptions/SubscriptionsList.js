@@ -64,7 +64,7 @@ class SubscriptionsList extends React.Component {
           <Spinner isLoading={loading} className="-small -light" />
           <div className="actions-div">
             <Link route="myrw_detail" params={{ id: 'new', tab: 'areas' }}>
-              <a>
+              <a className="c-button -primary">
                 New
               </a>
             </Link>
@@ -72,10 +72,9 @@ class SubscriptionsList extends React.Component {
           <div className="row">
             {subscriptions && subscriptions.map(val =>
               (
-                <div className="column small-12 medium-4">
+                <div key={val.id} className="column small-12 medium-4">
                   <div
                     className="card-container"
-                    key={val.id}
                   >
                     <SubscriptionCard
                       token={user.token}
