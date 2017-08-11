@@ -14,6 +14,7 @@ import WidgetService from 'services/WidgetService';
 import Spinner from 'components/ui/Spinner';
 import WidgetList from 'components/widgets/WidgetList';
 import Icon from 'components/ui/Icon';
+import CustomSelect from 'components/ui/CustomSelect';
 
 class MyRWWidgetsMy extends React.Component {
 
@@ -25,7 +26,9 @@ class MyRWWidgetsMy extends React.Component {
       myWidgetsLoaded: false,
       myWidgets: null,
       mode: 'grid',
-      orderDirection: 'asc'
+      orderDirection: 'asc',
+      selectedWidgetCollection: null,
+      widgetCollections: []
     };
 
     // User service
@@ -34,21 +37,14 @@ class MyRWWidgetsMy extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.user.id) {
-      this.waitForUserToBeLoaded();
-    } else {
-      this.loadWidgets();
-    }
+    this.loadWidgets();
   }
 
-  waitForUserToBeLoaded() {
-    setTimeout(() => {
-      if (this.props.user.id) {
-        this.loadWidgets();
-      } else {
-        this.waitForUserToBeLoaded();
-      }
-    }, 1000);
+  @Autobind
+  setMode(value) {
+    this.setState({
+      mode: value
+    });
   }
 
   loadWidgets() {
@@ -71,13 +67,6 @@ class MyRWWidgetsMy extends React.Component {
   }
 
   @Autobind
-  setMode(value) {
-    this.setState({
-      mode: value
-    });
-  }
-
-  @Autobind
   handleOrderChange() {
     const newOrder = this.state.orderDirection === 'asc' ? 'desc' : 'asc';
     this.setState({
@@ -87,7 +76,14 @@ class MyRWWidgetsMy extends React.Component {
   }
 
   render() {
-    const { myWidgetsLoaded, myWidgets, mode, orderDirection } = this.state;
+    const {
+      myWidgetsLoaded,
+      myWidgets,
+      mode,
+      orderDirection,
+      widgetCollections,
+      selectedWidgetCollection
+    } = this.state;
     return (
       <div className="c-myrw-widgets-my">
         <div className="row">
@@ -108,6 +104,15 @@ class MyRWWidgetsMy extends React.Component {
                 {orderDirection === 'desc' &&
                   <Icon className="-small" name="icon-arrow-down" />
                 }
+              </div>
+              <div className="widget-collections-selector">
+                <CustomSelect
+                  placeholder="Select a widget collection"
+                  options={widgetCollections}
+                  onValueChange={this.onChangeSelectedWidgetCollection}
+                  allowNonLeafSelection={false}
+                  value={selectedWidgetCollection}
+                />
               </div>
               <div className="mode-buttons">
                 <button

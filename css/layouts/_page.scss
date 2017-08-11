@@ -51,6 +51,10 @@
         color: $alt-font-color;
         margin-bottom: 0;
       }
+
+      &.-with-tabs {
+        padding: $margin-size-extra-small 0 0;
+      }
     }
 
     .page-header-title {
@@ -74,12 +78,6 @@
 
           &:first-child { margin: 0; }
         }
-      }
-    }
-
-    &.-admin {
-      .page-header-content {
-        padding-bottom: 0;
       }
     }
 

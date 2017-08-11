@@ -158,7 +158,9 @@ class Step1 extends React.Component {
 
             {this.state.mode === 'advanced' &&
               <Field
-                onChange={value => this.props.onChange({ widgetConfig: CONFIG_TEMPLATE[value] })}
+                onChange={value => this.props.onChange({
+                  widgetConfig: CONFIG_TEMPLATE[value] || {}
+                })}
                 options={CONFIG_TEMPLATE_OPTIONS}
                 properties={{
                   name: 'template',

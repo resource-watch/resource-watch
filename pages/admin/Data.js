@@ -10,12 +10,9 @@ import Layout from 'components/admin/layout/Layout';
 import Tabs from 'components/ui/Tabs';
 
 // Tabs
-import DatasetTab from 'components/admin/dataset/DatasetTab';
+import DatasetsTab from 'components/admin/datasets/DatasetsTab';
 import WidgetsTab from 'components/admin/widgets/WidgetsTab';
 import LayersTab from 'components/admin/layers/LayersTab';
-
-// Components
-import Title from 'components/ui/Title';
 
 // Contants
 const DATA_TABS = [
@@ -79,7 +76,7 @@ class Data extends Page {
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
-                <div className="page-header-content">
+                <div className="page-header-content -with-tabs">
                   <h1>Data</h1>
                   <Tabs
                     options={DATA_TABS}
@@ -97,7 +94,7 @@ class Data extends Page {
             <div className="row">
               <div className="column small-12">
                 {tab === 'datasets' &&
-                  <DatasetTab tab={tab} subtab={subtab} id={id} />
+                  <DatasetsTab tab={tab} subtab={subtab} id={id} />
                 }
 
                 {tab === 'widgets' &&

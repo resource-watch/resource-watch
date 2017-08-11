@@ -15,6 +15,7 @@ import Footer from 'components/app/layout/Footer';
 import Tooltip from 'components/ui/Tooltip';
 import Head from 'components/app/layout/head';
 import Modal from 'components/ui/Modal';
+import Toastr from 'react-redux-toastr';
 
 const fullScreenPages = [
   '/app/Explore',
@@ -90,6 +91,10 @@ class Layout extends React.Component {
           setModalOptions={this.props.setModalOptions}
         />
 
+        <Toastr
+          transitionIn="fadeIn"
+          transitionOut="fadeOut"
+        />
       </div>
     );
   }

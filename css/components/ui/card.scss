@@ -1,0 +1,31 @@
+.c-card {
+  position: relative;
+  width: 100%;
+  background: $color-white;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  cursor: pointer;
+
+  border: 1px solid $border-color-1;
+  border-radius: 4px;
+
+  .card-container {
+    padding: $margin-size-small;
+  }
+
+  .card-header {
+    > * {
+      margin: 4px 0 0;
+
+      &:first-child {
+        margin: 0;
+      }
+    }
+  }
+
+  .card-content {
+    margin: $margin-size-extra-small 0 0;
+  }
+
+}

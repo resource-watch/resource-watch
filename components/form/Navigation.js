@@ -46,7 +46,7 @@ class Navigation extends React.Component {
               properties={{
                 type: 'button',
                 name: 'commit',
-                className: '-primary -expanded'
+                className: '-secondary -expanded'
               }}
               onClick={this.onStepChange}
             >
@@ -60,7 +60,7 @@ class Navigation extends React.Component {
               properties={{
                 type: 'submit',
                 name: 'commit',
-                className: '-secondary -expanded'
+                className: '-primary -expanded'
               }}
             >
               Next
@@ -73,7 +73,7 @@ class Navigation extends React.Component {
               properties={{
                 type: 'submit',
                 name: 'commit',
-                className: '-primary -expanded'
+                className: '-secondary -expanded'
               }}
               onClick={this.onBack}
             >
@@ -89,7 +89,7 @@ class Navigation extends React.Component {
                 type: 'submit',
                 name: 'commit',
                 disabled: submitting,
-                className: `-secondary -expanded ${submittingClassName}`
+                className: `-primary -expanded ${submittingClassName}`
               }}
             >
               Save

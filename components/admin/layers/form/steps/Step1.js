@@ -93,9 +93,7 @@ class Step1 extends React.Component {
           properties={{
             name: 'layerConfig',
             label: 'Layer config',
-            type: 'textarea',
-            default: this.state.form.layerConfig,
-            value: this.state.form.layerConfig
+            default: this.state.form.layerConfig
           }}
         >
           {Code}
@@ -107,9 +105,7 @@ class Step1 extends React.Component {
           properties={{
             name: 'legendConfig',
             label: 'Legend config',
-            type: 'textarea',
-            default: this.state.form.legendConfig,
-            value: this.state.form.legendConfig
+            default: this.state.form.legendConfig
           }}
         >
           {Code}

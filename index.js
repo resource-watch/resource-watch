@@ -119,6 +119,7 @@ app.prepare()
       return handle(req, res, parsedUrl);
     };
 
+    server.get('/myrw-detail*?', isAuthenticated, handleUrl);
     server.get('/myrw*?', isAuthenticated, handleUrl);
     server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);
 

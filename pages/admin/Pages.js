@@ -61,7 +61,7 @@ class Pages extends Page {
         {/* PAGE HEADER */}
         <div className="c-page-header -admin">
           <div className="l-container">
-            <div className="page-header-content -padding-b-0">
+            <div className="page-header-content -with-tabs">
               <Title className="-primary -huge page-header-title" >
                 Pages
               </Title>

@@ -2,8 +2,6 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  min-width: 300px;
-  min-height: 160px;
   width: 100%;
   border-radius: 4px;
 
@@ -13,7 +11,7 @@
 
   .border-container {
     border: 1px solid $color-grey;
-    margin: 10px;
+
     .map-container {
       position: relative;
       width: 100%;

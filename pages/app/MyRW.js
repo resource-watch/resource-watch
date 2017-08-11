@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+// Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
@@ -10,11 +12,11 @@ import Tabs from 'components/ui/Tabs';
 import Title from 'components/ui/Title';
 
 // My RW
-import MyRWProfile from 'components/app/myrw/MyRWProfile';
+import ProfilesTab from 'components/app/myrw/profiles/ProfilesTab';
+import DatasetsTab from 'components/app/myrw/datasets/DatasetsTab';
 import MyRWDashboards from 'components/app/myrw/MyRWDashboards';
-import MyRWInsights from 'components/app/myrw/MyRWInsights';
-import MyRWWidgets from 'components/app/myrw/MyRWWidgets';
-import MyRWSubscriptions from 'components/app/myrw/MyRWSubscriptions';
+import WidgetsTab from 'components/app/myrw/widgets/WidgetsTab';
+import SubscriptionsTab from 'components/app/myrw/subscriptions/SubscriptionsTab';
 
 // Contants
 const MYRW_TABS = [{
@@ -22,6 +24,11 @@ const MYRW_TABS = [{
   value: 'profile',
   route: 'myrw',
   params: { tab: 'profile' }
+}, {
+  label: 'Datasets',
+  value: 'datasets',
+  route: 'myrw',
+  params: { tab: 'datasets' }
 }, {
   label: 'Dashboards',
   value: 'dashboards',
@@ -33,18 +40,6 @@ const MYRW_TABS = [{
   route: 'myrw',
   params: { tab: 'widgets' }
 },
-// {
-//   label: 'Insights',
-//   value: 'insights',
-//   route: 'myrw',
-//   params: { tab: 'insights' }
-// },
-// {
-//   label: 'Subscriptions',
-//   value: 'subscriptions',
-//   route: 'myrw',
-//   params: { tab: 'subscriptions' }
-// },
 {
   label: 'Areas of interest',
   value: 'areas',
@@ -61,8 +56,7 @@ class MyRW extends Page {
 
     this.state = {
       tab: url.query.tab || 'profile',
-      subtab: url.query.subtab,
-      element: url.query.element
+      subtab: url.query.subtab
     };
   }
 
@@ -71,56 +65,69 @@ class MyRW extends Page {
 
     this.setState({
       tab: url.query.tab || 'profile',
-      subtab: url.query.subtab,
-      element: url.query.element
+      subtab: url.query.subtab
     });
   }
 
   render() {
-    const { tab, subtab, element } = this.state;
+    const { url, user } = this.props;
+    const { tab, subtab } = this.state;
 
     return (
       <Layout
         title="My Resource Watch Edit Profile"
         description="My Resource Watch Edit Profile description"
-        url={this.props.url}
-        user={this.props.user}
+        url={url}
+        user={user}
         pageHeader
       >
         <div className="c-page-header">
           <div className="l-container">
-            <div className="page-header-content -padding-b-0">
-              <Title className="-primary -huge page-header-title" >
-                My RW
-              </Title>
-              <Tabs
-                options={MYRW_TABS}
-                defaultSelected={tab}
-                selected={tab}
-              />
+            <div className="row">
+              <div className="column small-12">
+                <div className="page-header-content -with-tabs">
+                  <Title className="-primary -huge page-header-title" >
+                    My RW
+                  </Title>
+                  <Tabs
+                    options={MYRW_TABS}
+                    defaultSelected={tab}
+                    selected={tab}
+                  />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div className="c-page-section">
+          <div className="l-container">
+            <div className="row">
+              <div className="column small-12">
+                {tab === 'profile' &&
+                  <ProfilesTab tab={tab} subtab={subtab} />
+                }
+
+                {tab === 'datasets' &&
+                  <DatasetsTab tab={tab} subtab={subtab} />
+                }
+
+                {tab === 'dashboards' &&
+                  <MyRWDashboards subtab={subtab} />
+                }
+
+                {tab === 'areas' &&
+                  <SubscriptionsTab tag={tab} subtab={subtab} />
+                }
+
+                {tab === 'widgets' &&
+                  <WidgetsTab tab={tab} subtab={subtab} />
+                }
+              </div>
             </div>
           </div>
         </div>
 
-        {tab === 'profile' &&
-          <MyRWProfile subtab={subtab} />
-        }
-
-        {tab === 'dashboards' &&
-          <MyRWDashboards subtab={subtab} />
-        }
-
-        {tab === 'widgets' &&
-          <MyRWWidgets subtab={subtab} element={element} />
-        }
-
-        {tab === 'insights' &&
-          <MyRWInsights subtab={subtab} />
-        }
-
-        {tab === 'areas' &&
-          <MyRWSubscriptions subtab={subtab} />
-        }
       </Layout>
     );
   }

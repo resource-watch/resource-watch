@@ -64,12 +64,6 @@ $table-font-size: $font-size-normal;
       td {
         width: 100%; // It will force the tds to be expanded along the table
         padding: $table-column-padding;
-
-        // button {
-        //   display: flex;
-        //   justify-content: center;
-        //   align-items: center;
-        // }
       }
 
       .individual-actions {
@@ -86,17 +80,6 @@ $table-font-size: $font-size-normal;
             }
           }
         }
-
-        // a {
-        //   color: $color-primary;
-        //   font-size: $font-size-big;
-        //   text-decoration: none;
-        //   white-space: nowrap;
-
-        //   &:hover {
-        //     color: darken($color-primary, 10%);
-        //   }
-        // }
       }
     }
   }
@@ -138,51 +121,6 @@ $table-font-size: $font-size-normal;
       &:hover {
         color: darken($color-text-1, 10%);
         text-decoration: underline;
-      }
-    }
-  }
-
-  // Related content
-  td.related-content {
-    > ul {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: flex;
-      align-items: flex-start;
-      justify-content: flex-start;
-
-      > li {
-        margin: 0 0 0 $space-1;
-        &:first-child { margin: 0; }
-
-        a {
-          display: flex;
-          align-items: center;
-          text-decoration: none;
-          color: $color-text-1;
-          fill: $color-text-1;
-          padding: $space-1 / 2 6px;
-          border-radius: 4px;
-          font-size: $font-size-default;
-
-          > * {
-            margin: 0 0 0 $space-1/2;
-            &:first-child { margin: 0; }
-          }
-
-          &.-empty {
-            color: $color-white;
-            fill: $color-white;
-            background: $color-mango;
-          }
-
-          &:hover {
-            color: $color-white;
-            fill: $color-white;
-            background: $color-text-1;
-          }
-        }
       }
     }
   }

@@ -82,7 +82,7 @@ class WidgetCard extends React.Component {
     const { widget } = this.props;
     const tagName = event.target.tagName;
     if (tagName !== 'A' && tagName !== 'use') {
-      Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my-widgets', element: widget.id });
+      Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: widget.id });
     }
   }
   @Autobind
@@ -130,9 +130,22 @@ class WidgetCard extends React.Component {
         });
     }
   }
+  @Autobind
+  handleAddToWidgetCollection() {
+    
+  }
 
   render() {
-    const { widget, showRemove, showActions, showEmbed, showStar, mode } = this.props;
+    const {
+      widget,
+      showRemove,
+      showActions,
+      showEmbed,
+      showStar,
+      showWidgetColllections,
+      widgetCollections,
+      mode
+    } = this.props;
 
     return (
       <div
@@ -141,6 +154,20 @@ class WidgetCard extends React.Component {
         className={'c-widget-card'}
         onClick={this.handleClick}
       >
+        {showWidgetColllections &&
+          <div className="widget-collections">
+            <ul className="collections_list">
+              {widgetCollections.map(collection => <li key={collection}>{collection}</li>)}
+            </ul>
+            <a
+              onClick={this.handleAddToWidgetCollection}
+              role="button"
+              tabIndex={-1}
+            >
+              +
+            </a>
+          </div>
+        }
         {widget &&
           <DatasetWidgetChart
             widget={widget.attributes}
@@ -208,7 +235,8 @@ class WidgetCard extends React.Component {
 
 WidgetCard.defaultProps = {
   showActions: false,
-  showRemove: false
+  showRemove: false,
+  showWidgetColllections: false
 };
 
 WidgetCard.propTypes = {
@@ -217,6 +245,8 @@ WidgetCard.propTypes = {
   showRemove: PropTypes.bool,
   showEmbed: PropTypes.bool,
   showStar: PropTypes.bool,
+  showWidgetColllections: PropTypes.bool,
+  widgetCollections: PropTypes.array,
   mode: PropTypes.oneOf(['thumbnail', 'full']), // How to show the graph
   // Callbacks
   onWidgetRemove: PropTypes.func,
