@@ -25,10 +25,9 @@ module.exports = {
         use: [
           'babel-loader',
           'raw-loader',
-          { loader: 'postcss-loader', options: { sourceMap: dev } },
+          { loader: 'postcss-loader' },
           { loader: 'sass-loader',
             options: {
-              sourceMap: dev,
               includePaths: ['./node_modules']
                 .map(d => path.join(__dirname, d))
                 .map(g => glob.sync(g))
