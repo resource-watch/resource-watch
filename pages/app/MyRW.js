@@ -15,8 +15,8 @@ import Title from 'components/ui/Title';
 import ProfilesTab from 'components/app/myrw/profiles/ProfilesTab';
 import DatasetsTab from 'components/app/myrw/datasets/DatasetsTab';
 import MyRWDashboards from 'components/app/myrw/MyRWDashboards';
-import MyRWWidgets from 'components/app/myrw/MyRWWidgets';
-import MyRWSubscriptions from 'components/app/myrw/MyRWSubscriptions';
+import WidgetsTab from 'components/app/myrw/widgets/WidgetsTab';
+import SubscriptionsTab from 'components/app/myrw/subscriptions/SubscriptionsTab';
 
 // Contants
 const MYRW_TABS = [{
@@ -110,7 +110,11 @@ class MyRW extends Page {
             }
 
             {tab === 'areas' &&
-              <MyRWSubscriptions subtab={subtab} />
+              <SubscriptionsTab tag={tab} subtab={subtab} />
+            }
+
+            {tab === 'widgets' &&
+              <WidgetsTab tab={tab} subtab={subtab} />
             }
           </div>
         </div>

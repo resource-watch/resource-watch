@@ -10,11 +10,24 @@ import { connect } from 'react-redux';
 // Services
 import AreasService from 'services/AreasService';
 import UserService from 'services/UserService';
-import DatasetService from 'services/DatasetService';
 
-// components
+// Components
 import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
+
+const AREAS = [
+  {
+    label: 'Custom area',
+    value: 'custom',
+    items: [
+      {
+        label: 'Upload new area',
+        value: 'upload',
+        as: 'Custom area'
+      }
+    ]
+  }
+];
 
 
 class SubscribeToDatasetModal extends React.Component {
@@ -23,33 +36,49 @@ class SubscribeToDatasetModal extends React.Component {
     super(props);
 
     this.state = {
-      datasets: [],
       areaOptions: [],
       loadingAreaOptions: false,
-      loadingDatasets: false,
       selectedArea: null,
       loading: false,
       saved: false,
-      name: ''
+      name: '',
+      geostore: null
     };
 
     // Services
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
-    this.datasetService = new DatasetService(null, { apiURL: process.env.WRI_API_URL });
   }
 
   componentDidMount() {
     this.loadAreas();
-    if (this.props.showDatasetSelector) {
-      this.loadDatasets();
-    }
   }
 
   @Autobind
-  onChangeSelectedArea(value) {
-    this.setState({
-      selectedArea: value
+  async onChangeSelectedArea(value) {
+    return new Promise((resolve) => {
+      if (value.value === 'upload') {
+        // this.props.toggleModal(true, {
+        //   children: UploadAreaIntersectionModal,
+        //   childrenProps: {
+        //     onUploadArea: (id) => {
+        //       // We close the modal
+        //       this.props.toggleModal(false, {});
+        //
+        //       this.setState({
+        //         geostore: id
+        //       });
+        //
+        //       resolve(true);
+        //     }
+        //   },
+        //   onCloseModal: () => resolve(false)
+        // });
+      } else {
+        this.setState({
+          selectedArea: value
+        });
+      }
     });
   }
 
@@ -66,7 +95,7 @@ class SubscribeToDatasetModal extends React.Component {
     });
     this.areasService.fetchCountries().then((response) => {
       this.setState({
-        areaOptions: response.data,
+        areaOptions: [...AREAS, ...response.data],
         loadingAreaOptions: false
       });
     });
@@ -84,24 +113,22 @@ class SubscribeToDatasetModal extends React.Component {
 
   @Autobind
   handleSubscribe() {
-    const { selectedArea, name, selectedDataset } = this.state;
-    const { dataset, user, showDatasetSelector } = this.props;
-    const datasetId = dataset ? dataset.id : (selectedDataset && selectedDataset.id);
+    const { selectedArea, name, geostore } = this.state;
+    const { dataset, user } = this.props;
 
-    if (selectedArea) {
-      if (!showDatasetSelector || (showDatasetSelector && selectedDataset)) {
-        this.setState({
-          loading: true
-        });
-        this.userService.createSubscriptionToDataset(datasetId, selectedArea.value, user, name)
-          .then(() => {
-            this.setState({
-              loading: false,
-              saved: true
-            });
-          })
-          .catch(err => this.setState({ error: err, loading: false }));
-      }
+    if (selectedArea || geostore) {
+      this.setState({
+        loading: true
+      });
+      const areaObj = geostore ? { type: 'geostore', id: geostore } : { type: 'iso', id: selectedArea.value };
+      this.userService.createSubscriptionToDataset(dataset.id, areaObj, user, name)
+        .then(() => {
+          this.setState({
+            loading: false,
+            saved: true
+          });
+        })
+        .catch(err => this.setState({ error: err, loading: false }));
     }
   }
 
@@ -136,26 +163,20 @@ class SubscribeToDatasetModal extends React.Component {
       selectedArea,
       loading,
       saved,
-      name,
-      datasets,
-      loadingDatasets,
-      selectedDataset
+      name
     } = this.state;
-    const { dataset, showDatasetSelector } = this.props;
+    const { dataset } = this.props;
     let headerText;
     if (saved) {
       headerText = 'Subscription saved!';
     } else if (dataset) {
       headerText = `Subscribe to ${dataset.attributes.name}`;
-    } else {
-      headerText = 'Subscribe to alerts';
     }
     const paragraphText = saved ?
       'Your subscription was successfully created. Please check your email address to confirm it' :
       'Please enter a name and select an area for the subscription';
     const selectorsContainerClassName = classnames({
-      'selectors-container': true,
-      '-use-margin': showDatasetSelector
+      'selectors-container': true
     });
 
     return (
@@ -171,23 +192,15 @@ class SubscribeToDatasetModal extends React.Component {
               <input value={name} onChange={this.handleNameChange} />
             </div>
             <div className={selectorsContainerClassName}>
-              <Spinner isLoading={loadingAreaOptions || loadingDatasets || loading} className="-light -small" />
+              <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
               <CustomSelect
                 placeholder="Select area"
                 options={areaOptions}
                 onValueChange={this.onChangeSelectedArea}
                 allowNonLeafSelection={false}
                 value={selectedArea && selectedArea.value}
+                waitForChangeConfirmation
               />
-              {showDatasetSelector &&
-                <CustomSelect
-                  placeholder="Select a dataset"
-                  options={datasets}
-                  onValueChange={this.onChangeSelectedDataset}
-                  allowNonLeafSelection={false}
-                  value={selectedDataset && selectedDataset.value}
-                />
-              }
             </div>
           </div>
         }
@@ -225,9 +238,8 @@ class SubscribeToDatasetModal extends React.Component {
 }
 
 SubscribeToDatasetModal.propTypes = {
+  dataset: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  dataset: PropTypes.object,
-  showDatasetSelector: PropTypes.bool.isRequired,
   // Store
   user: PropTypes.object.isRequired
 };

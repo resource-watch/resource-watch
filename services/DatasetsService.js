@@ -13,7 +13,7 @@ export default class DatasetsService {
     const qParams = {
       application: applications.join(','),
       ...!!includes && includes,
-      'page[size]': Date.now() / 100000,
+      'page[size]': 9999999,
       ...filters
     };
 

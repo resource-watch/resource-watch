@@ -18,8 +18,9 @@ import Layout from 'components/app/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 // Tabs
+import SubscriptionsTab from 'components/app/myrw/subscriptions/SubscriptionsTab';
 import DatasetsTab from 'components/app/myrw/datasets/DatasetsTab';
-// import WidgetsTab from 'components/app/myrw/widgets/WidgetsTab';
+import WidgetsTab from 'components/app/myrw/widgets/WidgetsTab';
 // import LayersTab from 'components/app/myrw/layers/LayersTab';
 
 // Components
@@ -127,6 +128,12 @@ class MyRWDetail extends Page {
           <div className="l-container">
             {tab === 'datasets' &&
               <DatasetsTab tab={tab} subtab={subtab} id={id} />
+            }
+            {tab === 'areas' &&
+              <SubscriptionsTab tab={tab} subtab={subtab} id={id} />
+            }
+            {tab === 'widgets' &&
+              <WidgetsTab tab={tab} subtab={subtab} id={id} />
             }
           </div>
         </div>

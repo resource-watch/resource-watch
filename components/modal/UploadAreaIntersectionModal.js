@@ -227,7 +227,7 @@ class UploadAreaIntersectionModal extends React.Component {
 
           <div className={classnames({ 'dropzone-file-input': true, '-active': dropzoneActive })}>
             <div
-              role="presentation" // Disable the accessibility warning, don't know which other role to give
+              role="presentation"
               className="dropzone-file-name"
               onClick={this.onOpenDialog}
             >

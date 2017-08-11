@@ -515,9 +515,8 @@ class WidgetEditor extends React.Component {
 
     // Whether we're still waiting for some data
     const loading = (mode === 'dataset' && !layersLoaded)
-      || (!fieldsLoaded && !fieldsError)
-      || (!jiminyLoaded && !jiminyError && !fieldsError)
-      || (mode === 'widget' && updating); // FIXME: updating don't exist...
+      || !fieldsLoaded
+      || !jiminyLoaded;
 
     const chartEditorMode = (mode === 'dataset') ? 'save' : 'update';
 
