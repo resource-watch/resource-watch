@@ -62,6 +62,14 @@
     }
   }
 
+  .clear-button {
+    margin-right: 15px;
+
+    .c-icon {
+      fill: rgba($dove-grey, .5);
+    }
+  }
+
   .no-results {
     position: absolute;
     top: 100%;
