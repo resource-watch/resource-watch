@@ -554,7 +554,7 @@ class WidgetEditor extends React.Component {
     return (
       <div className="c-widget-editor">
         {!componentShouldNotShow &&
-          <div className="l-container">
+          <div className="l-container -expanded">
             <div className="row expanded">
               <div className="customize-visualization">
                 { loading && <Spinner className="-light" isLoading={loading} /> }
@@ -564,16 +564,18 @@ class WidgetEditor extends React.Component {
                   Customize Visualization
                 </h2>
                 <div className="visualization-type">
-                  <h5>Visualization type</h5>
-                  <Select
-                    properties={{
-                      className: 'visualization-type-selector',
-                      name: 'visualization-type',
-                      value: selectedVisualizationType
-                    }}
-                    options={visualizationsOptions}
-                    onChange={this.handleVisualizationTypeChange}
-                  />
+                  <div className="c-field">
+                    <label>Visualization type</label>
+                    <Select
+                      properties={{
+                        className: 'visualization-type-selector',
+                        name: 'visualization-type',
+                        value: selectedVisualizationType
+                      }}
+                      options={visualizationsOptions}
+                      onChange={this.handleVisualizationTypeChange}
+                    />
+                  </div>
                 </div>
                 {
                   selectedVisualizationType !== 'map' && !fieldsError && tableName &&

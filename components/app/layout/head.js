@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import HeadNext from 'next/head';
-
-// Styles
+// import Package from '../../../package.json';
 import styles from 'css/index.scss';
 
 export default class Head extends React.Component {

@@ -18,6 +18,10 @@
   @media screen and (min-width: map-get($breakpoints, xlarge)) {
     max-width: 1080px;
   }
+
+  &.-expanded {
+    max-width: 100%;
+  }
 }
 
 .row {

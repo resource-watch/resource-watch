@@ -200,32 +200,34 @@ class ChartEditor extends React.Component {
         <div className="selectors-container">
           {!tableViewMode &&
             <div className="chart-type">
-              <h5>Chart style</h5>
-              <Select
-                properties={{
-                  name: 'chart-type',
-                  value: chartType,
-                  default: chartType
-                }}
-                options={chartOptions}
-                onChange={this.handleChartTypeChange}
-              />
+              <div className="c-field">
+                <label>Chart style</label>
+                <Select
+                  properties={{
+                    name: 'chart-type',
+                    value: chartType,
+                    default: chartType
+                  }}
+                  options={chartOptions}
+                  onChange={this.handleChartTypeChange}
+                />
+              </div>
             </div>
           }
           <div className="area-intersection">
-            <h5>Area intersection { loadingAreaIntersection && <Spinner isLoading className="-light -small -inline" /> }</h5>
-            <CustomSelect
-              placeholder="Select area"
-              options={areaOptions}
-              onValueChange={this.onChangeAreaIntersection}
-              allowNonLeafSelection={false}
-              waitForChangeConfirmation
-            />
+            <div className="c-field">
+              <label>Area intersection { loadingAreaIntersection && <Spinner isLoading className="-light -small -inline" /> }</label>
+              <CustomSelect
+                placeholder="Select area"
+                options={areaOptions}
+                onValueChange={this.onChangeAreaIntersection}
+                allowNonLeafSelection={false}
+                waitForChangeConfirmation
+              />
+            </div>
           </div>
         </div>
-        <div className="text-container">
-          Drag and drop elements from the list to the boxes:
-        </div>
+        <p>Drag and drop elements from the list to the boxes:</p>
         <div className="actions-div">
           {fields &&
             <FieldsContainer

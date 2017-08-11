@@ -1,24 +1,25 @@
 .c-chart-editor {
-  margin-top: 20px;
+
+  $margin-between-fields: 20px;
 
   .selectors-container {
     display: flex;
     justify-content: space-between;
 
-    h5 {
-      font-size: $font-size-small-medium;
-      line-height: 23px; // Height needed for the spinner
-      margin-bottom: 2px;
+    // h5 {
+    //   font-size: $font-size-small-medium;
+    //   line-height: 23px; // Height needed for the spinner
+    //   margin-bottom: 2px;
 
-      .c-spinner {
-        margin-left: 5px;
-        vertical-align: middle;
-      }
-    }
+    //   .c-spinner {
+    //     margin-left: 5px;
+    //     vertical-align: middle;
+    //   }
+    // }
 
     .chart-type {
       width: 100%;
-      margin-right: 20px;
+      margin-right: $margin-between-fields;
     }
 
     .area-intersection {
@@ -31,27 +32,27 @@
   }
 
   .text-container {
-    margin-top: 20px;
+    margin-top: $margin-between-fields;
   }
 
   .arrow-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 15px;
-    margin-right: 15px;
+    margin-left: $margin-size-extra-small;
+    margin-right: $margin-size-extra-small;
   }
 
   .actions-div {
     display: flex;
-    margin-top: 14px;
     justify-content: flex-start;
-    padding-bottom: 20px;
+    margin-top: $margin-between-fields;
+    margin-bottom: $margin-between-fields;
 
     .customization-container {
       flex-grow: 1;
       border: 1px solid $color-grey;
-      padding: 10px;
+      padding: $margin-size-extra-small;
     }
   }
 
@@ -60,7 +61,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 10px;
+    margin-top: $margin-between-fields;
 
     a {
       cursor: pointer;
