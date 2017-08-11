@@ -9,6 +9,7 @@
       display: flex;
       align-items: center;
       cursor: pointer;
+      min-width: 120px;
 
       svg {
         margin-left: 5px;
@@ -16,12 +17,20 @@
       }
     }
 
-    button {
-      cursor: pointer;
-      fill: $color-grey;
+    .widget-collections-selector {
+      width: 100%;
+    }
 
-      &.-active {
-        fill: $color-black;
+    .mode-buttons {
+      min-width: 70px;
+
+      button {
+        cursor: pointer;
+        fill: $color-grey;
+
+        &.-active {
+          fill: $color-black;
+        }
       }
     }
   }
