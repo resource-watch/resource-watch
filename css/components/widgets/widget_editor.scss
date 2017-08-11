@@ -14,21 +14,20 @@
     flex-basis: 430px;
     flex-shrink: 0;
     flex-grow: 0;
-    padding: 20px 40px;
+    padding: $margin-size-small;
     border: 1px solid rgba($color-black, .15);
     box-shadow: 0 1px 2px 0 rgba($color-black, .09);
     background-color: $color-white;
 
     > .title {
-      margin: 20px 0;
       color: $color-dark-pink;
       font-weight: $font-weight-light;
     }
 
-    h5 {
-      margin: 0 0 10px;
-      font-size: $font-size-small-medium;
-    }
+    // h5 {
+    //   margin: 0 0 10px;
+    //   font-size: $font-size-extra-small;
+    // }
 
     .visualization-type-selector {
       max-width: none;

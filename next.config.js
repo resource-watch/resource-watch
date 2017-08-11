@@ -5,7 +5,7 @@ const glob = require('glob');
 const webpack = require('webpack');
 
 module.exports = {
-  webpack: (config) => {
+  webpack: (config, { dev }) => {
     config.module.rules.push(
       {
         test: /\.(css|scss)/,
@@ -22,10 +22,14 @@ module.exports = {
     ,
       {
         test: /\.s(a|c)ss$/,
-        use: ['babel-loader', 'raw-loader', 'postcss-loader',
+        use: [
+          'babel-loader',
+          'raw-loader',
+          { loader: 'postcss-loader', options: { sourceMap: dev } },
           { loader: 'sass-loader',
             options: {
-              includePaths: ['styles', 'node_modules', '../node_modules']
+              sourceMap: dev,
+              includePaths: ['./node_modules']
                 .map(d => path.join(__dirname, d))
                 .map(g => glob.sync(g))
                 .reduce((a, c) => a.concat(c), [])
