@@ -3,15 +3,20 @@ import { Router } from 'routes';
 import { StickyContainer, Sticky } from 'react-sticky';
 import PropTypes from 'prop-types';
 
+// Redux
+import { connect } from 'react-redux';
+
 // Utils
 import { substitution } from 'utils/utils';
+
+// Services
+import DatasetsService from 'services/DatasetsService';
 
 // Components
 import Aside from 'components/ui/Aside';
 import DatasetsForm from 'components/datasets/form/DatasetsForm';
 import MetadataForm from 'components/admin/metadata/form/MetadataForm';
-import WidgetIndex from 'components/admin/widget/pages/index';
-import LayersIndex from 'components/admin/layers/pages/index';
+import WidgetList from 'components/widgets/WidgetList';
 
 // Constants
 const DATASET_SUBTABS = [{
@@ -29,14 +34,34 @@ const DATASET_SUBTABS = [{
   value: 'widgets',
   route: 'myrw_detail',
   params: { tab: 'datasets', id: '{{id}}', subtab: 'widgets' }
-}, {
-  label: 'Layers',
-  value: 'layers',
-  route: 'myrw_detail',
-  params: { tab: 'datasets', id: '{{id}}', subtab: 'layers' }
 }];
 
 class DatasetsShow extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: {}
+    };
+
+    this.service = new DatasetsService();
+  }
+
+  componentDidMount() {
+    const { id, user } = this.props;
+
+    if (this.service) {
+      // Fetch the dataset / layer / widget depending on the tab
+      this.service.fetchData({ id, includes: 'widget,layer,metadata', filters: { userId: user.id } })
+        .then((data) => {
+          this.setState({ data });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }
 
   /**
    * HELPERS
@@ -49,6 +74,7 @@ class DatasetsShow extends React.Component {
 
   render() {
     const { id, user } = this.props;
+    const { data } = this.state;
     const subtab = this.props.subtab || 'edit';
 
     return (
@@ -91,11 +117,13 @@ class DatasetsShow extends React.Component {
               }
 
               {subtab === 'widgets' &&
-                <WidgetIndex user={user} dataset={id} embed />
-              }
-
-              {subtab === 'layers' &&
-                <LayersIndex user={user} dataset={id} />
+                <WidgetList
+                  widgets={data.widget || []}
+                  mode="grid"
+                  // onWidgetRemove={this.handleWidgetRemoved}
+                  showActions
+                  showRemove
+                />
               }
             </div>
 
@@ -114,4 +142,8 @@ DatasetsShow.propTypes = {
   user: PropTypes.object.isRequired
 };
 
-export default DatasetsShow;
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps, null)(DatasetsShow);

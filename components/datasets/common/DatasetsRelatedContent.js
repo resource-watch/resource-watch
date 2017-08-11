@@ -72,34 +72,36 @@ class DatasetsRelatedContent extends React.Component {
               }
             </TetherComponent>
           </li>
-          <li>
-            <TetherComponent
-              attachment="bottom center"
-              constraints={[{
-                to: 'window'
-              }]}
-              targetOffset="-4px 0"
-              classes={{
-                element: 'c-tooltip'
-              }}
-            >
-              <Link route={route} params={{ tab: 'datasets', id: dataset.id, subtab: 'layers' }}>
-                <a
-                  onMouseEnter={() => this.toggleTooltip('layersActive', true)}
-                  onMouseLeave={() => this.toggleTooltip('layersActive', false)}
-                >
-                  <Icon name="icon-layers" className="c-icon -small" />
-                  <span>{(dataset.layer && dataset.layer.length) || 0}</span>
-                </a>
-              </Link>
+          {route !== 'myrw_detail' &&
+            <li>
+              <TetherComponent
+                attachment="bottom center"
+                constraints={[{
+                  to: 'window'
+                }]}
+                targetOffset="-4px 0"
+                classes={{
+                  element: 'c-tooltip'
+                }}
+              >
+                <Link route={route} params={{ tab: 'datasets', id: dataset.id, subtab: 'layers' }}>
+                  <a
+                    onMouseEnter={() => this.toggleTooltip('layersActive', true)}
+                    onMouseLeave={() => this.toggleTooltip('layersActive', false)}
+                  >
+                    <Icon name="icon-layers" className="c-icon -small" />
+                    <span>{(dataset.layer && dataset.layer.length) || 0}</span>
+                  </a>
+                </Link>
 
-              {this.state.layersActive &&
-                <div>
-                  <span>{(dataset.layer && dataset.layer.length) || 0} layers</span>
-                </div>
-              }
-            </TetherComponent>
-          </li>
+                {this.state.layersActive &&
+                  <div>
+                    <span>{(dataset.layer && dataset.layer.length) || 0} layers</span>
+                  </div>
+                }
+              </TetherComponent>
+            </li>
+          }
           <li>
             <TetherComponent
               attachment="bottom center"
