@@ -1,19 +1,33 @@
+$banner-padding-size: 70px;
+
 .c-banner {
   position: relative;
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-top: $margin-size;
-  padding-bottom: $margin-size;
+  padding-top: $banner-padding-size;
+  padding-bottom: $banner-padding-size;
 
   background-size: cover;
   background-position: center;
 
   color: $alt-font-color;
-  // text-align: center;
 
   background-image: url('/static/images/backgrounds/image_header.jpg');
   background-position: top center;
+  background-size: cover;
+
+  h1, h2, h3 {
+    color: $alt-font-color;
+
+    a  {
+      color: $alt-font-color;
+    }
+  }
+
+  p {
+    margin-bottom: $margin-size-small;
+  }
 
   // &.intro {
   //   padding: 160px 0;
@@ -23,6 +37,6 @@
   //   color: $alt-font-color;
   // }
 
-  // &.-left { align-items: flex-start; }
-  // &.-rigth { align-items: flex-end; }
+  &.-left { align-items: flex-start; }
+  &.-rigth { align-items: flex-end; }
 }

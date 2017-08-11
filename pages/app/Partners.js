@@ -103,10 +103,10 @@ class Partners extends Page {
           <div className="l-container">
             <div className="row align-center">
               <div className="column small-12">
-                <Banner>
-                  <h3>
+                <Banner className="-text-center">
+                  <p className="-claim">
                     See yourself as part<br /> of this team?
-                  </h3>
+                  </p>
                   <button className="c-btn -primary -alt">
                     Get in touch
                   </button>

@@ -361,14 +361,6 @@ class ExploreDetail extends Page {
               </div>
             </div>
 
-            <div className="row">
-              <div className="column small-12">
-                <Banner className="partners">
-                  <p>We have a massive opportunity<br />to build a sustainable society</p>
-                  <Link href="about_partners"><a className="c-button -alt -primary">Partners list</a></Link>
-                </Banner>
-              </div>
-            </div>
           </section>
 
 
@@ -412,28 +404,21 @@ class ExploreDetail extends Page {
             </div>
           </div> */}
 
-          {/* PLANET PULSE */}
-          <div className="c-page-section pulse-banner-section">
-            <div className="row">
-              <div className="column small-12">
-                <div className="pulse-banner">
-                  <h2 className="c-text title -thin">Planet Pulse</h2>
-                  <div className="pulse-banner-container">
-                    <div className="action-container">
-                      <h1>Take the pulse of our planet</h1>
-                      <Link route="pulse">
-                        <a
-                          className="c-button -primary"
-                        >
-                          Launch planet pulse
-                        </a>
-                      </Link>
-                    </div>
-                  </div>
+          <aside className="l-postcontent">
+            <div className="l-container">
+              <div className="row align-center">
+                <div className="column small-12">
+                  <Banner className="partners -text-center">
+                    <p className="-claim">Take the pulse of our planet</p>
+                    <Link route="pulse">
+                      <a className="c-button -primary -alt">Launch planet pulse</a>
+                    </Link>
+                  </Banner>
                 </div>
               </div>
             </div>
-          </div>
+          </aside>
+
         </div>
       </Layout>
     );

@@ -1,7 +1,6 @@
 import 'isomorphic-fetch';
 import { get, post, remove } from 'utils/request';
 import sortBy from 'lodash/sortBy';
-import isEmpty from 'lodash/isEmpty';
 
 export default class DatasetsService {
 
@@ -13,7 +12,7 @@ export default class DatasetsService {
   fetchAllData({ applications = [process.env.APPLICATIONS], includes, filters }) {
     const qParams = {
       application: applications.join(','),
-      includes,
+      ...!!includes && includes,
       'page[size]': Date.now() / 100000,
       ...filters
     };

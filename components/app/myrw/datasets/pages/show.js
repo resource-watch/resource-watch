@@ -10,7 +10,6 @@ import { substitution } from 'utils/utils';
 import Aside from 'components/ui/Aside';
 import DatasetsForm from 'components/datasets/form/DatasetsForm';
 import MetadataForm from 'components/admin/metadata/form/MetadataForm';
-import VocabulariesAssociationForm from 'components/admin/vocabularies/association/VocabulariesAssociationForm';
 import WidgetIndex from 'components/admin/widget/pages/index';
 import LayersIndex from 'components/admin/layers/pages/index';
 
@@ -25,11 +24,6 @@ const DATASET_SUBTABS = [{
   value: 'metadata',
   route: 'myrw_detail',
   params: { tab: 'datasets', id: '{{id}}', subtab: 'metadata' }
-}, {
-  label: 'Vocabularies',
-  value: 'vocabularies',
-  route: 'myrw_detail',
-  params: { tab: 'datasets', id: '{{id}}', subtab: 'vocabularies' }
 }, {
   label: 'Widgets',
   value: 'widgets',
@@ -79,6 +73,7 @@ class DatasetsShow extends React.Component {
             <div className="columns small-12 medium-9">
               {subtab === 'edit' &&
                 <DatasetsForm
+                  minimized
                   application={[process.env.APPLICATIONS]}
                   authorization={user.token}
                   dataset={id}
@@ -92,15 +87,6 @@ class DatasetsShow extends React.Component {
                   authorization={user.token}
                   dataset={id}
                   onSubmit={() => Router.pushRoute('myrw', { tab: 'datasets', id })}
-                />
-              }
-
-              {subtab === 'vocabularies' &&
-                <VocabulariesAssociationForm
-                  application={process.env.APPLICATIONS}
-                  authorization={user.token}
-                  dataset={id}
-                  language="en"
                 />
               }
 

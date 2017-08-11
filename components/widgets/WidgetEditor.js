@@ -121,8 +121,9 @@ class WidgetEditor extends React.Component {
         this.getDatasetInfo();
       })
       .catch(() => {
-        console.error('Unable to retrieve the fields');
-        this.props.onError && this.props.onError();
+        // If the fields don't load it's not a real issue
+        // because we can still display a map
+        if (this.props.onError) this.props.onError();
       });
 
     if (this.props.mode === 'dataset') {
@@ -244,7 +245,8 @@ class WidgetEditor extends React.Component {
         }, () => {
           // We wait for the state to be updated before doing anything
           // else
-          if (fieldsError) return;
+          // If there's an error, we throw to enter the catch block
+          if (fieldsError) throw new Error('The dataset doesn\'t have fields');
 
           this.props.setFields(fields);
           resolve();
@@ -470,11 +472,11 @@ class WidgetEditor extends React.Component {
     getChartConfig(widgetEditor, tableName, dataset, true)
       .then((chartConfig) => {
         this.setState({ chartConfig, chartConfigError: null });
-        this.props.onChange && this.props.onChange(chartConfig);
+        if (this.props.onChange) this.props.onChange(chartConfig);
       })
       .catch(({ message }) => {
         this.setState({ chartConfig: null, chartConfigError: message });
-        this.props.onChange && this.props.onChange(null);
+        if (this.props.onChange) this.props.onChange(null);
       })
       .then(() => this.setState({ chartConfigLoading: false }));
   }
@@ -513,9 +515,9 @@ class WidgetEditor extends React.Component {
 
     // Whether we're still waiting for some data
     const loading = (mode === 'dataset' && !layersLoaded)
-      || !fieldsLoaded
-      || !jiminyLoaded
-      || (mode === 'widget' && updating);
+      || (!fieldsLoaded && !fieldsError)
+      || (!jiminyLoaded && !jiminyError && !fieldsError)
+      || (mode === 'widget' && updating); // FIXME: updating don't exist...
 
     const chartEditorMode = (mode === 'dataset') ? 'save' : 'update';
 

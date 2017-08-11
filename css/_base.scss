@@ -109,6 +109,12 @@ input, button, select, textarea {
   font-size: $font-size-normal;
 }
 
+.-claim {
+  font-size: $font-size-h2;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
 .-big {
   font-size: $font-size-big;
   line-height: 1.33;

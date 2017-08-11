@@ -15,12 +15,8 @@ function Banner(props) {
       style={styles}
     >
       {props.viel && <div className="c-viel" />}
-      <div className={props.containerGrid === false ? '' : 'l-container'}>
-        <div className="row collapse">
-          <div className="column small-12">
-            {props.children}
-          </div>
-        </div>
+      <div>
+        {props.children}
       </div>
     </section>
   );

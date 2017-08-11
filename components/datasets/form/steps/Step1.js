@@ -60,10 +60,10 @@ class Step1 extends React.Component {
    * - setProviderOptions
   */
   setProviderOptions() {
-    const { minimized } = this.props;
+    const { minimized, dataset } = this.props;
 
     const options = Object.keys(PROVIDER_TYPES_DICTIONARY).map((key) => {
-      if (minimized) {
+      if (minimized && !dataset) {
         if (PROVIDER_TYPES_DICTIONARY[key].minimized) {
           return {
             label: PROVIDER_TYPES_DICTIONARY[key].label,
@@ -104,12 +104,6 @@ class Step1 extends React.Component {
 
     return (
       <fieldset className="c-field-container">
-        {dataset &&
-          <Title className="form-title -big -secondary">
-            Edit dataset
-          </Title>
-        }
-
         {user.role === 'ADMIN' && !minimized &&
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
