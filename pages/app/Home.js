@@ -137,7 +137,7 @@ class Home extends Page {
             <h3>{c.title}</h3>
             <p>{c.intro}</p>
           </div>
-          <div className="buttons">
+          <div className="buttons -align-center">
             {c.buttons.map(b => (
               <Link route={b.path} key={b.path}><a className={`c-btn -alt ${b.className}`}>{b.text}</a></Link>
             ))}
