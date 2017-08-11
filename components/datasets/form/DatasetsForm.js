@@ -113,7 +113,7 @@ class DatasetsForm extends React.Component {
         } else {
           this.setState({
             step: this.state.step + 1
-          }, () => console.info(this.state));
+          });
         }
       } else {
         toastr.error('Error', 'Fill all the required fields');
@@ -123,7 +123,7 @@ class DatasetsForm extends React.Component {
 
   onChange(obj) {
     const form = Object.assign({}, this.state.form, obj);
-    this.setState({ form }, () => console.info(this.state.form));
+    this.setState({ form });
   }
 
   onStepChange(step) {
