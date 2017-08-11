@@ -21,7 +21,7 @@ function PartnerBlock(props) {
         </Link>
       </div>
       <p>{partner.summary}</p>
-      <div className="buttons">
+      <div className="buttons -align-center">
         <Link
           route={'partner'}
           params={{ id: partner.slug }}

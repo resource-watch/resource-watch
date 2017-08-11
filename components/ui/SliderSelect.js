@@ -392,11 +392,11 @@ export default class SliderSelect extends React.Component {
                 <Icon name="icon-arrow-down" className="-small icon-arrow-down" />
               </button>
             */}
-            {/*selectedItem &&
+            { selectedItem &&
               <button className="icon-btn clear-button" onClick={this.clearSelectedItem}>
-                <Icon name="icon-cross" className="-small icon-cross" />
+                <Icon name="icon-cross" className="-smaller icon-cross" />
               </button>
-            */}
+            }
           </div>
         </div>
         {noResults &&

@@ -1,7 +1,9 @@
 .c-widget-editor {
   display: flex;
   position: relative;
-  background-color: $color-pale-grey;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: $ui-bg-color;
 
   .customize-visualization {
     position: relative;
@@ -15,9 +17,9 @@
     flex-shrink: 0;
     flex-grow: 0;
     padding: $margin-size-small;
-    border: 1px solid rgba($color-black, .15);
+    border: 1px solid $border-color-1;
     box-shadow: 0 1px 2px 0 rgba($color-black, .09);
-    background-color: $color-white;
+    background-color: $base-bg-color;
 
     > .title {
       color: $color-dark-pink;
@@ -43,6 +45,8 @@
     flex-shrink: 1;
     flex-basis: 100%;
     overflow-x: hidden;
+    padding: $margin-size-extra-small;
+    padding-right: 0;
 
     &.-error {
       text-align: center;
@@ -55,12 +59,12 @@
       }
     }
 
-    &.-chart {
-      margin-left: 20px;
-      // This padding avoids the chart to touch the top and
-      // the bottom of the container
-      padding: 20px 0;
-    }
+    // &.-chart {
+    //   margin-left: 20px;
+    //   // This padding avoids the chart to touch the top and
+    //   // the bottom of the container
+    //   padding: 20px 0;
+    // }
 
     > .c-chart {
       display: flex;
