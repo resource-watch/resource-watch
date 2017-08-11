@@ -83,7 +83,7 @@ class TableView extends React.Component {
     const { loading, data } = this.state;
     const header = data && data.length > 0 && Object.keys(data[0]);
     return (
-      <div className="c-table-view">
+      <div className="c-table-view c-table">
         <Spinner
           isLoading={loading}
           className="-ligth"

@@ -1,25 +1,23 @@
 .c-table-view{
-  max-width: 600px;
-  max-height: 400px;
+  max-height: 580px;
   width: 100%;
   height: 100%;
-  padding: 10px;
 
   overflow: auto;
 
-  table {
-    width: 100%;
-    height: 100%;
-    border-spacing:0
-  }
+  // table {
+  //   width: 100%;
+  //   height: 100%;
+  //   border-spacing:0
+  // }
 
-  th {
-    border-bottom: 1px solid $color-dark-grey;
-    text-align: left;
-    padding: 10px;
-  }
+  // th {
+  //   border-bottom: 1px solid $color-dark-grey;
+  //   text-align: left;
+  //   padding: 10px;
+  // }
 
-  td {
-    padding: 10px;
-  }
+  // td {
+  //   padding: 10px;
+  // }
 }

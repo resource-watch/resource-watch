@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: flex-end;
 
-  font-size: $font-size-small-medium;
+  font-size: $font-size-extra-small;
   font-weight: $font-weight-bold;
 
   .text {
@@ -15,7 +15,7 @@
     display: flex;
     width: 150px;
     height: 30px;
-    border: 1px solid rgba($color-silver, .85);
+    border: 1px solid $border-color-1;
     border-radius: 4px;
     line-height: 1;
 

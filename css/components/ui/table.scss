@@ -3,8 +3,9 @@ $table-font-size: $font-size-normal;
 
 .c-table {
 
-  .table {
+  .table, table {
     border-collapse: separate;
+    border-spacing:0;
     width: 100%;
     padding: 0;
     border-radius: 4px;
