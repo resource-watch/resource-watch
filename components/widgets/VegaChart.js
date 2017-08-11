@@ -282,7 +282,10 @@ class VegaChart extends React.Component {
     vega.parse.spec(vegaConfig, theme, (err, chart) => {
       // If there's an error or the component has been unmounted
       // we don't do anything
-      if (err || !this.mounted) return;
+      if (err || !this.mounted) {
+        this.toggleLoading(false);
+        return;
+      }
 
       // We render the chart
       const vis = chart({ el: this.chart, renderer: 'canvas' });

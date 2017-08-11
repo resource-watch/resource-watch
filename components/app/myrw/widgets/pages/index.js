@@ -18,24 +18,15 @@ const WIDGET_SUBTABS = [{
   label: 'Starred',
   value: 'starred',
   route: 'myrw',
-  params: { tab: 'widgets', id: '{{id}}', subtab: 'starred' }
+  params: { tab: 'widgets', subtab: 'starred' }
 }, {
   label: 'My widgets',
   value: 'my_wigets',
   route: 'myrw',
-  params: { tab: 'widgets', id: '{{id}}', subtab: 'my_widgets' }
+  params: { tab: 'widgets', subtab: 'my_widgets' }
 }];
 
 class WidgetsIndex extends React.Component {
-  /**
-   * HELPERS
-   * - parseTabs
-  */
-  parseTabs(obj) {
-    const { id } = this.props;
-    return JSON.parse(substitution(JSON.stringify(obj), [{ key: 'id', value: id }]));
-  }
-
   render() {
     const { id, user } = this.props;
     const subtab = this.props.subtab || 'starred';
@@ -50,7 +41,7 @@ class WidgetsIndex extends React.Component {
                   ({ style }) => (
                     <div style={style}>
                       <Aside
-                        items={this.parseTabs(WIDGET_SUBTABS)}
+                        items={WIDGET_SUBTABS}
                         selected={subtab}
                       />
                     </div>

@@ -147,7 +147,11 @@ class SubscriptionCard extends React.Component {
             <Map
               LayerManager={LayerManager}
               mapConfig={MAP_CONFIG}
-              layersActive={[layer]}
+              layersActive={[{
+                dataset,
+                visible: true,
+                layers: [layer]
+              }]}
               interactionEnabled={false}
             />
           </div>
