@@ -38,7 +38,7 @@ class WidgetsIndex extends React.Component {
 
   render() {
     const { id, user } = this.props;
-    const subtab = this.props.subtab || 'edit';
+    const subtab = this.props.subtab || 'starred';
 
     return (
       <div className="c-widgets-index">
@@ -61,11 +61,11 @@ class WidgetsIndex extends React.Component {
 
             <div className="columns small-12 medium-9">
               {subtab === 'starred' &&
-                <MyRWWidgetsMy user={user} dataset={id} embed />
+                <MyRWWidgetsStarred user={user} dataset={id} embed />
               }
 
               {subtab === 'my_widgets' &&
-                <MyRWWidgetsStarred user={user} dataset={id} />
+                <MyRWWidgetsMy user={user} dataset={id} />
               }
             </div>
 
