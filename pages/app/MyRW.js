@@ -83,39 +83,48 @@ class MyRW extends Page {
       >
         <div className="c-page-header">
           <div className="l-container">
-            <div className="page-header-content -with-tabs">
-              <Title className="-primary -huge page-header-title" >
-                My RW
-              </Title>
-              <Tabs
-                options={MYRW_TABS}
-                defaultSelected={tab}
-                selected={tab}
-              />
+            <div className="row">
+              <div className="column small-12">
+                <div className="page-header-content -with-tabs">
+                  <Title className="-primary -huge page-header-title" >
+                    My RW
+                  </Title>
+                  <Tabs
+                    options={MYRW_TABS}
+                    defaultSelected={tab}
+                    selected={tab}
+                  />
+                </div>
+              </div>
             </div>
+
           </div>
         </div>
         <div className="c-page-section">
           <div className="l-container">
-            {tab === 'profile' &&
-              <ProfilesTab tab={tab} subtab={subtab} />
-            }
+            <div className="row">
+              <div className="column small-12">
+                {tab === 'profile' &&
+                  <ProfilesTab tab={tab} subtab={subtab} />
+                }
 
-            {tab === 'datasets' &&
-              <DatasetsTab tab={tab} subtab={subtab} />
-            }
+                {tab === 'datasets' &&
+                  <DatasetsTab tab={tab} subtab={subtab} />
+                }
 
-            {tab === 'dashboards' &&
-              <MyRWDashboards subtab={subtab} />
-            }
+                {tab === 'dashboards' &&
+                  <MyRWDashboards subtab={subtab} />
+                }
 
-            {tab === 'areas' &&
-              <SubscriptionsTab tag={tab} subtab={subtab} />
-            }
+                {tab === 'areas' &&
+                  <SubscriptionsTab tag={tab} subtab={subtab} />
+                }
 
-            {tab === 'widgets' &&
-              <WidgetsTab tab={tab} subtab={subtab} />
-            }
+                {tab === 'widgets' &&
+                  <WidgetsTab tab={tab} subtab={subtab} />
+                }
+              </div>
+            </div>
           </div>
         </div>
 
