@@ -82,7 +82,7 @@ class WidgetCard extends React.Component {
     const { widget } = this.props;
     const tagName = event.target.tagName;
     if (tagName !== 'A' && tagName !== 'use') {
-      Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my-widgets', element: widget.id });
+      Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: widget.id });
     }
   }
   @Autobind

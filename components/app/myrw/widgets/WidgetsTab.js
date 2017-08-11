@@ -11,12 +11,12 @@ import WidgetsEdit from 'components/app/myrw/widgets/pages/edit';
 function WidgetsTab(props) {
   const { tab, subtab, id, user } = props;
   return (
-    <div className="c-subscriptions-tab">
+    <div className="c-widgets-tab">
       {!id && user.token &&
         <WidgetsIndex tab={tab} subtab={subtab} id={id} />
       }
 
-      {id && id === 'edit' && user.token &&
+      {id && subtab === 'edit' && user.token &&
         <WidgetsEdit tab={tab} subtab={subtab} id={id} />
       }
     </div>
