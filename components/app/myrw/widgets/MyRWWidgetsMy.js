@@ -34,21 +34,14 @@ class MyRWWidgetsMy extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.user.id) {
-      this.waitForUserToBeLoaded();
-    } else {
-      this.loadWidgets();
-    }
+    this.loadWidgets();
   }
 
-  waitForUserToBeLoaded() {
-    setTimeout(() => {
-      if (this.props.user.id) {
-        this.loadWidgets();
-      } else {
-        this.waitForUserToBeLoaded();
-      }
-    }, 1000);
+  @Autobind
+  setMode(value) {
+    this.setState({
+      mode: value
+    });
   }
 
   loadWidgets() {
@@ -68,13 +61,6 @@ class MyRWWidgetsMy extends React.Component {
   @Autobind
   handleWidgetRemoved() {
     this.loadWidgets(this.props);
-  }
-
-  @Autobind
-  setMode(value) {
-    this.setState({
-      mode: value
-    });
   }
 
   @Autobind

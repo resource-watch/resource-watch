@@ -2,9 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StickyContainer, Sticky } from 'react-sticky';
 
-// Utils
-import { substitution } from 'utils/utils';
-
 // Redux
 import { connect } from 'react-redux';
 
