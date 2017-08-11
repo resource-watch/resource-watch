@@ -129,35 +129,37 @@ class DatasetsRelatedContent extends React.Component {
               }
             </TetherComponent>
           </li>
-          <li>
-            <TetherComponent
-              attachment="bottom center"
-              constraints={[{
-                to: 'window'
-              }]}
-              targetOffset="-4px 0"
-              classes={{
-                element: 'c-tooltip'
-              }}
-            >
-              <Link route={route} params={{ tab: 'datasets', id: dataset.id, subtab: 'vocabularies' }}>
-                <a
-                  className={classnames({ '-empty': (!dataset.vocabulary || !dataset.vocabulary.length) })}
-                  onMouseEnter={() => this.toggleTooltip('vocabulariesActive', true)}
-                  onMouseLeave={() => this.toggleTooltip('vocabulariesActive', false)}
-                >
-                  <Icon name="icon-type" className="c-icon -smaller" />
-                  <span>{(dataset.vocabulary && dataset.vocabulary.length) || 0}</span>
-                </a>
-              </Link>
+          {route !== 'myrw_detail' &&
+            <li>
+              <TetherComponent
+                attachment="bottom center"
+                constraints={[{
+                  to: 'window'
+                }]}
+                targetOffset="-4px 0"
+                classes={{
+                  element: 'c-tooltip'
+                }}
+              >
+                <Link route={route} params={{ tab: 'datasets', id: dataset.id, subtab: 'vocabularies' }}>
+                  <a
+                    className={classnames({ '-empty': (!dataset.vocabulary || !dataset.vocabulary.length) })}
+                    onMouseEnter={() => this.toggleTooltip('vocabulariesActive', true)}
+                    onMouseLeave={() => this.toggleTooltip('vocabulariesActive', false)}
+                  >
+                    <Icon name="icon-type" className="c-icon -smaller" />
+                    <span>{(dataset.vocabulary && dataset.vocabulary.length) || 0}</span>
+                  </a>
+                </Link>
 
-              {this.state.vocabulariesActive &&
-                <div>
-                  <span>{(dataset.vocabulary && dataset.vocabulary.length) || 0} vocabularies</span>
-                </div>
-              }
-            </TetherComponent>
-          </li>
+                {this.state.vocabulariesActive &&
+                  <div>
+                    <span>{(dataset.vocabulary && dataset.vocabulary.length) || 0} vocabularies</span>
+                  </div>
+                }
+              </TetherComponent>
+            </li>
+          }
         </ul>
       </div>
     );
