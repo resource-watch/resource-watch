@@ -81,19 +81,6 @@ class MyRWEditProfile extends React.Component {
       <div className="c-myrw-edit-profile">
         <div className="row">
           <div className="column small-12">
-            <div className="title-section">
-              <h1 className="-thin c-text">Edit Profile</h1>
-              <Button
-                properties={{
-                  type: 'button',
-                  className: '-primary -end',
-                  disabled: true
-                }}
-                onClick={this.triggerSaveProfile}
-              >
-                Save
-              </Button>
-            </div>
             <fieldset className="c-field-container">
               <Field
                 ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
