@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 function Banner(props) {
@@ -8,6 +9,10 @@ function Banner(props) {
     '-light': true,
     [props.className]: props.className
   });
+
+  if (props.bgImage) {
+    styles.backgroundImage = `url(${props.bgImage})`;
+  }
 
   return (
     <section
@@ -23,11 +28,12 @@ function Banner(props) {
 }
 
 Banner.propTypes = {
-  children: React.PropTypes.any,
-  className: React.PropTypes.string,
-  styles: React.PropTypes.object,
-  containerGrid: React.PropTypes.bool,
-  viel: React.PropTypes.bool
+  bgImage: PropTypes.string,
+  children: PropTypes.any,
+  className: PropTypes.string,
+  styles: PropTypes.object,
+  containerGrid: PropTypes.bool,
+  viel: PropTypes.bool
 };
 
 export default Banner;

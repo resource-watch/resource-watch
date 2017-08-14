@@ -161,11 +161,11 @@ class GetInvolved extends Page {
           <div className="l-container">
             <div className="row align-center">
               <div className="column small-12">
-                <Banner className="partners">
-                  <h3 className="c-text -header-normal -thin">
+                <Banner className="partners" bgImage={'/static/images/backgrounds/partners-02@2x.jpg'}>
+                  <p className="-claim">
                     See yourself as part <br />of this team?
-                  </h3>
-                  <button className="c-button -primary">
+                  </p>
+                  <button className="c-button -primary -alt">
                     Get in touch
                   </button>
                 </Banner>
