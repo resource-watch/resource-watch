@@ -20,10 +20,10 @@ const service = new LayersService();
  */
 const initialState = {
   layers: {
-    list: [],       // Actual list of layers
+    list: [], // Actual list of layers
     loading: false, // Are we loading the data?
-    error: null,    // An error was produced while loading the data
-    filters: []     // Filters for the list of layers
+    error: null, // An error was produced while loading the data
+    filters: [] // Filters for the list of layers
   }
 };
 

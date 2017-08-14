@@ -20,7 +20,6 @@ import WidgetService from 'services/WidgetService';
 import ChartTheme from 'utils/widgets/theme';
 
 class EmbedWidget extends React.Component {
-
   constructor(props) {
     super(props);
 

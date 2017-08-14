@@ -104,22 +104,22 @@ export function getLayerPoints(datasetId, tableName) {
     // dispatch({ type: GET_LAYERS_LOADING });
     // TODO: remove the date now
     fetch(new Request(`${process.env.WRI_API_URL}/query/${datasetId}?sql=SELECT *, st_y(the_geom) AS lat, st_x(the_geom) AS lon FROM ${tableName}`))
-    .then((response) => {
-      if (response.ok) return response.json();
-      throw new Error(response.statusText);
-    })
-    .then((response) => {
-      dispatch({
-        type: GET_LAYER_POINTS_SUCCESS,
-        payload: response.data
-      });
-    })
-    .catch((err) => {
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then((response) => {
+        dispatch({
+          type: GET_LAYER_POINTS_SUCCESS,
+          payload: response.data
+        });
+      })
+      .catch((err) => {
       // Fetch from server ko -> Dispatch error
-      dispatch({
-        type: GET_LAYER_POINTS_ERROR,
-        payload: err.message
+        dispatch({
+          type: GET_LAYER_POINTS_ERROR,
+          payload: err.message
+        });
       });
-    });
   };
 }

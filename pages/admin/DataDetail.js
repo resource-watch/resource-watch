@@ -27,7 +27,6 @@ import LayersTab from 'components/admin/layers/LayersTab';
 import Title from 'components/ui/Title';
 
 class DataDetail extends Page {
-
   constructor(props) {
     super(props);
 
@@ -62,7 +61,6 @@ class DataDetail extends Page {
         break;
 
       default:
-
     }
   }
 

@@ -2,7 +2,6 @@ import 'isomorphic-fetch';
 import Promise from 'bluebird';
 
 export default class UserService {
-
   constructor(options) {
     if (!options) {
       throw new Error('options params is required.');
@@ -71,7 +70,7 @@ export default class UserService {
         Authorization: token
       }
     })
-    .then(response => response.json());
+      .then(response => response.json());
   }
 
   /**
@@ -104,7 +103,7 @@ export default class UserService {
         Authorization: token
       }
     })
-    .then(response => response.json());
+      .then(response => response.json());
   }
 
   /**
@@ -137,7 +136,7 @@ export default class UserService {
         Authorization: user.token
       }
     })
-    .then(response => response.json());
+      .then(response => response.json());
   }
 
   /**
@@ -168,6 +167,6 @@ export default class UserService {
         Authorization: token
       }
     })
-    .then(response => response.json());
+      .then(response => response.json());
   }
 }

@@ -37,7 +37,6 @@ const mapConfig = {
 };
 
 class EmbedLayer extends Page {
-
   constructor(props) {
     super(props);
 

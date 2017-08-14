@@ -20,7 +20,6 @@ import DatasetService from 'services/DatasetService';
 import ChartTheme from 'utils/widgets/theme';
 
 class EmbedDataset extends React.Component {
-
   constructor(props) {
     super(props);
 

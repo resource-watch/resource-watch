@@ -3,7 +3,6 @@ import { get, post, remove } from 'utils/request';
 import sortBy from 'lodash/sortBy';
 
 export default class DatasetsService {
-
   constructor(options = {}) {
     this.opts = options;
   }

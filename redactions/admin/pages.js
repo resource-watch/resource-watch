@@ -16,10 +16,10 @@ const SET_DASHBOARDS_FILTERS = 'pages/SET_DASHBOARDS_FILTERS';
  */
 const initialState = {
   pages: {
-    list: [],       // Actual list of pages
+    list: [], // Actual list of pages
     loading: false, // Are we loading the data?
-    error: null,    // An error was produced while loading the data
-    filters: []     // Filters for the list of pages
+    error: null, // An error was produced while loading the data
+    filters: [] // Filters for the list of pages
   }
 };
 

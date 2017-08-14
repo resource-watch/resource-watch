@@ -24,7 +24,6 @@ const DATA_TABS = [{
 }];
 
 class Dashboards extends Page {
-
   constructor(props) {
     super(props);
 

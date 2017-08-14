@@ -1,7 +1,6 @@
 import 'isomorphic-fetch';
 
 export default class WidgetService {
-
   constructor(widgetId, options) {
     if (!options) throw new Error('options params is required.');
     if (!options.apiURL || options.apiURL === '') throw new Error('options.apiURL param is required.');
@@ -32,7 +31,7 @@ export default class WidgetService {
         Authorization: token
       }
     })
-    .then(response => response.json());
+      .then(response => response.json());
   }
 
   updateUserWidget(widget, datasetId, token) {
@@ -44,7 +43,7 @@ export default class WidgetService {
         Authorization: token
       }
     })
-    .then(response => response.json());
+      .then(response => response.json());
   }
 
   removeUserWidget(widgetId, token) {
@@ -55,7 +54,7 @@ export default class WidgetService {
         Authorization: token
       }
     })
-    .then(response => response.json());
+      .then(response => response.json());
   }
 
   getUserWidgets(userId, sortByUpdatedAt = true, direction = 'asc') {
@@ -65,5 +64,4 @@ export default class WidgetService {
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
-
 }

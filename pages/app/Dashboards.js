@@ -15,7 +15,6 @@ import Spinner from 'components/ui/Spinner';
 import DASHBOARDS from 'utils/dashboards/config';
 
 class Dashboards extends Page {
-
   /**
    * Fetch the list of dashboards
    * @static
@@ -170,7 +169,6 @@ class Dashboards extends Page {
       </Layout>
     );
   }
-
 }
 
 export default withRedux(initStore, null, null)(Dashboards);

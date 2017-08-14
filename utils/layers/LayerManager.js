@@ -13,7 +13,6 @@ if (typeof window !== 'undefined') {
 }
 
 export default class LayerManager {
-
   // Constructor
   constructor(map, options = {}) {
     this.map = map;

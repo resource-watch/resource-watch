@@ -2,11 +2,11 @@ import deepClone from 'lodash/cloneDeep';
 
 const defaultTheme = {
   height: 0, // Don't touch this without testing all the charts
-             // and particularly the bar chart with or without
-             // scrolling and its vertical alignment
+  // and particularly the bar chart with or without
+  // scrolling and its vertical alignment
   padding: 'auto', // Do not set something different than 'auto'
-                   // because it will break several graphs
-                   // (primarly the bar and pie ones)
+  // because it will break several graphs
+  // (primarly the bar and pie ones)
   render: {
     retina: true
   },

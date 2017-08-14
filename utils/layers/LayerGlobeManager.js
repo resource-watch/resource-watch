@@ -1,7 +1,6 @@
 import { substitution } from 'utils/utils';
 
 export default class LayerGlobeManager {
-
   // Constructor
   constructor(map, defaults = {}) {
     this.map = map;

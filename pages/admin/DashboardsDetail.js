@@ -23,7 +23,6 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Title from 'components/ui/Title';
 
 class DashboardsDetail extends Page {
-
   constructor(props) {
     super(props);
 
@@ -49,7 +48,6 @@ class DashboardsDetail extends Page {
         break;
       // TODO: do the same service for widgets and layers
       default:
-
     }
   }
 

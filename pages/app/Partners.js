@@ -15,14 +15,13 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 
 class Partners extends Page {
-
   componentWillMount() {
     this.props.getPartners();
   }
 
   render() {
-    const founders = this.props.partners.filter(p => p['partner_type'] === 'founding_partners');
-    const funders = this.props.partners.filter(p => p['partner_type'] === 'funders');
+    const founders = this.props.partners.filter(p => p.partner_type === 'founding_partners');
+    const funders = this.props.partners.filter(p => p.partner_type === 'funders');
 
     return (
       <Layout
@@ -129,9 +128,9 @@ Partners.defaultProps = {
   partners: []
 };
 
-const mapStateToProps = function(state) {
+const mapStateToProps = function (state) {
   return { partners: state.partners.partners.list };
-}
+};
 
 // const mapStateToProps = state => ({
 //   list: state.partners.partners.list

@@ -29,7 +29,7 @@ const getFilteredDatasets = (_list, _filters) => {
           ? filter.levels[0] : filter.value;
         const vocabulary = it.attributes.vocabulary.find(voc => voc.attributes.name === vocName);
 
-          // Levels specify wether it is necessary to search into the vocabulary or not
+        // Levels specify wether it is necessary to search into the vocabulary or not
         if (filter.levels.length && filter.levels.length > 0) {
           if (vocabulary && vocabulary.attributes.tags.includes(filter.value)) {
             vocabularyFilterPassed = true;

@@ -5,7 +5,6 @@ import sortBy from 'lodash/sortBy';
 import { Deserializer } from 'jsonapi-serializer';
 
 export default class DashboardsService {
-
   constructor(options = {}) {
     this.opts = options;
   }

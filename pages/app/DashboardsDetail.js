@@ -21,7 +21,6 @@ import UserService from 'services/UserService';
 import DASHBOARDS from 'utils/dashboards/config';
 
 class DashboardsDetail extends Page {
-
   /**
    * Fetch the list of dashboards
    * @static
@@ -296,7 +295,6 @@ class DashboardsDetail extends Page {
       </Layout>
     );
   }
-
 }
 
 export default withRedux(initStore, null, null)(DashboardsDetail);

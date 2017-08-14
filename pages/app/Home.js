@@ -80,7 +80,6 @@ const exploreCards = [
 ];
 
 class Home extends Page {
-
   componentDidMount() {
     super.componentDidMount();
     Home.setAnchorScroll('discoverIsights', 'js-scroll');

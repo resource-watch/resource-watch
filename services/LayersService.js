@@ -5,7 +5,6 @@ import { get, post, remove } from 'utils/request';
 
 
 export default class LayersService {
-
   constructor(options = {}) {
     this.opts = options;
   }

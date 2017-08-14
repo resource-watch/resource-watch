@@ -18,7 +18,6 @@ import { isFieldDate, isFieldNumber } from 'utils/widgets/WidgetHelper';
     });
  */
 export default class DatasetService {
-
   constructor(datasetId, options) {
     if (!options) {
       throw new Error('options params is required.');

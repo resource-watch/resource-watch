@@ -48,7 +48,6 @@ const MYRW_TABS = [{
 }];
 
 class MyRW extends Page {
-
   constructor(props) {
     super(props);
 

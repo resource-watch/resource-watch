@@ -16,10 +16,10 @@ const SET_DATASETS_FILTERS = 'datasets/SET_DATASETS_FILTERS';
  */
 const initialState = {
   datasets: {
-    list: [],       // Actual list of datasets
+    list: [], // Actual list of datasets
     loading: false, // Are we loading the data?
-    error: null,    // An error was produced while loading the data
-    filters: []     // Filters for the list of datasets
+    error: null, // An error was produced while loading the data
+    filters: [] // Filters for the list of datasets
   }
 };
 

@@ -27,7 +27,6 @@ import WidgetsTab from 'components/app/myrw/widgets/WidgetsTab';
 import Title from 'components/ui/Title';
 
 class MyRWDetail extends Page {
-
   constructor(props) {
     super(props);
 
@@ -56,7 +55,6 @@ class MyRWDetail extends Page {
         break;
 
       default:
-
     }
   }
 

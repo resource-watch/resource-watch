@@ -24,7 +24,6 @@ const DATA_TABS = [{
 }];
 
 class Pages extends Page {
-
   constructor(props) {
     super(props);
 

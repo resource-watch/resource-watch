@@ -16,10 +16,10 @@ const SET_PARTNERS_FILTERS = 'partners/SET_PARTNERS_FILTERS';
  */
 const initialState = {
   partners: {
-    list: [],       // Actual list of partners
+    list: [], // Actual list of partners
     loading: false, // Are we loading the data?
-    error: null,    // An error was produced while loading the data
-    filters: []     // Filters for the list of partners
+    error: null, // An error was produced while loading the data
+    filters: [] // Filters for the list of partners
   }
 };
 
