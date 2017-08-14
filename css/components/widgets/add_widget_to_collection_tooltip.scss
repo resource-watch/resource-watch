@@ -3,5 +3,9 @@
   .buttons-div {
     display: flex;
     justify-content: space-between;
+
+    button:not(:last-of-type) {
+      margin-right: 10px;
+    }
   }
 }
