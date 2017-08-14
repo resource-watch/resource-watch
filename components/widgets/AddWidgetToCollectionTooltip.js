@@ -46,7 +46,13 @@ class AddWidgetToCollectionTooltip extends React.Component {
   @Autobind
   triggerMouseDown(e) {
     const el = document.querySelector('.c-tooltip');
-    const clickOutside = el && el.contains && !el.contains(e.target);
+    const el2 = document.querySelector('.Select-clear-zone'); // Clear selection
+    const el3 = document.querySelector('.Select-value');  // Cross icon
+    // The last two selectors above have to be explicitly checked as well, otherwise
+    // it doesn't work
+
+    const clickOutside = el && el.contains && !el.contains(e.target)
+      && !el2.contains(e.target) && !el3.contains(e.target);
     if (clickOutside) {
       this.props.toggleTooltip(false);
     }

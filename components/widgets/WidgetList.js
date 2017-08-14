@@ -76,7 +76,7 @@ export default class WidgetList extends React.Component {
                 showEmbed={showEmbed}
                 showStar={showStar}
                 showWidgetColllections={showWidgetColllections}
-                widgetCollections={widgetCollections.filter(val => val.id === widget.id)}
+                widgetCollections={widgetCollections && widgetCollections.filter(val => val.id === widget.id)} //eslint-disable-line
                 mode={mode === 'grid' ? 'thumbnail' : 'full'}
               />
             </li>)

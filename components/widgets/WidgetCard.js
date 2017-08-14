@@ -165,7 +165,7 @@ class WidgetCard extends React.Component {
       mode
     } = this.props;
 
-    const numberOfCollections = widgetCollections.length;
+    const numberOfCollections = widgetCollections && widgetCollections.length;
     const numberOfCollectionsText = numberOfCollections === 1
       ? '1 collection' : `${numberOfCollections} collections`;
 
