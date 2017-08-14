@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 
-// Redux
-import { connect } from 'react-redux';
-import { toggleTooltip } from 'redactions/tooltip';
-
 // Components
 import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
+
+// Services
+import WidgetService from 'services/WidgetService';
 
 class AddWidgetToCollectionTooltip extends React.Component {
 
@@ -19,6 +18,8 @@ class AddWidgetToCollectionTooltip extends React.Component {
       collections: [],
       selectedCollections: []
     };
+
+    this.widgetService = new WidgetService(null, { apiURL: process.env.CONTROL_TOWER_URL });
   }
 
   componentDidMount() {
@@ -39,10 +40,28 @@ class AddWidgetToCollectionTooltip extends React.Component {
   @Autobind
   triggerMouseDown(e) {
     const el = document.querySelector('.c-tooltip');
-    const clickOutside = el && el.contains && !el.contains(e.target);
+    const el2 = document.querySelector('.Select');
+    const clickOutside = el && el.contains && !el.contains(e.target) && !el2.contains(e.target);
     if (clickOutside) {
       this.props.toggleTooltip(false);
     }
+  }
+
+  @Autobind
+  handleCollectionsChange(value) {
+    this.setState({
+      selectedCollections: value
+    });
+  }
+
+  @Autobind
+  handleApply() {
+    const { selectedCollections } = this.state;
+    const { user } = this.props;
+    this.widgetService.addWidgetToCollection(user, null, selectedCollections)
+      .then(response => {
+
+      }).catch(err => console.log(err));
   }
 
   render() {
@@ -52,7 +71,7 @@ class AddWidgetToCollectionTooltip extends React.Component {
       <div className="c-add-widget-to-collection-tooltip">
         <div className="" >
           <Field
-            onChange={value => this.triggerTagsChange(value)}
+            onChange={value => this.handleCollectionsChange(value)}
             options={collections.map(val => ({ label: val, value: val }))}
             selected={selectedCollections.map(
               tag => ({ label: tag, value: tag })
@@ -74,14 +93,17 @@ class AddWidgetToCollectionTooltip extends React.Component {
           </Field>
         </div>
         <div className="buttons-div" >
-          <button className="c-btn -a -compressed">
-            Done
+          <button
+            className="c-btn -a -compressed"
+            onClick={this.handleApply}
+          >
+            Apply
           </button>
-          <button className="c-btn -b -compressed">
-            Select all
-          </button>
-          <button className="c-btn -b -compressed">
-            Clear
+          <button
+            className="c-btn -b -compressed"
+            onClick={() => this.toggleTooltip(false)}
+          >
+            Cancel
           </button>
         </div>
       </div>
@@ -91,18 +113,9 @@ class AddWidgetToCollectionTooltip extends React.Component {
 
 AddWidgetToCollectionTooltip.propTypes = {
   onAddWidgetToCollection: PropTypes.func.isRequired,
-  // store
+  user: PropTypes.object.isRequired,
+  widget: PropTypes.object.isRequired,
   toggleTooltip: PropTypes.func.isRequired
 };
 
-const mapDispatchToProps = dispatch => ({
-  toggleTooltip: (opened, opts) => {
-    dispatch(toggleTooltip(opened, opts));
-  }
-});
-
-const mapStateToProps = state => ({
-  user: state.user
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddWidgetToCollectionTooltip);
+export default AddWidgetToCollectionTooltip;

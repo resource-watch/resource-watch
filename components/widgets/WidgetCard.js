@@ -133,12 +133,16 @@ class WidgetCard extends React.Component {
   }
   @Autobind
   handleAddToWidgetCollection(event) {
+    const { widget, user } = this.props;
     const position = WidgetCard.getClickPosition(event);
     this.props.toggleTooltip(true, {
       follow: false,
       position,
       children: AddWidgetToCollectionTooltip,
       childrenProps: {
+        widget,
+        user,
+        toggleTooltip: this.props.toggleTooltip,
         onAddWidgetToCollection: this.handleAddWidgetToCollection
       }
     });

@@ -70,4 +70,19 @@ export default class WidgetService {
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
+
+  addWidgetToCollection(user, widget, widgetCollections) {
+    const bodyObj = {
+      tags: widgetCollections.map(val => `${user.id}-${val}`)
+    };
+    return fetch(`${this.opts.apiURL}/${widget.attributes.dataset}/widget/${widget.id}/vocabulary/widget_collections`, {
+      method: 'POST',
+      body: JSON.stringify(bodyObj),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    })
+      .then(response => response.json());
+  }
 }
