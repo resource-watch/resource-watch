@@ -234,7 +234,7 @@ class Home extends Page {
           </div>
         </section>
 
-        <Banner className="get-involved">
+        <Banner className="get-involved" bgImage={'/static/images/backgrounds/mod_getInvolved.jpg'}>
           <div className="l-row row">
             <div className="column small-12 medium-6">
               <h2>Get Involved</h2>

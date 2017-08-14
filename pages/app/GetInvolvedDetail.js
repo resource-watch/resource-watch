@@ -89,10 +89,10 @@ class GetInvolved extends Page {
           <div className="l-container">
             <div className="row align-center">
               <div className="column small-12">
-                <Banner className="partners">
-                  <h3 className="c-text -header-normal -normal">We have a massive opportunity<br />to build a sustainable society</h3>
+                <Banner className="-text-center" bgImage={'/static/images/backgrounds/partners-02@2x.jpg'}>
+                  <p className="-claim">We have a massive opportunity<br />to build a sustainable society</p>
                   <Link route="about_partners">
-                    <a className="c-btn -transparent -secondary">Partners list</a>
+                    <a className="c-btn -primary -alt">Partners list</a>
                   </Link>
                 </Banner>
               </div>

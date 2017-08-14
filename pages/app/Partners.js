@@ -102,7 +102,7 @@ class Partners extends Page {
           <div className="l-container">
             <div className="row align-center">
               <div className="column small-12">
-                <Banner className="-text-center">
+                <Banner className="-text-center" bgImage={'/static/images/backgrounds/partners-02@2x.jpg'}>
                   <p className="-claim">
                     See yourself as part<br /> of this team?
                   </p>
