@@ -2,24 +2,24 @@
 // Project settings (it doesn't include Grid system)
 @import "settings";
 
-@import "normalize.css";
+@import "../node_modules/normalize.css/normalize";
 
 // Foundation:
 // We are using this library only for grid system
-@import 'foundation-sites/scss/foundation';
+@import '../node_modules/foundation-sites/scss/foundation';
 @import 'foundation_settings';
 @include foundation-flex-classes;
 @include foundation-flex-grid;
 @include foundation-responsive-embed;
 
 // Libraries
-@import 'leaflet/dist/leaflet.css';
-@import 'react-input-range/lib/css/index.css';
-@import 'slick-carousel/slick/slick.scss';
-@import 'slick-carousel/slick/slick-theme.scss';
+@import '../node_modules/leaflet/dist/leaflet';
+@import '../node_modules/react-input-range/src/scss/index.scss';
+@import '../node_modules/slick-carousel/slick/slick.scss';
+@import '../node_modules/slick-carousel/slick/slick-theme.scss';
 
 // Editor
-@import 'react-draft-wysiwyg/dist/react-draft-wysiwyg';
+@import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg';
 
 // Common files
 @import "base";
@@ -35,7 +35,7 @@
 
 // Components
 // UI
-@import 'react-redux-toastr/src/styles/index';
+@import '../node_modules/react-redux-toastr/src/styles/index';
 @import "./components/ui/aside";
 @import "./components/ui/avatar";
 @import "./components/ui/breadcrumbs";

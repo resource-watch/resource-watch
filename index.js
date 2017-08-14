@@ -10,14 +10,18 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const basicAuth = require('basic-auth');
 const sass = require('node-sass');
+const postcssMiddleware = require('postcss-middleware');
+const redis = require('redis');
+const RedisStore = require('connect-redis')(session);
 const { parse } = require('url');
 const routes = require('./routes');
+const postcssConfig = require('./postcss.config');
 
 const port = process.env.PORT || 3000;
-const dev = process.env.NODE_ENV !== 'production';
+const prod = process.env.NODE_ENV === 'production';
 
 // Next app creation
-const app = next({ dev });
+const app = next({ dev: !prod });
 const handle = routes.getRequestHandler(app);
 
 // Express app creation
@@ -60,6 +64,25 @@ passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((obj, done) => done(null, obj));
 
 // configure Express
+const sessionOptions = {
+  secret: process.env.SECRET || 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {}
+};
+
+if (prod) {
+  const redisClient = redis.createClient(process.env.REDIS_URL);
+  server.set('trust proxy', 1);
+  sessionOptions.cookie.secure = true;
+  sessionOptions.store = new RedisStore({
+    client: redisClient,
+    no_ready_check: true,
+    ttl: 600,
+    logErrors: true
+  });
+}
+
 server.use(cookieParser());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
@@ -67,14 +90,11 @@ server.use(cookieSession({
   name: 'session',
   keys: [process.env.SECRET || 'keyboard cat']
 }));
-server.use(session({
-  secret: process.env.SECRET || 'keyboard cat',
-  resave: false,
-  saveUninitialized: true
-}));
+server.use(session(sessionOptions));
 server.use('/static', express.static('static'));
 
-if (process.env.NODE_ENV === 'production') {
+// Using basic auth in prod mode
+if (prod) {
   server.use(auth(process.env.USERNAME, process.env.PASSWORD));
 }
 
@@ -87,17 +107,19 @@ app.prepare()
   .then(() => {
     // Add route to serve compiled SCSS from /assets/{build id}/main.css
     // Note: This is is only used in production, in development it is inlined
-    // const sassResult = sass.renderSync({
-    //   file: './css/index.scss',
-    //   outputStyle: 'compressed',
-    //   includePaths: ['./node_modules']
-    // });
-    // server.get('/styles/:id/index.css', (req, res) => {
-    //   res.setHeader('Content-Type', 'text/css');
-    //   res.setHeader('Cache-Control', 'public, max-age=2592000');
-    //   res.setHeader('Expires', new Date(Date.now() + 2592000000).toUTCString());
-    //   res.send(sassResult.css);
-    // });
+    if (prod) {
+      const sassResult = sass.renderSync({
+        file: './css/index.scss',
+        outputStyle: 'compressed',
+        includePaths: ['node_modules']
+      });
+      server.get('/styles/:id/main.css', postcssMiddleware(postcssConfig), (req, res) => {
+        res.setHeader('Content-Type', 'text/css');
+        res.setHeader('Cache-Control', 'public, max-age=2592000');
+        res.setHeader('Expires', new Date(Date.now() + 2592000000).toUTCString());
+        res.send(sassResult.css);
+      });
+    }
 
     server.get('/data', (req, res) => res.redirect('/data/explore'));
 
@@ -127,6 +149,6 @@ app.prepare()
 
     server.listen(port, (err) => {
       if (err) throw err;
-      console.info(`> Ready on http://localhost:${port}`);
+      console.info(`> Ready on http://localhost:${port} [${process.env.NODE_ENV || 'development'}]`);
     });
   });

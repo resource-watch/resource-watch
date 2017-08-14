@@ -1,5 +1,7 @@
 version: "2"
 services:
+  redis:
+    image: redis
   app:
     build:
       context: .
@@ -8,6 +10,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
+      - REDIS_URL=redis://redis:6379
     ports:
       - "3000:3000"
     restart: always

@@ -75,6 +75,11 @@ class Header extends React.Component {
         />
       },
       {
+        name: 'Get Involved',
+        pathnames: ['/app/GetInvolved'],
+        component: <Link route="get_involved" prefetch><a className="-bordered">Get Involved</a></Link>
+      },
+      {
         name: 'My RW',
         component: <HeaderUser
           user={this.props.user}
@@ -82,11 +87,6 @@ class Header extends React.Component {
           onMouseEnter={() => this.toggleDropdown('myrwActive', true)}
           onMouseLeave={() => this.toggleDropdown('myrwActive', false)}
         />
-      },
-      {
-        name: 'Get Involved',
-        pathnames: ['/app/GetInvolved'],
-        component: <Link route="get_involved" prefetch><a className="-bordered">Get Involved</a></Link>
       }
     ];
 
