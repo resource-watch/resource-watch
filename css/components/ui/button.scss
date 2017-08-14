@@ -38,7 +38,7 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
 
   &.-a, &.-b, &.-c,
   &.-primary, &.-secondary, &.-tertiary {
-    padding: 0 $margin-size;
+    padding: 0 $margin-size-small;
     height: 45px;
   }
 
@@ -99,13 +99,13 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
 
   &.-fullwidth {
     width: 100%;
-    padding-left: $margin-size/2;
-    padding-right: $margin-size/2;
+    padding-left: $margin-size-extra-small;
+    padding-right: $margin-size-extra-small;
   }
 
   &.-compressed {
-    padding-left: $margin-size/2;
-    padding-right: $margin-size/2;
+    padding-left: $margin-size-extra-small;
+    padding-right: $margin-size-extra-small;
     height: 30px;
   }
 }
@@ -121,8 +121,8 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
     .c-btn, .c-button {
       margin-top: $margin-size-extra-small;
       width: 100%;
-      padding-left: $margin-size/2;
-      padding-right: $margin-size/2;
+      padding-left: $margin-size-small;
+      padding-right: $margin-size-small;
     }
   }
 

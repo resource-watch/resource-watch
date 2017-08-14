@@ -1,9 +1,9 @@
 .c-tooltip {
   position: fixed;
-  padding: 15px;
+  padding: $margin-size-extra-small;
   background-color: $color-white;
-  border-radius: 3px;
-  border: 1px solid rgba(26, 28, 34, .1);
+  border-radius: 4px;
+  border: 1px solid $border-color-1;
   box-shadow: 0 20px 30px 0 rgba(0, 0, 0, .1);
   z-index: 10001;
 
@@ -39,6 +39,7 @@
         border-left-color: transparent;
         transform: translateX(-50%) rotate(45deg);
         content: '';
+        z-index: -1;
       }
     }
 

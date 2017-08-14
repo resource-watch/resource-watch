@@ -1,7 +1,6 @@
 .c-filter-tooltip {
   position: relative;
   transform: translate(0, 0);
-  padding: 20px;
   min-height: 80px;
   min-width: 200px;
   max-width: 350px;
@@ -12,9 +11,7 @@
   }
 
   .buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    margin-top: $margin-size-extra-small;
   }
 
   .range {

@@ -26,6 +26,7 @@
       left: 0;
       width: 14px;
       height: 14px;
+      margin-right: 5px;
       border: 1px solid $color-secondary;
       border-radius: 4px;
       transform: translate(0,-50%);
@@ -65,28 +66,40 @@
 }
 
 .c-checkbox-box {
-  margin: 5px;
+  padding: $margin-size-extra-small 0;
+  border-bottom: 1px solid $border-color-1;
+  // > * {
+  //   margin: 0 0 10px;
+  //   &:last-child {
+  //     margin: 0;
+  //   }
+  // }
 
-  > * {
-    margin: 0 0 10px;
-    &:last-child {
-      margin: 0;
-    }
+  // &.-inline {
+  //   display: flex;
+  //   > * {
+  //     margin: 0 16px 0 0;
+  //     &:last-child {
+  //       margin: 0;
+  //     }
+  //   }
+  // }
+
+  &:last-child {
+    border-bottom: 0;
   }
 
-  &.-inline {
-    display: flex;
-    > * {
-      margin: 0 16px 0 0;
-      &:last-child {
-        margin: 0;
-      }
+  .c-checkbox {
+    margin-bottom: $margin-size-extra-small;
+
+    &:last-child {
+      margin-bottom: 0;
     }
   }
 
   .checkbox-box-title {
     display: inline-block;
-    margin-bottom: 16px;
+    margin-bottom: $margin-size-extra-small;
     text-transform: capitalize;
   }
 }

@@ -80,7 +80,7 @@ class AggregateFunctionTooltip extends React.Component {
           )}
         </div>
         <Button
-          properties={{ type: 'button', className: '-primary' }}
+          properties={{ type: 'button', className: '-primary -compressed' }}
           onClick={() => this.onApply()}
         >
           Done

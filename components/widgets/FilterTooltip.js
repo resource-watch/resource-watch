@@ -21,7 +21,6 @@ import Checkbox from 'components/form/Checkbox';
 
 
 class FilterTooltip extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -73,7 +72,7 @@ class FilterTooltip extends React.Component {
     this.props.toggleTooltip(false);
   }
 
-    /**
+  /**
    * Fetch the data about the column and update the state
    * consequently
    */
@@ -83,40 +82,40 @@ class FilterTooltip extends React.Component {
       tableName: this.props.tableName,
       columnName: this.props.name
     })
-    .then((result) => {
-      const values = this.props.type === 'string'
-        ? result.properties.map(val => ({ name: val, label: val, value: val }))
-        : null;
+      .then((result) => {
+        const values = this.props.type === 'string'
+          ? result.properties.map(val => ({ name: val, label: val, value: val }))
+          : null;
 
-      this.setState({
-        values,
-        // We round the values to have a nicer UI
-        min: Math.floor(result.properties.min),
-        max: Math.ceil(result.properties.max)
-      });
-
-      // If we don't have values already set for the filter, then we
-      // set the whole range as the filter
-      if (!this.state.rangeValue) {
         this.setState({
-          rangeValue: {
-            min: Math.floor(result.properties.min),
-            max: Math.ceil(result.properties.max)
-          }
+          values,
+          // We round the values to have a nicer UI
+          min: Math.floor(result.properties.min),
+          max: Math.ceil(result.properties.max)
         });
-      }
 
-      // We remove the loading state only after being sure we've
-      // updated the range values (if needed)
-      this.setState({ loading: false });
+        // If we don't have values already set for the filter, then we
+        // set the whole range as the filter
+        if (!this.state.rangeValue) {
+          this.setState({
+            rangeValue: {
+              min: Math.floor(result.properties.min),
+              max: Math.ceil(result.properties.max)
+            }
+          });
+        }
 
-      // We let the tooltip know that the component has been resized
-      if (this.props.onResize) {
-        this.props.onResize();
-      }
-    })
-    .catch(error => console.error(error))
-    .then(() => this.setState({ loading: false }));
+        // We remove the loading state only after being sure we've
+        // updated the range values (if needed)
+        this.setState({ loading: false });
+
+        // We let the tooltip know that the component has been resized
+        if (this.props.onResize) {
+          this.props.onResize();
+        }
+      })
+      .catch(error => console.error(error))
+      .then(() => this.setState({ loading: false }));
   }
 
   @Autobind
@@ -219,14 +218,16 @@ class FilterTooltip extends React.Component {
           isLoading={loading}
         />
         { !loading &&
-          <Checkbox
-            properties={{
-              title: 'Not null values',
-              checked: notNullSelected,
-              default: false
-            }}
-            onChange={elem => this.handleNotNullSelection(elem.checked)}
-          />
+          <div className="c-checkbox-box">
+            <Checkbox
+              properties={{
+                title: 'Not null values',
+                checked: notNullSelected,
+                default: false
+              }}
+              onChange={elem => this.handleNotNullSelection(elem.checked)}
+            />
+          </div>
         }
         { categoryValue && this.renderCheckboxes() }
         { !categoryValue && !loading && this.renderRange() }
@@ -241,7 +242,7 @@ class FilterTooltip extends React.Component {
         <div className="buttons">
           { categoryValue &&
             <Button
-              properties={{ type: 'button', className: '-secondary' }}
+              properties={{ type: 'button', className: ' -compressed' }}
               onClick={() => this.onSelectAll()}
             >
               Select all
@@ -249,14 +250,14 @@ class FilterTooltip extends React.Component {
           }
           { categoryValue &&
             <Button
-              properties={{ type: 'button', className: '-secondary' }}
+              properties={{ type: 'button', className: ' -compressed' }}
               onClick={() => this.onClearAll()}
             >
               Clear
             </Button>
           }
           <Button
-            properties={{ type: 'button', className: '-primary' }}
+            properties={{ type: 'button', className: '-primary -compressed' }}
             onClick={() => this.onApply()}
           >
             Done
