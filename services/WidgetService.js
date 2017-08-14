@@ -66,7 +66,7 @@ export default class WidgetService {
   }
 
   getUserWidgetCollections(userId) {
-    return fetch(`${this.opts.apiURL}/vocabulary/widget_collections`)
+    return fetch(`${this.opts.apiURL}/vocabulary/widget_collections?application=rw`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
