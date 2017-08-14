@@ -149,7 +149,7 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
     x: {
       type: category.type,
       name: category.name,
-      alias: fields.find(f => f.columnName === category.name).alias
+      alias: fields.length && fields.find(f => f.columnName === category.name).alias
     },
     y: null,
     color: null,
@@ -160,21 +160,21 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
     chartInfo.y = {
       type: value.type,
       name: value.name,
-      alias: fields.find(f => f.columnName === value.name).alias,
+      alias: fields.length && fields.find(f => f.columnName === value.name).alias,
       aggregateFunction
     };
   }
 
   if (color) {
     chartInfo.color = {
-      alias: fields.find(f => f.columnName === color.name).alias,
+      alias: fields.length && fields.find(f => f.columnName === color.name).alias,
       aggregateFunction: color.aggregateFunction
     };
   }
 
   if (size) {
     chartInfo.size = {
-      alias: fields.find(f => f.columnName === size.name).alias,
+      alias: fields.length && fields.find(f => f.columnName === size.name).alias,
       aggregateFunction: size.aggregateFunction
     };
   }

@@ -690,6 +690,8 @@ class WidgetEditor extends React.Component {
                     && (
                       <ChartEditor
                         dataset={dataset}
+                        datasetType={datasetType}
+                        datasetProvider={datasetProvider}
                         jiminy={jiminy}
                         tableName={tableName}
                         tableViewMode={selectedVisualizationType === 'table'}

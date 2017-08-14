@@ -21,7 +21,7 @@ import Input from 'components/form/Input';
 import Field from 'components/form/Field';
 
 // utils
-import { getChartConfig } from 'utils/widgets/WidgetHelper';
+import { getChartConfig, getChartInfo } from 'utils/widgets/WidgetHelper';
 
 const FORM_ELEMENTS = {
   elements: {
@@ -44,7 +44,6 @@ const FORM_ELEMENTS = {
 };
 
 class WidgetsEdit extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -52,28 +51,29 @@ class WidgetsEdit extends React.Component {
       loading: true,
       submitting: false,
       widget: null,
-      tableName: null
+      dataset: null // Data associated with the dataset
     };
 
-    // Services
     this.widgetService = new WidgetService(this.props.id,
       { apiURL: process.env.CONTROL_TOWER_URL });
   }
 
   componentWillMount() {
-    this.widgetService.fetchData().then((data) => {
-      this.datasetService = new DatasetService(data.attributes.dataset,
-        { apiURL: process.env.CONTROL_TOWER_URL });
-      this.datasetService.fetchData().then((response) => {
-        this.setState({
-          widget: data,
-          loading: false,
-          tableName: response.attributes.tableName
-        }, () => {
+    this.widgetService.fetchData()
+      .then((data) => {
+        this.setState({ widget: data }, () => {
           this.loadWidgetIntoRedux();
         });
-      });
-    });
+        return data.attributes.dataset;
+      })
+      .then((datasetId) => {
+        const datasetService = new DatasetService(datasetId, { apiURL: process.env.WRI_API_URL });
+        return datasetService.fetchData()
+          .then(dataset => this.setState({ dataset }));
+      })
+      // TODO: handle the error in the UI
+      .catch(err => console.error(err))
+      .then(() => this.setState({ loading: false }));
   }
 
   @Autobind
@@ -85,16 +85,26 @@ class WidgetsEdit extends React.Component {
     this.setState({
       loading: true
     });
-    const { widget, tableName } = this.state;
+    const { widget } = this.state;
     const widgetAtts = widget.attributes;
     const dataset = widgetAtts.dataset;
     const { widgetEditor, user } = this.props;
     const { limit, value, category, color, size, orderBy, aggregateFunction,
       chartType, filters, areaIntersection } = widgetEditor;
+    const { type, provider, tableName } = this.state.dataset.attributes;
+
+    const chartInfo = getChartInfo(dataset, type, provider, widgetEditor);
 
     let chartConfig;
     try {
-      chartConfig = await getChartConfig(widgetEditor, tableName, dataset);
+      chartConfig = await getChartConfig(
+        dataset,
+        type,
+        tableName,
+        null,
+        provider,
+        chartInfo
+      );
     } catch (err) {
       this.setState({
         saved: false,
@@ -171,44 +181,26 @@ class WidgetsEdit extends React.Component {
   loadWidgetIntoRedux() {
     const { paramsConfig } = this.state.widget.attributes.widgetConfig;
     const {
-        value,
-        category,
-        color,
-        size,
-        aggregateFunction,
-        orderBy,
-        filters,
-        limit,
-        chartType
-      } = paramsConfig;
+      value,
+      category,
+      color,
+      size,
+      aggregateFunction,
+      orderBy,
+      filters,
+      limit,
+      chartType
+    } = paramsConfig;
 
-    if (aggregateFunction) {
-      this.props.setAggregateFunction(aggregateFunction);
-    }
-    if (value) {
-      this.props.setValue(value);
-    }
-    if (size) {
-      this.props.setSize(size);
-    }
-    if (color) {
-      this.props.setColor(color);
-    }
-    if (orderBy) {
-      this.props.setOrderBy(orderBy);
-    }
-    if (category) {
-      this.props.setCategory(category);
-    }
-    if (filters) {
-      this.props.setFilters(filters);
-    }
-    if (limit) {
-      this.props.setLimit(limit);
-    }
-    if (chartType) {
-      this.props.setChartType(chartType);
-    }
+    if (aggregateFunction) this.props.setAggregateFunction(aggregateFunction);
+    if (value) this.props.setValue(value);
+    if (size) this.props.setSize(size);
+    if (color) this.props.setColor(color);
+    if (orderBy) this.props.setOrderBy(orderBy);
+    if (category) this.props.setCategory(category);
+    if (filters) this.props.setFilters(filters);
+    if (limit) this.props.setLimit(limit);
+    if (chartType) this.props.setChartType(chartType);
   }
 
   @Autobind
@@ -219,7 +211,7 @@ class WidgetsEdit extends React.Component {
   }
 
   render() {
-    const { loading, widget, submitting, tableName } = this.state;
+    const { loading, widget, submitting } = this.state;
     const widgetAtts = widget && widget.attributes;
 
     return (
@@ -228,7 +220,7 @@ class WidgetsEdit extends React.Component {
           className="-relative -light"
           isLoading={loading}
         />
-        {widget && tableName &&
+        {widget &&
         <div>
           <WidgetEditor
             widget={widget}
@@ -238,7 +230,6 @@ class WidgetsEdit extends React.Component {
             onUpdateWidget={this.onSubmit}
             showSaveButton
             showShareEmbedButton={false}
-            tableName={tableName}
           />
           <div className="form-container">
             <form className="form-container" onSubmit={this.onSubmit}>
