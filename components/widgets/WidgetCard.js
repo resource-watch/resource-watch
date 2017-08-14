@@ -144,13 +144,13 @@ class WidgetCard extends React.Component {
         user,
         widgetCollections,
         toggleTooltip: this.props.toggleTooltip,
-        onAddWidgetToCollection: this.handleAddWidgetToCollection
+        onUpdateWidgetCollections: this.handleUpdateWidgetToCollections
       }
     });
   }
-
-  handleAddWidgetToCollection(collection) {
-
+  @Autobind
+  handleUpdateWidgetToCollections(collections) {
+    this.props.onUpdateWidgetCollections();
   }
 
   render() {
@@ -165,7 +165,8 @@ class WidgetCard extends React.Component {
       mode
     } = this.props;
 
-    const numberOfCollections = widgetCollections && widgetCollections.length;
+    const numberOfCollections = widgetCollections && widgetCollections.length
+      && widgetCollections[0].tags.length;
     const numberOfCollectionsText = numberOfCollections === 1
       ? '1 collection' : `${numberOfCollections} collections`;
 
@@ -270,6 +271,7 @@ WidgetCard.propTypes = {
   // Callbacks
   onWidgetRemove: PropTypes.func,
   onWidgetUnfavourited: PropTypes.func,
+  onUpdateWidgetCollections: PropTypes.func,
   // Store
   user: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,

@@ -22,6 +22,7 @@ class AddWidgetToCollectionTooltip extends React.Component {
     this.state = {
       collections: [],
       selectedCollections: tags,
+      collectionsAreEmpty: tags.length === 0,
       loading: false
     };
 
@@ -36,23 +37,23 @@ class AddWidgetToCollectionTooltip extends React.Component {
     document.removeEventListener('mousedown', this.triggerMouseDown);
   }
 
-  onApply() {
-    this.props.onAddWidgetToCollection();
-
-    // We close the tooltip
-    this.props.toggleTooltip(false);
-  }
-
   @Autobind
   triggerMouseDown(e) {
     const el = document.querySelector('.c-tooltip');
-    const el2 = document.querySelector('.Select-clear-zone'); // Clear selection
-    const el3 = document.querySelector('.Select-value');  // Cross icon
-    // The last two selectors above have to be explicitly checked as well, otherwise
+    const el2 = document.querySelector('.Select-clear-zone');
+    const el3 = document.querySelector('.Select-value');
+    const el4 = document.querySelector('.Select-option');
+    // The selectors above have to be explicitly checked as well, otherwise
     // it doesn't work
 
+    // TO-DO this is a temporal hack for it to work, for some reason contains does not
+    // work with some of the inner elements of the Select component
     const clickOutside = el && el.contains && !el.contains(e.target)
-      && !el2.contains(e.target) && !el3.contains(e.target);
+      && (el2 && !el2.contains(e.target))
+      && e.target.tagName !== 'SPAN'
+      && (el3 && !el3.contains(e.target))
+      && (el4 && !el4.contains(e.target));
+
     if (clickOutside) {
       this.props.toggleTooltip(false);
     }
@@ -67,16 +68,29 @@ class AddWidgetToCollectionTooltip extends React.Component {
 
   @Autobind
   handleApply() {
-    const { selectedCollections } = this.state;
-    const { user, widget } = this.props;
+    const { selectedCollections, collectionsAreEmpty } = this.state;
+    const { user, widget, toggleTooltip, onUpdateWidgetCollections } = this.props;
+
+    let method = 'PATCH';
+    let newCollectionsAreaEmtpy = false;
+    if (selectedCollections.length === 0 && !collectionsAreEmpty) {
+      method = 'DELETE';
+      newCollectionsAreaEmtpy = true;
+    }
+    if (collectionsAreEmpty && selectedCollections.length > 0) {
+      method = 'POST';
+    }
 
     this.setState({ loading: true });
-    this.widgetService.addWidgetToCollection(user, widget, selectedCollections)
+    this.widgetService.updateWidgetCollections(user, widget, selectedCollections, method)
       .then((response) => {
-        console.log('response', response);
+        const collections = response.data.length > 0 ? response.data[0].attributes.tags : [];
+        onUpdateWidgetCollections(collections);
         this.setState({
-          loading: false
+          loading: false,
+          collectionsAreEmpty: newCollectionsAreaEmtpy
         });
+        toggleTooltip(false);
       }).catch(err => console.log(err));
   }
 
@@ -134,7 +148,7 @@ AddWidgetToCollectionTooltip.defaultProps = {
 };
 
 AddWidgetToCollectionTooltip.propTypes = {
-  onAddWidgetToCollection: PropTypes.func.isRequired,
+  onUpdateWidgetCollections: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   widget: PropTypes.object.isRequired,
   toggleTooltip: PropTypes.func.isRequired,

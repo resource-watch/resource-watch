@@ -77,6 +77,7 @@ export default class WidgetList extends React.Component {
                 showStar={showStar}
                 showWidgetColllections={showWidgetColllections}
                 widgetCollections={widgetCollections && widgetCollections.filter(val => val.id === widget.id)} //eslint-disable-line
+                onUpdateWidgetCollections={this.props.onUpdateWidgetCollections}
                 mode={mode === 'grid' ? 'thumbnail' : 'full'}
               />
             </li>)
@@ -107,5 +108,6 @@ WidgetList.propTypes = {
   mode: PropTypes.oneOf(['grid', 'list']).isRequired,
   // Callbacks
   onWidgetRemove: PropTypes.func,
-  onWidgetUnfavourited: PropTypes.func
+  onWidgetUnfavourited: PropTypes.func,
+  onUpdateWidgetCollections: PropTypes.func
 };

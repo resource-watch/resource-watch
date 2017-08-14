@@ -27,7 +27,7 @@ class MyRWWidgetsMy extends React.Component {
       myWidgets: null,
       mode: 'grid',
       orderDirection: 'asc',
-      selectedWidgetCollection: null,
+      selectedWidgetCollection: 'All collections',
       widgetCollections: []
     };
 
@@ -93,6 +93,21 @@ class MyRWWidgetsMy extends React.Component {
       widgetCollections,
       selectedWidgetCollection
     } = this.state;
+    const { user } = this.props;
+
+    const widgetCollectionOptionsSet = new Set();
+    let widgetCollectionOptionsArray = [{ label: 'All collections', value: 'All collections' }];
+    if (widgetCollections.length > 0) {
+      widgetCollections
+        .map(val => val.tags)
+        .forEach(val => val.forEach(val2 => widgetCollectionOptionsSet.add(val2)));
+      widgetCollectionOptionsArray = widgetCollectionOptionsArray.concat(
+        Array.from(widgetCollectionOptionsSet)
+        .map((val) => {
+          const newVal = val.replace(`${user.id}-`, '');
+          return { label: newVal, value: newVal };
+        }));
+    }
     return (
       <div className="c-myrw-widgets-my">
         <div className="row">
@@ -101,7 +116,7 @@ class MyRWWidgetsMy extends React.Component {
               <div className="widget-collections-selector">
                 <CustomSelect
                   placeholder="Select a widget collection"
-                  options={widgetCollections}
+                  options={widgetCollectionOptionsArray}
                   onValueChange={this.onChangeSelectedWidgetCollection}
                   allowNonLeafSelection={false}
                   value={selectedWidgetCollection}
@@ -154,7 +169,8 @@ class MyRWWidgetsMy extends React.Component {
               showActions
               showRemove
               showWidgetColllections
-              widgetCollections={ widgetCollections }
+              widgetCollections={widgetCollections}
+              onUpdateWidgetCollections={() => this.loadWidgetCollections()}
             />
             }
             {myWidgets && myWidgets.length === 0 &&

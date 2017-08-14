@@ -82,13 +82,13 @@ export default class WidgetService {
       });
   }
 
-  addWidgetToCollection(user, widget, widgetCollections) {
+  updateWidgetCollections(user, widget, widgetCollections, method = 'PATCH') {
     const bodyObj = {
       tags: widgetCollections.map(val => `${user.id}-${val}`)
     };
     return fetch(`${this.opts.apiURL}/dataset/${widget.attributes.dataset}/widget/${widget.id}/vocabulary/widget_collections`, {
-      method: 'POST',
-      body: JSON.stringify(bodyObj),
+      method,
+      body: method === 'DELETE' ? '' : JSON.stringify(bodyObj),
       headers: {
         'Content-Type': 'application/json',
         Authorization: user.token
