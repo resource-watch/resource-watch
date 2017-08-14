@@ -1,0 +1,12 @@
+.c-raster-chart-editor {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-top: 20px;
+
+  .error {
+    span {
+      font-weight: $font-weight-bold;
+    }
+  }
+}
