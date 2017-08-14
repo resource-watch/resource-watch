@@ -15,9 +15,13 @@ class AddWidgetToCollectionTooltip extends React.Component {
   constructor(props) {
     super(props);
 
+    const tags = props.widgetCollections.length > 0 ?
+      props.widgetCollections[0].tags.map(val => val.replace(`${props.user.id}-`, '')) :
+      [];
+
     this.state = {
       collections: [],
-      selectedCollections: props.widgetCollections,
+      selectedCollections: tags,
       loading: false
     };
 
@@ -42,8 +46,7 @@ class AddWidgetToCollectionTooltip extends React.Component {
   @Autobind
   triggerMouseDown(e) {
     const el = document.querySelector('.c-tooltip');
-    const el2 = document.querySelector('.Select');
-    const clickOutside = el && el.contains && !el.contains(e.target) && !el2.contains(e.target);
+    const clickOutside = el && el.contains && !el.contains(e.target);
     if (clickOutside) {
       this.props.toggleTooltip(false);
     }
@@ -109,7 +112,7 @@ class AddWidgetToCollectionTooltip extends React.Component {
           </button>
           <button
             className="c-btn -b -compressed"
-            onClick={() => this.toggleTooltip(false)}
+            onClick={() => this.props.toggleTooltip(false)}
           >
             Cancel
           </button>

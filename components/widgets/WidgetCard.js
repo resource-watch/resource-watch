@@ -133,7 +133,7 @@ class WidgetCard extends React.Component {
   }
   @Autobind
   handleAddToWidgetCollection(event) {
-    const { widget, user } = this.props;
+    const { widget, user, widgetCollections } = this.props;
     const position = WidgetCard.getClickPosition(event);
     this.props.toggleTooltip(true, {
       follow: false,
@@ -142,6 +142,7 @@ class WidgetCard extends React.Component {
       childrenProps: {
         widget,
         user,
+        widgetCollections,
         toggleTooltip: this.props.toggleTooltip,
         onAddWidgetToCollection: this.handleAddWidgetToCollection
       }
@@ -166,7 +167,7 @@ class WidgetCard extends React.Component {
 
     const numberOfCollections = widgetCollections.length;
     const numberOfCollectionsText = numberOfCollections === 1
-      ? `1 collection` : `${numberOfCollections} collections`;
+      ? '1 collection' : `${numberOfCollections} collections`;
 
     return (
       <div
