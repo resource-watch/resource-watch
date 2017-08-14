@@ -3,7 +3,6 @@ import Icon from 'components/ui/Icon';
 import Spinner from 'components/ui/Spinner';
 
 export default class Modal extends React.Component {
-
   componentDidMount() {
     this.el.addEventListener('transitionend', () => {
       if (!this.props.open) {
@@ -26,7 +25,8 @@ export default class Modal extends React.Component {
   }
 
   getContent() {
-    return this.props.options.children ? <this.props.options.children {...this.props.options.childrenProps} /> : null;
+    return this.props.options.children ?
+      <this.props.options.children {...this.props.options.childrenProps} /> : null;
   }
 
   render() {
@@ -40,7 +40,7 @@ export default class Modal extends React.Component {
             {this.props.loading ? <Spinner isLoading /> : this.getContent()}
           </div>
         </div>
-        <area className="modal-backdrop" onClick={() => this.props.toggleModal(false)} />
+        <div className="modal-backdrop" onClick={() => this.props.toggleModal(false)} />
       </section>
     );
   }

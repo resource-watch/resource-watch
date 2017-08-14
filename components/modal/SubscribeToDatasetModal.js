@@ -182,25 +182,29 @@ class SubscribeToDatasetModal extends React.Component {
     return (
       <div className="c-subscribe-to-dataset-modal">
         <div className="header-div">
-          <h2 className="c-text -header-normal -thin title">{headerText}</h2>
+          <h2>{headerText}</h2>
           <p>{paragraphText}</p>
         </div>
         {!saved &&
           <div>
             <div className="name-container">
-              <h5>Subscription name</h5>
-              <input value={name} onChange={this.handleNameChange} />
+              <div className="c-field">
+                <label htmlFor="subscription-name">Subscription name</label>
+                <input id="subscription-name" value={name} onChange={this.handleNameChange} />
+              </div>
             </div>
             <div className={selectorsContainerClassName}>
               <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
-              <CustomSelect
-                placeholder="Select area"
-                options={areaOptions}
-                onValueChange={this.onChangeSelectedArea}
-                allowNonLeafSelection={false}
-                value={selectedArea && selectedArea.value}
-                waitForChangeConfirmation
-              />
+              <div className="c-field">
+                <CustomSelect
+                  placeholder="Select area"
+                  options={areaOptions}
+                  onValueChange={this.onChangeSelectedArea}
+                  allowNonLeafSelection={false}
+                  value={selectedArea && selectedArea.value}
+                  waitForChangeConfirmation
+                />
+              </div>
             </div>
           </div>
         }
@@ -212,7 +216,7 @@ class SubscribeToDatasetModal extends React.Component {
         }
 
         {!saved &&
-          <div className="buttons-div">
+          <div className="buttons">
             <button className="c-btn -primary" onClick={this.handleSubscribe}>
               Subscribe
             </button>
@@ -223,7 +227,7 @@ class SubscribeToDatasetModal extends React.Component {
         }
 
         {saved &&
-          <div className="buttons-div">
+          <div className="buttons">
             <button className="c-btn -secondary" onClick={this.handleCancel}>
               Ok
             </button>

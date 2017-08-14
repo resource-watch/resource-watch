@@ -155,10 +155,10 @@ class SaveWidgetModal extends React.Component {
     return (
       <div className="c-save-widget-modal">
         {!saved &&
-        <h1 className="c-text -header-normal -thin title">Save widget</h1>
+        <h2>Save widget</h2>
         }
         {saved &&
-        <h1 className="c-text -header-normal -thin title -green">Widget saved!</h1>
+        <h2>Widget saved!</h2>
         }
         <Spinner
           isLoading={loading}
@@ -207,18 +207,14 @@ class SaveWidgetModal extends React.Component {
                   disabled: submitting,
                   className: '-secondary'
                 }}
-              >
-                  Save
-                </Button>
+              >Save</Button>
               <Button
                 properties={{
                   disabled: submitting,
                   className: '-primary'
                 }}
                 onClick={this.handleCancel}
-              >
-                  Cancel
-                </Button>
+              >Cancel</Button>
             </div>
           </form>
         }

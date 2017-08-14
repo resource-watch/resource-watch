@@ -23,16 +23,18 @@ class EmbedMyWidgetModal extends React.Component {
 
   render() {
     const { widgetId } = this.props;
-    const url = `https://staging.resourcewatch.org/embed/widget/${widgetId}`;
+    const { protocol, hostname, port } = window && window.location ? window.location : {};
+    const embedHost = window && window.location ? `${protocol}//${hostname}${port !== '' ? `:${port}` : port}` : '';
+    const url = `${embedHost}/embed/widget/${widgetId}`;
     const iframeText = `<iframe src="${url}" width="100%" height="474" frameBorder="0"></iframe>`;
     return (
       <div className="c-embed-my-widget-modal">
-        <h1 className="c-text -header-big -thin">Share into my web</h1>
+        <h2>Share into my web</h2>
         <p>You may include this content on your webpage. To do this, copy the following html
         code and insert it into the source code of your page:</p>
         <div className="url-container">
           <input ref={(n) => { this.input = n; }} value={iframeText} className="url" readOnly />
-          <button className="c-btn -primary -filled" onClick={() => this.onCopyClick()}>
+          <button className="c-btn -primary" onClick={() => this.onCopyClick()}>
             Copy
           </button>
         </div>

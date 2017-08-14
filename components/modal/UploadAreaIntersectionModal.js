@@ -6,10 +6,8 @@ import classnames from 'classnames';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import Title from 'components/ui/Title';
 
 class UploadAreaIntersectionModal extends React.Component {
-
   /**
    * Return the name of the file
    * @param {File} file
@@ -104,20 +102,20 @@ class UploadAreaIntersectionModal extends React.Component {
           .catch(reject);
       }
     })
-    // Second: we store it in the geostore
-    .then(geojson => fetch(`${process.env.WRI_API_URL}/geostore`, {
-      method: 'POST',
-      headers: new Headers({
-        'content-type': 'application/json'
-      }),
-      body: JSON.stringify({ geojson })
-    }))
-    .then((response) => {
-      if (!response.ok) throw new Error('The file couldn\'t be processed correctly. Try again in a few minutes.');
-      return response.json();
-    })
-    // Finally: we return the id of the geojson
-    .then(({ data }) => data.id);
+      // Second: we store it in the geostore
+      .then(geojson => fetch(`${process.env.WRI_API_URL}/geostore`, {
+        method: 'POST',
+        headers: new Headers({
+          'content-type': 'application/json'
+        }),
+        body: JSON.stringify({ geojson })
+      }))
+      .then((response) => {
+        if (!response.ok) throw new Error('The file couldn\'t be processed correctly. Try again in a few minutes.');
+        return response.json();
+      })
+      // Finally: we return the id of the geojson
+      .then(({ data }) => data.id);
   }
 
   constructor(props) {
@@ -199,7 +197,7 @@ class UploadAreaIntersectionModal extends React.Component {
     return (
       <div className="c-upload-area-intersection-modal">
         <Spinner isLoading={loading} className="-light" />
-        <Title className="-extrabig -secondary">Upload a new area</Title>
+        <h2>Upload a new area</h2>
 
         <Dropzone
           ref={(node) => { this.dropzone = node; }}
@@ -215,7 +213,7 @@ class UploadAreaIntersectionModal extends React.Component {
         >
           <p>
             Drop a file in the designated area below or click the button to upload it.
-            The recommended maximum file size is 1MB.
+            The recommended <strong>maximum file size is 1MB</strong>.
             Anything larger than that may not work properly.
           </p>
           <p>
@@ -234,7 +232,7 @@ class UploadAreaIntersectionModal extends React.Component {
               { fileInputContent }
             </div>
             <button
-              className="c-button -tertiary"
+              className="c-button"
               onClick={this.onOpenDialog}
             >
               Select file
@@ -255,8 +253,7 @@ class UploadAreaIntersectionModal extends React.Component {
             </p>
             <ul>
               <li>
-                Unzipped: <strong>.csv</strong> (must contain a geom column that contains geographic information), <strong>
-                .geojson</strong>, <strong>.kml</strong>, <strong>.kmz</strong>, <strong>.wkt</strong>
+                Unzipped: <strong>.csv</strong> (must contain a geom column that contains geographic information), <strong>.geojson</strong>, <strong>.kml</strong>, <strong>.kmz</strong>, <strong>.wkt</strong>
               </li>
               <li>
                 Zipped: <strong>.shp</strong> (must include the .shp, .shx, .dbf and .prj files)
@@ -267,7 +264,6 @@ class UploadAreaIntersectionModal extends React.Component {
       </div>
     );
   }
-
 }
 
 UploadAreaIntersectionModal.propTypes = {
