@@ -257,6 +257,7 @@ class ChartEditor extends React.Component {
           {showSaveButtonFlag && mode === 'save' &&
           <a
             role="button"
+            className="c-button -primary"
             tabIndex={-2}
             onClick={this.handleSaveWidget}
           >
@@ -266,6 +267,7 @@ class ChartEditor extends React.Component {
           {mode === 'update' &&
           <a
             role="button"
+            className="c-button -primary"
             tabIndex={-1}
             onClick={this.handleShareEmbed}
           >
@@ -275,6 +277,7 @@ class ChartEditor extends React.Component {
           {showUpdateButton && mode === 'update' &&
           <a
             role="button"
+            className="c-button -primary"
             tabIndex={0}
             onClick={this.handleUpdateWidget}
           >

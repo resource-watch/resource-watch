@@ -5,7 +5,7 @@
     position: relative;
     padding: $margin-size 0;
 
-    border-top: 1px solid $border-color-2;
+    border-top: 1px solid $border-color-1;
 
     .title {
       position: absolute;
@@ -43,7 +43,7 @@
   }
 
   .footer-main {
-    border-top: 1px solid $border-color-2;
+    border-top: 1px solid $border-color-1;
     padding: $margin-size 0;
 
     color: $ui-font-color;
