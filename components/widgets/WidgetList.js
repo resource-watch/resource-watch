@@ -43,7 +43,8 @@ export default class WidgetList extends React.Component {
       showEmbed,
       showStar,
       showWidgetColllections,
-      mode
+      mode,
+      widgetCollections
     } = this.props;
 
     const newClassName = classNames({
@@ -75,7 +76,7 @@ export default class WidgetList extends React.Component {
                 showEmbed={showEmbed}
                 showStar={showStar}
                 showWidgetColllections={showWidgetColllections}
-                widgetCollections={[]}
+                widgetCollections={widgetCollections.filter(val => val.id === widget.id)}
                 mode={mode === 'grid' ? 'thumbnail' : 'full'}
               />
             </li>)
@@ -97,6 +98,7 @@ WidgetCard.defaultProps = {
 
 WidgetList.propTypes = {
   widgets: PropTypes.array.isRequired,
+  widgetCollections: PropTypes.array,
   showActions: PropTypes.bool,
   showRemove: PropTypes.bool,
   showEmbed: PropTypes.bool,

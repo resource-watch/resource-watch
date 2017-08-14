@@ -5,6 +5,7 @@ import { Autobind } from 'es-decorators';
 // Components
 import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
+import Spinner from 'components/ui/Spinner';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -16,7 +17,8 @@ class AddWidgetToCollectionTooltip extends React.Component {
 
     this.state = {
       collections: [],
-      selectedCollections: []
+      selectedCollections: props.widgetCollections,
+      loading: false
     };
 
     this.widgetService = new WidgetService(null, { apiURL: process.env.CONTROL_TOWER_URL });
@@ -57,18 +59,24 @@ class AddWidgetToCollectionTooltip extends React.Component {
   @Autobind
   handleApply() {
     const { selectedCollections } = this.state;
-    const { user } = this.props;
-    this.widgetService.addWidgetToCollection(user, null, selectedCollections)
-      .then(response => {
+    const { user, widget } = this.props;
 
+    this.setState({ loading: true });
+    this.widgetService.addWidgetToCollection(user, widget, selectedCollections)
+      .then((response) => {
+        console.log('response', response);
+        this.setState({
+          loading: false
+        });
       }).catch(err => console.log(err));
   }
 
   render() {
-    const { collections, selectedCollections } = this.state;
+    const { collections, selectedCollections, loading } = this.state;
 
     return (
       <div className="c-add-widget-to-collection-tooltip">
+        <Spinner isLoading={loading} className="-light" />
         <div className="" >
           <Field
             onChange={value => this.handleCollectionsChange(value)}
@@ -111,11 +119,17 @@ class AddWidgetToCollectionTooltip extends React.Component {
   }
 }
 
+
+AddWidgetToCollectionTooltip.defaultProps = {
+  widgetCollections: []
+};
+
 AddWidgetToCollectionTooltip.propTypes = {
   onAddWidgetToCollection: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   widget: PropTypes.object.isRequired,
-  toggleTooltip: PropTypes.func.isRequired
+  toggleTooltip: PropTypes.func.isRequired,
+  widgetCollections: PropTypes.array.isRequired
 };
 
 export default AddWidgetToCollectionTooltip;

@@ -164,6 +164,10 @@ class WidgetCard extends React.Component {
       mode
     } = this.props;
 
+    const numberOfCollections = widgetCollections.length;
+    const numberOfCollectionsText = numberOfCollections === 1
+      ? `1 collection` : `${numberOfCollections} collections`;
+
     return (
       <div
         role="button"
@@ -178,7 +182,7 @@ class WidgetCard extends React.Component {
               role="button"
               tabIndex={-1}
             >
-              0 collections
+              {numberOfCollectionsText}
             </a>
           </div>
         }
@@ -255,12 +259,12 @@ WidgetCard.defaultProps = {
 
 WidgetCard.propTypes = {
   widget: PropTypes.object.isRequired,
+  widgetCollections: PropTypes.array,
   showActions: PropTypes.bool,
   showRemove: PropTypes.bool,
   showEmbed: PropTypes.bool,
   showStar: PropTypes.bool,
   showWidgetColllections: PropTypes.bool,
-  widgetCollections: PropTypes.array,
   mode: PropTypes.oneOf(['thumbnail', 'full']), // How to show the graph
   // Callbacks
   onWidgetRemove: PropTypes.func,

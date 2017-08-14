@@ -49,9 +49,10 @@ class MyRWWidgetsMy extends React.Component {
   }
 
   loadWidgetCollections() {
-    this.widgetService.getUserWidgetCollections(null)
+    this.widgetService.getUserWidgetCollections(this.props.user)
       .then(response => {
-        console.log(response);
+        console.log('widget collections resp', response);
+        this.setState({ widgetCollections: response });
       });
   }
 
@@ -60,7 +61,7 @@ class MyRWWidgetsMy extends React.Component {
     this.setState({
       myWidgetsLoaded: false
     });
-    this.widgetService.getUserWidgets(this.props.user.id, true, orderDirection)
+    this.widgetService.getUserWidgets(this.props.user.id, true, orderDirection, 'vocabulary')
     .then((response) => {
       this.setState({
         myWidgetsLoaded: true,
@@ -153,6 +154,7 @@ class MyRWWidgetsMy extends React.Component {
               showActions
               showRemove
               showWidgetColllections
+              widgetCollections={ widgetCollections }
             />
             }
             {myWidgets && myWidgets.length === 0 &&
