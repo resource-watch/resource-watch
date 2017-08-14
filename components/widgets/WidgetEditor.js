@@ -27,7 +27,7 @@ import Legend from 'components/ui/Legend';
 import TableView from 'components/widgets/TableView';
 
 // Utils
-import { getChartConfig, canRenderChart, getChartType, isFieldAllowed } from 'utils/widgets/WidgetHelper';
+import { getChartInfo, getChartConfig, canRenderChart, getChartType, isFieldAllowed } from 'utils/widgets/WidgetHelper';
 import ChartTheme from 'utils/widgets/theme';
 import LayerManager from 'utils/layers/LayerManager';
 
@@ -93,7 +93,6 @@ const DEFAULT_STATE = {
 
 @DragDropContext(HTML5Backend)
 class WidgetEditor extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -552,14 +551,24 @@ class WidgetEditor extends React.Component {
    * inside and not the URL of the data
    */
   fetchChartConfig() {
+    const { tableName, datasetType, datasetProvider } = this.state;
     const { widgetEditor, dataset } = this.props;
-    const { tableName } = this.state;
 
-    this.setState({ chartConfigLoading: true });
+    this.setState({ chartConfigLoading: true, chartConfigError: null });
 
-    getChartConfig(widgetEditor, tableName, dataset, true)
+    const chartInfo = getChartInfo(dataset, datasetType, datasetProvider, widgetEditor);
+
+    getChartConfig(
+      dataset,
+      datasetType,
+      tableName,
+      null,
+      datasetProvider,
+      chartInfo,
+      true
+    )
       .then((chartConfig) => {
-        this.setState({ chartConfig, chartConfigError: null });
+        this.setState({ chartConfig });
         if (this.props.onChange) this.props.onChange(chartConfig);
       })
       .catch(({ message }) => {
