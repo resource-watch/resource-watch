@@ -64,4 +64,10 @@ export default class WidgetService {
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
+
+  getUserWidgetCollections(userId) {
+    return fetch(`${this.opts.apiURL}/vocabulary/widget_collections`)
+      .then(response => response.json())
+      .then(jsonData => jsonData.data);
+  }
 }

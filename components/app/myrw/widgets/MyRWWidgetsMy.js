@@ -38,6 +38,7 @@ class MyRWWidgetsMy extends React.Component {
 
   componentDidMount() {
     this.loadWidgets();
+    this.loadWidgetCollections();
   }
 
   @Autobind
@@ -45,6 +46,13 @@ class MyRWWidgetsMy extends React.Component {
     this.setState({
       mode: value
     });
+  }
+
+  loadWidgetCollections() {
+    this.widgetService.getUserWidgetCollections(null)
+      .then(response => {
+        console.log(response);
+      });
   }
 
   loadWidgets() {
@@ -89,22 +97,6 @@ class MyRWWidgetsMy extends React.Component {
         <div className="row">
           <div className="column small-12">
             <div className="list-actions">
-              <div
-                role="button"
-                tabIndex={0}
-                className="last-modified-container"
-                onClick={this.handleOrderChange}
-              >
-                <a>
-                  Last modified
-                </a>
-                {orderDirection === 'asc' &&
-                  <Icon className="-small" name="icon-arrow-up" />
-                }
-                {orderDirection === 'desc' &&
-                  <Icon className="-small" name="icon-arrow-down" />
-                }
-              </div>
               <div className="widget-collections-selector">
                 <CustomSelect
                   placeholder="Select a widget collection"
@@ -114,21 +106,39 @@ class MyRWWidgetsMy extends React.Component {
                   value={selectedWidgetCollection}
                 />
               </div>
-              <div className="mode-buttons">
-                <button
-                  className={(mode === 'grid' ? '-active' : '')}
-                  onClick={() => this.setMode('grid')}
-                  title="Grid view"
+              <div className="buttons-container">
+                <div
+                  role="button"
+                  tabIndex={0}
+                  className="last-modified-container"
+                  onClick={this.handleOrderChange}
                 >
-                  <Icon name="icon-view-grid" />
-                </button>
-                <button
-                  className={(mode === 'list' ? '-active' : '')}
-                  onClick={() => this.setMode('list')}
-                  title="List view"
-                >
-                  <Icon name="icon-view-list" />
-                </button>
+                  <a>
+                    Last modified
+                  </a>
+                  {orderDirection === 'asc' &&
+                    <Icon className="-small" name="icon-arrow-up" />
+                  }
+                  {orderDirection === 'desc' &&
+                    <Icon className="-small" name="icon-arrow-down" />
+                  }
+                </div>
+                <div className="mode-buttons">
+                  <button
+                    className={(mode === 'grid' ? '-active' : '')}
+                    onClick={() => this.setMode('grid')}
+                    title="Grid view"
+                  >
+                    <Icon name="icon-view-grid" />
+                  </button>
+                  <button
+                    className={(mode === 'list' ? '-active' : '')}
+                    onClick={() => this.setMode('list')}
+                    title="List view"
+                  >
+                    <Icon name="icon-view-list" />
+                  </button>
+                </div>
               </div>
             </div>
             <Spinner
@@ -142,6 +152,7 @@ class MyRWWidgetsMy extends React.Component {
               onWidgetRemove={this.handleWidgetRemoved}
               showActions
               showRemove
+              showWidgetColllections
             />
             }
             {myWidgets && myWidgets.length === 0 &&

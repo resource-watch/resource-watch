@@ -14,6 +14,7 @@ import Title from 'components/ui/Title';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import EmbedMyWidgetModal from 'components/modal/EmbedMyWidgetModal';
 import WidgetActionsTooltip from 'components/widgets/WidgetActionsTooltip';
+import AddWidgetToCollectionTooltip from 'components/widgets/AddWidgetToCollectionTooltip';
 import Icon from 'components/ui/Icon';
 
 // Services
@@ -131,8 +132,20 @@ class WidgetCard extends React.Component {
     }
   }
   @Autobind
-  handleAddToWidgetCollection() {
-    
+  handleAddToWidgetCollection(event) {
+    const position = WidgetCard.getClickPosition(event);
+    this.props.toggleTooltip(true, {
+      follow: false,
+      position,
+      children: AddWidgetToCollectionTooltip,
+      childrenProps: {
+        onAddWidgetToCollection: this.handleAddWidgetToCollection
+      }
+    });
+  }
+
+  handleAddWidgetToCollection(collection) {
+
   }
 
   render() {
@@ -156,15 +169,12 @@ class WidgetCard extends React.Component {
       >
         {showWidgetColllections &&
           <div className="widget-collections">
-            <ul className="collections_list">
-              {widgetCollections.map(collection => <li key={collection}>{collection}</li>)}
-            </ul>
             <a
               onClick={this.handleAddToWidgetCollection}
               role="button"
               tabIndex={-1}
             >
-              +
+              0 collections
             </a>
           </div>
         }
