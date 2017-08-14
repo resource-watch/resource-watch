@@ -17,10 +17,10 @@ class HowToWidgetEditorModal extends React.Component {
   render() {
     return (
       <div className="c-how-to-widget-editor-modal">
-        <h1 className="c-text -header-normal -thin title">How to customize the visualization</h1>
+        <h2>How to customize the visualization</h2>
         <div className="container">
           <div className="container1">
-            <h1 className="c-text -header-normal -thin title">1</h1>
+            <h3>1</h3>
             <div>
               Start selecting a visualization type
             </div>
@@ -29,7 +29,7 @@ class HowToWidgetEditorModal extends React.Component {
             </div>
           </div>
           <div className="container2">
-            <h1 className="c-text -header-normal -thin title">2</h1>
+            <h3>2</h3>
             <div>
               Then drag and drop elements from the list to the boxes to draw up your chart
             </div>
@@ -40,7 +40,7 @@ class HowToWidgetEditorModal extends React.Component {
         </div>
         <div className="actions">
           <button
-            className="c-button -secondary"
+            className="c-button -primary"
             onClick={this.handleOkGotIt}
           >
           Ok, got it
