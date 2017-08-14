@@ -50,7 +50,7 @@ class MyRWWidgetsMy extends React.Component {
 
   loadWidgetCollections() {
     this.widgetService.getUserWidgetCollections(this.props.user)
-      .then(response => {
+      .then((response) => {
         console.log('widget collections resp', response);
         this.setState({ widgetCollections: response });
       });
@@ -84,6 +84,17 @@ class MyRWWidgetsMy extends React.Component {
     () => this.loadWidgets());
   }
 
+  @Autobind
+  handleSelectedWidgetCollectionChange(value) {
+    this.setState({ selectedWidgetCollection: value.value });
+  }
+
+  @Autobind
+  handleUpdateWidgetToCollections() {
+    this.loadWidgets();
+    this.loadWidgetCollections();
+  }
+
   render() {
     const {
       myWidgetsLoaded,
@@ -97,6 +108,7 @@ class MyRWWidgetsMy extends React.Component {
 
     const widgetCollectionOptionsSet = new Set();
     let widgetCollectionOptionsArray = [{ label: 'All collections', value: 'All collections' }];
+
     if (widgetCollections.length > 0) {
       widgetCollections
         .map(val => val.tags)
@@ -108,6 +120,31 @@ class MyRWWidgetsMy extends React.Component {
           return { label: newVal, value: newVal };
         }));
     }
+
+    let widgetsFiltered = [];
+    if (selectedWidgetCollection === 'All collections') {
+      widgetsFiltered = myWidgets;
+    } else {
+      widgetsFiltered = myWidgets && myWidgets.filter((widget) => {
+        const vocabulary = widget.attributes.vocabulary;
+        if (vocabulary && vocabulary.length > 0) {
+          const widgetCollectionsVoc = vocabulary.find(voc => voc.id === 'widget_collections');
+          if (widgetCollectionsVoc) {
+            let found = false;
+            widgetCollectionsVoc.attributes.tags.forEach((tag) => {
+              const tagFound = selectedWidgetCollection === tag.replace(`${user.id}-`, '');
+              if (tagFound) {
+                found = true;
+              }
+            });
+            return found;
+          }
+          return false;
+        }
+        return false;
+      });
+    }
+
     return (
       <div className="c-myrw-widgets-my">
         <div className="row">
@@ -117,7 +154,7 @@ class MyRWWidgetsMy extends React.Component {
                 <CustomSelect
                   placeholder="Select a widget collection"
                   options={widgetCollectionOptionsArray}
-                  onValueChange={this.onChangeSelectedWidgetCollection}
+                  onValueChange={this.handleSelectedWidgetCollectionChange}
                   allowNonLeafSelection={false}
                   value={selectedWidgetCollection}
                 />
@@ -163,14 +200,14 @@ class MyRWWidgetsMy extends React.Component {
             />
             {myWidgets &&
             <WidgetList
-              widgets={myWidgets}
+              widgets={widgetsFiltered}
               mode={mode}
               onWidgetRemove={this.handleWidgetRemoved}
               showActions
               showRemove
               showWidgetColllections
               widgetCollections={widgetCollections}
-              onUpdateWidgetCollections={() => this.loadWidgetCollections()}
+              onUpdateWidgetCollections={this.handleUpdateWidgetCollections}
             />
             }
             {myWidgets && myWidgets.length === 0 &&
