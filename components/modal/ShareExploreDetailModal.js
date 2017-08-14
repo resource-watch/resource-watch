@@ -26,7 +26,8 @@ class ShareExploreDetailModal extends React.Component {
 
   render() {
     const { datasetId, showEmbed, url } = this.props;
-    const embedHost = window && window.location ? `${window.location.protoco}//${window.location.hostname}` : '';
+    const { protocol, hostname, port } = window && window.location ? window.location : {};
+    const embedHost = window && window.location ? `${protocol}//${hostname}${port !== '' ? `:${port}` : port}` : '';
     const embedSt = `<iframe src="${embedHost}/embed/dataset/${datasetId}" width="100%" height="474px" frameBorder="0"></iframe>`;
 
     return (

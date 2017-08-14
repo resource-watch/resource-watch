@@ -23,7 +23,8 @@ class EmbedMyWidgetModal extends React.Component {
 
   render() {
     const { widgetId } = this.props;
-    const embedHost = window && window.location ? `${window.location.protoco}//${window.location.hostname}` : '';
+    const { protocol, hostname, port } = window && window.location ? window.location : {};
+    const embedHost = window && window.location ? `${protocol}//${hostname}${port !== '' ? `:${port}` : port}` : '';
     const url = `${embedHost}/embed/widget/${widgetId}`;
     const iframeText = `<iframe src="${url}" width="100%" height="474" frameBorder="0"></iframe>`;
     return (

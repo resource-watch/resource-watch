@@ -22,7 +22,8 @@ class EmbedLayerModal extends React.Component {
   }
 
   render() {
-    const embedHost = window && window.location ? `${window.location.protoco}//${window.location.hostname}` : '';
+    const { protocol, hostname, port } = window && window.location ? window.location : {};
+    const embedHost = window && window.location ? `${protocol}//${hostname}${port !== '' ? `:${port}` : port}` : '';
     return (
       <div className="c-embed-layer-modal">
         <h2>Share into my web</h2>

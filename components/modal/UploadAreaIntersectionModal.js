@@ -213,7 +213,7 @@ class UploadAreaIntersectionModal extends React.Component {
         >
           <p>
             Drop a file in the designated area below or click the button to upload it.
-            The recommended maximum file size is 1MB.
+            The recommended <strong>maximum file size is 1MB</strong>.
             Anything larger than that may not work properly.
           </p>
           <p>
@@ -253,10 +253,7 @@ class UploadAreaIntersectionModal extends React.Component {
             </p>
             <ul>
               <li>
-                Unzipped: <strong>.csv</strong>
-                (must contain a geom column that contains geographic information),
-                <strong>.geojson</strong>, <strong>.kml</strong>,
-                <strong>.kmz</strong>, <strong>.wkt</strong>
+                Unzipped: <strong>.csv</strong> (must contain a geom column that contains geographic information), <strong>.geojson</strong>, <strong>.kml</strong>, <strong>.kmz</strong>, <strong>.wkt</strong>
               </li>
               <li>
                 Zipped: <strong>.shp</strong> (must include the .shp, .shx, .dbf and .prj files)

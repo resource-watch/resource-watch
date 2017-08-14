@@ -27,7 +27,8 @@ class ShareModal extends React.Component {
   render() {
     const { url, layerGroups } = this.props;
     const showEmbed = layerGroups && layerGroups.length > 0;
-    const embedHost = window && window.location ? `${window.location.protoco}//${window.location.hostname}` : '';
+    const { protocol, hostname, port } = window && window.location ? window.location : {};
+    const embedHost = window && window.location ? `${protocol}//${hostname}${port !== '' ? `:${port}` : port}` : '';
 
     return (
       <div className="c-share-modal-explore">
