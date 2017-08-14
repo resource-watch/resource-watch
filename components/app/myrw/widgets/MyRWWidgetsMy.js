@@ -90,7 +90,7 @@ class MyRWWidgetsMy extends React.Component {
   }
 
   @Autobind
-  handleUpdateWidgetToCollections() {
+  handleUpdateWidgetCollections() {
     this.loadWidgets();
     this.loadWidgetCollections();
   }
