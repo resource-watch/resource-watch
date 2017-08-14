@@ -51,7 +51,6 @@ class MyRWWidgetsMy extends React.Component {
   loadWidgetCollections() {
     this.widgetService.getUserWidgetCollections(this.props.user)
       .then((response) => {
-        console.log('widget collections resp', response);
         this.setState({ widgetCollections: response });
       });
   }
@@ -207,6 +206,7 @@ class MyRWWidgetsMy extends React.Component {
               showRemove
               showWidgetColllections
               widgetCollections={widgetCollections}
+              widgetCollectionsOptions={widgetCollectionOptionsArray.filter(elem => (elem.value !== 'All collections'))}
               onUpdateWidgetCollections={this.handleUpdateWidgetCollections}
             />
             }

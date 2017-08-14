@@ -95,7 +95,8 @@ class AddWidgetToCollectionTooltip extends React.Component {
   }
 
   render() {
-    const { collections, selectedCollections, loading } = this.state;
+    const { selectedCollections, loading } = this.state;
+    const { widgetCollectionsOptions } = this.props;
 
     return (
       <div className="c-add-widget-to-collection-tooltip">
@@ -103,7 +104,7 @@ class AddWidgetToCollectionTooltip extends React.Component {
         <div className="" >
           <Field
             onChange={value => this.handleCollectionsChange(value)}
-            options={collections.map(val => ({ label: val, value: val }))}
+            options={widgetCollectionsOptions}
             selected={selectedCollections.map(
               tag => ({ label: tag, value: tag })
             )}
@@ -152,7 +153,8 @@ AddWidgetToCollectionTooltip.propTypes = {
   user: PropTypes.object.isRequired,
   widget: PropTypes.object.isRequired,
   toggleTooltip: PropTypes.func.isRequired,
-  widgetCollections: PropTypes.array.isRequired
+  widgetCollections: PropTypes.array.isRequired,
+  widgetCollectionsOptions: PropTypes.array.isRequired
 };
 
 export default AddWidgetToCollectionTooltip;

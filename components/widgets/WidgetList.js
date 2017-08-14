@@ -44,7 +44,8 @@ export default class WidgetList extends React.Component {
       showStar,
       showWidgetColllections,
       mode,
-      widgetCollections
+      widgetCollections,
+      widgetCollectionsOptions
     } = this.props;
 
     const newClassName = classNames({
@@ -77,6 +78,7 @@ export default class WidgetList extends React.Component {
                 showStar={showStar}
                 showWidgetColllections={showWidgetColllections}
                 widgetCollections={widgetCollections && widgetCollections.filter(val => val.id === widget.id)} //eslint-disable-line
+                widgetCollectionsOptions={widgetCollectionsOptions}
                 onUpdateWidgetCollections={this.props.onUpdateWidgetCollections}
                 mode={mode === 'grid' ? 'thumbnail' : 'full'}
               />
@@ -100,6 +102,7 @@ WidgetCard.defaultProps = {
 WidgetList.propTypes = {
   widgets: PropTypes.array.isRequired,
   widgetCollections: PropTypes.array,
+  widgetCollectionsOptions: PropTypes.array,
   showActions: PropTypes.bool,
   showRemove: PropTypes.bool,
   showEmbed: PropTypes.bool,
