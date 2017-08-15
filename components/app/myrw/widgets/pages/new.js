@@ -63,7 +63,11 @@ class WidgetsNew extends React.Component {
   componentDidMount() {
     this.datasetsService.fetchAllData({}).then((response) => {
       this.setState({
-        datasets: response.map(dataset => ({ label: dataset.name, value: dataset.id })),
+        datasets: response.map(dataset => ({
+          label: dataset.name,
+          value: dataset.id,
+          tableName: dataset.tableName
+        })),
         loading: false
       });
     });
@@ -75,11 +79,12 @@ class WidgetsNew extends React.Component {
       event.preventDefault();
     }
 
-    const { widget, selectedDataset } = this.state;
-    const { widgetEditor, tableName, user } = this.props;
+    const { widget, selectedDataset, datasets } = this.state;
+    const { widgetEditor, user } = this.props;
     const { limit, value, category, color, size, orderBy, aggregateFunction,
       chartType, filters, areaIntersection } = widgetEditor;
     const chartDefined = widgetEditor.chartType && widgetEditor.category && widgetEditor.value;
+    const tableName = datasets.find(elem => elem.value === selectedDataset).tableName;
 
     if (chartDefined) {
       this.setState({
@@ -133,6 +138,8 @@ class WidgetsNew extends React.Component {
         widgetConfig
       );
 
+      debugger;
+
       this.widgetService.saveUserWidget(widgetObj, selectedDataset, user.token)
         .then((response) => {
           if (response.errors) {
@@ -162,8 +169,7 @@ class WidgetsNew extends React.Component {
 
   @Autobind
   handleChange(value) {
-    const newWidgetAtts = Object.assign({}, this.state.widget.attributes, value);
-    const newWidgetObj = Object.assign({}, this.state.widget, { attributes: newWidgetAtts });
+    const newWidgetObj = Object.assign({}, this.state.widget, value);
     this.setState({ widget: newWidgetObj });
   }
 
@@ -208,6 +214,7 @@ class WidgetsNew extends React.Component {
             mode="widget"
             onUpdateWidget={this.onSubmit}
             showSaveButton={false}
+            showShareEmbedButton={false}
           />
           <div className="form-container">
             <form className="form-container" onSubmit={this.onSubmit}>

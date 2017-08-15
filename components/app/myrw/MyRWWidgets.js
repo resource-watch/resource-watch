@@ -55,11 +55,6 @@ class MyRWWidgets extends React.Component {
                 {subtab === 'my-widgets' && !element &&
                   <MyRWWidgetsMy />
                 }
-                {subtab === 'my-widgets' && element &&
-                  <MyRWWidgetsEdit
-                    widgetId={element}
-                  />
-                }
               </div>
 
             </div>
