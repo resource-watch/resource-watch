@@ -194,11 +194,15 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
  * @return {string}
  */
 export function getRasterDataURL(dataset, datasetType, tableName, band, provider) {
+  let query;
   if (provider === 'gee') {
-    return `${process.env.WRI_API_URL}/query/${dataset}?sql=SELECT ST_HISTOGRAM(rast, ${band}, 10, true) from "${tableName}"`;
+    query = `SELECT ST_HISTOGRAM(rast, ${band}, 10, true) from "${tableName}"`;
+  } else if (provider === 'cartodb') {
+    const bandNumber = band.split(' ')[1];
+    query = `SELECT (ST_Histogram(st_union(the_raster_webmercator), ${bandNumber}, 10, true)).* from ${tableName}`;
   }
 
-  return ''; // FIXME: carto implementation
+  return `${process.env.WRI_API_URL}/query/${dataset}?sql=${query}`;
 }
 
 /**
@@ -215,7 +219,7 @@ export function getRasterDataURL(dataset, datasetType, tableName, band, provider
 export function getDataURL(dataset, datasetType, tableName, band, provider, chartInfo) {
   // If the dataset is a raster one, the behaviour is totally different
   // if (datasetType === 'raster') { // FIXME: use this line instead of the next one
-  if (datasetType) {
+  if (true) {
     if (!band) return '';
     return getRasterDataURL(dataset, datasetType, tableName, band, provider);
   }
@@ -356,9 +360,11 @@ export function getTimeFormat(data) {
 export function parseRasterData(data, band, provider) {
   if (provider === 'gee') {
     return data[0][band].map(d => ({ x: d[0], y: d[1] }));
+  } else if (provider === 'cartodb') {
+    return data.map(d => ({ x: d.max, y: d.count }));
   }
 
-  return data; // TODO: carto implementation
+  return data;
 }
 
 /**

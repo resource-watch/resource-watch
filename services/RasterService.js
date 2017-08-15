@@ -18,35 +18,26 @@ export default class RasterService {
    * @returns {Promise<string[]>}
    */
   getBandNames() {
-    // The only reason to use a promise here is to catch the error
-    // TODO: remove the promise when we don't haver the provider check anymore
-    return new Promise((resolve) => {
-      let url;
-      if (this.provider === 'gee') {
-        url = `${process.env.WRI_API_URL}/query/${this.dataset}?sql=SELECT st_metadata(rast) from "${this.tableName}"`;
-      } else {
-        throw new Error('Provider not supported yet'); // TODO: support Carto
-      }
+    let query;
+    if (this.provider === 'gee') {
+      query = `SELECT st_metadata(rast) from "${this.tableName}"`;
+    } else if (this.provider === 'cartodb') {
+      query = `SELECT (st_metadata(st_union(the_raster_webmercator))).* from ${this.tableName}`;
+    }
 
-      fetch(url)
-        .then((response) => {
-          if (!response.ok) throw new Error('Unable to fetch the band names');
-          return response.json();
-        })
-        .then(({ data }) => resolve(data[0].bands.map(b => b.id)));
-    });
-  }
+    return fetch(`${process.env.WRI_API_URL}/query/${this.dataset}?sql=${query}`)
+      .then((response) => {
+        if (!response.ok) throw new Error('Unable to fetch the band names');
+        return response.json();
+      })
+      .then(({ data }) => {
+        if (this.provider === 'gee') {
+          return data[0].bands.map(b => b.id);
+        } else if (this.provider === 'cartodb') {
+          return Array.from({ length: data[0].numbands }, (_, i) => `Band ${i + 1}`);
+        }
 
-  /**
-   * Return the data associated to the band
-   * @param {string} band 
-   * @returns {Promise<object[]>}
-   */
-  getBandData(band) { // eslint-disable-line class-methods-use-this, no-unused-vars
-    // The only reason to use a promise here is to catch the error
-    // TODO: remove the promise when we don't haver the provider check anymore
-    return new Promise(() => {
-      throw new Error('The data associated with the band can\'t be retrieved yet');
-    });
+        throw new Error('Unsupported provider');
+      });
   }
 }
