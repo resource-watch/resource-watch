@@ -217,8 +217,9 @@ class Explore extends Page {
     const { explore, paginatedDatasets } = this.props;
     const { search, issue } = explore.filters;
 
+    // TEMPORAL only whilst the knowledge graph is not used
     const dataTypesVocabulary = vocabularies.length > 0 ? vocabularies.find(elem => elem.value === 'dataset_type').items : [];
-    console.log('dataTypesVocabulary', dataTypesVocabulary);
+    const geographiesVocabulary = vocabularies.length > 0 ? vocabularies.find(elem => elem.value === 'location').items : [];
 
     return (
       <Layout
@@ -252,7 +253,7 @@ class Explore extends Page {
                   value={issue && issue.length > 0 && issue[0].value}
                 />
                 <CustomSelect
-                  options={vocabularies}
+                  options={geographiesVocabulary}
                   onValueChange={this.handleFilterDatasetsIssue}
                   placeholder="Geographies"
                   value={issue && issue.length > 0 && issue[0].value}
