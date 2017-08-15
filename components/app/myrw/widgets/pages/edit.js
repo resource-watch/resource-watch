@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
@@ -142,21 +143,21 @@ class WidgetsEdit extends React.Component {
             error: true,
             errorMessage
           });
-          alert(errorMessage); // eslint-disable-line no-alert
+          toastr('Error', errorMessage);
         } else {
           this.setState({
             saved: true,
             loading: false,
             error: false
           });
-          alert('Widget updated successfully!'); // eslint-disable-line no-alert
+          toastr('Success', 'Widget updated successfully!');
         }
       }).catch((err) => {
         this.setState({
           saved: false,
           error: true
         });
-        console.log(err); // eslint-disable-line no-console
+        toastr('Error', err);
       });
   }
 
