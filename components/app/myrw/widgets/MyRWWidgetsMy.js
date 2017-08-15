@@ -197,7 +197,7 @@ class MyRWWidgetsMy extends React.Component {
             <div className="new-widget-container">
               <button
                 className="c-btn -a"
-                onClick={() => Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'new' })}
+                onClick={() => Router.pushRoute('myrw_detail', { tab: 'widgets', id: 'new' })}
               >
                 New widget
               </button>

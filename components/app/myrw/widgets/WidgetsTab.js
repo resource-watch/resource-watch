@@ -11,6 +11,7 @@ import WidgetsNew from 'components/app/myrw/widgets/pages/new';
 
 function WidgetsTab(props) {
   const { tab, subtab, id, user } = props;
+
   return (
     <div className="c-widgets-tab">
       {!id && user.token &&

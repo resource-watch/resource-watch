@@ -138,8 +138,6 @@ class WidgetsNew extends React.Component {
         widgetConfig
       );
 
-      debugger;
-
       this.widgetService.saveUserWidget(widgetObj, selectedDataset, user.token)
         .then((response) => {
           if (response.errors) {
