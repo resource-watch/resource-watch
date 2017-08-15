@@ -27,6 +27,14 @@
   .selectors-container {
     display: flex;
     margin-top: 20px;
+
+    .c-field {
+      width: 100%;
+
+      &:last-of-type {
+        margin-left: 10px;
+      }
+    }
   }
 
   .icon-container {
@@ -35,7 +43,7 @@
     margin-top: 50px;
   }
 
-  .buttons-div {
+  .buttons {
     position: absolute;
     bottom: 0px;
     left: 0px;

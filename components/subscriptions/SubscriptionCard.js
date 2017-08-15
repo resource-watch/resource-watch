@@ -34,11 +34,12 @@ class SubscriptionCard extends React.Component {
       loading: false,
       dataset: null,
       country: null,
+      type: props.subscription.attributes.datasetsQuery[0].type,
       layer: {}
     };
 
     // Services
-    this.datasetService = new DatasetService(props.subscription.attributes.datasets[0],
+    this.datasetService = new DatasetService(props.subscription.attributes.datasetsQuery[0].id,
       { apiURL: process.env.WRI_API_URL });
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
@@ -140,7 +141,7 @@ class SubscriptionCard extends React.Component {
   }
 
   render() {
-    const { loading, dataset, country, layerGroups } = this.state;
+    const { loading, dataset, country, layerGroups, type } = this.state;
     const { subscription } = this.props;
     const confirmed = subscription.attributes.confirmed;
     const name = subscription.attributes.name;
@@ -169,6 +170,10 @@ class SubscriptionCard extends React.Component {
               <div className="dataset-container">
                 <h5>Dataset</h5>
                 {dataset && dataset.attributes.name}
+              </div>
+              <div className="type-container">
+                <h5>Type</h5>
+                {type}
               </div>
             </div>
             <div className="actions-div">

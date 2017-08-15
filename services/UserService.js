@@ -112,7 +112,7 @@ export default class UserService {
    * @param {object} Either { type; 'iso', id:'ESP' } or { type: 'geostore', id: 'sakldfa7ads0ka'}
    * @returns {Promise}
    */
-  createSubscriptionToDataset(datasetID, object, user, name = '') {
+  createSubscriptionToDataset(datasetID, type, object, user, name = '') {
     const paramsObj = (object.type === 'iso') ?
       { iso: { country: object.id } } :
       { geostore: object.id };
@@ -121,7 +121,10 @@ export default class UserService {
       name,
       application: 'rw',
       language: 'en',
-      datasets: [datasetID],
+      datasetsQuery: [{
+        id: datasetID,
+        type
+      }],
       resource: {
         type: 'EMAIL',
         content: user.email
@@ -144,7 +147,7 @@ export default class UserService {
    */
   getSubscriptions(token) {
     return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/subscriptions`, {
+      fetch(`${this.opts.apiURL}/subscriptions?application=rw`, {
         headers: {
           Authorization: token
         }

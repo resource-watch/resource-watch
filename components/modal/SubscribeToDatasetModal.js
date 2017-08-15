@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Router } from 'routes';
 import { Autobind } from 'es-decorators';
-import classnames from 'classnames';
 
 // Redux
 import { connect } from 'react-redux';
@@ -39,6 +38,7 @@ class SubscribeToDatasetModal extends React.Component {
       areaOptions: [],
       loadingAreaOptions: false,
       selectedArea: null,
+      selectedType: null,
       loading: false,
       saved: false,
       name: '',
@@ -78,6 +78,7 @@ class SubscribeToDatasetModal extends React.Component {
         this.setState({
           selectedArea: value
         });
+        resolve(true);
       }
     });
   }
@@ -113,15 +114,15 @@ class SubscribeToDatasetModal extends React.Component {
 
   @Autobind
   handleSubscribe() {
-    const { selectedArea, name, geostore } = this.state;
+    const { selectedArea, name, geostore, selectedType } = this.state;
     const { dataset, user } = this.props;
 
-    if (selectedArea || geostore) {
+    if ((selectedArea || geostore) && selectedType) {
       this.setState({
         loading: true
       });
       const areaObj = geostore ? { type: 'geostore', id: geostore } : { type: 'iso', id: selectedArea.value };
-      this.userService.createSubscriptionToDataset(dataset.id, areaObj, user, name)
+      this.userService.createSubscriptionToDataset(dataset.id, selectedType.value, areaObj, user, name) //eslint-disable-line
         .then(() => {
           this.setState({
             loading: false,
@@ -149,6 +150,11 @@ class SubscribeToDatasetModal extends React.Component {
   }
 
   @Autobind
+  onChangeSelectedType(type) {
+    this.setState({ selectedType: type });
+  }
+
+  @Autobind
   handleCancel() {
     this.setState({
       saved: false
@@ -161,6 +167,7 @@ class SubscribeToDatasetModal extends React.Component {
       areaOptions,
       loadingAreaOptions,
       selectedArea,
+      selectedType,
       loading,
       saved,
       name
@@ -175,9 +182,8 @@ class SubscribeToDatasetModal extends React.Component {
     const paragraphText = saved ?
       'Your subscription was successfully created. Please check your email address to confirm it' :
       'Please enter a name and select an area for the subscription';
-    const selectorsContainerClassName = classnames({
-      'selectors-container': true
-    });
+    const subscriptionTypes = Object.keys(dataset.attributes.subscribable)
+      .map(val => ({ value: val, label: val }));
 
     return (
       <div className="c-subscribe-to-dataset-modal">
@@ -193,7 +199,7 @@ class SubscribeToDatasetModal extends React.Component {
                 <input id="subscription-name" value={name} onChange={this.handleNameChange} />
               </div>
             </div>
-            <div className={selectorsContainerClassName}>
+            <div className="selectors-container">
               <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
               <div className="c-field">
                 <CustomSelect
@@ -203,6 +209,15 @@ class SubscribeToDatasetModal extends React.Component {
                   allowNonLeafSelection={false}
                   value={selectedArea && selectedArea.value}
                   waitForChangeConfirmation
+                />
+              </div>
+              <div className="c-field">
+                <CustomSelect
+                  placeholder="Select a subscription type"
+                  options={subscriptionTypes}
+                  onValueChange={this.onChangeSelectedType}
+                  allowNonLeafSelection={false}
+                  value={selectedType && selectedType.value}
                 />
               </div>
             </div>

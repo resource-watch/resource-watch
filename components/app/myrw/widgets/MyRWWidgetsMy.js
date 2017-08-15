@@ -27,7 +27,7 @@ class MyRWWidgetsMy extends React.Component {
       myWidgets: null,
       mode: 'grid',
       orderDirection: 'asc',
-      selectedWidgetCollection: null,
+      selectedWidgetCollection: 'All collections',
       widgetCollections: []
     };
 
@@ -38,6 +38,7 @@ class MyRWWidgetsMy extends React.Component {
 
   componentDidMount() {
     this.loadWidgets();
+    this.loadWidgetCollections();
   }
 
   @Autobind
@@ -47,12 +48,19 @@ class MyRWWidgetsMy extends React.Component {
     });
   }
 
+  loadWidgetCollections() {
+    this.widgetService.getUserWidgetCollections(this.props.user)
+      .then((response) => {
+        this.setState({ widgetCollections: response });
+      });
+  }
+
   loadWidgets() {
     const { orderDirection } = this.state;
     this.setState({
       myWidgetsLoaded: false
     });
-    this.widgetService.getUserWidgets(this.props.user.id, true, orderDirection)
+    this.widgetService.getUserWidgets(this.props.user.id, true, orderDirection, 'vocabulary')
     .then((response) => {
       this.setState({
         myWidgetsLoaded: true,
@@ -75,6 +83,17 @@ class MyRWWidgetsMy extends React.Component {
     () => this.loadWidgets());
   }
 
+  @Autobind
+  handleSelectedWidgetCollectionChange(value) {
+    this.setState({ selectedWidgetCollection: value.value });
+  }
+
+  @Autobind
+  handleUpdateWidgetCollections() {
+    this.loadWidgets();
+    this.loadWidgetCollections();
+  }
+
   render() {
     const {
       myWidgetsLoaded,
@@ -84,51 +103,94 @@ class MyRWWidgetsMy extends React.Component {
       widgetCollections,
       selectedWidgetCollection
     } = this.state;
+    const { user } = this.props;
+
+    const widgetCollectionOptionsSet = new Set();
+    let widgetCollectionOptionsArray = [{ label: 'All collections', value: 'All collections' }];
+
+    if (widgetCollections.length > 0) {
+      widgetCollections
+        .map(val => val.tags)
+        .forEach(val => val.forEach(val2 => widgetCollectionOptionsSet.add(val2)));
+      widgetCollectionOptionsArray = widgetCollectionOptionsArray.concat(
+        Array.from(widgetCollectionOptionsSet)
+        .map((val) => {
+          const newVal = val.replace(`${user.id}-`, '');
+          return { label: newVal, value: newVal };
+        }));
+    }
+
+    let widgetsFiltered = [];
+    if (selectedWidgetCollection === 'All collections') {
+      widgetsFiltered = myWidgets;
+    } else {
+      widgetsFiltered = myWidgets && myWidgets.filter((widget) => {
+        const vocabulary = widget.attributes.vocabulary;
+        if (vocabulary && vocabulary.length > 0) {
+          const widgetCollectionsVoc = vocabulary.find(voc => voc.id === 'widget_collections');
+          if (widgetCollectionsVoc) {
+            let found = false;
+            widgetCollectionsVoc.attributes.tags.forEach((tag) => {
+              const tagFound = selectedWidgetCollection === tag.replace(`${user.id}-`, '');
+              if (tagFound) {
+                found = true;
+              }
+            });
+            return found;
+          }
+          return false;
+        }
+        return false;
+      });
+    }
+
     return (
       <div className="c-myrw-widgets-my">
         <div className="row">
           <div className="column small-12">
             <div className="list-actions">
-              <div
-                role="button"
-                tabIndex={0}
-                className="last-modified-container"
-                onClick={this.handleOrderChange}
-              >
-                <a>
-                  Last modified
-                </a>
-                {orderDirection === 'asc' &&
-                  <Icon className="-small" name="icon-arrow-up" />
-                }
-                {orderDirection === 'desc' &&
-                  <Icon className="-small" name="icon-arrow-down" />
-                }
-              </div>
               <div className="widget-collections-selector">
                 <CustomSelect
                   placeholder="Select a widget collection"
-                  options={widgetCollections}
-                  onValueChange={this.onChangeSelectedWidgetCollection}
+                  options={widgetCollectionOptionsArray}
+                  onValueChange={this.handleSelectedWidgetCollectionChange}
                   allowNonLeafSelection={false}
                   value={selectedWidgetCollection}
                 />
               </div>
-              <div className="mode-buttons">
-                <button
-                  className={(mode === 'grid' ? '-active' : '')}
-                  onClick={() => this.setMode('grid')}
-                  title="Grid view"
+              <div className="buttons-container">
+                <div
+                  role="button"
+                  tabIndex={0}
+                  className="last-modified-container"
+                  onClick={this.handleOrderChange}
                 >
-                  <Icon name="icon-view-grid" />
-                </button>
-                <button
-                  className={(mode === 'list' ? '-active' : '')}
-                  onClick={() => this.setMode('list')}
-                  title="List view"
-                >
-                  <Icon name="icon-view-list" />
-                </button>
+                  <a>
+                    Last modified
+                  </a>
+                  {orderDirection === 'asc' &&
+                    <Icon className="-small" name="icon-arrow-up" />
+                  }
+                  {orderDirection === 'desc' &&
+                    <Icon className="-small" name="icon-arrow-down" />
+                  }
+                </div>
+                <div className="mode-buttons">
+                  <button
+                    className={(mode === 'grid' ? '-active' : '')}
+                    onClick={() => this.setMode('grid')}
+                    title="Grid view"
+                  >
+                    <Icon name="icon-view-grid" />
+                  </button>
+                  <button
+                    className={(mode === 'list' ? '-active' : '')}
+                    onClick={() => this.setMode('list')}
+                    title="List view"
+                  >
+                    <Icon name="icon-view-list" />
+                  </button>
+                </div>
               </div>
             </div>
             <Spinner
@@ -137,11 +199,15 @@ class MyRWWidgetsMy extends React.Component {
             />
             {myWidgets &&
             <WidgetList
-              widgets={myWidgets}
+              widgets={widgetsFiltered}
               mode={mode}
               onWidgetRemove={this.handleWidgetRemoved}
               showActions
               showRemove
+              showWidgetColllections
+              widgetCollections={widgetCollections}
+              widgetCollectionsOptions={widgetCollectionOptionsArray.filter(elem => (elem.value !== 'All collections'))}
+              onUpdateWidgetCollections={this.handleUpdateWidgetCollections}
             />
             }
             {myWidgets && myWidgets.length === 0 &&

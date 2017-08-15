@@ -5,33 +5,42 @@
     justify-content: space-between;
     align-items: center;
 
-    .last-modified-container {
+    .buttons-container {
       display: flex;
       align-items: center;
-      cursor: pointer;
-      min-width: 120px;
 
-      svg {
-        margin-left: 5px;
-        fill: $color-grey;
+      .last-modified-container {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        min-width: 120px;
+
+        svg {
+          margin-left: 5px;
+          fill: $color-grey;
+        }
+      }
+
+      .mode-buttons {
+        display: flex;
+        align-items: center;
+        min-width: 70px;
+
+        button {
+          cursor: pointer;
+          fill: $color-grey;
+          padding-top: 0px;
+          padding-bottom: 0px;
+
+          &.-active {
+            fill: $color-black;
+          }
+        }
       }
     }
 
     .widget-collections-selector {
-      width: 100%;
-    }
-
-    .mode-buttons {
-      min-width: 70px;
-
-      button {
-        cursor: pointer;
-        fill: $color-grey;
-
-        &.-active {
-          fill: $color-black;
-        }
-      }
+      min-width: 250px;
     }
   }
 

@@ -1,0 +1,13 @@
+.c-add-widget-to-collection-tooltip {
+
+  max-width: 200px;
+
+  .buttons-div {
+    display: flex;
+    justify-content: flex-end;
+
+    button:not(:last-of-type) {
+      margin-right: 10px;
+    }
+  }
+}
