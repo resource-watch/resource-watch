@@ -213,8 +213,12 @@ class Explore extends Page {
   }
 
   render() {
+    const { vocabularies } = this.state;
     const { explore, paginatedDatasets } = this.props;
     const { search, issue } = explore.filters;
+
+    const dataTypesVocabulary = vocabularies.length > 0 ? vocabularies.find(elem => elem.value === 'dataset_type').items : [];
+    console.log('dataTypesVocabulary', dataTypesVocabulary);
 
     return (
       <Layout
@@ -242,19 +246,19 @@ class Explore extends Page {
               </div>
               <div className="filters-container">
                 <CustomSelect
-                  options={this.state.vocabularies}
+                  options={vocabularies}
                   onValueChange={this.handleFilterDatasetsIssue}
                   placeholder="Topics"
                   value={issue && issue.length > 0 && issue[0].value}
                 />
                 <CustomSelect
-                  options={this.state.vocabularies}
+                  options={vocabularies}
                   onValueChange={this.handleFilterDatasetsIssue}
                   placeholder="Geographies"
                   value={issue && issue.length > 0 && issue[0].value}
                 />
                 <CustomSelect
-                  options={this.state.vocabularies}
+                  options={dataTypesVocabulary}
                   onValueChange={this.handleFilterDatasetsIssue}
                   placeholder="Data types"
                   value={issue && issue.length > 0 && issue[0].value}
