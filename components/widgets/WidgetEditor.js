@@ -538,8 +538,7 @@ class WidgetEditor extends React.Component {
     this.setState({ chartConfigLoading: true, chartConfigError: null });
 
     let chartInfo;
-    // if (datasetType === 'raster') { // FIXME: use this line instead of the next one
-    if (true) {
+    if (datasetType === 'raster') {
       chartInfo = {
         chartType: 'bar',
         limit: 500,
@@ -649,8 +648,7 @@ class WidgetEditor extends React.Component {
 
     // In case the dataset is a raster one, we add a special chart option which is
     // different from the other one (the user won't have to choose columns but bands)
-    // if (datasetType === 'raster') { // FIXME: use this line instead of the next one
-    if (true) {
+    if (datasetType === 'raster') {
       visualizationsOptions.push(VISUALIZATION_TYPES.find(vis => vis.value === 'raster_chart'));
     }
 

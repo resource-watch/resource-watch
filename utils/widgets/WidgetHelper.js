@@ -218,8 +218,7 @@ export function getRasterDataURL(dataset, datasetType, tableName, band, provider
  */
 export function getDataURL(dataset, datasetType, tableName, band, provider, chartInfo) {
   // If the dataset is a raster one, the behaviour is totally different
-  // if (datasetType === 'raster') { // FIXME: use this line instead of the next one
-  if (true) {
+  if (datasetType === 'raster') {
     if (!band) return '';
     return getRasterDataURL(dataset, datasetType, tableName, band, provider);
   }
@@ -395,8 +394,7 @@ export async function getChartConfig(
   // We fetch the data to have clever charts
   let data = await fetchData(url);
 
-  // if (datasetType === 'raster') { // FIXME: use this line instead of the next one
-  if (true) {
+  if (datasetType === 'raster') {
     data = parseRasterData(data, band, provider);
   }
 
