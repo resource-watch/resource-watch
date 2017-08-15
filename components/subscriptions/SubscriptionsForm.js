@@ -64,6 +64,7 @@ class SubscriptionsForm extends React.Component {
       loadingAreaOptions: false,
       loadingDatasets: false,
       selectedArea: null,
+      selectedType: null,
       selectedDataset: null,
       loading: false,
       name: '',
@@ -85,15 +86,15 @@ class SubscriptionsForm extends React.Component {
   onSubmit(e) {
     e.preventDefault();
 
-    const { selectedArea, name, selectedDataset, geostore } = this.state;
+    const { selectedArea, name, selectedDataset, geostore, selectedType } = this.state;
     const { user } = this.props;
 
-    if ((selectedArea || geostore) && selectedDataset) {
+    if ((selectedArea || geostore) && selectedDataset && selectedType) {
       this.setState({
         loading: true
       });
       const areaObj = geostore ? { type: 'geostore', id: geostore } : { type: 'iso', id: selectedArea.value };
-      this.userService.createSubscriptionToDataset(selectedDataset.id, areaObj, user, name)
+      this.userService.createSubscriptionToDataset(selectedDataset.id, selectedType.value, areaObj, user, name) //eslint-disable-line
         .then(() => {
           Router.pushRoute('myrw', { tab: 'areas' });
           toastr.success('Success', 'Subscription successfully created!');
@@ -138,6 +139,11 @@ class SubscriptionsForm extends React.Component {
   }
 
   @Autobind
+  onChangeSelectedType(type) {
+    this.setState({ selectedType: type });
+  }
+
+  @Autobind
   handleNameChange(value) {
     this.setState({
       name: value
@@ -161,7 +167,13 @@ class SubscriptionsForm extends React.Component {
       this.setState({
         loadingDatasets: false,
         datasets: response.map(val => (
-          { label: val.attributes.name, value: val.attributes.name, id: val.id }))
+          {
+            label: val.attributes.name,
+            value: val.attributes.name,
+            id: val.id,
+            subscribable: val.attributes.subscribable
+          }
+        ))
       });
     }).catch(err => console.log(err)); // eslint-disable-line no-console
   }
@@ -175,8 +187,12 @@ class SubscriptionsForm extends React.Component {
       name,
       datasets,
       loadingDatasets,
-      selectedDataset
+      selectedDataset,
+      selectedType
     } = this.state;
+
+    const subscriptionTypes = selectedDataset ?
+      Object.keys(selectedDataset.subscribable).map(val => ({ label: val, value: val })) : [];
 
     return (
       <div className="c-subscriptions-form">
@@ -214,6 +230,15 @@ class SubscriptionsForm extends React.Component {
               value={selectedDataset && selectedDataset.value}
             />
           </div>
+          <div className="type-container">
+            <CustomSelect
+              placeholder="Select a subscription type"
+              options={subscriptionTypes}
+              onValueChange={this.onChangeSelectedType}
+              allowNonLeafSelection={false}
+              value={selectedType && selectedType.value}
+            />
+          </div>
           <div className="buttons-div">
             <button onClick={() => Router.pushRoute('myrw', { tab: 'areas' })} className="c-btn -secondary">
               Cancel
@@ -231,8 +256,7 @@ class SubscriptionsForm extends React.Component {
 SubscriptionsForm.propTypes = {
   // Store
   user: PropTypes.object.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired
+  toggleModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
