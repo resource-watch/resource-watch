@@ -49,24 +49,23 @@
     .video-intro > .video-foreground { height: 250%; top: -75%; }
   }
 
-  .insight-cards {
-    .c-card-static {
-      margin-top: $margin-size;
-      height: 590px;
-    }
-
-    .dual {
-      margin-top: $margin-size;
-      .c-card-static {
-        margin-top: $margin-size-extra-small;
-        height: 288px;
-      }
-    }
-  }
-
   .explore-cards .c-card-static {
     height: 590px;
     margin-top: $margin-size;
   }
 }
 
+.insight-cards {
+  .c-card-static {
+    margin-top: $margin-size;
+    height: 590px;
+  }
+
+  .dual {
+    margin-top: $margin-size;
+    .c-card-static {
+      margin-top: $margin-size-extra-small;
+      height: 288px;
+    }
+  }
+}

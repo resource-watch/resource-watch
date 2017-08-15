@@ -63,7 +63,7 @@ passport.use(controlTowerStrategy);
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((obj, done) => done(null, obj));
 
-// configure Express
+// Configuring session and cookie options
 const sessionOptions = {
   secret: process.env.SECRET || 'keyboard cat',
   resave: false,
@@ -83,6 +83,7 @@ if (prod) {
   });
 }
 
+// configure Express
 server.use(cookieParser());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
@@ -121,27 +122,28 @@ app.prepare()
       });
     }
 
-    server.get('/data', (req, res) => res.redirect('/data/explore'));
-
-    // On success, redirecting to My RW
-    server.get('/auth', passport.authenticate('control-tower', { failureRedirect: '/' }),
-      (req, res) => res.redirect('/myrw'));
-
-    server.get('/auth/user', (req, res) => res.json(req.user || {}));
-
-    server.get('/login', (req, res) => controlTowerStrategy.login(req, res));
-
-    server.get('/logout', (req, res) => {
-      req.logout();
-      return res.redirect('/');
-    });
-
+    // Configuring next routes with express
     const handleUrl = (req, res) => {
       const parsedUrl = parse(req.url, true);
       return handle(req, res, parsedUrl);
     };
 
-    server.get('/myrw-detail*?', isAuthenticated, handleUrl);
+    // Redirecting data to data/explore
+    // TODO: create data page
+    server.get('/data', (req, res) => res.redirect('/data/explore'));
+
+    // Authentication
+    server.get('/auth', passport.authenticate('control-tower', { failureRedirect: '/' }),
+      (req, res) => res.redirect('/myrw'));
+    server.get('/login', (req, res) => controlTowerStrategy.login(req, res));
+    server.get('/logout', (req, res) => {
+      req.logout();
+      return res.redirect('/');
+    });
+
+    // Routes with required authentication
+    server.get('/auth/user', isAuthenticated, (req, res) => res.json(req.user || {}));
+    server.get('/myrw-detail*?', isAuthenticated, handleUrl); // TODO: review these routes
     server.get('/myrw*?', isAuthenticated, handleUrl);
     server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);
 

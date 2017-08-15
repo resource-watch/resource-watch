@@ -19,21 +19,21 @@ const insightsCards = [
     title: 'A factory is being built in your neighborhood. Can you do anything about it?',
     slug: 'interactive-edi',
     source: { name: 'World Resources Institute', path: '#', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
-    background: 'url(static/tempImages/backgrounds/discovery_insights_image.jpg) center'
+    background: 'url(/static/tempImages/backgrounds/discovery_insights_image.jpg) center'
   },
   {
     tag: 'Feb 25, 2017',
     title: 'The Water Guardians of the Andes',
     slug: 'slideshow-peru',
     source: { name: 'ESPA', path: '#', img: '../static/images/avatars/espa_avatar.png' },
-    background: 'url(static/tempImages/backgrounds/andes.jpg) center'
+    background: 'url(/static/tempImages/backgrounds/andes.jpg) center'
   },
   {
     tag: 'Mar 5, 2017',
     title: 'Farms to feel squeeze as competition for water increases',
     slug: 'interactive-map',
     source: { name: 'World Resources Institute', path: '#', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
-    background: 'url(static/tempImages/backgrounds/world_farms.jpg)'
+    background: 'url(/static/tempImages/backgrounds/world_farms.jpg)'
   }
 ];
 
@@ -49,7 +49,7 @@ const exploreCards = [
         className: '-primary'
       }
     ],
-    background: 'url(static/tempImages/backgrounds/explore_data_1.png)'
+    background: 'url(/static/tempImages/backgrounds/explore_data_1.png)'
   },
   {
     tag: 'Dashboards',
@@ -62,7 +62,7 @@ const exploreCards = [
         className: '-primary'
       }
     ],
-    background: 'url(static/tempImages/backgrounds/explore_data_2.png)'
+    background: 'url(/static/tempImages/backgrounds/explore_data_2.png)'
   },
   {
     tag: 'Planet Pulse',
@@ -75,7 +75,7 @@ const exploreCards = [
         className: '-primary'
       }
     ],
-    background: 'url(static/tempImages/backgrounds/planetpulse.jpg) 67% center'
+    background: 'url(/static/tempImages/backgrounds/planetpulse.jpg) 67% center'
   }
 ];
 
@@ -107,7 +107,11 @@ class Home extends Page {
       >
         <div>
           <h4>{c.tag}</h4>
-          <h3><a href={`/insights/${c.slug}`}>{c.title}</a></h3>
+          <h3>
+            <Link route={`/insights/${c.slug}`}>
+              <a>{c.title}</a>
+            </Link>
+          </h3>
         </div>
         <div className="footer">
           <div className="source">

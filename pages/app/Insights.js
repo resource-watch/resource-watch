@@ -1,0 +1,109 @@
+import React from 'react';
+import { Link } from 'routes';
+import withRedux from 'next-redux-wrapper';
+import Breadcrumbs from 'components/ui/Breadcrumbs';
+import { initStore } from 'store';
+import { getInsights } from 'redactions/insights';
+
+// Layout
+import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
+
+// Components
+import CardStatic from 'components/app/common/CardStatic';
+import Rating from 'components/app/common/Rating';
+
+class Insights extends Page {
+  static insightsCardsStatic(insightsData) {
+    return insightsData.map(c =>
+      (<CardStatic
+        key={`insight-card-${c.tag}`}
+        className="-alt"
+        background={c.background}
+        clickable
+        route={c.source.path}
+      >
+        <div>
+          <h4>{c.tag}</h4>
+          <h3>
+            <Link route={`/insights/${c.slug}`}>
+              <a>{c.title}</a>
+            </Link>
+          </h3>
+        </div>
+        <div className="footer">
+          <div className="source">
+            <img src={c.source.img || ''} alt={c.slug} />
+            <div className="source-name">
+              by <a href={c.source.path}>{c.source.name}</a>
+            </div>
+          </div>
+          {c.ranking && <Rating rating={c.ranking} />}
+        </div>
+      </CardStatic>)
+    );
+  }
+
+  componentDidMount() {
+    super.componentDidMount();
+    this.props.getInsights();
+  }
+
+  render() {
+    const { insights } = this.props;
+    const insightsCardsStatic = Insights.insightsCardsStatic(insights);
+
+    return (
+      <Layout
+        title="Insights"
+        description="Read the latest analysis from our community or submit your own original story."
+        url={this.props.url}
+        user={this.props.user}
+        className="page-insights"
+        pageHeader
+      >
+        <div className="l-page-header">
+          <div className="l-container">
+            <div className="row">
+              <div className="column small-12">
+                <div className="page-header-content">
+                  <Breadcrumbs items={[{ name: 'Home', href: '/' }]} />
+                  <h1>Insights</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <section id="discoverIsights" className="l-section">
+          <div className="l-container">
+
+            <div className="insight-cards">
+              <div className="row">
+                <div className="column small-12 medium-8">
+                  {insightsCardsStatic[0]}
+                </div>
+                <div className="column small-12 medium-4">
+                  <div className="dual">
+                    {insightsCardsStatic[1]}
+                    {insightsCardsStatic[2]}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </Layout>
+    );
+  }
+}
+
+const mapStateToProps = state => ({ insights: state.insights.list });
+
+const mapDispatchToProps = dispatch => ({
+  getInsights: () => dispatch(getInsights())
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Insights);

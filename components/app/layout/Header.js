@@ -14,7 +14,6 @@ import HeaderDropdownAbout from 'components/app/layout/header/HeaderDropdownAbou
 import HeaderUser from 'components/app/layout/header/HeaderUser';
 
 class Header extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -62,8 +61,7 @@ class Header extends React.Component {
       {
         name: 'Insights',
         pathnames: ['/app/Insights'],
-        // component: <Link route="insights"><a href="/insights">Insights</a></Link>
-        component: <a href="http://staging.resourcewatch.org/insights">Insights</a>
+        component: <Link route="insights" prefetch><a>Insights</a></Link>
       },
       {
         name: 'About',
@@ -109,7 +107,7 @@ class Header extends React.Component {
                     </a>
                   </Link>
                 </div>
-                <MediaQuery minDeviceWidth={720} values={{deviceWidth: 720}}>
+                <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
                   <nav className="header-menu">
                     <ul>
                       {items.map((item) => {
@@ -128,12 +126,11 @@ class Header extends React.Component {
                 </MediaQuery>
               </div>
             </div>
-            </div>
           </div>
+        </div>
       </header>
     );
   }
-
 }
 
 Header.defaultProps = {
