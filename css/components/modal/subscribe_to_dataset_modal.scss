@@ -1,6 +1,4 @@
 .c-subscribe-to-dataset-modal {
-  position: relative;
-  height: 400px;
 
   h2 {
     color: $color-dark-pink;
@@ -37,6 +35,20 @@
     }
   }
 
+  .upload-form {
+    border: 1px solid $border-color-2;
+    border-radius: 4px;
+    padding: $margin-size-small;
+
+    h2 {
+      font-size: $font-size-h3;
+    }
+
+    .c-dropzone {
+      margin-bottom: 0;
+    }
+  }
+
   .icon-container {
     display: flex;
     justify-content: center;
@@ -44,9 +56,7 @@
   }
 
   .buttons {
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
+    justify-content: flex-start;
 
     button:last-of-type {
       margin-left: 10px;
