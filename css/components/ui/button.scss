@@ -117,6 +117,20 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
     justify-content: center;
   }
 
+  &.-align-left {
+    justify-content: flex-start;
+    .c-btn, .c-button {
+      margin-right: $margin-size-extra-small;
+    }
+  }
+
+  &.-align-right {
+    justify-content: flex-end;
+    .c-btn, .c-button {
+      margin-left: $margin-size-extra-small;
+    }
+  }
+
   @media screen and (max-width: map-get($breakpoints, medium)) {
     .c-btn, .c-button {
       margin-top: $margin-size-extra-small;

@@ -20,7 +20,7 @@ const cards = [
         text: 'Submit an insight',
         route: 'get_involved_detail',
         params: { id: 'submit-an-insight' },
-        className: '-secondary'
+        className: '-primary -alt'
       }
     ],
     className: 'insights'
@@ -34,7 +34,7 @@ const cards = [
         text: 'Contribute data',
         route: 'get_involved_detail',
         params: { id: 'contribute-data' },
-        className: '-secondary contribute-data'
+        className: '-primary -alt'
       }
     ],
     className: 'contribute'
@@ -48,7 +48,7 @@ const cards = [
         text: 'Join the community',
         route: 'get_involved_detail',
         params: { id: 'join-community' },
-        className: '-secondary'
+        className: '-primary -alt'
       }
     ],
     className: 'join'
@@ -62,7 +62,7 @@ const cards = [
         text: 'Develop your app',
         route: 'get_involved_detail',
         params: { id: 'develop-app' },
-        className: '-secondary'
+        className: '-primary -alt'
       },
       {
         text: 'Apps gallery',
@@ -105,7 +105,7 @@ class GetInvolved extends Page {
             <h2>{c.title}</h2>
             <p>{c.intro}</p>
           </div>
-          <div className="buttons">
+          <div className="buttons -align-left">
             {c.buttons.map(b => (
               <Link key={b.route + b.params.id} route={b.route} params={b.params}>
                 <a className={`c-button ${b.className}`}>{b.text}</a>
@@ -162,7 +162,7 @@ class GetInvolved extends Page {
           <div className="l-container">
             <div className="row align-center">
               <div className="column small-12">
-                <Banner className="partners" bgImage={'/static/images/backgrounds/partners-02@2x.jpg'}>
+                <Banner className="-text-center" bgImage={'/static/images/backgrounds/partners-02@2x.jpg'}>
                   <p className="-claim">
                     See yourself as part <br />of this team?
                   </p>
