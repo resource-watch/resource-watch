@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import { toastr } from 'react-redux-toastr';
+import { Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
-
-import { setFilters, setColor, setCategory, setValue, setSize, setOrderBy,
-  setAggregateFunction, setLimit, setChartType } from 'redactions/widgetEditor';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -76,90 +75,89 @@ class WidgetsNew extends React.Component {
       event.preventDefault();
     }
 
-    this.setState({
-      loading: true
-    });
-    const { widget } = this.state;
-    const widgetAtts = widget.attributes;
-    const dataset = widgetAtts.dataset;
+    const { widget, selectedDataset } = this.state;
     const { widgetEditor, tableName, user } = this.props;
     const { limit, value, category, color, size, orderBy, aggregateFunction,
       chartType, filters, areaIntersection } = widgetEditor;
+    const chartDefined = widgetEditor.chartType && widgetEditor.category && widgetEditor.value;
 
-    let chartConfig;
-    try {
-      chartConfig = await getChartConfig(widgetEditor, tableName, dataset);
-    } catch (err) {
+    if (chartDefined) {
       this.setState({
-        saved: false,
-        error: true,
-        errorMessage: 'Unable to generate the configuration of the chart'
+        loading: true
       });
 
-      return;
-    }
 
-    const widgetConfig = {
-      widgetConfig: Object.assign(
-        {},
-        {
-          paramsConfig: {
-            limit,
-            value,
-            category,
-            color,
-            size,
-            orderBy,
-            aggregateFunction,
-            chartType,
-            filters,
-            areaIntersection
-          }
-        },
-        chartConfig
-      )
-    };
-
-    const widgetObj = Object.assign(
-      {},
-      {
-        id: widget.id,
-        application: widgetAtts.application,
-        name: widgetAtts.name,
-        description: widgetAtts.description,
-        authors: widgetAtts.authors,
-        source: widgetAtts.source,
-        sourceUrl: widgetAtts.sourceUrl
-      },
-      widgetConfig
-    );
-
-    this.widgetService.updateUserWidget(widgetObj, dataset, user.token)
-      .then((response) => {
-        if (response.errors) {
-          const errorMessage = response.errors[0].detail;
-          this.setState({
-            saved: false,
-            loading: false,
-            error: true,
-            errorMessage
-          });
-          alert(errorMessage); // eslint-disable-line no-alert
-        } else {
-          this.setState({
-            saved: true,
-            loading: false,
-            error: false
-          });
-          alert('Widget updated successfully!'); // eslint-disable-line no-alert
-        }
-      }).catch((err) => {
+      let chartConfig;
+      try {
+        chartConfig = await getChartConfig(widgetEditor, tableName, selectedDataset);
+      } catch (err) {
         this.setState({
           saved: false,
-          error: true
+          error: true,
+          errorMessage: 'Unable to generate the configuration of the chart'
         });
-        console.log(err); // eslint-disable-line no-console
-      });
+
+        return;
+      }
+
+      const widgetConfig = {
+        widgetConfig: Object.assign(
+          {},
+          {
+            paramsConfig: {
+              limit,
+              value,
+              category,
+              color,
+              size,
+              orderBy,
+              aggregateFunction,
+              chartType,
+              filters,
+              areaIntersection
+            }
+          },
+          chartConfig
+        )
+      };
+
+      const widgetObj = Object.assign(
+        {},
+        {
+          name: widget.name,
+          description: widget.description,
+          authors: widget.authors,
+          source: widget.source,
+          sourceUrl: widget.sourceUrl
+        },
+        widgetConfig
+      );
+
+      this.widgetService.saveUserWidget(widgetObj, selectedDataset, user.token)
+        .then((response) => {
+          if (response.errors) {
+            const errorMessage = response.errors[0].detail;
+            this.setState({
+              saved: false,
+              loading: false,
+              error: true,
+              errorMessage
+            });
+            alert(errorMessage); // eslint-disable-line no-alert
+          } else {
+            Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
+            toastr.success('Success', 'Widget created successfully!');
+          }
+        }).catch((err) => {
+          this.setState({
+            saved: false,
+            error: true
+          });
+          toastr.err('Error', err);
+        });
+    } else {
+      toastr.error('Erorr', 'Please create a widget in order to save it');
+    }
   }
 
   @Autobind
@@ -209,7 +207,7 @@ class WidgetsNew extends React.Component {
             availableVisualizations={['chart', 'table']}
             mode="widget"
             onUpdateWidget={this.onSubmit}
-            showSaveButton
+            showSaveButton={false}
           />
           <div className="form-container">
             <form className="form-container" onSubmit={this.onSubmit}>
