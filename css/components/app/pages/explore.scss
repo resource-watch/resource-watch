@@ -1,27 +1,33 @@
 .p-explore {
-  .intro {
-    .c-title {
-      margin-bottom: 30px;
-    }
 
-    .search-container {
-      .column {
-        padding-right: 6px;
+  .c-title {
+    margin-bottom: 30px;
+  }
 
-        &:last-child { padding-right: 0; }
-      }
+  .search-container {
+    height: 45px;
+    margin-bottom: 10px;
 
-      .c-search-input {
-        color: $color-text-1;
-        margin: 0;
+    .c-search-input {
+      color: $color-text-1;
+      margin: 0px;
+      height: 100%;
+
+      .c-field {
+        margin: 0px;
         height: 100%;
-        .c-field {
+        input {
           height: 100%;
-          input {
-            height: 100%;
-          }
         }
       }
+    }
+  }
+
+  .filters-container {
+    display: flex;
+
+    .c-custom-select:not(:last-of-type) {
+      margin-right: 10px;
     }
   }
 
