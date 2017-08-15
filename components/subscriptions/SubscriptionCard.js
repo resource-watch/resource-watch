@@ -38,7 +38,7 @@ class SubscriptionCard extends React.Component {
     };
 
     // Services
-    this.datasetService = new DatasetService(props.subscription.attributes.datasets[0],
+    this.datasetService = new DatasetService(props.subscription.attributes.datasetsQuery[0].id,
       { apiURL: process.env.WRI_API_URL });
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });

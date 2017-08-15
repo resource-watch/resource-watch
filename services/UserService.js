@@ -147,7 +147,7 @@ export default class UserService {
    */
   getSubscriptions(token) {
     return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/subscriptions`, {
+      fetch(`${this.opts.apiURL}/subscriptions?application=rw`, {
         headers: {
           Authorization: token
         }
