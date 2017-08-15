@@ -1,7 +1,6 @@
 import React from 'react';
 
 class LegendType extends React.Component {
-
   getLegendType() {
     const config = this.props.config;
     switch (config.type) {
@@ -16,7 +15,7 @@ class LegendType extends React.Component {
                   <span className="color" style={{ background: item.color }} />
                   <span className={`name ${this.props.className.color}`}>{item.name || item.value}{config.unit}</span>
                 </div>
-                ))}
+              ))}
             </div>
           </div>
         );
@@ -40,7 +39,7 @@ class LegendType extends React.Component {
                 <div className="type-list-item" key={`type-list-item-${item.value || item.name}`}>
                   <span className={`value ${this.props.className.color}`}>{item.value || item.name}{config.unit}</span>
                 </div>
-                ))}
+              ))}
             </div>
           </div>
         );
@@ -59,7 +58,7 @@ class LegendType extends React.Component {
                 >
                   <span className="color" style={{ background: item.color }} />
                 </div>
-                ))}
+              ))}
             </div>
             <div className="type-list">
               {config.items.map(item => (
@@ -70,7 +69,7 @@ class LegendType extends React.Component {
                 >
                   <span className={`value ${this.props.className.color}`}>{item.value || item.name}</span>
                 </div>
-                ))}
+              ))}
             </div>
           </div>
         );
