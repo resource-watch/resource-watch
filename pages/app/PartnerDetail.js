@@ -45,7 +45,7 @@ class PartnerDetail extends Page {
         user={this.props.user}
       >
         <div className="c-page partner-detail">
-          <Banner className="intro">
+          <Banner className="intro -text-center">
             <div className="row">
               <div className="column small-12">
                 <h4 className="title c-text -default -bold -uppercase">RESOURCE WATCH PARTNER</h4>
