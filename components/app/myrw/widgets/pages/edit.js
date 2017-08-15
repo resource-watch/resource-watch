@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
@@ -10,6 +11,7 @@ import { setFilters, setColor, setCategory, setValue, setSize, setOrderBy,
 
 // Services
 import WidgetService from 'services/WidgetService';
+import DatasetService from 'services/DatasetService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -49,7 +51,8 @@ class WidgetsEdit extends React.Component {
     this.state = {
       loading: true,
       submitting: false,
-      widget: null
+      widget: null,
+      tableName: null
     };
 
     // Services
@@ -59,11 +62,16 @@ class WidgetsEdit extends React.Component {
 
   componentWillMount() {
     this.widgetService.fetchData().then((data) => {
-      this.setState({
-        widget: data,
-        loading: false
-      }, () => {
-        this.loadWidgetIntoRedux();
+      this.datasetService = new DatasetService(data.attributes.dataset,
+        { apiURL: process.env.CONTROL_TOWER_URL });
+      this.datasetService.fetchData().then((response) => {
+        this.setState({
+          widget: data,
+          loading: false,
+          tableName: response.attributes.tableName
+        }, () => {
+          this.loadWidgetIntoRedux();
+        });
       });
     });
   }
@@ -77,10 +85,10 @@ class WidgetsEdit extends React.Component {
     this.setState({
       loading: true
     });
-    const { widget } = this.state;
+    const { widget, tableName } = this.state;
     const widgetAtts = widget.attributes;
     const dataset = widgetAtts.dataset;
-    const { widgetEditor, tableName, user } = this.props;
+    const { widgetEditor, user } = this.props;
     const { limit, value, category, color, size, orderBy, aggregateFunction,
       chartType, filters, areaIntersection } = widgetEditor;
 
@@ -142,21 +150,21 @@ class WidgetsEdit extends React.Component {
             error: true,
             errorMessage
           });
-          alert(errorMessage); // eslint-disable-line no-alert
+          toastr.error('Error', errorMessage);
         } else {
           this.setState({
             saved: true,
             loading: false,
             error: false
           });
-          alert('Widget updated successfully!'); // eslint-disable-line no-alert
+          toastr.success('Success', 'Widget updated successfully!');
         }
       }).catch((err) => {
         this.setState({
           saved: false,
           error: true
         });
-        console.log(err); // eslint-disable-line no-console
+        toastr.error('Error', err);
       });
   }
 
@@ -211,7 +219,7 @@ class WidgetsEdit extends React.Component {
   }
 
   render() {
-    const { loading, widget, submitting } = this.state;
+    const { loading, widget, submitting, tableName } = this.state;
     const widgetAtts = widget && widget.attributes;
 
     return (
@@ -220,7 +228,7 @@ class WidgetsEdit extends React.Component {
           className="-relative -light"
           isLoading={loading}
         />
-        {widget &&
+        {widget && tableName &&
         <div>
           <WidgetEditor
             widget={widget}
@@ -229,6 +237,8 @@ class WidgetsEdit extends React.Component {
             mode="widget"
             onUpdateWidget={this.onSubmit}
             showSaveButton
+            showShareEmbedButton={false}
+            tableName={tableName}
           />
           <div className="form-container">
             <form className="form-container" onSubmit={this.onSubmit}>

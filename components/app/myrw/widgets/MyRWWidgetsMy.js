@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import { Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
@@ -192,6 +193,14 @@ class MyRWWidgetsMy extends React.Component {
                   </button>
                 </div>
               </div>
+            </div>
+            <div className="new-widget-container">
+              <button
+                className="c-btn -a"
+                onClick={() => Router.pushRoute('myrw_detail', { tab: 'widgets', id: 'new' })}
+              >
+                New widget
+              </button>
             </div>
             <Spinner
               isLoading={!myWidgetsLoaded}

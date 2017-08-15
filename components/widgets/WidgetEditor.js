@@ -511,7 +511,7 @@ class WidgetEditor extends React.Component {
       layers
     } = this.state;
     let { jiminy } = this.state;
-    const { dataset, mode, showSaveButton } = this.props;
+    const { dataset, mode, showSaveButton, showShareEmbedButton } = this.props;
 
     // Whether we're still waiting for some data
     const loading = (mode === 'dataset' && !layersLoaded)
@@ -587,6 +587,7 @@ class WidgetEditor extends React.Component {
                     mode={chartEditorMode}
                     onUpdateWidget={this.handleUpdateWidget}
                     showSaveButton={showSaveButton}
+                    showShareEmbedButton={showShareEmbedButton}
                   />
                 }
                 {
@@ -613,9 +614,14 @@ const mapDispatchToProps = dispatch => ({
   setFields: (fields) => { dispatch(setFields(fields)); }
 });
 
+WidgetEditor.defaultProps = {
+  showShareEmbedButton: false
+};
+
 WidgetEditor.propTypes = {
   mode: PropTypes.oneOf(['dataset', 'widget']),
   showSaveButton: PropTypes.bool.isRequired, // Show save button in chart editor or not
+  showShareEmbedButton: PropTypes.bool.isRequired, // Show share/embed button in chart editor or not
   dataset: PropTypes.string, // Dataset ID
   widget: PropTypes.object, // Widget object
   availableVisualizations: PropTypes.arrayOf(
