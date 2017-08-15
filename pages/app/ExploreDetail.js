@@ -287,52 +287,68 @@ class ExploreDetail extends Page {
           <section className="l-section">
             <div className="row">
               <div className="column small-12 medium-7">
-                <div className="l-section-mod">
-                  <h3>Function</h3>
-                  <p>{metadataInfo && metadataInfo.functions }</p>
-                </div>
-                <div className="l-section-mod">
-                  <h3>Cautions</h3>
-                  <p>{metadataInfo && metadataInfo.cautions }</p>
-                </div>
-                <div className="l-section-mod">
-                  <h3>Citation</h3>
-                  <p>{metadataInfo && metadataInfo.citation }</p>
-                </div>
-                <div className="l-section-mod">
-                  <h3>Geographic coverage</h3>
-                  <p>{metadataInfo && metadataInfo.geographic_coverage }</p>
-                </div>
-                <div className="l-section-mod">
-                  <h3>Spatial resolution</h3>
-                  <p>{metadataInfo && metadataInfo.spatial_resolution }</p>
-                </div>
-                <div className="l-section-mod">
-                  <h3>Date of content</h3>
-                  <p>{metadataInfo && metadataInfo.date_of_content }</p>
-                </div>
-                <div className="l-section-mod">
-                  <h3>Frequency of updates</h3>
-                  <p>{metadataInfo && metadataInfo.frequency_of_updates }</p>
-                </div>
-                <div className="l-section-mod">
-                  <h3>License</h3>
-                  <a href={metadataInfo && metadataInfo.license_link}>
-                    {metadataInfo && metadataInfo.license }
-                  </a>
-                </div>
-                <div className="l-section-mod">
-                  <h3>Language</h3>
-                  <p>{metadataAttributes && metadataAttributes.language}</p>
-                </div>
-                <div className="l-section-mod">
-                  {metadataAttributes && metadataAttributes.language !== 'en' &&
-                    <div>
-                      <h3>Translated title</h3>
-                      <p>{metadataInfo && metadataInfo.translated_title}</p>
-                    </div>
-                  }
-                </div>
+                {metadataInfo && metadataInfo.functions ? (
+                  <div className="l-section-mod">
+                    <h3>Function</h3>
+                    <p>{metadataInfo && metadataInfo.functions}</p>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.cautions ? (
+                  <div className="l-section-mod">
+                    <h3>Cautions</h3>
+                    <p>{metadataInfo && metadataInfo.cautions}</p>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.citation ? (
+                  <div className="l-section-mod">
+                    <h3>Citation</h3>
+                    <p>{metadataInfo && metadataInfo.citation}</p>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.geographic_coverage ? (
+                  <div className="l-section-mod">
+                    <h3>Geographic coverage</h3>
+                    <p>{metadataInfo && metadataInfo.geographic_coverage}</p>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.spatial_resolution ? (
+                  <div className="l-section-mod">
+                    <h3>Spatial resolution</h3>
+                    <p>{metadataInfo && metadataInfo.spatial_resolution}</p>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.date_of_content ? (
+                  <div className="l-section-mod">
+                    <h3>Date of content</h3>
+                    <p>{metadataInfo && metadataInfo.date_of_content}</p>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.frequency_of_updates ? (
+                  <div className="l-section-mod">
+                    <h3>Frequency of updates</h3>
+                    <p>{metadataInfo && metadataInfo.frequency_of_updates}</p>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.license ? (
+                  <div className="l-section-mod">
+                    <h3>License</h3>
+                    <p>{metadataInfo && metadataInfo.license}</p>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.language && metadataInfo.language.toLowerCase() !== 'en' ? (
+                  <div className="l-section-mod">
+                    <h3>Translated title</h3>
+                    <p>{metadataInfo && metadataInfo.translated_title}</p>
+                  </div>
+                ) : null}
               </div>
             </div>
 
