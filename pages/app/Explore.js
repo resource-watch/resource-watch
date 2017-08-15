@@ -213,8 +213,13 @@ class Explore extends Page {
   }
 
   render() {
+    const { vocabularies } = this.state;
     const { explore, paginatedDatasets } = this.props;
     const { search, issue } = explore.filters;
+
+    // TEMPORAL only whilst the knowledge graph is not used
+    const dataTypesVocabulary = vocabularies.length > 0 ? vocabularies.find(elem => elem.value === 'dataset_type').items : [];
+    const geographiesVocabulary = vocabularies.length > 0 ? vocabularies.find(elem => elem.value === 'location').items : [];
 
     return (
       <Layout
@@ -232,25 +237,33 @@ class Explore extends Page {
                 </div>
               </div>
               <div className="search-container">
-                <div className="row collapse">
-                  <div className="column small-12 medium-6">
-                    <SearchInput
-                      onSearch={this.handleFilterDatasetsSearch}
-                      input={{
-                        value: search && search.value,
-                        placeholder: 'Search dataset'
-                      }}
-                    />
-                  </div>
-                  <div className="column small-12 medium-6">
-                    <CustomSelect
-                      options={this.state.vocabularies}
-                      onValueChange={this.handleFilterDatasetsIssue}
-                      placeholder="Select issue"
-                      value={issue && issue.length > 0 && issue[0].value}
-                    />
-                  </div>
-                </div>
+                <SearchInput
+                  onSearch={this.handleFilterDatasetsSearch}
+                  input={{
+                    value: search && search.value,
+                    placeholder: 'Search dataset'
+                  }}
+                />
+              </div>
+              <div className="filters-container">
+                <CustomSelect
+                  options={vocabularies}
+                  onValueChange={this.handleFilterDatasetsIssue}
+                  placeholder="Topics"
+                  value={issue && issue.length > 0 && issue[0].value}
+                />
+                <CustomSelect
+                  options={geographiesVocabulary}
+                  onValueChange={this.handleFilterDatasetsIssue}
+                  placeholder="Geographies"
+                  value={issue && issue.length > 0 && issue[0].value}
+                />
+                <CustomSelect
+                  options={dataTypesVocabulary}
+                  onValueChange={this.handleFilterDatasetsIssue}
+                  placeholder="Data types"
+                  value={issue && issue.length > 0 && issue[0].value}
+                />
               </div>
 
               <DatasetListHeader
