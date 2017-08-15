@@ -52,7 +52,8 @@ class AddWidgetToCollectionTooltip extends React.Component {
       && (el2 && !el2.contains(e.target))
       && e.target.tagName !== 'SPAN'
       && (el3 && !el3.contains(e.target))
-      && (el4 && !el4.contains(e.target));
+      && (el4 && !el4.contains(e.target)
+      && e.target.parentNode !== null);
 
     if (clickOutside) {
       this.props.toggleTooltip(false);
