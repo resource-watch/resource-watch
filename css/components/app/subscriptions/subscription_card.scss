@@ -47,6 +47,15 @@
             margin-right: 23px;
           }
         }
+
+        .type-container {
+          display: flex;
+          align-items: baseline;
+
+          h5 {
+            margin-right: 43px;
+          }
+        }
       }
 
       .actions-div {
