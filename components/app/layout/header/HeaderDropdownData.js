@@ -32,23 +32,18 @@ export default function HeaderDropdownData(props) {
           onMouseLeave={props.onMouseLeave}
         >
           <li className="header-dropdown-list-item">
-            <Link route="explore" prefetch={true}>
+            <Link route="explore" prefetch>
               <a>Explore Datasets</a>
             </Link>
           </li>
           <li className="header-dropdown-list-item">
-            <Link route="dashboards" prefetch={true}>
+            <Link route="dashboards" prefetch>
               <a>Dashboards</a>
             </Link>
           </li>
           <li className="header-dropdown-list-item">
             <Link route="pulse">
               <a>Planet Pulse</a>
-            </Link>
-          </li>
-          <li className="header-dropdown-list-item">
-            <Link route="get_involved">
-              <a>Explore Tools</a>
             </Link>
           </li>
         </ul>
