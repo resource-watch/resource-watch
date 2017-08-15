@@ -9,7 +9,6 @@ import { initStore } from 'store';
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
-import Title from 'components/ui/Title';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import DashboardCard from 'components/app/dashboards/DashboardCard';
 import Spinner from 'components/ui/Spinner';

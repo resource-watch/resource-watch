@@ -1,19 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
-
-// Redux
 import withRedux from 'next-redux-wrapper';
 import { getStaticData } from 'redactions/static_pages';
 import { initStore } from 'store';
-
-// Next components
 import { Link } from 'routes';
-
-// Components
+import renderHTML from 'react-render-html';
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
-import Title from 'components/ui/Title';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
@@ -78,7 +72,7 @@ class GetInvolved extends Page {
             <div className="l-container">
               <div className="row align-center">
                 <div className="column small-12 medium-8">
-                  <div dangerouslySetInnerHTML={{ __html: data && data.content }} />
+                  { renderHTML(data.content || '') }
                 </div>
               </div>
             </div>

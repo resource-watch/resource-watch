@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import { Link } from 'routes';
 import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
 
 // Layout
 import Head from 'components/app/layout/head';

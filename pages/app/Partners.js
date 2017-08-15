@@ -128,13 +128,7 @@ Partners.defaultProps = {
   partners: []
 };
 
-const mapStateToProps = function (state) {
-  return { partners: state.partners.partners.list };
-};
-
-// const mapStateToProps = state => ({
-//   list: state.partners.partners.list
-// });
+const mapStateToProps = state => ({ partners: state.partners.partners.list });
 
 const mapDispatchToProps = dispatch => ({
   getPartners: () => { dispatch(getPartners()); }

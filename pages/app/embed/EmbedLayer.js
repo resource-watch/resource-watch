@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
-import { Link } from 'routes';
+// import { Link } from 'routes';
 
 // Layout
 import Page from 'components/app/layout/Page';

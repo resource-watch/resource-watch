@@ -23,9 +23,6 @@ import DatasetsTab from 'components/admin/datasets/DatasetsTab';
 import WidgetsTab from 'components/admin/widgets/WidgetsTab';
 import LayersTab from 'components/admin/layers/LayersTab';
 
-// Components
-import Title from 'components/ui/Title';
-
 class DataDetail extends Page {
   constructor(props) {
     super(props);

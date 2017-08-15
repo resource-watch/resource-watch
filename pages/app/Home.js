@@ -1,3 +1,4 @@
+/* eslint max-len: 0 */
 import React from 'react';
 import MoveTo from 'moveto';
 import { Link } from 'routes';

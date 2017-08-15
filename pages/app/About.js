@@ -1,15 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-// Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { getStaticData } from 'redactions/static_pages';
-
-// Next components
 import { Link } from 'routes';
-
-// Components
+import renderHTML from 'react-render-html';
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import Banner from 'components/app/common/Banner';
@@ -57,7 +52,7 @@ class About extends Page {
             <div className="l-container">
               <div className="row align-center">
                 <div className="column small-12 medium-8">
-                  <div dangerouslySetInnerHTML={{ __html: data && data.content }} />
+                  {renderHTML(data.content || '')}
                 </div>
               </div>
             </div>
@@ -96,9 +91,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getStaticData: (slug, ref) => {
-    dispatch(getStaticData(slug, ref));
-  }
+  getStaticData: (slug, ref) => dispatch(getStaticData(slug, ref))
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(About);

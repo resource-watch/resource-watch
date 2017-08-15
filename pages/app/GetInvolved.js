@@ -4,6 +4,7 @@ import { Link } from 'routes';
 import withRedux from 'next-redux-wrapper';
 import { getStaticData } from 'redactions/static_pages';
 import { initStore } from 'store';
+import renderHTML from 'react-render-html';
 import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
 import Page from 'components/app/layout/Page';
@@ -144,7 +145,7 @@ class GetInvolved extends Page {
               <div className="l-container">
                 <div className="row align-center">
                   <div className="column small-12 medium-8">
-                    <div dangerouslySetInnerHTML={{ __html: data && data.content }} />
+                    {renderHTML(data.content || '')}
                   </div>
                 </div>
               </div>
