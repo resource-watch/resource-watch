@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'routes';
 import withRedux from 'next-redux-wrapper';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import { initStore } from 'store';
@@ -20,7 +19,6 @@ class InsightsDetail extends Page {
 
     if (!insight) return null;
 
-    console.log(insight);
     return (
       <Layout
         title={insight.title}
