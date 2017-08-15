@@ -21,11 +21,14 @@ export default class RasterService {
     // The only reason to use a promise here is to catch the error
     // TODO: remove the promise when we don't haver the provider check anymore
     return new Promise((resolve) => {
-      if (this.provider !== 'gee') {
+      let url;
+      if (this.provider === 'gee') {
+        url = `${process.env.WRI_API_URL}/query/${this.dataset}?sql=SELECT st_metadata(rast) from "${this.tableName}"`;
+      } else {
         throw new Error('Provider not supported yet'); // TODO: support Carto
       }
 
-      fetch(`${process.env.WRI_API_URL}/query/${this.dataset}?sql=SELECT st_metadata(rast) from "${this.tableName}"`)
+      fetch(url)
         .then((response) => {
           if (!response.ok) throw new Error('Unable to fetch the band names');
           return response.json();

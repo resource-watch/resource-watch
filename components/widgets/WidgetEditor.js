@@ -87,8 +87,7 @@ const DEFAULT_STATE = {
   layersError: false,
 
   // RASTER
-  rasterLoading: false, // Whether we're loading the raster data
-  rasterError: null // Error message when loading the raster data
+  rasterBand: null // Name of the band
 };
 
 @DragDropContext(HTML5Backend)
@@ -241,7 +240,9 @@ class WidgetEditor extends React.Component {
    */
   @Autobind
   onChangeBand(band) {
-    this.fetchRasterData(band);
+    this.setState({ rasterBand: band }, () => {
+      if (band) this.fetchChartConfig();
+    });
   }
 
   /**
@@ -470,22 +471,22 @@ class WidgetEditor extends React.Component {
         break;
 
       case 'raster_chart':
-        if (this.state.rasterLoading) {
+        if (this.state.chartConfigLoading) {
           visualization = (
             <div className="visualization -chart">
               <Spinner className="-light" isLoading />
             </div>
           );
-        } else if (this.state.rasterError) {
+        } else if (this.state.chartConfigError) {
           visualization = (
             <div className="visualization -error">
               <div>
                 {'Unfortunately, the chart couldn\'t be rendered'}
-                <span>{this.state.rasterError}</span>
+                <span>{this.state.chartConfigError}</span>
               </div>
             </div>
           );
-        } else if (!this.state.chartConfig) {
+        } else if (!this.state.chartConfig || !this.state.rasterBand) {
           visualization = (
             <div className="visualization -chart">
               Select a band
@@ -525,44 +526,46 @@ class WidgetEditor extends React.Component {
   }
 
   /**
-   * Fetch the data of a raster dataset
-   * @param {Promise<object[]>} data
-   */
-  fetchRasterData(band) {
-    const rasterService = new RasterService(
-      this.props.dataset,
-      this.state.tableName,
-      this.state.datasetProvider
-    );
-
-    this.setState({ rasterLoading: true, rasterError: null });
-
-    return rasterService.getBandData(band)
-      // TODO: set chartConfigLoading, chartConfig
-      .then(data => console.log(data)) // eslint-disable-line no-console
-      .catch(err => this.setState({ rasterError: err.message }))
-      .then(() => this.setState({ rasterLoading: false }));
-  }
-
-  /**
    * Fetch the Vega chart configuration and store it in
    * the state
    * NOTE: the vega chart *will* contain the whole dataset
    * inside and not the URL of the data
    */
   fetchChartConfig() {
-    const { tableName, datasetType, datasetProvider } = this.state;
+    const { tableName, datasetType, datasetProvider, rasterBand } = this.state;
     const { widgetEditor, dataset } = this.props;
 
     this.setState({ chartConfigLoading: true, chartConfigError: null });
 
-    const chartInfo = getChartInfo(dataset, datasetType, datasetProvider, widgetEditor);
+    let chartInfo;
+    // if (datasetType === 'raster') { // FIXME: use this line instead of the next one
+    if (true) {
+      chartInfo = {
+        chartType: 'bar',
+        limit: 500,
+        order: null,
+        filters: [],
+        areaIntersection: null,
+        x: {
+          type: null,
+          name: 'x',
+          alias: null
+        },
+        y: {
+          type: null,
+          name: 'y',
+          alias: null
+        }
+      };
+    } else {
+      chartInfo = getChartInfo(dataset, datasetType, datasetProvider, widgetEditor);
+    }
 
     getChartConfig(
       dataset,
       datasetType,
       tableName,
-      null,
+      rasterBand,
       datasetProvider,
       chartInfo,
       true
@@ -647,7 +650,7 @@ class WidgetEditor extends React.Component {
     // In case the dataset is a raster one, we add a special chart option which is
     // different from the other one (the user won't have to choose columns but bands)
     // if (datasetType === 'raster') { // FIXME: use this line instead of the next one
-    if (datasetType) {
+    if (true) {
       visualizationsOptions.push(VISUALIZATION_TYPES.find(vis => vis.value === 'raster_chart'));
     }
 

@@ -183,6 +183,25 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
 }
 
 /**
+ * Return the URL of the data needed for the Vega chart in case
+ * of a raster dataset
+ * @export
+ * @param {string} dataset - Dataset ID
+ * @param {string} datasetType - Type of dataset
+ * @param {string} tableName - Name of the table
+ * @param {string} band - Name of band (in case of a raster dataset)
+ * @param {string} provider - Name of the provider
+ * @return {string}
+ */
+export function getRasterDataURL(dataset, datasetType, tableName, band, provider) {
+  if (provider === 'gee') {
+    return `${process.env.WRI_API_URL}/query/${dataset}?sql=SELECT ST_HISTOGRAM(rast, ${band}, 10, true) from "${tableName}"`;
+  }
+
+  return ''; // FIXME: carto implementation
+}
+
+/**
  * Return the URL of the data needed for the Vega chart
  * @export
  * @param {string} dataset - Dataset ID
@@ -191,8 +210,16 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
  * @param {string} band - Name of band (in case of a raster dataset)
  * @param {string} provider - Name of the provider
  * @param {ChartInfo} chartInfo 
+ * @return {string}
  */
 export function getDataURL(dataset, datasetType, tableName, band, provider, chartInfo) {
+  // If the dataset is a raster one, the behaviour is totally different
+  // if (datasetType === 'raster') { // FIXME: use this line instead of the next one
+  if (datasetType) {
+    if (!band) return '';
+    return getRasterDataURL(dataset, datasetType, tableName, band, provider);
+  }
+
   const isBidimensional = isBidimensionalChart(chartInfo.chartType);
 
   if (!chartInfo.x || (isBidimensional && !chartInfo.y)) return '';
@@ -319,6 +346,22 @@ export function getTimeFormat(data) {
 }
 
 /**
+ * Parse and return the data of a raster band
+ * @export
+ * @param {any[]} data - Raw data of tha band
+ * @param {string} band - Name of the band
+ * @param {string} provider - Name of the provider
+ * @returns {object[]}
+ */
+export function parseRasterData(data, band, provider) {
+  if (provider === 'gee') {
+    return data[0][band].map(d => ({ x: d[0], y: d[1] }));
+  }
+
+  return data; // TODO: carto implementation
+}
+
+/**
  * Generate the chart configuration (Vega's) according to the
  * parameters
  * @export
@@ -344,7 +387,12 @@ export async function getChartConfig(
   const url = getDataURL(dataset, datasetType, tableName, band, provider, chartInfo);
 
   // We fetch the data to have clever charts
-  const data = await fetchData(url);
+  let data = await fetchData(url);
+
+  // if (datasetType === 'raster') { // FIXME: use this line instead of the next one
+  if (true) {
+    data = parseRasterData(data, band, provider);
+  }
 
   // We compute the name of the x column
   const xLabel = chartInfo.x.name[0].toUpperCase()
