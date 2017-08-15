@@ -57,11 +57,43 @@ export default class WidgetService {
       .then(response => response.json());
   }
 
-  getUserWidgets(userId, sortByUpdatedAt = true, direction = 'asc') {
+  getUserWidgets(userId, sortByUpdatedAt = true, direction = 'asc', includes = '') {
     const directionPart = (direction === 'asc') ? '&sort=updatedAt' : '&sort=-updatedAt';
     const sortSt = sortByUpdatedAt ? directionPart : '';
-    return fetch(`${this.opts.apiURL}/widget/?userId=${userId}${sortSt}`)
+    return fetch(`${this.opts.apiURL}/widget/?userId=${userId}${sortSt}&includes=${includes}`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
+  }
+
+  getUserWidgetCollections(user) {
+    return fetch(`${this.opts.apiURL}/vocabulary/widget_collections?application=rw`)
+      .then(response => response.json())
+      .then((jsonData) => {
+        const dataObj = jsonData.data;
+        const result = [];
+        if (dataObj.length) {
+          const widgets = dataObj[0].attributes.resources
+            .filter(val => val.type === 'widget')
+            .map(val => ({ id: val.id, tags: val.tags }))
+            .filter(val => val.tags.find(tag => tag.startsWith(user.id)));
+          return widgets;
+        }
+        return result;
+      });
+  }
+
+  updateWidgetCollections(user, widget, widgetCollections, method = 'PATCH') {
+    const bodyObj = {
+      tags: widgetCollections.map(val => `${user.id}-${val}`)
+    };
+    return fetch(`${this.opts.apiURL}/dataset/${widget.attributes.dataset}/widget/${widget.id}/vocabulary/widget_collections`, {
+      method,
+      body: method === 'DELETE' ? '' : JSON.stringify(bodyObj),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    })
+      .then(response => response.json());
   }
 }

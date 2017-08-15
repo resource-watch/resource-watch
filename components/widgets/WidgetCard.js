@@ -14,6 +14,7 @@ import Title from 'components/ui/Title';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import EmbedMyWidgetModal from 'components/modal/EmbedMyWidgetModal';
 import WidgetActionsTooltip from 'components/widgets/WidgetActionsTooltip';
+import AddWidgetToCollectionTooltip from 'components/widgets/AddWidgetToCollectionTooltip';
 import Icon from 'components/ui/Icon';
 
 // Services
@@ -131,8 +132,26 @@ class WidgetCard extends React.Component {
     }
   }
   @Autobind
-  handleAddToWidgetCollection() {
-    
+  handleAddToWidgetCollection(event) {
+    const { widget, user, widgetCollections, widgetCollectionsOptions } = this.props;
+    const position = WidgetCard.getClickPosition(event);
+    this.props.toggleTooltip(true, {
+      follow: false,
+      position,
+      children: AddWidgetToCollectionTooltip,
+      childrenProps: {
+        widget,
+        user,
+        widgetCollections,
+        widgetCollectionsOptions,
+        toggleTooltip: this.props.toggleTooltip,
+        onUpdateWidgetCollections: this.handleUpdateWidgetToCollections
+      }
+    });
+  }
+  @Autobind
+  handleUpdateWidgetToCollections(collections) {
+    this.props.onUpdateWidgetCollections();
   }
 
   render() {
@@ -147,6 +166,11 @@ class WidgetCard extends React.Component {
       mode
     } = this.props;
 
+    const numberOfCollections = widgetCollections && widgetCollections.length
+      && widgetCollections[0].tags.length;
+    const numberOfCollectionsText = numberOfCollections === 1
+      ? '1 collection' : `${numberOfCollections} collections`;
+
     return (
       <div
         role="button"
@@ -156,15 +180,12 @@ class WidgetCard extends React.Component {
       >
         {showWidgetColllections &&
           <div className="widget-collections">
-            <ul className="collections_list">
-              {widgetCollections.map(collection => <li key={collection}>{collection}</li>)}
-            </ul>
             <a
               onClick={this.handleAddToWidgetCollection}
               role="button"
               tabIndex={-1}
             >
-              +
+              {numberOfCollectionsText}
             </a>
           </div>
         }
@@ -241,16 +262,18 @@ WidgetCard.defaultProps = {
 
 WidgetCard.propTypes = {
   widget: PropTypes.object.isRequired,
+  widgetCollections: PropTypes.array,
+  widgetCollectionsOptions: PropTypes.array,
   showActions: PropTypes.bool,
   showRemove: PropTypes.bool,
   showEmbed: PropTypes.bool,
   showStar: PropTypes.bool,
   showWidgetColllections: PropTypes.bool,
-  widgetCollections: PropTypes.array,
   mode: PropTypes.oneOf(['thumbnail', 'full']), // How to show the graph
   // Callbacks
   onWidgetRemove: PropTypes.func,
   onWidgetUnfavourited: PropTypes.func,
+  onUpdateWidgetCollections: PropTypes.func,
   // Store
   user: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,
