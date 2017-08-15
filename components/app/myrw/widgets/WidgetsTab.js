@@ -21,7 +21,7 @@ function WidgetsTab(props) {
         <WidgetsEdit tab={tab} subtab={subtab} id={id} />
       }
 
-      {subtab === 'new' && user.token &&
+      {id === 'new' && user.token &&
         <WidgetsNew tab={tab} subtab={subtab} />
       }
     </div>

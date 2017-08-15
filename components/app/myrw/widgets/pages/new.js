@@ -10,6 +10,7 @@ import { setFilters, setColor, setCategory, setValue, setSize, setOrderBy,
 
 // Services
 import WidgetService from 'services/WidgetService';
+import DatasetsService from 'services/DatasetsService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -17,6 +18,7 @@ import WidgetEditor from 'components/widgets/WidgetEditor';
 import Button from 'components/ui/Button';
 import Input from 'components/form/Input';
 import Field from 'components/form/Field';
+import Select from 'components/form/SelectInput';
 
 // utils
 import { getChartConfig } from 'utils/widgets/WidgetHelper';
@@ -49,21 +51,21 @@ class WidgetsNew extends React.Component {
     this.state = {
       loading: true,
       submitting: false,
-      widget: null
+      datasets: [],
+      selectedDataset: null,
+      widget: {}
     };
 
     // Services
-    this.widgetService = new WidgetService(this.props.id,
-      { apiURL: process.env.CONTROL_TOWER_URL });
+    this.widgetService = new WidgetService(null, { apiURL: process.env.CONTROL_TOWER_URL });
+    this.datasetsService = new DatasetsService();
   }
 
-  componentWillMount() {
-    this.widgetService.fetchData().then((data) => {
+  componentDidMount() {
+    this.datasetsService.fetchAllData({}).then((response) => {
       this.setState({
-        widget: data,
+        datasets: response.map(dataset => ({ label: dataset.name, value: dataset.id })),
         loading: false
-      }, () => {
-        this.loadWidgetIntoRedux();
       });
     });
   }
@@ -160,49 +162,6 @@ class WidgetsNew extends React.Component {
       });
   }
 
-  loadWidgetIntoRedux() {
-    const { paramsConfig } = this.state.widget.attributes.widgetConfig;
-    const {
-        value,
-        category,
-        color,
-        size,
-        aggregateFunction,
-        orderBy,
-        filters,
-        limit,
-        chartType
-      } = paramsConfig;
-
-    if (aggregateFunction) {
-      this.props.setAggregateFunction(aggregateFunction);
-    }
-    if (value) {
-      this.props.setValue(value);
-    }
-    if (size) {
-      this.props.setSize(size);
-    }
-    if (color) {
-      this.props.setColor(color);
-    }
-    if (orderBy) {
-      this.props.setOrderBy(orderBy);
-    }
-    if (category) {
-      this.props.setCategory(category);
-    }
-    if (filters) {
-      this.props.setFilters(filters);
-    }
-    if (limit) {
-      this.props.setLimit(limit);
-    }
-    if (chartType) {
-      this.props.setChartType(chartType);
-    }
-  }
-
   @Autobind
   handleChange(value) {
     const newWidgetAtts = Object.assign({}, this.state.widget.attributes, value);
@@ -210,9 +169,15 @@ class WidgetsNew extends React.Component {
     this.setState({ widget: newWidgetObj });
   }
 
+  @Autobind
+  handleDatasetSelected(value) {
+    this.setState({
+      selectedDataset: value
+    });
+  }
+
   render() {
-    const { loading, widget, submitting } = this.state;
-    const widgetAtts = widget && widget.attributes;
+    const { loading, widget, submitting, datasets, selectedDataset } = this.state;
 
     return (
       <div className="c-myrw-widgets-edit">
@@ -220,11 +185,27 @@ class WidgetsNew extends React.Component {
           className="-relative -light"
           isLoading={loading}
         />
-        {widget &&
+        <div className="dataset-selector">
+          <Field
+            onChange={this.handleDatasetSelected}
+            className="-fluid"
+            options={datasets}
+            properties={{
+              name: 'dataset',
+              label: 'Dataset',
+              value: selectedDataset,
+              required: true,
+              instanceId: 'selectDataset'
+            }}
+          >
+            {Select}
+          </Field>
+        </div>
+        {selectedDataset &&
         <div>
           <WidgetEditor
             widget={widget}
-            dataset={widget.attributes.dataset}
+            dataset={selectedDataset}
             availableVisualizations={['chart', 'table']}
             mode="widget"
             onUpdateWidget={this.onSubmit}
@@ -242,7 +223,6 @@ class WidgetsNew extends React.Component {
                     label: 'Title',
                     type: 'text',
                     required: true,
-                    default: widgetAtts.name,
                     placeholder: 'Widget title'
                   }}
                 >
@@ -255,7 +235,6 @@ class WidgetsNew extends React.Component {
                     title: 'description',
                     label: 'Description',
                     type: 'text',
-                    default: widgetAtts.description,
                     placeholder: 'Widget description'
                   }}
                 >
@@ -268,7 +247,6 @@ class WidgetsNew extends React.Component {
                     title: 'authors',
                     label: 'Authors',
                     type: 'text',
-                    default: widgetAtts.authors,
                     placeholder: 'Author name'
                   }}
                 >
@@ -282,7 +260,6 @@ class WidgetsNew extends React.Component {
                       title: 'source',
                       label: 'Source name',
                       type: 'text',
-                      default: widgetAtts.source,
                       placeholder: 'Source name'
                     }}
                   >
@@ -295,7 +272,6 @@ class WidgetsNew extends React.Component {
                       title: 'sourceUrl',
                       label: 'Source URL',
                       type: 'text',
-                      default: widgetAtts.sourceUrl,
                       placeholder: 'Paste a URL here'
                     }}
                   >
@@ -324,19 +300,8 @@ class WidgetsNew extends React.Component {
 }
 
 WidgetsNew.propTypes = {
-  id: PropTypes.string.isRequired,
   // Store
-  user: PropTypes.object.isRequired,
-  // ACTIONS
-  setFilters: PropTypes.func.isRequired,
-  setSize: PropTypes.func.isRequired,
-  setColor: PropTypes.func.isRequired,
-  setCategory: PropTypes.func.isRequired,
-  setValue: PropTypes.func.isRequired,
-  setOrderBy: PropTypes.func.isRequired,
-  setAggregateFunction: PropTypes.func.isRequired,
-  setLimit: PropTypes.func.isRequired,
-  setChartType: PropTypes.func.isRequired
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -344,34 +309,4 @@ const mapStateToProps = state => ({
   widgetEditor: state.widgetEditor
 });
 
-const mapDispatchToProps = dispatch => ({
-  setFilters: (filter) => {
-    dispatch(setFilters(filter));
-  },
-  setColor: (color) => {
-    dispatch(setColor(color));
-  },
-  setSize: (size) => {
-    dispatch(setSize(size));
-  },
-  setCategory: (category) => {
-    dispatch(setCategory(category));
-  },
-  setValue: (value) => {
-    dispatch(setValue(value));
-  },
-  setOrderBy: (value) => {
-    dispatch(setOrderBy(value));
-  },
-  setAggregateFunction: (value) => {
-    dispatch(setAggregateFunction(value));
-  },
-  setLimit: (value) => {
-    dispatch(setLimit(value));
-  },
-  setChartType: (value) => {
-    dispatch(setChartType(value));
-  }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(WidgetsNew);
+export default connect(mapStateToProps, null)(WidgetsNew);

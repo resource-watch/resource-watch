@@ -199,7 +199,7 @@ class MyRWWidgetsMy extends React.Component {
                 className="c-btn -a"
                 onClick={() => Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'new' })}
               >
-                New
+                New widget
               </button>
             </div>
             <Spinner
