@@ -241,7 +241,7 @@ class SubscribeToDatasetModal extends React.Component {
             </div>
             { uploadArea && (
               <div className="upload-form">
-                <UploadAreaIntersectionModal onUploadArea={this.onUploadArea} />
+                <UploadAreaIntersectionModal onUploadArea={this.onUploadArea} embed />
               </div>
             ) }
           </div>

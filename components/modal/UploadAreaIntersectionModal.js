@@ -164,7 +164,8 @@ class UploadAreaIntersectionModal extends React.Component {
       accepted: accepted[0],
       rejected: rejected[0],
       dropzoneActive: false,
-      loading: true
+      loading: true,
+      errors: []
     }, () => {
       if (this.state.accepted) {
         UploadAreaIntersectionModal.processFile(this.state.accepted)
@@ -194,10 +195,25 @@ class UploadAreaIntersectionModal extends React.Component {
       fileInputContent = UploadAreaIntersectionModal.getFileName(this.state.accepted);
     }
 
+    const description = (
+      <div>
+        <p>
+          Drop a file in the designated area or click the button to upload it.
+          The recommended <strong>maximum file size is 1MB</strong>.
+          Anything larger than that may not work properly.
+        </p>
+        <p>
+          If you want to draw the area, you can use&nbsp;
+          <a href="http://geojson.io" target="_blank" rel="noopener noreferrer">geojson.io</a>
+          &nbsp;and download a file with one of the supported format below.
+        </p>
+      </div>
+    );
+
     return (
-      <div className="c-upload-area-intersection-modal">
+      <div className={classnames('c-upload-area-intersection-modal', { '-embed': this.props.embed })}>
         <Spinner isLoading={loading} className="-light" />
-        <h2>Upload a new area</h2>
+        { !this.props.embed && <h2>Upload a new area</h2> }
 
         <Dropzone
           ref={(node) => { this.dropzone = node; }}
@@ -211,17 +227,8 @@ class UploadAreaIntersectionModal extends React.Component {
           onDragEnter={this.onDragEnter}
           onDragLeave={this.onDragLeave}
         >
-          <p>
-            Drop a file in the designated area below or click the button to upload it.
-            The recommended <strong>maximum file size is 1MB</strong>.
-            Anything larger than that may not work properly.
-          </p>
-          <p>
-            If you want to draw the area, you can use&nbsp;
-            <a href="http://geojson.io" target="_blank" rel="noopener noreferrer">geojson.io</a>
-            &nbsp;and download a file with one of the supported format below.
-          </p>
 
+          { !this.props.embed && description }
 
           <div className={classnames({ 'dropzone-file-input': true, '-active': dropzoneActive })}>
             <div
@@ -247,18 +254,22 @@ class UploadAreaIntersectionModal extends React.Component {
             </ul>
           }
 
-          <div className="complementary-info">
-            <p>
-              List of supported file formats:
-            </p>
-            <ul>
-              <li>
-                Unzipped: <strong>.csv</strong> (must contain a geom column that contains geographic information), <strong>.geojson</strong>, <strong>.kml</strong>, <strong>.kmz</strong>, <strong>.wkt</strong>
-              </li>
-              <li>
-                Zipped: <strong>.shp</strong> (must include the .shp, .shx, .dbf and .prj files)
-              </li>
-            </ul>
+          <div className="info">
+            { this.props.embed && description }
+
+            <div className="complementary-info">
+              <p>
+                List of supported file formats:
+              </p>
+              <ul>
+                <li>
+                  Unzipped: <strong>.csv</strong> (must contain a geom column that contains geographic information), <strong>.geojson</strong>, <strong>.kml</strong>, <strong>.kmz</strong>, <strong>.wkt</strong>
+                </li>
+                <li>
+                  Zipped: <strong>.shp</strong> (must include the .shp, .shx, .dbf and .prj files)
+                </li>
+              </ul>
+            </div>
           </div>
         </Dropzone>
       </div>
@@ -268,7 +279,13 @@ class UploadAreaIntersectionModal extends React.Component {
 
 UploadAreaIntersectionModal.propTypes = {
   // Callback to call with the id of the area
-  onUploadArea: PropTypes.func.isRequired
+  onUploadArea: PropTypes.func.isRequired,
+  // Whether this component is embedded somewhere (not in a modal)
+  embed: PropTypes.bool
+};
+
+UploadAreaIntersectionModal.defaultProps = {
+  embed: false
 };
 
 export default UploadAreaIntersectionModal;

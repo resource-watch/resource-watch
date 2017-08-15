@@ -5,7 +5,7 @@
   }
 
   .custom-select-options {
-    max-height: 200px;
+    max-height: 150px;
   }
 
   .name-container {
@@ -36,16 +36,15 @@
   }
 
   .upload-form {
-    border: 1px solid $border-color-2;
-    border-radius: 4px;
-    padding: $margin-size-small;
 
-    h2 {
-      font-size: $font-size-h3;
-    }
-
-    .c-dropzone {
-      margin-bottom: 0;
+    .info {
+      margin-top: 20px;
+      padding: $margin-size-extra-small;
+      border: 1px solid $border-color-2;
+      border-radius: 4px;
+      max-height: 120px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
   }
 
