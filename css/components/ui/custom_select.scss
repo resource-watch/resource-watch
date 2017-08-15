@@ -64,6 +64,9 @@
 
   .clear-button {
     margin-right: 15px;
+    // Without this property, the user will be unable to click on the
+    // clear button (the click gets caught by the input)
+    z-index: 1;
 
     .c-icon {
       fill: rgba($dove-grey, .5);
@@ -107,6 +110,13 @@
       // Don't capitalise the text here because the case of the
       // content of the input won't match the case of the text
       // when the focus is somewhere else
+
+      > span {
+        .c-spinner {
+          vertical-align: middle;
+          margin-right: 10px;
+        }
+      }
     }
   }
 

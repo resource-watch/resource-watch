@@ -1,13 +1,11 @@
 .c-subscribe-to-dataset-modal {
-  position: relative;
-  height: 400px;
 
   h2 {
     color: $color-dark-pink;
   }
 
   .custom-select-options {
-    max-height: 200px;
+    max-height: 150px;
   }
 
   .name-container {
@@ -37,6 +35,17 @@
     }
   }
 
+  .upload-form {
+
+    .info {
+      margin-top: 20px;
+      border-radius: 4px;
+      max-height: 120px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+
   .icon-container {
     display: flex;
     justify-content: center;
@@ -44,9 +53,7 @@
   }
 
   .buttons {
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
+    justify-content: flex-start;
 
     button:last-of-type {
       margin-left: 10px;

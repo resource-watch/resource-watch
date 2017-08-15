@@ -5,6 +5,7 @@ import { Autobind } from 'es-decorators';
 
 // Components
 import Icon from 'components/ui/Icon';
+import Spinner from 'components/ui/Spinner';
 
 
 // Types
@@ -31,7 +32,8 @@ export default class SliderSelect extends React.Component {
       filteredOptions: props.options || [], // Filtered list of options
       pathToCurrentItemsList: [], // List of all of the items leading to the current list
       pathToSelectedItem: [], // Same as pathToCurrentItemsList but for the selected item
-      selectedIndex: 0 // Index of the selected option (via the keyboard)
+      selectedIndex: 0, // Index of the selected option (via the keyboard)
+      waitingConfirmation: false // Whether we're waiting a selection confirmation
     };
   }
 
@@ -323,7 +325,9 @@ export default class SliderSelect extends React.Component {
 
     // We wait for the confirmation to select this option
     return new Promise(async (resolve, reject) => {
+      this.setState({ waitingConfirmation: true });
       const res = await this.props.onValueChange(item, path.map(it => it.value), 'vocabulary');
+      this.setState({ waitingConfirmation: false });
       if (!this.props.waitForChangeConfirmation || !!res) resolve();
       else reject();
     })
@@ -362,7 +366,8 @@ export default class SliderSelect extends React.Component {
       filteredOptions,
       selectedItem,
       pathToCurrentItemsList,
-      selectedIndex
+      selectedIndex,
+      waitingConfirmation
     } = this.state;
 
     const cNames = classnames({
@@ -371,6 +376,10 @@ export default class SliderSelect extends React.Component {
     }, className);
 
     const noResults = !!(options.length && !filteredOptions.length);
+
+    let selectText = placeholder;
+    if (waitingConfirmation) selectText = <span><Spinner isLoading className="-light -small -inline" /> Waiting for action</span>;
+    else if (selectedItem) selectText = selectedItem.as || selectedItem.label;
 
     return (
       <div ref={(node) => { this.el = node; }} className={cNames}>
@@ -386,7 +395,7 @@ export default class SliderSelect extends React.Component {
             onKeyDown={this.onType}
           />
           <div>
-            <span>{selectedItem ? selectedItem.as || selectedItem.label : placeholder}</span>
+            {selectText}
             {/*!selectedItem && closed &&
               <button className="icon-btn" onClick={this.toggle}>
                 <Icon name="icon-arrow-down" className="-small icon-arrow-down" />

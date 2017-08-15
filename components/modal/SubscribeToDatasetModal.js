@@ -13,6 +13,7 @@ import UserService from 'services/UserService';
 // Components
 import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
+import UploadAreaIntersectionModal from 'components/modal/UploadAreaIntersectionModal';
 
 const AREAS = [
   {
@@ -30,7 +31,6 @@ const AREAS = [
 
 
 class SubscribeToDatasetModal extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -42,7 +42,8 @@ class SubscribeToDatasetModal extends React.Component {
       loading: false,
       saved: false,
       name: '',
-      geostore: null
+      geostore: null,
+      uploadArea: false // Whether the user wants to upload an area
     };
 
     // Services
@@ -54,29 +55,32 @@ class SubscribeToDatasetModal extends React.Component {
     this.loadAreas();
   }
 
+  componentDidUpdate(previousProps, previousState) {
+    // When the user clicks on "Upload area", the selector awaits for
+    // a confirmation before selecting the option
+    // During this period, the selector stays open, so we trigger a click
+    // somewhere else so it closes
+    if (!previousState.uploadArea && this.state.uploadArea) {
+      if (this.el) this.el.click();
+    }
+  }
+
   @Autobind
   async onChangeSelectedArea(value) {
     return new Promise((resolve) => {
-      if (value.value === 'upload') {
-        // this.props.toggleModal(true, {
-        //   children: UploadAreaIntersectionModal,
-        //   childrenProps: {
-        //     onUploadArea: (id) => {
-        //       // We close the modal
-        //       this.props.toggleModal(false, {});
-        //
-        //       this.setState({
-        //         geostore: id
-        //       });
-        //
-        //       resolve(true);
-        //     }
-        //   },
-        //   onCloseModal: () => resolve(false)
-        // });
+      // We delete the pointer to the old resolve method
+      if (this.activePromiseResolve) this.activePromiseResolve = null;
+
+      if (value && value.value === 'upload') {
+        // We store the resolve method so we can call it from another
+        // method and at any time
+        this.activePromiseResolve = resolve;
+
+        this.setState({ uploadArea: true });
       } else {
         this.setState({
-          selectedArea: value
+          selectedArea: value,
+          uploadArea: false
         });
         resolve(true);
       }
@@ -90,27 +94,31 @@ class SubscribeToDatasetModal extends React.Component {
     });
   }
 
-  loadAreas() {
-    this.setState({
-      loadingAreaOptions: true
-    });
-    this.areasService.fetchCountries().then((response) => {
-      this.setState({
-        areaOptions: [...AREAS, ...response.data],
-        loadingAreaOptions: false
-      });
-    });
+  @Autobind
+  onChangeSelectedType(type) {
+    this.setState({ selectedType: type });
   }
 
-  loadDatasets() {
-    this.datasetService.getSubscribableDatasets().then((response) => {
-      this.setState({
-        loadingDatasets: false,
-        datasets: response.filter(val => val.attributes.subscribable).map(val => (
-          { label: val.attributes.name, value: val.attributes.name, id: val.id }))
-      });
-    }).catch(err => console.log(err));
+  /**
+   * Event handler executed when the user sucessfully upload an area
+   * @param {string} id - Geostore ID
+   */
+  @Autobind
+  onUploadArea(id) {
+    // We tell the selector an area has been uploaded
+    if (this.activePromiseResolve) this.activePromiseResolve(true);
+    
+    this.setState({ selectedArea: id });
   }
+
+  @Autobind
+  handleCancel() {
+    this.setState({
+      saved: false
+    });
+    this.props.toggleModal(false);
+  }
+
 
   @Autobind
   handleSubscribe() {
@@ -149,17 +157,26 @@ class SubscribeToDatasetModal extends React.Component {
     });
   }
 
-  @Autobind
-  onChangeSelectedType(type) {
-    this.setState({ selectedType: type });
+  loadAreas() {
+    this.setState({
+      loadingAreaOptions: true
+    });
+    this.areasService.fetchCountries().then((response) => {
+      this.setState({
+        areaOptions: [...AREAS, ...response.data],
+        loadingAreaOptions: false
+      });
+    });
   }
 
-  @Autobind
-  handleCancel() {
-    this.setState({
-      saved: false
-    });
-    this.props.toggleModal(false);
+  loadDatasets() {
+    this.datasetService.getSubscribableDatasets().then((response) => {
+      this.setState({
+        loadingDatasets: false,
+        datasets: response.filter(val => val.attributes.subscribable).map(val => (
+          { label: val.attributes.name, value: val.attributes.name, id: val.id }))
+      });
+    }).catch(err => console.error(err)); // TODO: update the UI
   }
 
   render() {
@@ -170,7 +187,8 @@ class SubscribeToDatasetModal extends React.Component {
       selectedType,
       loading,
       saved,
-      name
+      name,
+      uploadArea
     } = this.state;
     const { dataset } = this.props;
     let headerText;
@@ -186,7 +204,7 @@ class SubscribeToDatasetModal extends React.Component {
       .map(val => ({ value: val, label: val }));
 
     return (
-      <div className="c-subscribe-to-dataset-modal">
+      <div className="c-subscribe-to-dataset-modal" ref={(node) => { this.el = node; }}>
         <div className="header-div">
           <h2>{headerText}</h2>
           <p>{paragraphText}</p>
@@ -221,6 +239,11 @@ class SubscribeToDatasetModal extends React.Component {
                 />
               </div>
             </div>
+            { uploadArea && (
+              <div className="upload-form">
+                <UploadAreaIntersectionModal onUploadArea={this.onUploadArea} embed />
+              </div>
+            ) }
           </div>
         }
 
