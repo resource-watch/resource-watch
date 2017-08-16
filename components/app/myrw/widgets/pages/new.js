@@ -182,7 +182,7 @@ class WidgetsNew extends React.Component {
     const { loading, widget, submitting, datasets, selectedDataset } = this.state;
 
     return (
-      <div className="c-myrw-widgets-edit">
+      <div className="c-myrw-widgets-new">
         <Spinner
           className="-relative -light"
           isLoading={loading}
