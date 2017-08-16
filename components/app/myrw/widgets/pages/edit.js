@@ -44,7 +44,6 @@ const FORM_ELEMENTS = {
 };
 
 class WidgetsEdit extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -171,16 +170,16 @@ class WidgetsEdit extends React.Component {
   loadWidgetIntoRedux() {
     const { paramsConfig } = this.state.widget.attributes.widgetConfig;
     const {
-        value,
-        category,
-        color,
-        size,
-        aggregateFunction,
-        orderBy,
-        filters,
-        limit,
-        chartType
-      } = paramsConfig;
+      value,
+      category,
+      color,
+      size,
+      aggregateFunction,
+      orderBy,
+      filters,
+      limit,
+      chartType
+    } = paramsConfig;
 
     if (aggregateFunction) {
       this.props.setAggregateFunction(aggregateFunction);
@@ -318,7 +317,7 @@ class WidgetsEdit extends React.Component {
                   properties={{
                     type: 'submit',
                     disabled: submitting,
-                    className: '-secondary'
+                    className: '-a'
                   }}
                 >
                   Save

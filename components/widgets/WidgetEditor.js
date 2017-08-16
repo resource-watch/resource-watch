@@ -80,7 +80,6 @@ const DEFAULT_STATE = {
 
 @DragDropContext(HTML5Backend)
 class WidgetEditor extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -627,6 +626,7 @@ WidgetEditor.propTypes = {
   availableVisualizations: PropTypes.arrayOf(
     PropTypes.oneOf(VISUALIZATION_TYPES.map(viz => viz.value))
   ),
+  // Callbacks
   onUpdateWidget: PropTypes.func,
   onChange: PropTypes.func,
   onError: PropTypes.func,
