@@ -150,14 +150,22 @@ class MyRWWidgetsMy extends React.Component {
         <div className="row">
           <div className="column small-12">
             <div className="list-actions">
-              <div className="widget-collections-selector">
-                <CustomSelect
-                  placeholder="Select a widget collection"
-                  options={widgetCollectionOptionsArray}
-                  onValueChange={this.handleSelectedWidgetCollectionChange}
-                  allowNonLeafSelection={false}
-                  value={selectedWidgetCollection}
-                />
+              <div className="left-container">
+                <button
+                  className="c-btn -a"
+                  onClick={() => Router.pushRoute('myrw_detail', { tab: 'widgets', id: 'new' })}
+                >
+                  New widget
+                </button>
+                <div className="widget-collections-selector">
+                  <CustomSelect
+                    placeholder="Select a widget collection"
+                    options={widgetCollectionOptionsArray}
+                    onValueChange={this.handleSelectedWidgetCollectionChange}
+                    allowNonLeafSelection={false}
+                    value={selectedWidgetCollection}
+                  />
+                </div>
               </div>
               <div className="buttons-container">
                 <div
@@ -193,14 +201,6 @@ class MyRWWidgetsMy extends React.Component {
                   </button>
                 </div>
               </div>
-            </div>
-            <div className="new-widget-container">
-              <button
-                className="c-btn -a"
-                onClick={() => Router.pushRoute('myrw_detail', { tab: 'widgets', id: 'new' })}
-              >
-                New widget
-              </button>
             </div>
             <Spinner
               isLoading={!myWidgetsLoaded}

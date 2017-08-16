@@ -5,6 +5,14 @@
     justify-content: space-between;
     align-items: center;
 
+    .left-container {
+      display: flex;
+
+      button {
+        margin-right: 10px;
+      }
+    }
+
     .buttons-container {
       display: flex;
       align-items: center;
@@ -42,12 +50,6 @@
     .widget-collections-selector {
       min-width: 250px;
     }
-  }
-
-  .new-widget-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
   }
 
   .no-widgets-div {
