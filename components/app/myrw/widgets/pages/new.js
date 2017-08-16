@@ -287,7 +287,7 @@ class WidgetsNew extends React.Component {
                   properties={{
                     type: 'submit',
                     disabled: submitting,
-                    className: '-secondary'
+                    className: '-a'
                   }}
                 >
                   Save
