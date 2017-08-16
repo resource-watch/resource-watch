@@ -4,6 +4,15 @@ import isEmpty from 'lodash/isEmpty';
 
 // Components
 import User from 'components/user';
+import { Router } from '../../../routes';
+
+Router.onRouteChangeStart = () => {
+  document.body.classList.add('-loading');
+};
+
+Router.onRouteChangeComplete = () => {
+  document.body.classList.remove('-loading');
+};
 
 class Page extends React.Component {
 

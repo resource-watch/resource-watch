@@ -10,7 +10,7 @@ import Layout from 'components/app/layout/Layout';
 import Banner from 'components/app/common/Banner';
 
 class About extends Page {
-  componentDidMount() {
+  componentDidMount () {
     super.componentDidMount();
     this.props.getStaticData('about');
   }

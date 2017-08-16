@@ -21,6 +21,21 @@ body {
   &.-dragging * {
     cursor: -webkit-grabbing;
   }
+
+  &.-loading:after {
+    content: "loading...";
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    color: $alt-font-color;
+    background: $color-primary;
+    z-index: 9999;
+  }
 }
 
 a {
