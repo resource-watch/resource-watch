@@ -4,17 +4,18 @@
  * @return {String}
  */
 
+/* eslint-disable max-len */
 /**
  * Return the query to fetch the data of the dataset
  * @export
  * @param {string} tableName Name of the table
  * @param {{ name: string, type: string, value: any[] }[]} [filters=[]]
- * @param {{ key: string, value: string, as?: boolean,
-    aggregateFunction: string, group: boolean }} [arrColumns=[]]
+ * @param {{ key: string, value: string, as?: boolean, aggregateFunction: string, group: boolean }} [arrColumns=[]]
  * @param {any} [arrOrder=[]]
- * @param {asc|desc} sortOrder
+ * @param {'asc'|'desc'} sortOrder
  * @returns {string} SQL query
  */
+/* eslint-enable max-len */
 export default function getQueryByFilters(
   tableName,
   filters = [],
@@ -74,7 +75,9 @@ export default function getQueryByFilters(
   const groupingColumns = arrColumns.filter(col => col.group);
 
   let groupBy = 'GROUP BY ';
-  groupingColumns.forEach(val => (groupBy = `${groupBy} ${val.key},`));
+  groupingColumns.forEach((val) => {
+    groupBy = `${groupBy} ${val.key},`;
+  });
   if (groupingColumns.length === 0) {
     groupBy = '';
   } else {

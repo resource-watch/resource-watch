@@ -36,6 +36,7 @@ const initialState = {
   value: null,
   layer: null,
   fields: [],
+  chartType: null,
   limit: 500,
   areaIntersection: null // ID of the geostore object
 };

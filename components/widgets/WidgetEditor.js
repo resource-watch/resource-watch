@@ -13,6 +13,7 @@ import { resetWidgetEditor, setFields } from 'redactions/widgetEditor';
 // Services
 import DatasetService from 'services/DatasetService';
 import WidgetService from 'services/WidgetService';
+import RasterService from 'services/RasterService';
 
 // Components
 import Select from 'components/form/SelectInput';
@@ -20,17 +21,19 @@ import Spinner from 'components/ui/Spinner';
 import VegaChart from 'components/widgets/VegaChart';
 import ChartEditor from 'components/widgets/ChartEditor';
 import MapEditor from 'components/widgets/MapEditor';
+import RasterChartEditor from 'components/widgets/RasterChartEditor';
 import Map from 'components/vis/Map';
 import Legend from 'components/ui/Legend';
 import TableView from 'components/widgets/TableView';
 
 // Utils
-import { getChartConfig, canRenderChart, getChartType, isFieldAllowed } from 'utils/widgets/WidgetHelper';
+import { getChartInfo, getChartConfig, canRenderChart, getChartType, isFieldAllowed } from 'utils/widgets/WidgetHelper';
 import ChartTheme from 'utils/widgets/theme';
 import LayerManager from 'utils/layers/LayerManager';
 
 const VISUALIZATION_TYPES = [
   { label: 'Chart', value: 'chart', available: true },
+  { label: 'Chart', value: 'raster_chart', available: false },
   { label: 'Map', value: 'map', available: true },
   { label: 'Table', value: 'table', available: true }
 ];
@@ -56,6 +59,11 @@ const mapConfig = {
 
 const DEFAULT_STATE = {
   selectedVisualizationType: 'chart',
+
+  // DATASET
+  datasetType: null, // Type of the dataset
+  datasetProvider: null, // Name of the provider
+
   // FIELDS
   fieldsLoaded: false,
   fieldsError: false,
@@ -68,14 +76,18 @@ const DEFAULT_STATE = {
   chartConfigError: null, // Error message when fetching the chart configuration
   chartConfigLoading: false, // Whether we're loading the config
 
-  // Jiminy
+  // JIMINY
   jiminy: {},
   jiminyLoaded: false,
   jiminyError: false,
-  // Layers
+
+  // LAYERS
   layers: [],
   layersLoaded: false,
-  layersError: false
+  layersError: false,
+
+  // RASTER
+  rasterBand: null // Name of the band
 };
 
 @DragDropContext(HTML5Backend)
@@ -115,15 +127,22 @@ class WidgetEditor extends React.Component {
 
   componentDidMount() {
     this.getFields()
-      .then(() => {
-        this.getJiminy();
-        this.getDatasetInfo();
-      })
+      .then(() => this.getJiminy())
       .catch(() => {
         // If the fields don't load it's not a real issue
         // because we can still display a map
         if (this.props.onError) this.props.onError();
-      });
+      })
+      // Whether or not the dataset has fields, we fetch the dataset info
+      // to get for example the type of dataset
+      .then(() => this.getDatasetInfo())
+      // Two cases:
+      //  * either we successfully loaded the fields and in that case we want
+      //    to remove the loader
+      //  * either we couldn't load them and fieldsError is set to true so the
+      //    next line won't do anything
+      // NOTE: jiminy must also be set as loaded to remove the spinner
+      .then(() => this.setState({ fieldsLoaded: true, jiminyLoaded: true }));
 
     if (this.props.mode === 'dataset') {
       this.getLayers();
@@ -212,6 +231,18 @@ class WidgetEditor extends React.Component {
     });
 
     this.setState({ layerGroups: [...layerGroups] });
+  }
+
+  /**
+   * Event handler executed when the user selects a band
+   * for a raster dataset
+   * @param {string} band 
+   */
+  @Autobind
+  onChangeBand(band) {
+    this.setState({ rasterBand: band }, () => {
+      if (band) this.fetchChartConfig();
+    });
   }
 
   /**
@@ -329,14 +360,15 @@ class WidgetEditor extends React.Component {
           description: getMetadata(field.columnName, 'description')
         }));
 
-        this.setState({ tableName: attributes.tableName });
+        this.setState({
+          tableName: attributes.tableName,
+          datasetType: attributes.type,
+          datasetProvider: attributes.provider
+        });
         this.props.setFields(fields);
       })
       // TODO: handle the error case in the UI
-      .catch(() => console.error('Unable to load the information about the dataset'))
-      // FIXME: should be removed once the getFields method can fetch the aliases
-      // and description
-      .then(() => this.setState({ fieldsLoaded: true }));
+      .catch(() => console.error('Unable to load the information about the dataset'));
   }
 
   /**
@@ -438,6 +470,43 @@ class WidgetEditor extends React.Component {
         }
         break;
 
+      case 'raster_chart':
+        if (this.state.chartConfigLoading) {
+          visualization = (
+            <div className="visualization -chart">
+              <Spinner className="-light" isLoading />
+            </div>
+          );
+        } else if (this.state.chartConfigError) {
+          visualization = (
+            <div className="visualization -error">
+              <div>
+                {'Unfortunately, the chart couldn\'t be rendered'}
+                <span>{this.state.chartConfigError}</span>
+              </div>
+            </div>
+          );
+        } else if (!this.state.chartConfig || !this.state.rasterBand) {
+          visualization = (
+            <div className="visualization -chart">
+              Select a band
+            </div>
+          );
+        } else {
+          visualization = (
+            <div className="visualization -chart">
+              <Spinner className="-light" isLoading={chartLoading} />
+              <VegaChart
+                reloadOnResize
+                data={this.state.chartConfig}
+                theme={ChartTheme()}
+                toggleLoading={val => this.setState({ chartLoading: val })}
+              />
+            </div>
+          );
+        }
+        break;
+
       // HTML table
       case 'table':
         visualization = (
@@ -463,14 +532,45 @@ class WidgetEditor extends React.Component {
    * inside and not the URL of the data
    */
   fetchChartConfig() {
+    const { tableName, datasetType, datasetProvider, rasterBand } = this.state;
     const { widgetEditor, dataset } = this.props;
-    const { tableName } = this.state;
 
-    this.setState({ chartConfigLoading: true });
+    this.setState({ chartConfigLoading: true, chartConfigError: null });
 
-    getChartConfig(widgetEditor, tableName, dataset, true)
+    let chartInfo;
+    if (datasetType === 'raster') {
+      chartInfo = {
+        chartType: 'bar',
+        limit: 500,
+        order: null,
+        filters: [],
+        areaIntersection: null,
+        x: {
+          type: null,
+          name: 'x',
+          alias: null
+        },
+        y: {
+          type: null,
+          name: 'y',
+          alias: null
+        }
+      };
+    } else {
+      chartInfo = getChartInfo(dataset, datasetType, datasetProvider, widgetEditor);
+    }
+
+    getChartConfig(
+      dataset,
+      datasetType,
+      tableName,
+      rasterBand,
+      datasetProvider,
+      chartInfo,
+      true
+    )
       .then((chartConfig) => {
-        this.setState({ chartConfig, chartConfigError: null });
+        this.setState({ chartConfig });
         if (this.props.onChange) this.props.onChange(chartConfig);
       })
       .catch(({ message }) => {
@@ -507,7 +607,9 @@ class WidgetEditor extends React.Component {
       fieldsLoaded,
       layersError,
       layersLoaded,
-      layers
+      layers,
+      datasetType,
+      datasetProvider
     } = this.state;
     let { jiminy } = this.state;
     const { dataset, mode, showSaveButton, showShareEmbedButton } = this.props;
@@ -515,7 +617,7 @@ class WidgetEditor extends React.Component {
     // Whether we're still waiting for some data
     const loading = (mode === 'dataset' && !layersLoaded)
       || !fieldsLoaded
-      || !jiminyLoaded;
+      || (!fieldsError && !jiminyLoaded);
 
     const chartEditorMode = (mode === 'dataset') ? 'save' : 'update';
 
@@ -530,9 +632,10 @@ class WidgetEditor extends React.Component {
     // We don't use this.props.availableVisualizations directly
     // because we want access to the whole object
     let visualizationsOptions = VISUALIZATION_TYPES
+      .filter(viz => viz.available)
       .filter(viz => this.props.availableVisualizations.includes(viz.value));
 
-    // If there was an error retrieving the fields we remove chart and table
+    // If there was an error retrieving the fields we remove standard chart and table
     // as visualization options
     if (fieldsError) {
       visualizationsOptions = visualizationsOptions.filter(val => val.value === 'map');
@@ -542,6 +645,12 @@ class WidgetEditor extends React.Component {
     // from the options
     if (layersLoaded && (!layers || (layers && layers.length === 0))) {
       visualizationsOptions = visualizationsOptions.filter(val => val.value !== 'map');
+    }
+
+    // In case the dataset is a raster one, we add a special chart option which is
+    // different from the other one (the user won't have to choose columns but bands)
+    if (datasetType === 'raster') {
+      visualizationsOptions.push(VISUALIZATION_TYPES.find(vis => vis.value === 'raster_chart'));
     }
 
     // In case Jiminy failed to give back a result, we let the user the possibility
@@ -577,17 +686,23 @@ class WidgetEditor extends React.Component {
                   </div>
                 </div>
                 {
-                  selectedVisualizationType !== 'map' && !fieldsError && tableName &&
-                  <ChartEditor
-                    dataset={dataset}
-                    jiminy={jiminy}
-                    tableName={tableName}
-                    tableViewMode={selectedVisualizationType === 'table'}
-                    mode={chartEditorMode}
-                    onUpdateWidget={this.handleUpdateWidget}
-                    showSaveButton={showSaveButton}
-                    showShareEmbedButton={showShareEmbedButton}
-                  />
+                  selectedVisualizationType !== 'map'
+                    && selectedVisualizationType !== 'raster_chart'
+                    && !fieldsError && tableName
+                    && (
+                      <ChartEditor
+                        dataset={dataset}
+                        datasetType={datasetType}
+                        datasetProvider={datasetProvider}
+                        jiminy={jiminy}
+                        tableName={tableName}
+                        tableViewMode={selectedVisualizationType === 'table'}
+                        mode={chartEditorMode}
+                        onUpdateWidget={this.handleUpdateWidget}
+                        showSaveButton={showSaveButton}
+                        showShareEmbedButton={showShareEmbedButton}
+                      />
+                    )
                 }
                 {
                   selectedVisualizationType === 'map' && layers && layers.length > 0 &&
@@ -596,6 +711,19 @@ class WidgetEditor extends React.Component {
                     layers={layers}
                     tableName={tableName}
                   />
+                }
+                {
+                  selectedVisualizationType === 'raster_chart'
+                    && tableName
+                    && datasetProvider
+                    && (
+                      <RasterChartEditor
+                        dataset={this.props.dataset}
+                        tableName={tableName}
+                        provider={datasetProvider}
+                        onChangeBand={this.onChangeBand}
+                      />
+                    )
                 }
               </div>
               {visualization}
