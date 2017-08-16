@@ -52,7 +52,8 @@ class WidgetsNew extends React.Component {
       submitting: false,
       datasets: [],
       selectedDataset: null,
-      widget: {}
+      widget: {},
+      error: false
     };
 
     // Services
@@ -61,7 +62,7 @@ class WidgetsNew extends React.Component {
   }
 
   componentDidMount() {
-    this.datasetsService.fetchAllData({}).then((response) => {
+    this.datasetsService.fetchAllData({ filters: { published: true } }).then((response) => {
       this.setState({
         datasets: response.map(dataset => ({
           label: dataset.name,
@@ -174,17 +175,23 @@ class WidgetsNew extends React.Component {
   @Autobind
   handleDatasetSelected(value) {
     this.setState({
-      selectedDataset: value
+      selectedDataset: value,
+      error: false
     });
   }
 
+  @Autobind
+  handleWidgetEditorError() {
+    this.setState({ error: true });
+  }
+
   render() {
-    const { loading, widget, submitting, datasets, selectedDataset } = this.state;
+    const { loading, widget, submitting, datasets, selectedDataset, error } = this.state;
 
     return (
-      <div className="c-myrw-widgets-edit">
+      <div className="c-myrw-widgets-new">
         <Spinner
-          className="-relative -light"
+          className="-light"
           isLoading={loading}
         />
         <div className="dataset-selector">
@@ -213,88 +220,97 @@ class WidgetsNew extends React.Component {
             onUpdateWidget={this.onSubmit}
             showSaveButton={false}
             showShareEmbedButton={false}
+            onError={this.handleWidgetEditorError}
           />
-          <div className="form-container">
-            <form className="form-container" onSubmit={this.onSubmit}>
-              <fieldset className="c-field-container">
-                <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
-                  onChange={value => this.handleChange({ name: value })}
-                  validations={['required']}
-                  properties={{
-                    title: 'title',
-                    label: 'Title',
-                    type: 'text',
-                    required: true,
-                    placeholder: 'Widget title'
-                  }}
-                >
-                  {Input}
-                </Field>
-                <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
-                  onChange={value => this.handleChange({ description: value })}
-                  properties={{
-                    title: 'description',
-                    label: 'Description',
-                    type: 'text',
-                    placeholder: 'Widget description'
-                  }}
-                >
-                  {Input}
-                </Field>
-                <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.authors = c; }}
-                  onChange={value => this.handleChange({ authors: value })}
-                  properties={{
-                    title: 'authors',
-                    label: 'Authors',
-                    type: 'text',
-                    placeholder: 'Author name'
-                  }}
-                >
-                  {Input}
-                </Field>
-                <div className="source-container">
+          {!error &&
+            <div className="form-container">
+              <form className="form-container" onSubmit={this.onSubmit}>
+                <fieldset className="c-field-container">
                   <Field
-                    ref={(c) => { if (c) FORM_ELEMENTS.elements.source = c; }}
-                    onChange={value => this.handleChange({ source: value })}
+                    ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
+                    onChange={value => this.handleChange({ name: value })}
+                    validations={['required']}
                     properties={{
-                      title: 'source',
-                      label: 'Source name',
+                      title: 'title',
+                      label: 'Title',
                       type: 'text',
-                      placeholder: 'Source name'
+                      required: true,
+                      placeholder: 'Widget title'
                     }}
                   >
                     {Input}
                   </Field>
                   <Field
-                    ref={(c) => { if (c) FORM_ELEMENTS.elements.sourceUrl = c; }}
-                    onChange={value => this.handleChange({ sourceUrl: value })}
+                    ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
+                    onChange={value => this.handleChange({ description: value })}
                     properties={{
-                      title: 'sourceUrl',
-                      label: 'Source URL',
+                      title: 'description',
+                      label: 'Description',
                       type: 'text',
-                      placeholder: 'Paste a URL here'
+                      placeholder: 'Widget description'
                     }}
                   >
                     {Input}
                   </Field>
+                  <Field
+                    ref={(c) => { if (c) FORM_ELEMENTS.elements.authors = c; }}
+                    onChange={value => this.handleChange({ authors: value })}
+                    properties={{
+                      title: 'authors',
+                      label: 'Authors',
+                      type: 'text',
+                      placeholder: 'Author name'
+                    }}
+                  >
+                    {Input}
+                  </Field>
+                  <div className="source-container">
+                    <Field
+                      ref={(c) => { if (c) FORM_ELEMENTS.elements.source = c; }}
+                      onChange={value => this.handleChange({ source: value })}
+                      properties={{
+                        title: 'source',
+                        label: 'Source name',
+                        type: 'text',
+                        placeholder: 'Source name'
+                      }}
+                    >
+                      {Input}
+                    </Field>
+                    <Field
+                      ref={(c) => { if (c) FORM_ELEMENTS.elements.sourceUrl = c; }}
+                      onChange={value => this.handleChange({ sourceUrl: value })}
+                      properties={{
+                        title: 'sourceUrl',
+                        label: 'Source URL',
+                        type: 'text',
+                        placeholder: 'Paste a URL here'
+                      }}
+                    >
+                      {Input}
+                    </Field>
+                  </div>
+                </fieldset>
+                <div className="buttons-container">
+                  <Button
+                    properties={{
+                      type: 'submit',
+                      disabled: submitting,
+                      className: '-a'
+                    }}
+                  >
+                    Save
+                  </Button>
                 </div>
-              </fieldset>
-              <div className="buttons-container">
-                <Button
-                  properties={{
-                    type: 'submit',
-                    disabled: submitting,
-                    className: '-secondary'
-                  }}
-                >
-                  Save
-                </Button>
-              </div>
-            </form>
+              </form>
+            </div>
+          }
+          {error &&
+          <div className="error-container">
+            There's a problem with this dataset and it can't be used to create widgets.
+            Please choose a different dataset from the selector above.
           </div>
+          }
         </div>
         }
       </div>

@@ -18,7 +18,7 @@ import Spinner from 'components/ui/Spinner';
 import WidgetService from 'services/WidgetService';
 
 // utils
-import { getChartConfig } from 'utils/widgets/WidgetHelper';
+import { getChartConfig, getChartInfo } from 'utils/widgets/WidgetHelper';
 
 const FORM_ELEMENTS = {
   elements: {
@@ -42,7 +42,6 @@ const FORM_ELEMENTS = {
 
 
 class SaveWidgetModal extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -67,13 +66,22 @@ class SaveWidgetModal extends React.Component {
     this.setState({
       loading: true
     });
-    const { widgetEditor, tableName, dataset } = this.props;
+    const { widgetEditor, tableName, dataset, datasetType, datasetProvider } = this.props;
     const { limit, value, category, color, size, orderBy, aggregateFunction,
       chartType, filters, areaIntersection } = widgetEditor;
 
+    const chartInfo = getChartInfo(dataset, datasetType, datasetProvider, widgetEditor);
+
     let chartConfig;
     try {
-      chartConfig = await getChartConfig(widgetEditor, tableName, dataset);
+      chartConfig = await getChartConfig(
+        dataset,
+        datasetType,
+        tableName,
+        null,
+        datasetProvider,
+        chartInfo
+      );
     } catch (err) {
       this.setState({
         saved: false,
@@ -207,14 +215,18 @@ class SaveWidgetModal extends React.Component {
                   disabled: submitting,
                   className: '-secondary'
                 }}
-              >Save</Button>
+              >
+                Save
+              </Button>
               <Button
                 properties={{
                   disabled: submitting,
                   className: '-primary'
                 }}
                 onClick={this.handleCancel}
-              >Cancel</Button>
+              >
+                Cancel
+              </Button>
             </div>
           </form>
         }
@@ -245,6 +257,10 @@ class SaveWidgetModal extends React.Component {
 }
 
 SaveWidgetModal.propTypes = {
+  dataset: PropTypes.string.isRequired,
+  tableName: PropTypes.string.isRequired,
+  datasetType: PropTypes.string,
+  datasetProvider: PropTypes.string,
   // Store
   user: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired

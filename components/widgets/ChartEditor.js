@@ -39,7 +39,6 @@ const AREAS = [
 
 @DragDropContext(HTML5Backend)
 class ChartEditor extends React.Component {
-
   /**
    * Return the geostore id associated with the country's ISO
    * NOTE: errors are not caught intentionally
@@ -129,6 +128,8 @@ class ChartEditor extends React.Component {
       children: SaveWidgetModal,
       childrenProps: {
         dataset: this.props.dataset,
+        datasetType: this.props.datasetType,
+        datasetProvider: this.props.datasetProvider,
         tableName: this.props.tableName
       }
     };
@@ -182,7 +183,7 @@ class ChartEditor extends React.Component {
       mode,
       showSaveButton,
       showShareEmbedButton
-     } = this.props;
+    } = this.props;
     const { chartType, fields, category, value } = widgetEditor;
     const { areaOptions, loadingAreaIntersection } = this.state;
 
@@ -191,10 +192,10 @@ class ChartEditor extends React.Component {
     const showUpdateButton = showSaveButtonFlag;
 
     const chartOptions = (
-        jiminy
-        && jiminy.general
-        && jiminy.general.map(val => ({ label: val, value: val }))
-      ) || [];
+      jiminy
+      && jiminy.general
+      && jiminy.general.map(val => ({ label: val, value: val }))
+    ) || [];
 
     return (
       <div className="c-chart-editor">
@@ -300,6 +301,8 @@ ChartEditor.propTypes = {
   tableName: PropTypes.string.isRequired,
   jiminy: PropTypes.object,
   dataset: PropTypes.string.isRequired, // Dataset ID
+  datasetType: PropTypes.string,
+  datasetProvider: PropTypes.string,
   tableViewMode: PropTypes.bool.isRequired,
   showShareEmbedButton: PropTypes.bool.isRequired,
   showSaveButton: PropTypes.bool.isRequired,
