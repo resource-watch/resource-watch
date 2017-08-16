@@ -61,7 +61,7 @@ class WidgetsNew extends React.Component {
   }
 
   componentDidMount() {
-    this.datasetsService.fetchAllData({}).then((response) => {
+    this.datasetsService.fetchAllData({ filters: { published: true } }).then((response) => {
       this.setState({
         datasets: response.map(dataset => ({
           label: dataset.name,
@@ -184,7 +184,7 @@ class WidgetsNew extends React.Component {
     return (
       <div className="c-myrw-widgets-new">
         <Spinner
-          className="-relative -light"
+          className="-light"
           isLoading={loading}
         />
         <div className="dataset-selector">
