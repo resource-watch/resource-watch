@@ -1,5 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
+import renderHTML from 'react-render-html';
 
 // Router
 import { Router } from 'routes';
@@ -283,10 +284,9 @@ class DashboardsDetail extends Page {
               </div>
             ) }
             { selectedDashboard && !selectedDashboard.widgets && (
-              <div
-                className="user-content column small-12 large-8 large-offset-2"
-                dangerouslySetInnerHTML={{ __html: selectedDashboard.content }} // eslint-disable-line react/no-danger, max-len
-              />
+              <div className="user-content column small-12 large-8 large-offset-2">
+                {renderHTML(selectedDashboard.content || '')}
+              </div>
             ) }
           </div>
 

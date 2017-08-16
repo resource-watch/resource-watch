@@ -142,7 +142,7 @@ app.prepare()
     });
 
     // Routes with required authentication
-    server.get('/auth/user', isAuthenticated, (req, res) => res.json(req.user || {}));
+    server.get('/auth/user', (req, res) => res.json(req.user || {}));
     server.get('/myrw-detail*?', isAuthenticated, handleUrl); // TODO: review these routes
     server.get('/myrw*?', isAuthenticated, handleUrl);
     server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);

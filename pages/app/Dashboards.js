@@ -21,7 +21,7 @@ class Dashboards extends Page {
    * @returns {Promise<{ name: string, slug: string, photo: string }[]>}
    */
   static async fetchDashboards() {
-    return fetch(`${process.env.API_URL}/dashboards?fields[dashboards]=name,slug,photo`)
+    return fetch(`${process.env.API_URL}/dashboards?fields[dashboards]=name,slug,photo&filter[published]=true&published=true`)
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error('Unable to fetch the dashboards');
