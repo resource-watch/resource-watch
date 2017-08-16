@@ -632,6 +632,7 @@ class WidgetEditor extends React.Component {
     // We don't use this.props.availableVisualizations directly
     // because we want access to the whole object
     let visualizationsOptions = VISUALIZATION_TYPES
+      .filter(viz => viz.available)
       .filter(viz => this.props.availableVisualizations.includes(viz.value));
 
     // If there was an error retrieving the fields we remove standard chart and table
