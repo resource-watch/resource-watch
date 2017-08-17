@@ -11,7 +11,7 @@ import LayersNew from 'components/admin/layers/pages/new';
 import LayersShow from 'components/admin/layers/pages/show';
 
 function LayersTab(props) {
-  const { tab, subtab, id, user } = props;
+  const { tab, subtab, id, user, dataset } = props;
 
   return (
     <div className="c-layers-tab">
@@ -20,7 +20,7 @@ function LayersTab(props) {
       }
 
       {user.token && id && id === 'new' &&
-        <LayersNew tab={tab} subtab={subtab} id={id} user={user} />
+        <LayersNew tab={tab} subtab={subtab} id={id} user={user} dataset={dataset} />
       }
 
       {user.token && id && id !== 'new' &&
@@ -34,7 +34,8 @@ LayersTab.propTypes = {
   user: PropTypes.object,
   tab: PropTypes.string,
   id: PropTypes.string,
-  subtab: PropTypes.string
+  subtab: PropTypes.string,
+  dataset: PropTypes.string // Id of the dataset to be pre-selected in the New layer form
 };
 
 const mapStateToProps = state => ({

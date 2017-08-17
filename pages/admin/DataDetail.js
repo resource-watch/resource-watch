@@ -140,7 +140,7 @@ class DataDetail extends Page {
             }
 
             {tab === 'layers' &&
-              <LayersTab tab={tab} subtab={subtab} id={id} />
+              <LayersTab tab={tab} subtab={subtab} id={id} dataset={dataset} />
             }
           </div>
         </div>

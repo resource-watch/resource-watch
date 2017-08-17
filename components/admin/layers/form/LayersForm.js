@@ -69,7 +69,7 @@ class LayersForm extends React.Component {
         });
       })
       .catch((err) => {
-        console.error(err);
+        toastr.error('Error', err);
       });
   }
 
@@ -110,13 +110,12 @@ class LayersForm extends React.Component {
             })
             .catch((err) => {
               this.setState({ submitting: false });
-              toastr.error('Error', `Oops! There was an error, try again`);
-              console.error(err);
+              toastr.error('Error', `Oops! There was an error, try again. ${err}`);
             });
         } else {
           this.setState({
             step: this.state.step + 1
-          }, () => console.info(this.state));
+          });
         }
       } else {
         toastr.error('Error', 'Fill all the required fields');
@@ -126,7 +125,7 @@ class LayersForm extends React.Component {
 
   onChange(obj) {
     const form = Object.assign({}, this.state.form, obj);
-    this.setState({ form }, () => console.info(this.state.form));
+    this.setState({ form });
   }
 
   onChangeDataset(dataset) {
