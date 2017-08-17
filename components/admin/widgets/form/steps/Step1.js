@@ -24,7 +24,7 @@ class Step1 extends React.Component {
     this.state = {
       id: props.id,
       form: props.form,
-      mode: 'advanced'
+      mode: 'editor'
     };
 
     // BINDINGS
