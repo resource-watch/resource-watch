@@ -32,12 +32,12 @@ export default function HeaderDropdownData(props) {
           onMouseLeave={props.onMouseLeave}
         >
           <li className="header-dropdown-list-item">
-            <Link route="explore" prefetch>
+            <Link route="explore">
               <a>Explore Datasets</a>
             </Link>
           </li>
           <li className="header-dropdown-list-item">
-            <Link route="dashboards" prefetch>
+            <Link route="dashboards">
               <a>Dashboards</a>
             </Link>
           </li>

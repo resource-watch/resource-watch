@@ -2,17 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import { bindActionCreators } from 'redux';
 import { getStaticData } from 'redactions/static_pages';
 import { Link } from 'routes';
 import renderHTML from 'react-render-html';
-import Page from 'components/app/layout/Page';
+import User from 'components/user';
 import Layout from 'components/app/layout/Layout';
 import Banner from 'components/app/common/Banner';
 
-class About extends Page {
-  componentDidMount () {
-    super.componentDidMount();
-    this.props.getStaticData('about');
+class About extends React.Component {
+  static async getInitialProps({ req, store, isServer }) {
+    this.user = new User({ req });
+    const user = await this.user.getUser();
+    if (isServer) {
+      await store.dispatch(getStaticData('about'));
+    }
+    return { isServer, user };
+  }
+
+  componentDidMount() {
+    if (!this.props.isServer) this.props.getStaticData('about');
   }
 
   render() {
@@ -91,7 +100,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getStaticData: (slug, ref) => dispatch(getStaticData(slug, ref))
+  getStaticData: bindActionCreators((slug) => getStaticData(slug), dispatch)
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(About);

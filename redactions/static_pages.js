@@ -4,9 +4,9 @@ import 'isomorphic-fetch';
 /**
  * CONSTANTS
 */
-const GET_STATIC_SUCCESS = 'explore/GET_STATIC_SUCCESS';
-const GET_STATIC_ERROR = 'explore/GET_STATIC_ERROR';
-const GET_STATIC_LOADING = 'explore/GET_STATIC_LOADING';
+const GET_STATIC_SUCCESS = 'static_pages/GET_STATIC_SUCCESS';
+const GET_STATIC_ERROR = 'static_pages/GET_STATIC_ERROR';
+const GET_STATIC_LOADING = 'static_pages/GET_STATIC_LOADING';
 
 /**
  * REDUCER
@@ -65,7 +65,7 @@ export function getStaticData(slug) {
   return (dispatch) => {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_STATIC_LOADING });
-    fetch(new Request(`${process.env.API_URL}/static_pages/${slug}`))
+    return fetch(new Request(`${process.env.API_URL}/static_pages/${slug}`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);

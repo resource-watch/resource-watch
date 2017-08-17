@@ -5,8 +5,9 @@ import * as reducers from 'redactions';
 // REDUCERS
 const reducer = combineReducers({ ...reducers });
 
-export const initStore = () => createStore(
+export const initStore = (initialState = {}) => createStore(
   reducer,
+  initialState,
   compose(
     /* The router middleware MUST be before thunk otherwise the URL changes
     * inside a thunk function won't work properly */

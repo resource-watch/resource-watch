@@ -61,7 +61,7 @@ class Header extends React.Component {
       {
         name: 'Insights',
         pathnames: ['/app/Insights'],
-        component: <Link route="insights" prefetch><a>Insights</a></Link>
+        component: <Link route="insights"><a>Insights</a></Link>
       },
       {
         name: 'About',
@@ -75,7 +75,7 @@ class Header extends React.Component {
       {
         name: 'Get Involved',
         pathnames: ['/app/GetInvolved'],
-        component: <Link route="get_involved" prefetch><a className="-bordered">Get Involved</a></Link>
+        component: <Link route="get_involved"><a className="-bordered">Get Involved</a></Link>
       },
       {
         name: 'My RW',
