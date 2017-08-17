@@ -197,7 +197,7 @@ class MyRWWidgetsMy extends React.Component {
                     onClick={() => this.setMode('list')}
                     title="List view"
                   >
-                    <Icon name="icon-view-list" />
+                    <Icon name="icon-list-mode" />
                   </button>
                 </div>
               </div>
