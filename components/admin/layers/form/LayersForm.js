@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Services
 import DatasetsService from 'services/DatasetsService';
@@ -17,13 +18,18 @@ class LayersForm extends React.Component {
   constructor(props) {
     super(props);
 
+    const formObj = props.dataset ?
+      Object.assign({}, STATE_DEFAULT.form,
+        { dataset: props.dataset, application: props.application }) :
+      Object.assign({}, STATE_DEFAULT.form, {
+        application: props.application
+      });
+
     this.state = Object.assign({}, STATE_DEFAULT, {
       id: props.id,
       dataset: props.dataset,
       datasets: [],
-      form: Object.assign({}, STATE_DEFAULT.form, {
-        application: props.application
-      }),
+      form: formObj,
       loading: !!props.id
     });
 
@@ -185,11 +191,11 @@ class LayersForm extends React.Component {
 }
 
 LayersForm.propTypes = {
-  id: React.PropTypes.string,
-  dataset: React.PropTypes.string,
-  authorization: React.PropTypes.string,
-  application: React.PropTypes.array,
-  onSubmit: React.PropTypes.func
+  id: PropTypes.string,
+  dataset: PropTypes.string,
+  authorization: PropTypes.string,
+  application: PropTypes.array,
+  onSubmit: PropTypes.func
 };
 
 export default LayersForm;
