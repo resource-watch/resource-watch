@@ -11,7 +11,7 @@ import WidgetsNew from 'components/admin/widgets/pages/new';
 import WidgetsShow from 'components/admin/widgets/pages/show';
 
 function WidgetsTab(props) {
-  const { tab, subtab, id, user } = props;
+  const { tab, subtab, id, user, dataset } = props;
 
   return (
     <div className="c-widgets-tab">
@@ -20,7 +20,7 @@ function WidgetsTab(props) {
       }
 
       {user.token && id && id === 'new' &&
-        <WidgetsNew tab={tab} subtab={subtab} id={id} user={user} />
+        <WidgetsNew tab={tab} subtab={subtab} id={id} user={user} dataset={dataset} />
       }
 
       {user.token && id && id !== 'new' &&

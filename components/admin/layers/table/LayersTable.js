@@ -65,7 +65,7 @@ class LayersTable extends React.Component {
           link={{
             label: 'New layer',
             route: 'admin_data_detail',
-            params: { tab: 'layers', id: 'new' }
+            params: { tab: 'layers', id: 'new', dataset: this.props.dataset }
           }}
           onSearch={this.onSearch}
         />

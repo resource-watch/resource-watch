@@ -19,10 +19,14 @@ class WidgetsForm extends React.Component {
   constructor(props) {
     super(props);
 
+    const formObj = props.dataset ?
+      Object.assign({}, STATE_DEFAULT.form, { dataset: props.dataset }) :
+      STATE_DEFAULT.form;
+
     this.state = Object.assign({}, STATE_DEFAULT, {
       id: props.id,
       loading: !!props.id,
-      form: STATE_DEFAULT.form
+      form: formObj
     });
 
     // BINDINGS
@@ -65,7 +69,7 @@ class WidgetsForm extends React.Component {
         });
       })
       .catch((err) => {
-        console.error(err);
+        toastr.error(err);
       });
   }
 
@@ -93,13 +97,19 @@ class WidgetsForm extends React.Component {
           // Start the submitting
           this.setState({ submitting: true });
 
-          // Save data
-          this.service.saveData({
+          const obj = {
             dataset: this.state.form.dataset,
             id: id || '',
             type: (id) ? 'PATCH' : 'POST',
-            body: this.state.form
-          })
+            body: this.state.form,
+          };
+
+          if (obj.body.sourceUrl === '') {
+            delete obj.body.sourceUrl;
+          }
+
+          // Save data
+          this.service.saveData(obj)
             .then((data) => {
               toastr.success('Success', `The widget "${data.id}" - "${data.name}" has been uploaded correctly`);
 
@@ -107,13 +117,12 @@ class WidgetsForm extends React.Component {
             })
             .catch((err) => {
               this.setState({ submitting: false });
-              toastr.error('Error', `Oops! There was an error, try again`);
-              console.error(err);
+              toastr.error('Error', `Oops! There was an error, try again. ${err}`);
             });
         } else {
           this.setState({
             step: this.state.step + 1
-          }, () => console.info(this.state));
+          });
         }
       } else {
         toastr.error('Error', 'Fill all the required fields');
@@ -123,7 +132,7 @@ class WidgetsForm extends React.Component {
 
   onChange(obj) {
     const form = Object.assign({}, this.state.form, obj);
-    this.setState({ form }, () => console.info(this.state.form));
+    this.setState({ form });
   }
 
   onStepChange(step) {
@@ -179,7 +188,8 @@ class WidgetsForm extends React.Component {
 WidgetsForm.propTypes = {
   authorization: PropTypes.string,
   id: PropTypes.string,
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
+  dataset: PropTypes.string // ID of the dataset that should be pre-selected
 };
 
 export default WidgetsForm;

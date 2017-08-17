@@ -27,13 +27,14 @@ class DataDetail extends Page {
   constructor(props) {
     super(props);
 
-    const { tab, id, subtab } = props.url.query;
+    const { tab, id, subtab, dataset } = props.url.query;
 
     this.state = {
       tab,
       id,
       subtab,
-      data: {}
+      data: {},
+      dataset
     };
 
     this.service = null;
@@ -77,9 +78,9 @@ class DataDetail extends Page {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { tab, id, subtab } = nextProps.url.query;
+    const { tab, id, subtab, dataset } = nextProps.url.query;
 
-    this.setState({ tab, id, subtab });
+    this.setState({ tab, id, subtab, dataset });
   }
 
 
@@ -103,7 +104,7 @@ class DataDetail extends Page {
 
   render() {
     const { url, user } = this.props;
-    const { tab, subtab, id } = this.state;
+    const { tab, subtab, id, dataset } = this.state;
 
     return (
       <Layout
@@ -135,11 +136,11 @@ class DataDetail extends Page {
             }
 
             {tab === 'widgets' &&
-              <WidgetsTab tab={tab} subtab={subtab} id={id} />
+              <WidgetsTab tab={tab} subtab={subtab} id={id} dataset={dataset} />
             }
 
             {tab === 'layers' &&
-              <LayersTab tab={tab} subtab={subtab} id={id} />
+              <LayersTab tab={tab} subtab={subtab} id={id} dataset={dataset} />
             }
           </div>
         </div>

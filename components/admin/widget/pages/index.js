@@ -8,15 +8,14 @@ import ButtonContainer from 'components/ui/ButtonContainer';
 
 function WidgetIndex(props) {
   const classes = classnames('c-widgets-index', { '-embed': props.embed });
-
   return (
     <div className={classes}>
       <ButtonContainer
-        className="-j-end"
+        className="-j-end button-container"
         buttons={[{
           label: 'New Widget',
           route: 'admin_data_detail',
-          params: { tab: 'widgets', id: 'new' },
+          params: { tab: 'widgets', id: 'new', dataset: props.dataset },
           className: 'c-button -secondary'
         }]}
       />

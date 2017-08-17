@@ -11,6 +11,7 @@ export const STATE_DEFAULT = {
   partners: [],
   form: {
     // STEP 1
+    application: ['rw'],
     name: '',
     queryUrl: '',
     description: '',

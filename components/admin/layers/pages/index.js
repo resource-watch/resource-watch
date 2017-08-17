@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 import LayersTable from 'components/admin/layers/table/LayersTable';
 
 function LayersIndex(props) {
-  const { user } = props;
+  const { user, dataset } = props;
 
   return (
     <div className="c-layers-index">
       <LayersTable
         application={[process.env.APPLICATIONS]}
-        dataset={props.dataset}
+        dataset={dataset}
         authorization={user.token}
       />
     </div>
