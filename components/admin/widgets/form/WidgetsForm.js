@@ -19,10 +19,14 @@ class WidgetsForm extends React.Component {
   constructor(props) {
     super(props);
 
+    const formObj = props.dataset ?
+      Object.assign({}, STATE_DEFAULT.form, { dataset: props.dataset }) :
+      STATE_DEFAULT.form;
+
     this.state = Object.assign({}, STATE_DEFAULT, {
       id: props.id,
       loading: !!props.id,
-      form: STATE_DEFAULT.form
+      form: formObj
     });
 
     // BINDINGS
@@ -179,7 +183,8 @@ class WidgetsForm extends React.Component {
 WidgetsForm.propTypes = {
   authorization: PropTypes.string,
   id: PropTypes.string,
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
+  dataset: PropTypes.string // ID of the dataset that should be pre-selected
 };
 
 export default WidgetsForm;
