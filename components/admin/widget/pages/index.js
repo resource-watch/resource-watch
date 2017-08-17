@@ -11,7 +11,7 @@ function WidgetIndex(props) {
   return (
     <div className={classes}>
       <ButtonContainer
-        className="-j-end"
+        className="-j-end button-container"
         buttons={[{
           label: 'New Widget',
           route: 'admin_data_detail',
