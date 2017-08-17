@@ -97,13 +97,19 @@ class WidgetsForm extends React.Component {
           // Start the submitting
           this.setState({ submitting: true });
 
-          // Save data
-          this.service.saveData({
+          const obj = {
             dataset: this.state.form.dataset,
             id: id || '',
             type: (id) ? 'PATCH' : 'POST',
-            body: this.state.form
-          })
+            body: this.state.form,
+          };
+
+          if (obj.body.sourceUrl === '') {
+            delete obj.body.sourceUrl;
+          }
+
+          // Save data
+          this.service.saveData(obj)
             .then((data) => {
               toastr.success('Success', `The widget "${data.id}" - "${data.name}" has been uploaded correctly`);
 
