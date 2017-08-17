@@ -28,8 +28,4 @@ LayersShow.propTypes = {
   user: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-  user: state.user
-});
-
 export default LayersShow;

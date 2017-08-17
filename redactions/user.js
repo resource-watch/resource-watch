@@ -34,13 +34,9 @@ export default function (state = initialState, action) {
  * - setUser
 */
 export function setUser(user) {
-  let userObj = user;
-  // Add 'Bearer' to token
-  if (!isEmpty(user)) {
-    userObj = {
-      ...userObj,
-      token: `Bearer ${userObj.token}`
-    };
+  const userObj = Object.assign({}, user);
+  if (!isEmpty(userObj)) {
+    userObj.token = userObj.token.includes('Bearer') ? userObj.token : `Bearer ${userObj.token}`;
   }
   return dispatch => dispatch({ type: SET_USER, payload: userObj });
 }

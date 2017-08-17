@@ -65,11 +65,14 @@ class LayersForm extends React.Component {
       .then((response) => {
         const datasets = response[0];
         const current = response[1];
+        const formState = (id) ? this.setFormFromParams(current) : this.state.form;
 
         this.setState({
           // CURRENT LAYER
-          form: (id) ? this.setFormFromParams(current) : this.state.form,
+          form: formState,
           loading: false,
+          // CURRENT DATASET
+          dataset: formState.dataset,
           // OPTIONS
           datasets: datasets.map(d => ({ label: d.name, value: d.id }))
         });
