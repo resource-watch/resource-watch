@@ -7,7 +7,6 @@ import Spinner from 'components/ui/Spinner';
 import WidgetCard from 'components/widgets/WidgetCard';
 
 export default class WidgetList extends React.Component {
-
   constructor(props) {
     super(props);
 

@@ -297,7 +297,7 @@ ChartEditor.defaultProps = {
 };
 
 ChartEditor.propTypes = {
-  mode: PropTypes.string.isRequired, // save | update
+  mode: PropTypes.oneOf(['save', 'update']).isRequired,
   tableName: PropTypes.string.isRequired,
   jiminy: PropTypes.object,
   dataset: PropTypes.string.isRequired, // Dataset ID

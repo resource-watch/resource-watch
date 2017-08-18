@@ -8,12 +8,11 @@ import isEqual from 'lodash/isEqual';
 // Redux
 import { connect } from 'react-redux';
 
-import { resetWidgetEditor, setFields } from 'redactions/widgetEditor';
+import { resetWidgetEditor, setFields, setVisualizationType } from 'redactions/widgetEditor';
 
 // Services
 import DatasetService from 'services/DatasetService';
 import WidgetService from 'services/WidgetService';
-import RasterService from 'services/RasterService';
 
 // Components
 import Select from 'components/form/SelectInput';
@@ -58,8 +57,6 @@ const mapConfig = {
 };
 
 const DEFAULT_STATE = {
-  selectedVisualizationType: 'chart',
-
   // DATASET
   datasetType: null, // Type of the dataset
   datasetProvider: null, // Name of the provider
@@ -86,8 +83,8 @@ const DEFAULT_STATE = {
   layersLoaded: false,
   layersError: false,
 
-  // RASTER
-  rasterBand: null // Name of the band
+  // DATASET INFO
+  datasetInfoLoaded: false
 };
 
 @DragDropContext(HTML5Backend)
@@ -144,9 +141,7 @@ class WidgetEditor extends React.Component {
       // NOTE: jiminy must also be set as loaded to remove the spinner
       .then(() => this.setState({ fieldsLoaded: true, jiminyLoaded: true }));
 
-    if (this.props.mode === 'dataset') {
-      this.getLayers();
-    }
+    this.getLayers();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -212,7 +207,7 @@ class WidgetEditor extends React.Component {
     // fetch the Vega chart config again
     // NOTE: this can't be moved to componentWillUpdate because
     // this.fetchChartConfig uses the store
-    if (canRenderChart(this.props.widgetEditor)
+    if (this.state.datasetInfoLoaded && canRenderChart(this.props.widgetEditor)
       && (!isEqual(previousProps.widgetEditor, this.props.widgetEditor)
       || previousState.tableName !== this.state.tableName)) {
       this.fetchChartConfig();
@@ -231,18 +226,6 @@ class WidgetEditor extends React.Component {
     });
 
     this.setState({ layerGroups: [...layerGroups] });
-  }
-
-  /**
-   * Event handler executed when the user selects a band
-   * for a raster dataset
-   * @param {string} band 
-   */
-  @Autobind
-  onChangeBand(band) {
-    this.setState({ rasterBand: band }, () => {
-      if (band) this.fetchChartConfig();
-    });
   }
 
   /**
@@ -361,6 +344,7 @@ class WidgetEditor extends React.Component {
         }));
 
         this.setState({
+          datasetInfoLoaded: true,
           tableName: attributes.tableName,
           datasetType: attributes.type,
           datasetProvider: attributes.provider
@@ -378,14 +362,13 @@ class WidgetEditor extends React.Component {
   getVisualization() {
     const {
       tableName,
-      selectedVisualizationType,
       chartLoading,
       layersLoaded,
       fieldsError,
       jiminyLoaded
     } = this.state;
 
-    const { widgetEditor, dataset, mode } = this.props;
+    const { widgetEditor, dataset, mode, selectedVisualizationType } = this.props;
     const { chartType, layer } = widgetEditor;
 
     // Whether we are still waiting for some info
@@ -486,7 +469,7 @@ class WidgetEditor extends React.Component {
               </div>
             </div>
           );
-        } else if (!this.state.chartConfig || !this.state.rasterBand) {
+        } else if (!this.state.chartConfig || !this.props.band) {
           visualization = (
             <div className="visualization -chart">
               Select a band
@@ -532,39 +515,18 @@ class WidgetEditor extends React.Component {
    * inside and not the URL of the data
    */
   fetchChartConfig() {
-    const { tableName, datasetType, datasetProvider, rasterBand } = this.state;
-    const { widgetEditor, dataset } = this.props;
+    const { tableName, datasetType, datasetProvider } = this.state;
+    const { widgetEditor, dataset, band } = this.props;
 
     this.setState({ chartConfigLoading: true, chartConfigError: null });
 
-    let chartInfo;
-    if (datasetType === 'raster') {
-      chartInfo = {
-        chartType: 'bar',
-        limit: 500,
-        order: null,
-        filters: [],
-        areaIntersection: null,
-        x: {
-          type: null,
-          name: 'x',
-          alias: null
-        },
-        y: {
-          type: null,
-          name: 'y',
-          alias: null
-        }
-      };
-    } else {
-      chartInfo = getChartInfo(dataset, datasetType, datasetProvider, widgetEditor);
-    }
+    const chartInfo = getChartInfo(dataset, datasetType, datasetProvider, widgetEditor);
 
     getChartConfig(
       dataset,
       datasetType,
       tableName,
-      rasterBand,
+      band,
       datasetProvider,
       chartInfo,
       true
@@ -594,13 +556,12 @@ class WidgetEditor extends React.Component {
    */
   @Autobind
   handleVisualizationTypeChange(selectedVisualizationType) {
-    this.setState({ selectedVisualizationType });
+    this.props.setVisualizationType(selectedVisualizationType);
   }
 
   render() {
     const {
       tableName,
-      selectedVisualizationType,
       jiminyError,
       jiminyLoaded,
       fieldsError,
@@ -611,8 +572,16 @@ class WidgetEditor extends React.Component {
       datasetType,
       datasetProvider
     } = this.state;
+
     let { jiminy } = this.state;
-    const { dataset, mode, showSaveButton, showShareEmbedButton } = this.props;
+
+    const {
+      dataset,
+      mode,
+      showSaveButton,
+      showShareEmbedButton,
+      selectedVisualizationType
+    } = this.props;
 
     // Whether we're still waiting for some data
     const loading = (mode === 'dataset' && !layersLoaded)
@@ -686,8 +655,7 @@ class WidgetEditor extends React.Component {
                   </div>
                 </div>
                 {
-                  selectedVisualizationType !== 'map'
-                    && selectedVisualizationType !== 'raster_chart'
+                  selectedVisualizationType === 'chart'
                     && !fieldsError && tableName
                     && (
                       <ChartEditor
@@ -721,7 +689,10 @@ class WidgetEditor extends React.Component {
                         dataset={this.props.dataset}
                         tableName={tableName}
                         provider={datasetProvider}
-                        onChangeBand={this.onChangeBand}
+                        mode={chartEditorMode}
+                        showSaveButton={showSaveButton}
+                        showShareEmbedButton={showShareEmbedButton}
+                        onUpdateWidget={this.handleUpdateWidget}
                       />
                     )
                 }
@@ -735,10 +706,17 @@ class WidgetEditor extends React.Component {
   }
 }
 
-const mapStateToProps = ({ widgetEditor, user }) => ({ widgetEditor, user });
+const mapStateToProps = ({ widgetEditor, user }) => ({
+  widgetEditor,
+  user,
+  selectedVisualizationType: widgetEditor.visualizationType,
+  band: widgetEditor.band
+});
+
 const mapDispatchToProps = dispatch => ({
   resetWidgetEditor: () => dispatch(resetWidgetEditor()),
-  setFields: (fields) => { dispatch(setFields(fields)); }
+  setFields: (fields) => { dispatch(setFields(fields)); },
+  setVisualizationType: vis => dispatch(setVisualizationType(vis))
 });
 
 WidgetEditor.defaultProps = {
@@ -760,9 +738,12 @@ WidgetEditor.propTypes = {
   onError: PropTypes.func,
   // Store
   user: PropTypes.object.isRequired,
+  band: PropTypes.string,
   widgetEditor: PropTypes.object.isRequired,
   resetWidgetEditor: PropTypes.func.isRequired,
-  setFields: PropTypes.func.isRequired
+  setFields: PropTypes.func.isRequired,
+  setVisualizationType: PropTypes.func.isRequired,
+  selectedVisualizationType: PropTypes.string
 };
 
 WidgetEditor.defaultProps = {

@@ -20,7 +20,7 @@ import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
 
 // utils
-import { getChartConfig } from 'utils/widgets/WidgetHelper';
+import { getChartConfig, canRenderChart, getChartInfo } from 'utils/widgets/WidgetHelper';
 
 const FORM_ELEMENTS = {
   elements: {
@@ -65,9 +65,12 @@ class WidgetsNew extends React.Component {
     this.datasetsService.fetchAllData({ filters: { published: true } }).then((response) => {
       this.setState({
         datasets: response.map(dataset => ({
+          id: dataset.id,
+          type: dataset.type,
+          provider: dataset.provider,
+          tableName: dataset.tableName,
           label: dataset.name,
-          value: dataset.id,
-          tableName: dataset.tableName
+          value: dataset.id
         })),
         loading: false
       });
@@ -82,20 +85,40 @@ class WidgetsNew extends React.Component {
 
     const { widget, selectedDataset, datasets } = this.state;
     const { widgetEditor, user } = this.props;
-    const { limit, value, category, color, size, orderBy, aggregateFunction,
-      chartType, filters, areaIntersection } = widgetEditor;
-    const chartDefined = widgetEditor.chartType && widgetEditor.category && widgetEditor.value;
-    const tableName = datasets.find(elem => elem.value === selectedDataset).tableName;
+    const {
+      visualizationType,
+      band,
+      limit,
+      value,
+      category,
+      color,
+      size,
+      orderBy,
+      aggregateFunction,
+      chartType,
+      filters,
+      areaIntersection
+    } = widgetEditor;
 
-    if (chartDefined) {
+    const dataset = datasets.find(elem => elem.value === selectedDataset);
+
+    if (canRenderChart(widgetEditor)) {
       this.setState({
         loading: true
       });
 
+      const chartInfo = getChartInfo(dataset.id, dataset.type, dataset.provider, widgetEditor);
 
       let chartConfig;
       try {
-        chartConfig = await getChartConfig(widgetEditor, tableName, selectedDataset);
+        chartConfig = await getChartConfig(
+          dataset.id,
+          dataset.type,
+          dataset.tableName,
+          band,
+          dataset.provider,
+          chartInfo
+        );
       } catch (err) {
         this.setState({
           saved: false,
@@ -111,6 +134,8 @@ class WidgetsNew extends React.Component {
           {},
           {
             paramsConfig: {
+              visualizationType,
+              band,
               limit,
               value,
               category,
@@ -162,7 +187,7 @@ class WidgetsNew extends React.Component {
           toastr.err('Error', err);
         });
     } else {
-      toastr.error('Erorr', 'Please create a widget in order to save it');
+      toastr.error('Error', 'Please create a widget in order to save it');
     }
   }
 
@@ -215,7 +240,6 @@ class WidgetsNew extends React.Component {
           <WidgetEditor
             widget={widget}
             dataset={selectedDataset}
-            availableVisualizations={['chart', 'table']}
             mode="widget"
             onUpdateWidget={this.onSubmit}
             showSaveButton={false}

@@ -6,8 +6,19 @@ import { toastr } from 'react-redux-toastr';
 // Redux
 import { connect } from 'react-redux';
 
-import { setFilters, setColor, setCategory, setValue, setSize, setOrderBy,
-  setAggregateFunction, setLimit, setChartType } from 'redactions/widgetEditor';
+import {
+  setFilters,
+  setColor,
+  setCategory,
+  setValue,
+  setSize,
+  setOrderBy,
+  setAggregateFunction,
+  setLimit,
+  setChartType,
+  setBand,
+  setVisualizationType
+} from 'redactions/widgetEditor';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -89,8 +100,20 @@ class WidgetsEdit extends React.Component {
     const widgetAtts = widget.attributes;
     const dataset = widgetAtts.dataset;
     const { widgetEditor, user } = this.props;
-    const { limit, value, category, color, size, orderBy, aggregateFunction,
-      chartType, filters, areaIntersection } = widgetEditor;
+    const {
+      visualizationType,
+      band,
+      limit,
+      value,
+      category,
+      color,
+      size,
+      orderBy,
+      aggregateFunction,
+      chartType,
+      filters,
+      areaIntersection
+    } = widgetEditor;
     const { type, provider, tableName } = this.state.dataset.attributes;
 
     const chartInfo = getChartInfo(dataset, type, provider, widgetEditor);
@@ -101,7 +124,7 @@ class WidgetsEdit extends React.Component {
         dataset,
         type,
         tableName,
-        null,
+        band,
         provider,
         chartInfo
       );
@@ -120,6 +143,8 @@ class WidgetsEdit extends React.Component {
         {},
         {
           paramsConfig: {
+            visualizationType,
+            band,
             limit,
             value,
             category,
@@ -181,6 +206,8 @@ class WidgetsEdit extends React.Component {
   loadWidgetIntoRedux() {
     const { paramsConfig } = this.state.widget.attributes.widgetConfig;
     const {
+      visualizationType,
+      band,
       value,
       category,
       color,
@@ -192,6 +219,12 @@ class WidgetsEdit extends React.Component {
       chartType
     } = paramsConfig;
 
+    // We restore the type of visualization
+    // We default to "chart" to maintain the compatibility with previously created
+    // widgets (at that time, only "chart" widgets could be created)
+    this.props.setVisualizationType(visualizationType || 'chart');
+
+    if (band) this.props.setBand(band);
     if (aggregateFunction) this.props.setAggregateFunction(aggregateFunction);
     if (value) this.props.setValue(value);
     if (size) this.props.setSize(size);
@@ -337,7 +370,9 @@ WidgetsEdit.propTypes = {
   setOrderBy: PropTypes.func.isRequired,
   setAggregateFunction: PropTypes.func.isRequired,
   setLimit: PropTypes.func.isRequired,
-  setChartType: PropTypes.func.isRequired
+  setChartType: PropTypes.func.isRequired,
+  setVisualizationType: PropTypes.func.isRequired,
+  setBand: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -346,33 +381,17 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setFilters: (filter) => {
-    dispatch(setFilters(filter));
-  },
-  setColor: (color) => {
-    dispatch(setColor(color));
-  },
-  setSize: (size) => {
-    dispatch(setSize(size));
-  },
-  setCategory: (category) => {
-    dispatch(setCategory(category));
-  },
-  setValue: (value) => {
-    dispatch(setValue(value));
-  },
-  setOrderBy: (value) => {
-    dispatch(setOrderBy(value));
-  },
-  setAggregateFunction: (value) => {
-    dispatch(setAggregateFunction(value));
-  },
-  setLimit: (value) => {
-    dispatch(setLimit(value));
-  },
-  setChartType: (value) => {
-    dispatch(setChartType(value));
-  }
+  setFilters: filter => dispatch(setFilters(filter)),
+  setColor: color => dispatch(setColor(color)),
+  setSize: size => dispatch(setSize(size)),
+  setCategory: category => dispatch(setCategory(category)),
+  setValue: value => dispatch(setValue(value)),
+  setOrderBy: value => dispatch(setOrderBy(value)),
+  setAggregateFunction: value => dispatch(setAggregateFunction(value)),
+  setLimit: value => dispatch(setLimit(value)),
+  setChartType: value => dispatch(setChartType(value)),
+  setVisualizationType: vis => dispatch(setVisualizationType(vis)),
+  setBand: band => dispatch(setBand(band))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WidgetsEdit);

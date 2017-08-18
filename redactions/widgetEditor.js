@@ -22,6 +22,8 @@ const SET_FIELDS = 'widgetEditor/SET_FIELDS';
 const SET_LIMIT = 'widgetEditor/SET_LIMIT';
 const RESET = 'widgetEditor/RESET';
 const SET_AREA_INTERSEACTION = 'widgetEditor/SET_AREA_INTERSEACTION';
+const SET_VISUALIZATION_TYPE = 'widgetEditor/SET_VISUALIZATION_TYPE';
+const SET_BAND = 'widgetEditor/SET_BAND';
 
 /**
  * REDUCER
@@ -37,8 +39,10 @@ const initialState = {
   layer: null,
   fields: [],
   chartType: null,
+  visualizationType: null,
   limit: 500,
-  areaIntersection: null // ID of the geostore object
+  areaIntersection: null, // ID of the geostore object
+  band: null // Band of the raster dataset
 };
 
 export default function (state = initialState, action) {
@@ -188,6 +192,18 @@ export default function (state = initialState, action) {
       });
     }
 
+    case SET_VISUALIZATION_TYPE: {
+      return Object.assign({}, state, {
+        visualizationType: action.payload
+      });
+    }
+
+    case SET_BAND: {
+      return Object.assign({}, state, {
+        band: action.payload
+      });
+    }
+
     default:
       return state;
   }
@@ -278,4 +294,12 @@ export function setLimit(limit) {
 
 export function setAreaIntersection(id) {
   return dispatch => dispatch({ type: SET_AREA_INTERSEACTION, payload: id });
+}
+
+export function setVisualizationType(vis) {
+  return dispatch => dispatch({ type: SET_VISUALIZATION_TYPE, payload: vis });
+}
+
+export function setBand(band) {
+  return dispatch => dispatch({ type: SET_BAND, payload: band });
 }

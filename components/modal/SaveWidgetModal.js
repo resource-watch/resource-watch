@@ -68,7 +68,7 @@ class SaveWidgetModal extends React.Component {
     });
     const { widgetEditor, tableName, dataset, datasetType, datasetProvider } = this.props;
     const { limit, value, category, color, size, orderBy, aggregateFunction,
-      chartType, filters, areaIntersection } = widgetEditor;
+      chartType, filters, areaIntersection, visualizationType, band } = widgetEditor;
 
     const chartInfo = getChartInfo(dataset, datasetType, datasetProvider, widgetEditor);
 
@@ -78,7 +78,7 @@ class SaveWidgetModal extends React.Component {
         dataset,
         datasetType,
         tableName,
-        null,
+        band,
         datasetProvider,
         chartInfo
       );
@@ -97,6 +97,7 @@ class SaveWidgetModal extends React.Component {
         {},
         {
           paramsConfig: {
+            visualizationType,
             limit,
             value,
             category,
@@ -106,7 +107,8 @@ class SaveWidgetModal extends React.Component {
             aggregateFunction,
             chartType,
             filters,
-            areaIntersection
+            areaIntersection,
+            band
           }
         },
         chartConfig
@@ -117,27 +119,18 @@ class SaveWidgetModal extends React.Component {
 
     this.widgetService.saveUserWidget(widgetObj, this.props.dataset, this.props.user.token)
       .then((response) => {
-        if (response.errors) {
-          this.setState({
-            saved: false,
-            loading: false,
-            error: true,
-            errorMessage: response.errors[0].detail
-          });
-        } else {
-          this.setState({
-            saved: true,
-            loading: false,
-            error: false
-          });
-        }
-      }).catch((err) => {
+        if (response.errors) throw new Error(response.errors[0].detail);
+      })
+      .then(() => this.setState({ saved: true, error: false }))
+      .catch((err) => {
         this.setState({
           saved: false,
-          error: true
+          error: true,
+          errorMessage: err.message
         });
         console.log(err); // eslint-disable-line no-console
-      });
+      })
+      .then(() => this.setState({ loading: false }));
   }
 
   @Autobind
