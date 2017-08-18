@@ -262,7 +262,6 @@ class WidgetsEdit extends React.Component {
             mode="widget"
             onUpdateWidget={this.onSubmit}
             showSaveButton
-            showShareEmbedButton={false}
           />
           <div className="form-container">
             <form className="form-container" onSubmit={this.onSubmit}>

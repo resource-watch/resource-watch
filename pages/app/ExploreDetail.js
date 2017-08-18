@@ -282,7 +282,6 @@ class ExploreDetail extends Page {
                 dataset={dataset.id}
                 mode="dataset"
                 showSaveButton
-                showShareEmbedButton
               />
             }
           </MediaQuery>

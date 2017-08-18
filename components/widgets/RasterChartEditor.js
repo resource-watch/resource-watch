@@ -81,11 +81,6 @@ class RasterChartEditor extends React.Component {
     this.props.onUpdateWidget();
   }
 
-  @Autobind
-  onClickShareEmbed() { // eslint-disable-line class-methods-use-this
-    throw new Error('Not implemented yet');
-  }
-
   /**
    * Fetch the name of the bands and set it in the state
    */
@@ -99,7 +94,7 @@ class RasterChartEditor extends React.Component {
 
   render() {
     const { loading, bands, error } = this.state;
-    const { band, mode, showSaveButton, showShareEmbedButton } = this.props;
+    const { band, mode, showSaveButton } = this.props;
 
     return (
       <div className="c-raster-chart-editor">
@@ -127,14 +122,6 @@ class RasterChartEditor extends React.Component {
               Save widget
             </button>
           }
-          {mode === 'update' && showShareEmbedButton && band &&
-            <button
-              className="c-button -primary"
-              onClick={this.onClickShareEmbed}
-            >
-              Share/embed
-            </button>
-          }
           {showSaveButton && mode === 'update' && band &&
             <button
               className="c-button -primary"
@@ -155,7 +142,6 @@ RasterChartEditor.propTypes = {
   provider: PropTypes.string.isRequired,
   mode: PropTypes.oneOf(['save', 'update']),
   showSaveButton: PropTypes.bool,
-  showShareEmbedButton: PropTypes.bool,
   onUpdateWidget: PropTypes.func,
 
   // REDUX

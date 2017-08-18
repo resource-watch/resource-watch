@@ -579,7 +579,6 @@ class WidgetEditor extends React.Component {
       dataset,
       mode,
       showSaveButton,
-      showShareEmbedButton,
       selectedVisualizationType
     } = this.props;
 
@@ -668,7 +667,6 @@ class WidgetEditor extends React.Component {
                         mode={chartEditorMode}
                         onUpdateWidget={this.handleUpdateWidget}
                         showSaveButton={showSaveButton}
-                        showShareEmbedButton={showShareEmbedButton}
                       />
                     )
                 }
@@ -691,7 +689,6 @@ class WidgetEditor extends React.Component {
                         provider={datasetProvider}
                         mode={chartEditorMode}
                         showSaveButton={showSaveButton}
-                        showShareEmbedButton={showShareEmbedButton}
                         onUpdateWidget={this.handleUpdateWidget}
                       />
                     )
@@ -719,14 +716,9 @@ const mapDispatchToProps = dispatch => ({
   setVisualizationType: vis => dispatch(setVisualizationType(vis))
 });
 
-WidgetEditor.defaultProps = {
-  showShareEmbedButton: false
-};
-
 WidgetEditor.propTypes = {
   mode: PropTypes.oneOf(['dataset', 'widget']),
   showSaveButton: PropTypes.bool.isRequired, // Show save button in chart editor or not
-  showShareEmbedButton: PropTypes.bool.isRequired, // Show share/embed button in chart editor or not
   dataset: PropTypes.string, // Dataset ID
   widget: PropTypes.object, // Widget object
   availableVisualizations: PropTypes.arrayOf(

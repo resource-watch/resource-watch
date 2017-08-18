@@ -243,7 +243,6 @@ class WidgetsNew extends React.Component {
             mode="widget"
             onUpdateWidget={this.onSubmit}
             showSaveButton={false}
-            showShareEmbedButton={false}
             onError={this.handleWidgetEditorError}
           />
           {!error &&
