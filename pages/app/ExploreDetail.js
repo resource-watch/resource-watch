@@ -178,7 +178,7 @@ class ExploreDetail extends Page {
     const downloadButtonClass = classNames({
       '-disabled': downloadURI,
       'c-button': true,
-      '-primary': true,
+      '-secondary': true,
       '-fullwidth': true
     });
 
@@ -232,10 +232,10 @@ class ExploreDetail extends Page {
                 <div className="column large-offset-2 small-12 medium-3">
                   <div className="dataset-info-actions">
                     <button
-                      className="c-button -secondary -fullwidth"
+                      className="c-button -primary -fullwidth"
                       onClick={this.handleShare}
                     >
-                      Share/Embed
+                      Share dataset
                     </button>
                     {metadataInfo && metadataInfo.data_download_link &&
                       <a
@@ -247,7 +247,7 @@ class ExploreDetail extends Page {
                     }
                     {metadataInfo && metadataInfo.data_download_original_link &&
                       <a
-                        className="c-button -primary -fullwidth"
+                        className="c-button -secondary -fullwidth"
                         href={metadataInfo && metadataInfo.data_download_original_link}
                       >
                         Download from source
@@ -255,7 +255,7 @@ class ExploreDetail extends Page {
                     }
                     {metadataInfo && metadataInfo.learn_more_link &&
                       <a
-                        className="c-button -primary -fullwidth"
+                        className="c-button -secondary -fullwidth"
                         href={metadataInfo && metadataInfo.learn_more_link}
                       >
                         Learn more
@@ -263,7 +263,7 @@ class ExploreDetail extends Page {
                     }
                     {dataset && dataset.attributes && dataset.attributes.subscribable && this.props.user.id &&
                       <button
-                        className="c-button -primary -fullwidth"
+                        className="c-button -secondary -fullwidth"
                         onClick={this.handleSubscribe}
                       >
                         Subscribe to alerts
