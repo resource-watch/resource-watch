@@ -131,17 +131,21 @@ class DataDetail extends Page {
 
         <div className="c-page-section">
           <div className="l-container">
-            {tab === 'datasets' &&
-              <DatasetsTab tab={tab} subtab={subtab} id={id} />
-            }
+            <div className="row">
+              <div className="column small-12">
+                {tab === 'datasets' &&
+                  <DatasetsTab tab={tab} subtab={subtab} id={id} />
+                }
 
-            {tab === 'widgets' &&
-              <WidgetsTab tab={tab} subtab={subtab} id={id} dataset={dataset} />
-            }
+                {tab === 'widgets' &&
+                  <WidgetsTab tab={tab} subtab={subtab} id={id} dataset={dataset} />
+                }
 
-            {tab === 'layers' &&
-              <LayersTab tab={tab} subtab={subtab} id={id} dataset={dataset} />
-            }
+                {tab === 'layers' &&
+                  <LayersTab tab={tab} subtab={subtab} id={id} dataset={dataset} />
+                }
+              </div>
+            </div>
           </div>
         </div>
       </Layout>

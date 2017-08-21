@@ -106,21 +106,29 @@ class PartnersDetail extends Page {
         {/* PAGE HEADER */}
         <div className="c-page-header -admin">
           <div className="l-container">
-            <div className="page-header-content">
-              <Breadcrumbs
-                items={[{ name: capitalizeFirstLetter(tab), route: 'admin_partners', params: { tab } }]}
-              />
-              <Title className="-primary -huge page-header-title" >
-                {this.getName()}
-              </Title>
+            <div className="row">
+              <div className="column small-12">
+                <div className="page-header-content">
+                  <Breadcrumbs
+                    items={[{ name: capitalizeFirstLetter(tab), route: 'admin_partners', params: { tab } }]}
+                  />
+                  <Title className="-primary -huge page-header-title" >
+                    {this.getName()}
+                  </Title>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div className="c-page-section">
           <div className="l-container">
-            {tab === 'partners' &&
-              <PartnersTab tab={tab} subtab={subtab} id={id} />
-            }
+            <div className="row">
+              <div className="column small-12">
+                {tab === 'partners' &&
+                  <PartnersTab tab={tab} subtab={subtab} id={id} />
+                }
+              </div>
+            </div>
           </div>
         </div>
       </Layout>
