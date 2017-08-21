@@ -10,30 +10,45 @@ import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Components
 import Select from 'components/form/SelectInput';
-import EmbedLayerModal from 'components/modal/EmbedLayerModal';
+// import EmbedLayerModal from 'components/modal/EmbedLayerModal';
+import SaveWidgetModal from 'components/modal/SaveWidgetModal';
 
 class MapEditor extends React.Component {
+  /**
+   * Event handler executed when the user clicks the
+   * Save button
+   */
+  @Autobind
+  onClickSaveWidget() {
+    const options = {
+      children: SaveWidgetModal,
+      childrenProps: {
+        dataset: this.props.dataset,
+        datasetType: this.props.datasetType,
+        datasetProvider: this.props.provider,
+        tableName: this.props.tableName
+      }
+    };
+
+    this.props.toggleModal(true, options);
+  }
+
+  /**
+   * Event handler executed when the user clicks the
+   * Save button while editing an existing widget
+   */
+  @Autobind
+  onClickUpdateWidget() {
+    this.props.onUpdateWidget();
+  }
 
   @Autobind
   handleLayerChange(layerID) {
     this.props.showLayer(this.props.layers.find(val => val.id === layerID));
   }
 
-  @Autobind
-  handleEmbedMap() {
-    const options = {
-      children: EmbedLayerModal,
-      childrenProps: {
-        url: window.location.href,
-        layerGroups: this.props.layerGroups
-      }
-    };
-    this.props.toggleModal(true);
-    this.props.setModalOptions(options);
-  }
-
   render() {
-    const { widgetEditor, layers } = this.props;
+    const { widgetEditor, layers, mode, showSaveButton } = this.props;
     const { layer } = widgetEditor;
 
     return (
@@ -57,17 +72,24 @@ class MapEditor extends React.Component {
             onChange={this.handleLayerChange}
           />
         </div>
-        {layer &&
-          <div className="actions-container">
-            <a
-              tabIndex={0}
-              role="button"
-              onClick={this.handleEmbedMap}
+        <div className="actions-container">
+          {showSaveButton && mode === 'save' && layer &&
+            <button
+              className="c-button -primary"
+              onClick={this.onClickSaveWidget}
             >
-              Embed Map
-            </a>
-          </div>
-        }
+              Save widget
+            </button>
+          }
+          {showSaveButton && mode === 'update' && layer &&
+            <button
+              className="c-button -primary"
+              onClick={this.onClickUpdateWidget}
+            >
+              Save widget
+            </button>
+          }
+        </div>
       </div>
     );
   }
@@ -75,20 +97,26 @@ class MapEditor extends React.Component {
 
 
 MapEditor.propTypes = {
-  layerGroups: PropTypes.array, // List of layer groups
   layers: PropTypes.array.isRequired, // Dataset ID
+  dataset: PropTypes.string.isRequired,
+  tableName: PropTypes.string.isRequired,
+  provider: PropTypes.string.isRequired,
+  datasetType: PropTypes.string,
+  mode: PropTypes.oneOf(['save', 'update']),
+  showSaveButton: PropTypes.bool,
+  onUpdateWidget: PropTypes.func,
+
   // Store
   showLayer: PropTypes.func.isRequired,
   widgetEditor: PropTypes.object.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired
+  toggleModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = ({ widgetEditor }) => ({ widgetEditor });
 const mapDispatchToProps = dispatch => ({
   showLayer: layer => dispatch(showLayer(layer)),
-  toggleModal: (open) => { dispatch(toggleModal(open)); },
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); }
+  toggleModal: (...args) => { dispatch(toggleModal(...args)); },
+  setModalOptions: (...args) => { dispatch(setModalOptions(...args)); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapEditor);

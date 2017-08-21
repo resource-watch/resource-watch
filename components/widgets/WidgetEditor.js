@@ -9,6 +9,7 @@ import isEqual from 'lodash/isEqual';
 import { connect } from 'react-redux';
 
 import { resetWidgetEditor, setFields, setVisualizationType } from 'redactions/widgetEditor';
+import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -24,6 +25,8 @@ import RasterChartEditor from 'components/widgets/RasterChartEditor';
 import Map from 'components/vis/Map';
 import Legend from 'components/ui/Legend';
 import TableView from 'components/widgets/TableView';
+import Icon from 'components/ui/Icon';
+import ShareModalExplore from 'components/modal/ShareModalExplore';
 
 // Utils
 import { getChartInfo, getChartConfig, canRenderChart, getChartType, isFieldAllowed } from 'utils/widgets/WidgetHelper';
@@ -207,7 +210,9 @@ class WidgetEditor extends React.Component {
     // fetch the Vega chart config again
     // NOTE: this can't be moved to componentWillUpdate because
     // this.fetchChartConfig uses the store
-    if (this.state.datasetInfoLoaded && canRenderChart(this.props.widgetEditor)
+    if (this.state.datasetInfoLoaded
+      && canRenderChart(this.props.widgetEditor)
+      && this.props.widgetEditor.visualizationType !== 'map'
       && (!isEqual(previousProps.widgetEditor, this.props.widgetEditor)
       || previousState.tableName !== this.state.tableName)) {
       this.fetchChartConfig();
@@ -226,6 +231,32 @@ class WidgetEditor extends React.Component {
     });
 
     this.setState({ layerGroups: [...layerGroups] });
+  }
+
+  /**
+   * Event handler executed when the user clicks the
+   * embed button of the map
+   */
+  onClickShareMap() {
+    const layerGroups = [{
+      dataset: this.props.widgetEditor.layer.dataset,
+      visible: true,
+      layers: [{
+        id: this.props.widgetEditor.layer.id,
+        active: true
+      }]
+    }];
+
+    const options = {
+      children: ShareModalExplore,
+      childrenProps: {
+        url: window.location.href,
+        layerGroups,
+        toggleModal: this.props.toggleModal
+      }
+    };
+
+    this.props.toggleModal(true, options);
   }
 
   /**
@@ -437,6 +468,11 @@ class WidgetEditor extends React.Component {
                 mapConfig={mapConfig}
                 layerGroups={this.state.layerGroups}
               />
+
+              <button className="share-button" onClick={() => this.onClickShareMap()}>
+                <Icon name="icon-share" className="-small" />
+              </button>
+
               <Legend
                 layerGroups={this.state.layerGroups}
                 className={{ color: '-dark' }}
@@ -448,6 +484,12 @@ class WidgetEditor extends React.Component {
                 readonly
                 expanded={false}
               />
+            </div>
+          );
+        } else {
+          visualization = (
+            <div className="visualization">
+              Select a layer
             </div>
           );
         }
@@ -671,12 +713,23 @@ class WidgetEditor extends React.Component {
                     )
                 }
                 {
-                  selectedVisualizationType === 'map' && layers && layers.length > 0 &&
-                  <MapEditor
-                    layerGroups={this.state.layerGroups}
-                    layers={layers}
-                    tableName={tableName}
-                  />
+                  selectedVisualizationType === 'map'
+                    && layers && layers.length > 0
+                    && tableName
+                    && datasetProvider
+                    && (
+                      <MapEditor
+                        dataset={this.props.dataset}
+                        tableName={tableName}
+                        provider={datasetProvider}
+                        datasetType={datasetType}
+                        layerGroups={this.state.layerGroups}
+                        layers={layers}
+                        mode={chartEditorMode}
+                        onUpdateWidget={this.handleUpdateWidget}
+                        showSaveButton={showSaveButton}
+                      />
+                    )
                 }
                 {
                   selectedVisualizationType === 'raster_chart'
@@ -713,7 +766,9 @@ const mapStateToProps = ({ widgetEditor, user }) => ({
 const mapDispatchToProps = dispatch => ({
   resetWidgetEditor: () => dispatch(resetWidgetEditor()),
   setFields: (fields) => { dispatch(setFields(fields)); },
-  setVisualizationType: vis => dispatch(setVisualizationType(vis))
+  setVisualizationType: vis => dispatch(setVisualizationType(vis)),
+  toggleModal: (open, options) => dispatch(toggleModal(open, options)),
+  setModalOptions: (...args) => dispatch(setModalOptions(args))
 });
 
 WidgetEditor.propTypes = {
@@ -735,7 +790,9 @@ WidgetEditor.propTypes = {
   resetWidgetEditor: PropTypes.func.isRequired,
   setFields: PropTypes.func.isRequired,
   setVisualizationType: PropTypes.func.isRequired,
-  selectedVisualizationType: PropTypes.string
+  selectedVisualizationType: PropTypes.string,
+  toggleModal: PropTypes.func,
+  setModalOptions: PropTypes.func
 };
 
 WidgetEditor.defaultProps = {

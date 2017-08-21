@@ -24,6 +24,7 @@ const RESET = 'widgetEditor/RESET';
 const SET_AREA_INTERSEACTION = 'widgetEditor/SET_AREA_INTERSEACTION';
 const SET_VISUALIZATION_TYPE = 'widgetEditor/SET_VISUALIZATION_TYPE';
 const SET_BAND = 'widgetEditor/SET_BAND';
+const SET_LAYER = 'widgetEditor/SET_LAYER';
 
 /**
  * REDUCER
@@ -204,6 +205,12 @@ export default function (state = initialState, action) {
       });
     }
 
+    case SET_LAYER: {
+      return Object.assign({}, state, {
+        layer: action.payload
+      });
+    }
+
     default:
       return state;
   }
@@ -302,4 +309,8 @@ export function setVisualizationType(vis) {
 
 export function setBand(band) {
   return dispatch => dispatch({ type: SET_BAND, payload: band });
+}
+
+export function setLayer(layer) {
+  return dispatch => dispatch({ type: SET_LAYER, payload: layer });
 }

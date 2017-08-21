@@ -3,12 +3,10 @@ import LayerChart from 'components/widgets/LayerChart';
 import Spinner from 'components/ui/Spinner';
 
 class DatasetLayerChart extends React.Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
-      layer: props.layer,
       loading: false
     };
 
@@ -16,18 +14,12 @@ class DatasetLayerChart extends React.Component {
     this.triggerToggleLoading = this.triggerToggleLoading.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      layer: nextProps.layer
-    });
-  }
-
   triggerToggleLoading(loading) {
     this.setState({ loading });
   }
 
   render() {
-    const layerConfig = this.state.layer.layerConfig;
+    const layerConfig = this.props.layer.layerConfig;
 
     return (
       <div className="c-layer-chart">
@@ -45,7 +37,6 @@ class DatasetLayerChart extends React.Component {
 }
 
 DatasetLayerChart.propTypes = {
-  // STATE
   layer: React.PropTypes.object
 };
 

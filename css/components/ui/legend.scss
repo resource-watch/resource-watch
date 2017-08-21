@@ -152,6 +152,7 @@
     align-items: center;
 
     button {
+      display: inline-block; // Needed to solve height issues
       margin-right: 12px;
       padding: 0;
       border: 0;

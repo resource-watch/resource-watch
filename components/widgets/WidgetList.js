@@ -68,7 +68,6 @@ export default class WidgetList extends React.Component {
             >
               <WidgetCard
                 widget={widget}
-                onClick={this.triggerClick}
                 onWidgetRemove={this.handleWidgetRemoved}
                 onWidgetUnfavourited={this.handleWidgetUnfavourited}
                 showActions={showActions}

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import { Router } from 'routes';
+import isEqual from 'lodash/isEqual';
+import classnames from 'classnames';
 
 // Redux
 import { connect } from 'react-redux';
@@ -12,17 +14,24 @@ import { toggleTooltip } from 'redactions/tooltip';
 // Components
 import Title from 'components/ui/Title';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
+import DatasetLayerChart from 'components/app/explore/DatasetLayerChart';
 import EmbedMyWidgetModal from 'components/modal/EmbedMyWidgetModal';
 import WidgetActionsTooltip from 'components/widgets/WidgetActionsTooltip';
 import AddWidgetToCollectionTooltip from 'components/widgets/AddWidgetToCollectionTooltip';
 import Icon from 'components/ui/Icon';
+import Map from 'components/vis/Map';
+import Legend from 'components/ui/Legend';
+import Spinner from 'components/ui/Spinner';
 
 // Services
 import WidgetService from 'services/WidgetService';
 import UserService from 'services/UserService';
+import LayersService from 'services/LayersService';
+
+// Utils
+import LayerManager from 'utils/layers/LayerManager';
 
 class WidgetCard extends React.Component {
-
   /**
    * Return the position of the click within the page taking
    * into account the scroll (relative to the page, not the
@@ -51,6 +60,16 @@ class WidgetCard extends React.Component {
     return text;
   }
 
+  /**
+   * Return whether the widget represents a map
+   * @static
+   * @param {any} widget 
+   * @returns {boolean} 
+   */
+  static isMapWidget(widget) {
+    return !!(widget && widget.attributes.widgetConfig.paramsConfig.layer);
+  }
+
   constructor(props) {
     super(props);
 
@@ -59,6 +78,128 @@ class WidgetCard extends React.Component {
     this.widgetService = new WidgetService(null, {
       apiURL: process.env.WRI_API_URL
     });
+    this.layersService = new LayersService();
+
+    this.state = {
+      loading: false,
+      error: null,
+      layer: null, // Info about the eventual layer
+      layerGroups: []
+    };
+  }
+
+  componentDidMount() {
+    if (WidgetCard.isMapWidget(this.props.widget)) {
+      this.fetchLayer(this.props.widget.attributes.widgetConfig.paramsConfig.layer);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(nextProps.widget, this.props.widget)
+      && WidgetCard.isMapWidget(nextProps.widget)) {
+      this.fetchLayer(nextProps.widget.attributes.widgetConfig.paramsConfig.layer);
+    }
+  }
+
+  /**
+   * Event handler executed when the user toggles the
+   * visibility of a layer group
+   * @param {LayerGroup} layerGroup - Layer group to toggle
+   */
+  onToggleLayerGroupVisibility(layerGroup) {
+    const layerGroups = this.state.layerGroups.map((l) => {
+      if (l.dataset !== layerGroup.dataset) return l;
+      return Object.assign({}, l, { visible: !layerGroup.visible });
+    });
+
+    this.setState({ layerGroups: [...layerGroups] });
+  }
+
+  /**
+   * Return the widget
+   * @returns {HTMLElement}
+   */
+  getWidget() {
+    if (!this.props.widget) return null;
+
+    if (this.state.loading || (!this.state.layer && WidgetCard.isMapWidget(this.props.widget))) {
+      return (
+        <div className={classnames('c-widget-chart', `-${this.props.mode}`, '-map')}>
+          <Spinner className="-light" isLoading />
+        </div>
+      );
+    }
+
+    if (this.state.error) {
+      console.error(this.state.error);
+      // TODO: Correctly show the UI
+      return null;
+    }
+
+    // If the widget is a map, we render the correct component
+    if (WidgetCard.isMapWidget(this.props.widget)) {
+      // We render the thumbnail of a map
+      if (this.props.mode === 'thumbnail') {
+        return (
+          <DatasetLayerChart layer={this.state.layer} />
+        );
+      }
+
+      // We render a full map
+      return (
+        <div className="c-widget-chart -map">
+          <Map
+            LayerManager={LayerManager}
+            mapConfig={{}}
+            layerGroups={this.state.layerGroups}
+          />
+          <Legend
+            layerGroups={this.state.layerGroups}
+            className={{ color: '-dark' }}
+            toggleLayerGroupVisibility={
+              layerGroup => this.onToggleLayerGroupVisibility(layerGroup)
+            }
+            setLayerGroupsOrder={() => {}}
+            setLayerGroupActiveLayer={() => {}}
+            expanded={false}
+            readonly
+          />
+        </div>
+      );
+    }
+
+    // We render a Vega chart
+    return (
+      <DatasetWidgetChart
+        widget={this.props.widget.attributes}
+        mode={this.props.mode}
+      />
+    );
+  }
+
+
+  /**
+   * Fetch the information about the layer and store it in the state
+   * @param {string} layerId 
+   */
+  fetchLayer(layerId) {
+    this.setState({ loading: true, error: null });
+    this.layersService.fetchData({ id: layerId })
+      .then((layer) => {
+        this.setState({
+          layer,
+          layerGroups: [{
+            dataset: layer.dataset,
+            visible: true,
+            layers: [{
+              active: true,
+              ...layer
+            }]
+          }]
+        });
+      })
+      .catch(err => this.setState({ error: err.message }))
+      .then(() => this.setState({ loading: false }));
   }
 
   /*
@@ -78,14 +219,17 @@ class WidgetCard extends React.Component {
         .catch(err => console.log(err)); // eslint-disable-line no-console
     }
   }
+
   @Autobind
   handleClick(event) {
+    // FIXME: move handler
     const { widget } = this.props;
     const tagName = event.target.tagName;
     if (tagName !== 'A' && tagName !== 'use') {
       Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: widget.id });
     }
   }
+
   @Autobind
   handleEmbed() {
     const options = {
@@ -97,14 +241,17 @@ class WidgetCard extends React.Component {
     this.props.toggleModal(true);
     this.props.setModalOptions(options);
   }
+
   @Autobind
-  handleAddToDashboard() {
+  handleAddToDashboard() { // eslint-disable-line class-methods-use-this
     // TO-DO implement this
   }
+
   @Autobind
   handleGoToDataset() {
     Router.pushRoute('explore_detail', { id: this.props.widget.attributes.dataset });
   }
+
   @Autobind
   handleWidgetActionsClick(event) {
     const position = WidgetCard.getClickPosition(event);
@@ -120,6 +267,7 @@ class WidgetCard extends React.Component {
       }
     });
   }
+
   @Autobind
   handleStarClick(event) {
     event.preventDefault();
@@ -131,6 +279,7 @@ class WidgetCard extends React.Component {
         });
     }
   }
+
   @Autobind
   handleAddToWidgetCollection(event) {
     const { widget, user, widgetCollections, widgetCollectionsOptions } = this.props;
@@ -149,8 +298,9 @@ class WidgetCard extends React.Component {
       }
     });
   }
+
   @Autobind
-  handleUpdateWidgetToCollections(collections) {
+  handleUpdateWidgetToCollections() {
     this.props.onUpdateWidgetCollections();
   }
 
@@ -162,8 +312,7 @@ class WidgetCard extends React.Component {
       showEmbed,
       showStar,
       showWidgetColllections,
-      widgetCollections,
-      mode
+      widgetCollections
     } = this.props;
 
     const numberOfCollections = widgetCollections && widgetCollections.length
@@ -189,12 +338,9 @@ class WidgetCard extends React.Component {
             </a>
           </div>
         }
-        {widget &&
-          <DatasetWidgetChart
-            widget={widget.attributes}
-            mode={mode}
-          />
-        }
+
+        {/* Actual widget */}
+        {this.getWidget()}
 
         <div className="info">
           <div className="detail">

@@ -17,12 +17,14 @@ import {
   setLimit,
   setChartType,
   setBand,
-  setVisualizationType
+  setVisualizationType,
+  setLayer
 } from 'redactions/widgetEditor';
 
 // Services
 import WidgetService from 'services/WidgetService';
 import DatasetService from 'services/DatasetService';
+import LayersService from 'services/LayersService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -112,7 +114,8 @@ class WidgetsEdit extends React.Component {
       aggregateFunction,
       chartType,
       filters,
-      areaIntersection
+      areaIntersection,
+      layer
     } = widgetEditor;
     const { type, provider, tableName } = this.state.dataset.attributes;
 
@@ -154,7 +157,8 @@ class WidgetsEdit extends React.Component {
             aggregateFunction,
             chartType,
             filters,
-            areaIntersection
+            areaIntersection,
+            layer: layer && layer.id
           }
         },
         chartConfig
@@ -216,7 +220,8 @@ class WidgetsEdit extends React.Component {
       orderBy,
       filters,
       limit,
-      chartType
+      chartType,
+      layer
     } = paramsConfig;
 
     // We restore the type of visualization
@@ -225,6 +230,7 @@ class WidgetsEdit extends React.Component {
     this.props.setVisualizationType(visualizationType || 'chart');
 
     if (band) this.props.setBand(band);
+    if (layer) this.props.setLayer(layer);
     if (aggregateFunction) this.props.setAggregateFunction(aggregateFunction);
     if (value) this.props.setValue(value);
     if (size) this.props.setSize(size);
@@ -258,7 +264,6 @@ class WidgetsEdit extends React.Component {
           <WidgetEditor
             widget={widget}
             dataset={widget.attributes.dataset}
-            availableVisualizations={['chart', 'table']}
             mode="widget"
             onUpdateWidget={this.onSubmit}
             showSaveButton
@@ -371,7 +376,8 @@ WidgetsEdit.propTypes = {
   setLimit: PropTypes.func.isRequired,
   setChartType: PropTypes.func.isRequired,
   setVisualizationType: PropTypes.func.isRequired,
-  setBand: PropTypes.func.isRequired
+  setBand: PropTypes.func.isRequired,
+  setLayer: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -390,7 +396,14 @@ const mapDispatchToProps = dispatch => ({
   setLimit: value => dispatch(setLimit(value)),
   setChartType: value => dispatch(setChartType(value)),
   setVisualizationType: vis => dispatch(setVisualizationType(vis)),
-  setBand: band => dispatch(setBand(band))
+  setBand: band => dispatch(setBand(band)),
+  setLayer: (layerId) => {
+    new LayersService()
+      .fetchData({ id: layerId })
+      .then(layer => dispatch(setLayer(layer)))
+      // TODO: better handling of the error
+      .catch(err => console.error(err));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WidgetsEdit);

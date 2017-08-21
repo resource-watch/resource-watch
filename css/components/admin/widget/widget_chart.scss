@@ -61,4 +61,14 @@
       }
     }
   }
+
+  // These styles are used in My RW to display
+  // the map widgets
+  &.-map {
+    min-height: 300px;
+
+    &.-thumbnail {
+      min-height: 180px;
+    }
+  }
 }

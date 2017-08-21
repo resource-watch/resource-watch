@@ -105,8 +105,15 @@ export function getChartType(type) {
   return CHART_TYPES[type];
 }
 
+/**
+ * Return whether the chart/map can be rendered according to the
+ * state of the WidgetEditor in the store
+ * @export
+ * @param {object} widgetEditor - Store's state of the WidgetEditor
+ * @returns {boolean}
+ */
 export function canRenderChart(widgetEditor) {
-  const { visualizationType, category, value, chartType, band } = widgetEditor;
+  const { visualizationType, category, value, chartType, band, layer } = widgetEditor;
 
   const chart = visualizationType === 'chart'
     && !!(chartType
@@ -123,7 +130,7 @@ export function canRenderChart(widgetEditor) {
 
   const rasterChart = visualizationType === 'raster_chart' && !!band;
 
-  const map = false; // FIXME: implement this
+  const map = visualizationType === 'map' && !!layer;
 
   // Standard chart
   return chart || rasterChart || map;

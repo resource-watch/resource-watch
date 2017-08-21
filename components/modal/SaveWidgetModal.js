@@ -68,28 +68,32 @@ class SaveWidgetModal extends React.Component {
     });
     const { widgetEditor, tableName, dataset, datasetType, datasetProvider } = this.props;
     const { limit, value, category, color, size, orderBy, aggregateFunction,
-      chartType, filters, areaIntersection, visualizationType, band } = widgetEditor;
+      chartType, filters, areaIntersection, visualizationType, band, layer } = widgetEditor;
 
-    const chartInfo = getChartInfo(dataset, datasetType, datasetProvider, widgetEditor);
+    let chartConfig = {};
 
-    let chartConfig;
-    try {
-      chartConfig = await getChartConfig(
-        dataset,
-        datasetType,
-        tableName,
-        band,
-        datasetProvider,
-        chartInfo
-      );
-    } catch (err) {
-      this.setState({
-        saved: false,
-        error: true,
-        errorMessage: 'Unable to generate the configuration of the chart'
-      });
+    // If the visualization if a map, we don't have any chartConfig
+    if (visualizationType !== 'map') {
+      const chartInfo = getChartInfo(dataset, datasetType, datasetProvider, widgetEditor);
 
-      return;
+      try {
+        chartConfig = await getChartConfig(
+          dataset,
+          datasetType,
+          tableName,
+          band,
+          datasetProvider,
+          chartInfo
+        );
+      } catch (err) {
+        this.setState({
+          saved: false,
+          error: true,
+          errorMessage: 'Unable to generate the configuration of the chart'
+        });
+
+        return;
+      }
     }
 
     const widgetConfig = {
@@ -108,7 +112,8 @@ class SaveWidgetModal extends React.Component {
             chartType,
             filters,
             areaIntersection,
-            band
+            band,
+            layer: layer && layer.id
           }
         },
         chartConfig
