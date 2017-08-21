@@ -73,7 +73,7 @@ const oneDimensionalChartTypes = ['1d_scatter', '1d_tick'];
  * Return whether the chart needs the x and y columns or just
  * the x one
  * @param {string} chartType - Type of chart
- * @returns {boolean} 
+ * @returns {boolean}
  */
 function isBidimensionalChart(chartType) {
   return !oneDimensionalChartTypes.includes(chartType);
@@ -123,7 +123,7 @@ export function canRenderChart(widgetEditor) {
  * @param {string} datasetType - Type of dataset
  * @param {string} datasetProvider - Provider of the dataset
  * @param {object} widgetEditor - Store object
- * @returns  
+ * @returns
  */
 export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor) {
   const {
@@ -213,7 +213,7 @@ export function getRasterDataURL(dataset, datasetType, tableName, band, provider
  * @param {string} tableName - Name of the table
  * @param {string} band - Name of band (in case of a raster dataset)
  * @param {string} provider - Name of the provider
- * @param {ChartInfo} chartInfo 
+ * @param {ChartInfo} chartInfo
  * @return {string}
  */
 export function getDataURL(dataset, datasetType, tableName, band, provider, chartInfo) {
@@ -273,7 +273,7 @@ export function getDataURL(dataset, datasetType, tableName, band, provider, char
     orderByColumn[0].name = `${chartInfo.y.aggregateFunction}(${chartInfo.y.name})`;
   }
 
-  const sortOrder = chartInfo.order ? chartInfo.order.type : 'asc';
+  const sortOrder = chartInfo.order ? chartInfo.order.orderType : 'asc';
   const query = `${getQueryByFilters(tableName, chartInfo.filters, columns, orderByColumn, sortOrder)} LIMIT ${chartInfo.limit}`;
 
   const geostore = chartInfo.areaIntersection ? `&geostore=${chartInfo.areaIntersection}` : '';
@@ -375,7 +375,7 @@ export function parseRasterData(data, band, provider) {
  * @param {string} tableName - Name of the table
  * @param {string} band - Name of the band (in case of a raster dataset)
  * @param {string} provider - Name of the provider
- * @param {ChartInfo} chartInfo 
+ * @param {ChartInfo} chartInfo
  * @param {boolean} [embedData=false] Whether the configuration should
  * be saved with the data in it or just its URL
  */
