@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
-import { Router } from 'routes';
+import { Router, Link } from 'routes';
 import isEqual from 'lodash/isEqual';
 import classnames from 'classnames';
 
@@ -221,16 +221,6 @@ class WidgetCard extends React.Component {
   }
 
   @Autobind
-  handleClick(event) {
-    // FIXME: move handler
-    const { widget } = this.props;
-    const tagName = event.target.tagName;
-    if (tagName !== 'A' && tagName !== 'use') {
-      Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: widget.id });
-    }
-  }
-
-  @Autobind
   handleEmbed() {
     const options = {
       children: EmbedMyWidgetModal,
@@ -321,21 +311,12 @@ class WidgetCard extends React.Component {
       ? '1 collection' : `${numberOfCollections} collections`;
 
     return (
-      <div
-        role="button"
-        tabIndex={0}
-        className={'c-widget-card'}
-        onClick={this.handleClick}
-      >
+      <div className={'c-widget-card'}>
         {showWidgetColllections &&
           <div className="widget-collections">
-            <a
-              onClick={this.handleAddToWidgetCollection}
-              role="button"
-              tabIndex={-1}
-            >
+            <button onClick={this.handleAddToWidgetCollection}>
               {numberOfCollectionsText}
-            </a>
+            </button>
           </div>
         }
 
@@ -346,9 +327,15 @@ class WidgetCard extends React.Component {
           <div className="detail">
             {/* Title */}
             <Title className="-default -primary">
-              {widget.attributes.name}
+              <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
+                <a>{widget.attributes.name}</a>
+              </Link>
             </Title>
-            <p>{WidgetCard.getDescription(widget.attributes.description)}</p>
+            <p>
+              <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
+                {WidgetCard.getDescription(widget.attributes.description)}
+              </Link>
+            </p>
           </div>
           {(showActions || showRemove || showEmbed) &&
             <div className="actions">
