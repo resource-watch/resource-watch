@@ -12,6 +12,9 @@ import FileImage from 'components/form/FileImage';
 import Checkbox from 'components/form/Checkbox';
 import Wysiwyg from 'components/form/Wysiwyg';
 
+// Wysiwig
+import ToolbarWidgetBtn from 'components/dashboards/wysiwyg/ToolbarWidgetBtn';
+
 class Step1 extends React.Component {
   constructor(props) {
     super(props);
@@ -136,6 +139,7 @@ class Step1 extends React.Component {
                 options: ['unordered', 'ordered']
               }
             }}
+            toolbarCustomButtons={[<ToolbarWidgetBtn />]}
             properties={{
               name: 'content',
               label: 'Content',

@@ -55,6 +55,7 @@ class Wysiwyg extends FormElement {
       <Editor
         editorState={value}
         toolbar={this.props.toolbar}
+        toolbarCustomButtons={this.props.toolbarCustomButtons}
         onEditorStateChange={this.triggerChange}
       />
     );
