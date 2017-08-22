@@ -99,7 +99,7 @@ class DatasetsShow extends React.Component {
             <div className="columns small-12 medium-9">
               {subtab === 'edit' &&
                 <DatasetsForm
-                  minimized
+                  basic
                   application={[process.env.APPLICATIONS]}
                   authorization={user.token}
                   dataset={id}

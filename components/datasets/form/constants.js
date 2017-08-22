@@ -20,28 +20,28 @@ export const PROVIDER_TYPES_DICTIONARY = {
   csv: {
     label: 'CSV',
     value: 'csv',
-    minimized: true,
+    basic: true,
     connectorType: 'document',
     connectorUrlHint: 'Format specification: <a href="https://en.wikipedia.org/wiki/Comma-separated_values" target="_blank" >https://en.wikipedia.org/wiki/Comma-separated_values</a>'
   },
   json: {
     label: 'JSON',
     value: 'json',
-    minimized: true,
+    basic: true,
     connectorType: 'document',
     connectorUrlHint: 'Format specification: <a href="http://www.json.org/" target="_blank" >http://www.json.org/</a>'
   },
   tsv: {
     label: 'TSV',
     value: 'tsv',
-    minimized: true,
+    basic: true,
     connectorType: 'document',
     connectorUrlHint: 'Format specification: <a href="https://en.wikipedia.org/wiki/Tab-separated_values" target="_blank" >https://en.wikipedia.org/wiki/Tab-separated_values</a>'
   },
   xml: {
     label: 'XML',
     value: 'xml',
-    minimized: true,
+    basic: true,
     connectorType: 'document',
     connectorUrlHint: 'Format specification: <a href="https://www.w3.org/TR/REC-xml/" target="_blank" >https://www.w3.org/TR/REC-xml/</a>'
   },

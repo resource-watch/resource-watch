@@ -152,7 +152,7 @@ class DatasetsForm extends React.Component {
         {(this.state.step === 1 && !this.state.loading) &&
           <Step1
             onChange={value => this.onChange(value)}
-            minimized={this.props.minimized}
+            basic={this.props.basic}
             form={this.state.form}
             dataset={this.props.dataset}
             columns={this.state.columns}
@@ -176,7 +176,7 @@ DatasetsForm.propTypes = {
   application: PropTypes.array,
   authorization: PropTypes.string,
   dataset: PropTypes.string,
-  minimized: PropTypes.bool,
+  basic: PropTypes.bool,
   onSubmit: PropTypes.func
 };
 

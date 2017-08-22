@@ -16,6 +16,7 @@ function DashboardsShow(props) {
     <div className="c-dashboards-show">
       <DashboardsForm
         id={id}
+        basic
         authorization={user.token}
         onSubmit={() => Router.pushRoute('myrw', { tab: 'dashboards' })}
       />

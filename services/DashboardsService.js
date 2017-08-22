@@ -10,9 +10,8 @@ export default class DashboardsService {
   }
 
   // GET ALL DATA
-  fetchAllData({ applications = [process.env.APPLICATIONS], includes, filters } = {}) {
+  fetchAllData({ includes, filters } = {}) {
     const qParams = {
-      application: applications.join(','),
       ...!!includes && { includes },
       ...filters
     };

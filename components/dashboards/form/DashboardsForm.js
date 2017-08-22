@@ -148,6 +148,7 @@ class DashboardsForm extends React.Component {
         {(this.state.step === 1 && !this.state.loading) &&
           <Step1
             onChange={value => this.onChange(value)}
+            basic={this.props.basic}
             form={this.state.form}
             id={this.state.id}
           />
@@ -169,6 +170,7 @@ class DashboardsForm extends React.Component {
 DashboardsForm.propTypes = {
   authorization: PropTypes.string,
   id: PropTypes.string,
+  basic: PropTypes.bool,
   onSubmit: PropTypes.func
 };
 

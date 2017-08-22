@@ -13,7 +13,8 @@ export const STATE_DEFAULT = {
     // Images
     photo: '',
     // States
-    published: false
+    published: false,
+    private: true
   }
 };
 
