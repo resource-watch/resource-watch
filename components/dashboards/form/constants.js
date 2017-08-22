@@ -12,6 +12,7 @@ export const STATE_DEFAULT = {
     content: '',
     // Images
     photo: '',
+    user_id: null,
     // States
     published: false,
     private: true

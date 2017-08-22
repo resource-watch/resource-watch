@@ -43,7 +43,7 @@ class ToolbarWidgetModal extends React.Component {
     const { editorState } = this.props;
     const entityKey = editorState
       .getCurrentContent()
-      .createEntity('EMBEDDED_LINK', 'MUTABLE', { src: `https://staging.resourcewatch.org/embed/widget/${id}`, height: 500, width: 500 })
+      .createEntity('EMBEDDED_LINK', 'MUTABLE', { src: `https://staging.resourcewatch.org/embed/widget/${id}`, height: 390, width: 500 })
       .getLastCreatedEntityKey();
 
     const newEditorState = AtomicBlockUtils.insertAtomicBlock(

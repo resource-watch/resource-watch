@@ -61,6 +61,7 @@ class Step1 extends React.Component {
             properties={{
               name: 'summary',
               label: 'Summary',
+              rows: '6',
               default: this.state.form.summary
             }}
           >
@@ -75,6 +76,7 @@ class Step1 extends React.Component {
             properties={{
               name: 'description',
               label: 'Description',
+              rows: '6',
               default: this.state.form.description
             }}
           >

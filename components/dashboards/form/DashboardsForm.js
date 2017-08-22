@@ -20,7 +20,10 @@ class DashboardsForm extends React.Component {
     this.state = Object.assign({}, STATE_DEFAULT, {
       id: props.id,
       loading: !!props.id,
-      form: STATE_DEFAULT.form
+      form: {
+        ...STATE_DEFAULT.form,
+        user_id: props.user.id
+      }
     });
 
     // BINDINGS
@@ -29,7 +32,7 @@ class DashboardsForm extends React.Component {
     this.onStepChange = this.onStepChange.bind(this);
 
     this.service = new DashboardsService({
-      authorization: props.authorization
+      authorization: props.user.token
     });
   }
 
@@ -168,7 +171,7 @@ class DashboardsForm extends React.Component {
 }
 
 DashboardsForm.propTypes = {
-  authorization: PropTypes.string,
+  user: PropTypes.object,
   id: PropTypes.string,
   basic: PropTypes.bool,
   onSubmit: PropTypes.func
