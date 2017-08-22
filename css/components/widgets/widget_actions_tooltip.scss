@@ -2,16 +2,16 @@
 
   ul {
     list-style: none;
-    margin-right: 20px;
-    margin-left: 20px;
-    padding: 0px;
+    margin: 15px;
+    padding: 0;
 
     li:not(:last-of-type) {
       margin-bottom: 10px;
     }
 
-    a {
+    button {
       cursor: pointer;
+      font-size: $font-size-medium;
     }
   }
 }

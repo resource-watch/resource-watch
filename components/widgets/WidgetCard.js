@@ -238,6 +238,11 @@ class WidgetCard extends React.Component {
   }
 
   @Autobind
+  handleEditWidget() {
+    Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: this.props.widget.id });
+  }
+
+  @Autobind
   handleGoToDataset() {
     Router.pushRoute('explore_detail', { id: this.props.widget.attributes.dataset });
   }
@@ -253,7 +258,8 @@ class WidgetCard extends React.Component {
         toggleTooltip: this.props.toggleTooltip,
         onShareEmbed: this.handleEmbed,
         onAddToDashboard: this.handleAddToDashboard,
-        onGoToDataset: this.handleGoToDataset
+        onGoToDataset: this.handleGoToDataset,
+        onEditWidget: this.handleEditWidget
       }
     });
   }
@@ -302,7 +308,8 @@ class WidgetCard extends React.Component {
       showEmbed,
       showStar,
       showWidgetColllections,
-      widgetCollections
+      widgetCollections,
+      mode
     } = this.props;
 
     const numberOfCollections = widgetCollections && widgetCollections.length
@@ -321,53 +328,50 @@ class WidgetCard extends React.Component {
         }
 
         {/* Actual widget */}
-        {this.getWidget()}
+        { mode === 'thumbnail'
+          ? (
+            <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
+              <a>{this.getWidget()}</a>
+            </Link>
+          )
+          : this.getWidget()
+        }
 
         <div className="info">
           <div className="detail">
             {/* Title */}
             <Title className="-default -primary">
-              <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
-                <a>{widget.attributes.name}</a>
-              </Link>
+              {widget.attributes.name}
             </Title>
             <p>
-              <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
-                {WidgetCard.getDescription(widget.attributes.description)}
-              </Link>
+              {WidgetCard.getDescription(widget.attributes.description)}
             </p>
           </div>
           {(showActions || showRemove || showEmbed) &&
             <div className="actions">
               {showActions &&
-                <a
-                  className="c-button widget-actions"
+                <button
+                  className="c-button -secondary widget-actions"
                   onClick={this.handleWidgetActionsClick}
-                  role="button"
-                  tabIndex="0"
                 >
-                Widget actions
-                </a>
+                  Widget actions
+                </button>
               }
               {showRemove &&
-                <a
-                  className="c-button"
+                <button
+                  className="c-button -tertiary"
                   onClick={this.handleRemoveWidget}
-                  role="button"
-                  tabIndex="0"
                 >
-                Delete
-                </a>
+                  Delete
+                </button>
               }
               {showEmbed &&
-                <a
-                  className="c-button"
+                <button
+                  className="c-button -tertiary"
                   onClick={this.handleEmbed}
-                  role="button"
-                  tabIndex="0"
                 >
-                Embed
-                </a>
+                  Embed
+                </button>
               }
             </div>
           }
