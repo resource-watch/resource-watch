@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Constants
-import { FORM_ELEMENTS } from 'components/admin/dashboards/form/constants';
+import { FORM_ELEMENTS } from 'components/dashboards/form/constants';
 
 // Components
 import Field from 'components/form/Field';

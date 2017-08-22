@@ -14,7 +14,7 @@ import Title from 'components/ui/Title';
 // My RW
 import ProfilesTab from 'components/app/myrw/profiles/ProfilesTab';
 import DatasetsTab from 'components/app/myrw/datasets/DatasetsTab';
-import MyRWDashboards from 'components/app/myrw/MyRWDashboards';
+import DashboardsTab from 'components/app/myrw/dashboards/DashboardsTab';
 import WidgetsTab from 'components/app/myrw/widgets/WidgetsTab';
 import SubscriptionsTab from 'components/app/myrw/subscriptions/SubscriptionsTab';
 
@@ -112,7 +112,7 @@ class MyRW extends Page {
                 }
 
                 {tab === 'dashboards' &&
-                  <MyRWDashboards subtab={subtab} />
+                  <DashboardsTab tab={tab} subtab={subtab} />
                 }
 
                 {tab === 'areas' &&

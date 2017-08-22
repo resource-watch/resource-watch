@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Components
-import DashboardsTable from 'components/admin/dashboards/table/DashboardsTable';
+import DashboardsTable from 'components/dashboards/table/DashboardsTable';
 
 export default function DashboardsIndex(props) {
   const { user } = props;

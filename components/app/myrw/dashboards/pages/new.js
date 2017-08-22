@@ -9,22 +9,20 @@ import { connect } from 'react-redux';
 // Components
 import DashboardsForm from 'components/dashboards/form/DashboardsForm';
 
-function DashboardsShow(props) {
-  const { id, user } = props;
+function DashboardsNew(props) {
+  const { user } = props;
 
   return (
-    <div className="c-dashboards-show">
+    <div className="c-dashboards-new">
       <DashboardsForm
-        id={id}
         authorization={user.token}
-        onSubmit={() => Router.pushRoute('admin_dashboards', { tab: 'dashboards' })}
+        onSubmit={() => Router.pushRoute('myrw', { tab: 'dashboards' })}
       />
     </div>
   );
 }
 
-DashboardsShow.propTypes = {
-  id: PropTypes.string,
+DashboardsNew.propTypes = {
   // Store
   user: PropTypes.object.isRequired
 };
@@ -33,4 +31,4 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default connect(mapStateToProps, null)(DashboardsShow);
+export default connect(mapStateToProps, null)(DashboardsNew);

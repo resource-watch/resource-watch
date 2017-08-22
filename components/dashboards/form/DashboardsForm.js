@@ -7,10 +7,10 @@ import { Serializer } from 'jsonapi-serializer';
 import DashboardsService from 'services/DashboardsService';
 import { toastr } from 'react-redux-toastr';
 
-import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/dashboards/form/constants';
+import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/dashboards/form/constants';
 
 import Navigation from 'components/form/Navigation';
-import Step1 from 'components/admin/dashboards/form/steps/Step1';
+import Step1 from 'components/dashboards/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
 class DashboardsForm extends React.Component {

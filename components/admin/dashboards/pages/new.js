@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 
 // Components
-import DashboardsForm from 'components/admin/dashboards/form/DashboardsForm';
+import DashboardsForm from 'components/dashboards/form/DashboardsForm';
 
 function DashboardsNew(props) {
   const { user } = props;

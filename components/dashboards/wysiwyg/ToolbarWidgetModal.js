@@ -39,33 +39,6 @@ class ToolbarWidgetModal extends React.Component {
       });
   }
 
-  // onChange = (id) => {
-  //   const editorState = this.props.editorState;
-  //   const contentState = editorState.getCurrentContent();
-  //   const blockMap = contentState.getBlocksAsArray();
-  //
-  //   const newBlockMap = htmlToDraft(
-  //     `<iframe src="https://staging.resourcewatch.org/embed/widget/${id}" width="500" height="500" frameBorder="0"></iframe>`
-  //   );
-  //
-  //   // Concat the new draft-html
-  //   newBlockMap.contentBlocks = blockMap.concat(newBlockMap.contentBlocks);
-  //
-  //   // Create the new contentState and the new editorState
-  //   const newContentState = ContentState.createFromBlockArray(
-  //     newBlockMap.contentBlocks,
-  //     newBlockMap.entityMap
-  //   );
-  //   const newEditorState = EditorState.createWithContent(newContentState);
-  //
-  //   // Push the new contentState and the new editorState
-  //   const content = newEditorState.getCurrentContent();
-  //   console.log(content);
-  //   console.log(draftToHtml(convertToRaw(content)));
-  //
-  //   this.props.onChange(EditorState.push(newEditorState, newContentState, 'insert-fragment'));
-  // }
-
   onChange = (id) => {
     const { editorState } = this.props;
     const entityKey = editorState
