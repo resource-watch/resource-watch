@@ -125,3 +125,13 @@ There also exist a couple of components called: _**icons.js**_ in the following 
 ![screen shot 2017-08-22 at 10 12 31 am](https://user-images.githubusercontent.com/545342/29555316-8e066514-8722-11e7-998a-55a0ed1c61c2.png)
 
 ![screen shot 2017-08-22 at 10 12 43 am](https://user-images.githubusercontent.com/545342/29555331-94800f8a-8722-11e7-9bdb-1ebb45248552.png)
+
+### Step-by-step process to update the set of icons
+
+1. Go to the [icomoon website](https://icomoon.io/app/#/select).
+2. Drag and drop the file **selections.json** into the page
+3. Import/search+select the new set of icons you want and add them to the current set
+4. Click on **Generate SVG & more** and download the zip file to a local folder
+5. Extract the contents and replace the following files in the project icons folder: selections.json, SVG folder, symbol-defs.svg
+6. Copy and paste the contents of the file **symbol-defs** into the files: _icons.js_ previously mentioned
+3. 
