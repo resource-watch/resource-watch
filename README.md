@@ -114,3 +114,14 @@ export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(LayerNa
 
 In the case you want to use Redux **outside of a page** you should use the standard **connect** instead.
 
+## Icons management
+
+Icons are located under the folder _**static**_.
+
+![screen shot 2017-08-22 at 10 09 26 am](https://user-images.githubusercontent.com/545342/29555191-23a68532-8722-11e7-9ea6-e517b916635a.png)
+
+There also exist a couple of components called: _**icons.js**_ in the following folders:
+
+![screen shot 2017-08-22 at 10 12 31 am](https://user-images.githubusercontent.com/545342/29555316-8e066514-8722-11e7-998a-55a0ed1c61c2.png)
+
+![screen shot 2017-08-22 at 10 12 43 am](https://user-images.githubusercontent.com/545342/29555331-94800f8a-8722-11e7-9bdb-1ebb45248552.png)
