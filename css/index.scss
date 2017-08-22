@@ -90,6 +90,7 @@
 @import "./components/form/radio";
 @import "./components/form/select";
 @import "./components/form/token";
+@import "./components/form/wysiwyg";
 
 // WIDGETS
 @import "./components/widgets/add_widget_to_collection_tooltip";
@@ -109,8 +110,9 @@
 @import "./components/widgets/sort_container";
 @import "./components/widgets/table_view";
 @import "./components/widgets/limit_container";
-@import "./components/widgets/widget_list";
 @import "./components/widgets/widget_card";
+@import "./components/widgets/widget_list";
+@import "./components/widgets/widget-tooltip-list";
 @import "./components/widgets/chart_tooltip";
 @import "./components/widgets/widget_actions_tooltip";
 @import "./components/widgets/vega_chart_legend";
