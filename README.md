@@ -80,7 +80,7 @@ The first value of the method represents the unique name of the route, the secon
 
 ## Redux
 
-RW uses [**Redux**](http://redux.js.org/) together with the [**next-redux-wrapper**](https://github.com/kirill-konshin/next-redux-wrapper). In order to wrap a React component with Redux we have to do the following:
+RW uses [**Redux**](http://redux.js.org/) together with the [**next-redux-wrapper**](https://github.com/kirill-konshin/next-redux-wrapper). In order to wrap a React **page** with Redux we have to do the following:
 
 Import the store and withRedux
 
@@ -111,4 +111,6 @@ Export the class using the function **withRedux**
 ``` javascript
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(LayerNavDropdown);
 ```
+
+In the case you want to use Redux **outside of a page** you should use the standard **connect** instead.
 
