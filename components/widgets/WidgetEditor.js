@@ -598,6 +598,22 @@ class WidgetEditor extends React.Component {
    */
   @Autobind
   handleVisualizationTypeChange(selectedVisualizationType) {
+    // If we don't reset the widget editor before changing the
+    // type of visualization, then the store might contain
+    // information relative to the old one (for example: the band,
+    // the layer, etc) which might interfere with other part
+    // of the app (for example, My RW)
+    this.props.resetWidgetEditor();
+
+    // If the user changes the visualisation to a chart, then
+    // we need to get the fields and recommendations
+    if (selectedVisualizationType === 'chart') {
+      this.getFields()
+        .then(() => this.getJiminy())
+        .catch(err => console.error(err)) // TODO: UI feedback
+        .then(() => this.setState({ fieldsLoaded: true, jiminyLoaded: true }));
+    }
+
     this.props.setVisualizationType(selectedVisualizationType);
   }
 

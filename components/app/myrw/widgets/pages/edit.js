@@ -91,13 +91,10 @@ class WidgetsEdit extends React.Component {
 
   @Autobind
   async onSubmit(event) {
-    if (event) {
-      event.preventDefault();
-    }
+    if (event) event.preventDefault();
 
-    this.setState({
-      loading: true
-    });
+    this.setState({ loading: true });
+
     const { widget } = this.state;
     const widgetAtts = widget.attributes;
     const dataset = widgetAtts.dataset;
@@ -119,26 +116,31 @@ class WidgetsEdit extends React.Component {
     } = widgetEditor;
     const { type, provider, tableName } = this.state.dataset.attributes;
 
-    const chartInfo = getChartInfo(dataset, type, provider, widgetEditor);
 
     let chartConfig;
-    try {
-      chartConfig = await getChartConfig(
-        dataset,
-        type,
-        tableName,
-        band,
-        provider,
-        chartInfo
-      );
-    } catch (err) {
-      this.setState({
-        saved: false,
-        error: true,
-        errorMessage: 'Unable to generate the configuration of the chart'
-      });
 
-      return;
+    // If the visualization if a map, we don't have any chartConfig
+    if (visualizationType !== 'map') {
+      const chartInfo = getChartInfo(dataset, type, provider, widgetEditor);
+
+      try {
+        chartConfig = await getChartConfig(
+          dataset,
+          type,
+          tableName,
+          band,
+          provider,
+          chartInfo
+        );
+      } catch (err) {
+        this.setState({
+          saved: false,
+          error: true,
+          errorMessage: 'Unable to generate the configuration of the chart'
+        });
+
+        return;
+      }
     }
 
     const widgetConfig = {
