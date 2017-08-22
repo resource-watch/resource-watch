@@ -26,8 +26,7 @@ class DashboardsList extends React.Component {
 
     this.props.setFilters([]);
     this.props.getDashboards({
-      // includes: 'widget,layer,metadata,vocabulary',
-      // filters: getDashboardsFilters
+      filters: getDashboardsFilters
     });
   }
 
@@ -95,7 +94,6 @@ DashboardsList.propTypes = {
   getDashboardsFilters: PropTypes.object,
 
   // Store
-  user: PropTypes.object,
   dashboards: PropTypes.array.isRequired,
   loading: PropTypes.bool,
 
@@ -110,6 +108,7 @@ const mapStateToProps = state => ({
   dashboards: getFilteredDashboards(state),
   error: state.dashboards.dashboards.error
 });
+
 const mapDispatchToProps = dispatch => ({
   getDashboards: options => dispatch(getDashboards(options)),
   setFilters: filters => dispatch(setFilters(filters))

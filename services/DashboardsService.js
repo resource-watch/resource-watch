@@ -10,10 +10,16 @@ export default class DashboardsService {
   }
 
   // GET ALL DATA
-  fetchAllData() {
+  fetchAllData({ applications = [process.env.APPLICATIONS], includes, filters } = {}) {
+    const qParams = {
+      application: applications.join(','),
+      ...!!includes && { includes },
+      ...filters
+    };
+
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/api/dashboards/?published=all`,
+        url: `${process.env.API_URL}/api/dashboards/?${Object.keys(qParams).map(k => `${k}=${qParams[k]}`).join('&')}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -35,7 +41,7 @@ export default class DashboardsService {
     });
   }
 
-  fetchData(id) {
+  fetchData({ id }) {
     return new Promise((resolve, reject) => {
       get({
         url: `${process.env.API_URL}/api/dashboards/${id}`,

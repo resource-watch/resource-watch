@@ -11,6 +11,7 @@ import { capitalizeFirstLetter } from 'utils/utils';
 // Services
 import DatasetsService from 'services/DatasetsService';
 import WidgetsService from 'services/WidgetsService';
+import DashboardsService from 'services/DashboardsService';
 
 // Layout
 import Page from 'components/app/layout/Page';
@@ -21,6 +22,7 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 import SubscriptionsTab from 'components/app/myrw/subscriptions/SubscriptionsTab';
 import DatasetsTab from 'components/app/myrw/datasets/DatasetsTab';
 import WidgetsTab from 'components/app/myrw/widgets/WidgetsTab';
+import DashboardsTab from 'components/app/myrw/dashboards/DashboardsTab';
 // import LayersTab from 'components/app/myrw/layers/LayersTab';
 
 // Components
@@ -51,6 +53,12 @@ class MyRWDetail extends Page {
       case 'widgets':
         if (id !== 'new') {
           this.service = new WidgetsService();
+        }
+        break;
+
+      case 'dashboards':
+        if (id !== 'new') {
+          this.service = new DashboardsService();
         }
         break;
 
@@ -139,6 +147,9 @@ class MyRWDetail extends Page {
                   }
                   {tab === 'widgets' &&
                     <WidgetsTab tab={tab} subtab={subtab} id={id} />
+                  }
+                  {tab === 'dashboards' &&
+                    <DashboardsTab tab={tab} subtab={subtab} id={id} />
                   }
                 </div>
               </div>

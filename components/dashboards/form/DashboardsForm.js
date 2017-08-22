@@ -38,7 +38,7 @@ class DashboardsForm extends React.Component {
     // Get the dashboards and fill the
     // state form with its params if the id exists
     if (id) {
-      this.service.fetchData(id)
+      this.service.fetchData({ id })
         .then((data) => {
           this.setState({
             form: this.setFormFromParams(data),

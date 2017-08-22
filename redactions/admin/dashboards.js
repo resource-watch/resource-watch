@@ -76,11 +76,11 @@ export default function (state = initialState, action) {
  * @export
  * @param {string[]} applications Name of the applications to load the dashboards from
  */
-export function getDashboards() {
+export function getDashboards(options) {
   return (dispatch) => {
     dispatch({ type: GET_DASHBOARDS_LOADING });
 
-    service.fetchAllData()
+    service.fetchAllData(options)
       .then((data) => {
         dispatch({ type: GET_DASHBOARDS_SUCCESS, payload: data });
       })

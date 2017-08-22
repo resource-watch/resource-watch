@@ -8,7 +8,7 @@ export default class DatasetsService {
   }
 
   // GET ALL DATA
-  fetchAllData({ applications = [process.env.APPLICATIONS], includes, filters }) {
+  fetchAllData({ applications = [process.env.APPLICATIONS], includes, filters } = {}) {
     const qParams = {
       application: applications.join(','),
       includes,
