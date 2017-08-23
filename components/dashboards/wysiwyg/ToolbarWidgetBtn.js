@@ -69,7 +69,15 @@ class ToolbarWidgetBtn extends React.Component {
   // This function is debounced. If you don't do that insane things will happen
   onToggleDropdown = (to) => {
     this.setState({
-      active: to || !this.state.active
+      active: to
+    });
+
+    requestAnimationFrame(() => {
+      if (to) {
+        window.addEventListener('click', this.onScreenClick);
+      } else {
+        window.removeEventListener('click', this.onScreenClick);
+      }
     });
   }
 
@@ -99,7 +107,7 @@ class ToolbarWidgetBtn extends React.Component {
           <button
             type="button"
             className="c-button -secondary -compressed"
-            onClick={this.onToggleDropdown}
+            onClick={() => this.onToggleDropdown(true)}
           >
             Add widget
           </button>
