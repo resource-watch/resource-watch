@@ -160,7 +160,13 @@ export default function (state = initialState, action) {
     }
 
     case RESET: {
-      return Object.assign({}, initialState);
+      return Object.assign(
+        {},
+        initialState,
+        !action.payload // If not a hard reset...
+          ? { fields: state.fields }
+          : {}
+      );
     }
 
     case SHOW_LAYER: {
@@ -286,9 +292,19 @@ export function setChartType(type) {
 export function setAggregateFunction(value) {
   return dispatch => dispatch({ type: SET_AGGREGATE_FN, payload: value });
 }
-export function resetWidgetEditor() {
-  return dispatch => dispatch({ type: RESET });
+
+/**
+ * Reset the state of the widget editor
+ * If hardReset is set to false, only the user selection will be erased,
+ * not the results from the API
+ * @export
+ * @param {boolean} [hardReset=true]
+ * @returns  
+ */
+export function resetWidgetEditor(hardReset = true) {
+  return dispatch => dispatch({ type: RESET, payload: hardReset });
 }
+
 export function showLayer(layer) {
   return dispatch => dispatch({ type: SHOW_LAYER, payload: layer });
 }
