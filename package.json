@@ -36,7 +36,7 @@
     "file-loader": "0.11.1",
     "foundation-sites": "6.3.1",
     "glob": "7.1.1",
-    "html-to-draftjs": "^0.1.0-beta15",
+    "html-to-draftjs": "git+https://github.com/mbarrenechea/html-to-draftjs.git",
     "image-webpack-loader": "3.3.1",
     "immutable": "3.8.1",
     "isomorphic-fetch": "2.2.1",
