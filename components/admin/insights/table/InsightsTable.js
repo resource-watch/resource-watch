@@ -27,7 +27,7 @@ class InsightsTable extends React.Component {
   getInsights() {
     get(
       {
-        url: `${process.env.API_URL}/api/insights`,
+        url: `${process.env.API_URL}/insights`,
         headers: [
           { key: 'Content-Type', value: 'application/json' },
           { key: 'Authorization', value: this.props.authorization }
