@@ -29,7 +29,11 @@ export default class LayersService {
             }))));
             resolve(sortBy(layers, 'name'));
           } else {
-            resolve(data.attributes.layer);
+            const layers = data.attributes.layer.map(layer => ({
+              ...layer.attributes,
+              id: layer.id
+            }));
+            resolve(sortBy(layers, 'name'));
           }
         },
         onError: (error) => {

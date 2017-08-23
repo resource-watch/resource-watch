@@ -55,7 +55,7 @@ class DashboardsDetail extends Page {
     const { id } = this.state;
 
     if (this.service) {
-      this.service.fetchData(id)
+      this.service.fetchData({ id })
         .then((data) => {
           this.setState({
             data: data || {}

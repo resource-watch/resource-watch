@@ -14,7 +14,6 @@ import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import File from 'components/form/File';
 import Select from 'components/form/SelectInput';
-import Title from 'components/ui/Title';
 import Checkbox from 'components/form/Checkbox';
 
 class Step1 extends React.Component {
@@ -60,11 +59,11 @@ class Step1 extends React.Component {
    * - setProviderOptions
   */
   setProviderOptions() {
-    const { minimized, dataset } = this.props;
+    const { basic, dataset } = this.props;
 
     const options = Object.keys(PROVIDER_TYPES_DICTIONARY).map((key) => {
-      if (minimized && !dataset) {
-        if (PROVIDER_TYPES_DICTIONARY[key].minimized) {
+      if (basic && !dataset) {
+        if (PROVIDER_TYPES_DICTIONARY[key].basic) {
           return {
             label: PROVIDER_TYPES_DICTIONARY[key].label,
             value: PROVIDER_TYPES_DICTIONARY[key].value
@@ -80,12 +79,12 @@ class Step1 extends React.Component {
       };
     });
 
-    return (minimized) ? compact(options) : options;
+    return (basic) ? compact(options) : options;
   }
 
 
   render() {
-    const { user, columns, minimized } = this.props;
+    const { user, columns, basic } = this.props;
     const { dataset } = this.state;
     const { provider } = this.state.form;
 
@@ -104,7 +103,7 @@ class Step1 extends React.Component {
 
     return (
       <fieldset className="c-field-container">
-        {user.role === 'ADMIN' && !minimized &&
+        {user.role === 'ADMIN' && !basic &&
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
             onChange={value => this.props.onChange({ published: value.checked })}
@@ -558,7 +557,7 @@ Step1.propTypes = {
   dataset: PropTypes.string,
   form: PropTypes.object,
   columns: PropTypes.array,
-  minimized: PropTypes.bool,
+  basic: PropTypes.bool,
   onChange: PropTypes.func,
 
   // Store

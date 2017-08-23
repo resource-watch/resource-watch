@@ -52,11 +52,14 @@ class Wysiwyg extends FormElement {
   render() {
     const { value } = this.state;
     return (
-      <Editor
-        editorState={value}
-        toolbar={this.props.toolbar}
-        onEditorStateChange={this.triggerChange}
-      />
+      <div className="c-wysiwyg">
+        <Editor
+          editorState={value}
+          toolbar={this.props.toolbar}
+          toolbarCustomButtons={this.props.toolbarCustomButtons}
+          onEditorStateChange={this.triggerChange}
+        />
+      </div>
     );
   }
 }

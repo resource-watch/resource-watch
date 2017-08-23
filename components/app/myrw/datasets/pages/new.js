@@ -11,7 +11,7 @@ function DatasetsNew(props) {
   return (
     <div className="c-datasets-new">
       <DatasetsForm
-        minimized
+        basic
         application={[process.env.APPLICATIONS]}
         authorization={user.token}
         onSubmit={() => Router.pushRoute('myrw', { tab: 'datasets' })}

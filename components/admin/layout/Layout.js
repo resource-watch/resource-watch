@@ -13,10 +13,18 @@ import { setUser } from 'redactions/user';
 import Header from 'components/admin/layout/Header';
 import Head from 'components/admin/layout/head';
 import Icons from 'components/admin/layout/icons';
+import Modal from 'components/ui/Modal';
 import Tooltip from 'components/ui/Tooltip';
 import Toastr from 'react-redux-toastr';
 
 class Layout extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      modalOpen: false
+    };
+  }
 
   componentWillMount() {
     // When a tooltip is shown and the router navigates to a
@@ -39,8 +47,14 @@ class Layout extends React.Component {
     this.props.setUser(this.props.user);
   }
 
+  componentWillReceiveProps(newProps) {
+    if (this.state.modalOpen !== newProps.modal.open) {
+      this.setState({ modalOpen: newProps.modal.open });
+    }
+  }
+
   render() {
-    const { title, description, url, user } = this.props;
+    const { title, description, url, user, modal } = this.props;
     return (
       <div className="l-page">
         <Head
@@ -57,6 +71,14 @@ class Layout extends React.Component {
         </div>
 
         <Tooltip />
+
+        <Modal
+          open={this.state.modalOpen}
+          options={modal.options}
+          loading={modal.loading}
+          toggleModal={this.props.toggleModal}
+          setModalOptions={this.props.setModalOptions}
+        />
 
         <Toastr
           transitionIn="fadeIn"
@@ -77,20 +99,25 @@ Layout.propTypes = {
 
   // Store
   setUser: PropTypes.func.isRequired,
+
+  modal: PropTypes.object,
+  toggleModal: PropTypes.func,
+  setModalOptions: PropTypes.func,
   toggleTooltip: PropTypes.func
 };
 
+const mapStateToProps = state => ({
+  modal: state.modal
+});
+
+
 const mapDispatchToProps = dispatch => ({
   toggleTooltip: () => dispatch(toggleTooltip()),
-  toggleModal: () => {
-    dispatch(toggleModal());
-  },
-  setModalOptions: () => {
-    dispatch(setModalOptions());
-  },
+  toggleModal: open => dispatch(toggleModal(open, {}, true)),
+  setModalOptions: options => dispatch(setModalOptions(options)),
   setUser: (user) => {
     dispatch(setUser(user));
   }
 });
 
-export default connect(null, mapDispatchToProps)(Layout);
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Constants
-import { FORM_ELEMENTS } from 'components/admin/dashboards/form/constants';
+import { FORM_ELEMENTS } from 'components/dashboards/form/constants';
 
 // Components
 import Field from 'components/form/Field';
@@ -11,6 +11,9 @@ import TextArea from 'components/form/TextArea';
 import FileImage from 'components/form/FileImage';
 import Checkbox from 'components/form/Checkbox';
 import Wysiwyg from 'components/form/Wysiwyg';
+
+// Wysiwig
+import ToolbarWidgetBtn from 'components/dashboards/wysiwyg/ToolbarWidgetBtn';
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -58,6 +61,7 @@ class Step1 extends React.Component {
             properties={{
               name: 'summary',
               label: 'Summary',
+              rows: '6',
               default: this.state.form.summary
             }}
           >
@@ -72,6 +76,7 @@ class Step1 extends React.Component {
             properties={{
               name: 'description',
               label: 'Description',
+              rows: '6',
               default: this.state.form.description
             }}
           >
@@ -103,21 +108,27 @@ class Step1 extends React.Component {
             </div>
           </div>
 
+
           {/* PUBLISHED */}
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
-            onChange={value => this.props.onChange({ published: value.checked })}
-            properties={{
-              name: 'published',
-              label: 'Do you want to set this dasboard as published?',
-              value: 'published',
-              title: 'Published',
-              defaultChecked: this.props.form.published,
-              checked: this.props.form.published
-            }}
-          >
-            {Checkbox}
-          </Field>
+          {!this.props.basic &&
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
+              onChange={value => this.props.onChange({
+                published: value.checked,
+                private: !value.checked
+              })}
+              properties={{
+                name: 'published',
+                label: 'Do you want to set this dasboard as published?',
+                value: 'published',
+                title: 'Published',
+                defaultChecked: this.props.form.published,
+                checked: this.props.form.published
+              }}
+            >
+              {Checkbox}
+            </Field>
+          }
         </fieldset>
 
         <fieldset className="c-field-container">
@@ -136,6 +147,7 @@ class Step1 extends React.Component {
                 options: ['unordered', 'ordered']
               }
             }}
+            toolbarCustomButtons={[<ToolbarWidgetBtn />]}
             properties={{
               name: 'content',
               label: 'Content',
@@ -155,6 +167,7 @@ class Step1 extends React.Component {
 Step1.propTypes = {
   id: PropTypes.string,
   form: PropTypes.object,
+  basic: PropTypes.bool,
   onChange: PropTypes.func
 };
 

@@ -7,10 +7,10 @@ import { Serializer } from 'jsonapi-serializer';
 import DashboardsService from 'services/DashboardsService';
 import { toastr } from 'react-redux-toastr';
 
-import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/dashboards/form/constants';
+import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/dashboards/form/constants';
 
 import Navigation from 'components/form/Navigation';
-import Step1 from 'components/admin/dashboards/form/steps/Step1';
+import Step1 from 'components/dashboards/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
 class DashboardsForm extends React.Component {
@@ -20,7 +20,10 @@ class DashboardsForm extends React.Component {
     this.state = Object.assign({}, STATE_DEFAULT, {
       id: props.id,
       loading: !!props.id,
-      form: STATE_DEFAULT.form
+      form: {
+        ...STATE_DEFAULT.form,
+        user_id: props.user.id
+      }
     });
 
     // BINDINGS
@@ -29,7 +32,7 @@ class DashboardsForm extends React.Component {
     this.onStepChange = this.onStepChange.bind(this);
 
     this.service = new DashboardsService({
-      authorization: props.authorization
+      authorization: props.user.token
     });
   }
 
@@ -38,7 +41,7 @@ class DashboardsForm extends React.Component {
     // Get the dashboards and fill the
     // state form with its params if the id exists
     if (id) {
-      this.service.fetchData(id)
+      this.service.fetchData({ id })
         .then((data) => {
           this.setState({
             form: this.setFormFromParams(data),
@@ -148,6 +151,7 @@ class DashboardsForm extends React.Component {
         {(this.state.step === 1 && !this.state.loading) &&
           <Step1
             onChange={value => this.onChange(value)}
+            basic={this.props.basic}
             form={this.state.form}
             id={this.state.id}
           />
@@ -167,8 +171,9 @@ class DashboardsForm extends React.Component {
 }
 
 DashboardsForm.propTypes = {
-  authorization: PropTypes.string,
+  user: PropTypes.object,
   id: PropTypes.string,
+  basic: PropTypes.bool,
   onSubmit: PropTypes.func
 };
 

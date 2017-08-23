@@ -1,0 +1,26 @@
+.c-widget-tooltip-list {
+  margin: 0 -$margin-size-extra-small;
+
+  // CONTENT
+  .tooltip-content {
+    max-width: 200px;
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .tooltip-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    > li {
+      padding: $margin-size-extra-small/2 $margin-size-extra-small;
+      cursor: pointer;
+
+      &:hover {
+        background: $color-pale-grey;
+      }
+    }
+  }
+}
