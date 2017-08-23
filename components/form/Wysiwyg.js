@@ -11,12 +11,14 @@ import htmlToDraft from 'html-to-draftjs';
 import FormElement from './FormElement';
 
 class Wysiwyg extends FormElement {
-
   static getValue(html) {
-    const draft = htmlToDraft(html);
+    const block = htmlToDraft(html);
 
     if (html) {
-      const contentState = ContentState.createFromBlockArray(draft.contentBlocks);
+      const contentState = ContentState.createFromBlockArray(
+        block.contentBlocks,
+        block.entityMap
+      );
       return EditorState.createWithContent(contentState);
     }
 

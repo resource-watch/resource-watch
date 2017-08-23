@@ -11,7 +11,7 @@ export default class DatasetsService {
   fetchAllData({ applications = [process.env.APPLICATIONS], includes, filters } = {}) {
     const qParams = {
       application: applications.join(','),
-      includes,
+      ...!!includes && { includes },
       'page[size]': 9999999,
       ...filters
     };
