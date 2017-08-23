@@ -258,7 +258,7 @@ class ExploreDetail extends Page {
                         Learn more
                       </a>
                     }
-                    {dataset && dataset.attributes && dataset.attributes.subscribable &&
+                    {dataset && dataset.attributes && dataset.attributes.subscribable && this.props.user.id &&
                       <button
                         className="c-button -primary -fullwidth"
                         onClick={this.handleSubscribe}
