@@ -4,7 +4,8 @@
   padding: 20px;
   min-height: 150px;
 
-  .info {
+  > div > .info { // Without that much specificity, we break the legend
+    margin-top: 20px;
 
     .widget-title {
       display: flex;
@@ -20,6 +21,21 @@
 
     a {
       text-decoration: none;
+    }
+  }
+
+  .visualization {
+    position: relative; // Limit the scope of the map and spinner
+  }
+
+  .c-map {
+    height: 300px;
+    position: static;
+
+    // Without this property, the legend is hidden behind
+    // the map
+    .leaflet-pane {
+      z-index: 1;
     }
   }
 
