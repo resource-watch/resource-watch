@@ -180,6 +180,8 @@ class ExploreDetail extends Page {
       '-fullwidth': true
     });
 
+    console.log('user.id', this.props.user.id);
+
     return (
       <Layout
         title="Explore detail"
@@ -258,7 +260,7 @@ class ExploreDetail extends Page {
                         Learn more
                       </a>
                     }
-                    {dataset && dataset.attributes && dataset.attributes.subscribable &&
+                    {dataset && dataset.attributes && dataset.attributes.subscribable && this.props.user.id &&
                       <button
                         className="c-button -primary -fullwidth"
                         onClick={this.handleSubscribe}
