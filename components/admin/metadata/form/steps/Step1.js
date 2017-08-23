@@ -370,7 +370,7 @@ class Step1 extends React.Component {
           </Field>
         </fieldset>
 
-        {columns.length &&
+        {!!columns.length &&
           <fieldset className="c-field-container">
             <Title className="-default -secondary">
               Columns
@@ -449,7 +449,7 @@ class Step1 extends React.Component {
                     </Field>
                   </div>
                 </div>
-                ))}
+              ))}
             </div>
           </fieldset>
         }

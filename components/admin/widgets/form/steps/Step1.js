@@ -123,6 +123,22 @@ class Step1 extends React.Component {
             {Checkbox}
           </Field>
 
+          {/* DEFAULT */}
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.default = c; }}
+            onChange={value => this.props.onChange({ default: value.checked })}
+            properties={{
+              name: 'default',
+              label: 'Do you want to set this widget as default?',
+              value: 'default',
+              title: 'Default',
+              defaultChecked: this.props.form.default,
+              checked: this.props.form.default
+            }}
+          >
+            {Checkbox}
+          </Field>
+
         </fieldset>
 
         {this.state.form.dataset &&

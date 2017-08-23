@@ -107,8 +107,18 @@ class DatasetsForm extends React.Component {
             })
             .catch((err) => {
               this.setState({ submitting: false });
-              toastr.error('Error', `Oops! There was an error, try again`);
-              console.error(err);
+              try {
+                if (err && !!err.length) {
+                  err.forEach((e) => {
+                    toastr.error('Error', e.detail);
+                  });
+                } else {
+                  toastr.error('Error', 'Oops! There was an error, try again');
+                }
+              } catch (e) {
+                toastr.error('Error', 'Oops! There was an error, try again');
+              }
+              console.error();
             });
         } else {
           this.setState({

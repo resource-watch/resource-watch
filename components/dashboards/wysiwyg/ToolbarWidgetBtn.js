@@ -53,7 +53,8 @@ class ToolbarWidgetBtn extends React.Component {
     const { editorState } = this.props;
     const entityKey = editorState
       .getCurrentContent()
-      .createEntity('EMBEDDED_LINK', 'MUTABLE', { src: `/embed/widget/${id}`, height: 390, width: 500 })
+      // If I try to use relative urls draftToHtml library won't parse the src...
+      .createEntity('EMBEDDED_LINK', 'MUTABLE', { src: `/embed/widget/${id}`, height: 410, width: 500 })
       .getLastCreatedEntityKey();
 
     const newEditorState = AtomicBlockUtils.insertAtomicBlock(

@@ -3592,9 +3592,9 @@ html-entities@^1.2.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/html-entities/-/html-entities-1.2.1.tgz#0df29351f0721163515dfb9e5543e5f6eed5162f"
 
-html-to-draftjs@0.1.0-beta14:
-  version "0.1.0-beta14"
-  resolved "https://registry.yarnpkg.com/html-to-draftjs/-/html-to-draftjs-0.1.0-beta14.tgz#09e5d2112449a3cf8bd583027985db19d1605d56"
+"html-to-draftjs@git+https://github.com/mbarrenechea/html-to-draftjs.git":
+  version "0.1.0-beta15"
+  resolved "git+https://github.com/mbarrenechea/html-to-draftjs.git#d0a389012bd06b2af4eab3f2b24b0e9b2886f335"
 
 htmlescape@1.1.1:
   version "1.1.1"
