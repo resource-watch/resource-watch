@@ -180,8 +180,6 @@ class ExploreDetail extends Page {
       '-fullwidth': true
     });
 
-    console.log('user.id', this.props.user.id);
-
     return (
       <Layout
         title="Explore detail"
