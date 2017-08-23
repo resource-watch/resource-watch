@@ -493,7 +493,7 @@ class Step1 extends React.Component {
           </div>
         }
 
-        {this.state.form.provider && dataset && columns.length &&
+        {this.state.form.provider && dataset && !!columns.length &&
           <div className="c-field-row">
             <div className="l-row row">
               <div className="column small-12 medium-6">
