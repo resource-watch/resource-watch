@@ -114,7 +114,7 @@ class Explore extends Page {
   }
 
   loadKnowledgeGraph() {
-    fetch(new Request('/static/data/knowledgeGraphLite.json'))
+    fetch(new Request('/static/data/knowledgeGraph.json'))
       .then(response => response.json())
       .then((response) => {
         this.setState({ knowledgeGraph: response });
