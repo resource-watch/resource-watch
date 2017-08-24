@@ -341,10 +341,14 @@ class WidgetCard extends React.Component {
           <div className="detail">
             {/* Title */}
             <Title className="-default -primary">
-              {widget.attributes.name}
+              <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
+                <a>{widget.attributes.name}</a>
+              </Link>
             </Title>
             <p>
-              {WidgetCard.getDescription(widget.attributes.description)}
+              <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
+                <a>{WidgetCard.getDescription(widget.attributes.description)}</a>
+              </Link>
             </p>
           </div>
           {(showActions || showRemove || showEmbed) &&
