@@ -1,0 +1,29 @@
+.knowledge-graph-selector {
+  
+  * {
+    box-sizing: border-box;
+  }
+
+  h2 {
+    margin: 0;
+  }
+
+  .suspended .node-label {
+    font-style: italic;
+    text-decoration: line-through;
+  }
+
+  .dropdown-content {
+    max-height: 400px;
+  }
+
+  .node .fa {
+    font-size: 12px;
+    margin-left: 4px;
+    cursor: pointer;
+  }
+
+  .node .fa-ban {
+    color: darkorange;
+  }
+}

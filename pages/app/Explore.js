@@ -4,6 +4,9 @@ import { Autobind } from 'es-decorators';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import MediaQuery from 'react-responsive';
+import 'isomorphic-fetch';
+import ReactDOM from 'react-dom'
+import DropdownTreeSelect from 'react-dropdown-tree-select'
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -62,7 +65,8 @@ class Explore extends Page {
     super(props);
 
     this.state = {
-      vocabularies: props.explore.vocabularies.list || []
+      vocabularies: props.explore.vocabularies.list || [],
+      knowledgeGraph: {}
     };
 
     // BINDINGS
@@ -95,6 +99,7 @@ class Explore extends Page {
 
     this.props.getDatasets();
     this.props.getVocabularies();
+    this.loadKnowledgeGraph();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -106,6 +111,21 @@ class Explore extends Page {
   shouldComponentUpdate(nextProps, nextState) {
     return !isEqual(nextProps.explore, this.props.explore)
       || !isEqual(nextState, this.state);
+  }
+
+  loadKnowledgeGraph() {
+    fetch(new Request('/static/data/knowledgeGraphLite.json'))
+      .then(response => response.json())
+      .then((response) => {
+        this.setState({ knowledgeGraph: response });
+        const element = document.getElementsByClassName('knowledge-graph-selector')[0];
+
+        const onChange = (currentNode, selectedNodes) => { console.log('onChange::', currentNode, selectedNodes) }
+        const onAction = ({action, node}) => { console.log(`onAction:: [${action}]`, node) }
+        const onNodeToggle = (currentNode) => { console.log('onNodeToggle::', currentNode) }
+        console.log(response);
+        ReactDOM.render(<DropdownTreeSelect data={response} onChange={onChange} onAction={onAction} onNodeToggle={onNodeToggle} />, element);
+      });
   }
 
   @Autobind
@@ -247,12 +267,6 @@ class Explore extends Page {
               </div>
               <div className="filters-container">
                 <CustomSelect
-                  options={vocabularies}
-                  onValueChange={this.handleFilterDatasetsIssue}
-                  placeholder="Topics"
-                  value={issue && issue.length > 0 && issue[0].value}
-                />
-                <CustomSelect
                   options={geographiesVocabulary}
                   onValueChange={this.handleFilterDatasetsIssue}
                   placeholder="Geographies"
@@ -265,6 +279,7 @@ class Explore extends Page {
                   value={issue && issue.length > 0 && issue[0].value}
                 />
               </div>
+              <div className="knowledge-graph-selector" />
 
               <DatasetListHeader
                 list={explore.datasets.list}
