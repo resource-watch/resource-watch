@@ -67,7 +67,12 @@ class WidgetCard extends React.Component {
    * @returns {boolean} 
    */
   static isMapWidget(widget) {
-    return !!(widget && widget.attributes.widgetConfig.paramsConfig.layer);
+    return !!(widget
+      // Some widgets have not been created with the widget editor
+      // so the paramsConfig attribute doesn't exist
+      && widget.attributes.widgetConfig.paramsConfig
+      && widget.attributes.widgetConfig.paramsConfig.layer
+    );
   }
 
   constructor(props) {
