@@ -40,8 +40,7 @@ class ExploreDetail extends Page {
       similarDatasetsLoaded: false,
       similarDatasets: null,
       dataset: null,
-      loading: false,
-      downloadURI: null
+      loading: false
     };
 
     // DatasetService
@@ -123,15 +122,9 @@ class ExploreDetail extends Page {
 
   /**
    * UI EVENTS
-   * - triggerDownload
    * - handleShare
    * - handleSubscribe
   */
-  @Autobind
-  triggerDownload() {
-    const { tableName, name } = this.state.dataset.attributes;
-    this.datasetService.getDownloadURI(tableName, name);
-  }
   @Autobind
   handleShare() {
     const { dataset } = this.state;
@@ -235,13 +228,14 @@ class ExploreDetail extends Page {
                     >
                       Share/Embed
                     </button>
-                    <button
-                      className={downloadButtonClass}
-                      onClick={this.triggerDownload}
-                      disabled={downloadURI}
-                    >
-                      Download
-                    </button>
+                    {metadataInfo && metadataInfo.data_download_link &&
+                      <a
+                        className="c-button -primary -fullwidth"
+                        href={metadataInfo && metadataInfo.data_download_link}
+                      >
+                        Download
+                      </a>
+                    }
                     {metadataInfo && metadataInfo.data_download_original_link &&
                       <a
                         className="c-button -primary -fullwidth"
