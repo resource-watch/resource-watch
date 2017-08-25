@@ -5,8 +5,8 @@ import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import MediaQuery from 'react-responsive';
 import 'isomorphic-fetch';
-import ReactDOM from 'react-dom'
-import DropdownTreeSelect from 'react-dropdown-tree-select'
+import ReactDOM from 'react-dom';
+import DropdownTreeSelect from 'react-dropdown-tree-select';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -20,8 +20,7 @@ import {
   getDatasets,
   setDatasetsPage,
   setDatasetsSearchFilter,
-  setDatasetsIssueFilter,
-  getVocabularies
+  setDatasetsIssueFilter
 } from 'redactions/explore';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
@@ -39,7 +38,6 @@ import Paginator from 'components/ui/Paginator';
 import Map from 'components/vis/Map';
 import ShareModalExplore from 'components/modal/ShareModalExplore';
 import Legend from 'components/ui/Legend';
-import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
 import SearchInput from 'components/ui/SearchInput';
@@ -65,8 +63,12 @@ class Explore extends Page {
     super(props);
 
     this.state = {
-      vocabularies: props.explore.vocabularies.list || [],
-      knowledgeGraph: {}
+      topicsTree: null,
+      selectedTopics: [],
+      geographiesTree: null,
+      selectedGeographies: [],
+      dataTypesTree: null,
+      selectedDataTypes: []
     };
 
     // BINDINGS
@@ -98,14 +100,16 @@ class Explore extends Page {
     }
 
     this.props.getDatasets();
-    this.props.getVocabularies();
+  }
+
+  componentDidMount() {
     this.loadKnowledgeGraph();
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      vocabularies: nextProps.explore.vocabularies.list
-    });
+    // this.setState({
+    //   vocabularies: nextProps.explore.vocabularies.list
+    // });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -114,17 +118,58 @@ class Explore extends Page {
   }
 
   loadKnowledgeGraph() {
-    fetch(new Request('/static/data/knowledgeGraph.json'))
+    // Topics selector
+    fetch(new Request('/static/data/TopicsTree.json'))
       .then(response => response.json())
       .then((response) => {
-        this.setState({ knowledgeGraph: response });
-        const element = document.getElementsByClassName('knowledge-graph-selector')[0];
+        this.setState({ topicsTree: response });
+        const element = document.getElementsByClassName('topics-selector')[0];
 
-        const onChange = (currentNode, selectedNodes) => { console.log('onChange::', currentNode, selectedNodes) }
-        const onAction = ({action, node}) => { console.log(`onAction:: [${action}]`, node) }
-        const onNodeToggle = (currentNode) => { console.log('onNodeToggle::', currentNode) }
-        console.log(response);
-        ReactDOM.render(<DropdownTreeSelect data={response} onChange={onChange} onAction={onAction} onNodeToggle={onNodeToggle} />, element);
+        const onChange = (currentNode, selectedNodes) =>
+          this.setState({ selectedTopics: selectedNodes.map(val => val.value) });
+        ReactDOM.render(
+          <DropdownTreeSelect
+            placeholderText="Topics"
+            data={response}
+            onChange={onChange}
+          />,
+          element);
+      });
+
+    // Data types selector
+    fetch(new Request('/static/data/DataTypesTree.json'))
+      .then(response => response.json())
+      .then((response) => {
+        this.setState({ dataTypesTree: response });
+        const element = document.getElementsByClassName('data-types-selector')[0];
+
+        const onChange = (currentNode, selectedNodes) =>
+          this.setState({ selectedDataTypes: selectedNodes.map(val => val.value) });
+        ReactDOM.render(
+          <DropdownTreeSelect
+            data={response}
+            placeholderText="Data types"
+            onChange={onChange}
+          />,
+          element);
+      });
+
+    // Data types selector
+    fetch(new Request('/static/data/GeographiesTree.json'))
+      .then(response => response.json())
+      .then((response) => {
+        this.setState({ geographiesTree: response });
+        const element = document.getElementsByClassName('geographies-selector')[0];
+
+        const onChange = (currentNode, selectedNodes) =>
+          this.setState({ selectedGeographies: selectedNodes.map(val => val.value) });
+        ReactDOM.render(
+          <DropdownTreeSelect
+            data={response}
+            placeholderText="Geographies"
+            onChange={onChange}
+          />,
+          element);
       });
   }
 
@@ -233,13 +278,8 @@ class Explore extends Page {
   }
 
   render() {
-    const { vocabularies } = this.state;
     const { explore, paginatedDatasets } = this.props;
-    const { search, issue } = explore.filters;
-
-    // TEMPORAL only whilst the knowledge graph is not used
-    const dataTypesVocabulary = vocabularies.length > 0 ? vocabularies.find(elem => elem.value === 'dataset_type').items : [];
-    const geographiesVocabulary = vocabularies.length > 0 ? vocabularies.find(elem => elem.value === 'location').items : [];
+    const { search } = explore.filters;
 
     return (
       <Layout
@@ -266,21 +306,10 @@ class Explore extends Page {
                 />
               </div>
               <div className="filters-container">
-                <CustomSelect
-                  options={geographiesVocabulary}
-                  onValueChange={this.handleFilterDatasetsIssue}
-                  placeholder="Geographies"
-                  value={issue && issue.length > 0 && issue[0].value}
-                />
-                <CustomSelect
-                  options={dataTypesVocabulary}
-                  onValueChange={this.handleFilterDatasetsIssue}
-                  placeholder="Data types"
-                  value={issue && issue.length > 0 && issue[0].value}
-                />
+                <div className="topics-selector c-tree-selector" />
+                <div className="geographies-selector c-tree-selector" />
+                <div className="data-types-selector c-tree-selector" />
               </div>
-              <div className="knowledge-graph-selector" />
-
               <DatasetListHeader
                 list={explore.datasets.list}
                 mode={explore.datasets.mode}
@@ -357,7 +386,6 @@ Explore.propTypes = {
   // ACTIONS
 
   getDatasets: PropTypes.func,
-  getVocabularies: PropTypes.func,
   setDatasetsPage: PropTypes.func,
   redirectTo: PropTypes.func,
   setDatasetsFilters: PropTypes.func,
@@ -392,7 +420,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   getDatasets: () => { dispatch(getDatasets()); },
-  getVocabularies: () => { dispatch(getVocabularies()); },
   setDatasetsSearchFilter: search => dispatch(setDatasetsSearchFilter(search)),
   setDatasetsIssueFilter: issue => dispatch(setDatasetsIssueFilter(issue)),
   redirectTo: (url) => { dispatch(redirectTo(url)); },

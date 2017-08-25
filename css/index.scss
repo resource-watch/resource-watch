@@ -61,6 +61,7 @@
 @import "./components/ui/title";
 @import "./components/ui/tooltip";
 @import "./components/ui/tooltip-global";
+@import "./components/ui/tree_selector";
 @import "./components/ui/zoom_control";
 
 // Modal
@@ -193,7 +194,6 @@
 @import "./components/app/explore/dataset_placeholder_chart";
 @import "./components/app/explore/widget_configurator";
 @import "./components/app/explore/explore_layers_tooltip";
-@import "./components/app/explore/knowledge_graph_selector";
 
 // EXPLORE DETAIL
 @import "./components/app/explore-detail/dataset-info";
