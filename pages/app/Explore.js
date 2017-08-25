@@ -51,6 +51,8 @@ import Layout from 'components/app/layout/Layout';
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
 
+// Services
+import DatasetService from 'services/DatasetService';
 
 const mapConfig = {
   zoom: 3,
@@ -73,9 +75,11 @@ class Explore extends Page {
       selectedDataTypes: []
     };
 
+    // Services
+    this.datasetService = new DatasetService(null, { apiURL: process.env.WRI_API_URL });
+
     // BINDINGS
     this.handleFilterDatasetsSearch = debounce(this.handleFilterDatasetsSearch.bind(this), 500);
-    this.handleFilterDatasetsIssue = this.handleFilterDatasetsIssue.bind(this);
   }
 
   componentWillMount() {
@@ -117,6 +121,17 @@ class Explore extends Page {
   }
 
   componentWillReceiveProps(nextProps) {
+    const oldFilters = this.props.explore.filters;
+    const { topics, geographies, dataType } = oldFilters;
+    const newFilters = nextProps.explore.filters;
+    const conceptsUpdated = topics !== newFilters.topics ||
+      geographies !== newFilters.geographies ||
+      dataType !== newFilters.dataType;
+
+    if (conceptsUpdated) {
+      console.log('nextProps', nextProps);
+    }
+
     // this.setState({
     //   vocabularies: nextProps.explore.vocabularies.list
     // });
@@ -137,7 +152,6 @@ class Explore extends Page {
 
         const onChange = (currentNode, selectedNodes) => {
           const topics = selectedNodes.map(val => val.value);
-          this.setState({ selectedTopics: topics });
           this.props.setDatasetsTopicsFilter(topics);
         };
         ReactDOM.render(
@@ -158,7 +172,6 @@ class Explore extends Page {
 
         const onChange = (currentNode, selectedNodes) => {
           const dataTypes = selectedNodes.map(val => val.value);
-          this.setState({ selectedDataTypes: dataTypes });
           this.props.setDatasetsDataTypeFilter(dataTypes);
         };
         ReactDOM.render(
@@ -179,7 +192,6 @@ class Explore extends Page {
 
         const onChange = (currentNode, selectedNodes) => {
           const geographies = selectedNodes.map(val => val.value);
-          this.setState({ selectedGeographies: geographies });
           this.props.setDatasetsGeographiesFilter(geographies);
         };
         ReactDOM.render(
@@ -202,14 +214,6 @@ class Explore extends Page {
   handleFilterDatasetsSearch(value) {
     const filter = { value: value || '', key: 'name' };
     this.props.setDatasetsSearchFilter(filter);
-
-    // We move the user to the first page
-    this.props.setDatasetsPage(1);
-  }
-
-  handleFilterDatasetsIssue(item, levels, key) {
-    const filter = item ? [{ levels, value: item.value, key }] : null;
-    this.props.setDatasetsIssueFilter(filter);
 
     // We move the user to the first page
     this.props.setDatasetsPage(1);
@@ -422,7 +426,8 @@ Explore.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const datasets = (state.explore.filters.search || state.explore.filters.issue)
+  const filters = state.explore.filters;
+  const datasets = (filters.search || filters.topcis || filters.geographies || filters.dataType)
     ? Object.assign({}, state.explore.datasets, { list: getFilteredDatasets(state) })
     : state.explore.datasets;
 

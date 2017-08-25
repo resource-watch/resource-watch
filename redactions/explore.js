@@ -420,7 +420,7 @@ export function setDatasetsGeographiesFilter(topics) {
 export function setDatasetsDataTypeFilter(dataTypes) {
   return (dispatch) => {
     dispatch({
-      type: SET_DATASETS_GEOGRAPHIES_FILTER,
+      type: SET_DATASETS_DATA_TYPE_FILTER,
       payload: dataTypes
     });
 

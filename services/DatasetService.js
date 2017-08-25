@@ -220,4 +220,14 @@ export default class DatasetService {
       })
       .then(jsonData => jsonData.data);
   }
+
+  searchDatasetsByConcepts(topics, geographies, dataTypes) {
+    const topicsSt = topics.map((val, index) => `concept[0][${index}]=${val}`).join('&');
+    const geographiesSt = geographies ? `&${geographies.map((val, index) => `concept[1][${index}]=${val}`).join('&')}` : '';
+    const dataTypesSt = dataTypes ? `&${dataTypes.map((val, index) => `concept[2][${index}]=${val}`).join('&')}` : '';
+    const querySt = `${topicsSt}${geographiesSt}${dataTypesSt}`;
+    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}`)
+      .then(response => response.json())
+      .then(jsonData => jsonData.data);
+  }
 }
