@@ -222,10 +222,24 @@ export default class DatasetService {
   }
 
   searchDatasetsByConcepts(topics, geographies, dataTypes) {
-    const topicsSt = topics.map((val, index) => `concept[0][${index}]=${val}`).join('&');
-    const geographiesSt = geographies ? `&${geographies.map((val, index) => `concept[1][${index}]=${val}`).join('&')}` : '';
-    const dataTypesSt = dataTypes ? `&${dataTypes.map((val, index) => `concept[2][${index}]=${val}`).join('&')}` : '';
-    const querySt = `${topicsSt}${geographiesSt}${dataTypesSt}`;
+    const topicsSt = topics ? topics.map((val, index) => `concepts[0][${index}]=${val}`).join('&') : null;
+    const geographiesSt = geographies ? `${geographies.map((val, index) => `concepts[1][${index}]=${val}`).join('&')}` : null;
+    const dataTypesSt = dataTypes ? `${dataTypes.map((val, index) => `concepts[2][${index}]=${val}`).join('&')}` : null;
+    let querySt = topicsSt;
+    if (geographiesSt) {
+      if (querySt) {
+        querySt += `&${geographiesSt}`;
+      } else {
+        querySt = geographiesSt;
+      }
+    }
+    if (dataTypesSt) {
+      if (querySt) {
+        querySt += `&${dataTypesSt}`;
+      } else {
+        querySt = dataTypesSt;
+      }
+    }
     return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);

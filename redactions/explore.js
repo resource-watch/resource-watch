@@ -17,6 +17,8 @@ const SET_DATASETS_TOPICS_FILTER = 'explore/SET_DATASETS_TOPICS_FILTER';
 const SET_DATASETS_DATA_TYPE_FILTER = 'explore/SET_DATASETS_DATA_TYPE_FILTER';
 const SET_DATASETS_GEOGRAPHIES_FILTER = 'explore/SET_DATASETS_GEOGRAPHIES_FILTER';
 
+const SET_DATASETS_FILTERED_BY_CONCEPTS = 'explore/SET_DATASETS_FILTERED_BY_CONCEPTS';
+
 const SET_DATASETS_MODE = 'explore/SET_DATASETS_MODE';
 
 const SET_LAYERGROUP_TOGGLE = 'explore/SET_LAYERGROUP_TOGGLE';
@@ -190,6 +192,13 @@ export default function (state = initialState, action) {
     case SET_DATASETS_GEOGRAPHIES_FILTER: {
       const filters = Object.assign({}, state.filters, {
         geographies: action.payload
+      });
+      return Object.assign({}, state, { filters });
+    }
+
+    case SET_DATASETS_FILTERED_BY_CONCEPTS: {
+      const filters = Object.assign({}, state.filters, {
+        datasetsFilteredByConcepts: action.payload
       });
       return Object.assign({}, state, { filters });
     }
@@ -426,6 +435,15 @@ export function setDatasetsDataTypeFilter(dataTypes) {
 
     // We also update the URL
     if (typeof window !== 'undefined') dispatch(setUrlParams());
+  };
+}
+
+export function setDatasetsFilteredByConcepts(datasetList) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_DATASETS_FILTERED_BY_CONCEPTS,
+      payload: datasetList
+    });
   };
 }
 

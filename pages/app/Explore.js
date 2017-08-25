@@ -22,7 +22,8 @@ import {
   setDatasetsSearchFilter,
   setDatasetsTopicsFilter,
   setDatasetsGeographiesFilter,
-  setDatasetsDataTypeFilter
+  setDatasetsDataTypeFilter,
+  setDatasetsFilteredByConcepts
 } from 'redactions/explore';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
@@ -68,11 +69,8 @@ class Explore extends Page {
 
     this.state = {
       topicsTree: null,
-      selectedTopics: [],
       geographiesTree: null,
-      selectedGeographies: [],
-      dataTypesTree: null,
-      selectedDataTypes: []
+      dataTypesTree: null
     };
 
     // Services
@@ -124,12 +122,23 @@ class Explore extends Page {
     const oldFilters = this.props.explore.filters;
     const { topics, geographies, dataType } = oldFilters;
     const newFilters = nextProps.explore.filters;
+
     const conceptsUpdated = topics !== newFilters.topics ||
       geographies !== newFilters.geographies ||
       dataType !== newFilters.dataType;
 
-    if (conceptsUpdated) {
-      console.log('nextProps', nextProps);
+    const newFiltersHaveData = (newFilters.topics && newFilters.topics.length > 0) ||
+      (newFilters.dataType && newFilters.dataType.length > 0) ||
+      (newFilters.geographies && newFilters.geographies.length > 0);
+
+    if (conceptsUpdated && newFiltersHaveData) {
+      this.datasetService.searchDatasetsByConcepts(
+        newFilters.topics, newFilters.geographies, newFilters.dataType)
+        .then((datasetList) => {
+          this.props.setDatasetsFilteredByConcepts(datasetList);
+        });
+    } else if (conceptsUpdated && !newFiltersHaveData) {
+      this.props.setDatasetsFilteredByConcepts(null);
     }
 
     // this.setState({
@@ -448,6 +457,7 @@ const mapDispatchToProps = dispatch => ({
   setDatasetsTopicsFilter: topics => dispatch(setDatasetsTopicsFilter(topics)),
   setDatasetsDataTypeFilter: dataType => dispatch(setDatasetsDataTypeFilter(dataType)),
   setDatasetsGeographiesFilter: geographies => dispatch(setDatasetsGeographiesFilter(geographies)),
+  setDatasetsFilteredByConcepts: datasetList => dispatch(setDatasetsFilteredByConcepts(datasetList)),
   redirectTo: (url) => { dispatch(redirectTo(url)); },
   toggleModal: (open, options) => dispatch(toggleModal(open, options)),
   setModalOptions: (options) => { dispatch(setModalOptions(options)); },
