@@ -5,12 +5,13 @@ const datasetList = state => state.explore.datasets.list;
 const filters = state => state.explore.filters;
 
 // Filter datasets by issues
-const getFilteredDatasets = (_list, _filters, conceptFilteredList) => {
+const getFilteredDatasets = (_list, _filters) => {
   const search = _filters.search;
-  const conceptsSpecified = _filters.topics || _filters.geographies || _filters.dataType;
+  const datasetsFilteredByConcepts = _filters.datasetsFilteredByConcepts;
 
   return _list.filter((it) => {
     let searchFilterPassed = false;
+    let conceptsCheckPassed = true;
 
     if (search && search.key === 'name') {
       if (it.attributes.name.toLowerCase().match(search.value.toLowerCase())) {
@@ -18,8 +19,17 @@ const getFilteredDatasets = (_list, _filters, conceptFilteredList) => {
       }
     }
 
+    if (datasetsFilteredByConcepts) {
+      conceptsCheckPassed = datasetsFilteredByConcepts.includes(it.id);
+      if (conceptsCheckPassed) {
+        debugger;
+      }
+
+    }
+
     const searchCheck = (search && searchFilterPassed) || !search;
-    const conceptsCheck = (conceptsSpecified) || !conceptsSpecified;
+    const conceptsCheck = (datasetsFilteredByConcepts && conceptsCheckPassed) ||
+      !datasetsFilteredByConcepts;
 
     return searchCheck && conceptsCheck;
   });

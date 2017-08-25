@@ -104,7 +104,7 @@ class Explore extends Page {
     }
 
     if (query.geographies) {
-      this.props.setDatasetsTopicsFilter(JSON.parse(query.geographies));
+      this.props.setDatasetsGeographiesFilter(JSON.parse(query.geographies));
     }
 
     if (query.dataType) {
@@ -135,6 +135,7 @@ class Explore extends Page {
       this.datasetService.searchDatasetsByConcepts(
         newFilters.topics, newFilters.geographies, newFilters.dataType)
         .then((datasetList) => {
+          console.log('datasetList', datasetList);
           this.props.setDatasetsFilteredByConcepts(datasetList);
         });
     } else if (conceptsUpdated && !newFiltersHaveData) {
@@ -153,7 +154,7 @@ class Explore extends Page {
 
   loadKnowledgeGraph() {
     // Topics selector
-    fetch(new Request('/static/data/TopicsTree.json'))
+    fetch(new Request('/static/data/TopicsTreeLite.json'))
       .then(response => response.json())
       .then((response) => {
         this.setState({ topicsTree: response });
@@ -173,7 +174,7 @@ class Explore extends Page {
       });
 
     // Data types selector
-    fetch(new Request('/static/data/DataTypesTree.json'))
+    fetch(new Request('/static/data/DataTypesTreeLite.json'))
       .then(response => response.json())
       .then((response) => {
         this.setState({ dataTypesTree: response });
@@ -193,7 +194,7 @@ class Explore extends Page {
       });
 
     // Data types selector
-    fetch(new Request('/static/data/GeographiesTree.json'))
+    fetch(new Request('/static/data/GeographiesTreeLite.json'))
       .then(response => response.json())
       .then((response) => {
         this.setState({ geographiesTree: response });
@@ -457,7 +458,8 @@ const mapDispatchToProps = dispatch => ({
   setDatasetsTopicsFilter: topics => dispatch(setDatasetsTopicsFilter(topics)),
   setDatasetsDataTypeFilter: dataType => dispatch(setDatasetsDataTypeFilter(dataType)),
   setDatasetsGeographiesFilter: geographies => dispatch(setDatasetsGeographiesFilter(geographies)),
-  setDatasetsFilteredByConcepts: datasetList => dispatch(setDatasetsFilteredByConcepts(datasetList)),
+  setDatasetsFilteredByConcepts: datasetList =>
+    dispatch(setDatasetsFilteredByConcepts(datasetList)),
   redirectTo: (url) => { dispatch(redirectTo(url)); },
   toggleModal: (open, options) => dispatch(toggleModal(open, options)),
   setModalOptions: (options) => { dispatch(setModalOptions(options)); },
