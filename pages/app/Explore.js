@@ -20,7 +20,9 @@ import {
   getDatasets,
   setDatasetsPage,
   setDatasetsSearchFilter,
-  setDatasetsIssueFilter
+  setDatasetsTopicsFilter,
+  setDatasetsGeographiesFilter,
+  setDatasetsDataTypeFilter
 } from 'redactions/explore';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
@@ -95,8 +97,16 @@ class Explore extends Page {
       this.props.setDatasetsSearchFilter({ value: query.search, key: 'name' });
     }
 
-    if (query.issue) {
-      this.props.setDatasetsIssueFilter(JSON.parse(query.issue));
+    if (query.topics) {
+      this.props.setDatasetsTopicsFilter(JSON.parse(query.topics));
+    }
+
+    if (query.geographies) {
+      this.props.setDatasetsTopicsFilter(JSON.parse(query.geographies));
+    }
+
+    if (query.dataType) {
+      this.props.setDatasetsDataTypeFilter(JSON.parse(query.dataType));
     }
 
     this.props.getDatasets();
@@ -125,8 +135,11 @@ class Explore extends Page {
         this.setState({ topicsTree: response });
         const element = document.getElementsByClassName('topics-selector')[0];
 
-        const onChange = (currentNode, selectedNodes) =>
-          this.setState({ selectedTopics: selectedNodes.map(val => val.value) });
+        const onChange = (currentNode, selectedNodes) => {
+          const topics = selectedNodes.map(val => val.value);
+          this.setState({ selectedTopics: topics });
+          this.props.setDatasetsTopicsFilter(topics);
+        };
         ReactDOM.render(
           <DropdownTreeSelect
             placeholderText="Topics"
@@ -143,8 +156,11 @@ class Explore extends Page {
         this.setState({ dataTypesTree: response });
         const element = document.getElementsByClassName('data-types-selector')[0];
 
-        const onChange = (currentNode, selectedNodes) =>
-          this.setState({ selectedDataTypes: selectedNodes.map(val => val.value) });
+        const onChange = (currentNode, selectedNodes) => {
+          const dataTypes = selectedNodes.map(val => val.value);
+          this.setState({ selectedDataTypes: dataTypes });
+          this.props.setDatasetsDataTypeFilter(dataTypes);
+        };
         ReactDOM.render(
           <DropdownTreeSelect
             data={response}
@@ -161,8 +177,11 @@ class Explore extends Page {
         this.setState({ geographiesTree: response });
         const element = document.getElementsByClassName('geographies-selector')[0];
 
-        const onChange = (currentNode, selectedNodes) =>
-          this.setState({ selectedGeographies: selectedNodes.map(val => val.value) });
+        const onChange = (currentNode, selectedNodes) => {
+          const geographies = selectedNodes.map(val => val.value);
+          this.setState({ selectedGeographies: geographies });
+          this.props.setDatasetsGeographiesFilter(geographies);
+        };
         ReactDOM.render(
           <DropdownTreeSelect
             data={response}
@@ -421,7 +440,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
   getDatasets: () => { dispatch(getDatasets()); },
   setDatasetsSearchFilter: search => dispatch(setDatasetsSearchFilter(search)),
-  setDatasetsIssueFilter: issue => dispatch(setDatasetsIssueFilter(issue)),
+  setDatasetsTopicsFilter: topics => dispatch(setDatasetsTopicsFilter(topics)),
+  setDatasetsDataTypeFilter: dataType => dispatch(setDatasetsDataTypeFilter(dataType)),
+  setDatasetsGeographiesFilter: geographies => dispatch(setDatasetsGeographiesFilter(geographies)),
   redirectTo: (url) => { dispatch(redirectTo(url)); },
   toggleModal: (open, options) => dispatch(toggleModal(open, options)),
   setModalOptions: (options) => { dispatch(setModalOptions(options)); },

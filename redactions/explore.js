@@ -13,7 +13,10 @@ const GET_DATASETS_LOADING = 'explore/GET_DATASETS_LOADING';
 
 const SET_DATASETS_PAGE = 'explore/SET_DATASETS_PAGE';
 const SET_DATASETS_SEARCH_FILTER = 'explore/SET_DATASETS_SEARCH_FILTER';
-const SET_DATASETS_ISSUE_FILTER = 'explore/SET_DATASETS_ISSUE_FILTER';
+const SET_DATASETS_TOPICS_FILTER = 'explore/SET_DATASETS_TOPICS_FILTER';
+const SET_DATASETS_DATA_TYPE_FILTER = 'explore/SET_DATASETS_DATA_TYPE_FILTER';
+const SET_DATASETS_GEOGRAPHIES_FILTER = 'explore/SET_DATASETS_GEOGRAPHIES_FILTER';
+
 const SET_DATASETS_MODE = 'explore/SET_DATASETS_MODE';
 
 const SET_LAYERGROUP_TOGGLE = 'explore/SET_LAYERGROUP_TOGGLE';
@@ -66,7 +69,9 @@ const initialState = {
   layers: [],
   filters: {
     search: null,
-    issue: null
+    topics: null,
+    dataType: null,
+    geographies: null
   },
   sidebar: {
     open: true,
@@ -168,9 +173,23 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { filters });
     }
 
-    case SET_DATASETS_ISSUE_FILTER: {
+    case SET_DATASETS_TOPICS_FILTER: {
       const filters = Object.assign({}, state.filters, {
-        issue: action.payload
+        topics: action.payload
+      });
+      return Object.assign({}, state, { filters });
+    }
+
+    case SET_DATASETS_DATA_TYPE_FILTER: {
+      const filters = Object.assign({}, state.filters, {
+        dataType: action.payload
+      });
+      return Object.assign({}, state, { filters });
+    }
+
+    case SET_DATASETS_GEOGRAPHIES_FILTER: {
+      const filters = Object.assign({}, state.filters, {
+        geographies: action.payload
       });
       return Object.assign({}, state, { filters });
     }
@@ -193,7 +212,7 @@ export function setUrlParams() {
     const { explore } = getState();
     const layerGroups = explore.layers;
     const { page } = explore.datasets;
-    const { search, issue } = explore.filters;
+    const { search, topics, dataType, geographies } = explore.filters;
 
     const query = { page };
 
@@ -205,8 +224,16 @@ export function setUrlParams() {
       query.search = search.value;
     }
 
-    if (issue) {
-      query.issue = JSON.stringify(issue);
+    if (topics) {
+      query.topics = JSON.stringify(topics);
+    }
+
+    if (dataType) {
+      query.dataType = JSON.stringify(dataType);
+    }
+
+    if (geographies) {
+      query.geographies = JSON.stringify(geographies);
     }
 
     Router.replaceRoute('explore', query);
@@ -366,11 +393,35 @@ export function setDatasetsSearchFilter(search) {
   };
 }
 
-export function setDatasetsIssueFilter(issue) {
+export function setDatasetsTopicsFilter(topics) {
   return (dispatch) => {
     dispatch({
-      type: SET_DATASETS_ISSUE_FILTER,
-      payload: issue
+      type: SET_DATASETS_TOPICS_FILTER,
+      payload: topics
+    });
+
+    // We also update the URL
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
+  };
+}
+
+export function setDatasetsGeographiesFilter(topics) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_DATASETS_GEOGRAPHIES_FILTER,
+      payload: topics
+    });
+
+    // We also update the URL
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
+  };
+}
+
+export function setDatasetsDataTypeFilter(dataTypes) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_DATASETS_GEOGRAPHIES_FILTER,
+      payload: dataTypes
     });
 
     // We also update the URL
