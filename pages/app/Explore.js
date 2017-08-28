@@ -135,7 +135,6 @@ class Explore extends Page {
       this.datasetService.searchDatasetsByConcepts(
         newFilters.topics, newFilters.geographies, newFilters.dataType)
         .then((datasetList) => {
-          console.log('datasetList', datasetList);
           this.props.setDatasetsFilteredByConcepts(datasetList);
         });
     } else if (conceptsUpdated && !newFiltersHaveData) {
@@ -153,21 +152,30 @@ class Explore extends Page {
   }
 
   loadKnowledgeGraph() {
+    const query = this.props.url.query;
+    const { topics, dataType, geographies } = query;
+
     // Topics selector
     fetch(new Request('/static/data/TopicsTreeLite.json'))
       .then(response => response.json())
       .then((response) => {
-        this.setState({ topicsTree: response });
+        const data = response;
+        this.setState({ topicsTree: data });
         const element = document.getElementsByClassName('topics-selector')[0];
 
         const onChange = (currentNode, selectedNodes) => {
-          const topics = selectedNodes.map(val => val.value);
-          this.props.setDatasetsTopicsFilter(topics);
+          const topicsVal = selectedNodes.map(val => val.value);
+          this.props.setDatasetsTopicsFilter(topicsVal);
         };
+
+        if (topics) {
+          data.forEach(child => this.selectElementsFromTree(child, topics));
+        }
+
         ReactDOM.render(
           <DropdownTreeSelect
             placeholderText="Topics"
-            data={response}
+            data={data}
             onChange={onChange}
           />,
           element);
@@ -177,13 +185,19 @@ class Explore extends Page {
     fetch(new Request('/static/data/DataTypesTreeLite.json'))
       .then(response => response.json())
       .then((response) => {
-        this.setState({ dataTypesTree: response });
+        const data = response;
+        this.setState({ dataTypesTree: data });
         const element = document.getElementsByClassName('data-types-selector')[0];
 
         const onChange = (currentNode, selectedNodes) => {
-          const dataTypes = selectedNodes.map(val => val.value);
-          this.props.setDatasetsDataTypeFilter(dataTypes);
+          const dataTypesVal = selectedNodes.map(val => val.value);
+          this.props.setDatasetsDataTypeFilter(dataTypesVal);
         };
+
+        if (dataType) {
+          data.forEach(child => this.selectElementsFromTree(child, dataType));
+        }
+
         ReactDOM.render(
           <DropdownTreeSelect
             data={response}
@@ -197,13 +211,19 @@ class Explore extends Page {
     fetch(new Request('/static/data/GeographiesTreeLite.json'))
       .then(response => response.json())
       .then((response) => {
-        this.setState({ geographiesTree: response });
+        const data = response;
+        this.setState({ geographiesTree: data });
         const element = document.getElementsByClassName('geographies-selector')[0];
 
         const onChange = (currentNode, selectedNodes) => {
-          const geographies = selectedNodes.map(val => val.value);
-          this.props.setDatasetsGeographiesFilter(geographies);
+          const geographiesVal = selectedNodes.map(val => val.value);
+          this.props.setDatasetsGeographiesFilter(geographiesVal);
         };
+
+        if (dataType) {
+          data.forEach(child => this.selectElementsFromTree(child, geographies));
+        }
+
         ReactDOM.render(
           <DropdownTreeSelect
             data={response}
@@ -212,6 +232,15 @@ class Explore extends Page {
           />,
           element);
       });
+  }
+
+  selectElementsFromTree(tree, elements) {
+    if (elements.includes(tree.value)) {
+      tree.checked = true;
+    }
+    if (tree.children) {
+      tree.children.forEach(val => this.selectElementsFromTree(val, elements));
+    }
   }
 
   @Autobind
