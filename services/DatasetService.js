@@ -197,8 +197,8 @@ export default class DatasetService {
     document.body.removeChild(a);
   }
 
-  getSimilarDatasets(tags) {
-    return fetch(`${this.opts.apiURL}/dataset?app=rw&vocabulary[legacy]=${tags}`)
+  getSimilarDatasets() {
+    return fetch(`${this.opts.apiURL}/graph/query/similar-dataset/${this.datasetId}`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
@@ -218,6 +218,31 @@ export default class DatasetService {
         if (!response.ok) throw new Error(response.statusText);
         return response.json();
       })
+      .then(jsonData => jsonData.data);
+  }
+
+  searchDatasetsByConcepts(topics, geographies, dataTypes) {
+    let counter = 0;
+    const topicsSt = topics ? topics.map((val, index) => `concepts[${counter++}][${index}]=${val}`).join('&') : null;
+    const geographiesSt = geographies ? `${geographies.map((val, index) => `concepts[${counter++}][${index}]=${val}`).join('&')}` : null;
+    const dataTypesSt = dataTypes ? `${dataTypes.map((val, index) => `concepts[${counter++}][${index}]=${val}`).join('&')}` : null;
+    let querySt = topicsSt;
+    if (geographiesSt) {
+      if (querySt) {
+        querySt += `&${geographiesSt}`;
+      } else {
+        querySt = geographiesSt;
+      }
+    }
+    if (dataTypesSt) {
+      if (querySt) {
+        querySt += `&${dataTypesSt}`;
+      } else {
+        querySt = dataTypesSt;
+      }
+    }
+    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}`)
+      .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
 }

@@ -26,8 +26,25 @@
   .filters-container {
     display: flex;
 
-    .c-custom-select:not(:last-of-type) {
-      margin-right: 10px;
+    .c-tree-selector{
+      width: 100%;
+
+      &:not(:last-of-type) {
+        margin-right: 10px;
+      }
+
+      .dropdown {
+
+        .dropdown-trigger {
+          width: 100%;
+          max-height: 45px;
+          height: 45px;
+        }
+
+        .dropdown-content {
+          z-index: 9999; // The Vega chart shows up on top otherwise
+        }
+      }
     }
   }
 

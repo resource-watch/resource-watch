@@ -4,6 +4,9 @@ import { Autobind } from 'es-decorators';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import MediaQuery from 'react-responsive';
+import 'isomorphic-fetch';
+import ReactDOM from 'react-dom';
+import DropdownTreeSelect from 'react-dropdown-tree-select';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -17,8 +20,10 @@ import {
   getDatasets,
   setDatasetsPage,
   setDatasetsSearchFilter,
-  setDatasetsIssueFilter,
-  getVocabularies
+  setDatasetsTopicsFilter,
+  setDatasetsGeographiesFilter,
+  setDatasetsDataTypeFilter,
+  setDatasetsFilteredByConcepts
 } from 'redactions/explore';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
@@ -36,7 +41,6 @@ import Paginator from 'components/ui/Paginator';
 import Map from 'components/vis/Map';
 import ShareModalExplore from 'components/modal/ShareModalExplore';
 import Legend from 'components/ui/Legend';
-import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
 import SearchInput from 'components/ui/SearchInput';
@@ -48,6 +52,8 @@ import Layout from 'components/app/layout/Layout';
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
 
+// Services
+import DatasetService from 'services/DatasetService';
 
 const mapConfig = {
   zoom: 3,
@@ -62,12 +68,16 @@ class Explore extends Page {
     super(props);
 
     this.state = {
-      vocabularies: props.explore.vocabularies.list || []
+      topicsTree: null,
+      geographiesTree: null,
+      dataTypesTree: null
     };
+
+    // Services
+    this.datasetService = new DatasetService(null, { apiURL: process.env.WRI_API_URL });
 
     // BINDINGS
     this.handleFilterDatasetsSearch = debounce(this.handleFilterDatasetsSearch.bind(this), 500);
-    this.handleFilterDatasetsIssue = this.handleFilterDatasetsIssue.bind(this);
   }
 
   componentWillMount() {
@@ -89,23 +99,148 @@ class Explore extends Page {
       this.props.setDatasetsSearchFilter({ value: query.search, key: 'name' });
     }
 
-    if (query.issue) {
-      this.props.setDatasetsIssueFilter(JSON.parse(query.issue));
+    if (query.topics) {
+      this.props.setDatasetsTopicsFilter(JSON.parse(query.topics));
+    }
+
+    if (query.geographies) {
+      this.props.setDatasetsGeographiesFilter(JSON.parse(query.geographies));
+    }
+
+    if (query.dataType) {
+      this.props.setDatasetsDataTypeFilter(JSON.parse(query.dataType));
     }
 
     this.props.getDatasets();
-    this.props.getVocabularies();
+  }
+
+  componentDidMount() {
+    this.loadKnowledgeGraph();
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      vocabularies: nextProps.explore.vocabularies.list
-    });
+    const oldFilters = this.props.explore.filters;
+    const { topics, geographies, dataType } = oldFilters;
+    const newFilters = nextProps.explore.filters;
+
+    const conceptsUpdated = topics !== newFilters.topics ||
+      geographies !== newFilters.geographies ||
+      dataType !== newFilters.dataType;
+
+    const newFiltersHaveData = (newFilters.topics && newFilters.topics.length > 0) ||
+      (newFilters.dataType && newFilters.dataType.length > 0) ||
+      (newFilters.geographies && newFilters.geographies.length > 0);
+
+    if (conceptsUpdated && newFiltersHaveData) {
+      this.datasetService.searchDatasetsByConcepts(
+        newFilters.topics, newFilters.geographies, newFilters.dataType)
+        .then((datasetList) => {
+          this.props.setDatasetsFilteredByConcepts(datasetList);
+        });
+    } else if (conceptsUpdated && !newFiltersHaveData) {
+      this.props.setDatasetsFilteredByConcepts(null);
+    }
+
+    // this.setState({
+    //   vocabularies: nextProps.explore.vocabularies.list
+    // });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return !isEqual(nextProps.explore, this.props.explore)
       || !isEqual(nextState, this.state);
+  }
+
+  loadKnowledgeGraph() {
+    const query = this.props.url.query;
+    const { topics, dataType, geographies } = query;
+
+    // Topics selector
+    fetch(new Request('/static/data/TopicsTreeLite.json'))
+      .then(response => response.json())
+      .then((response) => {
+        const data = response;
+        this.setState({ topicsTree: data });
+        const element = document.getElementsByClassName('topics-selector')[0];
+
+        const onChange = (currentNode, selectedNodes) => {
+          const topicsVal = selectedNodes.map(val => val.value);
+          this.props.setDatasetsTopicsFilter(topicsVal);
+        };
+
+        if (topics) {
+          data.forEach(child => this.selectElementsFromTree(child, topics));
+        }
+
+        ReactDOM.render(
+          <DropdownTreeSelect
+            placeholderText="Topics"
+            data={data}
+            onChange={onChange}
+          />,
+          element);
+      });
+
+    // Data types selector
+    fetch(new Request('/static/data/DataTypesTreeLite.json'))
+      .then(response => response.json())
+      .then((response) => {
+        const data = response;
+        this.setState({ dataTypesTree: data });
+        const element = document.getElementsByClassName('data-types-selector')[0];
+
+        const onChange = (currentNode, selectedNodes) => {
+          const dataTypesVal = selectedNodes.map(val => val.value);
+          this.props.setDatasetsDataTypeFilter(dataTypesVal);
+        };
+
+        if (dataType) {
+          data.forEach(child => this.selectElementsFromTree(child, dataType));
+        }
+
+        ReactDOM.render(
+          <DropdownTreeSelect
+            data={response}
+            placeholderText="Data types"
+            onChange={onChange}
+          />,
+          element);
+      });
+
+    // Data types selector
+    fetch(new Request('/static/data/GeographiesTreeLite.json'))
+      .then(response => response.json())
+      .then((response) => {
+        const data = response;
+        this.setState({ geographiesTree: data });
+        const element = document.getElementsByClassName('geographies-selector')[0];
+
+        const onChange = (currentNode, selectedNodes) => {
+          const geographiesVal = selectedNodes.map(val => val.value);
+          this.props.setDatasetsGeographiesFilter(geographiesVal);
+        };
+
+        if (dataType) {
+          data.forEach(child => this.selectElementsFromTree(child, geographies));
+        }
+
+        ReactDOM.render(
+          <DropdownTreeSelect
+            data={response}
+            placeholderText="Geographies"
+            onChange={onChange}
+          />,
+          element);
+      });
+  }
+
+  selectElementsFromTree(tree, elements) {
+    if (elements.includes(tree.value)) {
+      tree.checked = true;
+    }
+    if (tree.children) {
+      tree.children.forEach(val => this.selectElementsFromTree(val, elements));
+    }
   }
 
   @Autobind
@@ -118,14 +253,6 @@ class Explore extends Page {
   handleFilterDatasetsSearch(value) {
     const filter = { value: value || '', key: 'name' };
     this.props.setDatasetsSearchFilter(filter);
-
-    // We move the user to the first page
-    this.props.setDatasetsPage(1);
-  }
-
-  handleFilterDatasetsIssue(item, levels, key) {
-    const filter = item ? [{ levels, value: item.value, key }] : null;
-    this.props.setDatasetsIssueFilter(filter);
 
     // We move the user to the first page
     this.props.setDatasetsPage(1);
@@ -213,13 +340,8 @@ class Explore extends Page {
   }
 
   render() {
-    const { vocabularies } = this.state;
     const { explore, paginatedDatasets } = this.props;
-    const { search, issue } = explore.filters;
-
-    // TEMPORAL only whilst the knowledge graph is not used
-    const dataTypesVocabulary = vocabularies.length > 0 ? vocabularies.find(elem => elem.value === 'dataset_type').items : [];
-    const geographiesVocabulary = vocabularies.length > 0 ? vocabularies.find(elem => elem.value === 'location').items : [];
+    const { search } = explore.filters;
 
     return (
       <Layout
@@ -246,26 +368,10 @@ class Explore extends Page {
                 />
               </div>
               <div className="filters-container">
-                <CustomSelect
-                  options={vocabularies}
-                  onValueChange={this.handleFilterDatasetsIssue}
-                  placeholder="Topics"
-                  value={issue && issue.length > 0 && issue[0].value}
-                />
-                <CustomSelect
-                  options={geographiesVocabulary}
-                  onValueChange={this.handleFilterDatasetsIssue}
-                  placeholder="Geographies"
-                  value={issue && issue.length > 0 && issue[0].value}
-                />
-                <CustomSelect
-                  options={dataTypesVocabulary}
-                  onValueChange={this.handleFilterDatasetsIssue}
-                  placeholder="Data types"
-                  value={issue && issue.length > 0 && issue[0].value}
-                />
+                <div className="topics-selector c-tree-selector" />
+                <div className="geographies-selector c-tree-selector" />
+                <div className="data-types-selector c-tree-selector" />
               </div>
-
               <DatasetListHeader
                 list={explore.datasets.list}
                 mode={explore.datasets.mode}
@@ -342,7 +448,6 @@ Explore.propTypes = {
   // ACTIONS
 
   getDatasets: PropTypes.func,
-  getVocabularies: PropTypes.func,
   setDatasetsPage: PropTypes.func,
   redirectTo: PropTypes.func,
   setDatasetsFilters: PropTypes.func,
@@ -360,7 +465,8 @@ Explore.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const datasets = (state.explore.filters.search || state.explore.filters.issue)
+  const filters = state.explore.filters;
+  const datasets = (filters.search || filters.topcis || filters.geographies || filters.dataType)
     ? Object.assign({}, state.explore.datasets, { list: getFilteredDatasets(state) })
     : state.explore.datasets;
 
@@ -377,9 +483,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   getDatasets: () => { dispatch(getDatasets()); },
-  getVocabularies: () => { dispatch(getVocabularies()); },
   setDatasetsSearchFilter: search => dispatch(setDatasetsSearchFilter(search)),
-  setDatasetsIssueFilter: issue => dispatch(setDatasetsIssueFilter(issue)),
+  setDatasetsTopicsFilter: topics => dispatch(setDatasetsTopicsFilter(topics)),
+  setDatasetsDataTypeFilter: dataType => dispatch(setDatasetsDataTypeFilter(dataType)),
+  setDatasetsGeographiesFilter: geographies => dispatch(setDatasetsGeographiesFilter(geographies)),
+  setDatasetsFilteredByConcepts: datasetList =>
+    dispatch(setDatasetsFilteredByConcepts(datasetList)),
   redirectTo: (url) => { dispatch(redirectTo(url)); },
   toggleModal: (open, options) => dispatch(toggleModal(open, options)),
   setModalOptions: (options) => { dispatch(setModalOptions(options)); },

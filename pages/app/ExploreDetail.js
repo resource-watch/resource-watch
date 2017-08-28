@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import classNames from 'classnames';
 import MediaQuery from 'react-responsive';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -28,9 +29,6 @@ import ShareExploreDetailModal from 'components/modal/ShareExploreDetailModal';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
-
-// Temporal: Only while we are not using the Knowledge Graph
-const SIMILAR_DATASETS = ['11de2bc1-368b-42ed-a207-aaff8ece752b', '3de46aa8-120c-454f-b022-464a236f45ed', '8ecf07f5-3cae-4275-adfe-918d04439a1a'];
 
 class ExploreDetail extends Page {
   constructor(props) {
@@ -110,14 +108,25 @@ class ExploreDetail extends Page {
     this.setState({
       similarDatasetsLoaded: false
     });
-    DatasetService.getDatasets(SIMILAR_DATASETS).then((res) => {
-      this.setState({
-        similarDatasets: res,
-        similarDatasetsLoaded: true
-      });
-    }).catch((error) => {
-      console.error(error);
-    });
+    this.datasetService.getSimilarDatasets()
+      .then((response) => {
+        let counter = 0;
+        const similarDatasets = response.map(val => val.dataset).filter(
+          () => {
+            counter++;
+            return counter < 4;
+          });
+
+        DatasetService.getDatasets(similarDatasets)
+          .then((data) => {
+            this.setState({
+              similarDatasetsLoaded: true,
+              similarDatasets: data
+            });
+          })
+          .catch(err => toastr.error('Error', err));
+      })
+      .catch(err => toastr.error('Error', err));
   }
 
   /**
