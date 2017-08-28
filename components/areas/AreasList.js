@@ -45,36 +45,17 @@ class AreasList extends React.Component {
       });
   }
 
-  loadSubscriptions() {
-    this.setState({
-      loading: true
-    });
-    this.userService.getSubscriptions(this.props.user.token)
-      .then((data) => {
-        this.setState({
-          subscriptions: data,
-          loading: false
-        });
-      })
-      .catch((err) => {
-        this.setState({
-          error: err,
-          loading: false
-        });
-      });
-  }
-
   @Autobind
-  handleSubscriptionRemoved() {
-    this.loadSubscriptions();
+  handleAreaRemoved() {
+    this.loadAreas();
   }
 
   render() {
-    const { loading, subscriptions } = this.state;
+    const { loading, areas } = this.state;
     const { user } = this.props;
 
     return (
-      <div className="c-myrw-subscriptions">
+      <div className="c-areas-list">
         <div className="l-container">
           <Spinner isLoading={loading} className="-small -light" />
           <div className="actions-div">
@@ -85,7 +66,7 @@ class AreasList extends React.Component {
             </Link>
           </div>
           <div className="row">
-            {subscriptions && subscriptions.map(val =>
+            {areas && areas.map(val =>
               (
                 <div key={val.id} className="column small-12 medium-4">
                   <div
@@ -93,7 +74,7 @@ class AreasList extends React.Component {
                   >
                     <AreaCard
                       token={user.token}
-                      subscription={val}
+                      area={val}
                       onAreaRemoved={this.handleAreaRemoved}
                     />
                   </div>

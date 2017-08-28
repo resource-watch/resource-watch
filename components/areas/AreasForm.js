@@ -18,7 +18,6 @@ import UploadAreaIntersectionModal from 'components/modal/UploadAreaIntersection
 // Services
 import AreasService from 'services/AreasService';
 import UserService from 'services/UserService';
-import DatasetService from 'services/DatasetService';
 
 const FORM_ELEMENTS = {
   elements: {
@@ -59,13 +58,9 @@ class AreasForm extends React.Component {
     super(props);
 
     this.state = {
-      datasets: [],
       areaOptions: [],
       loadingAreaOptions: false,
-      loadingDatasets: false,
       selectedArea: null,
-      selectedType: null,
-      selectedDataset: null,
       loading: false,
       name: '',
       geostore: null
@@ -74,32 +69,31 @@ class AreasForm extends React.Component {
     // Services
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
-    this.datasetService = new DatasetService(null, { apiURL: process.env.WRI_API_URL });
   }
 
   componentDidMount() {
     this.loadAreas();
-    this.loadDatasets();
   }
 
   @Autobind
   onSubmit(e) {
     e.preventDefault();
 
-    const { selectedArea, name, selectedDataset, geostore, selectedType } = this.state;
+    const { selectedArea, name, geostore } = this.state;
     const { user } = this.props;
 
-    if ((selectedArea || geostore) && selectedDataset && selectedType) {
+    if (geostore || selectedArea) {
       this.setState({
         loading: true
       });
-      const areaObj = geostore ? { type: 'geostore', id: geostore } : { type: 'iso', id: selectedArea.value };
-      this.userService.createSubscriptionToDataset(selectedDataset.id, selectedType.value, areaObj, user, name) //eslint-disable-line
-        .then(() => {
+      this.userService.createNewArea(name, geostore, selectedArea, user.token)
+        .then((response) => {
           Router.pushRoute('myrw', { tab: 'areas' });
-          toastr.success('Success', 'Subscription successfully created!');
+          toastr.success('Success', 'Area successfully created!');
         })
         .catch(err => this.setState({ error: err, loading: false }));
+    } else {
+      toastr.info('Data missing', 'Please select an area');
     }
   }
 
@@ -132,18 +126,6 @@ class AreasForm extends React.Component {
   }
 
   @Autobind
-  onChangeSelectedDataset(value) {
-    this.setState({
-      selectedDataset: value
-    });
-  }
-
-  @Autobind
-  onChangeSelectedType(type) {
-    this.setState({ selectedType: type });
-  }
-
-  @Autobind
   handleNameChange(value) {
     this.setState({
       name: value
@@ -162,58 +144,37 @@ class AreasForm extends React.Component {
     });
   }
 
-  loadDatasets() {
-    this.datasetService.getSubscribableDatasets().then((response) => {
-      this.setState({
-        loadingDatasets: false,
-        datasets: response.map(val => (
-          {
-            label: val.attributes.name,
-            value: val.attributes.name,
-            id: val.id,
-            subscribable: val.attributes.subscribable
-          }
-        ))
-      });
-    }).catch(err => console.log(err)); // eslint-disable-line no-console
-  }
-
   render() {
     const {
       areaOptions,
       loadingAreaOptions,
       selectedArea,
       loading,
-      name,
-      datasets,
-      loadingDatasets,
-      selectedDataset,
-      selectedType
+      name
     } = this.state;
 
-    const subscriptionTypes = selectedDataset ?
-      Object.keys(selectedDataset.subscribable).map(val => ({ label: val, value: val })) : [];
-
     return (
-      <div className="c-subscriptions-form">
-        <Spinner loading={loading || loadingAreaOptions || loadingDatasets} className="-light" />
-        <form className="c-form" onSubmit={this.onSubmit} noValidate>
+      <div className="c-areas-form">
+        <Spinner loading={loading || loadingAreaOptions} className="-light" />
+        <form className="c-form" onSubmit={this.onSubmit}>
           <fieldset className="c-field-container">
             <Field
               ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
               onChange={this.handleNameChange}
+              validations={['required']}
               properties={{
                 name: 'name',
                 label: 'Name',
                 type: 'text',
-                value: name
+                value: name,
+                required: true
               }}
             >
               {Input}
             </Field>
           </fieldset>
           <div className="selectors-container">
-            <Spinner isLoading={loadingAreaOptions || loadingDatasets || loading} className="-light -small" />
+            <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
             <CustomSelect
               placeholder="Select area"
               options={areaOptions}
@@ -222,29 +183,13 @@ class AreasForm extends React.Component {
               value={selectedArea && selectedArea.value}
               waitForChangeConfirmation
             />
-            <CustomSelect
-              placeholder="Select a dataset"
-              options={datasets}
-              onValueChange={this.onChangeSelectedDataset}
-              allowNonLeafSelection={false}
-              value={selectedDataset && selectedDataset.value}
-            />
-          </div>
-          <div className="type-container">
-            <CustomSelect
-              placeholder="Select a subscription type"
-              options={subscriptionTypes}
-              onValueChange={this.onChangeSelectedType}
-              allowNonLeafSelection={false}
-              value={selectedType && selectedType.value}
-            />
           </div>
           <div className="buttons-div">
             <button onClick={() => Router.pushRoute('myrw', { tab: 'areas' })} className="c-btn -secondary">
               Cancel
             </button>
             <button type="submit" className="c-btn -primary">
-              Subscribe
+              Submit
             </button>
           </div>
         </form>

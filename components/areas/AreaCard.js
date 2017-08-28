@@ -32,9 +32,7 @@ class AreaCard extends React.Component {
 
     this.state = {
       loading: false,
-      dataset: null,
       country: null,
-      type: props.subscription.attributes.datasetsQuery[0].type,
       layer: {}
     };
 

@@ -191,12 +191,20 @@ export default class UserService {
   /**
    * Create new area
    */
-  createNewArea(name, geostore, token) {
+  createNewArea(name, geostore, iso, token) {
     const bodyObj = {
       name,
-      application: 'rw',
-      geostore
+      application: 'rw'
     };
+
+    if (geostore) {
+      bodyObj.geostore = geostore;
+    }
+
+    if (iso) {
+      bodyObj.iso = { country: iso.id };
+    }
+
     return fetch(`${this.opts.apiURL}/area`, {
       method: 'POST',
       body: JSON.stringify(bodyObj),
