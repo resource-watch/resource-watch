@@ -197,8 +197,8 @@ export default class DatasetService {
     document.body.removeChild(a);
   }
 
-  getSimilarDatasets(tags) {
-    return fetch(`${this.opts.apiURL}/dataset?app=rw&vocabulary[legacy]=${tags}`)
+  getSimilarDatasets() {
+    return fetch(`${this.opts.apiURL}/graph/query/similar-dataset/${this.datasetId}`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }

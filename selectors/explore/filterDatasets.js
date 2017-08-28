@@ -21,10 +21,6 @@ const getFilteredDatasets = (_list, _filters) => {
 
     if (datasetsFilteredByConcepts) {
       conceptsCheckPassed = datasetsFilteredByConcepts.includes(it.id);
-      if (conceptsCheckPassed) {
-        debugger;
-      }
-
     }
 
     const searchCheck = (search && searchFilterPassed) || !search;
