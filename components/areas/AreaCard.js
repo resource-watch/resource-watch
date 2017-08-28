@@ -37,14 +37,14 @@ class AreaCard extends React.Component {
     };
 
     // Services
-    this.datasetService = new DatasetService(props.subscription.attributes.datasetsQuery[0].id,
+    this.datasetService = new DatasetService(null,
       { apiURL: process.env.WRI_API_URL });
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
   }
 
   componentDidMount() {
-    this.loadData();
+    //this.loadData();
   }
 
   loadData() {
@@ -133,16 +133,10 @@ class AreaCard extends React.Component {
     toastr.confirm('Are you sure you want to delete the subscription?', toastrConfirmOptions);
   }
 
-  @Autobind
-  handleGoToDataset() {
-    Router.pushRoute('explore_detail', { id: this.props.subscription.attributes.datasets[0]})
-  }
-
   render() {
     const { loading, dataset, country, layerGroups, type } = this.state;
-    const { subscription } = this.props;
-    const confirmed = subscription.attributes.confirmed;
-    const name = subscription.attributes.name;
+    const { area } = this.props;
+    const name = area.attributes.name;
 
     return (
       <div className="c-subscription-card">
@@ -175,24 +169,10 @@ class AreaCard extends React.Component {
               </div>
             </div>
             <div className="actions-div">
-              {confirmed &&
-                <a
-                  tabIndex={-1}
-                  role="button"
-                  onClick={this.handleGoToDataset}
-                >
-                  Go to Dataset
-                </a>
-              }
-              {!confirmed &&
-                <span className="pending-label">
-                  Pending
-                </span>
-              }
               <a
                 tabIndex={-1}
                 role="button"
-                onClick={this.handleDeleteSubscription}
+                onClick={this.handleDeleteArea}
               >
                 Delete
               </a>
@@ -206,9 +186,9 @@ class AreaCard extends React.Component {
 
 AreaCard.propTypes = {
   token: PropTypes.string.isRequired,
-  subscription: PropTypes.object.isRequired,
+  area: PropTypes.object.isRequired,
   // Callbacks
-  onSubscriptionRemoved: PropTypes.func.isRequired
+  onAreaRemoved: PropTypes.func.isRequired
 };
 
 export default AreaCard;
