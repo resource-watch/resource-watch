@@ -172,4 +172,39 @@ export default class UserService {
     })
       .then(response => response.json());
   }
+
+  /**
+   * Get user areas
+   */
+  getUserAreas(token) {
+    return new Promise((resolve) => {
+      fetch(`${this.opts.apiURL}/area`, {
+        headers: {
+          Authorization: token
+        }
+      })
+        .then(response => response.json())
+        .then(jsonData => resolve(jsonData.data));
+    });
+  }
+
+  /**
+   * Create new area
+   */
+  createNewArea(name, geostore, token) {
+    const bodyObj = {
+      name,
+      application: 'rw',
+      geostore
+    };
+    return fetch(`${this.opts.apiURL}/area`, {
+      method: 'POST',
+      body: JSON.stringify(bodyObj),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token
+      }
+    })
+      .then(response => response.json());
+  }
 }

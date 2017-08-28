@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import { Link } from 'routes';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
@@ -11,23 +12,37 @@ import UserService from 'services/UserService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import SubscriptionCard from 'components/subscriptions/SubscriptionCard';
+import AreaCard from 'components/areas/AreaCard';
 
-class SubscriptionsList extends React.Component {
-
+class AreasList extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       loading: false,
-      subscriptions: []
+      areas: []
     };
 
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
   }
 
   componentDidMount() {
-    this.loadSubscriptions();
+    this.loadAreas();
+  }
+
+  loadAreas() {
+    this.setState({ loading: true });
+    this.userService.getUserAreas(this.props.user.token)
+      .then((data) => {
+        this.setState({
+          loading: false,
+          areas: data
+        });
+      })
+      .catch((err) => {
+        toastr.error('Error', err);
+        this.setState({ loading: false });
+      });
   }
 
   loadSubscriptions() {
@@ -76,10 +91,10 @@ class SubscriptionsList extends React.Component {
                   <div
                     className="card-container"
                   >
-                    <SubscriptionCard
+                    <AreaCard
                       token={user.token}
                       subscription={val}
-                      onSubscriptionRemoved={this.handleSubscriptionRemoved}
+                      onAreaRemoved={this.handleAreaRemoved}
                     />
                   </div>
                 </div>
@@ -92,7 +107,7 @@ class SubscriptionsList extends React.Component {
   }
 }
 
-SubscriptionsList.propTypes = {
+AreasList.propTypes = {
   user: PropTypes.object.isRequired
 };
 
@@ -100,4 +115,4 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default connect(mapStateToProps, null)(SubscriptionsList);
+export default connect(mapStateToProps, null)(AreasList);

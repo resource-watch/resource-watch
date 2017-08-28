@@ -30,4 +30,5 @@ export default class AreasService {
     return fetch(`${process.env.WRI_API_URL}/geostore/${id}`)
       .then(response => response.json());
   }
+
 }
