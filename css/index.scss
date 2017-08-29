@@ -72,6 +72,7 @@
 @import "./components/modal/embed_layer_modal";
 @import "./components/modal/upload_area_intersection_modal";
 @import "./components/modal/subscribe_to_dataset_modal";
+@import "./components/modal/area_subscription_modal";
 
 // areas
 @import "./components/areas/areas_form";
@@ -80,6 +81,7 @@
 
 // Subscriptions
 @import "./components/subscriptions/subscriptions_form";
+@import "./components/subscriptions/subscription_selector";
 
 // VIS
 @import "./components/vis/globe";

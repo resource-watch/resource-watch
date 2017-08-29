@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
 import { Autobind } from 'es-decorators';
 
 // Redux
@@ -9,30 +8,24 @@ import { connect } from 'react-redux';
 // Services
 import AreasService from 'services/AreasService';
 import UserService from 'services/UserService';
+import DatasetService from 'services/DatasetService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-<<<<<<< Updated upstream
-import Field from 'components/form/Field';
-import Select from 'components/form/SelectInput';
-=======
 import SubscriptionSelector from 'components/subscriptions/SubscriptionSelector';
->>>>>>> Stashed changes
 
 class AreaSubscriptionModal extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-<<<<<<< Updated upstream
-=======
       loadingDatasets: false,
->>>>>>> Stashed changes
       loading: false,
       datasets: [{}]
     };
 
     // Services
+    this.datasetService = new DatasetService(null, { apiURL: process.env.WRI_API_URL });
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
   }
@@ -84,42 +77,15 @@ class AreaSubscriptionModal extends React.Component {
   render() {
     const {
       datasets,
-<<<<<<< Updated upstream
-      loading
-    } = this.state;
-    const subscriptionTypes = Object.keys(dataset.attributes.subscribable)
-      .map(val => ({ value: val, label: val }));
-=======
       loading,
       loadingDatasets
     } = this.state;
->>>>>>> Stashed changes
 
     return (
       <div className="c-area-subscription-modal" ref={(node) => { this.el = node; }}>
         <div className="header-div">
           <h2>Area subscriptions</h2>
         </div>
-<<<<<<< Updated upstream
-        <div className="datasets-container">
-          {datasets.map(val =>
-            (<div className="selectors">
-              <Field
-                onChange={this.handleDatasetSelected}
-                className="-fluid"
-                options={datasets}
-                properties={{
-                  name: 'dataset',
-                  label: 'Dataset',
-                  value: selectedDataset,
-                  required: true,
-                  instanceId: 'selectDataset'
-                }}
-              >
-                {Select}
-              </Field>
-            </div>)
-=======
         <Spinner isLoading={loading || loadingDatasets} className="-light" />
         <div className="datasets-container">
           {datasets.map((val, index) =>
@@ -128,7 +94,6 @@ class AreaSubscriptionModal extends React.Component {
               id={index}
               onRemoveSubscription={this.handleRemoveSubscription}
             />)
->>>>>>> Stashed changes
           )}
         </div>
         <div className="buttons">
@@ -145,7 +110,7 @@ class AreaSubscriptionModal extends React.Component {
 }
 
 AreaSubscriptionModal.propTypes = {
-  dataset: PropTypes.object.isRequired,
+  area: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,
   // Store
   user: PropTypes.object.isRequired

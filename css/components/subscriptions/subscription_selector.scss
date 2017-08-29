@@ -1,0 +1,14 @@
+.c-subscription-selector {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  button {
+    cursor: pointer;
+  }
+
+  .c-field{
+    margin-bottom: 0px;
+    margin-right: 10px;
+  }
+}

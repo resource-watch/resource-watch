@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
-import { Router } from 'routes';
 import { toastr } from 'react-redux-toastr';
+
+// Redux
+import { connect } from 'react-redux';
+import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Components
 import Spinner from 'components/ui/Spinner';
 import Map from 'components/vis/Map';
+import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -112,7 +116,14 @@ class AreaCard extends React.Component {
 
   @Autobind
   handleNewSubscription() {
-
+    const options = {
+      children: AreaSubscriptionModal,
+      childrenProps: {
+        area: this.props.area
+      }
+    };
+    this.props.toggleModal(true);
+    this.props.setModalOptions(options);
   }
 
   @Autobind
@@ -189,4 +200,9 @@ AreaCard.propTypes = {
   onAreaRemoved: PropTypes.func.isRequired
 };
 
-export default AreaCard;
+const mapDispatchToProps = dispatch => ({
+  toggleModal: (open, opts) => { dispatch(toggleModal(open, opts)); },
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); }
+});
+
+export default connect(null, mapDispatchToProps)(AreaCard);
