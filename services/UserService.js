@@ -172,7 +172,7 @@ export default class UserService {
    */
   getUserAreas(token) {
     return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/area`, {
+      fetch(`${this.opts.apiURL}/area?application=rw`, {
         headers: {
           Authorization: token
         }

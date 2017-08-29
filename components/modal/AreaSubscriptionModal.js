@@ -21,7 +21,7 @@ class AreaSubscriptionModal extends React.Component {
     this.state = {
       loadingDatasets: false,
       loading: false,
-      datasets: [{}]
+      datasets: []
     };
 
     // Services
@@ -68,8 +68,7 @@ class AreaSubscriptionModal extends React.Component {
     this.datasetService.getSubscribableDatasets().then((response) => {
       this.setState({
         loadingDatasets: false,
-        datasets: response.filter(val => val.attributes.subscribable).map(val => (
-          { label: val.attributes.name, value: val.attributes.name, id: val.id }))
+        datasets: response.filter(val => val.attributes.subscribable)
       });
     }).catch(err => console.error(err)); // TODO: update the UI
   }

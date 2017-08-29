@@ -19,14 +19,15 @@ class SubscriptionSelector extends React.Component {
 
 
   @Autobind
-  onChangeSelectedDataset(value) {
+  handleDatasetSelected(value) {
+    debugger;
     this.setState({
       selectedDataset: value
     });
   }
 
   @Autobind
-  onChangeSelectedType(type) {
+  handleTypeSelected(type) {
     this.setState({ selectedType: type });
   }
 
@@ -39,15 +40,21 @@ class SubscriptionSelector extends React.Component {
     const { datasets } = this.props;
     const { selectedDataset, selectedType } = this.state;
 
-    const typeOptions = selectedDataset ? Object.keys(selectedDataset.attributes.subscribable)
-      .map(val => ({ value: val, label: val })) : [];
+    const typeOptions = selectedDataset ?
+      Object.keys(
+        datasets.find(val => val.id === selectedDataset).attributes.subscribable)
+        .map(val => ({ value: val, label: val }))
+      : [];
+    const datasetOptions = (datasets.length > 0) ?
+      datasets.map(val => ({ label: val.attributes.name, name: val.attributes.name, id: val.id }))
+      : [];
 
     return (
       <div className="c-subscription-selector" ref={(node) => { this.el = node; }}>
         <Field
           onChange={this.handleDatasetSelected}
           className="-fluid"
-          options={datasets}
+          options={datasetOptions}
           properties={{
             name: 'dataset',
             value: selectedDataset,
