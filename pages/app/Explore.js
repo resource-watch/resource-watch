@@ -174,6 +174,7 @@ class Explore extends Page {
 
         ReactDOM.render(
           <DropdownTreeSelect
+            showDropdown
             placeholderText="Topics"
             data={data}
             onChange={onChange}
@@ -200,6 +201,7 @@ class Explore extends Page {
 
         ReactDOM.render(
           <DropdownTreeSelect
+            className="test"
             data={response}
             placeholderText="Data types"
             onChange={onChange}
@@ -356,53 +358,63 @@ class Explore extends Page {
               <div className="row collapse">
                 <div className="column small-12">
                   <h1>Explore</h1>
-                </div>
-              </div>
-              <div className="search-container">
-                <SearchInput
-                  onSearch={this.handleFilterDatasetsSearch}
-                  input={{
-                    value: search && search.value,
-                    placeholder: 'Search dataset'
-                  }}
-                />
-              </div>
-              <div className="filters-container">
-                <div className="topics-selector c-tree-selector" />
-                <div className="geographies-selector c-tree-selector" />
-                <div className="data-types-selector c-tree-selector" />
-              </div>
-              <DatasetListHeader
-                list={explore.datasets.list}
-                mode={explore.datasets.mode}
-              />
-              <Spinner
-                isLoading={explore.datasets.loading}
-                className="-light"
-              />
-
-              <div className="row collapse">
-                <div className="column small-12">
-                  <DatasetList
-                    list={paginatedDatasets}
+                
+                    
+                  <div className="search-container">
+                    <SearchInput
+                      onSearch={this.handleFilterDatasetsSearch}
+                      input={{
+                        value: search && search.value,
+                        placeholder: 'Search dataset'
+                      }}
+                    />
+                  </div>
+                    <div className="filters-container">
+                      <div className="row">
+                        <div className="column medium-4">
+                          <div className="c-tree-selector -explore topics-selector" />
+                        </div>
+                        <div className="column medium-4">
+                          <div className="c-tree-selector -explore geographies-selector " />
+                        </div>
+                        <div className="column medium-4">
+                          <div className="c-tree-selector -explore data-types-selector" />
+                        </div>
+                      </div>
+                  </div>
+                  <DatasetListHeader
+                    list={explore.datasets.list}
                     mode={explore.datasets.mode}
-                    showActions
                   />
-                </div>
-              </div>
+                  <Spinner
+                    isLoading={explore.datasets.loading}
+                    className="-light"
+                  />
 
-              <Paginator
-                options={{
-                  page: explore.datasets.page,
-                  limit: explore.datasets.limit,
-                  size: explore.datasets.list.length
-                }}
-                onChange={(page) => {
-                  this.props.setDatasetsPage(page);
-                  // Scroll to the top of the list
-                  document.getElementsByClassName('sidebar-content')[0].scrollTop = 0;
-                }}
-              />
+                  <div className="row collapse">
+                    <div className="column small-12">
+                      <DatasetList
+                        list={paginatedDatasets}
+                        mode={explore.datasets.mode}
+                        showActions
+                      />
+                    </div>
+                  </div>
+
+                  <Paginator
+                    options={{
+                      page: explore.datasets.page,
+                      limit: explore.datasets.limit,
+                      size: explore.datasets.list.length
+                    }}
+                    onChange={(page) => {
+                      this.props.setDatasetsPage(page);
+                      // Scroll to the top of the list
+                      document.getElementsByClassName('sidebar-content')[0].scrollTop = 0;
+                    }}
+                  />
+                    </div>
+                </div>   
             </Sidebar>
             <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
               <div className="l-map">
