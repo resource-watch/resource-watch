@@ -119,7 +119,8 @@ class AreaCard extends React.Component {
     const options = {
       children: AreaSubscriptionModal,
       childrenProps: {
-        area: this.props.area
+        area: this.props.area,
+        toggleModal: this.props.toggleModal
       }
     };
     this.props.toggleModal(true);
@@ -197,7 +198,10 @@ AreaCard.propTypes = {
   token: PropTypes.string.isRequired,
   area: PropTypes.object.isRequired,
   // Callbacks
-  onAreaRemoved: PropTypes.func.isRequired
+  onAreaRemoved: PropTypes.func.isRequired,
+  // Store
+  toggleModal: PropTypes.func.isRequired,
+  setModalOptions: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({

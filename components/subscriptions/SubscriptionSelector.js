@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 
 // Components
-import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
 import Icon from 'components/ui/Icon';
 
@@ -20,10 +19,7 @@ class SubscriptionSelector extends React.Component {
 
   @Autobind
   handleDatasetSelected(value) {
-    debugger;
-    this.setState({
-      selectedDataset: value
-    });
+    this.setState({ selectedDataset: value });
   }
 
   @Autobind
@@ -46,37 +42,31 @@ class SubscriptionSelector extends React.Component {
         .map(val => ({ value: val, label: val }))
       : [];
     const datasetOptions = (datasets.length > 0) ?
-      datasets.map(val => ({ label: val.attributes.name, name: val.attributes.name, id: val.id }))
+      datasets.map(val => ({ label: val.attributes.name, value: val.id, id: val.id }))
       : [];
 
     return (
       <div className="c-subscription-selector" ref={(node) => { this.el = node; }}>
-        <Field
-          onChange={this.handleDatasetSelected}
-          className="-fluid"
-          options={datasetOptions}
+        <Select
           properties={{
             name: 'dataset',
             value: selectedDataset,
-            instanceId: 'selectDataset',
+            default: selectedDataset,
             placeholder: 'Select a dataset'
           }}
-        >
-          {Select}
-        </Field>
-        <Field
-          onChange={this.handleTypeSelected}
-          className="-fluid"
-          options={typeOptions}
+          options={datasetOptions}
+          onChange={this.handleDatasetSelected}
+        />
+        <Select
           properties={{
             name: 'type',
             value: selectedType,
-            instanceId: 'selectType',
-            placeholder: 'Select a subscription type'
+            default: selectedType,
+            placeholder: 'Select a type'
           }}
-        >
-          {Select}
-        </Field>
+          options={typeOptions}
+          onChange={this.handleTypeSelected}
+        />
         <button onClick={() => this.props.onRemove()}>
           <Icon name="icon-cross" />
         </button>
