@@ -12,14 +12,22 @@ import UserService from 'services/UserService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
+<<<<<<< Updated upstream
 import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
+=======
+import SubscriptionSelector from 'components/subscriptions/SubscriptionSelector';
+>>>>>>> Stashed changes
 
 class AreaSubscriptionModal extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+<<<<<<< Updated upstream
+=======
+      loadingDatasets: false,
+>>>>>>> Stashed changes
       loading: false,
       datasets: [{}]
     };
@@ -76,16 +84,23 @@ class AreaSubscriptionModal extends React.Component {
   render() {
     const {
       datasets,
+<<<<<<< Updated upstream
       loading
     } = this.state;
     const subscriptionTypes = Object.keys(dataset.attributes.subscribable)
       .map(val => ({ value: val, label: val }));
+=======
+      loading,
+      loadingDatasets
+    } = this.state;
+>>>>>>> Stashed changes
 
     return (
       <div className="c-area-subscription-modal" ref={(node) => { this.el = node; }}>
         <div className="header-div">
           <h2>Area subscriptions</h2>
         </div>
+<<<<<<< Updated upstream
         <div className="datasets-container">
           {datasets.map(val =>
             (<div className="selectors">
@@ -104,6 +119,16 @@ class AreaSubscriptionModal extends React.Component {
                 {Select}
               </Field>
             </div>)
+=======
+        <Spinner isLoading={loading || loadingDatasets} className="-light" />
+        <div className="datasets-container">
+          {datasets.map((val, index) =>
+            (<SubscriptionSelector
+              datasets={datasets}
+              id={index}
+              onRemoveSubscription={this.handleRemoveSubscription}
+            />)
+>>>>>>> Stashed changes
           )}
         </div>
         <div className="buttons">

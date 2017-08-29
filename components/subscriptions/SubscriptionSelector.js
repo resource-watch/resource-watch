@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+<<<<<<< Updated upstream
 import { Router } from 'routes';
 import { Autobind } from 'es-decorators';
 
@@ -16,10 +17,20 @@ import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
 
 class AreaSubscriptionModal extends React.Component {
+=======
+import { Autobind } from 'es-decorators';
+
+// Components
+import Field from 'components/form/Field';
+import Select from 'components/form/SelectInput';
+
+class SubscriptionSelector extends React.Component {
+>>>>>>> Stashed changes
   constructor(props) {
     super(props);
 
     this.state = {
+<<<<<<< Updated upstream
       loading: false,
       datasets: [{}]
     };
@@ -54,6 +65,13 @@ class AreaSubscriptionModal extends React.Component {
       }
     });
   }
+=======
+      selectedDataset: null,
+      selectedType: null
+    };
+  }
+
+>>>>>>> Stashed changes
 
   @Autobind
   onChangeSelectedDataset(value) {
@@ -67,6 +85,7 @@ class AreaSubscriptionModal extends React.Component {
     this.setState({ selectedType: type });
   }
 
+<<<<<<< Updated upstream
   /**
    * Event handler executed when the user sucessfully upload an area
    * @param {string} id - Geostore ID
@@ -159,12 +178,59 @@ class AreaSubscriptionModal extends React.Component {
           <button className="c-btn -secondary" onClick={this.handleCancel}>
             Cancel
           </button>
+=======
+  @Autobind
+  handleRemove() {
+    this.props.onRemoveSubscription();
+  }
+
+  render() {
+    const { datasets } = this.props;
+    const { selectedDataset, selectedType } = this.state;
+
+    const typeOptions = Object.keys(selectedDataset.attributes.subscribable)
+      .map(val => ({ value: val, label: val }));
+
+    return (
+      <div className="c-subscription-selector" ref={(node) => { this.el = node; }}>
+
+        <div className="datasets-container">
+          <Field
+            onChange={this.handleDatasetSelected}
+            className="-fluid"
+            options={datasets}
+            properties={{
+              name: 'dataset',
+              label: 'Dataset',
+              value: selectedDataset,
+              required: true,
+              instanceId: 'selectDataset'
+            }}
+          >
+            {Select}
+          </Field>
+          <Field
+            onChange={this.handleTypeSelected}
+            className="-fluid"
+            options={typeOptions}
+            properties={{
+              name: 'type',
+              label: 'Type',
+              value: selectedType,
+              required: true,
+              instanceId: 'selectType'
+            }}
+          >
+            {Select}
+          </Field>
+>>>>>>> Stashed changes
         </div>
       </div>
     );
   }
 }
 
+<<<<<<< Updated upstream
 AreaSubscriptionModal.propTypes = {
   dataset: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,
@@ -176,4 +242,12 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
+=======
+SubscriptionSelector.propTypes = {
+  datasets: PropTypes.array.isRequired,
+  // CALLBACKS
+  onRemoveSubscription: PropTypes.func.isRequired
+};
+
+>>>>>>> Stashed changes
 export default SubscriptionSelector;
