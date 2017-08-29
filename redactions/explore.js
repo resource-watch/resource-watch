@@ -234,15 +234,27 @@ export function setUrlParams() {
     }
 
     if (topics) {
-      query.topics = JSON.stringify(topics);
+      if (topics.length > 0) {
+        query.topics = JSON.stringify(topics);
+      } else {
+        delete query.topics;
+      }
     }
 
     if (dataType) {
-      query.dataType = JSON.stringify(dataType);
+      if (dataType.length > 0) {
+        query.dataType = JSON.stringify(dataType);
+      } else {
+        delete query.dataType;
+      }
     }
 
     if (geographies) {
-      query.geographies = JSON.stringify(geographies);
+      if (geographies.length > 0) {
+        query.geographies = JSON.stringify(geographies);
+      } else {
+        delete query.geographies;
+      }
     }
 
     Router.replaceRoute('explore', query);

@@ -195,6 +195,7 @@ class Explore extends Page {
         };
 
         if (dataType) {
+          console.log('dataType', dataType);
           data.forEach(child => this.selectElementsFromTree(child, dataType));
         }
 
