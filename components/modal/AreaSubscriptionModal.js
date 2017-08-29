@@ -48,8 +48,9 @@ class AreaSubscriptionModal extends React.Component {
   @Autobind
   handleSubmit() {
     const { subscriptionSelectors } = this.state;
+    const { mode, area, user } = this.props;
     let incomplete = false;
-    subscriptionSelectors.forEach(val => {
+    subscriptionSelectors.forEach((val) => {
       if (!val.selectedType || !val.selectedDataset) {
         incomplete = true;
       }
@@ -57,7 +58,16 @@ class AreaSubscriptionModal extends React.Component {
 
     if (incomplete) {
       toastr.error('Data missing', 'Please select a dataset and a subscription type for all items');
-    } else {
+    } else if (mode === 'new') {
+      const datasets = subscriptionSelectors.map(val => val.selectedDataset);
+      const datasetsQuery = subscriptionSelectors
+        .map(val => ({ id: val.selectedDataset, type: val.selectedType }));
+      this.userService.createSubscriptionToArea(area.id, datasets, datasetsQuery, user)
+        .then((response) => {
+          console.log('response', response);
+        })
+        .catch(err => toastr.error('Error creating the subscription', err));
+    } else if (mode === 'edit') {
 
     }
   }
@@ -144,6 +154,7 @@ class AreaSubscriptionModal extends React.Component {
 AreaSubscriptionModal.propTypes = {
   area: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,
+  mode: PropTypes.string.isRequired, // edit | new
   // Store
   user: PropTypes.object.isRequired
 };

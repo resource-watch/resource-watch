@@ -120,7 +120,8 @@ class AreaCard extends React.Component {
       children: AreaSubscriptionModal,
       childrenProps: {
         area: this.props.area,
-        toggleModal: this.props.toggleModal
+        toggleModal: this.props.toggleModal,
+        mode: 'new'
       }
     };
     this.props.toggleModal(true);

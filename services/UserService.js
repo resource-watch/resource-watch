@@ -112,7 +112,7 @@ export default class UserService {
    * @param {object} Either { type; 'iso', id:'ESP' } or { type: 'geostore', id: 'sakldfa7ads0ka'}
    * @returns {Promise}
    */
-  createSubscriptionToArea(areaId, datasets, datasetsQuery, type, user, name = '') {
+  createSubscriptionToArea(areaId, datasets, datasetsQuery, user, name = '') {
     const bodyObj = {
       name,
       application: 'rw',
