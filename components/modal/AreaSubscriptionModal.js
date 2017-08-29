@@ -21,7 +21,8 @@ class AreaSubscriptionModal extends React.Component {
     this.state = {
       loadingDatasets: false,
       loading: false,
-      datasets: []
+      datasets: [],
+      subscriptionSelectors: [{ id: 1, dataset: null, type: null }]
     };
 
     // Services
@@ -73,11 +74,27 @@ class AreaSubscriptionModal extends React.Component {
     }).catch(err => console.error(err)); // TODO: update the UI
   }
 
+  @Autobind
+  handleRemoveSubscription(value) {
+
+  }
+
+  @Autobind
+  handleNewSubscriptionSelector() {
+    const { subscriptionSelectors } = this.state;
+    subscriptionSelectors.push({ id: 1, dataset: null, type: null });
+
+    this.setState({
+      subscriptionSelectors
+    });
+  }
+
   render() {
     const {
       datasets,
       loading,
-      loadingDatasets
+      loadingDatasets,
+      subscriptionSelectors
     } = this.state;
 
     return (
@@ -86,8 +103,13 @@ class AreaSubscriptionModal extends React.Component {
           <h2>Area subscriptions</h2>
         </div>
         <Spinner isLoading={loading || loadingDatasets} className="-light" />
+        <div className="new-container">
+          <button className="c-btn -primary" onClick={this.handleNewSubscriptionSelector}>
+            Add dataset
+          </button>
+        </div>
         <div className="datasets-container">
-          {datasets.map((val, index) =>
+          {subscriptionSelectors.map((val, index) =>
             (<SubscriptionSelector
               datasets={datasets}
               id={index}

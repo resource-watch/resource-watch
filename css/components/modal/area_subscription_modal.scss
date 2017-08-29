@@ -1,5 +1,10 @@
 .c-area-subscription-modal {
 
+  .new-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+
   .datasets-container {
     .c-subscription-selector {
       margin-bottom: 10px;
