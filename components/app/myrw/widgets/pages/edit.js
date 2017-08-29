@@ -136,6 +136,7 @@ class WidgetsEdit extends React.Component {
         this.setState({
           saved: false,
           error: true,
+          loading: false,
           errorMessage: 'Unable to generate the configuration of the chart'
         });
 
@@ -203,7 +204,8 @@ class WidgetsEdit extends React.Component {
       }).catch((err) => {
         this.setState({
           saved: false,
-          error: true
+          error: true,
+          loading: false
         });
         toastr.error('Error', err);
       });

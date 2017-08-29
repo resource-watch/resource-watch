@@ -43,7 +43,6 @@ const FORM_ELEMENTS = {
 };
 
 class WidgetsNew extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -79,9 +78,7 @@ class WidgetsNew extends React.Component {
 
   @Autobind
   async onSubmit(event) {
-    if (event) {
-      event.preventDefault();
-    }
+    if (event) event.preventDefault();
 
     const { widget, selectedDataset, datasets } = this.state;
     const { widgetEditor, user } = this.props;
@@ -97,98 +94,106 @@ class WidgetsNew extends React.Component {
       aggregateFunction,
       chartType,
       filters,
-      areaIntersection
+      areaIntersection,
+      layer
     } = widgetEditor;
 
     const dataset = datasets.find(elem => elem.value === selectedDataset);
+    const { type, provider, tableName } = dataset;
 
-    if (canRenderChart(widgetEditor)) {
-      this.setState({
-        loading: true
-      });
+    if (!canRenderChart(widgetEditor)) {
+      toastr.error('Error', 'Please create a widget in order to save it');
+      return;
+    }
 
-      const chartInfo = getChartInfo(dataset.id, dataset.type, dataset.provider, widgetEditor);
+    this.setState({ loading: true });
 
-      let chartConfig;
+    let chartConfig;
+
+    // If the visualization if a map, we don't have any chartConfig
+    if (visualizationType !== 'map') {
+      const chartInfo = getChartInfo(dataset.id, type, provider, widgetEditor);
+
       try {
         chartConfig = await getChartConfig(
           dataset.id,
-          dataset.type,
-          dataset.tableName,
+          type,
+          tableName,
           band,
-          dataset.provider,
+          provider,
           chartInfo
         );
       } catch (err) {
         this.setState({
           saved: false,
           error: true,
-          errorMessage: 'Unable to generate the configuration of the chart'
+          loading: false
         });
+        toastr.error('Error', 'Unable to generate the configuration of the chart');
 
         return;
       }
+    }
 
-      const widgetConfig = {
-        widgetConfig: Object.assign(
-          {},
-          {
-            paramsConfig: {
-              visualizationType,
-              band,
-              limit,
-              value,
-              category,
-              color,
-              size,
-              orderBy,
-              aggregateFunction,
-              chartType,
-              filters,
-              areaIntersection
-            }
-          },
-          chartConfig
-        )
-      };
-
-      const widgetObj = Object.assign(
+    const widgetConfig = {
+      widgetConfig: Object.assign(
         {},
         {
-          name: widget.name,
-          description: widget.description,
-          authors: widget.authors,
-          source: widget.source,
-          sourceUrl: widget.sourceUrl
-        },
-        widgetConfig
-      );
-
-      this.widgetService.saveUserWidget(widgetObj, selectedDataset, user.token)
-        .then((response) => {
-          if (response.errors) {
-            const errorMessage = response.errors[0].detail;
-            this.setState({
-              saved: false,
-              loading: false,
-              error: true,
-              errorMessage
-            });
-            alert(errorMessage); // eslint-disable-line no-alert
-          } else {
-            Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
-            toastr.success('Success', 'Widget created successfully!');
+          paramsConfig: {
+            visualizationType,
+            band,
+            limit,
+            value,
+            category,
+            color,
+            size,
+            orderBy,
+            aggregateFunction,
+            chartType,
+            filters,
+            areaIntersection,
+            layer: layer && layer.id
           }
-        }).catch((err) => {
+        },
+        chartConfig
+      )
+    };
+
+    const widgetObj = Object.assign(
+      {},
+      {
+        name: widget.name,
+        description: widget.description,
+        authors: widget.authors,
+        source: widget.source,
+        sourceUrl: widget.sourceUrl
+      },
+      widgetConfig
+    );
+
+    this.widgetService.saveUserWidget(widgetObj, selectedDataset, user.token)
+      .then((response) => {
+        if (response.errors) {
+          const errorMessage = response.errors[0].detail;
           this.setState({
             saved: false,
-            error: true
+            loading: false,
+            error: true,
+            errorMessage
           });
-          toastr.err('Error', err);
+          alert(errorMessage); // eslint-disable-line no-alert
+        } else {
+          Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
+          toastr.success('Success', 'Widget created successfully!');
+        }
+      }).catch((err) => {
+        this.setState({
+          saved: false,
+          error: true,
+          loading: false
         });
-    } else {
-      toastr.error('Error', 'Please create a widget in order to save it');
-    }
+        toastr.err('Error', err);
+      });
   }
 
   @Autobind
@@ -330,8 +335,10 @@ class WidgetsNew extends React.Component {
           }
           {error &&
           <div className="error-container">
-            There's a problem with this dataset and it can't be used to create widgets.
-            Please choose a different dataset from the selector above.
+            { `
+              There's a problem with this dataset and it can't be used to create widgets.
+              Please choose a different dataset from the selector above.
+            ` }
           </div>
           }
         </div>
