@@ -34,11 +34,12 @@ const ALLOWED_FIELD_TYPES = [
   { name: 'float', type: 'number', provider: 'sql' },
   { name: 'real', type: 'number', provider: 'sql' },
   { name: 'decimal', type: 'number', provider: 'sql' },
-  { name: 'esriFieldTypeString', type: 'text', provider: 'esri' },
   // ----- TEXT -----
   { name: 'string', type: 'text', provider: 'sql' },
   { name: 'char', type: 'text', provider: 'sql' },
   { name: 'varchar', type: 'text', provider: 'sql' },
+  { name: 'esriFieldTypeString', type: 'text', provider: 'esri' },
+  { name: 'text', type: 'text', provider: 'elastic' },
   // ----- DATE ----
   { name: 'esriFieldTypeDate', type: 'date', provider: 'esri' },
   { name: 'date', type: 'date', provider: 'sql' },
