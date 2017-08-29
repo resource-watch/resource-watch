@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
@@ -46,7 +47,19 @@ class AreaSubscriptionModal extends React.Component {
 
   @Autobind
   handleSubmit() {
+    const { subscriptionSelectors } = this.state;
+    let incomplete = false;
+    subscriptionSelectors.forEach(val => {
+      if (!val.selectedType || !val.selectedDataset) {
+        incomplete = true;
+      }
+    });
 
+    if (incomplete) {
+      toastr.error('Data missing', 'Please select a dataset and a subscription type for all items');
+    } else {
+
+    }
   }
 
   loadDatasets() {
@@ -91,11 +104,12 @@ class AreaSubscriptionModal extends React.Component {
       loadingDatasets,
       subscriptionSelectors
     } = this.state;
+    const { area } = this.props;
 
     return (
       <div className="c-area-subscription-modal" ref={(node) => { this.el = node; }}>
         <div className="header-div">
-          <h2>Area subscriptions</h2>
+          <h2>{`${area.attributes.name} subscriptions`}</h2>
         </div>
         <Spinner isLoading={loading || loadingDatasets} className="-light" />
         <div className="new-container">
