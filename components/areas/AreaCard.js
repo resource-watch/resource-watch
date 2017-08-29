@@ -111,28 +111,35 @@ class AreaCard extends React.Component {
   }
 
   @Autobind
-  handleDeleteSubscription() {
-    const { subscription, token } = this.props;
+  handleNewSubscription() {
+    
+  }
+
+  @Autobind
+  handleDeleteArea() {
+    const { area, token } = this.props;
     const toastrConfirmOptions = {
       onOk: () => {
         this.setState({ loading: true });
-        this.userService.deleteSubscription(subscription.id, token)
-          .then(() => {
+        this.userService.deleteArea(area.id, token)
+          .then((response) => {
+            console.log('response', response);
             this.props.onAreaRemoved();
           })
-          .catch(err => console.log(err));
+          .catch(err => toastr.error('Error removing the area', err));
       }
     };
-    toastr.confirm('Are you sure you want to delete the subscription?', toastrConfirmOptions);
+    toastr.confirm(`Are you sure you want to delete the area ${area.attributes.name}?
+      Deleting an area will delete all the subscriptions associated to it`, toastrConfirmOptions);
   }
 
   render() {
-    const { loading, dataset, country, layerGroups, type } = this.state;
+    const { loading, layerGroups } = this.state;
     const { area } = this.props;
     const name = area.attributes.name;
 
     return (
-      <div className="c-subscription-card">
+      <div className="c-area-card">
         <div className="border-container">
           <div className="map-container">
             <Map
@@ -147,18 +154,16 @@ class AreaCard extends React.Component {
             <div className="name-container">
               <h4>{name}</h4>
             </div>
-            <div className="data-container">
-              <div className="location-container">
-                <h5>Location</h5>
-                {country}
-              </div>
-              <div className="dataset-container">
-                <h5>Dataset</h5>
-                {dataset && dataset.attributes.name}
-              </div>
-              <div className="type-container">
-                <h5>Type</h5>
-                {type}
+            <div className="subscriptions-container">
+              <h4>Subscriptions</h4>
+              <div className="subscription-actions">
+                <a
+                  tabIndex={-1}
+                  role="button"
+                  onClick={this.handleNewSubscription}
+                >
+                  New
+                </a>
               </div>
             </div>
             <div className="actions-div">

@@ -112,24 +112,18 @@ export default class UserService {
    * @param {object} Either { type; 'iso', id:'ESP' } or { type: 'geostore', id: 'sakldfa7ads0ka'}
    * @returns {Promise}
    */
-  createSubscriptionToDataset(datasetID, type, object, user, name = '') {
-    const paramsObj = (object.type === 'iso') ?
-      { iso: { country: object.id } } :
-      { geostore: object.id };
-
+  createSubscriptionToArea(areaId, datasets, datasetsQuery, type, user, name = '') {
     const bodyObj = {
       name,
       application: 'rw',
       language: 'en',
-      datasetsQuery: [{
-        id: datasetID,
-        type
-      }],
+      datasets,
+      datasetsQuery,
       resource: {
         type: 'EMAIL',
         content: user.email
       },
-      params: paramsObj
+      area: areaId
     };
     return fetch(`${this.opts.apiURL}/subscriptions`, {
       method: 'POST',
@@ -159,7 +153,7 @@ export default class UserService {
 
   /**
    * Deletes a subscription
-   * @param {subscriptionId} ID of the subscription that will be unfavourited
+   * @param {subscriptionId} ID of the subscription that will be deleted
    * @param {token} User token
    * @returns {Promise}
    */
@@ -210,6 +204,22 @@ export default class UserService {
       body: JSON.stringify(bodyObj),
       headers: {
         'Content-Type': 'application/json',
+        Authorization: token
+      }
+    })
+      .then(response => response.json());
+  }
+
+  /**
+   * Deletes an area
+   * @param {areaId} ID of the area that will be deleted
+   * @param {token} User token
+   * @returns {Promise}
+   */
+  deleteArea(areaId, token) {
+    return fetch(`${this.opts.apiURL}/area/${areaId}`, {
+      method: 'DELETE',
+      headers: {
         Authorization: token
       }
     })
