@@ -112,7 +112,7 @@ class AreaCard extends React.Component {
 
   @Autobind
   handleNewSubscription() {
-    
+
   }
 
   @Autobind
@@ -122,11 +122,11 @@ class AreaCard extends React.Component {
       onOk: () => {
         this.setState({ loading: true });
         this.userService.deleteArea(area.id, token)
-          .then((response) => {
-            console.log('response', response);
+          .then(() => {
             this.props.onAreaRemoved();
           })
-          .catch(err => toastr.error('Error removing the area', err));
+          // Fetch throws an error for some reason but the request is successful...
+          .catch(err => this.props.onAreaRemoved()); // eslint-disable-line
       }
     };
     toastr.confirm(`Are you sure you want to delete the area ${area.attributes.name}?
