@@ -68,7 +68,7 @@ class AreasList extends React.Component {
           <div className="row">
             {areas && areas.map(val =>
               (
-                <div key={val.id} className="column small-12 medium-4">
+                <div key={val.id} className="column small-12 medium-6">
                   <div
                     className="card-container"
                   >

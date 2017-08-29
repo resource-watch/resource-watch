@@ -26,7 +26,6 @@ const MAP_CONFIG = {
 };
 
 class AreaCard extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -44,39 +43,35 @@ class AreaCard extends React.Component {
   }
 
   componentDidMount() {
-    //this.loadData();
+    // this.loadData();
   }
 
   loadData() {
     this.setState({ loading: true });
-    this.datasetService.fetchData()
-    .then((response) => {
-      const dataset = response;
-      this.setState({ dataset });
-      const paramsObj = this.props.subscription.attributes.params;
+    const paramsObj = this.props.subscription.attributes.params;
 
-      if (paramsObj.geostore) {
-        this.areasService.getGeostore(paramsObj.geostore)
-          .then((res) => {
-            const obj = res.data;
-            const fakeLayer = {
-              id: `${dataset.id}-${obj.id}`,
-              provider: 'geojson',
-              layerConfig: {
-                data: obj.attributes.geojson,
-                fitBounds: true,
-                bounds: obj.attributes.bbox
-              }
-            };
+    if (paramsObj.geostore) {
+      this.areasService.getGeostore(paramsObj.geostore)
+        .then((res) => {
+          const obj = res.data;
+          const fakeLayer = {
+            id: `${dataset.id}-${obj.id}`,
+            provider: 'geojson',
+            layerConfig: {
+              data: obj.attributes.geojson,
+              fitBounds: true,
+              bounds: obj.attributes.bbox
+            }
+          };
 
-            this.setState({
-              loading: false,
-              country: obj.id,
-              layer: fakeLayer
-            });
+          this.setState({
+            loading: false,
+            country: obj.id,
+            layer: fakeLayer
           });
-      } else if (paramsObj.iso.country) {
-        this.areasService.getCountry(paramsObj.iso.country)
+        });
+    } else if (paramsObj.iso.country) {
+      this.areasService.getCountry(paramsObj.iso.country)
         .then((res) => {
           const country = res.data[0];
 
@@ -92,7 +87,7 @@ class AreaCard extends React.Component {
           };
 
           const fakeLayer = {
-            id: `${dataset.id}-${country.label}`,
+            id: `-${country.label}`,
             provider: 'geojson',
             active: true,
             layerConfig: {
@@ -112,9 +107,7 @@ class AreaCard extends React.Component {
             }]
           });
         });
-      }
-    })
-    .catch(err => console.log(err));
+    }
   }
 
   @Autobind
@@ -125,7 +118,7 @@ class AreaCard extends React.Component {
         this.setState({ loading: true });
         this.userService.deleteSubscription(subscription.id, token)
           .then(() => {
-            this.props.onSubscriptionRemoved();
+            this.props.onAreaRemoved();
           })
           .catch(err => console.log(err));
       }
