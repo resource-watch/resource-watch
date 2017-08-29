@@ -123,7 +123,9 @@ export default class UserService {
         type: 'EMAIL',
         content: user.email
       },
-      area: areaId
+      params: {
+        area: areaId
+      }
     };
     return fetch(`${this.opts.apiURL}/subscriptions`, {
       method: 'POST',

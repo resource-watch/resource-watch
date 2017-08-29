@@ -28,6 +28,19 @@ class AreasList extends React.Component {
 
   componentDidMount() {
     this.loadAreas();
+    this.loadSubscriptions();
+  }
+
+  loadSubscriptions() {
+    this.setState({ loading: true });
+    this.userService.getSubscriptions(this.props.user.token)
+      .then((data) => {
+        console.log('data', data);
+      })
+      .catch((err) => {
+        toastr.error('Error loading subscriptions', err);
+        this.setState({ loading: false });
+      });
   }
 
   loadAreas() {
