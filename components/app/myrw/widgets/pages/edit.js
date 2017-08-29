@@ -209,6 +209,21 @@ class WidgetsEdit extends React.Component {
       });
   }
 
+  /**
+   * Event handler executed when the user clicks the "Save widget"
+   * button of the widget editor
+   * 
+   */
+  @Autobind
+  onUpdateWidget() {
+    // We can't directly call this.onSubmit otherwise the form won't be
+    // validated. We can't execute this.form.submit either because the
+    // validation is not always triggered (see MDN). One solution is as
+    // following: simulating a click on the submit button to trigger the
+    // validation and eventually save the changes
+    if (this.form) this.form.querySelector('button[type="submit"]').click();
+  }
+
   loadWidgetIntoRedux() {
     const { paramsConfig } = this.state.widget.attributes.widgetConfig;
     const {
@@ -267,11 +282,11 @@ class WidgetsEdit extends React.Component {
             widget={widget}
             dataset={widget.attributes.dataset}
             mode="widget"
-            onUpdateWidget={this.onSubmit}
+            onUpdateWidget={this.onUpdateWidget}
             showSaveButton
           />
           <div className="form-container">
-            <form className="form-container" onSubmit={this.onSubmit}>
+            <form ref={(node) => { this.form = node; }} className="form-container" onSubmit={this.onSubmit}>
               <fieldset className="c-field-container">
                 <Field
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
