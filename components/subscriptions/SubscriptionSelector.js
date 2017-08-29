@@ -12,24 +12,38 @@ class SubscriptionSelector extends React.Component {
 
     this.state = {
       selectedDataset: null,
-      selectedType: null
+      selectedType: null,
+      index: props.index
     };
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.data) {
+      const { selectedDataset, selectedType, index } = newProps.data;
+      this.setState({
+        selectedDataset,
+        selectedType,
+        index
+      });
+    }
   }
 
 
   @Autobind
   handleDatasetSelected(value) {
-    this.setState({ selectedDataset: value });
+    this.setState({ selectedDataset: value },
+      () => this.props.onUpdate(this.state));
   }
 
   @Autobind
   handleTypeSelected(type) {
-    this.setState({ selectedType: type });
+    this.setState({ selectedType: type },
+      () => this.props.onUpdate(this.state));
   }
 
   @Autobind
   handleRemove() {
-    this.props.onRemove();
+    this.props.onRemove(this.props.index);
   }
 
   render() {
@@ -67,7 +81,7 @@ class SubscriptionSelector extends React.Component {
           options={typeOptions}
           onChange={this.handleTypeSelected}
         />
-        <button onClick={() => this.props.onRemove()}>
+        <button onClick={() => this.props.onRemove(this.props.index)}>
           <Icon name="icon-cross" />
         </button>
       </div>
@@ -77,8 +91,11 @@ class SubscriptionSelector extends React.Component {
 
 SubscriptionSelector.propTypes = {
   datasets: PropTypes.array.isRequired,
+  index: PropTypes.string,
+  data: PropTypes.object.isRequired,
   // CALLBACKS
-  onRemove: PropTypes.func.isRequired
+  onRemove: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired
 };
 
 export default SubscriptionSelector;

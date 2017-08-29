@@ -22,7 +22,7 @@ class AreaSubscriptionModal extends React.Component {
       loadingDatasets: false,
       loading: false,
       datasets: [],
-      subscriptionSelectors: [{ id: 1, dataset: null, type: null }]
+      subscriptionSelectors: [{ index: 0, selectedDataset: null, selectedType: null }]
     };
 
     // Services
@@ -46,23 +46,7 @@ class AreaSubscriptionModal extends React.Component {
 
   @Autobind
   handleSubmit() {
-    const { selectedArea, name, geostore, selectedType } = this.state;
-    const { dataset, user } = this.props;
 
-    if ((selectedArea || geostore) && selectedType) {
-      this.setState({
-        loading: true
-      });
-      const areaObj = geostore ? { type: 'geostore', id: geostore } : { type: 'iso', id: selectedArea.value };
-      this.userService.createSubscriptionToDataset(dataset.id, selectedType.value, areaObj, user, name) //eslint-disable-line
-        .then(() => {
-          this.setState({
-            loading: false,
-            saved: true
-          });
-        })
-        .catch(err => this.setState({ error: err, loading: false }));
-    }
   }
 
   loadDatasets() {
@@ -75,14 +59,25 @@ class AreaSubscriptionModal extends React.Component {
   }
 
   @Autobind
-  handleRemoveSubscription(value) {
+  handleRemoveSubscriptionSelector(index) {
+    const { subscriptionSelectors } = this.state;
+    if (subscriptionSelectors.length > 1) {
+      subscriptionSelectors.splice(index, 1);
+      this.setState({ subscriptionSelectors });
+    }
+  }
 
+  @Autobind
+  handleUpdateSubscriptionSelector(element) {
+    const { subscriptionSelectors } = this.state;
+    subscriptionSelectors[element.index] = element;
+    this.setState({ subscriptionSelectors });
   }
 
   @Autobind
   handleNewSubscriptionSelector() {
     const { subscriptionSelectors } = this.state;
-    subscriptionSelectors.push({ id: 1, dataset: null, type: null });
+    subscriptionSelectors.push({ index: subscriptionSelectors.length, dataset: null, type: null });
 
     this.setState({
       subscriptionSelectors
@@ -112,8 +107,10 @@ class AreaSubscriptionModal extends React.Component {
           {subscriptionSelectors.map((val, index) =>
             (<SubscriptionSelector
               datasets={datasets}
-              id={index}
-              onRemoveSubscription={this.handleRemoveSubscription}
+              data={val}
+              onRemove={this.handleRemoveSubscriptionSelector}
+              onUpdate={this.handleUpdateSubscriptionSelector}
+              index={index}
             />)
           )}
         </div>
