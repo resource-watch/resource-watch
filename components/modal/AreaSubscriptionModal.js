@@ -63,8 +63,10 @@ class AreaSubscriptionModal extends React.Component {
       const datasetsQuery = subscriptionSelectors
         .map(val => ({ id: val.selectedDataset, type: val.selectedType }));
       this.userService.createSubscriptionToArea(area.id, datasets, datasetsQuery, user)
-        .then((response) => {
-          console.log('response', response);
+        .then(() => {
+          toastr.success('Success!', 'Subscription created successfully');
+          this.props.toggleModal(false);
+          this.props.onSubscriptionCreated();
         })
         .catch(err => toastr.error('Error creating the subscription', err));
     } else if (mode === 'edit') {
@@ -156,7 +158,9 @@ AreaSubscriptionModal.propTypes = {
   toggleModal: PropTypes.func.isRequired,
   mode: PropTypes.string.isRequired, // edit | new
   // Store
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  // Callbacks
+  onSubscriptionCreated: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

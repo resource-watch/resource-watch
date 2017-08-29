@@ -20,7 +20,10 @@ class AreasList extends React.Component {
 
     this.state = {
       loading: false,
-      areas: []
+      areas: [],
+      areasLoaded: false,
+      subscriptionsLoaded: false,
+      subscriptionsToAReas: null
     };
 
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
@@ -35,7 +38,17 @@ class AreasList extends React.Component {
     this.setState({ loading: true });
     this.userService.getSubscriptions(this.props.user.token)
       .then((data) => {
-        console.log('data', data);
+        const subscriptionsToAReas = data.filter((subscription) => {
+          const areaValue = subscription.attributes.params.area;
+          return areaValue;
+        });
+        this.setState({
+          subscriptionsToAReas,
+          subscriptionsLoaded: true
+        });
+        if (this.state.areasLoaded) {
+          this.mergeSubscriptionsIntoAreas();
+        }
       })
       .catch((err) => {
         toastr.error('Error loading subscriptions', err);
@@ -49,13 +62,25 @@ class AreasList extends React.Component {
       .then((data) => {
         this.setState({
           loading: false,
-          areas: data
+          areas: data,
+          areasLoaded: true
         });
+        if (this.state.subscriptionsLoaded) {
+          this.mergeSubscriptionsIntoAreas();
+        }
       })
       .catch((err) => {
         toastr.error('Error', err);
         this.setState({ loading: false });
       });
+  }
+
+  mergeSubscriptionsIntoAreas() {
+    const { areas, subscriptionsToAReas } = this.state;
+    subscriptionsToAReas.forEach((subscription) => {
+      areas.find(val => val.id === subscription.attributes.params.area).subscription = subscription;
+    });
+    this.setState({ areas }, () => console.log(this.state.areas));
   }
 
   @Autobind
