@@ -7,6 +7,14 @@
 
   .content {
     flex-grow: 1;
+
+    h5 {
+      margin: 0 0 5px;
+    }
+
+    .Select {
+      max-width: none;
+    }
   }
 
   .error {
