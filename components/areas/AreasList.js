@@ -23,7 +23,8 @@ class AreasList extends React.Component {
       areas: [],
       areasLoaded: false,
       subscriptionsLoaded: false,
-      subscriptionsToAReas: null
+      subscriptionsToAReas: null,
+      areasMerged: false
     };
 
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
@@ -80,7 +81,7 @@ class AreasList extends React.Component {
     subscriptionsToAReas.forEach((subscription) => {
       areas.find(val => val.id === subscription.attributes.params.area).subscription = subscription;
     });
-    this.setState({ areas }, () => console.log(this.state.areas));
+    this.setState({ areas, areasMerged: true });
   }
 
   @Autobind
@@ -89,13 +90,13 @@ class AreasList extends React.Component {
   }
 
   render() {
-    const { loading, areas } = this.state;
+    const { loading, areas, areasMerged } = this.state;
     const { user } = this.props;
 
     return (
       <div className="c-areas-list">
         <div className="l-container">
-          <Spinner isLoading={loading} className="-small -light" />
+          <Spinner isLoading={loading || !areasMerged} className="-small -light" />
           <div className="actions-div">
             <Link route="myrw_detail" params={{ id: 'new', tab: 'areas' }}>
               <a className="c-button -primary">
@@ -104,7 +105,7 @@ class AreasList extends React.Component {
             </Link>
           </div>
           <div className="row">
-            {areas && areas.map(val =>
+            {areasMerged && areas.map(val =>
               (
                 <div key={val.id} className="column small-12 medium-6">
                   <div

@@ -130,8 +130,13 @@ class AreaCard extends React.Component {
   }
 
   @Autobind
+  handleEditSubscription() {
+
+  }
+
+  @Autobind
   handleSubscriptionCreated() {
-    
+
   }
 
   @Autobind
@@ -156,6 +161,9 @@ class AreaCard extends React.Component {
     const { loading, layerGroups } = this.state;
     const { area } = this.props;
     const name = area.attributes.name;
+    const subscription = area.subscription;
+
+    console.log('area', area);
 
     return (
       <div className="c-area-card">
@@ -176,13 +184,24 @@ class AreaCard extends React.Component {
             <div className="subscriptions-container">
               <h4>Subscriptions</h4>
               <div className="subscription-actions">
-                <a
-                  tabIndex={-1}
-                  role="button"
-                  onClick={this.handleNewSubscription}
-                >
-                  New
-                </a>
+                {subscription &&
+                  <a
+                    tabIndex={-1}
+                    role="button"
+                    onClick={this.handleEditSubscription}
+                  >
+                    Edit
+                  </a>
+                }
+                {!subscription &&
+                  <a
+                    tabIndex={-1}
+                    role="button"
+                    onClick={this.handleNewSubscription}
+                  >
+                    New
+                  </a>
+                }
               </div>
             </div>
             <div className="actions-div">
