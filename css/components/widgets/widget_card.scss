@@ -9,6 +9,13 @@
   border: 1px solid rgba(26,28,34,0.1);
   border-radius: 4px;
 
+  > a {
+    // This rule prevent the textual widget to get
+    // an underlined when hovered in My RW > Widgets
+    // (you can try starring a widget)
+    &:hover { text-decoration: none; }
+  }
+
   .widget-collections {
     display: flex;
     justify-content: flex-start;

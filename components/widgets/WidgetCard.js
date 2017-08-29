@@ -22,6 +22,7 @@ import Icon from 'components/ui/Icon';
 import Map from 'components/vis/Map';
 import Legend from 'components/ui/Legend';
 import Spinner from 'components/ui/Spinner';
+import TextChart from 'components/widgets/TextChart';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -70,8 +71,32 @@ class WidgetCard extends React.Component {
     return !!(widget
       // Some widgets have not been created with the widget editor
       // so the paramsConfig attribute doesn't exist
-      && widget.attributes.widgetConfig.paramsConfig
-      && widget.attributes.widgetConfig.paramsConfig.layer
+      && (
+        (
+          widget.attributes.widgetConfig.paramsConfig
+          && widget.attributes.widgetConfig.paramsConfig.layer
+        )
+        || (
+          // Case of a widget created outside of the widget editor
+          widget.attributes.widgetConfig.type
+          && widget.attributes.widgetConfig.type === 'map'
+        )
+      )
+    );
+  }
+
+  /**
+   * Return whether the widget represents a text
+   * @static
+   * @param {any} widget
+   * @returns {boolean}
+   */
+  static isTextualWidget(widget) {
+    return !!(widget
+      // The widgets that are created through the widget editor
+      // don't have any "type" attribute
+      && widget.attributes.widgetConfig.type
+      && widget.attributes.widgetConfig.type === 'text'
     );
   }
 
@@ -95,14 +120,22 @@ class WidgetCard extends React.Component {
 
   componentDidMount() {
     if (WidgetCard.isMapWidget(this.props.widget)) {
-      this.fetchLayer(this.props.widget.attributes.widgetConfig.paramsConfig.layer);
+      const layer = (this.props.widget.attributes.widgetConfig.paramsConfig
+        && this.props.widget.attributes.widgetConfig.paramsConfig.layer)
+        || this.props.widget.attributes.widgetConfig.layer_id;
+
+      this.fetchLayer(layer);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (!isEqual(nextProps.widget, this.props.widget)
       && WidgetCard.isMapWidget(nextProps.widget)) {
-      this.fetchLayer(nextProps.widget.attributes.widgetConfig.paramsConfig.layer);
+      const layer = (nextProps.widget.attributes.widgetConfig.paramsConfig
+        && nextProps.widget.attributes.widgetConfig.paramsConfig.layer)
+        || nextProps.widget.attributes.widgetConfig.layer_id;
+
+      this.fetchLayer(layer);
     }
   }
 
@@ -169,6 +202,15 @@ class WidgetCard extends React.Component {
             expanded={false}
             readonly
           />
+        </div>
+      );
+    }
+
+    // If the widget is a textual one, it's rendered differently
+    if (WidgetCard.isTextualWidget(this.props.widget)) {
+      return (
+        <div className={classnames('c-widget-chart', `-${this.props.mode}`)}>
+          <TextChart widgetConfig={this.props.widget.attributes.widgetConfig} />
         </div>
       );
     }
