@@ -31,12 +31,19 @@ class AreasList extends React.Component {
   }
 
   componentDidMount() {
+    this.loadData();
+  }
+
+  loadData() {
     this.loadAreas();
     this.loadSubscriptions();
   }
 
   loadSubscriptions() {
-    this.setState({ loading: true });
+    this.setState({
+      loading: true,
+      subscriptionsLoaded: false
+    });
     this.userService.getSubscriptions(this.props.user.token)
       .then((data) => {
         const subscriptionsToAReas = data.filter((subscription) => {
@@ -58,7 +65,10 @@ class AreasList extends React.Component {
   }
 
   loadAreas() {
-    this.setState({ loading: true });
+    this.setState({
+      loading: true,
+      areasLoaded: false
+    });
     this.userService.getUserAreas(this.props.user.token)
       .then((data) => {
         this.setState({
@@ -118,6 +128,7 @@ class AreasList extends React.Component {
                       token={user.token}
                       area={val}
                       onAreaRemoved={this.handleAreaRemoved}
+                      onChange={() => this.loadData()}
                     />
                   </div>
                 </div>

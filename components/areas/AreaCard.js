@@ -136,7 +136,7 @@ class AreaCard extends React.Component {
 
   @Autobind
   handleSubscriptionCreated() {
-
+    this.props.onChange();
   }
 
   @Autobind
@@ -163,7 +163,7 @@ class AreaCard extends React.Component {
     const name = area.attributes.name;
     const subscription = area.subscription;
 
-    console.log('area', area);
+    console.log('subscription', subscription);
 
     return (
       <div className="c-area-card">
@@ -183,6 +183,9 @@ class AreaCard extends React.Component {
             </div>
             <div className="subscriptions-container">
               <h4>Subscriptions</h4>
+              <div className="datasets-container">
+
+              </div>
               <div className="subscription-actions">
                 {subscription &&
                   <a
@@ -225,6 +228,7 @@ AreaCard.propTypes = {
   area: PropTypes.object.isRequired,
   // Callbacks
   onAreaRemoved: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   // Store
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired
