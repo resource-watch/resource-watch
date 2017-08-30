@@ -139,6 +139,28 @@ export default class UserService {
   }
 
   /**
+   *  Update Subscription
+   */
+  updateSubscriptionToArea(subscriptionId, datasets, datasetsQuery, user, name = '') {
+    const bodyObj = {
+      name,
+      application: 'rw',
+      language: 'en',
+      datasets,
+      datasetsQuery
+    };
+    return fetch(`${this.opts.apiURL}/subscriptions/${subscriptionId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(bodyObj),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    })
+      .then(response => response.json());
+  }
+
+  /**
    *  Get Subscriptions
    */
   getSubscriptions(token) {

@@ -18,12 +18,17 @@ import SubscriptionSelector from 'components/subscriptions/SubscriptionSelector'
 class AreaSubscriptionModal extends React.Component {
   constructor(props) {
     super(props);
+    const subscription = props.area.subscription;
+    const initialSubscriptionSelectors = subscription
+      ? subscription.attributes.datasetsQuery.map((elem, index) =>
+        ({ index, selectedDataset: elem.id, selectedType: elem.type }))
+      : [{ index: 0, selectedDataset: null, selectedType: null }];
 
     this.state = {
       loadingDatasets: false,
       loading: false,
       datasets: [],
-      subscriptionSelectors: [{ index: 0, selectedDataset: null, selectedType: null }]
+      subscriptionSelectors: initialSubscriptionSelectors
     };
 
     // Services
@@ -58,19 +63,28 @@ class AreaSubscriptionModal extends React.Component {
 
     if (incomplete) {
       toastr.error('Data missing', 'Please select a dataset and a subscription type for all items');
-    } else if (mode === 'new') {
+    } else {
       const datasets = subscriptionSelectors.map(val => val.selectedDataset);
       const datasetsQuery = subscriptionSelectors
         .map(val => ({ id: val.selectedDataset, type: val.selectedType }));
-      this.userService.createSubscriptionToArea(area.id, datasets, datasetsQuery, user)
-        .then(() => {
-          toastr.success('Success!', 'Subscription created successfully');
-          this.props.toggleModal(false);
-          this.props.onSubscriptionCreated();
-        })
-        .catch(err => toastr.error('Error creating the subscription', err));
-    } else if (mode === 'edit') {
 
+      if (mode === 'new') {
+        this.userService.createSubscriptionToArea(area.id, datasets, datasetsQuery, user)
+          .then(() => {
+            toastr.success('Success!', 'Subscription created successfully');
+            this.props.toggleModal(false);
+            this.props.onSubscriptionCreated();
+          })
+          .catch(err => toastr.error('Error creating the subscription', err));
+      } else if (mode === 'edit') {
+        this.userService.updateSubscriptionToArea(area.id, datasets, datasetsQuery, user)
+          .then(() => {
+            toastr.success('Success!', 'Subscription updated successfully');
+            this.props.toggleModal(false);
+            this.props.onSubscriptionUpdated();
+          })
+          .catch(err => toastr.error('Error updating the subscription', err));
+      }
     }
   }
 
@@ -160,7 +174,8 @@ AreaSubscriptionModal.propTypes = {
   // Store
   user: PropTypes.object.isRequired,
   // Callbacks
-  onSubscriptionCreated: PropTypes.func.isRequired
+  onSubscriptionCreated: PropTypes.func,
+  onSubscriptionUpdated: PropTypes.func
 };
 
 const mapStateToProps = state => ({

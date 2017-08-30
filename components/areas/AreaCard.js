@@ -131,7 +131,17 @@ class AreaCard extends React.Component {
 
   @Autobind
   handleEditSubscription() {
-
+    const options = {
+      children: AreaSubscriptionModal,
+      childrenProps: {
+        area: this.props.area,
+        toggleModal: this.props.toggleModal,
+        onSubscriptionUpdated: this.handleSubscriptionUpdated,
+        mode: 'edit'
+      }
+    };
+    this.props.toggleModal(true);
+    this.props.setModalOptions(options);
   }
 
   @Autobind
@@ -160,6 +170,11 @@ class AreaCard extends React.Component {
   }
 
   @Autobind
+  handleSubscriptionUpdated() {
+    this.props.onChange();
+  }
+
+  @Autobind
   handleDeleteArea() {
     const { area, token } = this.props;
     const toastrConfirmOptions = {
@@ -178,7 +193,7 @@ class AreaCard extends React.Component {
   }
 
   render() {
-    const { loading, layerGroups, datasetsLoaded } = this.state;
+    const { loading, layerGroups } = this.state;
     const { area } = this.props;
     const name = area.attributes.name;
     const subscription = area.subscription;
