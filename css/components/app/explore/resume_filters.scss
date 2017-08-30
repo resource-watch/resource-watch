@@ -4,19 +4,9 @@
   > .filter-resume {}
 
   > .filter-resume > .filter-title {
+    display: block;
     color: $dark-pink;
   }
 
-  > .filter-resume > .filter-list {
-
-    > .filter-item {
-      display: inline-block;
-
-      &:not(:first-child) {
-        &:before {
-          content: '\00a0';
-        }
-      }
-    }
-  }
+  > .filter-resume > .filter-items {}
 }
