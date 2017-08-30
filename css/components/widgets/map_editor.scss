@@ -5,6 +5,15 @@
   height: 370px;
   margin-top: 20px;
 
+  .selector-container {
+    h5 {
+      margin: 0 0 5px;
+    }
+
+    .Select {
+      max-width: none;
+    }
+  }
 
   .actions-container {
     color: $primary-color;

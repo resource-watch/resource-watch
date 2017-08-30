@@ -22,6 +22,9 @@ const SET_FIELDS = 'widgetEditor/SET_FIELDS';
 const SET_LIMIT = 'widgetEditor/SET_LIMIT';
 const RESET = 'widgetEditor/RESET';
 const SET_AREA_INTERSEACTION = 'widgetEditor/SET_AREA_INTERSEACTION';
+const SET_VISUALIZATION_TYPE = 'widgetEditor/SET_VISUALIZATION_TYPE';
+const SET_BAND = 'widgetEditor/SET_BAND';
+const SET_LAYER = 'widgetEditor/SET_LAYER';
 
 /**
  * REDUCER
@@ -37,8 +40,10 @@ const initialState = {
   layer: null,
   fields: [],
   chartType: null,
+  visualizationType: null,
   limit: 500,
-  areaIntersection: null // ID of the geostore object
+  areaIntersection: null, // ID of the geostore object
+  band: null // Band of the raster dataset
 };
 
 export default function (state = initialState, action) {
@@ -155,7 +160,13 @@ export default function (state = initialState, action) {
     }
 
     case RESET: {
-      return Object.assign({}, initialState);
+      return Object.assign(
+        {},
+        initialState,
+        !action.payload // If not a hard reset...
+          ? { fields: state.fields }
+          : {}
+      );
     }
 
     case SHOW_LAYER: {
@@ -185,6 +196,24 @@ export default function (state = initialState, action) {
     case SET_AREA_INTERSEACTION: {
       return Object.assign({}, state, {
         areaIntersection: action.payload
+      });
+    }
+
+    case SET_VISUALIZATION_TYPE: {
+      return Object.assign({}, state, {
+        visualizationType: action.payload
+      });
+    }
+
+    case SET_BAND: {
+      return Object.assign({}, state, {
+        band: action.payload
+      });
+    }
+
+    case SET_LAYER: {
+      return Object.assign({}, state, {
+        layer: action.payload
       });
     }
 
@@ -263,9 +292,19 @@ export function setChartType(type) {
 export function setAggregateFunction(value) {
   return dispatch => dispatch({ type: SET_AGGREGATE_FN, payload: value });
 }
-export function resetWidgetEditor() {
-  return dispatch => dispatch({ type: RESET });
+
+/**
+ * Reset the state of the widget editor
+ * If hardReset is set to false, only the user selection will be erased,
+ * not the results from the API
+ * @export
+ * @param {boolean} [hardReset=true]
+ * @returns  
+ */
+export function resetWidgetEditor(hardReset = true) {
+  return dispatch => dispatch({ type: RESET, payload: hardReset });
 }
+
 export function showLayer(layer) {
   return dispatch => dispatch({ type: SHOW_LAYER, payload: layer });
 }
@@ -278,4 +317,16 @@ export function setLimit(limit) {
 
 export function setAreaIntersection(id) {
   return dispatch => dispatch({ type: SET_AREA_INTERSEACTION, payload: id });
+}
+
+export function setVisualizationType(vis) {
+  return dispatch => dispatch({ type: SET_VISUALIZATION_TYPE, payload: vis });
+}
+
+export function setBand(band) {
+  return dispatch => dispatch({ type: SET_BAND, payload: band });
+}
+
+export function setLayer(layer) {
+  return dispatch => dispatch({ type: SET_LAYER, payload: layer });
 }

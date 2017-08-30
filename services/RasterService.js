@@ -40,4 +40,29 @@ export default class RasterService {
         throw new Error('Unsupported provider');
       });
   }
+
+  /**
+   * Return the ChartInfo object for a raster chart
+   * @static
+   * @returns {ChartInfo}
+   */
+  static getChartInfo() {
+    return {
+      chartType: 'bar',
+      limit: 500,
+      order: null,
+      filters: [],
+      areaIntersection: null,
+      x: {
+        type: null,
+        name: 'x',
+        alias: null
+      },
+      y: {
+        type: null,
+        name: 'y',
+        alias: null
+      }
+    };
+  }
 }

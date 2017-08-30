@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 
 class WidgetActionsTooltip extends React.Component {
-
   componentDidMount() {
     document.addEventListener('mousedown', this.triggerMouseDown);
   }
@@ -24,6 +23,9 @@ class WidgetActionsTooltip extends React.Component {
   @Autobind
   handleClick(link) {
     switch (link) { // eslint-disable-line default-case
+      case 'edit_widget':
+        this.props.onEditWidget();
+        break;
       case 'go_to_dataset':
         this.props.onGoToDataset();
         break;
@@ -42,31 +44,24 @@ class WidgetActionsTooltip extends React.Component {
       <div className="c-widget-actions-tooltip">
         <ul>
           <li>
-            <a
-              role="button"
-              tabIndex={0}
-              onClick={() => this.handleClick('share_embed')}
-            >
+            <button onClick={() => this.handleClick('edit_widget')}>
+              Edit widget
+            </button>
+          </li>
+          <li>
+            <button onClick={() => this.handleClick('share_embed')}>
               Share/Embed
-            </a>
+            </button>
           </li>
           <li>
-            <a
-              role="button"
-              tabIndex={0}
-              onClick={() => this.handleClick('add_to_dashboard')}
-            >
+            <button onClick={() => this.handleClick('add_to_dashboard')}>
               Add to dashboard
-            </a>
+            </button>
           </li>
           <li>
-            <a
-              role="button"
-              tabIndex={0}
-              onClick={() => this.handleClick('go_to_dataset')}
-            >
+            <button onClick={() => this.handleClick('go_to_dataset')}>
               Go to dataset
-            </a>
+            </button>
           </li>
         </ul>
       </div>
@@ -79,7 +74,8 @@ WidgetActionsTooltip.propTypes = {
   // Callbacks
   onGoToDataset: PropTypes.func.isRequired,
   onAddToDashboard: PropTypes.func.isRequired,
-  onShareEmbed: PropTypes.func.isRequired
+  onShareEmbed: PropTypes.func.isRequired,
+  onEditWidget: PropTypes.func.isRequired
 };
 
 export default WidgetActionsTooltip;

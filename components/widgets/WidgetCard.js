@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
-import { Router } from 'routes';
+import { Router, Link } from 'routes';
+import isEqual from 'lodash/isEqual';
+import classnames from 'classnames';
 
 // Redux
 import { connect } from 'react-redux';
@@ -12,17 +14,25 @@ import { toggleTooltip } from 'redactions/tooltip';
 // Components
 import Title from 'components/ui/Title';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
+import DatasetLayerChart from 'components/app/explore/DatasetLayerChart';
 import EmbedMyWidgetModal from 'components/modal/EmbedMyWidgetModal';
 import WidgetActionsTooltip from 'components/widgets/WidgetActionsTooltip';
 import AddWidgetToCollectionTooltip from 'components/widgets/AddWidgetToCollectionTooltip';
 import Icon from 'components/ui/Icon';
+import Map from 'components/vis/Map';
+import Legend from 'components/ui/Legend';
+import Spinner from 'components/ui/Spinner';
+import TextChart from 'components/widgets/TextChart';
 
 // Services
 import WidgetService from 'services/WidgetService';
 import UserService from 'services/UserService';
+import LayersService from 'services/LayersService';
+
+// Utils
+import LayerManager from 'utils/layers/LayerManager';
 
 class WidgetCard extends React.Component {
-
   /**
    * Return the position of the click within the page taking
    * into account the scroll (relative to the page, not the
@@ -51,6 +61,45 @@ class WidgetCard extends React.Component {
     return text;
   }
 
+  /**
+   * Return whether the widget represents a map
+   * @static
+   * @param {any} widget 
+   * @returns {boolean} 
+   */
+  static isMapWidget(widget) {
+    return !!(widget
+      // Some widgets have not been created with the widget editor
+      // so the paramsConfig attribute doesn't exist
+      && (
+        (
+          widget.attributes.widgetConfig.paramsConfig
+          && widget.attributes.widgetConfig.paramsConfig.layer
+        )
+        || (
+          // Case of a widget created outside of the widget editor
+          widget.attributes.widgetConfig.type
+          && widget.attributes.widgetConfig.type === 'map'
+        )
+      )
+    );
+  }
+
+  /**
+   * Return whether the widget represents a text
+   * @static
+   * @param {any} widget
+   * @returns {boolean}
+   */
+  static isTextualWidget(widget) {
+    return !!(widget
+      // The widgets that are created through the widget editor
+      // don't have any "type" attribute
+      && widget.attributes.widgetConfig.type
+      && widget.attributes.widgetConfig.type === 'text'
+    );
+  }
+
   constructor(props) {
     super(props);
 
@@ -59,6 +108,145 @@ class WidgetCard extends React.Component {
     this.widgetService = new WidgetService(null, {
       apiURL: process.env.WRI_API_URL
     });
+    this.layersService = new LayersService();
+
+    this.state = {
+      loading: false,
+      error: null,
+      layer: null, // Info about the eventual layer
+      layerGroups: []
+    };
+  }
+
+  componentDidMount() {
+    if (WidgetCard.isMapWidget(this.props.widget)) {
+      const layer = (this.props.widget.attributes.widgetConfig.paramsConfig
+        && this.props.widget.attributes.widgetConfig.paramsConfig.layer)
+        || this.props.widget.attributes.widgetConfig.layer_id;
+
+      this.fetchLayer(layer);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(nextProps.widget, this.props.widget)
+      && WidgetCard.isMapWidget(nextProps.widget)) {
+      const layer = (nextProps.widget.attributes.widgetConfig.paramsConfig
+        && nextProps.widget.attributes.widgetConfig.paramsConfig.layer)
+        || nextProps.widget.attributes.widgetConfig.layer_id;
+
+      this.fetchLayer(layer);
+    }
+  }
+
+  /**
+   * Event handler executed when the user toggles the
+   * visibility of a layer group
+   * @param {LayerGroup} layerGroup - Layer group to toggle
+   */
+  onToggleLayerGroupVisibility(layerGroup) {
+    const layerGroups = this.state.layerGroups.map((l) => {
+      if (l.dataset !== layerGroup.dataset) return l;
+      return Object.assign({}, l, { visible: !layerGroup.visible });
+    });
+
+    this.setState({ layerGroups: [...layerGroups] });
+  }
+
+  /**
+   * Return the widget
+   * @returns {HTMLElement}
+   */
+  getWidget() {
+    if (!this.props.widget) return null;
+
+    if (this.state.loading || (!this.state.layer && WidgetCard.isMapWidget(this.props.widget))) {
+      return (
+        <div className={classnames('c-widget-chart', `-${this.props.mode}`, '-map')}>
+          <Spinner className="-light" isLoading />
+        </div>
+      );
+    }
+
+    if (this.state.error) {
+      console.error(this.state.error);
+      // TODO: Correctly show the UI
+      return null;
+    }
+
+    // If the widget is a map, we render the correct component
+    if (WidgetCard.isMapWidget(this.props.widget)) {
+      // We render the thumbnail of a map
+      if (this.props.mode === 'thumbnail') {
+        return (
+          <DatasetLayerChart layer={this.state.layer} />
+        );
+      }
+
+      // We render a full map
+      return (
+        <div className="c-widget-chart -map">
+          <Map
+            LayerManager={LayerManager}
+            mapConfig={{}}
+            layerGroups={this.state.layerGroups}
+          />
+          <Legend
+            layerGroups={this.state.layerGroups}
+            className={{ color: '-dark' }}
+            toggleLayerGroupVisibility={
+              layerGroup => this.onToggleLayerGroupVisibility(layerGroup)
+            }
+            setLayerGroupsOrder={() => {}}
+            setLayerGroupActiveLayer={() => {}}
+            expanded={false}
+            readonly
+          />
+        </div>
+      );
+    }
+
+    // If the widget is a textual one, it's rendered differently
+    if (WidgetCard.isTextualWidget(this.props.widget)) {
+      return (
+        <div className={classnames('c-widget-chart', `-${this.props.mode}`)}>
+          <TextChart widgetConfig={this.props.widget.attributes.widgetConfig} />
+        </div>
+      );
+    }
+
+    // We render a Vega chart
+    return (
+      <DatasetWidgetChart
+        widget={this.props.widget.attributes}
+        mode={this.props.mode}
+      />
+    );
+  }
+
+
+  /**
+   * Fetch the information about the layer and store it in the state
+   * @param {string} layerId 
+   */
+  fetchLayer(layerId) {
+    this.setState({ loading: true, error: null });
+    this.layersService.fetchData({ id: layerId })
+      .then((layer) => {
+        this.setState({
+          layer,
+          layerGroups: [{
+            dataset: layer.dataset,
+            visible: true,
+            layers: [{
+              active: true,
+              ...layer
+            }]
+          }]
+        });
+      })
+      .catch(err => this.setState({ error: err.message }))
+      .then(() => this.setState({ loading: false }));
   }
 
   /*
@@ -78,14 +266,7 @@ class WidgetCard extends React.Component {
         .catch(err => console.log(err)); // eslint-disable-line no-console
     }
   }
-  @Autobind
-  handleClick(event) {
-    const { widget } = this.props;
-    const tagName = event.target.tagName;
-    if (tagName !== 'A' && tagName !== 'use') {
-      Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: widget.id });
-    }
-  }
+
   @Autobind
   handleEmbed() {
     const options = {
@@ -97,14 +278,22 @@ class WidgetCard extends React.Component {
     this.props.toggleModal(true);
     this.props.setModalOptions(options);
   }
+
   @Autobind
-  handleAddToDashboard() {
+  handleAddToDashboard() { // eslint-disable-line class-methods-use-this
     // TO-DO implement this
   }
+
+  @Autobind
+  handleEditWidget() {
+    Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: this.props.widget.id });
+  }
+
   @Autobind
   handleGoToDataset() {
     Router.pushRoute('explore_detail', { id: this.props.widget.attributes.dataset });
   }
+
   @Autobind
   handleWidgetActionsClick(event) {
     const position = WidgetCard.getClickPosition(event);
@@ -116,10 +305,12 @@ class WidgetCard extends React.Component {
         toggleTooltip: this.props.toggleTooltip,
         onShareEmbed: this.handleEmbed,
         onAddToDashboard: this.handleAddToDashboard,
-        onGoToDataset: this.handleGoToDataset
+        onGoToDataset: this.handleGoToDataset,
+        onEditWidget: this.handleEditWidget
       }
     });
   }
+
   @Autobind
   handleStarClick(event) {
     event.preventDefault();
@@ -131,6 +322,7 @@ class WidgetCard extends React.Component {
         });
     }
   }
+
   @Autobind
   handleAddToWidgetCollection(event) {
     const { widget, user, widgetCollections, widgetCollectionsOptions } = this.props;
@@ -149,8 +341,9 @@ class WidgetCard extends React.Component {
       }
     });
   }
+
   @Autobind
-  handleUpdateWidgetToCollections(collections) {
+  handleUpdateWidgetToCollections() {
     this.props.onUpdateWidgetCollections();
   }
 
@@ -172,69 +365,64 @@ class WidgetCard extends React.Component {
       ? '1 collection' : `${numberOfCollections} collections`;
 
     return (
-      <div
-        role="button"
-        tabIndex={0}
-        className={'c-widget-card'}
-        onClick={this.handleClick}
-      >
+      <div className={'c-widget-card'}>
         {showWidgetColllections &&
           <div className="widget-collections">
-            <a
-              onClick={this.handleAddToWidgetCollection}
-              role="button"
-              tabIndex={-1}
-            >
+            <button onClick={this.handleAddToWidgetCollection}>
               {numberOfCollectionsText}
-            </a>
+            </button>
           </div>
         }
-        {widget &&
-          <DatasetWidgetChart
-            widget={widget.attributes}
-            mode={mode}
-          />
+
+        {/* Actual widget */}
+        { mode === 'thumbnail'
+          ? (
+            <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
+              <a>{this.getWidget()}</a>
+            </Link>
+          )
+          : this.getWidget()
         }
 
         <div className="info">
           <div className="detail">
             {/* Title */}
             <Title className="-default -primary">
-              {widget.attributes.name}
+              <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
+                <a>{widget.attributes.name}</a>
+              </Link>
             </Title>
-            <p>{WidgetCard.getDescription(widget.attributes.description)}</p>
+            <p>
+              <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
+                <a>{WidgetCard.getDescription(widget.attributes.description)}</a>
+              </Link>
+            </p>
           </div>
           {(showActions || showRemove || showEmbed) &&
             <div className="actions">
               {showActions &&
-                <a
-                  className="c-button widget-actions"
+                <button
+                  className="c-button -secondary widget-actions"
                   onClick={this.handleWidgetActionsClick}
-                  role="button"
-                  tabIndex="0"
                 >
-                Widget actions
-                </a>
+                  Widget actions
+                </button>
               }
               {showRemove &&
-                <a
-                  className="c-button"
+                <button
+                  className="c-button -tertiary"
                   onClick={this.handleRemoveWidget}
-                  role="button"
-                  tabIndex="0"
                 >
-                Delete
-                </a>
+                  Delete
+                </button>
               }
               {showEmbed &&
-                <a
-                  className="c-button"
+                <button
+                  className="c-button -tertiary"
                   onClick={this.handleEmbed}
-                  role="button"
-                  tabIndex="0"
                 >
-                Embed
-                </a>
+                  Embed
+                </button>
               }
             </div>
           }

@@ -1,7 +1,6 @@
 import React from 'react';
 
 class WidgetCard extends React.Component {
-
   constructor(props) {
     super(props);
 

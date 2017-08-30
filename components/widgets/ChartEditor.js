@@ -181,8 +181,7 @@ class ChartEditor extends React.Component {
       tableViewMode,
       user,
       mode,
-      showSaveButton,
-      showShareEmbedButton
+      showSaveButton
     } = this.props;
     const { chartType, fields, category, value } = widgetEditor;
     const { areaOptions, loadingAreaIntersection } = this.state;
@@ -266,16 +265,6 @@ class ChartEditor extends React.Component {
             Save widget
           </a>
           }
-          {mode === 'update' && showShareEmbedButton &&
-          <a
-            role="button"
-            className="c-button -primary"
-            tabIndex={-1}
-            onClick={this.handleShareEmbed}
-          >
-            Share/embed
-          </a>
-          }
           {showUpdateButton && mode === 'update' &&
           <a
             role="button"
@@ -292,19 +281,14 @@ class ChartEditor extends React.Component {
   }
 }
 
-ChartEditor.defaultProps = {
-  showShareEmbedButton: false
-};
-
 ChartEditor.propTypes = {
-  mode: PropTypes.string.isRequired, // save | update
+  mode: PropTypes.oneOf(['save', 'update']).isRequired,
   tableName: PropTypes.string.isRequired,
   jiminy: PropTypes.object,
   dataset: PropTypes.string.isRequired, // Dataset ID
   datasetType: PropTypes.string,
   datasetProvider: PropTypes.string,
   tableViewMode: PropTypes.bool.isRequired,
-  showShareEmbedButton: PropTypes.bool.isRequired,
   showSaveButton: PropTypes.bool.isRequired,
   // Store
   widgetEditor: PropTypes.object.isRequired,

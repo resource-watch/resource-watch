@@ -60,5 +60,20 @@
         height: 100%;
       }
     }
+
+    .c-text-chart {
+      height: 160px;
+      text-decoration: none;
+    }
+  }
+
+  // These styles are used in My RW to display
+  // the map widgets
+  &.-map {
+    min-height: 300px;
+
+    &.-thumbnail {
+      min-height: 180px;
+    }
   }
 }

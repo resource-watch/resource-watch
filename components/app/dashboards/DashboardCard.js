@@ -23,7 +23,6 @@ import LayerManager from 'utils/layers/LayerManager';
 import UserService from 'services/UserService';
 
 class DashboardCard extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -90,8 +89,8 @@ class DashboardCard extends React.Component {
           }
         });
       })
-      .catch(err => this.setState({ error: err.message }));
       // TODO error message
+      .catch(err => this.setState({ error: err.message }));
   }
 
   /**
@@ -159,8 +158,8 @@ class DashboardCard extends React.Component {
             isFavourite: false,
             loading: false
           });
-        }
-      ).catch(err => console.error(err));
+        })
+        .catch(err => console.error(err));
     } else {
       this.userService.createFavouriteWidget(widgetId, user.token)
         .then(() => {
@@ -168,8 +167,8 @@ class DashboardCard extends React.Component {
             isFavourite: true,
             loading: false
           });
-        }
-      ).catch(err => console.error(err));
+        })
+        .catch(err => console.error(err));
     }
   }
 
@@ -250,7 +249,6 @@ class DashboardCard extends React.Component {
       </div>
     );
   }
-
 }
 
 DashboardCard.propTypes = {
