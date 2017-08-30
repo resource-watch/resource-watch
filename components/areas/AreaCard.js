@@ -53,6 +53,7 @@ class AreaCard extends React.Component {
   loadData() {
     this.setState({ loading: true });
     const attsObj = this.props.area.attributes;
+    console.log('attsObj', attsObj);
 
     if (attsObj.geostore) {
       this.areasService.getGeostore(attsObj.geostore)

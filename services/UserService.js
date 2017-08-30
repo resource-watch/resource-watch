@@ -219,7 +219,7 @@ export default class UserService {
     }
 
     if (iso) {
-      bodyObj.iso = { country: iso.id };
+      bodyObj.iso = { country: iso.value };
     }
 
     return fetch(`${this.opts.apiURL}/area`, {
