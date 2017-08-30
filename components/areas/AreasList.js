@@ -154,6 +154,11 @@ class AreasList extends React.Component {
                 </div>
               )
             )}
+            {areasMerged && areas.length === 0 &&
+              <div className="no-areas-container">
+                <p>You haven't created any areas yet</p>
+              </div>
+            }
           </div>
         </div>
       </div>
