@@ -289,7 +289,7 @@ class Explore extends Page {
       tree.checked = true;
     }
 
-    (tree.children || []).forEach(child => child.checked = true);
+    (tree.children || []).forEach(child => child.checked = tree.checked);
   }
 
   @Autobind
