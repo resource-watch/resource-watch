@@ -151,6 +151,7 @@ class AreaSubscriptionModal extends React.Component {
               onRemove={this.handleRemoveSubscriptionSelector}
               onUpdate={this.handleUpdateSubscriptionSelector}
               index={index}
+              key={val.index}
             />)
           )}
         </div>

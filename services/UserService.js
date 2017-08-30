@@ -141,9 +141,8 @@ export default class UserService {
   /**
    *  Update Subscription
    */
-  updateSubscriptionToArea(subscriptionId, datasets, datasetsQuery, user, name = '') {
+  updateSubscriptionToArea(subscriptionId, datasets, datasetsQuery, user) {
     const bodyObj = {
-      name,
       application: 'rw',
       language: 'en',
       datasets,
