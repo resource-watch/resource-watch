@@ -87,7 +87,7 @@ class AreasForm extends React.Component {
         loading: true
       });
       this.userService.createNewArea(name, geostore, selectedArea, user.token)
-        .then((response) => {
+        .then(() => {
           Router.pushRoute('myrw', { tab: 'areas' });
           toastr.success('Success', 'Area successfully created!');
         })
