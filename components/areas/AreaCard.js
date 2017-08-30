@@ -181,19 +181,29 @@ class AreaCard extends React.Component {
       onOk: () => {
         this.setState({ loading: true });
 
-        this.userService.deleteSubscription(area.subscription.id, token)
-          .then(() => {
-            this.userService.deleteArea(area.id, token)
-              .then(() => {
-                this.props.onAreaRemoved();
-              })
-              // Fetch throws an error for some reason but the request is successful...
-              .catch(err => this.props.onAreaRemoved()); // eslint-disable-line
-          })
-          .catch((err) => {
-            this.setState({ loading: false });
-            toastr.error('Error removing area', err);
-          });
+        // Delete subscription associated to area if there's one
+        if (area.subscription) {
+          this.userService.deleteSubscription(area.subscription.id, token)
+            .then(() => {
+              this.userService.deleteArea(area.id, token)
+                .then(() => {
+                  this.props.onAreaRemoved();
+                })
+                // Fetch throws an error for some reason but the request is successful...
+                .catch(err => this.props.onAreaRemoved()); // eslint-disable-line
+            })
+            .catch((err) => {
+              this.setState({ loading: false });
+              toastr.error('Error removing area', err);
+            });
+        } else {
+          this.userService.deleteArea(area.id, token)
+            .then(() => {
+              this.props.onAreaRemoved();
+            })
+            // Fetch throws an error for some reason but the request is successful...
+            .catch(err => this.props.onAreaRemoved()); // eslint-disable-line
+        }
       }
     };
     toastr.confirm(`Are you sure you want to delete the area ${area.attributes.name}?
