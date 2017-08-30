@@ -51,8 +51,7 @@ class WidgetsNew extends React.Component {
       submitting: false,
       datasets: [],
       selectedDataset: null,
-      widget: {},
-      error: false
+      widget: {}
     };
 
     // Services
@@ -126,7 +125,6 @@ class WidgetsNew extends React.Component {
       } catch (err) {
         this.setState({
           saved: false,
-          error: true,
           loading: false
         });
         toastr.error('Error', 'Unable to generate the configuration of the chart');
@@ -177,11 +175,10 @@ class WidgetsNew extends React.Component {
           const errorMessage = response.errors[0].detail;
           this.setState({
             saved: false,
-            loading: false,
-            error: true,
-            errorMessage
+            loading: false
           });
-          alert(errorMessage); // eslint-disable-line no-alert
+
+          toastr.error('Error', errorMessage);
         } else {
           Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
           toastr.success('Success', 'Widget created successfully!');
@@ -189,7 +186,6 @@ class WidgetsNew extends React.Component {
       }).catch((err) => {
         this.setState({
           saved: false,
-          error: true,
           loading: false
         });
         toastr.err('Error', err);
@@ -205,18 +201,17 @@ class WidgetsNew extends React.Component {
   @Autobind
   handleDatasetSelected(value) {
     this.setState({
-      selectedDataset: value,
-      error: false
+      selectedDataset: value
     });
   }
 
   @Autobind
-  handleWidgetEditorError() {
-    this.setState({ error: true });
+  handleWidgetEditorError() { // eslint-disable-line class-methods-use-this
+    toastr.err('Error', 'An error occured with the widget editor');
   }
 
   render() {
-    const { loading, widget, submitting, datasets, selectedDataset, error } = this.state;
+    const { loading, widget, submitting, datasets, selectedDataset } = this.state;
 
     return (
       <div className="c-myrw-widgets-new">
@@ -250,97 +245,87 @@ class WidgetsNew extends React.Component {
             showSaveButton={false}
             onError={this.handleWidgetEditorError}
           />
-          {!error &&
-            <div className="form-container">
-              <form className="form-container" onSubmit={this.onSubmit}>
-                <fieldset className="c-field-container">
+          <div className="form-container">
+            <form className="form-container" onSubmit={this.onSubmit}>
+              <fieldset className="c-field-container">
+                <Field
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
+                  onChange={value => this.handleChange({ name: value })}
+                  validations={['required']}
+                  properties={{
+                    title: 'title',
+                    label: 'Title',
+                    type: 'text',
+                    required: true,
+                    placeholder: 'Widget title'
+                  }}
+                >
+                  {Input}
+                </Field>
+                <Field
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
+                  onChange={value => this.handleChange({ description: value })}
+                  properties={{
+                    title: 'description',
+                    label: 'Description',
+                    type: 'text',
+                    placeholder: 'Widget description'
+                  }}
+                >
+                  {Input}
+                </Field>
+                <Field
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.authors = c; }}
+                  onChange={value => this.handleChange({ authors: value })}
+                  properties={{
+                    title: 'authors',
+                    label: 'Authors',
+                    type: 'text',
+                    placeholder: 'Author name'
+                  }}
+                >
+                  {Input}
+                </Field>
+                <div className="source-container">
                   <Field
-                    ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
-                    onChange={value => this.handleChange({ name: value })}
-                    validations={['required']}
+                    ref={(c) => { if (c) FORM_ELEMENTS.elements.source = c; }}
+                    onChange={value => this.handleChange({ source: value })}
                     properties={{
-                      title: 'title',
-                      label: 'Title',
+                      title: 'source',
+                      label: 'Source name',
                       type: 'text',
-                      required: true,
-                      placeholder: 'Widget title'
+                      placeholder: 'Source name'
                     }}
                   >
                     {Input}
                   </Field>
                   <Field
-                    ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
-                    onChange={value => this.handleChange({ description: value })}
+                    ref={(c) => { if (c) FORM_ELEMENTS.elements.sourceUrl = c; }}
+                    onChange={value => this.handleChange({ sourceUrl: value })}
                     properties={{
-                      title: 'description',
-                      label: 'Description',
+                      title: 'sourceUrl',
+                      label: 'Source URL',
                       type: 'text',
-                      placeholder: 'Widget description'
+                      placeholder: 'Paste a URL here'
                     }}
                   >
                     {Input}
                   </Field>
-                  <Field
-                    ref={(c) => { if (c) FORM_ELEMENTS.elements.authors = c; }}
-                    onChange={value => this.handleChange({ authors: value })}
-                    properties={{
-                      title: 'authors',
-                      label: 'Authors',
-                      type: 'text',
-                      placeholder: 'Author name'
-                    }}
-                  >
-                    {Input}
-                  </Field>
-                  <div className="source-container">
-                    <Field
-                      ref={(c) => { if (c) FORM_ELEMENTS.elements.source = c; }}
-                      onChange={value => this.handleChange({ source: value })}
-                      properties={{
-                        title: 'source',
-                        label: 'Source name',
-                        type: 'text',
-                        placeholder: 'Source name'
-                      }}
-                    >
-                      {Input}
-                    </Field>
-                    <Field
-                      ref={(c) => { if (c) FORM_ELEMENTS.elements.sourceUrl = c; }}
-                      onChange={value => this.handleChange({ sourceUrl: value })}
-                      properties={{
-                        title: 'sourceUrl',
-                        label: 'Source URL',
-                        type: 'text',
-                        placeholder: 'Paste a URL here'
-                      }}
-                    >
-                      {Input}
-                    </Field>
-                  </div>
-                </fieldset>
-                <div className="buttons-container">
-                  <Button
-                    properties={{
-                      type: 'submit',
-                      disabled: submitting,
-                      className: '-a'
-                    }}
-                  >
-                    Save
-                  </Button>
                 </div>
-              </form>
-            </div>
-          }
-          {error &&
-          <div className="error-container">
-            { `
-              There's a problem with this dataset and it can't be used to create widgets.
-              Please choose a different dataset from the selector above.
-            ` }
+              </fieldset>
+              <div className="buttons-container">
+                <Button
+                  properties={{
+                    type: 'submit',
+                    disabled: submitting,
+                    className: '-a'
+                  }}
+                >
+                  Save
+                </Button>
+              </div>
+            </form>
           </div>
-          }
         </div>
         }
       </div>
