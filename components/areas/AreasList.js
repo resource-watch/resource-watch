@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 
 // Services
 import UserService from 'services/UserService';
+import DatasetService from 'services/DatasetService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -88,13 +89,32 @@ class AreasList extends React.Component {
 
   mergeSubscriptionsIntoAreas() {
     const { areas, subscriptionsToAReas } = this.state;
-    subscriptionsToAReas.forEach((subscription) => {
-      const tempArea = areas.find(val => val.id === subscription.attributes.params.area);
-      if (tempArea) {
-        tempArea.subscription = subscription;
-      }
-    });
-    this.setState({ areas, areasMerged: true });
+
+    // Get datasets used in subscriptions
+    const datasetsSet = new Set();
+    subscriptionsToAReas.forEach(subscription =>
+      subscription.attributes.datasets.forEach(dataset => datasetsSet.add(dataset)));
+    // Fetch data for the datasets needed
+
+    DatasetService.getDatasets([...datasetsSet])
+      .then((data) => {
+        const datasetsWithLabels = data.map(elem => ({ id: elem.id, label: elem.attributes.name }));
+
+        // Merge datasets with labels inside of subscriptions
+        subscriptionsToAReas.forEach((subscription) => {
+          subscription.attributes.datasets = subscription.attributes.datasets
+            .map(val => datasetsWithLabels.find(elem => elem.id === val));
+        });
+
+        // Load datasets info
+        subscriptionsToAReas.forEach((subscription) => {
+          const tempArea = areas.find(val => val.id === subscription.attributes.params.area);
+          if (tempArea) {
+            tempArea.subscription = subscription;
+          }
+        });
+        this.setState({ areas, areasMerged: true });
+      });
   }
 
   @Autobind

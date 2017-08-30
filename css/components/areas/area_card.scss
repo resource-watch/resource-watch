@@ -32,6 +32,11 @@
         padding: 5px;
         background-color: $color-pale-grey;
 
+        .dataset-element {
+          display: flex;
+          justify-content: space-between;
+        }
+
         .subscription-actions {
           display: flex;
           justify-content: flex-end;

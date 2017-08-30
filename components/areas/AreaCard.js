@@ -158,7 +158,7 @@ class AreaCard extends React.Component {
   }
 
   render() {
-    const { loading, layerGroups } = this.state;
+    const { loading, layerGroups, datasetsLoaded } = this.state;
     const { area } = this.props;
     const name = area.attributes.name;
     const subscription = area.subscription;
@@ -183,9 +183,24 @@ class AreaCard extends React.Component {
             </div>
             <div className="subscriptions-container">
               <h4>Subscriptions</h4>
-              <div className="datasets-container">
-
-              </div>
+              {subscription &&
+                <div className="datasets-container">
+                  <h5>Datasets</h5>
+                  <div className="datasets-list">
+                    {subscription.attributes.datasets.map(datasetObj =>
+                      (<div className="dataset-element">
+                        <div className="dataset-name">
+                          {datasetObj.label}
+                        </div>
+                        <div className="dataset-subscription-type">
+                          {subscription.attributes.datasetsQuery
+                            .find(elem => elem.id === datasetObj.id).type}
+                        </div>
+                      </div>)
+                    )}
+                  </div>
+                </div>
+              }
               <div className="subscription-actions">
                 {subscription &&
                   <a
