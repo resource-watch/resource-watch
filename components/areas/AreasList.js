@@ -79,7 +79,10 @@ class AreasList extends React.Component {
   mergeSubscriptionsIntoAreas() {
     const { areas, subscriptionsToAReas } = this.state;
     subscriptionsToAReas.forEach((subscription) => {
-      areas.find(val => val.id === subscription.attributes.params.area).subscription = subscription;
+      const tempArea = areas.find(val => val.id === subscription.attributes.params.area);
+      if (tempArea) {
+        tempArea.subscription = subscription;
+      }
     });
     this.setState({ areas, areasMerged: true });
   }
