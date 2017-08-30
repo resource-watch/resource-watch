@@ -9,8 +9,11 @@ import OneDScatterChart from 'utils/widgets/1d_scatter';
 import OneDTickChart from 'utils/widgets/1d_tick';
 import ScatterChart from 'utils/widgets/scatter';
 
-// utils
+// Utils
 import getQueryByFilters from 'utils/getQueryByFilters';
+
+// Services
+import RasterService from 'services/RasterService';
 
 const CHART_TYPES = {
   bar: BarChart,
@@ -102,19 +105,35 @@ export function getChartType(type) {
   return CHART_TYPES[type];
 }
 
+/**
+ * Return whether the chart/map can be rendered according to the
+ * state of the WidgetEditor in the store
+ * @export
+ * @param {object} widgetEditor - Store's state of the WidgetEditor
+ * @returns {boolean}
+ */
 export function canRenderChart(widgetEditor) {
-  const { category, value, chartType } = widgetEditor;
+  const { visualizationType, category, value, chartType, band, layer } = widgetEditor;
 
-  return !!(chartType
-    && category
-    && category.name
-    && (
-      (isBidimensionalChart(widgetEditor.chartType)
-        && value
-        && value.name
+  const chart = visualizationType === 'chart'
+    && !!(chartType
+      && category
+      && category.name
+      && (
+        (isBidimensionalChart(widgetEditor.chartType)
+          && value
+          && value.name
+        )
+        || !isBidimensionalChart(widgetEditor.chartType)
       )
-      || !isBidimensionalChart(widgetEditor.chartType)
-    ));
+    );
+
+  const rasterChart = visualizationType === 'raster_chart' && !!band;
+
+  const map = visualizationType === 'map' && !!layer;
+
+  // Standard chart
+  return chart || rasterChart || map;
 }
 
 /**
@@ -127,6 +146,9 @@ export function canRenderChart(widgetEditor) {
  * @returns
  */
 export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor) {
+  // If the dataset is a raster one, the chart info is always the same
+  if (datasetType === 'raster') return RasterService.getChartInfo();
+
   const {
     chartType,
     limit,
@@ -352,7 +374,7 @@ export function getTimeFormat(data) {
 /**
  * Parse and return the data of a raster band
  * @export
- * @param {any[]} data - Raw data of tha band
+ * @param {any[]} data - Raw data of the band
  * @param {string} band - Name of the band
  * @param {string} provider - Name of the provider
  * @returns {object[]}
@@ -442,8 +464,25 @@ export async function getChartConfig(
     },
     data,
     embedData,
-    url
+    url,
+    provider,
+    band
   });
+}
+
+/**
+ * Fetch the data of a raster dataset and return the parsed data
+ * @export
+ * @param {string} url - URL of the data
+ * @param {string} band - Band name
+ * @param {string} provider - Dataset provider
+ * @returns  
+ */
+export async function fetchRasterData(url, band, provider) {
+  // We fetch the data to have clever charts
+  const data = await fetchData(url);
+
+  return parseRasterData(data, band, provider);
 }
 
 // TOOLTIP & LEGEND

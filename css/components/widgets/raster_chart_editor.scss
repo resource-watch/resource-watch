@@ -1,12 +1,31 @@
 .c-raster-chart-editor {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-direction: column;
+  height: 360px; // Kinda ugly, used to have the buttons at the bottom
   margin-top: 20px;
+
+  .content {
+    flex-grow: 1;
+
+    h5 {
+      margin: 0 0 5px;
+    }
+
+    .Select {
+      max-width: none;
+    }
+  }
 
   .error {
     span {
       font-weight: $font-weight-bold;
     }
+  }
+
+  .buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
   }
 }

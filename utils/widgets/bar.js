@@ -158,9 +158,9 @@ const defaultChart = {
  * Return the Vega chart configuration
  *
  * @export
- * @param {any} { columns, data, url, embedData  }
+ * @param {any} { columns, data, url, embedData, provider, band }
  */
-export default function ({ columns, data, url, embedData  }) {
+export default function ({ columns, data, url, embedData, provider, band  }) {
   const config = deepClone(defaultChart);
 
   if (embedData) {
@@ -173,6 +173,13 @@ export default function ({ columns, data, url, embedData  }) {
       "type": "json",
       "property": "data"
     };
+
+    // If the dataset is a raster one, we save the provider and the
+    // band in the config so we can later re-render the chart
+    // correctly (we need the info to parse the data)
+    if (provider && band) {
+      config.data[0].format = { provider, band };
+    }
   }
 
   // We add the name of the axis

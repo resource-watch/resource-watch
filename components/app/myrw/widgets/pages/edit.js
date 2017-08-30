@@ -6,12 +6,25 @@ import { toastr } from 'react-redux-toastr';
 // Redux
 import { connect } from 'react-redux';
 
-import { setFilters, setColor, setCategory, setValue, setSize, setOrderBy,
-  setAggregateFunction, setLimit, setChartType } from 'redactions/widgetEditor';
+import {
+  setFilters,
+  setColor,
+  setCategory,
+  setValue,
+  setSize,
+  setOrderBy,
+  setAggregateFunction,
+  setLimit,
+  setChartType,
+  setBand,
+  setVisualizationType,
+  setLayer
+} from 'redactions/widgetEditor';
 
 // Services
 import WidgetService from 'services/WidgetService';
 import DatasetService from 'services/DatasetService';
+import LayersService from 'services/LayersService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -78,41 +91,57 @@ class WidgetsEdit extends React.Component {
 
   @Autobind
   async onSubmit(event) {
-    if (event) {
-      event.preventDefault();
-    }
+    if (event) event.preventDefault();
 
-    this.setState({
-      loading: true
-    });
+    this.setState({ loading: true });
+
     const { widget } = this.state;
     const widgetAtts = widget.attributes;
     const dataset = widgetAtts.dataset;
     const { widgetEditor, user } = this.props;
-    const { limit, value, category, color, size, orderBy, aggregateFunction,
-      chartType, filters, areaIntersection } = widgetEditor;
+    const {
+      visualizationType,
+      band,
+      limit,
+      value,
+      category,
+      color,
+      size,
+      orderBy,
+      aggregateFunction,
+      chartType,
+      filters,
+      areaIntersection,
+      layer
+    } = widgetEditor;
     const { type, provider, tableName } = this.state.dataset.attributes;
 
-    const chartInfo = getChartInfo(dataset, type, provider, widgetEditor);
 
     let chartConfig;
-    try {
-      chartConfig = await getChartConfig(
-        dataset,
-        type,
-        tableName,
-        null,
-        provider,
-        chartInfo
-      );
-    } catch (err) {
-      this.setState({
-        saved: false,
-        error: true,
-        errorMessage: 'Unable to generate the configuration of the chart'
-      });
 
-      return;
+    // If the visualization if a map, we don't have any chartConfig
+    if (visualizationType !== 'map') {
+      const chartInfo = getChartInfo(dataset, type, provider, widgetEditor);
+
+      try {
+        chartConfig = await getChartConfig(
+          dataset,
+          type,
+          tableName,
+          band,
+          provider,
+          chartInfo
+        );
+      } catch (err) {
+        this.setState({
+          saved: false,
+          error: true,
+          loading: false,
+          errorMessage: 'Unable to generate the configuration of the chart'
+        });
+
+        return;
+      }
     }
 
     const widgetConfig = {
@@ -120,6 +149,8 @@ class WidgetsEdit extends React.Component {
         {},
         {
           paramsConfig: {
+            visualizationType,
+            band,
             limit,
             value,
             category,
@@ -129,7 +160,8 @@ class WidgetsEdit extends React.Component {
             aggregateFunction,
             chartType,
             filters,
-            areaIntersection
+            areaIntersection,
+            layer: layer && layer.id
           }
         },
         chartConfig
@@ -172,15 +204,33 @@ class WidgetsEdit extends React.Component {
       }).catch((err) => {
         this.setState({
           saved: false,
-          error: true
+          error: true,
+          loading: false
         });
         toastr.error('Error', err);
       });
   }
 
+  /**
+   * Event handler executed when the user clicks the "Save widget"
+   * button of the widget editor
+   * 
+   */
+  @Autobind
+  onUpdateWidget() {
+    // We can't directly call this.onSubmit otherwise the form won't be
+    // validated. We can't execute this.form.submit either because the
+    // validation is not always triggered (see MDN). One solution is as
+    // following: simulating a click on the submit button to trigger the
+    // validation and eventually save the changes
+    if (this.form) this.form.querySelector('button[type="submit"]').click();
+  }
+
   loadWidgetIntoRedux() {
     const { paramsConfig } = this.state.widget.attributes.widgetConfig;
     const {
+      visualizationType,
+      band,
       value,
       category,
       color,
@@ -189,9 +239,17 @@ class WidgetsEdit extends React.Component {
       orderBy,
       filters,
       limit,
-      chartType
+      chartType,
+      layer
     } = paramsConfig;
 
+    // We restore the type of visualization
+    // We default to "chart" to maintain the compatibility with previously created
+    // widgets (at that time, only "chart" widgets could be created)
+    this.props.setVisualizationType(visualizationType || 'chart');
+
+    if (band) this.props.setBand(band);
+    if (layer) this.props.setLayer(layer);
     if (aggregateFunction) this.props.setAggregateFunction(aggregateFunction);
     if (value) this.props.setValue(value);
     if (size) this.props.setSize(size);
@@ -225,14 +283,12 @@ class WidgetsEdit extends React.Component {
           <WidgetEditor
             widget={widget}
             dataset={widget.attributes.dataset}
-            availableVisualizations={['chart', 'table']}
             mode="widget"
-            onUpdateWidget={this.onSubmit}
+            onUpdateWidget={this.onUpdateWidget}
             showSaveButton
-            showShareEmbedButton={false}
           />
           <div className="form-container">
-            <form className="form-container" onSubmit={this.onSubmit}>
+            <form ref={(node) => { this.form = node; }} className="form-container" onSubmit={this.onSubmit}>
               <fieldset className="c-field-container">
                 <Field
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
@@ -337,7 +393,10 @@ WidgetsEdit.propTypes = {
   setOrderBy: PropTypes.func.isRequired,
   setAggregateFunction: PropTypes.func.isRequired,
   setLimit: PropTypes.func.isRequired,
-  setChartType: PropTypes.func.isRequired
+  setChartType: PropTypes.func.isRequired,
+  setVisualizationType: PropTypes.func.isRequired,
+  setBand: PropTypes.func.isRequired,
+  setLayer: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -346,32 +405,23 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setFilters: (filter) => {
-    dispatch(setFilters(filter));
-  },
-  setColor: (color) => {
-    dispatch(setColor(color));
-  },
-  setSize: (size) => {
-    dispatch(setSize(size));
-  },
-  setCategory: (category) => {
-    dispatch(setCategory(category));
-  },
-  setValue: (value) => {
-    dispatch(setValue(value));
-  },
-  setOrderBy: (value) => {
-    dispatch(setOrderBy(value));
-  },
-  setAggregateFunction: (value) => {
-    dispatch(setAggregateFunction(value));
-  },
-  setLimit: (value) => {
-    dispatch(setLimit(value));
-  },
-  setChartType: (value) => {
-    dispatch(setChartType(value));
+  setFilters: filter => dispatch(setFilters(filter)),
+  setColor: color => dispatch(setColor(color)),
+  setSize: size => dispatch(setSize(size)),
+  setCategory: category => dispatch(setCategory(category)),
+  setValue: value => dispatch(setValue(value)),
+  setOrderBy: value => dispatch(setOrderBy(value)),
+  setAggregateFunction: value => dispatch(setAggregateFunction(value)),
+  setLimit: value => dispatch(setLimit(value)),
+  setChartType: value => dispatch(setChartType(value)),
+  setVisualizationType: vis => dispatch(setVisualizationType(vis)),
+  setBand: band => dispatch(setBand(band)),
+  setLayer: (layerId) => {
+    new LayersService()
+      .fetchData({ id: layerId })
+      .then(layer => dispatch(setLayer(layer)))
+      // TODO: better handling of the error
+      .catch(err => console.error(err));
   }
 });
 

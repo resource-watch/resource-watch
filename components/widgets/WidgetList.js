@@ -7,7 +7,6 @@ import Spinner from 'components/ui/Spinner';
 import WidgetCard from 'components/widgets/WidgetCard';
 
 export default class WidgetList extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -69,7 +68,6 @@ export default class WidgetList extends React.Component {
             >
               <WidgetCard
                 widget={widget}
-                onClick={this.triggerClick}
                 onWidgetRemove={this.handleWidgetRemoved}
                 onWidgetUnfavourited={this.handleWidgetUnfavourited}
                 showActions={showActions}

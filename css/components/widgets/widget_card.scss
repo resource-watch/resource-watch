@@ -9,15 +9,22 @@
   border: 1px solid rgba(26,28,34,0.1);
   border-radius: 4px;
 
+  > a {
+    // This rule prevent the textual widget to get
+    // an underlined when hovered in My RW > Widgets
+    // (you can try starring a widget)
+    &:hover { text-decoration: none; }
+  }
+
   .widget-collections {
     display: flex;
     justify-content: flex-start;
+    padding: 6px 15px;
 
-    a {
-      text-decoration: none;
+    button {
       cursor: pointer;
-      margin-left: 10px;
-      margin-top: 5px;
+      margin: 0;
+      padding: 0;
       font-size: $font-size-small;
       color: $color-dark-grey;
     }
@@ -45,7 +52,7 @@
     padding: 16px;
 
     .detail {
-      margin-bottom: 10px;
+      margin-bottom: 20px;
 
       a {
         text-decoration: none;
@@ -53,8 +60,10 @@
       }
 
       p {
-        margin-top: 20px 0 0;
+        margin: 10px 0 0;
         word-break: break-word;
+        font-size: $font-size-normal;
+        color: $ui-font-color;
       }
     }
 
@@ -63,15 +72,9 @@
       justify-content: space-between;
       height: 30px;
 
-      a {
-        color: $color-dark-pink;
-        padding: 0px;
-        vertical-align: middle;
-
-        &.widget-actions {
-          padding: 4px;
-          border: 1px solid $color-dark-pink;
-        }
+      .c-button {
+        height: 30px;
+        padding: 0 10px;
       }
     }
   }

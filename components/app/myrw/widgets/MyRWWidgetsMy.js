@@ -18,7 +18,6 @@ import Icon from 'components/ui/Icon';
 import CustomSelect from 'components/ui/CustomSelect';
 
 class MyRWWidgetsMy extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -62,12 +61,12 @@ class MyRWWidgetsMy extends React.Component {
       myWidgetsLoaded: false
     });
     this.widgetService.getUserWidgets(this.props.user.id, true, orderDirection, 'vocabulary')
-    .then((response) => {
-      this.setState({
-        myWidgetsLoaded: true,
-        myWidgets: response
-      });
-    }).catch(err => console.log(err)); // eslint-disable-line no-console
+      .then((response) => {
+        this.setState({
+          myWidgetsLoaded: true,
+          myWidgets: response
+        });
+      }).catch(err => console.log(err)); // eslint-disable-line no-console
   }
 
   @Autobind
@@ -113,12 +112,14 @@ class MyRWWidgetsMy extends React.Component {
       widgetCollections
         .map(val => val.tags)
         .forEach(val => val.forEach(val2 => widgetCollectionOptionsSet.add(val2)));
+
       widgetCollectionOptionsArray = widgetCollectionOptionsArray.concat(
         Array.from(widgetCollectionOptionsSet)
-        .map((val) => {
-          const newVal = val.replace(`${user.id}-`, '');
-          return { label: newVal, value: newVal };
-        }));
+          .map((val) => {
+            const newVal = val.replace(`${user.id}-`, '');
+            return { label: newVal, value: newVal };
+          })
+      );
     }
 
     let widgetsFiltered = [];
@@ -127,8 +128,10 @@ class MyRWWidgetsMy extends React.Component {
     } else {
       widgetsFiltered = myWidgets && myWidgets.filter((widget) => {
         const vocabulary = widget.attributes.vocabulary;
+
         if (vocabulary && vocabulary.length > 0) {
           const widgetCollectionsVoc = vocabulary.find(voc => voc.id === 'widget_collections');
+
           if (widgetCollectionsVoc) {
             let found = false;
             widgetCollectionsVoc.attributes.tags.forEach((tag) => {
@@ -137,10 +140,13 @@ class MyRWWidgetsMy extends React.Component {
                 found = true;
               }
             });
+
             return found;
           }
+
           return false;
         }
+
         return false;
       });
     }

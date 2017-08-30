@@ -86,6 +86,34 @@
         }
       }
     }
+
+    // Share button of the map
+    .share-button {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      top: 90px;
+      right: 30px;
+      width: 30px;
+      height: 30px;
+      background-color: $color-white;
+      border-radius: 3px;
+      cursor: pointer;
+      z-index: 999;
+
+      &:hover {
+        background-color: mix($dark-pink, $color-white, 5%);
+      }
+
+      a {
+        color: $color-white;
+      }
+
+      svg {
+        fill: $color-black;
+      }
+    }
   }
 
   // We want the visualisation and the editor to be at the same level
