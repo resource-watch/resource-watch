@@ -44,6 +44,7 @@ import Legend from 'components/ui/Legend';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
 import SearchInput from 'components/ui/SearchInput';
+import FiltersResume from 'components/app/explore/FiltersResume';
 
 // Layout
 import Page from 'components/app/layout/Page';
@@ -343,7 +344,7 @@ class Explore extends Page {
 
   render() {
     const { explore, paginatedDatasets } = this.props;
-    const { search } = explore.filters;
+    const { search, topics, geographies, dataType } = explore.filters;
 
     return (
       <Layout
@@ -358,8 +359,6 @@ class Explore extends Page {
               <div className="row collapse">
                 <div className="column small-12">
                   <h1>Explore</h1>
-                
-                    
                   <div className="search-container">
                     <SearchInput
                       onSearch={this.handleFilterDatasetsSearch}
@@ -382,6 +381,11 @@ class Explore extends Page {
                         </div>
                       </div>
                   </div>
+                  <FiltersResume
+                    topics={topics || []}
+                    geographies={geographies || []}
+                    types={dataType || []}
+                  />
                   <DatasetListHeader
                     list={explore.datasets.list}
                     mode={explore.datasets.mode}
@@ -414,7 +418,7 @@ class Explore extends Page {
                     }}
                   />
                     </div>
-                </div>   
+                </div>
             </Sidebar>
             <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
               <div className="l-map">
