@@ -77,7 +77,8 @@ class AreaSubscriptionModal extends React.Component {
           })
           .catch(err => toastr.error('Error creating the subscription', err));
       } else if (mode === 'edit') {
-        this.userService.updateSubscriptionToArea(area.id, datasets, datasetsQuery, user)
+        this.userService.updateSubscriptionToArea(area.subscription.id, datasets,
+          datasetsQuery, user)
           .then(() => {
             toastr.success('Success!', 'Subscription updated successfully');
             this.props.toggleModal(false);
