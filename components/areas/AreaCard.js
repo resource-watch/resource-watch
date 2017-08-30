@@ -183,8 +183,6 @@ class AreaCard extends React.Component {
     const name = area.attributes.name;
     const subscription = area.subscription;
 
-    console.log('subscription', subscription);
-
     return (
       <div className="c-area-card">
         <div className="border-container">
@@ -207,8 +205,11 @@ class AreaCard extends React.Component {
                 <div className="datasets-container">
                   <h5>Datasets</h5>
                   <div className="datasets-list">
-                    {subscription.attributes.datasets.map(datasetObj =>
-                      (<div className="dataset-element">
+                    {subscription.attributes.datasets.map((datasetObj, index) =>
+                      (<div
+                        className="dataset-element"
+                        key={`${datasetObj}-${index}`} // eslint-disable-line
+                      >
                         <div className="dataset-name">
                           {datasetObj.label}
                         </div>
