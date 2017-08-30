@@ -223,7 +223,7 @@ class AreaCard extends React.Component {
               }
               <div className="subscription-actions">
                 {subscription &&
-                  <div>
+                  <div className="subscription-buttons">
                     <a
                       tabIndex={-1}
                       role="button"

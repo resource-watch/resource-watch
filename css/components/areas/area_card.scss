@@ -44,6 +44,12 @@
             color: $color-dark-pink;
             cursor: pointer;
           }
+
+          .subscription-buttons {
+            *:last-child {
+              margin-left: 10px;
+            }
+          }
         }
       }
 
