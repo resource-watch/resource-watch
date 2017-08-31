@@ -6,7 +6,6 @@ import { Router } from 'routes';
 // Redux
 import { connect } from 'react-redux';
 
-
 // Services
 import WidgetService from 'services/WidgetService';
 
@@ -44,14 +43,15 @@ class DatasetWidgets extends React.Component {
 
   loadWidgets() {
     const { orderDirection } = this.state;
+    const { dataset } = this.props;
     this.setState({
       widgetsLoaded: false
     });
-    this.widgetService.getUserWidgets(this.props.user.id, true, orderDirection, 'vocabulary')
+    this.widgetService.getUserWidgets(this.props.user.id, true, orderDirection)
       .then((response) => {
         this.setState({
-          warnidgetsLoaded: true,
-          widgets: response
+          widgetsLoaded: true,
+          widgets: response.filter(widget => widget.attributes.dataset === dataset)
         });
       }).catch(err => console.log(err)); // eslint-disable-line no-console
   }
@@ -77,6 +77,7 @@ class DatasetWidgets extends React.Component {
       mode,
       orderDirection
     } = this.state;
+    const { dataset } = this.props;
 
     return (
       <div className="c-dataset-widgets">
@@ -86,7 +87,7 @@ class DatasetWidgets extends React.Component {
               <div className="left-container">
                 <button
                   className="c-btn -a"
-                  onClick={() => Router.pushRoute('myrw_detail', { tab: 'widgets', id: 'new' })}
+                  onClick={() => Router.pushRoute('myrw_detail', { tab: 'widgets', id: 'new', datasetId: dataset })}
                 >
                   New widget
                 </button>
@@ -141,7 +142,7 @@ class DatasetWidgets extends React.Component {
             }
             {widgets && widgets.length === 0 &&
             <div className="no-widgets-div">
-              You currently have no widgets
+              This dataset has no widgets yet
             </div>
             }
           </div>
@@ -152,6 +153,7 @@ class DatasetWidgets extends React.Component {
 }
 
 DatasetWidgets.propTypes = {
+  dataset: PropTypes.string.isRequired,
   // Store
   user: PropTypes.object.isRequired
 };

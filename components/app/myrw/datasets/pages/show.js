@@ -37,7 +37,6 @@ const DATASET_SUBTABS = [{
 }];
 
 class DatasetsShow extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -116,8 +115,9 @@ class DatasetsShow extends React.Component {
                 />
               }
 
-              {subtab === 'widgets' &&
+              {subtab === 'widgets' && data.id &&
                 <DatasetWidgets
+                  dataset={data.id}
                 />
               }
             </div>
