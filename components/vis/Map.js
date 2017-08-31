@@ -72,7 +72,6 @@ class Map extends React.Component {
       const layers = this.props.layerGroups
         .filter(l => l.visible)
         .map(l => l.layers.find(la => la.active));
-
       this.addLayers(layers, this.props.filters);
     });
   }

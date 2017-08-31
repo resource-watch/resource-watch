@@ -1,0 +1,23 @@
+.c-area-subscription-modal {
+
+  .new-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+
+  .datasets-container {
+    .c-subscription-selector {
+      margin-bottom: 10px;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+
+    button:last-of-type {
+      margin-left: 10px;
+    }
+  }
+}
