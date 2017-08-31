@@ -34,7 +34,7 @@
 
         .datasets-list {
           max-height: 80px;
-          
+
           .dataset-element {
             display: flex;
             justify-content: space-between;
@@ -43,17 +43,27 @@
 
         .subscription-actions {
           display: flex;
-          justify-content: flex-end;
-          a {
-            color: $color-dark-pink;
-            cursor: pointer;
-          }
-
+          justify-content: space-between;
+          
           .subscription-buttons {
             *:last-child {
               margin-left: 10px;
             }
           }
+
+          .pending-label {
+            color: $color-blue-turquoise;
+          }
+        }
+
+        .new-subscription-container {
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        a {
+          color: $color-dark-pink;
+          cursor: pointer;
         }
       }
 

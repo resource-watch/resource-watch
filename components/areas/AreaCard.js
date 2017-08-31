@@ -215,6 +215,7 @@ class AreaCard extends React.Component {
     const { area } = this.props;
     const name = area.attributes.name;
     const subscription = area.subscription;
+    const subscriptionConfirmed = area.subscription && area.subscription.attributes.confirmed;
 
     return (
       <div className="c-area-card">
@@ -255,26 +256,42 @@ class AreaCard extends React.Component {
                   </div>
                 </div>
               }
-              <div className="subscription-actions">
-                {subscription &&
+              {subscription &&
+                <div className="subscription-actions">
+                  <div className="status-labels-container">
+                    <div className="status-label">
+                      {subscriptionConfirmed &&
+                      <div className="confirmed-label">
+                            Confirmed
+                      </div>
+                      }
+                      {!subscriptionConfirmed &&
+                      <div className="pending-label">
+                            Pending
+                      </div>
+                      }
+                    </div>
+                  </div>
                   <div className="subscription-buttons">
                     <a
                       tabIndex={-1}
                       role="button"
                       onClick={this.handleRemoveSubscription}
                     >
-                      Delete
+                        Delete
                     </a>
                     <a
                       tabIndex={-1}
                       role="button"
                       onClick={this.handleEditSubscription}
                     >
-                      Edit
+                        Edit
                     </a>
                   </div>
-                }
-                {!subscription &&
+                </div>
+              }
+              {!subscription &&
+                <div className="new-subscription-container">
                   <a
                     tabIndex={-1}
                     role="button"
@@ -282,8 +299,8 @@ class AreaCard extends React.Component {
                   >
                     New
                   </a>
-                }
-              </div>
+                </div>
+              }
             </div>
             <div className="actions-div">
               <a
