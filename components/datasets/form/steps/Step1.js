@@ -345,6 +345,7 @@ class Step1 extends React.Component {
               type: 'text',
               placeholder: 'Paste a URL here or browse file',
               authorization: this.state.form.authorization,
+              provider: this.state.form.provider,
               default: this.state.form.connectorUrl,
               disabled: !!this.state.dataset,
               required: true

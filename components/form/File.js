@@ -116,6 +116,7 @@ class File extends FormElement {
   uploadFile(file) {
     const formData = new FormData();
     formData.append('dataset', file);
+    formData.append('provider', this.props.provider);
 
     this.setState({ loading: true, errors: [] });
 
