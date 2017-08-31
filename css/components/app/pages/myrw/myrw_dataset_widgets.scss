@@ -1,0 +1,59 @@
+.c-dataset-widgets {
+ .list-actions {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+
+   .left-container {
+     display: flex;
+
+     button {
+       margin-right: 10px;
+     }
+   }
+
+   .buttons-container {
+     display: flex;
+     align-items: center;
+
+     .last-modified-container {
+       display: flex;
+       align-items: center;
+       cursor: pointer;
+       min-width: 120px;
+
+       svg {
+         margin-left: 5px;
+         fill: $color-grey;
+       }
+     }
+
+     .mode-buttons {
+       display: flex;
+       align-items: center;
+       min-width: 70px;
+
+       button {
+         cursor: pointer;
+         fill: $color-grey;
+         padding-top: 0px;
+         padding-bottom: 0px;
+
+         &.-active {
+           fill: $color-black;
+         }
+       }
+     }
+   }
+ }
+
+ .no-widgets-div {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
+
+ .list {
+   padding: 0px;
+ }
+}

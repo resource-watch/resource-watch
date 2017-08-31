@@ -45,13 +45,13 @@ class DatasetWidgets extends React.Component {
   loadWidgets() {
     const { orderDirection } = this.state;
     this.setState({
-      myWidgetsLoaded: false
+      widgetsLoaded: false
     });
     this.widgetService.getUserWidgets(this.props.user.id, true, orderDirection, 'vocabulary')
       .then((response) => {
         this.setState({
-          myWidgetsLoaded: true,
-          myWidgets: response
+          warnidgetsLoaded: true,
+          widgets: response
         });
       }).catch(err => console.log(err)); // eslint-disable-line no-console
   }
@@ -79,7 +79,7 @@ class DatasetWidgets extends React.Component {
     } = this.state;
 
     return (
-      <div className="c-myrw-widgets-my">
+      <div className="c-dataset-widgets">
         <div className="row">
           <div className="column small-12">
             <div className="list-actions">
@@ -127,10 +127,10 @@ class DatasetWidgets extends React.Component {
               </div>
             </div>
             <Spinner
-              isLoading={!myWidgetsLoaded}
+              isLoading={!widgetsLoaded}
               className="-fixed -light"
             />
-            {myWidgets &&
+            {widgets &&
             <WidgetList
               widgets={widgets}
               mode={mode}
@@ -139,7 +139,7 @@ class DatasetWidgets extends React.Component {
               showRemove
             />
             }
-            {myWidgets && myWidgets.length === 0 &&
+            {widgets && widgets.length === 0 &&
             <div className="no-widgets-div">
               You currently have no widgets
             </div>
