@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Router } from 'routes';
 import { Autobind } from 'es-decorators';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
@@ -37,6 +38,7 @@ class SubscribeToDatasetModal extends React.Component {
     this.state = {
       areaOptions: [],
       loadingAreaOptions: false,
+      loadingUserAreas: false,
       selectedArea: null,
       selectedType: null,
       loading: false,
@@ -53,6 +55,7 @@ class SubscribeToDatasetModal extends React.Component {
 
   componentDidMount() {
     this.loadAreas();
+    this.loadUserAreas();
   }
 
   componentDidUpdate(previousProps, previousState) {
@@ -106,8 +109,9 @@ class SubscribeToDatasetModal extends React.Component {
   @Autobind
   onUploadArea(id) {
     // We tell the selector an area has been uploaded
-    if (this.activePromiseResolve) this.activePromiseResolve(true);
-    
+    if (this.activePromiseResolve) {
+      this.activePromiseResolve(true);
+    }
     this.setState({ selectedArea: id });
   }
 
@@ -129,15 +133,42 @@ class SubscribeToDatasetModal extends React.Component {
       this.setState({
         loading: true
       });
-      const areaObj = geostore ? { type: 'geostore', id: geostore } : { type: 'iso', id: selectedArea.value };
-      this.userService.createSubscriptionToDataset(dataset.id, selectedType.value, areaObj, user, name) //eslint-disable-line
-        .then(() => {
-          this.setState({
-            loading: false,
-            saved: true
+
+      // Check first if there already exists a subscription for the same area
+      this.userService.getSubscriptions(user.token)
+        .then((data) => {
+          let areaFound = false;
+          data.forEach((subscription) => {
+            const params = subscription.attributes.params;
+            if (params.area && selectedArea.areaID && params.area === selectedArea.areaID) {
+              areaFound = true;
+            }
           });
+          if (areaFound) {
+            toastr.confirm(`There already exist a subscription for the selected area.
+              Do you want to update it on MyRW? `, {
+                onOk: () => {
+                  Router.pushRoute('myrw', { tab: 'areas' });
+                }
+              });
+          } else {
+            const areaObj = geostore ? { type: 'geostore', id: geostore } : { type: 'iso', id: selectedArea.value };
+            this.userService.createSubscriptionToDataset(dataset.id, selectedType.value, areaObj, user, name) //eslint-disable-line
+              .then(() => {
+                this.setState({
+                  loading: false,
+                  saved: true
+                });
+              })
+              .catch(err => this.setState({ error: err, loading: false }));
+          }
         })
-        .catch(err => this.setState({ error: err, loading: false }));
+        .catch((err) => {
+          this.setState({ loading: false });
+          toastr.error('Error creating the subscription', err);
+        });
+    } else {
+      toastr.error('Data missing', 'Please select an area and a subscription type');
     }
   }
 
@@ -163,10 +194,34 @@ class SubscribeToDatasetModal extends React.Component {
     });
     this.areasService.fetchCountries().then((response) => {
       this.setState({
-        areaOptions: [...AREAS, ...response.data],
+        areaOptions: [...this.state.areaOptions, ...AREAS, ...response.data],
         loadingAreaOptions: false
       });
     });
+  }
+
+  /**
+   * Fetchs the user areas
+   */
+  loadUserAreas() {
+    this.setState({ loadingUserAreas: true });
+    this.userService.getUserAreas(this.props.user.token)
+      .then((response) => {
+        const userAreas = response.map(val => ({
+          label: val.attributes.name,
+          value: val.attributes.geostore ? val.attributes.geostore : val.attributes.iso.country,
+          isGeostore: val.attributes.geostore,
+          areaID: val.id
+        }));
+        this.setState({
+          loadingUserAreas: false,
+          areaOptions: [...this.state.areaOptions, ...userAreas]
+        });
+      })
+      .catch((err) => {
+        this.setState({ loadingUserAreas: false });
+        toastr.error('Error loading user areas', err);
+      });
   }
 
   loadDatasets() {
