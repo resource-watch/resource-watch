@@ -18,15 +18,8 @@ import UploadAreaIntersectionModal from 'components/modal/UploadAreaIntersection
 
 const AREAS = [
   {
-    label: 'Custom area',
-    value: 'custom',
-    items: [
-      {
-        label: 'Upload new area',
-        value: 'upload',
-        as: 'Custom area'
-      }
-    ]
+    label: 'Create new area',
+    value: 'new_area'
   }
 ];
 
@@ -54,7 +47,7 @@ class SubscribeToDatasetModal extends React.Component {
   }
 
   componentDidMount() {
-    this.loadAreas();
+    // this.loadAreas();
     this.loadUserAreas();
   }
 
@@ -80,6 +73,8 @@ class SubscribeToDatasetModal extends React.Component {
         this.activePromiseResolve = resolve;
 
         this.setState({ uploadArea: true });
+      } else if (value && value.value === 'new_area') {
+        Router.pushRoute('myrw_detail', { tab: 'areas', id: 'new' });
       } else {
         this.setState({
           selectedArea: value,
@@ -188,17 +183,17 @@ class SubscribeToDatasetModal extends React.Component {
     });
   }
 
-  loadAreas() {
-    this.setState({
-      loadingAreaOptions: true
-    });
-    this.areasService.fetchCountries().then((response) => {
-      this.setState({
-        areaOptions: [...this.state.areaOptions, ...AREAS, ...response.data],
-        loadingAreaOptions: false
-      });
-    });
-  }
+  // loadAreas() {
+  //   this.setState({
+  //     loadingAreaOptions: true
+  //   });
+  //   this.areasService.fetchCountries().then((response) => {
+  //     this.setState({
+  //       areaOptions: [...this.state.areaOptions, ...AREAS, ...response.data],
+  //       loadingAreaOptions: false
+  //     });
+  //   });
+  // }
 
   /**
    * Fetchs the user areas
@@ -215,7 +210,7 @@ class SubscribeToDatasetModal extends React.Component {
         }));
         this.setState({
           loadingUserAreas: false,
-          areaOptions: [...this.state.areaOptions, ...userAreas]
+          areaOptions: [...AREAS, ...userAreas]
         });
       })
       .catch((err) => {
