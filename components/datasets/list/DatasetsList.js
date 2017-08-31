@@ -1,6 +1,6 @@
 import React from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
@@ -15,7 +15,6 @@ import SearchInput from 'components/ui/SearchInput';
 import DatasetsListCard from 'components/datasets/list/DatasetsListCard';
 
 class DatasetsList extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -23,18 +22,13 @@ class DatasetsList extends React.Component {
   }
 
   componentDidMount() {
-    const { getDatasetsFilters } = this.props;
-
-    this.props.setFilters([]);
-    this.props.getDatasets({
-      includes: 'widget,layer,metadata,vocabulary',
-      filters: getDatasetsFilters
-    });
+    this.loadData();
   }
 
   /**
    * UI EVENTS
    * - onSearch
+   * - handleDatasetRemoved
   */
   onSearch(value) {
     if (!value.length) {
@@ -44,8 +38,23 @@ class DatasetsList extends React.Component {
     }
   }
 
+  loadData() {
+    const { getDatasetsFilters } = this.props;
+
+    this.props.setFilters([]);
+    this.props.getDatasets({
+      includes: 'widget,layer,metadata,vocabulary',
+      filters: getDatasetsFilters
+    });
+  }
+
+  @Autobind
+  handleDatasetRemoved() {
+    this.loadData();
+  }
+
   render() {
-    const { datasets, routes } = this.props;
+    const { datasets, routes, user } = this.props;
 
     return (
       <div className="c-dataset-list">
@@ -72,6 +81,8 @@ class DatasetsList extends React.Component {
               <DatasetsListCard
                 dataset={dataset}
                 routes={routes}
+                token={user.token}
+                onDatasetRemoved={this.handleDatasetRemoved}
               />
             </div>
           ))}

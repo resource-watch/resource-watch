@@ -1,0 +1,12 @@
+.c-datasets-list-card {
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+
+    a {
+      color: $color-dark-pink;
+      text-decoration: none;
+    }
+  }
+}
