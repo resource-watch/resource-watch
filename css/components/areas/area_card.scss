@@ -32,9 +32,13 @@
         padding: 5px;
         background-color: $color-pale-grey;
 
-        .dataset-element {
-          display: flex;
-          justify-content: space-between;
+        .datasets-list {
+          max-height: 80px;
+          
+          .dataset-element {
+            display: flex;
+            justify-content: space-between;
+          }
         }
 
         .subscription-actions {
