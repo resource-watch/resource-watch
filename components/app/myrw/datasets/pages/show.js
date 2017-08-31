@@ -16,7 +16,7 @@ import DatasetsService from 'services/DatasetsService';
 import Aside from 'components/ui/Aside';
 import DatasetsForm from 'components/datasets/form/DatasetsForm';
 import MetadataForm from 'components/admin/metadata/form/MetadataForm';
-import WidgetList from 'components/widgets/WidgetList';
+import DatasetWidgets from 'components/app/myrw/datasets/DatasetWidgets';
 
 // Constants
 const DATASET_SUBTABS = [{
@@ -117,12 +117,7 @@ class DatasetsShow extends React.Component {
               }
 
               {subtab === 'widgets' &&
-                <WidgetList
-                  widgets={data.widget || []}
-                  mode="grid"
-                  // onWidgetRemove={this.handleWidgetRemoved}
-                  showActions
-                  showRemove
+                <DatasetWidgets
                 />
               }
             </div>
