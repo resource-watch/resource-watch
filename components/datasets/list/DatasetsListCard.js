@@ -38,7 +38,7 @@ class DatasetsListCard extends React.Component {
     const { dataset, routes } = this.props;
 
     return (
-      <div className="c-card">
+      <div className="c-card c-datasets-list-card">
         <div className="card-container">
           <header className="card-header">
             <Link
