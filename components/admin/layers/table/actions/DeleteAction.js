@@ -35,8 +35,7 @@ class DeleteAction extends React.Component {
           .catch((err) => {
             toastr.error('Error', `The layer "${data.id}" - "${data.name}" was not deleted. Try again. ${err}`);
           });
-      },
-      onCancel: () => console.info('canceled')
+      }
     });
   }
 
