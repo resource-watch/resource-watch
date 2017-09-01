@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
+import { toastr } from 'react-redux-toastr';
 
 // Service
 import DatasetsService from 'services/DatasetsService';
-import { toastr } from 'react-redux-toastr';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/datasets/form/constants';
 
@@ -50,7 +50,7 @@ class DatasetsForm extends React.Component {
         })
         .catch((err) => {
           this.setState({ loading: false });
-          console.error(err);
+          toastr.error('Error', err);
         });
 
       this.service.fetchFields({ id: this.props.dataset })
@@ -60,7 +60,7 @@ class DatasetsForm extends React.Component {
           });
         })
         .catch((err) => {
-          console.error(err);
+          toastr.error('Error', err);
         });
     }
   }
@@ -120,7 +120,6 @@ class DatasetsForm extends React.Component {
               } catch (e) {
                 toastr.error('Error', 'Oops! There was an error, try again');
               }
-              console.error();
             });
         } else {
           this.setState({

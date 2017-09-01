@@ -226,7 +226,7 @@ class SubscribeToDatasetModal extends React.Component {
         datasets: response.filter(val => val.attributes.subscribable).map(val => (
           { label: val.attributes.name, value: val.attributes.name, id: val.id }))
       });
-    }).catch(err => console.error(err)); // TODO: update the UI
+    }).catch(err => toastr.error(err)); // TODO: update the UI
   }
 
   render() {

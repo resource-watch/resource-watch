@@ -2,6 +2,7 @@ import React from 'react';
 import isEmpty from 'lodash/isEmpty';
 import classnames from 'classnames';
 import { Link } from 'routes';
+import { toastr } from 'react-redux-toastr';
 
 // Utils
 import { get } from 'utils/request';
@@ -15,7 +16,9 @@ class HeaderUser extends React.Component {
    * - logout
   */
   logout(e) {
-    e && e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     // Get to logout
     get({
@@ -30,7 +33,7 @@ class HeaderUser extends React.Component {
         }
       },
       onError: (err) => {
-        console.error(err);
+        toastr.error('Error', err);
       }
     });
   }

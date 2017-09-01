@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { toastr } from 'react-redux-toastr';
 
 // Services
 import WidgetsService from 'services/WidgetsService';
-import { toastr } from 'react-redux-toastr';
 
 class DeleteAction extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -20,7 +19,10 @@ class DeleteAction extends React.Component {
   }
 
   handleOnClickDelete(e) {
-    e && e.preventDefault() && e.stopPropagation();
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
 
     const { data } = this.props;
 
@@ -32,11 +34,9 @@ class DeleteAction extends React.Component {
             toastr.success('Success', `The widget "${data.id}" - "${data.name}" has been removed correctly`);
           })
           .catch((err) => {
-            toastr.error('Error', `The widget "${data.id}" - "${data.name}" was not deleted. Try again`);
-            console.error(err);
+            toastr.error('Error', `The widget "${data.id}" - "${data.name}" was not deleted. Try again. ${err}`);
           });
-      },
-      onCancel: () => console.info('canceled')
+      }
     });
   }
 

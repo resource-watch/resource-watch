@@ -1,5 +1,6 @@
 import React from 'react';
 import Jiminy from 'jiminy';
+import { toastr } from 'react-redux-toastr';
 
 // Components
 import Field from 'components/form/Field';
@@ -60,7 +61,7 @@ class WidgetPreview extends React.Component {
         });
       })
       .catch((err) => {
-        console.error(err);
+        toastr.error('Error', err);
         this.setState({ loading: false });
       });
   }

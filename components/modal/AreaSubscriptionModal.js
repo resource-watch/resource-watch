@@ -95,7 +95,7 @@ class AreaSubscriptionModal extends React.Component {
         loadingDatasets: false,
         datasets: response.filter(val => val.attributes.subscribable)
       });
-    }).catch(err => console.error(err)); // TODO: update the UI
+    }).catch(err => toastr.error('Error', err)); // TODO: update the UI
   }
 
   @Autobind

@@ -85,7 +85,7 @@ class WidgetsEdit extends React.Component {
           .then(dataset => this.setState({ dataset }));
       })
       // TODO: handle the error in the UI
-      .catch(err => console.error(err))
+      .catch(err => toastr.error('Error', err))
       .then(() => this.setState({ loading: false }));
   }
 
@@ -421,7 +421,7 @@ const mapDispatchToProps = dispatch => ({
       .fetchData({ id: layerId })
       .then(layer => dispatch(setLayer(layer)))
       // TODO: better handling of the error
-      .catch(err => console.error(err));
+      .catch(err => toastr.error('Error', err));
   }
 });
 
