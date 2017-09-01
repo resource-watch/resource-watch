@@ -1,0 +1,12 @@
+.c-filters-resume {
+  margin: $space-1 * 2 0 0;
+
+  > .filter-resume {}
+
+  > .filter-resume > .filter-title {
+    display: block;
+    color: $dark-pink;
+  }
+
+  > .filter-resume > .filter-items {}
+}

@@ -223,24 +223,14 @@ export default class DatasetService {
 
   searchDatasetsByConcepts(topics, geographies, dataTypes) {
     let counter = 0;
-    const topicsSt = topics ? topics.map((val, index) => `concepts[${counter++}][${index}]=${val}`).join('&') : null;
-    const geographiesSt = geographies ? `${geographies.map((val, index) => `concepts[${counter++}][${index}]=${val}`).join('&')}` : null;
-    const dataTypesSt = dataTypes ? `${dataTypes.map((val, index) => `concepts[${counter++}][${index}]=${val}`).join('&')}` : null;
-    let querySt = topicsSt;
-    if (geographiesSt) {
-      if (querySt) {
-        querySt += `&${geographiesSt}`;
-      } else {
-        querySt = geographiesSt;
-      }
-    }
-    if (dataTypesSt) {
-      if (querySt) {
-        querySt += `&${dataTypesSt}`;
-      } else {
-        querySt = dataTypesSt;
-      }
-    }
+    const topicsSt = (topics || []).map((val, index) => `concepts[${counter}][${index}]=${val}`).join('&');
+    counter++;
+    const geographiesSt = (geographies || []).map((val, index) => `concepts[${counter}][${index}]=${val}`).join('&');
+    counter++;
+    const dataTypesSt = (dataTypes || []).map((val, index) => `concepts[${counter}][${index}]=${val}`).join('&');
+    const querySt = `&${topicsSt}${geographiesSt}${dataTypesSt}`;
+
+
     return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
