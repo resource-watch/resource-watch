@@ -73,7 +73,11 @@ class ChartEditor extends React.Component {
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
   }
 
-  componentWillMount() {
+  /**
+  * COMPONENT LIFECYCLE
+  * - componentDidMount
+  */
+  componentDidMount() {
     this.fetchAreas();
     this.fetchUserAreas();
   }
@@ -239,8 +243,11 @@ class ChartEditor extends React.Component {
           {!tableViewMode &&
             <div className="chart-type">
               <div className="c-field">
-                <label>Chart style</label>
+                <label htmlFor="chart-style-select">
+                  Chart style
+                </label>
                 <Select
+                  id="chart-style-select"
                   properties={{
                     name: 'chart-type',
                     value: chartType,
@@ -255,8 +262,11 @@ class ChartEditor extends React.Component {
           {hasGeoInfo &&
             <div className="area-intersection">
               <div className="c-field">
-                <label>Area intersection { loadingAreaIntersection && <Spinner isLoading className="-light -small -inline" /> }</label>
+                <label htmlFor="area-intersection-select">
+                  Area intersection { loadingAreaIntersection && <Spinner isLoading className="-light -small -inline" /> }
+                </label>
                 <CustomSelect
+                  id="area-intersection-select"
                   placeholder="Select area"
                   options={areaOptions}
                   onValueChange={this.onChangeAreaIntersection}

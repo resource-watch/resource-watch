@@ -71,7 +71,7 @@ class WidgetsEdit extends React.Component {
       { apiURL: process.env.CONTROL_TOWER_URL });
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.widgetService.fetchData()
       .then((data) => {
         this.setState({ widget: data }, () => {
@@ -214,7 +214,7 @@ class WidgetsEdit extends React.Component {
   /**
    * Event handler executed when the user clicks the "Save widget"
    * button of the widget editor
-   * 
+   *
    */
   @Autobind
   onUpdateWidget() {
