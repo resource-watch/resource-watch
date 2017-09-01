@@ -6,7 +6,6 @@ import PagesService from 'services/PagesService';
 import { toastr } from 'react-redux-toastr';
 
 class DeleteAction extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -20,7 +19,10 @@ class DeleteAction extends React.Component {
   }
 
   handleOnClickDelete(e) {
-    e && e.preventDefault() && e.stopPropagation();
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
 
     const { data } = this.props;
 
@@ -32,11 +34,9 @@ class DeleteAction extends React.Component {
             toastr.success('Success', `The page "${data.id}" - "${data.title}" has been removed correctly`);
           })
           .catch((err) => {
-            toastr.error('Error', `The page "${data.id}" - "${data.title}" was not deleted. Try again`);
-            console.error(err);
+            toastr.error('Error', `The page "${data.id}" - "${data.title}" was not deleted. Try again. ${err}`);
           });
-      },
-      onCancel: () => console.info('canceled')
+      }
     });
   }
 
