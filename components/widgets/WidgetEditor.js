@@ -116,6 +116,10 @@ class WidgetEditor extends React.Component {
     });
   }
 
+  componentWillMount() {
+    this.props.resetWidgetEditor(true);
+  }
+
   componentDidMount() {
     // We load the initial data
     this.loadData(true);
