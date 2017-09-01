@@ -169,21 +169,20 @@ class Explore extends Page {
           const topicLabels = selectedNodes.map(val => val.label);
           this.props.setDatasetsTopicsFilter(topicsVal);
           this.setState({
-            filters: {...this.state.filters, topics: topicLabels }
+            filters: { ...this.state.filters, topics: topicLabels }
           });
         };
 
         if (topics) {
           data.forEach(child => this.selectElementsFromTree(child, topics));
 
-          const topicLabels = JSON.parse(topics).map(type => {
+          const topicLabels = JSON.parse(topics).map((type) => {
             const match = data.find(d => d.value === type) || {};
-
             return match.label;
           });
 
           this.setState({
-            filters: {...this.state.filters, topics: topicLabels }
+            filters: { ...this.state.filters, topics: topicLabels }
           });
         }
 
@@ -207,21 +206,20 @@ class Explore extends Page {
           const dataTypesVal = selectedNodes.map(val => val.value);
           const dataTypesLabels = selectedNodes.map(val => val.label);
           this.setState({
-            filters: {...this.state.filters, dataTypes: dataTypesLabels }
+            filters: { ...this.state.filters, dataTypes: dataTypesLabels }
           });
           this.props.setDatasetsDataTypeFilter(dataTypesVal);
         };
 
         if (dataType) {
           data.forEach(child => this.selectElementsFromTree(child, dataType));
-          const dataTypesLabels = JSON.parse(dataType).map(type => {
+          const dataTypesLabels = JSON.parse(dataType).map((type) => {
             const match = data.find(d => d.value === type) || {};
-
             return match.label;
           });
 
           this.setState({
-            filters: {...this.state.filters, dataTypes: dataTypesLabels }
+            filters: { ...this.state.filters, dataTypes: dataTypesLabels }
           });
         }
 
@@ -244,7 +242,7 @@ class Explore extends Page {
           const geographiesVal = selectedNodes.map(val => val.value);
           const geographiesLabels = selectedNodes.map(val => val.label);
           this.setState({
-            filters: {...this.state.filters, geographies: geographiesLabels }
+            filters: { ...this.state.filters, geographies: geographiesLabels }
           });
           this.props.setDatasetsGeographiesFilter(geographiesVal);
         };
@@ -254,14 +252,14 @@ class Explore extends Page {
           let geographyLabels = [];
 
           const searchFunction = (item) => {
-            data.forEach(d => {
+            data.forEach((d) => {
               if (d.value === item) {
                 geographyLabels.push(d.label);
-              };
+              }
 
               if (d.children) {
-                d.children.forEach(child => {
-                  if(child.value === item) geographyLabels.push(child.label);
+                d.children.forEach((child) => {
+                  if (child.value === item) geographyLabels.push(child.label);
                 });
               }
             });
@@ -270,7 +268,7 @@ class Explore extends Page {
           JSON.parse(geographies).forEach(geography => searchFunction(geography));
 
           this.setState({
-            filters: {...this.state.filters, geographies: geographyLabels }
+            filters: { ...this.state.filters, geographies: geographyLabels }
           });
         }
 
@@ -288,7 +286,6 @@ class Explore extends Page {
     if (elements.includes(tree.value)) {
       tree.checked = true;
     }
-
     (tree.children || []).forEach(child => child.checked = tree.checked);
   }
 
@@ -390,7 +387,7 @@ class Explore extends Page {
 
   render() {
     const { explore, paginatedDatasets } = this.props;
-    const { search,  } = explore.filters;
+    const { search } = explore.filters;
     const { filters } = this.state;
     const { topics, geographies, dataTypes } = filters;
 
@@ -416,18 +413,18 @@ class Explore extends Page {
                       }}
                     />
                   </div>
-                    <div className="filters-container">
-                      <div className="row">
-                        <div className="column medium-4">
-                          <div className="c-tree-selector -explore topics-selector" />
-                        </div>
-                        <div className="column medium-4">
-                          <div className="c-tree-selector -explore geographies-selector " />
-                        </div>
-                        <div className="column medium-4">
-                          <div className="c-tree-selector -explore data-types-selector" />
-                        </div>
+                  <div className="filters-container">
+                    <div className="row">
+                      <div className="column medium-4">
+                        <div className="c-tree-selector -explore topics-selector" />
                       </div>
+                      <div className="column medium-4">
+                        <div className="c-tree-selector -explore geographies-selector " />
+                      </div>
+                      <div className="column medium-4">
+                        <div className="c-tree-selector -explore data-types-selector" />
+                      </div>
+                    </div>
                   </div>
                   <FiltersResume
                     topics={topics}
@@ -465,8 +462,8 @@ class Explore extends Page {
                       document.getElementsByClassName('sidebar-content')[0].scrollTop = 0;
                     }}
                   />
-                    </div>
                 </div>
+              </div>
             </Sidebar>
             <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
               <div className="l-map">
