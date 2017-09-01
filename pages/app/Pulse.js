@@ -44,7 +44,7 @@ class Pulse extends Page {
 
   /**
    * COMPONENT LIFECYCLE
-   * - componentWillMount
+   * - componentDidMount
    * - componentWillReceiveProps
    * - componentWillUnmount
   */

@@ -15,7 +15,11 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 
 class Partners extends Page {
-  componentWillMount() {
+  /**
+  * COMPONENT LIFECYCLE
+  * - componentDidMount
+  */
+  componentDidMount() {
     this.props.getPartners();
   }
 
