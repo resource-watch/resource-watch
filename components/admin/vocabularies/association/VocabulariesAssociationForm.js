@@ -2,9 +2,9 @@ import React from 'react';
 import uniqBy from 'lodash/uniqBy';
 import flatten from 'lodash/flatten';
 import { Autobind } from 'es-decorators';
+import { toastr } from 'react-redux-toastr';
 
 import VocabularyItem from 'components/admin/vocabularies/form/VocabularyItem';
-import Title from 'components/ui/Title';
 import Button from 'components/ui/Button';
 import Spinner from 'components/ui/Spinner';
 import { get, post } from 'utils/request';
@@ -12,7 +12,6 @@ import { get, post } from 'utils/request';
 import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
 
 class DatasetVocabulariesForm extends React.Component {
-
   constructor(props) {
     super(props);
     const newState = Object.assign({}, STATE_DEFAULT, {
@@ -32,7 +31,7 @@ class DatasetVocabulariesForm extends React.Component {
 
   /**
    * COMPONENT LIFECYCLE
-   * - componentWillMount
+   * - componentDidMount
   */
   componentDidMount() {
     this.loadAllVocabularies();
@@ -72,12 +71,9 @@ class DatasetVocabulariesForm extends React.Component {
                 { key: 'Authorization', value: this.state.form.authorization }
               ],
               body: bodyObj,
-              onSuccess: (response) => {
+              onSuccess: () => {
                 this.setState({ submitting: false });
-                const successMessage = 'Vocabularies have been updated correctly';
-                console.info(response);
-                console.info(successMessage);
-                alert(successMessage);
+                toastr.success('Success', 'Vocabularies have been updated correctly');
               },
               onError: () => {
                 console.info('Error');

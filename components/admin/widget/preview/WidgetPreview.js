@@ -1,18 +1,22 @@
 import React from 'react';
-
 import Jiminy from 'jiminy';
-import { chartConfig } from './constants';
-import getQueryByFilters from '../../../utils/getQueryByFilters';
-import getParsedConfig from '../../../utils/getWidgetConfig';
 
-import Field from '../../form/Field';
-import Select from '../../form/SelectInput';
-import Spinner from '../../ui/Spinner';
-import VegaChart from '../VegaChart';
-import DatasetService from '../../../services/DatasetService';
+// Components
+import Field from 'components/form/Field';
+import Select from 'components/form/SelectInput';
+import Spinner from 'components/ui/Spinner';
+import VegaChart from 'components/admin/widget/VegaChart';
+
+// Utils
+import getQueryByFilters from 'utils/getQueryByFilters';
+import getParsedConfig from 'utils/getWidgetConfig';
+
+// Services
+import DatasetService from 'services/DatasetService';
+
+import { chartConfig } from './constants';
 
 class WidgetPreview extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -38,14 +42,14 @@ class WidgetPreview extends React.Component {
 
     // DatasetService
     this.datasetService = new DatasetService(props.wizard.dataset.id, {
-      apiURL: '${process.env.WRI_API_URL}'
+      apiURL: `${process.env.WRI_API_URL}`
     });
 
     // BINDINGS
     this.triggerChangeSelected = this.triggerChangeSelected.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.datasetService.fetchFilteredData(this.props.wizard.query)
       .then((data) => {
         this.setState({

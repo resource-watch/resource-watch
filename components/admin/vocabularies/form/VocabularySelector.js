@@ -79,7 +79,7 @@ class VocabularySelector extends React.Component {
   loadVocabularies() {
     get(
       {
-        url: '${process.env.WRI_API_URL}/vocabulary',
+        url: `${process.env.WRI_API_URL}/vocabulary`,
         headers: [{ key: 'Content-Type', value: 'application/json' }],
         onSuccess: (response) => {
           this.setState({

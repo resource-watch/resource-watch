@@ -1,13 +1,15 @@
 import React from 'react';
 
-import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
+// Utils
 import { get, post } from 'utils/request';
 
-
+// Components
+import Navigation from 'components/form/Navigation';
 import Step1 from './steps/step-1';
 import Step2 from './steps/step-2';
 import Step3 from './steps/step-3';
-import Navigation from 'components/form/Navigation';
+
+import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
 
 class WidgetWizard extends React.Component {
   constructor(props) {
