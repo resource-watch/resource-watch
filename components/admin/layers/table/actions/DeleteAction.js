@@ -6,7 +6,6 @@ import LayersService from 'services/LayersService';
 import { toastr } from 'react-redux-toastr';
 
 class DeleteAction extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -20,7 +19,10 @@ class DeleteAction extends React.Component {
   }
 
   handleOnClickDelete(e) {
-    e && e.preventDefault() && e.stopPropagation();
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     const { data } = this.props;
 
     toastr.confirm(`Are you sure that you want to delete: "${data.name}"`, {
@@ -31,8 +33,7 @@ class DeleteAction extends React.Component {
             toastr.success('Success', `The layer "${data.id}" - "${data.name}" has been removed correctly`);
           })
           .catch((err) => {
-            toastr.error('Error', `The layer "${data.id}" - "${data.name}" was not deleted. Try again`);
-            console.error(err);
+            toastr.error('Error', `The layer "${data.id}" - "${data.name}" was not deleted. Try again. ${err}`);
           });
       },
       onCancel: () => console.info('canceled')

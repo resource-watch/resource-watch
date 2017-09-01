@@ -2,16 +2,15 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import { Router } from 'routes';
 
-import { FORM_ELEMENTS } from './constants';
-
+// Utils
 import { get, post } from 'utils/request';
 
 // Redux
 import { connect } from 'react-redux';
 
-
-import { Router } from 'routes';
+// Components
 import Spinner from 'components/ui/Spinner';
 import Title from 'components/ui/Title';
 import Button from 'components/ui/Button';
@@ -20,8 +19,9 @@ import Input from 'components/form/Input';
 import TextArea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
 
-class InsightForm extends React.Component {
+import { FORM_ELEMENTS } from './constants';
 
+class InsightForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
