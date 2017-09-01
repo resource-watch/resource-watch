@@ -34,7 +34,8 @@ WidgetsTab.propTypes = {
   tab: PropTypes.string,
   id: PropTypes.string,
   subtab: PropTypes.string,
-  user: PropTypes.object
+  user: PropTypes.object,
+  dataset: PropTypes.string
 };
 
 const mapStateToProps = state => ({

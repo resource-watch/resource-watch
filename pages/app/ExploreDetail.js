@@ -36,7 +36,7 @@ class ExploreDetail extends Page {
 
     this.state = {
       similarDatasetsLoaded: false,
-      similarDatasets: null,
+      similarDatasets: [],
       dataset: null,
       loading: false
     };
@@ -117,14 +117,21 @@ class ExploreDetail extends Page {
             return counter < 4;
           });
 
-        DatasetService.getDatasets(similarDatasets)
-          .then((data) => {
-            this.setState({
-              similarDatasetsLoaded: true,
-              similarDatasets: data
-            });
-          })
-          .catch(err => toastr.error('Error', err));
+        if (similarDatasets.length > 0) {
+          DatasetService.getDatasets(similarDatasets)
+            .then((data) => {
+              this.setState({
+                similarDatasetsLoaded: true,
+                similarDatasets: data
+              });
+            })
+            .catch(err => toastr.error('Error', err));
+        } else {
+          this.setState({
+            similarDatasetsLoaded: true,
+            similarDatasets: []
+          });
+        }
       })
       .catch(err => toastr.error('Error', err));
   }
@@ -393,26 +400,6 @@ class ExploreDetail extends Page {
             </div>
           </div>
           */}
-
-          {/* SIMILAR DATASETS */}
-          {/* <div className="l-section similar-datasets">
-            <div className="row">
-              <div className="column small-12">
-                <h3 className="c-text title -thin">Similar datasets</h3>
-                <Spinner
-                  isLoading={!similarDatasetsLoaded}
-                  className="-relative -light"
-                />
-                {similarDatasets &&
-                <DatasetList
-                  list={similarDatasets}
-                  mode="grid"
-                  showActions={false}
-                />
-                }
-              </div>
-            </div>
-          </div> */}
 
           {/* RELATED INSIGHTS */}
           {/* <div className="c-page-section related-insights">

@@ -1,0 +1,25 @@
+.c-areas-form {
+
+  .custom-select-options {
+    max-height: 200px;
+  }
+
+  input {
+    min-width: 100%;
+  }
+
+  .selectors-container {
+    display: flex;
+    margin-top: 20px;
+  }
+
+  .buttons-div {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+
+    button:last-of-type {
+      margin-left: 10px;
+    }
+  }
+}

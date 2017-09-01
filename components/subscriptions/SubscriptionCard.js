@@ -26,7 +26,6 @@ const MAP_CONFIG = {
 };
 
 class SubscriptionCard extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -52,71 +51,71 @@ class SubscriptionCard extends React.Component {
   loadData() {
     this.setState({ loading: true });
     this.datasetService.fetchData()
-    .then((response) => {
-      const dataset = response;
-      this.setState({ dataset });
-      const paramsObj = this.props.subscription.attributes.params;
+      .then((response) => {
+        const dataset = response;
+        this.setState({ dataset });
+        const paramsObj = this.props.subscription.attributes.params;
 
-      if (paramsObj.geostore) {
-        this.areasService.getGeostore(paramsObj.geostore)
-          .then((res) => {
-            const obj = res.data;
-            const fakeLayer = {
-              id: `${dataset.id}-${obj.id}`,
-              provider: 'geojson',
-              layerConfig: {
-                data: obj.attributes.geojson,
-                fitBounds: true,
-                bounds: obj.attributes.bbox
-              }
-            };
+        if (paramsObj.geostore) {
+          this.areasService.getGeostore(paramsObj.geostore)
+            .then((res) => {
+              const obj = res.data;
+              const fakeLayer = {
+                id: `${dataset.id}-${obj.id}`,
+                provider: 'geojson',
+                layerConfig: {
+                  data: obj.attributes.geojson,
+                  fitBounds: true,
+                  bounds: obj.attributes.bbox
+                }
+              };
 
-            this.setState({
-              loading: false,
-              country: obj.id,
-              layer: fakeLayer
+              this.setState({
+                loading: false,
+                country: obj.id,
+                layer: fakeLayer
+              });
             });
-          });
-      } else if (paramsObj.iso.country) {
-        this.areasService.getCountry(paramsObj.iso.country)
-        .then((res) => {
-          const country = res.data[0];
+        } else if (paramsObj.iso.country) {
+          this.areasService.getCountry(paramsObj.iso.country)
+            .then((res) => {
+              const country = res.data[0];
 
-          const newGeoJson = {
-            type: 'FeatureCollection',
-            features: [
-              {
-                type: 'Feature',
-                properties: {},
-                geometry: JSON.parse(country.geojson)
-              }
-            ]
-          };
+              const newGeoJson = {
+                type: 'FeatureCollection',
+                features: [
+                  {
+                    type: 'Feature',
+                    properties: {},
+                    geometry: JSON.parse(country.geojson)
+                  }
+                ]
+              };
 
-          const fakeLayer = {
-            id: `${dataset.id}-${country.label}`,
-            provider: 'geojson',
-            active: true,
-            layerConfig: {
-              data: newGeoJson,
-              fitBounds: true,
-              bounds: JSON.parse(country.bounds)
-            }
-          };
+              const fakeLayer = {
+                id: `${dataset.id}-${country.label}`,
+                provider: 'geojson',
+                active: true,
+                layerConfig: {
+                  data: newGeoJson,
+                  fitBounds: true,
+                  bounds: JSON.parse(country.bounds)
+                }
+              };
 
-          this.setState({
-            loading: false,
-            country: country.label,
-            layerGroups: [{
-              dataset,
-              visible: true,
-              layers: [fakeLayer]
-            }]
-          });
-        });
-      }
-    })
-    .catch(err => console.log(err));
+              this.setState({
+                loading: false,
+                country: country.label,
+                layerGroups: [{
+                  dataset,
+                  visible: true,
+                  layers: [fakeLayer]
+                }]
+              });
+            });
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   @Autobind
@@ -137,7 +136,7 @@ class SubscriptionCard extends React.Component {
 
   @Autobind
   handleGoToDataset() {
-    Router.pushRoute('explore_detail', { id: this.props.subscription.attributes.datasets[0]})
+    Router.pushRoute('explore_detail', { id: this.props.subscription.attributes.datasets[0] });
   }
 
   render() {
@@ -204,7 +203,6 @@ class SubscriptionCard extends React.Component {
       </div>
     );
   }
-
 }
 
 SubscriptionCard.propTypes = {

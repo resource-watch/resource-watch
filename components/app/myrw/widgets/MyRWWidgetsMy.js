@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 
 
 // Services
-import UserService from 'services/UserService';
 import WidgetService from 'services/WidgetService';
 
 // Components
@@ -32,7 +31,6 @@ class MyRWWidgetsMy extends React.Component {
     };
 
     // User service
-    this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
     this.widgetService = new WidgetService(null, { apiURL: process.env.CONTROL_TOWER_URL });
   }
 

@@ -55,6 +55,15 @@ const ALLOWED_FIELD_TYPES = [
   { name: 'array', type: 'array', provider: 'sql' }
 ];
 
+const GEOGRAPHICAL_FIELDS = [
+  // CARTO
+  { name: 'the_geom', type: 'geometry', provider: 'carto' },
+  { name: 'the_geom_webmercator', type: 'geometry', provider: 'carto' },
+  { name: 'the_raster_webmercator', type: 'geometry', provider: 'carto' },
+  // DOCUMENT
+  { name: 'lat', type: 'number', provider: 'document' },
+  { name: 'long', type: 'number', provider: 'document' }
+];
 
 const oneDimensionalChartTypes = ['1d_scatter', '1d_tick'];
 
@@ -81,6 +90,21 @@ const oneDimensionalChartTypes = ['1d_scatter', '1d_tick'];
  */
 function isBidimensionalChart(chartType) {
   return !oneDimensionalChartTypes.includes(chartType);
+}
+
+/**
+ * Returns whether the set of fields provided include geographical information
+ * @param {Array} fields - Array of fields
+ * @returns {boolean}
+ */
+export function hasGeographicalInfo(fields) {
+  let found = false;
+  fields.forEach((element) => {
+    if (GEOGRAPHICAL_FIELDS.find(val => val.name === element.columnName)) {
+      found = true;
+    }
+  });
+  return found;
 }
 
 export function isFieldAllowed(field) {
@@ -476,7 +500,7 @@ export async function getChartConfig(
  * @param {string} url - URL of the data
  * @param {string} band - Band name
  * @param {string} provider - Dataset provider
- * @returns  
+ * @returns
  */
 export async function fetchRasterData(url, band, provider) {
   // We fetch the data to have clever charts

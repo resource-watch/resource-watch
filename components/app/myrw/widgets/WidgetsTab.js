@@ -10,7 +10,7 @@ import WidgetsEdit from 'components/app/myrw/widgets/pages/edit';
 import WidgetsNew from 'components/app/myrw/widgets/pages/new';
 
 function WidgetsTab(props) {
-  const { tab, subtab, id, user } = props;
+  const { tab, subtab, id, user, dataset } = props;
 
   return (
     <div className="c-widgets-tab">
@@ -23,7 +23,7 @@ function WidgetsTab(props) {
       }
 
       {id === 'new' && user.token &&
-        <WidgetsNew tab={tab} subtab={subtab} />
+        <WidgetsNew tab={tab} subtab={subtab} dataset={dataset} />
       }
     </div>
   );
@@ -33,7 +33,8 @@ WidgetsTab.propTypes = {
   user: PropTypes.object,
   tab: PropTypes.string,
   id: PropTypes.string,
-  subtab: PropTypes.string
+  subtab: PropTypes.string,
+  dataset: PropTypes.string
 };
 
 const mapStateToProps = state => ({

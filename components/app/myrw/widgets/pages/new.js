@@ -47,10 +47,12 @@ class WidgetsNew extends React.Component {
     super(props);
 
     this.state = {
-      loading: true,
+      loading: false,
+      loadingPublishedDatasets: true,
+      loadingUserDatasets: true,
       submitting: false,
       datasets: [],
-      selectedDataset: null,
+      selectedDataset: props.dataset,
       widget: {}
     };
 
@@ -60,19 +62,7 @@ class WidgetsNew extends React.Component {
   }
 
   componentDidMount() {
-    this.datasetsService.fetchAllData({ filters: { published: true } }).then((response) => {
-      this.setState({
-        datasets: response.map(dataset => ({
-          id: dataset.id,
-          type: dataset.type,
-          provider: dataset.provider,
-          tableName: dataset.tableName,
-          label: dataset.name,
-          value: dataset.id
-        })),
-        loading: false
-      });
-    });
+    this.loadDatasets();
   }
 
   @Autobind
@@ -192,6 +182,38 @@ class WidgetsNew extends React.Component {
       });
   }
 
+
+  loadDatasets() {
+    this.datasetsService.fetchAllData({ filters: { published: true } }).then((response) => {
+      this.setState({
+        datasets: [...this.state.datasets, ...response.map(dataset => ({
+          id: dataset.id,
+          type: dataset.type,
+          provider: dataset.provider,
+          tableName: dataset.tableName,
+          label: dataset.name,
+          value: dataset.id
+        }))],
+        loadingPublishedDatasets: false
+      });
+    });
+
+    this.datasetsService.fetchAllData(
+      { filters: { userId: this.props.user.id } }).then((response) => {
+      this.setState({
+        datasets: [...this.state.datasets, ...response.map(dataset => ({
+          id: dataset.id,
+          type: dataset.type,
+          provider: dataset.provider,
+          tableName: dataset.tableName,
+          label: dataset.name,
+          value: dataset.id
+        }))],
+        loadingUserDatasets: false
+      });
+    });
+  }
+
   @Autobind
   handleChange(value) {
     const newWidgetObj = Object.assign({}, this.state.widget, value);
@@ -211,30 +233,41 @@ class WidgetsNew extends React.Component {
   }
 
   render() {
-    const { loading, widget, submitting, datasets, selectedDataset } = this.state;
+    const {
+      loading,
+      widget,
+      submitting,
+      datasets,
+      selectedDataset,
+      loadingUserDatasets,
+      loadingPublishedDatasets
+    } = this.state;
 
     return (
       <div className="c-myrw-widgets-new">
         <Spinner
           className="-light"
-          isLoading={loading}
+          isLoading={loading || loadingPublishedDatasets || loadingUserDatasets}
         />
-        <div className="dataset-selector">
-          <Field
-            onChange={this.handleDatasetSelected}
-            className="-fluid"
-            options={datasets}
-            properties={{
-              name: 'dataset',
-              label: 'Dataset',
-              value: selectedDataset,
-              required: true,
-              instanceId: 'selectDataset'
-            }}
-          >
-            {Select}
-          </Field>
-        </div>
+        {datasets &&
+          <div className="dataset-selector">
+            <Field
+              onChange={this.handleDatasetSelected}
+              className="-fluid"
+              options={datasets}
+              properties={{
+                name: 'dataset',
+                label: 'Dataset',
+                value: selectedDataset,
+                default: selectedDataset,
+                required: true,
+                instanceId: 'selectDataset'
+              }}
+            >
+              {Select}
+            </Field>
+          </div>
+        }
         {selectedDataset &&
         <div>
           <WidgetEditor
@@ -334,6 +367,7 @@ class WidgetsNew extends React.Component {
 }
 
 WidgetsNew.propTypes = {
+  dataset: PropTypes.string,
   // Store
   user: PropTypes.object.isRequired
 };

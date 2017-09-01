@@ -1,20 +1,44 @@
 import React from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
-
+import { Autobind } from 'es-decorators';
+import { toastr } from 'react-redux-toastr';
 import { Link } from 'routes';
 
 // Components
 import Title from 'components/ui/Title';
 import DatasetsRelatedContent from 'components/datasets/common/DatasetsRelatedContent';
 
+// Services
+import DatasetsService from 'services/DatasetsService';
+
 class DatasetsListCard extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // SERVICES
+    this.service = new DatasetsService({ authorization: props.token });
+  }
+
+  @Autobind
+  handleDelete() {
+    const { dataset } = this.props;
+    toastr.confirm(`Are you sure you want to delete the dataset: ${dataset.name}?`, {
+      onOk: () => {
+        this.service.deleteData(dataset.id)
+          .then(() => {
+            toastr.success('Success', 'Dataset removed successfully');
+            this.props.onDatasetRemoved(dataset.id);
+          })
+          .catch(err => toastr.error('Error deleting the dataset', err));
+      }
+    });
+  }
 
   render() {
     const { dataset, routes } = this.props;
 
     return (
-      <div className="c-card">
+      <div className="c-card c-datasets-list-card">
         <div className="card-container">
           <header className="card-header">
             <Link
@@ -43,6 +67,16 @@ class DatasetsListCard extends React.Component {
               dataset.status
             }
           </div>
+
+          <div className="actions">
+            <a
+              role="button"
+              tabIndex={0}
+              onClick={this.handleDelete}
+            >
+              Delete
+            </a>
+          </div>
         </div>
       </div>
     );
@@ -59,7 +93,10 @@ DatasetsListCard.defaultProps = {
 
 DatasetsListCard.propTypes = {
   dataset: PropTypes.object,
-  routes: PropTypes.object
+  routes: PropTypes.object,
+  token: PropTypes.string.isRequired,
+  // Callbacks
+  onDatasetRemoved: PropTypes.func.isRequired
 };
 
 export default DatasetsListCard;

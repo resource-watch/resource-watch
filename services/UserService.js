@@ -112,27 +112,44 @@ export default class UserService {
    * @param {object} Either { type; 'iso', id:'ESP' } or { type: 'geostore', id: 'sakldfa7ads0ka'}
    * @returns {Promise}
    */
-  createSubscriptionToDataset(datasetID, type, object, user, name = '') {
-    const paramsObj = (object.type === 'iso') ?
-      { iso: { country: object.id } } :
-      { geostore: object.id };
-
+  createSubscriptionToArea(areaId, datasets, datasetsQuery, user, name = '') {
     const bodyObj = {
       name,
       application: 'rw',
       language: 'en',
-      datasetsQuery: [{
-        id: datasetID,
-        type
-      }],
+      datasets,
+      datasetsQuery,
       resource: {
         type: 'EMAIL',
         content: user.email
       },
-      params: paramsObj
+      params: {
+        area: areaId
+      }
     };
     return fetch(`${this.opts.apiURL}/subscriptions`, {
       method: 'POST',
+      body: JSON.stringify(bodyObj),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token
+      }
+    })
+      .then(response => response.json());
+  }
+
+  /**
+   *  Update Subscription
+   */
+  updateSubscriptionToArea(subscriptionId, datasets, datasetsQuery, user) {
+    const bodyObj = {
+      application: 'rw',
+      language: 'en',
+      datasets,
+      datasetsQuery
+    };
+    return fetch(`${this.opts.apiURL}/subscriptions/${subscriptionId}`, {
+      method: 'PATCH',
       body: JSON.stringify(bodyObj),
       headers: {
         'Content-Type': 'application/json',
@@ -159,12 +176,71 @@ export default class UserService {
 
   /**
    * Deletes a subscription
-   * @param {subscriptionId} ID of the subscription that will be unfavourited
+   * @param {subscriptionId} ID of the subscription that will be deleted
    * @param {token} User token
    * @returns {Promise}
    */
   deleteSubscription(subscriptionId, token) {
     return fetch(`${this.opts.apiURL}/subscriptions/${subscriptionId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: token
+      }
+    })
+      .then(response => response.json());
+  }
+
+  /**
+   * Get user areas
+   */
+  getUserAreas(token) {
+    return new Promise((resolve) => {
+      fetch(`${this.opts.apiURL}/area?application=rw`, {
+        headers: {
+          Authorization: token
+        }
+      })
+        .then(response => response.json())
+        .then(jsonData => resolve(jsonData.data));
+    });
+  }
+
+  /**
+   * Create new area
+   */
+  createNewArea(name, geostore, iso, token) {
+    const bodyObj = {
+      name,
+      application: 'rw'
+    };
+
+    if (geostore) {
+      bodyObj.geostore = geostore;
+    }
+
+    if (iso) {
+      bodyObj.iso = { country: iso.value };
+    }
+
+    return fetch(`${this.opts.apiURL}/area`, {
+      method: 'POST',
+      body: JSON.stringify(bodyObj),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token
+      }
+    })
+      .then(response => response.json());
+  }
+
+  /**
+   * Deletes an area
+   * @param {areaId} ID of the area that will be deleted
+   * @param {token} User token
+   * @returns {Promise}
+   */
+  deleteArea(areaId, token) {
+    return fetch(`${this.opts.apiURL}/area/${areaId}`, {
       method: 'DELETE',
       headers: {
         Authorization: token

@@ -101,7 +101,7 @@ class WidgetsForm extends React.Component {
             dataset: this.state.form.dataset,
             id: id || '',
             type: (id) ? 'PATCH' : 'POST',
-            body: this.state.form,
+            body: this.state.form
           };
 
           if (obj.body.sourceUrl === '') {

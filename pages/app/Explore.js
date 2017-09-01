@@ -482,7 +482,7 @@ Explore.propTypes = {
 
 const mapStateToProps = (state) => {
   const filters = state.explore.filters;
-  const datasets = (filters.search || filters.topcis || filters.geographies || filters.dataType)
+  const datasets = (filters.search || filters.topics || filters.geographies || filters.dataType)
     ? Object.assign({}, state.explore.datasets, { list: getFilteredDatasets(state) })
     : state.explore.datasets;
 
