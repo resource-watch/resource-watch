@@ -47,7 +47,7 @@ class SubscriptionSelector extends React.Component {
   }
 
   render() {
-    const { datasets } = this.props;
+    const { datasets, showCross } = this.props;
     const { selectedDataset, selectedType } = this.state;
 
     const typeOptions = selectedDataset ?
@@ -81,18 +81,25 @@ class SubscriptionSelector extends React.Component {
           options={typeOptions}
           onChange={this.handleTypeSelected}
         />
-        <button onClick={() => this.props.onRemove(this.props.index)}>
-          <Icon name="icon-cross" />
-        </button>
+        {showCross &&
+          <button onClick={() => this.props.onRemove(this.props.index)}>
+            <Icon name="icon-cross" />
+          </button>
+        }
       </div>
     );
   }
 }
 
+SubscriptionSelector.defaultProps = {
+  showCross: true
+};
+
 SubscriptionSelector.propTypes = {
   datasets: PropTypes.array.isRequired,
   index: PropTypes.string,
   data: PropTypes.object.isRequired,
+  showCross: PropTypes.object.isRequired,
   // CALLBACKS
   onRemove: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired
