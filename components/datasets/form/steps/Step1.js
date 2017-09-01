@@ -157,9 +157,8 @@ class Step1 extends React.Component {
           validations={['required']}
           properties={{
             name: 'geoInfo',
-            label: 'Does this dataset have geographical information?',
+            label: 'Does this dataset contain geographical features such as points, polygons or lines?',
             value: 'geoInfo',
-            title: 'GeoInfo',
             defaultChecked: this.props.form.geoInfo,
             checked: this.props.form.geoInfo
           }}
