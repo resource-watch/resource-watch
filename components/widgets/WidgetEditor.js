@@ -14,7 +14,7 @@ import {
   setVisualizationType,
   setHasGeoInfo
 } from 'redactions/widgetEditor';
-import { toggleModal, setModalOptions } from 'redactions/modal';
+import { toggleModal } from 'redactions/modal';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -116,6 +116,13 @@ class WidgetEditor extends React.Component {
     });
   }
 
+  /**
+  * COMPONENT LIFECYCLE
+  * - componentWillMount
+  * - componentDidMount
+  * - componentWillReceiveProps
+  * - componentDidUpdate
+  */
   componentWillMount() {
     this.props.resetWidgetEditor(true);
   }
@@ -756,8 +763,11 @@ class WidgetEditor extends React.Component {
                 </h2>
                 <div className="visualization-type">
                   <div className="c-field">
-                    <label>Visualization type</label>
+                    <label htmlFor="visualization-type-select">
+                      Visualization type
+                    </label>
                     <Select
+                      id="visualization-type-select"
                       properties={{
                         className: 'visualization-type-selector',
                         name: 'visualization-type',
@@ -829,9 +839,8 @@ class WidgetEditor extends React.Component {
   }
 }
 
-const mapStateToProps = ({ widgetEditor, user }) => ({
+const mapStateToProps = ({ widgetEditor }) => ({
   widgetEditor,
-  user,
   selectedVisualizationType: widgetEditor.visualizationType,
   band: widgetEditor.band
 });
@@ -839,17 +848,15 @@ const mapStateToProps = ({ widgetEditor, user }) => ({
 const mapDispatchToProps = dispatch => ({
   resetWidgetEditor: hardReset => dispatch(resetWidgetEditor(hardReset)),
   setFields: (fields) => { dispatch(setFields(fields)); },
-  setHasGeoInfo: (hasGeoInfo) => { dispatch(setHasGeoInfo(hasGeoInfo)) },
+  setHasGeoInfo: (hasGeoInfo) => { dispatch(setHasGeoInfo(hasGeoInfo)); },
   setVisualizationType: vis => dispatch(setVisualizationType(vis)),
-  toggleModal: (open, options) => dispatch(toggleModal(open, options)),
-  setModalOptions: (...args) => dispatch(setModalOptions(args))
+  toggleModal: (open, options) => dispatch(toggleModal(open, options))
 });
 
 WidgetEditor.propTypes = {
   mode: PropTypes.oneOf(['dataset', 'widget']),
   showSaveButton: PropTypes.bool.isRequired, // Show save button in chart editor or not
   dataset: PropTypes.string, // Dataset ID
-  widget: PropTypes.object, // Widget object
   availableVisualizations: PropTypes.arrayOf(
     PropTypes.oneOf(VISUALIZATION_TYPES.map(viz => viz.value))
   ),
@@ -858,7 +865,6 @@ WidgetEditor.propTypes = {
   onChange: PropTypes.func,
   onError: PropTypes.func,
   // Store
-  user: PropTypes.object.isRequired,
   band: PropTypes.string,
   widgetEditor: PropTypes.object.isRequired,
   resetWidgetEditor: PropTypes.func.isRequired,
@@ -866,8 +872,7 @@ WidgetEditor.propTypes = {
   setHasGeoInfo: PropTypes.func.isRequired,
   setVisualizationType: PropTypes.func.isRequired,
   selectedVisualizationType: PropTypes.string,
-  toggleModal: PropTypes.func,
-  setModalOptions: PropTypes.func
+  toggleModal: PropTypes.func
 };
 
 WidgetEditor.defaultProps = {

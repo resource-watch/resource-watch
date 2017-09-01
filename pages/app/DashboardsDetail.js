@@ -76,19 +76,20 @@ class DashboardsDetail extends Page {
     this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
   }
 
-  componentWillMount() {
+  /**
+  * COMPONENT LIFECYCLE
+  * - componentDidMount
+  * - componentWillReceiveProps
+  */
+  componentDidMount() {
     this.getDashboards();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.user.id && !this.props.user.id) {
+    // Load favorites
+    if (this.props.user.id) {
       this.loadFavourites();
     }
   }
-
-  componentDidMount() {
-    // Load favorites
-    if (this.props.user.id) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user.id && !this.props.user.id) {
       this.loadFavourites();
     }
   }
