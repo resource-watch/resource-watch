@@ -220,7 +220,7 @@ class ChartEditor extends React.Component {
       mode,
       showSaveButton
     } = this.props;
-    const { chartType, fields, category, value } = widgetEditor;
+    const { chartType, fields, category, value, hasGeoInfo } = widgetEditor;
     const { areaOptions, loadingAreaIntersection } = this.state;
 
     const showSaveButtonFlag =
@@ -252,18 +252,20 @@ class ChartEditor extends React.Component {
               </div>
             </div>
           }
-          <div className="area-intersection">
-            <div className="c-field">
-              <label>Area intersection { loadingAreaIntersection && <Spinner isLoading className="-light -small -inline" /> }</label>
-              <CustomSelect
-                placeholder="Select area"
-                options={areaOptions}
-                onValueChange={this.onChangeAreaIntersection}
-                allowNonLeafSelection={false}
-                waitForChangeConfirmation
-              />
+          {hasGeoInfo &&
+            <div className="area-intersection">
+              <div className="c-field">
+                <label>Area intersection { loadingAreaIntersection && <Spinner isLoading className="-light -small -inline" /> }</label>
+                <CustomSelect
+                  placeholder="Select area"
+                  options={areaOptions}
+                  onValueChange={this.onChangeAreaIntersection}
+                  allowNonLeafSelection={false}
+                  waitForChangeConfirmation
+                />
+              </div>
             </div>
-          </div>
+          }
         </div>
         <p>Drag and drop elements from the list to the boxes:</p>
         <div className="actions-div">
