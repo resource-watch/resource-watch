@@ -152,6 +152,22 @@ class Step1 extends React.Component {
         </Field>
 
         <Field
+          ref={(c) => { if (c) FORM_ELEMENTS.elements.geoInfo = c; }}
+          onChange={value => this.props.onChange({ geoInfo: value.checked })}
+          validations={['required']}
+          properties={{
+            name: 'geoInfo',
+            label: 'Does this dataset have geographical information?',
+            value: 'geoInfo',
+            title: 'GeoInfo',
+            defaultChecked: this.props.form.geoInfo,
+            checked: this.props.form.geoInfo
+          }}
+        >
+          {Checkbox}
+        </Field>
+
+        <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.provider = c; }}
           onChange={value => this.props.onChange({
             provider: value,

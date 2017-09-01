@@ -69,6 +69,7 @@ export const STATE_DEFAULT = {
     connectorType: '',
     connectorUrlHint: '',
     published: false,
+    geoInfo: false,
     env: 'production',
     widgetRelevantProps: [],
     layerRelevantProps: [],
