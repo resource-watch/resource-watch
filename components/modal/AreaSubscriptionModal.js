@@ -153,6 +153,7 @@ class AreaSubscriptionModal extends React.Component {
               onUpdate={this.handleUpdateSubscriptionSelector}
               index={index}
               key={val.index}
+              showCross={index !== 0}
             />)
           )}
         </div>

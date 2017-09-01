@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
+import { Link } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
@@ -245,7 +246,14 @@ class AreaCard extends React.Component {
                         key={`${datasetObj}-${index}`} // eslint-disable-line
                       >
                         <div className="dataset-name">
-                          {datasetObj.label}
+                          <Link
+                            route={'explore_detail'}
+                            params={{ id: datasetObj.id }}
+                          >
+                            <a>
+                              {datasetObj.label}
+                            </a>
+                          </Link>
                         </div>
                         <div className="dataset-subscription-type">
                           {subscription.attributes.datasetsQuery
