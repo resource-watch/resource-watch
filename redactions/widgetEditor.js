@@ -25,6 +25,7 @@ const SET_AREA_INTERSEACTION = 'widgetEditor/SET_AREA_INTERSEACTION';
 const SET_VISUALIZATION_TYPE = 'widgetEditor/SET_VISUALIZATION_TYPE';
 const SET_BAND = 'widgetEditor/SET_BAND';
 const SET_LAYER = 'widgetEditor/SET_LAYER';
+const SET_HAS_GEOINFO = 'widgetEditor/SET_HAS_GEOINFO';
 
 /**
  * REDUCER
@@ -43,7 +44,8 @@ const initialState = {
   visualizationType: null,
   limit: 500,
   areaIntersection: null, // ID of the geostore object
-  band: null // Band of the raster dataset
+  band: null, // Band of the raster dataset
+  hasGeoInfo: false // Whether the dataset includes geographical information
 };
 
 export default function (state = initialState, action) {
@@ -217,6 +219,12 @@ export default function (state = initialState, action) {
       });
     }
 
+    case SET_HAS_GEOINFO: {
+      return Object.assign({}, state, {
+        hasGeoInfo: action.payload
+      });
+    }
+
     default:
       return state;
   }
@@ -243,6 +251,7 @@ export default function (state = initialState, action) {
  * - setOrderBy
  * - removeOrderBy
  * - setLimit
+ * - setGeoInfo
 */
 export function addFilter(filter) {
   return dispatch => dispatch({ type: ADD_FILTER, payload: filter });
@@ -299,7 +308,7 @@ export function setAggregateFunction(value) {
  * not the results from the API
  * @export
  * @param {boolean} [hardReset=true]
- * @returns  
+ * @returns
  */
 export function resetWidgetEditor(hardReset = true) {
   return dispatch => dispatch({ type: RESET, payload: hardReset });
@@ -329,4 +338,8 @@ export function setBand(band) {
 
 export function setLayer(layer) {
   return dispatch => dispatch({ type: SET_LAYER, payload: layer });
+}
+
+export function setHasGeoInfo(hasGeoInfo) {
+  return dispatch => dispatch({ type: SET_HAS_GEOINFO, payload: hasGeoInfo });
 }
