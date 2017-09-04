@@ -264,7 +264,7 @@ class WidgetCard extends React.Component {
     if (confirm(`Are you sure you want to remove the widget: ${widgetName}?`)) {
       this.widgetService.removeUserWidget(widgetId, this.props.user.token)
         .then(() => this.props.onWidgetRemove())
-        .catch(err => console.log(err)); // eslint-disable-line no-console
+        .catch(err => toastr.error('Error', err));
     }
   }
 

@@ -501,7 +501,6 @@ class Globe extends React.Component {
     this.renderer.setSize(this.state.width, this.state.height);
     // TODO: update halo size
     // this.halo.geometry.radius = this.getHaloRadius();
-    // console.info('this.halo.geometry.radius', this.halo.geometry.radius);
   }
 
   onClick(event) {

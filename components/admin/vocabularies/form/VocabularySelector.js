@@ -1,8 +1,12 @@
 import React from 'react';
 import { Autobind } from 'es-decorators';
+import { toastr } from 'react-redux-toastr';
 
+// Components
 import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
+
+// Utils
 import { get } from 'utils/request';
 
 import { FORM_ELEMENTS } from './constants';
@@ -88,8 +92,8 @@ class VocabularySelector extends React.Component {
             loading: false
           });
         },
-        onError: () => {
-          console.info('Error');
+        onError: (error) => {
+          toastr.error('Error', error);
         }
       }
     );

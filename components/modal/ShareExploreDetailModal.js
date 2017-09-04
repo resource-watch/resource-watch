@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { toastr } from 'react-redux-toastr';
 
 // Components
 import Icon from 'components/ui/Icon';
@@ -20,7 +21,7 @@ class ShareExploreDetailModal extends React.Component {
       document.execCommand('copy');
       this.setState({ copied: true });
     } catch (err) {
-      console.warn('Oops, unable to copy');
+      toastr.warning('Oops, unable to copy');
     }
   }
 
