@@ -234,6 +234,26 @@ export default class UserService {
   }
 
   /**
+  * Update area
+  */
+  updateArea(id, name, token) {
+    const bodyObj = {
+      name,
+      application: 'rw'
+    };
+    
+    return fetch(`${this.opts.apiURL}/area/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(bodyObj),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token
+      }
+    })
+      .then(response => response.json());
+  }
+
+  /**
    * Deletes an area
    * @param {areaId} ID of the area that will be deleted
    * @param {token} User token

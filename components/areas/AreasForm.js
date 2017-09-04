@@ -83,18 +83,28 @@ class AreasForm extends React.Component {
     e.preventDefault();
 
     const { selectedArea, name, geostore } = this.state;
-    const { user } = this.props;
+    const { user, mode, id } = this.props;
 
     if (geostore || selectedArea) {
       this.setState({
         loading: true
       });
-      this.userService.createNewArea(name, geostore, selectedArea, user.token)
-        .then(() => {
-          Router.pushRoute('myrw', { tab: 'areas' });
-          toastr.success('Success', 'Area successfully created!');
-        })
-        .catch(err => this.setState({ error: err, loading: false }));
+
+      if (mode === 'new') {
+        this.userService.createNewArea(name, geostore, selectedArea, user.token)
+          .then(() => {
+            Router.pushRoute('myrw', { tab: 'areas' });
+            toastr.success('Success', 'Area successfully created!');
+          })
+          .catch(err => this.setState({ error: err, loading: false }));
+      } else if (mode === 'edit') {
+        this.userService.updateArea(id, name, user.token)
+          .then(() => {
+            Router.pushRoute('myrw', { tab: 'areas' });
+            toastr.success('Success', 'Area successfully updated!');
+          })
+          .catch(err => this.setState({ error: err, loading: false }));
+      }
     } else {
       toastr.info('Data missing', 'Please select an area');
     }
