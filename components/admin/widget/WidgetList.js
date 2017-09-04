@@ -1,11 +1,11 @@
 import React from 'react';
 import sortBy from 'lodash/sortBy';
 
-import Spinner from '../ui/Spinner';
-import WidgetCard from './WidgetCard';
+// Components
+import Spinner from 'components/ui/Spinner';
+import WidgetCard from 'components/admin/widget/WidgetCard';
 
 class WidgetList extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -19,7 +19,7 @@ class WidgetList extends React.Component {
     this.triggerClick = this.triggerClick.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getWidgets();
   }
 

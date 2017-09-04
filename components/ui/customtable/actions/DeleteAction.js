@@ -1,8 +1,8 @@
 import React from 'react';
 import { remove } from 'utils/request';
+import { toastr } from 'react-redux-toastr';
 
 class DeleteAction extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -12,23 +12,28 @@ class DeleteAction extends React.Component {
 
   handleOnClickDelete(e) {
     const { data, url } = this.props;
-    e && e.preventDefault() && e.stopPropagation();
-
-    if (confirm(`Are you sure that you want to delete: "${data.name}" `)) {
-      remove({
-        url: `${url}/${data.id}`,
-        headers: [{
-          key: 'Authorization',
-          value: this.props.authorization
-        }],
-        onSuccess: () => {
-          this.props.onRowDelete(data.id);
-        },
-        onError: () => {
-          console.error('There was an error with the request. The object was not deleted');
-        }
-      });
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
     }
+
+    toastr.confirm(`Are you sure that you want to delete: "${data.name}"?`, {
+      onOk: () => {
+        remove({
+          url: `${url}/${data.id}`,
+          headers: [{
+            key: 'Authorization',
+            value: this.props.authorization
+          }],
+          onSuccess: () => {
+            this.props.onRowDelete(data.id);
+          },
+          onError: () => {
+            toastr.error('Error', 'There was an error with the request. The object was not deleted');
+          }
+        });
+      }
+    });
   }
 
   render() {

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Router } from 'routes';
 import { Autobind } from 'es-decorators';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
@@ -133,7 +134,7 @@ class SaveWidgetModal extends React.Component {
           error: true,
           errorMessage: err.message
         });
-        console.log(err); // eslint-disable-line no-console
+        toastr.error('Error', err); // eslint-disable-line no-console
       })
       .then(() => this.setState({ loading: false }));
   }

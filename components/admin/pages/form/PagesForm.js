@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Serializer } from 'jsonapi-serializer';
 
-
 // Services
 import PagesService from 'services/PagesService';
 import { toastr } from 'react-redux-toastr';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/pages/form/constants';
 
+// Components
 import Navigation from 'components/form/Navigation';
 import Step1 from 'components/admin/pages/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
@@ -47,7 +47,7 @@ class PagesForm extends React.Component {
           });
         })
         .catch((err) => {
-          console.error(err);
+          toastr.error('Error', err);
         });
     }
   }
@@ -92,13 +92,12 @@ class PagesForm extends React.Component {
             })
             .catch((err) => {
               this.setState({ submitting: false });
-              toastr.error('Error', `Oops! There was an error, try again`);
-              console.error(err);
+              toastr.error('Error', 'Oops! There was an error, try again', err);
             });
         } else {
           this.setState({
             step: this.state.step + 1
-          }, () => console.info(this.state));
+          });
         }
       } else {
         toastr.error('Error', 'Fill all the required fields');
@@ -108,7 +107,7 @@ class PagesForm extends React.Component {
 
   onChange(obj) {
     const form = Object.assign({}, this.state.form, obj);
-    this.setState({ form }, () => console.info(this.state.form));
+    this.setState({ form });
   }
 
   onStepChange(step) {

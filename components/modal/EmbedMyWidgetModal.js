@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { toastr } from 'react-redux-toastr';
 
 class EmbedMyWidgetModal extends React.Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class EmbedMyWidgetModal extends React.Component {
       document.execCommand('copy');
       this.setState({ copied: true });
     } catch (err) {
-      console.warn('Oops, unable to copy');
+      toastr.warning('Oops, unable to copy');
     }
   }
 

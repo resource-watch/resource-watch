@@ -4,6 +4,7 @@ import { Autobind } from 'es-decorators';
 import classNames from 'classnames';
 import InputRange from 'react-input-range';
 import debounce from 'lodash/debounce';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 
@@ -114,7 +115,7 @@ class FilterTooltip extends React.Component {
           this.props.onResize();
         }
       })
-      .catch(error => console.error(error))
+      .catch(error => toastr.error('Error', error))
       .then(() => this.setState({ loading: false }));
   }
 

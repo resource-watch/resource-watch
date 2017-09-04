@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import { Link } from 'routes';
-
+import { toastr } from 'react-redux-toastr';
 
 // Layout
 import Head from 'components/app/layout/head';
@@ -161,7 +161,7 @@ class EmbedWidget extends Page {
         this.setState({ layerGroups });
       })
       // TODO: handle the error in the UI
-      .catch(err => console.error(err))
+      .catch(err => toastr.error('Error', err))
       .then(() => this.setState({ loading: false }));
   }
 

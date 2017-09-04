@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
-
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -15,7 +15,6 @@ import DatasetService from 'services/DatasetService';
 import getQueryByFilters from 'utils/getQueryByFilters';
 
 class TableView extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -30,10 +29,14 @@ class TableView extends React.Component {
     });
   }
 
-  componentWillMount() {
+  /**
+  * COMPONENT LIFECYCLE
+  * - componentDidMount
+  * - componentWillReceiveProps
+  */
+  componentDidMount() {
     this.getDataForTable(this.props);
   }
-
   componentWillReceiveProps(nextProps) {
     this.getDataForTable(nextProps);
   }
@@ -51,7 +54,7 @@ class TableView extends React.Component {
         } else if (category && category.name === val.columnName && aggregateFunctionExists) {
           // Category
           return { value: val.columnName, key: val.columnName, group: true };
-        } else {
+        } else { // eslint-disable-line
           // Rest of columns
           return {
             value: val.columnName,
@@ -76,7 +79,7 @@ class TableView extends React.Component {
         data: response,
         loading: false
       });
-    }).catch(err => console.log(err));
+    }).catch(err => toastr.error('Error', err));
   }
 
   render() {
@@ -106,7 +109,7 @@ class TableView extends React.Component {
               data.map((row, i) =>
                 (
                   <tr
-                    key={`row${i}`}
+                    key={`row${i}`} // eslint-disable-line
                   >
                     {
                       Object.keys(row).map(column => (<td key={`td${column}`}>{row[column]}</td>))
@@ -124,9 +127,9 @@ class TableView extends React.Component {
 
 TableView.propTypes = {
   dataset: PropTypes.string.isRequired,
-  tableName: PropTypes.string.isRequired,
+  tableName: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
   // Store
-  widgetEditor: PropTypes.object.isRequired
+  widgetEditor: PropTypes.object.isRequired // eslint-disable-line react/no-unused-prop-types
 };
 
 const mapStateToProps = ({ widgetEditor }) => ({ widgetEditor });

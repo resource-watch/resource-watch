@@ -8,10 +8,14 @@ import { initStore } from 'store';
 import { getPartnerData } from 'redactions/partnerDetail';
 
 class PartnerDetail extends Page {
-  componentWillMount() {
+  /**
+  * COMPONENT LIFECYCLE
+  * - componentDidMount
+  * - componentWillReceiveProps
+  */
+  componentDidMount() {
     this.props.getPartnerData(this.props.url.query.id);
   }
-
   componentWillReceiveProps(newProps) {
     if (this.props.url.query.id !== newProps.url.query.id) {
       this.props.getPartnerData(newProps.url.query.id);
@@ -29,7 +33,6 @@ class PartnerDetail extends Page {
 
   render() {
     const { data } = this.props;
-    // const description = data.summary ? this.splitInTwoParts(data.summary) : ['', ''];
     const imgPath = data['white-logo'] ? data['white-logo'].medium : '';
     const logo = data.website !== '' ?
       (<a href={data.website} target="_blank" rel="noopener noreferrer">

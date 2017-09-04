@@ -1,5 +1,6 @@
 import React from 'react';
 import omit from 'lodash/omit';
+import { toastr } from 'react-redux-toastr';
 
 import { Autobind } from 'es-decorators';
 
@@ -52,7 +53,7 @@ class MetadataForm extends React.Component {
         })
         .catch((err) => {
           this.setState({ loading: false });
-          console.error(err);
+          toastr.error('Error', err);
         });
 
       this.service.fetchFields({ id: this.props.dataset })
@@ -62,7 +63,7 @@ class MetadataForm extends React.Component {
           });
         })
         .catch((err) => {
-          console.error(err);
+          toastr.error('Error', err);
         });
     }
   }
@@ -110,14 +111,14 @@ class MetadataForm extends React.Component {
           body: omit(this.state.form, requestOptions.omit)
         })
           .then(() => {
-            const successMessage = 'Metadata has been uploaded correctly';
-            alert(successMessage);
-
-            this.props.onSubmit && this.props.onSubmit();
+            toastr.success('Success', 'Metadata has been uploaded correctly');
+            if (this.props.onSubmit) {
+              this.props.onSubmit();
+            }
           })
           .catch((err) => {
             this.setState({ submitting: false });
-            console.error(err);
+            toastr.error('Error', err);
           });
       }
     }, 0);
@@ -127,7 +128,6 @@ class MetadataForm extends React.Component {
   onChange(obj) {
     const form = Object.assign({}, this.state.form, obj.form);
     this.setState({ form });
-    console.info(form);
   }
 
   @Autobind

@@ -1,4 +1,5 @@
 import React from 'react';
+import { toastr } from 'react-redux-toastr';
 
 class LegendType extends React.Component {
   getLegendType() {
@@ -76,7 +77,7 @@ class LegendType extends React.Component {
       }
 
       default: {
-        console.error('No type specified');
+        toastr.error('Error', 'No type specified');
         return null;
       }
     }

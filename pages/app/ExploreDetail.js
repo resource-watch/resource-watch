@@ -2,7 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
-import classNames from 'classnames';
 import MediaQuery from 'react-responsive';
 import { toastr } from 'react-redux-toastr';
 
@@ -49,11 +48,11 @@ class ExploreDetail extends Page {
 
   /**
    * Component Lifecycle
-   * - componentWillMount
+   * - componentDidMount
    * - componentWillReceiveProps
    * - componentWillUnmount
   */
-  componentWillMount() {
+  componentDidMount() {
     this.getDataset();
     this.getSimilarDatasets();
   }
@@ -96,7 +95,7 @@ class ExploreDetail extends Page {
           loading: false
         });
       }).catch((error) => {
-        console.error(error);
+        toastr.error('Error', error);
         this.setState({
           loading: false
         });
@@ -176,18 +175,11 @@ class ExploreDetail extends Page {
   }
 
   render() {
-    const { dataset, loading, downloadURI, similarDatasets, similarDatasetsLoaded } = this.state;
+    const { dataset, loading, similarDatasets, similarDatasetsLoaded } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
     const metadataAttributes = metadata && metadata.attributes;
     const metadataInfo = metadataAttributes && metadataAttributes.info;
-
-    const downloadButtonClass = classNames({
-      '-disabled': downloadURI,
-      'c-button': true,
-      '-secondary': true,
-      '-fullwidth': true
-    });
 
     return (
       <Layout

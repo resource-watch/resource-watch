@@ -4,6 +4,7 @@ import { Autobind } from 'es-decorators';
 import { Router, Link } from 'routes';
 import isEqual from 'lodash/isEqual';
 import classnames from 'classnames';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
@@ -64,8 +65,8 @@ class WidgetCard extends React.Component {
   /**
    * Return whether the widget represents a map
    * @static
-   * @param {any} widget 
-   * @returns {boolean} 
+   * @param {any} widget
+   * @returns {boolean}
    */
   static isMapWidget(widget) {
     return !!(widget
@@ -169,7 +170,7 @@ class WidgetCard extends React.Component {
     }
 
     if (this.state.error) {
-      console.error(this.state.error);
+      toastr.error('Error', this.state.error);
       // TODO: Correctly show the UI
       return null;
     }
@@ -227,7 +228,7 @@ class WidgetCard extends React.Component {
 
   /**
    * Fetch the information about the layer and store it in the state
-   * @param {string} layerId 
+   * @param {string} layerId
    */
   fetchLayer(layerId) {
     this.setState({ loading: true, error: null });
@@ -263,7 +264,7 @@ class WidgetCard extends React.Component {
     if (confirm(`Are you sure you want to remove the widget: ${widgetName}?`)) {
       this.widgetService.removeUserWidget(widgetId, this.props.user.token)
         .then(() => this.props.onWidgetRemove())
-        .catch(err => console.log(err)); // eslint-disable-line no-console
+        .catch(err => toastr.error('Error', err));
     }
   }
 
@@ -315,12 +316,14 @@ class WidgetCard extends React.Component {
   handleStarClick(event) {
     event.preventDefault();
     const { widget, user } = this.props;
-    if (confirm(`Are you sure you want to unfavourite the widget ${widget.attributes.name}`)) { // eslint-disable-line no-alert
-      this.userService.deleteFavourite(widget.favouriteId, user.token)
-        .then(() => {
-          this.props.onWidgetUnfavourited();
-        });
-    }
+    toastr.confirm(`Are you sure you want to unfavourite the widget ${widget.attributes.name}?`, {
+      onOk: () => {
+        this.userService.deleteFavourite(widget.favouriteId, user.token)
+          .then(() => {
+            this.props.onWidgetUnfavourited();
+          });
+      }
+    });
   }
 
   @Autobind
