@@ -134,29 +134,20 @@ class AreaCard extends React.Component {
   }
 
   @Autobind
-  handleNewSubscription() {
-    const options = {
-      children: AreaSubscriptionModal,
-      childrenProps: {
-        area: this.props.area,
-        toggleModal: this.props.toggleModal,
-        onSubscriptionCreated: this.handleSubscriptionCreated,
-        mode: 'new'
-      }
-    };
-    this.props.toggleModal(true);
-    this.props.setModalOptions(options);
+  handleEditArea() {
+
   }
 
   @Autobind
   handleEditSubscription() {
+    const mode = this.props.area.subscription ? 'edit' : 'new';
     const options = {
       children: AreaSubscriptionModal,
       childrenProps: {
         area: this.props.area,
         toggleModal: this.props.toggleModal,
         onSubscriptionUpdated: this.handleSubscriptionUpdated,
-        mode: 'edit'
+        mode
       }
     };
     this.props.toggleModal(true);
@@ -238,10 +229,8 @@ class AreaCard extends React.Component {
       children: AreaActionsTooltip,
       childrenProps: {
         toggleTooltip: this.props.toggleTooltip,
-        onShareEmbed: this.handleEmbed,
-        onAddToDashboard: this.handleAddToDashboard,
-        onGoToDataset: this.handleGoToDataset,
-        onEditWidget: this.handleEditWidget
+        onEditArea: this.handleEditArea,
+        onEditSubscriptions: this.handleEditSubscription
       }
     });
   }
@@ -349,7 +338,8 @@ AreaCard.propTypes = {
   onChange: PropTypes.func.isRequired,
   // Store
   toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired
+  setModalOptions: PropTypes.func.isRequired,
+  toggleTooltip: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({

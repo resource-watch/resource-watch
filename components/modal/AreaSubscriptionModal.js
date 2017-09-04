@@ -138,6 +138,9 @@ class AreaSubscriptionModal extends React.Component {
         <div className="header-div">
           <h2>{`${area.attributes.name} subscriptions`}</h2>
         </div>
+        <div className="header-text">
+          Select the datasets that you want to subscribe to
+        </div>
         <Spinner isLoading={loading || loadingDatasets} className="-light" />
         <div className="new-container">
           <button className="c-btn -primary" onClick={this.handleNewSubscriptionSelector}>
@@ -159,7 +162,7 @@ class AreaSubscriptionModal extends React.Component {
         </div>
         <div className="buttons">
           <button className="c-btn -primary" onClick={this.handleSubmit}>
-            Submit
+            Done
           </button>
           <button className="c-btn -secondary" onClick={this.handleCancel}>
             Cancel
