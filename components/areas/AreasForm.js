@@ -73,6 +73,9 @@ class AreasForm extends React.Component {
 
   componentDidMount() {
     this.loadAreas();
+    if (this.props.id) {
+      this.loadArea();
+    }
   }
 
   @Autobind
@@ -80,18 +83,28 @@ class AreasForm extends React.Component {
     e.preventDefault();
 
     const { selectedArea, name, geostore } = this.state;
-    const { user } = this.props;
+    const { user, mode, id } = this.props;
 
     if (geostore || selectedArea) {
       this.setState({
         loading: true
       });
-      this.userService.createNewArea(name, geostore, selectedArea, user.token)
-        .then(() => {
-          Router.pushRoute('myrw', { tab: 'areas' });
-          toastr.success('Success', 'Area successfully created!');
-        })
-        .catch(err => this.setState({ error: err, loading: false }));
+
+      if (mode === 'new') {
+        this.userService.createNewArea(name, geostore, selectedArea, user.token)
+          .then(() => {
+            Router.pushRoute('myrw', { tab: 'areas' });
+            toastr.success('Success', 'Area successfully created!');
+          })
+          .catch(err => this.setState({ error: err, loading: false }));
+      } else if (mode === 'edit') {
+        this.userService.updateArea(id, name, user.token)
+          .then(() => {
+            Router.pushRoute('myrw', { tab: 'areas' });
+            toastr.success('Success', 'Area successfully updated!');
+          })
+          .catch(err => this.setState({ error: err, loading: false }));
+      }
     } else {
       toastr.info('Data missing', 'Please select an area');
     }
@@ -144,6 +157,19 @@ class AreasForm extends React.Component {
     });
   }
 
+  loadArea() {
+    const { id, user } = this.props;
+    this.userService.getArea(id, user.token).then((response) => {
+      const area = response.data.attributes;
+      const selectedArea = area.iso ? { value: area.iso.country } :
+        { value: area.geostore };
+      this.setState({
+        name: area.name,
+        selectedArea
+      });
+    });
+  }
+
   render() {
     const {
       areaOptions,
@@ -152,6 +178,7 @@ class AreasForm extends React.Component {
       loading,
       name
     } = this.state;
+    const { mode } = this.props;
 
     return (
       <div className="c-areas-form">
@@ -173,17 +200,22 @@ class AreasForm extends React.Component {
               {Input}
             </Field>
           </fieldset>
-          <div className="selectors-container">
-            <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
-            <CustomSelect
-              placeholder="Select area"
-              options={areaOptions}
-              onValueChange={this.onChangeSelectedArea}
-              allowNonLeafSelection={false}
-              value={selectedArea && selectedArea.value}
-              waitForChangeConfirmation
-            />
-          </div>
+          {mode === 'new' &&
+            <div
+              className="selectors-container"
+            >
+              <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
+              <CustomSelect
+                placeholder="Select area"
+                options={areaOptions}
+                onValueChange={this.onChangeSelectedArea}
+                allowNonLeafSelection={false}
+                value={selectedArea && selectedArea.value}
+                waitForChangeConfirmation
+                disabled={mode === 'edit'}
+              />
+            </div>
+          }
           <div className="buttons-div">
             <button onClick={() => Router.pushRoute('myrw', { tab: 'areas' })} className="c-btn -secondary">
               Cancel
@@ -199,6 +231,8 @@ class AreasForm extends React.Component {
 }
 
 AreasForm.propTypes = {
+  mode: PropTypes.string.isRequired, // edit | new
+  id: PropTypes.string, // area id for edit mode
   // Store
   user: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired
