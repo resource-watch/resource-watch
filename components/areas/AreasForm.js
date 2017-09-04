@@ -200,20 +200,22 @@ class AreasForm extends React.Component {
               {Input}
             </Field>
           </fieldset>
-          <div
-            className="selectors-container"
-          >
-            <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
-            <CustomSelect
-              placeholder="Select area"
-              options={areaOptions}
-              onValueChange={this.onChangeSelectedArea}
-              allowNonLeafSelection={false}
-              value={selectedArea && selectedArea.value}
-              waitForChangeConfirmation
-              disabled={mode === 'edit'}
-            />
-          </div>
+          {mode === 'new' &&
+            <div
+              className="selectors-container"
+            >
+              <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
+              <CustomSelect
+                placeholder="Select area"
+                options={areaOptions}
+                onValueChange={this.onChangeSelectedArea}
+                allowNonLeafSelection={false}
+                value={selectedArea && selectedArea.value}
+                waitForChangeConfirmation
+                disabled={mode === 'edit'}
+              />
+            </div>
+          }
           <div className="buttons-div">
             <button onClick={() => Router.pushRoute('myrw', { tab: 'areas' })} className="c-btn -secondary">
               Cancel
