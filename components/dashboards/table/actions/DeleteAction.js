@@ -20,7 +20,10 @@ class DeleteAction extends React.Component {
   }
 
   handleOnClickDelete(e) {
-    e && e.preventDefault() && e.stopPropagation();
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
 
     const { data } = this.props;
 
@@ -32,11 +35,9 @@ class DeleteAction extends React.Component {
             toastr.success('Success', `The dashboard "${data.id}" - "${data.name}" has been removed correctly`);
           })
           .catch((err) => {
-            toastr.error('Error', `The dashboard "${data.id}" - "${data.name}" was not deleted. Try again`);
-            console.error(err);
+            toastr.error('Error', `The dashboard "${data.id}" - "${data.name}" was not deleted. Try again. ${err}`);
           });
-      },
-      onCancel: () => console.info('canceled')
+      }
     });
   }
 

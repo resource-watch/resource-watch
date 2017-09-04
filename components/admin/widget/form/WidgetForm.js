@@ -1,5 +1,6 @@
 import React from 'react';
 import omit from 'lodash/omit';
+import { toastr } from 'react-redux-toastr';
 
 // Components
 import Step1 from 'components/admin/widget/form/steps/Step1';
@@ -48,7 +49,7 @@ class WidgetForm extends React.Component {
         },
         onError: (error) => {
           this.setState({ loading: false });
-          console.error(error);
+          toastr.error('Error', error);
         }
       });
     }
@@ -88,14 +89,14 @@ class WidgetForm extends React.Component {
             value: this.state.form.authorization
           }],
           onSuccess: () => {
-            const successMessage = 'Widget has been uploaded correctly';
-            alert(successMessage);
-
-            if (this.props.onSubmit) this.props.onSubmit();
+            toastr.success('Success', 'Widget has been uploaded correctly');
+            if (this.props.onSubmit) {
+              this.props.onSubmit();
+            }
           },
           onError: (error) => {
             this.setState({ loading: false });
-            console.error(error);
+            toastr.error('Error', error);
           }
         });
       }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc';
 import isEqual from 'lodash/isEqual';
 import throttle from 'lodash/throttle';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
@@ -155,7 +156,7 @@ class Legend extends React.Component {
    */
   onClickOpacity() { // eslint-disable-line class-methods-use-this
     // TODO: implement
-    alert('Not implemented yet'); // eslint-disable-line no-alert
+    toastr.info('Not implemented yet');
   }
 
   /**

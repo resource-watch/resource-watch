@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import { Router } from 'routes';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
@@ -53,7 +54,7 @@ class DatasetWidgets extends React.Component {
           widgetsLoaded: true,
           widgets: response.filter(widget => widget.attributes.dataset === dataset)
         });
-      }).catch(err => console.log(err)); // eslint-disable-line no-console
+      }).catch(err => toastr.error('Error', err));
   }
 
   @Autobind

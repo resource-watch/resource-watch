@@ -115,7 +115,7 @@ class SubscriptionCard extends React.Component {
             });
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => toastr.error('Error', err));
   }
 
   @Autobind
@@ -128,7 +128,7 @@ class SubscriptionCard extends React.Component {
           .then(() => {
             this.props.onSubscriptionRemoved();
           })
-          .catch(err => console.log(err));
+          .catch(err => toastr.error('Error', err));
       }
     };
     toastr.confirm('Are you sure you want to delete the subscription?', toastrConfirmOptions);
