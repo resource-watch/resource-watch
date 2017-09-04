@@ -67,7 +67,7 @@ class EmbedWidget extends Page {
     const { visualizationLoading, layerGroups } = this.state;
     const { widgetConfig } = this.state.widget;
 
-    if (widgetConfig.paramsConfig.visualizationType === 'map') {
+    if (widgetConfig.paramsConfig && widgetConfig.paramsConfig.visualizationType === 'map') {
       const mapConfig = { zoom: 3, latLng: { lat: 0, lng: 0 } };
 
       // If the layerGroups are not created yet, we just display a loader
@@ -130,7 +130,7 @@ class EmbedWidget extends Page {
 
         // If the widget is a map,  we fetch the information about the
         // layer
-        if (widgetConfig.paramsConfig.visualizationType === 'map') {
+        if (widgetConfig.paramsConfig && widgetConfig.paramsConfig.visualizationType === 'map') {
           const id = widgetConfig.paramsConfig.layer;
           layerPromise = new LayersService().fetchData({ id })
             .then(layer => new Promise(resolve => this.setState({ layer }, resolve)));
