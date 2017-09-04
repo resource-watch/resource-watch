@@ -155,26 +155,6 @@ class AreaCard extends React.Component {
   }
 
   @Autobind
-  handleRemoveSubscription() {
-    const { area, token } = this.props;
-    toastr.confirm(`Area you sure you want to remove the subscription to the area: ${area.attributes.name}?`, {
-      onOk: () => {
-        this.setState({ loading: true });
-        this.userService.deleteSubscription(area.subscription.id, token)
-          .then(() => {
-            this.setState({ loading: false });
-            toastr.success('Success', 'The subscription was removed successfully');
-            this.props.onChange();
-          })
-          .catch((err) => {
-            this.setState({ loading: false });
-            toastr.error('Error removing subscription', err);
-          });
-      }
-    });
-  }
-
-  @Autobind
   handleSubscriptionCreated() {
     this.props.onChange();
   }
