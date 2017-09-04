@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 import { Link } from 'routes';
@@ -7,11 +8,13 @@ import { Link } from 'routes';
 // Redux
 import { connect } from 'react-redux';
 import { toggleModal, setModalOptions } from 'redactions/modal';
+import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import Spinner from 'components/ui/Spinner';
 import Map from 'components/vis/Map';
 import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
+import AreaActionsTooltip from 'components/areas/AreaActionsTooltip';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -31,6 +34,21 @@ const MAP_CONFIG = {
 };
 
 class AreaCard extends React.Component {
+  /**
+   * Return the position of the click within the page taking
+   * into account the scroll (relative to the page, not the
+   * viewport )
+   * @static
+   * @param {MouseEvent} e Event
+   * @returns {{ x: number, y: number }}
+   */
+  static getClickPosition(e) {
+    return {
+      x: window.scrollX + e.clientX,
+      y: window.scrollY + e.clientY
+    };
+  }
+
   constructor(props) {
     super(props);
 
@@ -211,6 +229,23 @@ class AreaCard extends React.Component {
       Deleting an area will delete all the subscriptions associated to it`, toastrConfirmOptions);
   }
 
+  @Autobind
+  handleEdit(event) {
+    const position = AreaCard.getClickPosition(event);
+    this.props.toggleTooltip(true, {
+      follow: false,
+      position,
+      children: AreaActionsTooltip,
+      childrenProps: {
+        toggleTooltip: this.props.toggleTooltip,
+        onShareEmbed: this.handleEmbed,
+        onAddToDashboard: this.handleAddToDashboard,
+        onGoToDataset: this.handleGoToDataset,
+        onEditWidget: this.handleEditWidget
+      }
+    });
+  }
+
   render() {
     const { loading, layerGroups } = this.state;
     const { area } = this.props;
@@ -218,9 +253,14 @@ class AreaCard extends React.Component {
     const subscription = area.subscription;
     const subscriptionConfirmed = area.subscription && area.subscription.attributes.confirmed;
 
+    const borderContainerClassNames = classnames({
+      'border-container': true,
+      'blue-background': subscription && !subscriptionConfirmed
+    });
+
     return (
       <div className="c-area-card">
-        <div className="border-container">
+        <div className={borderContainerClassNames}>
           <div className="map-container">
             <Map
               LayerManager={LayerManager}
@@ -263,36 +303,18 @@ class AreaCard extends React.Component {
                 </div>
               }
               {subscription &&
-                <div className="subscription-actions">
-                  <div className="status-labels-container">
-                    <div className="status-label">
-                      {subscriptionConfirmed &&
-                      <div className="confirmed-label">
-                            Confirmed
-                      </div>
-                      }
-                      {!subscriptionConfirmed &&
-                      <div className="pending-label">
-                            Pending
-                      </div>
-                      }
+                <div className="subscription-status">
+                  <div className="status-label">
+                    {subscriptionConfirmed &&
+                    <div className="confirmed-label">
+                      Confirmed
                     </div>
-                  </div>
-                  <div className="subscription-buttons">
-                    <a
-                      tabIndex={-1}
-                      role="button"
-                      onClick={this.handleRemoveSubscription}
-                    >
-                        Remove
-                    </a>
-                    <a
-                      tabIndex={-1}
-                      role="button"
-                      onClick={this.handleEditSubscription}
-                    >
-                        Edit
-                    </a>
+                    }
+                    {!subscriptionConfirmed &&
+                    <div className="pending-label">
+                      Pending
+                    </div>
+                    }
                   </div>
                 </div>
               }
@@ -332,7 +354,10 @@ AreaCard.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
   toggleModal: (open, opts) => { dispatch(toggleModal(open, opts)); },
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); }
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
+  toggleTooltip: (opened, opts) => {
+    dispatch(toggleTooltip(opened, opts));
+  }
 });
 
 export default connect(null, mapDispatchToProps)(AreaCard);

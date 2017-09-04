@@ -39,15 +39,9 @@
           }
         }
 
-        .subscription-actions {
+        .subscription-status {
           display: flex;
           justify-content: space-between;
-
-          .subscription-buttons {
-            *:last-child {
-              margin-left: 10px;
-            }
-          }
 
           .pending-label {
             color: $color-blue-turquoise;
@@ -77,6 +71,10 @@
           cursor: pointer;
         }
       }
+    }
+
+    &.blue-background {
+      background-color: #DCE0E1;
     }
   }
 }
