@@ -4,7 +4,6 @@ import { Autobind } from 'es-decorators';
 
 // Components
 import Select from 'components/form/SelectInput';
-import Icon from 'components/ui/Icon';
 
 class SubscriptionSelector extends React.Component {
   constructor(props) {
@@ -13,21 +12,27 @@ class SubscriptionSelector extends React.Component {
     this.state = {
       selectedDataset: null,
       selectedType: null,
-      index: props.index
+      index: props.index,
+      typeOptions: []
     };
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.data) {
       const { selectedDataset, selectedType, index } = newProps.data;
+      const typeOptions = selectedDataset ?
+        Object.keys(
+          newProps.datasets.find(val => val.id === selectedDataset).attributes.subscribable)
+          .map(val => ({ value: val, label: val }))
+        : [];
       this.setState({
         selectedDataset,
         selectedType,
-        index
+        index,
+        typeOptions
       });
     }
   }
-
 
   @Autobind
   handleDatasetSelected(value) {
@@ -42,7 +47,7 @@ class SubscriptionSelector extends React.Component {
     if (!this.state.selectedType) {
       this.setState({
         selectedDataset: value,
-        selectedType: typeOptions[0],
+        selectedType: typeOptions[0].value,
         typeOptions
       },
       () => this.props.onUpdate(this.state));
@@ -110,6 +115,7 @@ class SubscriptionSelector extends React.Component {
 SubscriptionSelector.propTypes = {
   datasets: PropTypes.array.isRequired,
   index: PropTypes.string,
+  data: PropTypes.object,
   // CALLBACKS
   onRemove: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired
