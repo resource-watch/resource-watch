@@ -76,7 +76,7 @@ class DatasetVocabulariesForm extends React.Component {
                 toastr.success('Success', 'Vocabularies have been updated correctly');
               },
               onError: () => {
-                console.info('Error');
+                toastr.error('Error');
               }
             }
           );
@@ -150,7 +150,7 @@ class DatasetVocabulariesForm extends React.Component {
             });
           },
           onError: () => {
-            console.info('Error');
+            toastr.error('Error');
           }
         }
       );
@@ -178,7 +178,7 @@ class DatasetVocabulariesForm extends React.Component {
           }, this.loadDatasetVocabularies);
         },
         onError: () => {
-          console.info('Error');
+          toastr.error('Error');
         }
       }
     );

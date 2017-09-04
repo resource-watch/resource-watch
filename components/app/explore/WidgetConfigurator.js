@@ -118,7 +118,6 @@ const chartFields = [
 ];
 
 class WidgetConfigurator extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -136,7 +135,8 @@ class WidgetConfigurator extends React.Component {
       }
     };
 
-    this.DatasetService = new DatasetService(this.props.dataset, { apiURL: process.env.WRI_API_URL });
+    this.DatasetService = new DatasetService(this.props.dataset,
+      { apiURL: process.env.WRI_API_URL });
   }
 
   onChartTypeChanged(value) {
@@ -173,7 +173,6 @@ class WidgetConfigurator extends React.Component {
   }
 
   triggerSelectionChange() {
-    console.info('triggerSelectionChange', this.state);
     const { selected } = this.state;
     const columns = [];
 

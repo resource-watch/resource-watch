@@ -6,7 +6,6 @@ import WidgetForm from 'components/admin/widget/form/WidgetForm';
 
 function WidgetShow(props) {
   const { id, user } = props;
-  console.log(user.token);
 
   return (
     <WidgetForm
