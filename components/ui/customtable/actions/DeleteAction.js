@@ -29,7 +29,7 @@ class DeleteAction extends React.Component {
             this.props.onRowDelete(data.id);
           },
           onError: () => {
-            console.error('There was an error with the request. The object was not deleted');
+            toastr.error('Error', 'There was an error with the request. The object was not deleted');
           }
         });
       }

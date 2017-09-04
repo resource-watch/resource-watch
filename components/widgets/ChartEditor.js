@@ -121,14 +121,12 @@ class ChartEditor extends React.Component {
             resolve(true);
           })
           .catch((err) => {
-            console.error(err);
-
             // In case of an error, we prevent the selector from setting
             // the area as selected
             resolve(false);
 
             // TODO: improve this 💩
-            toastr.error('Error', 'Unable to filter with this country');
+            toastr.error('Error', `Unable to filter with this country. ${err}`);
           })
           .then(() => this.setState({ loadingAreaIntersection: false }));
       }
@@ -186,7 +184,7 @@ class ChartEditor extends React.Component {
       })
       // We don't really care if the countries don't load, we can still
       // let the user use a custom area
-      .catch(err => console.error(err))
+      .catch(err => toastr.error('Error', err))
       .then(() => this.setState({ loadingAreaIntersection: false }));
   }
 

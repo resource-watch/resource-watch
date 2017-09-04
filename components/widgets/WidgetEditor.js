@@ -4,6 +4,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { Autobind } from 'es-decorators';
 import { DragDropContext } from 'react-dnd';
 import isEqual from 'lodash/isEqual';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
@@ -275,8 +276,8 @@ class WidgetEditor extends React.Component {
         layersLoaded: true
       }, resolve)))
       // TODO: properly handle this in the UI
-      .catch(() => {
-        console.error('Unable to fetch the layers');
+      .catch((err) => {
+        toastr.error('Error', `Unable to fetch the layers${err}`);
         return new Promise(resolve => this.setState({ layersError: true }, resolve));
       })
       .then(() => new Promise(resolve => this.setState({ layersLoaded: true }, resolve)));
@@ -337,7 +338,7 @@ class WidgetEditor extends React.Component {
         });
       })
       // TODO: handle the error case in the UI
-      .catch(() => console.error('Unable to load the information about the dataset'));
+      .catch(err => toastr.error('Error', `Unable to load the information about the dataset. ${err}`));
   }
 
   /**

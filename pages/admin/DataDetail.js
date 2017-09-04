@@ -1,5 +1,6 @@
 import React from 'react';
 import { singular } from 'pluralize';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -72,7 +73,7 @@ class DataDetail extends Page {
           this.setState({ data });
         })
         .catch((err) => {
-          console.error(err);
+          toastr.error('Error', err);
         });
     }
   }

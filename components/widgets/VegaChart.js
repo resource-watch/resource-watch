@@ -6,6 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 import debounce from 'lodash/debounce';
 import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
@@ -358,7 +359,7 @@ class VegaChart extends React.Component {
     this.getVegaConfig()
       .then(vegaConfig => this.setState({ vegaConfig }))
       .then(() => this.parseVega())
-      .catch(err => console.error(err)); // TODO: UI feedback
+      .catch(err => toastr.error('Error', err)); // TODO: UI feedback
   }
 
   render() {
