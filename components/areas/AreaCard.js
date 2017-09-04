@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
-import { Link } from 'routes';
+import { Link, Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
@@ -135,7 +135,7 @@ class AreaCard extends React.Component {
 
   @Autobind
   handleEditArea() {
-
+    Router.pushRoute('myrw_detail', { id: this.props.area.id, tab: 'areas' });
   }
 
   @Autobind
