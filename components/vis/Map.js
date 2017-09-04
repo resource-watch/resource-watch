@@ -23,7 +23,6 @@ const MAP_CONFIG = {
 };
 
 class Map extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -159,8 +158,8 @@ class Map extends React.Component {
 
   setBasemap() {
     this.tileLayer = L.tileLayer(process.env.BASEMAP_TILE_URL, {})
-                      .addTo(this.map)
-                      .setZIndex(0);
+      .addTo(this.map)
+      .setZIndex(0);
   }
 
   // GETTERS

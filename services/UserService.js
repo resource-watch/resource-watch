@@ -241,7 +241,7 @@ export default class UserService {
       name,
       application: 'rw'
     };
-    
+
     return fetch(`${this.opts.apiURL}/area/${id}`, {
       method: 'PATCH',
       body: JSON.stringify(bodyObj),
