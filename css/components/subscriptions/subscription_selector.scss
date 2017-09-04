@@ -7,8 +7,12 @@
     cursor: pointer;
   }
 
-  .Select{
+  .Select {
     width: 100%;
     margin-right: 20px;
+
+    &:last-of-type {
+      max-width: 160px;
+    }
   }
 }
