@@ -22,6 +22,8 @@ const MAP_CONFIG = {
   zoomControl: true
 };
 
+const LIGHT_BASEMAP_URL = 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png';
+
 class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -157,7 +159,8 @@ class Map extends React.Component {
   }
 
   setBasemap() {
-    this.tileLayer = L.tileLayer(process.env.BASEMAP_TILE_URL, {})
+    const basemap = this.props.useLightBasemap ? LIGHT_BASEMAP_URL : process.env.BASEMAP_TILE_URL;
+    this.tileLayer = L.tileLayer(basemap, {})
       .addTo(this.map)
       .setZIndex(0);
   }
@@ -246,11 +249,13 @@ class Map extends React.Component {
 }
 
 Map.defaultProps = {
-  interactionEnabled: true
+  interactionEnabled: true,
+  useLightBasemap: false
 };
 
 Map.propTypes = {
   interactionEnabled: PropTypes.bool.isRequired,
+  useLightBasemap: PropTypes.bool.isRequired,
   // STORE
   mapConfig: PropTypes.object,
   filters: PropTypes.object,

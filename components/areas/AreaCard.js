@@ -236,6 +236,7 @@ class AreaCard extends React.Component {
               mapConfig={MAP_CONFIG}
               layerGroups={layerGroups || []}
               interactionEnabled={false}
+              useLightBasemap
             />
           </div>
           <Spinner isLoading={loading} className="-small -light -relative -center" />
