@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
 import renderHTML from 'react-render-html';
 import { Link } from 'routes';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
-import { getStaticData } from 'redactions/static_pages';
 import { initStore } from 'store';
+import { getStaticData } from 'redactions/static_pages';
+import { setUser } from 'redactions/user';
+import { setRouter } from 'redactions/routes';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -16,13 +17,13 @@ import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 class GetInvolved extends Page {
-  componentDidMount() {
-    const { url, data } = this.props;
-    const id = url.query.id;
-
-    if (isEmpty(data[id])) {
-      this.props.getStaticData(id);
-    }
+  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
+    const { user } = isServer ? req : store.getState();
+    const url = { asPath, pathname, query };
+    store.dispatch(setUser(user));
+    store.dispatch(setRouter(url));
+    await store.dispatch(getStaticData(query.id));
+    return { isServer, user, url };
   }
 
   render() {

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
+import { bindActionCreators } from 'redux';
 import { initStore } from 'store';
 import { getPartners } from 'redactions/admin/partners';
 
@@ -15,10 +16,6 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 
 class Partners extends Page {
-  /**
-  * COMPONENT LIFECYCLE
-  * - componentDidMount
-  */
   componentDidMount() {
     this.props.getPartners();
   }
@@ -135,7 +132,7 @@ Partners.defaultProps = {
 const mapStateToProps = state => ({ partners: state.partners.partners.list });
 
 const mapDispatchToProps = dispatch => ({
-  getPartners: () => { dispatch(getPartners()); }
+  getPartners: bindActionCreators(getPartners, dispatch)
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Partners);

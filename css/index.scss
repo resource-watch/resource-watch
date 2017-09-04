@@ -17,6 +17,7 @@
 @import '../node_modules/react-input-range/src/scss/index.scss';
 @import '../node_modules/slick-carousel/slick/slick.scss';
 @import '../node_modules/slick-carousel/slick/slick-theme.scss';
+@import '../node_modules/react-progress-2/main';
 
 // Editor
 @import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg';
@@ -64,6 +65,7 @@
 @import "./components/ui/tooltip-global";
 @import "./components/ui/tree_selector";
 @import "./components/ui/zoom_control";
+@import "./components/ui/progress-bar";
 
 // Modal
 @import "./components/modal/save_widget_modal";

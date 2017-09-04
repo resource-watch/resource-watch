@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
-import withRedux from 'next-redux-wrapper';
-import { getStaticData } from 'redactions/static_pages';
-import { initStore } from 'store';
 import renderHTML from 'react-render-html';
+
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
+import { getStaticData } from 'redactions/static_pages';
+import { setUser } from 'redactions/user';
+import { setRouter } from 'redactions/routes';
+
+import { Link } from 'routes';
 import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
 import Page from 'components/app/layout/Page';
@@ -76,9 +80,13 @@ const cards = [
 ];
 
 class GetInvolved extends Page {
-  componentDidMount() {
-    super.componentDidMount();
-    this.props.getStaticData('get-involved');
+  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
+    const { user } = isServer ? req : store.getState();
+    const url = { asPath, pathname, query };
+    store.dispatch(setUser(user));
+    store.dispatch(setRouter(url));
+    await store.dispatch(getStaticData('get-involved'));
+    return { isServer, user, url };
   }
 
   render() {
