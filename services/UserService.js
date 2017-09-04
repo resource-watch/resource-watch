@@ -248,4 +248,18 @@ export default class UserService {
     })
       .then(response => response.json());
   }
+
+  /**
+   * Get area
+   */
+  getArea(id, token) {
+    return fetch(`${this.opts.apiURL}/area/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token
+      }
+    })
+      .then(response => response.json());
+  }
 }

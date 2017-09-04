@@ -73,6 +73,9 @@ class AreasForm extends React.Component {
 
   componentDidMount() {
     this.loadAreas();
+    if (this.props.id) {
+      this.loadArea();
+    }
   }
 
   @Autobind
@@ -144,6 +147,19 @@ class AreasForm extends React.Component {
     });
   }
 
+  loadArea() {
+    const { id, user } = this.props;
+    this.userService.getArea(id, user.token).then((response) => {
+      const area = response.data.attributes;
+      const selectedArea = area.iso ? { value: area.iso.country } :
+        { value: area.geostore };
+      this.setState({
+        name: area.name,
+        selectedArea
+      });
+    });
+  }
+
   render() {
     const {
       areaOptions,
@@ -152,6 +168,7 @@ class AreasForm extends React.Component {
       loading,
       name
     } = this.state;
+    const { mode } = this.props;
 
     return (
       <div className="c-areas-form">
@@ -173,7 +190,9 @@ class AreasForm extends React.Component {
               {Input}
             </Field>
           </fieldset>
-          <div className="selectors-container">
+          <div
+            className="selectors-container"
+          >
             <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
             <CustomSelect
               placeholder="Select area"
@@ -182,6 +201,7 @@ class AreasForm extends React.Component {
               allowNonLeafSelection={false}
               value={selectedArea && selectedArea.value}
               waitForChangeConfirmation
+              disabled={mode === 'edit'}
             />
           </div>
           <div className="buttons-div">
@@ -199,6 +219,8 @@ class AreasForm extends React.Component {
 }
 
 AreasForm.propTypes = {
+  mode: PropTypes.string.isRequired, // edit | new
+  id: PropTypes.string, // area id for edit mode
   // Store
   user: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired
