@@ -274,11 +274,6 @@ class AreaCard extends React.Component {
               {subscription &&
                 <div className="subscription-status">
                   <div className="status-label">
-                    {subscriptionConfirmed &&
-                    <div className="confirmed-label">
-                      Confirmed
-                    </div>
-                    }
                     {!subscriptionConfirmed &&
                     <div className="pending-label">
                       Pending
