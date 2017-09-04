@@ -23,14 +23,12 @@
 
       .name-container {
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         margin-bottom: 10px;
         min-height: 20px;
       }
 
       .subscriptions-container {
-        padding: 5px;
-        background-color: $color-pale-grey;
 
         .datasets-list {
           max-height: 80px;
@@ -44,7 +42,7 @@
         .subscription-actions {
           display: flex;
           justify-content: space-between;
-          
+
           .subscription-buttons {
             *:last-child {
               margin-left: 10px;
@@ -62,14 +60,15 @@
         }
 
         a {
-          color: $color-dark-pink;
+          color: $dove-grey;
           cursor: pointer;
         }
       }
 
       .actions-div {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-items: center;
         margin-top: 5px;
         margin-bottom: 0px;
 

@@ -235,10 +235,8 @@ class AreaCard extends React.Component {
               <h4>{name}</h4>
             </div>
             <div className="subscriptions-container">
-              <h4>Subscriptions</h4>
               {subscription &&
                 <div className="datasets-container">
-                  <h5>Datasets</h5>
                   <div className="datasets-list">
                     {subscription.attributes.datasets.map((datasetObj, index) =>
                       (<div
@@ -286,7 +284,7 @@ class AreaCard extends React.Component {
                       role="button"
                       onClick={this.handleRemoveSubscription}
                     >
-                        Delete
+                        Remove
                     </a>
                     <a
                       tabIndex={-1}
@@ -298,19 +296,14 @@ class AreaCard extends React.Component {
                   </div>
                 </div>
               }
-              {!subscription &&
-                <div className="new-subscription-container">
-                  <a
-                    tabIndex={-1}
-                    role="button"
-                    onClick={this.handleNewSubscription}
-                  >
-                    New
-                  </a>
-                </div>
-              }
             </div>
             <div className="actions-div">
+              <button
+                className="c-btn -b -compressed"
+                onClick={this.handleEdit}
+              >
+                Edit
+              </button>
               <a
                 tabIndex={-1}
                 role="button"
