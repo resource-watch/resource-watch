@@ -147,6 +147,7 @@ class AreaCard extends React.Component {
         area: this.props.area,
         toggleModal: this.props.toggleModal,
         onSubscriptionUpdated: this.handleSubscriptionUpdated,
+        onSubscriptionCreated: this.handleSubscriptionUpdated,
         mode
       }
     };
