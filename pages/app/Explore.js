@@ -83,7 +83,7 @@ class Explore extends Page {
     this.handleFilterDatasetsSearch = debounce(this.handleFilterDatasetsSearch.bind(this), 500);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const query = this.props.url.query;
     if (query.page) {
       this.props.setDatasetsPage(+query.page);
@@ -115,9 +115,6 @@ class Explore extends Page {
     }
 
     this.props.getDatasets();
-  }
-
-  componentDidMount() {
     this.loadKnowledgeGraph();
   }
 
@@ -143,10 +140,6 @@ class Explore extends Page {
     } else if (conceptsUpdated && !newFiltersHaveData) {
       this.props.setDatasetsFilteredByConcepts(null);
     }
-
-    // this.setState({
-    //   vocabularies: nextProps.explore.vocabularies.list
-    // });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -249,7 +242,7 @@ class Explore extends Page {
 
         if (geographies) {
           data.forEach(child => this.selectElementsFromTree(child, JSON.parse(geographies)));
-          let geographyLabels = [];
+          const geographyLabels = [];
 
           const searchFunction = (item) => {
             data.forEach((d) => {
@@ -282,11 +275,11 @@ class Explore extends Page {
       });
   }
 
-  selectElementsFromTree(tree = {}, elements = []) {
+  selectElementsFromTree(tree = {}, elements = []) { // eslint-disable-line class-methods-use-this
     if (elements.includes(tree.value)) {
-      tree.checked = true;
+      tree.checked = true; // eslint-disable-line no-param-reassign
     }
-    (tree.children || []).forEach(child => child.checked = tree.checked);
+    (tree.children || []).forEach(child => child.checked = tree.checked); // eslint-disable-line
   }
 
   @Autobind

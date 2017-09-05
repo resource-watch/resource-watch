@@ -71,7 +71,7 @@ class WidgetsEdit extends React.Component {
       { apiURL: process.env.CONTROL_TOWER_URL });
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.widgetService.fetchData()
       .then((data) => {
         this.setState({ widget: data }, () => {
@@ -85,7 +85,7 @@ class WidgetsEdit extends React.Component {
           .then(dataset => this.setState({ dataset }));
       })
       // TODO: handle the error in the UI
-      .catch(err => console.error(err))
+      .catch(err => toastr.error('Error', err))
       .then(() => this.setState({ loading: false }));
   }
 
@@ -214,7 +214,7 @@ class WidgetsEdit extends React.Component {
   /**
    * Event handler executed when the user clicks the "Save widget"
    * button of the widget editor
-   * 
+   *
    */
   @Autobind
   onUpdateWidget() {
@@ -421,7 +421,7 @@ const mapDispatchToProps = dispatch => ({
       .fetchData({ id: layerId })
       .then(layer => dispatch(setLayer(layer)))
       // TODO: better handling of the error
-      .catch(err => console.error(err));
+      .catch(err => toastr.error('Error', err));
   }
 });
 

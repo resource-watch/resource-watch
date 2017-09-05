@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 // Components
 import AreasIndex from 'components/app/myrw/areas/pages/index';
 import AreasNew from 'components/app/myrw/areas/pages/new';
+import AreasEdit from 'components/app/myrw/areas/pages/show';
 
 function AreasTab(props) {
   const { tab, subtab, id, user } = props;
@@ -18,6 +19,10 @@ function AreasTab(props) {
 
       {id && id === 'new' && user.token &&
         <AreasNew tab={tab} subtab={subtab} id={id} />
+      }
+
+      {id && id !== 'new' && user.token &&
+        <AreasEdit tab={tab} subtab={subtab} id={id} />
       }
     </div>
   );

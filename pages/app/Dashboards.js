@@ -61,7 +61,11 @@ class Dashboards extends Page {
     };
   }
 
-  componentWillMount() {
+  /**
+  * COMPONENT LIFECYCLE
+  * - componentDidMount
+  */
+  componentDidMount() {
     this.getDashboards();
   }
 
@@ -76,7 +80,6 @@ class Dashboards extends Page {
       window.location = '/countries';
       return;
     }
-
     Router.pushRoute('dashboards_detail', { slug });
   }
 

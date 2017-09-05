@@ -1,5 +1,6 @@
 import 'isomorphic-fetch';
 import { format } from 'd3';
+import { toastr } from 'react-redux-toastr';
 
 // Components
 import BarChart from 'utils/widgets/bar';
@@ -348,7 +349,7 @@ export async function fetchData(url) { // eslint-disable-line no-unused-vars
     }
   } catch (err) {
     // TODO: properly handle this error case in the UI
-    console.error('Unable to load the data of the chart');
+    toastr.error('Unable to load the data of the chart');
   }
 
   if (!data) {

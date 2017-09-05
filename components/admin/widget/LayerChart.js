@@ -1,8 +1,8 @@
 import React from 'react';
 import isEqual from 'lodash/isEqual';
+import { toastr } from 'react-redux-toastr';
 
 class LayerChart extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -73,7 +73,7 @@ class LayerChart extends React.Component {
             basemap: `https://${basemap.account}.carto.com/api/v1/map/static/center/${options.token}/${options.z}/${options.lat}/${options.lng}/${options.width}/${options.height}.${options.format}`
           });
         } else {
-          console.error('Basemap could not be loaded');
+          toastr.error('Error', 'Basemap could not be loaded');
         }
       }
     };
@@ -108,7 +108,7 @@ class LayerChart extends React.Component {
             background: `https://${data.account}.carto.com/api/v1/map/static/center/${options.token}/${options.z}/${options.lat}/${options.lng}/${options.width}/${options.height}.${options.format}`
           });
         } else {
-          console.error('Image could not be loaded');
+          toastr.error('Error', 'Image could not be loaded');
         }
       }
     };

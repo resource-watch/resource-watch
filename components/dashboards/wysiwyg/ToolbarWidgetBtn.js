@@ -29,7 +29,7 @@ class ToolbarWidgetBtn extends React.Component {
     this.widgetsService = new WidgetsService();
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.widgetsService.fetchAllData({})
       .then((widgets) => {
         this.setState({ widgets });
@@ -118,16 +118,21 @@ class ToolbarWidgetBtn extends React.Component {
             <div className="c-widget-tooltip-list">
               <div className="tooltip-content">
                 <ul className="tooltip-list">
-                  {this.state.widgets.map((w) => {
-                    return (
+                  {this.state.widgets.map(w =>
+                    (
                       <li
                         key={w.id}
-                        onClick={() => { this.onChange(w.id); }}
                       >
-                        {w.name}
+                        <div
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => { this.onChange(w.id); }}
+                        >
+                          {w.name}
+                        </div>
                       </li>
-                    );
-                  })}
+                    )
+                  )}
                 </ul>
               </div>
             </div>

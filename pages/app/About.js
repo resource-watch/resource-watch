@@ -1,23 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import renderHTML from 'react-render-html';
+
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { bindActionCreators } from 'redux';
 import { getStaticData } from 'redactions/static_pages';
+import { setUser } from 'redactions/user';
+import { setRouter } from 'redactions/routes';
+
 import { Link } from 'routes';
-import renderHTML from 'react-render-html';
-import User from 'components/user';
+import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import Banner from 'components/app/common/Banner';
 
-class About extends React.Component {
-  static async getInitialProps({ req, store, isServer }) {
-    this.user = new User({ req });
-    const user = await this.user.getUser();
-    if (isServer) {
-      await store.dispatch(getStaticData('about'));
-    }
-    return { isServer, user };
+class About extends Page {
+  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
+    const { user } = isServer ? req : store.getState();
+    const url = { asPath, pathname, query };
+    store.dispatch(setUser(user));
+    store.dispatch(setRouter(url));
+    await store.dispatch(getStaticData('about'));
+    return { isServer, user, url };
   }
 
   componentDidMount() {
@@ -87,10 +91,8 @@ class About extends React.Component {
 }
 
 About.propTypes = {
-  // ROUTER
   url: PropTypes.object,
-
-  // STORE
+  isServer: PropTypes.bool,
   data: PropTypes.object,
   getStaticData: PropTypes.func
 };
@@ -100,7 +102,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getStaticData: bindActionCreators((slug) => getStaticData(slug), dispatch)
+  getStaticData: bindActionCreators(slug => getStaticData(slug), dispatch)
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(About);

@@ -4,12 +4,12 @@ import uniq from 'lodash/uniq';
 import flatten from 'lodash/flatten';
 import isEqual from 'lodash/isEqual';
 
+// Components
 import TableHeader from './header/TableHeader';
 import TableContent from './content/TableContent';
 import TableFooter from './footer/TableFooter';
 
 export default class CustomTable extends React.Component {
-
   /**
    * STATIC METHODS
    * - getColumnKeys
@@ -25,8 +25,8 @@ export default class CustomTable extends React.Component {
     const columns = {};
     columnsKeys.forEach((key) => {
       const values = uniq(data.map(d => d[key]))
-                     .sort((a, b) => a - b)
-                     .map(d => d && d.toString());
+        .sort((a, b) => a - b)
+        .map(d => d && d.toString());
       columns[key] = values;
     });
 
@@ -71,6 +71,7 @@ export default class CustomTable extends React.Component {
 
   /**
    * COMPONENT LIFECYCLE
+   * - componentWillMount
   */
   componentWillMount() {
     this.setState(CustomTable.setTableData(this.props), () => {
@@ -131,7 +132,9 @@ export default class CustomTable extends React.Component {
     }
 
     this.setState({ rowSelection }, () => {
-      this.props.onToggleSelectedRow && this.props.onToggleSelectedRow(this.state.rowSelection);
+      if (this.props.onToggleSelectedRow) {
+        this.props.onToggleSelectedRow(this.state.rowSelection);
+      }
     });
   }
 
@@ -147,7 +150,9 @@ export default class CustomTable extends React.Component {
       columnValues: CustomTable.getColumnValues(data)
     }, () => {
       this.filter();
-      this.props.onRowDelete && this.props.onRowDelete(id);
+      if (this.props.onRowDelete) {
+        this.props.onRowDelete(id);
+      }
     });
   }
 
@@ -161,8 +166,8 @@ export default class CustomTable extends React.Component {
         ...this.state.columnQueries,
         [q.field]: q.value
       };
-    } else {
-      !!columnQueries[q.field] && delete columnQueries[q.field];
+    } else if (columnQueries[q.field]) {
+      delete columnQueries[q.field];
     }
 
     this.setState({
@@ -212,17 +217,21 @@ export default class CustomTable extends React.Component {
       let filteredBySearch = true;
 
       if (search.value) {
-        filteredBySearch = row[search.field].toString().toLowerCase().includes(search.value.toString().toLowerCase());
+        filteredBySearch = row[search.field].toString().toLowerCase()
+          .includes(search.value.toString().toLowerCase());
       }
 
-      const filteredByQuery = Object.keys(columnQueries).map(field => columnQueries[field].map(val => row[field].toString().toLowerCase() === val.toString().toLowerCase()).some(match => match)).every(match => match);
+      const filteredByQuery = Object.keys(columnQueries).map(field => columnQueries[field]
+        .map(val => row[field].toString().toLowerCase() === val.toString()
+          .toLowerCase()).some(match => match)).every(match => match);
 
       return filteredByQuery && filteredBySearch;
     });
 
     const maxPage = Math.ceil(filteredData.length / pagination.pageSize);
     // Check if the page is equal to the total
-    const page = (pagination.page !== 0 && pagination.page === maxPage) ? pagination.page - 1 : pagination.page;
+    const page = (pagination.page !== 0 && pagination.page === maxPage) ?
+      pagination.page - 1 : pagination.page;
 
     this.setState({
       filteredData,

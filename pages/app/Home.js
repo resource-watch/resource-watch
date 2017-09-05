@@ -1,6 +1,5 @@
 /* eslint max-len: 0 */
 import React from 'react';
-import MoveTo from 'moveto';
 import { Link } from 'routes';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
@@ -81,22 +80,6 @@ const exploreCards = [
 ];
 
 class Home extends Page {
-  componentDidMount() {
-    super.componentDidMount();
-    Home.setAnchorScroll('discoverIsights', 'js-scroll');
-  }
-
-  static setAnchorScroll(target, trigger) {
-    const triggerEl = document.getElementsByClassName(trigger)[0];
-    const moveTo = new MoveTo({
-      tolerance: 0,
-      duration: 800,
-      easing: 'easeOutQuart'
-    });
-
-    moveTo.registerTrigger(triggerEl);
-  }
-
   static insightsCardsStatic() {
     return insightsCards.map(c =>
       (<CardStatic
@@ -154,10 +137,6 @@ class Home extends Page {
   render() {
     const exploreCardsStatic = Home.exploreCardsStatic();
     const insightsCardsStatic = Home.insightsCardsStatic();
-
-    // <a className="scroll-icon js-scroll" href="#discoverIsights">
-    //   <Icon name="icon-arrow-down" />
-    // </a>
 
     return (
       <Layout

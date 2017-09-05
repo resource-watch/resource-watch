@@ -7,6 +7,8 @@
   }
 
   .datasets-container {
+    margin-top: 20px;
+    
     .c-subscription-selector {
       margin-bottom: 10px;
     }
@@ -14,7 +16,7 @@
 
   .buttons {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
 
     button:last-of-type {
       margin-left: 10px;

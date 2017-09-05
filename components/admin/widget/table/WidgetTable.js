@@ -107,12 +107,6 @@ class WidgetTable extends React.Component {
             field: 'name',
             value: 1
           }}
-          onToggleSelectedRow={(ids) => {
-            console.info(ids);
-          }}
-          onRowDelete={(id) => {
-            console.info(id);
-          }}
         />
       </div>
     );

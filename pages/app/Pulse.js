@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -44,7 +45,7 @@ class Pulse extends Page {
 
   /**
    * COMPONENT LIFECYCLE
-   * - componentWillMount
+   * - componentDidMount
    * - componentWillReceiveProps
    * - componentWillUnmount
   */
@@ -75,7 +76,6 @@ class Pulse extends Page {
         } else {
           this.layerGlobeManager.addLayer(nextLayerActive.attributes, {
             onLayerAddedSuccess: function success(texture) {
-              console.info(texture);
               this.setState({
                 texture,
                 loading: false,
@@ -83,7 +83,7 @@ class Pulse extends Page {
               });
             }.bind(this),
             onLayerAddedError: function error(err) {
-              console.error(err);
+              toastr.error('Error', err);
               this.setState({
                 texture: null,
                 loading: false,
