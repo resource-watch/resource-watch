@@ -53,6 +53,7 @@ class SubscribeToDatasetModal extends React.Component {
   onChangeSelectedArea(value) {
     if (value && value.value === 'upload_area') {
       this.setState({ loading: true });
+      this.props.toggleModal(false);
       Router.pushRoute('myrw_detail', {
         tab: 'areas',
         id: 'new',
@@ -142,32 +143,44 @@ class SubscribeToDatasetModal extends React.Component {
         // ++++++++++ THE USER SELECTED A COUNTRY +++++++++++++++
 
         let areaID = null;
+        const datasets = [dataset.id];
+        const datasetsQuery = { id: dataset.id, type: selectedType.value };
         // Check if the user already has an area with that country
         if (userAreas.map(val => val.value).includes(selectedArea.value)) {
           areaID = userAreas.find(val => val.value === selectedArea.value).areaID;
+          // Create the subscription
+          this.userService.createSubscriptionToArea(areaID, datasets, datasetsQuery, user)
+            .then(() => {
+              this.setState({
+                loading: false,
+                saved: true
+              });
+            })
+            .catch((err) => {
+              toastr.error('Error', err);
+              this.setState({ error: err, loading: false });
+            });
         } else {
           // In the case there's no user area for the selected country we create one on the fly
           this.userService.createNewArea(selectedArea.label, null,
             { value: selectedArea.value }, user.token)
             .then((response) => {
               areaID = response.data.id;
+              this.userService.createSubscriptionToArea(areaID, datasets, datasetsQuery, user)
+                .then(() => {
+                  this.setState({
+                    loading: false,
+                    saved: true
+                  });
+                })
+                .catch((err) => {
+                  toastr.error('Error', err);
+                  this.setState({ error: err, loading: false });
+                });
             })
             .catch(err => toastr.error('Error creating area', err));
         }
-        // Create the subscription
-        const datasets = [dataset.id];
-        const datasetsQuery = { id: dataset.id, type: selectedType.value };
-        this.userService.createSubscriptionToArea(areaID, datasets, datasetsQuery, user)
-          .then(() => {
-            this.setState({
-              loading: false,
-              saved: true
-            });
-          })
-          .catch((err) => {
-            toastr.error('Error', err);
-            this.setState({ error: err, loading: false });
-          });
+
       }
     } else {
       toastr.error('Data missing', 'Please select an area and a subscription type');
