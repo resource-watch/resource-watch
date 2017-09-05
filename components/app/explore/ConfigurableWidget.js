@@ -16,7 +16,6 @@ import getQueryByFiltersfrom from 'utils/getQueryByFilters';
 const chartTypes = { bar, pie, line };
 
 class ConfigurableWidget extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -64,7 +63,7 @@ class ConfigurableWidget extends React.Component {
             }
           }]
         }
-        )
+      )
     });
   }
 
@@ -135,7 +134,6 @@ class ConfigurableWidget extends React.Component {
       </div>
     );
   }
-
 }
 
 ConfigurableWidget.propTypes = {

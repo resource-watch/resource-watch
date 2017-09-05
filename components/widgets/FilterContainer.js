@@ -19,7 +19,6 @@ const boxTarget = {
   canDrop: monitor.canDrop()
 }))
 class FilterContainer extends React.Component {
-
   constructor(props) {
     super(props);
 

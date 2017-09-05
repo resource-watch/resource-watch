@@ -14,7 +14,6 @@ const OrbitControls = orbitControls();
 const imageLoader = new TextureLoader();
 
 class Globe extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -221,7 +220,7 @@ class Globe extends React.Component {
    */
   setTexture() {
     const mapImage = this.state.texture ?
-       imageLoader.load(this.state.texture) : imageLoader.load(this.props.defaultLayerImagePath);
+      imageLoader.load(this.state.texture) : imageLoader.load(this.props.defaultLayerImagePath);
     const { radius, segments, rings, textureExtraRadiusPercentage } = this.props;
     const newRadius = radius + ((radius * textureExtraRadiusPercentage) / 100);
     if (!this.currentTexture) {
@@ -297,7 +296,7 @@ class Globe extends React.Component {
     const material = new MeshPhongMaterial({
       map: imageLoader.load(earthImagePath),
       bumpMap: imageLoader.load(earthBumpImagePath),
-      bumpScale: bumpScale
+      bumpScale
     });
     const geometry = new SphereGeometry(radius, segments, rings);
     this.earth = new Mesh(geometry, material);
@@ -507,8 +506,8 @@ class Globe extends React.Component {
   onClick(event) {
     event.nativeEvent.stopImmediatePropagation();
 
-    this.mouse.x = (event.nativeEvent.offsetX / this.el.clientWidth ) * 2 - 1;
-    this.mouse.y = -(event.nativeEvent.offsetY / this.el.clientHeight ) * 2 + 1;
+    this.mouse.x = (event.nativeEvent.offsetX / this.el.clientWidth) * 2 - 1;
+    this.mouse.y = -(event.nativeEvent.offsetY / this.el.clientHeight) * 2 + 1;
 
     this.raycaster.setFromCamera(this.mouse, this.camera);
 
@@ -559,7 +558,6 @@ class Globe extends React.Component {
       />
     );
   }
-
 }
 
 Globe.defaultProps = {

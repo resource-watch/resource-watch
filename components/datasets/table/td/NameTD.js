@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'routes';
 
 class NameTD extends React.Component {
-
   render() {
     const { row, value, index, route } = this.props;
 

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Pagination from 'rc-pagination';
 
 class Paginator extends React.Component {
-
   constructor(props) {
     super(props);
 

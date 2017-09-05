@@ -4,10 +4,9 @@ import Button from 'components/ui/Button';
 import Icon from 'components/ui/Icon';
 import { connect } from 'react-redux';
 
-import { setDatasetsMode} from 'redactions/explore';
+import { setDatasetsMode } from 'redactions/explore';
 
 class DatasetListHeader extends React.Component {
-
   constructor(props) {
     super(props);
 

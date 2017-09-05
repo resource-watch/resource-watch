@@ -87,7 +87,6 @@ class Layout extends React.Component {
       </div>
     );
   }
-
 }
 
 Layout.propTypes = {

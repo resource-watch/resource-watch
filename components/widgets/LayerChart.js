@@ -4,7 +4,6 @@ import isEqual from 'lodash/isEqual';
 import { toastr } from 'react-redux-toastr';
 
 class LayerChart extends React.Component {
-
   constructor(props) {
     super(props);
 

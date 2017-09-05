@@ -8,7 +8,6 @@ import { substitution } from 'utils/utils';
 import { Link } from 'routes';
 
 class EditAction extends React.Component {
-
   getParsedParams() {
     const { data, action } = this.props;
 

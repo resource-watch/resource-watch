@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Icon from 'components/ui/Icon';
 
 class ZoomControl extends React.Component {
-
   constructor(props) {
     super(props);
 

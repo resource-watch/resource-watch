@@ -15,7 +15,6 @@ const ORDER_BY_OPTIONS = [
 ];
 
 class OrderByTooltip extends React.Component {
-
   constructor(props) {
     super(props);
 

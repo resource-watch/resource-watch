@@ -11,7 +11,6 @@ import { Link } from 'routes';
 import Icon from 'components/ui/Icon';
 
 class DatasetsRelatedContent extends React.Component {
-
   constructor(props) {
     super(props);
 

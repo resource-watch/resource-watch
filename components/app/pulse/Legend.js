@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import LegendType from 'components/ui/LegendType';
 
 class Legend extends React.Component {
-
   render() {
     if (this.props.layerActive) {
       return (

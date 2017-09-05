@@ -20,7 +20,6 @@ const boxTarget = {
   canDrop: monitor.canDrop()
 }))
 class DimensionYContainer extends React.Component {
-
   constructor(props) {
     super(props);
 

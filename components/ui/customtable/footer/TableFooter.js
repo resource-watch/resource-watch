@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Paginator from '../../Paginator';
 
 export default class TableFooter extends React.Component {
-
   // UI EVENTS
   // - onChangePage
   onChangePage(page) {

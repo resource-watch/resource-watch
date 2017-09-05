@@ -9,6 +9,7 @@ import { initStore } from 'store';
 import { bindActionCreators } from 'redux';
 import { getPublicDashboards } from 'redactions/dashboards';
 import { getDashboard } from 'redactions/dashboardDetail';
+import { getFavourites } from 'redactions/user';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -16,12 +17,6 @@ import Layout from 'components/app/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import DashboardCard from 'components/app/dashboards/DashboardCard';
 import Spinner from 'components/ui/Spinner';
-
-// Services
-import UserService from 'services/UserService';
-
-// Utils
-import DASHBOARDS from 'utils/dashboards/config';
 
 class DashboardsDetail extends Page {
   /**
@@ -44,61 +39,22 @@ class DashboardsDetail extends Page {
     return null;
   }
 
-  // constructor(props) {
-  //   super(props);
-    // this.state = {
-    //   // Pointer to the selected dashboard
-    //   selectedDashboard: null,
-    //   // Whether to show all the dashboards or just a few
-    //   showMore: false,
-    //   // User favourites
-    //   favourites: []
-    // };
-
-    // Services
-    // this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
-  // }
-
   /**
   * COMPONENT LIFECYCLE
   * - componentDidMount
   * - componentWillReceiveProps
   */
-  componentDidMount() {
+  async componentDidMount() {
+    await this.props.getFavourites();
     this.props.getPublicDashboards();
     this.props.getDashboard(this.props.url.query.slug);
-    // Load favorites
-    // if (this.props.user.id) {
-    //   this.loadFavourites();
-    // }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.url.query.slug !== prevProps.url.query.slug)
+  componentDidUpdate(prevProps) {
+    if (this.props.url.query.slug !== prevProps.url.query.slug) {
       this.props.getDashboard(this.props.url.query.slug);
+    }
   }
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return (nextProps.url.query.slug !== this.props.url.query.url);
-  // }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.user.id && !this.props.user.id) {
-  //     this.loadFavourites();
-  //   }
-  // }
-
-  /**
-  * Loads all favourite resources from the user that is logged in
-  */
-  // loadFavourites() {
-  //   this.userService.getFavourites(`Bearer ${this.props.user.token}`)
-  //     .then((response) => {
-  //       this.setState({
-  //         favourites: response
-  //       });
-  //     });
-  // }
 
   /**
    * Checks whether the widget is one the user favourites
@@ -106,18 +62,20 @@ class DashboardsDetail extends Page {
    * @returns {boolean}
    */
   isFavourite(widgetId) {
+    if (this.props.user && this.props.user.favourites) {
+      const { favourites } = this.props.user;
+      const isFavourite = favourites
+        && favourites.find(val => val.attributes.resourceId === widgetId);
+      return !!(isFavourite);
+    }
     return false;
-    // const { favourites } = this.state;
-    // const isFavourite = favourites
-    //   && favourites.find(val => val.attributes.resourceId === widgetId);
-    // return !!isFavourite;
   }
 
   /**
    * Event handler executed when a different dashboard is selected
    * @param {string} slug Slug of the selected dashboard
    */
-  onChangeDashboard(slug, dash) {
+  static onChangeDashboard(slug) {
     // The countries dashboard is still ran by the old
     // application, so the URL is different
     if (slug === 'countries') {
@@ -125,39 +83,9 @@ class DashboardsDetail extends Page {
       return;
     }
 
-    // const dashboards = dash || this.state.dashboards;
-    // If we can't find the dashboard with the specified slug, we just
-    // set the first dashboard as the active one
-    // const selectedDashboard = dashboards.find(dashboard => dashboard.slug === slug)
-    //   || dashboards[0];
-
-    // this.setState({ selectedDashboard });
-
     // We update the URL anyway (only on the client)
     Router.replaceRoute('dashboards_detail', { slug });
   }
-
-  /**
-   * Fetch the dashboards, save them in the state, set a default
-   * selected dashboard and update the URL
-   */
-  // async getDashboards() {
-  //   this.setState({ loading: true, error: null });
-
-  //   try {
-  //     const staticDashboards = DASHBOARDS;
-  //     const dynamicDashboards = await DashboardsDetail.fetchDashboards();
-  //     const dashboards = [...staticDashboards, ...dynamicDashboards];
-  //     this.setState({ dashboards });
-
-  //     // We set the dashboard associated with the slug
-  //     this.onChangeDashboard(this.props.url.query.slug, dashboards);
-  //   } catch (err) {
-  //     this.setState({ error: err.message });
-  //   } finally {
-  //     this.setState({ loading: false });
-  //   }
-  // }
 
   render() {
     const { url, user, dashboards, dashboardDetail } = this.props;
@@ -216,7 +144,7 @@ class DashboardsDetail extends Page {
                           id={`dashboard-${dashboard.slug}`}
                           value={dashboard.slug}
                           checked={selectedDashboard === dashboard}
-                          onChange={e => this.onChangeDashboard(e.target.value)}
+                          onChange={e => DashboardsDetail.onChangeDashboard(e.target.value)}
                         />
                         <label className="content" htmlFor={`dashboard-${dashboard.slug}`}>
                           {dashboard.name}
@@ -231,7 +159,7 @@ class DashboardsDetail extends Page {
             <div className="row">
               <div className="column small-12">
                 { dashboards.error && (
-                  <p className="error">{this.state.error}</p>
+                  <p className="error">{dashboards.error}</p>
                 ) }
                 { selectedDashboard && (
                   <div>
@@ -282,7 +210,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getPublicDashboards: bindActionCreators(getPublicDashboards, dispatch),
-  getDashboard: bindActionCreators(getDashboard, dispatch)
+  getDashboard: bindActionCreators(getDashboard, dispatch),
+  getFavourites: bindActionCreators(getFavourites, dispatch)
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(DashboardsDetail);

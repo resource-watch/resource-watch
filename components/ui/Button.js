@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Button extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -38,7 +37,7 @@ class Button extends React.Component {
       return (
         <button
           {...properties}
-          disabled={true}
+          disabled
           className={`c-button ${properties.className || ''}`}
         >
           {children}

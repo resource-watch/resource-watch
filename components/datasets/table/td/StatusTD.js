@@ -12,7 +12,6 @@ const classesDic = {
 };
 
 class StatusTD extends React.Component {
-
   render() {
     const { value, index } = this.props;
     const className = `status ${classesDic.status[value]}`;

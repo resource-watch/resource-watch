@@ -164,7 +164,7 @@ class WidgetConfigurator extends React.Component {
       (response) => {
 
 
-    });
+      });
   }
 
   getChartTypeOptions() {
@@ -233,7 +233,7 @@ class WidgetConfigurator extends React.Component {
           <div>
             {
               chartFields.find(elem => elem.name === chartType).fields.map(el =>
-                <Field
+                (<Field
                   onChange={val => el.onChange.call(this, val)}
                   options={this.getFieldOptions(el)}
                   properties={{
@@ -244,7 +244,7 @@ class WidgetConfigurator extends React.Component {
                   }}
                 >
                   {Select}
-                </Field>
+                </Field>)
               )
             }
           </div>

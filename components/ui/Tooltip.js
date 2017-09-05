@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import { setTooltipPosition } from 'redactions/tooltip';
 
 class Tooltip extends React.Component {
-
   constructor(props) {
     super(props);
 

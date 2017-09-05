@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class EditAction extends React.Component {
-
   parseHref() {
     const { action, data } = this.props;
     const id = data.id;

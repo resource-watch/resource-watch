@@ -4,7 +4,6 @@ import classnames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 
 export default class TableContent extends React.Component {
-
   getPageBounds() {
     const { pagination } = this.props;
 
@@ -47,8 +46,8 @@ export default class TableContent extends React.Component {
           rowBField;
 
         return (rowACondition > rowBCondition) ?
-            sort.value :
-            sort.value * -1;
+          sort.value :
+          sort.value * -1;
       });
     }
 

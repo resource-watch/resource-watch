@@ -10,8 +10,7 @@ import Title from 'components/ui/Title';
 import { getSINumber, getTimeFormat } from 'utils/widgets/WidgetHelper';
 
 class VegaChartLegend extends React.Component {
-
-   /**
+  /**
    * Render the "color" legend corresponding to the config
    * This legend is specific for marks which the color varies
    * @static

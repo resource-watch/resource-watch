@@ -28,13 +28,11 @@ export default class DashboardsService {
           key: 'Authorization',
           value: this.opts.authorization
         }],
-        onSuccess: (response) => {
-          return new Deserializer({
-            keyForAttribute: 'underscore_case'
-          }).deserialize(response, (err, dashboards) => {
-            resolve(sortBy(dashboards, 'name'));
-          });
-        },
+        onSuccess: response => new Deserializer({
+          keyForAttribute: 'underscore_case'
+        }).deserialize(response, (err, dashboards) => {
+          resolve(sortBy(dashboards, 'name'));
+        }),
         onError: (error) => {
           reject(error);
         }

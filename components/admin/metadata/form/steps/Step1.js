@@ -10,7 +10,6 @@ import TextArea from 'components/form/TextArea';
 import Title from 'components/ui/Title';
 
 class Step1 extends React.Component {
-
   changeMetadata(obj) {
     const { form } = this.props;
     let newMetadata;

@@ -14,7 +14,6 @@ import SearchInput from 'components/ui/SearchInput';
 import DashboardsListCard from 'components/dashboards/list/DashboardsListCard';
 
 class DashboardsList extends React.Component {
-
   constructor(props) {
     super(props);
 

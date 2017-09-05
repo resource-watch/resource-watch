@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 class Field extends React.Component {
-
   constructor(props) {
     super(props);
 

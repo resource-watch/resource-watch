@@ -5,7 +5,6 @@ import isEqual from 'lodash/isEqual';
 import Checkbox from './Checkbox';
 
 export default class CheckboxGroup extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -57,7 +56,7 @@ export default class CheckboxGroup extends React.Component {
         }}
         onChange={newSelected => this.onChange(newSelected)}
       />
-      ));
+    ));
   }
 
   render() {

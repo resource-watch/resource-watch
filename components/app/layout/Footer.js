@@ -34,7 +34,6 @@ const getInvolved = [
 ];
 
 class Footer extends React.Component {
-
   componentDidMount() {
     this.props.getPartners();
   }

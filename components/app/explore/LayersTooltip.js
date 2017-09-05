@@ -6,7 +6,6 @@ import { Autobind } from 'es-decorators';
 import RadioGroup from 'components/form/RadioGroup';
 
 class LayersTooltip extends React.Component {
-
   componentDidMount() {
     document.addEventListener('mousedown', this.onMouseDown);
   }

@@ -8,11 +8,10 @@ import { substitution } from 'utils/utils';
 import { Link } from 'routes';
 
 class EditAction extends React.Component {
-
   getParsedParams() {
     const { data, action } = this.props;
 
-    return JSON.parse(substitution(JSON.stringify(action.params), [{ key: 'id', value: data.id }]))
+    return JSON.parse(substitution(JSON.stringify(action.params), [{ key: 'id', value: data.id }]));
   }
 
   render() {

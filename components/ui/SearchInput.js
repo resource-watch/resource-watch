@@ -8,7 +8,6 @@ import { Link } from 'routes';
 import Icon from 'components/ui/Icon';
 
 class SearchInput extends React.Component {
-
   constructor(props) {
     super(props);
 

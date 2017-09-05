@@ -8,7 +8,6 @@ import { setSidebar } from 'redactions/explore';
 import MediaQuery from 'react-responsive';
 
 class Sidebar extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -76,4 +75,4 @@ const mapStateToProps = state => ({
   sidebar: state.explore.sidebar
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

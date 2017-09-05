@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import { toggleModal } from 'redactions/modal';
 
 class HowToWidgetEditorModal extends React.Component {
-
   @Autobind
   handleOkGotIt() {
     this.props.toggleModal(false);

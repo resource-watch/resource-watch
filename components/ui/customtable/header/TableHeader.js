@@ -36,7 +36,7 @@ export default function TableHeader(props) {
               />
             </span>
           </th>
-          ))}
+        ))}
         {actions.show && actionsShowed.length &&
           <th colSpan={`${actionsShowed.length}`} />
         }

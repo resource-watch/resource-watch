@@ -15,7 +15,6 @@ import DatasetPlaceholderChart from 'components/app/explore/DatasetPlaceholderCh
 import { toggleLayerGroup } from 'redactions/explore';
 
 class DatasetWidget extends React.Component {
-
   /**
    * Shorten text to 70 character maximum and add
    * an ellipsis at the end
@@ -154,7 +153,7 @@ class DatasetWidget extends React.Component {
               && <p>Source: {dataset.metadata[0].attributes.source}</p>
             }
           </div>
-          <MediaQuery minDeviceWidth={720} values={{deviceWidth: 720}}>
+          <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
             <div className="actions">
               {/* Layer Button */}
               {showActions && this.getButton()}

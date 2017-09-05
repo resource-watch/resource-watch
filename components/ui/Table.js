@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 
 export default class Table extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -71,7 +70,7 @@ export default class Table extends React.Component {
               <span>{c.name}</span>
             </span>
           </th>
-          ))}
+        ))}
         {this.props.actionsColumn ? <th>Actions</th> : null}
       </tr>
     );
@@ -102,7 +101,7 @@ export default class Table extends React.Component {
           </ul>
         </td> : null}
       </tr>
-      ));
+    ));
   }
 
   renderTableFooter() {

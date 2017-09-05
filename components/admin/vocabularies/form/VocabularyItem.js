@@ -65,7 +65,7 @@ class VocabularyItem extends React.Component {
     const { tagSet, vocabulary, selectedTags } = this.state;
 
     return (
-      <div className={`c-vocabulary-item`}>
+      <div className={'c-vocabulary-item'}>
         <fieldset className="c-field-container">
           <VocabularySelector
             onChange={this.triggerVocabularyChange}
