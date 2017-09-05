@@ -35,7 +35,8 @@ class SubscribeToDatasetModal extends React.Component {
       selectedType: null,
       loading: false,
       saved: false,
-      geostore: null
+      geostore: null,
+      userAreas: []
     };
 
     // Services
@@ -44,7 +45,7 @@ class SubscribeToDatasetModal extends React.Component {
   }
 
   componentDidMount() {
-    // this.loadAreas();
+    this.loadAreas();
     this.loadUserAreas();
   }
 
@@ -86,7 +87,7 @@ class SubscribeToDatasetModal extends React.Component {
 
   @Autobind
   handleSubscribe() {
-    const { selectedArea, selectedType } = this.state;
+    const { selectedArea, selectedType, userAreas } = this.state;
     const { dataset, user } = this.props;
 
     if (selectedArea && selectedType) {
@@ -94,47 +95,80 @@ class SubscribeToDatasetModal extends React.Component {
         loading: true
       });
 
-      // Check first if there already exists a subscription for the same area
-      this.userService.getSubscriptions(user.token)
-        .then((data) => {
-          let areaFound = false;
-          data.forEach((subscription) => {
-            const params = subscription.attributes.params;
-            if (params.area && selectedArea.areaID && params.area === selectedArea.areaID) {
-              areaFound = true;
-            }
-          });
-          if (areaFound) {
-            toastr.confirm(`There already exist a subscription for the selected area.
-              Do you want to update it on MyRW? `, {
-                onOk: () => {
-                  Router.pushRoute('myrw', { tab: 'areas' });
-                },
-                onCancel: () => {
-                  this.setState({ loading: false });
-                }
-              });
-          } else {
-            const datasets = [dataset.id];
-            const datasetsQuery = { id: dataset.id, type: selectedType.value };
-            this.userService.createSubscriptionToArea(selectedArea.areaID,
-              datasets, datasetsQuery, user)
-              .then(() => {
-                this.setState({
-                  loading: false,
-                  saved: true
+      // ++++++++++ THE USER SELECTED AN AREA HE/SHE PREVIOUSLY CREATED +++++++++++++++
+      if (selectedArea.areaID) {
+        // Check first if there already exists a subscription for the same area
+        this.userService.getSubscriptions(user.token)
+          .then((data) => {
+            let areaFound = false;
+            data.forEach((subscription) => {
+              const params = subscription.attributes.params;
+              if (params.area && selectedArea.areaID && params.area === selectedArea.areaID) {
+                areaFound = true;
+              }
+            });
+            if (areaFound) {
+              toastr.confirm(`There already exist a subscription for the selected area.
+                Do you want to update it on MyRW? `, {
+                  onOk: () => {
+                    Router.pushRoute('myrw', { tab: 'areas' });
+                  },
+                  onCancel: () => {
+                    this.setState({ loading: false });
+                  }
                 });
-              })
-              .catch((err) => {
-                toastr.error('Error', err);
-                this.setState({ error: err, loading: false });
-              });
-          }
-        })
-        .catch((err) => {
-          this.setState({ loading: false });
-          toastr.error('Error creating the subscription', err);
-        });
+            } else {
+              const datasets = [dataset.id];
+              const datasetsQuery = { id: dataset.id, type: selectedType.value };
+              this.userService.createSubscriptionToArea(selectedArea.areaID,
+                datasets, datasetsQuery, user)
+                .then(() => {
+                  this.setState({
+                    loading: false,
+                    saved: true
+                  });
+                })
+                .catch((err) => {
+                  toastr.error('Error', err);
+                  this.setState({ error: err, loading: false });
+                });
+            }
+          })
+          .catch((err) => {
+            this.setState({ loading: false });
+            toastr.error('Error creating the subscription', err);
+          });
+      } else {
+        // ++++++++++ THE USER SELECTED A COUNTRY +++++++++++++++
+
+        let areaID = null;
+        // Check if the user already has an area with that country
+        if (userAreas.map(val => val.value).includes(selectedArea.value)) {
+          areaID = userAreas.find(val => val.value === selectedArea.value).areaID;
+        } else {
+          // In the case there's no user area for the selected country we create one on the fly
+          this.userService.createNewArea(selectedArea.label, null,
+            { value: selectedArea.value }, user.token)
+            .then((response) => {
+              areaID = response.data.id;
+            })
+            .catch(err => toastr.error('Error creating area', err));
+        }
+        // Create the subscription
+        const datasets = [dataset.id];
+        const datasetsQuery = { id: dataset.id, type: selectedType.value };
+        this.userService.createSubscriptionToArea(areaID, datasets, datasetsQuery, user)
+          .then(() => {
+            this.setState({
+              loading: false,
+              saved: true
+            });
+          })
+          .catch((err) => {
+            toastr.error('Error', err);
+            this.setState({ error: err, loading: false });
+          });
+      }
     } else {
       toastr.error('Data missing', 'Please select an area and a subscription type');
     }
@@ -156,17 +190,23 @@ class SubscribeToDatasetModal extends React.Component {
     });
   }
 
-  // loadAreas() {
-  //   this.setState({
-  //     loadingAreaOptions: true
-  //   });
-  //   this.areasService.fetchCountries().then((response) => {
-  //     this.setState({
-  //       areaOptions: [...this.state.areaOptions, ...AREAS, ...response.data],
-  //       loadingAreaOptions: false
-  //     });
-  //   });
-  // }
+  loadAreas() {
+    this.setState({
+      loadingAreaOptions: true
+    });
+    this.areasService.fetchCountries().then((response) => {
+      const countries = response.data.map(val => ({
+        label: val.label,
+        value: val.value,
+        isGeostore: false,
+        areaID: null
+      }));
+      this.setState({
+        areaOptions: [...this.state.areaOptions, ...countries],
+        loadingAreaOptions: false
+      });
+    });
+  }
 
   /**
    * Fetchs the user areas
@@ -177,13 +217,14 @@ class SubscribeToDatasetModal extends React.Component {
       .then((response) => {
         const userAreas = response.map(val => ({
           label: val.attributes.name,
-          value: val.attributes.geostore ? val.attributes.geostore : val.attributes.iso.country,
+          value: val.id,
           isGeostore: val.attributes.geostore,
           areaID: val.id
         }));
         this.setState({
           loadingUserAreas: false,
-          areaOptions: [...AREAS, ...userAreas]
+          areaOptions: [...AREAS, ...userAreas, ...this.state.areaOptions],
+          userAreas
         });
       })
       .catch((err) => {
@@ -241,7 +282,6 @@ class SubscribeToDatasetModal extends React.Component {
                   onValueChange={this.onChangeSelectedArea}
                   allowNonLeafSelection={false}
                   value={selectedArea && selectedArea.value}
-                  waitForChangeConfirmation
                 />
               </div>
               <div className="c-field">
