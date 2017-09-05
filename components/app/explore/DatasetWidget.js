@@ -134,7 +134,7 @@ class DatasetWidget extends React.Component {
                 route={'explore_detail'}
                 params={{ id: this.props.dataset.id }}
               >
-                <a>{metadata == undefined ? dataset.name : metadata.attributes.name}</a>
+                <a>{metadata && metadata.attributes.info ? metadata.attributes.info.name : dataset.name}</a>
               </Link>
             </h4>
 
