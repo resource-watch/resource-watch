@@ -69,22 +69,36 @@ class AreaSubscriptionModal extends React.Component {
         .map(val => ({ id: val.selectedDataset, type: val.selectedType }));
 
       if (mode === 'new') {
-        this.userService.createSubscriptionToArea(area.id, datasets, datasetsQuery, user)
-          .then(() => {
-            toastr.success('Success!', 'Subscription created successfully');
-            this.props.toggleModal(false);
-            this.props.onSubscriptionCreated();
-          })
-          .catch(err => toastr.error('Error creating the subscription', err));
+        if (datasets.length >= 1) {
+          this.userService.createSubscriptionToArea(area.id, datasets, datasetsQuery, user)
+            .then(() => {
+              toastr.success('Success!', 'Subscription created successfully');
+              this.props.toggleModal(false);
+              this.props.onSubscriptionCreated();
+            })
+            .catch(err => toastr.error('Error creating the subscription', err));
+        } else {
+          toastr.error('Error', 'Please select at least one dataset');
+        }
       } else if (mode === 'edit') {
-        this.userService.updateSubscriptionToArea(area.subscription.id, datasets,
-          datasetsQuery, user)
-          .then(() => {
-            toastr.success('Success!', 'Subscription updated successfully');
-            this.props.toggleModal(false);
-            this.props.onSubscriptionUpdated();
-          })
-          .catch(err => toastr.error('Error updating the subscription', err));
+        if (datasets.length >= 1) {
+          this.userService.updateSubscriptionToArea(area.subscription.id, datasets,
+            datasetsQuery, user)
+            .then(() => {
+              toastr.success('Success!', 'Subscription updated successfully');
+              this.props.toggleModal(false);
+              this.props.onSubscriptionUpdated();
+            })
+            .catch(err => toastr.error('Error updating the subscription', err));
+        } else {
+          this.userService.deleteSubscription(area.subscription.id, user.token)
+            .then(() => {
+              toastr.success('Success!', 'Subscription updated successfully');
+              this.props.toggleModal(false);
+              this.props.onSubscriptionUpdated();
+            })
+            .catch(err => toastr.error('Error updating the subscription', err));
+        }
       }
     }
   }
@@ -101,10 +115,8 @@ class AreaSubscriptionModal extends React.Component {
   @Autobind
   handleRemoveSubscriptionSelector(index) {
     const { subscriptionSelectors } = this.state;
-    if (subscriptionSelectors.length > 1) {
-      subscriptionSelectors.splice(index, 1);
-      this.setState({ subscriptionSelectors });
-    }
+    subscriptionSelectors.splice(index, 1);
+    this.setState({ subscriptionSelectors });
   }
 
   @Autobind
@@ -151,7 +163,6 @@ class AreaSubscriptionModal extends React.Component {
               onUpdate={this.handleUpdateSubscriptionSelector}
               index={index}
               key={val.index}
-              disableDeleteButton={subscriptionSelectors.length === 1}
             />)
           )}
         </div>
