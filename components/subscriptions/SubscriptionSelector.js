@@ -104,7 +104,6 @@ class SubscriptionSelector extends React.Component {
         <button
           className="c-btn -b"
           onClick={() => this.props.onRemove(this.props.index)}
-          disabled={disableDeleteButton}
         >
           Delete
         </button>
@@ -117,7 +116,6 @@ SubscriptionSelector.propTypes = {
   datasets: PropTypes.array.isRequired,
   index: PropTypes.string,
   data: PropTypes.object,
-  disableDeleteButton: PropTypes.boolean,
   // CALLBACKS
   onRemove: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired
