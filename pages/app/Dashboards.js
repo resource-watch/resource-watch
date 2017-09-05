@@ -1,9 +1,11 @@
 import React from 'react';
-
-// Router
 import { Router } from 'routes';
+
+// Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import { bindActionCreators } from 'redux';
+import { getPublicDashboards } from 'redactions/dashboards';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -11,24 +13,7 @@ import Layout from 'components/app/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
 
-// Utils
-import DASHBOARDS from 'utils/dashboards/config';
-
 class Dashboards extends Page {
-  /**
-   * Fetch the list of dashboards
-   * @static
-   * @returns {Promise<{ name: string, slug: string, photo: string }[]>}
-   */
-  static async fetchDashboards() {
-    return fetch(`${process.env.API_URL}/dashboards?fields[dashboards]=name,slug,photo&filter[published]=true&published=true`)
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error('Unable to fetch the dashboards');
-      })
-      .then(({ data }) => data.map(d => d.attributes));
-  }
-
   /**
    * Return the URL of the dashboard image
    * NOTE: return null if no image
@@ -49,26 +34,6 @@ class Dashboards extends Page {
     return null;
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      // List of dashboards
-      dashboards: [],
-      // Whether we're loading the dashboards
-      loading: false,
-      // Error message
-      error: null
-    };
-  }
-
-  /**
-  * COMPONENT LIFECYCLE
-  * - componentDidMount
-  */
-  componentDidMount() {
-    this.getDashboards();
-  }
-
   /**
    * Event handler executed when a dashboard is selected
    * @param {string} slug Slug of the selected dashboard
@@ -84,29 +49,24 @@ class Dashboards extends Page {
   }
 
   /**
-   * Fetch the dashboards and save them in the state
-   */
-  async getDashboards() {
-    this.setState({ loading: true, error: null });
-
-    try {
-      const staticDashboards = DASHBOARDS;
-      const dynamicDashboards = await Dashboards.fetchDashboards();
-      this.setState({ dashboards: [...staticDashboards, ...dynamicDashboards] });
-    } catch (err) {
-      this.setState({ error: err.message });
-    } finally {
-      this.setState({ loading: false });
-    }
+  * COMPONENT LIFECYCLE
+  * - componentDidMount
+  */
+  componentDidMount() {
+    this.props.getPublicDashboards();
   }
 
   render() {
+    const { dashboards, url, user } = this.props;
+
+    console.log(dashboards.list);
+
     return (
       <Layout
         title="Dashboards"
         description="Resource Watch Dashboards"
-        url={this.props.url}
-        user={this.props.user}
+        url={url}
+        user={user}
         className="page-dashboards"
         pageHeader
       >
@@ -127,11 +87,11 @@ class Dashboards extends Page {
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
-                { this.state.error && (
-                  <p className="error">{this.state.error}</p>
+                { dashboards.error && (
+                  <p className="error">{dashboards.error}</p>
                 ) }
-                { !this.state.error && this.state.loading && <Spinner isLoading className="-light" /> }
-                { !this.state.loading && !this.state.error && (
+                { !dashboards.error && dashboards.loading && <Spinner isLoading className="-light" /> }
+                { !dashboards.loading && !dashboards.error && (
                   <h2>Select a topic to start exploring</h2>
                 ) }
               </div>
@@ -141,7 +101,7 @@ class Dashboards extends Page {
               <div className="column small-12">
                 <ul className="dashboards-list">
                   {
-                    this.state.dashboards
+                    dashboards.list
                       .map(dashboard => (
                         <li
                           key={dashboard.slug}
@@ -174,4 +134,10 @@ class Dashboards extends Page {
   }
 }
 
-export default withRedux(initStore, null, null)(Dashboards);
+const mapStateToProps = state => ({ dashboards: state.clientDashboards });
+
+const mapDispatchToProps = dispatch => ({
+  getPublicDashboards: bindActionCreators(getPublicDashboards, dispatch)
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Dashboards);

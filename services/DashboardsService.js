@@ -27,7 +27,7 @@ export default class DashboardsService {
           value: this.opts.authorization
         }],
         onSuccess: (response) => {
-          new Deserializer({
+          return new Deserializer({
             keyForAttribute: 'underscore_case'
           }).deserialize(response, (err, dashboards) => {
             resolve(sortBy(dashboards, 'name'));
