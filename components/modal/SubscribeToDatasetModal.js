@@ -14,12 +14,11 @@ import UserService from 'services/UserService';
 // Components
 import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
-import UploadAreaIntersectionModal from 'components/modal/UploadAreaIntersectionModal';
 
 const AREAS = [
   {
-    label: 'Create new area',
-    value: 'new_area'
+    label: 'Upload custom area',
+    value: 'upload_area'
   }
 ];
 
@@ -36,9 +35,7 @@ class SubscribeToDatasetModal extends React.Component {
       selectedType: null,
       loading: false,
       saved: false,
-      geostore: null,
-      uploadArea: false, // Whether the user wants to upload an area,
-      createAreaMode: false
+      geostore: null
     };
 
     // Services
@@ -51,38 +48,20 @@ class SubscribeToDatasetModal extends React.Component {
     this.loadUserAreas();
   }
 
-  componentDidUpdate(previousProps, previousState) {
-    // When the user clicks on "Upload area", the selector awaits for
-    // a confirmation before selecting the option
-    // During this period, the selector stays open, so we trigger a click
-    // somewhere else so it closes
-    if (!previousState.uploadArea && this.state.uploadArea) {
-      if (this.el) this.el.click();
-    }
-  }
-
   @Autobind
-  async onChangeSelectedArea(value) {
-    return new Promise((resolve) => {
-      // We delete the pointer to the old resolve method
-      if (this.activePromiseResolve) this.activePromiseResolve = null;
-
-      if (value && value.value === 'upload') {
-        // We store the resolve method so we can call it from another
-        // method and at any time
-        this.activePromiseResolve = resolve;
-
-        this.setState({ uploadArea: true });
-      } else if (value && value.value === 'new_area') {
-        this.setState({ createAreaMode: true });
-      } else {
-        this.setState({
-          selectedArea: value,
-          uploadArea: false
-        });
-        resolve(true);
-      }
-    });
+  onChangeSelectedArea(value) {
+    if (value && value.value === 'upload_area') {
+      this.setState({ loading: true });
+      Router.pushRoute('myrw_detail', {
+        tab: 'areas',
+        id: 'new',
+        subscribeToDataset: { dataset: this.props.dataset.id, type: this.state.selectedType } });
+    } else {
+      this.setState({
+        selectedArea: value,
+        uploadArea: false
+      });
+    }
   }
 
   @Autobind
@@ -97,19 +76,6 @@ class SubscribeToDatasetModal extends React.Component {
     this.setState({ selectedType: type });
   }
 
-  /**
-   * Event handler executed when the user sucessfully upload an area
-   * @param {string} id - Geostore ID
-   */
-  @Autobind
-  onUploadArea(id) {
-    // We tell the selector an area has been uploaded
-    if (this.activePromiseResolve) {
-      this.activePromiseResolve(true);
-    }
-    this.setState({ selectedArea: id });
-  }
-
   @Autobind
   handleCancel() {
     this.setState({
@@ -117,7 +83,6 @@ class SubscribeToDatasetModal extends React.Component {
     });
     this.props.toggleModal(false);
   }
-
 
   @Autobind
   handleSubscribe() {
@@ -244,9 +209,7 @@ class SubscribeToDatasetModal extends React.Component {
       selectedArea,
       selectedType,
       loading,
-      saved,
-      name,
-      uploadArea
+      saved
     } = this.state;
     const { dataset } = this.props;
     let headerText;
@@ -257,7 +220,7 @@ class SubscribeToDatasetModal extends React.Component {
     }
     const paragraphText = saved ?
       'Your subscription was successfully created. Please check your email address to confirm it' :
-      'Please enter a name and select an area for the subscription';
+      'Please select an area and a subscription type';
     const subscriptionTypes = Object.keys(dataset.attributes.subscribable)
       .map(val => ({ value: val, label: val }));
 
@@ -291,11 +254,6 @@ class SubscribeToDatasetModal extends React.Component {
                 />
               </div>
             </div>
-            { uploadArea && (
-              <div className="upload-form">
-                <UploadAreaIntersectionModal onUploadArea={this.onUploadArea} embed />
-              </div>
-            ) }
           </div>
         }
 
