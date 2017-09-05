@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Pagination from 'rc-pagination';
 
 class Paginator extends React.Component {
@@ -53,8 +54,8 @@ class Paginator extends React.Component {
 }
 
 Paginator.propTypes = {
-  options: React.PropTypes.object,
-  onChange: React.PropTypes.func
+  options: PropTypes.object,
+  onChange: PropTypes.func
 };
 
 export default Paginator;

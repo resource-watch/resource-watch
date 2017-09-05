@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Icon from 'components/ui/Icon';
 
@@ -17,8 +18,8 @@ function Rating(props) {
 }
 
 Rating.propTypes = {
-  rating: React.PropTypes.number,
-  className: React.PropTypes.any
+  rating: PropTypes.number,
+  className: PropTypes.any
 };
 
 export default Rating;

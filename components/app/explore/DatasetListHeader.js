@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Button from 'components/ui/Button';
 import Icon from 'components/ui/Icon';
 import { connect } from 'react-redux';
@@ -76,10 +77,10 @@ class DatasetListHeader extends React.Component {
 
 DatasetListHeader.propTypes = {
   // STATE
-  mode: React.PropTypes.string,
-  list: React.PropTypes.array,
+  mode: PropTypes.string,
+  list: PropTypes.array,
   // ACTIONS
-  setDatasetsMode: React.PropTypes.func
+  setDatasetsMode: PropTypes.func
 };
 
 const mapDispatchToProps = dispatch => ({

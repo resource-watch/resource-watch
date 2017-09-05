@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TetherComponent from 'react-tether';
 import classnames from 'classnames';
 import Icon from '../../Icon';
@@ -253,10 +254,10 @@ export default class TableFilters extends React.Component {
 }
 
 TableFilters.propTypes = {
-  field: React.PropTypes.string.isRequired,
-  values: React.PropTypes.array,
-  selected: React.PropTypes.array,
-  onFilter: React.PropTypes.func
+  field: PropTypes.string.isRequired,
+  values: PropTypes.array,
+  selected: PropTypes.array,
+  onFilter: PropTypes.func
 };
 
 TableFilters.defaultProps = {

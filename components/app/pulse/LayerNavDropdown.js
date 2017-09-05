@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Switch from 'components/ui/Switch';
 import { connect } from 'react-redux';
 
@@ -44,9 +45,9 @@ class LayerNavDropdown extends React.Component {
 }
 
 LayerNavDropdown.propTypes = {
-  layers: React.PropTypes.array,
-  layerActive: React.PropTypes.object,
-  toggleActiveLayer: React.PropTypes.func
+  layers: PropTypes.array,
+  layerActive: PropTypes.object,
+  toggleActiveLayer: PropTypes.func
 };
 
 const mapStateToProps = state => ({

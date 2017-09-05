@@ -59,8 +59,6 @@ class Dashboards extends Page {
   render() {
     const { dashboards, url, user } = this.props;
 
-    console.log(dashboards.list);
-
     return (
       <Layout
         title="Dashboards"

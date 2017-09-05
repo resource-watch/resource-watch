@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 import TetherComponent from 'react-tether';
@@ -169,8 +170,8 @@ class DatasetsRelatedContent extends React.Component {
 }
 
 DatasetsRelatedContent.propTypes = {
-  dataset: React.PropTypes.object,
-  route: React.PropTypes.string
+  dataset: PropTypes.object,
+  route: PropTypes.string
 };
 
 export default DatasetsRelatedContent;

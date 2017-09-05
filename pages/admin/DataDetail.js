@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { singular } from 'pluralize';
 import { toastr } from 'react-redux-toastr';
 
@@ -155,8 +156,8 @@ class DataDetail extends Page {
 }
 
 DataDetail.propTypes = {
-  user: React.PropTypes.object,
-  url: React.PropTypes.object
+  user: PropTypes.object,
+  url: PropTypes.object
 };
 
 

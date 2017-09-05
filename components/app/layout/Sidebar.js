@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Icon from 'components/ui/Icon';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
@@ -62,9 +63,9 @@ class Sidebar extends React.Component {
 }
 
 Sidebar.propTypes = {
-  children: React.PropTypes.any,
-  sidebar: React.PropTypes.object,
-  setSidebar: React.PropTypes.func
+  children: PropTypes.any,
+  sidebar: PropTypes.object,
+  setSidebar: PropTypes.func
 };
 
 const mapDispatchToProps = dispatch => ({

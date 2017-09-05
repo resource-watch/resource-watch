@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'routes';
 
 // Components
@@ -44,7 +45,7 @@ export default function HeaderDropdownData(props) {
 }
 
 HeaderDropdownData.propTypes = {
-  active: React.PropTypes.bool,
-  onMouseEnter: React.PropTypes.func,
-  onMouseLeave: React.PropTypes.func
+  active: PropTypes.bool,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func
 };

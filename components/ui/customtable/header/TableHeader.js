@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TableHeaderActions from './TableHeaderActions';
 
 export default function TableHeader(props) {
@@ -45,15 +46,15 @@ export default function TableHeader(props) {
 }
 
 TableHeader.propTypes = {
-  actions: React.PropTypes.object,
-  columns: React.PropTypes.array,
-  columnValues: React.PropTypes.object,
-  columnQueries: React.PropTypes.object,
-  filters: React.PropTypes.bool,
-  sort: React.PropTypes.object,
-  onFilter: React.PropTypes.func,
-  onSort: React.PropTypes.func,
-  onSearch: React.PropTypes.func
+  actions: PropTypes.object,
+  columns: PropTypes.array,
+  columnValues: PropTypes.object,
+  columnQueries: PropTypes.object,
+  filters: PropTypes.bool,
+  sort: PropTypes.object,
+  onFilter: PropTypes.func,
+  onSort: PropTypes.func,
+  onSearch: PropTypes.func
 };
 
 TableHeader.defaultProps = {

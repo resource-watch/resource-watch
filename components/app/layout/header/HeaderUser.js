@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import classnames from 'classnames';
 import { Link } from 'routes';
@@ -150,10 +151,10 @@ class HeaderUser extends React.Component {
 }
 
 HeaderUser.propTypes = {
-  user: React.PropTypes.object,
-  active: React.PropTypes.bool,
-  onMouseEnter: React.PropTypes.func,
-  onMouseLeave: React.PropTypes.func
+  user: PropTypes.object,
+  active: PropTypes.bool,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func
 };
 
 

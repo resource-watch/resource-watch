@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
 
@@ -89,9 +90,9 @@ class FormElement extends React.Component {
 }
 
 FormElement.propTypes = {
-  properties: React.PropTypes.object.isRequired,
-  validations: React.PropTypes.array,
-  onValid: React.PropTypes.func
+  properties: PropTypes.object.isRequired,
+  validations: PropTypes.array,
+  onValid: PropTypes.func
 };
 
 export default FormElement;

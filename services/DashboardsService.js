@@ -10,15 +10,17 @@ export default class DashboardsService {
   }
 
   // GET ALL DATA
-  fetchAllData({ includes, filters } = {}) {
+  fetchAllData({ includes, filters, fields } = {}) {
     const qParams = {
       ...!!includes && { includes },
-      ...filters
+      ...filters,
+      ...fields
     };
+    const params = Object.keys(qParams).map(k => `${k}=${qParams[k]}`).join('&');
 
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/dashboards/?${Object.keys(qParams).map(k => `${k}=${qParams[k]}`).join('&')}`,
+        url: `${process.env.API_URL}/dashboards/?${params}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -44,13 +46,6 @@ export default class DashboardsService {
     return new Promise((resolve, reject) => {
       get({
         url: `${process.env.API_URL}/dashboards/${id}`,
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
-          key: 'Authorization',
-          value: this.opts.authorization
-        }],
         onSuccess: (response) => {
           new Deserializer({
             keyForAttribute: 'underscore_case'

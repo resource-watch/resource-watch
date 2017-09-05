@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import sortBy from 'lodash/sortBy';
 
@@ -178,9 +179,9 @@ class VocabulariesForm extends React.Component {
 }
 
 VocabulariesForm.propTypes = {
-  application: React.PropTypes.string,
-  authorization: React.PropTypes.string,
-  language: React.PropTypes.string
+  application: PropTypes.string,
+  authorization: PropTypes.string,
+  language: PropTypes.string
 };
 
 export default VocabulariesForm;

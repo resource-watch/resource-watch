@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 
 export default class Table extends React.Component {
@@ -145,14 +146,14 @@ export default class Table extends React.Component {
 
 /* Property typing */
 Table.propTypes = {
-  data: React.PropTypes.array,
-  columns: React.PropTypes.array,
-  actionsColumn: React.PropTypes.bool,
-  editablePath: React.PropTypes.string,
-  removablePath: React.PropTypes.string,
-  paginated: React.PropTypes.bool,
-  pageSize: React.PropTypes.number,
-  initialPage: React.PropTypes.number
+  data: PropTypes.array,
+  columns: PropTypes.array,
+  actionsColumn: PropTypes.bool,
+  editablePath: PropTypes.string,
+  removablePath: PropTypes.string,
+  paginated: PropTypes.bool,
+  pageSize: PropTypes.number,
+  initialPage: PropTypes.number
 };
 
 /* Property default values */

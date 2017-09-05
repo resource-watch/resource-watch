@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Utils
 import { substitution } from 'utils/utils';
@@ -32,8 +33,8 @@ class EditAction extends React.Component {
 }
 
 EditAction.propTypes = {
-  data: React.PropTypes.object,
-  action: React.PropTypes.object
+  data: PropTypes.object,
+  action: PropTypes.object
 };
 
 export default EditAction;

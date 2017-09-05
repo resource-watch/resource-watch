@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import isEqual from 'lodash/isEqual';
 import Checkbox from './Checkbox';
@@ -76,10 +77,10 @@ export default class CheckboxGroup extends React.Component {
 }
 
 CheckboxGroup.propTypes = {
-  name: React.PropTypes.string,
-  title: React.PropTypes.string,
-  selected: React.PropTypes.array,
-  className: React.PropTypes.string,
-  options: React.PropTypes.array,
-  onChange: React.PropTypes.func
+  name: PropTypes.string,
+  title: PropTypes.string,
+  selected: PropTypes.array,
+  className: PropTypes.string,
+  options: PropTypes.array,
+  onChange: PropTypes.func
 };

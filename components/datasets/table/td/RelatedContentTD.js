@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Components
 import DatasetsRelatedContent from 'components/datasets/common/DatasetsRelatedContent';
@@ -17,9 +18,9 @@ function RelatedContentTD(props) {
 }
 
 RelatedContentTD.propTypes = {
-  row: React.PropTypes.object,
-  route: React.PropTypes.string,
-  index: React.PropTypes.string
+  row: PropTypes.object,
+  route: PropTypes.string,
+  index: PropTypes.string
 };
 
 export default RelatedContentTD;

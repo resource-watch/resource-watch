@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const classesDic = {
   status: {
@@ -27,8 +28,8 @@ class StatusTD extends React.Component {
 }
 
 StatusTD.propTypes = {
-  value: React.PropTypes.string,
-  index: React.PropTypes.string
+  value: PropTypes.string,
+  index: PropTypes.string
 };
 
 export default StatusTD;

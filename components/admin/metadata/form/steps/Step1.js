@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { FORM_ELEMENTS, LANGUAGE_OPTIONS } from 'components/admin/metadata/form/constants';
 
@@ -459,9 +460,9 @@ class Step1 extends React.Component {
 }
 
 Step1.propTypes = {
-  form: React.PropTypes.object,
-  columns: React.PropTypes.array,
-  onChange: React.PropTypes.func
+  form: PropTypes.object,
+  columns: PropTypes.array,
+  onChange: PropTypes.func
 };
 
 export default Step1;

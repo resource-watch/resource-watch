@@ -63,31 +63,27 @@ export default function (state = initialState, action) {
  * - getDashboards
 */
 export function getPublicDashboards() {
+  const options = {
+    fields: {
+      'fields[dashboards]': ['name', 'slug', 'photo']
+    },
+    filters: {
+      'filter[published]': 'true'
+    }
+  };
   return (dispatch) => {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_DASHBOARDS_LOADING });
-    // TODO: remove the date now
-    return fetch(new Request(`${process.env.API_URL}/dashboards?fields[dashboards]=name,slug,photo&filter[published]=true&published=true`))
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then((response) => {
-        dispatch({
-          type: GET_DASHBOARDS_SUCCESS,
-          payload: [...DASHBOARDS, ...response.data.map(d => d.attributes)]
-        });
+
+    service.fetchAllData(options)
+      .then((data) => {
+        dispatch({ type: GET_DASHBOARDS_SUCCESS, payload: [...DASHBOARDS, ...data] });
       })
       .catch((err) => {
-        // Fetch from server ko -> Dispatch error
-        dispatch({
-          type: GET_DASHBOARDS_ERROR,
-          payload: err.message
-        });
+        dispatch({ type: GET_DASHBOARDS_ERROR, payload: err.message });
       });
   };
 }
-
 
 /**
  * Retrieve the list of dashboards
@@ -98,7 +94,7 @@ export function getDashboards(options) {
   return (dispatch) => {
     dispatch({ type: GET_DASHBOARDS_LOADING });
 
-    service.fetchAllData(options)
+    return service.fetchAllData(options)
       .then((data) => {
         dispatch({ type: GET_DASHBOARDS_SUCCESS, payload: data });
       })
