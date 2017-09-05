@@ -138,12 +138,10 @@ class AreaSubscriptionModal extends React.Component {
         <div className="header-div">
           <h2>{`${area.attributes.name} subscriptions`}</h2>
         </div>
-        <Spinner isLoading={loading || loadingDatasets} className="-light" />
-        <div className="new-container">
-          <button className="c-btn -primary" onClick={this.handleNewSubscriptionSelector}>
-            Add dataset
-          </button>
+        <div className="header-text">
+          Select the datasets that you want to subscribe to
         </div>
+        <Spinner isLoading={loading || loadingDatasets} className="-light" />
         <div className="datasets-container">
           {subscriptionSelectors.map((val, index) =>
             (<SubscriptionSelector
@@ -153,13 +151,18 @@ class AreaSubscriptionModal extends React.Component {
               onUpdate={this.handleUpdateSubscriptionSelector}
               index={index}
               key={val.index}
-              showCross={index !== 0}
+              disableDeleteButton={subscriptionSelectors.length === 1}
             />)
           )}
         </div>
+        <div className="new-container">
+          <button className="c-btn -b -fullwidth" onClick={this.handleNewSubscriptionSelector}>
+            Add dataset
+          </button>
+        </div>
         <div className="buttons">
           <button className="c-btn -primary" onClick={this.handleSubmit}>
-            Submit
+            Done
           </button>
           <button className="c-btn -secondary" onClick={this.handleCancel}>
             Cancel

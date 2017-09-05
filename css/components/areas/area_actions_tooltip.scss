@@ -1,0 +1,17 @@
+.c-area-actions-tooltip {
+
+  ul {
+    list-style: none;
+    margin: 15px;
+    padding: 0;
+
+    li:not(:last-of-type) {
+      margin-bottom: 10px;
+    }
+
+    button {
+      cursor: pointer;
+      font-size: $font-size-medium;
+    }
+  }
+}

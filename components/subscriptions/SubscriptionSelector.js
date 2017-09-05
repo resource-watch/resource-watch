@@ -4,7 +4,6 @@ import { Autobind } from 'es-decorators';
 
 // Components
 import Select from 'components/form/SelectInput';
-import Icon from 'components/ui/Icon';
 
 class SubscriptionSelector extends React.Component {
   constructor(props) {
@@ -13,26 +12,52 @@ class SubscriptionSelector extends React.Component {
     this.state = {
       selectedDataset: null,
       selectedType: null,
-      index: props.index
+      index: props.index,
+      typeOptions: []
     };
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.data) {
       const { selectedDataset, selectedType, index } = newProps.data;
+      const typeOptions = selectedDataset ?
+        Object.keys(
+          newProps.datasets.find(val => val.id === selectedDataset).attributes.subscribable)
+          .map(val => ({ value: val, label: val }))
+        : [];
       this.setState({
         selectedDataset,
         selectedType,
-        index
+        index,
+        typeOptions
       });
     }
   }
 
-
   @Autobind
   handleDatasetSelected(value) {
-    this.setState({ selectedDataset: value },
+    const { datasets } = this.props;
+
+    const typeOptions = value ?
+      Object.keys(
+        datasets.find(val => val.id === value).attributes.subscribable)
+        .map(val => ({ value: val, label: val }))
+      : [];
+
+    if (!this.state.selectedType) {
+      this.setState({
+        selectedDataset: value,
+        selectedType: typeOptions[0].value,
+        typeOptions
+      },
       () => this.props.onUpdate(this.state));
+    } else {
+      this.setState({
+        selectedDataset: value,
+        typeOptions
+      },
+      () => this.props.onUpdate(this.state));
+    }
   }
 
   @Autobind
@@ -47,14 +72,9 @@ class SubscriptionSelector extends React.Component {
   }
 
   render() {
-    const { datasets, showCross } = this.props;
-    const { selectedDataset, selectedType } = this.state;
+    const { datasets, disableDeleteButton } = this.props;
+    const { selectedDataset, selectedType, typeOptions } = this.state;
 
-    const typeOptions = selectedDataset ?
-      Object.keys(
-        datasets.find(val => val.id === selectedDataset).attributes.subscribable)
-        .map(val => ({ value: val, label: val }))
-      : [];
     const datasetOptions = (datasets.length > 0) ?
       datasets.map(val => ({ label: val.attributes.name, value: val.id, id: val.id }))
       : [];
@@ -81,25 +101,23 @@ class SubscriptionSelector extends React.Component {
           options={typeOptions}
           onChange={this.handleTypeSelected}
         />
-        {showCross &&
-          <button onClick={() => this.props.onRemove(this.props.index)}>
-            <Icon name="icon-cross" />
-          </button>
-        }
+        <button
+          className="c-btn -b"
+          onClick={() => this.props.onRemove(this.props.index)}
+          disabled={disableDeleteButton}
+        >
+          Delete
+        </button>
       </div>
     );
   }
 }
 
-SubscriptionSelector.defaultProps = {
-  showCross: true
-};
-
 SubscriptionSelector.propTypes = {
   datasets: PropTypes.array.isRequired,
   index: PropTypes.string,
-  data: PropTypes.object.isRequired,
-  showCross: PropTypes.object.isRequired,
+  data: PropTypes.object,
+  disableDeleteButton: PropTypes.boolean,
   // CALLBACKS
   onRemove: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired

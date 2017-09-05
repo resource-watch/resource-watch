@@ -8,6 +8,8 @@ export { default as staticPages } from './static_pages';
 export { default as modal } from './modal';
 export { default as widgetEditor } from './widgetEditor';
 export { default as user } from './user';
+export { default as routes } from './routes';
+export { default as page } from './page';
 export { default as insights } from './insights';
 
 // Admin

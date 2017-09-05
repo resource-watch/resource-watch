@@ -155,7 +155,10 @@ class SubscribeToDatasetModal extends React.Component {
                   saved: true
                 });
               })
-              .catch(err => this.setState({ error: err, loading: false }));
+              .catch((err) => {
+                toastr.error('Error', err);
+                this.setState({ error: err, loading: false });
+              });
           }
         })
         .catch((err) => {

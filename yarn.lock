@@ -6164,6 +6164,10 @@ react-input-range@1.1.4:
     autobind-decorator "^1.3.4"
     prop-types "^15.5.8"
 
+react-progress-2@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/react-progress-2/-/react-progress-2-4.4.1.tgz#468f701b7a18c9030f3db594271c0093aaa7a986"
+
 react-proxy@^3.0.0-alpha.0:
   version "3.0.0-alpha.1"
   resolved "https://registry.yarnpkg.com/react-proxy/-/react-proxy-3.0.0-alpha.1.tgz#4400426bcfa80caa6724c7755695315209fa4b07"
