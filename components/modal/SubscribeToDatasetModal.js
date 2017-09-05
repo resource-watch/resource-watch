@@ -36,9 +36,9 @@ class SubscribeToDatasetModal extends React.Component {
       selectedType: null,
       loading: false,
       saved: false,
-      name: '',
       geostore: null,
-      uploadArea: false // Whether the user wants to upload an area
+      uploadArea: false, // Whether the user wants to upload an area,
+      createAreaMode: false
     };
 
     // Services
@@ -74,7 +74,7 @@ class SubscribeToDatasetModal extends React.Component {
 
         this.setState({ uploadArea: true });
       } else if (value && value.value === 'new_area') {
-        Router.pushRoute('myrw_detail', { tab: 'areas', id: 'new' });
+        this.setState({ createAreaMode: true });
       } else {
         this.setState({
           selectedArea: value,
@@ -121,10 +121,10 @@ class SubscribeToDatasetModal extends React.Component {
 
   @Autobind
   handleSubscribe() {
-    const { selectedArea, name, geostore, selectedType } = this.state;
+    const { selectedArea, selectedType } = this.state;
     const { dataset, user } = this.props;
 
-    if ((selectedArea || geostore) && selectedType) {
+    if (selectedArea && selectedType) {
       this.setState({
         loading: true
       });
@@ -144,11 +144,16 @@ class SubscribeToDatasetModal extends React.Component {
               Do you want to update it on MyRW? `, {
                 onOk: () => {
                   Router.pushRoute('myrw', { tab: 'areas' });
+                },
+                onCancel: () => {
+                  this.setState({ loading: false });
                 }
               });
           } else {
-            const areaObj = geostore ? { type: 'geostore', id: geostore } : { type: 'iso', id: selectedArea.value };
-            this.userService.createSubscriptionToDataset(dataset.id, selectedType.value, areaObj, user, name) //eslint-disable-line
+            const datasets = [dataset.id];
+            const datasetsQuery = { id: dataset.id, type: selectedType.value };
+            this.userService.createSubscriptionToArea(selectedArea.areaID,
+              datasets, datasetsQuery, user)
               .then(() => {
                 this.setState({
                   loading: false,
@@ -264,12 +269,6 @@ class SubscribeToDatasetModal extends React.Component {
         </div>
         {!saved &&
           <div>
-            <div className="name-container">
-              <div className="c-field">
-                <label htmlFor="subscription-name">Subscription name</label>
-                <input id="subscription-name" value={name} onChange={this.handleNameChange} />
-              </div>
-            </div>
             <div className="selectors-container">
               <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
               <div className="c-field">

@@ -127,6 +127,7 @@ export default class UserService {
         area: areaId
       }
     };
+    debugger;
     return fetch(`${this.opts.apiURL}/subscriptions`, {
       method: 'POST',
       body: JSON.stringify(bodyObj),
