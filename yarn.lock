@@ -1585,7 +1585,7 @@ configstore@^1.0.0:
     write-file-atomic "^1.1.2"
     xdg-basedir "^2.0.0"
 
-connect-redis@^3.3.0:
+connect-redis@3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/connect-redis/-/connect-redis-3.3.0.tgz#c9510c1a567ff710eb2510e6a7509fa92b2232df"
   dependencies:
@@ -2463,7 +2463,7 @@ eslint-config-airbnb@^15.1.0:
   dependencies:
     eslint-config-airbnb-base "^11.3.0"
 
-eslint-config-vizzuality@^1.0.6:
+eslint-config-vizzuality@1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/eslint-config-vizzuality/-/eslint-config-vizzuality-1.0.6.tgz#5f90834e72aa92992c611c8035514a6a492249a9"
   dependencies:
@@ -2473,7 +2473,7 @@ eslint-config-vizzuality@^1.0.6:
     eslint-plugin-jsx-a11y "^5.1.1"
     eslint-plugin-react "^7.2.0"
 
-eslint-import-resolver-babel-module@^3.0.0:
+eslint-import-resolver-babel-module@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/eslint-import-resolver-babel-module/-/eslint-import-resolver-babel-module-3.0.0.tgz#5cadaca5fa0ae2fe2fcb3566ed9db8ab15db39c0"
   dependencies:
@@ -2494,7 +2494,7 @@ eslint-module-utils@^2.1.1:
     debug "^2.6.8"
     pkg-dir "^1.0.0"
 
-eslint-plugin-babel@^4.1.2:
+eslint-plugin-babel@4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/eslint-plugin-babel/-/eslint-plugin-babel-4.1.2.tgz#79202a0e35757dd92780919b2336f1fa2fe53c1e"
 
@@ -2544,7 +2544,7 @@ eslint-scope@^3.7.1:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint@^4.4.1:
+eslint@4.4.1, eslint@^4.4.1:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.4.1.tgz#99cd7eafcffca2ff99a5c8f5f2a474d6364b4bd3"
   dependencies:
@@ -2819,7 +2819,7 @@ extglob@^0.3.1:
   dependencies:
     is-extglob "^1.0.0"
 
-extract-text-webpack-plugin@^3.0.0:
+extract-text-webpack-plugin@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/extract-text-webpack-plugin/-/extract-text-webpack-plugin-3.0.0.tgz#90caa7907bc449f335005e3ac7532b41b00de612"
   dependencies:
@@ -4838,11 +4838,11 @@ nested-error-stacks@^1.0.0:
   dependencies:
     inherits "~2.0.1"
 
-next-redux-wrapper@^1.3.2:
+next-redux-wrapper@1.3.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/next-redux-wrapper/-/next-redux-wrapper-1.3.2.tgz#83fb49ce64e1e9fc04ad69e85c9a0aec582a7b5b"
 
-next-routes@^1.0.40:
+next-routes@1.0.40:
   version "1.0.40"
   resolved "https://registry.yarnpkg.com/next-routes/-/next-routes-1.0.40.tgz#1987ed88be808440f7eb963d3836916f46938e73"
   dependencies:
@@ -4852,7 +4852,7 @@ next-tick@1:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
 
-next@^3.0.3:
+next@3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/next/-/next-3.0.3.tgz#35128ba8359064ffe8d1d5e5543410319c6d66d3"
   dependencies:
@@ -5682,7 +5682,7 @@ postcss-loader@2.0.5:
     postcss-load-config "^1.x"
     schema-utils "^0.x"
 
-postcss-middleware@^1.1.3:
+postcss-middleware@1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/postcss-middleware/-/postcss-middleware-1.1.3.tgz#a0152d160ea54dcf9188073fa8d555f1d00c8f44"
   dependencies:
@@ -5948,7 +5948,7 @@ react-dnd@2.4.0:
     lodash "^4.2.0"
     prop-types "^15.5.8"
 
-react-dom@^15.6.1:
+react-dom@15.6.1:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.6.1.tgz#2cb0ed4191038e53c209eb3a79a23e2a4cf99470"
   dependencies:
@@ -5965,7 +5965,7 @@ react-draft-wysiwyg@1.10.7:
     draftjs-utils "^0.8.03"
     prop-types "^15.5.10"
 
-react-dropdown-tree-select@^0.0.1-beta.11:
+react-dropdown-tree-select@0.0.1-beta.11:
   version "0.0.1-beta.11"
   resolved "https://registry.yarnpkg.com/react-dropdown-tree-select/-/react-dropdown-tree-select-0.0.1-beta.11.tgz#bbcc463fc946fba4c508d177d19b08a338dabfa1"
   dependencies:
@@ -6007,6 +6007,10 @@ react-input-range@1.1.4:
     autobind-decorator "^1.3.4"
     prop-types "^15.5.8"
 
+react-progress-2@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/react-progress-2/-/react-progress-2-4.4.1.tgz#468f701b7a18c9030f3db594271c0093aaa7a986"
+
 react-proxy@^3.0.0-alpha.0:
   version "3.0.0-alpha.1"
   resolved "https://registry.yarnpkg.com/react-proxy/-/react-proxy-3.0.0-alpha.1.tgz#4400426bcfa80caa6724c7755695315209fa4b07"
@@ -6033,7 +6037,7 @@ react-redux@5.0.5:
     loose-envify "^1.1.0"
     prop-types "^15.5.10"
 
-react-render-html@^0.5.0:
+react-render-html@0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/react-render-html/-/react-render-html-0.5.0.tgz#74cbf896b9ab83a1cf3c444ff064373576ff41ec"
   dependencies:
@@ -6241,7 +6245,7 @@ redis-parser@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/redis-parser/-/redis-parser-2.6.0.tgz#52ed09dacac108f1a631c07e9b69941e7a19504b"
 
-redis@^2.1.0, redis@^2.8.0:
+redis@2.8.0, redis@^2.1.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/redis/-/redis-2.8.0.tgz#202288e3f58c49f6079d97af7a10e1303ae14b02"
   dependencies:
@@ -6478,7 +6482,7 @@ sass-graph@^2.1.1:
     scss-tokenizer "^0.2.3"
     yargs "^7.0.0"
 
-sass-loader@^6.0.6:
+sass-loader@6.0.6:
   version "6.0.6"
   resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-6.0.6.tgz#e9d5e6c1f155faa32a4b26d7a9b7107c225e40f9"
   dependencies:
