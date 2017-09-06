@@ -64,17 +64,16 @@ if (prod) {
   });
 }
 
+// Using basic auth in prod mode
+if (prod) {
+  server.use(checkBasicAuth(process.env.USERNAME, process.env.PASSWORD));
+}
+
 // configure Express
 server.use(cookieParser());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 server.use(session(sessionOptions));
-server.use(express.static('static'));
-
-// Using basic auth in prod mode
-if (prod) {
-  server.use(checkBasicAuth(process.env.USERNAME, process.env.PASSWORD));
-}
 
 // Authentication
 auth.initialize(server);
