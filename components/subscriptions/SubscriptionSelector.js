@@ -103,12 +103,12 @@ class SubscriptionSelector extends React.Component {
           onChange={this.handleDatasetSelected}
         />
         <Select
-          className="type-select"
           properties={{
             name: 'type',
             value: selectedType,
             default: selectedType,
-            placeholder: 'Select a type'
+            placeholder: 'Select a type',
+            className: 'type-select'
           }}
           options={typeOptions}
           onChange={this.handleTypeSelected}
