@@ -11,8 +11,24 @@
     width: 100%;
     margin-right: 20px;
 
-    &:last-of-type {
+    &.type-select {
       max-width: 160px;
+    }
+  }
+
+  .threshold-input {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0px;
+    margin-right: 20px;
+
+    label {
+      margin-bottom: 0px;
+    }
+
+    input {
+      width: 70px;
+      margin-left: 10px;
     }
   }
 }
