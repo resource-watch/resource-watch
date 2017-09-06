@@ -14,6 +14,8 @@ import UserService from 'services/UserService';
 // Components
 import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
+import Field from 'components/form/Field';
+import Input from 'components/form/Input';
 
 const AREAS = [
   {
@@ -33,6 +35,7 @@ class SubscribeToDatasetModal extends React.Component {
       loadingUserAreas: false,
       selectedArea: null,
       selectedType: null,
+      selectedThreshold: 1,
       loading: false,
       saved: false,
       geostore: null,
@@ -79,6 +82,11 @@ class SubscribeToDatasetModal extends React.Component {
   }
 
   @Autobind
+  handleThresholdChange(threshold) {
+    this.setState({ selectedThreshold: threshold });
+  }
+
+  @Autobind
   handleCancel() {
     this.setState({
       saved: false
@@ -88,7 +96,7 @@ class SubscribeToDatasetModal extends React.Component {
 
   @Autobind
   handleSubscribe() {
-    const { selectedArea, selectedType, userAreas } = this.state;
+    const { selectedArea, selectedType, selectedThreshold, userAreas } = this.state;
     const { dataset, user } = this.props;
 
     if (selectedArea && selectedType) {
@@ -120,7 +128,11 @@ class SubscribeToDatasetModal extends React.Component {
                 });
             } else {
               const datasets = [dataset.id];
-              const datasetsQuery = { id: dataset.id, type: selectedType.value };
+              const datasetsQuery = {
+                id: dataset.id,
+                type: selectedType.value,
+                threshold: selectedThreshold
+              };
               this.userService.createSubscriptionToArea(selectedArea.areaID,
                 datasets, datasetsQuery, user)
                 .then(() => {
@@ -144,7 +156,11 @@ class SubscribeToDatasetModal extends React.Component {
 
         let areaID = null;
         const datasets = [dataset.id];
-        const datasetsQuery = { id: dataset.id, type: selectedType.value };
+        const datasetsQuery = {
+          id: dataset.id,
+          type: selectedType.value,
+          threshold: selectedThreshold
+        };
         // Check if the user already has an area with that country
         if (userAreas.map(val => val.value).includes(selectedArea.value)) {
           areaID = userAreas.find(val => val.value === selectedArea.value).areaID;
@@ -180,7 +196,6 @@ class SubscribeToDatasetModal extends React.Component {
             })
             .catch(err => toastr.error('Error creating area', err));
         }
-
       }
     } else {
       toastr.error('Data missing', 'Please select an area and a subscription type');
@@ -262,6 +277,7 @@ class SubscribeToDatasetModal extends React.Component {
       loadingAreaOptions,
       selectedArea,
       selectedType,
+      selectedThreshold,
       loading,
       saved
     } = this.state;
@@ -305,6 +321,23 @@ class SubscribeToDatasetModal extends React.Component {
                   allowNonLeafSelection={false}
                   value={selectedType && selectedType.value}
                 />
+              </div>
+              <div className="threshold-div">
+                <span className="threshold-label">
+                  More than
+                </span>
+                <Field
+                  className="threshold-input"
+                  onChange={this.handleThresholdChange}
+                  properties={{
+                    name: 'threshold',
+                    type: 'number',
+                    default: selectedThreshold,
+                    value: selectedThreshold
+                  }}
+                >
+                  {Input}
+                </Field>
               </div>
             </div>
           </div>

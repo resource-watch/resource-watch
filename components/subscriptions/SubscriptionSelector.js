@@ -4,6 +4,8 @@ import { Autobind } from 'es-decorators';
 
 // Components
 import Select from 'components/form/SelectInput';
+import Input from 'components/form/Input';
+import Field from 'components/form/Field';
 
 class SubscriptionSelector extends React.Component {
   constructor(props) {
@@ -12,6 +14,7 @@ class SubscriptionSelector extends React.Component {
     this.state = {
       selectedDataset: null,
       selectedType: null,
+      selectedThreshold: 1,
       index: props.index,
       typeOptions: []
     };
@@ -19,7 +22,7 @@ class SubscriptionSelector extends React.Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.data) {
-      const { selectedDataset, selectedType, index } = newProps.data;
+      const { selectedDataset, selectedType, selectedThreshold, index } = newProps.data;
       const typeOptions = selectedDataset ?
         Object.keys(
           newProps.datasets.find(val => val.id === selectedDataset).attributes.subscribable)
@@ -28,6 +31,7 @@ class SubscriptionSelector extends React.Component {
       this.setState({
         selectedDataset,
         selectedType,
+        selectedThreshold,
         index,
         typeOptions
       });
@@ -67,13 +71,19 @@ class SubscriptionSelector extends React.Component {
   }
 
   @Autobind
+  handleThresholdChange(threshold) {
+    this.setState({ selectedThreshold: threshold },
+      () => this.props.onUpdate(this.state));
+  }
+
+  @Autobind
   handleRemove() {
     this.props.onRemove(this.props.index);
   }
 
   render() {
-    const { datasets, disableDeleteButton } = this.props;
-    const { selectedDataset, selectedType, typeOptions } = this.state;
+    const { datasets } = this.props;
+    const { selectedDataset, selectedType, selectedThreshold, typeOptions } = this.state;
 
     const datasetOptions = (datasets.length > 0) ?
       datasets.map(val => ({ label: val.attributes.name, value: val.id, id: val.id }))
@@ -82,6 +92,7 @@ class SubscriptionSelector extends React.Component {
     return (
       <div className="c-subscription-selector" ref={(node) => { this.el = node; }}>
         <Select
+          className="dataset-select"
           properties={{
             name: 'dataset',
             value: selectedDataset,
@@ -96,11 +107,27 @@ class SubscriptionSelector extends React.Component {
             name: 'type',
             value: selectedType,
             default: selectedType,
-            placeholder: 'Select a type'
+            placeholder: 'Select a type',
+            className: 'type-select'
           }}
           options={typeOptions}
           onChange={this.handleTypeSelected}
         />
+        <div className="threshold-div">
+          <span className="threshold-label">More than</span>
+          <Field
+            className="threshold-input"
+            onChange={this.handleThresholdChange}
+            properties={{
+              name: 'threshold',
+              type: 'number',
+              default: selectedThreshold,
+              value: selectedThreshold
+            }}
+          >
+            {Input}
+          </Field>
+        </div>
         <button
           className="c-btn -b"
           onClick={() => this.props.onRemove(this.props.index)}
