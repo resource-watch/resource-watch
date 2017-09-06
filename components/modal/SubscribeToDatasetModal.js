@@ -14,12 +14,11 @@ import UserService from 'services/UserService';
 // Components
 import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
-import UploadAreaIntersectionModal from 'components/modal/UploadAreaIntersectionModal';
 
 const AREAS = [
   {
-    label: 'Create new area',
-    value: 'new_area'
+    label: 'Upload custom area',
+    value: 'upload_area'
   }
 ];
 
@@ -36,9 +35,8 @@ class SubscribeToDatasetModal extends React.Component {
       selectedType: null,
       loading: false,
       saved: false,
-      name: '',
       geostore: null,
-      uploadArea: false // Whether the user wants to upload an area
+      userAreas: []
     };
 
     // Services
@@ -47,42 +45,25 @@ class SubscribeToDatasetModal extends React.Component {
   }
 
   componentDidMount() {
-    // this.loadAreas();
+    this.loadAreas();
     this.loadUserAreas();
   }
 
-  componentDidUpdate(previousProps, previousState) {
-    // When the user clicks on "Upload area", the selector awaits for
-    // a confirmation before selecting the option
-    // During this period, the selector stays open, so we trigger a click
-    // somewhere else so it closes
-    if (!previousState.uploadArea && this.state.uploadArea) {
-      if (this.el) this.el.click();
-    }
-  }
-
   @Autobind
-  async onChangeSelectedArea(value) {
-    return new Promise((resolve) => {
-      // We delete the pointer to the old resolve method
-      if (this.activePromiseResolve) this.activePromiseResolve = null;
-
-      if (value && value.value === 'upload') {
-        // We store the resolve method so we can call it from another
-        // method and at any time
-        this.activePromiseResolve = resolve;
-
-        this.setState({ uploadArea: true });
-      } else if (value && value.value === 'new_area') {
-        Router.pushRoute('myrw_detail', { tab: 'areas', id: 'new' });
-      } else {
-        this.setState({
-          selectedArea: value,
-          uploadArea: false
-        });
-        resolve(true);
-      }
-    });
+  onChangeSelectedArea(value) {
+    if (value && value.value === 'upload_area') {
+      this.setState({ loading: true });
+      this.props.toggleModal(false);
+      Router.pushRoute('myrw_detail', {
+        tab: 'areas',
+        id: 'new',
+        subscribeToDataset: { dataset: this.props.dataset.id, type: this.state.selectedType } });
+    } else {
+      this.setState({
+        selectedArea: value,
+        uploadArea: false
+      });
+    }
   }
 
   @Autobind
@@ -97,19 +78,6 @@ class SubscribeToDatasetModal extends React.Component {
     this.setState({ selectedType: type });
   }
 
-  /**
-   * Event handler executed when the user sucessfully upload an area
-   * @param {string} id - Geostore ID
-   */
-  @Autobind
-  onUploadArea(id) {
-    // We tell the selector an area has been uploaded
-    if (this.activePromiseResolve) {
-      this.activePromiseResolve(true);
-    }
-    this.setState({ selectedArea: id });
-  }
-
   @Autobind
   handleCancel() {
     this.setState({
@@ -118,53 +86,102 @@ class SubscribeToDatasetModal extends React.Component {
     this.props.toggleModal(false);
   }
 
-
   @Autobind
   handleSubscribe() {
-    const { selectedArea, name, geostore, selectedType } = this.state;
+    const { selectedArea, selectedType, userAreas } = this.state;
     const { dataset, user } = this.props;
 
-    if ((selectedArea || geostore) && selectedType) {
+    if (selectedArea && selectedType) {
       this.setState({
         loading: true
       });
 
-      // Check first if there already exists a subscription for the same area
-      this.userService.getSubscriptions(user.token)
-        .then((data) => {
-          let areaFound = false;
-          data.forEach((subscription) => {
-            const params = subscription.attributes.params;
-            if (params.area && selectedArea.areaID && params.area === selectedArea.areaID) {
-              areaFound = true;
-            }
-          });
-          if (areaFound) {
-            toastr.confirm(`There already exist a subscription for the selected area.
-              Do you want to update it on MyRW? `, {
-                onOk: () => {
-                  Router.pushRoute('myrw', { tab: 'areas' });
-                }
-              });
-          } else {
-            const areaObj = geostore ? { type: 'geostore', id: geostore } : { type: 'iso', id: selectedArea.value };
-            this.userService.createSubscriptionToDataset(dataset.id, selectedType.value, areaObj, user, name) //eslint-disable-line
-              .then(() => {
-                this.setState({
-                  loading: false,
-                  saved: true
+      // ++++++++++ THE USER SELECTED AN AREA HE/SHE PREVIOUSLY CREATED +++++++++++++++
+      if (selectedArea.areaID) {
+        // Check first if there already exists a subscription for the same area
+        this.userService.getSubscriptions(user.token)
+          .then((data) => {
+            let areaFound = false;
+            data.forEach((subscription) => {
+              const params = subscription.attributes.params;
+              if (params.area && selectedArea.areaID && params.area === selectedArea.areaID) {
+                areaFound = true;
+              }
+            });
+            if (areaFound) {
+              toastr.confirm(`There already exist a subscription for the selected area.
+                Do you want to update it on MyRW? `, {
+                  onOk: () => {
+                    Router.pushRoute('myrw', { tab: 'areas' });
+                  },
+                  onCancel: () => {
+                    this.setState({ loading: false });
+                  }
                 });
-              })
-              .catch((err) => {
-                toastr.error('Error', err);
-                this.setState({ error: err, loading: false });
+            } else {
+              const datasets = [dataset.id];
+              const datasetsQuery = { id: dataset.id, type: selectedType.value };
+              this.userService.createSubscriptionToArea(selectedArea.areaID,
+                datasets, datasetsQuery, user)
+                .then(() => {
+                  this.setState({
+                    loading: false,
+                    saved: true
+                  });
+                })
+                .catch((err) => {
+                  toastr.error('Error', err);
+                  this.setState({ error: err, loading: false });
+                });
+            }
+          })
+          .catch((err) => {
+            this.setState({ loading: false });
+            toastr.error('Error creating the subscription', err);
+          });
+      } else {
+        // ++++++++++ THE USER SELECTED A COUNTRY +++++++++++++++
+
+        let areaID = null;
+        const datasets = [dataset.id];
+        const datasetsQuery = { id: dataset.id, type: selectedType.value };
+        // Check if the user already has an area with that country
+        if (userAreas.map(val => val.value).includes(selectedArea.value)) {
+          areaID = userAreas.find(val => val.value === selectedArea.value).areaID;
+          // Create the subscription
+          this.userService.createSubscriptionToArea(areaID, datasets, datasetsQuery, user)
+            .then(() => {
+              this.setState({
+                loading: false,
+                saved: true
               });
-          }
-        })
-        .catch((err) => {
-          this.setState({ loading: false });
-          toastr.error('Error creating the subscription', err);
-        });
+            })
+            .catch((err) => {
+              toastr.error('Error', err);
+              this.setState({ error: err, loading: false });
+            });
+        } else {
+          // In the case there's no user area for the selected country we create one on the fly
+          this.userService.createNewArea(selectedArea.label, null,
+            { value: selectedArea.value }, user.token)
+            .then((response) => {
+              areaID = response.data.id;
+              this.userService.createSubscriptionToArea(areaID, datasets, datasetsQuery, user)
+                .then(() => {
+                  this.setState({
+                    loading: false,
+                    saved: true
+                  });
+                })
+                .catch((err) => {
+                  toastr.error('Error', err);
+                  this.setState({ error: err, loading: false });
+                });
+            })
+            .catch(err => toastr.error('Error creating area', err));
+        }
+
+      }
     } else {
       toastr.error('Data missing', 'Please select an area and a subscription type');
     }
@@ -186,17 +203,23 @@ class SubscribeToDatasetModal extends React.Component {
     });
   }
 
-  // loadAreas() {
-  //   this.setState({
-  //     loadingAreaOptions: true
-  //   });
-  //   this.areasService.fetchCountries().then((response) => {
-  //     this.setState({
-  //       areaOptions: [...this.state.areaOptions, ...AREAS, ...response.data],
-  //       loadingAreaOptions: false
-  //     });
-  //   });
-  // }
+  loadAreas() {
+    this.setState({
+      loadingAreaOptions: true
+    });
+    this.areasService.fetchCountries().then((response) => {
+      const countries = response.data.map(val => ({
+        label: val.label,
+        value: val.value,
+        isGeostore: false,
+        areaID: null
+      }));
+      this.setState({
+        areaOptions: [...this.state.areaOptions, ...countries],
+        loadingAreaOptions: false
+      });
+    });
+  }
 
   /**
    * Fetchs the user areas
@@ -207,13 +230,14 @@ class SubscribeToDatasetModal extends React.Component {
       .then((response) => {
         const userAreas = response.map(val => ({
           label: val.attributes.name,
-          value: val.attributes.geostore ? val.attributes.geostore : val.attributes.iso.country,
+          value: val.id,
           isGeostore: val.attributes.geostore,
           areaID: val.id
         }));
         this.setState({
           loadingUserAreas: false,
-          areaOptions: [...AREAS, ...userAreas]
+          areaOptions: [...AREAS, ...userAreas, ...this.state.areaOptions],
+          userAreas
         });
       })
       .catch((err) => {
@@ -239,9 +263,7 @@ class SubscribeToDatasetModal extends React.Component {
       selectedArea,
       selectedType,
       loading,
-      saved,
-      name,
-      uploadArea
+      saved
     } = this.state;
     const { dataset } = this.props;
     let headerText;
@@ -252,7 +274,7 @@ class SubscribeToDatasetModal extends React.Component {
     }
     const paragraphText = saved ?
       'Your subscription was successfully created. Please check your email address to confirm it' :
-      'Please enter a name and select an area for the subscription';
+      'Please select an area and a subscription type';
     const subscriptionTypes = Object.keys(dataset.attributes.subscribable)
       .map(val => ({ value: val, label: val }));
 
@@ -264,12 +286,6 @@ class SubscribeToDatasetModal extends React.Component {
         </div>
         {!saved &&
           <div>
-            <div className="name-container">
-              <div className="c-field">
-                <label htmlFor="subscription-name">Subscription name</label>
-                <input id="subscription-name" value={name} onChange={this.handleNameChange} />
-              </div>
-            </div>
             <div className="selectors-container">
               <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
               <div className="c-field">
@@ -279,7 +295,6 @@ class SubscribeToDatasetModal extends React.Component {
                   onValueChange={this.onChangeSelectedArea}
                   allowNonLeafSelection={false}
                   value={selectedArea && selectedArea.value}
-                  waitForChangeConfirmation
                 />
               </div>
               <div className="c-field">
@@ -292,11 +307,6 @@ class SubscribeToDatasetModal extends React.Component {
                 />
               </div>
             </div>
-            { uploadArea && (
-              <div className="upload-form">
-                <UploadAreaIntersectionModal onUploadArea={this.onUploadArea} embed />
-              </div>
-            ) }
           </div>
         }
 

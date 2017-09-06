@@ -119,7 +119,7 @@ class AreasList extends React.Component {
 
   @Autobind
   handleAreaRemoved() {
-    this.loadAreas();
+    this.loadData();
   }
 
   render() {
