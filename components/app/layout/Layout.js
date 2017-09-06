@@ -52,8 +52,8 @@ class Layout extends React.Component {
       this.props.updateIsLoading(true);
     };
     Router.onRouteChangeComplete = () => {
-      Progress.hide();
       this.props.updateIsLoading(false);
+      Progress.hideAll();
     };
   }
 
