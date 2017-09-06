@@ -29,14 +29,9 @@ class GetInvolved extends Page {
   render() {
     const { url, user, data } = this.props;
     const id = url.query.id;
-    const selectedData = data[id];
-    const styles = {};
+    const selectedData = data[id] || {};
 
     if (!data) return null;
-
-    if (data && data.photo) {
-      styles.backgroundImage = `url(${process.env.STATIC_SERVER_URL}${data.photo.large})`;
-    }
 
     return (
       <Layout
@@ -58,26 +53,27 @@ class GetInvolved extends Page {
           </div>
         </header>
 
-        <section className="l-section -secondary">
-          <header className="l-section-header">
-            <div className="l-container">
-              <div className="row">
-                <div className="column small-12">
-                  <h2>
-                    {selectedData.summary}
-                  </h2>
+        { selectedData.summary &&
+          <section className="l-section -secondary">
+            <header className="l-section-header">
+              <div className="l-container">
+                <div className="row">
+                  <div className="column small-12 large-7">
+                    <h2>{selectedData.summary}</h2>
+                    {selectedData.description &&
+                      <p>{selectedData.description}</p>}
+                  </div>
                 </div>
               </div>
-            </div>
-          </header>
-        </section>
+            </header>
+          </section> }
 
         <section className="l-content">
           <article className="l-content-body">
             <div className="l-container">
               <div className="row align-center">
                 <div className="column small-12 medium-8">
-                  { renderHTML(data.content || '') }
+                  { renderHTML(selectedData.content || '') }
                 </div>
               </div>
             </div>
