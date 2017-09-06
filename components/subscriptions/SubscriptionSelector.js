@@ -113,19 +113,21 @@ class SubscriptionSelector extends React.Component {
           options={typeOptions}
           onChange={this.handleTypeSelected}
         />
-        <Field
-          className="threshold-input"
-          onChange={this.handleThresholdChange}
-          properties={{
-            name: 'threshold',
-            label: 'Threshold',
-            type: 'number',
-            default: selectedThreshold,
-            value: selectedThreshold
-          }}
-        >
-          {Input}
-        </Field>
+        <div className="threshold-div">
+          Threshold
+          <Field
+            className="threshold-input"
+            onChange={this.handleThresholdChange}
+            properties={{
+              name: 'threshold',
+              type: 'number',
+              default: selectedThreshold,
+              value: selectedThreshold
+            }}
+          >
+            {Input}
+          </Field>
+        </div>
         <button
           className="c-btn -b"
           onClick={() => this.props.onRemove(this.props.index)}
