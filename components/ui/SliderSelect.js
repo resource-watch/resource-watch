@@ -430,7 +430,7 @@ export default class SliderSelect extends React.Component {
                 role="option"
                 aria-selected={item === selectedItem}
                 className={classnames({ '-selected': index === selectedIndex })}
-                key={item.label}
+                key={item.value}
                 onMouseEnter={() => { this.setSelectedIndex(index); }}
                 onMouseDown={e => this.onMouseDownOption(e, item)}
               >

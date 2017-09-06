@@ -14,8 +14,16 @@ const getFilteredDatasets = (_list, _filters) => {
     let conceptsCheckPassed = true;
 
     if (search && search.key === 'name') {
-      if (it.attributes.name.toLowerCase().match(search.value.toLowerCase())) {
-        searchFilterPassed = true;
+      if (it.attributes.metadata[0] && it.attributes.metadata[0].attributes.info) {
+        if (it.attributes.metadata[0].attributes.info.name) {
+          if (it.attributes.metadata[0].attributes.info.name.toLowerCase().match(search.value.toLowerCase())) {
+            searchFilterPassed = true;
+          }
+        }
+      } else {
+        if (it.attributes.name.toLowerCase().match(search.value.toLowerCase())) {
+          searchFilterPassed = true;
+        }
       }
     }
 
