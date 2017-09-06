@@ -3,9 +3,7 @@ require('dotenv').load();
 const express = require('express');
 const passport = require('passport');
 const next = require('next');
-const cookieSession = require('cookie-session');
 const session = require('express-session');
-const ControlTowerStrategy = require('passport-control-tower');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const basicAuth = require('basic-auth');
@@ -16,6 +14,7 @@ const RedisStore = require('connect-redis')(session);
 const { parse } = require('url');
 const routes = require('./routes');
 const postcssConfig = require('./postcss.config');
+const auth = require('./auth');
 
 const port = process.env.PORT || 3000;
 const prod = process.env.NODE_ENV === 'production';
@@ -27,7 +26,7 @@ const handle = routes.getRequestHandler(app);
 // Express app creation
 const server = express();
 
-function auth(username, password) {
+function checkBasicAuth(username, password) {
   return function authMiddleware(req, res, nextAction) {
     const user = basicAuth(req);
     if (!user || user.name !== username || user.pass !== password) {
@@ -50,58 +49,34 @@ function isAdmin(req, res, nextAction) {
   return res.redirect('/myrw');
 }
 
-// Use the Control Tower Strategy within Passport.
-const controlTowerStrategy = new ControlTowerStrategy({
-  controlTowerUrl: process.env.CONTROL_TOWER_URL,
-  callbackUrl: process.env.CALLBACK_URL
-});
-passport.use(controlTowerStrategy);
-
-// Passport session setup.
-// To support persistent login sessions, Passport needs to be able to
-// serialize users into and deserialize users out of the session.
-passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((obj, done) => done(null, obj));
-
 // Configuring session and cookie options
 const sessionOptions = {
   secret: process.env.SECRET || 'keyboard cat',
   resave: false,
-  saveUninitialized: true,
-  cookie: {}
+  saveUninitialized: true
 };
 
 if (prod) {
   const redisClient = redis.createClient(process.env.REDIS_URL);
-  server.set('trust proxy', 1);
-  sessionOptions.cookie.secure = true;
   sessionOptions.store = new RedisStore({
     client: redisClient,
-    no_ready_check: true,
-    ttl: 600,
     logErrors: true
   });
+}
+
+// Using basic auth in prod mode
+if (prod) {
+  server.use(checkBasicAuth(process.env.USERNAME, process.env.PASSWORD));
 }
 
 // configure Express
 server.use(cookieParser());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
-server.use(cookieSession({
-  name: 'session',
-  keys: [process.env.SECRET || 'keyboard cat']
-}));
 server.use(session(sessionOptions));
-server.use('/static', express.static('static'));
 
-// Using basic auth in prod mode
-if (prod) {
-  server.use(auth(process.env.USERNAME, process.env.PASSWORD));
-}
-
-// Initialize Passport!
-server.use(passport.initialize());
-server.use(passport.session());
+// Authentication
+auth.initialize(server);
 
 // Initializing next app before express server
 app.prepare()
@@ -133,12 +108,13 @@ app.prepare()
     server.get('/data', (req, res) => res.redirect('/data/explore'));
 
     // Authentication
-    server.get('/auth', passport.authenticate('control-tower', { failureRedirect: '/' }),
-      (req, res) => res.redirect('/myrw'));
-    server.get('/login', (req, res) => controlTowerStrategy.login(req, res));
+    server.get('/auth', auth.authenticate({ failureRedirect: '/login' }), (req, res) => {
+      res.redirect('/myrw');
+    });
+    server.get('/login', auth.login);
     server.get('/logout', (req, res) => {
       req.logout();
-      return res.redirect('/');
+      res.redirect('/');
     });
 
     // Routes with required authentication

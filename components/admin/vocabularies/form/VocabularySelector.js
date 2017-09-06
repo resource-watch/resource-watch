@@ -1,8 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import { toastr } from 'react-redux-toastr';
 
+// Components
 import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
+
+// Utils
 import { get } from 'utils/request';
 
 import { FORM_ELEMENTS } from './constants';
@@ -79,7 +84,7 @@ class VocabularySelector extends React.Component {
   loadVocabularies() {
     get(
       {
-        url: '${process.env.WRI_API_URL}/vocabulary',
+        url: `${process.env.WRI_API_URL}/vocabulary`,
         headers: [{ key: 'Content-Type', value: 'application/json' }],
         onSuccess: (response) => {
           this.setState({
@@ -88,8 +93,8 @@ class VocabularySelector extends React.Component {
             loading: false
           });
         },
-        onError: () => {
-          console.info('Error');
+        onError: (error) => {
+          toastr.error('Error', error);
         }
       }
     );
@@ -122,13 +127,13 @@ class VocabularySelector extends React.Component {
 }
 
 VocabularySelector.propTypes = {
-  onChange: React.PropTypes.func,
-  application: React.PropTypes.string,
-  authorization: React.PropTypes.string,
-  language: React.PropTypes.string,
-  disableOnSelect: React.PropTypes.bool,
-  vocabulary: React.PropTypes.object,
-  allVocabularies: React.PropTypes.array
+  onChange: PropTypes.func,
+  application: PropTypes.string,
+  authorization: PropTypes.string,
+  language: PropTypes.string,
+  disableOnSelect: PropTypes.bool,
+  vocabulary: PropTypes.object,
+  allVocabularies: PropTypes.array
 };
 
 export default VocabularySelector;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import sortBy from 'lodash/sortBy';
 
@@ -12,7 +13,6 @@ import Spinner from 'components/ui/Spinner';
 import { get, post } from 'utils/request';
 
 class VocabulariesForm extends React.Component {
-
   constructor(props) {
     super(props);
     const newState = Object.assign({}, STATE_DEFAULT, {
@@ -45,7 +45,7 @@ class VocabulariesForm extends React.Component {
     get({
       url,
       headers: [],
-      onSuccess: response => {
+      onSuccess: (response) => {
         const vocabularies = sortBy(response.data.map(vocabulary =>
           ({ name: vocabulary.id })
         ), 'id');
@@ -77,7 +77,7 @@ class VocabulariesForm extends React.Component {
         key: 'Authorization', value: this.props.authorization
       }],
       body: { name: this.state.newVocabularyName },
-      onSuccess: data => {
+      onSuccess: (data) => {
         const vocabularies = this.state.vocabularies.slice(0);
         vocabularies.push({ name: data.data[0].id });
         this.setState({
@@ -126,7 +126,7 @@ class VocabulariesForm extends React.Component {
             <form className="c-form" onSubmit={this.triggerSubmitNewVocabulary}>
               <Spinner className="-light" isLoading={this.state.submitting} />
               <Field
-                ref={c => {
+                ref={(c) => {
                   if (c) {
                     FORM_ELEMENTS.name = c;
                   }
@@ -178,9 +178,9 @@ class VocabulariesForm extends React.Component {
 }
 
 VocabulariesForm.propTypes = {
-  application: React.PropTypes.string,
-  authorization: React.PropTypes.string,
-  language: React.PropTypes.string
+  application: PropTypes.string,
+  authorization: PropTypes.string,
+  language: PropTypes.string
 };
 
 export default VocabulariesForm;

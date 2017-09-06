@@ -1,12 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { toastr } from 'react-redux-toastr';
+
+// Components
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import DeleteAction from 'components/ui/customtable/actions/DeleteAction';
 import EditAction from 'components/ui/customtable/actions/EditAction';
+
+// Utils
 import { get } from 'utils/request';
 
 class InsightsTable extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -33,8 +38,6 @@ class InsightsTable extends React.Component {
           { key: 'Authorization', value: this.props.authorization }
         ],
         onSuccess: (response) => {
-          console.log('success!');
-          console.log(response);
           const insights = response.data.map(insight =>
             Object.assign({}, insight.attributes, {
               id: insight.id
@@ -44,6 +47,7 @@ class InsightsTable extends React.Component {
         },
         onError: (error) => {
           this.setState({ message: `Error loading insights: ${error}`, loading: false });
+          toastr.error('Error', error);
         }
       }
     );
@@ -86,7 +90,7 @@ InsightsTable.defaultProps = {
 };
 
 InsightsTable.propTypes = {
-  authorization: React.PropTypes.string
+  authorization: PropTypes.string
 };
 
 export default InsightsTable;

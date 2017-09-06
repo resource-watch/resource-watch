@@ -4,7 +4,6 @@ import Select, { Creatable } from 'react-select';
 import FormElement from './FormElement';
 
 class SelectInput extends FormElement {
-
   constructor(props) {
     super(props);
 

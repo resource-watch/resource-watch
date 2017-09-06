@@ -43,7 +43,6 @@ const DATASET_SUBTABS = [{
 }];
 
 class DatasetsShow extends React.Component {
-
   /**
    * HELPERS
    * - parseTabs

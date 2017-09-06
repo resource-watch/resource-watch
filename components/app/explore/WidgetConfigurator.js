@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 
 // Components
@@ -118,7 +119,6 @@ const chartFields = [
 ];
 
 class WidgetConfigurator extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -136,7 +136,8 @@ class WidgetConfigurator extends React.Component {
       }
     };
 
-    this.DatasetService = new DatasetService(this.props.dataset, { apiURL: process.env.WRI_API_URL });
+    this.DatasetService = new DatasetService(this.props.dataset,
+      { apiURL: process.env.WRI_API_URL });
   }
 
   onChartTypeChanged(value) {
@@ -163,7 +164,7 @@ class WidgetConfigurator extends React.Component {
       (response) => {
 
 
-    });
+      });
   }
 
   getChartTypeOptions() {
@@ -173,7 +174,6 @@ class WidgetConfigurator extends React.Component {
   }
 
   triggerSelectionChange() {
-    console.info('triggerSelectionChange', this.state);
     const { selected } = this.state;
     const columns = [];
 
@@ -233,7 +233,7 @@ class WidgetConfigurator extends React.Component {
           <div>
             {
               chartFields.find(elem => elem.name === chartType).fields.map(el =>
-                <Field
+                (<Field
                   onChange={val => el.onChange.call(this, val)}
                   options={this.getFieldOptions(el)}
                   properties={{
@@ -244,7 +244,7 @@ class WidgetConfigurator extends React.Component {
                   }}
                 >
                   {Select}
-                </Field>
+                </Field>)
               )
             }
           </div>
@@ -255,9 +255,9 @@ class WidgetConfigurator extends React.Component {
 }
 
 WidgetConfigurator.propTypes = {
-  dataset: React.PropTypes.string.isRequired,
+  dataset: PropTypes.string.isRequired,
   // functions
-  onSelectionChange: React.PropTypes.func.isRequired
+  onSelectionChange: PropTypes.func.isRequired
 };
 
 export default WidgetConfigurator;

@@ -24,7 +24,6 @@ const boxTarget = {
   canDrop: monitor.canDrop()
 }))
 class ColorContainer extends React.Component {
-
   setAggregateFunction(value) {
     const newColor = Object.assign(
       {},

@@ -1,5 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { singular } from 'pluralize';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -12,6 +14,7 @@ import { capitalizeFirstLetter } from 'utils/utils';
 import DatasetsService from 'services/DatasetsService';
 import WidgetsService from 'services/WidgetsService';
 import DashboardsService from 'services/DashboardsService';
+import UserService from 'services/UserService';
 
 // Layout
 import Page from 'components/app/layout/Page';
@@ -62,22 +65,38 @@ class MyRWDetail extends Page {
         }
         break;
 
+      case 'areas':
+        if (id !== 'new') {
+          this.service = new UserService({ apiURL: process.env.WRI_API_URL });
+        }
+        break;
+
       default:
     }
   }
 
   componentDidMount() {
-    const { id } = this.state;
+    const { id, tab } = this.state;
+    const { user } = this.props;
 
     if (this.service) {
       // Fetch the dataset / layer / widget depending on the tab
-      this.service.fetchData({ id })
-        .then((data) => {
-          this.setState({ data });
+      if (tab !== 'areas') {
+        this.service.fetchData({ id })
+          .then((data) => {
+            this.setState({ data });
+          })
+          .catch((err) => {
+            toastr.error('Error', err);
+          });
+      } else {
+        this.service.getArea(id, `Bearer ${user.token}`).then((data) => {
+          this.setState({ data: data.data });
         })
-        .catch((err) => {
-          console.error(err);
-        });
+          .catch((err) => {
+            toastr.error('Error', err);
+          });
+      }
     }
   }
 
@@ -101,6 +120,10 @@ class MyRWDetail extends Page {
 
     if (data.name) {
       return data.name;
+    }
+
+    if (data.attributes && data.attributes.name) {
+      return data.attributes.name;
     }
 
     return '-';
@@ -162,8 +185,8 @@ class MyRWDetail extends Page {
 }
 
 MyRWDetail.propTypes = {
-  user: React.PropTypes.object,
-  url: React.PropTypes.object
+  user: PropTypes.object,
+  url: PropTypes.object
 };
 
 

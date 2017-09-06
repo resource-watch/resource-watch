@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Icon from '../../Icon';
 
@@ -37,9 +38,9 @@ export default class TableFilters extends React.Component {
 }
 
 TableFilters.propTypes = {
-  field: React.PropTypes.string.isRequired,
-  sort: React.PropTypes.object,
-  onSort: React.PropTypes.func
+  field: PropTypes.string.isRequired,
+  sort: PropTypes.object,
+  onSort: PropTypes.func
 };
 
 TableFilters.defaultProps = {

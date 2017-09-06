@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import { Router } from 'routes';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
-
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -64,7 +64,7 @@ class MyRWWidgetsMy extends React.Component {
           myWidgetsLoaded: true,
           myWidgets: response
         });
-      }).catch(err => console.log(err)); // eslint-disable-line no-console
+      }).catch(err => toastr.error('Error', err)); // eslint-disable-line no-console
   }
 
   @Autobind

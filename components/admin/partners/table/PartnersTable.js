@@ -25,7 +25,6 @@ import PublishedTD from './td/PublishedTD';
 import FeaturedTD from './td/FeaturedTD';
 
 class PartnersTable extends React.Component {
-
   componentDidMount() {
     this.props.setFilters([]);
     this.props.getPartners();
@@ -105,8 +104,6 @@ class PartnersTable extends React.Component {
               pageSize: 20,
               page: 0
             }}
-            onToggleSelectedRow={(ids) => { console.info(ids); }}
-            onRowDelete={(id) => { console.info(id); }}
           />
         )}
       </div>

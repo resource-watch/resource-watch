@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import sortBy from 'lodash/sortBy';
 
-import Spinner from '../ui/Spinner';
-import WidgetCard from './WidgetCard';
+// Components
+import Spinner from 'components/ui/Spinner';
+import WidgetCard from 'components/admin/widget/WidgetCard';
 
 class WidgetList extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -19,7 +20,7 @@ class WidgetList extends React.Component {
     this.triggerClick = this.triggerClick.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getWidgets();
   }
 
@@ -115,10 +116,10 @@ class WidgetList extends React.Component {
 }
 
 WidgetList.propTypes = {
-  application: React.PropTypes.array.isRequired,
-  dataset: React.PropTypes.object.isRequired,
-  selected: React.PropTypes.string,
-  onChange: React.PropTypes.func
+  application: PropTypes.array.isRequired,
+  dataset: PropTypes.object.isRequired,
+  selected: PropTypes.string,
+  onChange: PropTypes.func
 };
 
 export default WidgetList;

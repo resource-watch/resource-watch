@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Slider from 'react-slick';
 
 const defaultSettings = {
@@ -29,8 +30,8 @@ function Carousel(props) {
 }
 
 Carousel.propTypes = {
-  items: React.PropTypes.array.isRequired,
-  settings: React.PropTypes.object
+  items: PropTypes.array.isRequired,
+  settings: PropTypes.object
 };
 
 Carousel.defaultProps = {

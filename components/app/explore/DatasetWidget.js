@@ -15,7 +15,6 @@ import DatasetPlaceholderChart from 'components/app/explore/DatasetPlaceholderCh
 import { toggleLayerGroup } from 'redactions/explore';
 
 class DatasetWidget extends React.Component {
-
   /**
    * Shorten text to 70 character maximum and add
    * an ellipsis at the end
@@ -93,6 +92,7 @@ class DatasetWidget extends React.Component {
   render() {
     const { widget, layer, mode } = this.props;
     const dataset = this.props.dataset.attributes;
+    const metadata = dataset.metadata[0];
     const { showActions } = this.props;
     const gridMode = (mode === 'grid');
     const element = this.getWidgetOrLayer();
@@ -133,7 +133,7 @@ class DatasetWidget extends React.Component {
                 route={'explore_detail'}
                 params={{ id: this.props.dataset.id }}
               >
-                <a>{dataset.name}</a>
+                <a>{metadata && metadata.attributes.info ? metadata.attributes.info.name : dataset.name}</a>
               </Link>
             </h4>
 
@@ -154,7 +154,7 @@ class DatasetWidget extends React.Component {
               && <p>Source: {dataset.metadata[0].attributes.source}</p>
             }
           </div>
-          <MediaQuery minDeviceWidth={720} values={{deviceWidth: 720}}>
+          <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
             <div className="actions">
               {/* Layer Button */}
               {showActions && this.getButton()}

@@ -11,7 +11,6 @@ import CustomTable from 'components/ui/customtable/CustomTable';
 import DeleteAction from 'components/ui/customtable/actions/DeleteAction';
 
 class WidgetTable extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -106,12 +105,6 @@ class WidgetTable extends React.Component {
           sort={{
             field: 'name',
             value: 1
-          }}
-          onToggleSelectedRow={(ids) => {
-            console.info(ids);
-          }}
-          onRowDelete={(id) => {
-            console.info(id);
           }}
         />
       </div>

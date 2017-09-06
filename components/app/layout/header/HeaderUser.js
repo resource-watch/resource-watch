@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import classnames from 'classnames';
 import { Link } from 'routes';
+import { toastr } from 'react-redux-toastr';
 
 // Utils
 import { get } from 'utils/request';
@@ -15,7 +17,9 @@ class HeaderUser extends React.Component {
    * - logout
   */
   logout(e) {
-    e && e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     // Get to logout
     get({
@@ -30,7 +34,7 @@ class HeaderUser extends React.Component {
         }
       },
       onError: (err) => {
-        console.error(err);
+        toastr.error('Error', err);
       }
     });
   }
@@ -147,10 +151,10 @@ class HeaderUser extends React.Component {
 }
 
 HeaderUser.propTypes = {
-  user: React.PropTypes.object,
-  active: React.PropTypes.bool,
-  onMouseEnter: React.PropTypes.func,
-  onMouseLeave: React.PropTypes.func
+  user: PropTypes.object,
+  active: PropTypes.bool,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func
 };
 
 

@@ -26,7 +26,6 @@ import PublishedTD from './td/PublishedTD';
 
 
 class WidgetsTable extends React.Component {
-
   componentDidMount() {
     this.props.setFilters([]);
     this.props.getWidgets();
@@ -105,8 +104,6 @@ class WidgetsTable extends React.Component {
               pageSize: 20,
               page: 0
             }}
-            onToggleSelectedRow={(ids) => { console.info(ids); }}
-            onRowDelete={(id) => { console.info(id); }}
           />
         )}
       </div>

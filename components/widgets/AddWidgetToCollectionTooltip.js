@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import { toastr } from 'react-redux-toastr';
 
 // Components
 import Field from 'components/form/Field';
@@ -11,7 +12,6 @@ import Spinner from 'components/ui/Spinner';
 import WidgetService from 'services/WidgetService';
 
 class AddWidgetToCollectionTooltip extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -92,7 +92,7 @@ class AddWidgetToCollectionTooltip extends React.Component {
           collectionsAreEmpty: newCollectionsAreaEmtpy
         });
         toggleTooltip(false);
-      }).catch(err => console.log(err));
+      }).catch(err => toastr.error('Error', err));
   }
 
   render() {

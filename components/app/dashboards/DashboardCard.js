@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import 'isomorphic-fetch';
 import { Autobind } from 'es-decorators';
+import { toastr } from 'react-redux-toastr';
 
 // Components
 import Title from 'components/ui/Title';
@@ -159,7 +160,7 @@ class DashboardCard extends React.Component {
             loading: false
           });
         })
-        .catch(err => console.error(err));
+        .catch(err => toastr.error('Error', err));
     } else {
       this.userService.createFavouriteWidget(widgetId, user.token)
         .then(() => {
@@ -168,7 +169,7 @@ class DashboardCard extends React.Component {
             loading: false
           });
         })
-        .catch(err => console.error(err));
+        .catch(err => toastr.error('Error', err));
     }
   }
 
@@ -252,7 +253,7 @@ class DashboardCard extends React.Component {
 }
 
 DashboardCard.propTypes = {
-  widgetId: PropTypes.string.isRequired,
+  widgetId: PropTypes.string,
   categories: PropTypes.arrayOf(PropTypes.string).isRequired,
   isFavourite: PropTypes.bool.isRequired,
   // Redux

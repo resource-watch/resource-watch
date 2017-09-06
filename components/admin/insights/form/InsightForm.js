@@ -2,16 +2,16 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import { Router } from 'routes';
+import { toastr } from 'react-redux-toastr';
 
-import { FORM_ELEMENTS } from './constants';
-
+// Utils
 import { get, post } from 'utils/request';
 
 // Redux
 import { connect } from 'react-redux';
 
-
-import { Router } from 'routes';
+// Components
 import Spinner from 'components/ui/Spinner';
 import Title from 'components/ui/Title';
 import Button from 'components/ui/Button';
@@ -20,8 +20,9 @@ import Input from 'components/form/Input';
 import TextArea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
 
-class InsightForm extends React.Component {
+import { FORM_ELEMENTS } from './constants';
 
+class InsightForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -50,7 +51,7 @@ class InsightForm extends React.Component {
           { key: 'Content-Type', value: 'application/json' },
           { key: 'Authorization', value: this.props.user.token }
         ],
-        onSuccess: response => {
+        onSuccess: (response) => {
           const insight = response.data.attributes;
           this.setState({
             insight,
@@ -59,9 +60,9 @@ class InsightForm extends React.Component {
             loading: false
           });
         },
-        onError: error => {
+        onError: (error) => {
           this.setState({ loading: false });
-          console.error(error);
+          toastr.error('Error', error);
         }
       });
     }
@@ -83,14 +84,13 @@ class InsightForm extends React.Component {
           { key: 'Authorization', value: this.props.user.token }
         ],
         body: this.state.insight,
-        onSuccess: response => {
-          console.log(response);
-          alert('Insight updated successfully!');
+        onSuccess: () => {
+          toastr.success('Success', 'Insight updated successfully!');
           Router.pushRoute('insights');
         },
-        onError: error => {
+        onError: (error) => {
           this.setState({ loading: false });
-          console.error(error);
+          toastr.error('Error', error);
         }
       });
     } else if (this.props.mode === 'new') {
@@ -102,14 +102,13 @@ class InsightForm extends React.Component {
           { key: 'Authorization', value: this.props.user.token }
         ],
         body: this.state.insight,
-        onSuccess: response => {
-          console.log(response);
-          alert(response.messages[0].title);
+        onSuccess: (response) => {
+          toastr.info(response.messages[0].title);
           Router.pushRoute('insights');
         },
-        onError: error => {
+        onError: (error) => {
           this.setState({ loading: false });
-          console.error(error);
+          toastr.error('Error', error);
         }
       });
     }
@@ -147,7 +146,7 @@ class InsightForm extends React.Component {
           {this.state.loading && 'loading'}
           <fieldset className="c-field-container">
             <Field
-              ref={c => {
+              ref={(c) => {
                 if (c) {
                   FORM_ELEMENTS.elements.title = c;
                 }
@@ -165,7 +164,7 @@ class InsightForm extends React.Component {
               {Input}
             </Field>
             <Field
-              ref={c => {
+              ref={(c) => {
                 if (c) {
                   FORM_ELEMENTS.elements.summary = c;
                 }
@@ -181,7 +180,7 @@ class InsightForm extends React.Component {
               {TextArea}
             </Field>
             <Field
-              ref={c => {
+              ref={(c) => {
                 if (c) {
                   FORM_ELEMENTS.elements.description = c;
                 }
@@ -197,7 +196,7 @@ class InsightForm extends React.Component {
               {TextArea}
             </Field>
             <Field
-              ref={c => {
+              ref={(c) => {
                 if (c) {
                   FORM_ELEMENTS.elements.content = c;
                 }
@@ -213,7 +212,7 @@ class InsightForm extends React.Component {
               {TextArea}
             </Field>
             <Field
-              ref={c => {
+              ref={(c) => {
                 if (c) {
                   FORM_ELEMENTS.elements.featured = c;
                 }
@@ -231,7 +230,7 @@ class InsightForm extends React.Component {
               <Dropzone
                 ref={(node) => { this.dropzone = node; }}
                 className="c-dropzone"
-                disableClick={true}
+                disableClick
                 onDrop={this.onDrop}
               >
                 <div className="dropzone-file-input">

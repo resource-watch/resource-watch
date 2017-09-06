@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Constants
 import { PROVIDER_OPTIONS, FORM_ELEMENTS } from 'components/admin/layers/form/constants';
@@ -137,11 +138,11 @@ Step1.defaultPropTypes = {
 };
 
 Step1.propTypes = {
-  id: React.PropTypes.string,
-  datasets: React.PropTypes.array,
-  form: React.PropTypes.object,
-  onChange: React.PropTypes.func,
-  onChangeDataset: React.PropTypes.func
+  id: PropTypes.string,
+  datasets: PropTypes.array,
+  form: PropTypes.object,
+  onChange: PropTypes.func,
+  onChangeDataset: PropTypes.func
 };
 
 export default Step1;

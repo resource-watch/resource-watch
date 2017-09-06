@@ -24,7 +24,6 @@ const boxTarget = {
   canDrop: monitor.canDrop()
 }))
 class SortContainer extends React.Component {
-
   @Autobind
   handleSetOrderType(orderBy) {
     this.props.setOrderBy(orderBy);

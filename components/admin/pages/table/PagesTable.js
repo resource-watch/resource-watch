@@ -24,7 +24,6 @@ import TitleTD from './td/TitleTD';
 import PublishedTD from './td/PublishedTD';
 
 class PagesTable extends React.Component {
-
   componentDidMount() {
     this.props.setFilters([]);
     this.props.getPages();
@@ -102,8 +101,6 @@ class PagesTable extends React.Component {
               pageSize: 20,
               page: 0
             }}
-            onToggleSelectedRow={(ids) => { console.info(ids); }}
-            onRowDelete={(id) => { console.info(id); }}
           />
         )}
       </div>

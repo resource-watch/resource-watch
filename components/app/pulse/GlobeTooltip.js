@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class GlobeTooltip extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -32,7 +32,7 @@ class GlobeTooltip extends React.Component {
 
 GlobeTooltip.propTypes = {
   // Define the chart data
-  value: React.PropTypes.object
+  value: PropTypes.object
 };
 
 export default GlobeTooltip;

@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
+import Progress from 'react-progress-2';
 
 // Redux
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import { toggleTooltip } from 'redactions/tooltip';
-import { setUser } from 'redactions/user';
+import { updateIsLoading } from 'redactions/page';
 
 // Components
+import { Router } from 'routes';
 import Icons from 'components/app/layout/icons';
 import Header from 'components/app/layout/Header';
 import Footer from 'components/app/layout/Footer';
@@ -22,9 +24,7 @@ const fullScreenPages = [
   '/app/Pulse'
 ];
 
-
 class Layout extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -42,15 +42,19 @@ class Layout extends React.Component {
     // because for some pages, we don't re-mount the Layout
     // component. If we listen for events from the router,
     // we're sure to not miss any page.
-    if (!Router.onRouteChangeStart) {
-      Router.onRouteChangeStart = () => {
-        this.props.toggleTooltip(false);
-      };
-    }
+    this.props.toggleTooltip(false);
   }
 
   componentDidMount() {
-    this.props.setUser(this.props.user);
+    Router.onRouteChangeStart = () => {
+      Progress.show();
+      this.props.toggleTooltip(false);
+      this.props.updateIsLoading(true);
+    };
+    Router.onRouteChangeComplete = () => {
+      this.props.updateIsLoading(false);
+      Progress.hideAll();
+    };
   }
 
   componentWillReceiveProps(newProps) {
@@ -71,6 +75,8 @@ class Layout extends React.Component {
         />
 
         <Icons />
+
+        <Progress.Component />
 
         <Header
           user={user}
@@ -98,7 +104,6 @@ class Layout extends React.Component {
       </div>
     );
   }
-
 }
 
 Layout.propTypes = {
@@ -108,25 +113,26 @@ Layout.propTypes = {
   user: PropTypes.object,
   url: PropTypes.object,
   pageHeader: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  className: PropTypes.string,
   // Store
   modal: PropTypes.object,
   toggleModal: PropTypes.func,
   toggleTooltip: PropTypes.func,
   setModalOptions: PropTypes.func,
-  setUser: PropTypes.func.isRequired
+  updateIsLoading: PropTypes.func
 };
 
 const mapStateToProps = state => ({
-  modal: state.modal
+  modal: state.modal,
+  isLoading: state.page.isLoading
 });
 
 const mapDispatchToProps = dispatch => ({
   toggleTooltip: () => dispatch(toggleTooltip()),
   toggleModal: open => dispatch(toggleModal(open, {}, true)),
   setModalOptions: options => dispatch(setModalOptions(options)),
-  setUser: (user) => {
-    dispatch(setUser(user));
-  }
+  updateIsLoading: bindActionCreators(isLoading => updateIsLoading(isLoading), dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Layout);

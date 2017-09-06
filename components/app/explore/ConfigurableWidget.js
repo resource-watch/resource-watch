@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import TetherComponent from 'react-tether';
 
@@ -15,7 +16,6 @@ import getQueryByFiltersfrom from 'utils/getQueryByFilters';
 const chartTypes = { bar, pie, line };
 
 class ConfigurableWidget extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -63,7 +63,7 @@ class ConfigurableWidget extends React.Component {
             }
           }]
         }
-        )
+      )
     });
   }
 
@@ -89,10 +89,6 @@ class ConfigurableWidget extends React.Component {
 
   render() {
     const { configureDropdownActive } = this.state;
-
-    // if (this.state.parsedConfig){
-    //   console.info(JSON.stringify(this.state.parsedConfig));
-    // }
 
     const newClassConfigureButton = classNames({
       '-active': this.state.configureDropdownActive
@@ -138,12 +134,11 @@ class ConfigurableWidget extends React.Component {
       </div>
     );
   }
-
 }
 
 ConfigurableWidget.propTypes = {
-  datasetData: React.PropTypes.array.isRequired,
-  dataset: React.PropTypes.object.isRequired
+  datasetData: PropTypes.array.isRequired,
+  dataset: PropTypes.object.isRequired
 };
 
 export default ConfigurableWidget;

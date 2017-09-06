@@ -25,7 +25,6 @@ import PublishedTD from './td/PublishedTD';
 import FeaturedTD from './td/FeaturedTD';
 
 class DashboardsTable extends React.Component {
-
   componentDidMount() {
     this.props.setFilters([]);
     this.props.getDashboards();
@@ -103,8 +102,6 @@ class DashboardsTable extends React.Component {
               pageSize: 20,
               page: 0
             }}
-            onToggleSelectedRow={(ids) => { console.info(ids); }}
-            onRowDelete={(id) => { console.info(id); }}
           />
         )}
       </div>

@@ -1,5 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { singular } from 'pluralize';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -62,7 +64,7 @@ class PagesDetail extends Page {
           });
         })
         .catch((err) => {
-          console.error(err);
+          toastr.error('Error', err);
         });
     }
   }
@@ -137,8 +139,8 @@ class PagesDetail extends Page {
 }
 
 PagesDetail.propTypes = {
-  user: React.PropTypes.object,
-  url: React.PropTypes.object
+  user: PropTypes.object,
+  url: PropTypes.object
 };
 
 

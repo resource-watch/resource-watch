@@ -1,45 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import capitalize from 'lodash/capitalize';
 
-export default function FiltersResume ({ topics, geographies, types }) {
+export default function FiltersResume({ topics, geographies, dataTypes }) {
   return (
     <div className="c-filters-resume">
       {topics.length > 0 &&
         <div className="filter-resume">
           <span className="filter-title">Topics:</span>
-          <ul className="filter-list">
-            {topics.map((topic, i) =>
-              <li
-                key={topic}
-                className="filter-item">
-                  {topic}{`${i !== topics.length - 1 ? ',' : ''}`}
-              </li>)}
-          </ul>
+          <span className="filter-items">{topics.join(', ')}</span>
         </div>}
       {geographies.length > 0 &&
       <div className="filter-resume">
         <span className="filter-title">Geographies:</span>
-        <ul className="filter-list">
-          {geographies.map((geography, i) =>
-            <li
-              key={geography}
-              className="filter-item">
-                {capitalize(geography || '')}{`${i !== geographies.length - 1 ? ',' : ''}`}
-            </li>)}
-        </ul>
+        <span className="filter-items">{geographies.join(', ')}</span>
       </div>}
-      {types.length > 0 &&
+      {dataTypes.length > 0 &&
       <div className="filter-resume">
-        <span className="filter-title">Types:</span>
-        <ul className="filter-list">
-          {types.map((type, i) =>
-            <li
-              key={type}
-              className="filter-item">
-                {type}{`${i !== types.length - 1 ? ',' : ''}`}
-            </li>)}
-        </ul>
+        <span className="filter-title">Data Types:</span>
+        <span className="filter-items">{dataTypes.join(', ')}</span>
       </div>}
     </div>
   );
@@ -48,12 +26,12 @@ export default function FiltersResume ({ topics, geographies, types }) {
 FiltersResume.propTypes = {
   topics: PropTypes.array,
   geographies: PropTypes.array,
-  types: PropTypes.array
+  dataTypes: PropTypes.array
 };
 
 FiltersResume.defaultProps = {
   topics: [],
   geographies: [],
-  types: []
+  dataTypes: []
 };
 

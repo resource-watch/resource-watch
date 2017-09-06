@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
-
 
 // Services
 import UserService from 'services/UserService';
@@ -15,7 +15,6 @@ import Spinner from 'components/ui/Spinner';
 import WidgetList from 'components/widgets/WidgetList';
 
 class MyRWWidgetsStarred extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -53,15 +52,15 @@ class MyRWWidgetsStarred extends React.Component {
       starredWidgets: false
     });
     this.userService.getFavouriteWidgets(this.props.user.token)
-    .then((response) => {
-      this.setState({
-        starredWidgets: response.map((elem) => {
-          const favouriteId = elem.id;
-          return Object.assign({}, elem.attributes.resource, { favouriteId });
-        }),
-        starredWidgetsLoaded: true
-      });
-    }).catch(err => console.log(err)); // eslint-disable-line no-console
+      .then((response) => {
+        this.setState({
+          starredWidgets: response.map((elem) => {
+            const favouriteId = elem.id;
+            return Object.assign({}, elem.attributes.resource, { favouriteId });
+          }),
+          starredWidgetsLoaded: true
+        });
+      }).catch(err => toastr.error('Error', err));
   }
 
   @Autobind

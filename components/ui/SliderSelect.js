@@ -18,7 +18,6 @@ import Spinner from 'components/ui/Spinner';
  */
 
 export default class SliderSelect extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -81,7 +80,6 @@ export default class SliderSelect extends React.Component {
   @Autobind
   async onType(evt) {
     switch (evt.keyCode) {
-
       // key up
       case 38: {
         const index = this.state.selectedIndex > 0
@@ -396,7 +394,7 @@ export default class SliderSelect extends React.Component {
           />
           <div>
             {selectText}
-            {/*!selectedItem && closed &&
+            {/*! selectedItem && closed &&
               <button className="icon-btn" onClick={this.toggle}>
                 <Icon name="icon-arrow-down" className="-small icon-arrow-down" />
               </button>
@@ -432,7 +430,7 @@ export default class SliderSelect extends React.Component {
                 role="option"
                 aria-selected={item === selectedItem}
                 className={classnames({ '-selected': index === selectedIndex })}
-                key={item.label}
+                key={item.value}
                 onMouseEnter={() => { this.setSelectedIndex(index); }}
                 onMouseDown={e => this.onMouseDownOption(e, item)}
               >

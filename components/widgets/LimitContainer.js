@@ -12,7 +12,6 @@ import { setLimit } from 'redactions/widgetEditor';
 const LIMIT_MAX_VALUE = 500;
 
 class LimitContainer extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {

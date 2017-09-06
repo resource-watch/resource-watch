@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import LayerChart from 'components/widgets/LayerChart';
 import Spinner from 'components/ui/Spinner';
 
@@ -37,7 +38,7 @@ class DatasetLayerChart extends React.Component {
 }
 
 DatasetLayerChart.propTypes = {
-  layer: React.PropTypes.object
+  layer: PropTypes.object
 };
 
 export default DatasetLayerChart;

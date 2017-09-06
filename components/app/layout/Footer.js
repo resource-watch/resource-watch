@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'routes';
 import CompoundMenu from 'components/ui/CompoundMenu';
 import Carousel from 'components/ui/Carousel';
@@ -33,7 +34,6 @@ const getInvolved = [
 ];
 
 class Footer extends React.Component {
-
   componentDidMount() {
     this.props.getPartners();
   }
@@ -95,8 +95,8 @@ class Footer extends React.Component {
 }
 
 Footer.propTypes = {
-  getPartners: React.PropTypes.func,
-  partners: React.PropTypes.array
+  getPartners: PropTypes.func,
+  partners: PropTypes.array
 };
 
 const mapStateToProps = state => ({

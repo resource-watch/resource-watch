@@ -69,9 +69,11 @@ class Explore extends Page {
     super(props);
 
     this.state = {
-      topicsTree: null,
-      geographiesTree: null,
-      dataTypesTree: null
+      filters: {
+        topics: [],
+        geographies: [],
+        dataTypes: []
+      }
     };
 
     // Services
@@ -81,7 +83,7 @@ class Explore extends Page {
     this.handleFilterDatasetsSearch = debounce(this.handleFilterDatasetsSearch.bind(this), 500);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const query = this.props.url.query;
     if (query.page) {
       this.props.setDatasetsPage(+query.page);
@@ -113,9 +115,6 @@ class Explore extends Page {
     }
 
     this.props.getDatasets();
-  }
-
-  componentDidMount() {
     this.loadKnowledgeGraph();
   }
 
@@ -141,10 +140,6 @@ class Explore extends Page {
     } else if (conceptsUpdated && !newFiltersHaveData) {
       this.props.setDatasetsFilteredByConcepts(null);
     }
-
-    // this.setState({
-    //   vocabularies: nextProps.explore.vocabularies.list
-    // });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -157,20 +152,31 @@ class Explore extends Page {
     const { topics, dataType, geographies } = query;
 
     // Topics selector
-    fetch(new Request('/static/data/TopicsTreeLite.json'))
+    fetch(new Request('/static/data/TopicsTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
-      .then((response) => {
-        const data = response;
-        this.setState({ topicsTree: data });
+      .then((data) => {
         const element = document.getElementsByClassName('topics-selector')[0];
 
         const onChange = (currentNode, selectedNodes) => {
           const topicsVal = selectedNodes.map(val => val.value);
+          const topicLabels = selectedNodes.map(val => val.label);
           this.props.setDatasetsTopicsFilter(topicsVal);
+          this.setState({
+            filters: { ...this.state.filters, topics: topicLabels }
+          });
         };
 
         if (topics) {
           data.forEach(child => this.selectElementsFromTree(child, topics));
+
+          const topicLabels = JSON.parse(topics).map((type) => {
+            const match = data.find(d => d.value === type) || {};
+            return match.label;
+          });
+
+          this.setState({
+            filters: { ...this.state.filters, topics: topicLabels }
+          });
         }
 
         ReactDOM.render(
@@ -184,26 +190,35 @@ class Explore extends Page {
       });
 
     // Data types selector
-    fetch(new Request('/static/data/DataTypesTreeLite.json'))
+    fetch(new Request('/static/data/DataTypesTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
-      .then((response) => {
-        const data = response;
-        this.setState({ dataTypesTree: data });
+      .then((data) => {
         const element = document.getElementsByClassName('data-types-selector')[0];
 
         const onChange = (currentNode, selectedNodes) => {
           const dataTypesVal = selectedNodes.map(val => val.value);
+          const dataTypesLabels = selectedNodes.map(val => val.label);
+          this.setState({
+            filters: { ...this.state.filters, dataTypes: dataTypesLabels }
+          });
           this.props.setDatasetsDataTypeFilter(dataTypesVal);
         };
 
         if (dataType) {
           data.forEach(child => this.selectElementsFromTree(child, dataType));
+          const dataTypesLabels = JSON.parse(dataType).map((type) => {
+            const match = data.find(d => d.value === type) || {};
+            return match.label;
+          });
+
+          this.setState({
+            filters: { ...this.state.filters, dataTypes: dataTypesLabels }
+          });
         }
 
         ReactDOM.render(
           <DropdownTreeSelect
-            className="test"
-            data={response}
+            data={data}
             placeholderText="Data types"
             onChange={onChange}
           />,
@@ -211,25 +226,48 @@ class Explore extends Page {
       });
 
     // Data types selector
-    fetch(new Request('/static/data/GeographiesTreeLite.json'))
+    fetch(new Request('/static/data/GeographiesTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
-      .then((response) => {
-        const data = response;
-        this.setState({ geographiesTree: data });
+      .then((data) => {
         const element = document.getElementsByClassName('geographies-selector')[0];
 
         const onChange = (currentNode, selectedNodes) => {
           const geographiesVal = selectedNodes.map(val => val.value);
+          const geographiesLabels = selectedNodes.map(val => val.label);
+          this.setState({
+            filters: { ...this.state.filters, geographies: geographiesLabels }
+          });
           this.props.setDatasetsGeographiesFilter(geographiesVal);
         };
 
-        if (dataType) {
-          data.forEach(child => this.selectElementsFromTree(child, geographies));
+        if (geographies) {
+          data.forEach(child => this.selectElementsFromTree(child, JSON.parse(geographies)));
+          const geographyLabels = [];
+
+          const searchFunction = (item) => {
+            data.forEach((d) => {
+              if (d.value === item) {
+                geographyLabels.push(d.label);
+              }
+
+              if (d.children) {
+                d.children.forEach((child) => {
+                  if (child.value === item) geographyLabels.push(child.label);
+                });
+              }
+            });
+          };
+
+          JSON.parse(geographies).forEach(geography => searchFunction(geography));
+
+          this.setState({
+            filters: { ...this.state.filters, geographies: geographyLabels }
+          });
         }
 
         ReactDOM.render(
           <DropdownTreeSelect
-            data={response}
+            data={data}
             placeholderText="Geographies"
             onChange={onChange}
           />,
@@ -237,13 +275,11 @@ class Explore extends Page {
       });
   }
 
-  selectElementsFromTree(tree, elements) {
+  selectElementsFromTree(tree = {}, elements = []) { // eslint-disable-line class-methods-use-this
     if (elements.includes(tree.value)) {
-      tree.checked = true;
+      tree.checked = true; // eslint-disable-line no-param-reassign
     }
-    if (tree.children) {
-      tree.children.forEach(val => this.selectElementsFromTree(val, elements));
-    }
+    (tree.children || []).forEach(child => child.checked = tree.checked); // eslint-disable-line
   }
 
   @Autobind
@@ -344,7 +380,9 @@ class Explore extends Page {
 
   render() {
     const { explore, paginatedDatasets } = this.props;
-    const { search, topics, geographies, dataType } = explore.filters;
+    const { search } = explore.filters;
+    const { filters } = this.state;
+    const { topics, geographies, dataTypes } = filters;
 
     return (
       <Layout
@@ -368,23 +406,23 @@ class Explore extends Page {
                       }}
                     />
                   </div>
-                    <div className="filters-container">
-                      <div className="row">
-                        <div className="column medium-4">
-                          <div className="c-tree-selector -explore topics-selector" />
-                        </div>
-                        <div className="column medium-4">
-                          <div className="c-tree-selector -explore geographies-selector " />
-                        </div>
-                        <div className="column medium-4">
-                          <div className="c-tree-selector -explore data-types-selector" />
-                        </div>
+                  <div className="filters-container">
+                    <div className="row">
+                      <div className="column medium-4">
+                        <div className="c-tree-selector -explore topics-selector" />
                       </div>
+                      <div className="column medium-4">
+                        <div className="c-tree-selector -explore geographies-selector " />
+                      </div>
+                      <div className="column medium-4">
+                        <div className="c-tree-selector -explore data-types-selector" />
+                      </div>
+                    </div>
                   </div>
                   <FiltersResume
-                    topics={topics || []}
-                    geographies={geographies || []}
-                    types={dataType || []}
+                    topics={topics}
+                    geographies={geographies}
+                    dataTypes={dataTypes}
                   />
                   <DatasetListHeader
                     list={explore.datasets.list}
@@ -417,8 +455,8 @@ class Explore extends Page {
                       document.getElementsByClassName('sidebar-content')[0].scrollTop = 0;
                     }}
                   />
-                    </div>
                 </div>
+              </div>
             </Sidebar>
             <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
               <div className="l-map">

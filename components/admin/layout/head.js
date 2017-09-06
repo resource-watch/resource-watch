@@ -6,7 +6,6 @@ import HeadNext from 'next/head';
 import styles from 'css/index.scss';
 
 export default class Head extends React.Component {
-
   render() {
     const { title, description } = this.props;
 
@@ -25,7 +24,6 @@ export default class Head extends React.Component {
       </HeadNext>
     );
   }
-
 }
 
 Head.propTypes = {

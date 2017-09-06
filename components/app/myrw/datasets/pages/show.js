@@ -2,6 +2,7 @@ import React from 'react';
 import { Router } from 'routes';
 import { StickyContainer, Sticky } from 'react-sticky';
 import PropTypes from 'prop-types';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
@@ -57,7 +58,7 @@ class DatasetsShow extends React.Component {
           this.setState({ data });
         })
         .catch((err) => {
-          console.error(err);
+          toastr.error('Error', err);
         });
     }
   }

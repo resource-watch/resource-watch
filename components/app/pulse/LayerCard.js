@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Legend from 'components/app/pulse/Legend';
 import { Link } from 'routes';
@@ -35,7 +36,7 @@ function LayerCard(props) {
 
 LayerCard.propTypes = {
   // PROPS
-  layerActive: React.PropTypes.object
+  layerActive: PropTypes.object
 };
 
 export default LayerCard;

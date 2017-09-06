@@ -5,7 +5,6 @@ import Package from '../../../package.json';
 // import styles from 'css/index.scss';
 
 export default class Head extends React.Component {
-
   static getStyles() {
     if (process.env.NODE_ENV === 'production') {
       // In production, serve pre-built CSS file from /styles/{version}/main.css
@@ -32,7 +31,6 @@ export default class Head extends React.Component {
       </HeadNext>
     );
   }
-
 }
 
 Head.propTypes = {

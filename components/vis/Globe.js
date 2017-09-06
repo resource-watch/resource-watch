@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import { TextureLoader, Raycaster, Vector2, CylinderGeometry,
   SphereGeometry, MeshBasicMaterial, Matrix4, Mesh,
@@ -13,7 +14,6 @@ const OrbitControls = orbitControls();
 const imageLoader = new TextureLoader();
 
 class Globe extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -220,7 +220,7 @@ class Globe extends React.Component {
    */
   setTexture() {
     const mapImage = this.state.texture ?
-       imageLoader.load(this.state.texture) : imageLoader.load(this.props.defaultLayerImagePath);
+      imageLoader.load(this.state.texture) : imageLoader.load(this.props.defaultLayerImagePath);
     const { radius, segments, rings, textureExtraRadiusPercentage } = this.props;
     const newRadius = radius + ((radius * textureExtraRadiusPercentage) / 100);
     if (!this.currentTexture) {
@@ -296,7 +296,7 @@ class Globe extends React.Component {
     const material = new MeshPhongMaterial({
       map: imageLoader.load(earthImagePath),
       bumpMap: imageLoader.load(earthBumpImagePath),
-      bumpScale: bumpScale
+      bumpScale
     });
     const geometry = new SphereGeometry(radius, segments, rings);
     this.earth = new Mesh(geometry, material);
@@ -501,14 +501,13 @@ class Globe extends React.Component {
     this.renderer.setSize(this.state.width, this.state.height);
     // TODO: update halo size
     // this.halo.geometry.radius = this.getHaloRadius();
-    // console.info('this.halo.geometry.radius', this.halo.geometry.radius);
   }
 
   onClick(event) {
     event.nativeEvent.stopImmediatePropagation();
 
-    this.mouse.x = (event.nativeEvent.offsetX / this.el.clientWidth ) * 2 - 1;
-    this.mouse.y = -(event.nativeEvent.offsetY / this.el.clientHeight ) * 2 + 1;
+    this.mouse.x = (event.nativeEvent.offsetX / this.el.clientWidth) * 2 - 1;
+    this.mouse.y = -(event.nativeEvent.offsetY / this.el.clientHeight) * 2 + 1;
 
     this.raycaster.setFromCamera(this.mouse, this.camera);
 
@@ -559,7 +558,6 @@ class Globe extends React.Component {
       />
     );
   }
-
 }
 
 Globe.defaultProps = {
@@ -631,79 +629,79 @@ Globe.defaultProps = {
 Globe.propTypes = {
 
   // Size
-  width: React.PropTypes.number,
-  height: React.PropTypes.number,
+  width: PropTypes.number,
+  height: PropTypes.number,
 
   // Lights
-  ambientLightColor: React.PropTypes.number,
-  pointLightColor: React.PropTypes.number,
-  pointLightIntensity: React.PropTypes.number,
-  pointLightPosition: React.PropTypes.string,
-  pointLightX: React.PropTypes.number,
-  pointLightY: React.PropTypes.number,
-  pointLightZ: React.PropTypes.number,
+  ambientLightColor: PropTypes.number,
+  pointLightColor: PropTypes.number,
+  pointLightIntensity: PropTypes.number,
+  pointLightPosition: PropTypes.string,
+  pointLightX: PropTypes.number,
+  pointLightY: PropTypes.number,
+  pointLightZ: PropTypes.number,
 
   // Controls
 
   // Sphere structure
-  radius: React.PropTypes.number,
-  segments: React.PropTypes.number,
-  rings: React.PropTypes.number,
-  textureExtraRadiusPercentage: React.PropTypes.number,
+  radius: PropTypes.number,
+  segments: PropTypes.number,
+  rings: PropTypes.number,
+  textureExtraRadiusPercentage: PropTypes.number,
 
   // Rotation
-  enableDamping: React.PropTypes.bool,
-  autorotate: React.PropTypes.bool,
-  autoRotateSpeed: React.PropTypes.number,
-  rotateSpeed: React.PropTypes.number,
-  dampingFactor: React.PropTypes.number,
+  enableDamping: PropTypes.bool,
+  autorotate: PropTypes.bool,
+  autoRotateSpeed: PropTypes.number,
+  rotateSpeed: PropTypes.number,
+  dampingFactor: PropTypes.number,
 
   // Zoom + Pan
-  enablePan: React.PropTypes.bool,
-  enableZoom: React.PropTypes.bool,
-  zoomSpeed: React.PropTypes.number,
-  maxDistance: React.PropTypes.number,
-  minDistance: React.PropTypes.number,
+  enablePan: PropTypes.bool,
+  enableZoom: PropTypes.bool,
+  zoomSpeed: PropTypes.number,
+  maxDistance: PropTypes.number,
+  minDistance: PropTypes.number,
 
   // Top layer (e.g. clouds)
 
   // Earth textures
-  earthImagePath: React.PropTypes.string,
-  earthBumpImagePath: React.PropTypes.string,
-  bumpScale: React.PropTypes.number,
-  texture: React.PropTypes.string,
+  earthImagePath: PropTypes.string,
+  earthBumpImagePath: PropTypes.string,
+  bumpScale: PropTypes.number,
+  texture: PropTypes.string,
   // Default layer
-  defaultLayerImagePath: React.PropTypes.string,
-  useDefaultLayer: React.PropTypes.bool,
+  defaultLayerImagePath: PropTypes.string,
+  useDefaultLayer: PropTypes.bool,
   // Layer points
-  layerPoints: React.PropTypes.array,
+  layerPoints: PropTypes.array,
 
   // Camera
-  cameraFov: React.PropTypes.number,
-  cameraNear: React.PropTypes.number,
-  cameraFar: React.PropTypes.number,
-  cameraPositionZ: React.PropTypes.number,
+  cameraFov: PropTypes.number,
+  cameraNear: PropTypes.number,
+  cameraFar: PropTypes.number,
+  cameraPositionZ: PropTypes.number,
 
   // Halo
-  useHalo: React.PropTypes.bool,
-  haloExtraRadiusPercentage: React.PropTypes.number,
+  useHalo: PropTypes.bool,
+  haloExtraRadiusPercentage: PropTypes.number,
 
   // Stats
-  showStats: React.PropTypes.bool,
+  showStats: PropTypes.bool,
 
   // Functions
-  onMarkerSelected: React.PropTypes.func,
-  onEarthClicked: React.PropTypes.func,
-  onClickInEmptyRegion: React.PropTypes.func,
+  onMarkerSelected: PropTypes.func,
+  onEarthClicked: PropTypes.func,
+  onClickInEmptyRegion: PropTypes.func,
 
   // Markers
-  markerLowColor: React.PropTypes.number,
-  markerMediumColor: React.PropTypes.number,
-  markerHighColor: React.PropTypes.number,
-  markerSelectedColor: React.PropTypes.number,
-  markerDefaultColor: React.PropTypes.number,
-  markerSelectedSizeFactor: React.PropTypes.number,
-  markerType: React.PropTypes.string
+  markerLowColor: PropTypes.number,
+  markerMediumColor: PropTypes.number,
+  markerHighColor: PropTypes.number,
+  markerSelectedColor: PropTypes.number,
+  markerDefaultColor: PropTypes.number,
+  markerSelectedSizeFactor: PropTypes.number,
+  markerType: PropTypes.string
 };
 
 export default Globe;

@@ -11,7 +11,6 @@ import WidgetEditor from 'components/widgets/WidgetEditor';
 import { FORM_ELEMENTS } from 'components/admin/widget/form/constants';
 
 class Step2 extends React.Component {
-
   render() {
     const { dataset } = this.props;
 

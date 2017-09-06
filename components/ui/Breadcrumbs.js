@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'routes';
 import Icon from 'components/ui/Icon';
 
@@ -35,7 +36,7 @@ function Breadcrumbs(props) {
 }
 
 Breadcrumbs.propTypes = {
-  items: React.PropTypes.array
+  items: PropTypes.array
 };
 
 Breadcrumbs.defaultProps = {

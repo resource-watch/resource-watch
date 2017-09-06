@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Switch extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -49,9 +49,9 @@ Switch.defaultProps = {
 };
 
 Switch.propTypes = {
-  active: React.PropTypes.bool,
-  classNames: React.PropTypes.string,
-  onChange: React.PropTypes.func
+  active: PropTypes.bool,
+  classNames: PropTypes.string,
+  onChange: PropTypes.func
 };
 
 export default Switch;

@@ -25,7 +25,6 @@ import GoToDatasetAction from './actions/GoToDatasetAction';
 import NameTD from './td/NameTD';
 
 class LayersTable extends React.Component {
-
   componentDidMount() {
     const { dataset, application } = this.props;
     this.props.setFilters([]);
@@ -97,8 +96,6 @@ class LayersTable extends React.Component {
               pageSize: 20,
               page: 0
             }}
-            onToggleSelectedRow={(ids) => { console.info(ids); }}
-            onRowDelete={(id) => { console.info(id); }}
           />
         )}
       </div>

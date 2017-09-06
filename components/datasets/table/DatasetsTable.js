@@ -25,7 +25,6 @@ import RelatedContentTD from './td/RelatedContentTD';
 import UpdatedAtTD from './td/UpdatedAtTD';
 
 class DatasetsTable extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -111,8 +110,6 @@ class DatasetsTable extends React.Component {
               pageSize: 20,
               page: 0
             }}
-            onToggleSelectedRow={(ids) => { console.info(ids); }}
-            onRowDelete={(id) => { console.info(id); }}
           />
         )}
       </div>

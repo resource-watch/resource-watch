@@ -1,9 +1,9 @@
 import React from 'react';
-import debounce from 'lodash/debounce';
+import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
+import { toastr } from 'react-redux-toastr';
 
 class LayerChart extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -80,7 +80,7 @@ class LayerChart extends React.Component {
             basemap: `https://${response.cdn_url.https}/${basemap.account}/api/v1/map/static/center/${options.token}/${options.z}/${options.lat}/${options.lng}/${options.width}/${options.height}.${options.format}`
           });
         } else {
-          console.error('Basemap could not be loaded');
+          toastr.error('Basemap could not be loaded');
         }
       }
     };
@@ -122,7 +122,7 @@ class LayerChart extends React.Component {
             background: `https://${response.cdn_url.https}/${data.account}/api/v1/map/static/center/${options.token}/${options.z}/${options.lat}/${options.lng}/${options.width}/${options.height}.${options.format}`
           });
         } else {
-          console.error('Image could not be loaded');
+          toastr.error('Image could not be loaded');
         }
       }
     };
@@ -144,8 +144,8 @@ class LayerChart extends React.Component {
 
 LayerChart.propTypes = {
   // Define the chart data
-  data: React.PropTypes.object,
-  toggleLoading: React.PropTypes.func
+  data: PropTypes.object,
+  toggleLoading: PropTypes.func
 };
 
 export default LayerChart;
