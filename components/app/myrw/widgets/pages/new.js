@@ -184,14 +184,14 @@ class WidgetsNew extends React.Component {
 
 
   loadDatasets() {
-    this.datasetsService.fetchAllData({ filters: { published: true } }).then((response) => {
+    this.datasetsService.fetchAllData({ filters: { published: true }, includes: "metadata" }).then((response) => {
       this.setState({
         datasets: [...this.state.datasets, ...response.map(dataset => ({
           id: dataset.id,
           type: dataset.type,
           provider: dataset.provider,
           tableName: dataset.tableName,
-          label: dataset.name,
+          label: dataset.metadata[0] && dataset.metadata[0].attributes.info ? dataset.metadata[0].attributes.info.name : dataset.name,
           value: dataset.id
         }))],
         loadingPublishedDatasets: false
@@ -199,14 +199,14 @@ class WidgetsNew extends React.Component {
     });
 
     this.datasetsService.fetchAllData(
-      { filters: { userId: this.props.user.id } }).then((response) => {
+      { filters: { userId: this.props.user.id }, includes: "metadata" }).then((response) => {
       this.setState({
         datasets: [...this.state.datasets, ...response.map(dataset => ({
           id: dataset.id,
           type: dataset.type,
           provider: dataset.provider,
           tableName: dataset.tableName,
-          label: dataset.name,
+          label: dataset.metadata[0] && dataset.metadata[0].attributes.info ? dataset.metadata[0].attributes.info.name : dataset.name,
           value: dataset.id
         }))],
         loadingUserDatasets: false
