@@ -267,7 +267,7 @@ class AreaCard extends React.Component {
                         <div className="dataset-subscription-type">
                           {subscription.attributes.datasetsQuery
                             .find(elem => elem.id === datasetObj.id).type}
-                          &nbsp;(&gt;{subscription.attributes.datasetsQuery
+                          &nbsp;(&ge;{subscription.attributes.datasetsQuery
                             .find(elem => elem.id === datasetObj.id).threshold})
                         </div>
                       </div>)

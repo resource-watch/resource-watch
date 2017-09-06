@@ -83,7 +83,11 @@ class SubscribeToDatasetModal extends React.Component {
 
   @Autobind
   handleThresholdChange(threshold) {
-    this.setState({ selectedThreshold: threshold });
+    let newThreshold = threshold;
+    if (threshold <= 0) {
+      newThreshold = 1;
+    }
+    this.setState({ selectedThreshold: newThreshold });
   }
 
   @Autobind
