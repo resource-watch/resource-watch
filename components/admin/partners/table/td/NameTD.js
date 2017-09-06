@@ -1,10 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Next components
 import { Link } from 'routes';
 
 class NameTD extends React.Component {
-
   render() {
     const { row, value, index } = this.props;
 
@@ -19,9 +19,9 @@ class NameTD extends React.Component {
 }
 
 NameTD.propTypes = {
-  row: React.PropTypes.object,
-  value: React.PropTypes.string,
-  index: React.PropTypes.string
+  row: PropTypes.object,
+  value: PropTypes.string,
+  index: PropTypes.string
 };
 
 export default NameTD;

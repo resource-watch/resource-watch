@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import Button from '../ui/Button';
@@ -102,10 +103,10 @@ class Navigation extends React.Component {
 }
 
 Navigation.propTypes = {
-  step: React.PropTypes.number,
-  stepLength: React.PropTypes.number,
-  submitting: React.PropTypes.bool,
-  onStepChange: React.PropTypes.func
+  step: PropTypes.number,
+  stepLength: PropTypes.number,
+  submitting: PropTypes.bool,
+  onStepChange: PropTypes.func
 };
 
 export default Navigation;

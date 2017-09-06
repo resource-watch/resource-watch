@@ -152,7 +152,7 @@ class Explore extends Page {
     const { topics, dataType, geographies } = query;
 
     // Topics selector
-    fetch(new Request('/static/data/TopicsTreeLite.json'))
+    fetch(new Request('/static/data/TopicsTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
       .then((data) => {
         const element = document.getElementsByClassName('topics-selector')[0];
@@ -190,7 +190,7 @@ class Explore extends Page {
       });
 
     // Data types selector
-    fetch(new Request('/static/data/DataTypesTreeLite.json'))
+    fetch(new Request('/static/data/DataTypesTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
       .then((data) => {
         const element = document.getElementsByClassName('data-types-selector')[0];
@@ -226,7 +226,7 @@ class Explore extends Page {
       });
 
     // Data types selector
-    fetch(new Request('/static/data/GeographiesTreeLite.json'))
+    fetch(new Request('/static/data/GeographiesTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
       .then((data) => {
         const element = document.getElementsByClassName('geographies-selector')[0];

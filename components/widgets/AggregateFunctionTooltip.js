@@ -16,7 +16,6 @@ const AGGREGATE_FUNCTIONS = [
 const AGGREGATE_FUNCTIONS_ONLY_COUNT = ['count', 'none'];
 
 class AggregateFunctionTooltip extends React.Component {
-
   constructor(props) {
     super(props);
 

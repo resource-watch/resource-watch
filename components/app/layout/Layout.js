@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Progress from 'react-progress-2';
-import delay from 'lodash/delay';
 
 // Redux
 import { connect } from 'react-redux';
@@ -65,7 +64,7 @@ class Layout extends React.Component {
   }
 
   render() {
-    const { title, description, url, user, pageHeader, modal, className, isLoading } = this.props;
+    const { title, description, url, user, pageHeader, modal, className } = this.props;
     const fullScreen = url.pathname && fullScreenPages.indexOf(url.pathname) !== -1;
 
     return (
@@ -105,7 +104,6 @@ class Layout extends React.Component {
       </div>
     );
   }
-
 }
 
 Layout.propTypes = {

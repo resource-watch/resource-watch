@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Icon from '../ui/Icon';
 
@@ -45,6 +46,6 @@ export default class Checkbox extends FormElement {
 }
 
 Checkbox.propTypes = {
-  properties: React.PropTypes.object,
-  onChange: React.PropTypes.func
+  properties: PropTypes.object,
+  onChange: PropTypes.func
 };

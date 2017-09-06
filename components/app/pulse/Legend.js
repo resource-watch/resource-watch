@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import LegendType from 'components/ui/LegendType';
 
 class Legend extends React.Component {
-
   render() {
     if (this.props.layerActive) {
       return (
@@ -30,8 +30,8 @@ class Legend extends React.Component {
 }
 
 Legend.propTypes = {
-  layerActive: React.PropTypes.object,
-  className: React.PropTypes.object
+  layerActive: PropTypes.object,
+  className: PropTypes.object
 };
 
 Legend.defaultProps = {

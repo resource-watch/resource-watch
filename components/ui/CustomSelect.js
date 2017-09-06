@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import SliderSelect from './SliderSelect';
 import SearchSelect from './SearchSelect';
 
@@ -8,7 +9,7 @@ function CustomSelect(props) {
 }
 
 CustomSelect.propTypes = {
-  search: React.PropTypes.bool
+  search: PropTypes.bool
 };
 
 export default CustomSelect;

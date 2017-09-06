@@ -436,7 +436,6 @@ module.exports = function () {
       // console.log( 'handleKeyDown' );
 
       switch (event.keyCode) {
-
         case scope.keys.UP:
           pan(0, scope.keyPanSpeed);
           scope.update();
@@ -456,7 +455,6 @@ module.exports = function () {
           pan(-scope.keyPanSpeed, 0);
           scope.update();
           break;
-
       }
     }
 
@@ -637,7 +635,6 @@ module.exports = function () {
       if (scope.enabled === false) return;
 
       switch (event.touches.length) {
-
         case 1: // one-fingered touch: rotate
 
           if (scope.enableRotate === false) return;
@@ -671,7 +668,6 @@ module.exports = function () {
         default:
 
           state = STATE.NONE;
-
       }
 
       if (state !== STATE.NONE) {
@@ -686,7 +682,6 @@ module.exports = function () {
       event.stopPropagation();
 
       switch (event.touches.length) {
-
         case 1: // one-fingered touch: rotate
 
           if (scope.enableRotate === false) return;
@@ -717,7 +712,6 @@ module.exports = function () {
         default:
 
           state = STATE.NONE;
-
       }
     }
 

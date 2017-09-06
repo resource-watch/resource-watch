@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Jiminy from 'jiminy';
 import { toastr } from 'react-redux-toastr';
 
@@ -204,7 +205,7 @@ class WidgetPreview extends React.Component {
 }
 
 WidgetPreview.propTypes = {
-  wizard: React.PropTypes.object.isRequired
+  wizard: PropTypes.object.isRequired
 };
 
 export default WidgetPreview;

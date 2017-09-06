@@ -28,7 +28,6 @@ const boxTarget = {
   canDrop: monitor.canDrop()
 }))
 class SizeContainer extends React.Component {
-
   setAggregateFunction(value) {
     const newSize = Object.assign(
       {},

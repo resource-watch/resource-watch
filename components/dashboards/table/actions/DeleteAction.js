@@ -6,7 +6,6 @@ import DashboardsService from 'services/DashboardsService';
 import { toastr } from 'react-redux-toastr';
 
 class DeleteAction extends React.Component {
-
   constructor(props) {
     super(props);
 

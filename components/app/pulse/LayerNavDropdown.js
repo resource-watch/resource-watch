@@ -1,11 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Switch from 'components/ui/Switch';
 import { connect } from 'react-redux';
 
 import { toggleActiveLayer, getLayerPoints } from 'redactions/pulse';
 
 class LayerNavDropdown extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -23,30 +23,29 @@ class LayerNavDropdown extends React.Component {
       <div className="c-layer-nav-dropdown dropdown">
         <ul>
           {layers.map(layer =>
-              (<li
-                data-id={layer.id}
-                data-threedimensional={layer['3d']}
-                data-markertype={layer.markerType}
-                key={layer.id}
-                onClick={this.triggerClick}
-              >
-                <Switch active={(layerActive && (layerActive.id === layer.id))} />
-                <span className="name">
-                  {layer.label}
-                </span>
-              </li>)
+            (<li
+              data-id={layer.id}
+              data-threedimensional={layer['3d']}
+              data-markertype={layer.markerType}
+              key={layer.id}
+              onClick={this.triggerClick}
+            >
+              <Switch active={(layerActive && (layerActive.id === layer.id))} />
+              <span className="name">
+                {layer.label}
+              </span>
+            </li>)
           )}
         </ul>
       </div>
     );
   }
-
 }
 
 LayerNavDropdown.propTypes = {
-  layers: React.PropTypes.array,
-  layerActive: React.PropTypes.object,
-  toggleActiveLayer: React.PropTypes.func
+  layers: PropTypes.array,
+  layerActive: PropTypes.object,
+  toggleActiveLayer: PropTypes.func
 };
 
 const mapStateToProps = state => ({

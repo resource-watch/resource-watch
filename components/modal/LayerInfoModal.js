@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const LayerInfoModal = function LayerInfoModal(props) {
   return (
@@ -12,7 +13,7 @@ const LayerInfoModal = function LayerInfoModal(props) {
 };
 
 LayerInfoModal.propTypes = {
-  data: React.PropTypes.object
+  data: PropTypes.object
 };
 
 export default LayerInfoModal;

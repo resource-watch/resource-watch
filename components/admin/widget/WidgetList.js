@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import sortBy from 'lodash/sortBy';
 
 // Components
@@ -115,10 +116,10 @@ class WidgetList extends React.Component {
 }
 
 WidgetList.propTypes = {
-  application: React.PropTypes.array.isRequired,
-  dataset: React.PropTypes.object.isRequired,
-  selected: React.PropTypes.string,
-  onChange: React.PropTypes.func
+  application: PropTypes.array.isRequired,
+  dataset: PropTypes.object.isRequired,
+  selected: PropTypes.string,
+  onChange: PropTypes.func
 };
 
 export default WidgetList;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 
 // Components
@@ -89,7 +90,7 @@ InsightsTable.defaultProps = {
 };
 
 InsightsTable.propTypes = {
-  authorization: React.PropTypes.string
+  authorization: PropTypes.string
 };
 
 export default InsightsTable;

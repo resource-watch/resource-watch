@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 
@@ -126,13 +127,13 @@ class VocabularySelector extends React.Component {
 }
 
 VocabularySelector.propTypes = {
-  onChange: React.PropTypes.func,
-  application: React.PropTypes.string,
-  authorization: React.PropTypes.string,
-  language: React.PropTypes.string,
-  disableOnSelect: React.PropTypes.bool,
-  vocabulary: React.PropTypes.object,
-  allVocabularies: React.PropTypes.array
+  onChange: PropTypes.func,
+  application: PropTypes.string,
+  authorization: PropTypes.string,
+  language: PropTypes.string,
+  disableOnSelect: PropTypes.bool,
+  vocabulary: PropTypes.object,
+  allVocabularies: PropTypes.array
 };
 
 export default VocabularySelector;

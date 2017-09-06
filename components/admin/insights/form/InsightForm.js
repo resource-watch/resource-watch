@@ -146,7 +146,7 @@ class InsightForm extends React.Component {
           {this.state.loading && 'loading'}
           <fieldset className="c-field-container">
             <Field
-              ref={c => {
+              ref={(c) => {
                 if (c) {
                   FORM_ELEMENTS.elements.title = c;
                 }
@@ -164,7 +164,7 @@ class InsightForm extends React.Component {
               {Input}
             </Field>
             <Field
-              ref={c => {
+              ref={(c) => {
                 if (c) {
                   FORM_ELEMENTS.elements.summary = c;
                 }
@@ -180,7 +180,7 @@ class InsightForm extends React.Component {
               {TextArea}
             </Field>
             <Field
-              ref={c => {
+              ref={(c) => {
                 if (c) {
                   FORM_ELEMENTS.elements.description = c;
                 }
@@ -196,7 +196,7 @@ class InsightForm extends React.Component {
               {TextArea}
             </Field>
             <Field
-              ref={c => {
+              ref={(c) => {
                 if (c) {
                   FORM_ELEMENTS.elements.content = c;
                 }
@@ -212,7 +212,7 @@ class InsightForm extends React.Component {
               {TextArea}
             </Field>
             <Field
-              ref={c => {
+              ref={(c) => {
                 if (c) {
                   FORM_ELEMENTS.elements.featured = c;
                 }
@@ -230,7 +230,7 @@ class InsightForm extends React.Component {
               <Dropzone
                 ref={(node) => { this.dropzone = node; }}
                 className="c-dropzone"
-                disableClick={true}
+                disableClick
                 onDrop={this.onDrop}
               >
                 <div className="dropzone-file-input">

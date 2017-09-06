@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TableFilters from './TableFilters';
 import TableSorts from './TableSorts';
 
@@ -24,12 +25,12 @@ export default class TableHeaderActions extends React.Component {
 }
 
 TableHeaderActions.propTypes = {
-  field: React.PropTypes.string.isRequired,
-  values: React.PropTypes.array,
-  selected: React.PropTypes.array,
-  filters: React.PropTypes.bool,
-  onFilter: React.PropTypes.func,
-  onSort: React.PropTypes.func
+  field: PropTypes.string.isRequired,
+  values: PropTypes.array,
+  selected: PropTypes.array,
+  filters: PropTypes.bool,
+  onFilter: PropTypes.func,
+  onSort: PropTypes.func
 };
 
 TableHeaderActions.defaultProps = {

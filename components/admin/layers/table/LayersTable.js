@@ -25,7 +25,6 @@ import GoToDatasetAction from './actions/GoToDatasetAction';
 import NameTD from './td/NameTD';
 
 class LayersTable extends React.Component {
-
   componentDidMount() {
     const { dataset, application } = this.props;
     this.props.setFilters([]);

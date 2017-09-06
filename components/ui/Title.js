@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function Title({ children, className }) {
   return (
@@ -9,6 +10,6 @@ export default function Title({ children, className }) {
 }
 
 Title.propTypes = {
-  children: React.PropTypes.any,
-  className: React.PropTypes.string
+  children: PropTypes.any,
+  className: PropTypes.string
 };

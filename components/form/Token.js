@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TokenInput, { Option } from 'react-tokeninput';
 import without from 'lodash/without';
 import uniq from 'lodash/uniq';
@@ -145,11 +146,11 @@ class Token extends FormElement {
 }
 
 Token.propTypes = {
-  properties: React.PropTypes.object.isRequired,
-  options: React.PropTypes.array,
-  hint: React.PropTypes.string,
-  validations: React.PropTypes.array,
-  onChange: React.PropTypes.func
+  properties: PropTypes.object.isRequired,
+  options: PropTypes.array,
+  hint: PropTypes.string,
+  validations: PropTypes.array,
+  onChange: PropTypes.func
 };
 
 export default Token;

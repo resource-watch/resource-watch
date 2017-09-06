@@ -11,7 +11,6 @@ import CustomTable from 'components/ui/customtable/CustomTable';
 import DeleteAction from 'components/ui/customtable/actions/DeleteAction';
 
 class WidgetTable extends React.Component {
-
   constructor(props) {
     super(props);
 

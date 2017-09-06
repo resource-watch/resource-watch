@@ -25,7 +25,6 @@ import PublishedTD from './td/PublishedTD';
 import FeaturedTD from './td/FeaturedTD';
 
 class PartnersTable extends React.Component {
-
   componentDidMount() {
     this.props.setFilters([]);
     this.props.getPartners();

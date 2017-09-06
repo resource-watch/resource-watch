@@ -6,7 +6,6 @@ import { time } from 'd3';
 import { getTimeFormat, get2DecimalFixedNumber, getSINumber } from 'utils/widgets/WidgetHelper';
 
 class VegaChartTooltip extends React.Component {
-
   getParsedX() {
     const { item } = this.props;
     if (!item) return null;

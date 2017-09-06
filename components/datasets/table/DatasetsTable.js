@@ -25,7 +25,6 @@ import RelatedContentTD from './td/RelatedContentTD';
 import UpdatedAtTD from './td/UpdatedAtTD';
 
 class DatasetsTable extends React.Component {
-
   constructor(props) {
     super(props);
 

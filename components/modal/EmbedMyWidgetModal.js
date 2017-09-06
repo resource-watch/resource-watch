@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 
 class EmbedMyWidgetModal extends React.Component {
@@ -44,7 +45,7 @@ class EmbedMyWidgetModal extends React.Component {
 }
 
 EmbedMyWidgetModal.propTypes = {
-  widgetId: React.PropTypes.string.isRequired
+  widgetId: PropTypes.string.isRequired
 };
 
 export default EmbedMyWidgetModal;

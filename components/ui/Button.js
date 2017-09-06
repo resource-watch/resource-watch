@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Button extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -37,7 +37,7 @@ class Button extends React.Component {
       return (
         <button
           {...properties}
-          disabled={true}
+          disabled
           className={`c-button ${properties.className || ''}`}
         >
           {children}
@@ -60,12 +60,12 @@ class Button extends React.Component {
 }
 
 Button.propTypes = {
-  children: React.PropTypes.any,
-  properties: React.PropTypes.object,
+  children: PropTypes.any,
+  properties: PropTypes.object,
 
-  onClick: React.PropTypes.func,
-  onMouseOver: React.PropTypes.func,
-  onMouseOut: React.PropTypes.func
+  onClick: PropTypes.func,
+  onMouseOver: PropTypes.func,
+  onMouseOut: PropTypes.func
 };
 
 export default Button;

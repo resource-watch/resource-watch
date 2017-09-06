@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import User from 'components/user';
 import isEmpty from 'lodash/isEmpty';
 
@@ -24,5 +25,5 @@ export default class Page extends React.Component {
 }
 
 Page.propTypes = {
-  user: React.PropTypes.object
+  user: PropTypes.object
 };
