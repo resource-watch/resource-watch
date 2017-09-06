@@ -204,7 +204,7 @@ class ExploreDetail extends Page {
                 />
 
                 <h1>
-                  { dataset && dataset.attributes && dataset.attributes.name}
+                  {metadataAttributes && metadataAttributes.info ? metadataAttributes.info.name : (dataset && dataset.attributes && dataset.attributes.name)}
                 </h1>
 
                 <div className="page-header-info">
