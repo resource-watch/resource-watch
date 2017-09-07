@@ -25,7 +25,6 @@ const SET_AREA_INTERSEACTION = 'widgetEditor/SET_AREA_INTERSEACTION';
 const SET_VISUALIZATION_TYPE = 'widgetEditor/SET_VISUALIZATION_TYPE';
 const SET_BAND = 'widgetEditor/SET_BAND';
 const SET_LAYER = 'widgetEditor/SET_LAYER';
-const SET_HAS_GEOINFO = 'widgetEditor/SET_HAS_GEOINFO';
 
 /**
  * REDUCER
@@ -44,8 +43,7 @@ const initialState = {
   visualizationType: null,
   limit: 500,
   areaIntersection: null, // ID of the geostore object
-  band: null, // Band of the raster dataset
-  hasGeoInfo: false // Whether the dataset includes geographical information
+  band: null // Band of the raster dataset
 };
 
 export default function (state = initialState, action) {
@@ -219,12 +217,6 @@ export default function (state = initialState, action) {
       });
     }
 
-    case SET_HAS_GEOINFO: {
-      return Object.assign({}, state, {
-        hasGeoInfo: action.payload
-      });
-    }
-
     default:
       return state;
   }
@@ -338,8 +330,4 @@ export function setBand(band) {
 
 export function setLayer(layer) {
   return dispatch => dispatch({ type: SET_LAYER, payload: layer });
-}
-
-export function setHasGeoInfo(hasGeoInfo) {
-  return dispatch => dispatch({ type: SET_HAS_GEOINFO, payload: hasGeoInfo });
 }
