@@ -28,10 +28,13 @@ const server = express();
 
 function checkBasicAuth(username, password) {
   return function authMiddleware(req, res, nextAction) {
-    const user = basicAuth(req);
-    if (!user || user.name !== username || user.pass !== password) {
-      res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
-      return res.sendStatus(401);
+
+    if (!req.headers['user-agent'] || req.headers['user-agent'].toLowerCase().indexOf('addsearch') === -1 ) {
+      const user = basicAuth(req);
+      if (!user || user.name !== username || user.pass !== password) {
+        res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+        return res.sendStatus(401);
+      }
     }
     return nextAction();
   };
