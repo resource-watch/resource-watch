@@ -15,8 +15,31 @@
     .c-field {
       width: 100%;
 
-      &:last-of-type {
-        margin-left: 10px;
+      &:not(:first-of-type) {
+        margin-right: 10px;
+      }
+    }
+
+    .threshold-div {
+      display: flex;
+      align-items: center;
+      height: 44px;
+      padding-left: 5px;
+      border: 1px solid $border-color-2;
+      border-radius: 4px;
+      min-width: 150px;
+
+      .threshold-label {
+        min-width: 75px;
+      }
+
+      .threshold-input {
+        margin-bottom: 0px;
+
+        input {
+          border: none;
+          height: 40px;
+        }
       }
     }
   }
