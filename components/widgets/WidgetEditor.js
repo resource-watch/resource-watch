@@ -12,8 +12,7 @@ import { connect } from 'react-redux';
 import {
   resetWidgetEditor,
   setFields,
-  setVisualizationType,
-  setHasGeoInfo
+  setVisualizationType
 } from 'redactions/widgetEditor';
 import { toggleModal } from 'redactions/modal';
 
@@ -40,8 +39,7 @@ import {
   getChartConfig,
   canRenderChart,
   getChartType,
-  isFieldAllowed,
-  hasGeographicalInfo
+  isFieldAllowed
 } from 'utils/widgets/WidgetHelper';
 import ChartTheme from 'utils/widgets/theme';
 import LayerManager from 'utils/layers/LayerManager';
@@ -81,6 +79,7 @@ const DEFAULT_STATE = {
   fieldsLoaded: false,
   fieldsError: false,
 
+  hasGeoInfo: false, // Whether the dataset includes geographical information
   tableName: null, // Name of the table
   chartLoading: false, // Whether the chart is loading its data/rendering
 
@@ -227,8 +226,6 @@ class WidgetEditor extends React.Component {
 
     this.datasetService.getFields()
       .then((response) => {
-        const hasGeoInfo = hasGeographicalInfo(response.fields);
-        this.props.setHasGeoInfo(hasGeoInfo);
         const fields = response.fields.filter(field => !!isFieldAllowed(field));
         const fieldsError = !response.fields || !response.fields.length || fields.length === 0;
 
@@ -332,6 +329,7 @@ class WidgetEditor extends React.Component {
           this.setState({
             datasetInfoLoaded: true,
             tableName: attributes.tableName,
+            hasGeoInfo: attributes.geoInfo,
             datasetType: attributes.type,
             datasetProvider: attributes.provider
           }, resolve);
@@ -719,7 +717,8 @@ class WidgetEditor extends React.Component {
       layers,
       datasetType,
       datasetProvider,
-      visualizationOptions
+      visualizationOptions,
+      hasGeoInfo
     } = this.state;
 
     let { jiminy } = this.state;
@@ -793,6 +792,7 @@ class WidgetEditor extends React.Component {
                         mode={chartEditorMode}
                         onUpdateWidget={this.handleUpdateWidget}
                         showSaveButton={showSaveButton}
+                        hasGeoInfo={hasGeoInfo}
                       />
                     )
                 }
@@ -849,7 +849,6 @@ const mapStateToProps = ({ widgetEditor }) => ({
 const mapDispatchToProps = dispatch => ({
   resetWidgetEditor: hardReset => dispatch(resetWidgetEditor(hardReset)),
   setFields: (fields) => { dispatch(setFields(fields)); },
-  setHasGeoInfo: (hasGeoInfo) => { dispatch(setHasGeoInfo(hasGeoInfo)); },
   setVisualizationType: vis => dispatch(setVisualizationType(vis)),
   toggleModal: (open, options) => dispatch(toggleModal(open, options))
 });
@@ -870,7 +869,6 @@ WidgetEditor.propTypes = {
   widgetEditor: PropTypes.object.isRequired,
   resetWidgetEditor: PropTypes.func.isRequired,
   setFields: PropTypes.func.isRequired,
-  setHasGeoInfo: PropTypes.func.isRequired,
   setVisualizationType: PropTypes.func.isRequired,
   selectedVisualizationType: PropTypes.string,
   toggleModal: PropTypes.func
