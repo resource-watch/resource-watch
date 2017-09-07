@@ -10,6 +10,7 @@ class IframeBlot extends BlockEmbed {
     node.setAttribute('width', value.width);
     node.setAttribute('height', value.height);
     node.setAttribute('src', value.src);
+    node.setAttribute('frameborder', '0');
     return node;
   }
 

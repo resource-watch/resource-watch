@@ -2,10 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Components
-import IframeBlot from 'components/wysiwyg/IframeBlot';
 import FormElement from './FormElement';
 
-const Editor = (typeof window !== 'undefined') ? require('react-quill') : null;
+let Editor
+if (typeof window !== 'undefined') {
+  Editor = require('react-quill');
+  // require all blots
+  require('components/wysiwyg/IframeBlot');
+}
+
 
 class Wysiwyg extends FormElement {
   static getValue(html) {
