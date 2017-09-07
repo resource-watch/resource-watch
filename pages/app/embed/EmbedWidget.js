@@ -80,7 +80,14 @@ class EmbedWidget extends Page {
               />
             </div>
           </div>
-          { this.isLoadedExternally() && <img src={'/static/images/logo-resource-watch.png'} alt="Resource Watch" /> }
+          { this.isLoadedExternally() &&
+            <img
+              className="embed-logo"
+              height={21}
+              width={129}
+              src={'/static/images/logo-embed.png'}
+              alt="Resource Watch"
+            /> }
         </div>
       </EmbedLayout>
     );

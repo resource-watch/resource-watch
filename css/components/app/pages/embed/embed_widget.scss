@@ -51,6 +51,10 @@
     }
   }
 
+  .embed-logo {
+    margin: $margin-size-extra-small;
+  }
+
   .c-chart {
     // The pie and bar chart will overflow without
     // this property because they auto determine the
