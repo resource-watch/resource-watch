@@ -10,7 +10,6 @@ import Input from 'components/form/Input';
 import TextArea from 'components/form/TextArea';
 import FileImage from 'components/form/FileImage';
 import Checkbox from 'components/form/Checkbox';
-import Wysiwyg from 'components/form/Wysiwyg';
 
 // Wysiwig
 import ToolbarWidgetBtn from 'components/dashboards/wysiwyg/ToolbarWidgetBtn';
@@ -138,25 +137,16 @@ class Step1 extends React.Component {
             onChange={value => this.props.onChange({ content: value })}
             validations={['required']}
             className="-fluid"
-            toolbar={{
-              options: ['inline', 'list', 'link', 'embedded', 'image', 'remove', 'history'],
-              inline: {
-                options: ['bold', 'italic', 'underline']
-              },
-              list: {
-                options: ['unordered', 'ordered']
-              }
-            }}
-            toolbarCustomButtons={[<ToolbarWidgetBtn />]}
             properties={{
               name: 'content',
               label: 'Content',
               type: 'text',
+              rows: 6,
               required: true,
               default: this.state.form.content
             }}
           >
-            {Wysiwyg}
+            {TextArea}
           </Field>
         </fieldset>
       </div>
