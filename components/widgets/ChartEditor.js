@@ -80,7 +80,9 @@ class ChartEditor extends React.Component {
   componentDidMount() {
     if (this.props.hasGeoInfo) {
       this.fetchAreas();
-      this.fetchUserAreas();
+      if (this.props.user.id) { // Only try to load the user areas when an user is logged in
+        this.fetchUserAreas();
+      }
     }
   }
 
