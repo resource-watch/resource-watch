@@ -1,7 +1,5 @@
 import 'isomorphic-fetch';
-import _ from 'lodash';
 import Promise from 'bluebird';
-
 
 // Utils
 import { isFieldDate, isFieldNumber } from 'utils/widgets/WidgetHelper';
@@ -100,14 +98,14 @@ export default class DatasetService {
     return new Promise((resolve) => {
       this.getFields().then((fieldsData) => {
         const filteredFields = fieldsData.fields.filter(field => field.columnType === 'number' || field.columnType === 'date' || field.columnType === 'string');
-        const promises = _.map(filteredFields, (field) => {
+        const promises = (filteredFields || []).map(field => {
           if (field.columnType === 'number' || field.columnType === 'date') {
             return this.getMinAndMax(field.columnName, fieldsData.tableName);
           }
           return this.getValues(field.columnName, fieldsData.tableName);
         });
         Promise.all(promises).then((results) => {
-          const filters = _.map(filteredFields, (field, index) => {
+          const filters = (filteredFields || []).map((field, index) => {
             const filterResult = {
               columnName: field.columnName,
               columnType: field.columnType
@@ -133,7 +131,7 @@ export default class DatasetService {
       .then((jsonData) => {
         const parsedData = {
           tableName: jsonData.tableName,
-          fields: _.map(jsonData.fields, (value, key) => ({
+          fields: (jsonData.fields || []).map((value, key) => ({
             columnName: key,
             columnType: value.type
           }))
@@ -174,7 +172,7 @@ export default class DatasetService {
       fetch(`https://api.resourcewatch.org/v1/query/${this.datasetId}?sql=${query}`)
         .then(response => response.json())
         .then((jsonData) => {
-          const parsedData = _.map(jsonData.data, data => data[columnName]);
+          const parsedData = (jsonData.data || []).map(data => data[columnName]);
           resolve(parsedData);
         });
     });
