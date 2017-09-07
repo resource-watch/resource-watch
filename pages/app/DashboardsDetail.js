@@ -191,7 +191,7 @@ class DashboardsDetail extends Page {
               </div>
             ) }
             { selectedDashboard && !selectedDashboard.widgets && (
-              <div className="user-content column small-12 large-8 large-offset-2">
+              <div className="user-content column small-12">
                 {renderHTML(selectedDashboard.content || '')}
               </div>
             ) }
