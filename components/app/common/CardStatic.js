@@ -5,7 +5,6 @@ import { Router } from 'routes';
 import { Autobind } from 'es-decorators';
 
 export default class CardStatic extends React.Component {
-
   @Autobind
   handleClick() {
     const { clickable, route } = this.props;
@@ -34,7 +33,6 @@ export default class CardStatic extends React.Component {
       </div>
     );
   }
-
 }
 
 CardStatic.propTypes = {

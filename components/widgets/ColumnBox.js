@@ -46,7 +46,6 @@ function collect(connectDrop, monitor) {
 }
 
 class ColumnBox extends React.Component {
-
   /**
    * Return the position of the click within the page taking
    * into account the scroll (relative to the page, not the
@@ -314,7 +313,7 @@ class ColumnBox extends React.Component {
   render() {
     const { aggregateFunction, aggregateFunctionSize, aggregateFunctionColor } = this.state;
     const { isDragging, connectDragSource, name, type, closable, configurable,
-    isA, widgetEditor } = this.props;
+      isA, widgetEditor } = this.props;
     const { orderBy } = widgetEditor;
 
     const orderType = orderBy ? orderBy.orderType : null;

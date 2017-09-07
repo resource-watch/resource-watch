@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 import TetherComponent from 'react-tether';
@@ -10,7 +11,6 @@ import { Link } from 'routes';
 import Icon from 'components/ui/Icon';
 
 class DatasetsRelatedContent extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -169,8 +169,8 @@ class DatasetsRelatedContent extends React.Component {
 }
 
 DatasetsRelatedContent.propTypes = {
-  dataset: React.PropTypes.object,
-  route: React.PropTypes.string
+  dataset: PropTypes.object,
+  route: PropTypes.string
 };
 
 export default DatasetsRelatedContent;

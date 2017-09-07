@@ -4,7 +4,6 @@ import 'isomorphic-fetch';
 import { format } from 'd3-format';
 
 class TextChart extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -96,7 +95,7 @@ class TextChart extends React.Component {
       <div className="c-text-chart">
         { this.state.error && <div className="error">Unable to load the widget <span>{this.state.error}</span></div> }
         { !this.state.error && this.state.data
-          && <div className="content" dangerouslySetInnerHTML={{ __html: this.getContent() }} />  // eslint-disable-line react/no-danger
+          && <div className="content" dangerouslySetInnerHTML={{ __html: this.getContent() }} /> // eslint-disable-line react/no-danger
         }
         { !this.state.error && !this.state.loading && !this.state.data
           && <div className="no-data">No data</div>
@@ -104,7 +103,6 @@ class TextChart extends React.Component {
       </div>
     );
   }
-
 }
 
 TextChart.propTypes = {

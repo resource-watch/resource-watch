@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import { toastr } from 'react-redux-toastr';
 
@@ -176,10 +177,10 @@ class WidgetForm extends React.Component {
 }
 
 WidgetForm.propTypes = {
-  application: React.PropTypes.array,
-  authorization: React.PropTypes.string,
-  widget: React.PropTypes.string,
-  onSubmit: React.PropTypes.func
+  application: PropTypes.array,
+  authorization: PropTypes.string,
+  widget: PropTypes.string,
+  onSubmit: PropTypes.func
 };
 
 export default WidgetForm;

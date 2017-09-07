@@ -21,8 +21,11 @@ class AreaSubscriptionModal extends React.Component {
     const subscription = props.area.subscription;
     const initialSubscriptionSelectors = subscription
       ? subscription.attributes.datasetsQuery.map((elem, index) =>
-        ({ index, selectedDataset: elem.id, selectedType: elem.type }))
-      : [{ index: 0, selectedDataset: null, selectedType: null }];
+        ({ index,
+          selectedDataset: elem.id,
+          selectedType: elem.type,
+          selectedThreshold: elem.threshold }))
+      : [{ index: 0, selectedDataset: null, selectedType: null, selectedThreshold: 1 }];
 
     this.state = {
       loadingDatasets: false,
@@ -56,17 +59,21 @@ class AreaSubscriptionModal extends React.Component {
     const { mode, area, user } = this.props;
     let incomplete = false;
     subscriptionSelectors.forEach((val) => {
-      if (!val.selectedType || !val.selectedDataset) {
+      if (!val.selectedType || !val.selectedDataset || !val.selectedThreshold) {
         incomplete = true;
       }
     });
 
     if (incomplete) {
-      toastr.error('Data missing', 'Please select a dataset and a subscription type for all items');
+      toastr.error('Data missing', 'Please select a dataset, subscription type and threshold for all items');
     } else {
       const datasets = subscriptionSelectors.map(val => val.selectedDataset);
       const datasetsQuery = subscriptionSelectors
-        .map(val => ({ id: val.selectedDataset, type: val.selectedType }));
+        .map(val => ({
+          id: val.selectedDataset,
+          type: val.selectedType,
+          threshold: val.selectedThreshold }
+        ));
 
       if (mode === 'new') {
         if (datasets.length >= 1) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function FiltersResume ({ topics, geographies, dataTypes }) {
+export default function FiltersResume({ topics, geographies, dataTypes }) {
   return (
     <div className="c-filters-resume">
       {topics.length > 0 &&

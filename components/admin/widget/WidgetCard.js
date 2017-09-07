@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class WidgetCard extends React.Component {
   constructor(props) {
@@ -35,9 +36,9 @@ class WidgetCard extends React.Component {
 }
 
 WidgetCard.propTypes = {
-  widget: React.PropTypes.object,
-  properties: React.PropTypes.object,
-  onClick: React.PropTypes.func
+  widget: PropTypes.object,
+  properties: PropTypes.object,
+  onClick: PropTypes.func
 };
 
 export default WidgetCard;

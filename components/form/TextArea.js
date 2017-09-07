@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import FormElement from './FormElement';
 
@@ -31,9 +32,9 @@ class TextArea extends FormElement {
 }
 
 TextArea.propTypes = {
-  properties: React.PropTypes.object.isRequired,
-  validations: React.PropTypes.array,
-  onChange: React.PropTypes.func
+  properties: PropTypes.object.isRequired,
+  validations: PropTypes.array,
+  onChange: PropTypes.func
 };
 
 export default TextArea;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import LayerNavDropdown from 'components/app/pulse/LayerNavDropdown';
 
 const LayerNav = ({ layerActive, layersGroup }) => {
@@ -25,8 +26,8 @@ const LayerNav = ({ layerActive, layersGroup }) => {
 };
 
 LayerNav.propTypes = {
-  layersGroup: React.PropTypes.array,
-  layerActive: React.PropTypes.any
+  layersGroup: PropTypes.array,
+  layerActive: PropTypes.any
 };
 
 LayerNav.defaultProps = {

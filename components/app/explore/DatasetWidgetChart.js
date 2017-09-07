@@ -10,7 +10,6 @@ import Spinner from 'components/ui/Spinner';
 import ChartTheme from 'utils/widgets/theme';
 
 class DatasetWidgetChart extends React.Component {
-
   constructor(props) {
     super(props);
 

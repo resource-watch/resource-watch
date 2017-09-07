@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Components
 import CustomTable from 'components/ui/customtable/CustomTable';
@@ -30,7 +31,7 @@ VocabulariesTable.defaultProps = {
 };
 
 VocabulariesTable.propTypes = {
-  vocabularies: React.PropTypes.array
+  vocabularies: PropTypes.array
 };
 
 export default VocabulariesTable;

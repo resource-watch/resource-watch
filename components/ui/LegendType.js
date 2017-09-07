@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 
 class LegendType extends React.Component {
@@ -94,8 +95,8 @@ class LegendType extends React.Component {
 
 LegendType.propTypes = {
   // PROPS
-  config: React.PropTypes.object,
-  className: React.PropTypes.object
+  config: PropTypes.object,
+  className: PropTypes.object
 };
 
 

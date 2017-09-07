@@ -24,7 +24,6 @@ import TitleTD from './td/TitleTD';
 import PublishedTD from './td/PublishedTD';
 
 class PagesTable extends React.Component {
-
   componentDidMount() {
     this.props.setFilters([]);
     this.props.getPages();

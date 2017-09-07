@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Banner from 'components/app/common/Banner';
 
 function Intro(props) {
@@ -33,9 +34,9 @@ function Intro(props) {
 }
 
 Intro.propTypes = {
-  title: React.PropTypes.string.isRequired,
-  intro: React.PropTypes.any,
-  styles: React.PropTypes.object
+  title: PropTypes.string.isRequired,
+  intro: PropTypes.any,
+  styles: PropTypes.object
 };
 
 Intro.defaultProps = {

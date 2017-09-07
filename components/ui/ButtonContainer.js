@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 // Next components
@@ -31,8 +32,8 @@ class ButtonContainer extends React.Component {
 
 
 ButtonContainer.propTypes = {
-  buttons: React.PropTypes.array.isRequired,
-  className: React.PropTypes.string
+  buttons: PropTypes.array.isRequired,
+  className: PropTypes.string
 };
 
 export default ButtonContainer;

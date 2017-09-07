@@ -10,7 +10,6 @@
  */
 
 export default class User {
-
   constructor({ req } = {}) {
     this.user = {};
     try {
@@ -116,5 +115,4 @@ export default class User {
       return false;
     }
   }
-
 }

@@ -6,7 +6,6 @@ import classnames from 'classnames';
 import { Link } from 'routes';
 
 export default class Tabs extends React.Component {
-
   constructor(props) {
     super(props);
 

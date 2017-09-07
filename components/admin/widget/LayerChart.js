@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 import { toastr } from 'react-redux-toastr';
 
@@ -129,8 +130,8 @@ class LayerChart extends React.Component {
 
 LayerChart.propTypes = {
   // Define the chart data
-  data: React.PropTypes.object,
-  toggleLoading: React.PropTypes.func
+  data: PropTypes.object,
+  toggleLoading: PropTypes.func
 };
 
 export default LayerChart;

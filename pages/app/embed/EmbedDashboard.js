@@ -1,5 +1,4 @@
 import React from 'react';
-import classnames from 'classnames';
 import renderHTML from 'react-render-html';
 
 // Router
@@ -12,9 +11,9 @@ import { getDashboard } from 'redactions/dashboardDetail';
 import { getFavourites } from 'redactions/user';
 
 // Components
+import Icons from 'components/app/layout/icons';
+import Head from 'components/app/layout/head';
 import Page from 'components/app/layout/Page';
-import Layout from 'components/app/layout/Layout';
-import Breadcrumbs from 'components/ui/Breadcrumbs';
 import DashboardCard from 'components/app/dashboards/DashboardCard';
 import Spinner from 'components/ui/Spinner';
 
@@ -46,7 +45,6 @@ class DashboardsDetail extends Page {
   */
   async componentDidMount() {
     await this.props.getFavourites();
-    this.props.getPublicDashboards();
     this.props.getDashboard(this.props.url.query.slug);
   }
 
@@ -88,91 +86,34 @@ class DashboardsDetail extends Page {
   }
 
   render() {
-    const { url, user, dashboards, dashboardDetail } = this.props;
+    const { url, user, dashboards, dashboardDetail, title, description } = this.props;
     const selectedDashboard = dashboardDetail.data;
     const dashboardName = selectedDashboard ? `${selectedDashboard.name} dashboard` : 'Dashboard';
 
     return (
-      <Layout
-        title={dashboardName}
-        description={selectedDashboard && selectedDashboard.summary ? selectedDashboard.summary : 'Resource Watch Dashboards'}
-        url={url}
-        user={user}
-        pageHeader
-        className="page-dashboards c-page-dashboards"
-      >
-        <header className="l-page-header">
-          <div className="l-container">
-            <div className="row">
-              <div className="column small-12">
-                <div className="page-header-content">
-                  <Breadcrumbs items={[{ name: 'Data', href: '/data' }]} />
-                  <h1>Dashboards</h1>
-                </div>
-              </div>
-            </div>
-          </div>
-        </header>
+      <div className="l-page page-dashboards c-page-dashboards">
+        <Head
+          title={title}
+          description={description}
+        />
 
-        <section className="l-section -secondary">
-          <div className="l-container">
-            <div className="row">
-              <div className="column small-12">
-                { dashboards.loading && <Spinner isLoading className="-light" /> }
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="column small-12">
-                <ul className="dashboards-list">
-                  {
-                    dashboards.list.map(dashboard => (
-                      <li
-                        className={classnames({
-                          '-active': selectedDashboard === dashboard
-                        })}
-                        key={dashboard.slug}
-                        style={{
-                          backgroundImage: dashboard.photo
-                            && DashboardsDetail.getDashboardImageUrl(dashboard.photo)
-                            && `url(${DashboardsDetail.getDashboardImageUrl(dashboard.photo)})`
-                        }}
-                      >
-                        <input
-                          type="radio"
-                          name="dashboard"
-                          id={`dashboard-${dashboard.slug}`}
-                          value={dashboard.slug}
-                          checked={selectedDashboard === dashboard}
-                          onChange={e => DashboardsDetail.onChangeDashboard(e.target.value)}
-                        />
-                        <label className="content" htmlFor={`dashboard-${dashboard.slug}`}>
-                          {dashboard.name}
-                        </label>
-                      </li>
-                    ))
-                  }
-                </ul>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="column small-12">
-                { dashboards.error && (
-                  <p className="error">{dashboards.error}</p>
-                ) }
-                { selectedDashboard && (
-                  <div>
-                    <h2>{selectedDashboard.name}</h2>
-                    <p>{selectedDashboard.summary}</p>
-                  </div>
-                ) }
-              </div>
-            </div>
-          </div>
-        </section>
+        <Icons />
 
         <div className="l-container">
+          <div className="row">
+            <div className="column small-12">
+              { dashboards.error && (
+                <p className="error">{dashboards.error}</p>
+              ) }
+              { selectedDashboard && (
+                <div>
+                  <h2>{selectedDashboard.name}</h2>
+                  <p>{selectedDashboard.summary}</p>
+                </div>
+              ) }
+            </div>
+          </div>
+
           <div className="row">
             { selectedDashboard && selectedDashboard.widgets && (
               <div className="column small-12 widgets-list">
@@ -196,9 +137,8 @@ class DashboardsDetail extends Page {
               </div>
             ) }
           </div>
-
         </div>
-      </Layout>
+      </div>
     );
   }
 }

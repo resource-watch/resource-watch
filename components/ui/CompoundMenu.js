@@ -21,7 +21,7 @@ const CompoundMenu = ({ items }) => {
         })}
       </ul>
     </div>
-    )
+  )
   );
 
   return (

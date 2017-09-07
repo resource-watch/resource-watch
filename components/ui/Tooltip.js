@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TetherComponent from 'react-tether';
 import classnames from 'classnames';
 
@@ -6,7 +7,6 @@ import { connect } from 'react-redux';
 import { setTooltipPosition } from 'redactions/tooltip';
 
 class Tooltip extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -96,8 +96,8 @@ class Tooltip extends React.Component {
 
 Tooltip.propTypes = {
   // STORE
-  tooltip: React.PropTypes.object,
-  setTooltipPosition: React.PropTypes.func
+  tooltip: PropTypes.object,
+  setTooltipPosition: PropTypes.func
 };
 
 const mapStateToProps = ({ tooltip }) => ({

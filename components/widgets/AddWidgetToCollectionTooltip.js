@@ -12,7 +12,6 @@ import Spinner from 'components/ui/Spinner';
 import WidgetService from 'services/WidgetService';
 
 class AddWidgetToCollectionTooltip extends React.Component {
-
   constructor(props) {
     super(props);
 

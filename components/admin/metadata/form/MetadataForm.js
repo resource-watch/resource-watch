@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import { toastr } from 'react-redux-toastr';
 
@@ -177,10 +178,10 @@ class MetadataForm extends React.Component {
 }
 
 MetadataForm.propTypes = {
-  dataset: React.PropTypes.string.isRequired,
-  application: React.PropTypes.string.isRequired,
-  authorization: React.PropTypes.string.isRequired,
-  onSubmit: React.PropTypes.func
+  dataset: PropTypes.string.isRequired,
+  application: PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func
 };
 
 export default MetadataForm;

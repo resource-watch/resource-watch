@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import uniqBy from 'lodash/uniqBy';
 import flatten from 'lodash/flatten';
 import { Autobind } from 'es-decorators';
@@ -252,10 +253,10 @@ class DatasetVocabulariesForm extends React.Component {
 }
 
 DatasetVocabulariesForm.propTypes = {
-  application: React.PropTypes.string,
-  authorization: React.PropTypes.string,
-  language: React.PropTypes.string,
-  dataset: React.PropTypes.string.isRequired
+  application: PropTypes.string,
+  authorization: PropTypes.string,
+  language: PropTypes.string,
+  dataset: PropTypes.string.isRequired
 };
 
 export default DatasetVocabulariesForm;

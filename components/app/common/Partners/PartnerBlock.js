@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'routes';
 
 function PartnerBlock(props) {
@@ -34,7 +35,7 @@ function PartnerBlock(props) {
 }
 
 PartnerBlock.propTypes = {
-  item: React.PropTypes.object
+  item: PropTypes.object
 };
 
 export default PartnerBlock;

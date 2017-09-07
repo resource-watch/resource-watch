@@ -78,8 +78,12 @@ class ChartEditor extends React.Component {
   * - componentDidMount
   */
   componentDidMount() {
-    this.fetchAreas();
-    this.fetchUserAreas();
+    if (this.props.hasGeoInfo) {
+      this.fetchAreas();
+      if (this.props.user.id) { // Only try to load the user areas when an user is logged in
+        this.fetchUserAreas();
+      }
+    }
   }
 
   /**
@@ -220,15 +224,14 @@ class ChartEditor extends React.Component {
       tableViewMode,
       user,
       mode,
-      showSaveButton
+      showSaveButton,
+      hasGeoInfo
     } = this.props;
-    const { chartType, fields, category, value, hasGeoInfo } = widgetEditor;
+    const { chartType, fields, category, value } = widgetEditor;
     const { areaOptions, loadingAreaIntersection } = this.state;
-
     const showSaveButtonFlag =
       chartType && category && value && user && user.token && showSaveButton;
     const showUpdateButton = showSaveButtonFlag;
-
     const chartOptions = (
       jiminy
       && jiminy.general
@@ -331,6 +334,7 @@ class ChartEditor extends React.Component {
 ChartEditor.propTypes = {
   mode: PropTypes.oneOf(['save', 'update']).isRequired,
   tableName: PropTypes.string.isRequired,
+  hasGeoInfo: PropTypes.bool.isRequired,
   jiminy: PropTypes.object,
   dataset: PropTypes.string.isRequired, // Dataset ID
   datasetType: PropTypes.string,

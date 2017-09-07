@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // SERVICES
 import DatasetsService from 'services/DatasetsService';
@@ -50,10 +51,10 @@ class DeleteAction extends React.Component {
 }
 
 DeleteAction.propTypes = {
-  data: React.PropTypes.object,
+  data: PropTypes.object,
 
-  authorization: React.PropTypes.string,
-  onRowDelete: React.PropTypes.func
+  authorization: PropTypes.string,
+  onRowDelete: PropTypes.func
 };
 
 export default DeleteAction;

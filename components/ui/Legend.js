@@ -34,7 +34,6 @@ const SortableList = SortableContainer(({ items }) => (
 ));
 
 class Legend extends React.Component {
-
   /**
    * Return the position of a DOM element
    * @static

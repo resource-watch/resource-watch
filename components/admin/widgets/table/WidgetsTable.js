@@ -26,7 +26,6 @@ import PublishedTD from './td/PublishedTD';
 
 
 class WidgetsTable extends React.Component {
-
   componentDidMount() {
     this.props.setFilters([]);
     this.props.getWidgets();

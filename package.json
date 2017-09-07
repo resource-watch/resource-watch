@@ -72,12 +72,12 @@
     "react-ace": "4.3.0",
     "react-dnd": "2.4.0",
     "react-dnd-html5-backend": "2.4.1",
-    "react-dom": "15.6.1",
+    "react-dom": "15.5.4",
     "react-draft-wysiwyg": "1.10.7",
     "react-dropdown-tree-select": "0.0.1-beta.11",
     "react-dropzone": "3.13.3",
     "react-input-range": "1.1.4",
-    "react-progress-2": "^4.4.1",
+    "react-progress-2": "4.4.1",
     "react-redux": "5.0.5",
     "react-redux-toastr": "7.0.0",
     "react-render-html": "0.5.0",
@@ -104,7 +104,7 @@
   },
   "devDependencies": {
     "babel-eslint": "7.2.3",
-    "eslint": "4.4.1",
+    "eslint": "4.6.1",
     "eslint-config-vizzuality": "1.0.6",
     "eslint-import-resolver-babel-module": "3.0.0",
     "eslint-plugin-babel": "4.1.2"

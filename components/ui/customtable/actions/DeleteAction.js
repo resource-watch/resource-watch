@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { remove } from 'utils/request';
 import { toastr } from 'react-redux-toastr';
 
@@ -53,12 +54,12 @@ class DeleteAction extends React.Component {
 }
 
 DeleteAction.propTypes = {
-  data: React.PropTypes.object,
-  href: React.PropTypes.string,
-  url: React.PropTypes.string,
+  data: PropTypes.object,
+  href: PropTypes.string,
+  url: PropTypes.string,
 
-  authorization: React.PropTypes.string,
-  onRowDelete: React.PropTypes.func
+  authorization: PropTypes.string,
+  onRowDelete: PropTypes.func
 };
 
 export default DeleteAction;

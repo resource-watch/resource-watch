@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Utils
 import { substitution } from 'utils/utils';
@@ -7,7 +8,6 @@ import { substitution } from 'utils/utils';
 import { Link } from 'routes';
 
 class EditAction extends React.Component {
-
   getParsedParams() {
     const { data, action } = this.props;
 
@@ -28,8 +28,8 @@ class EditAction extends React.Component {
 }
 
 EditAction.propTypes = {
-  data: React.PropTypes.object,
-  action: React.PropTypes.object
+  data: PropTypes.object,
+  action: PropTypes.object
 };
 
 export default EditAction;
