@@ -1,28 +1,40 @@
 .c-embed-widget {
   width: 100%;
   height: 100%;
-  padding: 20px;
   min-height: 150px;
 
-  > div > .info { // Without that much specificity, we break the legend
-    margin-top: 20px;
+  .widget-title {
+    padding: $margin-size-extra-small;
+    border-bottom: 1px solid $border-color-1;
 
-    .widget-title {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .widget-description {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    a {
-      text-decoration: none;
+    h1, h2, h3, h4, p {
+      margin-bottom: 0;
     }
   }
+
+  .widget-content {
+    padding: $margin-size-extra-small;
+  }
+
+  // > div > .info { // Without that much specificity, we break the legend
+  //   margin-top: 20px;
+
+  //   .widget-title {
+  //     display: flex;
+  //     justify-content: center;
+  //     align-items: center;
+  //   }
+
+  //   .widget-description {
+  //     display: flex;
+  //     justify-content: center;
+  //     align-items: center;
+  //   }
+
+  //   a {
+  //     text-decoration: none;
+  //   }
+  // }
 
   .visualization {
     position: relative; // Limit the scope of the map and spinner
@@ -69,6 +81,7 @@
 
       .vega {
         text-align: center;
+        height: 300px;
       }
     }
   }
