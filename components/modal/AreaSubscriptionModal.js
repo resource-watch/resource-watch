@@ -104,7 +104,7 @@ class AreaSubscriptionModal extends React.Component {
   }
 
   loadDatasets() {
-    this.datasetService.getSubscribableDatasets().then((response) => {
+    this.datasetService.getSubscribableDatasets("metadata").then((response) => {
       this.setState({
         loadingDatasets: false,
         datasets: response.filter(val => val.attributes.subscribable)
