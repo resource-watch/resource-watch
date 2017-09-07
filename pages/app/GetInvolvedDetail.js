@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import renderHTML from 'react-render-html';
 import { Link } from 'routes';
 
@@ -7,6 +8,7 @@ import { Link } from 'routes';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { getStaticData } from 'redactions/static_pages';
+import { getInsights } from 'redactions/insights';
 import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
@@ -16,14 +18,54 @@ import Layout from 'components/app/layout/Layout';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
-class GetInvolved extends Page {
+// content components
+import SubmitAnInsightContent from 'components/app/static-pages/get-involved/content/SubmitAnInsight';
+import ContributeDataContent from 'components/app/static-pages/get-involved/content/ContributeData';
+import JoinCommunityContent from 'components/app/static-pages/get-involved/content/JoinCommunity';
+import DevelopYourAppContent from 'components/app/static-pages/get-involved/content/DevelopYourApp';
+
+// post-content components
+import SubmitAnInsightPostContent from 'components/app/static-pages/get-involved/post-content/SubmitAnInsight';
+import ContributeDataPostContent from 'components/app/static-pages/get-involved/post-content/ContributeData';
+import JoinCommunityPostContent from 'components/app/static-pages/get-involved/post-content/JoinCommunity';
+import DevelopYourAppPostContent from 'components/app/static-pages/get-involved/post-content/DevelopYourApp';
+
+
+class GetInvolvedDetail extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
     store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
     await store.dispatch(getStaticData(query.id));
+    if(query.id === 'submit-an-insight') {
+      await store.dispatch(getInsights());
+    };
     return { isServer, user, url };
+  }
+
+  static getContent(id, props = {}) {
+    const pageNotFound = () => null;
+    const pages = {
+      'submit-an-insight': () => <SubmitAnInsightContent { ...props } />,
+      'contribute-data': () => <ContributeDataContent { ...props } />,
+      'join-community': () => <JoinCommunityContent { ...props } />,
+      'develop-app': () => <DevelopYourAppContent { ...props } />
+    };
+
+    return pages[id] || pageNotFound;
+  }
+
+  getPostContent(id, props = {}) {
+    const pageNotFound = () => null;
+    const pages = {
+      'submit-an-insight': () => <SubmitAnInsightPostContent { ...props } insights={this.props.insights} />,
+      'contribute-data': () => <ContributeDataPostContent { ...props } />,
+      'join-community': () => <JoinCommunityPostContent { ...props } />,
+      'develop-app': () => <DevelopYourAppPostContent { ...props } />
+    };
+
+    return pages[id] || pageNotFound;
   }
 
   render() {
@@ -32,6 +74,9 @@ class GetInvolved extends Page {
     const selectedData = data[id] || {};
 
     if (!data) return null;
+
+    const content = GetInvolvedDetail.getContent(id, selectedData);
+    const postContent = this.getPostContent(id, selectedData);
 
     return (
       <Layout
@@ -68,51 +113,32 @@ class GetInvolved extends Page {
             </header>
           </section> }
 
-        <section className="l-content">
-          <article className="l-content-body">
-            <div className="l-container">
-              <div className="row align-center">
-                <div className="column small-12 medium-8">
-                  { renderHTML(selectedData.content || '') }
-                </div>
-              </div>
-            </div>
-          </article>
-        </section>
+          {content()}
+          {postContent()}
 
-        <aside className="l-postcontent">
-          <div className="l-container">
-            <div className="row align-center">
-              <div className="column small-12">
-                <Banner className="-text-center" bgImage={'/static/images/backgrounds/partners-02@2x.jpg'}>
-                  <p className="-claim">We have a massive opportunity<br />to build a sustainable society</p>
-                  <Link route="about_partners">
-                    <a className="c-btn -primary -alt">Partners list</a>
-                  </Link>
-                </Banner>
-              </div>
-            </div>
-          </div>
-        </aside>
       </Layout>
     );
   }
 }
 
-GetInvolved.propTypes = {
+GetInvolvedDetail.propTypes = {
   url: PropTypes.object,
   data: PropTypes.object,
-  getStaticData: PropTypes.func
+  insights: PropTypes.array,
+  getStaticData: PropTypes.func,
+  getInsights: PropTypes.func
 };
 
 const mapStateToProps = state => ({
-  data: state.staticPages
+  data: state.staticPages,
+  insights: state.insights.list
 });
 
 const mapDispatchToProps = dispatch => ({
   getStaticData: (slug) => {
     dispatch(getStaticData(slug));
-  }
+  },
+  getInsights: () => dispatch(getInsights())
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(GetInvolved);
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(GetInvolvedDetail);
