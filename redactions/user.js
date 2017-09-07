@@ -1,4 +1,3 @@
-import isEmpty from 'lodash/isEmpty';
 import UserService from 'services/UserService';
 
 const service = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
@@ -40,8 +39,13 @@ export default function (state = initialState, action) {
  * - setUser
 */
 export function setUser(user) {
-  const userObj = Object.assign({}, user || {});
-  if (!isEmpty(userObj) && userObj.token) {
+  // If the user isn't logged in, we set the user variable as an empty object
+  if (!user) {
+    return dispatch => dispatch({ type: SET_USER, payload: {} });
+  }
+
+  const userObj = Object.assign({}, user);
+  if (userObj.token) {
     userObj.token = userObj.token.includes('Bearer') ? userObj.token : `Bearer ${userObj.token}`;
   }
   return dispatch => dispatch({ type: SET_USER, payload: userObj });
