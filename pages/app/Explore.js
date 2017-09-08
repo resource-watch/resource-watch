@@ -135,7 +135,7 @@ class Explore extends Page {
       this.datasetService.searchDatasetsByConcepts(
         newFilters.topics, newFilters.geographies, newFilters.dataType)
         .then((datasetList) => {
-          this.props.setDatasetsFilteredByConcepts(datasetList);
+          this.props.setDatasetsFilteredByConcepts(datasetList[0]);
         });
     } else if (conceptsUpdated && !newFiltersHaveData) {
       this.props.setDatasetsFilteredByConcepts(null);
