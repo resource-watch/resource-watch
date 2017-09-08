@@ -10,6 +10,7 @@ import { substitution } from 'utils/utils';
 import Aside from 'components/ui/Aside';
 import DatasetsForm from 'components/datasets/form/DatasetsForm';
 import MetadataForm from 'components/admin/metadata/form/MetadataForm';
+import TagsForm from 'components/admin/tags/TagsForm';
 import VocabulariesAssociationForm from 'components/admin/vocabularies/association/VocabulariesAssociationForm';
 import WidgetIndex from 'components/admin/widget/pages/index';
 import LayersIndex from 'components/admin/layers/pages/index';
@@ -95,12 +96,15 @@ class DatasetsShow extends React.Component {
               }
 
               {subtab === 'vocabularies' &&
-                <VocabulariesAssociationForm
-                  application={process.env.APPLICATIONS}
-                  authorization={user.token}
-                  dataset={id}
-                  language="en"
-                />
+                <div>
+                  <VocabulariesAssociationForm
+                    application={process.env.APPLICATIONS}
+                    authorization={user.token}
+                    dataset={id}
+                    language="en"
+                  />
+                  <TagsForm />
+                </div>
               }
 
               {subtab === 'widgets' &&
