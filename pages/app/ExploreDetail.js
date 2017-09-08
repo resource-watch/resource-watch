@@ -95,7 +95,8 @@ class ExploreDetail extends Page {
           loading: false
         });
       }).catch((error) => {
-        toastr.error('Error', error);
+        toastr.error('Error', 'Unable to load the dataset');
+        console.error(error);
         this.setState({
           loading: false
         });
@@ -260,7 +261,8 @@ class ExploreDetail extends Page {
                         Learn more
                       </a>
                     }
-                    {dataset && dataset.attributes && dataset.attributes.subscribable && this.props.user.id &&
+                    {dataset && dataset.attributes && dataset.attributes.subscribable
+                      && this.props.user.id &&
                       <button
                         className="c-button -secondary -fullwidth"
                         onClick={this.handleSubscribe}
@@ -425,6 +427,8 @@ class ExploreDetail extends Page {
 
 ExploreDetail.propTypes = {
   url: PropTypes.object.isRequired,
+  // Store
+  user: PropTypes.object,
   // ACTIONS
   resetDataset: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
@@ -432,6 +436,7 @@ ExploreDetail.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  user: state.user,
   exploreDetail: state.exploreDetail,
   layersShown: updateLayersShown(state)
 });
