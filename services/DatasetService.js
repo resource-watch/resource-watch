@@ -129,11 +129,12 @@ export default class DatasetService {
     return fetch(`${this.opts.apiURL}/fields/${this.datasetId}`)
       .then(response => response.json())
       .then((jsonData) => {
+        const fieldsObj = jsonData.fields;
         const parsedData = {
           tableName: jsonData.tableName,
-          fields: (jsonData.fields || []).map((value, key) => ({
+          fields: (Object.keys(fieldsObj) || []).map(key => ({
             columnName: key,
-            columnType: value.type
+            columnType: fieldsObj[key].type
           }))
         };
         return parsedData;
