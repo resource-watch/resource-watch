@@ -247,7 +247,11 @@ class WidgetEditor extends React.Component {
         });
       })
       // TODO: handle the error case in the UI
-      .catch(() => this.setState({ fieldsError: true }))
+      .catch((err) => {
+        this.setState({ fieldsError: true });
+        toastr.error('Error loading fields');
+        console.error('Error loading fields', err)
+      })
       // If we reach this point, either we have already resolved the promise
       // and so rejecting it has no effect, or we haven't and so we reject it
       .then(reject);
@@ -292,7 +296,6 @@ class WidgetEditor extends React.Component {
       .map(elem => elem.columnName);
 
     const querySt = `SELECT ${fieldsSt} FROM ${this.props.dataset} LIMIT 300`;
-
     return this.datasetService.fetchJiminy(querySt)
       .then(jiminy => new Promise(resolve => this.setState({ jiminy, jiminyError: typeof jiminy === 'undefined' }, resolve)))
       .catch(() => new Promise(resolve => this.setState({ jiminyError: true }, resolve)))

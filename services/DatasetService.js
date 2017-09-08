@@ -58,18 +58,30 @@ export default class DatasetService {
 
   /**
    * Get Jiminy chart suggestions
-   * @returns {Promise}
+   * NOTE: the API might be really slow to give a result (or even fail
+   * to do so) so a timeout is necessary
+   * @param {string} query - SQL query to pass to Jiminy
+   * @param {number} [timeout=10000] Timeout before rejecting the provise
+   * @returns {Promise<any>}
    */
-  fetchJiminy(query) {
-    return fetch(`${this.opts.apiURL}/jiminy`, {
-      method: 'POST',
-      body: JSON.stringify({ sql: query }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(jsonData => jsonData.data);
+  fetchJiminy(query, timeout = 10000) {
+    return new Promise((resolve, reject) => {
+      // If the timeout time has elapsed, we reject
+      // the promise
+      setTimeout(reject, timeout);
+
+      fetch(`${this.opts.apiURL}/jiminy`, {
+        method: 'POST',
+        body: JSON.stringify({ sql: query }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then(jsonData => jsonData.data)
+        .then(resolve)
+        .catch(reject);
+    });
   }
 
 
@@ -129,11 +141,12 @@ export default class DatasetService {
     return fetch(`${this.opts.apiURL}/fields/${this.datasetId}`)
       .then(response => response.json())
       .then((jsonData) => {
+        const fieldsObj = jsonData.fields;
         const parsedData = {
           tableName: jsonData.tableName,
-          fields: (jsonData.fields || []).map((value, key) => ({
+          fields: (Object.keys(fieldsObj) || []).map(key => ({
             columnName: key,
-            columnType: value.type
+            columnType: fieldsObj[key].type
           }))
         };
         return parsedData;
