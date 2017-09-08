@@ -38,6 +38,7 @@
 
   .visualization {
     position: relative; // Limit the scope of the map and spinner
+    min-height: 100vh;
   }
 
   .c-map {

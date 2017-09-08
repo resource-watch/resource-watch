@@ -1,5 +1,6 @@
 import React from 'react';
 import { Router } from 'routes';
+import isEqual from 'lodash/isEqual';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -57,15 +58,15 @@ class Dashboards extends Page {
   }
 
   render() {
-    const { dashboards, url, user } = this.props;
+    const { dashboards, loading, error, url, user } = this.props;
 
     return (
       <Layout
         title="Dashboards"
         description="Resource Watch Dashboards"
+        className="page-dashboards"
         url={url}
         user={user}
-        className="page-dashboards"
         pageHeader
       >
         <div className="l-page-header">
@@ -85,11 +86,11 @@ class Dashboards extends Page {
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
-                { dashboards.error && (
-                  <p className="error">{dashboards.error}</p>
+                { error && (
+                  <p className="error">{error}</p>
                 ) }
-                { !dashboards.error && dashboards.loading && <Spinner isLoading className="-light" /> }
-                { !dashboards.loading && !dashboards.error && (
+                { !error && loading && <Spinner isLoading className="-light" /> }
+                { !loading && !error && (
                   <h2>Select a topic to start exploring</h2>
                 ) }
               </div>
@@ -99,7 +100,7 @@ class Dashboards extends Page {
               <div className="column small-12">
                 <ul className="dashboards-list">
                   {
-                    dashboards.list
+                    dashboards
                       .map(dashboard => (
                         <li
                           key={dashboard.slug}
@@ -132,7 +133,11 @@ class Dashboards extends Page {
   }
 }
 
-const mapStateToProps = state => ({ dashboards: state.clientDashboards });
+const mapStateToProps = state => ({
+  dashboards: state.clientDashboards.list,
+  isLoading: state.clientDashboards.loading,
+  error: state.clientDashboards.error
+});
 
 const mapDispatchToProps = dispatch => ({
   getPublicDashboards: bindActionCreators(getPublicDashboards, dispatch)

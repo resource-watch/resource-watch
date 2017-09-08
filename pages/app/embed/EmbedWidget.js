@@ -25,7 +25,7 @@ class EmbedWidget extends Page {
     const referer = isServer ? req.headers.referer : location.href;
     store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
-    return { user, isServer, url, referer };
+    return { user, isServer, url, referer, isLoading: true };
   }
 
   isLoadedExternally() {
@@ -43,21 +43,20 @@ class EmbedWidget extends Page {
     this.props.getWidget(this.props.url.query.id);
   }
 
-  shouldComponentUpdate(nextProps) {
-    if (nextProps.widget) {
-      return !isEqual(this.props.widget, nextProps.widget);
-    }
-    if (nextProps.isLoading) {
-      return !!(this.props.isLoading !== nextProps.isLoading);
-    }
-    return false;
-  }
-
   render() {
     const { widget } = this.props;
     const { isLoading } = this.state;
 
-    if (isEmpty(widget)) return null;
+    if (isEmpty(widget)) {
+      return (
+        <EmbedLayout
+          title={'Loading widget...'}
+          description={''}
+        >
+          <Spinner isLoading className="-light" />
+        </EmbedLayout>
+      );
+    }
 
     return (
       <EmbedLayout
@@ -75,7 +74,7 @@ class EmbedWidget extends Page {
                 height={300}
                 data={widget.attributes.widgetConfig}
                 theme={ChartTheme()}
-                toggleLoading={loading => this.setState({ isLoading: loading })}
+                toggleLoading={isLoading => this.setState({ isLoading })}
                 reloadOnResize
               />
             </div>
@@ -101,7 +100,8 @@ EmbedWidget.propTypes = {
 };
 
 EmbedWidget.defaultProps = {
-  widget: {}
+  widget: {},
+  isLoading: true
 };
 
 const mapStateToProps = state => ({
