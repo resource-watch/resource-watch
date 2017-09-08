@@ -60,18 +60,30 @@ export default class DatasetService {
 
   /**
    * Get Jiminy chart suggestions
-   * @returns {Promise}
+   * NOTE: the API might be really slow to give a result (or even fail
+   * to do so) so a timeout is necessary
+   * @param {string} query - SQL query to pass to Jiminy
+   * @param {number} [timeout=10000] Timeout before rejecting the provise
+   * @returns {Promise<any>}
    */
-  fetchJiminy(query) {
-    return fetch(`${this.opts.apiURL}/jiminy`, {
-      method: 'POST',
-      body: JSON.stringify({ sql: query }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(jsonData => jsonData.data);
+  fetchJiminy(query, timeout = 10000) {
+    return new Promise((resolve, reject) => {
+      // If the timeout time has elapsed, we reject
+      // the promise
+      setTimeout(reject, timeout);
+
+      fetch(`${this.opts.apiURL}/jiminy`, {
+        method: 'POST',
+        body: JSON.stringify({ sql: query }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then(jsonData => jsonData.data)
+        .then(resolve)
+        .catch(reject);
+    });
   }
 
 
