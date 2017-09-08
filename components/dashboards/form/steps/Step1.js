@@ -10,9 +10,10 @@ import Input from 'components/form/Input';
 import TextArea from 'components/form/TextArea';
 import FileImage from 'components/form/FileImage';
 import Checkbox from 'components/form/Checkbox';
+import Wysiwyg from 'components/form/Wysiwyg';
 
 // Wysiwig
-import ToolbarWidgetBtn from 'components/dashboards/wysiwyg/ToolbarWidgetBtn';
+import Toolbar from 'components/dashboards/wysiwyg/Toolbar';
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -145,8 +146,12 @@ class Step1 extends React.Component {
               required: true,
               default: this.state.form.content
             }}
+            toolbar={{
+              container: '#toolbar',
+              component: Toolbar
+            }}
           >
-            {TextArea}
+            {Wysiwyg}
           </Field>
         </fieldset>
       </div>

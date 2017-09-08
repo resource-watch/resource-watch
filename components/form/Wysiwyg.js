@@ -1,38 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { EditorState, ContentState, convertToRaw } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
-
-import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
-
 // Components
 import FormElement from './FormElement';
 
+let Editor
+if (typeof window !== 'undefined') {
+  Editor = require('react-quill');
+  // require all blots
+  require('components/wysiwyg/IframeBlot');
+}
+
+
 class Wysiwyg extends FormElement {
   static getValue(html) {
-    const block = htmlToDraft(html);
-
-    if (html) {
-      const contentState = ContentState.createFromBlockArray(
-        block.contentBlocks,
-        block.entityMap
-      );
-      return EditorState.createWithContent(contentState);
-    }
-
-    return '';
+    return html;
   }
 
   constructor(props) {
     super(props);
+
+    if (typeof window === 'undefined') {
+      return;
+    }
 
     this.state = {
       value: Wysiwyg.getValue(this.props.properties.default),
       valid: null,
       error: []
     };
+  }
+
+  componentDidMount() {
+    this.attachQuillRefs();
+  }
+
+  componentDidUpdate() {
+    this.attachQuillRefs();
+  }
+
+  attachQuillRefs = () => {
+    if (typeof this.reactQuillRef.getEditor !== 'function') return;
+    this.quill = this.reactQuillRef.getEditor();
   }
 
   /**
@@ -45,21 +54,30 @@ class Wysiwyg extends FormElement {
       this.triggerValidate();
 
       if (this.props.onChange) {
-        const content = this.state.value.getCurrentContent();
-        this.props.onChange(draftToHtml(convertToRaw(content)));
+        this.props.onChange(value);
       }
     });
   }
 
   render() {
     const { value } = this.state;
+
     return (
       <div className="c-wysiwyg">
+        <this.props.toolbar.component
+          quill={this.quill}
+        />
+
         <Editor
-          editorState={value}
-          toolbar={this.props.toolbar}
-          toolbarCustomButtons={this.props.toolbarCustomButtons}
-          onEditorStateChange={this.triggerChange}
+          ref={(c) => { this.reactQuillRef = c; }}
+          theme="snow"
+          value={value}
+          onChange={this.triggerChange}
+          modules={{
+            toolbar: this.props.toolbar.container
+          }}
+          // toolbar={this.props.toolbar}
+          // toolbarCustomButtons={this.props.toolbarCustomButtons}
         />
       </div>
     );

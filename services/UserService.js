@@ -194,14 +194,18 @@ export default class UserService {
    * Get user areas
    */
   getUserAreas(token) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       fetch(`${this.opts.apiURL}/area?application=rw`, {
         headers: {
           Authorization: token
         }
       })
-        .then(response => response.json())
-        .then(jsonData => resolve(jsonData.data));
+        .then((response) => {
+          if (response.ok) return response.json();
+          throw new Error(response.statusText);
+        })
+        .then(jsonData => resolve(jsonData.data))
+        .catch(err => reject(err.message));
     });
   }
 
