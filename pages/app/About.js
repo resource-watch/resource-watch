@@ -44,19 +44,18 @@ class About extends Page {
         description="About description..."
         url={this.props.url}
         user={this.props.user}
+        className="l-static p-about"
       >
+
         <section className="l-content">
           <header className="l-content-header">
-            <div className="l-container">
-              <div className="row align-center">
+            <div className="cover" style={styles}>
+              <div className="row">
                 <div className="column small-12">
-                  <div className="cover" style={styles} />
-                </div>
-              </div>
-              <div className="row align-center">
-                <div className="column small-12 medium-8">
-                  <h1>{data.title}</h1>
-                  <p>{data.summary}</p>
+                  <div className="content">
+                    <h1>{data.title}</h1>
+                    <p>{data.summary}</p>
+                  </div>
                 </div>
               </div>
             </div>

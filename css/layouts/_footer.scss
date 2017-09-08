@@ -25,7 +25,7 @@
 
       a {
         position: relative;
-        color: $border-color-1;
+        color: $dove-grey;
 
         &:after {
           content: '';
@@ -35,8 +35,8 @@
           width: 7px;
           height: 7px;
           transform: rotate(45deg);
-          border-top: 2px solid $border-color-1;
-          border-right: 2px solid $border-color-1;
+          border-top: 2px solid $dove-grey;
+          border-right: 2px solid $dove-grey;
         }
       }
     }
