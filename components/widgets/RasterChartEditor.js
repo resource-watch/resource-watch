@@ -22,7 +22,8 @@ class RasterChartEditor extends React.Component {
     this.state = {
       loading: false, // Whether the component is loading
       error: null, // Whether an error happened
-      bands: [] // List of the name of the bands
+      /** @type {{ name: string, alias?: string, type?: string, description?: string }[]} bands */
+      bands: [] // List of the bands
     };
 
     this.rasterService = new RasterService(props.dataset, props.tableName, props.provider);
@@ -46,7 +47,7 @@ class RasterChartEditor extends React.Component {
 
   /**
    * Event handler executed when the user selects a band
-   * @param {string} band 
+   * @param {string} band
    */
   @Autobind
   onChangeBand(band) {
@@ -87,6 +88,20 @@ class RasterChartEditor extends React.Component {
   fetchBandNames() {
     this.setState({ loading: true, error: null });
     this.rasterService.getBandNames()
+      // We merge the band names with the information that comes from
+      // the metadata of the dataset (type, alias and description)
+      .then((bands) => { // eslint-disable-line arrow-body-style
+        return bands.map((band) => {
+          let res = { name: band };
+
+          const bandInfo = this.props.bandsInfo[band];
+          if (bandInfo) {
+            res = Object.assign({}, res, bandInfo);
+          }
+
+          return res;
+        });
+      })
       .then(bands => this.setState({ bands }))
       .catch(({ message }) => this.setState({ error: message }))
       .then(() => this.setState({ loading: false }));
@@ -107,7 +122,7 @@ class RasterChartEditor extends React.Component {
                 name: 'raster-bands',
                 default: band
               }}
-              options={bands.map(b => ({ label: b, value: b }))}
+              options={bands.map(b => ({ label: b.alias || b.name, value: b.name }))}
               onChange={this.onChangeBand}
             />
           ) }
@@ -146,6 +161,7 @@ RasterChartEditor.propTypes = {
 
   // REDUX
   band: PropTypes.string,
+  bandsInfo: PropTypes.object,
   toggleModal: PropTypes.func.isRequired,
   setBand: PropTypes.func.isRequired
 };
@@ -155,7 +171,8 @@ RasterChartEditor.defaultProps = {
 };
 
 const mapStateToProps = ({ widgetEditor }) => ({
-  band: widgetEditor.band
+  band: widgetEditor.band,
+  bandsInfo: widgetEditor.bandsInfo
 });
 
 const mapDispatchToProps = dispatch => ({
