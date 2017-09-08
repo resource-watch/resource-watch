@@ -96,7 +96,7 @@ class GetInvolved extends Page {
     if (!data) return null;
 
     if (data && data.photo) {
-      styles.backgroundImage = `url(${process.env.STATIC_SERVER_URL}${data.photo.large})`;
+      styles.backgroundImage = `url(${process.env.STATIC_SERVER_URL}${data.photo.cover})`;
     }
 
     const cardsStatic = cards.map(c =>
@@ -130,34 +130,31 @@ class GetInvolved extends Page {
         description="Get Involved description"
         url={this.props.url}
         user={this.props.user}
-        className={'-get-involved'}
+        className="l-static p-get-involved"
       >
         <section className="l-content">
           <header className="l-content-header">
-            <div className="l-container">
-              <div className="row align-center">
+            <div className="cover" style={styles}>
+              <div className="row">
                 <div className="column small-12">
-                  <div className="cover" style={styles} />
-                </div>
-              </div>
-              <div className="row align-center">
-                <div className="column small-12 medium-8">
-                  <h1>{data.title}</h1>
-                  <p>{data.summary}</p>
+                  <div className="content">
+                    <h1>{data.title}</h1>
+                    <p>{data.summary}</p>
+                  </div>
                 </div>
               </div>
             </div>
           </header>
           <div className="l-content-body">
-            { data.content ? (<article>
-              <div className="l-container">
+            { data.content ? (<div className="l-container">
+              <article>
                 <div className="row align-center">
                   <div className="column small-12 medium-8">
                     {renderHTML(data.content || '')}
                   </div>
                 </div>
-              </div>
-            </article>) : null }
+              </article>
+            </div> ) : null }
             <div className="l-container">
               <div className="row">
                 {cardsStatic}
