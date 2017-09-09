@@ -220,8 +220,8 @@ class VegaChart extends React.Component {
 
   setSize() {
     if (this.chartViewportContainer) {
-      this.width = this.chartViewportContainer.offsetWidth;
-      this.height = this.chartViewportContainer.offsetHeight;
+      this.width = this.props.width || this.chartViewportContainer.offsetWidth;
+      this.height = this.props.height || this.chartViewportContainer.offsetHeight;
     }
   }
 
@@ -380,6 +380,9 @@ class VegaChart extends React.Component {
 }
 
 VegaChart.propTypes = {
+  width: PropTypes.number,
+  height: PropTypes.number,
+
   reloadOnResize: PropTypes.bool.isRequired,
   showLegend: PropTypes.bool,
   // Define the chart data
@@ -394,6 +397,8 @@ VegaChart.propTypes = {
 };
 
 VegaChart.defaultProps = {
+  width: 0,
+  height: 0,
   showLegend: true
 };
 
