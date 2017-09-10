@@ -54,7 +54,7 @@ class TagsForm extends React.Component {
       .then(response => response.json())
       .then((data) => {
         this.knowledgeGraph = {
-          edges: data.edges.map(elem => ({ from: elem.source, to: elem.target })),
+          edges: data.edges.map(elem => ({ from: elem.source, to: elem.target, label: elem.relType })),
           nodes: data.nodes.map(elem => ({ id: elem.id, label: elem.label }))
         };
       });
