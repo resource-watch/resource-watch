@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
+import Graph from 'react-graph-vis';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -11,6 +12,15 @@ import Select from 'components/form/SelectInput';
 // Services
 import GraphService from 'services/GraphService';
 
+const graphOptions = {
+  layout: {
+    hierarchical: false
+  },
+  edges: {
+    color: '#000000'
+  }
+};
+
 class TagsForm extends React.Component {
   constructor(props) {
     super(props);
@@ -19,6 +29,7 @@ class TagsForm extends React.Component {
       tags: [],
       selectedTags: [],
       inferredTags: [],
+      graph: null,
       loading: true,
       loadingInferredTags: false
     };
@@ -32,6 +43,29 @@ class TagsForm extends React.Component {
   */
   componentDidMount() {
     this.loadAllTags();
+    this.loadKnowledgeGraph();
+  }
+
+  loadKnowledgeGraph() {
+    // Topics selector
+    fetch(new Request('/static/data/KnowledgeGraph.json', { credentials: 'same-origin' }))
+      .then(response => response.json())
+      .then((data) => {
+        this.knowledgeGraph = {
+          edges: data.edges.map(elem => ({ from: elem.source, to: elem.target })),
+          nodes: data.nodes.map(elem => ({ id: elem.id, label: elem.label }))
+        };
+      });
+  }
+
+  loadSubGraph() {
+    const { inferredTags } = this.state;
+    this.setState({
+      graph: {
+        edges: this.knowledgeGraph.edges.filter(elem => inferredTags.find(tag => tag.id === elem.to)),
+        nodes: this.knowledgeGraph.nodes.filter(elem => inferredTags.find(tag => tag.id === elem.id))
+      }
+    });
   }
 
   /**
@@ -45,7 +79,6 @@ class TagsForm extends React.Component {
   }
   @Autobind
   handleTagsChange(value) {
-    console.log('handleTagsChange', value);
     this.setState({ selectedTags: value },
       () => this.loadInferredTags());
   }
@@ -78,7 +111,7 @@ class TagsForm extends React.Component {
           this.setState({
             loadingInferredTags: false,
             inferredTags: response
-          });
+          }, () => this.loadSubGraph());
         })
         .catch((err) => {
           this.setState({ loadingInferredTags: false });
@@ -91,7 +124,7 @@ class TagsForm extends React.Component {
   }
 
   render() {
-    const { tags, selectedTags, inferredTags } = this.state;
+    const { tags, selectedTags, inferredTags, graph } = this.state;
     return (
       <div>
         <Spinner
@@ -116,6 +149,14 @@ class TagsForm extends React.Component {
           {inferredTags.map(tag =>
             <label> {tag.label} </label>
           )}
+        </div>
+        <div className="graph-div">
+          {graph &&
+            <Graph
+              graph={graph}
+              options={graphOptions}
+            />
+          }
         </div>
       </div>
     );
