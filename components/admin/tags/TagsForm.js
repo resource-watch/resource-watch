@@ -13,6 +13,8 @@ import Select from 'components/form/SelectInput';
 import GraphService from 'services/GraphService';
 
 const graphOptions = {
+  height: '100%',
+  width: '100%',
   layout: {
     hierarchical: false
   },
@@ -59,11 +61,14 @@ class TagsForm extends React.Component {
   }
 
   loadSubGraph() {
-    const { inferredTags } = this.state;
+    const { inferredTags, selectedTags } = this.state;
     this.setState({
       graph: {
-        edges: this.knowledgeGraph.edges.filter(elem => inferredTags.find(tag => tag.id === elem.to)),
-        nodes: this.knowledgeGraph.nodes.filter(elem => inferredTags.find(tag => tag.id === elem.id))
+        edges: this.knowledgeGraph.edges
+          .filter(elem => inferredTags.find(tag => tag.id === elem.to)),
+        nodes: this.knowledgeGraph.nodes
+          .filter(elem => inferredTags.find(tag => tag.id === elem.id))
+          .map(elem => ({ ...elem, color: selectedTags.find(tag => tag === elem.id) ? '#c32d7b' : '#F4F6F7' }))
       }
     });
   }
