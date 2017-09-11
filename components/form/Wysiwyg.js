@@ -27,7 +27,8 @@ class Wysiwyg extends FormElement {
     this.state = {
       value: Wysiwyg.getValue(this.props.properties.default),
       valid: null,
-      error: []
+      error: [],
+      isQuillRef: false
     };
   }
 
@@ -42,6 +43,10 @@ class Wysiwyg extends FormElement {
   attachQuillRefs = () => {
     if (typeof this.reactQuillRef.getEditor !== 'function') return;
     this.quill = this.reactQuillRef.getEditor();
+
+    if (!this.state.isQuillRef) {
+      this.setState({ isQuillRef: true });
+    }
   }
 
   /**
