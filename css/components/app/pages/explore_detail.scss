@@ -88,4 +88,18 @@
     color: $color-dark-pink;
   }
 
+  .shortened-text {
+    .read-more {
+      padding: 0;
+      margin-left: 5px;
+      color: $dark-pink;
+      cursor: pointer;
+
+      &.-less {
+        display: block;
+        margin: 5px 0 0 0;
+      }
+    }
+  }
+
 }

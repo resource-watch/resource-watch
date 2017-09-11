@@ -29,6 +29,9 @@ import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
 
+// constants
+const LIMIT_CHAR_DESCRIPTION = 1120;
+
 class ExploreDetail extends Page {
   constructor(props) {
     super(props);
@@ -37,7 +40,8 @@ class ExploreDetail extends Page {
       similarDatasetsLoaded: false,
       similarDatasets: [],
       dataset: null,
-      loading: false
+      loading: false,
+      showDescription: false
     };
 
     // DatasetService
@@ -175,12 +179,47 @@ class ExploreDetail extends Page {
     this.props.setModalOptions(options);
   }
 
+  shortenerText(text = '', fieldToManage, limitChar = 0) {
+    const localText = text || '';
+    if ((localText || '').length <= limitChar) {
+      return localText;
+    }
+
+    const fieldVisibility = this.state.showDescription || false;
+    const initialText = localText.substr(0, limitChar);
+    const leftText = localText.substr(limitChar, localText.length - initialText.length);
+
+    return (
+      <div className="shortened-text">
+        <span>{initialText}</span>
+        {!fieldVisibility && <span>...</span>}
+        {!fieldVisibility && <button
+          className="read-more"
+          onClick={() => this.setState({ [fieldToManage]: true })}
+        >
+          Read more
+        </button>}
+        {fieldVisibility &&
+          <span>{leftText}</span>}
+        {fieldVisibility && <button
+          className="read-more -less"
+          onClick={() => this.setState({ [fieldToManage]: false })}
+        >
+          Read less
+        </button>}
+      </div>
+    );
+  }
+
   render() {
     const { dataset, loading, similarDatasets, similarDatasetsLoaded } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
-    const metadataAttributes = metadata && metadata.attributes;
-    const metadataInfo = metadataAttributes && metadataAttributes.info;
+    const metadataAttributes = (metadata && metadata.attributes) || {};
+    const metadataInfo = (metadataAttributes && metadataAttributes.info) || {};
+    const { description } = metadataAttributes;
+
+    const formattedDescription = this.shortenerText(description, 'showDescription', LIMIT_CHAR_DESCRIPTION);
 
     return (
       <Layout
@@ -226,7 +265,7 @@ class ExploreDetail extends Page {
                 <div className="column small-12 medium-7">
                   {/* Description */}
                   <div className="dataset-info-description">
-                    {metadataAttributes && metadataAttributes.description}
+                    {formattedDescription}
                   </div>
                 </div>
                 <div className="column large-offset-2 small-12 medium-3">
