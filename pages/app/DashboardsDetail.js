@@ -90,7 +90,6 @@ class DashboardsDetail extends Page {
   }
 
   render() {
-    console.log('render');
     const { url, user, dashboards, dashboardDetail } = this.props;
     const selectedDashboard = dashboardDetail.data;
     const dashboardName = selectedDashboard ? `${selectedDashboard.name} dashboard` : 'Dashboard';
