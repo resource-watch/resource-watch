@@ -10,7 +10,7 @@ import { substitution } from 'utils/utils';
 import Aside from 'components/ui/Aside';
 import DatasetsForm from 'components/datasets/form/DatasetsForm';
 import MetadataForm from 'components/admin/metadata/form/MetadataForm';
-import VocabulariesAssociationForm from 'components/admin/vocabularies/association/VocabulariesAssociationForm';
+import TagsForm from 'components/admin/tags/TagsForm';
 import WidgetIndex from 'components/admin/widget/pages/index';
 import LayersIndex from 'components/admin/layers/pages/index';
 
@@ -26,7 +26,7 @@ const DATASET_SUBTABS = [{
   route: 'admin_data_detail',
   params: { tab: 'datasets', id: '{{id}}', subtab: 'metadata' }
 }, {
-  label: 'Vocabularies',
+  label: 'Tags',
   value: 'vocabularies',
   route: 'admin_data_detail',
   params: { tab: 'datasets', id: '{{id}}', subtab: 'vocabularies' }
@@ -95,12 +95,12 @@ class DatasetsShow extends React.Component {
               }
 
               {subtab === 'vocabularies' &&
-                <VocabulariesAssociationForm
-                  application={process.env.APPLICATIONS}
-                  authorization={user.token}
-                  dataset={id}
-                  language="en"
-                />
+                <div>
+                  <TagsForm
+                    dataset={id}
+                    user={user}
+                  />
+                </div>
               }
 
               {subtab === 'widgets' &&
