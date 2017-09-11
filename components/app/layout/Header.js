@@ -1,3 +1,4 @@
+/* eslint no-return-assign: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -12,6 +13,7 @@ import { Link } from 'routes';
 import HeaderDropdownData from 'components/app/layout/header/HeaderDropdownData';
 import HeaderDropdownAbout from 'components/app/layout/header/HeaderDropdownAbout';
 import HeaderUser from 'components/app/layout/header/HeaderUser';
+import ToggleSearch from 'components/form/ToggleSearch';
 
 class Header extends React.Component {
   constructor(props) {
@@ -124,6 +126,7 @@ class Header extends React.Component {
                     </ul>
                   </nav>
                 </MediaQuery>
+                <ToggleSearch />
               </div>
             </div>
           </div>
