@@ -731,7 +731,7 @@ babel-plugin-transform-es2015-modules-amd@^6.22.0, babel-plugin-transform-es2015
     babel-runtime "^6.22.0"
     babel-template "^6.24.1"
 
-babel-plugin-transform-es2015-modules-commonjs@6.24.1:
+babel-plugin-transform-es2015-modules-commonjs@6.24.1, babel-plugin-transform-es2015-modules-commonjs@^6.23.0, babel-plugin-transform-es2015-modules-commonjs@^6.24.1:
   version "6.24.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-es2015-modules-commonjs/-/babel-plugin-transform-es2015-modules-commonjs-6.24.1.tgz#d3e310b40ef664a36622200097c6d440298f2bfe"
   dependencies:
@@ -739,15 +739,6 @@ babel-plugin-transform-es2015-modules-commonjs@6.24.1:
     babel-runtime "^6.22.0"
     babel-template "^6.24.1"
     babel-types "^6.24.1"
-
-babel-plugin-transform-es2015-modules-commonjs@^6.23.0, babel-plugin-transform-es2015-modules-commonjs@^6.24.1:
-  version "6.26.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-es2015-modules-commonjs/-/babel-plugin-transform-es2015-modules-commonjs-6.26.0.tgz#0d8394029b7dc6abe1a97ef181e00758dd2e5d8a"
-  dependencies:
-    babel-plugin-transform-strict-mode "^6.24.1"
-    babel-runtime "^6.26.0"
-    babel-template "^6.26.0"
-    babel-types "^6.26.0"
 
 babel-plugin-transform-es2015-modules-systemjs@^6.23.0:
   version "6.24.1"
@@ -977,14 +968,14 @@ babel-runtime@6.23.0:
     core-js "^2.4.0"
     regenerator-runtime "^0.10.0"
 
-babel-runtime@6.25.0:
+babel-runtime@6.25.0, babel-runtime@^6.11.6, babel-runtime@^6.2.0, babel-runtime@^6.22.0:
   version "6.25.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.25.0.tgz#33b98eaa5d482bb01a8d1aa6b437ad2b01aec41c"
   dependencies:
     core-js "^2.4.0"
     regenerator-runtime "^0.10.0"
 
-babel-runtime@^6.11.6, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.20.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
+babel-runtime@^6.18.0, babel-runtime@^6.20.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -1962,21 +1953,9 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-datalib@1.7.3:
+datalib@1.7.3, datalib@^1.4.5, datalib@^1.4.6, datalib@^1.7.1, datalib@^1.7.3:
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/datalib/-/datalib-1.7.3.tgz#4722715bb91f5a2411cf42bf984932cc403eba48"
-  dependencies:
-    d3-dsv "0.1"
-    d3-format "0.4"
-    d3-time "0.1"
-    d3-time-format "0.2"
-    request "^2.67.0"
-    sync-request "^2.1.0"
-    topojson "^1.6.19"
-
-datalib@^1.4.5, datalib@^1.4.6, datalib@^1.7.1, datalib@^1.7.3:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/datalib/-/datalib-1.8.0.tgz#1fa56888b13be51b344898f7a8d0191e2221fbbf"
   dependencies:
     d3-dsv "0.1"
     d3-format "0.4"
@@ -2305,6 +2284,10 @@ elliptic@^6.0.0:
     inherits "^2.0.1"
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
+
+emitter-component@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/emitter-component/-/emitter-component-1.1.1.tgz#065e2dbed6959bf470679edabeaf7981d1003ab6"
 
 emitter-mixin@0.0.3:
   version "0.0.3"
@@ -3109,15 +3092,7 @@ fork-stream@^0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/fork-stream/-/fork-stream-0.0.4.tgz#db849fce77f6708a5f8f386ae533a0907b54ae70"
 
-form-data@^2.1.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/form-data/-/form-data-2.3.1.tgz#6fb94fbd71885306d73d15cc497fe4cc4ecd44bf"
-  dependencies:
-    asynckit "^0.4.0"
-    combined-stream "^1.0.5"
-    mime-types "^2.1.12"
-
-form-data@~2.1.1:
+form-data@^2.1.1, form-data@~2.1.1:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-2.1.4.tgz#33c183acf193276ecaa98143a69e94bfee1750d1"
   dependencies:
@@ -3292,7 +3267,7 @@ glob-stream@^5.3.2:
     to-absolute-glob "^0.1.1"
     unique-stream "^2.0.2"
 
-glob@7.1.1:
+glob@7.1.1, glob@^7.0.3, glob@^7.1.1:
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.1.tgz#805211df04faaf1c63a3600306cdf5ade50b2ec8"
   dependencies:
@@ -3323,7 +3298,7 @@ glob@^6.0.1:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-glob@^7.0.0, glob@^7.0.3, glob@^7.0.5, glob@^7.1.1, glob@^7.1.2, glob@~7.1.1:
+glob@^7.0.0, glob@^7.0.5, glob@^7.1.2, glob@~7.1.1:
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.2.tgz#c19c9df9a028702d678612384a6552404c636d15"
   dependencies:
@@ -3536,6 +3511,10 @@ gulplog@^1.0.0:
   dependencies:
     glogg "^1.0.0"
 
+hammerjs@^2.0.6, hammerjs@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
+
 har-schema@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/har-schema/-/har-schema-1.0.5.tgz#d263135f43307c02c602afc8fe95970c0151369e"
@@ -3730,11 +3709,11 @@ iconv-lite@0.2:
   version "0.2.11"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.2.11.tgz#1ce60a3a57864a292d1321ff4609ca4bb965adc8"
 
-iconv-lite@0.4.15:
+iconv-lite@0.4.15, iconv-lite@~0.4.13:
   version "0.4.15"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.15.tgz#fe265a218ac6a57cfe854927e9d04c19825eddeb"
 
-iconv-lite@^0.4.17, iconv-lite@~0.4.13:
+iconv-lite@^0.4.17:
   version "0.4.18"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.18.tgz#23d8656b16aae6742ac29732ea8f0336a4789cf2"
 
@@ -4226,13 +4205,9 @@ jsesc@~0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
 
-json-loader@0.5.4:
+json-loader@0.5.4, json-loader@^0.5.4:
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/json-loader/-/json-loader-0.5.4.tgz#8baa1365a632f58a3c46d20175fc6002c96e37de"
-
-json-loader@^0.5.4:
-  version "0.5.7"
-  resolved "https://registry.yarnpkg.com/json-loader/-/json-loader-0.5.7.tgz#dca14a70235ff82f0ac9a3abeb60d337a365185d"
 
 json-schema-traverse@^0.3.0:
   version "0.3.1"
@@ -4306,6 +4281,10 @@ junk@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/junk/-/junk-1.0.3.tgz#87be63488649cbdca6f53ab39bec9ccd2347f592"
 
+keycharm@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/keycharm/-/keycharm-0.2.0.tgz#fa6ea2e43b90a68028843d27f2075d35a8c3e6f9"
+
 keygrip@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/keygrip/-/keygrip-1.0.2.tgz#ad3297c557069dea8bcfe7a4fa491b75c5ddeb91"
@@ -4370,13 +4349,9 @@ leaflet-virtual-grid@^1.0.3:
   dependencies:
     leaflet "^1.0.0-rc.1"
 
-leaflet@1.0.3:
+leaflet@1.0.3, leaflet@^1.0.0, leaflet@^1.0.0-rc.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.0.3.tgz#1f401b98b45c8192134c6c8d69686253805007c8"
-
-leaflet@^1.0.0, leaflet@^1.0.0-rc.1:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.2.0.tgz#fd5d93d9cb00091f5f8a69206d0d6744c1c82697"
 
 levn@^0.3.0, levn@~0.3.0:
   version "0.3.0"
@@ -4803,13 +4778,9 @@ mime@1.3.4:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.3.4.tgz#115f9e3b6b3daf2959983cb38f149a2d40eb5d53"
 
-mime@1.3.x:
+mime@1.3.x, mime@^1.3.4, mime@^1.3.6:
   version "1.3.6"
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.3.6.tgz#591d84d3653a6b0b4a3b9df8de5aa8108e72e5e0"
-
-mime@^1.3.4, mime@^1.3.6:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/mime/-/mime-1.4.0.tgz#69e9e0db51d44f2a3b56e48b7817d7d137f1a343"
 
 mimic-fn@^1.0.0:
   version "1.1.0"
@@ -4863,7 +4834,7 @@ mkdirp-then@1.2.0:
   dependencies:
     minimist "0.0.8"
 
-moment@^2.11.2:
+moment@^2.11.2, moment@^2.18.1:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
@@ -5909,6 +5880,12 @@ prop-types@15.5.7:
   dependencies:
     fbjs "^0.8.9"
 
+propagating-hammerjs@^1.4.6:
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/propagating-hammerjs/-/propagating-hammerjs-1.4.6.tgz#fed00e9b00767ffd42d14f5b531bc493eb672e37"
+  dependencies:
+    hammerjs "^2.0.6"
+
 proxy-addr@~1.1.2:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/proxy-addr/-/proxy-addr-1.1.5.tgz#71c0ee3b102de3f202f3b64f608d173fcba1a918"
@@ -5964,11 +5941,7 @@ qs@6.2.1:
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.2.1.tgz#ce03c5ff0935bc1d9d69a9f14cbd18e568d67625"
 
-qs@^6.1.0, qs@^6.4.0:
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.0.tgz#8d04954d364def3efc55b5a0793e1e2c8b1e6e49"
-
-qs@~6.4.0:
+qs@^6.1.0, qs@^6.4.0, qs@~6.4.0:
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.4.0.tgz#13e26d28ad6b0ffaa91312cd3bf708ed351e7233"
 
@@ -6135,6 +6108,15 @@ react-dropzone@3.13.3:
     attr-accept "^1.0.3"
     prop-types "^15.5.7"
 
+react-graph-vis@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/react-graph-vis/-/react-graph-vis-0.1.3.tgz#b399f91028d7bd0a1fd1b95c3ccee5c9c45480e1"
+  dependencies:
+    lodash "^4.17.4"
+    prop-types "^15.5.10"
+    uuid "^2.0.1"
+    vis "^4.18.1"
+
 react-hot-loader@3.0.0-beta.7:
   version "3.0.0-beta.7"
   resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-3.0.0-beta.7.tgz#d5847b8165d731c4d5b30d86d5d4716227a0fa83"
@@ -6278,7 +6260,7 @@ react-upload-file@2.0.0-beta.6:
   dependencies:
     react "^15.4.1"
 
-react@15.5.4:
+react@15.5.4, react@^15.4.1, react@^15.5.4:
   version "15.5.4"
   resolved "https://registry.yarnpkg.com/react/-/react-15.5.4.tgz#fa83eb01506ab237cdc1c8c3b1cea8de012bf047"
   dependencies:
@@ -6286,16 +6268,6 @@ react@15.5.4:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "^15.5.7"
-
-react@^15.4.1, react@^15.5.4:
-  version "15.6.1"
-  resolved "https://registry.yarnpkg.com/react/-/react-15.6.1.tgz#baa8434ec6780bde997cdc380b79cd33b96393df"
-  dependencies:
-    create-react-class "^15.6.0"
-    fbjs "^0.8.9"
-    loose-envify "^1.1.0"
-    object-assign "^4.1.0"
-    prop-types "^15.5.10"
 
 read-all-stream@^3.0.0:
   version "3.1.0"
@@ -6658,11 +6630,11 @@ rx-lite@*, rx-lite@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/rx-lite/-/rx-lite-4.0.8.tgz#0b1e11af8bc44836f04a6407e92da42467b79444"
 
-safe-buffer@5.0.1:
+safe-buffer@5.0.1, safe-buffer@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.0.1.tgz#d263ca54696cd8a306b5ca6551e92de57918fbe7"
 
-safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
+safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853"
 
@@ -6949,15 +6921,9 @@ source-map-resolve@^0.3.0:
     source-map-url "~0.3.0"
     urix "~0.1.0"
 
-source-map-support@0.4.15:
+source-map-support@0.4.15, source-map-support@^0.4.15:
   version "0.4.15"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.15.tgz#03202df65c06d2bd8c7ec2362a193056fef8d3b1"
-  dependencies:
-    source-map "^0.5.6"
-
-source-map-support@^0.4.15:
-  version "0.4.17"
-  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.17.tgz#6f2150553e6375375d0ccb3180502b78c18ba430"
   dependencies:
     source-map "^0.5.6"
 
@@ -7919,6 +7885,16 @@ vinyl@^2.0.0:
     remove-trailing-separator "^1.0.1"
     replace-ext "^1.0.0"
 
+vis@^4.18.1:
+  version "4.20.1"
+  resolved "https://registry.yarnpkg.com/vis/-/vis-4.20.1.tgz#67e92edafe72da63b15c9302991af9edf2f86619"
+  dependencies:
+    emitter-component "^1.1.1"
+    hammerjs "^2.0.8"
+    keycharm "^0.2.0"
+    moment "^2.18.1"
+    propagating-hammerjs "^1.4.6"
+
 vm-browserify@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-0.0.4.tgz#5d7ea45bbef9e4a6ff65f95438e0a87c357d5a73"
@@ -8005,13 +7981,9 @@ what-input@^4.0.3:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/what-input/-/what-input-4.3.1.tgz#b8ea7554ba1d9171887c4c6addf28185fec3d31d"
 
-whatwg-fetch@2.0.2:
+whatwg-fetch@2.0.2, whatwg-fetch@>=0.10.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.2.tgz#fe294d1d89e36c5be8b3195057f2e4bc74fc980e"
-
-whatwg-fetch@>=0.10.0:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.3.tgz#9c84ec2dcf68187ff00bc64e1274b442176e1c84"
 
 whet.extend@~0.9.9:
   version "0.9.9"
