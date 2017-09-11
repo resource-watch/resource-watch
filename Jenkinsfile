@@ -36,14 +36,14 @@ node {
 
         // Roll out to staging
         case "develop":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} Dockerfile-staging")
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${dockerUsername}/${appName}:latest Dockerfile-staging")
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} -f Dockerfile-staging .")
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${dockerUsername}/${appName}:latest -f Dockerfile-staging .")
           break
 
         // Roll out to production
         case "master":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} Dockerfile-prod")
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${dockerUsername}/${appName}:latest Dockerfile-prod")
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} -f Dockerfile-prod .")
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${dockerUsername}/${appName}:latest -f Dockerfile-prod .")
           break
         default:
           sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} .")
