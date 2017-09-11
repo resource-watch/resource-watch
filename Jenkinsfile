@@ -49,6 +49,7 @@ node {
           sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} .")
           sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${dockerUsername}/${appName}:latest .")
           break
+      }
     }
 
     stage ('Run Tests') {
