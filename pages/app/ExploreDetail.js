@@ -41,7 +41,9 @@ class ExploreDetail extends Page {
       similarDatasets: [],
       dataset: null,
       loading: false,
-      showDescription: false
+      showDescription: false,
+      showFunction: false,
+      showCautions: false
     };
 
     // DatasetService
@@ -185,7 +187,7 @@ class ExploreDetail extends Page {
       return localText;
     }
 
-    const fieldVisibility = this.state.showDescription || false;
+    const fieldVisibility = this.state[fieldToManage] || false;
     const initialText = localText.substr(0, limitChar);
     const leftText = localText.substr(limitChar, localText.length - initialText.length);
 
@@ -218,8 +220,11 @@ class ExploreDetail extends Page {
     const metadataAttributes = (metadata && metadata.attributes) || {};
     const metadataInfo = (metadataAttributes && metadataAttributes.info) || {};
     const { description } = metadataAttributes;
+    const { functions, cautions } = metadataInfo;
 
     const formattedDescription = this.shortenerText(description, 'showDescription', LIMIT_CHAR_DESCRIPTION);
+    const formattedFunctions = this.shortenerText(functions, 'showFunction', LIMIT_CHAR_DESCRIPTION);
+    const formattedCautions = this.shortenerText(cautions, 'showCautions', LIMIT_CHAR_DESCRIPTION);
 
     return (
       <Layout
@@ -330,17 +335,17 @@ class ExploreDetail extends Page {
           <section className="l-section">
             <div className="row">
               <div className="column small-12 medium-7">
-                {metadataInfo && metadataInfo.functions ? (
+                {functions ? (
                   <div className="l-section-mod">
                     <h3>Function</h3>
-                    <p>{metadataInfo && metadataInfo.functions}</p>
+                    <p>{formattedFunctions}</p>
                   </div>
                 ) : null}
 
-                {metadataInfo && metadataInfo.cautions ? (
+                {cautions ? (
                   <div className="l-section-mod">
                     <h3>Cautions</h3>
-                    <p>{metadataInfo && metadataInfo.cautions}</p>
+                    <p>{formattedCautions}</p>
                   </div>
                 ) : null}
 
