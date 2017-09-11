@@ -29,16 +29,16 @@
     .c-tree-selector{
       width: 100%;
 
-      &:not(:last-of-type) {
-        margin-right: 10px;
+
+      &:not(first-child) {
+        margin: 15px 0 0;
       }
 
       .dropdown {
 
         .dropdown-trigger {
           width: 100%;
-          max-height: 45px;
-          height: 45px;
+          min-height: 45px;
         }
 
         .dropdown-content {

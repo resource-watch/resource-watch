@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { Autobind } from 'es-decorators';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
@@ -44,7 +45,6 @@ import Legend from 'components/ui/Legend';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
 import SearchInput from 'components/ui/SearchInput';
-import FiltersResume from 'components/app/explore/FiltersResume';
 
 // Layout
 import Page from 'components/app/layout/Page';
@@ -69,11 +69,7 @@ class Explore extends Page {
     super(props);
 
     this.state = {
-      filters: {
-        topics: [],
-        geographies: [],
-        dataTypes: []
-      }
+      showFilters: false
     };
 
     // Services
@@ -273,6 +269,17 @@ class Explore extends Page {
           />,
           element);
       });
+
+    const hasSelectedValues = [
+      ...(dataType || []),
+      ...(geographies || []),
+      ...(topics || [])
+    ].length;
+
+    // updates filters visibility based on selected values
+    this.setState({
+      showFilters: hasSelectedValues
+    });
   }
 
   selectElementsFromTree(tree = {}, elements = []) { // eslint-disable-line class-methods-use-this
@@ -378,11 +385,21 @@ class Explore extends Page {
     return filter && filter.value;
   }
 
+  toggleFilters() {
+    this.setState({
+      showFilters: !this.state.showFilters
+    });
+  }
+
   render() {
     const { explore, paginatedDatasets } = this.props;
     const { search } = explore.filters;
-    const { filters } = this.state;
-    const { topics, geographies, dataTypes } = filters;
+    const { showFilters } = this.state;
+
+    const buttonFilterContent = showFilters ? 'Hide filters' : 'Show filters';
+    const filterContainerClass = classnames('filters-container', {
+      '_is-hidden': !showFilters
+    });
 
     return (
       <Layout
@@ -406,24 +423,32 @@ class Explore extends Page {
                       }}
                     />
                   </div>
-                  <div className="filters-container">
+                  <div className="buttons -align-right">
+                    <button
+                      className="c-button"
+                      onClick={() => this.toggleFilters()}
+                    >
+                      {buttonFilterContent}
+                    </button>
+                  </div>
+                  <div className={filterContainerClass}>
                     <div className="row">
-                      <div className="column medium-4">
+                      <div className="column small-12">
                         <div className="c-tree-selector -explore topics-selector" />
                       </div>
-                      <div className="column medium-4">
+                      <div className="column small-12">
                         <div className="c-tree-selector -explore geographies-selector " />
                       </div>
-                      <div className="column medium-4">
+                      <div className="column small-12">
                         <div className="c-tree-selector -explore data-types-selector" />
                       </div>
                     </div>
                   </div>
-                  <FiltersResume
+                  {/* <FiltersResume
                     topics={topics}
                     geographies={geographies}
                     dataTypes={dataTypes}
-                  />
+                  /> */}
                   <DatasetListHeader
                     list={explore.datasets.list}
                     mode={explore.datasets.mode}
