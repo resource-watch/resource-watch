@@ -99,11 +99,11 @@ class TagsForm extends React.Component {
   */
   @Autobind
   handleSubmit() {
-    const { dataset } = this.props;
+    const { dataset, user } = this.props;
     const { selectedTags } = this.state;
 
     this.setState({ loading: true });
-    this.graphService.updateDatasetTags(dataset, selectedTags)
+    this.graphService.updateDatasetTags(dataset, selectedTags, user.token)
       .then(() => {
         toastr.success('Success', 'Tags updated successfully');
         this.setState({ loading: false });
@@ -225,7 +225,8 @@ class TagsForm extends React.Component {
 }
 
 TagsForm.propTypes = {
-  dataset: PropTypes.string.isRequired
+  dataset: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 export default TagsForm;

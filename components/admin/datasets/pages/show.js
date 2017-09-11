@@ -105,6 +105,7 @@ class DatasetsShow extends React.Component {
                   />
                   <TagsForm
                     dataset={id}
+                    user={user}
                   />
                 </div>
               }
