@@ -14,7 +14,6 @@ import GraphService from 'services/GraphService';
 
 const graphOptions = {
   height: '100%',
-  width: '100%',
   layout: {
     hierarchical: false
   },
