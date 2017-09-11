@@ -44,24 +44,29 @@ class ToolbarWidgetBtn extends React.Component {
   */
   onChange = (id) => {
     const { quill } = this.props;
-    // Focus on the editor
-    quill.focus();
 
-    // Add widget embed
-    const cursorPosition = (quill.getSelection()) ? quill.getSelection().index : 0;
+    if (quill) {
+      // Focus on the editor
+      quill.focus();
 
-    // { src: `/embed/widget/${id}`, height: 410, width: 500 }
+      // Add widget embed
+      const cursorPosition = (quill.getSelection()) ? quill.getSelection().index : 0;
 
-    quill.insertEmbed(cursorPosition, 'iframe', {
-      src: `/embed/widget/${id}`,
-      width: 500,
-      height: 500
-    });
+      // { src: `/embed/widget/${id}`, height: 410, width: 500 }
 
-    quill.setSelection(cursorPosition + 1);
+      quill.insertEmbed(cursorPosition, 'iframe', {
+        src: `/embed/widget/${id}`,
+        width: 500,
+        height: 500
+      });
 
-    // Hide dropdown
-    this.onToggleDropdown(false);
+      quill.setSelection(cursorPosition + 1);
+
+      // Hide dropdown
+      this.onToggleDropdown(false);
+    } else {
+      toastr.error('Quill is not defined');
+    }
   }
 
   // This function is debounced. If you don't do that insane things will happen
