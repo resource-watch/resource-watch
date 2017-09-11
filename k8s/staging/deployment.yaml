@@ -25,8 +25,6 @@ spec:
       - name: {name}
         image: vizzuality/{name}
         imagePullPolicy: Always
-        args:
-          - start
         resources:
           requests:
             memory: "0Mi"

@@ -21,15 +21,11 @@ spec:
       - name: {name}
         image: vizzuality/{name}
         imagePullPolicy: Always
-        args:
-          - start
         resources:
           requests:
             memory: "128Mi"
           limits:
             memory: "1Gi"
-        args:
-          - start
         env:
           - name: APIGATEWAY_URL
             value: "http://35.190.38.44"
