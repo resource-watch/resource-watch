@@ -29,7 +29,7 @@ class EmbedWidget extends Page {
   }
 
   isLoadedExternally() {
-    return !!(this.props.referer.indexOf('localhost') < 0);
+    return /localhost|staging.resourcewatch.org/.test(this.props.referer);
   }
 
   constructor(props) {
