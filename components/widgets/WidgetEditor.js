@@ -782,7 +782,8 @@ class WidgetEditor extends React.Component {
                   </div>
                 </div>
                 {
-                  selectedVisualizationType === 'chart'
+                  (selectedVisualizationType === 'chart' ||
+                  selectedVisualizationType === 'table')
                     && !fieldsError && tableName
                     && (
                       <ChartEditor
