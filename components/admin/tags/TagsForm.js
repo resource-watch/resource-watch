@@ -73,7 +73,8 @@ class TagsForm extends React.Component {
           edges: data.edges.map(elem => ({
             from: elem.source,
             to: elem.target,
-            label: elem.relType })),
+            label: elem.relType,
+            font: { size: 8 } })),
           nodes: data.nodes.map(elem => ({ id: elem.id, label: elem.label }))
         };
       });
@@ -129,6 +130,9 @@ class TagsForm extends React.Component {
   }
   loadInferredTags() {
     const { selectedTags } = this.state;
+    this.setState({
+      loadingInferredTags: true
+    });
     if (selectedTags.length > 0) {
       this.graphService.getInferredTags(selectedTags)
         .then((response) => {
@@ -143,17 +147,20 @@ class TagsForm extends React.Component {
           console.error(err);
         });
     } else {
-      this.setState({ inferredTags: [] });
+      this.setState({
+        inferredTags: [],
+        loadingInferredTags: false
+      });
     }
   }
 
   render() {
-    const { tags, selectedTags, inferredTags, graph } = this.state;
+    const { tags, selectedTags, inferredTags, graph, loading, loadingInferredTags } = this.state;
     return (
-      <div>
+      <div className="c-tags-form">
         <Spinner
           className="-light"
-          isLoading={this.state.loading}
+          isLoading={loading}
         />
         <Field
           onChange={value => this.handleTagsChange(value)}
@@ -169,16 +176,21 @@ class TagsForm extends React.Component {
           {Select}
         </Field>
         <h5>Inferred tags:</h5>
-        <div>
+        <div className="inferred-tags">
           {inferredTags.map(tag =>
-            (<span
-              className="inferred-tag"
+            (<div
+              className="tag"
+              key={tag.id}
             >
               {tag.label}
-            </span>)
+            </div>)
           )}
         </div>
         <div className="graph-div">
+          <Spinner
+            className="-light -relative"
+            isLoading={loadingInferredTags}
+          />
           {graph &&
             <Graph
               graph={graph}

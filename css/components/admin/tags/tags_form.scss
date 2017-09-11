@@ -1,0 +1,21 @@
+.c-tags-form {
+
+  .inferred-tags {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    max-height: 200px;
+
+    .tag {
+      border: 1px solid $light-grey;
+      background: $porcelain;
+      border-radius: 4px;
+      padding: 5px;
+      margin: 5px;
+
+      &.selected {
+        background: $dark-pink;
+      }
+    }
+  }
+}
