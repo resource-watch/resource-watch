@@ -9,6 +9,7 @@
   "dependencies": {
     "autoprefixer": "7.1.0",
     "babel-core": "6.22.1",
+    "babel-plugin-add-react-displayname": "^0.0.4",
     "babel-plugin-module-resolver": "2.6.2",
     "babel-plugin-transform-decorators-legacy": "1.3.4",
     "babel-plugin-wrap-in-js": "1.1.1",
@@ -26,8 +27,6 @@
     "d3": "3.5.17",
     "datalib": "1.7.3",
     "dotenv": "4.0.0",
-    "draft-js": "0.10.x",
-    "draftjs-to-html": "0.7.4",
     "es-decorators": "1.0.0",
     "esri-leaflet": "2.0.8",
     "express": "4.14.0",
@@ -36,7 +35,6 @@
     "file-loader": "0.11.1",
     "foundation-sites": "6.3.1",
     "glob": "7.1.1",
-    "html-to-draftjs": "git+https://github.com/mbarrenechea/html-to-draftjs.git",
     "image-webpack-loader": "3.3.1",
     "immutable": "3.8.1",
     "isomorphic-fetch": "2.2.1",
@@ -55,6 +53,7 @@
     "nodemon": "1.11.0",
     "normalize.css": "7.0.0",
     "now-logs": "0.0.7",
+    "opbeat-react": "^3.4.0",
     "orm": "3.2.3",
     "passport": "0.3.2",
     "passport-control-tower": "0.1.4",
@@ -73,11 +72,11 @@
     "react-dnd": "2.4.0",
     "react-dnd-html5-backend": "2.4.1",
     "react-dom": "15.5.4",
-    "react-draft-wysiwyg": "1.10.7",
     "react-dropdown-tree-select": "0.0.1-beta.11",
     "react-dropzone": "3.13.3",
     "react-input-range": "1.1.4",
     "react-progress-2": "4.4.1",
+    "react-quill": "^1.1.0",
     "react-redux": "5.0.5",
     "react-redux-toastr": "7.0.0",
     "react-render-html": "0.5.0",
@@ -91,6 +90,7 @@
     "react-upload-file": "2.0.0-beta.6",
     "redis": "2.8.0",
     "redux": "3.6.0",
+    "redux-devtools-extension": "^2.13.2",
     "redux-thunk": "2.1.0",
     "reselect": "3.0.1",
     "sass-loader": "6.0.6",
@@ -116,7 +116,7 @@
     "start": "node index.js"
   },
   "engines": {
-    "node": "8.1.x"
+    "node": "8.x.x"
   },
   "false": {}
 }

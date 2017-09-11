@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { AtomicBlockUtils } from 'draft-js';
-
 import { toastr } from 'react-redux-toastr';
 
 // Services
@@ -12,11 +10,6 @@ import WidgetsService from 'services/WidgetsService';
 import TetherComponent from 'react-tether';
 
 class ToolbarWidgetBtn extends React.Component {
-  static propTypes = {
-    editorState: PropTypes.object,
-    onChange: PropTypes.func
-  };
-
   constructor(props) {
     super(props);
 
@@ -50,20 +43,24 @@ class ToolbarWidgetBtn extends React.Component {
    * - onScreenClick
   */
   onChange = (id) => {
-    const { editorState } = this.props;
-    const entityKey = editorState
-      .getCurrentContent()
-      // If I try to use relative urls draftToHtml library won't parse the src...
-      .createEntity('EMBEDDED_LINK', 'MUTABLE', { src: `/embed/widget/${id}`, height: 410, width: 500 })
-      .getLastCreatedEntityKey();
+    const { quill } = this.props;
+    // Focus on the editor
+    quill.focus();
 
-    const newEditorState = AtomicBlockUtils.insertAtomicBlock(
-      editorState,
-      entityKey,
-      ' ',
-    );
+    // Add widget embed
+    const cursorPosition = (quill.getSelection()) ? quill.getSelection().index : 0;
 
-    this.props.onChange(newEditorState);
+    // { src: `/embed/widget/${id}`, height: 410, width: 500 }
+
+    quill.insertEmbed(cursorPosition, 'iframe', {
+      src: `/embed/widget/${id}`,
+      width: 500,
+      height: 500
+    });
+
+    quill.setSelection(cursorPosition + 1);
+
+    // Hide dropdown
     this.onToggleDropdown(false);
   }
 
@@ -93,54 +90,56 @@ class ToolbarWidgetBtn extends React.Component {
 
   render() {
     return (
-      <div className="rdw-custom-wrapper">
-        <TetherComponent
-          attachment="top center"
-          constraints={[{
-            to: 'window'
-          }]}
-          targetOffset="10px 0"
-          classes={{
-            element: 'c-tooltip -arrow-top'
-          }}
+      <TetherComponent
+        attachment="top center"
+        constraints={[{
+          to: 'window'
+        }]}
+        targetOffset="10px 0"
+        classes={{
+          element: 'c-tooltip -arrow-top'
+        }}
+      >
+        {/* First child: This is what the item will be tethered to */}
+        <span
+          className="c-button -secondary -compressed"
+          onClick={() => this.onToggleDropdown(true)}
         >
-          {/* First child: This is what the item will be tethered to */}
-          <button
-            type="button"
-            className="c-button -secondary -compressed"
-            onClick={() => this.onToggleDropdown(true)}
-          >
-            Add widget
-          </button>
+          Add widget
+        </span>
 
-          {/* Second child: If present, this item will be tethered to the the first child */}
-          {this.state.active &&
-            <div className="c-widget-tooltip-list">
-              <div className="tooltip-content">
-                <ul className="tooltip-list">
-                  {this.state.widgets.map(w =>
-                    (
-                      <li
-                        key={w.id}
+        {/* Second child: If present, this item will be tethered to the the first child */}
+        {this.state.active &&
+          <div className="c-widget-tooltip-list">
+            <div className="tooltip-content">
+              <ul className="tooltip-list">
+                {this.state.widgets.map(w =>
+                  (
+                    <li
+                      key={w.id}
+                    >
+                      <div
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => { this.onChange(w.id); }}
                       >
-                        <div
-                          role="button"
-                          tabIndex={0}
-                          onClick={() => { this.onChange(w.id); }}
-                        >
-                          {w.name}
-                        </div>
-                      </li>
-                    )
-                  )}
-                </ul>
-              </div>
+                        {w.name}
+                      </div>
+                    </li>
+                  )
+                )}
+              </ul>
             </div>
-          }
-        </TetherComponent>
-      </div>
+          </div>
+        }
+      </TetherComponent>
     );
   }
 }
+
+ToolbarWidgetBtn.propTypes = {
+  quill: PropTypes.any // ???
+};
+
 
 export default ToolbarWidgetBtn;

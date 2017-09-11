@@ -8,7 +8,6 @@ const filters = state => state.explore.filters;
 const getFilteredDatasets = (_list, _filters) => {
   const search = _filters.search;
   const datasetsFilteredByConcepts = _filters.datasetsFilteredByConcepts;
-
   return _list.filter((it) => {
     let searchFilterPassed = false;
     let conceptsCheckPassed = true;
@@ -20,10 +19,8 @@ const getFilteredDatasets = (_list, _filters) => {
             searchFilterPassed = true;
           }
         }
-      } else {
-        if (it.attributes.name.toLowerCase().match(search.value.toLowerCase())) {
-          searchFilterPassed = true;
-        }
+      } else if (it.attributes.name.toLowerCase().match(search.value.toLowerCase())) {
+        searchFilterPassed = true;
       }
     }
 

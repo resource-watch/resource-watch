@@ -29,6 +29,9 @@ import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
 
+// constants
+const LIMIT_CHAR_DESCRIPTION = 1120;
+
 class ExploreDetail extends Page {
   constructor(props) {
     super(props);
@@ -37,7 +40,10 @@ class ExploreDetail extends Page {
       similarDatasetsLoaded: false,
       similarDatasets: [],
       dataset: null,
-      loading: false
+      loading: false,
+      showDescription: false,
+      showFunction: false,
+      showCautions: false
     };
 
     // DatasetService
@@ -95,7 +101,8 @@ class ExploreDetail extends Page {
           loading: false
         });
       }).catch((error) => {
-        toastr.error('Error', error);
+        toastr.error('Error', 'Unable to load the dataset');
+        console.error(error);
         this.setState({
           loading: false
         });
@@ -174,12 +181,50 @@ class ExploreDetail extends Page {
     this.props.setModalOptions(options);
   }
 
+  shortenerText(text = '', fieldToManage, limitChar = 0) {
+    const localText = text || '';
+    if ((localText || '').length <= limitChar) {
+      return localText;
+    }
+
+    const fieldVisibility = this.state[fieldToManage] || false;
+    const initialText = localText.substr(0, limitChar);
+    const leftText = localText.substr(limitChar, localText.length - initialText.length);
+
+    return (
+      <div className="shortened-text">
+        <span>{initialText}</span>
+        {!fieldVisibility && <span>...</span>}
+        {!fieldVisibility && <button
+          className="read-more"
+          onClick={() => this.setState({ [fieldToManage]: true })}
+        >
+          Read more
+        </button>}
+        {fieldVisibility &&
+          <span>{leftText}</span>}
+        {fieldVisibility && <button
+          className="read-more -less"
+          onClick={() => this.setState({ [fieldToManage]: false })}
+        >
+          Read less
+        </button>}
+      </div>
+    );
+  }
+
   render() {
     const { dataset, loading, similarDatasets, similarDatasetsLoaded } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
-    const metadataAttributes = metadata && metadata.attributes;
-    const metadataInfo = metadataAttributes && metadataAttributes.info;
+    const metadataAttributes = (metadata && metadata.attributes) || {};
+    const metadataInfo = (metadataAttributes && metadataAttributes.info) || {};
+    const { description } = metadataAttributes;
+    const { functions, cautions } = metadataInfo;
+
+    const formattedDescription = this.shortenerText(description, 'showDescription', LIMIT_CHAR_DESCRIPTION);
+    const formattedFunctions = this.shortenerText(functions, 'showFunction', LIMIT_CHAR_DESCRIPTION);
+    const formattedCautions = this.shortenerText(cautions, 'showCautions', LIMIT_CHAR_DESCRIPTION);
 
     return (
       <Layout
@@ -225,7 +270,7 @@ class ExploreDetail extends Page {
                 <div className="column small-12 medium-7">
                   {/* Description */}
                   <div className="dataset-info-description">
-                    {metadataAttributes && metadataAttributes.description}
+                    {formattedDescription}
                   </div>
                 </div>
                 <div className="column large-offset-2 small-12 medium-3">
@@ -260,7 +305,8 @@ class ExploreDetail extends Page {
                         Learn more
                       </a>
                     }
-                    {dataset && dataset.attributes && dataset.attributes.subscribable && this.props.user.id &&
+                    {dataset && dataset.attributes && dataset.attributes.subscribable
+                      && this.props.user.id &&
                       <button
                         className="c-button -secondary -fullwidth"
                         onClick={this.handleSubscribe}
@@ -289,17 +335,17 @@ class ExploreDetail extends Page {
           <section className="l-section">
             <div className="row">
               <div className="column small-12 medium-7">
-                {metadataInfo && metadataInfo.functions ? (
+                {functions ? (
                   <div className="l-section-mod">
                     <h3>Function</h3>
-                    <p>{metadataInfo && metadataInfo.functions}</p>
+                    <p>{formattedFunctions}</p>
                   </div>
                 ) : null}
 
-                {metadataInfo && metadataInfo.cautions ? (
+                {cautions ? (
                   <div className="l-section-mod">
                     <h3>Cautions</h3>
-                    <p>{metadataInfo && metadataInfo.cautions}</p>
+                    <p>{formattedCautions}</p>
                   </div>
                 ) : null}
 
@@ -425,6 +471,8 @@ class ExploreDetail extends Page {
 
 ExploreDetail.propTypes = {
   url: PropTypes.object.isRequired,
+  // Store
+  user: PropTypes.object,
   // ACTIONS
   resetDataset: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
@@ -432,6 +480,7 @@ ExploreDetail.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  user: state.user,
   exploreDetail: state.exploreDetail,
   layersShown: updateLayersShown(state)
 });

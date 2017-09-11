@@ -1,6 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
 import renderHTML from 'react-render-html';
+import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
 
 // Router
 import { Router } from 'routes';
@@ -45,7 +47,7 @@ class DashboardsDetail extends Page {
   * - componentWillReceiveProps
   */
   async componentDidMount() {
-    await this.props.getFavourites();
+    if (!isEmpty(this.props.user)) await this.props.getFavourites();
     this.props.getPublicDashboards();
     this.props.getDashboard(this.props.url.query.slug);
   }
@@ -88,6 +90,7 @@ class DashboardsDetail extends Page {
   }
 
   render() {
+    console.log('render');
     const { url, user, dashboards, dashboardDetail } = this.props;
     const selectedDashboard = dashboardDetail.data;
     const dashboardName = selectedDashboard ? `${selectedDashboard.name} dashboard` : 'Dashboard';
@@ -122,7 +125,7 @@ class DashboardsDetail extends Page {
               </div>
             </div>
 
-            <div className="row">
+            { dashboards.list.length && <div className="row">
               <div className="column small-12">
                 <ul className="dashboards-list">
                   {
@@ -154,9 +157,9 @@ class DashboardsDetail extends Page {
                   }
                 </ul>
               </div>
-            </div>
+            </div> }
 
-            <div className="row">
+            { dashboards.error && <div className="row">
               <div className="column small-12">
                 { dashboards.error && (
                   <p className="error">{dashboards.error}</p>
@@ -168,7 +171,7 @@ class DashboardsDetail extends Page {
                   </div>
                 ) }
               </div>
-            </div>
+            </div> }
           </div>
         </section>
 
@@ -191,7 +194,7 @@ class DashboardsDetail extends Page {
               </div>
             ) }
             { selectedDashboard && !selectedDashboard.widgets && (
-              <div className="user-content column small-12 large-8 large-offset-2">
+              <div className="user-content column small-12">
                 {renderHTML(selectedDashboard.content || '')}
               </div>
             ) }

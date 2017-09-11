@@ -1,7 +1,5 @@
 import 'isomorphic-fetch';
-import _ from 'lodash';
 import Promise from 'bluebird';
-
 
 // Utils
 import { isFieldDate, isFieldNumber } from 'utils/widgets/WidgetHelper';
@@ -60,18 +58,30 @@ export default class DatasetService {
 
   /**
    * Get Jiminy chart suggestions
-   * @returns {Promise}
+   * NOTE: the API might be really slow to give a result (or even fail
+   * to do so) so a timeout is necessary
+   * @param {string} query - SQL query to pass to Jiminy
+   * @param {number} [timeout=10000] Timeout before rejecting the provise
+   * @returns {Promise<any>}
    */
-  fetchJiminy(query) {
-    return fetch(`${this.opts.apiURL}/jiminy`, {
-      method: 'POST',
-      body: JSON.stringify({ sql: query }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(jsonData => jsonData.data);
+  fetchJiminy(query, timeout = 10000) {
+    return new Promise((resolve, reject) => {
+      // If the timeout time has elapsed, we reject
+      // the promise
+      setTimeout(reject, timeout);
+
+      fetch(`${this.opts.apiURL}/jiminy`, {
+        method: 'POST',
+        body: JSON.stringify({ sql: query }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then(jsonData => jsonData.data)
+        .then(resolve)
+        .catch(reject);
+    });
   }
 
 
@@ -100,14 +110,14 @@ export default class DatasetService {
     return new Promise((resolve) => {
       this.getFields().then((fieldsData) => {
         const filteredFields = fieldsData.fields.filter(field => field.columnType === 'number' || field.columnType === 'date' || field.columnType === 'string');
-        const promises = _.map(filteredFields, (field) => {
+        const promises = (filteredFields || []).map(field => {
           if (field.columnType === 'number' || field.columnType === 'date') {
             return this.getMinAndMax(field.columnName, fieldsData.tableName);
           }
           return this.getValues(field.columnName, fieldsData.tableName);
         });
         Promise.all(promises).then((results) => {
-          const filters = _.map(filteredFields, (field, index) => {
+          const filters = (filteredFields || []).map((field, index) => {
             const filterResult = {
               columnName: field.columnName,
               columnType: field.columnType
@@ -131,11 +141,12 @@ export default class DatasetService {
     return fetch(`${this.opts.apiURL}/fields/${this.datasetId}`)
       .then(response => response.json())
       .then((jsonData) => {
+        const fieldsObj = jsonData.fields;
         const parsedData = {
           tableName: jsonData.tableName,
-          fields: _.map(jsonData.fields, (value, key) => ({
+          fields: (Object.keys(fieldsObj) || []).map(key => ({
             columnName: key,
-            columnType: value.type
+            columnType: fieldsObj[key].type
           }))
         };
         return parsedData;
@@ -174,7 +185,7 @@ export default class DatasetService {
       fetch(`https://api.resourcewatch.org/v1/query/${this.datasetId}?sql=${query}`)
         .then(response => response.json())
         .then((jsonData) => {
-          const parsedData = _.map(jsonData.data, data => data[columnName]);
+          const parsedData = (jsonData.data || []).map(data => data[columnName]);
           resolve(parsedData);
         });
     });
