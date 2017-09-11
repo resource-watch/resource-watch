@@ -22,7 +22,11 @@
   }
 
   .graph-div {
-    border: 1px solid $light-grey;
+    
+    .vis-network {
+      border: 1px solid $light-grey;
+      max-width: 100%;
+    }
   }
 
   .actions-div {
