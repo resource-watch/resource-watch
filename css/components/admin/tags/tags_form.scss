@@ -5,6 +5,8 @@
     justify-content: flex-start;
     flex-wrap: wrap;
     max-height: 200px;
+    margin-bottom: 20px;
+    overflow: auto;
 
     .tag {
       border: 1px solid $light-grey;
@@ -12,10 +14,10 @@
       border-radius: 4px;
       padding: 5px;
       margin: 5px;
-
-      &.selected {
-        background: $dark-pink;
-      }
     }
+  }
+
+  .graph-div {
+    border: 1px solid $light-grey;
   }
 }
