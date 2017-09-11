@@ -1,5 +1,9 @@
 .c-tags-form {
 
+  .Select {
+    min-width: 100%;
+  }
+
   .inferred-tags {
     display: flex;
     justify-content: flex-start;
@@ -19,5 +23,10 @@
 
   .graph-div {
     border: 1px solid $light-grey;
+  }
+
+  .actions-div {
+    display: flex;
+    justify-content: flex-end;
   }
 }

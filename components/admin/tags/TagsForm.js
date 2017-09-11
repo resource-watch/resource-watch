@@ -99,7 +99,20 @@ class TagsForm extends React.Component {
   */
   @Autobind
   handleSubmit() {
+    const { dataset } = this.props;
+    const { selectedTags } = this.state;
+
     this.setState({ loading: true });
+    this.graphService.updateDatasetTags(dataset, selectedTags)
+      .then(() => {
+        toastr.success('Success', 'Tags updated successfully');
+        this.setState({ loading: false });
+      })
+      .catch((err) => {
+        toastr.error('Error updating the tags');
+        console.error(err);
+        this.setState({ loading: false });
+      });
   }
   @Autobind
   handleTagsChange(value) {
@@ -196,6 +209,15 @@ class TagsForm extends React.Component {
               options={graphOptions}
             />
           }
+        </div>
+        <div className="actions-div">
+          <button
+            type="submit"
+            className="c-btn -a"
+            onClick={this.handleSubmit}
+          >
+            Submit
+          </button>
         </div>
       </div>
     );

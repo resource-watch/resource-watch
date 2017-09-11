@@ -32,4 +32,24 @@ export default class GraphService {
       .then(response => response.json())
       .then(response => response.data);
   }
+
+  /**
+  * Update dataset tags
+  */
+  updateDatasetTags(datasetId, tags) {
+    const bodyObj = {
+      knowledge_graph: {
+        tags
+      }
+    };
+    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/vocabulary`, {
+      method: 'POST',
+      body: bodyObj,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(jsonData => jsonData.data);
+  }
 }
