@@ -51,8 +51,8 @@ class TagsForm extends React.Component {
   loadDatasetTags() {
     this.graphService.getDatasetTags(this.props.dataset)
       .then((response) => {
-        const datasetTags = response
-          .find(elem => elem.id === 'knowledge_graph').attributes.tags;
+        const knowledgeGraphVoc = response.find(elem => elem.id === 'knowledge_graph');
+        const datasetTags = knowledgeGraphVoc ? knowledgeGraphVoc.attributes.tags : [];
         this.setState({
           selectedTags: datasetTags
         }, () => this.loadInferredTags());
