@@ -46,6 +46,22 @@ class TagsForm extends React.Component {
   componentDidMount() {
     this.loadAllTags();
     this.loadKnowledgeGraph();
+    this.loadDatasetTags();
+  }
+
+  loadDatasetTags() {
+    this.graphService.getDatasetTags(this.props.dataset)
+      .then((response) => {
+        const datasetTags = response
+          .find(elem => elem.id === 'knowledge_graph').attributes.tags;
+        this.setState({
+          selectedTags: datasetTags
+        }, () => this.loadInferredTags());
+      })
+      .catch((err) => {
+        toastr.error('Error loading the dataset tags');
+        console.error(err);
+      });
   }
 
   loadKnowledgeGraph() {
@@ -54,7 +70,10 @@ class TagsForm extends React.Component {
       .then(response => response.json())
       .then((data) => {
         this.knowledgeGraph = {
-          edges: data.edges.map(elem => ({ from: elem.source, to: elem.target, label: elem.relType })),
+          edges: data.edges.map(elem => ({
+            from: elem.source,
+            to: elem.target,
+            label: elem.relType })),
           nodes: data.nodes.map(elem => ({ id: elem.id, label: elem.label }))
         };
       });
@@ -152,7 +171,11 @@ class TagsForm extends React.Component {
         <h5>Inferred tags:</h5>
         <div>
           {inferredTags.map(tag =>
-            <label> {tag.label} </label>
+            (<span
+              className="inferred-tag"
+            >
+              {tag.label}
+            </span>)
           )}
         </div>
         <div className="graph-div">
@@ -169,6 +192,7 @@ class TagsForm extends React.Component {
 }
 
 TagsForm.propTypes = {
+  dataset: PropTypes.string.isRequired
 };
 
 export default TagsForm;

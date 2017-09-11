@@ -23,4 +23,13 @@ export default class GraphService {
       .then(response => response.json())
       .then(response => response.data);
   }
+
+  /**
+  * Get dataset tags
+  */
+  getDatasetTags(datasetId) {
+    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/vocabulary`)
+      .then(response => response.json())
+      .then(response => response.data);
+  }
 }
