@@ -24,7 +24,8 @@ import {
   setDatasetsTopicsFilter,
   setDatasetsGeographiesFilter,
   setDatasetsDataTypeFilter,
-  setDatasetsFilteredByConcepts
+  setDatasetsFilteredByConcepts,
+  setFiltersLoading
 } from 'redactions/explore';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
@@ -70,6 +71,12 @@ class Explore extends Page {
 
     this.state = {
       showFilters: false
+    };
+
+    this.filters = {
+      topics: [],
+      geographies: [],
+      dataTypes: []
     };
 
     // Services
@@ -127,13 +134,7 @@ class Explore extends Page {
       (newFilters.dataType && newFilters.dataType.length > 0) ||
       (newFilters.geographies && newFilters.geographies.length > 0);
 
-    if (conceptsUpdated && newFiltersHaveData) {
-      this.datasetService.searchDatasetsByConcepts(
-        newFilters.topics, newFilters.geographies, newFilters.dataType)
-        .then((datasetList) => {
-          this.props.setDatasetsFilteredByConcepts(datasetList[0]);
-        });
-    } else if (conceptsUpdated && !newFiltersHaveData) {
+    if (conceptsUpdated && !newFiltersHaveData) {
       this.props.setDatasetsFilteredByConcepts(null);
     }
   }
@@ -155,24 +156,25 @@ class Explore extends Page {
 
         const onChange = (currentNode, selectedNodes) => {
           const topicsVal = selectedNodes.map(val => val.value);
-          const topicLabels = selectedNodes.map(val => val.label);
+
+          this.filters.topics = topicsVal;
+
           this.props.setDatasetsTopicsFilter(topicsVal);
-          this.setState({
-            filters: { ...this.state.filters, topics: topicLabels }
-          });
         };
+
+
+        const debouncedOnChange = debounce(onChange, 1500);
 
         if (topics) {
           data.forEach(child => this.selectElementsFromTree(child, topics));
 
-          const topicLabels = JSON.parse(topics).map((type) => {
+          const topicsVal = JSON.parse(topics).map((type) => {
             const match = data.find(d => d.value === type) || {};
-            return match.label;
+            return match.value;
           });
 
-          this.setState({
-            filters: { ...this.state.filters, topics: topicLabels }
-          });
+          this.filters.topics = topicsVal;
+          console.log(this.filters.topics)
         }
 
         ReactDOM.render(
@@ -180,7 +182,7 @@ class Explore extends Page {
             showDropdown
             placeholderText="Topics"
             data={data}
-            onChange={onChange}
+            onChange={debouncedOnChange}
           />,
           element);
       });
@@ -193,30 +195,29 @@ class Explore extends Page {
 
         const onChange = (currentNode, selectedNodes) => {
           const dataTypesVal = selectedNodes.map(val => val.value);
-          const dataTypesLabels = selectedNodes.map(val => val.label);
-          this.setState({
-            filters: { ...this.state.filters, dataTypes: dataTypesLabels }
-          });
+
+          this.filters.dataTypes = dataTypesVal;
+
           this.props.setDatasetsDataTypeFilter(dataTypesVal);
         };
 
+        const debouncedOnChange = debounce(onChange, 1500);
+
         if (dataType) {
           data.forEach(child => this.selectElementsFromTree(child, dataType));
-          const dataTypesLabels = JSON.parse(dataType).map((type) => {
+          const dataTypesVal = JSON.parse(dataType).map((type) => {
             const match = data.find(d => d.value === type) || {};
-            return match.label;
+            return match.value;
           });
 
-          this.setState({
-            filters: { ...this.state.filters, dataTypes: dataTypesLabels }
-          });
+          this.filters.dataTypes = dataTypesVal;
         }
 
         ReactDOM.render(
           <DropdownTreeSelect
             data={data}
             placeholderText="Data types"
-            onChange={onChange}
+            onChange={debouncedOnChange}
           />,
           element);
       });
@@ -229,26 +230,27 @@ class Explore extends Page {
 
         const onChange = (currentNode, selectedNodes) => {
           const geographiesVal = selectedNodes.map(val => val.value);
-          const geographiesLabels = selectedNodes.map(val => val.label);
-          this.setState({
-            filters: { ...this.state.filters, geographies: geographiesLabels }
-          });
+
+          this.filters.geographies = geographiesVal;
+
           this.props.setDatasetsGeographiesFilter(geographiesVal);
         };
 
+        const debouncedOnChange = debounce(onChange, 1500);
+
         if (geographies) {
           data.forEach(child => this.selectElementsFromTree(child, JSON.parse(geographies)));
-          const geographyLabels = [];
+          const geographiesVal = [];
 
           const searchFunction = (item) => {
             data.forEach((d) => {
               if (d.value === item) {
-                geographyLabels.push(d.label);
+                geographiesVal.push(d.value);
               }
 
               if (d.children) {
                 d.children.forEach((child) => {
-                  if (child.value === item) geographyLabels.push(child.label);
+                  if (child.value === item) geographiesVal.push(child.value);
                 });
               }
             });
@@ -256,16 +258,14 @@ class Explore extends Page {
 
           JSON.parse(geographies).forEach(geography => searchFunction(geography));
 
-          this.setState({
-            filters: { ...this.state.filters, geographies: geographyLabels }
-          });
+          this.filters.geographies = geographiesVal;
         }
 
         ReactDOM.render(
           <DropdownTreeSelect
             data={data}
             placeholderText="Geographies"
-            onChange={onChange}
+            onChange={debouncedOnChange}
           />,
           element);
       });
@@ -385,6 +385,18 @@ class Explore extends Page {
     return filter && filter.value;
   }
 
+  onApplyFilters() {
+    const { topics, geographies, dataType } = this.filters;
+    this.props.setFiltersLoading(true);
+
+    this.datasetService.searchDatasetsByConcepts(
+      topics, geographies, dataType)
+      .then((datasetList) => {
+        this.props.setFiltersLoading(false);
+        this.props.setDatasetsFilteredByConcepts(datasetList[0]);
+      });
+  }
+
   toggleFilters() {
     this.setState({
       showFilters: !this.state.showFilters
@@ -425,6 +437,12 @@ class Explore extends Page {
                   </div>
                   <div className="buttons -align-right">
                     <button
+                      className="c-button secondary -compressed"
+                      onClick={() => this.onApplyFilters()}
+                    >
+                      Apply filters
+                    </button>
+                    <button
                       className="c-button"
                       onClick={() => this.toggleFilters()}
                     >
@@ -443,12 +461,11 @@ class Explore extends Page {
                         <div className="c-tree-selector -explore data-types-selector" />
                       </div>
                     </div>
+                    <Spinner
+                      isLoading={explore.filters.loading}
+                      className="-light"
+                    />
                   </div>
-                  {/* <FiltersResume
-                    topics={topics}
-                    geographies={geographies}
-                    dataTypes={dataTypes}
-                  /> */}
                   <DatasetListHeader
                     list={explore.datasets.list}
                     mode={explore.datasets.mode}
@@ -568,6 +585,7 @@ const mapDispatchToProps = dispatch => ({
   setDatasetsGeographiesFilter: geographies => dispatch(setDatasetsGeographiesFilter(geographies)),
   setDatasetsFilteredByConcepts: datasetList =>
     dispatch(setDatasetsFilteredByConcepts(datasetList)),
+  setFiltersLoading: isLoading => dispatch(setFiltersLoading(isLoading)),
   redirectTo: (url) => { dispatch(redirectTo(url)); },
   toggleModal: (open, options) => dispatch(toggleModal(open, options)),
   setModalOptions: (options) => { dispatch(setModalOptions(options)); },
