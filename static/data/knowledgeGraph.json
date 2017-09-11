@@ -7,17 +7,17 @@
     },
     {
       "source": "acidification",
-      "target": "climate",
-      "relType": "RELATED_TO"
-    },
-    {
-      "source": "acidification",
       "target": "ocean",
       "relType": "RELATED_TO"
     },
     {
       "source": "acidification",
       "target": "sea",
+      "relType": "RELATED_TO"
+    },
+    {
+      "source": "acidification",
+      "target": "climate",
       "relType": "RELATED_TO"
     },
     {
@@ -47,7 +47,7 @@
     },
     {
       "source": "adaptation",
-      "target": "damage",
+      "target": "vulnerability",
       "relType": "AFFECTS"
     },
     {
@@ -57,7 +57,7 @@
     },
     {
       "source": "adaptation",
-      "target": "vulnerability",
+      "target": "damage",
       "relType": "AFFECTS"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "source": "adaptive_capacity",
-      "target": "damage",
+      "target": "vulnerability",
       "relType": "AFFECTS"
     },
     {
@@ -77,12 +77,12 @@
     },
     {
       "source": "adaptive_capacity",
-      "target": "vulnerability",
+      "target": "damage",
       "relType": "AFFECTS"
     },
     {
       "source": "adaptive_capacity",
-      "target": "impact",
+      "target": "resilience",
       "relType": "AFFECTS"
     },
     {
@@ -92,7 +92,7 @@
     },
     {
       "source": "adaptive_capacity",
-      "target": "resilience",
+      "target": "impact",
       "relType": "AFFECTS"
     },
     {
@@ -127,12 +127,12 @@
     },
     {
       "source": "agriculture",
-      "target": "nutrients",
+      "target": "erosion",
       "relType": "AFFECTS"
     },
     {
       "source": "agriculture",
-      "target": "erosion",
+      "target": "nutrients",
       "relType": "AFFECTS"
     },
     {
@@ -187,12 +187,12 @@
     },
     {
       "source": "american_samoa",
-      "target": "unincorporated_territory",
+      "target": "island",
       "relType": "IS_A"
     },
     {
       "source": "american_samoa",
-      "target": "island",
+      "target": "unincorporated_territory",
       "relType": "IS_A"
     },
     {
@@ -272,12 +272,12 @@
     },
     {
       "source": "aquaculture",
-      "target": "deforestation",
+      "target": "land_use",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "aquaculture",
-      "target": "land_use",
+      "target": "deforestation",
       "relType": "CAN_AFFECT"
     },
     {
@@ -307,12 +307,12 @@
     },
     {
       "source": "aruba",
-      "target": "country",
+      "target": "island",
       "relType": "IS_A"
     },
     {
       "source": "aruba",
-      "target": "island",
+      "target": "country",
       "relType": "IS_A"
     },
     {
@@ -327,12 +327,12 @@
     },
     {
       "source": "australia",
-      "target": "oecd",
+      "target": "oceania",
       "relType": "PART_OF"
     },
     {
       "source": "australia",
-      "target": "oceania",
+      "target": "oecd",
       "relType": "PART_OF"
     },
     {
@@ -352,17 +352,17 @@
     },
     {
       "source": "austria",
-      "target": "eu",
-      "relType": "IS_INVOLVED_IN"
-    },
-    {
-      "source": "austria",
       "target": "schengen_area",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "austria",
       "target": "oecd",
+      "relType": "IS_INVOLVED_IN"
+    },
+    {
+      "source": "austria",
+      "target": "eu",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -377,16 +377,16 @@
     },
     {
       "source": "azerbaijan",
+      "target": "asia",
+      "relType": "PART_OF"
+    },
+    {
+      "source": "azerbaijan",
       "target": "europe",
       "relType": "PART_OF"
     },
     {
       "source": "azerbaijan",
-      "target": "asia",
-      "relType": "PART_OF"
-    },
-    {
-      "source": "azerbaijan",
       "target": "country",
       "relType": "IS_A"
     },
@@ -437,12 +437,12 @@
     },
     {
       "source": "barbados",
-      "target": "island",
+      "target": "country",
       "relType": "IS_A"
     },
     {
       "source": "barbados",
-      "target": "country",
+      "target": "island",
       "relType": "IS_A"
     },
     {
@@ -487,12 +487,12 @@
     },
     {
       "source": "belgium",
-      "target": "eu",
+      "target": "oecd",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "belgium",
-      "target": "oecd",
+      "target": "eu",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -522,22 +522,22 @@
     },
     {
       "source": "bermuda",
-      "target": "north_america",
-      "relType": "PART_OF"
-    },
-    {
-      "source": "bermuda",
       "target": "uk",
       "relType": "PART_OF"
     },
     {
       "source": "bermuda",
-      "target": "island",
-      "relType": "IS_A"
+      "target": "north_america",
+      "relType": "PART_OF"
     },
     {
       "source": "bermuda",
       "target": "overseas_territory",
+      "relType": "IS_A"
+    },
+    {
+      "source": "bermuda",
+      "target": "island",
       "relType": "IS_A"
     },
     {
@@ -687,12 +687,12 @@
     },
     {
       "source": "brittish_virgin_islands",
-      "target": "uk",
+      "target": "north_america",
       "relType": "PART_OF"
     },
     {
       "source": "brittish_virgin_islands",
-      "target": "north_america",
+      "target": "uk",
       "relType": "PART_OF"
     },
     {
@@ -757,12 +757,12 @@
     },
     {
       "source": "bus",
-      "target": "roads",
+      "target": "urban",
       "relType": "LOCATED_AT"
     },
     {
       "source": "bus",
-      "target": "urban",
+      "target": "roads",
       "relType": "LOCATED_AT"
     },
     {
@@ -797,12 +797,12 @@
     },
     {
       "source": "canada",
-      "target": "north_america",
+      "target": "oecd",
       "relType": "PART_OF"
     },
     {
       "source": "canada",
-      "target": "oecd",
+      "target": "north_america",
       "relType": "PART_OF"
     },
     {
@@ -857,12 +857,12 @@
     },
     {
       "source": "cayman_islands",
-      "target": "north_america",
+      "target": "uk",
       "relType": "PART_OF"
     },
     {
       "source": "cayman_islands",
-      "target": "uk",
+      "target": "north_america",
       "relType": "PART_OF"
     },
     {
@@ -927,12 +927,12 @@
     },
     {
       "source": "chemical_oxygen_demand",
-      "target": "water_quality",
+      "target": "wastewater",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "chemical_oxygen_demand",
-      "target": "wastewater",
+      "target": "water_quality",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -987,12 +987,12 @@
     },
     {
       "source": "clean_water",
-      "target": "indicator",
+      "target": "resource",
       "relType": "IS_A"
     },
     {
       "source": "clean_water",
-      "target": "resource",
+      "target": "indicator",
       "relType": "IS_A"
     },
     {
@@ -1009,6 +1009,21 @@
       "source": "climate",
       "target": "precipitation",
       "relType": "AFFECTS"
+    },
+    {
+      "source": "climate_change",
+      "target": "climate",
+      "relType": "RELATED_TO"
+    },
+    {
+      "source": "climate_change",
+      "target": "sea_level",
+      "relType": "RELATED_TO"
+    },
+    {
+      "source": "climate_change",
+      "target": "snow_cover",
+      "relType": "RELATED_TO"
     },
     {
       "source": "climate_change",
@@ -1032,47 +1047,7 @@
     },
     {
       "source": "climate_change",
-      "target": "climate",
-      "relType": "RELATED_TO"
-    },
-    {
-      "source": "climate_change",
-      "target": "sea_level",
-      "relType": "RELATED_TO"
-    },
-    {
-      "source": "climate_change",
-      "target": "snow_cover",
-      "relType": "RELATED_TO"
-    },
-    {
-      "source": "climate_change",
-      "target": "snow_cover",
-      "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "climate_change",
-      "target": "sea_level",
-      "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "climate_change",
-      "target": "thermal_expansion",
-      "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "climate_change",
-      "target": "habitat_loss",
-      "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "climate_change",
-      "target": "bleaching",
-      "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "climate_change",
-      "target": "acidification",
+      "target": "displaced_people",
       "relType": "CAN_AFFECT"
     },
     {
@@ -1082,17 +1057,42 @@
     },
     {
       "source": "climate_change",
-      "target": "displaced_people",
+      "target": "acidification",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "climate_change",
+      "target": "bleaching",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "climate_change",
+      "target": "habitat_loss",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "climate_change",
       "target": "thermal_expansion",
-      "relType": "AFFECTS"
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "climate_change",
+      "target": "sea_level",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "climate_change",
+      "target": "snow_cover",
+      "relType": "CAN_AFFECT"
     },
     {
       "source": "climate_change",
       "target": "temperature",
+      "relType": "AFFECTS"
+    },
+    {
+      "source": "climate_change",
+      "target": "thermal_expansion",
       "relType": "AFFECTS"
     },
     {
@@ -1122,12 +1122,12 @@
     },
     {
       "source": "climate_stressor",
-      "target": "event",
+      "target": "trend",
       "relType": "IS_A"
     },
     {
       "source": "climate_stressor",
-      "target": "trend",
+      "target": "event",
       "relType": "IS_A"
     },
     {
@@ -1162,12 +1162,12 @@
     },
     {
       "source": "CO2",
-      "target": "climate_change",
+      "target": "acidification",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "CO2",
-      "target": "acidification",
+      "target": "climate_change",
       "relType": "CAN_AFFECT"
     },
     {
@@ -1181,6 +1181,11 @@
       "relType": "TYPE_OF"
     },
     {
+      "source": "coast",
+      "target": "ocean",
+      "relType": "PART_OF"
+    },
+    {
       "source": "coastal_erosion",
       "target": "erosion",
       "relType": "TYPE_OF"
@@ -1192,22 +1197,22 @@
     },
     {
       "source": "coastal_erosion",
-      "target": "climate_stressor",
-      "relType": "IS_A"
-    },
-    {
-      "source": "coastal_erosion",
       "target": "process",
       "relType": "IS_A"
     },
     {
       "source": "coastal_erosion",
-      "target": "damage",
-      "relType": "AFFECTS"
+      "target": "climate_stressor",
+      "relType": "IS_A"
     },
     {
       "source": "coastal_erosion",
       "target": "vulnerability",
+      "relType": "AFFECTS"
+    },
+    {
+      "source": "coastal_erosion",
+      "target": "damage",
       "relType": "AFFECTS"
     },
     {
@@ -1252,12 +1257,12 @@
     },
     {
       "source": "commerce",
-      "target": "deforestation",
+      "target": "logging",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "commerce",
-      "target": "logging",
+      "target": "deforestation",
       "relType": "CAN_AFFECT"
     },
     {
@@ -1277,13 +1282,38 @@
     },
     {
       "source": "comoros",
-      "target": "island",
+      "target": "country",
       "relType": "IS_A"
     },
     {
       "source": "comoros",
-      "target": "country",
+      "target": "island",
       "relType": "IS_A"
+    },
+    {
+      "source": "conflict",
+      "target": "event",
+      "relType": "IS_A"
+    },
+    {
+      "source": "conflict",
+      "target": "mortality",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "conflict",
+      "target": "displaced_people",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "conflict",
+      "target": "disaster",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "conflict",
+      "target": "damage",
+      "relType": "CAN_AFFECT"
     },
     {
       "source": "congo",
@@ -1332,12 +1362,12 @@
     },
     {
       "source": "coral_sea_islands_territory",
-      "target": "oceania",
+      "target": "australia",
       "relType": "PART_OF"
     },
     {
       "source": "coral_sea_islands_territory",
-      "target": "australia",
+      "target": "oceania",
       "relType": "PART_OF"
     },
     {
@@ -1492,12 +1522,12 @@
     },
     {
       "source": "czech_republic",
-      "target": "oecd",
+      "target": "eu",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "czech_republic",
-      "target": "eu",
+      "target": "oecd",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -1532,12 +1562,12 @@
     },
     {
       "source": "damage",
-      "target": "explosion",
+      "target": "extreme_event",
       "relType": "RELATED_TO"
     },
     {
       "source": "damage",
-      "target": "extreme_event",
+      "target": "explosion",
       "relType": "RELATED_TO"
     },
     {
@@ -1557,12 +1587,12 @@
     },
     {
       "source": "dead_zone",
-      "target": "fish",
+      "target": "water_quality",
       "relType": "AFFECTS"
     },
     {
       "source": "dead_zone",
-      "target": "water_quality",
+      "target": "fish",
       "relType": "AFFECTS"
     },
     {
@@ -1572,12 +1602,12 @@
     },
     {
       "source": "deforestation",
-      "target": "forest",
+      "target": "environmental_health",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "deforestation",
-      "target": "water",
+      "target": "environmental_quality",
       "relType": "CAN_AFFECT"
     },
     {
@@ -1592,22 +1622,22 @@
     },
     {
       "source": "deforestation",
-      "target": "environmental_health",
+      "target": "water",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "deforestation",
-      "target": "environmental_quality",
+      "target": "forest",
       "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "deforestation",
-      "target": "landslide",
-      "relType": "AFFECTS"
     },
     {
       "source": "deforestation",
       "target": "forest_loss",
+      "relType": "AFFECTS"
+    },
+    {
+      "source": "deforestation",
+      "target": "landslide",
       "relType": "AFFECTS"
     },
     {
@@ -1622,12 +1652,12 @@
     },
     {
       "source": "degradation",
-      "target": "habitat",
+      "target": "forest",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "degradation",
-      "target": "forest",
+      "target": "habitat",
       "relType": "CAN_AFFECT"
     },
     {
@@ -1672,12 +1702,12 @@
     },
     {
       "source": "denmark",
-      "target": "schengen_area",
+      "target": "oecd",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "denmark",
-      "target": "oecd",
+      "target": "schengen_area",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -1697,12 +1727,12 @@
     },
     {
       "source": "development",
-      "target": "developing",
+      "target": "economic",
       "relType": "AFFECTS"
     },
     {
       "source": "development",
-      "target": "economic",
+      "target": "developing",
       "relType": "AFFECTS"
     },
     {
@@ -1717,12 +1747,12 @@
     },
     {
       "source": "disease",
-      "target": "health",
+      "target": "mortality",
       "relType": "AFFECTS"
     },
     {
       "source": "disease",
-      "target": "mortality",
+      "target": "health",
       "relType": "AFFECTS"
     },
     {
@@ -1752,12 +1782,12 @@
     },
     {
       "source": "dominica",
-      "target": "country",
+      "target": "island",
       "relType": "IS_A"
     },
     {
       "source": "dominica",
-      "target": "island",
+      "target": "country",
       "relType": "IS_A"
     },
     {
@@ -1802,18 +1832,13 @@
     },
     {
       "source": "drought",
-      "target": "climate_stressor",
-      "relType": "IS_A"
-    },
-    {
-      "source": "drought",
       "target": "disaster",
       "relType": "IS_A"
     },
     {
       "source": "drought",
-      "target": "water_security",
-      "relType": "CAN_AFFECT"
+      "target": "climate_stressor",
+      "relType": "IS_A"
     },
     {
       "source": "drought",
@@ -1822,17 +1847,7 @@
     },
     {
       "source": "drought",
-      "target": "irrigation",
-      "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "drought",
-      "target": "water_access",
-      "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "drought",
-      "target": "famine",
+      "target": "water_security",
       "relType": "CAN_AFFECT"
     },
     {
@@ -1842,17 +1857,22 @@
     },
     {
       "source": "drought",
-      "target": "malnutrition",
-      "relType": "AFFECTS"
+      "target": "famine",
+      "relType": "CAN_AFFECT"
     },
     {
       "source": "drought",
-      "target": "food_security",
-      "relType": "AFFECTS"
+      "target": "water_access",
+      "relType": "CAN_AFFECT"
     },
     {
       "source": "drought",
-      "target": "food_production",
+      "target": "irrigation",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "drought",
+      "target": "crop_health",
       "relType": "AFFECTS"
     },
     {
@@ -1862,22 +1882,32 @@
     },
     {
       "source": "drought",
-      "target": "crop_health",
-      "relType": "AFFECTS"
-    },
-    {
-      "source": "drought",
       "target": "water_scarcity",
       "relType": "AFFECTS"
     },
     {
-      "source": "early_warning",
-      "target": "vulnerability",
+      "source": "drought",
+      "target": "malnutrition",
+      "relType": "AFFECTS"
+    },
+    {
+      "source": "drought",
+      "target": "food_production",
+      "relType": "AFFECTS"
+    },
+    {
+      "source": "drought",
+      "target": "food_security",
       "relType": "AFFECTS"
     },
     {
       "source": "early_warning",
       "target": "response",
+      "relType": "AFFECTS"
+    },
+    {
+      "source": "early_warning",
+      "target": "vulnerability",
       "relType": "AFFECTS"
     },
     {
@@ -1922,7 +1952,7 @@
     },
     {
       "source": "ecosystem_services",
-      "target": "food",
+      "target": "water_quality",
       "relType": "AFFECTS"
     },
     {
@@ -1932,7 +1962,7 @@
     },
     {
       "source": "ecosystem_services",
-      "target": "water_quality",
+      "target": "food",
       "relType": "AFFECTS"
     },
     {
@@ -1982,7 +2012,7 @@
     },
     {
       "source": "emergency_response",
-      "target": "response",
+      "target": "resilience",
       "relType": "AFFECTS"
     },
     {
@@ -1992,12 +2022,12 @@
     },
     {
       "source": "emergency_response",
-      "target": "vulnerability",
+      "target": "response",
       "relType": "AFFECTS"
     },
     {
       "source": "emergency_response",
-      "target": "resilience",
+      "target": "vulnerability",
       "relType": "AFFECTS"
     },
     {
@@ -2012,7 +2042,7 @@
     },
     {
       "source": "emergency_services",
-      "target": "response",
+      "target": "resilience",
       "relType": "AFFECTS"
     },
     {
@@ -2022,12 +2052,12 @@
     },
     {
       "source": "emergency_services",
-      "target": "vulnerability",
+      "target": "response",
       "relType": "AFFECTS"
     },
     {
       "source": "emergency_services",
-      "target": "resilience",
+      "target": "vulnerability",
       "relType": "AFFECTS"
     },
     {
@@ -2037,12 +2067,12 @@
     },
     {
       "source": "emissions",
-      "target": "climate_change",
+      "target": "ghg",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "emissions",
-      "target": "ghg",
+      "target": "climate_change",
       "relType": "CAN_AFFECT"
     },
     {
@@ -2177,12 +2207,12 @@
     },
     {
       "source": "eruption",
-      "target": "natural_phenomena",
+      "target": "process",
       "relType": "TYPE_OF"
     },
     {
       "source": "eruption",
-      "target": "extreme_event",
+      "target": "natural_phenomena",
       "relType": "TYPE_OF"
     },
     {
@@ -2192,7 +2222,7 @@
     },
     {
       "source": "eruption",
-      "target": "process",
+      "target": "extreme_event",
       "relType": "TYPE_OF"
     },
     {
@@ -2207,12 +2237,12 @@
     },
     {
       "source": "estonia",
-      "target": "schengen_area",
+      "target": "oecd",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "estonia",
-      "target": "oecd",
+      "target": "schengen_area",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -2262,12 +2292,12 @@
     },
     {
       "source": "eutrophication",
-      "target": "water_quality",
+      "target": "water_security",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "eutrophication",
-      "target": "water_security",
+      "target": "water_quality",
       "relType": "CAN_AFFECT"
     },
     {
@@ -2287,22 +2317,22 @@
     },
     {
       "source": "exploitation",
-      "target": "deforestation",
-      "relType": "AFFECTS"
-    },
-    {
-      "source": "exploitation",
       "target": "water_scarcity",
       "relType": "AFFECTS"
     },
     {
       "source": "exploitation",
-      "target": "fishery",
+      "target": "deforestation",
       "relType": "AFFECTS"
     },
     {
       "source": "exploitation",
       "target": "habitat_loss",
+      "relType": "AFFECTS"
+    },
+    {
+      "source": "exploitation",
+      "target": "fishery",
       "relType": "AFFECTS"
     },
     {
@@ -2317,12 +2347,12 @@
     },
     {
       "source": "exposure",
-      "target": "damage",
+      "target": "vulnerability",
       "relType": "AFFECTS"
     },
     {
       "source": "exposure",
-      "target": "vulnerability",
+      "target": "damage",
       "relType": "AFFECTS"
     },
     {
@@ -2342,12 +2372,12 @@
     },
     {
       "source": "falkland_islands",
-      "target": "south_america",
+      "target": "uk",
       "relType": "PART_OF"
     },
     {
       "source": "falkland_islands",
-      "target": "uk",
+      "target": "south_america",
       "relType": "PART_OF"
     },
     {
@@ -2372,12 +2402,12 @@
     },
     {
       "source": "famine",
-      "target": "mortality",
+      "target": "displaced_people",
       "relType": "AFFECTS"
     },
     {
       "source": "famine",
-      "target": "displaced_people",
+      "target": "mortality",
       "relType": "AFFECTS"
     },
     {
@@ -2392,12 +2422,12 @@
     },
     {
       "source": "faroe_islands",
-      "target": "europe",
+      "target": "denmark",
       "relType": "PART_OF"
     },
     {
       "source": "faroe_islands",
-      "target": "denmark",
+      "target": "europe",
       "relType": "PART_OF"
     },
     {
@@ -2427,12 +2457,12 @@
     },
     {
       "source": "fertilizer",
-      "target": "water_quality",
+      "target": "nitrogen",
       "relType": "AFFECTS"
     },
     {
       "source": "fertilizer",
-      "target": "nitrogen",
+      "target": "phosphorus",
       "relType": "AFFECTS"
     },
     {
@@ -2442,7 +2472,7 @@
     },
     {
       "source": "fertilizer",
-      "target": "phosphorus",
+      "target": "water_quality",
       "relType": "AFFECTS"
     },
     {
@@ -2472,12 +2502,12 @@
     },
     {
       "source": "finland",
-      "target": "schengen_area",
+      "target": "oecd",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "finland",
-      "target": "oecd",
+      "target": "schengen_area",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -2532,22 +2562,22 @@
     },
     {
       "source": "flood",
-      "target": "malnutrition",
-      "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "flood",
       "target": "water_quality",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "flood",
-      "target": "crop_health",
+      "target": "malnutrition",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "flood",
+      "target": "food_supply",
       "relType": "AFFECTS"
     },
     {
       "source": "flood",
-      "target": "crop_yield",
+      "target": "crop_health",
       "relType": "AFFECTS"
     },
     {
@@ -2557,7 +2587,7 @@
     },
     {
       "source": "flood",
-      "target": "food_supply",
+      "target": "crop_yield",
       "relType": "AFFECTS"
     },
     {
@@ -2597,12 +2627,12 @@
     },
     {
       "source": "food_security",
-      "target": "famine",
+      "target": "malnutrition",
       "relType": "AFFECTS"
     },
     {
       "source": "food_security",
-      "target": "malnutrition",
+      "target": "famine",
       "relType": "AFFECTS"
     },
     {
@@ -2612,12 +2642,12 @@
     },
     {
       "source": "food_supply",
-      "target": "famine",
+      "target": "food_security",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "food_supply",
-      "target": "food_security",
+      "target": "famine",
       "relType": "CAN_AFFECT"
     },
     {
@@ -2637,12 +2667,12 @@
     },
     {
       "source": "forest_cover",
-      "target": "biodiversity",
+      "target": "forest",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "forest_cover",
-      "target": "forest",
+      "target": "biodiversity",
       "relType": "CAN_AFFECT"
     },
     {
@@ -2672,12 +2702,12 @@
     },
     {
       "source": "forest_loss",
-      "target": "biodiversity",
+      "target": "forest_cover",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "forest_loss",
-      "target": "forest_cover",
+      "target": "biodiversity",
       "relType": "CAN_AFFECT"
     },
     {
@@ -2702,17 +2732,17 @@
     },
     {
       "source": "france",
-      "target": "schengen_area",
-      "relType": "IS_INVOLVED_IN"
-    },
-    {
-      "source": "france",
       "target": "oecd",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "france",
       "target": "eu",
+      "relType": "IS_INVOLVED_IN"
+    },
+    {
+      "source": "france",
+      "target": "schengen_area",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -2732,13 +2762,18 @@
     },
     {
       "source": "french_polynesia",
-      "target": "overseas_territory",
+      "target": "island",
       "relType": "IS_A"
     },
     {
       "source": "french_polynesia",
-      "target": "island",
+      "target": "overseas_territory",
       "relType": "IS_A"
+    },
+    {
+      "source": "french_southern_and_antarctic_lands",
+      "target": "antarctica",
+      "relType": "PART_OF"
     },
     {
       "source": "french_southern_and_antarctic_lands",
@@ -2752,17 +2787,12 @@
     },
     {
       "source": "french_southern_and_antarctic_lands",
-      "target": "antarctica",
-      "relType": "PART_OF"
-    },
-    {
-      "source": "french_southern_and_antarctic_lands",
-      "target": "overseas_territory",
+      "target": "island",
       "relType": "IS_A"
     },
     {
       "source": "french_southern_and_antarctic_lands",
-      "target": "island",
+      "target": "overseas_territory",
       "relType": "IS_A"
     },
     {
@@ -2852,12 +2882,12 @@
     },
     {
       "source": "georgia",
-      "target": "europe",
+      "target": "asia",
       "relType": "PART_OF"
     },
     {
       "source": "georgia",
-      "target": "asia",
+      "target": "europe",
       "relType": "PART_OF"
     },
     {
@@ -2887,7 +2917,7 @@
     },
     {
       "source": "germany",
-      "target": "oecd",
+      "target": "eu",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -2897,7 +2927,7 @@
     },
     {
       "source": "germany",
-      "target": "eu",
+      "target": "oecd",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -2922,12 +2952,12 @@
     },
     {
       "source": "gibraltar",
-      "target": "europe",
+      "target": "uk",
       "relType": "PART_OF"
     },
     {
       "source": "gibraltar",
-      "target": "uk",
+      "target": "europe",
       "relType": "PART_OF"
     },
     {
@@ -2962,7 +2992,7 @@
     },
     {
       "source": "governance",
-      "target": "park",
+      "target": "environmental_health",
       "relType": "AFFECTS"
     },
     {
@@ -2972,12 +3002,12 @@
     },
     {
       "source": "governance",
-      "target": "environmental_health",
+      "target": "displaced_people",
       "relType": "AFFECTS"
     },
     {
       "source": "governance",
-      "target": "displaced_people",
+      "target": "park",
       "relType": "AFFECTS"
     },
     {
@@ -2992,12 +3022,12 @@
     },
     {
       "source": "greece",
-      "target": "oecd",
+      "target": "schengen_area",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "greece",
-      "target": "schengen_area",
+      "target": "oecd",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -3037,12 +3067,12 @@
     },
     {
       "source": "grenada",
-      "target": "island",
+      "target": "country",
       "relType": "IS_A"
     },
     {
       "source": "grenada",
-      "target": "country",
+      "target": "island",
       "relType": "IS_A"
     },
     {
@@ -3057,12 +3087,12 @@
     },
     {
       "source": "guam",
-      "target": "island",
+      "target": "country",
       "relType": "IS_A"
     },
     {
       "source": "guam",
-      "target": "country",
+      "target": "island",
       "relType": "IS_A"
     },
     {
@@ -3127,22 +3157,7 @@
     },
     {
       "source": "habitat_loss",
-      "target": "habitat",
-      "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "habitat_loss",
-      "target": "amphibian",
-      "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "habitat_loss",
-      "target": "animal",
-      "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "habitat_loss",
-      "target": "plant",
+      "target": "flora",
       "relType": "CAN_AFFECT"
     },
     {
@@ -3152,7 +3167,22 @@
     },
     {
       "source": "habitat_loss",
-      "target": "flora",
+      "target": "plant",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "habitat_loss",
+      "target": "animal",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "habitat_loss",
+      "target": "amphibian",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "habitat_loss",
+      "target": "habitat",
       "relType": "CAN_AFFECT"
     },
     {
@@ -3187,7 +3217,7 @@
     },
     {
       "source": "harmful_algal_blooms",
-      "target": "water_quality",
+      "target": "water_pollution",
       "relType": "CAN_AFFECT"
     },
     {
@@ -3197,7 +3227,7 @@
     },
     {
       "source": "harmful_algal_blooms",
-      "target": "water_pollution",
+      "target": "water_quality",
       "relType": "CAN_AFFECT"
     },
     {
@@ -3212,22 +3242,22 @@
     },
     {
       "source": "hazard",
-      "target": "risk",
-      "relType": "AFFECTS"
-    },
-    {
-      "source": "hazard",
       "target": "response",
       "relType": "AFFECTS"
     },
     {
       "source": "hazard",
-      "target": "vulnerability",
+      "target": "risk",
       "relType": "AFFECTS"
     },
     {
       "source": "hazard",
       "target": "asset",
+      "relType": "AFFECTS"
+    },
+    {
+      "source": "hazard",
+      "target": "vulnerability",
       "relType": "AFFECTS"
     },
     {
@@ -3242,12 +3272,12 @@
     },
     {
       "source": "heard_island_and_mcdoland_islands",
-      "target": "antarctica",
+      "target": "australia",
       "relType": "PART_OF"
     },
     {
       "source": "heard_island_and_mcdoland_islands",
-      "target": "australia",
+      "target": "antarctica",
       "relType": "PART_OF"
     },
     {
@@ -3322,12 +3352,12 @@
     },
     {
       "source": "human_impact",
-      "target": "climate",
+      "target": "biodiversity",
       "relType": "AFFECTS"
     },
     {
       "source": "human_impact",
-      "target": "biodiversity",
+      "target": "climate",
       "relType": "AFFECTS"
     },
     {
@@ -3352,12 +3382,12 @@
     },
     {
       "source": "hungary",
-      "target": "eu",
+      "target": "oecd",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "hungary",
-      "target": "oecd",
+      "target": "eu",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -3392,17 +3422,17 @@
     },
     {
       "source": "hurricane",
-      "target": "sea",
-      "relType": "LOCATED_AT"
-    },
-    {
-      "source": "hurricane",
       "target": "ocean",
       "relType": "LOCATED_AT"
     },
     {
       "source": "hurricane",
-      "target": "storm_surge",
+      "target": "sea",
+      "relType": "LOCATED_AT"
+    },
+    {
+      "source": "hurricane",
+      "target": "wind",
       "relType": "AFFECTS"
     },
     {
@@ -3412,7 +3442,7 @@
     },
     {
       "source": "hurricane",
-      "target": "wind",
+      "target": "storm_surge",
       "relType": "AFFECTS"
     },
     {
@@ -3457,12 +3487,7 @@
     },
     {
       "source": "impact",
-      "target": "resilience",
-      "relType": "AFFECTS"
-    },
-    {
-      "source": "impact",
-      "target": "response",
+      "target": "damage",
       "relType": "AFFECTS"
     },
     {
@@ -3472,7 +3497,12 @@
     },
     {
       "source": "impact",
-      "target": "damage",
+      "target": "response",
+      "relType": "AFFECTS"
+    },
+    {
+      "source": "impact",
+      "target": "resilience",
       "relType": "AFFECTS"
     },
     {
@@ -3522,12 +3552,12 @@
     },
     {
       "source": "inequality",
-      "target": "gini_index",
+      "target": "economic",
       "relType": "RELATED_TO"
     },
     {
       "source": "inequality",
-      "target": "economic",
+      "target": "gini_index",
       "relType": "RELATED_TO"
     },
     {
@@ -3537,12 +3567,7 @@
     },
     {
       "source": "inequality",
-      "target": "protest",
-      "relType": "AFFECTS"
-    },
-    {
-      "source": "inequality",
-      "target": "conflict",
+      "target": "poverty",
       "relType": "AFFECTS"
     },
     {
@@ -3552,7 +3577,12 @@
     },
     {
       "source": "inequality",
-      "target": "poverty",
+      "target": "conflict",
+      "relType": "AFFECTS"
+    },
+    {
+      "source": "inequality",
+      "target": "protest",
       "relType": "AFFECTS"
     },
     {
@@ -3622,12 +3652,12 @@
     },
     {
       "source": "ireland",
-      "target": "oecd",
+      "target": "eu",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "ireland",
-      "target": "eu",
+      "target": "oecd",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -3652,17 +3682,7 @@
     },
     {
       "source": "irrigation",
-      "target": "crop_health",
-      "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "irrigation",
-      "target": "water_stress",
-      "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "irrigation",
-      "target": "water_risk",
+      "target": "crop",
       "relType": "CAN_AFFECT"
     },
     {
@@ -3672,7 +3692,17 @@
     },
     {
       "source": "irrigation",
-      "target": "crop",
+      "target": "water_risk",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "irrigation",
+      "target": "water_stress",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "irrigation",
+      "target": "crop_health",
       "relType": "CAN_AFFECT"
     },
     {
@@ -3697,12 +3727,12 @@
     },
     {
       "source": "israel",
-      "target": "asia",
+      "target": "oecd",
       "relType": "PART_OF"
     },
     {
       "source": "israel",
-      "target": "oecd",
+      "target": "asia",
       "relType": "PART_OF"
     },
     {
@@ -3717,17 +3747,17 @@
     },
     {
       "source": "italy",
-      "target": "eu",
-      "relType": "IS_INVOLVED_IN"
-    },
-    {
-      "source": "italy",
       "target": "oecd",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "italy",
       "target": "schengen_area",
+      "relType": "IS_INVOLVED_IN"
+    },
+    {
+      "source": "italy",
+      "target": "eu",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -3762,12 +3792,12 @@
     },
     {
       "source": "japan",
-      "target": "oecd",
+      "target": "asia",
       "relType": "PART_OF"
     },
     {
       "source": "japan",
-      "target": "asia",
+      "target": "oecd",
       "relType": "PART_OF"
     },
     {
@@ -3907,12 +3937,12 @@
     },
     {
       "source": "land_rights",
-      "target": "land",
+      "target": "society",
       "relType": "RELATED_TO"
     },
     {
       "source": "land_rights",
-      "target": "society",
+      "target": "land",
       "relType": "RELATED_TO"
     },
     {
@@ -4047,12 +4077,12 @@
     },
     {
       "source": "lithuania",
-      "target": "eu",
+      "target": "schengen_area",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "lithuania",
-      "target": "schengen_area",
+      "target": "eu",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -4072,12 +4102,12 @@
     },
     {
       "source": "livestock",
-      "target": "primary_sector",
+      "target": "commodity",
       "relType": "RELATED_TO"
     },
     {
       "source": "livestock",
-      "target": "commodity",
+      "target": "primary_sector",
       "relType": "RELATED_TO"
     },
     {
@@ -4122,7 +4152,7 @@
     },
     {
       "source": "luxembourg",
-      "target": "eu",
+      "target": "oecd",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -4132,7 +4162,7 @@
     },
     {
       "source": "luxembourg",
-      "target": "oecd",
+      "target": "eu",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -4142,12 +4172,12 @@
     },
     {
       "source": "macao",
-      "target": "china",
+      "target": "asia",
       "relType": "PART_OF"
     },
     {
       "source": "macao",
-      "target": "asia",
+      "target": "china",
       "relType": "PART_OF"
     },
     {
@@ -4172,12 +4202,12 @@
     },
     {
       "source": "madagascar",
-      "target": "island",
+      "target": "country",
       "relType": "IS_A"
     },
     {
       "source": "madagascar",
-      "target": "country",
+      "target": "island",
       "relType": "IS_A"
     },
     {
@@ -4212,12 +4242,12 @@
     },
     {
       "source": "maldives",
-      "target": "island",
+      "target": "country",
       "relType": "IS_A"
     },
     {
       "source": "maldives",
-      "target": "country",
+      "target": "island",
       "relType": "IS_A"
     },
     {
@@ -4252,12 +4282,12 @@
     },
     {
       "source": "malta",
-      "target": "eu",
+      "target": "schengen_area",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "malta",
-      "target": "schengen_area",
+      "target": "eu",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -4277,22 +4307,22 @@
     },
     {
       "source": "mammal",
-      "target": "ocean",
-      "relType": "LOCATED_AT"
-    },
-    {
-      "source": "mammal",
       "target": "sea",
       "relType": "LOCATED_AT"
     },
     {
-      "source": "mangrove",
-      "target": "forest",
-      "relType": "TYPE_OF"
+      "source": "mammal",
+      "target": "ocean",
+      "relType": "LOCATED_AT"
     },
     {
       "source": "mangrove",
       "target": "natural_infrastructure",
+      "relType": "TYPE_OF"
+    },
+    {
+      "source": "mangrove",
+      "target": "forest",
       "relType": "TYPE_OF"
     },
     {
@@ -4307,7 +4337,7 @@
     },
     {
       "source": "mangrove",
-      "target": "storm",
+      "target": "resilience",
       "relType": "CAN_AFFECT"
     },
     {
@@ -4317,7 +4347,7 @@
     },
     {
       "source": "mangrove",
-      "target": "resilience",
+      "target": "storm",
       "relType": "CAN_AFFECT"
     },
     {
@@ -4327,12 +4357,12 @@
     },
     {
       "source": "marine_life",
-      "target": "sea",
+      "target": "ocean",
       "relType": "LOCATED_AT"
     },
     {
       "source": "marine_life",
-      "target": "ocean",
+      "target": "sea",
       "relType": "LOCATED_AT"
     },
     {
@@ -4372,12 +4402,12 @@
     },
     {
       "source": "mexico",
-      "target": "north_america",
+      "target": "oecd",
       "relType": "PART_OF"
     },
     {
       "source": "mexico",
-      "target": "oecd",
+      "target": "north_america",
       "relType": "PART_OF"
     },
     {
@@ -4417,7 +4447,7 @@
     },
     {
       "source": "mitigation",
-      "target": "damage",
+      "target": "impact",
       "relType": "AFFECTS"
     },
     {
@@ -4427,12 +4457,12 @@
     },
     {
       "source": "mitigation",
-      "target": "vulnerability",
+      "target": "damage",
       "relType": "AFFECTS"
     },
     {
       "source": "mitigation",
-      "target": "impact",
+      "target": "vulnerability",
       "relType": "AFFECTS"
     },
     {
@@ -4492,22 +4522,22 @@
     },
     {
       "source": "montserrat",
-      "target": "uk",
-      "relType": "PART_OF"
-    },
-    {
-      "source": "montserrat",
       "target": "north_america",
       "relType": "PART_OF"
     },
     {
       "source": "montserrat",
-      "target": "overseas_territory",
-      "relType": "IS_A"
+      "target": "uk",
+      "relType": "PART_OF"
     },
     {
       "source": "montserrat",
       "target": "island",
+      "relType": "IS_A"
+    },
+    {
+      "source": "montserrat",
+      "target": "overseas_territory",
       "relType": "IS_A"
     },
     {
@@ -4617,12 +4647,12 @@
     },
     {
       "source": "natural_infrastructure",
-      "target": "disaster",
+      "target": "resilience",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "natural_infrastructure",
-      "target": "resilience",
+      "target": "disaster",
       "relType": "CAN_AFFECT"
     },
     {
@@ -4672,7 +4702,7 @@
     },
     {
       "source": "netherlands",
-      "target": "eu",
+      "target": "oecd",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -4682,7 +4712,7 @@
     },
     {
       "source": "netherlands",
-      "target": "oecd",
+      "target": "eu",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -4702,18 +4732,13 @@
     },
     {
       "source": "new_caledonia",
-      "target": "island",
-      "relType": "IS_A"
-    },
-    {
-      "source": "new_caledonia",
       "target": "overseas_territory",
       "relType": "IS_A"
     },
     {
-      "source": "new_zealand",
-      "target": "oecd",
-      "relType": "PART_OF"
+      "source": "new_caledonia",
+      "target": "island",
+      "relType": "IS_A"
     },
     {
       "source": "new_zealand",
@@ -4722,12 +4747,17 @@
     },
     {
       "source": "new_zealand",
-      "target": "country",
-      "relType": "IS_A"
+      "target": "oecd",
+      "relType": "PART_OF"
     },
     {
       "source": "new_zealand",
       "target": "island",
+      "relType": "IS_A"
+    },
+    {
+      "source": "new_zealand",
+      "target": "country",
       "relType": "IS_A"
     },
     {
@@ -4772,7 +4802,7 @@
     },
     {
       "source": "nitrogen",
-      "target": "dead_zone",
+      "target": "eutrophication",
       "relType": "CAN_AFFECT"
     },
     {
@@ -4782,7 +4812,7 @@
     },
     {
       "source": "nitrogen",
-      "target": "eutrophication",
+      "target": "dead_zone",
       "relType": "CAN_AFFECT"
     },
     {
@@ -4837,12 +4867,12 @@
     },
     {
       "source": "norfolk_island",
-      "target": "island",
+      "target": "overseas_territory",
       "relType": "IS_A"
     },
     {
       "source": "norfolk_island",
-      "target": "overseas_territory",
+      "target": "island",
       "relType": "IS_A"
     },
     {
@@ -4857,12 +4887,12 @@
     },
     {
       "source": "northern_mariana_islands",
-      "target": "usa",
+      "target": "oceania",
       "relType": "PART_OF"
     },
     {
       "source": "northern_mariana_islands",
-      "target": "oceania",
+      "target": "usa",
       "relType": "PART_OF"
     },
     {
@@ -4877,17 +4907,17 @@
     },
     {
       "source": "norway",
+      "target": "europe",
+      "relType": "PART_OF"
+    },
+    {
+      "source": "norway",
       "target": "oecd",
       "relType": "PART_OF"
     },
     {
       "source": "norway",
       "target": "european_free_trade_association",
-      "relType": "PART_OF"
-    },
-    {
-      "source": "norway",
-      "target": "europe",
       "relType": "PART_OF"
     },
     {
@@ -4932,12 +4962,12 @@
     },
     {
       "source": "o3",
-      "target": "pollution",
+      "target": "urban",
       "relType": "RELATED_TO"
     },
     {
       "source": "o3",
-      "target": "urban",
+      "target": "pollution",
       "relType": "RELATED_TO"
     },
     {
@@ -4947,12 +4977,12 @@
     },
     {
       "source": "o3",
-      "target": "radiation",
+      "target": "air_quality",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "o3",
-      "target": "air_quality",
+      "target": "radiation",
       "relType": "CAN_AFFECT"
     },
     {
@@ -5037,12 +5067,12 @@
     },
     {
       "source": "palau",
-      "target": "country",
+      "target": "island",
       "relType": "IS_A"
     },
     {
       "source": "palau",
-      "target": "island",
+      "target": "country",
       "relType": "IS_A"
     },
     {
@@ -5177,12 +5207,12 @@
     },
     {
       "source": "pitcairn_islands",
-      "target": "australia",
+      "target": "oceania",
       "relType": "PART_OF"
     },
     {
       "source": "pitcairn_islands",
-      "target": "oceania",
+      "target": "australia",
       "relType": "PART_OF"
     },
     {
@@ -5212,7 +5242,7 @@
     },
     {
       "source": "poaching",
-      "target": "extinction",
+      "target": "endangered",
       "relType": "CAN_AFFECT"
     },
     {
@@ -5222,7 +5252,7 @@
     },
     {
       "source": "poaching",
-      "target": "endangered",
+      "target": "extinction",
       "relType": "CAN_AFFECT"
     },
     {
@@ -5232,12 +5262,12 @@
     },
     {
       "source": "poland",
-      "target": "eu",
+      "target": "oecd",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "poland",
-      "target": "oecd",
+      "target": "eu",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -5252,22 +5282,7 @@
     },
     {
       "source": "pollution",
-      "target": "mortality",
-      "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "pollution",
-      "target": "health",
-      "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "pollution",
-      "target": "environmental_quality",
-      "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "pollution",
-      "target": "environmental_health",
+      "target": "air_quality",
       "relType": "CAN_AFFECT"
     },
     {
@@ -5277,12 +5292,27 @@
     },
     {
       "source": "pollution",
-      "target": "air_quality",
+      "target": "water_quality",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "pollution",
-      "target": "water_quality",
+      "target": "health",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "pollution",
+      "target": "mortality",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "pollution",
+      "target": "environmental_health",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "pollution",
+      "target": "environmental_quality",
       "relType": "CAN_AFFECT"
     },
     {
@@ -5302,17 +5332,17 @@
     },
     {
       "source": "portugal",
-      "target": "eu",
-      "relType": "IS_INVOLVED_IN"
-    },
-    {
-      "source": "portugal",
       "target": "schengen_area",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "portugal",
       "target": "oecd",
+      "relType": "IS_INVOLVED_IN"
+    },
+    {
+      "source": "portugal",
+      "target": "eu",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -5327,12 +5357,12 @@
     },
     {
       "source": "poverty",
-      "target": "vulnerability",
+      "target": "energy_access",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "poverty",
-      "target": "energy_access",
+      "target": "vulnerability",
       "relType": "CAN_AFFECT"
     },
     {
@@ -5372,7 +5402,7 @@
     },
     {
       "source": "precipitation",
-      "target": "crop_health",
+      "target": "crop_yield",
       "relType": "CAN_AFFECT"
     },
     {
@@ -5382,22 +5412,22 @@
     },
     {
       "source": "precipitation",
-      "target": "crop_yield",
-      "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "precipitation",
       "target": "food_supply",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "precipitation",
-      "target": "landslide",
-      "relType": "AFFECTS"
+      "target": "crop_health",
+      "relType": "CAN_AFFECT"
     },
     {
       "source": "precipitation",
       "target": "erosion",
+      "relType": "AFFECTS"
+    },
+    {
+      "source": "precipitation",
+      "target": "landslide",
       "relType": "AFFECTS"
     },
     {
@@ -5412,7 +5442,7 @@
     },
     {
       "source": "probability",
-      "target": "risk",
+      "target": "vulnerability",
       "relType": "AFFECTS"
     },
     {
@@ -5422,7 +5452,7 @@
     },
     {
       "source": "probability",
-      "target": "vulnerability",
+      "target": "risk",
       "relType": "AFFECTS"
     },
     {
@@ -5462,22 +5492,22 @@
     },
     {
       "source": "public_transportation",
-      "target": "transportation",
-      "relType": "TYPE_OF"
-    },
-    {
-      "source": "public_transportation",
       "target": "public_service",
       "relType": "TYPE_OF"
     },
     {
       "source": "public_transportation",
-      "target": "emissions",
-      "relType": "CAN_AFFECT"
+      "target": "transportation",
+      "relType": "TYPE_OF"
     },
     {
       "source": "public_transportation",
       "target": "accessibility",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "public_transportation",
+      "target": "emissions",
       "relType": "CAN_AFFECT"
     },
     {
@@ -5548,6 +5578,11 @@
     {
       "source": "refugee",
       "target": "displaced_people",
+      "relType": "TYPE_OF"
+    },
+    {
+      "source": "renewable_energy",
+      "target": "energy_production",
       "relType": "TYPE_OF"
     },
     {
@@ -5667,12 +5702,12 @@
     },
     {
       "source": "risk_assesment",
-      "target": "risk",
+      "target": "damage",
       "relType": "AFFECTS"
     },
     {
       "source": "risk_assesment",
-      "target": "damage",
+      "target": "risk",
       "relType": "AFFECTS"
     },
     {
@@ -5682,12 +5717,12 @@
     },
     {
       "source": "risk_management",
-      "target": "resilience_planning",
+      "target": "damage",
       "relType": "AFFECTS"
     },
     {
       "source": "risk_management",
-      "target": "damage",
+      "target": "resilience_planning",
       "relType": "AFFECTS"
     },
     {
@@ -5702,12 +5737,12 @@
     },
     {
       "source": "roads",
-      "target": "public_service",
+      "target": "infrastructure",
       "relType": "TYPE_OF"
     },
     {
       "source": "roads",
-      "target": "infrastructure",
+      "target": "public_service",
       "relType": "TYPE_OF"
     },
     {
@@ -5742,12 +5777,12 @@
     },
     {
       "source": "russia",
-      "target": "europe",
+      "target": "asia",
       "relType": "PART_OF"
     },
     {
       "source": "russia",
-      "target": "asia",
+      "target": "europe",
       "relType": "PART_OF"
     },
     {
@@ -5792,15 +5827,15 @@
     },
     {
       "source": "saint_helena",
-      "target": "island",
-      "relType": "IS_A"
-    },
-    {
-      "source": "saint_helena",
       "target": "overseas_territory",
       "relType": "IS_A"
     },
     {
+      "source": "saint_helena",
+      "target": "island",
+      "relType": "IS_A"
+    },
+    {
       "source": "saint_kitts_and_nevis",
       "target": "north_america",
       "relType": "PART_OF"
@@ -5822,22 +5857,22 @@
     },
     {
       "source": "saint_lucia",
-      "target": "country",
+      "target": "island",
       "relType": "IS_A"
     },
     {
       "source": "saint_lucia",
-      "target": "island",
+      "target": "country",
       "relType": "IS_A"
+    },
+    {
+      "source": "saint_martin",
+      "target": "north_america",
+      "relType": "PART_OF"
     },
     {
       "source": "saint_martin",
       "target": "france",
-      "relType": "PART_OF"
-    },
-    {
-      "source": "saint_martin",
-      "target": "north_america",
       "relType": "PART_OF"
     },
     {
@@ -6067,12 +6102,12 @@
     },
     {
       "source": "seafood",
-      "target": "land_cover",
+      "target": "land_use",
       "relType": "AFFECTS"
     },
     {
       "source": "seafood",
-      "target": "land_use",
+      "target": "land_cover",
       "relType": "AFFECTS"
     },
     {
@@ -6092,12 +6127,12 @@
     },
     {
       "source": "seasonality",
-      "target": "hurricane",
+      "target": "typhoon",
       "relType": "AFFECTS"
     },
     {
       "source": "seasonality",
-      "target": "typhoon",
+      "target": "hurricane",
       "relType": "AFFECTS"
     },
     {
@@ -6127,12 +6162,12 @@
     },
     {
       "source": "sedimentation",
-      "target": "water_quality",
+      "target": "hydropower",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "sedimentation",
-      "target": "hydropower",
+      "target": "water_quality",
       "relType": "CAN_AFFECT"
     },
     {
@@ -6162,12 +6197,12 @@
     },
     {
       "source": "sewage",
-      "target": "water",
+      "target": "urban",
       "relType": "RELATED_TO"
     },
     {
       "source": "sewage",
-      "target": "urban",
+      "target": "water",
       "relType": "RELATED_TO"
     },
     {
@@ -6217,18 +6252,13 @@
     },
     {
       "source": "sint_marteen",
-      "target": "north_america",
-      "relType": "PART_OF"
-    },
-    {
-      "source": "sint_marteen",
       "target": "netherlands",
       "relType": "PART_OF"
     },
     {
       "source": "sint_marteen",
-      "target": "overseas_territory",
-      "relType": "IS_A"
+      "target": "north_america",
+      "relType": "PART_OF"
     },
     {
       "source": "sint_marteen",
@@ -6236,13 +6266,18 @@
       "relType": "IS_A"
     },
     {
-      "source": "slope",
-      "target": "landslide",
-      "relType": "CAN_AFFECT"
+      "source": "sint_marteen",
+      "target": "overseas_territory",
+      "relType": "IS_A"
     },
     {
       "source": "slope",
       "target": "erosion",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "slope",
+      "target": "landslide",
       "relType": "CAN_AFFECT"
     },
     {
@@ -6257,12 +6292,12 @@
     },
     {
       "source": "slovakia",
-      "target": "eu",
+      "target": "oecd",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "slovakia",
-      "target": "oecd",
+      "target": "eu",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -6277,12 +6312,12 @@
     },
     {
       "source": "slovenia",
-      "target": "eu",
+      "target": "oecd",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "slovenia",
-      "target": "oecd",
+      "target": "eu",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -6387,18 +6422,13 @@
     },
     {
       "source": "south_georgia_and_the_south_sandwich_islands",
-      "target": "antarctica",
-      "relType": "PART_OF"
-    },
-    {
-      "source": "south_georgia_and_the_south_sandwich_islands",
       "target": "uk",
       "relType": "PART_OF"
     },
     {
       "source": "south_georgia_and_the_south_sandwich_islands",
-      "target": "island",
-      "relType": "IS_A"
+      "target": "antarctica",
+      "relType": "PART_OF"
     },
     {
       "source": "south_georgia_and_the_south_sandwich_islands",
@@ -6406,13 +6436,18 @@
       "relType": "IS_A"
     },
     {
-      "source": "south_korea",
-      "target": "oecd",
-      "relType": "PART_OF"
+      "source": "south_georgia_and_the_south_sandwich_islands",
+      "target": "island",
+      "relType": "IS_A"
     },
     {
       "source": "south_korea",
       "target": "asia",
+      "relType": "PART_OF"
+    },
+    {
+      "source": "south_korea",
+      "target": "oecd",
       "relType": "PART_OF"
     },
     {
@@ -6447,12 +6482,12 @@
     },
     {
       "source": "spain",
-      "target": "oecd",
+      "target": "schengen_area",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "spain",
-      "target": "schengen_area",
+      "target": "oecd",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -6512,12 +6547,12 @@
     },
     {
       "source": "stormwater",
-      "target": "precipitation",
+      "target": "storm",
       "relType": "RELATED_TO"
     },
     {
       "source": "stormwater",
-      "target": "storm",
+      "target": "precipitation",
       "relType": "RELATED_TO"
     },
     {
@@ -6567,12 +6602,12 @@
     },
     {
       "source": "sustainable_development",
-      "target": "economic",
+      "target": "developing",
       "relType": "AFFECTS"
     },
     {
       "source": "sustainable_development",
-      "target": "developing",
+      "target": "economic",
       "relType": "AFFECTS"
     },
     {
@@ -6597,12 +6632,12 @@
     },
     {
       "source": "sweden",
-      "target": "schengen_area",
+      "target": "eu",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "sweden",
-      "target": "eu",
+      "target": "schengen_area",
       "relType": "IS_INVOLVED_IN"
     },
     {
@@ -6702,7 +6737,7 @@
     },
     {
       "source": "temperature",
-      "target": "glacier",
+      "target": "snow_cover",
       "relType": "AFFECTS"
     },
     {
@@ -6712,7 +6747,7 @@
     },
     {
       "source": "temperature",
-      "target": "snow_cover",
+      "target": "glacier",
       "relType": "AFFECTS"
     },
     {
@@ -6882,12 +6917,12 @@
     },
     {
       "source": "tsunami",
-      "target": "natural_disaster",
+      "target": "natural_phenomena",
       "relType": "TYPE_OF"
     },
     {
       "source": "tsunami",
-      "target": "natural_phenomena",
+      "target": "natural_disaster",
       "relType": "TYPE_OF"
     },
     {
@@ -6907,12 +6942,12 @@
     },
     {
       "source": "turkey",
-      "target": "europe",
+      "target": "asia",
       "relType": "PART_OF"
     },
     {
       "source": "turkey",
-      "target": "asia",
+      "target": "europe",
       "relType": "PART_OF"
     },
     {
@@ -6942,12 +6977,12 @@
     },
     {
       "source": "turks_and_calcos_islands",
-      "target": "island",
+      "target": "overseas_territory",
       "relType": "IS_A"
     },
     {
       "source": "turks_and_calcos_islands",
-      "target": "overseas_territory",
+      "target": "island",
       "relType": "IS_A"
     },
     {
@@ -6957,18 +6992,13 @@
     },
     {
       "source": "tuvalu",
-      "target": "country",
-      "relType": "IS_A"
-    },
-    {
-      "source": "tuvalu",
       "target": "island",
       "relType": "IS_A"
     },
     {
-      "source": "typhoon",
-      "target": "natural_disaster",
-      "relType": "TYPE_OF"
+      "source": "tuvalu",
+      "target": "country",
+      "relType": "IS_A"
     },
     {
       "source": "typhoon",
@@ -6977,8 +7007,8 @@
     },
     {
       "source": "typhoon",
-      "target": "ocean",
-      "relType": "LOCATED_AT"
+      "target": "natural_disaster",
+      "relType": "TYPE_OF"
     },
     {
       "source": "typhoon",
@@ -6987,12 +7017,17 @@
     },
     {
       "source": "typhoon",
-      "target": "precipitation",
-      "relType": "AFFECTS"
+      "target": "ocean",
+      "relType": "LOCATED_AT"
     },
     {
       "source": "typhoon",
       "target": "wind",
+      "relType": "AFFECTS"
+    },
+    {
+      "source": "typhoon",
+      "target": "precipitation",
       "relType": "AFFECTS"
     },
     {
@@ -7012,22 +7047,22 @@
     },
     {
       "source": "uk",
-      "target": "oecd",
-      "relType": "IS_INVOLVED_IN"
-    },
-    {
-      "source": "uk",
       "target": "eu",
       "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "uk",
-      "target": "country",
-      "relType": "IS_A"
+      "target": "oecd",
+      "relType": "IS_INVOLVED_IN"
     },
     {
       "source": "uk",
       "target": "island",
+      "relType": "IS_A"
+    },
+    {
+      "source": "uk",
+      "target": "country",
       "relType": "IS_A"
     },
     {
@@ -7092,12 +7127,12 @@
     },
     {
       "source": "united_states_virgin_islands",
-      "target": "overseas_territory",
+      "target": "island",
       "relType": "IS_A"
     },
     {
       "source": "united_states_virgin_islands",
-      "target": "island",
+      "target": "overseas_territory",
       "relType": "IS_A"
     },
     {
@@ -7112,22 +7147,22 @@
     },
     {
       "source": "urban_planning",
-      "target": "greenspace",
-      "relType": "CAN_AFFECT"
-    },
-    {
-      "source": "urban_planning",
       "target": "park",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "urban_planning",
-      "target": "heat_island",
+      "target": "greenspace",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "urban_planning",
       "target": "accessibility",
+      "relType": "CAN_AFFECT"
+    },
+    {
+      "source": "urban_planning",
+      "target": "heat_island",
       "relType": "CAN_AFFECT"
     },
     {
@@ -7152,12 +7187,12 @@
     },
     {
       "source": "usa",
-      "target": "oecd",
+      "target": "north_america",
       "relType": "PART_OF"
     },
     {
       "source": "usa",
-      "target": "north_america",
+      "target": "oecd",
       "relType": "PART_OF"
     },
     {
@@ -7252,22 +7287,22 @@
     },
     {
       "source": "wallis_and_futuna",
-      "target": "oceania",
-      "relType": "PART_OF"
-    },
-    {
-      "source": "wallis_and_futuna",
       "target": "france",
       "relType": "PART_OF"
     },
     {
       "source": "wallis_and_futuna",
-      "target": "island",
-      "relType": "IS_A"
+      "target": "oceania",
+      "relType": "PART_OF"
     },
     {
       "source": "wallis_and_futuna",
       "target": "overseas_territory",
+      "relType": "IS_A"
+    },
+    {
+      "source": "wallis_and_futuna",
+      "target": "island",
       "relType": "IS_A"
     },
     {
@@ -7282,12 +7317,12 @@
     },
     {
       "source": "wastewater",
-      "target": "water",
+      "target": "pollution",
       "relType": "TYPE_OF"
     },
     {
       "source": "wastewater",
-      "target": "pollution",
+      "target": "water",
       "relType": "TYPE_OF"
     },
     {
@@ -7372,7 +7407,7 @@
     },
     {
       "source": "water_pollution",
-      "target": "water_quality",
+      "target": "water_security",
       "relType": "CAN_AFFECT"
     },
     {
@@ -7382,12 +7417,12 @@
     },
     {
       "source": "water_pollution",
-      "target": "health",
+      "target": "water_quality",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "water_pollution",
-      "target": "water_security",
+      "target": "health",
       "relType": "CAN_AFFECT"
     },
     {
@@ -7477,12 +7512,12 @@
     },
     {
       "source": "wealth",
-      "target": "food_waste",
+      "target": "vulnerability",
       "relType": "CAN_AFFECT"
     },
     {
       "source": "wealth",
-      "target": "vulnerability",
+      "target": "food_waste",
       "relType": "CAN_AFFECT"
     },
     {
