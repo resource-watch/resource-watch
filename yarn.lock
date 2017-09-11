@@ -564,6 +564,10 @@ babel-messages@^6.22.0, babel-messages@^6.23.0, babel-messages@^6.8.0:
   dependencies:
     babel-runtime "^6.22.0"
 
+babel-plugin-add-react-displayname@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/babel-plugin-add-react-displayname/-/babel-plugin-add-react-displayname-0.0.4.tgz#bc2a74bcbee6e505025b3352fea85ee7bc4c6f7c"
+
 babel-plugin-check-es2015-constants@^6.22.0:
   version "6.22.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-check-es2015-constants/-/babel-plugin-check-es2015-constants-6.22.0.tgz#35157b101426fd2ffd3da3f75c7d1e91835bbf8a"
@@ -2387,7 +2391,7 @@ error-ex@^1.2.0:
   dependencies:
     is-arrayish "^0.2.1"
 
-error-stack-parser@^1.3.6:
+error-stack-parser@^1.3.5, error-stack-parser@^1.3.6:
   version "1.3.6"
   resolved "https://registry.yarnpkg.com/error-stack-parser/-/error-stack-parser-1.3.6.tgz#e0e73b93e417138d1cd7c0b746b1a4a14854c292"
   dependencies:
@@ -4607,6 +4611,10 @@ logalot@^2.0.0:
     figures "^1.3.5"
     squeak "^1.0.0"
 
+loglevel@^1.4.0:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.4.1.tgz#95b383f91a3c2756fd4ab093667e4309161f2bcd"
+
 longest@^1.0.0, longest@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
@@ -5320,6 +5328,27 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
+opbeat-js-core@^0.3.1:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/opbeat-js-core/-/opbeat-js-core-0.3.2.tgz#fe120ccc21748f8833da530b640b29bce5fdf225"
+  dependencies:
+    error-stack-parser "^1.3.5"
+    loglevel "^1.4.0"
+    stack-generator "^1.0.7"
+    url-parse "^1.1.7"
+
+opbeat-react@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/opbeat-react/-/opbeat-react-3.4.0.tgz#8af38b9e322adc905096d93b68227c84175d75fd"
+  dependencies:
+    loglevel "^1.4.0"
+    opbeat-js-core "^0.3.1"
+    opbeat-zone "^0.8.12-prm"
+
+opbeat-zone@^0.8.12-prm:
+  version "0.8.12-prm"
+  resolved "https://registry.yarnpkg.com/opbeat-zone/-/opbeat-zone-0.8.12-prm.tgz#efa68b792972815fa68219f9b0a992eaa59be616"
+
 optimist@0.3:
   version "0.3.7"
   resolved "https://registry.yarnpkg.com/optimist/-/optimist-0.3.7.tgz#c90941ad59e4273328923074d2cf2e7cbc6ec0d9"
@@ -5951,6 +5980,10 @@ querystring@0.2.0, querystring@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
 
+querystringify@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-1.0.0.tgz#6286242112c5b712fa654e526652bf6a13ff05cb"
+
 quill-delta@3.6.1:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/quill-delta/-/quill-delta-3.6.1.tgz#8f8f89ac1fb7b0b52ed3a31cf6554b1c4291b64d"
@@ -6393,6 +6426,10 @@ redis@2.8.0, redis@^2.1.0:
     redis-commands "^1.2.0"
     redis-parser "^2.6.0"
 
+redux-devtools-extension@^2.13.2:
+  version "2.13.2"
+  resolved "https://registry.yarnpkg.com/redux-devtools-extension/-/redux-devtools-extension-2.13.2.tgz#e0f9a8e8dfca7c17be92c7124958a3b94eb2911d"
+
 redux-thunk@2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.1.0.tgz#c724bfee75dbe352da2e3ba9bc14302badd89a98"
@@ -6542,6 +6579,10 @@ require-uncached@^1.0.3:
   dependencies:
     caller-path "^0.1.0"
     resolve-from "^1.0.0"
+
+requires-port@1.0.x:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
 
 reselect@3.0.1:
   version "3.0.1"
@@ -7030,11 +7071,17 @@ sshpk@^1.7.0:
     jsbn "~0.1.0"
     tweetnacl "~0.14.0"
 
+stack-generator@^1.0.7:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/stack-generator/-/stack-generator-1.1.0.tgz#36f6a920751a6c10f499a13c32cbb5f51a0b8b25"
+  dependencies:
+    stackframe "^1.0.2"
+
 stackframe@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/stackframe/-/stackframe-0.3.1.tgz#33aa84f1177a5548c8935533cbfeb3420975f5a4"
 
-stackframe@^1.0.3:
+stackframe@^1.0.2, stackframe@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/stackframe/-/stackframe-1.0.4.tgz#357b24a992f9427cba6b545d96a14ed2cbca187b"
 
@@ -7683,6 +7730,13 @@ url-parse-lax@^1.0.0:
   resolved "https://registry.yarnpkg.com/url-parse-lax/-/url-parse-lax-1.0.0.tgz#7af8f303645e9bd79a272e7a14ac68bc0609da73"
   dependencies:
     prepend-http "^1.0.1"
+
+url-parse@^1.1.7:
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.1.9.tgz#c67f1d775d51f0a18911dd7b3ffad27bb9e5bd19"
+  dependencies:
+    querystringify "~1.0.0"
+    requires-port "1.0.x"
 
 url-regex@^3.0.0:
   version "3.2.0"
