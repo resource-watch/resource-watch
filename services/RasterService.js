@@ -34,7 +34,7 @@ export default class RasterService {
         if (this.provider === 'gee') {
           return data[0].bands.map(b => b.id);
         } else if (this.provider === 'cartodb') {
-          return Array.from({ length: data[0].numbands }, (_, i) => `Band ${i + 1}`);
+          return Array.from({ length: data[0].numbands }, (_, i) => `${i + 1}`);
         }
 
         throw new Error('Unsupported provider');

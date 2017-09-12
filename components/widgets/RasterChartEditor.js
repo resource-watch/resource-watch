@@ -110,6 +110,10 @@ class RasterChartEditor extends React.Component {
           const bandInfo = this.props.bandsInfo[band];
           if (bandInfo) {
             res = Object.assign({}, res, bandInfo);
+          } else if (this.props.provider === 'cartodb') {
+            // If there's no alias for a Carto dataset, then
+            // we use a prettier name than just a number
+            res = Object.assign({}, res, { alias: `Band ${band}` });
           }
 
           return res;

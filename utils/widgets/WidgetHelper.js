@@ -264,8 +264,7 @@ export async function getRasterDataURL(dataset, datasetType, tableName, band, pr
   if (provider === 'gee') {
     query = `SELECT ST_HISTOGRAM(rast, ${band.name}, ${bins}, true) from "${tableName}"`;
   } else if (provider === 'cartodb') {
-    const bandNumber = band.name.split(' ')[1];
-    query = `SELECT (ST_Histogram(st_union(the_raster_webmercator), ${bandNumber}, ${bins}, true)).* from ${tableName}`;
+    query = `SELECT (ST_Histogram(st_union(the_raster_webmercator), ${band.name}, ${bins}, true)).* from ${tableName}`;
   }
 
   return `${process.env.WRI_API_URL}/query/${dataset}?sql=${query}`;

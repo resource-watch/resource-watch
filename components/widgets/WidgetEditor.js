@@ -332,7 +332,7 @@ class WidgetEditor extends React.Component {
 
           // If the widget is a raster one, we save the information
           // related to its bands (alias, description, etc.)
-          if (attributes.type === 'raster') {
+          if (attributes.type === 'raster' && metadata) {
             // Here metadata is an object whose keys are names of bands
             // and the values the following:
             // { type: string, alias: string, description: string }
