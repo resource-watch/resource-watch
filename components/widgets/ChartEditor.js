@@ -230,14 +230,14 @@ class ChartEditor extends React.Component {
       user,
       mode,
       showSaveButton,
-      hasGeoInfo
+      hasGeoInfo,
+      showEmbedTable
     } = this.props;
     const { chartType, fields, category, value } = widgetEditor;
     const { areaOptions, loadingAreaIntersection } = this.state;
     const showSaveButtonFlag =
       chartType && category && value && user && user.token && showSaveButton;
     const showUpdateButton = showSaveButtonFlag;
-    const showEmbedTable = true;
     const chartOptions = (
       jiminy
       && jiminy.general
@@ -347,6 +347,10 @@ class ChartEditor extends React.Component {
   }
 }
 
+ChartEditor.defaultProps = {
+  showEmbedTable: true
+}
+
 ChartEditor.propTypes = {
   mode: PropTypes.oneOf(['save', 'update']).isRequired,
   tableName: PropTypes.string.isRequired,
@@ -357,6 +361,7 @@ ChartEditor.propTypes = {
   datasetProvider: PropTypes.string,
   tableViewMode: PropTypes.bool.isRequired,
   showSaveButton: PropTypes.bool.isRequired,
+  showEmbedTable: PropTypes.bool,
   // Store
   widgetEditor: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
