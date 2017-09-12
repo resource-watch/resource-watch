@@ -115,7 +115,7 @@ export default class UserService {
   createSubscriptionToArea(areaId, datasets, datasetsQuery, user, name = '') {
     const bodyObj = {
       name,
-      application: 'rw',
+      application: process.env.APPLICATIONS,
       language: 'en',
       datasets,
       datasetsQuery,
@@ -143,7 +143,7 @@ export default class UserService {
    */
   updateSubscriptionToArea(subscriptionId, datasets, datasetsQuery, user) {
     const bodyObj = {
-      application: 'rw',
+      application: process.env.APPLICATIONS,
       language: 'en',
       datasets,
       datasetsQuery
@@ -215,7 +215,7 @@ export default class UserService {
   createNewArea(name, geostore, iso, token) {
     const bodyObj = {
       name,
-      application: 'rw'
+      application: process.env.APPLICATIONS
     };
 
     if (geostore) {
@@ -243,7 +243,7 @@ export default class UserService {
   updateArea(id, name, token) {
     const bodyObj = {
       name,
-      application: 'rw'
+      application: process.env.APPLICATIONS
     };
 
     return fetch(`${this.opts.apiURL}/area/${id}`, {
