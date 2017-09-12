@@ -76,7 +76,7 @@ class Explore extends Page {
     this.filters = {
       topics: [],
       geographies: [],
-      dataTypes: []
+      dataType: []
     };
 
     // Services
@@ -84,6 +84,21 @@ class Explore extends Page {
 
     // BINDINGS
     this.handleFilterDatasetsSearch = debounce(this.handleFilterDatasetsSearch.bind(this), 500);
+  }
+
+  componentWillMount() {
+    const query = this.props.url.query;
+    const { topics, geographies, dataType } = query || {};
+
+    if (topics || geographies || dataType) {
+      this.filters = {
+        topics: topics ? JSON.parse(topics) : [],
+        geographies: geographies ? JSON.parse(geographies) : [],
+        dataType: dataType ? JSON.parse(dataType) : []
+      };
+
+      this.applyFilters();
+    }
   }
 
   componentDidMount() {
@@ -117,27 +132,28 @@ class Explore extends Page {
       this.props.setDatasetsDataTypeFilter(JSON.parse(query.dataType));
     }
 
+
     this.props.getDatasets();
     this.loadKnowledgeGraph();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const oldFilters = this.props.explore.filters;
-    const { topics, geographies, dataType } = oldFilters;
-    const newFilters = nextProps.explore.filters;
+  // componentWillReceiveProps(nextProps) {
+  //   const oldFilters = this.props.explore.filters;
+  //   const { topics, geographies, dataType } = oldFilters;
+  //   const newFilters = nextProps.explore.filters;
 
-    const conceptsUpdated = topics !== newFilters.topics ||
-      geographies !== newFilters.geographies ||
-      dataType !== newFilters.dataType;
+  //   const conceptsUpdated = topics !== newFilters.topics ||
+  //     geographies !== newFilters.geographies ||
+  //     dataType !== newFilters.dataType;
 
-    const newFiltersHaveData = (newFilters.topics && newFilters.topics.length > 0) ||
-      (newFilters.dataType && newFilters.dataType.length > 0) ||
-      (newFilters.geographies && newFilters.geographies.length > 0);
+  //   const newFiltersHaveData = (newFilters.topics && newFilters.topics.length > 0) ||
+  //     (newFilters.dataType && newFilters.dataType.length > 0) ||
+  //     (newFilters.geographies && newFilters.geographies.length > 0);
 
-    if (conceptsUpdated && !newFiltersHaveData) {
-      this.props.setDatasetsFilteredByConcepts(null);
-    }
-  }
+  //   if (conceptsUpdated && !newFiltersHaveData) {
+  //     this.props.setDatasetsFilteredByConcepts(null);
+  //   }
+  // }
 
   shouldComponentUpdate(nextProps, nextState) {
     return !isEqual(nextProps.explore, this.props.explore)
@@ -163,8 +179,6 @@ class Explore extends Page {
         };
 
 
-        const debouncedOnChange = debounce(onChange, 1500);
-
         if (topics) {
           data.forEach(child => this.selectElementsFromTree(child, topics));
 
@@ -174,7 +188,6 @@ class Explore extends Page {
           });
 
           this.filters.topics = topicsVal;
-          console.log(this.filters.topics)
         }
 
         ReactDOM.render(
@@ -182,7 +195,7 @@ class Explore extends Page {
             showDropdown
             placeholderText="Topics"
             data={data}
-            onChange={debouncedOnChange}
+            onChange={onChange}
           />,
           element);
       });
@@ -196,12 +209,10 @@ class Explore extends Page {
         const onChange = (currentNode, selectedNodes) => {
           const dataTypesVal = selectedNodes.map(val => val.value);
 
-          this.filters.dataTypes = dataTypesVal;
+          this.filters.dataType = dataTypesVal;
 
           this.props.setDatasetsDataTypeFilter(dataTypesVal);
         };
-
-        const debouncedOnChange = debounce(onChange, 1500);
 
         if (dataType) {
           data.forEach(child => this.selectElementsFromTree(child, dataType));
@@ -217,12 +228,12 @@ class Explore extends Page {
           <DropdownTreeSelect
             data={data}
             placeholderText="Data types"
-            onChange={debouncedOnChange}
+            onChange={onChange}
           />,
           element);
       });
 
-    // Data types selector
+    // Geographies selector
     fetch(new Request('/static/data/GeographiesTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
       .then((data) => {
@@ -236,10 +247,8 @@ class Explore extends Page {
           this.props.setDatasetsGeographiesFilter(geographiesVal);
         };
 
-        const debouncedOnChange = debounce(onChange, 1500);
-
         if (geographies) {
-          data.forEach(child => this.selectElementsFromTree(child, JSON.parse(geographies)));
+          data.forEach(child => this.selectElementsFromTree(child, geographies));
           const geographiesVal = [];
 
           const searchFunction = (item) => {
@@ -265,7 +274,7 @@ class Explore extends Page {
           <DropdownTreeSelect
             data={data}
             placeholderText="Geographies"
-            onChange={debouncedOnChange}
+            onChange={onChange}
           />,
           element);
       });
@@ -282,11 +291,25 @@ class Explore extends Page {
     });
   }
 
+
+
+  /**
+   * Sets checked values for selector based on previous one chosen.
+   *
+   * @param {Object} tree used to populate selectors. Contains all options available.
+   * @param {Object[]} elements Contains values to be selected in the data tree.
+   */
   selectElementsFromTree(tree = {}, elements = []) { // eslint-disable-line class-methods-use-this
     if (elements.includes(tree.value)) {
       tree.checked = true; // eslint-disable-line no-param-reassign
     }
-    (tree.children || []).forEach(child => child.checked = tree.checked); // eslint-disable-line
+    (tree.children || []).forEach(child => {
+      if (tree.checked) {
+        child.checked = tree.checked;
+      } else {
+        this.selectElementsFromTree(child, elements)
+      };
+    });
   }
 
   @Autobind
@@ -385,7 +408,7 @@ class Explore extends Page {
     return filter && filter.value;
   }
 
-  onApplyFilters() {
+  applyFilters() {
     const { topics, geographies, dataType } = this.filters;
     this.props.setFiltersLoading(true);
 
@@ -435,13 +458,13 @@ class Explore extends Page {
                       }}
                     />
                   </div>
-                  <div className="buttons -align-right">
-                    <button
-                      className="c-button secondary -compressed"
-                      onClick={() => this.onApplyFilters()}
+                  <div className="buttons -align-between">
+                    {!!showFilters && <button
+                      className="c-button -secondary"
+                      onClick={() => this.applyFilters()}
                     >
                       Apply filters
-                    </button>
+                    </button>}
                     <button
                       className="c-button"
                       onClick={() => this.toggleFilters()}
@@ -461,17 +484,13 @@ class Explore extends Page {
                         <div className="c-tree-selector -explore data-types-selector" />
                       </div>
                     </div>
-                    <Spinner
-                      isLoading={explore.filters.loading}
-                      className="-light"
-                    />
                   </div>
                   <DatasetListHeader
                     list={explore.datasets.list}
                     mode={explore.datasets.mode}
                   />
                   <Spinner
-                    isLoading={explore.datasets.loading}
+                    isLoading={explore.datasets.loading || explore.filters.loading}
                     className="-light"
                   />
 
