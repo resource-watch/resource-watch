@@ -65,7 +65,7 @@ class TagsForm extends React.Component {
 
   loadKnowledgeGraph() {
     // Topics selector
-    fetch(new Request('/static/data/KnowledgeGraph.json', { credentials: 'same-origin' }))
+    fetch(new Request('/static/data/knowledgeGraph.json', { credentials: 'same-origin' }))
       .then(response => response.json())
       .then((data) => {
         this.knowledgeGraph = {
