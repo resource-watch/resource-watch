@@ -44,6 +44,7 @@ const initialState = {
   visualizationType: null,
   limit: 500,
   areaIntersection: null, // ID of the geostore object
+  /** @type {{ name: string, type: string, alias: string, description: string }} */
   band: null, // Band of the raster dataset
   /** @type {{ [name: string]: { type: string, alias: string, description: string } }} */
   bandsInfo: {} // Information of the raster bands

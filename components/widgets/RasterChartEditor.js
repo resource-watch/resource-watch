@@ -47,10 +47,11 @@ class RasterChartEditor extends React.Component {
 
   /**
    * Event handler executed when the user selects a band
-   * @param {string} band
+   * @param {string} bandName - Name of the band
    */
   @Autobind
-  onChangeBand(band) {
+  onChangeBand(bandName) {
+    const band = this.state.bands.find(b => b.name === bandName);
     this.props.setBand(band);
   }
 
@@ -120,7 +121,7 @@ class RasterChartEditor extends React.Component {
             <Select
               properties={{
                 name: 'raster-bands',
-                default: band
+                default: band && band.name
               }}
               options={bands.map(b => ({ label: b.alias || b.name, value: b.name }))}
               onChange={this.onChangeBand}
@@ -160,7 +161,7 @@ RasterChartEditor.propTypes = {
   onUpdateWidget: PropTypes.func,
 
   // REDUX
-  band: PropTypes.string,
+  band: PropTypes.object,
   bandsInfo: PropTypes.object,
   toggleModal: PropTypes.func.isRequired,
   setBand: PropTypes.func.isRequired

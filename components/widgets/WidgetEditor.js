@@ -935,7 +935,7 @@ WidgetEditor.propTypes = {
   onChange: PropTypes.func,
   onError: PropTypes.func,
   // Store
-  band: PropTypes.string,
+  band: PropTypes.object,
   widgetEditor: PropTypes.object.isRequired,
   resetWidgetEditor: PropTypes.func.isRequired,
   setFields: PropTypes.func.isRequired,
