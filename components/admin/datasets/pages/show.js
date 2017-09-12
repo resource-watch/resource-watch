@@ -27,9 +27,9 @@ const DATASET_SUBTABS = [{
   params: { tab: 'datasets', id: '{{id}}', subtab: 'metadata' }
 }, {
   label: 'Tags',
-  value: 'vocabularies',
+  value: 'tags',
   route: 'admin_data_detail',
-  params: { tab: 'datasets', id: '{{id}}', subtab: 'vocabularies' }
+  params: { tab: 'datasets', id: '{{id}}', subtab: 'tags' }
 }, {
   label: 'Widgets',
   value: 'widgets',
@@ -94,7 +94,7 @@ class DatasetsShow extends React.Component {
                 />
               }
 
-              {subtab === 'vocabularies' &&
+              {subtab === 'tags' &&
                 <div>
                   <TagsForm
                     dataset={id}
