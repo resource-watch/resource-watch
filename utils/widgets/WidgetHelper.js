@@ -250,7 +250,7 @@ export function getDataURL(dataset, datasetType, tableName, band, provider,
     return getRasterDataURL(dataset, datasetType, tableName, band, provider);
   }
 
-  const isBidimensional = (isTable) ? false : isBidimensionalChart(chartInfo.chartType);
+  const isBidimensional = isBidimensionalChart(chartInfo.chartType);
 
   if (!isTable && (!chartInfo.x || (isBidimensional && !chartInfo.y))) return '';
 

@@ -92,7 +92,7 @@ class DatasetWidget extends React.Component {
   render() {
     const { widget, layer, mode } = this.props;
     const dataset = this.props.dataset.attributes;
-    const metadata = dataset.metadata[0];
+    const metadata = dataset.metadata && dataset.metadata[0];
     const { showActions } = this.props;
     const gridMode = (mode === 'grid');
     const element = this.getWidgetOrLayer();

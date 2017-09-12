@@ -32,6 +32,7 @@ import Legend from 'components/ui/Legend';
 import TableView from 'components/widgets/TableView';
 import Icon from 'components/ui/Icon';
 import ShareModalExplore from 'components/modal/ShareModalExplore';
+import EmbedTableModal from 'components/modal/EmbedTableModal';
 
 // Utils
 import {
@@ -696,8 +697,19 @@ class WidgetEditor extends React.Component {
     const { datasetType, datasetProvider, tableName } = this.state;
     const { dataset, widgetEditor } = this.props;
     const chartInfo = getChartInfo(dataset, datasetType, datasetProvider, widgetEditor);
-    const url = getDataURL(dataset, datasetType, tableName, datasetProvider, chartInfo, true);
-    console.log('url', url);
+    const queryURL = getDataURL(dataset, datasetType, tableName, null,
+      datasetProvider, chartInfo, true);
+
+    const options = {
+      children: EmbedTableModal,
+      childrenProps: {
+        url: window.location.href,
+        queryURL,
+        toggleModal: this.props.toggleModal
+      }
+    };
+
+    this.props.toggleModal(true, options);
   }
 
   /**

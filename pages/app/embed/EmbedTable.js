@@ -4,6 +4,8 @@ import isEmpty from 'lodash/isEmpty';
 import 'isomorphic-fetch';
 
 // Redux
+import withRedux from 'next-redux-wrapper';
+import { initStore } from 'store';
 import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
@@ -35,11 +37,9 @@ class EmbedTable extends Page {
   }
 
   componentDidMount() {
-    console.log(this.props);
     const query = this.props.url.query.queryURL;
-    console.log('query', query);
     if (query) {
-      this.loadTableData();
+      this.loadTableData(query);
     }
   }
 
@@ -59,7 +59,6 @@ class EmbedTable extends Page {
   }
 
   render() {
-    const { widget } = this.props;
     const { isLoading, tableData } = this.state;
 
     const header = tableData && tableData.length > 0 && Object.keys(tableData[0]);
@@ -76,16 +75,10 @@ class EmbedTable extends Page {
     }
 
     return (
-      <EmbedLayout
-        title={`${widget.attributes.name}`}
-        description={`${widget.attributes.description || ''}`}
-      >
+      <EmbedLayout>
         <div className="c-embed-table">
           <div className="visualization">
             <Spinner isLoading={isLoading} className="-light" />
-            <div className="widget-title">
-              <h4>{widget.attributes.name}</h4>
-            </div>
             <div className="widget-content">
               {tableData &&
                 <table>
@@ -143,4 +136,4 @@ EmbedTable.defaultProps = {
   isLoading: true
 };
 
-export default EmbedTable;
+export default withRedux(initStore, null, null)(EmbedTable);
