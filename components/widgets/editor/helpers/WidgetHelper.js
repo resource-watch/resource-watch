@@ -14,7 +14,7 @@ import ScatterChart from 'utils/widgets/scatter';
 import getQueryByFilters from 'utils/getQueryByFilters';
 
 // Services
-import RasterService from 'services/RasterService';
+import RasterService from 'components/widgets/editor/services/RasterService';
 
 const CHART_TYPES = {
   bar: BarChart,

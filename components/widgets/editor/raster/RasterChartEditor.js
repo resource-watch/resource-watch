@@ -13,7 +13,7 @@ import Spinner from 'components/ui/Spinner';
 import SaveWidgetModal from 'components/widgets/editor/modal/SaveWidgetModal';
 
 // Services
-import RasterService from 'services/RasterService';
+import RasterService from 'components/widgets/editor/services/RasterService';
 
 class RasterChartEditor extends React.Component {
   constructor(props) {
