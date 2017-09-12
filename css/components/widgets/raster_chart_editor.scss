@@ -15,6 +15,11 @@
     .Select {
       max-width: none;
     }
+
+    .description {
+      margin-top: 20px;
+      font-size: $font-size-normal;
+    }
   }
 
   .error {

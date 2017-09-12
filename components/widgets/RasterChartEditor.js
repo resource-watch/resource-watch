@@ -103,7 +103,19 @@ class RasterChartEditor extends React.Component {
           return res;
         });
       })
-      .then(bands => this.setState({ bands }))
+      .then((bands) => {
+        // We save the bands
+        this.setState({ bands }, () => {
+          // At this point, if this.props.band is defined, it's
+          // because we're restoring the state of the widget editor
+          // That means that this.props.band only has its name attribute
+          // defined (we don't have the alias nor the description), we thus
+          // need to reset the band based on the band list
+          if (this.props.band) {
+            this.onChangeBand(this.props.band.name);
+          }
+        });
+      })
       .catch(({ message }) => this.setState({ error: message }))
       .then(() => this.setState({ loading: false }));
   }
@@ -126,6 +138,9 @@ class RasterChartEditor extends React.Component {
               options={bands.map(b => ({ label: b.alias || b.name, value: b.name }))}
               onChange={this.onChangeBand}
             />
+          ) }
+          { band && band.description && (
+            <p className="description">{band.description}</p>
           ) }
         </div>
         <div className="buttons">
