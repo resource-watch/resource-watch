@@ -237,7 +237,7 @@ class ChartEditor extends React.Component {
     const showSaveButtonFlag =
       chartType && category && value && user && user.token && showSaveButton;
     const showUpdateButton = showSaveButtonFlag;
-    const showEmbedTable = chartType && category && value;
+    const showEmbedTable = true;
     const chartOptions = (
       jiminy
       && jiminy.general

@@ -79,7 +79,7 @@ class EmbedTable extends Page {
         <div className="c-embed-table">
           <div className="visualization">
             <Spinner isLoading={isLoading} className="-light" />
-            <div className="widget-content">
+            <div className="table-content c-table">
               {tableData &&
                 <table>
                   <thead>

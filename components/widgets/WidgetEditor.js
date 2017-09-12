@@ -40,11 +40,11 @@ import {
   getChartConfig,
   canRenderChart,
   getChartType,
-  isFieldAllowed,
-  getDataURL
+  isFieldAllowed
 } from 'utils/widgets/WidgetHelper';
 import ChartTheme from 'utils/widgets/theme';
 import LayerManager from 'utils/layers/LayerManager';
+import getQueryByFilters from 'utils/getQueryByFilters';
 
 const VISUALIZATION_TYPES = [
   { label: 'Chart', value: 'chart', available: true },
@@ -694,11 +694,41 @@ class WidgetEditor extends React.Component {
 
   @Autobind
   handleEmbedTable() {
-    const { datasetType, datasetProvider, tableName } = this.state;
+    const { tableName } = this.state;
     const { dataset, widgetEditor } = this.props;
-    const chartInfo = getChartInfo(dataset, datasetType, datasetProvider, widgetEditor);
-    const queryURL = getDataURL(dataset, datasetType, tableName, null,
-      datasetProvider, chartInfo, true);
+    const { filters, fields, value, aggregateFunction, category, orderBy,
+      limit, areaIntersection } = widgetEditor;
+    const aggregateFunctionExists = aggregateFunction && aggregateFunction !== 'none';
+
+    const arrColumns = fields.filter(val => val.columnName !== 'cartodb_id' && val.columnType !== 'geometry').map(
+      (val) => {
+        if (value && value.name === val.columnName && aggregateFunctionExists) {
+          // Value
+          return { value: val.columnName, key: val.columnName, aggregateFunction, group: false };
+        } else if (category && category.name === val.columnName && aggregateFunctionExists) {
+          // Category
+          return { value: val.columnName, key: val.columnName, group: true };
+        } else { // eslint-disable-line
+          // Rest of columns
+          return {
+            value: val.columnName,
+            key: val.columnName,
+            remove: aggregateFunctionExists
+          };
+        }
+      }
+    ).filter(val => !val.remove);
+
+    const orderByColumn = orderBy ? [orderBy] : [];
+    if (orderByColumn.length > 0 && value && orderByColumn[0].name === value.name && aggregateFunction && aggregateFunction !== 'none') {
+      orderByColumn[0].name = `${aggregateFunction}(${value.name})`;
+    }
+
+    const geostore = areaIntersection ? `&geostore=${areaIntersection}` : '';
+
+    const sortOrder = orderBy ? orderBy.orderType : 'asc';
+    const query = `${getQueryByFilters(tableName, filters, arrColumns, orderByColumn, sortOrder)} LIMIT ${limit}`;
+    const queryURL = `${process.env.WRI_API_URL}/query/${dataset}?sql=${query}${geostore}`;
 
     const options = {
       children: EmbedTableModal,
