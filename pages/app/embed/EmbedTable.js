@@ -51,10 +51,11 @@ class EmbedTable extends Page {
 
   loadTableData(query) {
     fetch(query)
+      .then(response => response.json())
       .then((response) => {
         this.setState({
           isLoading: false,
-          tableData: response
+          tableData: response.data
         });
       })
       .catch((error) => {
@@ -79,8 +80,6 @@ class EmbedTable extends Page {
         </EmbedLayout>
       );
     }
-    debugger;
-    console.log('tableData', tableData);
 
     return (
       <EmbedLayout
