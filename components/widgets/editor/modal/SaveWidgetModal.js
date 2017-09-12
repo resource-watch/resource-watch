@@ -19,7 +19,7 @@ import Spinner from 'components/ui/Spinner';
 import WidgetService from 'services/WidgetService';
 
 // utils
-import { getChartConfig, getChartInfo } from 'utils/widgets/WidgetHelper';
+import { getChartConfig, getChartInfo } from 'components/widgets/editor/helpers/WidgetHelper';
 
 const FORM_ELEMENTS = {
   elements: {

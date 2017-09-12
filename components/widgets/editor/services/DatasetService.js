@@ -2,7 +2,7 @@ import 'isomorphic-fetch';
 import Promise from 'bluebird';
 
 // Utils
-import { isFieldDate, isFieldNumber } from 'utils/widgets/WidgetHelper';
+import { isFieldDate, isFieldNumber } from 'components/widgets/editor/helpers/WidgetHelper';
 
 /**
  * Dataset service

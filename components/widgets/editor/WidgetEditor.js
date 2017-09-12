@@ -43,7 +43,7 @@ import {
   canRenderChart,
   getChartType,
   isFieldAllowed
-} from 'utils/widgets/WidgetHelper';
+} from 'components/widgets/editor/helpers/WidgetHelper';
 import ChartTheme from 'utils/widgets/theme';
 import LayerManager from 'utils/layers/LayerManager';
 

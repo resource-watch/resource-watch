@@ -17,7 +17,7 @@ import AggregateFunctionTooltip from 'components/widgets/editor/tooltip/Aggregat
 import OrderByTooltip from 'components/widgets/editor/tooltip/OrderByTooltip';
 
 // Utils
-import { isFieldAllowed } from 'utils/widgets/WidgetHelper';
+import { isFieldAllowed } from 'components/widgets/editor/helpers/WidgetHelper';
 
 const NAME_MAX_LENGTH = 9;
 
