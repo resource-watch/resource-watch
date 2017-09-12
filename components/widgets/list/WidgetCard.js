@@ -17,13 +17,13 @@ import Title from 'components/ui/Title';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import DatasetLayerChart from 'components/app/explore/DatasetLayerChart';
 import EmbedMyWidgetModal from 'components/modal/EmbedMyWidgetModal';
-import WidgetActionsTooltip from 'components/widgets/WidgetActionsTooltip';
-import AddWidgetToCollectionTooltip from 'components/widgets/AddWidgetToCollectionTooltip';
+import WidgetActionsTooltip from 'components/widgets/list/WidgetActionsTooltip';
+import AddWidgetToCollectionTooltip from 'components/widgets/list/AddWidgetToCollectionTooltip';
 import Icon from 'components/ui/Icon';
 import Map from 'components/vis/Map';
 import Legend from 'components/ui/Legend';
 import Spinner from 'components/ui/Spinner';
-import TextChart from 'components/widgets/TextChart';
+import TextChart from 'components/widgets/charts/TextChart';
 
 // Services
 import WidgetService from 'services/WidgetService';

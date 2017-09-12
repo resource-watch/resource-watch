@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 
 
 // Components
-import CategoryContainer from 'components/widgets/CategoryContainer';
-import ValueContainer from 'components/widgets/ValueContainer';
-import ColorContainer from 'components/widgets/ColorContainer';
-import SizeContainer from 'components/widgets/SizeContainer';
+import CategoryContainer from 'components/widgets/editor/ui/CategoryContainer';
+import ColorContainer from 'components/widgets/editor/ui/ColorContainer';
+import ValueContainer from 'components/widgets/editor/ui/ValueContainer';
+import SizeContainer from 'components/widgets/editor/ui/SizeContainer';
 
 class DimensionsContainer extends React.Component {
   render() {

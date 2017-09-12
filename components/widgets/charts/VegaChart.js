@@ -14,8 +14,8 @@ import { connect } from 'react-redux';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
-import VegaChartTooltip from 'components/widgets/VegaChartTooltip';
-import VegaChartLegend from 'components/widgets/VegaChartLegend';
+import VegaChartTooltip from 'components/widgets/charts/VegaChartTooltip';
+import VegaChartLegend from 'components/widgets/charts/VegaChartLegend';
 
 // Utils
 import { fetchRasterData } from 'utils/widgets/WidgetHelper';

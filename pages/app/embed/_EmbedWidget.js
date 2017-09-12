@@ -12,7 +12,7 @@ import Page from 'components/app/layout/Page';
 import Icons from 'components/app/layout/icons';
 import Spinner from 'components/ui/Spinner';
 import Modal from 'components/ui/Modal';
-import VegaChart from 'components/widgets/VegaChart';
+import VegaChart from 'components/widgets/charts/VegaChart';
 import Tooltip from 'components/ui/Tooltip';
 import Map from 'components/vis/Map';
 import Legend from 'components/ui/Legend';

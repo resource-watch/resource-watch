@@ -9,24 +9,24 @@ import { toastr } from 'react-redux-toastr';
 import { connect } from 'react-redux';
 
 import { toggleModal, setModalOptions } from 'redactions/modal';
-import { setChartType, setAreaIntersection } from 'redactions/widgetEditor';
+import { setChartType, setAreaIntersection } from 'components/widgets/editor/redux/widgetEditor';
 
 // Components
-import FilterContainer from 'components/widgets/FilterContainer';
-import DimensionsContainer from 'components/widgets/DimensionsContainer';
-import FieldsContainer from 'components/widgets/FieldsContainer';
-import SortContainer from 'components/widgets/SortContainer';
-import LimitContainer from 'components/widgets/LimitContainer';
+import FilterContainer from 'components/widgets/editor/ui/FilterContainer';
+import DimensionsContainer from 'components/widgets/editor/ui/DimensionsContainer';
+import FieldsContainer from 'components/widgets/editor/ui/FieldsContainer';
+import SortContainer from 'components/widgets/editor/ui/SortContainer';
+import LimitContainer from 'components/widgets/editor/ui/LimitContainer';
 import CustomSelect from 'components/ui/CustomSelect';
 import Select from 'components/form/SelectInput';
-import SaveWidgetModal from 'components/modal/SaveWidgetModal';
-import HowToWidgetEditorModal from 'components/modal/HowToWidgetEditorModal';
-import UploadAreaIntersectionModal from 'components/modal/UploadAreaIntersectionModal';
+import SaveWidgetModal from 'components/widgets/editor/modal/SaveWidgetModal';
+import HowToWidgetEditorModal from 'components/widgets/editor/modal/HowToWidgetEditorModal';
+import UploadAreaIntersectionModal from 'components/widgets/editor/modal/UploadAreaIntersectionModal';
 import Spinner from 'components/ui/Spinner';
 
 // Services
-import AreasService from 'services/AreasService';
-import UserService from 'services/UserService';
+import AreasService from 'components/widgets/editor/services/AreasService';
+import UserService from 'components/widgets/editor/services/UserService';
 
 const AREAS = [
   {

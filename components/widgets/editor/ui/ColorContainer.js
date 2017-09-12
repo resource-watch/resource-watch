@@ -4,8 +4,8 @@ import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 
-import { setColor } from 'redactions/widgetEditor';
-import ColumnBox from 'components/widgets/ColumnBox';
+import { setColor } from 'components/widgets/editor/redux/widgetEditor';
+import ColumnBox from 'components/widgets/editor/ui/ColumnBox';
 
 const boxTarget = {
   drop(props, monitor) {

@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 // Redux
 import { connect } from 'react-redux';
 
-import { setLimit } from 'redactions/widgetEditor';
+import { setLimit } from 'components/widgets/editor/redux/widgetEditor';
 
 // Maximum value for the query limit
 const LIMIT_MAX_VALUE = 500;

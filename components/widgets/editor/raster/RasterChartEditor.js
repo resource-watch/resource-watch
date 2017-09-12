@@ -4,13 +4,13 @@ import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
-import { setBand } from 'redactions/widgetEditor';
+import { setBand } from 'components/widgets/editor/redux/widgetEditor';
 import { toggleModal } from 'redactions/modal';
 
 // Components
 import Select from 'components/form/SelectInput';
 import Spinner from 'components/ui/Spinner';
-import SaveWidgetModal from 'components/modal/SaveWidgetModal';
+import SaveWidgetModal from 'components/widgets/editor/modal/SaveWidgetModal';
 
 // Services
 import RasterService from 'services/RasterService';

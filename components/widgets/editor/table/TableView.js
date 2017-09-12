@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import Spinner from 'components/ui/Spinner';
 
 // Services
-import DatasetService from 'services/DatasetService';
+import DatasetService from 'components/widgets/editor/services/DatasetService';
 
 // Utils
 import getQueryByFilters from 'utils/getQueryByFilters';

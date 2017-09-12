@@ -13,25 +13,28 @@ import {
   resetWidgetEditor,
   setFields,
   setVisualizationType
-} from 'redactions/widgetEditor';
+} from 'components/widgets/editor/redux/widgetEditor';
 import { toggleModal } from 'redactions/modal';
 
 // Services
-import DatasetService from 'services/DatasetService';
-import WidgetService from 'services/WidgetService';
+import DatasetService from 'components/widgets/editor/services/DatasetService';
+import WidgetService from 'components/widgets/editor/services/WidgetService';
 
 // Components
 import Select from 'components/form/SelectInput';
 import Spinner from 'components/ui/Spinner';
-import VegaChart from 'components/widgets/VegaChart';
-import ChartEditor from 'components/widgets/ChartEditor';
-import MapEditor from 'components/widgets/MapEditor';
-import RasterChartEditor from 'components/widgets/RasterChartEditor';
+import VegaChart from 'components/widgets/charts/VegaChart';
+
+// Editors
+import ChartEditor from 'components/widgets/editor/chart/ChartEditor';
+import MapEditor from 'components/widgets/editor/map/MapEditor';
+import RasterChartEditor from 'components/widgets/editor/raster/RasterChartEditor';
+
 import Map from 'components/vis/Map';
 import Legend from 'components/ui/Legend';
-import TableView from 'components/widgets/TableView';
+import TableView from 'components/widgets/editor/table/TableView';
 import Icon from 'components/ui/Icon';
-import ShareModalExplore from 'components/modal/ShareModalExplore';
+import ShareModalExplore from 'components/widgets/editor/modal/ShareModalExplore';
 
 // Utils
 import {

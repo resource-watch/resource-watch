@@ -19,7 +19,7 @@ import {
   setBand,
   setVisualizationType,
   setLayer
-} from 'redactions/widgetEditor';
+} from 'components/widgets/editor/redux/widgetEditor';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -28,7 +28,7 @@ import LayersService from 'services/LayersService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import WidgetEditor from 'components/widgets/WidgetEditor';
+import WidgetEditor from 'components/widgets/editor/WidgetEditor';
 import Button from 'components/ui/Button';
 import Input from 'components/form/Input';
 import Field from 'components/form/Field';

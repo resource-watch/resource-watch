@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Autobind } from 'es-decorators';
 
 import Spinner from 'components/ui/Spinner';
-import WidgetCard from 'components/widgets/WidgetCard';
+import WidgetCard from 'components/widgets/list/WidgetCard';
 
 export default class WidgetList extends React.Component {
   constructor(props) {

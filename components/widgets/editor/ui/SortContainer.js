@@ -2,35 +2,36 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
+import { Autobind } from 'es-decorators';
+
+// Redux
 import { connect } from 'react-redux';
 
-import { setCategory } from 'redactions/widgetEditor';
-import ColumnBox from 'components/widgets/ColumnBox';
+import { setOrderBy } from 'components/widgets/editor/redux/widgetEditor';
+
+// Components
+import ColumnBox from 'components/widgets/editor/ui/ColumnBox';
 
 const boxTarget = {
   drop(props, monitor) {
-    props.setCategory(monitor.getItem());
+    props.setOrderBy(Object.assign({}, monitor.getItem(), { orderType: 'asc' }));
   }
 };
 
-@DropTarget('columnbox', boxTarget, (connectDrop, monitor) => ({
-  connectDropTarget: connectDrop.dropTarget(),
+@DropTarget('columnbox', boxTarget, (connect, monitor) => ({
+  connectDropTarget: connect.dropTarget(),
   isOver: monitor.isOver(),
   canDrop: monitor.canDrop()
 }))
-class CategoryContainer extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      category: null
-    };
+class SortContainer extends React.Component {
+  @Autobind
+  handleSetOrderType(orderBy) {
+    this.props.setOrderBy(orderBy);
   }
-
 
   render() {
     const { canDrop, connectDropTarget, widgetEditor } = this.props;
-    const { category } = widgetEditor;
+    const orderBy = widgetEditor.orderBy;
 
     const containerDivClass = classNames({
       '-release': canDrop,
@@ -38,36 +39,38 @@ class CategoryContainer extends React.Component {
     });
 
     return connectDropTarget(
-      <div className="c-column-container">
+      <div className="c-column-container c-sort-container">
         <span className="text">
-          Category
+          Order
         </span>
         <div className={containerDivClass}>
-          {!category &&
+          {!orderBy &&
           <span className="placeholder">
             Drop here
           </span>
           }
-          {category &&
+          {orderBy &&
             <ColumnBox
-              name={category.name}
-              type={category.type}
+              name={orderBy.name}
+              type={orderBy.type}
               closable
-              configurable={category.type === 'number'}
-              isA="category"
+              configurable
+              isA="orderBy"
+              onSetOrderType={this.handleSetOrderType}
             />
           }
         </div>
       </div>
-
     );
   }
 }
 
-CategoryContainer.propTypes = {
+SortContainer.propTypes = {
   connectDropTarget: PropTypes.func,
   isOver: PropTypes.bool,
   canDrop: PropTypes.bool,
+  // Store
+  setOrderBy: PropTypes.func,
   widgetEditor: PropTypes.object
 };
 
@@ -76,9 +79,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setCategory: (category) => {
-    dispatch(setCategory(category));
+  setOrderBy: (orderBy) => {
+    dispatch(setOrderBy(orderBy));
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(SortContainer);

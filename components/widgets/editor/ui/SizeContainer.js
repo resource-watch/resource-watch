@@ -6,10 +6,10 @@ import classNames from 'classnames';
 // Redux
 import { connect } from 'react-redux';
 
-import { setSize } from 'redactions/widgetEditor';
+import { setSize } from 'components/widgets/editor/redux/widgetEditor';
 
 // Components
-import ColumnBox from 'components/widgets/ColumnBox';
+import ColumnBox from 'components/widgets/editor/ui/ColumnBox';
 
 const boxTarget = {
   drop(props, monitor) {

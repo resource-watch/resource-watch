@@ -6,7 +6,7 @@ import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Textarea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
-import WidgetEditor from 'components/widgets/WidgetEditor';
+import WidgetEditor from 'components/widgets/editor/WidgetEditor';
 
 import { FORM_ELEMENTS } from 'components/admin/widget/form/constants';
 

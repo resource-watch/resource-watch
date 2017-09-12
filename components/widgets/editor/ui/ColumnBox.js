@@ -7,14 +7,14 @@ import classNames from 'classnames';
 // Store
 import { connect } from 'react-redux';
 
-import { removeFilter, removeColor, removeCategory, removeValue, removeSize, removeOrderBy, setOrderBy } from 'redactions/widgetEditor';
+import { removeFilter, removeColor, removeCategory, removeValue, removeSize, removeOrderBy, setOrderBy } from 'components/widgets/editor/redux/widgetEditor';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import Icon from 'components/ui/Icon';
-import FilterTooltip from 'components/widgets/FilterTooltip';
-import AggregateFunctionTooltip from 'components/widgets/AggregateFunctionTooltip';
-import OrderByTooltip from 'components/widgets/OrderByTooltip';
+import FilterTooltip from 'components/widgets/editor/tooltip/FilterTooltip';
+import AggregateFunctionTooltip from 'components/widgets/editor/tooltip/AggregateFunctionTooltip';
+import OrderByTooltip from 'components/widgets/editor/tooltip/OrderByTooltip';
 
 // Utils
 import { isFieldAllowed } from 'utils/widgets/WidgetHelper';

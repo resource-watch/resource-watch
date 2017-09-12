@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ColumnBox from 'components/widgets/ColumnBox';
+import ColumnBox from 'components/widgets/editor/ui/ColumnBox';
 
 const FieldsContainer = (props) => {
   const { dataset, tableName, fields } = props;

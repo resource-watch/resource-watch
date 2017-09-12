@@ -5,13 +5,13 @@ import { Autobind } from 'es-decorators';
 // Redux
 import { connect } from 'react-redux';
 
-import { showLayer } from 'redactions/widgetEditor';
+import { showLayer } from 'components/widgets/editor/redux/widgetEditor';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Components
 import Select from 'components/form/SelectInput';
-// import EmbedLayerModal from 'components/modal/EmbedLayerModal';
-import SaveWidgetModal from 'components/modal/SaveWidgetModal';
+// import EmbedLayerModal from 'components/widgets/editor/modal/EmbedLayerModal';
+import SaveWidgetModal from 'components/widgets/editor/modal/SaveWidgetModal';
 
 class MapEditor extends React.Component {
   /**

@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Services
-import DatasetService from 'services/DatasetService';
+import DatasetService from 'components/widgets/editor/services/DatasetService';
 
 // Components
 import CheckboxGroup from 'components/form/CheckboxGroup';

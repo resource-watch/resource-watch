@@ -10,7 +10,7 @@ import Head from 'components/app/layout/head';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import VegaChart from 'components/widgets/VegaChart';
+import VegaChart from 'components/widgets/charts/VegaChart';
 import Tooltip from 'components/ui/Tooltip';
 
 // Services
