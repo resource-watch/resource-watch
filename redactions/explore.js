@@ -73,7 +73,8 @@ const initialState = {
     topics: null,
     dataType: null,
     geographies: null,
-    loading: false
+    datasetsFilteredByConcepts: [],
+    loading: false,
   },
   sidebar: {
     open: true,

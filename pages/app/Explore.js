@@ -31,7 +31,6 @@ import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Selectors
-import getpaginatedDatasets from 'selectors/explore/datasetsPaginatedExplore';
 import getFilteredDatasets from 'selectors/explore/filterDatasets';
 import getLayerGroups from 'selectors/explore/layersExplore';
 
@@ -137,23 +136,23 @@ class Explore extends Page {
     this.loadKnowledgeGraph();
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   const oldFilters = this.props.explore.filters;
-  //   const { topics, geographies, dataType } = oldFilters;
-  //   const newFilters = nextProps.explore.filters;
+  componentWillReceiveProps(nextProps) {
+    const oldFilters = this.props.explore.filters;
+    const { topics, geographies, dataType } = oldFilters;
+    const newFilters = nextProps.explore.filters;
 
-  //   const conceptsUpdated = topics !== newFilters.topics ||
-  //     geographies !== newFilters.geographies ||
-  //     dataType !== newFilters.dataType;
+    const conceptsUpdated = topics !== newFilters.topics ||
+      geographies !== newFilters.geographies ||
+      dataType !== newFilters.dataType;
 
-  //   const newFiltersHaveData = (newFilters.topics && newFilters.topics.length > 0) ||
-  //     (newFilters.dataType && newFilters.dataType.length > 0) ||
-  //     (newFilters.geographies && newFilters.geographies.length > 0);
+    const newFiltersHaveData = (newFilters.topics && newFilters.topics.length > 0) ||
+      (newFilters.dataType && newFilters.dataType.length > 0) ||
+      (newFilters.geographies && newFilters.geographies.length > 0);
 
-  //   if (conceptsUpdated && !newFiltersHaveData) {
-  //     this.props.setDatasetsFilteredByConcepts(null);
-  //   }
-  // }
+    if (conceptsUpdated && !newFiltersHaveData) {
+      this.props.setDatasetsFilteredByConcepts([]);
+    }
+  }
 
   shouldComponentUpdate(nextProps, nextState) {
     return !isEqual(nextProps.explore, this.props.explore)
@@ -171,11 +170,7 @@ class Explore extends Page {
         const element = document.getElementsByClassName('topics-selector')[0];
 
         const onChange = (currentNode, selectedNodes) => {
-          const topicsVal = selectedNodes.map(val => val.value);
-
-          this.filters.topics = topicsVal;
-
-          this.props.setDatasetsTopicsFilter(topicsVal);
+          this.filters.topics = selectedNodes.map(val => val.value);
         };
 
 
@@ -207,11 +202,7 @@ class Explore extends Page {
         const element = document.getElementsByClassName('data-types-selector')[0];
 
         const onChange = (currentNode, selectedNodes) => {
-          const dataTypesVal = selectedNodes.map(val => val.value);
-
-          this.filters.dataType = dataTypesVal;
-
-          this.props.setDatasetsDataTypeFilter(dataTypesVal);
+          this.filters.dataType = selectedNodes.map(val => val.value);
         };
 
         if (dataType) {
@@ -240,11 +231,7 @@ class Explore extends Page {
         const element = document.getElementsByClassName('geographies-selector')[0];
 
         const onChange = (currentNode, selectedNodes) => {
-          const geographiesVal = selectedNodes.map(val => val.value);
-
-          this.filters.geographies = geographiesVal;
-
-          this.props.setDatasetsGeographiesFilter(geographiesVal);
+          this.filters.geographies = selectedNodes.map(val => val.value);
         };
 
         if (geographies) {
@@ -410,13 +397,25 @@ class Explore extends Page {
 
   applyFilters() {
     const { topics, geographies, dataType } = this.filters;
-    this.props.setFiltersLoading(true);
+    const { page } = this.props.url.query || {}
+    const hasValues = [...topics, ...geographies, ...dataType].length;
 
+    if(!hasValues) return;
+
+    if(page !== 1) this.props.setDatasetsPage(1);
+
+    // updates URL
+    this.props.setDatasetsTopicsFilter(topics);
+    this.props.setDatasetsGeographiesFilter(geographies);
+    this.props.setDatasetsDataTypeFilter(dataType);
+
+
+    this.props.setFiltersLoading(true);
     this.datasetService.searchDatasetsByConcepts(
       topics, geographies, dataType)
       .then((datasetList) => {
         this.props.setFiltersLoading(false);
-        this.props.setDatasetsFilteredByConcepts(datasetList[0]);
+        this.props.setDatasetsFilteredByConcepts(datasetList[0] || []);
       });
   }
 
@@ -427,7 +426,7 @@ class Explore extends Page {
   }
 
   render() {
-    const { explore, paginatedDatasets } = this.props;
+    const { explore, totalDatasets, filteredDatasets } = this.props;
     const { search } = explore.filters;
     const { showFilters } = this.state;
 
@@ -486,7 +485,7 @@ class Explore extends Page {
                     </div>
                   </div>
                   <DatasetListHeader
-                    list={explore.datasets.list}
+                    list={totalDatasets}
                     mode={explore.datasets.mode}
                   />
                   <Spinner
@@ -497,7 +496,7 @@ class Explore extends Page {
                   <div className="row collapse">
                     <div className="column small-12">
                       <DatasetList
-                        list={paginatedDatasets}
+                        list={filteredDatasets}
                         mode={explore.datasets.mode}
                         showActions
                       />
@@ -508,7 +507,7 @@ class Explore extends Page {
                     options={{
                       page: explore.datasets.page,
                       limit: explore.datasets.limit,
-                      size: explore.datasets.list.length
+                      size: totalDatasets.length
                     }}
                     onChange={(page) => {
                       this.props.setDatasetsPage(page);
@@ -556,9 +555,11 @@ Explore.propTypes = {
 
   // STORE
   explore: PropTypes.object,
-  paginatedDatasets: PropTypes.array,
+  filteredDatasets: PropTypes.array,
+  totalDatasets: PropTypes.array,
   layerGroups: PropTypes.array,
   toggledDataset: PropTypes.string,
+
 
   // ACTIONS
 
@@ -579,21 +580,20 @@ Explore.propTypes = {
   setLayerGroups: PropTypes.func.isRequired
 };
 
+Explore.defaultProps = {
+  filteredDatasets: [],
+  totalDatasets: []
+};
+
 const mapStateToProps = (state) => {
-  const filters = state.explore.filters;
-  const datasets = (filters.search || filters.topics || filters.geographies || filters.dataType)
-    ? Object.assign({}, state.explore.datasets, { list: getFilteredDatasets(state) })
-    : state.explore.datasets;
-
-  const explore = Object.assign({}, state.explore, { datasets });
-
+  const { totalFilteredDatasets, filteredDatasets } = getFilteredDatasets(state);
   return {
-    explore,
-    paginatedDatasets: getpaginatedDatasets(explore),
-    allDatasets: state.explore.datasets.list,
+    explore: state.explore,
+    filteredDatasets,
+    totalDatasets: totalFilteredDatasets,
     layerGroups: getLayerGroups(state),
     rawLayerGroups: state.explore.layers
-  };
+  }
 };
 
 const mapDispatchToProps = dispatch => ({
