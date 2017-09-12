@@ -39,7 +39,8 @@ import {
   getChartConfig,
   canRenderChart,
   getChartType,
-  isFieldAllowed
+  isFieldAllowed,
+  getDataURL
 } from 'utils/widgets/WidgetHelper';
 import ChartTheme from 'utils/widgets/theme';
 import LayerManager from 'utils/layers/LayerManager';
@@ -549,7 +550,7 @@ class WidgetEditor extends React.Component {
 
     this.setState({ visualizationOptions }, () => {
       if (this.props.selectedVisualizationType === null) {
-        // We only set a default visualization if none of them has been set in the past
+      // We only set a default visualization if none of them has been set in the past
         // (we don't want to conflict with the "state restoration" made in My RW)
         this.handleVisualizationTypeChange(defaultVis, resetStore);
       }
@@ -690,6 +691,15 @@ class WidgetEditor extends React.Component {
     this.props.onUpdateWidget();
   }
 
+  @Autobind
+  handleEmbedTable() {
+    const { datasetType, datasetProvider, tableName } = this.state;
+    const { dataset, widgetEditor } = this.props;
+    const chartInfo = getChartInfo(dataset, datasetType, datasetProvider, widgetEditor);
+    const url = getDataURL(dataset, datasetType, tableName, datasetProvider, chartInfo, true);
+    console.log('url', url);
+  }
+
   /**
    * Change the selected visualization in the state
    * @param {string} selectedVisualizationType Visualization type
@@ -777,7 +787,7 @@ class WidgetEditor extends React.Component {
                         value: selectedVisualizationType
                       }}
                       options={visualizationOptions}
-                      onChange={this.handleVisualizationTypeChange}
+                      onChange={value => this.handleVisualizationTypeChange(value, false)}
                     />
                   </div>
                 </div>
@@ -797,6 +807,7 @@ class WidgetEditor extends React.Component {
                         onUpdateWidget={this.handleUpdateWidget}
                         showSaveButton={showSaveButton}
                         hasGeoInfo={hasGeoInfo}
+                        onEmbedTable={this.handleEmbedTable}
                       />
                     )
                 }

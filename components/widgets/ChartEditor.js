@@ -172,6 +172,11 @@ class ChartEditor extends React.Component {
     this.props.setModalOptions(options);
   }
 
+  @Autobind
+  handleEmbedTable() {
+    this.props.onEmbedTable();
+  }
+
   /**
    * Fetch the list of the areas for the area intersection
    * filter
@@ -232,6 +237,7 @@ class ChartEditor extends React.Component {
     const showSaveButtonFlag =
       chartType && category && value && user && user.token && showSaveButton;
     const showUpdateButton = showSaveButtonFlag;
+    const showEmbedTable = chartType && category && value;
     const chartOptions = (
       jiminy
       && jiminy.general
@@ -325,6 +331,16 @@ class ChartEditor extends React.Component {
             Save widget
           </a>
           }
+          {tableViewMode && showEmbedTable &&
+            <a
+              role="button"
+              className="c-button -primary"
+              tabIndex={0}
+              onClick={this.handleEmbedTable}
+            >
+              Embed table
+            </a>
+          }
         </div>
       </div>
     );
@@ -349,7 +365,8 @@ ChartEditor.propTypes = {
   setModalOptions: PropTypes.func.isRequired,
   setAreaIntersection: PropTypes.func.isRequired,
   // Callback
-  onUpdateWidget: PropTypes.func
+  onUpdateWidget: PropTypes.func,
+  onEmbedTable: PropTypes.func
 };
 
 const mapStateToProps = ({ widgetEditor, user }) => ({ widgetEditor, user });

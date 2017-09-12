@@ -163,6 +163,9 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
     filters
   } = widgetEditor;
 
+  const categoryField = fields.length &&
+    fields.find(f => (category && f.columnName === category.name));
+
   const chartInfo = {
     chartType,
     limit,
@@ -170,9 +173,9 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
     filters,
     areaIntersection,
     x: {
-      type: category.type,
-      name: category.name,
-      alias: fields.length && fields.find(f => f.columnName === category.name).alias
+      type: category && category.type,
+      name: category && category.name,
+      alias: categoryField && categoryField.alias
     },
     y: null,
     color: null,
@@ -239,20 +242,19 @@ export function getRasterDataURL(dataset, datasetType, tableName, band, provider
  * @param {ChartInfo} chartInfo
  * @return {string}
  */
-export function getDataURL(dataset, datasetType, tableName, band, provider, chartInfo) {
+export function getDataURL(dataset, datasetType, tableName, band, provider,
+  chartInfo, isTable = false) {
   // If the dataset is a raster one, the behaviour is totally different
   if (datasetType === 'raster') {
     if (!band) return '';
     return getRasterDataURL(dataset, datasetType, tableName, band, provider);
   }
 
-  const isBidimensional = isBidimensionalChart(chartInfo.chartType);
+  const isBidimensional = (isTable) ? false : isBidimensionalChart(chartInfo.chartType);
 
-  if (!chartInfo.x || (isBidimensional && !chartInfo.y)) return '';
+  if (!isTable && (!chartInfo.x || (isBidimensional && !chartInfo.y))) return '';
 
-  const columns = [
-    { key: 'x', value: chartInfo.x.name, as: true }
-  ];
+  const columns = [{ key: 'x', value: chartInfo.x.name, as: true }];
 
   if (isBidimensional) {
     columns.push({ key: 'y', value: chartInfo.y.name, as: true });

@@ -4,10 +4,6 @@ import isEmpty from 'lodash/isEmpty';
 import 'isomorphic-fetch';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-import { bindActionCreators } from 'redux';
-import { getWidget } from 'redactions/widget';
 import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
@@ -39,13 +35,11 @@ class EmbedTable extends Page {
   }
 
   componentDidMount() {
-    this.props.getWidget(this.props.url.query.id);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.widget && nextProps.widget.attributes) {
-      const queryURL = nextProps.widget.attributes.widgetConfig.data[0].url;
-      this.loadTableData(queryURL);
+    console.log(this.props);
+    const query = this.props.url.query.queryURL;
+    console.log('query', query);
+    if (query) {
+      this.loadTableData();
     }
   }
 
@@ -86,7 +80,7 @@ class EmbedTable extends Page {
         title={`${widget.attributes.name}`}
         description={`${widget.attributes.description || ''}`}
       >
-        <div className="c-embed-widget">
+        <div className="c-embed-table">
           <div className="visualization">
             <Spinner isLoading={isLoading} className="-light" />
             <div className="widget-title">
@@ -141,23 +135,12 @@ class EmbedTable extends Page {
 }
 
 EmbedTable.propTypes = {
-  widget: PropTypes.object,
-  isLoading: PropTypes.bool,
-  getWidget: PropTypes.func
+  queryURL: PropTypes.object,
+  isLoading: PropTypes.bool
 };
 
 EmbedTable.defaultProps = {
-  widget: {},
   isLoading: true
 };
 
-const mapStateToProps = state => ({
-  widget: state.widget.data,
-  isLoading: state.widget.loading
-});
-
-const mapDispatchToProps = dispatch => ({
-  getWidget: bindActionCreators(getWidget, dispatch)
-});
-
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(EmbedTable);
+export default EmbedTable;
