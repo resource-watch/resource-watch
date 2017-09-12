@@ -25,6 +25,7 @@ const SET_LAYERGROUP_TOGGLE = 'explore/SET_LAYERGROUP_TOGGLE';
 const SET_LAYERGROUP_VISIBILITY = 'explore/SET_LAYERGROUP_VISIBILITY';
 const SET_LAYERGROUP_ACTIVE_LAYER = 'explore/SET_LAYERGROUP_ACTIVE_LAYER';
 const SET_LAYERGROUP_ORDER = 'explore/SET_LAYERGROUP_ORDER';
+const SET_LAYERGROUP_OPACITY = 'explore/SET_LAYERGROUP_OPACITY';
 const SET_LAYERGROUPS = 'explore/SET_LAYERGROUPS';
 
 const SET_SIDEBAR = 'explore/SET_SIDEBAR';
@@ -148,6 +149,17 @@ export default function (state = initialState, action) {
     case SET_LAYERGROUP_ORDER: {
       const layers = action.payload.map(d => state.layers.find(l => l.dataset === d));
       return Object.assign({}, state, { layers });
+    }
+
+    case SET_LAYERGROUP_OPACITY: {
+      const layerGroups = state.layers.map((l) => {
+        if (l.dataset !== action.payload.dataset) return l;
+        const layers = l.layers.map((la) => { // eslint-disable-line arrow-body-style
+          return Object.assign({}, la, { opacity: action.payload.opacity });
+        });
+        return Object.assign({}, l, { layers });
+      });
+      return Object.assign({}, state, { opacity: action.payload.opacity, layers: layerGroups });
     }
 
     case SET_LAYERGROUPS: {
@@ -369,6 +381,25 @@ export function setLayerGroupsOrder(datasets) {
     dispatch({
       type: SET_LAYERGROUP_ORDER,
       payload: datasets
+    });
+
+    // We also update the URL
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
+  };
+}
+
+/**
+ * Set which of the layer group's layers is the active one
+ * (the one to be displayed)
+ * @export
+ * @param {string} dataset - ID of the dataset
+ * @param {number} opacity - opacity
+ */
+export function setLayerGroupOpacity(dataset, opacity) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_LAYERGROUP_OPACITY,
+      payload: { dataset, opacity }
     });
 
     // We also update the URL

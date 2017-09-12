@@ -9,6 +9,7 @@ import { toastr } from 'react-redux-toastr';
 import { connect } from 'react-redux';
 import { toggleModal } from 'redactions/modal';
 import { toggleTooltip, setTooltipPosition } from 'redactions/tooltip';
+import { setLayerGroupOpacity } from 'redactions/explore';
 
 // Components
 import LegendType from 'components/ui/LegendType';
@@ -153,9 +154,12 @@ class Legend extends React.Component {
    * Event handler executed when the user clicks the button
    * to change the opacity of a layer
    */
-  onClickOpacity() { // eslint-disable-line class-methods-use-this
-    // TODO: implement
-    toastr.info('Not implemented yet');
+  onClickOpacity(e, layerGroup) { // eslint-disable-line class-methods-use-this
+    // toastr.info('Not implemented yet');
+    if (layerGroup.layers.length) {
+      // const layersIds = layerGroup.layers.map(l => l.id);
+      this.props.setLayerGroupOpacity(layerGroup.dataset, 0.5);
+    }
   }
 
   /**
@@ -228,10 +232,13 @@ class Legend extends React.Component {
           </button>
         ) }
         { // eslint-disable-next-line max-len
-        /* <button className="opacity" onClick={() => this.onClickOpacity()} aria-label="Change opacity">
-             <Icon name="icon-opacity" />
-           </button>
-        */
+          <button
+            className="opacity"
+            onClick={e => this.onClickOpacity(e, layerGroup)}
+            aria-label="Change opacity"
+          >
+            <Icon name="icon-opacity" />
+          </button>
         }
         <button
           className="toggle"
@@ -386,6 +393,8 @@ Legend.propTypes = {
   removeLayerGroup: PropTypes.func,
   // Callback to change which layer of the layer group is active
   setLayerGroupActiveLayer: PropTypes.func.isRequired,
+  // Set layers opacity
+  setLayerGroupOpacity: PropTypes.func,
 
   // Redux
 
@@ -406,7 +415,10 @@ const mapStateToProps = () => ({});
 const mapDispatchToProps = dispatch => ({
   toggleModal: (open, options) => dispatch(toggleModal(open, options)),
   toggleTooltip: (open, options) => dispatch(toggleTooltip(open, options)),
-  setTooltipPosition: pos => dispatch(setTooltipPosition(pos))
+  setTooltipPosition: pos => dispatch(setTooltipPosition(pos)),
+  setLayerGroupOpacity: (dataset, layers, opacity) => {
+    dispatch(setLayerGroupOpacity(dataset, layers, opacity));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Legend);

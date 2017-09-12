@@ -271,4 +271,12 @@ export default class LayerManager {
       this.mapLayers[layerId].setZIndex(order);
     });
   }
+
+  setOpacity(layers) {
+    const layerIds = Object.keys(this.mapLayers);
+    layerIds.forEach((layerId) => {
+      const opacity = layers.find(l => l.id === layerId).opacity || 1;
+      this.mapLayers[layerId].setOpacity(opacity);
+    });
+  }
 }
