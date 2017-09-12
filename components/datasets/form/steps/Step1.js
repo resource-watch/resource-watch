@@ -86,7 +86,7 @@ class Step1 extends React.Component {
   render() {
     const { user, columns, basic } = this.props;
     const { dataset } = this.state;
-    const { provider } = this.state.form;
+    const { provider, csvFields } = this.state.form;
 
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
@@ -100,6 +100,10 @@ class Step1 extends React.Component {
     const isXml = (provider === 'xml');
     const isWMS = (provider === 'wms');
     const isDocument = (isJson || isXml || isCsv || isTsv);
+
+    const csvFieldsOptions = (csvFields || []).map(f => ({ label: f, value: f }));
+
+    console.log(csvFields)
 
     return (
       <fieldset className="c-field-container">
@@ -168,11 +172,22 @@ class Step1 extends React.Component {
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.provider = c; }}
-          onChange={value => this.props.onChange({
-            provider: value,
-            connectorType: (PROVIDER_TYPES_DICTIONARY[value]) ?
-              PROVIDER_TYPES_DICTIONARY[value].connectorType : null
-          })}
+          onChange={value => {
+            this.props.onChange({
+              provider: value,
+              connectorType: (PROVIDER_TYPES_DICTIONARY[value]) ?
+                PROVIDER_TYPES_DICTIONARY[value].connectorType : null
+            });
+
+            this.setState({
+              form: {
+                ...this.state.form,
+                csvFields: []
+              }
+            }, () => {
+              console.log(this.state.form)
+            });
+          }}
           className="-fluid"
           validations={['required']}
           options={this.setProviderOptions()}
@@ -349,8 +364,11 @@ class Step1 extends React.Component {
         {isDocument && !dataset &&
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.connectorUrl = c; }}
-            onChange={(value) => {
-              this.props.onChange({ connectorUrl: value });
+            onChange={({ fields, value}) => {
+              this.props.onChange({
+                connectorUrl: value,
+                csvFields: fields
+              });
             }}
             validations={['required', 'url']}
             className="-fluid"
@@ -411,7 +429,7 @@ class Step1 extends React.Component {
           </Field>
         }
 
-        {isDocument &&
+        {isDocument && csvFields &&
           <div className="c-field-row">
             <div className="row l-row">
               <div className="column small-12 medium-6">
@@ -419,16 +437,18 @@ class Step1 extends React.Component {
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.lat = c; }}
                   onChange={value => this.onLegendChange({ lat: value })}
                   hint="Name of column with latitude value"
+                  options={csvFieldsOptions}
                   className="-fluid"
                   properties={{
                     name: 'lat',
                     label: 'Latitude',
                     type: 'text',
+                    placeholder: 'Select or type the column...',
                     disabled: !!this.state.dataset,
                     default: this.state.form.legend.lat
                   }}
                 >
-                  {Input}
+                  {Select}
                 </Field>
               </div>
 
@@ -437,16 +457,18 @@ class Step1 extends React.Component {
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.long = c; }}
                   onChange={value => this.onLegendChange({ long: value })}
                   hint="Name of column with longitude value"
+                  options={csvFieldsOptions}
                   className="-fluid"
                   properties={{
                     name: 'long',
                     label: 'Longitude',
                     type: 'text',
+                    placeholder: 'Select or type the column...',
                     disabled: !!this.state.dataset,
                     default: this.state.form.legend.long
                   }}
                 >
-                  {Input}
+                  {Select}
                 </Field>
               </div>
 
@@ -455,23 +477,14 @@ class Step1 extends React.Component {
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.date = c; }}
                   onChange={value => this.onLegendChange({ date: value })}
                   hint="Name of columns with date value (ISO Format)"
+                  options={csvFieldsOptions}
                   className="-fluid"
                   properties={{
                     name: 'date',
                     label: 'Date',
-                    multi: true,
+                    type: 'text',
                     disabled: !!this.state.dataset,
-                    creatable: true,
-                    instanceId: 'selectLegendDate',
-                    placeholder: 'Type the columns...',
-                    noResultsText: 'Please, type the name of the columns and press enter',
-                    promptTextCreator: label => `The name of the column is "${label}"`,
-                    default: this.state.form.legend.date.map(
-                      tag => ({ label: tag, value: tag })
-                    ),
-                    value: this.state.form.legend.date.map(
-                      tag => ({ label: tag, value: tag })
-                    )
+                    placeholder: 'Select or type the column..'
                   }}
                 >
                   {Select}
@@ -483,23 +496,14 @@ class Step1 extends React.Component {
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.country = c; }}
                   onChange={value => this.onLegendChange({ country: value })}
                   hint="Name of columns with country value (ISO3 code)"
+                  options={csvFieldsOptions}
                   className="-fluid"
                   properties={{
                     name: 'country',
                     label: 'Country',
-                    multi: true,
+                    type: 'text',
                     disabled: !!this.state.dataset,
-                    creatable: true,
-                    instanceId: 'selectLegendCountry',
-                    placeholder: 'Type the columns...',
-                    noResultsText: 'Please, type the name of the columns and press enter',
-                    promptTextCreator: label => `The name of the column is "${label}"`,
-                    default: this.state.form.legend.country.map(
-                      tag => ({ label: tag, value: tag })
-                    ),
-                    value: this.state.form.legend.country.map(
-                      tag => ({ label: tag, value: tag })
-                    )
+                    placeholder: 'Select or type the column...'
                   }}
                 >
                   {Select}

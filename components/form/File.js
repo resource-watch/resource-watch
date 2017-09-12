@@ -129,14 +129,17 @@ class File extends FormElement {
       }],
       body: formData,
       multipart: true,
-      onSuccess: (response) => {
+      onSuccess: ({ connectorUrl, fields }) => {
         this.setState({
-          value: response.connectorUrl,
+          value: connectorUrl,
           validations: ['required'],
           loading: false
         }, () => {
           // Publish the new value to the form
-          if (this.props.onChange) this.props.onChange(this.state.value);
+          if (this.props.onChange) this.props.onChange({
+            fields,
+            value: connectorUrl
+          });
           // Trigger validation
           this.triggerValidate();
         });
