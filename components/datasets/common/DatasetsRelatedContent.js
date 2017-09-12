@@ -40,6 +40,15 @@ class DatasetsRelatedContent extends React.Component {
 
   render() {
     const { dataset, route } = this.props;
+    let numberOfTags = 0;
+    let knowledgeGraphVoc = null;
+    // Calculate the number of tags for the current dataset
+    if (dataset.vocabulary && dataset.vocabulary.length) {
+      knowledgeGraphVoc = dataset.vocabulary.find(voc => voc.attributes.name === 'knowledge_graph');
+      if (knowledgeGraphVoc) {
+        numberOfTags = knowledgeGraphVoc.attributes.tags.length;
+      }
+    }
 
     return (
       <div className="c-related-content">
@@ -143,20 +152,20 @@ class DatasetsRelatedContent extends React.Component {
                   element: 'c-tooltip'
                 }}
               >
-                <Link route={route} params={{ tab: 'datasets', id: dataset.id, subtab: 'vocabularies' }}>
+                <Link route={route} params={{ tab: 'datasets', id: dataset.id, subtab: 'tags' }}>
                   <a
-                    className={classnames({ '-empty': (!dataset.vocabulary || !dataset.vocabulary.length) })}
+                    className={classnames({ '-empty': (!knowledgeGraphVoc) })}
                     onMouseEnter={() => this.toggleTooltip('vocabulariesActive', true)}
                     onMouseLeave={() => this.toggleTooltip('vocabulariesActive', false)}
                   >
                     <Icon name="icon-type" className="c-icon -smaller" />
-                    <span>{(dataset.vocabulary && dataset.vocabulary.length) || 0}</span>
+                    <span>{numberOfTags}</span>
                   </a>
                 </Link>
 
                 {this.state.vocabulariesActive &&
                   <div>
-                    <span>{(dataset.vocabulary && dataset.vocabulary.length) || 0} vocabularies</span>
+                    <span>{numberOfTags} tags</span>
                   </div>
                 }
               </TetherComponent>
