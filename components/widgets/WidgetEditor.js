@@ -32,6 +32,7 @@ import Legend from 'components/ui/Legend';
 import TableView from 'components/widgets/TableView';
 import Icon from 'components/ui/Icon';
 import ShareModalExplore from 'components/modal/ShareModalExplore';
+import EmbedTableModal from 'components/modal/EmbedTableModal';
 
 // Utils
 import {
@@ -43,6 +44,7 @@ import {
 } from 'utils/widgets/WidgetHelper';
 import ChartTheme from 'utils/widgets/theme';
 import LayerManager from 'utils/layers/LayerManager';
+import getQueryByFilters from 'utils/getQueryByFilters';
 
 const VISUALIZATION_TYPES = [
   { label: 'Chart', value: 'chart', available: true },
@@ -549,7 +551,7 @@ class WidgetEditor extends React.Component {
 
     this.setState({ visualizationOptions }, () => {
       if (this.props.selectedVisualizationType === null) {
-        // We only set a default visualization if none of them has been set in the past
+      // We only set a default visualization if none of them has been set in the past
         // (we don't want to conflict with the "state restoration" made in My RW)
         this.handleVisualizationTypeChange(defaultVis, resetStore);
       }
@@ -690,6 +692,56 @@ class WidgetEditor extends React.Component {
     this.props.onUpdateWidget();
   }
 
+  @Autobind
+  handleEmbedTable() {
+    const { tableName } = this.state;
+    const { dataset, widgetEditor } = this.props;
+    const { filters, fields, value, aggregateFunction, category, orderBy,
+      limit, areaIntersection } = widgetEditor;
+    const aggregateFunctionExists = aggregateFunction && aggregateFunction !== 'none';
+
+    const arrColumns = fields.filter(val => val.columnName !== 'cartodb_id' && val.columnType !== 'geometry').map(
+      (val) => {
+        if (value && value.name === val.columnName && aggregateFunctionExists) {
+          // Value
+          return { value: val.columnName, key: val.columnName, aggregateFunction, group: false };
+        } else if (category && category.name === val.columnName && aggregateFunctionExists) {
+          // Category
+          return { value: val.columnName, key: val.columnName, group: true };
+        } else { // eslint-disable-line
+          // Rest of columns
+          return {
+            value: val.columnName,
+            key: val.columnName,
+            remove: aggregateFunctionExists
+          };
+        }
+      }
+    ).filter(val => !val.remove);
+
+    const orderByColumn = orderBy ? [orderBy] : [];
+    if (orderByColumn.length > 0 && value && orderByColumn[0].name === value.name && aggregateFunction && aggregateFunction !== 'none') {
+      orderByColumn[0].name = `${aggregateFunction}(${value.name})`;
+    }
+
+    const geostore = areaIntersection ? `&geostore=${areaIntersection}` : '';
+
+    const sortOrder = orderBy ? orderBy.orderType : 'asc';
+    const query = `${getQueryByFilters(tableName, filters, arrColumns, orderByColumn, sortOrder)} LIMIT ${limit}`;
+    const queryURL = `${process.env.WRI_API_URL}/query/${dataset}?sql=${query}${geostore}`;
+
+    const options = {
+      children: EmbedTableModal,
+      childrenProps: {
+        url: window.location.href,
+        queryURL,
+        toggleModal: this.props.toggleModal
+      }
+    };
+
+    this.props.toggleModal(true, options);
+  }
+
   /**
    * Change the selected visualization in the state
    * @param {string} selectedVisualizationType Visualization type
@@ -777,7 +829,7 @@ class WidgetEditor extends React.Component {
                         value: selectedVisualizationType
                       }}
                       options={visualizationOptions}
-                      onChange={this.handleVisualizationTypeChange}
+                      onChange={value => this.handleVisualizationTypeChange(value, false)}
                     />
                   </div>
                 </div>
@@ -797,6 +849,7 @@ class WidgetEditor extends React.Component {
                         onUpdateWidget={this.handleUpdateWidget}
                         showSaveButton={showSaveButton}
                         hasGeoInfo={hasGeoInfo}
+                        onEmbedTable={this.handleEmbedTable}
                       />
                     )
                 }
