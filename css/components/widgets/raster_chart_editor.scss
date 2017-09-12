@@ -20,6 +20,28 @@
       margin-top: 20px;
       font-size: $font-size-normal;
     }
+
+    .stats {
+      position: relative;
+      min-height: 100px;
+      margin-top: 20px;
+
+      table {
+        display: block;
+        width: 100%;
+        font-size: $font-size-normal;
+
+        thead, tbody, tr {
+          display: block;
+          width: 100%;
+        }
+
+        th, td {
+          display: inline-block;
+          width: calc(100% / 6);
+        }
+      }
+    }
   }
 
   .error {

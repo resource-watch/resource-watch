@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import { toastr } from 'react-redux-toastr';
+import isEmpty from 'lodash/isEmpty';
+import d3 from 'd3';
 
 // Redux
 import { connect } from 'react-redux';
@@ -23,7 +26,9 @@ class RasterChartEditor extends React.Component {
       loading: false, // Whether the component is loading
       error: null, // Whether an error happened
       /** @type {{ name: string, alias?: string, type?: string, description?: string }[]} bands */
-      bands: [] // List of the bands
+      bands: [], // List of the bands
+      bandStatsInfo: {}, // Statistical information of the selected band
+      bandStatsInfoLoading: false
     };
 
     this.rasterService = new RasterService(props.dataset, props.tableName, props.provider);
@@ -53,6 +58,13 @@ class RasterChartEditor extends React.Component {
   onChangeBand(bandName) {
     const band = this.state.bands.find(b => b.name === bandName);
     this.props.setBand(band);
+
+    // We fetch the stats info about the band
+    this.setState({ bandStatsInfoLoading: true });
+    this.rasterService.getBandStatsInfo(bandName)
+      .then(bandStatsInfo => this.setState({ bandStatsInfo }))
+      .catch(() => toastr.error('Error', 'Unable to fetch the statistical information of the band'))
+      .then(() => this.setState({ bandStatsInfoLoading: false }));
   }
 
   /**
@@ -121,7 +133,7 @@ class RasterChartEditor extends React.Component {
   }
 
   render() {
-    const { loading, bands, error } = this.state;
+    const { loading, bands, error, bandStatsInfo, bandStatsInfoLoading } = this.state;
     const { band, mode, showSaveButton } = this.props;
 
     return (
@@ -142,6 +154,28 @@ class RasterChartEditor extends React.Component {
           { band && band.description && (
             <p className="description">{band.description}</p>
           ) }
+          <div className="c-table stats">
+            <Spinner isLoading={bandStatsInfoLoading} className="-light -small" />
+            { bandStatsInfo && !isEmpty(bandStatsInfo) && (
+              <table>
+                <thead>
+                  <tr>
+                    { Object.keys(bandStatsInfo).map(name => <th key={name}>{name}</th>) }
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    { Object.keys(bandStatsInfo).map((name) => {
+                      const number = d3.format('.4s')(bandStatsInfo[name]);
+                      return (
+                        <td key={name}>{number}</td>
+                      );
+                    }) }
+                  </tr>
+                </tbody>
+              </table>
+            ) }
+          </div>
         </div>
         <div className="buttons">
           <span /> {/* Help align the button to the right */}

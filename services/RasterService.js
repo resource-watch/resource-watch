@@ -46,7 +46,7 @@ export default class RasterService {
    * @param {string} bandName Name of the band
    * @returns {Promise<object>}
    */
-  getBandStatInfo(bandName) {
+  getBandStatsInfo(bandName) {
     return new Promise((resolve, reject) => {
       // First we build the query
       let query;
