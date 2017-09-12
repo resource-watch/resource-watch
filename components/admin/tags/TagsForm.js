@@ -31,7 +31,8 @@ class TagsForm extends React.Component {
       selectedTags: [],
       inferredTags: [],
       graph: null,
-      loading: true,
+      loadingDatasetTags: false,
+      loadingAllTags: false,
       loadingInferredTags: false
     };
 
@@ -49,17 +50,20 @@ class TagsForm extends React.Component {
   }
 
   loadDatasetTags() {
+    this.setState({ loadingDatasetTags: true });
     this.graphService.getDatasetTags(this.props.dataset)
       .then((response) => {
         const knowledgeGraphVoc = response.find(elem => elem.id === 'knowledge_graph');
         const datasetTags = knowledgeGraphVoc ? knowledgeGraphVoc.attributes.tags : [];
         this.setState({
-          selectedTags: datasetTags
+          selectedTags: datasetTags,
+          loadingDatasetTags: false
         }, () => this.loadInferredTags());
       })
       .catch((err) => {
         toastr.error('Error loading the dataset tags');
         console.error(err);
+        this.setState({ loadingDatasetTags: false });
       });
   }
 
@@ -126,16 +130,16 @@ class TagsForm extends React.Component {
   * - loadInferredTags
   */
   loadAllTags() {
-    this.setState({ loading: true });
+    this.setState({ loadingAllTags: true });
     this.graphService.getAllTags()
       .then((response) => {
         this.setState({
-          loading: false,
+          loadingAllTags: false,
           tags: response.map(val => ({ label: val.label, value: val.id }))
         });
       })
       .catch((err) => {
-        this.setState({ loading: false });
+        this.setState({ loadingAllTags: false });
         toastr.error('Error loading tags');
         console.error(err);
       });
@@ -167,12 +171,13 @@ class TagsForm extends React.Component {
   }
 
   render() {
-    const { tags, selectedTags, inferredTags, graph, loading, loadingInferredTags } = this.state;
+    const { tags, selectedTags, inferredTags, graph, loadingDatasetTags,
+      loadingAllTags, loadingInferredTags } = this.state;
     return (
       <div className="c-tags-form">
         <Spinner
           className="-light"
-          isLoading={loading}
+          isLoading={loadingAllTags || loadingDatasetTags}
         />
         <Field
           onChange={value => this.handleTagsChange(value)}
