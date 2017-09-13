@@ -171,6 +171,13 @@ class Step1 extends React.Component {
           onChange={(value) => {
             this.props.onChange({
               provider: value,
+              connectorUrl: '',
+              legend: {
+                lat: undefined,
+                long: undefined,
+                date: [],
+                country: []
+              },
               connectorType: (PROVIDER_TYPES_DICTIONARY[value]) ?
                 PROVIDER_TYPES_DICTIONARY[value].connectorType : null,
               csvFields: null
