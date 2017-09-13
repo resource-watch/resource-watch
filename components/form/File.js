@@ -181,7 +181,7 @@ class File extends FormElement {
           } */}
 
           <input
-            {...omit(properties, 'authorization')}
+            {...omit(properties, 'authorization', 'provider')}
             className={`input ${inputClassName}`}
             value={this.state.value}
             id={`input-${properties.name}`}

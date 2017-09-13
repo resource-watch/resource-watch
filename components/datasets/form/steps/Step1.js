@@ -103,6 +103,8 @@ class Step1 extends React.Component {
 
     const csvFieldsOptions = (csvFields || []).map(f => ({ label: f, value: f }));
 
+    console.log(this.props.form.published);
+
     return (
       <fieldset className="c-field-container">
         {user.role === 'ADMIN' && !basic &&
@@ -115,8 +117,7 @@ class Step1 extends React.Component {
               label: 'Do you want to set this dataset as published?',
               value: 'published',
               title: 'Published',
-              defaultChecked: (!dataset) ? user.role === 'ADMIN' : this.props.form.published,
-              checked: this.props.form.published
+              defaultChecked: (!dataset) ? user.role === 'ADMIN' : this.props.form.published
             }}
           >
             {Checkbox}
@@ -161,7 +162,6 @@ class Step1 extends React.Component {
             name: 'geoInfo',
             label: 'Does this dataset contain geographical features such as points, polygons or lines?',
             value: 'geoInfo',
-            defaultChecked: this.props.form.geoInfo,
             checked: this.props.form.geoInfo
           }}
         >
