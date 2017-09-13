@@ -70,6 +70,7 @@ export const STATE_DEFAULT = {
     connectorUrlHint: '',
     published: false,
     geoInfo: false,
+    verified: false,
     env: 'production',
     widgetRelevantProps: [],
     layerRelevantProps: [],
