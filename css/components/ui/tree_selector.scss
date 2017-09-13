@@ -197,6 +197,12 @@
 
       &:last-child {
         margin-top: 0;
+        display: flex;
+        flex: 1;
+
+        > input[type="text"] {
+          width: 100%;
+        }
       }
 
       > .tag {
