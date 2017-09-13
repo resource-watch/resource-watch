@@ -73,8 +73,6 @@ export const STATE_DEFAULT = {
     env: 'production',
     widgetRelevantProps: [],
     layerRelevantProps: [],
-
-    // STEP 2
     connectorUrl: '',
     dataPath: '',
     legend: {
