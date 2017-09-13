@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import {
   resetWidgetEditor,
   setFields,
+  setBandsInfo,
   setVisualizationType
 } from 'redactions/widgetEditor';
 import { toggleModal } from 'redactions/modal';
@@ -252,7 +253,7 @@ class WidgetEditor extends React.Component {
       .catch((err) => {
         this.setState({ fieldsError: true });
         toastr.error('Error loading fields');
-        console.error('Error loading fields', err)
+        console.error('Error loading fields', err);
       })
       // If we reach this point, either we have already resolved the promise
       // and so rejecting it has no effect, or we haven't and so we reject it
@@ -328,6 +329,17 @@ class WidgetEditor extends React.Component {
             alias: getMetadata(field.columnName, 'alias'),
             description: getMetadata(field.columnName, 'description')
           }));
+
+          // If the widget is a raster one, we save the information
+          // related to its bands (alias, description, etc.)
+          if (attributes.type === 'raster' && metadata) {
+            // Here metadata is an object whose keys are names of bands
+            // and the values the following:
+            // { type: string, alias: string, description: string }
+            // NOTE: The object is not exhaustive and it might be empty
+            // whereas there are bands
+            this.props.setBandsInfo(metadata);
+          }
 
           this.props.setFields(fields);
 
@@ -906,6 +918,7 @@ const mapStateToProps = ({ widgetEditor }) => ({
 const mapDispatchToProps = dispatch => ({
   resetWidgetEditor: hardReset => dispatch(resetWidgetEditor(hardReset)),
   setFields: (fields) => { dispatch(setFields(fields)); },
+  setBandsInfo: bands => dispatch(setBandsInfo(bands)),
   setVisualizationType: vis => dispatch(setVisualizationType(vis)),
   toggleModal: (open, options) => dispatch(toggleModal(open, options))
 });
@@ -922,13 +935,14 @@ WidgetEditor.propTypes = {
   onChange: PropTypes.func,
   onError: PropTypes.func,
   // Store
-  band: PropTypes.string,
+  band: PropTypes.object,
   widgetEditor: PropTypes.object.isRequired,
   resetWidgetEditor: PropTypes.func.isRequired,
   setFields: PropTypes.func.isRequired,
   setVisualizationType: PropTypes.func.isRequired,
   selectedVisualizationType: PropTypes.string,
-  toggleModal: PropTypes.func
+  toggleModal: PropTypes.func,
+  setBandsInfo: PropTypes.func
 };
 
 WidgetEditor.defaultProps = {
