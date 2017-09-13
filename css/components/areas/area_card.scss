@@ -21,6 +21,10 @@
     }
 
     .text-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: calc(100% - 200px);
       padding: 15px;
 
       .name-container {
