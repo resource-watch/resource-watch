@@ -9,6 +9,7 @@ export const STATE_DEFAULT = {
     provider: null,
     layerConfig: {},
     legendConfig: {},
+    interactionConfig: {},
     status: 1,
     default: false,
     published: true
