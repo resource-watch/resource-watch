@@ -103,8 +103,6 @@ class Step1 extends React.Component {
 
     const csvFieldsOptions = (csvFields || []).map(f => ({ label: f, value: f }));
 
-    console.log(csvFields)
-
     return (
       <fieldset className="c-field-container">
         {user.role === 'ADMIN' && !basic &&
@@ -172,20 +170,12 @@ class Step1 extends React.Component {
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.provider = c; }}
-          onChange={value => {
+          onChange={(value) => {
             this.props.onChange({
               provider: value,
               connectorType: (PROVIDER_TYPES_DICTIONARY[value]) ?
-                PROVIDER_TYPES_DICTIONARY[value].connectorType : null
-            });
-
-            this.setState({
-              form: {
-                ...this.state.form,
-                csvFields: []
-              }
-            }, () => {
-              console.log(this.state.form)
+                PROVIDER_TYPES_DICTIONARY[value].connectorType : null,
+              csvFields: null
             });
           }}
           className="-fluid"
@@ -364,7 +354,7 @@ class Step1 extends React.Component {
         {isDocument && !dataset &&
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.connectorUrl = c; }}
-            onChange={({ fields, value}) => {
+            onChange={({ fields, value }) => {
               this.props.onChange({
                 connectorUrl: value,
                 csvFields: fields
