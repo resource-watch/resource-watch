@@ -103,8 +103,6 @@ class Step1 extends React.Component {
 
     const csvFieldsOptions = (csvFields || []).map(f => ({ label: f, value: f }));
 
-    console.log(this.props.form.published);
-
     return (
       <fieldset className="c-field-container">
         {user.role === 'ADMIN' && !basic &&
