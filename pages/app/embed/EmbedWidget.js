@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
+import d3 from 'd3';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -44,10 +44,10 @@ class EmbedWidget extends Page {
   }
 
   render() {
-    const { widget } = this.props;
+    const { widget, loading, bandDescription, bandStats } = this.props;
     const { isLoading } = this.state;
 
-    if (isEmpty(widget)) {
+    if (loading) {
       return (
         <EmbedLayout
           title={'Loading widget...'}
@@ -74,11 +74,37 @@ class EmbedWidget extends Page {
                 height={300}
                 data={widget.attributes.widgetConfig}
                 theme={ChartTheme()}
-                toggleLoading={isLoading => this.setState({ isLoading })}
+                toggleLoading={l => this.setState({ isLoading: l })}
                 reloadOnResize
               />
             </div>
           </div>
+          { bandDescription && (
+            <div className="band-information">
+              {bandDescription}
+            </div>
+          ) }
+          {!isEmpty(bandStats) && (
+            <div className="c-table">
+              <table>
+                <thead>
+                  <tr>
+                    { Object.keys(bandStats).map(name => <th key={name}>{name}</th>) }
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    { Object.keys(bandStats).map((name) => {
+                      const number = d3.format('.4s')(bandStats[name]);
+                      return (
+                        <td key={name}>{number}</td>
+                      );
+                    }) }
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ) }
           { this.isLoadedExternally() &&
             <img
               className="embed-logo"
@@ -96,7 +122,10 @@ class EmbedWidget extends Page {
 EmbedWidget.propTypes = {
   widget: PropTypes.object,
   isLoading: PropTypes.bool,
-  getWidget: PropTypes.func
+  getWidget: PropTypes.func,
+  bandDescription: PropTypes.string,
+  bandStats: PropTypes.object,
+  loading: PropTypes.bool
 };
 
 EmbedWidget.defaultProps = {
@@ -106,6 +135,9 @@ EmbedWidget.defaultProps = {
 
 const mapStateToProps = state => ({
   widget: state.widget.data,
+  loading: state.widget.loading,
+  bandDescription: state.widget.bandDescription,
+  bandStats: state.widget.bandStats,
   isLoading: state.widget.loading
 });
 
