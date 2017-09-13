@@ -121,23 +121,6 @@ class Step1 extends React.Component {
           </Field>
         }
 
-        {user.role === 'ADMIN' && !basic &&
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.verified = c; }}
-            onChange={value => this.props.onChange({ verified: value.checked })}
-            validations={['required']}
-            properties={{
-              name: 'verified',
-              label: 'Is this dataset verified?',
-              value: 'verified',
-              title: 'Verified',
-              checked: this.props.form.verified
-            }}
-          >
-            {Checkbox}
-          </Field>
-        }
-
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
           onChange={value => this.props.onChange({ name: value })}
@@ -384,6 +367,24 @@ class Step1 extends React.Component {
           ****************** DOCUMENT ****************
           *****************************************************
         */}
+
+        {isDocument && user.role === 'ADMIN' && !basic &&
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.verified = c; }}
+            onChange={value => this.props.onChange({ verified: value.checked })}
+            validations={['required']}
+            properties={{
+              name: 'verified',
+              label: 'Is this dataset verified?',
+              value: 'verified',
+              title: 'Verified',
+              checked: this.props.form.verified
+            }}
+          >
+            {Checkbox}
+          </Field>
+        }
+
         {isDocument && !dataset &&
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.connectorUrl = c; }}
