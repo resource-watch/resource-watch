@@ -273,7 +273,11 @@ class WidgetCard extends React.Component {
     const options = {
       children: EmbedMyWidgetModal,
       childrenProps: {
-        widgetId: this.props.widget.id
+        widgetId: this.props.widget.id,
+        visualizationType: (this.props.widget.attributes.widgetConfig
+          && this.props.widget.attributes.widgetConfig.paramsConfig
+          && this.props.widget.attributes.widgetConfig.paramsConfig.visualizationType)
+          || 'chart'
       }
     };
     this.props.toggleModal(true);
