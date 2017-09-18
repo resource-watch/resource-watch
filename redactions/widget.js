@@ -5,6 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import WidgetService from 'services/WidgetService';
 import DatasetService from 'services/DatasetService';
 import RasterService from 'services/RasterService';
+import LayersService from 'services/LayersService';
 
 /**
  * CONSTANTS
@@ -16,6 +17,7 @@ const SET_WIDGET_DATA = 'SET_WIDGET_DATA';
 const SET_WIDGET_DATASET = 'SET_WIDGET_DATASET';
 const SET_WIDGET_BAND_DESCRIPTION = 'SET_WIDGET_BAND_DESCRIPTION';
 const SET_WIDGET_BAND_STATS = 'SET_WIDGET_BAND_STATS';
+const SET_WIDGET_LAYERGROUPS = 'SET_WIDGET_LAYERGROUPS';
 
 /**
  * STORE
@@ -25,6 +27,7 @@ const initialState = {
   dataset: {}, // Dataset associated with the widget
   bandDescription: null, // Description of the band if a raster widget
   bandStats: {}, // Stats about the band if a raster widget
+  layerGroups: [], // LayerGroups for the map widgets
   loading: true, // Are we loading the data?
   error: null // An error was produced while loading the data
 };
@@ -82,6 +85,13 @@ export default function (state = initialState, action) {
     case SET_WIDGET_BAND_STATS: {
       const widget = {
         bandStats: action.payload
+      };
+      return Object.assign({}, state, widget);
+    }
+
+    case SET_WIDGET_LAYERGROUPS: {
+      const widget = {
+        layerGroups: action.payload
       };
       return Object.assign({}, state, widget);
     }
@@ -152,6 +162,25 @@ function fetchRasterBandInfo(datasetId, bandName) {
     }
   });
 }
+/**
+ * Get the layer of a map widget
+ * @param {string} datasetId Dataset ID
+ * @param {string} layerId Layer ID
+ */
+function fetchLayer(datasetId, layerId) {
+  return dispatch => new LayersService().fetchData({ id: layerId })
+    .then((layer) => {
+      const layerGroups = [{
+        dataset: datasetId,
+        visible: true,
+        layers: [{
+          active: true,
+          ...layer
+        }]
+      }];
+      dispatch({ type: SET_WIDGET_LAYERGROUPS, payload: layerGroups });
+    });
+}
 
 /**
  * Retrieve the list of widgets
@@ -170,11 +199,19 @@ export function getWidget(widgetId) {
         const { widgetConfig } = data.attributes;
         const isRaster = widgetConfig.paramsConfig
           && widgetConfig.paramsConfig.visualizationType === 'raster_chart';
+        const isMap = widgetConfig.paramsConfig
+          && widgetConfig.paramsConfig.visualizationType === 'map';
 
         if (isRaster) {
           const datasetId = data.attributes.dataset;
           const bandName = widgetConfig.paramsConfig.band.name;
           return dispatch(fetchRasterBandInfo(datasetId, bandName));
+        }
+
+        if (isMap) {
+          const datasetId = data.attributes.dataset;
+          const layerId = widgetConfig.paramsConfig && widgetConfig.paramsConfig.layer;
+          return dispatch(fetchLayer(datasetId, layerId));
         }
 
         return data;
@@ -183,5 +220,21 @@ export function getWidget(widgetId) {
       .catch((err) => {
         dispatch({ type: GET_WIDGET_ERROR, payload: err.message });
       });
+  };
+}
+
+/**
+ * Event handler executed when the user toggles the
+ * visibility of a layer group
+ * @param {LayerGroup} layerGroup - Layer group to toggle
+ */
+export function toggleLayerGroupVisibility(layerGroup) {
+  return (dispatch, getState) => {
+    const layerGroups = getState().widget.layerGroups.map((l) => {
+      if (l.dataset !== layerGroup.dataset) return l;
+      return Object.assign({}, l, { visible: !layerGroup.visible });
+    });
+
+    dispatch({ type: SET_WIDGET_LAYERGROUPS, payload: [...layerGroups] });
   };
 }

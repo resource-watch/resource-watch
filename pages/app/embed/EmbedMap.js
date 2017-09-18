@@ -1,24 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
-import d3 from 'd3';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { bindActionCreators } from 'redux';
-import { getWidget } from 'redactions/widget';
+import { getWidget, toggleLayerGroupVisibility } from 'redactions/widget';
 import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
 // Components
 import Page from 'components/app/layout/Page';
 import EmbedLayout from 'components/app/layout/EmbedLayout';
-import VegaChart from 'components/widgets/VegaChart';
 import Spinner from 'components/ui/Spinner';
-import ChartTheme from 'utils/widgets/theme';
+import Map from 'components/vis/Map';
+import Legend from 'components/ui/Legend';
 
-class EmbedWidget extends Page {
+// Utils
+import LayerManager from 'utils/layers/LayerManager';
+
+class EmbedMap extends Page {
   static getInitialProps({ asPath, pathname, query, req, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
@@ -32,20 +33,12 @@ class EmbedWidget extends Page {
     return !/localhost|staging.resourcewatch.org/.test(this.props.referer);
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoading: props.isLoading
-    };
-  }
-
   componentDidMount() {
     this.props.getWidget(this.props.url.query.id);
   }
 
   render() {
-    const { widget, loading, bandDescription, bandStats } = this.props;
-    const { isLoading } = this.state;
+    const { widget, loading, layerGroups } = this.props;
 
     if (loading) {
       return (
@@ -53,10 +46,12 @@ class EmbedWidget extends Page {
           title={'Loading widget...'}
           description={''}
         >
-          <Spinner isLoading className="-light" />
+          <Spinner isLoading={loading} className="-light" />
         </EmbedLayout>
       );
     }
+
+    const mapConfig = { zoom: 3, latLng: { lat: 0, lng: 0 } };
 
     return (
       <EmbedLayout
@@ -65,49 +60,32 @@ class EmbedWidget extends Page {
       >
         <div className="c-embed-widget">
           <div className="visualization">
-            <Spinner isLoading={isLoading} className="-light" />
             <div className="widget-title">
               <h4>{widget.attributes.name}</h4>
             </div>
             <div className="widget-content">
-              <VegaChart
-                height={300}
-                data={widget.attributes.widgetConfig}
-                theme={ChartTheme()}
-                toggleLoading={l => this.setState({ isLoading: l })}
-                reloadOnResize
+              <Map
+                LayerManager={LayerManager}
+                mapConfig={mapConfig}
+                layerGroups={layerGroups}
+              />
+
+              <Legend
+                layerGroups={layerGroups}
+                className={{ color: '-dark' }}
+                toggleLayerGroupVisibility={
+                  layerGroup => this.props.toggleLayerGroupVisibility(layerGroup)
+                }
+                setLayerGroupsOrder={() => {}}
+                setLayerGroupActiveLayer={() => {}}
+                interactionDisabled
+                expanded={false}
               />
             </div>
             <p className="widget-description">
               {widget.attributes.description}
             </p>
           </div>
-          { bandDescription && (
-            <div className="band-information">
-              {bandDescription}
-            </div>
-          ) }
-          {!isEmpty(bandStats) && (
-            <div className="c-table">
-              <table>
-                <thead>
-                  <tr>
-                    { Object.keys(bandStats).map(name => <th key={name}>{name}</th>) }
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    { Object.keys(bandStats).map((name) => {
-                      const number = d3.format('.4s')(bandStats[name]);
-                      return (
-                        <td key={name}>{number}</td>
-                      );
-                    }) }
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          ) }
           { this.isLoadedExternally() &&
             <img
               className="embed-logo"
@@ -122,27 +100,28 @@ class EmbedWidget extends Page {
   }
 }
 
-EmbedWidget.propTypes = {
+EmbedMap.propTypes = {
   widget: PropTypes.object,
+  isLoading: PropTypes.bool,
   getWidget: PropTypes.func,
-  bandDescription: PropTypes.string,
-  bandStats: PropTypes.object,
-  loading: PropTypes.bool
+  toggleLayerGroupVisibility: PropTypes.func,
+  loading: PropTypes.bool,
+  layerGroups: PropTypes.array
 };
 
-EmbedWidget.defaultProps = {
+EmbedMap.defaultProps = {
   widget: {}
 };
 
 const mapStateToProps = state => ({
   widget: state.widget.data,
   loading: state.widget.loading,
-  bandDescription: state.widget.bandDescription,
-  bandStats: state.widget.bandStats
+  layerGroups: state.widget.layerGroups
 });
 
 const mapDispatchToProps = dispatch => ({
-  getWidget: bindActionCreators(getWidget, dispatch)
+  getWidget: bindActionCreators(getWidget, dispatch),
+  toggleLayerGroupVisibility: bindActionCreators(toggleLayerGroupVisibility, dispatch)
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(EmbedWidget);
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(EmbedMap);
