@@ -1,1 +1,1 @@
-[{"checked":false,"label":"Geospatial","value":"geospatial","tagClassName":"selected-item"},{"checked":false,"label":"Vector","value":"vector","tagClassName":"selected-item"},{"checked":false,"label":"Raster","value":"raster","tagClassName":"selected-item"},{"checked":false,"label":"Table","value":"table","tagClassName":"selected-item"}]
+[{"checked":false,"label":"Geospatial","value":"geospatial"},{"checked":false,"label":"Raster","value":"raster"},{"checked":false,"label":"Table","value":"table"},{"checked":false,"label":"Vector","value":"vector"}]
