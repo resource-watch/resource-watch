@@ -78,6 +78,9 @@ class EmbedWidget extends Page {
                 reloadOnResize
               />
             </div>
+            <p className="widget-description">
+              {widget.attributes.description}
+            </p>
           </div>
           { bandDescription && (
             <div className="band-information">
@@ -121,7 +124,6 @@ class EmbedWidget extends Page {
 
 EmbedWidget.propTypes = {
   widget: PropTypes.object,
-  isLoading: PropTypes.bool,
   getWidget: PropTypes.func,
   bandDescription: PropTypes.string,
   bandStats: PropTypes.object,
@@ -129,16 +131,14 @@ EmbedWidget.propTypes = {
 };
 
 EmbedWidget.defaultProps = {
-  widget: {},
-  isLoading: true
+  widget: {}
 };
 
 const mapStateToProps = state => ({
   widget: state.widget.data,
   loading: state.widget.loading,
   bandDescription: state.widget.bandDescription,
-  bandStats: state.widget.bandStats,
-  isLoading: state.widget.loading
+  bandStats: state.widget.bandStats
 });
 
 const mapDispatchToProps = dispatch => ({
