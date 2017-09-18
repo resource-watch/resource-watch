@@ -397,12 +397,9 @@ class Explore extends Page {
 
   applyFilters() {
     const { topics, geographies, dataType } = this.filters;
-    const { page } = this.props.url.query || {}
-    const hasValues = [...topics, ...geographies, ...dataType].length;
+    const { page } = this.props.url.query || {};
 
-    if(!hasValues) return;
-
-    if(page !== 1) this.props.setDatasetsPage(1);
+    if (page !== 1) this.props.setDatasetsPage(1);
 
     // updates URL
     this.props.setDatasetsTopicsFilter(topics);
