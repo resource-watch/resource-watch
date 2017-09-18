@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 
 // Constants
-import { PROVIDER_TYPES_DICTIONARY, FORM_ELEMENTS } from 'components/datasets/form/constants';
+import { PROVIDER_TYPES_DICTIONARY, FORM_ELEMENTS, DATASET_TYPES } from 'components/datasets/form/constants';
 
 // Components
 import Field from 'components/form/Field';
@@ -153,18 +153,40 @@ class Step1 extends React.Component {
         </Field>
 
         <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.geoInfo = c; }}
-          onChange={value => this.props.onChange({ geoInfo: value.checked })}
+          ref={(c) => { if (c) FORM_ELEMENTS.elements.type = c; }}
+          onChange={value => this.props.onChange({ type: value })}
+          className="-fluid"
           validations={['required']}
+          options={DATASET_TYPES}
           properties={{
-            name: 'geoInfo',
-            label: 'Does this dataset contain geographical features such as points, polygons or lines?',
-            value: 'geoInfo',
-            checked: this.props.form.geoInfo
+            name: 'type',
+            label: 'Type',
+            default: this.state.form.type,
+            value: this.state.form.type,
+            disabled: !!this.state.dataset,
+            required: true,
+            instanceId: 'selectType'
           }}
         >
-          {Checkbox}
+          {Select}
         </Field>
+
+        {this.state.form.type === 'tabular' &&
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.geoInfo = c; }}
+            onChange={value => this.props.onChange({ geoInfo: value.checked })}
+            validations={['required']}
+            properties={{
+              name: 'geoInfo',
+              label: 'Does this dataset contain geographical features such as points, polygons or lines?',
+              value: 'geoInfo',
+              defaultChecked: this.props.form.geoInfo,
+              checked: this.props.form.geoInfo
+            }}
+          >
+            {Checkbox}
+          </Field>
+        }
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.provider = c; }}
@@ -356,6 +378,24 @@ class Step1 extends React.Component {
           ****************** DOCUMENT ****************
           *****************************************************
         */}
+
+        {isDocument && user.role === 'ADMIN' && !basic &&
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.verified = c; }}
+            onChange={value => this.props.onChange({ verified: value.checked })}
+            validations={['required']}
+            properties={{
+              name: 'verified',
+              label: 'Is this dataset verified?',
+              value: 'verified',
+              title: 'Verified',
+              checked: this.props.form.verified
+            }}
+          >
+            {Checkbox}
+          </Field>
+        }
+
         {isDocument && !dataset &&
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.connectorUrl = c; }}
