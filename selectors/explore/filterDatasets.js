@@ -19,10 +19,12 @@ const getFilteredDatasets = (_list, _filters, _page, _limit) => {
   const datasetsFilteredByConcepts = _filters.datasetsFilteredByConcepts;
   const AreFiltersApplied = datasetsFilteredByConcepts.length || !!search;
 
-  if (!AreFiltersApplied) return {
-    totalFilteredDatasets: _list || [],
-    filteredDatasets: getPaginatedDatasets(_list, _page, _limit)
-  };
+  if (!AreFiltersApplied) {
+    return {
+      totalFilteredDatasets: _list || [],
+      filteredDatasets: getPaginatedDatasets(_list, _page, _limit)
+    };
+  }
 
   const filteredDatasets = _list.filter((it) => {
     let searchFilterPassed = false;
@@ -45,8 +47,10 @@ const getFilteredDatasets = (_list, _filters, _page, _limit) => {
     }
 
     const searchCheck = (search && searchFilterPassed) || !search;
-    const conceptsCheck = (datasetsFilteredByConcepts && conceptsCheckPassed) ||
-      !datasetsFilteredByConcepts;
+    const conceptsCheck = (datasetsFilteredByConcepts.length &&
+      datasetsFilteredByConcepts.length > 0
+      && conceptsCheckPassed) ||
+      !datasetsFilteredByConcepts.length || !datasetsFilteredByConcepts.length > 0;
 
     return searchCheck && conceptsCheck;
   });
