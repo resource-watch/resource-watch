@@ -41,11 +41,13 @@ class MetadataForm extends React.Component {
     if (this.props.dataset) {
       this.service.fetchData({ id: this.props.dataset, includes: 'metadata' })
         .then(({ metadata, type, provider, tableName }) => {
+          const datasetType = type || 'tabular';
           this.setState({
             form: (metadata && metadata.length) ?
               this.setFormFromParams(metadata[0].attributes) :
               this.state.form,
             metadata,
+            type: datasetType,
             // Stop the loading
             loading: false
           });
@@ -53,7 +55,7 @@ class MetadataForm extends React.Component {
           // fetchs column fields based on dataset type
           this.service.fetchFields({
             id: this.props.dataset,
-            type: type || 'tabular',
+            type: datasetType,
             provider,
             tableName
           })
@@ -161,6 +163,7 @@ class MetadataForm extends React.Component {
             <Step1
               onChange={value => this.onChange(value)}
               columns={this.state.columns}
+              type={this.state.type}
               form={this.state.form}
             />
           }
