@@ -151,7 +151,7 @@ export default class DatasetsService {
           key: 'Authorization',
           value: this.opts.authorization
         }],
-        onSuccess: ({ data }) => {
+        onSuccess: (data) => {
           resolve(getFields(data, type, provider));
         },
         onError: (error) => {
