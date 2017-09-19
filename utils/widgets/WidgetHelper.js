@@ -258,13 +258,18 @@ export async function getBinsCount(dataset, tableName, band, provider) {
  * @return {string}
  */
 export async function getRasterDataURL(dataset, datasetType, tableName, band, provider) {
-  const bins = band.type === 'continuous' ? 'auto' : await getBinsCount(dataset, tableName, band, provider);
+  const bandType = band.type || 'categorical';
 
   let query;
   if (provider === 'gee') {
+    const bins = bandType === 'continuous' ? 'auto' : await getBinsCount(dataset, tableName, band, provider);
     query = `SELECT ST_HISTOGRAM(rast, ${band.name}, ${bins}, true) from "${tableName}"`;
   } else if (provider === 'cartodb') {
-    query = `SELECT (ST_Histogram(st_union(the_raster_webmercator), ${band.name}, ${bins}, true)).* from ${tableName}`;
+    if (bandType === 'continuous') {
+      query = `SELECT (ST_Histogram(st_union(the_raster_webmercator), ${band.name}, auto, true)).* from ${tableName}`;
+    } else {
+      query = `SELECT (ST_valueCount(st_union(the_raster_webmercator), ${band.name}, True)).* from ${tableName}`;
+    }
   }
 
   return `${process.env.WRI_API_URL}/query/${dataset}?sql=${query}`;
@@ -436,7 +441,11 @@ export function parseRasterData(data, band, provider) {
   if (provider === 'gee') {
     return data[0][band.name].map(d => ({ x: d[0], y: d[1] }));
   } else if (provider === 'cartodb') {
-    return data.map(d => ({ x: d.max, y: d.count }));
+    if (band.type === 'continuous') {
+      return data.map(d => ({ x: d.max, y: d.count }));
+    }
+
+    return data.map(d => ({ x: d.value, y: d.count }));
   }
 
   return data;
