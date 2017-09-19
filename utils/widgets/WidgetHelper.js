@@ -209,43 +209,6 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
 }
 
 /**
- * Return the number of bins for the raster
- * @export
- * @param {string} dataset - Dataset ID
- * @param {string} tableName - Name of the table
- * @param {{ name: string, type: string, alias: string, description: string }} band
- * Band (in case of a raster dataset)
- * @param {string} provider - Name of the provider
- * @returns {Promise<number>}
- */
-export async function getBinsCount(dataset, tableName, band, provider) {
-  return new Promise((resolve) => {
-    let query;
-    if (provider === 'gee') {
-      query = ''; // TODO: implement for GEE
-    } else {
-      query = `select ST_ValueCount(st_union(the_raster_webmercator), ${band.name}, true).value from ${tableName}`;
-    }
-
-    fetch(`${process.env.WRI_API_URL}/query/${dataset}?sql=${query}`)
-      .then((res) => {
-        if (!res.ok) throw new Error('Unable to retrieve the number of bins');
-        return res.json();
-      })
-      .then(() => {
-        // TODO: implement the real code
-        if (provider === 'gee') {
-          resolve(10);
-        } else {
-          resolve(10);
-        }
-      })
-      // If the query fails, we return 10 bins
-      .catch(() => resolve(10));
-  });
-}
-
-/**
  * Return the URL of the data needed for the Vega chart in case
  * of a raster dataset
  * @export
@@ -262,8 +225,11 @@ export async function getRasterDataURL(dataset, datasetType, tableName, band, pr
 
   let query;
   if (provider === 'gee') {
-    const bins = bandType === 'continuous' ? 'auto' : await getBinsCount(dataset, tableName, band, provider);
-    query = `SELECT ST_HISTOGRAM(rast, ${band.name}, ${bins}, true) from "${tableName}"`;
+    if (bandType === 'continuous') {
+      query = `SELECT ST_HISTOGRAM(rast, ${band.name}, auto, true) from "${tableName}"`;
+    } else {
+      query = `SELECT st_valuecount(rast, '${band.name}', true) from '${tableName}'`;
+    }
   } else if (provider === 'cartodb') {
     if (bandType === 'continuous') {
       query = `SELECT (ST_Histogram(st_union(the_raster_webmercator), ${band.name}, auto, true)).* from ${tableName}`;
@@ -439,7 +405,11 @@ export function getTimeFormat(data) {
  */
 export function parseRasterData(data, band, provider) {
   if (provider === 'gee') {
-    return data[0][band.name].map(d => ({ x: d[0], y: d[1] }));
+    if (band.type === 'continuous') {
+      return data[0][band.name].map(d => ({ x: d[0], y: d[1] }));
+    }
+
+    return Object.keys(data[0][band.name]).map(k => ({ x: k === 'null' ? 'No data' : k, y: data[0][band.name][k] }));
   } else if (provider === 'cartodb') {
     if (band.type === 'continuous') {
       return data.map(d => ({ x: d.max, y: d.count }));
