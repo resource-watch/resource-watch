@@ -216,41 +216,52 @@ class WidgetsForm extends React.Component {
 
   loadWidgetIntoRedux() {
     const { paramsConfig } = this.state.form.widgetConfig;
-    const {
-      visualizationType,
-      band,
-      value,
-      category,
-      color,
-      size,
-      aggregateFunction,
-      orderBy,
-      filters,
-      limit,
-      chartType,
-      layer
-    } = paramsConfig;
+    if (paramsConfig) {
+      const {
+        visualizationType,
+        band,
+        value,
+        category,
+        color,
+        size,
+        aggregateFunction,
+        orderBy,
+        filters,
+        limit,
+        chartType,
+        layer
+      } = paramsConfig;
 
-    // We restore the type of visualization
-    // We default to "chart" to maintain the compatibility with previously created
-    // widgets (at that time, only "chart" widgets could be created)
-    this.props.setVisualizationType(visualizationType || 'chart');
+      // We restore the type of visualization
+      // We default to "chart" to maintain the compatibility with previously created
+      // widgets (at that time, only "chart" widgets could be created)
+      this.props.setVisualizationType(visualizationType || 'chart');
 
-    if (band) this.props.setBand(band);
-    if (layer) this.props.setLayer(layer);
-    if (aggregateFunction) this.props.setAggregateFunction(aggregateFunction);
-    if (value) this.props.setValue(value);
-    if (size) this.props.setSize(size);
-    if (color) this.props.setColor(color);
-    if (orderBy) this.props.setOrderBy(orderBy);
-    if (category) this.props.setCategory(category);
-    if (filters) this.props.setFilters(filters);
-    if (limit) this.props.setLimit(limit);
-    if (chartType) this.props.setChartType(chartType);
+      if (band) this.props.setBand(band);
+      if (layer) this.props.setLayer(layer);
+      if (aggregateFunction) this.props.setAggregateFunction(aggregateFunction);
+      if (value) this.props.setValue(value);
+      if (size) this.props.setSize(size);
+      if (color) this.props.setColor(color);
+      if (orderBy) this.props.setOrderBy(orderBy);
+      if (category) this.props.setCategory(category);
+      if (filters) this.props.setFilters(filters);
+      if (limit) this.props.setLimit(limit);
+      if (chartType) this.props.setChartType(chartType);
+    }
   }
 
   handleModeChange(value) {
-    this.setState({ mode: value });
+    // We have to set the defaultEditableWidget to false if the mode has been changed
+    // to 'advanced'
+    const newForm = (value === 'advanced') ?
+      Object.assign({}, this.state.form, { defaultEditableWidget: false })
+      : this.state.form;
+
+    this.setState({
+      form: newForm,
+      mode: value
+    });
   }
 
   render() {

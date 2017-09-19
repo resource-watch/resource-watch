@@ -95,6 +95,7 @@ class ExploreDetail extends Page {
       loading: true
     }, () => {
       this.datasetService.fetchData('layer,metadata,vocabulary,widget').then((response) => {
+        console.log('dataset', response);
         this.setState({
           dataset: response,
           datasetLoaded: true,
