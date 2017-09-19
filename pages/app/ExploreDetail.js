@@ -11,12 +11,27 @@ import { initStore } from 'store';
 import { resetDataset } from 'redactions/exploreDetail';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
+import {
+  setFilters,
+  setColor,
+  setCategory,
+  setValue,
+  setSize,
+  setOrderBy,
+  setAggregateFunction,
+  setLimit,
+  setChartType,
+  setBand,
+  setVisualizationType,
+  setLayer
+} from 'redactions/widgetEditor';
 
 // Next
 import { Link } from 'routes';
 
 // Services
 import DatasetService from 'services/DatasetService';
+import LayersService from 'services/LayersService';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -95,11 +110,12 @@ class ExploreDetail extends Page {
       loading: true
     }, () => {
       this.datasetService.fetchData('layer,metadata,vocabulary,widget').then((response) => {
+        const defaultEditableWidget = response.attributes.widget.find(widget => widget.attributes.defaultEditableWidget === true);
         this.setState({
           dataset: response,
           datasetLoaded: true,
           loading: false
-        });
+        }, () => defaultEditableWidget && this.loadDefaultWidgetIntoRedux(defaultEditableWidget));
       }).catch((error) => {
         toastr.error('Error', 'Unable to load the dataset');
         console.error(error);
@@ -140,6 +156,43 @@ class ExploreDetail extends Page {
         }
       })
       .catch(err => toastr.error('Error', err));
+  }
+
+  loadDefaultWidgetIntoRedux(defaultEditableWidget) {
+    const { paramsConfig } = defaultEditableWidget.attributes.widgetConfig;
+    if (paramsConfig) {
+      const {
+        visualizationType,
+        band,
+        value,
+        category,
+        color,
+        size,
+        aggregateFunction,
+        orderBy,
+        filters,
+        limit,
+        chartType,
+        layer
+      } = paramsConfig;
+
+      // We restore the type of visualization
+      // We default to "chart" to maintain the compatibility with previously created
+      // widgets (at that time, only "chart" widgets could be created)
+      this.props.setVisualizationType(visualizationType || 'chart');
+
+      if (band) this.props.setBand(band);
+      if (layer) this.props.setLayer(layer);
+      if (aggregateFunction) this.props.setAggregateFunction(aggregateFunction);
+      if (value) this.props.setValue(value);
+      if (size) this.props.setSize(size);
+      if (color) this.props.setColor(color);
+      if (orderBy) this.props.setOrderBy(orderBy);
+      if (category) this.props.setCategory(category);
+      if (filters) this.props.setFilters(filters);
+      if (limit) this.props.setLimit(limit);
+      if (chartType) this.props.setChartType(chartType);
+    }
   }
 
   /**
@@ -480,9 +533,24 @@ ExploreDetail.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  // Store
   user: state.user,
   exploreDetail: state.exploreDetail,
-  layersShown: updateLayersShown(state)
+  layersShown: updateLayersShown(state),
+  widgetEditor: PropTypes.object,
+  // ACTIONS
+  setFilters: PropTypes.func.isRequired,
+  setSize: PropTypes.func.isRequired,
+  setColor: PropTypes.func.isRequired,
+  setCategory: PropTypes.func.isRequired,
+  setValue: PropTypes.func.isRequired,
+  setOrderBy: PropTypes.func.isRequired,
+  setAggregateFunction: PropTypes.func.isRequired,
+  setLimit: PropTypes.func.isRequired,
+  setChartType: PropTypes.func.isRequired,
+  setVisualizationType: PropTypes.func.isRequired,
+  setBand: PropTypes.func.isRequired,
+  setLayer: PropTypes.func.isRequired
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -490,7 +558,25 @@ const mapDispatchToProps = dispatch => ({
     dispatch(resetDataset());
   },
   toggleModal: (open) => { dispatch(toggleModal(open)); },
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); }
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
+  setFilters: filter => dispatch(setFilters(filter)),
+  setColor: color => dispatch(setColor(color)),
+  setSize: size => dispatch(setSize(size)),
+  setCategory: category => dispatch(setCategory(category)),
+  setValue: value => dispatch(setValue(value)),
+  setOrderBy: value => dispatch(setOrderBy(value)),
+  setAggregateFunction: value => dispatch(setAggregateFunction(value)),
+  setLimit: value => dispatch(setLimit(value)),
+  setChartType: value => dispatch(setChartType(value)),
+  setVisualizationType: vis => dispatch(setVisualizationType(vis)),
+  setBand: band => dispatch(setBand(band)),
+  setLayer: (layerId) => {
+    new LayersService()
+      .fetchData({ id: layerId })
+      .then(layer => dispatch(setLayer(layer)))
+      // TODO: better handling of the error
+      .catch(err => toastr.error('Error', err));
+  }
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);
