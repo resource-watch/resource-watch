@@ -1,4 +1,4 @@
-function getFieldUrl(id, provider, tableName = '') {
+function getFieldUrl(id, provider, tableName) {
   let url;
 
   switch (provider) {
