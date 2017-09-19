@@ -233,17 +233,22 @@ class Legend extends React.Component {
            </button>
         */
         }
-        <button
-          className="toggle"
-          onClick={() => this.onToggleLayerGroupVisibility(layerGroup)}
-          aria-label="Toggle the visibility"
-        >
-          <Icon name={layerGroup.visible ? 'icon-hide' : 'icon-show'} />
-        </button>
-        <button className="info" onClick={() => this.onLayerInfoModal(layerGroup)} aria-label="More information">
-          <Icon name="icon-info" />
-        </button>
+        { !this.props.interactionDisabled
+          && <button
+            className="toggle"
+            onClick={() => this.onToggleLayerGroupVisibility(layerGroup)}
+            aria-label="Toggle the visibility"
+          >
+            <Icon name={layerGroup.visible ? 'icon-hide' : 'icon-show'} />
+          </button>
+        }
+        { !this.props.interactionDisabled
+          && <button className="info" onClick={() => this.onLayerInfoModal(layerGroup)} aria-label="More information">
+            <Icon name="icon-info" />
+          </button>
+        }
         { !this.props.readonly
+          && !this.props.interactionDisabled
           && <button className="close" onClick={() => this.onRemoveLayerGroup(layerGroup)} aria-label="Remove">
             <Icon name="icon-cross" />
           </button>
@@ -373,6 +378,9 @@ Legend.propTypes = {
   layerGroups: PropTypes.array,
   // Layers can't be removed or hidden
   readonly: PropTypes.bool,
+  // Layers can't be removed, hidden or toggled
+  // and the information button is hidden
+  interactionDisabled: PropTypes.bool,
   // Whether by default the legend is expanded or not
   expanded: PropTypes.bool,
 
@@ -399,6 +407,7 @@ Legend.propTypes = {
 
 Legend.defaultProps = {
   readonly: false,
+  interactionDisabled: false,
   expanded: true
 };
 

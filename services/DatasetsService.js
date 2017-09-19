@@ -2,6 +2,8 @@ import 'isomorphic-fetch';
 import { get, post, remove } from 'utils/request';
 import sortBy from 'lodash/sortBy';
 
+import { getFieldUrl, getFields } from 'utils/datasets/fields';
+
 export default class DatasetsService {
   constructor(options = {}) {
     this.opts = options;
@@ -137,10 +139,11 @@ export default class DatasetsService {
     });
   }
 
-  fetchFields({ id }) {
+  fetchFields({ id, provider, tableName }) {
+    const url = getFieldUrl(id, provider, tableName);
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/fields/${id}`,
+        url,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -149,10 +152,7 @@ export default class DatasetsService {
           value: this.opts.authorization
         }],
         onSuccess: (data) => {
-          resolve(Object.keys(data.fields).map(field => ({
-            name: field,
-            type: data.fields[field].type
-          })));
+          resolve(getFields(data, provider));
         },
         onError: (error) => {
           reject(error);

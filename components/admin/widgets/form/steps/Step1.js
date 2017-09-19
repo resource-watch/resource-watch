@@ -41,6 +41,7 @@ class Step1 extends React.Component {
   */
   triggerChangeMode(mode) {
     this.setState({ mode });
+    this.props.onModeChange(mode);
   }
 
   render() {
@@ -139,6 +140,22 @@ class Step1 extends React.Component {
             {Checkbox}
           </Field>
 
+          {/* DEFAULT EDITABLE WIDGET */}
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.defaultEditableWidget = c; }}
+            onChange={value => this.props.onChange({ defaultEditableWidget: value.checked })}
+            properties={{
+              name: 'defaultEditableWidget',
+              label: 'Do you want to set this widget as the default editable widget?',
+              value: 'defaultEditableWidget',
+              title: 'Default editable widget',
+              defaultChecked: this.props.form.defaultEditableWidget,
+              checked: this.props.form.defaultEditableWidget
+            }}
+          >
+            {Checkbox}
+          </Field>
+
         </fieldset>
 
         {this.state.form.dataset &&
@@ -213,7 +230,8 @@ Step1.propTypes = {
   id: PropTypes.string,
   form: PropTypes.object,
   datasets: PropTypes.array,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  onModeChange: PropTypes.func
 };
 
 export default Step1;

@@ -75,6 +75,7 @@
 @import "./components/modal/embed_my_widget_modal";
 @import "./components/modal/share_modal_explore";
 @import "./components/modal/embed_layer_modal";
+@import "./components/modal/embed_table_modal";
 @import "./components/modal/upload_area_intersection_modal";
 @import "./components/modal/subscribe_to_dataset_modal";
 @import "./components/modal/area_subscription_modal";
@@ -234,6 +235,7 @@
 // Embed
 @import "./components/app/pages/embed/embed_widget";
 @import "./components/app/pages/embed/embed_layer";
+@import "./components/app/pages/embed/embed_table";
 
 // Subscriptions
 @import "./components/app/subscriptions/subscription_card";

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 
-class EmbedMyWidgetModal extends React.Component {
+class EmbedTableModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,13 +23,13 @@ class EmbedMyWidgetModal extends React.Component {
   }
 
   render() {
-    const { widgetId, visualizationType } = this.props;
+    const { queryURL } = this.props;
     const { protocol, hostname, port } = window && window.location ? window.location : {};
     const embedHost = window && window.location ? `${protocol}//${hostname}${port !== '' ? `:${port}` : port}` : '';
-    const url = `${embedHost}/embed/${visualizationType === 'map' ? 'map' : 'widget'}/${widgetId}`;
+    const url = `${embedHost}/embed/table?queryURL=${queryURL}`;
     const iframeText = `<iframe src="${url}" width="100%" height="474" frameBorder="0"></iframe>`;
     return (
-      <div className="c-embed-my-widget-modal">
+      <div className="c-embed-table-modal">
         <h2>Share into my web</h2>
         <p>You may include this content on your webpage. To do this, copy the following html
         code and insert it into the source code of your page:</p>
@@ -44,9 +44,8 @@ class EmbedMyWidgetModal extends React.Component {
   }
 }
 
-EmbedMyWidgetModal.propTypes = {
-  widgetId: PropTypes.string.isRequired,
-  visualizationType: PropTypes.string.isRequired
+EmbedTableModal.propTypes = {
+  queryURL: PropTypes.string.isRequired
 };
 
-export default EmbedMyWidgetModal;
+export default EmbedTableModal;

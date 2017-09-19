@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
+import { toastr } from 'react-redux-toastr';
+import isEmpty from 'lodash/isEmpty';
+import d3 from 'd3';
 
 // Redux
 import { connect } from 'react-redux';
@@ -22,7 +25,10 @@ class RasterChartEditor extends React.Component {
     this.state = {
       loading: false, // Whether the component is loading
       error: null, // Whether an error happened
-      bands: [] // List of the name of the bands
+      /** @type {{ name: string, alias?: string, type?: string, description?: string }[]} bands */
+      bands: [], // List of the bands
+      bandStatsInfo: {}, // Statistical information of the selected band
+      bandStatsInfoLoading: false
     };
 
     this.rasterService = new RasterService(props.dataset, props.tableName, props.provider);
@@ -46,11 +52,19 @@ class RasterChartEditor extends React.Component {
 
   /**
    * Event handler executed when the user selects a band
-   * @param {string} band 
+   * @param {string} bandName - Name of the band
    */
   @Autobind
-  onChangeBand(band) {
+  onChangeBand(bandName) {
+    const band = this.state.bands.find(b => b.name === bandName);
     this.props.setBand(band);
+
+    // We fetch the stats info about the band
+    this.setState({ bandStatsInfoLoading: true });
+    this.rasterService.getBandStatsInfo(bandName)
+      .then(bandStatsInfo => this.setState({ bandStatsInfo }))
+      .catch(() => toastr.error('Error', 'Unable to fetch the statistical information of the band'))
+      .then(() => this.setState({ bandStatsInfoLoading: false }));
   }
 
   /**
@@ -87,13 +101,43 @@ class RasterChartEditor extends React.Component {
   fetchBandNames() {
     this.setState({ loading: true, error: null });
     this.rasterService.getBandNames()
-      .then(bands => this.setState({ bands }))
+      // We merge the band names with the information that comes from
+      // the metadata of the dataset (type, alias and description)
+      .then((bands) => { // eslint-disable-line arrow-body-style
+        return bands.map((band) => {
+          let res = { name: band };
+
+          const bandInfo = this.props.bandsInfo[band];
+          if (bandInfo) {
+            res = Object.assign({}, res, bandInfo);
+          } else if (this.props.provider === 'cartodb') {
+            // If there's no alias for a Carto dataset, then
+            // we use a prettier name than just a number
+            res = Object.assign({}, res, { alias: `Band ${band}` });
+          }
+
+          return res;
+        });
+      })
+      .then((bands) => {
+        // We save the bands
+        this.setState({ bands }, () => {
+          // At this point, if this.props.band is defined, it's
+          // because we're restoring the state of the widget editor
+          // That means that this.props.band only has its name attribute
+          // defined (we don't have the alias nor the description), we thus
+          // need to reset the band based on the band list
+          if (this.props.band) {
+            this.onChangeBand(this.props.band.name);
+          }
+        });
+      })
       .catch(({ message }) => this.setState({ error: message }))
       .then(() => this.setState({ loading: false }));
   }
 
   render() {
-    const { loading, bands, error } = this.state;
+    const { loading, bands, error, bandStatsInfo, bandStatsInfoLoading } = this.state;
     const { band, mode, showSaveButton } = this.props;
 
     return (
@@ -105,12 +149,37 @@ class RasterChartEditor extends React.Component {
             <Select
               properties={{
                 name: 'raster-bands',
-                default: band
+                default: band && band.name
               }}
-              options={bands.map(b => ({ label: b, value: b }))}
+              options={bands.map(b => ({ label: b.alias || b.name, value: b.name }))}
               onChange={this.onChangeBand}
             />
           ) }
+          { band && band.description && (
+            <p className="description">{band.description}</p>
+          ) }
+          <div className="c-table stats">
+            <Spinner isLoading={bandStatsInfoLoading} className="-light -small" />
+            { bandStatsInfo && !isEmpty(bandStatsInfo) && (
+              <table>
+                <thead>
+                  <tr>
+                    { Object.keys(bandStatsInfo).map(name => <th key={name}>{name}</th>) }
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    { Object.keys(bandStatsInfo).map((name) => {
+                      const number = d3.format('.4s')(bandStatsInfo[name]);
+                      return (
+                        <td key={name}>{number}</td>
+                      );
+                    }) }
+                  </tr>
+                </tbody>
+              </table>
+            ) }
+          </div>
         </div>
         <div className="buttons">
           <span /> {/* Help align the button to the right */}
@@ -145,7 +214,8 @@ RasterChartEditor.propTypes = {
   onUpdateWidget: PropTypes.func,
 
   // REDUX
-  band: PropTypes.string,
+  band: PropTypes.object,
+  bandsInfo: PropTypes.object,
   toggleModal: PropTypes.func.isRequired,
   setBand: PropTypes.func.isRequired
 };
@@ -155,7 +225,8 @@ RasterChartEditor.defaultProps = {
 };
 
 const mapStateToProps = ({ widgetEditor }) => ({
-  band: widgetEditor.band
+  band: widgetEditor.band,
+  bandsInfo: widgetEditor.bandsInfo
 });
 
 const mapDispatchToProps = dispatch => ({

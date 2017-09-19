@@ -129,7 +129,7 @@ class WidgetsNew extends React.Component {
         {
           paramsConfig: {
             visualizationType,
-            band,
+            band: { name: band.name },
             limit,
             value,
             category,

@@ -163,6 +163,9 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
     filters
   } = widgetEditor;
 
+  const categoryField = fields.length &&
+    fields.find(f => (category && f.columnName === category.name));
+
   const chartInfo = {
     chartType,
     limit,
@@ -170,9 +173,9 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
     filters,
     areaIntersection,
     x: {
-      type: category.type,
-      name: category.name,
-      alias: fields.length && fields.find(f => f.columnName === category.name).alias
+      type: category && category.type,
+      name: category && category.name,
+      alias: categoryField && categoryField.alias
     },
     y: null,
     color: null,
@@ -206,23 +209,62 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
 }
 
 /**
+ * Return the number of bins for the raster
+ * @export
+ * @param {string} dataset - Dataset ID
+ * @param {string} tableName - Name of the table
+ * @param {{ name: string, type: string, alias: string, description: string }} band
+ * Band (in case of a raster dataset)
+ * @param {string} provider - Name of the provider
+ * @returns {Promise<number>}
+ */
+export async function getBinsCount(dataset, tableName, band, provider) {
+  return new Promise((resolve) => {
+    let query;
+    if (provider === 'gee') {
+      query = ''; // TODO: implement for GEE
+    } else {
+      query = `select ST_ValueCount(st_union(the_raster_webmercator), ${band.name}, true).value from ${tableName}`;
+    }
+
+    fetch(`${process.env.WRI_API_URL}/query/${dataset}?sql=${query}`)
+      .then((res) => {
+        if (!res.ok) throw new Error('Unable to retrieve the number of bins');
+        return res.json();
+      })
+      .then(() => {
+        // TODO: implement the real code
+        if (provider === 'gee') {
+          resolve(10);
+        } else {
+          resolve(10);
+        }
+      })
+      // If the query fails, we return 10 bins
+      .catch(() => resolve(10));
+  });
+}
+
+/**
  * Return the URL of the data needed for the Vega chart in case
  * of a raster dataset
  * @export
  * @param {string} dataset - Dataset ID
  * @param {string} datasetType - Type of dataset
  * @param {string} tableName - Name of the table
- * @param {string} band - Name of band (in case of a raster dataset)
+ * @param {{ name: string, type: string, alias: string, description: string }} band
+ * Band (in case of a raster dataset)
  * @param {string} provider - Name of the provider
  * @return {string}
  */
-export function getRasterDataURL(dataset, datasetType, tableName, band, provider) {
+export async function getRasterDataURL(dataset, datasetType, tableName, band, provider) {
+  const bins = band.type === 'continuous' ? 'auto' : await getBinsCount(dataset, tableName, band, provider);
+
   let query;
   if (provider === 'gee') {
-    query = `SELECT ST_HISTOGRAM(rast, ${band}, 10, true) from "${tableName}"`;
+    query = `SELECT ST_HISTOGRAM(rast, ${band.name}, ${bins}, true) from "${tableName}"`;
   } else if (provider === 'cartodb') {
-    const bandNumber = band.split(' ')[1];
-    query = `SELECT (ST_Histogram(st_union(the_raster_webmercator), ${bandNumber}, 10, true)).* from ${tableName}`;
+    query = `SELECT (ST_Histogram(st_union(the_raster_webmercator), ${band.name}, ${bins}, true)).* from ${tableName}`;
   }
 
   return `${process.env.WRI_API_URL}/query/${dataset}?sql=${query}`;
@@ -234,25 +276,35 @@ export function getRasterDataURL(dataset, datasetType, tableName, band, provider
  * @param {string} dataset - Dataset ID
  * @param {string} datasetType - Type of dataset
  * @param {string} tableName - Name of the table
- * @param {string} band - Name of band (in case of a raster dataset)
+ * @param {{ name: string, type: string, alias: string, description: string }} band
+ * Band (in case of a raster dataset)
  * @param {string} provider - Name of the provider
  * @param {ChartInfo} chartInfo
+ * @param {boolean} [isTable=false] Whether we fetch the data of a table
  * @return {string}
  */
-export function getDataURL(dataset, datasetType, tableName, band, provider, chartInfo) {
+export async function getDataURL(dataset, datasetType, tableName, band, provider,
+  chartInfo, isTable = false) {
   // If the dataset is a raster one, the behaviour is totally different
   if (datasetType === 'raster') {
     if (!band) return '';
     return getRasterDataURL(dataset, datasetType, tableName, band, provider);
   }
 
-  const isBidimensional = isBidimensionalChart(chartInfo.chartType);
+  let isBidimensional = false;
+  if (!isTable) {
+    isBidimensional = isBidimensionalChart(chartInfo.chartType);
+  } else if (!chartInfo.chartType) {
+    if (chartInfo.x && chartInfo.y) {
+      isBidimensional = true;
+    } else {
+      isBidimensional = false;
+    }
+  }
 
-  if (!chartInfo.x || (isBidimensional && !chartInfo.y)) return '';
+  if (!isTable && (!chartInfo.x || (isBidimensional && !chartInfo.y))) return '';
 
-  const columns = [
-    { key: 'x', value: chartInfo.x.name, as: true }
-  ];
+  const columns = [{ key: 'x', value: chartInfo.x.name, as: true }];
 
   if (isBidimensional) {
     columns.push({ key: 'y', value: chartInfo.y.name, as: true });
@@ -375,13 +427,14 @@ export function getTimeFormat(data) {
  * Parse and return the data of a raster band
  * @export
  * @param {any[]} data - Raw data of the band
- * @param {string} band - Name of the band
+ * @param {{ name: string, type: string, alias: string, description: string }} band
+ * Band (in case of a raster dataset)
  * @param {string} provider - Name of the provider
  * @returns {object[]}
  */
 export function parseRasterData(data, band, provider) {
   if (provider === 'gee') {
-    return data[0][band].map(d => ({ x: d[0], y: d[1] }));
+    return data[0][band.name].map(d => ({ x: d[0], y: d[1] }));
   } else if (provider === 'cartodb') {
     return data.map(d => ({ x: d.max, y: d.count }));
   }
@@ -396,7 +449,8 @@ export function parseRasterData(data, band, provider) {
  * @param {string} dataset - Dataset ID
  * @param {string} datasetType - Type of dataset
  * @param {string} tableName - Name of the table
- * @param {string} band - Name of the band (in case of a raster dataset)
+ * @param {{ name: string, type: string, alias: string, description: string }} band
+ * Band (in case of a raster dataset)
  * @param {string} provider - Name of the provider
  * @param {ChartInfo} chartInfo
  * @param {boolean} [embedData=false] Whether the configuration should
@@ -412,7 +466,7 @@ export async function getChartConfig(
   embedData = false
 ) {
   // URL of the data needed to display the chart
-  const url = getDataURL(dataset, datasetType, tableName, band, provider, chartInfo);
+  const url = await getDataURL(dataset, datasetType, tableName, band, provider, chartInfo);
 
   // We fetch the data to have clever charts
   let data = await fetchData(url);
@@ -474,7 +528,8 @@ export async function getChartConfig(
  * Fetch the data of a raster dataset and return the parsed data
  * @export
  * @param {string} url - URL of the data
- * @param {string} band - Band name
+ * @param {{ name: string, type: string, alias: string, description: string }} band
+ * Band (in case of a raster dataset)
  * @param {string} provider - Dataset provider
  * @returns
  */

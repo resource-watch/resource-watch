@@ -13,10 +13,15 @@
       align-items: center;
       padding: 5px 10px;
 
+      &.hide {
+        display: none;
+      }
+
       > label {
         position: relative;
         padding: 0 0 0 10px;
       }
+
 
       &:not(.parent-category) {
         > .toggle {
@@ -197,6 +202,12 @@
 
       &:last-child {
         margin-top: 0;
+        display: flex;
+        flex: 1;
+
+        > input[type="text"] {
+          width: 100%;
+        }
       }
 
       > .tag {

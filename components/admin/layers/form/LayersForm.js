@@ -127,7 +127,7 @@ class LayersForm extends React.Component {
           });
         }
       } else {
-        toastr.error('Error', 'Fill all the required fields');
+        toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
     }, 0);
   }

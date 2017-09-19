@@ -38,28 +38,32 @@ class DatasetsForm extends React.Component {
   componentDidMount() {
     // Get the dataset and fill the
     // state with its params if it exists
-
     if (this.props.dataset) {
       this.service.fetchData({ id: this.props.dataset })
         .then((data) => {
+          const { provider, tableName } = data || {};
           this.setState({
             form: this.setFormFromParams(data),
             // Stop the loading
             loading: false
           });
+
+          this.service.fetchFields({
+            id: this.props.dataset,
+            provider,
+            tableName
+          })
+            .then((columns) => {
+              this.setState({
+                columns
+              });
+            })
+            .catch((err) => {
+              toastr.error('Error', err);
+            });
         })
         .catch((err) => {
           this.setState({ loading: false });
-          toastr.error('Error', err);
-        });
-
-      this.service.fetchFields({ id: this.props.dataset })
-        .then((data) => {
-          this.setState({
-            columns: data
-          });
-        })
-        .catch((err) => {
           toastr.error('Error', err);
         });
     }
@@ -127,7 +131,7 @@ class DatasetsForm extends React.Component {
           });
         }
       } else {
-        toastr.error('Error', 'Fill all the required fields');
+        toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
     }, 0);
   }

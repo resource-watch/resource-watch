@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import {
   resetWidgetEditor,
   setFields,
+  setBandsInfo,
   setVisualizationType
 } from 'components/widgets/editor/redux/widgetEditor';
 import { toggleModal } from 'redactions/modal';
@@ -35,6 +36,7 @@ import Legend from 'components/ui/Legend';
 import TableView from 'components/widgets/editor/table/TableView';
 import Icon from 'components/ui/Icon';
 import ShareModalExplore from 'components/widgets/editor/modal/ShareModalExplore';
+import EmbedTableModal from 'components/widgets/editor/modal/EmbedTableModal';
 
 // Utils
 import {
@@ -46,6 +48,7 @@ import {
 } from 'components/widgets/editor/helpers/WidgetHelper';
 import ChartTheme from 'utils/widgets/theme';
 import LayerManager from 'utils/layers/LayerManager';
+import getQueryByFilters from 'utils/getQueryByFilters';
 
 const VISUALIZATION_TYPES = [
   { label: 'Chart', value: 'chart', available: true },
@@ -253,7 +256,7 @@ class WidgetEditor extends React.Component {
       .catch((err) => {
         this.setState({ fieldsError: true });
         toastr.error('Error loading fields');
-        console.error('Error loading fields', err)
+        console.error('Error loading fields', err);
       })
       // If we reach this point, either we have already resolved the promise
       // and so rejecting it has no effect, or we haven't and so we reject it
@@ -329,6 +332,17 @@ class WidgetEditor extends React.Component {
             alias: getMetadata(field.columnName, 'alias'),
             description: getMetadata(field.columnName, 'description')
           }));
+
+          // If the widget is a raster one, we save the information
+          // related to its bands (alias, description, etc.)
+          if (attributes.type === 'raster' && metadata) {
+            // Here metadata is an object whose keys are names of bands
+            // and the values the following:
+            // { type: string, alias: string, description: string }
+            // NOTE: The object is not exhaustive and it might be empty
+            // whereas there are bands
+            this.props.setBandsInfo(metadata);
+          }
 
           this.props.setFields(fields);
 
@@ -552,7 +566,7 @@ class WidgetEditor extends React.Component {
 
     this.setState({ visualizationOptions }, () => {
       if (this.props.selectedVisualizationType === null) {
-        // We only set a default visualization if none of them has been set in the past
+      // We only set a default visualization if none of them has been set in the past
         // (we don't want to conflict with the "state restoration" made in My RW)
         this.handleVisualizationTypeChange(defaultVis, resetStore);
       }
@@ -693,6 +707,56 @@ class WidgetEditor extends React.Component {
     this.props.onUpdateWidget();
   }
 
+  @Autobind
+  handleEmbedTable() {
+    const { tableName } = this.state;
+    const { dataset, widgetEditor } = this.props;
+    const { filters, fields, value, aggregateFunction, category, orderBy,
+      limit, areaIntersection } = widgetEditor;
+    const aggregateFunctionExists = aggregateFunction && aggregateFunction !== 'none';
+
+    const arrColumns = fields.filter(val => val.columnName !== 'cartodb_id' && val.columnType !== 'geometry').map(
+      (val) => {
+        if (value && value.name === val.columnName && aggregateFunctionExists) {
+          // Value
+          return { value: val.columnName, key: val.columnName, aggregateFunction, group: false };
+        } else if (category && category.name === val.columnName && aggregateFunctionExists) {
+          // Category
+          return { value: val.columnName, key: val.columnName, group: true };
+        } else { // eslint-disable-line
+          // Rest of columns
+          return {
+            value: val.columnName,
+            key: val.columnName,
+            remove: aggregateFunctionExists
+          };
+        }
+      }
+    ).filter(val => !val.remove);
+
+    const orderByColumn = orderBy ? [orderBy] : [];
+    if (orderByColumn.length > 0 && value && orderByColumn[0].name === value.name && aggregateFunction && aggregateFunction !== 'none') {
+      orderByColumn[0].name = `${aggregateFunction}(${value.name})`;
+    }
+
+    const geostore = areaIntersection ? `&geostore=${areaIntersection}` : '';
+
+    const sortOrder = orderBy ? orderBy.orderType : 'asc';
+    const query = `${getQueryByFilters(tableName, filters, arrColumns, orderByColumn, sortOrder)} LIMIT ${limit}`;
+    const queryURL = `${process.env.WRI_API_URL}/query/${dataset}?sql=${query}${geostore}`;
+
+    const options = {
+      children: EmbedTableModal,
+      childrenProps: {
+        url: window.location.href,
+        queryURL,
+        toggleModal: this.props.toggleModal
+      }
+    };
+
+    this.props.toggleModal(true, options);
+  }
+
   /**
    * Change the selected visualization in the state
    * @param {string} selectedVisualizationType Visualization type
@@ -780,7 +844,7 @@ class WidgetEditor extends React.Component {
                         value: selectedVisualizationType
                       }}
                       options={visualizationOptions}
-                      onChange={this.handleVisualizationTypeChange}
+                      onChange={value => this.handleVisualizationTypeChange(value, false)}
                     />
                   </div>
                 </div>
@@ -800,6 +864,7 @@ class WidgetEditor extends React.Component {
                         onUpdateWidget={this.handleUpdateWidget}
                         showSaveButton={showSaveButton}
                         hasGeoInfo={hasGeoInfo}
+                        onEmbedTable={this.handleEmbedTable}
                       />
                     )
                 }
@@ -856,6 +921,7 @@ const mapStateToProps = ({ widgetEditor }) => ({
 const mapDispatchToProps = dispatch => ({
   resetWidgetEditor: hardReset => dispatch(resetWidgetEditor(hardReset)),
   setFields: (fields) => { dispatch(setFields(fields)); },
+  setBandsInfo: bands => dispatch(setBandsInfo(bands)),
   setVisualizationType: vis => dispatch(setVisualizationType(vis)),
   toggleModal: (open, options) => dispatch(toggleModal(open, options))
 });
@@ -872,13 +938,14 @@ WidgetEditor.propTypes = {
   onChange: PropTypes.func,
   onError: PropTypes.func,
   // Store
-  band: PropTypes.string,
+  band: PropTypes.object,
   widgetEditor: PropTypes.object.isRequired,
   resetWidgetEditor: PropTypes.func.isRequired,
   setFields: PropTypes.func.isRequired,
   setVisualizationType: PropTypes.func.isRequired,
   selectedVisualizationType: PropTypes.string,
-  toggleModal: PropTypes.func
+  toggleModal: PropTypes.func,
+  setBandsInfo: PropTypes.func
 };
 
 WidgetEditor.defaultProps = {

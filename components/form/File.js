@@ -129,14 +129,20 @@ class File extends FormElement {
       }],
       body: formData,
       multipart: true,
-      onSuccess: (response) => {
+      onSuccess: ({ connectorUrl, fields }) => {
         this.setState({
-          value: response.connectorUrl,
+          value: connectorUrl,
           validations: ['required'],
           loading: false
         }, () => {
           // Publish the new value to the form
-          if (this.props.onChange) this.props.onChange(this.state.value);
+          if (this.props.onChange) {
+            this.props.onChange({
+              // filters non-empty fields
+              fields: fields.filter(field => (field || '').length),
+              value: connectorUrl
+            });
+          }
           // Trigger validation
           this.triggerValidate();
         });
@@ -178,7 +184,7 @@ class File extends FormElement {
           } */}
 
           <input
-            {...omit(properties, 'authorization')}
+            {...omit(properties, 'authorization', 'provider')}
             className={`input ${inputClassName}`}
             value={this.state.value}
             id={`input-${properties.name}`}
