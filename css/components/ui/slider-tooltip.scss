@@ -18,6 +18,10 @@
 
 
 /* Slider override */
+.rc-slider {
+  cursor: pointer;
+}
+
 .rc-slider-track {
   background-color: $color-primary;
   height: 2px;

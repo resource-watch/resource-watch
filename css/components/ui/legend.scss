@@ -159,6 +159,15 @@
       background-color: transparent;
       cursor: pointer;
 
+      &.-disabled {
+        cursor: default;
+        opacity: .5;
+
+        &:hover .c-icon {
+          fill: $color-charcoal-grey;
+        }
+      }
+
       &:last-child {
         margin-right: 0;
       }

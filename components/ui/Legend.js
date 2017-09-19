@@ -269,8 +269,9 @@ class Legend extends React.Component {
         ) }
         { // eslint-disable-next-line max-len
           <button
-            className="opacity"
+            className={`opacity ${layerGroup.visible ? '' : '-disabled'}`}
             onClick={e => this.onClickOpacity(e, layerGroup)}
+            disabled={!layerGroup.visible}
             aria-label="Change opacity"
           >
             <Icon name="icon-opacity" />
