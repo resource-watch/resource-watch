@@ -16,7 +16,7 @@ import Button from 'components/widgets/editor/ui/Button';
 import Spinner from 'components/widgets/editor/ui/Spinner';
 
 // Services
-import WidgetService from 'services/WidgetService';
+import WidgetService from 'components/widgets/editor/services/WidgetService';
 
 // utils
 import { getChartConfig, getChartInfo } from 'components/widgets/editor/helpers/WidgetHelper';

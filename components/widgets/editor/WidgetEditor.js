@@ -47,9 +47,9 @@ import {
   isFieldAllowed
 } from 'components/widgets/editor/helpers/WidgetHelper';
 
-import ChartTheme from 'utils/widgets/theme';
-import LayerManager from 'utils/layers/LayerManager';
-import getQueryByFilters from 'utils/getQueryByFilters';
+import ChartTheme from 'components/widgets/editor/helpers/theme';
+import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import getQueryByFilters from 'components/widgets/editor/helpers/getQueryByFilters';
 
 const VISUALIZATION_TYPES = [
   { label: 'Chart', value: 'chart', available: true },

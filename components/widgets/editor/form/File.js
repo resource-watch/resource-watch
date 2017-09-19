@@ -6,7 +6,7 @@ import omit from 'lodash/omit';
 import Dropzone from 'react-dropzone';
 
 // Utils
-import { post } from 'utils/request';
+import { post } from 'components/widgets/editor/helpers/request';
 
 // Components
 import Spinner from 'components/widgets/editor/ui/Spinner';

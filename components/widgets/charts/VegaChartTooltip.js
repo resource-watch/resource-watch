@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { time } from 'd3';
 
 // Helpers
-import { getTimeFormat, get2DecimalFixedNumber, getSINumber } from 'utils/widgets/WidgetHelper';
+import { getTimeFormat, get2DecimalFixedNumber, getSINumber } from 'components/widgets/editor/helpers/WidgetHelper';
 
 class VegaChartTooltip extends React.Component {
   getParsedX() {

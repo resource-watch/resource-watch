@@ -12,7 +12,7 @@ import Spinner from 'components/widgets/editor/ui/Spinner';
 import DatasetService from 'components/widgets/editor/services/DatasetService';
 
 // Utils
-import getQueryByFilters from 'utils/getQueryByFilters';
+import getQueryByFilters from 'components/widgets/editor/helpers/getQueryByFilters';
 
 class TableView extends React.Component {
   constructor(props) {
