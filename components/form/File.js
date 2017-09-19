@@ -136,10 +136,13 @@ class File extends FormElement {
           loading: false
         }, () => {
           // Publish the new value to the form
-          if (this.props.onChange) this.props.onChange({
-            fields,
-            value: connectorUrl
-          });
+          if (this.props.onChange) {
+            this.props.onChange({
+              // filters non-empty fields
+              fields: fields.filter(field => (field || '').length),
+              value: connectorUrl
+            });
+          }
           // Trigger validation
           this.triggerValidate();
         });
