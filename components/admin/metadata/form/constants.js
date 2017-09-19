@@ -5,6 +5,11 @@ export const LANGUAGE_OPTIONS = [
   { label: 'Português', value: 'pt' }
 ];
 
+export const RASTER_COLUMN_TYPES = [
+  { label: 'Categorical', value: 'categorical' },
+  { label: 'Continuous', value: 'continuous' }
+];
+
 export const STATE_DEFAULT = {
   step: 1,
   stepLength: 1,
