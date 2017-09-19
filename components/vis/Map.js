@@ -85,8 +85,12 @@ class Map extends React.Component {
 
     const layerGroupsChanged = !isEqual(layerGroups, nextLayerGroups);
 
-    const opacities = layerGroups.map(d => ({ dataset: d.dataset, opacity: d.layers[0].opacity || 1 }));
-    const nextOpacities = nextLayerGroups.map(d => ({ dataset: d.dataset, opacity: d.layers[0].opacity || 1 }));
+    const opacities = layerGroups.map(d => ({
+      dataset: d.dataset, opacity: d.layers[0].opacity !== undefined ? d.layers[0].opacity : 1
+    }));
+    const nextOpacities = nextLayerGroups.map(d => ({
+      dataset: d.dataset, opacity: d.layers[0].opacity !== undefined ? d.layers[0].opacity : 1
+    }));
 
     if (!isEqual(opacities, nextOpacities)) {
       // Set opacity if changed

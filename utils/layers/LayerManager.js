@@ -228,6 +228,7 @@ export default class LayerManager {
     const layer = Object.assign({}, layerSpec.layerConfig, {
       id: layerSpec.id,
       order: layerSpec.order,
+      opacity: layerSpec.opacity,
       hidden: layerSpec.hidden
     });
 
@@ -251,6 +252,7 @@ export default class LayerManager {
         this.mapLayers[layer.id] = L.tileLayer(tileUrl).addTo(this.map);
 
         this.mapLayers[layer.id].setZIndex(layer.hidden ? -1 : layer.order);
+        this.mapLayers[layer.id].setOpacity(layer.opacity !== undefined ? layer.opacity : 1);
 
         this.mapLayers[layer.id].on('load', () => {
           delete this.layersLoading[layer.id];

@@ -130,7 +130,8 @@ export default function (state = initialState, action) {
     case SET_LAYERGROUP_VISIBILITY: {
       const layers = state.layers.map((l) => {
         if (l.dataset !== action.payload.dataset) return l;
-        return Object.assign({}, l, { visible: action.payload.visible });
+        const datasetLayers = l.layers.map(lay => Object.assign({}, lay, { opacity: 1 }));
+        return Object.assign({}, l, { visible: action.payload.visible, layers: datasetLayers });
       });
       return Object.assign({}, state, { layers });
     }
@@ -139,7 +140,7 @@ export default function (state = initialState, action) {
       const layerGroups = state.layers.map((l) => {
         if (l.dataset !== action.payload.dataset) return l;
         const layers = l.layers.map((la) => { // eslint-disable-line arrow-body-style
-          return Object.assign({}, la, { active: la.id === action.payload.layer });
+          return Object.assign({}, la, { active: la.id === action.payload.layer, opacity: 1 });
         });
         return Object.assign({}, l, { layers });
       });
