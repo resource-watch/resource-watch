@@ -9,7 +9,7 @@ import { showLayer } from 'components/widgets/editor/redux/widgetEditor';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Components
-import Select from 'components/form/SelectInput';
+import Select from 'components/widgets/editor/form/SelectInput';
 // import EmbedLayerModal from 'components/widgets/editor/modal/EmbedLayerModal';
 import SaveWidgetModal from 'components/widgets/editor/modal/SaveWidgetModal';
 

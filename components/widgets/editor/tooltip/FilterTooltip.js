@@ -15,10 +15,10 @@ import { toggleTooltip } from 'redactions/tooltip';
 import DatasetService from 'components/widgets/editor/services/DatasetService';
 
 // Components
-import CheckboxGroup from 'components/form/CheckboxGroup';
-import Spinner from 'components/ui/Spinner';
-import Button from 'components/ui/Button';
-import Checkbox from 'components/form/Checkbox';
+import CheckboxGroup from 'components/widgets/editor/form/CheckboxGroup';
+import Spinner from 'components/widgets/editor/ui/Spinner';
+import Button from 'components/widgets/editor/ui/Button';
+import Checkbox from 'components/widgets/editor/form/Checkbox';
 
 
 class FilterTooltip extends React.Component {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Autobind } from 'es-decorators';
 
-import Spinner from 'components/ui/Spinner';
+import Spinner from 'components/widgets/editor/ui/Spinner';
 import WidgetCard from 'components/widgets/list/WidgetCard';
 
 export default class WidgetList extends React.Component {

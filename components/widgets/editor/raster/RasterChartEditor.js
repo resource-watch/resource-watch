@@ -11,8 +11,8 @@ import { setBand } from 'components/widgets/editor/redux/widgetEditor';
 import { toggleModal } from 'redactions/modal';
 
 // Components
-import Select from 'components/form/SelectInput';
-import Spinner from 'components/ui/Spinner';
+import Select from 'components/widgets/editor/form/SelectInput';
+import Spinner from 'components/widgets/editor/ui/Spinner';
 import SaveWidgetModal from 'components/widgets/editor/modal/SaveWidgetModal';
 
 // Services

@@ -4,7 +4,7 @@ import { time } from 'd3';
 import uniqBy from 'lodash/uniqBy';
 
 // Components
-import Title from 'components/ui/Title';
+import Title from 'components/widgets/editor/ui/Title';
 
 // Helpers
 import { getSINumber, getTimeFormat } from 'utils/widgets/WidgetHelper';

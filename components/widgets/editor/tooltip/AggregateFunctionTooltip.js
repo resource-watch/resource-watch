@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
-import Button from 'components/ui/Button';
+import Button from 'components/widgets/editor/ui/Button';
 
 const AGGREGATE_FUNCTIONS = [
   'sum', 'avg', 'max', 'min', 'count', 'none'

@@ -17,12 +17,12 @@ import DimensionsContainer from 'components/widgets/editor/ui/DimensionsContaine
 import FieldsContainer from 'components/widgets/editor/ui/FieldsContainer';
 import SortContainer from 'components/widgets/editor/ui/SortContainer';
 import LimitContainer from 'components/widgets/editor/ui/LimitContainer';
-import CustomSelect from 'components/ui/CustomSelect';
-import Select from 'components/form/SelectInput';
+import CustomSelect from 'components/widgets/editor/ui/CustomSelect';
+import Select from 'components/widgets/editor/form/SelectInput';
 import SaveWidgetModal from 'components/widgets/editor/modal/SaveWidgetModal';
 import HowToWidgetEditorModal from 'components/widgets/editor/modal/HowToWidgetEditorModal';
 import UploadAreaIntersectionModal from 'components/widgets/editor/modal/UploadAreaIntersectionModal';
-import Spinner from 'components/ui/Spinner';
+import Spinner from 'components/widgets/editor/ui/Spinner';
 
 // Services
 import AreasService from 'components/widgets/editor/services/AreasService';

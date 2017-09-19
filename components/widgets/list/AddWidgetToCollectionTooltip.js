@@ -4,9 +4,9 @@ import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 
 // Components
-import Field from 'components/form/Field';
-import Select from 'components/form/SelectInput';
-import Spinner from 'components/ui/Spinner';
+import Field from 'components/widgets/editor/form/Field';
+import Select from 'components/widgets/editor/form/SelectInput';
+import Spinner from 'components/widgets/editor/ui/Spinner';
 
 // Services
 import WidgetService from 'services/WidgetService';

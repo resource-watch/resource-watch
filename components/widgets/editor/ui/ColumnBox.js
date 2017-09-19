@@ -11,7 +11,7 @@ import { removeFilter, removeColor, removeCategory, removeValue, removeSize, rem
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/widgets/editor/ui/Icon';
 import FilterTooltip from 'components/widgets/editor/tooltip/FilterTooltip';
 import AggregateFunctionTooltip from 'components/widgets/editor/tooltip/AggregateFunctionTooltip';
 import OrderByTooltip from 'components/widgets/editor/tooltip/OrderByTooltip';

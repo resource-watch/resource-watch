@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 
 // Components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/widgets/editor/ui/Icon';
 
 class ShareModal extends React.Component {
   constructor(props) {

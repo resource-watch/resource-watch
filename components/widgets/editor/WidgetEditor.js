@@ -22,8 +22,8 @@ import DatasetService from 'components/widgets/editor/services/DatasetService';
 import WidgetService from 'components/widgets/editor/services/WidgetService';
 
 // Components
-import Select from 'components/form/SelectInput';
-import Spinner from 'components/ui/Spinner';
+import Select from 'components/widgets/editor/form/SelectInput';
+import Spinner from 'components/widgets/editor/ui/Spinner';
 import VegaChart from 'components/widgets/charts/VegaChart';
 
 // Editors
@@ -31,10 +31,10 @@ import ChartEditor from 'components/widgets/editor/chart/ChartEditor';
 import MapEditor from 'components/widgets/editor/map/MapEditor';
 import RasterChartEditor from 'components/widgets/editor/raster/RasterChartEditor';
 
-import Map from 'components/vis/Map';
-import Legend from 'components/ui/Legend';
+import Map from 'components/widgets/editor/map/Map';
+import Legend from 'components/widgets/editor/ui/Legend';
 import TableView from 'components/widgets/editor/table/TableView';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/widgets/editor/ui/Icon';
 import ShareModalExplore from 'components/widgets/editor/modal/ShareModalExplore';
 import EmbedTableModal from 'components/widgets/editor/modal/EmbedTableModal';
 
@@ -46,6 +46,7 @@ import {
   getChartType,
   isFieldAllowed
 } from 'components/widgets/editor/helpers/WidgetHelper';
+
 import ChartTheme from 'utils/widgets/theme';
 import LayerManager from 'utils/layers/LayerManager';
 import getQueryByFilters from 'utils/getQueryByFilters';
