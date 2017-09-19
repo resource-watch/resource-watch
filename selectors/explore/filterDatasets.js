@@ -17,9 +17,9 @@ const getPaginatedDatasets = (_list, _page, _limit) => {
 const getFilteredDatasets = (_list, _filters, _page, _limit) => {
   const { search, topics, dataType, geographies, datasetsFilteredByConcepts } = _filters;
   const haveResults = datasetsFilteredByConcepts.length;
-  const areFiltersApplied = [...topics || [], ...geographies || [], ...dataType || []].length;
+  const areFiltersApplied = ([...topics || [], ...geographies || [], ...dataType || []].length) || search;
 
-  if (!haveResults && areFiltersApplied) {
+  if (!haveResults && areFiltersApplied && !search) {
     return {
       totalFilteredDatasets: [],
       filteredDatasets: getPaginatedDatasets([], _page, _limit)
