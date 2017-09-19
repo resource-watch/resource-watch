@@ -123,6 +123,8 @@ class MetadataForm extends React.Component {
             this.setState({ submitting: false });
             toastr.error('Error', err);
           });
+      } else {
+        toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
     }, 0);
   }

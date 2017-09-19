@@ -29,6 +29,8 @@ class Step1 extends React.Component {
     const { form, columns, type } = this.props;
     const isRaster = type === 'raster';
 
+    console.log(form);
+
     const aliasColumnClass = classnames('columns', {
       'small-2': isRaster,
       'small-5': !isRaster
