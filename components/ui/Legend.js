@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc';
 import isEqual from 'lodash/isEqual';
 import throttle from 'lodash/throttle';
-import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
@@ -16,6 +15,7 @@ import LegendType from 'components/ui/LegendType';
 import Icon from 'components/ui/Icon';
 import LayerInfoModal from 'components/modal/LayerInfoModal';
 import LayersTooltip from 'components/app/explore/LayersTooltip';
+import SliderTooltip from 'components/app/explore/SliderTooltip';
 import Button from 'components/ui/Button';
 
 const SortableItem = SortableElement(({ value }) => value);
@@ -56,6 +56,7 @@ class Legend extends React.Component {
       open: props.expanded,
       layersTooltipOpen: false,
       layersTourTooltipOpen: false,
+      opacityTooltipOpen: false,
       // Show a "tour" tooltip if the user adds a multi-layer
       // layer group for the first time
       hasShownLayersTourTooltip: false
@@ -151,15 +152,50 @@ class Legend extends React.Component {
   }
 
   /**
+   * Event handler executed when the user moves the opacity slider
+   * @param {Value} value
+   * @param {LayerGroup} layerGroup
+   */
+  onChangeOpacity(value, layerGroup) {
+    this.props.setLayerGroupOpacity(layerGroup.dataset, value);
+  }
+
+  /**
    * Event handler executed when the user clicks the button
    * to change the opacity of a layer
+   * @param {MouseEvent} e
+   * @param {LayerGroup} layerGroup
    */
   onClickOpacity(e, layerGroup) { // eslint-disable-line class-methods-use-this
-    // toastr.info('Not implemented yet');
-    if (layerGroup.layers.length) {
-      // const layersIds = layerGroup.layers.map(l => l.id);
-      this.props.setLayerGroupOpacity(layerGroup.dataset, 0.5);
-    }
+    const opacity = layerGroup.layers.length && layerGroup.layers[0].opacity !== undefined ?
+      layerGroup.layers[0].opacity : 1;
+
+    this.setState({ opacityTooltipOpen: true, layersTooltipOpen: false });
+
+    // If the user is opening the tooltip to select a layer
+    // then the tour doesn't make any sense anymore
+    this.closeLayersTourTooltip();
+
+    // We save the button that was used to open the tooltip
+    // so we can compute its position later
+    this.activeLayersButton = e.target;
+
+    this.props.toggleTooltip(true, {
+      follow: false,
+      position: Legend.getElementPosition(this.activeLayersButton),
+      children: SliderTooltip,
+      childrenProps: {
+        className: '',
+        options: {
+          min: 0, max: 1, step: 0.1, defaultValue: opacity
+        },
+        onChange: value => this.onChangeOpacity(value, layerGroup),
+        onClose: () => {
+          this.setState({ opacityTooltipOpen: false });
+          this.props.toggleTooltip(false);
+        }
+      }
+    });
   }
 
   /**

@@ -67,6 +67,7 @@
     "prop-types": "15.5.7",
     "raw-loader": "0.5.1",
     "rc-pagination": "1.8.8",
+    "rc-slider": "8.3.1",
     "react": "15.5.4",
     "react-ace": "4.3.0",
     "react-dnd": "2.4.0",

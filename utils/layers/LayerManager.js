@@ -275,7 +275,8 @@ export default class LayerManager {
   setOpacity(layers) {
     const layerIds = Object.keys(this.mapLayers);
     layerIds.forEach((layerId) => {
-      const opacity = layers.find(l => l.id === layerId).opacity || 1;
+      const layer = layers.find(l => l.id === layerId);
+      const opacity = layer && layer.opacity !== undefined ? layer.opacity : 1;
       this.mapLayers[layerId].setOpacity(opacity);
     });
   }
