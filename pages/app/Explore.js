@@ -398,6 +398,7 @@ class Explore extends Page {
   applyFilters() {
     const { topics, geographies, dataType } = this.filters;
     const { page } = this.props.url.query || {};
+    const hasValues = [...topics, ...geographies, ...dataType].length;
 
     if (page !== 1) this.props.setDatasetsPage(1);
 
@@ -406,6 +407,10 @@ class Explore extends Page {
     this.props.setDatasetsGeographiesFilter(geographies);
     this.props.setDatasetsDataTypeFilter(dataType);
 
+    if (!hasValues) {
+      this.props.setDatasetsFilteredByConcepts([]);
+      return;
+    }
 
     this.props.setFiltersLoading(true);
     this.datasetService.searchDatasetsByConcepts(
@@ -590,7 +595,7 @@ const mapStateToProps = (state) => {
     totalDatasets: totalFilteredDatasets,
     layerGroups: getLayerGroups(state),
     rawLayerGroups: state.explore.layers
-  }
+  };
 };
 
 const mapDispatchToProps = dispatch => ({

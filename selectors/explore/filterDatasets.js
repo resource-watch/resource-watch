@@ -15,11 +15,18 @@ const getPaginatedDatasets = (_list, _page, _limit) => {
 
 // Filter datasets by issues
 const getFilteredDatasets = (_list, _filters, _page, _limit) => {
-  const search = _filters.search;
-  const datasetsFilteredByConcepts = _filters.datasetsFilteredByConcepts;
-  const AreFiltersApplied = datasetsFilteredByConcepts.length || !!search;
+  const { search, topics, dataType, geographies, datasetsFilteredByConcepts } = _filters;
+  const haveResults = datasetsFilteredByConcepts.length;
+  const areFiltersApplied = ([...topics || [], ...geographies || [], ...dataType || []].length) || search;
 
-  if (!AreFiltersApplied) {
+  if (!haveResults && areFiltersApplied && !search) {
+    return {
+      totalFilteredDatasets: [],
+      filteredDatasets: getPaginatedDatasets([], _page, _limit)
+    };
+  }
+
+  if (!areFiltersApplied) {
     return {
       totalFilteredDatasets: _list || [],
       filteredDatasets: getPaginatedDatasets(_list, _page, _limit)
