@@ -18,7 +18,8 @@ import {
   setChartType,
   setBand,
   setVisualizationType,
-  setLayer
+  setLayer,
+  setAreaIntersection
 } from 'components/widgets/editor/redux/widgetEditor';
 
 // Services
@@ -150,7 +151,7 @@ class WidgetsEdit extends React.Component {
         {
           paramsConfig: {
             visualizationType,
-            band: { name: band.name },
+            band: band && { name: band.name },
             limit,
             value,
             category,
@@ -240,7 +241,8 @@ class WidgetsEdit extends React.Component {
       filters,
       limit,
       chartType,
-      layer
+      layer,
+      areaIntersection
     } = paramsConfig;
 
     // We restore the type of visualization
@@ -259,6 +261,7 @@ class WidgetsEdit extends React.Component {
     if (filters) this.props.setFilters(filters);
     if (limit) this.props.setLimit(limit);
     if (chartType) this.props.setChartType(chartType);
+    if (areaIntersection) this.props.setAreaIntersection(areaIntersection);
   }
 
   @Autobind
@@ -395,6 +398,7 @@ WidgetsEdit.propTypes = {
   setLimit: PropTypes.func.isRequired,
   setChartType: PropTypes.func.isRequired,
   setVisualizationType: PropTypes.func.isRequired,
+  setAreaIntersection: PropTypes.func.isRequired,
   setBand: PropTypes.func.isRequired,
   setLayer: PropTypes.func.isRequired
 };
@@ -415,6 +419,7 @@ const mapDispatchToProps = dispatch => ({
   setLimit: value => dispatch(setLimit(value)),
   setChartType: value => dispatch(setChartType(value)),
   setVisualizationType: vis => dispatch(setVisualizationType(vis)),
+  setAreaIntersection: value => dispatch(setAreaIntersection(value)),
   setBand: band => dispatch(setBand(band)),
   setLayer: (layerId) => {
     new LayersService()

@@ -233,7 +233,7 @@ class ChartEditor extends React.Component {
       hasGeoInfo,
       showEmbedTable
     } = this.props;
-    const { chartType, fields, category, value } = widgetEditor;
+    const { chartType, fields, category, value, areaIntersection } = widgetEditor;
     const { areaOptions, loadingAreaIntersection } = this.state;
     const showSaveButtonFlag =
       chartType && category && value && user && user.token && showSaveButton;
@@ -276,6 +276,7 @@ class ChartEditor extends React.Component {
                   id="area-intersection-select"
                   placeholder="Select area"
                   options={areaOptions}
+                  value={areaIntersection}
                   onValueChange={this.onChangeAreaIntersection}
                   allowNonLeafSelection={false}
                   waitForChangeConfirmation
