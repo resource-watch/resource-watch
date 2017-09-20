@@ -120,7 +120,7 @@ class LayersForm extends React.Component {
             .catch((errors) => {
               this.setState({ submitting: false });
               try {
-                errors.map(er =>
+                errors.forEach(er =>
                   toastr.error('Error', er.detail)
                 );
               } catch (e) {
