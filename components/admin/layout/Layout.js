@@ -15,6 +15,7 @@ import Head from 'components/admin/layout/head';
 import Icons from 'components/admin/layout/icons';
 import Modal from 'components/ui/Modal';
 import Tooltip from 'components/ui/Tooltip';
+import Dock from 'components/ui/Dock';
 import Toastr from 'react-redux-toastr';
 
 class Layout extends React.Component {
@@ -79,6 +80,8 @@ class Layout extends React.Component {
           toggleModal={this.props.toggleModal}
           setModalOptions={this.props.setModalOptions}
         />
+
+        <Dock />
 
         <Toastr
           transitionIn="fadeIn"

@@ -26,3 +26,6 @@ export { default as pages } from './admin/pages';
 
 // Toastr
 export { reducer as toastr } from 'react-redux-toastr';
+
+// Dock
+export { default as dock } from './dock';
