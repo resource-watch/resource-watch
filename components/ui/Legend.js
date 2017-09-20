@@ -57,6 +57,7 @@ class Legend extends React.Component {
       layersTooltipOpen: false,
       layersTourTooltipOpen: false,
       opacityTooltipOpen: false,
+      opacityOptions: {},
       // Show a "tour" tooltip if the user adds a multi-layer
       // layer group for the first time
       hasShownLayersTourTooltip: false
@@ -74,6 +75,16 @@ class Legend extends React.Component {
     // Show the layers tour tooltip
     if (!this.state.hasShownLayersTourTooltip && this.state.open) {
       this.showLayersTourTooltip();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.tooltipOpened && this.state.opacityTooltipOpen && this.state.opacityOptions.target) {
+      const layerGroup = nextProps.layerGroups.find(lg => lg.dataset === this.state.opacityOptions.dataset);
+
+      if (layerGroup) {
+        this.onClickOpacity({ target: this.state.opacityOptions.target }, layerGroup);
+      }
     }
   }
 
@@ -170,8 +181,6 @@ class Legend extends React.Component {
     const opacity = layerGroup.layers.length && layerGroup.layers[0].opacity !== undefined ?
       layerGroup.layers[0].opacity : 1;
 
-    this.setState({ opacityTooltipOpen: true, layersTooltipOpen: false });
-
     // If the user is opening the tooltip to select a layer
     // then the tour doesn't make any sense anymore
     this.closeLayersTourTooltip();
@@ -180,6 +189,14 @@ class Legend extends React.Component {
     // so we can compute its position later
     this.activeLayersButton = e.target;
 
+    if (!this.state.opacityTooltipOpen) {
+      this.setState({
+        opacityTooltipOpen: true,
+        opacityOptions: { target: this.activeLayersButton, dataset: layerGroup.dataset },
+        layersTooltipOpen: false
+      });
+    }
+
     this.props.toggleTooltip(true, {
       follow: false,
       position: Legend.getElementPosition(this.activeLayersButton),
@@ -187,11 +204,11 @@ class Legend extends React.Component {
       childrenProps: {
         className: '',
         options: {
-          min: 0, max: 1, step: 0.1, defaultValue: opacity
+          min: 0, max: 1, step: 0.01, defaultValue: opacity
         },
         onChange: value => this.onChangeOpacity(value, layerGroup),
         onClose: () => {
-          this.setState({ opacityTooltipOpen: false });
+          this.setState({ opacityTooltipOpen: false, opacityOptions: {} });
           this.props.toggleTooltip(false);
         }
       }
@@ -448,7 +465,9 @@ Legend.defaultProps = {
   expanded: true
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => {return {
+  tooltipOpened: state.tooltip.opened
+};};
 const mapDispatchToProps = dispatch => ({
   toggleModal: (open, options) => dispatch(toggleModal(open, options)),
   toggleTooltip: (open, options) => dispatch(toggleTooltip(open, options)),
