@@ -24,7 +24,7 @@ import {
   setBand,
   setVisualizationType,
   setLayer
-} from 'redactions/widgetEditor';
+} from 'components/widgets/editor/redux/widgetEditor';
 
 // Constants
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/widgets/form/constants';
