@@ -113,6 +113,18 @@ class Step1 extends React.Component {
         </Field>
 
         <Field
+          ref={(c) => { if (c) FORM_ELEMENTS.elements.interactionConfig = c; }}
+          onChange={value => this.props.onChange({ interactionConfig: value })}
+          properties={{
+            name: 'interactionConfig',
+            label: 'Interaction config',
+            default: this.state.form.interactionConfig
+          }}
+        >
+          {Code}
+        </Field>
+
+        <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.default = c; }}
           onChange={value => this.props.onChange({ default: value.checked })}
           option={{ label: 'Default' }}
