@@ -85,9 +85,7 @@ class ColumnBox extends React.Component {
       // Value of the aggregate function for size
       aggregateFunctionSize: null,
       // Value of the aggregate function for color
-      aggregateFunctionColor: null,
-      // Value of the filter
-      filter: null
+      aggregateFunctionColor: null
     };
   }
 
@@ -121,8 +119,6 @@ class ColumnBox extends React.Component {
 
   @Autobind
   onApplyFilter(filter, notNullSelected) {
-    this.setState({ filter, notNullSelected });
-
     if (this.props.onConfigure) {
       this.props.onConfigure({ name: this.props.name, value: filter, notNull: notNullSelected });
     }
@@ -206,7 +202,6 @@ class ColumnBox extends React.Component {
   }
 
   openFilterTooltip(event) {
-    const { filter, notNullSelected } = this.state;
     const { name, type, datasetID, tableName } = this.props;
 
     const position = event
@@ -222,10 +217,8 @@ class ColumnBox extends React.Component {
         type,
         datasetID,
         tableName,
-        filter,
         onApply: this.onApplyFilter,
-        isA: 'filter',
-        notNullSelected
+        isA: 'filter'
       }
     });
   }

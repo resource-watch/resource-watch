@@ -25,17 +25,20 @@ class FilterTooltip extends React.Component {
   constructor(props) {
     super(props);
 
+    const filters = props.widgetEditor.filters;
+    const filter = filters && filters.find(f => f.name === props.name);
+
     this.state = {
       values: [],
       // Selected strings in the filters
-      selected: this.isCategorical(props) && props.filter
-        ? props.filter
+      selected: this.isCategorical() && filter
+        ? filter.value
         : [],
       // Selected range in the filters
-      rangeValue: !this.isCategorical(props) && props.filter
+      rangeValue: !this.isCategorical() && filter
         ? { min: props.filter[0], max: props.filter[1] }
         : null,
-      notNullSelected: props.notNullSelected,
+      notNullSelected: filter && filter.notNull,
       loading: true
     };
 
@@ -157,8 +160,11 @@ class FilterTooltip extends React.Component {
     }
   }
 
-  isCategorical(props) {
-    return (props || this.props).type === 'string';
+  isCategorical() {
+    const { widgetEditor, name } = this.props;
+    const filters = widgetEditor.filters;
+    const filter = filters && filters.find(f => f.name === name);
+    return filter && filter.type === 'string';
   }
 
   renderCheckboxes() {
@@ -274,12 +280,11 @@ FilterTooltip.propTypes = {
   datasetID: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  filter: PropTypes.any, // Current value of the filter
-  notNullSelected: PropTypes.bool,
   onResize: PropTypes.func, // Passed from the tooltip component
   onApply: PropTypes.func.isRequired,
   // store
-  toggleTooltip: PropTypes.func.isRequired
+  toggleTooltip: PropTypes.func.isRequired,
+  widgetEditor: PropTypes.object.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -288,4 +293,8 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(null, mapDispatchToProps)(FilterTooltip);
+const mapStateToProps = state => ({
+  widgetEditor: state.widgetEditor
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilterTooltip);
