@@ -24,7 +24,7 @@ import {
   setBand,
   setVisualizationType,
   setLayer
-} from 'redactions/widgetEditor';
+} from 'components/widgets/editor/redux/widgetEditor';
 
 // Next
 import { Link } from 'routes';
