@@ -798,7 +798,9 @@ class WidgetEditor extends React.Component {
       dataset,
       mode,
       showSaveButton,
-      selectedVisualizationType
+      selectedVisualizationType,
+      showOrderByContainer,
+      showLimitContainer
     } = this.props;
 
     // Whether we're still waiting for some data
@@ -864,6 +866,8 @@ class WidgetEditor extends React.Component {
                         mode={chartEditorMode}
                         onUpdateWidget={this.handleUpdateWidget}
                         showSaveButton={showSaveButton}
+                        showLimitContainer={showLimitContainer}
+                        showOrderByContainer={showOrderByContainer}
                         hasGeoInfo={hasGeoInfo}
                         onEmbedTable={this.handleEmbedTable}
                       />
@@ -930,6 +934,8 @@ const mapDispatchToProps = dispatch => ({
 WidgetEditor.propTypes = {
   mode: PropTypes.oneOf(['dataset', 'widget']),
   showSaveButton: PropTypes.bool.isRequired, // Show save button in chart editor or not
+  showLimitContainer: PropTypes.bool.isRequired, // Show the limit container or not
+  showOrderByContainer: PropTypes.bool.isRequired, // Show the limit container or not
   dataset: PropTypes.string, // Dataset ID
   availableVisualizations: PropTypes.arrayOf(
     PropTypes.oneOf(VISUALIZATION_TYPES.map(viz => viz.value))
@@ -950,7 +956,9 @@ WidgetEditor.propTypes = {
 };
 
 WidgetEditor.defaultProps = {
-  availableVisualizations: VISUALIZATION_TYPES.map(viz => viz.value)
+  availableVisualizations: VISUALIZATION_TYPES.map(viz => viz.value),
+  showLimitContainer: true,
+  showOrderByContainer: true
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WidgetEditor);

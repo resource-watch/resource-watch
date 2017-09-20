@@ -231,7 +231,9 @@ class ChartEditor extends React.Component {
       mode,
       showSaveButton,
       hasGeoInfo,
-      showEmbedTable
+      showEmbedTable,
+      showLimitContainer,
+      showOrderByContainer
     } = this.props;
     const { chartType, fields, category, value, areaIntersection } = widgetEditor;
     const { areaOptions, loadingAreaIntersection } = this.state;
@@ -300,8 +302,12 @@ class ChartEditor extends React.Component {
           <div className="customization-container">
             <DimensionsContainer />
             <FilterContainer />
-            <SortContainer />
-            <LimitContainer />
+            {showOrderByContainer &&
+              <SortContainer />
+            }
+            {showLimitContainer &&
+              <LimitContainer />
+            }
           </div>
         </div>
         <div className="save-widget-container">
@@ -363,6 +369,8 @@ ChartEditor.propTypes = {
   tableViewMode: PropTypes.bool.isRequired,
   showSaveButton: PropTypes.bool.isRequired,
   showEmbedTable: PropTypes.bool,
+  showLimitContainer: PropTypes.bool.isRequired,
+  showOrderByContainer: PropTypes.bool.isRequired,
   // Store
   widgetEditor: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
