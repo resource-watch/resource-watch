@@ -1,0 +1,108 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+// Redux
+import { connect } from 'react-redux';
+
+import { toastr } from 'react-redux-toastr';
+import dock from 'services/Dock';
+
+// Services
+import WidgetsService from 'services/WidgetsService';
+
+// Components
+import Tabs from 'components/ui/Tabs';
+
+class DockWidget extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      step: 0,
+      tab: 'my-widgets',
+      widgets: []
+    };
+
+    this.widgetsService = new WidgetsService();
+  }
+
+  componentDidMount() {
+    this.widgetsService.fetchAllData({})
+      .then((widgets) => {
+        this.setState({ widgets });
+      })
+      .catch((err) => {
+        toastr.error(err);
+      });
+  }
+
+  /**
+   * UI EVENTS
+   * - onChange
+   * - onToggleDock
+  */
+  onChange = (id) => {
+    const { quill } = this.props;
+
+    if (quill) {
+      // Focus on the editor
+      quill.focus();
+
+      // Add widget embed
+      const cursorPosition = (quill.getSelection()) ? quill.getSelection().index : 0;
+
+      quill.insertEmbed(cursorPosition, 'iframe', {
+        src: `/embed/widget/${id}`,
+        width: 500,
+        height: 500
+      });
+
+      quill.setSelection(cursorPosition + 1);
+    } else {
+      toastr.error('Quill is not defined');
+    }
+  }
+
+  render() {
+    return (
+      <div className="c-dock-widget">
+        <div className="c-page-header -admin dock-widget-header">
+          <div className="row">
+            <div className="column small-12">
+              <div className="page-header-content -with-tabs">
+                <h1>Select widgets</h1>
+                <Tabs
+                  options={[
+                    { label: 'My widgets', value: 'my-widgets' },
+                    { label: 'All widgets', value: 'all-widgets' }
+                  ]}
+                  defaultSelected={this.state.tab}
+                  selected={this.state.tab}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="c-page-section dock-widget-container">
+          {this.state.widgets.map(w => (
+            <button style={{ display: 'block' }} type="button" onClick={() => this.onChange(w.id)}>
+              {w.name}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+}
+
+DockWidget.propTypes = {
+  user: PropTypes.object,
+  quill: PropTypes.any // ???
+};
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps, null)(DockWidget);

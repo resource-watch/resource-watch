@@ -42,17 +42,16 @@
     height: 100vh;
     overflow-x: hidden;
     overflow-y: auto;
-    padding: $space-1 * 9;
     -webkit-overflow-scrolling: touch;
     box-shadow: 0 7px 15px 0 rgba(0, 0, 0, 0.15);
   }
 
   .dock-close {
-    fill: $color-black;
+    fill: $color-white;
     display: block;
     position: absolute;
-    top: 15px;
-    left: 15px;
+    top: $space-1 * 2;
+    right: $space-1 * 2;
     width: 30px;
     height: 30px;
     padding: 0;
@@ -67,7 +66,7 @@
     }
 
     &:hover {
-      svg { fill: $color-primary; }
+      svg { fill: $color-mango; }
     }
   }
 
