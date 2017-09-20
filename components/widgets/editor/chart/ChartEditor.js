@@ -276,7 +276,7 @@ class ChartEditor extends React.Component {
                   id="area-intersection-select"
                   placeholder="Select area"
                   options={areaOptions}
-                  value={areaIntersection}
+                  default={areaIntersection}
                   onValueChange={this.onChangeAreaIntersection}
                   allowNonLeafSelection={false}
                   waitForChangeConfirmation
@@ -350,7 +350,7 @@ class ChartEditor extends React.Component {
 
 ChartEditor.defaultProps = {
   showEmbedTable: true
-}
+};
 
 ChartEditor.propTypes = {
   mode: PropTypes.oneOf(['save', 'update']).isRequired,
