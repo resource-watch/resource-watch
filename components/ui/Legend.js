@@ -187,19 +187,19 @@ class Legend extends React.Component {
 
     // We save the button that was used to open the tooltip
     // so we can compute its position later
-    this.activeLayersButton = e.target;
+    this.opacityButton = e.target;
 
     if (!this.state.opacityTooltipOpen) {
       this.setState({
         opacityTooltipOpen: true,
-        opacityOptions: { target: this.activeLayersButton, dataset: layerGroup.dataset },
+        opacityOptions: { target: this.opacityButton, dataset: layerGroup.dataset },
         layersTooltipOpen: false
       });
     }
 
     this.props.toggleTooltip(true, {
       follow: false,
-      position: Legend.getElementPosition(this.activeLayersButton),
+      position: Legend.getElementPosition(this.opacityButton),
       children: SliderTooltip,
       childrenProps: {
         className: '',
@@ -436,6 +436,8 @@ Legend.propTypes = {
   readonly: PropTypes.bool,
   // Whether by default the legend is expanded or not
   expanded: PropTypes.bool,
+  // Tooltip open state
+  tooltipOpened: PropTypes.bool,
 
   // Functions
 

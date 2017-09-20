@@ -49,7 +49,7 @@ class SliderTooltip extends React.Component {
           minValue={options.min}
           maxValue={options.max}
           value={this.state.value}
-          step={0.01}
+          step={options.step}
           onChange={value => updateValue(value)}
           onChangeComplete={this.props.onChange}
         />
