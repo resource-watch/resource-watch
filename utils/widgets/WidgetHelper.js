@@ -193,6 +193,7 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
 
   if (color) {
     chartInfo.color = {
+      name: color.name,
       alias: fields.length && fields.find(f => f.columnName === color.name).alias,
       aggregateFunction: color.aggregateFunction
     };
@@ -200,6 +201,7 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
 
   if (size) {
     chartInfo.size = {
+      name: size.name,
       alias: fields.length && fields.find(f => f.columnName === size.name).alias,
       aggregateFunction: size.aggregateFunction
     };
