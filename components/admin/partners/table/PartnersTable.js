@@ -99,6 +99,7 @@ class PartnersTable extends React.Component {
             filters={false}
             data={this.getFilteredPartners()}
             pageSize={20}
+            onRowDelete={() => this.props.getPartners()}
             pagination={{
               enabled: true,
               pageSize: 20,
