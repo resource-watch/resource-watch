@@ -97,6 +97,7 @@ class DashboardsTable extends React.Component {
             filters={false}
             data={this.getFilteredDashboards()}
             pageSize={20}
+            onRowDelete={() => this.props.getDashboards()}
             pagination={{
               enabled: true,
               pageSize: 20,
