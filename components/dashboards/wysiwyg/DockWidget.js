@@ -12,6 +12,7 @@ import WidgetsService from 'services/WidgetsService';
 
 // Components
 import Tabs from 'components/ui/Tabs';
+import WidgetList from 'components/widgets/WidgetList';
 
 class DockWidget extends React.Component {
   constructor(props) {
@@ -20,20 +21,35 @@ class DockWidget extends React.Component {
     this.state = {
       step: 0,
       tab: 'my-widgets',
-      widgets: []
+      widgets: [],
+      widgetCollections: []
     };
 
-    this.widgetsService = new WidgetsService();
+    this.widgetsService = new WidgetsService({
+      user: props.user
+    });
   }
 
   componentDidMount() {
-    this.widgetsService.fetchAllData({})
-      .then((widgets) => {
-        this.setState({ widgets });
+    const promises = [
+      this.widgetsService.fetchAllData({ includes: 'widget' }),
+      this.widgetsService.fetchCollections()
+    ];
+
+    Promise.all(promises)
+      .then((response) => {
+        this.setState({
+          widgets: response[0],
+          widgetCollections: response[1]
+        });
       })
       .catch((err) => {
         toastr.error(err);
       });
+  }
+
+  onChangeTab = (tab) => {
+    this.setState({ tab });
   }
 
   /**
@@ -78,6 +94,7 @@ class DockWidget extends React.Component {
                   ]}
                   defaultSelected={this.state.tab}
                   selected={this.state.tab}
+                  onChange={this.onChangeTab}
                 />
               </div>
             </div>
@@ -85,11 +102,16 @@ class DockWidget extends React.Component {
         </div>
 
         <div className="c-page-section dock-widget-container">
-          {this.state.widgets.map(w => (
-            <button style={{ display: 'block' }} type="button" onClick={() => this.onChange(w.id)}>
-              {w.name}
-            </button>
-          ))}
+          {this.state.tab === 'my-widgets' &&
+            <WidgetList
+              widgets={this.state.widgets.filter(w => w.userId === this.props.user.id)}
+            />
+          }
+          {this.state.tab === 'all-widgets' &&
+            <WidgetList
+              widgets={this.state.widgets.filter(w => w.userId !== this.props.user.id)}
+            />
+          }
         </div>
       </div>
     );

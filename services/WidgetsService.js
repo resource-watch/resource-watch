@@ -36,10 +36,12 @@ export default class WidgetsService {
             }))));
             resolve(sortBy(widgets, 'name'));
           } else {
-            resolve({
-              ...data.attributes.widget.attributes,
-              id: data.attributes.widget.id
-            });
+            const widgets = data.attributes.widget.map(widget => ({
+              ...widget.attributes,
+              id: widget.id
+            }));
+
+            resolve(sortBy(widgets, 'name'));
           }
         },
         onError: (error) => {
@@ -109,6 +111,34 @@ export default class WidgetsService {
         }],
         onSuccess: () => {
           resolve();
+        },
+        onError: (error) => {
+          reject(error);
+        }
+      });
+    });
+  }
+
+  fetchCollections() {
+    return new Promise((resolve, reject) => {
+      get({
+        url: `${process.env.WRI_API_URL}/vocabulary/widget_collections?application=${process.env.APPLICATIONS}`,
+        headers: [{
+          key: 'Content-Type',
+          value: 'application/json'
+        }, {
+          key: 'Authorization',
+          value: this.opts.authorization
+        }],
+        onSuccess: ({ data }) => {
+          const collections = flatten(data.map((d) => {
+            return d.attributes.resources
+              .filter(val => val.type === 'widget')
+              .map(val => ({ id: val.id, tags: val.tags }))
+              .filter(val => val.tags.find(tag => tag.includes(this.opts.user.id)));
+          }));
+
+          resolve(collections);
         },
         onError: (error) => {
           reject(error);

@@ -4,6 +4,7 @@ import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { getWidgets, setFilters } from 'redactions/admin/widgets';
 
@@ -28,7 +29,7 @@ import PublishedTD from './td/PublishedTD';
 class WidgetsTable extends React.Component {
   componentDidMount() {
     this.props.setFilters([]);
-    this.props.getWidgets();
+    this.props.getWidgets({ dataset: this.props.dataset });
   }
 
   /**
@@ -114,6 +115,7 @@ class WidgetsTable extends React.Component {
 WidgetsTable.defaultProps = {
   columns: [],
   actions: {},
+  dataset: '',
   // Store
   widgets: [],
   filteredWidgets: []
@@ -123,6 +125,7 @@ WidgetsTable.propTypes = {
   authorization: PropTypes.string,
   // Store
   loading: PropTypes.bool.isRequired,
+  dataset: PropTypes.string,
   widgets: PropTypes.array.isRequired,
   filteredWidgets: PropTypes.array.isRequired,
   error: PropTypes.string,
@@ -138,9 +141,9 @@ const mapStateToProps = state => ({
   filteredWidgets: getFilteredWidgets(state),
   error: state.widgets.widgets.error
 });
-const mapDispatchToProps = dispatch => ({
-  getWidgets: () => dispatch(getWidgets()),
-  setFilters: filters => dispatch(setFilters(filters))
-});
+const mapDispatchToProps = dispatch => bindActionCreators({
+  getWidgets,
+  setFilters
+}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(WidgetsTable);

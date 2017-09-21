@@ -26,8 +26,8 @@ export default class Tabs extends React.Component {
    * - onChangeTab
   */
   onChangeTab(selected) {
-    this.setState({
-      selected
+    this.setState({ selected }, () => {
+      if (this.props.onChange) this.props.onChange(selected);
     });
   }
 
@@ -74,5 +74,6 @@ export default class Tabs extends React.Component {
 Tabs.propTypes = {
   options: PropTypes.array.isRequired,
   selected: PropTypes.string,
-  defaultSelected: PropTypes.string
+  defaultSelected: PropTypes.string,
+  onChange: PropTypes.func
 };
