@@ -35,8 +35,8 @@ class FilterTooltip extends React.Component {
         ? filter.value
         : [],
       // Selected range in the filters
-      rangeValue: !this.isCategorical() && filter
-        ? { min: props.filter[0], max: props.filter[1] }
+      rangeValue: !this.isCategorical() && filter && filter.value
+        ? { min: filter.value[0], max: filter.value[1] }
         : null,
       notNullSelected: filter && filter.notNull,
       loading: true
