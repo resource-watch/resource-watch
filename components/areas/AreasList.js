@@ -98,8 +98,14 @@ class AreasList extends React.Component {
 
     DatasetService.getDatasets([...datasetsSet], 'metadata')
       .then((data) => {
-        const datasetsWithLabels = data.map(elem => ({ id: elem.id, label: elem.attributes.metadata && elem.attributes.metadata[0].attributes.info ? elem.attributes.metadata[0].attributes.info.name : elem.attributes.name }));
-
+        const datasetsWithLabels = data.map(elem => ({
+          id: elem.id,
+          label: elem.attributes.metadata && elem.attributes.metadata[0] &&
+            elem.attributes.metadata[0].attributes.info &&
+            elem.attributes.metadata[0].attributes.info.name ?
+            elem.attributes.metadata[0].attributes.info.name :
+            elem.attributes.name
+        }));
         // Merge datasets with labels inside of subscriptions
         subscriptionsToAReas.forEach((subscription) => {
           subscription.attributes.datasets = subscription.attributes.datasets
