@@ -173,9 +173,16 @@ class WidgetsForm extends React.Component {
 
               if (this.props.onSubmit) this.props.onSubmit();
             })
-            .catch((err) => {
+            .catch((errors) => {
               this.setState({ submitting: false });
-              toastr.error('Error', `Oops! There was an error, try again. ${err}`);
+
+              try {
+                errors.forEach(er =>
+                  toastr.error('Error', er.detail)
+                );
+              } catch (e) {
+                toastr.error('Error', 'Oops! There was an error, try again.');
+              }
             });
         } else {
           this.setState({
@@ -183,7 +190,7 @@ class WidgetsForm extends React.Component {
           });
         }
       } else {
-        if (isEmptyWidgetConfig) {
+        if (isEmptyWidgetConfig && mode === 'editor') {
           return toastr.error('Error', 'Value, Category and Chart type are mandatory fields for a widget visualization.');
         }
 
@@ -281,6 +288,7 @@ class WidgetsForm extends React.Component {
             form={this.state.form}
             partners={this.state.partners}
             datasets={this.state.datasets}
+            mode={this.state.mode}
             onChange={value => this.onChange(value)}
             onModeChange={this.handleModeChange}
           />
