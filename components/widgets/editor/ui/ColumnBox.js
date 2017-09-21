@@ -326,7 +326,7 @@ class ColumnBox extends React.Component {
     }
 
     const isConfigurable = (isA === 'filter') || (isA === 'value') ||
-      (isA === 'orderBy') || (isA === 'color') || (isA === 'size');
+      (isA === 'orderBy');
 
     return connectDragSource(
       <div
