@@ -117,10 +117,7 @@ class WidgetEditor extends React.Component {
     super(props);
 
     // We init the state, store and services
-    this.initComponent(props, (state, cb) => {
-      this.state = state;
-      cb();
-    });
+    this.state = this.initComponent(props);
   }
 
   /**
@@ -142,8 +139,9 @@ class WidgetEditor extends React.Component {
   componentWillReceiveProps(nextProps) {
     // If the dataset changes...
     if (nextProps.dataset !== this.props.dataset) {
-      this.initComponent(nextProps, this.setState)
-        .then(() => this.loadData());
+      this.setState(this.initComponent(nextProps), () => {
+        this.loadData();
+      });
     } else if (!isEqual(this.props.widgetEditor.layer, nextProps.widgetEditor.layer)) {
       // We update the layerGroups each time the layer changes
       this.setState({
@@ -584,41 +582,39 @@ class WidgetEditor extends React.Component {
    * @returns {Promise<void>}
    */
   initComponent(props, setState) {
-    return new Promise((resolve) => {
-      // First, we init the services
-      this.datasetService = new DatasetService(props.dataset, {
-        apiURL: process.env.WRI_API_URL
-      });
-
-      this.widgetService = new WidgetService(props.dataset, {
-        apiURL: process.env.WRI_API_URL
-      });
-
-      // Each time the editor is opened again, we reset the Redux's state
-      // associated with it
-      props.resetWidgetEditor();
-
-      // If the there's a layer, we compute the LayerGroup
-      // representation
-      const layerGroups = [];
-      if (props.widgetEditor.layer) {
-        layerGroups.push({
-          dataset: props.widgetEditor.layer.dataset,
-          visible: true,
-          layers: [{
-            id: props.widgetEditor.layer.id,
-            active: true,
-            ...props.widgetEditor.layer
-          }]
-        });
-      }
-
-      // Then we reset the state of the component
-      setState({
-        ...DEFAULT_STATE,
-        layerGroups
-      }, resolve);
+    // First, we init the services
+    this.datasetService = new DatasetService(props.dataset, {
+      apiURL: process.env.WRI_API_URL
     });
+
+    this.widgetService = new WidgetService(props.dataset, {
+      apiURL: process.env.WRI_API_URL
+    });
+
+    // Each time the editor is opened again, we reset the Redux's state
+    // associated with it
+    props.resetWidgetEditor();
+
+    // If the there's a layer, we compute the LayerGroup
+    // representation
+    const layerGroups = [];
+    if (props.widgetEditor.layer) {
+      layerGroups.push({
+        dataset: props.widgetEditor.layer.dataset,
+        visible: true,
+        layers: [{
+          id: props.widgetEditor.layer.id,
+          active: true,
+          ...props.widgetEditor.layer
+        }]
+      });
+    }
+
+    // Then we reset the state of the component
+    return {
+      ...DEFAULT_STATE,
+      layerGroups
+    };
   }
 
   /**
