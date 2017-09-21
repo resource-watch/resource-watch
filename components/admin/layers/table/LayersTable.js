@@ -50,6 +50,7 @@ class LayersTable extends React.Component {
   }
 
   render() {
+    const { dataset, application } = this.props;
     return (
       <div className="c-layer-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -92,6 +93,7 @@ class LayersTable extends React.Component {
             }}
             filters={false}
             data={this.getLayers()}
+            onRowDelete={() => this.props.getLayers({ dataset, application })}
             pageSize={20}
             pagination={{
               enabled: true,
