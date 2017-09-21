@@ -180,14 +180,11 @@ class FilterTooltip extends React.Component {
     const rangeMin = rangeValue ? rangeValue[0] : min;
     const rangeMax = rangeValue ? rangeValue[1] : max;
 
-    debugger;
-
     // We debounce the method to avoid having to update the state
     // to often (around 60 FPS)
     const updateRange = debounce((range) => {
-      debugger;
       this.setState({ rangeValue: range });
-    }, 16);
+    }, 10);
 
     const categoryValue = this.isCategorical();
     const classNameValue = classNames({
