@@ -467,9 +467,9 @@ Legend.defaultProps = {
   expanded: true
 };
 
-const mapStateToProps = (state) => {return {
+const mapStateToProps = state => ({
   tooltipOpened: state.tooltip.opened
-};};
+});
 const mapDispatchToProps = dispatch => ({
   toggleModal: (open, options) => dispatch(toggleModal(open, options)),
   toggleTooltip: (open, options) => dispatch(toggleTooltip(open, options)),
