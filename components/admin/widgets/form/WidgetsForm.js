@@ -114,7 +114,8 @@ class WidgetsForm extends React.Component {
     // Set a timeout due to the setState function of react
     setTimeout(() => {
       // Validate all the inputs on the current step
-      const valid = FORM_ELEMENTS.isValid(step);
+      const isEmptyWidgetConfig = mode === 'editor' ? !value || !category || !chartType : false;
+      const valid = FORM_ELEMENTS.isValid(step) && !isEmptyWidgetConfig;
 
       if (valid) {
         // if we are in the last step we will submit the form
@@ -150,6 +151,7 @@ class WidgetsForm extends React.Component {
                 formObj.widgetConfig
               )
             };
+
             formObj = Object.assign({}, formObj, newWidgetConfig);
           }
 
@@ -181,6 +183,10 @@ class WidgetsForm extends React.Component {
           });
         }
       } else {
+        if (isEmptyWidgetConfig) {
+          return toastr.error('Error', 'Value, Category and Chart type are mandatory fields for a widget visualization.');
+        }
+
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
     }, 0);
