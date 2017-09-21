@@ -103,14 +103,24 @@ class DockWidget extends React.Component {
 
         <div className="c-page-section dock-widget-container">
           {this.state.tab === 'my-widgets' &&
-            <WidgetList
-              widgets={this.state.widgets.filter(w => w.userId === this.props.user.id)}
-            />
+            <div className="row">
+              <div className="column">
+                My widgets
+              </div>
+            </div>
+            // <WidgetList
+            //   widgets={this.state.widgets.filter(w => w.userId === this.props.user.id)}
+            // />
           }
           {this.state.tab === 'all-widgets' &&
-            <WidgetList
-              widgets={this.state.widgets.filter(w => w.userId !== this.props.user.id)}
-            />
+            <div className="row">
+              <div className="column">
+                All widgets
+              </div>
+            </div>
+            // <WidgetList
+            //   widgets={this.state.widgets.filter(w => w.userId !== this.props.user.id)}
+            // />
           }
         </div>
       </div>

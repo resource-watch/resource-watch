@@ -69,9 +69,11 @@ class Wysiwyg extends FormElement {
 
     return (
       <div className="c-wysiwyg">
-        <this.props.toolbar.component
-          quill={this.quill}
-        />
+        {this.props.toolbar &&
+          <this.props.toolbar.component
+            quill={this.quill}
+          />
+        }
 
         <Editor
           ref={(c) => { this.reactQuillRef = c; }}
@@ -79,7 +81,7 @@ class Wysiwyg extends FormElement {
           value={value}
           onChange={this.triggerChange}
           modules={{
-            toolbar: this.props.toolbar.container
+            ...!!this.props.toolbar && { toolbar: this.props.toolbar.container }
           }}
           // toolbar={this.props.toolbar}
           // toolbarCustomButtons={this.props.toolbarCustomButtons}
