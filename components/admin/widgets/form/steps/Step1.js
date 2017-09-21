@@ -14,7 +14,7 @@ import TextArea from 'components/form/TextArea';
 import Select from 'components/form/SelectInput';
 import Code from 'components/form/Code';
 import Checkbox from 'components/form/Checkbox';
-import WidgetEditor from 'components/widgets/WidgetEditor';
+import WidgetEditor from 'components/widgets/editor/WidgetEditor';
 import SwitchOptions from 'components/ui/SwitchOptions';
 
 class Step1 extends React.Component {
@@ -23,8 +23,7 @@ class Step1 extends React.Component {
 
     this.state = {
       id: props.id,
-      form: props.form,
-      mode: 'editor'
+      form: props.form
     };
 
     // BINDINGS
@@ -40,7 +39,6 @@ class Step1 extends React.Component {
    * - triggerChangeMode
   */
   triggerChangeMode(mode) {
-    this.setState({ mode });
     this.props.onModeChange(mode);
   }
 
@@ -49,7 +47,7 @@ class Step1 extends React.Component {
     FORM_ELEMENTS.elements = {};
 
     const editorFieldContainerClass = classnames({
-      '-expanded': this.state.mode === 'editor'
+      '-expanded': this.props.mode === 'editor'
     });
 
     return (
@@ -163,7 +161,7 @@ class Step1 extends React.Component {
             <div className="l-row row align-right">
               <div className="column shrink">
                 <SwitchOptions
-                  selected={this.state.mode}
+                  selected={this.props.mode}
                   options={[{
                     value: 'advanced',
                     label: 'Advanced'
@@ -176,7 +174,7 @@ class Step1 extends React.Component {
               </div>
             </div>
 
-            {this.state.mode === 'editor' &&
+            {this.props.mode === 'editor' &&
               <WidgetEditor
                 dataset={this.state.form.dataset}
                 mode="dataset"
@@ -184,12 +182,12 @@ class Step1 extends React.Component {
                 onChange={(value) => { this.props.onChange({ widgetConfig: value }); }}
                 onError={() => {
                   toastr.error('Error', 'This dataset doesn\'t allow editor mode');
-                  this.setState({ mode: 'advanced' });
+                  this.props.onModeChange('advanced');
                 }}
               />
             }
 
-            {this.state.mode === 'advanced' &&
+            {this.props.mode === 'advanced' &&
               <Field
                 onChange={value => this.props.onChange({
                   widgetConfig: CONFIG_TEMPLATE[value] || {}
@@ -205,7 +203,7 @@ class Step1 extends React.Component {
               </Field>
             }
 
-            {this.state.mode === 'advanced' &&
+            {this.props.mode === 'advanced' &&
               <Field
                 ref={(c) => { if (c) FORM_ELEMENTS.elements.widgetConfig = c; }}
                 onChange={value => this.props.onChange({ widgetConfig: value })}

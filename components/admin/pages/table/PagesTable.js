@@ -96,6 +96,7 @@ class PagesTable extends React.Component {
             filters={false}
             data={this.getFilteredPages()}
             pageSize={20}
+            onRowDelete={() => this.props.getPages()}
             pagination={{
               enabled: true,
               pageSize: 20,

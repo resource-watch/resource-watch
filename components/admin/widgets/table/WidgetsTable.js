@@ -100,6 +100,7 @@ class WidgetsTable extends React.Component {
             filters={false}
             data={this.getFilteredWidgets()}
             pageSize={20}
+            onRowDelete={() => this.props.getWidgets()}
             pagination={{
               enabled: true,
               pageSize: 20,

@@ -9,6 +9,7 @@ export const STATE_DEFAULT = {
     provider: null,
     layerConfig: {},
     legendConfig: {},
+    interactionConfig: {},
     status: 1,
     default: false,
     published: true
@@ -39,6 +40,8 @@ export const FORM_ELEMENTS = {
 
 export const PROVIDER_OPTIONS = [
   { label: 'Carto', value: 'cartodb' },
-  { label: 'ARCGIS: Feature service', value: 'arcgis' },
-  { label: 'Leaflet', value: 'leaflet' }
+  { label: 'ARCGIS: Feature service', value: 'featureservice' },
+  { label: 'Leaflet', value: 'leaflet' },
+  { label: 'WMS', value: 'wms' },
+  { label: 'GEE', value: 'gee' }
 ];

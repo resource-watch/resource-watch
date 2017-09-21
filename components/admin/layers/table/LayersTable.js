@@ -23,6 +23,7 @@ import GoToDatasetAction from './actions/GoToDatasetAction';
 
 // TDs
 import NameTD from './td/NameTD';
+import UpdatedAtTD from './td/UpdatedAtTD';
 
 class LayersTable extends React.Component {
   componentDidMount() {
@@ -49,6 +50,7 @@ class LayersTable extends React.Component {
   }
 
   render() {
+    const { dataset, application } = this.props;
     return (
       <div className="c-layer-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -74,7 +76,8 @@ class LayersTable extends React.Component {
           <CustomTable
             columns={[
               { label: 'Name', value: 'name', td: NameTD },
-              { label: 'Provider', value: 'provider' }
+              { label: 'Provider', value: 'provider' },
+              { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD }
             ]}
             actions={{
               show: true,
@@ -85,11 +88,12 @@ class LayersTable extends React.Component {
               ]
             }}
             sort={{
-              field: 'name',
-              value: 1
+              field: 'updatedAt',
+              value: -1
             }}
             filters={false}
             data={this.getLayers()}
+            onRowDelete={() => this.props.getLayers({ dataset, application })}
             pageSize={20}
             pagination={{
               enabled: true,

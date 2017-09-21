@@ -24,7 +24,7 @@ import {
   setBand,
   setVisualizationType,
   setLayer
-} from 'redactions/widgetEditor';
+} from 'components/widgets/editor/redux/widgetEditor';
 
 // Next
 import { Link } from 'routes';
@@ -38,7 +38,7 @@ import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
-import WidgetEditor from 'components/widgets/WidgetEditor';
+import WidgetEditor from 'components/widgets/editor/WidgetEditor';
 import ShareExploreDetailModal from 'components/modal/ShareExploreDetailModal';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import DatasetList from 'components/app/explore/DatasetList';

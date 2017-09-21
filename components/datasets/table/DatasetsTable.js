@@ -104,6 +104,7 @@ class DatasetsTable extends React.Component {
             }}
             filters={false}
             data={this.getDatasets()}
+            onRowDelete={() => this.props.getDatasets()}
             pageSize={20}
             pagination={{
               enabled: true,
