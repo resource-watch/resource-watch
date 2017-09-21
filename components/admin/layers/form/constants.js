@@ -40,7 +40,7 @@ export const FORM_ELEMENTS = {
 
 export const PROVIDER_OPTIONS = [
   { label: 'Carto', value: 'cartodb' },
-  { label: 'ARCGIS: Feature service', value: 'arcgis' },
+  { label: 'ARCGIS: Feature service', value: 'featureservice' },
   { label: 'Leaflet', value: 'leaflet' },
   { label: 'WMS', value: 'wms' },
   { label: 'GEE', value: 'gee' }
