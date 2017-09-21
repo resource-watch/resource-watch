@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import classNames from 'classnames';
-import InputRange from 'react-input-range';
 import debounce from 'lodash/debounce';
 import { toastr } from 'react-redux-toastr';
+import Slider from 'rc-slider';
 
 // Redux
 
@@ -20,6 +20,7 @@ import Spinner from 'components/widgets/editor/ui/Spinner';
 import Button from 'components/widgets/editor/ui/Button';
 import Checkbox from 'components/widgets/editor/form/Checkbox';
 
+const Range = Slider.Range;
 
 class FilterTooltip extends React.Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class FilterTooltip extends React.Component {
         : [],
       // Selected range in the filters
       rangeValue: !this.isCategorical() && filter && filter.value
-        ? { min: filter.value[0], max: filter.value[1] }
+        ? [filter.value[0], filter.value[1]]
         : null,
       notNullSelected: filter && filter.notNull,
       loading: true
@@ -69,7 +70,7 @@ class FilterTooltip extends React.Component {
 
   onApply() {
     const { selected, rangeValue, notNullSelected } = this.state;
-    const filter = this.isCategorical() ? selected : [rangeValue.min, rangeValue.max];
+    const filter = this.isCategorical() ? selected : [rangeValue[0], rangeValue[1]];
     this.props.onApply(filter, notNullSelected);
 
     // We close the tooltip
@@ -102,10 +103,7 @@ class FilterTooltip extends React.Component {
         // set the whole range as the filter
         if (!this.state.rangeValue) {
           this.setState({
-            rangeValue: {
-              min: Math.floor(result.properties.min),
-              max: Math.ceil(result.properties.max)
-            }
+            rangeValue: [Math.floor(result.properties.min), Math.ceil(result.properties.max)]
           });
         }
 
@@ -126,10 +124,7 @@ class FilterTooltip extends React.Component {
   handleMinChange(event) {
     const newValue = event.target.value;
     this.setState({
-      rangeValue: {
-        min: newValue,
-        max: this.state.rangeValue.max
-      }
+      rangeValue: [newValue, this.state.rangeValue[1]]
     });
   }
 
@@ -137,10 +132,7 @@ class FilterTooltip extends React.Component {
   handleMaxChange(event) {
     const newValue = event.target.value;
     this.setState({
-      rangeValue: {
-        min: this.state.rangeValue.min,
-        max: newValue
-      }
+      rangeValue: [this.state.rangeValue.min, newValue]
     });
   }
 
@@ -181,39 +173,22 @@ class FilterTooltip extends React.Component {
     );
   }
 
-  renderRange() {
-    // Min and max values of the dataset
-    const min = this.state.min;
-    const max = this.state.max;
-
-    // The step must be 1 or lower, otherwise the react-input-range will
-    // automatically move the minimum and the maximum to a multiple of it
-    // See: https://github.com/davidchin/react-input-range/issues/46
-    const step = Math.min(Math.floor((max - min) / 100), 1);
+  render() {
+    const { loading, rangeValue, notNullSelected, min, max } = this.state;
 
     // Min and max values of the selected range
-    const rangeMin = +this.state.rangeValue.min;
-    const rangeMax = +this.state.rangeValue.max;
+    const rangeMin = rangeValue ? rangeValue[0] : min;
+    const rangeMax = rangeValue ? rangeValue[1] : max;
+
+    debugger;
 
     // We debounce the method to avoid having to update the state
     // to often (around 60 FPS)
-    const updateRange = debounce(range => this.setState({ rangeValue: range }), 16);
+    const updateRange = debounce((range) => {
+      debugger;
+      this.setState({ rangeValue: range });
+    }, 16);
 
-    return (
-      <div className="range">
-        <InputRange
-          maxValue={max}
-          minValue={min}
-          value={{ min: rangeMin, max: rangeMax }}
-          step={step}
-          onChange={range => updateRange(range)}
-        />
-      </div>
-    );
-  }
-
-  render() {
-    const { loading, rangeValue, notNullSelected } = this.state;
     const categoryValue = this.isCategorical();
     const classNameValue = classNames({
       'c-filter-tooltip': true
@@ -237,12 +212,22 @@ class FilterTooltip extends React.Component {
           </div>
         }
         { categoryValue && this.renderCheckboxes() }
-        { !categoryValue && !loading && this.renderRange() }
-        { !categoryValue && !loading &&
+        { !categoryValue && !loading && min && max &&
+          <div className="range">
+            <Range
+              allowCross={false}
+              max={max}
+              min={min}
+              value={[rangeMin, rangeMax]}
+              onChange={range => updateRange(range)}
+            />
+          </div>
+        }
+        { !categoryValue && !loading && rangeValue &&
           <div className="text-inputs-container">
-            <input className="-first" type="number" value={rangeValue.min} onChange={this.handleMinChange} />
+            <input className="-first" type="number" value={rangeValue[0]} onChange={this.handleMinChange} />
             -
-            <input className="-last" type="number" value={rangeValue.max} onChange={this.handleMaxChange} />
+            <input className="-last" type="number" value={rangeValue[1]} onChange={this.handleMaxChange} />
           </div>
         }
 
