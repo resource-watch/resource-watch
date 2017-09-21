@@ -73,6 +73,7 @@ export const STATE_DEFAULT = {
     geoInfo: false,
     verified: false,
     env: 'production',
+    tableName: '',
     widgetRelevantProps: [],
     layerRelevantProps: [],
     connectorUrl: '',
