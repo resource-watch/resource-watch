@@ -7,7 +7,7 @@ ENV NODE_ENV production
 ENV API_URL=https://staging.resourcewatch.org/api
 ENV CONTROL_TOWER_URL=https://production-api.globalforestwatch.org
 ENV CALLBACK_URL=https://staging.resourcewatch.org/auth
-ENV STATIC_SERVER_URL=https://staging.resourcewatch.org
+ENV STATIC_SERVER_URL=
 ENV APPLICATIONS=rw
 
 ENV OPBEAT_ORG_ID=17ab8eb501d2418a81f3167c10407e90
