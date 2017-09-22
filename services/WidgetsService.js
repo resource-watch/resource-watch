@@ -1,8 +1,9 @@
 import 'isomorphic-fetch';
 import flatten from 'lodash/flatten';
 import sortBy from 'lodash/sortBy';
-import { get, post, remove } from 'utils/request';
 
+// Utils
+import { get, post, remove } from 'utils/request';
 
 export default class WidgetsService {
   constructor(options = {}) {
@@ -34,6 +35,7 @@ export default class WidgetsService {
               ...widget.attributes,
               id: widget.id
             }))));
+
             resolve(sortBy(widgets, 'name'));
           } else {
             const widgets = data.attributes.widget.map(widget => ({

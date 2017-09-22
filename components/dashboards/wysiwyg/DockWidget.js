@@ -12,7 +12,6 @@ import WidgetsService from 'services/WidgetsService';
 
 // Components
 import Tabs from 'components/ui/Tabs';
-import WidgetList from 'components/widgets/WidgetList';
 
 class DockWidget extends React.Component {
   constructor(props) {
