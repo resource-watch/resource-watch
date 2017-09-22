@@ -79,7 +79,7 @@ class Legend extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.tooltipOpened && this.state.opacityTooltipOpen && this.state.opacityOptions.target) {
+    if (nextProps.tooltipOpened === undefined && this.state.opacityTooltipOpen && this.state.opacityOptions.target) {
       const layerGroup = nextProps.layerGroups.find(lg => lg.dataset === this.state.opacityOptions.dataset);
 
       if (layerGroup) {
