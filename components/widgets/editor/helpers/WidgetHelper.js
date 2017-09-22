@@ -165,7 +165,7 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
 
   const chartInfo = {
     chartType,
-    limit,
+    limit: (datasetProvider === 'nexgddp') ? null : limit,
     order: orderBy,
     filters,
     areaIntersection,
@@ -297,7 +297,11 @@ export function getDataURL(dataset, datasetType, tableName, band, provider, char
   }
 
   const sortOrder = chartInfo.order ? chartInfo.order.orderType : 'asc';
-  const query = `${getQueryByFilters(tableName, chartInfo.filters, columns, orderByColumn, sortOrder)} LIMIT ${chartInfo.limit}`;
+  let query = `${getQueryByFilters(tableName, chartInfo.filters, columns, orderByColumn, sortOrder)}`;
+
+  if (chartInfo.limit) {
+    query += ` LIMIT ${chartInfo.limit}`;
+  }
 
   const geostore = chartInfo.areaIntersection ? `&geostore=${chartInfo.areaIntersection}` : '';
 

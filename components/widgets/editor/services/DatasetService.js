@@ -51,7 +51,7 @@ export default class DatasetService {
    * @returns {Promise}
    */
   fetchFilteredData(query) {
-    return fetch(`${this.opts.apiURL}/query/${this.datasetId}?sql=${query}`)
+    return fetch(`${this.opts.apiURL}/query/${this.datasetId}?${query}`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }

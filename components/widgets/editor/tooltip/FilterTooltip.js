@@ -4,7 +4,7 @@ import { Autobind } from 'es-decorators';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 import { toastr } from 'react-redux-toastr';
-import Slider from 'rc-slider';
+import { Range } from 'rc-slider';
 
 // Redux
 
@@ -19,8 +19,6 @@ import CheckboxGroup from 'components/widgets/editor/form/CheckboxGroup';
 import Spinner from 'components/widgets/editor/ui/Spinner';
 import Button from 'components/widgets/editor/ui/Button';
 import Checkbox from 'components/widgets/editor/form/Checkbox';
-
-const Range = Slider.Range;
 
 class FilterTooltip extends React.Component {
   constructor(props) {
@@ -88,6 +86,8 @@ class FilterTooltip extends React.Component {
       columnName: this.props.name
     })
       .then((result) => {
+        // We should rethink a little bit the organization of this tooltip.
+        // As long as we have 4 types of values, don't you think that we should have a switch and render depending on the type...
         const values = this.props.type === 'string'
           ? result.properties.map(val => ({ name: val, label: val, value: val }))
           : null;
@@ -103,7 +103,9 @@ class FilterTooltip extends React.Component {
         // set the whole range as the filter
         if (!this.state.rangeValue) {
           this.setState({
-            rangeValue: [Math.floor(result.properties.min), Math.ceil(result.properties.max)]
+            rangeValue: [
+              Math.floor(result.properties.min), Math.ceil(result.properties.max)
+            ]
           });
         }
 
@@ -190,13 +192,14 @@ class FilterTooltip extends React.Component {
     const classNameValue = classNames({
       'c-filter-tooltip': true
     });
+
     return (
       <div className={classNameValue}>
         <Spinner
           className="-light"
           isLoading={loading}
         />
-        { !loading &&
+        {!loading &&
           <div className="c-checkbox-box">
             <Checkbox
               properties={{
@@ -208,8 +211,10 @@ class FilterTooltip extends React.Component {
             />
           </div>
         }
-        { categoryValue && this.renderCheckboxes() }
-        { !categoryValue && !loading && min && max &&
+        {categoryValue && this.renderCheckboxes()}
+        {!categoryValue && !loading &&
+          !isNaN(min) && min !== null && typeof min !== 'undefined' &&
+          !isNaN(max) && max !== null && typeof max !== 'undefined' &&
           <div className="range">
             <Range
               allowCross={false}
@@ -220,7 +225,7 @@ class FilterTooltip extends React.Component {
             />
           </div>
         }
-        { !categoryValue && !loading && rangeValue &&
+        {!categoryValue && !loading && rangeValue &&
           <div className="text-inputs-container">
             <input className="-first" type="number" value={rangeValue[0]} onChange={this.handleMinChange} />
             -
@@ -229,7 +234,7 @@ class FilterTooltip extends React.Component {
         }
 
         <div className="buttons">
-          { categoryValue &&
+          {categoryValue &&
             <Button
               properties={{ type: 'button', className: ' -compressed' }}
               onClick={() => this.onSelectAll()}
@@ -237,7 +242,7 @@ class FilterTooltip extends React.Component {
               Select all
             </Button>
           }
-          { categoryValue &&
+          {categoryValue &&
             <Button
               properties={{ type: 'button', className: ' -compressed' }}
               onClick={() => this.onClearAll()}

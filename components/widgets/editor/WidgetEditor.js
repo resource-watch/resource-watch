@@ -30,6 +30,7 @@ import VegaChart from 'components/widgets/charts/VegaChart';
 import ChartEditor from 'components/widgets/editor/chart/ChartEditor';
 import MapEditor from 'components/widgets/editor/map/MapEditor';
 import RasterChartEditor from 'components/widgets/editor/raster/RasterChartEditor';
+import NEXGDDPEditor from 'components/widgets/editor/nexgddp/NEXGDDPEditor';
 
 import Map from 'components/widgets/editor/map/Map';
 import Legend from 'components/widgets/editor/ui/Legend';
@@ -799,6 +800,7 @@ class WidgetEditor extends React.Component {
       showLimitContainer
     } = this.props;
 
+
     // Whether we're still waiting for some data
     const loading = (mode === 'dataset' && !layersLoaded)
       || !fieldsLoaded
@@ -850,7 +852,7 @@ class WidgetEditor extends React.Component {
                 {
                   (selectedVisualizationType === 'chart' ||
                   selectedVisualizationType === 'table')
-                    && !fieldsError && tableName
+                    && !fieldsError && tableName && datasetProvider !== 'nexgddp'
                     && (
                       <ChartEditor
                         dataset={dataset}
@@ -864,6 +866,28 @@ class WidgetEditor extends React.Component {
                         showSaveButton={showSaveButton}
                         showLimitContainer={showLimitContainer}
                         showOrderByContainer={showOrderByContainer}
+                        hasGeoInfo={hasGeoInfo}
+                        onEmbedTable={this.handleEmbedTable}
+                      />
+                    )
+                }
+                {
+                  (selectedVisualizationType === 'chart' ||
+                  selectedVisualizationType === 'table')
+                    && !fieldsError && tableName && datasetProvider === 'nexgddp'
+                    && (
+                      <NEXGDDPEditor
+                        dataset={dataset}
+                        datasetType={datasetType}
+                        datasetProvider={datasetProvider}
+                        jiminy={jiminy}
+                        tableName={tableName}
+                        tableViewMode={selectedVisualizationType === 'table'}
+                        mode={chartEditorMode}
+                        onUpdateWidget={this.handleUpdateWidget}
+                        showSaveButton={showSaveButton}
+                        showLimitContainer={false}
+                        showOrderByContainer={false}
                         hasGeoInfo={hasGeoInfo}
                         onEmbedTable={this.handleEmbedTable}
                       />
