@@ -24,6 +24,7 @@ import GoToDatasetAction from './actions/GoToDatasetAction';
 // TDs
 import NameTD from './td/NameTD';
 import UpdatedAtTD from './td/UpdatedAtTD';
+import OwnershipTD from './td/OwnershipTD';
 
 class LayersTable extends React.Component {
   componentDidMount() {
@@ -50,7 +51,7 @@ class LayersTable extends React.Component {
   }
 
   render() {
-    const { dataset, application } = this.props;
+    const { dataset, application, user } = this.props;
     return (
       <div className="c-layer-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -77,7 +78,8 @@ class LayersTable extends React.Component {
             columns={[
               { label: 'Name', value: 'name', td: NameTD },
               { label: 'Provider', value: 'provider' },
-              { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD }
+              { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
+              { label: 'Ownership', value: 'ownership', td: OwnershipTD, tdProps: { user } }
             ]}
             actions={{
               show: true,
@@ -112,7 +114,8 @@ LayersTable.defaultProps = {
   columns: [],
   actions: {},
   // Store
-  layers: []
+  layers: [],
+  users: {}
 };
 
 LayersTable.propTypes = {
@@ -124,6 +127,7 @@ LayersTable.propTypes = {
   loading: PropTypes.bool.isRequired,
   layers: PropTypes.array.isRequired,
   error: PropTypes.string,
+  user: PropTypes.object,
 
   // Actions
   getLayers: PropTypes.func.isRequired,
@@ -133,7 +137,8 @@ LayersTable.propTypes = {
 const mapStateToProps = state => ({
   loading: state.layers.layers.loading,
   layers: getFilteredLayers(state),
-  error: state.layers.layers.error
+  error: state.layers.layers.error,
+  user: state.user
 });
 const mapDispatchToProps = dispatch => ({
   getLayers: ({ dataset, application }) => dispatch(getLayers({ dataset, application })),
