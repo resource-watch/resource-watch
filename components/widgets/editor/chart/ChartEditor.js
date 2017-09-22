@@ -159,7 +159,7 @@ class ChartEditor extends React.Component {
       .then((data) => {
         this.setState({
           areaOptions: [...this.state.areaOptions, ...AREAS,
-            ...data.map(elem => ({ label: elem.name, value: elem.geostoreId }))]
+            ...data.map(elem => ({ label: elem.name || '', value: elem.geostoreId }))]
         });
       })
       // We don't really care if the countries don't load, we can still
