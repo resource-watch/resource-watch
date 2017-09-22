@@ -41,6 +41,7 @@
 // Components
 // UI
 @import '../node_modules/react-redux-toastr/src/styles/index';
+@import '../node_modules/rc-slider/assets/index';
 @import "./components/ui/aside";
 @import "./components/ui/avatar";
 @import "./components/ui/breadcrumbs";
@@ -56,6 +57,7 @@
 @import "./components/ui/paginator";
 @import "./components/ui/related-content";
 @import "./components/ui/search-input";
+@import "./components/ui/slider-tooltip";
 @import "./components/ui/spinner";
 @import "./components/ui/switch-options";
 @import "./components/ui/switch";

@@ -85,6 +85,20 @@ class Map extends React.Component {
 
     const layerGroupsChanged = !isEqual(layerGroups, nextLayerGroups);
 
+    const opacities = layerGroups.map(d => ({
+      dataset: d.dataset, opacity: d.layers[0].opacity !== undefined ? d.layers[0].opacity : 1
+    }));
+    const nextOpacities = nextLayerGroups.map(d => ({
+      dataset: d.dataset, opacity: d.layers[0].opacity !== undefined ? d.layers[0].opacity : 1
+    }));
+
+    if (!isEqual(opacities, nextOpacities)) {
+      // Set opacity if changed
+      const nextLayers = nextLayerGroups
+        .map(l => l.layers.find(la => la.active));
+      this.layerManager.setOpacity(nextLayers);
+    }
+
     if (filtersChanged || layerGroupsChanged) {
       const layers = layerGroups
         .map(l => l.layers.find(la => la.active));
@@ -96,6 +110,7 @@ class Map extends React.Component {
 
       const union = new Set([...layers, ...nextLayers]);
       const difference = layersIds.filter(id => !nextLayersIds.find(id2 => id === id2));
+
 
       // Test whether old & new layers are the same & only have to change the order
       if (layers.length === nextLayers.length && !difference.length) {

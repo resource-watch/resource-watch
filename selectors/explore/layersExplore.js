@@ -12,13 +12,12 @@ import { createSelector } from 'reselect';
  */
 export const getLayerGroups = (datasets, layerGroups) => {
   if (!datasets.length) return [];
-
   return layerGroups.map((layerGroup, index) => {
     const dataset = datasets.find(d => d.id === layerGroup.dataset);
     const layers = [...layerGroup.layers].map(layer => ({
       ...layer,
       ...dataset.attributes.layer.find(l => l.id === layer.id).attributes,
-      order: layerGroups.length - index // Like z-index: higher = on top
+      order: layerGroups.length - index // Like z-index: higher = on top,
     }));
     return Object.assign({}, layerGroup, { layers });
   });
