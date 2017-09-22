@@ -3,12 +3,37 @@ import { createSelector } from 'reselect';
 // Get datasets
 const datasetList = state => state.explore.datasets.list;
 const filters = state => state.explore.filters;
+const datasetPage = state => state.explore.datasets.page;
+const datasetLimit = state => state.explore.datasets.limit;
+
+const getPaginatedDatasets = (_list, _page, _limit) => {
+  const from = (_page - 1) * _limit;
+  const to = ((_page - 1) * _limit) + _limit;
+
+  return _list.slice(from, to);
+};
 
 // Filter datasets by issues
-const getFilteredDatasets = (_list, _filters) => {
-  const search = _filters.search;
-  const datasetsFilteredByConcepts = _filters.datasetsFilteredByConcepts;
-  return _list.filter((it) => {
+const getFilteredDatasets = (_list, _filters, _page, _limit) => {
+  const { search, topics, dataType, geographies, datasetsFilteredByConcepts } = _filters;
+  const haveResults = datasetsFilteredByConcepts.length;
+  const areFiltersApplied = ([...topics || [], ...geographies || [], ...dataType || []].length) || search;
+
+  if (!haveResults && areFiltersApplied && !search) {
+    return {
+      totalFilteredDatasets: [],
+      filteredDatasets: getPaginatedDatasets([], _page, _limit)
+    };
+  }
+
+  if (!areFiltersApplied) {
+    return {
+      totalFilteredDatasets: _list || [],
+      filteredDatasets: getPaginatedDatasets(_list, _page, _limit)
+    };
+  }
+
+  const filteredDatasets = _list.filter((it) => {
     let searchFilterPassed = false;
     let conceptsCheckPassed = true;
 
@@ -29,12 +54,19 @@ const getFilteredDatasets = (_list, _filters) => {
     }
 
     const searchCheck = (search && searchFilterPassed) || !search;
-    const conceptsCheck = (datasetsFilteredByConcepts && conceptsCheckPassed) ||
-      !datasetsFilteredByConcepts;
+    const conceptsCheck = (datasetsFilteredByConcepts.length &&
+      datasetsFilteredByConcepts.length > 0
+      && conceptsCheckPassed) ||
+      !datasetsFilteredByConcepts.length || !datasetsFilteredByConcepts.length > 0;
 
     return searchCheck && conceptsCheck;
   });
+
+  return {
+    totalFilteredDatasets: filteredDatasets || [],
+    filteredDatasets: getPaginatedDatasets(filteredDatasets, _page, _limit)
+  };
 };
 
 // Export the selector
-export default createSelector(datasetList, filters, getFilteredDatasets);
+export default createSelector(datasetList, filters, datasetPage, datasetLimit, getFilteredDatasets);

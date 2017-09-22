@@ -65,16 +65,17 @@ export const STATE_DEFAULT = {
     name: '',
     subtitle: '',
     application: [],
+    type: 'tabular',
     provider: null,
     connectorType: '',
     connectorUrlHint: '',
     published: false,
     geoInfo: false,
+    verified: false,
     env: 'production',
+    tableName: '',
     widgetRelevantProps: [],
     layerRelevantProps: [],
-
-    // STEP 2
     connectorUrl: '',
     dataPath: '',
     legend: {
@@ -86,6 +87,16 @@ export const STATE_DEFAULT = {
   }
 };
 
+export const DATASET_TYPES = [
+  {
+    label: 'Tabular',
+    value: 'tabular'
+  },
+  {
+    label: 'Raster',
+    value: 'raster'
+  }
+];
 
 export const FORM_ELEMENTS = {
   elements: {},

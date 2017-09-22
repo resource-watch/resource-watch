@@ -12,7 +12,7 @@ import WidgetService from 'services/WidgetService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import WidgetList from 'components/widgets/WidgetList';
+import WidgetList from 'components/widgets/list/WidgetList';
 
 class MyRWWidgetsStarred extends React.Component {
   constructor(props) {

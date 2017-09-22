@@ -40,7 +40,7 @@ class SliderTooltip extends React.Component {
 
   render() {
     const { className, options } = this.props;
-    // const updateValue = debounce(value => this.setState({ value }), 0);
+    const updateValue = debounce(value => this.setState({ value }), 0);
 
     return (
       <div className="c-explore-slider-tooltip" ref={(node) => { this.el = node; }}>
@@ -51,7 +51,8 @@ class SliderTooltip extends React.Component {
           step={options.step}
           value={this.state.value !== null ? this.state.value : options.defaultValue}
           defaultValue={this.state.value !== null ? this.state.value : options.defaultValue}
-          onChange={this.onChange}
+          onChange={(value) => updateValue(value)}
+          onAfterChange={this.onChange}
         />
         <div className="actions-container">
           <button className="c-button -primary" onClick={this.props.onClose}>Done</button>

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
-import { FORM_ELEMENTS, LANGUAGE_OPTIONS } from 'components/admin/metadata/form/constants';
+import { FORM_ELEMENTS, LANGUAGE_OPTIONS, RASTER_COLUMN_TYPES } from 'components/admin/metadata/form/constants';
 
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
@@ -25,7 +26,18 @@ class Step1 extends React.Component {
   }
 
   render() {
-    const { form, columns } = this.props;
+    const { form, columns, type } = this.props;
+    const isRaster = type === 'raster';
+
+    const aliasColumnClass = classnames('columns', {
+      'small-2': isRaster,
+      'small-5': !isRaster
+    });
+
+    const descriptionColumnClass = classnames('columns', {
+      'small-4': isRaster,
+      'small-5': !isRaster
+    });
 
     return (
       <div>
@@ -357,7 +369,8 @@ class Step1 extends React.Component {
 
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.data_download_original_link = c; }}
-            onChange={value => this.changeMetadata({ info: { data_download_original_link: value } })}
+            onChange={value =>
+              this.changeMetadata({ info: { data_download_original_link: value } })}
             validations={['url']}
             properties={{
               name: 'data_download_original_link',
@@ -394,7 +407,7 @@ class Step1 extends React.Component {
                     </Field>
                   </div>
 
-                  <div className="columns small-5">
+                  <div className={aliasColumnClass}>
                     <Field
                       ref={(c) => {
                         if (c) FORM_ELEMENTS.elements[`columns_${column.name}_alias`] = c;
@@ -421,7 +434,7 @@ class Step1 extends React.Component {
                     </Field>
                   </div>
 
-                  <div className="columns small-5">
+                  <div className={descriptionColumnClass}>
                     <Field
                       ref={(c) => {
                         if (c) FORM_ELEMENTS.elements[`columns_${column.name}_description`] = c;
@@ -448,6 +461,36 @@ class Step1 extends React.Component {
                       {Input}
                     </Field>
                   </div>
+
+                  {isRaster &&
+                    <div className="columns small-4">
+                      <Field
+                        ref={(columnType) => {
+                          if (columnType) FORM_ELEMENTS.elements[`columns_${column.name}_type`] = columnType;
+                        }}
+                        onChange={(columnType) => {
+                          this.changeMetadata({
+                            columns: {
+                              ...form.columns,
+                              [column.name]: {
+                                ...form.columns[column.name],
+                                type: columnType
+                              }
+                            }
+                          });
+                        }}
+                        validations={['required']}
+                        options={RASTER_COLUMN_TYPES}
+                        properties={{
+                          name: 'type',
+                          label: 'Type',
+                          default: (this.props.form.columns[column.name]) ? this.props.form.columns[column.name].type : 'continuous'
+                        }}
+                      >
+                        {Select}
+                      </Field>
+                    </div>
+                  }
                 </div>
               ))}
             </div>
@@ -461,7 +504,12 @@ class Step1 extends React.Component {
 Step1.propTypes = {
   form: PropTypes.object,
   columns: PropTypes.array,
+  type: PropTypes.string,
   onChange: PropTypes.func
+};
+
+Step1.defaultProps = {
+  type: 'tabular'
 };
 
 export default Step1;

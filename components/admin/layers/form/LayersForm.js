@@ -111,15 +111,21 @@ class LayersForm extends React.Component {
             dataset,
             id: id || '',
             type: (id) ? 'PATCH' : 'POST',
-            body: { layer: this.state.form }
+            body: this.state.form
           })
             .then((data) => {
               toastr.success('Success', `The layer "${data.id}" - "${data.name}" has been uploaded correctly`);
               if (this.props.onSubmit) this.props.onSubmit();
             })
-            .catch((err) => {
+            .catch((errors) => {
               this.setState({ submitting: false });
-              toastr.error('Error', `Oops! There was an error, try again. ${err}`);
+              try {
+                errors.forEach(er =>
+                  toastr.error('Error', er.detail)
+                );
+              } catch (e) {
+                toastr.error('Error', 'Oops! There was an error, try again.');
+              }
             });
         } else {
           this.setState({
@@ -127,7 +133,7 @@ class LayersForm extends React.Component {
           });
         }
       } else {
-        toastr.error('Error', 'Fill all the required fields');
+        toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
     }, 0);
   }

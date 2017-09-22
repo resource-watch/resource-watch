@@ -1,5 +1,5 @@
 import initOpbeat from 'opbeat-react';
-import { createOpbeatMiddleware } from 'opbeat-react/redux'
+import { createOpbeatMiddleware } from 'opbeat-react/redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';

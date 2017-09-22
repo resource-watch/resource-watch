@@ -1,7 +1,5 @@
 /* global config */
 import 'isomorphic-fetch';
-import flatten from 'lodash/flatten';
-import uniq from 'lodash/uniq';
 import { Router } from 'routes';
 
 /**
@@ -16,6 +14,7 @@ const SET_DATASETS_SEARCH_FILTER = 'explore/SET_DATASETS_SEARCH_FILTER';
 const SET_DATASETS_TOPICS_FILTER = 'explore/SET_DATASETS_TOPICS_FILTER';
 const SET_DATASETS_DATA_TYPE_FILTER = 'explore/SET_DATASETS_DATA_TYPE_FILTER';
 const SET_DATASETS_GEOGRAPHIES_FILTER = 'explore/SET_DATASETS_GEOGRAPHIES_FILTER';
+const SET_FILTERS_LOADING = 'explore/SET_FILTERS_LOADING';
 
 const SET_DATASETS_FILTERED_BY_CONCEPTS = 'explore/SET_DATASETS_FILTERED_BY_CONCEPTS';
 
@@ -74,7 +73,9 @@ const initialState = {
     search: null,
     topics: null,
     dataType: null,
-    geographies: null
+    geographies: null,
+    datasetsFilteredByConcepts: [],
+    loading: false,
   },
   sidebar: {
     open: true,
@@ -205,6 +206,13 @@ export default function (state = initialState, action) {
     case SET_DATASETS_GEOGRAPHIES_FILTER: {
       const filters = Object.assign({}, state.filters, {
         geographies: action.payload
+      });
+      return Object.assign({}, state, { filters });
+    }
+
+    case SET_FILTERS_LOADING: {
+      const filters = Object.assign({}, state.filters, {
+        loading: action.payload
       });
       return Object.assign({}, state, { filters });
     }
@@ -488,6 +496,13 @@ export function setDatasetsFilteredByConcepts(datasetList) {
       type: SET_DATASETS_FILTERED_BY_CONCEPTS,
       payload: datasetList
     });
+  };
+}
+
+export function setFiltersLoading(loading) {
+  return {
+    type: SET_FILTERS_LOADING,
+    payload: loading
   };
 }
 

@@ -18,8 +18,9 @@ import {
   setChartType,
   setBand,
   setVisualizationType,
-  setLayer
-} from 'redactions/widgetEditor';
+  setLayer,
+  setAreaIntersection
+} from 'components/widgets/editor/redux/widgetEditor';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -28,7 +29,7 @@ import LayersService from 'services/LayersService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import WidgetEditor from 'components/widgets/WidgetEditor';
+import WidgetEditor from 'components/widgets/editor/WidgetEditor';
 import Button from 'components/ui/Button';
 import Input from 'components/form/Input';
 import Field from 'components/form/Field';
@@ -150,7 +151,7 @@ class WidgetsEdit extends React.Component {
         {
           paramsConfig: {
             visualizationType,
-            band,
+            band: band && { name: band.name },
             limit,
             value,
             category,
@@ -240,7 +241,8 @@ class WidgetsEdit extends React.Component {
       filters,
       limit,
       chartType,
-      layer
+      layer,
+      areaIntersection
     } = paramsConfig;
 
     // We restore the type of visualization
@@ -259,6 +261,7 @@ class WidgetsEdit extends React.Component {
     if (filters) this.props.setFilters(filters);
     if (limit) this.props.setLimit(limit);
     if (chartType) this.props.setChartType(chartType);
+    if (areaIntersection) this.props.setAreaIntersection(areaIntersection);
   }
 
   @Autobind
@@ -395,6 +398,7 @@ WidgetsEdit.propTypes = {
   setLimit: PropTypes.func.isRequired,
   setChartType: PropTypes.func.isRequired,
   setVisualizationType: PropTypes.func.isRequired,
+  setAreaIntersection: PropTypes.func.isRequired,
   setBand: PropTypes.func.isRequired,
   setLayer: PropTypes.func.isRequired
 };
@@ -415,6 +419,7 @@ const mapDispatchToProps = dispatch => ({
   setLimit: value => dispatch(setLimit(value)),
   setChartType: value => dispatch(setChartType(value)),
   setVisualizationType: vis => dispatch(setVisualizationType(vis)),
+  setAreaIntersection: value => dispatch(setAreaIntersection(value)),
   setBand: band => dispatch(setBand(band)),
   setLayer: (layerId) => {
     new LayersService()

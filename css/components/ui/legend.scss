@@ -2,11 +2,16 @@
   position: absolute;
   bottom: 35px;
   right: 30px;
-  min-width: 400px;
+  width: 80%; // Limit the width for mobile devices
   max-width: 500px;
   background: $color-white;
   z-index: 2;
   border-radius: 4px;
+
+  @media screen and (min-width: $grid-row-width) {
+    width: 100%;
+    min-width: 400px;
+  }
 
   .legend-title {
     display: flex;
