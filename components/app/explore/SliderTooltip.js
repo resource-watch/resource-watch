@@ -4,7 +4,7 @@ import { Autobind } from 'es-decorators';
 import debounce from 'lodash/debounce';
 
 // Components
-import InputRange from 'react-input-range';
+import Slider from 'rc-slider';
 
 
 class SliderTooltip extends React.Component {
@@ -33,29 +33,29 @@ class SliderTooltip extends React.Component {
   }
 
   @Autobind
-  onChangeComplited(value) {
+  onChange(value) {
     this.setState({ value });
     this.props.onChange(value);
   }
 
   render() {
     const { className, options } = this.props;
-    const updateValue = debounce(value => this.setState({ value }), 0);
+    // const updateValue = debounce(value => this.setState({ value }), 0);
 
     return (
       <div className="c-explore-slider-tooltip" ref={(node) => { this.el = node; }}>
-        <InputRange
+        <Slider
           className={className}
-          minValue={options.min}
-          maxValue={options.max}
-          value={this.state.value}
+          min={options.min}
+          max={options.max}
           step={options.step}
-          onChange={value => updateValue(value)}
-          onChangeComplete={this.props.onChange}
+          value={this.state.value !== null ? this.state.value : options.defaultValue}
+          defaultValue={this.state.value !== null ? this.state.value : options.defaultValue}
+          onChange={this.onChange}
         />
         <div className="actions-container">
           <button className="c-button -primary" onClick={this.props.onClose}>Done</button>
-          <button className="c-button" onClick={() => this.onChangeComplited(options.max)}>Reset</button>
+          <button className="c-button" onClick={() => this.onChange(options.max)}>Reset</button>
         </div>
       </div>
     );
