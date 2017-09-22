@@ -6189,7 +6189,7 @@ rc-pagination@1.8.8:
   dependencies:
     prop-types "^15.5.7"
 
-rc-slider@^8.3.1:
+rc-slider@8.3.1:
   version "8.3.1"
   resolved "https://registry.yarnpkg.com/rc-slider/-/rc-slider-8.3.1.tgz#b64d66ca1d1b755e4b411ca10906767180a7aeff"
   dependencies:
@@ -6300,7 +6300,7 @@ react-dropzone@3.13.3:
     attr-accept "^1.0.3"
     prop-types "^15.5.7"
 
-react-graph-vis@^0.1.3:
+react-graph-vis@0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/react-graph-vis/-/react-graph-vis-0.1.3.tgz#b399f91028d7bd0a1fd1b95c3ccee5c9c45480e1"
   dependencies:
