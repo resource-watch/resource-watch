@@ -22,6 +22,7 @@ import DeleteAction from './actions/DeleteAction';
 // TDs
 import TitleTD from './td/TitleTD';
 import PublishedTD from './td/PublishedTD';
+import OwnershipTD from './td/OwnershipTD';
 // import DatasetTD from './td/DatasetTD';
 
 
@@ -58,6 +59,7 @@ class WidgetsTable extends React.Component {
   }
 
   render() {
+    const { user } = this.props;
     return (
       <div className="c-widgets-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -83,7 +85,8 @@ class WidgetsTable extends React.Component {
             columns={[
               { label: 'Title', value: 'name', td: TitleTD },
               // { label: 'Dataset', value: 'dataset', td: DatasetTD },
-              { label: 'Published', value: 'published', td: PublishedTD }
+              { label: 'Published', value: 'published', td: PublishedTD },
+              { label: 'Ownership', value: 'userId', td: OwnershipTD, tdProps: { user } }
             ]}
             actions={{
               show: true,
@@ -117,7 +120,8 @@ WidgetsTable.defaultProps = {
   actions: {},
   // Store
   widgets: [],
-  filteredWidgets: []
+  filteredWidgets: [],
+  user: {}
 };
 
 WidgetsTable.propTypes = {
@@ -127,6 +131,7 @@ WidgetsTable.propTypes = {
   widgets: PropTypes.array.isRequired,
   filteredWidgets: PropTypes.array.isRequired,
   error: PropTypes.string,
+  user: PropTypes.object,
 
   // Actions
   getWidgets: PropTypes.func.isRequired,
@@ -137,7 +142,8 @@ const mapStateToProps = state => ({
   loading: state.widgets.widgets.loading,
   widgets: state.widgets.widgets.list,
   filteredWidgets: getFilteredWidgets(state),
-  error: state.widgets.widgets.error
+  error: state.widgets.widgets.error,
+  user: state.user
 });
 const mapDispatchToProps = dispatch => ({
   getWidgets: () => dispatch(getWidgets()),
