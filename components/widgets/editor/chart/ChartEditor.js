@@ -44,20 +44,6 @@ const AREAS = [
 
 @DragDropContext(HTML5Backend)
 class ChartEditor extends React.Component {
-  /**
-   * Return the geostore id associated with the country's ISO
-   * NOTE: errors are not caught intentionally
-   * @param {string} iso Valid 3-letter ISO
-   * @returns {Promise<string>}
-   */
-  static getCountryGeostoreId(iso) {
-    return fetch(`${process.env.WRI_API_URL}/geostore/admin/${iso}`)
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(`Unable to get the geostore id associated with the ISO ${iso}`);
-      })
-      .then(({ data }) => data.id);
-  }
 
   constructor(props) {
     super(props);
@@ -113,26 +99,10 @@ class ChartEditor extends React.Component {
           },
           onCloseModal: () => resolve(false)
         });
-      } else if (item.isGeostore) {
+      } else {
         // The user selected a custom area that is not a country
         this.props.setAreaIntersection(item.value);
         resolve(true);
-      } else {
-        this.setState({ loadingAreaIntersection: true });
-        ChartEditor.getCountryGeostoreId(item.value)
-          .then((id) => {
-            this.props.setAreaIntersection(id);
-            resolve(true);
-          })
-          .catch((err) => {
-            // In case of an error, we prevent the selector from setting
-            // the area as selected
-            resolve(false);
-
-            // TODO: improve this 💩
-            toastr.error('Error', `Unable to filter with this country. ${err}`);
-          })
-          .then(() => this.setState({ loadingAreaIntersection: false }));
       }
     });
   }
@@ -186,9 +156,10 @@ class ChartEditor extends React.Component {
 
     // When this resolves, we'll also be able to display the countries
     this.areasService.fetchCountries()
-      .then(({ data }) => {
+      .then((data) => {
         this.setState({
-          areaOptions: [...this.state.areaOptions, ...AREAS, ...data]
+          areaOptions: [...this.state.areaOptions, ...AREAS,
+            ...data.map(elem => ({ label: elem.name, value: elem.geostoreId }))]
         });
       })
       // We don't really care if the countries don't load, we can still
@@ -206,8 +177,7 @@ class ChartEditor extends React.Component {
       .then((response) => {
         const userAreas = response.map(val => ({
           label: val.attributes.name,
-          value: val.attributes.geostore ? val.attributes.geostore : val.attributes.iso.country,
-          isGeostore: val.attributes.geostore
+          value: val.attributes.geostore
         }));
         this.setState({
           loadingUserAreas: false,
