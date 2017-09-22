@@ -86,7 +86,7 @@ class Step1 extends React.Component {
   render() {
     const { user, columns, basic } = this.props;
     const { dataset } = this.state;
-    const { provider, csvFields } = this.state.form;
+    const { provider, columnFields } = this.state.form;
 
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
@@ -101,7 +101,7 @@ class Step1 extends React.Component {
     const isWMS = (provider === 'wms');
     const isDocument = (isJson || isXml || isCsv || isTsv);
 
-    const csvFieldsOptions = (csvFields || []).map(f => ({ label: f, value: f }));
+    const columnFieldsOptions = (columnFields || []).map(f => ({ label: f, value: f }));
 
     return (
       <fieldset className="c-field-container">
@@ -202,7 +202,7 @@ class Step1 extends React.Component {
               },
               connectorType: (PROVIDER_TYPES_DICTIONARY[value]) ?
                 PROVIDER_TYPES_DICTIONARY[value].connectorType : null,
-              csvFields: null
+              columnFields: null
             });
           }}
           className="-fluid"
@@ -402,7 +402,7 @@ class Step1 extends React.Component {
             onChange={({ fields, value }) => {
               this.props.onChange({
                 connectorUrl: value,
-                csvFields: fields
+                ...!!fields && { columnFields: fields }
               });
             }}
             validations={['required', 'url']}
@@ -464,7 +464,7 @@ class Step1 extends React.Component {
           </Field>
         }
 
-        {isDocument && csvFields &&
+        {isDocument && columnFields &&
           <div className="c-field-row">
             <div className="row l-row">
               <div className="column small-12 medium-6">
@@ -472,7 +472,7 @@ class Step1 extends React.Component {
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.lat = c; }}
                   onChange={value => this.onLegendChange({ lat: value })}
                   hint="Name of column with latitude value"
-                  options={csvFieldsOptions}
+                  options={columnFieldsOptions}
                   className="-fluid"
                   properties={{
                     name: 'lat',
@@ -492,7 +492,7 @@ class Step1 extends React.Component {
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.long = c; }}
                   onChange={value => this.onLegendChange({ long: value })}
                   hint="Name of column with longitude value"
-                  options={csvFieldsOptions}
+                  options={columnFieldsOptions}
                   className="-fluid"
                   properties={{
                     name: 'long',
@@ -512,7 +512,7 @@ class Step1 extends React.Component {
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.date = c; }}
                   onChange={value => this.onLegendChange({ date: value })}
                   hint="Name of columns with date value (ISO Format)"
-                  options={csvFieldsOptions}
+                  options={columnFieldsOptions}
                   className="-fluid"
                   properties={{
                     name: 'date',
@@ -531,7 +531,7 @@ class Step1 extends React.Component {
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.country = c; }}
                   onChange={value => this.onLegendChange({ country: value })}
                   hint="Name of columns with country value (ISO3 code)"
-                  options={csvFieldsOptions}
+                  options={columnFieldsOptions}
                   className="-fluid"
                   properties={{
                     name: 'country',
