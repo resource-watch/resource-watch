@@ -86,7 +86,7 @@ class WidgetsTable extends React.Component {
               { label: 'Title', value: 'name', td: TitleTD },
               // { label: 'Dataset', value: 'dataset', td: DatasetTD },
               { label: 'Published', value: 'published', td: PublishedTD },
-              { label: 'Ownership', value: 'ownership', td: OwnershipTD, tdProps: { user } }
+              { label: 'Ownership', value: 'userId', td: OwnershipTD, tdProps: { user } }
             ]}
             actions={{
               show: true,

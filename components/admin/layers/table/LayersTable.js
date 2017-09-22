@@ -79,7 +79,7 @@ class LayersTable extends React.Component {
               { label: 'Name', value: 'name', td: NameTD },
               { label: 'Provider', value: 'provider' },
               { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
-              { label: 'Ownership', value: 'ownership', td: OwnershipTD, tdProps: { user } }
+              { label: 'Ownership', value: 'userId', td: OwnershipTD, tdProps: { user } }
             ]}
             actions={{
               show: true,
