@@ -101,7 +101,7 @@ class ChartEditor extends React.Component {
         });
       } else {
         // The user selected a custom area that is not a country
-        this.props.setAreaIntersection(item.value);
+        this.props.setAreaIntersection(item.id);
         resolve(true);
       }
     });
@@ -159,7 +159,11 @@ class ChartEditor extends React.Component {
       .then((data) => {
         this.setState({
           areaOptions: [...this.state.areaOptions, ...AREAS,
-            ...data.map(elem => ({ label: elem.name || '', value: elem.geostoreId }))]
+            ...data.map(elem => ({
+              label: elem.name || '',
+              id: elem.geostoreId,
+              value: `country-${elem.geostoreId}`
+            }))]
         });
       })
       // We don't really care if the countries don't load, we can still
@@ -177,7 +181,8 @@ class ChartEditor extends React.Component {
       .then((response) => {
         const userAreas = response.map(val => ({
           label: val.attributes.name,
-          value: val.attributes.geostore
+          id: val.attributes.geostore,
+          value: `user-area-${val.attributes.geostore}`
         }));
         this.setState({
           loadingUserAreas: false,
@@ -216,6 +221,9 @@ class ChartEditor extends React.Component {
       && jiminy.general.map(val => ({ label: val, value: val }))
     ) || [];
 
+    const areaValue = areaIntersection && !loadingAreaIntersection &&
+     areaOptions.find(opt => opt.id === areaIntersection).value;
+
     return (
       <div className="c-chart-editor">
         <div className="selectors-container">
@@ -248,7 +256,7 @@ class ChartEditor extends React.Component {
                   id="area-intersection-select"
                   placeholder="Select area"
                   options={areaOptions}
-                  value={areaIntersection}
+                  value={areaValue}
                   onValueChange={this.onChangeAreaIntersection}
                   allowNonLeafSelection={false}
                   waitForChangeConfirmation
