@@ -77,27 +77,35 @@ class AreaCard extends React.Component {
       this.areasService.getGeostore(attsObj.geostore)
         .then((res) => {
           const obj = res.data;
+          const bounds = [
+            [obj.attributes.bbox[0], obj.attributes.bbox[1]],
+            [obj.attributes.bbox[2], obj.attributes.bbox[3]]
+          ];
           const fakeLayer = {
             id: `${obj.id}`,
             provider: 'geojson',
+            active: true,
             layerConfig: {
               data: obj.attributes.geojson,
               fitBounds: true,
-              bounds: obj.attributes.bbox
+              bounds: { type: 'Polygon', coordinates: [bounds] }
             }
           };
 
           this.setState({
             loading: false,
             country: obj.id,
-            layer: fakeLayer
+            layerGroups: [{
+              dataset: null,
+              visible: true,
+              layers: [fakeLayer]
+            }]
           });
         });
     } else if (attsObj.iso.country) {
       this.areasService.getCountry(attsObj.iso.country)
         .then((res) => {
           const country = res.data[0];
-
           const newGeoJson = {
             type: 'FeatureCollection',
             features: [
