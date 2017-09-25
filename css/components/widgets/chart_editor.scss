@@ -27,7 +27,10 @@
 
     .area-intersection {
       width: 100%;
-      margin-left: $margin-between-fields;
+
+      &:not(:only-child) {
+        margin-left: $margin-between-fields;
+      }
 
       &:first-child {
         margin-left: 0;
