@@ -87,6 +87,13 @@
       }
     }
 
+    .chart-title {
+      position: absolute;
+      top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
     // Share button of the map
     .share-button {
       position: absolute;

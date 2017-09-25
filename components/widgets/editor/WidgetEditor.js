@@ -420,6 +420,9 @@ class WidgetEditor extends React.Component {
           visualization = (
             <div className="visualization -chart">
               <Spinner className="-light" isLoading={chartLoading} />
+              <div className="chart-title">
+                {widgetTitle}
+              </div>
               <VegaChart
                 reloadOnResize
                 data={this.state.chartConfig}
