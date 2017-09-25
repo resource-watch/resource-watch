@@ -43,8 +43,7 @@ class TableView extends React.Component {
 
   getDataForTable(props) {
     const { tableName, widgetEditor } = props;
-    const { filters, fields, value, aggregateFunction, category, orderBy, limit,
-      areaIntersection } = widgetEditor;
+    const { areaIntersection, filters, fields, value, aggregateFunction, category, orderBy, limit } = widgetEditor;
     const aggregateFunctionExists = aggregateFunction && aggregateFunction !== 'none';
 
     const arrColumns = fields.filter(val => val.columnName !== 'cartodb_id' && val.columnType !== 'geometry').map(
@@ -74,7 +73,7 @@ class TableView extends React.Component {
     const geostore = areaIntersection ? `&geostore=${areaIntersection}` : '';
 
     const sortOrder = orderBy ? orderBy.orderType : 'asc';
-    const query = `${getQueryByFilters(tableName, filters, arrColumns, orderByColumn, sortOrder)} LIMIT ${limit}${geostore}`;
+    const query = `sql=${getQueryByFilters(tableName, filters, arrColumns, orderByColumn, sortOrder)} LIMIT ${limit} ${geostore}`;
 
     this.setState({ loading: true });
     this.datasetService.fetchFilteredData(query).then((response) => {
@@ -92,7 +91,7 @@ class TableView extends React.Component {
       <div className="c-table-view c-table">
         <Spinner
           isLoading={loading}
-          className="-ligth"
+          className="-light"
         />
         <table>
           <thead>

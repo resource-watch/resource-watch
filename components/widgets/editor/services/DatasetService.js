@@ -51,7 +51,7 @@ export default class DatasetService {
    * @returns {Promise}
    */
   fetchFilteredData(query) {
-    return fetch(`${this.opts.apiURL}/query/${this.datasetId}?sql=${query}`)
+    return fetch(`${this.opts.apiURL}/query/${this.datasetId}?${query}`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
@@ -93,7 +93,7 @@ export default class DatasetService {
     return new Promise((resolve) => {
       const newFieldData = fieldData;
       if (isFieldNumber(fieldData) || isFieldDate(fieldData)) {
-        this.getMinAndMax(fieldData.columnName, fieldData.tableName).then((data) => {
+        this.getMinAndMax(fieldData.columnName, fieldData.tableName, fieldData.geostore).then((data) => {
           newFieldData.properties = data;
           resolve(newFieldData);
         });
@@ -153,15 +153,17 @@ export default class DatasetService {
       });
   }
 
-  getMinAndMax(columnName, tableName) {
+  getMinAndMax(columnName, tableName, geostore) {
     if (!this.tableName && !tableName) {
       throw Error('tableName was not specified.');
     }
     const table = tableName || this.tableName;
     const query = `SELECT Min(${columnName}) AS min, Max(${columnName}) AS max FROM ${table}`;
+    const qGeostore = (geostore) ? `&geostore=${geostore}` : '';
+
     return new Promise((resolve) => {
       // TODO: remove cache param
-      fetch(`https://api.resourcewatch.org/v1/query/${this.datasetId}?sql=${query}`)
+      fetch(`https://api.resourcewatch.org/v1/query/${this.datasetId}?sql=${query}${qGeostore}`)
         .then(response => response.json())
         .then((jsonData) => {
           if (jsonData.data) {

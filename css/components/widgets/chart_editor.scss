@@ -32,6 +32,10 @@
         margin-left: $margin-between-fields;
       }
 
+      &:first-child {
+        margin-left: 0;
+      }
+
       .area-intersection-selector {
         max-width: none;
       }
