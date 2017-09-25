@@ -38,6 +38,11 @@ export default function getQueryByFilters(
       return filter.notNull ? `${whereClause} AND ${filter.name} IS NOT NULL` : whereClause;
     }
 
+    if (filter.type === 'date') {
+      const whereClause = `${filter.name} >= '${filter.value[0]}' AND ${filter.name} <= '${filter.value[1]}'`;
+      return filter.notNull ? `${whereClause} AND ${filter.name} IS NOT NULL` : whereClause;
+    }
+
     return null;
   }).filter(filter => !!filter)
     .join(' AND ');
