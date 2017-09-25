@@ -11,8 +11,17 @@ export default class AreasService {
    * Fetch countries
    */
   fetchCountries() {
-    return fetch(`${this.opts.apiURL}/query/134caa0a-21f7-451d-a7fe-30db31a424aa?sql=SELECT iso as value, name_engli as label from gadm28_countries order by name_engli asc`)
-      .then(response => response.json());
+    return fetch(`${this.opts.apiURL}/geostore/admin/list`)
+      .then(response => response.json())
+      .then(array => array.data.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        } else if (a.name > b.name) {
+          return 1;
+        } else { // eslint-disable-line no-else-return
+          return 0;
+        }
+      }));
   }
 
   /**

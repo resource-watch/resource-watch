@@ -182,8 +182,7 @@ class SubscribeToDatasetModal extends React.Component {
             });
         } else {
           // In the case there's no user area for the selected country we create one on the fly
-          this.userService.createNewArea(selectedArea.label, null,
-            { value: selectedArea.value }, user.token)
+          this.userService.createNewArea(selectedArea.label, selectedArea.isGeostore, user.token)
             .then((response) => {
               areaID = response.data.id;
               this.userService.createSubscriptionToArea(areaID, datasets, datasetsQuery, user)
@@ -227,10 +226,10 @@ class SubscribeToDatasetModal extends React.Component {
       loadingAreaOptions: true
     });
     this.areasService.fetchCountries().then((response) => {
-      const countries = response.data.map(val => ({
-        label: val.label,
-        value: val.value,
-        isGeostore: false,
+      const countries = response.map(val => ({
+        label: val.name || '',
+        value: val.geostoreId,
+        isGeostore: val.geostoreId,
         areaID: null
       }));
       this.setState({
