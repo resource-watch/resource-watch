@@ -221,8 +221,10 @@ class ChartEditor extends React.Component {
       && jiminy.general.map(val => ({ label: val, value: val }))
     ) || [];
 
-    const areaValue = areaIntersection && !loadingAreaIntersection &&
-     areaOptions.find(opt => opt.id === areaIntersection).value;
+    const areaToBeSelected = areaIntersection && !loadingAreaIntersection &&
+     areaOptions.find(opt => opt.id === areaIntersection);
+
+    const areaValue = areaToBeSelected && areaToBeSelected.value;
 
     return (
       <div className="c-chart-editor">
