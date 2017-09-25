@@ -5,6 +5,12 @@ import { toastr } from 'react-redux-toastr';
 
 import { Autobind } from 'es-decorators';
 
+// redux
+import { connect } from 'react-redux';
+
+// redactions
+import { setSources } from 'redactions/admin/sources';
+
 // Service
 import DatasetsService from 'services/DatasetsService';
 
@@ -50,6 +56,8 @@ class MetadataForm extends React.Component {
             // Stop the loading
             loading: false
           });
+
+          this.props.setSources((metadata[0] || {}).attributes.info.sources || []);
 
           // fetchs column fields based on dataset type
           this.service.fetchFields({
@@ -189,4 +197,10 @@ MetadataForm.propTypes = {
   onSubmit: PropTypes.func
 };
 
-export default MetadataForm;
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = dispatch => ({
+  setSources: sources => dispatch(setSources(sources))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MetadataForm);
