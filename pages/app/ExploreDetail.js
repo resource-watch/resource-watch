@@ -140,7 +140,7 @@ class ExploreDetail extends Page {
           });
 
         if (similarDatasets.length > 0) {
-          DatasetService.getDatasets(similarDatasets, 'widget,metadata')
+          DatasetService.getDatasets(similarDatasets, 'widget,metadata,layer')
             .then((data) => {
               this.setState({
                 similarDatasetsLoaded: true,
