@@ -248,7 +248,7 @@ class ChartEditor extends React.Component {
                   id="area-intersection-select"
                   placeholder="Select area"
                   options={areaOptions}
-                  default={areaIntersection}
+                  value={areaIntersection}
                   onValueChange={this.onChangeAreaIntersection}
                   allowNonLeafSelection={false}
                   waitForChangeConfirmation
