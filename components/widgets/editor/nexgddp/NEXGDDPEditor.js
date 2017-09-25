@@ -115,26 +115,10 @@ class NEXGDDPEditor extends React.Component {
           },
           onCloseModal: () => resolve(false)
         });
-      } else if (item.isGeostore) {
-        // The user selected a custom area that is not a country
-        this.props.setAreaIntersection(item.value);
-        resolve(true);
       } else {
-        this.setState({ loadingAreaIntersection: true });
-        NEXGDDPEditor.getCountryGeostoreId(item.value)
-          .then((id) => {
-            this.props.setAreaIntersection(id);
-            resolve(true);
-          })
-          .catch((err) => {
-            // In case of an error, we prevent the selector from setting
-            // the area as selected
-            resolve(false);
-
-            // TODO: improve this 💩
-            toastr.error('Error', `Unable to filter with this country. ${err}`);
-          })
-          .then(() => this.setState({ loadingAreaIntersection: false }));
+        // The user selected a custom area that is not a country
+        this.props.setAreaIntersection(item.id);
+        resolve(true);
       }
     });
   }
@@ -182,15 +166,20 @@ class NEXGDDPEditor extends React.Component {
   /**
    * Fetch the list of the areas for the area intersection
    * filter
-   */
+  */
   fetchAreas() {
     this.setState({ loadingAreaIntersection: true });
 
     // When this resolves, we'll also be able to display the countries
     this.areasService.fetchCountries()
-      .then(({ data }) => {
+      .then((data) => {
         this.setState({
-          areaOptions: [...this.state.areaOptions, ...AREAS, ...data]
+          areaOptions: [...this.state.areaOptions, ...AREAS,
+            ...data.map(elem => ({
+              label: elem.name || '',
+              id: elem.geostoreId,
+              value: `country-${elem.geostoreId}`
+            }))]
         });
       })
       // We don't really care if the countries don't load, we can still
