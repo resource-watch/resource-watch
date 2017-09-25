@@ -10,6 +10,36 @@ export default class DatasetsService {
   }
 
   // GET ALL DATA
+  fetchAdminData({ applications = [process.env.APPLICATIONS], includes, filters } = {}) {
+    const qParams = {
+      application: applications.join(','),
+      ...!!includes && { includes },
+      'page[size]': 9999999,
+      'env': 'production,preproduction',
+      ...filters
+    };
+
+    return new Promise((resolve, reject) => {
+      get({
+        url: `${process.env.WRI_API_URL}/dataset?${Object.keys(qParams).map(k => `${k}=${qParams[k]}`).join('&')}`,
+        headers: [{
+          key: 'Content-Type',
+          value: 'application/json'
+        }, {
+          key: 'Authorization',
+          value: this.opts.authorization
+        }],
+        onSuccess: ({ data }) => {
+          const datasets = data.map(dataset => ({ ...dataset.attributes, id: dataset.id }));
+          resolve(sortBy(datasets, 'name'));
+        },
+        onError: (error) => {
+          reject(error);
+        }
+      });
+    });
+  }
+
   fetchAllData({ applications = [process.env.APPLICATIONS], includes, filters } = {}) {
     const qParams = {
       application: applications.join(','),
