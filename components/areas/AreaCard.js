@@ -80,6 +80,7 @@ class AreaCard extends React.Component {
           const fakeLayer = {
             id: `${obj.id}`,
             provider: 'geojson',
+            active: true,
             layerConfig: {
               data: obj.attributes.geojson,
               fitBounds: true,
@@ -91,43 +92,6 @@ class AreaCard extends React.Component {
             loading: false,
             country: obj.id,
             layer: fakeLayer
-          });
-        });
-    } else if (attsObj.iso.country) {
-      this.areasService.getCountry(attsObj.iso.country)
-        .then((res) => {
-          const country = res.data[0];
-
-          const newGeoJson = {
-            type: 'FeatureCollection',
-            features: [
-              {
-                type: 'Feature',
-                properties: {},
-                geometry: JSON.parse(country.geojson)
-              }
-            ]
-          };
-
-          const fakeLayer = {
-            id: `-${country.label}`,
-            provider: 'geojson',
-            active: true,
-            layerConfig: {
-              data: newGeoJson,
-              fitBounds: true,
-              bounds: JSON.parse(country.bounds)
-            }
-          };
-
-          this.setState({
-            loading: false,
-            country: country.label,
-            layerGroups: [{
-              dataset: null,
-              visible: true,
-              layers: [fakeLayer]
-            }]
           });
         });
     }
