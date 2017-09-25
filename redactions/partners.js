@@ -63,7 +63,6 @@ export function getPartners() {
       .then((response) => {
         // TODO: filter by those who are featured
         const partners = response.data;
-
         dispatch({
           type: GET_PARTNERS_SUCCESS,
           payload: partners
