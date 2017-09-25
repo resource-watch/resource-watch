@@ -83,7 +83,8 @@ class FilterTooltip extends React.Component {
     this.datasetService.getFilter({
       columnType: this.props.type,
       tableName: this.props.tableName,
-      columnName: this.props.name
+      columnName: this.props.name,
+      geostore: this.props.widgetEditor.areaIntersection
     })
       .then((result) => {
         // We should rethink a little bit the organization of this tooltip.

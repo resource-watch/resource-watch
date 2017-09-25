@@ -19,7 +19,7 @@
 
     .chart-type {
       width: 100%;
-      
+
       .Select {
         max-width: none;
       }
@@ -28,6 +28,10 @@
     .area-intersection {
       width: 100%;
       margin-left: $margin-between-fields;
+
+      &:first-child {
+        margin-left: 0;
+      }
 
       .area-intersection-selector {
         max-width: none;
