@@ -404,16 +404,28 @@ export function parseRasterData(data, band, provider) {
 
   if (provider === 'gee') {
     if (band.type === 'continuous') {
-      return data[0][band.name].map(d => ({ x: d[0], y: d[1] }));
+      return data[0][band.name].map(d => ({
+        x: get2DecimalFixedNumber(d[0]),
+        y: d[1]
+      }));
     }
 
-    return Object.keys(data[0][band.name]).map(k => ({ x: k === 'null' ? 'No data' : k, y: data[0][band.name][k] }));
+    return Object.keys(data[0][band.name]).map(k => ({
+      x: k === 'null' ? 'No data' : get2DecimalFixedNumber(k),
+      y: data[0][band.name][k]
+    }));
   } else if (provider === 'cartodb') {
     if (band.type === 'continuous') {
-      return data.map(d => ({ x: d.max, y: d.count }));
+      return data.map(d => ({
+        x: get2DecimalFixedNumber(d.max),
+        y: d.count
+      }));
     }
 
-    return data.map(d => ({ x: d.value, y: d.count }));
+    return data.map(d => ({
+      x: get2DecimalFixedNumber(d.value),
+      y: d.count
+    }));
   }
 
   return data;
