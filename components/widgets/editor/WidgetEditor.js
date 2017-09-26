@@ -561,6 +561,8 @@ class WidgetEditor extends React.Component {
       defaultVis = 'chart';
     } else if (visualizationOptions.find(vis => vis.value === 'map')) {
       defaultVis = 'map';
+    } else if (visualizationOptions.find(vis => vis.value === 'raster_chart')) {
+      defaultVis = 'raster_chart';
     }
 
     this.setState({ visualizationOptions }, () => {
