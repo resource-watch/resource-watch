@@ -16,7 +16,6 @@ $output-bourbon-deprecation-warnings: false;
 @import "deprecated";
 
 // Colors
-$dark-pink: #c32d7b;
 $yellow: #FAB72E;
 $blue-turquoise: #3bb2d0;
 $charcoal-grey: #393f44;
@@ -28,8 +27,8 @@ $black: #000;
 
 // Theme
 $base-font-color: $charcoal-grey;
-$header-font-color: $dark-pink;
-$link-font-color: $dark-pink;
+$header-font-color: $color-primary;
+$link-font-color: $color-primary;
 $active-font-color: $yellow;
 $ui-font-color: $dove-grey;
 $alt-font-color: $white;
@@ -40,7 +39,7 @@ $border-color-1: rgba(26, 28, 34, 0.1);
 $border-color-2: rgba(202, 204,208, 0.85);; // For inputs
 $alt-border-color: $white;
 
-$color-primary: $dark-pink;
+$color-primary: $color-primary;
 $color-secondary: $blue-turquoise;
 $primary-color: $color-primary;
 $secondary-color: $color-secondary;

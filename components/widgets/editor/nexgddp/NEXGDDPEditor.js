@@ -46,21 +46,6 @@ const CHARTS = ['line', 'bar'];
 
 @DragDropContext(HTML5Backend)
 class NEXGDDPEditor extends React.Component {
-  /**
-   * Return the geostore id associated with the country's ISO
-   * NOTE: errors are not caught intentionally
-   * @param {string} iso Valid 3-letter ISO
-   * @returns {Promise<string>}
-   */
-  static getCountryGeostoreId(iso) {
-    return fetch(`${process.env.WRI_API_URL}/geostore/admin/${iso}`)
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(`Unable to get the geostore id associated with the ISO ${iso}`);
-      })
-      .then(({ data }) => data.id);
-  }
-
   constructor(props) {
     super(props);
 
@@ -115,26 +100,10 @@ class NEXGDDPEditor extends React.Component {
           },
           onCloseModal: () => resolve(false)
         });
-      } else if (item.isGeostore) {
-        // The user selected a custom area that is not a country
-        this.props.setAreaIntersection(item.value);
-        resolve(true);
       } else {
-        this.setState({ loadingAreaIntersection: true });
-        NEXGDDPEditor.getCountryGeostoreId(item.value)
-          .then((id) => {
-            this.props.setAreaIntersection(id);
-            resolve(true);
-          })
-          .catch((err) => {
-            // In case of an error, we prevent the selector from setting
-            // the area as selected
-            resolve(false);
-
-            // TODO: improve this 💩
-            toastr.error('Error', `Unable to filter with this country. ${err}`);
-          })
-          .then(() => this.setState({ loadingAreaIntersection: false }));
+        // The user selected a custom area that is not a country
+        this.props.setAreaIntersection(item.id);
+        resolve(true);
       }
     });
   }
@@ -182,15 +151,20 @@ class NEXGDDPEditor extends React.Component {
   /**
    * Fetch the list of the areas for the area intersection
    * filter
-   */
+  */
   fetchAreas() {
     this.setState({ loadingAreaIntersection: true });
 
     // When this resolves, we'll also be able to display the countries
     this.areasService.fetchCountries()
-      .then(({ data }) => {
+      .then((data) => {
         this.setState({
-          areaOptions: [...this.state.areaOptions, ...AREAS, ...data]
+          areaOptions: [...this.state.areaOptions, ...AREAS,
+            ...data.map(elem => ({
+              label: elem.name || '',
+              id: elem.geostoreId,
+              value: `country-${elem.geostoreId}`
+            }))]
         });
       })
       // We don't really care if the countries don't load, we can still
@@ -208,8 +182,8 @@ class NEXGDDPEditor extends React.Component {
       .then((response) => {
         const userAreas = response.map(val => ({
           label: val.attributes.name,
-          value: val.attributes.geostore ? val.attributes.geostore : val.attributes.iso.country,
-          isGeostore: val.attributes.geostore
+          id: val.attributes.geostore,
+          value: `user-area-${val.attributes.geostore}`
         }));
         this.setState({
           loadingUserAreas: false,
@@ -249,8 +223,13 @@ class NEXGDDPEditor extends React.Component {
       jiminy
       && jiminy.general
       && jiminy.general.map(val => ({ label: val, value: val }))
-                       .filter(c => CHARTS.includes(c.value))
+        .filter(c => CHARTS.includes(c.value))
     ) || [];
+
+    const areaToBeSelected = areaIntersection && !loadingAreaIntersection &&
+     areaOptions.find(opt => opt.id === areaIntersection);
+
+    const areaValue = areaToBeSelected && areaToBeSelected.value;
 
     return (
       <div className="c-chart-editor">
@@ -284,7 +263,7 @@ class NEXGDDPEditor extends React.Component {
                   id="area-intersection-select"
                   placeholder="Select area"
                   options={areaOptions}
-                  default={areaIntersection}
+                  value={areaValue}
                   onValueChange={this.onChangeAreaIntersection}
                   allowNonLeafSelection={false}
                   waitForChangeConfirmation

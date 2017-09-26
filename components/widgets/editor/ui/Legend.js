@@ -13,8 +13,8 @@ import { toggleTooltip, setTooltipPosition } from 'redactions/tooltip';
 // Components
 import LegendType from 'components/widgets/editor/ui/LegendType';
 import Icon from 'components/widgets/editor/ui/Icon';
-import LayerInfoModal from 'components/modal/LayerInfoModal';
-import LayersTooltip from 'components/app/explore/LayersTooltip';
+import LayerInfoModal from 'components/widgets/editor/modal/LayerInfoModal';
+import LayersTooltip from 'components//widgets/editor/tooltip/LayersTooltip';
 import Button from 'components/widgets/editor/ui/Button';
 
 const SortableItem = SortableElement(({ value }) => value);
