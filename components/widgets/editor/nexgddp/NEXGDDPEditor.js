@@ -46,21 +46,6 @@ const CHARTS = ['line', 'bar'];
 
 @DragDropContext(HTML5Backend)
 class NEXGDDPEditor extends React.Component {
-  /**
-   * Return the geostore id associated with the country's ISO
-   * NOTE: errors are not caught intentionally
-   * @param {string} iso Valid 3-letter ISO
-   * @returns {Promise<string>}
-   */
-  static getCountryGeostoreId(iso) {
-    return fetch(`${process.env.WRI_API_URL}/geostore/admin/${iso}`)
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(`Unable to get the geostore id associated with the ISO ${iso}`);
-      })
-      .then(({ data }) => data.id);
-  }
-
   constructor(props) {
     super(props);
 
@@ -197,8 +182,8 @@ class NEXGDDPEditor extends React.Component {
       .then((response) => {
         const userAreas = response.map(val => ({
           label: val.attributes.name,
-          value: val.attributes.geostore ? val.attributes.geostore : val.attributes.iso.country,
-          isGeostore: val.attributes.geostore
+          id: val.attributes.geostore,
+          value: `user-area-${val.attributes.geostore}`
         }));
         this.setState({
           loadingUserAreas: false,
@@ -238,8 +223,13 @@ class NEXGDDPEditor extends React.Component {
       jiminy
       && jiminy.general
       && jiminy.general.map(val => ({ label: val, value: val }))
-                       .filter(c => CHARTS.includes(c.value))
+        .filter(c => CHARTS.includes(c.value))
     ) || [];
+
+    const areaToBeSelected = areaIntersection && !loadingAreaIntersection &&
+     areaOptions.find(opt => opt.id === areaIntersection);
+
+    const areaValue = areaToBeSelected && areaToBeSelected.value;
 
     return (
       <div className="c-chart-editor">
@@ -273,7 +263,7 @@ class NEXGDDPEditor extends React.Component {
                   id="area-intersection-select"
                   placeholder="Select area"
                   options={areaOptions}
-                  default={areaIntersection}
+                  value={areaValue}
                   onValueChange={this.onChangeAreaIntersection}
                   allowNonLeafSelection={false}
                   waitForChangeConfirmation
