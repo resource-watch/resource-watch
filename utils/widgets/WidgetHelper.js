@@ -211,43 +211,6 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
 }
 
 /**
- * Return the number of bins for the raster
- * @export
- * @param {string} dataset - Dataset ID
- * @param {string} tableName - Name of the table
- * @param {{ name: string, type: string, alias: string, description: string }} band
- * Band (in case of a raster dataset)
- * @param {string} provider - Name of the provider
- * @returns {Promise<number>}
- */
-export async function getBinsCount(dataset, tableName, band, provider) {
-  return new Promise((resolve) => {
-    let query;
-    if (provider === 'gee') {
-      query = ''; // TODO: implement for GEE
-    } else {
-      query = `select ST_ValueCount(st_union(the_raster_webmercator), ${band.name}, true).value from ${tableName}`;
-    }
-
-    fetch(`${process.env.WRI_API_URL}/query/${dataset}?sql=${query}`)
-      .then((res) => {
-        if (!res.ok) throw new Error('Unable to retrieve the number of bins');
-        return res.json();
-      })
-      .then(() => {
-        // TODO: implement the real code
-        if (provider === 'gee') {
-          resolve(10);
-        } else {
-          resolve(10);
-        }
-      })
-      // If the query fails, we return 10 bins
-      .catch(() => resolve(10));
-  });
-}
-
-/**
  * Return the URL of the data needed for the Vega chart in case
  * of a raster dataset
  * @export
@@ -260,13 +223,21 @@ export async function getBinsCount(dataset, tableName, band, provider) {
  * @return {string}
  */
 export async function getRasterDataURL(dataset, datasetType, tableName, band, provider) {
-  const bins = band.type === 'continuous' ? 'auto' : await getBinsCount(dataset, tableName, band, provider);
+  const bandType = band.type || 'categorical';
 
   let query;
   if (provider === 'gee') {
-    query = `SELECT ST_HISTOGRAM(rast, ${band.name}, ${bins}, true) from "${tableName}"`;
+    if (bandType === 'continuous') {
+      query = `SELECT ST_HISTOGRAM(rast, ${band.name}, auto, true) from "${tableName}"`;
+    } else {
+      query = `SELECT st_valuecount(rast, '${band.name}', true) from '${tableName}'`;
+    }
   } else if (provider === 'cartodb') {
-    query = `SELECT (ST_Histogram(st_union(the_raster_webmercator), ${band.name}, ${bins}, true)).* from ${tableName}`;
+    if (bandType === 'continuous') {
+      query = `SELECT (ST_Histogram(st_union(the_raster_webmercator), ${band.name}, auto, true)).* from ${tableName}`;
+    } else {
+      query = `SELECT (ST_valueCount(st_union(the_raster_webmercator), ${band.name}, True)).* from ${tableName}`;
+    }
   }
 
   return `${process.env.WRI_API_URL}/query/${dataset}?sql=${query}`;
@@ -360,32 +331,26 @@ export async function getDataURL(dataset, datasetType, tableName, band, provider
 
 /**
  * Fetch the data of the chart
- * NOTE: if the request fails, an empty array will be
- * returned
+ * NOTE: by default, a timeout of 15s is applied and the
+ * function will reject with the string "timeout"
  * @export
  * @param {string} url URL of the data
- * @returns {object[]}
+ * @param {number} [timeout=15] Timeout in seconds
+ * @returns {Promise<object[]>}
  */
-export async function fetchData(url) { // eslint-disable-line no-unused-vars
-  let data;
+export function fetchData(url, timeout = 15) { // eslint-disable-line no-unused-vars
+  return new Promise((resolve, reject) => {
+    setTimeout(() => reject('timeout'), 1000 * timeout);
 
-  try {
-    const response = await fetch(url);
-
-    if (response.ok) {
-      data = await response.json();
-      data = data.data;
-    }
-  } catch (err) {
-    // TODO: properly handle this error case in the UI
-    toastr.error('Unable to load the data of the chart');
-  }
-
-  if (!data) {
-    data = [];
-  }
-
-  return data;
+    fetch(url)
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error('Unable to load the data of the chart');
+      })
+      .then(data => data.data)
+      .then(resolve)
+      .catch(reject);
+  });
 }
 
 /**
@@ -435,10 +400,20 @@ export function getTimeFormat(data) {
  * @returns {object[]}
  */
 export function parseRasterData(data, band, provider) {
+  if (!data.length) return data;
+
   if (provider === 'gee') {
-    return data[0][band.name].map(d => ({ x: d[0], y: d[1] }));
+    if (band.type === 'continuous') {
+      return data[0][band.name].map(d => ({ x: d[0], y: d[1] }));
+    }
+
+    return Object.keys(data[0][band.name]).map(k => ({ x: k === 'null' ? 'No data' : k, y: data[0][band.name][k] }));
   } else if (provider === 'cartodb') {
-    return data.map(d => ({ x: d.max, y: d.count }));
+    if (band.type === 'continuous') {
+      return data.map(d => ({ x: d.max, y: d.count }));
+    }
+
+    return data.map(d => ({ x: d.value, y: d.count }));
   }
 
   return data;
@@ -471,7 +446,16 @@ export async function getChartConfig(
   const url = await getDataURL(dataset, datasetType, tableName, band, provider, chartInfo);
 
   // We fetch the data to have clever charts
-  let data = await fetchData(url);
+  let data
+  try {
+    data = await fetchData(url);
+  } catch(err) {
+    if (err === 'timeout') {
+      throw new Error('This dataset is taking longer than expected to load. Please try again in a few minutes.');
+    } else {
+      throw new Error('The request to load the data has failed. Please try again in a few minutes.');
+    }
+  }
 
   if (datasetType === 'raster') {
     data = parseRasterData(data, band, provider);

@@ -26,6 +26,7 @@ const SET_VISUALIZATION_TYPE = 'widgetEditor/SET_VISUALIZATION_TYPE';
 const SET_BAND = 'widgetEditor/SET_BAND';
 const SET_LAYER = 'widgetEditor/SET_LAYER';
 const SET_TITLE = 'widgetEditor/SET_TITLE';
+const SET_BANDS_INFO = 'widgetEditor/SET_BANDS_INFO';
 
 /**
  * REDUCER
@@ -45,7 +46,9 @@ const initialState = {
   title: 'Title',
   limit: 500,
   areaIntersection: null, // ID of the geostore object
-  band: null // Band of the raster dataset
+  band: null, // Band of the raster dataset
+  /** @type {{ [name: string]: { type: string, alias: string, description: string } }} */
+  bandsInfo: {} // Information of the raster bands
 };
 
 export default function (state = initialState, action) {
@@ -166,7 +169,7 @@ export default function (state = initialState, action) {
         {},
         initialState,
         !action.payload // If not a hard reset...
-          ? { fields: state.fields }
+          ? { fields: state.fields, bandsInfo: state.bandsInfo }
           : {}
       );
     }
@@ -211,6 +214,10 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, {
         band: action.payload
       });
+    }
+
+    case SET_BANDS_INFO: {
+      return Object.assign({}, state, { bandsInfo: action.payload });
     }
 
     case SET_LAYER: {
@@ -335,6 +342,10 @@ export function setVisualizationType(vis) {
 
 export function setBand(band) {
   return dispatch => dispatch({ type: SET_BAND, payload: band });
+}
+
+export function setBandsInfo(bandsInfo) {
+  return dispatch => dispatch({ type: SET_BANDS_INFO, payload: bandsInfo });
 }
 
 export function setLayer(layer) {

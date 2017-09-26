@@ -102,7 +102,7 @@
         position: absolute;
         top: calc(50% + 1px);
         right: 0;
-        @include arrow(8px, 2px, $dark-pink, up);
+        @include arrow(8px, 2px, $color-primary, up);
         transform: rotate(45deg) translate(0, -50%);
 
         cursor: pointer;
@@ -153,7 +153,7 @@
     position: absolute;
     top: 50%;
     left: -2px;
-    @include arrow(8px, 2px, $dark-pink, right);
+    @include arrow(8px, 2px, $color-primary, right);
     transform: rotate(45deg) translate(0, -50%);
 
     cursor: pointer;
@@ -163,7 +163,7 @@
     position: absolute;
     top: calc(50% - 2px);
     left: 0;
-    @include arrow(8px, 2px, $dark-pink, down);
+    @include arrow(8px, 2px, $color-primary, down);
     transform: rotate(45deg) translate(0, -50%);
 
     cursor: pointer;
@@ -182,7 +182,7 @@
       position: absolute;
       top: calc(50% - 2px);
       right: 0;
-      @include arrow(8px, 2px, $dark-pink, down);
+      @include arrow(8px, 2px, $color-primary, down);
       transform: rotate(45deg) translate(0, -50%);
 
       cursor: pointer;
@@ -215,7 +215,7 @@
         padding: 4px 20px 4px 10px;
         border-radius: 15px;
 
-        background: $dark-pink;
+        background: $color-primary;
         color: $white;
       }
 

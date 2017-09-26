@@ -44,7 +44,6 @@ const AREAS = [
 
 @DragDropContext(HTML5Backend)
 class ChartEditor extends React.Component {
-
   constructor(props) {
     super(props);
 

@@ -158,7 +158,7 @@ export default class DatasetService {
       throw Error('tableName was not specified.');
     }
     const table = tableName || this.tableName;
-    const query = `SELECT Min(${columnName}) AS min, Max(${columnName}) AS max FROM ${table}`;
+    const query = `SELECT min(${columnName}) AS min, max(${columnName}) AS max FROM ${table}`;
     const qGeostore = (geostore) ? `&geostore=${geostore}` : '';
 
     return new Promise((resolve) => {
