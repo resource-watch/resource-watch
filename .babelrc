@@ -28,5 +28,13 @@
   "presets": [
     "next/babel"
   ],
-  "ignore": []
+  "ignore": [],
+  "env": {
+    "test": {
+      "presets": [
+        ["env", { "modules": "commonjs" }],
+        "next/babel"
+      ]
+    }
+  }
 }
