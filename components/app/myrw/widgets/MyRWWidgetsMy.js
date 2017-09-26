@@ -25,7 +25,7 @@ class MyRWWidgetsMy extends React.Component {
       myWidgetsLoaded: false,
       myWidgets: null,
       mode: 'grid',
-      orderDirection: 'asc',
+      orderDirection: 'desc',
       selectedWidgetCollection: 'All collections',
       widgetCollections: []
     };
