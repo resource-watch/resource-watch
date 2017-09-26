@@ -4,7 +4,6 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { Autobind } from 'es-decorators';
 import { DragDropContext } from 'react-dnd';
 import isEqual from 'lodash/isEqual';
-import debounce from 'lodash/debounce';
 import { toastr } from 'react-redux-toastr';
 import AutosizeInput from 'react-input-autosize';
 
@@ -159,7 +158,7 @@ class WidgetEditor extends React.Component {
             }]
           }]
           : [],
-        title: ''
+        title: nextProps.widgetEditor.title ? nextProps.widgetEditor.title : ''
       });
     }
   }
@@ -376,7 +375,7 @@ class WidgetEditor extends React.Component {
       title
     } = this.state;
 
-    const { widgetEditor, dataset, mode, selectedVisualizationType } = this.props;
+    const { widgetEditor, dataset, mode, selectedVisualizationType, user } = this.props;
     const { chartType, layer } = widgetEditor;
 
     // Whether we are still waiting for some info
@@ -425,11 +424,16 @@ class WidgetEditor extends React.Component {
             <div className="visualization -chart">
               <Spinner className="-light" isLoading={chartLoading} />
               <div className="chart-title">
-                <AutosizeInput
-                  name="widget-title"
-                  value={title}
-                  onChange={this.handleTitleChange}
-                />
+                {user.id &&
+                  <AutosizeInput
+                    name="widget-title"
+                    value={title}
+                    onChange={this.handleTitleChange}
+                  />
+                }
+                {!user.id &&
+                  <span>{title}</span>
+                }
               </div>
               <VegaChart
                 reloadOnResize
@@ -962,8 +966,9 @@ class WidgetEditor extends React.Component {
   }
 }
 
-const mapStateToProps = ({ widgetEditor }) => ({
+const mapStateToProps = ({ widgetEditor, user }) => ({
   widgetEditor,
+  user,
   selectedVisualizationType: widgetEditor.visualizationType,
   band: widgetEditor.band
 });
