@@ -426,18 +426,20 @@ class WidgetEditor extends React.Component {
           visualization = (
             <div className="visualization -chart">
               <Spinner className="-light" isLoading={chartLoading} />
-              <div className="chart-title">
-                {user.id &&
-                  <AutosizeInput
-                    name="widget-title"
-                    value={title}
-                    onChange={this.handleTitleChange}
-                  />
-                }
-                {!user.id &&
-                  <span>{title}</span>
-                }
-              </div>
+              {mode === 'dataset' &&
+                <div className="chart-title">
+                  {user.id &&
+                    <AutosizeInput
+                      name="widget-title"
+                      value={title}
+                      onChange={this.handleTitleChange}
+                    />
+                  }
+                  {!user.id &&
+                    <span>{title}</span>
+                  }
+                </div>
+              }
               <VegaChart
                 reloadOnResize
                 data={this.state.chartConfig}
@@ -999,6 +1001,7 @@ WidgetEditor.propTypes = {
   onError: PropTypes.func,
   // Store
   band: PropTypes.object,
+  user: PropTypes.object.isRequired,
   widgetEditor: PropTypes.object.isRequired,
   resetWidgetEditor: PropTypes.func.isRequired,
   setFields: PropTypes.func.isRequired,
