@@ -812,7 +812,11 @@ class WidgetEditor extends React.Component {
 
     // TODO: instead of hiding the whole UI, let's show an error message or
     // some kind of feedback for the user
-    const componentShouldNotShow = fieldsError && (layersError || (layers && layers.length === 0));
+    // If the dataset is a raster, the fields won't load and it's possible
+    // we don't have layer either so the editor should show anyway
+    const componentShouldNotShow = datasetType !== 'raster'
+      && fieldsError
+      && (layersError || (layers && layers.length === 0));
 
     // In case Jiminy failed to give back a result, we let the user the possibility
     // to render any chart
