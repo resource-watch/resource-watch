@@ -5,6 +5,7 @@ import { Autobind } from 'es-decorators';
 import { DragDropContext } from 'react-dnd';
 import isEqual from 'lodash/isEqual';
 import { toastr } from 'react-redux-toastr';
+import AutosizeInput from 'react-input-autosize';
 
 // Redux
 import { connect } from 'react-redux';
@@ -157,6 +158,10 @@ class WidgetEditor extends React.Component {
             }]
           }]
           : []
+      });
+    } else if (this.props.widgetEditor.title !== nextProps.widgetEditor.title) {
+      this.setState({
+        title: nextProps.widgetEditor.title ? nextProps.widgetEditor.title : ''
       });
     }
   }
@@ -368,10 +373,11 @@ class WidgetEditor extends React.Component {
       chartLoading,
       layersLoaded,
       fieldsError,
-      jiminyLoaded
+      jiminyLoaded,
+      title
     } = this.state;
 
-    const { widgetEditor, dataset, mode, selectedVisualizationType } = this.props;
+    const { widgetEditor, dataset, mode, selectedVisualizationType, user } = this.props;
     const { chartType, layer } = widgetEditor;
 
     // Whether we are still waiting for some info
@@ -419,6 +425,20 @@ class WidgetEditor extends React.Component {
           visualization = (
             <div className="visualization -chart">
               <Spinner className="-light" isLoading={chartLoading} />
+              {mode === 'dataset' &&
+                <div className="chart-title">
+                  {user.id &&
+                    <AutosizeInput
+                      name="widget-title"
+                      value={title}
+                      onChange={this.handleTitleChange}
+                    />
+                  }
+                  {!user.id &&
+                    <span>{title}</span>
+                  }
+                </div>
+              }
               <VegaChart
                 reloadOnResize
                 data={this.state.chartConfig}
@@ -574,6 +594,14 @@ class WidgetEditor extends React.Component {
     });
   }
 
+  @Autobind
+  handleTitleChange(event) {
+    const title = event.target.value;
+    this.setState({
+      title
+    });
+  }
+
   /**
    * Initialize the componnent by setting its initial state, resetting
    * the store and instantiating the services
@@ -615,7 +643,8 @@ class WidgetEditor extends React.Component {
     // Then we reset the state of the component
     return {
       ...DEFAULT_STATE,
-      layerGroups
+      layerGroups,
+      title: props.widgetEditor.title ? props.widgetEditor.title : 'Title'
     };
   }
 
@@ -787,7 +816,8 @@ class WidgetEditor extends React.Component {
       datasetType,
       datasetProvider,
       visualizationOptions,
-      hasGeoInfo
+      hasGeoInfo,
+      title
     } = this.state;
 
     let { jiminy } = this.state;
@@ -873,6 +903,7 @@ class WidgetEditor extends React.Component {
                         showOrderByContainer={showOrderByContainer}
                         hasGeoInfo={hasGeoInfo}
                         onEmbedTable={this.handleEmbedTable}
+                        title={title}
                       />
                     )
                 }
@@ -895,6 +926,7 @@ class WidgetEditor extends React.Component {
                         showOrderByContainer={false}
                         hasGeoInfo={hasGeoInfo}
                         onEmbedTable={this.handleEmbedTable}
+                        title={title}
                       />
                     )
                 }
@@ -914,6 +946,7 @@ class WidgetEditor extends React.Component {
                         mode={chartEditorMode}
                         onUpdateWidget={this.handleUpdateWidget}
                         showSaveButton={showSaveButton}
+                        title={title}
                       />
                     )
                 }
@@ -929,6 +962,7 @@ class WidgetEditor extends React.Component {
                         mode={chartEditorMode}
                         showSaveButton={showSaveButton}
                         onUpdateWidget={this.handleUpdateWidget}
+                        title={title}
                       />
                     )
                 }
@@ -942,8 +976,9 @@ class WidgetEditor extends React.Component {
   }
 }
 
-const mapStateToProps = ({ widgetEditor }) => ({
+const mapStateToProps = ({ widgetEditor, user }) => ({
   widgetEditor,
+  user,
   selectedVisualizationType: widgetEditor.visualizationType,
   band: widgetEditor.band
 });
@@ -971,6 +1006,7 @@ WidgetEditor.propTypes = {
   onError: PropTypes.func,
   // Store
   band: PropTypes.object,
+  user: PropTypes.object.isRequired,
   widgetEditor: PropTypes.object.isRequired,
   resetWidgetEditor: PropTypes.func.isRequired,
   setFields: PropTypes.func.isRequired,

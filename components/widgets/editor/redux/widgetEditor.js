@@ -25,6 +25,7 @@ const SET_AREA_INTERSEACTION = 'widgetEditor/SET_AREA_INTERSEACTION';
 const SET_VISUALIZATION_TYPE = 'widgetEditor/SET_VISUALIZATION_TYPE';
 const SET_BAND = 'widgetEditor/SET_BAND';
 const SET_LAYER = 'widgetEditor/SET_LAYER';
+const SET_TITLE = 'widgetEditor/SET_TITLE';
 const SET_BANDS_INFO = 'widgetEditor/SET_BANDS_INFO';
 
 /**
@@ -42,6 +43,7 @@ const initialState = {
   fields: [],
   chartType: null,
   visualizationType: null,
+  title: 'Title',
   limit: 500,
   areaIntersection: null, // ID of the geostore object
   band: null, // Band of the raster dataset
@@ -224,6 +226,12 @@ export default function (state = initialState, action) {
       });
     }
 
+    case SET_TITLE: {
+      return Object.assign({}, state, {
+        title: action.payload
+      });
+    }
+
     default:
       return state;
   }
@@ -251,6 +259,7 @@ export default function (state = initialState, action) {
  * - removeOrderBy
  * - setLimit
  * - setGeoInfo
+ * - setTitle
 */
 export function addFilter(filter) {
   return dispatch => dispatch({ type: ADD_FILTER, payload: filter });
@@ -341,4 +350,8 @@ export function setBandsInfo(bandsInfo) {
 
 export function setLayer(layer) {
   return dispatch => dispatch({ type: SET_LAYER, payload: layer });
+}
+
+export function setTitle(title) {
+  return dispatch => dispatch({ type: SET_TITLE, payload: title });
 }
