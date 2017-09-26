@@ -110,7 +110,7 @@ const DEFAULT_STATE = {
   // DATASET INFO
   datasetInfoLoaded: false,
 
-  visualizationOptions: [], // Available visualizations
+  visualizationOptions: [] // Available visualizations
 };
 
 @DragDropContext(HTML5Backend)
@@ -157,7 +157,10 @@ class WidgetEditor extends React.Component {
               ...nextProps.widgetEditor.layer
             }]
           }]
-          : [],
+          : []
+      });
+    } else if (this.props.widgetEditor.title !== nextProps.widgetEditor.title) {
+      this.setState({
         title: nextProps.widgetEditor.title ? nextProps.widgetEditor.title : ''
       });
     }
