@@ -252,12 +252,11 @@ class WidgetEditor extends React.Component {
           resolve();
         });
       })
-      // TODO: handle the error case in the UI
-      .catch((err) => {
-        this.setState({ fieldsError: true });
-        toastr.error('Error loading fields');
-        console.error('Error loading fields', err);
-      })
+      // We can't show an error here because for the raster datasets
+      // there won't be fields
+      // Unfortunately, at this stage, we don't know if the dataset
+      // is a raster one, so the error is never shown
+      .catch(err => this.setState({ fieldsError: true }))
       // If we reach this point, either we have already resolved the promise
       // and so rejecting it has no effect, or we haven't and so we reject it
       .then(reject);
@@ -356,7 +355,7 @@ class WidgetEditor extends React.Component {
         });
       })
       // TODO: handle the error case in the UI
-      .catch(err => toastr.error('Error', `Unable to load the information about the dataset. ${err}`));
+      .catch(err => toastr.error('Error', `Unable to load the information about the dataset.`));
   }
 
   /**
@@ -562,6 +561,8 @@ class WidgetEditor extends React.Component {
       defaultVis = 'chart';
     } else if (visualizationOptions.find(vis => vis.value === 'map')) {
       defaultVis = 'map';
+    } else if (visualizationOptions.find(vis => vis.value === 'raster_chart')) {
+      defaultVis = 'raster_chart';
     }
 
     this.setState({ visualizationOptions }, () => {
@@ -812,7 +813,11 @@ class WidgetEditor extends React.Component {
 
     // TODO: instead of hiding the whole UI, let's show an error message or
     // some kind of feedback for the user
-    const componentShouldNotShow = fieldsError && (layersError || (layers && layers.length === 0));
+    // If the dataset is a raster, the fields won't load and it's possible
+    // we don't have layer either so the editor should show anyway
+    const componentShouldNotShow = datasetType !== 'raster'
+      && fieldsError
+      && (layersError || (layers && layers.length === 0));
 
     // In case Jiminy failed to give back a result, we let the user the possibility
     // to render any chart
