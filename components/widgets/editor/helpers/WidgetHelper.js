@@ -216,13 +216,22 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
  * @param {string} provider - Name of the provider
  * @return {string}
  */
-export function getRasterDataURL(dataset, datasetType, tableName, band, provider) {
+export async function getRasterDataURL(dataset, datasetType, tableName, band, provider) {
+  const bandType = band.type || 'categorical';
+
   let query;
   if (provider === 'gee') {
-    query = `SELECT ST_HISTOGRAM(rast, ${band}, 10, true) from "${tableName}"`;
+    if (bandType === 'continuous') {
+      query = `SELECT ST_HISTOGRAM(rast, ${band.name}, auto, true) from "${tableName}"`;
+    } else {
+      query = `SELECT st_valuecount(rast, '${band.name}', true) from '${tableName}'`;
+    }
   } else if (provider === 'cartodb') {
-    const bandNumber = band.split(' ')[1];
-    query = `SELECT (ST_Histogram(st_union(the_raster_webmercator), ${bandNumber}, 10, true)).* from ${tableName}`;
+    if (bandType === 'continuous') {
+      query = `SELECT (ST_Histogram(st_union(the_raster_webmercator), ${band.name}, auto, true)).* from ${tableName}`;
+    } else {
+      query = `SELECT (ST_valueCount(st_union(the_raster_webmercator), ${band.name}, True)).* from ${tableName}`;
+    }
   }
 
   return `${process.env.WRI_API_URL}/query/${dataset}?sql=${query}`;
@@ -239,20 +248,28 @@ export function getRasterDataURL(dataset, datasetType, tableName, band, provider
  * @param {ChartInfo} chartInfo
  * @return {string}
  */
-export function getDataURL(dataset, datasetType, tableName, band, provider, chartInfo) {
+export async function getDataURL(dataset, datasetType, tableName, band, provider,
+  chartInfo, isTable = false) {
   // If the dataset is a raster one, the behaviour is totally different
   if (datasetType === 'raster') {
     if (!band) return '';
-    return getRasterDataURL(dataset, datasetType, tableName, band, provider);
+    return await getRasterDataURL(dataset, datasetType, tableName, band, provider);
   }
 
-  const isBidimensional = isBidimensionalChart(chartInfo.chartType);
+  let isBidimensional = false;
+  if (!isTable) {
+    isBidimensional = isBidimensionalChart(chartInfo.chartType);
+  } else if (!chartInfo.chartType) {
+    if (chartInfo.x && chartInfo.y) {
+      isBidimensional = true;
+    } else {
+      isBidimensional = false;
+    }
+  }
 
-  if (!chartInfo.x || (isBidimensional && !chartInfo.y)) return '';
+  if (!isTable && (!chartInfo.x || (isBidimensional && !chartInfo.y))) return '';
 
-  const columns = [
-    { key: 'x', value: chartInfo.x.name, as: true }
-  ];
+  const columns = [{ key: 'x', value: chartInfo.x.name, as: true }];
 
   if (isBidimensional) {
     columns.push({ key: 'y', value: chartInfo.y.name, as: true });
@@ -297,11 +314,7 @@ export function getDataURL(dataset, datasetType, tableName, band, provider, char
   }
 
   const sortOrder = chartInfo.order ? chartInfo.order.orderType : 'asc';
-  let query = `${getQueryByFilters(tableName, chartInfo.filters, columns, orderByColumn, sortOrder)}`;
-
-  if (chartInfo.limit) {
-    query += ` LIMIT ${chartInfo.limit}`;
-  }
+  const query = `${getQueryByFilters(tableName, chartInfo.filters, columns, orderByColumn, sortOrder)} LIMIT ${chartInfo.limit}`;
 
   const geostore = chartInfo.areaIntersection ? `&geostore=${chartInfo.areaIntersection}` : '';
 
@@ -379,15 +392,26 @@ export function getTimeFormat(data) {
  * Parse and return the data of a raster band
  * @export
  * @param {any[]} data - Raw data of the band
- * @param {string} band - Name of the band
+ * @param {{ name: string, type: string, alias: string, description: string }} band
+ * Band (in case of a raster dataset)
  * @param {string} provider - Name of the provider
  * @returns {object[]}
  */
 export function parseRasterData(data, band, provider) {
+  if (!data.length) return data;
+
   if (provider === 'gee') {
-    return data[0][band].map(d => ({ x: d[0], y: d[1] }));
+    if (band.type === 'continuous') {
+      return data[0][band.name].map(d => ({ x: d[0], y: d[1] }));
+    }
+
+    return Object.keys(data[0][band.name]).map(k => ({ x: k === 'null' ? 'No data' : k, y: data[0][band.name][k] }));
   } else if (provider === 'cartodb') {
-    return data.map(d => ({ x: d.max, y: d.count }));
+    if (band.type === 'continuous') {
+      return data.map(d => ({ x: d.max, y: d.count }));
+    }
+
+    return data.map(d => ({ x: d.value, y: d.count }));
   }
 
   return data;
@@ -416,10 +440,15 @@ export async function getChartConfig(
   embedData = false
 ) {
   // URL of the data needed to display the chart
-  const url = getDataURL(dataset, datasetType, tableName, band, provider, chartInfo);
+  const url = await getDataURL(dataset, datasetType, tableName, band, provider, chartInfo);
 
   // We fetch the data to have clever charts
-  let data = await fetchData(url);
+  let data
+  try {
+    data = await fetchData(url);
+  } catch(err) {
+    throw new Error('The request to load the data has failed');
+  }
 
   if (datasetType === 'raster') {
     data = parseRasterData(data, band, provider);
