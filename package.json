@@ -76,6 +76,7 @@
     "react-dropdown-tree-select": "0.0.1-beta.11",
     "react-dropzone": "3.13.3",
     "react-graph-vis": "0.1.3",
+    "react-input-autosize": "^2.0.1",
     "react-input-range": "1.1.4",
     "react-progress-2": "4.4.1",
     "react-quill": "^1.1.0",

@@ -23,7 +23,8 @@ import {
   setChartType,
   setBand,
   setVisualizationType,
-  setLayer
+  setLayer,
+  setTitle
 } from 'components/widgets/editor/redux/widgetEditor';
 
 // Next
@@ -160,6 +161,7 @@ class ExploreDetail extends Page {
 
   loadDefaultWidgetIntoRedux(defaultEditableWidget) {
     const { paramsConfig } = defaultEditableWidget.attributes.widgetConfig;
+    const { name } = defaultEditableWidget.attributes;
     if (paramsConfig) {
       const {
         visualizationType,
@@ -192,6 +194,7 @@ class ExploreDetail extends Page {
       if (filters) this.props.setFilters(filters);
       if (limit) this.props.setLimit(limit);
       if (chartType) this.props.setChartType(chartType);
+      if (name) this.props.setTitle(name);
     }
   }
 
@@ -550,7 +553,8 @@ const mapStateToProps = state => ({
   setChartType: PropTypes.func.isRequired,
   setVisualizationType: PropTypes.func.isRequired,
   setBand: PropTypes.func.isRequired,
-  setLayer: PropTypes.func.isRequired
+  setLayer: PropTypes.func.isRequired,
+  setTitle: PropTypes.func.isRequired
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -576,7 +580,8 @@ const mapDispatchToProps = dispatch => ({
       .then(layer => dispatch(setLayer(layer)))
       // TODO: better handling of the error
       .catch(err => toastr.error('Error', err));
-  }
+  },
+  setTitle: title => dispatch(setTitle(title))
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);

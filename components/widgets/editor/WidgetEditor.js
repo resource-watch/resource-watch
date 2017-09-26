@@ -5,6 +5,7 @@ import { Autobind } from 'es-decorators';
 import { DragDropContext } from 'react-dnd';
 import isEqual from 'lodash/isEqual';
 import { toastr } from 'react-redux-toastr';
+import AutosizeInput from 'react-input-autosize';
 
 // Redux
 import { connect } from 'react-redux';
@@ -13,7 +14,8 @@ import {
   resetWidgetEditor,
   setFields,
   setBandsInfo,
-  setVisualizationType
+  setVisualizationType,
+  setTitle
 } from 'components/widgets/editor/redux/widgetEditor';
 import { toggleModal } from 'redactions/modal';
 
@@ -373,7 +375,7 @@ class WidgetEditor extends React.Component {
     } = this.state;
 
     const { widgetEditor, dataset, mode, selectedVisualizationType } = this.props;
-    const { chartType, layer } = widgetEditor;
+    const { chartType, layer, title } = widgetEditor;
 
     // Whether we are still waiting for some info
     const loading = (mode === 'dataset' && !layersLoaded) ||
@@ -421,7 +423,11 @@ class WidgetEditor extends React.Component {
             <div className="visualization -chart">
               <Spinner className="-light" isLoading={chartLoading} />
               <div className="chart-title">
-                {widgetTitle}
+                <AutosizeInput
+                  name="widget-title"
+                  value={title}
+                  onChange={this.handleTitleChange}
+                />
               </div>
               <VegaChart
                 reloadOnResize
@@ -574,6 +580,11 @@ class WidgetEditor extends React.Component {
         this.handleVisualizationTypeChange(defaultVis, resetStore);
       }
     });
+  }
+
+  @Autobind
+  handleTitleChange(event) {
+    this.props.setTitle(event.target.value);
   }
 
   /**
@@ -951,6 +962,7 @@ const mapDispatchToProps = dispatch => ({
   setFields: (fields) => { dispatch(setFields(fields)); },
   setBandsInfo: bands => dispatch(setBandsInfo(bands)),
   setVisualizationType: vis => dispatch(setVisualizationType(vis)),
+  setTitle: title => dispatch(setTitle(title)),
   toggleModal: (open, options) => dispatch(toggleModal(open, options))
 });
 
@@ -975,7 +987,8 @@ WidgetEditor.propTypes = {
   setVisualizationType: PropTypes.func.isRequired,
   selectedVisualizationType: PropTypes.string,
   toggleModal: PropTypes.func,
-  setBandsInfo: PropTypes.func
+  setBandsInfo: PropTypes.func,
+  setTitle: PropTypes.func.isRequired
 };
 
 WidgetEditor.defaultProps = {
