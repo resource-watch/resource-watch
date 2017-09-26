@@ -4,6 +4,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { Autobind } from 'es-decorators';
 import { DragDropContext } from 'react-dnd';
 import isEqual from 'lodash/isEqual';
+import debounce from 'lodash/debounce';
 import { toastr } from 'react-redux-toastr';
 import AutosizeInput from 'react-input-autosize';
 
@@ -121,6 +122,9 @@ class WidgetEditor extends React.Component {
 
     // We init the state, store and services
     this.state = this.initComponent(props);
+
+    // BINDINGS
+    this.handleTitleChange = debounce(this.handleTitleChange.bind(this), 200);
   }
 
   /**
@@ -582,7 +586,6 @@ class WidgetEditor extends React.Component {
     });
   }
 
-  @Autobind
   handleTitleChange(event) {
     this.props.setTitle(event.target.value);
   }
