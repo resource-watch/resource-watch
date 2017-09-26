@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import uuidv1 from 'uuid/v1';
 
 export default class ContentGroup extends React.Component {
   renderComponent(index, values = {}) {
