@@ -15,7 +15,7 @@ export default class DatasetsService {
       application: applications.join(','),
       ...!!includes && { includes },
       'page[size]': 9999999,
-      'env': 'production,preproduction',
+      env: 'production,preproduction',
       ...filters
     };
 
