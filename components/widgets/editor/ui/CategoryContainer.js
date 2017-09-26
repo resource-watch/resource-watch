@@ -51,6 +51,7 @@ class CategoryContainer extends React.Component {
           {category &&
             <ColumnBox
               name={category.name}
+              alias={category.alias}
               type={category.type}
               closable
               configurable={category.type === 'number'}
