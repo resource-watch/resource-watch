@@ -356,7 +356,7 @@ class WidgetEditor extends React.Component {
         });
       })
       // TODO: handle the error case in the UI
-      .catch(err => toastr.error('Error', `Unable to load the information about the dataset. ${err}`));
+      .catch(err => toastr.error('Error', `Unable to load the information about the dataset.`));
   }
 
   /**
