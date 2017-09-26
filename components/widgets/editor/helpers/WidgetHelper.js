@@ -323,32 +323,26 @@ export async function getDataURL(dataset, datasetType, tableName, band, provider
 
 /**
  * Fetch the data of the chart
- * NOTE: if the request fails, an empty array will be
- * returned
+ * NOTE: by default, a timeout of 15s is applied and the
+ * function will reject with the string "timeout"
  * @export
  * @param {string} url URL of the data
- * @returns {object[]}
+ * @param {number} [timeout=15] Timeout in seconds
+ * @returns {Promise<object[]>}
  */
-export async function fetchData(url) { // eslint-disable-line no-unused-vars
-  let data;
+export function fetchData(url, timeout = 15) { // eslint-disable-line no-unused-vars
+  return new Promise((resolve, reject) => {
+    setTimeout(() => reject('timeout'), 1000 * timeout);
 
-  try {
-    const response = await fetch(url);
-
-    if (response.ok) {
-      data = await response.json();
-      data = data.data;
-    }
-  } catch (err) {
-    // TODO: properly handle this error case in the UI
-    toastr.error('Unable to load the data of the chart');
-  }
-
-  if (!data) {
-    data = [];
-  }
-
-  return data;
+    fetch(url)
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error('Unable to load the data of the chart');
+      })
+      .then(data => data.data)
+      .then(resolve)
+      .catch(reject);
+  });
 }
 
 /**
@@ -447,7 +441,11 @@ export async function getChartConfig(
   try {
     data = await fetchData(url);
   } catch(err) {
-    throw new Error('The request to load the data has failed');
+    if (err === 'timeout') {
+      throw new Error('This dataset is taking longer than expected to load. Please try again in a few minutes.');
+    } else {
+      throw new Error('The request to load the data has failed. Please try again in a few minutes.');
+    }
   }
 
   if (datasetType === 'raster') {
