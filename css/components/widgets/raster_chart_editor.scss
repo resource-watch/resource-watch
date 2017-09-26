@@ -26,6 +26,13 @@
       min-height: 100px;
       margin-top: 20px;
 
+      // If we don't set a low z-index, the
+      // selector above will open below the
+      // overlay
+      .c-spinner {
+        z-index: 0;
+      }
+
       table {
         display: block;
         width: 100%;
