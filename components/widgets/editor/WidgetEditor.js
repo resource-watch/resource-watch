@@ -15,8 +15,7 @@ import {
   resetWidgetEditor,
   setFields,
   setBandsInfo,
-  setVisualizationType,
-  setTitle
+  setVisualizationType
 } from 'components/widgets/editor/redux/widgetEditor';
 import { toggleModal } from 'redactions/modal';
 
@@ -112,7 +111,7 @@ const DEFAULT_STATE = {
   // DATASET INFO
   datasetInfoLoaded: false,
 
-  visualizationOptions: [] // Available visualizations
+  visualizationOptions: [], // Available visualizations
 };
 
 @DragDropContext(HTML5Backend)
@@ -122,9 +121,6 @@ class WidgetEditor extends React.Component {
 
     // We init the state, store and services
     this.state = this.initComponent(props);
-
-    // BINDINGS
-    this.handleTitleChange = debounce(this.handleTitleChange.bind(this), 200);
   }
 
   /**
@@ -162,7 +158,8 @@ class WidgetEditor extends React.Component {
               ...nextProps.widgetEditor.layer
             }]
           }]
-          : []
+          : [],
+        title: ''
       });
     }
   }
@@ -375,11 +372,12 @@ class WidgetEditor extends React.Component {
       chartLoading,
       layersLoaded,
       fieldsError,
-      jiminyLoaded
+      jiminyLoaded,
+      title
     } = this.state;
 
     const { widgetEditor, dataset, mode, selectedVisualizationType } = this.props;
-    const { chartType, layer, title } = widgetEditor;
+    const { chartType, layer } = widgetEditor;
 
     // Whether we are still waiting for some info
     const loading = (mode === 'dataset' && !layersLoaded) ||
@@ -586,8 +584,12 @@ class WidgetEditor extends React.Component {
     });
   }
 
+  @Autobind
   handleTitleChange(event) {
-    this.props.setTitle(event.target.value);
+    const title = event.target.value;
+    this.setState({
+      title
+    });
   }
 
   /**
@@ -631,7 +633,8 @@ class WidgetEditor extends React.Component {
     // Then we reset the state of the component
     return {
       ...DEFAULT_STATE,
-      layerGroups
+      layerGroups,
+      title: props.widgetEditor.title ? props.widgetEditor.title : 'Title'
     };
   }
 
@@ -803,7 +806,8 @@ class WidgetEditor extends React.Component {
       datasetType,
       datasetProvider,
       visualizationOptions,
-      hasGeoInfo
+      hasGeoInfo,
+      title
     } = this.state;
 
     let { jiminy } = this.state;
@@ -885,6 +889,7 @@ class WidgetEditor extends React.Component {
                         showOrderByContainer={showOrderByContainer}
                         hasGeoInfo={hasGeoInfo}
                         onEmbedTable={this.handleEmbedTable}
+                        title={title}
                       />
                     )
                 }
@@ -907,6 +912,7 @@ class WidgetEditor extends React.Component {
                         showOrderByContainer={false}
                         hasGeoInfo={hasGeoInfo}
                         onEmbedTable={this.handleEmbedTable}
+                        title={title}
                       />
                     )
                 }
@@ -926,6 +932,7 @@ class WidgetEditor extends React.Component {
                         mode={chartEditorMode}
                         onUpdateWidget={this.handleUpdateWidget}
                         showSaveButton={showSaveButton}
+                        title={title}
                       />
                     )
                 }
@@ -941,6 +948,7 @@ class WidgetEditor extends React.Component {
                         mode={chartEditorMode}
                         showSaveButton={showSaveButton}
                         onUpdateWidget={this.handleUpdateWidget}
+                        title={title}
                       />
                     )
                 }
@@ -965,7 +973,6 @@ const mapDispatchToProps = dispatch => ({
   setFields: (fields) => { dispatch(setFields(fields)); },
   setBandsInfo: bands => dispatch(setBandsInfo(bands)),
   setVisualizationType: vis => dispatch(setVisualizationType(vis)),
-  setTitle: title => dispatch(setTitle(title)),
   toggleModal: (open, options) => dispatch(toggleModal(open, options))
 });
 
@@ -990,8 +997,7 @@ WidgetEditor.propTypes = {
   setVisualizationType: PropTypes.func.isRequired,
   selectedVisualizationType: PropTypes.string,
   toggleModal: PropTypes.func,
-  setBandsInfo: PropTypes.func,
-  setTitle: PropTypes.func.isRequired
+  setBandsInfo: PropTypes.func
 };
 
 WidgetEditor.defaultProps = {
