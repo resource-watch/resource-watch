@@ -5,6 +5,7 @@ import { Autobind } from 'es-decorators';
 import { DragDropContext } from 'react-dnd';
 import isEqual from 'lodash/isEqual';
 import { toastr } from 'react-redux-toastr';
+import AutosizeInput from 'react-input-autosize';
 
 // Redux
 import { connect } from 'react-redux';
@@ -158,6 +159,10 @@ class WidgetEditor extends React.Component {
           }]
           : []
       });
+    } else if (this.props.widgetEditor.title !== nextProps.widgetEditor.title) {
+      this.setState({
+        title: nextProps.widgetEditor.title ? nextProps.widgetEditor.title : ''
+      });
     }
   }
 
@@ -252,12 +257,11 @@ class WidgetEditor extends React.Component {
           resolve();
         });
       })
-      // TODO: handle the error case in the UI
-      .catch((err) => {
-        this.setState({ fieldsError: true });
-        toastr.error('Error loading fields');
-        console.error('Error loading fields', err);
-      })
+      // We can't show an error here because for the raster datasets
+      // there won't be fields
+      // Unfortunately, at this stage, we don't know if the dataset
+      // is a raster one, so the error is never shown
+      .catch(err => this.setState({ fieldsError: true }))
       // If we reach this point, either we have already resolved the promise
       // and so rejecting it has no effect, or we haven't and so we reject it
       .then(reject);
@@ -356,7 +360,7 @@ class WidgetEditor extends React.Component {
         });
       })
       // TODO: handle the error case in the UI
-      .catch(err => toastr.error('Error', `Unable to load the information about the dataset. ${err}`));
+      .catch(err => toastr.error('Error', `Unable to load the information about the dataset.`));
   }
 
   /**
@@ -369,10 +373,11 @@ class WidgetEditor extends React.Component {
       chartLoading,
       layersLoaded,
       fieldsError,
-      jiminyLoaded
+      jiminyLoaded,
+      title
     } = this.state;
 
-    const { widgetEditor, dataset, mode, selectedVisualizationType } = this.props;
+    const { widgetEditor, dataset, mode, selectedVisualizationType, user } = this.props;
     const { chartType, layer } = widgetEditor;
 
     // Whether we are still waiting for some info
@@ -420,6 +425,20 @@ class WidgetEditor extends React.Component {
           visualization = (
             <div className="visualization -chart">
               <Spinner className="-light" isLoading={chartLoading} />
+              {mode === 'dataset' &&
+                <div className="chart-title">
+                  {user.id &&
+                    <AutosizeInput
+                      name="widget-title"
+                      value={title}
+                      onChange={this.handleTitleChange}
+                    />
+                  }
+                  {!user.id &&
+                    <span>{title}</span>
+                  }
+                </div>
+              }
               <VegaChart
                 reloadOnResize
                 data={this.state.chartConfig}
@@ -562,6 +581,8 @@ class WidgetEditor extends React.Component {
       defaultVis = 'chart';
     } else if (visualizationOptions.find(vis => vis.value === 'map')) {
       defaultVis = 'map';
+    } else if (visualizationOptions.find(vis => vis.value === 'raster_chart')) {
+      defaultVis = 'raster_chart';
     }
 
     this.setState({ visualizationOptions }, () => {
@@ -570,6 +591,14 @@ class WidgetEditor extends React.Component {
         // (we don't want to conflict with the "state restoration" made in My RW)
         this.handleVisualizationTypeChange(defaultVis, resetStore);
       }
+    });
+  }
+
+  @Autobind
+  handleTitleChange(event) {
+    const title = event.target.value;
+    this.setState({
+      title
     });
   }
 
@@ -614,7 +643,8 @@ class WidgetEditor extends React.Component {
     // Then we reset the state of the component
     return {
       ...DEFAULT_STATE,
-      layerGroups
+      layerGroups,
+      title: props.widgetEditor.title ? props.widgetEditor.title : 'Title'
     };
   }
 
@@ -786,7 +816,8 @@ class WidgetEditor extends React.Component {
       datasetType,
       datasetProvider,
       visualizationOptions,
-      hasGeoInfo
+      hasGeoInfo,
+      title
     } = this.state;
 
     let { jiminy } = this.state;
@@ -812,7 +843,11 @@ class WidgetEditor extends React.Component {
 
     // TODO: instead of hiding the whole UI, let's show an error message or
     // some kind of feedback for the user
-    const componentShouldNotShow = fieldsError && (layersError || (layers && layers.length === 0));
+    // If the dataset is a raster, the fields won't load and it's possible
+    // we don't have layer either so the editor should show anyway
+    const componentShouldNotShow = datasetType !== 'raster'
+      && fieldsError
+      && (layersError || (layers && layers.length === 0));
 
     // In case Jiminy failed to give back a result, we let the user the possibility
     // to render any chart
@@ -868,6 +903,7 @@ class WidgetEditor extends React.Component {
                         showOrderByContainer={showOrderByContainer}
                         hasGeoInfo={hasGeoInfo}
                         onEmbedTable={this.handleEmbedTable}
+                        title={title}
                       />
                     )
                 }
@@ -890,6 +926,7 @@ class WidgetEditor extends React.Component {
                         showOrderByContainer={false}
                         hasGeoInfo={hasGeoInfo}
                         onEmbedTable={this.handleEmbedTable}
+                        title={title}
                       />
                     )
                 }
@@ -909,6 +946,7 @@ class WidgetEditor extends React.Component {
                         mode={chartEditorMode}
                         onUpdateWidget={this.handleUpdateWidget}
                         showSaveButton={showSaveButton}
+                        title={title}
                       />
                     )
                 }
@@ -924,6 +962,7 @@ class WidgetEditor extends React.Component {
                         mode={chartEditorMode}
                         showSaveButton={showSaveButton}
                         onUpdateWidget={this.handleUpdateWidget}
+                        title={title}
                       />
                     )
                 }
@@ -937,8 +976,9 @@ class WidgetEditor extends React.Component {
   }
 }
 
-const mapStateToProps = ({ widgetEditor }) => ({
+const mapStateToProps = ({ widgetEditor, user }) => ({
   widgetEditor,
+  user,
   selectedVisualizationType: widgetEditor.visualizationType,
   band: widgetEditor.band
 });
@@ -966,6 +1006,7 @@ WidgetEditor.propTypes = {
   onError: PropTypes.func,
   // Store
   band: PropTypes.object,
+  user: PropTypes.object.isRequired,
   widgetEditor: PropTypes.object.isRequired,
   resetWidgetEditor: PropTypes.func.isRequired,
   setFields: PropTypes.func.isRequired,

@@ -73,13 +73,15 @@ class RasterChartEditor extends React.Component {
    */
   @Autobind
   onClickSaveWidget() {
+    const { dataset, provider, tableName, title } = this.props;
     const options = {
       children: SaveWidgetModal,
       childrenProps: {
-        dataset: this.props.dataset,
+        dataset,
         datasetType: 'raster',
-        datasetProvider: this.props.provider,
-        tableName: this.props.tableName
+        datasetProvider: provider,
+        tableName,
+        title
       }
     };
 
@@ -208,6 +210,7 @@ class RasterChartEditor extends React.Component {
 RasterChartEditor.propTypes = {
   dataset: PropTypes.string.isRequired,
   tableName: PropTypes.string.isRequired,
+  title: PropTypes.string, // Default title when saving the widget
   provider: PropTypes.string.isRequired,
   mode: PropTypes.oneOf(['save', 'update']),
   showSaveButton: PropTypes.bool,
