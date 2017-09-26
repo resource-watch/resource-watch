@@ -63,7 +63,7 @@
     z-index: 999;
 
     &:hover {
-      background-color: mix($dark-pink, $color-white, 5%);
+      background-color: mix($color-primary, $color-white, 5%);
     }
 
     a {
