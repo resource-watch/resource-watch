@@ -252,12 +252,11 @@ class WidgetEditor extends React.Component {
           resolve();
         });
       })
-      // TODO: handle the error case in the UI
-      .catch((err) => {
-        this.setState({ fieldsError: true });
-        toastr.error('Error loading fields');
-        console.error('Error loading fields', err);
-      })
+      // We can't show an error here because for the raster datasets
+      // there won't be fields
+      // Unfortunately, at this stage, we don't know if the dataset
+      // is a raster one, so the error is never shown
+      .catch(err => this.setState({ fieldsError: true }))
       // If we reach this point, either we have already resolved the promise
       // and so rejecting it has no effect, or we haven't and so we reject it
       .then(reject);
