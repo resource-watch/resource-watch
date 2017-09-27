@@ -489,12 +489,18 @@ export async function getChartConfig(
         type: chartInfo.x.type,
         name: xLabel,
         alias: chartInfo.x.alias
+          ? chartInfo.x.alias[0].toUpperCase()
+              + chartInfo.x.alias.slice(1, chartInfo.x.alias.length)
+          : null
       },
       y: {
         present: !!chartInfo.y,
         type: chartInfo.y && chartInfo.y.type,
         name: yLabel,
         alias: chartInfo.y && chartInfo.y.alias
+          ? chartInfo.y.alias[0].toUpperCase()
+            + chartInfo.y.alias.slice(1, chartInfo.y.alias.length)
+          : null
       },
       color: {
         present: !!chartInfo.color,
