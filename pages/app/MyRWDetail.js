@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { singular } from 'pluralize';
 import { toastr } from 'react-redux-toastr';
 
+// Next components
+import { Link } from 'routes';
+
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
@@ -110,6 +113,7 @@ class MyRWDetail extends Page {
   /**
    * HELPERS
    * - getName
+   * - getDatasetName
   */
   getName() {
     const { tab, id, data } = this.state;
@@ -130,7 +134,7 @@ class MyRWDetail extends Page {
   }
 
   render() {
-    const { url, user } = this.props;
+    const { url, user, myrwdetail } = this.props;
     const { tab, subtab, id } = this.state;
 
     return (
@@ -152,6 +156,11 @@ class MyRWDetail extends Page {
                   <Title className="-primary -huge page-header-title" >
                     {this.getName()}
                   </Title>
+                  <div className="page-header-info">
+                    <ul>
+                      <li>Dataset: <Link route="explore_detail" params={{ id: myrwdetail.dataset.id }}><a>{myrwdetail.dataset.name}</a></Link></li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
@@ -189,5 +198,9 @@ MyRWDetail.propTypes = {
   url: PropTypes.object
 };
 
+const mapStateToProps = state => ({
+  // Store
+  myrwdetail: state.myrwdetail
+});
 
-export default withRedux(initStore, null, null)(MyRWDetail);
+export default withRedux(initStore, mapStateToProps, null)(MyRWDetail);
