@@ -77,6 +77,10 @@
           margin: 0 0 0 $space-1 * 4;
 
           &:first-child { margin: 0; }
+
+          a {
+            color: $white;
+          }
         }
       }
     }
