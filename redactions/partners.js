@@ -14,7 +14,7 @@ const GET_PARTNERS_LOADING = 'explore/GET_PARTNERS_LOADING';
 const initialState = {
   list: [],
   loading: false,
-  error: false
+  error: null
 };
 
 export default function (state = initialState, action) {
