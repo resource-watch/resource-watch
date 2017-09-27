@@ -156,11 +156,13 @@ class MyRWDetail extends Page {
                   <Title className="-primary -huge page-header-title" >
                     {this.getName()}
                   </Title>
-                  <div className="page-header-info">
-                    <ul>
-                      <li>Dataset: <Link route="explore_detail" params={{ id: myrwdetail.dataset.id }}><a>{myrwdetail.dataset.name}</a></Link></li>
-                    </ul>
-                  </div>
+                  {myrwdetail.dataset &&
+                    <div className="page-header-info">
+                      <ul>
+                        <li>Dataset: <Link route="explore_detail" params={{ id: myrwdetail.dataset.id }}><a>{myrwdetail.dataset.name}</a></Link></li>
+                      </ul>
+                    </div>
+                  }
                 </div>
               </div>
             </div>

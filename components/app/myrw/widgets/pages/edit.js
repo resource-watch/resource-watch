@@ -98,6 +98,10 @@ class WidgetsEdit extends React.Component {
       .then(() => this.setState({ loading: false }));
   }
 
+  componentWillUnmount() {
+    this.props.setDataset(null)
+  }
+
   @Autobind
   async onSubmit(event) {
     if (event) event.preventDefault();

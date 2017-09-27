@@ -10,10 +10,7 @@ const SET_DATASET = 'explore/SET_DATASET';
  * REDUCER
 */
 const initialState = {
-  dataset: {
-    name: '',
-    id: '-'
-  }
+  dataset: null
 };
 
 export default function (state = initialState, action) {
