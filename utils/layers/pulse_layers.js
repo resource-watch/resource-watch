@@ -55,7 +55,7 @@ export const LAYERS_PLANET_PULSE = [
     layers: [
       {
         label: 'Earthquakes Over the Past 30 days (USGS)',
-        id: '33eb5a8a-95a3-43a5-9326-1fc338d6d873',
+        id: '5939b34f-42bb-4861-bd4a-308a0ae7a1d6',
         '3d': true,
         markerType: 'bar'
       },
