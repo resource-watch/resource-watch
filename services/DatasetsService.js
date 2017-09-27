@@ -40,12 +40,13 @@ export default class DatasetsService {
     });
   }
 
-  fetchAllData({ applications = [process.env.APPLICATIONS], includes, filters } = {}) {
+  fetchAllData({ applications = [process.env.APPLICATIONS], includes, filters, env = 'preproduction,production' } = {}) {
     const qParams = {
       application: applications.join(','),
       ...!!includes && { includes },
       'page[size]': 9999999,
-      ...filters
+      ...filters,
+      env
     };
 
     return new Promise((resolve, reject) => {
