@@ -18,7 +18,7 @@ const PROVIDERS = {
   carto: 'cartodb',
   gee: 'gee',
   wms: 'wms',
-  nextgddp: 'nextgddp',
+  nexgddp: 'nexgddp',
   bigquery: 'bigquery',
   rasdaman: 'rasdaman',
   featureService: 'featureservice',
@@ -40,7 +40,7 @@ const DECISIONTREE = {
       gee: [visTypes.chart, visTypes.table, visTypes.map],
       featureService: [visTypes.chart, visTypes.table, visTypes.map],
       bigquery: [visTypes.chart, visTypes.table, visTypes.map],
-      nextgddp: [visTypes.chart, visTypes.table, visTypes.map]
+      nexgddp: [visTypes.chart, visTypes.table, visTypes.map]
     },
     doc: {
       csv: [visTypes.chart, visTypes.table, visTypes.map],
@@ -70,10 +70,16 @@ export const getVisualisationTypes = (datasetData) => {
   const datasetConnector = getKey(CONNECTORS, connectorType);
   const datasetProvider = getKey(PROVIDERS, provider);
 
+  if (!datasetType || !datasetConnector)
+    throw Error(`Connector ${datasetConnector} does not exist in ${datasetType} type.`);
+
+  if (!DECISIONTREE[datasetType][datasetConnector])
+    throw Error(`Connector ${datasetConnector} does not exist in ${datasetType} type.`);
+
   let visualisationTypes = DECISIONTREE[datasetType][datasetConnector][datasetProvider];
 
   // Checking geoInfo: it will remove Map if geoInfo is false or WMS
-  if (datasetProvider !== 'wms' && !geoInfo) {
+  if (datasetProvider && datasetProvider !== 'wms' && !geoInfo) {
     visualisationTypes = visualisationTypes.filter(el => el !== visTypes.map);
   }
 
