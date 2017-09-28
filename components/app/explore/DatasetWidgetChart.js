@@ -53,6 +53,8 @@ class DatasetWidgetChart extends React.Component {
       '-thumbnail': (mode === 'thumbnail')
     });
 
+    console.log('widgetConfig', widgetConfig);
+
     return (
       <div className={classname}>
         <Spinner

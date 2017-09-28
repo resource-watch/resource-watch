@@ -5,10 +5,15 @@
   padding: 20px;
   background-color: $color-white;
   max-width: 400px;
+  max-height: 500px;
   border-radius: 4px;
 
   h2 {
     color: $color-dark-pink;
+  }
+
+  h5 {
+    margin: 0px;
   }
 
   &.-hidden {
