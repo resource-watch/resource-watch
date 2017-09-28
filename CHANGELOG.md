@@ -10,5 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 ### Added
+- Implementation of decision tree to get visualisations by dataset. [PDF](https://vizzuality.slack.com/files/U4C2Q99RB/F79L7J7UL/rw_-_widget_creation.pdf)
+- New command to check datasets for widget editor `yarn run check-datasets`
 
 ### Changed
