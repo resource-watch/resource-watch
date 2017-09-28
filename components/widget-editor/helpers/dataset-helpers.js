@@ -9,7 +9,8 @@ const TYPES = {
 // Namespace for dataset connectors in WRI's API
 const CONNECTORS = {
   doc: 'document',
-  rest: 'rest'
+  rest: 'rest',
+  wms: 'wms'
 };
 
 // Namespace for dataset providers in WRI's API
@@ -38,7 +39,6 @@ const DECISIONTREE = {
       carto: [visTypes.chart, visTypes.table, visTypes.map],
       gee: [visTypes.chart, visTypes.table, visTypes.map],
       featureService: [visTypes.chart, visTypes.table, visTypes.map],
-      wms: [visTypes.map],
       bigquery: [visTypes.chart, visTypes.table, visTypes.map],
       nextgddp: [visTypes.chart, visTypes.table, visTypes.map]
     },
@@ -55,6 +55,9 @@ const DECISIONTREE = {
       gee: [visTypes.chart, visTypes.map],
       imageService: [visTypes.chart, visTypes.map],
       rasdaman: [visTypes.chart, visTypes.map]
+    },
+    wms: {
+      wms: [visTypes.map]
     }
   }
 };
@@ -69,8 +72,8 @@ export const getVisualisationTypes = (datasetData) => {
 
   let visualisationTypes = DECISIONTREE[datasetType][datasetConnector][datasetProvider];
 
-  // Checking geoInfo: it will remove Map if geoInfo is false
-  if (!geoInfo) {
+  // Checking geoInfo: it will remove Map if geoInfo is false or WMS
+  if (datasetProvider !== 'wms' && !geoInfo) {
     visualisationTypes = visualisationTypes.filter(el => el !== visTypes.map);
   }
 
