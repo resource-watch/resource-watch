@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { Link } from 'routes';
+import { Link, Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
 
 // Components
 import Legend from 'components/app/pulse/Legend';
-import Spinner from 'components/ui/Spinner';
+// import Spinner from 'components/ui/Spinner';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 
 function LayerCard(props) {
@@ -52,8 +52,13 @@ function LayerCard(props) {
         <div className="row list">
           {similarWidgets &&
             similarWidgets.map(widget =>
-              (<div className="widget-card">
-                <h5>{widget.attributes.name}</h5>
+              (<div
+                className="widget-card"
+                onClick={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
+                role="button"
+                tabIndex={-1}
+              >
+                <p>{widget.attributes.name}</p>
                 <DatasetWidgetChart
                   key={widget.id}
                   widget={widget.attributes}
