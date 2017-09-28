@@ -6,10 +6,15 @@ import { toastr } from 'react-redux-toastr';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { getLayers, getLayerPoints, toggleActiveLayer } from 'redactions/pulse';
+import { getLayers, getLayerPoints, toggleActiveLayer, setSimilarDatasets } from 'redactions/pulse';
+import { toggleTooltip } from 'redactions/tooltip';
+
+// Selectors
 import getLayersGroupPulse from 'selectors/pulse/layersGroupPulse';
 import getActiveLayersPulse from 'selectors/pulse/layersActivePulse';
-import { toggleTooltip } from 'redactions/tooltip';
+
+// Services
+import DatasetService from 'services/DatasetService';
 
 // Helpers
 import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
@@ -38,7 +43,9 @@ class Pulse extends Page {
       layerPoints: [],
       selectedMarker: null,
       useDefaultLayer: true,
-      markerType: 'default'
+      markerType: 'default',
+      similarDatasetsLoaded: false,
+      similarDatasets: []
     };
     this.layerGlobeManager = new LayerGlobeManager();
   }
@@ -92,6 +99,10 @@ class Pulse extends Page {
             }.bind(this)
           });
         }
+
+        // TESTS
+        // load similar datasets
+        this.getSimilarDatasets(nextLayerActive.attributes.dataset);
       } else {
         this.layerGlobeManager.abortRequest();
         this.setState({ texture: null });
@@ -99,7 +110,7 @@ class Pulse extends Page {
     }
 
     if (nextProps.pulse.layerPoints !== this.props.pulse.layerPoints) {
-      if (nextProps.pulse.layerPoints.length > 0) {
+      if (nextProps.pulse.layerPoints && nextProps.pulse.layerPoints.length > 0) {
         this.setState({
           loading: false,
           layerPoints: nextProps.pulse.layerPoints.slice(0),
@@ -116,6 +127,39 @@ class Pulse extends Page {
     this.props.toggleTooltip(false);
     this.props.toggleActiveLayer(null);
     this.mounted = false;
+  }
+
+  getSimilarDatasets(datasetID) {
+    this.setState({
+      similarDatasetsLoaded: false
+    });
+    this.datasetService = new DatasetService(datasetID, { apiURL: process.env.WRI_API_URL });
+    this.datasetService.getSimilarDatasets()
+      .then((response) => {
+        let counter = 0;
+        const similarDatasets = response.map(val => val.dataset).filter(
+          () => {
+            counter++;
+            return counter < 4;
+          });
+
+        if (similarDatasets.length > 0) {
+          DatasetService.getDatasets(similarDatasets, 'widget,metadata')
+            .then((data) => {
+              this.setState({
+                similarDatasetsLoaded: true
+              });
+              this.props.setSimilarDatasets(data);
+            })
+            .catch(err => toastr.error('Error', err));
+        } else {
+          this.setState({
+            similarDatasetsLoaded: true,
+            similarDatasets: []
+          });
+        }
+      })
+      .catch(err => toastr.error('Error', err));
   }
 
   /**
@@ -281,7 +325,8 @@ Pulse.propTypes = {
   getLayers: PropTypes.func.isRequired,
   getLayerPoints: PropTypes.func.isRequired,
   toggleTooltip: PropTypes.func.isRequired,
-  toggleActiveLayer: PropTypes.func.isRequired
+  toggleActiveLayer: PropTypes.func.isRequired,
+  setSimilarDatasets: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -302,6 +347,9 @@ const mapDispatchToProps = dispatch => ({
   },
   toggleActiveLayer: (id, threedimensional, markerType) => {
     dispatch(toggleActiveLayer(id, threedimensional, markerType));
+  },
+  setSimilarDatasets: (similarDatasets) => {
+    dispatch(setSimilarDatasets(similarDatasets));
   }
 });
 

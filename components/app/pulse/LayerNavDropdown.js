@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Switch from 'components/ui/Switch';
 import { connect } from 'react-redux';
 
-import { toggleActiveLayer, getLayerPoints } from 'redactions/pulse';
+import { toggleActiveLayer, resetLayerPoints } from 'redactions/pulse';
 
 class LayerNavDropdown extends React.Component {
   constructor(props) {
@@ -14,6 +14,7 @@ class LayerNavDropdown extends React.Component {
 
   triggerClick(e) {
     const { id, threedimensional, markertype } = e.currentTarget.dataset;
+    this.props.resetLayerPoints();
     this.props.toggleActiveLayer(id, threedimensional, markertype);
   }
 
@@ -45,7 +46,8 @@ class LayerNavDropdown extends React.Component {
 LayerNavDropdown.propTypes = {
   layers: PropTypes.array,
   layerActive: PropTypes.object,
-  toggleActiveLayer: PropTypes.func
+  toggleActiveLayer: PropTypes.func.isRequired,
+  resetLayerPoints: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -56,9 +58,7 @@ const mapDispatchToProps = dispatch => ({
   toggleActiveLayer: (id, threedimensional, hemisphere) => {
     dispatch(toggleActiveLayer(id, threedimensional, hemisphere));
   },
-  getLayerPoints: (id, tableName) => {
-    dispatch(getLayerPoints(id, tableName));
-  }
+  resetLayerPoints: () => { dispatch(resetLayerPoints()); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LayerNavDropdown);
