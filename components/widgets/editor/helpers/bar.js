@@ -189,8 +189,8 @@ export default function ({ columns, data, url, embedData, provider, band  }) {
   {
     const xAxis = config.axes.find(a => a.type === 'x');
     const yAxis = config.axes.find(a => a.type === 'y');
-    xAxis.name = columns.x.name;
-    yAxis.name = columns.y.name;
+    xAxis.name = columns.x.alias || columns.x.name;
+    yAxis.name = columns.y.alias || columns.y.name;
   }
 
   if (columns.color.present) {

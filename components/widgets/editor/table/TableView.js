@@ -86,7 +86,20 @@ class TableView extends React.Component {
 
   render() {
     const { loading, data } = this.state;
-    const header = data && data.length > 0 && Object.keys(data[0]);
+    const { fields } = this.props.widgetEditor;
+
+    let header = data && data.length > 0
+      ? Object.keys(data[0])
+      : [];
+
+    // We check if we have an alias for the column name
+    // and update the headers accordingly
+    header = header.map((value) => {
+      const field = fields.find(field => field.columnName === value);
+      if (field) return field.alias || value;
+      return value;
+    })
+
     return (
       <div className="c-table-view c-table">
         <Spinner
@@ -96,7 +109,7 @@ class TableView extends React.Component {
         <table>
           <thead>
             <tr>
-              {header && header.map(val => (
+              {header.map(val => (
                 <th
                   key={`header_${val}`}
                 >
