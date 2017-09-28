@@ -28,5 +28,10 @@
 
   .widget-card {
     cursor: pointer;
+    max-width: 200px;
+
+    .c-chart {
+      overflow: auto;
+    }
   }
 }
