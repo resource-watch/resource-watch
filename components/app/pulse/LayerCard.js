@@ -52,6 +52,7 @@ function LayerCard(props) {
           {similarWidgets &&
             similarWidgets.map(widget =>
               (<div
+                key={widget.id}
                 className="widget-card"
                 onClick={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
                 role="button"
@@ -59,7 +60,6 @@ function LayerCard(props) {
               >
                 <p>{widget.attributes.name}</p>
                 <DatasetWidgetChart
-                  key={widget.id}
                   widget={widget.attributes}
                   mode="thumbnail"
                 />
