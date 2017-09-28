@@ -74,27 +74,34 @@ export function getLayers() {
 
 export function toggleActiveLayer(id, threedimensional, markerType) {
   return (dispatch) => {
-    fetch(new Request(`${process.env.WRI_API_URL}/layer/${id}`))
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then((response) => {
-        const layer = response.data;
-        layer.threedimensional = threedimensional;
-        layer.markerType = markerType;
-        dispatch({
-          type: SET_ACTIVE_LAYER,
-          payload: layer
+    if (id) {
+      fetch(new Request(`${process.env.WRI_API_URL}/layer/${id}`))
+        .then((response) => {
+          if (response.ok) return response.json();
+          throw new Error(response.statusText);
+        })
+        .then((response) => {
+          const layer = response.data;
+          layer.threedimensional = threedimensional;
+          layer.markerType = markerType;
+          dispatch({
+            type: SET_ACTIVE_LAYER,
+            payload: layer
+          });
+        })
+        .catch(() => {
+          // Fetch from server ko -> Dispatch error
+          dispatch({
+            type: SET_ACTIVE_LAYER,
+            payload: null
+          });
         });
-      })
-      .catch(() => {
-        // Fetch from server ko -> Dispatch error
-        dispatch({
-          type: SET_ACTIVE_LAYER,
-          payload: null
-        });
+    } else {
+      dispatch({
+        type: SET_ACTIVE_LAYER,
+        payload: null
       });
+    }
   };
 }
 

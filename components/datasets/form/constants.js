@@ -11,6 +11,12 @@ export const PROVIDER_TYPES_DICTIONARY = {
     connectorType: 'rest',
     connectorUrlHint: 'Example: projects/wri-datalab/HansenComposite_14-15'
   },
+  nexgddp: {
+    label: 'NexGDDP',
+    value: 'nexgddp',
+    connectorType: 'rest',
+    connectorUrlHint: 'Example: scenario/model'
+  },
   featureservice: {
     value: 'featureservice',
     label: 'Feature Service (Arcgis)',

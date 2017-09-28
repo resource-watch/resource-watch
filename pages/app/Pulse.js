@@ -6,7 +6,7 @@ import { toastr } from 'react-redux-toastr';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { getLayers, getLayerPoints } from 'redactions/pulse';
+import { getLayers, getLayerPoints, toggleActiveLayer } from 'redactions/pulse';
 import getLayersGroupPulse from 'selectors/pulse/layersGroupPulse';
 import getActiveLayersPulse from 'selectors/pulse/layersActivePulse';
 import { toggleTooltip } from 'redactions/tooltip';
@@ -114,6 +114,7 @@ class Pulse extends Page {
   componentWillUnmount() {
     document.removeEventListener('click', this.triggerMouseDown);
     this.props.toggleTooltip(false);
+    this.props.toggleActiveLayer(null);
     this.mounted = false;
   }
 
@@ -277,9 +278,10 @@ Pulse.propTypes = {
   // STORE
   layersGroup: PropTypes.array,
   layerActive: PropTypes.object,
-  getLayers: PropTypes.func,
-  getLayerPoints: PropTypes.func,
-  toggleTooltip: PropTypes.func
+  getLayers: PropTypes.func.isRequired,
+  getLayerPoints: PropTypes.func.isRequired,
+  toggleTooltip: PropTypes.func.isRequired,
+  toggleActiveLayer: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -297,6 +299,9 @@ const mapDispatchToProps = dispatch => ({
   },
   getLayerPoints: (id, tableName) => {
     dispatch(getLayerPoints(id, tableName));
+  },
+  toggleActiveLayer: (id, threedimensional, markerType) => {
+    dispatch(toggleActiveLayer(id, threedimensional, markerType));
   }
 });
 

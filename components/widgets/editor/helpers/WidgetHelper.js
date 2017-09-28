@@ -190,6 +190,7 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
 
   if (color) {
     chartInfo.color = {
+      name: color.name,
       alias: fields.length && fields.find(f => f.columnName === color.name).alias,
       aggregateFunction: color.aggregateFunction
     };
@@ -197,6 +198,7 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
 
   if (size) {
     chartInfo.size = {
+      name: size.name,
       alias: fields.length && fields.find(f => f.columnName === size.name).alias,
       aggregateFunction: size.aggregateFunction
     };
@@ -212,7 +214,8 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
  * @param {string} dataset - Dataset ID
  * @param {string} datasetType - Type of dataset
  * @param {string} tableName - Name of the table
- * @param {string} band - Name of band (in case of a raster dataset)
+ * @param {{ name: string, type: string, alias: string, description: string }} band
+ * Band (in case of a raster dataset)
  * @param {string} provider - Name of the provider
  * @return {string}
  */
@@ -243,9 +246,11 @@ export async function getRasterDataURL(dataset, datasetType, tableName, band, pr
  * @param {string} dataset - Dataset ID
  * @param {string} datasetType - Type of dataset
  * @param {string} tableName - Name of the table
- * @param {string} band - Name of band (in case of a raster dataset)
+ * @param {{ name: string, type: string, alias: string, description: string }} band
+ * Band (in case of a raster dataset)
  * @param {string} provider - Name of the provider
  * @param {ChartInfo} chartInfo
+ * @param {boolean} [isTable=false] Whether we fetch the data of a table
  * @return {string}
  */
 export async function getDataURL(dataset, datasetType, tableName, band, provider,
@@ -396,16 +401,28 @@ export function parseRasterData(data, band, provider) {
 
   if (provider === 'gee') {
     if (band.type === 'continuous') {
-      return data[0][band.name].map(d => ({ x: d[0], y: d[1] }));
+      return data[0][band.name].map(d => ({
+        x: get2DecimalFixedNumber(d[0]),
+        y: d[1]
+      }));
     }
 
-    return Object.keys(data[0][band.name]).map(k => ({ x: k === 'null' ? 'No data' : k, y: data[0][band.name][k] }));
+    return Object.keys(data[0][band.name]).map(k => ({
+      x: k === 'null' ? 'No data' : get2DecimalFixedNumber(k),
+      y: data[0][band.name][k]
+    }));
   } else if (provider === 'cartodb') {
     if (band.type === 'continuous') {
-      return data.map(d => ({ x: d.max, y: d.count }));
+      return data.map(d => ({
+        x: get2DecimalFixedNumber(d.max),
+        y: d.count
+      }));
     }
 
-    return data.map(d => ({ x: d.value, y: d.count }));
+    return data.map(d => ({
+      x: get2DecimalFixedNumber(d.value),
+      y: d.count
+    }));
   }
 
   return data;
@@ -418,7 +435,8 @@ export function parseRasterData(data, band, provider) {
  * @param {string} dataset - Dataset ID
  * @param {string} datasetType - Type of dataset
  * @param {string} tableName - Name of the table
- * @param {string} band - Name of the band (in case of a raster dataset)
+ * @param {{ name: string, type: string, alias: string, description: string }} band
+ * Band (in case of a raster dataset)
  * @param {string} provider - Name of the provider
  * @param {ChartInfo} chartInfo
  * @param {boolean} [embedData=false] Whether the configuration should
@@ -477,12 +495,18 @@ export async function getChartConfig(
         type: chartInfo.x.type,
         name: xLabel,
         alias: chartInfo.x.alias
+          ? chartInfo.x.alias[0].toUpperCase()
+              + chartInfo.x.alias.slice(1, chartInfo.x.alias.length)
+          : null
       },
       y: {
         present: !!chartInfo.y,
         type: chartInfo.y && chartInfo.y.type,
         name: yLabel,
         alias: chartInfo.y && chartInfo.y.alias
+          ? chartInfo.y.alias[0].toUpperCase()
+            + chartInfo.y.alias.slice(1, chartInfo.y.alias.length)
+          : null
       },
       color: {
         present: !!chartInfo.color,
@@ -505,7 +529,8 @@ export async function getChartConfig(
  * Fetch the data of a raster dataset and return the parsed data
  * @export
  * @param {string} url - URL of the data
- * @param {string} band - Band name
+ * @param {{ name: string, type: string, alias: string, description: string }} band
+ * Band (in case of a raster dataset)
  * @param {string} provider - Dataset provider
  * @returns
  */

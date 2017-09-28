@@ -93,6 +93,7 @@ class Step1 extends React.Component {
 
     const isCarto = (provider === 'cartodb');
     const isGee = (provider === 'gee');
+    const isNextGDDP = (provider === 'nexgddp');
     const isFeatureservice = (provider === 'featureservice');
     const isJson = (provider === 'json');
     const isCsv = (provider === 'csv');
@@ -171,22 +172,20 @@ class Step1 extends React.Component {
           {Select}
         </Field>
 
-        {this.state.form.type === 'tabular' &&
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.geoInfo = c; }}
-            onChange={value => this.props.onChange({ geoInfo: value.checked })}
-            validations={['required']}
-            properties={{
-              name: 'geoInfo',
-              label: 'Does this dataset contain geographical features such as points, polygons or lines?',
-              value: 'geoInfo',
-              defaultChecked: this.props.form.geoInfo,
-              checked: this.props.form.geoInfo
-            }}
-          >
-            {Checkbox}
-          </Field>
-        }
+        <Field
+          ref={(c) => { if (c) FORM_ELEMENTS.elements.geoInfo = c; }}
+          onChange={value => this.props.onChange({ geoInfo: value.checked })}
+          validations={['required']}
+          properties={{
+            name: 'geoInfo',
+            label: 'Does this dataset contains geographical information?',
+            value: 'geoInfo',
+            defaultChecked: this.props.form.geoInfo,
+            checked: this.props.form.geoInfo
+          }}
+        >
+          {Checkbox}
+        </Field>
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.provider = c; }}
@@ -310,6 +309,31 @@ class Step1 extends React.Component {
             validations={['required']}
             className="-fluid"
             hint="Example: projects/wri-datalab/HansenComposite_14-15"
+            properties={{
+              name: 'tableName',
+              label: 'Table name',
+              type: 'text',
+              default: this.state.form.tableName,
+              disabled: !!this.state.dataset,
+              required: true
+            }}
+          >
+            {Input}
+          </Field>
+        }
+
+        {/*
+          *****************************************************
+          ****************** NEXTGDDP FIELDS * ***************
+          *****************************************************
+        */}
+        {isNextGDDP &&
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.tableName = c; }}
+            onChange={value => this.props.onChange({ tableName: value })}
+            validations={['required']}
+            className="-fluid"
+            hint="Example: scenario/model"
             properties={{
               name: 'tableName',
               label: 'Table name',

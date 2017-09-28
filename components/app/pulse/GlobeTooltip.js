@@ -21,9 +21,15 @@ class GlobeTooltip extends React.Component {
     );
   }
 
+  handleClick(event) {
+    event.nativeEvent.stopImmediatePropagation(); // so that the tooltip is not closed automatically when clicking inside of it
+  }
+
   render() {
     return (
-      <div className="c-globe-tooltip">
+      <div
+        className="c-globe-tooltip"
+        onClick={this.handleClick}>
         {this.getContent()}
       </div>
     );

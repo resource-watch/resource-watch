@@ -163,19 +163,16 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
     filters
   } = widgetEditor;
 
-  const categoryField = fields.length &&
-    fields.find(f => (category && f.columnName === category.name));
-
   const chartInfo = {
     chartType,
-    limit,
+    limit: (datasetProvider === 'nexgddp') ? null : limit,
     order: orderBy,
     filters,
     areaIntersection,
     x: {
-      type: category && category.type,
-      name: category && category.name,
-      alias: categoryField && categoryField.alias
+      type: category.type,
+      name: category.name,
+      alias: fields.length && fields.find(f => f.columnName === category.name).alias
     },
     y: null,
     color: null,
@@ -261,7 +258,7 @@ export async function getDataURL(dataset, datasetType, tableName, band, provider
   // If the dataset is a raster one, the behaviour is totally different
   if (datasetType === 'raster') {
     if (!band) return '';
-    return getRasterDataURL(dataset, datasetType, tableName, band, provider);
+    return await getRasterDataURL(dataset, datasetType, tableName, band, provider);
   }
 
   let isBidimensional = false;
@@ -404,16 +401,28 @@ export function parseRasterData(data, band, provider) {
 
   if (provider === 'gee') {
     if (band.type === 'continuous') {
-      return data[0][band.name].map(d => ({ x: d[0], y: d[1] }));
+      return data[0][band.name].map(d => ({
+        x: get2DecimalFixedNumber(d[0]),
+        y: d[1]
+      }));
     }
 
-    return Object.keys(data[0][band.name]).map(k => ({ x: k === 'null' ? 'No data' : k, y: data[0][band.name][k] }));
+    return Object.keys(data[0][band.name]).map(k => ({
+      x: k === 'null' ? 'No data' : get2DecimalFixedNumber(k),
+      y: data[0][band.name][k]
+    }));
   } else if (provider === 'cartodb') {
     if (band.type === 'continuous') {
-      return data.map(d => ({ x: d.max, y: d.count }));
+      return data.map(d => ({
+        x: get2DecimalFixedNumber(d.max),
+        y: d.count
+      }));
     }
 
-    return data.map(d => ({ x: d.value, y: d.count }));
+    return data.map(d => ({
+      x: get2DecimalFixedNumber(d.value),
+      y: d.count
+    }));
   }
 
   return data;
@@ -486,12 +495,18 @@ export async function getChartConfig(
         type: chartInfo.x.type,
         name: xLabel,
         alias: chartInfo.x.alias
+          ? chartInfo.x.alias[0].toUpperCase()
+              + chartInfo.x.alias.slice(1, chartInfo.x.alias.length)
+          : null
       },
       y: {
         present: !!chartInfo.y,
         type: chartInfo.y && chartInfo.y.type,
         name: yLabel,
         alias: chartInfo.y && chartInfo.y.alias
+          ? chartInfo.y.alias[0].toUpperCase()
+            + chartInfo.y.alias.slice(1, chartInfo.y.alias.length)
+          : null
       },
       color: {
         present: !!chartInfo.color,
