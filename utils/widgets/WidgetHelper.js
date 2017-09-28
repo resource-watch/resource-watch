@@ -163,19 +163,16 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
     filters
   } = widgetEditor;
 
-  const categoryField = fields.length &&
-    fields.find(f => (category && f.columnName === category.name));
-
   const chartInfo = {
     chartType,
-    limit,
+    limit: (datasetProvider === 'nexgddp') ? null : limit,
     order: orderBy,
     filters,
     areaIntersection,
     x: {
-      type: category && category.type,
-      name: category && category.name,
-      alias: categoryField && categoryField.alias
+      type: category.type,
+      name: category.name,
+      alias: fields.length && fields.find(f => f.columnName === category.name).alias
     },
     y: null,
     color: null,
@@ -261,7 +258,7 @@ export async function getDataURL(dataset, datasetType, tableName, band, provider
   // If the dataset is a raster one, the behaviour is totally different
   if (datasetType === 'raster') {
     if (!band) return '';
-    return getRasterDataURL(dataset, datasetType, tableName, band, provider);
+    return await getRasterDataURL(dataset, datasetType, tableName, band, provider);
   }
 
   let isBidimensional = false;
