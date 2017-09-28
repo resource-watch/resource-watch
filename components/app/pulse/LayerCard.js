@@ -26,7 +26,6 @@ function LayerCard(props) {
     .map(dataset => dataset.attributes.widget
       .find(widget => widget.attributes.default === true))
     .filter(value => typeof value !== 'undefined');
-  console.log('similarWidgets', similarWidgets);
 
   return (
     <div className={className}>
