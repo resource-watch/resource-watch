@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Legend from 'components/app/pulse/Legend';
+
 import { Link } from 'routes';
 
+// Redux
+import { connect } from 'react-redux';
+
+// Components
+import Legend from 'components/app/pulse/Legend';
+
 function LayerCard(props) {
-  const { layerActive } = props;
+  const { layerActive, layerPoints } = props.pulse;
 
   const className = classNames({
     'c-layer-card': true,
@@ -18,6 +24,9 @@ function LayerCard(props) {
     <div className={className}>
       <h2>{layerActive && layerActive.attributes.name}</h2>
       <p>{layerActive && layerActive.attributes.description}</p>
+      {layerPoints && layerPoints.length > 0 &&
+        <p>Number of objects: {layerPoints.length}</p>
+      }
       <Legend
         layerActive={layerActive}
         className={{ color: '-dark' }}
@@ -36,7 +45,11 @@ function LayerCard(props) {
 
 LayerCard.propTypes = {
   // PROPS
-  layerActive: PropTypes.object
+  pulse: PropTypes.object
 };
 
-export default LayerCard;
+const mapStateToProps = state => ({
+  pulse: state.pulse
+});
+
+export default connect(mapStateToProps, null)(LayerCard);
