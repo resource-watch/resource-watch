@@ -107,9 +107,11 @@
     "whatwg-fetch": "2.0.2"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-eslint": "7.2.3",
     "babel-jest": "^21.0.2",
     "babel-preset-env": "^1.6.0",
+    "colors": "^1.1.2",
     "enzyme": "^2.9.1",
     "eslint": "4.6.1",
     "eslint-config-vizzuality": "1.0.6",
@@ -123,6 +125,7 @@
     "regenerator-runtime": "^0.11.0"
   },
   "scripts": {
+    "check-datasets": "NODE_ENV=test babel-node ./tasks/check-datasets.js",
     "test": "jest",
     "lint": "eslint .",
     "dev": "node index.js",

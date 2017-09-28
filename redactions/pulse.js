@@ -11,9 +11,11 @@ const GET_LAYERS_ERROR = 'planetpulse/GET_LAYERS_ERROR';
 const GET_LAYERS_LOADING = 'planetpulse/GET_LAYERS_LOADING';
 
 const SET_ACTIVE_LAYER = 'planetpulse/SET_ACTIVE_LAYER';
+const SET_SIMILAR_DATASETS = 'planetpulse/SET_SIMILAR_DATASETS';
 
 const GET_LAYER_POINTS_SUCCESS = 'planetpulse/GET_LAYER_POINTS_SUCCESS';
 const GET_LAYER_POINTS_ERROR = 'planetpulse/GET_LAYER_POINTS_ERROR';
+const RESET_LAYER_POINTS = 'planetpulse/RESET_LAYER_POINTS';
 
 /**
  * REDUCER
@@ -38,6 +40,10 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, {
         layerActive: (state.layerActive !== action.payload) ? action.payload : null
       });
+    case SET_SIMILAR_DATASETS:
+      return Object.assign({}, state, {
+        similarDatasets: action.payload
+      });
     case GET_LAYER_POINTS_SUCCESS:
       return Object.assign({}, state, {
         layerPoints: action.payload,
@@ -47,6 +53,10 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, {
         error: true,
         errorMessage: action.payload
+      });
+    case RESET_LAYER_POINTS:
+      return Object.assign({}, state, {
+        layerPoints: null
       });
     default:
       return state;
@@ -74,27 +84,34 @@ export function getLayers() {
 
 export function toggleActiveLayer(id, threedimensional, markerType) {
   return (dispatch) => {
-    fetch(new Request(`${process.env.WRI_API_URL}/layer/${id}`))
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then((response) => {
-        const layer = response.data;
-        layer.threedimensional = threedimensional;
-        layer.markerType = markerType;
-        dispatch({
-          type: SET_ACTIVE_LAYER,
-          payload: layer
+    if (id) {
+      fetch(new Request(`${process.env.WRI_API_URL}/layer/${id}`))
+        .then((response) => {
+          if (response.ok) return response.json();
+          throw new Error(response.statusText);
+        })
+        .then((response) => {
+          const layer = response.data;
+          layer.threedimensional = threedimensional;
+          layer.markerType = markerType;
+          dispatch({
+            type: SET_ACTIVE_LAYER,
+            payload: layer
+          });
+        })
+        .catch(() => {
+          // Fetch from server ko -> Dispatch error
+          dispatch({
+            type: SET_ACTIVE_LAYER,
+            payload: null
+          });
         });
-      })
-      .catch(() => {
-        // Fetch from server ko -> Dispatch error
-        dispatch({
-          type: SET_ACTIVE_LAYER,
-          payload: null
-        });
+    } else {
+      dispatch({
+        type: SET_ACTIVE_LAYER,
+        payload: null
       });
+    }
   };
 }
 
@@ -122,4 +139,12 @@ export function getLayerPoints(datasetId, tableName) {
         });
       });
   };
+}
+
+export function setSimilarDatasets(value) {
+  return dispatch => dispatch({ type: SET_SIMILAR_DATASETS, payload: value });
+}
+
+export function resetLayerPoints() {
+  return dispatch => dispatch({ type: RESET_LAYER_POINTS, payload: null });
 }
