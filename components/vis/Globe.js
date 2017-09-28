@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import chroma from 'chroma-js';
 import { TextureLoader, Raycaster, Vector2, CylinderGeometry,
   SphereGeometry, MeshBasicMaterial, Matrix4, Mesh,
   ShaderMaterial, BackSide, Scene, PerspectiveCamera, WebGLRenderer,
   MeshPhongMaterial, AdditiveBlending, Vector3,
   AmbientLight, PointLight } from 'three';
 import orbitControls from './OrbitControls';
-import chroma from 'chroma-js';
+
 
 /* global Stats */
 const OrbitControls = orbitControls();
@@ -21,6 +22,7 @@ class Globe extends React.Component {
       height: props.height,
       width: props.width,
       markers: [],
+      lights: [],
       selectedMarker: null
     };
 
@@ -32,8 +34,6 @@ class Globe extends React.Component {
     // Bindings
     this.onClick = this.onClick.bind(this);
     this.onResize = debounce(this.onResize.bind(this), 250);
-
-    // document.addEventListener('mousedown', this.onMouseDown);
   }
 
   componentDidMount() {
@@ -76,7 +76,11 @@ class Globe extends React.Component {
       if (this.state.markers.length > 0) {
         this.removeMarkers();
       }
+      if (this.state.lights.length > 0) {
+        this.removeLights();
+      }
       const { markerType } = nextProps;
+      const lightsArray = [];
       const pointObjects = nextProps.layerPoints.map((value) => {
         const normalVector = this.convertLatLonToCoordinates(value.lat, value.lon);
         const geometryColor = this.getMarkerColor(value);
@@ -111,11 +115,21 @@ class Globe extends React.Component {
         obj.position.copy(normalVector);
         obj.name = value;
 
+        if (markerType === 'volcano') {
+          const light = new PointLight(0xff0000, 1);
+          light.position.copy(normalVector);
+          lightsArray.push(light);
+          this.scene.add(light);
+        }
         this.scene.add(obj);
 
         return obj;
       });
-      this.setState({ markers: pointObjects });
+
+      this.setState({
+        markers: pointObjects,
+        lights: lightsArray
+      });
     } else if (this.props.layerPoints.length > 0) {
       this.removeMarkers();
     }
@@ -412,11 +426,26 @@ class Globe extends React.Component {
     return { latitude: lat, longitude: lon };
   }
 
+  /**
+  * Remove markers
+  */
   removeMarkers() {
     if (this.state.markers) {
       this.state.markers.forEach(element => this.scene.remove(element));
       this.setState({
         markers: []
+      });
+    }
+  }
+
+  /**
+  * Remove lights
+  */
+  removeLights() {
+    if (this.state.lights) {
+      this.state.lights.forEach(element => this.scene.remove(element));
+      this.setState({
+        lights: []
       });
     }
   }
