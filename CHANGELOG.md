@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.1.0] - 2017-10-11
 
 ### Fixed
+ - Planet pulse dropdowns have now a z-index that makes them be displayed on top of the layer card
 
 ### Added
 - New search input for the filter tooltip in the Widget Editor
