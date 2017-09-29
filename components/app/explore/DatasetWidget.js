@@ -128,7 +128,7 @@ class DatasetWidget extends React.Component {
   }
 
   handleTagClick(event) {
-
+    const tagName = event.target.textContent;
   }
 
   render() {
