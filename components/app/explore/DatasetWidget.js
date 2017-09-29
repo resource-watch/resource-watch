@@ -2,17 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
 import classnames from 'classnames';
+import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
 import { Link } from 'routes';
+import { toggleLayerGroup } from 'redactions/explore';
+import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import Button from 'components/ui/Button';
+import Icon from 'components/widgets/editor/ui/Icon';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import DatasetLayerChart from 'components/app/explore/DatasetLayerChart';
 import DatasetPlaceholderChart from 'components/app/explore/DatasetPlaceholderChart';
-import { toggleLayerGroup } from 'redactions/explore';
+import DatasetTagsTooltip from 'components/app/explore/DatasetTagsTooltip';
+
 
 class DatasetWidget extends React.Component {
   /**
@@ -29,6 +34,21 @@ class DatasetWidget extends React.Component {
       return `${text}...`;
     }
     return res;
+  }
+
+  /**
+   * Return the position of the click within the page taking
+   * into account the scroll (relative to the page, not the
+   * viewport )
+   * @static
+   * @param {MouseEvent} e Event
+   * @returns {{ x: number, y: number }}
+   */
+  static getClickPosition(e) {
+    return {
+      x: window.scrollX + e.clientX,
+      y: window.scrollY + e.clientY
+    };
   }
 
   /**
@@ -89,16 +109,57 @@ class DatasetWidget extends React.Component {
     this.props.toggleLayerGroup(datasetID, addLayerGroup);
   }
 
+  @Autobind
+  handleTagsClick(event) {
+    const { dataset } = this.props;
+    const vocabulary = dataset.attributes.vocabulary && dataset.attributes.vocabulary[0];
+    const tags = vocabulary.attributes.tags;
+    const position = DatasetWidget.getClickPosition(event);
+    this.props.toggleTooltip(true, {
+      follow: false,
+      position,
+      children: DatasetTagsTooltip,
+      childrenProps: {
+        toggleTooltip: this.props.toggleTooltip,
+        onTagClick: this.handleTagClick,
+        tags
+      }
+    });
+  }
+
+  handleTagClick(event) {
+    const tagName = event.target.textContent;
+    console.log('Tag selected: ', tagName);
+  }
+
   render() {
     const { widget, layer, mode } = this.props;
     const dataset = this.props.dataset.attributes;
     const metadata = dataset.metadata && dataset.metadata[0];
+    const vocabulary = dataset.vocabulary && dataset.vocabulary[0];
     const { showActions } = this.props;
     const gridMode = (mode === 'grid');
     const element = this.getWidgetOrLayer();
 
     return (
       <div className={`c-dataset-list-item -${mode}`}>
+
+        {/* Dataset tags link */}
+        {vocabulary &&
+          <div
+            className="tags-button"
+            onClick={this.handleTagsClick}
+            title="tags"
+            role="button"
+            tabIndex={-1}
+          >
+            <Icon
+              name="icon-item-category"
+              className="-small"
+            />
+          </div>
+        }
+
         {/* If it has widget we want to renderize the default widget one */}
         {widget && gridMode &&
           <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
@@ -180,7 +241,8 @@ DatasetWidget.propTypes = {
   // Return whether a layer group is already added to the map
   isLayerGroupAdded: PropTypes.func.isRequired,
   // Add or remove a layer group from the map
-  toggleLayerGroup: PropTypes.func.isRequired
+  toggleLayerGroup: PropTypes.func.isRequired,
+  toggleTooltip: PropTypes.func.isRequired
 };
 
 const mapStateToProps = ({ explore }) => ({
@@ -188,7 +250,8 @@ const mapStateToProps = ({ explore }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleLayerGroup: (dataset, addLayer) => dispatch(toggleLayerGroup(dataset, addLayer))
+  toggleLayerGroup: (dataset, addLayer) => dispatch(toggleLayerGroup(dataset, addLayer)),
+  toggleTooltip: (opened, opts) => { dispatch(toggleTooltip(opened, opts)); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetWidget);
