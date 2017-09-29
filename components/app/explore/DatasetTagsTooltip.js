@@ -22,7 +22,6 @@ class DatasetTagsTooltip extends React.Component {
 
   render() {
     const { tags } = this.props;
-    console.log('tags', tags);
     return (
       <div className="c-dataset-tags-tooltip">
         {tags && tags.map(tag => (
