@@ -6,7 +6,6 @@ import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import MediaQuery from 'react-responsive';
 import 'isomorphic-fetch';
-import ReactDOM from 'react-dom';
 import DropdownTreeSelect from 'react-dropdown-tree-select';
 
 // Redux
@@ -167,13 +166,6 @@ class Explore extends Page {
     fetch(new Request('/static/data/TopicsTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
       .then((data) => {
-        const element = document.getElementsByClassName('topics-selector')[0];
-
-        const onChange = (currentNode, selectedNodes) => {
-          this.filters.topics = selectedNodes.map(val => val.value);
-        };
-
-
         if (topics) {
           data.forEach(child => this.selectElementsFromTree(child, topics));
 
@@ -185,26 +177,14 @@ class Explore extends Page {
           this.filters.topics = topicsVal;
         }
 
-        ReactDOM.render(
-          <DropdownTreeSelect
-            showDropdown
-            placeholderText="Topics"
-            data={data}
-            onChange={onChange}
-          />,
-          element);
+        // Save the topics tree as variable for later use
+        this.topicsTree = data;
       });
 
     // Data types selector
     fetch(new Request('/static/data/DataTypesTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
       .then((data) => {
-        const element = document.getElementsByClassName('data-types-selector')[0];
-
-        const onChange = (currentNode, selectedNodes) => {
-          this.filters.dataType = selectedNodes.map(val => val.value);
-        };
-
         if (dataType) {
           data.forEach(child => this.selectElementsFromTree(child, dataType));
           const dataTypesVal = JSON.parse(dataType).map((type) => {
@@ -215,25 +195,14 @@ class Explore extends Page {
           this.filters.dataTypes = dataTypesVal;
         }
 
-        ReactDOM.render(
-          <DropdownTreeSelect
-            data={data}
-            placeholderText="Data types"
-            onChange={onChange}
-          />,
-          element);
+        // Save the data types tree as a variable for later use
+        this.dataTypesTree = data;
       });
 
     // Geographies selector
     fetch(new Request('/static/data/GeographiesTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
       .then((data) => {
-        const element = document.getElementsByClassName('geographies-selector')[0];
-
-        const onChange = (currentNode, selectedNodes) => {
-          this.filters.geographies = selectedNodes.map(val => val.value);
-        };
-
         if (geographies) {
           data.forEach(child => this.selectElementsFromTree(child, geographies));
           const geographiesVal = [];
@@ -257,13 +226,8 @@ class Explore extends Page {
           this.filters.geographies = geographiesVal;
         }
 
-        ReactDOM.render(
-          <DropdownTreeSelect
-            data={data}
-            placeholderText="Geographies"
-            onChange={onChange}
-          />,
-          element);
+        // Save the data types tree as variable for later use
+        this.geographiesTree = data;
       });
 
     const hasSelectedValues = [
@@ -277,8 +241,6 @@ class Explore extends Page {
       showFilters: hasSelectedValues
     });
   }
-
-
 
   /**
    * Sets checked values for selector based on previous one chosen.
@@ -395,6 +357,20 @@ class Explore extends Page {
     return filter && filter.value;
   }
 
+  @Autobind
+  handleTagSelected(tag) {
+    if (this.topicsTree.find(elem => elem.value === tag)) {
+      this.filters = { topics: [tag], geographies: [], dataType: [] };
+      this.applyFilters();
+    } else if (this.geographiesTree.find(elem => elem.value === tag)) {
+      this.filters = { topics: [], geographies: [tag], dataType: [] };
+      this.applyFilters();
+    } else if (this.dataTypesTree.find(elem => elem.value === tag)) {
+      this.filters = { topics: [], geographies: [], dataType: [tag] };
+      this.applyFilters();
+    }
+  }
+
   applyFilters() {
     const { topics, geographies, dataType } = this.filters;
     const { page } = this.props.url.query || {};
@@ -476,13 +452,44 @@ class Explore extends Page {
                   <div className={filterContainerClass}>
                     <div className="row">
                       <div className="column small-12">
-                        <div className="c-tree-selector -explore topics-selector" />
+                        <div className="c-tree-selector -explore topics-selector">
+                          {this.topicsTree &&
+                            <DropdownTreeSelect
+                              showDropdown
+                              placeholderText="Topics"
+                              data={this.topicsTree}
+                              onChange={(currentNode, selectedNodes) => {
+                                this.filters.topics = selectedNodes.map(val => val.value);
+                              }}
+                            />
+                          }
+                        </div>
                       </div>
                       <div className="column small-12">
-                        <div className="c-tree-selector -explore geographies-selector " />
+                        <div className="c-tree-selector -explore geographies-selector ">
+                          {this.geographiesTree &&
+                            <DropdownTreeSelect
+                              data={this.geographiesTree}
+                              placeholderText="Geographies"
+                              onChange={(currentNode, selectedNodes) => {
+                                this.filters.geographies = selectedNodes.map(val => val.value);
+                              }}
+                            />
+                          }
+                        </div>
                       </div>
                       <div className="column small-12">
-                        <div className="c-tree-selector -explore data-types-selector" />
+                        <div className="c-tree-selector -explore data-types-selector">
+                          {this.dataTypesTree &&
+                            <DropdownTreeSelect
+                              data={this.dataTypesTree}
+                              placeholderText="Data types"
+                              onChange={(currentNode, selectedNodes) => {
+                                this.filters.dataType = selectedNodes.map(val => val.value);
+                              }}
+                            />
+                          }
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -501,6 +508,7 @@ class Explore extends Page {
                         list={filteredDatasets}
                         mode={explore.datasets.mode}
                         showActions
+                        onTagSelected={this.handleTagSelected}
                       />
                     </div>
                   </div>
