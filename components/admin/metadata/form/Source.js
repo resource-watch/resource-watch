@@ -78,7 +78,7 @@ class Source extends React.Component {
             <Field
               ref={(c) => { if (c) SOURCE_ELEMENTS.elements[`source-name-${index + 1}`] = c; }}
               onChange={value => this.onChange('source-name', value)}
-              validations={[]}
+              validations={['url']}
               properties={{
                 name: 'source-name',
                 label: 'Source',
