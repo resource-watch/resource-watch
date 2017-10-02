@@ -249,15 +249,14 @@ class Explore extends Page {
    * @param {Object[]} elements Contains values to be selected in the data tree.
    */
   selectElementsFromTree(tree = {}, elements = []) { // eslint-disable-line class-methods-use-this
-    if (elements.includes(tree.value)) {
-      tree.checked = true; // eslint-disable-line no-param-reassign
-    }
-    (tree.children || []).forEach(child => {
+    tree.checked = elements.includes(tree.value); // eslint-disable-line no-param-reassign
+
+    (tree.children || []).forEach((child) => {
       if (tree.checked) {
-        child.checked = tree.checked;
+        child.checked = tree.checked; // eslint-disable-line no-param-reassign
       } else {
-        this.selectElementsFromTree(child, elements)
-      };
+        this.selectElementsFromTree(child, elements);
+      }
     });
   }
 
@@ -360,12 +359,15 @@ class Explore extends Page {
   @Autobind
   handleTagSelected(tag) {
     if (this.topicsTree.find(elem => elem.value === tag)) {
+      this.topicsTree.forEach(child => this.selectElementsFromTree(child, [tag]));
       this.filters = { topics: [tag], geographies: [], dataType: [] };
       this.applyFilters();
     } else if (this.geographiesTree.find(elem => elem.value === tag)) {
+      this.geographiesTree.forEach(child => this.selectElementsFromTree(child, [tag]));
       this.filters = { topics: [], geographies: [tag], dataType: [] };
       this.applyFilters();
     } else if (this.dataTypesTree.find(elem => elem.value === tag)) {
+      this.dataTypesTree.forEach(child => this.selectElementsFromTree(child, [tag]));
       this.filters = { topics: [], geographies: [], dataType: [tag] };
       this.applyFilters();
     }
@@ -378,15 +380,15 @@ class Explore extends Page {
 
     if (page !== 1) this.props.setDatasetsPage(1);
 
-    // updates URL
-    this.props.setDatasetsTopicsFilter(topics);
-    this.props.setDatasetsGeographiesFilter(geographies);
-    this.props.setDatasetsDataTypeFilter(dataType);
-
-    if (!hasValues) {
-      this.props.setDatasetsFilteredByConcepts([]);
-      return;
-    }
+    // // updates URL
+    // this.props.setDatasetsTopicsFilter(topics);
+    // this.props.setDatasetsGeographiesFilter(geographies);
+    // this.props.setDatasetsDataTypeFilter(dataType);
+    //
+    // if (!hasValues) {
+    //   this.props.setDatasetsFilteredByConcepts([]);
+    //   return;
+    // }
 
     this.props.setFiltersLoading(true);
     this.datasetService.searchDatasetsByConcepts(
@@ -460,6 +462,7 @@ class Explore extends Page {
                               data={this.topicsTree}
                               onChange={(currentNode, selectedNodes) => {
                                 this.filters.topics = selectedNodes.map(val => val.value);
+                                this.selectElementsFromTree(this.topicsTree, this.filters.topics);
                               }}
                             />
                           }
@@ -473,6 +476,8 @@ class Explore extends Page {
                               placeholderText="Geographies"
                               onChange={(currentNode, selectedNodes) => {
                                 this.filters.geographies = selectedNodes.map(val => val.value);
+                                this.selectElementsFromTree(this.geographiesTree,
+                                  this.filters.geographies);
                               }}
                             />
                           }
@@ -486,6 +491,8 @@ class Explore extends Page {
                               placeholderText="Data types"
                               onChange={(currentNode, selectedNodes) => {
                                 this.filters.dataType = selectedNodes.map(val => val.value);
+                                this.selectElementsFromTree(this.dataTypesTree,
+                                  this.filters.dataType);
                               }}
                             />
                           }
