@@ -1,10 +1,11 @@
 // CONSTANTS
 const SET_SOURCES = 'sources/SET_SOURCES';
 const SET_TMP_SOURCES = 'sources/SET_TMP_SOURCES';
+const RESET_SOURCES = 'sources/RESET_SOURCES';
 
 // REDUCER
 const initialState = {
-  sources: [],
+  sources: [{}],
   tmpSources: []
 };
 
@@ -14,6 +15,13 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { sources : action.payload });
     case SET_TMP_SOURCES:
       return Object.assign({}, state, { tmpSources : action.payload });
+    case RESET_SOURCES: {
+      const { sources, tmpSources } = initialState;
+      return Object.assign({}, state, {
+        sources,
+        tmpSources
+      });
+    }
     default:
       return state;
   }
@@ -26,4 +34,8 @@ export function setSources(sources) {
 
 export function setTmpSources(sources) {
   return { type: SET_TMP_SOURCES, payload: sources };
+}
+
+export function resetSources() {
+  return { type: RESET_SOURCES };
 }

@@ -9,7 +9,7 @@ import { Autobind } from 'es-decorators';
 import { connect } from 'react-redux';
 
 // redactions
-import { setSources } from 'redactions/admin/sources';
+import { setSources, resetSources } from 'redactions/admin/sources';
 
 // Service
 import DatasetsService from 'services/DatasetsService';
@@ -77,6 +77,10 @@ class MetadataForm extends React.Component {
           toastr.error('Error', err);
         });
     }
+  }
+
+  componentWillUnmount() {
+    this.props.resetSources();
   }
 
   /**
@@ -200,7 +204,8 @@ MetadataForm.propTypes = {
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
-  setSources: sources => dispatch(setSources(sources))
+  setSources: sources => dispatch(setSources(sources)),
+  resetSources: () => dispatch(resetSources())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MetadataForm);
