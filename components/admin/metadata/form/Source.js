@@ -60,7 +60,7 @@ class Source extends React.Component {
   onRemoveSource(index) {
     const sources = [...this.props.tmpSources];
     sources.splice(index, 1);
-    if (!sources.length) sources.push({});
+    if (!sources.length) sources.push({ id: -1 });
     this.props.setTmpSources(sources);
 
     delete SOURCE_ELEMENTS.elements[`source-name-${index + 1}`];
@@ -78,7 +78,7 @@ class Source extends React.Component {
             <Field
               ref={(c) => { if (c) SOURCE_ELEMENTS.elements[`source-name-${index + 1}`] = c; }}
               onChange={value => this.onChange('source-name', value)}
-              validations={['url', 'required']}
+              validations={[]}
               properties={{
                 name: 'source-name',
                 label: 'Source',
