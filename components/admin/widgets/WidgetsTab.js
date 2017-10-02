@@ -24,7 +24,7 @@ function WidgetsTab(props) {
       }
 
       {user.token && id && id !== 'new' &&
-        <WidgetsShow tab={tab} subtab={subtab} id={id} user={user} />
+        <WidgetsShow tab={tab} subtab={subtab} id={id} user={user} dataset={dataset} />
       }
     </div>
   );

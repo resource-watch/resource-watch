@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import LayersForm from 'components/admin/layers/form/LayersForm';
 
 function LayersShow(props) {
-  const { id, user } = props;
+  const { id, dataset, user } = props;
 
   return (
     <div className="c-layers-show">
@@ -15,7 +15,13 @@ function LayersShow(props) {
           id={id}
           application={[process.env.APPLICATIONS]}
           authorization={user.token}
-          onSubmit={() => Router.pushRoute('admin_data', { tab: 'layers' })}
+          onSubmit={() => {
+            if (dataset) {
+              Router.pushRoute('admin_data_detail', { tab: 'datasets', subtab: 'layers', id: dataset });
+            } else {
+              Router.pushRoute('admin_data', { tab: 'layers' });
+            }
+          }}
         />
       }
     </div>
@@ -24,6 +30,7 @@ function LayersShow(props) {
 
 LayersShow.propTypes = {
   id: PropTypes.string.isRequired,
+  dataset: PropTypes.string,
   // Store
   user: PropTypes.object.isRequired
 };

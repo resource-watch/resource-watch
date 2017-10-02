@@ -5,11 +5,19 @@ import PropTypes from 'prop-types';
 import { Link } from 'routes';
 
 function NameTD(props) {
-  const { row, value, index } = props;
+  const { row, value, dataset, index } = props;
 
   return (
     <td key={index} className="main">
-      <Link route="admin_data_detail" params={{ tab: 'widgets', id: row.id }}>
+      <Link
+        route="admin_data_detail"
+        params={{
+          tab: 'widgets',
+          subtab: 'edit',
+          id: row.id,
+          ...!!dataset && { dataset }
+        }}
+      >
         <a>{value}</a>
       </Link>
     </td>
@@ -19,6 +27,7 @@ function NameTD(props) {
 NameTD.propTypes = {
   row: PropTypes.object,
   value: PropTypes.string,
+  dataset: PropTypes.string,
   index: PropTypes.string
 };
 
