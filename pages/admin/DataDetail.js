@@ -123,7 +123,7 @@ class DataDetail extends Page {
                 <div className="page-header-content">
                   {dataset && tab !== 'datasets' &&
                     <Breadcrumbs
-                      items={[{ name: 'Back to dataset', route: 'admin_data_detail', params: { tab: 'datasets', subtab: tab, id: dataset } }]}
+                      items={[{ name: capitalizeFirstLetter(tab), route: 'admin_data_detail', params: { tab: 'datasets', subtab: tab, id: dataset } }]}
                     />
                   }
                   {!dataset &&
