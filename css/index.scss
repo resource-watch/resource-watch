@@ -111,6 +111,7 @@
 @import "./components/form/wysiwyg";
 @import "./components/form/toggle-search";
 
+
 // WIDGETS
 @import "./components/widgets/add_widget_to_collection_tooltip";
 @import "./components/widgets/text_chart";
@@ -145,6 +146,9 @@
 @import "./components/admin/dataset/filter-item";
 @import "./components/admin/dataset/list";
 @import "./components/admin/dataset/datasets-list-card";
+@import "./components/admin/dataset/source-item";
+@import "./components/admin/dataset/metadata-source-list";
+
 
 // Widgets
 @import "./components/admin/widget/card";

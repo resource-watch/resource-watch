@@ -5,6 +5,12 @@ import { toastr } from 'react-redux-toastr';
 
 import { Autobind } from 'es-decorators';
 
+// redux
+import { connect } from 'react-redux';
+
+// redactions
+import { setSources, resetSources } from 'redactions/admin/sources';
+
 // Service
 import DatasetsService from 'services/DatasetsService';
 
@@ -51,6 +57,8 @@ class MetadataForm extends React.Component {
             loading: false
           });
 
+          this.props.setSources((metadata[0] || {}).attributes.info.sources || []);
+
           // fetchs column fields based on dataset type
           this.service.fetchFields({
             id: this.props.dataset,
@@ -69,6 +77,10 @@ class MetadataForm extends React.Component {
           toastr.error('Error', err);
         });
     }
+  }
+
+  componentWillUnmount() {
+    this.props.resetSources();
   }
 
   /**
@@ -186,7 +198,15 @@ MetadataForm.propTypes = {
   dataset: PropTypes.string.isRequired,
   application: PropTypes.string.isRequired,
   authorization: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
+  resetSources: PropTypes.func
 };
 
-export default MetadataForm;
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = dispatch => ({
+  setSources: sources => dispatch(setSources(sources)),
+  resetSources: () => dispatch(resetSources())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MetadataForm);
