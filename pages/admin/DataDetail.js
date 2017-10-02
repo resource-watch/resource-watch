@@ -38,9 +38,46 @@ class DataDetail extends Page {
       data: {},
       dataset
     };
+  }
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { tab, id, subtab, dataset } = nextProps.url.query;
+
+    this.setState({
+      tab, id, subtab, dataset
+    }, () => {
+      this.getData();
+    });
+  }
+
+
+  /**
+   * HELPERS
+   * - getName
+   * - getData
+  */
+  getName() {
+    const { tab, id, data } = this.state;
+
+    if (id === 'new') {
+      return `New ${singular(tab)}`;
+    }
+
+    if (data.name) {
+      return data.name;
+    }
+
+    return '-';
+  }
+
+  getData() {
+    const { tab, id } = this.state;
 
     this.service = null;
-
     switch (tab) {
       case 'datasets':
         if (id !== 'new') {
@@ -62,10 +99,6 @@ class DataDetail extends Page {
 
       default:
     }
-  }
-
-  componentDidMount() {
-    const { id } = this.state;
 
     if (this.service) {
       // Fetch the dataset / layer / widget depending on the tab
@@ -79,30 +112,6 @@ class DataDetail extends Page {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { tab, id, subtab, dataset } = nextProps.url.query;
-
-    this.setState({ tab, id, subtab, dataset });
-  }
-
-
-  /**
-   * HELPERS
-   * - getName
-  */
-  getName() {
-    const { tab, id, data } = this.state;
-
-    if (id === 'new') {
-      return `New ${singular(tab)}`;
-    }
-
-    if (data.name) {
-      return data.name;
-    }
-
-    return '-';
-  }
 
   render() {
     const { url, user } = this.props;

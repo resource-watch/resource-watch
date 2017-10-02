@@ -43,6 +43,7 @@
   overflow: hidden;
   position: relative;
   width: 100%;
+  font-size: $font-size-default;
 }
 .Select-control:hover {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
@@ -244,6 +245,7 @@
   width: 100%;
   z-index: 10;
   -webkit-overflow-scrolling: touch;
+  font-size: $font-size-default;
 }
 .Select-menu {
   max-height: 198px;
