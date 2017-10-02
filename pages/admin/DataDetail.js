@@ -121,9 +121,16 @@ class DataDetail extends Page {
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content">
-                  <Breadcrumbs
-                    items={[{ name: capitalizeFirstLetter(tab), route: 'admin_data', params: { tab } }]}
-                  />
+                  {dataset && tab !== 'datasets' &&
+                    <Breadcrumbs
+                      items={[{ name: 'Back to dataset', route: 'admin_data_detail', params: { tab: 'datasets', subtab: tab, id: dataset } }]}
+                    />
+                  }
+                  {!dataset &&
+                    <Breadcrumbs
+                      items={[{ name: capitalizeFirstLetter(tab), route: 'admin_data', params: { tab } }]}
+                    />
+                  }
                   <h1>{this.getName()}</h1>
                 </div>
               </div>
