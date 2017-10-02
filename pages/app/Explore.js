@@ -192,7 +192,7 @@ class Explore extends Page {
             return match.value;
           });
 
-          this.filters.dataTypes = dataTypesVal;
+          this.filters.dataType = dataTypesVal;
         }
 
         // Save the data types tree as a variable for later use
@@ -412,6 +412,14 @@ class Explore extends Page {
     const { explore, totalDatasets, filteredDatasets } = this.props;
     const { search } = explore.filters;
     const { showFilters } = this.state;
+    const { topics, geographies, dataType } = this.filters;
+
+    const topicsSt = topics && topics.length > 0 ? ` topics (${topics.length})` : '';
+    const geographiesSt = geographies && geographies.length > 0 ? ` geographies (${geographies.length})` : '';
+    const dataTypesSt = dataType && dataType.length > 0 ? ` data type (${dataType.length})` : '';
+    const filtersAppliedText = (geographiesSt !== '' || topicsSt !== '' || dataTypesSt !== '') ?
+      `${topicsSt} ${geographiesSt} ${dataTypesSt}` : '';
+    const filtersSumUp = !showFilters ? filtersAppliedText : '';
 
     const buttonFilterContent = showFilters ? 'Hide filters' : 'Show filters';
     const filterContainerClass = classnames('filters-container', {
@@ -451,7 +459,7 @@ class Explore extends Page {
                       className="c-button"
                       onClick={() => this.toggleFilters()}
                     >
-                      {buttonFilterContent}
+                      {buttonFilterContent}<span className="filters-sum-up">{filtersSumUp}</span>
                     </button>
                   </div>
                   <div className={filterContainerClass}>
