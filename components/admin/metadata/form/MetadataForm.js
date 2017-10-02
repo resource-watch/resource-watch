@@ -57,7 +57,9 @@ class MetadataForm extends React.Component {
             loading: false
           });
 
-          this.props.setSources((metadata[0] || {}).attributes.info.sources || []);
+          if (metadata[0]) {
+            this.props.setSources(metadata[0].attributes.info.sources || []);
+          }
 
           // fetchs column fields based on dataset type
           this.service.fetchFields({
@@ -199,6 +201,7 @@ MetadataForm.propTypes = {
   application: PropTypes.string.isRequired,
   authorization: PropTypes.string.isRequired,
   onSubmit: PropTypes.func,
+  setSources: PropTypes.func,
   resetSources: PropTypes.func
 };
 
