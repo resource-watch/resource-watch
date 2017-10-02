@@ -248,15 +248,18 @@ class Explore extends Page {
    * @param {Object} tree used to populate selectors. Contains all options available.
    * @param {Object[]} elements Contains values to be selected in the data tree.
    */
-  selectElementsFromTree(tree = {}, elements = []) { // eslint-disable-line class-methods-use-this
+  selectElementsFromTree(tree = {}, elements = [], deselect = false) {
+    console.log('deselect', deselect, 'elements', elements, 'tree', tree);
     let found = false; // We're using this loop because indexOf was finding elements
     // that were substrings, e.g. "co" and "economic" when only "economic" should have been found
     for (let i = 0; i < elements.length && !found; i++) {
       if (elements[i] === tree.value) {
+        tree.checked = !deselect; // eslint-disable-line no-param-reassign
         found = true;
+        console.log('lalala');
       }
+      console.log('oooo');
     }
-    tree.checked = found; // eslint-disable-line no-param-reassign
 
     (tree.children || []).forEach((child) => {
       if (tree.checked) {
@@ -469,7 +472,7 @@ class Explore extends Page {
                               data={this.topicsTree}
                               onChange={(currentNode, selectedNodes) => {
                                 this.filters.topics = selectedNodes.map(val => val.value);
-                                this.selectElementsFromTree(this.topicsTree, this.filters.topics);
+                                this.selectElementsFromTree(this.topicsTree, this.filters.topics, !selectedNodes.includes(currentNode));
                               }}
                             />
                           }
@@ -484,7 +487,7 @@ class Explore extends Page {
                               onChange={(currentNode, selectedNodes) => {
                                 this.filters.geographies = selectedNodes.map(val => val.value);
                                 this.selectElementsFromTree(this.geographiesTree,
-                                  this.filters.geographies);
+                                  this.filters.geographies, !selectedNodes.includes(currentNode));
                               }}
                             />
                           }
@@ -498,8 +501,15 @@ class Explore extends Page {
                               placeholderText="Data types"
                               onChange={(currentNode, selectedNodes) => {
                                 this.filters.dataType = selectedNodes.map(val => val.value);
-                                this.selectElementsFromTree(this.dataTypesTree,
-                                  this.filters.dataType);
+                                const deselect = !selectedNodes.includes(currentNode);
+                                if (deselect) {
+                                  this.dataTypesTree.forEach(child => this.selectElementsFromTree(
+                                    child, [currentNode.value], deselect));
+                                } else {
+                                  this.dataTypesTree.forEach(child => this.selectElementsFromTree(
+                                    child, this.filters.dataType, deselect));
+                                }
+                                console.log('this.dataTypesTree', this.dataTypesTree);
                               }}
                             />
                           }
