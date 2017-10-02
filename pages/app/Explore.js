@@ -167,7 +167,7 @@ class Explore extends Page {
       .then(response => response.json())
       .then((data) => {
         if (topics) {
-          data.forEach(child => this.selectElementsFromTree(child, topics));
+          data.forEach(child => this.selectElementsFromTree(child, JSON.parse(topics)));
 
           const topicsVal = JSON.parse(topics).map((type) => {
             const match = data.find(d => d.value === type) || {};
@@ -186,7 +186,7 @@ class Explore extends Page {
       .then(response => response.json())
       .then((data) => {
         if (dataType) {
-          data.forEach(child => this.selectElementsFromTree(child, dataType));
+          data.forEach(child => this.selectElementsFromTree(child, JSON.parse(dataType)));
           const dataTypesVal = JSON.parse(dataType).map((type) => {
             const match = data.find(d => d.value === type) || {};
             return match.value;
@@ -204,7 +204,7 @@ class Explore extends Page {
       .then(response => response.json())
       .then((data) => {
         if (geographies) {
-          data.forEach(child => this.selectElementsFromTree(child, geographies));
+          data.forEach(child => this.selectElementsFromTree(child, JSON.parse(geographies)));
           const geographiesVal = [];
 
           const searchFunction = (item) => {
@@ -249,7 +249,14 @@ class Explore extends Page {
    * @param {Object[]} elements Contains values to be selected in the data tree.
    */
   selectElementsFromTree(tree = {}, elements = []) { // eslint-disable-line class-methods-use-this
-    tree.checked = elements.includes(tree.value); // eslint-disable-line no-param-reassign
+    let found = false; // We're using this loop because indexOf was finding elements
+    // that were substrings, e.g. "co" and "economic" when only "economic" should have been found
+    for (let i = 0; i < elements.length && !found; i++) {
+      if (elements[i] === tree.value) {
+        found = true;
+      }
+    }
+    tree.checked = found; // eslint-disable-line no-param-reassign
 
     (tree.children || []).forEach((child) => {
       if (tree.checked) {
@@ -380,15 +387,15 @@ class Explore extends Page {
 
     if (page !== 1) this.props.setDatasetsPage(1);
 
-    // // updates URL
-    // this.props.setDatasetsTopicsFilter(topics);
-    // this.props.setDatasetsGeographiesFilter(geographies);
-    // this.props.setDatasetsDataTypeFilter(dataType);
-    //
-    // if (!hasValues) {
-    //   this.props.setDatasetsFilteredByConcepts([]);
-    //   return;
-    // }
+    // updates URL
+    this.props.setDatasetsTopicsFilter(topics);
+    this.props.setDatasetsGeographiesFilter(geographies);
+    this.props.setDatasetsDataTypeFilter(dataType);
+
+    if (!hasValues) {
+      this.props.setDatasetsFilteredByConcepts([]);
+      return;
+    }
 
     this.props.setFiltersLoading(true);
     this.datasetService.searchDatasetsByConcepts(
