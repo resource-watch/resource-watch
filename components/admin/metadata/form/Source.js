@@ -49,9 +49,9 @@ class Source extends React.Component {
     let existentSource = sources[index];
 
     if (existentSource) {
-      sources.splice(index, 1, value);
+      sources.splice(index, 1, { ...value, id: index });
     } else {
-      sources.push(value);
+      sources.push({...value, id: index });
     }
 
     this.props.setTmpSources(sources);

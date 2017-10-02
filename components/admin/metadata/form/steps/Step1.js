@@ -49,16 +49,13 @@ class Step1 extends React.Component {
       children: SourcesContentModal,
       childrenProps: {
         onClose: () => this.props.toggleModal(false, {}),
-        onSubmit: (sources) => {
-          this.props.toggleModal(false, {});
-          // this.changeMetadata({ info: { sources } });
-        }
+        onSubmit: () => this.props.toggleModal(false, {})
       }
     });
   }
 
   render() {
-    const { form, columns, type } = this.props;
+    const { form, columns, type, sources } = this.props;
     const isRaster = type === 'raster';
 
     const aliasColumnClass = classnames('columns', {
@@ -286,34 +283,6 @@ class Step1 extends React.Component {
             {Input}
           </Field>
 
-
-          {/* <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.source_organization = c; }}
-            onChange={value => this.changeMetadata({ info: { source_organization: value } })}
-            properties={{
-              name: 'source_organization',
-              label: 'Source Organization',
-              type: 'text',
-              default: this.props.form.info.source_organization
-            }}
-          >
-            {Input}
-          </Field>
-
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.source_organization_link = c; }}
-            onChange={value => this.changeMetadata({ info: { source_organization_link: value } })}
-            validations={['url']}
-            properties={{
-              name: 'source_organization_link',
-              label: 'Source Organization Link',
-              type: 'text',
-              default: this.props.form.info.source_organization_link
-            }}
-          >
-            {Input}
-          </Field> */}
-
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.translated_title = c; }}
             onChange={value => this.changeMetadata({ info: { translated_title: value } })}
@@ -332,8 +301,31 @@ class Step1 extends React.Component {
             type="button"
             onClick={() => this.openSourcesModal()}
           >
-            Add sources
+            Add/Remove sources
           </button>
+
+          {sources.length > 0 &&
+            <div className="c-metadata-source-list">
+              <ul className="source-list">
+                {sources.map(source =>
+                  <li key={source.id} className="source-item">
+                    <div className="source-container">
+                      <a
+                        className="source-name"
+                        href={source['source-name']}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        {source['source-name']}
+                      </a>
+                      {source['source-description'] &&
+                        <span className="source-description">{source['source-description']}</span>}
+                    </div>
+                  </li>)
+                }
+              </ul>
+
+            </div>}
 
         </fieldset>
 

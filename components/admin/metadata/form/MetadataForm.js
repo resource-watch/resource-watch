@@ -198,7 +198,8 @@ MetadataForm.propTypes = {
   dataset: PropTypes.string.isRequired,
   application: PropTypes.string.isRequired,
   authorization: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
+  resetSources: PropTypes.func
 };
 
 const mapStateToProps = () => ({});

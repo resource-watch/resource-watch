@@ -5,7 +5,7 @@ const RESET_SOURCES = 'sources/RESET_SOURCES';
 
 // REDUCER
 const initialState = {
-  sources: [{}],
+  sources: [],
   tmpSources: []
 };
 

@@ -17,7 +17,11 @@ class SourcesContentModal extends React.Component {
 
   componentWillMount() {
     const { sources, setTmpSources } = this.props;
-    setTmpSources(sources);
+    if (!sources.length) {
+      setTmpSources([{}]);
+      return;
+    };
+    setTmpSources(sources)
   }
 
   onSubmitForm = (event) => {
@@ -85,7 +89,7 @@ SourcesContentModal.propTypes = {
 };
 
 SourcesContentModal.defaultProps = {
-  sources: [],
+  sources: [{}],
   tmpSources: []
 };
 
