@@ -84,8 +84,8 @@ class WidgetsForm extends React.Component {
 
         // Set advanced mode if paramsConfig doesn't exist or if it's empty
         const mode = (
-          !current.widgetConfig.paramsConfig ||
-          !isEmpty(current.widgetConfig.paramsConfig)
+          current &&
+          (!current.widgetConfig.paramsConfig || !isEmpty(current.widgetConfig.paramsConfig))
         ) ? 'advanced' : 'editor';
 
         this.setState({
