@@ -249,16 +249,13 @@ class Explore extends Page {
    * @param {Object[]} elements Contains values to be selected in the data tree.
    */
   selectElementsFromTree(tree = {}, elements = [], deselect = false) {
-    console.log('deselect', deselect, 'elements', elements, 'tree', tree);
     let found = false; // We're using this loop because indexOf was finding elements
     // that were substrings, e.g. "co" and "economic" when only "economic" should have been found
     for (let i = 0; i < elements.length && !found; i++) {
       if (elements[i] === tree.value) {
         tree.checked = !deselect; // eslint-disable-line no-param-reassign
         found = true;
-        console.log('lalala');
       }
-      console.log('oooo');
     }
 
     (tree.children || []).forEach((child) => {
@@ -472,7 +469,14 @@ class Explore extends Page {
                               data={this.topicsTree}
                               onChange={(currentNode, selectedNodes) => {
                                 this.filters.topics = selectedNodes.map(val => val.value);
-                                this.selectElementsFromTree(this.topicsTree, this.filters.topics, !selectedNodes.includes(currentNode));
+                                const deselect = !selectedNodes.includes(currentNode);
+                                if (deselect) {
+                                  this.topicsTree.forEach(child => this.selectElementsFromTree(
+                                    child, [currentNode.value], deselect));
+                                } else {
+                                  this.topicsTree.forEach(child => this.selectElementsFromTree(
+                                    child, this.filters.topics, deselect));
+                                }
                               }}
                             />
                           }
@@ -486,8 +490,14 @@ class Explore extends Page {
                               placeholderText="Geographies"
                               onChange={(currentNode, selectedNodes) => {
                                 this.filters.geographies = selectedNodes.map(val => val.value);
-                                this.selectElementsFromTree(this.geographiesTree,
-                                  this.filters.geographies, !selectedNodes.includes(currentNode));
+                                const deselect = !selectedNodes.includes(currentNode);
+                                if (deselect) {
+                                  this.geographiesTree.forEach(child => this.selectElementsFromTree(
+                                    child, [currentNode.value], deselect));
+                                } else {
+                                  this.geographiesTree.forEach(child => this.selectElementsFromTree(
+                                    child, this.filters.geographies, deselect));
+                                }
                               }}
                             />
                           }
@@ -509,7 +519,6 @@ class Explore extends Page {
                                   this.dataTypesTree.forEach(child => this.selectElementsFromTree(
                                     child, this.filters.dataType, deselect));
                                 }
-                                console.log('this.dataTypesTree', this.dataTypesTree);
                               }}
                             />
                           }
