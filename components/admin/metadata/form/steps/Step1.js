@@ -82,6 +82,22 @@ class Step1 extends React.Component {
             {TextArea}
           </Field>
 
+          {/* Resource Watch ID */}
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.rwId = c; }}
+            onChange={value => this.changeMetadata({ info: { rwId: value } })}
+            validations={[]}
+            properties={{
+              name: 'rwId',
+              label: 'Resource Watch ID',
+              type: 'text',
+              required: false,
+              default: this.props.form.info.rwId
+            }}
+          >
+            {Input}
+          </Field>
+
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.language = c; }}
             onChange={value => this.changeMetadata({ language: value })}
