@@ -259,11 +259,7 @@ class Explore extends Page {
     }
 
     (tree.children || []).forEach((child) => {
-      if (tree.checked) {
-        child.checked = tree.checked; // eslint-disable-line no-param-reassign
-      } else {
-        this.selectElementsFromTree(child, elements, deselect);
-      }
+      this.selectElementsFromTree(child, elements, deselect);
     });
   }
 
