@@ -16,16 +16,16 @@ import { SOURCE_ELEMENTS } from 'components/admin/metadata/form/constants';
 class SourcesContentModal extends React.Component {
 
   componentWillMount() {
-    const { sources, setTmpSources } = this.props;
+    const { sources } = this.props;
     if (!sources.length) {
-      setTmpSources([{}]);
+      this.props.setTmpSources([{}]);
       return;
-    };
-    setTmpSources(sources)
+    }
+    this.props.setTmpSources(sources);
   }
 
   onSubmitForm = (event) => {
-    const { onSubmit, tmpSources, setSources } = this.props;
+    const { tmpSources } = this.props;
     event.preventDefault();
 
     // Validate the form
@@ -35,8 +35,8 @@ class SourcesContentModal extends React.Component {
     setTimeout(() => {
       const valid = SOURCE_ELEMENTS.isValid();
       if (valid) {
-        onSubmit();
-        setSources(tmpSources);
+        this.props.onSubmit();
+        this.props.setSources(tmpSources);
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
@@ -44,7 +44,7 @@ class SourcesContentModal extends React.Component {
   }
 
   render() {
-    const { onSubmit, onClose, tmpSources, setTmpSources } = this.props;
+    const { tmpSources } = this.props;
 
     return (
       <div className="source-content-modal">
@@ -54,7 +54,7 @@ class SourcesContentModal extends React.Component {
           <ContentGroup
             content={tmpSources}
             component={Source}
-            onAddComponent={() => setTmpSources([...tmpSources, {}])}
+            onAddComponent={() => this.props.setTmpSources([...tmpSources, {}])}
           />
           <div className="c-button-container -j-center">
             <ul>
@@ -70,7 +70,7 @@ class SourcesContentModal extends React.Component {
                 <button
                   type="button"
                   className="c-button -secondary"
-                  onClick={() => onClose()}
+                  onClick={() => this.props.onClose()}
                 >
                   Cancel
                 </button>
@@ -85,7 +85,11 @@ class SourcesContentModal extends React.Component {
 
 SourcesContentModal.propTypes = {
   sources: PropTypes.array,
-  onSubmit: PropTypes.func.isRequired
+  tmpSources: PropTypes.array,
+  setSources: PropTypes.func.isRequired,
+  setTmpSources: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired
 };
 
 SourcesContentModal.defaultProps = {
@@ -104,4 +108,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SourcesContentModal);
-
