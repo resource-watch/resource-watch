@@ -6,7 +6,6 @@ import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import MediaQuery from 'react-responsive';
 import 'isomorphic-fetch';
-import ReactDOM from 'react-dom';
 import DropdownTreeSelect from 'react-dropdown-tree-select';
 
 // Redux
@@ -167,15 +166,8 @@ class Explore extends Page {
     fetch(new Request('/static/data/TopicsTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
       .then((data) => {
-        const element = document.getElementsByClassName('topics-selector')[0];
-
-        const onChange = (currentNode, selectedNodes) => {
-          this.filters.topics = selectedNodes.map(val => val.value);
-        };
-
-
         if (topics) {
-          data.forEach(child => this.selectElementsFromTree(child, topics));
+          data.forEach(child => this.selectElementsFromTree(child, JSON.parse(topics)));
 
           const topicsVal = JSON.parse(topics).map((type) => {
             const match = data.find(d => d.value === type) || {};
@@ -185,57 +177,34 @@ class Explore extends Page {
           this.filters.topics = topicsVal;
         }
 
-        ReactDOM.render(
-          <DropdownTreeSelect
-            showDropdown
-            placeholderText="Topics"
-            data={data}
-            onChange={onChange}
-          />,
-          element);
+        // Save the topics tree as variable for later use
+        this.topicsTree = data;
       });
 
     // Data types selector
     fetch(new Request('/static/data/DataTypesTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
       .then((data) => {
-        const element = document.getElementsByClassName('data-types-selector')[0];
-
-        const onChange = (currentNode, selectedNodes) => {
-          this.filters.dataType = selectedNodes.map(val => val.value);
-        };
-
         if (dataType) {
-          data.forEach(child => this.selectElementsFromTree(child, dataType));
+          data.forEach(child => this.selectElementsFromTree(child, JSON.parse(dataType)));
           const dataTypesVal = JSON.parse(dataType).map((type) => {
             const match = data.find(d => d.value === type) || {};
             return match.value;
           });
 
-          this.filters.dataTypes = dataTypesVal;
+          this.filters.dataType = dataTypesVal;
         }
 
-        ReactDOM.render(
-          <DropdownTreeSelect
-            data={data}
-            placeholderText="Data types"
-            onChange={onChange}
-          />,
-          element);
+        // Save the data types tree as a variable for later use
+        this.dataTypesTree = data;
       });
 
     // Geographies selector
     fetch(new Request('/static/data/GeographiesTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
       .then((data) => {
-        const element = document.getElementsByClassName('geographies-selector')[0];
-
-        const onChange = (currentNode, selectedNodes) => {
-          this.filters.geographies = selectedNodes.map(val => val.value);
-        };
-
         if (geographies) {
-          data.forEach(child => this.selectElementsFromTree(child, geographies));
+          data.forEach(child => this.selectElementsFromTree(child, JSON.parse(geographies)));
           const geographiesVal = [];
 
           const searchFunction = (item) => {
@@ -257,13 +226,8 @@ class Explore extends Page {
           this.filters.geographies = geographiesVal;
         }
 
-        ReactDOM.render(
-          <DropdownTreeSelect
-            data={data}
-            placeholderText="Geographies"
-            onChange={onChange}
-          />,
-          element);
+        // Save the data types tree as variable for later use
+        this.geographiesTree = data;
       });
 
     const hasSelectedValues = [
@@ -278,24 +242,24 @@ class Explore extends Page {
     });
   }
 
-
-
   /**
    * Sets checked values for selector based on previous one chosen.
    *
    * @param {Object} tree used to populate selectors. Contains all options available.
    * @param {Object[]} elements Contains values to be selected in the data tree.
    */
-  selectElementsFromTree(tree = {}, elements = []) { // eslint-disable-line class-methods-use-this
-    if (elements.includes(tree.value)) {
-      tree.checked = true; // eslint-disable-line no-param-reassign
+  selectElementsFromTree(tree = {}, elements = [], deselect = false) {
+    let found = false; // We're using this loop because indexOf was finding elements
+    // that were substrings, e.g. "co" and "economic" when only "economic" should have been found
+    for (let i = 0; i < elements.length && !found; i++) {
+      if (elements[i] === tree.value) {
+        tree.checked = !deselect; // eslint-disable-line no-param-reassign
+        found = true;
+      }
     }
-    (tree.children || []).forEach(child => {
-      if (tree.checked) {
-        child.checked = tree.checked;
-      } else {
-        this.selectElementsFromTree(child, elements)
-      };
+
+    (tree.children || []).forEach((child) => {
+      this.selectElementsFromTree(child, elements, deselect);
     });
   }
 
@@ -395,6 +359,23 @@ class Explore extends Page {
     return filter && filter.value;
   }
 
+  @Autobind
+  handleTagSelected(tag) {
+    if (this.topicsTree.find(elem => elem.value === tag)) {
+      this.topicsTree.forEach(child => this.selectElementsFromTree(child, [tag]));
+      this.filters = { topics: [tag], geographies: [], dataType: [] };
+      this.applyFilters();
+    } else if (this.geographiesTree.find(elem => elem.value === tag)) {
+      this.geographiesTree.forEach(child => this.selectElementsFromTree(child, [tag]));
+      this.filters = { topics: [], geographies: [tag], dataType: [] };
+      this.applyFilters();
+    } else if (this.dataTypesTree.find(elem => elem.value === tag)) {
+      this.dataTypesTree.forEach(child => this.selectElementsFromTree(child, [tag]));
+      this.filters = { topics: [], geographies: [], dataType: [tag] };
+      this.applyFilters();
+    }
+  }
+
   applyFilters() {
     const { topics, geographies, dataType } = this.filters;
     const { page } = this.props.url.query || {};
@@ -431,6 +412,14 @@ class Explore extends Page {
     const { explore, totalDatasets, filteredDatasets } = this.props;
     const { search } = explore.filters;
     const { showFilters } = this.state;
+    const { topics, geographies, dataType } = this.filters;
+
+    const topicsSt = topics && topics.length > 0 ? ` topics (${topics.length})` : '';
+    const geographiesSt = geographies && geographies.length > 0 ? ` geographies (${geographies.length})` : '';
+    const dataTypesSt = dataType && dataType.length > 0 ? ` data type (${dataType.length})` : '';
+    const filtersAppliedText = (geographiesSt !== '' || topicsSt !== '' || dataTypesSt !== '') ?
+      `${topicsSt} ${geographiesSt} ${dataTypesSt}` : '';
+    const filtersSumUp = !showFilters ? filtersAppliedText : '';
 
     const buttonFilterContent = showFilters ? 'Hide filters' : 'Show filters';
     const filterContainerClass = classnames('filters-container', {
@@ -470,19 +459,74 @@ class Explore extends Page {
                       className="c-button"
                       onClick={() => this.toggleFilters()}
                     >
-                      {buttonFilterContent}
+                      {buttonFilterContent}<span className="filters-sum-up">{filtersSumUp}</span>
                     </button>
                   </div>
                   <div className={filterContainerClass}>
                     <div className="row">
                       <div className="column small-12">
-                        <div className="c-tree-selector -explore topics-selector" />
+                        <div className="c-tree-selector -explore topics-selector">
+                          {this.topicsTree &&
+                            <DropdownTreeSelect
+                              showDropdown
+                              placeholderText="Topics"
+                              data={this.topicsTree}
+                              onChange={(currentNode, selectedNodes) => {
+                                this.filters.topics = selectedNodes.map(val => val.value);
+                                const deselect = !selectedNodes.includes(currentNode);
+                                if (deselect) {
+                                  this.topicsTree.forEach(child => this.selectElementsFromTree(
+                                    child, [currentNode.value], deselect));
+                                } else {
+                                  this.topicsTree.forEach(child => this.selectElementsFromTree(
+                                    child, this.filters.topics, deselect));
+                                }
+                              }}
+                            />
+                          }
+                        </div>
                       </div>
                       <div className="column small-12">
-                        <div className="c-tree-selector -explore geographies-selector " />
+                        <div className="c-tree-selector -explore geographies-selector ">
+                          {this.geographiesTree &&
+                            <DropdownTreeSelect
+                              data={this.geographiesTree}
+                              placeholderText="Geographies"
+                              onChange={(currentNode, selectedNodes) => {
+                                this.filters.geographies = selectedNodes.map(val => val.value);
+                                const deselect = !selectedNodes.includes(currentNode);
+                                if (deselect) {
+                                  this.geographiesTree.forEach(child => this.selectElementsFromTree(
+                                    child, [currentNode.value], deselect));
+                                } else {
+                                  this.geographiesTree.forEach(child => this.selectElementsFromTree(
+                                    child, this.filters.geographies, deselect));
+                                }
+                              }}
+                            />
+                          }
+                        </div>
                       </div>
                       <div className="column small-12">
-                        <div className="c-tree-selector -explore data-types-selector" />
+                        <div className="c-tree-selector -explore data-types-selector">
+                          {this.dataTypesTree &&
+                            <DropdownTreeSelect
+                              data={this.dataTypesTree}
+                              placeholderText="Data types"
+                              onChange={(currentNode, selectedNodes) => {
+                                this.filters.dataType = selectedNodes.map(val => val.value);
+                                const deselect = !selectedNodes.includes(currentNode);
+                                if (deselect) {
+                                  this.dataTypesTree.forEach(child => this.selectElementsFromTree(
+                                    child, [currentNode.value], deselect));
+                                } else {
+                                  this.dataTypesTree.forEach(child => this.selectElementsFromTree(
+                                    child, this.filters.dataType, deselect));
+                                }
+                              }}
+                            />
+                          }
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -501,6 +545,7 @@ class Explore extends Page {
                         list={filteredDatasets}
                         mode={explore.datasets.mode}
                         showActions
+                        onTagSelected={this.handleTagSelected}
                       />
                     </div>
                   </div>

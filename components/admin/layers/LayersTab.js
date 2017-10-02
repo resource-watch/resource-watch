@@ -24,7 +24,7 @@ function LayersTab(props) {
       }
 
       {user.token && id && id !== 'new' &&
-        <LayersShow tab={tab} subtab={subtab} id={id} user={user} />
+        <LayersShow tab={tab} subtab={subtab} id={id} user={user} dataset={dataset} />
       }
     </div>
   );

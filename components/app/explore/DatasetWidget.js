@@ -127,9 +127,10 @@ class DatasetWidget extends React.Component {
     });
   }
 
+  @Autobind
   handleTagClick(event) {
     const tagName = event.target.textContent;
-    console.log('Tag selected: ', tagName);
+    this.props.onTagSelected(tagName);
   }
 
   render() {
@@ -235,6 +236,9 @@ DatasetWidget.propTypes = {
   layer: PropTypes.object,
   mode: PropTypes.string,
   showActions: PropTypes.bool,
+
+  // Callbacks
+  onTagSelected: PropTypes.func,
 
   // STORE
 
