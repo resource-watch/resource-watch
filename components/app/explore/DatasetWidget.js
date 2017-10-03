@@ -111,6 +111,7 @@ class DatasetWidget extends React.Component {
 
   @Autobind
   handleTagsClick(event) {
+    console.log('handle tag clicked!');
     const { dataset } = this.props;
     const vocabulary = dataset.attributes.vocabulary && dataset.attributes.vocabulary[0];
     const tags = vocabulary.attributes.tags;
