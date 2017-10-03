@@ -26,6 +26,8 @@ import {
   setLayer,
   setTitle
 } from 'components/widgets/editor/redux/widgetEditor';
+import { setUser } from 'redactions/user';
+import { setRouter } from 'redactions/routes';
 
 // Next
 import { Link } from 'routes';
@@ -49,6 +51,14 @@ import Banner from 'components/app/common/Banner';
 const LIMIT_CHAR_DESCRIPTION = 1120;
 
 class ExploreDetail extends Page {
+  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
+    const { user } = isServer ? req : store.getState();
+    const url = { asPath, pathname, query };
+    store.dispatch(setUser(user));
+    store.dispatch(setRouter(url));
+    return { user, isServer, url };
+  }
+
   constructor(props) {
     super(props);
 

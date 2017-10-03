@@ -30,6 +30,7 @@ import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
+import { Link } from 'routes';
 
 // Selectors
 import getFilteredDatasets from 'selectors/explore/filterDatasets';
@@ -69,10 +70,11 @@ class Explore extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
+    const botUserAgent = /AddSearchBot/.test(req.headers['user-agent']);
     store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
-    await store.dispatch(getDatasets({}));
-    return { user, isServer, url };
+    if (isServer && botUserAgent) await store.dispatch(getDatasets({}));
+    return { user, isServer, url, botUserAgent };
   }
 
   constructor(props) {
@@ -420,6 +422,24 @@ class Explore extends Page {
   }
 
   render() {
+    // It will render a list of links for AddSearch Bot
+    if (this.props.botUserAgent) {
+      return (
+        <ul>
+          {this.props.totalDatasets.map(d =>
+            (<li key={d.id}>
+              <Link
+                route="explore_detail"
+                params={{ id: d.id }}
+              >
+                <a>{d.attributes.name}</a>
+              </Link>
+            </li>)
+          )}
+        </ul>
+      );
+    }
+
     const { explore, totalDatasets, filteredDatasets } = this.props;
     const { search } = explore.filters;
     const { showFilters } = this.state;
