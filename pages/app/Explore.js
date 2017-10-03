@@ -24,7 +24,10 @@ import {
   setDatasetsGeographiesFilter,
   setDatasetsDataTypeFilter,
   setDatasetsFilteredByConcepts,
-  setFiltersLoading
+  setFiltersLoading,
+  setTopicsTree,
+  setGeographiesTree,
+  setDataTypeTree
 } from 'redactions/explore';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
@@ -54,6 +57,7 @@ import Layout from 'components/app/layout/Layout';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
+import { findTagInSelectorTree } from 'utils/explore/TreeUtil';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -164,6 +168,17 @@ class Explore extends Page {
     if (conceptsUpdated && !newFiltersHaveData) {
       this.props.setDatasetsFilteredByConcepts([]);
     }
+
+    // ----- selectors' trees ----------------
+    if (nextProps.explore.topicsTree) {
+      this.topicsTree = nextProps.explore.topicsTree;
+    }
+    if (nextProps.explore.dataTypeTree) {
+      this.dataTypeTree = nextProps.explore.dataTypeTree;
+    }
+    if (nextProps.explore.geographiesTree) {
+      this.geographiesTree = nextProps.explore.geographiesTree;
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -191,7 +206,7 @@ class Explore extends Page {
         }
 
         // Save the topics tree as variable for later use
-        this.topicsTree = data;
+        this.props.setTopicsTree(data);
       });
 
     // Data types selector
@@ -209,7 +224,7 @@ class Explore extends Page {
         }
 
         // Save the data types tree as a variable for later use
-        this.dataTypesTree = data;
+        this.props.setDataTypeTree(data);
       });
 
     // Geographies selector
@@ -240,7 +255,7 @@ class Explore extends Page {
         }
 
         // Save the data types tree as variable for later use
-        this.geographiesTree = data;
+        this.props.setGeographiesTree(data);
       });
 
     const hasSelectedValues = [
@@ -374,17 +389,12 @@ class Explore extends Page {
 
   @Autobind
   handleTagSelected(tag) {
-    if (this.topicsTree.find(elem => elem.value === tag)) {
+    const { geographies, dataType } = this.filters;
+    const { topicsTree } = this.props.explore;
+
+    if (findTagInSelectorTree(topicsTree, tag)) {
       this.topicsTree.forEach(child => this.selectElementsFromTree(child, [tag]));
-      this.filters = { topics: [tag], geographies: [], dataType: [] };
-      this.applyFilters();
-    } else if (this.geographiesTree.find(elem => elem.value === tag)) {
-      this.geographiesTree.forEach(child => this.selectElementsFromTree(child, [tag]));
-      this.filters = { topics: [], geographies: [tag], dataType: [] };
-      this.applyFilters();
-    } else if (this.dataTypesTree.find(elem => elem.value === tag)) {
-      this.dataTypesTree.forEach(child => this.selectElementsFromTree(child, [tag]));
-      this.filters = { topics: [], geographies: [], dataType: [tag] };
+      this.filters = { topics: [tag], geographies, dataType };
       this.applyFilters();
     }
   }
@@ -442,19 +452,22 @@ class Explore extends Page {
 
     const { explore, totalDatasets, filteredDatasets } = this.props;
     const { search } = explore.filters;
+    const { geographiesTree, topicsTree, dataTypeTree } = explore;
     const { showFilters } = this.state;
     const { topics, geographies, dataType } = this.filters;
 
-    const topicsSt = topics && topics.length > 0 ? ` topics (${topics.length})` : '';
-    const geographiesSt = geographies && geographies.length > 0 ? ` geographies (${geographies.length})` : '';
-    const dataTypesSt = dataType && dataType.length > 0 ? ` data type (${dataType.length})` : '';
-    const filtersAppliedText = (geographiesSt !== '' || topicsSt !== '' || dataTypesSt !== '') ?
-      `${topicsSt} ${geographiesSt} ${dataTypesSt}` : '';
-    const filtersSumUp = !showFilters ? filtersAppliedText : '';
+    const allTagsSt = [].concat(topics).concat(geographies).concat(dataType).join();
+    const filtersSumUp = !showFilters && allTagsSt.length > 0 ? `Filtering by ${allTagsSt}` : '';
 
     const buttonFilterContent = showFilters ? 'Hide filters' : 'Show filters';
     const filterContainerClass = classnames('filters-container', {
       '_is-hidden': !showFilters
+    });
+
+    const showFiltersClassName = classnames({
+      'c-btn': true,
+      '-b': !showFilters,
+      '-a': showFilters
     });
 
     return (
@@ -478,26 +491,21 @@ class Explore extends Page {
                         placeholder: 'Search dataset'
                       }}
                     />
-                  </div>
-                  <div className="buttons -align-between">
-                    {!!showFilters && <button
-                      className="c-button -secondary"
-                      onClick={() => this.applyFilters()}
-                    >
-                      Apply filters
-                    </button>}
                     <button
-                      className="c-button"
+                      className={showFiltersClassName}
                       onClick={() => this.toggleFilters()}
                     >
-                      {buttonFilterContent}<span className="filters-sum-up">{filtersSumUp}</span>
+                      {buttonFilterContent}
                     </button>
+                  </div>
+                  <div className="filters-sum-up">
+                    {filtersSumUp}
                   </div>
                   <div className={filterContainerClass}>
                     <div className="row">
                       <div className="column small-12">
                         <div className="c-tree-selector -explore topics-selector">
-                          {this.topicsTree &&
+                          {topicsTree &&
                             <DropdownTreeSelect
                               showDropdown
                               placeholderText="Topics"
@@ -512,6 +520,7 @@ class Explore extends Page {
                                   this.topicsTree.forEach(child => this.selectElementsFromTree(
                                     child, this.filters.topics, deselect));
                                 }
+                                this.applyFilters();
                               }}
                             />
                           }
@@ -519,7 +528,7 @@ class Explore extends Page {
                       </div>
                       <div className="column small-12">
                         <div className="c-tree-selector -explore geographies-selector ">
-                          {this.geographiesTree &&
+                          {geographiesTree &&
                             <DropdownTreeSelect
                               data={this.geographiesTree}
                               placeholderText="Geographies"
@@ -533,6 +542,7 @@ class Explore extends Page {
                                   this.geographiesTree.forEach(child => this.selectElementsFromTree(
                                     child, this.filters.geographies, deselect));
                                 }
+                                this.applyFilters();
                               }}
                             />
                           }
@@ -540,20 +550,21 @@ class Explore extends Page {
                       </div>
                       <div className="column small-12">
                         <div className="c-tree-selector -explore data-types-selector">
-                          {this.dataTypesTree &&
+                          {dataTypeTree &&
                             <DropdownTreeSelect
-                              data={this.dataTypesTree}
+                              data={this.dataTypeTree}
                               placeholderText="Data types"
                               onChange={(currentNode, selectedNodes) => {
                                 this.filters.dataType = selectedNodes.map(val => val.value);
                                 const deselect = !selectedNodes.includes(currentNode);
                                 if (deselect) {
-                                  this.dataTypesTree.forEach(child => this.selectElementsFromTree(
+                                  this.dataTypeTree.forEach(child => this.selectElementsFromTree(
                                     child, [currentNode.value], deselect));
                                 } else {
-                                  this.dataTypesTree.forEach(child => this.selectElementsFromTree(
+                                  this.dataTypeTree.forEach(child => this.selectElementsFromTree(
                                     child, this.filters.dataType, deselect));
                                 }
+                                this.applyFilters();
                               }}
                             />
                           }
@@ -647,6 +658,9 @@ Explore.propTypes = {
   setDatasetsFilters: PropTypes.func,
   toggleModal: PropTypes.func,
   setModalOptions: PropTypes.func,
+  setTopicsTree: PropTypes.func.isRequired,
+  setDataTypeTree: PropTypes.func.isRequired,
+  setGeographiesTree: PropTypes.func.isRequired,
 
   // Toggle the visibility of a layer group based on the layer passed as argument
   toggleLayerGroupVisibility: PropTypes.func.isRequired,
@@ -693,7 +707,10 @@ const mapDispatchToProps = dispatch => ({
   removeLayerGroup: dataset => dispatch(toggleLayerGroup(dataset, false)),
   setLayerGroupsOrder: datasets => dispatch(setLayerGroupsOrder(datasets)),
   setLayerGroupActiveLayer: (dataset, layer) => dispatch(setLayerGroupActiveLayer(dataset, layer)),
-  setLayerGroups: layerGroups => dispatch(setLayerGroups(layerGroups))
+  setLayerGroups: layerGroups => dispatch(setLayerGroups(layerGroups)),
+  setTopicsTree: tree => dispatch(setTopicsTree(tree)),
+  setGeographiesTree: tree => dispatch(setGeographiesTree(tree)),
+  setDataTypeTree: tree => dispatch(setDataTypeTree(tree))
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Explore);
