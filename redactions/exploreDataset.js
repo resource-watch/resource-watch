@@ -1,4 +1,3 @@
-import 'isomorphic-fetch';
 import DatasetService from 'services/DatasetsService';
 
 /**
@@ -18,8 +17,6 @@ const initialState = {
   loading: false, // Are we loading the data?
   error: null // An error was produced while loading the data
 };
-
-const service = new DatasetService();
 
 /**
  * REDUCER
@@ -68,16 +65,22 @@ export default function (state = initialState, action) {
  * @export
  * @param {string[]} applications Name of the applications to load the datasets from
  */
-export function getDatasets(options) {
-  return (dispatch) => {
-    dispatch({ type: GET_DATASETS_LOADING });
+export function getDataset(datasetId) {
+  const service = new DatasetService(datasetId, {
+    apiURL: process.env.WRI_API_URL
+  });
 
-    service.fetchAdminData(options)
+  console.log(service.fetchData('metadata, widget'));
+
+  return (dispatch) => {
+    dispatch({ type: GET_EXPLORE_DATASET_LOADING });
+
+    return service.fetchData('metadata, widget')
       .then((data) => {
-        dispatch({ type: GET_DATASETS_SUCCESS, payload: data });
+        dispatch({ type: GET_EXPLORE_DATASET_SUCCESS, payload: data });
       })
       .catch((err) => {
-        dispatch({ type: GET_DATASETS_ERROR, payload: err.message });
+        dispatch({ type: GET_EXPLORE_DATASET_ERROR, payload: err.message });
       });
   };
 }

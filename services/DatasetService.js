@@ -1,5 +1,4 @@
 import 'isomorphic-fetch';
-import Promise from 'bluebird';
 
 // Utils
 import { isFieldDate, isFieldNumber } from 'utils/widgets/WidgetHelper';
@@ -41,8 +40,12 @@ export default class DatasetService {
    * @returns {Promise}
    */
   fetchData(includes = '', applications = [process.env.APPLICATIONS]) {
-    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&includes=${includes}&page[size]=999`)
-      .then(response => response.json())
+    const url = `${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&includes=${includes}&page[size]=999`;
+    return fetch(url)
+      .then((response) => {
+        if (response.status === 200) response.json();
+        throw Error(response.statusText);
+      })
       .then(jsonData => jsonData.data);
   }
 
