@@ -76,11 +76,11 @@ export default function (state = initialState, action) {
  * @export
  * @param {string[]} applications Name of the applications to load the widgets from
  */
-export function getWidgets() {
+export function getWidgets(options = {}) {
   return (dispatch) => {
     dispatch({ type: GET_WIDGETS_LOADING });
 
-    service.fetchAllData({})
+    service.fetchAllData(options)
       .then((data) => {
         dispatch({ type: GET_WIDGETS_SUCCESS, payload: data });
       })

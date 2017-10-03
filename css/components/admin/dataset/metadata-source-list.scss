@@ -1,0 +1,25 @@
+.c-metadata-source-list {
+  .source-list > .source-item {
+    display: inline-block;
+    width: 100%;
+
+
+    &:not(:first-child) {
+      margin: 20px 0 0;
+    }
+
+    > .source-container {
+      display: flex;
+      flex-direction: column;
+
+      > .source-name,
+      > .source-description {
+        display: flex;
+      }
+
+      .source-name {
+        color: $dark-pink;
+      }
+    }
+  }
+}

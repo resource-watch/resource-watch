@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
+import debounce from 'lodash/debounce';
 
 // Redux
 import { connect } from 'react-redux';
@@ -18,7 +19,8 @@ class FilterStringTooltip extends React.Component {
     super(props);
 
     this.state = {
-      values: []
+      values: [],
+      filteredValues: []
     };
 
     // DatasetService
@@ -53,7 +55,7 @@ class FilterStringTooltip extends React.Component {
       .then((result) => {
         const values = result.properties.map(val => ({ name: val, label: val, value: val }));
 
-        this.setState({ values });
+        this.setState({ values, filteredValues: values });
 
         if (this.props.onToggleLoading) {
           this.props.onToggleLoading(false);
@@ -77,17 +79,31 @@ class FilterStringTooltip extends React.Component {
       });
   }
 
+  // We debounce the method to avoid having to update the state
+  // too often (around 60 FPS)
+  handleSearch = debounce((value) => {
+    const filteredValues = this.state.values.filter(elem =>
+      elem.label.toLowerCase().match(value.toLowerCase()));
+    this.setState({ filteredValues });
+  }, 10);
+
+
   render() {
-    const { values } = this.state;
+    const { filteredValues } = this.state;
     const { selected, loading, type } = this.props;
 
     return (
       <div className="c-filter-string-tooltip">
-
+        <div className="search-input">
+          <input
+            placeholder="Search"
+            onChange={event => this.handleSearch(event.target.value)}
+          />
+        </div>
         <div className="filter-tooltip-content">
           <CheckboxGroup
             selected={selected}
-            options={values}
+            options={filteredValues}
             onChange={vals => this.props.onChange(vals)}
           />
         </div>

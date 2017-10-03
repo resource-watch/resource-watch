@@ -11,7 +11,7 @@ import Aside from 'components/ui/Aside';
 import DatasetsForm from 'components/datasets/form/DatasetsForm';
 import MetadataForm from 'components/admin/metadata/form/MetadataForm';
 import TagsForm from 'components/admin/tags/TagsForm';
-import WidgetIndex from 'components/admin/widget/pages/index';
+import WidgetIndex from 'components/admin/widgets/pages/index';
 import LayersIndex from 'components/admin/layers/pages/index';
 
 // Constants

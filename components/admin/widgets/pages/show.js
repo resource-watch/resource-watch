@@ -10,14 +10,20 @@ import { connect } from 'react-redux';
 import WidgetsForm from 'components/admin/widgets/form/WidgetsForm';
 
 function WidgetsShow(props) {
-  const { id, user } = props;
+  const { id, dataset, user } = props;
 
   return (
     <div className="c-widgets-show">
       <WidgetsForm
         id={id}
         authorization={user.token}
-        onSubmit={() => Router.pushRoute('admin_data', { tab: 'widgets' })}
+        onSubmit={() => {
+          if (dataset) {
+            Router.pushRoute('admin_data_detail', { tab: 'datasets', subtab: 'widgets', id: dataset });
+          } else {
+            Router.pushRoute('admin_data', { tab: 'widgets' });
+          }
+        }}
       />
     </div>
   );
@@ -25,6 +31,7 @@ function WidgetsShow(props) {
 
 WidgetsShow.propTypes = {
   id: PropTypes.string,
+  dataset: PropTypes.string,
   // Store
   user: PropTypes.object.isRequired
 };

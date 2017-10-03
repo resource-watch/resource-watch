@@ -29,7 +29,10 @@ import OwnershipTD from './td/OwnershipTD';
 class WidgetsTable extends React.Component {
   componentDidMount() {
     this.props.setFilters([]);
-    this.props.getWidgets();
+    // TODO: get filtered widgets
+    this.props.getWidgets({
+      dataset: this.props.dataset
+    });
   }
 
   /**
@@ -59,7 +62,7 @@ class WidgetsTable extends React.Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { user, dataset } = this.props;
     return (
       <div className="c-widgets-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -75,7 +78,11 @@ class WidgetsTable extends React.Component {
           link={{
             label: 'New widget',
             route: 'admin_data_detail',
-            params: { tab: 'widgets', id: 'new' }
+            params: {
+              tab: 'widgets',
+              id: 'new',
+              ...!!dataset && { dataset }
+            }
           }}
           onSearch={this.onSearch}
         />
@@ -83,7 +90,7 @@ class WidgetsTable extends React.Component {
         {!this.props.error && (
           <CustomTable
             columns={[
-              { label: 'Title', value: 'name', td: TitleTD },
+              { label: 'Title', value: 'name', td: TitleTD, tdProps: { dataset } },
               // { label: 'Dataset', value: 'dataset', td: DatasetTD },
               { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Ownership', value: 'userId', td: OwnershipTD, tdProps: { user } }
@@ -91,7 +98,7 @@ class WidgetsTable extends React.Component {
             actions={{
               show: true,
               list: [
-                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
+                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'edit', id: '{{id}}', ...!!dataset && { dataset } }, show: true, component: EditAction },
                 { name: 'Remove', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization } }
               ]
             }}
@@ -102,7 +109,9 @@ class WidgetsTable extends React.Component {
             filters={false}
             data={this.getFilteredWidgets()}
             pageSize={20}
-            onRowDelete={() => this.props.getWidgets()}
+            onRowDelete={() => this.props.getWidgets({
+              dataset: this.props.dataset
+            })}
             pagination={{
               enabled: true,
               pageSize: 20,
@@ -118,6 +127,7 @@ class WidgetsTable extends React.Component {
 WidgetsTable.defaultProps = {
   columns: [],
   actions: {},
+  dataset: '',
   // Store
   widgets: [],
   filteredWidgets: [],
@@ -126,6 +136,7 @@ WidgetsTable.defaultProps = {
 
 WidgetsTable.propTypes = {
   authorization: PropTypes.string,
+  dataset: PropTypes.string,
   // Store
   loading: PropTypes.bool.isRequired,
   widgets: PropTypes.array.isRequired,
@@ -146,7 +157,7 @@ const mapStateToProps = state => ({
   user: state.user
 });
 const mapDispatchToProps = dispatch => ({
-  getWidgets: () => dispatch(getWidgets()),
+  getWidgets: options => dispatch(getWidgets(options)),
   setFilters: filters => dispatch(setFilters(filters))
 });
 

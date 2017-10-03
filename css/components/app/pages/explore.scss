@@ -48,6 +48,14 @@
     }
   }
 
+  .buttons {
+    .filters-sum-up {
+      margin-left: 10px;
+      font-style: italic;
+      font-size: $font-size-small;
+    }
+  }
+
   .share-button {
     position: absolute;
     display: flex;

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 
 // Services
 import WidgetsService from 'services/WidgetsService';
@@ -81,10 +82,17 @@ class WidgetsForm extends React.Component {
         const datasets = response[0];
         const current = response[1];
 
+        // Set advanced mode if paramsConfig doesn't exist or if it's empty
+        const mode = (
+          current &&
+          (!current.widgetConfig.paramsConfig || !isEmpty(current.widgetConfig.paramsConfig))
+        ) ? 'advanced' : 'editor';
+
         this.setState({
           // CURRENT DASHBOARD
           form: (id) ? this.setFormFromParams(current) : this.state.form,
           loading: false,
+          mode,
           // OPTIONS
           datasets: datasets.map(p => ({ label: p.name, value: p.id }))
         }, () => this.loadWidgetIntoRedux());

@@ -29,10 +29,11 @@ export default class WidgetsService {
             }))));
             resolve(sortBy(widgets, 'name'));
           } else {
-            resolve({
-              ...data.attributes.widget.attributes,
-              id: data.attributes.widget.id
-            });
+            const widgets = data.attributes.widget.map(widget => ({
+              ...widget.attributes,
+              id: widget.id
+            }));
+            resolve(sortBy(widgets, 'name'));
           }
         },
         onError: (error) => {

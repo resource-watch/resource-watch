@@ -1,10 +1,19 @@
 .c-dataset-list-item {
   display: flex;
+  position: relative;
   flex-direction: column;
   flex: 1 0 auto;
   background: $ui-bg-color;
   box-shadow: 0 0 0 rgba(0,0,0,0.1);
   transition: all 0.3s;
+
+  .tags-button {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: 4;
+    cursor: pointer;
+  }
 
   .info {
     background: $color-white;

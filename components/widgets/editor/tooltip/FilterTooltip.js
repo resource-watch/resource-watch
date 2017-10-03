@@ -89,7 +89,7 @@ class FilterTooltip extends React.Component {
         }
 
         {!loading &&
-          <div className="c-checkbox-box">
+          <div className="c-checkbox">
             <Checkbox
               properties={{
                 title: 'Not null values',

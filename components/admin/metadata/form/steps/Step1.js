@@ -1,16 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import isEqual from 'lodash/isEqual';
 
-import { FORM_ELEMENTS, LANGUAGE_OPTIONS, RASTER_COLUMN_TYPES } from 'components/admin/metadata/form/constants';
+// redux
+import { connect } from 'react-redux';
 
+
+// redactions
+import { setSources } from 'redactions/admin/sources';
+
+// actions
+import { toggleModal } from 'redactions/modal';
+
+// components
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Select from 'components/form/SelectInput';
 import TextArea from 'components/form/TextArea';
 import Title from 'components/ui/Title';
+import SourcesContentModal from 'components/admin/metadata/form/SourcesContentModal';
+
+// constants
+import { FORM_ELEMENTS, LANGUAGE_OPTIONS, RASTER_COLUMN_TYPES } from 'components/admin/metadata/form/constants';
 
 class Step1 extends React.Component {
+
+  componentWillReceiveProps(nextProps) {
+    if(!isEqual(this.props.sources, nextProps.sources)) this.changeMetadata({ info: { sources: nextProps.sources } })
+  }
+
   changeMetadata(obj) {
     const { form } = this.props;
     let newMetadata;
@@ -25,8 +44,18 @@ class Step1 extends React.Component {
     this.props.onChange({ form: newMetadata });
   }
 
+  openSourcesModal(modal) {
+    this.props.toggleModal(true, {
+      children: SourcesContentModal,
+      childrenProps: {
+        onClose: () => this.props.toggleModal(false, {}),
+        onSubmit: () => this.props.toggleModal(false, {})
+      }
+    });
+  }
+
   render() {
-    const { form, columns, type } = this.props;
+    const { form, columns, type, sources } = this.props;
     const isRaster = type === 'raster';
 
     const aliasColumnClass = classnames('columns', {
@@ -80,6 +109,22 @@ class Step1 extends React.Component {
             }}
           >
             {TextArea}
+          </Field>
+
+          {/* Resource Watch ID */}
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.rwId = c; }}
+            onChange={value => this.changeMetadata({ info: { rwId: value } })}
+            validations={[]}
+            properties={{
+              name: 'rwId',
+              label: 'Resource Watch ID',
+              type: 'text',
+              required: false,
+              default: this.props.form.info.rwId
+            }}
+          >
+            {Input}
           </Field>
 
           <Field
@@ -254,33 +299,49 @@ class Step1 extends React.Component {
             {Input}
           </Field>
 
-
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.source_organization = c; }}
-            onChange={value => this.changeMetadata({ info: { source_organization: value } })}
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.translated_title = c; }}
+            onChange={value => this.changeMetadata({ info: { translated_title: value } })}
             properties={{
-              name: 'source_organization',
-              label: 'Source Organization',
+              name: 'translated_title',
+              label: 'Translated Title',
               type: 'text',
-              default: this.props.form.info.source_organization
+              default: this.props.form.info.translated_title
             }}
           >
             {Input}
           </Field>
 
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.source_organization_link = c; }}
-            onChange={value => this.changeMetadata({ info: { source_organization_link: value } })}
-            validations={['url']}
-            properties={{
-              name: 'source_organization_link',
-              label: 'Source Organization Link',
-              type: 'text',
-              default: this.props.form.info.source_organization_link
-            }}
+          <button
+            className="c-button -primary"
+            type="button"
+            onClick={() => this.openSourcesModal()}
           >
-            {Input}
-          </Field>
+            Add/Remove sources
+          </button>
+
+          {sources.length > 0 &&
+            <div className="c-metadata-source-list">
+              <ul className="source-list">
+                {sources.map(source =>
+                  <li key={source.id} className="source-item">
+                    <div className="source-container">
+                      <a
+                        className="source-name"
+                        href={source['source-name']}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        {source['source-name']}
+                      </a>
+                      {source['source-description'] &&
+                        <span className="source-description">{source['source-description']}</span>}
+                    </div>
+                  </li>)
+                }
+              </ul>
+
+            </div>}
 
         </fieldset>
 
@@ -505,11 +566,21 @@ Step1.propTypes = {
   form: PropTypes.object,
   columns: PropTypes.array,
   type: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  toggleModal: PropTypes.func
 };
 
 Step1.defaultProps = {
   type: 'tabular'
 };
 
-export default Step1;
+const mapStateToProps = (state) => ({
+  sources: state.sources.sources
+});
+
+const mapDispatchToProps = dispatch => ({
+  toggleModal: (open, options) => dispatch(toggleModal(open, options)),
+  setSources: sources => dispatch(setSources(sources))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Step1);

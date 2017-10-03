@@ -28,6 +28,7 @@ const DatasetList = (props) => {
               layer={find(dataset.attributes.layer, { attributes: { default: true } })}
               mode={mode}
               showActions={showActions}
+              onTagSelected={tag => props.onTagSelected(tag)}
             />
           </div>)
         )}
@@ -39,7 +40,10 @@ const DatasetList = (props) => {
 DatasetList.propTypes = {
   list: PropTypes.array,
   mode: PropTypes.string,
-  showActions: PropTypes.bool.isRequired
+  showActions: PropTypes.bool.isRequired,
+
+  // Callbacks
+  onTagSelected: PropTypes.func
 };
 
 export default DatasetList;
