@@ -57,7 +57,6 @@ class Step1 extends React.Component {
           this.props.onModeChange(this.props.mode);
         }
       });
-      this.props.onModeChange(mode);
     }
   }
 
