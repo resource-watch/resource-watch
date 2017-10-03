@@ -18,7 +18,6 @@ import DatasetLayerChart from 'components/app/explore/DatasetLayerChart';
 import DatasetPlaceholderChart from 'components/app/explore/DatasetPlaceholderChart';
 import DatasetTagsTooltip from 'components/app/explore/DatasetTagsTooltip';
 
-
 class DatasetWidget extends React.Component {
   /**
    * Shorten text to 70 character maximum and add
