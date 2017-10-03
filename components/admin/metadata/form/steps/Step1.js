@@ -19,15 +19,15 @@ import Input from 'components/form/Input';
 import Select from 'components/form/SelectInput';
 import TextArea from 'components/form/TextArea';
 import Title from 'components/ui/Title';
+import Spinner from 'components/ui/Spinner';
 import SourcesContentModal from 'components/admin/metadata/form/SourcesContentModal';
 
 // constants
 import { FORM_ELEMENTS, LANGUAGE_OPTIONS, RASTER_COLUMN_TYPES } from 'components/admin/metadata/form/constants';
 
 class Step1 extends React.Component {
-
   componentWillReceiveProps(nextProps) {
-    if(!isEqual(this.props.sources, nextProps.sources)) this.changeMetadata({ info: { sources: nextProps.sources } })
+    if (!isEqual(this.props.sources, nextProps.sources)) this.changeMetadata({ info: { sources: nextProps.sources } });
   }
 
   changeMetadata(obj) {
@@ -44,7 +44,7 @@ class Step1 extends React.Component {
     this.props.onChange({ form: newMetadata });
   }
 
-  openSourcesModal(modal) {
+  openSourcesModal() {
     this.props.toggleModal(true, {
       children: SourcesContentModal,
       childrenProps: {
@@ -55,7 +55,7 @@ class Step1 extends React.Component {
   }
 
   render() {
-    const { form, columns, type, sources } = this.props;
+    const { form, columns, type, sources, loadingColumns } = this.props;
     const isRaster = type === 'raster';
 
     const aliasColumnClass = classnames('columns', {
@@ -324,7 +324,7 @@ class Step1 extends React.Component {
             <div className="c-metadata-source-list">
               <ul className="source-list">
                 {sources.map(source =>
-                  <li key={source.id} className="source-item">
+                  (<li key={source.id} className="source-item">
                     <div className="source-container">
                       <a
                         className="source-name"
@@ -337,7 +337,7 @@ class Step1 extends React.Component {
                       {source['source-description'] &&
                         <span className="source-description">{source['source-description']}</span>}
                     </div>
-                  </li>)
+                  </li>))
                 }
               </ul>
 
@@ -444,12 +444,20 @@ class Step1 extends React.Component {
           </Field>
         </fieldset>
 
-        {!!columns.length &&
-          <fieldset className="c-field-container">
-            <Title className="-default -secondary">
+        <fieldset className="c-field-container">
+          <Title className="-default -secondary">
               Columns
-            </Title>
+          </Title>
 
+          {loadingColumns &&
+            <Spinner className="-inline" isLoading={loadingColumns} />
+          }
+
+          {!loadingColumns && !columns.length &&
+            <p>No columns</p>
+          }
+
+          {!!columns.length &&
             <div className="c-field-row">
               {columns.map(column => (
                 <div key={column.name} className="l-row row">
@@ -555,8 +563,8 @@ class Step1 extends React.Component {
                 </div>
               ))}
             </div>
-          </fieldset>
-        }
+          }
+        </fieldset>
       </div>
     );
   }
@@ -566,6 +574,7 @@ Step1.propTypes = {
   form: PropTypes.object,
   columns: PropTypes.array,
   type: PropTypes.string,
+  loadingColumns: PropTypes.bool,
   onChange: PropTypes.func,
   toggleModal: PropTypes.func
 };
@@ -574,7 +583,7 @@ Step1.defaultProps = {
   type: 'tabular'
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   sources: state.sources.sources
 });
 

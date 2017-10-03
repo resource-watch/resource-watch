@@ -1,13 +1,14 @@
-function getFieldUrl(id, provider, tableName) {
+function getFieldUrl(id, provider, type, tableName) {
   let url;
 
-  switch (provider) {
-    case 'cartodb':
+  switch (`${provider}-${type}`) {
+    case 'cartodb-raster':
       url = `${process.env.WRI_API_URL}/query/${id}?sql=select (ST_METADATA(st_union(the_raster_webmercator))).* from ${tableName}`;
       break;
-    case 'gee':
+    case 'gee-raster': {
       url = `${process.env.WRI_API_URL}/query/${id}?sql=select ST_METADATA(rast) from "${tableName}"`;
       break;
+    }
     default:
       url = `${process.env.WRI_API_URL}/fields/${id}`;
   }
@@ -15,17 +16,17 @@ function getFieldUrl(id, provider, tableName) {
   return url;
 }
 
-function getFields(data = {}, provider) {
+function getFields(data = {}, provider, type) {
   let fields = [];
 
-  switch (provider) {
-    case 'cartodb':
+  switch (`${provider}-${type}`) {
+    case 'cartodb-raster':
       fields = Object.keys(data.data || {}).map(field => ({
         name: (data.data[field] || {}).numbands,
         type: null
       }));
       break;
-    case 'gee':
+    case 'gee-raster':
       fields = ((data.data[0] || {}).bands || []).map(band => ({
         name: band.id,
         type: null
