@@ -457,6 +457,12 @@ class Explore extends Page {
       '_is-hidden': !showFilters
     });
 
+    const showFiltersClassName = classnames({
+      'c-btn': true,
+      '-b': !showFilters,
+      '-a': showFilters
+    });
+
     return (
       <Layout
         title="Explore"
@@ -478,16 +484,8 @@ class Explore extends Page {
                         placeholder: 'Search dataset'
                       }}
                     />
-                  </div>
-                  <div className="buttons -align-between">
-                    {!!showFilters && <button
-                      className="c-button -secondary"
-                      onClick={() => this.applyFilters()}
-                    >
-                      Apply filters
-                    </button>}
                     <button
-                      className="c-button"
+                      className={showFiltersClassName}
                       onClick={() => this.toggleFilters()}
                     >
                       {buttonFilterContent}<span className="filters-sum-up">{filtersSumUp}</span>
