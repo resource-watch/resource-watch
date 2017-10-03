@@ -2,7 +2,7 @@ import 'isomorphic-fetch';
 import Promise from 'bluebird';
 
 // Utils
-import { isFieldDate, isFieldNumber } from 'utils/widgets/WidgetHelper';
+import { isFieldDate, isFieldNumber } from 'components/widgets/editor/helpers/WidgetHelper';
 
 /**
  * Dataset service
@@ -51,7 +51,7 @@ export default class DatasetService {
    * @returns {Promise}
    */
   fetchFilteredData(query) {
-    return fetch(`${this.opts.apiURL}/query/${this.datasetId}?sql=${query}`)
+    return fetch(`${this.opts.apiURL}/query/${this.datasetId}?${query}`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
@@ -93,7 +93,7 @@ export default class DatasetService {
     return new Promise((resolve) => {
       const newFieldData = fieldData;
       if (isFieldNumber(fieldData) || isFieldDate(fieldData)) {
-        this.getMinAndMax(fieldData.columnName, fieldData.tableName).then((data) => {
+        this.getMinAndMax(fieldData.columnName, fieldData.tableName, fieldData.geostore).then((data) => {
           newFieldData.properties = data;
           resolve(newFieldData);
         });
@@ -153,15 +153,17 @@ export default class DatasetService {
       });
   }
 
-  getMinAndMax(columnName, tableName) {
+  getMinAndMax(columnName, tableName, geostore) {
     if (!this.tableName && !tableName) {
       throw Error('tableName was not specified.');
     }
     const table = tableName || this.tableName;
-    const query = `SELECT Min(${columnName}) AS min, Max(${columnName}) AS max FROM ${table}`;
+    const query = `SELECT min(${columnName}) AS min, max(${columnName}) AS max FROM ${table}`;
+    const qGeostore = (geostore) ? `&geostore=${geostore}` : '';
+
     return new Promise((resolve) => {
       // TODO: remove cache param
-      fetch(`https://api.resourcewatch.org/v1/query/${this.datasetId}?sql=${query}`)
+      fetch(`https://api.resourcewatch.org/v1/query/${this.datasetId}?sql=${query}${qGeostore}`)
         .then(response => response.json())
         .then((jsonData) => {
           if (jsonData.data) {
@@ -185,7 +187,7 @@ export default class DatasetService {
       fetch(`https://api.resourcewatch.org/v1/query/${this.datasetId}?sql=${query}`)
         .then(response => response.json())
         .then((jsonData) => {
-          const parsedData = (jsonData.data || []).map(data => data[columnName]);
+          const parsedData = (jsonData.data || []).map(data => data[columnName]);
           resolve(parsedData);
         });
     });
@@ -209,7 +211,7 @@ export default class DatasetService {
   }
 
   getSimilarDatasets() {
-    return fetch(`${this.opts.apiURL}/graph/query/similar-dataset/${this.datasetId}`)
+    return fetch(`${this.opts.apiURL}/graph/query/similar-dataset/${this.datasetId}?published=true&env=production,preproduction`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
@@ -234,30 +236,15 @@ export default class DatasetService {
 
   searchDatasetsByConcepts(topics, geographies, dataTypes) {
     let counter = 0;
-    const topicsSt = topics ? topics.map((val, index) => `concepts[${counter}][${index}]=${val}`).join('&') : null;
-    if ((topics || []).length) counter++;
-    const geographiesSt = geographies ? `${geographies.map((val, index) => `concepts[${counter}][${index}]=${val}`).join('&')}` : null;
-    if ((geographies || []).length) counter++;
-    const dataTypesSt = dataTypes ? `${dataTypes.map((val, index) => `concepts[${counter}][${index}]=${val}`).join('&')}` : null;
-
-    let querySt = topicsSt;
-    if (geographiesSt) {
-      if (querySt) {
-        querySt += `&${geographiesSt}`;
-      } else {
-        querySt = geographiesSt;
-      }
-    }
-    if (dataTypesSt) {
-      if (querySt) {
-        querySt += `&${dataTypesSt}`;
-      } else {
-        querySt = dataTypesSt;
-      }
-    }
+    const topicsSt = (topics || []).map((val, index) => `concepts[${counter}][${index}]=${val}`).join('&');
+    counter++;
+    const geographiesSt = (geographies || []).map((val, index) => `concepts[${counter}][${index}]=${val}`).join('&');
+    counter++;
+    const dataTypesSt = (dataTypes || []).map((val, index) => `concepts[${counter}][${index}]=${val}`).join('&');
+    const querySt = `&${topicsSt}${geographiesSt}${dataTypesSt}`;
 
 
-    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}`)
+    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}&published=true&env=production,preproduction`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
