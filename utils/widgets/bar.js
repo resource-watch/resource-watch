@@ -117,7 +117,7 @@ const defaultChart = {
           "rangeMax": 0,
           domain: { data: 'table', field: 'y' },
           nice: true,
-          zero: false
+          zero: true
         }
       ],
       axes: [
