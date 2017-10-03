@@ -445,12 +445,8 @@ class Explore extends Page {
     const { showFilters } = this.state;
     const { topics, geographies, dataType } = this.filters;
 
-    const topicsSt = topics && topics.length > 0 ? ` topics (${topics.length})` : '';
-    const geographiesSt = geographies && geographies.length > 0 ? ` geographies (${geographies.length})` : '';
-    const dataTypesSt = dataType && dataType.length > 0 ? ` data type (${dataType.length})` : '';
-    const filtersAppliedText = (geographiesSt !== '' || topicsSt !== '' || dataTypesSt !== '') ?
-      `${topicsSt} ${geographiesSt} ${dataTypesSt}` : '';
-    const filtersSumUp = !showFilters ? filtersAppliedText : '';
+    const allTagsSt = [].concat(topics).concat(geographies).concat(dataType).join();
+    const filtersSumUp = !showFilters && allTagsSt.length > 0 ? `Filtering by ${allTagsSt}` : '';
 
     const buttonFilterContent = showFilters ? 'Hide filters' : 'Show filters';
     const filterContainerClass = classnames('filters-container', {
@@ -488,8 +484,11 @@ class Explore extends Page {
                       className={showFiltersClassName}
                       onClick={() => this.toggleFilters()}
                     >
-                      {buttonFilterContent}<span className="filters-sum-up">{filtersSumUp}</span>
+                      {buttonFilterContent}
                     </button>
+                  </div>
+                  <div className="filters-sum-up">
+                    {filtersSumUp}
                   </div>
                   <div className={filterContainerClass}>
                     <div className="row">
@@ -510,6 +509,7 @@ class Explore extends Page {
                                   this.topicsTree.forEach(child => this.selectElementsFromTree(
                                     child, this.filters.topics, deselect));
                                 }
+                                this.applyFilters();
                               }}
                             />
                           }
@@ -531,6 +531,7 @@ class Explore extends Page {
                                   this.geographiesTree.forEach(child => this.selectElementsFromTree(
                                     child, this.filters.geographies, deselect));
                                 }
+                                this.applyFilters();
                               }}
                             />
                           }
@@ -552,6 +553,7 @@ class Explore extends Page {
                                   this.dataTypesTree.forEach(child => this.selectElementsFromTree(
                                     child, this.filters.dataType, deselect));
                                 }
+                                this.applyFilters();
                               }}
                             />
                           }
