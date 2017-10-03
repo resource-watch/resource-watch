@@ -70,7 +70,7 @@ class Explore extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
-    const botUserAgent = /AddSearchBot/.test(req.headers['user-agent']);
+    const botUserAgent = isServer && /AddSearchBot/.test(req.headers['user-agent']);
     store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
     if (isServer && botUserAgent) await store.dispatch(getDatasets({}));
