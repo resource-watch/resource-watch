@@ -1,4 +1,4 @@
-import DatasetService from 'services/DatasetsService';
+import DatasetService from 'services/DatasetService';
 
 /**
  * CONSTANTS
@@ -70,13 +70,12 @@ export function getDataset(datasetId) {
     apiURL: process.env.WRI_API_URL
   });
 
-  console.log(service.fetchData('metadata, widget'));
-
   return (dispatch) => {
     dispatch({ type: GET_EXPLORE_DATASET_LOADING });
 
-    return service.fetchData('metadata, widget')
+    return service.fetchData('metadata,widget')
       .then((data) => {
+        console.log(data);
         dispatch({ type: GET_EXPLORE_DATASET_SUCCESS, payload: data });
       })
       .catch((err) => {

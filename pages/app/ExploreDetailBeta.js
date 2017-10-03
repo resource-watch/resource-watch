@@ -38,6 +38,28 @@ class ExploreDetail extends Page {
     return { user, isServer, url, dataset };
   }
 
+  getDatasetName() {
+    const dataset = this.props.dataset.data;
+    const { metadata } = dataset || {};
+
+    if (dataset && metadata && metadata.length && metadata[0].name !== '') {
+      return metadata[0].name;
+    } else if (dataset) {
+      return dataset.name;
+    }
+    return 'Explore';
+  }
+
+  getDatasetDescription() {
+    const dataset = this.props.dataset.data;
+    const { metadata } = dataset || {};
+
+    if (dataset && metadata && metadata.length && metadata[0].description !== '') {
+      return metadata[0].description;
+    }
+    return 'Explore detail description.';
+  }
+
   componentDidMount() {
 
   }
@@ -47,8 +69,8 @@ class ExploreDetail extends Page {
 
     return (
       <Layout
-        title="Explore detail"
-        description="Explore detail description..."
+        title={this.getDatasetName()}
+        description={this.getDatasetDescription()}
         url={url}
         pageHeader
       >

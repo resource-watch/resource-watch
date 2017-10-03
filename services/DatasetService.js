@@ -1,7 +1,21 @@
-import 'isomorphic-fetch';
+// import 'isomorphic-fetch';
 
 // Utils
 import { isFieldDate, isFieldNumber } from 'utils/widgets/WidgetHelper';
+
+function parseDataset(dataset) {
+  const d = Object.assign({}, { ...dataset.attributes, id: dataset.id });
+  if (d.metadata) {
+    d.metadata = d.metadata.map(m => ({ ...m.attributes, id: m.id, type: m.type }));
+  }
+  if (d.widgets && d.widgets.length) {
+    d.widgets.map(w => ({ ...w.attributes, id: w.id }));
+  }
+  if (d.layers && d.layers.length) {
+    d.layers.map(l => ({ ...l.attributes, id: l.id }));
+  }
+  return d;
+}
 
 /**
  * Dataset service
@@ -43,10 +57,10 @@ export default class DatasetService {
     const url = `${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&includes=${includes}&page[size]=999`;
     return fetch(url)
       .then((response) => {
-        if (response.status === 200) response.json();
-        throw Error(response.statusText);
+        if (response.status >= 400) throw Error(response.statusText);
+        return response.json();
       })
-      .then(jsonData => jsonData.data);
+      .then(body => parseDataset(body.data));
   }
 
   /**
