@@ -113,7 +113,7 @@ export default class DatasetService {
     return new Promise((resolve) => {
       this.getFields().then((fieldsData) => {
         const filteredFields = fieldsData.fields.filter(field => field.columnType === 'number' || field.columnType === 'date' || field.columnType === 'string');
-        const promises = (filteredFields || []).map(field => {
+        const promises = (filteredFields || []).map((field) => {
           if (field.columnType === 'number' || field.columnType === 'date') {
             return this.getMinAndMax(field.columnName, fieldsData.tableName);
           }
@@ -188,7 +188,7 @@ export default class DatasetService {
       fetch(`https://api.resourcewatch.org/v1/query/${this.datasetId}?sql=${query}`)
         .then(response => response.json())
         .then((jsonData) => {
-          const parsedData = (jsonData.data || []).map(data => data[columnName]);
+          const parsedData = (jsonData.data || []).map(data => data[columnName]);
           resolve(parsedData);
         });
     });
@@ -212,7 +212,7 @@ export default class DatasetService {
   }
 
   getSimilarDatasets() {
-    return fetch(`${this.opts.apiURL}/graph/query/similar-dataset/${this.datasetId}`)
+    return fetch(`${this.opts.apiURL}/graph/query/similar-dataset/${this.datasetId}?published=true&env=production,preproduction`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
@@ -260,7 +260,7 @@ export default class DatasetService {
     }
 
 
-    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}`)
+    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}&published=true&env=production,preproduction`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
