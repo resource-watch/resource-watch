@@ -59,6 +59,10 @@ class Button extends React.Component {
   }
 }
 
+Button.defaultProps = {
+  properties: {}
+};
+
 Button.propTypes = {
   children: PropTypes.any,
   properties: PropTypes.object,

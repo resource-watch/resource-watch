@@ -1,0 +1,30 @@
+{
+  "height": 0,
+  "padding": "auto",
+  "render": {
+    "retina": true
+  },
+  "marks": {
+    "color": "#1f77b4"
+  },
+  "axis_x": {
+    "axisColor": "#A9ABAD",
+    "tickSize": 8,
+    "ticks": 8,
+    "tickColor": "#A9ABAD",
+    "tickLabelColor": "#717171",
+    "tickLabelFont": "Lato",
+    "tickLabelFontSize": 13
+  },
+  "axis_y": {
+    "axisWidth": 0,
+    "tickSize": 0,
+    "ticks": 5,
+    "tickLabelColor": "#717171",
+    "tickLabelFont": "Lato",
+    "tickLabelFontSize": 13,
+    "grid": true,
+    "gridColor": "#A9ABAD",
+    "gridOpacity": 1
+  }
+}

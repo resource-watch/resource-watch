@@ -22,7 +22,11 @@ const PROVIDERS = {
   bigquery: 'bigquery',
   rasdaman: 'rasdaman',
   featureService: 'featureservice',
-  imageService: 'imageservice'
+  imageService: 'imageservice',
+  csv: 'csv',
+  tsv: 'tsv',
+  xml: 'xml',
+  json: 'json'
 };
 
 const visTypes = {
@@ -70,11 +74,13 @@ export const getVisualisationTypes = (datasetData) => {
   const datasetConnector = getKey(CONNECTORS, connectorType);
   const datasetProvider = getKey(PROVIDERS, provider);
 
-  if (!datasetType || !datasetConnector)
+  if (!datasetType || !datasetConnector) {
     throw Error(`Connector ${datasetConnector} does not exist in ${datasetType} type.`);
+  }
 
-  if (!DECISIONTREE[datasetType][datasetConnector])
+  if (!DECISIONTREE[datasetType][datasetConnector]) {
     throw Error(`Connector ${datasetConnector} does not exist in ${datasetType} type.`);
+  }
 
   let visualisationTypes = DECISIONTREE[datasetType][datasetConnector][datasetProvider];
 

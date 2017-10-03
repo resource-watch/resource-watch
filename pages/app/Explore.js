@@ -28,6 +28,8 @@ import {
 } from 'redactions/explore';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
+import { setUser } from 'redactions/user';
+import { setRouter } from 'redactions/routes';
 
 // Selectors
 import getFilteredDatasets from 'selectors/explore/filterDatasets';
@@ -64,6 +66,15 @@ const mapConfig = {
 };
 
 class Explore extends Page {
+  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
+    const { user } = isServer ? req : store.getState();
+    const url = { asPath, pathname, query };
+    store.dispatch(setUser(user));
+    store.dispatch(setRouter(url));
+    await store.dispatch(getDatasets({}));
+    return { user, isServer, url };
+  }
+
   constructor(props) {
     super(props);
 
@@ -131,7 +142,7 @@ class Explore extends Page {
     }
 
 
-    this.props.getDatasets();
+    this.props.getDatasets({});
     this.loadKnowledgeGraph();
   }
 
@@ -644,7 +655,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  getDatasets: () => { dispatch(getDatasets()); },
+  getDatasets: () => { dispatch(getDatasets({})); },
   setDatasetsSearchFilter: search => dispatch(setDatasetsSearchFilter(search)),
   setDatasetsTopicsFilter: topics => dispatch(setDatasetsTopicsFilter(topics)),
   setDatasetsDataTypeFilter: dataType => dispatch(setDatasetsDataTypeFilter(dataType)),

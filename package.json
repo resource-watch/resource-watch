@@ -92,6 +92,7 @@
     "react-tether": "0.5.7",
     "react-tokeninput": "2.4.0",
     "react-upload-file": "2.0.0-beta.6",
+    "react-vega": "2.3.1",
     "redis": "2.8.0",
     "redux": "3.6.0",
     "redux-devtools-extension": "^2.13.2",
@@ -106,6 +107,7 @@
     "whatwg-fetch": "2.0.2"
   },
   "devDependencies": {
+    "@storybook/react": "^3.2.11",
     "babel-cli": "^6.26.0",
     "babel-eslint": "7.2.3",
     "babel-jest": "^21.0.2",
@@ -125,6 +127,7 @@
   },
   "scripts": {
     "check-datasets": "NODE_ENV=test babel-node ./tasks/check-datasets.js",
+    "storybook": "start-storybook -p 9001 -c .storybook",
     "test": "jest",
     "lint": "eslint .",
     "dev": "node index.js",
