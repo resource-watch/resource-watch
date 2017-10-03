@@ -170,8 +170,8 @@ export default class DatasetsService {
     });
   }
 
-  fetchFields({ id, provider, tableName }) {
-    const url = getFieldUrl(id, provider, tableName);
+  fetchFields({ id, provider, type, tableName }) {
+    const url = getFieldUrl(id, provider, type, tableName);
     return new Promise((resolve, reject) => {
       get({
         url,
@@ -183,7 +183,7 @@ export default class DatasetsService {
           value: this.opts.authorization
         }],
         onSuccess: (data) => {
-          resolve(getFields(data, provider));
+          resolve(getFields(data, provider, type));
         },
         onError: (error) => {
           reject(error);

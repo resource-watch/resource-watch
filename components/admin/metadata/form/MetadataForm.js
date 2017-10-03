@@ -30,6 +30,7 @@ class MetadataForm extends React.Component {
       metadata: [],
       columns: [],
       loading: !!props.dataset,
+      loadingColumns: true,
       form: Object.assign({}, STATE_DEFAULT.form, {
         application: props.application,
         authorization: props.authorization
@@ -64,13 +65,18 @@ class MetadataForm extends React.Component {
           // fetchs column fields based on dataset type
           this.service.fetchFields({
             id: this.props.dataset,
+            type,
             provider,
             tableName
           })
             .then((columns) => {
-              this.setState({ columns });
+              this.setState({
+                columns,
+                loadingColumns: false
+              });
             })
             .catch((err) => {
+              this.setState({ loadingColumns: false });
               toastr.error('Error', err);
             });
         })
@@ -179,6 +185,7 @@ class MetadataForm extends React.Component {
               columns={this.state.columns}
               type={this.state.type}
               form={this.state.form}
+              loadingColumns={this.state.loadingColumns}
             />
           }
 
