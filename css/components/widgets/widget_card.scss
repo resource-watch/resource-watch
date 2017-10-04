@@ -36,7 +36,13 @@
         display: flex;
 
         canvas {
-          width: 100%;
+          // NOTE:
+          // Both the width and the height can't be defined because
+          // the "self-sizing" charts will be distorted (in My RW >
+          // My widgets)
+          // Also, if the width is defined, the same charts will be
+          // distorted, so the only attribute that can be defined
+          // here is height
           height: 100%;
         }
       }
