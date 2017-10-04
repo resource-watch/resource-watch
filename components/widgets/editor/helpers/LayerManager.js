@@ -2,7 +2,7 @@
 /* eslint import/extensions: 0 */
 /* eslint global-require: 0 */
 
-import 'whatwg-fetch';
+import 'isomorphic-fetch';
 
 let L;
 if (typeof window !== 'undefined') {
@@ -241,9 +241,13 @@ export default class LayerManager {
     const params = `?stat_tag=API&config=${encodeURIComponent(JSON.stringify(layerTpl))}`;
 
     fetch(`https://${layer.account}.carto.com/api/v1/map${params}`)
-      .then(response => (
-        response.json()
-      ))
+      .then((response) => {
+        if (response.status >= 400) {
+          this.rejectLayersLoading = true;
+          throw new Error(response.statusText);
+        }
+        return response.json();
+      })
       .then((data) => {
         // const tileUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
         const tileUrl = `${data.cdn_url.templates.https.url}/${layer.account}/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
@@ -258,9 +262,6 @@ export default class LayerManager {
         this.mapLayers[layer.id].on('tileerror', () => {
           this.rejectLayersLoading = true;
         });
-      })
-      .then(() => {
-        this.rejectLayersLoading = true;
       });
   }
 
