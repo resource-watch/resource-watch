@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Planet pulse dropdowns have now a z-index that makes them be displayed on top of the layer card
 - Bar charts properly handle `null` and negative values
 - Pie charts are now responsive and are properly displayed as thumbnails (newer charts only)
+- Fixed invariant violation error
+- Fixed map container error in backoffice
 
 ### Added
 - New prototype of tags tooltip in Explore
