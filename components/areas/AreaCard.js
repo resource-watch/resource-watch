@@ -12,7 +12,7 @@ import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import Map from 'components/vis/Map';
+import Map from 'components/widgets/editor/map/Map';
 import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 import AreaActionsTooltip from 'components/areas/AreaActionsTooltip';
 
@@ -22,7 +22,7 @@ import AreasService from 'services/AreasService';
 import UserService from 'services/UserService';
 
 // Utils
-import LayerManager from 'utils/layers/LayerManager';
+import LayerManager from 'components/widgets/editor/helpers/LayerManager';
 
 const MAP_CONFIG = {
   zoom: 3,
