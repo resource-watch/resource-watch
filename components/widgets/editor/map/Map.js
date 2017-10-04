@@ -43,38 +43,69 @@ class Map extends React.Component {
     mapOptions.center = [mapOptions.latLng.lat, mapOptions.latLng.lng];
 
     // If leaflet haven't been imported, we can just skip the next steps
-    if (!L) return;
+    // if (!L) return;
 
-    requestAnimationFrame(() => {
-      this.map = L.map(this.mapNode, mapOptions);
+    this.map = L.map(this.mapNode, mapOptions);
 
-      if (this.props.mapConfig && this.props.mapConfig.bounds) {
-        this.fitBounds(this.props.mapConfig.bounds.geometry);
-      }
+    if (this.props.mapConfig && this.props.mapConfig.bounds) {
+      this.fitBounds(this.props.mapConfig.bounds.geometry);
+    }
 
-      // Disable interaction if necessary
-      if (!this.props.interactionEnabled) {
-        this.map.dragging.disable();
-        this.map.touchZoom.disable();
-        this.map.doubleClickZoom.disable();
-        this.map.scrollWheelZoom.disable();
-        this.map.boxZoom.disable();
-        this.map.keyboard.disable();
-      }
+    // Disable interaction if necessary
+    if (!this.props.interactionEnabled) {
+      this.map.dragging.disable();
+      this.map.touchZoom.disable();
+      this.map.doubleClickZoom.disable();
+      this.map.scrollWheelZoom.disable();
+      this.map.boxZoom.disable();
+      this.map.keyboard.disable();
+    }
 
-      // SETTERS
-      this.setAttribution();
-      this.setZoomControl();
-      this.setBasemap();
-      this.setMapEventListeners();
+    // SETTERS
+    this.setAttribution();
+    this.setZoomControl();
+    this.setBasemap();
+    this.setMapEventListeners();
 
-      // Add layers
-      this.setLayerManager();
-      const layers = this.props.layerGroups
-        .filter(l => l.visible)
-        .map(l => l.layers.find(la => la.active));
-      this.addLayers(layers, this.props.filters);
-    });
+    // Add layers
+    this.setLayerManager();
+    const layers = this.props.layerGroups
+      .filter(l => l.visible)
+      .map(l => l.layers.find(la => la.active));
+    this.addLayers(layers, this.props.filters);
+
+    // requestAnimationFrame(() => {
+    //   if (!this.mapNode) return;
+
+    //   this.map = L.map(this.mapNode, mapOptions);
+
+    //   if (this.props.mapConfig && this.props.mapConfig.bounds) {
+    //     this.fitBounds(this.props.mapConfig.bounds.geometry);
+    //   }
+
+    //   // Disable interaction if necessary
+    //   if (!this.props.interactionEnabled) {
+    //     this.map.dragging.disable();
+    //     this.map.touchZoom.disable();
+    //     this.map.doubleClickZoom.disable();
+    //     this.map.scrollWheelZoom.disable();
+    //     this.map.boxZoom.disable();
+    //     this.map.keyboard.disable();
+    //   }
+
+    //   // SETTERS
+    //   this.setAttribution();
+    //   this.setZoomControl();
+    //   this.setBasemap();
+    //   this.setMapEventListeners();
+
+    //   // Add layers
+    //   this.setLayerManager();
+    //   const layers = this.props.layerGroups
+    //     .filter(l => l.visible)
+    //     .map(l => l.layers.find(la => la.active));
+    //   this.addLayers(layers, this.props.filters);
+    // });
   }
 
   componentWillReceiveProps(nextProps) {

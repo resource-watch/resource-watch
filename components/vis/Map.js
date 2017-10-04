@@ -46,6 +46,8 @@ class Map extends React.Component {
     if (!L) return;
 
     requestAnimationFrame(() => {
+      if (!this.mapNode) return;
+
       this.map = L.map(this.mapNode, mapOptions);
 
       if (this.props.mapConfig && this.props.mapConfig.bounds) {
