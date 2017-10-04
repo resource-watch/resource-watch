@@ -192,7 +192,7 @@ class Pulse extends Page {
     });
 
     const tooltipContentObj = this.state.interactionConfig.output.map(elem =>
-      ({ key: elem.property, value: obj[elem.column] }));
+      ({ key: elem.property, value: obj[elem.column], type: elem.type }));
 
     if (this.mounted) {
       this.props.toggleTooltip(true, {

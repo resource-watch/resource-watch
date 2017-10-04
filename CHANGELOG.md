@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
  - Planet pulse dropdowns have now a z-index that makes them be displayed on top of the layer card
+ - Planet pulse 3D layers get their respective markers using the info located in pulseConfig
+ - Planet pulse globe tooltips show only the fields that are specified in the object interactionConfig
 
 ### Added
 - New prototype of tags tooltip in Explore

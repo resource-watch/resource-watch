@@ -2,9 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class GlobeTooltip extends React.Component {
+  getContent(val) { // eslint-disable-line class-methods-use-this
+    if (val.type === 'url') {
+      return (
+        <div>
+          <strong>{val.key}</strong>: <a href={val.value} target="_blank">{val.value}</a>
+        </div>);
+    } else { // eslint-disable-line no-else-return
+      return <div><strong>{val.key}</strong>: {val.value}</div>;
+    }
+  }
 
-  handleClick(event) {
-    event.nativeEvent.stopImmediatePropagation(); // so that the tooltip is not closed automatically when clicking inside of it
+  handleClick(event) { // eslint-disable-line class-methods-use-this
+    // so that the tooltip is not closed automatically when clicking inside of it
+    event.nativeEvent.stopImmediatePropagation();
   }
 
   render() {
@@ -17,7 +28,7 @@ class GlobeTooltip extends React.Component {
             (<div
               key={val.key}
             >
-              <strong>{val.key}</strong>: {val.value}
+              {this.getContent(val)}
             </div>)
         )}
       </div>
