@@ -76,10 +76,8 @@ class Pulse extends Page {
         });
 
         if (nextLayerActive.threedimensional === 'true') {
-          const datasetId = nextLayerActive.attributes.dataset;
-          const options = nextLayerActive.attributes.layerConfig.body.layers[0].options;
-          const tableName = options.sql.toUpperCase().split('FROM')[1];
-          this.props.getLayerPoints(datasetId, tableName);
+          const url = nextLayerActive.attributes.layerConfig.pulseConfig.url;
+          this.props.getLayerPoints(url);
         } else {
           this.layerGlobeManager.addLayer(nextLayerActive.attributes, {
             onLayerAddedSuccess: function success(texture) {
