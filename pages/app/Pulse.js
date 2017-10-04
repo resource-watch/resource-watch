@@ -72,7 +72,8 @@ class Pulse extends Page {
     if (lastId !== newId) {
       if (nextLayerActive) {
         this.setState({
-          loading: true
+          loading: true,
+          interactionConfig: nextLayerActive.attributes.interactionConfig
         });
 
         if (nextLayerActive.threedimensional === 'true') {
@@ -190,11 +191,14 @@ class Pulse extends Page {
       }
     });
 
+    const tooltipContentObj = this.state.interactionConfig.output.map(elem =>
+      ({ key: elem.property, value: obj[elem.column] }));
+
     if (this.mounted) {
       this.props.toggleTooltip(true, {
         follow: false,
         children: GlobeTooltip,
-        childrenProps: { value: obj },
+        childrenProps: { value: tooltipContentObj },
         position: { x: event.clientX, y: event.clientY }
       });
     }
@@ -257,7 +261,7 @@ class Pulse extends Page {
   render() {
     const { url, layersGroup } = this.props;
     const layerActive = this.props.pulse.layerActive;
-    const { markerType } = this.state;
+    const { markerType, layerPoints, texture, useDefaultLayer } = this.state;
     const globeWidht = (typeof window === 'undefined') ? 500 : window.innerWidth;
     const globeHeight = (typeof window === 'undefined') ? 300 : window.innerHeight - 75; // TODO: 75 is the header height
     return (
@@ -288,8 +292,8 @@ class Pulse extends Page {
             ambientLightColor={0x444444}
             enableZoom
             lightPosition={'right'}
-            texture={this.state.texture}
-            layerPoints={this.state.layerPoints}
+            texture={texture}
+            layerPoints={layerPoints}
             markerType={markerType}
             earthImagePath={earthImage}
             earthBumpImagePath={earthBumpImage}
@@ -297,7 +301,7 @@ class Pulse extends Page {
             segments={64}
             rings={64}
             useHalo
-            useDefaultLayer={this.state.useDefaultLayer}
+            useDefaultLayer={useDefaultLayer}
             onMarkerSelected={this.handleMarkerSelected}
             onEarthClicked={this.handleEarthClicked}
             onClickInEmptyRegion={this.handleClickInEmptyRegion}

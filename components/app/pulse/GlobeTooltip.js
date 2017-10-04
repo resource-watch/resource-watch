@@ -14,8 +14,8 @@ class GlobeTooltip extends React.Component {
     return (
       <ul>
         {
-          Object.keys(this.props.value).map(
-            key => <li key={`tooltip_li_${counter += 1}`}><strong>{key}</strong>: {this.props.value[key]}</li>)
+          this.props.value.map(
+            val => <li key={`tooltip_li_${counter += 1}`}><strong>{val.key}</strong>: {val.value}</li>)
         }
       </ul>
     );
@@ -38,7 +38,7 @@ class GlobeTooltip extends React.Component {
 
 GlobeTooltip.propTypes = {
   // Define the chart data
-  value: PropTypes.object
+  value: PropTypes.array.isRequired
 };
 
 export default GlobeTooltip;
