@@ -37,8 +37,6 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    this.hasBeenMounted = true;
-
     const mapOptions = Object.assign({}, MAP_CONFIG, this.props.mapConfig || {});
     mapOptions.center = [mapOptions.latLng.lat, mapOptions.latLng.lng];
 
@@ -46,6 +44,8 @@ class Map extends React.Component {
     if (!L) return;
 
     requestAnimationFrame(() => {
+      if (!this.mapNode) return;
+
       this.map = L.map(this.mapNode, mapOptions);
 
       if (this.props.mapConfig && this.props.mapConfig.bounds) {
@@ -75,6 +75,8 @@ class Map extends React.Component {
         .map(l => l.layers.find(la => la.active));
       this.addLayers(layers, this.props.filters);
     });
+
+    this.hasBeenMounted = true;
   }
 
   componentWillReceiveProps(nextProps) {
