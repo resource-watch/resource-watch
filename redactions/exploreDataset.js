@@ -27,28 +27,28 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_EXPLORE_DATASET_LOADING: {
-      const datasets = Object.assign({}, state.datasets, {
+      const exploreDataset = Object.assign({}, state.exploreDataset, {
         loading: true,
         error: null
       });
-      return Object.assign({}, state, datasets);
+      return Object.assign({}, state, exploreDataset);
     }
 
     case GET_EXPLORE_DATASET_SUCCESS: {
-      const datasets = Object.assign({}, state.datasets, {
+      const exploreDataset = Object.assign({}, state.exploreDataset, {
         data: action.payload,
         loading: false,
         error: null
       });
-      return Object.assign({}, state, datasets);
+      return Object.assign({}, state, exploreDataset);
     }
 
     case GET_EXPLORE_DATASET_ERROR: {
-      const datasets = Object.assign({}, state.datasets, {
+      const exploreDataset = Object.assign({}, state.exploreDataset, {
         loading: false,
         error: action.payload
       });
-      return Object.assign({}, state, datasets);
+      return Object.assign({}, state, exploreDataset);
     }
 
     default:
@@ -73,9 +73,8 @@ export function getDataset(datasetId) {
   return (dispatch) => {
     dispatch({ type: GET_EXPLORE_DATASET_LOADING });
 
-    return service.fetchData('metadata,widget')
+    return service.fetchDataset('metadata,widget')
       .then((data) => {
-        console.log(data);
         dispatch({ type: GET_EXPLORE_DATASET_SUCCESS, payload: data });
       })
       .catch((err) => {

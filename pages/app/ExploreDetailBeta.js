@@ -1,6 +1,7 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
+import capitalize from 'lodash/capitalize';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -24,52 +25,56 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 // import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
 
-// constants
-const LIMIT_CHAR_DESCRIPTION = 1120;
-
 class ExploreDetail extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
     store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
-    const dataset = await store.dispatch(getDataset(url.query.id));
-    console.log(dataset);
-    return { user, isServer, url, dataset };
+    await store.dispatch(getDataset(url.query.id));
+    return { user, isServer, url };
   }
 
   getDatasetName() {
-    const dataset = this.props.dataset.data;
-    const { metadata } = dataset || {};
+    const { data } = this.props.dataset;
+    const { metadata } = data || {};
 
-    if (dataset && metadata && metadata.length && metadata[0].name !== '') {
-      return metadata[0].name;
-    } else if (dataset) {
-      return dataset.name;
+    if (data && metadata && metadata.length && metadata.name !== '') {
+      return metadata.name;
+    } else if (data) {
+      return data.name;
     }
     return 'Explore';
   }
 
   getDatasetDescription() {
-    const dataset = this.props.dataset.data;
-    const { metadata } = dataset || {};
+    const { data } = this.props.dataset;
+    const { metadata } = data || {};
 
-    if (dataset && metadata && metadata.length && metadata[0].description !== '') {
-      return metadata[0].description;
+    if (data && metadata && metadata.length && metadata.description !== '') {
+      return metadata.description;
     }
     return 'Explore detail description.';
   }
 
-  componentDidMount() {
-
-  }
-
   render() {
-    const { url, dataset } = this.props;
+    const { data } = this.props.dataset;
+    const { url } = this.props;
+    const title = this.getDatasetName();
+    const metadataFields = [
+      'functions',
+      'formattedCautions',
+      'citation',
+      'geographic_coverage',
+      'spatial_resolution',
+      'date_of_content',
+      'frequency_of_updates',
+      'language'
+    ];
 
     return (
       <Layout
-        title={this.getDatasetName()}
+        title={title}
         description={this.getDatasetDescription()}
         url={url}
         pageHeader
@@ -84,11 +89,9 @@ class ExploreDetail extends Page {
                   items={[{ name: 'Explore datasets', route: 'explore' }]}
                 />
 
-                {/* <h1>
-                  {metadataInfo && metadataInfo.name ? metadataInfo.name : (dataset && dataset.attributes && dataset.attributes.name)}
-                </h1>
+                <h1>{title}</h1>
 
-                <div className="page-header-info">
+                {/* <div className="page-header-info">
                   <ul>
                     <li>Source: {(metadata && metadata.source) || '-'}</li>
                     <li>Last update: {dataset && dataset.attributes && new Date(dataset.attributes.updatedAt).toJSON().slice(0, 10).replace(/-/g, '/')}</li>}
@@ -97,6 +100,36 @@ class ExploreDetail extends Page {
               </div>
             </div>
           </div>
+
+          {/* DATASET INFO && ACTIONS */}
+          <section className="l-section">
+            <div className="l-container">
+              <div className="row">
+                <div className="column small-12 medium-7">
+                  {/* Description */}
+                  <div className="dataset-info-description">
+                    {data.metadata.description}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* METADATA */}
+          <section className="l-section">
+            <div className="row">
+              <div className="column small-12 medium-7">
+                {metadataFields.map((m, i) =>
+                  data.metadata[metadataFields[i]] && (
+                    <div className="l-section-mod" key={metadataFields[i]}>
+                      <h3>{capitalize(metadataFields[i].split('_').join(' '))}</h3>
+                      <p>{data.metadata[metadataFields[i]]}</p>
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+          </section>
 
           {/* POSTCONTENT: Banner */}
           <aside className="l-postcontent">

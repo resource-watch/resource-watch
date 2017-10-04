@@ -1,4 +1,4 @@
-// import 'isomorphic-fetch';
+import 'isomorphic-fetch';
 
 // Utils
 import { isFieldDate, isFieldNumber } from 'utils/widgets/WidgetHelper';
@@ -6,14 +6,15 @@ import { isFieldDate, isFieldNumber } from 'utils/widgets/WidgetHelper';
 function parseDataset(dataset) {
   const d = Object.assign({}, { ...dataset.attributes, id: dataset.id });
   if (d.metadata) {
-    d.metadata = d.metadata.map(m => ({ ...m.attributes, id: m.id, type: m.type }));
+    const metadata = d.metadata.map(m => ({
+      ...m.attributes,
+      ...m.attributes.info,
+      id: m.id
+    }));
+    d.metadata = metadata && metadata.length ? metadata[0] : {};
   }
-  if (d.widgets && d.widgets.length) {
-    d.widgets.map(w => ({ ...w.attributes, id: w.id }));
-  }
-  if (d.layers && d.layers.length) {
-    d.layers.map(l => ({ ...l.attributes, id: l.id }));
-  }
+  if (d.widget) d.widgets = d.widget.map(w => ({ ...w.attributes, id: w.id }));
+  if (d.layer) d.layer = d.layer.map(l => ({ ...l.attributes, id: l.id }));
   return d;
 }
 
@@ -54,6 +55,20 @@ export default class DatasetService {
    * @returns {Promise}
    */
   fetchData(includes = '', applications = [process.env.APPLICATIONS]) {
+    const url = `${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&includes=${includes}&page[size]=999`;
+    return fetch(url)
+      .then((response) => {
+        if (response.status >= 400) throw Error(response.statusText);
+        return response.json();
+      })
+      .then(body => body.data);
+  }
+
+  /**
+   * Get dataset info
+   * @returns {Promise}
+   */
+  fetchDataset(includes = '', applications = [process.env.APPLICATIONS]) {
     const url = `${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&includes=${includes}&page[size]=999`;
     return fetch(url)
       .then((response) => {
