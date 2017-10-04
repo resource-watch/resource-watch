@@ -14,6 +14,8 @@ ENV OPBEAT_ORG_ID=17ab8eb501d2418a81f3167c10407e90
 ENV OPBEAT_APP_ID=7170680c2a
 ENV ADD_SEARCH_KEY=cb7e797b8a3c0d09c323955f0c4f957a
 
+ENV TRANSIFEX_LIVE_API=fca0343bce994bf8ba3dcdeaab389136
+
 RUN apt-get update && \
     apt-get install -y bash git build-essential \
     automake autoconf make g++ libtool libcairo2-dev

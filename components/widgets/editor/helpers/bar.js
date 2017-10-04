@@ -26,6 +26,16 @@ const defaultChart = {
         },
         {"type": "formula","field": "height","expr": "300"}
       ]
+    },
+    {
+      "name": "stats",
+      "source": "table",
+      "transform": [
+        {
+          "type": "aggregate",
+          "summarize": [{"field": "y", "ops": ["min"]}]
+        }
+      ]
     }
   ],
   // This scale is not the one used by the marks
@@ -94,7 +104,31 @@ const defaultChart = {
               xc: { scale: 'x', field: 'x' },
               width: { scale: 'x', band: true, offset: -15 },
               y: { scale: 'y', field: 'y' },
-              "y2": {"field": {"group": "height"}}
+              "y2": {"scale": "y", "value": 0}
+            }
+          }
+        },
+        // This rule is conditional: when all the values are positive,
+        // it is hidden so we don't have two lines at the bottom of
+        // the chart (the rule + the axis), but when at least one value
+        // is negative, it is displayed to mark the "0"
+        {
+          "type": "rule",
+          "from": {"data": "stats"},
+          "properties": {
+            "enter": {
+              "y": {"scale": "y", "value": "0"},
+              "x": {"value": "0"},
+              "x2": {"field": {"group": "width"}},
+              "stroke": {"value": "#A9ABAD"},
+              "strokeWidth": {"value": 1},
+              "opacity": [
+                {
+                  "test": "datum.min_y < 0",
+                  "value": 1
+                },
+                {"value": 0}
+              ]
             }
           }
         }

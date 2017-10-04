@@ -80,7 +80,11 @@ class File extends FormElement {
         validations: ['required', 'url']
       }, () => {
         // Publish the new value to the form
-        if (this.props.onChange) this.props.onChange(this.state.value);
+        if (this.props.onChange) {
+          this.props.onChange({
+            value: this.state.value
+          });
+        }
         // Trigger validation
         this.triggerValidate();
       });
@@ -95,7 +99,11 @@ class File extends FormElement {
       validations: ['required', 'url']
     }, () => {
       // Publish the new value to the form
-      if (this.props.onChange) this.props.onChange(this.state.value);
+      if (this.props.onChange) {
+        this.props.onChange({
+          value: this.state.value
+        });
+      }
       // Trigger validation
       this.triggerValidate();
     });
