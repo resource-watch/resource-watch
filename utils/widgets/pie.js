@@ -7,6 +7,69 @@ const defaultChart = {
     {
       "name": "table",
       "transform": [
+        {"type": "rank"}
+      ]
+    },
+    {
+      "name": "count",
+      "source": "table",
+      "transform": [
+        {
+          "type": "aggregate",
+          "summarize": {"y": "count"}
+        }
+      ]
+    },
+    {
+      "name": "others",
+      "source": "table",
+      "transform": [
+        {
+          "type": "cross",
+          "with": "count"
+        },
+        {
+          "type": "filter",
+          "test": "datum.b.count_y < 20 || datum.a.rank >= 20"
+        },
+        {
+          "type": "aggregate",
+          "summarize": [
+            {
+              "field": "a.y",
+              "ops": ["sum"],
+              "as": ["sum"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "slices",
+      "source": "table",
+      "transform": [
+        {
+          "type": "filter",
+          "test": "datum.rank <= 20"
+        },
+        {
+          "type": "cross",
+          "with": "others"
+        },
+        {
+          "type": "formula",
+          "field": "x",
+          "expr": "datum.a.rank < 20 ? datum.a.x : 'Others'"
+        },
+        {
+          "type": "formula",
+          "field": "y",
+          "expr": "datum.a.y + (datum.a.rank === 20 ? datum.b.sum : 0)"
+        },
+        {
+          "type": "pie",
+          "field": "y"
+        },
         {
           "type": "formula",
           "field": "maxRadius",
@@ -19,13 +82,13 @@ const defaultChart = {
     {
       "name": "r",
       "type": "sqrt",
-      "domain": {"data": "table", "field": "y"},
+      "domain": {"data": "slices", "field": "y"},
       "range": [20, 100]
     },
     {
       "name": "c",
       "type": "ordinal",
-      "domain": {"data": "table", "field": "x"},
+      "domain": {"data": "slices", "field": "x"},
       // If you update this range, don't forget to
       // update the code below
       "range": "category20"
@@ -51,9 +114,8 @@ const defaultChart = {
       "ticks": 0,
       "tickSize": 0,
       "properties": {
-        "labels": {
-          "text": {"template": ""},
-        }
+        "labels": {"text": {"template": ""}},
+        "axis": {"strokeWidth": {"value": 0}}
       },
       "real": false
     }
@@ -61,7 +123,7 @@ const defaultChart = {
   "marks": [
     {
       "type": "arc",
-      "from": {"data": "table"},
+      "from": {"data": "slices"},
       "properties": {
         "enter": {
           "x": {"field": {"group": "width"}, "mult": 0.5},
@@ -110,10 +172,6 @@ export default function ({ columns, data, url, embedData }) {
     };
   }
 
-  config.data[0].transform.unshift({
-    "type": "pie", "field": "y"
-  });
-
   // We add the name of the axis
   // We don't have real x and y axis for the pie
   // chart but we use them for the tooltip
@@ -154,12 +212,15 @@ export default function ({ columns, data, url, embedData }) {
   // We add a default legend to the chart
   // In the default template above, category20 is used
   const colorRange = scale.category20().range();
+  const values = data.slice(0, 20)
+    .map((d, i) => ({ label: i === 19 ? 'Others' : d.x, value: colorRange[i % 20], type: columns.x.type }));
+
   config.legend = [
     {
       type: 'color',
       label: null,
       shape: 'square',
-      values: data.map((d, i) => ({ label: d.x, value: colorRange[i % 20], type: columns.x.type }))
+      values
     }
   ];
 

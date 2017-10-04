@@ -22,5 +22,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Vega Chart as component
 - Added Vega Chart Thumbnail with theme configuration
 - Added support for GEE layers in Map
+- Pie charts display an "others" category to avoid duplicate colors
 
 ### Changed
