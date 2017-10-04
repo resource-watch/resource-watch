@@ -3,11 +3,16 @@ import { scale } from 'd3';
 
 /* eslint-disable */
 const defaultChart = {
-  "width": 1,
-  "height": 1,
   "data": [
     {
-      "name": "table"
+      "name": "table",
+      "transform": [
+        {
+          "type": "formula",
+          "field": "maxRadius",
+          "expr": "(height > width ? width : height) / 2"
+        }
+      ]
     }
   ],
   "scales": [
@@ -35,9 +40,8 @@ const defaultChart = {
       "ticks": 0,
       "tickSize": 0,
       "properties": {
-        "labels": {
-          "text": {"template": ""},
-        }
+        "labels": {"text": {"template": ""}},
+        "axis": {"strokeWidth": {"value": 0}}
       },
       "real": false
     },
@@ -64,32 +68,24 @@ const defaultChart = {
           "y": {"field": {"group": "height"}, "mult": 0.5},
           "startAngle": {"field": "layout_start"},
           "endAngle": {"field": "layout_end"},
-          "innerRadius": {"value": 20},
-          "outerRadius": {"value": 150},
+          "innerRadius": [
+            {
+              "test": "datum.maxRadius > 150",
+              "value": 20
+            },
+            {"value": 10}
+          ],
+          "outerRadius": [
+            {
+              "test": "datum.maxRadius > 150",
+              "value": 150
+            },
+            {"field": "maxRadius"}
+          ],
           "fill": {"scale": "c", "field": "x"}
         }
       }
     }
-    // If everyone's ok having the value displayed in the
-    // legend instead of on the chart, we can permanently
-    // delete the following bit
-    // {
-    //   "type": "text",
-    //   "from": {"data": "table"},
-    //   "properties": {
-    //     "enter": {
-    //       "x": {"field": {"group": "width"}, "mult": 0.5},
-    //       "y": {"field": {"group": "height"}, "mult": 0.5},
-    //       "radius": {"value": 110},
-    //       "theta": {"field": "layout_mid"},
-    //       "fill": {"value": "#000"},
-    //       "align": {"value": "center"},
-    //       "baseline": {"value": "middle"},
-    //       "text": {"field": "x"},
-    //       "opacity": {"value": 0.6}
-    //     }
-    //   }
-    // }
   ]
 }
 
@@ -114,9 +110,9 @@ export default function ({ columns, data, url, embedData }) {
     };
   }
 
-  config.data[0].transform = [{
+  config.data[0].transform.unshift({
     "type": "pie", "field": "y"
-  }];
+  });
 
   // We add the name of the axis
   // We don't have real x and y axis for the pie
