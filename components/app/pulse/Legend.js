@@ -1,32 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import LegendType from 'components/ui/LegendType';
+import LegendType from 'components/widgets/editor/ui/LegendType';
 
-class Legend extends React.Component {
-  render() {
-    if (this.props.layerActive) {
-      return (
-        <div className="c-legend">
-          <div className="l-container">
-            <ul className="c-legend-list">
-              <li className="c-legend-item">
-                <header className="legend-item-header">
-                  <h3 className={this.props.className.color}>
-                    <span className="name">{this.props.layerActive.name}</span>
-                  </h3>
-                </header>
-                <LegendType
-                  config={this.props.layerActive.attributes.legendConfig}
-                  className={this.props.className}
-                />
-              </li>
-            </ul>
-          </div>
+function Legend(props) {
+  if (props.layerActive) {
+    return (
+      <div className="c-legend">
+        <div className="l-container">
+          <ul className="c-legend-list">
+            <li className="c-legend-item">
+              <header className="legend-item-header">
+                <h3 className={props.className.color}>
+                  <span className="name">{props.layerActive.name}</span>
+                </h3>
+              </header>
+              <LegendType
+                config={props.layerActive.attributes.legendConfig}
+                className={props.className}
+              />
+            </li>
+          </ul>
         </div>
-      );
-    }
-    return null;
+      </div>
+    );
   }
+  return null;
 }
 
 Legend.propTypes = {

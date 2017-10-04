@@ -212,6 +212,7 @@ class Map extends React.Component {
 
   // LAYER METHODS
   addLayers(layers, filters) {
+    if (!layers) return;
     if (layers.length) this.setState({ loading: true });
     layers.forEach((layer) => {
       this.layerManager.addLayer(layer, {
