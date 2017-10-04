@@ -209,7 +209,7 @@ export default class DatasetService {
   }
 
   getSimilarDatasets() {
-    return fetch(`${this.opts.apiURL}/graph/query/similar-dataset/${this.datasetId}?published=true&env=production,preproduction`)
+    return fetch(`${this.opts.apiURL}/graph/query/similar-dataset/${this.datasetId}?published=true&env=production,preproduction&app=rw`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
@@ -257,7 +257,7 @@ export default class DatasetService {
     }
 
 
-    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}&published=true&env=production,preproduction`)
+    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}&published=true&env=production,preproduction&app=rw`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
