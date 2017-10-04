@@ -21,5 +21,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - New command to check datasets for widget editor `yarn run check-datasets`
 - Vega Chart as component
 - Added Vega Chart Thumbnail with theme configuration
+- Added support for GEE layers in Map
 
 ### Changed
