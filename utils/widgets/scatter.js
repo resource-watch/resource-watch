@@ -42,6 +42,25 @@ const defaultChart = {
         }
       }
     }
+  ],
+  interaction_config: [
+    {
+      "name": "tooltip",
+      "config": {
+        "fields": [
+          {
+            "key": "x",
+            "label": "x",
+            "format": ".2f"
+          },
+          {
+            "key": "y",
+            "label": "y",
+            "format": ".2s"
+          }
+        ]
+      }
+    }
   ]
 };
 
@@ -66,11 +85,21 @@ export default function ({ columns, data, url, embedData }) {
     };
   }
 
-  // We add the name of the axis
-  const xAxis = config.axes.find(a => a.type === 'x');
-  const yAxis = config.axes.find(a => a.type === 'y');
-  xAxis.name = columns.x.alias || columns.x.name;
-  yAxis.name = columns.y.alias || columns.y.name;
+  // We save the name of the columns for the tooltip
+  {
+    const xField = config.interaction_config[0].config.fields[0];
+    const yField = config.interaction_config[0].config.fields[1];
+    xField.label = columns.x.alias || columns.x.name;
+    yField.label = columns.y.alias || columns.y.name;
+  }
+
+  if (columns.x.type === 'number') {
+    const allIntegers = data.length && data.every(d => parseInt(d.x, 10) === d.x);
+    if (allIntegers) {
+      const xField = config.interaction_config[0].config.fields[0];
+      xField.format = '';
+    }
+  }
 
   if (columns.color.present) {
     // We add the color scale
