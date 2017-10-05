@@ -37,7 +37,7 @@ const server = express();
 
 function checkBasicAuth(username, password) {
   return function authMiddleware(req, res, nextAction) {
-    if (!req.headers['user-agent'] || !/AddSearchBot/.test(req.headers['user-agent'])) {
+    if (!/AddSearchBot/.test(req.headers['user-agent'])) {
       const user = basicAuth(req);
       if (!user || user.name !== username || user.pass !== password) {
         res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
@@ -123,6 +123,7 @@ app.prepare()
 
     // Authentication
     server.get('/auth', auth.authenticate({ failureRedirect: '/login' }), (req, res) => {
+      // if (req.user.role === 'ADMIN' && /admin/.test(req.url)) res.redirect('/admin');
       res.redirect('/myrw');
     });
     server.get('/login', auth.login);
