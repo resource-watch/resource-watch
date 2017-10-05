@@ -1,7 +1,6 @@
 require('dotenv').load();
 
 const express = require('express');
-const passport = require('passport');
 const next = require('next');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -68,13 +67,11 @@ const sessionOptions = {
 };
 
 if (prod) {
-  const redisClient = redis.createClient({
-    url: process.env.REDIS_URL,
-    db: 'resourcewatch'
-  });
+  const redisClient = redis.createClient(process.env.REDIS_URL);
   sessionOptions.store = new RedisStore({
     client: redisClient,
-    logErrors: true
+    logErrors: true,
+    prefix: 'resourcewatch_sess_'
   });
 }
 
