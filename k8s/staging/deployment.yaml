@@ -15,9 +15,9 @@ spec:
     spec:
       containers:
         resources:
-         requests:
-           memory: "0Mi"
-           cpu: "0m"
+          requests:
+            memory: "0Mi"
+            cpu: "0m"
       - name: {name}
         image: vizzuality/{name}
         imagePullPolicy: Always
