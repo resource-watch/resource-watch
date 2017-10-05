@@ -48,6 +48,8 @@ function checkBasicAuth(username, password) {
 }
 
 function isAuthenticated(req, res, nextAction) {
+  // Saving referrer of user
+  req.session.referrer = req.url;
   if (req.isAuthenticated()) return nextAction();
   // if they aren't redirect them to the home page
   return res.redirect('/login');
@@ -120,7 +122,7 @@ app.prepare()
 
     // Authentication
     server.get('/auth', auth.authenticate({ failureRedirect: '/login' }), (req, res) => {
-      // if (req.user.role === 'ADMIN' && /admin/.test(req.url)) res.redirect('/admin');
+      if (req.user.role === 'ADMIN' && /admin/.test(req.session.referrer)) res.redirect('/admin');
       res.redirect('/myrw');
     });
     server.get('/login', auth.login);
