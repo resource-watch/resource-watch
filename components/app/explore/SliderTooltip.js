@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
 // Components
-import Slider from 'rc-slider';
+import Slider from 'rc-slider/lib/Slider';
 
 
 class SliderTooltip extends React.Component {
@@ -45,7 +45,6 @@ class SliderTooltip extends React.Component {
     return (
       <div className="c-explore-slider-tooltip" ref={(node) => { this.el = node; }}>
         <Slider
-          className={className || '-something'}
           min={options.min}
           max={options.max}
           step={options.step}
