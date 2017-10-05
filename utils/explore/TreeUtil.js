@@ -15,7 +15,7 @@ export function findTagInTree(tree, tag) {
 
 export function findTagInSelectorTree(tree, tag) {
   let found = false;
-  for (let i = 0; i < tree && tree.length && !found; i++) {
+  for (let i = 0; tree && i < tree.length && !found; i++) {
     found = findTagInTree(tree[i], tag);
   }
   return found;
