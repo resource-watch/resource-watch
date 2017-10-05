@@ -4,7 +4,7 @@
     padding: 2px 0;
     text-transform: none;
     position: relative;
-    padding-left: 30px;
+    padding-left: 20px;
     font-size: $font-size-default;
     line-height: 1;
     cursor: pointer;
@@ -23,8 +23,8 @@
       position: absolute;
       top: 50%;
       left: 0;
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
       border: 1px solid $color-secondary;
       border-radius: 50%;
       transform: translate(0,-50%);
@@ -34,8 +34,8 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 9px;
-        height: 9px;
+        width: 8px;
+        height: 8px;
         background: $color-secondary;
         border-radius: 50%;
         display: block;
