@@ -1,8 +1,22 @@
 import 'isomorphic-fetch';
-import Promise from 'bluebird';
 
 // Utils
 import { isFieldDate, isFieldNumber } from 'utils/widgets/WidgetHelper';
+
+function parseDataset(dataset) {
+  const d = Object.assign({}, { ...dataset.attributes, id: dataset.id });
+  if (d.metadata) {
+    const metadata = d.metadata.map(m => ({
+      ...m.attributes,
+      ...m.attributes.info,
+      id: m.id
+    }));
+    d.metadata = metadata && metadata.length ? metadata[0] : {};
+  }
+  if (d.widget) d.widgets = d.widget.map(w => ({ ...w.attributes, id: w.id }));
+  if (d.layer) d.layer = d.layer.map(l => ({ ...l.attributes, id: l.id }));
+  return d;
+}
 
 /**
  * Dataset service
@@ -41,9 +55,27 @@ export default class DatasetService {
    * @returns {Promise}
    */
   fetchData(includes = '', applications = [process.env.APPLICATIONS]) {
-    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&includes=${includes}&page[size]=999`)
-      .then(response => response.json())
-      .then(jsonData => jsonData.data);
+    const url = `${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&includes=${includes}&page[size]=999`;
+    return fetch(url)
+      .then((response) => {
+        if (response.status >= 400) throw Error(response.statusText);
+        return response.json();
+      })
+      .then(body => body.data);
+  }
+
+  /**
+   * Get dataset info
+   * @returns {Promise}
+   */
+  fetchDataset(includes = '', applications = [process.env.APPLICATIONS]) {
+    const url = `${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&includes=${includes}&page[size]=999`;
+    return fetch(url)
+      .then((response) => {
+        if (response.status >= 400) throw Error(response.statusText);
+        return response.json();
+      })
+      .then(body => parseDataset(body.data));
   }
 
   /**

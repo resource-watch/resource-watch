@@ -1,4 +1,5 @@
 export { default as widget } from './widget';
+export { default as exploreDataset } from './exploreDataset';
 
 export { default as common } from './common';
 export { default as explore } from './explore';
