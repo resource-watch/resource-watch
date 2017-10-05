@@ -1,6 +1,10 @@
 .l-footer {
   margin-top: $margin-size;
 
+  .footer-logo {
+    margin-bottom: $margin-size-small;
+  }
+
   .footer-intro {
     position: relative;
     padding: $margin-size 0;

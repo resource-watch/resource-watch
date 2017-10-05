@@ -46,28 +46,31 @@ function LayerCard(props) {
           <a className="link_button" >Explore the data</a>
         </Link>
       }
-      <h5>Similar content</h5>
-      <div className="similar-widgets">
-        <div className="row list">
-          {similarWidgets &&
-            similarWidgets.map(widget =>
-              (<div
-                key={widget.id}
-                className="widget-card"
-                onClick={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
-                role="button"
-                tabIndex={-1}
-              >
-                <p>{widget.attributes.name}</p>
-                <DatasetWidgetChart
-                  widget={widget.attributes}
-                  mode="thumbnail"
-                />
-              </div>
-              ))
-          }
+      {similarWidgets &&
+        <div>
+          <h5>Similar content</h5>
+          <div className="similar-widgets">
+            <div className="row list">
+              {similarWidgets.map(widget =>
+                (<div
+                  key={widget.id}
+                  className="widget-card"
+                  onClick={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
+                  role="button"
+                  tabIndex={-1}
+                >
+                  <p>{widget.attributes.name}</p>
+                  <DatasetWidgetChart
+                    widget={widget.attributes}
+                    mode="thumbnail"
+                  />
+                </div>
+                ))
+              }
+            </div>
+          </div>
         </div>
-      </div>
+      }
     </div>
   );
 }
