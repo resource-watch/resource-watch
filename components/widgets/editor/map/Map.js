@@ -22,7 +22,7 @@ const MAP_CONFIG = {
   zoomControl: true
 };
 
-const LIGHT_BASEMAP_URL = 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png';
+const LIGHT_BASEMAP_URL = '';
 
 class Map extends React.Component {
   constructor(props) {
@@ -114,6 +114,10 @@ class Map extends React.Component {
         sidebar: nextProps.sidebar
       });
     }
+
+    if (this.props.basemap !== nextProps.basemap) {
+      this.setBasemap(nextProps.basemap);
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -156,8 +160,7 @@ class Map extends React.Component {
     }
   }
 
-  setBasemap() {
-    const basemap = this.props.useLightBasemap ? LIGHT_BASEMAP_URL : process.env.BASEMAP_TILE_URL;
+  setBasemap(basemap) {
     this.tileLayer = L.tileLayer(basemap, {})
       .addTo(this.map)
       .setZIndex(0);
@@ -243,6 +246,7 @@ class Map extends React.Component {
         {this.state.loading && <Spinner isLoading style={spinnerStyles} />}
         <div ref={(node) => { this.mapNode = node; }} className="map-leaflet" />
       </div>
+
     );
   }
 }
@@ -255,7 +259,9 @@ Map.defaultProps = {
 Map.propTypes = {
   interactionEnabled: PropTypes.bool.isRequired,
   useLightBasemap: PropTypes.bool.isRequired,
+
   // STORE
+  basemap: PropTypes.string,
   mapConfig: PropTypes.object,
   filters: PropTypes.object,
   sidebar: PropTypes.object,

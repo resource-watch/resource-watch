@@ -85,6 +85,7 @@ const initialState = {
     open: true,
     width: 0
   },
+  basemap: process.env.BASEMAP_TILE_URL,
   geographiesTree: null,
   topicsTree: null,
   dataTypeTree: null
