@@ -154,6 +154,8 @@ class Map extends React.Component {
   }
 
   setBasemap(basemap) {
+    if (this.tileLayer) this.tileLayer.remove();
+
     this.tileLayer = L.tileLayer(basemap.value, basemap.options)
       .addTo(this.map)
       .setZIndex(0);

@@ -1,24 +1,37 @@
 const BASEMAPS = {
-  default: {
-    id: 'default',
-    value: `${process.env.BASEMAP_TILE_URL}`,
-    label: 'Default',
+  dark: {
+    id: 'dark',
+    value: 'https://api.mapbox.com/styles/v1/jcawri/cj1yoazm8000j2sp158hn6vcl/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamNhd3JpIiwiYSI6ImNqMDd6N2NybzAwMHcyd29iZWlsems0enEifQ.eIqQeyQn5oCLkyivGtiVLg',
+    label: 'Dark',
     options: {
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
+      attribution: '&copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>'
     }
   },
-  'stamen.terrain': {
-    id: 'stamen.terrain',
-    value: 'https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.{ext}',
-    label: 'Stamen.Terrain',
+  light: {
+    id: 'light',
+    value: 'https://api.mapbox.com/styles/v1/jcawri/cj0rundvt00an2rqp4xh9xsz8/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamNhd3JpIiwiYSI6ImNqMDd6N2NybzAwMHcyd29iZWlsems0enEifQ.eIqQeyQn5oCLkyivGtiVLg',
+    label: 'Light',
     options: {
-      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      subdomains: 'abcd',
-      minZoom: 0,
-      maxZoom: 18,
-      ext: 'png'
+      attribution: '&copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>'
+    }
+  },
+  satellite: {
+    id: 'satellite',
+    value: 'https://api.mapbox.com/styles/v1/jcawri/cj0mhudjj00af2qjrfqfo9bqu/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamNhd3JpIiwiYSI6ImNqMDd6N2NybzAwMHcyd29iZWlsems0enEifQ.eIqQeyQn5oCLkyivGtiVLg',
+    label: 'Satellite',
+    options: {
+      attribution: '&copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>'
+    }
+  },
+  terrain: {
+    id: 'terrain',
+    value: 'https://api.mapbox.com/styles/v1/jcawri/cj8emql45a7g92suc538h2shw/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamNhd3JpIiwiYSI6ImNqMDd6N2NybzAwMHcyd29iZWlsems0enEifQ.eIqQeyQn5oCLkyivGtiVLg',
+    label: 'Terrain',
+    options: {
+      attribution: '&copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>'
     }
   }
+
 };
 
 export { BASEMAPS };

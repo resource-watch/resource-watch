@@ -89,7 +89,7 @@ const initialState = {
     open: true,
     width: 0
   },
-  basemap: BASEMAPS.default,
+  basemap: BASEMAPS.dark,
   basemapControl: {
     basemaps: BASEMAPS
   },
