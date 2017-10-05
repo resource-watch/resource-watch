@@ -95,7 +95,10 @@
 
 // VIS
 @import "./components/vis/globe";
-@import "./components/vis/map";
+
+// Map
+@import "./components/map/map";
+@import "./components/map/map-controls";
 
 // Form
 @import "./components/form/form";

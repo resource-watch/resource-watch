@@ -22,8 +22,6 @@ const MAP_CONFIG = {
   zoomControl: true
 };
 
-const LIGHT_BASEMAP_URL = '';
-
 class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -62,9 +60,8 @@ class Map extends React.Component {
     }
 
     // SETTERS
-    this.setAttribution();
     this.setZoomControl();
-    this.setBasemap();
+    this.setBasemap(this.props.basemap);
     this.setMapEventListeners();
 
     // Add layers
@@ -150,10 +147,6 @@ class Map extends React.Component {
     });
   }
 
-  setAttribution() {
-    this.map.attributionControl.addAttribution('&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>');
-  }
-
   setZoomControl() {
     if (this.map.zoomControl) {
       this.map.zoomControl.setPosition('topright');
@@ -161,7 +154,7 @@ class Map extends React.Component {
   }
 
   setBasemap(basemap) {
-    this.tileLayer = L.tileLayer(basemap, {})
+    this.tileLayer = L.tileLayer(basemap.value, basemap.options)
       .addTo(this.map)
       .setZIndex(0);
   }
@@ -252,16 +245,14 @@ class Map extends React.Component {
 }
 
 Map.defaultProps = {
-  interactionEnabled: true,
-  useLightBasemap: false
+  interactionEnabled: true
 };
 
 Map.propTypes = {
   interactionEnabled: PropTypes.bool.isRequired,
-  useLightBasemap: PropTypes.bool.isRequired,
 
   // STORE
-  basemap: PropTypes.string,
+  basemap: PropTypes.object,
   mapConfig: PropTypes.object,
   filters: PropTypes.object,
   sidebar: PropTypes.object,
@@ -272,6 +263,7 @@ Map.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  basemap: state.explore.basemap,
   sidebar: state.explore.sidebar
 });
 
