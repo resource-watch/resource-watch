@@ -19,32 +19,18 @@ class GlobeTooltip extends React.Component {
   }
 
   render() {
-    const isArray = Array.isArray(this.props.value);
     return (
       <div
         className="c-globe-tooltip"
-        onClick={this.handleClick}
-      >
-        {isArray &&
-          this.props.value.map(
-            val =>
-              (<div
-                key={val.key}
-              >
-                {this.getContent(val)}
-              </div>)
-          )
-        }
-        {!isArray &&
-          Object.keys(this.props.value).map(
-            val =>
-              (<div
-                key={val}
-              >
-                <strong>{val}</strong>: {this.props.value[val]}
-              </div>)
-          )
-        }
+        onClick={this.handleClick}>
+        {this.props.value.map(
+          val =>
+            (<div
+              key={val.key}
+            >
+              {this.getContent(val)}
+            </div>)
+        )}
       </div>
     );
   }

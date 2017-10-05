@@ -245,13 +245,14 @@ class Pulse extends Page {
       }).then((response) => {
         if (response.data.length > 0) {
           const obj = response.data[0];
-          delete obj.the_geom;
-          delete obj.the_geom_webmercator;
-          delete obj.cartodb_id;
+
+          const tooltipContentObj = this.state.interactionConfig.output.map(elem =>
+            ({ key: elem.property, value: obj[elem.column], type: elem.type }));
+
           this.props.toggleTooltip(true, {
             follow: false,
             children: GlobeTooltip,
-            childrenProps: { value: obj },
+            childrenProps: { value: tooltipContentObj },
             position: { x: tooltipX, y: tooltipY }
           });
         }
