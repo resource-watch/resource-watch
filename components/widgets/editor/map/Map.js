@@ -37,6 +37,8 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
+    this.hasBeenMounted = true;
+
     const mapOptions = Object.assign({}, MAP_CONFIG, this.props.mapConfig || {});
     mapOptions.center = [mapOptions.latLng.lat, mapOptions.latLng.lng];
 
