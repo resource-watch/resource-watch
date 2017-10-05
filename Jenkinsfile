@@ -32,24 +32,8 @@ node {
   try {
 
     stage ('Build docker') {
-      switch ("${env.BRANCH_NAME}") {
-
-        // Roll out to staging
-        case "develop":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} -f Dockerfile-staging .")
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${dockerUsername}/${appName}:latest -f Dockerfile-staging .")
-          break
-
-        // Roll out to production
-        case "master":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} -f Dockerfile-prod .")
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${dockerUsername}/${appName}:latest -f Dockerfile-prod .")
-          break
-        default:
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} .")
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${dockerUsername}/${appName}:latest .")
-          break
-      }
+      sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} .")
+      sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${dockerUsername}/${appName}:latest .")
     }
 
     stage ('Run Tests') {
