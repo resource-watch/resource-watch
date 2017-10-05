@@ -14,6 +14,14 @@ import orbitControls from './OrbitControls';
 const OrbitControls = orbitControls();
 const imageLoader = new TextureLoader();
 
+/* Severity colors */
+// TO-DO move this to somewhere else that makes more sense
+const severityLowColor = 0x2C7FB8;
+const severityMediumColor = 0x7FCDBB;
+const severityHighColor = 0xEDF8B1;
+//------------------------
+
+
 class Globe extends React.Component {
   static getMarkerHeight(value) {
     let data = value;
@@ -207,18 +215,12 @@ class Globe extends React.Component {
     let color = this.props.markerDefaultColor;
 
     if (severity) {
-      switch (severity) {
-        case 1:
-          color = this.props.markerMediumColor;
-          break;
-        case 2:
-          color = this.props.markerHighColor;
-          break;
-        case 3:
-          color = this.props.markerHighColor;
-          break;
-        default:
-          color = this.props.markerLowColor;
+      if (severity >= 1 && severity < 1.25) {
+        color = severityLowColor;
+      } else if (severity >= 1.25 && severity < 1.75) {
+        color = severityMediumColor;
+      } else if (severity >= 1.75 && severity <= 2) {
+        color = severityHighColor;
       }
     }
 
