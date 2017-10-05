@@ -3,19 +3,20 @@ import PropTypes from 'prop-types';
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc';
 import isEqual from 'lodash/isEqual';
 import throttle from 'lodash/throttle';
-import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
 import { toggleModal } from 'redactions/modal';
 import { toggleTooltip, setTooltipPosition } from 'redactions/tooltip';
+import { setLayerGroupOpacity } from 'redactions/explore';
 
 // Components
 import LegendType from 'components/widgets/editor/ui/LegendType';
-import Icon from 'components/widgets/editor/ui/Icon';
-import LayerInfoModal from 'components/widgets/editor/modal/LayerInfoModal';
-import LayersTooltip from 'components//widgets/editor/tooltip/LayersTooltip';
-import Button from 'components/widgets/editor/ui/Button';
+import Icon from 'components/ui/Icon';
+import LayerInfoModal from 'components/modal/LayerInfoModal';
+import LayersTooltip from 'components/app/explore/LayersTooltip';
+import SliderTooltip from 'components/app/explore/SliderTooltip';
+import Button from 'components/ui/Button';
 
 const SortableItem = SortableElement(({ value }) => value);
 
@@ -33,7 +34,7 @@ const SortableList = SortableContainer(({ items }) => (
   </ul>
 ));
 
-class Legend extends React.Component {
+class Legend extends React.PureComponent {
   /**
    * Return the position of a DOM element
    * @static
@@ -55,6 +56,8 @@ class Legend extends React.Component {
       open: props.expanded,
       layersTooltipOpen: false,
       layersTourTooltipOpen: false,
+      opacityTooltipOpen: false,
+      opacityOptions: {},
       // Show a "tour" tooltip if the user adds a multi-layer
       // layer group for the first time
       hasShownLayersTourTooltip: false
@@ -72,6 +75,16 @@ class Legend extends React.Component {
     // Show the layers tour tooltip
     if (!this.state.hasShownLayersTourTooltip && this.state.open) {
       this.showLayersTourTooltip();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.tooltipOpened === undefined && this.state.opacityTooltipOpen && this.state.opacityOptions.target) {
+      const layerGroup = nextProps.layerGroups.find(lg => lg.dataset === this.state.opacityOptions.dataset);
+
+      if (layerGroup) {
+        this.onClickOpacity({ target: this.state.opacityOptions.target }, layerGroup);
+      }
     }
   }
 
@@ -150,12 +163,56 @@ class Legend extends React.Component {
   }
 
   /**
+   * Event handler executed when the user moves the opacity slider
+   * @param {Value} value
+   * @param {LayerGroup} layerGroup
+   */
+  // onChangeOpacity(value, layerGroup) {
+  //   this.props.setLayerGroupOpacity(layerGroup.dataset, value);
+  // }
+
+  /**
    * Event handler executed when the user clicks the button
    * to change the opacity of a layer
+   * @param {MouseEvent} e
+   * @param {LayerGroup} layerGroup
    */
-  onClickOpacity() { // eslint-disable-line class-methods-use-this
-    // TODO: implement
-    toastr.info('Not implemented yet');
+  onClickOpacity(e, layerGroup) { // eslint-disable-line class-methods-use-this
+    const opacity = layerGroup.layers.length && layerGroup.layers[0].opacity !== undefined ?
+      layerGroup.layers[0].opacity : 1;
+
+    // If the user is opening the tooltip to select a layer
+    // then the tour doesn't make any sense anymore
+    this.closeLayersTourTooltip();
+
+    // We save the button that was used to open the tooltip
+    // so we can compute its position later
+    this.opacityButton = e.target;
+
+    if (!this.state.opacityTooltipOpen) {
+      this.setState({
+        opacityTooltipOpen: true,
+        opacityOptions: { target: this.opacityButton, dataset: layerGroup.dataset },
+        layersTooltipOpen: false
+      });
+    }
+
+    this.props.toggleTooltip(true, {
+      follow: false,
+      position: Legend.getElementPosition(this.opacityButton),
+      children: SliderTooltip,
+      childrenProps: {
+        className: '',
+        options: {
+          min: 0, max: 1, step: 0.01, defaultValue: opacity
+        },
+        onChange: value => this.onChangeOpacity(value, layerGroup),
+        onClose: () => {
+          this.setState({ opacityTooltipOpen: false, opacityOptions: {} });
+          this.props.toggleTooltip(false);
+        }
+      }
+    });
   }
 
   /**
@@ -407,6 +464,8 @@ Legend.propTypes = {
   interactionDisabled: PropTypes.bool,
   // Whether by default the legend is expanded or not
   expanded: PropTypes.bool,
+  // Tooltip open state
+  tooltipOpened: PropTypes.bool,
 
   // Functions
 
@@ -418,6 +477,8 @@ Legend.propTypes = {
   removeLayerGroup: PropTypes.func,
   // Callback to change which layer of the layer group is active
   setLayerGroupActiveLayer: PropTypes.func.isRequired,
+  // Set layers opacity
+  setLayerGroupOpacity: PropTypes.func,
 
   // Redux
 
@@ -435,11 +496,16 @@ Legend.defaultProps = {
   expanded: true
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({
+  tooltipOpened: state.tooltip.opened
+});
 const mapDispatchToProps = dispatch => ({
   toggleModal: (open, options) => dispatch(toggleModal(open, options)),
   toggleTooltip: (open, options) => dispatch(toggleTooltip(open, options)),
-  setTooltipPosition: pos => dispatch(setTooltipPosition(pos))
+  setTooltipPosition: pos => dispatch(setTooltipPosition(pos)),
+  setLayerGroupOpacity: (dataset, layers, opacity) => {
+    dispatch(setLayerGroupOpacity(dataset, layers, opacity));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Legend);

@@ -11,7 +11,7 @@ import { toggleTooltip, setTooltipPosition } from 'redactions/tooltip';
 import { setLayerGroupOpacity } from 'redactions/explore';
 
 // Components
-import LegendType from 'components/ui/LegendType';
+import LegendType from 'components/widgets/editor/ui/LegendType';
 import Icon from 'components/ui/Icon';
 import LayerInfoModal from 'components/modal/LayerInfoModal';
 import LayersTooltip from 'components/app/explore/LayersTooltip';
@@ -296,8 +296,8 @@ class Legend extends React.Component {
             <Icon name="icon-opacity" />
           </button>
         }
-        { !this.props.interactionDisabled &&
-          <button
+        { !this.props.interactionDisabled
+          && <button
             type="button"
             className="toggle"
             onClick={() => this.onToggleLayerGroupVisibility(layerGroup)}
@@ -306,23 +306,14 @@ class Legend extends React.Component {
             <Icon name={layerGroup.visible ? 'icon-hide' : 'icon-show'} />
           </button>
         }
-        { !this.props.interactionDisabled &&
-          <button
-            type="button"
-            className="info"
-            onClick={() => this.onLayerInfoModal(layerGroup)}
-            aria-label="More information"
-          >
+        { !this.props.interactionDisabled
+          && <button type="button" className="info" onClick={() => this.onLayerInfoModal(layerGroup)} aria-label="More information">
             <Icon name="icon-info" />
           </button>
         }
-        { !this.props.readonly && !this.props.interactionDisabled &&
-          <button
-            type="button"
-            className="close"
-            onClick={() => this.onRemoveLayerGroup(layerGroup)}
-            aria-label="Remove"
-          >
+        { !this.props.readonly
+          && !this.props.interactionDisabled
+          && <button type="button" className="close" onClick={() => this.onRemoveLayerGroup(layerGroup)} aria-label="Remove">
             <Icon name="icon-cross" />
           </button>
         }
@@ -417,11 +408,7 @@ class Legend extends React.Component {
     return (
       <div className="c-legend-map">
         <div className={`open-legend ${this.state.open ? '-active' : ''}`} onScroll={this.onScrollLegend}>
-          <button
-            type="button"
-            className="toggle-legend"
-            onClick={() => this.setState({ open: false })}
-          >
+          <button type="button" className="toggle-legend" onClick={() => this.setState({ open: false })}>
             <Icon name="icon-arrow-down" className="-small" />
           </button>
           <SortableList
@@ -439,11 +426,7 @@ class Legend extends React.Component {
         <div className={`close-legend ${!this.state.open ? '-active' : ''}`}>
           <h1 className="legend-title">
             Legend
-            <button
-              type="button"
-              className="toggle-legend"
-              onClick={() => this.setState({ open: true })}
-            >
+            <button type="button" className="toggle-legend" onClick={() => this.setState({ open: true })}>
               <Icon name="icon-arrow-up" className="-small" />
             </button>
           </h1>

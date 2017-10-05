@@ -1,3 +1,5 @@
+import 'isomorphic-fetch';
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -5,7 +7,6 @@ import { Autobind } from 'es-decorators';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import MediaQuery from 'react-responsive';
-import 'isomorphic-fetch';
 import DropdownTreeSelect from 'react-dropdown-tree-select';
 
 // Redux
@@ -44,9 +45,9 @@ import Sidebar from 'components/app/layout/Sidebar';
 import DatasetListHeader from 'components/app/explore/DatasetListHeader';
 import DatasetList from 'components/app/explore/DatasetList';
 import Paginator from 'components/ui/Paginator';
-import Map from 'components/vis/Map';
+import Map from 'components/widgets/editor/map/Map';
 import ShareModalExplore from 'components/modal/ShareModalExplore';
-import Legend from 'components/ui/Legend';
+import Legend from 'components/widgets/editor/ui/Legend';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
 import SearchInput from 'components/ui/SearchInput';
@@ -56,7 +57,7 @@ import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 
 // Utils
-import LayerManager from 'utils/layers/LayerManager';
+import LayerManager from 'components/widgets/editor/helpers/LayerManager';
 import { findTagInSelectorTree } from 'utils/explore/TreeUtil';
 
 // Services
@@ -389,8 +390,13 @@ class Explore extends Page {
 
   @Autobind
   handleTagSelected(tag) {
-    const { geographies, dataType } = this.filters;
+    const { geographies, dataType, topics } = this.filters;
     const { topicsTree } = this.props.explore;
+
+    // clear previous selection
+    if (topics.length && topics.length > 0) {
+      this.topicsTree.forEach(child => this.selectElementsFromTree(child, topics, true));
+    }
 
     if (findTagInSelectorTree(topicsTree, tag)) {
       this.topicsTree.forEach(child => this.selectElementsFromTree(child, [tag]));
@@ -421,7 +427,7 @@ class Explore extends Page {
       topics, geographies, dataType)
       .then((datasetList) => {
         this.props.setFiltersLoading(false);
-        this.props.setDatasetsFilteredByConcepts(datasetList[0] || []);
+        this.props.setDatasetsFilteredByConcepts(datasetList || []);
       });
   }
 
@@ -455,8 +461,13 @@ class Explore extends Page {
     const { geographiesTree, topicsTree, dataTypeTree } = explore;
     const { showFilters } = this.state;
     const { topics, geographies, dataType } = this.filters;
+    const topicsLabels = topics.map(topic => findTagInSelectorTree(topicsTree, topic).label);
+    const geographiesLabels = geographies.map(geography =>
+      findTagInSelectorTree(geographiesTree, geography).label);
+    const dataTypeLabels = dataType.map(dType => findTagInSelectorTree(dataTypeTree, dType).label);
 
-    const allTagsSt = [].concat(topics).concat(geographies).concat(dataType).join();
+    const allTagsSt = [].concat(topicsLabels).concat(geographiesLabels)
+      .concat(dataTypeLabels).join(', ');
     const filtersSumUp = !showFilters && allTagsSt.length > 0 ? `Filtering by ${allTagsSt}` : '';
 
     const buttonFilterContent = showFilters ? 'Hide filters' : 'Show filters';
@@ -509,7 +520,7 @@ class Explore extends Page {
                             <DropdownTreeSelect
                               showDropdown
                               placeholderText="Topics"
-                              data={this.topicsTree}
+                              data={this.topicsTree || { label: '', value: '', children: [] }}
                               onChange={(currentNode, selectedNodes) => {
                                 this.filters.topics = selectedNodes.map(val => val.value);
                                 const deselect = !selectedNodes.includes(currentNode);
@@ -530,7 +541,7 @@ class Explore extends Page {
                         <div className="c-tree-selector -explore geographies-selector ">
                           {geographiesTree &&
                             <DropdownTreeSelect
-                              data={this.geographiesTree}
+                              data={this.geographiesTree || { label: '', value: '', children: [] }}
                               placeholderText="Geographies"
                               onChange={(currentNode, selectedNodes) => {
                                 this.filters.geographies = selectedNodes.map(val => val.value);
@@ -552,7 +563,7 @@ class Explore extends Page {
                         <div className="c-tree-selector -explore data-types-selector">
                           {dataTypeTree &&
                             <DropdownTreeSelect
-                              data={this.dataTypeTree}
+                              data={this.dataTypeTree || { label: '', value: '', children: [] }}
                               placeholderText="Data types"
                               onChange={(currentNode, selectedNodes) => {
                                 this.filters.dataType = selectedNodes.map(val => val.value);

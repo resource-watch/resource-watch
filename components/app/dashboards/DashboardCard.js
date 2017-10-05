@@ -8,7 +8,7 @@ import { toastr } from 'react-redux-toastr';
 import Title from 'components/ui/Title';
 import TextChart from 'components/widgets/charts/TextChart';
 import VegaChart from 'components/widgets/charts/VegaChart';
-import Map from 'components/vis/Map';
+import Map from 'components/widgets/editor/map/Map';
 import Legend from 'components/ui/Legend';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 
 // Utils
 import getChartTheme from 'utils/widgets/theme';
-import LayerManager from 'utils/layers/LayerManager';
+import LayerManager from 'components/widgets/editor/helpers/LayerManager';
 
 // Services
 import UserService from 'services/UserService';
