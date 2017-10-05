@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - MapControls component added
 - BasemapControl component added
 - ShareControl component added
+- Footer updated
 
 ### Added
 - Planet pulse improvements: color used as extra dimension in more 3D layers
