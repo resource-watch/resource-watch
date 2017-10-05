@@ -17,7 +17,7 @@ export const LAYERS_PLANET_PULSE = [
     ]
   },
   {
-    label: 'Water', 
+    label: 'Water',
     layers: [
       {
         label: 'Global Flood Detection System (JRC, Dartmouth Flood Observatory)',
@@ -35,7 +35,7 @@ export const LAYERS_PLANET_PULSE = [
         label: 'Potential Landslide Areas.',
         id: '50ef9f99-ddca-46b9-bb69-690f0b2ced88',
         '3d': false,
-        markerType: 'hemisphere'.  
+        markerType: 'hemisphere'
       }
     ]
   },
@@ -43,7 +43,7 @@ export const LAYERS_PLANET_PULSE = [
     label: 'Food',
     layers: [
       {
-        label: 'Acute Food Insecurity (FEWS NET)',  
+        label: 'Acute Food Insecurity (FEWS NET)',
         id: '0ac7bf69-388a-48b0-a869-c3240031c4bf',
         '3d': false,
         markerType: 'default'

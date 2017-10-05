@@ -422,7 +422,7 @@ class Explore extends Page {
       topics, geographies, dataType)
       .then((datasetList) => {
         this.props.setFiltersLoading(false);
-        this.props.setDatasetsFilteredByConcepts(datasetList[0] || []);
+        this.props.setDatasetsFilteredByConcepts(datasetList || []);
       });
   }
 
