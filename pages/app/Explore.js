@@ -390,8 +390,13 @@ class Explore extends Page {
 
   @Autobind
   handleTagSelected(tag) {
-    const { geographies, dataType } = this.filters;
+    const { geographies, dataType, topics } = this.filters;
     const { topicsTree } = this.props.explore;
+
+    // clear previous selection
+    if (topics.length && topics.length > 0) {
+      this.topicsTree.forEach(child => this.selectElementsFromTree(child, topics, true));
+    }
 
     if (findTagInSelectorTree(topicsTree, tag)) {
       this.topicsTree.forEach(child => this.selectElementsFromTree(child, [tag]));
@@ -422,7 +427,7 @@ class Explore extends Page {
       topics, geographies, dataType)
       .then((datasetList) => {
         this.props.setFiltersLoading(false);
-        this.props.setDatasetsFilteredByConcepts(datasetList[0] || []);
+        this.props.setDatasetsFilteredByConcepts(datasetList || []);
       });
   }
 
@@ -456,8 +461,13 @@ class Explore extends Page {
     const { geographiesTree, topicsTree, dataTypeTree } = explore;
     const { showFilters } = this.state;
     const { topics, geographies, dataType } = this.filters;
+    const topicsLabels = topics.map(topic => findTagInSelectorTree(topicsTree, topic).label);
+    const geographiesLabels = geographies.map(geography =>
+      findTagInSelectorTree(geographiesTree, geography).label);
+    const dataTypeLabels = dataType.map(dType => findTagInSelectorTree(dataTypeTree, dType).label);
 
-    const allTagsSt = [].concat(topics).concat(geographies).concat(dataType).join();
+    const allTagsSt = [].concat(topicsLabels).concat(geographiesLabels)
+      .concat(dataTypeLabels).join(', ');
     const filtersSumUp = !showFilters && allTagsSt.length > 0 ? `Filtering by ${allTagsSt}` : '';
 
     const buttonFilterContent = showFilters ? 'Hide filters' : 'Show filters';
