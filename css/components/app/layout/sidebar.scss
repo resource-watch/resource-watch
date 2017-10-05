@@ -39,7 +39,7 @@ $min-width-sidebar-closed: 10px;
     top: 20px;
     left: 100%;
     cursor: pointer;
-    background-color: rgba($color-white, .3);
+    background-color: $ui-font-color;
     border: none;
     outline: none;
     transition: background $animation-time-2 $ease-in-out-sine;
@@ -49,7 +49,7 @@ $min-width-sidebar-closed: 10px;
     }
 
     &:hover {
-      background-color: rgba(darken($color-white, 25%), .3);
+      background-color: darken($ui-font-color, 5%);
     }
   }
 

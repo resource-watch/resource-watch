@@ -22,8 +22,6 @@ const MAP_CONFIG = {
   zoomControl: true
 };
 
-const LIGHT_BASEMAP_URL = 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png';
-
 class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -62,9 +60,8 @@ class Map extends React.Component {
     }
 
     // SETTERS
-    this.setAttribution();
     this.setZoomControl();
-    this.setBasemap();
+    this.setBasemap(this.props.basemap);
     this.setMapEventListeners();
 
     // Add layers
@@ -114,6 +111,10 @@ class Map extends React.Component {
         sidebar: nextProps.sidebar
       });
     }
+
+    if (this.props.basemap !== nextProps.basemap) {
+      this.setBasemap(nextProps.basemap);
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -146,19 +147,16 @@ class Map extends React.Component {
     });
   }
 
-  setAttribution() {
-    this.map.attributionControl.addAttribution('&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>');
-  }
-
   setZoomControl() {
     if (this.map.zoomControl) {
       this.map.zoomControl.setPosition('topright');
     }
   }
 
-  setBasemap() {
-    const basemap = this.props.useLightBasemap ? LIGHT_BASEMAP_URL : process.env.BASEMAP_TILE_URL;
-    this.tileLayer = L.tileLayer(basemap, {})
+  setBasemap(basemap) {
+    if (this.tileLayer) this.tileLayer.remove();
+
+    this.tileLayer = L.tileLayer(basemap.value, basemap.options)
       .addTo(this.map)
       .setZIndex(0);
   }
@@ -243,19 +241,20 @@ class Map extends React.Component {
         {this.state.loading && <Spinner isLoading style={spinnerStyles} />}
         <div ref={(node) => { this.mapNode = node; }} className="map-leaflet" />
       </div>
+
     );
   }
 }
 
 Map.defaultProps = {
-  interactionEnabled: true,
-  useLightBasemap: false
+  interactionEnabled: true
 };
 
 Map.propTypes = {
   interactionEnabled: PropTypes.bool.isRequired,
-  useLightBasemap: PropTypes.bool.isRequired,
+
   // STORE
+  basemap: PropTypes.object,
   mapConfig: PropTypes.object,
   filters: PropTypes.object,
   sidebar: PropTypes.object,
@@ -266,6 +265,7 @@ Map.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  basemap: state.explore.basemap,
   sidebar: state.explore.sidebar
 });
 
