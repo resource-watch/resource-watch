@@ -128,6 +128,7 @@
   },
   "scripts": {
     "check-datasets": "NODE_ENV=test babel-node ./tasks/check-datasets.js",
+    "check-layers": "NODE_ENV=test babel-node ./tasks/check-layers.js",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "test": "jest",
     "lint": "eslint .",

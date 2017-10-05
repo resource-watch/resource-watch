@@ -42,14 +42,20 @@ export default class LayerGlobeManager {
       options: opts
     };
 
+    const { layerConfig } = this.layer;
+    const { pulseConfig, account } = layerConfig;
+
+    const newLayersObj = layerConfig.body.layers;
+    newLayersObj[0].options.sql = pulseConfig.sql;
+
     const layerTpl = {
       version: '1.3.0',
       stat_tag: 'API',
-      layers: this.layer.layerConfig.body.layers
+      layers: newLayersObj
     };
     const params = `?stat_tag=API&config=${encodeURIComponent(JSON.stringify(layerTpl))}`;
     const xmlhttp = new XMLHttpRequest();
-    xmlhttp.open('GET', `https://${this.layer.layerConfig.account}.carto.com/api/v1/map${params}`);
+    xmlhttp.open('GET', `https://${account}.carto.com/api/v1/map${params}`);
 
     // ...and add it to the current layer
     this.layer.request = xmlhttp;
@@ -58,10 +64,11 @@ export default class LayerGlobeManager {
       if (xmlhttp.readyState === 4) {
         if (xmlhttp.status === 200) {
           const data = JSON.parse(xmlhttp.responseText);
-          const { layerConfig, staticImageConfig } = this.layer;
+          const { urlTemplate, values } = pulseConfig;
+          const { bbox, format, height, width } = values;
 
           // Parse the staticImageConfig.urlTemplate with the current options
-          const texture = substitution(staticImageConfig.urlTemplate, [{
+          const texture = substitution(urlTemplate, [{
             key: 'account',
             value: layerConfig.account
           }, {
@@ -69,19 +76,16 @@ export default class LayerGlobeManager {
             value: data.layergroupid
           }, {
             key: 'bbox',
-            value: staticImageConfig.bbox.join(',')
+            value: bbox.join(',')
           }, {
             key: 'format',
-            value: staticImageConfig.format
+            value: format
           }, {
             key: 'width',
-            value: staticImageConfig.width
+            value: width
           }, {
             key: 'height',
-            value: staticImageConfig.height
-          }, {
-            key: 'srs',
-            value: staticImageConfig.srs
+            value: height
           }]);
           this.layer.options.onLayerAddedSuccess(texture);
         } else {
