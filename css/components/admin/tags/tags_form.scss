@@ -1,0 +1,37 @@
+.c-tags-form {
+
+  .Select {
+    min-width: 100%;
+  }
+
+  .inferred-tags {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    max-height: 200px;
+    margin-bottom: 20px;
+    overflow: auto;
+
+    .tag {
+      border: 1px solid $light-grey;
+      background: $porcelain;
+      border-radius: 4px;
+      padding: 5px;
+      margin: 5px;
+    }
+  }
+
+  .graph-div {
+    
+    .vis-network {
+      border: 1px solid $light-grey;
+      max-width: 100%;
+    }
+  }
+
+  .actions-div {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+}

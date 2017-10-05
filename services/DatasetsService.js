@@ -2,18 +2,51 @@ import 'isomorphic-fetch';
 import { get, post, remove } from 'utils/request';
 import sortBy from 'lodash/sortBy';
 
+import { getFieldUrl, getFields } from 'utils/datasets/fields';
+
 export default class DatasetsService {
   constructor(options = {}) {
     this.opts = options;
   }
 
   // GET ALL DATA
-  fetchAllData({ applications = [process.env.APPLICATIONS], includes, filters } = {}) {
+  fetchAdminData({ applications = [process.env.APPLICATIONS], includes, filters } = {}) {
     const qParams = {
       application: applications.join(','),
       ...!!includes && { includes },
       'page[size]': 9999999,
+      env: 'production,preproduction',
       ...filters
+    };
+
+    return new Promise((resolve, reject) => {
+      get({
+        url: `${process.env.WRI_API_URL}/dataset?${Object.keys(qParams).map(k => `${k}=${qParams[k]}`).join('&')}`,
+        headers: [{
+          key: 'Content-Type',
+          value: 'application/json'
+        }, {
+          key: 'Authorization',
+          value: this.opts.authorization
+        }],
+        onSuccess: ({ data }) => {
+          const datasets = data.map(dataset => ({ ...dataset.attributes, id: dataset.id }));
+          resolve(sortBy(datasets, 'name'));
+        },
+        onError: (error) => {
+          reject(error);
+        }
+      });
+    });
+  }
+
+  fetchAllData({ applications = [process.env.APPLICATIONS], includes, filters, env = 'preproduction,production' } = {}) {
+    const qParams = {
+      application: applications.join(','),
+      ...!!includes && { includes },
+      'page[size]': 9999999,
+      ...filters,
+      env
     };
 
     return new Promise((resolve, reject) => {
@@ -137,10 +170,11 @@ export default class DatasetsService {
     });
   }
 
-  fetchFields({ id }) {
+  fetchFields({ id, provider, type, tableName }) {
+    const url = getFieldUrl(id, provider, type, tableName);
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/fields/${id}`,
+        url,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -149,10 +183,7 @@ export default class DatasetsService {
           value: this.opts.authorization
         }],
         onSuccess: (data) => {
-          resolve(Object.keys(data.fields).map(field => ({
-            name: field,
-            type: data.fields[field].type
-          })));
+          resolve(getFields(data, provider, type));
         },
         onError: (error) => {
           reject(error);

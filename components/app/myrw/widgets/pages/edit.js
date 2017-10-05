@@ -18,8 +18,10 @@ import {
   setChartType,
   setBand,
   setVisualizationType,
-  setLayer
-} from 'redactions/widgetEditor';
+  setLayer,
+  setAreaIntersection
+} from 'components/widgets/editor/redux/widgetEditor';
+import { setDataset } from 'redactions/myrwdetail';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -28,7 +30,7 @@ import LayersService from 'services/LayersService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import WidgetEditor from 'components/widgets/WidgetEditor';
+import WidgetEditor from 'components/widgets/editor/WidgetEditor';
 import Button from 'components/ui/Button';
 import Input from 'components/form/Input';
 import Field from 'components/form/Field';
@@ -81,12 +83,23 @@ class WidgetsEdit extends React.Component {
       })
       .then((datasetId) => {
         const datasetService = new DatasetService(datasetId, { apiURL: process.env.WRI_API_URL });
-        return datasetService.fetchData()
-          .then(dataset => this.setState({ dataset }));
+        return datasetService.fetchData('metadata')
+          .then((dataset) => {
+            this.setState({ dataset });
+            const datasetName = dataset.attributes.metadata && dataset.attributes.metadata[0] &&
+              dataset.attributes.metadata[0].attributes.info &&
+              dataset.attributes.metadata[0].attributes.info.name ?
+              dataset.attributes.metadata[0].attributes.info.name : dataset.attributes.name;
+            this.props.setDataset({ id: dataset.id, name: datasetName });
+          });
       })
       // TODO: handle the error in the UI
       .catch(err => toastr.error('Error', err))
       .then(() => this.setState({ loading: false }));
+  }
+
+  componentWillUnmount() {
+    this.props.setDataset(null)
   }
 
   @Autobind
@@ -150,7 +163,7 @@ class WidgetsEdit extends React.Component {
         {
           paramsConfig: {
             visualizationType,
-            band,
+            band: band && { name: band.name },
             limit,
             value,
             category,
@@ -240,7 +253,8 @@ class WidgetsEdit extends React.Component {
       filters,
       limit,
       chartType,
-      layer
+      layer,
+      areaIntersection
     } = paramsConfig;
 
     // We restore the type of visualization
@@ -259,6 +273,7 @@ class WidgetsEdit extends React.Component {
     if (filters) this.props.setFilters(filters);
     if (limit) this.props.setLimit(limit);
     if (chartType) this.props.setChartType(chartType);
+    if (areaIntersection) this.props.setAreaIntersection(areaIntersection);
   }
 
   @Autobind
@@ -395,8 +410,10 @@ WidgetsEdit.propTypes = {
   setLimit: PropTypes.func.isRequired,
   setChartType: PropTypes.func.isRequired,
   setVisualizationType: PropTypes.func.isRequired,
+  setAreaIntersection: PropTypes.func.isRequired,
   setBand: PropTypes.func.isRequired,
-  setLayer: PropTypes.func.isRequired
+  setLayer: PropTypes.func.isRequired,
+  setDataset: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -415,6 +432,7 @@ const mapDispatchToProps = dispatch => ({
   setLimit: value => dispatch(setLimit(value)),
   setChartType: value => dispatch(setChartType(value)),
   setVisualizationType: vis => dispatch(setVisualizationType(vis)),
+  setAreaIntersection: value => dispatch(setAreaIntersection(value)),
   setBand: band => dispatch(setBand(band)),
   setLayer: (layerId) => {
     new LayersService()
@@ -422,7 +440,8 @@ const mapDispatchToProps = dispatch => ({
       .then(layer => dispatch(setLayer(layer)))
       // TODO: better handling of the error
       .catch(err => toastr.error('Error', err));
-  }
+  },
+  setDataset: dataset => dispatch(setDataset(dataset))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WidgetsEdit);

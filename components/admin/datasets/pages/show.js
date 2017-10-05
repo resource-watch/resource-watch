@@ -10,8 +10,8 @@ import { substitution } from 'utils/utils';
 import Aside from 'components/ui/Aside';
 import DatasetsForm from 'components/datasets/form/DatasetsForm';
 import MetadataForm from 'components/admin/metadata/form/MetadataForm';
-import VocabulariesAssociationForm from 'components/admin/vocabularies/association/VocabulariesAssociationForm';
-import WidgetIndex from 'components/admin/widget/pages/index';
+import TagsForm from 'components/admin/tags/TagsForm';
+import WidgetIndex from 'components/admin/widgets/pages/index';
 import LayersIndex from 'components/admin/layers/pages/index';
 
 // Constants
@@ -26,10 +26,10 @@ const DATASET_SUBTABS = [{
   route: 'admin_data_detail',
   params: { tab: 'datasets', id: '{{id}}', subtab: 'metadata' }
 }, {
-  label: 'Vocabularies',
-  value: 'vocabularies',
+  label: 'Tags',
+  value: 'tags',
   route: 'admin_data_detail',
-  params: { tab: 'datasets', id: '{{id}}', subtab: 'vocabularies' }
+  params: { tab: 'datasets', id: '{{id}}', subtab: 'tags' }
 }, {
   label: 'Widgets',
   value: 'widgets',
@@ -94,13 +94,13 @@ class DatasetsShow extends React.Component {
                 />
               }
 
-              {subtab === 'vocabularies' &&
-                <VocabulariesAssociationForm
-                  application={process.env.APPLICATIONS}
-                  authorization={user.token}
-                  dataset={id}
-                  language="en"
-                />
+              {subtab === 'tags' &&
+                <div>
+                  <TagsForm
+                    dataset={id}
+                    user={user}
+                  />
+                </div>
               }
 
               {subtab === 'widgets' &&

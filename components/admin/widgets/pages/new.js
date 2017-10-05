@@ -16,7 +16,13 @@ function WidgetsNew(props) {
     <div className="c-widgets-new">
       <WidgetsForm
         authorization={user.token}
-        onSubmit={() => Router.pushRoute('admin_data', { tab: 'widgets' })}
+        onSubmit={() => {
+          if (dataset) {
+            Router.pushRoute('admin_data_detail', { tab: 'datasets', subtab: 'widgets', id: dataset });
+          } else {
+            Router.pushRoute('admin_data', { tab: 'widgets' });
+          }
+        }}
         dataset={dataset}
       />
     </div>

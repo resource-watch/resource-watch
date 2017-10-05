@@ -22,7 +22,8 @@ class DatasetsListCard extends React.Component {
   @Autobind
   handleDelete() {
     const { dataset } = this.props;
-    toastr.confirm(`Are you sure you want to delete the dataset: ${dataset.name}?`, {
+    const metadata = dataset.metadata[0];
+    toastr.confirm(`Are you sure you want to delete the dataset: ${metadata && metadata.attributes.info ? metadata.attributes.info.name : dataset.name}?`, {
       onOk: () => {
         this.service.deleteData(dataset.id)
           .then(() => {
@@ -36,7 +37,7 @@ class DatasetsListCard extends React.Component {
 
   render() {
     const { dataset, routes } = this.props;
-
+    const metadata = dataset.metadata[0];
     return (
       <div className="c-card c-datasets-list-card">
         <div className="card-container">
@@ -47,7 +48,7 @@ class DatasetsListCard extends React.Component {
             >
               <a>
                 <Title className="-default">
-                  {dataset.name}
+                  {metadata && metadata.attributes.info ? metadata.attributes.info.name : dataset.name}
                 </Title>
               </a>
             </Link>

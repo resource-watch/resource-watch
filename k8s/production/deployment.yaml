@@ -1,0 +1,46 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: {name}
+  name: {name}
+spec:
+  revisionHistoryLimit: 2
+  template:
+    metadata:
+      annotations:
+        chaos.alpha.kubernetes.io/enabled: "true"
+      labels:
+        name: {name}
+    spec:
+      containers:
+      - name: redis
+        image: redis
+        ports:
+         - containerPort: 6379
+      - name: {name}
+        image: vizzuality/{name}
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "128Mi"
+          limits:
+            memory: "1Gi"
+        env:
+          - name: APIGATEWAY_URL
+            value: "http://35.190.38.44"
+          - name: RW_API_URL
+            value: "http://35.190.38.44"
+          - name: SECRET_KEY_BASE
+            value: 6ca3256f0a0442e344da8ed4dd126d14989a25b07f285cff0f3e59ed819317995fa8f943d1564f30266d0df369a077d27e4e7c99ff2ba1e9b7b042f448a503ca
+          - name: RAILS_SERVE_STATIC_FILES
+            value: "true"
+          - name: DATABASE_URL
+            valueFrom:
+                secretKeyRef:
+                  name: dbsecrets
+                  key: RESOURCE_WATCH_MANAGER_POSTGRESDB
+
+        ports:
+          - containerPort: 3000
+      restartPolicy: Always

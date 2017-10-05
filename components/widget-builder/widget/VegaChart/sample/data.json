@@ -1,0 +1,77 @@
+{
+  "data": [{
+    "format": {
+      "property": "rows",
+      "type": "json"
+    },
+    "name": "hist",
+    "url": "https://wri-01.carto.com/api/v2/sql?q=with%20t%20as%20(select%20sum(area)%20as%20area,%20wsbs00tl%20as%20risk,%20crop%20from%20crops_stats%20group%20by%20wsbs00tl,%20crop%20order%20by%20risk%20asc),%20r%20as%20(SELECT%20sum(value)%20as%20value,%20commodity%20FROM%20combined01_prepared%20where%20year=%272040%27%20and%20impactparameter=%27Food%20Demand%27%20group%20by%20commodity%20),%20d%20as%20(%20select%20(value*100/(sum(value)%20over()))%20as%20value,%20commodity%20from%20r%20)%20select%20crop,%20risk,value,%20(area*100/sum(area)%20over(partition%20by%20crop))%20area_perc%20from%20d%20inner%20join%20t%20on%20lower(commodity)=crop%20order%20by%20risk%20asc,%20crop%20asc"
+  }, {
+    "transform": [{
+      "groupby": ["crop"],
+      "output": {
+        "start": "val_s",
+        "mid": "val_m",
+        "end": "val_e"
+      },
+      "offset": "zero",
+      "field": "area_perc",
+      "type": "stack"
+    }, {
+      "groupby": ["risk"],
+      "output": {
+        "start": "t_s",
+        "mid": "t_m",
+        "end": "t_e"
+      },
+      "offset": "zero",
+      "field": "value",
+      "type": "stack"
+    }],
+    "source": "hist",
+    "name": "stats_risk"
+  }, {
+    "transform": [{
+      "summarize": [{
+        "field": "t_m",
+        "ops": ["max"],
+        "as": ["t_m"]
+      }, {
+        "field": "t_e",
+        "ops": ["max"],
+        "as": ["t_e"]
+      }],
+      "groupby": ["crop"],
+      "type": "aggregate"
+    }, {
+      "type": "sort",
+      "by": "t_m"
+    }],
+    "source": "stats_risk",
+    "name": "legend_crop"
+  }, {
+    "values": [{
+      "risk": "1.No Data"
+    }, {
+      "risk": "2.Low"
+    }, {
+      "risk": "3.Mid-low"
+    }, {
+      "risk": "4.Mid-High"
+    }, {
+      "risk": "5.High"
+    }, {
+      "risk": "6.Extremely high"
+    }],
+    "name": "legend_risk"
+  }, {
+    "values": [{
+      "y": 0,
+      "x": 0
+    }, {
+      "y": 0,
+      "x": 680
+    }],
+    "name": "separate_line"
+  }]
+}

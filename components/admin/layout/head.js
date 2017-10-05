@@ -6,10 +6,15 @@ import HeadNext from 'next/head';
 import styles from 'css/index.scss';
 
 export default class Head extends React.Component {
+  static getStyles() {
+    // In development, serve CSS inline (with live reloading) with webpack
+    // NB: Not using dangerouslySetInnerHTML will cause problems with some CSS
+    return <style dangerouslySetInnerHTML={{ __html: styles }} />;
+  }
+
   render() {
     const { title, description } = this.props;
-
-    const stylesheet = <style dangerouslySetInnerHTML={{ __html: styles }} />;
+    const TRANSIFEX_LIVE_API = process.env.TRANSIFEX_LIVE_API;
 
     return (
       <HeadNext>
@@ -19,7 +24,14 @@ export default class Head extends React.Component {
         <meta name="author" content="Vizzuality" />
         <link rel="icon" href="/static/favicon.ico" />
         <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700" />
-        {stylesheet}
+        {Head.getStyles()}
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{ __html: `
+            window.liveSettings = { api_key: '${TRANSIFEX_LIVE_API}' }
+          ` }}
+        />
+        <script type="text/javascript" src="//cdn.transifex.com/live.js" />
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
       </HeadNext>
     );

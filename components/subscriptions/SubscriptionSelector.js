@@ -90,7 +90,7 @@ class SubscriptionSelector extends React.Component {
     const { selectedDataset, selectedType, selectedThreshold, typeOptions } = this.state;
 
     const datasetOptions = (datasets.length > 0) ?
-      datasets.map(val => ({ label: val.attributes.name, value: val.id, id: val.id }))
+      datasets.map(val => ({ label: val.attributes.metadata[0] && val.attributes.metadata[0].attributes.info ? val.attributes.metadata[0].attributes.info.name : val.attributes.name, value: val.id, id: val.id }))
       : [];
 
     return (

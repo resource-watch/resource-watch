@@ -18,6 +18,7 @@ class DatasetsForm extends React.Component {
 
     this.state = Object.assign({}, STATE_DEFAULT, {
       loading: !!props.dataset,
+      loadingColumns: !!props.dataset,
       columns: [],
       form: Object.assign({}, STATE_DEFAULT.form, {
         application: props.application,
@@ -38,28 +39,36 @@ class DatasetsForm extends React.Component {
   componentDidMount() {
     // Get the dataset and fill the
     // state with its params if it exists
-
     if (this.props.dataset) {
       this.service.fetchData({ id: this.props.dataset })
         .then((data) => {
+          const { provider, type, tableName } = data || {};
           this.setState({
             form: this.setFormFromParams(data),
             // Stop the loading
-            loading: false
+            loading: false,
+            loadingColumns: true
           });
+
+          this.service.fetchFields({
+            id: this.props.dataset,
+            type,
+            provider,
+            tableName
+          })
+            .then((columns) => {
+              this.setState({
+                columns,
+                loadingColumns: false
+              });
+            })
+            .catch((err) => {
+              this.setState({ loadingColumns: false });
+              toastr.error('Error', err);
+            });
         })
         .catch((err) => {
           this.setState({ loading: false });
-          toastr.error('Error', err);
-        });
-
-      this.service.fetchFields({ id: this.props.dataset })
-        .then((data) => {
-          this.setState({
-            columns: data
-          });
-        })
-        .catch((err) => {
           toastr.error('Error', err);
         });
     }
@@ -127,7 +136,7 @@ class DatasetsForm extends React.Component {
           });
         }
       } else {
-        toastr.error('Error', 'Fill all the required fields');
+        toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
     }, 0);
   }
@@ -167,6 +176,7 @@ class DatasetsForm extends React.Component {
             form={this.state.form}
             dataset={this.props.dataset}
             columns={this.state.columns}
+            loadingColumns={this.state.loadingColumns}
           />
         }
 

@@ -1,3 +1,5 @@
+import 'isomorphic-fetch';
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -5,8 +7,6 @@ import { Autobind } from 'es-decorators';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import MediaQuery from 'react-responsive';
-import 'isomorphic-fetch';
-import ReactDOM from 'react-dom';
 import DropdownTreeSelect from 'react-dropdown-tree-select';
 
 // Redux
@@ -24,13 +24,19 @@ import {
   setDatasetsTopicsFilter,
   setDatasetsGeographiesFilter,
   setDatasetsDataTypeFilter,
-  setDatasetsFilteredByConcepts
+  setDatasetsFilteredByConcepts,
+  setFiltersLoading,
+  setTopicsTree,
+  setGeographiesTree,
+  setDataTypeTree
 } from 'redactions/explore';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
+import { setUser } from 'redactions/user';
+import { setRouter } from 'redactions/routes';
+import { Link } from 'routes';
 
 // Selectors
-import getpaginatedDatasets from 'selectors/explore/datasetsPaginatedExplore';
 import getFilteredDatasets from 'selectors/explore/filterDatasets';
 import getLayerGroups from 'selectors/explore/layersExplore';
 
@@ -39,9 +45,9 @@ import Sidebar from 'components/app/layout/Sidebar';
 import DatasetListHeader from 'components/app/explore/DatasetListHeader';
 import DatasetList from 'components/app/explore/DatasetList';
 import Paginator from 'components/ui/Paginator';
-import Map from 'components/vis/Map';
+import Map from 'components/widgets/editor/map/Map';
 import ShareModalExplore from 'components/modal/ShareModalExplore';
-import Legend from 'components/ui/Legend';
+import Legend from 'components/widgets/editor/ui/Legend';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
 import SearchInput from 'components/ui/SearchInput';
@@ -51,7 +57,8 @@ import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 
 // Utils
-import LayerManager from 'utils/layers/LayerManager';
+import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import { findTagInSelectorTree } from 'utils/explore/TreeUtil';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -65,6 +72,16 @@ const mapConfig = {
 };
 
 class Explore extends Page {
+  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
+    const { user } = isServer ? req : store.getState();
+    const url = { asPath, pathname, query };
+    const botUserAgent = isServer && /AddSearchBot/.test(req.headers['user-agent']);
+    store.dispatch(setUser(user));
+    store.dispatch(setRouter(url));
+    if (isServer && botUserAgent) await store.dispatch(getDatasets({}));
+    return { user, isServer, url, botUserAgent };
+  }
+
   constructor(props) {
     super(props);
 
@@ -72,11 +89,32 @@ class Explore extends Page {
       showFilters: false
     };
 
+    this.filters = {
+      topics: [],
+      geographies: [],
+      dataType: []
+    };
+
     // Services
     this.datasetService = new DatasetService(null, { apiURL: process.env.WRI_API_URL });
 
     // BINDINGS
     this.handleFilterDatasetsSearch = debounce(this.handleFilterDatasetsSearch.bind(this), 500);
+  }
+
+  componentWillMount() {
+    const query = this.props.url.query;
+    const { topics, geographies, dataType } = query || {};
+
+    if (topics || geographies || dataType) {
+      this.filters = {
+        topics: topics ? JSON.parse(topics) : [],
+        geographies: geographies ? JSON.parse(geographies) : [],
+        dataType: dataType ? JSON.parse(dataType) : []
+      };
+
+      this.applyFilters();
+    }
   }
 
   componentDidMount() {
@@ -110,7 +148,8 @@ class Explore extends Page {
       this.props.setDatasetsDataTypeFilter(JSON.parse(query.dataType));
     }
 
-    this.props.getDatasets();
+
+    this.props.getDatasets({});
     this.loadKnowledgeGraph();
   }
 
@@ -127,14 +166,19 @@ class Explore extends Page {
       (newFilters.dataType && newFilters.dataType.length > 0) ||
       (newFilters.geographies && newFilters.geographies.length > 0);
 
-    if (conceptsUpdated && newFiltersHaveData) {
-      this.datasetService.searchDatasetsByConcepts(
-        newFilters.topics, newFilters.geographies, newFilters.dataType)
-        .then((datasetList) => {
-          this.props.setDatasetsFilteredByConcepts(datasetList[0]);
-        });
-    } else if (conceptsUpdated && !newFiltersHaveData) {
-      this.props.setDatasetsFilteredByConcepts(null);
+    if (conceptsUpdated && !newFiltersHaveData) {
+      this.props.setDatasetsFilteredByConcepts([]);
+    }
+
+    // ----- selectors' trees ----------------
+    if (nextProps.explore.topicsTree) {
+      this.topicsTree = nextProps.explore.topicsTree;
+    }
+    if (nextProps.explore.dataTypeTree) {
+      this.dataTypeTree = nextProps.explore.dataTypeTree;
+    }
+    if (nextProps.explore.geographiesTree) {
+      this.geographiesTree = nextProps.explore.geographiesTree;
     }
   }
 
@@ -151,104 +195,56 @@ class Explore extends Page {
     fetch(new Request('/static/data/TopicsTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
       .then((data) => {
-        const element = document.getElementsByClassName('topics-selector')[0];
-
-        const onChange = (currentNode, selectedNodes) => {
-          const topicsVal = selectedNodes.map(val => val.value);
-          const topicLabels = selectedNodes.map(val => val.label);
-          this.props.setDatasetsTopicsFilter(topicsVal);
-          this.setState({
-            filters: { ...this.state.filters, topics: topicLabels }
-          });
-        };
-
         if (topics) {
-          data.forEach(child => this.selectElementsFromTree(child, topics));
+          data.forEach(child => this.selectElementsFromTree(child, JSON.parse(topics)));
 
-          const topicLabels = JSON.parse(topics).map((type) => {
+          const topicsVal = JSON.parse(topics).map((type) => {
             const match = data.find(d => d.value === type) || {};
-            return match.label;
+            return match.value;
           });
 
-          this.setState({
-            filters: { ...this.state.filters, topics: topicLabels }
-          });
+          this.filters.topics = topicsVal;
         }
 
-        ReactDOM.render(
-          <DropdownTreeSelect
-            showDropdown
-            placeholderText="Topics"
-            data={data}
-            onChange={onChange}
-          />,
-          element);
+        // Save the topics tree as variable for later use
+        this.props.setTopicsTree(data);
       });
 
     // Data types selector
     fetch(new Request('/static/data/DataTypesTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
       .then((data) => {
-        const element = document.getElementsByClassName('data-types-selector')[0];
-
-        const onChange = (currentNode, selectedNodes) => {
-          const dataTypesVal = selectedNodes.map(val => val.value);
-          const dataTypesLabels = selectedNodes.map(val => val.label);
-          this.setState({
-            filters: { ...this.state.filters, dataTypes: dataTypesLabels }
-          });
-          this.props.setDatasetsDataTypeFilter(dataTypesVal);
-        };
-
         if (dataType) {
-          data.forEach(child => this.selectElementsFromTree(child, dataType));
-          const dataTypesLabels = JSON.parse(dataType).map((type) => {
+          data.forEach(child => this.selectElementsFromTree(child, JSON.parse(dataType)));
+          const dataTypesVal = JSON.parse(dataType).map((type) => {
             const match = data.find(d => d.value === type) || {};
-            return match.label;
+            return match.value;
           });
 
-          this.setState({
-            filters: { ...this.state.filters, dataTypes: dataTypesLabels }
-          });
+          this.filters.dataType = dataTypesVal;
         }
 
-        ReactDOM.render(
-          <DropdownTreeSelect
-            data={data}
-            placeholderText="Data types"
-            onChange={onChange}
-          />,
-          element);
+        // Save the data types tree as a variable for later use
+        this.props.setDataTypeTree(data);
       });
 
-    // Data types selector
+    // Geographies selector
     fetch(new Request('/static/data/GeographiesTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
       .then((data) => {
-        const element = document.getElementsByClassName('geographies-selector')[0];
-
-        const onChange = (currentNode, selectedNodes) => {
-          const geographiesVal = selectedNodes.map(val => val.value);
-          const geographiesLabels = selectedNodes.map(val => val.label);
-          this.setState({
-            filters: { ...this.state.filters, geographies: geographiesLabels }
-          });
-          this.props.setDatasetsGeographiesFilter(geographiesVal);
-        };
-
         if (geographies) {
           data.forEach(child => this.selectElementsFromTree(child, JSON.parse(geographies)));
-          const geographyLabels = [];
+          const geographiesVal = [];
 
           const searchFunction = (item) => {
             data.forEach((d) => {
               if (d.value === item) {
-                geographyLabels.push(d.label);
+                geographiesVal.push(d.value);
               }
 
               if (d.children) {
                 d.children.forEach((child) => {
-                  if (child.value === item) geographyLabels.push(child.label);
+                  if (child.value === item) geographiesVal.push(child.value);
                 });
               }
             });
@@ -256,18 +252,11 @@ class Explore extends Page {
 
           JSON.parse(geographies).forEach(geography => searchFunction(geography));
 
-          this.setState({
-            filters: { ...this.state.filters, geographies: geographyLabels }
-          });
+          this.filters.geographies = geographiesVal;
         }
 
-        ReactDOM.render(
-          <DropdownTreeSelect
-            data={data}
-            placeholderText="Geographies"
-            onChange={onChange}
-          />,
-          element);
+        // Save the data types tree as variable for later use
+        this.props.setGeographiesTree(data);
       });
 
     const hasSelectedValues = [
@@ -282,11 +271,25 @@ class Explore extends Page {
     });
   }
 
-  selectElementsFromTree(tree = {}, elements = []) { // eslint-disable-line class-methods-use-this
-    if (elements.includes(tree.value)) {
-      tree.checked = true; // eslint-disable-line no-param-reassign
+  /**
+   * Sets checked values for selector based on previous one chosen.
+   *
+   * @param {Object} tree used to populate selectors. Contains all options available.
+   * @param {Object[]} elements Contains values to be selected in the data tree.
+   */
+  selectElementsFromTree(tree = {}, elements = [], deselect = false) {
+    let found = false; // We're using this loop because indexOf was finding elements
+    // that were substrings, e.g. "co" and "economic" when only "economic" should have been found
+    for (let i = 0; i < elements.length && !found; i++) {
+      if (elements[i] === tree.value) {
+        tree.checked = !deselect; // eslint-disable-line no-param-reassign
+        found = true;
+      }
     }
-    (tree.children || []).forEach(child => child.checked = tree.checked); // eslint-disable-line
+
+    (tree.children || []).forEach((child) => {
+      this.selectElementsFromTree(child, elements, deselect);
+    });
   }
 
   @Autobind
@@ -385,6 +388,49 @@ class Explore extends Page {
     return filter && filter.value;
   }
 
+  @Autobind
+  handleTagSelected(tag) {
+    const { geographies, dataType, topics } = this.filters;
+    const { topicsTree } = this.props.explore;
+
+    // clear previous selection
+    if (topics.length && topics.length > 0) {
+      this.topicsTree.forEach(child => this.selectElementsFromTree(child, topics, true));
+    }
+
+    if (findTagInSelectorTree(topicsTree, tag)) {
+      this.topicsTree.forEach(child => this.selectElementsFromTree(child, [tag]));
+      this.filters = { topics: [tag], geographies, dataType };
+      this.applyFilters();
+    }
+  }
+
+  applyFilters() {
+    const { topics, geographies, dataType } = this.filters;
+    const { page } = this.props.url.query || {};
+    const hasValues = [...topics, ...geographies, ...dataType].length;
+
+    if (page !== 1) this.props.setDatasetsPage(1);
+
+    // updates URL
+    this.props.setDatasetsTopicsFilter(topics);
+    this.props.setDatasetsGeographiesFilter(geographies);
+    this.props.setDatasetsDataTypeFilter(dataType);
+
+    if (!hasValues) {
+      this.props.setDatasetsFilteredByConcepts([]);
+      return;
+    }
+
+    this.props.setFiltersLoading(true);
+    this.datasetService.searchDatasetsByConcepts(
+      topics, geographies, dataType)
+      .then((datasetList) => {
+        this.props.setFiltersLoading(false);
+        this.props.setDatasetsFilteredByConcepts(datasetList || []);
+      });
+  }
+
   toggleFilters() {
     this.setState({
       showFilters: !this.state.showFilters
@@ -392,13 +438,47 @@ class Explore extends Page {
   }
 
   render() {
-    const { explore, paginatedDatasets } = this.props;
+    // It will render a list of links for AddSearch Bot
+    if (this.props.botUserAgent) {
+      return (
+        <ul>
+          {this.props.totalDatasets.map(d =>
+            (<li key={d.id}>
+              <Link
+                route="explore_detail"
+                params={{ id: d.id }}
+              >
+                <a>{d.attributes.name}</a>
+              </Link>
+            </li>)
+          )}
+        </ul>
+      );
+    }
+
+    const { explore, totalDatasets, filteredDatasets } = this.props;
     const { search } = explore.filters;
+    const { geographiesTree, topicsTree, dataTypeTree } = explore;
     const { showFilters } = this.state;
+    const { topics, geographies, dataType } = this.filters;
+    const topicsLabels = topics.map(topic => findTagInSelectorTree(topicsTree, topic).label);
+    const geographiesLabels = geographies.map(geography =>
+      findTagInSelectorTree(geographiesTree, geography).label);
+    const dataTypeLabels = dataType.map(dType => findTagInSelectorTree(dataTypeTree, dType).label);
+
+    const allTagsSt = [].concat(topicsLabels).concat(geographiesLabels)
+      .concat(dataTypeLabels).join(', ');
+    const filtersSumUp = !showFilters && allTagsSt.length > 0 ? `Filtering by ${allTagsSt}` : '';
 
     const buttonFilterContent = showFilters ? 'Hide filters' : 'Show filters';
     const filterContainerClass = classnames('filters-container', {
       '_is-hidden': !showFilters
+    });
+
+    const showFiltersClassName = classnames({
+      'c-btn': true,
+      '-b': !showFilters,
+      '-a': showFilters
     });
 
     return (
@@ -422,48 +502,103 @@ class Explore extends Page {
                         placeholder: 'Search dataset'
                       }}
                     />
-                  </div>
-                  <div className="buttons -align-right">
                     <button
-                      className="c-button"
+                      className={showFiltersClassName}
                       onClick={() => this.toggleFilters()}
                     >
                       {buttonFilterContent}
                     </button>
                   </div>
+                  <div className="filters-sum-up">
+                    {filtersSumUp}
+                  </div>
                   <div className={filterContainerClass}>
                     <div className="row">
                       <div className="column small-12">
-                        <div className="c-tree-selector -explore topics-selector" />
+                        <div className="c-tree-selector -explore topics-selector">
+                          {topicsTree &&
+                            <DropdownTreeSelect
+                              showDropdown
+                              placeholderText="Topics"
+                              data={this.topicsTree || { label: '', value: '', children: [] }}
+                              onChange={(currentNode, selectedNodes) => {
+                                this.filters.topics = selectedNodes.map(val => val.value);
+                                const deselect = !selectedNodes.includes(currentNode);
+                                if (deselect) {
+                                  this.topicsTree.forEach(child => this.selectElementsFromTree(
+                                    child, [currentNode.value], deselect));
+                                } else {
+                                  this.topicsTree.forEach(child => this.selectElementsFromTree(
+                                    child, this.filters.topics, deselect));
+                                }
+                                this.applyFilters();
+                              }}
+                            />
+                          }
+                        </div>
                       </div>
                       <div className="column small-12">
-                        <div className="c-tree-selector -explore geographies-selector " />
+                        <div className="c-tree-selector -explore geographies-selector ">
+                          {geographiesTree &&
+                            <DropdownTreeSelect
+                              data={this.geographiesTree || { label: '', value: '', children: [] }}
+                              placeholderText="Geographies"
+                              onChange={(currentNode, selectedNodes) => {
+                                this.filters.geographies = selectedNodes.map(val => val.value);
+                                const deselect = !selectedNodes.includes(currentNode);
+                                if (deselect) {
+                                  this.geographiesTree.forEach(child => this.selectElementsFromTree(
+                                    child, [currentNode.value], deselect));
+                                } else {
+                                  this.geographiesTree.forEach(child => this.selectElementsFromTree(
+                                    child, this.filters.geographies, deselect));
+                                }
+                                this.applyFilters();
+                              }}
+                            />
+                          }
+                        </div>
                       </div>
                       <div className="column small-12">
-                        <div className="c-tree-selector -explore data-types-selector" />
+                        <div className="c-tree-selector -explore data-types-selector">
+                          {dataTypeTree &&
+                            <DropdownTreeSelect
+                              data={this.dataTypeTree || { label: '', value: '', children: [] }}
+                              placeholderText="Data types"
+                              onChange={(currentNode, selectedNodes) => {
+                                this.filters.dataType = selectedNodes.map(val => val.value);
+                                const deselect = !selectedNodes.includes(currentNode);
+                                if (deselect) {
+                                  this.dataTypeTree.forEach(child => this.selectElementsFromTree(
+                                    child, [currentNode.value], deselect));
+                                } else {
+                                  this.dataTypeTree.forEach(child => this.selectElementsFromTree(
+                                    child, this.filters.dataType, deselect));
+                                }
+                                this.applyFilters();
+                              }}
+                            />
+                          }
+                        </div>
                       </div>
                     </div>
                   </div>
-                  {/* <FiltersResume
-                    topics={topics}
-                    geographies={geographies}
-                    dataTypes={dataTypes}
-                  /> */}
                   <DatasetListHeader
-                    list={explore.datasets.list}
+                    list={totalDatasets}
                     mode={explore.datasets.mode}
                   />
                   <Spinner
-                    isLoading={explore.datasets.loading}
+                    isLoading={explore.datasets.loading || explore.filters.loading}
                     className="-light"
                   />
 
                   <div className="row collapse">
                     <div className="column small-12">
                       <DatasetList
-                        list={paginatedDatasets}
+                        list={filteredDatasets}
                         mode={explore.datasets.mode}
                         showActions
+                        onTagSelected={this.handleTagSelected}
                       />
                     </div>
                   </div>
@@ -472,7 +607,7 @@ class Explore extends Page {
                     options={{
                       page: explore.datasets.page,
                       limit: explore.datasets.limit,
-                      size: explore.datasets.list.length
+                      size: totalDatasets.length
                     }}
                     onChange={(page) => {
                       this.props.setDatasetsPage(page);
@@ -520,9 +655,11 @@ Explore.propTypes = {
 
   // STORE
   explore: PropTypes.object,
-  paginatedDatasets: PropTypes.array,
+  filteredDatasets: PropTypes.array,
+  totalDatasets: PropTypes.array,
   layerGroups: PropTypes.array,
   toggledDataset: PropTypes.string,
+
 
   // ACTIONS
 
@@ -532,6 +669,9 @@ Explore.propTypes = {
   setDatasetsFilters: PropTypes.func,
   toggleModal: PropTypes.func,
   setModalOptions: PropTypes.func,
+  setTopicsTree: PropTypes.func.isRequired,
+  setDataTypeTree: PropTypes.func.isRequired,
+  setGeographiesTree: PropTypes.func.isRequired,
 
   // Toggle the visibility of a layer group based on the layer passed as argument
   toggleLayerGroupVisibility: PropTypes.func.isRequired,
@@ -543,31 +683,31 @@ Explore.propTypes = {
   setLayerGroups: PropTypes.func.isRequired
 };
 
+Explore.defaultProps = {
+  filteredDatasets: [],
+  totalDatasets: []
+};
+
 const mapStateToProps = (state) => {
-  const filters = state.explore.filters;
-  const datasets = (filters.search || filters.topics || filters.geographies || filters.dataType)
-    ? Object.assign({}, state.explore.datasets, { list: getFilteredDatasets(state) })
-    : state.explore.datasets;
-
-  const explore = Object.assign({}, state.explore, { datasets });
-
+  const { totalFilteredDatasets, filteredDatasets } = getFilteredDatasets(state);
   return {
-    explore,
-    paginatedDatasets: getpaginatedDatasets(explore),
-    allDatasets: state.explore.datasets.list,
+    explore: state.explore,
+    filteredDatasets,
+    totalDatasets: totalFilteredDatasets,
     layerGroups: getLayerGroups(state),
     rawLayerGroups: state.explore.layers
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  getDatasets: () => { dispatch(getDatasets()); },
+  getDatasets: () => { dispatch(getDatasets({})); },
   setDatasetsSearchFilter: search => dispatch(setDatasetsSearchFilter(search)),
   setDatasetsTopicsFilter: topics => dispatch(setDatasetsTopicsFilter(topics)),
   setDatasetsDataTypeFilter: dataType => dispatch(setDatasetsDataTypeFilter(dataType)),
   setDatasetsGeographiesFilter: geographies => dispatch(setDatasetsGeographiesFilter(geographies)),
   setDatasetsFilteredByConcepts: datasetList =>
     dispatch(setDatasetsFilteredByConcepts(datasetList)),
+  setFiltersLoading: isLoading => dispatch(setFiltersLoading(isLoading)),
   redirectTo: (url) => { dispatch(redirectTo(url)); },
   toggleModal: (open, options) => dispatch(toggleModal(open, options)),
   setModalOptions: (options) => { dispatch(setModalOptions(options)); },
@@ -578,7 +718,10 @@ const mapDispatchToProps = dispatch => ({
   removeLayerGroup: dataset => dispatch(toggleLayerGroup(dataset, false)),
   setLayerGroupsOrder: datasets => dispatch(setLayerGroupsOrder(datasets)),
   setLayerGroupActiveLayer: (dataset, layer) => dispatch(setLayerGroupActiveLayer(dataset, layer)),
-  setLayerGroups: layerGroups => dispatch(setLayerGroups(layerGroups))
+  setLayerGroups: layerGroups => dispatch(setLayerGroups(layerGroups)),
+  setTopicsTree: tree => dispatch(setTopicsTree(tree)),
+  setGeographiesTree: tree => dispatch(setGeographiesTree(tree)),
+  setDataTypeTree: tree => dispatch(setDataTypeTree(tree))
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Explore);

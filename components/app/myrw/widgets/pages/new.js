@@ -13,7 +13,7 @@ import DatasetsService from 'services/DatasetsService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import WidgetEditor from 'components/widgets/WidgetEditor';
+import WidgetEditor from 'components/widgets/editor/WidgetEditor';
 import Button from 'components/ui/Button';
 import Input from 'components/form/Input';
 import Field from 'components/form/Field';
@@ -129,7 +129,7 @@ class WidgetsNew extends React.Component {
         {
           paramsConfig: {
             visualizationType,
-            band,
+            band: { name: band.name },
             limit,
             value,
             category,
@@ -184,31 +184,37 @@ class WidgetsNew extends React.Component {
 
 
   loadDatasets() {
-    this.datasetsService.fetchAllData({ filters: { published: true } }).then((response) => {
+    this.datasetsService.fetchAllData({ filters: { published: true }, includes: 'metadata' }).then((response) => {
       this.setState({
-        datasets: [...this.state.datasets, ...response.map(dataset => ({
-          id: dataset.id,
-          type: dataset.type,
-          provider: dataset.provider,
-          tableName: dataset.tableName,
-          label: dataset.name,
-          value: dataset.id
-        }))],
+        datasets: [...this.state.datasets, ...response.map(dataset => {
+          const metadata = dataset.metadata[0];
+          return ({
+            id: dataset.id,
+            type: dataset.type,
+            provider: dataset.provider,
+            tableName: dataset.tableName,
+            label: metadata && metadata.attributes.info ? metadata.attributes.info.name : dataset.name,
+            value: dataset.id
+          });
+        })],
         loadingPublishedDatasets: false
       });
     });
 
     this.datasetsService.fetchAllData(
-      { filters: { userId: this.props.user.id } }).then((response) => {
+      { filters: { userId: this.props.user.id }, includes: 'metadata' }).then((response) => {
       this.setState({
-        datasets: [...this.state.datasets, ...response.map(dataset => ({
-          id: dataset.id,
-          type: dataset.type,
-          provider: dataset.provider,
-          tableName: dataset.tableName,
-          label: dataset.name,
-          value: dataset.id
-        }))],
+        datasets: [...this.state.datasets, ...response.map(dataset => {
+          const metadata = dataset.metadata[0];
+          return({
+            id: dataset.id,
+            type: dataset.type,
+            provider: dataset.provider,
+            tableName: dataset.tableName,
+            label: metadata && metadata.attributes.info ? metadata.attributes.info.name : dataset.name,
+            value: dataset.id
+          });
+        })],
         loadingUserDatasets: false
       });
     });

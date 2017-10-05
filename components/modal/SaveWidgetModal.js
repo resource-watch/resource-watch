@@ -51,7 +51,9 @@ class SaveWidgetModal extends React.Component {
       loading: false,
       saved: false,
       error: false,
-      widget: {}
+      widget: {
+        name: props.title ? props.title : ''
+      }
     };
 
     this.widgetService = new WidgetService(null, {
@@ -113,7 +115,7 @@ class SaveWidgetModal extends React.Component {
             chartType,
             filters,
             areaIntersection,
-            band,
+            band: band && { name: band.name },
             layer: layer && layer.id
           }
         },
@@ -157,7 +159,7 @@ class SaveWidgetModal extends React.Component {
   }
 
   render() {
-    const { submitting, loading, saved, error, errorMessage } = this.state;
+    const { submitting, loading, saved, error, errorMessage, widget } = this.state;
 
     return (
       <div className="c-save-widget-modal">
@@ -189,6 +191,7 @@ class SaveWidgetModal extends React.Component {
                   label: 'Title',
                   type: 'text',
                   required: true,
+                  value: widget.name,
                   placeholder: 'Widget title'
                 }}
               >
@@ -260,6 +263,7 @@ SaveWidgetModal.propTypes = {
   tableName: PropTypes.string.isRequired,
   datasetType: PropTypes.string,
   datasetProvider: PropTypes.string,
+  title: PropTypes.string,
   // Store
   user: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired

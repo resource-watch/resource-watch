@@ -1,19 +1,55 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import chroma from 'chroma-js';
 import { TextureLoader, Raycaster, Vector2, CylinderGeometry,
   SphereGeometry, MeshBasicMaterial, Matrix4, Mesh,
   ShaderMaterial, BackSide, Scene, PerspectiveCamera, WebGLRenderer,
   MeshPhongMaterial, AdditiveBlending, Vector3,
   AmbientLight, PointLight } from 'three';
 import orbitControls from './OrbitControls';
-import chroma from 'chroma-js';
+
 
 /* global Stats */
 const OrbitControls = orbitControls();
 const imageLoader = new TextureLoader();
 
 class Globe extends React.Component {
+  static getMarkerHeight(value) {
+    let data = value;
+    if (value.object) {
+      data = value.object.name;
+    }
+    let height = 1;
+    const distance = data.distance_km;
+    const displaced = data.displaced;
+    const mag = data.mag;
+    const fatalities = data.fatalities;
+
+    if (displaced) {
+      if (displaced > 0) {
+        height = Math.log(displaced);
+      } else {
+        height = 0;
+      }
+    }
+    if (distance) {
+      if (distance > 0) {
+        height = Math.log(distance) * 3;
+      } else {
+        height = 0;
+      }
+    }
+    if (mag) {
+      height = mag;
+    }
+    if (fatalities) {
+      height = fatalities;
+    }
+
+    return height;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -21,6 +57,7 @@ class Globe extends React.Component {
       height: props.height,
       width: props.width,
       markers: [],
+      lights: [],
       selectedMarker: null
     };
 
@@ -32,8 +69,6 @@ class Globe extends React.Component {
     // Bindings
     this.onClick = this.onClick.bind(this);
     this.onResize = debounce(this.onResize.bind(this), 250);
-
-    // document.addEventListener('mousedown', this.onMouseDown);
   }
 
   componentDidMount() {
@@ -76,11 +111,15 @@ class Globe extends React.Component {
       if (this.state.markers.length > 0) {
         this.removeMarkers();
       }
+      if (this.state.lights.length > 0) {
+        this.removeLights();
+      }
       const { markerType } = nextProps;
+      const lightsArray = [];
       const pointObjects = nextProps.layerPoints.map((value) => {
         const normalVector = this.convertLatLonToCoordinates(value.lat, value.lon);
         const geometryColor = this.getMarkerColor(value);
-        const height = this.getMarkerHeight(value);
+        const height = Globe.getMarkerHeight(value);
 
         let geometry;
 
@@ -111,11 +150,21 @@ class Globe extends React.Component {
         obj.position.copy(normalVector);
         obj.name = value;
 
+        if (markerType === 'volcano') {
+          const light = new PointLight(0xff0000, 1);
+          light.position.copy(normalVector);
+          lightsArray.push(light);
+          this.scene.add(light);
+        }
         this.scene.add(obj);
 
         return obj;
       });
-      this.setState({ markers: pointObjects });
+
+      this.setState({
+        markers: pointObjects,
+        lights: lightsArray
+      });
     } else if (this.props.layerPoints.length > 0) {
       this.removeMarkers();
     }
@@ -142,39 +191,10 @@ class Globe extends React.Component {
     window.removeEventListener('resize', this.onResize);
   }
 
-  getMarkerHeight(value) {
-    let data = value;
-    if (value.object) {
-      data = value.object.name;
-    }
-    let height = 1;
-    const distance = data.distance_km;
-    const displaced = data.displaced;
-    const mag = data.mag;
-    const fatalities = data.fatalities;
-
-    if (displaced) {
-      if (displaced > 0) {
-        height = Math.log(displaced);
-      } else {
-        height = 0;
-      }
-    }
-    if (distance) {
-      if (distance > 0) {
-        height = Math.log(distance) * 3;
-      } else {
-        height = 0;
-      }
-    }
-    if (mag) {
-      height = mag;
-    }
-    if (fatalities) {
-      height = fatalities;
-    }
-
-    return height;
+  onResize() {
+    const nextWidth = this.el.clientWidth || this.el.innerWidth;
+    const nextHeight = this.el.clientHeight || this.el.innerHeight;
+    this.setState({ width: nextWidth, height: nextHeight });
   }
 
   getMarkerColor(value) {
@@ -208,13 +228,6 @@ class Globe extends React.Component {
     return color;
   }
 
-
-  onResize() {
-    const nextWidth = this.el.clientWidth || this.el.innerWidth;
-    const nextHeight = this.el.clientHeight || this.el.innerHeight;
-    this.setState({ width: nextWidth, height: nextHeight });
-  }
-
   /**
    * Method to change layers to earth
    */
@@ -239,20 +252,20 @@ class Globe extends React.Component {
     this.scene.add(this.currentTexture);
   }
 
-  removeTexture() {
-    if (this.currentTexture) {
-      this.scene.remove(this.currentTexture);
-      this.currentTexture = null;
-      this.setState({ texture: null });
-    }
-  }
-
   /**
   * Calculate the halo radius according to the properties involved
   */
   getHaloRadius() {
     const { radius, haloExtraRadiusPercentage } = this.props;
     return radius + ((radius * haloExtraRadiusPercentage) / 100);
+  }
+
+  removeTexture() {
+    if (this.currentTexture) {
+      this.scene.remove(this.currentTexture);
+      this.currentTexture = null;
+      this.setState({ texture: null });
+    }
   }
 
   /**
@@ -412,11 +425,26 @@ class Globe extends React.Component {
     return { latitude: lat, longitude: lon };
   }
 
+  /**
+  * Remove markers
+  */
   removeMarkers() {
     if (this.state.markers) {
       this.state.markers.forEach(element => this.scene.remove(element));
       this.setState({
         markers: []
+      });
+    }
+  }
+
+  /**
+  * Remove lights
+  */
+  removeLights() {
+    if (this.state.lights) {
+      this.state.lights.forEach(element => this.scene.remove(element));
+      this.setState({
+        lights: []
       });
     }
   }

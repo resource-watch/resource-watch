@@ -21,4 +21,3 @@
 
 # Ignore environment variables
 .env
-package-lock.json

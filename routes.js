@@ -30,6 +30,7 @@ routes.add('partner', '/about/partners/:id', 'app/PartnerDetail');
 // routes.add('data', '/data', 'app/Explore'); // TODO: create the data page
 routes.add('explore', '/data/explore', 'app/Explore');
 routes.add('explore_detail', '/data/explore/:id', 'app/ExploreDetail');
+routes.add('explore_detail_beta', '/data/explore/:id/beta', 'app/ExploreDetailBeta');
 routes.add('pulse', '/data/pulse', 'app/Pulse');
 routes.add('dashboards', '/data/dashboards/', 'app/Dashboards');
 routes.add('dashboards_detail', '/data/dashboards/:slug', 'app/DashboardsDetail');
@@ -48,8 +49,10 @@ routes.add('myrw_detail', '/myrw-detail/:tab?/:id?/:subtab?', 'app/MyRWDetail');
 
 // ------ EMBED -------------
 routes.add('embed_widget', '/embed/widget/:id', 'app/embed/EmbedWidget');
+routes.add('embed_map', '/embed/map/:id', 'app/embed/EmbedMap');
 routes.add('embed_dataset', '/embed/dataset/:id', 'app/embed/EmbedDataset');
 routes.add('embed_layer', '/embed/layers', 'app/embed/EmbedLayer');
+routes.add('embed_table', '/embed/table', 'app/embed/EmbedTable');
 routes.add('embed_dashboard', '/embed/dashboards/:slug', 'app/embed/EmbedDashboard');
 
 module.exports = routes;

@@ -1,15 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
+import isEqual from 'lodash/isEqual';
 
-import { FORM_ELEMENTS, LANGUAGE_OPTIONS } from 'components/admin/metadata/form/constants';
+// redux
+import { connect } from 'react-redux';
 
+
+// redactions
+import { setSources } from 'redactions/admin/sources';
+
+// actions
+import { toggleModal } from 'redactions/modal';
+
+// components
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Select from 'components/form/SelectInput';
 import TextArea from 'components/form/TextArea';
 import Title from 'components/ui/Title';
+import Spinner from 'components/ui/Spinner';
+import SourcesContentModal from 'components/admin/metadata/form/SourcesContentModal';
+
+// constants
+import { FORM_ELEMENTS, LANGUAGE_OPTIONS, RASTER_COLUMN_TYPES } from 'components/admin/metadata/form/constants';
 
 class Step1 extends React.Component {
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.props.sources, nextProps.sources)) this.changeMetadata({ info: { sources: nextProps.sources } });
+  }
+
   changeMetadata(obj) {
     const { form } = this.props;
     let newMetadata;
@@ -24,8 +44,29 @@ class Step1 extends React.Component {
     this.props.onChange({ form: newMetadata });
   }
 
+  openSourcesModal() {
+    this.props.toggleModal(true, {
+      children: SourcesContentModal,
+      childrenProps: {
+        onClose: () => this.props.toggleModal(false, {}),
+        onSubmit: () => this.props.toggleModal(false, {})
+      }
+    });
+  }
+
   render() {
-    const { form, columns } = this.props;
+    const { form, columns, type, sources, loadingColumns } = this.props;
+    const isRaster = type === 'raster';
+
+    const aliasColumnClass = classnames('columns', {
+      'small-2': isRaster,
+      'small-5': !isRaster
+    });
+
+    const descriptionColumnClass = classnames('columns', {
+      'small-4': isRaster,
+      'small-5': !isRaster
+    });
 
     return (
       <div>
@@ -68,6 +109,22 @@ class Step1 extends React.Component {
             }}
           >
             {TextArea}
+          </Field>
+
+          {/* Resource Watch ID */}
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.rwId = c; }}
+            onChange={value => this.changeMetadata({ info: { rwId: value } })}
+            validations={[]}
+            properties={{
+              name: 'rwId',
+              label: 'Resource Watch ID',
+              type: 'text',
+              required: false,
+              default: this.props.form.info.rwId
+            }}
+          >
+            {Input}
           </Field>
 
           <Field
@@ -242,33 +299,49 @@ class Step1 extends React.Component {
             {Input}
           </Field>
 
-
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.source_organization = c; }}
-            onChange={value => this.changeMetadata({ info: { source_organization: value } })}
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.translated_title = c; }}
+            onChange={value => this.changeMetadata({ info: { translated_title: value } })}
             properties={{
-              name: 'source_organization',
-              label: 'Source Organization',
+              name: 'translated_title',
+              label: 'Translated Title',
               type: 'text',
-              default: this.props.form.info.source_organization
+              default: this.props.form.info.translated_title
             }}
           >
             {Input}
           </Field>
 
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.source_organization_link = c; }}
-            onChange={value => this.changeMetadata({ info: { source_organization_link: value } })}
-            validations={['url']}
-            properties={{
-              name: 'source_organization_link',
-              label: 'Source Organization Link',
-              type: 'text',
-              default: this.props.form.info.source_organization_link
-            }}
+          <button
+            className="c-button -primary"
+            type="button"
+            onClick={() => this.openSourcesModal()}
           >
-            {Input}
-          </Field>
+            Add/Remove sources
+          </button>
+
+          {sources.length > 0 &&
+            <div className="c-metadata-source-list">
+              <ul className="source-list">
+                {sources.map(source =>
+                  (<li key={source.id} className="source-item">
+                    <div className="source-container">
+                      <a
+                        className="source-name"
+                        href={source['source-name']}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        {source['source-name']}
+                      </a>
+                      {source['source-description'] &&
+                        <span className="source-description">{source['source-description']}</span>}
+                    </div>
+                  </li>))
+                }
+              </ul>
+
+            </div>}
 
         </fieldset>
 
@@ -357,7 +430,8 @@ class Step1 extends React.Component {
 
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.data_download_original_link = c; }}
-            onChange={value => this.changeMetadata({ info: { data_download_original_link: value } })}
+            onChange={value =>
+              this.changeMetadata({ info: { data_download_original_link: value } })}
             validations={['url']}
             properties={{
               name: 'data_download_original_link',
@@ -370,12 +444,20 @@ class Step1 extends React.Component {
           </Field>
         </fieldset>
 
-        {!!columns.length &&
-          <fieldset className="c-field-container">
-            <Title className="-default -secondary">
+        <fieldset className="c-field-container">
+          <Title className="-default -secondary">
               Columns
-            </Title>
+          </Title>
 
+          {loadingColumns &&
+            <Spinner className="-inline" isLoading={loadingColumns} />
+          }
+
+          {!loadingColumns && !columns.length &&
+            <p>No columns</p>
+          }
+
+          {!!columns.length &&
             <div className="c-field-row">
               {columns.map(column => (
                 <div key={column.name} className="l-row row">
@@ -394,7 +476,7 @@ class Step1 extends React.Component {
                     </Field>
                   </div>
 
-                  <div className="columns small-5">
+                  <div className={aliasColumnClass}>
                     <Field
                       ref={(c) => {
                         if (c) FORM_ELEMENTS.elements[`columns_${column.name}_alias`] = c;
@@ -421,7 +503,7 @@ class Step1 extends React.Component {
                     </Field>
                   </div>
 
-                  <div className="columns small-5">
+                  <div className={descriptionColumnClass}>
                     <Field
                       ref={(c) => {
                         if (c) FORM_ELEMENTS.elements[`columns_${column.name}_description`] = c;
@@ -448,11 +530,41 @@ class Step1 extends React.Component {
                       {Input}
                     </Field>
                   </div>
+
+                  {isRaster &&
+                    <div className="columns small-4">
+                      <Field
+                        ref={(columnType) => {
+                          if (columnType) FORM_ELEMENTS.elements[`columns_${column.name}_type`] = columnType;
+                        }}
+                        onChange={(columnType) => {
+                          this.changeMetadata({
+                            columns: {
+                              ...form.columns,
+                              [column.name]: {
+                                ...form.columns[column.name],
+                                type: columnType
+                              }
+                            }
+                          });
+                        }}
+                        validations={['required']}
+                        options={RASTER_COLUMN_TYPES}
+                        properties={{
+                          name: 'type',
+                          label: 'Type',
+                          default: (this.props.form.columns[column.name]) ? this.props.form.columns[column.name].type : 'continuous'
+                        }}
+                      >
+                        {Select}
+                      </Field>
+                    </div>
+                  }
                 </div>
               ))}
             </div>
-          </fieldset>
-        }
+          }
+        </fieldset>
       </div>
     );
   }
@@ -461,7 +573,23 @@ class Step1 extends React.Component {
 Step1.propTypes = {
   form: PropTypes.object,
   columns: PropTypes.array,
-  onChange: PropTypes.func
+  type: PropTypes.string,
+  loadingColumns: PropTypes.bool,
+  onChange: PropTypes.func,
+  toggleModal: PropTypes.func
 };
 
-export default Step1;
+Step1.defaultProps = {
+  type: 'tabular'
+};
+
+const mapStateToProps = state => ({
+  sources: state.sources.sources
+});
+
+const mapDispatchToProps = dispatch => ({
+  toggleModal: (open, options) => dispatch(toggleModal(open, options)),
+  setSources: sources => dispatch(setSources(sources))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Step1);

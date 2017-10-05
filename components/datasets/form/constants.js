@@ -11,6 +11,12 @@ export const PROVIDER_TYPES_DICTIONARY = {
     connectorType: 'rest',
     connectorUrlHint: 'Example: projects/wri-datalab/HansenComposite_14-15'
   },
+  nexgddp: {
+    label: 'NexGDDP',
+    value: 'nexgddp',
+    connectorType: 'rest',
+    connectorUrlHint: 'Example: scenario/model'
+  },
   featureservice: {
     value: 'featureservice',
     label: 'Feature Service (Arcgis)',
@@ -65,16 +71,17 @@ export const STATE_DEFAULT = {
     name: '',
     subtitle: '',
     application: [],
+    type: 'tabular',
     provider: null,
     connectorType: '',
     connectorUrlHint: '',
     published: false,
     geoInfo: false,
+    verified: false,
     env: 'production',
+    tableName: '',
     widgetRelevantProps: [],
     layerRelevantProps: [],
-
-    // STEP 2
     connectorUrl: '',
     dataPath: '',
     legend: {
@@ -86,6 +93,16 @@ export const STATE_DEFAULT = {
   }
 };
 
+export const DATASET_TYPES = [
+  {
+    label: 'Tabular',
+    value: 'tabular'
+  },
+  {
+    label: 'Raster',
+    value: 'raster'
+  }
+];
 
 export const FORM_ELEMENTS = {
   elements: {},

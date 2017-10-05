@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import { Link } from 'routes';
 import { toastr } from 'react-redux-toastr';
+import isEmpty from 'lodash/isEmpty';
+import d3 from 'd3';
 
 // Layout
 import Head from 'components/app/layout/head';
@@ -12,18 +14,20 @@ import Page from 'components/app/layout/Page';
 import Icons from 'components/app/layout/icons';
 import Spinner from 'components/ui/Spinner';
 import Modal from 'components/ui/Modal';
-import VegaChart from 'components/widgets/VegaChart';
+import VegaChart from 'components/widgets/charts/VegaChart';
 import Tooltip from 'components/ui/Tooltip';
-import Map from 'components/vis/Map';
+import Map from 'components/widgets/editor/map/Map';
 import Legend from 'components/ui/Legend';
 
 // Services
 import WidgetService from 'services/WidgetService';
 import LayersService from 'services/LayersService';
+import DatasetService from 'services/DatasetService';
+import RasterService from 'services/RasterService';
 
 // Utils
 import ChartTheme from 'utils/widgets/theme';
-import LayerManager from 'utils/layers/LayerManager';
+import LayerManager from 'components/widgets/editor/helpers/LayerManager';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -40,7 +44,12 @@ class EmbedWidget extends Page {
       visualizationLoading: false,
       layer: null,
       layerGroups: [],
-      modalOpen: false
+      modalOpen: false,
+      /** @type {string} */
+      bandInfo: null, // Information about the raster band
+      bandStats: {}, // Stats about the band
+      /** @type {object} */
+      dataset: null
     };
 
     // WidgetService
@@ -114,6 +123,59 @@ class EmbedWidget extends Page {
   }
 
   /**
+   * Fetch the dataset and set the dataset attribute
+   * of the state
+   * NOTE: returns when the state is updated
+   * @param {string} datasetId
+   * @returns {Promise<void>}
+   */
+  fetchDataset(datasetId) {
+    return new Promise((resolve, reject) => {
+      const datasetService = new DatasetService(datasetId, { apiURL: process.env.WRI_API_URL });
+      datasetService.fetchData('metadata')
+        .then(dataset => this.setState({ dataset }, resolve))
+        .catch(reject);
+    });
+  }
+
+  /**
+   * Get the information of band of a raster dataset and
+   * set bandInfo of the state
+   * @param {string} datasetId Dataset ID
+   * @param {string} bandName Name of the band
+   */
+  async fetchRasterBandInfo(datasetId, bandName) {
+    try {
+      if (!this.state.dataset) {
+        await this.fetchDataset(datasetId);
+      }
+
+      const dataset = this.state.dataset.attributes;
+
+      // We don't need the "else" for the following conditions
+      // because the band information is not vital and also because
+      // it's not mandatory
+      let { metadata } = dataset;
+      if (metadata && metadata.length) {
+        metadata = metadata[0].attributes;
+        const { columns } = metadata;
+
+        if (columns[bandName]) {
+          this.setState({ bandInfo: columns[bandName] });
+        }
+      }
+
+      const { provider, tableName } = dataset;
+      const rasterService = new RasterService(datasetId, tableName, provider);
+      const bandStats = await rasterService.getBandStatsInfo(bandName);
+      this.setState({ bandStats });
+    } catch (err) {
+      toastr.error('Error', 'Unable to load the additional information about the widget');
+      console.error(err);
+    }
+  }
+
+  /**
    * Load the initial data and sets the state of the component
    */
   loadData() {
@@ -134,6 +196,12 @@ class EmbedWidget extends Page {
           const id = widgetConfig.paramsConfig.layer;
           layerPromise = new LayersService().fetchData({ id })
             .then(layer => new Promise(resolve => this.setState({ layer }, resolve)));
+        }
+
+        // If the widget is based on a raster dataset, we need to fetch the
+        // information related to its band
+        if (widgetConfig.paramsConfig && widgetConfig.paramsConfig.visualizationType === 'raster_chart') {
+          this.fetchRasterBandInfo(widget.dataset, widgetConfig.paramsConfig.band.name);
         }
 
         return Promise.all([
@@ -185,7 +253,7 @@ class EmbedWidget extends Page {
   }
 
   render() {
-    const { widget, loading } = this.state;
+    const { widget, loading, bandInfo, bandStats } = this.state;
 
     return (
       <div className="c-embed-widget">
@@ -215,6 +283,33 @@ class EmbedWidget extends Page {
               </div>
               <div className="widget-description">
                 {widget.description}
+              </div>
+              { bandInfo && bandInfo.description && (
+                <div className="band-information">
+                  {bandInfo.description}
+                </div>
+              ) }
+              <div className="c-table">
+                <Spinner isLoading={isEmpty(bandStats)} className="-light -small" />
+                {!isEmpty(bandStats) && (
+                  <table>
+                    <thead>
+                      <tr>
+                        { Object.keys(bandStats).map(name => <th key={name}>{name}</th>) }
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        { Object.keys(bandStats).map((name) => {
+                          const number = d3.format('.4s')(bandStats[name]);
+                          return (
+                            <td key={name}>{number}</td>
+                          );
+                        }) }
+                      </tr>
+                    </tbody>
+                  </table>
+                ) }
               </div>
             </div>
           </div>

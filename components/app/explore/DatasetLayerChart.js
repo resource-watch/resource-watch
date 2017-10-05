@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import LayerChart from 'components/widgets/LayerChart';
+import LayerChart from 'components/widgets/charts/LayerChart';
 import Spinner from 'components/ui/Spinner';
 
 class DatasetLayerChart extends React.Component {

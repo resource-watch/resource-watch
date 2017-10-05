@@ -6,10 +6,15 @@ import { toastr } from 'react-redux-toastr';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { getLayers, getLayerPoints } from 'redactions/pulse';
+import { getLayers, getLayerPoints, toggleActiveLayer, setSimilarDatasets } from 'redactions/pulse';
+import { toggleTooltip } from 'redactions/tooltip';
+
+// Selectors
 import getLayersGroupPulse from 'selectors/pulse/layersGroupPulse';
 import getActiveLayersPulse from 'selectors/pulse/layersActivePulse';
-import { toggleTooltip } from 'redactions/tooltip';
+
+// Services
+import DatasetService from 'services/DatasetService';
 
 // Helpers
 import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
@@ -38,7 +43,9 @@ class Pulse extends Page {
       layerPoints: [],
       selectedMarker: null,
       useDefaultLayer: true,
-      markerType: 'default'
+      markerType: 'default',
+      similarDatasetsLoaded: false,
+      similarDatasets: []
     };
     this.layerGlobeManager = new LayerGlobeManager();
   }
@@ -65,14 +72,13 @@ class Pulse extends Page {
     if (lastId !== newId) {
       if (nextLayerActive) {
         this.setState({
-          loading: true
+          loading: true,
+          interactionConfig: nextLayerActive.attributes.interactionConfig
         });
 
         if (nextLayerActive.threedimensional === 'true') {
-          const datasetId = nextLayerActive.attributes.dataset;
-          const options = nextLayerActive.attributes.layerConfig.body.layers[0].options;
-          const tableName = options.sql.toUpperCase().split('FROM')[1];
-          this.props.getLayerPoints(datasetId, tableName);
+          const url = nextLayerActive.attributes.layerConfig.pulseConfig.url;
+          this.props.getLayerPoints(url);
         } else {
           this.layerGlobeManager.addLayer(nextLayerActive.attributes, {
             onLayerAddedSuccess: function success(texture) {
@@ -92,6 +98,10 @@ class Pulse extends Page {
             }.bind(this)
           });
         }
+
+        // TESTS
+        // load similar datasets
+        this.getSimilarDatasets(nextLayerActive.attributes.dataset);
       } else {
         this.layerGlobeManager.abortRequest();
         this.setState({ texture: null });
@@ -99,7 +109,7 @@ class Pulse extends Page {
     }
 
     if (nextProps.pulse.layerPoints !== this.props.pulse.layerPoints) {
-      if (nextProps.pulse.layerPoints.length > 0) {
+      if (nextProps.pulse.layerPoints && nextProps.pulse.layerPoints.length > 0) {
         this.setState({
           loading: false,
           layerPoints: nextProps.pulse.layerPoints.slice(0),
@@ -114,7 +124,41 @@ class Pulse extends Page {
   componentWillUnmount() {
     document.removeEventListener('click', this.triggerMouseDown);
     this.props.toggleTooltip(false);
+    this.props.toggleActiveLayer(null);
     this.mounted = false;
+  }
+
+  getSimilarDatasets(datasetID) {
+    this.setState({
+      similarDatasetsLoaded: false
+    });
+    this.datasetService = new DatasetService(datasetID, { apiURL: process.env.WRI_API_URL });
+    this.datasetService.getSimilarDatasets()
+      .then((response) => {
+        let counter = 0;
+        const similarDatasets = response.map(val => val.dataset).filter(
+          () => {
+            counter++;
+            return counter < 4;
+          });
+
+        if (similarDatasets.length > 0) {
+          DatasetService.getDatasets(similarDatasets, 'widget,metadata')
+            .then((data) => {
+              this.setState({
+                similarDatasetsLoaded: true
+              });
+              this.props.setSimilarDatasets(data);
+            })
+            .catch(err => toastr.error('Error', err));
+        } else {
+          this.setState({
+            similarDatasetsLoaded: true,
+            similarDatasets: []
+          });
+        }
+      })
+      .catch(err => toastr.error('Error', err));
   }
 
   /**
@@ -147,11 +191,14 @@ class Pulse extends Page {
       }
     });
 
+    const tooltipContentObj = this.state.interactionConfig.output.map(elem =>
+      ({ key: elem.property, value: obj[elem.column], type: elem.type }));
+
     if (this.mounted) {
       this.props.toggleTooltip(true, {
         follow: false,
         children: GlobeTooltip,
-        childrenProps: { value: obj },
+        childrenProps: { value: tooltipContentObj },
         position: { x: event.clientX, y: event.clientY }
       });
     }
@@ -198,13 +245,14 @@ class Pulse extends Page {
       }).then((response) => {
         if (response.data.length > 0) {
           const obj = response.data[0];
-          delete obj.the_geom;
-          delete obj.the_geom_webmercator;
-          delete obj.cartodb_id;
+
+          const tooltipContentObj = this.state.interactionConfig.output.map(elem =>
+            ({ key: elem.property, value: obj[elem.column], type: elem.type }));
+
           this.props.toggleTooltip(true, {
             follow: false,
             children: GlobeTooltip,
-            childrenProps: { value: obj },
+            childrenProps: { value: tooltipContentObj },
             position: { x: tooltipX, y: tooltipY }
           });
         }
@@ -214,7 +262,7 @@ class Pulse extends Page {
   render() {
     const { url, layersGroup } = this.props;
     const layerActive = this.props.pulse.layerActive;
-    const { markerType } = this.state;
+    const { markerType, layerPoints, texture, useDefaultLayer } = this.state;
     const globeWidht = (typeof window === 'undefined') ? 500 : window.innerWidth;
     const globeHeight = (typeof window === 'undefined') ? 300 : window.innerHeight - 75; // TODO: 75 is the header height
     return (
@@ -245,8 +293,8 @@ class Pulse extends Page {
             ambientLightColor={0x444444}
             enableZoom
             lightPosition={'right'}
-            texture={this.state.texture}
-            layerPoints={this.state.layerPoints}
+            texture={texture}
+            layerPoints={layerPoints}
             markerType={markerType}
             earthImagePath={earthImage}
             earthBumpImagePath={earthBumpImage}
@@ -254,7 +302,7 @@ class Pulse extends Page {
             segments={64}
             rings={64}
             useHalo
-            useDefaultLayer={this.state.useDefaultLayer}
+            useDefaultLayer={useDefaultLayer}
             onMarkerSelected={this.handleMarkerSelected}
             onEarthClicked={this.handleEarthClicked}
             onClickInEmptyRegion={this.handleClickInEmptyRegion}
@@ -277,9 +325,11 @@ Pulse.propTypes = {
   // STORE
   layersGroup: PropTypes.array,
   layerActive: PropTypes.object,
-  getLayers: PropTypes.func,
-  getLayerPoints: PropTypes.func,
-  toggleTooltip: PropTypes.func
+  getLayers: PropTypes.func.isRequired,
+  getLayerPoints: PropTypes.func.isRequired,
+  toggleTooltip: PropTypes.func.isRequired,
+  toggleActiveLayer: PropTypes.func.isRequired,
+  setSimilarDatasets: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -297,6 +347,12 @@ const mapDispatchToProps = dispatch => ({
   },
   getLayerPoints: (id, tableName) => {
     dispatch(getLayerPoints(id, tableName));
+  },
+  toggleActiveLayer: (id, threedimensional, markerType) => {
+    dispatch(toggleActiveLayer(id, threedimensional, markerType));
+  },
+  setSimilarDatasets: (similarDatasets) => {
+    dispatch(setSimilarDatasets(similarDatasets));
   }
 });
 

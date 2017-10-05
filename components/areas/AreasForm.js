@@ -60,7 +60,6 @@ class AreasForm extends React.Component {
     this.state = {
       areaOptions: [],
       loadingAreaOptions: false,
-      selectedArea: null,
       loading: false,
       name: '',
       geostore: null
@@ -82,16 +81,16 @@ class AreasForm extends React.Component {
   onSubmit(e) {
     e.preventDefault();
 
-    const { selectedArea, name, geostore } = this.state;
+    const { name, geostore } = this.state;
     const { user, mode, id } = this.props;
 
-    if (geostore || selectedArea) {
+    if (geostore) {
       this.setState({
         loading: true
       });
 
       if (mode === 'new') {
-        this.userService.createNewArea(name, geostore, selectedArea, user.token)
+        this.userService.createNewArea(name, geostore, user.token)
           .then(() => {
             Router.pushRoute('myrw', { tab: 'areas' });
             toastr.success('Success', 'Area successfully created!');
@@ -131,7 +130,7 @@ class AreasForm extends React.Component {
         });
       } else {
         this.setState({
-          selectedArea: value
+          geostore: value.value
         });
         resolve(true);
       }
@@ -151,7 +150,8 @@ class AreasForm extends React.Component {
     });
     this.areasService.fetchCountries().then((response) => {
       this.setState({
-        areaOptions: [...AREAS, ...response.data],
+        areaOptions: [...AREAS,
+          ...response.map(elem => ({ value: elem.geostoreId, label: elem.name || '' }))],
         loadingAreaOptions: false
       });
     });
@@ -161,11 +161,9 @@ class AreasForm extends React.Component {
     const { id, user } = this.props;
     this.userService.getArea(id, user.token).then((response) => {
       const area = response.data.attributes;
-      const selectedArea = area.iso ? { value: area.iso.country } :
-        { value: area.geostore };
       this.setState({
         name: area.name,
-        selectedArea
+        geostore: area.geostore
       });
     });
   }
@@ -174,8 +172,8 @@ class AreasForm extends React.Component {
     const {
       areaOptions,
       loadingAreaOptions,
-      selectedArea,
       loading,
+      geostore,
       name
     } = this.state;
     const { mode } = this.props;
@@ -210,7 +208,7 @@ class AreasForm extends React.Component {
                 options={areaOptions}
                 onValueChange={this.onChangeSelectedArea}
                 allowNonLeafSelection={false}
-                value={selectedArea && selectedArea.value}
+                value={geostore}
                 waitForChangeConfirmation
                 disabled={mode === 'edit'}
               />

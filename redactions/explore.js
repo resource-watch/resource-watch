@@ -1,7 +1,5 @@
 /* global config */
 import 'isomorphic-fetch';
-import flatten from 'lodash/flatten';
-import uniq from 'lodash/uniq';
 import { Router } from 'routes';
 
 /**
@@ -16,6 +14,7 @@ const SET_DATASETS_SEARCH_FILTER = 'explore/SET_DATASETS_SEARCH_FILTER';
 const SET_DATASETS_TOPICS_FILTER = 'explore/SET_DATASETS_TOPICS_FILTER';
 const SET_DATASETS_DATA_TYPE_FILTER = 'explore/SET_DATASETS_DATA_TYPE_FILTER';
 const SET_DATASETS_GEOGRAPHIES_FILTER = 'explore/SET_DATASETS_GEOGRAPHIES_FILTER';
+const SET_FILTERS_LOADING = 'explore/SET_FILTERS_LOADING';
 
 const SET_DATASETS_FILTERED_BY_CONCEPTS = 'explore/SET_DATASETS_FILTERED_BY_CONCEPTS';
 
@@ -25,9 +24,14 @@ const SET_LAYERGROUP_TOGGLE = 'explore/SET_LAYERGROUP_TOGGLE';
 const SET_LAYERGROUP_VISIBILITY = 'explore/SET_LAYERGROUP_VISIBILITY';
 const SET_LAYERGROUP_ACTIVE_LAYER = 'explore/SET_LAYERGROUP_ACTIVE_LAYER';
 const SET_LAYERGROUP_ORDER = 'explore/SET_LAYERGROUP_ORDER';
+const SET_LAYERGROUP_OPACITY = 'explore/SET_LAYERGROUP_OPACITY';
 const SET_LAYERGROUPS = 'explore/SET_LAYERGROUPS';
 
 const SET_SIDEBAR = 'explore/SET_SIDEBAR';
+
+const SET_TOPICS_TREE = 'explore/SET_TOPICS_TREE';
+const SET_DATA_TYPE_TREE = 'explore/SET_DATA_TYPE_TREE';
+const SET_GEOGRAPHIES_TREE = 'explore/SET_GEOGRAPHIES_TREE';
 
 /**
  * Layer
@@ -73,12 +77,17 @@ const initialState = {
     search: null,
     topics: null,
     dataType: null,
-    geographies: null
+    geographies: null,
+    datasetsFilteredByConcepts: [],
+    loading: false
   },
   sidebar: {
     open: true,
     width: 0
-  }
+  },
+  geographiesTree: null,
+  topicsTree: null,
+  dataTypeTree: null
 };
 
 export default function (state = initialState, action) {
@@ -129,7 +138,8 @@ export default function (state = initialState, action) {
     case SET_LAYERGROUP_VISIBILITY: {
       const layers = state.layers.map((l) => {
         if (l.dataset !== action.payload.dataset) return l;
-        return Object.assign({}, l, { visible: action.payload.visible });
+        const datasetLayers = l.layers.map(lay => Object.assign({}, lay, { opacity: 1 }));
+        return Object.assign({}, l, { visible: action.payload.visible, layers: datasetLayers });
       });
       return Object.assign({}, state, { layers });
     }
@@ -138,7 +148,7 @@ export default function (state = initialState, action) {
       const layerGroups = state.layers.map((l) => {
         if (l.dataset !== action.payload.dataset) return l;
         const layers = l.layers.map((la) => { // eslint-disable-line arrow-body-style
-          return Object.assign({}, la, { active: la.id === action.payload.layer });
+          return Object.assign({}, la, { active: la.id === action.payload.layer, opacity: 1 });
         });
         return Object.assign({}, l, { layers });
       });
@@ -148,6 +158,17 @@ export default function (state = initialState, action) {
     case SET_LAYERGROUP_ORDER: {
       const layers = action.payload.map(d => state.layers.find(l => l.dataset === d));
       return Object.assign({}, state, { layers });
+    }
+
+    case SET_LAYERGROUP_OPACITY: {
+      const layerGroups = state.layers.map((l) => {
+        if (l.dataset !== action.payload.dataset) return l;
+        const layers = l.layers.map((la) => { // eslint-disable-line arrow-body-style
+          return Object.assign({}, la, { opacity: action.payload.opacity });
+        });
+        return Object.assign({}, l, { layers });
+      });
+      return Object.assign({}, state, { opacity: action.payload.opacity, layers: layerGroups });
     }
 
     case SET_LAYERGROUPS: {
@@ -196,6 +217,13 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { filters });
     }
 
+    case SET_FILTERS_LOADING: {
+      const filters = Object.assign({}, state.filters, {
+        loading: action.payload
+      });
+      return Object.assign({}, state, { filters });
+    }
+
     case SET_DATASETS_FILTERED_BY_CONCEPTS: {
       const filters = Object.assign({}, state.filters, {
         datasetsFilteredByConcepts: action.payload
@@ -206,6 +234,24 @@ export default function (state = initialState, action) {
     case SET_SIDEBAR: {
       return Object.assign({}, state, {
         sidebar: action.payload
+      });
+    }
+
+    case SET_GEOGRAPHIES_TREE: {
+      return Object.assign({}, state, {
+        geographiesTree: action.payload
+      });
+    }
+
+    case SET_DATA_TYPE_TREE: {
+      return Object.assign({}, state, {
+        dataTypeTree: action.payload
+      });
+    }
+
+    case SET_TOPICS_TREE: {
+      return Object.assign({}, state, {
+        topicsTree: action.payload
       });
     }
 
@@ -261,12 +307,12 @@ export function setUrlParams() {
   };
 }
 
-export function getDatasets() {
+export function getDatasets({ pageNumber, pageSize }) {
   return (dispatch) => {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_DATASETS_LOADING });
 
-    fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=rw&status=saved&published=true&includes=widget,layer,metadata,vocabulary&page[size]=999&sort=-updatedAt`))
+    return fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=rw&status=saved&published=true&includes=widget,layer,metadata,vocabulary&page[size]=${pageSize || 999}&page[number]=${pageNumber || 1}&sort=-updatedAt`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
@@ -377,6 +423,25 @@ export function setLayerGroupsOrder(datasets) {
 }
 
 /**
+ * Set which of the layer group's layers is the active one
+ * (the one to be displayed)
+ * @export
+ * @param {string} dataset - ID of the dataset
+ * @param {number} opacity - opacity
+ */
+export function setLayerGroupOpacity(dataset, opacity) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_LAYERGROUP_OPACITY,
+      payload: { dataset, opacity }
+    });
+
+    // We also update the URL
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
+  };
+}
+
+/**
  * Set the layer attribute of the store
  * This method is used when the layer groups are retrieved
  * from the URL to restore the state
@@ -459,9 +524,37 @@ export function setDatasetsFilteredByConcepts(datasetList) {
   };
 }
 
+export function setFiltersLoading(loading) {
+  return {
+    type: SET_FILTERS_LOADING,
+    payload: loading
+  };
+}
+
 export function setDatasetsMode(mode) {
   return {
     type: SET_DATASETS_MODE,
     payload: mode
+  };
+}
+
+export function setTopicsTree(tree) {
+  return {
+    type: SET_TOPICS_TREE,
+    payload: tree
+  };
+}
+
+export function setDataTypeTree(tree) {
+  return {
+    type: SET_DATA_TYPE_TREE,
+    payload: tree
+  };
+}
+
+export function setGeographiesTree(tree) {
+  return {
+    type: SET_GEOGRAPHIES_TREE,
+    payload: tree
   };
 }

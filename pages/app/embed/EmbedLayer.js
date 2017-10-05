@@ -12,7 +12,7 @@ import Spinner from 'components/ui/Spinner';
 import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
 import Icons from 'components/app/layout/icons';
-import Map from 'components/vis/Map';
+import Map from 'components/widgets/editor/map/Map';
 import Legend from 'components/ui/Legend';
 
 // Services
@@ -26,7 +26,7 @@ import { toggleTooltip } from 'redactions/tooltip';
 import { getLayerGroups } from 'selectors/explore/layersExplore';
 
 // Utils
-import LayerManager from 'utils/layers/LayerManager';
+import LayerManager from 'components/widgets/editor/helpers/LayerManager';
 
 const mapConfig = {
   zoom: 3,

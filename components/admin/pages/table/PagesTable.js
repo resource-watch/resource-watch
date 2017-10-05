@@ -90,12 +90,13 @@ class PagesTable extends React.Component {
               ]
             }}
             sort={{
-              field: 'name',
+              field: 'title',
               value: 1
             }}
             filters={false}
             data={this.getFilteredPages()}
             pageSize={20}
+            onRowDelete={() => this.props.getPages()}
             pagination={{
               enabled: true,
               pageSize: 20,

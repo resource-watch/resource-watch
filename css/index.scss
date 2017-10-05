@@ -18,6 +18,7 @@
 @import '../node_modules/slick-carousel/slick/slick.scss';
 @import '../node_modules/slick-carousel/slick/slick-theme.scss';
 @import '../node_modules/react-progress-2/main';
+@import '../node_modules/rc-slider/assets/index';
 
 // Editor
 @import '../node_modules/react-quill/dist/quill.snow';
@@ -40,6 +41,7 @@
 // Components
 // UI
 @import '../node_modules/react-redux-toastr/src/styles/index';
+@import '../node_modules/rc-slider/assets/index';
 @import "./components/ui/aside";
 @import "./components/ui/avatar";
 @import "./components/ui/breadcrumbs";
@@ -55,6 +57,7 @@
 @import "./components/ui/paginator";
 @import "./components/ui/related-content";
 @import "./components/ui/search-input";
+@import "./components/ui/slider-tooltip";
 @import "./components/ui/spinner";
 @import "./components/ui/switch-options";
 @import "./components/ui/switch";
@@ -75,6 +78,7 @@
 @import "./components/modal/embed_my_widget_modal";
 @import "./components/modal/share_modal_explore";
 @import "./components/modal/embed_layer_modal";
+@import "./components/modal/embed_table_modal";
 @import "./components/modal/upload_area_intersection_modal";
 @import "./components/modal/subscribe_to_dataset_modal";
 @import "./components/modal/area_subscription_modal";
@@ -106,6 +110,7 @@
 @import "./components/form/token";
 @import "./components/form/wysiwyg";
 @import "./components/form/toggle-search";
+
 
 // WIDGETS
 @import "./components/widgets/add_widget_to_collection_tooltip";
@@ -141,6 +146,9 @@
 @import "./components/admin/dataset/filter-item";
 @import "./components/admin/dataset/list";
 @import "./components/admin/dataset/datasets-list-card";
+@import "./components/admin/dataset/source-item";
+@import "./components/admin/dataset/metadata-source-list";
+
 
 // Widgets
 @import "./components/admin/widget/card";
@@ -157,6 +165,9 @@
 // Vocabularies
 @import "./components/admin/vocabularies/vocabulary_item";
 @import "./components/admin/vocabularies/vocabularies_form";
+
+// Tags
+@import "./components/admin/tags/tags_form";
 
 // ================== APP ======================
 
@@ -210,6 +221,7 @@
 @import "./components/app/explore/widget_configurator";
 @import "./components/app/explore/explore_layers_tooltip";
 @import "./components/app/explore/resume_filters";
+@import "./components/app/explore/dataset_tags_tooltip";
 
 // EXPLORE DETAIL
 @import "./components/app/explore-detail/dataset-info";
@@ -231,6 +243,7 @@
 // Embed
 @import "./components/app/pages/embed/embed_widget";
 @import "./components/app/pages/embed/embed_layer";
+@import "./components/app/pages/embed/embed_table";
 
 // Subscriptions
 @import "./components/app/subscriptions/subscription_card";
