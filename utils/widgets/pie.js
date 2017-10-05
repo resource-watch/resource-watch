@@ -80,44 +80,12 @@ const defaultChart = {
   ],
   "scales": [
     {
-      "name": "r",
-      "type": "sqrt",
-      "domain": {"data": "slices", "field": "y"},
-      "range": [20, 100]
-    },
-    {
       "name": "c",
       "type": "ordinal",
       "domain": {"data": "slices", "field": "x"},
       // If you update this range, don't forget to
       // update the code below
       "range": "category20"
-    }
-  ],
-  // This axis is not used by the marks
-  // but is necessary for the tooltip to show
-  axes: [
-    {
-      "type": "x",
-      "scale": "r",
-      "ticks": 0,
-      "tickSize": 0,
-      "properties": {
-        "labels": {"text": {"template": ""}},
-        "axis": {"strokeWidth": {"value": 0}}
-      },
-      "real": false
-    },
-    {
-      "type": "y",
-      "scale": "r",
-      "ticks": 0,
-      "tickSize": 0,
-      "properties": {
-        "labels": {"text": {"template": ""}},
-        "axis": {"strokeWidth": {"value": 0}}
-      },
-      "real": false
     }
   ],
   "marks": [
@@ -148,6 +116,24 @@ const defaultChart = {
         }
       }
     }
+  ],
+  interaction_config: [
+    {
+      "name": "tooltip",
+      "config": {
+        "fields": [
+          {
+            "key": "x",
+            "label": "x"
+          },
+          {
+            "key": "y",
+            "label": "y",
+            "format": ".2s"
+          }
+        ]
+      }
+    }
   ]
 }
 
@@ -172,13 +158,13 @@ export default function ({ columns, data, url, embedData }) {
     };
   }
 
-  // We add the name of the axis
-  // We don't have real x and y axis for the pie
-  // chart but we use them for the tooltip
-  const xAxis = config.axes.find(a => a.type === 'x');
-  const yAxis = config.axes.find(a => a.type === 'y');
-  xAxis.name = columns.x.alias || columns.x.name;
-  yAxis.name = columns.y.alias || columns.y.name;
+  // We save the name of the columns for the tooltip
+  {
+    const xField = config.interaction_config[0].config.fields[0];
+    const yField = config.interaction_config[0].config.fields[1];
+    xField.label = columns.x.alias || columns.x.name;
+    yField.label = columns.y.alias || columns.y.name;
+  }
 
   if (columns.color.present) {
     const colorScale = config.scales.find(scale => scale.name === 'c');

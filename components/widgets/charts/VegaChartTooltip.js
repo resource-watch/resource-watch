@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { time } from 'd3';
-
-// Helpers
-import { getTimeFormat, get2DecimalFixedNumber, getSINumber } from 'components/widgets/editor/helpers/WidgetHelper';
+import { format, time } from 'd3';
 
 class VegaChartTooltip extends React.Component {
   getParsedX() {
@@ -12,11 +9,13 @@ class VegaChartTooltip extends React.Component {
 
     const { x } = item;
 
-    if (x.type === 'number') {
-      return get2DecimalFixedNumber(x.value);
-    } else if (x.type === 'date') {
-      const date = new Date(x.value);
-      return time.format(getTimeFormat(x.range))(date);
+    if (x.format) {
+      if (x.type === 'number') {
+        return format(x.format)(x.value);
+      } else if (x.type === 'date') {
+        const date = new Date(x.value);
+        return time.format(x.format)(date);
+      }
     }
 
     return x.value;
@@ -29,11 +28,13 @@ class VegaChartTooltip extends React.Component {
     const { y } = item;
     if (!y) return null;
 
-    if (y.type === 'number') {
-      return getSINumber(y.value);
-    } else if (y.type === 'date') {
-      const date = new Date(y.value);
-      return time.format(getTimeFormat(y.range))(date);
+    if (y.format) {
+      if (y.type === 'number') {
+        return format(y.format)(y.value);
+      } else if (y.type === 'date') {
+        const date = new Date(y.value);
+        return time.format(y.format)(date);
+      }
     }
 
     return y.value;
@@ -61,10 +62,8 @@ class VegaChartTooltip extends React.Component {
 const columnType = PropTypes.shape({
   type: PropTypes.oneOf(['number', 'string', 'date']),
   label: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
-  // Range needed to properly display the dates
-  // Either a timestamp or a date object
-  range: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.object]))
+  format: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object])
 });
 
 VegaChartTooltip.propTypes = {
