@@ -23,9 +23,24 @@ export default class UserService {
           Authorization: token
         }
       })
-        .then(response => response.json())
-        .then(jsonData => resolve(jsonData.data));
+        .then(response => resolve(response.json()));
     });
+  }
+
+  /**
+  * Updates the user that is currently logged in
+  */
+  updateUser(user, token) {
+    console.log('user', user);
+    return fetch(`${this.opts.apiURL}/user/me`, {
+      method: 'PATCH',
+      body: JSON.stringify(user),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token
+      }
+    })
+      .then(response => response.json());
   }
 
   /**
