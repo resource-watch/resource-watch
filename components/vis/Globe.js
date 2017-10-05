@@ -479,6 +479,8 @@ class Globe extends React.Component {
 
     const ambientLight = new AmbientLight(ambientLightColor);
     const pointLight = new PointLight(pointLightColor, pointLightIntensity);
+    const pointLight2 = new PointLight(pointLightColor, 0.5);
+    pointLight2.position.set(0, -pointLightY, pointLightZ);
 
     if (pointLightPosition === 'left') {
       pointLight.position.set(-pointLightX, pointLightY, pointLightZ);
@@ -488,6 +490,7 @@ class Globe extends React.Component {
 
     this.scene.add(ambientLight);
     this.camera.add(pointLight);
+    this.camera.add(pointLight2);
   }
 
   addControls() {
