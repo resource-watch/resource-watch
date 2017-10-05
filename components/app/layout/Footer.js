@@ -58,6 +58,23 @@ class Footer extends React.Component {
 
     return (
       <footer className="l-footer">
+        <div className="footer-main">
+          <div className="l-container">
+            <div className="row">
+              <div className="column small-12">
+                <img
+                  className="footer-logo"
+                  height={21}
+                  width={129}
+                  src={'/static/images/logo-embed.png'}
+                  alt="Resource Watch"
+                />
+              </div>
+            </div>
+          </div>
+          <CompoundMenu items={menuData} />
+        </div>
+
         <div className="footer-intro">
           <div className="title">
             <Link route="about_partners"><a>Partners</a></Link>
@@ -71,10 +88,6 @@ class Footer extends React.Component {
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="footer-main">
-          <CompoundMenu items={menuData} />
         </div>
 
         <div className="footer-terms">
