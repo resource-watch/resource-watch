@@ -37,7 +37,7 @@ const server = express();
 
 function checkBasicAuth(username, password) {
   return function authMiddleware(req, res, nextAction) {
-    if (!req.headers['user-agent'] || /AddSearchBot/.test(req.headers['user-agent'])) {
+    if (!req.headers['user-agent'] || !/AddSearchBot/.test(req.headers['user-agent'])) {
       const user = basicAuth(req);
       if (!user || user.name !== username || user.pass !== password) {
         res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
