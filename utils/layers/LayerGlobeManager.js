@@ -54,6 +54,8 @@ export default class LayerGlobeManager {
     // ...and add it to the current layer
     this.layer.request = xmlhttp;
 
+    console.log('xmlhttp', xmlhttp);
+
     xmlhttp.onreadystatechange = () => {
       if (xmlhttp.readyState === 4) {
         if (xmlhttp.status === 200) {
