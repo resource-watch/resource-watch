@@ -46,10 +46,11 @@ import DatasetListHeader from 'components/app/explore/DatasetListHeader';
 import DatasetList from 'components/app/explore/DatasetList';
 import Paginator from 'components/ui/Paginator';
 import Map from 'components/widgets/editor/map/Map';
-import ShareModalExplore from 'components/modal/ShareModalExplore';
+import MapControls from 'components/widgets/editor/map/MapControls';
+import BasemapControl from 'components/widgets/editor/map/controls/BasemapControl';
+import ShareControl from 'components/widgets/editor/map/controls/ShareControl';
 import Legend from 'components/widgets/editor/ui/Legend';
 import Spinner from 'components/ui/Spinner';
-import Icon from 'components/ui/Icon';
 import SearchInput from 'components/ui/SearchInput';
 
 // Layout
@@ -305,19 +306,6 @@ class Explore extends Page {
 
     // We move the user to the first page
     this.props.setDatasetsPage(1);
-  }
-
-  handleShareModal() {
-    const options = {
-      children: ShareModalExplore,
-      childrenProps: {
-        url: window.location.href,
-        layerGroups: this.props.rawLayerGroups,
-        toggleModal: this.props.toggleModal
-      }
-    };
-    this.props.toggleModal(true);
-    this.props.setModalOptions(options);
   }
 
   /**
@@ -626,9 +614,12 @@ class Explore extends Page {
                   layerGroups={this.props.layerGroups}
                 />
 
-                <button className="share-button" onClick={() => this.handleShareModal()}>
-                  <Icon name="icon-share" className="-small" />
-                </button>
+                <MapControls>
+                  <ShareControl
+                    layerGroups={this.props.rawLayerGroups}
+                  />
+                  <BasemapControl />
+                </MapControls>
 
                 {this.props.layerGroups && this.props.layerGroups.length &&
                   <Legend

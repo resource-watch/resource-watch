@@ -2,6 +2,8 @@
 import 'isomorphic-fetch';
 import { Router } from 'routes';
 
+import { BASEMAPS } from 'components/widgets/editor/map/constants';
+
 /**
  * CONSTANTS
 */
@@ -32,6 +34,8 @@ const SET_SIDEBAR = 'explore/SET_SIDEBAR';
 const SET_TOPICS_TREE = 'explore/SET_TOPICS_TREE';
 const SET_DATA_TYPE_TREE = 'explore/SET_DATA_TYPE_TREE';
 const SET_GEOGRAPHIES_TREE = 'explore/SET_GEOGRAPHIES_TREE';
+
+const SET_BASEMAP = 'explore/SET_BASEMAP';
 
 /**
  * Layer
@@ -84,6 +88,10 @@ const initialState = {
   sidebar: {
     open: true,
     width: 0
+  },
+  basemap: BASEMAPS.dark,
+  basemapControl: {
+    basemaps: BASEMAPS
   },
   geographiesTree: null,
   topicsTree: null,
@@ -252,6 +260,12 @@ export default function (state = initialState, action) {
     case SET_TOPICS_TREE: {
       return Object.assign({}, state, {
         topicsTree: action.payload
+      });
+    }
+
+    case SET_BASEMAP: {
+      return Object.assign({}, state, {
+        basemap: action.payload
       });
     }
 
@@ -556,5 +570,12 @@ export function setGeographiesTree(tree) {
   return {
     type: SET_GEOGRAPHIES_TREE,
     payload: tree
+  };
+}
+
+export function setBasemap(basemap) {
+  return {
+    type: SET_BASEMAP,
+    payload: basemap
   };
 }

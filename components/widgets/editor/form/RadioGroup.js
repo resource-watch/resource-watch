@@ -30,7 +30,7 @@ class RadioGroup extends FormElement {
   }
 
   render() {
-    const { properties, options } = this.props;
+    const { name, properties, options } = this.props;
     const { value } = this.state;
 
     return (
