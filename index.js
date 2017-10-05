@@ -68,7 +68,10 @@ const sessionOptions = {
 };
 
 if (prod) {
-  const redisClient = redis.createClient(process.env.REDIS_URL);
+  const redisClient = redis.createClient({
+    url: process.env.REDIS_URL,
+    db: 'resourcewatch'
+  });
   sessionOptions.store = new RedisStore({
     client: redisClient,
     logErrors: true
