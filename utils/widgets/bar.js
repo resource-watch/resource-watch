@@ -284,6 +284,12 @@ export default function ({ columns, data, url, embedData, provider, band  }) {
     // display any tick, so we need to remove text
     // instead
     delete xAxis.properties.labels.text;
+  } else if (columns.x.type === 'number') {
+    const allIntegers = data.length && data.every(d => parseInt(d.x, 10) === d.x);
+    if (allIntegers) {
+      const xField = config.interaction_config[0].config.fields[0];
+      xField.format = '';
+    }
   }
 
   // In case the dataset contains only one value (thus one)
