@@ -8,19 +8,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.1.0] - 2017-10-11
 
 ### Fixed
-- Planet pulse dropdowns have now a `z-index` that makes them be displayed on top of the layer card
+- Planer pulse: Floods layer colors fixed
+- Planet pulse drop downs have now a `z-index` that makes them be displayed on top of the layer card
 - Planet pulse Carto layers are fetched based on the information in the `pulseConfig` object
 - Planet pulse 3D layers get their respective markers using the info located in `pulseConfig`
 - Planet pulse globe tooltips show only the fields that are specified in the object `interactionConfig`
 - Bar charts properly handle `null` and negative values
 - Pie and bar charts are now responsive and are properly displayed as thumbnails (newer charts only)
 - Fixed invariant violation error
-- Fixed map container error in backoffice
+- Fixed map container error in back office
 - Datasets always show geoInfo value, even if they are rasters (it will be always true)
 - Widget map creation
 - Better validations for widgetEditor
 
 ### Added
+- Planet pulse improvements: color used as extra dimension in more 3D layers
 - Planet pulse globe tooltips have hyperlinks for url values
 - New prototype of tags tooltip in Explore
 - New search input for the filter tooltip in the Widget Editor
@@ -34,3 +36,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Pie charts display an "others" category to avoid duplicate colors
 
 ### Changed
+
+- Planet pulse: extra point light added to the scene so that colors can be perceived more easily

@@ -14,6 +14,21 @@ import orbitControls from './OrbitControls';
 const OrbitControls = orbitControls();
 const imageLoader = new TextureLoader();
 
+//----------------------------------------------------------
+// TO-DO move this to somewhere else that makes more sense
+/* Severity colors */
+const severityLowColor = 0x2C7FB8;
+const severityMediumColor = 0x7FCDBB;
+const severityHighColor = 0xEDF8B1;
+/* Magnitude colors */
+const magnitudeLessThan5Color = 0xfeebe2;
+const magnitude5_5_5Color = 0xfbb4b9;
+const magnitude5_5_6Color = 0xf768a1;
+const magnitude6_7Color = 0xc51b8a;
+const magnitude7orMore = 0x7a0177;
+//----------------------------------------------------------
+
+
 class Globe extends React.Component {
   static getMarkerHeight(value) {
     let data = value;
@@ -197,35 +212,58 @@ class Globe extends React.Component {
     this.setState({ width: nextWidth, height: nextHeight });
   }
 
-  getMarkerColor(value) {
-    let data = value;
-    if (value.object) {
-      data = value.object.name;
-    }
-    const severity = data.severity;
-    const urlTone = data.urltone;
-    let color = this.props.markerDefaultColor;
+  onClick(event) {
+    event.nativeEvent.stopImmediatePropagation();
 
-    if (severity) {
-      switch (severity) {
-        case 1:
-          color = this.props.markerMediumColor;
-          break;
-        case 2:
-          color = this.props.markerHighColor;
-          break;
-        case 3:
-          color = this.props.markerHighColor;
-          break;
-        default:
-          color = this.props.markerLowColor;
+    this.mouse.x = (event.nativeEvent.offsetX / this.el.clientWidth) * 2 - 1;
+    this.mouse.y = -(event.nativeEvent.offsetY / this.el.clientHeight) * 2 + 1;
+
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+
+    // this.scene.add(new ArrowHelper(this.raycaster.ray.direction,
+    // this.raycaster.ray.origin, 100, Math.random() * 0xffffff ));
+
+    const oldSelectedMarker = this.state.selectedMarker;
+    if (oldSelectedMarker) {
+      oldSelectedMarker.object.material = new MeshPhongMaterial(
+        { color: this.getMarkerColor(oldSelectedMarker) });
+    }
+
+    const intersects = this.raycaster.intersectObjects(this.scene.children);
+
+    if (intersects.length > 0) {
+      let markerClicked = false;
+
+      intersects.forEach((obj) => {
+        const objName = obj.object.name;
+        if (objName !== 'halo' && objName !== 'earth' && objName !== 'texture') {
+          this.setState({ selectedMarker: obj });
+          this.props.onMarkerSelected(objName, event);
+          markerClicked = true;
+        }
+      });
+
+      if (!markerClicked) {
+        this.props.onClickInEmptyRegion();
+      }
+    } else {
+      this.props.onClickInEmptyRegion();
+    }
+    if (this.props.layerPoints.length === 0) {
+      const earthIntersect = this.raycaster.intersectObjects([this.earth]);
+      if (earthIntersect.length > 0) {
+        const latLon = this.convertCoordinatesToLatLon(earthIntersect[0]);
+        this.props.onEarthClicked(latLon, event.clientX, event.clientY);
       }
     }
+  }
 
-    if (urlTone) {
-      color = this.redGreenScale(urlTone).hex();
-    }
-    return color;
+  /**
+  * Calculate the halo radius according to the properties involved
+  */
+  getHaloRadius() {
+    const { radius, haloExtraRadiusPercentage } = this.props;
+    return radius + ((radius * haloExtraRadiusPercentage) / 100);
   }
 
   /**
@@ -252,12 +290,43 @@ class Globe extends React.Component {
     this.scene.add(this.currentTexture);
   }
 
-  /**
-  * Calculate the halo radius according to the properties involved
-  */
-  getHaloRadius() {
-    const { radius, haloExtraRadiusPercentage } = this.props;
-    return radius + ((radius * haloExtraRadiusPercentage) / 100);
+  getMarkerColor(value) {
+    let data = value;
+    if (value.object) {
+      data = value.object.name;
+    }
+    const { severity, mag, urlTone } = data;
+    let color = this.props.markerDefaultColor;
+
+    if (severity) {
+      if (severity >= 1 && severity < 1.25) {
+        color = severityLowColor;
+      } else if (severity >= 1.25 && severity < 1.75) {
+        color = severityMediumColor;
+      } else if (severity >= 1.75 && severity <= 2) {
+        color = severityHighColor;
+      }
+    }
+
+    if (urlTone) {
+      color = this.redGreenScale(urlTone).hex();
+    }
+
+    if (mag) {
+      if (mag < 5) {
+        color = magnitudeLessThan5Color;
+      } else if (mag >= 5 && mag < 5.5) {
+        color = magnitude5_5_5Color; // eslint-disable-line camelcase
+      } else if (mag >= 5.5 && mag < 6) {
+        color = magnitude5_5_6Color; // eslint-disable-line camelcase
+      } else if (mag >= 6 && mag < 7) {
+        color = magnitude6_7Color; // eslint-disable-line camelcase
+      } else if (mag >= 7) {
+        color = magnitude7orMore; // eslint-disable-line camelcase
+      }
+    }
+
+    return color;
   }
 
   removeTexture() {
@@ -477,6 +546,8 @@ class Globe extends React.Component {
 
     const ambientLight = new AmbientLight(ambientLightColor);
     const pointLight = new PointLight(pointLightColor, pointLightIntensity);
+    const pointLight2 = new PointLight(pointLightColor, 0.5);
+    pointLight2.position.set(0, -pointLightY, pointLightZ);
 
     if (pointLightPosition === 'left') {
       pointLight.position.set(-pointLightX, pointLightY, pointLightZ);
@@ -486,6 +557,7 @@ class Globe extends React.Component {
 
     this.scene.add(ambientLight);
     this.camera.add(pointLight);
+    this.camera.add(pointLight2);
   }
 
   addControls() {
@@ -529,52 +601,6 @@ class Globe extends React.Component {
     this.renderer.setSize(this.state.width, this.state.height);
     // TODO: update halo size
     // this.halo.geometry.radius = this.getHaloRadius();
-  }
-
-  onClick(event) {
-    event.nativeEvent.stopImmediatePropagation();
-
-    this.mouse.x = (event.nativeEvent.offsetX / this.el.clientWidth) * 2 - 1;
-    this.mouse.y = -(event.nativeEvent.offsetY / this.el.clientHeight) * 2 + 1;
-
-    this.raycaster.setFromCamera(this.mouse, this.camera);
-
-    // this.scene.add(new ArrowHelper(this.raycaster.ray.direction,
-    // this.raycaster.ray.origin, 100, Math.random() * 0xffffff ));
-
-    const oldSelectedMarker = this.state.selectedMarker;
-    if (oldSelectedMarker) {
-      oldSelectedMarker.object.material = new MeshPhongMaterial(
-        { color: this.getMarkerColor(oldSelectedMarker) });
-    }
-
-    const intersects = this.raycaster.intersectObjects(this.scene.children);
-
-    if (intersects.length > 0) {
-      let markerClicked = false;
-
-      intersects.forEach((obj) => {
-        const objName = obj.object.name;
-        if (objName !== 'halo' && objName !== 'earth' && objName !== 'texture') {
-          this.setState({ selectedMarker: obj });
-          this.props.onMarkerSelected(objName, event);
-          markerClicked = true;
-        }
-      });
-
-      if (!markerClicked) {
-        this.props.onClickInEmptyRegion();
-      }
-    } else {
-      this.props.onClickInEmptyRegion();
-    }
-    if (this.props.layerPoints.length === 0) {
-      const earthIntersect = this.raycaster.intersectObjects([this.earth]);
-      if (earthIntersect.length > 0) {
-        const latLon = this.convertCoordinatesToLatLon(earthIntersect[0]);
-        this.props.onEarthClicked(latLon, event.clientX, event.clientY);
-      }
-    }
   }
 
   render() {
