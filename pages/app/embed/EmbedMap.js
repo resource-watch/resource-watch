@@ -13,11 +13,11 @@ import { setRouter } from 'redactions/routes';
 import Page from 'components/app/layout/Page';
 import EmbedLayout from 'components/app/layout/EmbedLayout';
 import Spinner from 'components/ui/Spinner';
-import Map from 'components/vis/Map';
+import Map from 'components/widgets/editor/map/Map';
 import Legend from 'components/ui/Legend';
 
 // Utils
-import LayerManager from 'utils/layers/LayerManager';
+import LayerManager from 'components/widgets/editor/helpers/LayerManager';
 
 class EmbedMap extends Page {
   static getInitialProps({ asPath, pathname, query, req, store, isServer }) {

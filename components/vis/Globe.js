@@ -15,6 +15,41 @@ const OrbitControls = orbitControls();
 const imageLoader = new TextureLoader();
 
 class Globe extends React.Component {
+  static getMarkerHeight(value) {
+    let data = value;
+    if (value.object) {
+      data = value.object.name;
+    }
+    let height = 1;
+    const distance = data.distance_km;
+    const displaced = data.displaced;
+    const mag = data.mag;
+    const fatalities = data.fatalities;
+
+    if (displaced) {
+      if (displaced > 0) {
+        height = Math.log(displaced);
+      } else {
+        height = 0;
+      }
+    }
+    if (distance) {
+      if (distance > 0) {
+        height = Math.log(distance) * 3;
+      } else {
+        height = 0;
+      }
+    }
+    if (mag) {
+      height = mag;
+    }
+    if (fatalities) {
+      height = fatalities;
+    }
+
+    return height;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -84,7 +119,7 @@ class Globe extends React.Component {
       const pointObjects = nextProps.layerPoints.map((value) => {
         const normalVector = this.convertLatLonToCoordinates(value.lat, value.lon);
         const geometryColor = this.getMarkerColor(value);
-        const height = this.getMarkerHeight(value);
+        const height = Globe.getMarkerHeight(value);
 
         let geometry;
 
@@ -156,39 +191,10 @@ class Globe extends React.Component {
     window.removeEventListener('resize', this.onResize);
   }
 
-  getMarkerHeight(value) {
-    let data = value;
-    if (value.object) {
-      data = value.object.name;
-    }
-    let height = 1;
-    const distance = data.distance_km;
-    const displaced = data.displaced;
-    const mag = data.mag;
-    const fatalities = data.fatalities;
-
-    if (displaced) {
-      if (displaced > 0) {
-        height = Math.log(displaced);
-      } else {
-        height = 0;
-      }
-    }
-    if (distance) {
-      if (distance > 0) {
-        height = Math.log(distance) * 3;
-      } else {
-        height = 0;
-      }
-    }
-    if (mag) {
-      height = mag;
-    }
-    if (fatalities) {
-      height = fatalities;
-    }
-
-    return height;
+  onResize() {
+    const nextWidth = this.el.clientWidth || this.el.innerWidth;
+    const nextHeight = this.el.clientHeight || this.el.innerHeight;
+    this.setState({ width: nextWidth, height: nextHeight });
   }
 
   getMarkerColor(value) {
@@ -222,13 +228,6 @@ class Globe extends React.Component {
     return color;
   }
 
-
-  onResize() {
-    const nextWidth = this.el.clientWidth || this.el.innerWidth;
-    const nextHeight = this.el.clientHeight || this.el.innerHeight;
-    this.setState({ width: nextWidth, height: nextHeight });
-  }
-
   /**
    * Method to change layers to earth
    */
@@ -253,20 +252,20 @@ class Globe extends React.Component {
     this.scene.add(this.currentTexture);
   }
 
-  removeTexture() {
-    if (this.currentTexture) {
-      this.scene.remove(this.currentTexture);
-      this.currentTexture = null;
-      this.setState({ texture: null });
-    }
-  }
-
   /**
   * Calculate the halo radius according to the properties involved
   */
   getHaloRadius() {
     const { radius, haloExtraRadiusPercentage } = this.props;
     return radius + ((radius * haloExtraRadiusPercentage) / 100);
+  }
+
+  removeTexture() {
+    if (this.currentTexture) {
+      this.scene.remove(this.currentTexture);
+      this.currentTexture = null;
+      this.setState({ texture: null });
+    }
   }
 
   /**

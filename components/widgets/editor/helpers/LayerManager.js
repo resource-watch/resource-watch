@@ -2,7 +2,7 @@
 /* eslint import/extensions: 0 */
 /* eslint global-require: 0 */
 
-import 'whatwg-fetch';
+import 'isomorphic-fetch';
 
 let L;
 if (typeof window !== 'undefined') {
@@ -45,7 +45,9 @@ export default class LayerManager {
       esrimapservice: this.addEsriLayer,
       esritileservice: this.addEsriLayer,
       // geojson
-      geojson: this.addGeoJsonLayer
+      geojson: this.addGeoJsonLayer,
+      // GEE
+      gee: this.addGeeLayer
     }[layer.provider];
 
     if (method) method.call(this, layer, opts);
@@ -92,6 +94,12 @@ export default class LayerManager {
     });
   }
 
+  addGeeLayer(layer) {
+    const tileUrl = `${process.env.WRI_API_URL}/layer/${layer.id}/tile/gee/{z}/{x}/{y}`;
+    const tileLayer = L.tileLayer(tileUrl).addTo(this.map);
+    this.mapLayers[layer.id] = tileLayer;
+  }
+
   addGeoJsonLayer(layer) {
     const geojsonLayer = L.geoJSON(layer.layerConfig.data).addTo(this.map);
     this.mapLayers[layer.id] = geojsonLayer;
@@ -122,7 +130,7 @@ export default class LayerManager {
 
     switch (layerData.type) {
       case 'wms':
-        layer = new L.tileLayer.wms(layerData.url, layerData.body); // eslint-disable-line
+        layer = L.tileLayer.wms(layerData.url, layerData.body); // eslint-disable-line
         break;
       case 'tileLayer':
         if (layerData.body.style &&
@@ -130,7 +138,7 @@ export default class LayerManager {
             layerData.body.indexOf('style: "function') >= 0) {
           layerData.body.style = eval(`(${layerData.body.style})`); // eslint-disable-line
         }
-        layer = new L.tileLayer(layerData.url, layerData.body); // eslint-disable-line
+        layer = L.tileLayer(layerData.url, layerData.body); // eslint-disable-line
         break;
       default:
         delete this.layersLoading[layerData.id];
@@ -241,9 +249,13 @@ export default class LayerManager {
     const params = `?stat_tag=API&config=${encodeURIComponent(JSON.stringify(layerTpl))}`;
 
     fetch(`https://${layer.account}.carto.com/api/v1/map${params}`)
-      .then(response => (
-        response.json()
-      ))
+      .then((response) => {
+        if (response.status >= 400) {
+          this.rejectLayersLoading = true;
+          throw new Error(response.statusText);
+        }
+        return response.json();
+      })
       .then((data) => {
         // const tileUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
         const tileUrl = `${data.cdn_url.templates.https.url}/${layer.account}/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
@@ -258,9 +270,6 @@ export default class LayerManager {
         this.mapLayers[layer.id].on('tileerror', () => {
           this.rejectLayersLoading = true;
         });
-      })
-      .then(() => {
-        this.rejectLayersLoading = true;
       });
   }
 

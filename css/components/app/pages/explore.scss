@@ -5,6 +5,8 @@
   }
 
   .search-container {
+    display: flex;
+
     height: 45px;
     margin-bottom: 10px;
 
@@ -21,6 +23,15 @@
         }
       }
     }
+
+    .c-btn {
+      width: 125px;
+      margin-left: 10px;
+    }
+  }
+
+  .filters-sum-up {
+    color: $dark-pink;
   }
 
   .filters-container {
@@ -45,14 +56,6 @@
           z-index: 9999; // The Vega chart shows up on top otherwise
         }
       }
-    }
-  }
-
-  .buttons {
-    .filters-sum-up {
-      margin-left: 10px;
-      font-style: italic;
-      font-size: $font-size-small;
     }
   }
 

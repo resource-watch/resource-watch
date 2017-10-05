@@ -115,12 +115,12 @@ export function toggleActiveLayer(id, threedimensional, markerType) {
   };
 }
 
-export function getLayerPoints(datasetId, tableName) {
+export function getLayerPoints(queryUrl) {
   return (dispatch) => {
     // Waiting for fetch from server -> Dispatch loading
     // dispatch({ type: GET_LAYERS_LOADING });
     // TODO: remove the date now
-    fetch(new Request(`${process.env.WRI_API_URL}/query/${datasetId}?sql=SELECT *, st_y(the_geom) AS lat, st_x(the_geom) AS lon FROM ${tableName}`))
+    fetch(new Request(queryUrl))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);

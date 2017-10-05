@@ -18,6 +18,8 @@ import DatasetLayerChart from 'components/app/explore/DatasetLayerChart';
 import DatasetPlaceholderChart from 'components/app/explore/DatasetPlaceholderChart';
 import DatasetTagsTooltip from 'components/app/explore/DatasetTagsTooltip';
 
+// Utils
+import { findTagInSelectorTree } from 'utils/explore/TreeUtil';
 
 class DatasetWidget extends React.Component {
   /**
@@ -111,9 +113,11 @@ class DatasetWidget extends React.Component {
 
   @Autobind
   handleTagsClick(event) {
-    const { dataset } = this.props;
+    const { dataset, topicsTree } = this.props;
     const vocabulary = dataset.attributes.vocabulary && dataset.attributes.vocabulary[0];
     const tags = vocabulary.attributes.tags;
+    const filteredTags = tags.filter(tag => findTagInSelectorTree(topicsTree, tag));
+
     const position = DatasetWidget.getClickPosition(event);
     this.props.toggleTooltip(true, {
       follow: false,
@@ -122,7 +126,7 @@ class DatasetWidget extends React.Component {
       childrenProps: {
         toggleTooltip: this.props.toggleTooltip,
         onTagClick: this.handleTagClick,
-        tags
+        tags: filteredTags
       }
     });
   }
@@ -241,7 +245,8 @@ DatasetWidget.propTypes = {
   onTagSelected: PropTypes.func,
 
   // STORE
-
+  // Topics tree used in the Explore selector
+  topicsTree: PropTypes.array.isRequired,
   // Return whether a layer group is already added to the map
   isLayerGroupAdded: PropTypes.func.isRequired,
   // Add or remove a layer group from the map
@@ -250,7 +255,8 @@ DatasetWidget.propTypes = {
 };
 
 const mapStateToProps = ({ explore }) => ({
-  isLayerGroupAdded: dataset => !!explore.layers.find(l => l.dataset === dataset)
+  isLayerGroupAdded: dataset => !!explore.layers.find(l => l.dataset === dataset),
+  topicsTree: explore.topicsTree
 });
 
 const mapDispatchToProps = dispatch => ({

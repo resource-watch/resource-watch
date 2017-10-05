@@ -84,7 +84,10 @@ export default class DatasetService {
    */
   fetchFilteredData(query) {
     return fetch(`${this.opts.apiURL}/query/${this.datasetId}?sql=${query}`)
-      .then(response => response.json())
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
+      })
       .then(jsonData => jsonData.data);
   }
 
@@ -93,27 +96,21 @@ export default class DatasetService {
    * NOTE: the API might be really slow to give a result (or even fail
    * to do so) so a timeout is necessary
    * @param {string} query - SQL query to pass to Jiminy
-   * @param {number} [timeout=10000] Timeout before rejecting the provise
    * @returns {Promise<any>}
    */
-  fetchJiminy(query, timeout = 10000) {
-    return new Promise((resolve, reject) => {
-      // If the timeout time has elapsed, we reject
-      // the promise
-      setTimeout(reject, timeout);
-
-      fetch(`${this.opts.apiURL}/jiminy`, {
-        method: 'POST',
-        body: JSON.stringify({ sql: query }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+  fetchJiminy(query) {
+    fetch(`${this.opts.apiURL}/jiminy`, {
+      method: 'POST',
+      body: JSON.stringify({ sql: query }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
       })
-        .then(response => response.json())
-        .then(jsonData => jsonData.data)
-        .then(resolve)
-        .catch(reject);
-    });
+      .then(jsonData => jsonData.data)
   }
 
 
@@ -194,7 +191,10 @@ export default class DatasetService {
     return new Promise((resolve) => {
       // TODO: remove cache param
       fetch(`https://api.resourcewatch.org/v1/query/${this.datasetId}?sql=${query}`)
-        .then(response => response.json())
+        .then((response) => {
+          if (response.status >= 400) throw new Error(response.statusText);
+          return response.json();
+        })
         .then((jsonData) => {
           if (jsonData.data) {
             resolve(jsonData.data[0]);
@@ -215,7 +215,10 @@ export default class DatasetService {
     return new Promise((resolve) => {
       // TODO: remove cache param
       fetch(`https://api.resourcewatch.org/v1/query/${this.datasetId}?sql=${query}`)
-        .then(response => response.json())
+        .then((response) => {
+          if (response.status >= 400) throw new Error(response.statusText);
+          return response.json();
+        })
         .then((jsonData) => {
           const parsedData = (jsonData.data || []).map(data => data[columnName]);
           resolve(parsedData);
@@ -225,7 +228,10 @@ export default class DatasetService {
 
   getLayers() {
     return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}/layer?app=rw`)
-      .then(response => response.json())
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
+      })
       .then(jsonData => jsonData.data);
   }
 
@@ -241,8 +247,11 @@ export default class DatasetService {
   }
 
   getSimilarDatasets() {
-    return fetch(`${this.opts.apiURL}/graph/query/similar-dataset/${this.datasetId}?published=true&env=production,preproduction`)
-      .then(response => response.json())
+    return fetch(`${this.opts.apiURL}/graph/query/similar-dataset/${this.datasetId}?published=true&env=production,preproduction&app=rw`)
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
+      })
       .then(jsonData => jsonData.data);
   }
 
@@ -289,8 +298,11 @@ export default class DatasetService {
     }
 
 
-    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}&published=true&env=production,preproduction`)
-      .then(response => response.json())
+    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}&published=true&env=production,preproduction&app=rw&page[size]=999999`)
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
+      })
       .then(jsonData => jsonData.data);
   }
 }

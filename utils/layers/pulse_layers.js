@@ -4,12 +4,12 @@ export const LAYERS_PLANET_PULSE = [
     layers: [
       {
         label: 'VIIRS Active Fires',
-        id: '22c9c1bc-fc40-4c85-ae70-a7c837c126f2',
+        id: '5ca12eec-f8fe-49eb-b353-67c9eeb5bc6a',
         '3d': false,
         markerType: 'default'
       },
       {
-        label: 'Deforestation Alert System, SAD alerts (Imazon)',
+        label: 'Brazilian Amazon Deforestation Alerts',
         id: '17b9bf19-e116-4a22-b71a-fe67ce7fd552',
         '3d': false,
         markerType: 'default'
@@ -21,21 +21,21 @@ export const LAYERS_PLANET_PULSE = [
     layers: [
       {
         label: 'Global Flood Detection System (JRC, Dartmouth Flood Observatory)',
-        id: 'd936031f-51fa-45d8-b945-b52175106fc3',
+        id: 'd0e35d92-3669-4bc2-b5d6-58b456fbf847',
         '3d': true,
         markerType: 'bar'
       },
       {
-        label: 'SPI',
+        label: 'Drought Monitor - SPEI',
         id: '6f1f8b5d-a6ba-436f-a7bf-b6812d0f3a20',
         '3d': false,
         markerType: 'default'
       },
       {
-        label: 'Landslide Risk Locations (NASA)',
-        id: '64f78c2e-2692-4842-b904-bf6aeb3d9c68',
-        '3d': true,
-        markerType: 'bar'
+        label: 'Potential Landslide Areas.',
+        id: '50ef9f99-ddca-46b9-bb69-690f0b2ced88',
+        '3d': false,
+        markerType: 'hemisphere'
       }
     ]
   },
@@ -54,13 +54,13 @@ export const LAYERS_PLANET_PULSE = [
     label: 'Disasters',
     layers: [
       {
-        label: 'Earthquakes Over the Past 30 days (USGS)',
+        label: 'Earthquakes Over the Past 30 days',
         id: '5939b34f-42bb-4861-bd4a-308a0ae7a1d6',
         '3d': true,
         markerType: 'bar'
       },
       {
-        label: 'Weekly Volcano Report (Smithsonian)',
+        label: 'Volcanoes over the Past 7 days',
         id: '667ae321-649e-4caa-b761-35e370c776b0',
         '3d': true,
         markerType: 'volcano'
@@ -71,14 +71,14 @@ export const LAYERS_PLANET_PULSE = [
     label: 'Society',
     layers: [
       {
-        label: 'Conflict and Protest Data (ACLED)',
-        id: 'a180e159-ece6-4a23-9a14-eafcaf19a35e',
-        '3d': true,
-        markerType: 'bar'
+        label: 'Conflict and Protest Events in African States',
+        id: 'b508a5f8-28f2-41c6-b0f7-eac918083062',
+        '3d': false,
+        markerType: 'default'
       },
       {
-        label: 'Tone and Events Database (GDELT)',
-        id: '0e3457f2-b9b0-4902-bfc9-014e12d8c21a',
+        label: 'News Sources',
+        id: '2b7d5bca-bdcc-4d75-9901-155eebf9bb8c',
         '3d': true,
         markerType: 'hemisphere'
       }

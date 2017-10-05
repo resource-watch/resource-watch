@@ -15,6 +15,18 @@ export default class Head extends React.Component {
     return <style dangerouslySetInnerHTML={{ __html: require('css/index.scss') }} />;
   }
 
+  static getTransifex() {
+    if (process.env.NODE_ENV === 'production') {
+      return (
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{ __html: `window.liveSettings = { api_key: '${process.env.TRANSIFEX_LIVE_API}' }` }}
+        />
+      );
+    }
+    return null;
+  }
+
   render() {
     const { title, description } = this.props;
 
@@ -27,6 +39,8 @@ export default class Head extends React.Component {
         <link rel="icon" href="/static/favicon.ico" />
         <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700" />
         {Head.getStyles()}
+        {Head.getTransifex()}
+        { process.env.NODE_ENV === 'production' && <script type="text/javascript" src="//cdn.transifex.com/live.js" /> }
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
       </HeadNext>
     );
