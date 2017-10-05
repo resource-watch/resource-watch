@@ -159,7 +159,12 @@ class Step1 extends React.Component {
 
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.type = c; }}
-            onChange={value => this.props.onChange({ type: value })}
+            onChange={(value) => {
+              this.props.onChange({
+                type: value,
+                ...(value === 'raster') && { geoInfo: true }
+              });
+            }}
             className="-fluid"
             validations={['required']}
             options={DATASET_TYPES}
@@ -176,21 +181,23 @@ class Step1 extends React.Component {
             {Select}
           </Field>
 
-          {this.state.form.type === 'tabular' &&
-            <Field
-              ref={(c) => { if (c) FORM_ELEMENTS.elements.geoInfo = c; }}
-              onChange={value => this.props.onChange({ geoInfo: value.checked })}
-              validations={['required']}
-              properties={{
-                name: 'geoInfo',
-                label: 'Does this dataset contain geographical features such as points, polygons or lines?',
-                value: 'geoInfo',
-                defaultChecked: this.props.form.geoInfo
-              }}
-            >
-              {Checkbox}
-            </Field>
-          }
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.geoInfo = c; }}
+            onChange={value => this.props.onChange({ geoInfo: value.checked })}
+            validations={['required']}
+            properties={{
+              name: 'geoInfo',
+              label: 'Does this dataset contain geographical features such as points, polygons or lines?',
+              value: 'geoInfo',
+              title: 'Yes',
+              disabled: (this.state.form.type === 'raster'),
+              defaultChecked: this.props.form.geoInfo,
+              checked: this.props.form.geoInfo
+            }}
+          >
+            {Checkbox}
+          </Field>
+
 
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.provider = c; }}
