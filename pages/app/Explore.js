@@ -616,7 +616,7 @@ class Explore extends Page {
 
                 <MapControls>
                   <ShareControl
-                    rawLayerGroups={this.props.rawLayerGroups}
+                    layerGroups={this.props.rawLayerGroups}
                   />
                   <BasemapControl />
                 </MapControls>

@@ -11,21 +11,17 @@ import Icon from 'components/widgets/editor/ui/Icon';
 
 class ShareControl extends React.Component {
   static propTypes = {
-    // CUSTOM
-    rawLayerGroups: PropTypes.array,
-
     // ACTIONS
     toggleModal: PropTypes.func,
     setModalOptions: PropTypes.func
   };
 
   handleShareModal = () => {
-    console.log(this.props.rawLayerGroups);
     const options = {
       children: ShareModalExplore,
       childrenProps: {
+        ...this.props,
         url: window.location.href,
-        layerGroups: this.props.rawLayerGroups,
         toggleModal: this.props.toggleModal
       }
     };
