@@ -167,9 +167,9 @@ class Legend extends React.PureComponent {
    * @param {Value} value
    * @param {LayerGroup} layerGroup
    */
-  // onChangeOpacity(value, layerGroup) {
-  //   this.props.setLayerGroupOpacity(layerGroup.dataset, value);
-  // }
+  onChangeOpacity(value, layerGroup) {
+    this.props.setLayerGroupOpacity(layerGroup.dataset, value);
+  }
 
   /**
    * Event handler executed when the user clicks the button
