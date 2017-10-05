@@ -960,6 +960,7 @@ class WidgetEditor extends React.Component {
                         tableName={tableName}
                         provider={datasetProvider}
                         mode={chartEditorMode}
+                        hasGeoInfo={hasGeoInfo}
                         showSaveButton={showSaveButton}
                         onUpdateWidget={this.handleUpdateWidget}
                         title={title}
