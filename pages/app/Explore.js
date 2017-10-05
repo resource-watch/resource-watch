@@ -456,8 +456,13 @@ class Explore extends Page {
     const { geographiesTree, topicsTree, dataTypeTree } = explore;
     const { showFilters } = this.state;
     const { topics, geographies, dataType } = this.filters;
+    const topicsLabels = topics.map(topic => findTagInSelectorTree(topicsTree, topic).label);
+    const geographiesLabels = geographies.map(geography =>
+      findTagInSelectorTree(geographiesTree, geography).label);
+    const dataTypeLabels = dataType.map(dType => findTagInSelectorTree(dataTypeTree, dType).label);
 
-    const allTagsSt = [].concat(topics).concat(geographies).concat(dataType).join();
+    const allTagsSt = [].concat(topicsLabels).concat(geographiesLabels)
+      .concat(dataTypeLabels).join(', ');
     const filtersSumUp = !showFilters && allTagsSt.length > 0 ? `Filtering by ${allTagsSt}` : '';
 
     const buttonFilterContent = showFilters ? 'Hide filters' : 'Show filters';

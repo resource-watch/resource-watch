@@ -9,10 +9,11 @@
 
   .tags-button {
     position: absolute;
-    right: 5px;
+    left: 5px;
     top: 5px;
     z-index: 4;
     cursor: pointer;
+    fill: $charcoal-grey;
   }
 
   .info {
