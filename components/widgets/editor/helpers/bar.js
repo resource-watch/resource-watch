@@ -6,7 +6,6 @@ import { getTimeFormat } from 'components/widgets/editor/helpers/WidgetHelper';
 /* eslint-disable */
 const defaultChart = {
   width: 1,
-  height: 1,
   data: [
     {
       name: 'table'
@@ -23,8 +22,7 @@ const defaultChart = {
           "type": "formula",
           "field": "width",
           "expr": "(datum[\"distinct_x\"] + 1) * 25"
-        },
-        {"type": "formula","field": "height","expr": "300"}
+        }
       ]
     },
     {
@@ -38,9 +36,9 @@ const defaultChart = {
       ]
     }
   ],
-  // This scale is not the one used by the marks
-  // but is necessary for the tooltip to show
   scales: [
+    // This scale is not used by the chart but is needed
+    // for the following x axis
     {
       name: 'x',
       type: 'ordinal',
@@ -48,17 +46,16 @@ const defaultChart = {
       domain: { data: 'table', field: 'x' },
       real: false
     },
+    // This scale is used by the chart
     {
       name: 'y',
       type: 'linear',
-      "rangeMin": 300,
-      "rangeMax": 0,
-      domain: { data: 'table', field: 'y' },
-      real: false
+      "range": "height",
+      domain: { data: 'table', field: 'y' }
     }
   ],
-  // This axis is not used by the marks
-  // but is necessary for the tooltip to show
+  // These two following axes are not used by the marks
+  // but are necessary for the tooltip to show
   axes: [
     {
       "type": "x",
@@ -73,16 +70,10 @@ const defaultChart = {
     },
     {
       "type": "y",
-      // We don't care about any value below but
-      // Vega requires a scale to be defined
       "scale": "y",
-      "ticks": 0,
-      "tickSize": 0,
-      "properties": {
-        "labels": {
-          "text": {"template": ""},
-        }
-      }
+      "tickSizeEnd": 0,
+      "offset": 5,
+      "properties": {"axis": {"strokeWidth": {"value": 0}}}
     }
   ],
   marks: [
@@ -91,8 +82,7 @@ const defaultChart = {
       "from": {"data": "layout"},
       "properties": {
         "update": {
-          "width": {"field": "width"},
-          "height": {"field": "height"}
+          "width": {"field": "width"}
         }
       },
       "marks": [
@@ -131,57 +121,58 @@ const defaultChart = {
               ]
             }
           }
+        },
+        {
+          "type": "group",
+          "properties": {
+            "update": {
+              "y": {"signal": "height", "offset": 5}
+            }
+          },
+          "axes": [
+            {
+              "type": "x",
+              "scale": "x",
+              "tickSizeEnd": 0,
+              "properties": {
+                "axis": {"strokeWidth": {"value": 0}},
+                "labels": {
+                  "text": {
+                    "template": "{{ datum[\"data\"] | truncate:25 }}"
+                  },
+                  "angle": {"value": 270},
+                  "align": {"value": "right"},
+                  "baseline": {"value": "middle"}
+                }
+              }
+            }
+          ]
         }
       ],
-       scales: [
+      // This scale is real and is based on the computed width
+      "scales": [
         {
-          name: 'x',
-          type: 'ordinal',
-          range: 'width',
-          domain: { data: 'table', field: 'x' },
+          "name": "x",
+          "type": "ordinal",
+          "range": "width",
+          "domain": {"data": "table","field": "x"},
           "bandSize": 25,
           "round": true,
           "points": true,
           "padding": 1
-        },
-        {
-          name: 'y',
-          type: 'linear',
-          "rangeMin": 300,
-          "rangeMax": 0,
-          domain: { data: 'table', field: 'y' },
-          nice: true,
-          zero: true
         }
       ],
-      axes: [
-        {
-          "type": "x",
-          "scale": "x",
-          "tickSizeEnd": 0,
-          "offset": 5,
-          "properties": {
-            "axis": {
-              "strokeWidth": { "value": 0 }
-            },
-            "labels": {
-              "text": {"template": "{{ datum[\"data\"] | truncate:25 }}"},
-              "angle": {"value": 270},
-              "align": {"value": "right"},
-              "baseline": {"value": "middle"}
-            }
-          }
-        },
+      // This axis is necessary here because the top level one
+      // doesn't have any width so the horizontal grid doesn't show
+      "axes": [
         {
           "type": "y",
           "scale": "y",
           "tickSizeEnd": 0,
           "offset": 5,
-          "properties": {
-            "axis": {
-              "strokeWidth": { "value": 0 }
-            }
-          }
+          "properties": {"axis": {"strokeWidth": {"value": 0}}},
+          "name": "Total co2 emmissions",
+          "grid": "true"
         }
       ]
     }
