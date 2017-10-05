@@ -122,8 +122,8 @@ app.prepare()
 
     // Authentication
     server.get('/auth', auth.authenticate({ failureRedirect: '/login' }), (req, res) => {
-      if (req.user.role === 'ADMIN' && /admin/.test(req.session.referrer)) res.redirect('/admin');
-      res.redirect('/myrw');
+      if (req.user.role === 'ADMIN' && /admin/.test(req.session.referrer)) return res.redirect('/admin');
+      return res.redirect('/myrw');
     });
     server.get('/login', auth.login);
     server.get('/logout', (req, res) => {
