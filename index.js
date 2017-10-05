@@ -21,15 +21,23 @@ const prod = process.env.NODE_ENV === 'production';
 
 // Next app creation
 const app = next({ dev: !prod });
-const handle = routes.getRequestHandler(app);
+const handle = routes.getRequestHandler(app, ({ req, res, route, query }) => {
+  // Server rendering for AddSearch and Explore detail page
+  const newRoute = Object.assign({}, route);
+  if (route.name === 'explore_detail' && /AddSearchBot/.test(req.headers['user-agent'])) {
+    newRoute.pattern = `${route.pattern}/beta`;
+    newRoute.name = 'explore_detail_beta';
+    newRoute.page = '/app/ExploreDetailBeta';
+  }
+  app.render(req, res, newRoute.page, query);
+});
 
 // Express app creation
 const server = express();
 
 function checkBasicAuth(username, password) {
   return function authMiddleware(req, res, nextAction) {
-
-    if (!req.headers['user-agent'] || req.headers['user-agent'].toLowerCase().indexOf('addsearch') === -1 ) {
+    if (!req.headers['user-agent'] || /AddSearchBot/.test(req.headers['user-agent'])) {
       const user = basicAuth(req);
       if (!user || user.name !== username || user.pass !== password) {
         res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
