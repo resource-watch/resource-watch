@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Datasets always show geoInfo value, even if they are rasters (it will be always true)
 - Widget map creation
 - Better validations for widgetEditor
+- MapControls component added
+- BasemapControl component added
+- ShareControl component added
 
 ### Added
 - Planet pulse globe tooltips have hyperlinks for url values
