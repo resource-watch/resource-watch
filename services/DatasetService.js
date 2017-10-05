@@ -266,7 +266,7 @@ export default class DatasetService {
     }
 
 
-    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}&published=true&env=production,preproduction&app=rw`)
+    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}&published=true&env=production,preproduction&app=rw&page[size]=999999`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();

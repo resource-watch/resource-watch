@@ -390,8 +390,13 @@ class Explore extends Page {
 
   @Autobind
   handleTagSelected(tag) {
-    const { geographies, dataType } = this.filters;
+    const { geographies, dataType, topics } = this.filters;
     const { topicsTree } = this.props.explore;
+
+    // clear previous selection
+    if (topics.length && topics.length > 0) {
+      this.topicsTree.forEach(child => this.selectElementsFromTree(child, topics, true));
+    }
 
     if (findTagInSelectorTree(topicsTree, tag)) {
       this.topicsTree.forEach(child => this.selectElementsFromTree(child, [tag]));
@@ -422,7 +427,7 @@ class Explore extends Page {
       topics, geographies, dataType)
       .then((datasetList) => {
         this.props.setFiltersLoading(false);
-        this.props.setDatasetsFilteredByConcepts(datasetList[0] || []);
+        this.props.setDatasetsFilteredByConcepts(datasetList || []);
       });
   }
 
