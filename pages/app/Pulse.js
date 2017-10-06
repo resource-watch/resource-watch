@@ -46,7 +46,7 @@ class Pulse extends Page {
     };
     this.layerGlobeManager = new LayerGlobeManager();
 
-    this.handleMouseHoldOverGlobe = debounce(this.handleMouseHoldOverGlobe.bind(this), 40);
+    this.handleMouseHoldOverGlobe = debounce(this.handleMouseHoldOverGlobe.bind(this), 10);
   }
 
   /**
