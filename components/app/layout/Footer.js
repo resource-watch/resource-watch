@@ -92,10 +92,6 @@ class Footer extends React.Component {
           </div>
         </div>
 
-        <div className="footer-main">
-          <CompoundMenu items={menuData} />
-        </div>
-
         <div className="footer-lower">
           <div className="l-container">
             <div className="row">
