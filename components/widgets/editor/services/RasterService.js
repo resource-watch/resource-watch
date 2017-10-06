@@ -89,15 +89,18 @@ export default class RasterService {
   /**
    * Return the ChartInfo object for a raster chart
    * @static
+   * @param {object} widgetEditor - Store object
    * @returns {ChartInfo}
    */
-  static getChartInfo() {
+  static getChartInfo(widgetEditor) {
+    const { areaIntersection } = widgetEditor;
+
     return {
       chartType: 'bar',
       limit: 500,
       order: null,
       filters: [],
-      areaIntersection: null,
+      areaIntersection,
       x: {
         type: null,
         name: 'x',

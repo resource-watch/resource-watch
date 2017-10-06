@@ -60,17 +60,19 @@ class Tooltip extends React.Component {
   }
 
   render() {
+    const direction = this.props.tooltip.direction;
+
     const tooltipClasses = classnames({
       'c-tooltip': true,
       '-hidden': !this.props.tooltip.opened,
-      '-arrow-top': this.props.tooltip.direction === 'top',
-      '-arrow-bottom': this.props.tooltip.direction === 'bottom'
+      '-arrow-top': direction === 'top',
+      '-arrow-bottom': direction === 'bottom'
     });
 
     return (
       <TetherComponent
         ref={(node) => { this.tether = node; }}
-        attachment="bottom center"
+        attachment={`${direction} center`}
         targetAttachment="top center"
         constraints={[{
           // Don't use the "together attachement" without making sure
@@ -81,7 +83,7 @@ class Tooltip extends React.Component {
         classes={{
           element: tooltipClasses
         }}
-        offset="20px 0" // The offset is needed for the follow option
+        offset={`${(direction === 'bottom' ? 1 : -1) * 20}px 0`} // The offset is needed for the follow option
       >
         <div
           style={this.getStyles()}
