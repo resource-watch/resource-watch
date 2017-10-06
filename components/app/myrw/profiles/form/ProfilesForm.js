@@ -69,8 +69,7 @@ class MyRWEditProfile extends React.Component {
     this.setState({ loading: true });
 
     this.userService.updateUser(userObj, user.token)
-      .then((response) => {
-        console.log('response', response);
+      .then(() => {
         this.setState({
           loading: false
         });
