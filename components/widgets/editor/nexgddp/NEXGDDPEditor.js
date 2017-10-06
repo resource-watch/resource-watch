@@ -21,6 +21,8 @@ import SaveWidgetModal from 'components/widgets/editor/modal/SaveWidgetModal';
 import HowToWidgetEditorModal from 'components/widgets/editor/modal/HowToWidgetEditorModal';
 import AreaIntersectionFilter from 'components/widgets/editor/ui/AreaIntersectionFilter';
 
+// NOTE: if you change this array, also update
+// the condition of the variable showRequiredTooltip
 const CHARTS = ['line', 'bar'];
 
 @DragDropContext(HTML5Backend)
@@ -82,7 +84,13 @@ class NEXGDDPEditor extends React.Component {
       showLimitContainer,
       showOrderByContainer
     } = this.props;
-    const { chartType, fields, category, value } = widgetEditor;
+    const {
+      chartType,
+      fields,
+      category,
+      value,
+      areaIntersection
+    } = widgetEditor;
     const showSaveButtonFlag =
       chartType && category && value && user && user.token && showSaveButton;
     const showUpdateButton = showSaveButtonFlag;
@@ -118,31 +126,36 @@ class NEXGDDPEditor extends React.Component {
               </div>
             </div>
           }
-          { hasGeoInfo && <AreaIntersectionFilter /> }
+          { hasGeoInfo
+              && <AreaIntersectionFilter required /> }
         </div>
-        <p>Drag and drop elements from the list to the boxes:</p>
-        <div className="actions-div">
-          {fields &&
-            <FieldsContainer
-              dataset={dataset}
-              tableName={tableName}
-              fields={fields}
-            />
-          }
-          <div className="arrow-container">
-            <img alt="" src="/static/images/components/widgets/Arrow.svg" />
-          </div>
-          <div className="customization-container">
-            <DimensionsContainer />
-            <FilterContainer />
-            {showOrderByContainer &&
-              <SortContainer />
+        { !areaIntersection
+            && <p>Please select both a chart style and an area intersection to proceed.</p> }
+        { areaIntersection && <p>Drag and drop elements from the list to the boxes:</p> }
+        { areaIntersection && (
+          <div className="actions-div">
+            {fields &&
+              <FieldsContainer
+                dataset={dataset}
+                tableName={tableName}
+                fields={fields}
+              />
             }
-            {showLimitContainer &&
-              <LimitContainer />
-            }
+            <div className="arrow-container">
+              <img alt="" src="/static/images/components/widgets/Arrow.svg" />
+            </div>
+            <div className="customization-container">
+              <DimensionsContainer />
+              <FilterContainer />
+              {showOrderByContainer &&
+                <SortContainer />
+              }
+              {showLimitContainer &&
+                <LimitContainer />
+              }
+            </div>
           </div>
-        </div>
+        ) }
         <div className="save-widget-container">
           <button
             type="button"
@@ -171,7 +184,7 @@ class NEXGDDPEditor extends React.Component {
             Save widget
           </a>
           }
-          {tableViewMode && showEmbedTable &&
+          {tableViewMode && showEmbedTable && areaIntersection &&
             <a
               role="button"
               className="c-button -primary"

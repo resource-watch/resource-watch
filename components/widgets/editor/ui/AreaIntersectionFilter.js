@@ -133,7 +133,7 @@ class AreaIntersectionFilter extends React.Component {
   }
 
   render() {
-    const { widgetEditor } = this.props;
+    const { widgetEditor, required } = this.props;
     const { loading, areaOptions } = this.state;
     const { areaIntersection } = widgetEditor;
 
@@ -144,9 +144,9 @@ class AreaIntersectionFilter extends React.Component {
 
     return (
       <div className="area-intersection">
-        <div className="c-field">
+        <div className="c-field" ref={(node) => { this.el = node; }}>
           <label htmlFor="area-intersection-select">
-            Area intersection { loading && <Spinner isLoading className="-light -small -inline" /> }
+            Area intersection { required ? '*' : '' } { loading && <Spinner isLoading className="-light -small -inline" /> }
           </label>
           <CustomSelect
             id="area-intersection-select"
@@ -163,7 +163,14 @@ class AreaIntersectionFilter extends React.Component {
   }
 }
 
+AreaIntersectionFilter.defaultProps = {
+  required: false,
+  showRequiredTooltip: false
+};
+
 AreaIntersectionFilter.propTypes = {
+  // Add a visual clue the field is mandatory
+  required: PropTypes.bool,
   // Store
   widgetEditor: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
