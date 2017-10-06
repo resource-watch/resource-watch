@@ -46,7 +46,7 @@ class Pulse extends Page {
     };
     this.layerGlobeManager = new LayerGlobeManager();
 
-    this.handleMouseHoldOverGlobe = debounce(this.handleMouseHoldOverGlobe.bind(this), 10);
+    this.handleMouseHoldOverGlobe = debounce(this.handleMouseHoldOverGlobe.bind(this), 40);
   }
 
   /**
@@ -145,20 +145,15 @@ class Pulse extends Page {
     this.globe.camera.translateZ(5);
   }
   @Autobind
-  triggerMouseDown() {
-    this.props.toggleTooltip(false);
+  triggerMouseDown(event) {
+    if (event.target.tagName !== 'CANVAS') {
+      this.props.toggleTooltip(false);
+    }
   }
   @Autobind
   handleMarkerSelected(marker, event) {
-    const obj = {};
-    Object.keys(marker).forEach((key) => {
-      if (key !== 'cartodb_id' && key !== 'the_geom' && key !== 'the_geom_webmercator') {
-        obj[key] = marker[key];
-      }
-    });
-
     const tooltipContentObj = this.state.interactionConfig.output.map(elem =>
-      ({ key: elem.property, value: obj[elem.column], type: elem.type }));
+      ({ key: elem.property, value: marker[elem.column], type: elem.type }));
 
     if (this.mounted) {
       this.props.toggleTooltip(true, {
