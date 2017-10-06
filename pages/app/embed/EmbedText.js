@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
-import d3 from 'd3';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -17,7 +15,7 @@ import EmbedLayout from 'components/app/layout/EmbedLayout';
 import TextChart from 'components/widgets/charts/TextChart';
 import Spinner from 'components/ui/Spinner';
 
-class EmbedWidget extends Page {
+class EmbedText extends Page {
   static getInitialProps({ asPath, pathname, query, req, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
@@ -92,7 +90,7 @@ class EmbedWidget extends Page {
   }
 }
 
-EmbedWidget.propTypes = {
+EmbedText.propTypes = {
   widget: PropTypes.object,
   getWidget: PropTypes.func,
   bandDescription: PropTypes.string,
@@ -100,7 +98,7 @@ EmbedWidget.propTypes = {
   loading: PropTypes.bool
 };
 
-EmbedWidget.defaultProps = {
+EmbedText.defaultProps = {
   widget: {}
 };
 
@@ -115,4 +113,4 @@ const mapDispatchToProps = dispatch => ({
   getWidget: bindActionCreators(getWidget, dispatch)
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(EmbedWidget);
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(EmbedText);
