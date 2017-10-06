@@ -38,6 +38,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added support for server rendering in Explore page (for search crawler)
 - Added support for GEE layers in Map
 - Pie charts display an "others" category to avoid duplicate colors
+- Transifex
+- Transifex blacklist
 
 ### Changed
 
