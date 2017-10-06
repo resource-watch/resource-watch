@@ -31,8 +31,7 @@ export default class UserService {
   * Updates the user that is currently logged in
   */
   updateUser(user, token) {
-    console.log('user', user);
-    return fetch(`${this.opts.apiURL}/user/me`, {
+    return fetch(`${this.opts.apiURL}/auth/user/me`, {
       method: 'PATCH',
       body: JSON.stringify(user),
       headers: {

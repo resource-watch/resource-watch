@@ -40,7 +40,6 @@ export const FORM_ELEMENTS = {
 class MyRWEditProfile extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props.user);
 
     this.state = {
       user: props.user,
