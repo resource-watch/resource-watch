@@ -22,10 +22,15 @@ const severityMediumColor = 0x7FCDBB;
 const severityHighColor = 0xEDF8B1;
 /* Magnitude colors */
 const magnitudeLessThan5Color = 0xfeebe2;
-const magnitude5_5_5Color = 0xfbb4b9;
-const magnitude5_5_6Color = 0xf768a1;
-const magnitude6_7Color = 0xc51b8a;
+const magnitude5_5_5Color = 0xfbb4b9; // eslint-disable-line camelcase
+const magnitude5_5_6Color = 0xf768a1; // eslint-disable-line camelcase
+const magnitude6_7Color = 0xc51b8a; // eslint-disable-line camelcase
 const magnitude7orMore = 0x7a0177;
+/* Url tone colors */
+const tone_10_7Color = 0xd7301f; // eslint-disable-line camelcase
+const tone_7_5Color = 0xfc8d59; // eslint-disable-line camelcase
+const tone_5_2Color = 0xfdcc8a; // eslint-disable-line camelcase
+const tone_2orMoreColor = 0xfef0d9; // eslint-disable-line camelcase
 //----------------------------------------------------------
 
 
@@ -295,7 +300,7 @@ class Globe extends React.Component {
     if (value.object) {
       data = value.object.name;
     }
-    const { severity, mag, urlTone } = data;
+    const { severity, mag, urltone } = data;
     let color = this.props.markerDefaultColor;
 
     if (severity) {
@@ -308,8 +313,16 @@ class Globe extends React.Component {
       }
     }
 
-    if (urlTone) {
-      color = this.redGreenScale(urlTone).hex();
+    if (urltone) {
+      if (urltone < -7) {
+        color = tone_10_7Color; // eslint-disable-line camelcase
+      } else if (urltone >= -7 && urltone < -5) {
+        color = tone_7_5Color; // eslint-disable-line camelcase
+      } else if (urltone >= -5 && urltone < -2) {
+        color = tone_5_2Color; // eslint-disable-line camelcase
+      } else if (urltone >= -2) {
+        color = tone_2orMoreColor; // eslint-disable-line camelcase
+      }
     }
 
     if (mag) {
