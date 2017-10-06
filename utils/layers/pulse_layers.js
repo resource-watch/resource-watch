@@ -6,7 +6,8 @@ export const LAYERS_PLANET_PULSE = [
         label: 'VIIRS Active Fires',
         id: '5ca12eec-f8fe-49eb-b353-67c9eeb5bc6a',
         '3d': false,
-        markerType: 'default'
+        markerType: 'default',
+        widgets: ['d409858d-9beb-4df5-ae48-bc0d6e9cda25']
       },
       {
         label: 'Brazilian Amazon Deforestation Alerts',
@@ -36,6 +37,13 @@ export const LAYERS_PLANET_PULSE = [
         id: '50ef9f99-ddca-46b9-bb69-690f0b2ced88',
         '3d': false,
         markerType: 'hemisphere'
+      },
+      {
+        label: 'Current floods.',
+        id: '855a05d1-4af2-4f74-8982-6b74153bc327',
+        '3d': false,
+        markerType: 'default',
+        widgets: ['2b317fa3-8716-4923-9f52-94943c2bced9']
       }
     ]
   },
@@ -57,7 +65,8 @@ export const LAYERS_PLANET_PULSE = [
         label: 'Earthquakes Over the Past 30 days',
         id: '5939b34f-42bb-4861-bd4a-308a0ae7a1d6',
         '3d': true,
-        markerType: 'bar'
+        markerType: 'bar',
+        widgets: ['b3065d7e-b63b-40e2-9dd1-b95ad8e5aee1']
       },
       {
         label: 'Volcanoes over the Past 7 days',
@@ -81,6 +90,18 @@ export const LAYERS_PLANET_PULSE = [
         id: '2b7d5bca-bdcc-4d75-9901-155eebf9bb8c',
         '3d': true,
         markerType: 'hemisphere'
+      }
+    ]
+  },
+  {
+    label: 'Climate',
+    layers: [
+      {
+        label: 'Air Quality (Open AQ and NASA)',
+        id: '1002c7f6-78f7-4fde-a8c3-ba8f8abf2b7f',
+        '3d': false,
+        markerType: 'default',
+        widgets: ['349aae2c-d39f-4a9f-8a90-3fe7f73a25ce']
       }
     ]
   }
