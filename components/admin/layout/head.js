@@ -14,7 +14,6 @@ export default class Head extends React.Component {
 
   render() {
     const { title, description } = this.props;
-    const TRANSIFEX_LIVE_API = process.env.TRANSIFEX_LIVE_API;
 
     return (
       <HeadNext>
@@ -25,13 +24,6 @@ export default class Head extends React.Component {
         <link rel="icon" href="/static/favicon.ico" />
         <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700" />
         {Head.getStyles()}
-        <script
-          type="text/javascript"
-          dangerouslySetInnerHTML={{ __html: `
-            window.liveSettings = { api_key: '${TRANSIFEX_LIVE_API}' }
-          ` }}
-        />
-        <script type="text/javascript" src="//cdn.transifex.com/live.js" />
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
       </HeadNext>
     );
