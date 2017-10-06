@@ -110,10 +110,19 @@ export function getChartType(type) {
  * state of the WidgetEditor in the store
  * @export
  * @param {object} widgetEditor - Store's state of the WidgetEditor
+ * @param {string} datasetProvider - Provider of the dataset
  * @returns {boolean}
  */
-export function canRenderChart(widgetEditor) {
-  const { visualizationType, category, value, chartType, band, layer } = widgetEditor;
+export function canRenderChart(widgetEditor, datasetProvider) {
+  const {
+    visualizationType,
+    category,
+    value,
+    chartType,
+    band,
+    layer,
+    areaIntersection
+  } = widgetEditor;
 
   const chart = visualizationType === 'chart'
     && !!(chartType
@@ -126,14 +135,17 @@ export function canRenderChart(widgetEditor) {
         )
         || !isBidimensionalChart(widgetEditor.chartType)
       )
+      && (datasetProvider !== 'nexgddp' || areaIntersection)
     );
 
   const rasterChart = visualizationType === 'raster_chart' && !!band;
 
   const map = visualizationType === 'map' && !!layer;
 
+  const table = visualizationType === 'table' && (datasetProvider !== 'nexgddp' || areaIntersection);
+
   // Standard chart
-  return chart || rasterChart || map;
+  return chart || rasterChart || map || table;
 }
 
 /**
@@ -147,7 +159,7 @@ export function canRenderChart(widgetEditor) {
  */
 export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor) {
   // If the dataset is a raster one, the chart info is always the same
-  if (datasetType === 'raster') return RasterService.getChartInfo();
+  if (datasetType === 'raster') return RasterService.getChartInfo(widgetEditor);
 
   const {
     chartType,
@@ -217,9 +229,10 @@ export function getChartInfo(dataset, datasetType, datasetProvider, widgetEditor
  * @param {{ name: string, type: string, alias: string, description: string }} band
  * Band (in case of a raster dataset)
  * @param {string} provider - Name of the provider
+ * @param {ChartInfo} chartInfo
  * @return {string}
  */
-export async function getRasterDataURL(dataset, datasetType, tableName, band, provider) {
+export async function getRasterDataURL(dataset, datasetType, tableName, band, provider, chartInfo) {
   const bandType = band.type || 'categorical';
 
   let query;
@@ -237,7 +250,9 @@ export async function getRasterDataURL(dataset, datasetType, tableName, band, pr
     }
   }
 
-  return `${process.env.WRI_API_URL}/query/${dataset}?sql=${query}`;
+  const geostore = chartInfo.areaIntersection ? `&geostore=${chartInfo.areaIntersection}` : '';
+
+  return `${process.env.WRI_API_URL}/query/${dataset}?sql=${query}${geostore}`;
 }
 
 /**
@@ -258,7 +273,7 @@ export async function getDataURL(dataset, datasetType, tableName, band, provider
   // If the dataset is a raster one, the behaviour is totally different
   if (datasetType === 'raster') {
     if (!band) return '';
-    return await getRasterDataURL(dataset, datasetType, tableName, band, provider);
+    return getRasterDataURL(dataset, datasetType, tableName, band, provider, chartInfo);
   }
 
   let isBidimensional = false;
