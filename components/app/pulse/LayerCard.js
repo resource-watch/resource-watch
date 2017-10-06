@@ -67,7 +67,7 @@ class LayerCard extends React.Component {
           layerActive={layerActive}
           className={{ color: '-dark' }}
         />
-        {similarWidgets &&
+        {similarWidgets && similarWidgets.length > 0 &&
           <div>
             <h5>Similar content</h5>
             <div className="similar-widgets">
