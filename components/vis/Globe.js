@@ -87,7 +87,9 @@ class Globe extends React.Component {
     this.redGreenScale = chroma.scale(['red', 'lightgreen']).domain([-10, 10]);
 
     // Bindings
-    this.onClick = this.onClick.bind(this);
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
     this.onResize = debounce(this.onResize.bind(this), 250);
   }
 
@@ -217,48 +219,62 @@ class Globe extends React.Component {
     this.setState({ width: nextWidth, height: nextHeight });
   }
 
-  onClick(event) {
-    event.nativeEvent.stopImmediatePropagation();
-
-    this.mouse.x = (event.nativeEvent.offsetX / this.el.clientWidth) * 2 - 1;
-    this.mouse.y = -(event.nativeEvent.offsetY / this.el.clientHeight) * 2 + 1;
-
-    this.raycaster.setFromCamera(this.mouse, this.camera);
-
-    // this.scene.add(new ArrowHelper(this.raycaster.ray.direction,
-    // this.raycaster.ray.origin, 100, Math.random() * 0xffffff ));
-
-    const oldSelectedMarker = this.state.selectedMarker;
-    if (oldSelectedMarker) {
-      oldSelectedMarker.object.material = new MeshPhongMaterial(
-        { color: this.getMarkerColor(oldSelectedMarker) });
+  onMouseMove() {
+    if (this.mouseDown) {
+      this.props.onMouseHold();
     }
+  }
 
-    const intersects = this.raycaster.intersectObjects(this.scene.children);
+  onMouseDown(event) {
+    this.lastClickX = event.nativeEvent.offsetX;
+    this.lastClickY = event.nativeEvent.offsetY;
+    this.mouseDown = true;
+  }
 
-    if (intersects.length > 0) {
-      let markerClicked = false;
+  onMouseUp(event) {
+    this.mouseDown = false;
+    if (this.lastClickY === event.nativeEvent.offsetY &&
+      this.lastClickX === event.nativeEvent.offsetX) {
+      this.mouse.x = (event.nativeEvent.offsetX / this.el.clientWidth) * 2 - 1;
+      this.mouse.y = -(event.nativeEvent.offsetY / this.el.clientHeight) * 2 + 1;
 
-      intersects.forEach((obj) => {
-        const objName = obj.object.name;
-        if (objName !== 'halo' && objName !== 'earth' && objName !== 'texture') {
-          this.setState({ selectedMarker: obj });
-          this.props.onMarkerSelected(objName, event);
-          markerClicked = true;
+      this.raycaster.setFromCamera(this.mouse, this.camera);
+
+      // this.scene.add(new ArrowHelper(this.raycaster.ray.direction,
+      // this.raycaster.ray.origin, 100, Math.random() * 0xffffff ));
+
+      const oldSelectedMarker = this.state.selectedMarker;
+      if (oldSelectedMarker) {
+        oldSelectedMarker.object.material = new MeshPhongMaterial(
+          { color: this.getMarkerColor(oldSelectedMarker) });
+      }
+
+      const intersects = this.raycaster.intersectObjects(this.scene.children);
+
+      if (intersects.length > 0) {
+        let markerClicked = false;
+
+        intersects.forEach((obj) => {
+          const objName = obj.object.name;
+          if (objName !== 'halo' && objName !== 'earth' && objName !== 'texture') {
+            this.setState({ selectedMarker: obj });
+            this.props.onMarkerSelected(objName, event);
+            markerClicked = true;
+          }
+        });
+
+        if (!markerClicked) {
+          this.props.onClickInEmptyRegion();
         }
-      });
-
-      if (!markerClicked) {
+      } else {
         this.props.onClickInEmptyRegion();
       }
-    } else {
-      this.props.onClickInEmptyRegion();
-    }
-    if (this.props.layerPoints.length === 0) {
-      const earthIntersect = this.raycaster.intersectObjects([this.earth]);
-      if (earthIntersect.length > 0) {
-        const latLon = this.convertCoordinatesToLatLon(earthIntersect[0]);
-        this.props.onEarthClicked(latLon, event.clientX, event.clientY);
+      if (this.props.layerPoints.length === 0) {
+        const earthIntersect = this.raycaster.intersectObjects([this.earth]);
+        if (earthIntersect.length > 0) {
+          const latLon = this.convertCoordinatesToLatLon(earthIntersect[0]);
+          this.props.onEarthClicked(latLon, event.clientX, event.clientY);
+        }
       }
     }
   }
@@ -621,7 +637,9 @@ class Globe extends React.Component {
       <div
         ref={(node) => { this.el = node; }}
         className="c-globe"
-        onClick={this.onClick}
+        onMouseDown={this.onMouseDown}
+        onMouseUp={this.onMouseUp}
+        onMouseMove={this.onMouseMove}
       />
     );
   }
@@ -760,6 +778,7 @@ Globe.propTypes = {
   onMarkerSelected: PropTypes.func,
   onEarthClicked: PropTypes.func,
   onClickInEmptyRegion: PropTypes.func,
+  onMouseHold: PropTypes.func,
 
   // Markers
   markerLowColor: PropTypes.number,

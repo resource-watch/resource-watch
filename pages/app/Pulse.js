@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'lodash/debounce';
 import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 
@@ -44,6 +45,8 @@ class Pulse extends Page {
       interactionConfig: null
     };
     this.layerGlobeManager = new LayerGlobeManager();
+
+    this.handleMouseHoldOverGlobe = debounce(this.handleMouseHoldOverGlobe.bind(this), 10);
   }
 
   /**
@@ -128,7 +131,11 @@ class Pulse extends Page {
   * - handleMarkerSelected
   * - handleEarthClicked
   * - handleClickInEmptyRegion
+  * - handleMouseHoldOverGlobe
   */
+  handleMouseHoldOverGlobe() {
+    this.props.toggleTooltip(false);
+  }
   @Autobind
   triggerZoomIn() {
     this.globe.camera.translateZ(-5);
@@ -254,6 +261,7 @@ class Pulse extends Page {
             onMarkerSelected={this.handleMarkerSelected}
             onEarthClicked={this.handleEarthClicked}
             onClickInEmptyRegion={this.handleClickInEmptyRegion}
+            onMouseHold={this.handleMouseHoldOverGlobe}
           />
           <ZoomControl
             ref={zoomControl => (this.zoomControl = zoomControl)}
