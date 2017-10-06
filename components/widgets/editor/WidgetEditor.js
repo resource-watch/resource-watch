@@ -34,9 +34,11 @@ import RasterChartEditor from 'components/widgets/editor/raster/RasterChartEdito
 import NEXGDDPEditor from 'components/widgets/editor/nexgddp/NEXGDDPEditor';
 
 import Map from 'components/widgets/editor/map/Map';
+import MapControls from 'components/widgets/editor/map/MapControls';
+import BasemapControl from 'components/widgets/editor/map/controls/BasemapControl';
+
 import Legend from 'components/widgets/editor/ui/Legend';
 import TableView from 'components/widgets/editor/table/TableView';
-import Icon from 'components/widgets/editor/ui/Icon';
 import ShareModalExplore from 'components/widgets/editor/modal/ShareModalExplore';
 import EmbedTableModal from 'components/widgets/editor/modal/EmbedTableModal';
 
@@ -461,9 +463,9 @@ class WidgetEditor extends React.Component {
                 layerGroups={this.state.layerGroups}
               />
 
-              <button className="share-button" onClick={() => this.onClickShareMap()}>
-                <Icon name="icon-share" className="-small" />
-              </button>
+              <MapControls>
+                <BasemapControl />
+              </MapControls>
 
               <Legend
                 layerGroups={this.state.layerGroups}
