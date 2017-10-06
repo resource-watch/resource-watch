@@ -172,7 +172,8 @@ class WidgetEditor extends React.Component {
     // NOTE: this can't be moved to componentWillUpdate because
     // this.fetchChartConfig uses the store
     if (this.state.datasetInfoLoaded
-      && canRenderChart(this.props.widgetEditor)
+      && canRenderChart(this.props.widgetEditor, this.state.datasetProvider)
+      && this.props.widgetEditor.visualizationType !== 'table'
       && this.props.widgetEditor.visualizationType !== 'map'
       && (!isEqual(previousProps.widgetEditor, this.props.widgetEditor)
       || previousState.tableName !== this.state.tableName)) {
@@ -374,7 +375,8 @@ class WidgetEditor extends React.Component {
       layersLoaded,
       fieldsError,
       jiminyLoaded,
-      title
+      title,
+      datasetProvider
     } = this.state;
 
     const { widgetEditor, dataset, mode, selectedVisualizationType, user } = this.props;
@@ -409,7 +411,7 @@ class WidgetEditor extends React.Component {
               </div>
             </div>
           );
-        } else if (!canRenderChart(widgetEditor) || !this.state.chartConfig) {
+        } else if (!canRenderChart(widgetEditor, datasetProvider) || !this.state.chartConfig) {
           visualization = (
             <div className="visualization -chart">
               Select a type of chart and columns
@@ -526,14 +528,22 @@ class WidgetEditor extends React.Component {
 
       // HTML table
       case 'table':
-        visualization = (
-          <div className="visualization">
-            <TableView
-              dataset={dataset}
-              tableName={tableName}
-            />
-          </div>
-        );
+        if (!canRenderChart(widgetEditor, datasetProvider)) {
+          visualization = (
+            <div className="visualization">
+              Select a type of chart and columns
+            </div>
+          );
+        } else {
+          visualization = (
+            <div className="visualization">
+              <TableView
+                dataset={dataset}
+                tableName={tableName}
+              />
+            </div>
+          );
+        }
         break;
 
       default:

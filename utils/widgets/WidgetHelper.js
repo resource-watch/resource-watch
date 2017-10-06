@@ -109,10 +109,19 @@ export function getChartType(type) {
  * state of the WidgetEditor in the store
  * @export
  * @param {object} widgetEditor - Store's state of the WidgetEditor
+ * @param {string} datasetProvider - Provider of the dataset
  * @returns {boolean}
  */
-export function canRenderChart(widgetEditor) {
-  const { visualizationType, category, value, chartType, band, layer } = widgetEditor;
+export function canRenderChart(widgetEditor, datasetProvider) {
+  const {
+    visualizationType,
+    category,
+    value,
+    chartType,
+    band,
+    layer,
+    areaIntersection
+  } = widgetEditor;
 
   const chart = visualizationType === 'chart'
     && !!(chartType
@@ -125,14 +134,17 @@ export function canRenderChart(widgetEditor) {
         )
         || !isBidimensionalChart(widgetEditor.chartType)
       )
+      && (datasetProvider !== 'nexgddp' || areaIntersection)
     );
 
   const rasterChart = visualizationType === 'raster_chart' && !!band;
 
   const map = visualizationType === 'map' && !!layer;
 
+  const table = visualizationType === 'table' && (datasetProvider !== 'nexgddp' || areaIntersection);
+
   // Standard chart
-  return chart || rasterChart || map;
+  return chart || rasterChart || map || table;
 }
 
 /**
