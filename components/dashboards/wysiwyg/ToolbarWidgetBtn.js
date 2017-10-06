@@ -42,7 +42,7 @@ class ToolbarWidgetBtn extends React.Component {
    * - onToggleDropdown
    * - onScreenClick
   */
-  onChange = (id) => {
+  onChange = (id, type) => {
     const { quill } = this.props;
 
     if (quill) {
@@ -55,7 +55,7 @@ class ToolbarWidgetBtn extends React.Component {
       // { src: `/embed/widget/${id}`, height: 410, width: 500 }
 
       quill.insertEmbed(cursorPosition, 'iframe', {
-        src: `/embed/widget/${id}`,
+        src: `/embed/${type || 'widget'}/${id}`,
         width: 500,
         height: 500
       });
@@ -94,6 +94,8 @@ class ToolbarWidgetBtn extends React.Component {
   }
 
   render() {
+    // console.log(this.state.widgets.filter(w => w.widgetConfig.type).map(w => `${w.id} - ${w.widgetConfig.type}`));
+
     return (
       <TetherComponent
         attachment="top center"
@@ -126,7 +128,7 @@ class ToolbarWidgetBtn extends React.Component {
                       <div
                         role="button"
                         tabIndex={0}
-                        onClick={() => { this.onChange(w.id); }}
+                        onClick={() => { this.onChange(w.id, !!w.widgetConfig && w.widgetConfig.type); }}
                       >
                         {w.name}
                       </div>
