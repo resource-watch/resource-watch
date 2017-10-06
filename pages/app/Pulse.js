@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'lodash/debounce';
 import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 
@@ -13,17 +14,14 @@ import { toggleTooltip } from 'redactions/tooltip';
 import getLayersGroupPulse from 'selectors/pulse/layersGroupPulse';
 import getActiveLayersPulse from 'selectors/pulse/layersActivePulse';
 
-// Services
-import DatasetService from 'services/DatasetService';
-
 // Helpers
 import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
+import { substitution } from 'utils/utils';
 
 // Components
 import Globe from 'components/vis/Globe';
 import LayerNav from 'components/app/pulse/LayerNav';
 import LayerCard from 'components/app/pulse/LayerCard';
-
 import Spinner from 'components/ui/Spinner';
 import ZoomControl from 'components/ui/ZoomControl';
 import GlobeTooltip from 'components/app/pulse/GlobeTooltip';
@@ -43,9 +41,12 @@ class Pulse extends Page {
       layerPoints: [],
       selectedMarker: null,
       useDefaultLayer: true,
-      markerType: 'default'
+      markerType: 'default',
+      interactionConfig: null
     };
     this.layerGlobeManager = new LayerGlobeManager();
+
+    this.handleMouseHoldOverGlobe = debounce(this.handleMouseHoldOverGlobe.bind(this), 10);
   }
 
   /**
@@ -130,7 +131,11 @@ class Pulse extends Page {
   * - handleMarkerSelected
   * - handleEarthClicked
   * - handleClickInEmptyRegion
+  * - handleMouseHoldOverGlobe
   */
+  handleMouseHoldOverGlobe() {
+    this.props.toggleTooltip(false);
+  }
   @Autobind
   triggerZoomIn() {
     this.globe.camera.translateZ(-5);
@@ -140,20 +145,15 @@ class Pulse extends Page {
     this.globe.camera.translateZ(5);
   }
   @Autobind
-  triggerMouseDown() {
-    this.props.toggleTooltip(false);
+  triggerMouseDown(event) {
+    if (event.target.tagName !== 'CANVAS') {
+      this.props.toggleTooltip(false);
+    }
   }
   @Autobind
   handleMarkerSelected(marker, event) {
-    const obj = {};
-    Object.keys(marker).forEach((key) => {
-      if (key !== 'cartodb_id' && key !== 'the_geom' && key !== 'the_geom_webmercator') {
-        obj[key] = marker[key];
-      }
-    });
-
     const tooltipContentObj = this.state.interactionConfig.output.map(elem =>
-      ({ key: elem.property, value: obj[elem.column], type: elem.type }));
+      ({ key: elem.property, value: marker[elem.column], type: elem.type }));
 
     if (this.mounted) {
       this.props.toggleTooltip(true, {
@@ -166,23 +166,12 @@ class Pulse extends Page {
   }
   @Autobind
   handleEarthClicked(latLon, clientX, clientY) {
+    const { pulse } = this.props;
+    const { interactionConfig } = this.state;
     this.props.toggleTooltip(false);
-    if (this.props.pulse.layerActive) {
-      const currentLayer = this.props.pulse.layerActive.attributes;
-      const datasetId = currentLayer.dataset;
-      const options = currentLayer.layerConfig.body.layers[0].options;
-      const geomColumn = options.geom_column;
-      const tableName = options.sql.toUpperCase().split('FROM')[1];
-      const geoJSON = JSON.stringify({
-        type: 'Point',
-        coordinates: [latLon.longitude, latLon.latitude]
-      });
-      let requestURL;
-      if (geomColumn) {
-        requestURL = `${process.env.WRI_API_URL}/query/${datasetId}?sql=SELECT ST_Value(st_transform(${geomColumn},4326), st_setsrid(st_geomfromgeojson('${geoJSON}'),4326), true) FROM ${tableName} WHERE st_intersects(${geomColumn},st_setsrid(st_geomfromgeojson('${geoJSON}'),4326))`;
-      } else {
-        requestURL = `${process.env.WRI_API_URL}/query/${datasetId}?sql=SELECT * FROM ${tableName} WHERE st_intersects(the_geom,st_buffer(ST_SetSRID(st_geomfromgeojson('${geoJSON}'),4326),1))`;
-      }
+    if (pulse.layerActive) {
+      const requestURL = substitution(interactionConfig.config.url,
+        [{ key: 'point', value: `[${latLon.longitude}, ${latLon.latitude}]` }]);
       this.setTooltipValue(requestURL, clientX, clientY);
     }
   }
@@ -267,6 +256,7 @@ class Pulse extends Page {
             onMarkerSelected={this.handleMarkerSelected}
             onEarthClicked={this.handleEarthClicked}
             onClickInEmptyRegion={this.handleClickInEmptyRegion}
+            onMouseHold={this.handleMouseHoldOverGlobe}
           />
           <ZoomControl
             ref={zoomControl => (this.zoomControl = zoomControl)}
