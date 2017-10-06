@@ -147,13 +147,14 @@ export default class LayerManager {
 
     if (layer) {
       const eventName = (layerData.type === 'wms' ||
-      layerData.type === 'tileLayer') ? 'tileload' : 'load';
+        layerData.type === 'tileLayer') ? 'tileload' : 'load';
       layer.on(eventName, () => {
         delete this.layersLoading[layerData.id];
       });
       if (zIndex) {
         layer.setZIndex(zIndex);
       }
+      layer.addTo(this.map);
       this.mapLayers[layerData.id] = layer;
     }
   }
