@@ -60,7 +60,7 @@ const exploreCards = [
 
 class Home extends Page {
   static insightsCardsStatic(insightsData) {
-    return insightsCards.map(c =>
+    return insightsData.map(c =>
       (<CardStatic
         key={`insight-card-${c.tag}`}
         className="-alt"
