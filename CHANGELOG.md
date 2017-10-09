@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Footer updated
 - Add map widgets to dashboards
 - Add text widgets to dashboards
+- Manually-created widgets could break the tooltip if no proper formatting would be provided
 
 ### Added
 - Insights cards: The whole card is clickable now
