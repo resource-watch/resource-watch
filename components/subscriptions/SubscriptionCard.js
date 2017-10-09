@@ -6,7 +6,7 @@ import { toastr } from 'react-redux-toastr';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import Map from 'components/vis/Map';
+import Map from 'components/widgets/map/Map';
 
 // Services
 import DatasetService from 'services/DatasetService';

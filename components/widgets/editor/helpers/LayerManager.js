@@ -147,7 +147,7 @@ export default class LayerManager {
 
     if (layer) {
       const eventName = (layerData.type === 'wms' ||
-        layerData.type === 'tileLayer') ? 'tileload' : 'load';
+      layerData.type === 'tileLayer') ? 'tileload' : 'load';
       layer.on(eventName, () => {
         delete this.layersLoading[layerData.id];
       });
@@ -237,6 +237,7 @@ export default class LayerManager {
     const layer = Object.assign({}, layerSpec.layerConfig, {
       id: layerSpec.id,
       order: layerSpec.order,
+      opacity: layerSpec.opacity,
       hidden: layerSpec.hidden
     });
 
@@ -264,6 +265,7 @@ export default class LayerManager {
         this.mapLayers[layer.id] = L.tileLayer(tileUrl).addTo(this.map);
 
         this.mapLayers[layer.id].setZIndex(layer.hidden ? -1 : layer.order);
+        this.mapLayers[layer.id].setOpacity(layer.opacity !== undefined ? layer.opacity : 1);
 
         this.mapLayers[layer.id].on('load', () => {
           delete this.layersLoading[layer.id];
@@ -279,6 +281,15 @@ export default class LayerManager {
     layerIds.forEach((layerId) => {
       const order = layers.find(l => l.id === layerId).order;
       this.mapLayers[layerId].setZIndex(order);
+    });
+  }
+
+  setOpacity(layers) {
+    const layerIds = Object.keys(this.mapLayers);
+    layerIds.forEach((layerId) => {
+      const layer = layers.find(l => l.id === layerId);
+      const opacity = layer && layer.opacity !== undefined ? layer.opacity : 1;
+      this.mapLayers[layerId].setOpacity(opacity);
     });
   }
 }

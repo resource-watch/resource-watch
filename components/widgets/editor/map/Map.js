@@ -41,35 +41,40 @@ class Map extends React.Component {
     mapOptions.center = [mapOptions.latLng.lat, mapOptions.latLng.lng];
 
     // If leaflet haven't been imported, we can just skip the next steps
-    // if (!L) return;
+    if (!L) return;
 
-    this.map = L.map(this.mapNode, mapOptions);
+    requestAnimationFrame(() => {
+      if (!this.mapNode) return;
 
-    if (this.props.mapConfig && this.props.mapConfig.bounds) {
-      this.fitBounds(this.props.mapConfig.bounds.geometry);
-    }
+      this.map = L.map(this.mapNode, mapOptions);
 
-    // Disable interaction if necessary
-    if (!this.props.interactionEnabled) {
-      this.map.dragging.disable();
-      this.map.touchZoom.disable();
-      this.map.doubleClickZoom.disable();
-      this.map.scrollWheelZoom.disable();
-      this.map.boxZoom.disable();
-      this.map.keyboard.disable();
-    }
+      if (this.props.mapConfig && this.props.mapConfig.bounds) {
+        this.fitBounds(this.props.mapConfig.bounds.geometry);
+      }
 
-    // SETTERS
-    this.setZoomControl();
-    this.setBasemap(this.props.basemap);
-    this.setMapEventListeners();
+      // Disable interaction if necessary
+      if (!this.props.interactionEnabled) {
+        this.map.dragging.disable();
+        this.map.touchZoom.disable();
+        this.map.doubleClickZoom.disable();
+        this.map.scrollWheelZoom.disable();
+        this.map.boxZoom.disable();
+        this.map.keyboard.disable();
+      }
 
-    // Add layers
-    this.setLayerManager();
-    const layers = this.props.layerGroups
-      .filter(l => l.visible)
-      .map(l => l.layers.find(la => la.active));
-    this.addLayers(layers, this.props.filters);
+      // SETTERS
+      this.setAttribution();
+      this.setZoomControl();
+      this.setBasemap(this.props.basemap);
+      this.setMapEventListeners();
+
+      // Add layers
+      this.setLayerManager();
+      const layers = this.props.layerGroups
+        .filter(l => l.visible)
+        .map(l => l.layers.find(la => la.active));
+      this.addLayers(layers, this.props.filters);
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -79,6 +84,20 @@ class Map extends React.Component {
     const nextLayerGroups = nextProps.layerGroups.filter(l => l.visible);
 
     const layerGroupsChanged = !isEqual(layerGroups, nextLayerGroups);
+
+    const opacities = layerGroups.map(d => ({
+      dataset: d.dataset, opacity: d.layers[0].opacity !== undefined ? d.layers[0].opacity : 1
+    }));
+    const nextOpacities = nextLayerGroups.map(d => ({
+      dataset: d.dataset, opacity: d.layers[0].opacity !== undefined ? d.layers[0].opacity : 1
+    }));
+
+    if (!isEqual(opacities, nextOpacities)) {
+      // Set opacity if changed
+      const nextLayers = nextLayerGroups
+        .map(l => l.layers.find(la => la.active));
+      this.layerManager.setOpacity(nextLayers);
+    }
 
     if (filtersChanged || layerGroupsChanged) {
       const layers = layerGroups
@@ -111,7 +130,6 @@ class Map extends React.Component {
         sidebar: nextProps.sidebar
       });
     }
-
     if (this.props.basemap !== nextProps.basemap) {
       this.setBasemap(nextProps.basemap);
     }
@@ -145,6 +163,10 @@ class Map extends React.Component {
       onLayerAddedSuccess: stopLoading,
       onLayerAddedError: stopLoading
     });
+  }
+
+  setAttribution() {
+    this.map.attributionControl.addAttribution('&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>');
   }
 
   setZoomControl() {
@@ -241,18 +263,17 @@ class Map extends React.Component {
         {this.state.loading && <Spinner isLoading style={spinnerStyles} />}
         <div ref={(node) => { this.mapNode = node; }} className="map-leaflet" />
       </div>
-
     );
   }
 }
 
 Map.defaultProps = {
-  interactionEnabled: true
+  interactionEnabled: true,
+  useLightBasemap: false
 };
 
 Map.propTypes = {
   interactionEnabled: PropTypes.bool.isRequired,
-
   // STORE
   basemap: PropTypes.object,
   mapConfig: PropTypes.object,
