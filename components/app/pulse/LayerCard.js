@@ -20,7 +20,9 @@ import { LAYERS_PLANET_PULSE } from 'utils/layers/pulse_layers';
 
 class LayerCard extends React.Component {
   componentWillReceiveProps(nextProps) {
-    this.loadWidgets(nextProps);
+    if (nextProps.pulse.layerActive !== this.props.pulse.layerActive) {
+      this.loadWidgets(nextProps);
+    }
   }
 
   loadWidgets(nextProps) {
@@ -39,6 +41,8 @@ class LayerCard extends React.Component {
           widgetService.fetchData().then((response) => {
             this.props.setSimilarWidgets([response]);
           });
+        } else {
+          this.props.setSimilarWidgets([]);
         }
       } else {
         this.props.setSimilarWidgets([]);
