@@ -453,21 +453,19 @@ class WidgetEditor extends React.Component {
           visualization = (
             <div className="visualization -chart">
               <Spinner className="-light" isLoading={chartLoading} />
-              {mode === 'dataset' &&
-                <div className="chart-title">
-                  {user.id &&
-                    <AutosizeInput
-                      name="widget-title"
-                      value={widgetEditor.title || ''}
-                      placeholder="Title..."
-                      onChange={this.handleTitleChange}
-                    />
-                  }
-                  {!user.id &&
-                    <span>{widgetEditor.title}</span>
-                  }
-                </div>
-              }
+              <div className="chart-title">
+                {user.id &&
+                  <AutosizeInput
+                    name="widget-title"
+                    value={widgetEditor.title || ''}
+                    placeholder="Title..."
+                    onChange={this.handleTitleChange}
+                  />
+                }
+                {!user.id &&
+                  <span>{widgetEditor.title}</span>
+                }
+              </div>
               <VegaChart
                 reloadOnResize
                 data={this.state.chartConfig}
