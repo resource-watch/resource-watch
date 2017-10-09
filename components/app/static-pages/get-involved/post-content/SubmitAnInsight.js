@@ -65,7 +65,7 @@ export default function SubmitAnInsight({ insights }) {
                   <a className="c-button -primary -fullwidth">More insights</a>
                 </Link>
               </div>
-              </div>
+            </div>
           </div>
         </div>
       </section>
