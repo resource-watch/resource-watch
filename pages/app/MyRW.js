@@ -71,6 +71,8 @@ class MyRW extends Page {
   render() {
     const { url, user } = this.props;
     const { tab, subtab } = this.state;
+    const userName = user && user.name ? user.name.split(' ')[0] : '';
+    const title = `Hi ${userName}!`;
 
     return (
       <Layout
@@ -86,7 +88,7 @@ class MyRW extends Page {
               <div className="column small-12">
                 <div className="page-header-content -with-tabs">
                   <Title className="-primary -huge page-header-title" >
-                    My RW
+                    {title}
                   </Title>
                   <Tabs
                     options={MYRW_TABS}
