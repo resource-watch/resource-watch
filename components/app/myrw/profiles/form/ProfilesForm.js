@@ -139,17 +139,17 @@ class MyRWEditProfile extends React.Component {
             <div className="photo-section">
               <div className="photo-container">
                 <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.white_logo = c; }}
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.photo = c; }}
                   onChange={(value) => {
-                    this.handleFormChange({ picture: value });
+                    this.handleFormChange({ photo: value });
                   }}
                   className="-fluid"
                   properties={{
-                    name: 'picture',
-                    label: 'Picture',
+                    name: 'photo',
+                    label: 'Photo',
                     placeholder: 'Browse file',
                     baseUrl: process.env.STATIC_SERVER_URL,
-                    default: this.state.user.picture
+                    default: this.state.user.photo
                   }}
                 >
                   {FileImage}
