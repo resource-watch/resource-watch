@@ -14,7 +14,8 @@ import {
   resetWidgetEditor,
   setFields,
   setBandsInfo,
-  setVisualizationType
+  setVisualizationType,
+  setTitle
 } from 'components/widgets/editor/redux/widgetEditor';
 import { toggleModal } from 'redactions/modal';
 
@@ -161,10 +162,6 @@ class WidgetEditor extends React.Component {
           }]
           : []
       });
-    } else if (this.props.widgetEditor.title !== nextProps.widgetEditor.title) {
-      this.setState({
-        title: nextProps.widgetEditor.title ? nextProps.widgetEditor.title : ''
-      });
     }
   }
 
@@ -173,12 +170,40 @@ class WidgetEditor extends React.Component {
     // fetch the Vega chart config again
     // NOTE: this can't be moved to componentWillUpdate because
     // this.fetchChartConfig uses the store
+
+    // This is a list of the attributes of the widget editor
+    // that don't force a re-rendering of the chart when updated
+    // NOTE: the sorting is mandatory to compute if there's been
+    // a change or not
+    const staticKeys = ['title'].sort();
+
+    // List of the attribute names of the widget editor
+    const widgetEditorKeys = Object.keys(Object.assign(
+      {},
+      previousProps.widgetEditor,
+      this.props.widgetEditor
+    ));
+
+    // List of the attributes that have changed
+    // NOTE: the sorting is mandatory to compute if there's been
+    // a change or not
+    const updatedWidgetEditorKeys = widgetEditorKeys.filter((key) => {
+      const updated = !isEqual(previousProps.widgetEditor[key], this.props.widgetEditor[key]);
+      return updated;
+    }).sort();
+
+    // Indicate whether only the static keys have been updated
+    const onlyStaticKeysUpdated = updatedWidgetEditorKeys.length === staticKeys.length
+      && updatedWidgetEditorKeys.every((k, i) => k === staticKeys[i]);
+
+    // Indicate whetger the widgetEditor prop forces a re-render
+    const hasChangedWidgetEditor = updatedWidgetEditorKeys.length > 0 && !onlyStaticKeysUpdated;
+
     if (this.state.datasetInfoLoaded
       && canRenderChart(this.props.widgetEditor, this.state.datasetProvider)
       && this.props.widgetEditor.visualizationType !== 'table'
       && this.props.widgetEditor.visualizationType !== 'map'
-      && (!isEqual(previousProps.widgetEditor, this.props.widgetEditor)
-      || previousState.tableName !== this.state.tableName)) {
+      && (hasChangedWidgetEditor || previousState.tableName !== this.state.tableName)) {
       this.fetchChartConfig();
     }
   }
@@ -377,7 +402,6 @@ class WidgetEditor extends React.Component {
       layersLoaded,
       fieldsError,
       jiminyLoaded,
-      title,
       datasetProvider
     } = this.state;
 
@@ -434,12 +458,12 @@ class WidgetEditor extends React.Component {
                   {user.id &&
                     <AutosizeInput
                       name="widget-title"
-                      value={title}
+                      value={widgetEditor.title || ''}
                       onChange={this.handleTitleChange}
                     />
                   }
                   {!user.id &&
-                    <span>{title}</span>
+                    <span>{widgetEditor.title}</span>
                   }
                 </div>
               }
@@ -606,12 +630,15 @@ class WidgetEditor extends React.Component {
     });
   }
 
+  /**
+   * Event handler executed when the user changes the
+   * title of the graph
+   * @param {InputEvent} event
+   */
   @Autobind
   handleTitleChange(event) {
     const title = event.target.value;
-    this.setState({
-      title
-    });
+    this.props.setTitle(title);
   }
 
   /**
@@ -620,10 +647,9 @@ class WidgetEditor extends React.Component {
    * The method resolves when the initialization is done
    *
    * @param {object} props Current props
-   * @param {(state: obj, callback: Function) => void} setState Function to set the state
    * @returns {Promise<void>}
    */
-  initComponent(props, setState) {
+  initComponent(props) {
     // First, we init the services
     this.datasetService = new DatasetService(props.dataset, {
       apiURL: process.env.WRI_API_URL
@@ -655,8 +681,7 @@ class WidgetEditor extends React.Component {
     // Then we reset the state of the component
     return {
       ...DEFAULT_STATE,
-      layerGroups,
-      title: props.widgetEditor.title ? props.widgetEditor.title : 'Title'
+      layerGroups
     };
   }
 
@@ -828,8 +853,7 @@ class WidgetEditor extends React.Component {
       datasetType,
       datasetProvider,
       visualizationOptions,
-      hasGeoInfo,
-      title
+      hasGeoInfo
     } = this.state;
 
     let { jiminy } = this.state;
@@ -915,7 +939,6 @@ class WidgetEditor extends React.Component {
                         showOrderByContainer={showOrderByContainer}
                         hasGeoInfo={hasGeoInfo}
                         onEmbedTable={this.handleEmbedTable}
-                        title={title}
                       />
                     )
                 }
@@ -938,7 +961,6 @@ class WidgetEditor extends React.Component {
                         showOrderByContainer={false}
                         hasGeoInfo={hasGeoInfo}
                         onEmbedTable={this.handleEmbedTable}
-                        title={title}
                       />
                     )
                 }
@@ -958,7 +980,6 @@ class WidgetEditor extends React.Component {
                         mode={chartEditorMode}
                         onUpdateWidget={this.handleUpdateWidget}
                         showSaveButton={showSaveButton}
-                        title={title}
                       />
                     )
                 }
@@ -975,7 +996,6 @@ class WidgetEditor extends React.Component {
                         hasGeoInfo={hasGeoInfo}
                         showSaveButton={showSaveButton}
                         onUpdateWidget={this.handleUpdateWidget}
-                        title={title}
                       />
                     )
                 }
@@ -1001,7 +1021,8 @@ const mapDispatchToProps = dispatch => ({
   setFields: (fields) => { dispatch(setFields(fields)); },
   setBandsInfo: bands => dispatch(setBandsInfo(bands)),
   setVisualizationType: vis => dispatch(setVisualizationType(vis)),
-  toggleModal: (open, options) => dispatch(toggleModal(open, options))
+  toggleModal: (open, options) => dispatch(toggleModal(open, options)),
+  setTitle: title => dispatch(setTitle(title))
 });
 
 WidgetEditor.propTypes = {
@@ -1026,7 +1047,8 @@ WidgetEditor.propTypes = {
   setVisualizationType: PropTypes.func.isRequired,
   selectedVisualizationType: PropTypes.string,
   toggleModal: PropTypes.func,
-  setBandsInfo: PropTypes.func
+  setBandsInfo: PropTypes.func,
+  setTitle: PropTypes.func
 };
 
 WidgetEditor.defaultProps = {

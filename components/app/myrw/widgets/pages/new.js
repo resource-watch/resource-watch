@@ -84,7 +84,8 @@ class WidgetsNew extends React.Component {
       chartType,
       filters,
       areaIntersection,
-      layer
+      layer,
+      title
     } = widgetEditor;
 
     const dataset = datasets.find(elem => elem.value === selectedDataset);
@@ -150,7 +151,7 @@ class WidgetsNew extends React.Component {
     const widgetObj = Object.assign(
       {},
       {
-        name: widget.name,
+        name: title,
         description: widget.description,
         authors: widget.authors,
         source: widget.source,
