@@ -17,7 +17,7 @@ import Modal from 'components/ui/Modal';
 import VegaChart from 'components/widgets/charts/VegaChart';
 import Tooltip from 'components/ui/Tooltip';
 import Map from 'components/widgets/editor/map/Map';
-import Legend from 'components/ui/Legend';
+import Legend from 'components/widgets/editor/ui/Legend';
 
 // Services
 import WidgetService from 'services/WidgetService';
