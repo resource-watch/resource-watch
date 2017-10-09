@@ -90,18 +90,17 @@ class DockWidget extends React.Component {
       // Focus on the editor
       quill.focus();
 
-      widgetsSelected.forEach((w) => {
-        // Add widget embed
-        const cursorPosition = (quill.getSelection()) ? quill.getSelection().index : 0;
+      // Add widget embed
+      const cursorPosition = (quill.getSelection()) ? quill.getSelection().index : 0;
 
-        quill.insertEmbed(cursorPosition, 'iframe', {
-          src: `/embed/${w.type || 'widget'}/${w.id}`,
-          width: 500,
-          height: 500
-        });
+      quill.insertEmbed(cursorPosition, 'widget-layout', { widgets: widgetsSelected });
 
-        quill.setSelection(cursorPosition + 1);
-      });
+      // quill.insertEmbed(cursorPosition, 'iframe', {
+      //   src: `/embed/${w.type || 'widget'}/${w.id}`,
+      //   width: 500,
+      //   height: 500
+      // });
+      quill.setSelection(cursorPosition + 1);
 
       dock.toggleDock(false);
     } else {

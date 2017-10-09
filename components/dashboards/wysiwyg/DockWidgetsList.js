@@ -49,20 +49,27 @@ export default class DockWidgetList extends React.Component {
         {this.state.loading &&
           <Spinner className="-light" isLoading={loading} />
         }
-        <ul className="row list">
-          {widgets.map(widget => (
-            <li
-              key={widget.id}
-              className={newClassName}
-            >
-              <DockWidgetsCard
-                widget={widget}
-                selected={widgetsSelected.includes(widget.id)}
-                onSelect={this.onSelect}
-              />
-            </li>
-          ))}
-        </ul>
+
+        {!widgets.length && !this.state.loading &&
+          'No widgets available'
+        }
+
+        {!!widgets.length &&
+          <ul className="row list">
+            {widgets.map(widget => (
+              <li
+                key={widget.id}
+                className={newClassName}
+              >
+                <DockWidgetsCard
+                  widget={widget}
+                  selected={widgetsSelected.includes(widget.id)}
+                  onSelect={this.onSelect}
+                />
+              </li>
+            ))}
+          </ul>
+        }
       </div>
     );
   }
