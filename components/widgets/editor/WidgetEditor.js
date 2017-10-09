@@ -459,6 +459,7 @@ class WidgetEditor extends React.Component {
                     <AutosizeInput
                       name="widget-title"
                       value={widgetEditor.title || ''}
+                      placeholder="Title..."
                       onChange={this.handleTitleChange}
                     />
                   }
