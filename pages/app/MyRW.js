@@ -71,8 +71,8 @@ class MyRW extends Page {
   render() {
     const { url, user } = this.props;
     const { tab, subtab } = this.state;
-    const userName = user && user.name ? user.name.split(' ')[0] : '';
-    const title = `Hi ${userName}!`;
+    const userName = user && user.name ? ` ${user.name.split(' ')[0]}` : '';
+    const title = `Hi${userName}!`;
 
     return (
       <Layout
