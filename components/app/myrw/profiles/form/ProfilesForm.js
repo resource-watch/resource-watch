@@ -137,7 +137,6 @@ class MyRWEditProfile extends React.Component {
               </Field>
             </fieldset>
             <div className="photo-section">
-              <h5>Photo</h5>
               <div className="photo-container">
                 <Field
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.white_logo = c; }}
@@ -146,12 +145,11 @@ class MyRWEditProfile extends React.Component {
                   }}
                   className="-fluid"
                   properties={{
-                    name: 'white_logo',
-                    label: 'White logo',
+                    name: 'picture',
+                    label: 'Picture',
                     placeholder: 'Browse file',
                     baseUrl: process.env.STATIC_SERVER_URL,
-                    default: this.state.form.white_logo,
-                    required: true
+                    default: this.state.user.picture
                   }}
                 >
                   {FileImage}

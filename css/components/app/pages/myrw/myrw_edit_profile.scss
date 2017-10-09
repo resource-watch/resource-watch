@@ -33,17 +33,12 @@
   .photo-section {
     border-bottom: 1px solid $color-grey;
     padding-bottom: 50px;
-
-    h5 {
-      margin-bottom: 5px;
-      margin-top: 20px;
-    }
+    margin-top: 40px;
 
     .photo-container {
       display: flex;
       align-items: center;
       justify-content: center;
-      border-style: dashed;
       border-width: 1px;
       width: 130px;
       height: 130px;
