@@ -94,10 +94,10 @@ export default class LayerManager {
     });
   }
 
-  addGeeLayer(layer) {
-    const tileUrl = `${process.env.WRI_API_URL}/layer/${layer.id}/tile/gee/{z}/{x}/{y}`;
+  addGeeLayer(layerData) {
+    const tileUrl = `${process.env.WRI_API_URL}/layer/${layerData.id}/tile/gee/{z}/{x}/{y}`;
     const tileLayer = L.tileLayer(tileUrl).addTo(this.map);
-    this.mapLayers[layer.id] = tileLayer;
+    this.mapLayers[layerData.id] = tileLayer;
   }
 
   addGeoJsonLayer(layer) {
