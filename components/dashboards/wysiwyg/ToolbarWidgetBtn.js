@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import dock from 'services/Dock';
 
 // Components
-import DockWidget from 'components/dashboards/wysiwyg/DockWidget';
+import DockWidgets from 'components/dashboards/wysiwyg/DockWidgets';
 
 class ToolbarWidgetBtn extends React.Component {
   // This function is debounced. If you don't do that insane things will happen
   onToggleDock = () => {
     dock.toggleDock(true, {
-      children: DockWidget,
+      children: DockWidgets,
       childrenProps: {
         quill: this.props.quill
       }

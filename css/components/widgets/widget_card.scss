@@ -96,4 +96,8 @@
     }
   }
 
+  &.-selected {
+    border-color: $color-primary;
+  }
+
 }
