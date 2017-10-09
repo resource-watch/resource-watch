@@ -115,7 +115,7 @@ class SaveWidgetModal extends React.Component {
             chartType,
             filters,
             areaIntersection,
-            band,
+            band: band && { name: band.name },
             layer: layer && layer.id
           }
         },
