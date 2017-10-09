@@ -75,9 +75,13 @@ class PartnerDetail extends Page {
                   <p className="-claim">
                     Important work,<br /> beautifully crafted
                   </p>
-                  <button className="c-btn -primary -filled">
+                  <a
+                    className="c-btn -primary -filled"
+                    src={data.website}
+                    target="_blank"
+                  >
                     LEARN ABOUT OUR WORK
-                  </button>
+                  </a>
                 </Banner>
               </div>
             </div>

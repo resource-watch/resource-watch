@@ -5,7 +5,7 @@ import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 
 // Components
-import Title from 'components/widgets/editor/Title';
+import Title from 'components/widgets/editor/ui/Title';
 import TextChart from 'components/widgets/charts/TextChart';
 import VegaChart from 'components/widgets/charts/VegaChart';
 import Map from 'components/widgets/editor/map/Map';
