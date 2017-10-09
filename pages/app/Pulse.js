@@ -1,24 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'lodash/debounce';
 import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { getLayers, getLayerPoints } from 'redactions/pulse';
+import { getLayers, getLayerPoints, toggleActiveLayer } from 'redactions/pulse';
+import { toggleTooltip } from 'redactions/tooltip';
+
+// Selectors
 import getLayersGroupPulse from 'selectors/pulse/layersGroupPulse';
 import getActiveLayersPulse from 'selectors/pulse/layersActivePulse';
-import { toggleTooltip } from 'redactions/tooltip';
 
 // Helpers
 import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
+import { substitution } from 'utils/utils';
 
 // Components
 import Globe from 'components/vis/Globe';
 import LayerNav from 'components/app/pulse/LayerNav';
 import LayerCard from 'components/app/pulse/LayerCard';
-
 import Spinner from 'components/ui/Spinner';
 import ZoomControl from 'components/ui/ZoomControl';
 import GlobeTooltip from 'components/app/pulse/GlobeTooltip';
@@ -38,9 +41,12 @@ class Pulse extends Page {
       layerPoints: [],
       selectedMarker: null,
       useDefaultLayer: true,
-      markerType: 'default'
+      markerType: 'default',
+      interactionConfig: null
     };
     this.layerGlobeManager = new LayerGlobeManager();
+
+    this.handleMouseHoldOverGlobe = debounce(this.handleMouseHoldOverGlobe.bind(this), 10);
   }
 
   /**
@@ -65,14 +71,13 @@ class Pulse extends Page {
     if (lastId !== newId) {
       if (nextLayerActive) {
         this.setState({
-          loading: true
+          loading: true,
+          interactionConfig: nextLayerActive.attributes.interactionConfig
         });
 
         if (nextLayerActive.threedimensional === 'true') {
-          const datasetId = nextLayerActive.attributes.dataset;
-          const options = nextLayerActive.attributes.layerConfig.body.layers[0].options;
-          const tableName = options.sql.toUpperCase().split('FROM')[1];
-          this.props.getLayerPoints(datasetId, tableName);
+          const url = nextLayerActive.attributes.layerConfig.pulseConfig.url;
+          this.props.getLayerPoints(url);
         } else {
           this.layerGlobeManager.addLayer(nextLayerActive.attributes, {
             onLayerAddedSuccess: function success(texture) {
@@ -99,7 +104,7 @@ class Pulse extends Page {
     }
 
     if (nextProps.pulse.layerPoints !== this.props.pulse.layerPoints) {
-      if (nextProps.pulse.layerPoints.length > 0) {
+      if (nextProps.pulse.layerPoints && nextProps.pulse.layerPoints.length > 0) {
         this.setState({
           loading: false,
           layerPoints: nextProps.pulse.layerPoints.slice(0),
@@ -114,6 +119,7 @@ class Pulse extends Page {
   componentWillUnmount() {
     document.removeEventListener('click', this.triggerMouseDown);
     this.props.toggleTooltip(false);
+    this.props.toggleActiveLayer(null);
     this.mounted = false;
   }
 
@@ -125,7 +131,11 @@ class Pulse extends Page {
   * - handleMarkerSelected
   * - handleEarthClicked
   * - handleClickInEmptyRegion
+  * - handleMouseHoldOverGlobe
   */
+  handleMouseHoldOverGlobe() {
+    this.props.toggleTooltip(false);
+  }
   @Autobind
   triggerZoomIn() {
     this.globe.camera.translateZ(-5);
@@ -135,46 +145,33 @@ class Pulse extends Page {
     this.globe.camera.translateZ(5);
   }
   @Autobind
-  triggerMouseDown() {
-    this.props.toggleTooltip(false);
+  triggerMouseDown(event) {
+    if (event.target.tagName !== 'CANVAS') {
+      this.props.toggleTooltip(false);
+    }
   }
   @Autobind
   handleMarkerSelected(marker, event) {
-    const obj = {};
-    Object.keys(marker).forEach((key) => {
-      if (key !== 'cartodb_id' && key !== 'the_geom' && key !== 'the_geom_webmercator') {
-        obj[key] = marker[key];
-      }
-    });
+    const tooltipContentObj = this.state.interactionConfig.output.map(elem =>
+      ({ key: elem.property, value: marker[elem.column], type: elem.type }));
 
     if (this.mounted) {
       this.props.toggleTooltip(true, {
         follow: false,
         children: GlobeTooltip,
-        childrenProps: { value: obj },
+        childrenProps: { value: tooltipContentObj },
         position: { x: event.clientX, y: event.clientY }
       });
     }
   }
   @Autobind
   handleEarthClicked(latLon, clientX, clientY) {
+    const { pulse } = this.props;
+    const { interactionConfig } = this.state;
     this.props.toggleTooltip(false);
-    if (this.props.pulse.layerActive) {
-      const currentLayer = this.props.pulse.layerActive.attributes;
-      const datasetId = currentLayer.dataset;
-      const options = currentLayer.layerConfig.body.layers[0].options;
-      const geomColumn = options.geom_column;
-      const tableName = options.sql.toUpperCase().split('FROM')[1];
-      const geoJSON = JSON.stringify({
-        type: 'Point',
-        coordinates: [latLon.longitude, latLon.latitude]
-      });
-      let requestURL;
-      if (geomColumn) {
-        requestURL = `${process.env.WRI_API_URL}/query/${datasetId}?sql=SELECT ST_Value(st_transform(${geomColumn},4326), st_setsrid(st_geomfromgeojson('${geoJSON}'),4326), true) FROM ${tableName} WHERE st_intersects(${geomColumn},st_setsrid(st_geomfromgeojson('${geoJSON}'),4326))`;
-      } else {
-        requestURL = `${process.env.WRI_API_URL}/query/${datasetId}?sql=SELECT * FROM ${tableName} WHERE st_intersects(the_geom,st_buffer(ST_SetSRID(st_geomfromgeojson('${geoJSON}'),4326),1))`;
-      }
+    if (pulse.layerActive) {
+      const requestURL = substitution(interactionConfig.config.url,
+        [{ key: 'point', value: `[${latLon.longitude}, ${latLon.latitude}]` }]);
       this.setTooltipValue(requestURL, clientX, clientY);
     }
   }
@@ -198,13 +195,14 @@ class Pulse extends Page {
       }).then((response) => {
         if (response.data.length > 0) {
           const obj = response.data[0];
-          delete obj.the_geom;
-          delete obj.the_geom_webmercator;
-          delete obj.cartodb_id;
+
+          const tooltipContentObj = this.state.interactionConfig.output.map(elem =>
+            ({ key: elem.property, value: obj[elem.column], type: elem.type }));
+
           this.props.toggleTooltip(true, {
             follow: false,
             children: GlobeTooltip,
-            childrenProps: { value: obj },
+            childrenProps: { value: tooltipContentObj },
             position: { x: tooltipX, y: tooltipY }
           });
         }
@@ -214,7 +212,7 @@ class Pulse extends Page {
   render() {
     const { url, layersGroup } = this.props;
     const layerActive = this.props.pulse.layerActive;
-    const { markerType } = this.state;
+    const { markerType, layerPoints, texture, useDefaultLayer } = this.state;
     const globeWidht = (typeof window === 'undefined') ? 500 : window.innerWidth;
     const globeHeight = (typeof window === 'undefined') ? 300 : window.innerHeight - 75; // TODO: 75 is the header height
     return (
@@ -245,8 +243,8 @@ class Pulse extends Page {
             ambientLightColor={0x444444}
             enableZoom
             lightPosition={'right'}
-            texture={this.state.texture}
-            layerPoints={this.state.layerPoints}
+            texture={texture}
+            layerPoints={layerPoints}
             markerType={markerType}
             earthImagePath={earthImage}
             earthBumpImagePath={earthBumpImage}
@@ -254,10 +252,11 @@ class Pulse extends Page {
             segments={64}
             rings={64}
             useHalo
-            useDefaultLayer={this.state.useDefaultLayer}
+            useDefaultLayer={useDefaultLayer}
             onMarkerSelected={this.handleMarkerSelected}
             onEarthClicked={this.handleEarthClicked}
             onClickInEmptyRegion={this.handleClickInEmptyRegion}
+            onMouseHold={this.handleMouseHoldOverGlobe}
           />
           <ZoomControl
             ref={zoomControl => (this.zoomControl = zoomControl)}
@@ -277,9 +276,10 @@ Pulse.propTypes = {
   // STORE
   layersGroup: PropTypes.array,
   layerActive: PropTypes.object,
-  getLayers: PropTypes.func,
-  getLayerPoints: PropTypes.func,
-  toggleTooltip: PropTypes.func
+  getLayers: PropTypes.func.isRequired,
+  getLayerPoints: PropTypes.func.isRequired,
+  toggleTooltip: PropTypes.func.isRequired,
+  toggleActiveLayer: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -297,6 +297,9 @@ const mapDispatchToProps = dispatch => ({
   },
   getLayerPoints: (id, tableName) => {
     dispatch(getLayerPoints(id, tableName));
+  },
+  toggleActiveLayer: (id, threedimensional, markerType) => {
+    dispatch(toggleActiveLayer(id, threedimensional, markerType));
   }
 });
 

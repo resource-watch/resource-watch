@@ -39,10 +39,29 @@ class Step1 extends React.Component {
    * - triggerChangeMode
   */
   triggerChangeMode(mode) {
-    this.props.onModeChange(mode);
+    if (mode === 'editor') {
+      toastr.confirm('By switching you will start editing from scratch', {
+        onOk: () => {
+          this.props.onModeChange(mode);
+        },
+        onCancel: () => {
+          this.props.onModeChange(this.props.mode);
+        }
+      });
+    } else {
+      toastr.confirm('By switching you can edit your current widget but you can\'t go back to the editor', {
+        onOk: () => {
+          this.props.onModeChange(mode);
+        },
+        onCancel: () => {
+          this.props.onModeChange(this.props.mode);
+        }
+      });
+    }
   }
 
   render() {
+    const { id } = this.state;
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
 
@@ -68,6 +87,7 @@ class Step1 extends React.Component {
               label: 'Dataset',
               default: this.state.form.dataset,
               value: this.state.form.dataset,
+              disabled: !!id,
               required: true,
               instanceId: 'selectDataset'
             }}
@@ -181,7 +201,7 @@ class Step1 extends React.Component {
                 showSaveButton={false}
                 onChange={(value) => { this.props.onChange({ widgetConfig: value }); }}
                 onError={() => {
-                  toastr.error('Error', 'This dataset doesn\'t allow editor mode');
+                  toastr.info('Info', 'This dataset doesn\'t allow editor mode');
                   this.props.onModeChange('advanced');
                 }}
               />
@@ -227,6 +247,7 @@ class Step1 extends React.Component {
 Step1.propTypes = {
   id: PropTypes.string,
   form: PropTypes.object,
+  mode: PropTypes.string,
   datasets: PropTypes.array,
   onChange: PropTypes.func,
   onModeChange: PropTypes.func

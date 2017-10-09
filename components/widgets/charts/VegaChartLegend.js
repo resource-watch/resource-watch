@@ -67,9 +67,14 @@ class VegaChartLegend extends React.Component {
     // Kind of a trick, if there's something better, use it
     const uniqueId = config.values.slice(0, 5).map(v => v.label).join('');
 
+    const label = config.label
+      ? config.label[0].toUpperCase()
+          + config.label.slice(1, config.label.length)
+      : null;
+
     return (
       <div className="legend -size" key={uniqueId}>
-        { config.label && <Title className="-default">{config.label}</Title> }
+        { label && <Title className="-default">{label}</Title> }
         <div className="items">
           { config.values.map(value => (
             <div className="item" key={value.label}>

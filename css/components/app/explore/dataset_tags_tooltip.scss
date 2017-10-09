@@ -1,0 +1,18 @@
+.c-dataset-tags-tooltip {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  max-height: 200px;
+  max-width: 250px;
+  margin-bottom: 20px;
+  overflow: auto;
+
+  .tag {
+    border: 1px solid $light-grey;
+    background: $porcelain;
+    border-radius: 4px;
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+  }
+}

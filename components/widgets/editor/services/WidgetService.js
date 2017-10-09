@@ -11,7 +11,10 @@ export default class WidgetService {
 
   fetchData(includes = '') {
     return fetch(`${this.opts.apiURL}/widget/${this.widgetId}?includes=${includes}&page[size]=999`)
-      .then(response => response.json())
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
+      })
       .then(jsonData => jsonData.data);
   }
 
@@ -31,7 +34,10 @@ export default class WidgetService {
         Authorization: token
       }
     })
-      .then(response => response.json());
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
+      });
   }
 
   updateUserWidget(widget, datasetId, token) {
@@ -43,7 +49,10 @@ export default class WidgetService {
         Authorization: token
       }
     })
-      .then(response => response.json());
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
+      });
   }
 
   removeUserWidget(widgetId, token) {
@@ -54,20 +63,29 @@ export default class WidgetService {
         Authorization: token
       }
     })
-      .then(response => response.json());
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
+      });
   }
 
   getUserWidgets(userId, sortByUpdatedAt = true, direction = 'asc', includes = '') {
     const directionPart = (direction === 'asc') ? '&sort=updatedAt' : '&sort=-updatedAt';
     const sortSt = sortByUpdatedAt ? directionPart : '';
-    return fetch(`${this.opts.apiURL}/widget/?userId=${userId}${sortSt}&includes=${includes}&page[size]=999`)
-      .then(response => response.json())
+    return fetch(`${this.opts.apiURL}/widget/?userId=${userId}${sortSt}&includes=${includes}&env=production,preproduction&page[size]=999`)
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
+      })
       .then(jsonData => jsonData.data);
   }
 
   getUserWidgetCollections(user) {
     return fetch(`${this.opts.apiURL}/vocabulary/widget_collections?application=rw`)
-      .then(response => response.json())
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
+      })
       .then((jsonData) => {
         const dataObj = jsonData.data;
         const result = [];
@@ -94,6 +112,9 @@ export default class WidgetService {
         Authorization: user.token
       }
     })
-      .then(response => response.json());
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
+      });
   }
 }

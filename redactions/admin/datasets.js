@@ -81,7 +81,7 @@ export function getDatasets(options) {
   return (dispatch) => {
     dispatch({ type: GET_DATASETS_LOADING });
 
-    service.fetchAllData(options)
+    service.fetchAdminData(options)
       .then((data) => {
         dispatch({ type: GET_DATASETS_SUCCESS, payload: data });
       })

@@ -43,7 +43,7 @@ class TableView extends React.Component {
 
   getDataForTable(props) {
     const { tableName, widgetEditor } = props;
-    const { filters, fields, value, aggregateFunction, category, orderBy, limit } = widgetEditor;
+    const { areaIntersection, filters, fields, value, aggregateFunction, category, orderBy, limit } = widgetEditor;
     const aggregateFunctionExists = aggregateFunction && aggregateFunction !== 'none';
 
     const arrColumns = fields.filter(val => val.columnName !== 'cartodb_id' && val.columnType !== 'geometry').map(
@@ -70,8 +70,10 @@ class TableView extends React.Component {
       orderByColumn[0].name = `${aggregateFunction}(${value.name})`;
     }
 
+    const geostore = areaIntersection ? `&geostore=${areaIntersection}` : '';
+
     const sortOrder = orderBy ? orderBy.orderType : 'asc';
-    const query = `${getQueryByFilters(tableName, filters, arrColumns, orderByColumn, sortOrder)} LIMIT ${limit}`;
+    const query = `sql=${getQueryByFilters(tableName, filters, arrColumns, orderByColumn, sortOrder)} LIMIT ${limit} ${geostore}`;
 
     this.setState({ loading: true });
     this.datasetService.fetchFilteredData(query).then((response) => {
@@ -84,17 +86,30 @@ class TableView extends React.Component {
 
   render() {
     const { loading, data } = this.state;
-    const header = data && data.length > 0 && Object.keys(data[0]);
+    const { fields } = this.props.widgetEditor;
+
+    let header = data && data.length > 0
+      ? Object.keys(data[0])
+      : [];
+
+    // We check if we have an alias for the column name
+    // and update the headers accordingly
+    header = header.map((value) => {
+      const field = fields.find(field => field.columnName === value);
+      if (field) return field.alias || value;
+      return value;
+    })
+
     return (
       <div className="c-table-view c-table">
         <Spinner
           isLoading={loading}
-          className="-ligth"
+          className="-light"
         />
         <table>
           <thead>
             <tr>
-              {header && header.map(val => (
+              {header.map(val => (
                 <th
                   key={`header_${val}`}
                 >

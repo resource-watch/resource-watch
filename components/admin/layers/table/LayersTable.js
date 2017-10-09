@@ -24,6 +24,7 @@ import GoToDatasetAction from './actions/GoToDatasetAction';
 // TDs
 import NameTD from './td/NameTD';
 import UpdatedAtTD from './td/UpdatedAtTD';
+import OwnershipTD from './td/OwnershipTD';
 
 class LayersTable extends React.Component {
   componentDidMount() {
@@ -50,7 +51,7 @@ class LayersTable extends React.Component {
   }
 
   render() {
-    const { dataset, application } = this.props;
+    const { dataset, application, user } = this.props;
     return (
       <div className="c-layer-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -66,7 +67,11 @@ class LayersTable extends React.Component {
           link={{
             label: 'New layer',
             route: 'admin_data_detail',
-            params: { tab: 'layers', id: 'new', dataset: this.props.dataset }
+            params: {
+              tab: 'layers',
+              id: 'new',
+              ...!!dataset && { dataset }
+            }
           }}
           onSearch={this.onSearch}
         />
@@ -75,14 +80,15 @@ class LayersTable extends React.Component {
         {!this.props.error && (
           <CustomTable
             columns={[
-              { label: 'Name', value: 'name', td: NameTD },
+              { label: 'Name', value: 'name', td: NameTD, tdProps: { dataset } },
               { label: 'Provider', value: 'provider' },
-              { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD }
+              { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
+              { label: 'Ownership', value: 'userId', td: OwnershipTD, tdProps: { user } }
             ]}
             actions={{
               show: true,
               list: [
-                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'layers', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
+                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'layers', subtab: 'edit', id: '{{id}}', ...!!dataset && { dataset } }, show: true, component: EditAction },
                 { name: 'Remove', route: 'admin_data_detail', params: { tab: 'layers', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization } },
                 { name: 'Go to dataset', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, component: GoToDatasetAction }
               ]
@@ -112,7 +118,8 @@ LayersTable.defaultProps = {
   columns: [],
   actions: {},
   // Store
-  layers: []
+  layers: [],
+  users: {}
 };
 
 LayersTable.propTypes = {
@@ -124,6 +131,7 @@ LayersTable.propTypes = {
   loading: PropTypes.bool.isRequired,
   layers: PropTypes.array.isRequired,
   error: PropTypes.string,
+  user: PropTypes.object,
 
   // Actions
   getLayers: PropTypes.func.isRequired,
@@ -133,7 +141,8 @@ LayersTable.propTypes = {
 const mapStateToProps = state => ({
   loading: state.layers.layers.loading,
   layers: getFilteredLayers(state),
-  error: state.layers.layers.error
+  error: state.layers.layers.error,
+  user: state.user
 });
 const mapDispatchToProps = dispatch => ({
   getLayers: ({ dataset, application }) => dispatch(getLayers({ dataset, application })),

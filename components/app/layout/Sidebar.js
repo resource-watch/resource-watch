@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from 'components/ui/Icon';
 import classnames from 'classnames';
-import { connect } from 'react-redux';
-
-import { setSidebar } from 'redactions/explore';
 import MediaQuery from 'react-responsive';
+import debounce from 'lodash/debounce';
+
+// Redux
+import { connect } from 'react-redux';
+import { setSidebar } from 'redactions/explore';
+import { toggleTooltip } from 'redactions/tooltip';
+
+// Components
+import Icon from 'components/ui/Icon';
+
 
 class Sidebar extends React.Component {
   constructor(props) {
@@ -16,6 +22,7 @@ class Sidebar extends React.Component {
     };
 
     this.triggerToggle = this.triggerToggle.bind(this);
+    this.handleScroll = debounce(this.handleScroll.bind(this), 30);
   }
 
   componentDidMount() {
@@ -42,6 +49,10 @@ class Sidebar extends React.Component {
     this.props.setSidebar(options);
   }
 
+  handleScroll() {
+    this.props.toggleTooltip(false);
+  }
+
   render() {
     const openedClass = (this.state.open) ? '-opened' : '';
 
@@ -53,7 +64,7 @@ class Sidebar extends React.Component {
           </button>
         </MediaQuery>
 
-        <div className="sidebar-content">
+        <div className="sidebar-content" onScroll={() => this.handleScroll()}>
           {this.props.children}
         </div>
       </aside>
@@ -64,11 +75,14 @@ class Sidebar extends React.Component {
 Sidebar.propTypes = {
   children: PropTypes.any,
   sidebar: PropTypes.object,
-  setSidebar: PropTypes.func
+  setSidebar: PropTypes.func,
+  // Store
+  toggleTooltip: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
-  setSidebar: (options) => { dispatch(setSidebar(options)); }
+  setSidebar: (options) => { dispatch(setSidebar(options)); },
+  toggleTooltip: (opened, opts) => { dispatch(toggleTooltip(opened, opts)); }
 });
 
 const mapStateToProps = state => ({

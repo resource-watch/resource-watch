@@ -1,16 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { toastr } from 'react-redux-toastr';
+import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
-
 
 // Components
 import Button from 'components/ui/Button';
 import Checkbox from 'components/form/Checkbox';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
+import Spinner from 'components/ui/Spinner';
 
+// Services
+import UserService from 'services/UserService';
 
 export const FORM_ELEMENTS = {
   elements: {
@@ -38,46 +42,55 @@ class MyRWEditProfile extends React.Component {
     super(props);
 
     this.state = {
-      user: props.user
+      user: props.user,
+      loading: true
     };
+
+    // User service
+    this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
   }
 
   componentDidMount() {
-    if (!this.props.user.id) {
-      this.waitForUserToBeLoaded();
-    } else {
-      this.loadUser();
-    }
+    this.userService.getLoggedUser(this.props.user.token)
+      .then((response) => {
+        this.setState({
+          loading: false,
+          user: Object.assign(this.state.user, response)
+        });
+      })
+      .catch(err => console.error(err));
   }
 
-  waitForUserToBeLoaded() {
-    setTimeout(() => {
-      if (this.props.user.id) {
-        this.loadUser();
-      } else {
-        this.waitForUserToBeLoaded();
-      }
-    }, 1000);
-  }
-
-  loadUser() {
-    this.setState({
-      user: this.props.user
-    });
-  }
-
+  @Autobind
   triggerSaveProfile() {
+    const { user } = this.state;
+    const userObj = { name: user.name, photo: user.photo || '' };
+
+    this.setState({ loading: true });
+
+    this.userService.updateUser(userObj, user.token)
+      .then(() => {
+        this.setState({
+          loading: false
+        });
+      })
+      .catch((err) => {
+        toastr.error('There was a problem updating your user data');
+        this.setState({ loading: false });
+        console.error(err);
+      });
   }
 
   handleFormChange(value) {
-    this.setState(Object.assign(this.state, value));
+    this.setState(Object.assign(this.state.user, value));
   }
 
   render() {
-    const { user } = this.state;
+    const { user, loading } = this.state;
 
     return (
       <div className="c-myrw-edit-profile">
+        <Spinner isLoading={loading} className="-light" />
         <div className="row">
           <div className="column small-12">
             <fieldset className="c-field-container">
@@ -89,8 +102,7 @@ class MyRWEditProfile extends React.Component {
                   label: 'Name',
                   type: 'text',
                   required: true,
-                  default: user.name,
-                  disabled: true
+                  default: user.name
                 }}
               >
                 {Input}
@@ -147,8 +159,7 @@ class MyRWEditProfile extends React.Component {
               <Button
                 properties={{
                   type: 'button',
-                  className: '-a -end',
-                  disabled: true
+                  className: '-a -end'
                 }}
                 onClick={this.triggerSaveProfile}
               >

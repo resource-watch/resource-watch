@@ -90,7 +90,7 @@ class WidgetsNew extends React.Component {
     const dataset = datasets.find(elem => elem.value === selectedDataset);
     const { type, provider, tableName } = dataset;
 
-    if (!canRenderChart(widgetEditor)) {
+    if (!canRenderChart(widgetEditor, provider)) {
       toastr.error('Error', 'Please create a widget in order to save it');
       return;
     }

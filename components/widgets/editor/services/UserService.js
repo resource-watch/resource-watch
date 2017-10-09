@@ -212,19 +212,12 @@ export default class UserService {
   /**
    * Create new area
    */
-  createNewArea(name, geostore, iso, token) {
+  createNewArea(name, geostore, token) {
     const bodyObj = {
       name,
-      application: process.env.APPLICATIONS
+      application: process.env.APPLICATIONS,
+      geostore
     };
-
-    if (geostore) {
-      bodyObj.geostore = geostore;
-    }
-
-    if (iso) {
-      bodyObj.iso = { country: iso.value };
-    }
 
     return fetch(`${this.opts.apiURL}/area`, {
       method: 'POST',

@@ -42,7 +42,6 @@ export default class WidgetsService {
               ...widget.attributes,
               id: widget.id
             }));
-
             resolve(sortBy(widgets, 'name'));
           }
         },

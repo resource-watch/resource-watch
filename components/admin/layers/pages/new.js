@@ -12,7 +12,13 @@ function LayersNew(props) {
       <LayersForm
         application={[process.env.APPLICATIONS]}
         authorization={user.token}
-        onSubmit={() => Router.pushRoute('admin_data', { tab: 'layers' })}
+        onSubmit={() => {
+          if (dataset) {
+            Router.pushRoute('admin_data_detail', { tab: 'datasets', subtab: 'layers', id: dataset });
+          } else {
+            Router.pushRoute('admin_data', { tab: 'layers' });
+          }
+        }}
         dataset={dataset}
       />
     </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import escapeRegExp from 'lodash/escapeRegExp';
 
 // Next
 import { Link } from 'routes';
@@ -30,7 +31,7 @@ class SearchInput extends React.Component {
     this.setState({
       value: e.currentTarget.value || ''
     }, () => {
-      if (this.props.onSearch) this.props.onSearch(this.state.value);
+      if (this.props.onSearch) this.props.onSearch(escapeRegExp(this.state.value));
     });
   }
 

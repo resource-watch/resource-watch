@@ -56,6 +56,7 @@ class FilterContainer extends React.Component {
             <ColumnBox
               key={val.name}
               name={val.name}
+              alias={val.alias}
               type={val.type}
               datasetID={val.datasetID}
               tableName={val.tableName}

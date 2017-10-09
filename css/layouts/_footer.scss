@@ -1,6 +1,10 @@
 .l-footer {
   margin-top: $margin-size;
 
+  .footer-logo {
+    margin-bottom: $margin-size-small;
+  }
+
   .footer-intro {
     position: relative;
     padding: $margin-size 0;
@@ -49,31 +53,39 @@
     color: $ui-font-color;
   }
 
-  .footer-terms {
-    display: flex;
-    align-items: center;
-    padding: 10px 0;
-    text-align: center;
-
-    color: $ui-font-color;
-
-    background-color: $ui-bg-color;
+  .footer-lower {
+    background-color: #333333;
 
     p {
-      font-size: $font-size-normal;
+      font-size: 14px;
       margin: 0;
+      line-height: 24px;
+      margin-bottom: 5px;
+
+      &:last-child { margin-bottom: 0; }
+
+      &.-bold {
+        font-weight: bold;
+      }
     }
 
-    @media screen and (min-width: map-get($breakpoints, medium)) {
-      height: 31px;
-      padding: 0;
-      text-align: inherit;
 
-      .terms {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    .footer-container {
+      padding: 55px 0;
+      color: $color-white;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .footer-item {
+      display: flex;
+      justify-content: center;
+      flex-flow: column;
+
+      &:last-child {
+        text-align: right;
       }
     }
   }
+
 }

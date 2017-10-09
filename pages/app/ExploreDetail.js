@@ -23,8 +23,11 @@ import {
   setChartType,
   setBand,
   setVisualizationType,
-  setLayer
+  setLayer,
+  setTitle
 } from 'components/widgets/editor/redux/widgetEditor';
+import { setUser } from 'redactions/user';
+import { setRouter } from 'redactions/routes';
 
 // Next
 import { Link } from 'routes';
@@ -48,6 +51,14 @@ import Banner from 'components/app/common/Banner';
 const LIMIT_CHAR_DESCRIPTION = 1120;
 
 class ExploreDetail extends Page {
+  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
+    const { user } = isServer ? req : store.getState();
+    const url = { asPath, pathname, query };
+    store.dispatch(setUser(user));
+    store.dispatch(setRouter(url));
+    return { user, isServer, url };
+  }
+
   constructor(props) {
     super(props);
 
@@ -140,7 +151,7 @@ class ExploreDetail extends Page {
           });
 
         if (similarDatasets.length > 0) {
-          DatasetService.getDatasets(similarDatasets)
+          DatasetService.getDatasets(similarDatasets, 'widget,metadata,layer')
             .then((data) => {
               this.setState({
                 similarDatasetsLoaded: true,
@@ -160,6 +171,7 @@ class ExploreDetail extends Page {
 
   loadDefaultWidgetIntoRedux(defaultEditableWidget) {
     const { paramsConfig } = defaultEditableWidget.attributes.widgetConfig;
+    const { name } = defaultEditableWidget.attributes;
     if (paramsConfig) {
       const {
         visualizationType,
@@ -192,6 +204,7 @@ class ExploreDetail extends Page {
       if (filters) this.props.setFilters(filters);
       if (limit) this.props.setLimit(limit);
       if (chartType) this.props.setChartType(chartType);
+      if (name) this.props.setTitle(name);
     }
   }
 
@@ -550,7 +563,8 @@ const mapStateToProps = state => ({
   setChartType: PropTypes.func.isRequired,
   setVisualizationType: PropTypes.func.isRequired,
   setBand: PropTypes.func.isRequired,
-  setLayer: PropTypes.func.isRequired
+  setLayer: PropTypes.func.isRequired,
+  setTitle: PropTypes.func.isRequired
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -576,7 +590,8 @@ const mapDispatchToProps = dispatch => ({
       .then(layer => dispatch(setLayer(layer)))
       // TODO: better handling of the error
       .catch(err => toastr.error('Error', err));
-  }
+  },
+  setTitle: title => dispatch(setTitle(title))
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);

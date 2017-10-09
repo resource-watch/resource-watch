@@ -13,6 +13,9 @@ import Spinner from 'components/ui/Spinner';
 
 import FormElement from './FormElement';
 
+// constants
+const COLUMN_FORMAT = ['csv', 'tsv'];
+
 class File extends FormElement {
   constructor(props) {
     super(props);
@@ -77,7 +80,11 @@ class File extends FormElement {
         validations: ['required', 'url']
       }, () => {
         // Publish the new value to the form
-        if (this.props.onChange) this.props.onChange(this.state.value);
+        if (this.props.onChange) {
+          this.props.onChange({
+            value: this.state.value
+          });
+        }
         // Trigger validation
         this.triggerValidate();
       });
@@ -92,7 +99,11 @@ class File extends FormElement {
       validations: ['required', 'url']
     }, () => {
       // Publish the new value to the form
-      if (this.props.onChange) this.props.onChange(this.state.value);
+      if (this.props.onChange) {
+        this.props.onChange({
+          value: this.state.value
+        });
+      }
       // Trigger validation
       this.triggerValidate();
     });
@@ -116,8 +127,9 @@ class File extends FormElement {
 
   uploadFile(file) {
     const formData = new FormData();
+    const { provider } = this.props.properties || {};
     formData.append('dataset', file);
-    formData.append('provider', this.props.properties.provider);
+    formData.append('provider', provider);
 
     this.setState({ loading: true, errors: [] });
 
@@ -138,8 +150,10 @@ class File extends FormElement {
           // Publish the new value to the form
           if (this.props.onChange) {
             this.props.onChange({
-              // filters non-empty fields
-              fields: fields.filter(field => (field || '').length),
+              ...COLUMN_FORMAT.includes(provider) && {
+                // filters non-empty fields
+                fields: fields.filter(field => (field || '').length)
+              },
               value: connectorUrl
             });
           }

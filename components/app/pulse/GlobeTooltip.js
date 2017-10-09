@@ -2,29 +2,35 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class GlobeTooltip extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // Bindings
-    this.getContent = this.getContent.bind(this);
+  getContent(val) { // eslint-disable-line class-methods-use-this
+    if (val.type === 'url') {
+      return (
+        <div>
+          <strong>{val.key}</strong>: <a href={val.value} target="_blank">{val.value}</a>
+        </div>);
+    } else { // eslint-disable-line no-else-return
+      return <div><strong>{val.key}</strong>: {val.value}</div>;
+    }
   }
 
-  getContent() {
-    let counter = 0;
-    return (
-      <ul>
-        {
-          Object.keys(this.props.value).map(
-            key => <li key={`tooltip_li_${counter += 1}`}><strong>{key}</strong>: {this.props.value[key]}</li>)
-        }
-      </ul>
-    );
+  handleClick(event) { // eslint-disable-line class-methods-use-this
+    // so that the tooltip is not closed automatically when clicking inside of it
+    event.nativeEvent.stopImmediatePropagation();
   }
 
   render() {
     return (
-      <div className="c-globe-tooltip">
-        {this.getContent()}
+      <div
+        className="c-globe-tooltip"
+        onClick={this.handleClick}>
+        {this.props.value.map(
+          val =>
+            (<div
+              key={val.key}
+            >
+              {this.getContent(val)}
+            </div>)
+        )}
       </div>
     );
   }
@@ -32,7 +38,7 @@ class GlobeTooltip extends React.Component {
 
 GlobeTooltip.propTypes = {
   // Define the chart data
-  value: PropTypes.object
+  value: PropTypes.array.isRequired
 };
 
 export default GlobeTooltip;

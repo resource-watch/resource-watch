@@ -19,7 +19,7 @@ function WidgetsTab(props) {
       }
 
       {id && subtab === 'edit' && user.token &&
-        <WidgetsEdit tab={tab} subtab={subtab} id={id} />
+        <WidgetsEdit tab={tab} subtab={subtab} id={id} dataset={dataset} />
       }
 
       {id === 'new' && user.token &&

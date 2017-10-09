@@ -10,12 +10,43 @@ export default class DatasetsService {
   }
 
   // GET ALL DATA
-  fetchAllData({ applications = [process.env.APPLICATIONS], includes, filters } = {}) {
+  fetchAdminData({ applications = [process.env.APPLICATIONS], includes, filters } = {}) {
     const qParams = {
       application: applications.join(','),
       ...!!includes && { includes },
       'page[size]': 9999999,
+      env: 'production,preproduction',
       ...filters
+    };
+
+    return new Promise((resolve, reject) => {
+      get({
+        url: `${process.env.WRI_API_URL}/dataset?${Object.keys(qParams).map(k => `${k}=${qParams[k]}`).join('&')}`,
+        headers: [{
+          key: 'Content-Type',
+          value: 'application/json'
+        }, {
+          key: 'Authorization',
+          value: this.opts.authorization
+        }],
+        onSuccess: ({ data }) => {
+          const datasets = data.map(dataset => ({ ...dataset.attributes, id: dataset.id }));
+          resolve(sortBy(datasets, 'name'));
+        },
+        onError: (error) => {
+          reject(error);
+        }
+      });
+    });
+  }
+
+  fetchAllData({ applications = [process.env.APPLICATIONS], includes, filters, env = 'preproduction,production' } = {}) {
+    const qParams = {
+      application: applications.join(','),
+      ...!!includes && { includes },
+      'page[size]': 9999999,
+      ...filters,
+      env
     };
 
     return new Promise((resolve, reject) => {
@@ -139,8 +170,8 @@ export default class DatasetsService {
     });
   }
 
-  fetchFields({ id, provider, tableName }) {
-    const url = getFieldUrl(id, provider, tableName);
+  fetchFields({ id, provider, type, tableName }) {
+    const url = getFieldUrl(id, provider, type, tableName);
     return new Promise((resolve, reject) => {
       get({
         url,
@@ -152,7 +183,7 @@ export default class DatasetsService {
           value: this.opts.authorization
         }],
         onSuccess: (data) => {
-          resolve(getFields(data, provider));
+          resolve(getFields(data, provider, type));
         },
         onError: (error) => {
           reject(error);

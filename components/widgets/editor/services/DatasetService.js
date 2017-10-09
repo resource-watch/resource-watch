@@ -32,7 +32,10 @@ export default class DatasetService {
    */
   getSubscribableDatasets(includes = '') {
     return fetch(`${this.opts.apiURL}/dataset?application=rw&includes=${includes}&subscribable=true&page[size]=999`)
-      .then(response => response.json())
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
+      })
       .then(jsonData => jsonData.data);
   }
 
@@ -42,7 +45,10 @@ export default class DatasetService {
    */
   fetchData(includes = '', applications = [process.env.APPLICATIONS]) {
     return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&includes=${includes}&page[size]=999`)
-      .then(response => response.json())
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
+      })
       .then(jsonData => jsonData.data);
   }
 
@@ -51,8 +57,11 @@ export default class DatasetService {
    * @returns {Promise}
    */
   fetchFilteredData(query) {
-    return fetch(`${this.opts.apiURL}/query/${this.datasetId}?sql=${query}`)
-      .then(response => response.json())
+    return fetch(`${this.opts.apiURL}/query/${this.datasetId}?${query}`)
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
+      })
       .then(jsonData => jsonData.data);
   }
 
@@ -64,24 +73,19 @@ export default class DatasetService {
    * @param {number} [timeout=10000] Timeout before rejecting the provise
    * @returns {Promise<any>}
    */
-  fetchJiminy(query, timeout = 10000) {
-    return new Promise((resolve, reject) => {
-      // If the timeout time has elapsed, we reject
-      // the promise
-      setTimeout(reject, timeout);
-
-      fetch(`${this.opts.apiURL}/jiminy`, {
-        method: 'POST',
-        body: JSON.stringify({ sql: query }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+  fetchJiminy(query) {
+    return fetch(`${this.opts.apiURL}/jiminy`, {
+      method: 'POST',
+      body: JSON.stringify({ sql: query }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
       })
-        .then(response => response.json())
-        .then(jsonData => jsonData.data)
-        .then(resolve)
-        .catch(reject);
-    });
+      .then(jsonData => jsonData.data);
   }
 
 
@@ -93,7 +97,7 @@ export default class DatasetService {
     return new Promise((resolve) => {
       const newFieldData = fieldData;
       if (isFieldNumber(fieldData) || isFieldDate(fieldData)) {
-        this.getMinAndMax(fieldData.columnName, fieldData.tableName).then((data) => {
+        this.getMinAndMax(fieldData.columnName, fieldData.tableName, fieldData.geostore).then((data) => {
           newFieldData.properties = data;
           resolve(newFieldData);
         });
@@ -139,7 +143,10 @@ export default class DatasetService {
 
   getFields() {
     return fetch(`${this.opts.apiURL}/fields/${this.datasetId}`)
-      .then(response => response.json())
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
+      })
       .then((jsonData) => {
         const fieldsObj = jsonData.fields;
         const parsedData = {
@@ -153,16 +160,21 @@ export default class DatasetService {
       });
   }
 
-  getMinAndMax(columnName, tableName) {
+  getMinAndMax(columnName, tableName, geostore) {
     if (!this.tableName && !tableName) {
       throw Error('tableName was not specified.');
     }
     const table = tableName || this.tableName;
-    const query = `SELECT Min(${columnName}) AS min, Max(${columnName}) AS max FROM ${table}`;
+    const query = `SELECT min(${columnName}) AS min, max(${columnName}) AS max FROM ${table}`;
+    const qGeostore = (geostore) ? `&geostore=${geostore}` : '';
+
     return new Promise((resolve) => {
       // TODO: remove cache param
-      fetch(`https://api.resourcewatch.org/v1/query/${this.datasetId}?sql=${query}`)
-        .then(response => response.json())
+      fetch(`https://api.resourcewatch.org/v1/query/${this.datasetId}?sql=${query}${qGeostore}`)
+        .then((response) => {
+          if (!response.ok) throw new Error(response.statusText);
+          return response.json();
+        })
         .then((jsonData) => {
           if (jsonData.data) {
             resolve(jsonData.data[0]);
@@ -183,7 +195,10 @@ export default class DatasetService {
     return new Promise((resolve) => {
       // TODO: remove cache param
       fetch(`https://api.resourcewatch.org/v1/query/${this.datasetId}?sql=${query}`)
-        .then(response => response.json())
+        .then((response) => {
+          if (response.status >= 400) throw new Error(response.statusText);
+          return response.json();
+        })
         .then((jsonData) => {
           const parsedData = (jsonData.data || []).map(data => data[columnName]);
           resolve(parsedData);
@@ -193,7 +208,10 @@ export default class DatasetService {
 
   getLayers() {
     return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}/layer?app=rw`)
-      .then(response => response.json())
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
+      })
       .then(jsonData => jsonData.data);
   }
 
@@ -210,7 +228,10 @@ export default class DatasetService {
 
   getSimilarDatasets() {
     return fetch(`${this.opts.apiURL}/graph/query/similar-dataset/${this.datasetId}`)
-      .then(response => response.json())
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
+      })
       .then(jsonData => jsonData.data);
   }
 
@@ -243,7 +264,10 @@ export default class DatasetService {
 
 
     return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}`)
-      .then(response => response.json())
+      .then((response) => {
+        if (response.status >= 400) throw new Error(response.statusText);
+        return response.json();
+      })
       .then(jsonData => jsonData.data);
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 
 // Services
 import WidgetsService from 'services/WidgetsService';
@@ -81,10 +82,17 @@ class WidgetsForm extends React.Component {
         const datasets = response[0];
         const current = response[1];
 
+        // Set advanced mode if paramsConfig doesn't exist or if it's empty
+        const mode = (
+          current &&
+          (!current.widgetConfig.paramsConfig || isEmpty(current.widgetConfig.paramsConfig))
+        ) ? 'advanced' : 'editor';
+
         this.setState({
           // CURRENT DASHBOARD
           form: (id) ? this.setFormFromParams(current) : this.state.form,
           loading: false,
+          mode,
           // OPTIONS
           datasets: datasets.map(p => ({ label: p.name, value: p.id }))
         }, () => this.loadWidgetIntoRedux());
@@ -114,8 +122,8 @@ class WidgetsForm extends React.Component {
     // Set a timeout due to the setState function of react
     setTimeout(() => {
       // Validate all the inputs on the current step
-      const isEmptyWidgetConfig = mode === 'editor' ? !value || !category || !chartType : false;
-      const valid = FORM_ELEMENTS.isValid(step) && !isEmptyWidgetConfig;
+      const validWidgetConfig = (mode === 'editor') ? this.validateWidgetConfig() : true;
+      const valid = FORM_ELEMENTS.isValid(step) && validWidgetConfig;
 
       if (valid) {
         // if we are in the last step we will submit the form
@@ -190,8 +198,8 @@ class WidgetsForm extends React.Component {
           });
         }
       } else {
-        if (isEmptyWidgetConfig && mode === 'editor') {
-          return toastr.error('Error', 'Value, Category and Chart type are mandatory fields for a widget visualization.');
+        if (!validWidgetConfig && mode === 'editor') {
+          return this.errorValidationWidgetConfig();
         }
 
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
@@ -224,6 +232,36 @@ class WidgetsForm extends React.Component {
     });
 
     return newForm;
+  }
+
+  validateWidgetConfig() {
+    const { value, category, chartType, visualizationType, layer } = this.props.widgetEditor;
+
+    switch (visualizationType) {
+      case 'chart':
+        return !!chartType && !!category && !!value;
+      case 'table':
+        return !!chartType && !!category && !!value;
+      case 'map':
+        return !!layer;
+      default:
+        return false;
+    }
+  }
+
+  errorValidationWidgetConfig() {
+    const { visualizationType } = this.props.widgetEditor;
+
+    switch (visualizationType) {
+      case 'chart':
+        return toastr.error('Error', 'Value, Category and Chart type are mandatory fields for a widget visualization.');
+      case 'table':
+        return toastr.error('Error', 'Value, Category and Chart type are mandatory fields for a widget visualization.');
+      case 'map':
+        return toastr.error('Error', 'Layer is mandatory field for a widget visualization.');
+      default:
+        return false;
+    }
   }
 
 

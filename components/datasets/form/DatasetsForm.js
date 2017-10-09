@@ -18,6 +18,7 @@ class DatasetsForm extends React.Component {
 
     this.state = Object.assign({}, STATE_DEFAULT, {
       loading: !!props.dataset,
+      loadingColumns: !!props.dataset,
       columns: [],
       form: Object.assign({}, STATE_DEFAULT.form, {
         application: props.application,
@@ -41,24 +42,28 @@ class DatasetsForm extends React.Component {
     if (this.props.dataset) {
       this.service.fetchData({ id: this.props.dataset })
         .then((data) => {
-          const { provider, tableName } = data || {};
+          const { provider, type, tableName } = data || {};
           this.setState({
             form: this.setFormFromParams(data),
             // Stop the loading
-            loading: false
+            loading: false,
+            loadingColumns: true
           });
 
           this.service.fetchFields({
             id: this.props.dataset,
+            type,
             provider,
             tableName
           })
             .then((columns) => {
               this.setState({
-                columns
+                columns,
+                loadingColumns: false
               });
             })
             .catch((err) => {
+              this.setState({ loadingColumns: false });
               toastr.error('Error', err);
             });
         })
@@ -171,6 +176,7 @@ class DatasetsForm extends React.Component {
             form={this.state.form}
             dataset={this.props.dataset}
             columns={this.state.columns}
+            loadingColumns={this.state.loadingColumns}
           />
         }
 

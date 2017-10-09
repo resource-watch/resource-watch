@@ -41,12 +41,14 @@
 // Components
 // UI
 @import '../node_modules/react-redux-toastr/src/styles/index';
+@import '../node_modules/rc-slider/assets/index';
 @import "./components/ui/aside";
 @import "./components/ui/avatar";
 @import "./components/ui/breadcrumbs";
 @import "./components/ui/button";
 @import "./components/ui/button-container";
 @import "./components/ui/card";
+@import "./components/ui/card-app";
 @import "./components/ui/compound_menu";
 @import "./components/ui/custom_select";
 @import "./components/ui/dock";
@@ -57,6 +59,7 @@
 @import "./components/ui/paginator";
 @import "./components/ui/related-content";
 @import "./components/ui/search-input";
+@import "./components/ui/slider-tooltip";
 @import "./components/ui/spinner";
 @import "./components/ui/switch-options";
 @import "./components/ui/switch";
@@ -94,7 +97,10 @@
 
 // VIS
 @import "./components/vis/globe";
-@import "./components/vis/map";
+
+// Map
+@import "./components/map/map";
+@import "./components/map/map-controls";
 
 // Form
 @import "./components/form/form";
@@ -109,6 +115,7 @@
 @import "./components/form/token";
 @import "./components/form/wysiwyg";
 @import "./components/form/toggle-search";
+
 
 // WIDGETS
 @import "./components/widgets/add_widget_to_collection_tooltip";
@@ -145,6 +152,9 @@
 @import "./components/admin/dataset/filter-item";
 @import "./components/admin/dataset/list";
 @import "./components/admin/dataset/datasets-list-card";
+@import "./components/admin/dataset/source-item";
+@import "./components/admin/dataset/metadata-source-list";
+
 
 // Widgets
 @import "./components/admin/widget/card";
@@ -217,6 +227,7 @@
 @import "./components/app/explore/widget_configurator";
 @import "./components/app/explore/explore_layers_tooltip";
 @import "./components/app/explore/resume_filters";
+@import "./components/app/explore/dataset_tags_tooltip";
 
 // EXPLORE DETAIL
 @import "./components/app/explore-detail/dataset-info";

@@ -14,6 +14,7 @@ import { toggleModal } from 'redactions/modal';
 import Select from 'components/widgets/editor/form/SelectInput';
 import Spinner from 'components/widgets/editor/ui/Spinner';
 import SaveWidgetModal from 'components/widgets/editor/modal/SaveWidgetModal';
+import AreaIntersectionFilter from 'components/widgets/editor/ui/AreaIntersectionFilter';
 
 // Services
 import RasterService from 'components/widgets/editor/services/RasterService';
@@ -73,13 +74,15 @@ class RasterChartEditor extends React.Component {
    */
   @Autobind
   onClickSaveWidget() {
+    const { dataset, provider, tableName, title } = this.props;
     const options = {
       children: SaveWidgetModal,
       childrenProps: {
-        dataset: this.props.dataset,
+        dataset,
         datasetType: 'raster',
-        datasetProvider: this.props.provider,
-        tableName: this.props.tableName
+        datasetProvider: provider,
+        tableName,
+        title
       }
     };
 
@@ -138,11 +141,12 @@ class RasterChartEditor extends React.Component {
 
   render() {
     const { loading, bands, error, bandStatsInfo, bandStatsInfoLoading } = this.state;
-    const { band, mode, showSaveButton } = this.props;
+    const { band, mode, showSaveButton, hasGeoInfo } = this.props;
 
     return (
       <div className="c-raster-chart-editor">
         <div className="content">
+          { hasGeoInfo && <AreaIntersectionFilter /> }
           <h5>Bands { loading && <Spinner isLoading className="-light -small -inline" /> }</h5>
           { error && <div className="error"><span>Error:</span> {error}</div> }
           { !error && (
@@ -208,6 +212,8 @@ class RasterChartEditor extends React.Component {
 RasterChartEditor.propTypes = {
   dataset: PropTypes.string.isRequired,
   tableName: PropTypes.string.isRequired,
+  hasGeoInfo: PropTypes.bool.isRequired,
+  title: PropTypes.string, // Default title when saving the widget
   provider: PropTypes.string.isRequired,
   mode: PropTypes.oneOf(['save', 'update']),
   showSaveButton: PropTypes.bool,

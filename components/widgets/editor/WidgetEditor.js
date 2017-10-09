@@ -5,6 +5,7 @@ import { Autobind } from 'es-decorators';
 import { DragDropContext } from 'react-dnd';
 import isEqual from 'lodash/isEqual';
 import { toastr } from 'react-redux-toastr';
+import AutosizeInput from 'react-input-autosize';
 
 // Redux
 import { connect } from 'react-redux';
@@ -30,11 +31,14 @@ import VegaChart from 'components/widgets/charts/VegaChart';
 import ChartEditor from 'components/widgets/editor/chart/ChartEditor';
 import MapEditor from 'components/widgets/editor/map/MapEditor';
 import RasterChartEditor from 'components/widgets/editor/raster/RasterChartEditor';
+import NEXGDDPEditor from 'components/widgets/editor/nexgddp/NEXGDDPEditor';
 
 import Map from 'components/widgets/editor/map/Map';
+import MapControls from 'components/widgets/editor/map/MapControls';
+import BasemapControl from 'components/widgets/editor/map/controls/BasemapControl';
+
 import Legend from 'components/widgets/editor/ui/Legend';
 import TableView from 'components/widgets/editor/table/TableView';
-import Icon from 'components/widgets/editor/ui/Icon';
 import ShareModalExplore from 'components/widgets/editor/modal/ShareModalExplore';
 import EmbedTableModal from 'components/widgets/editor/modal/EmbedTableModal';
 
@@ -157,6 +161,10 @@ class WidgetEditor extends React.Component {
           }]
           : []
       });
+    } else if (this.props.widgetEditor.title !== nextProps.widgetEditor.title) {
+      this.setState({
+        title: nextProps.widgetEditor.title ? nextProps.widgetEditor.title : ''
+      });
     }
   }
 
@@ -166,7 +174,8 @@ class WidgetEditor extends React.Component {
     // NOTE: this can't be moved to componentWillUpdate because
     // this.fetchChartConfig uses the store
     if (this.state.datasetInfoLoaded
-      && canRenderChart(this.props.widgetEditor)
+      && canRenderChart(this.props.widgetEditor, this.state.datasetProvider)
+      && this.props.widgetEditor.visualizationType !== 'table'
       && this.props.widgetEditor.visualizationType !== 'map'
       && (!isEqual(previousProps.widgetEditor, this.props.widgetEditor)
       || previousState.tableName !== this.state.tableName)) {
@@ -251,12 +260,11 @@ class WidgetEditor extends React.Component {
           resolve();
         });
       })
-      // TODO: handle the error case in the UI
-      .catch((err) => {
-        this.setState({ fieldsError: true });
-        toastr.error('Error loading fields');
-        console.error('Error loading fields', err);
-      })
+      // We can't show an error here because for the raster datasets
+      // there won't be fields
+      // Unfortunately, at this stage, we don't know if the dataset
+      // is a raster one, so the error is never shown
+      .catch(err => this.setState({ fieldsError: true }))
       // If we reach this point, either we have already resolved the promise
       // and so rejecting it has no effect, or we haven't and so we reject it
       .then(reject);
@@ -355,7 +363,7 @@ class WidgetEditor extends React.Component {
         });
       })
       // TODO: handle the error case in the UI
-      .catch(err => toastr.error('Error', `Unable to load the information about the dataset. ${err}`));
+      .catch(err => toastr.error('Error', `Unable to load the information about the dataset.`));
   }
 
   /**
@@ -368,10 +376,12 @@ class WidgetEditor extends React.Component {
       chartLoading,
       layersLoaded,
       fieldsError,
-      jiminyLoaded
+      jiminyLoaded,
+      title,
+      datasetProvider
     } = this.state;
 
-    const { widgetEditor, dataset, mode, selectedVisualizationType } = this.props;
+    const { widgetEditor, dataset, mode, selectedVisualizationType, user } = this.props;
     const { chartType, layer } = widgetEditor;
 
     // Whether we are still waiting for some info
@@ -403,7 +413,7 @@ class WidgetEditor extends React.Component {
               </div>
             </div>
           );
-        } else if (!canRenderChart(widgetEditor) || !this.state.chartConfig) {
+        } else if (!canRenderChart(widgetEditor, datasetProvider) || !this.state.chartConfig) {
           visualization = (
             <div className="visualization -chart">
               Select a type of chart and columns
@@ -419,6 +429,20 @@ class WidgetEditor extends React.Component {
           visualization = (
             <div className="visualization -chart">
               <Spinner className="-light" isLoading={chartLoading} />
+              {mode === 'dataset' &&
+                <div className="chart-title">
+                  {user.id &&
+                    <AutosizeInput
+                      name="widget-title"
+                      value={title}
+                      onChange={this.handleTitleChange}
+                    />
+                  }
+                  {!user.id &&
+                    <span>{title}</span>
+                  }
+                </div>
+              }
               <VegaChart
                 reloadOnResize
                 data={this.state.chartConfig}
@@ -441,9 +465,9 @@ class WidgetEditor extends React.Component {
                 layerGroups={this.state.layerGroups}
               />
 
-              <button className="share-button" onClick={() => this.onClickShareMap()}>
-                <Icon name="icon-share" className="-small" />
-              </button>
+              <MapControls>
+                <BasemapControl />
+              </MapControls>
 
               <Legend
                 layerGroups={this.state.layerGroups}
@@ -506,14 +530,22 @@ class WidgetEditor extends React.Component {
 
       // HTML table
       case 'table':
-        visualization = (
-          <div className="visualization">
-            <TableView
-              dataset={dataset}
-              tableName={tableName}
-            />
-          </div>
-        );
+        if (!canRenderChart(widgetEditor, datasetProvider)) {
+          visualization = (
+            <div className="visualization">
+              Select a type of chart and columns
+            </div>
+          );
+        } else {
+          visualization = (
+            <div className="visualization">
+              <TableView
+                dataset={dataset}
+                tableName={tableName}
+              />
+            </div>
+          );
+        }
         break;
 
       default:
@@ -561,6 +593,8 @@ class WidgetEditor extends React.Component {
       defaultVis = 'chart';
     } else if (visualizationOptions.find(vis => vis.value === 'map')) {
       defaultVis = 'map';
+    } else if (visualizationOptions.find(vis => vis.value === 'raster_chart')) {
+      defaultVis = 'raster_chart';
     }
 
     this.setState({ visualizationOptions }, () => {
@@ -569,6 +603,14 @@ class WidgetEditor extends React.Component {
         // (we don't want to conflict with the "state restoration" made in My RW)
         this.handleVisualizationTypeChange(defaultVis, resetStore);
       }
+    });
+  }
+
+  @Autobind
+  handleTitleChange(event) {
+    const title = event.target.value;
+    this.setState({
+      title
     });
   }
 
@@ -613,7 +655,8 @@ class WidgetEditor extends React.Component {
     // Then we reset the state of the component
     return {
       ...DEFAULT_STATE,
-      layerGroups
+      layerGroups,
+      title: props.widgetEditor.title ? props.widgetEditor.title : 'Title'
     };
   }
 
@@ -785,7 +828,8 @@ class WidgetEditor extends React.Component {
       datasetType,
       datasetProvider,
       visualizationOptions,
-      hasGeoInfo
+      hasGeoInfo,
+      title
     } = this.state;
 
     let { jiminy } = this.state;
@@ -799,6 +843,7 @@ class WidgetEditor extends React.Component {
       showLimitContainer
     } = this.props;
 
+
     // Whether we're still waiting for some data
     const loading = (mode === 'dataset' && !layersLoaded)
       || !fieldsLoaded
@@ -810,7 +855,11 @@ class WidgetEditor extends React.Component {
 
     // TODO: instead of hiding the whole UI, let's show an error message or
     // some kind of feedback for the user
-    const componentShouldNotShow = fieldsError && (layersError || (layers && layers.length === 0));
+    // If the dataset is a raster, the fields won't load and it's possible
+    // we don't have layer either so the editor should show anyway
+    const componentShouldNotShow = datasetType !== 'raster'
+      && fieldsError
+      && (layersError || (layers && layers.length === 0));
 
     // In case Jiminy failed to give back a result, we let the user the possibility
     // to render any chart
@@ -850,7 +899,7 @@ class WidgetEditor extends React.Component {
                 {
                   (selectedVisualizationType === 'chart' ||
                   selectedVisualizationType === 'table')
-                    && !fieldsError && tableName
+                    && !fieldsError && tableName && datasetProvider !== 'nexgddp'
                     && (
                       <ChartEditor
                         dataset={dataset}
@@ -866,6 +915,30 @@ class WidgetEditor extends React.Component {
                         showOrderByContainer={showOrderByContainer}
                         hasGeoInfo={hasGeoInfo}
                         onEmbedTable={this.handleEmbedTable}
+                        title={title}
+                      />
+                    )
+                }
+                {
+                  (selectedVisualizationType === 'chart' ||
+                  selectedVisualizationType === 'table')
+                    && !fieldsError && tableName && datasetProvider === 'nexgddp'
+                    && (
+                      <NEXGDDPEditor
+                        dataset={dataset}
+                        datasetType={datasetType}
+                        datasetProvider={datasetProvider}
+                        jiminy={jiminy}
+                        tableName={tableName}
+                        tableViewMode={selectedVisualizationType === 'table'}
+                        mode={chartEditorMode}
+                        onUpdateWidget={this.handleUpdateWidget}
+                        showSaveButton={showSaveButton}
+                        showLimitContainer={false}
+                        showOrderByContainer={false}
+                        hasGeoInfo={hasGeoInfo}
+                        onEmbedTable={this.handleEmbedTable}
+                        title={title}
                       />
                     )
                 }
@@ -885,6 +958,7 @@ class WidgetEditor extends React.Component {
                         mode={chartEditorMode}
                         onUpdateWidget={this.handleUpdateWidget}
                         showSaveButton={showSaveButton}
+                        title={title}
                       />
                     )
                 }
@@ -898,8 +972,10 @@ class WidgetEditor extends React.Component {
                         tableName={tableName}
                         provider={datasetProvider}
                         mode={chartEditorMode}
+                        hasGeoInfo={hasGeoInfo}
                         showSaveButton={showSaveButton}
                         onUpdateWidget={this.handleUpdateWidget}
+                        title={title}
                       />
                     )
                 }
@@ -913,8 +989,9 @@ class WidgetEditor extends React.Component {
   }
 }
 
-const mapStateToProps = ({ widgetEditor }) => ({
+const mapStateToProps = ({ widgetEditor, user }) => ({
   widgetEditor,
+  user,
   selectedVisualizationType: widgetEditor.visualizationType,
   band: widgetEditor.band
 });
@@ -942,6 +1019,7 @@ WidgetEditor.propTypes = {
   onError: PropTypes.func,
   // Store
   band: PropTypes.object,
+  user: PropTypes.object.isRequired,
   widgetEditor: PropTypes.object.isRequired,
   resetWidgetEditor: PropTypes.func.isRequired,
   setFields: PropTypes.func.isRequired,

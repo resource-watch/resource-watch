@@ -18,6 +18,8 @@ class ToolbarWidgetBtn extends React.Component {
   }
 
   render() {
+    // console.log(this.state.widgets.filter(w => w.widgetConfig.type).map(w => `${w.id} - ${w.widgetConfig.type}`));
+
     return (
       <span
         className="c-button -secondary -compressed"

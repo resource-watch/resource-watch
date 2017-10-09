@@ -83,8 +83,6 @@ class Wysiwyg extends FormElement {
           modules={{
             ...!!this.props.toolbar && { toolbar: this.props.toolbar.container }
           }}
-          // toolbar={this.props.toolbar}
-          // toolbarCustomButtons={this.props.toolbarCustomButtons}
         />
       </div>
     );

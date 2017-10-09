@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isEqual from 'lodash/isEqual';
 
 // Components
 import FormElement from './FormElement';
@@ -48,7 +47,7 @@ class Code extends FormElement {
    * - triggerChange
   */
   triggerChange(value) {
-    this.setState({ value }, () => {
+    this.setState({ value: value || JSON.stringify({}, null, 2) }, () => {
       try {
         // Trigger validation
         this.triggerValidate();

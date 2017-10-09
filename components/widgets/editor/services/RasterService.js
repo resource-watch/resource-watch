@@ -34,7 +34,7 @@ export default class RasterService {
         if (this.provider === 'gee') {
           return data[0].bands.map(b => b.id);
         } else if (this.provider === 'cartodb') {
-          return Array.from({ length: data[0].numbands }, (_, i) => `Band ${i + 1}`);
+          return Array.from({ length: data[0].numbands }, (_, i) => `${i + 1}`);
         }
 
         throw new Error('Unsupported provider');
@@ -42,17 +42,65 @@ export default class RasterService {
   }
 
   /**
+   * Return the statistical information of a band
+   * @param {string} bandName Name of the band
+   * @returns {Promise<object>}
+   */
+  getBandStatsInfo(bandName) {
+    return new Promise((resolve, reject) => {
+      // First we build the query
+      let query;
+      if (this.provider === 'gee') {
+        // If we already have cached the information about all the bands
+        // we don't fetch it again
+        if (this.geeBandStatInfo) {
+          return resolve(this.geeBandStatInfo[bandName]);
+        }
+
+        query = `SELECT ST_SUMMARYSTATS() from '${this.tableName}'`;
+      } else if (this.provider === 'cartodb') {
+        query = `select (ST_SummaryStatsAgg(the_raster_webmercator, ${bandName}, True)).* from ${this.tableName}`;
+      } else {
+        // We don't support this provider yet
+        reject();
+      }
+
+      // We now fetch the actual data
+      return fetch(`https://api.resourcewatch.org/v1/query/${this.dataset}?sql=${query}`)
+        .then((res) => {
+          if (!res.ok) reject();
+          return res.json();
+        })
+        .then((data) => {
+          if (this.provider === 'gee') {
+            // We cache the data because the information of all the
+            // bands comes at once
+            this.geeBandStatInfo = data.data[0];
+
+            resolve(this.geeBandStatInfo[bandName]);
+          } else if (this.provider === 'cartodb') {
+            resolve(data.data[0]);
+          }
+        })
+        .catch(reject);
+    });
+  }
+
+  /**
    * Return the ChartInfo object for a raster chart
    * @static
+   * @param {object} widgetEditor - Store object
    * @returns {ChartInfo}
    */
-  static getChartInfo() {
+  static getChartInfo(widgetEditor) {
+    const { areaIntersection } = widgetEditor;
+
     return {
       chartType: 'bar',
       limit: 500,
       order: null,
       filters: [],
-      areaIntersection: null,
+      areaIntersection,
       x: {
         type: null,
         name: 'x',

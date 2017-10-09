@@ -14,7 +14,7 @@ const GET_PARTNERS_LOADING = 'explore/GET_PARTNERS_LOADING';
 const initialState = {
   list: [],
   loading: false,
-  error: false
+  error: null
 };
 
 export default function (state = initialState, action) {
@@ -55,7 +55,7 @@ export function getPartners() {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_PARTNERS_LOADING });
     // TODO: remove the date now
-    fetch(new Request(`${process.env.API_URL}/partners`))
+    return fetch(new Request(`${process.env.API_URL}/partners`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
@@ -63,7 +63,6 @@ export function getPartners() {
       .then((response) => {
         // TODO: filter by those who are featured
         const partners = response.data;
-
         dispatch({
           type: GET_PARTNERS_SUCCESS,
           payload: partners

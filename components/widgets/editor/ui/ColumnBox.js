@@ -28,6 +28,7 @@ const columnBoxSource = {
   beginDrag(props) {
     return {
       name: props.name,
+      alias: props.alias,
       type: props.type,
       datasetID: props.datasetID,
       tableName: props.tableName
@@ -305,7 +306,7 @@ class ColumnBox extends React.Component {
 
   render() {
     const { aggregateFunction, aggregateFunctionSize, aggregateFunctionColor } = this.state;
-    const { isDragging, connectDragSource, name, type, closable, configurable,
+    const { isDragging, connectDragSource, name, alias, type, closable, configurable,
       isA, widgetEditor } = this.props;
     const { orderBy } = widgetEditor;
 
@@ -331,13 +332,13 @@ class ColumnBox extends React.Component {
     return connectDragSource(
       <div
         className={classNames({ 'c-columnbox': true, '-dimmed': isDragging })}
-        title={name}
+        title={alias || name}
       >
         <Icon
           name={iconName}
           className="-smaller"
         />
-        { (name.length > NAME_MAX_LENGTH) ? `${name.substr(0, NAME_MAX_LENGTH - 1)}...` : name }
+        { ((alias || name).length > NAME_MAX_LENGTH) ? `${(alias || name).substr(0, NAME_MAX_LENGTH - 1)}...` : (alias || name) }
         {isA === 'value' && aggregateFunction &&
           <div className="aggregate-function">
             {aggregateFunction}
@@ -392,6 +393,7 @@ ColumnBox.propTypes = {
   tableName: PropTypes.string,
   datasetID: PropTypes.string,
   name: PropTypes.string,
+  alias: PropTypes.string,
   type: PropTypes.string,
   isA: PropTypes.string,
   closable: PropTypes.bool,
