@@ -18,21 +18,21 @@ const insightsCards = [
     tag: 'Insight of the week',
     title: 'A factory is being built in your neighborhood. Can you do anything about it?',
     slug: 'interactive-edi',
-    source: { name: 'World Resources Institute', path: '#', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
+    source: { name: 'World Resources Institute', path: 'http://www.wri.org/', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
     background: 'url(/static/tempImages/backgrounds/discovery_insights_image.jpg) center'
   },
   {
     tag: 'Feb 25, 2017',
     title: 'The Water Guardians of the Andes',
     slug: 'slideshow-peru',
-    source: { name: 'ESPA', path: '#', img: '../static/images/avatars/espa_avatar.png' },
+    source: { name: 'ESPA', path: 'http://www.espa.ac.uk/', img: '../static/images/avatars/espa_avatar.png' },
     background: 'url(/static/tempImages/backgrounds/andes.jpg) center'
   },
   {
     tag: 'Mar 5, 2017',
     title: 'Farms to feel squeeze as competition for water increases',
     slug: 'interactive-map',
-    source: { name: 'World Resources Institute', path: '#', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
+    source: { name: 'World Resources Institute', path: 'http://www.wri.org/', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
     background: 'url(/static/tempImages/backgrounds/world_farms.jpg)'
   }
 ];
@@ -92,7 +92,7 @@ class Home extends Page {
         <div>
           <h4>{c.tag}</h4>
           <h3>
-            <Link route={`/insights/${c.slug}`}>
+            <Link route={`/insights/${c.slug}`} target="_blank">
               <a>{c.title}</a>
             </Link>
           </h3>
