@@ -157,6 +157,7 @@ class Step1 extends React.Component {
                   name: 'logo',
                   label: 'Logo',
                   placeholder: 'Browse file',
+                  baseUrl: process.env.STATIC_SERVER_URL,
                   default: this.state.form.logo,
                   required: true
                 }}
@@ -177,6 +178,7 @@ class Step1 extends React.Component {
                   name: 'white_logo',
                   label: 'White logo',
                   placeholder: 'Browse file',
+                  baseUrl: process.env.STATIC_SERVER_URL,
                   default: this.state.form.white_logo,
                   required: true
                 }}
@@ -197,6 +199,7 @@ class Step1 extends React.Component {
                   name: 'cover',
                   label: 'Cover',
                   placeholder: 'Browse file',
+                  baseUrl: process.env.STATIC_SERVER_URL,
                   default: this.state.form.cover,
                   required: true
                 }}
@@ -217,6 +220,7 @@ class Step1 extends React.Component {
                   name: 'icon',
                   label: 'Icon',
                   placeholder: 'Browse file',
+                  baseUrl: process.env.STATIC_SERVER_URL,
                   default: this.state.form.icon,
                   required: true
                 }}

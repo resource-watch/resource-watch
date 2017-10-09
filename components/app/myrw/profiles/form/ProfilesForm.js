@@ -12,6 +12,7 @@ import Checkbox from 'components/form/Checkbox';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Spinner from 'components/ui/Spinner';
+import FileImage from 'components/form/FileImage';
 
 // Services
 import UserService from 'services/UserService';
@@ -138,7 +139,23 @@ class MyRWEditProfile extends React.Component {
             <div className="photo-section">
               <h5>Photo</h5>
               <div className="photo-container">
-                Add
+                <Field
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.white_logo = c; }}
+                  onChange={(value) => {
+                    this.handleFormChange({ picture: value });
+                  }}
+                  className="-fluid"
+                  properties={{
+                    name: 'white_logo',
+                    label: 'White logo',
+                    placeholder: 'Browse file',
+                    baseUrl: process.env.STATIC_SERVER_URL,
+                    default: this.state.form.white_logo,
+                    required: true
+                  }}
+                >
+                  {FileImage}
+                </Field>
               </div>
             </div>
             <div className="bottom-section">
