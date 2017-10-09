@@ -8,7 +8,6 @@ export default class CardStatic extends React.Component {
   @Autobind
   handleClick(event) {
     const { clickable, route } = this.props;
-    console.log(event.target.tagName);
     if (clickable && event.target.tagName !== 'A') {
       Router.pushRoute(route);
     }

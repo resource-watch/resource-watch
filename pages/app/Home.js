@@ -1,8 +1,11 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import { Link } from 'routes';
+
+// Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import { getInsights } from 'redactions/insights';
 
 // Layout
 import Page from 'components/app/layout/Page';
@@ -12,30 +15,6 @@ import Layout from 'components/app/layout/Layout';
 import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
 import Rating from 'components/app/common/Rating';
-
-const insightsCards = [
-  {
-    tag: 'Insight of the week',
-    title: 'A factory is being built in your neighborhood. Can you do anything about it?',
-    slug: 'interactive-edi',
-    source: { name: 'World Resources Institute', path: 'http://www.wri.org/', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
-    background: 'url(/static/tempImages/backgrounds/discovery_insights_image.jpg) center'
-  },
-  {
-    tag: 'Feb 25, 2017',
-    title: 'The Water Guardians of the Andes',
-    slug: 'slideshow-peru',
-    source: { name: 'ESPA', path: 'http://www.espa.ac.uk/', img: '../static/images/avatars/espa_avatar.png' },
-    background: 'url(/static/tempImages/backgrounds/andes.jpg) center'
-  },
-  {
-    tag: 'Mar 5, 2017',
-    title: 'Farms to feel squeeze as competition for water increases',
-    slug: 'interactive-map',
-    source: { name: 'World Resources Institute', path: 'http://www.wri.org/', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
-    background: 'url(/static/tempImages/backgrounds/world_farms.jpg)'
-  }
-];
 
 const exploreCards = [
   {
@@ -80,7 +59,7 @@ const exploreCards = [
 ];
 
 class Home extends Page {
-  static insightsCardsStatic() {
+  static insightsCardsStatic(insightsData) {
     return insightsCards.map(c =>
       (<CardStatic
         key={`insight-card-${c.tag}`}
@@ -134,9 +113,15 @@ class Home extends Page {
     );
   }
 
+  componentDidMount() {
+    super.componentDidMount();
+    this.props.getInsights();
+  }
+
   render() {
+    const { insights } = this.props;
+    const insightsCardsStatic = Home.insightsCardsStatic(insights);
     const exploreCardsStatic = Home.exploreCardsStatic();
-    const insightsCardsStatic = Home.insightsCardsStatic();
 
     return (
       <Layout
@@ -253,4 +238,10 @@ class Home extends Page {
   }
 }
 
-export default withRedux(initStore, null, null)(Home);
+const mapStateToProps = state => ({ insights: state.insights.list });
+
+const mapDispatchToProps = dispatch => ({
+  getInsights: () => dispatch(getInsights())
+});
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Home);
