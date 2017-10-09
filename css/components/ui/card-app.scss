@@ -1,0 +1,45 @@
+.c-card-app {
+  position: relative;
+  width: 100%;
+  background: $color-white;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  cursor: pointer;
+  margin: 0 0 $margin-size-small;
+
+  border: 1px solid $border-color-1;
+  border-radius: 4px;
+
+  .card-background {
+    height: 190px;
+  }
+
+  .card-container {
+    padding: $margin-size-extra-small;
+    padding-bottom: 70px;
+  }
+
+  .card-header {
+    > * {
+      margin: 4px 0 0;
+
+      &:first-child {
+        margin: 0;
+      }
+    }
+  }
+
+  .card-content {
+    margin: $margin-size-extra-small 0 0;
+  }
+
+  .card-footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: $margin-size-extra-small;
+  }
+
+}

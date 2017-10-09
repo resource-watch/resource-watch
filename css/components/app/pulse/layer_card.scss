@@ -5,7 +5,7 @@
   padding: 20px;
   background-color: $color-white;
   max-width: 400px;
-  max-height: 500px;
+  max-height: 530px;
   border-radius: 4px;
 
   h3, h5 {
@@ -28,7 +28,7 @@
 
   .widget-card {
     cursor: pointer;
-    max-width: 200px;
+    width: 100%;
 
     .c-chart {
       overflow: auto;

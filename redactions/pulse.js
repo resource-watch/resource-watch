@@ -11,11 +11,12 @@ const GET_LAYERS_ERROR = 'planetpulse/GET_LAYERS_ERROR';
 const GET_LAYERS_LOADING = 'planetpulse/GET_LAYERS_LOADING';
 
 const SET_ACTIVE_LAYER = 'planetpulse/SET_ACTIVE_LAYER';
-const SET_SIMILAR_DATASETS = 'planetpulse/SET_SIMILAR_DATASETS';
 
 const GET_LAYER_POINTS_SUCCESS = 'planetpulse/GET_LAYER_POINTS_SUCCESS';
 const GET_LAYER_POINTS_ERROR = 'planetpulse/GET_LAYER_POINTS_ERROR';
 const RESET_LAYER_POINTS = 'planetpulse/RESET_LAYER_POINTS';
+
+const SET_SIMILAR_WIDGETS = 'planetpulse/SET_SIMILAR_WIDGETS';
 
 /**
  * REDUCER
@@ -40,9 +41,9 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, {
         layerActive: (state.layerActive !== action.payload) ? action.payload : null
       });
-    case SET_SIMILAR_DATASETS:
+    case SET_SIMILAR_WIDGETS:
       return Object.assign({}, state, {
-        similarDatasets: action.payload
+        similarWidgets: action.payload
       });
     case GET_LAYER_POINTS_SUCCESS:
       return Object.assign({}, state, {
@@ -115,12 +116,12 @@ export function toggleActiveLayer(id, threedimensional, markerType) {
   };
 }
 
-export function getLayerPoints(datasetId, tableName) {
+export function getLayerPoints(queryUrl) {
   return (dispatch) => {
     // Waiting for fetch from server -> Dispatch loading
     // dispatch({ type: GET_LAYERS_LOADING });
     // TODO: remove the date now
-    fetch(new Request(`${process.env.WRI_API_URL}/query/${datasetId}?sql=SELECT *, st_y(the_geom) AS lat, st_x(the_geom) AS lon FROM ${tableName}`))
+    fetch(new Request(queryUrl))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
@@ -141,8 +142,8 @@ export function getLayerPoints(datasetId, tableName) {
   };
 }
 
-export function setSimilarDatasets(value) {
-  return dispatch => dispatch({ type: SET_SIMILAR_DATASETS, payload: value });
+export function setSimilarWidgets(value) {
+  return dispatch => dispatch({ type: SET_SIMILAR_WIDGETS, payload: value });
 }
 
 export function resetLayerPoints() {

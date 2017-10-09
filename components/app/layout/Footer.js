@@ -17,7 +17,9 @@ const data = [
 
 const about = [
   { name: 'About', route: 'about' },
-  { name: 'Partners', route: 'about_partners' }
+  { name: 'Partners', route: 'about_partners' },
+  { name: 'Terms of Service' },
+  { name: 'Privacy' }
 ];
 
 const insights = [
@@ -58,6 +60,23 @@ class Footer extends React.Component {
 
     return (
       <footer className="l-footer">
+        <div className="footer-main">
+          <div className="l-container">
+            <div className="row">
+              <div className="column small-12">
+                <img
+                  className="footer-logo"
+                  height={21}
+                  width={129}
+                  src={'/static/images/logo-embed.png'}
+                  alt="Resource Watch"
+                />
+              </div>
+            </div>
+          </div>
+          <CompoundMenu items={menuData} />
+        </div>
+
         <div className="footer-intro">
           <div className="title">
             <Link route="about_partners"><a>Partners</a></Link>
@@ -73,17 +92,21 @@ class Footer extends React.Component {
           </div>
         </div>
 
-        <div className="footer-main">
-          <CompoundMenu items={menuData} />
-        </div>
-
-        <div className="footer-terms">
+        <div className="footer-lower">
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
-                <div className="terms">
-                  <p>Terms of Service — Privacy</p>
-                  <p>© 2017 - Resource Watch</p>
+                <div className="footer-container">
+                  <div className="footer-item">
+                    <a href="http://www.wri.org/" target="_blank" rel="noreferrer noopener">
+                      <img src="/static/images/wri-logo.svg" alt="WRI logo" />
+                    </a>
+                  </div>
+                  <div className="footer-item">
+                    <p className="-bold">World Resources Institute</p>
+                    <p>10 G Street NE Suite 800, Washington, DC 20002, USA</p>
+                    <p>Phone +1(202) 729-7600    |    Fax: +1 (202) 720 7610</p>
+                  </div>
                 </div>
               </div>
             </div>

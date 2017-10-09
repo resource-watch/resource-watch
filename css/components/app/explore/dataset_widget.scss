@@ -7,14 +7,6 @@
   box-shadow: 0 0 0 rgba(0,0,0,0.1);
   transition: all 0.3s;
 
-  .tags-button {
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    z-index: 4;
-    cursor: pointer;
-  }
-
   .info {
     background: $color-white;
     flex: 1 0 auto;
@@ -61,6 +53,16 @@
         @media screen and (min-width: map-get($breakpoints, medium)) {
           max-width: calc(100% - 150px);
         }
+
+        .title-container {
+          display: flex;
+          flex-direction: row;
+
+          .tags-button {
+            position: relative;
+            margin-left: 5px;
+          }
+        }
       }
     }
 
@@ -94,5 +96,14 @@
       box-shadow: 0 20px 30px rgba(0,0,0,0.2);
       transform: translateY(-4px);
     }
+  }
+
+  .tags-button {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    z-index: 4;
+    cursor: pointer;
+    fill: $charcoal-grey;
   }
 }

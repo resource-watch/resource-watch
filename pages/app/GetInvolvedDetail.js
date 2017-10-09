@@ -1,8 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import renderHTML from 'react-render-html';
-import { Link } from 'routes';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -15,7 +12,6 @@ import { setRouter } from 'redactions/routes';
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
-import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 // content components
@@ -29,7 +25,7 @@ import SubmitAnInsightPostContent from 'components/app/static-pages/get-involved
 import ContributeDataPostContent from 'components/app/static-pages/get-involved/post-content/ContributeData';
 import JoinCommunityPostContent from 'components/app/static-pages/get-involved/post-content/JoinCommunity';
 import DevelopYourAppPostContent from 'components/app/static-pages/get-involved/post-content/DevelopYourApp';
-
+import AppsPostContent from 'components/app/static-pages/get-involved/post-content/Apps';
 
 class GetInvolvedDetail extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
@@ -38,19 +34,19 @@ class GetInvolvedDetail extends Page {
     store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
     await store.dispatch(getStaticData(query.id));
-    if(query.id === 'submit-an-insight') {
+    if (query.id === 'submit-an-insight') {
       await store.dispatch(getInsights());
-    };
+    }
     return { isServer, user, url };
   }
 
   static getContent(id, props = {}) {
     const pageNotFound = () => null;
     const pages = {
-      'submit-an-insight': () => <SubmitAnInsightContent { ...props } />,
-      'contribute-data': () => <ContributeDataContent { ...props } />,
-      'join-community': () => <JoinCommunityContent { ...props } />,
-      'develop-app': () => <DevelopYourAppContent { ...props } />
+      'submit-an-insight': () => <SubmitAnInsightContent {...props} />,
+      'contribute-data': () => <ContributeDataContent {...props} />,
+      'join-community': () => <JoinCommunityContent {...props} />,
+      'develop-app': () => <DevelopYourAppContent {...props} />
     };
 
     return pages[id] || pageNotFound;
@@ -59,10 +55,11 @@ class GetInvolvedDetail extends Page {
   getPostContent(id, props = {}) {
     const pageNotFound = () => null;
     const pages = {
-      'submit-an-insight': () => <SubmitAnInsightPostContent { ...props } insights={this.props.insights} />,
-      'contribute-data': () => <ContributeDataPostContent { ...props } />,
-      'join-community': () => <JoinCommunityPostContent { ...props } />,
-      'develop-app': () => <DevelopYourAppPostContent { ...props } />
+      'submit-an-insight': () => <SubmitAnInsightPostContent {...props} insights={this.props.insights} />,
+      'contribute-data': () => <ContributeDataPostContent {...props} />,
+      'join-community': () => <JoinCommunityPostContent {...props} />,
+      'develop-app': () => <DevelopYourAppPostContent {...props} />,
+      'apps': () => <AppsPostContent {...props} />
     };
 
     return pages[id] || pageNotFound;
@@ -90,7 +87,7 @@ class GetInvolvedDetail extends Page {
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content">
-                  <Breadcrumbs items={[{ name: 'Data', href: '/data' }]} />
+                  <Breadcrumbs items={[{ name: 'Get involved', href: '/get-involved' }]} />
                   <h1>{selectedData.title}</h1>
                 </div>
               </div>
@@ -113,8 +110,8 @@ class GetInvolvedDetail extends Page {
             </header>
           </section> }
 
-          {content()}
-          {postContent()}
+        {content()}
+        {postContent()}
 
       </Layout>
     );

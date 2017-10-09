@@ -5,6 +5,8 @@
   }
 
   .search-container {
+    display: flex;
+
     height: 45px;
     margin-bottom: 10px;
 
@@ -21,6 +23,15 @@
         }
       }
     }
+
+    .c-btn {
+      width: 125px;
+      margin-left: 10px;
+    }
+  }
+
+  .filters-sum-up {
+    color: $dark-pink;
   }
 
   .filters-container {
@@ -48,38 +59,30 @@
     }
   }
 
-  .buttons {
-    .filters-sum-up {
-      margin-left: 10px;
-      font-style: italic;
-      font-size: $font-size-small;
-    }
-  }
-
-  .share-button {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    top: 90px;
-    right: 30px;
-    width: 30px;
-    height: 30px;
-    background-color: $color-white;
-    border-radius: 3px;
-    cursor: pointer;
-    z-index: 999;
-
-    &:hover {
-      background-color: mix($color-primary, $color-white, 5%);
-    }
-
-    a {
-      color: $color-white;
-    }
-
-    svg {
-      fill: $color-black;
-    }
-  }
+  // .share-button {
+  //   position: absolute;
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   top: 90px;
+  //   right: 31px;
+  //   width: 30px;
+  //   height: 30px;
+  //   background-color: $color-white;
+  //   border-radius: 3px;
+  //   cursor: pointer;
+  //   z-index: 999;
+  //
+  //   &:hover {
+  //     background-color: mix($color-primary, $color-white, 5%);
+  //   }
+  //
+  //   a {
+  //     color: $color-white;
+  //   }
+  //
+  //   svg {
+  //     fill: $color-black;
+  //   }
+  // }
 }

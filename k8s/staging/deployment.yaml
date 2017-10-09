@@ -14,14 +14,10 @@ spec:
         name: {name}
     spec:
       containers:
-      - name: redis
-        image: redis
-        ports:
-         - containerPort: 6379
         resources:
-         requests:
-           memory: "0Mi"
-           cpu: "0m"
+          requests:
+            memory: "0Mi"
+            cpu: "0m"
       - name: {name}
         image: vizzuality/{name}
         imagePullPolicy: Always

@@ -48,16 +48,9 @@ class Partners extends Page {
             <div className="l-container">
               <div className="row">
                 <div className="column small-12">
-                  <h2>
-                    We have a massive opportunity {<br />} to build a sustainable society
-                  </h2>
+                  <h2>Let’s build a more sustainable world together.</h2>
                   <p className="-columnize">
-                    Resource Watch brings together leading technology companies and data providers
-                    dedicated to making new streams of data actionable. This powerful coupling
-                    allows for seamless exploration of trusted, decision-relevant data
-                    from remote sensing systems, peer-reviewed research, and other sources.
-                    State-of-the-art technology and data services support open-access
-                    web and mobile apps to deliver insightful data to the people that need it.
+                    Resource Watch connects leading technology companies and data providers dedicated to broadening access to timely, relevant natural resource information. This powerful partnership brings together trusted data sets from remote sensing systems, peer-reviewed research, and other reputable sources, making new data streams actionable for the first time. Open-access web and mobile apps deliver insights and information to decision-makers and passionate citizens working to make a difference.
                   </p>
                 </div>
               </div>

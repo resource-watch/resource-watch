@@ -1,7 +1,6 @@
 require('dotenv').load();
 
 const express = require('express');
-const passport = require('passport');
 const next = require('next');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -21,15 +20,23 @@ const prod = process.env.NODE_ENV === 'production';
 
 // Next app creation
 const app = next({ dev: !prod });
-const handle = routes.getRequestHandler(app);
+const handle = routes.getRequestHandler(app, ({ req, res, route, query }) => {
+  // Server rendering for AddSearch and Explore detail page
+  const newRoute = Object.assign({}, route);
+  if (route.name === 'explore_detail' && /AddSearchBot/.test(req.headers['user-agent'])) {
+    newRoute.pattern = `${route.pattern}/beta`;
+    newRoute.name = 'explore_detail_beta';
+    newRoute.page = '/app/ExploreDetailBeta';
+  }
+  app.render(req, res, newRoute.page, query);
+});
 
 // Express app creation
 const server = express();
 
 function checkBasicAuth(username, password) {
   return function authMiddleware(req, res, nextAction) {
-
-    if (!req.headers['user-agent'] || req.headers['user-agent'].toLowerCase().indexOf('addsearch') === -1 ) {
+    if (!/AddSearchBot/.test(req.headers['user-agent'])) {
       const user = basicAuth(req);
       if (!user || user.name !== username || user.pass !== password) {
         res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
@@ -41,6 +48,8 @@ function checkBasicAuth(username, password) {
 }
 
 function isAuthenticated(req, res, nextAction) {
+  // Saving referrer of user
+  req.session.referrer = req.url;
   if (req.isAuthenticated()) return nextAction();
   // if they aren't redirect them to the home page
   return res.redirect('/login');
@@ -63,7 +72,8 @@ if (prod) {
   const redisClient = redis.createClient(process.env.REDIS_URL);
   sessionOptions.store = new RedisStore({
     client: redisClient,
-    logErrors: true
+    logErrors: true,
+    prefix: 'resourcewatch_sess_'
   });
 }
 
@@ -112,7 +122,8 @@ app.prepare()
 
     // Authentication
     server.get('/auth', auth.authenticate({ failureRedirect: '/login' }), (req, res) => {
-      res.redirect('/myrw');
+      if (req.user.role === 'ADMIN' && /admin/.test(req.session.referrer)) return res.redirect('/admin');
+      return res.redirect('/myrw');
     });
     server.get('/login', auth.login);
     server.get('/logout', (req, res) => {

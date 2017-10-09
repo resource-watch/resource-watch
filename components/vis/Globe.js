@@ -14,7 +14,62 @@ import orbitControls from './OrbitControls';
 const OrbitControls = orbitControls();
 const imageLoader = new TextureLoader();
 
+//----------------------------------------------------------
+// TO-DO move this to somewhere else that makes more sense
+/* Severity colors */
+const severityLowColor = 0x2C7FB8;
+const severityMediumColor = 0x7FCDBB;
+const severityHighColor = 0xEDF8B1;
+/* Magnitude colors */
+const magnitudeLessThan5Color = 0xfeebe2;
+const magnitude5_5_5Color = 0xfbb4b9; // eslint-disable-line camelcase
+const magnitude5_5_6Color = 0xf768a1; // eslint-disable-line camelcase
+const magnitude6_7Color = 0xc51b8a; // eslint-disable-line camelcase
+const magnitude7orMore = 0x7a0177;
+/* Url tone colors */
+const tone_10_7Color = 0xd7301f; // eslint-disable-line camelcase
+const tone_7_5Color = 0xfc8d59; // eslint-disable-line camelcase
+const tone_5_2Color = 0xfdcc8a; // eslint-disable-line camelcase
+const tone_2orMoreColor = 0xfef0d9; // eslint-disable-line camelcase
+//----------------------------------------------------------
+
+
 class Globe extends React.Component {
+  static getMarkerHeight(value) {
+    let data = value;
+    if (value.object) {
+      data = value.object.name;
+    }
+    let height = 1;
+    const distance = data.distance_km;
+    const displaced = data.displaced;
+    const mag = data.mag;
+    const fatalities = data.fatalities;
+
+    if (displaced) {
+      if (displaced > 0) {
+        height = Math.log(displaced);
+      } else {
+        height = 0;
+      }
+    }
+    if (distance) {
+      if (distance > 0) {
+        height = Math.log(distance) * 3;
+      } else {
+        height = 0;
+      }
+    }
+    if (mag) {
+      height = mag;
+    }
+    if (fatalities) {
+      height = fatalities;
+    }
+
+    return height;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -32,7 +87,9 @@ class Globe extends React.Component {
     this.redGreenScale = chroma.scale(['red', 'lightgreen']).domain([-10, 10]);
 
     // Bindings
-    this.onClick = this.onClick.bind(this);
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
     this.onResize = debounce(this.onResize.bind(this), 250);
   }
 
@@ -84,7 +141,7 @@ class Globe extends React.Component {
       const pointObjects = nextProps.layerPoints.map((value) => {
         const normalVector = this.convertLatLonToCoordinates(value.lat, value.lon);
         const geometryColor = this.getMarkerColor(value);
-        const height = this.getMarkerHeight(value);
+        const height = Globe.getMarkerHeight(value);
 
         let geometry;
 
@@ -156,77 +213,78 @@ class Globe extends React.Component {
     window.removeEventListener('resize', this.onResize);
   }
 
-  getMarkerHeight(value) {
-    let data = value;
-    if (value.object) {
-      data = value.object.name;
-    }
-    let height = 1;
-    const distance = data.distance_km;
-    const displaced = data.displaced;
-    const mag = data.mag;
-    const fatalities = data.fatalities;
-
-    if (displaced) {
-      if (displaced > 0) {
-        height = Math.log(displaced);
-      } else {
-        height = 0;
-      }
-    }
-    if (distance) {
-      if (distance > 0) {
-        height = Math.log(distance) * 3;
-      } else {
-        height = 0;
-      }
-    }
-    if (mag) {
-      height = mag;
-    }
-    if (fatalities) {
-      height = fatalities;
-    }
-
-    return height;
-  }
-
-  getMarkerColor(value) {
-    let data = value;
-    if (value.object) {
-      data = value.object.name;
-    }
-    const severity = data.severity;
-    const urlTone = data.urltone;
-    let color = this.props.markerDefaultColor;
-
-    if (severity) {
-      switch (severity) {
-        case 1:
-          color = this.props.markerMediumColor;
-          break;
-        case 2:
-          color = this.props.markerHighColor;
-          break;
-        case 3:
-          color = this.props.markerHighColor;
-          break;
-        default:
-          color = this.props.markerLowColor;
-      }
-    }
-
-    if (urlTone) {
-      color = this.redGreenScale(urlTone).hex();
-    }
-    return color;
-  }
-
-
   onResize() {
     const nextWidth = this.el.clientWidth || this.el.innerWidth;
     const nextHeight = this.el.clientHeight || this.el.innerHeight;
     this.setState({ width: nextWidth, height: nextHeight });
+  }
+
+  onMouseMove() {
+    if (this.mouseDown) {
+      this.props.onMouseHold();
+    }
+  }
+
+  onMouseDown(event) {
+    this.lastClickX = event.nativeEvent.offsetX;
+    this.lastClickY = event.nativeEvent.offsetY;
+    this.mouseDown = true;
+  }
+
+  onMouseUp(event) {
+    this.mouseDown = false;
+    if (this.lastClickY === event.nativeEvent.offsetY &&
+      this.lastClickX === event.nativeEvent.offsetX) {
+      this.mouse.x = (event.nativeEvent.offsetX / this.el.clientWidth) * 2 - 1;
+      this.mouse.y = -(event.nativeEvent.offsetY / this.el.clientHeight) * 2 + 1;
+
+      this.raycaster.setFromCamera(this.mouse, this.camera);
+
+      // this.scene.add(new ArrowHelper(this.raycaster.ray.direction,
+      // this.raycaster.ray.origin, 100, Math.random() * 0xffffff ));
+
+      const oldSelectedMarker = this.state.selectedMarker;
+      if (oldSelectedMarker) {
+        oldSelectedMarker.object.material = new MeshPhongMaterial(
+          { color: this.getMarkerColor(oldSelectedMarker) });
+      }
+
+      const intersects = this.raycaster.intersectObjects(this.scene.children);
+
+      if (intersects.length > 0) {
+        let markerClicked = false;
+
+        intersects.forEach((obj) => {
+          const objName = obj.object.name;
+          if (objName !== 'halo' && objName !== 'earth' && objName !== 'texture') {
+            this.setState({ selectedMarker: obj });
+            this.props.onMarkerSelected(objName, event);
+            markerClicked = true;
+          }
+        });
+
+        if (!markerClicked) {
+          this.props.onClickInEmptyRegion();
+        }
+      } else {
+        this.props.onClickInEmptyRegion();
+      }
+      if (this.props.layerPoints.length === 0) {
+        const earthIntersect = this.raycaster.intersectObjects([this.earth]);
+        if (earthIntersect.length > 0) {
+          const latLon = this.convertCoordinatesToLatLon(earthIntersect[0]);
+          this.props.onEarthClicked(latLon, event.clientX, event.clientY);
+        }
+      }
+    }
+  }
+
+  /**
+  * Calculate the halo radius according to the properties involved
+  */
+  getHaloRadius() {
+    const { radius, haloExtraRadiusPercentage } = this.props;
+    return radius + ((radius * haloExtraRadiusPercentage) / 100);
   }
 
   /**
@@ -253,20 +311,59 @@ class Globe extends React.Component {
     this.scene.add(this.currentTexture);
   }
 
+  getMarkerColor(value) {
+    let data = value;
+    if (value.object) {
+      data = value.object.name;
+    }
+    const { severity, mag, urltone } = data;
+    let color = this.props.markerDefaultColor;
+
+    if (severity) {
+      if (severity >= 1 && severity < 1.25) {
+        color = severityLowColor;
+      } else if (severity >= 1.25 && severity < 1.75) {
+        color = severityMediumColor;
+      } else if (severity >= 1.75 && severity <= 2) {
+        color = severityHighColor;
+      }
+    }
+
+    if (urltone) {
+      if (urltone < -7) {
+        color = tone_10_7Color; // eslint-disable-line camelcase
+      } else if (urltone >= -7 && urltone < -5) {
+        color = tone_7_5Color; // eslint-disable-line camelcase
+      } else if (urltone >= -5 && urltone < -2) {
+        color = tone_5_2Color; // eslint-disable-line camelcase
+      } else if (urltone >= -2) {
+        color = tone_2orMoreColor; // eslint-disable-line camelcase
+      }
+    }
+
+    if (mag) {
+      if (mag < 5) {
+        color = magnitudeLessThan5Color;
+      } else if (mag >= 5 && mag < 5.5) {
+        color = magnitude5_5_5Color; // eslint-disable-line camelcase
+      } else if (mag >= 5.5 && mag < 6) {
+        color = magnitude5_5_6Color; // eslint-disable-line camelcase
+      } else if (mag >= 6 && mag < 7) {
+        color = magnitude6_7Color; // eslint-disable-line camelcase
+      } else if (mag >= 7) {
+        color = magnitude7orMore; // eslint-disable-line camelcase
+      }
+    }
+
+    return color;
+  }
+
   removeTexture() {
     if (this.currentTexture) {
       this.scene.remove(this.currentTexture);
       this.currentTexture = null;
       this.setState({ texture: null });
     }
-  }
-
-  /**
-  * Calculate the halo radius according to the properties involved
-  */
-  getHaloRadius() {
-    const { radius, haloExtraRadiusPercentage } = this.props;
-    return radius + ((radius * haloExtraRadiusPercentage) / 100);
   }
 
   /**
@@ -478,6 +575,8 @@ class Globe extends React.Component {
 
     const ambientLight = new AmbientLight(ambientLightColor);
     const pointLight = new PointLight(pointLightColor, pointLightIntensity);
+    const pointLight2 = new PointLight(pointLightColor, 0.5);
+    pointLight2.position.set(0, -pointLightY, pointLightZ);
 
     if (pointLightPosition === 'left') {
       pointLight.position.set(-pointLightX, pointLightY, pointLightZ);
@@ -487,6 +586,7 @@ class Globe extends React.Component {
 
     this.scene.add(ambientLight);
     this.camera.add(pointLight);
+    this.camera.add(pointLight2);
   }
 
   addControls() {
@@ -532,58 +632,14 @@ class Globe extends React.Component {
     // this.halo.geometry.radius = this.getHaloRadius();
   }
 
-  onClick(event) {
-    event.nativeEvent.stopImmediatePropagation();
-
-    this.mouse.x = (event.nativeEvent.offsetX / this.el.clientWidth) * 2 - 1;
-    this.mouse.y = -(event.nativeEvent.offsetY / this.el.clientHeight) * 2 + 1;
-
-    this.raycaster.setFromCamera(this.mouse, this.camera);
-
-    // this.scene.add(new ArrowHelper(this.raycaster.ray.direction,
-    // this.raycaster.ray.origin, 100, Math.random() * 0xffffff ));
-
-    const oldSelectedMarker = this.state.selectedMarker;
-    if (oldSelectedMarker) {
-      oldSelectedMarker.object.material = new MeshPhongMaterial(
-        { color: this.getMarkerColor(oldSelectedMarker) });
-    }
-
-    const intersects = this.raycaster.intersectObjects(this.scene.children);
-
-    if (intersects.length > 0) {
-      let markerClicked = false;
-
-      intersects.forEach((obj) => {
-        const objName = obj.object.name;
-        if (objName !== 'halo' && objName !== 'earth' && objName !== 'texture') {
-          this.setState({ selectedMarker: obj });
-          this.props.onMarkerSelected(objName, event);
-          markerClicked = true;
-        }
-      });
-
-      if (!markerClicked) {
-        this.props.onClickInEmptyRegion();
-      }
-    } else {
-      this.props.onClickInEmptyRegion();
-    }
-    if (this.props.layerPoints.length === 0) {
-      const earthIntersect = this.raycaster.intersectObjects([this.earth]);
-      if (earthIntersect.length > 0) {
-        const latLon = this.convertCoordinatesToLatLon(earthIntersect[0]);
-        this.props.onEarthClicked(latLon, event.clientX, event.clientY);
-      }
-    }
-  }
-
   render() {
     return (
       <div
         ref={(node) => { this.el = node; }}
         className="c-globe"
-        onClick={this.onClick}
+        onMouseDown={this.onMouseDown}
+        onMouseUp={this.onMouseUp}
+        onMouseMove={this.onMouseMove}
       />
     );
   }
@@ -722,6 +778,7 @@ Globe.propTypes = {
   onMarkerSelected: PropTypes.func,
   onEarthClicked: PropTypes.func,
   onClickInEmptyRegion: PropTypes.func,
+  onMouseHold: PropTypes.func,
 
   // Markers
   markerLowColor: PropTypes.number,

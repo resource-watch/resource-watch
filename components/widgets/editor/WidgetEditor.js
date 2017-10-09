@@ -34,9 +34,11 @@ import RasterChartEditor from 'components/widgets/editor/raster/RasterChartEdito
 import NEXGDDPEditor from 'components/widgets/editor/nexgddp/NEXGDDPEditor';
 
 import Map from 'components/widgets/editor/map/Map';
+import MapControls from 'components/widgets/editor/map/MapControls';
+import BasemapControl from 'components/widgets/editor/map/controls/BasemapControl';
+
 import Legend from 'components/widgets/editor/ui/Legend';
 import TableView from 'components/widgets/editor/table/TableView';
-import Icon from 'components/widgets/editor/ui/Icon';
 import ShareModalExplore from 'components/widgets/editor/modal/ShareModalExplore';
 import EmbedTableModal from 'components/widgets/editor/modal/EmbedTableModal';
 
@@ -172,7 +174,8 @@ class WidgetEditor extends React.Component {
     // NOTE: this can't be moved to componentWillUpdate because
     // this.fetchChartConfig uses the store
     if (this.state.datasetInfoLoaded
-      && canRenderChart(this.props.widgetEditor)
+      && canRenderChart(this.props.widgetEditor, this.state.datasetProvider)
+      && this.props.widgetEditor.visualizationType !== 'table'
       && this.props.widgetEditor.visualizationType !== 'map'
       && (!isEqual(previousProps.widgetEditor, this.props.widgetEditor)
       || previousState.tableName !== this.state.tableName)) {
@@ -374,7 +377,8 @@ class WidgetEditor extends React.Component {
       layersLoaded,
       fieldsError,
       jiminyLoaded,
-      title
+      title,
+      datasetProvider
     } = this.state;
 
     const { widgetEditor, dataset, mode, selectedVisualizationType, user } = this.props;
@@ -409,7 +413,7 @@ class WidgetEditor extends React.Component {
               </div>
             </div>
           );
-        } else if (!canRenderChart(widgetEditor) || !this.state.chartConfig) {
+        } else if (!canRenderChart(widgetEditor, datasetProvider) || !this.state.chartConfig) {
           visualization = (
             <div className="visualization -chart">
               Select a type of chart and columns
@@ -461,9 +465,9 @@ class WidgetEditor extends React.Component {
                 layerGroups={this.state.layerGroups}
               />
 
-              <button className="share-button" onClick={() => this.onClickShareMap()}>
-                <Icon name="icon-share" className="-small" />
-              </button>
+              <MapControls>
+                <BasemapControl />
+              </MapControls>
 
               <Legend
                 layerGroups={this.state.layerGroups}
@@ -526,14 +530,22 @@ class WidgetEditor extends React.Component {
 
       // HTML table
       case 'table':
-        visualization = (
-          <div className="visualization">
-            <TableView
-              dataset={dataset}
-              tableName={tableName}
-            />
-          </div>
-        );
+        if (!canRenderChart(widgetEditor, datasetProvider)) {
+          visualization = (
+            <div className="visualization">
+              Select a type of chart and columns
+            </div>
+          );
+        } else {
+          visualization = (
+            <div className="visualization">
+              <TableView
+                dataset={dataset}
+                tableName={tableName}
+              />
+            </div>
+          );
+        }
         break;
 
       default:
@@ -960,6 +972,7 @@ class WidgetEditor extends React.Component {
                         tableName={tableName}
                         provider={datasetProvider}
                         mode={chartEditorMode}
+                        hasGeoInfo={hasGeoInfo}
                         showSaveButton={showSaveButton}
                         onUpdateWidget={this.handleUpdateWidget}
                         title={title}

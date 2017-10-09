@@ -63,6 +63,15 @@ export default class SliderSelect extends React.Component {
         pathToCurrentItemsList: [],
         pathToSelectedItem: []
       });
+    } else if (newProps.value !== this.props.value) {
+      // If the value of the select is changed via the props, we update
+      // the select item in the component
+      const selectedItem = this.props.options
+        && this.props.options.find(item => item.value === newProps.value);
+
+      if (selectedItem) {
+        this.setState({ selectedItem });
+      }
     }
   }
 

@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import debounce from 'lodash/debounce';
 
 // Components
-import Slider from 'rc-slider';
+import Slider from 'rc-slider/lib/Slider';
 
 
 class SliderTooltip extends React.Component {
@@ -14,6 +13,9 @@ class SliderTooltip extends React.Component {
     this.state = {
       value: props.options.defaultValue
     };
+
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   componentDidMount() {
@@ -24,7 +26,6 @@ class SliderTooltip extends React.Component {
     document.removeEventListener('mousedown', this.onMouseDown);
   }
 
-  @Autobind
   onMouseDown(e) {
     const clickOutside = this.el && this.el.contains && !this.el.contains(e.target);
     if (clickOutside) {
@@ -32,7 +33,6 @@ class SliderTooltip extends React.Component {
     }
   }
 
-  @Autobind
   onChange(value) {
     this.setState({ value });
     this.props.onChange(value);
@@ -45,13 +45,12 @@ class SliderTooltip extends React.Component {
     return (
       <div className="c-explore-slider-tooltip" ref={(node) => { this.el = node; }}>
         <Slider
-          className={className}
           min={options.min}
           max={options.max}
           step={options.step}
           value={this.state.value !== null ? this.state.value : options.defaultValue}
           defaultValue={this.state.value !== null ? this.state.value : options.defaultValue}
-          onChange={(value) => updateValue(value)}
+          onChange={value => updateValue(value)}
           onAfterChange={this.onChange}
         />
         <div className="actions-container">
@@ -78,7 +77,8 @@ SliderTooltip.defaultProps = {
   min: 0,
   max: 1,
   step: 0.01,
-  defaultValue: 1
+  defaultValue: 1,
+  className: '-something'
 };
 
 export default SliderTooltip;

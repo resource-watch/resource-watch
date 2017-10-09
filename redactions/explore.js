@@ -2,6 +2,8 @@
 import 'isomorphic-fetch';
 import { Router } from 'routes';
 
+import { BASEMAPS } from 'components/widgets/editor/map/constants';
+
 /**
  * CONSTANTS
 */
@@ -28,6 +30,12 @@ const SET_LAYERGROUP_OPACITY = 'explore/SET_LAYERGROUP_OPACITY';
 const SET_LAYERGROUPS = 'explore/SET_LAYERGROUPS';
 
 const SET_SIDEBAR = 'explore/SET_SIDEBAR';
+
+const SET_TOPICS_TREE = 'explore/SET_TOPICS_TREE';
+const SET_DATA_TYPE_TREE = 'explore/SET_DATA_TYPE_TREE';
+const SET_GEOGRAPHIES_TREE = 'explore/SET_GEOGRAPHIES_TREE';
+
+const SET_BASEMAP = 'explore/SET_BASEMAP';
 
 /**
  * Layer
@@ -75,12 +83,19 @@ const initialState = {
     dataType: null,
     geographies: null,
     datasetsFilteredByConcepts: [],
-    loading: false,
+    loading: false
   },
   sidebar: {
     open: true,
     width: 0
-  }
+  },
+  basemap: BASEMAPS.dark,
+  basemapControl: {
+    basemaps: BASEMAPS
+  },
+  geographiesTree: null,
+  topicsTree: null,
+  dataTypeTree: null
 };
 
 export default function (state = initialState, action) {
@@ -227,6 +242,30 @@ export default function (state = initialState, action) {
     case SET_SIDEBAR: {
       return Object.assign({}, state, {
         sidebar: action.payload
+      });
+    }
+
+    case SET_GEOGRAPHIES_TREE: {
+      return Object.assign({}, state, {
+        geographiesTree: action.payload
+      });
+    }
+
+    case SET_DATA_TYPE_TREE: {
+      return Object.assign({}, state, {
+        dataTypeTree: action.payload
+      });
+    }
+
+    case SET_TOPICS_TREE: {
+      return Object.assign({}, state, {
+        topicsTree: action.payload
+      });
+    }
+
+    case SET_BASEMAP: {
+      return Object.assign({}, state, {
+        basemap: action.payload
       });
     }
 
@@ -510,5 +549,33 @@ export function setDatasetsMode(mode) {
   return {
     type: SET_DATASETS_MODE,
     payload: mode
+  };
+}
+
+export function setTopicsTree(tree) {
+  return {
+    type: SET_TOPICS_TREE,
+    payload: tree
+  };
+}
+
+export function setDataTypeTree(tree) {
+  return {
+    type: SET_DATA_TYPE_TREE,
+    payload: tree
+  };
+}
+
+export function setGeographiesTree(tree) {
+  return {
+    type: SET_GEOGRAPHIES_TREE,
+    payload: tree
+  };
+}
+
+export function setBasemap(basemap) {
+  return {
+    type: SET_BASEMAP,
+    payload: basemap
   };
 }

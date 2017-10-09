@@ -18,6 +18,8 @@ import DatasetLayerChart from 'components/app/explore/DatasetLayerChart';
 import DatasetPlaceholderChart from 'components/app/explore/DatasetPlaceholderChart';
 import DatasetTagsTooltip from 'components/app/explore/DatasetTagsTooltip';
 
+// Utils
+import { findTagInSelectorTree } from 'utils/explore/TreeUtil';
 
 class DatasetWidget extends React.Component {
   /**
@@ -111,10 +113,11 @@ class DatasetWidget extends React.Component {
 
   @Autobind
   handleTagsClick(event) {
-    console.log('handle tag clicked!');
-    const { dataset } = this.props;
+    const { dataset, topicsTree } = this.props;
     const vocabulary = dataset.attributes.vocabulary && dataset.attributes.vocabulary[0];
     const tags = vocabulary.attributes.tags;
+    const filteredTags = tags.filter(tag => findTagInSelectorTree(topicsTree, tag));
+
     const position = DatasetWidget.getClickPosition(event);
     this.props.toggleTooltip(true, {
       follow: false,
@@ -123,7 +126,7 @@ class DatasetWidget extends React.Component {
       childrenProps: {
         toggleTooltip: this.props.toggleTooltip,
         onTagClick: this.handleTagClick,
-        tags
+        tags: filteredTags
       }
     });
   }
@@ -145,22 +148,6 @@ class DatasetWidget extends React.Component {
 
     return (
       <div className={`c-dataset-list-item -${mode}`}>
-
-        {/* Dataset tags link */}
-        {vocabulary &&
-          <div
-            className="tags-button"
-            onClick={this.handleTagsClick}
-            title="tags"
-            role="button"
-            tabIndex={-1}
-          >
-            <Icon
-              name="icon-item-category"
-              className="-small"
-            />
-          </div>
-        }
 
         {/* If it has widget we want to renderize the default widget one */}
         {widget && gridMode &&
@@ -191,15 +178,32 @@ class DatasetWidget extends React.Component {
         <div className="info">
           <div className="detail">
             {/* Title */}
-            <h4>
-              <Link
-                route={'explore_detail'}
-                params={{ id: this.props.dataset.id }}
-              >
-                <a>{metadata && metadata.attributes.info ?
-                  metadata.attributes.info.name : dataset.name}</a>
-              </Link>
-            </h4>
+            <div className="title-container">
+              <h4>
+                <Link
+                  route={'explore_detail'}
+                  params={{ id: this.props.dataset.id }}
+                >
+                  <a>{metadata && metadata.attributes.info ?
+                    metadata.attributes.info.name : dataset.name}</a>
+                </Link>
+              </h4>
+              {/* Dataset tags link */}
+              {vocabulary &&
+                <div
+                  className="tags-button"
+                  onClick={this.handleTagsClick}
+                  title="tags"
+                  role="button"
+                  tabIndex={-1}
+                >
+                  <Icon
+                    name="icon-item-category"
+                    className="-small"
+                  />
+                </div>
+              }
+            </div>
 
             {/* Description */}
             {dataset.metadata && (dataset.metadata.length > 0)
@@ -242,7 +246,8 @@ DatasetWidget.propTypes = {
   onTagSelected: PropTypes.func,
 
   // STORE
-
+  // Topics tree used in the Explore selector
+  topicsTree: PropTypes.array.isRequired,
   // Return whether a layer group is already added to the map
   isLayerGroupAdded: PropTypes.func.isRequired,
   // Add or remove a layer group from the map
@@ -251,7 +256,8 @@ DatasetWidget.propTypes = {
 };
 
 const mapStateToProps = ({ explore }) => ({
-  isLayerGroupAdded: dataset => !!explore.layers.find(l => l.dataset === dataset)
+  isLayerGroupAdded: dataset => !!explore.layers.find(l => l.dataset === dataset),
+  topicsTree: explore.topicsTree
 });
 
 const mapDispatchToProps = dispatch => ({

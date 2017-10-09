@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Autobind } from 'es-decorators';
 import { DragDropContext } from 'react-dnd';
-import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
 
 import { toggleModal, setModalOptions } from 'redactions/modal';
-import { setChartType, setAreaIntersection } from 'components/widgets/editor/redux/widgetEditor';
+import { setChartType } from 'components/widgets/editor/redux/widgetEditor';
 
 // Components
 import FilterContainer from 'components/widgets/editor/ui/FilterContainer';
@@ -17,97 +16,17 @@ import DimensionsContainer from 'components/widgets/editor/ui/DimensionsContaine
 import FieldsContainer from 'components/widgets/editor/ui/FieldsContainer';
 import SortContainer from 'components/widgets/editor/ui/SortContainer';
 import LimitContainer from 'components/widgets/editor/ui/LimitContainer';
-import CustomSelect from 'components/widgets/editor/ui/CustomSelect';
 import Select from 'components/widgets/editor/form/SelectInput';
 import SaveWidgetModal from 'components/widgets/editor/modal/SaveWidgetModal';
 import HowToWidgetEditorModal from 'components/widgets/editor/modal/HowToWidgetEditorModal';
-import UploadAreaIntersectionModal from 'components/widgets/editor/modal/UploadAreaIntersectionModal';
-import Spinner from 'components/widgets/editor/ui/Spinner';
+import AreaIntersectionFilter from 'components/widgets/editor/ui/AreaIntersectionFilter';
 
-// Services
-import AreasService from 'components/widgets/editor/services/AreasService';
-import UserService from 'components/widgets/editor/services/UserService';
-
-const AREAS = [
-  {
-    label: 'Custom area',
-    value: 'custom',
-    items: [
-      {
-        label: 'Upload new area',
-        value: 'upload',
-        as: 'Custom area'
-      }
-    ]
-  }
-];
-
+// NOTE: if you change this array, also update
+// the condition of the variable showRequiredTooltip
 const CHARTS = ['line', 'bar'];
 
 @DragDropContext(HTML5Backend)
 class NEXGDDPEditor extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      areaOptions: [],
-      loadingAreaIntersection: false,
-      loadingUserAreas: false
-    };
-
-    // Services
-    this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
-    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
-  }
-
-  /**
-  * COMPONENT LIFECYCLE
-  * - componentDidMount
-  */
-  componentDidMount() {
-    if (this.props.hasGeoInfo) {
-      this.fetchAreas();
-      if (this.props.user.id) { // Only try to load the user areas when an user is logged in
-        this.fetchUserAreas();
-      }
-    }
-  }
-
-  /**
-   * Event handler executed when the selected area
-   * intersection is changed
-   * @param {{ label: string, value: string }} item Option of the selector
-   */
-  @Autobind
-  async onChangeAreaIntersection(item) {
-    return new Promise((resolve) => {
-      // The user unselected the option
-      if (!item) {
-        this.props.setAreaIntersection(null);
-      } else if (item.value === 'upload') {
-        this.props.toggleModal(true, {
-          children: UploadAreaIntersectionModal,
-          childrenProps: {
-            onUploadArea: (id) => {
-              // We close the modal
-              this.props.toggleModal(false, {});
-
-              // We save the ID of the area
-              this.props.setAreaIntersection(id);
-
-              resolve(true);
-            }
-          },
-          onCloseModal: () => resolve(false)
-        });
-      } else {
-        // The user selected a custom area that is not a country
-        this.props.setAreaIntersection(item.id);
-        resolve(true);
-      }
-    });
-  }
-
   @Autobind
   handleChartTypeChange(val) {
     this.props.setChartType(val);
@@ -150,54 +69,6 @@ class NEXGDDPEditor extends React.Component {
     this.props.onEmbedTable();
   }
 
-  /**
-   * Fetch the list of the areas for the area intersection
-   * filter
-  */
-  fetchAreas() {
-    this.setState({ loadingAreaIntersection: true });
-
-    // When this resolves, we'll also be able to display the countries
-    this.areasService.fetchCountries()
-      .then((data) => {
-        this.setState({
-          areaOptions: [...this.state.areaOptions, ...AREAS,
-            ...data.map(elem => ({
-              label: elem.name || '',
-              id: elem.geostoreId,
-              value: `country-${elem.geostoreId}`
-            }))]
-        });
-      })
-      // We don't really care if the countries don't load, we can still
-      // let the user use a custom area
-      .catch(err => toastr.error('Error', err))
-      .then(() => this.setState({ loadingAreaIntersection: false }));
-  }
-
-  /**
-   * Fetchs the user areas
-   */
-  fetchUserAreas() {
-    this.setState({ loadingUserAreas: true });
-    this.userService.getUserAreas(this.props.user.token)
-      .then((response) => {
-        const userAreas = response.map(val => ({
-          label: val.attributes.name,
-          id: val.attributes.geostore,
-          value: `user-area-${val.attributes.geostore}`
-        }));
-        this.setState({
-          loadingUserAreas: false,
-          areaOptions: [...this.state.areaOptions, ...userAreas]
-        });
-      })
-      .catch((err) => {
-        this.setState({ loadingUserAreas: false });
-        toastr.error('Error loading user areas', err);
-      });
-  }
-
   render() {
     const {
       dataset,
@@ -213,8 +84,13 @@ class NEXGDDPEditor extends React.Component {
       showLimitContainer,
       showOrderByContainer
     } = this.props;
-    const { chartType, fields, category, value, areaIntersection } = widgetEditor;
-    const { areaOptions, loadingAreaIntersection } = this.state;
+    const {
+      chartType,
+      fields,
+      category,
+      value,
+      areaIntersection
+    } = widgetEditor;
     const showSaveButtonFlag =
       chartType && category && value && user && user.token && showSaveButton;
     const showUpdateButton = showSaveButtonFlag;
@@ -227,11 +103,6 @@ class NEXGDDPEditor extends React.Component {
       && jiminy.general.map(val => ({ label: val, value: val }))
         .filter(c => CHARTS.includes(c.value))
     ) || [];
-
-    const areaToBeSelected = areaIntersection && !loadingAreaIntersection &&
-     areaOptions.find(opt => opt.id === areaIntersection);
-
-    const areaValue = areaToBeSelected && areaToBeSelected.value;
 
     return (
       <div className="c-chart-editor">
@@ -255,48 +126,36 @@ class NEXGDDPEditor extends React.Component {
               </div>
             </div>
           }
-          {hasGeoInfo &&
-            <div className="area-intersection">
-              <div className="c-field">
-                <label htmlFor="area-intersection-select">
-                  Area intersection { loadingAreaIntersection && <Spinner isLoading className="-light -small -inline" /> }
-                </label>
-                <CustomSelect
-                  id="area-intersection-select"
-                  placeholder="Select area"
-                  options={areaOptions}
-                  value={areaValue}
-                  onValueChange={this.onChangeAreaIntersection}
-                  allowNonLeafSelection={false}
-                  waitForChangeConfirmation
-                />
-              </div>
+          { hasGeoInfo
+              && <AreaIntersectionFilter required /> }
+        </div>
+        { !areaIntersection
+            && <p>Please select both a chart style and an area intersection to proceed.</p> }
+        { areaIntersection && <p>Drag and drop elements from the list to the boxes:</p> }
+        { areaIntersection && (
+          <div className="actions-div">
+            {fields &&
+              <FieldsContainer
+                dataset={dataset}
+                tableName={tableName}
+                fields={fields}
+              />
+            }
+            <div className="arrow-container">
+              <img alt="" src="/static/images/components/widgets/Arrow.svg" />
             </div>
-          }
-        </div>
-        <p>Drag and drop elements from the list to the boxes:</p>
-        <div className="actions-div">
-          {fields &&
-            <FieldsContainer
-              dataset={dataset}
-              tableName={tableName}
-              fields={fields}
-            />
-          }
-          <div className="arrow-container">
-            <img alt="" src="/static/images/components/widgets/Arrow.svg" />
+            <div className="customization-container">
+              <DimensionsContainer />
+              <FilterContainer />
+              {showOrderByContainer &&
+                <SortContainer />
+              }
+              {showLimitContainer &&
+                <LimitContainer />
+              }
+            </div>
           </div>
-          <div className="customization-container">
-            <DimensionsContainer />
-            <FilterContainer />
-            {showOrderByContainer &&
-              <SortContainer />
-            }
-            {showLimitContainer &&
-              <LimitContainer />
-            }
-          </div>
-        </div>
+        ) }
         <div className="save-widget-container">
           <button
             type="button"
@@ -325,7 +184,7 @@ class NEXGDDPEditor extends React.Component {
             Save widget
           </a>
           }
-          {tableViewMode && showEmbedTable &&
+          {tableViewMode && showEmbedTable && areaIntersection &&
             <a
               role="button"
               className="c-button -primary"
@@ -365,7 +224,6 @@ NEXGDDPEditor.propTypes = {
   setChartType: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
-  setAreaIntersection: PropTypes.func.isRequired,
   // Callback
   onUpdateWidget: PropTypes.func,
   onEmbedTable: PropTypes.func
@@ -377,8 +235,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setChartType(type));
   },
   toggleModal: (open, opts) => { dispatch(toggleModal(open, opts)); },
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
-  setAreaIntersection: id => dispatch(setAreaIntersection(id))
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NEXGDDPEditor);

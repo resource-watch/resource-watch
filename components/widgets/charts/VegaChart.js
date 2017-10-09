@@ -105,14 +105,45 @@ class VegaChart extends React.Component {
       return 'string';
     };
 
+    // Return the fields of the tooltip config within the interaction config
+    // of the vega config
+    const getTooltipConfigFields = () => {
+      // We don't have the interaction config object defined
+      if (!vegaConfig || !vegaConfig.interaction_config || !vegaConfig.interaction_config.length) {
+        return null;
+      }
+
+      const tooltipConfig = vegaConfig.interaction_config.find(c => c.name === 'tooltip');
+
+      // We don't have the tooltip config defined
+      if (!tooltipConfig || !tooltipConfig.config || !tooltipConfig.config.fields
+          || !tooltipConfig.config.fields.length) {
+        return null;
+      }
+
+      return tooltipConfig.config.fields;
+    };
+
+    // Return the d3-format of the specified column
+    const getFormat = (columnName) => {
+      const fields = getTooltipConfigFields();
+      if (!fields) return null;
+
+      const config = fields.find(f => f.key === columnName);
+      if (!config) return null;
+
+      return config.format;
+    };
+
     // Return the label of the specified column
     const getLabel = (columnName) => {
-      if (!vegaConfig || !vegaConfig.axes) return null;
+      const fields = getTooltipConfigFields();
+      if (!fields) return null;
 
-      const axis = vegaConfig.axes.find(a => a.type === columnName);
-      if (!axis) return null;
+      const config = fields.find(f => f.key === columnName);
+      if (!config) return null;
 
-      return axis.name;
+      return config.label;
     };
 
 
@@ -130,11 +161,13 @@ class VegaChart extends React.Component {
             x: {
               type: getType('x', item.datum.x),
               label: getLabel('x'),
+              format: getFormat('x'),
               value: item.datum.x
             },
             y: {
               type: getType('y', item.datum.y),
               label: getLabel('y'),
+              format: getFormat('y'),
               value: item.datum.y
             }
           }
@@ -196,20 +229,14 @@ class VegaChart extends React.Component {
             x: {
               type: getType('x', x), // Don't use data.x here
               label: getLabel('x'),
-              value: data.x,
-              range: getType('x', x) === 'date'
-                // We don't need to pass the full array
-                ? [sortedVisData[0].x, sortedVisData[sortedVisData.length - 1].x]
-                : []
+              format: getFormat('x'),
+              value: data.x
             },
             y: {
               type: getType('y', data.y),
               label: getLabel('y'),
-              value: data.y,
-              range: getType('y', data.y) === 'date'
-                // We don't need to pass the full array
-                ? [sortedVisData[0].y, sortedVisData[sortedVisData.length - 1].y]
-                : []
+              format: getFormat('y'),
+              value: data.y
             }
           }
         }

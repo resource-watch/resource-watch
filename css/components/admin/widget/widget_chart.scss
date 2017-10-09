@@ -35,7 +35,10 @@
 
       .vega {
         display: flex;
-        justify-content: center;
+        // We can't justify the content at the center because
+        // bar charts that are really wide will be cut on each
+        // side
+        justify-content: flex-start;
 
         canvas {
           display: block; // Mandatory to avoid a gap below it
