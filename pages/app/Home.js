@@ -87,12 +87,12 @@ class Home extends Page {
         className="-alt"
         background={c.background}
         clickable
-        route={c.source.path}
+        route={`/insights/${c.slug}`}
       >
         <div>
           <h4>{c.tag}</h4>
           <h3>
-            <Link route={`/insights/${c.slug}`} target="_blank">
+            <Link route={`/insights/${c.slug}`}>
               <a>{c.title}</a>
             </Link>
           </h3>
@@ -101,7 +101,7 @@ class Home extends Page {
           <div className="source">
             <img src={c.source.img || ''} alt={c.slug} />
             <div className="source-name">
-              by <a href={c.source.path}>{c.source.name}</a>
+              by <a href={c.source.path} target="_blank">{c.source.name}</a>
             </div>
           </div>
           {c.ranking && <Rating rating={c.ranking} />}
