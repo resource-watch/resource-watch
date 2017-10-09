@@ -320,7 +320,7 @@ class ExploreDetail extends Page {
 
                 <div className="page-header-info">
                   <ul>
-                    <li>Source: {(metadata && metadata.source) || '-'}</li>
+                    <li>Source: {(metadata && metadata.attributes.source) || '-'}</li>
                     <li>Last update: {dataset && dataset.attributes && new Date(dataset.attributes.updatedAt).toJSON().slice(0, 10).replace(/-/g, '/')}</li>
                     {/* Favorites <li>Last update: {dataset && dataset.attributes && dataset.attributes.updatedAt}</li> */}
                   </ul>
