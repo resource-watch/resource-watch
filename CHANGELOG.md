@@ -58,3 +58,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Footer style's.
 - Better validations for widgetEditor
 - Unique components for Legend and Map
+- Styles for search results
