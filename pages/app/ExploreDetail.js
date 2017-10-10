@@ -296,6 +296,7 @@ class ExploreDetail extends Page {
       <Layout
         title="Explore detail"
         description="Explore detail description..."
+        category="Dataset"
         url={this.props.url}
         user={this.props.user}
         pageHeader
