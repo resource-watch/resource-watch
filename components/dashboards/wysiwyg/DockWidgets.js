@@ -73,8 +73,10 @@ class DockWidget extends React.Component {
 
     if (index >= 0) {
       widgetsSelected.splice(index, 1);
-    } else {
+    } else if (widgetsSelected.length < 3) {
       widgetsSelected.push({ id: widget.id, type: widget.widgetConfig.type });
+    } else {
+      toastr.warning('Warning', 'You can only select 3 widgets per line');
     }
 
     this.setState({
