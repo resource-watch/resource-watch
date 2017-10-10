@@ -4,6 +4,7 @@ import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { getWidgets, setFilters } from 'redactions/admin/widgets';
 
@@ -156,9 +157,9 @@ const mapStateToProps = state => ({
   error: state.widgets.widgets.error,
   user: state.user
 });
-const mapDispatchToProps = dispatch => ({
-  getWidgets: options => dispatch(getWidgets(options)),
-  setFilters: filters => dispatch(setFilters(filters))
-});
+const mapDispatchToProps = dispatch => bindActionCreators({
+  getWidgets,
+  setFilters
+}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(WidgetsTable);

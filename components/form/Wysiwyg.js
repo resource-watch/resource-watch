@@ -9,6 +9,7 @@ if (typeof window !== 'undefined') {
   Editor = require('react-quill');
   // require all blots
   require('components/wysiwyg/IframeBlot');
+  require('components/wysiwyg/WidgetLayoutBlot');
 }
 
 

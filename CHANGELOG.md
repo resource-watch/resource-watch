@@ -40,6 +40,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Pie charts display an "others" category to avoid duplicate colors
 - Transifex
 - Transifex blacklist
+- Router onChange progress
+- Dock Component
+- Dashboards: The user is able to add more than one widget at a time. Depending on the number quill will add them in a row with 1, 2 or 3 columns. Never more than 3 widgets
 - Added map widgets to dashboards
 - Added text widgets to dashboards
 - MapControls component added
