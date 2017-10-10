@@ -167,8 +167,7 @@ class ColumnBox extends React.Component {
 
   @Autobind
   triggerClose() {
-    const { isA, widgetEditor } = this.props;
-    const { aggregateFunction, orderBy, value } = widgetEditor;
+    const { isA } = this.props;
     switch (isA) {
       case 'color':
         this.props.removeColor({ name: this.props.name });
@@ -183,16 +182,6 @@ class ColumnBox extends React.Component {
         this.props.removeCategory();
         break;
       case 'value':
-        if (aggregateFunction && orderBy) {
-          let orderByNameNoAggFunc = orderBy.name;
-          orderByNameNoAggFunc = orderByNameNoAggFunc.replace(aggregateFunction, '');
-          orderByNameNoAggFunc = orderByNameNoAggFunc.replace('(', '').replace(')', '');
-          if (orderByNameNoAggFunc === value.name) {
-            const newOrderBy = orderBy;
-            newOrderBy.name = value.name;
-            this.props.setOrderBy(newOrderBy);
-          }
-        }
         this.props.removeValue();
         break;
       case 'orderBy':
