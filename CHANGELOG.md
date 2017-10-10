@@ -22,13 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed map container error in back office
 - Datasets always show geoInfo value, even if they are rasters (it will be always true)
 - Widget map creation
-- Better validations for widgetEditor
-- MapControls component added
-- BasemapControl component added
-- ShareControl component added
-- Footer updated
-- Add map widgets to dashboards
-- Add text widgets to dashboards
+- Opacity selector for all layers
 
 ### Added
 - Insights cards: The whole card is clickable now
@@ -46,6 +40,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Pie charts display an "others" category to avoid duplicate colors
 - Transifex
 - Transifex blacklist
+- Added map widgets to dashboards
+- Added text widgets to dashboards
+- MapControls component added
+- BasemapControl component added
+- ShareControl component added
 
 ### Changed
 
@@ -53,3 +52,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Tooltips of the charts are now based on the [`interaction_config` object](https://github.com/resource-watch/notebooks/blob/master/ResourceWatch/Api_definition/widget_definition.ipynb) of the `widgetConfig`
 - WRI logo separate from partner carousel.
 - Footer style's.
+- Better validations for widgetEditor
+- Unique components for Legend and Map
