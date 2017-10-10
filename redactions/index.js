@@ -25,6 +25,7 @@ export { default as widgets } from './admin/widgets';
 export { default as dashboards } from './admin/dashboards';
 export { default as partners } from './admin/partners';
 export { default as pages } from './admin/pages';
+export { default as tools } from './admin/tools';
 export { default as sources } from './admin/sources';
 
 // Toastr
