@@ -10,7 +10,6 @@ import Input from 'components/form/Input';
 import TextArea from 'components/form/TextArea';
 import FileImage from 'components/form/FileImage';
 import Checkbox from 'components/form/Checkbox';
-import Wysiwyg from 'components/form/Wysiwyg';
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -78,22 +77,38 @@ class Step1 extends React.Component {
             {TextArea}
           </Field>
 
+          {/* URL */}
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.url = c; }}
+            onChange={value => this.props.onChange({ url: value })}
+            validations={['url']}
+            className="-fluid"
+            properties={{
+              name: 'url',
+              label: 'Url',
+              type: 'text',
+              default: this.state.form.url
+            }}
+          >
+            {Input}
+          </Field>
+
           {/* THUMBNAIL */}
           <div className="c-field-row">
             <div className="row l-row">
               <div className="column small-12 medium-6">
                 <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.photo = c; }}
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.thumbnail = c; }}
                   onChange={(value) => {
-                    this.props.onChange({ photo: value });
+                    this.props.onChange({ thumbnail: value });
                   }}
                   validations={['required']}
                   className="-fluid"
                   properties={{
-                    name: 'photo',
+                    name: 'thumbnail',
                     label: 'Photo',
                     placeholder: 'Browse file',
-                    default: this.state.form.photo,
+                    default: this.state.form.thumbnail,
                     required: true
                   }}
                 >
@@ -117,25 +132,6 @@ class Step1 extends React.Component {
             }}
           >
             {Checkbox}
-          </Field>
-        </fieldset>
-
-        <fieldset className="c-field-container">
-          {/* CONTENT */}
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.content = c; }}
-            onChange={value => this.props.onChange({ content: value })}
-            validations={['required']}
-            className="-fluid"
-            properties={{
-              name: 'content',
-              label: 'Content',
-              type: 'text',
-              required: true,
-              default: this.state.form.content
-            }}
-          >
-            {Wysiwyg}
           </Field>
         </fieldset>
       </div>
