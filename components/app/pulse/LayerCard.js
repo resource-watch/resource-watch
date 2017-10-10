@@ -63,9 +63,13 @@ class LayerCard extends React.Component {
     return (
       <div className={className}>
         <h3>{layerActive && layerActive.attributes.name}</h3>
-        <p>{layerActive && layerActive.attributes.description}</p>
+        <div className="description">
+          {layerActive && layerActive.attributes.description}
+        </div>
         {layerPoints && layerPoints.length > 0 &&
-          <p>Number of objects: {layerPoints.length}</p>
+          <div className="number-of-points">
+            Number of objects: {layerPoints.length}
+          </div>
         }
         <Legend
           layerActive={layerActive}

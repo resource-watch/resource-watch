@@ -478,6 +478,7 @@ class WidgetEditor extends React.Component {
                 setLayerGroupsOrder={() => {}}
                 setLayerGroupActiveLayer={() => {}}
                 readonly
+                interactionDisabled
                 expanded={false}
               />
             </div>

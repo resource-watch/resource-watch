@@ -62,23 +62,26 @@ class MetadataForm extends React.Component {
             this.props.setSources(metadata[0].attributes.info.sources || []);
           }
 
-          // fetchs column fields based on dataset type
-          this.service.fetchFields({
-            id: this.props.dataset,
-            type,
-            provider,
-            tableName
-          })
-            .then((columns) => {
-              this.setState({
-                columns,
-                loadingColumns: false
-              });
+          if (provider !== 'wms') {
+            // fetchs column fields based on dataset type
+            this.service.fetchFields({
+              id: this.props.dataset,
+              type,
+              provider,
+              tableName
             })
-            .catch((err) => {
-              this.setState({ loadingColumns: false });
-              toastr.error('Error', err);
-            });
+              .then((columns) => {
+                this.setState({
+                  columns,
+                  loadingColumns: false
+                });
+              })
+              .catch((err) => {
+                this.setState({ loadingColumns: false });
+              });
+          } else {
+            this.setState({ loadingColumns: false });
+          }
         })
         .catch((err) => {
           this.setState({ loading: false });

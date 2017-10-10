@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.1.0] - 2017-10-11
 
 ### Fixed
+- Legend actions buttons are not shown in the widget editor in Map mode
 - Insight cards: Source used to create the cards have been unified, links are visible now (white color)
 - Explore Detail: Source is not shown in the header
 - Explore: Tags button is properly placed now in lists mode as well
@@ -30,6 +31,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add map widgets to dashboards
 - Add text widgets to dashboards
 - Manually-created widgets could break the tooltip if no proper formatting would be provided
+- Opacity selector for all layers
+- Metadata subtitle
+- WMS Metadata and Dataset form doesn't call fields endpoint
 
 ### Added
 - Insights cards: The whole card is clickable now
@@ -47,6 +51,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Pie charts display an "others" category to avoid duplicate colors
 - Transifex
 - Transifex blacklist
+- Router onChange progress
+- Dock Component
+- Dashboards: The user is able to add more than one widget at a time. Depending on the number quill will add them in a row with 1, 2 or 3 columns. Never more than 3 widgets
+- Added map widgets to dashboards
+- Added text widgets to dashboards
+- MapControls component added
+- BasemapControl component added
+- ShareControl component added
+- Added new endpoint `profiles` to save and upload profile images in S3 service
+- Added checkbox for label layers in Explore page
+- Terms and privacy policy pages
 
 ### Changed
 
@@ -54,3 +69,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Tooltips of the charts are now based on the [`interaction_config` object](https://github.com/resource-watch/notebooks/blob/master/ResourceWatch/Api_definition/widget_definition.ipynb) of the `widgetConfig`
 - WRI logo separate from partner carousel.
 - Footer style's.
+- Better validations for widgetEditor
+- Unique components for Legend and Map
+- Basemaps by default doesn't have labels
+- Styles for search results

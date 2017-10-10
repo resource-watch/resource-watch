@@ -56,7 +56,7 @@ class Head extends React.Component {
   }
 
   render() {
-    const { title, description } = this.props;
+    const { title, description, category } = this.props;
 
     return (
       <HeadNext>
@@ -64,6 +64,7 @@ class Head extends React.Component {
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="Vizzuality" />
+        {category && <meta name="addsearch-category" content={category} />}
         <link rel="icon" href="/static/favicon.ico" />
         <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700" />
         {Head.getStyles()}
