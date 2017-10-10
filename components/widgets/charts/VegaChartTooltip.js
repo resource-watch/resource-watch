@@ -9,13 +9,17 @@ class VegaChartTooltip extends React.Component {
 
     const { x } = item;
 
-    if (x.format) {
-      if (x.type === 'number') {
-        return format(x.format)(x.value);
-      } else if (x.type === 'date') {
-        const date = new Date(x.value);
-        return time.format(x.format)(date);
-      }
+    if (x.format && x.type === 'number') {
+      return format(x.format)(x.value);
+    } else if (x.type === 'date') {
+      const date = new Date(x.value);
+      // NOTE: it's important to have a default format for
+      // the manually-created widgets, otherwise if x.format
+      // is not defined, time.format will return a date
+      // object and the app will crash in dev environment
+      // and the tooltip won't show in prod
+      const f = x.format || '%d %b %Y';
+      return time.format(f)(date);
     }
 
     return x.value;
@@ -28,13 +32,17 @@ class VegaChartTooltip extends React.Component {
     const { y } = item;
     if (!y) return null;
 
-    if (y.format) {
-      if (y.type === 'number') {
-        return format(y.format)(y.value);
-      } else if (y.type === 'date') {
-        const date = new Date(y.value);
-        return time.format(y.format)(date);
-      }
+    if (y.format && y.type === 'number') {
+      return format(y.format)(y.value);
+    } else if (y.type === 'date') {
+      const date = new Date(y.value);
+      // NOTE: it's important to have a default format for
+      // the manually-created widgets, otherwise if y.format
+      // is not defined, time.format will return a date
+      // object and the app will crash in dev environment
+      // and the tooltip won't show in prod
+      const f = y.format || '%d %b %Y';
+      return time.format(f)(date);
     }
 
     return y.value;

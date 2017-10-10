@@ -23,6 +23,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed map container error in back office
 - Datasets always show geoInfo value, even if they are rasters (it will be always true)
 - Widget map creation
+- Better validations for widgetEditor
+- MapControls component added
+- BasemapControl component added
+- ShareControl component added
+- Footer updated
+- Add map widgets to dashboards
+- Add text widgets to dashboards
+- Manually-created widgets could break the tooltip if no proper formatting would be provided
 - Opacity selector for all layers
 - Metadata subtitle
 - WMS Metadata and Dataset form doesn't call fields endpoint
