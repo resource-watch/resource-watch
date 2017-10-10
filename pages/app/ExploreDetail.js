@@ -348,17 +348,21 @@ class ExploreDetail extends Page {
                       Share dataset
                     </button>
                     {metadataInfo && metadataInfo.data_download_link &&
+                      metadataInfo.data_download_link.length &&
+                      metadataInfo.data_download_link.length > 0 &&
                       <a
                         className="c-button -primary -fullwidth"
-                        href={metadataInfo && metadataInfo.data_download_link}
+                        href={metadataInfo && metadataInfo.data_download_link[0]}
                       >
                         Download
                       </a>
                     }
-                    {metadataInfo && metadataInfo.data_download_original_link &&
+                    {metadataInfo && metadataInfo.data_download_link &&
+                      metadataInfo.data_download_link.length &&
+                      metadataInfo.data_download_link.length > 1 &&
                       <a
                         className="c-button -secondary -fullwidth"
-                        href={metadataInfo && metadataInfo.data_download_original_link}
+                        href={metadataInfo && metadataInfo.data_download_original_link[1]}
                       >
                         Download from source
                       </a>
