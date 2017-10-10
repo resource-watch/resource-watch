@@ -362,7 +362,7 @@ class ExploreDetail extends Page {
                       metadataInfo.data_download_link.length > 1 &&
                       <a
                         className="c-button -secondary -fullwidth"
-                        href={metadataInfo && metadataInfo.data_download_original_link[1]}
+                        href={metadataInfo && metadataInfo.data_download_link[1]}
                       >
                         Download from source
                       </a>
