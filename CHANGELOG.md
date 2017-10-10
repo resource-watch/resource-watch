@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Opacity selector for all layers
 - Metadata subtitle
 - WMS Metadata and Dataset form doesn't call fields endpoint
+- Explore detail: download links working
 
 ### Added
 - Insights cards: The whole card is clickable now

@@ -349,21 +349,19 @@ class ExploreDetail extends Page {
                       Share dataset
                     </button>
                     {metadataInfo && metadataInfo.data_download_link &&
-                      metadataInfo.data_download_link.length &&
-                      metadataInfo.data_download_link.length > 0 &&
                       <a
                         className="c-button -primary -fullwidth"
-                        href={metadataInfo && metadataInfo.data_download_link[0]}
+                        target="_blank"
+                        href={metadataInfo && metadataInfo.data_download_link}
                       >
                         Download
                       </a>
                     }
-                    {metadataInfo && metadataInfo.data_download_link &&
-                      metadataInfo.data_download_link.length &&
-                      metadataInfo.data_download_link.length > 1 &&
+                    {metadataInfo && metadataInfo.data_download_original_link &&
                       <a
                         className="c-button -secondary -fullwidth"
-                        href={metadataInfo && metadataInfo.data_download_link[1]}
+                        target="_blank"
+                        href={metadataInfo && metadataInfo.data_download_original_link}
                       >
                         Download from source
                       </a>
@@ -371,6 +369,7 @@ class ExploreDetail extends Page {
                     {metadataInfo && metadataInfo.learn_more_link &&
                       <a
                         className="c-button -secondary -fullwidth"
+                        target="_blank"
                         href={metadataInfo && metadataInfo.learn_more_link}
                       >
                         Learn more
