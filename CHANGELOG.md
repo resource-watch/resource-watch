@@ -49,6 +49,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - BasemapControl component added
 - ShareControl component added
 - Added new endpoint `profiles` to save and upload profile images in S3 service
+- Added checkbox for label layers in Explore page
 
 ### Changed
 
@@ -58,3 +59,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Footer style's.
 - Better validations for widgetEditor
 - Unique components for Legend and Map
+- Basemaps by default doesn't have labels
