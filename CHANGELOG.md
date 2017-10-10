@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.1.0] - 2017-10-11
 
 ### Fixed
+- Legend actions buttons are not shown in the widget editor in Map mode
 - Insight cards: Source used to create the cards have been unified, links are visible now (white color)
 - Explore Detail: Source is not shown in the header
 - Explore: Tags button is properly placed now in lists mode as well
@@ -23,6 +24,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Datasets always show geoInfo value, even if they are rasters (it will be always true)
 - Widget map creation
 - Opacity selector for all layers
+- Metadata subtitle
+- WMS Metadata and Dataset form doesn't call fields endpoint
 
 ### Added
 - Insights cards: The whole card is clickable now
@@ -50,6 +53,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - ShareControl component added
 - Added new endpoint `profiles` to save and upload profile images in S3 service
 - Added checkbox for label layers in Explore page
+- Terms and privacy policy pages
 
 ### Changed
 
@@ -60,3 +64,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Better validations for widgetEditor
 - Unique components for Legend and Map
 - Basemaps by default doesn't have labels
+- Styles for search results
