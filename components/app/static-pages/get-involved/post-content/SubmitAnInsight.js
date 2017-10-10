@@ -14,7 +14,7 @@ export default function SubmitAnInsight({ insights }) {
         className="-alt"
         background={c.background}
         clickable
-        route={c.source.path}
+        route={`/insights/${c.slug}`}
       >
         <div>
           <h4>{c.tag}</h4>
@@ -28,7 +28,7 @@ export default function SubmitAnInsight({ insights }) {
           <div className="source">
             <img src={c.source.img || ''} alt={c.slug} />
             <div className="source-name">
-              by <a href={c.source.path}>{c.source.name}</a>
+              by <a href={c.source.path} target="_blank">{c.source.name}</a>
             </div>
           </div>
           {c.ranking && <Rating rating={c.ranking} />}
@@ -65,7 +65,7 @@ export default function SubmitAnInsight({ insights }) {
                   <a className="c-button -primary -fullwidth">More insights</a>
                 </Link>
               </div>
-              </div>
+            </div>
           </div>
         </div>
       </section>

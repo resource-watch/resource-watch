@@ -149,22 +149,6 @@ class DatasetWidget extends React.Component {
     return (
       <div className={`c-dataset-list-item -${mode}`}>
 
-        {/* Dataset tags link */}
-        {vocabulary &&
-          <div
-            className="tags-button"
-            onClick={this.handleTagsClick}
-            title="tags"
-            role="button"
-            tabIndex={-1}
-          >
-            <Icon
-              name="icon-item-category"
-              className="-small"
-            />
-          </div>
-        }
-
         {/* If it has widget we want to renderize the default widget one */}
         {widget && gridMode &&
           <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
@@ -194,15 +178,32 @@ class DatasetWidget extends React.Component {
         <div className="info">
           <div className="detail">
             {/* Title */}
-            <h4>
-              <Link
-                route={'explore_detail'}
-                params={{ id: this.props.dataset.id }}
-              >
-                <a>{metadata && metadata.attributes.info ?
-                  metadata.attributes.info.name : dataset.name}</a>
-              </Link>
-            </h4>
+            <div className="title-container">
+              <h4>
+                <Link
+                  route={'explore_detail'}
+                  params={{ id: this.props.dataset.id }}
+                >
+                  <a>{metadata && metadata.attributes.info ?
+                    metadata.attributes.info.name : dataset.name}</a>
+                </Link>
+              </h4>
+              {/* Dataset tags link */}
+              {vocabulary &&
+                <div
+                  className="tags-button"
+                  onClick={this.handleTagsClick}
+                  title="tags"
+                  role="button"
+                  tabIndex={-1}
+                >
+                  <Icon
+                    name="icon-item-category"
+                    className="-small"
+                  />
+                </div>
+              }
+            </div>
 
             {/* Description */}
             {dataset.metadata && (dataset.metadata.length > 0)

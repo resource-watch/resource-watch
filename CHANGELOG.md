@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.1.0] - 2017-10-11
 
 ### Fixed
+- Insight cards: Source used to create the cards have been unified, links are visible now (white color)
+- Explore Detail: Source is not shown in the header
+- Explore: Tags button is properly placed now in lists mode as well
 - Planer pulse: Floods layer colors fixed
 - Planet pulse drop downs have now a `z-index` that makes them be displayed on top of the layer card
 - Planet pulse Carto layers are fetched based on the information in the `pulseConfig` object
@@ -22,6 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Opacity selector for all layers
 
 ### Added
+- Insights cards: The whole card is clickable now
 - Planet pulse improvements: color used as extra dimension in more 3D layers
 - Planet pulse globe tooltips have hyperlinks for url values
 - New prototype of tags tooltip in Explore
