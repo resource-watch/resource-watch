@@ -170,7 +170,7 @@ class Pulse extends Page {
     const { interactionConfig } = this.state;
     this.props.toggleTooltip(false);
     if (pulse.layerActive) {
-      const requestURL = substitution(interactionConfig.config.url,
+      const requestURL = substitution(interactionConfig.pulseConfig.url,
         [{ key: 'point', value: `[${latLon.longitude}, ${latLon.latitude}]` }]);
       this.setTooltipValue(requestURL, clientX, clientY);
     }
