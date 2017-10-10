@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Progress from 'react-progress-2';
+
 import { Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
-
+import { bindActionCreators } from 'redux';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import { toggleTooltip } from 'redactions/tooltip';
 import { setUser } from 'redactions/user';
+import { updateIsLoading } from 'redactions/page';
 
 // Components
 import Header from 'components/admin/layout/Header';
@@ -15,6 +18,7 @@ import Head from 'components/admin/layout/head';
 import Icons from 'components/admin/layout/icons';
 import Modal from 'components/ui/Modal';
 import Tooltip from 'components/ui/Tooltip';
+import Dock from 'components/ui/Dock';
 import Toastr from 'react-redux-toastr';
 
 class Layout extends React.Component {
@@ -26,25 +30,18 @@ class Layout extends React.Component {
     };
   }
 
-  componentWillMount() {
-    // When a tooltip is shown and the router navigates to a
-    // another page, the tooltip stays in place because it is
-    // managed in Redux
-    // The way we prevent this is by listening to the router
-    // and whenever we navigate, we hide the tooltip
-    // NOTE: we can't just call this.props.toggleTooltip here
-    // because for some pages, we don't re-mount the Layout
-    // component. If we listen for events from the router,
-    // we're sure to not miss any page.
-    if (!Router.onRouteChangeStart) {
-      Router.onRouteChangeStart = () => {
-        this.props.toggleTooltip(false);
-      };
-    }
-  }
-
   componentDidMount() {
     this.props.setUser(this.props.user);
+
+    Router.onRouteChangeStart = () => {
+      Progress.show();
+      this.props.toggleTooltip(false);
+      this.props.updateIsLoading(true);
+    };
+    Router.onRouteChangeComplete = () => {
+      this.props.updateIsLoading(false);
+      Progress.hideAll();
+    };
   }
 
   componentWillReceiveProps(newProps) {
@@ -64,6 +61,8 @@ class Layout extends React.Component {
 
         <Icons />
 
+        <Progress.Component />
+
         <Header url={url} user={user} />
 
         <div className="container">
@@ -79,6 +78,8 @@ class Layout extends React.Component {
           toggleModal={this.props.toggleModal}
           setModalOptions={this.props.setModalOptions}
         />
+
+        <Dock />
 
         <Toastr
           transitionIn="fadeIn"
@@ -102,7 +103,8 @@ Layout.propTypes = {
   modal: PropTypes.object,
   toggleModal: PropTypes.func,
   setModalOptions: PropTypes.func,
-  toggleTooltip: PropTypes.func
+  toggleTooltip: PropTypes.func,
+  updateIsLoading: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -116,7 +118,8 @@ const mapDispatchToProps = dispatch => ({
   setModalOptions: options => dispatch(setModalOptions(options)),
   setUser: (user) => {
     dispatch(setUser(user));
-  }
+  },
+  updateIsLoading: bindActionCreators(isLoading => updateIsLoading(isLoading), dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Layout);

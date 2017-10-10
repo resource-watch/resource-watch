@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.1.0] - 2017-10-11
 
 ### Fixed
+- Legend actions buttons are not shown in the widget editor in Map mode
 - Insight cards: Source used to create the cards have been unified, links are visible now (white color)
 - Explore Detail: Source is not shown in the header
 - Explore: Tags button is properly placed now in lists mode as well
@@ -40,11 +41,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Pie charts display an "others" category to avoid duplicate colors
 - Transifex
 - Transifex blacklist
+- Router onChange progress
+- Dock Component
+- Dashboards: The user is able to add more than one widget at a time. Depending on the number quill will add them in a row with 1, 2 or 3 columns. Never more than 3 widgets
 - Added map widgets to dashboards
 - Added text widgets to dashboards
 - MapControls component added
 - BasemapControl component added
 - ShareControl component added
+- Added new endpoint `profiles` to save and upload profile images in S3 service
 
 ### Changed
 

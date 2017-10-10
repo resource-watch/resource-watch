@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc';
 import isEqual from 'lodash/isEqual';
 import throttle from 'lodash/throttle';
+import { Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
@@ -79,8 +80,10 @@ class Legend extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.tooltipOpened === undefined && this.state.opacityTooltipOpen && this.state.opacityOptions.target) {
-      const layerGroup = nextProps.layerGroups.find(lg => lg.dataset === this.state.opacityOptions.dataset);
+    if (nextProps.tooltipOpened === undefined && this.state.opacityTooltipOpen
+      && this.state.opacityOptions.target) {
+      const layerGroup = nextProps.layerGroups
+        .find(lg => lg.dataset === this.state.opacityOptions.dataset);
 
       if (layerGroup) {
         this.onClickOpacity({ target: this.state.opacityOptions.target }, layerGroup);
@@ -168,7 +171,8 @@ class Legend extends React.Component {
    * @param {LayerGroup} layerGroup
    */
   onChangeOpacity(value, layerGroup) {
-    this.props.setLayerGroupOpacity(layerGroup.dataset, value);
+    const updateUrl = Router.route === '/app/Explore';
+    this.props.setLayerGroupOpacity(layerGroup.dataset, value, updateUrl);
   }
 
   /**
@@ -285,7 +289,8 @@ class Legend extends React.Component {
             <Icon name="icon-layers" />
           </button>
         ) }
-        { // eslint-disable-next-line max-len
+        { !this.props.interactionDisabled
+          &&
           <button
             type="button"
             className={`opacity ${layerGroup.visible ? '' : '-disabled'}`}

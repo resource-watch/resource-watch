@@ -29,3 +29,6 @@ export { default as sources } from './admin/sources';
 
 // Toastr
 export { reducer as toastr } from 'react-redux-toastr';
+
+// Dock
+export { default as dock } from './dock';

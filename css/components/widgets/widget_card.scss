@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   flex: 1 0 auto;
+  cursor: pointer;
 
   border: 1px solid rgba(26,28,34,0.1);
   border-radius: 4px;
@@ -94,6 +95,10 @@
     svg {
       fill: #FAB72E;
     }
+  }
+
+  &.-selected {
+    border-color: $color-primary;
   }
 
 }
