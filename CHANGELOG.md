@@ -50,6 +50,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - BasemapControl component added
 - ShareControl component added
 - Added new endpoint `profiles` to save and upload profile images in S3 service
+- Terms and privacy policy pages
 
 ### Changed
 

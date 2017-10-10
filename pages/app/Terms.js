@@ -11,7 +11,7 @@ import { setRouter } from 'redactions/routes';
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 
-class GetInvolved extends Page {
+class Terms extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
@@ -73,7 +73,7 @@ class GetInvolved extends Page {
   }
 }
 
-GetInvolved.propTypes = {
+Terms.propTypes = {
   data: PropTypes.object,
   getStaticData: PropTypes.func
 };
@@ -88,4 +88,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(GetInvolved);
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Terms);
