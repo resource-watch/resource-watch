@@ -82,7 +82,8 @@
       max-width: calc(100% - 150px); // Avoid the title to overlap the legend (when collapsed)
       position: absolute;
       top: 15px;
-      left: 20px;
+      left: 15px;
+      z-index: 2; // At least 2 to be on top of the map
 
       > div { // Override a property of the library
         display: block !important;

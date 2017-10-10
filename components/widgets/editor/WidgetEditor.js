@@ -412,6 +412,22 @@ class WidgetEditor extends React.Component {
     const loading = (mode === 'dataset' && !layersLoaded) ||
       (!fieldsError && !jiminyLoaded);
 
+    const chartTitle = (
+      <div className="chart-title">
+        {user.id &&
+          <AutosizeInput
+            name="widget-title"
+            value={widgetEditor.title || ''}
+            placeholder="Title..."
+            onChange={this.handleTitleChange}
+          />
+        }
+        {!user.id &&
+          <span>{widgetEditor.title}</span>
+        }
+      </div>
+    );
+
     let visualization = null;
     switch (selectedVisualizationType) {
       // Vega chart
@@ -420,17 +436,20 @@ class WidgetEditor extends React.Component {
           visualization = (
             <div className="visualization -chart">
               <Spinner className="-light" isLoading={loading} />
+              {chartTitle}
             </div>
           );
         } else if (this.state.chartConfigLoading) {
           visualization = (
             <div className="visualization -chart">
               <Spinner className="-light" isLoading />
+              {chartTitle}
             </div>
           );
         } else if (this.state.chartConfigError) {
           visualization = (
             <div className="visualization -error">
+              {chartTitle}
               <div>
                 {'Unfortunately, the chart couldn\'t be rendered'}
                 <span>{this.state.chartConfigError}</span>
@@ -440,12 +459,14 @@ class WidgetEditor extends React.Component {
         } else if (!canRenderChart(widgetEditor, datasetProvider) || !this.state.chartConfig) {
           visualization = (
             <div className="visualization -chart">
+              {chartTitle}
               Select a type of chart and columns
             </div>
           );
         } else if (!getChartType(chartType)) {
           visualization = (
             <div className="visualization -chart">
+              {chartTitle}
               {'This chart can\'t be previewed'}
             </div>
           );
@@ -453,19 +474,7 @@ class WidgetEditor extends React.Component {
           visualization = (
             <div className="visualization -chart">
               <Spinner className="-light" isLoading={chartLoading} />
-              <div className="chart-title">
-                {user.id &&
-                  <AutosizeInput
-                    name="widget-title"
-                    value={widgetEditor.title || ''}
-                    placeholder="Title..."
-                    onChange={this.handleTitleChange}
-                  />
-                }
-                {!user.id &&
-                  <span>{widgetEditor.title}</span>
-                }
-              </div>
+              {chartTitle}
               <VegaChart
                 reloadOnResize
                 data={this.state.chartConfig}
@@ -482,6 +491,7 @@ class WidgetEditor extends React.Component {
         if (layer) {
           visualization = (
             <div className="visualization">
+              {chartTitle}
               <Map
                 LayerManager={LayerManager}
                 mapConfig={mapConfig}
@@ -508,6 +518,7 @@ class WidgetEditor extends React.Component {
         } else {
           visualization = (
             <div className="visualization">
+              {chartTitle}
               Select a layer
             </div>
           );
@@ -519,11 +530,13 @@ class WidgetEditor extends React.Component {
           visualization = (
             <div className="visualization -chart">
               <Spinner className="-light" isLoading />
+              {chartTitle}
             </div>
           );
         } else if (this.state.chartConfigError) {
           visualization = (
             <div className="visualization -error">
+              {chartTitle}
               <div>
                 {'Unfortunately, the chart couldn\'t be rendered'}
                 <span>{this.state.chartConfigError}</span>
@@ -533,6 +546,7 @@ class WidgetEditor extends React.Component {
         } else if (!this.state.chartConfig || !this.props.band) {
           visualization = (
             <div className="visualization -chart">
+              {chartTitle}
               Select a band
             </div>
           );
@@ -540,6 +554,7 @@ class WidgetEditor extends React.Component {
           visualization = (
             <div className="visualization -chart">
               <Spinner className="-light" isLoading={chartLoading} />
+              {chartTitle}
               <VegaChart
                 reloadOnResize
                 data={this.state.chartConfig}
@@ -556,12 +571,14 @@ class WidgetEditor extends React.Component {
         if (!canRenderChart(widgetEditor, datasetProvider)) {
           visualization = (
             <div className="visualization">
+              {chartTitle}
               Select a type of chart and columns
             </div>
           );
         } else {
           visualization = (
             <div className="visualization">
+              {chartTitle}
               <TableView
                 dataset={dataset}
                 tableName={tableName}
