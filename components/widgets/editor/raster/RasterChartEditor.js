@@ -99,6 +99,22 @@ class RasterChartEditor extends React.Component {
   }
 
   /**
+   * Event handler executed when the user clicks the
+   * "Read more" button
+   */
+  @Autobind
+  onClickReadMore() {
+    this.props.toggleModal(true, {
+      children: () => (
+        <div>
+          <h2>Description of the band</h2>
+          <p>{this.props.band.description}</p>
+        </div>
+      )
+    });
+  }
+
+  /**
    * Fetch the name of the bands and set it in the state
    */
   fetchBandNames() {
@@ -143,24 +159,37 @@ class RasterChartEditor extends React.Component {
     const { loading, bands, error, bandStatsInfo, bandStatsInfoLoading } = this.state;
     const { band, mode, showSaveButton, hasGeoInfo } = this.props;
 
+    let description = band && band.description;
+    const longDescription = description && description.length > 250;
+    description = longDescription ? `${description.slice(0, 250)}...` : description;
+
     return (
       <div className="c-raster-chart-editor">
         <div className="content">
-          { hasGeoInfo && <AreaIntersectionFilter /> }
-          <h5>Bands { loading && <Spinner isLoading className="-light -small -inline" /> }</h5>
-          { error && <div className="error"><span>Error:</span> {error}</div> }
-          { !error && (
-            <Select
-              properties={{
-                name: 'raster-bands',
-                default: band && band.name
-              }}
-              options={bands.map(b => ({ label: b.alias || b.name, value: b.name }))}
-              onChange={this.onChangeBand}
-            />
-          ) }
+          <div className="selectors-container">
+            <div>
+              <h5>Bands { loading && <Spinner isLoading className="-light -small -inline" /> }</h5>
+              { error && <div className="error"><span>Error:</span> {error}</div> }
+              { !error && (
+                <Select
+                  properties={{
+                    name: 'raster-bands',
+                    default: band && band.name
+                  }}
+                  options={bands.map(b => ({ label: b.alias || b.name, value: b.name }))}
+                  onChange={this.onChangeBand}
+                />
+              ) }
+            </div>
+            { hasGeoInfo && <AreaIntersectionFilter /> }
+          </div>
           { band && band.description && (
-            <p className="description">{band.description}</p>
+            <p className="description">
+              {description}
+              { longDescription &&
+                <button onClick={() => this.onClickReadMore()}>Read more</button>
+              }
+            </p>
           ) }
           <div className="c-table stats">
             <Spinner isLoading={bandStatsInfoLoading} className="-light -small" />
