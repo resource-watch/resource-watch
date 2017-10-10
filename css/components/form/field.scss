@@ -10,8 +10,14 @@
     font-size: $font-size-small;
     color: $base-font-color;
     font-weight: 700;
+    line-height: 1.8; // Prevent style issues with inline loaders
 
     background: none;
+
+    .c-spinner {
+      vertical-align: middle; // Prevent style issues (shifting/jumping content)
+      margin-left: 5px;
+    }
   }
 
   .hint {
