@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.1.0] - 2017-10-11
 
 ### Fixed
+- Insight cards: Source used to create the cards have been unified, links are visible now (white color)
+- Explore Detail: Source is not shown in the header
+- Explore: Tags button is properly placed now in lists mode as well
 - Planer pulse: Floods layer colors fixed
 - Planet pulse drop downs have now a `z-index` that makes them be displayed on top of the layer card
 - Planet pulse Carto layers are fetched based on the information in the `pulseConfig` object
@@ -19,15 +22,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed map container error in back office
 - Datasets always show geoInfo value, even if they are rasters (it will be always true)
 - Widget map creation
-- Better validations for widgetEditor
-- MapControls component added
-- BasemapControl component added
-- ShareControl component added
-- Footer updated
-- Add map widgets to dashboards
-- Add text widgets to dashboards
+- Opacity selector for all layers
 
 ### Added
+- Insights cards: The whole card is clickable now
 - Planet pulse improvements: color used as extra dimension in more 3D layers
 - Planet pulse globe tooltips have hyperlinks for url values
 - New prototype of tags tooltip in Explore
@@ -45,6 +43,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Router onChange progress
 - Dock Component
 - Dashboards: The user is able to add more than one widget at a time. Depending on the number quill will add them in a row with 1, 2 or 3 columns. Never more than 3 widgets
+- Added map widgets to dashboards
+- Added text widgets to dashboards
+- MapControls component added
+- BasemapControl component added
+- ShareControl component added
+- Added new endpoint `profiles` to save and upload profile images in S3 service
 
 ### Changed
 
@@ -52,3 +56,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Tooltips of the charts are now based on the [`interaction_config` object](https://github.com/resource-watch/notebooks/blob/master/ResourceWatch/Api_definition/widget_definition.ipynb) of the `widgetConfig`
 - WRI logo separate from partner carousel.
 - Footer style's.
+- Better validations for widgetEditor
+- Unique components for Legend and Map

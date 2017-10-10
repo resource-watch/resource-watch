@@ -80,7 +80,7 @@ class Header extends React.Component {
         component: <Link route="get_involved"><a className="-bordered">Get Involved</a></Link>
       },
       {
-        name: 'My RW',
+        name: 'Personal Area',
         component: <HeaderUser
           user={this.props.user}
           active={this.state.myrwActive}

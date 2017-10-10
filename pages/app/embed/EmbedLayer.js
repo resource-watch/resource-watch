@@ -8,12 +8,12 @@ import Page from 'components/app/layout/Page';
 import Head from 'components/app/layout/head';
 
 // Components
-import Spinner from 'components/ui/Spinner';
+import Spinner from 'components/widgets/editor/ui/Spinner';
 import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
 import Icons from 'components/app/layout/icons';
 import Map from 'components/widgets/editor/map/Map';
-import Legend from 'components/ui/Legend';
+import Legend from 'components/widgets/editor/ui/Legend';
 
 // Services
 import DatasetService from 'services/DatasetService';

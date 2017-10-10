@@ -88,7 +88,7 @@ class Pulse extends Page {
               });
             }.bind(this),
             onLayerAddedError: function error(err) {
-              toastr.error('Error', err);
+              console.error(err);
               this.setState({
                 texture: null,
                 loading: false,
