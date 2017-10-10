@@ -97,6 +97,19 @@ class Step1 extends React.Component {
           </Field>
 
           <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.subtitle = c; }}
+            onChange={value => this.changeMetadata({ subtitle: value })}
+            properties={{
+              name: 'subtitle',
+              label: 'Subtitle',
+              type: 'text',
+              default: this.props.form.subtitle
+            }}
+          >
+            {Input}
+          </Field>
+
+          <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
             onChange={value => this.changeMetadata({ description: value })}
             validations={['required']}
