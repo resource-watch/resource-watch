@@ -23,6 +23,7 @@ class Partners extends Page {
   render() {
     const founders = this.props.partners.filter(p => p.partner_type === 'founding_partners');
     const funders = this.props.partners.filter(p => p.partner_type === 'funders');
+    const partners = this.props.partners.filter(p => p.partner_type !== 'funders' && p.partner_type !== 'founding_partners');
 
     return (
       <Layout
@@ -84,6 +85,23 @@ class Partners extends Page {
             </div>
             <div className="row">
               {funders.map(p =>
+                (<div className="column small-12 medium-6" key={p.id}>
+                  <PartnerBlock item={p} />
+                </div>)
+              )}
+            </div>
+          </div>
+        </section>
+
+        <section className="l-section -secondary">
+          <div className="l-container">
+            <div className="row">
+              <div className="column small-12">
+                <h2 className="-text-center">Partners</h2>
+              </div>
+            </div>
+            <div className="row">
+              {partners.map(p =>
                 (<div className="column small-12 medium-6" key={p.id}>
                   <PartnerBlock item={p} />
                 </div>)
