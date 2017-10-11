@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 import isEmpty from 'lodash/isEmpty';
+import truncate from 'lodash/truncate';
 import d3 from 'd3';
 
 // Redux
@@ -161,7 +162,7 @@ class RasterChartEditor extends React.Component {
 
     let description = band && band.description;
     const longDescription = description && description.length > 250;
-    description = longDescription ? `${description.slice(0, 250)}...` : description;
+    description = truncate(description, { length: 250, separator: /,?.* +/ });
 
     return (
       <div className="c-raster-chart-editor">
