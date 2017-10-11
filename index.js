@@ -34,11 +34,17 @@ const handle = routes.getRequestHandler(app, ({ req, res, route, query }) => {
 // Express app creation
 const server = express();
 
-function checkBasicAuth(username, password) {
+function checkBasicAuth(users) {
   return function authMiddleware(req, res, nextAction) {
     if (!/AddSearchBot/.test(req.headers['user-agent'])) {
       const user = basicAuth(req);
-      if (!user || user.name !== username || user.pass !== password) {
+      let authorized = false;
+      if (user && ( (user.name === users[0].username && user.pass === users[0].pass) ||
+        (user.name === users[1].username && user.pass === users[1].pass) ) ) {
+        authorized = true;
+      }
+
+      if (!authorized) {
         res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
         return res.sendStatus(401);
       }
@@ -79,7 +85,13 @@ if (prod) {
 
 // Using basic auth in prod mode
 if (prod) {
-  server.use(checkBasicAuth(process.env.USERNAME, process.env.PASSWORD));
+  server.use(checkBasicAuth([{
+    name: process.env.USERNAME,
+    pass: process.env.PASSWORD
+  }, {
+    name: process.env.RW_USERNAME,
+    pass: process.env.RW_PASSWORD
+  }]));
 }
 
 // configure Express
