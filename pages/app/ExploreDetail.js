@@ -337,6 +337,7 @@ class ExploreDetail extends Page {
                 <div className="column small-12 medium-7">
                   {/* Description */}
                   <div className="dataset-info-description">
+                    <h3>Description</h3>
                     {formattedDescription}
                   </div>
                 </div>
