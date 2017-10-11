@@ -61,9 +61,9 @@ class Header extends React.Component {
         />
       },
       {
-        name: 'Insights',
+        name: 'Blog',
         pathnames: ['/app/Insights'],
-        component: <Link route="insights"><a>Insights</a></Link>
+        component: <Link route="insights"><a>Blog</a></Link>
       },
       {
         name: 'About',
