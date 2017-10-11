@@ -839,6 +839,7 @@ class WidgetEditor extends React.Component {
       dataset,
       mode,
       showSaveButton,
+      showNotLoggedInText,
       selectedVisualizationType,
       showOrderByContainer,
       showLimitContainer
@@ -914,6 +915,7 @@ class WidgetEditor extends React.Component {
                         showSaveButton={showSaveButton}
                         showLimitContainer={showLimitContainer}
                         showOrderByContainer={showOrderByContainer}
+                        showNotLoggedInText={showNotLoggedInText}
                         hasGeoInfo={hasGeoInfo}
                         onEmbedTable={this.handleEmbedTable}
                         title={title}
@@ -935,6 +937,7 @@ class WidgetEditor extends React.Component {
                         mode={chartEditorMode}
                         onUpdateWidget={this.handleUpdateWidget}
                         showSaveButton={showSaveButton}
+                        showNotLoggedInText={showNotLoggedInText}
                         showLimitContainer={false}
                         showOrderByContainer={false}
                         hasGeoInfo={hasGeoInfo}
@@ -959,6 +962,7 @@ class WidgetEditor extends React.Component {
                         mode={chartEditorMode}
                         onUpdateWidget={this.handleUpdateWidget}
                         showSaveButton={showSaveButton}
+                        showNotLoggedInText={showNotLoggedInText}
                         title={title}
                       />
                     )
@@ -975,6 +979,7 @@ class WidgetEditor extends React.Component {
                         mode={chartEditorMode}
                         hasGeoInfo={hasGeoInfo}
                         showSaveButton={showSaveButton}
+                        showNotLoggedInText={showNotLoggedInText}
                         onUpdateWidget={this.handleUpdateWidget}
                         title={title}
                       />
@@ -1005,8 +1010,13 @@ const mapDispatchToProps = dispatch => ({
   toggleModal: (open, options) => dispatch(toggleModal(open, options))
 });
 
+WidgetEditor.defaultProps = {
+  showNotLoggedInText: false
+};
+
 WidgetEditor.propTypes = {
   mode: PropTypes.oneOf(['dataset', 'widget']),
+  showNotLoggedInText: PropTypes.bool,
   showSaveButton: PropTypes.bool.isRequired, // Show save button in chart editor or not
   showLimitContainer: PropTypes.bool.isRequired, // Show the limit container or not
   showOrderByContainer: PropTypes.bool.isRequired, // Show the limit container or not

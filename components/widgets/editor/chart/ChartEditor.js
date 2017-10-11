@@ -78,7 +78,8 @@ class ChartEditor extends React.Component {
       hasGeoInfo,
       showEmbedTable,
       showLimitContainer,
-      showOrderByContainer
+      showOrderByContainer,
+      showNotLoggedInText
     } = this.props;
     const { chartType, fields, category, value } = widgetEditor;
     const showSaveButtonFlag =
@@ -165,6 +166,11 @@ class ChartEditor extends React.Component {
             Save widget
           </a>
           }
+          {!showSaveButton && showNotLoggedInText &&
+            <span className="not-logged-in-text">
+              Please log in to save changes
+            </span>
+          }
           {tableViewMode && showEmbedTable &&
             <a
               role="button"
@@ -194,6 +200,7 @@ ChartEditor.propTypes = {
   dataset: PropTypes.string.isRequired, // Dataset ID
   datasetType: PropTypes.string,
   datasetProvider: PropTypes.string,
+  showNotLoggedInText: PropTypes.bool,
   tableViewMode: PropTypes.bool.isRequired,
   showSaveButton: PropTypes.bool.isRequired,
   showEmbedTable: PropTypes.bool,

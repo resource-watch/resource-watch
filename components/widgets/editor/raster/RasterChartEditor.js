@@ -141,7 +141,7 @@ class RasterChartEditor extends React.Component {
 
   render() {
     const { loading, bands, error, bandStatsInfo, bandStatsInfoLoading } = this.state;
-    const { band, mode, showSaveButton, hasGeoInfo } = this.props;
+    const { band, mode, showSaveButton, hasGeoInfo, showNotLoggedInText } = this.props;
 
     return (
       <div className="c-raster-chart-editor">
@@ -203,6 +203,11 @@ class RasterChartEditor extends React.Component {
               Save widget
             </button>
           }
+          {!showSaveButton && showNotLoggedInText &&
+            <span className="not-logged-in-text">
+              Please log in to save changes
+            </span>
+          }
         </div>
       </div>
     );
@@ -217,6 +222,7 @@ RasterChartEditor.propTypes = {
   provider: PropTypes.string.isRequired,
   mode: PropTypes.oneOf(['save', 'update']),
   showSaveButton: PropTypes.bool,
+  showNotLoggedInText: PropTypes.bool,
   onUpdateWidget: PropTypes.func,
 
   // REDUX
