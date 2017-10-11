@@ -360,7 +360,7 @@ class Legend extends React.PureComponent {
           this.props.setLayerGroupActiveLayer(datasetSpec.dataset, currentLayer.id);
         });
         return this.setState({ currentStepTimeline: currentValue + 1 });
-      }, TIMELINE_INTERVAL_TIMER);
+      }, TIMELINE_INTERVAL_TIMER, true);
     }
 
     this.setState({ isTimelinePlaying: isPlaying });
@@ -408,16 +408,18 @@ class Legend extends React.PureComponent {
               <div className="legend-timeline">
                 { this.state.isTimelinePlaying &&
                   <button
-                    className="c-button"
                     type="button"
                     onClick={() => { this.setPlayTimeline(false, datasetSpec, minYear, maxYear); }}
-                  >stop</button> }
+                  >
+                    <Icon name="icon-stop2" className="-small" />
+                  </button> }
                 { !this.state.isTimelinePlaying &&
                   <button
-                    className="c-button"
                     type="button"
                     onClick={() => { this.setPlayTimeline(true, datasetSpec, minYear, maxYear); }}
-                  >play</button> }
+                  >
+                    <Icon name="icon-play3" className="-small" />
+                  </button> }
                 { !!(datasetSpec.layers.length) &&
                   <InputRange
                     minValue={minYear}

@@ -15,7 +15,16 @@
 
   .legend-timeline {
     display: flex;
-    margin: $margin-size-extra-small 7px $margin-size-extra-small 12px;
+    margin: $margin-size-extra-small 7px $margin-size-extra-small 0;
+
+    > button {
+      padding: 0;
+    }
+
+    .c-icon {
+      fill: $color-charcoal-grey;
+      margin-right: 12px;
+    }
 
     .input-range__label {
       font-size: 11px;
