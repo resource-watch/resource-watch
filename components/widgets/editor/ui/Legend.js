@@ -22,6 +22,8 @@ import LayersTooltip from 'components/app/explore/LayersTooltip';
 import SliderTooltip from 'components/app/explore/SliderTooltip';
 import Button from 'components/ui/Button';
 
+const TIMELINE_INTERVAL_TIMER = 3000;
+
 const SortableItem = SortableElement(({ value }) => value);
 
 const DragHandle = SortableHandle(() => (
@@ -38,7 +40,7 @@ const SortableList = SortableContainer(({ items }) => (
   </ul>
 ));
 
-class Legend extends React.Component {
+class Legend extends React.PureComponent {
   /**
    * Return the position of a DOM element
    * @static
@@ -65,7 +67,8 @@ class Legend extends React.Component {
       // Show a "tour" tooltip if the user adds a multi-layer
       // layer group for the first time
       hasShownLayersTourTooltip: false,
-      currentStepTimeline: null
+      currentStepTimeline: null,
+      isTimelinePlaying: false
     };
 
     // List of the layers buttons
@@ -151,6 +154,7 @@ class Legend extends React.Component {
    * @param {LayerGroup} layerGroup
    */
   onRemoveLayerGroup(layerGroup) {
+    this.setState({ currentStepTimeline: null, isTimelinePlaying: false });
     this.props.removeLayerGroup(layerGroup);
   }
 
@@ -282,7 +286,8 @@ class Legend extends React.Component {
   getItemsActions(layerGroup) {
     return (
       <div className="item-actions">
-        { layerGroup.layers.length > 1 && (
+        { layerGroup.dataset !== 'c0c71e67-0088-4d69-b375-85297f79ee75'
+          && layerGroup.layers.length > 1 && (
           <button
             type="button"
             className="layers"
@@ -338,6 +343,27 @@ class Legend extends React.Component {
     this.props.setLayerGroupActiveLayer(datasetSpec.dataset, currentLayer.id); // datasetId, layerId
   }
 
+  setPlayTimeline(isPlaying, datasetSpec, minValue, maxValue) {
+    if (this.timer) clearInterval(this.timer);
+
+    if (isPlaying) {
+      this.timer = setInterval(() => {
+        if (this.state.currentStepTimeline === maxValue) {
+          clearInterval(this.timer);
+          return this.setState({ currentStepTimeline: null, isTimelinePlaying: false });
+        }
+        const currentValue = (this.state.currentStepTimeline || minValue);
+        const currentLayer = datasetSpec.layers.find((l) => {
+          return moment(l.layerConfig.dateTime, 'YYYY-MM-DD').year() === parseInt(currentValue);
+        });
+        this.props.setLayerGroupActiveLayer(datasetSpec.dataset, currentLayer.id);
+        return this.setState({ currentStepTimeline: currentValue + 1 });
+      }, TIMELINE_INTERVAL_TIMER);
+    }
+
+    this.setState({ isTimelinePlaying: isPlaying });
+  }
+
   /**
    * Return the list of layers
    * @returns {HTMLElement[]}
@@ -352,18 +378,18 @@ class Legend extends React.Component {
 
       datasetSpec.layers = sortBy(datasetSpec.layers, (l) => l.layerConfig.dateTime);
 
+      // Legend with timeline
       if (datasetSpec.dataset === 'c0c71e67-0088-4d69-b375-85297f79ee75' &&
         datasetSpec.layers.length) {
-        const currentLayer = datasetSpec.layers.find((l) => {
-          const lYear = moment(l.layerConfig.dateTime, 'YYYY-MM-DD').year();
-          if (this.state.currentStepTimeline) return lYear === this.state.currentStepTimeline;
-          return lYear === moment(activeLayer.layerConfig.dateTime, 'YYYY-MM-DD').year();
-        });
-
         const firstLayer = datasetSpec.layers[0];
         const lastLayer = datasetSpec.layers[datasetSpec.layers.length - 1];
         const minYear = moment(firstLayer.layerConfig.dateTime, 'YYYY-MM-DD').year();
         const maxYear = moment(lastLayer.layerConfig.dateTime, 'YYYY-MM-DD').year();
+
+        const currentLayer = datasetSpec.layers.find((l) => {
+          const lYear = moment(l.layerConfig.dateTime, 'YYYY-MM-DD').year();
+          return lYear === (this.state.currentStepTimeline || minYear);
+        });
 
         return (
           <li key={datasetSpec.dataset} className="c-legend-unit">
@@ -377,7 +403,19 @@ class Legend extends React.Component {
               <LegendType config={currentLayer.legendConfig} className={this.props.className} />
 
               {/* Timeline */}
-              <div className="legent-timeline">
+              <div className="legend-timeline">
+                { this.state.isTimelinePlaying &&
+                  <button
+                    className="c-button"
+                    type="button"
+                    onClick={() => { this.setPlayTimeline(false, datasetSpec, minYear, maxYear); }}
+                  >stop</button> }
+                { !this.state.isTimelinePlaying &&
+                  <button
+                    className="c-button"
+                    type="button"
+                    onClick={() => { this.setPlayTimeline(true, datasetSpec, minYear, maxYear); }}
+                  >play</button> }
                 { !!(datasetSpec.layers.length) &&
                   <InputRange
                     minValue={minYear}
@@ -392,6 +430,7 @@ class Legend extends React.Component {
         );
       }
 
+      // Legend without timeline
       return (
         <li key={layerGroup.dataset} className="c-legend-unit">
           <div className="legend-info">
