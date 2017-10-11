@@ -25,5 +25,10 @@
     a {
       cursor: pointer;
     }
+
+    .not-logged-in-text {
+      font-style: italic;
+      color: $dark-pink;
+    }
   }
 }

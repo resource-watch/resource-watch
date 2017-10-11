@@ -48,7 +48,7 @@ class MapEditor extends React.Component {
   }
 
   render() {
-    const { widgetEditor, layers, mode, showSaveButton } = this.props;
+    const { widgetEditor, layers, mode, showSaveButton, showNotLoggedInText } = this.props;
     const { layer } = widgetEditor;
 
     return (
@@ -89,12 +89,16 @@ class MapEditor extends React.Component {
               Save widget
             </button>
           }
+          {!showSaveButton && showNotLoggedInText &&
+            <span className="not-logged-in-text">
+              Please log in to save changes
+            </span>
+          }
         </div>
       </div>
     );
   }
 }
-
 
 MapEditor.propTypes = {
   layers: PropTypes.array.isRequired, // Dataset ID
@@ -104,6 +108,7 @@ MapEditor.propTypes = {
   datasetType: PropTypes.string,
   mode: PropTypes.oneOf(['save', 'update']),
   showSaveButton: PropTypes.bool,
+  showNotLoggedInText: PropTypes.bool,
   onUpdateWidget: PropTypes.func,
 
   // Store

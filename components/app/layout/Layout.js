@@ -99,6 +99,7 @@ class Layout extends React.Component {
         />
 
         <Toastr
+          preventDuplicates
           transitionIn="fadeIn"
           transitionOut="fadeOut"
         />

@@ -24,12 +24,13 @@
 
   .band-information {
     margin-top: 10px;
+    padding: $margin-size-extra-small;
   }
 
   .c-table {
     position: relative;
     min-height: 100px;
-    margin-top: 20px;
+    margin: 20px $margin-size-extra-small;
 
     table {
       display: block;
