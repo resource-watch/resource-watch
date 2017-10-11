@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The Water Guardians of the Andes</title>
+  <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700">
+  <link rel="stylesheet" media="all" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.css">
+  <link rel="stylesheet" href="https://vizzuality.github.io/WRW-Prototype/styles/main.css">
+  <style>
+    body {display: block;}
+  </style>
+</head>
+<body>
+
+<svg style="display:none" class="is-hidden">
+    <!-- Star-->
+    <symbol id="icon-star" viewBox="0 0 1092 1024">
+        <title>star</title>
+        <path d="M546.133 779.605l-361.135 263.588 139.090-424.913-362.284-262.007 447.098 0.977 137.231-425.517 137.231 425.517 447.098-0.977-362.284 262.007 139.090 424.913z" class="path1"></path>
+    </symbol>
+    <!-- Options-->
+    <symbol id="icon-cog" viewBox="0 0 1024 1024">
+        <title>cog</title>
+        <path d="M914.625 505.976c0-63.090 38.828-112.893 97.328-147.131-10.529-35.226-24.504-68.957-41.671-100.713-65.596 17.155-118.676-8.541-163.298-53.152-44.622-44.634-58.284-97.726-41.117-163.31-31.756-17.179-65.488-31.142-100.713-41.671-34.238 58.501-96.075 97.34-159.178 97.34s-124.928-38.84-159.178-97.34c-35.226 10.517-68.957 24.492-100.713 41.659 17.155 65.584 3.506 118.676-41.117 163.322-44.622 44.622-97.726 70.307-163.298 53.164-17.179 31.744-31.142 65.476-41.671 100.701 58.488 34.238 97.328 84.040 97.328 147.131s-38.84 124.94-97.328 159.178c10.529 35.226 24.492 68.957 41.671 100.713 65.584-17.155 118.676-3.506 163.298 41.117 44.61 44.622 58.272 97.726 41.117 163.298 31.756 17.179 65.488 31.154 100.725 41.671 34.25-58.501 96.063-97.328 159.166-97.328s124.94 38.828 159.178 97.328c35.226-10.529 68.957-24.492 100.725-41.683-17.155-65.56-3.518-118.664 41.105-163.286s97.714-70.319 163.298-53.164c17.167-31.756 31.142-65.488 41.671-100.713-58.501-34.238-97.328-84.040-97.328-147.131v0zM505.976 726.028c-121.519 0-220.040-98.521-220.040-220.052s98.521-220.040 220.040-220.040c121.531 0 220.027 98.509 220.027 220.040s-98.497 220.052-220.027 220.052v0z"
+            class="path1"></path>
+    </symbol>
+    <!-- Share-->
+    <symbol id="icon-share" viewBox="0 0 904 1024">
+        <title>share</title>
+        <path d="M725.054 669.281c-38.339 0-73.543 13.029-101.753 34.713l-291.093-174.649c1.472-8.935 2.432-18.037 2.432-27.385 0-9.359-0.959-18.45-2.432-27.385l291.093-174.649c28.21 21.685 63.414 34.713 101.753 34.713 92.394 0 167.32-74.926 167.32-167.32s-74.926-167.32-167.32-167.32c-92.405 0-167.32 74.926-167.32 167.32 0 9.348 0.959 18.45 2.421 27.385l-291.081 174.649c-28.221-21.685-63.426-34.713-101.753-34.713-92.405 0-167.32 74.926-167.32 167.32s74.915 167.32 167.32 167.32c38.327 0 73.532-13.029 101.753-34.713l291.081 174.649c-1.461 8.935-2.421 18.026-2.421 27.385 0 92.394 74.915 167.32 167.32 167.32 92.394 0 167.32-74.926 167.32-167.32s-74.926-167.32-167.32-167.32z"
+            class="path1"></path>
+    </symbol>
+    <!-- Info-->
+    <symbol id="icon-info" viewBox="0 0 1024 1024">
+        <title>info</title>
+        <path d="M636.518 0c68.608 0 102.912 46.797 102.912 100.25 0 66.765-59.597 128.563-137.114 128.563-65.024 0-102.912-38.4-101.12-101.837 0-53.504 45.056-126.976 135.322-126.976zM425.421 1024c-54.17 0-93.85-33.382-55.962-180.378l62.157-260.659c10.803-41.728 12.595-58.47 0-58.47-16.282 0-86.528 28.826-128.102 57.242l-27.034-45.107c131.738-111.923 283.238-177.51 348.211-177.51 54.118 0 63.078 65.126 36.096 165.325l-71.219 274.022c-12.595 48.435-7.219 65.126 5.376 65.126 16.282 0 69.478-20.122 121.805-61.85l30.72 41.728c-128.051 130.355-267.93 180.531-322.048 180.531z"
+            class="path1"></path>
+    </symbol>
+    <!-- Cross-->
+    <symbol id="icon-cross" viewBox="0 0 1024 1024">
+        <title>cross</title>
+        <path d="M734.669 673.382l-141.21-161.382 141.21-161.382c24.013-24.013 24.013-62.925 0-86.886-24.013-23.962-62.925-23.962-86.886 0l-135.782 155.187-135.731-155.136c-24.013-24.013-62.925-24.013-86.886 0-23.962 24.013-23.962 62.925 0 86.886l141.158 161.331-141.21 161.382c-23.962 24.013-23.962 62.822 0 86.784 24.013 24.013 62.925 24.013 86.886 0l135.782-155.085 135.731 155.085c24.013 24.013 62.925 24.013 86.886 0s24.013-62.771 0.051-86.784z"
+            class="path1"></path>
+    </symbol>
+    <!-- Alt logo-->
+    <symbol id="icon-logo" viewBox="0 0 6220 1024">
+        <title>logo</title>
+        <path fill="#393F44" d="M1628.835 499.686c14.791-19.824 22.193-43.907 22.193-72.238 0-23.428-4.087-42.975-12.223-58.652-8.174-15.665-19.169-28.129-33.011-37.392-13.842-9.25-29.949-16.396-48.346-20.366s-37.832-6.478-58.316-6.478h-150.011v403.28h88.569v-163.832h38.135l84.179 163.832h106.384l-102.398-169.945c28.456-5.28 50.054-18.387 64.845-38.211v0zM1551.768 452.376c-4.745 6.049-10.73 10.473-17.916 13.321-7.225 2.823-15.272 2.899-24.192 3.466s-17.347-0.769-25.305-0.769h-46.663v-88.217h52.357c7.959 0 16.107 0.693 24.445 1.815 8.351 1.134 15.753 3.377 22.193 6.579 6.44 3.226 11.754 7.877 15.93 13.913 4.163 6.049 6.25 14.178 6.25 24.373 0 10.977-2.366 19.483-7.098 25.52zM1791.967 544.009h177.138v-88.217h-177.138v-63.012h177.138v-88.217h-265.707v403.28h278.36v-88.217h-189.791v-75.615zM2252.007 495.439c-13.842-8.305-28.722-14.732-44.651-19.269s-30.822-9.061-44.651-13.598c-13.855-4.537-25.318-9.994-34.415-16.434-9.11-6.415-13.652-15.665-13.652-27.763 0-7.549 1.885-13.976 5.681-19.269 3.796-5.268 8.73-9.527 14.791-12.741 6.073-3.201 12.514-5.57 19.346-7.083 6.82-1.5 13.462-2.256 19.915-2.256 10.995 0 22.648 2.168 34.972 6.503 12.324 4.348 22.092 11.052 29.304 20.114l60.86-66.289c-17.056-15.098-36.212-25.873-57.456-32.288-21.244-6.427-43.234-9.641-65.984-9.641-19.713 0-38.869 2.747-57.456 8.217-18.574 5.482-34.972 13.699-49.194 24.638-14.222 10.977-25.609 24.575-34.137 40.807-8.528 16.245-12.792 35.136-12.792 56.661 0 22.281 4.631 40.227 13.931 53.825 9.287 13.598 20.953 24.55 34.985 32.867 14.019 8.305 29.202 14.921 45.512 19.824 16.297 4.915 31.467 9.83 45.499 14.732s25.698 10.863 34.985 17.845c9.287 7.007 13.943 16.522 13.943 28.608 0 7.196-1.809 13.422-5.403 18.715-3.606 5.293-8.338 9.616-14.222 13.018s-12.526 5.961-19.915 7.65c-7.389 1.701-14.702 2.558-21.902 2.558-14.791 0-29.114-3.302-42.943-9.931-13.842-6.591-25.318-15.942-34.415-28.028l-63.137 69.112c19.333 17.757 40.185 30.599 62.568 38.538 22.383 7.927 46.638 11.897 72.816 11.897 20.839 0 40.678-2.647 59.442-7.94 18.764-5.28 35.263-13.396 49.485-24.348s25.508-24.739 33.846-41.374c8.338-16.623 12.514-36.068 12.514-58.35 0-23.428-4.542-42.118-13.652-56.106-9.097-13.964-20.573-25.117-34.415-33.422zM2702.254 352.375c-19.333-18.324-42.273-32.388-68.818-42.218-26.558-9.817-55.571-14.732-87.038-14.732-31.48 0-60.493 4.915-87.038 14.732-26.558 9.83-49.485 23.894-68.831 42.218s-34.415 40.504-45.233 66.579c-10.793 26.049-16.208 55.149-16.208 87.247 0 32.111 5.415 61.198 16.208 87.247 10.818 26.075 25.887 48.268 45.233 66.592s42.273 32.388 68.831 42.206c26.545 9.817 55.558 14.732 87.038 14.732 31.467 0 60.48-4.915 87.038-14.732 26.545-9.817 49.485-23.882 68.818-42.206 19.359-18.324 34.428-40.517 45.246-66.592 10.793-26.049 16.208-55.136 16.208-87.247 0-32.099-5.415-61.198-16.208-87.247-10.818-26.075-25.887-48.255-45.246-66.579zM2662.727 558.048c-5.884 15.678-14.323 29.276-25.318 40.794s-24.179 20.492-39.54 26.919c-15.36 6.427-32.517 9.628-51.471 9.628-18.966 0-36.124-3.201-51.484-9.628s-28.532-15.4-39.54-26.919c-10.995-11.519-19.435-25.117-25.305-40.794-5.884-15.665-8.819-32.943-8.819-51.847 0-18.5 2.935-35.69 8.819-51.557 5.871-15.867 14.31-29.553 25.305-41.084 11.008-11.519 24.179-20.479 39.54-26.919 15.36-6.415 32.517-9.616 51.484-9.616 18.954 0 36.111 3.201 51.471 9.616 15.36 6.44 28.545 15.4 39.54 26.919 10.995 11.531 19.435 25.218 25.318 41.084 5.871 15.867 8.819 33.056 8.819 51.557 0 18.904-2.948 36.182-8.819 51.847zM3057.239 548.697c0 12.464-0.86 23.995-4.846 34.569s-9.009 19.736-16.221 27.473c-7.199 7.751-15.462 13.787-25.318 18.135s-20.535 6.515-32.277 6.515c-11.754 0-22.598-2.168-32.644-6.515s-18.637-10.384-25.849-18.135c-7.199-7.738-15.095-16.9-19.068-27.473-3.986-10.573-8.262-22.105-8.262-34.569v-244.136h-88.569v247.538c0 23.794 5.82 45.709 13.020 65.722 7.212 20.025 19.042 37.404 33.264 52.137s32.505 26.251 53.736 34.556c21.244 8.305 46.17 12.464 74.233 12.464 27.671 0 52.281-4.159 73.525-12.464 21.231-8.305 39.034-19.824 53.268-34.556 14.222-14.732 23.749-32.111 30.949-52.137 7.199-20.013 9.629-41.929 9.629-65.722v-247.538h-88.569v244.136zM3500.362 499.686c14.778-19.824 22.18-43.907 22.18-72.238 0-23.428-4.087-42.975-12.223-58.652-8.174-15.665-19.169-28.129-33.011-37.392-13.842-9.25-29.949-16.396-48.346-20.366s-37.819-6.478-58.316-6.478h-161.575v403.28h88.569v-163.832h49.7l84.179 163.832h106.384l-102.398-169.945c28.456-5.28 50.067-18.387 64.858-38.211zM3423.282 452.376c-4.745 6.049-10.73 10.473-17.916 13.321-7.225 2.823-15.272 2.899-24.179 3.466-8.92 0.567-17.36-0.769-25.318-0.769h-58.228v-88.217h63.922c7.959 0 16.107 0.693 24.445 1.815 8.351 1.134 15.753 3.377 22.193 6.579 6.44 3.226 11.754 7.877 15.93 13.913 4.163 6.049 6.25 14.178 6.25 24.373 0 10.977-2.366 19.483-7.098 25.52zM3800.712 624.047c-14.032 7.574-30.151 11.342-48.346 11.342-15.93 0-30.822-3.201-44.664-9.628s-25.887-15.4-36.111-26.919c-10.249-11.519-18.308-25.117-24.179-40.794-5.884-15.665-8.819-32.943-8.819-51.847 0-18.5 2.935-35.69 8.819-51.557 5.871-15.867 14.019-29.553 24.458-41.084 10.426-11.519 22.75-20.479 36.971-26.919 14.222-6.415 29.671-9.616 46.36-9.616s31.379 2.823 44.095 8.481c12.691 5.684 23.408 13.8 32.138 24.373l68.261-55.527c-8.73-10.952-18.587-20.202-29.582-27.763-10.995-7.549-22.459-13.611-34.415-18.135-11.944-4.524-24.091-7.839-36.402-9.918-12.324-2.067-24.179-3.113-35.554-3.113-31.48 0-60.493 4.915-87.038 14.732-26.558 9.83-49.485 23.894-68.831 42.218s-34.415 40.504-45.233 66.579c-10.793 26.049-16.208 55.149-16.208 87.247 0 32.111 5.415 61.198 16.208 87.247 10.818 26.075 25.887 48.268 45.233 66.592s42.273 32.388 68.831 42.206c26.545 9.817 55.558 14.732 87.038 14.732 27.671 0 54.609-5.671 80.775-16.988 26.166-11.342 47.789-28.898 64.858-52.704l-73.955-54.959c-9.11 13.598-20.675 24.172-34.706 31.72zM4031.498 544.009h177.138v-88.217h-177.138v-63.012h189.791v-88.217h-278.36v403.28h291.013v-88.217h-202.443v-75.615zM4762.635 304.561l-100.108 352.87h-1.139l-101.829-352.87h-47.789l-101.816 352.87h-1.139l-100.121-352.87h-38.679l117.177 403.28h46.081l101.829-352.87h1.139l101.829 352.87h46.069l117.189-403.28h-38.692zM4967.419 304.561l-175.784 403.28h39.261l45.499-113.422h213.325l43.804 113.422h42.096l-169.521-403.28h-38.679zM4891.187 569.214l93.858-219.825 91.024 219.825h-184.882zM5170.242 342.369h139.18v365.472h37.958v-365.472h139.18v-37.807h-316.318v37.807zM5805.333 648.698c-9.477 7.738-19.435 14.165-29.86 19.269s-21.143 8.885-32.138 11.33c-10.995 2.457-21.611 3.68-31.86 3.68-26.166 0-49.763-4.524-70.817-13.598-21.041-9.061-38.97-21.525-53.749-37.392-14.791-15.867-26.178-34.556-34.15-56.094-7.959-21.525-11.944-44.764-11.944-69.692s3.986-48.167 11.944-69.692c7.971-21.538 19.359-40.227 34.15-56.094 14.778-15.867 32.707-28.33 53.749-37.404 21.054-9.049 44.651-13.598 70.817-13.598 20.472 0 40.476 4.36 60.024 13.031 19.51 8.708 35.541 22.495 48.055 41.374l30.721-25.507c-17.828-22.659-38.591-38.803-62.289-48.444-23.699-9.628-49.194-14.442-76.511-14.442-30.708 0-58.873 5.293-84.47 15.867-25.596 10.586-47.498 25.218-65.706 43.907-18.195 18.702-32.416 40.895-42.665 66.579-10.236 25.684-15.36 53.825-15.36 84.424 0 30.586 5.124 58.841 15.36 84.701 10.249 25.886 24.47 48.167 42.665 66.869 18.207 18.69 40.109 33.245 65.706 43.63 25.596 10.372 53.761 15.577 84.47 15.577 29.582 0 57.076-5.671 82.496-16.988 25.394-11.342 47.777-30.032 67.11-56.106l-30.708-23.226c-7.199 10.964-15.563 20.303-25.040 28.041zM6182.46 304.561v176.435h-227.749v-176.435h-37.958v403.28h37.958v-189.037h227.749v189.037h37.958v-403.28h-37.958z"
+            class="path1"></path>
+        <path fill="#B6216E" d="M329.333 184.579l-329.333 328.050 232.487 231.565 329.357-328.050-232.511-231.565z" class="path2"></path>
+        <path fill="#B6216E" d="M609.354 364.455l133.083-132.54-228.103-227.212-133.083 132.54 228.103 227.212z" class="path3"></path>
+        <path fill="#B6216E" d="M694.002 844.124l329.357-328.050-232.487-231.565-329.357 328.050 232.487 231.565z" class="path4"></path>
+        <path fill="#B6216E" d="M413.99 664.248l-133.068 132.54 228.117 227.212 133.068-132.54-228.117-227.212z" class="path5"></path>
+    </symbol>
+</svg>
+
+<!-- Content -->
+<div id="content" class="is-peru">
+
+  <section class="insights--slideshow-container">
+  <div class="insights--slideshow-content slide-1">
+    <div class="container">
+      <div class="left-half">
+        <div class="story--metadata">
+          <div class="story--metadata-author"><img src="https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png">by &nbsp;<a href="/partners/wri">World Resources Institute</a><span class="story--metadata-date">Oct 5, 2015</span></div>
+          <!-- <div class="story--metadata-stars">
+            <svg class="icon icon-star">
+              <use xlink:href="#icon-star"></use>
+            </svg><span>3,249</span>
+          </div> -->
+        </div>
+        <h1 class="story--title">The Water Guardians of the Andes</h1>
+        <p class="story--intro-text">At first glance, there is little in common between the village farmer herding his cattle in the pastures of the Peruvian Andes and the office worker toiling at his desk in the capital city of Lima. But they both depend on exactly the same water source. There are few more powerful examples of the interconnectedness of ecosystem health and human wellbeing.</p>
+        <div class="controls"><a class="right-control"><span>Begin</span></a></div>
+      </div>
+    </div>
+  </div>
+  <div class="insights--slideshow-content slide-2">
+    <div class="container">
+      <div class="two-half">
+        <h1 class="story--pre-title">The Water Guardians of the Andes</h1>
+        <div class="story--intro-text-container">
+          <p class="story--intro-text">Lima is located in a narrow trip of coastal desert squeezed between the Pacific Ocean and the Andean cordillera. It is one of the driest places in the world, yet it is the country’s economic backbone. Lima is home to almost one third of Peru’s population and it dominates national industrial production and consumer spending. Up and down the coast, vast stretches of irrigated agricultural land that produce all-year-round asparagus, avocados, berries, and other high-value crops that are exported to the supermarkets of Europe and America. </p>
+          <p class="story--intro-text">The water needed for all this activity is abundant because of the adjacent mountain range, which functions as a natural water tower. When air masses from the Pacific hit the Andes, they are uplifted and generate rainfall. Together with spillover rainfall from the wet Amazon basin, this moisture feeds the rivers that run off to the coastal plains, where they provide water for the city and the agricultural irrigation systems. But there is a major problem with this supply: it is overabundant in the winter and spring, but it dries up to a trickle in the dry season of summer and fall. </p>
+        </div>
+      </div>
+      <div class="controls"><a class="left-control"></a><a class="right-control"></a></div>
+    </div>
+  </div>
+  <div class="insights--slideshow-content slide-3">
+    <div class="container">
+      <div class="two-half">
+        <h1 class="story--pre-title">The Water Guardians of the Andes</h1>
+        <div class="story--intro-text-container">
+          <p class="story--intro-text">Up in the humid highlands, smallholder farmers make a living from cattle grazing and growing crops such as potatoes and beans. They use water from the hundreds of small streams that eventually feed into the major rivers supplying the coastal desert. But, in using this water, they also need to safeguard downstream water supplies. On the steep slopes of the Andes, soils are very prone to degradation and erosion. Compacted and damaged soil cannot absorb and store water very well, leading </p>
+          <p class="story--intro-text">to higher rates of runoff and high peak flows laden with sediment that clogs downstream irrigation reservoirs and canals. To avoid this, farmers need to to be active in reforesting slopes, protecting wetlands, and adopting soil conservation strategies. Their challenge is to find a precarious balance between generating sufficient income for themselves, while protecting the downstream water resources.</p>
+        </div>
+      </div>
+      <div class="controls"><a class="left-control"></a><a class="right-control"></a></div>
+    </div>
+  </div>
+  <div class="insights--slideshow-content slide-4">
+    <div class="container">
+      <div class="left-half">
+        <h1 class="story--pre-title">The Water Guardians of the Andes</h1>
+        <p class="story--intro-text">The community of Huamantanga is a perfect example. Its farmers own numerous cattle that graze in a part of the basin that provides water to Lima. Recognizing the need to improve land and water management, the community joined forces with a local development NGO, CONDESAN, to get a better grasp of the impact of cattle grazing on streamflow.</p>
+      </div>
+      <div class="right-half"></div>
+      <div class="controls"><a class="left-control"></a><a class="right-control"></a></div>
+    </div>
+  </div>
+  <div class="insights--slideshow-content slide-5">
+    <div class="container">
+      <div class="two-half">
+        <h1 class="story--pre-title">The Water Guardians of the Andes</h1>
+        <div class="story--intro-text-container">
+          <p class="story--intro-text">The farmers and CONDESAN installed hydrological monitoring equipment in two mountain streams descending from the grazing lands. Then, they closed off one watershed to all cattle. </p>
+          <p class="story--intro-text">With the scientific support of an international research group, they were able to look at different scenarios, to help find the ideal balance between cattle grazing and streamflow.</p>
+        </div><img src="https://vizzuality.github.io/WRW-Prototype/img/chart-01b.png" class="story-img">
+      </div>
+      <div class="controls"><a class="left-control"></a><a class="right-control"></a></div>
+    </div>
+  </div>
+  <div class="insights--slideshow-content slide-6">
+    <div class="container">
+      <div class="left-half">
+        <h1 class="story--pre-title">The Water Guardians of the Andes</h1>
+        <p class="story--intro-text">There is another, fascinating, way to enhance streamflow during the dry season. Centuries ago, Pre-Inca civilizations dug small canals that diverted water from the gushing upland streams in winter and allowed it to “leak” into the soil. Weeks, or even months, later, the water would emerge as much as a kilometre downslope, where it feeds small wells that can be used for summer irrigation.</p>
+        <p class="story--intro-text">In Huamantanga, some of these old canals still exist. The ancient technique is locally called “mamanteo” (breastfeeding in Spanish) but it had fallen into disuse over the years, as many farmers moved to the city. </p>
+      </div>
+      <div class="controls"><a class="left-control"></a><a class="right-control"></a></div>
+    </div>
+  </div>
+  <div class="insights--slideshow-content slide-7">
+    <div class="container">
+      <div class="two-half">
+        <h1 class="story--pre-title">The Water Guardians of the Andes</h1>
+        <div class="story--intro-text-container">
+          <p class="story--intro-text">With scientific support to quantify the potential impact of mamanteo, the community decided to refurbish some of the old canals. CONDESAN, added small quantities of dye to water in the canals, to track its movement and quantify the travel time of</p>
+          <p class="story--intro-text">water down the hillslope. These data were combined with a hydrological model to assess the potential for increasing streamflow during the dry season.</p>
+        </div><img src="https://vizzuality.github.io/WRW-Prototype/img/chart-02b.png" class="story-img">
+      </div>
+      <div class="controls"><a class="left-control"></a><a class="right-control"></a></div>
+    </div>
+  </div>
+  <div class="insights--slideshow-content slide-8">
+    <div class="container">
+      <div class="left-half">
+        <h1 class="story--pre-title">The Water Guardians of the Andes</h1>
+        <p class="story--intro-text">The ancient mamanteo system could serve as a complement or even a potential alternative to building expensive and fragile water reservoirs or desalination plants. Lima’s water utility, Sedapal, has recently decided to invest up to $23 million in “green infrastructure” such as reviving the old canals. The utility believes that mamanteo might lead to a substantial reduction in the city’s water deficit during the dry summer months.</p>
+        <div class="story--credit-box">
+          <h2>Credits</h2>
+          <ul>
+            <li>Consortium for the Sustainable Development of the Andean Ecoregion (CONDESAN)</li>
+            <li>Forest Trends</li>
+            <li>The Nature Conservancy</li>
+          </ul>
+        </div>
+      </div>
+      <div class="controls"><a class="left-control"></a><a class="right-control"></a></div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.8/slick.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.2/backbone.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.20/require.js"></script>
+
+
+<script>
+    var Slideshow = Backbone.View.extend({
+
+      el: '.insights--slideshow-container',
+
+      events: {
+          'click .left-control': 'prevSlide',
+          'click .right-control': 'nextSlide'
+      },
+
+      initialize: function() {
+          this.$el.slick({
+              arrows: false,
+              draggable: false,
+              infinite: true,
+              fade: true,
+              adaptiveHeight: true,
+          });
+
+          this.updateHeight(0);
+
+          this.$asideWideContainer = $('.insights--slideshow-wide-aside');
+
+          this.setListeners();
+      },
+
+      setListeners: function() {
+          this.$el.on('beforeChange', _.bind(this.update, this));
+      },
+
+      prevSlide: function(e) {
+          e.preventDefault();
+          this.$el.slick('slickPrev');
+      },
+
+      nextSlide: function(e) {
+          e.preventDefault();
+          this.$el.slick('slickNext');
+      },
+
+      update: function(e, slick, currentSlide, nextSlide) {
+          this.updateHeight(nextSlide);
+          if (!!navigator.userAgent.match(/iPad|iPhone|iPod|Android|BlackBerry|webOS/i) ||
+              window.innerWidth <= 540) {
+              $('html, body').animate({
+                  scrollTop: $('.insights--slideshow-container').offset().top
+              }, 300);
+          }
+      },
+
+      updateHeight: function(index) {
+          var h = $("[data-slick-index='" + index + "']").height();
+          this.$el.css({
+              height: h
+          })
+      }
+    });
+
+
+    new Slideshow();
+
+</script>
+</body>
+</html>

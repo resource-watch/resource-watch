@@ -11,7 +11,7 @@ const INSIGHTS_DATA = [
     slug: 'interactive-edi',
     source: { name: 'World Resources Institute', path: 'http://www.wri.org/', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
     background: 'url(/static/tempImages/backgrounds/discovery_insights_image.jpg) center',
-    body: 'https://resource-watch.github.io/insights/interactive-edi.html'
+    body: '/static/insights/interactive-edi.html'
   },
   {
     tag: 'Feb 25, 2017',
@@ -19,7 +19,7 @@ const INSIGHTS_DATA = [
     slug: 'slideshow-peru',
     source: { name: 'ESPA', path: 'http://www.espa.ac.uk/', img: '../static/images/avatars/espa_avatar.png' },
     background: 'url(/static/tempImages/backgrounds/andes.jpg) center',
-    body: 'https://resource-watch.github.io/insights/slideshow-peru.html'
+    body: '/static/insights/slideshow-peru.html'
   },
   {
     tag: 'Mar 5, 2017',
@@ -27,7 +27,7 @@ const INSIGHTS_DATA = [
     slug: 'interactive-map',
     source: { name: 'World Resources Institute', path: 'http://www.wri.org/', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
     background: 'url(/static/tempImages/backgrounds/world_farms.jpg)',
-    body: 'https://resource-watch.github.io/insights/interactive-map.html'
+    body: '/static/insights/interactive-map.html'
   }
 ];
 
