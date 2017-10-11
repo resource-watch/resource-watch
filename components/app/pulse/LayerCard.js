@@ -8,11 +8,13 @@ import { Link, Router } from 'routes';
 // Redux
 import { connect } from 'react-redux';
 import { setSimilarWidgets } from 'redactions/pulse';
+import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Components
 import Legend from 'components/app/pulse/Legend';
-// import Spinner from 'components/ui/Spinner';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
+import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
+
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -25,7 +27,7 @@ class LayerCard extends React.Component {
     super(props);
 
     this.state = {
-      subscribable: false
+      dataset: null
     };
   }
 
@@ -45,7 +47,7 @@ class LayerCard extends React.Component {
         { apiURL: process.env.WRI_API_URL });
       this.datasetService.fetchData().then((data) => {
         this.setState({
-          subscribable: data.attributes.subscribable
+          dataset: data
         });
       });
     }
@@ -78,12 +80,24 @@ class LayerCard extends React.Component {
 
   @Autobind
   handleSubscribeToAlerts() {
-
+    const options = {
+      children: SubscribeToDatasetModal,
+      childrenProps: {
+        toggleModal: this.props.toggleModal,
+        dataset: this.state.dataset,
+        showDatasetSelector: false
+      }
+    };
+    this.props.toggleModal(true);
+    this.props.setModalOptions(options);
   }
 
   render() {
-    const { layerActive, layerPoints, similarWidgets } = this.props.pulse;
-    const { subscribable } = this.state;
+    const { pulse, user } = this.props;
+    const { layerActive, layerPoints, similarWidgets } = pulse;
+    const { dataset } = this.state;
+    const subscribable = dataset && dataset.attributes && dataset.attributes.subscribable;
+    const userLoggedIn = user && user.id;
 
     const className = classNames({
       'c-layer-card': true,
@@ -143,7 +157,7 @@ class LayerCard extends React.Component {
               <a className="link_button" >Explore the data</a>
             </Link>
           }
-          { subscribable &&
+          { subscribable && userLoggedIn &&
             <button
               className="link_button"
               onClick={this.handleSubscribeToAlerts}
@@ -159,17 +173,23 @@ class LayerCard extends React.Component {
 
 LayerCard.propTypes = {
   // PROPS
-  pulse: PropTypes.object,
+  pulse: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 
   // Actions
-  setSimilarWidgets: PropTypes.func.isRequired
+  setSimilarWidgets: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  setModalOptions: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  pulse: state.pulse
+  pulse: state.pulse,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({
+  toggleModal: (open) => { dispatch(toggleModal(open)); },
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
   setSimilarWidgets: (widgets) => { dispatch(setSimilarWidgets(widgets)); }
 });
 
