@@ -121,7 +121,7 @@ class ToolsForm extends React.Component {
     Object.keys(params).forEach((f) => {
       switch (f) {
         // TODO: if the API doesn't send it we won't need to handle it
-        case 'photo': {
+        case 'thumbnail': {
           if (params[f] && params[f].original !== '/images/original/missing.png') {
             newForm[f] = params[f].original;
           }

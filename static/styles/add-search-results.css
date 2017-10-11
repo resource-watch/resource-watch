@@ -78,3 +78,7 @@
 #addsearch-results-bottom {
   border-top: 1px solid rgba(26, 28, 34, 0.1);
 }
+
+#addsearch-logo {
+  display: none !important;
+}
