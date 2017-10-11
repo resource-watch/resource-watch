@@ -58,7 +58,7 @@ class DatasetsTable extends React.Component {
   }
 
   render() {
-    const { routes } = this.props;
+    const { routes, getDatasetsFilters } = this.props;
 
     return (
       <div className="c-dataset-table">
@@ -104,7 +104,10 @@ class DatasetsTable extends React.Component {
             }}
             filters={false}
             data={this.getDatasets()}
-            onRowDelete={() => this.props.getDatasets()}
+            onRowDelete={() => this.props.getDatasets({
+              includes: 'widget,layer,metadata,vocabulary',
+              filters: getDatasetsFilters
+            })}
             pageSize={20}
             pagination={{
               enabled: true,
