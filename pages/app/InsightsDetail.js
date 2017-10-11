@@ -33,7 +33,7 @@ class InsightsDetail extends Page {
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content">
-                  <Breadcrumbs items={[{ name: 'Insights', href: '/insights' }]} />
+                  <Breadcrumbs items={[{ name: 'Blog', href: '/blog' }]} />
                   <h1>{ insight.title }</h1>
                 </div>
               </div>

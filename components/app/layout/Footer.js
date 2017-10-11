@@ -23,9 +23,9 @@ const about = [
 ];
 
 const insights = [
-  { name: 'Insights', route: 'insights' },
-  { name: 'Recent insights' },
-  { name: 'Highlighted insights' }
+  { name: 'Blog', route: 'blog' },
+  { name: 'Recent stories' },
+  { name: 'Highlighted stories' }
 ];
 
 const getInvolved = [
