@@ -13,6 +13,41 @@
     min-width: 400px;
   }
 
+  .legend-timeline {
+    display: flex;
+    margin: $margin-size-extra-small 7px $margin-size-extra-small 0;
+
+    > button {
+      padding: 0;
+    }
+
+    .c-icon {
+      fill: $color-charcoal-grey;
+      margin-right: 12px;
+    }
+
+    .input-range__label {
+      font-size: 11px;
+      color: #717171;
+    }
+
+    .input-range__slider {
+      border: 0;
+      background-color: $color-primary;
+      width: 14px;
+      height: 14px;
+      margin-top: -9px;
+    }
+
+    .input-range__track {
+      height: 3px;
+    }
+
+    .input-range__track--active {
+      background-color: $color-primary;
+    }
+  }
+
   .legend-title {
     display: flex;
     justify-content: space-between;
