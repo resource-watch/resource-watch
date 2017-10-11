@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Explore detail: correct seo tags
 
 ### Added
+- Subscribe to alerts from Planet Pulse
 - Insights cards: The whole card is clickable now
 - Planet pulse improvements: color used as extra dimension in more 3D layers
 - Planet pulse globe tooltips have hyperlinks for url values
