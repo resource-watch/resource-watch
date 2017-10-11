@@ -66,12 +66,12 @@ class Home extends Page {
         className="-alt"
         background={c.background}
         clickable
-        route={`/insights/${c.slug}`}
+        route={`/blog/${c.slug}`}
       >
         <div>
           <h4>{c.tag}</h4>
           <h3>
-            <Link route={`/insights/${c.slug}`}>
+            <Link route={`/blog/${c.slug}`}>
               <a>{c.title}</a>
             </Link>
           </h3>
