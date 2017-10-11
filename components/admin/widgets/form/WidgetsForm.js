@@ -139,6 +139,16 @@ class WidgetsForm extends React.Component {
             const newWidgetConfig = {
               widgetConfig: Object.assign(
                 {},
+                // If the widget is a map, we want to add some extra info
+                // in widgetConfig so the widget is compatible with other
+                // apps that use the same API
+                // This info is not necessary for the editor because it is
+                // already saved in widgetConfig.paramsConfig
+                (
+                  visualizationType === 'map'
+                    ? { type: 'map', layer_id: layer && layer.id }
+                    : {}
+                ),
                 {
                   paramsConfig: {
                     visualizationType,
