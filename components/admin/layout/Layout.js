@@ -82,6 +82,7 @@ class Layout extends React.Component {
         <Dock />
 
         <Toastr
+          preventDuplicates
           transitionIn="fadeIn"
           transitionOut="fadeOut"
         />

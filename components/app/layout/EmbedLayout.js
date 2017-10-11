@@ -70,6 +70,7 @@ class Layout extends React.Component {
         <Tooltip />
 
         <Toastr
+          preventDuplicates
           transitionIn="fadeIn"
           transitionOut="fadeOut"
         />
