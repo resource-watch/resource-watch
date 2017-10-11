@@ -71,6 +71,12 @@
       }
     }
   }
+
+  .divisor {
+    height: 0;
+    border-top: 1px solid $border-color-1;
+    margin: $margin-size-extra-small 0;
+  }
 }
 
 .c-tooltip-invisible-div {

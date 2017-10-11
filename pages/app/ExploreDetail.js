@@ -337,6 +337,7 @@ class ExploreDetail extends Page {
                 <div className="column small-12 medium-7">
                   {/* Description */}
                   <div className="dataset-info-description">
+                    <h3>Description</h3>
                     {formattedDescription}
                   </div>
                 </div>
@@ -349,21 +350,19 @@ class ExploreDetail extends Page {
                       Share dataset
                     </button>
                     {metadataInfo && metadataInfo.data_download_link &&
-                      metadataInfo.data_download_link.length &&
-                      metadataInfo.data_download_link.length > 0 &&
                       <a
                         className="c-button -primary -fullwidth"
-                        href={metadataInfo && metadataInfo.data_download_link[0]}
+                        target="_blank"
+                        href={metadataInfo && metadataInfo.data_download_link}
                       >
                         Download
                       </a>
                     }
-                    {metadataInfo && metadataInfo.data_download_link &&
-                      metadataInfo.data_download_link.length &&
-                      metadataInfo.data_download_link.length > 1 &&
+                    {metadataInfo && metadataInfo.data_download_original_link &&
                       <a
                         className="c-button -secondary -fullwidth"
-                        href={metadataInfo && metadataInfo.data_download_link[1]}
+                        target="_blank"
+                        href={metadataInfo && metadataInfo.data_download_original_link}
                       >
                         Download from source
                       </a>
@@ -371,6 +370,7 @@ class ExploreDetail extends Page {
                     {metadataInfo && metadataInfo.learn_more_link &&
                       <a
                         className="c-button -secondary -fullwidth"
+                        target="_blank"
                         href={metadataInfo && metadataInfo.learn_more_link}
                       >
                         Learn more
@@ -413,13 +413,6 @@ class ExploreDetail extends Page {
                   </div>
                 ) : null}
 
-                {cautions ? (
-                  <div className="l-section-mod">
-                    <h3>Cautions</h3>
-                    <p>{formattedCautions}</p>
-                  </div>
-                ) : null}
-
                 {metadataInfo && metadataInfo.citation ? (
                   <div className="l-section-mod">
                     <h3>Citation</h3>
@@ -452,6 +445,13 @@ class ExploreDetail extends Page {
                   <div className="l-section-mod">
                     <h3>Frequency of updates</h3>
                     <p>{metadataInfo && metadataInfo.frequency_of_updates}</p>
+                  </div>
+                ) : null}
+
+                {cautions ? (
+                  <div className="l-section-mod">
+                    <h3>Cautions</h3>
+                    <p>{formattedCautions}</p>
                   </div>
                 ) : null}
 

@@ -8,6 +8,8 @@ import Spinner from 'components/widgets/editor/ui/Spinner';
 // Redux
 import { connect } from 'react-redux';
 
+import { LABELS } from 'components/widgets/editor/map/constants';
+
 
 // Leaflet can't be imported on the server because it's not isomorphic
 const L = (typeof window !== 'undefined') ? require('leaflet') : null;
@@ -40,41 +42,38 @@ class Map extends React.Component {
     const mapOptions = Object.assign({}, MAP_CONFIG, this.props.mapConfig || {});
     mapOptions.center = [mapOptions.latLng.lat, mapOptions.latLng.lng];
 
-    // If leaflet haven't been imported, we can just skip the next steps
-    if (!L) return;
+    if (!this.mapNode) return;
 
-    requestAnimationFrame(() => {
-      if (!this.mapNode) return;
+    this.map = L.map(this.mapNode, mapOptions);
 
-      this.map = L.map(this.mapNode, mapOptions);
+    if (this.props.mapConfig && this.props.mapConfig.bounds) {
+      this.fitBounds(this.props.mapConfig.bounds.geometry);
+    }
 
-      if (this.props.mapConfig && this.props.mapConfig.bounds) {
-        this.fitBounds(this.props.mapConfig.bounds.geometry);
-      }
+    // Disable interaction if necessary
+    if (!this.props.interactionEnabled) {
+      this.map.dragging.disable();
+      this.map.touchZoom.disable();
+      this.map.doubleClickZoom.disable();
+      this.map.scrollWheelZoom.disable();
+      this.map.boxZoom.disable();
+      this.map.keyboard.disable();
+    }
 
-      // Disable interaction if necessary
-      if (!this.props.interactionEnabled) {
-        this.map.dragging.disable();
-        this.map.touchZoom.disable();
-        this.map.doubleClickZoom.disable();
-        this.map.scrollWheelZoom.disable();
-        this.map.boxZoom.disable();
-        this.map.keyboard.disable();
-      }
+    // SETTERS
+    this.setAttribution();
+    this.setZoomControl();
+    this.setBasemap(this.props.basemap);
+    this.setMapEventListeners();
 
-      // SETTERS
-      this.setAttribution();
-      this.setZoomControl();
-      this.setBasemap(this.props.basemap);
-      this.setMapEventListeners();
+    this.setLabels(this.props.labels);
 
-      // Add layers
-      this.setLayerManager();
-      const layers = this.props.layerGroups
-        .filter(l => l.visible)
-        .map(l => l.layers.find(la => la.active));
-      this.addLayers(layers, this.props.filters);
-    });
+    // Add layers
+    this.setLayerManager();
+    const layers = this.props.layerGroups
+      .filter(l => l.visible)
+      .map(l => l.layers.find(la => la.active));
+    this.addLayers(layers, this.props.filters);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -133,6 +132,9 @@ class Map extends React.Component {
     if (this.props.basemap !== nextProps.basemap) {
       this.setBasemap(nextProps.basemap);
     }
+    if (this.props.labels !== nextProps.labels) {
+      this.setLabels(nextProps.labels);
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -181,6 +183,16 @@ class Map extends React.Component {
     this.tileLayer = L.tileLayer(basemap.value, basemap.options)
       .addTo(this.map)
       .setZIndex(0);
+  }
+
+  setLabels(enabled) {
+    if (this.labelLayer && !enabled) this.labelLayer.remove();
+
+    if (enabled) {
+      this.labelLayer = L.tileLayer(LABELS.value, LABELS.options || {})
+        .addTo(this.map)
+        .setZIndex(this.props.layerGroups.length + 1);
+    }
   }
 
   // GETTERS
@@ -276,6 +288,7 @@ Map.propTypes = {
   interactionEnabled: PropTypes.bool.isRequired,
   // STORE
   basemap: PropTypes.object,
+  labels: PropTypes.bool,
   mapConfig: PropTypes.object,
   filters: PropTypes.object,
   sidebar: PropTypes.object,
@@ -287,6 +300,7 @@ Map.propTypes = {
 
 const mapStateToProps = state => ({
   basemap: state.explore.basemap,
+  labels: state.explore.labels,
   sidebar: state.explore.sidebar
 });
 
