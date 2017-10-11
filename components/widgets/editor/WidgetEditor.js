@@ -14,7 +14,8 @@ import {
   resetWidgetEditor,
   setFields,
   setBandsInfo,
-  setVisualizationType
+  setVisualizationType,
+  setTitle
 } from 'components/widgets/editor/redux/widgetEditor';
 import { toggleModal } from 'redactions/modal';
 
@@ -161,10 +162,6 @@ class WidgetEditor extends React.Component {
           }]
           : []
       });
-    } else if (this.props.widgetEditor.title !== nextProps.widgetEditor.title) {
-      this.setState({
-        title: nextProps.widgetEditor.title ? nextProps.widgetEditor.title : ''
-      });
     }
   }
 
@@ -173,12 +170,40 @@ class WidgetEditor extends React.Component {
     // fetch the Vega chart config again
     // NOTE: this can't be moved to componentWillUpdate because
     // this.fetchChartConfig uses the store
+
+    // This is a list of the attributes of the widget editor
+    // that don't force a re-rendering of the chart when updated
+    // NOTE: the sorting is mandatory to compute if there's been
+    // a change or not
+    const staticKeys = ['title'].sort();
+
+    // List of the attribute names of the widget editor
+    const widgetEditorKeys = Object.keys(Object.assign(
+      {},
+      previousProps.widgetEditor,
+      this.props.widgetEditor
+    ));
+
+    // List of the attributes that have changed
+    // NOTE: the sorting is mandatory to compute if there's been
+    // a change or not
+    const updatedWidgetEditorKeys = widgetEditorKeys.filter((key) => {
+      const updated = !isEqual(previousProps.widgetEditor[key], this.props.widgetEditor[key]);
+      return updated;
+    }).sort();
+
+    // Indicate whether only the static keys have been updated
+    const onlyStaticKeysUpdated = updatedWidgetEditorKeys.length === staticKeys.length
+      && updatedWidgetEditorKeys.every((k, i) => k === staticKeys[i]);
+
+    // Indicate whetger the widgetEditor prop forces a re-render
+    const hasChangedWidgetEditor = updatedWidgetEditorKeys.length > 0 && !onlyStaticKeysUpdated;
+
     if (this.state.datasetInfoLoaded
       && canRenderChart(this.props.widgetEditor, this.state.datasetProvider)
       && this.props.widgetEditor.visualizationType !== 'table'
       && this.props.widgetEditor.visualizationType !== 'map'
-      && (!isEqual(previousProps.widgetEditor, this.props.widgetEditor)
-      || previousState.tableName !== this.state.tableName)) {
+      && (hasChangedWidgetEditor || previousState.tableName !== this.state.tableName)) {
       this.fetchChartConfig();
     }
   }
@@ -377,7 +402,6 @@ class WidgetEditor extends React.Component {
       layersLoaded,
       fieldsError,
       jiminyLoaded,
-      title,
       datasetProvider
     } = this.state;
 
@@ -388,6 +412,22 @@ class WidgetEditor extends React.Component {
     const loading = (mode === 'dataset' && !layersLoaded) ||
       (!fieldsError && !jiminyLoaded);
 
+    const chartTitle = (
+      <div className="chart-title">
+        {user.id &&
+          <AutosizeInput
+            name="widget-title"
+            value={widgetEditor.title || ''}
+            placeholder="Title..."
+            onChange={this.handleTitleChange}
+          />
+        }
+        {!user.id &&
+          <span>{widgetEditor.title}</span>
+        }
+      </div>
+    );
+
     let visualization = null;
     switch (selectedVisualizationType) {
       // Vega chart
@@ -396,17 +436,20 @@ class WidgetEditor extends React.Component {
           visualization = (
             <div className="visualization -chart">
               <Spinner className="-light" isLoading={loading} />
+              {chartTitle}
             </div>
           );
         } else if (this.state.chartConfigLoading) {
           visualization = (
             <div className="visualization -chart">
               <Spinner className="-light" isLoading />
+              {chartTitle}
             </div>
           );
         } else if (this.state.chartConfigError) {
           visualization = (
             <div className="visualization -error">
+              {chartTitle}
               <div>
                 {'Unfortunately, the chart couldn\'t be rendered'}
                 <span>{this.state.chartConfigError}</span>
@@ -416,12 +459,14 @@ class WidgetEditor extends React.Component {
         } else if (!canRenderChart(widgetEditor, datasetProvider) || !this.state.chartConfig) {
           visualization = (
             <div className="visualization -chart">
+              {chartTitle}
               Select a type of chart and columns
             </div>
           );
         } else if (!getChartType(chartType)) {
           visualization = (
             <div className="visualization -chart">
+              {chartTitle}
               {'This chart can\'t be previewed'}
             </div>
           );
@@ -429,20 +474,7 @@ class WidgetEditor extends React.Component {
           visualization = (
             <div className="visualization -chart">
               <Spinner className="-light" isLoading={chartLoading} />
-              {mode === 'dataset' &&
-                <div className="chart-title">
-                  {user.id &&
-                    <AutosizeInput
-                      name="widget-title"
-                      value={title}
-                      onChange={this.handleTitleChange}
-                    />
-                  }
-                  {!user.id &&
-                    <span>{title}</span>
-                  }
-                </div>
-              }
+              {chartTitle}
               <VegaChart
                 reloadOnResize
                 data={this.state.chartConfig}
@@ -459,6 +491,7 @@ class WidgetEditor extends React.Component {
         if (layer) {
           visualization = (
             <div className="visualization">
+              {chartTitle}
               <Map
                 LayerManager={LayerManager}
                 mapConfig={mapConfig}
@@ -486,6 +519,7 @@ class WidgetEditor extends React.Component {
         } else {
           visualization = (
             <div className="visualization">
+              {chartTitle}
               Select a layer
             </div>
           );
@@ -497,11 +531,13 @@ class WidgetEditor extends React.Component {
           visualization = (
             <div className="visualization -chart">
               <Spinner className="-light" isLoading />
+              {chartTitle}
             </div>
           );
         } else if (this.state.chartConfigError) {
           visualization = (
             <div className="visualization -error">
+              {chartTitle}
               <div>
                 {'Unfortunately, the chart couldn\'t be rendered'}
                 <span>{this.state.chartConfigError}</span>
@@ -511,6 +547,7 @@ class WidgetEditor extends React.Component {
         } else if (!this.state.chartConfig || !this.props.band) {
           visualization = (
             <div className="visualization -chart">
+              {chartTitle}
               Select a band
             </div>
           );
@@ -518,6 +555,7 @@ class WidgetEditor extends React.Component {
           visualization = (
             <div className="visualization -chart">
               <Spinner className="-light" isLoading={chartLoading} />
+              {chartTitle}
               <VegaChart
                 reloadOnResize
                 data={this.state.chartConfig}
@@ -534,12 +572,14 @@ class WidgetEditor extends React.Component {
         if (!canRenderChart(widgetEditor, datasetProvider)) {
           visualization = (
             <div className="visualization">
+              {chartTitle}
               Select a type of chart and columns
             </div>
           );
         } else {
           visualization = (
             <div className="visualization">
+              {chartTitle}
               <TableView
                 dataset={dataset}
                 tableName={tableName}
@@ -607,12 +647,15 @@ class WidgetEditor extends React.Component {
     });
   }
 
+  /**
+   * Event handler executed when the user changes the
+   * title of the graph
+   * @param {InputEvent} event
+   */
   @Autobind
   handleTitleChange(event) {
     const title = event.target.value;
-    this.setState({
-      title
-    });
+    this.props.setTitle(title);
   }
 
   /**
@@ -621,10 +664,9 @@ class WidgetEditor extends React.Component {
    * The method resolves when the initialization is done
    *
    * @param {object} props Current props
-   * @param {(state: obj, callback: Function) => void} setState Function to set the state
    * @returns {Promise<void>}
    */
-  initComponent(props, setState) {
+  initComponent(props) {
     // First, we init the services
     this.datasetService = new DatasetService(props.dataset, {
       apiURL: process.env.WRI_API_URL
@@ -656,8 +698,7 @@ class WidgetEditor extends React.Component {
     // Then we reset the state of the component
     return {
       ...DEFAULT_STATE,
-      layerGroups,
-      title: props.widgetEditor.title ? props.widgetEditor.title : 'Title'
+      layerGroups
     };
   }
 
@@ -829,8 +870,7 @@ class WidgetEditor extends React.Component {
       datasetType,
       datasetProvider,
       visualizationOptions,
-      hasGeoInfo,
-      title
+      hasGeoInfo
     } = this.state;
 
     let { jiminy } = this.state;
@@ -839,6 +879,7 @@ class WidgetEditor extends React.Component {
       dataset,
       mode,
       showSaveButton,
+      showNotLoggedInText,
       selectedVisualizationType,
       showOrderByContainer,
       showLimitContainer
@@ -914,9 +955,9 @@ class WidgetEditor extends React.Component {
                         showSaveButton={showSaveButton}
                         showLimitContainer={showLimitContainer}
                         showOrderByContainer={showOrderByContainer}
+                        showNotLoggedInText={showNotLoggedInText}
                         hasGeoInfo={hasGeoInfo}
                         onEmbedTable={this.handleEmbedTable}
-                        title={title}
                       />
                     )
                 }
@@ -935,11 +976,11 @@ class WidgetEditor extends React.Component {
                         mode={chartEditorMode}
                         onUpdateWidget={this.handleUpdateWidget}
                         showSaveButton={showSaveButton}
+                        showNotLoggedInText={showNotLoggedInText}
                         showLimitContainer={false}
                         showOrderByContainer={false}
                         hasGeoInfo={hasGeoInfo}
                         onEmbedTable={this.handleEmbedTable}
-                        title={title}
                       />
                     )
                 }
@@ -959,6 +1000,7 @@ class WidgetEditor extends React.Component {
                         mode={chartEditorMode}
                         onUpdateWidget={this.handleUpdateWidget}
                         showSaveButton={showSaveButton}
+                        showNotLoggedInText={showNotLoggedInText}
                         title={title}
                       />
                     )
@@ -975,8 +1017,8 @@ class WidgetEditor extends React.Component {
                         mode={chartEditorMode}
                         hasGeoInfo={hasGeoInfo}
                         showSaveButton={showSaveButton}
+                        showNotLoggedInText={showNotLoggedInText}
                         onUpdateWidget={this.handleUpdateWidget}
-                        title={title}
                       />
                     )
                 }
@@ -1002,11 +1044,17 @@ const mapDispatchToProps = dispatch => ({
   setFields: (fields) => { dispatch(setFields(fields)); },
   setBandsInfo: bands => dispatch(setBandsInfo(bands)),
   setVisualizationType: vis => dispatch(setVisualizationType(vis)),
-  toggleModal: (open, options) => dispatch(toggleModal(open, options))
+  toggleModal: (open, options) => dispatch(toggleModal(open, options)),
+  setTitle: title => dispatch(setTitle(title))
 });
+
+WidgetEditor.defaultProps = {
+  showNotLoggedInText: false
+};
 
 WidgetEditor.propTypes = {
   mode: PropTypes.oneOf(['dataset', 'widget']),
+  showNotLoggedInText: PropTypes.bool,
   showSaveButton: PropTypes.bool.isRequired, // Show save button in chart editor or not
   showLimitContainer: PropTypes.bool.isRequired, // Show the limit container or not
   showOrderByContainer: PropTypes.bool.isRequired, // Show the limit container or not
@@ -1027,7 +1075,8 @@ WidgetEditor.propTypes = {
   setVisualizationType: PropTypes.func.isRequired,
   selectedVisualizationType: PropTypes.string,
   toggleModal: PropTypes.func,
-  setBandsInfo: PropTypes.func
+  setBandsInfo: PropTypes.func,
+  setTitle: PropTypes.func
 };
 
 WidgetEditor.defaultProps = {
