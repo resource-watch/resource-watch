@@ -157,7 +157,7 @@ class Home extends Page {
             <header>
               <div className="row">
                 <div className="column small-12 medium-8">
-                  <h2>Discover Insights</h2>
+                  <h2>Discover Stories</h2>
                   <p>Read the latest analysis from our community or submit your own original story.</p>
                 </div>
               </div>
@@ -180,7 +180,9 @@ class Home extends Page {
             <div className="buttons -text-center">
               <div className="row">
                 <div className="column small-12 medium-12">
-                  <a href="/insights" className="c-btn -primary">More insights</a>
+                  <Link route="insights">
+                    <a className="c-btn -primary">More stories</a>
+                  </Link>
                 </div>
               </div>
             </div>
