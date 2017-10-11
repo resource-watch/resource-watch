@@ -327,7 +327,7 @@ class SubscribeToDatasetModal extends React.Component {
               </div>
               <div className="threshold-div">
                 <span className="threshold-label">
-                  More than
+                  Threshold  &ge;
                 </span>
                 <Field
                   className="threshold-input"
