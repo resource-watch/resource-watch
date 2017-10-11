@@ -356,7 +356,9 @@ class Legend extends React.PureComponent {
         const currentLayer = datasetSpec.layers.find((l) => {
           return moment(l.layerConfig.dateTime, 'YYYY-MM-DD').year() === parseInt(currentValue);
         });
-        this.props.setLayerGroupActiveLayer(datasetSpec.dataset, currentLayer.id);
+        requestAnimationFrame(() => {
+          this.props.setLayerGroupActiveLayer(datasetSpec.dataset, currentLayer.id);
+        });
         return this.setState({ currentStepTimeline: currentValue + 1 });
       }, TIMELINE_INTERVAL_TIMER);
     }
