@@ -221,6 +221,11 @@ class DatasetWidget extends React.Component {
               && dataset.metadata[0].attributes.source
               && <p>Source: {dataset.metadata[0].attributes.source}</p>
             }
+
+            {/* Last update */}
+            {dataset.updatedAt
+              && <p>Last update: {dataset.updatedAt}</p>
+            }
           </div>
           <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
             <div className="actions">
