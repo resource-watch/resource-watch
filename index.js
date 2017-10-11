@@ -39,8 +39,8 @@ function checkBasicAuth(users) {
     if (!/AddSearchBot/.test(req.headers['user-agent'])) {
       const user = basicAuth(req);
       let authorized = false;
-      if (user && ( (user.name === users[0].username && user.pass === users[0].pass) ||
-        (user.name === users[1].username && user.pass === users[1].pass) ) ) {
+      if (user && ( (user.name === users[0].name && user.pass === users[0].pass) ||
+        (user.name === users[1].name && user.pass === users[1].pass) ) ) {
         authorized = true;
       }
 
