@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Metadata subtitle
 - WMS Metadata and Dataset form doesn't call fields endpoint
 - Explore detail: download links working
+- Explore detail: correct seo tags
 
 ### Added
 - Insights cards: The whole card is clickable now
