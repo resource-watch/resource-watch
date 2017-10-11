@@ -294,8 +294,8 @@ class ExploreDetail extends Page {
 
     return (
       <Layout
-        title="Explore detail"
-        description="Explore detail description..."
+        title={metadataInfo && metadataInfo.name ? metadataInfo.name : (dataset && dataset.attributes && dataset.attributes.name)}
+        description={formattedDescription}
         category="Dataset"
         url={this.props.url}
         user={this.props.user}
