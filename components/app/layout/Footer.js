@@ -18,8 +18,8 @@ const data = [
 const about = [
   { name: 'About', route: 'about' },
   { name: 'Partners', route: 'about_partners' },
-  { name: 'Terms of Service' },
-  { name: 'Privacy' }
+  { name: 'Terms of Service', route: 'terms-of-service' },
+  { name: 'Privacy', route: 'privacy-policy' }
 ];
 
 const insights = [

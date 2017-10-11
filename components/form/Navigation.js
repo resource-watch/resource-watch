@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import Button from '../ui/Button';
+import Button from 'components/ui/Button';
+import Spinner from 'components/ui/Spinner';
 
 class Navigation extends React.Component {
   constructor(props) {
@@ -93,6 +94,7 @@ class Navigation extends React.Component {
                 className: `-primary -expanded ${submittingClassName}`
               }}
             >
+              {submitting && <Spinner className="-small -transparent -white-icon" isLoading={submitting} />}
               Save
             </Button>
           </li>

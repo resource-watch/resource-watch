@@ -9,41 +9,7 @@
   visibility: hidden;
   opacity: 0;
 
-  // Colors
-  &.-light {
-    background: rgba($color-white, 0.5);
-  }
-
-  // Position
-  &.-fixed { position: fixed;}
-  &.-relative { position: relative;}
-  &.-inline {
-    position: static;
-    display: inline-block;
-    background: none;
-
-    .spinner-box {
-      position: static;
-      transform: none;
-    }
-  }
-
-  // State
-  &.-loading {
-    visibility: visible;
-    opacity: 1;
-  }
-
-  // Sizes
-  &.-small {
-    .spinner-box {
-      .icon {
-        width: 20px;
-        height: 20px;
-      }
-    }
-  }
-
+  // Spinner
   .spinner-box {
     position: absolute;
     top: 50%;
@@ -63,6 +29,49 @@
 
     button {
       margin: 10px 0 0;
+    }
+  }
+
+  // State
+  &.-loading {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  // Colors
+  &.-light { background: rgba($color-white, 0.5); }
+  &.-transparent { background: rgba($color-white, 0); }
+
+  // Icon colors
+  &.-white-icon {
+    .spinner-box {
+      .icon {
+        border-top-color: $color-white;
+      }
+    }
+  }
+
+  // Position
+  &.-fixed { position: fixed;}
+  &.-relative { position: relative;}
+  &.-inline {
+    position: static;
+    display: inline-block;
+    background: none;
+
+    .spinner-box {
+      position: static;
+      transform: none;
+    }
+  }
+
+  // Sizes
+  &.-small {
+    .spinner-box {
+      .icon {
+        width: 20px;
+        height: 20px;
+      }
     }
   }
 }

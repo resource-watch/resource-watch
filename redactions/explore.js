@@ -443,7 +443,7 @@ export function setLayerGroupsOrder(datasets) {
  * @param {string} dataset - ID of the dataset
  * @param {number} opacity - opacity
  */
-export function setLayerGroupOpacity(dataset, opacity) {
+export function setLayerGroupOpacity(dataset, opacity, updateUrl = false) {
   return (dispatch) => {
     dispatch({
       type: SET_LAYERGROUP_OPACITY,
@@ -451,7 +451,7 @@ export function setLayerGroupOpacity(dataset, opacity) {
     });
 
     // We also update the URL
-    if (typeof window !== 'undefined') dispatch(setUrlParams());
+    if (typeof window !== 'undefined' && updateUrl) dispatch(setUrlParams());
   };
 }
 
