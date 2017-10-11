@@ -413,13 +413,6 @@ class ExploreDetail extends Page {
                   </div>
                 ) : null}
 
-                {cautions ? (
-                  <div className="l-section-mod">
-                    <h3>Cautions</h3>
-                    <p>{formattedCautions}</p>
-                  </div>
-                ) : null}
-
                 {metadataInfo && metadataInfo.citation ? (
                   <div className="l-section-mod">
                     <h3>Citation</h3>
@@ -452,6 +445,13 @@ class ExploreDetail extends Page {
                   <div className="l-section-mod">
                     <h3>Frequency of updates</h3>
                     <p>{metadataInfo && metadataInfo.frequency_of_updates}</p>
+                  </div>
+                ) : null}
+
+                {cautions ? (
+                  <div className="l-section-mod">
+                    <h3>Cautions</h3>
+                    <p>{formattedCautions}</p>
                   </div>
                 ) : null}
 
