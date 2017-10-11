@@ -147,7 +147,7 @@ class ExploreDetail extends Page {
         const similarDatasets = response.map(val => val.dataset).filter(
           () => {
             counter++;
-            return counter < 4;
+            return counter < 7;
           });
 
         if (similarDatasets.length > 0) {
@@ -413,38 +413,38 @@ class ExploreDetail extends Page {
                   </div>
                 ) : null}
 
-                {metadataInfo && metadataInfo.citation ? (
-                  <div className="l-section-mod">
-                    <h3>Citation</h3>
-                    <p>{metadataInfo && metadataInfo.citation}</p>
-                  </div>
-                ) : null}
-
                 {metadataInfo && metadataInfo.geographic_coverage ? (
                   <div className="l-section-mod">
                     <h3>Geographic coverage</h3>
-                    <p>{metadataInfo && metadataInfo.geographic_coverage}</p>
+                    <p>{metadataInfo.geographic_coverage}</p>
+                  </div>
+                ) : null}
+
+                {dataset && dataset.attributes && dataset.attributes.type ? (
+                  <div className="l-section-mod">
+                    <h3>Data type</h3>
+                    <p>{dataset.attributes.type}</p>
                   </div>
                 ) : null}
 
                 {metadataInfo && metadataInfo.spatial_resolution ? (
                   <div className="l-section-mod">
                     <h3>Spatial resolution</h3>
-                    <p>{metadataInfo && metadataInfo.spatial_resolution}</p>
+                    <p>{metadataInfo.spatial_resolution}</p>
                   </div>
                 ) : null}
 
                 {metadataInfo && metadataInfo.date_of_content ? (
                   <div className="l-section-mod">
                     <h3>Date of content</h3>
-                    <p>{metadataInfo && metadataInfo.date_of_content}</p>
+                    <p>{metadataInfo.date_of_content}</p>
                   </div>
                 ) : null}
 
                 {metadataInfo && metadataInfo.frequency_of_updates ? (
                   <div className="l-section-mod">
                     <h3>Frequency of updates</h3>
-                    <p>{metadataInfo && metadataInfo.frequency_of_updates}</p>
+                    <p>{metadataInfo.frequency_of_updates}</p>
                   </div>
                 ) : null}
 
@@ -458,7 +458,37 @@ class ExploreDetail extends Page {
                 {metadataInfo && metadataInfo.license ? (
                   <div className="l-section-mod">
                     <h3>License</h3>
-                    <p>{metadataInfo && metadataInfo.license}</p>
+                    <p>{metadataInfo.license}</p>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.summary_of_license ? (
+                  <div className="l-section-mod">
+                    <h3>Summary of License</h3>
+                    <p>{metadataInfo.summary_of_license}</p>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.link_to_license ? (
+                  <div className="l-section-mod">
+                    <h3>Link to full license</h3>
+                    <a href={metadataInfo.link_to_license} target="_blank">
+                      {metadataInfo.link_to_license}
+                    </a>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.citation ? (
+                  <div className="l-section-mod">
+                    <h3>Citation</h3>
+                    <p>{metadataInfo && metadataInfo.citation}</p>
+                  </div>
+                ) : null}
+
+                {metadataAttributes && metadataAttributes.language ? (
+                  <div className="l-section-mod">
+                    <h3>Published Language</h3>
+                    <p>{metadataAttributes.language}</p>
                   </div>
                 ) : null}
 

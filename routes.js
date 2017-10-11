@@ -17,6 +17,9 @@ routes.add('admin_partners_detail', '/admin/partners/:tab/:id/:subtab?', 'admin/
 // PAGES
 routes.add('admin_pages', '/admin/pages/:tab?', 'admin/Pages');
 routes.add('admin_pages_detail', '/admin/pages/:tab/:id/:subtab?', 'admin/PagesDetail');
+// TOOLS
+routes.add('admin_tools', '/admin/tools/:tab?', 'admin/Tools');
+routes.add('admin_tools_detail', '/admin/tools/:tab/:id/:subtab?', 'admin/ToolsDetail');
 
 // ========================= APP ROUTES =====================
 routes.add('home', '/', 'app/Home');
