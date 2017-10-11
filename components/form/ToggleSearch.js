@@ -21,6 +21,20 @@ class ToggleSearch extends React.Component {
     this.setState({ open: false });
   }
 
+  componentWillMount() {
+    if (typeof window !== 'undefined') {
+      const addSearchConfigScript = document.createElement('script');
+      addSearchConfigScript.innerHTML = 'window.addsearch_settings = { display_url: true, display_category: false, display_resultscount: true }';
+
+      const addSearchLibScript = document.createElement('script');
+      addSearchLibScript.src = `https://addsearch.com/js/?key=${process.env.ADD_SEARCH_KEY}`;
+      addSearchLibScript.async = true;
+
+      document.body.appendChild(addSearchConfigScript);
+      document.body.appendChild(addSearchLibScript);
+    }
+  }
+
   render() {
     const classNames = this.state.open && '-open';
     return (
@@ -35,7 +49,6 @@ class ToggleSearch extends React.Component {
             onBlur={() => this.onUserBlur()}
           />
         </div>
-        <script src={`https://addsearch.com/js/?key=${process.env.ADD_SEARCH_KEY}`} />
       </form>
     );
   }

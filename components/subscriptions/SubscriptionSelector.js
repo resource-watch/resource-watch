@@ -118,7 +118,7 @@ class SubscriptionSelector extends React.Component {
           onChange={this.handleTypeSelected}
         />
         <div className="threshold-div">
-          <span className="threshold-label">More than</span>
+          <span className="threshold-label">Threshold  &ge;</span>
           <Field
             className="threshold-input"
             onChange={this.handleThresholdChange}

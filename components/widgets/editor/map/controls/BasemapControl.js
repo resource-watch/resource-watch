@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 
 // Redux
 import { connect } from 'react-redux';
-import { setBasemap } from 'redactions/explore';
+import { setBasemap, setLabels } from 'redactions/explore';
 
 // Components
 import TetherComponent from 'react-tether';
 import Icon from 'components/widgets/editor/ui/Icon';
+import Checkbox from 'components/widgets/editor/form/Checkbox';
 import RadioGroup from 'components/widgets/editor/form/RadioGroup';
 
 class BasemapControl extends React.Component {
@@ -17,7 +18,8 @@ class BasemapControl extends React.Component {
     basemap: PropTypes.object,
 
     // ACTIONS
-    setBasemap: PropTypes.func
+    setBasemap: PropTypes.func,
+    setLabels: PropTypes.func
   };
 
   state = {
@@ -41,6 +43,10 @@ class BasemapControl extends React.Component {
     const { basemapControl } = this.props;
 
     this.props.setBasemap(basemapControl.basemaps[basemap]);
+  }
+
+  onLabelChange = (label) => {
+    this.props.setLabels(label.checked);
   }
 
   toggleDropdown = (to) => {
@@ -81,20 +87,31 @@ class BasemapControl extends React.Component {
 
         {/* Second child: If present, this item will be tethered to the the first child */}
         {active &&
-          <RadioGroup
-            options={Object.keys(basemapControl.basemaps).map((k) => {
-              const bs = basemapControl.basemaps[k];
-              return {
-                label: bs.label,
-                value: bs.id
-              };
-            })}
-            name="basemap"
-            properties={{
-              default: basemap.id
-            }}
-            onChange={this.onBasemapChange}
-          />
+          <div>
+            <RadioGroup
+              options={Object.keys(basemapControl.basemaps).map((k) => {
+                const bs = basemapControl.basemaps[k];
+                return {
+                  label: bs.label,
+                  value: bs.id
+                };
+              })}
+              name="basemap"
+              properties={{
+                default: basemap.id
+              }}
+              onChange={this.onBasemapChange}
+            />
+            <div className="divisor" />
+            <Checkbox
+              properties={{
+                name: 'label',
+                title: 'Label',
+                value: 'label'
+              }}
+              onChange={this.onLabelChange}
+            />
+          </div>
         }
       </TetherComponent>
     );
@@ -107,6 +124,7 @@ export default (connect(
     basemapControl: state.explore.basemapControl
   }),
   {
-    setBasemap
+    setBasemap,
+    setLabels
   }
 )(BasemapControl));

@@ -55,7 +55,7 @@ class Insights extends Page {
 
     return (
       <Layout
-        title="Insights"
+        title="Blog"
         description="Read the latest analysis from our community or submit your own original story."
         url={this.props.url}
         user={this.props.user}
@@ -68,7 +68,7 @@ class Insights extends Page {
               <div className="column small-12">
                 <div className="page-header-content">
                   <Breadcrumbs items={[{ name: 'Home', href: '/' }]} />
-                  <h1>Insights</h1>
+                  <h1>Blog</h1>
                 </div>
               </div>
             </div>
