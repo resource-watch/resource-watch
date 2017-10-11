@@ -147,7 +147,7 @@ class ExploreDetail extends Page {
         const similarDatasets = response.map(val => val.dataset).filter(
           () => {
             counter++;
-            return counter < 4;
+            return counter < 7;
           });
 
         if (similarDatasets.length > 0) {
