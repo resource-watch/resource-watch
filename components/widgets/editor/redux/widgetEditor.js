@@ -43,7 +43,7 @@ const initialState = {
   fields: [],
   chartType: null,
   visualizationType: null,
-  title: 'Title',
+  title: null, // Title of the widget / graph
   limit: 500,
   areaIntersection: null, // ID of the geostore object
   band: null, // Band of the raster dataset

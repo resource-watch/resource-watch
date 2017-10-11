@@ -34,15 +34,14 @@ class NEXGDDPEditor extends React.Component {
 
   @Autobind
   handleSaveWidget() {
-    const { dataset, datasetType, datasetProvider, tableName, title } = this.props;
+    const { dataset, datasetType, datasetProvider, tableName } = this.props;
     const options = {
       children: SaveWidgetModal,
       childrenProps: {
         dataset,
         datasetType,
         datasetProvider,
-        tableName,
-        title
+        tableName
       }
     };
     this.props.toggleModal(true);
@@ -208,7 +207,6 @@ NEXGDDPEditor.propTypes = {
   mode: PropTypes.oneOf(['save', 'update']).isRequired,
   tableName: PropTypes.string.isRequired,
   hasGeoInfo: PropTypes.bool.isRequired,
-  title: PropTypes.string, // Default title when saving the widget
   jiminy: PropTypes.object,
   dataset: PropTypes.string.isRequired, // Dataset ID
   datasetType: PropTypes.string,
