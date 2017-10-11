@@ -48,7 +48,7 @@ class ShareExploreDetailModal extends React.Component {
                   <Icon name="icon-facebook" className="-medium" />
                 </a>
                 <a
-                  href={`https://twitter.com/share?url=${url}&text=Resource watch, explore datasets`}
+                  href={`https://twitter.com/share?url=${url}&text=${encodeURIComponent(document.title)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

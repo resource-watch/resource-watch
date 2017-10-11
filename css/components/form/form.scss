@@ -1,3 +1,12 @@
 .c-form {
   padding: 20px 0;
+
+  // NOTE: do not remove this property without
+  // going to the widget creation in the admin
+  // and rendering a scrollable bar chart
+  // On FF, the editor should not overflow
+  // Reference: https://stackoverflow.com/a/17863685
+  fieldset {
+    min-width: 0;
+  }
 }

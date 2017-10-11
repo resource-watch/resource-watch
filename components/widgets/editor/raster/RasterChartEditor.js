@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 import isEmpty from 'lodash/isEmpty';
+import truncate from 'lodash/truncate';
 import d3 from 'd3';
 
 // Redux
@@ -74,15 +75,14 @@ class RasterChartEditor extends React.Component {
    */
   @Autobind
   onClickSaveWidget() {
-    const { dataset, provider, tableName, title } = this.props;
+    const { dataset, provider, tableName } = this.props;
     const options = {
       children: SaveWidgetModal,
       childrenProps: {
         dataset,
         datasetType: 'raster',
         datasetProvider: provider,
-        tableName,
-        title
+        tableName
       }
     };
 
@@ -96,6 +96,22 @@ class RasterChartEditor extends React.Component {
   @Autobind
   onClickUpdateWidget() {
     this.props.onUpdateWidget();
+  }
+
+  /**
+   * Event handler executed when the user clicks the
+   * "Read more" button
+   */
+  @Autobind
+  onClickReadMore() {
+    this.props.toggleModal(true, {
+      children: () => (
+        <div>
+          <h2>Description of the band</h2>
+          <p>{this.props.band.description}</p>
+        </div>
+      )
+    });
   }
 
   /**
@@ -143,24 +159,37 @@ class RasterChartEditor extends React.Component {
     const { loading, bands, error, bandStatsInfo, bandStatsInfoLoading } = this.state;
     const { band, mode, showSaveButton, hasGeoInfo, showNotLoggedInText } = this.props;
 
+    let description = band && band.description;
+    const longDescription = description && description.length > 250;
+    description = truncate(description, { length: 250, separator: /,?.* +/ });
+
     return (
       <div className="c-raster-chart-editor">
         <div className="content">
-          { hasGeoInfo && <AreaIntersectionFilter /> }
-          <h5>Bands { loading && <Spinner isLoading className="-light -small -inline" /> }</h5>
-          { error && <div className="error"><span>Error:</span> {error}</div> }
-          { !error && (
-            <Select
-              properties={{
-                name: 'raster-bands',
-                default: band && band.name
-              }}
-              options={bands.map(b => ({ label: b.alias || b.name, value: b.name }))}
-              onChange={this.onChangeBand}
-            />
-          ) }
+          <div className="selectors-container">
+            <div>
+              <h5>Bands { loading && <Spinner isLoading className="-light -small -inline" /> }</h5>
+              { error && <div className="error"><span>Error:</span> {error}</div> }
+              { !error && (
+                <Select
+                  properties={{
+                    name: 'raster-bands',
+                    default: band && band.name
+                  }}
+                  options={bands.map(b => ({ label: b.alias || b.name, value: b.name }))}
+                  onChange={this.onChangeBand}
+                />
+              ) }
+            </div>
+            { hasGeoInfo && <AreaIntersectionFilter /> }
+          </div>
           { band && band.description && (
-            <p className="description">{band.description}</p>
+            <p className="description">
+              {description}
+              { longDescription &&
+                <button onClick={() => this.onClickReadMore()}>Read more</button>
+              }
+            </p>
           ) }
           <div className="c-table stats">
             <Spinner isLoading={bandStatsInfoLoading} className="-light -small" />
@@ -218,7 +247,6 @@ RasterChartEditor.propTypes = {
   dataset: PropTypes.string.isRequired,
   tableName: PropTypes.string.isRequired,
   hasGeoInfo: PropTypes.bool.isRequired,
-  title: PropTypes.string, // Default title when saving the widget
   provider: PropTypes.string.isRequired,
   mode: PropTypes.oneOf(['save', 'update']),
   showSaveButton: PropTypes.bool,
