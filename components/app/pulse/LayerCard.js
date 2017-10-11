@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Autobind } from 'es-decorators';
 
 import { Link, Router } from 'routes';
 
@@ -15,13 +16,38 @@ import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 
 // Services
 import WidgetService from 'services/WidgetService';
+import DatasetService from 'services/DatasetService';
 
 import { LAYERS_PLANET_PULSE } from 'utils/layers/pulse_layers';
 
 class LayerCard extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      subscribable: false
+    };
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.pulse.layerActive !== this.props.pulse.layerActive) {
       this.loadWidgets(nextProps);
+      this.loadDatasetData(nextProps);
+    }
+  }
+
+  loadDatasetData(nextProps) {
+    const { pulse } = nextProps;
+    const layerActiveLoaded = pulse.layerActive && pulse.layerActive.id;
+
+    if (layerActiveLoaded) {
+      this.datasetService = new DatasetService(pulse.layerActive.attributes.dataset,
+        { apiURL: process.env.WRI_API_URL });
+      this.datasetService.fetchData().then((data) => {
+        this.setState({
+          subscribable: data.attributes.subscribable
+        });
+      });
     }
   }
 
@@ -50,8 +76,14 @@ class LayerCard extends React.Component {
     }
   }
 
+  @Autobind
+  handleSubscribeToAlerts() {
+
+  }
+
   render() {
     const { layerActive, layerPoints, similarWidgets } = this.props.pulse;
+    const { subscribable } = this.state;
 
     const className = classNames({
       'c-layer-card': true,
@@ -102,14 +134,24 @@ class LayerCard extends React.Component {
             </div>
           </div>
         }
-        { datasetId &&
-          <Link
-            route={'explore_detail'}
-            params={{ id: datasetId }}
-          >
-            <a className="link_button" >Explore the data</a>
-          </Link>
-        }
+        <div className="buttons">
+          { datasetId &&
+            <Link
+              route={'explore_detail'}
+              params={{ id: datasetId }}
+            >
+              <a className="link_button" >Explore the data</a>
+            </Link>
+          }
+          { subscribable &&
+            <button
+              className="link_button"
+              onClick={this.handleSubscribeToAlerts}
+            >
+              Subscribe to alerts
+            </button>
+          }
+        </div>
       </div>
     );
   }

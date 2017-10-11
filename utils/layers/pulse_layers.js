@@ -7,7 +7,8 @@ export const LAYERS_PLANET_PULSE = [
         id: '5ca12eec-f8fe-49eb-b353-67c9eeb5bc6a',
         '3d': false,
         markerType: 'default',
-        widgets: ['d409858d-9beb-4df5-ae48-bc0d6e9cda25']
+        widgets: ['d409858d-9beb-4df5-ae48-bc0d6e9cda25'],
+        subscribable: true
       },
       {
         label: 'Brazilian Amazon Deforestation Alerts',
