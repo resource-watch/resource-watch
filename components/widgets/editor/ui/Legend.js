@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc';
 import isEqual from 'lodash/isEqual';
 import throttle from 'lodash/throttle';
+import sortBy from 'lodash/sortBy';
 import { Router } from 'routes';
+import moment from 'moment';
+import InputRange from 'react-input-range';
 
 // Redux
 import { connect } from 'react-redux';
@@ -61,7 +64,8 @@ class Legend extends React.Component {
       opacityOptions: {},
       // Show a "tour" tooltip if the user adds a multi-layer
       // layer group for the first time
-      hasShownLayersTourTooltip: false
+      hasShownLayersTourTooltip: false,
+      currentStepTimeline: null
     };
 
     // List of the layers buttons
@@ -326,6 +330,14 @@ class Legend extends React.Component {
     );
   }
 
+  onTimelineChange(currentValue = 0, datasetSpec) {
+    const currentLayer = datasetSpec.layers.find((l) => {
+      return moment(l.layerConfig.dateTime, 'YYYY-MM-DD').year() === parseInt(currentValue);
+    });
+    this.setState({ currentStepTimeline: currentValue });
+    this.props.setLayerGroupActiveLayer(datasetSpec.dataset, currentLayer.id); // datasetId, layerId
+  }
+
   /**
    * Return the list of layers
    * @returns {HTMLElement[]}
@@ -335,7 +347,51 @@ class Legend extends React.Component {
     this.layersButtons = [];
 
     return this.props.layerGroups.map((layerGroup) => {
-      const activeLayer = layerGroup.layers.find(l => l.active);
+      const datasetSpec = Object.assign({}, layerGroup);
+      const activeLayer = datasetSpec.layers.find(l => l.active);
+
+      datasetSpec.layers = sortBy(datasetSpec.layers, (l) => l.layerConfig.dateTime);
+
+      if (datasetSpec.dataset === 'c0c71e67-0088-4d69-b375-85297f79ee75' &&
+        datasetSpec.layers.length) {
+        const currentLayer = datasetSpec.layers.find((l) => {
+          const lYear = moment(l.layerConfig.dateTime, 'YYYY-MM-DD').year();
+          if (this.state.currentStepTimeline) return lYear === this.state.currentStepTimeline;
+          return lYear === moment(activeLayer.layerConfig.dateTime, 'YYYY-MM-DD').year();
+        });
+
+        const firstLayer = datasetSpec.layers[0];
+        const lastLayer = datasetSpec.layers[datasetSpec.layers.length - 1];
+        const minYear = moment(firstLayer.layerConfig.dateTime, 'YYYY-MM-DD').year();
+        const maxYear = moment(lastLayer.layerConfig.dateTime, 'YYYY-MM-DD').year();
+
+        return (
+          <li key={datasetSpec.dataset} className="c-legend-unit">
+            <div className="legend-info">
+              <header className="legend-item-header">
+                <h3 className={this.props.className.color}>
+                  <span className="name">{currentLayer.name}</span>
+                </h3>
+                {this.getItemsActions(datasetSpec)}
+              </header>
+              <LegendType config={currentLayer.legendConfig} className={this.props.className} />
+
+              {/* Timeline */}
+              <div className="legent-timeline">
+                { !!(datasetSpec.layers.length) &&
+                  <InputRange
+                    minValue={minYear}
+                    maxValue={maxYear}
+                    value={this.state.currentStepTimeline || minYear}
+                    onChange={(value) => { this.onTimelineChange(value, datasetSpec); }}
+                  /> }
+              </div>
+            </div>
+            <DragHandle />
+          </li>
+        );
+      }
+
       return (
         <li key={layerGroup.dataset} className="c-legend-unit">
           <div className="legend-info">

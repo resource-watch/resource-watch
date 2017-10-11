@@ -492,6 +492,10 @@ attr-accept@^1.0.3:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/attr-accept/-/attr-accept-1.1.0.tgz#b5cd35227f163935a8f1de10ed3eba16941f6be6"
 
+autobind-decorator@^1.3.4:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/autobind-decorator/-/autobind-decorator-1.4.3.tgz#4c96ffa77b10622ede24f110f5dbbf56691417d1"
+
 autoprefixer@7.1.0:
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-7.1.0.tgz#ae4913adc221fa6ca5ad3a6f8039f6a5c06b3877"
@@ -8362,6 +8366,13 @@ react-input-autosize@^1.1.3:
   resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-1.2.0.tgz#87241071159f742123897691da6796ec33b57d05"
   dependencies:
     create-react-class "^15.5.2"
+    prop-types "^15.5.8"
+
+react-input-range@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-input-range/-/react-input-range-1.2.1.tgz#10ff5fc1ec6ab9d95e15cddebe6f6879db2c3386"
+  dependencies:
+    autobind-decorator "^1.3.4"
     prop-types "^15.5.8"
 
 react-inspector@^2.2.0:
