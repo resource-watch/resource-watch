@@ -138,7 +138,10 @@ class Home extends Page {
               title="Video Intro"
               frameBorder="0"
               allowFullScreen
-              src="https://youtube.com/embed/XryMlA-8IwE?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=LI1RrCnnkDA"
+              // Loop parameter has limited support in the AS3 player and in IFrame embeds, which could load either the AS3 or HTML5 player.
+              // Currently, the loop parameter only works in the AS3 player when used in conjunction with the playlist parameter.
+              // To loop a single video, set the loop parameter value to 1 and set the playlist parameter value to the same video ID already specified in the Player API URL
+              src="https://youtube.com/embed/XryMlA-8IwE?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=XryMlA-8IwE"
             />
           </div>
           <div className="video-text">
