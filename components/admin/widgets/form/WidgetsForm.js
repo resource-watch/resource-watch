@@ -253,7 +253,7 @@ class WidgetsForm extends React.Component {
 
   onChange(obj) {
     const form = Object.assign({}, this.state.form, obj);
-    this.setState({ form }, () => { console.log(form); });
+    this.setState({ form });
   }
 
   onStepChange(step) {
