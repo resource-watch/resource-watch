@@ -64,7 +64,7 @@ class Layout extends React.Component {
   }
 
   render() {
-    const { title, description, url, user, pageHeader, modal, className } = this.props;
+    const { title, description, url, user, pageHeader, modal, className, category } = this.props;
     const fullScreen = url.pathname && fullScreenPages.indexOf(url.pathname) !== -1;
 
     return (
@@ -72,6 +72,7 @@ class Layout extends React.Component {
         <Head
           title={title}
           description={description}
+          category={category}
         />
 
         <Icons />
@@ -101,6 +102,8 @@ class Layout extends React.Component {
           transitionIn="fadeIn"
           transitionOut="fadeOut"
         />
+
+        <link rel="stylesheet" media="screen" href="/static/styles/add-search-results.css" />
       </div>
     );
   }

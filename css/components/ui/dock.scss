@@ -1,0 +1,103 @@
+.c-dock {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba($color-black, .3);
+  transition: all $animation-time $ease-in-sine;
+  z-index: 1000; // Just to be sure that is over all the content
+  visibility: visible;
+  opacity: 1;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+
+  // Active styles
+  &.-hidden {
+    opacity: 0;
+    visibility: hidden;
+
+    .dock-container {
+      transform: translateX(100%);
+    }
+  }
+
+  .dock-container {
+    transition: transform $animation-time-2 $ease-out-cubic;
+    transform: translateX(0);
+    display: flex;
+    position: relative;
+    width: 50%;
+    background: white;
+    box-shadow: 0 1px 1px rgba(0,0,0,.15);
+    z-index: 1;
+  }
+
+  .dock-content {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 7px 15px 0 rgba(0, 0, 0, 0.15);
+  }
+
+  .dock-close {
+    fill: $color-white;
+    display: block;
+    position: absolute;
+    top: $space-1 * 2;
+    right: $space-1 * 2;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+    z-index: 2; /* Otherwise, it won't be reachable */
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      svg { fill: $color-mango; }
+    }
+  }
+
+  .dock-backdrop {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+
+
+  // THEMES
+  &.-menu {
+    .dock-container {
+      background: $color-primary;
+    }
+
+    .dock-content {
+      padding: ($space-1 * 8);
+    }
+
+    .dock-close {
+      fill: white;
+      width: 80px;
+      height: 80px;
+
+      svg {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+}

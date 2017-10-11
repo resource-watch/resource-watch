@@ -36,6 +36,7 @@ const SET_DATA_TYPE_TREE = 'explore/SET_DATA_TYPE_TREE';
 const SET_GEOGRAPHIES_TREE = 'explore/SET_GEOGRAPHIES_TREE';
 
 const SET_BASEMAP = 'explore/SET_BASEMAP';
+const SET_LABELS = 'explore/SET_LABELS';
 
 /**
  * Layer
@@ -95,7 +96,8 @@ const initialState = {
   },
   geographiesTree: null,
   topicsTree: null,
-  dataTypeTree: null
+  dataTypeTree: null,
+  labels: false
 };
 
 export default function (state = initialState, action) {
@@ -266,6 +268,12 @@ export default function (state = initialState, action) {
     case SET_BASEMAP: {
       return Object.assign({}, state, {
         basemap: action.payload
+      });
+    }
+
+    case SET_LABELS: {
+      return Object.assign({}, state, {
+        labels: action.payload
       });
     }
 
@@ -443,7 +451,7 @@ export function setLayerGroupsOrder(datasets) {
  * @param {string} dataset - ID of the dataset
  * @param {number} opacity - opacity
  */
-export function setLayerGroupOpacity(dataset, opacity) {
+export function setLayerGroupOpacity(dataset, opacity, updateUrl = false) {
   return (dispatch) => {
     dispatch({
       type: SET_LAYERGROUP_OPACITY,
@@ -451,7 +459,7 @@ export function setLayerGroupOpacity(dataset, opacity) {
     });
 
     // We also update the URL
-    if (typeof window !== 'undefined') dispatch(setUrlParams());
+    if (typeof window !== 'undefined' && updateUrl) dispatch(setUrlParams());
   };
 }
 
@@ -577,5 +585,12 @@ export function setBasemap(basemap) {
   return {
     type: SET_BASEMAP,
     payload: basemap
+  };
+}
+
+export function setLabels(labelEnabled) {
+  return {
+    type: SET_LABELS,
+    payload: labelEnabled
   };
 }

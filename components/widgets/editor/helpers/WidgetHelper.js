@@ -321,7 +321,8 @@ export async function getDataURL(dataset, datasetType, tableName, band, provider
     columns.push(sizeColumn);
   }
 
-  const orderByColumn = chartInfo.order ? [chartInfo.order] : [];
+  // NOTE: we need to copy chartInfo.order to avoid mutating the store
+  const orderByColumn = chartInfo.order ? [Object.assign({}, chartInfo.order)] : [];
 
   // If the visualization is a line chart and the user doesn't sort
   // the data, by default we sort it with the category column

@@ -13,7 +13,8 @@ export const LAYERS_PLANET_PULSE = [
         label: 'Brazilian Amazon Deforestation Alerts',
         id: '17b9bf19-e116-4a22-b71a-fe67ce7fd552',
         '3d': false,
-        markerType: 'default'
+        markerType: 'default',
+        widgets: ['5f5f7899-ccd2-4477-aa7e-43805880eb33']
       }
     ]
   },
@@ -21,10 +22,11 @@ export const LAYERS_PLANET_PULSE = [
     label: 'Water',
     layers: [
       {
-        label: 'Global Flood Detection System (JRC, Dartmouth Flood Observatory)',
+        label: 'Floods news reports',
         id: 'd0e35d92-3669-4bc2-b5d6-58b456fbf847',
         '3d': true,
-        markerType: 'bar'
+        markerType: 'bar',
+        widgets: ['94b43a46-5594-46fe-8484-46e0dd73197b']
       },
       {
         label: 'Drought Monitor - SPEI',
@@ -89,7 +91,8 @@ export const LAYERS_PLANET_PULSE = [
         label: 'News Sources',
         id: '2b7d5bca-bdcc-4d75-9901-155eebf9bb8c',
         '3d': true,
-        markerType: 'hemisphere'
+        markerType: 'hemisphere',
+        widgets: ['90e0c611-8b01-433a-b086-cadfc0127a45']
       }
     ]
   },

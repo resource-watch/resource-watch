@@ -296,6 +296,7 @@ class ExploreDetail extends Page {
       <Layout
         title="Explore detail"
         description="Explore detail description..."
+        category="Dataset"
         url={this.props.url}
         user={this.props.user}
         pageHeader
@@ -336,6 +337,7 @@ class ExploreDetail extends Page {
                 <div className="column small-12 medium-7">
                   {/* Description */}
                   <div className="dataset-info-description">
+                    <h3>Description</h3>
                     {formattedDescription}
                   </div>
                 </div>
@@ -350,6 +352,7 @@ class ExploreDetail extends Page {
                     {metadataInfo && metadataInfo.data_download_link &&
                       <a
                         className="c-button -primary -fullwidth"
+                        target="_blank"
                         href={metadataInfo && metadataInfo.data_download_link}
                       >
                         Download
@@ -358,6 +361,7 @@ class ExploreDetail extends Page {
                     {metadataInfo && metadataInfo.data_download_original_link &&
                       <a
                         className="c-button -secondary -fullwidth"
+                        target="_blank"
                         href={metadataInfo && metadataInfo.data_download_original_link}
                       >
                         Download from source
@@ -366,6 +370,7 @@ class ExploreDetail extends Page {
                     {metadataInfo && metadataInfo.learn_more_link &&
                       <a
                         className="c-button -secondary -fullwidth"
+                        target="_blank"
                         href={metadataInfo && metadataInfo.learn_more_link}
                       >
                         Learn more
@@ -408,13 +413,6 @@ class ExploreDetail extends Page {
                   </div>
                 ) : null}
 
-                {cautions ? (
-                  <div className="l-section-mod">
-                    <h3>Cautions</h3>
-                    <p>{formattedCautions}</p>
-                  </div>
-                ) : null}
-
                 {metadataInfo && metadataInfo.citation ? (
                   <div className="l-section-mod">
                     <h3>Citation</h3>
@@ -447,6 +445,13 @@ class ExploreDetail extends Page {
                   <div className="l-section-mod">
                     <h3>Frequency of updates</h3>
                     <p>{metadataInfo && metadataInfo.frequency_of_updates}</p>
+                  </div>
+                ) : null}
+
+                {cautions ? (
+                  <div className="l-section-mod">
+                    <h3>Cautions</h3>
+                    <p>{formattedCautions}</p>
                   </div>
                 ) : null}
 

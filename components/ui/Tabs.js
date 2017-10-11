@@ -21,10 +21,19 @@ export default class Tabs extends React.Component {
     });
   }
 
+  /**
+   * UI EVENTS
+   * - onChangeTab
+  */
+  onChangeTab(selected) {
+    this.setState({ selected }, () => {
+      if (this.props.onChange) this.props.onChange(selected);
+    });
+  }
+
   render() {
     const { selected } = this.state;
     const { options } = this.props;
-
 
     return (
       <header className="c-tabs">
@@ -39,12 +48,20 @@ export default class Tabs extends React.Component {
                 key={option.value}
                 className="column shrink"
               >
-                <Link route={option.route} params={option.params} >
-                  <a className={`tabs-btn ${btnClasses}`}>
+                {option.route &&
+                  <Link route={option.route} params={option.params} >
+                    <a className={`tabs-btn ${btnClasses}`}>
+                      <span className="title">{option.label}</span>
+                      {!!option.number && <span className="number">{option.number}</span>}
+                    </a>
+                  </Link>
+                }
+
+                {!option.route &&
+                  <button className={`tabs-btn ${btnClasses}`} onClick={() => this.onChangeTab(option.value)}>
                     <span className="title">{option.label}</span>
-                    {!!option.number && <span className="number">{option.number}</span>}
-                  </a>
-                </Link>
+                  </button>
+                }
               </div>
             );
           })}
@@ -56,6 +73,7 @@ export default class Tabs extends React.Component {
 
 Tabs.propTypes = {
   options: PropTypes.array.isRequired,
-  selected: PropTypes.string.isRequired,
-  defaultSelected: PropTypes.string.isRequired
+  selected: PropTypes.string,
+  defaultSelected: PropTypes.string,
+  onChange: PropTypes.func
 };
