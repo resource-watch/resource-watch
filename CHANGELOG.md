@@ -64,6 +64,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added checkbox for label layers in Explore page
 - Terms and privacy policy pages
 - Tool admin page added to CMS.
+- Added support for timeline in one layer `Standarized Precipitation Index`
 
 ### Changed
 
