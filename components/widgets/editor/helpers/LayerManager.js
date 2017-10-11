@@ -47,7 +47,8 @@ export default class LayerManager {
       // geojson
       geojson: this.addGeoJsonLayer,
       // GEE
-      gee: this.addGeeLayer
+      gee: this.addGeeLayer,
+      nexgddp: this.addNexGDDPLayer
     }[layer.provider];
 
     if (method) method.call(this, layer, opts);
@@ -92,6 +93,12 @@ export default class LayerManager {
       };
       return setTimeout(loop);
     });
+  }
+
+  addNexGDDPLayer(layerData) {
+    const tileUrl = `${process.env.WRI_API_URL}/layer/${layerData.id}/tile/nexgddp/{z}/{x}/{y}`;
+    const tileLayer = L.tileLayer(tileUrl).addTo(this.map);
+    this.mapLayers[layerData.id] = tileLayer;
   }
 
   addGeeLayer(layerData) {
