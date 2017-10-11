@@ -81,7 +81,8 @@ class NEXGDDPEditor extends React.Component {
       hasGeoInfo,
       showEmbedTable,
       showLimitContainer,
-      showOrderByContainer
+      showOrderByContainer,
+      showNotLoggedInText
     } = this.props;
     const {
       chartType,
@@ -173,6 +174,11 @@ class NEXGDDPEditor extends React.Component {
             Save widget
           </a>
           }
+          {!showSaveButton && showNotLoggedInText &&
+            <span className="not-logged-in-text">
+              Please log in to save changes
+            </span>
+          }
           {showUpdateButton && mode === 'update' &&
           <a
             role="button"
@@ -212,6 +218,7 @@ NEXGDDPEditor.propTypes = {
   datasetType: PropTypes.string,
   datasetProvider: PropTypes.string,
   tableViewMode: PropTypes.bool.isRequired,
+  showNotLoggedInText: PropTypes.bool,
   showSaveButton: PropTypes.bool.isRequired,
   showEmbedTable: PropTypes.bool,
   showLimitContainer: PropTypes.bool.isRequired,

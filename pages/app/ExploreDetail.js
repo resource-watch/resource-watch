@@ -280,6 +280,7 @@ class ExploreDetail extends Page {
   }
 
   render() {
+    const { url, user } = this.props;
     const { dataset, loading, similarDatasets, similarDatasetsLoaded } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
@@ -297,8 +298,8 @@ class ExploreDetail extends Page {
         title={metadataInfo && metadataInfo.name ? metadataInfo.name : (dataset && dataset.attributes && dataset.attributes.name)}
         description={formattedDescription}
         category="Dataset"
-        url={this.props.url}
-        user={this.props.user}
+        url={url}
+        user={user}
         pageHeader
       >
         <div className="c-page-explore-detail">
@@ -377,7 +378,7 @@ class ExploreDetail extends Page {
                       </a>
                     }
                     {dataset && dataset.attributes && dataset.attributes.subscribable
-                      && this.props.user.id &&
+                      && user.id &&
                       <button
                         className="c-button -secondary -fullwidth"
                         onClick={this.handleSubscribe}
@@ -397,7 +398,8 @@ class ExploreDetail extends Page {
               <WidgetEditor
                 dataset={dataset.id}
                 mode="dataset"
-                showSaveButton
+                showSaveButton={user && user.id}
+                showNotLoggedInText
               />
             }
           </MediaQuery>

@@ -55,10 +55,6 @@ class VegaChart extends React.Component {
     || !isEqual(nextState.vegaConfig, this.state.vegaConfig);
   }
 
-  componentDidUpdate() {
-    this.renderChart();
-  }
-
   componentWillUnmount() {
     this.mounted = false;
     window.removeEventListener('resize', this.triggerResize);

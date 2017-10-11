@@ -8,6 +8,17 @@
   .content {
     flex-grow: 1;
 
+    .selectors-container {
+      display: flex;
+      justify-content: space-between;
+
+      > div {
+        flex-basis: calc(50% - 10px);
+        flex-grow: 0;
+        flex-shrink: 0;
+      }
+    }
+
     h5 {
       margin: 0 0 5px;
     }
@@ -17,8 +28,12 @@
     }
 
     .description {
-      margin-top: 20px;
       font-size: $font-size-normal;
+
+      button {
+        color: $color-primary;
+        cursor: pointer;
+      }
     }
 
     .stats {
@@ -61,5 +76,9 @@
     margin-top: 20px;
     display: flex;
     justify-content: space-between;
+
+    .not-logged-in-text {
+      font-style: italic;
+    }
   }
 }
