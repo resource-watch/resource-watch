@@ -70,25 +70,7 @@ node {
 
         // Roll out to production
         case "master":
-          def userInput = true
-          def didTimeout = false
-          try {
-            timeout(time: 60, unit: 'SECONDS') {
-              userInput = input(
-                id: 'Proceed1', message: 'Confirm deployment', parameters: [
-                [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this deployment']
-              ])
-            }
-          }
-          catch(err) { // timeout reached or input false
-              sh("echo Aborted by user or timeout")
-              if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
-                  didTimeout = true
-              } else {
-                  userInput = false
-              }
-          }
-          if (userInput == true && !didTimeout){
+
             sh("echo Deploying to PROD cluster")
             sh("kubectl config use-context gke_${GCLOUD_PROJECT}_${GCLOUD_GCE_ZONE}_${KUBE_PROD_CLUSTER}")
             def service = sh([returnStdout: true, script: "kubectl get deploy ${appName} || echo NotFound"]).trim()
@@ -99,10 +81,7 @@ node {
               sh("kubectl apply -f k8s/production/")
             }
             sh("kubectl set image deployment ${appName} ${appName}=${imageTag} --record")
-          } else {
-            sh("echo NOT DEPLOYED")
-            currentBuild.result = 'SUCCESS'
-          }
+
           break
 
         // Default behavior?
