@@ -43,7 +43,7 @@ export default [
                       "with": "max",
                       "filter": "datum.a.rank===datum.b.max_rank || datum.a.rank<=10"
                     },
-                    {"type": "sort","by": "a.rank"} 
+                    {"type": "sort","by": "a.rank"}
                   ]
                 }
               ],
@@ -99,7 +99,7 @@ export default [
                       "fillOpacity": {"value": 1}
                     }
                   }
-                }   
+                }
               ]
             }
           }
@@ -129,12 +129,12 @@ export default [
   },
   /* The following dashboard is not a real one, but instead a link to the old
    * country dashboard */
-  {
-    name: 'Countries',
-    slug: 'countries',
-    photo: 'static/images/dashboards/dashboard-Cities.jpg',
-    widgets: [{}]
-  },
+  // {
+  //   name: 'Countries',
+  //   slug: 'countries',
+  //   photo: 'static/images/dashboards/dashboard-Cities.jpg',
+  //   widgets: [{}]
+  // },
   // {
   //   name: 'Cities',
   //   slug: 'cities',
