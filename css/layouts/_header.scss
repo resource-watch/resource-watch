@@ -34,6 +34,8 @@
 
   // Logo
   .header-logo {
+    position: relative;
+
     .brand-logo {
       width: 200px;
       height: 35px;
@@ -49,6 +51,15 @@
       text-indent: -9999px;
       visibility: hidden;
       margin: 0;
+    }
+
+    .brand-beta {
+      font-size: 10px;
+      color: $color-white;
+      text-transform: uppercase;
+      position: absolute;
+      right: -12px;
+      top: -6px;
     }
   }
 

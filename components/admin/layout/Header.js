@@ -86,6 +86,7 @@ export default class Header extends React.Component {
                     <a>
                       <svg className="brand-logo"><use xlinkHref="#icon-logo" /></svg>
                       <h1 className="brand-title">Resource Watch</h1>
+                      <div className="brand-beta">beta</div>
                     </a>
                   </Link>
                 </div>
