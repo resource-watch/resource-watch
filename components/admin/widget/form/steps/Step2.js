@@ -8,15 +8,11 @@ import Textarea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
 import WidgetEditor from 'components/widgets/editor/WidgetEditor';
 
-// Redux
-import { connect } from 'react-redux';
-import { setTitle } from 'components/widgets/editor/redux/widgetEditor';
-
 import { FORM_ELEMENTS } from 'components/admin/widget/form/constants';
 
 class Step2 extends React.Component {
   render() {
-    const { dataset, widgetEditor } = this.props;
+    const { dataset } = this.props;
 
     return (
       <fieldset className="c-field-container">
@@ -39,15 +35,14 @@ class Step2 extends React.Component {
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
-          onChange={value => this.props.setTitle(value)}
+          onChange={value => this.props.onChange({ name: value })}
           validations={['required']}
           properties={{
             name: 'name',
             label: 'Title',
             type: 'text',
-            default: widgetEditor.title || '',
-            value: widgetEditor.title || '',
-            required: true
+            required: true,
+            default: this.props.form.name
           }}
         >
           {Input}
@@ -151,18 +146,7 @@ class Step2 extends React.Component {
 Step2.propTypes = {
   form: PropTypes.object,
   dataset: PropTypes.string.isRequired,
-  onChange: PropTypes.func,
-  // REDUX
-  widgetEditor: PropTypes.object,
-  setTitle: PropTypes.func
+  onChange: PropTypes.func
 };
 
-const mapStateToProps = state => ({
-  widgetEditor: state.widgetEditor
-});
-
-const mapDispatchToProps = dispatch => ({
-  setTitle: title => dispatch(setTitle(title))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Step2);
+export default Step2;
