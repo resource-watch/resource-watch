@@ -1001,7 +1001,6 @@ class WidgetEditor extends React.Component {
                         onUpdateWidget={this.handleUpdateWidget}
                         showSaveButton={showSaveButton}
                         showNotLoggedInText={showNotLoggedInText}
-                        title={title}
                       />
                     )
                 }
