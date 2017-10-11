@@ -19,7 +19,8 @@ import {
   setBand,
   setVisualizationType,
   setLayer,
-  setAreaIntersection
+  setAreaIntersection,
+  setTitle
 } from 'components/widgets/editor/redux/widgetEditor';
 import { setDataset } from 'redactions/myrwdetail';
 
@@ -274,6 +275,7 @@ class WidgetsEdit extends React.Component {
     if (limit) this.props.setLimit(limit);
     if (chartType) this.props.setChartType(chartType);
     if (areaIntersection) this.props.setAreaIntersection(areaIntersection);
+    if (this.state.widget.attributes.name) this.props.setTitle(this.state.widget.attributes.name);
   }
 
   @Autobind
@@ -413,7 +415,8 @@ WidgetsEdit.propTypes = {
   setAreaIntersection: PropTypes.func.isRequired,
   setBand: PropTypes.func.isRequired,
   setLayer: PropTypes.func.isRequired,
-  setDataset: PropTypes.func.isRequired
+  setDataset: PropTypes.func.isRequired,
+  setTitle: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -434,6 +437,7 @@ const mapDispatchToProps = dispatch => ({
   setVisualizationType: vis => dispatch(setVisualizationType(vis)),
   setAreaIntersection: value => dispatch(setAreaIntersection(value)),
   setBand: band => dispatch(setBand(band)),
+  setTitle: title => dispatch(setTitle(title)),
   setLayer: (layerId) => {
     new LayersService()
       .fetchData({ id: layerId })

@@ -6,7 +6,7 @@ import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
-
+import { setTitle } from 'components/widgets/editor/redux/widgetEditor';
 import { toggleModal } from 'redactions/modal';
 
 // Components
@@ -51,9 +51,7 @@ class SaveWidgetModal extends React.Component {
       loading: false,
       saved: false,
       error: false,
-      widget: {
-        name: props.title ? props.title : ''
-      }
+      description: null // Description of the widget
     };
 
     this.widgetService = new WidgetService(null, {
@@ -69,9 +67,25 @@ class SaveWidgetModal extends React.Component {
     this.setState({
       loading: true
     });
+
+    const { description } = this.state;
     const { widgetEditor, tableName, dataset, datasetType, datasetProvider } = this.props;
-    const { limit, value, category, color, size, orderBy, aggregateFunction,
-      chartType, filters, areaIntersection, visualizationType, band, layer } = widgetEditor;
+    const {
+      limit,
+      value,
+      category,
+      color,
+      size,
+      orderBy,
+      aggregateFunction,
+      chartType,
+      filters,
+      areaIntersection,
+      visualizationType,
+      band,
+      layer,
+      title
+    } = widgetEditor;
 
     let chartConfig = {};
 
@@ -133,7 +147,14 @@ class SaveWidgetModal extends React.Component {
       )
     };
 
-    const widgetObj = Object.assign({}, this.state.widget, widgetConfig);
+    const widgetObj = Object.assign(
+      {},
+      {
+        name: title || null,
+        description
+      },
+      widgetConfig
+    );
 
     this.widgetService.saveUserWidget(widgetObj, this.props.dataset, this.props.user.token)
       .then((response) => {
@@ -151,26 +172,29 @@ class SaveWidgetModal extends React.Component {
       .then(() => this.setState({ loading: false }));
   }
 
+  /**
+   * Event handler executed when the user clicks the
+   * cancel button of the modal
+   *
+   */
   @Autobind
   handleCancel() {
     this.props.toggleModal(false);
   }
 
+  /**
+   * Event handler executed when the user clicks the
+   * "Check my widgets" button
+   */
   @Autobind
   handleGoToMyRW() {
     this.props.toggleModal(false);
     Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
   }
 
-  @Autobind
-  handleChange(value) {
-    const newWidgetObj = Object.assign({}, this.state.widget, value);
-    this.setState({ widget: newWidgetObj });
-  }
-
   render() {
-    const { submitting, loading, saved, error, errorMessage, widget } = this.state;
-    console.log('widget.name', widget.name);
+    const { submitting, loading, saved, error, errorMessage } = this.state;
+    const { widgetEditor } = this.props;
 
     return (
       <div className="c-save-widget-modal">
@@ -195,14 +219,15 @@ class SaveWidgetModal extends React.Component {
             <fieldset className="c-field-container">
               <Field
                 ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
-                onChange={value => this.handleChange({ name: value })}
+                onChange={value => this.props.setTitle(value)}
                 validations={['required']}
                 properties={{
                   title: 'title',
                   label: 'Title',
                   type: 'text',
                   required: true,
-                  default: widget.name,
+                  default: widgetEditor.title,
+                  value: widgetEditor.title,
                   placeholder: 'Widget title'
                 }}
               >
@@ -210,7 +235,7 @@ class SaveWidgetModal extends React.Component {
               </Field>
               <Field
                 ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
-                onChange={value => this.handleChange({ description: value })}
+                onChange={description => this.setState({ description })}
                 properties={{
                   title: 'description',
                   label: 'Description',
@@ -246,7 +271,7 @@ class SaveWidgetModal extends React.Component {
         {saved &&
         <div>
           <div className="icon-container">
-            <img alt="" src="/static/images/components/modal/widget-saved.svg" />
+            <img alt="Widget Saved" src="/static/images/components/modal/widget-saved.svg" />
           </div>
           <div className="buttons-widget-saved">
             <Button
@@ -274,10 +299,11 @@ SaveWidgetModal.propTypes = {
   tableName: PropTypes.string.isRequired,
   datasetType: PropTypes.string,
   datasetProvider: PropTypes.string,
-  title: PropTypes.string,
   // Store
   user: PropTypes.object.isRequired,
-  toggleModal: PropTypes.func.isRequired
+  widgetEditor: PropTypes.object.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  setTitle: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -286,7 +312,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleModal: (open) => { dispatch(toggleModal(open)); }
+  toggleModal: open => dispatch(toggleModal(open)),
+  setTitle: title => dispatch(setTitle(title))
 });
 
 

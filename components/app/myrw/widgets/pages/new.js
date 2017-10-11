@@ -6,6 +6,7 @@ import { Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
+import { setTitle } from 'components/widgets/editor/redux/widgetEditor';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -84,7 +85,8 @@ class WidgetsNew extends React.Component {
       chartType,
       filters,
       areaIntersection,
-      layer
+      layer,
+      title
     } = widgetEditor;
 
     const dataset = datasets.find(elem => elem.value === selectedDataset);
@@ -160,7 +162,7 @@ class WidgetsNew extends React.Component {
     const widgetObj = Object.assign(
       {},
       {
-        name: widget.name,
+        name: title,
         description: widget.description,
         authors: widget.authors,
         source: widget.source,
@@ -196,14 +198,16 @@ class WidgetsNew extends React.Component {
   loadDatasets() {
     this.datasetsService.fetchAllData({ filters: { published: true }, includes: 'metadata' }).then((response) => {
       this.setState({
-        datasets: [...this.state.datasets, ...response.map(dataset => {
+        datasets: [...this.state.datasets, ...response.map((dataset) => {
           const metadata = dataset.metadata[0];
           return ({
             id: dataset.id,
             type: dataset.type,
             provider: dataset.provider,
             tableName: dataset.tableName,
-            label: metadata && metadata.attributes.info ? metadata.attributes.info.name : dataset.name,
+            label: metadata && metadata.attributes.info
+              ? metadata.attributes.info.name
+              : dataset.name,
             value: dataset.id
           });
         })],
@@ -214,14 +218,16 @@ class WidgetsNew extends React.Component {
     this.datasetsService.fetchAllData(
       { filters: { userId: this.props.user.id }, includes: 'metadata' }).then((response) => {
       this.setState({
-        datasets: [...this.state.datasets, ...response.map(dataset => {
+        datasets: [...this.state.datasets, ...response.map((dataset) => {
           const metadata = dataset.metadata[0];
-          return({
+          return ({
             id: dataset.id,
             type: dataset.type,
             provider: dataset.provider,
             tableName: dataset.tableName,
-            label: metadata && metadata.attributes.info ? metadata.attributes.info.name : dataset.name,
+            label: metadata && metadata.attributes.info
+              ? metadata.attributes.info.name
+              : dataset.name,
             value: dataset.id
           });
         })],
@@ -234,6 +240,10 @@ class WidgetsNew extends React.Component {
   handleChange(value) {
     const newWidgetObj = Object.assign({}, this.state.widget, value);
     this.setState({ widget: newWidgetObj });
+
+    if (Object.keys(value).indexOf('name') !== -1) {
+      this.props.setTitle(value.name);
+    }
   }
 
   @Autobind
@@ -258,6 +268,7 @@ class WidgetsNew extends React.Component {
       loadingUserDatasets,
       loadingPublishedDatasets
     } = this.state;
+    const { widgetEditor } = this.props;
 
     return (
       <div className="c-myrw-widgets-new">
@@ -306,6 +317,8 @@ class WidgetsNew extends React.Component {
                     label: 'Title',
                     type: 'text',
                     required: true,
+                    default: widgetEditor.title || '',
+                    value: widgetEditor.title || '',
                     placeholder: 'Widget title'
                   }}
                 >
@@ -385,7 +398,9 @@ class WidgetsNew extends React.Component {
 WidgetsNew.propTypes = {
   dataset: PropTypes.string,
   // Store
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  widgetEditor: PropTypes.object.isRequired,
+  setTitle: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -393,4 +408,8 @@ const mapStateToProps = state => ({
   widgetEditor: state.widgetEditor
 });
 
-export default connect(mapStateToProps, null)(WidgetsNew);
+const mapDispatchToProps = dispatch => ({
+  setTitle: title => dispatch(setTitle(title))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(WidgetsNew);

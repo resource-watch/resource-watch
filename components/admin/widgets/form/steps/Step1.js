@@ -7,6 +7,10 @@ import { toastr } from 'react-redux-toastr';
 // Constants
 import { FORM_ELEMENTS, CONFIG_TEMPLATE, CONFIG_TEMPLATE_OPTIONS } from 'components/admin/widgets/form/constants';
 
+// Redux
+import { connect } from 'react-redux';
+import { setTitle } from 'components/widgets/editor/redux/widgetEditor';
+
 // Components
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
@@ -62,6 +66,8 @@ class Step1 extends React.Component {
 
   render() {
     const { id } = this.state;
+    const { widgetEditor } = this.props;
+
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
 
@@ -98,7 +104,7 @@ class Step1 extends React.Component {
           {/* NAME */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
-            onChange={value => this.props.onChange({ name: value })}
+            onChange={value => this.props.setTitle(value)}
             validations={['required']}
             className="-fluid"
             properties={{
@@ -106,7 +112,8 @@ class Step1 extends React.Component {
               label: 'Name',
               type: 'text',
               required: true,
-              default: this.state.form.name
+              default: widgetEditor.title || '',
+              value: widgetEditor.title || ''
             }}
           >
             {Input}
@@ -250,7 +257,18 @@ Step1.propTypes = {
   mode: PropTypes.string,
   datasets: PropTypes.array,
   onChange: PropTypes.func,
-  onModeChange: PropTypes.func
+  onModeChange: PropTypes.func,
+  // REDUX
+  widgetEditor: PropTypes.object,
+  setTitle: PropTypes.func
 };
 
-export default Step1;
+const mapStateToProps = state => ({
+  widgetEditor: state.widgetEditor
+});
+
+const mapDispatchToProps = dispatch => ({
+  setTitle: title => dispatch(setTitle(title))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Step1);
