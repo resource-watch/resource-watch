@@ -20,7 +20,7 @@ const exploreCards = [
   {
     tag: 'Explore data',
     title: 'Dive into the data',
-    intro: 'Create and download custom visualisations using our collection of over 180 datasets related to natural resources.',
+    intro: 'Create and download custom visualisations using our collection of datasets related to natural resources.',
     buttons: [
       {
         text: 'Explore data',
@@ -146,8 +146,8 @@ class Home extends Page {
           </div>
           <div className="video-text">
             <div>
-              <h1>Quick and easy access <br />to a world of resource data</h1>
-              <p>Explore the latest data, make insights, and help build a more sustainable planet</p>
+              <h1>Explore a world <br />of natural resource data</h1>
+              <p>Discover the latest data, make connections, and help create a more sustainable planet</p>
             </div>
           </div>
         </div>
@@ -157,7 +157,7 @@ class Home extends Page {
             <header>
               <div className="row">
                 <div className="column small-12 medium-8">
-                  <h2>Discover Stories</h2>
+                  <h2>Discover Signals</h2>
                   <p>Read the latest analysis from our community or submit your own original story.</p>
                 </div>
               </div>
@@ -181,7 +181,7 @@ class Home extends Page {
               <div className="row">
                 <div className="column small-12 medium-12">
                   <Link route="insights">
-                    <a className="c-btn -primary">More stories</a>
+                    <a href="/insights" className="c-btn -primary">More signals</a>
                   </Link>
                 </div>
               </div>
@@ -195,7 +195,7 @@ class Home extends Page {
               <div className="row">
                 <div className="column small-12 medium-8">
                   <h2>Explore the data</h2>
-                  <p>Explore, create visualizations, receive updates and contribute with your data.</p>
+                  <p>Find data, create visualizations, and subscribe to updates on key datasets.</p>
                 </div>
               </div>
             </header>
@@ -213,9 +213,9 @@ class Home extends Page {
             <div className="column small-12 medium-6">
               <h2>Get Involved</h2>
               <p>
-                We{'´'}ve brought together the best datasets related to natural resources,
+                We{'’'}ve brought together the best datasets related to natural resources,
                 so you can find new insights, influence decisions and change the world.
-                There{'´'}s a world of opportunity to take this futher. Here are
+                There{'’'}s a world of opportunity to take this futher. Here are
                 some ideas to get you started.
               </p>
             </div>
@@ -229,7 +229,7 @@ class Home extends Page {
                 <Link route="get_involved_detail" params={{ id: 'join-community', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Join the community</a></Link>
               </div>
               <div className="column small-12 medium-3">
-                <Link route="get_involved_detail" params={{ id: 'submit-an-insight', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Submit an insight</a></Link>
+                <Link route="get_involved_detail" params={{ id: 'submit-an-insight', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Submit a story</a></Link>
               </div>
               <div className="column small-12 medium-3">
                 <Link route="get_involved_detail" params={{ id: 'develop-app', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Develop your app</a></Link>
