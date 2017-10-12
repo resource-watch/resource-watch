@@ -77,7 +77,7 @@ class PartnerDetail extends Page {
                   </p>
                   <a
                     className="c-btn -primary -filled"
-                    src={data.website}
+                    href={data.website}
                     target="_blank"
                   >
                     LEARN ABOUT OUR WORK
