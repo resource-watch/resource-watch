@@ -96,7 +96,7 @@ class EmbedWidget extends Page {
   }
 
   render() {
-    const { widget, loading } = this.props;
+    const { widget, loading, error } = this.props;
     const { isLoading, modalOpened } = this.state;
 
     if (loading) {
@@ -106,6 +106,37 @@ class EmbedWidget extends Page {
           description={''}
         >
           <Spinner isLoading className="-light" />
+        </EmbedLayout>
+      );
+    }
+
+    if (error) {
+      return (
+        <EmbedLayout
+          title={'Resource Watch'}
+          description={''}
+        >
+          <div className="c-embed-widget">
+            <div className="widget-title">
+              <h4>–</h4>
+            </div>
+
+            <div className="widget-content">
+              <p>{'Sorry, the widget couldn\'t be loaded'}</p>
+            </div>
+
+            { this.isLoadedExternally() && (
+              <div className="widget-footer">
+                <a href="/" target="_blank" rel="noopener noreferrer">
+                  <img
+                    className="embed-logo"
+                    src={'/static/images/logo-embed.png'}
+                    alt="Resource Watch"
+                  />
+                </a>
+              </div>
+            ) }
+          </div>
         </EmbedLayout>
       );
     }
@@ -159,7 +190,8 @@ EmbedWidget.propTypes = {
   getWidget: PropTypes.func,
   bandDescription: PropTypes.string,
   bandStats: PropTypes.object,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  error: PropTypes.string
 };
 
 EmbedWidget.defaultProps = {
@@ -169,6 +201,7 @@ EmbedWidget.defaultProps = {
 const mapStateToProps = state => ({
   widget: state.widget.data,
   loading: state.widget.loading,
+  error: state.widget.error,
   bandDescription: state.widget.bandDescription,
   bandStats: state.widget.bandStats
 });

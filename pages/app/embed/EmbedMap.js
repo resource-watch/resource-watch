@@ -65,7 +65,7 @@ class EmbedMap extends Page {
   }
 
   render() {
-    const { widget, loading, layerGroups } = this.props;
+    const { widget, loading, layerGroups, error } = this.props;
     const { modalOpened } = this.state;
 
     if (loading) {
@@ -75,6 +75,37 @@ class EmbedMap extends Page {
           description={''}
         >
           <Spinner isLoading={loading} className="-light" />
+        </EmbedLayout>
+      );
+    }
+
+    if (error) {
+      return (
+        <EmbedLayout
+          title={'Resource Watch'}
+          description={''}
+        >
+          <div className="c-embed-widget">
+            <div className="widget-title">
+              <h4>–</h4>
+            </div>
+
+            <div className="widget-content">
+              <p>{'Sorry, the widget couldn\'t be loaded'}</p>
+            </div>
+
+            { this.isLoadedExternally() && (
+              <div className="widget-footer">
+                <a href="/" target="_blank" rel="noopener noreferrer">
+                  <img
+                    className="embed-logo"
+                    src={'/static/images/logo-embed.png'}
+                    alt="Resource Watch"
+                  />
+                </a>
+              </div>
+            ) }
+          </div>
         </EmbedLayout>
       );
     }
@@ -143,7 +174,8 @@ EmbedMap.propTypes = {
   getWidget: PropTypes.func,
   toggleLayerGroupVisibility: PropTypes.func,
   loading: PropTypes.bool,
-  layerGroups: PropTypes.array
+  layerGroups: PropTypes.array,
+  error: PropTypes.string
 };
 
 EmbedMap.defaultProps = {
@@ -153,6 +185,7 @@ EmbedMap.defaultProps = {
 const mapStateToProps = state => ({
   widget: state.widget.data,
   loading: state.widget.loading,
+  error: state.widget.error,
   layerGroups: state.widget.layerGroups
 });
 
