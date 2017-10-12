@@ -15,7 +15,7 @@ export default class Icons extends React.Component {
             <title>list-mode</title>
             <path d="M0 0h36.923v14.769h-36.923v-14.769zM0 17.231h36.923v14.769h-36.923v-14.769z"></path>
           </symbol>
-          <symbol id="icon-Cross" viewBox="0 0 32 32">
+          <symbol id="icon-cross" viewBox="0 0 32 32">
             <title>Cross</title>
             <path d="M16 11.636l-11.636-11.636-4.364 4.364 11.636 11.636-11.636 11.636 4.364 4.364 11.636-11.636 11.636 11.636 4.364-4.364-11.636-11.636 11.636-11.636-4.364-4.364z"></path>
           </symbol>
