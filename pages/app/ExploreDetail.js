@@ -408,6 +408,14 @@ class ExploreDetail extends Page {
           <section className="l-section">
             <div className="row">
               <div className="column small-12 medium-7">
+
+                {metadataInfo && metadataInfo.technical_title ? (
+                  <div className="l-section-mod">
+                    <h3>Formal name</h3>
+                    <p>{metadataInfo.technical_title}</p>
+                  </div>
+                ) : null}
+
                 {functions ? (
                   <div className="l-section-mod">
                     <h3>Function</h3>
