@@ -146,6 +146,8 @@ class DatasetWidget extends React.Component {
     const gridMode = (mode === 'grid');
     const element = this.getWidgetOrLayer();
 
+    const updatedAtText = dataset.updatedAt && dataset.updatedAt.split('T')[0];
+
     return (
       <div className={`c-dataset-list-item -${mode}`}>
 
@@ -224,7 +226,7 @@ class DatasetWidget extends React.Component {
 
             {/* Last update */}
             {dataset.updatedAt
-              && <p>Last update: {dataset.updatedAt}</p>
+              && <p>Last update:  {updatedAtText}</p>
             }
           </div>
           <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
