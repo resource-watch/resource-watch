@@ -21,6 +21,10 @@
     margin-right: 30px !important;
     border-width: 1px;
     border-color: $border-color-2;
+
+    .c-embed-widget & {
+      margin-right: $margin-size-extra-small !important;
+    }
   }
 
   .leaflet-control-zoom-in,
