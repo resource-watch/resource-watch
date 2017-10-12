@@ -59,6 +59,12 @@
     padding: $margin-size-extra-small;
     overflow: hidden;
 
+    &.-external {
+      .c-map {
+        height: calc(100% + #{$margin-size-extra-small});
+      }
+    }
+
     .c-chart {
       height: 100%;
       display: flex;
@@ -82,6 +88,20 @@
       }
     }
 
+    .c-map {
+      position: relative;
+      top: -$margin-size-extra-small;
+      left: -$margin-size-extra-small;
+      height: calc(100% + #{2 * $margin-size-extra-small});
+      width: calc(100% + #{2 * $margin-size-extra-small});
+
+      // Without this property, the legend is hidden behind
+      // the map
+      .leaflet-pane {
+        z-index: 1;
+      }
+    }
+
     .widget-modal {
       position: absolute;
       top: 0;
@@ -89,7 +109,7 @@
       width: 100%;
       height: 100%;
       padding: $margin-size-extra-small;
-      z-index: 1;
+      z-index: 3;
       background-color: $white;
       overflow-x: hidden;
       overflow-y: auto;
@@ -132,17 +152,6 @@
         display: inline-block;
         width: calc(100% / 6);
       }
-    }
-  }
-
-  .c-map {
-    height: 300px;
-    position: relative;
-
-    // Without this property, the legend is hidden behind
-    // the map
-    .leaflet-pane {
-      z-index: 1;
     }
   }
 }
