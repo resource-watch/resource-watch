@@ -6,23 +6,23 @@ import find from 'lodash/find';
 */
 const INSIGHTS_DATA = [
   {
-    tag: 'Insight of the week',
-    title: 'A factory is being built in your neighborhood. Can you do anything about it?',
+    tag: 'Signal of the week',
+    title: '10 true facts you won’t believe!',
+    slug: 'slideshow-peru',
+    source: { name: 'World Resources Institute', path: 'http://www.wri.org/', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png'},
+    background: 'url(/static/tempImages/backgrounds/graph.png) center',
+    body: 'https://resource-watch.github.io/insights/slideshow-peru.html'
+  },
+  {
+    tag: 'Sept 2, 2017',
+    title: 'A factory is built in your neighborhood. Can you do anything about it?',
     slug: 'interactive-edi',
     source: { name: 'World Resources Institute', path: 'http://www.wri.org/', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
     background: 'url(/static/tempImages/backgrounds/discovery_insights_image.jpg) center',
     body: '/static/insights/interactive-edi.html'
   },
   {
-    tag: 'Feb 25, 2017',
-    title: 'The Water Guardians of the Andes',
-    slug: 'slideshow-peru',
-    source: { name: 'ESPA', path: 'http://www.espa.ac.uk/', img: '../static/images/avatars/espa_avatar.png' },
-    background: 'url(/static/tempImages/backgrounds/andes.jpg) center',
-    body: '/static/insights/slideshow-peru.html'
-  },
-  {
-    tag: 'Mar 5, 2017',
+    tag: 'Sept 1, 2017',
     title: 'Farms to feel squeeze as competition for water increases',
     slug: 'interactive-map',
     source: { name: 'World Resources Institute', path: 'http://www.wri.org/', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
