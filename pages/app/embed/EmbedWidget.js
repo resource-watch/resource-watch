@@ -17,6 +17,7 @@ import EmbedLayout from 'components/app/layout/EmbedLayout';
 import VegaChart from 'components/widgets/charts/VegaChart';
 import Spinner from 'components/ui/Spinner';
 import ChartTheme from 'utils/widgets/theme';
+import Icon from 'components/widgets/editor/ui/Icon';
 
 class EmbedWidget extends Page {
   static getInitialProps({ asPath, pathname, query, req, store, isServer }) {
@@ -35,7 +36,8 @@ class EmbedWidget extends Page {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: props.isLoading
+      isLoading: props.isLoading,
+      modalOpened: false
     };
   }
 
@@ -43,51 +45,31 @@ class EmbedWidget extends Page {
     this.props.getWidget(this.props.url.query.id);
   }
 
-  render() {
-    const { widget, loading, bandDescription, bandStats } = this.props;
-    const { isLoading } = this.state;
-
-    if (loading) {
-      return (
-        <EmbedLayout
-          title={'Loading widget...'}
-          description={''}
-        >
-          <Spinner isLoading className="-light" />
-        </EmbedLayout>
-      );
-    }
-
+  getModal() {
+    const { widget, bandDescription, bandStats } = this.props;
     return (
-      <EmbedLayout
-        title={`${widget.attributes.name}`}
-        description={`${widget.attributes.description || ''}`}
-      >
-        <div className="c-embed-widget">
-          <div className="visualization">
-            <Spinner isLoading={isLoading} className="-light" />
-            <div className="widget-title">
-              <h4>{widget.attributes.name}</h4>
-            </div>
-            <div className="widget-content">
-              <VegaChart
-                height={300}
-                data={widget.attributes.widgetConfig}
-                theme={ChartTheme()}
-                toggleLoading={l => this.setState({ isLoading: l })}
-                reloadOnResize
-              />
-            </div>
-            <p className="widget-description">
-              {widget.attributes.description}
-            </p>
+      <div className="widget-modal">
+        { !widget.attributes.description && !bandDescription && isEmpty(bandStats) &&
+          <p>No additional information is available</p>
+        }
+
+        { widget.attributes.description && (
+          <div>
+            <h4>Description</h4>
+            <p>{widget.attributes.description}</p>
           </div>
-          { bandDescription && (
-            <div className="band-information">
-              {bandDescription}
-            </div>
-          ) }
-          {!isEmpty(bandStats) && (
+        ) }
+
+        { bandDescription && (
+          <div>
+            <h4>Band description</h4>
+            <p>{bandDescription}</p>
+          </div>
+        ) }
+
+        { !isEmpty(bandStats) && (
+          <div>
+            <h4>Statistical information</h4>
             <div className="c-table">
               <table>
                 <thead>
@@ -107,15 +89,65 @@ class EmbedWidget extends Page {
                 </tbody>
               </table>
             </div>
+          </div>
+        ) }
+      </div>
+    );
+  }
+
+  render() {
+    const { widget, loading } = this.props;
+    const { isLoading, modalOpened } = this.state;
+
+    if (loading) {
+      return (
+        <EmbedLayout
+          title={'Loading widget...'}
+          description={''}
+        >
+          <Spinner isLoading className="-light" />
+        </EmbedLayout>
+      );
+    }
+
+    return (
+      <EmbedLayout
+        title={`${widget.attributes.name}`}
+        description={`${widget.attributes.description || ''}`}
+      >
+        <div className="c-embed-widget">
+          <Spinner isLoading={isLoading} className="-light" />
+          <div className="widget-title">
+            <a href={`/data/explore/${widget.attributes.dataset}`} target="_blank" rel="noopener noreferrer">
+              <h4>{widget.attributes.name}</h4>
+            </a>
+            <button
+              aria-label={`${modalOpened ? 'Close' : 'Open'} information modal`}
+              onClick={() => this.setState({ modalOpened: !modalOpened })}
+            >
+              <Icon name={`icon-${modalOpened ? 'cross' : 'info'}`} className="c-icon -small" />
+            </button>
+          </div>
+          <div className="widget-content">
+            <VegaChart
+              data={widget.attributes.widgetConfig}
+              theme={ChartTheme()}
+              toggleLoading={l => this.setState({ isLoading: l })}
+              reloadOnResize
+            />
+            { modalOpened && this.getModal() }
+          </div>
+          { this.isLoadedExternally() && (
+            <div className="widget-footer">
+              <a href="/" target="_blank" rel="noopener noreferrer">
+                <img
+                  className="embed-logo"
+                  src={'/static/images/logo-embed.png'}
+                  alt="Resource Watch"
+                />
+              </a>
+            </div>
           ) }
-          { this.isLoadedExternally() &&
-            <img
-              className="embed-logo"
-              height={21}
-              width={129}
-              src={'/static/images/logo-embed.png'}
-              alt="Resource Watch"
-            /> }
         </div>
       </EmbedLayout>
     );
