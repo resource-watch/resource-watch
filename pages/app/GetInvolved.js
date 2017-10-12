@@ -17,11 +17,11 @@ import Layout from 'components/app/layout/Layout';
 const cards = [
   {
     id: 'insights',
-    title: 'Submit an insight',
-    intro: ['Tell a story with data. Share content seamlessly with the world and inspire action.'],
+    title: 'Submit a story',
+    intro: ['Tell a story with data. Share content with the world and inspire action.'],
     buttons: [
       {
-        text: 'Submit an insight',
+        text: 'Submit a story',
         route: 'get_involved_detail',
         params: { id: 'submit-an-insight' },
         className: '-primary -alt'
