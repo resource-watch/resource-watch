@@ -277,6 +277,14 @@ class Legend extends React.PureComponent {
     }
   }
 
+  onTimelineChange(currentValue = 0, datasetSpec) {
+    const currentLayer = datasetSpec.layers.find((l) => {
+      return moment(l.layerConfig.dateTime, 'YYYY-MM-DD').year() === parseInt(currentValue);
+    });
+    this.setState({ currentStepTimeline: currentValue });
+    this.props.setLayerGroupActiveLayer(datasetSpec.dataset, currentLayer.id); // datasetId, layerId
+  }
+
   /**
    * Return the action buttons associated to a
    * layer group
@@ -288,16 +296,16 @@ class Legend extends React.PureComponent {
       <div className="item-actions">
         { layerGroup.dataset !== 'c0c71e67-0088-4d69-b375-85297f79ee75'
           && layerGroup.layers.length > 1 && (
-          <button
-            type="button"
-            className="layers"
-            onClick={e => this.onClickLayers(e, layerGroup)}
-            aria-label="Select other layer"
-            ref={(node) => { if (node) this.layersButtons.push(node); }}
-          >
-            <Icon name="icon-layers" />
-          </button>
-        ) }
+            <button
+              type="button"
+              className="layers"
+              onClick={e => this.onClickLayers(e, layerGroup)}
+              aria-label="Select other layer"
+              ref={(node) => { if (node) this.layersButtons.push(node); }}
+            >
+              <Icon name="icon-layers" />
+            </button>
+          ) }
         { !this.props.interactionDisabled
           &&
           <button
@@ -333,14 +341,6 @@ class Legend extends React.PureComponent {
         }
       </div>
     );
-  }
-
-  onTimelineChange(currentValue = 0, datasetSpec) {
-    const currentLayer = datasetSpec.layers.find((l) => {
-      return moment(l.layerConfig.dateTime, 'YYYY-MM-DD').year() === parseInt(currentValue);
-    });
-    this.setState({ currentStepTimeline: currentValue });
-    this.props.setLayerGroupActiveLayer(datasetSpec.dataset, currentLayer.id); // datasetId, layerId
   }
 
   setPlayTimeline(isPlaying, datasetSpec, minValue, maxValue) {

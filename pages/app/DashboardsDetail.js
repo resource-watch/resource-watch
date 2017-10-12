@@ -92,7 +92,9 @@ class DashboardsDetail extends Page {
   render() {
     const { url, user, dashboards, dashboardDetail } = this.props;
     const selectedDashboard = dashboardDetail.data;
-    const dashboardName = selectedDashboard ? `${selectedDashboard.name} dashboard` : 'Dashboard';
+    const dashboardName = selectedDashboard && selectedDashboard.name
+      ? `${selectedDashboard.name} dashboard`
+      : 'Dashboard';
 
     return (
       <Layout
@@ -124,7 +126,7 @@ class DashboardsDetail extends Page {
               </div>
             </div>
 
-            { dashboards.list.length && <div className="row">
+            { !!dashboards.list.length && <div className="row">
               <div className="column small-12">
                 <ul className="dashboards-list">
                   {

@@ -35,7 +35,7 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": [
-          "Cross"
+          "cross"
         ],
         "grid": 16
       },
@@ -43,7 +43,7 @@
       "properties": {
         "order": 261,
         "id": 1,
-        "name": "Cross",
+        "name": "cross",
         "prevSize": 32
       },
       "setIdx": 0,
