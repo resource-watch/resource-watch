@@ -105,7 +105,9 @@ class EmbedWidget extends Page {
           title={'Loading widget...'}
           description={''}
         >
-          <Spinner isLoading className="-light" />
+          <div className="c-embed-widget">
+            <Spinner isLoading className="-light" />
+          </div>
         </EmbedLayout>
       );
     }

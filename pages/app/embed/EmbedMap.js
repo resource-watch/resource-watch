@@ -74,7 +74,9 @@ class EmbedMap extends Page {
           title={'Loading widget...'}
           description={''}
         >
-          <Spinner isLoading={loading} className="-light" />
+          <div className="c-embed-widget">
+            <Spinner isLoading={loading} className="-light" />
+          </div>
         </EmbedLayout>
       );
     }
