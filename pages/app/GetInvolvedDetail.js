@@ -75,6 +75,10 @@ class GetInvolvedDetail extends Page {
     const content = GetInvolvedDetail.getContent(id, selectedData);
     const postContent = this.getPostContent(id, selectedData);
 
+    const breadcrumbsItems = url.query.source === 'home' ?
+      [{ name: 'Home', href: '/' }] :
+      [{ name: 'Get involved', href: '/get-involved' }];
+
     return (
       <Layout
         title={data.title || 'Get Involved detail'}
@@ -87,7 +91,7 @@ class GetInvolvedDetail extends Page {
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content">
-                  <Breadcrumbs items={[{ name: 'Get involved', href: '/get-involved' }]} />
+                  <Breadcrumbs items={breadcrumbsItems} />
                   <h1>{selectedData.title}</h1>
                 </div>
               </div>
