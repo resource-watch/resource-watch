@@ -11,7 +11,17 @@ export default class WidgetService {
 
   fetchData(includes = '') {
     return fetch(`${this.opts.apiURL}/widget/${this.widgetId}?includes=${includes}&page[size]=999`)
-      .then(response => response.json())
+      .then(async (response) => {
+        const data = await response.json();
+
+        if (!response.ok) {
+          const error = (data && data.errors && data.errors.length && data.errors[0].detail)
+            || 'Failed to load the data';
+          throw new Error(error);
+        }
+
+        return data;
+      })
       .then(jsonData => jsonData.data);
   }
 
