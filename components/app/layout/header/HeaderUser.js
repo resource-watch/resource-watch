@@ -81,7 +81,7 @@ class HeaderUser extends React.Component {
               >
                 <li className="header-dropdown-list-item">
                   <Link route="myrw">
-                    <a>Personal Area</a>
+                    <a>Profile</a>
                   </Link>
                 </li>
                 {user.role === 'ADMIN' &&
