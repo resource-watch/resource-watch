@@ -7,6 +7,7 @@ import find from 'lodash/find';
 const INSIGHTS_DATA = [
   {
     tag: 'Signal of the Week',
+    date: 'October 12, 2017',
     title: 'Map: As wildfires burn, nearby air quality suffers in California',
     slug: 'map-as-wildfires-burn-nearby-air-quality-suffers-in-california',
     source: { name: 'World Resources Institute', path: 'http://www.wri.org/', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
@@ -15,6 +16,7 @@ const INSIGHTS_DATA = [
   },
   {
     tag: 'Sept 2, 2017',
+    date: 'Sept 2, 2017',
     title: 'A factory is built in your neighborhood. Can you do anything about it?',
     slug: 'interactive-edi',
     source: { name: 'World Resources Institute', path: 'http://www.wri.org/', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
@@ -23,6 +25,7 @@ const INSIGHTS_DATA = [
   },
   {
     tag: 'Sept 1, 2017',
+    date: 'Sept 1, 2017',
     title: 'Farms to feel squeeze as competition for water increases',
     slug: 'interactive-map',
     source: { name: 'World Resources Institute', path: 'http://www.wri.org/', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
