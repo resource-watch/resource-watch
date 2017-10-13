@@ -18,6 +18,8 @@ const SET_WIDGET_DATASET = 'SET_WIDGET_DATASET';
 const SET_WIDGET_BAND_DESCRIPTION = 'SET_WIDGET_BAND_DESCRIPTION';
 const SET_WIDGET_BAND_STATS = 'SET_WIDGET_BAND_STATS';
 const SET_WIDGET_LAYERGROUPS = 'SET_WIDGET_LAYERGROUPS';
+const SET_WIDGET_ZOOM = 'SET_WIDGET_ZOOM';
+const SET_WIDGET_LATLNG = 'SET_WIDGET_LATLNG';
 
 /**
  * STORE
@@ -28,6 +30,8 @@ const initialState = {
   bandDescription: null, // Description of the band if a raster widget
   bandStats: {}, // Stats about the band if a raster widget
   layerGroups: [], // LayerGroups for the map widgets
+  zoom: 3,
+  latLng: { lat: 0, lng: 0 },
   loading: true, // Are we loading the data?
   error: null // An error was produced while loading the data
 };
@@ -94,6 +98,14 @@ export default function (state = initialState, action) {
         layerGroups: action.payload
       };
       return Object.assign({}, state, widget);
+    }
+
+    case SET_WIDGET_ZOOM: {
+      return Object.assign({}, state, { zoom: action.payload });
+    }
+
+    case SET_WIDGET_LATLNG: {
+      return Object.assign({}, state, { latLng: action.payload });
     }
 
     default:
@@ -182,6 +194,14 @@ function fetchLayer(datasetId, layerId) {
     });
 }
 
+export function setZoom(zoom) {
+  return dispatch => dispatch({ type: SET_WIDGET_ZOOM, payload: zoom });
+}
+
+export function setLatLng(latLng) {
+  return dispatch => dispatch({ type: SET_WIDGET_LATLNG, payload: latLng });
+}
+
 /**
  * Retrieve the list of widgets
  * @param {string} widgetId
@@ -211,6 +231,13 @@ export function getWidget(widgetId) {
         if (isMap) {
           const datasetId = data.attributes.dataset;
           const layerId = widgetConfig.paramsConfig && widgetConfig.paramsConfig.layer;
+          const zoom = widgetConfig.zoom;
+          const latLng = widgetConfig.lat && widgetConfig.lng
+            && { lat: widgetConfig.lat, lng: widgetConfig.lng };
+
+          if (zoom) dispatch(setZoom(zoom));
+          if (latLng) dispatch(setLatLng(latLng));
+
           return dispatch(fetchLayer(datasetId, layerId));
         }
 

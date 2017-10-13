@@ -20,7 +20,9 @@ import {
   setVisualizationType,
   setLayer,
   setAreaIntersection,
-  setTitle
+  setTitle,
+  setZoom,
+  setLatLng
 } from 'components/widgets/editor/redux/widgetEditor';
 import { setDataset } from 'redactions/myrwdetail';
 
@@ -241,7 +243,8 @@ class WidgetsEdit extends React.Component {
   }
 
   loadWidgetIntoRedux() {
-    const { paramsConfig } = this.state.widget.attributes.widgetConfig;
+    const { widgetConfig, name } = this.state.widget.attributes;
+    const { paramsConfig, zoom, lat, lng } = widgetConfig;
     const {
       visualizationType,
       band,
@@ -275,7 +278,9 @@ class WidgetsEdit extends React.Component {
     if (limit) this.props.setLimit(limit);
     if (chartType) this.props.setChartType(chartType);
     if (areaIntersection) this.props.setAreaIntersection(areaIntersection);
-    if (this.state.widget.attributes.name) this.props.setTitle(this.state.widget.attributes.name);
+    if (name) this.props.setTitle(name);
+    if (zoom) this.props.setZoom(zoom);
+    if (lat && lng) this.props.setLatLng({ lat, lng });
   }
 
   @Autobind
@@ -416,7 +421,9 @@ WidgetsEdit.propTypes = {
   setBand: PropTypes.func.isRequired,
   setLayer: PropTypes.func.isRequired,
   setDataset: PropTypes.func.isRequired,
-  setTitle: PropTypes.func.isRequired
+  setTitle: PropTypes.func.isRequired,
+  setZoom: PropTypes.func.isRequired,
+  setLatLng: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -445,7 +452,9 @@ const mapDispatchToProps = dispatch => ({
       // TODO: better handling of the error
       .catch(err => toastr.error('Error', err));
   },
-  setDataset: dataset => dispatch(setDataset(dataset))
+  setDataset: dataset => dispatch(setDataset(dataset)),
+  setZoom: zoom => dispatch(setZoom(zoom)),
+  setLatLng: latLng => dispatch(setLatLng(latLng))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WidgetsEdit);

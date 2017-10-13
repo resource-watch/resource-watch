@@ -84,7 +84,9 @@ class SaveWidgetModal extends React.Component {
       visualizationType,
       band,
       layer,
-      title
+      title,
+      zoom,
+      latLng
     } = widgetEditor;
 
     let chartConfig = {};
@@ -119,11 +121,11 @@ class SaveWidgetModal extends React.Component {
         // If the widget is a map, we want to add some extra info
         // in widgetConfig so the widget is compatible with other
         // apps that use the same API
-        // This info is not necessary for the editor because it is
-        // already saved in widgetConfig.paramsConfig
+        // The type and layer_id are not necessary for the editor
+        // because it is already saved in widgetConfig.paramsConfig
         (
           visualizationType === 'map'
-            ? { type: 'map', layer_id: layer && layer.id }
+            ? { type: 'map', layer_id: layer && layer.id, zoom, ...latLng }
             : {}
         ),
         {
