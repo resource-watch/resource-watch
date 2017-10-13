@@ -158,7 +158,7 @@ class AreaSubscriptionModal extends React.Component {
           <h2>{`${area.attributes.name} subscriptions`}</h2>
         </div>
         <div className="header-text">
-          Select the datasets that you want to subscribe to
+          Select the datasets that you want to subscribe to.
         </div>
         <Spinner isLoading={loading || loadingDatasets} className="-light" />
         <div className="datasets-container">
