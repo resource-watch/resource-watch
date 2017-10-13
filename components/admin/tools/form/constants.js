@@ -10,6 +10,7 @@ export const STATE_DEFAULT = {
     summary: '',
     description: '',
     content: '',
+    url: '',
     // Images
     thumbnail: '',
     // States
