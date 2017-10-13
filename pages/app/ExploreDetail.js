@@ -474,7 +474,7 @@ class ExploreDetail extends Page {
 
                 {metadataInfo && metadataInfo.summary_of_license ? (
                   <div className="l-section-mod">
-                    <h3>Summary of License</h3>
+                    <h3>Summary of license</h3>
                     <p>{metadataInfo.summary_of_license}</p>
                   </div>
                 ) : null}
@@ -497,7 +497,7 @@ class ExploreDetail extends Page {
 
                 {metadataAttributes && metadataAttributes.language ? (
                   <div className="l-section-mod">
-                    <h3>Published Language</h3>
+                    <h3>Published language</h3>
                     <p>{metadataAttributes.language}</p>
                   </div>
                 ) : null}
@@ -564,9 +564,9 @@ class ExploreDetail extends Page {
               <div className="row align-center">
                 <div className="column small-12">
                   <Banner className="partners -text-center">
-                    <p className="-claim">Take the pulse of our planet</p>
+                    <p className="-claim">Take the pulse of our planet.</p>
                     <Link route="pulse">
-                      <a className="c-button -primary -alt">Launch planet pulse</a>
+                      <a className="c-button -primary -alt">Launch Planet Pulse</a>
                     </Link>
                   </Banner>
                 </div>

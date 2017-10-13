@@ -76,8 +76,8 @@ class About extends Page {
             <div className="row align-center">
               <div className="column small-12">
                 <Banner className="-text-center" bgImage={'/static/images/backgrounds/partners-02@2x.jpg'}>
-                  <p className="-claim">We have a massive opportunity<br />to build a sustainable society</p>
-                  <Link to="about_partners"><a className="c-button -alt -primary">Partners list</a></Link>
+                  <p className="-claim">Let’s build a more <br /> sustainable world together.</p>
+                  <Link to="about_partners"><a className="c-button -alt -primary">Partners</a></Link>
                 </Banner>
               </div>
             </div>
