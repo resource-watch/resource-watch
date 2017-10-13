@@ -102,6 +102,13 @@ class DatasetWidget extends React.Component {
     return null;
   }
 
+  getTags() {
+    const { dataset, topicsTree } = this.props;
+    const vocabulary = dataset.attributes.vocabulary && dataset.attributes.vocabulary[0];
+    const tags = vocabulary.attributes.tags;
+    return tags.filter(tag => findTagInSelectorTree(topicsTree, tag));
+  }
+
   /**
    * Add or remove a layer group from the map
    */
@@ -113,10 +120,7 @@ class DatasetWidget extends React.Component {
 
   @Autobind
   handleTagsClick(event) {
-    const { dataset, topicsTree } = this.props;
-    const vocabulary = dataset.attributes.vocabulary && dataset.attributes.vocabulary[0];
-    const tags = vocabulary.attributes.tags;
-    const filteredTags = tags.filter(tag => findTagInSelectorTree(topicsTree, tag));
+    const tags = this.getTags();
 
     const position = DatasetWidget.getClickPosition(event);
     this.props.toggleTooltip(true, {
@@ -126,7 +130,7 @@ class DatasetWidget extends React.Component {
       childrenProps: {
         toggleTooltip: this.props.toggleTooltip,
         onTagClick: this.handleTagClick,
-        tags: filteredTags
+        tags
       }
     });
   }
@@ -191,7 +195,7 @@ class DatasetWidget extends React.Component {
                 </Link>
               </h4>
               {/* Dataset tags link */}
-              {vocabulary &&
+              {vocabulary && this.getTags().length &&
                 <div
                   className="tags-button"
                   onClick={this.handleTagsClick}

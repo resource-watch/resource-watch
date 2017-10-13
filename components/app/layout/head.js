@@ -13,6 +13,7 @@ const TRANSIFEX_BLACKLIST = [
   '/app/embed/EmbedLayer',
   '/app/embed/EmbedMap',
   '/app/embed/EmbedTable',
+  '/app/embed/EmbedText',
   '/app/embed/EmbedWidget'
 ];
 
@@ -29,7 +30,13 @@ class Head extends React.Component {
     /* eslint-enable */
   }
 
-  static getUserReport() {
+  getUserReport() {
+    const { pathname } = this.props.routes;
+
+    if (TRANSIFEX_BLACKLIST.includes(pathname)) {
+      return null;
+    }
+
     return (
       /* eslint-disable */
       <script
@@ -92,7 +99,7 @@ class Head extends React.Component {
         <link rel="icon" href="/static/favicon.ico" />
         <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700" />
         {Head.getStyles()}
-        {Head.getUserReport()}
+        {this.getUserReport()}
         {this.getTransifexSettings()}
         {this.getTransifex()}
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />

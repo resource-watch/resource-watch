@@ -18,6 +18,7 @@ import Tooltip from 'components/ui/Tooltip';
 import Head from 'components/app/layout/head';
 import Modal from 'components/ui/Modal';
 import Toastr from 'react-redux-toastr';
+import Dock from 'components/ui/Dock';
 
 const fullScreenPages = [
   '/app/Explore',
@@ -93,6 +94,8 @@ class Layout extends React.Component {
         {!fullScreen && <Footer />}
 
         <Tooltip />
+
+        <Dock />
 
         <Modal
           open={this.state.modalOpen}
