@@ -8,10 +8,10 @@ const INSIGHTS_DATA = [
   {
     tag: 'Signal of the Week',
     title: 'Map: As wildfires burn, nearby air quality suffers in California',
-    slug: '',
+    slug: 'map-as-wildfires-burn-nearby-air-quality-suffers-in-california',
     source: { name: 'World Resources Institute', path: 'http://www.wri.org/', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
     background: 'url(/static/tempImages/backgrounds/usda_smoke2.jpg) center',
-    body: '/static/insights/interactive-edi.html'
+    body: '/static/insights/map-as-wildfires-burn-nearby-air-quality-suffers-in-california.html'
   },
   {
     tag: 'Sept 2, 2017',
