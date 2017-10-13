@@ -8,6 +8,10 @@
   z-index: 2;
   border-radius: 4px;
 
+  .c-embed-widget & {
+    right: $margin-size-extra-small;
+  }
+
   @media screen and (min-width: $grid-row-width) {
     width: 100%;
     min-width: 400px;
