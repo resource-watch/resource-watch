@@ -55,18 +55,20 @@
 
   .widget-content {
     position: relative;
+    display: flex; // Do not change this without testing (see comment on .c-map)
+    align-items: stretch;
     flex-grow: 1;
     padding: $margin-size-extra-small;
     overflow: hidden;
 
     &.-external {
-      .c-map {
-        height: calc(100% + #{$margin-size-extra-small});
+      .c-map { // Do not change this without testing (see comment on .c-map)
+        height: calc(100% - #{$margin-size-extra-small});
       }
     }
 
     .c-chart {
-      height: 100%;
+      height: auto; // Do not change this without testing (see comment on .c-map)
       display: flex;
       flex-direction: column;
       // In case of a bar chart with scrolling, we need
@@ -89,11 +91,14 @@
     }
 
     .c-map {
-      position: relative;
-      top: -$margin-size-extra-small;
-      left: -$margin-size-extra-small;
-      height: calc(100% + #{2 * $margin-size-extra-small});
-      width: calc(100% + #{2 * $margin-size-extra-small});
+      // Do not change the positionning of this
+      // element without testing it on Chrome and Firefox
+      // in the dashboards AND as a standalone widget
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
 
       // Without this property, the legend is hidden behind
       // the map
