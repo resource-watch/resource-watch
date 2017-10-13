@@ -122,7 +122,7 @@ class SubscribeToDatasetModal extends React.Component {
             });
             if (areaFound) {
               toastr.confirm(`There already exist a subscription for the selected area.
-                Do you want to update it on MyRW? `, {
+                Do you want to update it? `, {
                   onOk: () => {
                     Router.pushRoute('myrw', { tab: 'areas' });
                   },
@@ -292,8 +292,8 @@ class SubscribeToDatasetModal extends React.Component {
       headerText = `Subscribe to ${dataset.attributes.name}`;
     }
     const paragraphText = saved ?
-      'Your subscription was successfully created. Please check your email address to confirm it' :
-      'Please select an area and a subscription type';
+      'Your subscription was successfully created. Please check your email address to confirm it.' :
+      'Please select an area and a subscription type.';
     const subscriptionTypes = Object.keys(dataset.attributes.subscribable)
       .map(val => ({ value: val, label: val }));
 
@@ -369,7 +369,7 @@ class SubscribeToDatasetModal extends React.Component {
               Ok
             </button>
             <button className="c-btn -primary" onClick={this.handleGoToMySubscriptions}>
-              Check my subscriptions
+              View my subscriptions
             </button>
           </div>
         }

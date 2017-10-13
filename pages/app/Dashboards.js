@@ -91,7 +91,7 @@ class Dashboards extends Page {
                 ) }
                 { !error && loading && <Spinner isLoading className="-light" /> }
                 { !loading && !error && (
-                  <h2>Select a topic to start exploring</h2>
+                  <h2>Select a topic to start exploring.</h2>
                 ) }
               </div>
             </div>
