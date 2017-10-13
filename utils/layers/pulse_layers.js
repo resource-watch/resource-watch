@@ -29,23 +29,10 @@ export const LAYERS_PLANET_PULSE = [
         widgets: ['94b43a46-5594-46fe-8484-46e0dd73197b']
       },
       {
-        label: 'Drought Monitor',
-        id: '6f1f8b5d-a6ba-436f-a7bf-b6812d0f3a20',
-        '3d': false,
-        markerType: 'default'
-      },
-      {
         label: 'Potential Landslide Areas',
         id: '50ef9f99-ddca-46b9-bb69-690f0b2ced88',
         '3d': false,
         markerType: 'hemisphere'
-      },
-      {
-        label: 'Current Floods',
-        id: '855a05d1-4af2-4f74-8982-6b74153bc327',
-        '3d': false,
-        markerType: 'default',
-        widgets: ['2b317fa3-8716-4923-9f52-94943c2bced9']
       }
     ]
   },
@@ -94,6 +81,18 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         markerType: 'default'
       },
+      {
+        label: 'Conflict and Protest Events in Asian States',
+        id: '029b6b49-dd20-4172-8842-6cbba6bdaf87',
+        '3d': false,
+        markerType: 'default'
+      },
+      {
+        label: 'Global Database of Events, Language, and Tone',
+        id: 'b51c7412-cb4d-4dab-8eeb-8cc31c131195',
+        '3d': false,
+        markerType: 'default'
+      }
     ]
   },
   {
@@ -105,6 +104,12 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         markerType: 'default',
         widgets: ['349aae2c-d39f-4a9f-8a90-3fe7f73a25ce']
+      },
+      {
+        label: 'Land Surface Temperature Anomaly',
+        id: 'f1d841cb-a959-4b54-8472-e28f794b2c6a',
+        '3d': false,
+        markerType: 'default'
       }
     ]
   }
