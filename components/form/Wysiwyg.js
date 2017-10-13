@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // Components
 import FormElement from './FormElement';
 
-let Editor
+let Editor;
 if (typeof window !== 'undefined') {
   Editor = require('react-quill');
   // require all blots
@@ -76,15 +76,17 @@ class Wysiwyg extends FormElement {
           />
         }
 
-        <Editor
-          ref={(c) => { this.reactQuillRef = c; }}
-          theme="snow"
-          value={value}
-          onChange={this.triggerChange}
-          modules={{
-            ...!!this.props.toolbar && { toolbar: this.props.toolbar.container }
-          }}
-        />
+        {!!Editor &&
+          <Editor
+            ref={(c) => { this.reactQuillRef = c; }}
+            theme="snow"
+            value={value}
+            onChange={this.triggerChange}
+            modules={{
+              ...!!this.props.toolbar && { toolbar: this.props.toolbar.container }
+            }}
+          />
+        }
       </div>
     );
   }
