@@ -9,7 +9,7 @@
 
   &.-arrow {
     &-top {
-      &::after {
+      .tip {
         display: block;
         position: absolute;
         top: -8px;
@@ -26,7 +26,7 @@
     }
 
     &-bottom {
-      &::after {
+      .tip {
         display: block;
         position: absolute;
         bottom: -8px;
