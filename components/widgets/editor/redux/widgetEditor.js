@@ -27,6 +27,8 @@ const SET_BAND = 'widgetEditor/SET_BAND';
 const SET_LAYER = 'widgetEditor/SET_LAYER';
 const SET_TITLE = 'widgetEditor/SET_TITLE';
 const SET_BANDS_INFO = 'widgetEditor/SET_BANDS_INFO';
+const SET_ZOOM = 'widgetEditor/SET_ZOOM';
+const SET_LATLNG = 'widgetEditor/SET_LATLNG';
 
 /**
  * REDUCER
@@ -48,7 +50,9 @@ const initialState = {
   areaIntersection: null, // ID of the geostore object
   band: null, // Band of the raster dataset
   /** @type {{ [name: string]: { type: string, alias: string, description: string } }} */
-  bandsInfo: {} // Information of the raster bands
+  bandsInfo: {}, // Information of the raster bands
+  zoom: 3,
+  latLng: { lat: 0, lng: 0 }
 };
 
 export default function (state = initialState, action) {
@@ -232,6 +236,18 @@ export default function (state = initialState, action) {
       });
     }
 
+    case SET_ZOOM: {
+      return Object.assign({}, state, {
+        zoom: action.payload
+      });
+    }
+
+    case SET_LATLNG: {
+      return Object.assign({}, state, {
+        latLng: action.payload
+      });
+    }
+
     default:
       return state;
   }
@@ -354,4 +370,12 @@ export function setLayer(layer) {
 
 export function setTitle(title) {
   return dispatch => dispatch({ type: SET_TITLE, payload: title });
+}
+
+export function setZoom(zoom) {
+  return dispatch => dispatch({ type: SET_ZOOM, payload: zoom });
+}
+
+export function setLatLng(latLng) {
+  return dispatch => dispatch({ type: SET_LATLNG, payload: latLng });
 }
