@@ -10,6 +10,12 @@ class Tooltip extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      // Horizontal offset of the tooltip's tip from its
+      // initial position (center)
+      tipOffset: 0
+    };
+
     // Bindings
     this.onMouseMove = this.onMouseMove.bind(this);
   }
@@ -25,6 +31,10 @@ class Tooltip extends React.Component {
     if (stopFollowing || isEmpty) {
       document.removeEventListener('mousemove', this.onMouseMove);
     }
+  }
+
+  componentDidUpdate() {
+    requestAnimationFrame(() => this.updateTipPosition());
   }
 
   onMouseMove({ clientX, clientY }) {
@@ -59,6 +69,40 @@ class Tooltip extends React.Component {
     };
   }
 
+  /**
+   * Update the horizontal position of the tooltip's tip based
+   * on the position of the tooltip i.e. if the tooltip is placed
+   * too close to the sides of the screen, the tooltip won't be
+   * cut but the tip must be moved
+   */
+  updateTipPosition() {
+    if (!this.el) return;
+
+    // Position of the target dot from the sides of the screen
+    const target = {
+      left: this.props.tooltip.position.x,
+      right: window.innerWidth - this.props.tooltip.position.x
+    };
+
+    // Horizontal offset that must be applied to the tooltip's
+    // tip when pinned to a side (when the tooltip should be
+    // partially hidden on one of its sides but the library
+    // prevent it)
+    let tipOffset = 0;
+
+    const width = this.el.parentNode.getBoundingClientRect().width;
+
+    if (width / 2 > target.left) {
+      tipOffset = target.left - (width / 2);
+    } else if (width / 2 > target.right) {
+      tipOffset = (width / 2) - target.right;
+    }
+
+    if (tipOffset !== this.state.tipOffset) {
+      this.setState({ tipOffset });
+    }
+  }
+
   render() {
     const direction = this.props.tooltip.direction;
 
@@ -75,10 +119,14 @@ class Tooltip extends React.Component {
         attachment={`${direction} center`}
         targetAttachment="top center"
         constraints={[{
-          // Don't use the "together attachement" without making sure
-          // the tooltip doesn't disappear in an embedded widget when
-          // the cursor is at the top of the iframe
-          to: 'scrollParent'
+          // Don't change this without making sure the tooltip doesn't
+          // disappear in an embedded widget when the cursor is at the
+          // top of the iframe or when the tooltip is close to the edges
+          // of the screen
+          to: 'window',
+          // We don't pin at the top or the bottom because the tooltip
+          // is either displayed above or below the target
+          pin: ['left', 'right']
         }]}
         classes={{
           element: tooltipClasses
@@ -89,7 +137,10 @@ class Tooltip extends React.Component {
           style={this.getStyles()}
         />
         { this.props.tooltip.opened &&
-          <div ref={(node) => { this.el = node; }}>{this.getContent()}</div>
+          <div ref={(node) => { this.el = node; }}>
+            {this.getContent()}
+            <div className="tip" style={{ left: `calc(50% + (${this.state.tipOffset}px))` }} />
+          </div>
         }
       </TetherComponent>
     );

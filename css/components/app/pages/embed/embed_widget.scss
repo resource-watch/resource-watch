@@ -1,36 +1,142 @@
+/*
+  This is the general layout of a widget:
+
+  +----------------------------------+
+  |      .widget-title (auto ↕)      |
+  +----------------------------------+
+  |                                  |
+  |     .widget-content (grow ↕)     |
+  |                                  |
+  +----------------------------------+
+  |     .widget-footer (auto ↕)      |
+  +----------------------------------+
+
+*/
+
+
 .c-embed-widget {
   position: relative; // Limit the scope of the map and spinner
+
+  // We use all the space available of the
+  // iframe and prevent any scroll
   width: 100%;
-  height: 100%;
-  min-height: 150px;
+  height: 100vh;
+  overflow: hidden;
+
+  // We share the vertical space between
+  // the title and the widget
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid $border-color-1;
+  border-radius: 4px;
 
   .widget-title {
+    position: relative;
+    flex-shrink: 0;
     padding: $margin-size-extra-small;
     border-bottom: 1px solid $border-color-1;
 
-    h1, h2, h3, h4, p {
+    h1, h2, h3, h4 {
+      display: inline-block;
       margin-bottom: 0;
+      padding-right: 20px;
+    }
+
+    button {
+      position: absolute;
+      top: #{$margin-size-extra-small + 4px};
+      right: $margin-size-extra-small;
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
     }
   }
 
   .widget-content {
-    position: relative; // Needed to position the legend of the map
-    margin: $margin-size-extra-small;
+    position: relative;
+    flex-grow: 1;
+    padding: $margin-size-extra-small;
+    overflow: hidden;
+
+    &.-external {
+      .c-map {
+        height: calc(100% + #{$margin-size-extra-small});
+      }
+    }
+
+    .c-chart {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      // In case of a bar chart with scrolling, we need
+      // to use an overflow
+      overflow-x: auto;
+      max-width: 100%;
+
+      .chart {
+        height: 100%;
+
+        .vega {
+          height: 100%;
+
+          canvas {
+            display: block; // Prevent a UA margin
+            margin: 0 auto;
+          }
+        }
+      }
+    }
+
+    .c-map {
+      position: relative;
+      top: -$margin-size-extra-small;
+      left: -$margin-size-extra-small;
+      height: calc(100% + #{2 * $margin-size-extra-small});
+      width: calc(100% + #{2 * $margin-size-extra-small});
+
+      // Without this property, the legend is hidden behind
+      // the map
+      .leaflet-pane {
+        z-index: 1;
+      }
+    }
+
+    .widget-modal {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: $margin-size-extra-small;
+      z-index: 3;
+      background-color: $white;
+      overflow-x: hidden;
+      overflow-y: auto;
+
+      > div {
+        margin-bottom: $margin-size-extra-small;
+      }
+
+      h4 {
+        color: $base-font-color;
+      }
+    }
   }
 
-  .widget-description {
-    padding: $margin-size-extra-small;
-  }
+  .widget-footer {
+    flex-shrink: 0;
+    padding: 0 $margin-size-extra-small $margin-size-extra-small;
 
-  .band-information {
-    margin-top: 10px;
-    padding: $margin-size-extra-small;
+    .embed-logo {
+      display: block;
+      height: 21px;
+    }
   }
 
   .c-table {
     position: relative;
     min-height: 100px;
-    margin: 20px $margin-size-extra-small;
 
     table {
       display: block;
@@ -45,76 +151,6 @@
       th, td {
         display: inline-block;
         width: calc(100% / 6);
-      }
-    }
-  }
-
-  // > div > .info { // Without that much specificity, we break the legend
-  //   margin-top: 20px;
-
-  //   .widget-title {
-  //     display: flex;
-  //     justify-content: center;
-  //     align-items: center;
-  //   }
-
-  //   .widget-description {
-  //     display: flex;
-  //     justify-content: center;
-  //     align-items: center;
-  //   }
-
-  //   a {
-  //     text-decoration: none;
-  //   }
-  // }
-
-  .c-map {
-    height: 300px;
-    position: relative;
-
-    // Without this property, the legend is hidden behind
-    // the map
-    .leaflet-pane {
-      z-index: 1;
-    }
-  }
-
-  .embed-logo {
-    margin: $margin-size-extra-small;
-  }
-
-  .c-chart {
-    // The pie and bar chart will overflow without
-    // this property because they auto determine the
-    // space they need
-    height: auto;
-    // For the other charts, we need a minimum height
-    // and to make the container "flex" so we force the
-    // chart to use at least the min-height
-    min-height: 300px;
-    display: flex;
-    flex-direction: column;
-    // In case of a bar chart with scrolling, we need
-    // to use an overflow
-    overflow-x: auto;
-    max-width: 100%;
-
-    .chart {
-      // For smaller charts than the 300px, we center them
-      // both vertically and horizontally
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-
-      // This is needed for the scatter and 1d_* charts
-      // in order to take the whole 300px vertically
-      flex-basis: 100%;
-      flex-grow: 1;
-
-      .vega {
-        text-align: center;
-        height: 300px;
       }
     }
   }

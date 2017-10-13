@@ -2,6 +2,9 @@ import React from 'react';
 import withRedux from 'next-redux-wrapper';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import { initStore } from 'store';
+import { setUser } from 'redactions/user';
+import { setRouter } from 'redactions/routes';
+
 import { getInsightBySlug } from 'redactions/insights';
 
 // Layout
@@ -9,9 +12,13 @@ import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 
 class InsightsDetail extends Page {
-  componentDidMount() {
-    super.componentDidMount();
-    this.props.getInsightBySlug(this.props.url.query.slug);
+  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
+    const { user } = isServer ? req : store.getState();
+    const url = { asPath, pathname, query };
+    store.dispatch(setUser(user));
+    store.dispatch(setRouter(url));
+    await store.dispatch(getInsightBySlug(query.slug));
+    return { user, isServer, url };
   }
 
   render() {
@@ -42,6 +49,7 @@ class InsightsDetail extends Page {
         </div>
 
         <section>
+          {/* Temporary solution.... */}
           <iframe title={insight.title} src={insight.body} width="100%" height={800} frameBorder="0" />
         </section>
       </Layout>
