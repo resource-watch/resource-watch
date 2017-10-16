@@ -17,7 +17,7 @@ const TRANSIFEX_BLACKLIST = [
   '/app/embed/EmbedWidget'
 ];
 
-class Head extends React.Component {
+class Head extends React.PureComponent {
   static getStyles() {
     if (process.env.NODE_ENV === 'production') {
       // In production, serve pre-built CSS file from /styles/{version}/main.css
@@ -110,6 +110,17 @@ class Head extends React.Component {
     return <script type="text/javascript" src="//cdn.transifex.com/live.js" />;
   }
 
+  getAddSearchConfig() {
+    const { pathname } = this.props.routes;
+    const { dataset } = this.props;
+
+    if (pathname === '/app/ExploreDetail' && dataset && !dataset.published) {
+      return <meta name="robots" content="noindex" />;
+    }
+
+    return null;
+  }
+
   render() {
     const { title, description, category } = this.props;
 
@@ -129,6 +140,7 @@ class Head extends React.Component {
         {this.getUserReport()}
         {this.getTransifexSettings()}
         {this.getTransifex()}
+        {this.getAddSearchConfig()}
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
       </HeadNext>
     );
@@ -144,6 +156,7 @@ Head.propTypes = {
 
 export default connect(
   state => ({
+    dataset: state.exploreDataset.data,
     routes: state.routes
   })
 )(Head);
