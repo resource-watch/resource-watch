@@ -293,4 +293,38 @@ export default class UserService {
     })
       .then(response => response.json());
   }
+
+  uploadPhoto(file, user) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const bodyObj = {
+          data: {
+            attributes: {
+              user_id: user.id,
+              avatar: reader.result
+            }
+          }
+        };
+
+        return fetch(`${process.env.API_URL}/profiles`, {
+          method: 'POST',
+          body: JSON.stringify(bodyObj),
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: user.token
+          }
+        })
+          .then(response => response.json())
+          .then((jsonData) => {
+            console.log(jsonData);
+          });
+
+      };
+      reader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  }
 }

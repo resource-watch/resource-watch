@@ -57,7 +57,19 @@ class FileImage extends FormElement {
       dropzoneActive: false
     }, () => {
       if (accepted.length) {
-        this.getBase64(accepted[0]);
+        switch (this.props.mode) {
+          case 'image':
+            this.getBase64(accepted[0]);
+            break;
+          case 'url':
+            this.props.getUrlImage(accepted[0])
+              .then(() => {
+                console.log('success');
+              });
+            break;
+          default:
+            this.getBase64(accepted[0]);
+        }
       }
     });
   }

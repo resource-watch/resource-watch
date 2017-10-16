@@ -144,6 +144,8 @@ class MyRWEditProfile extends React.Component {
                     this.handleFormChange({ photo: value });
                   }}
                   className="-fluid"
+                  mode="url"
+                  getUrlImage={file => this.userService.uploadPhoto(file, user)}
                   properties={{
                     name: 'photo',
                     label: 'Photo',
