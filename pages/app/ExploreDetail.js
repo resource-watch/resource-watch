@@ -8,7 +8,9 @@ import { toastr } from 'react-redux-toastr';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import { setTopicsTree } from 'redactions/explore';
 import { resetDataset } from 'redactions/exploreDetail';
+import { getDataset } from 'redactions/exploreDataset';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 import {
@@ -30,7 +32,7 @@ import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
 // Next
-import { Link } from 'routes';
+import { Link, Router } from 'routes';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -56,6 +58,7 @@ class ExploreDetail extends Page {
     const url = { asPath, pathname, query };
     store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
+    await store.dispatch(getDataset(url.query.id));
     return { user, isServer, url };
   }
 
@@ -63,10 +66,10 @@ class ExploreDetail extends Page {
     super(props);
 
     this.state = {
-      similarDatasetsLoaded: false,
-      similarDatasets: [],
       dataset: null,
       loading: false,
+      similarDatasetsLoaded: false,
+      similarDatasets: [],
       showDescription: false,
       showFunction: false,
       showCautions: false
@@ -87,6 +90,7 @@ class ExploreDetail extends Page {
   componentDidMount() {
     this.getDataset();
     this.getSimilarDatasets();
+    this.loadTopicsTree();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -115,7 +119,20 @@ class ExploreDetail extends Page {
    * HELPERS
    * - getDataset
    * - getSimilarDatasets
+   * - loadTopicsTree
   */
+  loadTopicsTree() {
+    const { topicsTree } = this.props;
+
+    if (!topicsTree) {
+      fetch(new Request('/static/data/TopicsTreeLite.json', { credentials: 'same-origin' }))
+        .then(response => response.json())
+        .then((data) => {
+          // Save the topics tree as variable for later use
+          this.props.setTopicsTree(data);
+        });
+    }
+  }
   getDataset() {
     this.setState({
       loading: true
@@ -151,7 +168,7 @@ class ExploreDetail extends Page {
           });
 
         if (similarDatasets.length > 0) {
-          DatasetService.getDatasets(similarDatasets, 'widget,metadata,layer')
+          DatasetService.getDatasets(similarDatasets, 'widget,metadata,layer,vocabulary')
             .then((data) => {
               this.setState({
                 similarDatasetsLoaded: true,
@@ -247,6 +264,14 @@ class ExploreDetail extends Page {
     this.props.setModalOptions(options);
   }
 
+  handleTagSelected(tag) {
+    const topicsSt = `["${tag}"]`;
+    // TO-DO
+    // THIS MUST BE FIXED SO THAT IT USES THE ROUTER INSTEAD!!
+    window.location = `/data/explore?topics=${topicsSt}`;
+    //Router.pushRoute('explore', { topics: topicsSt });
+  }
+
   shortenerText(text = '', fieldToManage, limitChar = 0) {
     const localText = text || '';
     if ((localText || '').length <= limitChar) {
@@ -292,6 +317,8 @@ class ExploreDetail extends Page {
     const formattedDescription = this.shortenerText(description, 'showDescription', LIMIT_CHAR_DESCRIPTION);
     const formattedFunctions = this.shortenerText(functions, 'showFunction', LIMIT_CHAR_DESCRIPTION);
     const formattedCautions = this.shortenerText(cautions, 'showCautions', LIMIT_CHAR_DESCRIPTION);
+
+
 
     return (
       <Layout
@@ -398,7 +425,7 @@ class ExploreDetail extends Page {
               <WidgetEditor
                 dataset={dataset.id}
                 mode="dataset"
-                showSaveButton={user && user.id}
+                showSaveButton={(user && user.id)}
                 showNotLoggedInText
               />
             }
@@ -468,7 +495,14 @@ class ExploreDetail extends Page {
                 {metadataInfo && metadataInfo.license ? (
                   <div className="l-section-mod">
                     <h3>License</h3>
-                    <p>{metadataInfo.license}</p>
+                    <p>
+                      {!!metadataInfo.license_link &&
+                        <a href={metadataInfo.license_link} target="_blank" rel="noopener noreferrer">{metadataInfo.license}</a>
+                      }
+                      {!metadataInfo.license_link &&
+                        metadataInfo.license
+                      }
+                    </p>
                   </div>
                 ) : null}
 
@@ -528,6 +562,7 @@ class ExploreDetail extends Page {
                         list={similarDatasets}
                         mode="grid"
                         showActions={false}
+                        onTagSelected={this.handleTagSelected}
                       />
                       }
                     </div>
@@ -593,6 +628,7 @@ ExploreDetail.propTypes = {
 const mapStateToProps = state => ({
   // Store
   user: state.user,
+  topicsTree: state.explore.topicsTree,
   exploreDetail: state.exploreDetail,
   layersShown: updateLayersShown(state),
   widgetEditor: PropTypes.object,
@@ -609,7 +645,8 @@ const mapStateToProps = state => ({
   setVisualizationType: PropTypes.func.isRequired,
   setBand: PropTypes.func.isRequired,
   setLayer: PropTypes.func.isRequired,
-  setTitle: PropTypes.func.isRequired
+  setTitle: PropTypes.func.isRequired,
+  setTopicsTree: PropTypes.func.isRequired
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -636,7 +673,8 @@ const mapDispatchToProps = dispatch => ({
       // TODO: better handling of the error
       .catch(err => toastr.error('Error', err));
   },
-  setTitle: title => dispatch(setTitle(title))
+  setTitle: title => dispatch(setTitle(title)),
+  setTopicsTree: tree => dispatch(setTopicsTree(tree))
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);

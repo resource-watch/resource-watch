@@ -1,11 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'routes';
-import CompoundMenu from 'components/ui/CompoundMenu';
-import Carousel from 'components/ui/Carousel';
+
+// Redux
+import { connect } from 'react-redux';
 import { getPartners } from 'redactions/admin/partners';
 
-import { connect } from 'react-redux';
+// Components
+import CompoundMenu from 'components/ui/CompoundMenu';
+import Carousel from 'components/ui/Carousel';
+import Icon from 'components/ui/Icon';
 
 const data = [
   { name: 'Data', route: 'explore' },
@@ -75,6 +79,21 @@ class Footer extends React.Component {
             </div>
           </div>
           <CompoundMenu items={menuData} />
+        </div>
+
+        <div className="footer-social">
+          <ul>
+            <li>
+              <a href="https://twitter.com/resource_watch" target="_blank" rel="noopener noreferrer">
+                <Icon name="icon-twitter" />
+              </a>
+            </li>
+            <li>
+              <a href="https://www.facebook.com/ResourceWatch/" target="_blank" rel="noopener noreferrer">
+                <Icon name="icon-facebook" />
+              </a>
+            </li>
+          </ul>
         </div>
 
         <div className="footer-intro">

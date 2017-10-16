@@ -165,6 +165,9 @@ class LayerCard extends React.Component {
               Subscribe to alerts
             </button>
           }
+          { subscribable && !userLoggedIn &&
+            <span className="subscribe-text">Log in to subscribe</span>
+          }
         </div>
       </div>
     );

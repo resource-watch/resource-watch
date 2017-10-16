@@ -32,7 +32,8 @@ export const LAYERS_PLANET_PULSE = [
         label: 'Potential Landslide Areas',
         id: '50ef9f99-ddca-46b9-bb69-690f0b2ced88',
         '3d': false,
-        markerType: 'hemisphere'
+        markerType: 'hemisphere',
+        widgets: ['279f8f52-83df-417d-a32e-f433c49e3288']
       }
     ]
   },
@@ -69,13 +70,6 @@ export const LAYERS_PLANET_PULSE = [
     label: 'Society',
     layers: [
       {
-        label: 'News Sources',
-        id: '2b7d5bca-bdcc-4d75-9901-155eebf9bb8c',
-        '3d': true,
-        markerType: 'hemisphere',
-        widgets: ['90e0c611-8b01-433a-b086-cadfc0127a45']
-      },
-      {
         label: 'Conflict and Protest Events in African States',
         id: 'b508a5f8-28f2-41c6-b0f7-eac918083062',
         '3d': false,
@@ -104,12 +98,6 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         markerType: 'default',
         widgets: ['349aae2c-d39f-4a9f-8a90-3fe7f73a25ce']
-      },
-      {
-        label: 'Land Surface Temperature Anomaly',
-        id: 'f1d841cb-a959-4b54-8472-e28f794b2c6a',
-        '3d': false,
-        markerType: 'default'
       }
     ]
   }

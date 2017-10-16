@@ -34,13 +34,13 @@ class Layout extends React.Component {
     this.props.setUser(this.props.user);
 
     Router.onRouteChangeStart = () => {
-      Progress.show();
+      if (Progress && Progress.Component.instance) Progress.show();
       this.props.toggleTooltip(false);
       this.props.updateIsLoading(true);
     };
     Router.onRouteChangeComplete = () => {
       this.props.updateIsLoading(false);
-      Progress.hideAll();
+      if (Progress && Progress.Component.instance) Progress.hideAll();
     };
   }
 
