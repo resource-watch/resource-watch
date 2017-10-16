@@ -246,8 +246,9 @@ export default class DatasetService {
     document.body.removeChild(a);
   }
 
-  getSimilarDatasets() {
-    return fetch(`${this.opts.apiURL}/graph/query/similar-dataset/${this.datasetId}?published=true&env=production,preproduction&app=rw&limit=6`)
+  getSimilarDatasets(withAncestors = true) {
+    const endpoint = withAncestors ? 'similar-dataset-including-descendent' : 'similar-dataset';
+    return fetch(`${this.opts.apiURL}/graph/query/${endpoint}/${this.datasetId}?published=true&env=production,preproduction&app=rw&limit=6`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
