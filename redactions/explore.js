@@ -247,7 +247,7 @@ export default function (state = initialState, action) {
 
     case SET_SIDEBAR: {
       return Object.assign({}, state, {
-        sidebar: action.payload
+        sidebar: Object.assign({}, state.sidebar, action.payload)
       });
     }
 
