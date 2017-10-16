@@ -58,21 +58,6 @@ class DashboardsDetail extends Page {
   }
 
   /**
-   * Checks whether the widget is one the user favourites
-   * @param {string} widgetId Widget's ID
-   * @returns {boolean}
-   */
-  isFavourite(widgetId) {
-    if (this.props.user && this.props.user.favourites) {
-      const { favourites } = this.props.user;
-      const isFavourite = favourites
-        && favourites.find(val => val.attributes.resourceId === widgetId);
-      return !!(isFavourite);
-    }
-    return false;
-  }
-
-  /**
    * Event handler executed when a different dashboard is selected
    * @param {string} slug Slug of the selected dashboard
    */
@@ -185,7 +170,6 @@ class DashboardsDetail extends Page {
                       key={widget.name || widget.widgetId}
                       widgetId={widget.widgetId}
                       categories={widget.categories}
-                      isFavourite={this.isFavourite(widget.widgetId)}
                       name={widget.name}
                       data={widget.data}
                     />
