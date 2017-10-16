@@ -12,13 +12,26 @@ import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 
 class InsightsDetail extends Page {
-  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
-    const { user } = isServer ? req : store.getState();
-    const url = { asPath, pathname, query };
-    store.dispatch(setUser(user));
-    store.dispatch(setRouter(url));
-    await store.dispatch(getInsightBySlug(query.slug));
-    return { user, isServer, url };
+  state = {
+    height: 800
+  }
+
+  componentDidMount() {
+    this.props.getInsightBySlug(this.props.url.query.slug);
+  }
+
+  onLoadIframe = () => {
+    const iFrameID = document.getElementById('iframe-id');
+
+    if (iFrameID) {
+      // // here you can make the height, I delete it first, then I make it again
+      iFrameID.height = '';
+      iFrameID.height = `${iFrameID.contentWindow.document.body.scrollHeight}px`;
+
+      this.setState({
+        height: iFrameID.contentWindow.document.body.scrollHeight
+      });
+    }
   }
 
   render() {
@@ -42,6 +55,13 @@ class InsightsDetail extends Page {
                 <div className="page-header-content">
                   <Breadcrumbs items={[{ name: 'Blog', href: '/blog' }]} />
                   <h1>{ insight.title }</h1>
+
+                  <div className="page-header-info">
+                    <ul>
+                      <li>{insight.date}</li>
+                    </ul>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -50,7 +70,7 @@ class InsightsDetail extends Page {
 
         <section>
           {/* Temporary solution.... */}
-          <iframe title={insight.title} src={insight.body} width="100%" height={800} frameBorder="0" />
+          <iframe id="iframe-id" title={insight.title} src={insight.body} width="100%" height={this.state.height} frameBorder="0" onLoad={this.onLoadIframe} />
         </section>
       </Layout>
     );

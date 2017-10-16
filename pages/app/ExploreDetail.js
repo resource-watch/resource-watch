@@ -10,6 +10,7 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { setTopicsTree } from 'redactions/explore';
 import { resetDataset } from 'redactions/exploreDetail';
+import { getDataset } from 'redactions/exploreDataset';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 import {
@@ -57,6 +58,7 @@ class ExploreDetail extends Page {
     const url = { asPath, pathname, query };
     store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
+    await store.dispatch(getDataset(url.query.id));
     return { user, isServer, url };
   }
 
@@ -64,10 +66,10 @@ class ExploreDetail extends Page {
     super(props);
 
     this.state = {
-      similarDatasetsLoaded: false,
-      similarDatasets: [],
       dataset: null,
       loading: false,
+      similarDatasetsLoaded: false,
+      similarDatasets: [],
       showDescription: false,
       showFunction: false,
       showCautions: false
@@ -312,6 +314,8 @@ class ExploreDetail extends Page {
     const formattedDescription = this.shortenerText(description, 'showDescription', LIMIT_CHAR_DESCRIPTION);
     const formattedFunctions = this.shortenerText(functions, 'showFunction', LIMIT_CHAR_DESCRIPTION);
     const formattedCautions = this.shortenerText(cautions, 'showCautions', LIMIT_CHAR_DESCRIPTION);
+
+
 
     return (
       <Layout

@@ -209,30 +209,32 @@ class Home extends Page {
         </section>
 
         <Banner className="get-involved" bgImage={'/static/images/backgrounds/mod_getInvolved.jpg'}>
-          <div className="l-row row">
-            <div className="column small-12 medium-6">
-              <h2>Get involved</h2>
-              <p>
-                We{'’'}ve brought together the best datasets related to natural resources,
-                so you can find new insights, influence decisions and change the world.
-                There{'’'}s a world of opportunity to take this futher. Here are
-                some ideas to get you started.
-              </p>
-            </div>
-          </div>
-          <div className="buttons">
+          <div className="l-container">
             <div className="l-row row">
-              <div className="column small-12 medium-3">
-                <Link route="get_involved_detail" params={{ id: 'contribute-data', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Contribute data</a></Link>
+              <div className="column small-12 medium-6">
+                <h2>Get involved</h2>
+                <p>
+                  We{'’'}ve brought together the best datasets related to natural resources,
+                  so you can find new insights, influence decisions and change the world.
+                  There{'’'}s a world of opportunity to take this futher. Here are
+                  some ideas to get you started.
+                </p>
               </div>
-              <div className="column small-12 medium-3">
-                <Link route="get_involved_detail" params={{ id: 'join-community', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Join the community</a></Link>
-              </div>
-              <div className="column small-12 medium-3">
-                <Link route="get_involved_detail" params={{ id: 'submit-an-insight', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Submit a story</a></Link>
-              </div>
-              <div className="column small-12 medium-3">
-                <Link route="get_involved_detail" params={{ id: 'develop-app', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Develop your app</a></Link>
+            </div>
+            <div className="buttons">
+              <div className="l-row row">
+                <div className="column small-12 medium-3">
+                  <Link route="get_involved_detail" params={{ id: 'contribute-data', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Contribute data</a></Link>
+                </div>
+                <div className="column small-12 medium-3">
+                  <Link route="get_involved_detail" params={{ id: 'join-community', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Join the community</a></Link>
+                </div>
+                <div className="column small-12 medium-3">
+                  <Link route="get_involved_detail" params={{ id: 'submit-an-insight', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Submit a story</a></Link>
+                </div>
+                <div className="column small-12 medium-3">
+                  <Link route="get_involved_detail" params={{ id: 'develop-app', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Develop your app</a></Link>
+                </div>
               </div>
             </div>
           </div>
