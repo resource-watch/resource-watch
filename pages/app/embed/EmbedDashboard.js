@@ -123,7 +123,11 @@ class DashboardsDetail extends Page {
                       key={widget.name || widget.widgetId}
                       widgetId={widget.widgetId}
                       categories={widget.categories}
-                      isFavourite={this.isFavourite(widget.widgetId)}
+                      /*
+                        This prop has changed, check DashboardCard to see
+                        how it works
+                        isFavourite={this.isFavourite(widget.widgetId)}
+                      */
                       name={widget.name}
                       data={widget.data}
                     />

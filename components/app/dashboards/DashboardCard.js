@@ -32,7 +32,7 @@ class DashboardCard extends React.Component {
       name: null, // Name of the widget
       widgetConfig: null, // Vega config of the widget
       layers: [], // Map's layers
-      isFavourite: props.isFavourite
+      favourite: this.getFavourite(props)
     };
 
     // Services
@@ -46,9 +46,9 @@ class DashboardCard extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isFavourite !== this.state.isFavourite) {
+    if (nextProps.favourites !== this.state.favourites) {
       this.setState({
-        isFavourite: nextProps.isFavourite
+        favourite: this.getFavourite(nextProps)
       });
     }
   }
@@ -65,6 +65,16 @@ class DashboardCard extends React.Component {
     });
 
     this.setState({ layers: [...layerGroups] });
+  }
+
+  /**
+   * If the widget has been favourited, return the "favourite" object,
+   * null otherwise
+   * @param {any} props
+   * @returns {any}
+   */
+  getFavourite(props) { // eslint-disable-line class-methods-use-this
+    return props.favourites.find(f => f.attributes.resourceId === props.widgetId);
   }
 
   /**
@@ -148,24 +158,25 @@ class DashboardCard extends React.Component {
 
   @Autobind
   handleFavouriteClick() {
-    const { isFavourite, widgetId, user } = this.props;
-    this.setState({
-      loading: true
-    });
-    if (isFavourite) {
-      this.userService.deleteFavourite(isFavourite.id, user.token)
+    const { favourite } = this.state;
+    const { widgetId, user } = this.props;
+
+    this.setState({ loading: true });
+
+    if (favourite) {
+      this.userService.deleteFavourite(favourite.id, user.token)
         .then(() => {
           this.setState({
-            isFavourite: false,
+            favourite: null,
             loading: false
           });
         })
         .catch(err => toastr.error('Error', err));
     } else {
       this.userService.createFavouriteWidget(widgetId, user.token)
-        .then(() => {
+        .then((res) => {
           this.setState({
-            isFavourite: true,
+            favourite: res.data,
             loading: false
           });
         })
@@ -174,13 +185,13 @@ class DashboardCard extends React.Component {
   }
 
   render() {
-    const { isFavourite } = this.state;
+    const { favourite } = this.state;
     const widgetConfig = this.getWidgetConfig();
 
     // Type of the widget: "vega", "text" or "map"
     const widgetType = (widgetConfig && widgetConfig.type) || 'vega';
 
-    const iconName = (isFavourite && isFavourite.id) ? 'star-full' : 'star-empty';
+    const iconName = favourite ? 'star-full' : 'star-empty';
 
     return (
       <div className="c-dashboard-card">
@@ -255,9 +266,9 @@ class DashboardCard extends React.Component {
 DashboardCard.propTypes = {
   widgetId: PropTypes.string,
   categories: PropTypes.arrayOf(PropTypes.string).isRequired,
-  isFavourite: PropTypes.bool.isRequired,
   // Redux
   user: PropTypes.object.isRequired,
+  favourites: PropTypes.array,
   // NOTE:
   // The following props will be deprecated once the dashboards
   // have all of their widgets in the API
@@ -266,7 +277,8 @@ DashboardCard.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  favourites: state.user.favourites
 });
 
 const mapDispatchToProps = () => ({});
