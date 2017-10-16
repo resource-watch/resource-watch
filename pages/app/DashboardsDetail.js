@@ -2,7 +2,6 @@ import React from 'react';
 import classnames from 'classnames';
 import renderHTML from 'react-render-html';
 import isEmpty from 'lodash/isEmpty';
-import isEqual from 'lodash/isEqual';
 
 // Router
 import { Router } from 'routes';
@@ -56,21 +55,6 @@ class DashboardsDetail extends Page {
     if (this.props.url.query.slug !== prevProps.url.query.slug) {
       this.props.getDashboard(this.props.url.query.slug);
     }
-  }
-
-  /**
-   * Checks whether the widget is one the user favourites
-   * @param {string} widgetId Widget's ID
-   * @returns {boolean}
-   */
-  isFavourite(widgetId) {
-    if (this.props.user && this.props.user.favourites) {
-      const { favourites } = this.props.user;
-      const isFavourite = favourites
-        && favourites.find(val => val.attributes.resourceId === widgetId);
-      return !!(isFavourite);
-    }
-    return false;
   }
 
   /**
@@ -186,7 +170,6 @@ class DashboardsDetail extends Page {
                       key={widget.name || widget.widgetId}
                       widgetId={widget.widgetId}
                       categories={widget.categories}
-                      isFavourite={this.isFavourite(widget.widgetId)}
                       name={widget.name}
                       data={widget.data}
                     />
