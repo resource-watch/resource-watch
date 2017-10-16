@@ -30,15 +30,14 @@ class ChartEditor extends React.Component {
 
   @Autobind
   handleSaveWidget() {
-    const { dataset, datasetType, datasetProvider, tableName, title } = this.props;
+    const { dataset, datasetType, datasetProvider, tableName } = this.props;
     const options = {
       children: SaveWidgetModal,
       childrenProps: {
         dataset,
         datasetType,
         datasetProvider,
-        tableName,
-        title
+        tableName
       }
     };
     this.props.toggleModal(true);
@@ -78,7 +77,8 @@ class ChartEditor extends React.Component {
       hasGeoInfo,
       showEmbedTable,
       showLimitContainer,
-      showOrderByContainer
+      showOrderByContainer,
+      showNotLoggedInText
     } = this.props;
     const { chartType, fields, category, value } = widgetEditor;
     const showSaveButtonFlag =
@@ -165,6 +165,11 @@ class ChartEditor extends React.Component {
             Save widget
           </a>
           }
+          {!showSaveButton && showNotLoggedInText &&
+            <span className="not-logged-in-text">
+              Please log in to save changes
+            </span>
+          }
           {tableViewMode && showEmbedTable &&
             <a
               role="button"
@@ -189,11 +194,11 @@ ChartEditor.propTypes = {
   mode: PropTypes.oneOf(['save', 'update']).isRequired,
   tableName: PropTypes.string.isRequired,
   hasGeoInfo: PropTypes.bool.isRequired,
-  title: PropTypes.string, // Default title when saving the widget
   jiminy: PropTypes.object,
   dataset: PropTypes.string.isRequired, // Dataset ID
   datasetType: PropTypes.string,
   datasetProvider: PropTypes.string,
+  showNotLoggedInText: PropTypes.bool,
   tableViewMode: PropTypes.bool.isRequired,
   showSaveButton: PropTypes.bool.isRequired,
   showEmbedTable: PropTypes.bool,

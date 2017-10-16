@@ -55,10 +55,6 @@ class VegaChart extends React.Component {
     || !isEqual(nextState.vegaConfig, this.state.vegaConfig);
   }
 
-  componentDidUpdate() {
-    this.renderChart();
-  }
-
   componentWillUnmount() {
     this.mounted = false;
     window.removeEventListener('resize', this.triggerResize);
@@ -351,7 +347,7 @@ class VegaChart extends React.Component {
       // we don't do anything
       if (err || !this.mounted) {
         this.toggleLoading(false);
-        return;
+        throw Error(err);
       }
 
       // We render the chart
@@ -387,7 +383,7 @@ class VegaChart extends React.Component {
     this.getVegaConfig()
       .then(vegaConfig => this.setState({ vegaConfig }))
       .then(() => this.parseVega())
-      .catch(err => toastr.error('Error', err)); // TODO: UI feedback
+      .catch(err => console.error(err));
   }
 
   render() {

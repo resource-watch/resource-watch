@@ -4,26 +4,16 @@ import PropTypes from 'prop-types';
 // Redux
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { toggleModal, setModalOptions } from 'redactions/modal';
-import { toggleTooltip } from 'redactions/tooltip';
 import { updateIsLoading } from 'redactions/page';
+import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import { Router } from 'routes';
 import Icons from 'components/app/layout/icons';
 import Tooltip from 'components/ui/Tooltip';
 import Head from 'components/app/layout/head';
-import Modal from 'components/ui/Modal';
-import Toastr from 'react-redux-toastr';
 
 class Layout extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modalOpen: false
-    };
-  }
-
   componentWillMount() {
     // When a tooltip is shown and the router navigates to a
     // another page, the tooltip stays in place because it is
@@ -47,14 +37,8 @@ class Layout extends React.Component {
     };
   }
 
-  componentWillReceiveProps(newProps) {
-    if (this.state.modalOpen !== newProps.modal.open) {
-      this.setState({ modalOpen: newProps.modal.open });
-    }
-  }
-
   render() {
-    const { title, description, modal, className } = this.props;
+    const { title, description, className } = this.props;
 
     return (
       <div className={`l-page ${className}`}>
@@ -68,11 +52,6 @@ class Layout extends React.Component {
         {this.props.children}
 
         <Tooltip />
-
-        <Toastr
-          transitionIn="fadeIn"
-          transitionOut="fadeOut"
-        />
       </div>
     );
   }
@@ -84,7 +63,6 @@ Layout.propTypes = {
   description: PropTypes.string,
   className: PropTypes.string,
   // Store
-  modal: PropTypes.object,
   toggleTooltip: PropTypes.func,
   updateIsLoading: PropTypes.func
 };
@@ -96,8 +74,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   toggleTooltip: () => dispatch(toggleTooltip()),
-  toggleModal: open => dispatch(toggleModal(open, {}, true)),
-  setModalOptions: options => dispatch(setModalOptions(options)),
   updateIsLoading: bindActionCreators(isLoading => updateIsLoading(isLoading), dispatch)
 });
 

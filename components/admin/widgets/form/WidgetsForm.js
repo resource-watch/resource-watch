@@ -24,7 +24,9 @@ import {
   setChartType,
   setBand,
   setVisualizationType,
-  setLayer
+  setLayer,
+  setTitle,
+  resetWidgetEditor
 } from 'components/widgets/editor/redux/widgetEditor';
 
 // Constants
@@ -63,6 +65,15 @@ class WidgetsForm extends React.Component {
     this.datasetsService = new DatasetsService({
       authorization: props.authorization
     });
+  }
+
+  componentWillMount() {
+    // If the user wants to create a new widget, we make
+    // sure that the name of the previous widget the
+    // user saw is not leaking in this new form
+    if (!this.props.id) {
+      this.props.resetWidgetEditor();
+    }
   }
 
   componentDidMount() {
@@ -111,8 +122,22 @@ class WidgetsForm extends React.Component {
   onSubmit(event) {
     const { submitting, stepLength, step, form, mode } = this.state;
     const { widgetEditor } = this.props;
-    const { limit, value, category, color, size, orderBy, aggregateFunction,
-      chartType, filters, areaIntersection, visualizationType, band, layer } = widgetEditor;
+    const {
+      limit,
+      value,
+      category,
+      color,
+      size,
+      orderBy,
+      aggregateFunction,
+      chartType,
+      filters,
+      areaIntersection,
+      visualizationType,
+      band,
+      layer,
+      title
+    } = widgetEditor;
 
     event.preventDefault();
 
@@ -124,7 +149,6 @@ class WidgetsForm extends React.Component {
       // Validate all the inputs on the current step
       const validWidgetConfig = (mode === 'editor') ? this.validateWidgetConfig() : true;
       const valid = FORM_ELEMENTS.isValid(step) && validWidgetConfig;
-
       if (valid) {
         // if we are in the last step we will submit the form
         if (step === stepLength && !submitting) {
@@ -133,12 +157,21 @@ class WidgetsForm extends React.Component {
           // Start the submitting
           this.setState({ submitting: true });
 
-          let formObj = form;
+          // The name of the widget is the title property of the
+          // widgetEditor reducer
+          let formObj = Object.assign({}, form, { name: title || '' });
 
           if (mode === 'editor') {
             const newWidgetConfig = {
               widgetConfig: Object.assign(
                 {},
+                formObj.widgetConfig,
+                // If the widget is different from chart, we want to add the type
+                (
+                  visualizationType !== 'chart'
+                    ? { type: visualizationType }
+                    : {}
+                ),
                 {
                   paramsConfig: {
                     visualizationType,
@@ -155,8 +188,7 @@ class WidgetsForm extends React.Component {
                     band: band && { name: band.name },
                     layer: layer && layer.id
                   }
-                },
-                formObj.widgetConfig
+                }
               )
             };
 
@@ -264,7 +296,6 @@ class WidgetsForm extends React.Component {
     }
   }
 
-
   loadWidgetIntoRedux() {
     const { paramsConfig } = this.state.form.widgetConfig;
     if (paramsConfig) {
@@ -299,6 +330,7 @@ class WidgetsForm extends React.Component {
       if (filters) this.props.setFilters(filters);
       if (limit) this.props.setLimit(limit);
       if (chartType) this.props.setChartType(chartType);
+      if (this.state.form.name) this.props.setTitle(this.state.form.name);
     }
   }
 
@@ -364,7 +396,9 @@ WidgetsForm.propTypes = {
   setChartType: PropTypes.func.isRequired,
   setVisualizationType: PropTypes.func.isRequired,
   setBand: PropTypes.func.isRequired,
-  setLayer: PropTypes.func.isRequired
+  setLayer: PropTypes.func.isRequired,
+  setTitle: PropTypes.func.isRequired,
+  resetWidgetEditor: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -379,13 +413,15 @@ const mapDispatchToProps = dispatch => ({
   setChartType: value => dispatch(setChartType(value)),
   setVisualizationType: vis => dispatch(setVisualizationType(vis)),
   setBand: band => dispatch(setBand(band)),
+  setTitle: title => dispatch(setTitle(title)),
   setLayer: (layerId) => {
     new LayersService()
       .fetchData({ id: layerId })
       .then(layer => dispatch(setLayer(layer)))
       // TODO: better handling of the error
       .catch(err => toastr.error('Error', err));
-  }
+  },
+  resetWidgetEditor: () => dispatch(resetWidgetEditor())
 });
 
 const mapStateToProps = state => ({

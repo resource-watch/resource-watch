@@ -14,7 +14,8 @@ passport.deserializeUser((obj, done) => {
 module.exports = (() => {
   const strategy = new Strategy({
     controlTowerUrl: process.env.CONTROL_TOWER_URL,
-    callbackUrl: process.env.CALLBACK_URL
+    callbackUrl: process.env.CALLBACK_URL,
+    applications: process.env.APPLICATIONS || 'rw'
   });
   passport.use(strategy);
   return {

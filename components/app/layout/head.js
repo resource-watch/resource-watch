@@ -13,6 +13,7 @@ const TRANSIFEX_BLACKLIST = [
   '/app/embed/EmbedLayer',
   '/app/embed/EmbedMap',
   '/app/embed/EmbedTable',
+  '/app/embed/EmbedText',
   '/app/embed/EmbedWidget'
 ];
 
@@ -24,7 +25,59 @@ class Head extends React.Component {
     }
     // In development, serve CSS inline (with live reloading) with webpack
     // NB: Not using dangerouslySetInnerHTML will cause problems with some CSS
+    /* eslint-disable */
     return <style dangerouslySetInnerHTML={{ __html: require('css/index.scss') }} />;
+    /* eslint-enable */
+  }
+
+  getGA() {
+    return <script async src="https://www.googletagmanager.com/gtag/js?id=UA-67196006-1"></script>;
+  }
+
+  getGASettings() {
+    return (
+      <script
+        type="text/javascript"
+        /* eslint-disable */
+        dangerouslySetInnerHTML={{ __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'UA-67196006-1');
+        ` }}
+        /* eslint-enable */
+      />);
+  }
+
+  getCrazyEgg() {
+    return <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0069/4623.js" async="async"></script>;
+  }
+
+
+  getUserReport() {
+    const { pathname } = this.props.routes;
+
+    if (TRANSIFEX_BLACKLIST.includes(pathname)) {
+      return null;
+    }
+
+    return (
+      /* eslint-disable */
+      <script
+        type="text/javascript"
+        dangerouslySetInnerHTML={{ __html: `
+          window._urq = window._urq || [];
+          _urq.push(['setGACode', 'UA-67196006-1']);
+          _urq.push(['initSite', '085d5a65-977b-4c3d-af9f-d0a3624e276f']);
+          (function() {
+          var ur = document.createElement('script'); ur.type = 'text/javascript'; ur.async = true;
+          ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/userreport.js' : 'http://cdn.userreport.com/userreport.js');
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
+          })();
+        ` }}
+      />
+      /* eslint-enable */
+    );
   }
 
   getTransifexSettings() {
@@ -38,9 +91,11 @@ class Head extends React.Component {
     return (
       <script
         type="text/javascript"
+        /* eslint-disable */
         dangerouslySetInnerHTML={{ __html: `
           window.liveSettings = { api_key: '${TRANSIFEX_LIVE_API}' }
         ` }}
+        /* eslint-enable */
       />
     );
   }
@@ -68,6 +123,10 @@ class Head extends React.Component {
         <link rel="icon" href="/static/favicon.ico" />
         <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700" />
         {Head.getStyles()}
+        {this.getGA()}
+        {this.getGASettings()}
+        {this.getCrazyEgg()}
+        {this.getUserReport()}
         {this.getTransifexSettings()}
         {this.getTransifex()}
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
@@ -79,7 +138,8 @@ class Head extends React.Component {
 Head.propTypes = {
   title: PropTypes.string, // Some pages don't have any title (think embed)
   description: PropTypes.string.isRequired,
-  routes: PropTypes.object.isRequired
+  routes: PropTypes.object.isRequired,
+  category: PropTypes.string
 };
 
 export default connect(

@@ -15,6 +15,15 @@ export default function SubmitAnInsight({ content }) {
             <div className="column small-12 medium-8">
               { renderHTML(content) }
             </div>
+            <div className="column small-12">
+              <div className="buttons -align-center ">
+                <Link
+                  route="get_involved"
+                >
+                  <a className="c-button -primary">Contact us</a>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </article>

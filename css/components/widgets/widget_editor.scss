@@ -7,13 +7,10 @@
 
   .customize-visualization {
     position: relative;
-    min-height: 580px;
-    max-height: 702px;
-    min-width: 522px;
-    max-width: 522px;
-    margin-top: -20px;
-    margin-bottom: -20px;
-    flex-basis: 430px;
+    min-height: 620px;
+    max-height: 740px;
+    margin: -20px 0;
+    flex-basis: 522px;
     flex-shrink: 0;
     flex-grow: 0;
     padding: $margin-size-small;
@@ -45,7 +42,7 @@
     flex-shrink: 1;
     flex-basis: 100%;
     overflow-x: hidden;
-    padding: $margin-size-extra-small;
+    padding: #{$margin-size-extra-small + 25px} $margin-size-extra-small $margin-size-extra-small;
     padding-right: 0;
 
     &.-error {
@@ -58,13 +55,6 @@
         font-weight: $font-weight-bold;
       }
     }
-
-    // &.-chart {
-    //   margin-left: 20px;
-    //   // This padding avoids the chart to touch the top and
-    //   // the bottom of the container
-    //   padding: 20px 0;
-    // }
 
     > .c-chart {
       display: flex;
@@ -88,10 +78,22 @@
     }
 
     .chart-title {
+      width: 100%;
+      max-width: calc(100% - 150px); // Avoid the title to overlap the legend (when collapsed)
       position: absolute;
-      top: 20px;
-      display: flex;
-      justify-content: center;
+      top: 15px;
+      left: 15px;
+      z-index: 2; // At least 2 to be on top of the map
+
+      > div { // Override a property of the library
+        display: block !important;
+      }
+
+      input {
+        max-width: 100%; // Make the input respect its container width
+        font-family: $body-font-family;
+        font-size: $font-size-big;
+      }
     }
 
     // Share button of the map

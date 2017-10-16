@@ -18,6 +18,7 @@ import Tooltip from 'components/ui/Tooltip';
 import Head from 'components/app/layout/head';
 import Modal from 'components/ui/Modal';
 import Toastr from 'react-redux-toastr';
+import Dock from 'components/ui/Dock';
 
 const fullScreenPages = [
   '/app/Explore',
@@ -47,13 +48,17 @@ class Layout extends React.Component {
 
   componentDidMount() {
     Router.onRouteChangeStart = () => {
-      Progress.show();
+      if (Progress) {
+        Progress.show();
+      }
       this.props.toggleTooltip(false);
       this.props.updateIsLoading(true);
     };
     Router.onRouteChangeComplete = () => {
       this.props.updateIsLoading(false);
-      Progress.hideAll();
+      if (Progress) {
+        Progress.hideAll();
+      }
     };
   }
 
@@ -90,6 +95,8 @@ class Layout extends React.Component {
 
         <Tooltip />
 
+        <Dock />
+
         <Modal
           open={this.state.modalOpen}
           options={modal.options}
@@ -99,6 +106,7 @@ class Layout extends React.Component {
         />
 
         <Toastr
+          preventDuplicates
           transitionIn="fadeIn"
           transitionOut="fadeOut"
         />

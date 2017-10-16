@@ -52,6 +52,11 @@ export default class Header extends React.Component {
         component: <Link route="admin_partners"><a>Partners</a></Link>
       },
       {
+        name: 'Tools',
+        pathnames: ['/admin/Tools', '/admin/ToolsDetail'],
+        component: <Link route="admin_tools"><a>Tools</a></Link>
+      },
+      {
         name: 'Pages',
         pathnames: ['/admin/Pages', '/admin/PagesDetail'],
         component: <Link route="admin_pages"><a>Pages</a></Link>
@@ -81,6 +86,7 @@ export default class Header extends React.Component {
                     <a>
                       <svg className="brand-logo"><use xlinkHref="#icon-logo" /></svg>
                       <h1 className="brand-title">Resource Watch</h1>
+                      <div className="brand-beta">beta</div>
                     </a>
                   </Link>
                 </div>

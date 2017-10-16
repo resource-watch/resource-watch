@@ -1,27 +1,55 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Autobind } from 'es-decorators';
 
 import { Link, Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
 import { setSimilarWidgets } from 'redactions/pulse';
+import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Components
 import Legend from 'components/app/pulse/Legend';
-// import Spinner from 'components/ui/Spinner';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
+import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
+
 
 // Services
 import WidgetService from 'services/WidgetService';
+import DatasetService from 'services/DatasetService';
 
 import { LAYERS_PLANET_PULSE } from 'utils/layers/pulse_layers';
 
 class LayerCard extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      dataset: null
+    };
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.pulse.layerActive !== this.props.pulse.layerActive) {
       this.loadWidgets(nextProps);
+      this.loadDatasetData(nextProps);
+    }
+  }
+
+  loadDatasetData(nextProps) {
+    const { pulse } = nextProps;
+    const layerActiveLoaded = pulse.layerActive && pulse.layerActive.id;
+
+    if (layerActiveLoaded) {
+      this.datasetService = new DatasetService(pulse.layerActive.attributes.dataset,
+        { apiURL: process.env.WRI_API_URL });
+      this.datasetService.fetchData().then((data) => {
+        this.setState({
+          dataset: data
+        });
+      });
     }
   }
 
@@ -50,8 +78,26 @@ class LayerCard extends React.Component {
     }
   }
 
+  @Autobind
+  handleSubscribeToAlerts() {
+    const options = {
+      children: SubscribeToDatasetModal,
+      childrenProps: {
+        toggleModal: this.props.toggleModal,
+        dataset: this.state.dataset,
+        showDatasetSelector: false
+      }
+    };
+    this.props.toggleModal(true);
+    this.props.setModalOptions(options);
+  }
+
   render() {
-    const { layerActive, layerPoints, similarWidgets } = this.props.pulse;
+    const { pulse, user } = this.props;
+    const { layerActive, layerPoints, similarWidgets } = pulse;
+    const { dataset } = this.state;
+    const subscribable = dataset && dataset.attributes && dataset.attributes.subscribable;
+    const userLoggedIn = user && user.id;
 
     const className = classNames({
       'c-layer-card': true,
@@ -102,14 +148,24 @@ class LayerCard extends React.Component {
             </div>
           </div>
         }
-        { datasetId &&
-          <Link
-            route={'explore_detail'}
-            params={{ id: datasetId }}
-          >
-            <a className="link_button" >Explore the data</a>
-          </Link>
-        }
+        <div className="buttons">
+          { datasetId &&
+            <Link
+              route={'explore_detail'}
+              params={{ id: datasetId }}
+            >
+              <a className="link_button" >Explore the data</a>
+            </Link>
+          }
+          { subscribable && userLoggedIn &&
+            <button
+              className="link_button"
+              onClick={this.handleSubscribeToAlerts}
+            >
+              Subscribe to alerts
+            </button>
+          }
+        </div>
       </div>
     );
   }
@@ -117,17 +173,23 @@ class LayerCard extends React.Component {
 
 LayerCard.propTypes = {
   // PROPS
-  pulse: PropTypes.object,
+  pulse: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 
   // Actions
-  setSimilarWidgets: PropTypes.func.isRequired
+  setSimilarWidgets: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  setModalOptions: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  pulse: state.pulse
+  pulse: state.pulse,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({
+  toggleModal: (open) => { dispatch(toggleModal(open)); },
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
   setSimilarWidgets: (widgets) => { dispatch(setSimilarWidgets(widgets)); }
 });
 

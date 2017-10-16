@@ -12,7 +12,7 @@ const data = [
   { name: 'Explore Datasets', route: 'explore' },
   { name: 'Dashboards', route: 'dashboards' },
   { name: 'Planet Pulse', route: 'pulse' },
-  { name: 'Explore Tools', route: 'get_involved' }
+  { name: 'App Gallery', route: 'get-involved/apps' }
 ];
 
 const about = [
@@ -23,16 +23,16 @@ const about = [
 ];
 
 const insights = [
-  { name: 'Insights', route: 'insights' },
-  { name: 'Recent insights' },
-  { name: 'Highlighted insights' }
+  { name: 'Blog', route: 'blog' },
+  { name: 'Recent Signals' },
+  { name: 'Highlighted Signals' }
 ];
 
 const getInvolved = [
-  { name: 'Get involved', route: 'get_involved' },
-  { name: 'Submit an insight', route: 'get_involved_detail', params: { id: 'submit-an-insight' } },
-  { name: 'Contribute data', route: 'get_involved_detail', params: { id: 'contribute-data' } },
-  { name: 'Join the community', route: 'get_involved_detail', params: { id: 'join-community' } }
+  { name: 'Get Involved', route: 'get_involved' },
+  { name: 'Submit a Story', route: 'get_involved_detail', params: { id: 'submit-an-insight' } },
+  { name: 'Contribute Data', route: 'get_involved_detail', params: { id: 'contribute-data' } },
+  { name: 'Join the Community', route: 'get_involved_detail', params: { id: 'join-community' } }
 ];
 
 class Footer extends React.Component {
@@ -105,7 +105,7 @@ class Footer extends React.Component {
                   <div className="footer-item">
                     <p className="-bold">World Resources Institute</p>
                     <p>10 G Street NE Suite 800, Washington, DC 20002, USA</p>
-                    <p>Phone +1(202) 729-7600    |    Fax: +1 (202) 720 7610</p>
+                    <p>Phone +1 (202) 729-7600    |    Fax: +1 (202) 720 7610</p>
                   </div>
                 </div>
               </div>

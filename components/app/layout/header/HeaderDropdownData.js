@@ -49,7 +49,7 @@ export default function HeaderDropdownData(props) {
           </li>
           <li className="header-dropdown-list-item">
             <Link route="get_involved_detail" params={{ id: 'apps' }}>
-              <a>Apps gallery</a>
+              <a>App Gallery</a>
             </Link>
           </li>
         </ul>

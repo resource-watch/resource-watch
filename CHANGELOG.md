@@ -35,8 +35,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Metadata subtitle
 - WMS Metadata and Dataset form doesn't call fields endpoint
 - Explore detail: download links working
+- Explore detail: correct seo tags
 
 ### Added
+- Technical title (formal name) added to Explore Detail
+- Subscribe to alerts from Planet Pulse
 - Insights cards: The whole card is clickable now
 - Planet pulse improvements: color used as extra dimension in more 3D layers
 - Planet pulse globe tooltips have hyperlinks for url values
@@ -63,6 +66,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added new endpoint `profiles` to save and upload profile images in S3 service
 - Added checkbox for label layers in Explore page
 - Terms and privacy policy pages
+- Tool admin page added to CMS.
+- Added support for timeline in one layer `Standarized Precipitation Index`
+- Tool page connected to BO
 
 ### Changed
 

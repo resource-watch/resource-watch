@@ -18,9 +18,9 @@ import Rating from 'components/app/common/Rating';
 
 const exploreCards = [
   {
-    tag: 'Explore data',
+    tag: 'Explore Data',
     title: 'Dive into the data',
-    intro: 'Create and download custom visualisations using our collection of over 180 datasets related to natural resources.',
+    intro: 'Create and download custom visualisations using our collection of datasets related to natural resources.',
     buttons: [
       {
         text: 'Explore data',
@@ -49,7 +49,7 @@ const exploreCards = [
     intro: 'A global snapshot of key impacts on livelihoods from the latest data.',
     buttons: [
       {
-        text: 'Launch planet pulse',
+        text: 'Launch Planet Pulse',
         path: 'pulse',
         className: '-primary'
       }
@@ -66,12 +66,12 @@ class Home extends Page {
         className="-alt"
         background={c.background}
         clickable
-        route={`/insights/${c.slug}`}
+        route={`/blog/${c.slug}`}
       >
         <div>
           <h4>{c.tag}</h4>
           <h3>
-            <Link route={`/insights/${c.slug}`}>
+            <Link route={`/blog/${c.slug}`}>
               <a>{c.title}</a>
             </Link>
           </h3>
@@ -138,13 +138,16 @@ class Home extends Page {
               title="Video Intro"
               frameBorder="0"
               allowFullScreen
-              src="https://youtube.com/embed/XryMlA-8IwE?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=LI1RrCnnkDA"
+              // Loop parameter has limited support in the AS3 player and in IFrame embeds, which could load either the AS3 or HTML5 player.
+              // Currently, the loop parameter only works in the AS3 player when used in conjunction with the playlist parameter.
+              // To loop a single video, set the loop parameter value to 1 and set the playlist parameter value to the same video ID already specified in the Player API URL
+              src="https://youtube.com/embed/XryMlA-8IwE?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=XryMlA-8IwE"
             />
           </div>
           <div className="video-text">
             <div>
-              <h1>Quick and easy access <br />to a world of resource data</h1>
-              <p>Explore the latest data, make insights, and help build a more sustainable planet</p>
+              <h1>Explore a world <br />of natural resource data</h1>
+              <p>Discover the latest data, make connections, and help create a more sustainable planet.</p>
             </div>
           </div>
         </div>
@@ -154,8 +157,8 @@ class Home extends Page {
             <header>
               <div className="row">
                 <div className="column small-12 medium-8">
-                  <h2>Discover Insights</h2>
-                  <p>Read the latest analysis from our community or submit your own original story.</p>
+                  <h2>Discover Signals</h2>
+                  <p>Read the stories behind the data on our Signals blog.</p>
                 </div>
               </div>
             </header>
@@ -177,7 +180,9 @@ class Home extends Page {
             <div className="buttons -text-center">
               <div className="row">
                 <div className="column small-12 medium-12">
-                  <a href="/insights" className="c-btn -primary">More insights</a>
+                  <Link route="insights">
+                    <a href="/insights" className="c-btn -primary">More Signals</a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -190,7 +195,7 @@ class Home extends Page {
               <div className="row">
                 <div className="column small-12 medium-8">
                   <h2>Explore the data</h2>
-                  <p>Explore, create visualizations, receive updates and contribute with your data.</p>
+                  <p>Discover data, create visualizations, and subscribe to updates on key datasets.</p>
                 </div>
               </div>
             </header>
@@ -204,30 +209,32 @@ class Home extends Page {
         </section>
 
         <Banner className="get-involved" bgImage={'/static/images/backgrounds/mod_getInvolved.jpg'}>
-          <div className="l-row row">
-            <div className="column small-12 medium-6">
-              <h2>Get Involved</h2>
-              <p>
-                We{'´'}ve brought together the best datasets related to natural resources,
-                so you can find new insights, influence decisions and change the world.
-                There{'´'}s a world of opportunity to take this futher. Here are
-                some ideas to get you started.
-              </p>
-            </div>
-          </div>
-          <div className="buttons">
+          <div className="l-container">
             <div className="l-row row">
-              <div className="column small-12 medium-3">
-                <Link route="get_involved_detail" params={{ id: 'contribute-data' }}><a className="c-btn -b -alt -fullwidth">Contribute data</a></Link>
+              <div className="column small-12 medium-6">
+                <h2>Get involved</h2>
+                <p>
+                  We{'’'}ve brought together the best datasets related to natural resources,
+                  so you can find new insights, influence decisions and change the world.
+                  There{'’'}s a world of opportunity to take this futher. Here are
+                  some ideas to get you started.
+                </p>
               </div>
-              <div className="column small-12 medium-3">
-                <Link route="get_involved_detail" params={{ id: 'join-community' }}><a className="c-btn -b -alt -fullwidth">Join the community</a></Link>
-              </div>
-              <div className="column small-12 medium-3">
-                <Link route="get_involved_detail" params={{ id: 'submit-an-insight' }}><a className="c-btn -b -alt -fullwidth">Submit an insight</a></Link>
-              </div>
-              <div className="column small-12 medium-3">
-                <Link route="get_involved_detail" params={{ id: 'develop-app' }}><a className="c-btn -b -alt -fullwidth">Develop your app</a></Link>
+            </div>
+            <div className="buttons">
+              <div className="l-row row">
+                <div className="column small-12 medium-3">
+                  <Link route="get_involved_detail" params={{ id: 'contribute-data', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Contribute data</a></Link>
+                </div>
+                <div className="column small-12 medium-3">
+                  <Link route="get_involved_detail" params={{ id: 'join-community', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Join the community</a></Link>
+                </div>
+                <div className="column small-12 medium-3">
+                  <Link route="get_involved_detail" params={{ id: 'submit-an-insight', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Submit a story</a></Link>
+                </div>
+                <div className="column small-12 medium-3">
+                  <Link route="get_involved_detail" params={{ id: 'develop-app', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Develop your app</a></Link>
+                </div>
               </div>
             </div>
           </div>

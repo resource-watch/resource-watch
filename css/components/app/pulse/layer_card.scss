@@ -20,10 +20,9 @@
     display: none;
   }
 
-  .link_button {
-    text-transform: uppercase;
-    color: $color-dark-pink;
-    text-decoration: none;
+  .description {
+    max-height: 50px;
+    overflow: auto;
   }
 
   .widget-card {
@@ -32,6 +31,19 @@
 
     .c-chart {
       overflow: auto;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .link_button {
+      text-transform: uppercase;
+      color: $color-dark-pink;
+      text-decoration: none;
+      cursor: pointer;
     }
   }
 }

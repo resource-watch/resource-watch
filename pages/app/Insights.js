@@ -21,12 +21,12 @@ class Insights extends Page {
         className="-alt"
         background={c.background}
         clickable
-        route={`/insights/${c.slug}`}
+        route={`/blog/${c.slug}`}
       >
         <div>
           <h4>{c.tag}</h4>
           <h3>
-            <Link route={`/insights/${c.slug}`}>
+            <Link route={`/blog/${c.slug}`}>
               <a>{c.title}</a>
             </Link>
           </h3>
@@ -68,7 +68,11 @@ class Insights extends Page {
               <div className="column small-12">
                 <div className="page-header-content">
                   <Breadcrumbs items={[{ name: 'Home', href: '/' }]} />
-                  <h1>Blog</h1>
+                  <h1>Signals Blog</h1>
+
+                  <div className="page-header-info">
+                    <p>Explore the stories behind the data and submit your own.</p>
+                  </div>
                 </div>
               </div>
             </div>

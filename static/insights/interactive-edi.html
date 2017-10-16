@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A factory is being built in your neighborhood</title>
+  <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700">
+  <link rel="stylesheet" media="all" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.css">
+  <link rel="stylesheet" href="https://vizzuality.github.io/WRW-Prototype/styles/main.css">
+  <style>
+    body {display: block;}
+    .container:after, .container:before {
+      display: table;
+      content: '';
+    }
+    .container:after {
+      clear:  both;
+    }
+    .insights--interactive-input select {
+      padding: 10px;
+      height: auto;
+      background: none;
+    }
+    .insights--interactive-data-list li:nth-child(2n) {
+      margin-top: 30px;
+    }
+    .disclaimer {
+      padding: 16px;
+      color: #FFF;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+<svg style="display:none" class="is-hidden">
+  <!-- Star-->
+  <symbol id="icon-star" viewBox="0 0 1092 1024">
+    <title>star</title>
+    <path d="M546.133 779.605l-361.135 263.588 139.090-424.913-362.284-262.007 447.098 0.977 137.231-425.517 137.231 425.517 447.098-0.977-362.284 262.007 139.090 424.913z" class="path1"></path>
+  </symbol>
+  <!-- Options-->
+  <symbol id="icon-cog" viewBox="0 0 1024 1024">
+    <title>cog</title>
+    <path d="M914.625 505.976c0-63.090 38.828-112.893 97.328-147.131-10.529-35.226-24.504-68.957-41.671-100.713-65.596 17.155-118.676-8.541-163.298-53.152-44.622-44.634-58.284-97.726-41.117-163.31-31.756-17.179-65.488-31.142-100.713-41.671-34.238 58.501-96.075 97.34-159.178 97.34s-124.928-38.84-159.178-97.34c-35.226 10.517-68.957 24.492-100.713 41.659 17.155 65.584 3.506 118.676-41.117 163.322-44.622 44.622-97.726 70.307-163.298 53.164-17.179 31.744-31.142 65.476-41.671 100.701 58.488 34.238 97.328 84.040 97.328 147.131s-38.84 124.94-97.328 159.178c10.529 35.226 24.492 68.957 41.671 100.713 65.584-17.155 118.676-3.506 163.298 41.117 44.61 44.622 58.272 97.726 41.117 163.298 31.756 17.179 65.488 31.154 100.725 41.671 34.25-58.501 96.063-97.328 159.166-97.328s124.94 38.828 159.178 97.328c35.226-10.529 68.957-24.492 100.725-41.683-17.155-65.56-3.518-118.664 41.105-163.286s97.714-70.319 163.298-53.164c17.167-31.756 31.142-65.488 41.671-100.713-58.501-34.238-97.328-84.040-97.328-147.131v0zM505.976 726.028c-121.519 0-220.040-98.521-220.040-220.052s98.521-220.040 220.040-220.040c121.531 0 220.027 98.509 220.027 220.040s-98.497 220.052-220.027 220.052v0z"
+    class="path1"></path>
+  </symbol>
+  <!-- Share-->
+  <symbol id="icon-share" viewBox="0 0 904 1024">
+    <title>share</title>
+    <path d="M725.054 669.281c-38.339 0-73.543 13.029-101.753 34.713l-291.093-174.649c1.472-8.935 2.432-18.037 2.432-27.385 0-9.359-0.959-18.45-2.432-27.385l291.093-174.649c28.21 21.685 63.414 34.713 101.753 34.713 92.394 0 167.32-74.926 167.32-167.32s-74.926-167.32-167.32-167.32c-92.405 0-167.32 74.926-167.32 167.32 0 9.348 0.959 18.45 2.421 27.385l-291.081 174.649c-28.221-21.685-63.426-34.713-101.753-34.713-92.405 0-167.32 74.926-167.32 167.32s74.915 167.32 167.32 167.32c38.327 0 73.532-13.029 101.753-34.713l291.081 174.649c-1.461 8.935-2.421 18.026-2.421 27.385 0 92.394 74.915 167.32 167.32 167.32 92.394 0 167.32-74.926 167.32-167.32s-74.926-167.32-167.32-167.32z"
+    class="path1"></path>
+  </symbol>
+  <!-- Info-->
+  <symbol id="icon-info" viewBox="0 0 1024 1024">
+    <title>info</title>
+    <path d="M636.518 0c68.608 0 102.912 46.797 102.912 100.25 0 66.765-59.597 128.563-137.114 128.563-65.024 0-102.912-38.4-101.12-101.837 0-53.504 45.056-126.976 135.322-126.976zM425.421 1024c-54.17 0-93.85-33.382-55.962-180.378l62.157-260.659c10.803-41.728 12.595-58.47 0-58.47-16.282 0-86.528 28.826-128.102 57.242l-27.034-45.107c131.738-111.923 283.238-177.51 348.211-177.51 54.118 0 63.078 65.126 36.096 165.325l-71.219 274.022c-12.595 48.435-7.219 65.126 5.376 65.126 16.282 0 69.478-20.122 121.805-61.85l30.72 41.728c-128.051 130.355-267.93 180.531-322.048 180.531z"
+    class="path1"></path>
+  </symbol>
+  <!-- Cross-->
+  <symbol id="icon-cross" viewBox="0 0 1024 1024">
+    <title>cross</title>
+    <path d="M734.669 673.382l-141.21-161.382 141.21-161.382c24.013-24.013 24.013-62.925 0-86.886-24.013-23.962-62.925-23.962-86.886 0l-135.782 155.187-135.731-155.136c-24.013-24.013-62.925-24.013-86.886 0-23.962 24.013-23.962 62.925 0 86.886l141.158 161.331-141.21 161.382c-23.962 24.013-23.962 62.822 0 86.784 24.013 24.013 62.925 24.013 86.886 0l135.782-155.085 135.731 155.085c24.013 24.013 62.925 24.013 86.886 0s24.013-62.771 0.051-86.784z"
+    class="path1"></path>
+  </symbol>
+  <!-- Alt logo-->
+  <symbol id="icon-logo" viewBox="0 0 6220 1024">
+    <title>logo</title>
+    <path fill="#393F44" d="M1628.835 499.686c14.791-19.824 22.193-43.907 22.193-72.238 0-23.428-4.087-42.975-12.223-58.652-8.174-15.665-19.169-28.129-33.011-37.392-13.842-9.25-29.949-16.396-48.346-20.366s-37.832-6.478-58.316-6.478h-150.011v403.28h88.569v-163.832h38.135l84.179 163.832h106.384l-102.398-169.945c28.456-5.28 50.054-18.387 64.845-38.211v0zM1551.768 452.376c-4.745 6.049-10.73 10.473-17.916 13.321-7.225 2.823-15.272 2.899-24.192 3.466s-17.347-0.769-25.305-0.769h-46.663v-88.217h52.357c7.959 0 16.107 0.693 24.445 1.815 8.351 1.134 15.753 3.377 22.193 6.579 6.44 3.226 11.754 7.877 15.93 13.913 4.163 6.049 6.25 14.178 6.25 24.373 0 10.977-2.366 19.483-7.098 25.52zM1791.967 544.009h177.138v-88.217h-177.138v-63.012h177.138v-88.217h-265.707v403.28h278.36v-88.217h-189.791v-75.615zM2252.007 495.439c-13.842-8.305-28.722-14.732-44.651-19.269s-30.822-9.061-44.651-13.598c-13.855-4.537-25.318-9.994-34.415-16.434-9.11-6.415-13.652-15.665-13.652-27.763 0-7.549 1.885-13.976 5.681-19.269 3.796-5.268 8.73-9.527 14.791-12.741 6.073-3.201 12.514-5.57 19.346-7.083 6.82-1.5 13.462-2.256 19.915-2.256 10.995 0 22.648 2.168 34.972 6.503 12.324 4.348 22.092 11.052 29.304 20.114l60.86-66.289c-17.056-15.098-36.212-25.873-57.456-32.288-21.244-6.427-43.234-9.641-65.984-9.641-19.713 0-38.869 2.747-57.456 8.217-18.574 5.482-34.972 13.699-49.194 24.638-14.222 10.977-25.609 24.575-34.137 40.807-8.528 16.245-12.792 35.136-12.792 56.661 0 22.281 4.631 40.227 13.931 53.825 9.287 13.598 20.953 24.55 34.985 32.867 14.019 8.305 29.202 14.921 45.512 19.824 16.297 4.915 31.467 9.83 45.499 14.732s25.698 10.863 34.985 17.845c9.287 7.007 13.943 16.522 13.943 28.608 0 7.196-1.809 13.422-5.403 18.715-3.606 5.293-8.338 9.616-14.222 13.018s-12.526 5.961-19.915 7.65c-7.389 1.701-14.702 2.558-21.902 2.558-14.791 0-29.114-3.302-42.943-9.931-13.842-6.591-25.318-15.942-34.415-28.028l-63.137 69.112c19.333 17.757 40.185 30.599 62.568 38.538 22.383 7.927 46.638 11.897 72.816 11.897 20.839 0 40.678-2.647 59.442-7.94 18.764-5.28 35.263-13.396 49.485-24.348s25.508-24.739 33.846-41.374c8.338-16.623 12.514-36.068 12.514-58.35 0-23.428-4.542-42.118-13.652-56.106-9.097-13.964-20.573-25.117-34.415-33.422zM2702.254 352.375c-19.333-18.324-42.273-32.388-68.818-42.218-26.558-9.817-55.571-14.732-87.038-14.732-31.48 0-60.493 4.915-87.038 14.732-26.558 9.83-49.485 23.894-68.831 42.218s-34.415 40.504-45.233 66.579c-10.793 26.049-16.208 55.149-16.208 87.247 0 32.111 5.415 61.198 16.208 87.247 10.818 26.075 25.887 48.268 45.233 66.592s42.273 32.388 68.831 42.206c26.545 9.817 55.558 14.732 87.038 14.732 31.467 0 60.48-4.915 87.038-14.732 26.545-9.817 49.485-23.882 68.818-42.206 19.359-18.324 34.428-40.517 45.246-66.592 10.793-26.049 16.208-55.136 16.208-87.247 0-32.099-5.415-61.198-16.208-87.247-10.818-26.075-25.887-48.255-45.246-66.579zM2662.727 558.048c-5.884 15.678-14.323 29.276-25.318 40.794s-24.179 20.492-39.54 26.919c-15.36 6.427-32.517 9.628-51.471 9.628-18.966 0-36.124-3.201-51.484-9.628s-28.532-15.4-39.54-26.919c-10.995-11.519-19.435-25.117-25.305-40.794-5.884-15.665-8.819-32.943-8.819-51.847 0-18.5 2.935-35.69 8.819-51.557 5.871-15.867 14.31-29.553 25.305-41.084 11.008-11.519 24.179-20.479 39.54-26.919 15.36-6.415 32.517-9.616 51.484-9.616 18.954 0 36.111 3.201 51.471 9.616 15.36 6.44 28.545 15.4 39.54 26.919 10.995 11.531 19.435 25.218 25.318 41.084 5.871 15.867 8.819 33.056 8.819 51.557 0 18.904-2.948 36.182-8.819 51.847zM3057.239 548.697c0 12.464-0.86 23.995-4.846 34.569s-9.009 19.736-16.221 27.473c-7.199 7.751-15.462 13.787-25.318 18.135s-20.535 6.515-32.277 6.515c-11.754 0-22.598-2.168-32.644-6.515s-18.637-10.384-25.849-18.135c-7.199-7.738-15.095-16.9-19.068-27.473-3.986-10.573-8.262-22.105-8.262-34.569v-244.136h-88.569v247.538c0 23.794 5.82 45.709 13.020 65.722 7.212 20.025 19.042 37.404 33.264 52.137s32.505 26.251 53.736 34.556c21.244 8.305 46.17 12.464 74.233 12.464 27.671 0 52.281-4.159 73.525-12.464 21.231-8.305 39.034-19.824 53.268-34.556 14.222-14.732 23.749-32.111 30.949-52.137 7.199-20.013 9.629-41.929 9.629-65.722v-247.538h-88.569v244.136zM3500.362 499.686c14.778-19.824 22.18-43.907 22.18-72.238 0-23.428-4.087-42.975-12.223-58.652-8.174-15.665-19.169-28.129-33.011-37.392-13.842-9.25-29.949-16.396-48.346-20.366s-37.819-6.478-58.316-6.478h-161.575v403.28h88.569v-163.832h49.7l84.179 163.832h106.384l-102.398-169.945c28.456-5.28 50.067-18.387 64.858-38.211zM3423.282 452.376c-4.745 6.049-10.73 10.473-17.916 13.321-7.225 2.823-15.272 2.899-24.179 3.466-8.92 0.567-17.36-0.769-25.318-0.769h-58.228v-88.217h63.922c7.959 0 16.107 0.693 24.445 1.815 8.351 1.134 15.753 3.377 22.193 6.579 6.44 3.226 11.754 7.877 15.93 13.913 4.163 6.049 6.25 14.178 6.25 24.373 0 10.977-2.366 19.483-7.098 25.52zM3800.712 624.047c-14.032 7.574-30.151 11.342-48.346 11.342-15.93 0-30.822-3.201-44.664-9.628s-25.887-15.4-36.111-26.919c-10.249-11.519-18.308-25.117-24.179-40.794-5.884-15.665-8.819-32.943-8.819-51.847 0-18.5 2.935-35.69 8.819-51.557 5.871-15.867 14.019-29.553 24.458-41.084 10.426-11.519 22.75-20.479 36.971-26.919 14.222-6.415 29.671-9.616 46.36-9.616s31.379 2.823 44.095 8.481c12.691 5.684 23.408 13.8 32.138 24.373l68.261-55.527c-8.73-10.952-18.587-20.202-29.582-27.763-10.995-7.549-22.459-13.611-34.415-18.135-11.944-4.524-24.091-7.839-36.402-9.918-12.324-2.067-24.179-3.113-35.554-3.113-31.48 0-60.493 4.915-87.038 14.732-26.558 9.83-49.485 23.894-68.831 42.218s-34.415 40.504-45.233 66.579c-10.793 26.049-16.208 55.149-16.208 87.247 0 32.111 5.415 61.198 16.208 87.247 10.818 26.075 25.887 48.268 45.233 66.592s42.273 32.388 68.831 42.206c26.545 9.817 55.558 14.732 87.038 14.732 27.671 0 54.609-5.671 80.775-16.988 26.166-11.342 47.789-28.898 64.858-52.704l-73.955-54.959c-9.11 13.598-20.675 24.172-34.706 31.72zM4031.498 544.009h177.138v-88.217h-177.138v-63.012h189.791v-88.217h-278.36v403.28h291.013v-88.217h-202.443v-75.615zM4762.635 304.561l-100.108 352.87h-1.139l-101.829-352.87h-47.789l-101.816 352.87h-1.139l-100.121-352.87h-38.679l117.177 403.28h46.081l101.829-352.87h1.139l101.829 352.87h46.069l117.189-403.28h-38.692zM4967.419 304.561l-175.784 403.28h39.261l45.499-113.422h213.325l43.804 113.422h42.096l-169.521-403.28h-38.679zM4891.187 569.214l93.858-219.825 91.024 219.825h-184.882zM5170.242 342.369h139.18v365.472h37.958v-365.472h139.18v-37.807h-316.318v37.807zM5805.333 648.698c-9.477 7.738-19.435 14.165-29.86 19.269s-21.143 8.885-32.138 11.33c-10.995 2.457-21.611 3.68-31.86 3.68-26.166 0-49.763-4.524-70.817-13.598-21.041-9.061-38.97-21.525-53.749-37.392-14.791-15.867-26.178-34.556-34.15-56.094-7.959-21.525-11.944-44.764-11.944-69.692s3.986-48.167 11.944-69.692c7.971-21.538 19.359-40.227 34.15-56.094 14.778-15.867 32.707-28.33 53.749-37.404 21.054-9.049 44.651-13.598 70.817-13.598 20.472 0 40.476 4.36 60.024 13.031 19.51 8.708 35.541 22.495 48.055 41.374l30.721-25.507c-17.828-22.659-38.591-38.803-62.289-48.444-23.699-9.628-49.194-14.442-76.511-14.442-30.708 0-58.873 5.293-84.47 15.867-25.596 10.586-47.498 25.218-65.706 43.907-18.195 18.702-32.416 40.895-42.665 66.579-10.236 25.684-15.36 53.825-15.36 84.424 0 30.586 5.124 58.841 15.36 84.701 10.249 25.886 24.47 48.167 42.665 66.869 18.207 18.69 40.109 33.245 65.706 43.63 25.596 10.372 53.761 15.577 84.47 15.577 29.582 0 57.076-5.671 82.496-16.988 25.394-11.342 47.777-30.032 67.11-56.106l-30.708-23.226c-7.199 10.964-15.563 20.303-25.040 28.041zM6182.46 304.561v176.435h-227.749v-176.435h-37.958v403.28h37.958v-189.037h227.749v189.037h37.958v-403.28h-37.958z"
+    class="path1"></path>
+    <path fill="#B6216E" d="M329.333 184.579l-329.333 328.050 232.487 231.565 329.357-328.050-232.511-231.565z" class="path2"></path>
+    <path fill="#B6216E" d="M609.354 364.455l133.083-132.54-228.103-227.212-133.083 132.54 228.103 227.212z" class="path3"></path>
+    <path fill="#B6216E" d="M694.002 844.124l329.357-328.050-232.487-231.565-329.357 328.050 232.487 231.565z" class="path4"></path>
+    <path fill="#B6216E" d="M413.99 664.248l-133.068 132.54 228.117 227.212 133.068-132.54-228.117-227.212z" class="path5"></path>
+  </symbol>
+</svg>
+
+<!-- Content -->
+<div id="content" class="insights--interactive-edi-bg">
+
+  <div class="container">
+    <h1 class="insights--interactive-title">A factory is being built in your neighborhood. Can you do anything about it?</h1>
+    <h3 class="insights--interactive-subtitle">Issues of environmental justice happen more frequently than we would like to think.</h3>
+  </div>
+
+  <div class="container insights--interactive-overflow">
+    <div class="insights--interactive-card-container">
+      <div class="insights--interactive-card js-card">
+        <div class="insights--interactive-card-front has-dark-background bg-ramesh-01 js-container">
+          <div class="insights--interactive-intro js-intro-container">
+            <p>Ramesh Agrawal is the owner of a small internet café in Chhattisgarh, India, where many new coal mines have been developed without adequate social or environmental safeguards. When Agrawal organized villagers to protest and file petitions listing detailed objections, he was met with threats and intimidation.</p>
+            <p>Frustrated but undeterred, he fought on for four years. Finally, India’s National Green Tribunal revoked the permits for a proposed new mine that would have been one of the largest in the region. Agrawal’s <a target="_blank" href="http://www.goldmanprize.org/recipient/ramesh-agrawal/">actions</a> helped to protect the health and livelihoods of his community.</p>
+            <a class="insights--interactive-navigation-btn js-next is-link"><span>Continue</span></a>
+          </div>
+          <div style="display:none;" class="insights--interactive-intro insights--interactive-intro-2 js-intro-2-container">
+            <p>These stories don’t always end well. Not only is Mr. Agrawal brave, he is lucky enough to be living in a country with laws that protect crucial rights to information and justice. </p>
+            <p>When governments, businesses, and others make decisions about land and natural resources, they inevitably impact the health, livelihoods, and quality of life of local communities, for better or for worse.</p><a class="insights--interactive-navigation-btn js-next is-link"><span>Continue</span></a>
+          </div>
+        </div>
+        <div class="insights--interactive-card-back is-hidden">
+          <div class="insights--interactive-intro-2-title">It’s your turn</div>
+          <div class="insights--interactive-intro-2-subtitle">If a potentially damaging development were proposed in your neighborhood, would you be able to be able to do anything about it? The outcome of such proposals often depends on the strength of <b><a target="_blank" href="http://www.wri.org/blog/2015/05/environmental-democracy-essential-right-21st-century">national laws</a></b>.</div>
+          <div class="insights--interactive-input">
+            <form>
+              <select class="js-search-country">
+                <option value="" disabled="" selected="">Where do you live?</option>
+              </select>
+              <input type="submit" value="Let’s go!" class="button js-next">
+            </form>
+          </div>
+          <ul class="insights--interactive-footer">
+            <li><a href="http://environmentaldemocracyindex.org" target="_blank">Visit EDI</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <i>This post is a prototype of the kinds of stories we'll tell in Signals. Some functionality is still incomplete.</i>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.8/slick.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.2/backbone.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.20/require.js"></script>
+
+<script>
+  var CountrySearch = Backbone.View.extend({
+
+    events: {
+      'change': 'setCountry'
+    },
+
+    initialize: function() {
+      var option;
+      this.getCountries().forEach(function(country) {
+        option = document.createElement('option');
+        option.value = country.iso;
+        option.textContent = country.name;
+        this.$el.append(option);
+      }, this);
+    },
+
+    setCountry: function(e) {
+      window.location.href = 'dashboard.html#' + e.currentTarget.value;
+    },
+
+    getCountries: function() {
+      return [{
+        'name': 'Afghanistan',
+        'iso': 'AFG'
+      }, {
+        'name': 'Aland',
+        'iso': 'ALA'
+      }, {
+        'name': 'Albania',
+        'iso': 'ALB'
+      }, {
+        'name': 'Algeria',
+        'iso': 'DZA'
+      }, {
+        'name': 'American Samoa',
+        'iso': 'ASM'
+      }, {
+        'name': 'Andorra',
+        'iso': 'AND'
+      }, {
+        'name': 'Angola',
+        'iso': 'AGO'
+      }, {
+        'name': 'Anguilla',
+        'iso': 'AIA'
+      }, {
+        'name': 'Antarctica',
+        'iso': 'ATA'
+      }, {
+        'name': 'Antigua and Barb.',
+        'iso': 'ATG'
+      }, {
+        'name': 'Argentina',
+        'iso': 'ARG'
+      }, {
+        'name': 'Armenia',
+        'iso': 'ARM'
+      }, {
+        'name': 'Aruba',
+        'iso': 'ABW'
+      }, {
+        'name': 'Ashmore and Cartier Is.',
+        'iso': '-99'
+      }, {
+        'name': 'Australia',
+        'iso': 'AUS'
+      }, {
+        'name': 'Austria',
+        'iso': 'AUT'
+      }, {
+        'name': 'Azerbaijan',
+        'iso': 'AZE'
+      }, {
+        'name': 'Bahamas',
+        'iso': 'BHS'
+      }, {
+        'name': 'Bahrain',
+        'iso': 'BHR'
+      }, {
+        'name': 'Bangladesh',
+        'iso': 'BGD'
+      }, {
+        'name': 'Barbados',
+        'iso': 'BRB'
+      }, {
+        'name': 'Belarus',
+        'iso': 'BLR'
+      }, {
+        'name': 'Belgium',
+        'iso': 'BEL'
+      }, {
+        'name': 'Belize',
+        'iso': 'BLZ'
+      }, {
+        'name': 'Benin',
+        'iso': 'BEN'
+      }, {
+        'name': 'Bermuda',
+        'iso': 'BMU'
+      }, {
+        'name': 'Bhutan',
+        'iso': 'BTN'
+      }, {
+        'name': 'Bolivia',
+        'iso': 'BOL'
+      }, {
+        'name': 'Bosnia and Herz.',
+        'iso': 'BIH'
+      }, {
+        'name': 'Botswana',
+        'iso': 'BWA'
+      }, {
+        'name': 'Br. Indian Ocean Ter.',
+        'iso': 'IOT'
+      }, {
+        'name': 'Brazil',
+        'iso': 'BRA'
+      }, {
+        'name': 'British Virgin Is.',
+        'iso': 'VGB'
+      }, {
+        'name': 'Brunei',
+        'iso': 'BRN'
+      }, {
+        'name': 'Bulgaria',
+        'iso': 'BGR'
+      }, {
+        'name': 'Burkina Faso',
+        'iso': 'BFA'
+      }, {
+        'name': 'Burundi',
+        'iso': 'BDI'
+      }, {
+        'name': 'Cambodia',
+        'iso': 'KHM'
+      }, {
+        'name': 'Cameroon',
+        'iso': 'CMR'
+      }, {
+        'name': 'Canada',
+        'iso': 'CAN'
+      }, {
+        'name': 'Cape Verde',
+        'iso': 'CPV'
+      }, {
+        'name': 'Cayman Is.',
+        'iso': 'CYM'
+      }, {
+        'name': 'Central African Rep.',
+        'iso': 'CAF'
+      }, {
+        'name': 'Chad',
+        'iso': 'TCD'
+      }, {
+        'name': 'Chile',
+        'iso': 'CHL'
+      }, {
+        'name': 'China',
+        'iso': 'CHN'
+      }, {
+        'name': 'Colombia',
+        'iso': 'COL'
+      }, {
+        'name': 'Comoros',
+        'iso': 'COM'
+      }, {
+        'name': 'Congo',
+        'iso': 'COG'
+      }, {
+        'name': 'Cook Is.',
+        'iso': 'COK'
+      }, {
+        'name': 'Costa Rica',
+        'iso': 'CRI'
+      }, {
+        'name': 'Croatia',
+        'iso': 'HRV'
+      }, {
+        'name': 'Cuba',
+        'iso': 'CUB'
+      }, {
+        'name': 'Curaçao',
+        'iso': 'CUW'
+      }, {
+        'name': 'Cyprus',
+        'iso': 'CYP'
+      }, {
+        'name': 'Czech Rep.',
+        'iso': 'CZE'
+      }, {
+        'name': 'Côte d\'Ivoire',
+        'iso': 'CIV'
+      }, {
+        'name': 'Dem. Rep. Congo',
+        'iso': 'COD'
+      }, {
+        'name': 'Dem. Rep. Korea',
+        'iso': 'PRK'
+      }, {
+        'name': 'Denmark',
+        'iso': 'DNK'
+      }, {
+        'name': 'Djibouti',
+        'iso': 'DJI'
+      }, {
+        'name': 'Dominica',
+        'iso': 'DMA'
+      }, {
+        'name': 'Dominican Rep.',
+        'iso': 'DOM'
+      }, {
+        'name': 'Ecuador',
+        'iso': 'ECU'
+      }, {
+        'name': 'Egypt',
+        'iso': 'EGY'
+      }, {
+        'name': 'El Salvador',
+        'iso': 'SLV'
+      }, {
+        'name': 'Eq. Guinea',
+        'iso': 'GNQ'
+      }, {
+        'name': 'Eritrea',
+        'iso': 'ERI'
+      }, {
+        'name': 'Estonia',
+        'iso': 'EST'
+      }, {
+        'name': 'Ethiopia',
+        'iso': 'ETH'
+      }, {
+        'name': 'Faeroe Is.',
+        'iso': 'FRO'
+      }, {
+        'name': 'Falkland Is.',
+        'iso': 'FLK'
+      }, {
+        'name': 'Fiji',
+        'iso': 'FJI'
+      }, {
+        'name': 'Finland',
+        'iso': 'FIN'
+      }, {
+        'name': 'Fr. Polynesia',
+        'iso': 'PYF'
+      }, {
+        'name': 'Fr. S. Antarctic Lands',
+        'iso': 'ATF'
+      }, {
+        'name': 'France',
+        'iso': 'FRA'
+      }, {
+        'name': 'Gabon',
+        'iso': 'GAB'
+      }, {
+        'name': 'Gambia',
+        'iso': 'GMB'
+      }, {
+        'name': 'Georgia',
+        'iso': 'GEO'
+      }, {
+        'name': 'Germany',
+        'iso': 'DEU'
+      }, {
+        'name': 'Ghana',
+        'iso': 'GHA'
+      }, {
+        'name': 'Greece',
+        'iso': 'GRC'
+      }, {
+        'name': 'Greenland',
+        'iso': 'GRL'
+      }, {
+        'name': 'Grenada',
+        'iso': 'GRD'
+      }, {
+        'name': 'Guam',
+        'iso': 'GUM'
+      }, {
+        'name': 'Guatemala',
+        'iso': 'GTM'
+      }, {
+        'name': 'Guernsey',
+        'iso': 'GGY'
+      }, {
+        'name': 'Guinea',
+        'iso': 'GIN'
+      }, {
+        'name': 'Guinea-Bissau',
+        'iso': 'GNB'
+      }, {
+        'name': 'Guyana',
+        'iso': 'GUY'
+      }, {
+        'name': 'Haiti',
+        'iso': 'HTI'
+      }, {
+        'name': 'Heard I. and McDonald Is.',
+        'iso': 'HMD'
+      }, {
+        'name': 'Honduras',
+        'iso': 'HND'
+      }, {
+        'name': 'Hong Kong',
+        'iso': 'HKG'
+      }, {
+        'name': 'Hungary',
+        'iso': 'HUN'
+      }, {
+        'name': 'Iceland',
+        'iso': 'ISL'
+      }, {
+        'name': 'India',
+        'iso': 'IND'
+      }, {
+        'name': 'Indian Ocean Ter.',
+        'iso': '-99'
+      }, {
+        'name': 'Indonesia',
+        'iso': 'IDN'
+      }, {
+        'name': 'Iran',
+        'iso': 'IRN'
+      }, {
+        'name': 'Iraq',
+        'iso': 'IRQ'
+      }, {
+        'name': 'Ireland',
+        'iso': 'IRL'
+      }, {
+        'name': 'Isle of Man',
+        'iso': 'IMN'
+      }, {
+        'name': 'Israel',
+        'iso': 'ISR'
+      }, {
+        'name': 'Italy',
+        'iso': 'ITA'
+      }, {
+        'name': 'Jamaica',
+        'iso': 'JAM'
+      }, {
+        'name': 'Japan',
+        'iso': 'JPN'
+      }, {
+        'name': 'Jersey',
+        'iso': 'JEY'
+      }, {
+        'name': 'Jordan',
+        'iso': 'JOR'
+      }, {
+        'name': 'Kazakhstan',
+        'iso': 'KAZ'
+      }, {
+        'name': 'Kenya',
+        'iso': 'KEN'
+      }, {
+        'name': 'Kiribati',
+        'iso': 'KIR'
+      }, {
+        'name': 'Korea',
+        'iso': 'KOR'
+      }, {
+        'name': 'Kosovo',
+        'iso': '-99'
+      }, {
+        'name': 'Kuwait',
+        'iso': 'KWT'
+      }, {
+        'name': 'Kyrgyzstan',
+        'iso': 'KGZ'
+      }, {
+        'name': 'Lao PDR',
+        'iso': 'LAO'
+      }, {
+        'name': 'Latvia',
+        'iso': 'LVA'
+      }, {
+        'name': 'Lebanon',
+        'iso': 'LBN'
+      }, {
+        'name': 'Lesotho',
+        'iso': 'LSO'
+      }, {
+        'name': 'Liberia',
+        'iso': 'LBR'
+      }, {
+        'name': 'Libya',
+        'iso': 'LBY'
+      }, {
+        'name': 'Liechtenstein',
+        'iso': 'LIE'
+      }, {
+        'name': 'Lithuania',
+        'iso': 'LTU'
+      }, {
+        'name': 'Luxembourg',
+        'iso': 'LUX'
+      }, {
+        'name': 'Macao',
+        'iso': 'MAC'
+      }, {
+        'name': 'Macedonia',
+        'iso': 'MKD'
+      }, {
+        'name': 'Madagascar',
+        'iso': 'MDG'
+      }, {
+        'name': 'Malawi',
+        'iso': 'MWI'
+      }, {
+        'name': 'Malaysia',
+        'iso': 'MYS'
+      }, {
+        'name': 'Maldives',
+        'iso': 'MDV'
+      }, {
+        'name': 'Mali',
+        'iso': 'MLI'
+      }, {
+        'name': 'Malta',
+        'iso': 'MLT'
+      }, {
+        'name': 'Marshall Is.',
+        'iso': 'MHL'
+      }, {
+        'name': 'Mauritania',
+        'iso': 'MRT'
+      }, {
+        'name': 'Mauritius',
+        'iso': 'MUS'
+      }, {
+        'name': 'Mexico',
+        'iso': 'MEX'
+      }, {
+        'name': 'Micronesia',
+        'iso': 'FSM'
+      }, {
+        'name': 'Moldova',
+        'iso': 'MDA'
+      }, {
+        'name': 'Monaco',
+        'iso': 'MCO'
+      }, {
+        'name': 'Mongolia',
+        'iso': 'MNG'
+      }, {
+        'name': 'Montenegro',
+        'iso': 'MNE'
+      }, {
+        'name': 'Montserrat',
+        'iso': 'MSR'
+      }, {
+        'name': 'Morocco',
+        'iso': 'MAR'
+      }, {
+        'name': 'Mozambique',
+        'iso': 'MOZ'
+      }, {
+        'name': 'Myanmar',
+        'iso': 'MMR'
+      }, {
+        'name': 'N. Cyprus',
+        'iso': '-99'
+      }, {
+        'name': 'N. Mariana Is.',
+        'iso': 'MNP'
+      }, {
+        'name': 'Namibia',
+        'iso': 'NAM'
+      }, {
+        'name': 'Nauru',
+        'iso': 'NRU'
+      }, {
+        'name': 'Nepal',
+        'iso': 'NPL'
+      }, {
+        'name': 'Netherlands',
+        'iso': 'NLD'
+      }, {
+        'name': 'New Caledonia',
+        'iso': 'NCL'
+      }, {
+        'name': 'New Zealand',
+        'iso': 'NZL'
+      }, {
+        'name': 'Nicaragua',
+        'iso': 'NIC'
+      }, {
+        'name': 'Niger',
+        'iso': 'NER'
+      }, {
+        'name': 'Nigeria',
+        'iso': 'NGA'
+      }, {
+        'name': 'Niue',
+        'iso': 'NIU'
+      }, {
+        'name': 'Norfolk Island',
+        'iso': 'NFK'
+      }, {
+        'name': 'Norway',
+        'iso': 'NOR'
+      }, {
+        'name': 'Oman',
+        'iso': 'OMN'
+      }, {
+        'name': 'Pakistan',
+        'iso': 'PAK'
+      }, {
+        'name': 'Palau',
+        'iso': 'PLW'
+      }, {
+        'name': 'Palestine',
+        'iso': 'PSE'
+      }, {
+        'name': 'Panama',
+        'iso': 'PAN'
+      }, {
+        'name': 'Papua New Guinea',
+        'iso': 'PNG'
+      }, {
+        'name': 'Paraguay',
+        'iso': 'PRY'
+      }, {
+        'name': 'Peru',
+        'iso': 'PER'
+      }, {
+        'name': 'Philippines',
+        'iso': 'PHL'
+      }, {
+        'name': 'Pitcairn Is.',
+        'iso': 'PCN'
+      }, {
+        'name': 'Poland',
+        'iso': 'POL'
+      }, {
+        'name': 'Portugal',
+        'iso': 'PRT'
+      }, {
+        'name': 'Puerto Rico',
+        'iso': 'PRI'
+      }, {
+        'name': 'Qatar',
+        'iso': 'QAT'
+      }, {
+        'name': 'Romania',
+        'iso': 'ROU'
+      }, {
+        'name': 'Russia',
+        'iso': 'RUS'
+      }, {
+        'name': 'Rwanda',
+        'iso': 'RWA'
+      }, {
+        'name': 'S. Geo. and S. Sandw. Is.',
+        'iso': 'SGS'
+      }, {
+        'name': 'S. Sudan',
+        'iso': 'SSD'
+      }, {
+        'name': 'Saint Helena',
+        'iso': 'SHN'
+      }, {
+        'name': 'Saint Lucia',
+        'iso': 'LCA'
+      }, {
+        'name': 'Samoa',
+        'iso': 'WSM'
+      }, {
+        'name': 'San Marino',
+        'iso': 'SMR'
+      }, {
+        'name': 'Saudi Arabia',
+        'iso': 'SAU'
+      }, {
+        'name': 'Senegal',
+        'iso': 'SEN'
+      }, {
+        'name': 'Serbia',
+        'iso': 'SRB'
+      }, {
+        'name': 'Seychelles',
+        'iso': 'SYC'
+      }, {
+        'name': 'Siachen Glacier',
+        'iso': '-99'
+      }, {
+        'name': 'Sierra Leone',
+        'iso': 'SLE'
+      }, {
+        'name': 'Singapore',
+        'iso': 'SGP'
+      }, {
+        'name': 'Sint Maarten',
+        'iso': 'SXM'
+      }, {
+        'name': 'Slovakia',
+        'iso': 'SVK'
+      }, {
+        'name': 'Slovenia',
+        'iso': 'SVN'
+      }, {
+        'name': 'Solomon Is.',
+        'iso': 'SLB'
+      }, {
+        'name': 'Somalia',
+        'iso': 'SOM'
+      }, {
+        'name': 'Somaliland',
+        'iso': '-99'
+      }, {
+        'name': 'South Africa',
+        'iso': 'ZAF'
+      }, {
+        'name': 'Spain',
+        'iso': 'ESP'
+      }, {
+        'name': 'Sri Lanka',
+        'iso': 'LKA'
+      }, {
+        'name': 'St-Barthélemy',
+        'iso': 'BLM'
+      }, {
+        'name': 'St-Martin',
+        'iso': 'MAF'
+      }, {
+        'name': 'St. Kitts and Nevis',
+        'iso': 'KNA'
+      }, {
+        'name': 'St. Pierre and Miquelon',
+        'iso': 'SPM'
+      }, {
+        'name': 'St. Vin. and Gren.',
+        'iso': 'VCT'
+      }, {
+        'name': 'Sudan',
+        'iso': 'SDN'
+      }, {
+        'name': 'Suriname',
+        'iso': 'SUR'
+      }, {
+        'name': 'Swaziland',
+        'iso': 'SWZ'
+      }, {
+        'name': 'Sweden',
+        'iso': 'SWE'
+      }, {
+        'name': 'Switzerland',
+        'iso': 'CHE'
+      }, {
+        'name': 'Syria',
+        'iso': 'SYR'
+      }, {
+        'name': 'Săo Tomé and Principe',
+        'iso': 'STP'
+      }, {
+        'name': 'Taiwan',
+        'iso': 'TWN'
+      }, {
+        'name': 'Tajikistan',
+        'iso': 'TJK'
+      }, {
+        'name': 'Tanzania',
+        'iso': 'TZA'
+      }, {
+        'name': 'Thailand',
+        'iso': 'THA'
+      }, {
+        'name': 'Timor-Leste',
+        'iso': 'TLS'
+      }, {
+        'name': 'Togo',
+        'iso': 'TGO'
+      }, {
+        'name': 'Tonga',
+        'iso': 'TON'
+      }, {
+        'name': 'Trinidad and Tobago',
+        'iso': 'TTO'
+      }, {
+        'name': 'Tunisia',
+        'iso': 'TUN'
+      }, {
+        'name': 'Turkey',
+        'iso': 'TUR'
+      }, {
+        'name': 'Turkmenistan',
+        'iso': 'TKM'
+      }, {
+        'name': 'Turks and Caicos Is.',
+        'iso': 'TCA'
+      }, {
+        'name': 'U.S. Virgin Is.',
+        'iso': 'VIR'
+      }, {
+        'name': 'Uganda',
+        'iso': 'UGA'
+      }, {
+        'name': 'Ukraine',
+        'iso': 'UKR'
+      }, {
+        'name': 'United Arab Emirates',
+        'iso': 'ARE'
+      }, {
+        'name': 'United Kingdom',
+        'iso': 'GBR'
+      }, {
+        'name': 'United States',
+        'iso': 'USA'
+      }, {
+        'name': 'Uruguay',
+        'iso': 'URY'
+      }, {
+        'name': 'Uzbekistan',
+        'iso': 'UZB'
+      }, {
+        'name': 'Vanuatu',
+        'iso': 'VUT'
+      }, {
+        'name': 'Vatican',
+        'iso': 'VAT'
+      }, {
+        'name': 'Venezuela',
+        'iso': 'VEN'
+      }, {
+        'name': 'Vietnam',
+        'iso': 'VNM'
+      }, {
+        'name': 'W. Sahara',
+        'iso': 'ESH'
+      }, {
+        'name': 'Wallis and Futuna Is.',
+        'iso': 'WLF'
+      }, {
+        'name': 'Yemen',
+        'iso': 'YEM'
+      }, {
+        'name': 'Zambia',
+        'iso': 'ZMB'
+      }, {
+        'name': 'Zimbabwe',
+        'iso': 'ZWE'
+      }];
+    }
+
+  });
+
+  new CountrySearch();
+</script>
+
+<script>
+  var TPL2 = '<div class="insights--interactive-intro-2-title">It’s your turn</div> \
+  <div class="insights--interactive-intro-2-subtitle">If a similar event happened to you, would you be able to be able to do anything about it? The outcome of such events often depends on the <b>strength of national laws</b>.</div> \
+  <div class="insights--interactive-input"> \
+    <form> \
+      <select class="js-search-country"> \
+        <option value="" disabled="" selected="">Where do you live?</option> \
+      </select> \
+      <input type="submit" value="Let’s go!" class="button js-next"/> \
+    </form> \
+  </div> \
+  <ul class="insights--interactive-footer"> \
+    <li><a href="http://environmentaldemocracyindex.org">Visit EDI</a></li> \
+  </ul>';
+
+  var TPL3 = '<h2 class="insights--interactive-intro-3-title">{{country}}</h2> \
+  <div class="insights--interactive-intro-3-subtitle"> \
+    In {{country}} the laws supporting access to information, public participation, and access to justice in environmental matters are relatively <b>{{strength}}</b>. \
+  </div> \
+  <div class="insights--interactive-breakdown"> \
+    <p>Suppose that’s where you live, and that a local plastics manufacturer intends to site a potentially toxic factory in your neighborhood.</p> \
+    {{#each sentences}} \
+    <p>{{this}}</p> \
+    {{/each}} \
+    <p>These laws differ from country to country. See how things would look if you lived in <a class="js-back">another country</a>.</p> \
+    <p class="insights--interactive-breakdown-note">Text based on 10 indicators of EDI (4.2, 4.3, P4.1, 8.1, 8.2, 10.1, 11.1, 17.2, 18.1, 20.2).</p> \
+    <p class="insights--interactive-breakdown-note">The Access Initiative and World Resources Institute. 2015. “The Environmental Democracy Index.” Available online at: www.environmentaldemocracyindex.org.</p> \
+  </div> \
+  <div class="insights--interactive-edi-data"> \
+    <div class="insights--interactive-score"> \
+      <figure>{{score}}</figure> \
+      <span>Country Score</span> \
+    </div> \
+    <ul class="insights--interactive-data-list"> \
+      <li><span>Population</span> {{population}}</li> \
+      <li><span>Income level</span> {{grp}}</li> \
+      <li><span>Human Development Index</span> {{hdi}}</li> \
+      <li><span>Environmental Development Index</span> {{edi}}</li> \
+    </ul> \
+  </div> \
+  <ul class="insights--interactive-footer"> \
+    <li><a class="is-link js-back">Choose another country</a></li> \
+    <li><a href="explore-detail.html#7">Explore the data</a></li> \
+    <li><a href="http://environmentaldemocracyindex.org/country/{{iso}}">Read on EDI</a></li> \
+  </ul>';
+
+
+  var EdiCollection = Backbone.Collection.extend({
+    initialize: function(options) {
+      this.iso = options && options.iso;
+    },
+
+    url: function() {
+      return 'https://insights.cartodb.com/api/v2/sql?q=SELECT indicatorid, ' +
+      'score FROM edi_data where field_iso=\'' + this.iso + '\'';
+    },
+
+    parse: function(data) {
+      return data.rows;
+    }
+  });
+
+  var InsightsCollection = Backbone.Collection.extend({
+
+    url: 'https://insights.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20edi_insight',
+
+    parse: function(data) {
+      return _.map(data && data.rows, function(row) {
+        return {
+          condition: JSON.parse(row.indicatorsid),
+          sentence: Handlebars.compile(row.phrase),
+          order: row.group_id
+        };
+      });
+    }
+  });
+
+  var ScoreModel = Backbone.Model.extend({
+
+    initialize: function(options) {
+      this.iso = options && options.iso;
+    },
+
+    url: function() {
+      return 'http://edi.simbiotica.es/overall-by-country/' + this.iso;
+    },
+
+    parse: function(data) {
+      return {
+        score: data[0].score,
+        strength: parseFloat(data[0].score) < 1 ? 'relatively weak' : (parseFloat(data[0].score) > 2 ? 'strong' : 'relatively average')
+      }
+    }
+  });
+
+  var CountryModel = Backbone.Model.extend({
+    initialize: function(options) {
+      this.iso = options && options.iso;
+    },
+
+    url: function() {
+      return 'http://edi.simbiotica.es/country-info/' + this.iso;
+    },
+
+    parse: function(data) {
+      return {
+        name: data[0]['Name'],
+        population: data[0]['Population'],
+        grp: data[0]['GRP'],
+        hdi: data[0]['HDI'],
+        edi: data[0]['EPI'],
+        isFederal: !!(data[0] && data[0]['Federal'])
+      };
+    }
+
+  });
+
+  var CountriesCollection = Backbone.Collection.extend({
+
+    url: 'http://edi.simbiotica.es/countries-by-overall',
+    comparator: 'name',
+
+    initialize: function() {
+      this.fetch();
+    },
+
+    parse: function(data) {
+      return _.map(data, function(row) {
+        return {
+          iso: row.field_iso,
+          name: row.country
+        };
+      });
+    }
+  });
+
+  var InteractiveEdi = Backbone.View.extend({
+
+    el: 'body',
+
+    events: {
+      'click .js-next': 'nextStep'
+    },
+
+    template2: Handlebars.compile(TPL2),
+    template3: Handlebars.compile(TPL3),
+
+    initialize: function() {
+      this.step = 0;
+      this.$container = $('.js-container');
+      this.$introContainer = $('.js-intro-container');
+      this.$intro2Container = $('.js-intro-2-container');
+      this.$card = $('.js-card');
+      this.$cardFront = $('.insights--interactive-card-front');
+      this.$cardBack = $('.insights--interactive-card-back');
+      this.$countryInput = $('.js-search-country');
+      this.countriesCollection = new CountriesCollection();
+      this.setListeners();
+    },
+
+    setListeners: function() {
+      this.countriesCollection.on('sync', _.bind(this.updateCountriesList, this));
+    },
+
+    updateCountriesList: function() {
+      _.each(this.countriesCollection.toJSON(), _.bind(function(country) {
+        this.$countryInput.append('<option value="' + country.iso + '">' + country.name + '</option>');
+      }, this));
+    },
+
+    nextStep: function(e) {
+      e.preventDefault();
+
+      switch (this.step) {
+        case 0:
+        this.step++;
+        this.$container.toggleClass('bg-ramesh-02 bg-ramesh-01');
+        this.$introContainer.css({
+          opacity: 0
+        });
+        /* CSS transition of 200ms for the opacity */
+        setTimeout(_.bind(function() {
+          this.$intro2Container.fadeIn(300);
+        }, this), 300);
+        break;
+
+        case 1:
+        this.step++;
+        this.$cardBack.css({
+          position: 'absolute',
+          top: '0px'
+        });
+        this.$cardBack.removeClass('is-hidden');
+        this.$card.addClass('is-flipped');
+        /* CSS transition of 1s for the flip */
+        setTimeout(_.bind(function() {
+          this.$cardBack.css({
+            position: 'static'
+          });
+          this.$cardFront.addClass('is-hidden');
+        }, this), 1000);
+        break;
+
+        case 2:
+        this.iso = this.$countryInput.find('option:selected').val();
+
+        if (!!this.iso.length) {
+          this.ediCollection = new EdiCollection({
+            iso: this.iso
+          });
+          this.insightsCollection = new InsightsCollection();
+          this.countryModel = new CountryModel({
+            iso: this.iso
+          });
+          this.scoreModel = new ScoreModel({
+            iso: this.iso
+          });
+
+          this.$cardBack.addClass('is-loading');
+
+          $.when.apply($, [this.scoreModel.fetch(), this.countryModel.fetch(), this.ediCollection.fetch(), this.insightsCollection.fetch()])
+          .then(_.bind(this.renderResult, this))
+          .fail(function() {
+            console.log('Error fetching the data');
+          })
+          .always(_.bind(function() {
+            this.$cardBack.removeClass('is-loading');
+          }, this));
+        }
+        break;
+      }
+    },
+
+    previousStep: function() {
+      if (this.step === 3) {
+        this.$cardBack.html(this.template2());
+        this.$countryInput = $('.js-search-country');
+        this.updateCountriesList();
+        $('html, body').animate({
+          scrollTop: this.$cardBack.offset().top
+        }, 500);
+        this.step--;
+      }
+    },
+
+    renderResult: function() {
+      var ediData = this.ediCollection.toJSON();
+      var insightsData = this.insightsCollection.toJSON();
+      var countryData = this.countryModel.toJSON();
+      var scoreData = this.scoreModel.toJSON();
+
+      var conditions;
+      var sentences = _.map(_.sortBy(_.map(_.compact(_.map(insightsData, function(row) {
+        conditions = row.condition;
+        var indicator, condition;
+        for (var i = 0, j = conditions.length; i < j; i++) {
+          condition = conditions[i];
+          indicator = _.findWhere(ediData, {
+            indicatorid: condition.indicatorid
+          });
+          if (indicator.score !== condition.value) {
+            return false;
+          }
+        }
+        return {
+          sentence: row.sentence,
+          order: row.order
+        };
+      })), function(o) {
+        return {
+          sentence: o.sentence.apply(this, [{
+            iso: countryData.name,
+            is_federal: countryData.isFederal ? 'federal' : ''
+          }]),
+          order: o.order
+        };
+      }), 'order'), function(o) {
+        return o.sentence;
+      });
+
+      this.step++;
+      this.$cardBack.children().fadeOut(300, _.bind(function() {
+        this.$cardBack.html(this.template3({
+          sentences: sentences,
+          country: countryData.name,
+          iso: this.iso,
+          population: countryData.population,
+          grp: countryData.grp,
+          hdi: countryData.hdi,
+          edi: countryData.edi,
+          score: scoreData.score,
+          strength: scoreData.strength
+        }));
+        $('.js-back').on('click', _.bind(this.previousStep, this));
+      }, this));
+    }
+
+  });
+
+  new InteractiveEdi();
+</script>
+</body>
+</html>

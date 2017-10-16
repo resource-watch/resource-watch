@@ -34,15 +34,14 @@ class NEXGDDPEditor extends React.Component {
 
   @Autobind
   handleSaveWidget() {
-    const { dataset, datasetType, datasetProvider, tableName, title } = this.props;
+    const { dataset, datasetType, datasetProvider, tableName } = this.props;
     const options = {
       children: SaveWidgetModal,
       childrenProps: {
         dataset,
         datasetType,
         datasetProvider,
-        tableName,
-        title
+        tableName
       }
     };
     this.props.toggleModal(true);
@@ -82,7 +81,8 @@ class NEXGDDPEditor extends React.Component {
       hasGeoInfo,
       showEmbedTable,
       showLimitContainer,
-      showOrderByContainer
+      showOrderByContainer,
+      showNotLoggedInText
     } = this.props;
     const {
       chartType,
@@ -174,6 +174,11 @@ class NEXGDDPEditor extends React.Component {
             Save widget
           </a>
           }
+          {!showSaveButton && showNotLoggedInText &&
+            <span className="not-logged-in-text">
+              Please log in to save changes
+            </span>
+          }
           {showUpdateButton && mode === 'update' &&
           <a
             role="button"
@@ -208,12 +213,12 @@ NEXGDDPEditor.propTypes = {
   mode: PropTypes.oneOf(['save', 'update']).isRequired,
   tableName: PropTypes.string.isRequired,
   hasGeoInfo: PropTypes.bool.isRequired,
-  title: PropTypes.string, // Default title when saving the widget
   jiminy: PropTypes.object,
   dataset: PropTypes.string.isRequired, // Dataset ID
   datasetType: PropTypes.string,
   datasetProvider: PropTypes.string,
   tableViewMode: PropTypes.bool.isRequired,
+  showNotLoggedInText: PropTypes.bool,
   showSaveButton: PropTypes.bool.isRequired,
   showEmbedTable: PropTypes.bool,
   showLimitContainer: PropTypes.bool.isRequired,

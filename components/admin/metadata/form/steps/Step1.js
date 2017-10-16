@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import isEqual from 'lodash/isEqual';
+import compact from 'lodash/compact';
 
 // redux
 import { connect } from 'react-redux';
@@ -336,7 +337,7 @@ class Step1 extends React.Component {
           {sources.length > 0 &&
             <div className="c-metadata-source-list">
               <ul className="source-list">
-                {sources.map(source =>
+                {compact(sources).map(source =>
                   (<li key={source.id} className="source-item">
                     <div className="source-container">
                       <a

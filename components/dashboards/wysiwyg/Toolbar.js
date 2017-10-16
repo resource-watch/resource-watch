@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import ToolbarWidgetBtn from 'components/dashboards/wysiwyg/ToolbarWidgetBtn';
 
 class Toolbar extends React.Component {
-
   constructor(props) {
     super(props);
 

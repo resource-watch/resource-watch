@@ -17,6 +17,9 @@ routes.add('admin_partners_detail', '/admin/partners/:tab/:id/:subtab?', 'admin/
 // PAGES
 routes.add('admin_pages', '/admin/pages/:tab?', 'admin/Pages');
 routes.add('admin_pages_detail', '/admin/pages/:tab/:id/:subtab?', 'admin/PagesDetail');
+// TOOLS
+routes.add('admin_tools', '/admin/tools/:tab?', 'admin/Tools');
+routes.add('admin_tools_detail', '/admin/tools/:tab/:id/:subtab?', 'admin/ToolsDetail');
 
 // ========================= APP ROUTES =====================
 routes.add('home', '/', 'app/Home');
@@ -36,8 +39,8 @@ routes.add('dashboards', '/data/dashboards/', 'app/Dashboards');
 routes.add('dashboards_detail', '/data/dashboards/:slug', 'app/DashboardsDetail');
 
 // ----- INSIGHTS -----
-routes.add('insights', '/insights', 'app/Insights');
-routes.add('insights_detail', '/insights/:slug', 'app/InsightsDetail');
+routes.add('insights', '/blog', 'app/Insights');
+routes.add('insights_detail', '/blog/:slug', 'app/InsightsDetail');
 
 // ----- GET INVOLVED -----
 routes.add('get_involved', '/get-involved', 'app/GetInvolved');
