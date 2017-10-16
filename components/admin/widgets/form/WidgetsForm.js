@@ -25,7 +25,8 @@ import {
   setBand,
   setVisualizationType,
   setLayer,
-  setTitle
+  setTitle,
+  resetWidgetEditor
 } from 'components/widgets/editor/redux/widgetEditor';
 
 // Constants
@@ -64,6 +65,15 @@ class WidgetsForm extends React.Component {
     this.datasetsService = new DatasetsService({
       authorization: props.authorization
     });
+  }
+
+  componentWillMount() {
+    // If the user wants to create a new widget, we make
+    // sure that the name of the previous widget the
+    // user saw is not leaking in this new form
+    if (!this.props.id) {
+      this.props.resetWidgetEditor();
+    }
   }
 
   componentDidMount() {
@@ -387,7 +397,8 @@ WidgetsForm.propTypes = {
   setVisualizationType: PropTypes.func.isRequired,
   setBand: PropTypes.func.isRequired,
   setLayer: PropTypes.func.isRequired,
-  setTitle: PropTypes.func.isRequired
+  setTitle: PropTypes.func.isRequired,
+  resetWidgetEditor: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -409,7 +420,8 @@ const mapDispatchToProps = dispatch => ({
       .then(layer => dispatch(setLayer(layer)))
       // TODO: better handling of the error
       .catch(err => toastr.error('Error', err));
-  }
+  },
+  resetWidgetEditor: () => dispatch(resetWidgetEditor())
 });
 
 const mapStateToProps = state => ({

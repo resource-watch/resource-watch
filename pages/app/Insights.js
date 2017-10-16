@@ -68,7 +68,11 @@ class Insights extends Page {
               <div className="column small-12">
                 <div className="page-header-content">
                   <Breadcrumbs items={[{ name: 'Home', href: '/' }]} />
-                  <h1>Blog</h1>
+                  <h1>Signals Blog</h1>
+
+                  <div className="page-header-info">
+                    <p>Explore the stories behind the data and submit your own.</p>
+                  </div>
                 </div>
               </div>
             </div>

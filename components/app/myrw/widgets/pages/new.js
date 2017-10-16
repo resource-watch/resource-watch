@@ -302,7 +302,7 @@ class WidgetsNew extends React.Component {
             dataset={selectedDataset}
             mode="widget"
             onUpdateWidget={this.onSubmit}
-            showSaveButton={false}
+            showSaveButton
             onError={this.handleWidgetEditorError}
           />
           <div className="form-container">

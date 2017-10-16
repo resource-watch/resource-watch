@@ -157,8 +157,8 @@ class Home extends Page {
             <header>
               <div className="row">
                 <div className="column small-12 medium-8">
-                  <h2>Discover signals</h2>
-                  <p>Read the latest analysis from our community or submit your own original story.</p>
+                  <h2>Discover Signals</h2>
+                  <p>Read the stories behind the data on our Signals blog.</p>
                 </div>
               </div>
             </header>
