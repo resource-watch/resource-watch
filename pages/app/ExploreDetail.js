@@ -472,7 +472,14 @@ class ExploreDetail extends Page {
                 {metadataInfo && metadataInfo.license ? (
                   <div className="l-section-mod">
                     <h3>License</h3>
-                    <p>{metadataInfo.license}</p>
+                    <p>
+                      {!!metadataInfo.license_link &&
+                        <a href={metadataInfo.license_link} target="_blank" rel="noopener noreferrer">{metadataInfo.license}</a>
+                      }
+                      {!metadataInfo.license_link &&
+                        metadataInfo.license
+                      }
+                    </p>
                   </div>
                 ) : null}
 
