@@ -53,6 +53,38 @@
     color: $ui-font-color;
   }
 
+  .footer-social {
+    display: flex;
+    justify-content: center;
+    padding: 0 0 $margin-size;
+
+    ul {
+      display: inline-flex;
+      justify-content: flex-start;
+
+      li {
+        margin-left: 10px;
+        &:first-child { margin-left: 0; }
+      }
+    }
+
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid $color-text-1;
+      border-radius: 50%;
+      padding: 10px;
+      fill: $color-text-1;
+      background: transparent;
+
+      &:hover {
+        background: $color-text-1;
+        fill: $color-white;
+      }
+    }
+  }
+
   .footer-lower {
     background-color: #333333;
 
