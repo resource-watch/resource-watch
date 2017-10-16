@@ -150,8 +150,6 @@ class DatasetWidget extends React.Component {
     const gridMode = (mode === 'grid');
     const element = this.getWidgetOrLayer();
 
-    const updatedAtText = dataset.updatedAt && dataset.updatedAt.split('T')[0];
-
     return (
       <div className={`c-dataset-list-item -${mode}`}>
 
