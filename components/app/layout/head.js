@@ -30,6 +30,30 @@ class Head extends React.Component {
     /* eslint-enable */
   }
 
+  getGA() {
+    return <script async src="https://www.googletagmanager.com/gtag/js?id=UA-67196006-1"></script>;
+  }
+
+  getGASettings() {
+    return (
+      <script
+        type="text/javascript"
+        /* eslint-disable */
+        dangerouslySetInnerHTML={{ __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'UA-67196006-1');
+        ` }}
+        /* eslint-enable */
+      />);
+  }
+
+  getCrazyEgg() {
+    return <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0069/4623.js" async="async"></script>;
+  }
+
+
   getUserReport() {
     const { pathname } = this.props.routes;
 
@@ -99,6 +123,9 @@ class Head extends React.Component {
         <link rel="icon" href="/static/favicon.ico" />
         <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700" />
         {Head.getStyles()}
+        {this.getGA()}
+        {this.getGASettings()}
+        {this.getCrazyEgg()}
         {this.getUserReport()}
         {this.getTransifexSettings()}
         {this.getTransifex()}
