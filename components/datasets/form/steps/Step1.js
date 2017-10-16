@@ -169,6 +169,12 @@ class Step1 extends React.Component {
               className="-fluid"
               validations={['required']}
               options={DATASET_TYPES}
+              hint={`
+                <ul>
+                  <li>Tabular: Dataset contains table formatted data. Providers available: Carto, Gee, Feature Service, csv, json tsv and xml</li>
+                  <li>Raster: Dataset is an image. Only Google Earth Engine, wms and Carto connectors can hold raster data</li>
+                </ul>
+              `}
               properties={{
                 name: 'type',
                 label: 'Type',
@@ -322,7 +328,7 @@ class Step1 extends React.Component {
               onChange={value => this.props.onChange({ tableName: value })}
               validations={['required']}
               className="-fluid"
-              hint="Example: projects/wri-datalab/HansenComposite_14-15"
+              hint="Please add fusion table (ft:id) or an image. Example: projects/wri-datalab/HansenComposite_14-15`"
               properties={{
                 name: 'tableName',
                 label: 'Table name',
@@ -347,7 +353,7 @@ class Step1 extends React.Component {
               onChange={value => this.props.onChange({ tableName: value })}
               validations={['required']}
               className="-fluid"
-              hint="Example: scenario/model"
+              hint="Please verify that the scenario and model is already incorporated in Rasdaman. Example: scenario/model"
               properties={{
                 name: 'tableName',
                 label: 'Table name',
@@ -397,7 +403,7 @@ class Step1 extends React.Component {
               onChange={value => this.props.onChange({ connectorUrl: value })}
               validations={['required', 'url']}
               className="-fluid"
-              // hint="Example: http://gis-gfw.wri.org/arcgis/rest/services/prep/nex_gddp_indicators/MapServer/6?f=pjson"
+              hint="This connector will only display the data as a wms map layer. The data will not be available through queries."
               properties={{
                 name: 'connectorUrl',
                 label: 'Url data endpoint',
