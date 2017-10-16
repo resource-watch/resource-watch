@@ -2,7 +2,6 @@ import React from 'react';
 import classnames from 'classnames';
 import renderHTML from 'react-render-html';
 import isEmpty from 'lodash/isEmpty';
-import isEqual from 'lodash/isEqual';
 
 // Router
 import { Router } from 'routes';
