@@ -35,6 +35,8 @@ const SET_TOPICS_TREE = 'explore/SET_TOPICS_TREE';
 const SET_DATA_TYPE_TREE = 'explore/SET_DATA_TYPE_TREE';
 const SET_GEOGRAPHIES_TREE = 'explore/SET_GEOGRAPHIES_TREE';
 
+const SET_ZOOM = 'explore/SET_ZOOM';
+const SET_LATLNG = 'explore/SET_LATLNG';
 const SET_BASEMAP = 'explore/SET_BASEMAP';
 const SET_LABELS = 'explore/SET_LABELS';
 
@@ -90,6 +92,8 @@ const initialState = {
     open: true,
     width: 0
   },
+  zoom: 3,
+  latLng: { lat: 0, lng: 0 },
   basemap: BASEMAPS.dark,
   basemapControl: {
     basemaps: BASEMAPS
@@ -277,6 +281,18 @@ export default function (state = initialState, action) {
       });
     }
 
+    case SET_ZOOM: {
+      return Object.assign({}, state, {
+        zoom: action.payload
+      });
+    }
+
+    case SET_LATLNG: {
+      return Object.assign({}, state, {
+        latLng: action.payload
+      });
+    }
+
     default:
       return state;
   }
@@ -288,6 +304,7 @@ export function setUrlParams() {
   return (dispatch, getState) => {
     const { explore } = getState();
     const layerGroups = explore.layers;
+    const { zoom, latLng } = explore;
     const { page } = explore.datasets;
     const { search, topics, dataType, geographies } = explore.filters;
 
@@ -323,6 +340,14 @@ export function setUrlParams() {
       } else {
         delete query.geographies;
       }
+    }
+
+    if (zoom) {
+      query.zoom = zoom;
+    }
+
+    if (latLng) {
+      query.latLng = JSON.stringify(latLng);
     }
 
     Router.replaceRoute('explore', query);
@@ -592,5 +617,24 @@ export function setLabels(labelEnabled) {
   return {
     type: SET_LABELS,
     payload: labelEnabled
+  };
+}
+
+
+export function setZoom(zoom, updateUrl = true) {
+  return (dispatch) => {
+    dispatch({ type: SET_ZOOM, payload: zoom });
+
+    // We also update the URL
+    if (updateUrl && typeof window !== 'undefined') dispatch(setUrlParams());
+  };
+}
+
+export function setLatLng(latLng, updateUrl = true) {
+  return (dispatch) => {
+    dispatch({ type: SET_LATLNG, payload: latLng });
+
+    // We also update the URL
+    if (updateUrl && typeof window !== 'undefined') dispatch(setUrlParams());
   };
 }

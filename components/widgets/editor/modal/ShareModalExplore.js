@@ -26,10 +26,20 @@ class ShareModal extends React.Component {
   }
 
   render() {
-    const { url, layerGroups } = this.props;
+    const { url, layerGroups, zoom, latLng } = this.props;
     const showEmbed = layerGroups && layerGroups.length > 0;
     const { protocol, hostname, port } = window && window.location ? window.location : {};
     const embedHost = window && window.location ? `${protocol}//${hostname}${port !== '' ? `:${port}` : port}` : '';
+
+    const embedParams = {
+      layers: JSON.stringify(layerGroups),
+      zoom,
+      latLng: JSON.stringify(latLng)
+    };
+
+    const embedSerializedParams = Object.keys(embedParams)
+      .map(k => `${k}=${encodeURIComponent(embedParams[k])}`)
+      .join('&');
 
     return (
       <div className="c-share-modal-explore">
@@ -71,7 +81,7 @@ class ShareModal extends React.Component {
                 <input
                   id="embed-url"
                   ref={(n) => { this.embedInput = n; }}
-                  value={`<iframe src="${embedHost}/embed/layers/?layers=${encodeURIComponent(JSON.stringify(layerGroups))}" width="100%" height="474px" frameBorder="0"></iframe>`}
+                  value={`<iframe src="${embedHost}/embed/layers/?${embedSerializedParams}" width="100%" height="474px" frameBorder="0"></iframe>`}
                   className="url"
                   readOnly
                 />
@@ -97,6 +107,11 @@ class ShareModal extends React.Component {
 ShareModal.propTypes = {
   url: PropTypes.string.isRequired,
   layerGroups: PropTypes.array,
+  zoom: PropTypes.number,
+  latLng: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lng: PropTypes.number.isRequired
+  }),
   toggleModal: PropTypes.func.isRequired
 };
 
