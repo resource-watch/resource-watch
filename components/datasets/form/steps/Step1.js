@@ -157,29 +157,31 @@ class Step1 extends React.Component {
             {Input}
           </Field>
 
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.type = c; }}
-            onChange={(value) => {
-              this.props.onChange({
-                type: value,
-                ...(value === 'raster') && { geoInfo: true }
-              });
-            }}
-            className="-fluid"
-            validations={['required']}
-            options={DATASET_TYPES}
-            properties={{
-              name: 'type',
-              label: 'Type',
-              default: this.state.form.type,
-              value: this.state.form.type,
-              disabled: !!this.state.dataset,
-              required: true,
-              instanceId: 'selectType'
-            }}
-          >
-            {Select}
-          </Field>
+          {user.role === 'ADMIN' && !basic &&
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements.type = c; }}
+              onChange={(value) => {
+                this.props.onChange({
+                  type: value,
+                  ...(value === 'raster') && { geoInfo: true }
+                });
+              }}
+              className="-fluid"
+              validations={['required']}
+              options={DATASET_TYPES}
+              properties={{
+                name: 'type',
+                label: 'Type',
+                default: this.state.form.type,
+                value: this.state.form.type,
+                disabled: !!this.state.dataset,
+                required: true,
+                instanceId: 'selectType'
+              }}
+            >
+              {Select}
+            </Field>
+          }
 
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.geoInfo = c; }}
