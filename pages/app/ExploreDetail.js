@@ -266,7 +266,10 @@ class ExploreDetail extends Page {
 
   handleTagSelected(tag) {
     const topicsSt = `["${tag}"]`;
-    Router.pushRoute('explore', { topics: topicsSt });
+    // TO-DO
+    // THIS MUST BE FIXED SO THAT IT USES THE ROUTER INSTEAD!!
+    window.location = `/data/explore?topics=${topicsSt}`;
+    //Router.pushRoute('explore', { topics: topicsSt });
   }
 
   shortenerText(text = '', fieldToManage, limitChar = 0) {
