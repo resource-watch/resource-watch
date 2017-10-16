@@ -107,6 +107,8 @@ class Explore extends Page {
     const query = this.props.url.query;
     const { topics, geographies, dataType } = query || {};
 
+    console.log('query', query);
+
     if (topics || geographies || dataType) {
       this.filters = {
         topics: topics ? JSON.parse(topics) : [],
