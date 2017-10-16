@@ -69,13 +69,6 @@ export const LAYERS_PLANET_PULSE = [
     label: 'Society',
     layers: [
       {
-        label: 'News Sources',
-        id: '2b7d5bca-bdcc-4d75-9901-155eebf9bb8c',
-        '3d': true,
-        markerType: 'hemisphere',
-        widgets: ['90e0c611-8b01-433a-b086-cadfc0127a45']
-      },
-      {
         label: 'Conflict and Protest Events in African States',
         id: 'b508a5f8-28f2-41c6-b0f7-eac918083062',
         '3d': false,
