@@ -109,9 +109,12 @@ class LayerCard extends React.Component {
     return (
       <div className={className}>
         <h3>{layerActive && layerActive.attributes.name}</h3>
-        <div className="description">
-          {layerActive && layerActive.attributes.description}
-        </div>
+        {layerActive && layerActive.attributes.description &&
+          <div
+            className="description"
+            dangerouslySetInnerHTML={{ __html: layerActive.attributes.description }} // eslint-disble-line react/no-danger
+          />
+        }
         {layerPoints && layerPoints.length > 0 &&
           <div className="number-of-points">
             Number of objects: {layerPoints.length}
