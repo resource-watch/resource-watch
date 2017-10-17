@@ -46,6 +46,10 @@ class Map extends React.Component {
 
     this.map = L.map(this.mapNode, mapOptions);
 
+    if (this.props.setMapInstance) {
+      this.props.setMapInstance(this.map);
+    }
+
     if (this.props.mapConfig && this.props.mapConfig.bounds) {
       this.fitBounds(this.props.mapConfig.bounds.geometry);
     }
@@ -286,6 +290,7 @@ Map.defaultProps = {
 
 Map.propTypes = {
   interactionEnabled: PropTypes.bool.isRequired,
+  setMapInstance: PropTypes.func,
   // STORE
   basemap: PropTypes.object,
   labels: PropTypes.bool,

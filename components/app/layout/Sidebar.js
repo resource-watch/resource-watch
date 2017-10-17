@@ -22,6 +22,7 @@ class Sidebar extends React.Component {
     };
 
     this.triggerToggle = this.triggerToggle.bind(this);
+    this.triggerResize = debounce(this.triggerResize.bind(this), 500);
     this.handleScroll = debounce(this.handleScroll.bind(this), 30);
   }
 
@@ -31,10 +32,20 @@ class Sidebar extends React.Component {
       open: true
     };
     this.props.setSidebar(options);
+
+    window.addEventListener('resize', this.triggerResize);
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ open: nextProps.sidebar.open });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.triggerResize);
+  }
+
+  triggerResize() {
+    this.props.setSidebar({ width: this.sidebarNode.offsetWidth });
   }
 
   /**
