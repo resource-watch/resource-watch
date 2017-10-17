@@ -43,13 +43,16 @@
       padding-right: 20px;
     }
 
-    button {
+    .buttons {
       position: absolute;
       top: #{$margin-size-extra-small + 4px};
       right: $margin-size-extra-small;
       margin: 0;
       padding: 0;
-      cursor: pointer;
+
+      button {
+        cursor: pointer;
+      }
     }
   }
 
