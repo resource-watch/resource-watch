@@ -15,7 +15,9 @@ import {
   setFields,
   setBandsInfo,
   setVisualizationType,
-  setTitle
+  setTitle,
+  setZoom,
+  setLatLng
 } from 'components/widgets/editor/redux/widgetEditor';
 import { toggleModal } from 'redactions/modal';
 
@@ -72,14 +74,6 @@ const ALL_CHART_TYPES = {
     'pie',
     'scatter'
   ]
-};
-
-const mapConfig = {
-  zoom: 3,
-  latLng: {
-    lat: 0,
-    lng: 0
-  }
 };
 
 const DEFAULT_STATE = {
@@ -406,7 +400,7 @@ class WidgetEditor extends React.Component {
     } = this.state;
 
     const { widgetEditor, dataset, mode, selectedVisualizationType, user } = this.props;
-    const { chartType, layer } = widgetEditor;
+    const { chartType, layer, zoom, latLng } = widgetEditor;
 
     // Whether we are still waiting for some info
     const loading = (mode === 'dataset' && !layersLoaded) ||
@@ -489,6 +483,11 @@ class WidgetEditor extends React.Component {
       // Leaflet map
       case 'map':
         if (layer) {
+          const mapConfig = {
+            zoom,
+            latLng
+          };
+
           visualization = (
             <div className="visualization">
               {chartTitle}
@@ -496,6 +495,7 @@ class WidgetEditor extends React.Component {
                 LayerManager={LayerManager}
                 mapConfig={mapConfig}
                 layerGroups={this.state.layerGroups}
+                setMapParams={params => this.props.setMapParams(params)}
               />
 
               <MapControls>
@@ -1044,7 +1044,11 @@ const mapDispatchToProps = dispatch => ({
   setBandsInfo: bands => dispatch(setBandsInfo(bands)),
   setVisualizationType: vis => dispatch(setVisualizationType(vis)),
   toggleModal: (open, options) => dispatch(toggleModal(open, options)),
-  setTitle: title => dispatch(setTitle(title))
+  setTitle: title => dispatch(setTitle(title)),
+  setMapParams: (params) => {
+    dispatch(setZoom(params.zoom));
+    dispatch(setLatLng(params.latLng));
+  }
 });
 
 WidgetEditor.defaultProps = {
@@ -1075,7 +1079,8 @@ WidgetEditor.propTypes = {
   selectedVisualizationType: PropTypes.string,
   toggleModal: PropTypes.func,
   setBandsInfo: PropTypes.func,
-  setTitle: PropTypes.func
+  setTitle: PropTypes.func,
+  setMapParams: PropTypes.func
 };
 
 WidgetEditor.defaultProps = {

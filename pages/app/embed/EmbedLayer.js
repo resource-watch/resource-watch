@@ -28,15 +28,16 @@ import { getLayerGroups } from 'selectors/explore/layersExplore';
 // Utils
 import LayerManager from 'components/widgets/editor/helpers/LayerManager';
 
-const mapConfig = {
-  zoom: 3,
-  latLng: {
-    lat: 0,
-    lng: 0
-  }
-};
-
 class EmbedLayer extends Page {
+  static async getInitialProps(...params) {
+    const props = await super.getInitialProps(...params);
+
+    if (props.url.query.zoom) props.zoom = +props.url.query.zoom;
+    if (props.url.query.latLng) props.latLng = JSON.parse(props.url.query.latLng);
+
+    return props;
+  }
+
   constructor(props) {
     super(props);
 
@@ -137,6 +138,8 @@ class EmbedLayer extends Page {
   }
 
   render() {
+    const { zoom, latLng } = this.props;
+
     return (
       <div className="c-embed-layer">
         <Head
@@ -159,7 +162,7 @@ class EmbedLayer extends Page {
             <div className="map-container">
               <Map
                 LayerManager={LayerManager}
-                mapConfig={mapConfig}
+                mapConfig={{ zoom, latLng }}
                 layerGroups={this.state.layerGroups}
               />
               <Legend
@@ -208,8 +211,18 @@ class EmbedLayer extends Page {
   }
 }
 
+EmbedLayer.defaultProps = {
+  zoom: 3,
+  latLng: { lat: 0, lng: 0 }
+};
+
 EmbedLayer.propTypes = {
   url: PropTypes.object.isRequired,
+  zoom: PropTypes.number,
+  latLng: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lng: PropTypes.number.isRequired
+  }),
 
   // Store
   modal: PropTypes.object,

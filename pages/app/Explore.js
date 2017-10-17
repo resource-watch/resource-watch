@@ -28,7 +28,9 @@ import {
   setFiltersLoading,
   setTopicsTree,
   setGeographiesTree,
-  setDataTypeTree
+  setDataTypeTree,
+  setZoom,
+  setLatLng
 } from 'redactions/explore';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
@@ -64,14 +66,6 @@ import { findTagInSelectorTree } from 'utils/explore/TreeUtil';
 // Services
 import DatasetService from 'services/DatasetService';
 
-const mapConfig = {
-  zoom: 3,
-  latLng: {
-    lat: 0,
-    lng: 0
-  }
-};
-
 class Explore extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
     const { user } = isServer ? req : store.getState();
@@ -79,6 +73,18 @@ class Explore extends Page {
     const botUserAgent = isServer && /AddSearchBot/.test(req.headers['user-agent']);
     store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
+
+    // We set the initial state of the map
+    // NOTE: we can't move these two dispatch in
+    // componentWillMount or componentDidMount
+    // because the map only take into account its props
+    // at instantiation (and we can't change that
+    // without breaking panning and zooming)
+    if (query.zoom) store.dispatch(setZoom(+query.zoom, false));
+    if (query.latLng) {
+      store.dispatch(setLatLng(JSON.parse(query.latLng), false));
+    }
+
     if (isServer && botUserAgent) await store.dispatch(getDatasets({}));
     return { user, isServer, url, botUserAgent };
   }
@@ -148,7 +154,6 @@ class Explore extends Page {
     if (query.dataType) {
       this.props.setDatasetsDataTypeFilter(JSON.parse(query.dataType));
     }
-
 
     this.props.getDatasets({});
     this.loadKnowledgeGraph();
@@ -425,6 +430,27 @@ class Explore extends Page {
     });
   }
 
+  /**
+   * Return the center of the map as the user sees it
+   * (if the sidebar is opened, the center is displaced)
+   * @returns { lat: number, lng: number }
+   */
+  getPerceivedMapCenter() {
+    const { explore } = this.props;
+
+    const isOpenedSidebar = explore.sidebar.open;
+    if (!isOpenedSidebar || !this.map) {
+      return explore.latLng;
+    }
+
+    const { latLng, sidebar } = explore;
+    const sidebarWidth = sidebar.width;
+    const center = this.map.latLngToContainerPoint([latLng.lat, latLng.lng]);
+    const newCenter = [center.x + sidebarWidth / 2, center.y];
+
+    return this.map.containerPointToLatLng(newCenter);
+  }
+
   render() {
     // It will render a list of links for AddSearch Bot
     if (this.props.botUserAgent) {
@@ -446,7 +472,7 @@ class Explore extends Page {
 
     const { explore, totalDatasets, filteredDatasets } = this.props;
     const { search } = explore.filters;
-    const { geographiesTree, topicsTree, dataTypeTree } = explore;
+    const { geographiesTree, topicsTree, dataTypeTree, zoom, latLng } = explore;
     const { showFilters } = this.state;
     const { topics, geographies, dataType } = this.filters;
     const topicsLabels = topics.map(topic => findTagInSelectorTree(topicsTree, topic).label);
@@ -478,7 +504,7 @@ class Explore extends Page {
       >
         <div className="p-explore">
           <div className="c-page -dark">
-            <Sidebar>
+            <Sidebar ref={(node) => { this.sidebar = node; }}>
               <div className="row collapse">
                 <div className="column small-12">
                   <h1>Explore</h1>
@@ -610,12 +636,16 @@ class Explore extends Page {
               <div className="l-map">
                 <Map
                   LayerManager={LayerManager}
-                  mapConfig={mapConfig}
+                  mapConfig={{ zoom, latLng }}
                   layerGroups={this.props.layerGroups}
+                  setMapParams={params => this.props.setMapParams(params)}
+                  setMapInstance={(map) => { this.map = map; }}
                 />
 
                 <MapControls>
                   <ShareControl
+                    zoom={zoom}
+                    latLng={this.getPerceivedMapCenter()}
                     layerGroups={this.props.rawLayerGroups}
                   />
                   <BasemapControl />
@@ -712,7 +742,13 @@ const mapDispatchToProps = dispatch => ({
   setLayerGroups: layerGroups => dispatch(setLayerGroups(layerGroups)),
   setTopicsTree: tree => dispatch(setTopicsTree(tree)),
   setGeographiesTree: tree => dispatch(setGeographiesTree(tree)),
-  setDataTypeTree: tree => dispatch(setDataTypeTree(tree))
+  setDataTypeTree: tree => dispatch(setDataTypeTree(tree)),
+  setZoom: (zoom, updateUrl) => dispatch(setZoom(zoom, updateUrl)),
+  setLatLng: (latLng, updateUrl) => dispatch(setLatLng(latLng, updateUrl)),
+  setMapParams: debounce((params) => { // Debounce for performance reasons
+    dispatch(setZoom(params.zoom));
+    dispatch(setLatLng(params.latLng));
+  }, 1000)
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Explore);

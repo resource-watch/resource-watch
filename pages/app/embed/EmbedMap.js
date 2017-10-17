@@ -65,7 +65,7 @@ class EmbedMap extends Page {
   }
 
   render() {
-    const { widget, loading, layerGroups, error } = this.props;
+    const { widget, loading, layerGroups, error, zoom, latLng } = this.props;
     const { modalOpened } = this.state;
 
     if (loading) {
@@ -112,8 +112,6 @@ class EmbedMap extends Page {
       );
     }
 
-    const mapConfig = { zoom: 3, latLng: { lat: 0, lng: 0 } };
-
     return (
       <EmbedLayout
         title={`${widget.attributes.name}`}
@@ -135,7 +133,7 @@ class EmbedMap extends Page {
           <div className={classnames('widget-content', { '-external': this.isLoadedExternally() })}>
             <Map
               LayerManager={LayerManager}
-              mapConfig={mapConfig}
+              mapConfig={{ zoom, latLng }}
               layerGroups={layerGroups}
             />
 
@@ -177,7 +175,9 @@ EmbedMap.propTypes = {
   toggleLayerGroupVisibility: PropTypes.func,
   loading: PropTypes.bool,
   layerGroups: PropTypes.array,
-  error: PropTypes.string
+  error: PropTypes.string,
+  zoom: PropTypes.number,
+  latLng: PropTypes.object
 };
 
 EmbedMap.defaultProps = {
@@ -188,7 +188,9 @@ const mapStateToProps = state => ({
   widget: state.widget.data,
   loading: state.widget.loading,
   error: state.widget.error,
-  layerGroups: state.widget.layerGroups
+  layerGroups: state.widget.layerGroups,
+  zoom: state.widget.zoom,
+  latLng: state.widget.latLng
 });
 
 const mapDispatchToProps = dispatch => ({
