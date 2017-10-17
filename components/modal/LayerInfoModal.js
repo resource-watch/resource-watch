@@ -11,7 +11,7 @@ class LayerInfoModal extends React.Component {
   @Autobind
   handleMoreInfo() {
     this.props.toggleModal(false);
-    Router.pushRoute( 'explore_detail', {id: this.props.data.dataset} );
+    Router.pushRoute('explore_detail', { id: this.props.data.dataset });
   }
 
   render() {
@@ -23,14 +23,14 @@ class LayerInfoModal extends React.Component {
           <div className="buttons">
             <button
               className="c-btn -primary"
-              onClick={() => {this.handleMoreInfo()}}
+              onClick={this.handleMoreInfo}
             >More info</button>
           </div>
         </div>
       </div>
     );
   }
-};
+}
 
 LayerInfoModal.propTypes = {
   toggleModal: PropTypes.func.isRequired,
