@@ -11,7 +11,7 @@ import { initStore } from 'store';
 import { bindActionCreators } from 'redux';
 import { getWidget } from 'redactions/widget';
 import { setUser } from 'redactions/user';
-import { setRouter, Router } from 'redactions/routes';
+import { setRouter } from 'redactions/routes';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -151,13 +151,6 @@ class EmbedWidget extends Page {
           })
           .catch(err => toastr.error('Error setting the widget as favorite', err));
       }
-    } else {
-      toastr.confirm('You need to be logged in in order to favorite a widget. Click OK to sign up to RW!', {
-        onOk: () => {
-          // TODO We need to redirect to the sign up page instead of to the home page
-          Router.pushRouter('/');
-        }
-      });
     }
   }
 
