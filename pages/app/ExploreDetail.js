@@ -646,8 +646,7 @@ const mapDispatchToProps = dispatch => ({
     new LayersService()
       .fetchData({ id: layerId })
       .then(layer => dispatch(setLayer(layer)))
-      // TODO: better handling of the error
-      .catch(err => toastr.error('Error', err));
+      .catch(() => toastr.error('Error', 'Unable to load the layer of the widget.'));
   },
   setTitle: title => dispatch(setTitle(title)),
   setTopicsTree: tree => dispatch(setTopicsTree(tree))
