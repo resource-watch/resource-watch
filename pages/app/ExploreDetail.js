@@ -163,7 +163,10 @@ class ExploreDetail extends Page {
         return DatasetService.getDatasets(ids, 'widget,metadata,layer,vocabulary');
       })
       .then(similarDatasets => this.setState({ similarDatasets }))
-      .catch(() => toastr.error('Error', 'Unable to load the similar datasets'))
+      .catch((err) => {
+        console.error(err);
+        toastr.error('Error', 'Unable to load the similar datasets');
+      })
       .then(() => this.setState({ similarDatasetsLoaded: true }));
   }
 
@@ -646,7 +649,10 @@ const mapDispatchToProps = dispatch => ({
     new LayersService()
       .fetchData({ id: layerId })
       .then(layer => dispatch(setLayer(layer)))
-      .catch(() => toastr.error('Error', 'Unable to load the layer of the widget.'));
+      .catch((err) => {
+        console.error(err);
+        toastr.error('Error', 'Unable to load the layer of the widget.');
+      });
   },
   setTitle: title => dispatch(setTitle(title)),
   setTopicsTree: tree => dispatch(setTopicsTree(tree))
