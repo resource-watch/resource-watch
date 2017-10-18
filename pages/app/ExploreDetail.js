@@ -131,6 +131,7 @@ class ExploreDetail extends Page {
         });
     }
   }
+
   getDataset() {
     this.setState({
       loading: true
@@ -153,35 +154,17 @@ class ExploreDetail extends Page {
   }
 
   getSimilarDatasets() {
-    this.setState({
-      similarDatasetsLoaded: false
-    });
-    this.datasetService.getSimilarDatasets()
-      .then((response) => {
-        let counter = 0;
-        const similarDatasets = response.map(val => val.dataset).filter(
-          () => {
-            counter++;
-            return counter < 7;
-          });
+    this.setState({ similarDatasetsLoaded: false });
 
-        if (similarDatasets.length > 0) {
-          DatasetService.getDatasets(similarDatasets, 'widget,metadata,layer,vocabulary')
-            .then((data) => {
-              this.setState({
-                similarDatasetsLoaded: true,
-                similarDatasets: data
-              });
-            })
-            .catch(err => toastr.error('Error', err));
-        } else {
-          this.setState({
-            similarDatasetsLoaded: true,
-            similarDatasets: []
-          });
-        }
+    this.datasetService.getSimilarDatasets()
+      .then(res => res.map(val => val.dataset).slice(0, 7))
+      .then((ids) => {
+        if (ids.length === 0) return [];
+        return DatasetService.getDatasets(ids, 'widget,metadata,layer,vocabulary');
       })
-      .catch(err => toastr.error('Error', err));
+      .then(similarDatasets => this.setState({ similarDatasets }))
+      .catch(() => toastr.error('Error', 'Unable to load the similar datasets'))
+      .then(() => this.setState({ similarDatasetsLoaded: true }));
   }
 
   loadDefaultWidgetIntoRedux(defaultEditableWidget) {
