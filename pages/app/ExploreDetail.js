@@ -418,7 +418,7 @@ class ExploreDetail extends Page {
               <WidgetEditor
                 dataset={dataset.id}
                 mode="dataset"
-                showSaveButton={(user && user.id)}
+                showSaveButton={!!(user && user.id)}
                 showNotLoggedInText
               />
             }
