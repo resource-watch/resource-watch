@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import MediaQuery from 'react-responsive';
 import { toastr } from 'react-redux-toastr';
+import classnames from 'classnames';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -32,7 +33,7 @@ import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
 // Next
-import { Link, Router } from 'routes';
+import { Link } from 'routes';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -48,9 +49,6 @@ import ShareExploreDetailModal from 'components/modal/ShareExploreDetailModal';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
-
-// constants
-const LIMIT_CHAR_DESCRIPTION = 1120;
 
 class ExploreDetail extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
@@ -133,6 +131,7 @@ class ExploreDetail extends Page {
         });
     }
   }
+
   getDataset() {
     this.setState({
       loading: true
@@ -155,35 +154,20 @@ class ExploreDetail extends Page {
   }
 
   getSimilarDatasets() {
-    this.setState({
-      similarDatasetsLoaded: false
-    });
-    this.datasetService.getSimilarDatasets()
-      .then((response) => {
-        let counter = 0;
-        const similarDatasets = response.map(val => val.dataset).filter(
-          () => {
-            counter++;
-            return counter < 7;
-          });
+    this.setState({ similarDatasetsLoaded: false });
 
-        if (similarDatasets.length > 0) {
-          DatasetService.getDatasets(similarDatasets, 'widget,metadata,layer,vocabulary')
-            .then((data) => {
-              this.setState({
-                similarDatasetsLoaded: true,
-                similarDatasets: data
-              });
-            })
-            .catch(err => toastr.error('Error', err));
-        } else {
-          this.setState({
-            similarDatasetsLoaded: true,
-            similarDatasets: []
-          });
-        }
+    this.datasetService.getSimilarDatasets()
+      .then(res => res.map(val => val.dataset).slice(0, 7))
+      .then((ids) => {
+        if (ids.length === 0) return [];
+        return DatasetService.getDatasets(ids, 'widget,metadata,layer,vocabulary');
       })
-      .catch(err => toastr.error('Error', err));
+      .then(similarDatasets => this.setState({ similarDatasets }))
+      .catch((err) => {
+        console.error(err);
+        toastr.error('Error', 'Unable to load the similar datasets');
+      })
+      .then(() => this.setState({ similarDatasetsLoaded: true }));
   }
 
   loadDefaultWidgetIntoRedux(defaultEditableWidget) {
@@ -264,42 +248,39 @@ class ExploreDetail extends Page {
     this.props.setModalOptions(options);
   }
 
-  handleTagSelected(tag) {
+  handleTagSelected(tag) { // eslint-disable-line class-methods-use-this
     const topicsSt = `["${tag}"]`;
     // TO-DO
     // THIS MUST BE FIXED SO THAT IT USES THE ROUTER INSTEAD!!
     window.location = `/data/explore?topics=${topicsSt}`;
-    //Router.pushRoute('explore', { topics: topicsSt });
+    // Router.pushRoute('explore', { topics: topicsSt });
   }
 
-  shortenerText(text = '', fieldToManage, limitChar = 0) {
-    const localText = text || '';
-    if ((localText || '').length <= limitChar) {
-      return localText;
+  /**
+   * Shorten the given text and format it so the full length
+   * can be toggled via a button modifying the state
+   * @param {string} [text=''] Text to shorten
+   * @param {string} fieldToManage Property of the state to toggle
+   * @param {number} [limitChar=1120] Limit of characters
+   * @returns
+   */
+  shortenAndFormat(text = '', fieldToManage, limitChar = 1120) {
+    if (text.length <= limitChar) {
+      return text;
     }
 
-    const fieldVisibility = this.state[fieldToManage] || false;
-    const initialText = localText.substr(0, limitChar);
-    const leftText = localText.substr(limitChar, localText.length - initialText.length);
+    const visible = this.state[fieldToManage] || false;
+    const shortenedText = text.substr(0, limitChar);
 
     return (
       <div className="shortened-text">
-        <span>{initialText}</span>
-        {!fieldVisibility && <span>...</span>}
-        {!fieldVisibility && <button
-          className="read-more"
-          onClick={() => this.setState({ [fieldToManage]: true })}
+        {!visible ? `${shortenedText}...` : text}
+        <button
+          className={classnames('read-more', { '-less': visible })}
+          onClick={() => this.setState({ [fieldToManage]: !visible })}
         >
-          Read more
-        </button>}
-        {fieldVisibility &&
-          <span>{leftText}</span>}
-        {fieldVisibility && <button
-          className="read-more -less"
-          onClick={() => this.setState({ [fieldToManage]: false })}
-        >
-          Read less
-        </button>}
+          {visible ? 'Read less' : 'Read more'}
+        </button>
       </div>
     );
   }
@@ -314,16 +295,14 @@ class ExploreDetail extends Page {
     const { description } = metadataAttributes;
     const { functions, cautions } = metadataInfo;
 
-    const formattedDescription = this.shortenerText(description, 'showDescription', LIMIT_CHAR_DESCRIPTION);
-    const formattedFunctions = this.shortenerText(functions, 'showFunction', LIMIT_CHAR_DESCRIPTION);
-    const formattedCautions = this.shortenerText(cautions, 'showCautions', LIMIT_CHAR_DESCRIPTION);
-
-
+    const formattedDescription = this.shortenAndFormat(description, 'showDescription');
+    const formattedFunctions = this.shortenAndFormat(functions, 'showFunction');
+    const formattedCautions = this.shortenAndFormat(cautions, 'showCautions');
 
     return (
       <Layout
         title={metadataInfo && metadataInfo.name ? metadataInfo.name : (dataset && dataset.attributes && dataset.attributes.name)}
-        description={formattedDescription}
+        description={description || ''}
         category="Dataset"
         url={url}
         user={user}
@@ -425,7 +404,7 @@ class ExploreDetail extends Page {
               <WidgetEditor
                 dataset={dataset.id}
                 mode="dataset"
-                showSaveButton={(user && user.id)}
+                showSaveButton={!!(user && user.id)}
                 showNotLoggedInText
               />
             }
@@ -670,8 +649,10 @@ const mapDispatchToProps = dispatch => ({
     new LayersService()
       .fetchData({ id: layerId })
       .then(layer => dispatch(setLayer(layer)))
-      // TODO: better handling of the error
-      .catch(err => toastr.error('Error', err));
+      .catch((err) => {
+        console.error(err);
+        toastr.error('Error', 'Unable to load the layer of the widget.');
+      });
   },
   setTitle: title => dispatch(setTitle(title)),
   setTopicsTree: tree => dispatch(setTopicsTree(tree))
