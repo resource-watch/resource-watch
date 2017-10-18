@@ -316,7 +316,7 @@ class ExploreDetail extends Page {
     return (
       <Layout
         title={metadataInfo && metadataInfo.name ? metadataInfo.name : (dataset && dataset.attributes && dataset.attributes.name)}
-        description={formattedDescription}
+        description={description || ''}
         category="Dataset"
         url={url}
         user={user}
