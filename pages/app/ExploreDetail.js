@@ -33,7 +33,7 @@ import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
 // Next
-import { Link, Router } from 'routes';
+import { Link } from 'routes';
 
 // Services
 import DatasetService from 'services/DatasetService';
