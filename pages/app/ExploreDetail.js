@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import MediaQuery from 'react-responsive';
 import { toastr } from 'react-redux-toastr';
+import classnames from 'classnames';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -48,9 +49,6 @@ import ShareExploreDetailModal from 'components/modal/ShareExploreDetailModal';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
-
-// constants
-const LIMIT_CHAR_DESCRIPTION = 1120;
 
 class ExploreDetail extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
@@ -272,34 +270,31 @@ class ExploreDetail extends Page {
     // Router.pushRoute('explore', { topics: topicsSt });
   }
 
-  shortenerText(text = '', fieldToManage, limitChar = 0) {
-    const localText = text || '';
-    if ((localText || '').length <= limitChar) {
-      return localText;
+  /**
+   * Shorten the given text and format it so the full length
+   * can be toggled via a button modifying the state
+   * @param {string} [text=''] Text to shorten
+   * @param {string} fieldToManage Property of the state to toggle
+   * @param {number} [limitChar=1120] Limit of characters
+   * @returns
+   */
+  shortenAndFormat(text = '', fieldToManage, limitChar = 1120) {
+    if (text.length <= limitChar) {
+      return text;
     }
 
-    const fieldVisibility = this.state[fieldToManage] || false;
-    const initialText = localText.substr(0, limitChar);
-    const leftText = localText.substr(limitChar, localText.length - initialText.length);
+    const visible = this.state[fieldToManage] || false;
+    const shortenedText = text.substr(0, limitChar);
 
     return (
       <div className="shortened-text">
-        <span>{initialText}</span>
-        {!fieldVisibility && <span>...</span>}
-        {!fieldVisibility && <button
-          className="read-more"
-          onClick={() => this.setState({ [fieldToManage]: true })}
+        {!visible ? `${shortenedText}...` : text}
+        <button
+          className={classnames('read-more', { '-less': visible })}
+          onClick={() => this.setState({ [fieldToManage]: !visible })}
         >
-          Read more
-        </button>}
-        {fieldVisibility &&
-          <span>{leftText}</span>}
-        {fieldVisibility && <button
-          className="read-more -less"
-          onClick={() => this.setState({ [fieldToManage]: false })}
-        >
-          Read less
-        </button>}
+          {visible ? 'Read less' : 'Read more'}
+        </button>
       </div>
     );
   }
@@ -314,9 +309,9 @@ class ExploreDetail extends Page {
     const { description } = metadataAttributes;
     const { functions, cautions } = metadataInfo;
 
-    const formattedDescription = this.shortenerText(description, 'showDescription', LIMIT_CHAR_DESCRIPTION);
-    const formattedFunctions = this.shortenerText(functions, 'showFunction', LIMIT_CHAR_DESCRIPTION);
-    const formattedCautions = this.shortenerText(cautions, 'showCautions', LIMIT_CHAR_DESCRIPTION);
+    const formattedDescription = this.shortenAndFormat(description, 'showDescription');
+    const formattedFunctions = this.shortenAndFormat(functions, 'showFunction');
+    const formattedCautions = this.shortenAndFormat(cautions, 'showCautions');
 
     return (
       <Layout
