@@ -32,11 +32,12 @@ import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
 // Next
-import { Link, Router } from 'routes';
+import { Link } from 'routes';
 
 // Services
 import DatasetService from 'services/DatasetService';
 import LayersService from 'services/LayersService';
+import GraphService from 'services/GraphService';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -72,13 +73,16 @@ class ExploreDetail extends Page {
       similarDatasets: [],
       showDescription: false,
       showFunction: false,
-      showCautions: false
+      showCautions: false,
+      inferredTags: []
     };
 
     // DatasetService
     this.datasetService = new DatasetService(props.url.query.id, {
       apiURL: process.env.WRI_API_URL
     });
+    // GraphService
+    this.graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
   }
 
   /**
@@ -120,6 +124,7 @@ class ExploreDetail extends Page {
    * - getDataset
    * - getSimilarDatasets
    * - loadTopicsTree
+   * - loadInferredTags
   */
   loadTopicsTree() {
     const { topicsTree } = this.props;
@@ -139,11 +144,16 @@ class ExploreDetail extends Page {
     }, () => {
       this.datasetService.fetchData('layer,metadata,vocabulary,widget').then((response) => {
         const defaultEditableWidget = response.attributes.widget.find(widget => widget.attributes.defaultEditableWidget === true);
+
         this.setState({
           dataset: response,
           datasetLoaded: true,
           loading: false
         }, () => defaultEditableWidget && this.loadDefaultWidgetIntoRedux(defaultEditableWidget));
+
+        // Load inferred tags
+        const tags = response.attributes.vocabulary[0].attributes.tags;
+        this.loadInferredTags(tags);
       }).catch((error) => {
         toastr.error('Error', 'Unable to load the dataset');
         console.error(error);
@@ -152,6 +162,19 @@ class ExploreDetail extends Page {
         });
       });
     });
+  }
+
+  loadInferredTags(tags) {
+    this.graphService.getInferredTags(tags)
+      .then((response) => {
+        this.setState({
+          inferredTags: response
+        });
+      })
+      .catch((err) => {
+        this.setState({ inferredTags: [] });
+        console.error(err);
+      });
   }
 
   getSimilarDatasets() {
@@ -272,6 +295,11 @@ class ExploreDetail extends Page {
     //Router.pushRoute('explore', { topics: topicsSt });
   }
 
+  @Autobind
+  handleTagClick(event) {
+    this.handleTagSelected(event.target.getAttribute('id'));
+  }
+
   shortenerText(text = '', fieldToManage, limitChar = 0) {
     const localText = text || '';
     if ((localText || '').length <= limitChar) {
@@ -306,7 +334,7 @@ class ExploreDetail extends Page {
 
   render() {
     const { url, user } = this.props;
-    const { dataset, loading, similarDatasets, similarDatasetsLoaded } = this.state;
+    const { dataset, loading, similarDatasets, similarDatasetsLoaded, inferredTags } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
     const metadataAttributes = (metadata && metadata.attributes) || {};
@@ -317,8 +345,6 @@ class ExploreDetail extends Page {
     const formattedDescription = this.shortenerText(description, 'showDescription', LIMIT_CHAR_DESCRIPTION);
     const formattedFunctions = this.shortenerText(functions, 'showFunction', LIMIT_CHAR_DESCRIPTION);
     const formattedCautions = this.shortenerText(cautions, 'showCautions', LIMIT_CHAR_DESCRIPTION);
-
-
 
     return (
       <Layout
@@ -542,6 +568,27 @@ class ExploreDetail extends Page {
                     <p>{metadataInfo && metadataInfo.translated_title}</p>
                   </div>
                 ) : null}
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="column small-12">
+                {/* TAGS SECTION */}
+                <h3>Tags</h3>
+                <div className="tags">
+                  {inferredTags && inferredTags.map(tag => (
+                    <div
+                      role="button"
+                      tabIndex={-1}
+                      className="tag"
+                      id={tag.id}
+                      key={tag.id}
+                      onClick={this.handleTagClick}
+                    >
+                      {tag.label}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 

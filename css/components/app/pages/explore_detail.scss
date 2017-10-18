@@ -47,6 +47,22 @@
     padding: 0px;
   }
 
+  .tags {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    overflow: auto;
+
+    .tag {
+      border: 1px solid $light-grey;
+      background: $porcelain;
+      border-radius: 4px;
+      padding: 5px;
+      margin: 5px;
+      cursor: pointer;
+    }
+  }
+
   .c-page-section.similar-datasets {
     padding: 0px;
   }
@@ -81,7 +97,6 @@
         }
       }
     }
-
   }
 
   h2 {
