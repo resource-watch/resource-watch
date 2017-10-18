@@ -264,12 +264,12 @@ class ExploreDetail extends Page {
     this.props.setModalOptions(options);
   }
 
-  handleTagSelected(tag) {
+  handleTagSelected(tag) { // eslint-disable-line class-methods-use-this
     const topicsSt = `["${tag}"]`;
     // TO-DO
     // THIS MUST BE FIXED SO THAT IT USES THE ROUTER INSTEAD!!
     window.location = `/data/explore?topics=${topicsSt}`;
-    //Router.pushRoute('explore', { topics: topicsSt });
+    // Router.pushRoute('explore', { topics: topicsSt });
   }
 
   shortenerText(text = '', fieldToManage, limitChar = 0) {
@@ -317,8 +317,6 @@ class ExploreDetail extends Page {
     const formattedDescription = this.shortenerText(description, 'showDescription', LIMIT_CHAR_DESCRIPTION);
     const formattedFunctions = this.shortenerText(functions, 'showFunction', LIMIT_CHAR_DESCRIPTION);
     const formattedCautions = this.shortenerText(cautions, 'showCautions', LIMIT_CHAR_DESCRIPTION);
-
-
 
     return (
       <Layout
