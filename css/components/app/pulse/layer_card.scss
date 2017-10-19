@@ -23,6 +23,10 @@
   .description {
     max-height: 50px;
     overflow: auto;
+
+    p {
+      margin-bottom: 0px;
+    }
   }
 
   .widget-card {

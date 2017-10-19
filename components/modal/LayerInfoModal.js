@@ -1,19 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Autobind } from 'es-decorators';
+import { Router } from 'routes';
 
-const LayerInfoModal = function LayerInfoModal(props) {
-  return (
-    <div className="layer-info-modal">
-      <div className="layer-info-content">
-        <h2>{props.data.name}</h2>
-        <p>{props.data.description}</p>
+// Redux
+import { connect } from 'react-redux';
+import { toggleModal } from 'redactions/modal';
+
+class LayerInfoModal extends React.Component {
+  @Autobind
+  handleMoreInfo() {
+    this.props.toggleModal(false);
+    Router.pushRoute('explore_detail', { id: this.props.data.dataset });
+  }
+
+  render() {
+    return (
+      <div className="layer-info-modal">
+        <div className="layer-info-content">
+          <h2>{this.props.data.name}</h2>
+          <p>{this.props.data.description}</p>
+          <div className="buttons">
+            <button
+              className="c-btn -primary"
+              onClick={this.handleMoreInfo}
+            >More info</button>
+          </div>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 LayerInfoModal.propTypes = {
+  toggleModal: PropTypes.func.isRequired,
   data: PropTypes.object
 };
 
-export default LayerInfoModal;
+const mapDispatchToProps = dispatch => ({
+  toggleModal: open => dispatch(toggleModal(open))
+});
+
+export default connect(null, mapDispatchToProps)(LayerInfoModal);
