@@ -51,6 +51,9 @@ import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
 
+// Util
+import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
+
 class ExploreDetail extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
     const { user } = isServer ? req : store.getState();
@@ -167,7 +170,10 @@ class ExploreDetail extends Page {
     this.graphService.getInferredTags(tags)
       .then((response) => {
         this.setState({
-          inferredTags: response
+          inferredTags: response.filter(tag => tag.labels
+            .find(type => type === 'TOPIC' || type === 'GEOGRAPHY') &&
+            !TAGS_BLACKLIST.includes(tag.id)
+          )
         });
       })
       .catch((err) => {
