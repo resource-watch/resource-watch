@@ -501,6 +501,19 @@ class ExploreDetail extends Page {
                   </div>
                 ) : null}
 
+                {metadataInfo && metadataInfo.sources ? (
+                  <div className="l-section-mod">
+                    <h3>Sources</h3>
+                    {metadataInfo.sources.map(source => (
+                      <div>
+                        {source['source-name']}
+                        {source['source-description']}
+                      </div>)
+                    )
+                    }
+                  </div>
+                ) : null}
+
                 {metadataInfo && metadataInfo.citation ? (
                   <div className="l-section-mod">
                     <h3>Citation</h3>
