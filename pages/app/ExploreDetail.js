@@ -287,17 +287,26 @@ class ExploreDetail extends Page {
     this.props.setModalOptions(options);
   }
 
-  handleTagSelected(tag) {
-    const topicsSt = `["${tag}"]`;
+  handleTagSelected(tag, labels = ['TOPIC']) { // eslint-disable-line class-methods-use-this
+    const tagSt = `["${tag}"]`;
+    let treeSt = 'topics';
+    if (labels.includes('TOPIC')) {
+      treeSt = 'topics';
+    } else if (labels.includes('GEOGRAPHY')) {
+      treeSt = 'geographies';
+    } else if (labels.includes('DATA_TYPE')) {
+      treeSt = 'dataType';
+    }
     // TO-DO
     // THIS MUST BE FIXED SO THAT IT USES THE ROUTER INSTEAD!!
-    window.location = `/data/explore?topics=${topicsSt}`;
-    //Router.pushRoute('explore', { topics: topicsSt });
+    window.location = `/data/explore?${treeSt}=${tagSt}`;
+    // Router.pushRoute('explore', { topics: topicsSt });
   }
 
   @Autobind
   handleTagClick(event) {
-    this.handleTagSelected(event.target.getAttribute('id'));
+    const element = event.target;
+    this.handleTagSelected(element.getAttribute('id'), element.getAttribute('data-labels'));
   }
 
   shortenerText(text = '', fieldToManage, limitChar = 0) {
@@ -582,6 +591,7 @@ class ExploreDetail extends Page {
                       tabIndex={-1}
                       className="tag"
                       id={tag.id}
+                      data-labels={tag.labels}
                       key={tag.id}
                       onClick={this.handleTagClick}
                     >
