@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Explore detail: correct SEO tags
 
 ### Added
+- Explore detail tags section
 - Favorite widget functionality at Embed widget page
 - Styles for LayerInfoModal component
 - Technical title (formal name) added to Explore Detail
