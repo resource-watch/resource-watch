@@ -106,6 +106,11 @@ class ColumnBox extends React.Component {
     // taken into account
     if (nextProps.isDragging !== this.props.isDragging) {
       document.body.classList.toggle('-dragging', nextProps.isDragging);
+
+      // We prevent the details tooltip from showing...
+      if (!this.props.isA) this.onMouseOutColumn();
+      // ...and close the details tooltip is eventually already opened
+      this.props.toggleTooltip(false);
     }
 
     this.setState({ aggregateFunction: nextProps.widgetEditor.aggregateFunction });
@@ -169,15 +174,14 @@ class ColumnBox extends React.Component {
   /**
    * Event handler executed when the user clicks
    * on the root element
-   * @param {MouseEvent} e - Event
-   * @returns
+   * @param {MouseEvent} [e] - Event
    */
   onClickColumn(e) {
-    if (!this.el || this.props.isA) return;
+    if (!this.el) return;
 
     // Prevent the tooltip from automatically
     // closing right after opening it
-    e.stopPropagation();
+    if (e) e.stopPropagation();
 
     const rects = this.el.getBoundingClientRect();
 
@@ -197,6 +201,25 @@ class ColumnBox extends React.Component {
         onClose: () => this.props.toggleTooltip(false)
       }
     });
+  }
+
+  /**
+   * Event handler executed when the user puts the
+   * cursor on top of the root element
+   */
+  onMouseOverColumn() {
+    this.detailsTooltipTimer = setTimeout(() => this.onClickColumn(), 1500);
+  }
+
+  /**
+   * Event handler executed when the user moves the
+   * cursor away from the root element
+   */
+  onMouseOutColumn() {
+    if (this.detailsTooltipTimer) {
+      clearTimeout(this.detailsTooltipTimer);
+      this.detailsTooltipTimer = null;
+    }
   }
 
   @Autobind
@@ -365,8 +388,10 @@ class ColumnBox extends React.Component {
       <div // eslint-disable-line jsx-a11y/no-static-element-interactions
         // FIXME: which role to assign to the element to make it accessible?
         className={classNames({ 'c-columnbox': true, '-dimmed': isDragging })}
-        title={alias || name}
-        onClick={e => this.onClickColumn(e)}
+        title={isA ? alias || name : ''}
+        onClick={e => !isA && this.onClickColumn(e)}
+        onMouseOver={() => !isA && this.onMouseOverColumn()}
+        onMouseOut={() => !isA && this.onMouseOutColumn()}
         ref={(node) => { this.el = node; }}
       >
         <Icon
