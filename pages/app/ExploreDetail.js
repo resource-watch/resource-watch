@@ -38,6 +38,7 @@ import { Link } from 'routes';
 // Services
 import DatasetService from 'services/DatasetService';
 import LayersService from 'services/LayersService';
+import GraphService from 'services/GraphService';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -70,13 +71,16 @@ class ExploreDetail extends Page {
       similarDatasets: [],
       showDescription: false,
       showFunction: false,
-      showCautions: false
+      showCautions: false,
+      inferredTags: []
     };
 
     // DatasetService
     this.datasetService = new DatasetService(props.url.query.id, {
       apiURL: process.env.WRI_API_URL
     });
+    // GraphService
+    this.graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
   }
 
   /**
@@ -118,6 +122,7 @@ class ExploreDetail extends Page {
    * - getDataset
    * - getSimilarDatasets
    * - loadTopicsTree
+   * - loadInferredTags
   */
   loadTopicsTree() {
     const { topicsTree } = this.props;
@@ -138,11 +143,16 @@ class ExploreDetail extends Page {
     }, () => {
       this.datasetService.fetchData('layer,metadata,vocabulary,widget').then((response) => {
         const defaultEditableWidget = response.attributes.widget.find(widget => widget.attributes.defaultEditableWidget === true);
+
         this.setState({
           dataset: response,
           datasetLoaded: true,
           loading: false
         }, () => defaultEditableWidget && this.loadDefaultWidgetIntoRedux(defaultEditableWidget));
+
+        // Load inferred tags
+        const tags = response.attributes.vocabulary[0].attributes.tags;
+        this.loadInferredTags(tags);
       }).catch((error) => {
         toastr.error('Error', 'Unable to load the dataset');
         console.error(error);
@@ -151,6 +161,19 @@ class ExploreDetail extends Page {
         });
       });
     });
+  }
+
+  loadInferredTags(tags) {
+    this.graphService.getInferredTags(tags)
+      .then((response) => {
+        this.setState({
+          inferredTags: response
+        });
+      })
+      .catch((err) => {
+        this.setState({ inferredTags: [] });
+        console.error(err);
+      });
   }
 
   getSimilarDatasets() {
@@ -248,12 +271,26 @@ class ExploreDetail extends Page {
     this.props.setModalOptions(options);
   }
 
-  handleTagSelected(tag) { // eslint-disable-line class-methods-use-this
-    const topicsSt = `["${tag}"]`;
+  handleTagSelected(tag, labels = ['TOPIC']) { // eslint-disable-line class-methods-use-this
+    const tagSt = `["${tag}"]`;
+    let treeSt = 'topics';
+    if (labels.includes('TOPIC')) {
+      treeSt = 'topics';
+    } else if (labels.includes('GEOGRAPHY')) {
+      treeSt = 'geographies';
+    } else if (labels.includes('DATA_TYPE')) {
+      treeSt = 'dataType';
+    }
     // TO-DO
     // THIS MUST BE FIXED SO THAT IT USES THE ROUTER INSTEAD!!
-    window.location = `/data/explore?topics=${topicsSt}`;
+    window.location = `/data/explore?${treeSt}=${tagSt}`;
     // Router.pushRoute('explore', { topics: topicsSt });
+  }
+
+  @Autobind
+  handleTagClick(event) {
+    const element = event.target;
+    this.handleTagSelected(element.getAttribute('id'), element.getAttribute('data-labels'));
   }
 
   /**
@@ -287,7 +324,7 @@ class ExploreDetail extends Page {
 
   render() {
     const { url, user } = this.props;
-    const { dataset, loading, similarDatasets, similarDatasetsLoaded } = this.state;
+    const { dataset, loading, similarDatasets, similarDatasetsLoaded, inferredTags } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
     const metadataAttributes = (metadata && metadata.attributes) || {};
@@ -534,6 +571,28 @@ class ExploreDetail extends Page {
                     <p>{metadataInfo && metadataInfo.translated_title}</p>
                   </div>
                 ) : null}
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="column small-12">
+                {/* TAGS SECTION */}
+                <h3>Tags</h3>
+                <div className="tags">
+                  {inferredTags && inferredTags.map(tag => (
+                    <div
+                      role="button"
+                      tabIndex={-1}
+                      className="tag"
+                      id={tag.id}
+                      data-labels={tag.labels}
+                      key={tag.id}
+                      onClick={this.handleTagClick}
+                    >
+                      {tag.label}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
