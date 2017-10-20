@@ -18,8 +18,10 @@ import DatasetLayerChart from 'components/app/explore/DatasetLayerChart';
 import DatasetPlaceholderChart from 'components/app/explore/DatasetPlaceholderChart';
 import DatasetTagsTooltip from 'components/app/explore/DatasetTagsTooltip';
 
+// Services
+import GraphService from 'services/GraphService';
+
 // Utils
-import { findTagInSelectorTree } from 'utils/explore/TreeUtil';
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
 
 class DatasetWidget extends React.Component {
@@ -52,6 +54,21 @@ class DatasetWidget extends React.Component {
       x: window.scrollX + e.clientX,
       y: window.scrollY + e.clientY
     };
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      inferredTags: []
+    };
+
+    // GraphService
+    this.graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
+  }
+
+  componentDidMount() {
+    this.loadInferredTags();
   }
 
   /**
@@ -103,11 +120,26 @@ class DatasetWidget extends React.Component {
     return null;
   }
 
-  getTags() {
-    const { dataset, topicsTree } = this.props;
+  /**
+  * Load inferred tags
+  */
+  loadInferredTags() {
+    const { dataset } = this.props;
     const vocabulary = dataset.attributes.vocabulary && dataset.attributes.vocabulary[0];
     const tags = vocabulary.attributes.tags;
-    return tags.filter(tag => findTagInSelectorTree(topicsTree, tag));
+    this.graphService.getInferredTags(tags)
+      .then((response) => {
+        this.setState({
+          inferredTags: response.filter(tag => tag.labels
+            .find(type => type === 'TOPIC' || type === 'GEOGRAPHY') &&
+            !TAGS_BLACKLIST.includes(tag.id)
+          )
+        });
+      })
+      .catch((err) => {
+        this.setState({ inferredTags: [] });
+        console.error(err);
+      });
   }
 
   /**
@@ -121,7 +153,7 @@ class DatasetWidget extends React.Component {
 
   @Autobind
   handleTagsClick(event) {
-    const tags = this.getTags();
+    const { inferredTags } = this.state;
 
     const position = DatasetWidget.getClickPosition(event);
     this.props.toggleTooltip(true, {
@@ -131,7 +163,7 @@ class DatasetWidget extends React.Component {
       childrenProps: {
         toggleTooltip: this.props.toggleTooltip,
         onTagClick: this.handleTagClick,
-        tags
+        tags: inferredTags
       }
     });
   }
@@ -144,9 +176,9 @@ class DatasetWidget extends React.Component {
 
   render() {
     const { widget, layer, mode, showActions, favorite } = this.props;
+    const { inferredTags } = this.state;
     const dataset = this.props.dataset.attributes;
     const metadata = dataset.metadata && dataset.metadata[0];
-    const vocabulary = dataset.vocabulary && dataset.vocabulary[0];
     const gridMode = (mode === 'grid');
     const element = this.getWidgetOrLayer();
     const starIconName = favorite ? 'icon-star-full' : 'icon-star-empty';
@@ -194,7 +226,7 @@ class DatasetWidget extends React.Component {
                 </Link>
               </h4>
               {/* Dataset tags link */}
-              {vocabulary && this.getTags().length &&
+              {inferredTags && inferredTags.length && inferredTags.length > 0 &&
                 <div
                   className="tags-button"
                   onClick={this.handleTagsClick}
