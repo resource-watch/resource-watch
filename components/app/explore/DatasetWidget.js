@@ -20,6 +20,7 @@ import DatasetTagsTooltip from 'components/app/explore/DatasetTagsTooltip';
 
 // Utils
 import { findTagInSelectorTree } from 'utils/explore/TreeUtil';
+import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
 
 class DatasetWidget extends React.Component {
   /**
