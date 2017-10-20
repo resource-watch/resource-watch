@@ -142,13 +142,13 @@ class DatasetWidget extends React.Component {
   }
 
   render() {
-    const { widget, layer, mode } = this.props;
+    const { widget, layer, mode, showActions, favorite } = this.props;
     const dataset = this.props.dataset.attributes;
     const metadata = dataset.metadata && dataset.metadata[0];
     const vocabulary = dataset.vocabulary && dataset.vocabulary[0];
-    const { showActions } = this.props;
     const gridMode = (mode === 'grid');
     const element = this.getWidgetOrLayer();
+    const starIconName = favorite ? 'icon-star-full' : 'icon-star-empty';
 
     return (
       <div className={`c-dataset-list-item -${mode}`}>
@@ -207,6 +207,19 @@ class DatasetWidget extends React.Component {
                   />
                 </div>
               }
+              {/* Favorite dataset icon */}
+              <div
+                className="favorite-button"
+                onClick={this.handleFavoriteButtonClick}
+                title="Favorite dataset"
+                role="button"
+                tabIndex={-1}
+              >
+                <Icon
+                  name={starIconName}
+                  className="-small"
+                />
+              </div>
             </div>
 
             {/* Description */}
