@@ -17,9 +17,11 @@ import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import DatasetLayerChart from 'components/app/explore/DatasetLayerChart';
 import DatasetPlaceholderChart from 'components/app/explore/DatasetPlaceholderChart';
 import DatasetTagsTooltip from 'components/app/explore/DatasetTagsTooltip';
+import Spinner from 'components/ui/Spinner';
 
 // Services
 import GraphService from 'services/GraphService';
+import UserService from 'services/UserService';
 
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
@@ -60,11 +62,13 @@ class DatasetWidget extends React.Component {
     super(props);
 
     this.state = {
-      inferredTags: []
+      inferredTags: [],
+      loading: false
     };
 
-    // GraphService
+    // Services
     this.graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
+    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
   }
 
   componentDidMount() {
@@ -170,14 +174,29 @@ class DatasetWidget extends React.Component {
 
   @Autobind
   handleTagClick(event) {
-    console.log(event.target);
     const tagName = event.target.getAttribute('id');
     this.props.onTagSelected(tagName);
   }
 
+  @Autobind
+  handleFavoriteButtonClick() {
+    const { favorite, dataset, user } = this.props;
+
+    if (!favorite) {
+      this.setState({ loading: true });
+      this.userService.createFavouriteDataset(dataset.id, user.token)
+        .then((response) => {
+          console.log('response', response);
+        })
+        .catch((err) => {
+
+        });
+    }
+  }
+
   render() {
     const { widget, layer, mode, showActions, favorite } = this.props;
-    const { inferredTags } = this.state;
+    const { inferredTags, loading } = this.state;
     const dataset = this.props.dataset.attributes;
     const metadata = dataset.metadata && dataset.metadata[0];
     const gridMode = (mode === 'grid');
@@ -186,6 +205,7 @@ class DatasetWidget extends React.Component {
 
     return (
       <div className={`c-dataset-list-item -${mode}`}>
+        <Spinner isLoading={loading} className="-small -light" />
 
         {/* If it has widget we want to renderize the default widget one */}
         {widget && gridMode &&
@@ -292,6 +312,7 @@ DatasetWidget.propTypes = {
   layer: PropTypes.object,
   mode: PropTypes.string,
   showActions: PropTypes.bool,
+  favorite: PropTypes.object,
 
   // Callbacks
   onTagSelected: PropTypes.func,
@@ -306,9 +327,10 @@ DatasetWidget.propTypes = {
   toggleTooltip: PropTypes.func.isRequired
 };
 
-const mapStateToProps = ({ explore }) => ({
-  isLayerGroupAdded: dataset => !!explore.layers.find(l => l.dataset === dataset),
-  topicsTree: explore.topicsTree
+const mapStateToProps = state => ({
+  isLayerGroupAdded: dataset => !!state.explore.layers.find(l => l.dataset === dataset),
+  topicsTree: state.explore.topicsTree,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({

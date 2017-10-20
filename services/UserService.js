@@ -108,6 +108,16 @@ export default class UserService {
   }
 
   /**
+   * Creates a new favourite for a dataset
+   * @param {datasetId} Dataset ID
+   * @param {token} User token
+   * @returns {Promise}
+   */
+  createFavouriteDataset(datasetId, token) {
+    return this.createFavourite('dataset', datasetId, token);
+  }
+
+  /**
    * Creates a new favourite for a resource
    * @param {resourceType} Type of the resource (dataset|layer|widget)
    * @param {resourceId} Resource ID

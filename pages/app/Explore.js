@@ -126,7 +126,8 @@ class Explore extends Page {
   }
 
   componentDidMount() {
-    const query = this.props.url.query;
+    const { url, user } = this.props;
+    const query = url.query;
     if (query.page) {
       this.props.setDatasetsPage(+query.page);
     }
@@ -157,6 +158,10 @@ class Explore extends Page {
     }
 
     this.props.getDatasets({});
+    if (user.id) {
+      const token = user.token.includes('Bearer') ? user.token : `Bearer ${user.token}`;
+      this.props.getFavoriteDatasets(token);
+    }
     this.loadKnowledgeGraph();
   }
 
