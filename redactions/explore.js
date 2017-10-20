@@ -18,6 +18,9 @@ const GET_FAVORITES_SUCCESS = 'explore/GET_FAVORITES_SUCCESS';
 const GET_FAVORITES_ERROR = 'explore/GET_FAVORITES_ERROR';
 const GET_FAVORITES_LOADING = 'explore/GET_FAVORITES_LOADING';
 
+const ADD_FAVORITE_DATASET = 'explore/ADD_FAVORITE_DATASET';
+const REMOVE_FAVORITE_DATASET = 'explore/REMOVE_FAVORITE_DATASET';
+
 const SET_DATASETS_PAGE = 'explore/SET_DATASETS_PAGE';
 const SET_DATASETS_SEARCH_FILTER = 'explore/SET_DATASETS_SEARCH_FILTER';
 const SET_DATASETS_TOPICS_FILTER = 'explore/SET_DATASETS_TOPICS_FILTER';
@@ -160,6 +163,23 @@ export default function (state = initialState, action) {
       const datasets = Object.assign({}, state.datasets, {
         loadingFavorites: true,
         error: false
+      });
+      return Object.assign({}, state, { datasets });
+    }
+
+    case ADD_FAVORITE_DATASET: {
+      const favorites = state.datasets.favorites;
+      favorites.push(action.payload);
+      const datasets = Object.assign({}, state.datasets, {
+        favorites
+      });
+      return Object.assign({}, state, { datasets });
+    }
+
+    case REMOVE_FAVORITE_DATASET: {
+      const favorites = state.datasets.favorites.filter(elem => elem.id !== action.payload.id);
+      const datasets = Object.assign({}, state.datasets, {
+        favorites
       });
       return Object.assign({}, state, { datasets });
     }
@@ -693,5 +713,19 @@ export function setLatLng(latLng, updateUrl = true) {
 
     // We also update the URL
     if (updateUrl && typeof window !== 'undefined') dispatch(setUrlParams());
+  };
+}
+
+export function addFavoriteDataset(favorite) {
+  return {
+    type: ADD_FAVORITE_DATASET,
+    payload: favorite
+  };
+}
+
+export function revmoeFavoriteDataset(favorite) {
+  return {
+    type: REMOVE_FAVORITE_DATASET,
+    payload: favorite
   };
 }

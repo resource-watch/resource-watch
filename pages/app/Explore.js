@@ -616,6 +616,7 @@ class Explore extends Page {
                     <div className="column small-12">
                       <DatasetList
                         list={filteredDatasets}
+                        favorites={explore.datasets.favorites}
                         mode={explore.datasets.mode}
                         showActions
                         onTagSelected={this.handleTagSelected}

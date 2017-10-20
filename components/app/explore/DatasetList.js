@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import DatasetWidget from 'components/app/explore/DatasetWidget';
 
 const DatasetList = (props) => {
-  const { list, mode, showActions } = props;
+  const { list, mode, showActions, favorites } = props;
 
   const newClassName = classNames({
     column: true,
@@ -24,6 +24,7 @@ const DatasetList = (props) => {
           (<div className={newClassName} key={dataset.id}>
             <DatasetWidget
               dataset={dataset}
+              favorite={favorites.find(elem => elem.attributes.resourceId === dataset.id)}
               widget={find(dataset.attributes.widget, { attributes: { default: true } })}
               layer={find(dataset.attributes.layer, { attributes: { default: true } })}
               mode={mode}
@@ -39,6 +40,7 @@ const DatasetList = (props) => {
 
 DatasetList.propTypes = {
   list: PropTypes.array,
+  favorites: PropTypes.array,
   mode: PropTypes.string,
   showActions: PropTypes.bool.isRequired,
 
