@@ -2,6 +2,9 @@
 import 'isomorphic-fetch';
 import { Router } from 'routes';
 
+// Services
+import UserService from 'services/UserService';
+
 import { BASEMAPS } from 'components/widgets/editor/map/constants';
 
 /**
@@ -10,6 +13,10 @@ import { BASEMAPS } from 'components/widgets/editor/map/constants';
 const GET_DATASETS_SUCCESS = 'explore/GET_DATASETS_SUCCESS';
 const GET_DATASETS_ERROR = 'explore/GET_DATASETS_ERROR';
 const GET_DATASETS_LOADING = 'explore/GET_DATASETS_LOADING';
+
+const GET_FAVORITES_SUCCESS = 'explore/GET_FAVORITES_SUCCESS';
+const GET_FAVORITES_ERROR = 'explore/GET_FAVORITES_ERROR';
+const GET_FAVORITES_LOADING = 'explore/GET_FAVORITES_LOADING';
 
 const SET_DATASETS_PAGE = 'explore/SET_DATASETS_PAGE';
 const SET_DATASETS_SEARCH_FILTER = 'explore/SET_DATASETS_SEARCH_FILTER';
@@ -61,6 +68,7 @@ const SET_LABELS = 'explore/SET_LABELS';
 const initialState = {
   datasets: {
     list: [],
+    favorites: [],
     loading: false,
     error: false,
     page: 1,
@@ -126,6 +134,31 @@ export default function (state = initialState, action) {
     case GET_DATASETS_LOADING: {
       const datasets = Object.assign({}, state.datasets, {
         loading: true,
+        error: false
+      });
+      return Object.assign({}, state, { datasets });
+    }
+
+    case GET_FAVORITES_SUCCESS: {
+      const datasets = Object.assign({}, state.datasets, {
+        favorites: action.payload,
+        loadingFavorites: false,
+        error: false
+      });
+      return Object.assign({}, state, { datasets });
+    }
+
+    case GET_FAVORITES_ERROR: {
+      const datasets = Object.assign({}, state.datasets, {
+        loadingFavorites: false,
+        error: true
+      });
+      return Object.assign({}, state, { datasets });
+    }
+
+    case GET_FAVORITES_LOADING: {
+      const datasets = Object.assign({}, state.datasets, {
+        loadingFavorites: true,
         error: false
       });
       return Object.assign({}, state, { datasets });
@@ -354,12 +387,41 @@ export function setUrlParams() {
   };
 }
 
+export function getFavoriteDatasets(token) {
+  return (dispatch) => {
+    // Waiting for fetch from server -> Dispatch loading
+    dispatch({ type: GET_FAVORITES_LOADING });
+
+    const userService = new UserService({ apiURL: process.env.WRI_API_URL });
+
+    return userService.getFavouriteDatasets(token)
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then((response) => {
+        const favorites = response.data;
+        dispatch({
+          type: GET_FAVORITES_SUCCESS,
+          payload: favorites
+        });
+      })
+      .catch((err) => {
+        // Fetch from server ko -> Dispatch error
+        dispatch({
+          type: GET_FAVORITES_ERROR,
+          payload: err.message
+        });
+      });
+  };
+}
+
 export function getDatasets({ pageNumber, pageSize }) {
   return (dispatch) => {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_DATASETS_LOADING });
 
-    return fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=rw&status=saved&published=true&includes=widget,layer,metadata,vocabulary&page[size]=${pageSize || 999}&page[number]=${pageNumber || 1}&sort=-updatedAt`))
+    return fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=rw&status=saved&published=true&includes=widget,layer,metadata,vocabulary&page[size]=${pageSize || 999}&page[number]=${pageNumber || 1}&sort=-updatedAt`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
