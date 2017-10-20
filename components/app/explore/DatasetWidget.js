@@ -170,7 +170,8 @@ class DatasetWidget extends React.Component {
 
   @Autobind
   handleTagClick(event) {
-    const tagName = event.target.textContent;
+    console.log(event.target);
+    const tagName = event.target.getAttribute('id');
     this.props.onTagSelected(tagName);
   }
 

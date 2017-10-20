@@ -30,6 +30,7 @@ class DatasetTagsTooltip extends React.Component {
             role="button"
             tabIndex={-1}
             key={tag.id}
+            id={tag.id}
             onClick={this.props.onTagClick}
           >
             {tag.label}
