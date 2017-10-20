@@ -43,7 +43,7 @@ export default class UserService {
   }
 
   /**
-   * Gets the contents that have been starred/favourited by the user that is
+   * Gets the widgets that have been starred/favourited by the user that is
    * currently logged
    * @param {token} User token
    * @returns {Promise}
@@ -53,13 +53,23 @@ export default class UserService {
   }
 
   /**
+   * Gets the datasets that have been starred/favourited by the user that is
+   * currently logged
+   * @param {token} User token
+   * @returns {Promise}
+   */
+  getFavouriteDatasets(token) {
+    return this.getFavourites(token, 'dataset', true);
+  }
+
+  /**
    * Gets the contents that have been starred/favourited by the user that is
    * currently logged
     * @param {token} User token
    * @returns {Promise}
    */
   getFavourites(token, resourceType = null, include = true) {
-    const resourceTypeSt = (resourceType !== null) ? `&resourceType=${resourceType}` : '';
+    const resourceTypeSt = (resourceType !== null) ? `&resource-type=${resourceType}` : '';
     return new Promise((resolve) => {
       fetch(`${this.opts.apiURL}/favourite?include=${include}${resourceTypeSt}`, {
         headers: {

@@ -8,25 +8,23 @@ import { connect } from 'react-redux';
 
 // Services
 import UserService from 'services/UserService';
-import WidgetService from 'services/WidgetService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import WidgetList from 'components/widgets/list/WidgetList';
+import DatasetList from 'components/app/explore/DatasetList';
 
-class MyRWWidgetsStarred extends React.Component {
+class MyRWDatasetsStarred extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       user: null,
-      starredWidgets: false,
-      starredWidgetsLoaded: null
+      starredDatasets: false,
+      starredDatasetsLoaded: null
     };
 
     // User service
     this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
-    this.widgetService = new WidgetService(null, { apiURL: process.env.CONTROL_TOWER_URL });
   }
 
   componentDidMount() {
@@ -35,16 +33,16 @@ class MyRWWidgetsStarred extends React.Component {
 
   loadWidgets() {
     this.setState({
-      starredWidgets: false
+      starredDatasets: false
     });
-    this.userService.getFavouriteWidgets(this.props.user.token)
+    this.userService.getFavouriteDatasets(this.props.user.token)
       .then((response) => {
         this.setState({
-          starredWidgets: response.map((elem) => {
+          starredDatasets: response.map((elem) => {
             const favouriteId = elem.id;
             return Object.assign({}, elem.attributes.resource, { favouriteId });
           }),
-          starredWidgetsLoaded: true
+          starredDatasetsLoaded: true
         });
       }).catch(err => toastr.error('Error', err));
   }
@@ -60,27 +58,26 @@ class MyRWWidgetsStarred extends React.Component {
   }
 
   render() {
-    const { starredWidgets, starredWidgetsLoaded } = this.state;
+    const { starredDatasets, starredDatasetsLoaded } = this.state;
     return (
-      <div className="c-myrw-widgets-starred">
+      <div className="c-myrw-datasets-starred">
         <div className="row">
           <div className="column small-12">
             <Spinner
-              isLoading={!starredWidgetsLoaded}
+              isLoading={!starredDatasetsLoaded}
               className="-relative -light"
             />
-            {starredWidgets &&
-            <WidgetList
-              widgets={starredWidgets}
-              mode="grid"
-              showEmbed
-              showStar
-              onWidgetUnfavourited={this.handleWidgetUnfavourited}
-            />
+            {starredDatasets &&
+              <DatasetList
+                list={starredDatasets}
+                mode="grid"
+                showActions
+                onTagSelected={this.handleTagSelected}
+              />
             }
-            {starredWidgets && starredWidgets.length === 0 &&
-            <div className="no-widgets-div">
-              You currently have no widgets
+            {starredDatasets && starredDatasets.length === 0 &&
+            <div className="no-datasets-div">
+              You currently have no starred datasets
             </div>
             }
           </div>
@@ -90,7 +87,7 @@ class MyRWWidgetsStarred extends React.Component {
   }
 }
 
-MyRWWidgetsStarred.propTypes = {
+MyRWDatasetsStarred.propTypes = {
   // Store
   user: PropTypes.object.isRequired
 };
@@ -99,4 +96,4 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default connect(mapStateToProps, null)(MyRWWidgetsStarred);
+export default connect(mapStateToProps, null)(MyRWDatasetsStarred);
