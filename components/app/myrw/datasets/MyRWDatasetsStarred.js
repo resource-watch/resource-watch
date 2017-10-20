@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 
 // Services
 import UserService from 'services/UserService';
+import DatasetService from 'services/DatasetService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -19,7 +20,8 @@ class MyRWDatasetsStarred extends React.Component {
 
     this.state = {
       user: null,
-      starredDatasets: false,
+      favorites: [],
+      starredDatasets: [],
       starredDatasetsLoaded: null
     };
 
@@ -37,14 +39,24 @@ class MyRWDatasetsStarred extends React.Component {
     });
     this.userService.getFavouriteDatasets(this.props.user.token)
       .then((response) => {
-        this.setState({
-          starredDatasets: response.map((elem) => {
-            const favouriteId = elem.id;
-            return Object.assign({}, elem.attributes.resource, { favouriteId });
-          }),
-          starredDatasetsLoaded: true
-        });
-      }).catch(err => toastr.error('Error', err));
+        const favorites = response;
+        const datasetIds = favorites.map(elem => elem.attributes.resourceId);
+        console.log('datasetIds', datasetIds);
+        DatasetService.getDatasets(datasetIds, 'widget,layer,vocabulary,metadata')
+          .then((resp) => {
+            this.setState({
+              favorites,
+              starredDatasets: resp,
+              starredDatasetsLoaded: true
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }).catch((err) => {
+        console.error(err);
+        toastr.error('Error', err);
+      });
   }
 
   @Autobind
@@ -58,7 +70,7 @@ class MyRWDatasetsStarred extends React.Component {
   }
 
   render() {
-    const { starredDatasets, starredDatasetsLoaded } = this.state;
+    const { starredDatasets, starredDatasetsLoaded, favorites } = this.state;
     return (
       <div className="c-myrw-datasets-starred">
         <div className="row">
@@ -70,8 +82,8 @@ class MyRWDatasetsStarred extends React.Component {
             {starredDatasets &&
               <DatasetList
                 list={starredDatasets}
+                favorites={favorites}
                 mode="grid"
-                showActions
                 onTagSelected={this.handleTagSelected}
               />
             }
