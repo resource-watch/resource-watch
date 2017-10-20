@@ -177,11 +177,46 @@ class ColumnBox extends React.Component {
    * @param {MouseEvent} [e] - Event
    */
   onClickColumn(e) {
-    if (!this.el) return;
-
     // Prevent the tooltip from automatically
     // closing right after opening it
     if (e) e.stopPropagation();
+
+    this.detailsTooltipCloseOnMouseOut = false;
+    this.openDetailsTooltip();
+  }
+
+  /**
+   * Event handler executed when the user puts the
+   * cursor on top of the root element
+   */
+  onMouseOverColumn() {
+    this.detailsTooltipTimer = setTimeout(() => {
+      this.detailsTooltipCloseOnMouseOut = true;
+      this.openDetailsTooltip();
+    }, 1500);
+  }
+
+  /**
+   * Event handler executed when the user moves the
+   * cursor away from the root element
+   */
+  onMouseOutColumn() {
+    if (this.detailsTooltipTimer) {
+      clearTimeout(this.detailsTooltipTimer);
+      this.detailsTooltipTimer = null;
+    }
+
+    if (this.detailsTooltipCloseOnMouseOut) {
+      this.detailsTooltipCloseOnMouseOut = false;
+      this.closeDetailsTooltip();
+    }
+  }
+
+  /**
+   * Open the details tooltip
+   */
+  openDetailsTooltip() {
+    if (!this.el) return;
 
     const rects = this.el.getBoundingClientRect();
 
@@ -198,28 +233,16 @@ class ColumnBox extends React.Component {
       childrenProps: {
         name: this.props.alias || this.props.name,
         description: this.props.description,
-        onClose: () => this.props.toggleTooltip(false)
+        onClose: () => this.closeDetailsTooltip()
       }
     });
   }
 
   /**
-   * Event handler executed when the user puts the
-   * cursor on top of the root element
+   * Close the details tooltip
    */
-  onMouseOverColumn() {
-    this.detailsTooltipTimer = setTimeout(() => this.onClickColumn(), 1500);
-  }
-
-  /**
-   * Event handler executed when the user moves the
-   * cursor away from the root element
-   */
-  onMouseOutColumn() {
-    if (this.detailsTooltipTimer) {
-      clearTimeout(this.detailsTooltipTimer);
-      this.detailsTooltipTimer = null;
-    }
+  closeDetailsTooltip() {
+    this.props.toggleTooltip(false);
   }
 
   @Autobind
