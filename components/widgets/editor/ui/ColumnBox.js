@@ -15,6 +15,7 @@ import Icon from 'components/widgets/editor/ui/Icon';
 import FilterTooltip from 'components/widgets/editor/tooltip/FilterTooltip';
 import AggregateFunctionTooltip from 'components/widgets/editor/tooltip/AggregateFunctionTooltip';
 import OrderByTooltip from 'components/widgets/editor/tooltip/OrderByTooltip';
+import ColumnDetails from 'components/widgets/editor/tooltip/ColumnDetails';
 
 // Utils
 import { isFieldAllowed } from 'components/widgets/editor/helpers/WidgetHelper';
@@ -105,6 +106,11 @@ class ColumnBox extends React.Component {
     // taken into account
     if (nextProps.isDragging !== this.props.isDragging) {
       document.body.classList.toggle('-dragging', nextProps.isDragging);
+
+      // We prevent the details tooltip from showing...
+      if (!this.props.isA) this.onMouseOutColumn();
+      // ...and close the details tooltip is eventually already opened
+      this.props.toggleTooltip(false);
     }
 
     this.setState({ aggregateFunction: nextProps.widgetEditor.aggregateFunction });
@@ -163,6 +169,80 @@ class ColumnBox extends React.Component {
     if (this.props.onSetOrderType) {
       this.props.onSetOrderType(orderBy);
     }
+  }
+
+  /**
+   * Event handler executed when the user clicks
+   * on the root element
+   * @param {MouseEvent} [e] - Event
+   */
+  onClickColumn(e) {
+    // Prevent the tooltip from automatically
+    // closing right after opening it
+    if (e) e.stopPropagation();
+
+    this.detailsTooltipCloseOnMouseOut = false;
+    this.openDetailsTooltip();
+  }
+
+  /**
+   * Event handler executed when the user puts the
+   * cursor on top of the root element
+   */
+  onMouseOverColumn() {
+    this.detailsTooltipTimer = setTimeout(() => {
+      this.detailsTooltipCloseOnMouseOut = true;
+      this.openDetailsTooltip();
+    }, 1500);
+  }
+
+  /**
+   * Event handler executed when the user moves the
+   * cursor away from the root element
+   */
+  onMouseOutColumn() {
+    if (this.detailsTooltipTimer) {
+      clearTimeout(this.detailsTooltipTimer);
+      this.detailsTooltipTimer = null;
+    }
+
+    if (this.detailsTooltipCloseOnMouseOut) {
+      this.detailsTooltipCloseOnMouseOut = false;
+      this.closeDetailsTooltip();
+    }
+  }
+
+  /**
+   * Open the details tooltip
+   */
+  openDetailsTooltip() {
+    if (!this.el) return;
+
+    const rects = this.el.getBoundingClientRect();
+
+    const position = {
+      x: window.scrollX + rects.x + (rects.width / 2),
+      y: window.scrollY + rects.y + (rects.height / 2)
+    };
+
+    this.props.toggleTooltip(true, {
+      follow: false,
+      position,
+      direction: 'top',
+      children: ColumnDetails,
+      childrenProps: {
+        name: this.props.alias || this.props.name,
+        description: this.props.description,
+        onClose: () => this.closeDetailsTooltip()
+      }
+    });
+  }
+
+  /**
+   * Close the details tooltip
+   */
+  closeDetailsTooltip() {
+    this.props.toggleTooltip(false);
   }
 
   @Autobind
@@ -295,8 +375,17 @@ class ColumnBox extends React.Component {
 
   render() {
     const { aggregateFunction, aggregateFunctionSize, aggregateFunctionColor } = this.state;
-    const { isDragging, connectDragSource, name, alias, type, closable, configurable,
-      isA, widgetEditor } = this.props;
+    const {
+      isDragging,
+      connectDragSource,
+      name,
+      alias,
+      type,
+      closable,
+      configurable,
+      isA,
+      widgetEditor
+    } = this.props;
     const { orderBy } = widgetEditor;
 
     const orderType = orderBy ? orderBy.orderType : null;
@@ -319,9 +408,14 @@ class ColumnBox extends React.Component {
       (isA === 'orderBy');
 
     return connectDragSource(
-      <div
+      <div // eslint-disable-line jsx-a11y/no-static-element-interactions
+        // FIXME: which role to assign to the element to make it accessible?
         className={classNames({ 'c-columnbox': true, '-dimmed': isDragging })}
-        title={alias || name}
+        title={isA ? alias || name : ''}
+        onClick={e => !isA && this.onClickColumn(e)}
+        onMouseOver={() => !isA && this.onMouseOverColumn()}
+        onMouseOut={() => !isA && this.onMouseOutColumn()}
+        ref={(node) => { this.el = node; }}
       >
         <Icon
           name={iconName}
@@ -383,6 +477,7 @@ ColumnBox.propTypes = {
   datasetID: PropTypes.string,
   name: PropTypes.string,
   alias: PropTypes.string,
+  description: PropTypes.string,
   type: PropTypes.string,
   isA: PropTypes.string,
   closable: PropTypes.bool,
