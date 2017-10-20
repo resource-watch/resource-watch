@@ -168,10 +168,9 @@ export default function (state = initialState, action) {
     }
 
     case ADD_FAVORITE_DATASET: {
-      const favorites = state.datasets.favorites;
-      favorites.push(action.payload);
+      const newFavorites = [...state.datasets.favorites, action.payload];
       const datasets = Object.assign({}, state.datasets, {
-        favorites
+        favorites: newFavorites
       });
       return Object.assign({}, state, { datasets });
     }
@@ -723,7 +722,7 @@ export function addFavoriteDataset(favorite) {
   };
 }
 
-export function revmoeFavoriteDataset(favorite) {
+export function removeFavoriteDataset(favorite) {
   return {
     type: REMOVE_FAVORITE_DATASET,
     payload: favorite

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 // Components
 import DatasetWidget from 'components/app/explore/DatasetWidget';
 
-const DatasetList = (props) => {
+function DatasetList(props) {
   const { list, mode, showActions, favorites } = props;
 
   const newClassName = classNames({
@@ -36,7 +36,7 @@ const DatasetList = (props) => {
       </div>
     </div>
   );
-};
+}
 
 DatasetList.propTypes = {
   list: PropTypes.array,

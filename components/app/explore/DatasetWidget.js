@@ -186,7 +186,7 @@ class DatasetWidget extends React.Component {
     if (!favorite) {
       this.userService.createFavouriteDataset(dataset.id, user.token)
         .then((response) => {
-          this.props.addFavoriteDataset(response, user.token);
+          this.props.addFavoriteDataset(response.data, user.token);
           this.setState({ loading: false });
         })
         .catch((err) => {
@@ -195,7 +195,7 @@ class DatasetWidget extends React.Component {
     } else {
       this.userService.deleteFavourite(favorite.id, user.token)
         .then((response) => {
-          this.props.removeFavoriteDataset(response, user.token);
+          this.props.removeFavoriteDataset(response.data);
           this.setState({ loading: false });
         })
         .catch((err) => {
@@ -212,7 +212,6 @@ class DatasetWidget extends React.Component {
     const gridMode = (mode === 'grid');
     const element = this.getWidgetOrLayer();
     const starIconName = favorite ? 'icon-star-full' : 'icon-star-empty';
-    console.log('favorite', favorite);
 
     return (
       <div className={`c-dataset-list-item -${mode}`}>
