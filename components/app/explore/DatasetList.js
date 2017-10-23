@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import DatasetWidget from 'components/app/explore/DatasetWidget';
 
 function DatasetList(props) {
-  const { list, mode, showActions, favorites } = props;
+  const { list, mode, showActions, showFavorite, favorites } = props;
 
   const newClassName = classNames({
     column: true,
@@ -30,6 +30,7 @@ function DatasetList(props) {
               layer={find(dataset.attributes.layer, { attributes: { default: true } })}
               mode={mode}
               showActions={showActions}
+              showFavorite={showFavorite}
               onTagSelected={tag => props.onTagSelected(tag)}
               onFavoriteRemoved={favorite => props.onFavoriteRemoved(favorite)}
             />
@@ -45,6 +46,7 @@ DatasetList.propTypes = {
   favorites: PropTypes.array,
   mode: PropTypes.string,
   showActions: PropTypes.bool.isRequired,
+  showFavorite: PropTypes.bool.isRequired,
 
   // Callbacks
   onTagSelected: PropTypes.func, // eslint-disable-line

@@ -83,6 +83,7 @@ class MyRWDatasetsStarred extends React.Component {
                 mode="grid"
                 onFavoriteRemoved={this.handleFavoriteRemoved}
                 showActions={false}
+                showFavorite
               />
             }
             {starredDatasets && starredDatasets.length === 0 &&
