@@ -619,7 +619,9 @@ class Explore extends Page {
                         favorites={explore.datasets.favorites}
                         mode={explore.datasets.mode}
                         showActions
+                        showFavorite
                         onTagSelected={this.handleTagSelected}
+                        onFavoriteRemoved={() => {}}
                       />
                     </div>
                   </div>

@@ -622,7 +622,9 @@ class ExploreDetail extends Page {
                   <div className="l-section-mod">
                     <h3>Sources</h3>
                     {metadataInfo.sources.map(source => (
-                      <div>
+                      <div
+                        key={source['source-name']}
+                      >
                         {source['source-name']}
                         {source['source-description']}
                       </div>)
@@ -693,6 +695,7 @@ class ExploreDetail extends Page {
                         list={similarDatasets}
                         mode="grid"
                         showActions={false}
+                        showFavorite={false}
                         onTagSelected={this.handleTagSelected}
                       />
                       }
