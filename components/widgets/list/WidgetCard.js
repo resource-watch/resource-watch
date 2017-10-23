@@ -300,6 +300,22 @@ class WidgetCard extends React.Component {
   }
 
   @Autobind
+  handleDownloadPDF() {
+    toastr.info('Widget download', 'The file is being generated...');
+
+    const id = this.props.widget.id;
+    const type = this.props.widget.attributes.widgetConfig.type || 'widget';
+    const { protocol, hostname, port } = window.location;
+    const host = `${protocol}//${hostname}${port !== '' ? `:${port}` : port}`;
+
+    const link = document.createElement('a');
+    link.setAttribute('download', '');
+    link.href = `${process.env.CONTROL_TOWER_URL}/v1/webshot/pdf?filename=widget-${id}&width=790&height=580&url=${host}/embed/${type}/${id}`;
+
+    link.click();
+  }
+
+  @Autobind
   handleWidgetActionsClick(event) {
     const position = WidgetCard.getClickPosition(event);
     this.props.toggleTooltip(true, {
@@ -311,7 +327,8 @@ class WidgetCard extends React.Component {
         onShareEmbed: this.handleEmbed,
         onAddToDashboard: this.handleAddToDashboard,
         onGoToDataset: this.handleGoToDataset,
-        onEditWidget: this.handleEditWidget
+        onEditWidget: this.handleEditWidget,
+        onDownloadPDF: this.handleDownloadPDF
       }
     });
   }
