@@ -30,10 +30,10 @@ class MyRWDatasetsStarred extends React.Component {
   }
 
   componentDidMount() {
-    this.loadWidgets();
+    this.loadDatasets();
   }
 
-  loadWidgets() {
+  loadDatasets() {
     this.setState({
       starredDatasets: false
     });
@@ -41,7 +41,6 @@ class MyRWDatasetsStarred extends React.Component {
       .then((response) => {
         const favorites = response;
         const datasetIds = favorites.map(elem => elem.attributes.resourceId);
-        console.log('datasetIds', datasetIds);
         DatasetService.getDatasets(datasetIds, 'widget,layer,vocabulary,metadata')
           .then((resp) => {
             this.setState({
@@ -60,13 +59,11 @@ class MyRWDatasetsStarred extends React.Component {
   }
 
   @Autobind
-  handleWidgetRemoved() {
-    this.loadWidgets(this.props);
-  }
-
-  @Autobind
-  handleWidgetUnfavourited() {
-    this.loadWidgets(this.props);
+  handleFavoriteRemoved(favorite) {
+    this.setState({
+      starredDatasets: this.state.starredDatasets
+        .filter(dataset => dataset.id !== favorite.attributes.resourceId)
+    });
   }
 
   render() {
@@ -84,7 +81,7 @@ class MyRWDatasetsStarred extends React.Component {
                 list={starredDatasets}
                 favorites={favorites}
                 mode="grid"
-                onTagSelected={this.handleTagSelected}
+                onFavoriteRemoved={this.handleFavoriteRemoved}
               />
             }
             {starredDatasets && starredDatasets.length === 0 &&

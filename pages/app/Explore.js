@@ -158,7 +158,7 @@ class Explore extends Page {
     }
 
     this.props.getDatasets({});
-    if (user.id) {
+    if (user && user.id) {
       const token = user.token.includes('Bearer') ? user.token : `Bearer ${user.token}`;
       this.props.getFavoriteDatasets(token);
     }

@@ -191,27 +191,36 @@ class DatasetWidget extends React.Component {
         })
         .catch((err) => {
           this.setState({ loading: false });
+          console.error(err);
         });
     } else {
       this.userService.deleteFavourite(favorite.id, user.token)
         .then((response) => {
+          this.props.onFavoriteRemoved(favorite);
           this.props.removeFavoriteDataset(response.data);
           this.setState({ loading: false });
         })
         .catch((err) => {
           this.setState({ loading: false });
+          console.error(err);
         });
     }
   }
 
   render() {
-    const { widget, layer, mode, showActions, favorite } = this.props;
+    const { widget, layer, mode, showActions, favorite, user } = this.props;
     const { inferredTags, loading } = this.state;
     const dataset = this.props.dataset.attributes;
     const metadata = dataset.metadata && dataset.metadata[0];
     const gridMode = (mode === 'grid');
     const element = this.getWidgetOrLayer();
     const starIconName = favorite ? 'icon-star-full' : 'icon-star-empty';
+
+    const starIconClass = classnames({
+      '-small': true,
+      '-filled': favorite,
+      '-empty': !favorite
+    });
 
     return (
       <div className={`c-dataset-list-item -${mode}`}>
@@ -272,18 +281,20 @@ class DatasetWidget extends React.Component {
                 </div>
               }
               {/* Favorite dataset icon */}
-              <div
-                className="favorite-button"
-                onClick={this.handleFavoriteButtonClick}
-                title="Favorite dataset"
-                role="button"
-                tabIndex={-1}
-              >
-                <Icon
-                  name={starIconName}
-                  className="-small"
-                />
-              </div>
+              {user && user.id &&
+                <div
+                  className="favorite-button"
+                  onClick={this.handleFavoriteButtonClick}
+                  title="Favorite dataset"
+                  role="button"
+                  tabIndex={-1}
+                >
+                  <Icon
+                    name={starIconName}
+                    className={starIconClass}
+                  />
+                </div>
+              }
             </div>
 
             {/* Description */}
@@ -326,6 +337,7 @@ DatasetWidget.propTypes = {
 
   // Callbacks
   onTagSelected: PropTypes.func,
+  onFavoriteRemoved: PropTypes.func,
 
   // STORE
   // Topics tree used in the Explore selector
@@ -336,7 +348,8 @@ DatasetWidget.propTypes = {
   toggleLayerGroup: PropTypes.func.isRequired,
   toggleTooltip: PropTypes.func.isRequired,
   removeFavoriteDataset: PropTypes.func.isRequired,
-  addFavoriteDataset: PropTypes.func.isRequired
+  addFavoriteDataset: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({

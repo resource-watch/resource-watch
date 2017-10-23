@@ -30,6 +30,7 @@ function DatasetList(props) {
               mode={mode}
               showActions={showActions}
               onTagSelected={tag => props.onTagSelected(tag)}
+              onFavoriteRemoved={favorite => props.onFavoriteRemoved(favorite)}
             />
           </div>)
         )}
@@ -45,7 +46,8 @@ DatasetList.propTypes = {
   showActions: PropTypes.bool.isRequired,
 
   // Callbacks
-  onTagSelected: PropTypes.func
+  onTagSelected: PropTypes.func, // eslint-disable-line
+  onFavoriteRemoved: PropTypes.func // eslint-disable-line
 };
 
 export default DatasetList;

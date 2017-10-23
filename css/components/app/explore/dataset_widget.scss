@@ -119,5 +119,16 @@
     top: 5px;
     z-index: 4;
     cursor: pointer;
+
+    svg {
+
+      &.-filled {
+        fill: $yellow;
+      }
+
+      &.-empty {
+        fill: $dove-grey;
+      }
+    }
   }
 }
