@@ -1,4 +1,10 @@
 .c-page-explore-detail {
+
+  .favorite-button {
+    fill: $white;
+    cursor: pointer;
+  }
+
   .c-configurable-widget {
 
     position:relative;
@@ -54,12 +60,14 @@
     overflow: auto;
 
     .tag {
-      border: 1px solid $light-grey;
-      background: $porcelain;
-      border-radius: 4px;
-      padding: 5px;
-      margin: 5px;
+      margin-right: 10px;
+      color: $link-font-color;
       cursor: pointer;
+      text-decoration: underline;
+
+      &:hover {
+        color:darken($link-font-color, 10%);
+      }
     }
   }
 

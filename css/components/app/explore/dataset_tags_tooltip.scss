@@ -4,14 +4,20 @@
   flex-wrap: wrap;
   max-height: 200px;
   max-width: 250px;
-  margin-bottom: 20px;
   overflow: auto;
 
   .tag {
-    border: 1px solid $light-grey;
-    background: $porcelain;
-    border-radius: 4px;
-    padding: 5px;
+    display: flex;
+    float: left;
+    clear: left;
+    align-items: center;
+    min-height: 22px;
+    background: $dark-pink;
+    color: $white;
+    font-size: $font-size-small-medium;
+    font-weight: $font-weight-bold;
+    border-radius: 15px;
+    padding: 3px 10px 4px 10px;
     margin: 5px;
     cursor: pointer;
   }
