@@ -695,7 +695,6 @@ Explore.propTypes = {
   getFavoriteDatasets: PropTypes.func.isRequired,
   setDatasetsPage: PropTypes.func.isRequired,
   redirectTo: PropTypes.func.isRequired,
-  setDatasetsFilters: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
   setTopicsTree: PropTypes.func.isRequired.isRequired,
