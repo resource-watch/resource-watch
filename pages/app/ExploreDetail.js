@@ -39,10 +39,12 @@ import { Link } from 'routes';
 import DatasetService from 'services/DatasetService';
 import LayersService from 'services/LayersService';
 import GraphService from 'services/GraphService';
+import UserService from 'services/UserService';
 
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
+import Icon from 'components/ui/Icon';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
 import WidgetEditor from 'components/widgets/editor/WidgetEditor';
@@ -84,6 +86,8 @@ class ExploreDetail extends Page {
     });
     // GraphService
     this.graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
+    // UserService
+    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
   }
 
   /**
@@ -328,9 +332,38 @@ class ExploreDetail extends Page {
     );
   }
 
+  @Autobind
+  handleFavoriteButtonClick() {
+    const { favorite, dataset, user } = this.props;
+    this.setState({ loading: true });
+
+    if (!favorite) {
+      this.userService.createFavouriteDataset(dataset.id, user.token)
+        .then((response) => {
+          this.props.addFavoriteDataset(response.data, user.token);
+          this.setState({ loading: false });
+        })
+        .catch((err) => {
+          this.setState({ loading: false });
+          console.error(err);
+        });
+    } else {
+      this.userService.deleteFavourite(favorite.id, user.token)
+        .then((response) => {
+          this.props.onFavoriteRemoved(favorite);
+          this.props.removeFavoriteDataset(response.data);
+          this.setState({ loading: false });
+        })
+        .catch((err) => {
+          this.setState({ loading: false });
+          console.error(err);
+        });
+    }
+  }
+
   render() {
     const { url, user } = this.props;
-    const { dataset, loading, similarDatasets, similarDatasetsLoaded, inferredTags } = this.state;
+    const { dataset, loading, similarDatasets, similarDatasetsLoaded, inferredTags, favorite } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
     const metadataAttributes = (metadata && metadata.attributes) || {};
@@ -341,6 +374,13 @@ class ExploreDetail extends Page {
     const formattedDescription = this.shortenAndFormat(description, 'showDescription');
     const formattedFunctions = this.shortenAndFormat(functions, 'showFunction');
     const formattedCautions = this.shortenAndFormat(cautions, 'showCautions');
+
+    const starIconName = favorite ? 'icon-star-full' : 'icon-star-empty';
+    const starIconClass = classnames({
+      '-small': true,
+      '-filled': favorite,
+      '-empty': !favorite
+    });
 
     return (
       <Layout
@@ -373,7 +413,24 @@ class ExploreDetail extends Page {
                   <ul>
                     <li>Source: {(metadata && metadata.attributes.source) || '-'}</li>
                     <li>Last update: {dataset && dataset.attributes && new Date(dataset.attributes.updatedAt).toJSON().slice(0, 10).replace(/-/g, '/')}</li>
-                    {/* Favorites <li>Last update: {dataset && dataset.attributes && dataset.attributes.updatedAt}</li> */}
+                    {/* Favorite dataset icon */}
+                    {user && user.id &&
+                      <li>
+                        <div
+                          className="favorite-button"
+                          onClick={this.handleFavoriteButtonClick}
+                          title="Favorite dataset"
+                          role="button"
+                          tabIndex={-1}
+                        >
+                          <Icon
+                            name={starIconName}
+                            className={starIconClass}
+                          />
+                        </div>
+                      </li>
+                    }
+                    {/* Favorites */}
                   </ul>
                 </div>
               </div>
@@ -613,7 +670,7 @@ class ExploreDetail extends Page {
                         isLoading={!similarDatasetsLoaded}
                         className="-relative -light"
                       />
-                      {similarDatasets &&
+                      {similarDatasets && similarDatasets.length > 0 &&
                       <DatasetList
                         active={[]}
                         list={similarDatasets}

@@ -24,7 +24,8 @@ function DatasetList(props) {
           (<div className={newClassName} key={dataset.id}>
             <DatasetWidget
               dataset={dataset}
-              favorite={favorites.find(elem => elem.attributes.resourceId === dataset.id)}
+              favorite={favorites && favorites.find(elem =>
+                elem.attributes.resourceId === dataset.id)}
               widget={find(dataset.attributes.widget, { attributes: { default: true } })}
               layer={find(dataset.attributes.layer, { attributes: { default: true } })}
               mode={mode}
