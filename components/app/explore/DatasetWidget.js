@@ -208,7 +208,7 @@ class DatasetWidget extends React.Component {
   }
 
   render() {
-    const { widget, layer, mode, showActions, favorite, user } = this.props;
+    const { widget, layer, mode, showActions, favorite, user, showFavorite } = this.props;
     const { inferredTags, loading } = this.state;
     const dataset = this.props.dataset.attributes;
     const metadata = dataset.metadata && dataset.metadata[0];
@@ -281,7 +281,7 @@ class DatasetWidget extends React.Component {
                 </div>
               }
               {/* Favorite dataset icon */}
-              {user && user.id &&
+              {user && user.id && showFavorite &&
                 <div
                   className="favorite-button"
                   onClick={this.handleFavoriteButtonClick}
@@ -333,6 +333,7 @@ DatasetWidget.propTypes = {
   layer: PropTypes.object,
   mode: PropTypes.string,
   showActions: PropTypes.bool,
+  showFavorite: PropTypes.bool,
   favorite: PropTypes.object,
 
   // Callbacks
@@ -340,8 +341,6 @@ DatasetWidget.propTypes = {
   onFavoriteRemoved: PropTypes.func,
 
   // STORE
-  // Topics tree used in the Explore selector
-  topicsTree: PropTypes.array.isRequired,
   // Return whether a layer group is already added to the map
   isLayerGroupAdded: PropTypes.func.isRequired,
   // Add or remove a layer group from the map
@@ -354,7 +353,6 @@ DatasetWidget.propTypes = {
 
 const mapStateToProps = state => ({
   isLayerGroupAdded: dataset => !!state.explore.layers.find(l => l.dataset === dataset),
-  topicsTree: state.explore.topicsTree,
   user: state.user
 });
 

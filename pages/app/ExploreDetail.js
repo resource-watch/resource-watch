@@ -693,6 +693,7 @@ class ExploreDetail extends Page {
                         list={similarDatasets}
                         mode="grid"
                         showActions={false}
+                        showFavorite={false}
                         onTagSelected={this.handleTagSelected}
                       />
                       }
