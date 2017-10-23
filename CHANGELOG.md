@@ -48,6 +48,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Explore detail: correct SEO tags
 
 ### Added
+- Explore: favorite datasets
+- Explore detail: favorite dataset
+- MyRW Dataset favorites
 - Explore detail tags section
 - Favorite widget functionality at Embed widget page
 - Styles for LayerInfoModal component

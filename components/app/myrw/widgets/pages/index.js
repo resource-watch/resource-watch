@@ -23,45 +23,43 @@ const WIDGET_SUBTABS = [{
   params: { tab: 'widgets', subtab: 'my_widgets' }
 }];
 
-class WidgetsIndex extends React.Component {
-  render() {
-    const { id, user } = this.props;
-    const subtab = this.props.subtab || 'starred';
+function WidgetsIndex(props) {
+  const { id, user } = props;
+  const subtab = props.subtab || 'starred';
 
-    return (
-      <div className="c-widgets-index">
-        <StickyContainer>
-          <div className="row l-row">
-            <div className="columns small-12 medium-3">
-              <Sticky>
-                {
-                  ({ style }) => (
-                    <div style={style}>
-                      <Aside
-                        items={WIDGET_SUBTABS}
-                        selected={subtab}
-                      />
-                    </div>
-                  )
-                }
-              </Sticky>
-            </div>
-
-            <div className="columns small-12 medium-9">
-              {subtab === 'starred' &&
-                <MyRWWidgetsStarred user={user} dataset={id} embed />
+  return (
+    <div className="c-widgets-index">
+      <StickyContainer>
+        <div className="row l-row">
+          <div className="columns small-12 medium-3">
+            <Sticky>
+              {
+                ({ style }) => (
+                  <div style={style}>
+                    <Aside
+                      items={WIDGET_SUBTABS}
+                      selected={subtab}
+                    />
+                  </div>
+                )
               }
-
-              {subtab === 'my_widgets' &&
-                <MyRWWidgetsMy user={user} dataset={id} />
-              }
-            </div>
-
+            </Sticky>
           </div>
-        </StickyContainer>
-      </div>
-    );
-  }
+
+          <div className="columns small-12 medium-9">
+            {subtab === 'starred' && user.id &&
+              <MyRWWidgetsStarred user={user} dataset={id} embed />
+            }
+
+            {subtab === 'my_widgets' && user.id &&
+              <MyRWWidgetsMy user={user} dataset={id} />
+            }
+          </div>
+
+        </div>
+      </StickyContainer>
+    </div>
+  );
 }
 
 WidgetsIndex.propTypes = {

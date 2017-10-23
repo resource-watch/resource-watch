@@ -19,6 +19,7 @@ import {
   setLayerGroupActiveLayer,
   setLayerGroups,
   getDatasets,
+  getFavoriteDatasets,
   setDatasetsPage,
   setDatasetsSearchFilter,
   setDatasetsTopicsFilter,
@@ -125,7 +126,8 @@ class Explore extends Page {
   }
 
   componentDidMount() {
-    const query = this.props.url.query;
+    const { url, user } = this.props;
+    const query = url.query;
     if (query.page) {
       this.props.setDatasetsPage(+query.page);
     }
@@ -156,6 +158,10 @@ class Explore extends Page {
     }
 
     this.props.getDatasets({});
+    if (user && user.id) {
+      const token = user.token.includes('Bearer') ? user.token : `Bearer ${user.token}`;
+      this.props.getFavoriteDatasets(token);
+    }
     this.loadKnowledgeGraph();
   }
 
@@ -610,6 +616,7 @@ class Explore extends Page {
                     <div className="column small-12">
                       <DatasetList
                         list={filteredDatasets}
+                        favorites={explore.datasets.favorites}
                         mode={explore.datasets.mode}
                         showActions
                         onTagSelected={this.handleTagSelected}
@@ -684,15 +691,15 @@ Explore.propTypes = {
 
   // ACTIONS
 
-  getDatasets: PropTypes.func,
-  setDatasetsPage: PropTypes.func,
-  redirectTo: PropTypes.func,
-  setDatasetsFilters: PropTypes.func,
-  toggleModal: PropTypes.func,
-  setModalOptions: PropTypes.func,
-  setTopicsTree: PropTypes.func.isRequired,
-  setDataTypeTree: PropTypes.func.isRequired,
-  setGeographiesTree: PropTypes.func.isRequired,
+  getDatasets: PropTypes.func.isRequired,
+  getFavoriteDatasets: PropTypes.func.isRequired,
+  setDatasetsPage: PropTypes.func.isRequired,
+  redirectTo: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  setModalOptions: PropTypes.func.isRequired,
+  setTopicsTree: PropTypes.func.isRequired.isRequired,
+  setDataTypeTree: PropTypes.func.isRequired.isRequired,
+  setGeographiesTree: PropTypes.func.isRequired.isRequired,
 
   // Toggle the visibility of a layer group based on the layer passed as argument
   toggleLayerGroupVisibility: PropTypes.func.isRequired,
@@ -722,6 +729,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   getDatasets: () => { dispatch(getDatasets({})); },
+  getFavoriteDatasets: (token) => { dispatch(getFavoriteDatasets(token)); },
   setDatasetsSearchFilter: search => dispatch(setDatasetsSearchFilter(search)),
   setDatasetsTopicsFilter: topics => dispatch(setDatasetsTopicsFilter(topics)),
   setDatasetsDataTypeFilter: dataType => dispatch(setDatasetsDataTypeFilter(dataType)),

@@ -30,21 +30,7 @@ class MyRWWidgetsStarred extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.user.id) {
-      this.waitForUserToBeLoaded();
-    } else {
-      this.loadWidgets();
-    }
-  }
-
-  waitForUserToBeLoaded() {
-    setTimeout(() => {
-      if (this.props.user.id) {
-        this.loadWidgets();
-      } else {
-        this.waitForUserToBeLoaded();
-      }
-    }, 1000);
+    this.loadWidgets();
   }
 
   loadWidgets() {
