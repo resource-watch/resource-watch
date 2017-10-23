@@ -77,7 +77,8 @@ class ExploreDetail extends Page {
       showDescription: false,
       showFunction: false,
       showCautions: false,
-      inferredTags: []
+      inferredTags: [],
+      favorite: null
     };
 
     // DatasetService
@@ -99,6 +100,7 @@ class ExploreDetail extends Page {
   componentDidMount() {
     this.getDataset();
     this.getSimilarDatasets();
+    this.getFavoriteDatasets();
     this.loadTopicsTree();
   }
 
@@ -183,6 +185,17 @@ class ExploreDetail extends Page {
       .catch((err) => {
         this.setState({ inferredTags: [] });
         console.error(err);
+      });
+  }
+
+  getFavoriteDatasets() {
+    const { user, url } = this.props;
+    this.userService.getFavouriteDatasets(user.token)
+      .then((response) => {
+        const found = response.find(elem => elem.attributes.resourceId === url.query.id);
+        this.setState({
+          favorite: found
+        });
       });
   }
 
@@ -334,14 +347,17 @@ class ExploreDetail extends Page {
 
   @Autobind
   handleFavoriteButtonClick() {
-    const { favorite, dataset, user } = this.props;
+    const { user } = this.props;
+    const { favorite, dataset } = this.state;
     this.setState({ loading: true });
 
     if (!favorite) {
       this.userService.createFavouriteDataset(dataset.id, user.token)
         .then((response) => {
-          this.props.addFavoriteDataset(response.data, user.token);
-          this.setState({ loading: false });
+          this.setState({
+            favorite: response,
+            loading: false
+          });
         })
         .catch((err) => {
           this.setState({ loading: false });
@@ -349,10 +365,11 @@ class ExploreDetail extends Page {
         });
     } else {
       this.userService.deleteFavourite(favorite.id, user.token)
-        .then((response) => {
-          this.props.onFavoriteRemoved(favorite);
-          this.props.removeFavoriteDataset(response.data);
-          this.setState({ loading: false });
+        .then(() => {
+          this.setState({
+            loading: false,
+            favorite: null
+          });
         })
         .catch((err) => {
           this.setState({ loading: false });
