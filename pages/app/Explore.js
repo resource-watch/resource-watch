@@ -621,6 +621,7 @@ class Explore extends Page {
                         showActions
                         showFavorite
                         onTagSelected={this.handleTagSelected}
+                        onFavoriteRemoved={() => {}}
                       />
                     </div>
                   </div>
