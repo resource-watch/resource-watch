@@ -307,10 +307,11 @@ class WidgetCard extends React.Component {
     const type = this.props.widget.attributes.widgetConfig.type || 'widget';
     const { protocol, hostname, port } = window.location;
     const host = `${protocol}//${hostname}${port !== '' ? `:${port}` : port}`;
+    const filename = encodeURIComponent(this.props.widget.attributes.name);
 
     const link = document.createElement('a');
     link.setAttribute('download', '');
-    link.href = `${process.env.CONTROL_TOWER_URL}/v1/webshot/pdf?filename=widget-${id}&width=790&height=580&url=${host}/embed/${type}/${id}`;
+    link.href = `${process.env.CONTROL_TOWER_URL}/v1/webshot/pdf?filename=${filename}&width=790&height=580&url=${host}/embed/${type}/${id}`;
 
     link.click();
   }
