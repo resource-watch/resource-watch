@@ -33,12 +33,13 @@ class PartnerDetail extends Page {
 
   render() {
     const { data } = this.props;
-    const imgPath = data['white-logo'] ? data['white-logo'].medium : '';
+    const logoPath = data['white-logo'] ? data['white-logo'].medium : '';
+    const coverPath = data.cover && data.cover.cover;
     const logo = data.website !== '' ?
       (<a href={data.website} target="_blank" rel="noopener noreferrer">
-        <img src={`${process.env.STATIC_SERVER_URL}${imgPath}`} className="logo" title={data.name} alt={data.name} />
+        <img src={`${process.env.STATIC_SERVER_URL}${logoPath}`} className="logo" title={data.name} alt={data.name} />
       </a>) :
-      <img src={`${process.env.STATIC_SERVER_URL}${imgPath}`} className="logo" title={data.name} alt={data.name} />;
+      <img src={`${process.env.STATIC_SERVER_URL}${logoPath}`} className="logo" title={data.name} alt={data.name} />;
 
     return (
       <Layout
@@ -48,9 +49,12 @@ class PartnerDetail extends Page {
         user={this.props.user}
       >
         <div className="c-page partner-detail">
-          <Banner className="intro -text-center">
+          <Banner
+            className="intro -text-center"
+            useBackground={false}
+          >
             <div className="row">
-              <div className="column small-12">
+              <div className="column small-12 partner-header">
                 <h4 className="title c-text -default -bold -uppercase">RESOURCE WATCH PARTNER</h4>
                 <div className="logo-container">
                   {logo}
@@ -64,29 +68,30 @@ class PartnerDetail extends Page {
                 </div>
               </div>
             </div>
+            <div className="background">
+              <img src={`${process.env.STATIC_SERVER_URL}${coverPath}`} alt={data.name} />
+            </div >
           </Banner>
         </div>
 
-        <aside className="l-postcontent">
-          <div className="l-container">
-            <div className="row align-center">
-              <div className="column small-12">
-                <Banner className="-text-center">
-                  <p className="-claim">
-                    Important work,<br /> beautifully crafted
-                  </p>
-                  <a
-                    className="c-btn -primary -filled"
-                    href={data.website}
-                    target="_blank"
-                  >
-                    LEARN ABOUT OUR WORK
-                  </a>
-                </Banner>
-              </div>
+        <div className="l-container learn-more">
+          <div className="row align-center">
+            <div className="column small-12">
+              <Banner className="-text-center">
+                <p className="-claim">
+                  Important work,<br /> beautifully crafted
+                </p>
+                <a
+                  className="c-btn -primary -filled"
+                  href={data.website}
+                  target="_blank"
+                >
+                  LEARN ABOUT OUR WORK
+                </a>
+              </Banner>
             </div>
           </div>
-        </aside>
+        </div>
       </Layout>
     );
   }
