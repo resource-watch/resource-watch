@@ -699,9 +699,9 @@ Explore.propTypes = {
   redirectTo: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
-  setTopicsTree: PropTypes.func.isRequired.isRequired,
-  setDataTypeTree: PropTypes.func.isRequired.isRequired,
-  setGeographiesTree: PropTypes.func.isRequired.isRequired,
+  setTopicsTree: PropTypes.func.isRequired,
+  setDataTypeTree: PropTypes.func.isRequired,
+  setGeographiesTree: PropTypes.func.isRequired,
 
   // Toggle the visibility of a layer group based on the layer passed as argument
   toggleLayerGroupVisibility: PropTypes.func.isRequired,
