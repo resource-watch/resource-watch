@@ -313,7 +313,10 @@ class WidgetCard extends React.Component {
     link.setAttribute('download', '');
     link.href = `${process.env.CONTROL_TOWER_URL}/v1/webshot/pdf?filename=${filename}&width=790&height=580&url=${host}/embed/${type}/${id}`;
 
-    link.click();
+    // link.click() doesn't work on Firefox for some reasons
+    // so we have to create an event manually
+    const event = new MouseEvent('click');
+    link.dispatchEvent(event);
   }
 
   @Autobind
