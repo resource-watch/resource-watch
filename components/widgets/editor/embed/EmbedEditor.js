@@ -11,7 +11,6 @@ import { toggleModal, setModalOptions } from 'redactions/modal';
 // Components
 import Field from 'components/widgets/editor/form/Field';
 import Input from 'components/widgets/editor/form/Input';
-// import EmbedLayerModal from 'components/widgets/editor/modal/EmbedLayerModal';
 import SaveWidgetModal from 'components/widgets/editor/modal/SaveWidgetModal';
 
 const FORM_ELEMENTS = {
@@ -19,6 +18,14 @@ const FORM_ELEMENTS = {
 };
 
 class EmbedEditor extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      url: null
+    };
+  }
+
   /**
    * Event handler executed when the user clicks the
    * Save button
@@ -59,8 +66,8 @@ class EmbedEditor extends React.Component {
         <div className="selector-container">
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.src = c; }}
-            onChange={value => this.handleEmbedChange({ src: value })}
-            onValid={value => this.handleEmbedChange({ valid: value })}
+            onChange={url => this.setState({ url })}
+            onValid={valid => this.handleEmbedChange({ src: valid ? this.state.url : null })}
             validations={['url']}
             className="-fluid"
             properties={{

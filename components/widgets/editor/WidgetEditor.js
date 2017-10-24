@@ -595,11 +595,11 @@ class WidgetEditor extends React.Component {
 
       // HTML table
       case 'embed':
-        if (!embed.valid) {
+        if (!embed.src) {
           visualization = (
             <div className="visualization">
               {chartTitle}
-              Select an url to embed
+              Please enter the url of the visualization
             </div>
           );
         } else {
@@ -608,8 +608,6 @@ class WidgetEditor extends React.Component {
               {chartTitle}
               <iframe
                 title={chartTitle}
-                width={embed.width}
-                height={embed.height}
                 src={embed.src}
                 frameBorder="0"
               />
@@ -1059,13 +1057,11 @@ class WidgetEditor extends React.Component {
                         dataset={this.props.dataset}
                         tableName={tableName}
                         provider={datasetProvider}
-                        datasetType={datasetType}
-                        layerGroups={this.state.layerGroups}
-                        layers={layers}
                         mode={chartEditorMode}
-                        onUpdateWidget={this.handleUpdateWidget}
+                        hasGeoInfo={hasGeoInfo}
                         showSaveButton={showSaveButton}
                         showNotLoggedInText={showNotLoggedInText}
+                        onUpdateWidget={this.handleUpdateWidget}
                       />
                     )
                 }

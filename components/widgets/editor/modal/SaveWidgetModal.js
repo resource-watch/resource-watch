@@ -86,13 +86,15 @@ class SaveWidgetModal extends React.Component {
       layer,
       title,
       zoom,
-      latLng
+      latLng,
+      embed
     } = widgetEditor;
 
     let chartConfig = {};
 
-    // If the visualization if a map, we don't have any chartConfig
-    if (visualizationType !== 'map') {
+    // If the visualization if a map or an embed, we don't have any
+    // chartConfig
+    if (visualizationType !== 'map' && visualizationType !== 'embed') {
       const chartInfo = getChartInfo(dataset, datasetType, datasetProvider, widgetEditor);
 
       try {
@@ -118,14 +120,15 @@ class SaveWidgetModal extends React.Component {
     const widgetConfig = {
       widgetConfig: Object.assign(
         {},
+        { type: visualizationType },
         // If the widget is a map, we want to add some extra info
         // in widgetConfig so the widget is compatible with other
         // apps that use the same API
-        // The type and layer_id are not necessary for the editor
-        // because it is already saved in widgetConfig.paramsConfig
+        // layer_id are not necessary for the editor because it
+        // is already saved in widgetConfig.paramsConfig
         (
           visualizationType === 'map'
-            ? { type: 'map', layer_id: layer && layer.id, zoom, ...latLng }
+            ? { layer_id: layer && layer.id, zoom, ...latLng }
             : {}
         ),
         {
@@ -142,7 +145,8 @@ class SaveWidgetModal extends React.Component {
             filters,
             areaIntersection,
             band: band && { name: band.name },
-            layer: layer && layer.id
+            layer: layer && layer.id,
+            embed
           }
         },
         chartConfig

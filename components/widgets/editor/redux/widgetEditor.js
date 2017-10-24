@@ -55,9 +55,7 @@ const initialState = {
   zoom: 3,
   latLng: { lat: 0, lng: 0 },
   embed: {
-    src: '',
-    width: 560,
-    height: 315
+    src: ''
   }
 };
 
