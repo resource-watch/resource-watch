@@ -122,12 +122,14 @@ class EmbedMap extends Page {
             <a href={`/data/explore/${widget.attributes.dataset}`} target="_blank" rel="noopener noreferrer">
               <h4>{widget.attributes.name}</h4>
             </a>
-            <button
-              aria-label={`${modalOpened ? 'Close' : 'Open'} information modal`}
-              onClick={() => this.setState({ modalOpened: !modalOpened })}
-            >
-              <Icon name={`icon-${modalOpened ? 'cross' : 'info'}`} className="c-icon -small" />
-            </button>
+            <div className="buttons">
+              <button
+                aria-label={`${modalOpened ? 'Close' : 'Open'} information modal`}
+                onClick={() => this.setState({ modalOpened: !modalOpened })}
+              >
+                <Icon name={`icon-${modalOpened ? 'cross' : 'info'}`} className="c-icon -small" />
+              </button>
+            </div>
           </div>
 
           <div className={classnames('widget-content', { '-external': this.isLoadedExternally() })}>
