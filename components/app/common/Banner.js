@@ -7,6 +7,7 @@ function Banner(props) {
   const className = classNames({
     'c-banner': true,
     '-light': true,
+    '-use-background': props.useBackground,
     [props.className]: props.className
   });
 
@@ -27,13 +28,18 @@ function Banner(props) {
   );
 }
 
+Banner.defaultProps = {
+  useBackground: true
+};
+
 Banner.propTypes = {
   bgImage: PropTypes.string,
   children: PropTypes.any,
   className: PropTypes.string,
   styles: PropTypes.object,
   containerGrid: PropTypes.bool,
-  viel: PropTypes.bool
+  viel: PropTypes.bool,
+  useBackground: PropTypes.bool
 };
 
 export default Banner;
