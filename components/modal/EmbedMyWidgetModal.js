@@ -26,7 +26,24 @@ class EmbedMyWidgetModal extends React.Component {
     const { widgetId, visualizationType } = this.props;
     const { protocol, hostname, port } = window && window.location ? window.location : {};
     const embedHost = window && window.location ? `${protocol}//${hostname}${port !== '' ? `:${port}` : port}` : '';
-    const url = `${embedHost}/embed/${visualizationType === 'map' ? 'map' : 'widget'}/${widgetId}`;
+
+    let embedType;
+    switch (visualizationType) {
+      case 'map':
+        embedType = 'map';
+        break;
+
+      case 'embed':
+        embedType = 'embed';
+        break;
+
+      // Case for the "chart" and "raster_chart"
+      default:
+        embedType = 'widget';
+        break;
+    }
+
+    const url = `${embedHost}/embed/${embedType}/${widgetId}`;
     const iframeText = `<iframe src="${url}" width="100%" height="474" frameBorder="0"></iframe>`;
     return (
       <div className="c-embed-my-widget-modal">
