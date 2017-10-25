@@ -22,7 +22,7 @@ class EmbedEditor extends React.Component {
     super(props);
 
     this.state = {
-      url: null
+      url: (props.widgetEditor.embed && props.widgetEditor.embed.src) || null
     };
   }
 
