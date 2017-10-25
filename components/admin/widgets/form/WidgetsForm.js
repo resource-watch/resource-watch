@@ -289,7 +289,7 @@ class WidgetsForm extends React.Component {
       case 'map':
         return !!layer;
       case 'embed':
-        return !!embed.valid;
+        return !!embed.src;
       default:
         return false;
     }
