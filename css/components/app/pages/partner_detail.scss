@@ -2,13 +2,8 @@
   .c-banner {
     &.intro {
 
-      .background {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        height: 460px;
-        overflow: hidden;
-      }
+      background-size: cover;
+      background-position: center;
 
       .partner-header {
         z-index: 9999;
