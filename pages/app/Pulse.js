@@ -211,6 +211,7 @@ class Pulse extends Page {
   render() {
     const { url, layersGroup } = this.props;
     const layerActive = this.props.pulse.layerActive;
+    const threedimensional = layerActive && layerActive.threedimensional;
     const { markerType, layerPoints, texture, useDefaultLayer } = this.state;
     const globeWidht = (typeof window === 'undefined') ? 500 : window.innerWidth;
     const globeHeight = (typeof window === 'undefined') ? 300 : window.innerHeight - 75; // TODO: 75 is the header height
@@ -222,7 +223,7 @@ class Pulse extends Page {
         user={this.props.user}
       >
         <div
-          className="l-map -dark"
+          className="p-pulse l-map -dark"
         >
           <LayerNav
             layerActive={layerActive}
@@ -234,29 +235,31 @@ class Pulse extends Page {
           <Spinner
             isLoading={this.state.loading}
           />
-          <Globe
-            ref={globe => (this.globe = globe)}
-            width={globeWidht}
-            height={globeHeight}
-            pointLightColor={0xcccccc}
-            ambientLightColor={0x444444}
-            enableZoom
-            lightPosition={'right'}
-            texture={texture}
-            layerPoints={layerPoints}
-            markerType={markerType}
-            earthImagePath={earthImage}
-            earthBumpImagePath={earthBumpImage}
-            defaultLayerImagePath={cloudsImage}
-            segments={64}
-            rings={64}
-            useHalo
-            useDefaultLayer={useDefaultLayer}
-            onMarkerSelected={this.handleMarkerSelected}
-            onEarthClicked={this.handleEarthClicked}
-            onClickInEmptyRegion={this.handleClickInEmptyRegion}
-            onMouseHold={this.handleMouseHoldOverGlobe}
-          />
+          {threedimensional &&
+            <Globe
+              ref={globe => (this.globe = globe)}
+              width={globeWidht}
+              height={globeHeight}
+              pointLightColor={0xcccccc}
+              ambientLightColor={0x444444}
+              enableZoom
+              lightPosition={'right'}
+              texture={texture}
+              layerPoints={layerPoints}
+              markerType={markerType}
+              earthImagePath={earthImage}
+              earthBumpImagePath={earthBumpImage}
+              defaultLayerImagePath={cloudsImage}
+              segments={64}
+              rings={64}
+              useHalo
+              useDefaultLayer={useDefaultLayer}
+              onMarkerSelected={this.handleMarkerSelected}
+              onEarthClicked={this.handleEarthClicked}
+              onClickInEmptyRegion={this.handleClickInEmptyRegion}
+              onMouseHold={this.handleMouseHoldOverGlobe}
+            />
+          }
           <ZoomControl
             ref={zoomControl => (this.zoomControl = zoomControl)}
             onZoomIn={this.triggerZoomIn}

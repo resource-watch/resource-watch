@@ -73,6 +73,7 @@
     "rc-slider": "7.0.8",
     "react": "15.6.2",
     "react-ace": "4.3.0",
+    "react-cesium": "vizzuality/react-cesium",
     "react-dnd": "2.4.0",
     "react-dnd-html5-backend": "2.4.1",
     "react-dom": "15.6.2",
