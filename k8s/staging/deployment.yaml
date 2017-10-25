@@ -12,10 +12,6 @@ spec:
         name: {name}-staging
     spec:
       containers:
-        resources:
-          requests:
-            memory: "0Mi"
-            cpu: "0m"
       - name: {name}-staging
         image: vizzuality/{name}
         imagePullPolicy: Always
@@ -34,6 +30,11 @@ spec:
                 secretKeyRef:
                   name: appsecrets
                   key: RW_USERNAME
+          - name: PASSWORD
+            valueFrom:
+                secretKeyRef:
+                  name: appsecrets
+                  key: RW_PASSWORD
           - name: RW_USERNAME
             valueFrom:
                 secretKeyRef:
@@ -44,11 +45,11 @@ spec:
                 secretKeyRef:
                   name: appsecrets
                   key: RW2_PASSWORD
-          - name: PASSWORD
+          - name: REDIS_URL
             valueFrom:
                 secretKeyRef:
-                  name: appsecrets
-                  key: RW_PASSWORD
+                  name: dbsecrets
+                  key: REDIS_URI
         ports:
           - containerPort: 3000
       restartPolicy: Always
