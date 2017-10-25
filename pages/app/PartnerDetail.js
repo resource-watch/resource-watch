@@ -40,6 +40,7 @@ class PartnerDetail extends Page {
         <img src={`${process.env.STATIC_SERVER_URL}${logoPath}`} className="logo" title={data.name} alt={data.name} />
       </a>) :
       <img src={`${process.env.STATIC_SERVER_URL}${logoPath}`} className="logo" title={data.name} alt={data.name} />;
+    const backgroundImage = { 'background-image': `url(${process.env.STATIC_SERVER_URL}${coverPath})` };
 
     return (
       <Layout
@@ -51,6 +52,7 @@ class PartnerDetail extends Page {
         <div className="c-page partner-detail">
           <Banner
             className="intro -text-center"
+            styles={backgroundImage}
             useBackground={false}
           >
             <div className="row">
@@ -68,9 +70,6 @@ class PartnerDetail extends Page {
                 </div>
               </div>
             </div>
-            <div className="background">
-              <img src={`${process.env.STATIC_SERVER_URL}${coverPath}`} alt={data.name} />
-            </div >
           </Banner>
         </div>
 
