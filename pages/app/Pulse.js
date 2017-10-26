@@ -225,8 +225,6 @@ class Pulse extends Page {
     const globeWidht = (typeof window === 'undefined') ? 500 : window.innerWidth;
     const globeHeight = (typeof window === 'undefined') ? 300 : window.innerHeight - 75; // TODO: 75 is the header height
 
-    console.log('texture', texture);
-
     return (
       <Layout
         title="Planet Pulse"
