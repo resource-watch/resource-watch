@@ -2,14 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import d3 from 'd3';
-import { Autobind } from 'es-decorators';
-import { toastr } from 'react-redux-toastr';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { bindActionCreators } from 'redux';
-import { getWidget } from 'redactions/widget';
+import { getWidget, checkIfFavorited, setIfFavorited } from 'redactions/widget';
 import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
@@ -20,9 +18,6 @@ import VegaChart from 'components/widgets/charts/VegaChart';
 import Spinner from 'components/ui/Spinner';
 import ChartTheme from 'utils/widgets/theme';
 import Icon from 'components/widgets/editor/ui/Icon';
-
-// Services
-import UserService from 'services/UserService';
 
 class EmbedWidget extends Page {
   static getInitialProps({ asPath, pathname, query, req, store, isServer }) {
@@ -42,36 +37,14 @@ class EmbedWidget extends Page {
     super(props);
     this.state = {
       isLoading: props.isLoading,
-      modalOpened: false,
-      favorite: null,
-      userIsLoggedIn: false
+      modalOpened: false
     };
-
-    // Services
-    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
   }
 
   componentDidMount() {
     const { url } = this.props;
     this.props.getWidget(url.query.id);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.widget !== this.props.widget) {
-      const { user } = this.props;
-      if (user.id) {
-        this.setState({ isLoading: true });
-        this.userService.getFavouriteWidgets(user.token)
-          .then((response) => {
-            const found = response.find(elem => elem.attributes.resourceId === nextProps.widget.id);
-            this.setState({
-              userIsLoggedIn: true,
-              favorite: found,
-              isLoading: false
-            });
-          });
-      }
-    }
+    if (this.props.user.id) this.props.checkIfFavorited(url.query.id);
   }
 
   getModal() {
@@ -124,41 +97,11 @@ class EmbedWidget extends Page {
     );
   }
 
-  @Autobind
-  handleFavouriteClick() {
-    const { favorite } = this.state;
-    const { widget, user } = this.props;
-
-    if (user.id) {
-      this.setState({ isLoading: true });
-
-      if (favorite) {
-        this.userService.deleteFavourite(favorite.id, user.token)
-          .then(() => {
-            this.setState({
-              favorite: null,
-              isLoading: false
-            });
-          })
-          .catch(err => toastr.error('Error unfavoriting the widget', err));
-      } else {
-        this.userService.createFavouriteWidget(widget.id, user.token)
-          .then((res) => {
-            this.setState({
-              favorite: res.data,
-              isLoading: false
-            });
-          })
-          .catch(err => toastr.error('Error setting the widget as favorite', err));
-      }
-    }
-  }
-
   render() {
-    const { widget, loading, error } = this.props;
-    const { isLoading, modalOpened, favorite } = this.state;
+    const { widget, loading, error, favorited, user } = this.props;
+    const { isLoading, modalOpened } = this.state;
 
-    const favoriteIcon = favorite ? 'star-full' : 'star-empty';
+    const favoriteIcon = favorited ? 'star-full' : 'star-empty';
 
     if (loading) {
       return (
@@ -216,11 +159,15 @@ class EmbedWidget extends Page {
               <h4>{widget.attributes.name}</h4>
             </a>
             <div className="buttons">
-              <button
-                onClick={this.handleFavouriteClick}
-              >
-                <Icon name={`icon-${favoriteIcon}`} className="c-icon -small" />
-              </button>
+              {
+                user.id && (
+                  <button
+                    onClick={() => this.props.setIfFavorited(widget.id, !this.props.favorited)}
+                  >
+                    <Icon name={`icon-${favoriteIcon}`} className="c-icon -small" />
+                  </button>
+                )
+              }
               <button
                 aria-label={`${modalOpened ? 'Close' : 'Open'} information modal`}
                 onClick={() => this.setState({ modalOpened: !modalOpened })}
@@ -258,10 +205,13 @@ class EmbedWidget extends Page {
 EmbedWidget.propTypes = {
   widget: PropTypes.object,
   getWidget: PropTypes.func,
+  checkIfFavorited: PropTypes.func,
+  setIfFavorited: PropTypes.func,
   bandDescription: PropTypes.string,
   bandStats: PropTypes.object,
   loading: PropTypes.bool,
-  error: PropTypes.string
+  error: PropTypes.string,
+  favorited: PropTypes.bool
 };
 
 EmbedWidget.defaultProps = {
@@ -274,11 +224,14 @@ const mapStateToProps = state => ({
   error: state.widget.error,
   bandDescription: state.widget.bandDescription,
   bandStats: state.widget.bandStats,
+  favorited: state.widget.favorite.favorited,
   user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({
-  getWidget: bindActionCreators(getWidget, dispatch)
+  getWidget: bindActionCreators(getWidget, dispatch),
+  checkIfFavorited: bindActionCreators(checkIfFavorited, dispatch),
+  setIfFavorited: bindActionCreators(setIfFavorited, dispatch)
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(EmbedWidget);

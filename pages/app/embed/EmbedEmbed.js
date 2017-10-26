@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
-import { toastr } from 'react-redux-toastr';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { bindActionCreators } from 'redux';
-import { getWidget } from 'redactions/widget';
+import { getWidget, checkIfFavorited, setIfFavorited } from 'redactions/widget';
 import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
@@ -16,9 +14,6 @@ import Page from 'components/app/layout/Page';
 import EmbedLayout from 'components/app/layout/EmbedLayout';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/widgets/editor/ui/Icon';
-
-// Services
-import UserService from 'services/UserService';
 
 class EmbedWidget extends Page {
   static getInitialProps({ asPath, pathname, query, req, store, isServer }) {
@@ -34,76 +29,16 @@ class EmbedWidget extends Page {
     return !/localhost|staging.resourcewatch.org/.test(this.props.referer);
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoading: props.isLoading,
-      favorite: null,
-      userIsLoggedIn: false
-    };
-
-    // Services
-    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
-  }
-
   componentDidMount() {
     const { url } = this.props;
     this.props.getWidget(url.query.id);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.widget !== this.props.widget) {
-      const { user } = this.props;
-      if (user.id) {
-        this.setState({ isLoading: true });
-        this.userService.getFavouriteWidgets(user.token)
-          .then((response) => {
-            const found = response.find(elem => elem.attributes.resourceId === nextProps.widget.id);
-            this.setState({
-              userIsLoggedIn: true,
-              favorite: found,
-              isLoading: false
-            });
-          });
-      }
-    }
-  }
-
-  @Autobind
-  handleFavouriteClick() {
-    const { favorite } = this.state;
-    const { widget, user } = this.props;
-
-    if (user.id) {
-      this.setState({ isLoading: true });
-
-      if (favorite) {
-        this.userService.deleteFavourite(favorite.id, user.token)
-          .then(() => {
-            this.setState({
-              favorite: null,
-              isLoading: false
-            });
-          })
-          .catch(err => toastr.error('Error unfavoriting the widget', err));
-      } else {
-        this.userService.createFavouriteWidget(widget.id, user.token)
-          .then((res) => {
-            this.setState({
-              favorite: res.data,
-              isLoading: false
-            });
-          })
-          .catch(err => toastr.error('Error setting the widget as favorite', err));
-      }
-    }
+    if (this.props.user.id) this.props.checkIfFavorited(url.query.id);
   }
 
   render() {
-    const { widget, loading, error } = this.props;
-    const { isLoading, favorite } = this.state;
+    const { widget, loading, error, favorited, user } = this.props;
 
-    const favoriteIcon = favorite ? 'star-full' : 'star-empty';
+    const favoriteIcon = favorited ? 'star-full' : 'star-empty';
 
     if (loading) {
       return (
@@ -155,17 +90,20 @@ class EmbedWidget extends Page {
         description={`${widget.attributes.description || ''}`}
       >
         <div className="c-embed-widget">
-          <Spinner isLoading={isLoading} className="-light" />
           <div className="widget-title">
             <a href={`/data/explore/${widget.attributes.dataset}`} target="_blank" rel="noopener noreferrer">
               <h4>{widget.attributes.name}</h4>
             </a>
             <div className="buttons">
-              <button
-                onClick={this.handleFavouriteClick}
-              >
-                <Icon name={`icon-${favoriteIcon}`} className="c-icon -small" />
-              </button>
+              {
+                user.id && (
+                  <button
+                    onClick={() => this.props.setIfFavorited(widget.id, !this.props.favorited)}
+                  >
+                    <Icon name={`icon-${favoriteIcon}`} className="c-icon -small" />
+                  </button>
+                )
+              }
             </div>
           </div>
           <div className="widget-content">
@@ -195,8 +133,11 @@ class EmbedWidget extends Page {
 EmbedWidget.propTypes = {
   widget: PropTypes.object,
   getWidget: PropTypes.func,
+  checkIfFavorited: PropTypes.func,
+  setIfFavorited: PropTypes.func,
   loading: PropTypes.bool,
-  error: PropTypes.string
+  error: PropTypes.string,
+  favorited: PropTypes.bool
 };
 
 EmbedWidget.defaultProps = {
@@ -207,11 +148,14 @@ const mapStateToProps = state => ({
   widget: state.widget.data,
   loading: state.widget.loading,
   error: state.widget.error,
+  favorited: state.widget.favorite.favorited,
   user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({
-  getWidget: bindActionCreators(getWidget, dispatch)
+  getWidget: bindActionCreators(getWidget, dispatch),
+  checkIfFavorited: bindActionCreators(checkIfFavorited, dispatch),
+  setIfFavorited: bindActionCreators(setIfFavorited, dispatch)
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(EmbedWidget);

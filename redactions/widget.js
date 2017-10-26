@@ -6,6 +6,7 @@ import WidgetService from 'services/WidgetService';
 import DatasetService from 'services/DatasetService';
 import RasterService from 'services/RasterService';
 import LayersService from 'services/LayersService';
+import UserService from 'services/UserService';
 
 /**
  * CONSTANTS
@@ -20,6 +21,7 @@ const SET_WIDGET_BAND_STATS = 'SET_WIDGET_BAND_STATS';
 const SET_WIDGET_LAYERGROUPS = 'SET_WIDGET_LAYERGROUPS';
 const SET_WIDGET_ZOOM = 'SET_WIDGET_ZOOM';
 const SET_WIDGET_LATLNG = 'SET_WIDGET_LATLNG';
+const GET_WIDGET_FAVORITE = 'GET_WIDGET_FAVORITE';
 
 /**
  * STORE
@@ -33,7 +35,11 @@ const initialState = {
   zoom: 3,
   latLng: { lat: 0, lng: 0 },
   loading: true, // Are we loading the data?
-  error: null // An error was produced while loading the data
+  error: null, // An error was produced while loading the data
+  favorite: {
+    id: null,
+    favorited: false
+  }
 };
 
 /**
@@ -106,6 +112,12 @@ export default function (state = initialState, action) {
 
     case SET_WIDGET_LATLNG: {
       return Object.assign({}, state, { latLng: action.payload });
+    }
+
+    case GET_WIDGET_FAVORITE: {
+      return Object.assign({}, state, {
+        favorite: Object.assign({}, state.favorite, action.payload)
+      });
     }
 
     default:
@@ -263,5 +275,68 @@ export function toggleLayerGroupVisibility(layerGroup) {
     });
 
     dispatch({ type: SET_WIDGET_LAYERGROUPS, payload: [...layerGroups] });
+  };
+}
+
+/**
+ * Set the favorited attribute of the store
+ * @export
+ * @param {string} widgetId  Widget ID
+ * @param {{ id: string, token: string }?} user  Widget ID
+ */
+
+export function checkIfFavorited(widgetId) {
+  return (dispatch, getState) => {
+    const { user } = getState();
+
+    if (!user.id) {
+      dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: null, favorited: false } });
+    } else {
+      const userService = new UserService({ apiURL: process.env.WRI_API_URL });
+      userService.getFavouriteWidgets(user.token)
+        .then((res) => {
+          const favorite = res.find(elem => elem.attributes.resourceId === widgetId);
+          dispatch({
+            type: GET_WIDGET_FAVORITE,
+            payload: {
+              id: favorite ? favorite.id : null,
+              favorited: !!favorite
+            }
+          });
+        });
+    }
+  };
+}
+
+/**
+ * Set if the wiget is favorited or not
+ * @export
+ * @param {string} widgetId Widget ID
+ * @param {boolean} toFavorite Whether to make it favorite or not
+ */
+export function setIfFavorited(widgetId, toFavorite) {
+  return (dispatch, getState) => {
+    const { user, widget } = getState();
+
+    // If the user is not logged in, we just return
+    if (!user.id) return;
+
+    const userService = new UserService({ apiURL: process.env.WRI_API_URL });
+
+    // We have an optimistic approach: we tell the user the action
+    // is already done, and if it fails, we rever it
+    dispatch({ type: GET_WIDGET_FAVORITE, payload: { favorited: toFavorite } });
+
+    if (toFavorite) {
+      userService.createFavouriteWidget(widgetId, user.token)
+        .then(res => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: res.data.id } }))
+        .catch(() => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: null } }));
+    } else {
+      const id = widget.favorite.id;
+
+      userService.deleteFavourite(id, user.token)
+        .then(() => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: null } }))
+        .catch(() => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id } }));
+    }
   };
 }
