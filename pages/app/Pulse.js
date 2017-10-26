@@ -26,6 +26,7 @@ import ZoomControl from 'components/ui/ZoomControl';
 import GlobeTooltip from 'components/app/pulse/GlobeTooltip';
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
+import Cesium from 'static/cesium/Cesium';
 
 const earthImage = '/static/images/components/vis/earth-min.jpg';
 const earthBumpImage = '/static/images/components/vis/earth-bump.jpg';
@@ -217,6 +218,23 @@ class Pulse extends Page {
       });
   }
 
+  @Autobind
+  handleCesiumClick(e) {
+    const viewer = e.viewer;
+    const clickedPosition = e.clickedPosition;
+    const mousePosition = new Cesium.Cartesian2(clickedPosition.clientX, clickedPosition.clientY);
+
+    const ellipsoid = viewer.scene.globe.ellipsoid;
+    const cartesian = viewer.camera.pickEllipsoid(mousePosition, ellipsoid);
+    if (cartesian) {
+        const cartographic = ellipsoid.cartesianToCartographic(cartesian);
+        const longitudeString = Cesium.Math.toDegrees(cartographic.longitude).toFixed(2);
+        const latitudeString = Cesium.Math.toDegrees(cartographic.latitude).toFixed(2);
+
+        this.handleEarthClicked();
+    }
+  }
+
   render() {
     const { url, layersGroup } = this.props;
     const layerActive = this.props.pulse.layerActive;
@@ -270,7 +288,10 @@ class Pulse extends Page {
             />
           }
           {layerActive && !threedimensional && window && texture &&
-            <Map className="cesium-map">
+            <Map
+              className="cesium-map"
+              onClick={this.handleCesiumClick}
+            >
               <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />
             </Map>
           }
