@@ -35,64 +35,34 @@ export default class LayerGlobeManager {
     }
   }
 
-  addCartoLayer(layer, opts) {
-    // Set the layer && opts
-    this.layer = {
-      ...layer,
-      options: opts
-    };
-
-    const { layerConfig } = this.layer;
-    const { pulseConfig, account } = layerConfig;
-
-    const newLayersObj = layerConfig.body.layers;
-    newLayersObj[0].options.sql = pulseConfig.sql;
+  addCartoLayer(layerSpec, opts) {
+    const layer = Object.assign({}, layerSpec.layerConfig, {
+      id: layerSpec.id,
+      order: layerSpec.order,
+      opacity: layerSpec.opacity,
+      hidden: layerSpec.hidden
+    });
 
     const layerTpl = {
       version: '1.3.0',
       stat_tag: 'API',
-      layers: newLayersObj
+      layers: layer.body.layers
     };
     const params = `?stat_tag=API&config=${encodeURIComponent(JSON.stringify(layerTpl))}`;
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.open('GET', `https://${account}.carto.com/api/v1/map${params}`);
 
-    // ...and add it to the current layer
-    this.layer.request = xmlhttp;
-
-    xmlhttp.onreadystatechange = () => {
-      if (xmlhttp.readyState === 4) {
-        if (xmlhttp.status === 200) {
-          const data = JSON.parse(xmlhttp.responseText);
-          const { urlTemplate, values } = pulseConfig;
-          const { bbox, format, height, width } = values;
-
-          // Parse the staticImageConfig.urlTemplate with the current options
-          const texture = substitution(urlTemplate, [{
-            key: 'account',
-            value: layerConfig.account
-          }, {
-            key: 'token_groupid',
-            value: data.layergroupid
-          }, {
-            key: 'bbox',
-            value: bbox.join(',')
-          }, {
-            key: 'format',
-            value: format
-          }, {
-            key: 'width',
-            value: width
-          }, {
-            key: 'height',
-            value: height
-          }]);
-          this.layer.options.onLayerAddedSuccess(texture);
-        } else {
-          this.layer.options.onLayerAddedError('Error or canceled');
+    fetch(`https://${layer.account}.carto.com/api/v1/map${params}`)
+      .then((response) => {
+        if (response.status >= 400) {
+          this.rejectLayersLoading = true;
+          throw new Error(response.statusText);
         }
-      }
-    };
-    xmlhttp.send(null);
+        return response.json();
+      })
+      .then((data) => {
+        // const tileUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
+        const tileUrl = `${data.cdn_url.templates.https.url}/${layer.account}/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
+
+        opts.onLayerAddedSuccess(tileUrl);
+      });
   }
 }

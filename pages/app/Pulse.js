@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import { Autobind } from 'es-decorators';
-import { Map, ImageProvider } from 'react-cesium';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -31,6 +30,15 @@ import Layout from 'components/app/layout/Layout';
 const earthImage = '/static/images/components/vis/earth-min.jpg';
 const earthBumpImage = '/static/images/components/vis/earth-bump.jpg';
 const cloudsImage = '/static/images/components/vis/clouds-min.png';
+
+let Map;
+let ImageProvider;
+if (typeof window !== 'undefined') {
+  /* eslint-disable */
+  Map = require('react-cesium').Map;
+  ImageProvider = require('react-cesium').ImageProvider;
+  /* eslint-enable */
+}
 
 class Pulse extends Page {
   constructor(props) {
@@ -216,6 +224,9 @@ class Pulse extends Page {
     const { markerType, layerPoints, texture, useDefaultLayer } = this.state;
     const globeWidht = (typeof window === 'undefined') ? 500 : window.innerWidth;
     const globeHeight = (typeof window === 'undefined') ? 300 : window.innerHeight - 75; // TODO: 75 is the header height
+
+    console.log('texture', texture);
+
     return (
       <Layout
         title="Planet Pulse"
@@ -261,9 +272,9 @@ class Pulse extends Page {
               onMouseHold={this.handleMouseHoldOverGlobe}
             />
           }
-          {layerActive && !threedimensional && window &&
+          {layerActive && !threedimensional && window && texture &&
             <Map className="cesium-map">
-
+              <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />
             </Map>
           }
           <ZoomControl
