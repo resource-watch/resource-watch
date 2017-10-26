@@ -121,6 +121,22 @@ class Head extends React.PureComponent {
     return null;
   }
 
+  getCesium() {
+    const { pathname } = this.props.routes;
+    if (pathname === '/app/Pulse') {
+      return <script src="/static/cesium/cesium.js" />;
+    }
+    return null;
+  }
+
+  getCesiumStyles() {
+    const { pathname } = this.props.routes;
+    if (pathname === '/app/Pulse') {
+      return <link rel="stylesheet" href="/static/cesium/widgets.css" />;
+    }
+    return null;
+  }
+
   render() {
     const { title, description, category } = this.props;
 
@@ -134,6 +150,7 @@ class Head extends React.PureComponent {
         <link rel="icon" href="/static/favicon.ico" />
         <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700" />
         {Head.getStyles()}
+        {this.getCesiumStyles()}
         {this.getGA()}
         {this.getGASettings()}
         {this.getCrazyEgg()}
@@ -141,6 +158,7 @@ class Head extends React.PureComponent {
         {this.getTransifexSettings()}
         {this.getTransifex()}
         {this.getAddSearchConfig()}
+        {this.getCesium()}
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
       </HeadNext>
     );
