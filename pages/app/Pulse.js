@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import { Autobind } from 'es-decorators';
+import { Map, ImageProvider } from 'react-cesium';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -215,6 +216,7 @@ class Pulse extends Page {
     const { markerType, layerPoints, texture, useDefaultLayer } = this.state;
     const globeWidht = (typeof window === 'undefined') ? 500 : window.innerWidth;
     const globeHeight = (typeof window === 'undefined') ? 300 : window.innerHeight - 75; // TODO: 75 is the header height
+    console.log('layerActive', layerActive);
     return (
       <Layout
         title="Planet Pulse"
@@ -259,6 +261,11 @@ class Pulse extends Page {
               onClickInEmptyRegion={this.handleClickInEmptyRegion}
               onMouseHold={this.handleMouseHoldOverGlobe}
             />
+          }
+          {layerActive && !threedimensional &&
+            <Map className="cesium-map">
+
+            </Map>
           }
           <ZoomControl
             ref={zoomControl => (this.zoomControl = zoomControl)}
