@@ -220,11 +220,10 @@ class Pulse extends Page {
   render() {
     const { url, layersGroup } = this.props;
     const layerActive = this.props.pulse.layerActive;
-    const threedimensional = layerActive && layerActive.threedimensional === true;
+    const threedimensional = layerActive && layerActive.threedimensional === 'true';
     const { markerType, layerPoints, texture, useDefaultLayer } = this.state;
     const globeWidht = (typeof window === 'undefined') ? 500 : window.innerWidth;
     const globeHeight = (typeof window === 'undefined') ? 300 : window.innerHeight - 75; // TODO: 75 is the header height
-
     return (
       <Layout
         title="Planet Pulse"
