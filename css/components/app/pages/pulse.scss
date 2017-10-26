@@ -10,4 +10,9 @@
   background-repeat: no-repeat;
   background-position: left top;
   background-size: cover;
+
+  .cesium-map {
+    height: 100%;
+    width: 100%;
+  }
 }
