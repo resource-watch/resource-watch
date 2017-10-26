@@ -4,7 +4,7 @@ require('isomorphic-fetch');
 require('colors');
 require('dotenv').load();
 
-const URL = `${process.env.WRI_API_URL}/dataset?application=rw&page[size]=999&status=saved`;
+const URL = `${process.env.WRI_API_URL}/dataset?application=${[process.env.APPLICATIONS]}&page[size]=999&status=saved`;
 
 fetch(URL)
   .then((response) => {

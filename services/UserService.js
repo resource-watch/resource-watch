@@ -71,7 +71,7 @@ export default class UserService {
   getFavourites(token, resourceType = null, include = true) {
     const resourceTypeSt = (resourceType !== null) ? `&resource-type=${resourceType}` : '';
     return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/favourite?include=${include}${resourceTypeSt}`, {
+      fetch(`${this.opts.apiURL}/favourite?include=${include}${resourceTypeSt}&application=${[process.env.APPLICATIONS]}`, {
         headers: {
           Authorization: token
         }
@@ -198,7 +198,7 @@ export default class UserService {
    */
   getSubscriptions(token) {
     return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/subscriptions?application=rw`, {
+      fetch(`${this.opts.apiURL}/subscriptions?application=${[process.env.APPLICATIONS]}`, {
         headers: {
           Authorization: token
         }
@@ -229,7 +229,7 @@ export default class UserService {
    */
   getUserAreas(token) {
     return new Promise((resolve, reject) => {
-      fetch(`${this.opts.apiURL}/area?application=rw`, {
+      fetch(`${this.opts.apiURL}/area?application=${[process.env.APPLICATIONS]}`, {
         headers: {
           Authorization: token
         }
