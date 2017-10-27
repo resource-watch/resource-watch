@@ -31,6 +31,15 @@ const earthImage = '/static/images/components/vis/earth-min.jpg';
 const earthBumpImage = '/static/images/components/vis/earth-bump.jpg';
 const cloudsImage = '/static/images/components/vis/clouds-min.png';
 
+let Map;
+let ImageProvider;
+if (typeof window !== 'undefined') {
+  /* eslint-disable */
+  Map = require('react-cesium').Map;
+  ImageProvider = require('react-cesium').ImageProvider;
+  /* eslint-enable */
+}
+
 class Pulse extends Page {
   constructor(props) {
     super(props);
@@ -59,7 +68,7 @@ class Pulse extends Page {
     this.mounted = true;
     // This is not sending anything, for the moment
     this.props.getLayers();
-    document.addEventListener('click', this.triggerMouseDown);
+    document.addEventListener('click', this.handleMouseClick);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -116,7 +125,7 @@ class Pulse extends Page {
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.triggerMouseDown);
+    document.removeEventListener('click', this.handleMouseClick);
     this.props.toggleTooltip(false);
     this.props.toggleActiveLayer(null);
     this.mounted = false;
@@ -126,7 +135,8 @@ class Pulse extends Page {
   * UI EVENTS
   * - triggerZoomIn
   * - triggerZoomOut
-  * - triggerMouseDown
+  * - handleMouseClick
+  * - handleMouseDown
   * - handleMarkerSelected
   * - handleEarthClicked
   * - handleClickInEmptyRegion
@@ -144,10 +154,14 @@ class Pulse extends Page {
     this.globe.camera.translateZ(5);
   }
   @Autobind
-  triggerMouseDown(event) {
+  handleMouseClick(event) {
     if (event.target.tagName !== 'CANVAS') {
       this.props.toggleTooltip(false);
     }
+  }
+  @Autobind
+  handleMouseDown(event) {
+    this.props.toggleTooltip(false);
   }
   @Autobind
   handleMarkerSelected(marker, event) {
@@ -208,9 +222,32 @@ class Pulse extends Page {
       });
   }
 
+  @Autobind
+  handleCesiumClick(e) {
+    const viewer = e.viewer;
+    const clickedPosition = e.clickedPosition;
+    const mousePosition = new Cesium.Cartesian2(clickedPosition.x, clickedPosition.y);
+
+    const ellipsoid = viewer.scene.globe.ellipsoid;
+    const cartesian = viewer.camera.pickEllipsoid(mousePosition, ellipsoid);
+
+    if (cartesian) {
+      const cartographic = ellipsoid.cartesianToCartographic(cartesian);
+      const longitudeString = Cesium.Math.toDegrees(cartographic.longitude).toFixed(2);
+      const latitudeString = Cesium.Math.toDegrees(cartographic.latitude).toFixed(2);
+      this.handleEarthClicked({ longitude: longitudeString, latitude: latitudeString}, clickedPosition.x, clickedPosition.y + 75 ); // TODO: 75 is the header height
+    }
+  }
+
+  @Autobind
+  handleCesiumMouseDown(e) {
+    this.props.toggleTooltip(false);
+  }
+
   render() {
     const { url, layersGroup } = this.props;
     const layerActive = this.props.pulse.layerActive;
+    const threedimensional = layerActive && layerActive.threedimensional === 'true';
     const { markerType, layerPoints, texture, useDefaultLayer } = this.state;
     const globeWidht = (typeof window === 'undefined') ? 500 : window.innerWidth;
     const globeHeight = (typeof window === 'undefined') ? 300 : window.innerHeight - 75; // TODO: 75 is the header height
@@ -222,7 +259,7 @@ class Pulse extends Page {
         user={this.props.user}
       >
         <div
-          className="l-map -dark"
+          className="p-pulse l-map -dark"
         >
           <LayerNav
             layerActive={layerActive}
@@ -234,29 +271,40 @@ class Pulse extends Page {
           <Spinner
             isLoading={this.state.loading}
           />
-          <Globe
-            ref={globe => (this.globe = globe)}
-            width={globeWidht}
-            height={globeHeight}
-            pointLightColor={0xcccccc}
-            ambientLightColor={0x444444}
-            enableZoom
-            lightPosition={'right'}
-            texture={texture}
-            layerPoints={layerPoints}
-            markerType={markerType}
-            earthImagePath={earthImage}
-            earthBumpImagePath={earthBumpImage}
-            defaultLayerImagePath={cloudsImage}
-            segments={64}
-            rings={64}
-            useHalo
-            useDefaultLayer={useDefaultLayer}
-            onMarkerSelected={this.handleMarkerSelected}
-            onEarthClicked={this.handleEarthClicked}
-            onClickInEmptyRegion={this.handleClickInEmptyRegion}
-            onMouseHold={this.handleMouseHoldOverGlobe}
-          />
+          {threedimensional &&
+            <Globe
+              ref={globe => (this.globe = globe)}
+              width={globeWidht}
+              height={globeHeight}
+              pointLightColor={0xcccccc}
+              ambientLightColor={0x444444}
+              enableZoom
+              lightPosition={'right'}
+              texture={texture}
+              layerPoints={layerPoints}
+              markerType={markerType}
+              earthImagePath={earthImage}
+              earthBumpImagePath={earthBumpImage}
+              defaultLayerImagePath={cloudsImage}
+              segments={64}
+              rings={64}
+              useHalo
+              useDefaultLayer={useDefaultLayer}
+              onMarkerSelected={this.handleMarkerSelected}
+              onEarthClicked={this.handleEarthClicked}
+              onClickInEmptyRegion={this.handleClickInEmptyRegion}
+              onMouseHold={this.handleMouseHoldOverGlobe}
+            />
+          }
+          {layerActive && !threedimensional && window && texture &&
+            <Map
+              className="cesium-map"
+              onClick={this.handleCesiumClick}
+              onMouseDown={this.handleCesiumMouseDown}
+            >
+              <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />
+            </Map>
+          }
           <ZoomControl
             ref={zoomControl => (this.zoomControl = zoomControl)}
             onZoomIn={this.triggerZoomIn}
