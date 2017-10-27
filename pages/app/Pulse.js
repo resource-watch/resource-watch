@@ -68,7 +68,7 @@ class Pulse extends Page {
     this.mounted = true;
     // This is not sending anything, for the moment
     this.props.getLayers();
-    document.addEventListener('click', this.triggerMouseDown);
+    document.addEventListener('click', this.handleMouseClick);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -125,7 +125,7 @@ class Pulse extends Page {
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.triggerMouseDown);
+    document.removeEventListener('click', this.handleMouseClick);
     this.props.toggleTooltip(false);
     this.props.toggleActiveLayer(null);
     this.mounted = false;
@@ -135,7 +135,8 @@ class Pulse extends Page {
   * UI EVENTS
   * - triggerZoomIn
   * - triggerZoomOut
-  * - triggerMouseDown
+  * - handleMouseClick
+  * - handleMouseDown
   * - handleMarkerSelected
   * - handleEarthClicked
   * - handleClickInEmptyRegion
@@ -153,10 +154,14 @@ class Pulse extends Page {
     this.globe.camera.translateZ(5);
   }
   @Autobind
-  triggerMouseDown(event) {
+  handleMouseClick(event) {
     if (event.target.tagName !== 'CANVAS') {
       this.props.toggleTooltip(false);
     }
+  }
+  @Autobind
+  handleMouseDown(event) {
+    this.props.toggleTooltip(false);
   }
   @Autobind
   handleMarkerSelected(marker, event) {
@@ -234,6 +239,11 @@ class Pulse extends Page {
     }
   }
 
+  @Autobind
+  handleCesiumMouseDown(e) {
+    this.props.toggleTooltip(false);
+  }
+
   render() {
     const { url, layersGroup } = this.props;
     const layerActive = this.props.pulse.layerActive;
@@ -290,6 +300,7 @@ class Pulse extends Page {
             <Map
               className="cesium-map"
               onClick={this.handleCesiumClick}
+              onMouseDown={this.handleCesiumMouseDown}
             >
               <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />
             </Map>
