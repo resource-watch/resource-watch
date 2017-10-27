@@ -180,6 +180,7 @@ class Pulse extends Page {
     if (pulse.layerActive) {
       const requestURL = substitution(interactionConfig.pulseConfig.url,
         [{ key: 'point', value: `[${latLon.longitude}, ${latLon.latitude}]` }]);
+      console.log('requestURL', requestURL);
       this.setTooltipValue(requestURL, clientX, clientY);
     }
   }
@@ -221,16 +222,16 @@ class Pulse extends Page {
   handleCesiumClick(e) {
     const viewer = e.viewer;
     const clickedPosition = e.clickedPosition;
-    const mousePosition = new Cesium.Cartesian2(clickedPosition.clientX, clickedPosition.clientY);
+    const mousePosition = new Cesium.Cartesian2(clickedPosition.x, clickedPosition.y);
 
     const ellipsoid = viewer.scene.globe.ellipsoid;
     const cartesian = viewer.camera.pickEllipsoid(mousePosition, ellipsoid);
-    if (cartesian) {
-        const cartographic = ellipsoid.cartesianToCartographic(cartesian);
-        const longitudeString = Cesium.Math.toDegrees(cartographic.longitude).toFixed(2);
-        const latitudeString = Cesium.Math.toDegrees(cartographic.latitude).toFixed(2);
 
-        this.handleEarthClicked();
+    if (cartesian) {
+      const cartographic = ellipsoid.cartesianToCartographic(cartesian);
+      const longitudeString = Cesium.Math.toDegrees(cartographic.longitude).toFixed(2);
+      const latitudeString = Cesium.Math.toDegrees(cartographic.latitude).toFixed(2);
+      this.handleEarthClicked({ longitude: longitudeString, latitude: latitudeString}, clickedPosition.x, clickedPosition.y);
     }
   }
 
