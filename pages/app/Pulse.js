@@ -26,7 +26,6 @@ import ZoomControl from 'components/ui/ZoomControl';
 import GlobeTooltip from 'components/app/pulse/GlobeTooltip';
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
-import Cesium from 'static/cesium/Cesium';
 
 const earthImage = '/static/images/components/vis/earth-min.jpg';
 const earthBumpImage = '/static/images/components/vis/earth-bump.jpg';

@@ -124,7 +124,7 @@ class Head extends React.PureComponent {
   getCesium() {
     const { pathname } = this.props.routes;
     if (pathname === '/app/Pulse') {
-      return <script src="/static/cesium/cesium.js" />;
+      return <script src="/static/cesium/Cesium.js" />;
     }
     return null;
   }
@@ -132,7 +132,7 @@ class Head extends React.PureComponent {
   getCesiumStyles() {
     const { pathname } = this.props.routes;
     if (pathname === '/app/Pulse') {
-      return <link rel="stylesheet" href="/static/cesium/widgets/widgets.css" />;
+      return <link rel="stylesheet" href="/static/cesium/Widgets/widgets.css" />;
     }
     return null;
   }
