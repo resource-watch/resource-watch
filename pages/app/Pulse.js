@@ -180,7 +180,6 @@ class Pulse extends Page {
     if (pulse.layerActive) {
       const requestURL = substitution(interactionConfig.pulseConfig.url,
         [{ key: 'point', value: `[${latLon.longitude}, ${latLon.latitude}]` }]);
-      console.log('requestURL', requestURL);
       this.setTooltipValue(requestURL, clientX, clientY);
     }
   }
@@ -231,7 +230,7 @@ class Pulse extends Page {
       const cartographic = ellipsoid.cartesianToCartographic(cartesian);
       const longitudeString = Cesium.Math.toDegrees(cartographic.longitude).toFixed(2);
       const latitudeString = Cesium.Math.toDegrees(cartographic.latitude).toFixed(2);
-      this.handleEarthClicked({ longitude: longitudeString, latitude: latitudeString}, clickedPosition.x, clickedPosition.y);
+      this.handleEarthClicked({ longitude: longitudeString, latitude: latitudeString}, clickedPosition.x, clickedPosition.y + 75 ); // TODO: 75 is the header height
     }
   }
 
