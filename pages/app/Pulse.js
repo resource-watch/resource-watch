@@ -39,6 +39,7 @@ if (typeof window !== 'undefined') {
   Map = require('react-cesium').Map;
   ImageProvider = require('react-cesium').ImageProvider;
   Cesium = window.Cesium;
+  Cesium.BingMapsApi.defaultKey = process.env.BING_MAPS_API_KEY;
   /* eslint-enable */
 }
 
