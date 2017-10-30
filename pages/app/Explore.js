@@ -390,16 +390,15 @@ class Explore extends Page {
   @Autobind
   handleTagSelected(tag) {
     const { geographies, dataType, topics } = this.filters;
-    const { topicsTree } = this.props.explore;
 
     // clear previous selection
     if (topics.length && topics.length > 0) {
       this.topicsTree.forEach(child => this.selectElementsFromTree(child, topics, true));
     }
 
-    if (findTagInSelectorTree(topicsTree, tag)) {
-      this.topicsTree.forEach(child => this.selectElementsFromTree(child, [tag]));
-      this.filters = { topics: [tag], geographies, dataType };
+    if (tag.type === 'TOPIC') {
+      this.topicsTree.forEach(child => this.selectElementsFromTree(child, [tag.id]));
+      this.filters = { topics: [tag.id], geographies, dataType };
       this.applyFilters();
     }
   }

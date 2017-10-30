@@ -31,6 +31,8 @@ class DatasetTagsTooltip extends React.Component {
             tabIndex={-1}
             key={tag.id}
             id={tag.id}
+            data-type={tag.labels
+              .find(t => t === 'DATA_TYPE' || t === 'GEOGRAPHY' || t === 'TOPIC')}
             onClick={this.props.onTagClick}
           >
             {tag.label}
