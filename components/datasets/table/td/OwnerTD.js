@@ -13,7 +13,7 @@ function OwnerTD(props) {
 }
 
 OwnerTD.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.object,
   index: PropTypes.string
 };
 

@@ -33,12 +33,15 @@ const cloudsImage = '/static/images/components/vis/clouds-min.png';
 
 let Map;
 let ImageProvider;
+let Cesium;
 if (typeof window !== 'undefined') {
   /* eslint-disable */
   Map = require('react-cesium').Map;
   ImageProvider = require('react-cesium').ImageProvider;
+  Cesium = window.Cesium;
   /* eslint-enable */
 }
+
 
 class Pulse extends Page {
   constructor(props) {
@@ -160,7 +163,7 @@ class Pulse extends Page {
     }
   }
   @Autobind
-  handleMouseDown(event) {
+  handleMouseDown() {
     this.props.toggleTooltip(false);
   }
   @Autobind
@@ -235,12 +238,13 @@ class Pulse extends Page {
       const cartographic = ellipsoid.cartesianToCartographic(cartesian);
       const longitudeString = Cesium.Math.toDegrees(cartographic.longitude).toFixed(2);
       const latitudeString = Cesium.Math.toDegrees(cartographic.latitude).toFixed(2);
-      this.handleEarthClicked({ longitude: longitudeString, latitude: latitudeString}, clickedPosition.x, clickedPosition.y + 75 ); // TODO: 75 is the header height
+      this.handleEarthClicked({ longitude: longitudeString, latitude: latitudeString },
+        clickedPosition.x, clickedPosition.y + 75); // TODO: 75 is the header height
     }
   }
 
   @Autobind
-  handleCesiumMouseDown(e) {
+  handleCesiumMouseDown() {
     this.props.toggleTooltip(false);
   }
 
