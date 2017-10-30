@@ -22,7 +22,8 @@ import {
   setAreaIntersection,
   setTitle,
   setZoom,
-  setLatLng
+  setLatLng,
+  setEmbed
 } from 'components/widgets/editor/redux/widgetEditor';
 import { setDataset } from 'redactions/myrwdetail';
 
@@ -128,7 +129,8 @@ class WidgetsEdit extends React.Component {
       chartType,
       filters,
       areaIntersection,
-      layer
+      layer,
+      embed
     } = widgetEditor;
     const { type, provider, tableName } = this.state.dataset.attributes;
 
@@ -177,7 +179,8 @@ class WidgetsEdit extends React.Component {
             chartType,
             filters,
             areaIntersection,
-            layer: layer && layer.id
+            layer: layer && layer.id,
+            embed
           }
         },
         chartConfig
@@ -258,7 +261,8 @@ class WidgetsEdit extends React.Component {
       limit,
       chartType,
       layer,
-      areaIntersection
+      areaIntersection,
+      embed
     } = paramsConfig;
 
     // We restore the type of visualization
@@ -281,6 +285,7 @@ class WidgetsEdit extends React.Component {
     if (name) this.props.setTitle(name);
     if (zoom) this.props.setZoom(zoom);
     if (lat && lng) this.props.setLatLng({ lat, lng });
+    if (embed) this.props.setEmbed(embed);
   }
 
   @Autobind
@@ -423,7 +428,8 @@ WidgetsEdit.propTypes = {
   setDataset: PropTypes.func.isRequired,
   setTitle: PropTypes.func.isRequired,
   setZoom: PropTypes.func.isRequired,
-  setLatLng: PropTypes.func.isRequired
+  setLatLng: PropTypes.func.isRequired,
+  setEmbed: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -454,7 +460,8 @@ const mapDispatchToProps = dispatch => ({
   },
   setDataset: dataset => dispatch(setDataset(dataset)),
   setZoom: zoom => dispatch(setZoom(zoom)),
-  setLatLng: latLng => dispatch(setLatLng(latLng))
+  setLatLng: latLng => dispatch(setLatLng(latLng)),
+  setEmbed: embed => dispatch(setEmbed(embed))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WidgetsEdit);

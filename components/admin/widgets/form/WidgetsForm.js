@@ -28,7 +28,8 @@ import {
   setTitle,
   resetWidgetEditor,
   setZoom,
-  setLatLng
+  setLatLng,
+  setEmbed
 } from 'components/widgets/editor/redux/widgetEditor';
 
 // Constants
@@ -140,7 +141,8 @@ class WidgetsForm extends React.Component {
       layer,
       title,
       zoom,
-      latLng
+      latLng,
+      embed
     } = widgetEditor;
 
     event.preventDefault();
@@ -170,14 +172,15 @@ class WidgetsForm extends React.Component {
               widgetConfig: Object.assign(
                 {},
                 formObj.widgetConfig,
+                { type: visualizationType },
                 // If the widget is a map, we want to add some extra info
                 // in widgetConfig so the widget is compatible with other
                 // apps that use the same API
-                // The type and layer_id are not necessary for the editor
-                // because it is already saved in widgetConfig.paramsConfig
+                // layer_id are not necessary for the editor because it
+                // is already saved in widgetConfig.paramsConfig
                 (
                   visualizationType === 'map'
-                    ? { type: 'map', layer_id: layer && layer.id, zoom, ...latLng }
+                    ? { layer_id: layer && layer.id, zoom, ...latLng }
                     : {}
                 ),
                 {
@@ -194,7 +197,8 @@ class WidgetsForm extends React.Component {
                     filters,
                     areaIntersection,
                     band: band && { name: band.name },
-                    layer: layer && layer.id
+                    layer: layer && layer.id,
+                    embed
                   }
                 }
               )
@@ -275,7 +279,7 @@ class WidgetsForm extends React.Component {
   }
 
   validateWidgetConfig() {
-    const { value, category, chartType, visualizationType, layer } = this.props.widgetEditor;
+    const { value, category, chartType, visualizationType, layer, embed } = this.props.widgetEditor;
 
     switch (visualizationType) {
       case 'chart':
@@ -284,6 +288,8 @@ class WidgetsForm extends React.Component {
         return !!chartType && !!category && !!value;
       case 'map':
         return !!layer;
+      case 'embed':
+        return !!embed.src;
       default:
         return false;
     }
@@ -299,6 +305,8 @@ class WidgetsForm extends React.Component {
         return toastr.error('Error', 'Value, Category and Chart type are mandatory fields for a widget visualization.');
       case 'map':
         return toastr.error('Error', 'Layer is mandatory field for a widget visualization.');
+      case 'embed':
+        return toastr.error('Error', 'Embed url is mandatory field for a widget visualization.');
       default:
         return false;
     }
@@ -320,7 +328,8 @@ class WidgetsForm extends React.Component {
         filters,
         limit,
         chartType,
-        layer
+        layer,
+        embed
       } = paramsConfig;
 
       // We restore the type of visualization
@@ -342,6 +351,7 @@ class WidgetsForm extends React.Component {
       if (name) this.props.setTitle(name);
       if (zoom) this.props.setZoom(zoom);
       if (lat && lng) this.props.setLatLng({ lat, lng });
+      if (embed) this.props.setEmbed(embed);
     }
   }
 
@@ -411,7 +421,8 @@ WidgetsForm.propTypes = {
   setTitle: PropTypes.func.isRequired,
   resetWidgetEditor: PropTypes.func.isRequired,
   setZoom: PropTypes.func.isRequired,
-  setLatLng: PropTypes.func.isRequired
+  setLatLng: PropTypes.func.isRequired,
+  setEmbed: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -427,6 +438,7 @@ const mapDispatchToProps = dispatch => ({
   setVisualizationType: vis => dispatch(setVisualizationType(vis)),
   setBand: band => dispatch(setBand(band)),
   setTitle: title => dispatch(setTitle(title)),
+  setEmbed: title => dispatch(setEmbed(title)),
   setLayer: (layerId) => {
     new LayersService()
       .fetchData({ id: layerId })

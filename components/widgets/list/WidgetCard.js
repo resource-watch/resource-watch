@@ -87,6 +87,30 @@ class WidgetCard extends React.Component {
   }
 
   /**
+   * return whether the widget is an embedded page
+   * @static
+   * @param {any} widget
+   * @returns {boolean}
+   */
+  static isEmbedWidget(widget) {
+    return !!(widget
+      // Some widgets have not been created with the widget editor
+      // so the paramsConfig attribute doesn't exist
+      && (
+        (
+          widget.attributes.widgetConfig.paramsConfig
+          && widget.attributes.widgetConfig.paramsConfig.visualizationType === 'embed'
+        )
+        || (
+          // Case of a widget created outside of the widget editor
+          widget.attributes.widgetConfig.type
+          && widget.attributes.widgetConfig.type === 'embed'
+        )
+      )
+    );
+  }
+
+  /**
    * Return whether the widget represents a text
    * @static
    * @param {any} widget
@@ -173,6 +197,30 @@ class WidgetCard extends React.Component {
       toastr.error('Error', this.state.error);
       // TODO: Correctly show the UI
       return null;
+    }
+
+    // If the widget is an embedded page, we render a
+    // different component
+    if (WidgetCard.isEmbedWidget(this.props.widget)) {
+      if (this.props.mode === 'thumbnail') {
+        return (
+          <div className="c-widget-chart -thumbnail">
+            <div className="c-chart -no-preview">
+              <span>No preview</span>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div className="c-widget-chart -embed">
+          <iframe
+            title={this.props.widget.attributes.name}
+            src={this.props.widget.attributes.widgetConfig.paramsConfig.embed.src}
+            frameBorder="0"
+          />
+        </div>
+      );
     }
 
     // If the widget is a map, we render the correct component

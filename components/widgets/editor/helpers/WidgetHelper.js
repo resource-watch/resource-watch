@@ -121,7 +121,8 @@ export function canRenderChart(widgetEditor, datasetProvider) {
     chartType,
     band,
     layer,
-    areaIntersection
+    areaIntersection,
+    embed
   } = widgetEditor;
 
   const chart = visualizationType === 'chart'
@@ -144,8 +145,10 @@ export function canRenderChart(widgetEditor, datasetProvider) {
 
   const table = visualizationType === 'table' && (datasetProvider !== 'nexgddp' || areaIntersection);
 
+  const embedVis = visualizationType === 'embed' && embed && embed.src;
+
   // Standard chart
-  return chart || rasterChart || map || table;
+  return chart || rasterChart || map || table || embedVis;
 }
 
 /**

@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
-import d3 from 'd3';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -14,9 +12,7 @@ import { setRouter } from 'redactions/routes';
 // Components
 import Page from 'components/app/layout/Page';
 import EmbedLayout from 'components/app/layout/EmbedLayout';
-import VegaChart from 'components/widgets/charts/VegaChart';
 import Spinner from 'components/ui/Spinner';
-import ChartTheme from 'utils/widgets/theme';
 import Icon from 'components/widgets/editor/ui/Icon';
 
 class EmbedWidget extends Page {
@@ -33,73 +29,14 @@ class EmbedWidget extends Page {
     return !/localhost|staging.resourcewatch.org/.test(this.props.referer);
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoading: props.isLoading,
-      modalOpened: false
-    };
-  }
-
   componentDidMount() {
     const { url } = this.props;
     this.props.getWidget(url.query.id);
     if (this.props.user.id) this.props.checkIfFavorited(url.query.id);
   }
 
-  getModal() {
-    const { widget, bandDescription, bandStats } = this.props;
-    return (
-      <div className="widget-modal">
-        { !widget.attributes.description && !bandDescription && isEmpty(bandStats) &&
-          <p>No additional information is available</p>
-        }
-
-        { widget.attributes.description && (
-          <div>
-            <h4>Description</h4>
-            <p>{widget.attributes.description}</p>
-          </div>
-        ) }
-
-        { bandDescription && (
-          <div>
-            <h4>Band description</h4>
-            <p>{bandDescription}</p>
-          </div>
-        ) }
-
-        { !isEmpty(bandStats) && (
-          <div>
-            <h4>Statistical information</h4>
-            <div className="c-table">
-              <table>
-                <thead>
-                  <tr>
-                    { Object.keys(bandStats).map(name => <th key={name}>{name}</th>) }
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    { Object.keys(bandStats).map((name) => {
-                      const number = d3.format('.4s')(bandStats[name]);
-                      return (
-                        <td key={name}>{number}</td>
-                      );
-                    }) }
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        ) }
-      </div>
-    );
-  }
-
   render() {
     const { widget, loading, error, favorited, user } = this.props;
-    const { isLoading, modalOpened } = this.state;
 
     const favoriteIcon = favorited ? 'star-full' : 'star-empty';
 
@@ -153,7 +90,6 @@ class EmbedWidget extends Page {
         description={`${widget.attributes.description || ''}`}
       >
         <div className="c-embed-widget">
-          <Spinner isLoading={isLoading} className="-light" />
           <div className="widget-title">
             <a href={`/data/explore/${widget.attributes.dataset}`} target="_blank" rel="noopener noreferrer">
               <h4>{widget.attributes.name}</h4>
@@ -168,22 +104,14 @@ class EmbedWidget extends Page {
                   </button>
                 )
               }
-              <button
-                aria-label={`${modalOpened ? 'Close' : 'Open'} information modal`}
-                onClick={() => this.setState({ modalOpened: !modalOpened })}
-              >
-                <Icon name={`icon-${modalOpened ? 'cross' : 'info'}`} className="c-icon -small" />
-              </button>
             </div>
           </div>
           <div className="widget-content">
-            <VegaChart
-              data={widget.attributes.widgetConfig}
-              theme={ChartTheme()}
-              toggleLoading={l => this.setState({ isLoading: l })}
-              reloadOnResize
+            <iframe
+              title={widget.attributes.name}
+              src={widget.attributes.widgetConfig.paramsConfig.embed.src}
+              frameBorder="0"
             />
-            { modalOpened && this.getModal() }
           </div>
           { this.isLoadedExternally() && (
             <div className="widget-footer">
@@ -207,8 +135,6 @@ EmbedWidget.propTypes = {
   getWidget: PropTypes.func,
   checkIfFavorited: PropTypes.func,
   setIfFavorited: PropTypes.func,
-  bandDescription: PropTypes.string,
-  bandStats: PropTypes.object,
   loading: PropTypes.bool,
   error: PropTypes.string,
   favorited: PropTypes.bool
@@ -222,8 +148,6 @@ const mapStateToProps = state => ({
   widget: state.widget.data,
   loading: state.widget.loading,
   error: state.widget.error,
-  bandDescription: state.widget.bandDescription,
-  bandStats: state.widget.bandStats,
   favorited: state.widget.favorite.favorited,
   user: state.user
 });
