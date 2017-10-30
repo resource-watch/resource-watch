@@ -1,6 +1,6 @@
-import bar from 'utils/widgets/bar.json';
-import pie from 'utils/widgets/pie.json';
-import line from 'utils/widgets/line.json';
+import bar from 'components/widgets/editor/helpers/bar';
+import pie from 'components/widgets/editor/helpers/pie';
+import line from 'components/widgets/editor/helpers/line';
 
 
 export const STATE_DEFAULT = {
@@ -46,9 +46,9 @@ export const FORM_ELEMENTS = {
 };
 
 export const CONFIG_TEMPLATE = {
-  bar,
-  line,
-  pie
+  bar: bar({ templateMode: true }),
+  line: line({ templateMode: true }),
+  pie: pie({ templateMode: true })
 };
 
 export const CONFIG_TEMPLATE_OPTIONS = [

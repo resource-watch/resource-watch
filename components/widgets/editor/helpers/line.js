@@ -70,10 +70,13 @@ const defaultChart = {
  * Return the Vega chart configuration
  *
  * @export
- * @param {any} { columns, data, url, embedData }
+ * @param {any} { columns, data, url, embedData, templateMode }
  */
-export default function ({ columns, data, url, embedData }) {
+export default function ({ columns, data, url, embedData, templateMode }) {
   const config = deepClone(defaultChart);
+
+  // Simple template used in the advanced mode of the editor
+  if (templateMode) return config;
 
   if (embedData) {
     // We directly set the data
