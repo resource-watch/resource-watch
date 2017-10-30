@@ -10,7 +10,7 @@ export default class WidgetService {
   }
 
   fetchData(includes = '') {
-    return fetch(`${this.opts.apiURL}/widget/${this.widgetId}?includes=${includes}&page[size]=999`)
+    return fetch(`${this.opts.apiURL}/widget/${this.widgetId}?includes=${includes}&page[size]=999&application=${[process.env.APPLICATIONS]}`)
       .then(async (response) => {
         const data = await response.json();
 
@@ -70,13 +70,13 @@ export default class WidgetService {
   getUserWidgets(userId, sortByUpdatedAt = true, direction = 'asc', includes = '') {
     const directionPart = (direction === 'asc') ? '&sort=updatedAt' : '&sort=-updatedAt';
     const sortSt = sortByUpdatedAt ? directionPart : '';
-    return fetch(`${this.opts.apiURL}/widget/?userId=${userId}${sortSt}&env=production,preproduction&includes=${includes}&page[size]=999`)
+    return fetch(`${this.opts.apiURL}/widget/?userId=${userId}${sortSt}&env=production,preproduction&includes=${includes}&application=${[process.env.APPLICATIONS]}&page[size]=999`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
 
   getUserWidgetCollections(user) {
-    return fetch(`${this.opts.apiURL}/vocabulary/widget_collections?application=rw`)
+    return fetch(`${this.opts.apiURL}/vocabulary/widget_collections?application=${[process.env.APPLICATIONS]}`)
       .then(response => response.json())
       .then((jsonData) => {
         const dataObj = jsonData.data;

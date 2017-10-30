@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { bindActionCreators } from 'redux';
-import { getWidget, toggleLayerGroupVisibility } from 'redactions/widget';
+import { getWidget, toggleLayerGroupVisibility, checkIfFavorited, setIfFavorited } from 'redactions/widget';
 import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
@@ -44,6 +44,7 @@ class EmbedMap extends Page {
 
   componentDidMount() {
     this.props.getWidget(this.props.url.query.id);
+    if (this.props.user.id) this.props.checkIfFavorited(this.props.url.query.id);
   }
 
   getModal() {
@@ -65,8 +66,10 @@ class EmbedMap extends Page {
   }
 
   render() {
-    const { widget, loading, layerGroups, error, zoom, latLng } = this.props;
+    const { widget, loading, layerGroups, error, zoom, latLng, favorited, user } = this.props;
     const { modalOpened } = this.state;
+
+    const favoriteIcon = favorited ? 'star-full' : 'star-empty';
 
     if (loading) {
       return (
@@ -123,6 +126,15 @@ class EmbedMap extends Page {
               <h4>{widget.attributes.name}</h4>
             </a>
             <div className="buttons">
+              {
+                user.id && (
+                  <button
+                    onClick={() => this.props.setIfFavorited(widget.id, !this.props.favorited)}
+                  >
+                    <Icon name={`icon-${favoriteIcon}`} className="c-icon -small" />
+                  </button>
+                )
+              }
               <button
                 aria-label={`${modalOpened ? 'Close' : 'Open'} information modal`}
                 onClick={() => this.setState({ modalOpened: !modalOpened })}
@@ -175,11 +187,14 @@ EmbedMap.propTypes = {
   isLoading: PropTypes.bool,
   getWidget: PropTypes.func,
   toggleLayerGroupVisibility: PropTypes.func,
+  checkIfFavorited: PropTypes.func,
+  setIfFavorited: PropTypes.func,
   loading: PropTypes.bool,
   layerGroups: PropTypes.array,
   error: PropTypes.string,
   zoom: PropTypes.number,
-  latLng: PropTypes.object
+  latLng: PropTypes.object,
+  favorited: PropTypes.bool
 };
 
 EmbedMap.defaultProps = {
@@ -192,12 +207,15 @@ const mapStateToProps = state => ({
   error: state.widget.error,
   layerGroups: state.widget.layerGroups,
   zoom: state.widget.zoom,
+  favorited: state.widget.favorite.favorited,
   latLng: state.widget.latLng
 });
 
 const mapDispatchToProps = dispatch => ({
   getWidget: bindActionCreators(getWidget, dispatch),
-  toggleLayerGroupVisibility: bindActionCreators(toggleLayerGroupVisibility, dispatch)
+  toggleLayerGroupVisibility: bindActionCreators(toggleLayerGroupVisibility, dispatch),
+  checkIfFavorited: bindActionCreators(checkIfFavorited, dispatch),
+  setIfFavorited: bindActionCreators(setIfFavorited, dispatch)
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(EmbedMap);

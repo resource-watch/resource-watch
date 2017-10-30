@@ -70,6 +70,10 @@
       }
     }
 
+    iframe {
+      width: 100%;
+    }
+
     .c-chart {
       height: auto; // Do not change this without testing (see comment on .c-map)
       display: flex;

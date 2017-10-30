@@ -47,7 +47,7 @@ export default class UserService {
   getFavourites(token, resourceType = null, include = true) {
     const resourceTypeSt = (resourceType !== null) ? `&resourceType=${resourceType}` : '';
     return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/favourite?include=${include}${resourceTypeSt}`, {
+      fetch(`${this.opts.apiURL}/favourite?include=${include}${resourceTypeSt}&application=${[process.env.APPLICATIONS]}`, {
         headers: {
           Authorization: token
         }
@@ -95,7 +95,7 @@ export default class UserService {
       resourceType,
       resourceId
     };
-    return fetch(`${this.opts.apiURL}/favourite`, {
+    return fetch(`${this.opts.apiURL}/favourite?application=${[process.env.APPLICATIONS]}`, {
       method: 'POST',
       body: JSON.stringify(bodyObj),
       headers: {
@@ -164,7 +164,7 @@ export default class UserService {
    */
   getSubscriptions(token) {
     return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/subscriptions?application=rw`, {
+      fetch(`${this.opts.apiURL}/subscriptions?application=${[process.env.APPLICATIONS]}`, {
         headers: {
           Authorization: token
         }
@@ -195,7 +195,7 @@ export default class UserService {
    */
   getUserAreas(token) {
     return new Promise((resolve, reject) => {
-      fetch(`${this.opts.apiURL}/area?application=rw`, {
+      fetch(`${this.opts.apiURL}/area?application=${[process.env.APPLICATIONS]}`, {
         headers: {
           Authorization: token
         }
@@ -270,7 +270,7 @@ export default class UserService {
    * Get area
    */
   getArea(id, token) {
-    return fetch(`${this.opts.apiURL}/area/${id}`, {
+    return fetch(`${this.opts.apiURL}/area/${id}?application=${[process.env.APPLICATIONS]}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

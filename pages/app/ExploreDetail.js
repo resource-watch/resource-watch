@@ -190,13 +190,15 @@ class ExploreDetail extends Page {
 
   getFavoriteDatasets() {
     const { user, url } = this.props;
-    this.userService.getFavouriteDatasets(user.token)
-      .then((response) => {
-        const found = response.find(elem => elem.attributes.resourceId === url.query.id);
-        this.setState({
-          favorite: found
+    if (user.id) {
+      this.userService.getFavouriteDatasets(user.token)
+        .then((response) => {
+          const found = response.find(elem => elem.attributes.resourceId === url.query.id);
+          this.setState({
+            favorite: found
+          });
         });
-      });
+    }
   }
 
   getSimilarDatasets() {

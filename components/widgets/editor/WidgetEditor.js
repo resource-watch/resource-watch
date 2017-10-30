@@ -35,6 +35,8 @@ import ChartEditor from 'components/widgets/editor/chart/ChartEditor';
 import MapEditor from 'components/widgets/editor/map/MapEditor';
 import RasterChartEditor from 'components/widgets/editor/raster/RasterChartEditor';
 import NEXGDDPEditor from 'components/widgets/editor/nexgddp/NEXGDDPEditor';
+import EmbedEditor from 'components/widgets/editor/embed/EmbedEditor';
+
 
 import Map from 'components/widgets/editor/map/Map';
 import MapControls from 'components/widgets/editor/map/MapControls';
@@ -62,7 +64,8 @@ const VISUALIZATION_TYPES = [
   { label: 'Chart', value: 'chart', available: true },
   { label: 'Chart', value: 'raster_chart', available: false },
   { label: 'Map', value: 'map', available: true },
-  { label: 'Table', value: 'table', available: true }
+  { label: 'Table', value: 'table', available: true },
+  { label: 'Embed', value: 'embed', available: true }
 ];
 
 const ALL_CHART_TYPES = {
@@ -197,6 +200,7 @@ class WidgetEditor extends React.Component {
       && canRenderChart(this.props.widgetEditor, this.state.datasetProvider)
       && this.props.widgetEditor.visualizationType !== 'table'
       && this.props.widgetEditor.visualizationType !== 'map'
+      && this.props.widgetEditor.visualizationType !== 'embed'
       && (hasChangedWidgetEditor || previousState.tableName !== this.state.tableName)) {
       this.fetchChartConfig();
     }
@@ -400,7 +404,7 @@ class WidgetEditor extends React.Component {
     } = this.state;
 
     const { widgetEditor, dataset, mode, selectedVisualizationType, user } = this.props;
-    const { chartType, layer, zoom, latLng } = widgetEditor;
+    const { chartType, layer, zoom, latLng, embed } = widgetEditor;
 
     // Whether we are still waiting for some info
     const loading = (mode === 'dataset' && !layersLoaded) ||
@@ -589,6 +593,29 @@ class WidgetEditor extends React.Component {
         }
         break;
 
+      // HTML table
+      case 'embed':
+        if (!embed.src) {
+          visualization = (
+            <div className="visualization">
+              {chartTitle}
+              Please enter the url of the visualization
+            </div>
+          );
+        } else {
+          visualization = (
+            <div className="visualization">
+              {chartTitle}
+              <iframe
+                title={chartTitle}
+                src={embed.src}
+                frameBorder="0"
+              />
+            </div>
+          );
+        }
+        break;
+
       default:
     }
 
@@ -634,6 +661,8 @@ class WidgetEditor extends React.Component {
       defaultVis = 'chart';
     } else if (visualizationOptions.find(vis => vis.value === 'map')) {
       defaultVis = 'map';
+    } else if (visualizationOptions.find(vis => vis.value === 'embed')) {
+      defaultVis = 'embed';
     } else if (visualizationOptions.find(vis => vis.value === 'raster_chart')) {
       defaultVis = 'raster_chart';
     }
@@ -1021,6 +1050,22 @@ class WidgetEditor extends React.Component {
                       />
                     )
                 }
+                {
+                  selectedVisualizationType === 'embed'
+                    && (
+                      <EmbedEditor
+                        dataset={this.props.dataset}
+                        tableName={tableName}
+                        provider={datasetProvider}
+                        mode={chartEditorMode}
+                        hasGeoInfo={hasGeoInfo}
+                        showSaveButton={showSaveButton}
+                        showNotLoggedInText={showNotLoggedInText}
+                        onUpdateWidget={this.handleUpdateWidget}
+                      />
+                    )
+                }
+
               </div>
               {visualization}
             </div>

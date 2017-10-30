@@ -11,7 +11,7 @@ export default class GraphService {
    * Get all tags
    */
   getAllTags() {
-    return fetch(`${this.opts.apiURL}/graph/query/list-concepts`)
+    return fetch(`${this.opts.apiURL}/graph/query/list-concepts?application=${[process.env.APPLICATIONS]}`)
       .then(response => response.json())
       .then(response => response.data);
   }
@@ -19,7 +19,7 @@ export default class GraphService {
    * Get inferred tags
    */
   getInferredTags(tags) {
-    return fetch(`${this.opts.apiURL}/graph/query/concepts-inferred?concepts=${tags}`)
+    return fetch(`${this.opts.apiURL}/graph/query/concepts-inferred?concepts=${tags}&application=${[process.env.APPLICATIONS]}`)
       .then(response => response.json())
       .then(response => response.data);
   }
@@ -28,7 +28,7 @@ export default class GraphService {
   * Get dataset tags
   */
   getDatasetTags(datasetId) {
-    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/vocabulary`)
+    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/vocabulary?application=${[process.env.APPLICATIONS]}`)
       .then(response => response.json())
       .then(response => response.data);
   }

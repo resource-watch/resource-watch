@@ -24,6 +24,8 @@ class Field extends React.Component {
     this.setState({
       valid,
       error
+    }, () => {
+      if (this.props.onValid) this.props.onValid(valid);
     });
   }
 
@@ -86,7 +88,8 @@ class Field extends React.Component {
 Field.propTypes = {
   properties: PropTypes.object.isRequired,
   hint: PropTypes.string,
-  className: PropTypes.string
+  className: PropTypes.string,
+  onValid: PropTypes.func
 };
 
 export default Field;
