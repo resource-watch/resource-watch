@@ -135,9 +135,7 @@ class DatasetWidget extends React.Component {
       .then((response) => {
         this.setState({
           inferredTags: response.filter(tag => tag.labels
-            .find(type => type === 'TOPIC' || type === 'GEOGRAPHY') &&
-            !TAGS_BLACKLIST.includes(tag.id)
-          )
+            .find(type => (type === 'TOPIC') && !TAGS_BLACKLIST.includes(tag.id)))
         });
       })
       .catch((err) => {
@@ -174,8 +172,9 @@ class DatasetWidget extends React.Component {
 
   @Autobind
   handleTagClick(event) {
-    const tagName = event.target.getAttribute('id');
-    this.props.onTagSelected(tagName);
+    const tag = { id: event.target.getAttribute('id'),
+      type: event.target.getAttribute('data-type') };
+    this.props.onTagSelected(tag);
   }
 
   @Autobind
