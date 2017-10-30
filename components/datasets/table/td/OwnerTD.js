@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 
 function OwnerTD(props) {
   const { value, index } = props;
+  const emailSt = value ? value.email : '';
 
   return (
     <td key={index} className="main">
-      {value.email}
+      {emailSt}
     </td>
   );
 }
