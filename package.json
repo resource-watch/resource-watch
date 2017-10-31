@@ -7,8 +7,6 @@
   "repository": "https://github.com/resource-watch/resource-watch.git",
   "main": "index.js",
   "dependencies": {
-    "aframe": "^0.7.1",
-    "aframe-react": "^4.3.0",
     "autoprefixer": "7.1.0",
     "babel-core": "6.22.1",
     "babel-plugin-add-react-displayname": "0.0.4",
