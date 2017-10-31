@@ -184,28 +184,6 @@ class Home extends Page {
           </div>
         </div>
 
-        <section className="l-section">
-          <div className="l-container coral-panorama">
-            <div className="coral-menu">
-              <div className="option">
-                <input type="radio" id="healthy_button" checked={selectedPanorama === 'healthy'} onChange={this.handlePanoramaChange} />
-                <label htmlFor="healthy_button">Healthy</label>
-              </div>
-              <div className="option">
-                <input type="radio" id="bleached_button" checked={selectedPanorama === 'bleached'} onChange={this.handlePanoramaChange} />
-                <label htmlFor="bleached_button">Bleached</label>
-              </div>
-              <div className="option">
-                <input type="radio" id="dead_button" checked={selectedPanorama === 'dead'} onChange={this.handlePanoramaChange} />
-                <label htmlFor="dead_button">Dead</label>
-              </div>
-            </div>
-            <a-scene embedded>
-              <a-sky src={panoramaSource} />
-            </a-scene>
-          </div>
-        </section>
-
         <section id="discoverIsights" className="l-section">
           <div className="l-container">
             <header>
@@ -240,6 +218,27 @@ class Home extends Page {
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+        <section className="l-section">
+          <div className="l-container coral-panorama">
+            <div className="coral-menu">
+              <div className="option">
+                <input type="radio" id="healthy_button" checked={selectedPanorama === 'healthy'} onChange={this.handlePanoramaChange} />
+                <label htmlFor="healthy_button">Healthy</label>
+              </div>
+              <div className="option">
+                <input type="radio" id="bleached_button" checked={selectedPanorama === 'bleached'} onChange={this.handlePanoramaChange} />
+                <label htmlFor="bleached_button">Bleached</label>
+              </div>
+              <div className="option">
+                <input type="radio" id="dead_button" checked={selectedPanorama === 'dead'} onChange={this.handlePanoramaChange} />
+                <label htmlFor="dead_button">Dead</label>
+              </div>
+            </div>
+            <a-scene embedded>
+              <a-sky src={panoramaSource} />
+            </a-scene>
           </div>
         </section>
         <section className="l-section -secondary">
