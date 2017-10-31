@@ -137,6 +137,14 @@ class Head extends React.PureComponent {
     return null;
   }
 
+  getAFrame() {
+    const { pathname } = this.props.routes;
+    if (pathname === '/app/Home') {
+      return <script src="/static/aframe/aframe-master.js" />;
+    }
+    return null;
+  }
+
   render() {
     const { title, description, category } = this.props;
 
@@ -159,6 +167,7 @@ class Head extends React.PureComponent {
         {this.getTransifex()}
         {this.getAddSearchConfig()}
         {this.getCesium()}
+        {this.getAFrame()}
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
       </HeadNext>
     );

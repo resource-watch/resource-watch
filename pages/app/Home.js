@@ -16,6 +16,15 @@ import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
 import Rating from 'components/app/common/Rating';
 
+let Entity;
+let Scene;
+if (typeof window !== 'undefined') {
+  /* eslint-disable */
+  Scene = require('aframe-react').Scene;
+  Entity = require('aframe-react').Entity;
+  /* eslint-enable */
+}
+
 const exploreCards = [
   {
     tag: 'Explore Data',
@@ -152,6 +161,24 @@ class Home extends Page {
           </div>
         </div>
 
+        {Scene && Entity &&
+        <section id="discoverIsights" className="l-section">
+          <div>
+            <Scene>
+              <a-assets>
+                <img id="skyTexture" src="/static/images/splash/healthy.jpg" alt="Coral Reef" />
+              </a-assets>
+
+              <Entity primitive="a-sky" src="/static/images/splash/healthy.jpg" />
+
+              <Entity primitive="a-camera">
+                <Entity primitive="a-cursor" animation__click={{ property: 'scale', startEvents: 'click', from: '0.1 0.1 0.1', to: '1 1 1', dur: 150 }} />
+              </Entity>
+            </Scene>
+          </div>
+        </section>
+        }
+
         <section id="discoverIsights" className="l-section">
           <div className="l-container">
             <header>
@@ -188,7 +215,21 @@ class Home extends Page {
             </div>
           </div>
         </section>
+        {Scene && Entity &&
+          <section className="l-section -secondary">
+            <Scene>
+              <a-assets>
+                <img id="skyTexture" src="/static/images/splash/healthy.jpg" />
+              </a-assets>
 
+              <Entity primitive="a-sky" height="2048" radius="30" src="#skyTexture" theta-length="90" width="2048" />
+
+              <Entity primitive="a-camera">
+                <Entity primitive="a-cursor" animation__click={{ property: 'scale', startEvents: 'click', from: '0.1 0.1 0.1', to: '1 1 1', dur: 150 }} />
+              </Entity>
+            </Scene>
+          </section>
+        }
         <section className="l-section -secondary">
           <div className="l-container">
             <header>
