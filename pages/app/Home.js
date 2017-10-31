@@ -185,18 +185,18 @@ class Home extends Page {
         </div>
 
         <section className="l-section">
-          <div className="coral-panorama">
+          <div className="l-container coral-panorama">
             <div className="coral-menu">
               <div className="option">
-                <input type="radio" id="healthy_button" checked onClick={this.handlePanoramaChange} />
+                <input type="radio" id="healthy_button" checked={selectedPanorama === 'healthy'} onChange={this.handlePanoramaChange} />
                 <label htmlFor="healthy_button">Healthy</label>
               </div>
               <div className="option">
-                <input type="radio" id="bleached_button" onClick={this.handlePanoramaChange} />
+                <input type="radio" id="bleached_button" checked={selectedPanorama === 'bleached'} onChange={this.handlePanoramaChange} />
                 <label htmlFor="bleached_button">Bleached</label>
               </div>
               <div className="option">
-                <input type="radio" id="dead_button" onClick={this.handlePanoramaChange} />
+                <input type="radio" id="dead_button" checked={selectedPanorama === 'dead'} onChange={this.handlePanoramaChange} />
                 <label htmlFor="dead_button">Dead</label>
               </div>
             </div>
