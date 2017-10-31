@@ -1,6 +1,7 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import { Link } from 'routes';
+import { Autobind } from 'es-decorators';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -58,6 +59,10 @@ const exploreCards = [
   }
 ];
 
+const HEALTHY_CORAL_IMAGE = '../../static/images/splash/healthy.jpg';
+const BLEACHED_CORAL_IMAGE = '../../static/images/splash/bleached.jpg';
+const DEAD_CORAL_IMAGE = '../../static/images/splash/dead.jpg';
+
 class Home extends Page {
   static insightsCardsStatic(insightsData) {
     return insightsData.map(c =>
@@ -113,13 +118,40 @@ class Home extends Page {
     );
   }
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedPanorama: 'healthy'
+    };
+  }
+
   componentDidMount() {
     super.componentDidMount();
     this.props.getInsights();
   }
 
+  @Autobind
+  handlePanoramaChange(event) {
+    const radioButtonId = event.target.getAttribute('id');
+    if (radioButtonId === 'healthy_button') {
+      this.setState({ selectedPanorama: 'healthy' });
+    } else if (radioButtonId === 'bleached_button') {
+      this.setState({ selectedPanorama: 'bleached' });
+    } else if (radioButtonId === 'dead_button') {
+      this.setState({ selectedPanorama: 'dead' });
+    }
+  }
+
   render() {
     const { insights } = this.props;
+    const { selectedPanorama } = this.state;
+    let panoramaSource = HEALTHY_CORAL_IMAGE;
+    if (selectedPanorama === 'dead') {
+      panoramaSource = DEAD_CORAL_IMAGE;
+    } else if (selectedPanorama === 'bleached') {
+      panoramaSource = BLEACHED_CORAL_IMAGE;
+    }
     const insightsCardsStatic = Home.insightsCardsStatic(insights);
     const exploreCardsStatic = Home.exploreCardsStatic();
 
@@ -151,6 +183,28 @@ class Home extends Page {
             </div>
           </div>
         </div>
+
+        <section className="l-section">
+          <div className="coral-panorama">
+            <div className="coral-menu">
+              <div className="option">
+                <input type="radio" id="healthy_button" checked onClick={this.handlePanoramaChange} />
+                <label htmlFor="healthy_button">Healthy</label>
+              </div>
+              <div className="option">
+                <input type="radio" id="bleached_button" onClick={this.handlePanoramaChange} />
+                <label htmlFor="bleached_button">Bleached</label>
+              </div>
+              <div className="option">
+                <input type="radio" id="dead_button" onClick={this.handlePanoramaChange} />
+                <label htmlFor="dead_button">Dead</label>
+              </div>
+            </div>
+            <a-scene embedded>
+              <a-sky src={panoramaSource} />
+            </a-scene>
+          </div>
+        </section>
 
         <section id="discoverIsights" className="l-section">
           <div className="l-container">
@@ -188,7 +242,6 @@ class Home extends Page {
             </div>
           </div>
         </section>
-
         <section className="l-section -secondary">
           <div className="l-container">
             <header>
