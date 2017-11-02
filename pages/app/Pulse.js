@@ -249,6 +249,11 @@ class Pulse extends Page {
     this.props.toggleTooltip(false);
   }
 
+  @Autobind
+  handleCesiumMoveStart() {
+    this.props.toggleTooltip(false);
+  }
+
   render() {
     const { url, layersGroup } = this.props;
     const layerActive = this.props.pulse.layerActive;
@@ -306,6 +311,7 @@ class Pulse extends Page {
               className="cesium-map"
               onClick={this.handleCesiumClick}
               onMouseDown={this.handleCesiumMouseDown}
+              onMoveStart={this.handleCesiumMoveStart}
             >
               <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />
             </Map>
