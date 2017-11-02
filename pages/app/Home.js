@@ -16,6 +16,7 @@ import Layout from 'components/app/layout/Layout';
 import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
 import Rating from 'components/app/common/Rating';
+import Spinner from 'components/ui/Spinner';
 
 const exploreCards = [
   {
@@ -122,30 +123,49 @@ class Home extends Page {
     super(props);
 
     this.state = {
-      selectedPanorama: 'healthy'
+      selectedPanorama: 'bleached',
+      skyLoading: false
     };
   }
 
   componentDidMount() {
     super.componentDidMount();
     this.props.getInsights();
+
+    this.panoramaSky = document.getElementById('panorama-sky');
+    this.panoramaSky.addEventListener('materialtextureloaded', this.handleImageLoaded);
   }
 
   @Autobind
   handlePanoramaChange(event) {
     const radioButtonId = event.target.getAttribute('id');
     if (radioButtonId === 'healthy_button') {
-      this.setState({ selectedPanorama: 'healthy' });
+      this.setState({
+        selectedPanorama: 'healthy',
+        skyLoading: true
+      });
     } else if (radioButtonId === 'bleached_button') {
-      this.setState({ selectedPanorama: 'bleached' });
+      this.setState({
+        selectedPanorama: 'bleached',
+        skyLoading: true
+      });
     } else if (radioButtonId === 'dead_button') {
-      this.setState({ selectedPanorama: 'dead' });
+      this.setState({
+        selectedPanorama: 'dead',
+        skyLoading: true
+      });
     }
+  }
+
+  @Autobind
+  handleImageLoaded() {
+    this.setState({ skyLoading: false });
   }
 
   render() {
     const { insights } = this.props;
-    const { selectedPanorama } = this.state;
+    const { selectedPanorama, skyLoading } = this.state;
+
     let panoramaSource = HEALTHY_CORAL_IMAGE;
     if (selectedPanorama === 'dead') {
       panoramaSource = DEAD_CORAL_IMAGE;
@@ -222,6 +242,7 @@ class Home extends Page {
         </section>
         <section className="l-section">
           <div className="l-container coral-panorama">
+            <Spinner isLoading={skyLoading} className="-light" />
             <div className="coral-menu">
               <div className="option">
                 <input type="radio" id="healthy_button" checked={selectedPanorama === 'healthy'} onChange={this.handlePanoramaChange} />
@@ -237,7 +258,55 @@ class Home extends Page {
               </div>
             </div>
             <a-scene embedded>
-              <a-sky src={panoramaSource} />
+              <a-assets>
+                <img id="hotspot1" src="../../static/images/apps/climate-data-explorer.png" alt="hotspot1" />
+                <img id="hotspot2" src="../../static/images/apps/prep.png" alt="hotspot2" />
+              </a-assets>
+
+              { /* 360-degree image */ }
+              <a-sky id="panorama-sky" src={panoramaSource} />
+
+              { /* Image links */ }
+              <a-plane
+                class="link"
+                height="1"
+                width="1"
+                material
+                position="2 0 -5"
+                scale="2 2 2"
+                src="#hotspot1"
+              >
+                <a-animation attribute="scale" begin="mouseenter" dur="300" to="2.3 2.3 2.3" />
+                <a-animation attribute="scale" begin="mouseleave" dur="300" to="2 2 2" />
+              </a-plane>
+              <a-plane
+                class="link"
+                height="1"
+                width="1"
+                material="side: back"
+                position="8 1 1"
+                rotation="0 90 0"
+                scale="2 2 2"
+                src="#hotspot2"
+              >
+                <a-animation attribute="scale" begin="mouseenter" dur="300" to="2.3 2.3 2.3" />
+                <a-animation attribute="scale" begin="mouseleave" dur="300" to="2 2 2" />
+              </a-plane>
+
+              <a-text
+                value="Coral bleaching process"
+                color="#FFF"
+                position="-5 2 -3"
+                scale="1.5 1.5 1.5"
+              />
+
+              { /* Camera + cursor */ }
+              <a-entity camera look-controls>
+                <a-cursor
+                  id="cursor"
+                  raycaster="objects: .link"
+                />
+              </a-entity>
             </a-scene>
           </div>
         </section>
