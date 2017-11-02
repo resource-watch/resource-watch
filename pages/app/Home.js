@@ -124,7 +124,7 @@ class Home extends Page {
 
     this.state = {
       selectedPanorama: 'bleached',
-      skyLoading: true
+      skyLoading: false
     };
   }
 
@@ -258,7 +258,55 @@ class Home extends Page {
               </div>
             </div>
             <a-scene embedded>
+              <a-assets>
+                <img id="hotspot1" src="../../static/images/apps/climate-data-explorer.png" alt="hotspot1" />
+                <img id="hotspot2" src="../../static/images/apps/prep.png" alt="hotspot2" />
+              </a-assets>
+
+              { /* 360-degree image */ }
               <a-sky id="panorama-sky" src={panoramaSource} />
+
+              { /* Image links */ }
+              <a-plane
+                class="link"
+                height="1"
+                width="1"
+                material
+                position="2 0 -5"
+                scale="2 2 2"
+                src="#hotspot1"
+              >
+                <a-animation attribute="scale" begin="mouseenter" dur="300" to="2.3 2.3 2.3" />
+                <a-animation attribute="scale" begin="mouseleave" dur="300" to="2 2 2" />
+              </a-plane>
+              <a-plane
+                class="link"
+                height="1"
+                width="1"
+                material="side: back"
+                position="8 1 1"
+                rotation="0 90 0"
+                scale="2 2 2"
+                src="#hotspot2"
+              >
+                <a-animation attribute="scale" begin="mouseenter" dur="300" to="2.3 2.3 2.3" />
+                <a-animation attribute="scale" begin="mouseleave" dur="300" to="2 2 2" />
+              </a-plane>
+
+              <a-text
+                value="Coral bleaching process"
+                color="#FFF"
+                position="-5 2 -3"
+                scale="1.5 1.5 1.5"
+              />
+
+              { /* Camera + cursor */ }
+              <a-entity camera look-controls>
+                <a-cursor
+                  id="cursor"
+                  raycaster="objects: .link"
+                />
+              </a-entity>
             </a-scene>
           </div>
         </section>

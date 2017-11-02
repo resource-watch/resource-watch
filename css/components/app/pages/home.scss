@@ -60,8 +60,12 @@
       border-radius: 10px;
 
       .option {
-        cursor: pointer;
+        input {
+          cursor: pointer;
+        }
+
         label {
+          cursor: pointer;
           margin-left: 5px;
         }
       }
