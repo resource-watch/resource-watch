@@ -15,4 +15,12 @@
     height: 100%;
     width: 100%;
   }
+
+  .cesium-infoBox {
+    z-index: 10;
+  }
+
+  .c-zoom-control {
+    z-index: 11;
+  }
 }
