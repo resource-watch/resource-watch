@@ -18,6 +18,10 @@
 
   .cesium-infoBox {
     z-index: 10;
+
+    button {
+      cursor: pointer;
+    }
   }
 
   .c-zoom-control {
