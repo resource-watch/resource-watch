@@ -138,6 +138,7 @@ class Pulse extends Page {
     let shapes = [];
     if (layerPoints) {
       shapes = layerPoints.map((elem) => {
+
         const tooltipContentObj = this.state.interactionConfig.output.map(obj =>
           ({ key: obj.property, value: elem[obj.column], type: obj.type }));
         const description = tooltipContentObj.map(
@@ -150,6 +151,7 @@ class Pulse extends Page {
           }
         );
 
+        // ---- HEIGHT ------
         let height = 10000;
         if (elem.mag) {
           height = elem.mag * 100000;
@@ -158,12 +160,22 @@ class Pulse extends Page {
         } else if (markerType === 'volcano') {
           height = 100000;
         }
+
+        // ------ COLOR ------
+        let color = Cesium.color.WHITE;
+        if (markerType === 'volcano') {
+          color = Cesium.color.RED;
+        }
+
         return {
           description: description.join('<br>'),
           height,
           lat: elem.lat,
           lon: elem.lon,
-          name: elem.name || elem.title || ''
+          name: elem.name || elem.title || '',
+          topRadius: 15000,
+          bottomRadius: markerType === 'volcano' ? 30000 : 15000,
+          color
         };
       });
     }
