@@ -50,7 +50,6 @@ class Pulse extends Page {
     this.state = {
       texture: null,
       loading: false,
-      layerPoints: [],
       selectedMarker: null,
       useDefaultLayer: true,
       markerType: 'default',
@@ -255,12 +254,24 @@ class Pulse extends Page {
   }
 
   render() {
-    const { url, layersGroup } = this.props;
-    const layerActive = this.props.pulse.layerActive;
+    const { url, layersGroup, pulse } = this.props;
+    const { layerActive, layerPoints } = pulse;
     const threedimensional = layerActive && layerActive.threedimensional === 'true';
-    const { markerType, layerPoints, texture, useDefaultLayer } = this.state;
-    const globeWidht = (typeof window === 'undefined') ? 500 : window.innerWidth;
-    const globeHeight = (typeof window === 'undefined') ? 300 : window.innerHeight - 75; // TODO: 75 is the header height
+    const { markerType, texture, useDefaultLayer } = this.state;
+    let shapes = [];
+    if (layerPoints) {
+      shapes = layerPoints.map((elem) => {
+        if (elem.mag) {
+          return { ...elem, height: elem.mag * 100000 };
+        } else if (elem.displaced) {
+          return { ...elem, height: elem.displaced * 10 };
+        }
+        return elem;
+      })
+    }
+
+    console.log('layerPoints', layerPoints);
+
     return (
       <Layout
         title="Planet Pulse"
@@ -281,7 +292,7 @@ class Pulse extends Page {
           <Spinner
             isLoading={this.state.loading}
           />
-          {threedimensional &&
+        {/* threedimensional &&
             <Globe
               ref={globe => (this.globe = globe)}
               width={globeWidht}
@@ -305,15 +316,18 @@ class Pulse extends Page {
               onClickInEmptyRegion={this.handleClickInEmptyRegion}
               onMouseHold={this.handleMouseHoldOverGlobe}
             />
-          }
-          {layerActive && !threedimensional && window && texture &&
+          */}
+          {layerActive && window && (texture || threedimensional) &&
             <Map
               className="cesium-map"
               onClick={this.handleCesiumClick}
               onMouseDown={this.handleCesiumMouseDown}
               onMoveStart={this.handleCesiumMoveStart}
+              shapes={shapes}
             >
-              <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />
+              {texture &&
+                <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />
+              }
             </Map>
           }
           <ZoomControl
