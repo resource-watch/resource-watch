@@ -18,7 +18,6 @@ import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
 import { substitution } from 'utils/utils';
 
 // Components
-import Globe from 'components/vis/Globe';
 import LayerNav from 'components/app/pulse/LayerNav';
 import LayerCard from 'components/app/pulse/LayerCard';
 import Spinner from 'components/ui/Spinner';
@@ -26,10 +25,6 @@ import ZoomControl from 'components/ui/ZoomControl';
 import GlobeTooltip from 'components/app/pulse/GlobeTooltip';
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
-
-const earthImage = '/static/images/components/vis/earth-min.jpg';
-const earthBumpImage = '/static/images/components/vis/earth-bump.jpg';
-const cloudsImage = '/static/images/components/vis/clouds-min.png';
 
 let Map;
 let ImageProvider;
@@ -42,6 +37,25 @@ if (typeof window !== 'undefined') {
   Cesium.BingMapsApi.defaultKey = process.env.BING_MAPS_API_KEY;
   /* eslint-enable */
 }
+
+//----------------------------------------------------------
+// TO-DO move this to somewhere else that makes more sense
+/* Severity colors */
+const severityLowColor = '#2C7FB8';
+const severityMediumColor = '#7FCDBB';
+const severityHighColor = '#EDF8B1';
+/* Magnitude colors */
+const magnitudeLessThan5Color = '#feebe2';
+const magnitude5_5_5Color = '#fbb4b9'; // eslint-disable-line camelcase
+const magnitude5_5_6Color = '#f768a1'; // eslint-disable-line camelcase
+const magnitude6_7Color = '#c51b8a'; // eslint-disable-line camelcase
+const magnitude7orMore = '#7a0177';
+/* Url tone colors */
+const tone_10_7Color = '#d7301f'; // eslint-disable-line camelcase
+const tone_7_5Color = '#fc8d59'; // eslint-disable-line camelcase
+const tone_5_2Color = '#fdcc8a'; // eslint-disable-line camelcase
+const tone_2orMoreColor = '#fef0d9'; // eslint-disable-line camelcase
+//----------------------------------------------------------
 
 
 class Pulse extends Page {
@@ -138,7 +152,6 @@ class Pulse extends Page {
     let shapes = [];
     if (layerPoints) {
       shapes = layerPoints.map((elem) => {
-
         const tooltipContentObj = this.state.interactionConfig.output.map(obj =>
           ({ key: obj.property, value: elem[obj.column], type: obj.type }));
         const description = tooltipContentObj.map(
@@ -156,16 +169,75 @@ class Pulse extends Page {
         if (elem.mag) {
           height = elem.mag * 100000;
         } else if (elem.displaced) {
-          height = elem.displaced * 10;
+          height = Math.log(elem.displaced) * 100000;
         } else if (markerType === 'volcano') {
-          height = 100000;
+          height = 50000;
+        } else if (elem.distance_km) {
+          if (elem.distance_km > 0) {
+            height = Math.log(elem.distance_km) * 30000;
+          } else {
+            height = 0;
+          }
+        } else if (elem.fatalities) {
+          height = elem.fatalities * 100000;
         }
 
-        // ------ COLOR ------
-        let color = Cesium.color.WHITE;
+        // ------------------- COLOR --------------------------
+        let color = Cesium.Color.WHITE;
         if (markerType === 'volcano') {
-          color = Cesium.color.RED;
+          color = Cesium.Color.RED;
         }
+        const { severity, urltone, mag } = elem;
+        if (severity) {
+          if (severity >= 1 && severity < 1.25) {
+            color = severityLowColor;
+          } else if (severity >= 1.25 && severity < 1.75) {
+            color = severityMediumColor;
+          } else if (severity >= 1.75 && severity <= 2) {
+            color = severityHighColor;
+          }
+          color = Cesium.Color.fromCssColorString(color);
+        }
+        if (urltone) {
+          if (urltone < -7) {
+            color = tone_10_7Color; // eslint-disable-line camelcase
+          } else if (urltone >= -7 && urltone < -5) {
+            color = tone_7_5Color; // eslint-disable-line camelcase
+          } else if (urltone >= -5 && urltone < -2) {
+            color = tone_5_2Color; // eslint-disable-line camelcase
+          } else if (urltone >= -2) {
+            color = tone_2orMoreColor; // eslint-disable-line camelcase
+          }
+          color = Cesium.Color.fromCssColorString(color);
+        }
+        if (mag) {
+          if (mag < 5) {
+            color = magnitudeLessThan5Color;
+          } else if (mag >= 5 && mag < 5.5) {
+            color = magnitude5_5_5Color; // eslint-disable-line camelcase
+          } else if (mag >= 5.5 && mag < 6) {
+            color = magnitude5_5_6Color; // eslint-disable-line camelcase
+          } else if (mag >= 6 && mag < 7) {
+            color = magnitude6_7Color; // eslint-disable-line camelcase
+          } else if (mag >= 7) {
+            color = magnitude7orMore; // eslint-disable-line camelcase
+          }
+          color = Cesium.Color.fromCssColorString(color);
+        }
+        //-----------------------------------------
+
+        // -------------SHAPE--------------
+        let bottomRadius = 15000;
+        let topRadius = 15000;
+
+        if (markerType === 'volcano') {
+          bottomRadius = 50000;
+        }
+        if (elem.displaced) {
+          topRadius = 30000;
+          bottomRadius = 30000;
+        }
+        //--------------------------------
 
         return {
           description: description.join('<br>'),
@@ -173,8 +245,8 @@ class Pulse extends Page {
           lat: elem.lat,
           lon: elem.lon,
           name: elem.name || elem.title || '',
-          topRadius: 15000,
-          bottomRadius: markerType === 'volcano' ? 30000 : 15000,
+          topRadius,
+          bottomRadius,
           color
         };
       });
@@ -283,7 +355,7 @@ class Pulse extends Page {
     const ellipsoid = viewer.scene.globe.ellipsoid;
     const cartesian = viewer.camera.pickEllipsoid(mousePosition, ellipsoid);
 
-    if (cartesian && !threedimensional) {
+    if (cartesian && threedimensional !== 'true') {
       const cartographic = ellipsoid.cartesianToCartographic(cartesian);
       const longitudeString = Cesium.Math.toDegrees(cartographic.longitude).toFixed(2);
       const latitudeString = Cesium.Math.toDegrees(cartographic.latitude).toFixed(2);
@@ -329,31 +401,6 @@ class Pulse extends Page {
           <Spinner
             isLoading={this.state.loading}
           />
-        {/* threedimensional &&
-            <Globe
-              ref={globe => (this.globe = globe)}
-              width={globeWidht}
-              height={globeHeight}
-              pointLightColor={0xcccccc}
-              ambientLightColor={0x444444}
-              enableZoom
-              lightPosition={'right'}
-              texture={texture}
-              layerPoints={layerPoints}
-              markerType={markerType}
-              earthImagePath={earthImage}
-              earthBumpImagePath={earthBumpImage}
-              defaultLayerImagePath={cloudsImage}
-              segments={64}
-              rings={64}
-              useHalo
-              useDefaultLayer={useDefaultLayer}
-              onMarkerSelected={this.handleMarkerSelected}
-              onEarthClicked={this.handleEarthClicked}
-              onClickInEmptyRegion={this.handleClickInEmptyRegion}
-              onMouseHold={this.handleMouseHoldOverGlobe}
-            />
-          */}
           {layerActive && window && (texture || threedimensional) &&
             <Map
               className="cesium-map"
