@@ -165,21 +165,18 @@ class Pulse extends Page {
         );
 
         // ---- HEIGHT ------
-        let height = 10000;
+        const defaultHeight = 10000;
+        let height = defaultHeight;
         if (elem.mag) {
           height = elem.mag * 100000;
         } else if (elem.displaced) {
-          height = Math.log(elem.displaced) * 100000;
+          height = (elem.displaced > 0) ? Math.log(elem.displaced) * 100000 : defaultHeight;
         } else if (markerType === 'volcano') {
           height = 50000;
         } else if (elem.distance_km) {
-          if (elem.distance_km > 0) {
-            height = Math.log(elem.distance_km) * 30000;
-          } else {
-            height = 0;
-          }
+          height = (elem.distance_km > 0) ? Math.log(elem.distance_km) * 30000 : defaultHeight;
         } else if (elem.fatalities) {
-          height = elem.fatalities * 100000;
+          height = (elem.fatalities > 0) ? elem.fatalities * 100000 : defaultHeight;
         }
 
         // ------------------- COLOR --------------------------
@@ -270,11 +267,11 @@ class Pulse extends Page {
   }
   @Autobind
   triggerZoomIn() {
-    this.globe.camera.translateZ(-5);
+
   }
   @Autobind
   triggerZoomOut() {
-    this.globe.camera.translateZ(5);
+    
   }
   @Autobind
   handleMouseClick(event) {
