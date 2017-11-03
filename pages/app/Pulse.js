@@ -134,6 +134,42 @@ class Pulse extends Page {
     this.mounted = false;
   }
 
+  getShapes(layerPoints, markerType) {
+    let shapes = [];
+    if (layerPoints) {
+      shapes = layerPoints.map((elem) => {
+        const tooltipContentObj = this.state.interactionConfig.output.map(obj =>
+          ({ key: obj.property, value: elem[obj.column], type: obj.type }));
+        const description = tooltipContentObj.map(
+          (val) => {
+            if (val.type === 'url') {
+              return `<strong>${val.key}</strong>: <a href=${val.value} target="_blank">${val.value}</a>`;
+            } else { // eslint-disable-line no-else-return
+              return `<strong>${val.key}</strong>: ${val.value}`;
+            }
+          }
+        );
+
+        let height = 10000;
+        if (elem.mag) {
+          height = elem.mag * 100000;
+        } else if (elem.displaced) {
+          height = elem.displaced * 10;
+        } else if (markerType === 'volcano') {
+          height = 100000;
+        }
+        return {
+          description: description.join('<br>'),
+          height,
+          lat: elem.lat,
+          lon: elem.lon,
+          name: elem.name || elem.title || ''
+        };
+      });
+    }
+    return shapes;
+  }
+
   /**
   * UI EVENTS
   * - triggerZoomIn
@@ -227,6 +263,7 @@ class Pulse extends Page {
 
   @Autobind
   handleCesiumClick(e) {
+    const threedimensional = this.props.pulse.layerActive.threedimensional;
     const viewer = e.viewer;
     const clickedPosition = e.clickedPosition;
     const mousePosition = new Cesium.Cartesian2(clickedPosition.x, clickedPosition.y);
@@ -234,7 +271,7 @@ class Pulse extends Page {
     const ellipsoid = viewer.scene.globe.ellipsoid;
     const cartesian = viewer.camera.pickEllipsoid(mousePosition, ellipsoid);
 
-    if (cartesian) {
+    if (cartesian && !threedimensional) {
       const cartographic = ellipsoid.cartesianToCartographic(cartesian);
       const longitudeString = Cesium.Math.toDegrees(cartographic.longitude).toFixed(2);
       const latitudeString = Cesium.Math.toDegrees(cartographic.latitude).toFixed(2);
@@ -258,19 +295,7 @@ class Pulse extends Page {
     const { layerActive, layerPoints } = pulse;
     const threedimensional = layerActive && layerActive.threedimensional === 'true';
     const { markerType, texture, useDefaultLayer } = this.state;
-    let shapes = [];
-    if (layerPoints) {
-      shapes = layerPoints.map((elem) => {
-        if (elem.mag) {
-          return { ...elem, height: elem.mag * 100000 };
-        } else if (elem.displaced) {
-          return { ...elem, height: elem.displaced * 10 };
-        }
-        return elem;
-      })
-    }
-
-    console.log('layerPoints', layerPoints);
+    const shapes = this.getShapes(layerPoints, markerType);
 
     return (
       <Layout
