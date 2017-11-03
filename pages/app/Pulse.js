@@ -230,7 +230,7 @@ class Pulse extends Page {
         if (markerType === 'volcano') {
           bottomRadius = 50000;
         }
-        if (elem.displaced !== null) {
+        if (+elem.displaced) {
           topRadius = 30000;
           bottomRadius = 30000;
         }
@@ -271,7 +271,7 @@ class Pulse extends Page {
   }
   @Autobind
   triggerZoomOut() {
-    
+
   }
   @Autobind
   handleMouseClick(event) {
