@@ -411,6 +411,8 @@ class Pulse extends Page {
               onMoveStart={this.handleCesiumMoveStart}
               shapes={shapes}
               zoom={zoom}
+              homeButton={false}
+              navigationHelpButton={false}
             >
               {texture &&
                 <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />

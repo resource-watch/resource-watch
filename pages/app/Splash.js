@@ -1,7 +1,6 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import { Link } from 'routes';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -24,16 +23,18 @@ if (typeof window !== 'undefined') {
 
 const MARKERS = [
   {
-    title: 'Tropical deforestation',
+    name: 'Tropical deforestation',
     lat: 0.076,
     lon: 101,
-    type: 'billboard'
+    type: 'billboard',
+    image: '../../static/images/marker.png'
   },
   {
-    title: 'Coral bleaching',
+    name: 'Coral bleaching',
     lat: -21,
     lon: 151,
-    type: 'billboard'
+    type: 'billboard',
+    image: '../../static/images/marker.png'
   }
 ];
 
@@ -72,11 +73,16 @@ class Splash extends Page {
           <Link route="home">
             <img src="../../static/images/logo.png" alt="Resource Watch" />
           </Link>
+          <Link route="home">
+            <a>GO TO RESOURCE WATCH</a>
+          </Link>
         </div>
         {mounted &&
           <Map
             className="cesium-map"
             shapes={MARKERS}
+            homeButton={false}
+            navigationHelpButton={false}
           />
         }
       </div>
