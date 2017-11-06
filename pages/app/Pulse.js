@@ -33,8 +33,6 @@ if (typeof window !== 'undefined') {
   /* eslint-disable */
   Map = require('react-cesium').Map;
   ImageProvider = require('react-cesium').ImageProvider;
-  Cesium = window.Cesium;
-  Cesium.BingMapsApi.defaultKey = process.env.BING_MAPS_API_KEY;
   /* eslint-enable */
 }
 
@@ -81,6 +79,10 @@ class Pulse extends Page {
    * - componentWillUnmount
   */
   componentDidMount() {
+    // Init Cesium var
+    Cesium = window.Cesium;
+    Cesium.BingMapsApi.defaultKey = process.env.BING_MAPS_API_KEY;
+
     super.componentDidMount();
     this.mounted = true;
     // This is not sending anything, for the moment
@@ -398,7 +400,7 @@ class Pulse extends Page {
           <Spinner
             isLoading={this.state.loading}
           />
-          {window &&
+          {this.mounted &&
             <Map
               className="cesium-map"
               onClick={this.handleCesiumClick}
