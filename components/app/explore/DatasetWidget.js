@@ -265,7 +265,7 @@ class DatasetWidget extends React.Component {
                 </Link>
               </h4>
               {/* Dataset tags link */}
-              {inferredTags && inferredTags.length && inferredTags.length > 0 &&
+              {inferredTags && inferredTags.length > 0 &&
                 <div
                   className="tags-button"
                   onClick={this.handleTagsClick}
