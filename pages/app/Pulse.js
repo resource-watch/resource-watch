@@ -398,7 +398,7 @@ class Pulse extends Page {
           <Spinner
             isLoading={this.state.loading}
           />
-          {layerActive && window && (texture || threedimensional) &&
+          {window &&
             <Map
               className="cesium-map"
               onClick={this.handleCesiumClick}
