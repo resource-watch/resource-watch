@@ -65,7 +65,8 @@ class Pulse extends Page {
       selectedMarker: null,
       useDefaultLayer: true,
       markerType: 'default',
-      interactionConfig: null
+      interactionConfig: null,
+      zoom: 0
     };
     this.layerGlobeManager = new LayerGlobeManager();
 
@@ -269,11 +270,11 @@ class Pulse extends Page {
   }
   @Autobind
   triggerZoomIn() {
-
+    this.setState({ zoom: this.state.zoom - 1000000 });
   }
   @Autobind
   triggerZoomOut() {
-
+    this.setState({ zoom: this.state.zoom + 1000000 });
   }
   @Autobind
   handleMouseClick(event) {
@@ -346,7 +347,8 @@ class Pulse extends Page {
 
   @Autobind
   handleCesiumClick(e) {
-    const threedimensional = this.props.pulse.layerActive.threedimensional;
+    const threedimensional = this.props.pulse.layerActive &&
+      this.props.pulse.layerActive.threedimensional;
     const viewer = e.viewer;
     const clickedPosition = e.clickedPosition;
     const mousePosition = new Cesium.Cartesian2(clickedPosition.x, clickedPosition.y);
@@ -377,7 +379,7 @@ class Pulse extends Page {
     const { url, layersGroup, pulse } = this.props;
     const { layerActive, layerPoints } = pulse;
     const threedimensional = layerActive && layerActive.threedimensional === 'true';
-    const { markerType, texture, useDefaultLayer } = this.state;
+    const { markerType, texture, useDefaultLayer, zoom } = this.state;
     const shapes = this.getShapes(layerPoints, markerType);
 
     return (
@@ -407,6 +409,7 @@ class Pulse extends Page {
               onMouseDown={this.handleCesiumMouseDown}
               onMoveStart={this.handleCesiumMoveStart}
               shapes={shapes}
+              zoom={zoom}
             >
               {texture &&
                 <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />
