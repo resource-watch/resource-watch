@@ -247,7 +247,8 @@ class Pulse extends Page {
           name: elem.name || elem.title || '',
           topRadius,
           bottomRadius,
-          color
+          color,
+          type: 'cylinder'
         };
       });
     }

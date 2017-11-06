@@ -23,6 +23,7 @@ routes.add('admin_tools_detail', '/admin/tools/:tab/:id/:subtab?', 'admin/ToolsD
 
 // ========================= APP ROUTES =====================
 routes.add('home', '/', 'app/Home');
+routes.add('splash', '/splash', 'app/Splash');
 
 // ---- ABOUT ----
 routes.add('about', '/about', 'app/About');

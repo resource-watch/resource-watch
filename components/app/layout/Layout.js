@@ -22,7 +22,8 @@ import Dock from 'components/ui/Dock';
 
 const fullScreenPages = [
   '/app/Explore',
-  '/app/Pulse'
+  '/app/Pulse',
+  '/app/Splash'
 ];
 
 class Layout extends React.Component {
