@@ -105,9 +105,9 @@ class BasemapControl extends React.Component {
             <div className="divisor" />
             <Checkbox
               properties={{
-                name: 'label',
-                title: 'Label',
-                value: 'label'
+                name: 'labels',
+                title: 'Labels',
+                value: 'labels'
               }}
               onChange={this.onLabelChange}
             />
