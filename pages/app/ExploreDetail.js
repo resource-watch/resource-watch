@@ -102,6 +102,7 @@ class ExploreDetail extends Page {
     this.getSimilarDatasets();
     this.getFavoriteDatasets();
     this.loadTopicsTree();
+    this.countView(this.props.url.query.id);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -119,6 +120,8 @@ class ExploreDetail extends Page {
         this.getDataset();
         this.getSimilarDatasets();
       });
+
+      this.countView(nextProps.url.query.id);
     }
   }
 
@@ -255,6 +258,14 @@ class ExploreDetail extends Page {
       if (chartType) this.props.setChartType(chartType);
       if (name) this.props.setTitle(name);
     }
+  }
+
+  /**
+   * Gather the number of views of this dataset
+   * @param {string} datasetId Dataset ID
+   */
+  countView(datasetId) {
+    this.graphService.countDatasetView(datasetId, this.props.user.token);
   }
 
   /**

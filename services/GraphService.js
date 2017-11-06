@@ -53,4 +53,24 @@ export default class GraphService {
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
+
+  /**
+   * Send a request to count a view to the dataset
+   * @param {string} datasetId Dataset ID
+   * @param {string} [token] User token
+   * @returns {Promise<void>}
+   */
+  countDatasetView(datasetId, token) {
+    const headers = {};
+
+    if (token) {
+      headers.Authorization = token;
+    }
+
+    return fetch(`${this.opts.apiURL}/graph/dataset/${datasetId}/visited`, {
+      method: 'POST',
+      headers
+    })
+      .then(res => res.json());
+  }
 }
