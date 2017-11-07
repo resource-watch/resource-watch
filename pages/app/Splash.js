@@ -52,7 +52,8 @@ class Splash extends Page {
 
     this.state = {
       billboardHover: false,
-      selectedBillboard: null
+      selectedMarker: null,
+      viewer: null
     };
   }
 
@@ -73,7 +74,7 @@ class Splash extends Page {
   @Autobind
   handleBillboardClick(e) {
     const name = e.id.name;
-    this.setState({ selectedBillboard: name });
+    this.setState({ selectedMarker: MARKERS.find(elem => elem.name === name) });
   }
 
   @Autobind
@@ -86,13 +87,27 @@ class Splash extends Page {
     this.setState({ billboardHover: false });
   }
 
+  @Autobind
+  handleVisitButton() {
+    const { selectedMarker, viewer } = this.state;
+    viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(selectedMarker.lat, selectedMarker.lon, 1000.0)
+    });
+  }
+
+  @Autobind
+  handleMouseClick(click, viewer) {
+    if (!this.state.viewer) {
+      this.setState({ viewer });
+    }
+  }
+
   render() {
-    const { mounted, billboardHover, selectedBillboard } = this.state;
+    const { mounted, billboardHover, selectedMarker } = this.state;
     const cesiumClassname = classnames({
       'cesium-map': true,
       '-cursor-pointer': billboardHover
     });
-    const selectedMarker = selectedBillboard && MARKERS.find(elem => elem.name === selectedBillboard);
 
     return (
       <div
@@ -122,14 +137,25 @@ class Splash extends Page {
             onBillboardClick={this.handleBillboardClick}
             onBillboardHover={this.handleBillboardHover}
             onBillboardOut={this.handleBillboardOut}
+            onMouseClick={this.handleMouseClick}
           />
         }
         {selectedMarker &&
           <div className="right-section">
             <div className="thumbnail-container">
-              <img src={selectedMarker.thumbnail} alt={selectedMarker.name} />
+              <div className="title-container">
+                {selectedMarker.name}
+              </div>
               <div className="visit-container">
-                VISIT THIS PLACE
+                <img src={selectedMarker.thumbnail} alt={selectedMarker.name} />
+                <a
+                  className="visit-button"
+                  onClick={this.handleVisitButton}
+                  role="button"
+                  tabIndex={-1}
+                >
+                  VISIT THIS PLACE
+                </a>
               </div>
             </div>
           </div>

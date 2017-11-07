@@ -29,6 +29,10 @@
     &.-cursor-pointer {
       cursor: pointer;
     }
+
+    .cesium-viewer-infoBoxContainer {
+      display: none;
+    }
   }
 
   .right-section {
@@ -36,7 +40,7 @@
     transition: 1s;
     top: 0px;
     left: 60%;
-    width: 100%;
+    width: 40%;
     height: 100%;
     background-color: rgba(0,0,0,0.49);
     display: flex;
@@ -49,12 +53,26 @@
       justify-content: center;
       width: 100%;
 
-      img {
-        width: 250px;
+      .title-container {
+        padding: 50px;
+        color: $white;
       }
 
       .visit-container {
-        color: $white;
+        display: flex;
+        flex-direction: column;
+
+
+        img {
+          width: 250px;
+        }
+
+        .visit-button {
+          margin-top: 20px;
+          text-decoration: none;
+          cursor: pointer;
+          color: $white;
+        }
       }
     }
 
