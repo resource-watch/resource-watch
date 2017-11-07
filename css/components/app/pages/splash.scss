@@ -1,0 +1,80 @@
+.page-splash {
+  width: 100%;
+  height: 100vh;
+
+  .header {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 26px;
+    z-index: 9999;
+
+    img, a {
+      cursor: pointer;
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+    }
+  }
+
+  .cesium-map {
+    height: 100%;
+    width: 100%;
+
+    &.-cursor-pointer {
+      cursor: pointer;
+    }
+
+    .cesium-viewer-infoBoxContainer {
+      display: none;
+    }
+  }
+
+  .right-section {
+    position: absolute;
+    transition: 1s;
+    top: 0px;
+    left: 60%;
+    width: 40%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.49);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .thumbnail-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+
+      .title-container {
+        padding: 50px;
+        color: $white;
+      }
+
+      .visit-container {
+        display: flex;
+        flex-direction: column;
+
+
+        img {
+          width: 250px;
+        }
+
+        .visit-button {
+          margin-top: 20px;
+          text-decoration: none;
+          cursor: pointer;
+          color: $white;
+        }
+      }
+    }
+
+  }
+}

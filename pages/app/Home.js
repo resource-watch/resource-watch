@@ -132,8 +132,8 @@ class Home extends Page {
     super.componentDidMount();
     this.props.getInsights();
 
-    this.panoramaSky = document.getElementById('panorama-sky');
-    this.panoramaSky.addEventListener('materialtextureloaded', this.handleImageLoaded);
+    // this.panoramaSky = document.getElementById('panorama-sky');
+    // this.panoramaSky.addEventListener('materialtextureloaded', this.handleImageLoaded);
   }
 
   @Autobind
@@ -240,76 +240,78 @@ class Home extends Page {
             </div>
           </div>
         </section>
-        <section className="l-section">
-          <div className="l-container coral-panorama">
-            <Spinner isLoading={skyLoading} className="-light" />
-            <div className="coral-menu">
-              <div className="option">
-                <input type="radio" id="healthy_button" checked={selectedPanorama === 'healthy'} onChange={this.handlePanoramaChange} />
-                <label htmlFor="healthy_button">Healthy</label>
+        { /*
+          <section className="l-section">
+            <div className="l-container coral-panorama">
+              <Spinner isLoading={skyLoading} className="-light" />
+              <div className="coral-menu">
+                <div className="option">
+                  <input type="radio" id="healthy_button" checked={selectedPanorama === 'healthy'} onChange={this.handlePanoramaChange} />
+                  <label htmlFor="healthy_button">Healthy</label>
+                </div>
+                <div className="option">
+                  <input type="radio" id="bleached_button" checked={selectedPanorama === 'bleached'} onChange={this.handlePanoramaChange} />
+                  <label htmlFor="bleached_button">Bleached</label>
+                </div>
+                <div className="option">
+                  <input type="radio" id="dead_button" checked={selectedPanorama === 'dead'} onChange={this.handlePanoramaChange} />
+                  <label htmlFor="dead_button">Dead</label>
+                </div>
               </div>
-              <div className="option">
-                <input type="radio" id="bleached_button" checked={selectedPanorama === 'bleached'} onChange={this.handlePanoramaChange} />
-                <label htmlFor="bleached_button">Bleached</label>
-              </div>
-              <div className="option">
-                <input type="radio" id="dead_button" checked={selectedPanorama === 'dead'} onChange={this.handlePanoramaChange} />
-                <label htmlFor="dead_button">Dead</label>
-              </div>
-            </div>
-            <a-scene embedded>
-              <a-assets>
-                <img id="hotspot1" src="../../static/images/apps/climate-data-explorer.png" alt="hotspot1" />
-                <img id="hotspot2" src="../../static/images/apps/prep.png" alt="hotspot2" />
-              </a-assets>
+              <a-scene embedded>
+                <a-assets>
+                  <img id="hotspot1" src="../../static/images/apps/climate-data-explorer.png" alt="hotspot1" />
+                  <img id="hotspot2" src="../../static/images/apps/prep.png" alt="hotspot2" />
+                </a-assets>
 
-              { /* 360-degree image */ }
-              <a-sky id="panorama-sky" src={panoramaSource} />
+                { /* 360-degree image * }
+                <a-sky id="panorama-sky" src={panoramaSource} />
 
-              { /* Image links */ }
-              <a-plane
-                class="link"
-                height="1"
-                width="1"
-                material
-                position="2 0 -5"
-                scale="2 2 2"
-                src="#hotspot1"
-              >
-                <a-animation attribute="scale" begin="mouseenter" dur="300" to="2.3 2.3 2.3" />
-                <a-animation attribute="scale" begin="mouseleave" dur="300" to="2 2 2" />
-              </a-plane>
-              <a-plane
-                class="link"
-                height="1"
-                width="1"
-                material="side: back"
-                position="8 1 1"
-                rotation="0 90 0"
-                scale="2 2 2"
-                src="#hotspot2"
-              >
-                <a-animation attribute="scale" begin="mouseenter" dur="300" to="2.3 2.3 2.3" />
-                <a-animation attribute="scale" begin="mouseleave" dur="300" to="2 2 2" />
-              </a-plane>
+                { /* Image links * }
+                <a-plane
+                  class="link"
+                  height="1"
+                  width="1"
+                  material
+                  position="2 0 -5"
+                  scale="2 2 2"
+                  src="#hotspot1"
+                >
+                  <a-animation attribute="scale" begin="mouseenter" dur="300" to="2.3 2.3 2.3" />
+                  <a-animation attribute="scale" begin="mouseleave" dur="300" to="2 2 2" />
+                </a-plane>
+                <a-plane
+                  class="link"
+                  height="1"
+                  width="1"
+                  material="side: back"
+                  position="8 1 1"
+                  rotation="0 90 0"
+                  scale="2 2 2"
+                  src="#hotspot2"
+                >
+                  <a-animation attribute="scale" begin="mouseenter" dur="300" to="2.3 2.3 2.3" />
+                  <a-animation attribute="scale" begin="mouseleave" dur="300" to="2 2 2" />
+                </a-plane>
 
-              <a-text
-                value="Coral bleaching process"
-                color="#FFF"
-                position="-5 2 -3"
-                scale="1.5 1.5 1.5"
-              />
-
-              { /* Camera + cursor */ }
-              <a-entity camera look-controls>
-                <a-cursor
-                  id="cursor"
-                  raycaster="objects: .link"
+                <a-text
+                  value="Coral bleaching process"
+                  color="#FFF"
+                  position="-5 2 -3"
+                  scale="1.5 1.5 1.5"
                 />
-              </a-entity>
-            </a-scene>
-          </div>
-        </section>
+
+                { /* Camera + cursor * }
+                <a-entity camera look-controls>
+                  <a-cursor
+                    id="cursor"
+                    raycaster="objects: .link"
+                  />
+                </a-entity>
+              </a-scene>
+            </div>
+          </section>
+         */}
         <section className="l-section -secondary">
           <div className="l-container">
             <header>

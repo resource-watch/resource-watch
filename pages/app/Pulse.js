@@ -233,7 +233,7 @@ class Pulse extends Page {
         if (markerType === 'volcano') {
           bottomRadius = 50000;
         }
-        if (+elem.displaced) {
+        if (+elem.displaced || elem.displaced === 0) {
           topRadius = 30000;
           bottomRadius = 30000;
         }
@@ -247,7 +247,8 @@ class Pulse extends Page {
           name: elem.name || elem.title || '',
           topRadius,
           bottomRadius,
-          color
+          color,
+          type: 'cylinder'
         };
       });
     }
@@ -410,6 +411,10 @@ class Pulse extends Page {
               onMoveStart={this.handleCesiumMoveStart}
               shapes={shapes}
               zoom={zoom}
+              homeButton={false}
+              navigationHelpButton={false}
+              showInfoWindow={true}
+              selectionIndicator={true}
             >
               {texture &&
                 <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />
