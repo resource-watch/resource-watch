@@ -137,7 +137,7 @@ class Splash extends Page {
             onBillboardClick={this.handleBillboardClick}
             onBillboardHover={this.handleBillboardHover}
             onBillboardOut={this.handleBillboardOut}
-            onMouseClick={this.handleMouseClick}
+            onClick={this.handleMouseClick}
           />
         }
         {selectedMarker &&
