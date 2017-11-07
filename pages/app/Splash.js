@@ -29,14 +29,14 @@ const MARKERS = [
     lat: 0.076,
     lon: 101,
     type: 'billboard',
-    image: '../../static/images/marker.png'
+    image: '../../static/images/splash/marker.svg'
   },
   {
     name: 'Coral bleaching',
     lat: -21,
     lon: 151,
     type: 'billboard',
-    image: '../../static/images/marker.png'
+    image: '../../static/images/splash/marker.svg'
   }
 ];
 

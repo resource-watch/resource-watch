@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>dot</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="WRW_02_02" transform="translate(-736.000000, -371.000000)" fill="#FFFFFF">
+            <g id="Group-3" transform="translate(446.000000, 182.000000)">
+                <g id="dot" transform="translate(298.000000, 197.000000)">
+                    <path d="M3.88304075,7.76000023 C6.02758494,7.76000023 7.7660815,6.02286501 7.7660815,3.88000011 C7.7660815,1.73713522 6.02758494,0 3.88304075,0 C1.73849656,0 0,1.73713522 0,3.88000011 C0,6.02286501 1.73849656,7.76000023 3.88304075,7.76000023 Z M3.88304075,15.7600002 C-2.67837915,15.7600002 -8,10.4425465 -8,3.88000011 C-8,-2.68254628 -2.67837915,-8 3.88304075,-8 C10.4444607,-8 15.7660815,-2.68254628 15.7660815,3.88000011 C15.7660815,10.4425465 10.4444607,15.7600002 3.88304075,15.7600002 Z" id="Oval-2" fill-opacity="0.279608243" fill-rule="nonzero"></path>
+                    <ellipse id="Oval-2" cx="3.88304075" cy="3.88000011" rx="3.88304075" ry="3.88000011"></ellipse>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
