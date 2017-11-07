@@ -389,7 +389,7 @@ export function setUrlParams() {
   return (dispatch, getState) => {
     const { explore } = getState();
     const layerGroups = explore.layers;
-    const { zoom, latLng } = explore;
+    const { zoom, latLng, sorting } = explore;
     const { page } = explore.datasets;
     const { search, topics, dataType, geographies } = explore.filters;
 
@@ -433,6 +433,10 @@ export function setUrlParams() {
 
     if (latLng) {
       query.latLng = JSON.stringify(latLng);
+    }
+
+    if (sorting) {
+      query.sort = sorting.order;
     }
 
     Router.replaceRoute('explore', query);
@@ -731,6 +735,9 @@ export function setDatasetsSorting(sorting) {
         })
         .then(() => dispatch({ type: SET_SORTING_LOADING, payload: false }));
     }
+
+    // We also update the URL
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
   };
 }
 

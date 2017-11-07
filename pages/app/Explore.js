@@ -31,7 +31,8 @@ import {
   setGeographiesTree,
   setDataTypeTree,
   setZoom,
-  setLatLng
+  setLatLng,
+  setDatasetsSorting
 } from 'redactions/explore';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
@@ -155,6 +156,10 @@ class Explore extends Page {
 
     if (query.dataType) {
       this.props.setDatasetsDataTypeFilter(JSON.parse(query.dataType));
+    }
+
+    if (query.sort) {
+      this.props.setDatasetsSorting(query.sort);
     }
 
     this.props.getDatasets({});
@@ -701,6 +706,7 @@ Explore.propTypes = {
   setTopicsTree: PropTypes.func.isRequired,
   setDataTypeTree: PropTypes.func.isRequired,
   setGeographiesTree: PropTypes.func.isRequired,
+  setDatasetsSorting: PropTypes.func.isRequired,
 
   // Toggle the visibility of a layer group based on the layer passed as argument
   toggleLayerGroupVisibility: PropTypes.func.isRequired,
@@ -757,7 +763,8 @@ const mapDispatchToProps = dispatch => ({
   setMapParams: debounce((params) => { // Debounce for performance reasons
     dispatch(setZoom(params.zoom));
     dispatch(setLatLng(params.latLng));
-  }, 1000)
+  }, 1000),
+  setDatasetsSorting: sorting => dispatch(setDatasetsSorting(sorting))
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Explore);
