@@ -96,9 +96,9 @@ class Splash extends Page {
   }
 
   @Autobind
-  handleMouseClick(click, viewer) {
+  handleMouseClick(e) {
     if (!this.state.viewer) {
-      this.setState({ viewer });
+      this.setState({ viewer: e.viewer });
     }
   }
 
