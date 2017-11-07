@@ -24,7 +24,7 @@ const getSortedDatasets = (datasets, sorting) => {
     return datasets;
   }
 
-  return datasets.sort((a, b) => {
+  return [...datasets].sort((a, b) => {
     const aPos = sorting.datasets.indexOf(a.id);
     const bPos = sorting.datasets.indexOf(b.id);
 
