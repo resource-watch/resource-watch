@@ -58,6 +58,16 @@ class Splash extends Page {
     this.setState({ mounted: true }); // eslint-disable-line react/no-did-mount-set-state
   }
 
+  handleMouseMove(e) {
+    const { hoverPosition, endPosition, viewer } = e;
+    const pickedFeature = viewer.scene.pick(endPosition);
+    if (!Cesium.defined(pickedFeature)) {
+
+    } else {
+      console.log('pickedFeature', pickedFeature);
+    }
+  }
+
   render() {
     const { mounted } = this.state;
     return (
@@ -83,6 +93,8 @@ class Splash extends Page {
             shapes={MARKERS}
             homeButton={false}
             navigationHelpButton={false}
+            selectionIndicator={false}
+            onMouseMove={this.handleMouseMove}
           />
         }
       </div>

@@ -233,7 +233,7 @@ class Pulse extends Page {
         if (markerType === 'volcano') {
           bottomRadius = 50000;
         }
-        if (+elem.displaced) {
+        if (+elem.displaced || elem.displaced === 0) {
           topRadius = 30000;
           bottomRadius = 30000;
         }
