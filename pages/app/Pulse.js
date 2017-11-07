@@ -413,6 +413,8 @@ class Pulse extends Page {
               zoom={zoom}
               homeButton={false}
               navigationHelpButton={false}
+              showInfoWindow={true}
+              selectionIndicator={true}
             >
               {texture &&
                 <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />

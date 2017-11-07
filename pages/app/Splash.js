@@ -1,6 +1,8 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import { Link } from 'routes';
+import classnames from 'classnames';
+import { Autobind } from 'es-decorators';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -44,7 +46,7 @@ class Splash extends Page {
     super(props);
 
     this.state = {
-
+      billboardHover: false
     };
   }
 
@@ -59,17 +61,31 @@ class Splash extends Page {
   }
 
   handleMouseMove(e) {
-    const { hoverPosition, endPosition, viewer } = e;
-    const pickedFeature = viewer.scene.pick(endPosition);
-    if (!Cesium.defined(pickedFeature)) {
 
-    } else {
-      console.log('pickedFeature', pickedFeature);
-    }
+  }
+
+  @Autobind
+  handleBillboardClick(e) {
+
+  }
+
+  @Autobind
+  handleBillboardHover() {
+    this.setState({ billboardHover: true });
+  }
+
+  @Autobind
+  handleBillboardOut() {
+    this.setState({ billboardHover: false });
   }
 
   render() {
-    const { mounted } = this.state;
+    const { mounted, billboardHover } = this.state;
+    const cesiumClassname = classnames({
+      'cesium-map': true,
+      '-cursor-pointer': billboardHover
+    });
+
     return (
       <div
         title="Resource Watch"
@@ -89,12 +105,15 @@ class Splash extends Page {
         </div>
         {mounted &&
           <Map
-            className="cesium-map"
+            className={cesiumClassname}
             shapes={MARKERS}
             homeButton={false}
             navigationHelpButton={false}
             selectionIndicator={false}
-            onMouseMove={this.handleMouseMove}
+            showInfoWindow={false}
+            onBillboardClick={this.handleBillboardClick}
+            onBillboardHover={this.handleBillboardHover}
+            onBillboardOut={this.handleBillboardOut}
           />
         }
       </div>
