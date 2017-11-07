@@ -45,6 +45,9 @@ const MARKERS = [
   }
 ];
 
+const CAMERA_INITIAL_POSITION = { lat: 36.85, lon: -3.6, height: 15000 };
+const CAMERA_NEW_POSITION = { lat: 37.93, lon: -2.87, height: 20000000 };
+
 
 class Splash extends Page {
   constructor(props) {
@@ -65,6 +68,24 @@ class Splash extends Page {
     Cesium.BingMapsApi.defaultKey = process.env.BING_MAPS_API_KEY;
 
     this.setState({ mounted: true }); // eslint-disable-line react/no-did-mount-set-state
+  }
+
+  runInitialAnimation() {
+    const { viewer } = this.state;
+    const { camera } = viewer;
+    // const center = Cesium.Cartesian3.fromDegrees(CAMERA_INITIAL_POSITION.lon, CAMERA_INITIAL_POSITION.lat);
+    // camera.lookAt(center, new Cesium.Cartesian3(0.0, 0.0, CAMERA_INITIAL_POSITION.height));
+    camera.flyTo({ destination: Cesium.Cartesian3.fromDegrees(CAMERA_INITIAL_POSITION.lon, CAMERA_INITIAL_POSITION.lat, CAMERA_INITIAL_POSITION.height) });
+    setTimeout(() => camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(CAMERA_NEW_POSITION.lon, CAMERA_NEW_POSITION.lat, CAMERA_INITIAL_POSITION.height),
+      duration: 15,
+      maximumHeight: CAMERA_INITIAL_POSITION.height,
+
+    }), 4000);
+    setTimeout(() => camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(CAMERA_NEW_POSITION.lon, CAMERA_NEW_POSITION.lat, CAMERA_NEW_POSITION.height),
+      duration: 8
+    }), 16000);
   }
 
   handleMouseMove(e) {
@@ -91,15 +112,17 @@ class Splash extends Page {
   handleVisitButton() {
     const { selectedMarker, viewer } = this.state;
     viewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(selectedMarker.lon, selectedMarker.lat, 15000.0)
+      destination: Cesium.Cartesian3.fromDegrees(selectedMarker.lat, selectedMarker.lon, 1000.0)
     });
   }
 
   @Autobind
   handleMouseClick(e) {
-    if (!this.state.viewer) {
-      this.setState({ viewer: e.viewer });
-    }
+  }
+
+  @Autobind
+  handleOnInit(viewer) {
+    this.setState({ viewer }, this.runInitialAnimation);
   }
 
   render() {
@@ -138,6 +161,7 @@ class Splash extends Page {
             onBillboardHover={this.handleBillboardHover}
             onBillboardOut={this.handleBillboardOut}
             onClick={this.handleMouseClick}
+            onInit={this.handleOnInit}
           />
         }
         {selectedMarker &&
