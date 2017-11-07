@@ -45,8 +45,8 @@ const MARKERS = [
   }
 ];
 
-const CAMERA_INITIAL_POSITION = { lat: 36.46, lon: -3.55, height: 15000 };
-const CAMERA_NEW_POSITION = { lat: 52.2002, lon: -0.1382, height: 20000000 };
+const CAMERA_INITIAL_POSITION = { lat: 35.46, lon: -3.55, height: 90000 };
+const CAMERA_NEW_POSITION = { lat: 49.2002, lon: -0.1382, height: 20000000 };
 
 
 class Splash extends Page {
@@ -92,7 +92,7 @@ class Splash extends Page {
       },
       duration: 15,
       maximumHeight: CAMERA_INITIAL_POSITION.height
-    }), 4000);
+    }), 6000);
     setTimeout(() => camera.flyTo({
       destination: Cesium.Cartesian3.fromDegrees(CAMERA_NEW_POSITION.lon, CAMERA_NEW_POSITION.lat, CAMERA_NEW_POSITION.height),
       orientation: {
@@ -100,7 +100,8 @@ class Splash extends Page {
         pitch: -Cesium.Math.PI_OVER_TWO,
         roll: 0.0
       },
-      duration: 8
+      duration: 8,
+      maximumHeight: CAMERA_INITIAL_POSITION.height + 9000000
     }), 16000);
   }
 
