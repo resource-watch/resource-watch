@@ -29,14 +29,18 @@ const MARKERS = [
     lat: 0.076,
     lon: 101,
     type: 'billboard',
-    image: '../../static/images/splash/marker.svg'
+    image: '../../static/images/splash/marker.svg',
+    imageSelected: '../../static/images/splash/markerSelected.svg',
+    imageNotSelected: '../../static/images/splash/marker.svg'
   },
   {
     name: 'Coral bleaching',
     lat: -21,
     lon: 151,
     type: 'billboard',
-    image: '../../static/images/splash/marker.svg'
+    image: '../../static/images/splash/marker.svg',
+    imageSelected: '../../static/images/splash/markerSelected.svg',
+    imageNotSelected: '../../static/images/splash/marker.svg'
   }
 ];
 
@@ -66,7 +70,7 @@ class Splash extends Page {
 
   @Autobind
   handleBillboardClick(e) {
-
+    
   }
 
   @Autobind
