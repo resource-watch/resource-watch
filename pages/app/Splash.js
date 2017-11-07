@@ -40,7 +40,8 @@ const MARKERS = [
     type: 'billboard',
     image: '../../static/images/splash/marker.svg',
     imageSelected: '../../static/images/splash/markerSelected.svg',
-    imageNotSelected: '../../static/images/splash/marker.svg'
+    imageNotSelected: '../../static/images/splash/marker.svg',
+    thumbnail: '../../static/images/splash/bleached.jpg'
   }
 ];
 
@@ -50,7 +51,8 @@ class Splash extends Page {
     super(props);
 
     this.state = {
-      billboardHover: false
+      billboardHover: false,
+      selectedBillboard: null
     };
   }
 
@@ -70,7 +72,8 @@ class Splash extends Page {
 
   @Autobind
   handleBillboardClick(e) {
-    
+    const name = e.id.name;
+    this.setState({ selectedBillboard: name });
   }
 
   @Autobind
@@ -84,11 +87,12 @@ class Splash extends Page {
   }
 
   render() {
-    const { mounted, billboardHover } = this.state;
+    const { mounted, billboardHover, selectedBillboard } = this.state;
     const cesiumClassname = classnames({
       'cesium-map': true,
       '-cursor-pointer': billboardHover
     });
+    const selectedMarker = selectedBillboard && MARKERS.find(elem => elem.name === selectedBillboard);
 
     return (
       <div
@@ -119,6 +123,16 @@ class Splash extends Page {
             onBillboardHover={this.handleBillboardHover}
             onBillboardOut={this.handleBillboardOut}
           />
+        }
+        {selectedMarker &&
+          <div className="right-section">
+            <div className="thumbnail-container">
+              <img src={selectedMarker.thumbnail} alt={selectedMarker.name} />
+              <div className="visit-container">
+                VISIT THIS PLACE
+              </div>
+            </div>
+          </div>
         }
       </div>
     );
