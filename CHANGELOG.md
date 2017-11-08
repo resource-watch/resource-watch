@@ -48,6 +48,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Explore detail: correct SEO tags
 
 ### Added
+- Prototype of the Splash page
 - Pulse: Use Cesium for both 2D and 3D layers
 - Explore: favorite datasets
 - Explore detail: favorite dataset
