@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'routes';
 import classnames from 'classnames';
 import { Autobind } from 'es-decorators';
+import { Router } from 'routes';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -41,7 +42,8 @@ const MARKERS = [
     image: '../../static/images/splash/marker.svg',
     imageSelected: '../../static/images/splash/markerSelected.svg',
     imageNotSelected: '../../static/images/splash/marker.svg',
-    thumbnail: '../../static/images/splash/bleached.jpg'
+    thumbnail: '../../static/images/splash/bleached.jpg',
+    routeId: 'coral'
   }
 ];
 
@@ -131,6 +133,7 @@ class Splash extends Page {
     viewer.camera.flyTo({
       destination: Cesium.Cartesian3.fromDegrees(selectedMarker.lat, selectedMarker.lon, 1000.0)
     });
+    Router.pushRoute('splash_detail', { id: selectedMarker.routeId });
   }
 
   @Autobind
