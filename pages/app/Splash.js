@@ -86,7 +86,7 @@ class Splash extends Page {
       }
     });
     setTimeout(() => camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(CAMERA_NEW_POSITION.lat, CAMERA_NEW_POSITION.lon, CAMERA_INITIAL_POSITION.height),
+      destination: Cesium.Cartesian3.fromDegrees(CAMERA_NEW_POSITION.lon, CAMERA_NEW_POSITION.lat, CAMERA_INITIAL_POSITION.height),
       orientation: {
         heading: 0.0,
         pitch: -0.3,
@@ -131,7 +131,7 @@ class Splash extends Page {
   handleVisitButton() {
     const { selectedMarker, viewer } = this.state;
     viewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(selectedMarker.lat, selectedMarker.lon, 1000.0)
+      destination: Cesium.Cartesian3.fromDegrees(selectedMarker.lon, selectedMarker.lat, 1000.0)
     });
     Router.pushRoute('splash_detail', { id: selectedMarker.routeId });
   }

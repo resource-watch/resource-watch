@@ -107,7 +107,9 @@ class SplashDetail extends Page {
           </Link>
           <div className="links">
             <div className="earth-view-link">
-              <img src="../../static/images/splash/globe.svg" alt="Earth view" />
+              <Link route="splash">
+                <img src="../../static/images/splash/globe.svg" alt="Earth view" />
+              </Link>
               <Link route="splash">
                 <a>EARTH VIEW</a>
               </Link>
