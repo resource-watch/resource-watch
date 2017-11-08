@@ -30,27 +30,26 @@ class Head extends React.PureComponent {
     /* eslint-enable */
   }
 
-  getGA() {
-    return <script async src="https://www.googletagmanager.com/gtag/js?id=UA-67196006-1"></script>;
+  static getGA() {
+    return <script async src="https://www.googletagmanager.com/gtag/js?id=UA-67196006-1" />;
   }
 
-  getGASettings() {
+  static getGASettings() {
     return (
       <script
         type="text/javascript"
-        /* eslint-disable */
+        // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: `
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', 'UA-67196006-1');
         ` }}
-        /* eslint-enable */
       />);
   }
 
-  getCrazyEgg() {
-    return <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0069/4623.js" async="async"></script>;
+  static getCrazyEgg() {
+    return <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0069/4623.js" async="async" />;
   }
 
 
@@ -62,9 +61,9 @@ class Head extends React.PureComponent {
     }
 
     return (
-      /* eslint-disable */
       <script
         type="text/javascript"
+        // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: `
           window._urq = window._urq || [];
           _urq.push(['setGACode', 'UA-67196006-1']);
@@ -76,7 +75,6 @@ class Head extends React.PureComponent {
           })();
         ` }}
       />
-      /* eslint-enable */
     );
   }
 
@@ -91,11 +89,10 @@ class Head extends React.PureComponent {
     return (
       <script
         type="text/javascript"
-        /* eslint-disable */
+        // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: `
           window.liveSettings = { api_key: '${TRANSIFEX_LIVE_API}' }
         ` }}
-        /* eslint-enable */
       />
     );
   }
@@ -159,9 +156,9 @@ class Head extends React.PureComponent {
         <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700" />
         {Head.getStyles()}
         {this.getCesiumStyles()}
-        {this.getGA()}
-        {this.getGASettings()}
-        {this.getCrazyEgg()}
+        {Head.getGA()}
+        {Head.getGASettings()}
+        {Head.getCrazyEgg()}
         {this.getUserReport()}
         {this.getTransifexSettings()}
         {this.getTransifex()}
@@ -178,7 +175,8 @@ Head.propTypes = {
   title: PropTypes.string, // Some pages don't have any title (think embed)
   description: PropTypes.string.isRequired,
   routes: PropTypes.object.isRequired,
-  category: PropTypes.string
+  category: PropTypes.string,
+  dataset: PropTypes.object
 };
 
 export default connect(
