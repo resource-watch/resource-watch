@@ -7,7 +7,8 @@
   },
   "globals": {
     "L": true,
-    "config": true
+    "config": true,
+    "Transifex": true
   },
   "extends": "vizzuality",
   "rules": {
