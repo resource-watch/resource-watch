@@ -105,9 +105,17 @@ class SplashDetail extends Page {
           <Link route="home">
             <img src="../../static/images/logo.png" alt="Resource Watch" />
           </Link>
-          <Link route="home">
-            <a>GO TO RESOURCE WATCH</a>
-          </Link>
+          <div className="links">
+            <div className="earth-view-link">
+              <img src="../../static/images/splash/globe.svg" alt="Earth view" />
+              <Link route="splash">
+                <a>EARTH VIEW</a>
+              </Link>
+            </div>
+            <Link route="home">
+              <a>GO TO RESOURCE WATCH</a>
+            </Link>
+          </div>
         </div>
         <div className="panorama">
           <Spinner isLoading={skyLoading} className="-light" />

@@ -16,9 +16,20 @@
       cursor: pointer;
     }
 
-    a {
-      color: white;
-      text-decoration: none;
+    .links {
+      display: flex;
+      a {
+        color: white;
+        text-decoration: none;
+      }
+
+      .earth-view-link {
+        margin-right: 45px;
+
+        a {
+          margin-left: 15px;
+        }
+      }
     }
   }
 
