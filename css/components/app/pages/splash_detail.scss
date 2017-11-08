@@ -54,4 +54,11 @@
       height: 100%;
     }
   }
+
+  .drag-help {
+    position: absolute;
+    width: 100px;
+    top: calc(50% - 50px);
+    left: calc(50% - 50px);
+  }
 }

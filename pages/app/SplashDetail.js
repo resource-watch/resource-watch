@@ -52,7 +52,8 @@ class SplashDetail extends Page {
     this.state = {
       skyLoading: false,
       panorama,
-      selectedPanorama
+      selectedPanorama,
+      showDragHelp: true
     };
   }
 
@@ -61,6 +62,7 @@ class SplashDetail extends Page {
 
     this.panoramaSky = document.getElementById('panorama-sky');
     this.panoramaSky.addEventListener('materialtextureloaded', this.handleImageLoaded);
+    document.addEventListener('mousedown', this.hideDragHelp);
   }
 
   @Autobind
@@ -78,8 +80,14 @@ class SplashDetail extends Page {
     this.setState({ skyLoading: false });
   }
 
+  @Autobind
+  hideDragHelp() {
+    this.setState({ showDragHelp: false });
+    document.removeEventListener('click', this.hideDragHelp);
+  }
+
   render() {
-    const { selectedPanorama, skyLoading, panorama } = this.state;
+    const { selectedPanorama, skyLoading, panorama, showDragHelp } = this.state;
     const skyImage = selectedPanorama && selectedPanorama.image;
     const text = selectedPanorama && selectedPanorama.text;
     const options = panorama && panorama.options;
@@ -132,6 +140,11 @@ class SplashDetail extends Page {
             </a-entity>
           </a-scene>
         </div>
+        {showDragHelp &&
+          <div className="drag-help">
+            <img src="../../static/images/splash/drag.svg" alt="Drag" />
+          </div>
+        }
       </div>
     );
   }
