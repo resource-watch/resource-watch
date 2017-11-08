@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import DatasetsService from 'services/DatasetsService';
 import { toastr } from 'react-redux-toastr';
 
+// Redux
+import { connect } from 'react-redux';
 
 class DeleteAction extends React.Component {
   constructor(props) {
@@ -15,7 +17,8 @@ class DeleteAction extends React.Component {
 
     // SERVICES
     this.service = new DatasetsService({
-      authorization: props.authorization
+      authorization: props.authorization,
+      language: props.locale
     });
   }
 
@@ -52,9 +55,13 @@ class DeleteAction extends React.Component {
 
 DeleteAction.propTypes = {
   data: PropTypes.object,
-
+  locale: PropTypes.string.isRequired,
   authorization: PropTypes.string,
   onRowDelete: PropTypes.func
 };
 
-export default DeleteAction;
+const mapStateToProps = state => ({
+  locale: state.common.locale
+});
+
+export default connect(mapStateToProps, null)(DeleteAction);

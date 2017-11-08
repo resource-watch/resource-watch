@@ -698,7 +698,8 @@ class WidgetEditor extends React.Component {
   initComponent(props) {
     // First, we init the services
     this.datasetService = new DatasetService(props.dataset, {
-      apiURL: process.env.WRI_API_URL
+      apiURL: process.env.WRI_API_URL,
+      language: props.locale
     });
 
     this.widgetService = new WidgetService(props.dataset, {
@@ -1076,11 +1077,12 @@ class WidgetEditor extends React.Component {
   }
 }
 
-const mapStateToProps = ({ widgetEditor, user }) => ({
+const mapStateToProps = ({ widgetEditor, user, common }) => ({
   widgetEditor,
   user,
   selectedVisualizationType: widgetEditor.visualizationType,
-  band: widgetEditor.band
+  band: widgetEditor.band,
+  locale: common.locale
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -1125,7 +1127,8 @@ WidgetEditor.propTypes = {
   toggleModal: PropTypes.func,
   setBandsInfo: PropTypes.func,
   setTitle: PropTypes.func,
-  setMapParams: PropTypes.func
+  setMapParams: PropTypes.func,
+  locale: PropTypes.string.isRequired // eslint-disable-line react/no-unused-prop-types
 };
 
 WidgetEditor.defaultProps = {

@@ -35,7 +35,10 @@ class AreaSubscriptionModal extends React.Component {
     };
 
     // Services
-    this.datasetService = new DatasetService(null, { apiURL: process.env.WRI_API_URL });
+    this.datasetService = new DatasetService(null, {
+      apiURL: process.env.WRI_API_URL,
+      language: props.locale
+    });
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
   }
@@ -195,6 +198,7 @@ AreaSubscriptionModal.propTypes = {
   area: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,
   mode: PropTypes.string.isRequired, // edit | new
+  locale: PropTypes.string.isRequired,
   // Store
   user: PropTypes.object.isRequired,
   // Callbacks
@@ -203,7 +207,8 @@ AreaSubscriptionModal.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  locale: state.common.locale
 });
 
 export default connect(mapStateToProps, null)(AreaSubscriptionModal);
