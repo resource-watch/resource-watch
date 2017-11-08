@@ -32,7 +32,7 @@ const PANORAMAS = [
         name: 'bleached',
         label: 'Bleached',
         image: '../../static/images/splash/bleached.jpg',
-        text: ''
+        text: 'What might resemble a beautiful snowfall is actually a destructive stress response known as coral bleaching, which occurred in Airport Reef in 2015. Prolonged exposure to warmer ocean temperatures can cause corals to expel their symbiotic algae (which gives color to corals and nourishes them through photosynthesis), leaving the corals’ white skeletons visible. Some corals are able to bounce back from a bleaching event if water temperatures decrease fast enough. In a warming ocean, however, corals will have less time to recover between bleaching events, and widespread die-off could occur.'
       },
       {
         name: 'dead',
@@ -127,7 +127,7 @@ class SplashDetail extends Page {
             <a-text
               value={text}
               color="#FFF"
-              position="-5 2 -3"
+              position="-10 2 -10"
               scale="1.5 1.5 1.5"
             />
 
