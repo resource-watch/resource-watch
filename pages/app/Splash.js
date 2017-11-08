@@ -131,7 +131,8 @@ class Splash extends Page {
   handleVisitButton() {
     const { selectedMarker, viewer } = this.state;
     viewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(selectedMarker.lon, selectedMarker.lat, 1000.0)
+      destination: Cesium.Cartesian3.fromDegrees(selectedMarker.lon, selectedMarker.lat, 1000.0),
+      duration: 5
     });
     Router.pushRoute('splash_detail', { id: selectedMarker.routeId });
   }

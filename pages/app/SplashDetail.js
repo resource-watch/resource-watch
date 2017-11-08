@@ -60,11 +60,9 @@ class SplashDetail extends Page {
   componentDidMount() {
     super.componentDidMount();
 
-    setTimeout(() => {
-      this.panoramaSky = document.getElementById('panorama-sky');
-      this.panoramaSky.addEventListener('materialtextureloaded', this.handleImageLoaded);
-      document.addEventListener('mousedown', this.hideDragHelp);
-    }, 500);
+    this.panoramaSky = document.getElementById('panorama-sky');
+    this.panoramaSky.addEventListener('materialtextureloaded', this.handleImageLoaded);
+    document.addEventListener('mousedown', this.hideDragHelp);
   }
 
   @Autobind
