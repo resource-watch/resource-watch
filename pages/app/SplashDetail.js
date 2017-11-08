@@ -16,43 +16,45 @@ import Head from 'components/app/layout/head';
 import Spinner from 'components/ui/Spinner';
 
 
-//-----PANORAMA------------
+// -------PANORAMAS------------
 const PANORAMAS = [
   {
     name: 'coral',
+    default: 'bleached',
     options: [
       {
         name: 'healthy',
         label: 'Healthy',
-        image: '../../static/images/splash/healthy.jpg'
+        image: '../../static/images/splash/healthy.jpg',
+        text: ''
       },
       {
         name: 'bleached',
         label: 'Bleached',
-        image: '../../static/images/splash/bleached.jpg'
+        image: '../../static/images/splash/bleached.jpg',
+        text: ''
       },
       {
         name: 'dead',
         label: 'Dead',
-        image: '../../static/images/splash/dead.jpg'
+        image: '../../static/images/splash/dead.jpg',
+        text: ''
       }
     ]
-  },
-
+  }
 ];
 
-const HEALTHY_CORAL_IMAGE = '../../static/images/splash/healthy.jpg';
-const BLEACHED_CORAL_IMAGE = '../../static/images/splash/bleached.jpg';
-const DEAD_CORAL_IMAGE = '../../static/images/splash/dead.jpg';
-
 class SplashDetail extends Page {
-  // static getInitialProps({ query }) {
-  //   return { query };
-  // }
   constructor(props) {
     super(props);
     console.log('props', props);
+    const panorama = PANORAMAS.find(p => p.name === props.url.query.id);
+    const selectedPanorama = panorama.options.find(e => e.name === panorama.default);
+    console.log('selectedPanorama', selectedPanorama);
     this.state = {
+      skyLoading: false,
+      panorama,
+      selectedPanorama
     };
   }
 
@@ -61,11 +63,14 @@ class SplashDetail extends Page {
   }
 
   render() {
+    const { selectedPanorama, skyLoading } = this.state;
+    const skyImage = selectedPanorama && selectedPanorama.image;
+    const text = selectedPanorama && selectedPanorama.text;
 
     return (
       <div
         title="Resource Watch"
-        className="page-splash"
+        className="page-splash-detail"
       >
         <Head
           title="SplashDetail page"
@@ -78,6 +83,42 @@ class SplashDetail extends Page {
           <Link route="home">
             <a>GO TO RESOURCE WATCH</a>
           </Link>
+        </div>
+        <div className="panorama">
+          <Spinner isLoading={skyLoading} className="-light" />
+          <div className="menu">
+            <div className="option">
+              <input type="radio" id="healthy_button" checked={selectedPanorama === 'healthy'} onChange={this.handlePanoramaChange} />
+              <label htmlFor="healthy_button">Healthy</label>
+            </div>
+            <div className="option">
+              <input type="radio" id="bleached_button" checked={selectedPanorama === 'bleached'} onChange={this.handlePanoramaChange} />
+              <label htmlFor="bleached_button">Bleached</label>
+            </div>
+            <div className="option">
+              <input type="radio" id="dead_button" checked={selectedPanorama === 'dead'} onChange={this.handlePanoramaChange} />
+              <label htmlFor="dead_button">Dead</label>
+            </div>
+          </div>
+          <a-scene embedded>
+            { /* 360-degree image */ }
+            <a-sky id="panorama-sky" src={skyImage} />
+
+            <a-text
+              value={text}
+              color="#FFF"
+              position="-5 2 -3"
+              scale="1.5 1.5 1.5"
+            />
+
+            { /* Camera + cursor */ }
+            <a-entity camera look-controls>
+              <a-cursor
+                id="cursor"
+                raycaster="objects: .link"
+              />
+            </a-entity>
+          </a-scene>
         </div>
       </div>
     );
