@@ -47,10 +47,8 @@ const PANORAMAS = [
 class SplashDetail extends Page {
   constructor(props) {
     super(props);
-    console.log('props', props);
     const panorama = PANORAMAS.find(p => p.name === props.url.query.id);
     const selectedPanorama = panorama.options.find(e => e.name === panorama.default);
-    console.log('selectedPanorama', selectedPanorama);
     this.state = {
       skyLoading: false,
       panorama,
@@ -60,12 +58,31 @@ class SplashDetail extends Page {
 
   componentDidMount() {
     super.componentDidMount();
+
+    this.panoramaSky = document.getElementById('panorama-sky');
+    this.panoramaSky.addEventListener('materialtextureloaded', this.handleImageLoaded);
+  }
+
+  @Autobind
+  handlePanoramaChange(event) {
+    const { panorama } = this.state;
+    const radioButtonId = event.target.getAttribute('id');
+    this.setState({
+      selectedPanorama: panorama.options.find(e => e.name === radioButtonId),
+      skyLoading: true
+    });
+  }
+
+  @Autobind
+  handleImageLoaded() {
+    this.setState({ skyLoading: false });
   }
 
   render() {
-    const { selectedPanorama, skyLoading } = this.state;
+    const { selectedPanorama, skyLoading, panorama } = this.state;
     const skyImage = selectedPanorama && selectedPanorama.image;
     const text = selectedPanorama && selectedPanorama.text;
+    const options = panorama && panorama.options;
 
     return (
       <div
@@ -87,18 +104,13 @@ class SplashDetail extends Page {
         <div className="panorama">
           <Spinner isLoading={skyLoading} className="-light" />
           <div className="menu">
-            <div className="option">
-              <input type="radio" id="healthy_button" checked={selectedPanorama === 'healthy'} onChange={this.handlePanoramaChange} />
-              <label htmlFor="healthy_button">Healthy</label>
-            </div>
-            <div className="option">
-              <input type="radio" id="bleached_button" checked={selectedPanorama === 'bleached'} onChange={this.handlePanoramaChange} />
-              <label htmlFor="bleached_button">Bleached</label>
-            </div>
-            <div className="option">
-              <input type="radio" id="dead_button" checked={selectedPanorama === 'dead'} onChange={this.handlePanoramaChange} />
-              <label htmlFor="dead_button">Dead</label>
-            </div>
+            {options && options.map(elem => (
+              <div className="option" key={elem.name}>
+                <input type="radio" id={elem.name} checked={selectedPanorama.name === elem.name} onChange={this.handlePanoramaChange} />
+                <label htmlFor={elem.name}>{elem.label}</label>
+              </div>
+            ))
+            }
           </div>
           <a-scene embedded>
             { /* 360-degree image */ }
