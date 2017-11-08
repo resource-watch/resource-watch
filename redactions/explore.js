@@ -1,9 +1,11 @@
 /* global config */
 import 'isomorphic-fetch';
 import { Router } from 'routes';
+import { toastr } from 'react-redux-toastr';
 
 // Services
 import UserService from 'services/UserService';
+import GraphService from 'services/GraphService';
 
 import { BASEMAPS } from 'components/widgets/editor/map/constants';
 
@@ -27,6 +29,10 @@ const SET_DATASETS_TOPICS_FILTER = 'explore/SET_DATASETS_TOPICS_FILTER';
 const SET_DATASETS_DATA_TYPE_FILTER = 'explore/SET_DATASETS_DATA_TYPE_FILTER';
 const SET_DATASETS_GEOGRAPHIES_FILTER = 'explore/SET_DATASETS_GEOGRAPHIES_FILTER';
 const SET_FILTERS_LOADING = 'explore/SET_FILTERS_LOADING';
+
+const SET_SORTING_ORDER = 'explore/SET_SORTING_ORDER';
+const SET_SORTING_DATASETS = 'explore/SET_SORTING_DATASETS';
+const SET_SORTING_LOADING = 'explore/SET_SORTING_LOADING';
 
 const SET_DATASETS_FILTERED_BY_CONCEPTS = 'explore/SET_DATASETS_FILTERED_BY_CONCEPTS';
 
@@ -112,7 +118,16 @@ const initialState = {
   geographiesTree: null,
   topicsTree: null,
   dataTypeTree: null,
-  labels: false
+  labels: false,
+  sorting: {
+    /** @type {'modified'|'viewed'|'favorited'} order */
+    order: 'modified',
+    // The list of datasets below is not the actual list of sorted
+    // datasets, it is the list of the sorted ids
+    /** @type {string[]} */
+    datasets: [],
+    loading: false
+  }
 };
 
 export default function (state = initialState, action) {
@@ -345,6 +360,24 @@ export default function (state = initialState, action) {
       });
     }
 
+    case SET_SORTING_ORDER: {
+      return Object.assign({}, state, {
+        sorting: Object.assign({}, state.sorting, { order: action.payload })
+      });
+    }
+
+    case SET_SORTING_DATASETS: {
+      return Object.assign({}, state, {
+        sorting: Object.assign({}, state.sorting, { datasets: action.payload })
+      });
+    }
+
+    case SET_SORTING_LOADING: {
+      return Object.assign({}, state, {
+        sorting: Object.assign({}, state.sorting, { loading: action.payload })
+      });
+    }
+
     default:
       return state;
   }
@@ -356,7 +389,7 @@ export function setUrlParams() {
   return (dispatch, getState) => {
     const { explore } = getState();
     const layerGroups = explore.layers;
-    const { zoom, latLng } = explore;
+    const { zoom, latLng, sorting } = explore;
     const { page } = explore.datasets;
     const { search, topics, dataType, geographies } = explore.filters;
 
@@ -400,6 +433,10 @@ export function setUrlParams() {
 
     if (latLng) {
       query.latLng = JSON.stringify(latLng);
+    }
+
+    if (sorting) {
+      query.sort = sorting.order;
     }
 
     Router.replaceRoute('explore', query);
@@ -658,6 +695,49 @@ export function setDatasetsMode(mode) {
   return {
     type: SET_DATASETS_MODE,
     payload: mode
+  };
+}
+
+/**
+ * Set the sorting order of the datasets
+ * @param {'modified'|'viewed'|'favorited'} sorting
+ */
+export function setDatasetsSorting(sorting) {
+  return (dispatch) => {
+    const graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
+
+    let promise = null;
+    switch (sorting) {
+      case 'viewed':
+        promise = graphService.getMostViewedDatasets();
+        break;
+
+      case 'favorited':
+        promise = graphService.getMostFavoritedDatasets();
+        break;
+
+      default:
+        break;
+    }
+
+    if (!promise) {
+      dispatch({ type: SET_SORTING_ORDER, payload: sorting });
+      dispatch({ type: SET_SORTING_DATASETS, payload: [] });
+    } else {
+      dispatch({ type: SET_SORTING_LOADING, payload: true });
+      dispatch({ type: SET_SORTING_ORDER, payload: sorting });
+
+      promise
+        .then(datasets => dispatch({ type: SET_SORTING_DATASETS, payload: datasets }))
+        .catch((err) => {
+          toastr.error('Dataset sorting', 'The datasets couldn\'t be sorted properly');
+          console.error(err);
+        })
+        .then(() => dispatch({ type: SET_SORTING_LOADING, payload: false }));
+    }
+
+    // We also update the URL
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
   };
 }
 

@@ -1,10 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+// Components
 import Button from 'components/ui/Button';
 import Icon from 'components/ui/Icon';
-import { connect } from 'react-redux';
+import SelectInput from 'components/widgets/editor/form/SelectInput';
 
-import { setDatasetsMode } from 'redactions/explore';
+// Redux
+import { connect } from 'react-redux';
+import { setDatasetsMode, setDatasetsSorting } from 'redactions/explore';
+
+const SORTING_OPTIONS = [
+  { value: 'modified', label: 'Last modified' },
+  { value: 'viewed', label: 'Most viewed' },
+  { value: 'favorited', label: 'Most favorited' }
+];
 
 class DatasetListHeader extends React.Component {
   constructor(props) {
@@ -38,6 +48,7 @@ class DatasetListHeader extends React.Component {
 
   render() {
     const { mode, list } = this.state;
+    const { sortingOrder } = this.props;
 
     return (
       <div className="c-dataset-list-header">
@@ -45,6 +56,19 @@ class DatasetListHeader extends React.Component {
           {list.length} datasets
         </div>
         <div className="actions">
+          <div className="sorting-container">
+            <SelectInput
+              id="explore-sorting"
+              properties={{
+                name: 'explore-sorting',
+                value: sortingOrder,
+                default: sortingOrder,
+                clearable: false
+              }}
+              options={SORTING_OPTIONS}
+              onChange={sorting => this.props.setDatasetsSorting(sorting)}
+            />
+          </div>
           <div className="mode-container">
             <Button
               properties={{
@@ -78,14 +102,19 @@ DatasetListHeader.propTypes = {
   // STATE
   mode: PropTypes.string,
   list: PropTypes.array,
+  sortingOrder: PropTypes.string,
   // ACTIONS
-  setDatasetsMode: PropTypes.func
+  setDatasetsMode: PropTypes.func,
+  setDatasetsSorting: PropTypes.func
 };
 
-const mapDispatchToProps = dispatch => ({
-  setDatasetsMode: (mode) => {
-    dispatch(setDatasetsMode(mode));
-  }
+const mapStateToProps = ({ explore }) => ({
+  sortingOrder: explore.sorting.order
 });
 
-export default connect(null, mapDispatchToProps)(DatasetListHeader);
+const mapDispatchToProps = dispatch => ({
+  setDatasetsMode: mode => dispatch(setDatasetsMode(mode)),
+  setDatasetsSorting: sorting => dispatch(setDatasetsSorting(sorting))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DatasetListHeader);
