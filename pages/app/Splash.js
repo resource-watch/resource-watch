@@ -86,7 +86,7 @@ class Splash extends Page {
       }
     });
     setTimeout(() => camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(CAMERA_NEW_POSITION.lon, CAMERA_NEW_POSITION.lat, CAMERA_INITIAL_POSITION.height),
+      destination: Cesium.Cartesian3.fromDegrees(CAMERA_NEW_POSITION.lat, CAMERA_NEW_POSITION.lon, CAMERA_INITIAL_POSITION.height),
       orientation: {
         heading: 0.0,
         pitch: -0.3,
