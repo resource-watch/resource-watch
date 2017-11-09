@@ -80,26 +80,34 @@ class AreaSubscriptionModal extends React.Component {
 
       if (mode === 'new') {
         if (datasets.length >= 1) {
-          this.userService.createSubscriptionToArea(area.id, datasets, datasetsQuery, user)
-            .then(() => {
-              toastr.success('Success!', 'Subscription created successfully');
-              this.props.toggleModal(false);
-              this.props.onSubscriptionCreated();
-            })
+          this.userService.createSubscriptionToArea(
+            area.id,
+            datasets,
+            datasetsQuery,
+            user,
+            this.props.locale
+          ).then(() => {
+            toastr.success('Success!', 'Subscription created successfully');
+            this.props.toggleModal(false);
+            this.props.onSubscriptionCreated();
+          })
             .catch(err => toastr.error('Error creating the subscription', err));
         } else {
           toastr.error('Error', 'Please select at least one dataset');
         }
       } else if (mode === 'edit') {
         if (datasets.length >= 1) {
-          this.userService.updateSubscriptionToArea(area.subscription.id, datasets,
-            datasetsQuery, user)
-            .then(() => {
-              toastr.success('Success!', 'Subscription updated successfully');
-              this.props.toggleModal(false);
-              this.props.onSubscriptionUpdated();
-            })
-            .catch(err => toastr.error('Error updating the subscription', err));
+          this.userService.updateSubscriptionToArea(
+            area.subscription.id,
+            datasets,
+            datasetsQuery,
+            user,
+            this.props.locale
+          ).then(() => {
+            toastr.success('Success!', 'Subscription updated successfully');
+            this.props.toggleModal(false);
+            this.props.onSubscriptionUpdated();
+          }).catch(err => toastr.error('Error updating the subscription', err));
         } else {
           this.userService.deleteSubscription(area.subscription.id, user.token)
             .then(() => {
