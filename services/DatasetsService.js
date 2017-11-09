@@ -15,7 +15,7 @@ export default class DatasetsService {
       application: applications.join(','),
       ...!!includes && { includes },
       'page[size]': 9999999,
-      env: 'production,preproduction',
+      env: process.env.API_ENV,
       ...filters
     };
 
@@ -40,7 +40,7 @@ export default class DatasetsService {
     });
   }
 
-  fetchAllData({ applications = [process.env.APPLICATIONS], includes, filters, env = 'preproduction,production' } = {}) {
+  fetchAllData({ applications = [process.env.APPLICATIONS], includes, filters, env = process.env.API_ENV } = {}) {
     const qParams = {
       application: applications.join(','),
       ...!!includes && { includes },
