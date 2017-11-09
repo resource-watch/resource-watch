@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Components
 import Icon from 'components/ui/Icon';
 
@@ -22,6 +25,10 @@ class ShareExploreDetailModal extends React.Component {
       this.setState({ copied: true });
     } catch (err) {
       toastr.warning('Oops, unable to copy');
+    }
+
+    if (input === 'url') {
+      logEvent('Share', `Share a specific dataset: ${this.props.datasetName}`, 'Copy link');
     }
   }
 
@@ -44,6 +51,7 @@ class ShareExploreDetailModal extends React.Component {
                   href={`http://www.facebook.com/sharer/sharer.php?u=${url}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => logEvent('Share', `Share a specific dataset: ${this.props.datasetName}`, 'Facebook')}
                 >
                   <Icon name="icon-facebook" className="-medium" />
                 </a>
@@ -51,6 +59,7 @@ class ShareExploreDetailModal extends React.Component {
                   href={`https://twitter.com/share?url=${url}&text=${encodeURIComponent(document.title)}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => logEvent('Share', `Share a specific dataset: ${this.props.datasetName}`, 'Twitter')}
                 >
                   <Icon name="icon-twitter" className="-medium" />
                 </a>
@@ -97,6 +106,7 @@ class ShareExploreDetailModal extends React.Component {
 ShareExploreDetailModal.propTypes = {
   url: PropTypes.string,
   datasetId: PropTypes.string,
+  datasetName: PropTypes.string.isRequired,
   showEmbed: PropTypes.bool.isRequired,
   toggleModal: PropTypes.func.isRequired
 };

@@ -55,6 +55,7 @@ import {
   getChartType,
   isFieldAllowed
 } from 'components/widgets/editor/helpers/WidgetHelper';
+import { logEvent } from 'utils/analytics';
 
 import ChartTheme from 'components/widgets/editor/helpers/theme';
 import LayerManager from 'components/widgets/editor/helpers/LayerManager';
@@ -885,6 +886,8 @@ class WidgetEditor extends React.Component {
     if (resetStore) this.props.resetWidgetEditor(false);
 
     this.props.setVisualizationType(selectedVisualizationType);
+
+    logEvent('Customise Visualisation', 'Selects visualisation type', selectedVisualizationType);
   }
 
   render() {

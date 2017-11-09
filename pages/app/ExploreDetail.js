@@ -53,8 +53,9 @@ import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
 
-// Util
+// Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
+import { logEvent } from 'utils/analytics';
 
 class ExploreDetail extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
@@ -288,6 +289,7 @@ class ExploreDetail extends Page {
       childrenProps: {
         url: window.location.href,
         datasetId: this.state.dataset.id,
+        datasetName: this.state.dataset.attributes.name,
         showEmbed: widget && widget.attributes !== null,
         toggleModal: this.props.toggleModal
       }
@@ -493,6 +495,7 @@ class ExploreDetail extends Page {
                         className="c-button -primary -fullwidth"
                         target="_blank"
                         href={metadataInfo && metadataInfo.data_download_link}
+                        onClick={() => logEvent('Explore', 'Download data', dataset && dataset.attributes.name)}
                       >
                         Download
                       </a>

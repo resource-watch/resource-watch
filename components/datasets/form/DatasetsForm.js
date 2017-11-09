@@ -15,6 +15,9 @@ import Navigation from 'components/form/Navigation';
 import Step1 from 'components/datasets/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 class DatasetsForm extends React.Component {
   constructor(props) {
     super(props);
@@ -102,6 +105,8 @@ class DatasetsForm extends React.Component {
         // if we are in the last step we will submit the form
         if (this.state.step === this.state.stepLength && !this.state.submitting) {
           const dataset = this.props.dataset;
+
+          logEvent('My RW', 'Add New Dataset', this.state.name);
 
           // Start the submitting
           this.setState({ submitting: true });

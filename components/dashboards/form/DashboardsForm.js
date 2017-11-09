@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { Serializer } from 'jsonapi-serializer';
 import { toastr } from 'react-redux-toastr';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Services
 import DashboardsService from 'services/DashboardsService';
 
@@ -71,6 +74,8 @@ class DashboardsForm extends React.Component {
       const valid = FORM_ELEMENTS.isValid(this.state.step);
 
       if (valid) {
+        logEvent('My RW', 'User creates a new dashboard', this.state.form.name);
+
         // if we are in the last step we will submit the form
         if (this.state.step === this.state.stepLength && !this.state.submitting) {
           const { id } = this.state;
