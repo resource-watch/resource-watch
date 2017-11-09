@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Progress from 'react-progress-2';
 
+// Utils
+import { initGA, logPageView } from 'utils/analytics';
+
 // Redux
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -67,6 +70,13 @@ class Layout extends React.Component {
         });
       });
     }
+
+    // Google Analytics
+    if (!window.GA_INITIALIZED) {
+      initGA();
+      window.GA_INITIALIZED = true;
+    }
+    logPageView();
   }
 
   componentWillReceiveProps(newProps) {
