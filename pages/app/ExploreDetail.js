@@ -83,7 +83,8 @@ class ExploreDetail extends Page {
 
     // DatasetService
     this.datasetService = new DatasetService(props.url.query.id, {
-      apiURL: process.env.WRI_API_URL
+      apiURL: process.env.WRI_API_URL,
+      language: props.locale
     });
     // GraphService
     this.graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
@@ -113,7 +114,8 @@ class ExploreDetail extends Page {
         datasetLoaded: false
       }, () => {
         this.datasetService = new DatasetService(nextProps.url.query.id, {
-          apiURL: process.env.WRI_API_URL
+          apiURL: process.env.WRI_API_URL,
+          language: nextProps.locale
         });
         // Scroll to the top of the page
         window.scrollTo(0, 0);
@@ -211,7 +213,7 @@ class ExploreDetail extends Page {
       .then(res => res.map(val => val.dataset).slice(0, 7))
       .then((ids) => {
         if (ids.length === 0) return [];
-        return DatasetService.getDatasets(ids, 'widget,metadata,layer,vocabulary');
+        return DatasetService.getDatasets(ids, this.props.locale, 'widget,metadata,layer,vocabulary');
       })
       .then(similarDatasets => this.setState({ similarDatasets }))
       .catch((err) => {
@@ -766,20 +768,12 @@ ExploreDetail.propTypes = {
   url: PropTypes.object.isRequired,
   // Store
   user: PropTypes.object,
+  widgetEditor: PropTypes.object,
+  locale: PropTypes.string.isRequired,
   // ACTIONS
   resetDataset: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired
-};
-
-const mapStateToProps = state => ({
-  // Store
-  user: state.user,
-  topicsTree: state.explore.topicsTree,
-  exploreDetail: state.exploreDetail,
-  layersShown: updateLayersShown(state),
-  widgetEditor: PropTypes.object,
-  // ACTIONS
+  setModalOptions: PropTypes.func.isRequired,
   setFilters: PropTypes.func.isRequired,
   setSize: PropTypes.func.isRequired,
   setColor: PropTypes.func.isRequired,
@@ -794,6 +788,15 @@ const mapStateToProps = state => ({
   setLayer: PropTypes.func.isRequired,
   setTitle: PropTypes.func.isRequired,
   setTopicsTree: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  // Store
+  user: state.user,
+  topicsTree: state.explore.topicsTree,
+  exploreDetail: state.exploreDetail,
+  layersShown: updateLayersShown(state),
+  locale: state.common.locale
 });
 
 const mapDispatchToProps = dispatch => ({

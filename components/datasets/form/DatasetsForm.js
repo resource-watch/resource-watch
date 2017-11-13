@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import { toastr } from 'react-redux-toastr';
 
+// Redux
+import { connect } from 'react-redux';
+
 // Service
 import DatasetsService from 'services/DatasetsService';
 
@@ -27,7 +30,8 @@ class DatasetsForm extends React.Component {
     });
 
     this.service = new DatasetsService({
-      authorization: props.authorization
+      authorization: props.authorization,
+      language: props.locale
     });
 
     // BINDINGS
@@ -202,7 +206,12 @@ DatasetsForm.propTypes = {
   authorization: PropTypes.string,
   dataset: PropTypes.string,
   basic: PropTypes.bool,
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
+  locale: PropTypes.string.isRequired
 };
 
-export default DatasetsForm;
+const mapStateToProps = state => ({
+  locale: state.common.locale
+});
+
+export default connect(mapStateToProps, null)(DatasetsForm);

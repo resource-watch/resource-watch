@@ -25,7 +25,8 @@ class TableView extends React.Component {
 
     // DatasetService
     this.datasetService = new DatasetService(props.dataset, {
-      apiURL: process.env.WRI_API_URL
+      apiURL: process.env.WRI_API_URL,
+      language: props.locale
     });
   }
 
@@ -144,9 +145,13 @@ TableView.propTypes = {
   dataset: PropTypes.string.isRequired,
   tableName: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
   // Store
-  widgetEditor: PropTypes.object.isRequired // eslint-disable-line react/no-unused-prop-types
+  widgetEditor: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired
 };
 
-const mapStateToProps = ({ widgetEditor }) => ({ widgetEditor });
+const mapStateToProps = state => ({
+  widgetEditor: state.widgetEditor,
+  locale: state.common.locale
+});
 
 export default connect(mapStateToProps, null)(TableView);

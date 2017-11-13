@@ -137,8 +137,13 @@ export default function (state = initialState, action) {
  * @returns {Promise<void>}
  */
 function fetchDataset(datasetId) {
-  return (dispatch) => {
-    const datasetService = new DatasetService(datasetId, { apiURL: process.env.WRI_API_URL });
+  return (dispatch, getState) => {
+    const state = getState();
+    const datasetService = new DatasetService(datasetId, {
+      apiURL: process.env.WRI_API_URL,
+      language: state.common.locale
+    });
+
     return datasetService.fetchData('metadata')
       .then(dataset => dispatch({ type: SET_WIDGET_DATASET, payload: dataset }));
   };

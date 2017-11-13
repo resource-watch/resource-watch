@@ -4,6 +4,9 @@ import { Autobind } from 'es-decorators';
 import { Router } from 'routes';
 import { toastr } from 'react-redux-toastr';
 
+// Redux
+import { connect } from 'react-redux';
+
 // Components
 import Spinner from 'components/ui/Spinner';
 import Map from 'components/widgets/map/Map';
@@ -38,8 +41,10 @@ class SubscriptionCard extends React.Component {
     };
 
     // Services
-    this.datasetService = new DatasetService(props.subscription.attributes.datasetsQuery[0].id,
-      { apiURL: process.env.WRI_API_URL });
+    this.datasetService = new DatasetService(props.subscription.attributes.datasetsQuery[0].id, {
+      apiURL: process.env.WRI_API_URL,
+      language: props.locale
+    });
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
   }
@@ -208,8 +213,13 @@ class SubscriptionCard extends React.Component {
 SubscriptionCard.propTypes = {
   token: PropTypes.string.isRequired,
   subscription: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired,
   // Callbacks
   onSubscriptionRemoved: PropTypes.func.isRequired
 };
 
-export default SubscriptionCard;
+const mapStateToProps = state => ({
+  locale: state.common.locale
+});
+
+export default connect(mapStateToProps, null)(SubscriptionCard);

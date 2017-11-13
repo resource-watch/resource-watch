@@ -122,7 +122,7 @@ class EmbedLayer extends Page {
     try {
       const layerGroups = JSON.parse(decodeURIComponent(this.props.url.query.layers));
       // We actually fetch the datasets so we can reuse the explore selector
-      DatasetService.getDatasets(layerGroups.map(l => l.dataset), 'layer')
+      DatasetService.getDatasets(layerGroups.map(l => l.dataset), this.props.locale, 'layer')
         .then(layers => this.setState({
           apiLayers: layers,
           layerGroups: getLayerGroups(layers, layerGroups)
@@ -226,13 +226,15 @@ EmbedLayer.propTypes = {
 
   // Store
   modal: PropTypes.object,
+  locale: PropTypes.string.isRequired,
   toggleModal: PropTypes.func,
   toggleTooltip: PropTypes.func,
   setModalOptions: PropTypes.func
 };
 
 const mapStateToProps = state => ({
-  modal: state.modal
+  modal: state.modal,
+  locale: state.common.locale
 });
 
 const mapDispatchToProps = dispatch => ({

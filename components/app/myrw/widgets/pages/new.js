@@ -59,7 +59,9 @@ class WidgetsNew extends React.Component {
 
     // Services
     this.widgetService = new WidgetService(null, { apiURL: process.env.CONTROL_TOWER_URL });
-    this.datasetsService = new DatasetsService();
+    this.datasetsService = new DatasetsService({
+      language: props.locale
+    });
   }
 
   componentDidMount() {
@@ -402,12 +404,14 @@ WidgetsNew.propTypes = {
   // Store
   user: PropTypes.object.isRequired,
   widgetEditor: PropTypes.object.isRequired,
-  setTitle: PropTypes.func.isRequired
+  setTitle: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user,
-  widgetEditor: state.widgetEditor
+  widgetEditor: state.widgetEditor,
+  locale: state.common.locale
 });
 
 const mapDispatchToProps = dispatch => ({

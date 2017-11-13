@@ -60,7 +60,8 @@ class AreasList extends React.Component {
         }
       })
       .catch((err) => {
-        toastr.error('Error loading subscriptions', err);
+        toastr.error('Error loading subscriptions');
+        console.error(err);
         this.setState({ loading: false });
       });
   }
@@ -96,7 +97,7 @@ class AreasList extends React.Component {
       subscription.attributes.datasets.forEach(dataset => datasetsSet.add(dataset)));
     // Fetch data for the datasets needed
 
-    DatasetService.getDatasets([...datasetsSet], 'metadata')
+    DatasetService.getDatasets([...datasetsSet], this.props.locale, 'metadata')
       .then((data) => {
         const datasetsWithLabels = data.map(elem => ({
           id: elem.id,
@@ -173,11 +174,13 @@ class AreasList extends React.Component {
 }
 
 AreasList.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  locale: state.common.locale
 });
 
 export default connect(mapStateToProps, null)(AreasList);

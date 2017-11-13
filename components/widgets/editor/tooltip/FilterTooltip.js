@@ -31,7 +31,8 @@ class FilterTooltip extends React.Component {
 
     // DatasetService
     this.datasetService = new DatasetService(props.datasetID, {
-      apiURL: process.env.WRI_API_URL
+      apiURL: process.env.WRI_API_URL,
+      language: props.locale
     });
   }
 
@@ -147,7 +148,8 @@ FilterTooltip.propTypes = {
   onApply: PropTypes.func.isRequired,
   // store
   toggleTooltip: PropTypes.func.isRequired,
-  widgetEditor: PropTypes.object.isRequired
+  widgetEditor: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -157,7 +159,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  widgetEditor: state.widgetEditor
+  widgetEditor: state.widgetEditor,
+  locale: state.common.locale
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterTooltip);

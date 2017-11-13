@@ -105,7 +105,10 @@ class Explore extends Page {
     };
 
     // Services
-    this.datasetService = new DatasetService(null, { apiURL: process.env.WRI_API_URL });
+    this.datasetService = new DatasetService(null, {
+      apiURL: process.env.WRI_API_URL,
+      language: props.locale
+    });
 
     // BINDINGS
     this.handleFilterDatasetsSearch = debounce(this.handleFilterDatasetsSearch.bind(this), 500);
@@ -693,6 +696,7 @@ Explore.propTypes = {
   totalDatasets: PropTypes.array,
   layerGroups: PropTypes.array,
   toggledDataset: PropTypes.string,
+  locale: PropTypes.string.isRequired,
 
 
   // ACTIONS
@@ -730,7 +734,8 @@ const mapStateToProps = (state) => {
     filteredDatasets,
     totalDatasets: totalFilteredDatasets,
     layerGroups: getLayerGroups(state),
-    rawLayerGroups: state.explore.layers
+    rawLayerGroups: state.explore.layers,
+    locale: state.common.locale
   };
 };
 
