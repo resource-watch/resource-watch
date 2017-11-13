@@ -8456,9 +8456,9 @@ react-attr-converter@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/react-attr-converter/-/react-attr-converter-0.3.1.tgz#4a2abf6d907b7ddae4d862dfec80e489ce41ad6e"
 
-"react-cesium@git+https://github.com/Vizzuality/react-cesium.git#master":
+"react-cesium@git+https://github.com/Vizzuality/react-cesium.git#v0.1":
   version "0.1.0"
-  resolved "git+https://github.com/Vizzuality/react-cesium.git#0ac8d72fdad8037ae3f3f4bb1eca27550800ea2f"
+  resolved "git+https://github.com/Vizzuality/react-cesium.git#263f59c9c2813a4411c8bb88493d38646b47c7e3"
   dependencies:
     babel-core "^6.26.0"
     babel-eslint "^8.0.1"
