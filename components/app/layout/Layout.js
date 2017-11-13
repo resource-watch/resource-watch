@@ -61,7 +61,10 @@ class Layout extends React.Component {
 
     if (Transifex) {
       Transifex.live.onReady(() => {
-        Transifex.live.onTranslatePage(locale => this.props.setLocale(locale));
+        Transifex.live.onTranslatePage((locale) => {
+          this.props.setLocale(locale);
+          location.reload();
+        });
       });
     }
   }
