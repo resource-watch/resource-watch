@@ -17,7 +17,13 @@ import {
   setVisualizationType,
   setTitle,
   setZoom,
-  setLatLng
+  setLatLng,
+  setFilters,
+  setColor,
+  setCategory,
+  setValue,
+  setSize,
+  setOrderBy
 } from 'components/widgets/editor/redux/widgetEditor';
 import { toggleModal } from 'redactions/modal';
 
@@ -53,7 +59,8 @@ import {
   getChartConfig,
   canRenderChart,
   getChartType,
-  isFieldAllowed
+  isFieldAllowed,
+  checkEditorRestoredState
 } from 'components/widgets/editor/helpers/WidgetHelper';
 
 import ChartTheme from 'components/widgets/editor/helpers/theme';
@@ -773,8 +780,35 @@ class WidgetEditor extends React.Component {
         // If this is the inital call to this method (when the component is
         // mounted), we don't want to reset the store because we might set it
         // from the outside when editing an existing widget
-        .then(() => this.setVisualizationOptions(!initialLoading));
+        .then(() => this.setVisualizationOptions(!initialLoading))
+        .then(() => {
+          if (initialLoading) {
+            // If the editor is initially loaded, a previous state might have
+            // been restored. In such a case, we make sure the data is still
+            // up to date (for example, the aliases)
+            this.checkEditorRestoredState();
+          }
+        });
     });
+  }
+
+  /**
+   * Check if the restored state of the editor is up to date,
+   * if any
+   */
+  checkEditorRestoredState() {
+    const { widgetEditor } = this.props;
+
+    const attrToSetter = {
+      category: this.props.setCategory,
+      value: this.props.setValue,
+      size: this.props.setSize,
+      color: this.props.setColor,
+      orderBy: this.props.setOrderBy,
+      filters: this.props.setFilters
+    };
+
+    checkEditorRestoredState(widgetEditor, attrToSetter);
   }
 
   /**
@@ -1095,7 +1129,13 @@ const mapDispatchToProps = dispatch => ({
   setMapParams: (params) => {
     dispatch(setZoom(params.zoom));
     dispatch(setLatLng(params.latLng));
-  }
+  },
+  setFilters: filter => dispatch(setFilters(filter)),
+  setColor: filter => dispatch(setColor(filter)),
+  setCategory: filter => dispatch(setCategory(filter)),
+  setValue: filter => dispatch(setValue(filter)),
+  setSize: filter => dispatch(setSize(filter)),
+  setOrderBy: filter => dispatch(setOrderBy(filter))
 });
 
 WidgetEditor.defaultProps = {
@@ -1128,7 +1168,13 @@ WidgetEditor.propTypes = {
   setBandsInfo: PropTypes.func,
   setTitle: PropTypes.func,
   setMapParams: PropTypes.func,
-  locale: PropTypes.string.isRequired // eslint-disable-line react/no-unused-prop-types
+  locale: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
+  setFilters: PropTypes.func, // eslint-disable-line react/no-unused-prop-types
+  setColor: PropTypes.func, // eslint-disable-line react/no-unused-prop-types
+  setCategory: PropTypes.func, // eslint-disable-line react/no-unused-prop-types
+  setValue: PropTypes.func, // eslint-disable-line react/no-unused-prop-types
+  setSize: PropTypes.func, // eslint-disable-line react/no-unused-prop-types
+  setOrderBy: PropTypes.func // eslint-disable-line react/no-unused-prop-types
 };
 
 WidgetEditor.defaultProps = {
