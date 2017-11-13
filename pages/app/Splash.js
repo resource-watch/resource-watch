@@ -132,14 +132,15 @@ class Splash extends Page {
     const { selectedMarker, viewer } = this.state;
     viewer.camera.flyTo({
       destination: Cesium.Cartesian3.fromDegrees(selectedMarker.lon, selectedMarker.lat, 1000.0),
-      duration: 5
+      duration: 3
     });
-    Router.pushRoute('splash_detail', { id: selectedMarker.routeId });
+    // Router.pushRoute('splash_detail', { id: selectedMarker.routeId });
+    setTimeout(() => { window.location = `/splash/${selectedMarker.routeId}`; }, 3000);
   }
 
-  @Autobind
-  handleMouseClick(e) {
-  }
+  // @Autobind
+  // handleMouseClick(e) {
+  // }
 
   @Autobind
   handleOnInit(viewer) {
