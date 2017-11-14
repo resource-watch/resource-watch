@@ -106,7 +106,7 @@ class Pulse extends Page {
           interactionConfig: nextLayerActive.attributes.interactionConfig
         });
 
-        if (nextLayerActive.threedimensional === 'true') {
+        if (nextLayerActive.threedimensional) {
           const url = nextLayerActive.attributes.layerConfig.pulseConfig.url;
           this.props.getLayerPoints(url);
         } else {
