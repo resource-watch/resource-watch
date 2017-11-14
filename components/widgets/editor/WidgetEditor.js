@@ -366,10 +366,15 @@ class WidgetEditor extends React.Component {
           );
 
           // We add the aliases and descriptions to the fields
-          const fields = this.props.widgetEditor.fields.map(field => Object.assign({}, field, {
+          let fields = this.props.widgetEditor.fields.map(field => Object.assign({}, field, {
             alias: getMetadata(field.columnName, 'alias'),
             description: getMetadata(field.columnName, 'description')
           }));
+
+          // We filter the fields according to the relevant columns
+          const relevantColumns = attributes.widgetRelevantProps || [];
+          fields = fields.filter(field => !relevantColumns.length
+            || attributes.widgetRelevantProps.indexOf(field.columnName) !== -1);
 
           // If the widget is a raster one, we save the information
           // related to its bands (alias, description, etc.)
