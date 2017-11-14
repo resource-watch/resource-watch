@@ -47,8 +47,11 @@ const MARKERS = [
   }
 ];
 
-const CAMERA_INITIAL_POSITION = { lat: 35.46, lon: -3.55, height: 90000 };
-const CAMERA_NEW_POSITION = { lat: 49.2002, lon: -0.1382, height: 20000000 };
+const CAMERA_INITIAL_POSITION = { lat: 35.46, lon: -3.55, height: 90000, pitch: -0.3, heading: 0, roll: 0 };
+const CAMERA_FINAL_POSITION = { lat: 49.2002, lon: -0.1382, height: 20000000, pitch: -0.3, heading: 0, roll: 0 };
+const ANIMATION_DURATION = 15;
+const INITIAL_WAIT = 6000;
+const FINAL_ANIMATION_DURATION = 8;
 
 
 class Splash extends Page {
@@ -75,41 +78,63 @@ class Splash extends Page {
   runInitialAnimation() {
     const { viewer } = this.state;
     const { camera } = viewer;
-    // const center = Cesium.Cartesian3.fromDegrees(CAMERA_INITIAL_POSITION.lon, CAMERA_INITIAL_POSITION.lat);
-    // camera.lookAt(center, new Cesium.Cartesian3(0.0, 0.0, CAMERA_INITIAL_POSITION.height));
+    // ------ INIT VARIABLES -----
+    const { query } = this.props.url;
+    const duration = query.duration ? query.duration : ANIMATION_DURATION;
+    const initialLat = query.initialLat ? query.initialLat : CAMERA_INITIAL_POSITION.lat;
+    const initialLon = query.initialLon ? query.initialLon : CAMERA_INITIAL_POSITION.lon;
+    const initialHeight = query.initialHeight ? query.initialHeight : CAMERA_INITIAL_POSITION.height;
+    const finalLat = query.finalLat ? query.finalLat : CAMERA_FINAL_POSITION.lat;
+    const finalLon = query.finalLon ? query.finalLon : CAMERA_FINAL_POSITION.lon;
+    const finalHeight = query.finalHeight ? query.finalHeight : CAMERA_FINAL_POSITION.height;
+    const finalAnimationDuration = query.finalAnimationDuration ? query.finalAnimationDuration : FINAL_ANIMATION_DURATION;
+    const initialHeading = query.initialHeading ? query.initialHeading : CAMERA_INITIAL_POSITION.heading;
+    const initialRoll = query.initialRoll ? query.initialRoll : CAMERA_INITIAL_POSITION.roll;
+    const initialPitch = query.initialPitch ? query.initialPitch : CAMERA_INITIAL_POSITION.pitch;
+    const finalHeading = query.finalHeading ? query.finalHeading : CAMERA_FINAL_POSITION.heading;
+    const finalRoll = query.finalRoll ? query.finalRoll : CAMERA_FINAL_POSITION.roll;
+    const finalPitch = query.finalPitch ? query.finalPitch : CAMERA_FINAL_POSITION.pitch;
+    // --------------------------
+
+    // ------- CAMERA INITIAL POSITION -------
     camera.setView({
-      destination: Cesium.Cartesian3.fromDegrees(CAMERA_INITIAL_POSITION.lon, CAMERA_INITIAL_POSITION.lat, CAMERA_INITIAL_POSITION.height),
+      destination: Cesium.Cartesian3.fromDegrees(initialLon, initialLat, initialHeight),
       orientation: {
-        heading: 0.0,
-        pitch: -0.3,
-        roll: 0.0
+        heading: initialHeading,
+        pitch: initialPitch,
+        roll: initialRoll
       }
     });
+    // ------- FIRST FLY -------
     setTimeout(() => camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(CAMERA_NEW_POSITION.lon, CAMERA_NEW_POSITION.lat, CAMERA_INITIAL_POSITION.height),
+      destination: Cesium.Cartesian3.fromDegrees(finalLon, finalLat, initialHeight),
       orientation: {
-        heading: 0.0,
-        pitch: -0.3,
-        roll: 0.0
+        heading: finalHeading,
+        pitch: finalPitch,
+        roll: finalRoll
       },
-      duration: 15,
-      maximumHeight: CAMERA_INITIAL_POSITION.height
-    }), 6000);
+      duration,
+      maximumHeight: initialHeight
+    }), INITIAL_WAIT);
+
+    const timeoutTime = (Number(duration) + 1) * 1000;
+
+    // ------- SECOND FLY -------
     setTimeout(() => camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(CAMERA_NEW_POSITION.lon, CAMERA_NEW_POSITION.lat, CAMERA_NEW_POSITION.height),
+      destination: Cesium.Cartesian3.fromDegrees(finalLon, finalLat, finalHeight),
       orientation: {
         heading: 0.0,
         pitch: -Cesium.Math.PI_OVER_TWO,
         roll: 0.0
       },
-      duration: 8,
-      maximumHeight: CAMERA_INITIAL_POSITION.height + 9000000
-    }), 16000);
+      duration: finalAnimationDuration,
+      maximumHeight: initialHeight + 9000000
+    }), timeoutTime + INITIAL_WAIT);
   }
 
-  handleMouseMove(e) {
-
-  }
+  // handleMouseMove(e) {
+  //
+  // }
 
   @Autobind
   handleBillboardClick(e) {
