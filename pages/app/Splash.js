@@ -80,20 +80,20 @@ class Splash extends Page {
     const { camera } = viewer;
     // ------ INIT VARIABLES -----
     const { query } = this.props.url;
-    const duration = query.duration ? query.duration : ANIMATION_DURATION;
-    const initialLat = query.initialLat ? query.initialLat : CAMERA_INITIAL_POSITION.lat;
-    const initialLon = query.initialLon ? query.initialLon : CAMERA_INITIAL_POSITION.lon;
-    const initialHeight = query.initialHeight ? query.initialHeight : CAMERA_INITIAL_POSITION.height;
-    const finalLat = query.finalLat ? query.finalLat : CAMERA_FINAL_POSITION.lat;
-    const finalLon = query.finalLon ? query.finalLon : CAMERA_FINAL_POSITION.lon;
-    const finalHeight = query.finalHeight ? query.finalHeight : CAMERA_FINAL_POSITION.height;
-    const finalAnimationDuration = query.finalAnimationDuration ? query.finalAnimationDuration : FINAL_ANIMATION_DURATION;
-    const initialHeading = query.initialHeading ? query.initialHeading : CAMERA_INITIAL_POSITION.heading;
-    const initialRoll = query.initialRoll ? query.initialRoll : CAMERA_INITIAL_POSITION.roll;
-    const initialPitch = query.initialPitch ? query.initialPitch : CAMERA_INITIAL_POSITION.pitch;
-    const finalHeading = query.finalHeading ? query.finalHeading : CAMERA_FINAL_POSITION.heading;
-    const finalRoll = query.finalRoll ? query.finalRoll : CAMERA_FINAL_POSITION.roll;
-    const finalPitch = query.finalPitch ? query.finalPitch : CAMERA_FINAL_POSITION.pitch;
+    const duration = query.duration ? Number(query.duration) : ANIMATION_DURATION;
+    const initialLat = query.initialLat ? Number(query.initialLat) : CAMERA_INITIAL_POSITION.lat;
+    const initialLon = query.initialLon ? Number(query.initialLon) : CAMERA_INITIAL_POSITION.lon;
+    const initialHeight = query.initialHeight ? Number(query.initialHeight) : CAMERA_INITIAL_POSITION.height;
+    const finalLat = query.finalLat ? Number(query.finalLat) : CAMERA_FINAL_POSITION.lat;
+    const finalLon = query.finalLon ? Number(query.finalLon) : CAMERA_FINAL_POSITION.lon;
+    const finalHeight = query.finalHeight ? Number(query.finalHeight) : CAMERA_FINAL_POSITION.height;
+    const finalAnimationDuration = query.finalAnimationDuration ? Number(query.finalAnimationDuration) : FINAL_ANIMATION_DURATION;
+    const initialHeading = query.initialHeading ? Number(query.initialHeading) : CAMERA_INITIAL_POSITION.heading;
+    const initialRoll = query.initialRoll ? Number(query.initialRoll) : CAMERA_INITIAL_POSITION.roll;
+    const initialPitch = query.initialPitch ? Number(query.initialPitch) : CAMERA_INITIAL_POSITION.pitch;
+    const finalHeading = query.finalHeading ? Number(query.finalHeading) : CAMERA_FINAL_POSITION.heading;
+    const finalRoll = query.finalRoll ? Number(query.finalRoll) : CAMERA_FINAL_POSITION.roll;
+    const finalPitch = query.finalPitch ? Number(query.finalPitch) : CAMERA_FINAL_POSITION.pitch;
     // --------------------------
 
     // ------- CAMERA INITIAL POSITION -------
