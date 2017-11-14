@@ -38,7 +38,6 @@ class FilterContainer extends React.Component {
     this.props.setFilterValue(name, value, notNull);
   }
 
-
   render() {
     const { canDrop, connectDropTarget, widgetEditor } = this.props;
     const filters = widgetEditor.filters;
