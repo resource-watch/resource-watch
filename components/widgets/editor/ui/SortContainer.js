@@ -4,9 +4,11 @@ import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
 import { Autobind } from 'es-decorators';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Redux
 import { connect } from 'react-redux';
-
 import { setOrderBy } from 'components/widgets/editor/redux/widgetEditor';
 
 // Components
@@ -15,6 +17,7 @@ import ColumnBox from 'components/widgets/editor/ui/ColumnBox';
 const boxTarget = {
   drop(props, monitor) {
     props.setOrderBy(Object.assign({}, monitor.getItem(), { orderType: 'asc' }));
+    logEvent('Customise Visualisation', 'Order', monitor.getItem().alias || monitor.getItem().name);
   }
 };
 

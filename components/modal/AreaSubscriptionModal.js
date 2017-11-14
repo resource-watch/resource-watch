@@ -15,6 +15,9 @@ import DatasetService from 'services/DatasetService';
 import Spinner from 'components/ui/Spinner';
 import SubscriptionSelector from 'components/subscriptions/SubscriptionSelector';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 class AreaSubscriptionModal extends React.Component {
   constructor(props) {
     super(props);
@@ -70,6 +73,8 @@ class AreaSubscriptionModal extends React.Component {
     if (incomplete) {
       toastr.error('Data missing', 'Please select a dataset, subscription type and threshold for all items');
     } else {
+      logEvent('My RW', 'Edit subscription', area.attributes.name);
+
       const datasets = subscriptionSelectors.map(val => val.selectedDataset);
       const datasetsQuery = subscriptionSelectors
         .map(val => ({

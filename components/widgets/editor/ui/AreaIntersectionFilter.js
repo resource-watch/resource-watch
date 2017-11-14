@@ -17,6 +17,9 @@ import { setAreaIntersection } from 'components/widgets/editor/redux/widgetEdito
 import AreasService from 'components/widgets/editor/services/AreasService';
 import UserService from 'components/widgets/editor/services/UserService';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 const AREAS = [
   {
     label: 'Custom area',
@@ -83,6 +86,8 @@ class AreaIntersectionFilter extends React.Component {
               // We save the ID of the area
               this.props.setAreaIntersection(id);
 
+              logEvent('Customise Visualisation', 'Area Intersection', 'Custom area');
+
               resolve(true);
             }
           },
@@ -91,6 +96,7 @@ class AreaIntersectionFilter extends React.Component {
       } else {
         // The user selected a custom area that is not a country
         this.props.setAreaIntersection(item.id);
+        logEvent('Customise Visualisation', 'Area Intersection', item.label);
         resolve(true);
       }
     });

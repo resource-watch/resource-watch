@@ -30,28 +30,9 @@ class Head extends React.PureComponent {
     /* eslint-enable */
   }
 
-  static getGA() {
-    return <script async src="https://www.googletagmanager.com/gtag/js?id=UA-67196006-1" />;
+  getCrazyEgg() {
+    return <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0069/4623.js" async="async"></script>;
   }
-
-  static getGASettings() {
-    return (
-      <script
-        type="text/javascript"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'UA-67196006-1');
-        ` }}
-      />);
-  }
-
-  static getCrazyEgg() {
-    return <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0069/4623.js" async="async" />;
-  }
-
 
   getUserReport() {
     const { pathname } = this.props.routes;
@@ -156,9 +137,7 @@ class Head extends React.PureComponent {
         <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700" />
         {Head.getStyles()}
         {this.getCesiumStyles()}
-        {Head.getGA()}
-        {Head.getGASettings()}
-        {Head.getCrazyEgg()}
+        {this.getCrazyEgg()}
         {this.getUserReport()}
         {this.getTransifexSettings()}
         {this.getTransifex()}

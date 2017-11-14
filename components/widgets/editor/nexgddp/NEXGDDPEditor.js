@@ -4,9 +4,11 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { Autobind } from 'es-decorators';
 import { DragDropContext } from 'react-dnd';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Redux
 import { connect } from 'react-redux';
-
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import { setChartType } from 'components/widgets/editor/redux/widgetEditor';
 
@@ -30,6 +32,7 @@ class NEXGDDPEditor extends React.Component {
   @Autobind
   handleChartTypeChange(val) {
     this.props.setChartType(val);
+    logEvent('Customise Visualisation', 'Chart style', val);
   }
 
   @Autobind

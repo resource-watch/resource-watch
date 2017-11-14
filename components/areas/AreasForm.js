@@ -19,6 +19,9 @@ import UploadAreaIntersectionModal from 'components/modal/UploadAreaIntersection
 import AreasService from 'services/AreasService';
 import UserService from 'services/UserService';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 const FORM_ELEMENTS = {
   elements: {
   },
@@ -96,6 +99,8 @@ class AreasForm extends React.Component {
             toastr.success('Success', 'Area successfully created!');
           })
           .catch(err => this.setState({ error: err, loading: false }));
+
+        logEvent('My RW', 'Create area', name);
       } else if (mode === 'edit') {
         this.userService.updateArea(id, name, user.token)
           .then(() => {
@@ -103,6 +108,8 @@ class AreasForm extends React.Component {
             toastr.success('Success', 'Area successfully updated!');
           })
           .catch(err => this.setState({ error: err, loading: false }));
+
+        logEvent('My RW', 'Edit area', name);
       }
     } else {
       toastr.info('Data missing', 'Please select an area');
