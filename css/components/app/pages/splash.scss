@@ -9,11 +9,16 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 26px;
     z-index: 9999;
 
     img, a {
       cursor: pointer;
+    }
+
+    img {
+      width: 310px;
     }
 
     a {

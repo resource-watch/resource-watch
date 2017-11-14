@@ -1,7 +1,6 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import { Link } from 'routes';
-import classnames from 'classnames';
 import { Autobind } from 'es-decorators';
 
 // Redux
@@ -103,7 +102,7 @@ class SplashDetail extends Page {
         />
         <div className="header">
           <Link route="home">
-            <img src="../../static/images/logo.png" alt="Resource Watch" />
+            <img className="logo" src="../../static/images/logo-resource-watch.png" alt="Resource Watch" />
           </Link>
           <div className="links">
             <div className="earth-view-link">

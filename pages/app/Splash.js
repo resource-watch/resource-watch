@@ -190,7 +190,7 @@ class Splash extends Page {
         />
         <div className="header">
           <Link route="home">
-            <img src="../../static/images/logo.png" alt="Resource Watch" />
+            <img src="../../static/images/logo-resource-watch.png" alt="Resource Watch" />
           </Link>
           <Link route="home">
             <a>GO TO RESOURCE WATCH</a>
