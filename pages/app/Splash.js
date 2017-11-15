@@ -159,8 +159,8 @@ class Splash extends Page {
       destination: Cesium.Cartesian3.fromDegrees(selectedMarker.lon, selectedMarker.lat, 1000.0),
       duration: 3
     });
-    // Router.pushRoute('splash_detail', { id: selectedMarker.routeId });
-    setTimeout(() => { window.location = `/splash/${selectedMarker.routeId}`; }, 3000);
+
+    setTimeout(() => Router.pushRoute('splash_detail', { id: selectedMarker.routeId }), 3000);
   }
 
   // @Autobind
