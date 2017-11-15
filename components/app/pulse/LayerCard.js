@@ -43,8 +43,11 @@ class LayerCard extends React.Component {
     const layerActiveLoaded = pulse.layerActive && pulse.layerActive.id;
 
     if (layerActiveLoaded) {
-      this.datasetService = new DatasetService(pulse.layerActive.attributes.dataset,
-        { apiURL: process.env.WRI_API_URL });
+      this.datasetService = new DatasetService(pulse.layerActive.attributes.dataset, {
+        apiURL: process.env.WRI_API_URL,
+        language: nextProps.locale
+      });
+
       this.datasetService.fetchData().then((data) => {
         this.setState({
           dataset: data
@@ -181,6 +184,7 @@ LayerCard.propTypes = {
   // PROPS
   pulse: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired,
 
   // Actions
   setSimilarWidgets: PropTypes.func.isRequired,
@@ -190,7 +194,8 @@ LayerCard.propTypes = {
 
 const mapStateToProps = state => ({
   pulse: state.pulse,
-  user: state.user
+  user: state.user,
+  locale: state.common.locale
 });
 
 const mapDispatchToProps = dispatch => ({

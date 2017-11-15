@@ -144,13 +144,14 @@ export default class UserService {
    * Creates a subscription for a pair of dataset and country
    * @param {datasetID} ID of the dataset
    * @param {object} Either { type; 'iso', id:'ESP' } or { type: 'geostore', id: 'sakldfa7ads0ka'}
+   * @param {string} language Two-letter locale
    * @returns {Promise}
    */
-  createSubscriptionToArea(areaId, datasets, datasetsQuery, user, name = '') {
+  createSubscriptionToArea(areaId, datasets, datasetsQuery, user, language, name = '') {
     const bodyObj = {
       name,
       application: process.env.APPLICATIONS,
-      language: 'en',
+      language,
       datasets,
       datasetsQuery,
       resource: {
@@ -175,10 +176,10 @@ export default class UserService {
   /**
    *  Update Subscription
    */
-  updateSubscriptionToArea(subscriptionId, datasets, datasetsQuery, user) {
+  updateSubscriptionToArea(subscriptionId, datasets, datasetsQuery, user, language) {
     const bodyObj = {
       application: process.env.APPLICATIONS,
-      language: 'en',
+      language,
       datasets,
       datasetsQuery
     };

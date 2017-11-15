@@ -9,6 +9,9 @@ import isEqual from 'lodash/isEqual';
 import MediaQuery from 'react-responsive';
 import DropdownTreeSelect from 'react-dropdown-tree-select';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
@@ -105,7 +108,10 @@ class Explore extends Page {
     };
 
     // Services
-    this.datasetService = new DatasetService(null, { apiURL: process.env.WRI_API_URL });
+    this.datasetService = new DatasetService(null, {
+      apiURL: process.env.WRI_API_URL,
+      language: props.locale
+    });
 
     // BINDINGS
     this.handleFilterDatasetsSearch = debounce(this.handleFilterDatasetsSearch.bind(this), 500);
@@ -322,6 +328,8 @@ class Explore extends Page {
 
     // We move the user to the first page
     this.props.setDatasetsPage(1);
+
+    logEvent('Explore', 'search', value);
   }
 
   /**
@@ -548,6 +556,7 @@ class Explore extends Page {
                               onChange={(currentNode, selectedNodes) => {
                                 this.filters.topics = selectedNodes.map(val => val.value);
                                 const deselect = !selectedNodes.includes(currentNode);
+
                                 if (deselect) {
                                   this.topicsTree.forEach(child => this.selectElementsFromTree(
                                     child, [currentNode.value], deselect));
@@ -555,6 +564,9 @@ class Explore extends Page {
                                   this.topicsTree.forEach(child => this.selectElementsFromTree(
                                     child, this.filters.topics, deselect));
                                 }
+
+                                logEvent('Explore', 'Filter Topic', this.filters.topics.join(','));
+
                                 this.applyFilters();
                               }}
                             />
@@ -570,6 +582,7 @@ class Explore extends Page {
                               onChange={(currentNode, selectedNodes) => {
                                 this.filters.geographies = selectedNodes.map(val => val.value);
                                 const deselect = !selectedNodes.includes(currentNode);
+
                                 if (deselect) {
                                   this.geographiesTree.forEach(child => this.selectElementsFromTree(
                                     child, [currentNode.value], deselect));
@@ -577,6 +590,9 @@ class Explore extends Page {
                                   this.geographiesTree.forEach(child => this.selectElementsFromTree(
                                     child, this.filters.geographies, deselect));
                                 }
+
+                                logEvent('Explore', 'Filter Geography', this.filters.geographies.join(','));
+
                                 this.applyFilters();
                               }}
                             />
@@ -592,6 +608,7 @@ class Explore extends Page {
                               onChange={(currentNode, selectedNodes) => {
                                 this.filters.dataType = selectedNodes.map(val => val.value);
                                 const deselect = !selectedNodes.includes(currentNode);
+
                                 if (deselect) {
                                   this.dataTypeTree.forEach(child => this.selectElementsFromTree(
                                     child, [currentNode.value], deselect));
@@ -599,6 +616,9 @@ class Explore extends Page {
                                   this.dataTypeTree.forEach(child => this.selectElementsFromTree(
                                     child, this.filters.dataType, deselect));
                                 }
+
+                                logEvent('Explore', 'Filter Data Type', this.filters.dataType.join(','));
+
                                 this.applyFilters();
                               }}
                             />
@@ -693,6 +713,7 @@ Explore.propTypes = {
   totalDatasets: PropTypes.array,
   layerGroups: PropTypes.array,
   toggledDataset: PropTypes.string,
+  locale: PropTypes.string.isRequired,
 
 
   // ACTIONS
@@ -730,7 +751,8 @@ const mapStateToProps = (state) => {
     filteredDatasets,
     totalDatasets: totalFilteredDatasets,
     layerGroups: getLayerGroups(state),
-    rawLayerGroups: state.explore.layers
+    rawLayerGroups: state.explore.layers,
+    locale: state.common.locale
   };
 };
 

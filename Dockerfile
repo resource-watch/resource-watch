@@ -13,6 +13,8 @@ ENV OPBEAT_APP_ID 7170680c2a
 ENV ADD_SEARCH_KEY cb7e797b8a3c0d09c323955f0c4f957a
 ENV TRANSIFEX_LIVE_API fca0343bce994bf8ba3dcdeaab389136
 ENV BING_MAPS_API_KEY PPB0chXATYqlJ5t8oMPp~8SV9SIe2D0Ntc5sW3HExZA~AqTJgLkvvOdot-y1QukRox537t604Je0pxhygfcraTQGVWr7Ko9LwPoS7-MHW0qY
+ENV API_ENV production,preproduction
+ENV GOOGLE_ANALYTICS UA-67196006-1
 
 RUN apt-get update && \
     apt-get install -y bash git build-essential \
@@ -26,6 +28,7 @@ WORKDIR /usr/src/app
 # Install app dependencies
 COPY package.json /usr/src/app/
 COPY yarn.lock /usr/src/app/
+RUN yarn cache clean
 RUN yarn install
 
 # Bundle app source

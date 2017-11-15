@@ -17,6 +17,9 @@ import getActiveLayersPulse from 'selectors/pulse/layersActivePulse';
 import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
 import { substitution } from 'utils/utils';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Components
 import LayerNav from 'components/app/pulse/LayerNav';
 import LayerCard from 'components/app/pulse/LayerCard';
@@ -103,7 +106,7 @@ class Pulse extends Page {
           interactionConfig: nextLayerActive.attributes.interactionConfig
         });
 
-        if (nextLayerActive.threedimensional === 'true') {
+        if (nextLayerActive.threedimensional) {
           const url = nextLayerActive.attributes.layerConfig.pulseConfig.url;
           this.props.getLayerPoints(url);
         } else {
@@ -310,6 +313,7 @@ class Pulse extends Page {
       const requestURL = substitution(interactionConfig.pulseConfig.url,
         [{ key: 'point', value: `[${latLon.longitude}, ${latLon.latitude}]` }]);
       this.setTooltipValue(requestURL, clientX, clientY);
+      logEvent('Planet Pulse', 'Click a datapoint', `${latLon.latitude},${latLon.longitude}`);
     }
   }
   @Autobind

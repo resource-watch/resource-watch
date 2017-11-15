@@ -86,7 +86,11 @@ class WidgetsEdit extends React.Component {
         return data.attributes.dataset;
       })
       .then((datasetId) => {
-        const datasetService = new DatasetService(datasetId, { apiURL: process.env.WRI_API_URL });
+        const datasetService = new DatasetService(datasetId, {
+          apiURL: process.env.WRI_API_URL,
+          language: this.props.locale
+        });
+
         return datasetService.fetchData('metadata')
           .then((dataset) => {
             this.setState({ dataset });
@@ -103,7 +107,7 @@ class WidgetsEdit extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props.setDataset(null)
+    this.props.setDataset(null);
   }
 
   @Autobind
@@ -411,6 +415,7 @@ WidgetsEdit.propTypes = {
   id: PropTypes.string.isRequired,
   // Store
   user: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired,
   // ACTIONS
   setFilters: PropTypes.func.isRequired,
   setSize: PropTypes.func.isRequired,
@@ -434,7 +439,8 @@ WidgetsEdit.propTypes = {
 
 const mapStateToProps = state => ({
   user: state.user,
-  widgetEditor: state.widgetEditor
+  widgetEditor: state.widgetEditor,
+  locale: state.common.locale
 });
 
 const mapDispatchToProps = dispatch => ({

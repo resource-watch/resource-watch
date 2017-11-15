@@ -2,14 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
-import { connect } from 'react-redux';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
+// Redux
+import { connect } from 'react-redux';
 import { setValue, setAggregateFunction } from 'components/widgets/editor/redux/widgetEditor';
+
+// Components
 import ColumnBox from 'components/widgets/editor/ui/ColumnBox';
 
 const boxTarget = {
   drop(props, monitor) {
     props.setValue(monitor.getItem());
+    logEvent('Customise Visualisation', 'Select a value', monitor.getItem().alias || monitor.getItem().name);
     props.setAggregateFunction(null);
   }
 };

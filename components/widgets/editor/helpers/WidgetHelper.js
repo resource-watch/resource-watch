@@ -448,6 +448,82 @@ export function parseRasterData(data, band, provider) {
 }
 
 /**
+ * Check that the restored state of the editor is correct
+ * and make the necessary change to correct it
+ * NOTE: must not be called before the fields are loaded
+ * in the store
+ * @param {any} widgetEditor Redux' object
+ * @param {{ [attr: string]: function }[]} attrToSetter Attributes to check and their
+ * corresponding setters
+ */
+export function checkEditorRestoredState(widgetEditor, attrToSetter) {
+  // If the column is outdated, we merge it with
+  // the data of its field
+  const getUpdatedColumn = (column, field) => Object.assign({}, column, {
+    alias: field.alias,
+    type: field.columnType
+  });
+
+  // Return whether the column needs to be updated (refreshed)
+  const isColumnOutdated = (column, field) => column.alias !== field.alias
+    || column.type !== field.columnType;
+
+  // Return the field corresponding to the column, if any
+  const getColumnField = column => widgetEditor.fields.find(f => f.columnName === column.name);
+
+  // Update a Redux attribute (category, value, filters, etc) with its
+  // corresponding setter
+  const updateReduxAttr = (name, setter) => {
+    if (!widgetEditor[name]) return;
+
+    if (Array.isArray(widgetEditor[name])) {
+      const columns = widgetEditor[name];
+      const updatedColumns = [];
+      const saveUpdatedColumn = c => updatedColumns.push(c);
+
+      columns.forEach((column) => {
+        const field = getColumnField(column);
+
+        // The field doesn't exist anymore, so we don't push
+        // the column to the list of updated columns
+        if (!field) return;
+
+        if (isColumnOutdated(column, field)) {
+          // The field has been updated since the state has been
+          // saved so we use the most recent information
+          saveUpdatedColumn(getUpdatedColumn(column, field));
+        } else {
+          // We don't make any change, but we still want to keep
+          // the column
+          saveUpdatedColumn(column);
+        }
+      });
+
+      setter(updatedColumns);
+    } else {
+      const column = widgetEditor[name];
+      const field = getColumnField(column);
+      if (!field) {
+        // The field doesn't exist anymore, so we reset the column
+        setter(null);
+      } else if (isColumnOutdated(column, field)) {
+        // The field has been updated since the state has been
+        // saved so we use the most recent information
+        setter(getUpdatedColumn(column, field));
+      }
+    }
+  };
+
+  // We make sure the columns still exist and that their alias
+  // and type are still up to date
+  Object.keys(attrToSetter).forEach((attr) => {
+    if (widgetEditor[attr]) {
+      updateReduxAttr(attr, attrToSetter[attr]);
+    }
+  });
+}
+
+/**
  * Generate the chart configuration (Vega's) according to the
  * parameters
  * @export

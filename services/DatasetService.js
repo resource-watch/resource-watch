@@ -34,9 +34,15 @@ export default class DatasetService {
     if (!options) {
       throw new Error('options params is required.');
     }
+
     if (!options.apiURL || options.apiURL === '') {
       throw new Error('options.apiURL param is required.');
     }
+
+    if (!options.language) {
+      throw new Error('options.language param is required.');
+    }
+
     this.datasetId = datasetId;
     this.opts = options;
   }
@@ -45,7 +51,7 @@ export default class DatasetService {
    * Get subscribable datasets
    */
   getSubscribableDatasets(includes = '') {
-    return fetch(`${this.opts.apiURL}/dataset?application=${[process.env.APPLICATIONS]}&includes=${includes}&subscribable=true&page[size]=999`)
+    return fetch(`${this.opts.apiURL}/dataset?application=${[process.env.APPLICATIONS]}&language=${this.opts.language}&includes=${includes}&subscribable=true&page[size]=999`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
@@ -55,7 +61,7 @@ export default class DatasetService {
    * @returns {Promise}
    */
   fetchData(includes = '', applications = [process.env.APPLICATIONS]) {
-    const url = `${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&includes=${includes}&page[size]=999`;
+    const url = `${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&language=${this.opts.language}&includes=${includes}&page[size]=999`;
     return fetch(url)
       .then((response) => {
         if (response.status >= 400) throw Error(response.statusText);
@@ -69,7 +75,7 @@ export default class DatasetService {
    * @returns {Promise}
    */
   fetchDataset(includes = '', applications = [process.env.APPLICATIONS]) {
-    const url = `${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&includes=${includes}&page[size]=999`;
+    const url = `${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&language=${this.opts.language}&includes=${includes}&page[size]=999`;
     return fetch(url)
       .then((response) => {
         if (response.status >= 400) throw Error(response.statusText);
@@ -248,7 +254,7 @@ export default class DatasetService {
 
   getSimilarDatasets(withAncestors = true) {
     const endpoint = withAncestors ? 'similar-dataset-including-descendent' : 'similar-dataset';
-    return fetch(`${this.opts.apiURL}/graph/query/${endpoint}/${this.datasetId}?published=true&env=production,preproduction&application=${[process.env.APPLICATIONS]}&limit=6`)
+    return fetch(`${this.opts.apiURL}/graph/query/${endpoint}/${this.datasetId}?published=true&env=${process.env.API_ENV}&application=${[process.env.APPLICATIONS]}&limit=6`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
@@ -260,13 +266,14 @@ export default class DatasetService {
    * Fetch several datasets at once
    * @static
    * @param {string[]} datasetIDs - List of dataset IDs
+   * @param {string} language - Two-letter locale
    * @param {string} [includes=''] - List of entities to fetch
    * (string of values separated with commas)
    * @param {string[]} [applications=[process.env.APPLICATIONS]] List of applications
    * @returns {object[]}
    */
-  static getDatasets(datasetIDs, includes = '', applications = [process.env.APPLICATIONS]) {
-    return fetch(`${process.env.WRI_API_URL}/dataset/?ids=${datasetIDs}&includes=${includes}&application=${applications.join(',')}&page[size]=999`)
+  static getDatasets(datasetIDs, language, includes = '', applications = [process.env.APPLICATIONS]) {
+    return fetch(`${process.env.WRI_API_URL}/dataset/?ids=${datasetIDs}&language=${language}&includes=${includes}&application=${applications.join(',')}&page[size]=999`)
       .then((response) => {
         if (!response.ok) throw new Error(response.statusText);
         return response.json();
@@ -299,7 +306,7 @@ export default class DatasetService {
     }
 
 
-    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}&published=true&env=production,preproduction&application=${[process.env.APPLICATIONS]}&page[size]=999999`)
+    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}&published=true&env=${process.env.API_ENV}&application=${[process.env.APPLICATIONS]}&page[size]=999999`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();

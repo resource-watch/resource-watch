@@ -25,6 +25,7 @@ import UserService from 'services/UserService';
 
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
+import { logEvent } from 'utils/analytics';
 
 class DatasetWidget extends React.Component {
   /**
@@ -151,6 +152,10 @@ class DatasetWidget extends React.Component {
     const datasetID = this.props.dataset.id;
     const addLayerGroup = !this.props.isLayerGroupAdded(datasetID);
     this.props.toggleLayerGroup(datasetID, addLayerGroup);
+
+    if (addLayerGroup) {
+      logEvent('Explore', 'Add dataset to map', this.props.dataset.attributes.name);
+    }
   }
 
   @Autobind

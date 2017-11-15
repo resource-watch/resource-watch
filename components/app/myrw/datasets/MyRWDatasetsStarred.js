@@ -41,7 +41,7 @@ class MyRWDatasetsStarred extends React.Component {
       .then((response) => {
         const favorites = response;
         const datasetIds = favorites.map(elem => elem.attributes.resourceId);
-        DatasetService.getDatasets(datasetIds, 'widget,layer,vocabulary,metadata')
+        DatasetService.getDatasets(datasetIds, this.props.locale, 'widget,layer,vocabulary,metadata')
           .then((resp) => {
             this.setState({
               favorites,
@@ -100,11 +100,13 @@ class MyRWDatasetsStarred extends React.Component {
 
 MyRWDatasetsStarred.propTypes = {
   // Store
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  locale: state.common.locale
 });
 
 export default connect(mapStateToProps, null)(MyRWDatasetsStarred);

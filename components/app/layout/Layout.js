@@ -2,12 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Progress from 'react-progress-2';
 
+// Utils
+import { initGA, logPageView } from 'utils/analytics';
+
 // Redux
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import { toggleTooltip } from 'redactions/tooltip';
 import { updateIsLoading } from 'redactions/page';
+import { setLocale } from 'redactions/common';
 
 // Components
 import { Router } from 'routes';
@@ -57,6 +61,22 @@ class Layout extends React.Component {
       this.props.updateIsLoading(false);
       if (Progress && Progress.Component.instance) Progress.hideAll();
     };
+
+    if (Transifex) {
+      Transifex.live.onReady(() => {
+        Transifex.live.onTranslatePage((locale) => {
+          this.props.setLocale(locale);
+          location.reload();
+        });
+      });
+    }
+
+    // Google Analytics
+    if (!window.GA_INITIALIZED) {
+      initGA();
+      window.GA_INITIALIZED = true;
+    }
+    logPageView();
   }
 
   componentWillReceiveProps(newProps) {
@@ -128,7 +148,8 @@ Layout.propTypes = {
   toggleModal: PropTypes.func,
   toggleTooltip: PropTypes.func,
   setModalOptions: PropTypes.func,
-  updateIsLoading: PropTypes.func
+  updateIsLoading: PropTypes.func,
+  setLocale: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -140,7 +161,8 @@ const mapDispatchToProps = dispatch => ({
   toggleTooltip: () => dispatch(toggleTooltip()),
   toggleModal: open => dispatch(toggleModal(open, {}, true)),
   setModalOptions: options => dispatch(setModalOptions(options)),
-  updateIsLoading: bindActionCreators(isLoading => updateIsLoading(isLoading), dispatch)
+  updateIsLoading: bindActionCreators(isLoading => updateIsLoading(isLoading), dispatch),
+  setLocale: locale => dispatch(setLocale(locale))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Layout);

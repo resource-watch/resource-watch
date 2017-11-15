@@ -52,7 +52,9 @@ class MyRWDetail extends Page {
     switch (tab) {
       case 'datasets':
         if (id !== 'new') {
-          this.service = new DatasetsService();
+          this.service = new DatasetsService({
+            language: props.locale
+          });
         }
         break;
 
@@ -197,12 +199,14 @@ class MyRWDetail extends Page {
 
 MyRWDetail.propTypes = {
   user: PropTypes.object,
-  url: PropTypes.object
+  url: PropTypes.object,
+  locale: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
   // Store
-  myrwdetail: state.myrwdetail
+  myrwdetail: state.myrwdetail,
+  locale: state.common.locale
 });
 
 export default withRedux(initStore, mapStateToProps, null)(MyRWDetail);

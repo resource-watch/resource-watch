@@ -20,6 +20,7 @@ import WidgetService from 'components/widgets/editor/services/WidgetService';
 
 // utils
 import { getChartConfig, getChartInfo } from 'components/widgets/editor/helpers/WidgetHelper';
+import { logEvent } from 'utils/analytics';
 
 const FORM_ELEMENTS = {
   elements: {
@@ -63,6 +64,8 @@ class SaveWidgetModal extends React.Component {
   @Autobind
   async onSubmit(event) {
     event.preventDefault();
+
+    logEvent('Customise Visualisation', 'User saves widget', 'Save');
 
     this.setState({
       loading: true

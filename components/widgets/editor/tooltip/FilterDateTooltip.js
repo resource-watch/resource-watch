@@ -27,7 +27,8 @@ class FilterDateTooltip extends React.Component {
 
     // DatasetService
     this.datasetService = new DatasetService(props.datasetID, {
-      apiURL: process.env.WRI_API_URL
+      apiURL: process.env.WRI_API_URL,
+      language: props.locale
     });
   }
 
@@ -174,7 +175,8 @@ FilterDateTooltip.propTypes = {
   onToggleLoading: PropTypes.func,
   onApply: PropTypes.func,
   // store
-  widgetEditor: PropTypes.object.isRequired
+  widgetEditor: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired
 };
 
 FilterDateTooltip.defaultProps = {
@@ -188,7 +190,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  widgetEditor: state.widgetEditor
+  widgetEditor: state.widgetEditor,
+  locale: state.common.locale
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterDateTooltip);
