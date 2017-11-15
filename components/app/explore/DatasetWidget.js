@@ -130,19 +130,23 @@ class DatasetWidget extends React.Component {
   */
   loadInferredTags() {
     const { dataset } = this.props;
-    const vocabulary = dataset.attributes.vocabulary && dataset.attributes.vocabulary[0];
-    const tags = vocabulary.attributes.tags;
-    this.graphService.getInferredTags(tags)
-      .then((response) => {
-        this.setState({
-          inferredTags: response.filter(tag => tag.labels
-            .find(type => (type === 'TOPIC') && !TAGS_BLACKLIST.includes(tag.id)))
+    const vocabulary = dataset.attributes.vocabulary && dataset.attributes.vocabulary.length > 0 &&
+      dataset.attributes.vocabulary[0];
+    const tags = vocabulary && vocabulary.attributes && vocabulary.attributes.tags;
+
+    if (tags && tags.length > 0) {
+      this.graphService.getInferredTags(tags)
+        .then((response) => {
+          this.setState({
+            inferredTags: response.filter(tag => tag.labels
+              .find(type => (type === 'TOPIC') && !TAGS_BLACKLIST.includes(tag.id)))
+          });
+        })
+        .catch((err) => {
+          this.setState({ inferredTags: [] });
+          console.error('Error loading inferred tags', err);
         });
-      })
-      .catch((err) => {
-        this.setState({ inferredTags: [] });
-        console.error(err);
-      });
+    }
   }
 
   /**
