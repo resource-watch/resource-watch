@@ -109,7 +109,8 @@
     "url-loader": "0.5.8",
     "vega": "2.6.0",
     "webpack": "^3.6.0",
-    "whatwg-fetch": "2.0.2"
+    "whatwg-fetch": "2.0.2",
+    "wysiwyg": "https://github.com/resource-watch/wysiwyg#master"
   },
   "devDependencies": {
     "@storybook/react": "3.2.11",
