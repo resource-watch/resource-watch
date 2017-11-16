@@ -10,7 +10,7 @@ import Input from 'components/form/Input';
 import TextArea from 'components/form/TextArea';
 import FileImage from 'components/form/FileImage';
 import Checkbox from 'components/form/Checkbox';
-import Wysiwyg from 'wysiwyg';
+import Wysiwyg from 'components/form/Wysiwyg';
 import Toolbar from 'components/dashboards/wysiwyg/Toolbar';
 
 class Step1 extends React.Component {
@@ -130,11 +130,8 @@ class Step1 extends React.Component {
         </fieldset>
 
         <fieldset className="c-field-container">
-          <Wysiwyg
-            onChange={content => console.info(content)}
-          />
           {/* CONTENT */}
-          {/* <Field
+          <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.content = c; }}
             onChange={value => this.props.onChange({ content: value })}
             validations={['required']}
@@ -142,18 +139,12 @@ class Step1 extends React.Component {
             properties={{
               name: 'content',
               label: 'Content',
-              type: 'text',
-              rows: 6,
               required: true,
               default: this.state.form.content
             }}
-            toolbar={{
-              container: '#toolbar',
-              component: Toolbar
-            }}
           >
             {Wysiwyg}
-          </Field> */}
+          </Field>
         </fieldset>
       </div>
     );
