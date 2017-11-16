@@ -1,8 +1,5 @@
 import 'isomorphic-fetch';
 
-// Utils
-import { isFieldDate, isFieldNumber } from 'utils/widgets/WidgetHelper';
-
 function parseDataset(dataset) {
   const d = Object.assign({}, { ...dataset.attributes, id: dataset.id });
   if (d.metadata) {
@@ -127,7 +124,7 @@ export default class DatasetService {
   getFilter(fieldData) {
     return new Promise((resolve) => {
       const newFieldData = fieldData;
-      if (isFieldNumber(fieldData) || isFieldDate(fieldData)) {
+      if (fieldData === 'number' || fieldData === 'date') {
         this.getMinAndMax(fieldData.columnName, fieldData.tableName).then((data) => {
           newFieldData.properties = data;
           resolve(newFieldData);
@@ -138,37 +135,6 @@ export default class DatasetService {
           resolve(newFieldData);
         });
       }
-    });
-  }
-
-  getFilters() {
-    return new Promise((resolve) => {
-      this.getFields().then((fieldsData) => {
-        const filteredFields = fieldsData.fields.filter(field => field.columnType === 'number' || field.columnType === 'date' || field.columnType === 'string');
-        const promises = (filteredFields || []).map((field) => {
-          if (field.columnType === 'number' || field.columnType === 'date') {
-            return this.getMinAndMax(field.columnName, fieldsData.tableName);
-          }
-          return this.getValues(field.columnName, fieldsData.tableName);
-        });
-        Promise.all(promises).then((results) => {
-          const filters = (filteredFields || []).map((field, index) => {
-            const filterResult = {
-              columnName: field.columnName,
-              columnType: field.columnType
-            };
-            if (field.columnType === 'number' || field.columnType === 'date') {
-              filterResult.properties = results[index];
-            } else {
-              filterResult.properties = {
-                values: results[index]
-              };
-            }
-            return filterResult;
-          });
-          resolve(filters);
-        });
-      });
     });
   }
 

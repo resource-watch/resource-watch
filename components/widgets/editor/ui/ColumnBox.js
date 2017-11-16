@@ -17,9 +17,6 @@ import AggregateFunctionTooltip from 'components/widgets/editor/tooltip/Aggregat
 import OrderByTooltip from 'components/widgets/editor/tooltip/OrderByTooltip';
 import ColumnDetails from 'components/widgets/editor/tooltip/ColumnDetails';
 
-// Utils
-import { isFieldAllowed } from 'components/widgets/editor/helpers/WidgetHelper';
-
 const NAME_MAX_LENGTH = 9;
 
 /**
@@ -406,11 +403,11 @@ class ColumnBox extends React.Component {
 
     const orderType = orderBy ? orderBy.orderType : null;
     let iconName;
-    switch (isFieldAllowed({ columnType: type }).type) {
+    switch (type) {
       case 'number':
         iconName = 'icon-item-number';
         break;
-      case 'text':
+      case 'string':
         iconName = 'icon-item-category';
         break;
       case 'date':
