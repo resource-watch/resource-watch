@@ -21,6 +21,7 @@ const PANORAMAS = [
   {
     name: 'coral',
     default: 'bleached',
+    backgroundSound: '../../static/sounds/CoralBleachBackgroundSound.wav',
     options: [
       {
         name: 'healthy',
@@ -98,6 +99,7 @@ class SplashDetail extends Page {
     const text = selectedPanorama && selectedPanorama.text;
     const hotspots = selectedPanorama && selectedPanorama.hotspots;
     const options = panorama && panorama.options;
+    const backgroundSound = panorama.backgroundSound;
 
     return (
       <div
@@ -146,6 +148,18 @@ class SplashDetail extends Page {
 
             { /* 360-degree image */ }
             <a-sky id="panorama-sky" src={skyImage} />
+
+            { /* Background sound */ }
+            {backgroundSound &&
+              <audio
+                src={backgroundSound}
+                autoPlay
+                loop
+                preload
+              >
+                <track kind="captions" /> { /* TO-DO add captions for deaf users */ }
+              </audio>
+            }
 
             <a-text
               value={text}
