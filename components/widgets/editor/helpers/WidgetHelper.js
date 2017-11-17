@@ -25,7 +25,7 @@ const CHART_TYPES = {
   '1d_tick': OneDTickChart
 };
 
-const ALLOWED_FIELD_TYPES = [
+export const ALLOWED_FIELD_TYPES = [
   // --- NUMBER ----
   { name: 'esriFieldTypeSmallInteger', type: 'number', provider: 'esri' },
   { name: 'esriFieldTypeInteger', type: 'number', provider: 'esri' },
@@ -39,11 +39,11 @@ const ALLOWED_FIELD_TYPES = [
   { name: 'real', type: 'number', provider: 'sql' },
   { name: 'decimal', type: 'number', provider: 'sql' },
   // ----- TEXT -----
-  { name: 'string', type: 'text', provider: 'sql' },
-  { name: 'char', type: 'text', provider: 'sql' },
-  { name: 'varchar', type: 'text', provider: 'sql' },
-  { name: 'esriFieldTypeString', type: 'text', provider: 'esri' },
-  { name: 'text', type: 'text', provider: 'elastic' },
+  { name: 'string', type: 'string', provider: 'sql' },
+  { name: 'char', type: 'string', provider: 'sql' },
+  { name: 'varchar', type: 'string', provider: 'sql' },
+  { name: 'esriFieldTypeString', type: 'string', provider: 'esri' },
+  { name: 'text', type: 'string', provider: 'elastic' },
   // ----- DATE ----
   { name: 'esriFieldTypeDate', type: 'date', provider: 'esri' },
   { name: 'date', type: 'date', provider: 'sql' },
@@ -83,18 +83,18 @@ function isBidimensionalChart(chartType) {
   return !oneDimensionalChartTypes.includes(chartType);
 }
 
-export function isFieldAllowed(field) {
-  const fieldTypeAllowed = ALLOWED_FIELD_TYPES
-    .find(val => val.name.toLowerCase() === field.columnType.toLowerCase());
-  const isCartodbId = field.columnName === 'cartodb_id';
-  const result = !isCartodbId && fieldTypeAllowed;
-  return result;
-}
-
-export function isFieldNumber(field) {
-  const fieldd = isFieldAllowed(field);
-  return fieldd ? fieldd.type === 'number' : false;
-}
+/**
+ * Get the simplified field type of the field: "number",
+ * "text", "date", "boolean" or "array" from the raw type
+ * which could be anything from ALLOWED_FIELD_TYPES
+ * If the raw type is not accepted, null will be returned
+ * @param {string} type Raw type of the field
+ * @returns {string|null}
+ */
+export function getSimplifiedFieldType(type) {
+  const simplifiedType = ALLOWED_FIELD_TYPES.find(f => f.name === type);
+  return simplifiedType ? simplifiedType.type : null;
+};
 
 export function isFieldDate(field) {
   const fieldd = isFieldAllowed(field);
