@@ -90,7 +90,7 @@ class SplashDetail extends Page {
   @Autobind
   hideDragHelp() {
     this.setState({ showDragHelp: false });
-    document.removeEventListener('click', this.hideDragHelp);
+    document.removeEventListener('mousedown', this.hideDragHelp);
   }
 
   render() {
@@ -139,7 +139,10 @@ class SplashDetail extends Page {
             ))
             }
           </div>
-          <a-scene embedded>
+          <a-scene
+            cursor="rayOrigin: mouse"
+            embedded
+          >
 
             <a-assets>
               <img id="marker" src="../../static/images/splash/marker.svg" alt="" />
@@ -181,11 +184,8 @@ class SplashDetail extends Page {
             ))}
 
             { /* Camera + cursor */ }
-            <a-entity camera look-controls="reverseMouseDrag: true">
-              <a-cursor
-                id="cursor"
-                raycaster="objects: .link"
-              />
+            <a-entity>
+              <a-camera reverse-look-controls />
             </a-entity>
           </a-scene>
         </div>

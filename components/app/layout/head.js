@@ -140,7 +140,7 @@ class Head extends React.PureComponent {
   getAFrame() {
     const { pathname } = this.props.routes;
     if (pathname === '/app/SplashDetail') {
-      return <script src="/static/aframe/aframe-master.js" />;
+      return <script src="/static/aframe/aframe.min.js" />;
     }
     return null;
   }
