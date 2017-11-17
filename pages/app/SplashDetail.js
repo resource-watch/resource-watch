@@ -1,7 +1,6 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import { Link } from 'routes';
-import classnames from 'classnames';
 import { Autobind } from 'es-decorators';
 
 // Redux
@@ -70,6 +69,9 @@ class SplashDetail extends Page {
     this.panoramaSky = document.getElementById('panorama-sky');
     this.panoramaSky.addEventListener('materialtextureloaded', this.handleImageLoaded);
     document.addEventListener('mousedown', this.hideDragHelp);
+
+    this.hotspot1 = document.getElementById('hotspot1');
+    this.hotspot1.addEventListener('click', () => console.log('hotspot1 click!'));
   }
 
   @Autobind
@@ -165,6 +167,7 @@ class SplashDetail extends Page {
             }
 
             <a-text
+              id="text1"
               value={text}
               color="#FFF"
               position="-10 2 -10"
@@ -174,6 +177,7 @@ class SplashDetail extends Page {
             { /* Hotspots */ }
             {hotspots && hotspots.map(elem => (
               <a-entity
+                id="hotspot1"
                 position={elem.position}
                 key={elem.title}
                 geometry="primitive: plane; height: 1; width: 1"
@@ -183,10 +187,8 @@ class SplashDetail extends Page {
               />
             ))}
 
-            { /* Camera + cursor */ }
-            <a-entity>
-              <a-camera reverse-look-controls />
-            </a-entity>
+            { /* Camera */ }
+            <a-camera look-controls="reverseMouseDrag: true" />
           </a-scene>
         </div>
         {showDragHelp &&
