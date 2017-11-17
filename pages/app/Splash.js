@@ -1,9 +1,8 @@
 /* eslint max-len: 0 */
 import React from 'react';
-import { Link } from 'routes';
 import classnames from 'classnames';
 import { Autobind } from 'es-decorators';
-import { Router } from 'routes';
+import { Router, Link } from 'routes';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
