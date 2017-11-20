@@ -24,7 +24,8 @@ class FilterTooltip extends React.Component {
     const filter = filters && filters.find(f => f.name === props.name);
 
     this.state = {
-      selected: (filter) ? filter.value : [],
+      /** @type {any[]} selected */
+      selected: (filter && filter.value) || [],
       notNullSelected: filter && filter.notNull,
       loading: true
     };
