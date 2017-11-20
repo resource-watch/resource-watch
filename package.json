@@ -108,9 +108,9 @@
     "three": "0.83.0",
     "url-loader": "0.5.8",
     "vega": "2.6.0",
+    "vizz-wysiwyg": "^1.0.0",
     "webpack": "^3.6.0",
-    "whatwg-fetch": "2.0.2",
-    "wysiwyg": "https://github.com/resource-watch/wysiwyg#master"
+    "whatwg-fetch": "2.0.2"
   },
   "devDependencies": {
     "@storybook/react": "3.2.11",
@@ -121,6 +121,7 @@
     "colors": "1.1.2",
     "enzyme": "2.9.1",
     "eslint": "4.6.1",
+    "eslint-config-airbnb": "^15.1.0",
     "eslint-config-vizzuality": "1.0.6",
     "eslint-import-resolver-babel-module": "3.0.0",
     "eslint-plugin-babel": "4.1.2",

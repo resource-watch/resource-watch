@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Components
+import Editor from 'vizz-wysiwyg';
 import FormElement from './FormElement';
 
-import Editor from 'wysiwyg';
 
 class Wysiwyg extends FormElement {
   constructor(props) {
@@ -51,6 +51,7 @@ class Wysiwyg extends FormElement {
       <div className="c-wysiwyg">
         <Editor
           items={this.getValue()}
+          blocks={this.props.properties.blocks}
           onChange={this.triggerChange}
         />
       </div>
