@@ -194,7 +194,7 @@ export default class DatasetService {
   }
 
   getLayers() {
-    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}/layer?application=${[process.env.APPLICATIONS]}`)
+    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}/layer?application=${[process.env.APPLICATIONS]}&env=${process.env.API_ENV}`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
