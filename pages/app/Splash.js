@@ -1,9 +1,8 @@
 /* eslint max-len: 0 */
 import React from 'react';
-import { Link } from 'routes';
 import classnames from 'classnames';
 import { Autobind } from 'es-decorators';
-import { Router } from 'routes';
+import { Router, Link } from 'routes';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -159,8 +158,8 @@ class Splash extends Page {
       destination: Cesium.Cartesian3.fromDegrees(selectedMarker.lon, selectedMarker.lat, 1000.0),
       duration: 3
     });
-    // Router.pushRoute('splash_detail', { id: selectedMarker.routeId });
-    setTimeout(() => { window.location = `/splash/${selectedMarker.routeId}`; }, 3000);
+
+    setTimeout(() => Router.pushRoute('splash_detail', { id: selectedMarker.routeId }), 3000);
   }
 
   // @Autobind

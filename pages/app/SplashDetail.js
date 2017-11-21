@@ -20,6 +20,7 @@ const PANORAMAS = [
   {
     name: 'coral',
     default: 'bleached',
+    backgroundSound: '../../static/sounds/CoralBleachBackgroundSound.wav',
     options: [
       {
         name: 'healthy',
@@ -31,7 +32,13 @@ const PANORAMAS = [
         name: 'bleached',
         label: 'Bleached',
         image: '../../static/images/splash/bleached.jpg',
-        text: 'What might resemble a beautiful snowfall is actually a destructive stress response known as coral bleaching, which occurred in Airport Reef in 2015. Prolonged exposure to warmer ocean temperatures can cause corals to expel their symbiotic algae (which gives color to corals and nourishes them through photosynthesis), leaving the corals’ white skeletons visible. Some corals are able to bounce back from a bleaching event if water temperatures decrease fast enough. In a warming ocean, however, corals will have less time to recover between bleaching events, and widespread die-off could occur.'
+        text: 'What might resemble a beautiful snowfall is actually a destructive stress response known as coral bleaching, which occurred in Airport Reef in 2015. Prolonged exposure to warmer ocean temperatures can cause corals to expel their symbiotic algae (which gives color to corals and nourishes them through photosynthesis), leaving the corals’ white skeletons visible. Some corals are able to bounce back from a bleaching event if water temperatures decrease fast enough. In a warming ocean, however, corals will have less time to recover between bleaching events, and widespread die-off could occur.\nPhoto date: February 2, 2015',
+        hotspots: [
+          {
+            title: 'Coral bleaching on the rise',
+            position: '10 2 -10'
+          }
+        ]
       },
       {
         name: 'dead',
@@ -62,6 +69,9 @@ class SplashDetail extends Page {
     this.panoramaSky = document.getElementById('panorama-sky');
     this.panoramaSky.addEventListener('materialtextureloaded', this.handleImageLoaded);
     document.addEventListener('mousedown', this.hideDragHelp);
+
+    this.hotspot1 = document.getElementById('hotspot1');
+    this.hotspot1.addEventListener('click', () => console.log('hotspot1 click!'));
   }
 
   @Autobind
@@ -82,14 +92,16 @@ class SplashDetail extends Page {
   @Autobind
   hideDragHelp() {
     this.setState({ showDragHelp: false });
-    document.removeEventListener('click', this.hideDragHelp);
+    document.removeEventListener('mousedown', this.hideDragHelp);
   }
 
   render() {
     const { selectedPanorama, skyLoading, panorama, showDragHelp } = this.state;
     const skyImage = selectedPanorama && selectedPanorama.image;
     const text = selectedPanorama && selectedPanorama.text;
+    const hotspots = selectedPanorama && selectedPanorama.hotspots;
     const options = panorama && panorama.options;
+    const backgroundSound = panorama.backgroundSound;
 
     return (
       <div
@@ -129,24 +141,54 @@ class SplashDetail extends Page {
             ))
             }
           </div>
-          <a-scene embedded>
+          <a-scene
+            cursor="rayOrigin: mouse"
+            embedded
+          >
+
+            <a-assets>
+              <img id="marker" src="../../static/images/splash/marker.svg" alt="" />
+              <img id="markerSelected" src="../../static/images/splash/markerSelected.svg" alt="" />
+            </a-assets>
+
             { /* 360-degree image */ }
             <a-sky id="panorama-sky" src={skyImage} />
 
+            { /* Background sound */ }
+            {backgroundSound &&
+              <audio
+                src={backgroundSound}
+                autoPlay
+                loop
+                preload
+              >
+                <track kind="captions" /> { /* TO-DO add captions for deaf users */ }
+              </audio>
+            }
+
             <a-text
+              id="text1"
               value={text}
               color="#FFF"
               position="-10 2 -10"
               scale="1.5 1.5 1.5"
             />
 
-            { /* Camera + cursor */ }
-            <a-entity camera look-controls>
-              <a-cursor
-                id="cursor"
-                raycaster="objects: .link"
+            { /* Hotspots */ }
+            {hotspots && hotspots.map(elem => (
+              <a-entity
+                id="hotspot1"
+                position={elem.position}
+                key={elem.title}
+                geometry="primitive: plane; height: 1; width: 1"
+                material="shader: flat; src: #markerSelected; transparent: true"
+                event-set__enter="_event: mouseenter; scale: 1.2 1.2 1"
+                event-set__leave="_event: mouseleave; scale: 1 1 1"
               />
-            </a-entity>
+            ))}
+
+            { /* Camera */ }
+            <a-camera look-controls="reverseMouseDrag: true" />
           </a-scene>
         </div>
         {showDragHelp &&

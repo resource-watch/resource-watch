@@ -3934,12 +3934,11 @@ esrecurse@^4.1.0:
     estraverse "^4.1.0"
     object-assign "^4.0.1"
 
-esri-leaflet@2.0.8:
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/esri-leaflet/-/esri-leaflet-2.0.8.tgz#c906b58f28bd7f88d0e9f646d61bc0d226a79517"
+esri-leaflet@2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/esri-leaflet/-/esri-leaflet-2.1.1.tgz#0554b4fd2c360051b638774779561bc9dc03e8a6"
   dependencies:
     arcgis-to-geojson-utils "^1.0.1"
-    leaflet "^1.0.0"
     leaflet-virtual-grid "^1.0.3"
     tiny-binary-search "^1.0.2"
 
@@ -6220,7 +6219,7 @@ leaflet@1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.0.3.tgz#1f401b98b45c8192134c6c8d69686253805007c8"
 
-leaflet@^1.0.0, leaflet@^1.0.0-rc.1:
+leaflet@^1.0.0-rc.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.2.0.tgz#fd5d93d9cb00091f5f8a69206d0d6744c1c82697"
 

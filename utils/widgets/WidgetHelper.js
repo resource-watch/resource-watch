@@ -82,24 +82,6 @@ function isBidimensionalChart(chartType) {
   return !oneDimensionalChartTypes.includes(chartType);
 }
 
-export function isFieldAllowed(field) {
-  const fieldTypeAllowed = ALLOWED_FIELD_TYPES
-    .find(val => val.name.toLowerCase() === field.columnType.toLowerCase());
-  const isCartodbId = field.columnName === 'cartodb_id';
-  const result = !isCartodbId && fieldTypeAllowed;
-  return result;
-}
-
-export function isFieldNumber(field) {
-  const fieldd = isFieldAllowed(field);
-  return fieldd ? fieldd.type === 'number' : false;
-}
-
-export function isFieldDate(field) {
-  const fieldd = isFieldAllowed(field);
-  return fieldd ? fieldd.type === 'date' : false;
-}
-
 export function getChartType(type) {
   return CHART_TYPES[type];
 }

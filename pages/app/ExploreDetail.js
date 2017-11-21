@@ -33,7 +33,7 @@ import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
 // Next
-import { Link } from 'routes';
+import { Link, Router } from 'routes';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -321,12 +321,13 @@ class ExploreDetail extends Page {
     } else if (labels.includes('DATA_TYPE')) {
       treeSt = 'dataType';
     }
-    // TO-DO
-    // THIS MUST BE FIXED SO THAT IT USES THE ROUTER INSTEAD!!
-    window.location = `/data/explore?${treeSt}=${tagSt}`;
-    // Router.pushRoute('explore', { topics: topicsSt });
+
+    Router.pushRoute('explore', { [treeSt]: tagSt });
   }
 
+  // FIXME: refactor this, if a UI element's purpose is to
+  // redirect the user, then use a link
+  // A button is semantically different
   @Autobind
   handleTagClick(event) {
     const element = event.target;

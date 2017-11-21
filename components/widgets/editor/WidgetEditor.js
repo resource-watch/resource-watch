@@ -59,7 +59,6 @@ import {
   getChartConfig,
   canRenderChart,
   getChartType,
-  isFieldAllowed,
   checkEditorRestoredState
 } from 'components/widgets/editor/helpers/WidgetHelper';
 import { logEvent } from 'utils/analytics';
@@ -270,9 +269,8 @@ class WidgetEditor extends React.Component {
     });
 
     this.datasetService.getFields()
-      .then((response) => {
-        const fields = response.fields.filter(field => !!isFieldAllowed(field));
-        const fieldsError = !response.fields || !response.fields.length || fields.length === 0;
+      .then((fields) => {
+        const fieldsError = !fields || !fields.length || fields.length === 0;
 
         this.setState({
           // We still need to fetch the aliases in getDatasetInfo

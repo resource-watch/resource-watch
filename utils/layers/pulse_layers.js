@@ -21,13 +21,13 @@ export const LAYERS_PLANET_PULSE = [
   {
     label: 'Water',
     layers: [
-      {
-        label: 'Flood News Reports',
-        id: 'd0e35d92-3669-4bc2-b5d6-58b456fbf847',
-        '3d': true,
-        markerType: 'bar',
-        widgets: ['94b43a46-5594-46fe-8484-46e0dd73197b']
-      },
+      // {
+      //   label: 'Flood News Reports',
+      //   id: 'd0e35d92-3669-4bc2-b5d6-58b456fbf847',
+      //   '3d': true,
+      //   markerType: 'bar',
+      //   widgets: ['94b43a46-5594-46fe-8484-46e0dd73197b']
+      // },
       {
         label: 'Potential Landslide Areas',
         id: '50ef9f99-ddca-46b9-bb69-690f0b2ced88',

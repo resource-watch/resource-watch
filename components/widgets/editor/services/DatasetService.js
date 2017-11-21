@@ -2,7 +2,7 @@ import 'isomorphic-fetch';
 import Promise from 'bluebird';
 
 // Utils
-import { isFieldDate, isFieldNumber } from 'components/widgets/editor/helpers/WidgetHelper';
+import { getSimplifiedFieldType } from 'components/widgets/editor/helpers/WidgetHelper';
 
 /**
  * Dataset service
@@ -102,7 +102,7 @@ export default class DatasetService {
   getFilter(fieldData) {
     return new Promise((resolve) => {
       const newFieldData = fieldData;
-      if (isFieldNumber(fieldData) || isFieldDate(fieldData)) {
+      if (fieldData.type === 'number' || fieldData.type === 'date') {
         this.getMinAndMax(fieldData.columnName, fieldData.tableName, fieldData.geostore).then((data) => {
           newFieldData.properties = data;
           resolve(newFieldData);
@@ -116,53 +116,34 @@ export default class DatasetService {
     });
   }
 
-  getFilters() {
-    return new Promise((resolve) => {
-      this.getFields().then((fieldsData) => {
-        const filteredFields = fieldsData.fields.filter(field => field.columnType === 'number' || field.columnType === 'date' || field.columnType === 'string');
-        const promises = (filteredFields || []).map((field) => {
-          if (field.columnType === 'number' || field.columnType === 'date') {
-            return this.getMinAndMax(field.columnName, fieldsData.tableName);
-          }
-          return this.getValues(field.columnName, fieldsData.tableName);
-        });
-        Promise.all(promises).then((results) => {
-          const filters = (filteredFields || []).map((field, index) => {
-            const filterResult = {
-              columnName: field.columnName,
-              columnType: field.columnType
-            };
-            if (field.columnType === 'number' || field.columnType === 'date') {
-              filterResult.properties = results[index];
-            } else {
-              filterResult.properties = {
-                values: results[index]
-              };
-            }
-            return filterResult;
-          });
-          resolve(filters);
-        });
-      });
-    });
-  }
-
+  /**
+   * Returns the list of fields of the dataset
+   * @returns {{ columnName: string, columnType: string }[]}
+   */
   getFields() {
     return fetch(`${this.opts.apiURL}/fields/${this.datasetId}`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
       })
-      .then((jsonData) => {
-        const fieldsObj = jsonData.fields;
-        const parsedData = {
-          tableName: jsonData.tableName,
-          fields: (Object.keys(fieldsObj) || []).map(key => ({
-            columnName: key,
-            columnType: fieldsObj[key].type
-          }))
-        };
-        return parsedData;
+      .then((data) => {
+        /** @type {{ [field: string]: { type: string } }} */
+        const fieldToType = data.fields;
+
+        return Object.keys(fieldToType)
+          .map((field) => {
+            // We make sure the type of the field is the simplified
+            // version of it
+            const columnType = getSimplifiedFieldType(fieldToType[field].type);
+            if (!columnType) return null;
+
+            return {
+              columnName: field,
+              columnType
+            };
+          })
+          // We filter out the fields whose type is not supported
+          .filter(f => !!f);
       });
   }
 
@@ -213,7 +194,7 @@ export default class DatasetService {
   }
 
   getLayers() {
-    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}/layer?application=${[process.env.APPLICATIONS]}`)
+    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}/layer?application=${[process.env.APPLICATIONS]}&env=${process.env.API_ENV}`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
