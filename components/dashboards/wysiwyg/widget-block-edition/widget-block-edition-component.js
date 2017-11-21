@@ -35,7 +35,8 @@ export default function WidgetBlockEdition({ data, onChangeTab, onSelect }) {
           <WidgetList
             widgets={data.widgets}
             mode="grid"
-            onWidgetClick={(w) => console.info(w)}
+            // Be careful...
+            onWidgetClick={onSelect}
           />
         </div>
       </div>
@@ -45,7 +46,6 @@ export default function WidgetBlockEdition({ data, onChangeTab, onSelect }) {
 
 WidgetBlockEdition.propTypes = {
   data: PropTypes.object,
-  user: PropTypes.object,
   onChangeTab: PropTypes.func,
   onSelect: PropTypes.func
 };

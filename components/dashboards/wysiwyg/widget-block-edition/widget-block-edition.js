@@ -27,20 +27,23 @@ class WidgetBlockEdition extends React.Component {
   constructor(props) {
     super(props);
 
-    this.fetchWidgets(props);
+    this.triggerFetch(props);
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((nextProps.data.tab !== this.props.data.tab) || (nextProps.data.page !== this.props.data.page)) {
-      this.fetchWidgets(nextProps);
+    if (
+      (nextProps.data.tab !== this.props.data.tab) ||
+      (nextProps.data.page !== this.props.data.page)
+    ) {
+      this.triggerFetch(nextProps);
     }
   }
 
   /**
    * HELPERS
-   * - fetchWidgets
+   * - triggerFetch
   */
-  fetchWidgets(props) {
+  triggerFetch = (props) => {
     props.fetchWidgets({
       filters: {
         ...props.data.tab === 'my-widgets' && { userId: props.user.id },

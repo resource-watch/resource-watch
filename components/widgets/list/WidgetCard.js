@@ -441,10 +441,9 @@ class WidgetCard extends React.Component {
       ? '1 collection' : `${numberOfCollections} collections`;
 
     return (
-      <div
-        className={'c-widget-card'}
-        onWidgetClick={() => this.props.onWidgetClick(widget)}
-      >
+      <div className={'c-widget-card'}>
+        {/* <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}> */}
+
         {showWidgetColllections &&
           <div className="widget-collections">
             <button onClick={this.handleAddToWidgetCollection}>
@@ -454,28 +453,26 @@ class WidgetCard extends React.Component {
         }
 
         {/* Actual widget */}
-        {mode === 'thumbnail' ? (
-          <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
-            <a>{this.getWidget()}</a>
-          </Link>
-        ) :
-          this.getWidget()
-        }
+        <div
+          role="button"
+          onClick={() => this.props.onWidgetClick(widget)}
+        >
+          {this.getWidget()}
+        </div>
 
         <div className="info">
-          <div className="detail">
+          <div className="detail"
+            onClick={() => this.props.onWidgetClick(widget)}
+          >
             {/* Title */}
             <Title className="-default -primary">
-              <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
-                <a>{widget.attributes.name}</a>
-              </Link>
+              {widget.attributes.name}
             </Title>
             <p>
-              <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
-                <a>{WidgetCard.getDescription(widget.attributes.description)}</a>
-              </Link>
+              {WidgetCard.getDescription(widget.attributes.description)}
             </p>
           </div>
+
           {(showActions || showRemove || showEmbed) &&
             <div className="actions">
               {showActions &&
@@ -505,6 +502,7 @@ class WidgetCard extends React.Component {
             </div>
           }
         </div>
+
         {showStar &&
           <a
             className="star-icon"
