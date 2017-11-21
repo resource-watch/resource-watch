@@ -108,7 +108,7 @@
     "three": "0.83.0",
     "url-loader": "0.5.8",
     "vega": "2.6.0",
-    "vizz-wysiwyg": "^1.0.0",
+    "vizz-wysiwyg": "^1.0.2",
     "webpack": "^3.6.0",
     "whatwg-fetch": "2.0.2"
   },

@@ -18,9 +18,6 @@ import { connect } from 'react-redux';
 import getChartTheme from 'utils/widgets/theme';
 import LayerManager from 'components/widgets/editor/helpers/LayerManager';
 
-// Services
-import UserService from 'services/UserService';
-
 class DashboardWidget extends React.Component {
   static propTypes = {
     item: PropTypes.object.isRequired,
@@ -41,13 +38,12 @@ class DashboardWidget extends React.Component {
       loading: false,
       widget: {}, // Widget
       layers: [] // Map's layers
-      // favourite: this.getFavourite(props)
     };
-
-    // Services
-    this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
   }
 
+  /**
+   * LIFECYCLE
+  */
   componentDidMount() {
     if (this.props.item.content.widgetId) {
       this.getData(this.props.item.content.widgetId);
@@ -61,9 +57,11 @@ class DashboardWidget extends React.Component {
   }
 
   /**
-   * Event handler executed when the user toggles the
-   * visibility of a layer group
-   * @param {LayerGroup} layerGroup - Layer group to toggle
+   * UI EVENTS
+   * - onToggleLayerGroupVisibility
+   *   Event handler executed when the user toggles the
+   *   visibility of a layer group
+   *   @param {LayerGroup} layerGroup - Layer group to toggle
   */
   onToggleLayerGroupVisibility = (layerGroup) => {
     const layerGroups = this.state.layers.map((l) => {
@@ -169,12 +167,14 @@ class DashboardWidget extends React.Component {
 
         <div className="widget-container">
           <Spinner isLoading={this.state.loading} className="-light -small" />
+
           {!this.state.error && widgetType === 'text' &&
             <TextChart
               widgetConfig={widget.widgetConfig}
               toggleLoading={loading => this.setState({ loading })}
             />
           }
+
           {!this.state.error && widget.widgetConfig && widgetType === 'vega' &&
             <VegaChart
               data={widget.widgetConfig}
@@ -183,6 +183,7 @@ class DashboardWidget extends React.Component {
               reloadOnResize
             />
           }
+
           {!this.state.error && widget.widgetConfig && widgetType === 'map' && this.state.layers && (
             <div>
               <Map
