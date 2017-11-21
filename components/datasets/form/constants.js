@@ -6,13 +6,13 @@ export const PROVIDER_TYPES_DICTIONARY = {
     connectorUrlHint: 'Example: https://wri-01.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20combined01_prepared%20where%20impactparameter=%27Food Demand%27'
   },
   gee: {
-    label: 'GEE',
+    label: 'GEE (Google Earth Engine)',
     value: 'gee',
     connectorType: 'rest',
     connectorUrlHint: 'Example: projects/wri-datalab/HansenComposite_14-15'
   },
   nexgddp: {
-    label: 'NexGDDP',
+    label: 'NexGDDP (Nasa yearly downscaled climate projections)',
     value: 'nexgddp',
     connectorType: 'rest',
     connectorUrlHint: 'Example: scenario/model'
