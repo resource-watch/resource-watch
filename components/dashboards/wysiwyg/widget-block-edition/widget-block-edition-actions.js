@@ -1,30 +1,34 @@
+import 'isomorphic-fetch';
+import queryString from 'query-string';
 import { createAction, createThunkAction } from 'redux-actions';
 
-// Services
-import WidgetsService from 'services/WidgetsService';
-
-const WIDGET_SERVICE = new WidgetsService();
-
+// Actions
 export const setWidgets = createAction('WIDGET_BLOCK_EDITION_WIDGETS');
-export const setWidgetsCollections = createAction('WIDGET_BLOCK_EDITION_WIDGETS_COLLECTIONS');
 export const setLoading = createAction('WIDGET_BLOCK_EDITION_LOADING');
 export const setError = createAction('WIDGET_BLOCK_EDITION_ERROR');
+export const setTab = createAction('WIDGET_BLOCK_EDITION_TAB');
+export const setPage = createAction('WIDGET_BLOCK_EDITION_PAGE');
 
-export const fetchData = createThunkAction('WIDGET_BLOCK_EDITION_FETCH_DATA', (/* payload */) => (dispatch) => {
+// Async actions
+export const fetchWidgets = createThunkAction('WIDGET_BLOCK_EDITION_FETCH_DATA', (payload = {}) => (dispatch) => {
   dispatch(setLoading(true));
   dispatch(setError(null));
 
-  const promises = [
-    WIDGET_SERVICE.fetchAllData({ includes: 'widget' })
-  ];
+  const qParams = queryString.stringify({
+    application: [process.env.APPLICATIONS],
+    env: process.env.API_ENV,
+    sort: 'name',
+    'page[number]': 1,
+    'page[size]': 9,
+    ...payload.filters
+  });
 
-  Promise.all(promises)
-    .then((response) => {
+  fetch(`${process.env.WRI_API_URL}/widget?${qParams}`)
+    .then(response => response.json())
+    .then(({ data }) => {
       dispatch(setLoading(false));
       dispatch(setError(null));
-
-      dispatch(setWidgets(response[0]));
-      dispatch(setWidgetsCollections(response[1]));
+      dispatch(setWidgets(data));
     })
     .catch((err) => {
       dispatch(setLoading(false));

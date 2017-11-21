@@ -441,7 +441,10 @@ class WidgetCard extends React.Component {
       ? '1 collection' : `${numberOfCollections} collections`;
 
     return (
-      <div className={'c-widget-card'}>
+      <div
+        className={'c-widget-card'}
+        onWidgetClick={() => this.props.onWidgetClick(widget)}
+      >
         {showWidgetColllections &&
           <div className="widget-collections">
             <button onClick={this.handleAddToWidgetCollection}>
@@ -451,13 +454,12 @@ class WidgetCard extends React.Component {
         }
 
         {/* Actual widget */}
-        { mode === 'thumbnail'
-          ? (
-            <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
-              <a>{this.getWidget()}</a>
-            </Link>
-          )
-          : this.getWidget()
+        {mode === 'thumbnail' ? (
+          <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
+            <a>{this.getWidget()}</a>
+          </Link>
+        ) :
+          this.getWidget()
         }
 
         <div className="info">
@@ -535,6 +537,7 @@ WidgetCard.propTypes = {
   showWidgetColllections: PropTypes.bool,
   mode: PropTypes.oneOf(['thumbnail', 'full']), // How to show the graph
   // Callbacks
+  onWidgetClick: PropTypes.func,
   onWidgetRemove: PropTypes.func,
   onWidgetUnfavourited: PropTypes.func,
   onUpdateWidgetCollections: PropTypes.func,

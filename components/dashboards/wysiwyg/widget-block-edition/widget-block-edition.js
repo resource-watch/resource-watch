@@ -16,20 +16,37 @@ export {
 class WidgetBlockEdition extends React.Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     // Redux
-    fetchData: PropTypes.func.isRequired
+    fetchWidgets: PropTypes.func.isRequired,
+    setTab: PropTypes.func.isRequired,
+    setPage: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
 
-    // Be careful here. What would happen if we create a dashboard, then I create a new widget?
-    // So we will need to refresh the widgets after what??
-    // We should talk about it
-    if (!props.data.widgets.length) {
-      props.fetchData();
+    this.fetchWidgets(props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if ((nextProps.data.tab !== this.props.data.tab) || (nextProps.data.page !== this.props.data.page)) {
+      this.fetchWidgets(nextProps);
     }
+  }
+
+  /**
+   * HELPERS
+   * - fetchWidgets
+  */
+  fetchWidgets(props) {
+    props.fetchWidgets({
+      filters: {
+        ...props.data.tab === 'my-widgets' && { userId: props.user.id },
+        'page[number]': props.data.page
+      }
+    });
   }
 
   render() {
@@ -39,6 +56,10 @@ class WidgetBlockEdition extends React.Component {
           widgetId: widget.id,
           categories: []
         });
+      },
+      onChangeTab: (tab) => {
+        this.props.setTab(tab);
+        this.props.setPage(1);
       },
       ...this.props
     });

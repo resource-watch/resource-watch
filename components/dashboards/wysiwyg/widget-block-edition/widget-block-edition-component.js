@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 // Components
 import Tabs from 'components/ui/Tabs';
 import Spinner from 'components/ui/Spinner';
-import DashboardWidget from '../DashboardWidget';
+import WidgetList from 'components/widgets/list/WidgetList';
 
-export default function WidgetBlockEdition({ data, user, onChangeTab, onSelect }) {
+export default function WidgetBlockEdition({ data, onChangeTab, onSelect }) {
   return (
     <div className="c-dashboard-widget-edition">
       <div className="l-page">
@@ -32,44 +32,11 @@ export default function WidgetBlockEdition({ data, user, onChangeTab, onSelect }
         <Spinner isLoading={data.loading} className="-light" />
 
         <div className="c-page-section dock-widget-container">
-          {data.tab === 'my-widgets' &&
-            <div className="l-row row">
-              {data.widgets.filter(w => w.userId === user.id).map(w => (
-                <div className="columns small-12 medium-4">
-                  <DashboardWidget
-                    key={w.id}
-                    item={{
-                      type: 'widget',
-                      content: {
-                        widgetId: w.id
-                      }
-                    }}
-                    categories={[]}
-                    onSelect={() => onSelect(w)}
-                  />
-                </div>
-              ))}
-            </div>
-          }
-          {data.tab === 'all-widgets' &&
-            <div className="l-row row">
-              {data.widgets.filter(w => w.userId !== user.id).map(w => (
-                <div className="columns small-12 medium-4">
-                  <DashboardWidget
-                    key={w.id}
-                    item={{
-                      type: 'widget',
-                      content: {
-                        widgetId: w.id
-                      }
-                    }}
-                    categories={[]}
-                    onSelect={() => onSelect(w)}
-                  />
-                </div>
-              ))}
-            </div>
-          }
+          <WidgetList
+            widgets={data.widgets}
+            mode="grid"
+            onWidgetClick={(w) => console.info(w)}
+          />
         </div>
       </div>
     </div>

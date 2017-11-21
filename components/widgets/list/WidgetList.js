@@ -33,6 +33,11 @@ export default class WidgetList extends React.Component {
     this.props.onWidgetUnfavourited();
   }
 
+  @Autobind
+  handleWidgetClick() {
+    this.props.onWidgetClick();
+  }
+
   render() {
     const { loading } = this.state;
     const {
@@ -68,6 +73,7 @@ export default class WidgetList extends React.Component {
             >
               <WidgetCard
                 widget={widget}
+                onWidgetClick={this.handleWidgetClick}
                 onWidgetRemove={this.handleWidgetRemoved}
                 onWidgetUnfavourited={this.handleWidgetUnfavourited}
                 showActions={showActions}
@@ -108,6 +114,7 @@ WidgetList.propTypes = {
   showWidgetColllections: PropTypes.bool,
   mode: PropTypes.oneOf(['grid', 'list']).isRequired,
   // Callbacks
+  onWidgetClick: PropTypes.func,
   onWidgetRemove: PropTypes.func,
   onWidgetUnfavourited: PropTypes.func,
   onUpdateWidgetCollections: PropTypes.func
