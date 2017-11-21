@@ -20,18 +20,18 @@ const PANORAMAS = [
   {
     name: 'coral',
     default: 'bleached',
-    backgroundSound: '../../static/sounds/CoralBleachBackgroundSound.wav',
+    backgroundSound: 'http://wri-api-backups.s3.amazonaws.com/resourcewatch/sounds/CoralBleachBackgroundSound.wav',
     options: [
       {
         name: 'healthy',
         label: 'Healthy',
-        image: '../../static/images/splash/healthy.jpg',
+        image: 'https://wri-api-backups.s3.amazonaws.com/resourcewatch/images/healthy-optimized.jpg',
         text: ''
       },
       {
         name: 'bleached',
         label: 'Bleached',
-        image: '../../static/images/splash/bleached.jpg',
+        image: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/images/bleached-optimized.jpg',
         text: 'What might resemble a beautiful snowfall is actually a destructive stress response known as coral bleaching, which occurred in Airport Reef in 2015. Prolonged exposure to warmer ocean temperatures can cause corals to expel their symbiotic algae (which gives color to corals and nourishes them through photosynthesis), leaving the corals’ white skeletons visible. Some corals are able to bounce back from a bleaching event if water temperatures decrease fast enough. In a warming ocean, however, corals will have less time to recover between bleaching events, and widespread die-off could occur.\nPhoto date: February 2, 2015',
         hotspots: [
           {
@@ -43,7 +43,7 @@ const PANORAMAS = [
       {
         name: 'dead',
         label: 'Dead',
-        image: '../../static/images/splash/dead.jpg',
+        image: 'https://wri-api-backups.s3.amazonaws.com/resourcewatch/images/dead-optimized.jpg',
         text: ''
       }
     ]
@@ -149,10 +149,11 @@ class SplashDetail extends Page {
             <a-assets>
               <img id="marker" src="../../static/images/splash/marker.svg" alt="" />
               <img id="markerSelected" src="../../static/images/splash/markerSelected.svg" alt="" />
+              <img id="sky" src={skyImage} alt="" />
             </a-assets>
 
             { /* 360-degree image */ }
-            <a-sky id="panorama-sky" src={skyImage} />
+            <a-sky id="panorama-sky" src="#sky" />
 
             { /* Background sound */ }
             {backgroundSound &&
