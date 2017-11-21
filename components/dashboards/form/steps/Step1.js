@@ -14,7 +14,7 @@ import Checkbox from 'components/form/Checkbox';
 // Wysiwyg
 import Wysiwyg from 'components/form/Wysiwyg';
 import DashboardWidget from 'components/dashboards/wysiwyg/DashboardWidget';
-import DashboardWidgetEdition from 'components/dashboards/wysiwyg/DashboardWidgetEdition';
+import WidgetBlockEdition from 'components/dashboards/wysiwyg/widget-block-edition/widget-block-edition';
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -147,7 +147,7 @@ class Step1 extends React.Component {
               blocks: {
                 widget: {
                   Component: DashboardWidget,
-                  EditionComponent: DashboardWidgetEdition,
+                  EditionComponent: WidgetBlockEdition,
                   renderer: 'modal'
                 }
               }

@@ -31,6 +31,7 @@ export default class WidgetsService {
         }],
         onSuccess: ({ data }) => {
           if (Array.isArray(data)) {
+            console.log(data);
             const widgets = flatten(data.map(d => d.attributes.widget.map(widget => ({
               ...widget.attributes,
               id: widget.id

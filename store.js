@@ -5,6 +5,10 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import * as reducers from 'redactions';
 
+// New modules
+import { handleModule } from 'redux-actions';
+import * as widgetBlockEditionModule from 'components/dashboards/wysiwyg/widget-block-edition/widget-block-edition';
+
 if (process.env.NODE_ENV === 'production') {
   initOpbeat({
     orgId: '17ab8eb501d2418a81f3167c10407e90',
@@ -12,10 +16,12 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-console.log(reducers);
 
 // REDUCERS
-const reducer = combineReducers({ ...reducers });
+const reducer = combineReducers({
+  ...reducers,
+  widgetBlockEdition: handleModule(widgetBlockEditionModule)
+});
 
 export const initStore = (initialState = {}) => createStore(
   reducer,
