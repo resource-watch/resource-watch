@@ -11619,9 +11619,9 @@ vis@^4.18.1:
     moment "^2.18.1"
     propagating-hammerjs "^1.4.6"
 
-vizz-wysiwyg@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/vizz-wysiwyg/-/vizz-wysiwyg-1.0.8.tgz#1275e88ce2770fe334c68f9f44e2e0fd06caf842"
+vizz-wysiwyg@1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/vizz-wysiwyg/-/vizz-wysiwyg-1.0.9.tgz#d765dd165d6b542c290fec408ab1146dc90c387f"
   dependencies:
     autoprefixer "6.7.6"
     babel-core "^6.26.0"

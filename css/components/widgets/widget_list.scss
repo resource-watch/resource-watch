@@ -1,7 +1,6 @@
 .c-widget-list {
 
   > .list {
-    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -9,19 +8,17 @@
     > .list-item {
       display: flex;
       flex-direction: column;
-      padding: 0 6px;
       margin-bottom: 12px;
-      width: 100%;
 
       &.-list {
-        padding-top: 12px;
+        padding-top: 24px;
         border-top: 1px solid $border-color-1;
       }
 
       &.-grid {
         .c-widget-card {
           transition: box-shadow .3s, transform .3s;
-          
+
           &:hover {
             box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
             transform: translateY(-4px);

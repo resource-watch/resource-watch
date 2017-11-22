@@ -10,6 +10,7 @@ export const setTab = createAction('WIDGET_BLOCK_EDITION_TAB');
 export const setPage = createAction('WIDGET_BLOCK_EDITION_PAGE');
 export const setPageSize = createAction('WIDGET_BLOCK_EDITION_PAGE_SIZE');
 export const setTotal = createAction('WIDGET_BLOCK_EDITION_TOTAL');
+export const setSearch = createAction('WIDGET_BLOCK_EDITION_SEARCH');
 
 
 // Async actions

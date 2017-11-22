@@ -20,6 +20,10 @@ export default {
     ({ ...state, pageSize: action.payload }),
 
   [actions.setTotal]: (state, action) =>
-    ({ ...state, total: action.payload })
+    ({ ...state, total: action.payload }),
+
+  [actions.setSearch]: (state, action) =>
+    ({ ...state, search: action.payload })
+
 
 };
