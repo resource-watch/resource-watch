@@ -3,5 +3,7 @@ export default {
   loading: false,
   error: null,
   tab: 'my-widgets',
-  page: 1
+  page: 1,
+  pageSize: 9,
+  total: 100
 };

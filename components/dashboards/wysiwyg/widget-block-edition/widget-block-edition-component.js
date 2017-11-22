@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 // Components
 import Tabs from 'components/ui/Tabs';
 import Spinner from 'components/ui/Spinner';
+import Paginator from 'components/ui/Paginator';
 import WidgetList from 'components/widgets/list/WidgetList';
 
-export default function WidgetBlockEdition({ data, onChangeTab, onSelect }) {
+export default function WidgetBlockEdition({ data, onChangeTab, onSelectWidget, onChangePage }) {
   return (
     <div className="c-dashboard-widget-edition">
       <div className="l-page">
@@ -36,7 +37,16 @@ export default function WidgetBlockEdition({ data, onChangeTab, onSelect }) {
             widgets={data.widgets}
             mode="grid"
             // Be careful...
-            onWidgetClick={onSelect}
+            onWidgetClick={onSelectWidget}
+          />
+
+          <Paginator
+            options={{
+              size: data.total,
+              page: data.page,
+              limit: data.pageSize
+            }}
+            onChange={onChangePage}
           />
         </div>
       </div>
@@ -47,12 +57,12 @@ export default function WidgetBlockEdition({ data, onChangeTab, onSelect }) {
 WidgetBlockEdition.propTypes = {
   data: PropTypes.object,
   onChangeTab: PropTypes.func,
-  onSelect: PropTypes.func
+  onSelectWidget: PropTypes.func
 };
 
 WidgetBlockEdition.defaultProps = {
   data: {},
   user: {},
   onChangeTab: null,
-  onSelect: null
+  onSelectWidget: null
 };

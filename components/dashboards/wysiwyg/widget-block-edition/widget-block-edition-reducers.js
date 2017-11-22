@@ -14,6 +14,12 @@ export default {
     ({ ...state, tab: action.payload }),
 
   [actions.setPage]: (state, action) =>
-    ({ ...state, page: action.payload })
+    ({ ...state, page: action.payload }),
+
+  [actions.setPageSize]: (state, action) =>
+    ({ ...state, pageSize: action.payload }),
+
+  [actions.setTotal]: (state, action) =>
+    ({ ...state, total: action.payload })
 
 };

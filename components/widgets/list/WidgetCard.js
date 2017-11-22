@@ -460,10 +460,12 @@ class WidgetCard extends React.Component {
           {this.getWidget()}
         </div>
 
-        <div className="info">
-          <div className="detail"
-            onClick={() => this.props.onWidgetClick(widget)}
-          >
+        <div
+          role="button"
+          className="info"
+          onClick={() => this.props.onWidgetClick(widget)}
+        >
+          <div className="detail">
             {/* Title */}
             <Title className="-default -primary">
               {widget.attributes.name}

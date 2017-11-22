@@ -54,7 +54,7 @@ class WidgetBlockEdition extends React.Component {
 
   render() {
     return createElement(WidgetBlockEditionComponent, {
-      onSelect: (widget) => {
+      onSelectWidget: (widget) => {
         this.props.onSubmit({
           widgetId: widget.id,
           categories: []
@@ -63,6 +63,9 @@ class WidgetBlockEdition extends React.Component {
       onChangeTab: (tab) => {
         this.props.setTab(tab);
         this.props.setPage(1);
+      },
+      onChangePage: (page) => {
+        this.props.setPage(page);
       },
       ...this.props
     });
