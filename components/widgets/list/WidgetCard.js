@@ -451,29 +451,28 @@ class WidgetCard extends React.Component {
         }
 
         {/* Actual widget */}
-        { mode === 'thumbnail'
-          ? (
-            <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
-              <a>{this.getWidget()}</a>
-            </Link>
-          )
-          : this.getWidget()
-        }
+        <div
+          role="button"
+          onClick={() => this.props.onWidgetClick && this.props.onWidgetClick(widget)}
+        >
+          {this.getWidget()}
+        </div>
 
         <div className="info">
-          <div className="detail">
+          <div
+            className="detail"
+            role="button"
+            onClick={() => this.props.onWidgetClick && this.props.onWidgetClick(widget)}
+          >
             {/* Title */}
             <Title className="-default -primary">
-              <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
-                <a>{widget.attributes.name}</a>
-              </Link>
+              {widget.attributes.name}
             </Title>
             <p>
-              <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
-                <a>{WidgetCard.getDescription(widget.attributes.description)}</a>
-              </Link>
+              {WidgetCard.getDescription(widget.attributes.description)}
             </p>
           </div>
+
           {(showActions || showRemove || showEmbed) &&
             <div className="actions">
               {showActions &&
@@ -503,6 +502,7 @@ class WidgetCard extends React.Component {
             </div>
           }
         </div>
+
         {showStar &&
           <a
             className="star-icon"
@@ -535,6 +535,7 @@ WidgetCard.propTypes = {
   showWidgetColllections: PropTypes.bool,
   mode: PropTypes.oneOf(['thumbnail', 'full']), // How to show the graph
   // Callbacks
+  onWidgetClick: PropTypes.func,
   onWidgetRemove: PropTypes.func,
   onWidgetUnfavourited: PropTypes.func,
   onUpdateWidgetCollections: PropTypes.func,
