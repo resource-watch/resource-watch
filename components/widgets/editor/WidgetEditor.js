@@ -353,20 +353,20 @@ class WidgetEditor extends React.Component {
     return this.datasetService.fetchData('metadata')
       .then(({ attributes }) => { // eslint-disable-line arrow-body-style
         return new Promise((resolve) => {
-          const metadata = attributes.metadata.length
-            && attributes.metadata[0]
+          const metadata = !!attributes.metadata.length
+            && !!attributes.metadata[0]
             && attributes.metadata[0].attributes.columns;
 
           // Return the metadata's field for the specified column
-          const getMetadata = (column, field) => (metadata
-            && metadata[column]
+          const getMetadata = (column, field) => (!!metadata
+            && !!metadata[column]
             && metadata[column][field]
           );
 
           // We add the aliases and descriptions to the fields
           let fields = this.props.widgetEditor.fields.map(field => Object.assign({}, field, {
-            alias: getMetadata(field.columnName, 'alias'),
-            description: getMetadata(field.columnName, 'description')
+            alias: getMetadata(field.columnName, 'alias') || '',
+            description: getMetadata(field.columnName, 'description') || ''
           }));
 
           // We filter the fields according to the relevant columns
