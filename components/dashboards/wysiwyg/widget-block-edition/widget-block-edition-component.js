@@ -30,15 +30,17 @@ export default function WidgetBlockEdition({ data, onChangeTab, onSelectWidget, 
           </div>
         </div>
 
-        <Spinner isLoading={data.loading} className="-light" />
-
         <div className="c-page-section dock-widget-container">
+          <Spinner isLoading={data.loading} className="-relative -small -light" />
+
           <WidgetList
             widgets={data.widgets}
             mode="grid"
             // Be careful...
             onWidgetClick={onSelectWidget}
           />
+
+          <Spinner isLoading={data.loading} className="-relative -small -light" />
 
           <Paginator
             options={{
@@ -48,6 +50,7 @@ export default function WidgetBlockEdition({ data, onChangeTab, onSelectWidget, 
             }}
             onChange={onChangePage}
           />
+
         </div>
       </div>
     </div>
@@ -57,6 +60,7 @@ export default function WidgetBlockEdition({ data, onChangeTab, onSelectWidget, 
 WidgetBlockEdition.propTypes = {
   data: PropTypes.object,
   onChangeTab: PropTypes.func,
+  onChangePage: PropTypes.func,
   onSelectWidget: PropTypes.func
 };
 
@@ -64,5 +68,6 @@ WidgetBlockEdition.defaultProps = {
   data: {},
   user: {},
   onChangeTab: null,
+  onChangePage: null,
   onSelectWidget: null
 };
