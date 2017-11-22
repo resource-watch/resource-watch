@@ -17,19 +17,16 @@ export {
 class WidgetBlockEdition extends React.Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     // Redux
-    fetchWidgets: PropTypes.func.isRequired,
+    setWidgets: PropTypes.func.isRequired,
     setTab: PropTypes.func.isRequired,
     setPage: PropTypes.func.isRequired,
     setSearch: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-
-    this.triggerFetch(props);
+  componentWillMount() {
+    this.triggerFetch(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,6 +37,13 @@ class WidgetBlockEdition extends React.Component {
     ) {
       this.triggerFetch(nextProps);
     }
+  }
+
+  componentWillUnmount() {
+    // Reset page and search params
+    this.props.setWidgets([]);
+    this.props.setPage(1);
+    this.props.setSearch('');
   }
 
   /**
@@ -72,7 +76,6 @@ class WidgetBlockEdition extends React.Component {
         this.props.setPage(page);
       },
       onChangeSearch: debounce((search) => {
-        console.log(search);
         this.props.setSearch(search);
       }, 250),
       ...this.props

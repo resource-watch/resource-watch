@@ -40,7 +40,6 @@ export default function WidgetBlockEdition({ data, onChangeTab, onSelectWidget, 
 
                 <SearchInput
                   input={{
-                    value: data.search,
                     placeholder: 'Search widget'
                   }}
                   link={{}}
