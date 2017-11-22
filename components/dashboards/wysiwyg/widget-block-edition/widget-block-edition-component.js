@@ -36,7 +36,6 @@ export default function WidgetBlockEdition({ data, onChangeTab, onSelectWidget, 
           <WidgetList
             widgets={data.widgets}
             mode="grid"
-            // Be careful...
             onWidgetClick={onSelectWidget}
           />
 

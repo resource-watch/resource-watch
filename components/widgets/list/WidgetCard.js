@@ -442,8 +442,6 @@ class WidgetCard extends React.Component {
 
     return (
       <div className={'c-widget-card'}>
-        {/* <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}> */}
-
         {showWidgetColllections &&
           <div className="widget-collections">
             <button onClick={this.handleAddToWidgetCollection}>
@@ -455,17 +453,17 @@ class WidgetCard extends React.Component {
         {/* Actual widget */}
         <div
           role="button"
-          onClick={() => this.props.onWidgetClick(widget)}
+          onClick={() => this.props.onWidgetClick && this.props.onWidgetClick(widget)}
         >
           {this.getWidget()}
         </div>
 
-        <div
-          role="button"
-          className="info"
-          onClick={() => this.props.onWidgetClick(widget)}
-        >
-          <div className="detail">
+        <div className="info">
+          <div
+            className="detail"
+            role="button"
+            onClick={() => this.props.onWidgetClick && this.props.onWidgetClick(widget)}
+          >
             {/* Title */}
             <Title className="-default -primary">
               {widget.attributes.name}
