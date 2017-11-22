@@ -20,12 +20,12 @@ const PANORAMAS = [
   {
     name: 'coral',
     default: 'bleached',
-    backgroundSound: 'http://wri-api-backups.s3.amazonaws.com/resourcewatch/sounds/CoralBleachBackgroundSound.wav',
+    backgroundSound: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/sounds/CoralBleachBackgroundSound.mp3',
     options: [
       {
         name: 'healthy',
         label: 'Healthy',
-        image: 'https://wri-api-backups.s3.amazonaws.com/resourcewatch/images/healthy-optimized.jpg',
+        image: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/images/healthy-optimized.jpg',
         text: ''
       },
       {
@@ -43,7 +43,7 @@ const PANORAMAS = [
       {
         name: 'dead',
         label: 'Dead',
-        image: 'https://wri-api-backups.s3.amazonaws.com/resourcewatch/images/dead-optimized.jpg',
+        image: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/images/dead-optimized.jpg',
         text: ''
       }
     ]
@@ -149,7 +149,7 @@ class SplashDetail extends Page {
             <a-assets>
               <img id="marker" src="../../static/images/splash/marker.svg" alt="" />
               <img id="markerSelected" src="../../static/images/splash/markerSelected.svg" alt="" />
-              <img id="sky" src={skyImage} alt="" />
+              <img id="sky" src={skyImage} alt="" crossOrigin="anonymous" />
             </a-assets>
 
             { /* 360-degree image */ }
