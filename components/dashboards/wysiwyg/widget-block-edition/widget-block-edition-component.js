@@ -33,7 +33,7 @@ export default function WidgetBlockEdition({ data, onChangeTab, onSelectWidget, 
           </div>
         </div>
 
-        <div className="c-page-section dock-widget-container">
+        <div className="c-page-section -small dock-widget-container">
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
