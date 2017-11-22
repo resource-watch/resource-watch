@@ -5,5 +5,5 @@ export default {
   tab: 'my-widgets',
   page: 1,
   pageSize: 9,
-  total: 100
+  total: 0
 };

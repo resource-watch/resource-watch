@@ -28,11 +28,11 @@ export const fetchWidgets = createThunkAction('WIDGET_BLOCK_EDITION_FETCH_DATA',
 
   fetch(`${process.env.WRI_API_URL}/widget?${qParams}`)
     .then(response => response.json())
-    .then(({ data }) => {
+    .then(({ data, meta }) => {
       dispatch(setLoading(false));
       dispatch(setError(null));
       dispatch(setWidgets(data));
-      dispatch(setTotal(50));
+      dispatch(setTotal(meta['total-items']));
     })
     .catch((err) => {
       dispatch(setLoading(false));
