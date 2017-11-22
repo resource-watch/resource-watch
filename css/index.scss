@@ -105,6 +105,7 @@
 @import "./components/map/map-controls";
 
 // Form
+@import '../node_modules/vizz-wysiwyg/build/wysiwyg';
 @import "./components/form/form";
 @import "./components/form/field";
 @import "./components/form/field-container";
@@ -115,7 +116,6 @@
 @import "./components/form/radio";
 @import "./components/form/select";
 @import "./components/form/token";
-@import "./components/form/wysiwyg";
 @import "./components/form/toggle-search";
 
 

@@ -10,10 +10,11 @@ import Input from 'components/form/Input';
 import TextArea from 'components/form/TextArea';
 import FileImage from 'components/form/FileImage';
 import Checkbox from 'components/form/Checkbox';
-import Wysiwyg from 'components/form/Wysiwyg';
 
-// Wysiwig
-import Toolbar from 'components/dashboards/wysiwyg/Toolbar';
+// Wysiwyg
+import Wysiwyg from 'components/form/Wysiwyg';
+import DashboardWidget from 'components/dashboards/wysiwyg/DashboardWidget';
+import WidgetBlockEdition from 'components/dashboards/wysiwyg/widget-block-edition/widget-block-edition';
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -141,14 +142,15 @@ class Step1 extends React.Component {
             properties={{
               name: 'content',
               label: 'Content',
-              type: 'text',
-              rows: 6,
               required: true,
-              default: this.state.form.content
-            }}
-            toolbar={{
-              container: '#toolbar',
-              component: Toolbar
+              default: this.state.form.content,
+              blocks: {
+                widget: {
+                  Component: DashboardWidget,
+                  EditionComponent: WidgetBlockEdition,
+                  renderer: 'modal'
+                }
+              }
             }}
           >
             {Wysiwyg}

@@ -72,6 +72,10 @@ class MyRWWidgetsMy extends React.Component {
     this.loadWidgets(this.props);
   }
 
+  handleWidgetClick = (w) => {
+    Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: w.id });
+  }
+
   @Autobind
   handleOrderChange() {
     const newOrder = this.state.orderDirection === 'asc' ? 'desc' : 'asc';
@@ -220,6 +224,7 @@ class MyRWWidgetsMy extends React.Component {
               showWidgetColllections
               widgetCollections={widgetCollections}
               widgetCollectionsOptions={widgetCollectionOptionsArray.filter(elem => (elem.value !== 'All collections'))}
+              onWidgetClick={this.handleWidgetClick}
               onUpdateWidgetCollections={this.handleUpdateWidgetCollections}
             />
             }

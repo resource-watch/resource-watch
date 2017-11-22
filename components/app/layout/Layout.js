@@ -62,9 +62,9 @@ class Layout extends React.Component {
       if (Progress && Progress.Component.instance) Progress.hideAll();
     };
 
-    if (Transifex) {
-      Transifex.live.onReady(() => {
-        Transifex.live.onTranslatePage((locale) => {
+    if (window.Transifex) {
+      window.Transifex.live.onReady(() => {
+        window.Transifex.live.onTranslatePage((locale) => {
           this.props.setLocale(locale);
           location.reload();
         });
