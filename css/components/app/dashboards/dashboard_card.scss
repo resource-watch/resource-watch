@@ -48,6 +48,8 @@
     display: flex;
     padding: 15px;
     min-height: 300px;
+    overflow-x: auto;
+    overflow-y: hidden;
     flex-grow: 1;
 
     > * {
