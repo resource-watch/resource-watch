@@ -163,7 +163,6 @@ class Step1 extends React.Component {
                   })
                     .then(response => response.json())
                     .then((response) => {
-                      console.log(response);
                       resolve(response.url);
                     })
                     .catch((e) => {
