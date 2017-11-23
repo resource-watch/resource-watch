@@ -150,6 +150,15 @@ class Step1 extends React.Component {
                   EditionComponent: WidgetBlockEdition,
                   renderer: 'modal'
                 }
+              },
+              onUploadImage: (files) => {
+                return new Promise((resolve, reject) => {
+                  const file = files[0];
+                  console.log(file);
+                  resolve(file.name);
+
+                  // reject(file.name);
+                });
               }
             }}
           >

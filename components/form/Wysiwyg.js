@@ -53,6 +53,7 @@ class Wysiwyg extends FormElement {
           items={this.getValue()}
           blocks={this.props.properties.blocks}
           onChange={this.triggerChange}
+          onUploadImage={this.props.properties.onUploadImage}
         />
       </div>
     );
