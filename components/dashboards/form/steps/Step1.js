@@ -154,13 +154,21 @@ class Step1 extends React.Component {
               onUploadImage: (files) => {
                 return new Promise((resolve, reject) => {
                   const file = files[0];
+                  const formData = new FormData();
+                  formData.append('image', file);
 
-                  setTimeout(() => {
-                    console.log(file);
-                    resolve(file.name);
-                  }, 2000)
-
-                  // reject(file.name);
+                  fetch(`${process.env.API_URL}/temporary_content_images`, {
+                    method: 'POST',
+                    body: formData
+                  })
+                    .then(response => response.json())
+                    .then((response) => {
+                      console.log(response);
+                      resolve(response.url);
+                    })
+                    .catch((e) => {
+                      reject(e);
+                    });
                 });
               }
             }}
