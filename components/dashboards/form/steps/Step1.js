@@ -154,8 +154,11 @@ class Step1 extends React.Component {
               onUploadImage: (files) => {
                 return new Promise((resolve, reject) => {
                   const file = files[0];
-                  console.log(file);
-                  resolve(file.name);
+
+                  setTimeout(() => {
+                    console.log(file);
+                    resolve(file.name);
+                  }, 2000)
 
                   // reject(file.name);
                 });
