@@ -38,7 +38,7 @@ const PANORAMAS = [
           {
             title: 'Coral bleaching on the rise',
             id: 'coral_bleaching_on_the_rise',
-            position: '10 2 -10',
+            position: '-10 2 -10',
             text: 'Since the 1980s, warmer ocean temperatures have contributed to more frequent and more harmful coral bleaching events around the world. From 1980 to 1997, some 370 incidents of coral bleaching and disease were reported. From 1998 to 2010, that number exploded to more than 3,700. (This jump mostly reflects the destructive effect of rising ocean temperatures, though it should be noted that growing awareness, monitoring, and communication of coral bleaching as an issue also played a role.)',
             image: '../../static/images/splash/coral_bleaching_on_the_rise.png',
             imageSelected: '../../static/images/splash/coral_bleaching_on_the_rise_active.png',
