@@ -7,6 +7,7 @@ import * as reducers from 'redactions';
 
 // New modules
 import { handleModule } from 'redux-actions';
+import * as dashboardDetail from 'components/dashboards/detail/dashboard-detail';
 import * as widgetBlockEditionModule from 'components/dashboards/wysiwyg/widget-block-edition/widget-block-edition';
 
 if (process.env.NODE_ENV === 'production') {
@@ -20,6 +21,7 @@ if (process.env.NODE_ENV === 'production') {
 // REDUCERS
 const reducer = combineReducers({
   ...reducers,
+  dashboardDetail: handleModule(dashboardDetail),
   widgetBlockEdition: handleModule(widgetBlockEditionModule)
 });
 
