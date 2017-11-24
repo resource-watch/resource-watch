@@ -1,5 +1,4 @@
 import React from 'react';
-import classnames from 'classnames';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -13,7 +12,6 @@ import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 // import DashboardCard from 'components/app/dashboards/DashboardCard';
-import Spinner from 'components/ui/Spinner';
 
 import DashboardDetail from 'components/dashboards/detail/dashboard-detail';
 
