@@ -115,6 +115,11 @@ class SplashDetail extends Page {
     this.setState({ selectedHotspot: hotspot });
   }
 
+  @Autobind
+  handleCloseRightMenu() {
+    this.setState({ selectedHotspot: null });
+  }
+
   render() {
     const { selectedPanorama, skyLoading, panorama, showDragHelp, soundActivated, selectedHotspot } = this.state;
     const skyImage = selectedPanorama && selectedPanorama.image;
@@ -156,6 +161,7 @@ class SplashDetail extends Page {
               className="arrow-button"
               role="button"
               tabIndex={-1}
+              onClick={this.handleCloseRightMenu}
             >
               <img src="/static/images/splash/arrow-right.svg" alt="Close right menu" />
             </div>
