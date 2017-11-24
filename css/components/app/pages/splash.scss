@@ -73,11 +73,16 @@
 
       .visit-container {
         display: flex;
+        align-items: center;
 
         .visit-button {
           text-decoration: none;
           cursor: pointer;
           color: $white;
+
+          img {
+            margin-right: 15px;
+          }
         }
       }
     }

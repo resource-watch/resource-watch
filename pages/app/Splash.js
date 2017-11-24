@@ -228,6 +228,7 @@ class Splash extends Page {
                   role="button"
                   tabIndex={-1}
                 >
+                  <img src="/static/images/splash/play.svg" alt="Visit this place" />
                   VISIT THIS PLACE
                 </a>
               </div>

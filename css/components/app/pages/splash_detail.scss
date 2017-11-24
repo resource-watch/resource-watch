@@ -38,6 +38,35 @@
     }
   }
 
+  .right-section {
+    position: absolute;
+    transition: 1s;
+    top: 0px;
+    left: 60%;
+    width: 40%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.49);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $white;
+    z-index: 9999;
+
+    .detail-container {
+      width: 100%;
+      padding-right: 170px;
+      padding-left: 100px;
+
+      h2 {
+        color: $white;
+      }
+
+      .text-container {
+        margin-bottom: 20px;
+      }
+    }
+  }
+
   .panorama {
     height: 100%;
     width: 100%;
@@ -63,7 +92,7 @@
 
         label {
           cursor: pointer;
-          margin-left: 5px;
+          margin-left: 10px;
         }
 
         &:not(:last-child) {
