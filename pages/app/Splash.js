@@ -169,7 +169,7 @@ class Splash extends Page {
 
   @Autobind
   handleOnInit(viewer) {
-    this.setState({ viewer }, /*this.runInitialAnimation */);
+    this.setState({ viewer }, this.runInitialAnimation);
   }
 
   render() {
