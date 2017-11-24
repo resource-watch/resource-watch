@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="12px" viewBox="0 0 10 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>arrow-down</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="coral-detail" transform="translate(-731.000000, -114.000000)" fill-rule="nonzero" fill="#FFFFFF">
+            <g id="Rectangle-937-+-Rectangle-939-Copy" transform="translate(736.000000, 120.000000) scale(-1, 1) translate(-736.000000, -120.000000) translate(722.000000, 100.000000)">
+                <path d="M15,18.8910725 L18.2928932,22 L20,20.664795 L14,15 L8,20.664795 L9.70710678,22 L13,18.8910725 L13,25 L15,25 L15,18.8910725 Z" id="arrow-down" transform="translate(14.000000, 20.000000) rotate(-90.000000) translate(-14.000000, -20.000000) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

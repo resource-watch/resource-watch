@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="31px" height="31px" viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>play</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="earth-1-selected" transform="translate(-1037.000000, -591.000000)" fill-rule="nonzero" fill="#FFFFFF">
+            <g id="Group-2" transform="translate(1037.000000, 269.000000)">
+                <g id="Group" transform="translate(0.000000, 322.000000)">
+                    <g id="Page-1">
+                        <path d="M15.5,0 C24.0602393,0 31,6.9397607 31,15.5 C31,24.0602393 24.0602393,31 15.5,31 C6.9397607,31 0,24.0602393 0,15.5 C0,6.9397607 6.9397607,0 15.5,0 Z M15.5,2 C8.0443302,2 2,8.0443302 2,15.5 C2,22.9556698 8.0443302,29 15.5,29 C22.9556698,29 29,22.9556698 29,15.5 C29,8.0443302 22.9556698,2 15.5,2 Z M12.8636364,20.7727273 L12.8636364,10.2272727 L20.7727273,15.5 L12.8636364,20.7727273 Z" id="play"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
