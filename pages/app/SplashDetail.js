@@ -61,13 +61,16 @@ class SplashDetail extends Page {
     super(props);
     const panorama = PANORAMAS.find(p => p.name === props.url.query.id);
     const selectedPanorama = panorama.options.find(e => e.name === panorama.default);
+    const earthMode = props.url.query.earthMode;
+
     this.state = {
       skyLoading: false,
       panorama,
       selectedPanorama,
       showDragHelp: true,
       soundActivated: true,
-      selectedHotspot: null
+      selectedHotspot: null,
+      earthMode
     };
   }
 
@@ -124,7 +127,7 @@ class SplashDetail extends Page {
   }
 
   render() {
-    const { selectedPanorama, skyLoading, panorama, showDragHelp, soundActivated, selectedHotspot } = this.state;
+    const { selectedPanorama, skyLoading, panorama, showDragHelp, soundActivated, selectedHotspot, earthMode } = this.state;
     const skyImage = selectedPanorama && selectedPanorama.image;
     const intro = selectedPanorama && selectedPanorama.intro;
     const text = selectedPanorama && selectedPanorama.text;
@@ -216,7 +219,13 @@ class SplashDetail extends Page {
             }
 
             { /* 360-degree image */ }
-            <a-sky id="panorama-sky" src={skyImage} />
+            {!earthMode &&
+              <a-sky id="panorama-sky" src={skyImage} />
+            }
+            {earthMode &&
+              <a-sky id="panorama-sky" src="../../static/images/splash/earthExperiment.jpg" />
+            }
+
 
             { /* Background sound */ }
             {backgroundSound && soundActivated &&
