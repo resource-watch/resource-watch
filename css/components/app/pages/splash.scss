@@ -51,29 +51,30 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    color: $white;
 
-    .thumbnail-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .detail-container {
       width: 100%;
+      padding-right: 23%;
+      padding-left: 23%;
 
-      .title-container {
-        padding: 50px;
+      h2 {
         color: $white;
+      }
+
+      .image-container {
+        width: 100%;
+      }
+
+      .text-container {
+        margin-top: 20px;
+        margin-bottom: 20px;
       }
 
       .visit-container {
         display: flex;
-        flex-direction: column;
-
-
-        img {
-          width: 250px;
-        }
 
         .visit-button {
-          margin-top: 20px;
           text-decoration: none;
           cursor: pointer;
           color: $white;

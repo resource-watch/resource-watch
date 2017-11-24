@@ -148,7 +148,7 @@ class SplashDetail extends Page {
 
             <a-assets>
               <img id="marker" src="../../static/images/splash/marker.svg" alt="" />
-              <img id="markerSelected" src="../../static/images/splash/markerSelected.svg" alt="" />
+              <img id="markerSelected" src="../../static/images/splash/marker.svg" alt="" />
               <img id="sky" src={skyImage} alt="" crossOrigin="anonymous"  />
             </a-assets>
 
