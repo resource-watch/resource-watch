@@ -43,13 +43,16 @@
       padding-right: 20px;
     }
 
-    button {
+    .buttons {
       position: absolute;
       top: #{$margin-size-extra-small + 4px};
       right: $margin-size-extra-small;
       margin: 0;
       padding: 0;
-      cursor: pointer;
+
+      button {
+        cursor: pointer;
+      }
     }
   }
 
@@ -65,6 +68,10 @@
       .c-map { // Do not change this without testing (see comment on .c-map)
         height: calc(100% - #{$margin-size-extra-small});
       }
+    }
+
+    iframe {
+      width: 100%;
     }
 
     .c-chart {

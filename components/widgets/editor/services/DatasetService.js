@@ -2,7 +2,7 @@ import 'isomorphic-fetch';
 import Promise from 'bluebird';
 
 // Utils
-import { isFieldDate, isFieldNumber } from 'components/widgets/editor/helpers/WidgetHelper';
+import { getSimplifiedFieldType } from 'components/widgets/editor/helpers/WidgetHelper';
 
 /**
  * Dataset service
@@ -20,9 +20,15 @@ export default class DatasetService {
     if (!options) {
       throw new Error('options params is required.');
     }
+
     if (!options.apiURL || options.apiURL === '') {
       throw new Error('options.apiURL param is required.');
     }
+
+    if (!options.language) {
+      throw new Error('options.language param is required.');
+    }
+
     this.datasetId = datasetId;
     this.opts = options;
   }
@@ -31,7 +37,7 @@ export default class DatasetService {
    * Get subscribable datasets
    */
   getSubscribableDatasets(includes = '') {
-    return fetch(`${this.opts.apiURL}/dataset?application=rw&includes=${includes}&subscribable=true&page[size]=999`)
+    return fetch(`${this.opts.apiURL}/dataset?application=${[process.env.APPLICATIONS]}&language=${this.opts.language}&includes=${includes}&subscribable=true&page[size]=999`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
@@ -44,7 +50,7 @@ export default class DatasetService {
    * @returns {Promise}
    */
   fetchData(includes = '', applications = [process.env.APPLICATIONS]) {
-    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&includes=${includes}&page[size]=999`)
+    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&language=${this.opts.language}&includes=${includes}&page[size]=999`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
@@ -96,7 +102,7 @@ export default class DatasetService {
   getFilter(fieldData) {
     return new Promise((resolve) => {
       const newFieldData = fieldData;
-      if (isFieldNumber(fieldData) || isFieldDate(fieldData)) {
+      if (fieldData.type === 'number' || fieldData.type === 'date') {
         this.getMinAndMax(fieldData.columnName, fieldData.tableName, fieldData.geostore).then((data) => {
           newFieldData.properties = data;
           resolve(newFieldData);
@@ -110,53 +116,34 @@ export default class DatasetService {
     });
   }
 
-  getFilters() {
-    return new Promise((resolve) => {
-      this.getFields().then((fieldsData) => {
-        const filteredFields = fieldsData.fields.filter(field => field.columnType === 'number' || field.columnType === 'date' || field.columnType === 'string');
-        const promises = (filteredFields || []).map(field => {
-          if (field.columnType === 'number' || field.columnType === 'date') {
-            return this.getMinAndMax(field.columnName, fieldsData.tableName);
-          }
-          return this.getValues(field.columnName, fieldsData.tableName);
-        });
-        Promise.all(promises).then((results) => {
-          const filters = (filteredFields || []).map((field, index) => {
-            const filterResult = {
-              columnName: field.columnName,
-              columnType: field.columnType
-            };
-            if (field.columnType === 'number' || field.columnType === 'date') {
-              filterResult.properties = results[index];
-            } else {
-              filterResult.properties = {
-                values: results[index]
-              };
-            }
-            return filterResult;
-          });
-          resolve(filters);
-        });
-      });
-    });
-  }
-
+  /**
+   * Returns the list of fields of the dataset
+   * @returns {{ columnName: string, columnType: string }[]}
+   */
   getFields() {
     return fetch(`${this.opts.apiURL}/fields/${this.datasetId}`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
       })
-      .then((jsonData) => {
-        const fieldsObj = jsonData.fields;
-        const parsedData = {
-          tableName: jsonData.tableName,
-          fields: (Object.keys(fieldsObj) || []).map(key => ({
-            columnName: key,
-            columnType: fieldsObj[key].type
-          }))
-        };
-        return parsedData;
+      .then((data) => {
+        /** @type {{ [field: string]: { type: string } }} */
+        const fieldToType = data.fields;
+
+        return Object.keys(fieldToType)
+          .map((field) => {
+            // We make sure the type of the field is the simplified
+            // version of it
+            const columnType = getSimplifiedFieldType(fieldToType[field].type);
+            if (!columnType) return null;
+
+            return {
+              columnName: field,
+              columnType
+            };
+          })
+          // We filter out the fields whose type is not supported
+          .filter(f => !!f);
       });
   }
 
@@ -207,7 +194,7 @@ export default class DatasetService {
   }
 
   getLayers() {
-    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}/layer?app=rw`)
+    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}/layer?application=${[process.env.APPLICATIONS]}&env=${process.env.API_ENV}`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
@@ -227,7 +214,7 @@ export default class DatasetService {
   }
 
   getSimilarDatasets() {
-    return fetch(`${this.opts.apiURL}/graph/query/similar-dataset/${this.datasetId}`)
+    return fetch(`${this.opts.apiURL}/graph/query/similar-dataset/${this.datasetId}?application=${[process.env.APPLICATIONS]}`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
@@ -239,13 +226,14 @@ export default class DatasetService {
    * Fetch several datasets at once
    * @static
    * @param {string[]} datasetIDs - List of dataset IDs
+   * @param {string} language - Two-letter locale
    * @param {string} [includes=''] - List of entities to fetch
    * (string of values separated with commas)
    * @param {string[]} [applications=[process.env.APPLICATIONS]] List of applications
    * @returns {object[]}
    */
-  static getDatasets(datasetIDs, includes = '', applications = [process.env.APPLICATIONS]) {
-    return fetch(`${process.env.WRI_API_URL}/dataset/?ids=${datasetIDs}&includes=${includes}&application=${applications.join(',')}&page[size]=999`)
+  static getDatasets(datasetIDs, language, includes = '', applications = [process.env.APPLICATIONS]) {
+    return fetch(`${process.env.WRI_API_URL}/dataset/?ids=${datasetIDs}&language=${language}&includes=${includes}&application=${applications.join(',')}&page[size]=999`)
       .then((response) => {
         if (!response.ok) throw new Error(response.statusText);
         return response.json();
@@ -263,7 +251,7 @@ export default class DatasetService {
     const querySt = `&${topicsSt}${geographiesSt}${dataTypesSt}`;
 
 
-    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}`)
+    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}&application=${[process.env.APPLICATIONS]}`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();

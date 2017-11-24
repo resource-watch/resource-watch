@@ -35,6 +35,8 @@ class WidgetActionsTooltip extends React.Component {
       case 'share_embed':
         this.props.onShareEmbed();
         break;
+      case 'download_pdf':
+        this.props.onDownloadPDF();
     }
     this.props.toggleTooltip(false);
   }
@@ -63,6 +65,11 @@ class WidgetActionsTooltip extends React.Component {
               Go to dataset
             </button>
           </li>
+          <li>
+            <button onClick={() => this.handleClick('download_pdf')}>
+              Download as PDF
+            </button>
+          </li>
         </ul>
       </div>
     );
@@ -75,7 +82,8 @@ WidgetActionsTooltip.propTypes = {
   onGoToDataset: PropTypes.func.isRequired,
   onAddToDashboard: PropTypes.func.isRequired,
   onShareEmbed: PropTypes.func.isRequired,
-  onEditWidget: PropTypes.func.isRequired
+  onEditWidget: PropTypes.func.isRequired,
+  onDownloadPDF: PropTypes.func.isRequired
 };
 
 export default WidgetActionsTooltip;

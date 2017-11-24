@@ -20,6 +20,7 @@ import WidgetService from 'components/widgets/editor/services/WidgetService';
 
 // utils
 import { getChartConfig, getChartInfo } from 'components/widgets/editor/helpers/WidgetHelper';
+import { logEvent } from 'utils/analytics';
 
 const FORM_ELEMENTS = {
   elements: {
@@ -64,6 +65,8 @@ class SaveWidgetModal extends React.Component {
   async onSubmit(event) {
     event.preventDefault();
 
+    logEvent('Customise Visualisation', 'User saves widget', 'Save');
+
     this.setState({
       loading: true
     });
@@ -84,13 +87,17 @@ class SaveWidgetModal extends React.Component {
       visualizationType,
       band,
       layer,
-      title
+      title,
+      zoom,
+      latLng,
+      embed
     } = widgetEditor;
 
     let chartConfig = {};
 
-    // If the visualization if a map, we don't have any chartConfig
-    if (visualizationType !== 'map') {
+    // If the visualization if a map or an embed, we don't have any
+    // chartConfig
+    if (visualizationType !== 'map' && visualizationType !== 'embed') {
       const chartInfo = getChartInfo(dataset, datasetType, datasetProvider, widgetEditor);
 
       try {
@@ -116,14 +123,15 @@ class SaveWidgetModal extends React.Component {
     const widgetConfig = {
       widgetConfig: Object.assign(
         {},
+        { type: visualizationType },
         // If the widget is a map, we want to add some extra info
         // in widgetConfig so the widget is compatible with other
         // apps that use the same API
-        // This info is not necessary for the editor because it is
-        // already saved in widgetConfig.paramsConfig
+        // layer_id are not necessary for the editor because it
+        // is already saved in widgetConfig.paramsConfig
         (
           visualizationType === 'map'
-            ? { type: 'map', layer_id: layer && layer.id }
+            ? { layer_id: layer && layer.id, zoom, ...latLng }
             : {}
         ),
         {
@@ -140,7 +148,8 @@ class SaveWidgetModal extends React.Component {
             filters,
             areaIntersection,
             band: band && { name: band.name },
-            layer: layer && layer.id
+            layer: layer && layer.id,
+            embed
           }
         },
         chartConfig

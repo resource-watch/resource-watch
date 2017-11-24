@@ -10,7 +10,7 @@ export default class WidgetService {
   }
 
   fetchData(includes = '') {
-    return fetch(`${this.opts.apiURL}/widget/${this.widgetId}?includes=${includes}&page[size]=999`)
+    return fetch(`${this.opts.apiURL}/widget/${this.widgetId}?includes=${includes}&page[size]=999&application=${[process.env.APPLICATIONS]}`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
@@ -72,7 +72,7 @@ export default class WidgetService {
   getUserWidgets(userId, sortByUpdatedAt = true, direction = 'asc', includes = '') {
     const directionPart = (direction === 'asc') ? '&sort=updatedAt' : '&sort=-updatedAt';
     const sortSt = sortByUpdatedAt ? directionPart : '';
-    return fetch(`${this.opts.apiURL}/widget/?userId=${userId}${sortSt}&includes=${includes}&env=production,preproduction&page[size]=999`)
+    return fetch(`${this.opts.apiURL}/widget/?userId=${userId}${sortSt}&includes=${includes}&env=${process.env.API_ENV}&application=${[process.env.APPLICATIONS]}&page[size]=999`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
@@ -81,7 +81,7 @@ export default class WidgetService {
   }
 
   getUserWidgetCollections(user) {
-    return fetch(`${this.opts.apiURL}/vocabulary/widget_collections?application=rw`)
+    return fetch(`${this.opts.apiURL}/vocabulary/widget_collections?application=${[process.env.APPLICATIONS]}`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();

@@ -15,7 +15,15 @@ import {
   setFields,
   setBandsInfo,
   setVisualizationType,
-  setTitle
+  setTitle,
+  setZoom,
+  setLatLng,
+  setFilters,
+  setColor,
+  setCategory,
+  setValue,
+  setSize,
+  setOrderBy
 } from 'components/widgets/editor/redux/widgetEditor';
 import { toggleModal } from 'redactions/modal';
 
@@ -33,6 +41,8 @@ import ChartEditor from 'components/widgets/editor/chart/ChartEditor';
 import MapEditor from 'components/widgets/editor/map/MapEditor';
 import RasterChartEditor from 'components/widgets/editor/raster/RasterChartEditor';
 import NEXGDDPEditor from 'components/widgets/editor/nexgddp/NEXGDDPEditor';
+import EmbedEditor from 'components/widgets/editor/embed/EmbedEditor';
+
 
 import Map from 'components/widgets/editor/map/Map';
 import MapControls from 'components/widgets/editor/map/MapControls';
@@ -49,8 +59,9 @@ import {
   getChartConfig,
   canRenderChart,
   getChartType,
-  isFieldAllowed
+  checkEditorRestoredState
 } from 'components/widgets/editor/helpers/WidgetHelper';
+import { logEvent } from 'utils/analytics';
 
 import ChartTheme from 'components/widgets/editor/helpers/theme';
 import LayerManager from 'components/widgets/editor/helpers/LayerManager';
@@ -60,7 +71,8 @@ const VISUALIZATION_TYPES = [
   { label: 'Chart', value: 'chart', available: true },
   { label: 'Chart', value: 'raster_chart', available: false },
   { label: 'Map', value: 'map', available: true },
-  { label: 'Table', value: 'table', available: true }
+  { label: 'Table', value: 'table', available: true },
+  { label: 'Embed', value: 'embed', available: true }
 ];
 
 const ALL_CHART_TYPES = {
@@ -72,14 +84,6 @@ const ALL_CHART_TYPES = {
     'pie',
     'scatter'
   ]
-};
-
-const mapConfig = {
-  zoom: 3,
-  latLng: {
-    lat: 0,
-    lng: 0
-  }
 };
 
 const DEFAULT_STATE = {
@@ -203,6 +207,7 @@ class WidgetEditor extends React.Component {
       && canRenderChart(this.props.widgetEditor, this.state.datasetProvider)
       && this.props.widgetEditor.visualizationType !== 'table'
       && this.props.widgetEditor.visualizationType !== 'map'
+      && this.props.widgetEditor.visualizationType !== 'embed'
       && (hasChangedWidgetEditor || previousState.tableName !== this.state.tableName)) {
       this.fetchChartConfig();
     }
@@ -264,9 +269,8 @@ class WidgetEditor extends React.Component {
     });
 
     this.datasetService.getFields()
-      .then((response) => {
-        const fields = response.fields.filter(field => !!isFieldAllowed(field));
-        const fieldsError = !response.fields || !response.fields.length || fields.length === 0;
+      .then((fields) => {
+        const fieldsError = !fields || !fields.length || fields.length === 0;
 
         this.setState({
           // We still need to fetch the aliases in getDatasetInfo
@@ -349,21 +353,26 @@ class WidgetEditor extends React.Component {
     return this.datasetService.fetchData('metadata')
       .then(({ attributes }) => { // eslint-disable-line arrow-body-style
         return new Promise((resolve) => {
-          const metadata = attributes.metadata.length
-            && attributes.metadata[0]
+          const metadata = !!attributes.metadata.length
+            && !!attributes.metadata[0]
             && attributes.metadata[0].attributes.columns;
 
           // Return the metadata's field for the specified column
-          const getMetadata = (column, field) => (metadata
-            && metadata[column]
+          const getMetadata = (column, field) => (!!metadata
+            && !!metadata[column]
             && metadata[column][field]
           );
 
           // We add the aliases and descriptions to the fields
-          const fields = this.props.widgetEditor.fields.map(field => Object.assign({}, field, {
-            alias: getMetadata(field.columnName, 'alias'),
-            description: getMetadata(field.columnName, 'description')
+          let fields = this.props.widgetEditor.fields.map(field => Object.assign({}, field, {
+            alias: getMetadata(field.columnName, 'alias') || '',
+            description: getMetadata(field.columnName, 'description') || ''
           }));
+
+          // We filter the fields according to the relevant columns
+          const relevantColumns = attributes.widgetRelevantProps || [];
+          fields = fields.filter(field => !relevantColumns.length
+            || attributes.widgetRelevantProps.indexOf(field.columnName) !== -1);
 
           // If the widget is a raster one, we save the information
           // related to its bands (alias, description, etc.)
@@ -406,7 +415,7 @@ class WidgetEditor extends React.Component {
     } = this.state;
 
     const { widgetEditor, dataset, mode, selectedVisualizationType, user } = this.props;
-    const { chartType, layer } = widgetEditor;
+    const { chartType, layer, zoom, latLng, embed } = widgetEditor;
 
     // Whether we are still waiting for some info
     const loading = (mode === 'dataset' && !layersLoaded) ||
@@ -489,6 +498,11 @@ class WidgetEditor extends React.Component {
       // Leaflet map
       case 'map':
         if (layer) {
+          const mapConfig = {
+            zoom,
+            latLng
+          };
+
           visualization = (
             <div className="visualization">
               {chartTitle}
@@ -496,6 +510,7 @@ class WidgetEditor extends React.Component {
                 LayerManager={LayerManager}
                 mapConfig={mapConfig}
                 layerGroups={this.state.layerGroups}
+                setMapParams={params => this.props.setMapParams(params)}
               />
 
               <MapControls>
@@ -589,6 +604,29 @@ class WidgetEditor extends React.Component {
         }
         break;
 
+      // HTML table
+      case 'embed':
+        if (!embed.src) {
+          visualization = (
+            <div className="visualization">
+              {chartTitle}
+              Please enter the url of the visualization
+            </div>
+          );
+        } else {
+          visualization = (
+            <div className="visualization">
+              {chartTitle}
+              <iframe
+                title={chartTitle}
+                src={embed.src}
+                frameBorder="0"
+              />
+            </div>
+          );
+        }
+        break;
+
       default:
     }
 
@@ -634,6 +672,8 @@ class WidgetEditor extends React.Component {
       defaultVis = 'chart';
     } else if (visualizationOptions.find(vis => vis.value === 'map')) {
       defaultVis = 'map';
+    } else if (visualizationOptions.find(vis => vis.value === 'embed')) {
+      defaultVis = 'embed';
     } else if (visualizationOptions.find(vis => vis.value === 'raster_chart')) {
       defaultVis = 'raster_chart';
     }
@@ -669,7 +709,8 @@ class WidgetEditor extends React.Component {
   initComponent(props) {
     // First, we init the services
     this.datasetService = new DatasetService(props.dataset, {
-      apiURL: process.env.WRI_API_URL
+      apiURL: process.env.WRI_API_URL,
+      language: props.locale
     });
 
     this.widgetService = new WidgetService(props.dataset, {
@@ -743,8 +784,35 @@ class WidgetEditor extends React.Component {
         // If this is the inital call to this method (when the component is
         // mounted), we don't want to reset the store because we might set it
         // from the outside when editing an existing widget
-        .then(() => this.setVisualizationOptions(!initialLoading));
+        .then(() => this.setVisualizationOptions(!initialLoading))
+        .then(() => {
+          if (initialLoading) {
+            // If the editor is initially loaded, a previous state might have
+            // been restored. In such a case, we make sure the data is still
+            // up to date (for example, the aliases)
+            this.checkEditorRestoredState();
+          }
+        });
     });
+  }
+
+  /**
+   * Check if the restored state of the editor is up to date,
+   * if any
+   */
+  checkEditorRestoredState() {
+    const { widgetEditor } = this.props;
+
+    const attrToSetter = {
+      category: this.props.setCategory,
+      value: this.props.setValue,
+      size: this.props.setSize,
+      color: this.props.setColor,
+      orderBy: this.props.setOrderBy,
+      filters: this.props.setFilters
+    };
+
+    checkEditorRestoredState(widgetEditor, attrToSetter);
   }
 
   /**
@@ -855,6 +923,8 @@ class WidgetEditor extends React.Component {
     if (resetStore) this.props.resetWidgetEditor(false);
 
     this.props.setVisualizationType(selectedVisualizationType);
+
+    logEvent('Customise Visualisation', 'Selects visualisation type', selectedVisualizationType);
   }
 
   render() {
@@ -1021,6 +1091,22 @@ class WidgetEditor extends React.Component {
                       />
                     )
                 }
+                {
+                  selectedVisualizationType === 'embed'
+                    && (
+                      <EmbedEditor
+                        dataset={this.props.dataset}
+                        tableName={tableName}
+                        provider={datasetProvider}
+                        mode={chartEditorMode}
+                        hasGeoInfo={hasGeoInfo}
+                        showSaveButton={showSaveButton}
+                        showNotLoggedInText={showNotLoggedInText}
+                        onUpdateWidget={this.handleUpdateWidget}
+                      />
+                    )
+                }
+
               </div>
               {visualization}
             </div>
@@ -1031,11 +1117,12 @@ class WidgetEditor extends React.Component {
   }
 }
 
-const mapStateToProps = ({ widgetEditor, user }) => ({
+const mapStateToProps = ({ widgetEditor, user, common }) => ({
   widgetEditor,
   user,
   selectedVisualizationType: widgetEditor.visualizationType,
-  band: widgetEditor.band
+  band: widgetEditor.band,
+  locale: common.locale
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -1044,7 +1131,17 @@ const mapDispatchToProps = dispatch => ({
   setBandsInfo: bands => dispatch(setBandsInfo(bands)),
   setVisualizationType: vis => dispatch(setVisualizationType(vis)),
   toggleModal: (open, options) => dispatch(toggleModal(open, options)),
-  setTitle: title => dispatch(setTitle(title))
+  setTitle: title => dispatch(setTitle(title)),
+  setMapParams: (params) => {
+    dispatch(setZoom(params.zoom));
+    dispatch(setLatLng(params.latLng));
+  },
+  setFilters: filter => dispatch(setFilters(filter)),
+  setColor: filter => dispatch(setColor(filter)),
+  setCategory: filter => dispatch(setCategory(filter)),
+  setValue: filter => dispatch(setValue(filter)),
+  setSize: filter => dispatch(setSize(filter)),
+  setOrderBy: filter => dispatch(setOrderBy(filter))
 });
 
 WidgetEditor.defaultProps = {
@@ -1075,7 +1172,15 @@ WidgetEditor.propTypes = {
   selectedVisualizationType: PropTypes.string,
   toggleModal: PropTypes.func,
   setBandsInfo: PropTypes.func,
-  setTitle: PropTypes.func
+  setTitle: PropTypes.func,
+  setMapParams: PropTypes.func,
+  locale: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
+  setFilters: PropTypes.func, // eslint-disable-line react/no-unused-prop-types
+  setColor: PropTypes.func, // eslint-disable-line react/no-unused-prop-types
+  setCategory: PropTypes.func, // eslint-disable-line react/no-unused-prop-types
+  setValue: PropTypes.func, // eslint-disable-line react/no-unused-prop-types
+  setSize: PropTypes.func, // eslint-disable-line react/no-unused-prop-types
+  setOrderBy: PropTypes.func // eslint-disable-line react/no-unused-prop-types
 };
 
 WidgetEditor.defaultProps = {

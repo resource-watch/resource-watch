@@ -5,9 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] 2017-11-14
+
+### Fixed
+
+### Added
+- Description of the fields/columns in the editor
+
+### Changed
+
 ## [1.1.0] - 2017-10-11
 
 ### Fixed
+- Explore details tags are filtered so that generic/unuseful tags are not shown
 - Legend actions buttons are not shown in the widget editor in Map mode
 - Insight cards: Source used to create the cards have been unified, links are visible now (white color)
 - Explore Detail: Source is not shown in the header
@@ -35,9 +45,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Metadata subtitle
 - WMS Metadata and Dataset form doesn't call fields endpoint
 - Explore detail: download links working
-- Explore detail: correct seo tags
+- Explore detail: correct SEO tags
 
 ### Added
+- Prototype of the Splash page
+- Pulse: Use Cesium for both 2D and 3D layers
+- Explore: favorite datasets
+- Explore detail: favorite dataset
+- MyRW Dataset favorites
+- Explore detail tags section
+- Favorite widget functionality at Embed widget page
+- Styles for LayerInfoModal component
 - Technical title (formal name) added to Explore Detail
 - Subscribe to alerts from Planet Pulse
 - Insights cards: The whole card is clickable now

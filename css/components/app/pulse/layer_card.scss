@@ -7,6 +7,7 @@
   max-width: 400px;
   max-height: 550px;
   border-radius: 4px;
+  z-index: 999;
 
   h3, h5 {
     color: $color-dark-pink;
@@ -23,6 +24,10 @@
   .description {
     max-height: 50px;
     overflow: auto;
+
+    p {
+      margin-bottom: 0px;
+    }
   }
 
   .widget-card {
@@ -44,6 +49,11 @@
       color: $color-dark-pink;
       text-decoration: none;
       cursor: pointer;
+    }
+
+    .subscribe-text {
+      color: $dark-pink;
+      font-style: italic;
     }
   }
 }

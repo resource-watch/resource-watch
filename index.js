@@ -36,7 +36,7 @@ const server = express();
 
 function checkBasicAuth(users) {
   return function authMiddleware(req, res, nextAction) {
-    if (!/AddSearchBot/.test(req.headers['user-agent'])) {
+    if (!/(AddSearchBot)|(HeadlessChrome)/.test(req.headers['user-agent'])) {
       const user = basicAuth(req);
       let authorized = false;
       if (user && ( (user.name === users[0].name && user.pass === users[0].pass) ||

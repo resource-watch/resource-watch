@@ -43,8 +43,11 @@ class LayerCard extends React.Component {
     const layerActiveLoaded = pulse.layerActive && pulse.layerActive.id;
 
     if (layerActiveLoaded) {
-      this.datasetService = new DatasetService(pulse.layerActive.attributes.dataset,
-        { apiURL: process.env.WRI_API_URL });
+      this.datasetService = new DatasetService(pulse.layerActive.attributes.dataset, {
+        apiURL: process.env.WRI_API_URL,
+        language: nextProps.locale
+      });
+
       this.datasetService.fetchData().then((data) => {
         this.setState({
           dataset: data
@@ -109,9 +112,12 @@ class LayerCard extends React.Component {
     return (
       <div className={className}>
         <h3>{layerActive && layerActive.attributes.name}</h3>
-        <div className="description">
-          {layerActive && layerActive.attributes.description}
-        </div>
+        {layerActive && layerActive.attributes.description &&
+          <div
+            className="description"
+            dangerouslySetInnerHTML={{ __html: layerActive.attributes.description }} // eslint-disble-line react/no-danger
+          />
+        }
         {layerPoints && layerPoints.length > 0 &&
           <div className="number-of-points">
             Number of objects: {layerPoints.length}
@@ -165,6 +171,9 @@ class LayerCard extends React.Component {
               Subscribe to alerts
             </button>
           }
+          { subscribable && !userLoggedIn &&
+            <span className="subscribe-text">Log in to subscribe</span>
+          }
         </div>
       </div>
     );
@@ -175,6 +184,7 @@ LayerCard.propTypes = {
   // PROPS
   pulse: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired,
 
   // Actions
   setSimilarWidgets: PropTypes.func.isRequired,
@@ -184,7 +194,8 @@ LayerCard.propTypes = {
 
 const mapStateToProps = state => ({
   pulse: state.pulse,
-  user: state.user
+  user: state.user,
+  locale: state.common.locale
 });
 
 const mapDispatchToProps = dispatch => ({

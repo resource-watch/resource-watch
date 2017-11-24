@@ -54,7 +54,7 @@ export function setUser(user) {
 export function getFavourites() {
   return (dispatch, getState) => {
     const { user } = getState();
-    return service.getFavourites(`Bearer ${user.token}`)
+    return service.getFavourites(user.token)
       .then((response) => {
         dispatch({ type: GET_USER_FAVORITES, payload: response });
       });

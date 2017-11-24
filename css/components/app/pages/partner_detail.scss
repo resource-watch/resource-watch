@@ -1,30 +1,34 @@
 .c-page.partner-detail {
   .c-banner {
     &.intro {
-      background-image: url('/static/images/backgrounds/bitmap.jpg');
-      background-position: top center;
 
-      .title {
-        margin-bottom: 40px;
-        letter-spacing: 3px;
-        color: $white;
+      background-size: cover;
+      background-position: center;
+
+      .partner-header {
+        z-index: 9999;
+
+        .title {
+          margin-bottom: 40px;
+          letter-spacing: 3px;
+          color: $white;
+        }
+
+        .logo-container {
+          display: inline-block;
+          margin-bottom: 80px;
+          padding: 15px 20px;
+        }
+
+        .description {
+          padding: 0 150px;
+          text-align: left;
+        }
       }
-
-      .logo-container {
-        display: inline-block;
-        margin-bottom: 80px;
-        padding: 15px 20px;
-      }
-
-      .description {
-        padding: 0 150px;
-        text-align: left;
-      }
-    }
-
-    &.learn-more {
-      background-image: url('/static/images/backgrounds/jellyfish.jpg');
-      background-position: top center;
     }
   }
+}
+
+.learn-more {
+  margin-top: 80px;
 }

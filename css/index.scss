@@ -85,6 +85,7 @@
 @import "./components/modal/upload_area_intersection_modal";
 @import "./components/modal/subscribe_to_dataset_modal";
 @import "./components/modal/area_subscription_modal";
+@import "./components/modal/layer_info_modal";
 
 // areas
 @import "./components/areas/areas_form";
@@ -104,6 +105,7 @@
 @import "./components/map/map-controls";
 
 // Form
+@import '../node_modules/vizz-wysiwyg/build/wysiwyg';
 @import "./components/form/form";
 @import "./components/form/field";
 @import "./components/form/field-container";
@@ -114,7 +116,6 @@
 @import "./components/form/radio";
 @import "./components/form/select";
 @import "./components/form/token";
-@import "./components/form/wysiwyg";
 @import "./components/form/toggle-search";
 
 
@@ -124,6 +125,7 @@
 @import "./components/widgets/widget_editor";
 @import "./components/widgets/columnbox";
 @import "./components/widgets/column_container";
+@import "./components/widgets/column_details";
 @import "./components/widgets/dimensions_container";
 @import "./components/widgets/filter_container";
 @import "./components/widgets/filter_tooltip";
@@ -201,7 +203,8 @@
 @import "./components/app/pages/develop_app";
 @import "./components/app/pages/apps";
 @import "./components/app/pages/p-app-detail";
-
+@import "./components/app/pages/splash";
+@import "./components/app/pages/splash_detail";
 
 // LAYOUT
 // @import "./components/app/layout/page";
@@ -246,6 +249,7 @@
 @import "./components/app/pages/myrw/myrw_widgets_edit";
 @import "./components/app/pages/myrw/myrw_widgets_new";
 @import "./components/app/pages/myrw/myrw_dataset_widgets";
+@import "./components/app/pages/myrw/myrw_datasets_starred";
 
 // Embed
 @import "./components/app/pages/embed/embed_widget";

@@ -23,6 +23,8 @@ routes.add('admin_tools_detail', '/admin/tools/:tab/:id/:subtab?', 'admin/ToolsD
 
 // ========================= APP ROUTES =====================
 routes.add('home', '/', 'app/Home');
+routes.add('splash', '/splash', 'app/Splash');
+routes.add('splash_detail', '/splash/:id', 'app/SplashDetail');
 
 // ---- ABOUT ----
 routes.add('about', '/about', 'app/About');
@@ -54,6 +56,7 @@ routes.add('myrw_detail', '/myrw-detail/:tab?/:id?/:subtab?', 'app/MyRWDetail');
 routes.add('embed_widget', '/embed/widget/:id', 'app/embed/EmbedWidget');
 routes.add('embed_text', '/embed/text/:id', 'app/embed/EmbedText');
 routes.add('embed_map', '/embed/map/:id', 'app/embed/EmbedMap');
+routes.add('embed_embed', '/embed/embed/:id', 'app/embed/EmbedEmbed');
 routes.add('embed_dataset', '/embed/dataset/:id', 'app/embed/EmbedDataset');
 routes.add('embed_layer', '/embed/layers', 'app/embed/EmbedLayer');
 routes.add('embed_table', '/embed/table', 'app/embed/EmbedTable');

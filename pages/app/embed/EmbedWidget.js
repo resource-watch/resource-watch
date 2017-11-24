@@ -7,7 +7,7 @@ import d3 from 'd3';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { bindActionCreators } from 'redux';
-import { getWidget } from 'redactions/widget';
+import { getWidget, checkIfFavorited, setIfFavorited } from 'redactions/widget';
 import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
@@ -42,7 +42,9 @@ class EmbedWidget extends Page {
   }
 
   componentDidMount() {
-    this.props.getWidget(this.props.url.query.id);
+    const { url } = this.props;
+    this.props.getWidget(url.query.id);
+    if (this.props.user.id) this.props.checkIfFavorited(url.query.id);
   }
 
   getModal() {
@@ -96,8 +98,10 @@ class EmbedWidget extends Page {
   }
 
   render() {
-    const { widget, loading, error } = this.props;
+    const { widget, loading, error, favorited, user } = this.props;
     const { isLoading, modalOpened } = this.state;
+
+    const favoriteIcon = favorited ? 'star-full' : 'star-empty';
 
     if (loading) {
       return (
@@ -154,12 +158,23 @@ class EmbedWidget extends Page {
             <a href={`/data/explore/${widget.attributes.dataset}`} target="_blank" rel="noopener noreferrer">
               <h4>{widget.attributes.name}</h4>
             </a>
-            <button
-              aria-label={`${modalOpened ? 'Close' : 'Open'} information modal`}
-              onClick={() => this.setState({ modalOpened: !modalOpened })}
-            >
-              <Icon name={`icon-${modalOpened ? 'cross' : 'info'}`} className="c-icon -small" />
-            </button>
+            <div className="buttons">
+              {
+                user.id && (
+                  <button
+                    onClick={() => this.props.setIfFavorited(widget.id, !this.props.favorited)}
+                  >
+                    <Icon name={`icon-${favoriteIcon}`} className="c-icon -small" />
+                  </button>
+                )
+              }
+              <button
+                aria-label={`${modalOpened ? 'Close' : 'Open'} information modal`}
+                onClick={() => this.setState({ modalOpened: !modalOpened })}
+              >
+                <Icon name={`icon-${modalOpened ? 'cross' : 'info'}`} className="c-icon -small" />
+              </button>
+            </div>
           </div>
           <div className="widget-content">
             <VegaChart
@@ -190,10 +205,13 @@ class EmbedWidget extends Page {
 EmbedWidget.propTypes = {
   widget: PropTypes.object,
   getWidget: PropTypes.func,
+  checkIfFavorited: PropTypes.func,
+  setIfFavorited: PropTypes.func,
   bandDescription: PropTypes.string,
   bandStats: PropTypes.object,
   loading: PropTypes.bool,
-  error: PropTypes.string
+  error: PropTypes.string,
+  favorited: PropTypes.bool
 };
 
 EmbedWidget.defaultProps = {
@@ -205,11 +223,15 @@ const mapStateToProps = state => ({
   loading: state.widget.loading,
   error: state.widget.error,
   bandDescription: state.widget.bandDescription,
-  bandStats: state.widget.bandStats
+  bandStats: state.widget.bandStats,
+  favorited: state.widget.favorite.favorited,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({
-  getWidget: bindActionCreators(getWidget, dispatch)
+  getWidget: bindActionCreators(getWidget, dispatch),
+  checkIfFavorited: bindActionCreators(checkIfFavorited, dispatch),
+  setIfFavorited: bindActionCreators(setIfFavorited, dispatch)
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(EmbedWidget);

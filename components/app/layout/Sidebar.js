@@ -4,6 +4,9 @@ import classnames from 'classnames';
 import MediaQuery from 'react-responsive';
 import debounce from 'lodash/debounce';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Redux
 import { connect } from 'react-redux';
 import { setSidebar } from 'redactions/explore';
@@ -11,7 +14,6 @@ import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import Icon from 'components/ui/Icon';
-
 
 class Sidebar extends React.Component {
   constructor(props) {
@@ -22,6 +24,7 @@ class Sidebar extends React.Component {
     };
 
     this.triggerToggle = this.triggerToggle.bind(this);
+    this.triggerResize = debounce(this.triggerResize.bind(this), 500);
     this.handleScroll = debounce(this.handleScroll.bind(this), 30);
   }
 
@@ -31,10 +34,20 @@ class Sidebar extends React.Component {
       open: true
     };
     this.props.setSidebar(options);
+
+    window.addEventListener('resize', this.triggerResize);
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ open: nextProps.sidebar.open });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.triggerResize);
+  }
+
+  triggerResize() {
+    this.props.setSidebar({ width: this.sidebarNode.offsetWidth });
   }
 
   /**
@@ -47,6 +60,12 @@ class Sidebar extends React.Component {
       open: !this.state.open
     };
     this.props.setSidebar(options);
+
+    if (!this.state.open) {
+      logEvent('Explore Map', 'Expand Map', 'Expand explore menu');
+    } else {
+      logEvent('Explore Map', 'Expand Map', 'Expand Map');
+    }
   }
 
   handleScroll() {

@@ -8,14 +8,13 @@ $banner-padding-size: 70px;
   padding-top: $banner-padding-size;
   padding-bottom: $banner-padding-size;
 
-  background-size: cover;
-  background-position: center;
-
   color: $alt-font-color;
 
-  background-image: url('/static/images/backgrounds/image_header.jpg');
-  background-position: top center;
-  background-size: cover;
+  &.-use-background {
+    background-size: cover;
+    background-image: url('/static/images/backgrounds/image_header.jpg');
+    background-position: top center;
+  }
 
   h1, h2, h3 {
     color: $alt-font-color;

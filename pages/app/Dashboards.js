@@ -1,6 +1,5 @@
 import React from 'react';
 import { Router } from 'routes';
-import isEqual from 'lodash/isEqual';
 
 // Redux
 import withRedux from 'next-redux-wrapper';

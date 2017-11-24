@@ -151,6 +151,7 @@ class VegaChart extends React.Component {
       return this.props.toggleTooltip(true, {
         follow: true,
         direction: 'bottom',
+        className: '-no-interaction',
         children: VegaChartTooltip,
         childrenProps: {
           item: {

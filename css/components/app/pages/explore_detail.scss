@@ -1,4 +1,10 @@
 .c-page-explore-detail {
+
+  .favorite-button {
+    fill: $white;
+    cursor: pointer;
+  }
+
   .c-configurable-widget {
 
     position:relative;
@@ -47,6 +53,24 @@
     padding: 0px;
   }
 
+  .tags {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    overflow: auto;
+
+    .tag {
+      margin-right: 10px;
+      color: $link-font-color;
+      cursor: pointer;
+      text-decoration: underline;
+
+      &:hover {
+        color:darken($link-font-color, 10%);
+      }
+    }
+  }
+
   .c-page-section.similar-datasets {
     padding: 0px;
   }
@@ -81,7 +105,6 @@
         }
       }
     }
-
   }
 
   h2 {

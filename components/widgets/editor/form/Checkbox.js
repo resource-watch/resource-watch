@@ -14,10 +14,12 @@ export default class Checkbox extends FormElement {
   triggerChange(evt) {
     const { value } = this.props.properties;
 
-    this.props.onChange && this.props.onChange({
-      value,
-      checked: evt.currentTarget.checked
-    });
+    if (this.props.onChange) {
+      this.props.onChange({
+        value,
+        checked: evt.currentTarget.checked
+      });
+    }
   }
 
   render() {

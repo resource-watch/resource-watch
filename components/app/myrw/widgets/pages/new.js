@@ -20,8 +20,9 @@ import Input from 'components/form/Input';
 import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
 
-// utils
+// Utils
 import { getChartConfig, canRenderChart, getChartInfo } from 'utils/widgets/WidgetHelper';
+import { logEvent } from 'utils/analytics';
 
 const FORM_ELEMENTS = {
   elements: {
@@ -59,7 +60,9 @@ class WidgetsNew extends React.Component {
 
     // Services
     this.widgetService = new WidgetService(null, { apiURL: process.env.CONTROL_TOWER_URL });
-    this.datasetsService = new DatasetsService();
+    this.datasetsService = new DatasetsService({
+      language: props.locale
+    });
   }
 
   componentDidMount() {
@@ -86,7 +89,9 @@ class WidgetsNew extends React.Component {
       filters,
       areaIntersection,
       layer,
-      title
+      title,
+      zoom,
+      latLng
     } = widgetEditor;
 
     const dataset = datasets.find(elem => elem.value === selectedDataset);
@@ -96,6 +101,8 @@ class WidgetsNew extends React.Component {
       toastr.error('Error', 'Please create a widget in order to save it');
       return;
     }
+
+    logEvent('My RW', 'User creates new widget', this.state.datasets.find(d => d.id === this.state.selectedDataset).label);
 
     this.setState({ loading: true });
 
@@ -131,11 +138,11 @@ class WidgetsNew extends React.Component {
         // If the widget is a map, we want to add some extra info
         // in widgetConfig so the widget is compatible with other
         // apps that use the same API
-        // This info is not necessary for the editor because it is
-        // already saved in widgetConfig.paramsConfig
+        // The type and layer_id are not necessary for the editor
+        // because it is already saved in widgetConfig.paramsConfig
         (
           visualizationType === 'map'
-            ? { type: 'map', layer_id: layer && layer.id }
+            ? { type: 'map', layer_id: layer && layer.id, zoom, ...latLng }
             : {}
         ),
         {
@@ -400,12 +407,14 @@ WidgetsNew.propTypes = {
   // Store
   user: PropTypes.object.isRequired,
   widgetEditor: PropTypes.object.isRequired,
-  setTitle: PropTypes.func.isRequired
+  setTitle: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user,
-  widgetEditor: state.widgetEditor
+  widgetEditor: state.widgetEditor,
+  locale: state.common.locale
 });
 
 const mapDispatchToProps = dispatch => ({

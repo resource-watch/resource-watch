@@ -57,6 +57,10 @@ class DatasetWidgets extends React.Component {
       }).catch(err => toastr.error('Error', err));
   }
 
+  handleWidgetClick = (w) => {
+    Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: w.id });
+  }
+
   @Autobind
   handleWidgetRemoved() {
     this.loadWidgets(this.props);
@@ -136,6 +140,7 @@ class DatasetWidgets extends React.Component {
             <WidgetList
               widgets={widgets}
               mode={mode}
+              onWidgetClick={this.handleClickWidget}
               onWidgetRemove={this.handleWidgetRemoved}
               showActions
               showRemove

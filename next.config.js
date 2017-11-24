@@ -56,7 +56,10 @@ module.exports = {
         'process.env.WRI_API_URL': JSON.stringify(process.env.WRI_API_URL),
         'process.env.STATIC_SERVER_URL': JSON.stringify(process.env.STATIC_SERVER_URL),
         'process.env.ADD_SEARCH_KEY': JSON.stringify(process.env.ADD_SEARCH_KEY),
-        'process.env.TRANSIFEX_LIVE_API': JSON.stringify(process.env.TRANSIFEX_LIVE_API)
+        'process.env.TRANSIFEX_LIVE_API': JSON.stringify(process.env.TRANSIFEX_LIVE_API),
+        'process.env.BING_MAPS_API_KEY': JSON.stringify(process.env.BING_MAPS_API_KEY),
+        'process.env.API_ENV': JSON.stringify(process.env.API_ENV),
+        'process.env.GOOGLE_ANALYTICS': JSON.stringify(process.env.GOOGLE_ANALYTICS)
       })
     );
 

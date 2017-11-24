@@ -4,11 +4,14 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 import MediaQuery from 'react-responsive';
 import { toastr } from 'react-redux-toastr';
+import classnames from 'classnames';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import { setTopicsTree } from 'redactions/explore';
 import { resetDataset } from 'redactions/exploreDetail';
+import { getDataset } from 'redactions/exploreDataset';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 import {
@@ -30,15 +33,18 @@ import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
 // Next
-import { Link } from 'routes';
+import { Link, Router } from 'routes';
 
 // Services
 import DatasetService from 'services/DatasetService';
 import LayersService from 'services/LayersService';
+import GraphService from 'services/GraphService';
+import UserService from 'services/UserService';
 
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
+import Icon from 'components/ui/Icon';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
 import WidgetEditor from 'components/widgets/editor/WidgetEditor';
@@ -47,8 +53,9 @@ import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
 
-// constants
-const LIMIT_CHAR_DESCRIPTION = 1120;
+// Utils
+import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
+import { logEvent } from 'utils/analytics';
 
 class ExploreDetail extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
@@ -56,6 +63,7 @@ class ExploreDetail extends Page {
     const url = { asPath, pathname, query };
     store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
+    await store.dispatch(getDataset(url.query.id));
     return { user, isServer, url };
   }
 
@@ -63,19 +71,26 @@ class ExploreDetail extends Page {
     super(props);
 
     this.state = {
-      similarDatasetsLoaded: false,
-      similarDatasets: [],
       dataset: null,
       loading: false,
+      similarDatasetsLoaded: false,
+      similarDatasets: [],
       showDescription: false,
       showFunction: false,
-      showCautions: false
+      showCautions: false,
+      inferredTags: [],
+      favorite: null
     };
 
     // DatasetService
     this.datasetService = new DatasetService(props.url.query.id, {
-      apiURL: process.env.WRI_API_URL
+      apiURL: process.env.WRI_API_URL,
+      language: props.locale
     });
+    // GraphService
+    this.graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
+    // UserService
+    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
   }
 
   /**
@@ -87,6 +102,9 @@ class ExploreDetail extends Page {
   componentDidMount() {
     this.getDataset();
     this.getSimilarDatasets();
+    this.getFavoriteDatasets();
+    this.loadTopicsTree();
+    this.countView(this.props.url.query.id);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -97,13 +115,16 @@ class ExploreDetail extends Page {
         datasetLoaded: false
       }, () => {
         this.datasetService = new DatasetService(nextProps.url.query.id, {
-          apiURL: process.env.WRI_API_URL
+          apiURL: process.env.WRI_API_URL,
+          language: nextProps.locale
         });
         // Scroll to the top of the page
         window.scrollTo(0, 0);
         this.getDataset();
         this.getSimilarDatasets();
       });
+
+      this.countView(nextProps.url.query.id);
     }
   }
 
@@ -115,18 +136,38 @@ class ExploreDetail extends Page {
    * HELPERS
    * - getDataset
    * - getSimilarDatasets
+   * - loadTopicsTree
+   * - loadInferredTags
   */
+  loadTopicsTree() {
+    const { topicsTree } = this.props;
+
+    if (!topicsTree) {
+      fetch(new Request('/static/data/TopicsTreeLite.json', { credentials: 'same-origin' }))
+        .then(response => response.json())
+        .then((data) => {
+          // Save the topics tree as variable for later use
+          this.props.setTopicsTree(data);
+        });
+    }
+  }
+
   getDataset() {
     this.setState({
       loading: true
     }, () => {
       this.datasetService.fetchData('layer,metadata,vocabulary,widget').then((response) => {
         const defaultEditableWidget = response.attributes.widget.find(widget => widget.attributes.defaultEditableWidget === true);
+
         this.setState({
           dataset: response,
           datasetLoaded: true,
           loading: false
         }, () => defaultEditableWidget && this.loadDefaultWidgetIntoRedux(defaultEditableWidget));
+
+        // Load inferred tags
+        const tags = response.attributes.vocabulary[0].attributes.tags;
+        this.loadInferredTags(tags);
       }).catch((error) => {
         toastr.error('Error', 'Unable to load the dataset');
         console.error(error);
@@ -137,36 +178,50 @@ class ExploreDetail extends Page {
     });
   }
 
-  getSimilarDatasets() {
-    this.setState({
-      similarDatasetsLoaded: false
-    });
-    this.datasetService.getSimilarDatasets()
+  loadInferredTags(tags) {
+    this.graphService.getInferredTags(tags)
       .then((response) => {
-        let counter = 0;
-        const similarDatasets = response.map(val => val.dataset).filter(
-          () => {
-            counter++;
-            return counter < 7;
-          });
-
-        if (similarDatasets.length > 0) {
-          DatasetService.getDatasets(similarDatasets, 'widget,metadata,layer')
-            .then((data) => {
-              this.setState({
-                similarDatasetsLoaded: true,
-                similarDatasets: data
-              });
-            })
-            .catch(err => toastr.error('Error', err));
-        } else {
-          this.setState({
-            similarDatasetsLoaded: true,
-            similarDatasets: []
-          });
-        }
+        this.setState({
+          inferredTags: response.filter(tag => tag.labels
+            .find(type => type === 'TOPIC' || type === 'GEOGRAPHY') &&
+            !TAGS_BLACKLIST.includes(tag.id)
+          )
+        });
       })
-      .catch(err => toastr.error('Error', err));
+      .catch((err) => {
+        this.setState({ inferredTags: [] });
+        console.error(err);
+      });
+  }
+
+  getFavoriteDatasets() {
+    const { user, url } = this.props;
+    if (user.id) {
+      this.userService.getFavouriteDatasets(user.token)
+        .then((response) => {
+          const found = response.find(elem => elem.attributes.resourceId === url.query.id);
+          this.setState({
+            favorite: found
+          });
+        });
+    }
+  }
+
+  getSimilarDatasets() {
+    this.setState({ similarDatasetsLoaded: false });
+
+    this.datasetService.getSimilarDatasets()
+      .then(res => res.map(val => val.dataset).slice(0, 7))
+      .then((ids) => {
+        if (ids.length === 0) return [];
+        return DatasetService.getDatasets(ids, this.props.locale, 'widget,metadata,layer,vocabulary');
+      })
+      .then(similarDatasets => this.setState({ similarDatasets }))
+      .catch((err) => {
+        console.error(err);
+        toastr.error('Error', 'Unable to load the similar datasets');
+      })
+      .then(() => this.setState({ similarDatasetsLoaded: true }));
   }
 
   loadDefaultWidgetIntoRedux(defaultEditableWidget) {
@@ -209,6 +264,14 @@ class ExploreDetail extends Page {
   }
 
   /**
+   * Gather the number of views of this dataset
+   * @param {string} datasetId Dataset ID
+   */
+  countView(datasetId) {
+    this.graphService.countDatasetView(datasetId, this.props.user.token);
+  }
+
+  /**
    * UI EVENTS
    * - handleShare
    * - handleSubscribe
@@ -226,6 +289,7 @@ class ExploreDetail extends Page {
       childrenProps: {
         url: window.location.href,
         datasetId: this.state.dataset.id,
+        datasetName: this.state.dataset.attributes.name,
         showEmbed: widget && widget.attributes !== null,
         toggleModal: this.props.toggleModal
       }
@@ -247,41 +311,94 @@ class ExploreDetail extends Page {
     this.props.setModalOptions(options);
   }
 
-  shortenerText(text = '', fieldToManage, limitChar = 0) {
-    const localText = text || '';
-    if ((localText || '').length <= limitChar) {
-      return localText;
+  handleTagSelected(tag, labels = ['TOPIC']) { // eslint-disable-line class-methods-use-this
+    const tagSt = `["${tag}"]`;
+    let treeSt = 'topics';
+    if (labels.includes('TOPIC')) {
+      treeSt = 'topics';
+    } else if (labels.includes('GEOGRAPHY')) {
+      treeSt = 'geographies';
+    } else if (labels.includes('DATA_TYPE')) {
+      treeSt = 'dataType';
     }
 
-    const fieldVisibility = this.state[fieldToManage] || false;
-    const initialText = localText.substr(0, limitChar);
-    const leftText = localText.substr(limitChar, localText.length - initialText.length);
+    Router.pushRoute('explore', { [treeSt]: tagSt });
+  }
+
+  // FIXME: refactor this, if a UI element's purpose is to
+  // redirect the user, then use a link
+  // A button is semantically different
+  @Autobind
+  handleTagClick(event) {
+    const element = event.target;
+    this.handleTagSelected(element.getAttribute('id'), element.getAttribute('data-labels'));
+  }
+
+  /**
+   * Shorten the given text and format it so the full length
+   * can be toggled via a button modifying the state
+   * @param {string} [text=''] Text to shorten
+   * @param {string} fieldToManage Property of the state to toggle
+   * @param {number} [limitChar=1120] Limit of characters
+   * @returns
+   */
+  shortenAndFormat(text = '', fieldToManage, limitChar = 1120) {
+    if (text.length <= limitChar) {
+      return text;
+    }
+
+    const visible = this.state[fieldToManage] || false;
+    const shortenedText = text.substr(0, limitChar);
 
     return (
       <div className="shortened-text">
-        <span>{initialText}</span>
-        {!fieldVisibility && <span>...</span>}
-        {!fieldVisibility && <button
-          className="read-more"
-          onClick={() => this.setState({ [fieldToManage]: true })}
+        {!visible ? `${shortenedText}...` : text}
+        <button
+          className={classnames('read-more', { '-less': visible })}
+          onClick={() => this.setState({ [fieldToManage]: !visible })}
         >
-          Read more
-        </button>}
-        {fieldVisibility &&
-          <span>{leftText}</span>}
-        {fieldVisibility && <button
-          className="read-more -less"
-          onClick={() => this.setState({ [fieldToManage]: false })}
-        >
-          Read less
-        </button>}
+          {visible ? 'Read less' : 'Read more'}
+        </button>
       </div>
     );
   }
 
+  @Autobind
+  handleFavoriteButtonClick() {
+    const { user } = this.props;
+    const { favorite, dataset } = this.state;
+    this.setState({ loading: true });
+
+    if (!favorite) {
+      this.userService.createFavouriteDataset(dataset.id, user.token)
+        .then((response) => {
+          this.setState({
+            favorite: response,
+            loading: false
+          });
+        })
+        .catch((err) => {
+          this.setState({ loading: false });
+          console.error(err);
+        });
+    } else {
+      this.userService.deleteFavourite(favorite.id, user.token)
+        .then(() => {
+          this.setState({
+            loading: false,
+            favorite: null
+          });
+        })
+        .catch((err) => {
+          this.setState({ loading: false });
+          console.error(err);
+        });
+    }
+  }
+
   render() {
     const { url, user } = this.props;
-    const { dataset, loading, similarDatasets, similarDatasetsLoaded } = this.state;
+    const { dataset, loading, similarDatasets, similarDatasetsLoaded, inferredTags, favorite } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
     const metadataAttributes = (metadata && metadata.attributes) || {};
@@ -289,14 +406,21 @@ class ExploreDetail extends Page {
     const { description } = metadataAttributes;
     const { functions, cautions } = metadataInfo;
 
-    const formattedDescription = this.shortenerText(description, 'showDescription', LIMIT_CHAR_DESCRIPTION);
-    const formattedFunctions = this.shortenerText(functions, 'showFunction', LIMIT_CHAR_DESCRIPTION);
-    const formattedCautions = this.shortenerText(cautions, 'showCautions', LIMIT_CHAR_DESCRIPTION);
+    const formattedDescription = this.shortenAndFormat(description, 'showDescription');
+    const formattedFunctions = this.shortenAndFormat(functions, 'showFunction');
+    const formattedCautions = this.shortenAndFormat(cautions, 'showCautions');
+
+    const starIconName = favorite ? 'icon-star-full' : 'icon-star-empty';
+    const starIconClass = classnames({
+      '-small': true,
+      '-filled': favorite,
+      '-empty': !favorite
+    });
 
     return (
       <Layout
         title={metadataInfo && metadataInfo.name ? metadataInfo.name : (dataset && dataset.attributes && dataset.attributes.name)}
-        description={formattedDescription}
+        description={description || ''}
         category="Dataset"
         url={url}
         user={user}
@@ -324,7 +448,24 @@ class ExploreDetail extends Page {
                   <ul>
                     <li>Source: {(metadata && metadata.attributes.source) || '-'}</li>
                     <li>Last update: {dataset && dataset.attributes && new Date(dataset.attributes.updatedAt).toJSON().slice(0, 10).replace(/-/g, '/')}</li>
-                    {/* Favorites <li>Last update: {dataset && dataset.attributes && dataset.attributes.updatedAt}</li> */}
+                    {/* Favorite dataset icon */}
+                    {user && user.id &&
+                      <li>
+                        <div
+                          className="favorite-button"
+                          onClick={this.handleFavoriteButtonClick}
+                          title="Favorite dataset"
+                          role="button"
+                          tabIndex={-1}
+                        >
+                          <Icon
+                            name={starIconName}
+                            className={starIconClass}
+                          />
+                        </div>
+                      </li>
+                    }
+                    {/* Favorites */}
                   </ul>
                 </div>
               </div>
@@ -355,6 +496,7 @@ class ExploreDetail extends Page {
                         className="c-button -primary -fullwidth"
                         target="_blank"
                         href={metadataInfo && metadataInfo.data_download_link}
+                        onClick={() => logEvent('Explore', 'Download data', dataset && dataset.attributes.name)}
                       >
                         Download
                       </a>
@@ -398,7 +540,7 @@ class ExploreDetail extends Page {
               <WidgetEditor
                 dataset={dataset.id}
                 mode="dataset"
-                showSaveButton={user && user.id}
+                showSaveButton={!!(user && user.id)}
                 showNotLoggedInText
               />
             }
@@ -468,7 +610,14 @@ class ExploreDetail extends Page {
                 {metadataInfo && metadataInfo.license ? (
                   <div className="l-section-mod">
                     <h3>License</h3>
-                    <p>{metadataInfo.license}</p>
+                    <p>
+                      {!!metadataInfo.license_link &&
+                        <a href={metadataInfo.license_link} target="_blank" rel="noopener noreferrer">{metadataInfo.license}</a>
+                      }
+                      {!metadataInfo.license_link &&
+                        metadataInfo.license
+                      }
+                    </p>
                   </div>
                 ) : null}
 
@@ -485,6 +634,21 @@ class ExploreDetail extends Page {
                     <a href={metadataInfo.link_to_license} target="_blank">
                       {metadataInfo.link_to_license}
                     </a>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.sources ? (
+                  <div className="l-section-mod">
+                    <h3>Sources</h3>
+                    {metadataInfo.sources.map(source => (
+                      <div
+                        key={source['source-name']}
+                      >
+                        {source['source-name']}
+                        {source['source-description']}
+                      </div>)
+                    )
+                    }
                   </div>
                 ) : null}
 
@@ -513,6 +677,28 @@ class ExploreDetail extends Page {
 
             <div className="row">
               <div className="column small-12">
+                {/* TAGS SECTION */}
+                <h3>Tags</h3>
+                <div className="tags">
+                  {inferredTags && inferredTags.map(tag => (
+                    <div
+                      role="button"
+                      tabIndex={-1}
+                      className="tag"
+                      id={tag.id}
+                      data-labels={tag.labels}
+                      key={tag.id}
+                      onClick={this.handleTagClick}
+                    >
+                      {tag.label}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="column small-12">
                 {/* SIMILAR DATASETS */}
                 <div className="l-section-mod similar-datasets">
                   <div className="row">
@@ -522,12 +708,14 @@ class ExploreDetail extends Page {
                         isLoading={!similarDatasetsLoaded}
                         className="-relative -light"
                       />
-                      {similarDatasets &&
+                      {similarDatasets && similarDatasets.length > 0 &&
                       <DatasetList
                         active={[]}
                         list={similarDatasets}
                         mode="grid"
                         showActions={false}
+                        showFavorite={false}
+                        onTagSelected={this.handleTagSelected}
                       />
                       }
                     </div>
@@ -584,19 +772,12 @@ ExploreDetail.propTypes = {
   url: PropTypes.object.isRequired,
   // Store
   user: PropTypes.object,
+  widgetEditor: PropTypes.object,
+  locale: PropTypes.string.isRequired,
   // ACTIONS
   resetDataset: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired
-};
-
-const mapStateToProps = state => ({
-  // Store
-  user: state.user,
-  exploreDetail: state.exploreDetail,
-  layersShown: updateLayersShown(state),
-  widgetEditor: PropTypes.object,
-  // ACTIONS
+  setModalOptions: PropTypes.func.isRequired,
   setFilters: PropTypes.func.isRequired,
   setSize: PropTypes.func.isRequired,
   setColor: PropTypes.func.isRequired,
@@ -609,7 +790,17 @@ const mapStateToProps = state => ({
   setVisualizationType: PropTypes.func.isRequired,
   setBand: PropTypes.func.isRequired,
   setLayer: PropTypes.func.isRequired,
-  setTitle: PropTypes.func.isRequired
+  setTitle: PropTypes.func.isRequired,
+  setTopicsTree: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  // Store
+  user: state.user,
+  topicsTree: state.explore.topicsTree,
+  exploreDetail: state.exploreDetail,
+  layersShown: updateLayersShown(state),
+  locale: state.common.locale
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -633,10 +824,13 @@ const mapDispatchToProps = dispatch => ({
     new LayersService()
       .fetchData({ id: layerId })
       .then(layer => dispatch(setLayer(layer)))
-      // TODO: better handling of the error
-      .catch(err => toastr.error('Error', err));
+      .catch((err) => {
+        console.error(err);
+        toastr.error('Error', 'Unable to load the layer of the widget.');
+      });
   },
-  setTitle: title => dispatch(setTitle(title))
+  setTitle: title => dispatch(setTitle(title)),
+  setTopicsTree: tree => dispatch(setTopicsTree(tree))
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);

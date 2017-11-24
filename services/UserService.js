@@ -43,7 +43,7 @@ export default class UserService {
   }
 
   /**
-   * Gets the contents that have been starred/favourited by the user that is
+   * Gets the widgets that have been starred/favourited by the user that is
    * currently logged
    * @param {token} User token
    * @returns {Promise}
@@ -53,15 +53,25 @@ export default class UserService {
   }
 
   /**
+   * Gets the datasets that have been starred/favourited by the user that is
+   * currently logged
+   * @param {token} User token
+   * @returns {Promise}
+   */
+  getFavouriteDatasets(token) {
+    return this.getFavourites(token, 'dataset', true);
+  }
+
+  /**
    * Gets the contents that have been starred/favourited by the user that is
    * currently logged
     * @param {token} User token
    * @returns {Promise}
    */
   getFavourites(token, resourceType = null, include = true) {
-    const resourceTypeSt = (resourceType !== null) ? `&resourceType=${resourceType}` : '';
+    const resourceTypeSt = (resourceType !== null) ? `&resource-type=${resourceType}` : '';
     return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/favourite?include=${include}${resourceTypeSt}`, {
+      fetch(`${this.opts.apiURL}/favourite?include=${include}${resourceTypeSt}&application=${[process.env.APPLICATIONS]}`, {
         headers: {
           Authorization: token
         }
@@ -98,6 +108,16 @@ export default class UserService {
   }
 
   /**
+   * Creates a new favourite for a dataset
+   * @param {datasetId} Dataset ID
+   * @param {token} User token
+   * @returns {Promise}
+   */
+  createFavouriteDataset(datasetId, token) {
+    return this.createFavourite('dataset', datasetId, token);
+  }
+
+  /**
    * Creates a new favourite for a resource
    * @param {resourceType} Type of the resource (dataset|layer|widget)
    * @param {resourceId} Resource ID
@@ -124,13 +144,14 @@ export default class UserService {
    * Creates a subscription for a pair of dataset and country
    * @param {datasetID} ID of the dataset
    * @param {object} Either { type; 'iso', id:'ESP' } or { type: 'geostore', id: 'sakldfa7ads0ka'}
+   * @param {string} language Two-letter locale
    * @returns {Promise}
    */
-  createSubscriptionToArea(areaId, datasets, datasetsQuery, user, name = '') {
+  createSubscriptionToArea(areaId, datasets, datasetsQuery, user, language, name = '') {
     const bodyObj = {
       name,
       application: process.env.APPLICATIONS,
-      language: 'en',
+      language,
       datasets,
       datasetsQuery,
       resource: {
@@ -155,10 +176,10 @@ export default class UserService {
   /**
    *  Update Subscription
    */
-  updateSubscriptionToArea(subscriptionId, datasets, datasetsQuery, user) {
+  updateSubscriptionToArea(subscriptionId, datasets, datasetsQuery, user, language) {
     const bodyObj = {
       application: process.env.APPLICATIONS,
-      language: 'en',
+      language,
       datasets,
       datasetsQuery
     };
@@ -178,7 +199,7 @@ export default class UserService {
    */
   getSubscriptions(token) {
     return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/subscriptions?application=rw`, {
+      fetch(`${this.opts.apiURL}/subscriptions?application=${[process.env.APPLICATIONS]}`, {
         headers: {
           Authorization: token
         }
@@ -209,7 +230,7 @@ export default class UserService {
    */
   getUserAreas(token) {
     return new Promise((resolve, reject) => {
-      fetch(`${this.opts.apiURL}/area?application=rw`, {
+      fetch(`${this.opts.apiURL}/area?application=${[process.env.APPLICATIONS]}`, {
         headers: {
           Authorization: token
         }

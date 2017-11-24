@@ -1,6 +1,11 @@
 /* global config */
 import 'isomorphic-fetch';
 import { Router } from 'routes';
+import { toastr } from 'react-redux-toastr';
+
+// Services
+import UserService from 'services/UserService';
+import GraphService from 'services/GraphService';
 
 import { BASEMAPS } from 'components/widgets/editor/map/constants';
 
@@ -11,12 +16,23 @@ const GET_DATASETS_SUCCESS = 'explore/GET_DATASETS_SUCCESS';
 const GET_DATASETS_ERROR = 'explore/GET_DATASETS_ERROR';
 const GET_DATASETS_LOADING = 'explore/GET_DATASETS_LOADING';
 
+const GET_FAVORITES_SUCCESS = 'explore/GET_FAVORITES_SUCCESS';
+const GET_FAVORITES_ERROR = 'explore/GET_FAVORITES_ERROR';
+const GET_FAVORITES_LOADING = 'explore/GET_FAVORITES_LOADING';
+
+const ADD_FAVORITE_DATASET = 'explore/ADD_FAVORITE_DATASET';
+const REMOVE_FAVORITE_DATASET = 'explore/REMOVE_FAVORITE_DATASET';
+
 const SET_DATASETS_PAGE = 'explore/SET_DATASETS_PAGE';
 const SET_DATASETS_SEARCH_FILTER = 'explore/SET_DATASETS_SEARCH_FILTER';
 const SET_DATASETS_TOPICS_FILTER = 'explore/SET_DATASETS_TOPICS_FILTER';
 const SET_DATASETS_DATA_TYPE_FILTER = 'explore/SET_DATASETS_DATA_TYPE_FILTER';
 const SET_DATASETS_GEOGRAPHIES_FILTER = 'explore/SET_DATASETS_GEOGRAPHIES_FILTER';
 const SET_FILTERS_LOADING = 'explore/SET_FILTERS_LOADING';
+
+const SET_SORTING_ORDER = 'explore/SET_SORTING_ORDER';
+const SET_SORTING_DATASETS = 'explore/SET_SORTING_DATASETS';
+const SET_SORTING_LOADING = 'explore/SET_SORTING_LOADING';
 
 const SET_DATASETS_FILTERED_BY_CONCEPTS = 'explore/SET_DATASETS_FILTERED_BY_CONCEPTS';
 
@@ -35,6 +51,8 @@ const SET_TOPICS_TREE = 'explore/SET_TOPICS_TREE';
 const SET_DATA_TYPE_TREE = 'explore/SET_DATA_TYPE_TREE';
 const SET_GEOGRAPHIES_TREE = 'explore/SET_GEOGRAPHIES_TREE';
 
+const SET_ZOOM = 'explore/SET_ZOOM';
+const SET_LATLNG = 'explore/SET_LATLNG';
 const SET_BASEMAP = 'explore/SET_BASEMAP';
 const SET_LABELS = 'explore/SET_LABELS';
 
@@ -59,6 +77,7 @@ const SET_LABELS = 'explore/SET_LABELS';
 const initialState = {
   datasets: {
     list: [],
+    favorites: [],
     loading: false,
     error: false,
     page: 1,
@@ -90,6 +109,8 @@ const initialState = {
     open: true,
     width: 0
   },
+  zoom: 3,
+  latLng: { lat: 0, lng: 0 },
   basemap: BASEMAPS.dark,
   basemapControl: {
     basemaps: BASEMAPS
@@ -97,7 +118,16 @@ const initialState = {
   geographiesTree: null,
   topicsTree: null,
   dataTypeTree: null,
-  labels: false
+  labels: false,
+  sorting: {
+    /** @type {'modified'|'viewed'|'favorited'} order */
+    order: 'modified',
+    // The list of datasets below is not the actual list of sorted
+    // datasets, it is the list of the sorted ids
+    /** @type {string[]} */
+    datasets: [],
+    loading: false
+  }
 };
 
 export default function (state = initialState, action) {
@@ -123,6 +153,47 @@ export default function (state = initialState, action) {
       const datasets = Object.assign({}, state.datasets, {
         loading: true,
         error: false
+      });
+      return Object.assign({}, state, { datasets });
+    }
+
+    case GET_FAVORITES_SUCCESS: {
+      const datasets = Object.assign({}, state.datasets, {
+        favorites: action.payload,
+        loadingFavorites: false,
+        error: false
+      });
+      return Object.assign({}, state, { datasets });
+    }
+
+    case GET_FAVORITES_ERROR: {
+      const datasets = Object.assign({}, state.datasets, {
+        loadingFavorites: false,
+        error: true
+      });
+      return Object.assign({}, state, { datasets });
+    }
+
+    case GET_FAVORITES_LOADING: {
+      const datasets = Object.assign({}, state.datasets, {
+        loadingFavorites: true,
+        error: false
+      });
+      return Object.assign({}, state, { datasets });
+    }
+
+    case ADD_FAVORITE_DATASET: {
+      const newFavorites = [...state.datasets.favorites, action.payload];
+      const datasets = Object.assign({}, state.datasets, {
+        favorites: newFavorites
+      });
+      return Object.assign({}, state, { datasets });
+    }
+
+    case REMOVE_FAVORITE_DATASET: {
+      const favorites = state.datasets.favorites.filter(elem => elem.id !== action.payload.id);
+      const datasets = Object.assign({}, state.datasets, {
+        favorites
       });
       return Object.assign({}, state, { datasets });
     }
@@ -243,7 +314,7 @@ export default function (state = initialState, action) {
 
     case SET_SIDEBAR: {
       return Object.assign({}, state, {
-        sidebar: action.payload
+        sidebar: Object.assign({}, state.sidebar, action.payload)
       });
     }
 
@@ -277,6 +348,36 @@ export default function (state = initialState, action) {
       });
     }
 
+    case SET_ZOOM: {
+      return Object.assign({}, state, {
+        zoom: action.payload
+      });
+    }
+
+    case SET_LATLNG: {
+      return Object.assign({}, state, {
+        latLng: action.payload
+      });
+    }
+
+    case SET_SORTING_ORDER: {
+      return Object.assign({}, state, {
+        sorting: Object.assign({}, state.sorting, { order: action.payload })
+      });
+    }
+
+    case SET_SORTING_DATASETS: {
+      return Object.assign({}, state, {
+        sorting: Object.assign({}, state.sorting, { datasets: action.payload })
+      });
+    }
+
+    case SET_SORTING_LOADING: {
+      return Object.assign({}, state, {
+        sorting: Object.assign({}, state.sorting, { loading: action.payload })
+      });
+    }
+
     default:
       return state;
   }
@@ -288,6 +389,7 @@ export function setUrlParams() {
   return (dispatch, getState) => {
     const { explore } = getState();
     const layerGroups = explore.layers;
+    const { zoom, latLng, sorting } = explore;
     const { page } = explore.datasets;
     const { search, topics, dataType, geographies } = explore.filters;
 
@@ -325,7 +427,43 @@ export function setUrlParams() {
       }
     }
 
+    if (zoom) {
+      query.zoom = zoom;
+    }
+
+    if (latLng) {
+      query.latLng = JSON.stringify(latLng);
+    }
+
+    if (sorting) {
+      query.sort = sorting.order;
+    }
+
     Router.replaceRoute('explore', query);
+  };
+}
+
+export function getFavoriteDatasets(token) {
+  return (dispatch) => {
+    // Waiting for fetch from server -> Dispatch loading
+    dispatch({ type: GET_FAVORITES_LOADING });
+
+    const userService = new UserService({ apiURL: process.env.WRI_API_URL });
+
+    return userService.getFavouriteDatasets(token)
+      .then((response) => {
+        dispatch({
+          type: GET_FAVORITES_SUCCESS,
+          payload: response
+        });
+      })
+      .catch((err) => {
+        // Fetch from server ko -> Dispatch error
+        dispatch({
+          type: GET_FAVORITES_ERROR,
+          payload: err.message
+        });
+      });
   };
 }
 
@@ -334,7 +472,7 @@ export function getDatasets({ pageNumber, pageSize }) {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_DATASETS_LOADING });
 
-    return fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=rw&status=saved&published=true&includes=widget,layer,metadata,vocabulary&page[size]=${pageSize || 999}&page[number]=${pageNumber || 1}&sort=-updatedAt`))
+    return fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=${[process.env.APPLICATIONS]}&status=saved&published=true&includes=widget,layer,metadata,vocabulary&page[size]=${pageSize || 999}&page[number]=${pageNumber || 1}&sort=-updatedAt`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
@@ -560,6 +698,49 @@ export function setDatasetsMode(mode) {
   };
 }
 
+/**
+ * Set the sorting order of the datasets
+ * @param {'modified'|'viewed'|'favorited'} sorting
+ */
+export function setDatasetsSorting(sorting) {
+  return (dispatch) => {
+    const graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
+
+    let promise = null;
+    switch (sorting) {
+      case 'viewed':
+        promise = graphService.getMostViewedDatasets();
+        break;
+
+      case 'favorited':
+        promise = graphService.getMostFavoritedDatasets();
+        break;
+
+      default:
+        break;
+    }
+
+    if (!promise) {
+      dispatch({ type: SET_SORTING_ORDER, payload: sorting });
+      dispatch({ type: SET_SORTING_DATASETS, payload: [] });
+    } else {
+      dispatch({ type: SET_SORTING_LOADING, payload: true });
+      dispatch({ type: SET_SORTING_ORDER, payload: sorting });
+
+      promise
+        .then(datasets => dispatch({ type: SET_SORTING_DATASETS, payload: datasets }))
+        .catch((err) => {
+          toastr.error('Dataset sorting', 'The datasets couldn\'t be sorted properly');
+          console.error(err);
+        })
+        .then(() => dispatch({ type: SET_SORTING_LOADING, payload: false }));
+    }
+
+    // We also update the URL
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
+  };
+}
+
 export function setTopicsTree(tree) {
   return {
     type: SET_TOPICS_TREE,
@@ -592,5 +773,38 @@ export function setLabels(labelEnabled) {
   return {
     type: SET_LABELS,
     payload: labelEnabled
+  };
+}
+
+
+export function setZoom(zoom, updateUrl = true) {
+  return (dispatch) => {
+    dispatch({ type: SET_ZOOM, payload: zoom });
+
+    // We also update the URL
+    if (updateUrl && typeof window !== 'undefined') dispatch(setUrlParams());
+  };
+}
+
+export function setLatLng(latLng, updateUrl = true) {
+  return (dispatch) => {
+    dispatch({ type: SET_LATLNG, payload: latLng });
+
+    // We also update the URL
+    if (updateUrl && typeof window !== 'undefined') dispatch(setUrlParams());
+  };
+}
+
+export function addFavoriteDataset(favorite) {
+  return {
+    type: ADD_FAVORITE_DATASET,
+    payload: favorite
+  };
+}
+
+export function removeFavoriteDataset(favorite) {
+  return {
+    type: REMOVE_FAVORITE_DATASET,
+    payload: favorite
   };
 }

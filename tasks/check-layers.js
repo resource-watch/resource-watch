@@ -2,7 +2,7 @@ require('isomorphic-fetch');
 require('colors');
 require('dotenv').load();
 
-const URL = `${process.env.WRI_API_URL}/layer?application=rw&page[size]=999&status=saved`;
+const URL = `${process.env.WRI_API_URL}/layer?application=${[process.env.APPLICATIONS]}&page[size]=999&status=saved`;
 
 const getFeatureGroupId = ({ layerConfig }) => {
   if (!layerConfig) throw Error('layerConfig param is required');

@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import { toastr } from 'react-redux-toastr';
 
+// Redux
+import { connect } from 'react-redux';
+
 // Service
 import DatasetsService from 'services/DatasetsService';
 
@@ -11,6 +14,9 @@ import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/datasets/form/constants
 import Navigation from 'components/form/Navigation';
 import Step1 from 'components/datasets/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
+
+// Utils
+import { logEvent } from 'utils/analytics';
 
 class DatasetsForm extends React.Component {
   constructor(props) {
@@ -27,7 +33,8 @@ class DatasetsForm extends React.Component {
     });
 
     this.service = new DatasetsService({
-      authorization: props.authorization
+      authorization: props.authorization,
+      language: props.locale
     });
 
     // BINDINGS
@@ -98,6 +105,8 @@ class DatasetsForm extends React.Component {
         // if we are in the last step we will submit the form
         if (this.state.step === this.state.stepLength && !this.state.submitting) {
           const dataset = this.props.dataset;
+
+          logEvent('My RW', 'Add New Dataset', this.state.name);
 
           // Start the submitting
           this.setState({ submitting: true });
@@ -202,7 +211,12 @@ DatasetsForm.propTypes = {
   authorization: PropTypes.string,
   dataset: PropTypes.string,
   basic: PropTypes.bool,
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
+  locale: PropTypes.string.isRequired
 };
 
-export default DatasetsForm;
+const mapStateToProps = state => ({
+  locale: state.common.locale
+});
+
+export default connect(mapStateToProps, null)(DatasetsForm);

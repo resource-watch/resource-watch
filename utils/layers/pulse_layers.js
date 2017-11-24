@@ -21,18 +21,19 @@ export const LAYERS_PLANET_PULSE = [
   {
     label: 'Water',
     layers: [
-      {
-        label: 'Flood News Reports',
-        id: 'd0e35d92-3669-4bc2-b5d6-58b456fbf847',
-        '3d': true,
-        markerType: 'bar',
-        widgets: ['94b43a46-5594-46fe-8484-46e0dd73197b']
-      },
+      // {
+      //   label: 'Flood News Reports',
+      //   id: 'd0e35d92-3669-4bc2-b5d6-58b456fbf847',
+      //   '3d': true,
+      //   markerType: 'bar',
+      //   widgets: ['94b43a46-5594-46fe-8484-46e0dd73197b']
+      // },
       {
         label: 'Potential Landslide Areas',
         id: '50ef9f99-ddca-46b9-bb69-690f0b2ced88',
         '3d': false,
-        markerType: 'hemisphere'
+        markerType: 'hemisphere',
+        widgets: ['279f8f52-83df-417d-a32e-f433c49e3288']
       }
     ]
   },
@@ -97,12 +98,6 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         markerType: 'default',
         widgets: ['349aae2c-d39f-4a9f-8a90-3fe7f73a25ce']
-      },
-      {
-        label: 'Land Surface Temperature Anomaly',
-        id: 'f1d841cb-a959-4b54-8472-e28f794b2c6a',
-        '3d': false,
-        markerType: 'default'
       }
     ]
   }

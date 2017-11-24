@@ -167,12 +167,15 @@ class RasterChartEditor extends React.Component {
       <div className="c-raster-chart-editor">
         <div className="content">
           <div className="selectors-container">
-            <div>
-              <h5>Bands { loading && <Spinner isLoading className="-light -small -inline" /> }</h5>
+            <div className="c-field">
+              <label htmlFor="raster-bands">
+                Bands { loading && <Spinner isLoading className="-light -small -inline" /> }
+              </label>
               { error && <div className="error"><span>Error:</span> {error}</div> }
               { !error && (
                 <Select
                   properties={{
+                    id: 'raster-bands',
                     name: 'raster-bands',
                     default: band && band.name
                   }}

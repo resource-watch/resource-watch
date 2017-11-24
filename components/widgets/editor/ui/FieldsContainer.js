@@ -16,6 +16,7 @@ const FieldsContainer = (props) => {
               type={val.columnType}
               datasetID={dataset}
               tableName={tableName}
+              description={val.description}
             />
           )
         )

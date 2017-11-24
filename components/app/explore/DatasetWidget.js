@@ -7,7 +7,7 @@ import { Autobind } from 'es-decorators';
 // Redux
 import { connect } from 'react-redux';
 import { Link } from 'routes';
-import { toggleLayerGroup } from 'redactions/explore';
+import { toggleLayerGroup, addFavoriteDataset, removeFavoriteDataset } from 'redactions/explore';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
@@ -17,9 +17,15 @@ import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import DatasetLayerChart from 'components/app/explore/DatasetLayerChart';
 import DatasetPlaceholderChart from 'components/app/explore/DatasetPlaceholderChart';
 import DatasetTagsTooltip from 'components/app/explore/DatasetTagsTooltip';
+import Spinner from 'components/ui/Spinner';
+
+// Services
+import GraphService from 'services/GraphService';
+import UserService from 'services/UserService';
 
 // Utils
-import { findTagInSelectorTree } from 'utils/explore/TreeUtil';
+import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
+import { logEvent } from 'utils/analytics';
 
 class DatasetWidget extends React.Component {
   /**
@@ -51,6 +57,23 @@ class DatasetWidget extends React.Component {
       x: window.scrollX + e.clientX,
       y: window.scrollY + e.clientY
     };
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      inferredTags: [],
+      loading: false
+    };
+
+    // Services
+    this.graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
+    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
+  }
+
+  componentDidMount() {
+    this.loadInferredTags();
   }
 
   /**
@@ -102,11 +125,28 @@ class DatasetWidget extends React.Component {
     return null;
   }
 
-  getTags() {
-    const { dataset, topicsTree } = this.props;
-    const vocabulary = dataset.attributes.vocabulary && dataset.attributes.vocabulary[0];
-    const tags = vocabulary.attributes.tags;
-    return tags.filter(tag => findTagInSelectorTree(topicsTree, tag));
+  /**
+  * Load inferred tags
+  */
+  loadInferredTags() {
+    const { dataset } = this.props;
+    const vocabulary = dataset.attributes.vocabulary && dataset.attributes.vocabulary.length > 0 &&
+      dataset.attributes.vocabulary[0];
+    const tags = vocabulary && vocabulary.attributes && vocabulary.attributes.tags;
+
+    if (tags && tags.length > 0) {
+      this.graphService.getInferredTags(tags)
+        .then((response) => {
+          this.setState({
+            inferredTags: response.filter(tag => tag.labels
+              .find(type => (type === 'TOPIC') && !TAGS_BLACKLIST.includes(tag.id)))
+          });
+        })
+        .catch((err) => {
+          this.setState({ inferredTags: [] });
+          console.error('Error loading inferred tags', err);
+        });
+    }
   }
 
   /**
@@ -116,11 +156,15 @@ class DatasetWidget extends React.Component {
     const datasetID = this.props.dataset.id;
     const addLayerGroup = !this.props.isLayerGroupAdded(datasetID);
     this.props.toggleLayerGroup(datasetID, addLayerGroup);
+
+    if (addLayerGroup) {
+      logEvent('Explore', 'Add dataset to map', this.props.dataset.attributes.name);
+    }
   }
 
   @Autobind
   handleTagsClick(event) {
-    const tags = this.getTags();
+    const { inferredTags } = this.state;
 
     const position = DatasetWidget.getClickPosition(event);
     this.props.toggleTooltip(true, {
@@ -130,33 +174,69 @@ class DatasetWidget extends React.Component {
       childrenProps: {
         toggleTooltip: this.props.toggleTooltip,
         onTagClick: this.handleTagClick,
-        tags
+        tags: inferredTags
       }
     });
   }
 
   @Autobind
   handleTagClick(event) {
-    const tagName = event.target.textContent;
-    this.props.onTagSelected(tagName);
+    const tag = { id: event.target.getAttribute('id'),
+      type: event.target.getAttribute('data-type') };
+    this.props.onTagSelected(tag);
+  }
+
+  @Autobind
+  handleFavoriteButtonClick() {
+    const { favorite, dataset, user } = this.props;
+    this.setState({ loading: true });
+
+    if (!favorite) {
+      this.userService.createFavouriteDataset(dataset.id, user.token)
+        .then((response) => {
+          this.props.addFavoriteDataset(response.data, user.token);
+          this.setState({ loading: false });
+        })
+        .catch((err) => {
+          this.setState({ loading: false });
+          console.error(err);
+        });
+    } else {
+      this.userService.deleteFavourite(favorite.id, user.token)
+        .then((response) => {
+          this.props.onFavoriteRemoved(favorite);
+          this.props.removeFavoriteDataset(response.data);
+          this.setState({ loading: false });
+        })
+        .catch((err) => {
+          this.setState({ loading: false });
+          console.error(err);
+        });
+    }
   }
 
   render() {
-    const { widget, layer, mode } = this.props;
+    const { widget, layer, mode, showActions, favorite, user, showFavorite } = this.props;
+    const { inferredTags, loading } = this.state;
     const dataset = this.props.dataset.attributes;
     const metadata = dataset.metadata && dataset.metadata[0];
-    const vocabulary = dataset.vocabulary && dataset.vocabulary[0];
-    const { showActions } = this.props;
     const gridMode = (mode === 'grid');
     const element = this.getWidgetOrLayer();
+    const starIconName = favorite ? 'icon-star-full' : 'icon-star-empty';
+    const isWidgetMap = widget && widget.attributes.widgetConfig.type === 'map';
 
-    const updatedAtText = dataset.updatedAt && dataset.updatedAt.split('T')[0];
+    const starIconClass = classnames({
+      '-small': true,
+      '-filled': favorite,
+      '-empty': !favorite
+    });
 
     return (
       <div className={`c-dataset-list-item -${mode}`}>
+        <Spinner isLoading={loading} className="-small -light" />
 
         {/* If it has widget we want to renderize the default widget one */}
-        {widget && gridMode &&
+        {!isWidgetMap && widget && gridMode &&
           <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
             <a>
               <DatasetWidgetChart widget={element} mode="thumbnail" />
@@ -165,7 +245,7 @@ class DatasetWidget extends React.Component {
         }
 
         {/* If it doesn't have widget but has layer we want to renderize the default layer one */}
-        {!widget && layer && gridMode &&
+        {layer && gridMode &&
           <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
             <a>
               <DatasetLayerChart layer={element} />
@@ -195,7 +275,7 @@ class DatasetWidget extends React.Component {
                 </Link>
               </h4>
               {/* Dataset tags link */}
-              {vocabulary && this.getTags().length &&
+              {inferredTags && inferredTags.length > 0 &&
                 <div
                   className="tags-button"
                   onClick={this.handleTagsClick}
@@ -206,6 +286,21 @@ class DatasetWidget extends React.Component {
                   <Icon
                     name="icon-item-category"
                     className="-small"
+                  />
+                </div>
+              }
+              {/* Favorite dataset icon */}
+              {user && user.id && showFavorite &&
+                <div
+                  className="favorite-button"
+                  onClick={this.handleFavoriteButtonClick}
+                  title="Favorite dataset"
+                  role="button"
+                  tabIndex={-1}
+                >
+                  <Icon
+                    name={starIconName}
+                    className={starIconClass}
                   />
                 </div>
               }
@@ -247,28 +342,34 @@ DatasetWidget.propTypes = {
   layer: PropTypes.object,
   mode: PropTypes.string,
   showActions: PropTypes.bool,
+  showFavorite: PropTypes.bool,
+  favorite: PropTypes.object,
 
   // Callbacks
   onTagSelected: PropTypes.func,
+  onFavoriteRemoved: PropTypes.func,
 
   // STORE
-  // Topics tree used in the Explore selector
-  topicsTree: PropTypes.array.isRequired,
   // Return whether a layer group is already added to the map
   isLayerGroupAdded: PropTypes.func.isRequired,
   // Add or remove a layer group from the map
   toggleLayerGroup: PropTypes.func.isRequired,
-  toggleTooltip: PropTypes.func.isRequired
+  toggleTooltip: PropTypes.func.isRequired,
+  removeFavoriteDataset: PropTypes.func.isRequired,
+  addFavoriteDataset: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired
 };
 
-const mapStateToProps = ({ explore }) => ({
-  isLayerGroupAdded: dataset => !!explore.layers.find(l => l.dataset === dataset),
-  topicsTree: explore.topicsTree
+const mapStateToProps = state => ({
+  isLayerGroupAdded: dataset => !!state.explore.layers.find(l => l.dataset === dataset),
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({
   toggleLayerGroup: (dataset, addLayer) => dispatch(toggleLayerGroup(dataset, addLayer)),
-  toggleTooltip: (opened, opts) => { dispatch(toggleTooltip(opened, opts)); }
+  toggleTooltip: (opened, opts) => { dispatch(toggleTooltip(opened, opts)); },
+  addFavoriteDataset: (favorite) => { dispatch(addFavoriteDataset(favorite)); },
+  removeFavoriteDataset: (favorite) => { dispatch(removeFavoriteDataset(favorite)); }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetWidget);

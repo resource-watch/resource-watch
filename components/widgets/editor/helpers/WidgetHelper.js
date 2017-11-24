@@ -25,7 +25,7 @@ const CHART_TYPES = {
   '1d_tick': OneDTickChart
 };
 
-const ALLOWED_FIELD_TYPES = [
+export const ALLOWED_FIELD_TYPES = [
   // --- NUMBER ----
   { name: 'esriFieldTypeSmallInteger', type: 'number', provider: 'esri' },
   { name: 'esriFieldTypeInteger', type: 'number', provider: 'esri' },
@@ -39,11 +39,11 @@ const ALLOWED_FIELD_TYPES = [
   { name: 'real', type: 'number', provider: 'sql' },
   { name: 'decimal', type: 'number', provider: 'sql' },
   // ----- TEXT -----
-  { name: 'string', type: 'text', provider: 'sql' },
-  { name: 'char', type: 'text', provider: 'sql' },
-  { name: 'varchar', type: 'text', provider: 'sql' },
-  { name: 'esriFieldTypeString', type: 'text', provider: 'esri' },
-  { name: 'text', type: 'text', provider: 'elastic' },
+  { name: 'string', type: 'string', provider: 'sql' },
+  { name: 'char', type: 'string', provider: 'sql' },
+  { name: 'varchar', type: 'string', provider: 'sql' },
+  { name: 'esriFieldTypeString', type: 'string', provider: 'esri' },
+  { name: 'text', type: 'string', provider: 'elastic' },
   // ----- DATE ----
   { name: 'esriFieldTypeDate', type: 'date', provider: 'esri' },
   { name: 'date', type: 'date', provider: 'sql' },
@@ -83,18 +83,18 @@ function isBidimensionalChart(chartType) {
   return !oneDimensionalChartTypes.includes(chartType);
 }
 
-export function isFieldAllowed(field) {
-  const fieldTypeAllowed = ALLOWED_FIELD_TYPES
-    .find(val => val.name.toLowerCase() === field.columnType.toLowerCase());
-  const isCartodbId = field.columnName === 'cartodb_id';
-  const result = !isCartodbId && fieldTypeAllowed;
-  return result;
-}
-
-export function isFieldNumber(field) {
-  const fieldd = isFieldAllowed(field);
-  return fieldd ? fieldd.type === 'number' : false;
-}
+/**
+ * Get the simplified field type of the field: "number",
+ * "text", "date", "boolean" or "array" from the raw type
+ * which could be anything from ALLOWED_FIELD_TYPES
+ * If the raw type is not accepted, null will be returned
+ * @param {string} type Raw type of the field
+ * @returns {string|null}
+ */
+export function getSimplifiedFieldType(type) {
+  const simplifiedType = ALLOWED_FIELD_TYPES.find(f => f.name === type);
+  return simplifiedType ? simplifiedType.type : null;
+};
 
 export function isFieldDate(field) {
   const fieldd = isFieldAllowed(field);
@@ -121,7 +121,8 @@ export function canRenderChart(widgetEditor, datasetProvider) {
     chartType,
     band,
     layer,
-    areaIntersection
+    areaIntersection,
+    embed
   } = widgetEditor;
 
   const chart = visualizationType === 'chart'
@@ -144,8 +145,10 @@ export function canRenderChart(widgetEditor, datasetProvider) {
 
   const table = visualizationType === 'table' && (datasetProvider !== 'nexgddp' || areaIntersection);
 
+  const embedVis = visualizationType === 'embed' && embed && embed.src;
+
   // Standard chart
-  return chart || rasterChart || map || table;
+  return chart || rasterChart || map || table || embedVis;
 }
 
 /**
@@ -442,6 +445,82 @@ export function parseRasterData(data, band, provider) {
   }
 
   return data;
+}
+
+/**
+ * Check that the restored state of the editor is correct
+ * and make the necessary change to correct it
+ * NOTE: must not be called before the fields are loaded
+ * in the store
+ * @param {any} widgetEditor Redux' object
+ * @param {{ [attr: string]: function }[]} attrToSetter Attributes to check and their
+ * corresponding setters
+ */
+export function checkEditorRestoredState(widgetEditor, attrToSetter) {
+  // If the column is outdated, we merge it with
+  // the data of its field
+  const getUpdatedColumn = (column, field) => Object.assign({}, column, {
+    alias: field.alias,
+    type: field.columnType
+  });
+
+  // Return whether the column needs to be updated (refreshed)
+  const isColumnOutdated = (column, field) => column.alias !== field.alias
+    || column.type !== field.columnType;
+
+  // Return the field corresponding to the column, if any
+  const getColumnField = column => widgetEditor.fields.find(f => f.columnName === column.name);
+
+  // Update a Redux attribute (category, value, filters, etc) with its
+  // corresponding setter
+  const updateReduxAttr = (name, setter) => {
+    if (!widgetEditor[name]) return;
+
+    if (Array.isArray(widgetEditor[name])) {
+      const columns = widgetEditor[name];
+      const updatedColumns = [];
+      const saveUpdatedColumn = c => updatedColumns.push(c);
+
+      columns.forEach((column) => {
+        const field = getColumnField(column);
+
+        // The field doesn't exist anymore, so we don't push
+        // the column to the list of updated columns
+        if (!field) return;
+
+        if (isColumnOutdated(column, field)) {
+          // The field has been updated since the state has been
+          // saved so we use the most recent information
+          saveUpdatedColumn(getUpdatedColumn(column, field));
+        } else {
+          // We don't make any change, but we still want to keep
+          // the column
+          saveUpdatedColumn(column);
+        }
+      });
+
+      setter(updatedColumns);
+    } else {
+      const column = widgetEditor[name];
+      const field = getColumnField(column);
+      if (!field) {
+        // The field doesn't exist anymore, so we reset the column
+        setter(null);
+      } else if (isColumnOutdated(column, field)) {
+        // The field has been updated since the state has been
+        // saved so we use the most recent information
+        setter(getUpdatedColumn(column, field));
+      }
+    }
+  };
+
+  // We make sure the columns still exist and that their alias
+  // and type are still up to date
+  Object.keys(attrToSetter).forEach((attr) => {
+    if (widgetEditor[attr]) {
+      updateReduxAttr(attr, attrToSetter[attr]);
+    }
+  });
 }
 
 /**

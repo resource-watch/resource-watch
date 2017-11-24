@@ -87,6 +87,30 @@ class WidgetCard extends React.Component {
   }
 
   /**
+   * return whether the widget is an embedded page
+   * @static
+   * @param {any} widget
+   * @returns {boolean}
+   */
+  static isEmbedWidget(widget) {
+    return !!(widget
+      // Some widgets have not been created with the widget editor
+      // so the paramsConfig attribute doesn't exist
+      && (
+        (
+          widget.attributes.widgetConfig.paramsConfig
+          && widget.attributes.widgetConfig.paramsConfig.visualizationType === 'embed'
+        )
+        || (
+          // Case of a widget created outside of the widget editor
+          widget.attributes.widgetConfig.type
+          && widget.attributes.widgetConfig.type === 'embed'
+        )
+      )
+    );
+  }
+
+  /**
    * Return whether the widget represents a text
    * @static
    * @param {any} widget
@@ -173,6 +197,30 @@ class WidgetCard extends React.Component {
       toastr.error('Error', this.state.error);
       // TODO: Correctly show the UI
       return null;
+    }
+
+    // If the widget is an embedded page, we render a
+    // different component
+    if (WidgetCard.isEmbedWidget(this.props.widget)) {
+      if (this.props.mode === 'thumbnail') {
+        return (
+          <div className="c-widget-chart -thumbnail">
+            <div className="c-chart -no-preview">
+              <span>No preview</span>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div className="c-widget-chart -embed">
+          <iframe
+            title={this.props.widget.attributes.name}
+            src={this.props.widget.attributes.widgetConfig.paramsConfig.embed.src}
+            frameBorder="0"
+          />
+        </div>
+      );
     }
 
     // If the widget is a map, we render the correct component
@@ -300,6 +348,26 @@ class WidgetCard extends React.Component {
   }
 
   @Autobind
+  handleDownloadPDF() {
+    toastr.info('Widget download', 'The file is being generated...');
+
+    const id = this.props.widget.id;
+    const type = this.props.widget.attributes.widgetConfig.type || 'widget';
+    const { protocol, hostname, port } = window.location;
+    const host = `${protocol}//${hostname}${port !== '' ? `:${port}` : port}`;
+    const filename = encodeURIComponent(this.props.widget.attributes.name);
+
+    const link = document.createElement('a');
+    link.setAttribute('download', '');
+    link.href = `${process.env.CONTROL_TOWER_URL}/v1/webshot/pdf?filename=${filename}&width=790&height=580&url=${host}/embed/${type}/${id}`;
+
+    // link.click() doesn't work on Firefox for some reasons
+    // so we have to create an event manually
+    const event = new MouseEvent('click');
+    link.dispatchEvent(event);
+  }
+
+  @Autobind
   handleWidgetActionsClick(event) {
     const position = WidgetCard.getClickPosition(event);
     this.props.toggleTooltip(true, {
@@ -311,7 +379,8 @@ class WidgetCard extends React.Component {
         onShareEmbed: this.handleEmbed,
         onAddToDashboard: this.handleAddToDashboard,
         onGoToDataset: this.handleGoToDataset,
-        onEditWidget: this.handleEditWidget
+        onEditWidget: this.handleEditWidget,
+        onDownloadPDF: this.handleDownloadPDF
       }
     });
   }
@@ -382,29 +451,28 @@ class WidgetCard extends React.Component {
         }
 
         {/* Actual widget */}
-        { mode === 'thumbnail'
-          ? (
-            <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
-              <a>{this.getWidget()}</a>
-            </Link>
-          )
-          : this.getWidget()
-        }
+        <div
+          role="button"
+          onClick={() => this.props.onWidgetClick && this.props.onWidgetClick(widget)}
+        >
+          {this.getWidget()}
+        </div>
 
         <div className="info">
-          <div className="detail">
+          <div
+            className="detail"
+            role="button"
+            onClick={() => this.props.onWidgetClick && this.props.onWidgetClick(widget)}
+          >
             {/* Title */}
             <Title className="-default -primary">
-              <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
-                <a>{widget.attributes.name}</a>
-              </Link>
+              {widget.attributes.name}
             </Title>
             <p>
-              <Link route="myrw_detail" params={{ tab: 'widgets', subtab: 'edit', id: widget.id }}>
-                <a>{WidgetCard.getDescription(widget.attributes.description)}</a>
-              </Link>
+              {WidgetCard.getDescription(widget.attributes.description)}
             </p>
           </div>
+
           {(showActions || showRemove || showEmbed) &&
             <div className="actions">
               {showActions &&
@@ -434,6 +502,7 @@ class WidgetCard extends React.Component {
             </div>
           }
         </div>
+
         {showStar &&
           <a
             className="star-icon"
@@ -466,6 +535,7 @@ WidgetCard.propTypes = {
   showWidgetColllections: PropTypes.bool,
   mode: PropTypes.oneOf(['thumbnail', 'full']), // How to show the graph
   // Callbacks
+  onWidgetClick: PropTypes.func,
   onWidgetRemove: PropTypes.func,
   onWidgetUnfavourited: PropTypes.func,
   onUpdateWidgetCollections: PropTypes.func,

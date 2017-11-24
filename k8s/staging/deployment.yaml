@@ -2,23 +2,17 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    name: {name}
-  name: {name}
+    name: {name}-staging
+  name: {name}-staging
 spec:
   revisionHistoryLimit: 0
   template:
     metadata:
-      annotations:
-        chaos.alpha.kubernetes.io/enabled: "true"
       labels:
-        name: {name}
+        name: {name}-staging
     spec:
       containers:
-        resources:
-          requests:
-            memory: "0Mi"
-            cpu: "0m"
-      - name: {name}
+      - name: {name}-staging
         image: vizzuality/{name}
         imagePullPolicy: Always
         resources:
@@ -36,6 +30,11 @@ spec:
                 secretKeyRef:
                   name: appsecrets
                   key: RW_USERNAME
+          - name: PASSWORD
+            valueFrom:
+                secretKeyRef:
+                  name: appsecrets
+                  key: RW_PASSWORD
           - name: RW_USERNAME
             valueFrom:
                 secretKeyRef:
@@ -46,11 +45,11 @@ spec:
                 secretKeyRef:
                   name: appsecrets
                   key: RW2_PASSWORD
-          - name: PASSWORD
+          - name: REDIS_URL
             valueFrom:
                 secretKeyRef:
-                  name: appsecrets
-                  key: RW_PASSWORD
+                  name: dbsecrets
+                  key: REDIS_URI
         ports:
           - containerPort: 3000
       restartPolicy: Always

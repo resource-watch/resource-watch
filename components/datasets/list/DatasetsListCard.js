@@ -8,6 +8,9 @@ import { Link } from 'routes';
 import Title from 'components/ui/Title';
 import DatasetsRelatedContent from 'components/datasets/common/DatasetsRelatedContent';
 
+// Redux
+import { connect } from 'react-redux';
+
 // Services
 import DatasetsService from 'services/DatasetsService';
 
@@ -16,7 +19,10 @@ class DatasetsListCard extends React.Component {
     super(props);
 
     // SERVICES
-    this.service = new DatasetsService({ authorization: props.token });
+    this.service = new DatasetsService({
+      authorization: props.token,
+      language: props.locale
+    });
   }
 
   @Autobind
@@ -96,8 +102,13 @@ DatasetsListCard.propTypes = {
   dataset: PropTypes.object,
   routes: PropTypes.object,
   token: PropTypes.string.isRequired,
+  locale: PropTypes.string.isRequired,
   // Callbacks
   onDatasetRemoved: PropTypes.func.isRequired
 };
 
-export default DatasetsListCard;
+const mapStateToProps = state => ({
+  locale: state.common.locale
+});
+
+export default connect(mapStateToProps, null)(DatasetsListCard);

@@ -16,10 +16,16 @@ class BasemapControl extends React.Component {
     // STORE
     basemapControl: PropTypes.object,
     basemap: PropTypes.object,
+    labelsVisible: PropTypes.bool,
 
     // ACTIONS
     setBasemap: PropTypes.func,
     setLabels: PropTypes.func
+  };
+
+  static defaultProps = {
+    // STORE
+    labelsVisible: false
   };
 
   state = {
@@ -66,7 +72,7 @@ class BasemapControl extends React.Component {
 
   // RENDER
   render() {
-    const { basemap, basemapControl } = this.props;
+    const { basemap, basemapControl, labelsVisible } = this.props;
     const { active } = this.state;
 
     return (
@@ -105,9 +111,10 @@ class BasemapControl extends React.Component {
             <div className="divisor" />
             <Checkbox
               properties={{
-                name: 'label',
-                title: 'Label',
-                value: 'label'
+                name: 'labels',
+                title: 'Labels',
+                value: 'labels',
+                checked: labelsVisible
               }}
               onChange={this.onLabelChange}
             />
@@ -121,7 +128,8 @@ class BasemapControl extends React.Component {
 export default (connect(
   state => ({
     basemap: state.explore.basemap,
-    basemapControl: state.explore.basemapControl
+    basemapControl: state.explore.basemapControl,
+    labelsVisible: state.explore.labels
   }),
   {
     setBasemap,

@@ -15,6 +15,9 @@ import DatasetService from 'services/DatasetService';
 import Spinner from 'components/ui/Spinner';
 import SubscriptionSelector from 'components/subscriptions/SubscriptionSelector';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 class AreaSubscriptionModal extends React.Component {
   constructor(props) {
     super(props);
@@ -35,7 +38,10 @@ class AreaSubscriptionModal extends React.Component {
     };
 
     // Services
-    this.datasetService = new DatasetService(null, { apiURL: process.env.WRI_API_URL });
+    this.datasetService = new DatasetService(null, {
+      apiURL: process.env.WRI_API_URL,
+      language: props.locale
+    });
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
   }
@@ -67,6 +73,8 @@ class AreaSubscriptionModal extends React.Component {
     if (incomplete) {
       toastr.error('Data missing', 'Please select a dataset, subscription type and threshold for all items');
     } else {
+      logEvent('My RW', 'Edit subscription', area.attributes.name);
+
       const datasets = subscriptionSelectors.map(val => val.selectedDataset);
       const datasetsQuery = subscriptionSelectors
         .map(val => ({
@@ -77,26 +85,34 @@ class AreaSubscriptionModal extends React.Component {
 
       if (mode === 'new') {
         if (datasets.length >= 1) {
-          this.userService.createSubscriptionToArea(area.id, datasets, datasetsQuery, user)
-            .then(() => {
-              toastr.success('Success!', 'Subscription created successfully');
-              this.props.toggleModal(false);
-              this.props.onSubscriptionCreated();
-            })
+          this.userService.createSubscriptionToArea(
+            area.id,
+            datasets,
+            datasetsQuery,
+            user,
+            this.props.locale
+          ).then(() => {
+            toastr.success('Success!', 'Subscription created successfully');
+            this.props.toggleModal(false);
+            this.props.onSubscriptionCreated();
+          })
             .catch(err => toastr.error('Error creating the subscription', err));
         } else {
           toastr.error('Error', 'Please select at least one dataset');
         }
       } else if (mode === 'edit') {
         if (datasets.length >= 1) {
-          this.userService.updateSubscriptionToArea(area.subscription.id, datasets,
-            datasetsQuery, user)
-            .then(() => {
-              toastr.success('Success!', 'Subscription updated successfully');
-              this.props.toggleModal(false);
-              this.props.onSubscriptionUpdated();
-            })
-            .catch(err => toastr.error('Error updating the subscription', err));
+          this.userService.updateSubscriptionToArea(
+            area.subscription.id,
+            datasets,
+            datasetsQuery,
+            user,
+            this.props.locale
+          ).then(() => {
+            toastr.success('Success!', 'Subscription updated successfully');
+            this.props.toggleModal(false);
+            this.props.onSubscriptionUpdated();
+          }).catch(err => toastr.error('Error updating the subscription', err));
         } else {
           this.userService.deleteSubscription(area.subscription.id, user.token)
             .then(() => {
@@ -195,6 +211,7 @@ AreaSubscriptionModal.propTypes = {
   area: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,
   mode: PropTypes.string.isRequired, // edit | new
+  locale: PropTypes.string.isRequired,
   // Store
   user: PropTypes.object.isRequired,
   // Callbacks
@@ -203,7 +220,8 @@ AreaSubscriptionModal.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  locale: state.common.locale
 });
 
 export default connect(mapStateToProps, null)(AreaSubscriptionModal);

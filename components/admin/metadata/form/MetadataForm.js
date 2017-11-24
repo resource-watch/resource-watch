@@ -38,7 +38,8 @@ class MetadataForm extends React.Component {
     });
 
     this.service = new DatasetsService({
-      authorization: props.authorization
+      authorization: props.authorization,
+      language: props.locale
     });
 
     this.state = newState;
@@ -212,10 +213,13 @@ MetadataForm.propTypes = {
   authorization: PropTypes.string.isRequired,
   onSubmit: PropTypes.func,
   setSources: PropTypes.func,
-  resetSources: PropTypes.func
+  resetSources: PropTypes.func,
+  locale: PropTypes.string.isRequired
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({
+  locale: state.common.locale
+});
 
 const mapDispatchToProps = dispatch => ({
   setSources: sources => dispatch(setSources(sources)),
