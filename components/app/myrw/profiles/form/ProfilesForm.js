@@ -5,6 +5,7 @@ import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
+import { setUser } from 'redactions/user';
 
 // Components
 import Button from 'components/ui/Button';
@@ -71,9 +72,7 @@ class MyRWEditProfile extends React.Component {
 
     this.userService.updateUser(userObj, user.token)
       .then(() => {
-        this.setState({
-          loading: false
-        });
+        window.location = '/login';
       })
       .catch((err) => {
         toastr.error('There was a problem updating your user data');
@@ -192,11 +191,12 @@ class MyRWEditProfile extends React.Component {
 
 MyRWEditProfile.propTypes = {
   // Store
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  setUser: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user
 });
 
-export default connect(mapStateToProps, null)(MyRWEditProfile);
+export default connect(mapStateToProps, { setUser })(MyRWEditProfile);

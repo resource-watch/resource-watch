@@ -319,6 +319,7 @@ export default class UserService {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
+
       reader.onload = () => {
         const bodyObj = {
           data: {
@@ -338,11 +339,11 @@ export default class UserService {
           }
         })
           .then(response => response.json())
-          .then((jsonData) => {
-            console.log(jsonData);
+          .then(({ data }) => {
+            resolve(data.attributes.avatar.original);
           });
-
       };
+
       reader.onerror = (error) => {
         reject(error);
       };

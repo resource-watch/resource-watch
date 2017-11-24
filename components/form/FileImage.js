@@ -1,3 +1,5 @@
+import 'isomorphic-fetch';
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -12,7 +14,7 @@ class FileImage extends FormElement {
     super(props);
 
     const defaultValue = props.properties.default;
-    const previewURL = `${props.properties.baseUrl}/${defaultValue || ''}`;
+    const previewURL = `${defaultValue || ''}`;
     this.state = {
       value: (defaultValue) ?
         this.getBase64FromURL(previewURL) :
@@ -63,8 +65,15 @@ class FileImage extends FormElement {
             break;
           case 'url':
             this.props.getUrlImage(accepted[0])
-              .then(() => {
-                console.log('success');
+              .then((value) => {
+                this.setState({
+                  value
+                }, () => {
+                  // Publish the new value to the form
+                  if (this.props.onChange) this.props.onChange(this.state.value);
+                  // Trigger validation
+                  this.triggerValidate();
+                });
               });
             break;
           default:
@@ -105,13 +114,15 @@ class FileImage extends FormElement {
   }
 
   getBase64FromURL(url) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('get', url);
-    xhr.responseType = 'blob';
-    xhr.onload = () => {
-      this.getBase64(xhr.response);
-    };
-    xhr.send();
+    if (typeof window !== 'undefined') {
+      const xhr = new XMLHttpRequest();
+      xhr.open('get', url);
+      xhr.responseType = 'blob';
+      xhr.onload = () => {
+        this.getBase64(xhr.response);
+      };
+      xhr.send();
+    }
   }
 
   /**
