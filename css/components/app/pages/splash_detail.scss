@@ -52,6 +52,19 @@
     color: $white;
     z-index: 9999;
 
+    .arrow-button {
+      position: absolute;
+      top: 0px;
+      right: -30px;
+      width: 30px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $dark-pink;
+      border-radius: 0 4px 4px 0;
+    }
+
     .detail-container {
       width: 100%;
       padding-right: 170px;

@@ -134,12 +134,12 @@ class SplashDetail extends Page {
         />
         <div className="header">
           <Link route="home">
-            <img className="logo" src="../../static/images/logo-resource-watch.png" alt="Resource Watch" />
+            <img className="logo" src="/static/images/logo-resource-watch.png" alt="Resource Watch" />
           </Link>
           <div className="links">
             <div className="earth-view-link">
               <Link route="splash">
-                <img src="../../static/images/splash/globe.svg" alt="Earth view" />
+                <img src="/static/images/splash/globe.svg" alt="Earth view" />
               </Link>
               <Link route="splash">
                 <a>EARTH VIEW</a>
@@ -152,6 +152,13 @@ class SplashDetail extends Page {
         </div>
         {selectedHotspot &&
           <div className="right-section">
+            <div
+              className="arrow-button"
+              role="button"
+              tabIndex={-1}
+            >
+              <img src="/static/images/splash/arrow-right.svg" alt="Close right menu" />
+            </div>
             <div className="detail-container">
               <h2>{selectedHotspot.title}</h2>
               <div className="text-container">
