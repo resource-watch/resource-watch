@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { toastr } from 'react-redux-toastr';
+
 import { connect } from 'react-redux';
 
 // Constants
@@ -153,28 +155,27 @@ class Step1 extends React.Component {
                   renderer: 'modal'
                 }
               },
-              onUploadImage: (files) => {
-                return new Promise((resolve, reject) => {
-                  const file = files[0];
-                  const formData = new FormData();
-                  formData.append('image', file);
+              onUploadImage: files => new Promise((resolve, reject) => {
+                const file = files[0];
+                const formData = new FormData();
+                formData.append('image', file);
 
-                  fetch(`${process.env.API_URL}/temporary_content_images`, {
-                    method: 'POST',
-                    headers: {
-                      Authorization: this.props.user.token
-                    },
-                    body: formData
+                fetch(`${process.env.API_URL}/temporary_content_images`, {
+                  method: 'POST',
+                  headers: {
+                    Authorization: this.props.user.token
+                  },
+                  body: formData
+                })
+                  .then(response => response.json())
+                  .then((response) => {
+                    resolve(response.url);
                   })
-                    .then(response => response.json())
-                    .then((response) => {
-                      resolve(response.url);
-                    })
-                    .catch((e) => {
-                      reject(e);
-                    });
-                });
-              }
+                  .catch((e) => {
+                    toastr.error('Error', 'We couldn\'t upload the image. Try again');
+                    reject(e);
+                  });
+              })
             }}
           >
             {Wysiwyg}
