@@ -60,11 +60,7 @@
       justify-content: center;
       background-color: $dark-pink;
       border-radius: 4px 0 0 4px;
-      cursor: cursor-pointer;
-
-      img {
-        cursor: cursor-pointer;
-      }
+      cursor: pointer;
     }
 
     .detail-container {
@@ -87,32 +83,46 @@
     height: 100%;
     width: 100%;
 
-    .menu {
-      display: flex;
+    .menu-container {
       position: absolute;
       bottom: 50px;
       left: 50px;
-      align-items: center;
       z-index: 9999;
-      background: $white;
-      padding: 10px;
-      border-radius: 4px;
 
-      .option {
+      .scenario-box {
         display: flex;
         align-items: center;
+        justify-content: center;
+        height: 40px;
+        width: 95px;
+        background-color: rgba(0,0,0,0.4);
+        border-radius: 4px 4px 0 0;
+        color: $white;
+      }
 
-        input {
-          cursor: pointer;
-        }
+      .menu {
+        display: flex;
+        align-items: center;
+        background: $white;
+        padding: 10px;
+        border-radius: 4px;
 
-        label {
-          cursor: pointer;
-          margin-left: 10px;
-        }
+        .option {
+          display: flex;
+          align-items: center;
 
-        &:not(:last-child) {
-          margin-right: 40px;
+          input {
+            cursor: pointer;
+          }
+
+          label {
+            cursor: pointer;
+            margin-left: 10px;
+          }
+
+          &:not(:last-child) {
+            margin-right: 40px;
+          }
         }
       }
     }

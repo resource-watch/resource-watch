@@ -33,6 +33,7 @@ const PANORAMAS = [
         label: 'Bleached',
         image: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/images/bleached-optimized.jpg',
         text: 'What might resemble a beautiful snowfall is actually a destructive stress response known as coral bleaching, which occurred in Airport Reef in 2015. Prolonged exposure to warmer ocean temperatures can cause corals to expel their symbiotic algae (which gives color to corals and nourishes them through photosynthesis), leaving the corals’ white skeletons visible. Some corals are able to bounce back from a bleaching event if water temperatures decrease fast enough. In a warming ocean, however, corals will have less time to recover between bleaching events, and widespread die-off could occur.\nPhoto date: February 2, 2015',
+        intro: '../../static/images/splash/coral-intro.png',
         hotspots: [
           {
             title: 'Coral bleaching on the rise',
@@ -123,10 +124,13 @@ class SplashDetail extends Page {
   render() {
     const { selectedPanorama, skyLoading, panorama, showDragHelp, soundActivated, selectedHotspot } = this.state;
     const skyImage = selectedPanorama && selectedPanorama.image;
+    const intro = selectedPanorama && selectedPanorama.intro;
     const text = selectedPanorama && selectedPanorama.text;
     const hotspots = selectedPanorama && selectedPanorama.hotspots;
     const options = panorama && panorama.options;
     const backgroundSound = panorama.backgroundSound;
+
+    console.log('intro', intro);
 
     return (
       <div
@@ -176,17 +180,22 @@ class SplashDetail extends Page {
         }
         <div className="panorama">
           <Spinner isLoading={skyLoading} className="-light" />
-          <div className="menu">
-            {options && options.map(elem => (
-              <div className="option" key={elem.name}>
-                <input type="radio" id={elem.name} checked={selectedPanorama.name === elem.name} onChange={this.handlePanoramaChange} />
-                <label htmlFor={elem.name}>{elem.label}</label>
+          <div className="menu-container">
+            <div className="scenario-box">
+              Scenario
+            </div>
+            <div className="menu">
+              {options && options.map(elem => (
+                <div className="option" key={elem.name}>
+                  <input type="radio" id={elem.name} checked={selectedPanorama.name === elem.name} onChange={this.handlePanoramaChange} />
+                  <label htmlFor={elem.name}>{elem.label}</label>
+                </div>
+              ))
+              }
+              <div className="option">
+                <input type="checkbox" id="soundCheckbox" checked={soundActivated} onChange={this.handleSoundChange}/>
+                <label htmlFor="soundCheckbox">Sound</label>
               </div>
-            ))
-            }
-            <div className="option">
-              <input type="checkbox" id="soundCheckbox" checked={soundActivated} onChange={this.handleSoundChange}/>
-              <label htmlFor="soundCheckbox">Sound</label>
             </div>
           </div>
           <a-scene
@@ -219,13 +228,14 @@ class SplashDetail extends Page {
               </audio>
             }
 
-            <a-text
-              id="text1"
-              value={text}
-              color="#FFF"
-              position="-10 2 -10"
-              scale="1.5 1.5 1.5"
-            />
+            {intro && showDragHelp &&
+              <a-entity
+                id="intro"
+                position="0 2 -10"
+                geometry="primitive: plane; height: 10; width: 10"
+                material={`shader: flat; src: ${intro}; transparent: true`}
+              />
+            }
 
             { /* Hotspots */ }
             {hotspots && hotspots.map(elem => (
@@ -244,11 +254,6 @@ class SplashDetail extends Page {
             <a-camera look-controls="reverseMouseDrag: true" />
           </a-scene>
         </div>
-        {showDragHelp &&
-          <div className="drag-help">
-            <img src="../../static/images/splash/drag.svg" alt="Drag" />
-          </div>
-        }
       </div>
     );
   }
