@@ -12,7 +12,7 @@ class FileImage extends FormElement {
     super(props);
 
     const defaultValue = props.properties.default;
-    const previewURL = `${process.env.STATIC_SERVER_URL}/${defaultValue || ''}`;
+    const previewURL = `${defaultValue || ''}`;
     this.state = {
       value: (defaultValue) ?
         this.getBase64FromURL(previewURL) :
