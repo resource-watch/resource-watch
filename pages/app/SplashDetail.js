@@ -161,11 +161,10 @@ class SplashDetail extends Page {
             <a-assets>
               <img id="marker" src="../../static/images/splash/marker.svg" alt="" />
               <img id="markerSelected" src="../../static/images/splash/marker.svg" alt="" />
-              <img id="sky" src={skyImage} alt="" crossOrigin="anonymous"  />
             </a-assets>
 
             { /* 360-degree image */ }
-            <a-sky id="panorama-sky" src="#sky" />
+            <a-sky id="panorama-sky" src={skyImage} />
 
             { /* Background sound */ }
             {backgroundSound && soundActivated &&
