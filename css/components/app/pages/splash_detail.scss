@@ -54,6 +54,9 @@
       border-radius: 4px;
 
       .option {
+        display: flex;
+        align-items: center;
+
         input {
           cursor: pointer;
         }

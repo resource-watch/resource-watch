@@ -59,7 +59,8 @@ class SplashDetail extends Page {
       skyLoading: false,
       panorama,
       selectedPanorama,
-      showDragHelp: true
+      showDragHelp: true,
+      soundActivated: true
     };
   }
 
@@ -95,8 +96,15 @@ class SplashDetail extends Page {
     document.removeEventListener('mousedown', this.hideDragHelp);
   }
 
+  @Autobind
+  handleSoundChange() {
+    this.setState({
+      soundActivated: !this.state.soundActivated
+    });
+  }
+
   render() {
-    const { selectedPanorama, skyLoading, panorama, showDragHelp } = this.state;
+    const { selectedPanorama, skyLoading, panorama, showDragHelp, soundActivated } = this.state;
     const skyImage = selectedPanorama && selectedPanorama.image;
     const text = selectedPanorama && selectedPanorama.text;
     const hotspots = selectedPanorama && selectedPanorama.hotspots;
@@ -140,6 +148,10 @@ class SplashDetail extends Page {
               </div>
             ))
             }
+            <div className="option">
+              <input type="checkbox" id="soundCheckbox" checked={soundActivated} onChange={this.handleSoundChange}/>
+              <label htmlFor="soundCheckbox">Sound</label>
+            </div>
           </div>
           <a-scene
             cursor="rayOrigin: mouse"
@@ -156,7 +168,7 @@ class SplashDetail extends Page {
             <a-sky id="panorama-sky" src="#sky" />
 
             { /* Background sound */ }
-            {backgroundSound &&
+            {backgroundSound && soundActivated &&
               <audio
                 src={backgroundSound}
                 autoPlay

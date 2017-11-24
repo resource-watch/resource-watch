@@ -42,7 +42,7 @@ const MARKERS = [
     image: '../../static/images/splash/marker.svg',
     imageSelected: '../../static/images/splash/marker.svg',
     imageNotSelected: '../../static/images/splash/marker.svg',
-    thumbnail: '../../static/images/splash/coral-thumbnail.png',
+    thumbnail: '../../static/images/splash/coral-thumbnail.jpg',
     routeId: 'coral'
   }
 ];
