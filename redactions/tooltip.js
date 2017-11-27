@@ -77,9 +77,7 @@ export function toggleTooltip(opened, opts = {}) {
         dispatch({ type: TOOLTIP_DIRECTION, payload: opts.direction });
       }
 
-      if (opts.className) {
-        dispatch({ type: TOOLTIP_CLASSNAME, payload: opts.className });
-      }
+      dispatch({ type: TOOLTIP_CLASSNAME, payload: opts.className });
 
       if (opts.follow) {
         dispatch({ type: TOOLTIP_FOLLOW_TOGGLE, payload: true });

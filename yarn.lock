@@ -8998,9 +8998,9 @@ react-attr-converter@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/react-attr-converter/-/react-attr-converter-0.3.1.tgz#4a2abf6d907b7ddae4d862dfec80e489ce41ad6e"
 
-"react-cesium@git://github.com/Vizzuality/react-cesium.git#daf555b9e9738ceb921536547ad0b74b8dd413bf":
+"react-cesium@git://github.com/Vizzuality/react-cesium.git#d3c4bbb4ff2ead603511c9669a7e9aa6d97e132c":
   version "0.1.1"
-  resolved "git://github.com/Vizzuality/react-cesium.git#daf555b9e9738ceb921536547ad0b74b8dd413bf"
+  resolved "git://github.com/Vizzuality/react-cesium.git#d3c4bbb4ff2ead603511c9669a7e9aa6d97e132c"
   dependencies:
     babel-core "^6.26.0"
     babel-eslint "^8.0.1"
@@ -11622,9 +11622,9 @@ vis@^4.18.1:
     moment "^2.18.1"
     propagating-hammerjs "^1.4.6"
 
-vizz-wysiwyg@1.1.6:
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/vizz-wysiwyg/-/vizz-wysiwyg-1.1.6.tgz#6406a1a88b6ead665af15865adf355ef75ddc86a"
+vizz-wysiwyg@1.1.7:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/vizz-wysiwyg/-/vizz-wysiwyg-1.1.7.tgz#ff5d8cbf8e0342b7dc442a371168326e871c4235"
   dependencies:
     autoprefixer "6.7.6"
     babel-core "^6.26.0"
