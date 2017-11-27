@@ -50,6 +50,7 @@ import Spinner from 'components/ui/Spinner';
 import WidgetEditor from 'components/widgets/editor/WidgetEditor';
 import ShareExploreDetailModal from 'components/modal/ShareExploreDetailModal';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
+import LoginModal from 'components/modal/LoginModal';
 import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
 
@@ -299,14 +300,29 @@ class ExploreDetail extends Page {
   }
   @Autobind
   handleSubscribe() {
-    const options = {
-      children: SubscribeToDatasetModal,
-      childrenProps: {
-        toggleModal: this.props.toggleModal,
-        dataset: this.state.dataset,
-        showDatasetSelector: false
-      }
-    };
+    const { user } = this.props;
+    let options = null;
+    // ----- the user is logged in ------
+    if (user.id) {
+      options = {
+        children: SubscribeToDatasetModal,
+        childrenProps: {
+          toggleModal: this.props.toggleModal,
+          dataset: this.state.dataset,
+          showDatasetSelector: false
+        }
+      };
+    } else {
+    // ------ anonymous user ---------
+      options = {
+        children: LoginModal,
+        childrenProps: {
+          toggleModal: this.props.toggleModal,
+          text: 'Log in to subscribe to dataset changes'
+        }
+      };
+    }
+
     this.props.toggleModal(true);
     this.props.setModalOptions(options);
   }
@@ -519,8 +535,7 @@ class ExploreDetail extends Page {
                         Learn more
                       </a>
                     }
-                    {dataset && dataset.attributes && dataset.attributes.subscribable
-                      && user.id &&
+                    {dataset && dataset.attributes && dataset.attributes.subscribable &&
                       <button
                         className="c-button -secondary -fullwidth"
                         onClick={this.handleSubscribe}

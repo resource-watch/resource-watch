@@ -14,6 +14,7 @@ import { toggleModal, setModalOptions } from 'redactions/modal';
 import Legend from 'components/app/pulse/Legend';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
+import LoginModal from 'components/modal/LoginModal';
 
 
 // Services
@@ -83,14 +84,28 @@ class LayerCard extends React.Component {
 
   @Autobind
   handleSubscribeToAlerts() {
-    const options = {
-      children: SubscribeToDatasetModal,
-      childrenProps: {
-        toggleModal: this.props.toggleModal,
-        dataset: this.state.dataset,
-        showDatasetSelector: false
-      }
-    };
+    const { user } = this.props;
+    const userLoggedIn = user && user.id;
+
+    let options = null;
+    if (!userLoggedIn) {
+      options = {
+        children: LoginModal,
+        childrenProps: {
+          toggleModal: this.props.toggleModal,
+          text: 'Log in to subscribe to near-real time datasets'
+        }
+      };
+    } else {
+      options = {
+        children: SubscribeToDatasetModal,
+        childrenProps: {
+          toggleModal: this.props.toggleModal,
+          dataset: this.state.dataset,
+          showDatasetSelector: false
+        }
+      };
+    }
     this.props.toggleModal(true);
     this.props.setModalOptions(options);
   }
@@ -100,7 +115,6 @@ class LayerCard extends React.Component {
     const { layerActive, layerPoints, similarWidgets } = pulse;
     const { dataset } = this.state;
     const subscribable = dataset && dataset.attributes && dataset.attributes.subscribable;
-    const userLoggedIn = user && user.id;
 
     const className = classNames({
       'c-layer-card': true,
@@ -163,16 +177,13 @@ class LayerCard extends React.Component {
               <a className="link_button" >Explore the data</a>
             </Link>
           }
-          { subscribable && userLoggedIn &&
+          { subscribable &&
             <button
               className="link_button"
               onClick={this.handleSubscribeToAlerts}
             >
               Subscribe to alerts
             </button>
-          }
-          { subscribable && !userLoggedIn &&
-            <span className="subscribe-text">Log in to subscribe</span>
           }
         </div>
       </div>
