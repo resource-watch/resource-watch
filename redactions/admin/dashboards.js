@@ -7,7 +7,13 @@ import DashboardsService from 'services/DashboardsService';
 const GET_DASHBOARDS_SUCCESS = 'dashboards/GET_DASHBOARDS_SUCCESS';
 const GET_DASHBOARDS_ERROR = 'dashboards/GET_DASHBOARDS_ERROR';
 const GET_DASHBOARDS_LOADING = 'dashboards/GET_DASHBOARDS_LOADING';
+
 const SET_DASHBOARDS_FILTERS = 'dashboards/SET_DASHBOARDS_FILTERS';
+
+const DELETE_DASHBOARD_SUCCESS = 'dashboards/DELETE_DASHBOARD_SUCCESS';
+const DELETE_DASHBOARD_ERROR = 'dashboards/DELETE_DASHBOARD_ERROR';
+const DELETE_DASHBOARD_LOADING = 'dashboards/DELETE_DASHBOARD_LOADING';
+
 
 /**
  * STORE
@@ -24,6 +30,7 @@ const initialState = {
 };
 
 const service = new DashboardsService();
+
 /**
  * REDUCER
  * @export
@@ -100,4 +107,23 @@ export function setFilters(filters) {
     type: SET_DASHBOARDS_FILTERS,
     payload: filters
   });
+}
+
+/**
+ * Delete current dashboard
+ * @export
+ * @param {string[]} applications Name of the applications to load the dashboards from
+ */
+export function deleteDashboard({ id }) {
+  return (dispatch, getState) => {
+    dispatch({ type: DELETE_DASHBOARD_LOADING });
+
+    return service.deleteData({ id, auth: getState().user.token })
+      .then((data) => {
+        dispatch({ type: DELETE_DASHBOARD_SUCCESS, payload: data });
+      })
+      .catch((err) => {
+        dispatch({ type: DELETE_DASHBOARD_ERROR, payload: err.message });
+      });
+  };
 }
