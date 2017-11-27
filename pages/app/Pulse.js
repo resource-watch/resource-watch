@@ -137,7 +137,6 @@ class Pulse extends Page {
     if (nextProps.pulse.layerPoints !== this.props.pulse.layerPoints) {
       if (nextProps.pulse.layerPoints && nextProps.pulse.layerPoints.length > 0) {
         this.setState({
-          loading: false,
           layerPoints: nextProps.pulse.layerPoints.slice(0),
           texture: null,
           useDefaultLayer: false,
@@ -380,6 +379,12 @@ class Pulse extends Page {
     this.props.toggleTooltip(false);
   }
 
+  @Autobind
+  handleShapesCreated() {
+    console.log('handle shapes created!');
+    this.setState({ loading: false });
+  }
+
   render() {
     const { url, layersGroup, pulse } = this.props;
     const { layerActive, layerPoints } = pulse;
@@ -413,6 +418,7 @@ class Pulse extends Page {
               onClick={this.handleCesiumClick}
               onMouseDown={this.handleCesiumMouseDown}
               onMoveStart={this.handleCesiumMoveStart}
+              onShapesCreated={this.handleShapesCreated}
               shapes={shapes}
               zoom={zoom}
               homeButton={false}
