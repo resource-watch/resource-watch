@@ -27,9 +27,6 @@ class DashboardsListCard extends React.Component {
           </header>
 
           <div className="card-content">
-            {dashboard.published && 'published' }
-            {!dashboard.published && 'not published' }
-
             <div className="card-actions">
               <button
                 className="c-button -tertiary -compressed"
