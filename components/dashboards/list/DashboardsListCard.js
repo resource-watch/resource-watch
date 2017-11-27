@@ -24,14 +24,20 @@ class DashboardsListCard extends React.Component {
                 </Title>
               </a>
             </Link>
-            <Title className="-small">
-              {dashboard.provider}
-            </Title>
           </header>
 
           <div className="card-content">
             {dashboard.published && 'published' }
             {!dashboard.published && 'not published' }
+
+            <div className="card-actions">
+              <button
+                className="c-button -tertiary -compressed"
+                onClick={() => this.props.onDelete(dashboard)}
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -44,12 +50,14 @@ DashboardsListCard.defaultProps = {
     index: '',
     detail: ''
   },
-  dashboard: {}
+  dashboard: {},
+  onDelete: null
 };
 
 DashboardsListCard.propTypes = {
   dashboard: PropTypes.object,
-  routes: PropTypes.object
+  routes: PropTypes.object,
+  onDelete: PropTypes.func
 };
 
 export default DashboardsListCard;
