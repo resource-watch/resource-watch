@@ -1,0 +1,17 @@
+.p-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    a {
+      margin-top: 50px;
+    }
+  }
+}

@@ -23,6 +23,9 @@
 // Editor
 @import '../node_modules/react-quill/dist/quill.snow';
 
+// 404 page
+@import './components/error';
+
 // Common files
 @import "base";
 @import "helpers";
