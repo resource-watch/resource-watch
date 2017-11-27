@@ -381,7 +381,6 @@ class Pulse extends Page {
 
   @Autobind
   handleShapesCreated() {
-    console.log('handle shapes created!');
     this.setState({ loading: false });
   }
 
