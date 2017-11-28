@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'routes';
 import { Autobind } from 'es-decorators';
+import classnames from 'classnames';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -81,7 +82,8 @@ class SplashDetail extends Page {
       showDragHelp: true,
       soundActivated: true,
       selectedHotspot: null,
-      earthMode
+      earthMode,
+      mouseHovering: false
     };
   }
 
@@ -97,6 +99,8 @@ class SplashDetail extends Page {
     selectedPanorama.hotspots.forEach((hotspot) => {
       const elem = document.getElementById(hotspot.id);
       elem.addEventListener('click', () => this.handleSelectedHostpot(hotspot));
+      elem.addEventListener('mouseenter', () => this.handleMouseOverHotspot(hotspot));
+      elem.addEventListener('mouseleave', () => this.handleMouseLeavesHotspot(hotspot))
     });
   }
 
@@ -131,6 +135,13 @@ class SplashDetail extends Page {
   handleSelectedHostpot(hotspot) {
     this.setState({ selectedHotspot: hotspot });
   }
+  handleMouseOverHotspot(hotspot) {
+    this.setState({ mouseHovering: true });
+  }
+  handleMouseLeavesHotspot(hotspot) {
+    this.setState({ mouseHovering: false });
+  }
+
 
   @Autobind
   handleCloseRightMenu() {
@@ -138,7 +149,16 @@ class SplashDetail extends Page {
   }
 
   render() {
-    const { selectedPanorama, skyLoading, panorama, showDragHelp, soundActivated, selectedHotspot, earthMode } = this.state;
+    const {
+      selectedPanorama,
+      skyLoading,
+      panorama,
+      showDragHelp,
+      soundActivated,
+      selectedHotspot,
+      earthMode,
+      mouseHovering
+    } = this.state;
     const skyImage = selectedPanorama && selectedPanorama.image;
     const intro = selectedPanorama && selectedPanorama.intro;
     const text = selectedPanorama && selectedPanorama.text;
@@ -146,12 +166,15 @@ class SplashDetail extends Page {
     const options = panorama && panorama.options;
     const backgroundSound = panorama.backgroundSound;
 
-    console.log('intro', intro);
+    const pageClass = classnames({
+      'p-splash-detail': true,
+      '-hovering': mouseHovering
+    });
 
     return (
       <div
         title="Resource Watch"
-        className="page-splash-detail"
+        className={pageClass}
       >
         <Head
           title="SplashDetail page"
