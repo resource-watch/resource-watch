@@ -77,7 +77,12 @@ class Header extends React.Component {
       {
         name: 'Get Involved',
         pathnames: ['/app/GetInvolved'],
-        component: <Link route="get_involved"><a className="-bordered">Get Involved</a></Link>
+        component: <Link route="get_involved"><a>Get Involved</a></Link>
+      },
+      {
+        name: 'Search',
+        pathnames: [],
+        component: <ToggleSearch />
       },
       {
         name: 'Personal Area',
@@ -127,7 +132,6 @@ class Header extends React.Component {
                     </ul>
                   </nav>
                 </MediaQuery>
-                <ToggleSearch />
               </div>
             </div>
           </div>

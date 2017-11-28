@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
-import classnames from 'classnames';
 import { Link } from 'routes';
 import { toastr } from 'react-redux-toastr';
 
@@ -46,14 +45,10 @@ class HeaderUser extends React.Component {
     const { user } = this.props;
 
     if (!isEmpty(user)) {
-      const activeNotificationClassName = classnames({
-        '-active': !!user.notifications
-      });
-
-      const avatar = (user.avatar) ? `url(${user.avatar})` : 'none';
+      const photo = (user.photo) ? `url(${user.photo})` : 'none';
 
       return (
-        <div className="c-avatar" style={{ backgroundImage: avatar }}>
+        <div className="c-avatar" style={{ backgroundImage: photo }}>
           <TetherComponent
             attachment="top center"
             constraints={[{
@@ -70,8 +65,11 @@ class HeaderUser extends React.Component {
                 onMouseEnter={this.props.onMouseEnter}
                 onMouseLeave={this.props.onMouseLeave}
               >
-                {!user.avatar && <span className="avatar-letter">{user.email && user.email.split('')[0]}</span>}
-                {user.notifications && <span className={`avatar-notifications ${activeNotificationClassName}`}>{user.notifications}</span>}
+                {(!user.photo && user.email) &&
+                  <span className="avatar-letter" >
+                    {user.email.split('')[0]}
+                  </span>
+                }
               </a>
             </Link>
             {/* Second child: If present, this item will be tethered to the the first child */}

@@ -72,6 +72,7 @@ class MyRWEditProfile extends React.Component {
 
     this.userService.updateUser(userObj, user.token)
       .then(() => {
+        // Needs to be improved by the API
         window.location = '/login';
       })
       .catch((err) => {
@@ -116,19 +117,6 @@ class MyRWEditProfile extends React.Component {
                   type: 'email',
                   required: true,
                   default: user.email,
-                  disabled: true
-                }}
-              >
-                {Input}
-              </Field>
-              <Field
-                ref={(c) => { if (c) FORM_ELEMENTS.elements.new_password = c; }}
-                onChange={value => this.handleFormChange({ new_password: value })}
-                properties={{
-                  name: 'new_password',
-                  label: 'Change password',
-                  type: 'password',
-                  default: user.new_password,
                   disabled: true
                 }}
               >
