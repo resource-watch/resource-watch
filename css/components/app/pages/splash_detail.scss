@@ -1,4 +1,4 @@
-.page-splash-detail {
+.p-splash-detail {
   width: 100%;
   height: 100vh;
 
@@ -77,6 +77,14 @@
 
       .text-container {
         margin-bottom: 20px;
+
+        a, h3 {
+          color: $white;
+        }
+        a {
+          text-decoration: underline;
+          font-weight: bold;
+        }
       }
     }
   }
@@ -140,5 +148,9 @@
     width: 100px;
     top: calc(50% - 50px);
     left: calc(50% - 50px);
+  }
+
+  &.-hovering {
+    .a-canvas.a-grab-cursor:hover{cursor:pointer !important}
   }
 }
