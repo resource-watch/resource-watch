@@ -77,6 +77,14 @@
 
       .text-container {
         margin-bottom: 20px;
+
+        a, h3 {
+          color: $white;
+        }
+        a {
+          text-decoration: underline;
+          font-weight: bold;
+        }
       }
     }
   }
