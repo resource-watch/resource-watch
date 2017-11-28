@@ -2,22 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Components
+import Editor from 'vizz-wysiwyg';
 import FormElement from './FormElement';
-
-let Editor;
-if (typeof window !== 'undefined') {
-  Editor = require('react-quill');
-  // require all blots
-  require('components/wysiwyg/IframeBlot');
-  require('components/wysiwyg/WidgetLayoutBlot');
-}
 
 
 class Wysiwyg extends FormElement {
-  static getValue(html) {
-    return html;
-  }
-
   constructor(props) {
     super(props);
 
@@ -26,28 +15,10 @@ class Wysiwyg extends FormElement {
     }
 
     this.state = {
-      value: Wysiwyg.getValue(this.props.properties.default),
+      value: this.props.properties.default,
       valid: null,
-      error: [],
-      isQuillRef: false
+      error: []
     };
-  }
-
-  componentDidMount() {
-    this.attachQuillRefs();
-  }
-
-  componentDidUpdate() {
-    this.attachQuillRefs();
-  }
-
-  attachQuillRefs = () => {
-    if (typeof this.reactQuillRef.getEditor !== 'function') return;
-    this.quill = this.reactQuillRef.getEditor();
-
-    if (!this.state.isQuillRef) {
-      this.setState({ isQuillRef: true });
-    }
   }
 
   /**
@@ -60,33 +31,30 @@ class Wysiwyg extends FormElement {
       this.triggerValidate();
 
       if (this.props.onChange) {
-        this.props.onChange(value);
+        const stringifiedValue = JSON.stringify(value);
+        this.props.onChange(stringifiedValue);
       }
     });
   }
 
-  render() {
+  getValue() {
     const { value } = this.state;
+    try {
+      return JSON.parse(value);
+    } catch (e) {
+      return null;
+    }
+  }
 
+  render() {
     return (
       <div className="c-wysiwyg">
-        {this.props.toolbar &&
-          <this.props.toolbar.component
-            quill={this.quill}
-          />
-        }
-
-        {!!Editor &&
-          <Editor
-            ref={(c) => { this.reactQuillRef = c; }}
-            theme="snow"
-            value={value}
-            onChange={this.triggerChange}
-            modules={{
-              ...!!this.props.toolbar && { toolbar: this.props.toolbar.container }
-            }}
-          />
-        }
+        <Editor
+          items={this.getValue()}
+          blocks={this.props.properties.blocks}
+          onChange={this.triggerChange}
+          onUploadImage={this.props.properties.onUploadImage}
+        />
       </div>
     );
   }

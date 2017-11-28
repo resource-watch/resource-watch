@@ -17,9 +17,6 @@ import AggregateFunctionTooltip from 'components/widgets/editor/tooltip/Aggregat
 import OrderByTooltip from 'components/widgets/editor/tooltip/OrderByTooltip';
 import ColumnDetails from 'components/widgets/editor/tooltip/ColumnDetails';
 
-// Utils
-import { isFieldAllowed } from 'components/widgets/editor/helpers/WidgetHelper';
-
 const NAME_MAX_LENGTH = 9;
 
 /**
@@ -91,20 +88,30 @@ class ColumnBox extends React.Component {
     };
   }
 
+  componentDidMount() {
+    // This condition is truthy when the column is opened
+    // inside the filters container
+    if (this.props.isA === 'filter') {
+      const columnName = this.props.name;
+      const filters = this.props.widgetEditor.filters;
+      const filter = filters.find(f => f.name === columnName);
+      // We assume that a filter is considered as "just been
+      // dropped" if it still haven't been assigned a value
+      const hasBeenDropped = !filter || !filter.value
+        || (Array.isArray(filter.value) && !filter.value.length);
+
+      // We ONLY open the filter tooltip if the user has just
+      // dropped the column, not when we're restoring the state
+      // of the editor
+      if (hasBeenDropped) this.openFilterTooltip();
+    }
+  }
 
   componentWillReceiveProps(nextProps) {
-    // Open the filter tooltip the when the columnbox has been dropped
-    if (this.props.isA && this.props.isA === 'filter' && !this.state.filterTooltipAlreadyOpened) {
-      this.openFilterTooltip();
-      this.setState({
-        filterTooltipAlreadyOpened: true
-      });
-    }
-
     // We add a dragging cursor to the column box if it's being dragged
     // We have to set the CSS property to the body otherwise it won't be
     // taken into account
-    if (nextProps.isDragging !== this.props.isDragging) {
+    if (!this.props.isDragging && nextProps.isDragging) {
       document.body.classList.toggle('-dragging', nextProps.isDragging);
 
       // We prevent the details tooltip from showing...
@@ -271,6 +278,12 @@ class ColumnBox extends React.Component {
     }
   }
 
+  /**
+   * Open the filter tooltip
+   * NOTE: make sure the component is mounted before calling
+   * this method (it needs to compute bounding rects)
+   * @param {MouseEvent} [event] Click event
+   */
   openFilterTooltip(event) {
     const { name, type, datasetID, tableName } = this.props;
 
@@ -390,11 +403,11 @@ class ColumnBox extends React.Component {
 
     const orderType = orderBy ? orderBy.orderType : null;
     let iconName;
-    switch (isFieldAllowed({ columnType: type }).type) {
+    switch (type) {
       case 'number':
         iconName = 'icon-item-number';
         break;
-      case 'text':
+      case 'string':
         iconName = 'icon-item-category';
         break;
       case 'date':

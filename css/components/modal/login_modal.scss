@@ -1,0 +1,17 @@
+.c-login-modal {
+
+  .header-div {
+    margin-bottom: 20px;
+  }
+
+  .log-in-container {
+    margin-bottom: 90px;
+      .log-in-buttons {
+        a {
+          &:not(:last-of-type) {
+            margin-right: 20px;
+          }
+        }
+      }
+  }
+}

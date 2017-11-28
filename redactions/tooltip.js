@@ -6,6 +6,7 @@ const TOOLTIP_SET_CHILDREN_PROPS = 'TOOLTIP_SET_CHILDREN_PROPS';
 const TOOLTIP_SET_POSITION = 'TOOLTIP_SET_POSITION';
 const TOOLTIP_FOLLOW_TOGGLE = 'TOOLTIP_FOLLOW_TOGGLE';
 const TOOLTIP_DIRECTION = 'TOOLTIP_DIRECTION';
+const TOOLTIP_CLASSNAME = 'TOOLTIP_CLASSNAME';
 
 // REDUCER
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
   children: null,
   loading: false,
   follow: false,
+  className: '',
   direction: 'bottom',
   childrenProps: {},
   position: {
@@ -37,6 +39,8 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { follow: action.payload });
     case TOOLTIP_DIRECTION:
       return Object.assign({}, state, { direction: action.payload });
+    case TOOLTIP_CLASSNAME:
+      return Object.assign({}, state, { className: action.payload });
     default:
       return state;
   }
@@ -72,6 +76,8 @@ export function toggleTooltip(opened, opts = {}) {
       if (opts.direction) {
         dispatch({ type: TOOLTIP_DIRECTION, payload: opts.direction });
       }
+
+      dispatch({ type: TOOLTIP_CLASSNAME, payload: opts.className });
 
       if (opts.follow) {
         dispatch({ type: TOOLTIP_FOLLOW_TOGGLE, payload: true });

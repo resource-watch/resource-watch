@@ -28,4 +28,11 @@
     margin: $margin-size-extra-small 0 0;
   }
 
+  .card-actions {
+    margin: $margin-size-extra-small 0 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+  }
+
 }

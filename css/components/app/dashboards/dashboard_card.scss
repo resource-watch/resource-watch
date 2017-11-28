@@ -1,4 +1,5 @@
 .c-dashboard-card {
+  width: 100%;
   display: flex;
   flex-direction: column;
   background-color: $color-white;
@@ -47,6 +48,8 @@
     display: flex;
     padding: 15px;
     min-height: 300px;
+    overflow-x: auto;
+    overflow-y: hidden;
     flex-grow: 1;
 
     > * {

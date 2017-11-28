@@ -7,6 +7,10 @@
   //   padding-bottom: $margin-size-big;
   // }
 
+  &.-small {
+    padding: $margin-size-small 0;
+  }
+
   &.-secondary {
     background-color: $ui-bg-color;
   }

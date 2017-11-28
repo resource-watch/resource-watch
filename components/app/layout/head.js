@@ -30,29 +30,9 @@ class Head extends React.PureComponent {
     /* eslint-enable */
   }
 
-  getGA() {
-    return <script async src="https://www.googletagmanager.com/gtag/js?id=UA-67196006-1"></script>;
-  }
-
-  getGASettings() {
-    return (
-      <script
-        type="text/javascript"
-        /* eslint-disable */
-        dangerouslySetInnerHTML={{ __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'UA-67196006-1');
-        ` }}
-        /* eslint-enable */
-      />);
-  }
-
   getCrazyEgg() {
     return <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0069/4623.js" async="async"></script>;
   }
-
 
   getUserReport() {
     const { pathname } = this.props.routes;
@@ -62,9 +42,9 @@ class Head extends React.PureComponent {
     }
 
     return (
-      /* eslint-disable */
       <script
         type="text/javascript"
+        // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: `
           window._urq = window._urq || [];
           _urq.push(['setGACode', 'UA-67196006-1']);
@@ -76,7 +56,6 @@ class Head extends React.PureComponent {
           })();
         ` }}
       />
-      /* eslint-enable */
     );
   }
 
@@ -91,11 +70,10 @@ class Head extends React.PureComponent {
     return (
       <script
         type="text/javascript"
-        /* eslint-disable */
+        // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: `
           window.liveSettings = { api_key: '${TRANSIFEX_LIVE_API}' }
         ` }}
-        /* eslint-enable */
       />
     );
   }
@@ -123,7 +101,7 @@ class Head extends React.PureComponent {
 
   getCesium() {
     const { pathname } = this.props.routes;
-    if (pathname === '/app/Pulse') {
+    if (pathname === '/app/Pulse' || pathname === '/app/Splash') {
       return <script src="/static/cesium/cesium.js" />;
     }
     return null;
@@ -131,8 +109,16 @@ class Head extends React.PureComponent {
 
   getCesiumStyles() {
     const { pathname } = this.props.routes;
-    if (pathname === '/app/Pulse') {
+    if (pathname === '/app/Pulse' || pathname === '/app/Splash') {
       return <link rel="stylesheet" href="/static/cesium/Widgets/widgets.css" />;
+    }
+    return null;
+  }
+
+  getAFrame() {
+    const { pathname } = this.props.routes;
+    if (pathname === '/app/SplashDetail') {
+      return <script src="/static/aframe/aframe.min.js" />;
     }
     return null;
   }
@@ -151,14 +137,13 @@ class Head extends React.PureComponent {
         <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700" />
         {Head.getStyles()}
         {this.getCesiumStyles()}
-        {this.getGA()}
-        {this.getGASettings()}
         {this.getCrazyEgg()}
         {this.getUserReport()}
         {this.getTransifexSettings()}
         {this.getTransifex()}
         {this.getAddSearchConfig()}
         {this.getCesium()}
+        {this.getAFrame()}
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
       </HeadNext>
     );
@@ -169,7 +154,8 @@ Head.propTypes = {
   title: PropTypes.string, // Some pages don't have any title (think embed)
   description: PropTypes.string.isRequired,
   routes: PropTypes.object.isRequired,
-  category: PropTypes.string
+  category: PropTypes.string,
+  dataset: PropTypes.object
 };
 
 export default connect(

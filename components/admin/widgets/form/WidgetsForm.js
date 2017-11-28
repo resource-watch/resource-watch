@@ -66,7 +66,8 @@ class WidgetsForm extends React.Component {
     });
 
     this.datasetsService = new DatasetsService({
-      authorization: props.authorization
+      authorization: props.authorization,
+      language: props.locale
     });
   }
 
@@ -405,6 +406,7 @@ WidgetsForm.propTypes = {
   dataset: PropTypes.string, // ID of the dataset that should be pre-selected
   // Store
   widgetEditor: PropTypes.object,
+  locale: PropTypes.string.isRequired,
   // ACTIONS
   setFilters: PropTypes.func.isRequired,
   setSize: PropTypes.func.isRequired,
@@ -452,7 +454,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  widgetEditor: state.widgetEditor
+  widgetEditor: state.widgetEditor,
+  locale: state.common.locale
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WidgetsForm);

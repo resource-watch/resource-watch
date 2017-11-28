@@ -66,12 +66,15 @@ export default function (state = initialState, action) {
  * @param {string[]} applications Name of the applications to load the datasets from
  */
 export function getDataset(datasetId) {
-  const service = new DatasetService(datasetId, {
-    apiURL: process.env.WRI_API_URL
-  });
-
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch({ type: GET_EXPLORE_DATASET_LOADING });
+
+    const state = getState();
+
+    const service = new DatasetService(datasetId, {
+      apiURL: process.env.WRI_API_URL,
+      language: state.common.locale
+    });
 
     return service.fetchDataset('metadata,widget')
       .then((data) => {

@@ -45,7 +45,9 @@ class DatasetsShow extends React.Component {
       data: {}
     };
 
-    this.service = new DatasetsService();
+    this.service = new DatasetsService({
+      language: props.locale
+    });
   }
 
   componentDidMount() {
@@ -135,11 +137,13 @@ DatasetsShow.propTypes = {
   subtab: PropTypes.string,
 
   // Store
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  locale: state.common.locale
 });
 
 export default connect(mapStateToProps, null)(DatasetsShow);

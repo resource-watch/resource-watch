@@ -74,7 +74,10 @@ class SubscriptionsForm extends React.Component {
     // Services
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
-    this.datasetService = new DatasetService(null, { apiURL: process.env.WRI_API_URL });
+    this.datasetService = new DatasetService(null, {
+      apiURL: process.env.WRI_API_URL,
+      language: props.locale
+    });
   }
 
   componentDidMount() {
@@ -256,11 +259,13 @@ class SubscriptionsForm extends React.Component {
 SubscriptionsForm.propTypes = {
   // Store
   user: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired,
   toggleModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  locale: state.common.locale
 });
 
 const mapDispatchToProps = dispatch => ({

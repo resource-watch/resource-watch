@@ -9,6 +9,9 @@ import isEqual from 'lodash/isEqual';
 import MediaQuery from 'react-responsive';
 import DropdownTreeSelect from 'react-dropdown-tree-select';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
@@ -31,7 +34,8 @@ import {
   setGeographiesTree,
   setDataTypeTree,
   setZoom,
-  setLatLng
+  setLatLng,
+  setDatasetsSorting
 } from 'redactions/explore';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
@@ -68,6 +72,25 @@ import { findTagInSelectorTree } from 'utils/explore/TreeUtil';
 import DatasetService from 'services/DatasetService';
 
 class Explore extends Page {
+  static sortTree(tree) {
+    if (tree.length && tree.length > 1) {
+      tree.sort((a, b) => {
+        if (a.label < b.label) {
+          return -1;
+        } else if (a.label > b.label) {
+          return 1;
+        } else { // eslint-disable-line no-else-return
+          return 0;
+        }
+      });
+
+      tree.forEach(val => Explore.sortTree(val));
+    } else if (tree.children && tree.children.length > 0) {
+      tree.children = Explore.sortTree(tree.children); // eslint-disable-line no-param-reassign
+    }
+    return tree;
+  }
+
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
@@ -104,7 +127,10 @@ class Explore extends Page {
     };
 
     // Services
-    this.datasetService = new DatasetService(null, { apiURL: process.env.WRI_API_URL });
+    this.datasetService = new DatasetService(null, {
+      apiURL: process.env.WRI_API_URL,
+      language: props.locale
+    });
 
     // BINDINGS
     this.handleFilterDatasetsSearch = debounce(this.handleFilterDatasetsSearch.bind(this), 500);
@@ -157,6 +183,10 @@ class Explore extends Page {
       this.props.setDatasetsDataTypeFilter(JSON.parse(query.dataType));
     }
 
+    if (query.sort) {
+      this.props.setDatasetsSorting(query.sort);
+    }
+
     this.props.getDatasets({});
     if (user && user.id) {
       const token = user.token.includes('Bearer') ? user.token : `Bearer ${user.token}`;
@@ -207,6 +237,8 @@ class Explore extends Page {
     fetch(new Request('/static/data/TopicsTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
       .then((data) => {
+        const sortedTopicsTree = Explore.sortTree(data);
+
         if (topics) {
           data.forEach(child => this.selectElementsFromTree(child, JSON.parse(topics)));
 
@@ -219,13 +251,14 @@ class Explore extends Page {
         }
 
         // Save the topics tree as variable for later use
-        this.props.setTopicsTree(data);
+        this.props.setTopicsTree(sortedTopicsTree);
       });
 
     // Data types selector
     fetch(new Request('/static/data/DataTypesTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
       .then((data) => {
+        const sortedDataTypeTree = Explore.sortTree(data);
         if (dataType) {
           data.forEach(child => this.selectElementsFromTree(child, JSON.parse(dataType)));
           const dataTypesVal = JSON.parse(dataType).map((type) => {
@@ -237,13 +270,14 @@ class Explore extends Page {
         }
 
         // Save the data types tree as a variable for later use
-        this.props.setDataTypeTree(data);
+        this.props.setDataTypeTree(sortedDataTypeTree);
       });
 
     // Geographies selector
     fetch(new Request('/static/data/GeographiesTreeLite.json', { credentials: 'same-origin' }))
       .then(response => response.json())
       .then((data) => {
+        const sortedGeographiesTree = Explore.sortTree(data);
         if (geographies) {
           data.forEach(child => this.selectElementsFromTree(child, JSON.parse(geographies)));
           const geographiesVal = [];
@@ -268,7 +302,7 @@ class Explore extends Page {
         }
 
         // Save the data types tree as variable for later use
-        this.props.setGeographiesTree(data);
+        this.props.setGeographiesTree(sortedGeographiesTree);
       });
 
     const hasSelectedValues = [
@@ -317,6 +351,8 @@ class Explore extends Page {
 
     // We move the user to the first page
     this.props.setDatasetsPage(1);
+
+    logEvent('Explore', 'search', value);
   }
 
   /**
@@ -543,6 +579,7 @@ class Explore extends Page {
                               onChange={(currentNode, selectedNodes) => {
                                 this.filters.topics = selectedNodes.map(val => val.value);
                                 const deselect = !selectedNodes.includes(currentNode);
+
                                 if (deselect) {
                                   this.topicsTree.forEach(child => this.selectElementsFromTree(
                                     child, [currentNode.value], deselect));
@@ -550,6 +587,9 @@ class Explore extends Page {
                                   this.topicsTree.forEach(child => this.selectElementsFromTree(
                                     child, this.filters.topics, deselect));
                                 }
+
+                                logEvent('Explore', 'Filter Topic', this.filters.topics.join(','));
+
                                 this.applyFilters();
                               }}
                             />
@@ -565,6 +605,7 @@ class Explore extends Page {
                               onChange={(currentNode, selectedNodes) => {
                                 this.filters.geographies = selectedNodes.map(val => val.value);
                                 const deselect = !selectedNodes.includes(currentNode);
+
                                 if (deselect) {
                                   this.geographiesTree.forEach(child => this.selectElementsFromTree(
                                     child, [currentNode.value], deselect));
@@ -572,6 +613,9 @@ class Explore extends Page {
                                   this.geographiesTree.forEach(child => this.selectElementsFromTree(
                                     child, this.filters.geographies, deselect));
                                 }
+
+                                logEvent('Explore', 'Filter Geography', this.filters.geographies.join(','));
+
                                 this.applyFilters();
                               }}
                             />
@@ -587,6 +631,7 @@ class Explore extends Page {
                               onChange={(currentNode, selectedNodes) => {
                                 this.filters.dataType = selectedNodes.map(val => val.value);
                                 const deselect = !selectedNodes.includes(currentNode);
+
                                 if (deselect) {
                                   this.dataTypeTree.forEach(child => this.selectElementsFromTree(
                                     child, [currentNode.value], deselect));
@@ -594,6 +639,9 @@ class Explore extends Page {
                                   this.dataTypeTree.forEach(child => this.selectElementsFromTree(
                                     child, this.filters.dataType, deselect));
                                 }
+
+                                logEvent('Explore', 'Filter Data Type', this.filters.dataType.join(','));
+
                                 this.applyFilters();
                               }}
                             />
@@ -688,6 +736,7 @@ Explore.propTypes = {
   totalDatasets: PropTypes.array,
   layerGroups: PropTypes.array,
   toggledDataset: PropTypes.string,
+  locale: PropTypes.string.isRequired,
 
 
   // ACTIONS
@@ -701,6 +750,7 @@ Explore.propTypes = {
   setTopicsTree: PropTypes.func.isRequired,
   setDataTypeTree: PropTypes.func.isRequired,
   setGeographiesTree: PropTypes.func.isRequired,
+  setDatasetsSorting: PropTypes.func.isRequired,
 
   // Toggle the visibility of a layer group based on the layer passed as argument
   toggleLayerGroupVisibility: PropTypes.func.isRequired,
@@ -724,7 +774,8 @@ const mapStateToProps = (state) => {
     filteredDatasets,
     totalDatasets: totalFilteredDatasets,
     layerGroups: getLayerGroups(state),
-    rawLayerGroups: state.explore.layers
+    rawLayerGroups: state.explore.layers,
+    locale: state.common.locale
   };
 };
 
@@ -757,7 +808,8 @@ const mapDispatchToProps = dispatch => ({
   setMapParams: debounce((params) => { // Debounce for performance reasons
     dispatch(setZoom(params.zoom));
     dispatch(setLatLng(params.latLng));
-  }, 1000)
+  }, 1000),
+  setDatasetsSorting: sorting => dispatch(setDatasetsSorting(sorting))
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Explore);

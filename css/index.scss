@@ -23,6 +23,9 @@
 // Editor
 @import '../node_modules/react-quill/dist/quill.snow';
 
+// 404 page
+@import './components/error';
+
 // Common files
 @import "base";
 @import "helpers";
@@ -86,6 +89,7 @@
 @import "./components/modal/subscribe_to_dataset_modal";
 @import "./components/modal/area_subscription_modal";
 @import "./components/modal/layer_info_modal";
+@import "./components/modal/login_modal";
 
 // areas
 @import "./components/areas/areas_form";
@@ -105,6 +109,7 @@
 @import "./components/map/map-controls";
 
 // Form
+@import '../node_modules/vizz-wysiwyg/build/wysiwyg';
 @import "./components/form/form";
 @import "./components/form/field";
 @import "./components/form/field-container";
@@ -115,7 +120,6 @@
 @import "./components/form/radio";
 @import "./components/form/select";
 @import "./components/form/token";
-@import "./components/form/wysiwyg";
 @import "./components/form/toggle-search";
 
 
@@ -203,7 +207,8 @@
 @import "./components/app/pages/develop_app";
 @import "./components/app/pages/apps";
 @import "./components/app/pages/p-app-detail";
-
+@import "./components/app/pages/splash";
+@import "./components/app/pages/splash_detail";
 
 // LAYOUT
 // @import "./components/app/layout/page";

@@ -15,8 +15,8 @@ class LayerChart extends React.Component {
 
   componentDidMount() {
     this.mounted = true;
-    this.getImagePreview();
     this.getBasemapPreview();
+    this.getImagePreview();
   }
 
   shouldComponentUpdate(nextProps, nextState) {

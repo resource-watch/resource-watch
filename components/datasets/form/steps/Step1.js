@@ -331,7 +331,7 @@ class Step1 extends React.Component {
               hint="Please add fusion table (ft:id) or an image. Example: projects/wri-datalab/HansenComposite_14-15`"
               properties={{
                 name: 'tableName',
-                label: 'Table name',
+                label: 'Asset id',
                 type: 'text',
                 default: this.state.form.tableName,
                 disabled: !!this.state.dataset,

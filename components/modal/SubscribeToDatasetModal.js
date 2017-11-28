@@ -137,18 +137,21 @@ class SubscribeToDatasetModal extends React.Component {
                 type: selectedType.value,
                 threshold: selectedThreshold
               };
-              this.userService.createSubscriptionToArea(selectedArea.areaID,
-                datasets, datasetsQuery, user)
-                .then(() => {
-                  this.setState({
-                    loading: false,
-                    saved: true
-                  });
-                })
-                .catch((err) => {
-                  toastr.error('Error', err);
-                  this.setState({ error: err, loading: false });
+              this.userService.createSubscriptionToArea(
+                selectedArea.areaID,
+                datasets,
+                datasetsQuery,
+                user,
+                this.props.locale
+              ).then(() => {
+                this.setState({
+                  loading: false,
+                  saved: true
                 });
+              }).catch((err) => {
+                toastr.error('Error', err);
+                this.setState({ error: err, loading: false });
+              });
             }
           })
           .catch((err) => {
@@ -169,33 +172,39 @@ class SubscribeToDatasetModal extends React.Component {
         if (userAreas.map(val => val.value).includes(selectedArea.value)) {
           areaID = userAreas.find(val => val.value === selectedArea.value).areaID;
           // Create the subscription
-          this.userService.createSubscriptionToArea(areaID, datasets, datasetsQuery, user)
-            .then(() => {
-              this.setState({
-                loading: false,
-                saved: true
-              });
-            })
-            .catch((err) => {
-              toastr.error('Error', err);
-              this.setState({ error: err, loading: false });
+          this.userService.createSubscriptionToArea(
+            areaID,
+            datasets,
+            datasetsQuery,
+            user
+          ).then(() => {
+            this.setState({
+              loading: false,
+              saved: true
             });
+          }).catch((err) => {
+            toastr.error('Error', err);
+            this.setState({ error: err, loading: false });
+          });
         } else {
           // In the case there's no user area for the selected country we create one on the fly
           this.userService.createNewArea(selectedArea.label, selectedArea.isGeostore, user.token)
             .then((response) => {
               areaID = response.data.id;
-              this.userService.createSubscriptionToArea(areaID, datasets, datasetsQuery, user)
-                .then(() => {
-                  this.setState({
-                    loading: false,
-                    saved: true
-                  });
-                })
-                .catch((err) => {
-                  toastr.error('Error', err);
-                  this.setState({ error: err, loading: false });
+              this.userService.createSubscriptionToArea(
+                areaID,
+                datasets,
+                datasetsQuery,
+                user
+              ).then(() => {
+                this.setState({
+                  loading: false,
+                  saved: true
                 });
+              }).catch((err) => {
+                toastr.error('Error', err);
+                this.setState({ error: err, loading: false });
+              });
             })
             .catch(err => toastr.error('Error creating area', err));
         }
@@ -382,11 +391,13 @@ SubscribeToDatasetModal.propTypes = {
   dataset: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,
   // Store
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  locale: state.common.locale
 });
 
 export default connect(mapStateToProps, null)(SubscribeToDatasetModal);

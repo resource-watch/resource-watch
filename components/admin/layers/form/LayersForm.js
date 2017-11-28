@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Redux
+import { connect } from 'react-redux';
+
 // Services
 import DatasetsService from 'services/DatasetsService';
 import LayersService from 'services/LayersService';
@@ -35,7 +38,8 @@ class LayersForm extends React.Component {
 
     // Service
     this.datasetsService = new DatasetsService({
-      authorization: props.authorization
+      authorization: props.authorization,
+      language: props.locale
     });
 
     this.service = new LayersService({
@@ -204,7 +208,12 @@ LayersForm.propTypes = {
   dataset: PropTypes.string,
   authorization: PropTypes.string,
   application: PropTypes.array,
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
+  locale: PropTypes.string.isRequired
 };
 
-export default LayersForm;
+const mapStateToProps = state => ({
+  locale: state.common.locale
+});
+
+export default connect(mapStateToProps, null)(LayersForm);

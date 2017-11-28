@@ -70,7 +70,7 @@ export default class WidgetService {
   getUserWidgets(userId, sortByUpdatedAt = true, direction = 'asc', includes = '') {
     const directionPart = (direction === 'asc') ? '&sort=updatedAt' : '&sort=-updatedAt';
     const sortSt = sortByUpdatedAt ? directionPart : '';
-    return fetch(`${this.opts.apiURL}/widget/?userId=${userId}${sortSt}&env=production,preproduction&includes=${includes}&application=${[process.env.APPLICATIONS]}&page[size]=999`)
+    return fetch(`${this.opts.apiURL}/widget/?userId=${userId}${sortSt}&env=${process.env.API_ENV}&includes=${includes}&application=${[process.env.APPLICATIONS]}&page[size]=999`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }

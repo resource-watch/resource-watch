@@ -30,7 +30,8 @@ class EmbedDataset extends React.Component {
 
     // DatasetService
     this.datasetService = new DatasetService(this.props.url.query.id, {
-      apiURL: process.env.WRI_API_URL
+      apiURL: process.env.WRI_API_URL,
+      language: props.locale
     });
   }
 
@@ -98,7 +99,12 @@ class EmbedDataset extends React.Component {
 }
 
 EmbedDataset.propTypes = {
-  url: PropTypes.object.isRequired
+  url: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired
 };
 
-export default withRedux(initStore, null, null)(EmbedDataset);
+const mapStateToProps = state => ({
+  locale: state.common.locale
+});
+
+export default withRedux(initStore, mapStateToProps, null)(EmbedDataset);

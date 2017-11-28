@@ -1,9 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Switch from 'components/ui/Switch';
+
+// Utils
+import { logEvent } from 'utils/analytics';
+
+// Redux
+import { toggleActiveLayer, resetLayerPoints } from 'redactions/pulse';
 import { connect } from 'react-redux';
 
-import { toggleActiveLayer, resetLayerPoints } from 'redactions/pulse';
+// Components
+import Switch from 'components/ui/Switch';
 
 class LayerNavDropdown extends React.Component {
   constructor(props) {
@@ -12,10 +18,11 @@ class LayerNavDropdown extends React.Component {
     this.triggerClick = this.triggerClick.bind(this);
   }
 
-  triggerClick(e) {
-    const { id, threedimensional, markertype } = e.currentTarget.dataset;
+  triggerClick(layer) {
+    const { id, markerType } = layer;
     this.props.resetLayerPoints();
-    this.props.toggleActiveLayer(id, threedimensional, markertype);
+    this.props.toggleActiveLayer(id, layer['3d'], markerType);
+    logEvent('Planet Pulse', 'Choose layer to view', layer.label);
   }
 
   render() {
@@ -25,11 +32,8 @@ class LayerNavDropdown extends React.Component {
         <ul>
           {layers.map(layer =>
             (<li
-              data-id={layer.id}
-              data-threedimensional={layer['3d']}
-              data-markertype={layer.markerType}
               key={layer.id}
-              onClick={this.triggerClick}
+              onClick={() => this.triggerClick(layer)}
             >
               <Switch active={(layerActive && (layerActive.id === layer.id))} />
               <span className="name">

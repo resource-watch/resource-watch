@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Components
 import Icon from 'components/widgets/editor/ui/Icon';
 
@@ -22,6 +25,10 @@ class ShareModal extends React.Component {
       this.setState({ copied: true });
     } catch (err) {
       toastr.warning('Oops, unable to copy');
+    }
+
+    if (input === 'url') {
+      logEvent('Share', 'Share a map from explore page', 'Copy link');
     }
   }
 
@@ -54,6 +61,7 @@ class ShareModal extends React.Component {
                   href={`http://www.facebook.com/sharer/sharer.php?u=${url}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => logEvent('Share', 'Share a map from explore page', 'Facebook')}
                 >
                   <Icon name="icon-facebook" className="-medium" />
                 </a>
@@ -61,6 +69,7 @@ class ShareModal extends React.Component {
                   href={`https://twitter.com/share?url=${url}&text=Resource watch, explore datasets`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => logEvent('Share', 'Share a map from explore page', 'Twitter')}
                 >
                   <Icon name="icon-twitter" className="-medium" />
                 </a>

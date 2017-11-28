@@ -59,8 +59,11 @@ class AreaCard extends React.Component {
     };
 
     // Services
-    this.datasetService = new DatasetService(null,
-      { apiURL: process.env.WRI_API_URL });
+    this.datasetService = new DatasetService(null, {
+      apiURL: process.env.WRI_API_URL,
+      language: props.locale
+    });
+
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
   }
@@ -320,6 +323,7 @@ class AreaCard extends React.Component {
 AreaCard.propTypes = {
   token: PropTypes.string.isRequired,
   area: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired,
   // Callbacks
   onAreaRemoved: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -329,6 +333,10 @@ AreaCard.propTypes = {
   toggleTooltip: PropTypes.func.isRequired
 };
 
+const mapStateToProps = state => ({
+  locale: state.common.locale
+});
+
 const mapDispatchToProps = dispatch => ({
   toggleModal: (open, opts) => { dispatch(toggleModal(open, opts)); },
   setModalOptions: (options) => { dispatch(setModalOptions(options)); },
@@ -337,4 +345,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(null, mapDispatchToProps)(AreaCard);
+export default connect(mapStateToProps, mapDispatchToProps)(AreaCard);

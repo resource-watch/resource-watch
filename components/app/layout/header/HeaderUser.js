@@ -28,8 +28,10 @@ class HeaderUser extends React.Component {
       onSuccess: () => {
         try {
           localStorage.removeItem('user');
-          window.location.href = `/logout?callbackUrl=${window.location.href}`;
         } catch (err) {
+        } finally {
+          // We don't use the router here because the route only
+          // exist on the server
           window.location.href = `/logout?callbackUrl=${window.location.href}`;
         }
       },

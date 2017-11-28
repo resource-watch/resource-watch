@@ -33,7 +33,7 @@ import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
 // Next
-import { Link } from 'routes';
+import { Link, Router } from 'routes';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -50,11 +50,13 @@ import Spinner from 'components/ui/Spinner';
 import WidgetEditor from 'components/widgets/editor/WidgetEditor';
 import ShareExploreDetailModal from 'components/modal/ShareExploreDetailModal';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
+import LoginModal from 'components/modal/LoginModal';
 import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
 
-// Util
+// Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
+import { logEvent } from 'utils/analytics';
 
 class ExploreDetail extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
@@ -83,7 +85,8 @@ class ExploreDetail extends Page {
 
     // DatasetService
     this.datasetService = new DatasetService(props.url.query.id, {
-      apiURL: process.env.WRI_API_URL
+      apiURL: process.env.WRI_API_URL,
+      language: props.locale
     });
     // GraphService
     this.graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
@@ -102,6 +105,7 @@ class ExploreDetail extends Page {
     this.getSimilarDatasets();
     this.getFavoriteDatasets();
     this.loadTopicsTree();
+    this.countView(this.props.url.query.id);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -112,13 +116,16 @@ class ExploreDetail extends Page {
         datasetLoaded: false
       }, () => {
         this.datasetService = new DatasetService(nextProps.url.query.id, {
-          apiURL: process.env.WRI_API_URL
+          apiURL: process.env.WRI_API_URL,
+          language: nextProps.locale
         });
         // Scroll to the top of the page
         window.scrollTo(0, 0);
         this.getDataset();
         this.getSimilarDatasets();
       });
+
+      this.countView(nextProps.url.query.id);
     }
   }
 
@@ -208,7 +215,7 @@ class ExploreDetail extends Page {
       .then(res => res.map(val => val.dataset).slice(0, 7))
       .then((ids) => {
         if (ids.length === 0) return [];
-        return DatasetService.getDatasets(ids, 'widget,metadata,layer,vocabulary');
+        return DatasetService.getDatasets(ids, this.props.locale, 'widget,metadata,layer,vocabulary');
       })
       .then(similarDatasets => this.setState({ similarDatasets }))
       .catch((err) => {
@@ -258,6 +265,14 @@ class ExploreDetail extends Page {
   }
 
   /**
+   * Gather the number of views of this dataset
+   * @param {string} datasetId Dataset ID
+   */
+  countView(datasetId) {
+    this.graphService.countDatasetView(datasetId, this.props.user.token);
+  }
+
+  /**
    * UI EVENTS
    * - handleShare
    * - handleSubscribe
@@ -275,6 +290,7 @@ class ExploreDetail extends Page {
       childrenProps: {
         url: window.location.href,
         datasetId: this.state.dataset.id,
+        datasetName: this.state.dataset.attributes.name,
         showEmbed: widget && widget.attributes !== null,
         toggleModal: this.props.toggleModal
       }
@@ -284,14 +300,29 @@ class ExploreDetail extends Page {
   }
   @Autobind
   handleSubscribe() {
-    const options = {
-      children: SubscribeToDatasetModal,
-      childrenProps: {
-        toggleModal: this.props.toggleModal,
-        dataset: this.state.dataset,
-        showDatasetSelector: false
-      }
-    };
+    const { user } = this.props;
+    let options = null;
+    // ----- the user is logged in ------
+    if (user.id) {
+      options = {
+        children: SubscribeToDatasetModal,
+        childrenProps: {
+          toggleModal: this.props.toggleModal,
+          dataset: this.state.dataset,
+          showDatasetSelector: false
+        }
+      };
+    } else {
+    // ------ anonymous user ---------
+      options = {
+        children: LoginModal,
+        childrenProps: {
+          toggleModal: this.props.toggleModal,
+          text: 'Log in to subscribe to dataset changes'
+        }
+      };
+    }
+
     this.props.toggleModal(true);
     this.props.setModalOptions(options);
   }
@@ -306,12 +337,13 @@ class ExploreDetail extends Page {
     } else if (labels.includes('DATA_TYPE')) {
       treeSt = 'dataType';
     }
-    // TO-DO
-    // THIS MUST BE FIXED SO THAT IT USES THE ROUTER INSTEAD!!
-    window.location = `/data/explore?${treeSt}=${tagSt}`;
-    // Router.pushRoute('explore', { topics: topicsSt });
+
+    Router.pushRoute('explore', { [treeSt]: tagSt });
   }
 
+  // FIXME: refactor this, if a UI element's purpose is to
+  // redirect the user, then use a link
+  // A button is semantically different
   @Autobind
   handleTagClick(event) {
     const element = event.target;
@@ -480,6 +512,7 @@ class ExploreDetail extends Page {
                         className="c-button -primary -fullwidth"
                         target="_blank"
                         href={metadataInfo && metadataInfo.data_download_link}
+                        onClick={() => logEvent('Explore', 'Download data', dataset && dataset.attributes.name)}
                       >
                         Download
                       </a>
@@ -502,8 +535,7 @@ class ExploreDetail extends Page {
                         Learn more
                       </a>
                     }
-                    {dataset && dataset.attributes && dataset.attributes.subscribable
-                      && user.id &&
+                    {dataset && dataset.attributes && dataset.attributes.subscribable &&
                       <button
                         className="c-button -secondary -fullwidth"
                         onClick={this.handleSubscribe}
@@ -755,20 +787,12 @@ ExploreDetail.propTypes = {
   url: PropTypes.object.isRequired,
   // Store
   user: PropTypes.object,
+  widgetEditor: PropTypes.object,
+  locale: PropTypes.string.isRequired,
   // ACTIONS
   resetDataset: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired
-};
-
-const mapStateToProps = state => ({
-  // Store
-  user: state.user,
-  topicsTree: state.explore.topicsTree,
-  exploreDetail: state.exploreDetail,
-  layersShown: updateLayersShown(state),
-  widgetEditor: PropTypes.object,
-  // ACTIONS
+  setModalOptions: PropTypes.func.isRequired,
   setFilters: PropTypes.func.isRequired,
   setSize: PropTypes.func.isRequired,
   setColor: PropTypes.func.isRequired,
@@ -783,6 +807,15 @@ const mapStateToProps = state => ({
   setLayer: PropTypes.func.isRequired,
   setTitle: PropTypes.func.isRequired,
   setTopicsTree: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  // Store
+  user: state.user,
+  topicsTree: state.explore.topicsTree,
+  exploreDetail: state.exploreDetail,
+  layersShown: updateLayersShown(state),
+  locale: state.common.locale
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -81,7 +81,9 @@ class DataDetail extends Page {
     switch (tab) {
       case 'datasets':
         if (id !== 'new') {
-          this.service = new DatasetsService();
+          this.service = new DatasetsService({
+            language: this.props.locale
+          });
         }
         break;
 
@@ -173,8 +175,13 @@ class DataDetail extends Page {
 
 DataDetail.propTypes = {
   user: PropTypes.object,
-  url: PropTypes.object
+  url: PropTypes.object,
+  locale: PropTypes.string.isRequired
 };
 
+const mapStateToProps = state => ({
+  locale: state.common.locale
+});
 
-export default withRedux(initStore, null, null)(DataDetail);
+
+export default withRedux(initStore, mapStateToProps, null)(DataDetail);

@@ -6,6 +6,10 @@ import { getFieldUrl, getFields } from 'utils/datasets/fields';
 
 export default class DatasetsService {
   constructor(options = {}) {
+    if (!options.language) {
+      throw new Error('options.language param is required.');
+    }
+
     this.opts = options;
   }
 
@@ -13,9 +17,10 @@ export default class DatasetsService {
   fetchAdminData({ applications = [process.env.APPLICATIONS], includes, filters } = {}) {
     const qParams = {
       application: applications.join(','),
+      language: this.opts.language,
       ...!!includes && { includes },
       'page[size]': 9999999,
-      env: 'production,preproduction',
+      env: process.env.API_ENV,
       ...filters
     };
 
@@ -40,9 +45,10 @@ export default class DatasetsService {
     });
   }
 
-  fetchAllData({ applications = [process.env.APPLICATIONS], includes, filters, env = 'preproduction,production' } = {}) {
+  fetchAllData({ applications = [process.env.APPLICATIONS], includes, filters, env = process.env.API_ENV } = {}) {
     const qParams = {
       application: applications.join(','),
+      language: this.opts.language,
       ...!!includes && { includes },
       'page[size]': 9999999,
       ...filters,
@@ -73,6 +79,7 @@ export default class DatasetsService {
   fetchData({ id, applications = [process.env.APPLICATIONS], includes, filters }) {
     const qParams = {
       application: applications.join(','),
+      language: this.opts.language,
       includes,
       ...filters
     };

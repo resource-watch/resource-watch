@@ -25,6 +25,7 @@ import UserService from 'services/UserService';
 
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
+import { logEvent } from 'utils/analytics';
 
 class DatasetWidget extends React.Component {
   /**
@@ -129,19 +130,23 @@ class DatasetWidget extends React.Component {
   */
   loadInferredTags() {
     const { dataset } = this.props;
-    const vocabulary = dataset.attributes.vocabulary && dataset.attributes.vocabulary[0];
-    const tags = vocabulary.attributes.tags;
-    this.graphService.getInferredTags(tags)
-      .then((response) => {
-        this.setState({
-          inferredTags: response.filter(tag => tag.labels
-            .find(type => (type === 'TOPIC') && !TAGS_BLACKLIST.includes(tag.id)))
+    const vocabulary = dataset.attributes.vocabulary && dataset.attributes.vocabulary.length > 0 &&
+      dataset.attributes.vocabulary[0];
+    const tags = vocabulary && vocabulary.attributes && vocabulary.attributes.tags;
+
+    if (tags && tags.length > 0) {
+      this.graphService.getInferredTags(tags)
+        .then((response) => {
+          this.setState({
+            inferredTags: response.filter(tag => tag.labels
+              .find(type => (type === 'TOPIC') && !TAGS_BLACKLIST.includes(tag.id)))
+          });
+        })
+        .catch((err) => {
+          this.setState({ inferredTags: [] });
+          console.error('Error loading inferred tags', err);
         });
-      })
-      .catch((err) => {
-        this.setState({ inferredTags: [] });
-        console.error(err);
-      });
+    }
   }
 
   /**
@@ -151,6 +156,10 @@ class DatasetWidget extends React.Component {
     const datasetID = this.props.dataset.id;
     const addLayerGroup = !this.props.isLayerGroupAdded(datasetID);
     this.props.toggleLayerGroup(datasetID, addLayerGroup);
+
+    if (addLayerGroup) {
+      logEvent('Explore', 'Add dataset to map', this.props.dataset.attributes.name);
+    }
   }
 
   @Autobind
@@ -214,6 +223,7 @@ class DatasetWidget extends React.Component {
     const gridMode = (mode === 'grid');
     const element = this.getWidgetOrLayer();
     const starIconName = favorite ? 'icon-star-full' : 'icon-star-empty';
+    const isWidgetMap = widget && widget.attributes.widgetConfig.type === 'map';
 
     const starIconClass = classnames({
       '-small': true,
@@ -226,7 +236,7 @@ class DatasetWidget extends React.Component {
         <Spinner isLoading={loading} className="-small -light" />
 
         {/* If it has widget we want to renderize the default widget one */}
-        {widget && gridMode &&
+        {!isWidgetMap && widget && gridMode &&
           <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
             <a>
               <DatasetWidgetChart widget={element} mode="thumbnail" />
@@ -235,7 +245,7 @@ class DatasetWidget extends React.Component {
         }
 
         {/* If it doesn't have widget but has layer we want to renderize the default layer one */}
-        {!widget && layer && gridMode &&
+        {layer && gridMode &&
           <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
             <a>
               <DatasetLayerChart layer={element} />
@@ -265,7 +275,7 @@ class DatasetWidget extends React.Component {
                 </Link>
               </h4>
               {/* Dataset tags link */}
-              {inferredTags && inferredTags.length && inferredTags.length > 0 &&
+              {inferredTags && inferredTags.length > 0 &&
                 <div
                   className="tags-button"
                   onClick={this.handleTagsClick}

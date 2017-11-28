@@ -2,14 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import classNames from 'classnames';
-import { connect } from 'react-redux';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
+// Redux
+import { connect } from 'react-redux';
 import { addFilter, setFilterValue } from 'components/widgets/editor/redux/widgetEditor';
+
+// Components
 import ColumnBox from 'components/widgets/editor/ui/ColumnBox';
 
 const boxTarget = {
   drop(props, monitor) {
     props.addFilter(monitor.getItem());
+    logEvent('Customise Visualisation', 'Filter', monitor.getItem().alias || monitor.getItem().name);
   }
 };
 
@@ -30,7 +37,6 @@ class FilterContainer extends React.Component {
   setFilter({ name, value, notNull }) {
     this.props.setFilterValue(name, value, notNull);
   }
-
 
   render() {
     const { canDrop, connectDropTarget, widgetEditor } = this.props;

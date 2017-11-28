@@ -4,6 +4,9 @@ import classnames from 'classnames';
 import MediaQuery from 'react-responsive';
 import debounce from 'lodash/debounce';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Redux
 import { connect } from 'react-redux';
 import { setSidebar } from 'redactions/explore';
@@ -11,7 +14,6 @@ import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import Icon from 'components/ui/Icon';
-
 
 class Sidebar extends React.Component {
   constructor(props) {
@@ -58,6 +60,12 @@ class Sidebar extends React.Component {
       open: !this.state.open
     };
     this.props.setSidebar(options);
+
+    if (!this.state.open) {
+      logEvent('Explore Map', 'Expand Map', 'Expand explore menu');
+    } else {
+      logEvent('Explore Map', 'Expand Map', 'Expand Map');
+    }
   }
 
   handleScroll() {

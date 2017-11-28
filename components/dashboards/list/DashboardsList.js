@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { toastr } from 'react-redux-toastr';
+
 // Redux
 import { connect } from 'react-redux';
-import { getDashboards, setFilters } from 'redactions/admin/dashboards';
+import { getDashboards, deleteDashboard, setFilters } from 'redactions/admin/dashboards';
 
 // Selectors
 import getFilteredDashboards from 'selectors/admin/dashboards';
@@ -18,6 +20,7 @@ class DashboardsList extends React.Component {
     super(props);
 
     this.onSearch = this.onSearch.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
 
   componentDidMount() {
@@ -39,6 +42,28 @@ class DashboardsList extends React.Component {
     } else {
       this.props.setFilters([{ key: 'name', value }]);
     }
+  }
+
+  onDelete(dashboard) {
+    toastr.confirm(`Are you sure that you want to delete: "${dashboard.name}"`, {
+      onOk: () => {
+        this.props.deleteDashboard({
+          id: dashboard.id
+        })
+          .then(() => {
+            const { getDashboardsFilters } = this.props;
+
+            this.props.setFilters([]);
+            this.props.getDashboards({
+              filters: getDashboardsFilters
+            });
+            toastr.success('Success', `The dashboard "${dashboard.id}" - "${dashboard.name}" has been removed correctly`);
+          })
+          .catch((err) => {
+            toastr.error('Error', `The dashboard "${dashboard.id}" - "${dashboard.name}" was not deleted. Try again. ${err}`);
+          });
+      }
+    });
   }
 
   render() {
@@ -69,6 +94,7 @@ class DashboardsList extends React.Component {
               <DashboardsListCard
                 dashboard={dashboard}
                 routes={routes}
+                onDelete={this.onDelete}
               />
             </div>
           ))}
@@ -98,6 +124,7 @@ DashboardsList.propTypes = {
 
   // Actions
   getDashboards: PropTypes.func.isRequired,
+  deleteDashboard: PropTypes.func.isRequired,
   setFilters: PropTypes.func.isRequired
 };
 
@@ -108,9 +135,10 @@ const mapStateToProps = state => ({
   error: state.dashboards.dashboards.error
 });
 
-const mapDispatchToProps = dispatch => ({
-  getDashboards: options => dispatch(getDashboards(options)),
-  setFilters: filters => dispatch(setFilters(filters))
-});
+const mapDispatchToProps = {
+  getDashboards,
+  deleteDashboard,
+  setFilters
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardsList);

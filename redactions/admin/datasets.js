@@ -23,8 +23,6 @@ const initialState = {
   }
 };
 
-const service = new DatasetsService();
-
 /**
  * REDUCER
  * @export
@@ -78,8 +76,14 @@ export default function (state = initialState, action) {
  * @param {string[]} applications Name of the applications to load the datasets from
  */
 export function getDatasets(options) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch({ type: GET_DATASETS_LOADING });
+
+    const state = getState();
+
+    const service = new DatasetsService({
+      language: state.common.locale
+    });
 
     service.fetchAdminData(options)
       .then((data) => {
