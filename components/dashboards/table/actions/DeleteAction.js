@@ -28,7 +28,7 @@ class DeleteAction extends React.Component {
 
     toastr.confirm(`Are you sure that you want to delete: "${data.name}"`, {
       onOk: () => {
-        this.service.deleteData(data.id)
+        this.service.deleteData({ id: data.id, auth: this.props.authorization })
           .then(() => {
             this.props.onRowDelete(data.id);
             toastr.success('Success', `The dashboard "${data.id}" - "${data.name}" has been removed correctly`);

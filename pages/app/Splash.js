@@ -30,7 +30,7 @@ const MARKERS = [
     lon: 101,
     type: 'billboard',
     image: '../../static/images/splash/marker.svg',
-    imageSelected: '../../static/images/splash/markerSelected.svg',
+    imageSelected: '../../static/images/splash/marker.svg',
     imageNotSelected: '../../static/images/splash/marker.svg'
   },
   {
@@ -38,10 +38,11 @@ const MARKERS = [
     lat: -21,
     lon: 151,
     type: 'billboard',
+    text: 'What might resemble a beautiful snowfall is actually a destructive stress response known as coral bleaching.',
     image: '../../static/images/splash/marker.svg',
-    imageSelected: '../../static/images/splash/markerSelected.svg',
+    imageSelected: '../../static/images/splash/marker.svg',
     imageNotSelected: '../../static/images/splash/marker.svg',
-    thumbnail: '../../static/images/splash/bleached.jpg',
+    thumbnail: '../../static/images/splash/coral-thumbnail.jpg',
     routeId: 'coral'
   }
 ];
@@ -212,18 +213,22 @@ class Splash extends Page {
         }
         {selectedMarker &&
           <div className="right-section">
-            <div className="thumbnail-container">
-              <div className="title-container">
-                {selectedMarker.name}
+            <div className="detail-container">
+              <h2>{selectedMarker.name}</h2>
+              <div className="image-container">
+                <img src={selectedMarker.thumbnail} alt={selectedMarker.name} />
+              </div>
+              <div className="text-container">
+                {selectedMarker.text}
               </div>
               <div className="visit-container">
-                <img src={selectedMarker.thumbnail} alt={selectedMarker.name} />
                 <a
                   className="visit-button"
                   onClick={this.handleVisitButton}
                   role="button"
                   tabIndex={-1}
                 >
+                  <img src="/static/images/splash/play.svg" alt="Visit this place" />
                   VISIT THIS PLACE
                 </a>
               </div>

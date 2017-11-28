@@ -3,7 +3,7 @@ import queryString from 'query-string';
 import { createAction, createThunkAction } from 'redux-actions';
 
 // Actions
-export const setWidgets = createAction('WIDGET_BLOCK_EDITION_WIDGETS');
+export const setWidgets = createAction('WIDGET_BLOCK_EDITION_GET_WIDGETS');
 export const setLoading = createAction('WIDGET_BLOCK_EDITION_LOADING');
 export const setError = createAction('WIDGET_BLOCK_EDITION_ERROR');
 export const setTab = createAction('WIDGET_BLOCK_EDITION_TAB');

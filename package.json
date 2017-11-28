@@ -74,7 +74,7 @@
     "rc-slider": "7.0.8",
     "react": "15.6.2",
     "react-ace": "4.3.0",
-    "react-cesium": "git://github.com/Vizzuality/react-cesium.git#daf555b9e9738ceb921536547ad0b74b8dd413bf",
+    "react-cesium": "git://github.com/Vizzuality/react-cesium.git#d3c4bbb4ff2ead603511c9669a7e9aa6d97e132c",
     "react-dnd": "2.4.0",
     "react-dnd-html5-backend": "2.4.1",
     "react-dom": "15.6.2",
@@ -110,7 +110,7 @@
     "three": "0.83.0",
     "url-loader": "0.5.8",
     "vega": "2.6.0",
-    "vizz-wysiwyg": "1.1.2",
+    "vizz-wysiwyg": "1.1.7",
     "webpack": "^3.6.0",
     "whatwg-fetch": "2.0.2"
   },

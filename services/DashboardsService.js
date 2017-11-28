@@ -85,13 +85,13 @@ export default class DashboardsService {
     });
   }
 
-  deleteData(id) {
+  deleteData({ id, auth }) {
     return new Promise((resolve, reject) => {
       remove({
         url: `${process.env.API_URL}/dashboards/${id}`,
         headers: [{
           key: 'Authorization',
-          value: this.opts.authorization
+          value: auth || this.opts.authorization
         }],
         onSuccess: (response) => {
           resolve(response);
