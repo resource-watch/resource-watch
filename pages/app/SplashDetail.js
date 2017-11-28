@@ -76,10 +76,17 @@ const PANORAMAS = [
             id: 'coral_bleaching_up_close',
             position: '0 2 16',
             rotation: "0 180 0",
-            text: 'When researchers at the Queensland University of Technology in Australia put corals in tanks and turned up the heat by several degrees, the corals began violently spewing out the algae Symbiodinium in a matter of hours. It’s essentially coral bleaching on fast-forward. The university captured the process in this time-lapse video.\nNormally symbiotic, Symbiodinium actually becomes toxic to corals at higher temperatures; the process on display in this video (called pulsed inflation) is a defense mechanism. It may protect them in the short term, but corals need this algae to recolonize quickly, because they rely on the sugar the algae produce for nourishment. If temperatures remain high over time, the Symbiodinium will not return, leaving the corals’ white skeletons exposed and the animals defenseless against diseases and other stressors.',
+            markup: <div>
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/bFdPmiwZzVE?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+              <p>
+                When researchers at the <a href="https://www.qut.edu.au/news/news?news-id=108238" target="_blank">Queensland University of Technology in Australia</a> put corals in tanks and turned up the heat by several degrees, the corals began violently spewing out the algae Symbiodinium in a matter of hours. It’s essentially coral bleaching on fast-forward. The university captured the process in this time-lapse video.
+              </p>
+              <p>
+                Normally symbiotic, Symbiodinium actually <a href="https://news.nationalgeographic.com/2016/08/coral-bleaching-video-algae-warming-oceans-environment-science/" target="_blank">becomes toxic to corals</a> at higher temperatures; the process on display in this video (called pulsed inflation) is a defense mechanism. It may protect them in the short term, but corals need this algae to recolonize quickly, because they rely on the sugar the algae produce for nourishment. If temperatures remain high over time, the Symbiodinium will not return, leaving the corals’ white skeletons exposed and the animals defenseless against diseases and other stressors.
+              </p>
+            </div>,
             image: '../../static/images/splash/coral_bleaching_up_close.png',
-            imageSelected: '../../static/images/splash/coral_bleaching_up_close_active.png',
-            widget: <iframe width="560" height="315" src="https://www.youtube.com/embed/bFdPmiwZzVE?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+            imageSelected: '../../static/images/splash/coral_bleaching_up_close_active.png'
           }
         ]
       },
