@@ -143,7 +143,7 @@ export default class DatasetService {
             };
           })
           // We filter out the fields whose type is not supported
-          .filter(f => !!f);
+          .filter(field => !!field && field.columnName !== 'cartodb_id');
       });
   }
 
