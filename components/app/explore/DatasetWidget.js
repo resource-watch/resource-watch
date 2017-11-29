@@ -215,15 +215,55 @@ class DatasetWidget extends React.Component {
     }
   }
 
+  /**
+   * HELPER
+   * return chart
+  */
+  renderChart = () => {
+    const { widget, layer, mode } = this.props;
+    const element = this.getWidgetOrLayer();
+    const isWidgetMap = widget && widget.attributes.widgetConfig.type === 'map';
+
+    if (widget && mode === 'grid' && !isWidgetMap) {
+      return (
+        <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
+          <a>
+            <DatasetWidgetChart widget={element} mode="thumbnail" />
+          </a>
+        </Link>
+      );
+    }
+
+    if (!widget && layer && mode === 'grid') {
+      return (
+        <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
+          <a>
+            <DatasetLayerChart layer={element} />
+          </a>
+        </Link>
+      );
+    }
+
+    if (mode === 'grid') {
+      return (
+        <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
+          <a>
+            <DatasetPlaceholderChart />
+          </a>
+        </Link>
+      );
+    }
+
+    return null;
+  }
+
+
   render() {
-    const { widget, layer, mode, showActions, favorite, user, showFavorite } = this.props;
+    const { mode, showActions, favorite, user, showFavorite } = this.props;
     const { inferredTags, loading } = this.state;
     const dataset = this.props.dataset.attributes;
     const metadata = dataset.metadata && dataset.metadata[0];
-    const gridMode = (mode === 'grid');
-    const element = this.getWidgetOrLayer();
     const starIconName = favorite ? 'icon-star-full' : 'icon-star-empty';
-    const isWidgetMap = widget && widget.attributes.widgetConfig.type === 'map';
 
     const starIconClass = classnames({
       '-small': true,
@@ -235,31 +275,7 @@ class DatasetWidget extends React.Component {
       <div className={`c-dataset-list-item -${mode}`}>
         <Spinner isLoading={loading} className="-small -light" />
 
-        {/* If it has widget we want to renderize the default widget one */}
-        {!isWidgetMap && widget && gridMode &&
-          <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
-            <a>
-              <DatasetWidgetChart widget={element} mode="thumbnail" />
-            </a>
-          </Link>
-        }
-
-        {/* If it doesn't have widget but has layer we want to renderize the default layer one */}
-        {layer && gridMode &&
-          <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
-            <a>
-              <DatasetLayerChart layer={element} />
-            </a>
-          </Link>
-        }
-
-        {!widget && !layer && gridMode &&
-          <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
-            <a>
-              <DatasetPlaceholderChart />
-            </a>
-          </Link>
-        }
+        {this.renderChart()}
 
         <div className="info">
           <div className="detail">
