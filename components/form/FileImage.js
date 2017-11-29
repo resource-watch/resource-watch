@@ -1,3 +1,5 @@
+import 'isomorphic-fetch';
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -13,8 +15,10 @@ class FileImage extends FormElement {
 
     const defaultValue = props.properties.default;
     const previewURL = `${defaultValue || ''}`;
+    const { getUrlImage } = props;
+
     this.state = {
-      value: (defaultValue) ?
+      value: (defaultValue && !getUrlImage) ?
         this.getBase64FromURL(previewURL) :
         '',
       accepted: (defaultValue) ?
@@ -57,7 +61,26 @@ class FileImage extends FormElement {
       dropzoneActive: false
     }, () => {
       if (accepted.length) {
-        this.getBase64(accepted[0]);
+        switch (this.props.mode) {
+          case 'image':
+            this.getBase64(accepted[0]);
+            break;
+          case 'url':
+            this.props.getUrlImage(accepted[0])
+              .then((value) => {
+                this.setState({
+                  value
+                }, () => {
+                  // Publish the new value to the form
+                  if (this.props.onChange) this.props.onChange(this.state.value);
+                  // Trigger validation
+                  this.triggerValidate();
+                });
+              });
+            break;
+          default:
+            this.getBase64(accepted[0]);
+        }
       }
     });
   }
@@ -93,13 +116,15 @@ class FileImage extends FormElement {
   }
 
   getBase64FromURL(url) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('get', url);
-    xhr.responseType = 'blob';
-    xhr.onload = () => {
-      this.getBase64(xhr.response);
-    };
-    xhr.send();
+    if (typeof window !== 'undefined') {
+      const xhr = new XMLHttpRequest();
+      xhr.open('get', url);
+      xhr.responseType = 'blob';
+      xhr.onload = () => {
+        this.getBase64(xhr.response);
+      };
+      xhr.send();
+    }
   }
 
   /**

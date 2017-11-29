@@ -1,17 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
 
 // Components
-import Button from 'components/ui/Button';
-import Checkbox from 'components/form/Checkbox';
+import Navigation from 'components/form/Navigation';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Spinner from 'components/ui/Spinner';
+import FileImage from 'components/form/FileImage';
 
 // Services
 import UserService from 'services/UserService';
@@ -43,6 +42,9 @@ class MyRWEditProfile extends React.Component {
 
     this.state = {
       user: props.user,
+      step: 1,
+      stepLength: 1,
+      submitting: false,
       loading: true
     };
 
@@ -61,27 +63,40 @@ class MyRWEditProfile extends React.Component {
       .catch(err => console.error(err));
   }
 
-  @Autobind
-  triggerSaveProfile() {
-    const { user } = this.state;
-    const userObj = { name: user.name, photo: user.photo || '' };
+  onSubmit = (event) => {
+    event.preventDefault();
 
-    this.setState({ loading: true });
+    // Validate the form
+    FORM_ELEMENTS.validate(this.state.step);
 
-    this.userService.updateUser(userObj, user.token)
-      .then(() => {
-        this.setState({
-          loading: false
-        });
-      })
-      .catch((err) => {
-        toastr.error('There was a problem updating your user data');
-        this.setState({ loading: false });
-        console.error(err);
-      });
+    // Set a timeout due to the setState function of react
+    setTimeout(() => {
+      // Validate all the inputs on the current step
+      const valid = FORM_ELEMENTS.isValid(this.state.step);
+
+      if (valid) {
+        const { user } = this.state;
+        const userObj = { name: user.name, photo: user.photo || '' };
+
+        this.setState({ loading: true, submitting: true });
+
+        this.userService.updateUser(userObj, user.token)
+          .then(() => {
+            // Needs to be improved by the API
+            window.location = '/login';
+          })
+          .catch((err) => {
+            toastr.error('There was a problem updating your user data');
+            this.setState({ loading: false, submitting: false });
+            console.error(err);
+          });
+      } else {
+        toastr.error('Error', 'Fill all the required fields or correct the invalid values');
+      }
+    }, 0);
   }
 
-  handleFormChange(value) {
+  onChange = (value) => {
     this.setState(Object.assign(this.state.user, value));
   }
 
@@ -93,79 +108,71 @@ class MyRWEditProfile extends React.Component {
         <Spinner isLoading={loading} className="-light" />
         <div className="row">
           <div className="column small-12">
-            <fieldset className="c-field-container">
-              <Field
-                ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
-                onChange={value => this.handleFormChange({ name: value })}
-                properties={{
-                  name: 'name',
-                  label: 'Name',
-                  type: 'text',
-                  required: true,
-                  default: user.name
-                }}
-              >
-                {Input}
-              </Field>
-              <Field
-                ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
-                onChange={value => this.handleFormChange({ email: value })}
-                properties={{
-                  name: 'email',
-                  label: 'Email',
-                  type: 'email',
-                  required: true,
-                  default: user.email,
-                  disabled: true
-                }}
-              >
-                {Input}
-              </Field>
-              <Field
-                ref={(c) => { if (c) FORM_ELEMENTS.elements.new_password = c; }}
-                onChange={value => this.handleFormChange({ new_password: value })}
-                properties={{
-                  name: 'new_password',
-                  label: 'Change password',
-                  type: 'password',
-                  default: user.new_password,
-                  disabled: true
-                }}
-              >
-                {Input}
-              </Field>
-            </fieldset>
-            <div className="photo-section">
-              <h5>Photo</h5>
-              <div className="photo-container">
-                Add
-              </div>
-            </div>
-            <div className="bottom-section">
-              <div className="delete-account-checkbox">
+            <form className="c-form" onSubmit={this.onSubmit} noValidate>
+              <fieldset className="c-field-container">
                 <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.wri_funded = c; }}
-                  onChange={value => this.changeMetadata({ deleteAccount: value.checked })}
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
+                  onChange={value => this.onChange({ name: value })}
+                  validations={['required']}
                   properties={{
-                    name: 'delete_account',
-                    label: 'Delete account',
-                    checked: false,
+                    name: 'name',
+                    label: 'Name',
+                    type: 'text',
+                    required: true,
+                    default: user.name
+                  }}
+                >
+                  {Input}
+                </Field>
+                <Field
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
+                  onChange={value => this.onChange({ email: value })}
+                  properties={{
+                    name: 'email',
+                    label: 'Email',
+                    type: 'email',
+                    required: true,
+                    default: user.email,
                     disabled: true
                   }}
                 >
-                  {Checkbox}
+                  {Input}
                 </Field>
-              </div>
-              <Button
-                properties={{
-                  type: 'button',
-                  className: '-a -end'
-                }}
-                onClick={this.triggerSaveProfile}
-              >
-                Save
-              </Button>
-            </div>
+
+                <div className="c-field-row">
+                  <div className="row l-row">
+                    <div className="column small-12 medium-2">
+                      <Field
+                        ref={(c) => { if (c) FORM_ELEMENTS.elements.photo = c; }}
+                        onChange={(value) => {
+                          this.onChange({ photo: value });
+                        }}
+                        className="-fluid"
+                        mode="url"
+                        getUrlImage={file => this.userService.uploadPhoto(file, user)}
+                        properties={{
+                          name: 'photo',
+                          label: 'Photo',
+                          placeholder: 'Browse file',
+                          baseUrl: process.env.STATIC_SERVER_URL,
+                          default: this.state.user.photo
+                        }}
+                      >
+                        {FileImage}
+                      </Field>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <Navigation
+                step={this.state.step}
+                stepLength={this.state.step}
+                submitting={this.state.submitting}
+                hideCancel
+                onStepChange={this.triggerSaveProfile}
+              />
+            </form>
           </div>
         </div>
       </div>

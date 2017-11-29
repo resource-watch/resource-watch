@@ -103,6 +103,7 @@ class Step1 extends React.Component {
                     name: 'photo',
                     label: 'Photo',
                     placeholder: 'Browse file',
+                    baseUrl: process.env.STATIC_SERVER_URL,
                     default: this.state.form.photo,
                     required: true
                   }}
