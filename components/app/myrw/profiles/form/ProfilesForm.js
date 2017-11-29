@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
@@ -64,8 +63,7 @@ class MyRWEditProfile extends React.Component {
       .catch(err => console.error(err));
   }
 
-  @Autobind
-  onSubmit(event) {
+  onSubmit = (event) => {
     event.preventDefault();
 
     // Validate the form
@@ -98,7 +96,7 @@ class MyRWEditProfile extends React.Component {
     }, 0);
   }
 
-  triggerFormChange(value) {
+  onChange = (value) => {
     this.setState(Object.assign(this.state.user, value));
   }
 
@@ -114,7 +112,7 @@ class MyRWEditProfile extends React.Component {
               <fieldset className="c-field-container">
                 <Field
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
-                  onChange={value => this.triggerFormChange({ name: value })}
+                  onChange={value => this.onChange({ name: value })}
                   validations={['required']}
                   properties={{
                     name: 'name',
@@ -128,7 +126,7 @@ class MyRWEditProfile extends React.Component {
                 </Field>
                 <Field
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
-                  onChange={value => this.triggerFormChange({ email: value })}
+                  onChange={value => this.onChange({ email: value })}
                   properties={{
                     name: 'email',
                     label: 'Email',
@@ -147,7 +145,7 @@ class MyRWEditProfile extends React.Component {
                       <Field
                         ref={(c) => { if (c) FORM_ELEMENTS.elements.photo = c; }}
                         onChange={(value) => {
-                          this.triggerFormChange({ photo: value });
+                          this.onChange({ photo: value });
                         }}
                         className="-fluid"
                         mode="url"
