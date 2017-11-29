@@ -43,9 +43,7 @@ export default function HeaderDropdownData(props) {
             </Link>
           </li>
           <li className="header-dropdown-list-item">
-            <Link route="pulse">
-              <a>Planet Pulse</a>
-            </Link>
+            <a href="/data/pulse">Planet Pulse</a>
           </li>
           <li className="header-dropdown-list-item">
             <Link route="get_involved_detail" params={{ id: 'apps' }}>

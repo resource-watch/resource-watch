@@ -15,7 +15,7 @@ const data = [
   { name: 'Data', route: 'explore' },
   { name: 'Explore Datasets', route: 'explore' },
   { name: 'Dashboards', route: 'dashboards' },
-  { name: 'Planet Pulse', route: 'pulse' },
+  { name: 'Planet Pulse', anchor: '/data/pulse' },
   { name: 'App Gallery', route: 'get_involved_detail', params: { id: 'apps' } }
 ];
 
@@ -27,9 +27,9 @@ const about = [
 ];
 
 const insights = [
-  { name: 'Blog', route: 'blog' },
-  { name: 'Recent Signals' },
-  { name: 'Highlighted Signals' }
+  { name: 'Blog', route: 'insights' },
+  { name: 'Recent Signals', route: 'insights' },
+  { name: 'Highlighted Signals', route: 'insights' }
 ];
 
 const getInvolved = [

@@ -51,7 +51,8 @@ const exploreCards = [
     buttons: [
       {
         text: 'Launch Planet Pulse',
-        path: 'pulse',
+        path: '/data/pulse',
+        anchor: true,
         className: '-primary'
       }
     ],
@@ -98,6 +99,7 @@ class Home extends Page {
           background={c.background}
           clickable
           route={c.buttons[0].path}
+          anchor={c.buttons[0].anchor}
         >
           <div>
             <h4>{c.tag}</h4>
@@ -105,9 +107,16 @@ class Home extends Page {
             <p>{c.intro}</p>
           </div>
           <div className="buttons -align-center">
-            {c.buttons.map(b => (
-              <Link route={b.path} key={b.path}><a className={`c-btn -alt ${b.className}`}>{b.text}</a></Link>
-            ))}
+            {c.buttons.map((b) => {
+              if (b.anchor) {
+                return (
+                  <a href={b.path} key={b.path} className={`c-btn -alt ${b.className}`}>{b.text}</a>
+                );
+              }
+              return (
+                <Link route={b.path} key={b.path}><a className={`c-btn -alt ${b.className}`}>{b.text}</a></Link>
+              );
+            })}
           </div>
         </CardStatic>
       </div>)
@@ -182,7 +191,7 @@ class Home extends Page {
               <div className="row">
                 <div className="column small-12 medium-12">
                   <Link route="insights">
-                    <a href="/insights" className="c-btn -primary">More Signals</a>
+                    <a className="c-btn -primary">More Signals</a>
                   </Link>
                 </div>
               </div>
