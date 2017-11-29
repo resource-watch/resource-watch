@@ -8,10 +8,18 @@ const CompoundMenu = ({ items }) => {
     <div className="column small-6 medium-3" key={submenu[0].name}>
       <ul className="submenu">
         {submenu.map((item, j) => { // eslint-disable-line arrow-body-style
-          const linkParams = { route: item.route, params: item.params };
-          const link = item.route
-            ? <Link {...linkParams}><a>{item.name}</a></Link>
-            : <a>{item.name}</a>;
+          let link;
+          if (item.route) {
+            link = <Link route={item.route} params={item.params}><a>{item.name}</a></Link>
+          }
+
+          if (item.anchor) {
+            link = <a href={item.anchor}>{item.name}</a>
+          }
+
+          if (!item.route && !item.anchor) {
+            link = <a>{item.name}</a>
+          }
 
           return (
             <li key={item.name} className={classnames('item', { title: j === 0 })}>

@@ -7,9 +7,13 @@ import { Autobind } from 'es-decorators';
 export default class CardStatic extends React.Component {
   @Autobind
   handleClick(event) {
-    const { clickable, route } = this.props;
-    if (clickable && event.target.tagName !== 'A') {
+    const { clickable, route, anchor } = this.props;
+    if (!anchor && clickable && event.target.tagName !== 'A') {
       Router.pushRoute(route);
+    }
+
+    if (anchor && clickable && event.target.tagName !== 'A') {
+      window.location = route;
     }
   }
 
@@ -41,7 +45,8 @@ CardStatic.propTypes = {
   backgroundSize: PropTypes.any,
   className: PropTypes.any,
   clickable: PropTypes.bool.isRequired,
-  route: PropTypes.string
+  route: PropTypes.string,
+  anchor: PropTypes.string
 };
 
 CardStatic.defaultProps = {
