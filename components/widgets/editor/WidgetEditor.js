@@ -98,6 +98,7 @@ const DEFAULT_STATE = {
   hasGeoInfo: false, // Whether the dataset includes geographical information
   tableName: null, // Name of the table
   chartLoading: false, // Whether the chart is loading its data/rendering
+  initializing: false, // Flag to prevent rendering the vis before the end of the init
 
   // CHART CONFIG
   chartConfig: null, // Vega chart configuration
@@ -208,7 +209,8 @@ class WidgetEditor extends React.Component {
       && this.props.widgetEditor.visualizationType !== 'table'
       && this.props.widgetEditor.visualizationType !== 'map'
       && this.props.widgetEditor.visualizationType !== 'embed'
-      && (hasChangedWidgetEditor || previousState.tableName !== this.state.tableName)) {
+      && (hasChangedWidgetEditor || previousState.tableName !== this.state.tableName)
+      && !this.state.initializing) {
       this.fetchChartConfig();
     }
   }
@@ -757,7 +759,8 @@ class WidgetEditor extends React.Component {
       layersLoaded: false,
       layersError: false,
       jiminyLoaded: false,
-      jiminyError: false
+      jiminyError: false,
+      initializing: true
     }, () => {
       Promise.all([this.getFields(), this.getLayers()])
         .then(() => this.getJiminy())
@@ -792,7 +795,8 @@ class WidgetEditor extends React.Component {
             // up to date (for example, the aliases)
             this.checkEditorRestoredState();
           }
-        });
+        })
+        .then(() => this.setState({ initializing: false }));
     });
   }
 
