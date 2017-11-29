@@ -14,7 +14,7 @@ function DatasetsNew(props) {
         basic
         application={[process.env.APPLICATIONS]}
         authorization={user.token}
-        onSubmit={() => Router.pushRoute('myrw', { tab: 'datasets' })}
+        onSubmit={() => Router.pushRoute('myrw', { tab: 'datasets', subtab: 'my_datasets' })}
       />
     </div>
   );
