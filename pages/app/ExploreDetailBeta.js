@@ -138,9 +138,7 @@ class ExploreDetail extends Page {
                 <div className="column small-12">
                   <Banner className="partners -text-center">
                     <p className="-claim">Take the pulse of our planet</p>
-                    <Link route="pulse">
-                      <a className="c-button -primary -alt">Launch planet pulse</a>
-                    </Link>
+                    <a href="/data/pulse" className="c-button -primary -alt">Launch planet pulse</a>
                   </Banner>
                 </div>
               </div>
