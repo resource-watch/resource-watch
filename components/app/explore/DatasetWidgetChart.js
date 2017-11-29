@@ -5,6 +5,7 @@ import classnames from 'classnames';
 // Components
 import VegaChart from 'components/widgets/charts/VegaChart';
 import Spinner from 'components/ui/Spinner';
+import DatasetPlaceholderChart from 'components/app/explore/DatasetPlaceholderChart';
 
 // Helpers
 import ChartTheme from 'utils/widgets/theme';
@@ -15,7 +16,8 @@ class DatasetWidgetChart extends React.Component {
 
     this.state = {
       widget: props.widget,
-      loading: false
+      loading: false,
+      error: false
     };
 
     // BINDINGS
@@ -53,6 +55,10 @@ class DatasetWidgetChart extends React.Component {
       '-thumbnail': (mode === 'thumbnail')
     });
 
+    if (this.state.error) {
+      return <DatasetPlaceholderChart />;
+    }
+
     return (
       <div className={classname}>
         <Spinner
@@ -66,6 +72,7 @@ class DatasetWidgetChart extends React.Component {
           reloadOnResize={mode !== 'thumbnail'}
           toggleLoading={this.triggerToggleLoading}
           getForceUpdate={(func) => { this.forceChartUpdate = func; }}
+          onError={() => this.setState({ error: true })}
         />
       </div>
     );

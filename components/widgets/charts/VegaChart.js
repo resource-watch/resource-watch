@@ -353,7 +353,14 @@ class VegaChart extends React.Component {
 
       // We render the chart
       const vis = chart({ el: this.chart, renderer: 'canvas' });
-      vis.update();
+      try {
+        vis.update();
+      } catch (err) { // eslint-disable-line no-shadow
+        console.error(err);
+        this.toggleLoading(false);
+        if (this.props.onError) this.props.onError();
+        return;
+      }
 
       // We toggle off the loader once we've rendered the chart
       this.toggleLoading(false);
@@ -416,6 +423,7 @@ VegaChart.propTypes = {
   // Callbacks
   toggleLoading: PropTypes.func,
   toggleTooltip: PropTypes.func,
+  onError: PropTypes.func,
   // This callback should be passed the function
   // to force the re-render of the chart
   getForceUpdate: PropTypes.func
