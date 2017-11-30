@@ -14,6 +14,11 @@ export default {
     ({ ...state, selected: action.payload }),
 
   [actions.setExpanded]: (state, action) =>
-    ({ ...state, expanded: action.payload })
+    ({ ...state, expanded: action.payload }),
 
+  [actions.setTotal]: (state, action) =>
+    ({ ...state, total: action.payload }),
+
+  [actions.setPagination]: (state, action) =>
+    ({ ...state, pagination: action.payload })
 };

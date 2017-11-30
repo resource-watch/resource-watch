@@ -3,5 +3,6 @@ export default {
   loading: false,
   error: null,
   selected: '',
-  expanded: false
+  expanded: false,
+  pagination: false
 };

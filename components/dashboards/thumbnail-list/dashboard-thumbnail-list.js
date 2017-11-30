@@ -14,7 +14,8 @@ export {
 export default connect(
   state => ({
     dashboards: getFilteredDashboards(state),
-    size: state.dashboardThumbnailList.dashboards.length,
+    total: state.dashboardThumbnailList.total,
+    pagination: state.dashboardThumbnailList.pagination,
     selected: state.dashboardThumbnailList.selected,
     expanded: state.dashboardThumbnailList.expanded
   }),

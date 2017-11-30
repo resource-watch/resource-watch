@@ -4,8 +4,9 @@ import classnames from 'classnames';
 
 export default function DashboardThumbnailList({
   dashboards,
-  size,
+  total,
   selected,
+  pagination,
   expanded,
   onSelect,
   onExpand
@@ -32,7 +33,7 @@ export default function DashboardThumbnailList({
           </li>
         ))
       }
-      {size > 5 &&
+      {pagination && total > 5 &&
         <li
           className="-toggle"
           role="button"
@@ -50,7 +51,8 @@ export default function DashboardThumbnailList({
 
 DashboardThumbnailList.propTypes = {
   dashboards: PropTypes.array,
-  size: PropTypes.number,
+  total: PropTypes.number,
+  pagination: PropTypes.bool,
   selected: PropTypes.string,
   expanded: PropTypes.bool,
   onSelect: PropTypes.func,

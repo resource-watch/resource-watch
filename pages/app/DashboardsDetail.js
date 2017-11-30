@@ -6,7 +6,7 @@ import { initStore } from 'store';
 import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 import { fetchDashboard } from 'components/dashboards/detail/dashboard-detail-actions';
-import { fetchDashboards, setSelected, setExpanded } from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list-actions';
+import { fetchDashboards, setSelected, setExpanded, setPagination } from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list-actions';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -23,6 +23,7 @@ class DashboardsDetail extends Page {
     store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
 
+    store.dispatch(setPagination(true));
     await store.dispatch(fetchDashboard({ id: url.query.slug }));
     await store.dispatch(setSelected(url.query.slug));
     await store.dispatch(fetchDashboards({
@@ -96,7 +97,8 @@ const mapDispatchToProps = {
   fetchDashboard,
   fetchDashboards,
   setSelected,
-  setExpanded
+  setExpanded,
+  setPagination
 };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(DashboardsDetail);

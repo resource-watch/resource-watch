@@ -4,60 +4,34 @@ import { Router } from 'routes';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { bindActionCreators } from 'redux';
-import { getPublicDashboards } from 'redactions/dashboards';
+import { setUser } from 'redactions/user';
+import { setRouter } from 'redactions/routes';
+import { fetchDashboards, setPagination, setExpanded } from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list-actions';
 
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
-import Spinner from 'components/ui/Spinner';
+import DashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
 
 class Dashboards extends Page {
-  /**
-   * Return the URL of the dashboard image
-   * NOTE: return null if no image
-   * @static
-   * @param {string|object} image
-   */
-  static getDashboardImageUrl(image) {
-    if (!image) return null;
+  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
+    const { user } = isServer ? req : store.getState();
+    const url = { asPath, pathname, query };
+    store.dispatch(setUser(user));
+    store.dispatch(setRouter(url));
 
-    if (typeof image === 'object') {
-      // If no image has been uploaded, we just don't display anything
-      if (/missing\.png$/.test(image.original)) return null;
-      return `${process.env.STATIC_SERVER_URL}${image.original}`;
-    } else if (typeof image === 'string') {
-      return `/${image}`;
-    }
+    store.dispatch(setPagination(false));
+    await store.dispatch(fetchDashboards({
+      // filters: { 'filter[published]': 'true' }
+    }));
 
-    return null;
+    return { isServer, user, url };
   }
 
-  /**
-   * Event handler executed when a dashboard is selected
-   * @param {string} slug Slug of the selected dashboard
-   */
-  static onChangeDashboard(slug) {
-    // The countries dashboard is still ran by the old
-    // application, so the URL is different
-    if (slug === 'countries') {
-      window.location = '/countries';
-      return;
-    }
-    Router.pushRoute('dashboards_detail', { slug });
-  }
-
-  /**
-  * COMPONENT LIFECYCLE
-  * - componentDidMount
-  */
-  componentDidMount() {
-    this.props.getPublicDashboards();
-  }
 
   render() {
-    const { dashboards, loading, error, url, user } = this.props;
+    const { url, user } = this.props;
 
     return (
       <Layout
@@ -81,65 +55,34 @@ class Dashboards extends Page {
           </div>
         </div>
 
-        <section className="l-section -secondary">
+        <div className="l-section">
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
-                { error && (
-                  <p className="error">{error}</p>
-                ) }
-                { !error && loading && <Spinner isLoading className="-light" /> }
-                { !loading && !error && (
-                  <h2>Select a topic to start exploring.</h2>
-                ) }
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="column small-12">
-                <ul className="dashboards-list">
-                  {
-                    dashboards
-                      .map(dashboard => (
-                        <li
-                          key={dashboard.slug}
-                          style={{
-                            backgroundImage: dashboard.photo
-                              && Dashboards.getDashboardImageUrl(dashboard.photo)
-                              && `url(${Dashboards.getDashboardImageUrl(dashboard.photo)})`
-                          }}
-                        >
-                          <input
-                            type="radio"
-                            name="dashboard"
-                            id={`dashboard-${dashboard.slug}`}
-                            value={dashboard.slug}
-                            onChange={e => Dashboards.onChangeDashboard(e.target.value)}
-                          />
-                          <label className="content" htmlFor={`dashboard-${dashboard.slug}`}>
-                            {dashboard.name}
-                          </label>
-                        </li>
-                      ))
-                  }
-                </ul>
+                <DashboardThumbnailList
+                  onSelect={({ slug }) => {
+                    // We need to make an amendment in the Wysiwyg to have this working
+                    Router.pushRoute('dashboards_detail', { slug });
+                  }}
+                  onExpand={(bool) => {
+                    this.props.setExpanded(bool);
+                  }}
+                />
               </div>
             </div>
           </div>
-        </section>
+        </div>
       </Layout>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  dashboards: state.clientDashboards.list,
-  isLoading: state.clientDashboards.loading,
-  error: state.clientDashboards.error
-});
+const mapStateToProps = null;
 
-const mapDispatchToProps = dispatch => ({
-  getPublicDashboards: bindActionCreators(getPublicDashboards, dispatch)
-});
+const mapDispatchToProps = {
+  fetchDashboards,
+  setExpanded,
+  setPagination
+};
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Dashboards);
