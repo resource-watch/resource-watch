@@ -73,7 +73,7 @@ class Navigation extends React.Component {
           <li>
             <Button
               properties={{
-                type: 'submit',
+                type: 'button',
                 name: 'commit',
                 className: '-secondary -expanded'
               }}
