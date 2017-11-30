@@ -27,7 +27,7 @@ class DashboardsDetail extends Page {
     await store.dispatch(fetchDashboard({ id: url.query.slug }));
     await store.dispatch(setSelected(url.query.slug));
     await store.dispatch(fetchDashboards({
-      // filters: { 'filter[published]': 'true' }
+      filters: { 'filter[published]': 'true' }
     }));
 
     return { isServer, user, url };

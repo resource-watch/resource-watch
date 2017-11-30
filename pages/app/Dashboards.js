@@ -23,7 +23,7 @@ class Dashboards extends Page {
 
     store.dispatch(setPagination(false));
     await store.dispatch(fetchDashboards({
-      // filters: { 'filter[published]': 'true' }
+      filters: { 'filter[published]': 'true' }
     }));
 
     return { isServer, user, url };
