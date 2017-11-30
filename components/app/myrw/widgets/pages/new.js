@@ -262,7 +262,7 @@ class WidgetsNew extends React.Component {
 
   @Autobind
   handleWidgetEditorError() { // eslint-disable-line class-methods-use-this
-    toastr.err('Error', 'An error occured with the widget editor');
+    toastr.error('Error', 'An error occured with the widget editor');
   }
 
   render() {
