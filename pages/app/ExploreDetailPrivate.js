@@ -54,22 +54,17 @@ import LoginModal from 'components/modal/LoginModal';
 import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
 
-import Error from '../_error';
-
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
 import { logEvent } from 'utils/analytics';
 
-class ExploreDetail extends Page {
+class ExploreDetailPrivate extends Page {
   static async getInitialProps({ asPath, pathname, query, req, res, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
     store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
     await store.dispatch(getDataset(url.query.id));
-
-    const { dataset } = store.getState();
-    if (dataset && !dataset.data.attributes.published && res) res.statusCode = 404;
 
     return { user, isServer, url };
   }
@@ -439,8 +434,6 @@ class ExploreDetail extends Page {
       '-empty': !favorite
     });
 
-    if (dataset && !dataset.attributes.published) return <Error status={404} />;
-
     return (
       <Layout
         title={metadataInfo && metadataInfo.name ? metadataInfo.name : (dataset && dataset.attributes && dataset.attributes.name)}
@@ -790,7 +783,7 @@ class ExploreDetail extends Page {
   }
 }
 
-ExploreDetail.propTypes = {
+ExploreDetailPrivate.propTypes = {
   url: PropTypes.object.isRequired,
   // Store
   user: PropTypes.object,
@@ -855,4 +848,4 @@ const mapDispatchToProps = dispatch => ({
   setTopicsTree: tree => dispatch(setTopicsTree(tree))
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetailPrivate);
