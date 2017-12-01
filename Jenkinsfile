@@ -73,7 +73,7 @@ node {
           break
 
         // Roll out to production
-        case "master":
+        case "preproduction":
           def userInput = true
           def didTimeout = false
           try {
