@@ -209,7 +209,8 @@ class WidgetEditor extends React.Component {
       && this.props.widgetEditor.visualizationType !== 'table'
       && this.props.widgetEditor.visualizationType !== 'map'
       && this.props.widgetEditor.visualizationType !== 'embed'
-      && (hasChangedWidgetEditor || previousState.tableName !== this.state.tableName)
+      && (hasChangedWidgetEditor || previousState.tableName !== this.state.tableName
+        || previousState.initializing !== this.state.initializing)
       && !this.state.initializing) {
       this.fetchChartConfig();
     }
