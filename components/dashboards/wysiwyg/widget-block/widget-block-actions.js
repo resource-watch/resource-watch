@@ -53,7 +53,18 @@ export const fetchLayers = createThunkAction('WIDGET_BLOCK_LAYERS_FETCH_DATA', (
     .then(({ data }) => {
       dispatch(setLayersLoading({ id, value: false }));
       dispatch(setLayersError({ id, value: null }));
-      dispatch(setLayers({ id, value: data }));
+      dispatch(setLayers({
+        id,
+        value: [{
+          dataset: data.attributes.dataset,
+          visible: true,
+          layers: [{
+            active: true,
+            id: data.id,
+            ...data.attributes
+          }]
+        }]
+      }));
     })
     .catch((err) => {
       dispatch(setLayersLoading({ id, value: false }));
