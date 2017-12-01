@@ -36,6 +36,7 @@ class ExploreDetail extends Page {
     await store.dispatch(getDataset(url.query.id));
 
     const { exploreDataset } = store.getState();
+    if (!exploreDataset) return <Error status={404} />;
     if (exploreDataset && !exploreDataset.data.published && res) res.statusCode = 404;
 
     return { user, isServer, url };
@@ -78,6 +79,7 @@ class ExploreDetail extends Page {
       'language'
     ];
 
+    if (!data) return <Error status={404} />;
     if (data && !data.published) return <Error status={404} />;
 
     return (
