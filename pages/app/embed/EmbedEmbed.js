@@ -16,7 +16,7 @@ import Spinner from 'components/ui/Spinner';
 import Icon from 'components/widgets/editor/ui/Icon';
 
 class EmbedWidget extends Page {
-  static getInitialProps({ asPath, pathname, query, req, store, isServer }) {
+  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
     const referer = isServer ? req.headers.referer : location.href;

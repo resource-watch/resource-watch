@@ -69,6 +69,9 @@ class WidgetBlock extends React.Component {
 
   render() {
     return createElement(WidgetBlockComponent, {
+      onToggleModal: (loading) => {
+        // this.props.setWidgetLoading(loading);
+      },
       onToggleLoading: (loading) => {
         this.props.setWidgetLoading(loading);
       },

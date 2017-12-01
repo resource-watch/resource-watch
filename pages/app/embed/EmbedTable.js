@@ -15,7 +15,7 @@ import EmbedLayout from 'components/app/layout/EmbedLayout';
 import Spinner from 'components/ui/Spinner';
 
 class EmbedTable extends Page {
-  static getInitialProps({ asPath, pathname, query, req, store, isServer }) {
+  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
     const referer = isServer ? req.headers.referer : location.href;
