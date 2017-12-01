@@ -6,12 +6,15 @@ const defaultWidget = {
   widgetError: null,
   widgetType: 'vega',
 
-  // Add-ons
+  // Layers
   layers: [],
   layersLoading: false,
   layersError: null,
 
-  favourites: []
+  // Favourites
+  favourite: {},
+  favouriteLoading: false,
+  favouriteError: null
 };
 
 
@@ -98,5 +101,39 @@ export default {
       layersError: action.payload.value
     };
     return { ...state, [action.payload.id]: widget };
+  },
+
+  [actions.setFavourite]: (state, action) => {
+    if (!action.payload.id) return state;
+
+    const widget = {
+      ...defaultWidget,
+      ...state[action.payload.id],
+      favourite: action.payload.value
+    };
+    return { ...state, [action.payload.id]: widget };
+  },
+
+  [actions.setFavouriteLoading]: (state, action) => {
+    if (!action.payload.id) return state;
+
+    const widget = {
+      ...defaultWidget,
+      ...state[action.payload.id],
+      favouriteLoading: action.payload.value
+    };
+    return { ...state, [action.payload.id]: widget };
+  },
+
+  [actions.setFavouriteError]: (state, action) => {
+    if (!action.payload.id) return state;
+
+    const widget = {
+      ...defaultWidget,
+      ...state[action.payload.id],
+      favouriteError: action.payload.value
+    };
+    return { ...state, [action.payload.id]: widget };
   }
+
 };

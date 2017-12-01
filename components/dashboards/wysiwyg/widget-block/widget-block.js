@@ -19,18 +19,21 @@ class WidgetBlock extends React.Component {
 
     // Redux
     setWidgetLoading: PropTypes.func.isRequired,
+    toggleFavourite: PropTypes.func.isRequired,
     removeWidget: PropTypes.func.isRequired
   };
 
   async componentWillMount() {
     if (this.props.item.content.widgetId) {
       await this.triggerFetch(this.props);
+      this.setFavourite(this.props);
     }
   }
 
   async componentWillReceiveProps(nextProps) {
     if (nextProps.item.content.widgetId !== this.props.item.content.widgetId) {
       await this.triggerFetch(nextProps);
+      this.setFavourite(nextProps);
     }
   }
 
@@ -45,7 +48,20 @@ class WidgetBlock extends React.Component {
   /**
    * HELPERS
    * - triggerFetch
+   * - setFavourite
   */
+  setFavourite = (props) => {
+    const { item } = props;
+    const favourite = props.user.favourites.find(f =>
+      f.attributes.resourceId === item.content.widgetId
+    );
+
+    props.setFavourite({
+      id: `${item.content.widgetId}/${item.id}`,
+      value: favourite || {}
+    });
+  }
+
   triggerFetch = props => props.fetchWidget({
     id: props.item.content.widgetId,
     itemId: props.item.id
@@ -56,13 +72,23 @@ class WidgetBlock extends React.Component {
       onToggleLoading: (loading) => {
         this.props.setWidgetLoading(loading);
       },
+      onToggleFavourite: (favourite, widget) => {
+        const { item } = this.props;
+
+        this.props.toggleFavourite({
+          id: `${item.content.widgetId}/${item.id}`,
+          favourite,
+          widget
+        });
+      },
       ...this.props
     });
   }
 }
 export default connect(
   state => ({
-    data: state.widgetBlock
+    data: state.widgetBlock,
+    user: state.user
   }),
   actions
 )(WidgetBlock);

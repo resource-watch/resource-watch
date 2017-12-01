@@ -6,13 +6,14 @@ const service = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
  * CONSTANTS
 */
 const SET_USER = 'user/SET_USER';
-const GET_USER_FAVORITES = 'user/GET_USER_FAVORITES';
+const SET_USER_FAVOURITES = 'user/SET_USER_FAVOURITES';
 
 
 /**
  * REDUCER
 */
 const initialState = {
+  favourites: []
   // id: null,
   // role: null,
   // provider: null,
@@ -25,7 +26,7 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, action.payload);
     }
 
-    case GET_USER_FAVORITES: {
+    case SET_USER_FAVOURITES: {
       return Object.assign({}, state, { favourites: action.payload });
     }
 
@@ -36,27 +37,35 @@ export default function (state = initialState, action) {
 
 /**
  * ACTIONS
+ * - setFavourites
  * - setUser
 */
-export function setUser(user) {
-  // If the user isn't logged in, we set the user variable as an empty object
-  if (!user) {
-    return dispatch => dispatch({ type: SET_USER, payload: {} });
-  }
-
-  const userObj = Object.assign({}, user);
-  if (userObj.token) {
-    userObj.token = userObj.token.includes('Bearer') ? userObj.token : `Bearer ${userObj.token}`;
-  }
-  return dispatch => dispatch({ type: SET_USER, payload: userObj });
-}
-
-export function getFavourites() {
+export function setFavourites() {
   return (dispatch, getState) => {
     const { user } = getState();
-    return service.getFavourites(user.token)
+
+    return service.setFavourites(user.token)
       .then((response) => {
-        dispatch({ type: GET_USER_FAVORITES, payload: response });
+        dispatch({ type: SET_USER_FAVOURITES, payload: response });
       });
+  };
+}
+
+
+export function setUser(user) {
+  return (dispatch) => {
+    if (!user) {
+      // If the user isn't logged in, we set the user variable as an empty object
+      return dispatch({ type: SET_USER, payload: {} });
+    }
+
+    const userObj = { ...user };
+    if (userObj.token) {
+      userObj.token = userObj.token.includes('Bearer') ? userObj.token : `Bearer ${userObj.token}`;
+    }
+
+    dispatch({ type: SET_USER, payload: userObj });
+
+    return dispatch(setFavourites());
   };
 }

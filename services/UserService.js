@@ -49,7 +49,7 @@ export default class UserService {
    * @returns {Promise}
    */
   getFavouriteWidgets(token) {
-    return this.getFavourites(token, 'widget', true);
+    return this.setFavourites(token, 'widget', true);
   }
 
   /**
@@ -59,7 +59,7 @@ export default class UserService {
    * @returns {Promise}
    */
   getFavouriteDatasets(token) {
-    return this.getFavourites(token, 'dataset', true);
+    return this.setFavourites(token, 'dataset', true);
   }
 
   /**
@@ -68,7 +68,7 @@ export default class UserService {
     * @param {token} User token
    * @returns {Promise}
    */
-  getFavourites(token, resourceType = null, include = true) {
+  setFavourites(token, resourceType = null, include = true) {
     const resourceTypeSt = (resourceType !== null) ? `&resource-type=${resourceType}` : '';
     return new Promise((resolve) => {
       fetch(`${this.opts.apiURL}/favourite?include=${include}${resourceTypeSt}&application=${[process.env.APPLICATIONS]}`, {

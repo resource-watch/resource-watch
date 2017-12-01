@@ -20,7 +20,7 @@ class EmbedText extends Page {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
     const referer = isServer ? req.headers.referer : location.href;
-    store.dispatch(setUser(user));
+    await store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
     return { user, isServer, url, referer, isLoading: true };
   }

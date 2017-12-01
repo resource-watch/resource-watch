@@ -1,17 +1,33 @@
 import 'isomorphic-fetch';
 import { createAction, createThunkAction } from 'redux-actions';
 
-// Actions widgets
+// Services
+import UserService from 'services/UserService';
+
+// Toastr
+import { toastr } from 'react-redux-toastr';
+
+// User
+import { setFavourites } from 'redactions/user';
+
+const userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
+
+// Widget actions
 export const setWidget = createAction('WIDGET_BLOCK_GET');
 export const setWidgetLoading = createAction('WIDGET_BLOCK_LOADING');
 export const setWidgetError = createAction('WIDGET_BLOCK_ERROR');
 export const setWidgetType = createAction('WIDGET_BLOCK_TYPE');
 export const removeWidget = createAction('WIDGET_BLOCK_REMOVE');
 
-// Actions layers
+// Layer actions
 export const setLayers = createAction('WIDGET_BLOCK_LAYERS_GET');
 export const setLayersLoading = createAction('WIDGET_BLOCK_LAYERS_LOADING');
 export const setLayersError = createAction('WIDGET_BLOCK_LAYERS_ERROR');
+
+// Favourite actions
+export const setFavourite = createAction('WIDGET_BLOCK_FAVOURITE_GET');
+export const setFavouriteLoading = createAction('WIDGET_BLOCK_FAVOURITE_LOADING');
+export const setFavouriteError = createAction('WIDGET_BLOCK_FAVOURITE_ERROR');
 
 // Async actions
 export const fetchWidget = createThunkAction('WIDGET_BLOCK_FETCH_DATA', (payload = {}) => (dispatch) => {
@@ -70,4 +86,44 @@ export const fetchLayers = createThunkAction('WIDGET_BLOCK_LAYERS_FETCH_DATA', (
       dispatch(setLayersLoading({ id, value: false }));
       dispatch(setLayersError({ id, value: err }));
     });
+});
+
+
+export const toggleFavourite = createThunkAction('WIDGET_BLOCK_TOGGLE_FAVOURITE', payload => (dispatch, getState) => {
+  const id = payload.id;
+  const { user } = getState();
+  const { favourite, widget } = payload;
+
+  dispatch(setFavouriteLoading({ id, value: true }));
+  dispatch(setFavouriteError({ id, value: null }));
+
+  if (favourite.id) {
+    userService.deleteFavourite(favourite.id, user.token)
+      .then(() => {
+        dispatch(setFavourite({ id, value: {} }));
+        dispatch(setFavouriteLoading({ id, value: false }));
+        dispatch(setFavouriteError({ id, value: null }));
+
+        dispatch(setFavourites());
+      })
+      .catch((err) => {
+        dispatch(setFavouriteLoading({ id, value: false }));
+        dispatch(setFavouriteError({ id, value: err }));
+        toastr.error('Error', err);
+      });
+  } else {
+    userService.createFavourite('widget', widget.id, user.token)
+      .then(({ data }) => {
+        dispatch(setFavourite({ id, value: data }));
+        dispatch(setFavouriteLoading({ id, value: false }));
+        dispatch(setFavouriteError({ id, value: null }));
+
+        dispatch(setFavourites());
+      })
+      .catch((err) => {
+        dispatch(setFavouriteLoading({ id, value: false }));
+        dispatch(setFavouriteError({ id, value: err }));
+        toastr.error('Error', err);
+      });
+  }
 });
