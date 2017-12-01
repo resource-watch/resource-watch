@@ -68,8 +68,8 @@ class ExploreDetail extends Page {
     store.dispatch(setRouter(url));
     await store.dispatch(getDataset(url.query.id));
 
-    const { dataset } = store.getState();
-    if (dataset && !dataset.data.attributes.published && res) res.statusCode = 404;
+    const { exploreDataset } = store.getState();
+    if (exploreDataset && !exploreDataset.data.published && res) res.statusCode = 404;
 
     return { user, isServer, url };
   }

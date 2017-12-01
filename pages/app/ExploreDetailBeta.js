@@ -10,8 +10,10 @@ import { getDataset } from 'redactions/exploreDataset';
 import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
+import Error from '../_error';
+
 // Next
-import { Link } from 'routes';
+// import { Link } from 'routes';
 
 
 // Components
@@ -26,12 +28,16 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Banner from 'components/app/common/Banner';
 
 class ExploreDetail extends Page {
-  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
+  static async getInitialProps({ asPath, pathname, query, req, res, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
     store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
     await store.dispatch(getDataset(url.query.id));
+
+    const { exploreDataset } = store.getState();
+    if (exploreDataset && !exploreDataset.data.published && res) res.statusCode = 404;
+
     return { user, isServer, url };
   }
 
@@ -71,6 +77,8 @@ class ExploreDetail extends Page {
       'frequency_of_updates',
       'language'
     ];
+
+    if (data && !data.published) return <Error status={404} />;
 
     return (
       <Layout
