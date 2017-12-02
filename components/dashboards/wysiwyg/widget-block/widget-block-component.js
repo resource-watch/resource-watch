@@ -20,7 +20,8 @@ export default function WidgetBlock({
   item,
   onToggleFavourite,
   onToggleModal,
-  onToggleLoading
+  onToggleLoading,
+  onToggleLayerGroupVisibility
 }) {
   const id = `${item.content.widgetId}/${item.id}`;
 
@@ -33,6 +34,7 @@ export default function WidgetBlock({
     widgetType,
     widgetLoading,
     widgetError,
+    widgetModal,
     layers,
     layersLoading,
     layersError,
@@ -62,9 +64,15 @@ export default function WidgetBlock({
 
             <button
               type="button"
-              onClick={() => onToggleModal(widget)}
+              onClick={() => onToggleModal(!widgetModal)}
             >
-              <Icon name="icon-info" className="c-icon -small" />
+              {!widgetModal &&
+                <Icon name="icon-info" className="c-icon -small" />
+              }
+
+              {widgetModal &&
+                <Icon name="icon-cross" className="c-icon -small" />
+              }
             </button>
           </div>
         </div>
@@ -100,7 +108,7 @@ export default function WidgetBlock({
               layerGroups={layers}
               className={{ color: '-dark' }}
               toggleLayerGroupVisibility={
-                layerGroup => this.onToggleLayerGroupVisibility(layerGroup)
+                layerGroup => onToggleLayerGroupVisibility(layerGroup)
               }
               setLayerGroupsOrder={() => {}}
               setLayerGroupActiveLayer={() => {}}
@@ -121,6 +129,21 @@ export default function WidgetBlock({
             <div className="error">Unable to load the widget <span>{widgetError || layersError}</span></div>
           </div>
         }
+
+        {widgetModal &&
+          <div className="widget-modal">
+            {widget && !widget.description &&
+              <p>No additional information is available</p>
+            }
+
+            {widget && widget.description && (
+              <div>
+                <h4>Description</h4>
+                <p>{widget.description}</p>
+              </div>
+            )}
+          </div>
+        }
       </div>
     </div>
   );
@@ -129,6 +152,7 @@ export default function WidgetBlock({
 WidgetBlock.propTypes = {
   data: PropTypes.object,
   item: PropTypes.object,
+  onToggleModal: PropTypes.func,
   onToggleFavourite: PropTypes.func,
   onToggleLoading: PropTypes.func
 };
@@ -136,6 +160,7 @@ WidgetBlock.propTypes = {
 WidgetBlock.defaultProps = {
   data: {},
   item: {},
+  onToggleModal: null,
   onToggleFavourite: null,
   onToggleLoading: null
 };

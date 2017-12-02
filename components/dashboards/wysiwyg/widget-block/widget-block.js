@@ -19,6 +19,7 @@ class WidgetBlock extends React.Component {
 
     // Redux
     setWidgetLoading: PropTypes.func.isRequired,
+    setWidgetModal: PropTypes.func.isRequired,
     toggleFavourite: PropTypes.func.isRequired,
     removeWidget: PropTypes.func.isRequired
   };
@@ -69,11 +70,21 @@ class WidgetBlock extends React.Component {
 
   render() {
     return createElement(WidgetBlockComponent, {
-      onToggleModal: (loading) => {
-        // this.props.setWidgetLoading(loading);
+      onToggleModal: (modal) => {
+        const { item } = this.props;
+
+        this.props.setWidgetModal({
+          id: `${item.content.widgetId}/${item.id}`,
+          value: modal
+        });
       },
       onToggleLoading: (loading) => {
-        this.props.setWidgetLoading(loading);
+        const { item } = this.props;
+
+        this.props.setWidgetLoading({
+          id: `${item.content.widgetId}/${item.id}`,
+          value: loading
+        });
       },
       onToggleFavourite: (favourite, widget) => {
         const { item } = this.props;
@@ -83,6 +94,15 @@ class WidgetBlock extends React.Component {
           favourite,
           widget
         });
+      },
+      onToggleLayerGroupVisibility: (layerGroup) => {
+        console.log(layerGroup);
+        // const layerGroups = this.state.layers.map((l) => {
+        //   if (l.dataset !== layerGroup.dataset) return l;
+        //   return Object.assign({}, l, { visible: !layerGroup.visible });
+        // });
+        //
+        // this.setState({ layers: [...layerGroups] });
       },
       ...this.props
     });

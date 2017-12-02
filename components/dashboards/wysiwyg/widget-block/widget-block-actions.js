@@ -17,6 +17,7 @@ export const setWidget = createAction('WIDGET_BLOCK_GET');
 export const setWidgetLoading = createAction('WIDGET_BLOCK_LOADING');
 export const setWidgetError = createAction('WIDGET_BLOCK_ERROR');
 export const setWidgetType = createAction('WIDGET_BLOCK_TYPE');
+export const setWidgetModal = createAction('WIDGET_BLOCK_MODAL');
 export const removeWidget = createAction('WIDGET_BLOCK_REMOVE');
 
 // Layer actions

@@ -5,6 +5,7 @@ const defaultWidget = {
   widgetLoading: false,
   widgetError: null,
   widgetType: 'vega',
+  widgetModal: false,
 
   // Layers
   layers: [],
@@ -59,6 +60,17 @@ export default {
       ...defaultWidget,
       ...state[action.payload.id],
       widgetType: action.payload.value
+    };
+    return { ...state, [action.payload.id]: widget };
+  },
+
+  [actions.setWidgetModal]: (state, action) => {
+    if (!action.payload.id) return state;
+
+    const widget = {
+      ...defaultWidget,
+      ...state[action.payload.id],
+      widgetModal: action.payload.value
     };
     return { ...state, [action.payload.id]: widget };
   },
