@@ -16,12 +16,14 @@ export {
 class WidgetBlock extends React.Component {
   static propTypes = {
     item: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired,
 
     // Redux
     setWidgetLoading: PropTypes.func.isRequired,
     setWidgetModal: PropTypes.func.isRequired,
-    toggleFavourite: PropTypes.func.isRequired,
-    removeWidget: PropTypes.func.isRequired
+    removeWidget: PropTypes.func.isRequired,
+    setLayers: PropTypes.func.isRequired,
+    toggleFavourite: PropTypes.func.isRequired
   };
 
   async componentWillMount() {
@@ -96,13 +98,18 @@ class WidgetBlock extends React.Component {
         });
       },
       onToggleLayerGroupVisibility: (layerGroup) => {
-        console.log(layerGroup);
-        // const layerGroups = this.state.layers.map((l) => {
-        //   if (l.dataset !== layerGroup.dataset) return l;
-        //   return Object.assign({}, l, { visible: !layerGroup.visible });
-        // });
-        //
-        // this.setState({ layers: [...layerGroups] });
+        const { data, item } = this.props;
+        const layers = [...data[`${item.content.widgetId}/${item.id}`].layers];
+
+        const layerGroups = layers.map((l) => {
+          if (l.dataset !== layerGroup.dataset) return l;
+          return Object.assign({}, l, { visible: !layerGroup.visible });
+        });
+
+        this.props.setLayers({
+          id: `${item.content.widgetId}/${item.id}`,
+          value: layerGroups
+        });
       },
       ...this.props
     });
