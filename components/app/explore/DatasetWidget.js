@@ -224,7 +224,9 @@ class DatasetWidget extends React.Component {
     const element = this.getWidgetOrLayer();
     const isWidgetMap = widget && widget.attributes.widgetConfig.type === 'map';
 
-    if (widget && mode === 'grid' && !isWidgetMap) {
+    if (mode !== 'grid') return null;
+
+    if (widget && !isWidgetMap) {
       return (
         <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
           <a>
@@ -232,9 +234,7 @@ class DatasetWidget extends React.Component {
           </a>
         </Link>
       );
-    }
-
-    if (!widget && layer && mode === 'grid') {
+    } else if (layer || isWidgetMap) {
       return (
         <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
           <a>
@@ -244,17 +244,13 @@ class DatasetWidget extends React.Component {
       );
     }
 
-    if (mode === 'grid') {
-      return (
-        <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
-          <a>
-            <DatasetPlaceholderChart />
-          </a>
-        </Link>
-      );
-    }
-
-    return null;
+    return (
+      <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
+        <a>
+          <DatasetPlaceholderChart />
+        </a>
+      </Link>
+    );
   }
 
 
