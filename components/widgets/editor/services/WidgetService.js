@@ -10,7 +10,7 @@ export default class WidgetService {
   }
 
   fetchData(includes = '') {
-    return fetch(`${this.opts.apiURL}/widget/${this.widgetId}?includes=${includes}&page[size]=999&application=${[process.env.APPLICATIONS]}`)
+    return fetch(`${this.opts.apiURL}/widget/${this.widgetId}?includes=${includes}&page[size]=999&application=${[process.env.APPLICATIONS]}&env=${process.env.API_ENV}`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
@@ -26,7 +26,7 @@ export default class WidgetService {
       dataset: datasetId
     };
     const bodyObj = Object.assign({}, widget, widgetObj);
-    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget`, {
+    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget?application=${[process.env.APPLICATIONS]}&env=${process.env.API_ENV}`, {
       method: 'POST',
       body: JSON.stringify(bodyObj),
       headers: {

@@ -50,7 +50,7 @@ export default class DatasetService {
    * @returns {Promise}
    */
   fetchData(includes = '', applications = [process.env.APPLICATIONS]) {
-    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&language=${this.opts.language}&includes=${includes}&page[size]=999`)
+    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&env=${process.env.API_ENV}&language=${this.opts.language}&includes=${includes}&page[size]=999`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
