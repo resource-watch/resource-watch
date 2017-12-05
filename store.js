@@ -9,6 +9,7 @@ import * as reducers from 'redactions';
 import { handleModule } from 'redux-actions';
 import * as dashboardDetail from 'components/dashboards/detail/dashboard-detail';
 import * as dashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
+import * as widgetBlockModule from 'components/dashboards/wysiwyg/widget-block/widget-block';
 import * as widgetBlockEditionModule from 'components/dashboards/wysiwyg/widget-block-edition/widget-block-edition';
 
 if (process.env.NODE_ENV === 'production') {
@@ -24,6 +25,7 @@ const reducer = combineReducers({
   ...reducers,
   dashboardDetail: handleModule(dashboardDetail),
   dashboardThumbnailList: handleModule(dashboardThumbnailList),
+  widgetBlock: handleModule(widgetBlockModule),
   widgetBlockEdition: handleModule(widgetBlockEditionModule)
 });
 
