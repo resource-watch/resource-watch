@@ -207,10 +207,6 @@ class Step1 extends React.Component {
                 mode="dataset"
                 showSaveButton={false}
                 onChange={(value) => { this.props.onChange({ widgetConfig: value }); }}
-                onError={() => {
-                  toastr.info('Info', 'This dataset doesn\'t allow editor mode');
-                  this.props.onModeChange('advanced');
-                }}
               />
             }
 
