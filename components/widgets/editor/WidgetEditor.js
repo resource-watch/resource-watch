@@ -769,7 +769,6 @@ class WidgetEditor extends React.Component {
           // If either of the promises reject, it's not a real issue
           // because the state will be updated consequently and we
           // can take further actions in the UI
-          if (this.props.onError) this.props.onError();
         })
         // Whether or not the dataset has fields, we fetch the dataset info
         // to get for example the type of dataset
@@ -1166,7 +1165,6 @@ WidgetEditor.propTypes = {
   // Callbacks
   onUpdateWidget: PropTypes.func,
   onChange: PropTypes.func,
-  onError: PropTypes.func,
   // Store
   band: PropTypes.object,
   user: PropTypes.object.isRequired,
