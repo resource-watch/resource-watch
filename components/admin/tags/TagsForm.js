@@ -8,6 +8,7 @@ import Graph from 'react-graph-vis';
 import Spinner from 'components/ui/Spinner';
 import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
+import Navigation from 'components/form/Navigation';
 
 // Services
 import GraphService from 'services/GraphService';
@@ -31,6 +32,9 @@ class TagsForm extends React.Component {
       selectedTags: [],
       inferredTags: [],
       graph: null,
+      step: 1,
+      stepLength: 1,
+      submitting: false,
       loadingDatasetTags: false,
       loadingAllTags: false,
       loadingInferredTags: false
@@ -215,15 +219,15 @@ class TagsForm extends React.Component {
             />
           }
         </div>
-        <div className="actions-div">
-          <button
-            type="submit"
-            className="c-btn -a"
-            onClick={this.handleSubmit}
-          >
-            Submit
-          </button>
-        </div>
+
+        {!this.state.loading &&
+          <Navigation
+            step={this.state.step}
+            stepLength={this.state.stepLength}
+            submitting={this.state.submitting}
+            onStepChange={this.handleSubmit}
+          />
+        }
       </div>
     );
   }
