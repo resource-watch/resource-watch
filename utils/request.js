@@ -78,7 +78,12 @@ function remove({ url, headers = [], onSuccess, onError }) {
           onSuccess(request.responseText);
         }
       } else {
-        onError('error');
+        try {
+          const data = JSON.parse(request.responseText);
+          onError(data.errors);
+        } catch (e) {
+          onError('error');
+        }
       }
     }
   };

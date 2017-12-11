@@ -260,11 +260,6 @@ class WidgetsNew extends React.Component {
     });
   }
 
-  @Autobind
-  handleWidgetEditorError() { // eslint-disable-line class-methods-use-this
-    toastr.err('Error', 'An error occured with the widget editor');
-  }
-
   render() {
     const {
       loading,
@@ -310,7 +305,6 @@ class WidgetsNew extends React.Component {
             mode="widget"
             onUpdateWidget={this.onSubmit}
             showSaveButton
-            onError={this.handleWidgetEditorError}
           />
           <div className="form-container">
             <form className="form-container" onSubmit={this.onSubmit}>

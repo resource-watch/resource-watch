@@ -22,7 +22,7 @@ import DeleteAction from './actions/DeleteAction';
 // TDs
 import NameTD from './td/NameTD';
 import PublishedTD from './td/PublishedTD';
-import FeaturedTD from './td/FeaturedTD';
+import PreviewTD from './td/PreviewTD';
 
 class DashboardsTable extends React.Component {
   componentDidMount() {
@@ -81,6 +81,7 @@ class DashboardsTable extends React.Component {
           <CustomTable
             columns={[
               { label: 'Name', value: 'name', td: NameTD },
+              { label: 'Preview', value: 'slug', td: PreviewTD },
               { label: 'Published', value: 'published', td: PublishedTD }
             ]}
             actions={{

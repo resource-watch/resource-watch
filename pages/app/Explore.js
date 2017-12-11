@@ -95,7 +95,7 @@ class Explore extends Page {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
     const botUserAgent = isServer && /AddSearchBot/.test(req.headers['user-agent']);
-    store.dispatch(setUser(user));
+    await store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
 
     // We set the initial state of the map

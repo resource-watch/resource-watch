@@ -313,19 +313,6 @@ class Step1 extends React.Component {
             {Input}
           </Field>
 
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.translated_title = c; }}
-            onChange={value => this.changeMetadata({ info: { translated_title: value } })}
-            properties={{
-              name: 'translated_title',
-              label: 'Translated Title',
-              type: 'text',
-              default: this.props.form.info.translated_title
-            }}
-          >
-            {Input}
-          </Field>
-
           <button
             className="c-button -primary"
             type="button"

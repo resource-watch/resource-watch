@@ -11,33 +11,39 @@ import { fetchDashboard } from 'components/dashboards/detail/dashboard-detail-ac
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
-// import DashboardCard from 'components/app/dashboards/DashboardCard';
-
 import DashboardDetail from 'components/dashboards/detail/dashboard-detail';
+import DashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
+import { fetchDashboards } from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list-actions';
 
 class DashboardsDetail extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
-    store.dispatch(setUser(user));
+    await store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
 
     await store.dispatch(fetchDashboard({ id: url.query.slug }));
 
+    // We load the list of dashboards if not already done
+    // NOTE: this typically happens is the page is SSRed
+    const isDashboardPrivate = store.getState().dashboardDetail.dashboard.private;
+    const thumbnailListLoaded = !!store.getState().dashboardThumbnailList.dashboards.length;
+    if (!isDashboardPrivate && !thumbnailListLoaded) {
+      await store.dispatch(fetchDashboards({
+        filters: { 'filter[published]': 'true' }
+      }));
+    }
+
     return { isServer, user, url };
   }
 
-  componentDidMount() {
-    // this.props.fetchDashboard({ id: this.props.url.query.slug });
-  }
-
   render() {
-    const { dashboard } = this.props.dashboardDetail;
+    const { dashboardDetail } = this.props;
 
     return (
       <Layout
-        title={dashboard.name}
-        description={dashboard.summary}
+        title={dashboardDetail.dashboard.name}
+        description={dashboardDetail.dashboard.summary}
         url={this.props.url}
         user={this.props.user}
         pageHeader
@@ -48,76 +54,39 @@ class DashboardsDetail extends Page {
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content">
-                  <Breadcrumbs items={[{ name: 'Data', href: '/data' }]} />
-                  <h1>{dashboard.name}</h1>
+                  <Breadcrumbs items={[{ name: 'Dashboards', href: '/data/dashboards' }]} />
+                  <h1>{dashboardDetail.dashboard.name}</h1>
                 </div>
               </div>
             </div>
           </div>
         </header>
 
-        {/* <section className="l-section -secondary">
+        <div className="l-section">
+          { !dashboardDetail.dashboard.private && (
+            <div className="l-container">
+              <div className="row">
+                <div className="column small-12">
+                  <DashboardThumbnailList
+                    onSelect={({ slug }) => {
+                      // We need to make an amendment to have this working
+                      // Router.pushRoute('dashboards_detail', { slug });
+                      window.location = `/data/dashboards/${slug}`;
+                    }}
+                    onExpand={(bool) => {
+                      this.props.setExpanded(bool);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
-                {dashboards.loading && <Spinner isLoading className="-light" /> }
+                <DashboardDetail />
               </div>
-            </div>
-
-            { !!dashboards.list.length && <div className="row">
-              <div className="column small-12">
-                <ul className="dashboards-list">
-                  {
-                    dashboards.list.map(dashboard => (
-                      <li
-                        className={classnames({
-                          '-active': selectedDashboard === dashboard
-                        })}
-                        key={dashboard.slug}
-                        style={{
-                          backgroundImage: dashboard.photo
-                            && DashboardsDetail.getDashboardImageUrl(dashboard.photo)
-                            && `url(${DashboardsDetail.getDashboardImageUrl(dashboard.photo)})`
-                        }}
-                      >
-                        <input
-                          type="radio"
-                          name="dashboard"
-                          id={`dashboard-${dashboard.slug}`}
-                          value={dashboard.slug}
-                          checked={selectedDashboard === dashboard}
-                          onChange={e => DashboardsDetail.onChangeDashboard(e.target.value)}
-                        />
-                        <label className="content" htmlFor={`dashboard-${dashboard.slug}`}>
-                          {dashboard.name}
-                        </label>
-                      </li>
-                    ))
-                  }
-                </ul>
-              </div>
-            </div> }
-
-            { dashboards.error && <div className="row">
-              <div className="column small-12">
-                { dashboards.error && (
-                  <p className="error">{dashboards.error}</p>
-                ) }
-                { selectedDashboard && (
-                  <div>
-                    <h2>{selectedDashboard.name}</h2>
-                    <p>{selectedDashboard.summary}</p>
-                  </div>
-                ) }
-              </div>
-            </div> }
-          </div>
-        </section> */}
-
-        <div className="l-container">
-          <div className="row">
-            <div className="column small-12">
-              <DashboardDetail />
             </div>
           </div>
         </div>

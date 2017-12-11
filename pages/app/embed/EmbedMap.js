@@ -22,11 +22,11 @@ import Icon from 'components/widgets/editor/ui/Icon';
 import LayerManager from 'components/widgets/editor/helpers/LayerManager';
 
 class EmbedMap extends Page {
-  static getInitialProps({ asPath, pathname, query, req, store, isServer }) {
+  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
     const referer = isServer ? req.headers.referer : location.href;
-    store.dispatch(setUser(user));
+    await store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
     return { user, isServer, url, referer, isLoading: true };
   }
@@ -44,7 +44,9 @@ class EmbedMap extends Page {
 
   componentDidMount() {
     this.props.getWidget(this.props.url.query.id);
-    if (this.props.user.id) this.props.checkIfFavorited(this.props.url.query.id);
+    if (this.props.user && this.props.user.id) {
+      this.props.checkIfFavorited(this.props.url.query.id);
+    }
   }
 
   getModal() {
@@ -127,7 +129,7 @@ class EmbedMap extends Page {
             </a>
             <div className="buttons">
               {
-                user.id && (
+                user && user.id && (
                   <button
                     onClick={() => this.props.setIfFavorited(widget.id, !this.props.favorited)}
                   >

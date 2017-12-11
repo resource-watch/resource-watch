@@ -78,6 +78,7 @@ export const STATE_DEFAULT = {
     published: false,
     geoInfo: false,
     verified: false,
+    protected: false,
     env: 'production',
     tableName: '',
     widgetRelevantProps: [],

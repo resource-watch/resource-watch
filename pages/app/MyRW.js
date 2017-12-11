@@ -30,15 +30,15 @@ const MYRW_TABS = [{
   route: 'myrw',
   params: { tab: 'datasets' }
 }, {
-  label: 'Dashboards',
-  value: 'dashboards',
-  route: 'myrw',
-  params: { tab: 'dashboards' }
-}, {
   label: 'Widgets',
   value: 'widgets',
   route: 'myrw',
   params: { tab: 'widgets' }
+}, {
+  label: 'Dashboards',
+  value: 'dashboards',
+  route: 'myrw',
+  params: { tab: 'dashboards' }
 },
 {
   label: 'Areas of interest',

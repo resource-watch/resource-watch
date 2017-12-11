@@ -54,23 +54,17 @@ import LoginModal from 'components/modal/LoginModal';
 import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
 
-import Error from '../_error';
-
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
 import { logEvent } from 'utils/analytics';
 
-class ExploreDetail extends Page {
+class ExploreDetailPrivate extends Page {
   static async getInitialProps({ asPath, pathname, query, req, res, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
     await store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
     await store.dispatch(getDataset(url.query.id));
-
-    const { exploreDataset } = store.getState();
-    if (!exploreDataset && res) res.statusCode = 404;
-    if (exploreDataset && !exploreDataset.data.published && res) res.statusCode = 404;
 
     return { user, isServer, url };
   }
@@ -420,7 +414,7 @@ class ExploreDetail extends Page {
   }
 
   render() {
-    const { url, user, exploreDataset } = this.props;
+    const { url, user } = this.props;
     const { dataset, loading, similarDatasets, similarDatasetsLoaded, inferredTags, favorite } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
@@ -439,9 +433,6 @@ class ExploreDetail extends Page {
       '-filled': favorite,
       '-empty': !favorite
     });
-
-    if (exploreDataset && exploreDataset.error === 'Not Found') return <Error status={404} />;
-    if (dataset && !dataset.attributes.published) return <Error status={404} />;
 
     return (
       <Layout
@@ -573,183 +564,182 @@ class ExploreDetail extends Page {
 
           {/* METADATA */}
           <section className="l-section">
-            <div className="l-container">
-              <div className="row">
-                <div className="column small-12 medium-7">
+            <div className="row">
+              <div className="column small-12 medium-7">
 
-                  {metadataInfo && metadataInfo.technical_title ? (
-                    <div className="l-section-mod">
-                      <h3>Formal name</h3>
-                      <p>{metadataInfo.technical_title}</p>
-                    </div>
-                  ) : null}
-
-                  {functions ? (
-                    <div className="l-section-mod">
-                      <h3>Function</h3>
-                      <p>{formattedFunctions}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.geographic_coverage ? (
-                    <div className="l-section-mod">
-                      <h3>Geographic coverage</h3>
-                      <p>{metadataInfo.geographic_coverage}</p>
-                    </div>
-                  ) : null}
-
-                  {dataset && dataset.attributes && dataset.attributes.type ? (
-                    <div className="l-section-mod">
-                      <h3>Data type</h3>
-                      <p>{dataset.attributes.type}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.spatial_resolution ? (
-                    <div className="l-section-mod">
-                      <h3>Spatial resolution</h3>
-                      <p>{metadataInfo.spatial_resolution}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.date_of_content ? (
-                    <div className="l-section-mod">
-                      <h3>Date of content</h3>
-                      <p>{metadataInfo.date_of_content}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.frequency_of_updates ? (
-                    <div className="l-section-mod">
-                      <h3>Frequency of updates</h3>
-                      <p>{metadataInfo.frequency_of_updates}</p>
-                    </div>
-                  ) : null}
-
-                  {cautions ? (
-                    <div className="l-section-mod">
-                      <h3>Cautions</h3>
-                      <p>{formattedCautions}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.license ? (
-                    <div className="l-section-mod">
-                      <h3>License</h3>
-                      <p>
-                        {!!metadataInfo.license_link &&
-                          <a href={metadataInfo.license_link} target="_blank" rel="noopener noreferrer">{metadataInfo.license}</a>
-                        }
-                        {!metadataInfo.license_link &&
-                          metadataInfo.license
-                        }
-                      </p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.summary_of_license ? (
-                    <div className="l-section-mod">
-                      <h3>Summary of license</h3>
-                      <p>{metadataInfo.summary_of_license}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.link_to_license ? (
-                    <div className="l-section-mod">
-                      <h3>Link to full license</h3>
-                      <a href={metadataInfo.link_to_license} target="_blank">
-                        {metadataInfo.link_to_license}
-                      </a>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.sources ? (
-                    <div className="l-section-mod">
-                      <h3>Sources</h3>
-                      {metadataInfo.sources.map(source => (
-                        <div
-                          key={source['source-name']}
-                        >
-                          {source['source-name']}
-                          {source['source-description']}
-                        </div>)
-                      )
-                      }
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.citation ? (
-                    <div className="l-section-mod">
-                      <h3>Citation</h3>
-                      <p>{metadataInfo && metadataInfo.citation}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataAttributes && metadataAttributes.language ? (
-                    <div className="l-section-mod">
-                      <h3>Published language</h3>
-                      <p>{metadataAttributes.language}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.language && metadataInfo.language.toLowerCase() !== 'en' ? (
-                    <div className="l-section-mod">
-                      <h3>Translated title</h3>
-                      <p>{metadataInfo && metadataInfo.translated_title}</p>
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="column small-12">
-                  {/* TAGS SECTION */}
-                  <h3>Tags</h3>
-                  <div className="tags">
-                    {inferredTags && inferredTags.map(tag => (
-                      <div
-                        role="button"
-                        tabIndex={-1}
-                        className="tag"
-                        id={tag.id}
-                        data-labels={tag.labels}
-                        key={tag.id}
-                        onClick={this.handleTagClick}
-                      >
-                        {tag.label}
-                      </div>
-                    ))}
+                {metadataInfo && metadataInfo.technical_title ? (
+                  <div className="l-section-mod">
+                    <h3>Formal name</h3>
+                    <p>{metadataInfo.technical_title}</p>
                   </div>
+                ) : null}
+
+                {functions ? (
+                  <div className="l-section-mod">
+                    <h3>Function</h3>
+                    <p>{formattedFunctions}</p>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.geographic_coverage ? (
+                  <div className="l-section-mod">
+                    <h3>Geographic coverage</h3>
+                    <p>{metadataInfo.geographic_coverage}</p>
+                  </div>
+                ) : null}
+
+                {dataset && dataset.attributes && dataset.attributes.type ? (
+                  <div className="l-section-mod">
+                    <h3>Data type</h3>
+                    <p>{dataset.attributes.type}</p>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.spatial_resolution ? (
+                  <div className="l-section-mod">
+                    <h3>Spatial resolution</h3>
+                    <p>{metadataInfo.spatial_resolution}</p>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.date_of_content ? (
+                  <div className="l-section-mod">
+                    <h3>Date of content</h3>
+                    <p>{metadataInfo.date_of_content}</p>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.frequency_of_updates ? (
+                  <div className="l-section-mod">
+                    <h3>Frequency of updates</h3>
+                    <p>{metadataInfo.frequency_of_updates}</p>
+                  </div>
+                ) : null}
+
+                {cautions ? (
+                  <div className="l-section-mod">
+                    <h3>Cautions</h3>
+                    <p>{formattedCautions}</p>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.license ? (
+                  <div className="l-section-mod">
+                    <h3>License</h3>
+                    <p>
+                      {!!metadataInfo.license_link &&
+                        <a href={metadataInfo.license_link} target="_blank" rel="noopener noreferrer">{metadataInfo.license}</a>
+                      }
+                      {!metadataInfo.license_link &&
+                        metadataInfo.license
+                      }
+                    </p>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.summary_of_license ? (
+                  <div className="l-section-mod">
+                    <h3>Summary of license</h3>
+                    <p>{metadataInfo.summary_of_license}</p>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.link_to_license ? (
+                  <div className="l-section-mod">
+                    <h3>Link to full license</h3>
+                    <a href={metadataInfo.link_to_license} target="_blank">
+                      {metadataInfo.link_to_license}
+                    </a>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.sources ? (
+                  <div className="l-section-mod">
+                    <h3>Sources</h3>
+                    {metadataInfo.sources.map(source => (
+                      <div
+                        key={source['source-name']}
+                      >
+                        {source['source-name']}
+                        {source['source-description']}
+                      </div>)
+                    )
+                    }
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.citation ? (
+                  <div className="l-section-mod">
+                    <h3>Citation</h3>
+                    <p>{metadataInfo && metadataInfo.citation}</p>
+                  </div>
+                ) : null}
+
+                {metadataAttributes && metadataAttributes.language ? (
+                  <div className="l-section-mod">
+                    <h3>Published language</h3>
+                    <p>{metadataAttributes.language}</p>
+                  </div>
+                ) : null}
+
+                {metadataInfo && metadataInfo.language && metadataInfo.language.toLowerCase() !== 'en' ? (
+                  <div className="l-section-mod">
+                    <h3>Translated title</h3>
+                    <p>{metadataInfo && metadataInfo.translated_title}</p>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="column small-12">
+                {/* TAGS SECTION */}
+                <h3>Tags</h3>
+                <div className="tags">
+                  {inferredTags && inferredTags.map(tag => (
+                    <div
+                      role="button"
+                      tabIndex={-1}
+                      className="tag"
+                      id={tag.id}
+                      data-labels={tag.labels}
+                      key={tag.id}
+                      onClick={this.handleTagClick}
+                    >
+                      {tag.label}
+                    </div>
+                  ))}
                 </div>
               </div>
+            </div>
 
-              <div className="row">
-                <div className="column small-12">
-                  {/* SIMILAR DATASETS */}
-                  <div className="l-section-mod similar-datasets">
-                    <div className="row">
-                      <div className="column small-12">
-                        <h3>Similar datasets</h3>
-                        <Spinner
-                          isLoading={!similarDatasetsLoaded}
-                          className="-relative -light"
-                        />
-                        {similarDatasets && similarDatasets.length > 0 &&
-                        <DatasetList
-                          active={[]}
-                          list={similarDatasets}
-                          mode="grid"
-                          showActions={false}
-                          showFavorite={false}
-                          onTagSelected={this.handleTagSelected}
-                        />
-                        }
-                      </div>
+            <div className="row">
+              <div className="column small-12">
+                {/* SIMILAR DATASETS */}
+                <div className="l-section-mod similar-datasets">
+                  <div className="row">
+                    <div className="column small-12">
+                      <h3>Similar datasets</h3>
+                      <Spinner
+                        isLoading={!similarDatasetsLoaded}
+                        className="-relative -light"
+                      />
+                      {similarDatasets && similarDatasets.length > 0 &&
+                      <DatasetList
+                        active={[]}
+                        list={similarDatasets}
+                        mode="grid"
+                        showActions={false}
+                        showFavorite={false}
+                        onTagSelected={this.handleTagSelected}
+                      />
+                      }
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+
           </section>
 
 
@@ -793,7 +783,7 @@ class ExploreDetail extends Page {
   }
 }
 
-ExploreDetail.propTypes = {
+ExploreDetailPrivate.propTypes = {
   url: PropTypes.object.isRequired,
   // Store
   user: PropTypes.object,
@@ -824,7 +814,6 @@ const mapStateToProps = state => ({
   user: state.user,
   topicsTree: state.explore.topicsTree,
   exploreDetail: state.exploreDetail,
-  exploreDataset: state.exploreDataset,
   layersShown: updateLayersShown(state),
   locale: state.common.locale
 });
@@ -859,4 +848,4 @@ const mapDispatchToProps = dispatch => ({
   setTopicsTree: tree => dispatch(setTopicsTree(tree))
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetailPrivate);

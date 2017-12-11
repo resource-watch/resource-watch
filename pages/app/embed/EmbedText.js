@@ -16,11 +16,11 @@ import TextChart from 'components/widgets/charts/TextChart';
 import Spinner from 'components/ui/Spinner';
 
 class EmbedText extends Page {
-  static getInitialProps({ asPath, pathname, query, req, store, isServer }) {
+  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
     const referer = isServer ? req.headers.referer : location.href;
-    store.dispatch(setUser(user));
+    await store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
     return { user, isServer, url, referer, isLoading: true };
   }

@@ -35,7 +35,7 @@ class Navigation extends React.Component {
   }
 
   render() {
-    const { step, stepLength, submitting } = this.props;
+    const { step, stepLength, submitting, hideCancel } = this.props;
     const submittingClassName = classnames({
       '-submitting': submitting
     });
@@ -69,11 +69,11 @@ class Navigation extends React.Component {
             </Button>
           </li>
         }
-        {stepLength === 1 &&
+        {stepLength === 1 && !hideCancel &&
           <li>
             <Button
               properties={{
-                type: 'submit',
+                type: 'button',
                 name: 'commit',
                 className: '-secondary -expanded'
               }}
@@ -108,6 +108,7 @@ Navigation.propTypes = {
   step: PropTypes.number,
   stepLength: PropTypes.number,
   submitting: PropTypes.bool,
+  hideCancel: PropTypes.bool,
   onStepChange: PropTypes.func
 };
 

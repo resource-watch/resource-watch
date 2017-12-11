@@ -58,7 +58,7 @@
       color: $color-white;
       text-transform: uppercase;
       position: absolute;
-      right: -12px;
+      right: 0px;
       top: -6px;
     }
   }
@@ -67,6 +67,7 @@
   .header-menu {
     ul {
       display: flex;
+      align-items: center;
       margin: 0;
       padding: 0;
       list-style: none;
