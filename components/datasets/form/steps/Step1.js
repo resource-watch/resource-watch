@@ -323,7 +323,7 @@ class Step1 extends React.Component {
               className="-fluid"
               properties={{
                 name: 'connectorUrl',
-                label: 'connectorUrl',
+                label: 'connector Url',
                 type: 'text',
                 default: this.state.form.connectorUrl,
                 disabled: !!this.state.dataset,
