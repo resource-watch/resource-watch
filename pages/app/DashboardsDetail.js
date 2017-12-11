@@ -13,7 +13,7 @@ import Layout from 'components/app/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import DashboardDetail from 'components/dashboards/detail/dashboard-detail';
 import DashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
-import { fetchDashboards } from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list-actions';
+import { fetchDashboards, setSelected, setExpanded, setPagination } from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list-actions';
 
 class DashboardsDetail extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
@@ -25,10 +25,12 @@ class DashboardsDetail extends Page {
     await store.dispatch(fetchDashboard({ id: url.query.slug }));
 
     // We load the list of dashboards if not already done
-    // NOTE: this typically happens is the page is SSRed
-    const isDashboardPrivate = store.getState().dashboardDetail.dashboard.private;
+    store.dispatch(setPagination(true));
+    store.dispatch(setSelected(url.query.slug));
+
+    const isDashboardPrivate = store.getState().dashboardDetail.dashboard.published;
     const thumbnailListLoaded = !!store.getState().dashboardThumbnailList.dashboards.length;
-    if (!isDashboardPrivate && !thumbnailListLoaded) {
+    if (isDashboardPrivate && !thumbnailListLoaded) {
       await store.dispatch(fetchDashboards({
         filters: { 'filter[published]': 'true' }
       }));
@@ -63,7 +65,7 @@ class DashboardsDetail extends Page {
         </header>
 
         <div className="l-section">
-          { !dashboardDetail.dashboard.private && (
+          {dashboardDetail.dashboard.published && (
             <div className="l-container">
               <div className="row">
                 <div className="column small-12">
@@ -100,7 +102,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  fetchDashboard
+  fetchDashboard,
+  fetchDashboards,
+  setSelected,
+  setExpanded,
+  setPagination
 };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(DashboardsDetail);
