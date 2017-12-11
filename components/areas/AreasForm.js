@@ -222,7 +222,7 @@ class AreasForm extends React.Component {
             </div>
           }
           <div className="buttons-div">
-            <button onClick={() => Router.pushRoute('myrw', { tab: 'areas' })} className="c-btn -secondary">
+            <button type="button" onClick={() => Router.pushRoute('myrw', { tab: 'areas' })} className="c-btn -secondary">
               Cancel
             </button>
             <button type="submit" className="c-btn -primary">
