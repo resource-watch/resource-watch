@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import compact from 'lodash/compact';
 import { Autobind } from 'es-decorators';
 
 // Redux
@@ -156,7 +157,11 @@ class Pulse extends Page {
   getShapes(layerPoints, markerType) {
     let shapes = [];
     if (layerPoints) {
-      shapes = layerPoints.map((elem) => {
+      shapes = compact(layerPoints.map((elem) => {
+        if (!this.state.interactionConfig) {
+          return null;
+        }
+
         const tooltipContentObj = this.state.interactionConfig.output.map(obj =>
           ({ key: obj.property, value: elem[obj.column], type: obj.type }));
         const description = tooltipContentObj.map(
@@ -252,7 +257,7 @@ class Pulse extends Page {
           color,
           type: 'cylinder'
         };
-      });
+      }));
     }
     return shapes;
   }
