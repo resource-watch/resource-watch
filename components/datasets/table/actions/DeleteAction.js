@@ -38,7 +38,13 @@ class DeleteAction extends React.Component {
             toastr.success('Success', `The dataset "${data.id}" - "${data.name}" has been removed correctly`);
           })
           .catch((err) => {
-            toastr.error('Error', `The dataset "${data.id}" - "${data.name}" was not deleted. Try again. ${err}`);
+            try {
+              err.map(er =>
+                toastr.error('Error', `The dataset "${data.id}" - "${data.name}" was not deleted. ${er.detail}`)
+              );
+            } catch (e) {
+              toastr.error('Error', `The dataset "${data.id}" - "${data.name}" was not deleted. Try again.`);
+            }
           });
       }
     });
