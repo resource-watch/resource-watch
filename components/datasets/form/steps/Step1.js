@@ -127,6 +127,23 @@ class Step1 extends React.Component {
             </Field>
           }
 
+          {user.role === 'ADMIN' && !basic &&
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements.protected = c; }}
+              onChange={value => this.props.onChange({ protected: value.checked })}
+              validations={['required']}
+              properties={{
+                name: 'protected',
+                label: 'Do you want to set this dataset as protected?',
+                value: 'protected',
+                title: 'Protected',
+                defaultChecked: this.props.form.protected
+              }}
+            >
+              {Checkbox}
+            </Field>
+          }
+
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
             onChange={value => this.props.onChange({ name: value })}

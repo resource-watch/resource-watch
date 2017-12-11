@@ -107,7 +107,7 @@ class DatasetsTable extends React.Component {
             filters={false}
             data={this.getDatasets()}
             onRowDelete={() => this.props.getDatasets({
-              includes: 'widget,layer,metadata,vocabulary',
+              includes: 'widget,layer,metadata,vocabulary,user',
               filters: getDatasetsFilters
             })}
             pageSize={20}
