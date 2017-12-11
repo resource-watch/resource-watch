@@ -503,10 +503,10 @@ class ExploreDetail extends Page {
             <div className="l-container">
               <div className="row">
                 <div className="column small-12 medium-7">
-                  {/* Description */}
-                  <div className="dataset-info-description">
-                    <h3>Description</h3>
-                    {formattedDescription}
+                  {/* Function */}
+                  <div className="l-section-mod">
+                    <h3>Function</h3>
+                    <p>{formattedFunctions}</p>
                   </div>
                 </div>
                 <div className="column large-offset-2 small-12 medium-3">
@@ -585,9 +585,9 @@ class ExploreDetail extends Page {
                   ) : null}
 
                   {functions ? (
-                    <div className="l-section-mod">
-                      <h3>Function</h3>
-                      <p>{formattedFunctions}</p>
+                    <div className="dataset-info-description">
+                      <h3>Description</h3>
+                      {formattedDescription}
                     </div>
                   ) : null}
 
