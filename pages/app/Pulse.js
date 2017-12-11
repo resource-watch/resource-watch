@@ -7,7 +7,7 @@ import { Autobind } from 'es-decorators';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { getLayers, getLayerPoints, toggleActiveLayer } from 'redactions/pulse';
+import { getLayers, getLayerPoints, toggleActiveLayer, resetLayerPoints } from 'redactions/pulse';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Selectors
@@ -151,6 +151,7 @@ class Pulse extends Page {
     document.removeEventListener('click', this.handleMouseClick);
     this.props.toggleTooltip(false);
     this.props.toggleActiveLayer(null);
+    this.props.resetLayerPoints();
     this.mounted = false;
   }
 
@@ -313,7 +314,8 @@ class Pulse extends Page {
     const { pulse } = this.props;
     const { interactionConfig } = this.state;
     this.props.toggleTooltip(false);
-    if (pulse.layerActive) {
+
+    if (pulse.layerActive && interactionConfig.pulseConfig) {
       const requestURL = substitution(interactionConfig.pulseConfig.url,
         [{ key: 'point', value: `[${latLon.longitude}, ${latLon.latitude}]` }]);
       this.setTooltipValue(requestURL, clientX, clientY);
@@ -465,19 +467,12 @@ const mapStateToProps = state => ({
   layerActive: getActiveLayersPulse(state)
 });
 
-const mapDispatchToProps = dispatch => ({
-  getLayers: () => {
-    dispatch(getLayers());
-  },
-  toggleTooltip: (opened, opts) => {
-    dispatch(toggleTooltip(opened, opts));
-  },
-  getLayerPoints: (id, tableName) => {
-    dispatch(getLayerPoints(id, tableName));
-  },
-  toggleActiveLayer: (id, threedimensional, markerType) => {
-    dispatch(toggleActiveLayer(id, threedimensional, markerType));
-  }
-});
+const mapDispatchToProps = {
+  getLayers,
+  toggleTooltip,
+  getLayerPoints,
+  toggleActiveLayer,
+  resetLayerPoints
+};
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Pulse);
