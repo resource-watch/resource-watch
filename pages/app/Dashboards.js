@@ -11,7 +11,6 @@ import { fetchDashboards, setPagination, setExpanded } from 'components/dashboar
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
-import Breadcrumbs from 'components/ui/Breadcrumbs';
 import DashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
 
 class Dashboards extends Page {
@@ -47,7 +46,6 @@ class Dashboards extends Page {
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content">
-                  <Breadcrumbs items={[{ name: 'Data', href: '/data' }]} />
                   <h1>Dashboards</h1>
                 </div>
               </div>

@@ -11,8 +11,9 @@ import { fetchDashboard } from 'components/dashboards/detail/dashboard-detail-ac
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
-
 import DashboardDetail from 'components/dashboards/detail/dashboard-detail';
+import DashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
+import { fetchDashboards } from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list-actions';
 
 class DashboardsDetail extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
@@ -22,6 +23,16 @@ class DashboardsDetail extends Page {
     store.dispatch(setRouter(url));
 
     await store.dispatch(fetchDashboard({ id: url.query.slug }));
+
+    // We load the list of dashboards if not already done
+    // NOTE: this typically happens is the page is SSRed
+    const isDashboardPrivate = store.getState().dashboardDetail.dashboard.private;
+    const thumbnailListLoaded = !!store.getState().dashboardThumbnailList.dashboards.length;
+    if (!isDashboardPrivate && !thumbnailListLoaded) {
+      await store.dispatch(fetchDashboards({
+        filters: { 'filter[published]': 'true' }
+      }));
+    }
 
     return { isServer, user, url };
   }
@@ -43,7 +54,7 @@ class DashboardsDetail extends Page {
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content">
-                  <Breadcrumbs items={[{ name: 'Data', href: '/data/dashboards' }]} />
+                  <Breadcrumbs items={[{ name: 'Dashboards', href: '/data/dashboards' }]} />
                   <h1>{dashboardDetail.dashboard.name}</h1>
                 </div>
               </div>
@@ -52,6 +63,25 @@ class DashboardsDetail extends Page {
         </header>
 
         <div className="l-section">
+          { !dashboardDetail.dashboard.private && (
+            <div className="l-container">
+              <div className="row">
+                <div className="column small-12">
+                  <DashboardThumbnailList
+                    onSelect={({ slug }) => {
+                      // We need to make an amendment to have this working
+                      // Router.pushRoute('dashboards_detail', { slug });
+                      window.location = `/data/dashboards/${slug}`;
+                    }}
+                    onExpand={(bool) => {
+                      this.props.setExpanded(bool);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
