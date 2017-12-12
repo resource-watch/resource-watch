@@ -60,14 +60,26 @@ const getFilteredDatasets = (_list, _filters, _page, _limit, _sorting) => {
     let conceptsCheckPassed = true;
 
     if (search && search.key === 'name') {
-      if (it.attributes.metadata[0] && it.attributes.metadata[0].attributes.info) {
-        if (it.attributes.metadata[0].attributes.info.name) {
-          if (it.attributes.metadata[0].attributes.info.name.toLowerCase().match(search.value.toLowerCase())) {
-            searchFilterPassed = true;
-          }
+      if (it.attributes.metadata.length > 0) {
+        const metadataObj = it.attributes.metadata[0].attributes;
+        const infoObj = metadataObj.info;
+
+        const nameCheck = infoObj.name && infoObj.name.toLowerCase().match(search.value.toLowerCase());
+        const functionsCheck = infoObj.functions && infoObj.functions.toLowerCase().match(search.value.toLowerCase());
+        const sourceCheck = metadataObj.source && metadataObj.source.toLowerCase().match(search.value.toLowerCase());
+
+        if (nameCheck || functionsCheck || sourceCheck) {
+          searchFilterPassed = true;
         }
       } else if (it.attributes.name.toLowerCase().match(search.value.toLowerCase())) {
         searchFilterPassed = true;
+      }
+      if (it.attributes.vocabulary.length > 0) {
+        const vocabulary = it.attributes.vocabulary[0];
+        const tagsCheck = vocabulary.attributes.tags.find(tag => tag.toLowerCase().match(search.value.toLowerCase()));
+        if (tagsCheck) {
+          searchFilterPassed = true;
+        }
       }
     }
 
