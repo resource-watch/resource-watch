@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import compact from 'lodash/compact';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -74,7 +73,21 @@ class Pulse extends Page {
     };
     this.layerGlobeManager = new LayerGlobeManager();
 
+    // -------------------------- Bindings ----------------------------
     this.handleMouseHoldOverGlobe = debounce(this.handleMouseHoldOverGlobe.bind(this), 10);
+    this.triggerZoomIn = this.triggerZoomIn.bind(this);
+    this.triggerZoomOut = this.triggerZoomOut.bind(this);
+    this.handleMouseClick = this.handleMouseClick.bind(this);
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+    this.handleMarkerSelected = this.handleMarkerSelected.bind(this);
+    this.handleEarthClicked = this.handleEarthClicked.bind(this);
+    this.handleClickInEmptyRegion = this.handleClickInEmptyRegion.bind(this);
+    this.setTooltipValue = this.setTooltipValue.bind(this);
+    this.handleCesiumClick = this.handleCesiumClick.bind(this);
+    this.handleCesiumMouseDown = this.handleCesiumMouseDown.bind(this);
+    this.handleCesiumMoveStart = this.handleCesiumMoveStart.bind(this);
+    this.handleShapesCreated = this.handleShapesCreated.bind(this);
+    //------------------------------------------------------------------
   }
 
   /**
@@ -277,25 +290,20 @@ class Pulse extends Page {
   handleMouseHoldOverGlobe() {
     this.props.toggleTooltip(false);
   }
-  @Autobind
   triggerZoomIn() {
     this.setState({ zoom: this.state.zoom - 1000000 });
   }
-  @Autobind
   triggerZoomOut() {
     this.setState({ zoom: this.state.zoom + 1000000 });
   }
-  @Autobind
   handleMouseClick(event) {
     if (event.target.tagName !== 'CANVAS') {
       this.props.toggleTooltip(false);
     }
   }
-  @Autobind
   handleMouseDown() {
     this.props.toggleTooltip(false);
   }
-  @Autobind
   handleMarkerSelected(marker, event) {
     const tooltipContentObj = this.state.interactionConfig.output.map(elem =>
       ({ key: elem.property, value: marker[elem.column], type: elem.type }));
@@ -309,7 +317,6 @@ class Pulse extends Page {
       });
     }
   }
-  @Autobind
   handleEarthClicked(latLon, clientX, clientY) {
     const { pulse } = this.props;
     const { interactionConfig } = this.state;
@@ -322,7 +329,6 @@ class Pulse extends Page {
       logEvent('Planet Pulse', 'Click a datapoint', `${latLon.latitude},${latLon.longitude}`);
     }
   }
-  @Autobind
   handleClickInEmptyRegion() {
     this.props.toggleTooltip(false);
   }
@@ -331,7 +337,6 @@ class Pulse extends Page {
   * HELPER FUNCTIONS
   * - setTooltipValue
   */
-  @Autobind
   setTooltipValue(requestURL, tooltipX, tooltipY) {
     fetch(new Request(requestURL))
       .then((response) => {
@@ -356,7 +361,6 @@ class Pulse extends Page {
       });
   }
 
-  @Autobind
   handleCesiumClick(e) {
     const threedimensional = this.props.pulse.layerActive &&
       this.props.pulse.layerActive.threedimensional;
@@ -376,17 +380,14 @@ class Pulse extends Page {
     }
   }
 
-  @Autobind
   handleCesiumMouseDown() {
     this.props.toggleTooltip(false);
   }
 
-  @Autobind
   handleCesiumMoveStart() {
     this.props.toggleTooltip(false);
   }
 
-  @Autobind
   handleShapesCreated() {
     this.setState({ loading: false });
   }
