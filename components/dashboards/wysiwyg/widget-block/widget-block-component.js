@@ -126,7 +126,7 @@ export default function WidgetBlock({
 
         {(widgetError || layersError) &&
           <div className="message">
-            <div className="error">Unable to load the widget <span>{widgetError || layersError}</span></div>
+            <div className="error">Unable to load</div>
           </div>
         }
 
