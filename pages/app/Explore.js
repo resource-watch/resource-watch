@@ -3,7 +3,6 @@ import 'isomorphic-fetch';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Autobind } from 'es-decorators';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import MediaQuery from 'react-responsive';
@@ -132,8 +131,15 @@ class Explore extends Page {
       language: props.locale
     });
 
-    // BINDINGS
+    // ------------------------ BINDINGS -----------------------
     this.handleFilterDatasetsSearch = debounce(this.handleFilterDatasetsSearch.bind(this), 500);
+    this.handleRedirect = this.handleRedirect.bind(this);
+    this.onToggleLayerGroupVisibility = this.onToggleLayerGroupVisibility.bind(this);
+    this.onRemoveLayerGroup = this.onRemoveLayerGroup.bind(this);
+    this.onSetLayerGroupsOrder = this.onSetLayerGroupsOrder.bind(this);
+    this.onSetLayerGroupActiveLayer = this.onSetLayerGroupActiveLayer.bind(this);
+    this.handleTagSelected = this.handleTagSelected.bind(this);
+    // ----------------------------------------------------------
   }
 
   componentWillMount() {
@@ -338,7 +344,6 @@ class Explore extends Page {
     });
   }
 
-  @Autobind
   handleRedirect(item) {
     if (item && item.value) {
       this.props.redirectTo(`explore/${item.value}`);
@@ -360,7 +365,6 @@ class Explore extends Page {
    * of a layer group in the legend
    * @param {LayerGroup} layerGroup
    */
-  @Autobind
   onToggleLayerGroupVisibility(layerGroup) {
     this.props.toggleLayerGroupVisibility(layerGroup.dataset, !layerGroup.visible);
   }
@@ -370,7 +374,6 @@ class Explore extends Page {
    * group from the map
    * @param {LayerGroup} layerGroup
    */
-  @Autobind
   onRemoveLayerGroup(layerGroup) {
     this.props.removeLayerGroup(layerGroup.dataset);
   }
@@ -380,7 +383,6 @@ class Explore extends Page {
    * layer groups
    * @param {string[]} datasets - List of datasets IDs
    */
-  @Autobind
   onSetLayerGroupsOrder(datasets) {
     this.props.setLayerGroupsOrder(datasets);
   }
@@ -391,7 +393,6 @@ class Explore extends Page {
    * @param {string} dataset - Dataset ID
    * @param {string} layer - Layer ID
    */
-  @Autobind
   onSetLayerGroupActiveLayer(dataset, layer) {
     this.props.setLayerGroupActiveLayer(dataset, layer);
   }
@@ -423,7 +424,6 @@ class Explore extends Page {
     return filter && filter.value;
   }
 
-  @Autobind
   handleTagSelected(tag) {
     const { geographies, dataType, topics } = this.filters;
 
