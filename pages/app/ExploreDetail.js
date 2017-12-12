@@ -174,8 +174,11 @@ class ExploreDetail extends Page {
         }, () => defaultEditableWidget && this.loadDefaultWidgetIntoRedux(defaultEditableWidget));
 
         // Load inferred tags
-        const tags = response.attributes.vocabulary[0].attributes.tags;
-        this.loadInferredTags(tags);
+        const vocabulary = response.attributes.vocabulary;
+        const tags = vocabulary && vocabulary.length > 0 && vocabulary[0].attributes.tags;
+        if (tags) {
+          this.loadInferredTags(tags);
+        }
       }).catch((error) => {
         toastr.error('Error', 'Unable to load the dataset');
         console.error(error);
