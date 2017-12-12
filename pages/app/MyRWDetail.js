@@ -95,7 +95,7 @@ class MyRWDetail extends Page {
             toastr.error('Error', err);
           });
       } else {
-        this.service.getArea(id, `Bearer ${user.token}`).then((data) => {
+        this.service.getArea(id, user.token).then((data) => {
           this.setState({ data: data.data });
         })
           .catch((err) => {
@@ -204,6 +204,7 @@ MyRWDetail.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  user: state.user,
   // Store
   myrwdetail: state.myrwdetail,
   locale: state.common.locale
