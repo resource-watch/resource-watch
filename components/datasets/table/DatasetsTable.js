@@ -24,6 +24,7 @@ import StatusTD from './td/StatusTD';
 import RelatedContentTD from './td/RelatedContentTD';
 import UpdatedAtTD from './td/UpdatedAtTD';
 import OwnerTD from './td/OwnerTD';
+import CodeTD from './td/CodeTD';
 
 class DatasetsTable extends React.Component {
   constructor(props) {
@@ -86,6 +87,7 @@ class DatasetsTable extends React.Component {
           <CustomTable
             columns={[
               { label: 'Name', value: 'name', td: NameTD, tdProps: { route: routes.detail } },
+              { label: 'Code', value: 'metadata', td: CodeTD },
               { label: 'Status', value: 'status', td: StatusTD },
               { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Provider', value: 'provider' },
