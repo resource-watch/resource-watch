@@ -530,12 +530,13 @@ class ExploreDetail extends Page {
                       Share dataset
                     </button>
                     {showOpenInExploreButton &&
-                      <button
-                        className="c-button -primary -fullwidth"
-                        onClick={this.handleOpenInExplore}
-                      >
-                        Open in Explore
-                      </button>
+                      <Link route="explore" params={{ layers: [dataset.id] }}>
+                        <a
+                          className="c-button -primary -fullwidth"
+                        >
+                          Open in Explore
+                        </a>
+                      </Link>
                     }
                     {metadataInfo && metadataInfo.data_download_link &&
                       <a
