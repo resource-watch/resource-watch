@@ -343,7 +343,7 @@ class ExploreDetail extends Page {
 
   handleOpenInExplore() {
     const { dataset } = this.state;
-    this.props.toggleLayerGroup(dataset.id, true, false);
+    this.props.toggleLayerGroup(dataset.id, true);
   }
 
   handleTagSelected(tag, labels = ['TOPIC']) { // eslint-disable-line class-methods-use-this

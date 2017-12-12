@@ -385,7 +385,7 @@ export default function (state = initialState, action) {
 
 // Let's use {replace} instead of {push}, that's how we will allow users to
 // go away from the current page
-export function setUrlParams(replaceRoute = true) {
+export function setUrlParams() {
   return (dispatch, getState) => {
     const { explore } = getState();
     const layerGroups = explore.layers;
@@ -439,11 +439,7 @@ export function setUrlParams(replaceRoute = true) {
       query.sort = sorting.order;
     }
 
-    if (replaceRoute) {
-      Router.replaceRoute('explore', query);
-    } else {
-      Router.pushRoute('explore', query);
-    }
+    Router.replaceRoute('explore', query);
   };
 }
 
@@ -519,7 +515,7 @@ export function setDatasetsPage(page) {
  * @param {string} dataset - ID of the dataset
  * @param {boolean} addLayer - Whether to add the group or remove it
  */
-export function toggleLayerGroup(dataset, addLayer, replaceRoute = true) {
+export function toggleLayerGroup(dataset, addLayer) {
   return (dispatch) => {
     dispatch({
       type: SET_LAYERGROUP_TOGGLE,
@@ -527,7 +523,7 @@ export function toggleLayerGroup(dataset, addLayer, replaceRoute = true) {
     });
 
     // We also update the URL
-    if (typeof window !== 'undefined') dispatch(setUrlParams(replaceRoute));
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
   };
 }
 
