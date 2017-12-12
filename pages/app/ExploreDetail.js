@@ -99,7 +99,7 @@ class ExploreDetail extends Page {
     // UserService
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
-    //----------------------- Bindings ----------------------
+    // ----------------------- Bindings ----------------------
     this.handleOpenInExplore = this.handleOpenInExplore.bind(this);
     this.handleShare = this.handleShare.bind(this);
     this.handleSubscribe = this.handleSubscribe.bind(this);
@@ -530,10 +530,19 @@ class ExploreDetail extends Page {
                       Share dataset
                     </button>
                     {showOpenInExploreButton &&
-                      <Link route="explore" params={{ layers: [dataset.id] }}>
-                        <a
-                          className="c-button -primary -fullwidth"
-                        >
+                      <Link
+                        route="explore"
+                        params={{
+                          layers: encodeURIComponent(JSON.stringify([{
+                            dataset: dataset.id,
+                            visible: true,
+                            layers: dataset.attributes.layer.map(((l, i) => ({
+                              id: l.id, active: i === 0
+                            })))
+                          }]))
+                        }}
+                      >
+                        <a className="c-button -primary -fullwidth">
                           Open in Explore
                         </a>
                       </Link>
