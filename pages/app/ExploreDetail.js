@@ -165,7 +165,6 @@ class ExploreDetail extends Page {
       loading: true
     }, () => {
       this.datasetService.fetchData('layer,metadata,vocabulary,widget').then((response) => {
-        console.log('response', response);
         const defaultEditableWidget = response.attributes.widget.find(widget => widget.attributes.defaultEditableWidget === true);
 
         this.setState({
