@@ -1,7 +1,6 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import MediaQuery from 'react-responsive';
 import { toastr } from 'react-redux-toastr';
 import classnames from 'classnames';
@@ -9,7 +8,7 @@ import classnames from 'classnames';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { setTopicsTree } from 'redactions/explore';
+import { setTopicsTree, toggleLayerGroup } from 'redactions/explore';
 import { resetDataset } from 'redactions/exploreDetail';
 import { getDataset } from 'redactions/exploreDataset';
 import { toggleModal, setModalOptions } from 'redactions/modal';
@@ -99,6 +98,14 @@ class ExploreDetail extends Page {
     this.graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
     // UserService
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
+
+    // ----------------------- Bindings ----------------------
+    this.handleOpenInExplore = this.handleOpenInExplore.bind(this);
+    this.handleShare = this.handleShare.bind(this);
+    this.handleSubscribe = this.handleSubscribe.bind(this);
+    this.handleTagClick = this.handleTagClick.bind(this);
+    this.handleFavoriteButtonClick = this.handleFavoriteButtonClick.bind(this);
+    //--------------------------------------------------------
   }
 
   /**
@@ -286,8 +293,9 @@ class ExploreDetail extends Page {
    * UI EVENTS
    * - handleShare
    * - handleSubscribe
+   * - handleOpenInExplore
+   * - handleTagSelected
   */
-  @Autobind
   handleShare() {
     const { dataset } = this.state;
     const widgets = dataset && dataset.attributes.widget;
@@ -308,7 +316,6 @@ class ExploreDetail extends Page {
     this.props.toggleModal(true);
     this.props.setModalOptions(options);
   }
-  @Autobind
   handleSubscribe() {
     const { user } = this.props;
     let options = null;
@@ -337,6 +344,11 @@ class ExploreDetail extends Page {
     this.props.setModalOptions(options);
   }
 
+  handleOpenInExplore() {
+    const { dataset } = this.state;
+    this.props.toggleLayerGroup(dataset.id, true);
+  }
+
   handleTagSelected(tag, labels = ['TOPIC']) { // eslint-disable-line class-methods-use-this
     const tagSt = `["${tag}"]`;
     let treeSt = 'topics';
@@ -354,7 +366,6 @@ class ExploreDetail extends Page {
   // FIXME: refactor this, if a UI element's purpose is to
   // redirect the user, then use a link
   // A button is semantically different
-  @Autobind
   handleTagClick(event) {
     const element = event.target;
     this.handleTagSelected(element.getAttribute('id'), element.getAttribute('data-labels'));
@@ -389,7 +400,6 @@ class ExploreDetail extends Page {
     );
   }
 
-  @Autobind
   handleFavoriteButtonClick() {
     const { user } = this.props;
     const { favorite, dataset } = this.state;
@@ -431,6 +441,8 @@ class ExploreDetail extends Page {
     const metadataInfo = (metadataAttributes && metadataAttributes.info) || {};
     const { description } = metadataAttributes;
     const { functions, cautions } = metadataInfo;
+
+    const showOpenInExploreButton = dataset && dataset.attributes.layer && dataset.attributes.layer.length > 0;
 
     const formattedDescription = this.shortenAndFormat(description, 'showDescription');
     const formattedFunctions = this.shortenAndFormat(functions, 'showFunction');
@@ -520,6 +532,24 @@ class ExploreDetail extends Page {
                     >
                       Share dataset
                     </button>
+                    {showOpenInExploreButton &&
+                      <Link
+                        route="explore"
+                        params={{
+                          layers: encodeURIComponent(JSON.stringify([{
+                            dataset: dataset.id,
+                            visible: true,
+                            layers: dataset.attributes.layer.map(((l, i) => ({
+                              id: l.id, active: i === 0
+                            })))
+                          }]))
+                        }}
+                      >
+                        <a className="c-button -primary -fullwidth">
+                          Open in Explore
+                        </a>
+                      </Link>
+                    }
                     {metadataInfo && metadataInfo.data_download_link &&
                       <a
                         className="c-button -primary -fullwidth"
@@ -819,7 +849,8 @@ ExploreDetail.propTypes = {
   setBand: PropTypes.func.isRequired,
   setLayer: PropTypes.func.isRequired,
   setTitle: PropTypes.func.isRequired,
-  setTopicsTree: PropTypes.func.isRequired
+  setTopicsTree: PropTypes.func.isRequired,
+  toggleLayerGroup: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -859,7 +890,8 @@ const mapDispatchToProps = dispatch => ({
       });
   },
   setTitle: title => dispatch(setTitle(title)),
-  setTopicsTree: tree => dispatch(setTopicsTree(tree))
+  setTopicsTree: tree => dispatch(setTopicsTree(tree)),
+  toggleLayerGroup: (datasetID, addLayer) => dispatch(toggleLayerGroup(datasetID, addLayer))
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);
