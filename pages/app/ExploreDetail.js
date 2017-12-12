@@ -1,7 +1,6 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import MediaQuery from 'react-responsive';
 import { toastr } from 'react-redux-toastr';
 import classnames from 'classnames';
@@ -99,6 +98,14 @@ class ExploreDetail extends Page {
     this.graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
     // UserService
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
+
+    //----------------------- Bindings ----------------------
+    this.handleOpenInExplore = this.handleOpenInExplore.bind(this);
+    this.handleShare = this.handleShare.bind(this);
+    this.handleSubscribe = this.handleSubscribe.bind(this);
+    this.handleTagClick = this.handleTagClick.bind(this);
+    this.handleFavoriteButtonClick = this.handleFavoriteButtonClick.bind(this);
+    //--------------------------------------------------------
   }
 
   /**
@@ -286,7 +293,6 @@ class ExploreDetail extends Page {
    * - handleOpenInExplore
    * - handleTagSelected
   */
-  @Autobind
   handleShare() {
     const { dataset } = this.state;
     const widgets = dataset && dataset.attributes.widget;
@@ -307,7 +313,6 @@ class ExploreDetail extends Page {
     this.props.toggleModal(true);
     this.props.setModalOptions(options);
   }
-  @Autobind
   handleSubscribe() {
     const { user } = this.props;
     let options = null;
@@ -335,7 +340,7 @@ class ExploreDetail extends Page {
     this.props.toggleModal(true);
     this.props.setModalOptions(options);
   }
-  @Autobind
+
   handleOpenInExplore() {
     const { dataset } = this.state;
     this.props.toggleLayerGroup(dataset.id, true, false);
@@ -358,7 +363,6 @@ class ExploreDetail extends Page {
   // FIXME: refactor this, if a UI element's purpose is to
   // redirect the user, then use a link
   // A button is semantically different
-  @Autobind
   handleTagClick(event) {
     const element = event.target;
     this.handleTagSelected(element.getAttribute('id'), element.getAttribute('data-labels'));
@@ -393,7 +397,6 @@ class ExploreDetail extends Page {
     );
   }
 
-  @Autobind
   handleFavoriteButtonClick() {
     const { user } = this.props;
     const { favorite, dataset } = this.state;
