@@ -283,6 +283,8 @@ class ExploreDetail extends Page {
    * UI EVENTS
    * - handleShare
    * - handleSubscribe
+   * - handleOpenInExplore
+   * - handleTagSelected
   */
   @Autobind
   handleShare() {
@@ -429,6 +431,9 @@ class ExploreDetail extends Page {
     const { description } = metadataAttributes;
     const { functions, cautions } = metadataInfo;
 
+    const showOpenInExploreButton = dataset && dataset.attributes.layer && dataset.attributes.layer.length > 0;
+    console.log('showOpenInExploreButton', showOpenInExploreButton);
+
     const formattedDescription = this.shortenAndFormat(description, 'showDescription');
     const formattedFunctions = this.shortenAndFormat(functions, 'showFunction');
     const formattedCautions = this.shortenAndFormat(cautions, 'showCautions');
@@ -517,6 +522,14 @@ class ExploreDetail extends Page {
                     >
                       Share dataset
                     </button>
+                    {showOpenInExploreButton &&
+                      <button
+                        className="c-button -primary -fullwidth"
+                        onClick={this.handleOpenInExplore}
+                      >
+                        Open in Explore
+                      </button>
+                    }
                     {metadataInfo && metadataInfo.data_download_link &&
                       <a
                         className="c-button -primary -fullwidth"
