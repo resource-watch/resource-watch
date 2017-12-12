@@ -9,7 +9,7 @@ import classnames from 'classnames';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { setTopicsTree } from 'redactions/explore';
+import { setTopicsTree, toggleLayerGroup } from 'redactions/explore';
 import { resetDataset } from 'redactions/exploreDetail';
 import { getDataset } from 'redactions/exploreDataset';
 import { toggleModal, setModalOptions } from 'redactions/modal';
@@ -335,6 +335,11 @@ class ExploreDetail extends Page {
     this.props.toggleModal(true);
     this.props.setModalOptions(options);
   }
+  @Autobind
+  handleOpenInExplore() {
+    const { dataset } = this.state;
+    this.props.toggleLayerGroup(dataset.id, true, false);
+  }
 
   handleTagSelected(tag, labels = ['TOPIC']) { // eslint-disable-line class-methods-use-this
     const tagSt = `["${tag}"]`;
@@ -432,7 +437,6 @@ class ExploreDetail extends Page {
     const { functions, cautions } = metadataInfo;
 
     const showOpenInExploreButton = dataset && dataset.attributes.layer && dataset.attributes.layer.length > 0;
-    console.log('showOpenInExploreButton', showOpenInExploreButton);
 
     const formattedDescription = this.shortenAndFormat(description, 'showDescription');
     const formattedFunctions = this.shortenAndFormat(functions, 'showFunction');
@@ -829,7 +833,8 @@ ExploreDetail.propTypes = {
   setBand: PropTypes.func.isRequired,
   setLayer: PropTypes.func.isRequired,
   setTitle: PropTypes.func.isRequired,
-  setTopicsTree: PropTypes.func.isRequired
+  setTopicsTree: PropTypes.func.isRequired,
+  toggleLayerGroup: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -869,7 +874,8 @@ const mapDispatchToProps = dispatch => ({
       });
   },
   setTitle: title => dispatch(setTitle(title)),
-  setTopicsTree: tree => dispatch(setTopicsTree(tree))
+  setTopicsTree: tree => dispatch(setTopicsTree(tree)),
+  toggleLayerGroup: (datasetID, addLayer) => dispatch(toggleLayerGroup(datasetID, addLayer))
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);
