@@ -556,6 +556,7 @@ class Explore extends Page {
                         value: search && search.value,
                         placeholder: 'Search dataset'
                       }}
+                      escapeText={false}
                     />
                     <button
                       className={showFiltersClassName}
