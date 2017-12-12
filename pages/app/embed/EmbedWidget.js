@@ -187,6 +187,7 @@ class EmbedWidget extends Page {
           </div>
           { this.isLoadedExternally() && (
             <div className="widget-footer">
+              Powered by
               <a href="/" target="_blank" rel="noopener noreferrer">
                 <img
                   className="embed-logo"

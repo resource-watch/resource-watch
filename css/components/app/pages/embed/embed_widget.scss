@@ -137,12 +137,15 @@
   }
 
   .widget-footer {
+    display: flex;
+    align-items: center;
     flex-shrink: 0;
     padding: 0 $margin-size-extra-small $margin-size-extra-small;
 
     .embed-logo {
       display: block;
       height: 21px;
+      margin-left: 10px;
     }
   }
 
