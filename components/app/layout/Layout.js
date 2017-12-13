@@ -87,7 +87,7 @@ class Layout extends React.Component {
   }
 
   render() {
-    const { title, description, url, user, pageHeader, modal, className, category } = this.props;
+    const { title, description, url, pageHeader, modal, className, category } = this.props;
     const fullScreen = url.pathname && fullScreenPages.indexOf(url.pathname) !== -1;
 
     return (
@@ -103,7 +103,6 @@ class Layout extends React.Component {
         <Progress.Component />
 
         <Header
-          user={user}
           pageHeader={pageHeader}
         />
 
@@ -141,10 +140,8 @@ Layout.propTypes = {
   children: PropTypes.node.isRequired,
   title: PropTypes.string,
   description: PropTypes.string,
-  user: PropTypes.object,
   url: PropTypes.object,
   pageHeader: PropTypes.bool,
-  isLoading: PropTypes.bool,
   className: PropTypes.string,
   // Store
   modal: PropTypes.object,

@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
 import { Link } from 'routes';
 import { toastr } from 'react-redux-toastr';
+
+// Connect
+import { connect } from 'react-redux';
 
 // Utils
 import { get } from 'utils/request';
@@ -45,7 +47,7 @@ class HeaderUser extends React.Component {
   render() {
     const { user } = this.props;
 
-    if (!isEmpty(user)) {
+    if (user.token) {
       const photo = (user.photo) ? `url(${user.photo})` : 'none';
 
       return (
@@ -100,7 +102,7 @@ class HeaderUser extends React.Component {
       );
     }
 
-    if (isEmpty(user)) {
+    if (!user.token) {
       return (
         <TetherComponent
           attachment="top center"
@@ -160,4 +162,8 @@ HeaderUser.propTypes = {
 };
 
 
-export default HeaderUser;
+export default connect(
+  state => ({
+    user: state.user
+  })
+)(HeaderUser);

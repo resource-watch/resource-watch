@@ -66,7 +66,7 @@ class Splash extends Page {
   }
 
   componentDidMount() {
-    super.componentDidMount();
+    
 
     // Init Cesium var
     Cesium = window.Cesium;
