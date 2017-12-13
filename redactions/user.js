@@ -47,6 +47,9 @@ export function setFavourites() {
     return service.setFavourites(user.token)
       .then((response) => {
         dispatch({ type: SET_USER_FAVOURITES, payload: response });
+      })
+      .catch(() => {
+        dispatch({ type: SET_USER_FAVOURITES, payload: [] });
       });
   };
 }

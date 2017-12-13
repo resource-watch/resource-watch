@@ -31,7 +31,10 @@ class SearchInput extends React.Component {
     this.setState({
       value: e.currentTarget.value || ''
     }, () => {
-      if (this.props.onSearch) this.props.onSearch(escapeRegExp(this.state.value));
+      if (this.props.onSearch) {
+        this.props.escapeText ? this.props.onSearch(escapeRegExp(this.state.value)) :
+          this.props.onSearch(this.state.value);
+      }
     });
   }
 
@@ -64,12 +67,14 @@ class SearchInput extends React.Component {
 SearchInput.propTypes = {
   input: PropTypes.object.isRequired,
   link: PropTypes.object.isRequired,
-  onSearch: PropTypes.func.isRequired
+  onSearch: PropTypes.func.isRequired,
+  escapeText: PropTypes.func.isRequired
 };
 
 SearchInput.defaultProps = {
   input: {},
-  link: {}
+  link: {},
+  escapeText: true
 };
 
 export default SearchInput;
