@@ -101,7 +101,7 @@ class Pulse extends Page {
     Cesium = window.Cesium;
     Cesium.BingMapsApi.defaultKey = process.env.BING_MAPS_API_KEY;
 
-    super.componentDidMount();
+    
     this.mounted = true;
     // This is not sending anything, for the moment
     this.props.getLayers();

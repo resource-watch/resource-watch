@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import { toggleTooltip } from 'redactions/tooltip';
-import { setUser } from 'redactions/user';
 import { updateIsLoading } from 'redactions/page';
 
 // Components
@@ -31,8 +30,6 @@ class Layout extends React.Component {
   }
 
   componentDidMount() {
-    this.props.setUser(this.props.user);
-
     Router.onRouteChangeStart = () => {
       if (Progress && Progress.Component.instance) Progress.show();
       this.props.toggleTooltip(false);
@@ -51,7 +48,7 @@ class Layout extends React.Component {
   }
 
   render() {
-    const { title, description, url, user, modal } = this.props;
+    const { title, description, url, modal } = this.props;
     return (
       <div className="l-page">
         <Head
@@ -63,7 +60,7 @@ class Layout extends React.Component {
 
         <Progress.Component />
 
-        <Header url={url} user={user} />
+        <Header url={url} />
 
         <div className="container">
           { this.props.children }
@@ -92,14 +89,10 @@ class Layout extends React.Component {
 }
 
 Layout.propTypes = {
-  user: PropTypes.object.isRequired,
   url: PropTypes.object.isRequired,
   children: PropTypes.any.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-
-  // Store
-  setUser: PropTypes.func.isRequired,
 
   modal: PropTypes.object,
   toggleModal: PropTypes.func,
@@ -117,9 +110,6 @@ const mapDispatchToProps = dispatch => ({
   toggleTooltip: () => dispatch(toggleTooltip()),
   toggleModal: open => dispatch(toggleModal(open, {}, true)),
   setModalOptions: options => dispatch(setModalOptions(options)),
-  setUser: (user) => {
-    dispatch(setUser(user));
-  },
   updateIsLoading: bindActionCreators(isLoading => updateIsLoading(isLoading), dispatch)
 });
 

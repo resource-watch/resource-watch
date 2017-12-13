@@ -120,7 +120,7 @@ class SplashDetail extends Page {
   }
 
   componentDidMount() {
-    super.componentDidMount();
+    
 
     const { selectedPanorama } = this.state;
 
