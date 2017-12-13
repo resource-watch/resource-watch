@@ -69,3 +69,12 @@ $margin-size-extra-small: 15px;
 $margin-size-small: 30px;
 $margin-size: 50px;
 $margin-size-big: 100px;
+
+
+// Header
+$header-main-height: 75px;
+$header-secondary-height: rem(0);
+$header-bg-color: $color-primary;
+$header-bg-image: url("/static/images/components/layout/header-bg-texture.png");
+$header-gradient-color-1: rgba(#c32d7b, 0.8);
+$header-gradient-color-2: rgba(#c90e39, 0.7);

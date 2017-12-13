@@ -13,7 +13,7 @@ import { Link } from 'routes';
 import HeaderDropdownData from 'components/app/layout/header/HeaderDropdownData';
 import HeaderDropdownAbout from 'components/app/layout/header/HeaderDropdownAbout';
 import HeaderUser from 'components/app/layout/header/HeaderUser';
-import ToggleSearch from 'components/form/ToggleSearch';
+import HeaderSearch from 'components/app/layout/header/HeaderSearch';
 
 class Header extends React.Component {
   constructor(props) {
@@ -82,7 +82,7 @@ class Header extends React.Component {
       {
         name: 'Search',
         pathnames: [],
-        component: <ToggleSearch />
+        component: <HeaderSearch />
       },
       {
         name: 'Personal Area',
