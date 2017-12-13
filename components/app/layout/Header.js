@@ -6,6 +6,9 @@ import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import MediaQuery from 'react-responsive';
 
+// Connect
+import { connect } from 'react-redux';
+
 // Next
 import { Link } from 'routes';
 
@@ -87,7 +90,6 @@ class Header extends React.Component {
       {
         name: 'Personal Area',
         component: <HeaderUser
-          user={this.props.user}
           active={this.state.myrwActive}
           onMouseEnter={() => this.toggleDropdown('myrwActive', true)}
           onMouseLeave={() => this.toggleDropdown('myrwActive', false)}
@@ -115,6 +117,7 @@ class Header extends React.Component {
                     </a>
                   </Link>
                 </div>
+
                 <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
                   <nav className="header-menu">
                     <ul>
@@ -153,4 +156,8 @@ Header.propTypes = {
   pageHeader: PropTypes.bool
 };
 
-export default Header;
+export default connect(
+  state => ({
+    user: state.user
+  })
+)(Header);

@@ -64,7 +64,6 @@ export default class Header extends React.Component {
       {
         name: 'My RW',
         component: <HeaderUser
-          user={this.props.user}
           active={this.state.myrwActive}
           onMouseEnter={() => this.toggleDropdown('myrwActive', true)}
           onMouseLeave={() => this.toggleDropdown('myrwActive', false)}
@@ -120,6 +119,5 @@ Header.defaultProps = {
 
 
 Header.propTypes = {
-  url: PropTypes.object,
-  user: PropTypes.object
+  url: PropTypes.object
 };

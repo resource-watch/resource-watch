@@ -13,7 +13,11 @@ export default function Search({ search, setOpened, getInputRef }) {
   return (
     <div className={`c-search ${classNames}`}>
       <div className="search-container">
-        <form className="search-form" noValidate>
+        <form
+          className="search-form"
+          onSubmit={(e) => { e.preventDefault(); }}
+          noValidate
+        >
           <Icon name="icon-search" className="search-icon -medium" />
 
           <input
