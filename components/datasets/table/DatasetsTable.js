@@ -23,8 +23,6 @@ import PublishedTD from './td/PublishedTD';
 import StatusTD from './td/StatusTD';
 import RelatedContentTD from './td/RelatedContentTD';
 import UpdatedAtTD from './td/UpdatedAtTD';
-import OwnerTD from './td/OwnerTD';
-import CodeTD from './td/CodeTD';
 
 class DatasetsTable extends React.Component {
   constructor(props) {
@@ -56,7 +54,18 @@ class DatasetsTable extends React.Component {
   }
 
   getDatasets() {
-    return this.props.datasets;
+    return this.props.datasets.map((d) => {
+      const user = d.user || {};
+
+      const metadata = d.metadata.length && d.metadata.length > 0 && d.metadata[0];
+      const metadataInfo = (metadata && metadata.attributes) && (metadata.attributes.info || {});
+
+      return {
+        ...d,
+        owner: user.email || '',
+        code: metadataInfo.rwId || ''
+      };
+    });
   }
 
   render() {
@@ -87,12 +96,12 @@ class DatasetsTable extends React.Component {
           <CustomTable
             columns={[
               { label: 'Name', value: 'name', td: NameTD, tdProps: { route: routes.detail } },
-              { label: 'Code', value: 'metadata', td: CodeTD },
+              { label: 'Code', value: 'code' },
               { label: 'Status', value: 'status', td: StatusTD },
               { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Provider', value: 'provider' },
               { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
-              { label: 'Owner', value: 'user', td: OwnerTD },
+              { label: 'Owner', value: 'owner' },
               { label: 'Related content', value: 'status', td: RelatedContentTD, tdProps: { route: routes.detail } }
             ]}
             actions={{
