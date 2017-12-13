@@ -2,6 +2,14 @@
   box-sizing: border-box;
 }
 
+html, body {
+  &.-no-scroll {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
 html {
   box-sizing: border-box;
   font-size: $global-font-size;

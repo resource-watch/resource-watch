@@ -9,6 +9,7 @@ import { get } from 'utils/request';
 
 // Components
 import TetherComponent from 'react-tether';
+import Icon from 'components/ui/Icon';
 
 class HeaderUser extends React.Component {
   /**
@@ -117,8 +118,9 @@ class HeaderUser extends React.Component {
             onMouseEnter={this.props.onMouseEnter}
             onMouseLeave={this.props.onMouseLeave}
           >
-            Log in
+            <Icon name="icon-user" className="-medium" />
           </span>
+
           {/* Second child: If present, this item will be tethered to the the first child */}
           {this.props.active &&
             <ul
