@@ -117,11 +117,20 @@ class DatasetsForm extends React.Component {
             omit: (dataset) ? ['connectorUrlHint', 'authorization', 'connectorType', 'provider'] : ['connectorUrlHint', 'authorization']
           };
 
+          const bodyObj = omit(this.state.form, requestOptions.omit);
+          const newSubscribable = {};
+          bodyObj.subscribable.forEach( elem => newSubscribable[elem.type] = elem.value);
+          bodyObj.subscribable = newSubscribable;
+
+          if (Object.keys(bodyObj.subscribable).length === 0) {
+            delete bodyObj.subscribable;
+          }
+
           // Save the data
           this.service.saveData({
             type: requestOptions.type,
             id: dataset,
-            body: omit(this.state.form, requestOptions.omit)
+            body: bodyObj
           })
             .then((data) => {
               toastr.success('Success', `The dataset "${data.id}" - "${data.name}" has been uploaded correctly`);
