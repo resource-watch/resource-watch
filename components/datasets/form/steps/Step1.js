@@ -87,6 +87,11 @@ class Step1 extends React.Component {
     this.props.onChange({ subscribable: subscribable.splice(index, 1) });
   }
 
+  handleAddSubscription() {
+    const { subscribable } = this.props.form;
+    this.props.onChange({ subscribable: subscribable.push({ type: '', value: '' }) });
+  }
+
   /**
    * HELPERS
    * - setProviderOptions
@@ -484,60 +489,76 @@ class Step1 extends React.Component {
             </Field>
           }
           {subscribableSelected &&
-            this.props.form.subscribable.map((elem, i) =>
-              (
-                <div
-                  className="c-field-row"
-                  key={`subscribable${i}`}
-                >
-                  <div className="l-row row">
-                    <div className="column small-3">
-                      <Field
-                        ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribableType = c; }}
-                        onChange={value => this.onSubscribableChange({ type: value, index: i })}
-                        validations={['required']}
-                        className="-fluid"
-                        properties={{
-                          name: 'subscribableType',
-                          label: 'Type',
-                          type: 'text',
-                          default: elem.key,
-                          required: true
-                        }}
-                      >
-                        {Input}
-                      </Field>
+            <div>
+              {
+                this.props.form.subscribable.map((elem, i) =>
+                  (
+                    <div
+                      className="c-field-row"
+                      key={`subscribable${i}`}
+                    >
+                      <div className="l-row row subscribable-row">
+                        <div className="column small-3">
+                          <Field
+                            ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribableType = c; }}
+                            onChange={value => this.onSubscribableChange({ type: value, index: i })}
+                            validations={['required']}
+                            className="-fluid"
+                            properties={{
+                              name: 'subscribableType',
+                              label: 'Type',
+                              type: 'text',
+                              default: elem.key,
+                              required: true
+                            }}
+                          >
+                            {Input}
+                          </Field>
+                        </div>
+                        <div className="column small-7">
+                          <Field
+                            ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribableText = c; }}
+                            onChange={value => this.onSubscribableChange({ value, index: i })}
+                            validations={['required']}
+                            className="-fluid"
+                            properties={{
+                              name: 'subscribableText',
+                              label: 'Query',
+                              type: 'text',
+                              default: elem.value,
+                              required: true
+                            }}
+                          >
+                            {Input}
+                          </Field>
+                        </div>
+                        <div className="column">
+                          <button
+                            type="button"
+                            className="c-button -secondary"
+                            onClick={() => this.handleRemoveSubscription(i)}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    <div className="column small-7">
-                      <Field
-                        ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribableText = c; }}
-                        onChange={value => this.onSubscribableChange({ value, index: i })}
-                        validations={['required']}
-                        className="-fluid"
-                        properties={{
-                          name: 'subscribableText',
-                          label: 'Query',
-                          type: 'text',
-                          default: elem.value,
-                          required: true
-                        }}
-                      >
-                        {Input}
-                      </Field>
-                    </div>
-                    <div className="column">
-                      <button
-                        type="button"
-                        className="c-button -a"
-                        onClick={() => this.handleRemoveSubscription(i)}
-                      >
-                        Remove
-                      </button>
-                    </div>
+                  ))
+              }
+              <div className="c-field-row">
+                <div className="l-row row">
+                  <div className="column small-12">
+                    <button
+                      type="button"
+                      className="c-button -secondary -fullwidth"
+                      onClick={this.handleAddSubscription}
+                    >
+                      Add
+                    </button>
                   </div>
                 </div>
-              )
-            )
+              </div>
+            </div>
           }
 
           {/*
