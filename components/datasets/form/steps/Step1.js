@@ -27,7 +27,10 @@ class Step1 extends React.Component {
       dataset: props.dataset,
       form: props.form,
       carto: {},
-      document: {}
+      document: {},
+      subscribableSelected: false,
+      subscribableType: null,
+      subscribableText: null
     };
 
     // BINDINGS
@@ -60,22 +63,35 @@ class Step1 extends React.Component {
 
   onSubscribableChange(obj) {
     const {subscribable} = this.props.form;
-    const newSubscribable = {};
     if (obj.type) {
-      newSubscribable[obj.type] = subscribable[Object.keys(subscribable)[0]];
+      this.setState({ subscribableType: obj.type });
+      const newSubscribable = {};
+      newSubscribable[obj.type] = this.state.subscribableType;
+      this.props.onChange({ subscribable: newSubscribable });
     } else if(obj.text) {
-      newSubscribable[Object.keys(subscribable)[0]] = obj.text;
+      this.setState({ subscribableText: obj.text });
+      const newSubscribable = {};
+      if (Object.keys(subscribable)) {
+        debugger;
+        newSubscribable[Object.keys(subscribable)[0]] = this.state.subscribableText;
+      }
+      this.props.onChange({ subscribable: newSubscribable });
     }
-    this.props.onChange({ subscribable: newSubscribable });
+
   }
 
   onSubscribableCheckboxChange(checked) {
+
+    let subscribable = null;
+    if (!checked) {
+      this.props.onChange({ subscribable: null });
+    } else {
+      subscribable = { };
+    }
     this.setState({
-      subscribableSelected: checked
+      subscribableSelected: checked,
+      subscribable
     });
-    // if (!checked) {
-    //   this.props.onChange({ subscribable: null });
-    // }
   }
 
   /**
@@ -468,7 +484,7 @@ class Step1 extends React.Component {
               properties={{
                 name: 'subscribable',
                 title: 'Subscribable',
-                checked: this.props.form.subscribable
+                checked: Object.keys(this.props.form.subscribable).length > 0
               }}
             >
               {Checkbox}
