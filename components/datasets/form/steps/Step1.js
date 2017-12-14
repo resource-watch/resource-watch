@@ -46,7 +46,9 @@ class Step1 extends React.Component {
     * - onCartoFieldsChange
     * - onLegendChange
     * - onSubscribableChange
+    * - onSubscribableCheckboxChange
     * - handleRemoveSubscription
+    * - handleAddSubscription
   */
   onCartoFieldsChange() {
     const { cartoAccountUsername, tableName } = this.state.carto;
