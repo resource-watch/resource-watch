@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import compact from 'lodash/compact';
+import classnames from 'classnames';
 
 // Redux
 import { connect } from 'react-redux';
@@ -146,6 +147,10 @@ class Step1 extends React.Component {
     const isDocument = (isJson || isXml || isCsv || isTsv);
 
     const columnFieldsOptions = (columnFields || []).map(f => ({ label: f, value: f }));
+
+    const addSubscribableButtonClassname = classnames({
+
+    });
 
     return (
       <div>
@@ -542,6 +547,7 @@ class Step1 extends React.Component {
                             type="button"
                             className="c-button -secondary"
                             onClick={() => this.handleRemoveSubscription(elem.id)}
+                            disabled={this.state.form.subscribable.length === 1}
                           >
                             Remove
                           </button>
