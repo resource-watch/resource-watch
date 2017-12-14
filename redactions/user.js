@@ -45,8 +45,8 @@ export function setFavourites() {
     const { user } = getState();
 
     return service.setFavourites(user.token)
-      .then((response) => {
-        dispatch({ type: SET_USER_FAVOURITES, payload: response });
+      .then(({ data }) => {
+        dispatch({ type: SET_USER_FAVOURITES, payload: data });
       })
       .catch(() => {
         dispatch({ type: SET_USER_FAVOURITES, payload: [] });
@@ -59,7 +59,7 @@ export function setUser(user) {
   return (dispatch) => {
     if (!user) {
       // If the user isn't logged in, we set the user variable as an empty object
-      return dispatch({ type: SET_USER, payload: {} });
+      return;
     }
 
     const userObj = { ...user };

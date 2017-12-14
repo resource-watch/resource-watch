@@ -74,7 +74,8 @@ export default class UserService {
       headers: {
         Authorization: token
       }
-    });
+    })
+      .then(response => response.json());
   }
 
   /**
@@ -133,7 +134,10 @@ export default class UserService {
         Authorization: token
       }
     })
-      .then(response => response.json());
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      });
   }
 
   /**

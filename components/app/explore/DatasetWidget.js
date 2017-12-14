@@ -204,7 +204,6 @@ class DatasetWidget extends React.Component {
     } else {
       this.userService.deleteFavourite(favorite.id, user.token)
         .then((response) => {
-          this.props.onFavoriteRemoved(favorite);
           this.props.removeFavoriteDataset(response.data);
           this.setState({ loading: false });
         })
@@ -359,7 +358,6 @@ DatasetWidget.propTypes = {
 
   // Callbacks
   onTagSelected: PropTypes.func,
-  onFavoriteRemoved: PropTypes.func,
 
   // STORE
   // Return whether a layer group is already added to the map

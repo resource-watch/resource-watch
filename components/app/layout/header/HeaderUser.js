@@ -28,14 +28,7 @@ class HeaderUser extends React.Component {
       url: `${process.env.CONTROL_TOWER_URL}/auth/logout`,
       withCredentials: true,
       onSuccess: () => {
-        try {
-          localStorage.removeItem('user');
-        } catch (err) {
-        } finally {
-          // We don't use the router here because the route only
-          // exist on the server
-          window.location.href = `/logout?callbackUrl=${window.location.href}`;
-        }
+        window.location.href = `/logout?callbackUrl=${window.location.href}`;
       },
       onError: (err) => {
         toastr.error('Error', err);

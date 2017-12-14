@@ -100,7 +100,7 @@
     "react-vega": "2.3.1",
     "redis": "2.8.0",
     "redux": "3.6.0",
-    "redux-actions": "vectorsize/redux-actions",
+    "redux-actions": "vectorsize/redux-tools",
     "redux-devtools-extension": "2.13.2",
     "redux-thunk": "2.1.0",
     "reselect": "3.0.1",
