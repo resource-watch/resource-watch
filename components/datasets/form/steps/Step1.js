@@ -33,6 +33,7 @@ class Step1 extends React.Component {
 
     // BINDINGS
     this.onCartoFieldsChange = this.onCartoFieldsChange.bind(this);
+    this.handleAddSubscription = this.handleAddSubscription.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -62,11 +63,11 @@ class Step1 extends React.Component {
 
   onSubscribableChange(obj) {
     const { subscribable } = this.props.form;
-    const newSubscribable = subscribable.slice();
+    const newSubscribable = subscribable.slice(0);
     if (obj.type) {
-      newSubscribable[obj.index].type = obj.type;
+      newSubscribable[obj.id].type = obj.type;
     } else if(obj.value) {
-      newSubscribable[obj.index].value = obj.value;
+      newSubscribable[obj.id].value = obj.value;
     }
     this.props.onChange({ subscribable: newSubscribable });
   }
@@ -76,7 +77,7 @@ class Step1 extends React.Component {
       subscribableSelected: checked,
     });
     if (checked) {
-      this.props.onChange({ subscribable: [{ type: '', value:'' }] });
+      this.props.onChange({ subscribable: [{ type: '', value:'', id: 0 }] });
     } else {
       this.props.onChange({ subscribable: [] });
     }
@@ -84,12 +85,16 @@ class Step1 extends React.Component {
 
   handleRemoveSubscription(index) {
     const { subscribable } = this.props.form;
-    this.props.onChange({ subscribable: subscribable.splice(index, 1) });
+    const newSubscribable = subscribable.slice(0);
+    newSubscribable.splice(index, 1)
+    this.props.onChange({ subscribable: newSubscribable });
   }
 
   handleAddSubscription() {
     const { subscribable } = this.props.form;
-    this.props.onChange({ subscribable: subscribable.push({ type: '', value: '' }) });
+    const newSubscribable = subscribable.slice(0);
+    newSubscribable.push({ type: '', value: '', id: subscribable.length + 1 })
+    this.props.onChange({ subscribable: newSubscribable });
   }
 
   /**
@@ -141,6 +146,8 @@ class Step1 extends React.Component {
     const isDocument = (isJson || isXml || isCsv || isTsv);
 
     const columnFieldsOptions = (columnFields || []).map(f => ({ label: f, value: f }));
+
+    console.log('state form', this.state.form);
 
     return (
       <div>
@@ -482,7 +489,7 @@ class Step1 extends React.Component {
               properties={{
                 name: 'subscribable',
                 title: 'Subscribable',
-                checked: Object.keys(this.props.form.subscribable).length > 0
+                checked: Object.keys(this.state.form.subscribable).length > 0
               }}
             >
               {Checkbox}
@@ -491,17 +498,17 @@ class Step1 extends React.Component {
           {subscribableSelected &&
             <div>
               {
-                this.props.form.subscribable.map((elem, i) =>
-                  (
+                this.state.form.subscribable.map((elem) => {
+                  return (
                     <div
                       className="c-field-row"
-                      key={`subscribable${i}`}
+                      key={elem.id}
                     >
                       <div className="l-row row subscribable-row">
                         <div className="column small-3">
                           <Field
                             ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribableType = c; }}
-                            onChange={value => this.onSubscribableChange({ type: value, index: i })}
+                            onChange={value => this.onSubscribableChange({ type: value, id: elem.id })}
                             validations={['required']}
                             className="-fluid"
                             properties={{
@@ -518,7 +525,7 @@ class Step1 extends React.Component {
                         <div className="column small-7">
                           <Field
                             ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribableText = c; }}
-                            onChange={value => this.onSubscribableChange({ value, index: i })}
+                            onChange={value => this.onSubscribableChange({ value, id: elem.id })}
                             validations={['required']}
                             className="-fluid"
                             properties={{
@@ -532,22 +539,22 @@ class Step1 extends React.Component {
                             {Input}
                           </Field>
                         </div>
-                        <div className="column">
+                        <div className="column small-2">
                           <button
                             type="button"
                             className="c-button -secondary"
-                            onClick={() => this.handleRemoveSubscription(i)}
+                            onClick={() => this.handleRemoveSubscription(elem.id)}
                           >
                             Remove
                           </button>
                         </div>
                       </div>
                     </div>
-                  ))
+                  ); })
               }
               <div className="c-field-row">
                 <div className="l-row row">
-                  <div className="column small-12">
+                  <div className="column small-12 add-subscribable-container">
                     <button
                       type="button"
                       className="c-button -secondary -fullwidth"
