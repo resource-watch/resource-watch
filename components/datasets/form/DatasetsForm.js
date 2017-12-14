@@ -155,7 +155,6 @@ class DatasetsForm extends React.Component {
   }
 
   onChange(obj) {
-    console.log('onChange', obj);
     const form = Object.assign({}, this.state.form, obj);
     this.setState({ form });
   }
@@ -173,7 +172,7 @@ class DatasetsForm extends React.Component {
       if (params[f] || this.state.form[f]) {
         if (f === 'subscribable') {
           const subscribable = params[f] || this.state.form[f];
-          newForm.subscribable = Object.keys(subscribable).map(prop => ({ key: prop, value: subscribable[prop]}));
+          newForm.subscribable = Object.keys(subscribable).map((prop, i) => ({ key: prop, value: subscribable[prop], id: i }));
         } else {
           newForm[f] = params[f] || this.state.form[f];
         }

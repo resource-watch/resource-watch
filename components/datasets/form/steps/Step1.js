@@ -93,7 +93,7 @@ class Step1 extends React.Component {
   handleAddSubscription() {
     const { subscribable } = this.props.form;
     const newSubscribable = subscribable.slice(0);
-    newSubscribable.push({ type: '', value: '', id: subscribable.length + 1 })
+    newSubscribable.push({ type: '', value: '', id: subscribable.length })
     this.props.onChange({ subscribable: newSubscribable });
   }
 
@@ -146,8 +146,6 @@ class Step1 extends React.Component {
     const isDocument = (isJson || isXml || isCsv || isTsv);
 
     const columnFieldsOptions = (columnFields || []).map(f => ({ label: f, value: f }));
-
-    console.log('state form', this.state.form);
 
     return (
       <div>
