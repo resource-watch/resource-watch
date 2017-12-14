@@ -76,7 +76,7 @@ export default class Header extends React.Component {
         <div className="header-secondary">
           {/* We will load the script generated */}
         </div>
-        <div className="l-container">
+        <div className="l-container -admin">
           <div className="row">
             <div className="column small-12">
               <div className="header-main">

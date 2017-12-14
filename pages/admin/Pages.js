@@ -60,7 +60,7 @@ class Pages extends Page {
       >
         {/* PAGE HEADER */}
         <div className="c-page-header -admin">
-          <div className="l-container">
+          <div className="l-container -admin">
             <div className="page-header-content -with-tabs">
               <Title className="-primary -huge page-header-title" >
                 Pages
@@ -74,7 +74,7 @@ class Pages extends Page {
           </div>
         </div>
         <div className="c-page-section">
-          <div className="l-container">
+          <div className="l-container -admin">
             {tab === 'pages' &&
               <PagesTab tab={tab} subtab={subtab} id={id} />
             }
