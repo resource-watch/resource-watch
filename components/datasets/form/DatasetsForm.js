@@ -170,10 +170,15 @@ class DatasetsForm extends React.Component {
 
     form.forEach((f) => {
       if (params[f] || this.state.form[f]) {
-        newForm[f] = params[f] || this.state.form[f];
+        if (f === 'subscribable') {
+          const subscribable = params[f] || this.state.form[f];
+          newForm.subscribable = Object.keys(subscribable).map(prop => ({ key: prop, value: subscribable[prop]}));
+        } else {
+          newForm[f] = params[f] || this.state.form[f];
+        }
       }
     });
-
+    console.log('newForm', newForm);
     return newForm;
   }
 

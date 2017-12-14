@@ -82,15 +82,14 @@ class Step1 extends React.Component {
 
   onSubscribableCheckboxChange(checked) {
 
-    let subscribable = null;
-    if (!checked) {
-      this.props.onChange({ subscribable: null });
-    } else {
-      subscribable = { };
-    }
+    // let subscribable = null;
+    // if (!checked) {
+    //   this.props.onChange({ subscribable: null });
+    // } else {
+    //   subscribable = { };
+    // }
     this.setState({
       subscribableSelected: checked,
-      subscribable
     });
   }
 
@@ -503,7 +502,7 @@ class Step1 extends React.Component {
                       name: 'subscribableType',
                       label: 'Type',
                       type: 'text',
-                      default: this.state.form.subscribable && this.state.form.subscribable.type,
+                      default: this.state.form.subscribable,
                       required: true
                     }}
                   >
@@ -520,7 +519,7 @@ class Step1 extends React.Component {
                       name: 'subscribableText',
                       label: 'Query',
                       type: 'text',
-                      default: this.state.form.subscribable && this.state.form.subscribable.text,
+                      default: this.state.form.subscribable,
                       required: true
                     }}
                   >
