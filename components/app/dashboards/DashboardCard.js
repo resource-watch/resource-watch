@@ -173,7 +173,7 @@ class DashboardCard extends React.Component {
         })
         .catch(err => toastr.error('Error', err));
     } else {
-      this.userService.createFavouriteWidget(widgetId, user.token)
+      this.userService.createFavourite('widget', widgetId, user.token)
         .then((res) => {
           this.setState({
             favourite: res.data,

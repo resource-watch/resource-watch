@@ -88,14 +88,14 @@ export default class GraphService {
   }
 
   /**
-   * Get the list of most favorited datasets
+   * Get the list of most favourited datasets
    * @returns {Promise<string[]>} List of sorted ids
    */
   getMostFavoritedDatasets() {
     return fetch(`${this.opts.apiURL}/graph/query/most-liked-datasets`)
       .then((res) => {
         if (res.ok) return res.json();
-        throw new Error('Unable to fetch the most favorited datasets');
+        throw new Error('Unable to fetch the most favourited datasets');
       })
       .then(res => res.data.map(d => d.id));
   }

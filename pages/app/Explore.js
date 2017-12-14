@@ -511,7 +511,7 @@ class Explore extends Page {
       );
     }
 
-    const { explore, totalDatasets, filteredDatasets } = this.props;
+    const { explore, totalDatasets, filteredDatasets, user } = this.props;
     const { search } = explore.filters;
     const { geographiesTree, topicsTree, dataTypeTree, zoom, latLng } = explore;
     const { showFilters } = this.state;
@@ -664,7 +664,7 @@ class Explore extends Page {
                     <div className="column small-12">
                       <DatasetList
                         list={filteredDatasets}
-                        favorites={explore.datasets.favorites}
+                        favourites={user.favourites}
                         mode={explore.datasets.mode}
                         showActions
                         showFavorite
@@ -770,6 +770,7 @@ Explore.defaultProps = {
 const mapStateToProps = (state) => {
   const { totalFilteredDatasets, filteredDatasets } = getFilteredDatasets(state);
   return {
+    user: state.user,
     explore: state.explore,
     filteredDatasets,
     totalDatasets: totalFilteredDatasets,

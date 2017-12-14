@@ -1025,7 +1025,7 @@
           "star-empty",
           "rate",
           "star",
-          "favorite",
+          "favourite",
           "bookmark"
         ],
         "defaultCode": 59863,
@@ -1055,7 +1055,7 @@
           "star-full",
           "rate",
           "star",
-          "favorite",
+          "favourite",
           "bookmark"
         ],
         "defaultCode": 59865,

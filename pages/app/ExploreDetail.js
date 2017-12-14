@@ -86,7 +86,7 @@ class ExploreDetail extends Page {
       showFunction: false,
       showCautions: false,
       inferredTags: [],
-      favorite: null
+      favourite: null
     };
 
     // DatasetService
@@ -219,7 +219,7 @@ class ExploreDetail extends Page {
         .then((response) => {
           const found = response.find(elem => elem.attributes.resourceId === url.query.id);
           this.setState({
-            favorite: found
+            favourite: found
           });
         });
     }
@@ -402,14 +402,14 @@ class ExploreDetail extends Page {
 
   handleFavoriteButtonClick() {
     const { user } = this.props;
-    const { favorite, dataset } = this.state;
+    const { favourite, dataset } = this.state;
     this.setState({ loading: true });
 
-    if (!favorite) {
-      this.userService.createFavouriteDataset(dataset.id, user.token)
+    if (!favourite) {
+      this.userService.createFavourite('dataset', dataset.id, user.token)
         .then((response) => {
           this.setState({
-            favorite: response,
+            favourite: response,
             loading: false
           });
         })
@@ -418,11 +418,11 @@ class ExploreDetail extends Page {
           console.error(err);
         });
     } else {
-      this.userService.deleteFavourite(favorite.id, user.token)
+      this.userService.deleteFavourite(favourite.id, user.token)
         .then(() => {
           this.setState({
             loading: false,
-            favorite: null
+            favourite: null
           });
         })
         .catch((err) => {
@@ -434,7 +434,7 @@ class ExploreDetail extends Page {
 
   render() {
     const { url, user, exploreDataset } = this.props;
-    const { dataset, loading, similarDatasets, similarDatasetsLoaded, inferredTags, favorite } = this.state;
+    const { dataset, loading, similarDatasets, similarDatasetsLoaded, inferredTags, favourite } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
     const metadataAttributes = (metadata && metadata.attributes) || {};
@@ -448,11 +448,11 @@ class ExploreDetail extends Page {
     const formattedFunctions = this.shortenAndFormat(functions, 'showFunction');
     const formattedCautions = this.shortenAndFormat(cautions, 'showCautions');
 
-    const starIconName = favorite ? 'icon-star-full' : 'icon-star-empty';
+    const starIconName = favourite ? 'icon-star-full' : 'icon-star-empty';
     const starIconClass = classnames({
       '-small': true,
-      '-filled': favorite,
-      '-empty': !favorite
+      '-filled': favourite,
+      '-empty': !favourite
     });
 
     if (exploreDataset && exploreDataset.error === 'Not Found') return <Error status={404} />;
@@ -493,7 +493,7 @@ class ExploreDetail extends Page {
                     {user && user.id &&
                       <li>
                         <div
-                          className="favorite-button"
+                          className="favourite-button"
                           onClick={this.handleFavoriteButtonClick}
                           title="Favorite dataset"
                           role="button"

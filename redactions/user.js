@@ -7,13 +7,17 @@ const service = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
 */
 const SET_USER = 'user/SET_USER';
 const SET_USER_FAVOURITES = 'user/SET_USER_FAVOURITES';
+const SET_USER_FAVOURITES_LOADING = 'user/SET_USER_FAVOURITES_LOADING';
+const SET_USER_FAVOURITES_ERROR = 'user/SET_USER_FAVOURITES_ERROR';
 
 
 /**
  * REDUCER
 */
 const initialState = {
-  favourites: []
+  favourites: [],
+  favouritesLoading: false,
+  favouritesError: null
   // id: null,
   // role: null,
   // provider: null,
@@ -37,24 +41,10 @@ export default function (state = initialState, action) {
 
 /**
  * ACTIONS
- * - setFavourites
  * - setUser
+ * - setFavourites
+ * - toggleFavourite
 */
-export function setFavourites() {
-  return (dispatch, getState) => {
-    const { user } = getState();
-
-    return service.setFavourites(user.token)
-      .then(({ data }) => {
-        dispatch({ type: SET_USER_FAVOURITES, payload: data });
-      })
-      .catch(() => {
-        dispatch({ type: SET_USER_FAVOURITES, payload: [] });
-      });
-  };
-}
-
-
 export function setUser(user) {
   return (dispatch) => {
     if (!user) {
@@ -69,6 +59,85 @@ export function setUser(user) {
 
     dispatch({ type: SET_USER, payload: userObj });
 
-    return dispatch(setFavourites());
+    dispatch(setFavourites());
+  };
+}
+
+//   // const id = payload.id;
+//   // const { user } = getState();
+//   // const { favourite, widget } = payload;
+//   //
+//   //
+//   // if (favourite.id) {
+//   //   userService.deleteFavourite(favourite.id, user.token)
+//   //     .then(() => {
+//   //       dispatch(setFavouriteLoading({ id, value: false }));
+//   //       dispatch(setFavouriteError({ id, value: null }));
+//   //
+//   //       dispatch(setFavourites());
+//   //     })
+//   //     .catch((err) => {
+//   //       dispatch(setFavouriteLoading({ id, value: false }));
+//   //       dispatch(setFavouriteError({ id, value: err }));
+//   //       toastr.error('Error', err);
+//   //     });
+//   // } else {
+//   //   userService.createFavourite('widget', widget.id, user.token)
+//   //     .then(({ data }) => {
+//   //       dispatch(setFavouriteLoading({ id, value: false }));
+//   //       dispatch(setFavouriteError({ id, value: null }));
+//   //
+//   //       dispatch(setFavourites());
+//   //     })
+//   //     .catch((err) => {
+//   //       dispatch(setFavouriteLoading({ id, value: false }));
+//   //       dispatch(setFavouriteError({ id, value: err }));
+//   //       toastr.error('Error', err);
+//   //     });
+//   // }
+// });
+
+// FAVOURITES
+export function setFavouriteLoading(payload) {
+  return { type: SET_USER_FAVOURITES_LOADING, payload };
+}
+
+export function setFavouriteError(payload) {
+  return { type: SET_USER_FAVOURITES_ERROR, payload };
+}
+
+export function setFavourites() {
+  return (dispatch, getState) => {
+    const { user } = getState();
+
+    return service.setFavourites(user.token)
+      .then(({ data }) => {
+        dispatch({ type: SET_USER_FAVOURITES, payload: data });
+      })
+      .catch(() => {
+        dispatch({ type: SET_USER_FAVOURITES, payload: [] });
+      });
+  };
+}
+
+export function toggleFavourite({ favourite = {}, resource, user }) {
+  return (dispatch) => {
+    if (favourite.id) {
+      return service.deleteFavourite(favourite.id, user.token)
+        .then(() => {
+          return dispatch(setFavourites());
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else {
+      return service.createFavourite(resource.type, resource.id, user.token)
+        .then(() => {
+          return dispatch(setFavourites());
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   };
 }

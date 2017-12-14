@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
 import classnames from 'classnames';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
 import { Link } from 'routes';
-import { toggleLayerGroup, addFavoriteDataset, removeFavoriteDataset } from 'redactions/explore';
+import { toggleLayerGroup } from 'redactions/explore';
+import { toggleFavourite } from 'redactions/user';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
@@ -162,8 +162,7 @@ class DatasetWidget extends React.Component {
     }
   }
 
-  @Autobind
-  handleTagsClick(event) {
+  handleTagsClick = (event) => {
     const { inferredTags } = this.state;
 
     const position = DatasetWidget.getClickPosition(event);
@@ -179,39 +178,32 @@ class DatasetWidget extends React.Component {
     });
   }
 
-  @Autobind
-  handleTagClick(event) {
+  handleTagClick = (event) => {
     const tag = { id: event.target.getAttribute('id'),
       type: event.target.getAttribute('data-type') };
     this.props.onTagSelected(tag);
   }
 
-  @Autobind
-  handleFavoriteButtonClick() {
-    const { favorite, dataset, user } = this.props;
+  handleFavoriteButtonClick = () => {
+    const { favourite, dataset, user } = this.props;
+
     this.setState({ loading: true });
 
-    if (!favorite) {
-      this.userService.createFavouriteDataset(dataset.id, user.token)
-        .then((response) => {
-          this.props.addFavoriteDataset(response.data, user.token);
-          this.setState({ loading: false });
-        })
-        .catch((err) => {
-          this.setState({ loading: false });
-          console.error(err);
-        });
-    } else {
-      this.userService.deleteFavourite(favorite.id, user.token)
-        .then((response) => {
-          this.props.removeFavoriteDataset(response.data);
-          this.setState({ loading: false });
-        })
-        .catch((err) => {
-          this.setState({ loading: false });
-          console.error(err);
-        });
-    }
+    this.props.toggleFavourite({
+      favourite,
+      user,
+      resource: {
+        type: 'dataset',
+        id: dataset.id
+      }
+    })
+      .then(() => {
+        this.setState({ loading: false });
+      })
+      .catch((err) => {
+        this.setState({ loading: false });
+        console.error(err);
+      });
   }
 
   /**
@@ -254,16 +246,16 @@ class DatasetWidget extends React.Component {
 
 
   render() {
-    const { mode, showActions, favorite, user, showFavorite } = this.props;
+    const { mode, showActions, favourite, user, showFavorite } = this.props;
     const { inferredTags, loading } = this.state;
     const dataset = this.props.dataset.attributes;
     const metadata = dataset.metadata && dataset.metadata[0];
-    const starIconName = favorite ? 'icon-star-full' : 'icon-star-empty';
+    const starIconName = favourite ? 'icon-star-full' : 'icon-star-empty';
 
     const starIconClass = classnames({
       '-small': true,
-      '-filled': favorite,
-      '-empty': !favorite
+      '-filled': favourite,
+      '-empty': !favourite
     });
 
     return (
@@ -303,7 +295,7 @@ class DatasetWidget extends React.Component {
               {/* Favorite dataset icon */}
               {user && user.id && showFavorite &&
                 <div
-                  className="favorite-button"
+                  className="favourite-button"
                   onClick={this.handleFavoriteButtonClick}
                   title="Favorite dataset"
                   role="button"
@@ -348,13 +340,14 @@ class DatasetWidget extends React.Component {
 
 DatasetWidget.propTypes = {
   // STATE
+  user: PropTypes.object.isRequired,
   dataset: PropTypes.object,
   widget: PropTypes.object,
   layer: PropTypes.object,
   mode: PropTypes.string,
   showActions: PropTypes.bool,
   showFavorite: PropTypes.bool,
-  favorite: PropTypes.object,
+  favourite: PropTypes.object,
 
   // Callbacks
   onTagSelected: PropTypes.func,
@@ -365,9 +358,7 @@ DatasetWidget.propTypes = {
   // Add or remove a layer group from the map
   toggleLayerGroup: PropTypes.func.isRequired,
   toggleTooltip: PropTypes.func.isRequired,
-  removeFavoriteDataset: PropTypes.func.isRequired,
-  addFavoriteDataset: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired
+  toggleFavourite: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -375,11 +366,10 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-const mapDispatchToProps = dispatch => ({
-  toggleLayerGroup: (dataset, addLayer) => dispatch(toggleLayerGroup(dataset, addLayer)),
-  toggleTooltip: (opened, opts) => { dispatch(toggleTooltip(opened, opts)); },
-  addFavoriteDataset: (favorite) => { dispatch(addFavoriteDataset(favorite)); },
-  removeFavoriteDataset: (favorite) => { dispatch(removeFavoriteDataset(favorite)); }
-});
+const mapDispatchToProps = {
+  toggleLayerGroup,
+  toggleTooltip,
+  toggleFavourite
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetWidget);
