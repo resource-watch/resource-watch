@@ -26,7 +26,7 @@ export default class WidgetService {
       dataset: datasetId
     };
     const bodyObj = Object.assign({}, widget, widgetObj);
-    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget?application=${[process.env.APPLICATIONS]}&env=${process.env.API_ENV}`, {
+    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget?env=${process.env.API_ENV}`, {
       method: 'POST',
       body: JSON.stringify(bodyObj),
       headers: {

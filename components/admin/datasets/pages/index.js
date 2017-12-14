@@ -5,7 +5,7 @@ import DatasetsTable from 'components/datasets/table/DatasetsTable';
 
 function DatasetsIndex() {
   return (
-    <div className="c-partners-index">
+    <div className="c-datasets-index">
       <DatasetsTable
         routes={{
           index: 'admin_data',

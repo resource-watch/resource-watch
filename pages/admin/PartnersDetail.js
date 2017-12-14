@@ -107,7 +107,7 @@ class PartnersDetail extends Page {
       >
         {/* PAGE HEADER */}
         <div className="c-page-header -admin">
-          <div className="l-container">
+          <div className="l-container -admin">
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content">
@@ -123,7 +123,7 @@ class PartnersDetail extends Page {
           </div>
         </div>
         <div className="c-page-section">
-          <div className="l-container">
+          <div className="l-container -admin">
             <div className="row">
               <div className="column small-12">
                 {tab === 'partners' &&

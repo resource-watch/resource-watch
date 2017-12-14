@@ -17,6 +17,10 @@
 
   @media screen and (min-width: map-get($breakpoints, xlarge)) {
     max-width: 1080px;
+
+    &.-admin {
+      max-width: 1280px;
+    }
   }
 
   &.-expanded {
