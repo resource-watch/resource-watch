@@ -2,6 +2,10 @@ $table-column-padding: 10px;
 $table-font-size: $font-size-small;
 
 .c-table {
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: auto;
+
   .table, table {
     border-collapse: separate;
     border-spacing:0;
@@ -112,6 +116,8 @@ $table-font-size: $font-size-small;
   // Main
   td.main {
     color: $color-text-1;
+    font-weight: 700;
+    min-width: 200px;
 
     a {
       color: $color-text-1;

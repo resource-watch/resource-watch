@@ -23,6 +23,7 @@ import PublishedTD from './td/PublishedTD';
 import StatusTD from './td/StatusTD';
 import RelatedContentTD from './td/RelatedContentTD';
 import UpdatedAtTD from './td/UpdatedAtTD';
+import OwnerTD from './td/OwnerTD';
 
 class DatasetsTable extends React.Component {
   constructor(props) {
@@ -101,7 +102,7 @@ class DatasetsTable extends React.Component {
               { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Provider', value: 'provider' },
               { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
-              { label: 'Owner', value: 'owner' },
+              { label: 'Owner', value: 'owner', td: OwnerTD },
               { label: 'Related content', value: 'status', td: RelatedContentTD, tdProps: { route: routes.detail } }
             ]}
             actions={{
