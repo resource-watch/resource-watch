@@ -38,29 +38,27 @@ class MyRWDatasetsStarred extends React.Component {
     const favourites = user.favourites;
     const datasetIds = favourites.filter(f => f.attributes.resourceType === 'dataset').map(elem => elem.attributes.resourceId);
 
-    DatasetService.getDatasets(datasetIds, this.props.locale, 'widget,layer,vocabulary,metadata')
-      .then((resp) => {
-        this.setState({
-          favourites,
-          starredDatasets: resp,
-          starredDatasetsLoaded: true
+    if (datasetIds.length) {
+      DatasetService.getDatasets(datasetIds, this.props.locale, 'widget,layer,vocabulary,metadata')
+        .then((resp) => {
+          this.setState({
+            starredDatasets: resp,
+            starredDatasetsLoaded: true
+          });
+        })
+        .catch((err) => {
+          console.error(err);
         });
-      })
-      .catch((err) => {
-        console.error(err);
+    } else {
+      this.setState({
+        starredDatasetsLoaded: true
       });
-  }
-
-  @Autobind
-  handleFavoriteRemoved() {
-    this.setState({
-      starredDatasets: this.state.starredDatasets
-        .filter(dataset => dataset.id !== favourite.attributes.resourceId)
-    });
+    }
   }
 
   render() {
-    const { starredDatasets, starredDatasetsLoaded, favourites } = this.state;
+    const { user } = this.props;
+    const { starredDatasets, starredDatasetsLoaded } = this.state;
     return (
       <div className="c-myrw-datasets-starred">
         <div className="row">
@@ -73,9 +71,8 @@ class MyRWDatasetsStarred extends React.Component {
             {starredDatasets &&
               <DatasetList
                 list={starredDatasets}
-                favourites={favourites}
+                favourites={user.favourites}
                 mode="grid"
-                onFavoriteRemoved={this.handleFavoriteRemoved}
                 showActions={false}
                 showFavorite
               />

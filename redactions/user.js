@@ -15,13 +15,7 @@ const SET_USER_FAVOURITES_ERROR = 'user/SET_USER_FAVOURITES_ERROR';
  * REDUCER
 */
 const initialState = {
-  favourites: [],
-  favouritesLoading: false,
-  favouritesError: null
-  // id: null,
-  // role: null,
-  // provider: null,
-  // token: null
+  favourites: []
 };
 
 export default function (state = initialState, action) {
@@ -59,43 +53,11 @@ export function setUser(user) {
 
     dispatch({ type: SET_USER, payload: userObj });
 
-    dispatch(setFavourites());
+    // We must return it because it's a promise
+    return dispatch(setFavourites());
   };
 }
 
-//   // const id = payload.id;
-//   // const { user } = getState();
-//   // const { favourite, widget } = payload;
-//   //
-//   //
-//   // if (favourite.id) {
-//   //   userService.deleteFavourite(favourite.id, user.token)
-//   //     .then(() => {
-//   //       dispatch(setFavouriteLoading({ id, value: false }));
-//   //       dispatch(setFavouriteError({ id, value: null }));
-//   //
-//   //       dispatch(setFavourites());
-//   //     })
-//   //     .catch((err) => {
-//   //       dispatch(setFavouriteLoading({ id, value: false }));
-//   //       dispatch(setFavouriteError({ id, value: err }));
-//   //       toastr.error('Error', err);
-//   //     });
-//   // } else {
-//   //   userService.createFavourite('widget', widget.id, user.token)
-//   //     .then(({ data }) => {
-//   //       dispatch(setFavouriteLoading({ id, value: false }));
-//   //       dispatch(setFavouriteError({ id, value: null }));
-//   //
-//   //       dispatch(setFavourites());
-//   //     })
-//   //     .catch((err) => {
-//   //       dispatch(setFavouriteLoading({ id, value: false }));
-//   //       dispatch(setFavouriteError({ id, value: err }));
-//   //       toastr.error('Error', err);
-//   //     });
-//   // }
-// });
 
 // FAVOURITES
 export function setFavouriteLoading(payload) {
@@ -124,20 +86,16 @@ export function toggleFavourite({ favourite = {}, resource, user }) {
   return (dispatch) => {
     if (favourite.id) {
       return service.deleteFavourite(favourite.id, user.token)
-        .then(() => {
-          return dispatch(setFavourites());
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    } else {
-      return service.createFavourite(resource.type, resource.id, user.token)
-        .then(() => {
-          return dispatch(setFavourites());
-        })
+        .then(() => dispatch(setFavourites()))
         .catch((err) => {
           console.error(err);
         });
     }
+
+    return service.createFavourite(resource.type, resource.id, user.token)
+      .then(() => dispatch(setFavourites()))
+      .catch((err) => {
+        console.error(err);
+      });
   };
 }
