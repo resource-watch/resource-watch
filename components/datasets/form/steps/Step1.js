@@ -42,6 +42,7 @@ class Step1 extends React.Component {
     * UI EVENTS
     * - onCartoFieldsChange
     * - onLegendChange
+    * - onSubscribableChange
   */
   onCartoFieldsChange() {
     const { cartoAccountUsername, tableName } = this.state.carto;
@@ -55,6 +56,26 @@ class Step1 extends React.Component {
   onLegendChange(obj) {
     const legend = Object.assign({}, this.props.form.legend, obj);
     this.props.onChange({ legend });
+  }
+
+  onSubscribableChange(obj) {
+    const {subscribable} = this.props.form;
+    const newSubscribable = {};
+    if (obj.type) {
+      newSubscribable[obj.type] = subscribable[Object.keys(subscribable)[0]];
+    } else if(obj.text) {
+      newSubscribable[Object.keys(subscribable)[0]] = obj.text;
+    }
+    this.props.onChange({ subscribable: newSubscribable });
+  }
+
+  onSubscribableCheckboxChange(checked) {
+    this.setState({
+      subscribableSelected: checked
+    });
+    // if (!checked) {
+    //   this.props.onChange({ subscribable: null });
+    // }
   }
 
   /**
@@ -88,7 +109,7 @@ class Step1 extends React.Component {
 
   render() {
     const { user, columns, loadingColumns, basic } = this.props;
-    const { dataset } = this.state;
+    const { dataset, subscribableSelected } = this.state;
     const { provider, columnFields } = this.state.form;
 
     // Reset FORM_ELEMENTS
@@ -432,6 +453,66 @@ class Step1 extends React.Component {
             >
               {Input}
             </Field>
+          }
+
+          {/*
+            *****************************************************
+            ****************** SUBSCRIBABLE ****************
+            *****************************************************
+          */}
+
+          {isCarto && user.role === 'ADMIN' && !basic &&
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements.verified = c; }}
+              onChange={value => this.onSubscribableCheckboxChange(value.checked)}
+              properties={{
+                name: 'subscribable',
+                title: 'Subscribable',
+                checked: this.props.form.subscribable
+              }}
+            >
+              {Checkbox}
+            </Field>
+          }
+          {subscribableSelected &&
+            <div className="c-field-row">
+              <div className="l-row row">
+                <div className="column small-12 medium-6">
+                  <Field
+                    ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribableType = c; }}
+                    onChange={value => this.onSubscribableChange({ type: value })}
+                    validations={['required']}
+                    className="-fluid"
+                    properties={{
+                      name: 'subscribableType',
+                      label: 'Type',
+                      type: 'text',
+                      default: this.state.form.subscribable && this.state.form.subscribable.type,
+                      required: true
+                    }}
+                  >
+                    {Input}
+                  </Field>
+                </div>
+                <div className="column small-12 medium-6">
+                  <Field
+                    ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribableText = c; }}
+                    onChange={value => this.onSubscribableChange({ text: value })}
+                    validations={['required']}
+                    className="-fluid"
+                    properties={{
+                      name: 'subscribableText',
+                      label: 'Query',
+                      type: 'text',
+                      default: this.state.form.subscribable && this.state.form.subscribable.text,
+                      required: true
+                    }}
+                  >
+                    {Input}
+                  </Field>
+                </div>
+              </div>
+            </div>
           }
 
           {/*

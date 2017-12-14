@@ -90,7 +90,8 @@ export const STATE_DEFAULT = {
       long: undefined,
       date: [],
       country: []
-    }
+    },
+    subscribable: undefined
   }
 };
 
