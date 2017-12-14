@@ -178,7 +178,6 @@ class DatasetsForm extends React.Component {
         }
       }
     });
-    console.log('newForm', newForm);
     return newForm;
   }
 

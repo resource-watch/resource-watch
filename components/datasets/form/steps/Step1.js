@@ -28,9 +28,7 @@ class Step1 extends React.Component {
       form: props.form,
       carto: {},
       document: {},
-      subscribableSelected: false,
-      subscribableType: null,
-      subscribableText: null
+      subscribableSelected: props.form.subscribable.length > 0
     };
 
     // BINDINGS
@@ -46,6 +44,7 @@ class Step1 extends React.Component {
     * - onCartoFieldsChange
     * - onLegendChange
     * - onSubscribableChange
+    * - handleRemoveSubscription
   */
   onCartoFieldsChange() {
     const { cartoAccountUsername, tableName } = this.state.carto;
@@ -62,35 +61,30 @@ class Step1 extends React.Component {
   }
 
   onSubscribableChange(obj) {
-    const {subscribable} = this.props.form;
+    const { subscribable } = this.props.form;
+    const newSubscribable = subscribable.slice();
     if (obj.type) {
-      this.setState({ subscribableType: obj.type });
-      const newSubscribable = {};
-      newSubscribable[obj.type] = this.state.subscribableType;
-      this.props.onChange({ subscribable: newSubscribable });
-    } else if(obj.text) {
-      this.setState({ subscribableText: obj.text });
-      const newSubscribable = {};
-      if (Object.keys(subscribable)) {
-        debugger;
-        newSubscribable[Object.keys(subscribable)[0]] = this.state.subscribableText;
-      }
-      this.props.onChange({ subscribable: newSubscribable });
+      newSubscribable[obj.index].type = obj.type;
+    } else if(obj.value) {
+      newSubscribable[obj.index].value = obj.value;
     }
-
+    this.props.onChange({ subscribable: newSubscribable });
   }
 
   onSubscribableCheckboxChange(checked) {
-
-    // let subscribable = null;
-    // if (!checked) {
-    //   this.props.onChange({ subscribable: null });
-    // } else {
-    //   subscribable = { };
-    // }
     this.setState({
       subscribableSelected: checked,
     });
+    if (checked) {
+      this.props.onChange({ subscribable: [{ type: '', value:'' }] });
+    } else {
+      this.props.onChange({ subscribable: [] });
+    }
+  }
+
+  handleRemoveSubscription(index) {
+    const { subscribable } = this.props.form;
+    this.props.onChange({ subscribable: subscribable.splice(index, 1) });
   }
 
   /**
@@ -490,44 +484,60 @@ class Step1 extends React.Component {
             </Field>
           }
           {subscribableSelected &&
-            <div className="c-field-row">
-              <div className="l-row row">
-                <div className="column small-12 medium-6">
-                  <Field
-                    ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribableType = c; }}
-                    onChange={value => this.onSubscribableChange({ type: value })}
-                    validations={['required']}
-                    className="-fluid"
-                    properties={{
-                      name: 'subscribableType',
-                      label: 'Type',
-                      type: 'text',
-                      default: this.state.form.subscribable,
-                      required: true
-                    }}
-                  >
-                    {Input}
-                  </Field>
+            this.props.form.subscribable.map((elem, i) =>
+              (
+                <div
+                  className="c-field-row"
+                  key={`subscribable${i}`}
+                >
+                  <div className="l-row row">
+                    <div className="column small-3">
+                      <Field
+                        ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribableType = c; }}
+                        onChange={value => this.onSubscribableChange({ type: value, index: i })}
+                        validations={['required']}
+                        className="-fluid"
+                        properties={{
+                          name: 'subscribableType',
+                          label: 'Type',
+                          type: 'text',
+                          default: elem.key,
+                          required: true
+                        }}
+                      >
+                        {Input}
+                      </Field>
+                    </div>
+                    <div className="column small-7">
+                      <Field
+                        ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribableText = c; }}
+                        onChange={value => this.onSubscribableChange({ value, index: i })}
+                        validations={['required']}
+                        className="-fluid"
+                        properties={{
+                          name: 'subscribableText',
+                          label: 'Query',
+                          type: 'text',
+                          default: elem.value,
+                          required: true
+                        }}
+                      >
+                        {Input}
+                      </Field>
+                    </div>
+                    <div className="column">
+                      <button
+                        type="button"
+                        className="c-button -a"
+                        onClick={() => this.handleRemoveSubscription(i)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className="column small-12 medium-6">
-                  <Field
-                    ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribableText = c; }}
-                    onChange={value => this.onSubscribableChange({ text: value })}
-                    validations={['required']}
-                    className="-fluid"
-                    properties={{
-                      name: 'subscribableText',
-                      label: 'Query',
-                      type: 'text',
-                      default: this.state.form.subscribable,
-                      required: true
-                    }}
-                  >
-                    {Input}
-                  </Field>
-                </div>
-              </div>
-            </div>
+              )
+            )
           }
 
           {/*
