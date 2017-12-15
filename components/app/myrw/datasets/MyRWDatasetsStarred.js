@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
-import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
