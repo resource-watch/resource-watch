@@ -544,7 +544,7 @@ class Step1 extends React.Component {
                             {Input}
                           </Field>
                         </div>
-                        <div className="column small-2">
+                        <div>
                           <button
                             type="button"
                             className="c-button -secondary"
