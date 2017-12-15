@@ -25,7 +25,7 @@ class SplashDetailModal extends React.Component {
           <div className="buttons">
             <button
               className="c-btn -secondary"
-              onClick={this.handleMoreInfo}
+              onClick={this.handleOk}
             >
               Ok
             </button>
@@ -41,8 +41,8 @@ SplashDetailModal.propTypes = {
   text: PropTypes.object
 };
 
-const mapDispatchToProps = dispatch => ({
-  toggleModal: open => dispatch(toggleModal(open))
-});
+const mapDispatchToProps = {
+  toggleModal
+};
 
 export default connect(null, mapDispatchToProps)(SplashDetailModal);

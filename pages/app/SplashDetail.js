@@ -7,6 +7,9 @@ import classnames from 'classnames';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import { toggleModal } from 'redactions/modal';
+import { setUser } from 'redactions/user';
+import { setRouter } from 'redactions/routes';
 
 // Layout
 import Page from 'components/app/layout/Page';
@@ -14,6 +17,8 @@ import Head from 'components/app/layout/head';
 
 // Components
 import Spinner from 'components/ui/Spinner';
+import SplashDetailModal from 'components/modal/SplashDetailModal';
+import Modal from 'components/ui/Modal';
 
 
 // -------PANORAMAS------------
@@ -34,7 +39,7 @@ const PANORAMAS = [
         label: 'Bleached',
         image: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/images/bleached-optimized.jpg',
         markup: <p>What might resemble a beautiful snowfall is actually a destructive stress response known as coral bleaching, which occurred in Airport Reef in 2015. Prolonged exposure to warmer ocean temperatures can cause corals to expel their symbiotic algae (which gives color to corals and nourishes them through photosynthesis), leaving the corals’ white skeletons visible. Some corals are able to bounce back from a bleaching event if water temperatures decrease fast enough. In a warming ocean, however, <a href="https://www.coralcoe.org.au/media-releases/two-thirds-of-great-barrier-reef-hit-by-back-to-back-mass-coral-bleaching" taget="_blank">corals will have less time to recover</a> between bleaching events, and widespread die-off could occur.\nPhoto date: February 2, 2015</p>,
-        intro: '../../static/images/splash/coral-intro.png',
+        intro: null,
         hotspots: [
           {
             title: 'Coral bleaching on the rise',
@@ -101,6 +106,27 @@ const PANORAMAS = [
 ];
 
 class SplashDetail extends Page {
+  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
+    const { user } = isServer ? req : store.getState();
+    const url = { asPath, pathname, query };
+    await store.dispatch(setUser(user));
+    store.dispatch(setRouter(url));
+
+    // --- Set initial modal ----
+    if (true) {
+      const options = {
+        children: SplashDetailModal,
+        childrenProps: {
+          text: 'sal;sajktlksa'
+        }
+      };
+      store.dispatch(toggleModal(true, options));
+      console.log('hey!');
+    }
+    // -------------------------
+    return { user, isServer, url };
+  }
+
   constructor(props) {
     super(props);
     const panorama = PANORAMAS.find(p => p.name === props.url.query.id);
@@ -115,13 +141,12 @@ class SplashDetail extends Page {
       soundActivated: true,
       selectedHotspot: null,
       earthMode,
-      mouseHovering: false
+      mouseHovering: false,
+      modalOpen: false
     };
   }
 
   componentDidMount() {
-
-
     const { selectedPanorama } = this.state;
 
     this.panoramaSky = document.getElementById('panorama-sky');
@@ -134,6 +159,21 @@ class SplashDetail extends Page {
       elem.addEventListener('mouseenter', () => this.handleMouseOverHotspot(hotspot));
       elem.addEventListener('mouseleave', () => this.handleMouseLeavesHotspot(hotspot))
     });
+
+    const options = {
+      children: SplashDetailModal,
+      childrenProps: {
+        text: 'sal;sajktlksa'
+      }
+    };
+    this.props.toggleModal(true, options);
+    console.log('ho!');
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (this.state.modalOpen !== newProps.modal.open) {
+      this.setState({ modalOpen: newProps.modal.open });
+    }
   }
 
   @Autobind
@@ -181,6 +221,7 @@ class SplashDetail extends Page {
   }
 
   render() {
+    const { modal } = this.props;
     const {
       selectedPanorama,
       skyLoading,
@@ -329,9 +370,24 @@ class SplashDetail extends Page {
             <a-camera look-controls="reverseMouseDrag: true" />
           </a-scene>
         </div>
+        <Modal
+          open={this.state.modalOpen}
+          options={modal.options}
+          loading={modal.loading}
+          toggleModal={this.props.toggleModal}
+          setModalOptions={this.props.setModalOptions}
+        />
       </div>
     );
   }
 }
 
-export default withRedux(initStore, null, null)(SplashDetail);
+const mapStateToProps = state => ({
+  modal: state.modal
+});
+
+const mapDispatchToProps = {
+  toggleModal
+};
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(SplashDetail);
