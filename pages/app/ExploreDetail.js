@@ -214,15 +214,11 @@ class ExploreDetail extends Page {
 
   getFavoriteDatasets() {
     const { user, url } = this.props;
-    if (user.id) {
-      this.userService.getFavouriteDatasets(user.token)
-        .then((response) => {
-          const found = response.find(elem => elem.attributes.resourceId === url.query.id);
-          this.setState({
-            favourite: found
-          });
-        });
-    }
+
+    const favourite = user.favourites.find(f => f.attributes.resourceId === url.query.id);
+    this.setState({
+      favourite
+    });
   }
 
   getSimilarDatasets() {
