@@ -27,13 +27,13 @@ const PANORAMAS = [
         name: 'healthy',
         label: 'Healthy',
         image: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/images/healthy-optimized.jpg',
-        text: ''
+        markup: ''
       },
       {
         name: 'bleached',
         label: 'Bleached',
         image: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/images/bleached-optimized.jpg',
-        text: 'What might resemble a beautiful snowfall is actually a destructive stress response known as coral bleaching, which occurred in Airport Reef in 2015. Prolonged exposure to warmer ocean temperatures can cause corals to expel their symbiotic algae (which gives color to corals and nourishes them through photosynthesis), leaving the corals’ white skeletons visible. Some corals are able to bounce back from a bleaching event if water temperatures decrease fast enough. In a warming ocean, however, corals will have less time to recover between bleaching events, and widespread die-off could occur.\nPhoto date: February 2, 2015\n',
+        markup: <p>What might resemble a beautiful snowfall is actually a destructive stress response known as coral bleaching, which occurred in Airport Reef in 2015. Prolonged exposure to warmer ocean temperatures can cause corals to expel their symbiotic algae (which gives color to corals and nourishes them through photosynthesis), leaving the corals’ white skeletons visible. Some corals are able to bounce back from a bleaching event if water temperatures decrease fast enough. In a warming ocean, however, <a href="https://www.coralcoe.org.au/media-releases/two-thirds-of-great-barrier-reef-hit-by-back-to-back-mass-coral-bleaching" taget="_blank">corals will have less time to recover</a> between bleaching events, and widespread die-off could occur.\nPhoto date: February 2, 2015</p>,
         intro: '../../static/images/splash/coral-intro.png',
         hotspots: [
           {
@@ -94,7 +94,7 @@ const PANORAMAS = [
         name: 'dead',
         label: 'Dead',
         image: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/images/dead-optimized.jpg',
-        text: ''
+        markup: ''
       }
     ]
   }
@@ -120,7 +120,7 @@ class SplashDetail extends Page {
   }
 
   componentDidMount() {
-    
+
 
     const { selectedPanorama } = this.state;
 
@@ -193,7 +193,7 @@ class SplashDetail extends Page {
     } = this.state;
     const skyImage = selectedPanorama && selectedPanorama.image;
     const intro = selectedPanorama && selectedPanorama.intro;
-    const text = selectedPanorama && selectedPanorama.text;
+    const markup = selectedPanorama && selectedPanorama.markup;
     const hotspots = selectedPanorama && selectedPanorama.hotspots;
     const options = panorama && panorama.options;
     const backgroundSound = panorama.backgroundSound;
