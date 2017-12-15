@@ -149,7 +149,6 @@ Header.defaultProps = {
   pageHeader: false
 };
 
-
 Header.propTypes = {
   user: PropTypes.object,
   url: PropTypes.object,

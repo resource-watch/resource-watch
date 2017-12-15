@@ -14,6 +14,7 @@ import { setRouter } from 'redactions/routes';
 // Layout
 import Page from 'components/app/layout/Page';
 import Head from 'components/app/layout/head';
+import Header from 'components/splash/layout/Header';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -253,24 +254,9 @@ class SplashDetail extends Page {
           title="SplashDetail page"
           description="SplashDetail page description"
         />
-        <div className="header">
-          <Link route="home">
-            <img className="logo" src="/static/images/logo-resource-watch.png" alt="Resource Watch" />
-          </Link>
-          <div className="links">
-            <div className="earth-view-link">
-              <Link route="splash">
-                <img src="/static/images/splash/globe.svg" alt="Earth view" />
-              </Link>
-              <Link route="splash">
-                <a>EARTH VIEW</a>
-              </Link>
-            </div>
-            <Link route="home">
-              <a>GO TO RESOURCE WATCH</a>
-            </Link>
-          </div>
-        </div>
+        <Header
+          showEarthViewLink={true}
+        />
         {selectedHotspot &&
           <div className="right-section">
             <div
