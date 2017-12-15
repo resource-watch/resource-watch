@@ -28,7 +28,7 @@ import {
   setLayer,
   setTitle
 } from 'components/widgets/editor/redux/widgetEditor';
-import { setUser } from 'redactions/user';
+import { setUser, toggleFavourite } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
 // Next
@@ -85,8 +85,7 @@ class ExploreDetail extends Page {
       showDescription: false,
       showFunction: false,
       showCautions: false,
-      inferredTags: [],
-      favourite: null
+      inferredTags: []
     };
 
     // DatasetService
@@ -117,7 +116,6 @@ class ExploreDetail extends Page {
   componentDidMount() {
     this.getDataset();
     this.getSimilarDatasets();
-    this.getFavoriteDatasets();
     this.loadTopicsTree();
     this.countView(this.props.url.query.id);
   }
@@ -210,15 +208,6 @@ class ExploreDetail extends Page {
         this.setState({ inferredTags: [] });
         console.error(err);
       });
-  }
-
-  getFavoriteDatasets() {
-    const { user, url } = this.props;
-
-    const favourite = user.favourites.find(f => f.attributes.resourceId === url.query.id);
-    this.setState({
-      favourite
-    });
   }
 
   getSimilarDatasets() {
@@ -397,40 +386,32 @@ class ExploreDetail extends Page {
   }
 
   handleFavoriteButtonClick() {
-    const { user } = this.props;
-    const { favourite, dataset } = this.state;
+    const { user, url } = this.props;
+    const { dataset } = this.state;
+    const favourite = user.favourites.find(f => f.attributes.resourceId === url.query.id);
+
     this.setState({ loading: true });
 
-    if (!favourite) {
-      this.userService.createFavourite('dataset', dataset.id, user.token)
-        .then((response) => {
-          this.setState({
-            favourite: response,
-            loading: false
-          });
-        })
-        .catch((err) => {
-          this.setState({ loading: false });
-          console.error(err);
-        });
-    } else {
-      this.userService.deleteFavourite(favourite.id, user.token)
-        .then(() => {
-          this.setState({
-            loading: false,
-            favourite: null
-          });
-        })
-        .catch((err) => {
-          this.setState({ loading: false });
-          console.error(err);
-        });
-    }
+    this.props.toggleFavourite({
+      favourite,
+      user,
+      resource: {
+        type: 'dataset',
+        id: dataset.id
+      }
+    })
+      .then(() => {
+        this.setState({ loading: false });
+      })
+      .catch((err) => {
+        this.setState({ loading: false });
+        console.error(err);
+      });
   }
 
   render() {
     const { url, user, exploreDataset } = this.props;
-    const { dataset, loading, similarDatasets, similarDatasetsLoaded, inferredTags, favourite } = this.state;
+    const { dataset, loading, similarDatasets, similarDatasetsLoaded, inferredTags } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
     const metadataAttributes = (metadata && metadata.attributes) || {};
@@ -439,6 +420,8 @@ class ExploreDetail extends Page {
     const { functions, cautions } = metadataInfo;
 
     const showOpenInExploreButton = dataset && dataset.attributes.layer && dataset.attributes.layer.length > 0;
+
+    const favourite = user.favourites.find(f => f.attributes.resourceId === url.query.id);
 
     const formattedDescription = this.shortenAndFormat(description, 'showDescription');
     const formattedFunctions = this.shortenAndFormat(functions, 'showFunction');
@@ -887,7 +870,8 @@ const mapDispatchToProps = dispatch => ({
   },
   setTitle: title => dispatch(setTitle(title)),
   setTopicsTree: tree => dispatch(setTopicsTree(tree)),
-  toggleLayerGroup: (datasetID, addLayer) => dispatch(toggleLayerGroup(datasetID, addLayer))
+  toggleLayerGroup: (datasetID, addLayer) => dispatch(toggleLayerGroup(datasetID, addLayer)),
+  toggleFavourite: options => dispatch(toggleFavourite(options))
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);
