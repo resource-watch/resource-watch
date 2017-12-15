@@ -31,8 +31,12 @@ export default class Modal extends React.Component {
   }
 
   render() {
+    const { options, open, className } = this.props;
     return (
-      <section ref={(node) => { this.el = node; }} className={`c-modal ${this.props.open ? '' : '-hidden'} ${this.props.options.size || ''}`}>
+      <section
+        ref={(node) => { this.el = node; }}
+        className={`c-modal ${open ? '' : '-hidden'} ${options.size || ''} ${className || ''}`}
+      >
         <div className="modal-container">
           <button className="modal-close" onClick={() => this.props.toggleModal(false)}>
             <Icon name="icon-cross" className="-big" />
@@ -51,6 +55,7 @@ Modal.propTypes = {
   // STORE
   open: PropTypes.bool,
   options: PropTypes.object,
+  className: PropTypes.string,
   loading: PropTypes.bool,
   // ACTIONS
   toggleModal: PropTypes.func,

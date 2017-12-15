@@ -359,6 +359,7 @@ class SplashDetail extends Page {
         <Modal
           open={this.state.modalOpen}
           options={modal.options}
+          className="no-borders"
           loading={modal.loading}
           toggleModal={this.props.toggleModal}
           setModalOptions={this.props.setModalOptions}
