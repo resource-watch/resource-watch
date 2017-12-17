@@ -36,9 +36,9 @@ const initialState = {
   latLng: { lat: 0, lng: 0 },
   loading: true, // Are we loading the data?
   error: null, // An error was produced while loading the data
-  favorite: {
+  favourite: {
     id: null,
-    favorited: false
+    favourited: false
   }
 };
 
@@ -116,7 +116,7 @@ export default function (state = initialState, action) {
 
     case GET_WIDGET_FAVORITE: {
       return Object.assign({}, state, {
-        favorite: Object.assign({}, state.favorite, action.payload)
+        favourite: Object.assign({}, state.favourite, action.payload)
       });
     }
 
@@ -284,7 +284,7 @@ export function toggleLayerGroupVisibility(layerGroup) {
 }
 
 /**
- * Set the favorited attribute of the store
+ * Set the favourited attribute of the store
  * @export
  * @param {string} widgetId  Widget ID
  * @param {{ id: string, token: string }?} user  Widget ID
@@ -295,17 +295,17 @@ export function checkIfFavorited(widgetId) {
     const { user } = getState();
 
     if (!user.id) {
-      dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: null, favorited: false } });
+      dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: null, favourited: false } });
     } else {
       const userService = new UserService({ apiURL: process.env.WRI_API_URL });
       userService.getFavouriteWidgets(user.token)
         .then((res) => {
-          const favorite = res.find(elem => elem.attributes.resourceId === widgetId);
+          const favourite = res.find(elem => elem.attributes.resourceId === widgetId);
           dispatch({
             type: GET_WIDGET_FAVORITE,
             payload: {
-              id: favorite ? favorite.id : null,
-              favorited: !!favorite
+              id: favourite ? favourite.id : null,
+              favourited: !!favourite
             }
           });
         });
@@ -314,10 +314,10 @@ export function checkIfFavorited(widgetId) {
 }
 
 /**
- * Set if the wiget is favorited or not
+ * Set if the wiget is favourited or not
  * @export
  * @param {string} widgetId Widget ID
- * @param {boolean} toFavorite Whether to make it favorite or not
+ * @param {boolean} toFavorite Whether to make it favourite or not
  */
 export function setIfFavorited(widgetId, toFavorite) {
   return (dispatch, getState) => {
@@ -330,14 +330,14 @@ export function setIfFavorited(widgetId, toFavorite) {
 
     // We have an optimistic approach: we tell the user the action
     // is already done, and if it fails, we rever it
-    dispatch({ type: GET_WIDGET_FAVORITE, payload: { favorited: toFavorite } });
+    dispatch({ type: GET_WIDGET_FAVORITE, payload: { favourited: toFavorite } });
 
     if (toFavorite) {
-      userService.createFavouriteWidget(widgetId, user.token)
+      userService.createFavourite('widget', widgetId, user.token)
         .then(res => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: res.data.id } }))
         .catch(() => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: null } }));
     } else {
-      const id = widget.favorite.id;
+      const id = widget.favourite.id;
 
       userService.deleteFavourite(id, user.token)
         .then(() => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: null } }))

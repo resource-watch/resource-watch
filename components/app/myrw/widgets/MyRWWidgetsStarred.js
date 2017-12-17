@@ -38,9 +38,9 @@ class MyRWWidgetsStarred extends React.Component {
       starredWidgets: false
     });
     this.userService.getFavouriteWidgets(this.props.user.token)
-      .then((response) => {
+      .then(({ data }) => {
         this.setState({
-          starredWidgets: response.map((elem) => {
+          starredWidgets: data.map((elem) => {
             const favouriteId = elem.id;
             return Object.assign({}, elem.attributes.resource, { favouriteId });
           }),

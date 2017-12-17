@@ -50,9 +50,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Prototype of the Splash page
 - Pulse: Use Cesium for both 2D and 3D layers
-- Explore: favorite datasets
-- Explore detail: favorite dataset
-- MyRW Dataset favorites
+- Explore: favourite datasets
+- Explore detail: favourite dataset
+- MyRW Dataset favourites
 - Explore detail tags section
 - Favorite widget functionality at Embed widget page
 - Styles for LayerInfoModal component

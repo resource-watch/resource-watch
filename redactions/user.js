@@ -7,6 +7,8 @@ const service = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
 */
 const SET_USER = 'user/SET_USER';
 const SET_USER_FAVOURITES = 'user/SET_USER_FAVOURITES';
+const SET_USER_FAVOURITES_LOADING = 'user/SET_USER_FAVOURITES_LOADING';
+const SET_USER_FAVOURITES_ERROR = 'user/SET_USER_FAVOURITES_ERROR';
 
 
 /**
@@ -14,10 +16,6 @@ const SET_USER_FAVOURITES = 'user/SET_USER_FAVOURITES';
 */
 const initialState = {
   favourites: []
-  // id: null,
-  // role: null,
-  // provider: null,
-  // token: null
 };
 
 export default function (state = initialState, action) {
@@ -37,29 +35,15 @@ export default function (state = initialState, action) {
 
 /**
  * ACTIONS
- * - setFavourites
  * - setUser
+ * - setFavourites
+ * - toggleFavourite
 */
-export function setFavourites() {
-  return (dispatch, getState) => {
-    const { user } = getState();
-
-    return service.setFavourites(user.token)
-      .then((response) => {
-        dispatch({ type: SET_USER_FAVOURITES, payload: response });
-      })
-      .catch(() => {
-        dispatch({ type: SET_USER_FAVOURITES, payload: [] });
-      });
-  };
-}
-
-
 export function setUser(user) {
   return (dispatch) => {
     if (!user) {
       // If the user isn't logged in, we set the user variable as an empty object
-      return dispatch({ type: SET_USER, payload: {} });
+      return;
     }
 
     const userObj = { ...user };
@@ -69,6 +53,49 @@ export function setUser(user) {
 
     dispatch({ type: SET_USER, payload: userObj });
 
+    // We must return it because it's a promise
     return dispatch(setFavourites());
+  };
+}
+
+
+// FAVOURITES
+export function setFavouriteLoading(payload) {
+  return { type: SET_USER_FAVOURITES_LOADING, payload };
+}
+
+export function setFavouriteError(payload) {
+  return { type: SET_USER_FAVOURITES_ERROR, payload };
+}
+
+export function setFavourites() {
+  return (dispatch, getState) => {
+    const { user } = getState();
+
+    return service.setFavourites(user.token)
+      .then(({ data }) => {
+        dispatch({ type: SET_USER_FAVOURITES, payload: data });
+      })
+      .catch(() => {
+        dispatch({ type: SET_USER_FAVOURITES, payload: [] });
+      });
+  };
+}
+
+export function toggleFavourite({ favourite = {}, resource, user }) {
+  return (dispatch) => {
+    if (favourite.id) {
+      return service.deleteFavourite(favourite.id, user.token)
+        .then(() => dispatch(setFavourites()))
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+
+    return service.createFavourite(resource.type, resource.id, user.token)
+      .then(() => dispatch(setFavourites()))
+      .catch((err) => {
+        console.error(err);
+      });
   };
 }
