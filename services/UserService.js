@@ -74,7 +74,11 @@ export default class UserService {
       headers: {
         Authorization: token
       }
-    });
+    })
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      });
   }
 
   /**
@@ -90,27 +94,10 @@ export default class UserService {
         Authorization: token
       }
     })
-      .then(response => response.json());
-  }
-
-  /**
-   * Creates a new favourite for a widget
-   * @param {widgetId} Widget ID
-   * @param {token} User token
-   * @returns {Promise}
-   */
-  createFavouriteWidget(widgetId, token) {
-    return this.createFavourite('widget', widgetId, token);
-  }
-
-  /**
-   * Creates a new favourite for a dataset
-   * @param {datasetId} Dataset ID
-   * @param {token} User token
-   * @returns {Promise}
-   */
-  createFavouriteDataset(datasetId, token) {
-    return this.createFavourite('dataset', datasetId, token);
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      });
   }
 
   /**
@@ -133,7 +120,10 @@ export default class UserService {
         Authorization: token
       }
     })
-      .then(response => response.json());
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      });
   }
 
   /**

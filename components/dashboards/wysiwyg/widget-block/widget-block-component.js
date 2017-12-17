@@ -16,6 +16,7 @@ import getChartTheme from 'utils/widgets/theme';
 import LayerManager from 'components/widgets/editor/helpers/LayerManager';
 
 export default function WidgetBlock({
+  user,
   data,
   item,
   onToggleFavourite,
@@ -49,18 +50,20 @@ export default function WidgetBlock({
           <Title className="-default">{widget ? widget.name : '–'}</Title>
 
           <div className="buttons">
-            <button
-              type="button"
-              onClick={() => onToggleFavourite(favourite, widget)}
-            >
-              {!favouriteLoading &&
-                <Icon name={`icon-${favourite.id ? 'star-full' : 'star-empty'}`} className="c-icon -small" />
-              }
+            {user.token &&
+              <button
+                type="button"
+                onClick={() => onToggleFavourite(favourite, widget)}
+              >
+                {!favouriteLoading &&
+                  <Icon name={`icon-${favourite.id ? 'star-full' : 'star-empty'}`} className="c-icon -small" />
+                }
 
-              {favouriteLoading &&
-                <Spinner isLoading className="-transparent -tiny -inline" />
-              }
-            </button>
+                {favouriteLoading &&
+                  <Spinner isLoading className="-transparent -tiny -inline" />
+                }
+              </button>
+            }
 
             <button
               type="button"
@@ -150,17 +153,21 @@ export default function WidgetBlock({
 }
 
 WidgetBlock.propTypes = {
+  user: PropTypes.object,
   data: PropTypes.object,
   item: PropTypes.object,
   onToggleModal: PropTypes.func,
   onToggleFavourite: PropTypes.func,
-  onToggleLoading: PropTypes.func
+  onToggleLoading: PropTypes.func,
+  onToggleLayerGroupVisibility: PropTypes.func
 };
 
 WidgetBlock.defaultProps = {
+  user: {},
   data: {},
   item: {},
   onToggleModal: null,
   onToggleFavourite: null,
-  onToggleLoading: null
+  onToggleLoading: null,
+  onToggleLayerGroupVisibility: null
 };

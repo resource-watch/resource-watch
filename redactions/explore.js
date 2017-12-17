@@ -77,7 +77,6 @@ const SET_LABELS = 'explore/SET_LABELS';
 const initialState = {
   datasets: {
     list: [],
-    favorites: [],
     loading: false,
     error: false,
     page: 1,
@@ -120,7 +119,7 @@ const initialState = {
   dataTypeTree: null,
   labels: false,
   sorting: {
-    /** @type {'modified'|'viewed'|'favorited'} order */
+    /** @type {'modified'|'viewed'|'favourited'} order */
     order: 'modified',
     // The list of datasets below is not the actual list of sorted
     // datasets, it is the list of the sorted ids
@@ -153,47 +152,6 @@ export default function (state = initialState, action) {
       const datasets = Object.assign({}, state.datasets, {
         loading: true,
         error: false
-      });
-      return Object.assign({}, state, { datasets });
-    }
-
-    case GET_FAVORITES_SUCCESS: {
-      const datasets = Object.assign({}, state.datasets, {
-        favorites: action.payload,
-        loadingFavorites: false,
-        error: false
-      });
-      return Object.assign({}, state, { datasets });
-    }
-
-    case GET_FAVORITES_ERROR: {
-      const datasets = Object.assign({}, state.datasets, {
-        loadingFavorites: false,
-        error: true
-      });
-      return Object.assign({}, state, { datasets });
-    }
-
-    case GET_FAVORITES_LOADING: {
-      const datasets = Object.assign({}, state.datasets, {
-        loadingFavorites: true,
-        error: false
-      });
-      return Object.assign({}, state, { datasets });
-    }
-
-    case ADD_FAVORITE_DATASET: {
-      const newFavorites = [...state.datasets.favorites, action.payload];
-      const datasets = Object.assign({}, state.datasets, {
-        favorites: newFavorites
-      });
-      return Object.assign({}, state, { datasets });
-    }
-
-    case REMOVE_FAVORITE_DATASET: {
-      const favorites = state.datasets.favorites.filter(elem => elem.id !== action.payload.id);
-      const datasets = Object.assign({}, state.datasets, {
-        favorites
       });
       return Object.assign({}, state, { datasets });
     }
@@ -700,7 +658,7 @@ export function setDatasetsMode(mode) {
 
 /**
  * Set the sorting order of the datasets
- * @param {'modified'|'viewed'|'favorited'} sorting
+ * @param {'modified'|'viewed'|'favourited'} sorting
  */
 export function setDatasetsSorting(sorting) {
   return (dispatch) => {
@@ -712,7 +670,7 @@ export function setDatasetsSorting(sorting) {
         promise = graphService.getMostViewedDatasets();
         break;
 
-      case 'favorited':
+      case 'favourited':
         promise = graphService.getMostFavoritedDatasets();
         break;
 
@@ -792,19 +750,5 @@ export function setLatLng(latLng, updateUrl = true) {
 
     // We also update the URL
     if (updateUrl && typeof window !== 'undefined') dispatch(setUrlParams());
-  };
-}
-
-export function addFavoriteDataset(favorite) {
-  return {
-    type: ADD_FAVORITE_DATASET,
-    payload: favorite
-  };
-}
-
-export function removeFavoriteDataset(favorite) {
-  return {
-    type: REMOVE_FAVORITE_DATASET,
-    payload: favorite
   };
 }

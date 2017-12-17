@@ -35,16 +35,16 @@ class Search extends React.Component {
         this.input.focus();
 
         // Prevent body scroll
-        document.documentElement.classList.toggle('-no-scroll');
-        document.body.classList.toggle('-no-scroll');
+        document.documentElement.classList.add('-no-scroll');
+        document.body.classList.add('-no-scroll');
       }, 160);
     } else {
       this.input.value = '';
       this.input.blur();
 
       // Allow body scroll
-      document.documentElement.classList.toggle('-no-scroll');
-      document.body.classList.toggle('-no-scroll');
+      document.documentElement.classList.remove('-no-scroll');
+      document.body.classList.remove('-no-scroll');
     }
   }
 

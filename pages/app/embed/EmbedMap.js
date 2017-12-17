@@ -68,10 +68,10 @@ class EmbedMap extends Page {
   }
 
   render() {
-    const { widget, loading, layerGroups, error, zoom, latLng, favorited, user } = this.props;
+    const { widget, loading, layerGroups, error, zoom, latLng, favourited, user } = this.props;
     const { modalOpened } = this.state;
 
-    const favoriteIcon = favorited ? 'star-full' : 'star-empty';
+    const favouriteIcon = favourited ? 'star-full' : 'star-empty';
 
     if (loading) {
       return (
@@ -131,9 +131,9 @@ class EmbedMap extends Page {
               {
                 user && user.id && (
                   <button
-                    onClick={() => this.props.setIfFavorited(widget.id, !this.props.favorited)}
+                    onClick={() => this.props.setIfFavorited(widget.id, !this.props.favourited)}
                   >
-                    <Icon name={`icon-${favoriteIcon}`} className="c-icon -small" />
+                    <Icon name={`icon-${favouriteIcon}`} className="c-icon -small" />
                   </button>
                 )
               }
@@ -197,7 +197,7 @@ EmbedMap.propTypes = {
   error: PropTypes.string,
   zoom: PropTypes.number,
   latLng: PropTypes.object,
-  favorited: PropTypes.bool
+  favourited: PropTypes.bool
 };
 
 EmbedMap.defaultProps = {
@@ -210,7 +210,7 @@ const mapStateToProps = state => ({
   error: state.widget.error,
   layerGroups: state.widget.layerGroups,
   zoom: state.widget.zoom,
-  favorited: state.widget.favorite.favorited,
+  favourited: state.widget.favourite.favourited,
   latLng: state.widget.latLng
 });
 

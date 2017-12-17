@@ -28,7 +28,7 @@ import {
   setLayer,
   setTitle
 } from 'components/widgets/editor/redux/widgetEditor';
-import { setUser } from 'redactions/user';
+import { setUser, toggleFavourite } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
 // Next
@@ -85,8 +85,7 @@ class ExploreDetail extends Page {
       showDescription: false,
       showFunction: false,
       showCautions: false,
-      inferredTags: [],
-      favorite: null
+      inferredTags: []
     };
 
     // DatasetService
@@ -117,7 +116,6 @@ class ExploreDetail extends Page {
   componentDidMount() {
     this.getDataset();
     this.getSimilarDatasets();
-    this.getFavoriteDatasets();
     this.loadTopicsTree();
     this.countView(this.props.url.query.id);
   }
@@ -210,19 +208,6 @@ class ExploreDetail extends Page {
         this.setState({ inferredTags: [] });
         console.error(err);
       });
-  }
-
-  getFavoriteDatasets() {
-    const { user, url } = this.props;
-    if (user.id) {
-      this.userService.getFavouriteDatasets(user.token)
-        .then((response) => {
-          const found = response.find(elem => elem.attributes.resourceId === url.query.id);
-          this.setState({
-            favorite: found
-          });
-        });
-    }
   }
 
   getSimilarDatasets() {
@@ -401,40 +386,32 @@ class ExploreDetail extends Page {
   }
 
   handleFavoriteButtonClick() {
-    const { user } = this.props;
-    const { favorite, dataset } = this.state;
+    const { user, url } = this.props;
+    const { dataset } = this.state;
+    const favourite = user.favourites.find(f => f.attributes.resourceId === url.query.id);
+
     this.setState({ loading: true });
 
-    if (!favorite) {
-      this.userService.createFavouriteDataset(dataset.id, user.token)
-        .then((response) => {
-          this.setState({
-            favorite: response,
-            loading: false
-          });
-        })
-        .catch((err) => {
-          this.setState({ loading: false });
-          console.error(err);
-        });
-    } else {
-      this.userService.deleteFavourite(favorite.id, user.token)
-        .then(() => {
-          this.setState({
-            loading: false,
-            favorite: null
-          });
-        })
-        .catch((err) => {
-          this.setState({ loading: false });
-          console.error(err);
-        });
-    }
+    this.props.toggleFavourite({
+      favourite,
+      user,
+      resource: {
+        type: 'dataset',
+        id: dataset.id
+      }
+    })
+      .then(() => {
+        this.setState({ loading: false });
+      })
+      .catch((err) => {
+        this.setState({ loading: false });
+        console.error(err);
+      });
   }
 
   render() {
     const { url, user, exploreDataset } = this.props;
-    const { dataset, loading, similarDatasets, similarDatasetsLoaded, inferredTags, favorite } = this.state;
+    const { dataset, loading, similarDatasets, similarDatasetsLoaded, inferredTags } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
     const metadataAttributes = (metadata && metadata.attributes) || {};
@@ -444,15 +421,17 @@ class ExploreDetail extends Page {
 
     const showOpenInExploreButton = dataset && dataset.attributes.layer && dataset.attributes.layer.length > 0;
 
+    const favourite = user.favourites.find(f => f.attributes.resourceId === url.query.id);
+
     const formattedDescription = this.shortenAndFormat(description, 'showDescription');
     const formattedFunctions = this.shortenAndFormat(functions, 'showFunction');
     const formattedCautions = this.shortenAndFormat(cautions, 'showCautions');
 
-    const starIconName = favorite ? 'icon-star-full' : 'icon-star-empty';
+    const starIconName = favourite ? 'icon-star-full' : 'icon-star-empty';
     const starIconClass = classnames({
       '-small': true,
-      '-filled': favorite,
-      '-empty': !favorite
+      '-filled': favourite,
+      '-empty': !favourite
     });
 
     if (exploreDataset && exploreDataset.error === 'Not Found') return <Error status={404} />;
@@ -493,7 +472,7 @@ class ExploreDetail extends Page {
                     {user && user.id &&
                       <li>
                         <div
-                          className="favorite-button"
+                          className="favourite-button"
                           onClick={this.handleFavoriteButtonClick}
                           title="Favorite dataset"
                           role="button"
@@ -891,7 +870,8 @@ const mapDispatchToProps = dispatch => ({
   },
   setTitle: title => dispatch(setTitle(title)),
   setTopicsTree: tree => dispatch(setTopicsTree(tree)),
-  toggleLayerGroup: (datasetID, addLayer) => dispatch(toggleLayerGroup(datasetID, addLayer))
+  toggleLayerGroup: (datasetID, addLayer) => dispatch(toggleLayerGroup(datasetID, addLayer)),
+  toggleFavourite: options => dispatch(toggleFavourite(options))
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);

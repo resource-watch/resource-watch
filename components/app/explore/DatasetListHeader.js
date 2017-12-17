@@ -13,7 +13,7 @@ import { setDatasetsMode, setDatasetsSorting } from 'redactions/explore';
 const SORTING_OPTIONS = [
   { value: 'modified', label: 'Last modified' },
   { value: 'viewed', label: 'Most viewed' },
-  { value: 'favorited', label: 'Most favorited' }
+  { value: 'favourited', label: 'Most favourited' }
 ];
 
 class DatasetListHeader extends React.Component {

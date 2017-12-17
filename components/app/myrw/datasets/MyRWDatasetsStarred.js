@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
-import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
@@ -20,7 +18,6 @@ class MyRWDatasetsStarred extends React.Component {
 
     this.state = {
       user: null,
-      favorites: [],
       starredDatasets: [],
       starredDatasetsLoaded: null
     };
@@ -34,40 +31,32 @@ class MyRWDatasetsStarred extends React.Component {
   }
 
   loadDatasets() {
-    this.setState({
-      starredDatasets: false
-    });
-    this.userService.getFavouriteDatasets(this.props.user.token)
-      .then((response) => {
-        const favorites = response;
-        const datasetIds = favorites.map(elem => elem.attributes.resourceId);
-        DatasetService.getDatasets(datasetIds, this.props.locale, 'widget,layer,vocabulary,metadata')
-          .then((resp) => {
-            this.setState({
-              favorites,
-              starredDatasets: resp,
-              starredDatasetsLoaded: true
-            });
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      }).catch((err) => {
-        console.error(err);
-        toastr.error('Error', err);
-      });
-  }
+    const { user } = this.props;
 
-  @Autobind
-  handleFavoriteRemoved(favorite) {
-    this.setState({
-      starredDatasets: this.state.starredDatasets
-        .filter(dataset => dataset.id !== favorite.attributes.resourceId)
-    });
+    const favourites = user.favourites;
+    const datasetIds = favourites.filter(f => f.attributes.resourceType === 'dataset').map(elem => elem.attributes.resourceId);
+
+    if (datasetIds.length) {
+      DatasetService.getDatasets(datasetIds, this.props.locale, 'widget,layer,vocabulary,metadata')
+        .then((resp) => {
+          this.setState({
+            starredDatasets: resp,
+            starredDatasetsLoaded: true
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else {
+      this.setState({
+        starredDatasetsLoaded: true
+      });
+    }
   }
 
   render() {
-    const { starredDatasets, starredDatasetsLoaded, favorites } = this.state;
+    const { user } = this.props;
+    const { starredDatasets, starredDatasetsLoaded } = this.state;
     return (
       <div className="c-myrw-datasets-starred">
         <div className="row">
@@ -76,20 +65,21 @@ class MyRWDatasetsStarred extends React.Component {
               isLoading={!starredDatasetsLoaded}
               className="-relative -light"
             />
+
             {starredDatasets &&
               <DatasetList
                 list={starredDatasets}
-                favorites={favorites}
+                favourites={user.favourites}
                 mode="grid"
-                onFavoriteRemoved={this.handleFavoriteRemoved}
                 showActions={false}
                 showFavorite
               />
             }
-            {starredDatasets && starredDatasets.length === 0 &&
-            <div className="no-datasets-div">
-              You currently have no starred datasets
-            </div>
+
+            {starredDatasetsLoaded === false && starredDatasets && starredDatasets.length === 0 &&
+              <div className="no-datasets-div">
+                You currently have no starred datasets
+              </div>
             }
           </div>
         </div>

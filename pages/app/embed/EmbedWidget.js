@@ -98,10 +98,10 @@ class EmbedWidget extends Page {
   }
 
   render() {
-    const { widget, loading, error, favorited, user } = this.props;
+    const { widget, loading, error, favourited, user } = this.props;
     const { isLoading, modalOpened } = this.state;
 
-    const favoriteIcon = favorited ? 'star-full' : 'star-empty';
+    const favouriteIcon = favourited ? 'star-full' : 'star-empty';
 
     if (loading) {
       return (
@@ -162,9 +162,9 @@ class EmbedWidget extends Page {
               {
                 user.id && (
                   <button
-                    onClick={() => this.props.setIfFavorited(widget.id, !this.props.favorited)}
+                    onClick={() => this.props.setIfFavorited(widget.id, !this.props.favourited)}
                   >
-                    <Icon name={`icon-${favoriteIcon}`} className="c-icon -small" />
+                    <Icon name={`icon-${favouriteIcon}`} className="c-icon -small" />
                   </button>
                 )
               }
@@ -212,7 +212,7 @@ EmbedWidget.propTypes = {
   bandStats: PropTypes.object,
   loading: PropTypes.bool,
   error: PropTypes.string,
-  favorited: PropTypes.bool
+  favourited: PropTypes.bool
 };
 
 EmbedWidget.defaultProps = {
@@ -225,7 +225,7 @@ const mapStateToProps = state => ({
   error: state.widget.error,
   bandDescription: state.widget.bandDescription,
   bandStats: state.widget.bandStats,
-  favorited: state.widget.favorite.favorited,
+  favourited: state.widget.favourite.favourited,
   user: state.user
 });
 
