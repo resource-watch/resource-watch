@@ -540,7 +540,7 @@ class Step1 extends React.Component {
                       <div className="column small-3 remove-subscribable-container">
                         <button
                           type="button"
-                          className="c-button -secondary 'fullwidth'"
+                          className="c-button -secondary -fullwidth"
                           onClick={() => this.handleRemoveSubscription(elem.id)}
                           disabled={this.state.form.subscribable.length === 1}
                         >
