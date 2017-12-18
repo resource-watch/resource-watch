@@ -1,14 +1,11 @@
 /* eslint max-len: 0 */
 import React from 'react';
-import { Link } from 'routes';
 import classnames from 'classnames';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { toggleModal, setModalOptions } from 'redactions/modal';
-import { setUser } from 'redactions/user';
-import { setRouter } from 'redactions/routes';
 
 // Layout
 import Page from 'components/app/layout/Page';
@@ -40,7 +37,6 @@ class SplashDetail extends Page {
       mouseHovering: false,
       modalOpen: false
     };
-
     // --------------- Bindings -----------------------
     this.handlePanoramaChange = this.handlePanoramaChange.bind(this);
     this.handleImageLoaded = this.handleImageLoaded.bind(this);
@@ -52,16 +48,6 @@ class SplashDetail extends Page {
   componentDidMount() {
     const { selectedPanorama } = this.state;
 
-    this.panoramaSky = document.getElementById('panorama-sky');
-    this.panoramaSky.addEventListener('materialtextureloaded', this.handleImageLoaded);
-
-    selectedPanorama.hotspots.forEach((hotspot) => {
-      const elem = document.getElementById(hotspot.id);
-      elem.addEventListener('click', () => this.handleSelectedHostpot(hotspot));
-      elem.addEventListener('mouseenter', () => this.handleMouseOverHotspot(hotspot));
-      elem.addEventListener('mouseleave', () => this.handleMouseLeavesHotspot(hotspot))
-    });
-
     const options = {
       children: SplashDetailModal,
       childrenProps: {
@@ -70,11 +56,29 @@ class SplashDetail extends Page {
       }
     };
     this.props.toggleModal(true, options);
+
+    this.panoramaSky = document.getElementById('panorama-sky');
+    this.panoramaSky.addEventListener('materialtextureloaded', this.handleImageLoaded);
+
+    this.addEventListenersToHotspots();
   }
 
   componentWillReceiveProps(newProps) {
     if (this.state.modalOpen !== newProps.modal.open) {
       this.setState({ modalOpen: newProps.modal.open });
+    }
+  }
+
+  addEventListenersToHotspots() {
+    const { selectedPanorama } = this.state;
+
+    if (selectedPanorama.hotspots) {
+      selectedPanorama.hotspots.forEach((hotspot) => {
+        const elem = document.getElementById(hotspot.id);
+        elem.addEventListener('click', () => this.handleSelectedHostpot(hotspot));
+        elem.addEventListener('mouseenter', () => this.handleMouseOverHotspot(hotspot));
+        elem.addEventListener('mouseleave', () => this.handleMouseLeavesHotspot(hotspot));
+      });
     }
   }
 
@@ -94,7 +98,7 @@ class SplashDetail extends Page {
     this.setState({
       selectedPanorama: panorama.options.find(e => e.name === radioButtonId),
       skyLoading: true
-    });
+    }, () => this.addEventListenersToHotspots());
   }
 
   handleImageLoaded() {
@@ -110,10 +114,10 @@ class SplashDetail extends Page {
   handleSelectedHostpot(hotspot) {
     this.setState({ selectedHotspot: hotspot });
   }
-  handleMouseOverHotspot(hotspot) {
+  handleMouseOverHotspot() {
     this.setState({ mouseHovering: true });
   }
-  handleMouseLeavesHotspot(hotspot) {
+  handleMouseLeavesHotspot() {
     this.setState({ mouseHovering: false });
   }
 
@@ -133,8 +137,6 @@ class SplashDetail extends Page {
       mouseHovering
     } = this.state;
     const skyImage = selectedPanorama && selectedPanorama.image;
-    const intro = selectedPanorama && selectedPanorama.intro;
-    const markup = selectedPanorama && selectedPanorama.markup;
     const hotspots = selectedPanorama && selectedPanorama.hotspots;
     const options = panorama && panorama.options;
     const backgroundSound = panorama.backgroundSound;
@@ -154,7 +156,7 @@ class SplashDetail extends Page {
           description="SplashDetail page description"
         />
         <Header
-          showEarthViewLink={true}
+          showEarthViewLink
         />
         {selectedHotspot &&
           <div className="hotspot-section">
@@ -171,7 +173,7 @@ class SplashDetail extends Page {
                 tabIndex={-1}
                 onClick={this.handleCloseRightMenu}
               >
-                <img src="/static/images/splash/close-modal.svg" />
+                <img src="/static/images/splash/close-modal.svg" alt="Close" />
                 Close
               </div>
             </div>
@@ -192,7 +194,7 @@ class SplashDetail extends Page {
               ))
               }
               <div className="option">
-                <input type="checkbox" id="soundCheckbox" checked={soundActivated} onChange={this.handleSoundChange}/>
+                <input type="checkbox" id="soundCheckbox" checked={soundActivated} onChange={this.handleSoundChange} />
                 <label htmlFor="soundCheckbox">Sound</label>
               </div>
             </div>
