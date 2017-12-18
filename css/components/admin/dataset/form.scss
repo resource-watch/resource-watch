@@ -2,7 +2,10 @@
 
   .remove-subscribable-container {
     display: flex;
-    align-items: flex-end;
+
+    button {
+      margin-top: 52px;
+    }
   }
 
   .add-subscribable-container {

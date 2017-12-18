@@ -481,7 +481,7 @@ class Step1 extends React.Component {
 
           {isCarto && user.role === 'ADMIN' && !basic &&
             <Field
-              ref={(c) => { if (c) FORM_ELEMENTS.elements.verified = c; }}
+              ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribable = c; }}
               onChange={value => this.onSubscribableCheckboxChange(value.checked)}
               properties={{
                 name: 'subscribable',
