@@ -1,7 +1,7 @@
 import initOpbeat from 'opbeat-react';
 import { createOpbeatMiddleware } from 'opbeat-react/redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import thunk from 'redux-thunk';
 import * as reducers from 'redactions';
 
@@ -32,10 +32,12 @@ const reducer = combineReducers({
   widgetBlockEdition: handleModule(widgetBlockEditionModule)
 });
 
+const composeEnhancers = composeWithDevTools({});
+
 export const initStore = (initialState = {}) => createStore(
   reducer,
   initialState,
-  composeWithDevTools(
+  composeEnhancers(
     /* The router middleware MUST be before thunk otherwise the URL changes
     * inside a thunk function won't work properly */
     applyMiddleware(thunk, createOpbeatMiddleware())
