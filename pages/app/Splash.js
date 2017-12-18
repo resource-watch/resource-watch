@@ -2,7 +2,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import { Autobind } from 'es-decorators';
-import { Router, Link } from 'routes';
+import { Router } from 'routes';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -67,8 +67,6 @@ class Splash extends Page {
   }
 
   componentDidMount() {
-
-
     // Init Cesium var
     Cesium = window.Cesium;
     Cesium.BingMapsApi.defaultKey = process.env.BING_MAPS_API_KEY;

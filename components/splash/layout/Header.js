@@ -15,11 +15,9 @@ function Header(props) {
           <Link route="splash">
             <img src="/static/images/splash/globe.svg" alt="Earth view" />
           </Link>
-
-            <Link route="splash">
-              <a>EARTH VIEW</a>
-            </Link>
-
+          <Link route="splash">
+            <a>EARTH VIEW</a>
+          </Link>
         </div>
         }
         <Link route="home">
@@ -28,7 +26,7 @@ function Header(props) {
       </div>
     </div>
   );
-};
+}
 
 Header.defaultProps = {
   showEarthViewLink: false
