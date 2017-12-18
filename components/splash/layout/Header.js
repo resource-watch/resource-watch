@@ -35,7 +35,7 @@ Header.defaultProps = {
 };
 
 Header.propTypes = {
-  showEarthViewLink: PropTypes.boolean
+  showEarthViewLink: PropTypes.bool
 };
 
 export default Header;

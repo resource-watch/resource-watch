@@ -267,7 +267,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  toggleModal
+  toggleModal,
+  setModalOptions
 };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(SplashDetail);
