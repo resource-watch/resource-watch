@@ -240,6 +240,25 @@ class Step1 extends React.Component {
                 {Code}
               </Field>
             }
+
+            {/*
+            *****************************************************
+            ****************** WIDGET LINKS *********************
+            *****************************************************
+            */}
+
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements.widget_links = c; }}
+              onChange={value => this.onWidgetLinksCheckboxChange(value.checked)}
+              properties={{
+                name: 'widget_links',
+                title: 'Widget links',
+                checked: this.state.form.widgetLinks.length > 0
+              }}
+            >
+              {Checkbox}
+            </Field>
+
           </fieldset>
         }
       </fieldset>
