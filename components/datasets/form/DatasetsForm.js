@@ -73,6 +73,7 @@ class DatasetsForm extends React.Component {
               })
               .catch((err) => {
                 this.setState({ loadingColumns: false });
+                console.error('Error fetching the dataset', err);
               });
           } else {
             this.setState({ loadingColumns: false });
@@ -178,7 +179,8 @@ class DatasetsForm extends React.Component {
       if (params[f] || this.state.form[f]) {
         if (f === 'subscribable') {
           const subscribable = params[f] || this.state.form[f];
-          newForm.subscribable = Object.keys(subscribable).map((prop, i) => ({ key: prop, value: subscribable[prop], id: i }));
+          newForm.subscribable = Object.keys(subscribable)
+            .map((prop, i) => ({ key: prop, value: subscribable[prop], id: i }));
         } else {
           newForm[f] = params[f] || this.state.form[f];
         }
