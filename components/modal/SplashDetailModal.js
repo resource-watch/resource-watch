@@ -8,8 +8,7 @@ import { toggleModal } from 'redactions/modal';
 class SplashDetailModal extends React.Component {
   constructor(props) {
     super(props);
-    console.log('props', props);
-
+    
     //------- Bindings ---------------
     this.handleOk = this.handleOk.bind(this);
   }
