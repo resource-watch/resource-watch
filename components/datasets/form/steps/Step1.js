@@ -121,7 +121,6 @@ class Step1 extends React.Component {
   handleAddSubscription() {
     const subscribable = this.props.form.subscribable.slice(0);
     subscribable.push({ type: '', value: '', id: Date.now() });
-    this.subscribableCounter++;
     this.props.onChange({ subscribable });
   }
 
