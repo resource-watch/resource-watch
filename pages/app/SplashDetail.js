@@ -1,7 +1,6 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import { Link } from 'routes';
-import { Autobind } from 'es-decorators';
 import classnames from 'classnames';
 
 // Redux
@@ -39,8 +38,7 @@ const PANORAMAS = [
         name: 'bleached',
         label: 'Bleached',
         image: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/images/bleached-optimized.jpg',
-        markup: <p>What might resemble a beautiful snowfall is actually a destructive stress response known as coral bleaching, which occurred in Airport Reef in 2015. Prolonged exposure to warmer ocean temperatures can cause corals to expel their symbiotic algae (which gives color to corals and nourishes them through photosynthesis), leaving the corals’ white skeletons visible. Some corals are able to bounce back from a bleaching event if water temperatures decrease fast enough. In a warming ocean, however, <a href="https://www.coralcoe.org.au/media-releases/two-thirds-of-great-barrier-reef-hit-by-back-to-back-mass-coral-bleaching" taget="_blank">corals will have less time to recover</a> between bleaching events, and widespread die-off could occur.\nPhoto date: February 2, 2015</p>,
-        intro: null,
+        intro: <p>What might resemble a beautiful snowfall is actually a destructive stress response known as coral bleaching, which occurred in Airport Reef in 2015. Prolonged exposure to warmer ocean temperatures can cause corals to expel their symbiotic algae (which gives color to corals and nourishes them through photosynthesis), leaving the corals’ white skeletons visible. Some corals are able to bounce back from a bleaching event if water temperatures decrease fast enough. In a warming ocean, however, <a href="https://www.coralcoe.org.au/media-releases/two-thirds-of-great-barrier-reef-hit-by-back-to-back-mass-coral-bleaching" taget="_blank">corals will have less time to recover</a> between bleaching events, and widespread die-off could occur.\nPhoto date: February 2, 2015</p>,
         hotspots: [
           {
             title: 'Coral bleaching on the rise',
@@ -107,27 +105,6 @@ const PANORAMAS = [
 ];
 
 class SplashDetail extends Page {
-  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
-    const { user } = isServer ? req : store.getState();
-    const url = { asPath, pathname, query };
-    await store.dispatch(setUser(user));
-    store.dispatch(setRouter(url));
-
-    // --- Set initial modal ----
-    if (true) {
-      const options = {
-        children: SplashDetailModal,
-        childrenProps: {
-          text: 'sal;sajktlksa'
-        }
-      };
-      store.dispatch(toggleModal(true, options));
-      console.log('hey!');
-    }
-    // -------------------------
-    return { user, isServer, url };
-  }
-
   constructor(props) {
     super(props);
     const panorama = PANORAMAS.find(p => p.name === props.url.query.id);
@@ -138,13 +115,19 @@ class SplashDetail extends Page {
       skyLoading: false,
       panorama,
       selectedPanorama,
-      showDragHelp: true,
       soundActivated: true,
       selectedHotspot: null,
       earthMode,
       mouseHovering: false,
       modalOpen: false
     };
+
+    // --------------- Bindings -----------------------
+    this.handlePanoramaChange = this.handlePanoramaChange.bind(this);
+    this.handleImageLoaded = this.handleImageLoaded.bind(this);
+    this.handleSoundChange = this.handleSoundChange.bind(this);
+    this.handleCloseRightMenu = this.handleCloseRightMenu.bind(this);
+    // ------------------------------------------------
   }
 
   componentDidMount() {
@@ -152,7 +135,6 @@ class SplashDetail extends Page {
 
     this.panoramaSky = document.getElementById('panorama-sky');
     this.panoramaSky.addEventListener('materialtextureloaded', this.handleImageLoaded);
-    document.addEventListener('mousedown', this.hideDragHelp);
 
     selectedPanorama.hotspots.forEach((hotspot) => {
       const elem = document.getElementById(hotspot.id);
@@ -164,11 +146,10 @@ class SplashDetail extends Page {
     const options = {
       children: SplashDetailModal,
       childrenProps: {
-        text: 'sal;sajktlksa'
+        text: selectedPanorama.markup
       }
     };
     this.props.toggleModal(true, options);
-    console.log('ho!');
   }
 
   componentWillReceiveProps(newProps) {
@@ -177,7 +158,16 @@ class SplashDetail extends Page {
     }
   }
 
-  @Autobind
+  /**
+  * UI Event handlers
+  * - handlePanoramaChange
+  * - handleImageLoaded
+  * - handleSoundChange
+  * - handleSelectedHostpot
+  * - handleMouseOverHotspot
+  * - handleMouseLeavesHotspot
+  * - handleCloseRightMenu
+  */
   handlePanoramaChange(event) {
     const { panorama } = this.state;
     const radioButtonId = event.target.getAttribute('id');
@@ -187,18 +177,10 @@ class SplashDetail extends Page {
     });
   }
 
-  @Autobind
   handleImageLoaded() {
     this.setState({ skyLoading: false });
   }
 
-  @Autobind
-  hideDragHelp() {
-    this.setState({ showDragHelp: false });
-    document.removeEventListener('mousedown', this.hideDragHelp);
-  }
-
-  @Autobind
   handleSoundChange() {
     this.setState({
       soundActivated: !this.state.soundActivated
@@ -215,8 +197,6 @@ class SplashDetail extends Page {
     this.setState({ mouseHovering: false });
   }
 
-
-  @Autobind
   handleCloseRightMenu() {
     this.setState({ selectedHotspot: null });
   }
@@ -227,7 +207,6 @@ class SplashDetail extends Page {
       selectedPanorama,
       skyLoading,
       panorama,
-      showDragHelp,
       soundActivated,
       selectedHotspot,
       earthMode,
@@ -329,15 +308,6 @@ class SplashDetail extends Page {
               >
                 <track kind="captions" /> { /* TO-DO add captions for deaf users */ }
               </audio>
-            }
-
-            {intro && showDragHelp &&
-              <a-entity
-                id="intro"
-                position="0 2 -10"
-                geometry="primitive: plane; height: 10; width: 10"
-                material={`shader: flat; src: ${intro}; transparent: true`}
-              />
             }
 
             { /* Hotspots */ }
