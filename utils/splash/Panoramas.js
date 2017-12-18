@@ -33,6 +33,7 @@ export const PANORAMAS = [
                   The spike in 1998, which represents the first global coral bleaching event, was abnormally high; but, as the graph shows, the frequency and severity of coral bleaching events dramatically increased in the following years as well.
                 </p>
                 <iframe src="https://staging.resourcewatch.org/embed/widget/a47df7b0-0cdb-4fc2-a877-7c4324c1d6fa" width="100%" height="474" frameBorder="0"></iframe>
+                <p/>
                 <h3>
                   What happened in 2002 and 2005?
                 </h3>
