@@ -520,7 +520,7 @@ class Step1 extends React.Component {
                           {Input}
                         </Field>
                       </div>
-                      <div className="column small-7">
+                      <div className="column small-6">
                         <Field
                           ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribableText = c; }}
                           onChange={value => this.onSubscribableChange({ value, id: elem.id })}
@@ -537,10 +537,10 @@ class Step1 extends React.Component {
                           {Input}
                         </Field>
                       </div>
-                      <div className="column remove-subscribable-container">
+                      <div className="column small-3 remove-subscribable-container">
                         <button
                           type="button"
-                          className="c-button -secondary"
+                          className="c-button -secondary 'fullwidth'"
                           onClick={() => this.handleRemoveSubscription(elem.id)}
                           disabled={this.state.form.subscribable.length === 1}
                         >
