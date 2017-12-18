@@ -1,5 +1,25 @@
 .splash-detail-modal {
+  display: flex;
+  width: 550px;
   background-color: $dark-pink;
   color: $white;
-  z-index: 1000000093;
+  border-radius: 4px;
+
+  .content {
+    padding: 50px;
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+
+      button {
+        width: 135px;
+      }
+    }
+
+    a {
+      color: $white;
+      text-decoration: underline;
+    }
+  }
 }

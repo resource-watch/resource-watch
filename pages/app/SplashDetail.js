@@ -38,7 +38,7 @@ const PANORAMAS = [
         name: 'bleached',
         label: 'Bleached',
         image: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/images/bleached-optimized.jpg',
-        intro: <p>What might resemble a beautiful snowfall is actually a destructive stress response known as coral bleaching, which occurred in Airport Reef in 2015. Prolonged exposure to warmer ocean temperatures can cause corals to expel their symbiotic algae (which gives color to corals and nourishes them through photosynthesis), leaving the corals’ white skeletons visible. Some corals are able to bounce back from a bleaching event if water temperatures decrease fast enough. In a warming ocean, however, <a href="https://www.coralcoe.org.au/media-releases/two-thirds-of-great-barrier-reef-hit-by-back-to-back-mass-coral-bleaching" taget="_blank">corals will have less time to recover</a> between bleaching events, and widespread die-off could occur.\nPhoto date: February 2, 2015</p>,
+        intro: <p>What might resemble a beautiful snowfall is actually a destructive stress response known as coral bleaching, which occurred in Airport Reef in 2015. Prolonged exposure to warmer ocean temperatures can cause corals to expel their symbiotic algae (which gives color to corals and nourishes them through photosynthesis), leaving the corals’ white skeletons visible. Some corals are able to bounce back from a bleaching event if water temperatures decrease fast enough. In a warming ocean, however, <a href="https://www.coralcoe.org.au/media-releases/two-thirds-of-great-barrier-reef-hit-by-back-to-back-mass-coral-bleaching" target="_blank">corals will have less time to recover</a> between bleaching events, and widespread die-off could occur.\nPhoto date: February 2, 2015</p>,
         hotspots: [
           {
             title: 'Coral bleaching on the rise',
@@ -146,7 +146,8 @@ class SplashDetail extends Page {
     const options = {
       children: SplashDetailModal,
       childrenProps: {
-        text: selectedPanorama.markup
+        markup: selectedPanorama.intro,
+        className: 'no-borders'
       }
     };
     this.props.toggleModal(true, options);

@@ -8,6 +8,7 @@ import { toggleModal } from 'redactions/modal';
 class SplashDetailModal extends React.Component {
   constructor(props) {
     super(props);
+    console.log('props', props);
 
     //------- Bindings ---------------
     this.handleOk = this.handleOk.bind(this);
@@ -21,7 +22,7 @@ class SplashDetailModal extends React.Component {
     return (
       <div className="splash-detail-modal">
         <div className="content">
-          {this.props.text}
+          {this.props.markup}
           <div className="buttons">
             <button
               className="c-btn -secondary"
@@ -38,7 +39,7 @@ class SplashDetailModal extends React.Component {
 
 SplashDetailModal.propTypes = {
   toggleModal: PropTypes.func.isRequired,
-  text: PropTypes.object
+  markup: PropTypes.object
 };
 
 const mapDispatchToProps = {

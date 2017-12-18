@@ -23,6 +23,17 @@
     }
   }
 
+  &.no-borders {
+    .modal-content {
+      padding: 0px;
+      max-height: 100vh;
+      width: auto;
+    }
+    .modal-container {
+      width: auto;
+    }
+  }
+
   .modal-container {
     transition: transform $animation-time-2 $ease-out-cubic;
     transform: translateY(0);
@@ -33,10 +44,6 @@
     background: white;
     box-shadow: 0 1px 1px rgba(0,0,0,.15);
     z-index: 1;
-
-    &.no-borders {
-      width: 100%;
-    }
   }
 
   .modal-content {
