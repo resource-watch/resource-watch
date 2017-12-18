@@ -118,9 +118,10 @@ class DatasetsForm extends React.Component {
           };
 
           const bodyObj = omit(this.state.form, requestOptions.omit);
-          const newSubscribable = {};
-          bodyObj.subscribable.forEach( elem => newSubscribable[elem.type] = elem.value);
-          bodyObj.subscribable = newSubscribable;
+          bodyObj.subscribable = bodyObj.subscribable.reduce((o, val) => ({
+            ...o,
+            [val.type]: val.value
+          }), {});
 
           // Save the data
           this.service.saveData({

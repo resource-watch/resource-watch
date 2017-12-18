@@ -35,6 +35,9 @@ class Step1 extends React.Component {
     // BINDINGS
     this.onCartoFieldsChange = this.onCartoFieldsChange.bind(this);
     this.handleAddSubscription = this.handleAddSubscription.bind(this);
+
+    // initialize subscribable counter
+    this.subscribableCounter = 0;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -65,14 +68,13 @@ class Step1 extends React.Component {
   }
 
   onSubscribableChange(obj) {
-    const { subscribable } = this.props.form;
-    const newSubscribable = subscribable.slice(0);
-    if (obj.type) {
-      newSubscribable[obj.id].type = obj.type;
-    } else if(obj.value) {
-      newSubscribable[obj.id].value = obj.value;
-    }
-    this.props.onChange({ subscribable: newSubscribable });
+    const subscribable = this.props.form.subscribable.slice(0);
+    const index = subscribable.findIndex(elem => elem.id === obj.id);
+    subscribable[index] = {
+      ...subscribable[index],
+      ...obj
+    };
+    this.props.onChange({ subscribable });
   }
 
   onSubscribableCheckboxChange(checked) {
@@ -86,18 +88,18 @@ class Step1 extends React.Component {
     }
   }
 
-  handleRemoveSubscription(index) {
-    const { subscribable } = this.props.form;
-    const newSubscribable = subscribable.slice(0);
+  handleRemoveSubscription(id) {
+    const subscribable = this.props.form.subscribable.slice(0);
+    const index = subscribable.findIndex(s => s.id === id);
     newSubscribable.splice(index, 1)
     this.props.onChange({ subscribable: newSubscribable });
   }
 
   handleAddSubscription() {
-    const { subscribable } = this.props.form;
-    const newSubscribable = subscribable.slice(0);
-    newSubscribable.push({ type: '', value: '', id: subscribable.length })
-    this.props.onChange({ subscribable: newSubscribable });
+    const subscribable = this.props.form.subscribable.slice(0);
+    subscribable.push({ type: '', value: '', id: this.subscribableCounter });
+    this.subscribableCounter++;
+    this.props.onChange({ subscribable });
   }
 
   /**
@@ -149,10 +151,6 @@ class Step1 extends React.Component {
     const isDocument = (isJson || isXml || isCsv || isTsv);
 
     const columnFieldsOptions = (columnFields || []).map(f => ({ label: f, value: f }));
-
-    const addSubscribableButtonClassname = classnames({
-
-    });
 
     return (
       <div>
