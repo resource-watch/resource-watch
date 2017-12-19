@@ -1,0 +1,36 @@
+.c-splash-header {
+  
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 26px;
+  z-index: 9999;
+
+  .logo {
+    width: 310px;
+  }
+
+  img, a {
+    cursor: pointer;
+  }
+
+  .links {
+    display: flex;
+    a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .earth-view-link {
+      margin-right: 45px;
+
+      a {
+        margin-left: 15px;
+      }
+    }
+  }
+}
