@@ -73,8 +73,6 @@ class Step1 extends React.Component {
   render() {
     const { widgetLinksSelected } = this.state;
 
-    console.log('this.state', this.state);
-
     return (
       <div>
         <fieldset className="c-field-container">
