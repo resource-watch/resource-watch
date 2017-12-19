@@ -160,7 +160,12 @@ class SplashDetail extends Page {
         />
         {selectedHotspot &&
           <div className="hotspot-section">
-            <div className="selected-hotspot-container">
+            <div
+              className="selected-hotspot-container"
+              role="button"
+              tabIndex={-1}
+              onClick={this.handleCloseRightMenu}
+            >
               <img src={selectedHotspot.imageSelected} alt={selectedHotspot.title} />
             </div>
             <div className="detail-container">
@@ -169,13 +174,13 @@ class SplashDetail extends Page {
                 {selectedHotspot.markup}
               </div>
             </div>
-            <div className="close-button-container">
-              <div
-                className="close-button"
-                role="button"
-                tabIndex={-1}
-                onClick={this.handleCloseRightMenu}
-              >
+            <div
+              className="close-button-container"
+              role="button"
+              tabIndex={-1}
+              onClick={this.handleCloseRightMenu}
+            >
+              <div className="close-button">
                 <img src="/static/images/splash/close-modal.svg" alt="Close" />
                 Close
               </div>
@@ -192,13 +197,17 @@ class SplashDetail extends Page {
               {options && options.map(elem => (
                 <div className="option" key={elem.name}>
                   <input type="radio" id={elem.name} checked={selectedPanorama.name === elem.name} onChange={this.handlePanoramaChange} />
-                  <label htmlFor={elem.name}>{elem.label}</label>
+                  <label htmlFor={elem.name}>
+                    {elem.label}
+                  </label>
                 </div>
               ))
               }
               <div className="option">
                 <input type="checkbox" id="soundCheckbox" checked={soundActivated} onChange={this.handleSoundChange} />
-                <label htmlFor="soundCheckbox">Sound</label>
+                <label htmlFor="soundCheckbox">
+                  Sound
+                </label>
               </div>
             </div>
           </div>

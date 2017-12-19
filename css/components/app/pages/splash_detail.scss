@@ -28,7 +28,8 @@
     }
 
     .detail-container {
-      width: 100%;
+      min-width: 500px;
+      max-width: 500px;
       height: 100%;
       padding-top: 15%;
       overflow: auto;
