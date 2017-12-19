@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
@@ -27,6 +26,14 @@ import UpdatedAtTD from './td/UpdatedAtTD';
 import OwnershipTD from './td/OwnershipTD';
 
 class LayersTable extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // ---------------- Bindings ---------------------
+    this.onSearch = this.onSearch.bind(this);
+    // -----------------------------------------------
+  }
+
   componentDidMount() {
     const { dataset, application } = this.props;
     this.props.setFilters([]);
@@ -37,7 +44,6 @@ class LayersTable extends React.Component {
    * Event handler executed when the user search for a layer
    * @param {string} { value } Search keywords
    */
-  @Autobind
   onSearch(value) {
     if (!value.length) {
       this.props.setFilters([]);
