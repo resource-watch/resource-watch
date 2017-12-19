@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
@@ -28,6 +27,14 @@ import OwnershipTD from './td/OwnershipTD';
 
 
 class WidgetsTable extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // ------------------- Bindings -----------------------
+    this.onSearch = this.onSearch.bind(this);
+    // ----------------------------------------------------
+  }
+
   componentDidMount() {
     this.props.setFilters([]);
     // TODO: get filtered widgets
@@ -40,7 +47,6 @@ class WidgetsTable extends React.Component {
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  @Autobind
   onSearch(value) {
     if (!value.length) {
       this.props.setFilters([]);
