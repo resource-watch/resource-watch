@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
@@ -25,6 +24,14 @@ import PublishedTD from './td/PublishedTD';
 import PreviewTD from './td/PreviewTD';
 
 class DashboardsTable extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // ------------------- Bindings -----------------------
+    this.onSearch = this.onSearch.bind(this);
+    // ----------------------------------------------------
+  }
+
   componentDidMount() {
     this.props.setFilters([]);
     this.props.getDashboards();
@@ -34,7 +41,6 @@ class DashboardsTable extends React.Component {
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  @Autobind
   onSearch(value) {
     if (!value.length) {
       this.props.setFilters([]);

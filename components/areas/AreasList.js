@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import { Link } from 'routes';
 import { toastr } from 'react-redux-toastr';
 
@@ -29,6 +28,10 @@ class AreasList extends React.Component {
     };
 
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
+
+    // ------------------- Bindings -----------------------
+    this.handleAreaRemoved = this.handleAreaRemoved.bind(this);
+    // ----------------------------------------------------
   }
 
   componentDidMount() {
@@ -124,7 +127,6 @@ class AreasList extends React.Component {
       });
   }
 
-  @Autobind
   handleAreaRemoved() {
     this.loadData();
   }
@@ -163,7 +165,7 @@ class AreasList extends React.Component {
             )}
             {areasMerged && areas.length === 0 &&
               <div className="no-areas-container">
-                <p>You haven't created any areas yet</p>
+                <p>You have not created any areas yet</p>
               </div>
             }
           </div>
