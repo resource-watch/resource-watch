@@ -330,7 +330,7 @@ class Step1 extends React.Component {
                               ref={(c) => { if (c) FORM_ELEMENTS.elements.widgetLinkLink = c; }}
                               onChange={value => this.onWidgetLinkChange({
                                 link: value, id: elem.id })}
-                              validations={['required']}
+                              validations={['required', 'url']}
                               className="-fluid"
                               properties={{
                                 name: 'widgetLinkLink',
