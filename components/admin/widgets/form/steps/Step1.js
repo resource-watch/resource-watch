@@ -72,7 +72,7 @@ class Step1 extends React.Component {
     this.props.onChange({ widgetLinks });
   }
 
-  handleAddSubscription() {
+  handleAddWidgetLink() {
     const widgetLinks = this.props.form.widgetLinks.slice(0);
     widgetLinks.push({ name: '', link: '', id: Date.now() });
     this.props.onChange({ widgetLinks });
