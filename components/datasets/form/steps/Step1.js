@@ -5,7 +5,6 @@ import compact from 'lodash/compact';
 // Redux
 import { connect } from 'react-redux';
 
-
 // Constants
 import { PROVIDER_TYPES_DICTIONARY, FORM_ELEMENTS, DATASET_TYPES } from 'components/datasets/form/constants';
 
@@ -27,11 +26,13 @@ class Step1 extends React.Component {
       dataset: props.dataset,
       form: props.form,
       carto: {},
-      document: {}
+      document: {},
+      subscribableSelected: props.form.subscribable.length > 0
     };
 
     // BINDINGS
     this.onCartoFieldsChange = this.onCartoFieldsChange.bind(this);
+    this.handleAddSubscription = this.handleAddSubscription.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -42,6 +43,10 @@ class Step1 extends React.Component {
     * UI EVENTS
     * - onCartoFieldsChange
     * - onLegendChange
+    * - onSubscribableChange
+    * - onSubscribableCheckboxChange
+    * - handleRemoveSubscription
+    * - handleAddSubscription
   */
   onCartoFieldsChange() {
     const { cartoAccountUsername, tableName } = this.state.carto;
@@ -55,6 +60,27 @@ class Step1 extends React.Component {
   onLegendChange(obj) {
     const legend = Object.assign({}, this.props.form.legend, obj);
     this.props.onChange({ legend });
+  }
+
+  onSubscribableChange(obj) {
+    const subscribable = this.props.form.subscribable.slice(0);
+    const index = subscribable.findIndex(elem => elem.id === obj.id);
+    subscribable[index] = {
+      ...subscribable[index],
+      ...obj
+    };
+    this.props.onChange({ subscribable });
+  }
+
+  onSubscribableCheckboxChange(checked) {
+    this.setState({
+      subscribableSelected: checked
+    });
+    if (checked) {
+      this.props.onChange({ subscribable: [{ type: '', value: '', id: 0 }] });
+    } else {
+      this.props.onChange({ subscribable: [] });
+    }
   }
 
   /**
@@ -85,10 +111,23 @@ class Step1 extends React.Component {
     return (basic) ? compact(options) : options;
   }
 
+  handleRemoveSubscription(id) {
+    const subscribable = this.props.form.subscribable.slice(0);
+    const index = subscribable.findIndex(s => s.id === id);
+    subscribable.splice(index, 1);
+    this.props.onChange({ subscribable });
+  }
+
+  handleAddSubscription() {
+    const subscribable = this.props.form.subscribable.slice(0);
+    subscribable.push({ type: '', value: '', id: Date.now() });
+    this.props.onChange({ subscribable });
+  }
+
 
   render() {
     const { user, columns, loadingColumns, basic } = this.props;
-    const { dataset } = this.state;
+    const { dataset, subscribableSelected } = this.state;
     const { provider, columnFields } = this.state.form;
 
     // Reset FORM_ELEMENTS
@@ -432,6 +471,99 @@ class Step1 extends React.Component {
             >
               {Input}
             </Field>
+          }
+
+          {/*
+            *****************************************************
+            ****************** SUBSCRIBABLE ****************
+            *****************************************************
+          */}
+
+          {isCarto && user.role === 'ADMIN' && !basic &&
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribable = c; }}
+              onChange={value => this.onSubscribableCheckboxChange(value.checked)}
+              properties={{
+                name: 'subscribable',
+                title: 'Subscribable',
+                checked: Object.keys(this.state.form.subscribable).length > 0
+              }}
+            >
+              {Checkbox}
+            </Field>
+          }
+          {subscribableSelected &&
+            <div>
+              {
+                this.state.form.subscribable.map(elem => (
+                  <div
+                    className="c-field-row"
+                    key={elem.id}
+                  >
+                    <div className="l-row row">
+                      <div className="column small-3">
+                        <Field
+                          ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribableType = c; }}
+                          onChange={value => this.onSubscribableChange({
+                            type: value, id: elem.id })}
+                          validations={['required']}
+                          className="-fluid"
+                          properties={{
+                            name: 'subscribableType',
+                            label: 'Type',
+                            type: 'text',
+                            default: elem.key,
+                            required: true
+                          }}
+                        >
+                          {Input}
+                        </Field>
+                      </div>
+                      <div className="column small-6">
+                        <Field
+                          ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribableText = c; }}
+                          onChange={value => this.onSubscribableChange({ value, id: elem.id })}
+                          validations={['required']}
+                          className="-fluid"
+                          properties={{
+                            name: 'subscribableText',
+                            label: 'Query',
+                            type: 'text',
+                            default: elem.value,
+                            required: true
+                          }}
+                        >
+                          {Input}
+                        </Field>
+                      </div>
+                      <div className="column small-3 remove-subscribable-container">
+                        <button
+                          type="button"
+                          className="c-button -secondary -fullwidth"
+                          onClick={() => this.handleRemoveSubscription(elem.id)}
+                          disabled={this.state.form.subscribable.length === 1}
+                        >
+                            Remove
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              }
+              <div className="c-field-row">
+                <div className="l-row row">
+                  <div className="column small-12 add-subscribable-container">
+                    <button
+                      type="button"
+                      className="c-button -secondary -fullwidth"
+                      onClick={this.handleAddSubscription}
+                    >
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           }
 
           {/*

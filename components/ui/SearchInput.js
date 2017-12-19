@@ -68,7 +68,7 @@ SearchInput.propTypes = {
   input: PropTypes.object.isRequired,
   link: PropTypes.object.isRequired,
   onSearch: PropTypes.func.isRequired,
-  escapeText: PropTypes.func.isRequired
+  escapeText: PropTypes.bool.isRequired
 };
 
 SearchInput.defaultProps = {
