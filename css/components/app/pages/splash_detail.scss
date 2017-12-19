@@ -12,8 +12,20 @@
     background-color: rgba(0,0,0,0.8);
     color: $white;
     z-index: 99999;
-    padding-left: 33%;
     display: flex;
+
+    .selected-hotspot-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        max-width: 250px;
+        margin-top: 80px;
+      }
+    }
 
     .detail-container {
       width: 100%;
