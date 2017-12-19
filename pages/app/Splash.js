@@ -1,7 +1,6 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import classnames from 'classnames';
-import { Autobind } from 'es-decorators';
 import { Router } from 'routes';
 
 // Redux
@@ -64,6 +63,14 @@ class Splash extends Page {
       selectedMarker: null,
       viewer: null
     };
+
+    // ---------------------- Bindings --------------------------
+    this.handleBillboardClick = this.handleBillboardClick.bind(this);
+    this.handleBillboardHover = this.handleBillboardHover.bind(this);
+    this.handleBillboardOut = this.handleBillboardOut.bind(this);
+    this.handleVisitButton = this.handleVisitButton.bind(this);
+    this.handleOnInit = this.handleOnInit.bind(this);
+    // ----------------------------------------------------------
   }
 
   componentDidMount() {
@@ -131,27 +138,19 @@ class Splash extends Page {
     }), timeoutTime + INITIAL_WAIT);
   }
 
-  // handleMouseMove(e) {
-  //
-  // }
-
-  @Autobind
   handleBillboardClick(e) {
     const name = e.id.name;
     this.setState({ selectedMarker: MARKERS.find(elem => elem.name === name) });
   }
 
-  @Autobind
   handleBillboardHover() {
     this.setState({ billboardHover: true });
   }
 
-  @Autobind
   handleBillboardOut() {
     this.setState({ billboardHover: false });
   }
 
-  @Autobind
   handleVisitButton() {
     const { selectedMarker, viewer } = this.state;
     viewer.camera.flyTo({
@@ -162,11 +161,6 @@ class Splash extends Page {
     setTimeout(() => Router.pushRoute('splash_detail', { id: selectedMarker.routeId }), 3000);
   }
 
-  // @Autobind
-  // handleMouseClick(e) {
-  // }
-
-  @Autobind
   handleOnInit(viewer) {
     this.setState({ viewer }, this.runInitialAnimation);
   }

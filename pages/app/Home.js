@@ -1,7 +1,6 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import { Link } from 'routes';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -124,7 +123,6 @@ class Home extends Page {
   }
 
   componentDidMount() {
-
     this.props.getInsights();
   }
 
