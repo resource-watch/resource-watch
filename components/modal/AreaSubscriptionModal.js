@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 
 // Redux
@@ -44,13 +43,20 @@ class AreaSubscriptionModal extends React.Component {
     });
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
+
+    // ------------------- Bindings -----------------------
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleRemoveSubscriptionSelector = this.handleRemoveSubscriptionSelector.bind(this);
+    this.handleUpdateSubscriptionSelector = this.handleUpdateSubscriptionSelector.bind(this);
+    this.handleNewSubscriptionSelector = this.handleNewSubscriptionSelector.bind(this);
+    // ----------------------------------------------------
   }
 
   componentDidMount() {
     this.loadDatasets();
   }
 
-  @Autobind
   handleCancel() {
     this.setState({
       saved: false
@@ -58,8 +64,6 @@ class AreaSubscriptionModal extends React.Component {
     this.props.toggleModal(false);
   }
 
-
-  @Autobind
   handleSubmit() {
     const { subscriptionSelectors } = this.state;
     const { mode, area, user } = this.props;
@@ -135,21 +139,18 @@ class AreaSubscriptionModal extends React.Component {
     }).catch(err => toastr.error('Error', err)); // TODO: update the UI
   }
 
-  @Autobind
   handleRemoveSubscriptionSelector(index) {
     const { subscriptionSelectors } = this.state;
     subscriptionSelectors.splice(index, 1);
     this.setState({ subscriptionSelectors });
   }
 
-  @Autobind
   handleUpdateSubscriptionSelector(element) {
     const { subscriptionSelectors } = this.state;
     subscriptionSelectors[element.index] = element;
     this.setState({ subscriptionSelectors });
   }
 
-  @Autobind
   handleNewSubscriptionSelector() {
     const { subscriptionSelectors } = this.state;
     subscriptionSelectors.push({ index: subscriptionSelectors.length, dataset: null, type: null });

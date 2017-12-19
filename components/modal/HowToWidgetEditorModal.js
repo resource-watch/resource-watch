@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
@@ -8,7 +7,14 @@ import { connect } from 'react-redux';
 import { toggleModal } from 'redactions/modal';
 
 class HowToWidgetEditorModal extends React.Component {
-  @Autobind
+  constructor(props) {
+    super(props);
+
+    // ------------------- Bindings -----------------------
+    this.handleOkGotIt = this.handleOkGotIt.bind(this);
+    // ----------------------------------------------------
+  }
+
   handleOkGotIt() {
     this.props.toggleModal(false);
   }

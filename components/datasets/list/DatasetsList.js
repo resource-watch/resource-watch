@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
@@ -18,7 +17,10 @@ class DatasetsList extends React.Component {
   constructor(props) {
     super(props);
 
+    // ------------------- Bindings -----------------------
     this.onSearch = this.onSearch.bind(this);
+    this.handleDatasetRemoved = this.handleDatasetRemoved.bind(this);
+    // ----------------------------------------------------
   }
 
   componentDidMount() {
@@ -48,7 +50,6 @@ class DatasetsList extends React.Component {
     });
   }
 
-  @Autobind
   handleDatasetRemoved() {
     this.loadData();
   }
