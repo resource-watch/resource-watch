@@ -79,8 +79,8 @@ export const PANORAMAS = [
                 <li><strong>Third Event (2014-2017):</strong> This has been the longest and most widespread global coral bleaching event to date. From 2014 to 2017, coral reefs around the world experienced higher-than-normal ocean temperatures, fueled by a partial <a href="https://coralreefwatch.noaa.gov/satellite/analyses_guidance/global_coral_bleaching_2014-17_status.php" target="_blank">El Niño in 2014-15</a> and worsened by a strong El Niño and a La Niña in the following years. This is the event that caused the bleaching here at Airport Reef. The Great Barrier Reef was heavily affected in 2015 and again in early 2017, leaving the <a href="http://www.noaa.gov/media-release/us-coral-reefs-facing-warming-waters-increased-bleaching" target="_blank">majority of coral</a> bleached.</li>
               </ul>
             </div>,
-            image: '../../static/images/splash/coral_bleaching_up_close.png',
-            imageSelected: '../../static/images/splash/coral_bleaching_up_close_active.png'
+            image: '../../static/images/splash/global_coral_bleaching_events.png',
+            imageSelected: '../../static/images/splash/global_coral_bleaching_events_active.png'
           }
         ]
       },
