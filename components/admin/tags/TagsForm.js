@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 import Graph from 'react-graph-vis';
 
@@ -41,6 +40,11 @@ class TagsForm extends React.Component {
     };
 
     this.graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
+
+    // ------------------ Bindings ------------------------
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleTagsChange = this.handleTagsChange.bind(this);
+    // ----------------------------------------------------
   }
 
   /**
@@ -105,7 +109,6 @@ class TagsForm extends React.Component {
    * - handleSubmit
    * - handleTagsChange
   */
-  @Autobind
   handleSubmit() {
     const { dataset, user } = this.props;
     const { selectedTags } = this.state;
@@ -122,7 +125,6 @@ class TagsForm extends React.Component {
         this.setState({ loading: false });
       });
   }
-  @Autobind
   handleTagsChange(value) {
     this.setState({ selectedTags: value },
       () => this.loadInferredTags());
