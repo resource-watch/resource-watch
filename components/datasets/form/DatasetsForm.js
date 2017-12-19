@@ -73,6 +73,7 @@ class DatasetsForm extends React.Component {
               })
               .catch((err) => {
                 this.setState({ loadingColumns: false });
+                console.error('Error fetching the dataset', err);
               });
           } else {
             this.setState({ loadingColumns: false });
@@ -117,11 +118,17 @@ class DatasetsForm extends React.Component {
             omit: (dataset) ? ['connectorUrlHint', 'authorization', 'connectorType', 'provider'] : ['connectorUrlHint', 'authorization']
           };
 
+          const bodyObj = omit(this.state.form, requestOptions.omit);
+          bodyObj.subscribable = bodyObj.subscribable.reduce((o, val) => ({
+            ...o,
+            [val.type]: val.value
+          }), {});
+
           // Save the data
           this.service.saveData({
             type: requestOptions.type,
             id: dataset,
-            body: omit(this.state.form, requestOptions.omit)
+            body: bodyObj
           })
             .then((data) => {
               toastr.success('Success', `The dataset "${data.id}" - "${data.name}" has been uploaded correctly`);
@@ -170,16 +177,21 @@ class DatasetsForm extends React.Component {
 
     form.forEach((f) => {
       if (params[f] || this.state.form[f]) {
-        newForm[f] = params[f] || this.state.form[f];
+        if (f === 'subscribable') {
+          const subscribable = params[f] || this.state.form[f];
+          newForm.subscribable = Object.keys(subscribable)
+            .map((prop, i) => ({ key: prop, value: subscribable[prop], id: i }));
+        } else {
+          newForm[f] = params[f] || this.state.form[f];
+        }
       }
     });
-
     return newForm;
   }
 
   render() {
     return (
-      <form className="c-form" onSubmit={this.onSubmit} noValidate>
+      <form className="c-form c-datasets-form" onSubmit={this.onSubmit} noValidate>
         <Spinner isLoading={this.state.loading} className="-light" />
 
         {(this.state.step === 1 && !this.state.loading) &&

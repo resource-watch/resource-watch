@@ -2,7 +2,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import { Autobind } from 'es-decorators';
-import { Router, Link } from 'routes';
+import { Router } from 'routes';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -12,6 +12,7 @@ import { getInsights } from 'redactions/insights';
 // Layout
 import Page from 'components/app/layout/Page';
 import Head from 'components/app/layout/head';
+import Header from 'components/splash/layout/Header';
 
 // Components
 
@@ -66,8 +67,6 @@ class Splash extends Page {
   }
 
   componentDidMount() {
-    
-
     // Init Cesium var
     Cesium = window.Cesium;
     Cesium.BingMapsApi.defaultKey = process.env.BING_MAPS_API_KEY;
@@ -188,14 +187,9 @@ class Splash extends Page {
           title="Splash page"
           description="Splash page description"
         />
-        <div className="header">
-          <Link route="home">
-            <img src="../../static/images/logo-resource-watch.png" alt="Resource Watch" />
-          </Link>
-          <Link route="home">
-            <a>GO TO RESOURCE WATCH</a>
-          </Link>
-        </div>
+        <Header
+          showEarthViewLink={false}
+        />
         {mounted &&
           <Map
             className={cesiumClassname}

@@ -91,6 +91,7 @@
 @import "./components/modal/area_subscription_modal";
 @import "./components/modal/layer_info_modal";
 @import "./components/modal/login_modal";
+@import "./components/modal/splash_detail_modal";
 
 // areas
 @import "./components/areas/areas_form";
@@ -158,6 +159,7 @@
 @import "./components/admin/dataset/card";
 @import "./components/admin/dataset/filter";
 @import "./components/admin/dataset/filter-item";
+@import "./components/admin/dataset/form";
 @import "./components/admin/dataset/list";
 @import "./components/admin/dataset/datasets-list-card";
 @import "./components/admin/dataset/source-item";
@@ -264,3 +266,6 @@
 
 // Subscriptions
 @import "./components/app/subscriptions/subscription_card";
+
+// ------ SPLASH -------
+@import "./components/splash/layout/splash_header";

@@ -23,6 +23,18 @@
     }
   }
 
+  &.no-borders {
+    .modal-content {
+      padding: 0px;
+      max-height: 100vh;
+      width: auto;
+    }
+    .modal-container {
+      width: auto;
+      border-radius: 4px;
+    }
+  }
+
   .modal-container {
     transition: transform $animation-time-2 $ease-out-cubic;
     transform: translateY(0);
