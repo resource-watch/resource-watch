@@ -28,7 +28,9 @@ import { FORM_ELEMENTS, LANGUAGE_OPTIONS, RASTER_COLUMN_TYPES } from 'components
 
 class Step1 extends React.Component {
   componentWillReceiveProps(nextProps) {
-    if (!isEqual(this.props.sources, nextProps.sources)) this.changeMetadata({ info: { sources: nextProps.sources } });
+    if (!isEqual(this.props.sources, nextProps.sources)) {
+      this.changeMetadata({ info: { sources: nextProps.sources } });
+    }
   }
 
   changeMetadata(obj) {

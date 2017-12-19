@@ -102,6 +102,32 @@ export default class WidgetsService {
     });
   }
 
+  saveMetadata({ type, body, id = '' }) {
+    return new Promise((resolve, reject) => {
+      post({
+        url: `${process.env.WRI_API_URL}/widget/${id}/metadata`,
+        type,
+        body,
+        headers: [{
+          key: 'Content-Type',
+          value: 'application/json'
+        }, {
+          key: 'Authorization',
+          value: this.opts.authorization
+        }],
+        onSuccess: (response) => {
+          resolve({
+            ...response.data.attributes,
+            id: response.data.id
+          });
+        },
+        onError: (error) => {
+          reject(error);
+        }
+      });
+    });
+  }
+
   deleteData({ id, dataset }) {
     return new Promise((resolve, reject) => {
       remove({
