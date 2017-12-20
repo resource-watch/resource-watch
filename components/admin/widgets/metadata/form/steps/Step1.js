@@ -15,7 +15,7 @@ class Step1 extends React.Component {
     super(props);
 
     this.state = {
-      widgetLinksSelected: props.form.widgetLinks && props.form.widgetLinks.length > 0,
+      widgetLinksSelected: props.form.info.widgetLinks && props.form.info.widgetLinks.length > 0,
       form: props.form
     };
 
@@ -28,7 +28,11 @@ class Step1 extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ form: nextProps.form });
+    this.setState({
+      widgetLinksSelected: nextProps.form.info.widgetLinks &&
+        nextProps.form.info.widgetLinks.length > 0,
+      form: nextProps.form
+    });
   }
 
   /**
@@ -39,39 +43,41 @@ class Step1 extends React.Component {
     * - handleAddWidgetLink
   */
   onWidgetLinkChange(obj) {
-    const widgetLinks = this.props.form.widgetLinks.slice(0);
+    const widgetLinks = this.props.form.info.widgetLinks.slice(0);
     const index = widgetLinks.findIndex(elem => elem.id === obj.id);
     widgetLinks[index] = {
       ...widgetLinks[index],
       ...obj
     };
-    this.props.onChange({ widgetLinks });
+    this.props.onChange({ info: Object.assign({}, this.state.form.info, { widgetLinks }) });
   }
   onWidgetLinksCheckboxChange(checked) {
     this.setState({
       widgetLinksSelected: checked
     });
+    let newWidgetLinks = [];
     if (checked) {
-      this.props.onChange({ widgetLinks: [{ name: '', link: '', id: 0 }] });
-    } else {
-      this.props.onChange({ widgetLinks: [] });
+      newWidgetLinks = [{ name: '', link: '', id: Date.now() }];
     }
+    this.props.onChange({ info: Object.assign({}, this.state.form.info,
+      { widgetLinks: newWidgetLinks }) });
   }
   handleRemoveWidgetLink(id) {
-    const widgetLinks = this.props.form.widgetLinks.slice(0);
+    const widgetLinks = this.props.form.info.widgetLinks.slice(0);
     const index = widgetLinks.findIndex(s => s.id === id);
     widgetLinks.splice(index, 1);
-    this.props.onChange({ widgetLinks });
+    this.props.onChange({ info: Object.assign({}, this.state.form.info, { widgetLinks }) });
   }
 
   handleAddWidgetLink() {
-    const widgetLinks = this.props.form.widgetLinks.slice(0);
+    const widgetLinks = this.props.form.info.widgetLinks.slice(0);
     widgetLinks.push({ name: '', link: '', id: Date.now() });
-    this.props.onChange({ widgetLinks });
+    this.props.onChange({ info: Object.assign({}, this.state.form.info, { widgetLinks }) });
   }
 
   render() {
-    const { widgetLinksSelected } = this.state;
+    const { widgetLinksSelected, form } = this.state;
+    const { info } = form;
 
     return (
       <div>
@@ -91,7 +97,7 @@ class Step1 extends React.Component {
               properties={{
                 name: 'widget_links',
                 title: 'Widget links',
-                checked: this.state.form.widgetLinks && this.state.form.widgetLinks.length > 0
+                checked: info.widgetLinks && info.widgetLinks.length > 0
               }}
             >
               {Checkbox}
@@ -99,7 +105,7 @@ class Step1 extends React.Component {
             {widgetLinksSelected &&
               <div>
                 {
-                  this.state.form.widgetLinks.map(elem => (
+                  this.state.form.info.widgetLinks.map(elem => (
                     <div
                       className="c-field-row"
                       key={elem.id}
@@ -146,7 +152,7 @@ class Step1 extends React.Component {
                             type="button"
                             className="c-button -secondary -fullwidth"
                             onClick={() => this.handleRemoveWidgetLink(elem.id)}
-                            disabled={this.state.form.widgetLinks.length === 1}
+                            disabled={this.state.form.info.widgetLinks.length === 1}
                           >
                               Remove
                           </button>

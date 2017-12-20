@@ -13,7 +13,9 @@ export const STATE_DEFAULT = {
   form: {
     authorization: '',
     language: 'en',
-    widgetLinks: []
+    info: {
+      widgetLinks: []
+    }
   }
 };
 
