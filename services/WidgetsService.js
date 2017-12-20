@@ -54,7 +54,6 @@ export default class WidgetsService {
 
   fetchData({ id, includes = '' }) {
     return new Promise((resolve, reject) => {
-      console.log('includes', includes);
       get({
         url: `${process.env.WRI_API_URL}/widget/${id}?includes=${includes}`,
         headers: [{

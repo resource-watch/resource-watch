@@ -104,8 +104,6 @@ class MetadataForm extends React.Component {
         formObj.info.widgetLinks = formObj.info.widgetLinks.map(elem =>
           ({ link: elem.link, name: elem.name }));
 
-        console.log('formObj', formObj);
-
         // Save the data
         this.service.saveMetadata({
           dataset,
