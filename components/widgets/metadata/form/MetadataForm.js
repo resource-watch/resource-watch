@@ -3,24 +3,15 @@ import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import { toastr } from 'react-redux-toastr';
 
-import { Autobind } from 'es-decorators';
-
-// redux
-import { connect } from 'react-redux';
-
-// redactions
-import { setSources, resetSources } from 'redactions/admin/sources';
-
-// Service
-import DatasetsService from 'services/DatasetsService';
-
-// Contants
-import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/metadata/form/constants';
-
 // Components
 import Navigation from 'components/form/Navigation';
-import Step1 from 'components/admin/metadata/form/steps/Step1';
+import Step1 from 'components/widgets/metadata/form/steps/Step1';
 
+// Services
+import WidgetsService from 'services/WidgetsService';
+
+// Contants
+import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/widgets/metadata/form/constants';
 
 class MetadataForm extends React.Component {
   constructor(props) {
@@ -29,60 +20,42 @@ class MetadataForm extends React.Component {
     const newState = Object.assign({}, STATE_DEFAULT, {
       metadata: [],
       columns: [],
-      loading: !!props.dataset,
+      loading: !!props.widget,
       loadingColumns: true,
       form: Object.assign({}, STATE_DEFAULT.form, {
         application: props.application,
         authorization: props.authorization
-      })
-    });
-
-    this.service = new DatasetsService({
-      authorization: props.authorization,
-      language: props.locale
+      }),
+      dataset: null
     });
 
     this.state = newState;
+
+    // Services
+    this.service = new WidgetsService({
+      authorization: props.authorization
+    });
+
+    // ----------------- Bindings -----------------------
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onStepChange = this.onStepChange.bind(this);
+    // --------------------------------------------------
   }
 
   componentDidMount() {
-    if (this.props.dataset) {
-      this.service.fetchData({ id: this.props.dataset, includes: 'metadata' })
-        .then(({ metadata, type, provider, tableName }) => {
+    if (this.props.widget) {
+      this.service.fetchData({ id: this.props.widget, includes: 'metadata' })
+        .then(({ metadata, dataset }) => {
           this.setState({
             form: (metadata && metadata.length) ?
               this.setFormFromParams(metadata[0].attributes) :
               this.state.form,
             metadata,
-            type: type || 'tabular',
+            dataset,
             // Stop the loading
             loading: false
           });
-
-          if (metadata[0]) {
-            this.props.setSources(metadata[0].attributes.info.sources || []);
-          }
-
-          if (provider !== 'wms') {
-            // fetchs column fields based on dataset type
-            this.service.fetchFields({
-              id: this.props.dataset,
-              type,
-              provider,
-              tableName
-            })
-              .then((columns) => {
-                this.setState({
-                  columns,
-                  loadingColumns: false
-                });
-              })
-              .catch((err) => {
-                this.setState({ loadingColumns: false });
-              });
-          } else {
-            this.setState({ loadingColumns: false });
-          }
         })
         .catch((err) => {
           this.setState({ loading: false });
@@ -91,16 +64,11 @@ class MetadataForm extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    this.props.resetSources();
-  }
-
   /**
    * UI EVENTS
    * - onSubmit
    * - onChange
   */
-  @Autobind
   onSubmit(event) {
     event.preventDefault();
 
@@ -111,8 +79,8 @@ class MetadataForm extends React.Component {
     setTimeout(() => {
       const valid = FORM_ELEMENTS.isValid();
       if (valid) {
-        const { dataset } = this.props;
-        const { metadata, form } = this.state;
+        const { widget } = this.props;
+        const { metadata, form, dataset } = this.state;
 
         // Start the submitting
         this.setState({ submitting: true });
@@ -127,15 +95,21 @@ class MetadataForm extends React.Component {
 
         // Set the request
         const requestOptions = {
-          type: (dataset && thereIsMetadata) ? 'PATCH' : 'POST',
+          type: (widget && thereIsMetadata) ? 'PATCH' : 'POST',
           omit: ['authorization']
         };
 
+        // Remove the id field
+        const formObj = this.state.form;
+        formObj.info.widgetLinks = formObj.info.widgetLinks.map(elem =>
+          ({ link: elem.link, name: elem.name }));
+
         // Save the data
         this.service.saveMetadata({
+          dataset,
           type: requestOptions.type,
-          id: dataset,
-          body: omit(this.state.form, requestOptions.omit)
+          id: widget,
+          body: omit(formObj, requestOptions.omit)
         })
           .then(() => {
             toastr.success('Success', 'Metadata has been uploaded correctly');
@@ -153,13 +127,11 @@ class MetadataForm extends React.Component {
     }, 0);
   }
 
-  @Autobind
   onChange(obj) {
-    const form = Object.assign({}, this.state.form, obj.form);
+    const form = Object.assign({}, this.state.form, obj);
     this.setState({ form });
   }
 
-  @Autobind
   onStepChange(step) {
     this.setState({ step });
   }
@@ -180,16 +152,13 @@ class MetadataForm extends React.Component {
 
   render() {
     return (
-      <div className="c-metadata-form">
+      <div className="c-widget-metadata-form">
         <form className="c-form" onSubmit={this.onSubmit} noValidate>
           {this.state.loading && 'loading'}
           {!this.state.loading &&
             <Step1
               onChange={value => this.onChange(value)}
-              columns={this.state.columns}
-              type={this.state.type}
               form={this.state.form}
-              loadingColumns={this.state.loadingColumns}
             />
           }
 
@@ -208,22 +177,10 @@ class MetadataForm extends React.Component {
 }
 
 MetadataForm.propTypes = {
-  dataset: PropTypes.string.isRequired,
+  widget: PropTypes.string.isRequired,
   application: PropTypes.string.isRequired,
   authorization: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func,
-  setSources: PropTypes.func,
-  resetSources: PropTypes.func,
-  locale: PropTypes.string.isRequired
+  onSubmit: PropTypes.func
 };
 
-const mapStateToProps = state => ({
-  locale: state.common.locale
-});
-
-const mapDispatchToProps = dispatch => ({
-  setSources: sources => dispatch(setSources(sources)),
-  resetSources: () => dispatch(resetSources())
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(MetadataForm);
+export default MetadataForm;

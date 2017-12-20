@@ -8,7 +8,7 @@ import Checkbox from 'components/form/Checkbox';
 import Title from 'components/ui/Title';
 
 // constants
-import { FORM_ELEMENTS } from 'components/admin/widgets/metadata/form/constants';
+import { FORM_ELEMENTS } from 'components/widgets/metadata/form/constants';
 
 class Step1 extends React.Component {
   constructor(props) {

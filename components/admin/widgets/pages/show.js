@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 // Components
 import WidgetsForm from 'components/admin/widgets/form/WidgetsForm';
 import Aside from 'components/ui/Aside';
-import MetadataForm from 'components/admin/widgets/metadata/form/MetadataForm';
+import MetadataForm from 'components/widgets/metadata/form/MetadataForm';
 
 // Utils
 import { substitution } from 'utils/utils';
