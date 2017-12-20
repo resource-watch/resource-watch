@@ -1,6 +1,7 @@
 import 'isomorphic-fetch';
 import flatten from 'lodash/flatten';
 import sortBy from 'lodash/sortBy';
+import queryString from 'query-string';
 
 // Utils
 import { get, post, remove } from 'utils/request';
@@ -54,8 +55,11 @@ export default class WidgetsService {
 
   fetchData({ id, includes = '' }) {
     return new Promise((resolve, reject) => {
+      const qParams = queryString.stringify({
+        includes
+      });
       get({
-        url: `${process.env.WRI_API_URL}/widget/${id}?includes=${includes}`,
+        url: `${process.env.WRI_API_URL}/widget/${id}?${qParams}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
