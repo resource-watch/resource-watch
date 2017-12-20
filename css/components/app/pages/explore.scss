@@ -52,6 +52,13 @@
         border: 1px solid $dark-pink;
         padding: 3px 0px 3px 10px;
         margin: 5px;
+
+        &.clear-filters {
+          color: $white;
+          background-color: $dark-pink;
+          cursor: pointer;
+          padding: 3px 10px 3px 10px;
+        }
       }
 
       .tag-remove {

@@ -140,6 +140,7 @@ class Explore extends Page {
     this.onSetLayerGroupActiveLayer = this.onSetLayerGroupActiveLayer.bind(this);
     this.handleTagSelected = this.handleTagSelected.bind(this);
     this.handleRemoveTag = this.handleRemoveTag.bind(this);
+    this.handleClearFilters = this.handleClearFilters.bind(this);
     // ----------------------------------------------------------
   }
 
@@ -460,6 +461,19 @@ class Explore extends Page {
     this.applyFilters();
   }
 
+  handleClearFilters() {
+    this.topicsTree.forEach(child =>
+      this.selectElementsFromTree(child, this.filters.topics, true));
+    this.geographiesTree.forEach(child =>
+      this.selectElementsFromTree(child, this.filters.geographies, true));
+    this.dataTypeTree.forEach(child =>
+      this.selectElementsFromTree(child, this.filters.dataType, true));
+    this.filters.dataType = [];
+    this.filters.geographies = [];
+    this.filters.topics = [];
+    this.applyFilters();
+  }
+
   applyFilters() {
     const { topics, geographies, dataType } = this.filters;
     const { page } = this.props.url.query || {};
@@ -602,6 +616,16 @@ class Explore extends Page {
                             </button>
                           </div>
                         ))}
+                        {selectedTags.length > 0 &&
+                          <div
+                            className="tag clear-filters"
+                            role="button"
+                            tabIndex={-1}
+                            onClick={this.handleClearFilters}
+                          >
+                            Clear filters
+                          </div>
+                        }
                       </div>
                     </div>
                   }
