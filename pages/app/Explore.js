@@ -442,6 +442,21 @@ class Explore extends Page {
 
   handleRemoveTag(tag) {
     this.filters[tag.type] = this.filters[tag.type].filter(elem => elem !== tag.value);
+    switch (tag.type) {
+      case 'topics':
+        this.topicsTree.forEach(child => this.selectElementsFromTree(
+          child, [tag.value], true));
+        break;
+      case 'geographies':
+        this.geographiesTree.forEach(child => this.selectElementsFromTree(
+          child, [tag.value], true));
+        break;
+      case 'dataType':
+        this.dataTypeTree.forEach(child => this.selectElementsFromTree(
+          child, [tag.value], true));
+        break;
+      default:
+    }
     this.applyFilters();
   }
 
