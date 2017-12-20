@@ -1,6 +1,7 @@
 import 'isomorphic-fetch';
 import flatten from 'lodash/flatten';
 import sortBy from 'lodash/sortBy';
+import queryString from 'query-string';
 
 // Utils
 import { get, post, remove } from 'utils/request';
@@ -52,10 +53,13 @@ export default class WidgetsService {
     });
   }
 
-  fetchData({ id }) {
+  fetchData({ id, includes = '' }) {
     return new Promise((resolve, reject) => {
+      const qParams = queryString.stringify({
+        includes
+      });
       get({
-        url: `${process.env.WRI_API_URL}/widget/${id}`,
+        url: `${process.env.WRI_API_URL}/widget/${id}?${qParams}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -80,6 +84,32 @@ export default class WidgetsService {
     return new Promise((resolve, reject) => {
       post({
         url: `${process.env.WRI_API_URL}/dataset/${dataset}/widget/${id}`,
+        type,
+        body,
+        headers: [{
+          key: 'Content-Type',
+          value: 'application/json'
+        }, {
+          key: 'Authorization',
+          value: this.opts.authorization
+        }],
+        onSuccess: (response) => {
+          resolve({
+            ...response.data.attributes,
+            id: response.data.id
+          });
+        },
+        onError: (error) => {
+          reject(error);
+        }
+      });
+    });
+  }
+
+  saveMetadata({ type, body, id = '', dataset }) {
+    return new Promise((resolve, reject) => {
+      post({
+        url: `${process.env.WRI_API_URL}/dataset/${dataset}/widget/${id}/metadata`,
         type,
         body,
         headers: [{

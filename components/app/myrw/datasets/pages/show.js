@@ -16,7 +16,7 @@ import DatasetsService from 'services/DatasetsService';
 // Components
 import Aside from 'components/ui/Aside';
 import DatasetsForm from 'components/datasets/form/DatasetsForm';
-import MetadataForm from 'components/admin/metadata/form/MetadataForm';
+import MetadataForm from 'components/datasets/metadata/form/MetadataForm';
 import DatasetWidgets from 'components/app/myrw/datasets/DatasetWidgets';
 
 // Constants

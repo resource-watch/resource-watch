@@ -1,7 +1,6 @@
 import React from 'react';
 import Proptypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
-import debounce from 'lodash/debounce';
 
 // redux
 import { connect } from 'react-redux';
@@ -14,7 +13,7 @@ import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 
 // constants
-import { SOURCE_ELEMENTS } from 'components/admin/metadata/form/constants';
+import { SOURCE_ELEMENTS } from 'components/datasets/metadata/form/constants';
 
 class Source extends React.Component {
   constructor(props) {
@@ -23,6 +22,14 @@ class Source extends React.Component {
     this.state = {
       values: props.values
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(this.props.values, nextProps.values)) {
+      this.setState({
+        values: nextProps.values
+      });
+    }
   }
 
   onChange = (name, value) => {
@@ -36,22 +43,14 @@ class Source extends React.Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(!isEqual(this.props.values, nextProps.values)) {
-      this.setState({
-        values: nextProps.values
-      });
-    }
-  }
-
   onAddSource = (value, index) => {
     const sources = [...this.props.tmpSources];
-    let existentSource = sources[index];
+    const existentSource = sources[index];
 
     if (existentSource) {
       sources.splice(index, 1, { ...value, id: index });
     } else {
-      sources.push({...value, id: index });
+      sources.push({ ...value, id: index });
     }
 
     this.props.setTmpSources(sources);
@@ -84,7 +83,7 @@ class Source extends React.Component {
                 label: 'Source',
                 type: 'text',
                 default: values['source-name'] || '',
-                value: values['source-name'] || ''
+                value: values['source-name'] || ''
               }}
             >
               {Input}
@@ -93,15 +92,15 @@ class Source extends React.Component {
 
           <div className="column small-5">
             <Field
-              ref={(c) => { if (c) SOURCE_ELEMENTS.elements[`source-description-${index + 1}`] = c;}}
+              ref={(c) => { if (c) SOURCE_ELEMENTS.elements[`source-description-${index + 1}`] = c; }}
               onChange={value => this.onChange('source-description', value)}
               validations={[]}
               properties={{
                 name: 'source-description',
                 label: 'Description',
                 type: 'text',
-                default: values['source-description'] || '',
-                value: values['source-description'] || ''
+                default: values['source-description'] || '',
+                value: values['source-description'] || ''
               }}
             >
               {Input}
@@ -126,7 +125,7 @@ class Source extends React.Component {
 Source.propTypes = {
   index: Proptypes.number,
   values: Proptypes.object,
-  setSources: Proptypes.func,
+  setTmpSources: Proptypes.func,
   tmpSources: Proptypes.array
 };
 

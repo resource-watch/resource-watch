@@ -10,11 +10,10 @@ import { setTmpSources, setSources } from 'redactions/admin/sources';
 
 // components
 import ContentGroup from 'components/ui/ContentGroup';
-import Source from 'components/admin/metadata/form/Source';
-import { SOURCE_ELEMENTS } from 'components/admin/metadata/form/constants';
+import Source from 'components/datasets/metadata/form/Source';
+import { SOURCE_ELEMENTS } from 'components/datasets/metadata/form/constants';
 
 class SourcesContentModal extends React.Component {
-
   componentWillMount() {
     const { sources } = this.props;
     if (!sources.length) {
