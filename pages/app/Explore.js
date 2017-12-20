@@ -139,6 +139,7 @@ class Explore extends Page {
     this.onSetLayerGroupsOrder = this.onSetLayerGroupsOrder.bind(this);
     this.onSetLayerGroupActiveLayer = this.onSetLayerGroupActiveLayer.bind(this);
     this.handleTagSelected = this.handleTagSelected.bind(this);
+    this.handleRemoveTag = this.handleRemoveTag.bind(this);
     // ----------------------------------------------------------
   }
 
@@ -439,6 +440,11 @@ class Explore extends Page {
     }
   }
 
+  handleRemoveTag(tag) {
+    this.filters[tag.type] = this.filters[tag.type].filter(elem => elem !== tag.value);
+    this.applyFilters();
+  }
+
   applyFilters() {
     const { topics, geographies, dataType } = this.filters;
     const { page } = this.props.url.query || {};
@@ -516,14 +522,10 @@ class Explore extends Page {
     const { geographiesTree, topicsTree, dataTypeTree, zoom, latLng } = explore;
     const { showFilters } = this.state;
     const { topics, geographies, dataType } = this.filters;
-    const topicsLabels = topics.map(topic => findTagInSelectorTree(topicsTree, topic).label);
-    const geographiesLabels = geographies.map(geography =>
-      findTagInSelectorTree(geographiesTree, geography).label);
-    const dataTypeLabels = dataType.map(dType => findTagInSelectorTree(dataTypeTree, dType).label);
 
-    const allTagsSt = [].concat(topicsLabels).concat(geographiesLabels)
-      .concat(dataTypeLabels).join(', ');
-    const filtersSumUp = !showFilters && allTagsSt.length > 0 ? `Filtering by ${allTagsSt}` : '';
+    const selectedTags = [...topics.map(t => ({ ...findTagInSelectorTree(topicsTree, t), type: 'topics' })),
+      ...geographies.map(g => ({ ...findTagInSelectorTree(geographiesTree, g), type: 'geographies' })),
+      ...dataType.map(d => ({ ...findTagInSelectorTree(dataTypeTree, d), type: 'dataType' }))];
 
     const buttonFilterContent = showFilters ? 'Hide filters' : 'Show filters';
     const filterContainerClass = classnames('filters-container', {
@@ -565,9 +567,29 @@ class Explore extends Page {
                       {buttonFilterContent}
                     </button>
                   </div>
-                  <div className="filters-sum-up">
-                    {filtersSumUp}
-                  </div>
+                  {selectedTags.length > 0 &&
+                    <div className="filters-sum-up">
+                      <div className="filters-text">
+                        Filtered by:
+                      </div>
+                      <div className="selected-tags-container">
+                        {selectedTags.map(t => (
+                          <div
+                            key={t.value}
+                            className="tag"
+                          >
+                            {t.label}
+                            <button
+                              className="tag-remove"
+                              onClick={() => this.handleRemoveTag(t)}
+                            >
+                              x
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  }
                   <div className={filterContainerClass}>
                     <div className="row">
                       <div className="column small-12">

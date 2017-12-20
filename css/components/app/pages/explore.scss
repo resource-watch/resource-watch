@@ -31,7 +31,34 @@
   }
 
   .filters-sum-up {
-    color: $dark-pink;
+    display: flex;
+    align-items: center;
+
+    .selected-tags-container {
+      margin-left: 10px;
+      display: flex;
+      flex-direction: row;
+
+      .tag {
+        display: flex;
+        float: left;
+        clear: left;
+        align-items: center;
+        min-height: 22px;
+        background: $white;
+        color: $dark-pink;
+        font-size: $font-size-small-medium;
+        border-radius: 15px;
+        border: 1px solid $dark-pink;
+        padding: 3px 0px 3px 10px;
+        margin: 5px;
+      }
+
+      .tag-remove {
+        color: $dark-pink;
+        cursor: pointer;
+      }
+    }
   }
 
   .filters-container {
