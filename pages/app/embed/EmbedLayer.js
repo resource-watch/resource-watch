@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
-// import { Link } from 'routes';
 
 // Layout
 import Page from 'components/app/layout/Page';
@@ -48,6 +46,10 @@ class EmbedLayer extends Page {
       error: null,
       modalOpen: false
     };
+
+    // ---------------------- Bindings --------------------------
+    this.triggerToggleLoading = this.triggerToggleLoading.bind(this);
+    // ----------------------------------------------------------
   }
 
   componentWillReceiveProps(newProps) {
@@ -66,7 +68,6 @@ class EmbedLayer extends Page {
     this.fetchLayers();
   }
 
-  @Autobind
   triggerToggleLoading(loading) {
     this.setState({ loading });
   }

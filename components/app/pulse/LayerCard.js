@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Autobind } from 'es-decorators';
 
 import { Link, Router } from 'routes';
 
@@ -30,6 +29,10 @@ class LayerCard extends React.Component {
     this.state = {
       dataset: null
     };
+
+    // ------------------- Bindings -----------------------
+    this.handleSubscribeToAlerts = this.handleSubscribeToAlerts.bind(this);
+    // ----------------------------------------------------
   }
 
   componentWillReceiveProps(nextProps) {
@@ -82,7 +85,6 @@ class LayerCard extends React.Component {
     }
   }
 
-  @Autobind
   handleSubscribeToAlerts() {
     const { user } = this.props;
     const userLoggedIn = user && user.id;

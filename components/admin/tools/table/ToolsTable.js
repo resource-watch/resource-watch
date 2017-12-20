@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
@@ -24,6 +23,14 @@ import TitleTD from './td/TitleTD';
 import PublishedTD from './td/PublishedTD';
 
 class ToolsTable extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // ------------------ Bindings ------------------------
+    this.onSearch = this.onSearch.bind(this);
+    // ----------------------------------------------------
+  }
+
   componentDidMount() {
     this.props.setFilters([]);
     this.props.getTools();
@@ -33,7 +40,6 @@ class ToolsTable extends React.Component {
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  @Autobind
   onSearch(value) {
     if (!value.length) {
       this.props.setFilters([]);

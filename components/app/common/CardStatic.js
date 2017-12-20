@@ -2,10 +2,16 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { Router } from 'routes';
-import { Autobind } from 'es-decorators';
 
 export default class CardStatic extends React.Component {
-  @Autobind
+  constructor(props) {
+    super(props);
+
+    // ------------------- Bindings -----------------------
+    this.handleClick = this.handleClick.bind(this);
+    // ----------------------------------------------------
+  }
+
   handleClick(event) {
     const { clickable, route, anchor } = this.props;
     if (!anchor && clickable && event.target.tagName !== 'A') {

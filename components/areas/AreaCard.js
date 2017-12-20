@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 import { Link, Router } from 'routes';
 
@@ -63,9 +62,16 @@ class AreaCard extends React.Component {
       apiURL: process.env.WRI_API_URL,
       language: props.locale
     });
-
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
+
+    // ------------------- Bindings -----------------------
+    this.handleEditSubscription = this.handleEditSubscription.bind(this);
+    this.handleSubscriptionCreated = this.handleSubscriptionCreated.bind(this);
+    this.handleSubscriptionUpdated = this.handleSubscriptionUpdated.bind(this);
+    this.handleDeleteArea = this.handleDeleteArea.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    // ----------------------------------------------------
   }
 
   componentDidMount() {
@@ -144,12 +150,10 @@ class AreaCard extends React.Component {
     }
   }
 
-  @Autobind
   handleEditArea() {
     Router.pushRoute('myrw_detail', { id: this.props.area.id, tab: 'areas' });
   }
 
-  @Autobind
   handleEditSubscription() {
     const mode = this.props.area.subscription ? 'edit' : 'new';
     const options = {
@@ -166,17 +170,14 @@ class AreaCard extends React.Component {
     this.props.setModalOptions(options);
   }
 
-  @Autobind
   handleSubscriptionCreated() {
     this.props.onChange();
   }
 
-  @Autobind
   handleSubscriptionUpdated() {
     this.props.onChange();
   }
 
-  @Autobind
   handleDeleteArea() {
     const { area, token } = this.props;
     const toastrConfirmOptions = {
@@ -212,7 +213,6 @@ class AreaCard extends React.Component {
       Deleting an area will delete all the subscriptions associated to it`, toastrConfirmOptions);
   }
 
-  @Autobind
   handleEdit(event) {
     const position = AreaCard.getClickPosition(event);
     this.props.toggleTooltip(true, {

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 
 // Redux
@@ -75,6 +74,12 @@ class WidgetsEdit extends React.Component {
 
     this.widgetService = new WidgetService(this.props.id,
       { apiURL: process.env.CONTROL_TOWER_URL });
+
+    // ------------------- Bindings -----------------------
+    this.onSubmit = this.onSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.onUpdateWidget = this.onUpdateWidget.bind(this);
+    // ----------------------------------------------------
   }
 
   componentDidMount() {
@@ -110,7 +115,6 @@ class WidgetsEdit extends React.Component {
     this.props.setDataset(null);
   }
 
-  @Autobind
   async onSubmit(event) {
     if (event) event.preventDefault();
 
@@ -239,7 +243,6 @@ class WidgetsEdit extends React.Component {
    * button of the widget editor
    *
    */
-  @Autobind
   onUpdateWidget() {
     // We can't directly call this.onSubmit otherwise the form won't be
     // validated. We can't execute this.form.submit either because the
@@ -292,7 +295,6 @@ class WidgetsEdit extends React.Component {
     if (embed) this.props.setEmbed(embed);
   }
 
-  @Autobind
   handleChange(value) {
     const newWidgetAtts = Object.assign({}, this.state.widget.attributes, value);
     const newWidgetObj = Object.assign({}, this.state.widget, { attributes: newWidgetAtts });

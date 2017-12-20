@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 
 // Components
@@ -26,7 +25,14 @@ class AddWidgetToCollectionTooltip extends React.Component {
       loading: false
     };
 
+    // Services
     this.widgetService = new WidgetService(null, { apiURL: process.env.CONTROL_TOWER_URL });
+
+    // ---------------------- Bindings --------------------------
+    this.triggerMouseDown = this.triggerMouseDown.bind(this);
+    this.handleCollectionsChange = this.handleCollectionsChange.bind(this);
+    this.handleApply = this.handleApply.bind(this);
+    // ----------------------------------------------------------
   }
 
   componentDidMount() {
@@ -37,7 +43,6 @@ class AddWidgetToCollectionTooltip extends React.Component {
     document.removeEventListener('mousedown', this.triggerMouseDown);
   }
 
-  @Autobind
   triggerMouseDown(e) {
     const el = document.querySelector('.c-tooltip');
     const el2 = document.querySelector('.Select-clear-zone');
@@ -60,14 +65,12 @@ class AddWidgetToCollectionTooltip extends React.Component {
     }
   }
 
-  @Autobind
   handleCollectionsChange(value) {
     this.setState({
       selectedCollections: value
     });
   }
 
-  @Autobind
   handleApply() {
     const { selectedCollections, collectionsAreEmpty } = this.state;
     const { user, widget, toggleTooltip, onUpdateWidgetCollections } = this.props;

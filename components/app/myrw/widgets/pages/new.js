@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 import { Router } from 'routes';
 
@@ -63,13 +62,18 @@ class WidgetsNew extends React.Component {
     this.datasetsService = new DatasetsService({
       language: props.locale
     });
+
+    // ------------------- Bindings -----------------------
+    this.onSubmit = this.onSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleDatasetSelected = this.handleDatasetSelected.bind(this);
+    // ----------------------------------------------------
   }
 
   componentDidMount() {
     this.loadDatasets();
   }
 
-  @Autobind
   async onSubmit(event) {
     if (event) event.preventDefault();
 
@@ -243,7 +247,6 @@ class WidgetsNew extends React.Component {
     });
   }
 
-  @Autobind
   handleChange(value) {
     const newWidgetObj = Object.assign({}, this.state.widget, value);
     this.setState({ widget: newWidgetObj });
@@ -253,7 +256,6 @@ class WidgetsNew extends React.Component {
     }
   }
 
-  @Autobind
   handleDatasetSelected(value) {
     this.setState({
       selectedDataset: value

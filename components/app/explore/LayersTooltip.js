@@ -1,11 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 
 // Components
 import RadioGroup from 'components/form/RadioGroup';
 
 class LayersTooltip extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // ------------------- Bindings -----------------------
+    this.onMouseDown = this.onMouseDown.bind(this);
+    // ----------------------------------------------------
+  }
+
   componentDidMount() {
     document.addEventListener('mousedown', this.onMouseDown);
   }
@@ -14,7 +21,6 @@ class LayersTooltip extends React.Component {
     document.removeEventListener('mousedown', this.onMouseDown);
   }
 
-  @Autobind
   onMouseDown(e) {
     const clickOutside = this.el && this.el.contains && !this.el.contains(e.target);
     if (clickOutside) {
