@@ -41,7 +41,7 @@ export default function (state = initialState, action) {
 */
 export function setUser(user) {
   return (dispatch) => {
-    if (!user) {
+    if (!user || !user.id) {
       // If the user isn't logged in, we set the user variable as an empty object
       return;
     }
