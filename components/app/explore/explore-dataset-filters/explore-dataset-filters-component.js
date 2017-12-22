@@ -11,9 +11,27 @@ import { logEvent } from 'utils/analytics';
 import PLACEHOLDERS_DATASET_FILTERS from './explore-dataset-filters-constants';
 
 class ExploreDatasetFilters extends PureComponent {
+  renderFilters() {
+    const { data } = this.props;
+
+    const filters = Object.keys(data).map(key =>
+      (<TreeSelector
+        key={key}
+        data={data[key]}
+        placeholderText={PLACEHOLDERS_DATASET_FILTERS[key]}
+        onChange={(currentNode, selectedNodes) => this.onChange(selectedNodes, key)}
+      />)
+    );
+
+    return (
+      <div className="filters-container">
+        {filters}
+      </div>
+    );
+  }
+
   render() {
     const selectedTags = [];
-
     return (
       <div className="c-explore-dataset-filters">
         {selectedTags.length > 0 &&
@@ -52,77 +70,7 @@ class ExploreDatasetFilters extends PureComponent {
         <div className="filters-container">
           <div className="row">
             <div className="column small-12">
-              <div className="c-tree-selector -explore topics-selector">
-                <TreeSelector
-                  showDropdown
-                  placeholderText={PLACEHOLDERS_DATASET_FILTERS.topics}
-                  data={this.topicsTree || { label: '', value: '', children: [] }}
-                  onChange={(currentNode, selectedNodes) => {
-                    this.filters.topics = selectedNodes.map(val => val.value);
-                    const deselect = !selectedNodes.includes(currentNode);
-
-                    if (deselect) {
-                      this.topicsTree.forEach(child => this.selectElementsFromTree(
-                        child, [currentNode.value], deselect));
-                    } else {
-                      this.topicsTree.forEach(child => this.selectElementsFromTree(
-                        child, this.filters.topics, deselect));
-                    }
-
-                    logEvent('Explore', 'Filter Topic', this.filters.topics.join(','));
-
-                    this.applyFilters();
-                  }}
-                />
-              </div>
-            </div>
-            <div className="column small-12">
-              <div className="c-tree-selector -explore geographies-selector ">
-                <TreeSelector
-                  data={this.geographiesTree || { label: '', value: '', children: [] }}
-                  placeholderText={PLACEHOLDERS_DATASET_FILTERS.geographies}
-                  onChange={(currentNode, selectedNodes) => {
-                    this.filters.geographies = selectedNodes.map(val => val.value);
-                    const deselect = !selectedNodes.includes(currentNode);
-
-                    if (deselect) {
-                      this.geographiesTree.forEach(child => this.selectElementsFromTree(
-                        child, [currentNode.value], deselect));
-                    } else {
-                      this.geographiesTree.forEach(child => this.selectElementsFromTree(
-                        child, this.filters.geographies, deselect));
-                    }
-
-                    logEvent('Explore', 'Filter Geography', this.filters.geographies.join(','));
-
-                    this.applyFilters();
-                  }}
-                />
-              </div>
-            </div>
-            <div className="column small-12">
-              <div className="c-tree-selector -explore data-types-selector">
-                <TreeSelector
-                  data={this.dataTypeTree || { label: '', value: '', children: [] }}
-                  placeholderText={PLACEHOLDERS_DATASET_FILTERS.dataTypes}
-                  onChange={(currentNode, selectedNodes) => {
-                    this.filters.dataType = selectedNodes.map(val => val.value);
-                    const deselect = !selectedNodes.includes(currentNode);
-
-                    if (deselect) {
-                      this.dataTypeTree.forEach(child => this.selectElementsFromTree(
-                        child, [currentNode.value], deselect));
-                    } else {
-                      this.dataTypeTree.forEach(child => this.selectElementsFromTree(
-                        child, this.filters.dataType, deselect));
-                    }
-
-                    logEvent('Explore', 'Filter Data Type', this.filters.dataType.join(','));
-
-                    this.applyFilters();
-                  }}
-                />
-              </div>
+              {this.renderFilters()}
             </div>
           </div>
         </div>
