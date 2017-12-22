@@ -57,7 +57,7 @@ import ShareControl from 'components/widgets/editor/map/controls/ShareControl';
 import Legend from 'components/widgets/editor/ui/Legend';
 import Spinner from 'components/ui/Spinner';
 import SearchInput from 'components/ui/SearchInput';
-import TreeSelector from 'components/ui/tree-selector/tree-selector';
+import ExploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';
 
 // Layout
 import Page from 'components/app/layout/Page';
@@ -321,28 +321,7 @@ class Explore extends Page {
 
     // updates filters visibility based on selected values
     this.setState({
-      showFilters: hasSelectedValues
-    });
-  }
-
-  /**
-   * Sets checked values for selector based on previous one chosen.
-   *
-   * @param {Object} tree used to populate selectors. Contains all options available.
-   * @param {Object[]} elements Contains values to be selected in the data tree.
-   */
-  selectElementsFromTree(tree = {}, elements = [], deselect = false) {
-    let found = false; // We're using this loop because indexOf was finding elements
-    // that were substrings, e.g. "co" and "economic" when only "economic" should have been found
-    for (let i = 0; i < elements.length && !found; i++) {
-      if (elements[i] === tree.value) {
-        tree.checked = !deselect; // eslint-disable-line no-param-reassign
-        found = true;
-      }
-    }
-
-    (tree.children || []).forEach((child) => {
-      this.selectElementsFromTree(child, elements, deselect);
+      showFilters: hasSelectedValues > 0
     });
   }
 
@@ -557,9 +536,6 @@ class Explore extends Page {
       ...dataType.map(d => ({ ...findTagInSelectorTree(dataTypeTree, d), type: 'dataType' }))];
 
     const buttonFilterContent = showFilters ? 'Hide filters' : 'Show filters';
-    const filterContainerClass = classnames('filters-container', {
-      '_is-hidden': !showFilters
-    });
 
     const showFiltersClassName = classnames({
       'c-btn': true,
@@ -596,122 +572,9 @@ class Explore extends Page {
                       {buttonFilterContent}
                     </button>
                   </div>
-                  {selectedTags.length > 0 &&
-                    <div className="filters-sum-up">
-                      <div className="filters-text">
-                        Filtered by:
-                      </div>
-                      <div className="selected-tags-container">
-                        {selectedTags.map(t => (
-                          <div
-                            key={t.value}
-                            className="tag"
-                          >
-                            {t.label}
-                            <button
-                              className="tag-remove"
-                              onClick={() => this.handleRemoveTag(t)}
-                            >
-                              x
-                            </button>
-                          </div>
-                        ))}
-                        {selectedTags.length > 0 &&
-                          <div
-                            className="tag clear-filters"
-                            role="button"
-                            tabIndex={-1}
-                            onClick={this.handleClearFilters}
-                          >
-                            Clear filters
-                          </div>
-                        }
-                      </div>
-                    </div>
+                  {showFilters &&
+                    <ExploreDatasetFilters />
                   }
-                  <div className={filterContainerClass}>
-                    <div className="row">
-                      <div className="column small-12">
-                        <div className="c-tree-selector -explore topics-selector">
-                          {topicsTree &&
-                            <TreeSelector
-                              showDropdown
-                              placeholderText="Topics"
-                              data={this.topicsTree || { label: '', value: '', children: [] }}
-                              onChange={(currentNode, selectedNodes) => {
-                                this.filters.topics = selectedNodes.map(val => val.value);
-                                const deselect = !selectedNodes.includes(currentNode);
-
-                                if (deselect) {
-                                  this.topicsTree.forEach(child => this.selectElementsFromTree(
-                                    child, [currentNode.value], deselect));
-                                } else {
-                                  this.topicsTree.forEach(child => this.selectElementsFromTree(
-                                    child, this.filters.topics, deselect));
-                                }
-
-                                logEvent('Explore', 'Filter Topic', this.filters.topics.join(','));
-
-                                this.applyFilters();
-                              }}
-                            />
-                          }
-                        </div>
-                      </div>
-                      <div className="column small-12">
-                        <div className="c-tree-selector -explore geographies-selector ">
-                          {geographiesTree &&
-                            <TreeSelector
-                              data={this.geographiesTree || { label: '', value: '', children: [] }}
-                              placeholderText="Geographies"
-                              onChange={(currentNode, selectedNodes) => {
-                                this.filters.geographies = selectedNodes.map(val => val.value);
-                                const deselect = !selectedNodes.includes(currentNode);
-
-                                if (deselect) {
-                                  this.geographiesTree.forEach(child => this.selectElementsFromTree(
-                                    child, [currentNode.value], deselect));
-                                } else {
-                                  this.geographiesTree.forEach(child => this.selectElementsFromTree(
-                                    child, this.filters.geographies, deselect));
-                                }
-
-                                logEvent('Explore', 'Filter Geography', this.filters.geographies.join(','));
-
-                                this.applyFilters();
-                              }}
-                            />
-                          }
-                        </div>
-                      </div>
-                      <div className="column small-12">
-                        <div className="c-tree-selector -explore data-types-selector">
-                          {dataTypeTree &&
-                            <TreeSelector
-                              data={this.dataTypeTree || { label: '', value: '', children: [] }}
-                              placeholderText="Data types"
-                              onChange={(currentNode, selectedNodes) => {
-                                this.filters.dataType = selectedNodes.map(val => val.value);
-                                const deselect = !selectedNodes.includes(currentNode);
-
-                                if (deselect) {
-                                  this.dataTypeTree.forEach(child => this.selectElementsFromTree(
-                                    child, [currentNode.value], deselect));
-                                } else {
-                                  this.dataTypeTree.forEach(child => this.selectElementsFromTree(
-                                    child, this.filters.dataType, deselect));
-                                }
-
-                                logEvent('Explore', 'Filter Data Type', this.filters.dataType.join(','));
-
-                                this.applyFilters();
-                              }}
-                            />
-                          }
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                   <DatasetListHeader
                     list={totalDatasets}
                     mode={explore.datasets.mode}
