@@ -42,8 +42,9 @@ export default class GraphService {
         tags
       }
     };
+    const method = tags.length > 0 ? 'PUT' : 'DELETE';
     return fetch(`${this.opts.apiURL}/dataset/${datasetId}/vocabulary`, {
-      method: 'PUT',
+      method,
       body: JSON.stringify(bodyObj),
       headers: {
         'Content-Type': 'application/json',

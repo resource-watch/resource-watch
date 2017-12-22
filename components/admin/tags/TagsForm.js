@@ -109,9 +109,11 @@ class TagsForm extends React.Component {
    * - handleSubmit
    * - handleTagsChange
   */
-  handleSubmit() {
+  handleSubmit(event) {
     const { dataset, user } = this.props;
     const { selectedTags } = this.state;
+
+    event.preventDefault();
 
     this.setState({ loading: true });
     this.graphService.updateDatasetTags(dataset, selectedTags, user.token)
@@ -180,7 +182,7 @@ class TagsForm extends React.Component {
     const { tags, selectedTags, inferredTags, graph, loadingDatasetTags,
       loadingAllTags, loadingInferredTags } = this.state;
     return (
-      <div className="c-tags-form">
+      <form className="c-tags-form" onSubmit={this.handleSubmit}>
         <Spinner
           className="-light"
           isLoading={loadingAllTags || loadingDatasetTags}
@@ -230,7 +232,7 @@ class TagsForm extends React.Component {
             onStepChange={this.handleSubmit}
           />
         }
-      </div>
+      </form>
     );
   }
 }
