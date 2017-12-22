@@ -6,7 +6,6 @@ import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import MediaQuery from 'react-responsive';
-import DropdownTreeSelect from 'react-dropdown-tree-select';
 
 // Utils
 import { logEvent } from 'utils/analytics';
@@ -58,6 +57,7 @@ import ShareControl from 'components/widgets/editor/map/controls/ShareControl';
 import Legend from 'components/widgets/editor/ui/Legend';
 import Spinner from 'components/ui/Spinner';
 import SearchInput from 'components/ui/SearchInput';
+import TreeSelector from 'components/ui/tree-selector/tree-selector';
 
 // Layout
 import Page from 'components/app/layout/Page';
@@ -634,7 +634,7 @@ class Explore extends Page {
                       <div className="column small-12">
                         <div className="c-tree-selector -explore topics-selector">
                           {topicsTree &&
-                            <DropdownTreeSelect
+                            <TreeSelector
                               showDropdown
                               placeholderText="Topics"
                               data={this.topicsTree || { label: '', value: '', children: [] }}
@@ -661,7 +661,7 @@ class Explore extends Page {
                       <div className="column small-12">
                         <div className="c-tree-selector -explore geographies-selector ">
                           {geographiesTree &&
-                            <DropdownTreeSelect
+                            <TreeSelector
                               data={this.geographiesTree || { label: '', value: '', children: [] }}
                               placeholderText="Geographies"
                               onChange={(currentNode, selectedNodes) => {
@@ -687,7 +687,7 @@ class Explore extends Page {
                       <div className="column small-12">
                         <div className="c-tree-selector -explore data-types-selector">
                           {dataTypeTree &&
-                            <DropdownTreeSelect
+                            <TreeSelector
                               data={this.dataTypeTree || { label: '', value: '', children: [] }}
                               placeholderText="Data types"
                               onChange={(currentNode, selectedNodes) => {
