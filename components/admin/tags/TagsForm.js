@@ -29,6 +29,7 @@ class TagsForm extends React.Component {
     this.state = {
       tags: [],
       selectedTags: [],
+      savedTags: [], // Tags as they are in the server
       inferredTags: [],
       graph: null,
       step: 1,
@@ -65,6 +66,7 @@ class TagsForm extends React.Component {
         const datasetTags = knowledgeGraphVoc ? knowledgeGraphVoc.attributes.tags : [];
         this.setState({
           selectedTags: datasetTags,
+          savedTags: datasetTags,
           loadingDatasetTags: false
         }, () => this.loadInferredTags());
       })
@@ -111,21 +113,28 @@ class TagsForm extends React.Component {
   */
   handleSubmit(event) {
     const { dataset, user } = this.props;
-    const { selectedTags } = this.state;
+    const { selectedTags, savedTags } = this.state;
 
     event.preventDefault();
 
-    this.setState({ loading: true });
-    this.graphService.updateDatasetTags(dataset, selectedTags, user.token)
-      .then(() => {
-        toastr.success('Success', 'Tags updated successfully');
-        this.setState({ loading: false });
-      })
-      .catch((err) => {
-        toastr.error('Error updating the tags');
-        console.error(err);
-        this.setState({ loading: false });
-      });
+    if (selectedTags.length !== 0 || savedTags.length !== 0) {
+      this.setState({ loading: true });
+      this.graphService.updateDatasetTags(dataset, selectedTags, user.token)
+        .then((response) => {
+          toastr.success('Success', 'Tags updated successfully');
+          this.setState({
+            savedTags: response[0] ? response[0].attributes.tags : [],
+            loading: false
+          });
+        })
+        .catch((err) => {
+          toastr.error('Error updating the tags');
+          console.error(err);
+          this.setState({ loading: false });
+        });
+    } else {
+      toastr.success('Success', 'Tags updated successfully');
+    }
   }
   handleTagsChange(value) {
     this.setState({ selectedTags: value },
