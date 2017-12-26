@@ -6,31 +6,14 @@ import TreeSelector from 'components/ui/tree-selector/tree-selector';
 
 // Utils
 import { logEvent } from 'utils/analytics';
+import { selectElementsFromTree } from 'utils/explore/TreeUtil';
 
 // Constants
 import PLACEHOLDERS_DATASET_FILTERS from './explore-dataset-filters-constants';
 
 class ExploreDatasetFilters extends PureComponent {
-  renderFilters() {
-    const { data } = this.props;
-
-    const filters = Object.keys(data).map(key =>
-      (<TreeSelector
-        key={key}
-        data={data[key]}
-        placeholderText={PLACEHOLDERS_DATASET_FILTERS[key]}
-        onChange={(currentNode, selectedNodes) => this.onChange(selectedNodes, key)}
-      />)
-    );
-
-    return (
-      <div className="filters-container">
-        {filters}
-      </div>
-    );
-  }
-
   render() {
+    const { data } = this.props;
     const selectedTags = [];
     return (
       <div className="c-explore-dataset-filters">
@@ -70,7 +53,27 @@ class ExploreDatasetFilters extends PureComponent {
         <div className="filters-container">
           <div className="row">
             <div className="column small-12">
-              {this.renderFilters()}
+              <div className="filters-container">
+                {Object.keys(data).map(key =>
+                  (<TreeSelector
+                    key={key}
+                    data={data[key]}
+                    placeholderText={PLACEHOLDERS_DATASET_FILTERS[key]}
+                    onChange={(currentNode, selectedNodes) => {
+                      const deselect = !selectedNodes.includes(currentNode);
+                      if (deselect) {
+                        data[key].forEach(child => selectElementsFromTree(
+                          child, [currentNode.value], deselect));
+                      } else {
+                        data[key].forEach(child => selectElementsFromTree(
+                          child, this.filters.topics, deselect));
+                      }
+
+                      logEvent('Explore', 'Filter Topic', this.filters.topics.join(','));
+                    }}
+                  />)
+                )}
+              </div>
             </div>
           </div>
         </div>

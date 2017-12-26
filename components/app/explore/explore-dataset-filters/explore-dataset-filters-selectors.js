@@ -2,8 +2,8 @@ import { createSelector } from 'reselect';
 
 import selectElementsFromTree from 'utils/explore/TreeUtil';
 
-const data = state => state.exploreDatasetFilter.data;
-const filters = state => state.exploreDatasetFilter.filters;
+const data = state => state.exploreDatasetFilters.data;
+const filters = state => state.exploreDatasetFilters.filters;
 
 const getFilterStatus = (_data, _filters) => {
   if (!Object.keys(_data).length) return {};

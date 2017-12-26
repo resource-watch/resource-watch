@@ -19,3 +19,12 @@ export const getFiltersData = createThunkAction('explore-dataset-filters/getFilt
     });
   }
 );
+
+export const onSetDatasetFilter = createThunkAction('explore-dataset-filters/onSetDatasetFilter', (filter = {}) =>
+  (dispatch) => {
+    const key = Object.keys(filter)[0];
+    dispatch(setFilter(filter));
+    dispatch(setDatasetsTagFilter(key, filter[key])); // this is bullshit, but need it to keep consistency. Remove ASAP
+    dispatch(updateURL());
+  }
+);
