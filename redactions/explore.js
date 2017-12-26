@@ -229,7 +229,6 @@ export default function (state = initialState, action) {
     }
 
     case SET_DATASET_FILTER: {
-      console.log('state', state);
       const list = state.list.slice(0);
       let filteredList = [];
       const filtersChosen = Object.assign({}, state.filters);

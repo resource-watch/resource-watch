@@ -648,28 +648,30 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
   getDatasets: () => { dispatch(getDatasets({})); },
-  getFavoriteDatasets,
-  setDatasetsSearchFilter,
+  getFavoriteDatasets: (token) => { dispatch(getFavoriteDatasets(token)); },
+  setDatasetsSearchFilter: search => dispatch(setDatasetsSearchFilter(search)),
   setDatasetsFilteredByConcepts: datasetList =>
     dispatch(setDatasetsFilteredByConcepts(datasetList)),
   setDatasetsFilters,
-  setFiltersLoading,
-  redirectTo,
-  toggleModal,
-  setModalOptions,
-  setDatasetsPage,
-  toggleLayerGroupVisibility,
+  setFiltersLoading: isLoading => dispatch(setFiltersLoading(isLoading)),
+  redirectTo: (url) => { dispatch(redirectTo(url)); },
+  toggleModal: (open, options) => dispatch(toggleModal(open, options)),
+  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
+  setDatasetsPage: page => dispatch(setDatasetsPage(page)),
+  toggleLayerGroupVisibility: (dataset, visible) => {
+    dispatch(toggleLayerGroupVisibility(dataset, visible));
+  },
   removeLayerGroup: dataset => dispatch(toggleLayerGroup(dataset, false)),
-  setLayerGroupsOrder,
-  setLayerGroupActiveLayer,
-  setLayerGroups,
-  setZoom,
-  setLatLng,
+  setLayerGroupsOrder: datasets => dispatch(setLayerGroupsOrder(datasets)),
+  setLayerGroupActiveLayer: (dataset, layer) => dispatch(setLayerGroupActiveLayer(dataset, layer)),
+  setLayerGroups: layerGroups => dispatch(setLayerGroups(layerGroups)),
+  setZoom: (zoom, updateUrl) => dispatch(setZoom(zoom, updateUrl)),
+  setLatLng: (latLng, updateUrl) => dispatch(setLatLng(latLng, updateUrl)),
   setMapParams: debounce((params) => { // Debounce for performance reasons
     dispatch(setZoom(params.zoom));
     dispatch(setLatLng(params.latLng));
   }, 1000),
-  setDatasetsSorting
+  setDatasetsSorting: sorting => dispatch(setDatasetsSorting(sorting))
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Explore);
