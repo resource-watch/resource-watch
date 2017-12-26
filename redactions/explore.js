@@ -447,9 +447,12 @@ export function getFavoriteDatasets(token) {
 }
 
 export function getDatasets({ pageNumber, pageSize }) {
+  console.log('asldkfjalskdf');
   return (dispatch) => {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_DATASETS_LOADING });
+
+    console.log('aksdjflkasdj');
 
     return fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=${[process.env.APPLICATIONS]}&status=saved&published=true&includes=widget,layer,metadata,vocabulary&page[size]=${pageSize || 999}&page[number]=${pageNumber || 1}&sort=-updatedAt`))
       .then((response) => {
@@ -461,6 +464,7 @@ export function getDatasets({ pageNumber, pageSize }) {
         // Filtering datasets that have widget or layer
         // and only belong to RW app
         const datasets = response.data;
+        console.log('datasets', datasets);
         dispatch({
           type: GET_DATASETS_SUCCESS,
           payload: datasets

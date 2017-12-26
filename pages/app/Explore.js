@@ -163,7 +163,7 @@ class Explore extends Page {
   componentWillReceiveProps(nextProps) {
     const oldFilters = this.props.exploreDatasetFilters.filters;
     const { topics, geographies, dataType } = oldFilters;
-    const newFilters = nextProps.explore.filters;
+    const newFilters = nextProps.exploreDatasetFilters.filters;
 
     const conceptsUpdated = topics !== newFilters.topics ||
       geographies !== newFilters.geographies ||
@@ -175,17 +175,6 @@ class Explore extends Page {
 
     if (conceptsUpdated && !newFiltersHaveData) {
       this.props.setDatasetsFilteredByConcepts([]);
-    }
-
-    // ----- selectors' trees ----------------
-    if (nextProps.explore.topicsTree) {
-      this.topicsTree = nextProps.explore.topicsTree;
-    }
-    if (nextProps.explore.dataTypeTree) {
-      this.dataTypeTree = nextProps.explore.dataTypeTree;
-    }
-    if (nextProps.explore.geographiesTree) {
-      this.geographiesTree = nextProps.explore.geographiesTree;
     }
   }
 
@@ -656,7 +645,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  getDatasets,
+  getDatasets: () => { dispatch(getDatasets({})); },
   getFavoriteDatasets,
   setDatasetsSearchFilter,
   setDatasetsFilteredByConcepts,
