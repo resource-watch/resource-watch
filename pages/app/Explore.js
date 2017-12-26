@@ -124,7 +124,6 @@ class Explore extends Page {
         geographies: geographies ? JSON.parse(geographies) : [],
         dataType: dataType ? JSON.parse(dataType) : []
       };
-
       this.props.setDatasetsFilters(filters);
     }
   }
@@ -162,19 +161,29 @@ class Explore extends Page {
 
   componentWillReceiveProps(nextProps) {
     const oldFilters = this.props.exploreDatasetFilters.filters;
-    const { topics, geographies, dataType } = oldFilters;
+    const { topics, geographies, dataTypes } = oldFilters;
     const newFilters = nextProps.exploreDatasetFilters.filters;
 
     const conceptsUpdated = topics !== newFilters.topics ||
       geographies !== newFilters.geographies ||
-      dataType !== newFilters.dataType;
+      dataTypes !== newFilters.dataTypes;
 
     const newFiltersHaveData = (newFilters.topics && newFilters.topics.length > 0) ||
-      (newFilters.dataType && newFilters.dataType.length > 0) ||
+      (newFilters.dataTypes && newFilters.dataTypes.length > 0) ||
       (newFilters.geographies && newFilters.geographies.length > 0);
 
-    if (conceptsUpdated && !newFiltersHaveData) {
-      this.props.setDatasetsFilteredByConcepts([]);
+    if (conceptsUpdated) {
+      if (newFiltersHaveData) {
+        this.props.setFiltersLoading(true);
+        this.datasetService.searchDatasetsByConcepts(
+          newFilters.topics, newFilters.geographies, newFilters.dataTypes)
+          .then((datasetList) => {
+            this.props.setFiltersLoading(false);
+            this.props.setDatasetsFilteredByConcepts(datasetList || []);
+          });
+      } else {
+        this.props.setDatasetsFilteredByConcepts([]);
+      }
     }
   }
 
@@ -416,13 +425,7 @@ class Explore extends Page {
       return;
     }
 
-    this.props.setFiltersLoading(true);
-    this.datasetService.searchDatasetsByConcepts(
-      topics, geographies, dataType)
-      .then((datasetList) => {
-        this.props.setFiltersLoading(false);
-        this.props.setDatasetsFilteredByConcepts(datasetList || []);
-      });
+
   }
 
   toggleFilters() {
@@ -471,11 +474,10 @@ class Explore extends Page {
       );
     }
 
-    const { explore, totalDatasets, filteredDatasets, user, exploreDatasetFilters } = this.props;
+    const { explore, totalDatasets, filteredDatasets, user } = this.props;
     const { search } = explore.filters;
     const { zoom, latLng } = explore;
     const { showFilters } = this.state;
-    const { topics, geographies, dataType } = exploreDatasetFilters.filters;
 
     const buttonFilterContent = showFilters ? 'Hide filters' : 'Show filters';
 
@@ -648,7 +650,8 @@ const mapDispatchToProps = dispatch => ({
   getDatasets: () => { dispatch(getDatasets({})); },
   getFavoriteDatasets,
   setDatasetsSearchFilter,
-  setDatasetsFilteredByConcepts,
+  setDatasetsFilteredByConcepts: datasetList =>
+    dispatch(setDatasetsFilteredByConcepts(datasetList)),
   setDatasetsFilters,
   setFiltersLoading,
   redirectTo,
