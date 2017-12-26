@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import selectElementsFromTree from 'utils/explore/TreeUtil';
+import { selectElementsFromTree, deselectAllElementsFromTree } from 'utils/explore/TreeUtil';
 
 const data = state => state.exploreDatasetFilters.data;
 const filters = state => state.exploreDatasetFilters.filters;
@@ -14,7 +14,7 @@ const getFilterStatus = (_data, _filters) => {
   Object.keys(_filters).forEach((filterKey) => {
     const filterValues = _filters[filterKey];
     const dataTree = _data[filterKey] || [];
-
+    dataTree.forEach(child => deselectAllElementsFromTree(child));
     dataTree.forEach(child => selectElementsFromTree(child, filterValues));
   });
 

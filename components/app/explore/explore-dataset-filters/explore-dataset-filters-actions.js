@@ -2,7 +2,7 @@ import { createAction, createThunkAction } from 'redux-actions';
 
 import FiltersService from 'services/FiltersService';
 
-import { setDatasetsTagFilter } from 'redactions/explore';
+import { setDatasetsFilters } from 'redactions/explore';
 
 export const setDataFilters = createAction('explore-dataset-filters/setDataFilters');
 export const setFilter = createAction('explore-dataset-filters/setFilter');
@@ -24,10 +24,7 @@ export const getFiltersData = createThunkAction('explore-dataset-filters/getFilt
 
 export const onSetDatasetFilter = createThunkAction('explore-dataset-filters/onSetDatasetFilter', (filter = {}) =>
   (dispatch) => {
-    const key = Object.keys(filter)[0];
     dispatch(setFilter(filter));
-    dispatch(setDatasetsTagFilter(key, filter[key]));
-      // this is bullshit, but need it to keep consistency. Remove ASAP
-    dispatch(updateURL());
+    dispatch(setDatasetsFilters(filter));
   }
 );

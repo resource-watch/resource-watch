@@ -27,17 +27,32 @@ export function findTagInSelectorTree(tree, tag) {
  * @param {Object} tree used to populate selectors. Contains all options available.
  * @param {Object[]} elements Contains values to be selected in the data tree.
  */
-export function selectElementsFromTree(tree = {}, elements = [], deselect = false) {
-  let found = false; // We're using this loop because indexOf was finding elements
+export function selectElementsFromTree(
+  tree = {},
+  elements = [],
+  deselect = false,
+  selectEverything = false) {
+  let found = false;
+  // We're using this loop because indexOf was finding elements
   // that were substrings, e.g. "co" and "economic" when only "economic" should have been found
-  for (let i = 0; i < elements.length && !found; i++) {
-    if (elements[i] === tree.value) {
+  for (let i = 0; i < elements.length && !found && !selectEverything; i++) {
+    if (elements[i] === tree.value || selectEverything) {
       tree.checked = !deselect; // eslint-disable-line no-param-reassign
       found = true;
     }
   }
+  if (selectEverything) {
+    tree.checked = !deselect; // eslint-disable-line no-param-reassign
+  }
 
   (tree.children || []).forEach((child) => {
-    this.selectElementsFromTree(child, elements, deselect);
+    selectElementsFromTree(child, elements, deselect, found || selectEverything);
+  });
+}
+
+export function deselectAllElementsFromTree(tree) {
+  tree.checked = false; // eslint-disable-line no-param-reassign
+  (tree.children || []).forEach((child) => {
+    deselectAllElementsFromTree(child);
   });
 }

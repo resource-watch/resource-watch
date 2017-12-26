@@ -30,6 +30,7 @@ const SET_SORTING_DATASETS = 'explore/SET_SORTING_DATASETS';
 const SET_SORTING_LOADING = 'explore/SET_SORTING_LOADING';
 
 const SET_DATASETS_FILTERED_BY_CONCEPTS = 'explore/SET_DATASETS_FILTERED_BY_CONCEPTS';
+const SET_DATASETS_FILTERS = 'explore/SET_DATASETS_FILTERS';
 
 const SET_DATASETS_MODE = 'explore/SET_DATASETS_MODE';
 
@@ -743,5 +744,17 @@ export function setLatLng(latLng, updateUrl = true) {
 
     // We also update the URL
     if (updateUrl && typeof window !== 'undefined') dispatch(setUrlParams());
+  };
+}
+
+export function setDatasetsFilters(filters) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_DATASETS_FILTERS,
+      payload: filters
+    });
+
+    // We also update the URL
+    if (typeof window !== 'undefined') dispatch(setUrlParams());
   };
 }
