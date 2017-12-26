@@ -23,14 +23,9 @@ import {
   getFavoriteDatasets,
   setDatasetsPage,
   setDatasetsSearchFilter,
-  setDatasetsTopicsFilter,
-  setDatasetsGeographiesFilter,
-  setDatasetsDataTypeFilter,
+  setDatasetsFilters,
   setDatasetsFilteredByConcepts,
   setFiltersLoading,
-  setTopicsTree,
-  setGeographiesTree,
-  setDataTypeTree,
   setZoom,
   setLatLng,
   setDatasetsSorting
@@ -71,25 +66,6 @@ import { findTagInSelectorTree } from 'utils/explore/TreeUtil';
 import DatasetService from 'services/DatasetService';
 
 class Explore extends Page {
-  static sortTree(tree) {
-    if (tree.length && tree.length > 1) {
-      tree.sort((a, b) => {
-        if (a.label < b.label) {
-          return -1;
-        } else if (a.label > b.label) {
-          return 1;
-        } else { // eslint-disable-line no-else-return
-          return 0;
-        }
-      });
-
-      tree.forEach(val => Explore.sortTree(val));
-    } else if (tree.children && tree.children.length > 0) {
-      tree.children = Explore.sortTree(tree.children); // eslint-disable-line no-param-reassign
-    }
-    return tree;
-  }
-
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
@@ -119,12 +95,6 @@ class Explore extends Page {
       showFilters: false
     };
 
-    this.filters = {
-      topics: [],
-      geographies: [],
-      dataType: []
-    };
-
     // Services
     this.datasetService = new DatasetService(null, {
       apiURL: process.env.WRI_API_URL,
@@ -149,13 +119,13 @@ class Explore extends Page {
     const { topics, geographies, dataType } = query || {};
 
     if (topics || geographies || dataType) {
-      this.filters = {
+      const filters = {
         topics: topics ? JSON.parse(topics) : [],
         geographies: geographies ? JSON.parse(geographies) : [],
         dataType: dataType ? JSON.parse(dataType) : []
       };
 
-      this.applyFilters();
+      this.props.setDatasetsFilters(filters);
     }
   }
 
@@ -179,18 +149,6 @@ class Explore extends Page {
       this.props.setDatasetsSearchFilter({ value: query.search, key: 'name' });
     }
 
-    if (query.topics) {
-      this.props.setDatasetsTopicsFilter(JSON.parse(query.topics));
-    }
-
-    if (query.geographies) {
-      this.props.setDatasetsGeographiesFilter(JSON.parse(query.geographies));
-    }
-
-    if (query.dataType) {
-      this.props.setDatasetsDataTypeFilter(JSON.parse(query.dataType));
-    }
-
     if (query.sort) {
       this.props.setDatasetsSorting(query.sort);
     }
@@ -200,11 +158,10 @@ class Explore extends Page {
       const token = user.token.includes('Bearer') ? user.token : `Bearer ${user.token}`;
       this.props.getFavoriteDatasets(token);
     }
-    this.loadKnowledgeGraph();
   }
 
   componentWillReceiveProps(nextProps) {
-    const oldFilters = this.props.explore.filters;
+    const oldFilters = this.props.exploreDatasetFilters.filters;
     const { topics, geographies, dataType } = oldFilters;
     const newFilters = nextProps.explore.filters;
 
@@ -525,15 +482,11 @@ class Explore extends Page {
       );
     }
 
-    const { explore, totalDatasets, filteredDatasets, user } = this.props;
+    const { explore, totalDatasets, filteredDatasets, user, exploreDatasetFilters } = this.props;
     const { search } = explore.filters;
-    const { geographiesTree, topicsTree, dataTypeTree, zoom, latLng } = explore;
+    const { zoom, latLng } = explore;
     const { showFilters } = this.state;
-    const { topics, geographies, dataType } = this.filters;
-
-    const selectedTags = [...topics.map(t => ({ ...findTagInSelectorTree(topicsTree, t), type: 'topics' })),
-      ...geographies.map(g => ({ ...findTagInSelectorTree(geographiesTree, g), type: 'geographies' })),
-      ...dataType.map(d => ({ ...findTagInSelectorTree(dataTypeTree, d), type: 'dataType' }))];
+    const { topics, geographies, dataType } = exploreDatasetFilters.filters;
 
     const buttonFilterContent = showFilters ? 'Hide filters' : 'Show filters';
 
@@ -671,9 +624,6 @@ Explore.propTypes = {
   redirectTo: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
-  setTopicsTree: PropTypes.func.isRequired,
-  setDataTypeTree: PropTypes.func.isRequired,
-  setGeographiesTree: PropTypes.func.isRequired,
   setDatasetsSorting: PropTypes.func.isRequired,
 
   // Toggle the visibility of a layer group based on the layer passed as argument
@@ -696,6 +646,7 @@ const mapStateToProps = (state) => {
   return {
     user: state.user,
     explore: state.explore,
+    exploreDatasetFilters: state.exploreDatasetFilters,
     filteredDatasets,
     totalDatasets: totalFilteredDatasets,
     layerGroups: getLayerGroups(state),
@@ -705,36 +656,28 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  getDatasets: () => { dispatch(getDatasets({})); },
-  getFavoriteDatasets: (token) => { dispatch(getFavoriteDatasets(token)); },
-  setDatasetsSearchFilter: search => dispatch(setDatasetsSearchFilter(search)),
-  setDatasetsTopicsFilter: topics => dispatch(setDatasetsTopicsFilter(topics)),
-  setDatasetsDataTypeFilter: dataType => dispatch(setDatasetsDataTypeFilter(dataType)),
-  setDatasetsGeographiesFilter: geographies => dispatch(setDatasetsGeographiesFilter(geographies)),
-  setDatasetsFilteredByConcepts: datasetList =>
-    dispatch(setDatasetsFilteredByConcepts(datasetList)),
-  setFiltersLoading: isLoading => dispatch(setFiltersLoading(isLoading)),
-  redirectTo: (url) => { dispatch(redirectTo(url)); },
-  toggleModal: (open, options) => dispatch(toggleModal(open, options)),
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
-  setDatasetsPage: page => dispatch(setDatasetsPage(page)),
-  toggleLayerGroupVisibility: (dataset, visible) => {
-    dispatch(toggleLayerGroupVisibility(dataset, visible));
-  },
+  getDatasets,
+  getFavoriteDatasets,
+  setDatasetsSearchFilter,
+  setDatasetsFilteredByConcepts,
+  setDatasetsFilters,
+  setFiltersLoading,
+  redirectTo,
+  toggleModal,
+  setModalOptions,
+  setDatasetsPage,
+  toggleLayerGroupVisibility,
   removeLayerGroup: dataset => dispatch(toggleLayerGroup(dataset, false)),
-  setLayerGroupsOrder: datasets => dispatch(setLayerGroupsOrder(datasets)),
-  setLayerGroupActiveLayer: (dataset, layer) => dispatch(setLayerGroupActiveLayer(dataset, layer)),
-  setLayerGroups: layerGroups => dispatch(setLayerGroups(layerGroups)),
-  setTopicsTree: tree => dispatch(setTopicsTree(tree)),
-  setGeographiesTree: tree => dispatch(setGeographiesTree(tree)),
-  setDataTypeTree: tree => dispatch(setDataTypeTree(tree)),
-  setZoom: (zoom, updateUrl) => dispatch(setZoom(zoom, updateUrl)),
-  setLatLng: (latLng, updateUrl) => dispatch(setLatLng(latLng, updateUrl)),
+  setLayerGroupsOrder,
+  setLayerGroupActiveLayer,
+  setLayerGroups,
+  setZoom,
+  setLatLng,
   setMapParams: debounce((params) => { // Debounce for performance reasons
     dispatch(setZoom(params.zoom));
     dispatch(setLatLng(params.latLng));
   }, 1000),
-  setDatasetsSorting: sorting => dispatch(setDatasetsSorting(sorting))
+  setDatasetsSorting
 });
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Explore);

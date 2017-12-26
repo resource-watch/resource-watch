@@ -370,7 +370,7 @@ export function setUrlParams() {
     const { zoom, latLng, sorting } = explore;
     const { page } = explore.datasets;
     const { search } = explore.filters;
-    const { topics, dataType, geographies } = exploreDatasetFilters.filters;
+    const { topics, dataTypes, geographies } = exploreDatasetFilters.filters;
 
     const query = { page };
 
@@ -390,9 +390,9 @@ export function setUrlParams() {
       }
     }
 
-    if (dataType) {
-      if (dataType.length > 0) {
-        query.dataType = JSON.stringify(dataType);
+    if (dataTypes) {
+      if (dataTypes.length > 0) {
+        query.dataTypes = JSON.stringify(dataTypes);
       } else {
         delete query.dataType;
       }
