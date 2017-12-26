@@ -408,26 +408,6 @@ class Explore extends Page {
     this.applyFilters();
   }
 
-  applyFilters() {
-    const { topics, geographies, dataType } = this.filters;
-    const { page } = this.props.url.query || {};
-    const hasValues = [...topics, ...geographies, ...dataType].length;
-
-    if (page !== 1) this.props.setDatasetsPage(1);
-
-    // updates URL
-    this.props.setDatasetsTopicsFilter(topics);
-    this.props.setDatasetsGeographiesFilter(geographies);
-    this.props.setDatasetsDataTypeFilter(dataType);
-
-    if (!hasValues) {
-      this.props.setDatasetsFilteredByConcepts([]);
-      return;
-    }
-
-
-  }
-
   toggleFilters() {
     this.setState({
       showFilters: !this.state.showFilters

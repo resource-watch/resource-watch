@@ -47,23 +47,19 @@ class ExploreDatasetFilters extends PureComponent {
           </div>
         }
         <div className="filters-container">
-          <div className="row">
-            <div className="column small-12">
-              <div className="filters-container">
-                {Object.keys(data).map(key =>
-                  (<TreeSelector
-                    key={key}
-                    data={data[key]}
-                    placeholderText={PLACEHOLDERS_DATASET_FILTERS[key]}
-                    onChange={(currentNode, selectedNodes) => {
-                      const filterValues = selectedNodes.map(v => v.value);
-                      this.props.onSetDatasetFilter({ [key]: filterValues });
-                    }}
-                  />)
-                )}
-              </div>
-            </div>
-          </div>
+          {Object.keys(data).map(key =>
+            (
+              <TreeSelector
+                key={key}
+                data={data[key]}
+                placeholderText={PLACEHOLDERS_DATASET_FILTERS[key]}
+                onChange={(currentNode, selectedNodes) => {
+                  const filterValues = selectedNodes.map(v => v.value);
+                  this.props.onSetDatasetFilter({ [key]: filterValues });
+                }}
+              />
+            )
+          )}
         </div>
       </div>
     );
