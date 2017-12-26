@@ -20,14 +20,9 @@ const GET_FAVORITES_SUCCESS = 'explore/GET_FAVORITES_SUCCESS';
 const GET_FAVORITES_ERROR = 'explore/GET_FAVORITES_ERROR';
 const GET_FAVORITES_LOADING = 'explore/GET_FAVORITES_LOADING';
 
-const ADD_FAVORITE_DATASET = 'explore/ADD_FAVORITE_DATASET';
-const REMOVE_FAVORITE_DATASET = 'explore/REMOVE_FAVORITE_DATASET';
-
 const SET_DATASETS_PAGE = 'explore/SET_DATASETS_PAGE';
 const SET_DATASETS_SEARCH_FILTER = 'explore/SET_DATASETS_SEARCH_FILTER';
-const SET_DATASETS_TOPICS_FILTER = 'explore/SET_DATASETS_TOPICS_FILTER';
-const SET_DATASETS_DATA_TYPE_FILTER = 'explore/SET_DATASETS_DATA_TYPE_FILTER';
-const SET_DATASETS_GEOGRAPHIES_FILTER = 'explore/SET_DATASETS_GEOGRAPHIES_FILTER';
+const SET_DATASET_FILTER = 'explore/SET_DATASET_FILTER';
 const SET_FILTERS_LOADING = 'explore/SET_FILTERS_LOADING';
 
 const SET_SORTING_ORDER = 'explore/SET_SORTING_ORDER';
@@ -98,9 +93,6 @@ const initialState = {
   layers: [],
   filters: {
     search: null,
-    topics: null,
-    dataType: null,
-    geographies: null,
     datasetsFilteredByConcepts: [],
     loading: false
   },
@@ -235,25 +227,52 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { filters });
     }
 
-    case SET_DATASETS_TOPICS_FILTER: {
-      const filters = Object.assign({}, state.filters, {
-        topics: action.payload
-      });
-      return Object.assign({}, state, { filters });
-    }
+    case SET_DATASET_FILTER: {
+      console.log('state', state);
+      const list = state.list.slice(0);
+      let filteredList = [];
+      const filtersChosen = Object.assign({}, state.filters);
 
-    case SET_DATASETS_DATA_TYPE_FILTER: {
-      const filters = Object.assign({}, state.filters, {
-        dataType: action.payload
-      });
-      return Object.assign({}, state, { filters });
-    }
+      if (action.payload.filter) {
+        if (filtersChosen[action.payload.filter]) {
+          const index = filtersChosen[action.payload.filter].indexOf(action.payload.tag);
+          if (index > -1) {
+            filtersChosen[action.payload.filter].splice(index, 1);
+          } else {
+            filtersChosen[action.payload.filter].push(action.payload.tag);
+          }
+        } else {
+          filtersChosen[action.payload.filter] = [action.payload.tag];
+        }
+      }
 
-    case SET_DATASETS_GEOGRAPHIES_FILTER: {
-      const filters = Object.assign({}, state.filters, {
-        geographies: action.payload
-      });
-      return Object.assign({}, state, { filters });
+      if (list && list.length) {
+        const andFilters = Object.keys(filtersChosen);
+        filteredList = list.filter((item) => {
+          for (let i = andFilters.length - 1; i >= 0; i--) {
+            const tags = filtersChosen[andFilters[i]];
+            let itemTags = [];
+            if (item.vocabulary[0]) {
+              itemTags = item.vocabulary[0].attributes.tags || [];
+            }
+            let j = tags.length - 1;
+            for (j; j >= 0; j--) {
+              if (itemTags.indexOf(tags[j]) > -1) {
+                break;
+              }
+            }
+            if (tags.length > 0 && j < 0) {
+              if (item.active === true) {
+                item.active = false; // eslint-disable-line no-param-reassign
+              }
+              return false;
+            }
+          }
+          return true;
+        });
+      }
+
+      return Object.assign({}, state, { filteredList, filters: filtersChosen });
     }
 
     case SET_FILTERS_LOADING: {
@@ -597,39 +616,13 @@ export function setDatasetsSearchFilter(search) {
   };
 }
 
-export function setDatasetsTopicsFilter(topics) {
-  return (dispatch) => {
-    dispatch({
-      type: SET_DATASETS_TOPICS_FILTER,
-      payload: topics
-    });
-
-    // We also update the URL
-    if (typeof window !== 'undefined') dispatch(setUrlParams());
-  };
-}
-
-export function setDatasetsGeographiesFilter(topics) {
-  return (dispatch) => {
-    dispatch({
-      type: SET_DATASETS_GEOGRAPHIES_FILTER,
-      payload: topics
-    });
-
-    // We also update the URL
-    if (typeof window !== 'undefined') dispatch(setUrlParams());
-  };
-}
-
-export function setDatasetsDataTypeFilter(dataTypes) {
-  return (dispatch) => {
-    dispatch({
-      type: SET_DATASETS_DATA_TYPE_FILTER,
-      payload: dataTypes
-    });
-
-    // We also update the URL
-    if (typeof window !== 'undefined') dispatch(setUrlParams());
+export function setDatasetsTagFilter(filter, tag) {
+  return {
+    type: SET_DATASET_FILTER,
+    payload: {
+      filter,
+      tag
+    }
   };
 }
 

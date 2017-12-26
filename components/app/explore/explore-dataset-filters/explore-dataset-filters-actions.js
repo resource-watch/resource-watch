@@ -2,6 +2,8 @@ import { createAction, createThunkAction } from 'redux-actions';
 
 import FiltersService from 'services/FiltersService';
 
+import { setDatasetsTagFilter } from 'redactions/explore';
+
 export const setDataFilters = createAction('explore-dataset-filters/setDataFilters');
 export const setFilter = createAction('explore-dataset-filters/setFilter');
 
@@ -24,7 +26,8 @@ export const onSetDatasetFilter = createThunkAction('explore-dataset-filters/onS
   (dispatch) => {
     const key = Object.keys(filter)[0];
     dispatch(setFilter(filter));
-    dispatch(setDatasetsTagFilter(key, filter[key])); // this is bullshit, but need it to keep consistency. Remove ASAP
+    dispatch(setDatasetsTagFilter(key, filter[key]));
+      // this is bullshit, but need it to keep consistency. Remove ASAP
     dispatch(updateURL());
   }
 );

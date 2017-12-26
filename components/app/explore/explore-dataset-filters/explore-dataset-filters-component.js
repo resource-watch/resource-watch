@@ -4,10 +4,6 @@ import PropTypes from 'prop-types';
 // Components
 import TreeSelector from 'components/ui/tree-selector/tree-selector';
 
-// Utils
-import { logEvent } from 'utils/analytics';
-import { selectElementsFromTree } from 'utils/explore/TreeUtil';
-
 // Constants
 import PLACEHOLDERS_DATASET_FILTERS from './explore-dataset-filters-constants';
 
@@ -60,16 +56,8 @@ class ExploreDatasetFilters extends PureComponent {
                     data={data[key]}
                     placeholderText={PLACEHOLDERS_DATASET_FILTERS[key]}
                     onChange={(currentNode, selectedNodes) => {
-                      const deselect = !selectedNodes.includes(currentNode);
-                      if (deselect) {
-                        data[key].forEach(child => selectElementsFromTree(
-                          child, [currentNode.value], deselect));
-                      } else {
-                        data[key].forEach(child => selectElementsFromTree(
-                          child, this.filters.topics, deselect));
-                      }
-
-                      logEvent('Explore', 'Filter Topic', this.filters.topics.join(','));
+                      const filterValues = selectedNodes.map(v => v.value);
+                      this.props.onSetDatasetFilter({ [key]: filterValues });
                     }}
                   />)
                 )}
