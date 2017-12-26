@@ -2,7 +2,7 @@ import { createAction, createThunkAction } from 'redux-actions';
 
 import FiltersService from 'services/FiltersService';
 
-import { setDatasetsFilters } from 'redactions/explore';
+import { setDatasetsFilters, setUrlParams } from 'redactions/explore';
 
 export const setDataFilters = createAction('explore-dataset-filters/setDataFilters');
 export const setFilter = createAction('explore-dataset-filters/setFilter');
@@ -26,5 +26,6 @@ export const onSetDatasetFilter = createThunkAction('explore-dataset-filters/onS
   (dispatch) => {
     dispatch(setFilter(filter));
     dispatch(setDatasetsFilters(filter));
+    dispatch(setUrlParams());
   }
 );

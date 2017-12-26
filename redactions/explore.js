@@ -365,11 +365,12 @@ export default function (state = initialState, action) {
 // go away from the current page
 export function setUrlParams() {
   return (dispatch, getState) => {
-    const { explore } = getState();
+    const { explore, exploreDatasetFilters } = getState();
     const layerGroups = explore.layers;
     const { zoom, latLng, sorting } = explore;
     const { page } = explore.datasets;
-    const { search, topics, dataType, geographies } = explore.filters;
+    const { search } = explore.filters;
+    const { topics, dataType, geographies } = exploreDatasetFilters.filters;
 
     const query = { page };
 
