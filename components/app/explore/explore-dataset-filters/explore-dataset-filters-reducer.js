@@ -8,5 +8,6 @@ export const initialState = {
 export default {
   [actions.setDataFilters]: (state, { payload }) => ({ ...state, data: payload }),
   [actions.setFilter]: (state, { payload }) =>
-    ({ ...state, filters: { ...state.filters, ...payload } })
+    ({ ...state, filters: { ...state.filters, ...payload } }),
+  [actions.clearFilters]: state => ({ ...state, filters: {} })
 };

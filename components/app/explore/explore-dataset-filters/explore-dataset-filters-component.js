@@ -12,6 +12,14 @@ import { findTagInSelectorTree } from 'utils/explore/TreeUtil';
 import PLACEHOLDERS_DATASET_FILTERS from './explore-dataset-filters-constants';
 
 class ExploreDatasetFilters extends PureComponent {
+
+  componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps', nextProps);
+    if (this.props.exploreDatasetFilters.filters !== nextProps.exploreDatasetFilters.filters) {
+      console.log('hohohoho!');
+    }
+  }
+
   render() {
     const { exploreDatasetFilters, showFilters } = this.props;
     const { filters, data } = exploreDatasetFilters;
@@ -52,7 +60,7 @@ class ExploreDatasetFilters extends PureComponent {
                   className="tag clear-filters"
                   role="button"
                   tabIndex={-1}
-                  onClick={this.handleClearFilters}
+                  onClick={() => this.props.clearFilters()}
                 >
                   Clear filters
                 </div>
@@ -91,7 +99,8 @@ ExploreDatasetFilters.propTypes = {
   onSetDatasetFilter: PropTypes.func.isRequired,
   showFilters: PropTypes.bool,
   // Store
-  exploreDatasetFilters: PropTypes.object.isRequired
+  exploreDatasetFilters: PropTypes.object.isRequired,
+  clearFilters: PropTypes.func.isRequired
 };
 
 ExploreDatasetFilters.defaultProps = {
