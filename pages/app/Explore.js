@@ -60,7 +60,6 @@ import Layout from 'components/app/layout/Layout';
 
 // Utils
 import LayerManager from 'components/widgets/editor/helpers/LayerManager';
-import { findTagInSelectorTree } from 'utils/explore/TreeUtil';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -496,9 +495,9 @@ class Explore extends Page {
                       {buttonFilterContent}
                     </button>
                   </div>
-                  {showFilters &&
-                    <ExploreDatasetFilters />
-                  }
+                  <ExploreDatasetFilters
+                    showFilters={showFilters}
+                  />
                   <DatasetListHeader
                     list={totalDatasets}
                     mode={explore.datasets.mode}

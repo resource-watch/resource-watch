@@ -1,16 +1,30 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+// Redux
+import { connect } from 'react-redux';
+
 // Components
 import TreeSelector from 'components/ui/tree-selector/tree-selector';
+import { findTagInSelectorTree } from 'utils/explore/TreeUtil';
 
 // Constants
 import PLACEHOLDERS_DATASET_FILTERS from './explore-dataset-filters-constants';
 
 class ExploreDatasetFilters extends PureComponent {
   render() {
-    const { data } = this.props;
-    const selectedTags = [];
+    const { exploreDatasetFilters, showFilters } = this.props;
+    const { filters, data } = exploreDatasetFilters;
+    const { topics, dataTypes, geographies } = filters;
+
+    const newTopics = topics ?
+      topics.map(t => findTagInSelectorTree(data.topics, t)) : [];
+    const newGeographies = geographies ?
+      geographies.map(t => findTagInSelectorTree(data.geographies, t)) : [];
+    const newDataTypes = dataTypes ?
+      dataTypes.map(t => findTagInSelectorTree(data.dataTypes, t)) : [];
+    const selectedTags = [...newTopics, ...newGeographies, ...newDataTypes];
+
     return (
       <div className="c-explore-dataset-filters">
         {selectedTags.length > 0 &&
@@ -46,33 +60,43 @@ class ExploreDatasetFilters extends PureComponent {
             </div>
           </div>
         }
-        <div className="filters-container">
-          {Object.keys(data).map(key =>
-            (
-              <TreeSelector
-                key={key}
-                data={data[key]}
-                placeholderText={PLACEHOLDERS_DATASET_FILTERS[key]}
-                onChange={(currentNode, selectedNodes) => {
-                  const filterValues = selectedNodes.map(v => v.value);
-                  this.props.onSetDatasetFilter({ [key]: filterValues });
-                }}
-              />
-            )
-          )}
-        </div>
+        {showFilters &&
+          <div className="filters-container">
+            {Object.keys(this.props.data).map(key =>
+              (
+                <TreeSelector
+                  key={key}
+                  data={this.props.data[key]}
+                  placeholderText={PLACEHOLDERS_DATASET_FILTERS[key]}
+                  onChange={(currentNode, selectedNodes) => {
+                    const filterValues = selectedNodes.map(v => v.value);
+                    this.props.onSetDatasetFilter({ [key]: filterValues });
+                  }}
+                />
+              )
+            )}
+          </div>
+        }
       </div>
     );
   }
 }
 
+const mapStateToProps = state => ({
+  exploreDatasetFilters: state.exploreDatasetFilters
+});
+
 ExploreDatasetFilters.propTypes = {
-  data: PropTypes.object,
-  onSetDatasetFilter: PropTypes.func
+  data: PropTypes.object.isRequired,
+  onSetDatasetFilter: PropTypes.func.isRequired,
+  showFilters: PropTypes.bool,
+  // Store
+  exploreDatasetFilters: PropTypes.object.isRequired
 };
 
 ExploreDatasetFilters.defaultProps = {
-  data: {}
+  data: {},
+  showFilters: false
 };
 
-export default ExploreDatasetFilters;
+export default connect(mapStateToProps, null)(ExploreDatasetFilters);
