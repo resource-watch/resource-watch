@@ -6,7 +6,6 @@ import { setDatasetsFilters, setUrlParams } from 'redactions/explore';
 
 export const setDataFilters = createAction('explore-dataset-filters/setDataFilters');
 export const setFilter = createAction('explore-dataset-filters/setFilter');
-export const removeTagFilter = createAction('explore-dataset-filters/removeTagFilter');
 
 export const getFiltersData = createThunkAction('explore-dataset-filters/getFiltersData', () =>
   (dispatch) => {
@@ -35,6 +34,12 @@ export const clearFilters = createThunkAction('explore-dataset-filters/clearFilt
   (dispatch) => {
     dispatch(setFilter({}));
     dispatch(setDatasetsFilters({}));
+    dispatch(setUrlParams());
+  }
+);
+
+export const removeTagFilter = createThunkAction('explore-dataset-filters/removeTagFilter', () =>
+  (dispatch) => {
     dispatch(setUrlParams());
   }
 );

@@ -11,7 +11,20 @@ export default {
     ({ ...state, filters: { ...state.filters, ...payload } }),
   [actions.clearFilters]: state => ({ ...state, filters: {} }),
   [actions.removeTagFilter]: (state, { payload }) => {
-    console.log('state', state, 'payload', payload);
-    return state;
+    if (payload.labels.includes('TOPIC')) {
+      const newTopics = state.filters.topics;
+      newTopics.splice(newTopics.indexOf(payload.value), 1);
+      return { ...state, filters: Object.assign({}, ...state.filters, { topics: newTopics }) };
+    } else if (payload.labels.includes('GEOGRAPHY')) {
+      const newGeographies = state.filters.geographies;
+      newGeographies.splice(newGeographies.indexOf(payload.value), 1);
+      return { ...state, filters: Object.assign({}, ...state.filters, { topics: newGeographies }) };
+    } else if (payload.labels.includes('DATA_TYPE')) {
+      const newDataTypes = state.filters.dataTypes;
+      newDataTypes.splice(newDataTypes.indexOf(payload.value), 1);
+      return { ...state, filters: Object.assign({}, ...state.filters, { topics: newDataTypes }) };
+    } else { // eslint-disable-line no-else-return
+      return state;
+    }
   }
 };
