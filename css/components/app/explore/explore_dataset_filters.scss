@@ -10,9 +10,11 @@
       clear: left;
       align-items: center;
       min-height: 22px;
+      max-height: 22px;
       background: $white;
       color: $dark-pink;
-      font-size: $font-size-small-medium;
+      font-size: $font-size-small;
+      font-weight: bold;
       border-radius: 15px;
       border: 1px solid $dark-pink;
       padding: 3px 0px 3px 10px;
