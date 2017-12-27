@@ -22,7 +22,6 @@ const GET_FAVORITES_LOADING = 'explore/GET_FAVORITES_LOADING';
 
 const SET_DATASETS_PAGE = 'explore/SET_DATASETS_PAGE';
 const SET_DATASETS_SEARCH_FILTER = 'explore/SET_DATASETS_SEARCH_FILTER';
-const SET_DATASET_FILTER = 'explore/SET_DATASET_FILTER';
 const SET_FILTERS_LOADING = 'explore/SET_FILTERS_LOADING';
 
 const SET_SORTING_ORDER = 'explore/SET_SORTING_ORDER';
@@ -226,53 +225,6 @@ export default function (state = initialState, action) {
         search: action.payload
       });
       return Object.assign({}, state, { filters });
-    }
-
-    case SET_DATASET_FILTER: {
-      const list = state.list.slice(0);
-      let filteredList = [];
-      const filtersChosen = Object.assign({}, state.filters);
-
-      if (action.payload.filter) {
-        if (filtersChosen[action.payload.filter]) {
-          const index = filtersChosen[action.payload.filter].indexOf(action.payload.tag);
-          if (index > -1) {
-            filtersChosen[action.payload.filter].splice(index, 1);
-          } else {
-            filtersChosen[action.payload.filter].push(action.payload.tag);
-          }
-        } else {
-          filtersChosen[action.payload.filter] = [action.payload.tag];
-        }
-      }
-
-      if (list && list.length) {
-        const andFilters = Object.keys(filtersChosen);
-        filteredList = list.filter((item) => {
-          for (let i = andFilters.length - 1; i >= 0; i--) {
-            const tags = filtersChosen[andFilters[i]];
-            let itemTags = [];
-            if (item.vocabulary[0]) {
-              itemTags = item.vocabulary[0].attributes.tags || [];
-            }
-            let j = tags.length - 1;
-            for (j; j >= 0; j--) {
-              if (itemTags.indexOf(tags[j]) > -1) {
-                break;
-              }
-            }
-            if (tags.length > 0 && j < 0) {
-              if (item.active === true) {
-                item.active = false; // eslint-disable-line no-param-reassign
-              }
-              return false;
-            }
-          }
-          return true;
-        });
-      }
-
-      return Object.assign({}, state, { filteredList, filters: filtersChosen });
     }
 
     case SET_FILTERS_LOADING: {
@@ -614,16 +566,6 @@ export function setDatasetsSearchFilter(search) {
 
     // We also update the URL
     if (typeof window !== 'undefined') dispatch(setUrlParams());
-  };
-}
-
-export function setDatasetsTagFilter(filter, tag) {
-  return {
-    type: SET_DATASET_FILTER,
-    payload: {
-      filter,
-      tag
-    }
   };
 }
 
