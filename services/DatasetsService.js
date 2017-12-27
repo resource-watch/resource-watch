@@ -19,6 +19,7 @@ export default class DatasetsService {
       application: applications.join(','),
       language: this.opts.language,
       ...!!includes && { includes },
+      'user.role': 'ADMIN',
       'page[size]': 9999999,
       env: process.env.API_ENV,
       ...filters
