@@ -1,4 +1,5 @@
 import * as actions from './explore-dataset-filters-actions';
+import { deselectAllElementsFromTree } from 'utils/explore/TreeUtil';
 
 export const initialState = {
   data: {},
@@ -9,7 +10,11 @@ export default {
   [actions.setDataFilters]: (state, { payload }) => ({ ...state, data: payload }),
   [actions.setFilter]: (state, { payload }) =>
     ({ ...state, filters: { ...state.filters, ...payload } }),
-  [actions.clearFilters]: state => ({ ...state, filters: {} }),
+  [actions.clearFilters]: (state) => {
+    Object.keys(state.data).forEach(key =>
+      state.data[key].forEach(tree => deselectAllElementsFromTree(tree)));
+    return { ...state, filters: {} };
+  },
   [actions.removeTagFilter]: (state, { payload }) => {
     if (payload.labels.includes('TOPIC')) {
       const newTopics = state.filters.topics;

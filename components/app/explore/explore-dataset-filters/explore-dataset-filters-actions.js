@@ -32,8 +32,6 @@ export const onSetDatasetFilter = createThunkAction('explore-dataset-filters/onS
 
 export const clearFilters = createThunkAction('explore-dataset-filters/clearFilters', () =>
   (dispatch) => {
-    dispatch(setFilter({}));
-    dispatch(setDatasetsFilters({}));
     dispatch(setUrlParams());
   }
 );
