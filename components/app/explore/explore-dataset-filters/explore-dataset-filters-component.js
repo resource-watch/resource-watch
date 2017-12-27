@@ -12,14 +12,6 @@ import { findTagInSelectorTree } from 'utils/explore/TreeUtil';
 import PLACEHOLDERS_DATASET_FILTERS from './explore-dataset-filters-constants';
 
 class ExploreDatasetFilters extends PureComponent {
-
-  componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps', nextProps);
-    if (this.props.exploreDatasetFilters.filters !== nextProps.exploreDatasetFilters.filters) {
-      console.log('hohohoho!');
-    }
-  }
-
   render() {
     const { exploreDatasetFilters, showFilters } = this.props;
     const { filters, data } = exploreDatasetFilters;
