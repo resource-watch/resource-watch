@@ -47,6 +47,8 @@ class ExploreDatasetFilters extends PureComponent {
                   </button>
                 </div>
               ))}
+            </div>
+            <div className="clear-filters-container">
               {selectedTags.length > 0 &&
                 <div
                   className="tag clear-filters"

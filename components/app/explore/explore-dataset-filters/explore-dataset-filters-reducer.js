@@ -1,5 +1,5 @@
-import * as actions from './explore-dataset-filters-actions';
 import { deselectAllElementsFromTree } from 'utils/explore/TreeUtil';
+import * as actions from './explore-dataset-filters-actions';
 
 export const initialState = {
   data: {},

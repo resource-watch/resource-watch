@@ -4,32 +4,33 @@
     display: flex;
     align-items: center;
 
+    .tag {
+      display: flex;
+      float: left;
+      clear: left;
+      align-items: center;
+      min-height: 22px;
+      background: $white;
+      color: $dark-pink;
+      font-size: $font-size-small-medium;
+      border-radius: 15px;
+      border: 1px solid $dark-pink;
+      padding: 3px 0px 3px 10px;
+      margin: 5px;
+
+      &.clear-filters {
+        color: $white;
+        background-color: $dark-pink;
+        cursor: pointer;
+        padding: 3px 10px 3px 10px;
+      }
+    }
+
     .selected-tags-container {
       margin-left: 10px;
       display: flex;
       flex-direction: row;
-
-      .tag {
-        display: flex;
-        float: left;
-        clear: left;
-        align-items: center;
-        min-height: 22px;
-        background: $white;
-        color: $dark-pink;
-        font-size: $font-size-small-medium;
-        border-radius: 15px;
-        border: 1px solid $dark-pink;
-        padding: 3px 0px 3px 10px;
-        margin: 5px;
-
-        &.clear-filters {
-          color: $white;
-          background-color: $dark-pink;
-          cursor: pointer;
-          padding: 3px 10px 3px 10px;
-        }
-      }
+      overflow: auto;
 
       .tag-remove {
         color: $dark-pink;
