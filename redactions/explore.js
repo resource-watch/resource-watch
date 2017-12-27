@@ -29,8 +29,6 @@ const SET_SORTING_DATASETS = 'explore/SET_SORTING_DATASETS';
 const SET_SORTING_LOADING = 'explore/SET_SORTING_LOADING';
 
 const SET_DATASETS_FILTERED_BY_CONCEPTS = 'explore/SET_DATASETS_FILTERED_BY_CONCEPTS';
-const SET_DATASETS_FILTERS = 'explore/SET_DATASETS_FILTERS';
-
 const SET_DATASETS_MODE = 'explore/SET_DATASETS_MODE';
 
 const SET_LAYERGROUP_TOGGLE = 'explore/SET_LAYERGROUP_TOGGLE';
@@ -41,10 +39,6 @@ const SET_LAYERGROUP_OPACITY = 'explore/SET_LAYERGROUP_OPACITY';
 const SET_LAYERGROUPS = 'explore/SET_LAYERGROUPS';
 
 const SET_SIDEBAR = 'explore/SET_SIDEBAR';
-
-const SET_TOPICS_TREE = 'explore/SET_TOPICS_TREE';
-const SET_DATA_TYPE_TREE = 'explore/SET_DATA_TYPE_TREE';
-const SET_GEOGRAPHIES_TREE = 'explore/SET_GEOGRAPHIES_TREE';
 
 const SET_ZOOM = 'explore/SET_ZOOM';
 const SET_LATLNG = 'explore/SET_LATLNG';
@@ -635,27 +629,6 @@ export function setDatasetsSorting(sorting) {
   };
 }
 
-export function setTopicsTree(tree) {
-  return {
-    type: SET_TOPICS_TREE,
-    payload: tree
-  };
-}
-
-export function setDataTypeTree(tree) {
-  return {
-    type: SET_DATA_TYPE_TREE,
-    payload: tree
-  };
-}
-
-export function setGeographiesTree(tree) {
-  return {
-    type: SET_GEOGRAPHIES_TREE,
-    payload: tree
-  };
-}
-
 export function setBasemap(basemap) {
   return {
     type: SET_BASEMAP,
@@ -686,17 +659,5 @@ export function setLatLng(latLng, updateUrl = true) {
 
     // We also update the URL
     if (updateUrl && typeof window !== 'undefined') dispatch(setUrlParams());
-  };
-}
-
-export function setDatasetsFilters(filters) {
-  return (dispatch) => {
-    dispatch({
-      type: SET_DATASETS_FILTERS,
-      payload: filters
-    });
-
-    // We also update the URL
-    if (typeof window !== 'undefined') dispatch(setUrlParams());
   };
 }
