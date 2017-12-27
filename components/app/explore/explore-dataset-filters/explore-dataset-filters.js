@@ -13,11 +13,8 @@ const mapStateToProps = state => ({
 });
 
 class ExploreDatasetFiltersContainer extends Component {
-  static async getInitialProps(...params) {
-    const props = await super.getInitialProps(...params);
-    await params.store.dispatch(props.getFiltersData());
-    console.log('hey!!');
-    return props;
+  componentDidMount() {
+    this.props.getFiltersData();
   }
 
   render() {
@@ -26,6 +23,10 @@ class ExploreDatasetFiltersContainer extends Component {
     });
   }
 }
+
+ExploreDatasetFiltersContainer.propTypes = {
+  getFiltersData: PropTypes.func
+};
 
 export { actions, reducers, initialState };
 

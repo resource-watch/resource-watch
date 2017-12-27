@@ -9,5 +9,9 @@ export default {
   [actions.setDataFilters]: (state, { payload }) => ({ ...state, data: payload }),
   [actions.setFilter]: (state, { payload }) =>
     ({ ...state, filters: { ...state.filters, ...payload } }),
-  [actions.clearFilters]: state => ({ ...state, filters: {} })
+  [actions.clearFilters]: state => ({ ...state, filters: {} }),
+  [actions.removeTagFilter]: (state, { payload }) => {
+    console.log('state', state, 'payload', payload);
+    return state;
+  }
 };

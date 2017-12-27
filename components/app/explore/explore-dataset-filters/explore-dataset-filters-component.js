@@ -41,7 +41,7 @@ class ExploreDatasetFilters extends PureComponent {
                   {t.label}
                   <button
                     className="tag-remove"
-                    onClick={() => this.handleRemoveTag(t)}
+                    onClick={() => this.props.removeTagFilter(t)}
                   >
                     x
                   </button>
@@ -92,7 +92,8 @@ ExploreDatasetFilters.propTypes = {
   showFilters: PropTypes.bool,
   // Store
   exploreDatasetFilters: PropTypes.object.isRequired,
-  clearFilters: PropTypes.func.isRequired
+  clearFilters: PropTypes.func.isRequired,
+  removeTagFilter: PropTypes.func.isRequired
 };
 
 ExploreDatasetFilters.defaultProps = {
