@@ -5,7 +5,6 @@ import FiltersService from 'services/FiltersService';
 import { setDatasetsFilters, setUrlParams } from 'redactions/explore';
 
 export const setDataFilters = createAction('explore-dataset-filters/setDataFilters');
-export const setFilter = createAction('explore-dataset-filters/setFilter');
 
 export const getFiltersData = createThunkAction('explore-dataset-filters/getFiltersData', () =>
   (dispatch) => {
@@ -22,9 +21,15 @@ export const getFiltersData = createThunkAction('explore-dataset-filters/getFilt
   }
 );
 
+export const setFilters = createThunkAction('explore-dataset-filters/setFilters', () =>
+  (dispatch) => {
+    dispatch(setUrlParams());
+  }
+);
+
 export const onSetDatasetFilter = createThunkAction('explore-dataset-filters/onSetDatasetFilter', (filter = {}) =>
   (dispatch) => {
-    dispatch(setFilter(filter));
+    dispatch(setFilters(filter));
     dispatch(setDatasetsFilters(filter));
     dispatch(setUrlParams());
   }

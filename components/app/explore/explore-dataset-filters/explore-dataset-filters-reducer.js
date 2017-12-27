@@ -8,7 +8,7 @@ export const initialState = {
 
 export default {
   [actions.setDataFilters]: (state, { payload }) => ({ ...state, data: payload }),
-  [actions.setFilter]: (state, { payload }) =>
+  [actions.setFilters]: (state, { payload }) =>
     ({ ...state, filters: { ...state.filters, ...payload } }),
   [actions.clearFilters]: (state) => {
     Object.keys(state.data).forEach(key =>

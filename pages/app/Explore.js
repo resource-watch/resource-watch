@@ -23,13 +23,13 @@ import {
   getFavoriteDatasets,
   setDatasetsPage,
   setDatasetsSearchFilter,
-  setDatasetsFilters,
   setDatasetsFilteredByConcepts,
   setFiltersLoading,
   setZoom,
   setLatLng,
   setDatasetsSorting
 } from 'redactions/explore';
+import { setFilters } from 'components/app/explore/explore-dataset-filters/explore-dataset-filters-actions';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import { setUser } from 'redactions/user';
@@ -108,8 +108,6 @@ class Explore extends Page {
     this.onSetLayerGroupsOrder = this.onSetLayerGroupsOrder.bind(this);
     this.onSetLayerGroupActiveLayer = this.onSetLayerGroupActiveLayer.bind(this);
     this.handleTagSelected = this.handleTagSelected.bind(this);
-    this.handleRemoveTag = this.handleRemoveTag.bind(this);
-    this.handleClearFilters = this.handleClearFilters.bind(this);
     // ----------------------------------------------------------
   }
 
@@ -123,7 +121,7 @@ class Explore extends Page {
         geographies: geographies ? JSON.parse(geographies) : [],
         dataType: dataType ? JSON.parse(dataType) : []
       };
-      this.props.setDatasetsFilters(filters);
+      this.props.setFilters(filters);
     }
   }
 
@@ -197,6 +195,18 @@ class Explore extends Page {
     }
   }
 
+  handleTagSelected(tag) {
+    const newFilters = {};
+    if (tag.type === 'TOPIC') {
+      newFilters.topics = [tag.id];
+    } else if (tag.type === 'GEOGRAPHY') {
+      newFilters.geographies = [tag.id];
+    } else if (tag.type === 'DATA_TYPE') {
+      newFilters.dataTypes = [tag.id];
+    }
+    this.props.setFilters(newFilters);
+  }
+
   handleFilterDatasetsSearch(value) {
     const filter = { value: value || '', key: 'name' };
     this.props.setDatasetsSearchFilter(filter);
@@ -242,81 +252,6 @@ class Explore extends Page {
    */
   onSetLayerGroupActiveLayer(dataset, layer) {
     this.props.setLayerGroupActiveLayer(dataset, layer);
-  }
-
-  /**
-   * Return the current value of the vocabulary filter
-   * @returns {string}
-   */
-  getCurrentVocabularyFilter() {
-    const filters = this.props.explore.filters;
-    if (!filters.length) return null;
-
-    const filter = filters.find(f => f.key === 'vocabulary');
-
-    return filter && filter.value;
-  }
-
-  /**
-   * Return the current search made on the name of the
-   * datasets
-   * @returns {string}
-   */
-  getCurrentNameFilter() {
-    const filters = this.props.explore.filters;
-    if (!filters.length) return null;
-
-    const filter = filters.find(f => f.key === 'name');
-
-    return filter && filter.value;
-  }
-
-  handleTagSelected(tag) {
-    const { geographies, dataType, topics } = this.filters;
-
-    // clear previous selection
-    if (topics.length && topics.length > 0) {
-      this.topicsTree.forEach(child => this.selectElementsFromTree(child, topics, true));
-    }
-
-    if (tag.type === 'TOPIC') {
-      this.topicsTree.forEach(child => this.selectElementsFromTree(child, [tag.id]));
-      this.filters = { topics: [tag.id], geographies, dataType };
-      this.applyFilters();
-    }
-  }
-
-  handleRemoveTag(tag) {
-    this.filters[tag.type] = this.filters[tag.type].filter(elem => elem !== tag.value);
-    switch (tag.type) {
-      case 'topics':
-        this.topicsTree.forEach(child => this.selectElementsFromTree(
-          child, [tag.value], true));
-        break;
-      case 'geographies':
-        this.geographiesTree.forEach(child => this.selectElementsFromTree(
-          child, [tag.value], true));
-        break;
-      case 'dataType':
-        this.dataTypeTree.forEach(child => this.selectElementsFromTree(
-          child, [tag.value], true));
-        break;
-      default:
-    }
-    this.applyFilters();
-  }
-
-  handleClearFilters() {
-    this.topicsTree.forEach(child =>
-      this.selectElementsFromTree(child, this.filters.topics, true));
-    this.geographiesTree.forEach(child =>
-      this.selectElementsFromTree(child, this.filters.geographies, true));
-    this.dataTypeTree.forEach(child =>
-      this.selectElementsFromTree(child, this.filters.dataType, true));
-    this.filters.dataType = [];
-    this.filters.geographies = [];
-    this.filters.topics = [];
-    this.applyFilters();
   }
 
   toggleFilters() {
@@ -543,7 +478,7 @@ const mapDispatchToProps = dispatch => ({
   setDatasetsSearchFilter: search => dispatch(setDatasetsSearchFilter(search)),
   setDatasetsFilteredByConcepts: datasetList =>
     dispatch(setDatasetsFilteredByConcepts(datasetList)),
-  setDatasetsFilters,
+  setFilters: (filters) => { dispatch(setFilters(filters)); },
   setFiltersLoading: isLoading => dispatch(setFiltersLoading(isLoading)),
   redirectTo: (url) => { dispatch(redirectTo(url)); },
   toggleModal: (open, options) => dispatch(toggleModal(open, options)),
