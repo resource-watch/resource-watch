@@ -241,24 +241,6 @@ export default function (state = initialState, action) {
       });
     }
 
-    case SET_GEOGRAPHIES_TREE: {
-      return Object.assign({}, state, {
-        geographiesTree: action.payload
-      });
-    }
-
-    case SET_DATA_TYPE_TREE: {
-      return Object.assign({}, state, {
-        dataTypeTree: action.payload
-      });
-    }
-
-    case SET_TOPICS_TREE: {
-      return Object.assign({}, state, {
-        topicsTree: action.payload
-      });
-    }
-
     case SET_BASEMAP: {
       return Object.assign({}, state, {
         basemap: action.payload
