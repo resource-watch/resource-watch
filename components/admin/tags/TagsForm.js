@@ -63,7 +63,8 @@ class TagsForm extends React.Component {
     this.graphService.getDatasetTags(this.props.dataset)
       .then((response) => {
         const knowledgeGraphVoc = response.find(elem => elem.id === 'knowledge_graph');
-        const datasetTags = knowledgeGraphVoc ? knowledgeGraphVoc.attributes.tags : [];
+        const datasetTags = knowledgeGraphVoc ? knowledgeGraphVoc.attributes.tags
+          : knowledgeGraphVoc;
         this.setState({
           selectedTags: datasetTags,
           savedTags: datasetTags,
@@ -117,9 +118,9 @@ class TagsForm extends React.Component {
 
     event.preventDefault();
 
-    if (selectedTags.length !== 0 || savedTags.length !== 0) {
+    if (selectedTags.length !== 0 || (savedTags && savedTags.length !== 0)) {
       this.setState({ loading: true });
-      this.graphService.updateDatasetTags(dataset, selectedTags, user.token)
+      this.graphService.updateDatasetTags(dataset, selectedTags, user.token, savedTags)
         .then((response) => {
           toastr.success('Success', 'Tags updated successfully');
           this.setState({
@@ -166,7 +167,7 @@ class TagsForm extends React.Component {
     this.setState({
       loadingInferredTags: true
     });
-    if (selectedTags.length > 0) {
+    if (selectedTags && selectedTags.length > 0) {
       this.graphService.getInferredTags(selectedTags)
         .then((response) => {
           this.setState({

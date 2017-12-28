@@ -36,15 +36,23 @@ export default class GraphService {
   /**
   * Update dataset tags
   */
-  updateDatasetTags(datasetId, tags, token) {
-    const bodyObj = {
+  updateDatasetTags(datasetId, tags, token, usePatch = false) {
+    let bodyObj = {
       knowledge_graph: {
         tags,
         application: process.env.APPLICATIONS
       }
     };
-    const method = tags.length > 0 ? 'PUT' : 'DELETE';
-    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/vocabulary`, {
+    let method = tags.length > 0 ? 'PUT' : 'DELETE';
+    let url = `${this.opts.apiURL}/dataset/${datasetId}/vocabulary`;
+
+    if (usePatch) {
+      method = 'PATCH';
+      bodyObj = { tags, application: process.env.APPLICATIONS };
+      url = `${url}/knowledge_graph`;
+    }
+
+    return fetch(url, {
       method,
       body: JSON.stringify(bodyObj),
       headers: {
