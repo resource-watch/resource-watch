@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
-import { Router, Link } from 'routes';
+import { Router } from 'routes';
 import isEqual from 'lodash/isEqual';
 import classnames from 'classnames';
 import { toastr } from 'react-redux-toastr';
@@ -141,6 +140,19 @@ class WidgetCard extends React.Component {
       layer: null, // Info about the eventual layer
       layerGroups: []
     };
+
+    // ---------------------- Bindings --------------------------
+    this.handleRemoveWidget = this.handleRemoveWidget.bind(this);
+    this.handleEmbed = this.handleEmbed.bind(this);
+    this.handleAddToDashboard = this.handleAddToDashboard.bind(this);
+    this.handleEditWidget = this.handleEditWidget.bind(this);
+    this.handleGoToDataset = this.handleGoToDataset.bind(this);
+    this.handleDownloadPDF = this.handleDownloadPDF.bind(this);
+    this.handleWidgetActionsClick = this.handleWidgetActionsClick.bind(this);
+    this.handleStarClick = this.handleStarClick.bind(this);
+    this.handleAddToWidgetCollection = this.handleAddToWidgetCollection.bind(this);
+    this.handleUpdateWidgetToCollections = this.handleUpdateWidgetToCollections.bind(this);
+    // ----------------------------------------------------------
   }
 
   componentDidMount() {
@@ -304,7 +316,6 @@ class WidgetCard extends React.Component {
   * - handleRemoveWidget
   * - handleClick
   */
-  @Autobind
   handleRemoveWidget() {
     const widgetId = this.props.widget.id;
     const widgetName = this.props.widget.attributes.name;
@@ -316,7 +327,6 @@ class WidgetCard extends React.Component {
     }
   }
 
-  @Autobind
   handleEmbed() {
     const options = {
       children: EmbedMyWidgetModal,
@@ -332,22 +342,18 @@ class WidgetCard extends React.Component {
     this.props.setModalOptions(options);
   }
 
-  @Autobind
   handleAddToDashboard() { // eslint-disable-line class-methods-use-this
     // TO-DO implement this
   }
 
-  @Autobind
   handleEditWidget() {
     Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: this.props.widget.id });
   }
 
-  @Autobind
   handleGoToDataset() {
     Router.pushRoute('explore_detail', { id: this.props.widget.attributes.dataset });
   }
 
-  @Autobind
   handleDownloadPDF() {
     toastr.info('Widget download', 'The file is being generated...');
 
@@ -367,7 +373,6 @@ class WidgetCard extends React.Component {
     link.dispatchEvent(event);
   }
 
-  @Autobind
   handleWidgetActionsClick(event) {
     const position = WidgetCard.getClickPosition(event);
     this.props.toggleTooltip(true, {
@@ -385,7 +390,6 @@ class WidgetCard extends React.Component {
     });
   }
 
-  @Autobind
   handleStarClick(event) {
     event.preventDefault();
     const { widget, user } = this.props;
@@ -399,7 +403,6 @@ class WidgetCard extends React.Component {
     });
   }
 
-  @Autobind
   handleAddToWidgetCollection(event) {
     const { widget, user, widgetCollections, widgetCollectionsOptions } = this.props;
     const position = WidgetCard.getClickPosition(event);
@@ -418,7 +421,6 @@ class WidgetCard extends React.Component {
     });
   }
 
-  @Autobind
   handleUpdateWidgetToCollections() {
     this.props.onUpdateWidgetCollections();
   }
@@ -431,8 +433,7 @@ class WidgetCard extends React.Component {
       showEmbed,
       showStar,
       showWidgetColllections,
-      widgetCollections,
-      mode
+      widgetCollections
     } = this.props;
 
     const numberOfCollections = widgetCollections && widgetCollections.length

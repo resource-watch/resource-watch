@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Autobind } from 'es-decorators';
 
 import Spinner from 'components/widgets/editor/ui/Spinner';
 import WidgetCard from 'components/widgets/list/WidgetCard';
@@ -13,6 +12,11 @@ export default class WidgetList extends React.Component {
     this.state = {
       loading: !props.widgets
     };
+
+    // ---------------------- Bindings --------------------------
+    this.handleWidgetRemoved = this.handleWidgetRemoved.bind(this);
+    this.handleWidgetUnfavourited = this.handleWidgetUnfavourited.bind(this);
+    // ----------------------------------------------------------
   }
 
   componentWillReceiveProps(props) {
@@ -23,12 +27,10 @@ export default class WidgetList extends React.Component {
     }
   }
 
-  @Autobind
   handleWidgetRemoved() {
     this.props.onWidgetRemove();
   }
 
-  @Autobind
   handleWidgetUnfavourited() {
     this.props.onWidgetUnfavourited();
   }

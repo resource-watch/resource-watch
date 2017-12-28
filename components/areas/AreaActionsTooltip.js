@@ -1,8 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 
 class AreaActionsTooltip extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // ------------------- Bindings -----------------------
+    this.triggerMouseDown = this.triggerMouseDown.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    // ----------------------------------------------------
+  }
+
   componentDidMount() {
     document.addEventListener('mousedown', this.triggerMouseDown);
   }
@@ -11,7 +19,6 @@ class AreaActionsTooltip extends React.Component {
     document.removeEventListener('mousedown', this.triggerMouseDown);
   }
 
-  @Autobind
   triggerMouseDown(e) {
     const el = document.querySelector('.c-tooltip');
     const clickOutside = el && el.contains && !el.contains(e.target);
@@ -20,7 +27,6 @@ class AreaActionsTooltip extends React.Component {
     }
   }
 
-  @Autobind
   handleClick(link) {
     switch (link) { // eslint-disable-line default-case
       case 'edit_area':

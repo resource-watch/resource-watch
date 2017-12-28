@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import 'isomorphic-fetch';
-import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 
 // Components
@@ -37,6 +36,10 @@ class DashboardCard extends React.Component {
 
     // Services
     this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
+
+    // ------------------- Bindings -----------------------
+    this.handleFavouriteClick = this.handleFavouriteClick.bind(this);
+    // ----------------------------------------------------
   }
 
   componentDidMount() {
@@ -84,7 +87,7 @@ class DashboardCard extends React.Component {
   getData() {
     this.setState({ loading: true });
 
-    fetch(`${process.env.WRI_API_URL}/widget/${this.props.widgetId}?&application=${[process.env.APPLICATIONS]}`)
+    fetch(`${process.env.WRI_API_URL}/widget/${this.props.widgetId}?application=${process.env.APPLICATIONS}`)
       .then((res) => {
         if (res.ok) return res.json();
         throw new Error(res.statusText);
@@ -114,7 +117,7 @@ class DashboardCard extends React.Component {
     // At this point, loading is still true
     const widgetConfig = this.getWidgetConfig();
 
-    fetch(`${process.env.WRI_API_URL}/layer/${widgetConfig.layer_id}?&application=${[process.env.APPLICATIONS]}`)
+    fetch(`${process.env.WRI_API_URL}/layer/${widgetConfig.layer_id}?&application=${process.env.APPLICATIONS}`)
       .then((res) => {
         if (res.ok) return res.json();
         throw new Error(res.statusText);
@@ -156,7 +159,6 @@ class DashboardCard extends React.Component {
     return (widgetConfig && widgetConfig.type) || 'vega';
   }
 
-  @Autobind
   handleFavouriteClick() {
     const { favourite } = this.state;
     const { widgetId, user } = this.props;

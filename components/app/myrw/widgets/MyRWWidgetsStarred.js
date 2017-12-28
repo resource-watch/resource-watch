@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 
 // Redux
@@ -27,6 +26,11 @@ class MyRWWidgetsStarred extends React.Component {
     // User service
     this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
     this.widgetService = new WidgetService(null, { apiURL: process.env.CONTROL_TOWER_URL });
+
+    // ------------------- Bindings -----------------------
+    this.handleWidgetRemoved = this.handleWidgetRemoved.bind(this);
+    this.handleWidgetUnfavourited = this.handleWidgetUnfavourited.bind(this);
+    // ----------------------------------------------------
   }
 
   componentDidMount() {
@@ -49,12 +53,10 @@ class MyRWWidgetsStarred extends React.Component {
       }).catch(err => toastr.error('Error', err));
   }
 
-  @Autobind
   handleWidgetRemoved() {
     this.loadWidgets(this.props);
   }
 
-  @Autobind
   handleWidgetUnfavourited() {
     this.loadWidgets(this.props);
   }

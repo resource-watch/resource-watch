@@ -174,13 +174,11 @@
 @import "./components/admin/widget/placeholder_chart";
 @import "./components/admin/widget/layer_chart";
 @import "./components/admin/widget/widget_index";
+@import "./components/admin/widget/form";
+@import "./components/admin/widget/metadata_form";
 
 // Layers
 @import "./components/admin/layer/layers_new";
-
-// Vocabularies
-@import "./components/admin/vocabularies/vocabulary_item";
-@import "./components/admin/vocabularies/vocabularies_form";
 
 // Tags
 @import "./components/admin/tags/tags_form";
@@ -239,6 +237,7 @@
 @import "./components/app/explore/explore_layers_tooltip";
 @import "./components/app/explore/resume_filters";
 @import "./components/app/explore/dataset_tags_tooltip";
+@import "./components/app/explore/explore_dataset_filters";
 
 // EXPLORE DETAIL
 @import "./components/app/explore-detail/dataset-info";

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import { Router } from 'routes';
 
 // Redux
@@ -8,7 +7,14 @@ import { connect } from 'react-redux';
 import { toggleModal } from 'redactions/modal';
 
 class LayerInfoModal extends React.Component {
-  @Autobind
+  constructor(props) {
+    super(props);
+
+    // ------------------- Bindings -----------------------
+    this.handleMoreInfo = this.handleMoreInfo.bind(this);
+    // ----------------------------------------------------
+  }
+
   handleMoreInfo() {
     this.props.toggleModal(false);
     Router.pushRoute('explore_detail', { id: this.props.data.dataset });

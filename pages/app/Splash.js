@@ -1,7 +1,6 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import classnames from 'classnames';
-import { Autobind } from 'es-decorators';
 import { Router } from 'routes';
 
 // Redux
@@ -14,6 +13,9 @@ import Page from 'components/app/layout/Page';
 import Head from 'components/app/layout/head';
 import Header from 'components/splash/layout/Header';
 
+// Utils
+import { MARKERS } from 'utils/splash/Markers';
+
 // Components
 
 let Map;
@@ -24,36 +26,11 @@ if (typeof window !== 'undefined') {
   /* eslint-enable */
 }
 
-const MARKERS = [
-  {
-    name: 'Tropical deforestation',
-    lat: 0.076,
-    lon: 101,
-    type: 'billboard',
-    image: '../../static/images/splash/marker.svg',
-    imageSelected: '../../static/images/splash/marker.svg',
-    imageNotSelected: '../../static/images/splash/marker.svg'
-  },
-  {
-    name: 'Coral bleaching',
-    lat: -21,
-    lon: 151,
-    type: 'billboard',
-    text: 'What might resemble a beautiful snowfall is actually a destructive stress response known as coral bleaching.',
-    image: '../../static/images/splash/marker.svg',
-    imageSelected: '../../static/images/splash/marker.svg',
-    imageNotSelected: '../../static/images/splash/marker.svg',
-    thumbnail: '../../static/images/splash/coral-thumbnail.jpg',
-    routeId: 'coral'
-  }
-];
-
 const CAMERA_INITIAL_POSITION = { lat: 35.46, lon: -3.55, height: 90000, pitch: -0.3, heading: 0, roll: 0 };
 const CAMERA_FINAL_POSITION = { lat: 49.2002, lon: -0.1382, height: 20000000, pitch: -0.3, heading: 0, roll: 0 };
 const ANIMATION_DURATION = 15;
 const INITIAL_WAIT = 6000;
 const FINAL_ANIMATION_DURATION = 8;
-
 
 class Splash extends Page {
   constructor(props) {
@@ -64,6 +41,14 @@ class Splash extends Page {
       selectedMarker: null,
       viewer: null
     };
+
+    // ---------------------- Bindings --------------------------
+    this.handleBillboardClick = this.handleBillboardClick.bind(this);
+    this.handleBillboardHover = this.handleBillboardHover.bind(this);
+    this.handleBillboardOut = this.handleBillboardOut.bind(this);
+    this.handleVisitButton = this.handleVisitButton.bind(this);
+    this.handleOnInit = this.handleOnInit.bind(this);
+    // ----------------------------------------------------------
   }
 
   componentDidMount() {
@@ -131,27 +116,19 @@ class Splash extends Page {
     }), timeoutTime + INITIAL_WAIT);
   }
 
-  // handleMouseMove(e) {
-  //
-  // }
-
-  @Autobind
   handleBillboardClick(e) {
     const name = e.id.name;
     this.setState({ selectedMarker: MARKERS.find(elem => elem.name === name) });
   }
 
-  @Autobind
   handleBillboardHover() {
     this.setState({ billboardHover: true });
   }
 
-  @Autobind
   handleBillboardOut() {
     this.setState({ billboardHover: false });
   }
 
-  @Autobind
   handleVisitButton() {
     const { selectedMarker, viewer } = this.state;
     viewer.camera.flyTo({
@@ -162,11 +139,6 @@ class Splash extends Page {
     setTimeout(() => Router.pushRoute('splash_detail', { id: selectedMarker.routeId }), 3000);
   }
 
-  // @Autobind
-  // handleMouseClick(e) {
-  // }
-
-  @Autobind
   handleOnInit(viewer) {
     this.setState({ viewer }, this.runInitialAnimation);
   }

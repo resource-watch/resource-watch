@@ -9,7 +9,7 @@ import { substitution } from 'utils/utils';
 // Components
 import Aside from 'components/ui/Aside';
 import DatasetsForm from 'components/datasets/form/DatasetsForm';
-import MetadataForm from 'components/admin/metadata/form/MetadataForm';
+import MetadataForm from 'components/datasets/metadata/form/MetadataForm';
 import TagsForm from 'components/admin/tags/TagsForm';
 import WidgetsIndex from 'components/admin/widgets/pages/index';
 import LayersIndex from 'components/admin/layers/pages/index';

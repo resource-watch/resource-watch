@@ -14,7 +14,8 @@ function DatasetList(props) {
     column: true,
     'list-item': true,
     'small-12': true,
-    'medium-4': mode === 'grid',
+    'medium-6': mode === 'grid',
+    'large-4': mode === 'grid',
     [`-${mode}`]: true
   });
 

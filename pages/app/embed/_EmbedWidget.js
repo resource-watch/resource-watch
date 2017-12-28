@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import { Link } from 'routes';
 import { toastr } from 'react-redux-toastr';
 import isEmpty from 'lodash/isEmpty';
@@ -56,6 +55,10 @@ class EmbedWidget extends Page {
     this.widgetService = new WidgetService(this.props.url.query.id, {
       apiURL: process.env.WRI_API_URL
     });
+
+    // ---------------------- Bindings --------------------------
+    this.triggerToggleLoading = this.triggerToggleLoading.bind(this);
+    // ----------------------------------------------------------
   }
 
   componentWillMount() {
@@ -233,7 +236,6 @@ class EmbedWidget extends Page {
       .then(() => this.setState({ loading: false }));
   }
 
-  @Autobind
   triggerToggleLoading(loading) {
     this.setState({ loading });
   }

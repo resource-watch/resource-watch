@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 import { Link } from 'routes';
 
@@ -23,9 +22,12 @@ class DatasetsListCard extends React.Component {
       authorization: props.token,
       language: props.locale
     });
+
+    // ------------------- Bindings -----------------------
+    this.handleDelete = this.handleDelete.bind(this);
+    // ----------------------------------------------------
   }
 
-  @Autobind
   handleDelete() {
     const { dataset } = this.props;
     const metadata = dataset.metadata[0];
@@ -54,7 +56,8 @@ class DatasetsListCard extends React.Component {
             >
               <a>
                 <Title className="-default">
-                  {metadata && metadata.attributes.info ? metadata.attributes.info.name : dataset.name}
+                  {metadata && metadata.attributes.info ? metadata.attributes.info.name :
+                    dataset.name}
                 </Title>
               </a>
             </Link>

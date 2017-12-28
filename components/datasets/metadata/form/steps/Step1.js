@@ -21,14 +21,16 @@ import Select from 'components/form/SelectInput';
 import TextArea from 'components/form/TextArea';
 import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
-import SourcesContentModal from 'components/admin/metadata/form/SourcesContentModal';
+import SourcesContentModal from 'components/datasets/metadata/form/SourcesContentModal';
 
 // constants
-import { FORM_ELEMENTS, LANGUAGE_OPTIONS, RASTER_COLUMN_TYPES } from 'components/admin/metadata/form/constants';
+import { FORM_ELEMENTS, LANGUAGE_OPTIONS, RASTER_COLUMN_TYPES } from 'components/datasets/metadata/form/constants';
 
 class Step1 extends React.Component {
   componentWillReceiveProps(nextProps) {
-    if (!isEqual(this.props.sources, nextProps.sources)) this.changeMetadata({ info: { sources: nextProps.sources } });
+    if (!isEqual(this.props.sources, nextProps.sources)) {
+      this.changeMetadata({ info: { sources: nextProps.sources } });
+    }
   }
 
   changeMetadata(obj) {

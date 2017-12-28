@@ -51,7 +51,7 @@
 
       a {
         text-decoration: none;
-        color: #666;
+        color: $blue-grey;
       }
 
       &:hover {
@@ -62,8 +62,8 @@
       }
 
       &-active {
-        background-color: $color-secondary;
-        border-color: $color-secondary;
+        background-color: $blue-turquoise;
+        border-color: $blue-turquoise;
 
         a {
           color: $color-white;
@@ -83,7 +83,7 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      color: #666;
+      color: $blue-grey;
       font-size: 10px;
       border: none;
       border-radius: 6px;
@@ -97,11 +97,11 @@
       outline: none;
 
       a {
-        color: $color-text-1;
+        color: $blue-grey;
 
         &:after {
           display: block;
-          color: $color-text-1;
+          color: $blue-grey;
           font-weight: normal;
           letter-spacing: 1px;
           text-transform: uppercase;
@@ -202,7 +202,7 @@
         border: none;
         margin: 0;
         font-size: 18px;
-        color: $color-text-1;
+        color: $blue-grey;
       }
 
       .rc-pagination-simple-pager {

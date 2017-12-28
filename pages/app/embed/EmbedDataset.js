@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import { Link } from 'routes';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
@@ -33,6 +32,10 @@ class EmbedDataset extends React.Component {
       apiURL: process.env.WRI_API_URL,
       language: props.locale
     });
+
+    // ---------------------- Bindings --------------------------
+    this.triggerToggleLoading = this.triggerToggleLoading.bind(this);
+    // ----------------------------------------------------------
   }
 
   componentDidMount() {
@@ -44,7 +47,6 @@ class EmbedDataset extends React.Component {
     });
   }
 
-  @Autobind
   triggerToggleLoading(loading) {
     this.setState({ loading });
   }

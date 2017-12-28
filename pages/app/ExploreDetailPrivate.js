@@ -1,7 +1,6 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import MediaQuery from 'react-responsive';
 import { toastr } from 'react-redux-toastr';
 import classnames from 'classnames';
@@ -33,7 +32,7 @@ import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
 // Next
-import { Link, Router } from 'routes';
+import { Router } from 'routes';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -93,6 +92,13 @@ class ExploreDetailPrivate extends Page {
     this.graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
     // UserService
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
+
+    // ---------------------- Bindings --------------------------
+    this.handleShare = this.handleShare.bind(this);
+    this.handleSubscribe = this.handleSubscribe.bind(this);
+    this.handleTagClick = this.handleTagClick.bind(this);
+    this.handleFavoriteButtonClick = this.handleFavoriteButtonClick.bind(this);
+    // ----------------------------------------------------------
   }
 
   /**
@@ -278,7 +284,6 @@ class ExploreDetailPrivate extends Page {
    * - handleShare
    * - handleSubscribe
   */
-  @Autobind
   handleShare() {
     const { dataset } = this.state;
     const widgets = dataset && dataset.attributes.widget;
@@ -299,7 +304,7 @@ class ExploreDetailPrivate extends Page {
     this.props.toggleModal(true);
     this.props.setModalOptions(options);
   }
-  @Autobind
+
   handleSubscribe() {
     const { user } = this.props;
     let options = null;
@@ -345,7 +350,6 @@ class ExploreDetailPrivate extends Page {
   // FIXME: refactor this, if a UI element's purpose is to
   // redirect the user, then use a link
   // A button is semantically different
-  @Autobind
   handleTagClick(event) {
     const element = event.target;
     this.handleTagSelected(element.getAttribute('id'), element.getAttribute('data-labels'));
@@ -380,7 +384,6 @@ class ExploreDetailPrivate extends Page {
     );
   }
 
-  @Autobind
   handleFavoriteButtonClick() {
     const { user } = this.props;
     const { favourite, dataset } = this.state;

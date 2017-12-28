@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 import Graph from 'react-graph-vis';
 
@@ -30,6 +29,7 @@ class TagsForm extends React.Component {
     this.state = {
       tags: [],
       selectedTags: [],
+      savedTags: [], // Tags as they are in the server
       inferredTags: [],
       graph: null,
       step: 1,
@@ -37,10 +37,16 @@ class TagsForm extends React.Component {
       submitting: false,
       loadingDatasetTags: false,
       loadingAllTags: false,
-      loadingInferredTags: false
+      loadingInferredTags: false,
+      datasetHasTags: false
     };
 
     this.graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
+
+    // ------------------ Bindings ------------------------
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleTagsChange = this.handleTagsChange.bind(this);
+    // ----------------------------------------------------
   }
 
   /**
@@ -58,10 +64,13 @@ class TagsForm extends React.Component {
     this.graphService.getDatasetTags(this.props.dataset)
       .then((response) => {
         const knowledgeGraphVoc = response.find(elem => elem.id === 'knowledge_graph');
-        const datasetTags = knowledgeGraphVoc ? knowledgeGraphVoc.attributes.tags : [];
+        const datasetTags = knowledgeGraphVoc ? knowledgeGraphVoc.attributes.tags
+          : knowledgeGraphVoc;
         this.setState({
           selectedTags: datasetTags,
-          loadingDatasetTags: false
+          savedTags: datasetTags,
+          loadingDatasetTags: false,
+          datasetHasTags: datasetTags && datasetTags.length > 0
         }, () => this.loadInferredTags());
       })
       .catch((err) => {
@@ -105,24 +114,33 @@ class TagsForm extends React.Component {
    * - handleSubmit
    * - handleTagsChange
   */
-  @Autobind
-  handleSubmit() {
+  handleSubmit(event) {
     const { dataset, user } = this.props;
-    const { selectedTags } = this.state;
+    const { selectedTags, savedTags, datasetHasTags } = this.state;
 
-    this.setState({ loading: true });
-    this.graphService.updateDatasetTags(dataset, selectedTags, user.token)
-      .then(() => {
-        toastr.success('Success', 'Tags updated successfully');
-        this.setState({ loading: false });
-      })
-      .catch((err) => {
-        toastr.error('Error updating the tags');
-        console.error(err);
-        this.setState({ loading: false });
-      });
+    event.preventDefault();
+
+    if (selectedTags.length !== 0 || (savedTags && savedTags.length !== 0)) {
+      this.setState({ loading: true });
+      this.graphService.updateDatasetTags(dataset, selectedTags, user.token,
+        selectedTags && selectedTags.length > 0 && datasetHasTags)
+        .then((response) => {
+          toastr.success('Success', 'Tags updated successfully');
+          this.setState({
+            savedTags: response[0] ? response[0].attributes.tags : [],
+            datasetHasTags: response[0] && response[0].attributes.tags.length > 0,
+            loading: false
+          });
+        })
+        .catch((err) => {
+          toastr.error('Error updating the tags');
+          console.error(err);
+          this.setState({ loading: false });
+        });
+    } else {
+      toastr.success('Success', 'Tags updated successfully');
+    }
   }
-  @Autobind
   handleTagsChange(value) {
     this.setState({ selectedTags: value },
       () => this.loadInferredTags());
@@ -153,7 +171,7 @@ class TagsForm extends React.Component {
     this.setState({
       loadingInferredTags: true
     });
-    if (selectedTags.length > 0) {
+    if (selectedTags && selectedTags.length > 0) {
       this.graphService.getInferredTags(selectedTags)
         .then((response) => {
           this.setState({
@@ -169,7 +187,8 @@ class TagsForm extends React.Component {
     } else {
       this.setState({
         inferredTags: [],
-        loadingInferredTags: false
+        loadingInferredTags: false,
+        graph: null
       });
     }
   }
@@ -178,7 +197,7 @@ class TagsForm extends React.Component {
     const { tags, selectedTags, inferredTags, graph, loadingDatasetTags,
       loadingAllTags, loadingInferredTags } = this.state;
     return (
-      <div className="c-tags-form">
+      <form className="c-tags-form" onSubmit={this.handleSubmit}>
         <Spinner
           className="-light"
           isLoading={loadingAllTags || loadingDatasetTags}
@@ -228,7 +247,7 @@ class TagsForm extends React.Component {
             onStepChange={this.handleSubmit}
           />
         }
-      </div>
+      </form>
     );
   }
 }

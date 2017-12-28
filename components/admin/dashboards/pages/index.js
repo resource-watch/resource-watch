@@ -10,7 +10,6 @@ export default function DashboardsIndex(props) {
   return (
     <div className="c-dashboards-index">
       <DashboardsTable
-        application={[process.env.APPLICATIONS]}
         authorization={user.token}
       />
     </div>

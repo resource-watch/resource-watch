@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Router } from 'routes';
-import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 
 // Redux
@@ -54,13 +53,18 @@ class SaveWidgetModal extends React.Component {
       description: null // Description of the widget
     };
 
+    // Services
     this.widgetService = new WidgetService(null, {
       apiURL: process.env.WRI_API_URL
     });
+
+    // ------------------- Bindings -----------------------
+    this.onSubmit = this.onSubmit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleGoToMyRW = this.handleGoToMyRW.bind(this);
+    // ----------------------------------------------------
   }
 
-
-  @Autobind
   async onSubmit(event) {
     event.preventDefault();
 
@@ -166,7 +170,6 @@ class SaveWidgetModal extends React.Component {
    * Event handler executed when the user clicks the
    * cancel button of the modal
    */
-  @Autobind
   handleCancel() {
     this.props.toggleModal(false);
   }
@@ -175,7 +178,6 @@ class SaveWidgetModal extends React.Component {
    * Event handler executed when the user clicks the
    * "Check my widgets" button
    */
-  @Autobind
   handleGoToMyRW() {
     this.props.toggleModal(false);
     Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });

@@ -20,14 +20,8 @@ const GET_FAVORITES_SUCCESS = 'explore/GET_FAVORITES_SUCCESS';
 const GET_FAVORITES_ERROR = 'explore/GET_FAVORITES_ERROR';
 const GET_FAVORITES_LOADING = 'explore/GET_FAVORITES_LOADING';
 
-const ADD_FAVORITE_DATASET = 'explore/ADD_FAVORITE_DATASET';
-const REMOVE_FAVORITE_DATASET = 'explore/REMOVE_FAVORITE_DATASET';
-
 const SET_DATASETS_PAGE = 'explore/SET_DATASETS_PAGE';
 const SET_DATASETS_SEARCH_FILTER = 'explore/SET_DATASETS_SEARCH_FILTER';
-const SET_DATASETS_TOPICS_FILTER = 'explore/SET_DATASETS_TOPICS_FILTER';
-const SET_DATASETS_DATA_TYPE_FILTER = 'explore/SET_DATASETS_DATA_TYPE_FILTER';
-const SET_DATASETS_GEOGRAPHIES_FILTER = 'explore/SET_DATASETS_GEOGRAPHIES_FILTER';
 const SET_FILTERS_LOADING = 'explore/SET_FILTERS_LOADING';
 
 const SET_SORTING_ORDER = 'explore/SET_SORTING_ORDER';
@@ -35,7 +29,6 @@ const SET_SORTING_DATASETS = 'explore/SET_SORTING_DATASETS';
 const SET_SORTING_LOADING = 'explore/SET_SORTING_LOADING';
 
 const SET_DATASETS_FILTERED_BY_CONCEPTS = 'explore/SET_DATASETS_FILTERED_BY_CONCEPTS';
-
 const SET_DATASETS_MODE = 'explore/SET_DATASETS_MODE';
 
 const SET_LAYERGROUP_TOGGLE = 'explore/SET_LAYERGROUP_TOGGLE';
@@ -46,10 +39,6 @@ const SET_LAYERGROUP_OPACITY = 'explore/SET_LAYERGROUP_OPACITY';
 const SET_LAYERGROUPS = 'explore/SET_LAYERGROUPS';
 
 const SET_SIDEBAR = 'explore/SET_SIDEBAR';
-
-const SET_TOPICS_TREE = 'explore/SET_TOPICS_TREE';
-const SET_DATA_TYPE_TREE = 'explore/SET_DATA_TYPE_TREE';
-const SET_GEOGRAPHIES_TREE = 'explore/SET_GEOGRAPHIES_TREE';
 
 const SET_ZOOM = 'explore/SET_ZOOM';
 const SET_LATLNG = 'explore/SET_LATLNG';
@@ -98,9 +87,6 @@ const initialState = {
   layers: [],
   filters: {
     search: null,
-    topics: null,
-    dataType: null,
-    geographies: null,
     datasetsFilteredByConcepts: [],
     loading: false
   },
@@ -235,27 +221,6 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { filters });
     }
 
-    case SET_DATASETS_TOPICS_FILTER: {
-      const filters = Object.assign({}, state.filters, {
-        topics: action.payload
-      });
-      return Object.assign({}, state, { filters });
-    }
-
-    case SET_DATASETS_DATA_TYPE_FILTER: {
-      const filters = Object.assign({}, state.filters, {
-        dataType: action.payload
-      });
-      return Object.assign({}, state, { filters });
-    }
-
-    case SET_DATASETS_GEOGRAPHIES_FILTER: {
-      const filters = Object.assign({}, state.filters, {
-        geographies: action.payload
-      });
-      return Object.assign({}, state, { filters });
-    }
-
     case SET_FILTERS_LOADING: {
       const filters = Object.assign({}, state.filters, {
         loading: action.payload
@@ -273,24 +238,6 @@ export default function (state = initialState, action) {
     case SET_SIDEBAR: {
       return Object.assign({}, state, {
         sidebar: Object.assign({}, state.sidebar, action.payload)
-      });
-    }
-
-    case SET_GEOGRAPHIES_TREE: {
-      return Object.assign({}, state, {
-        geographiesTree: action.payload
-      });
-    }
-
-    case SET_DATA_TYPE_TREE: {
-      return Object.assign({}, state, {
-        dataTypeTree: action.payload
-      });
-    }
-
-    case SET_TOPICS_TREE: {
-      return Object.assign({}, state, {
-        topicsTree: action.payload
       });
     }
 
@@ -345,11 +292,12 @@ export default function (state = initialState, action) {
 // go away from the current page
 export function setUrlParams() {
   return (dispatch, getState) => {
-    const { explore } = getState();
+    const { explore, exploreDatasetFilters } = getState();
     const layerGroups = explore.layers;
     const { zoom, latLng, sorting } = explore;
     const { page } = explore.datasets;
-    const { search, topics, dataType, geographies } = explore.filters;
+    const { search } = explore.filters;
+    const { topics, dataTypes, geographies } = exploreDatasetFilters.filters;
 
     const query = { page };
 
@@ -369,9 +317,9 @@ export function setUrlParams() {
       }
     }
 
-    if (dataType) {
-      if (dataType.length > 0) {
-        query.dataType = JSON.stringify(dataType);
+    if (dataTypes) {
+      if (dataTypes.length > 0) {
+        query.dataTypes = JSON.stringify(dataTypes);
       } else {
         delete query.dataType;
       }
@@ -430,7 +378,7 @@ export function getDatasets({ pageNumber, pageSize }) {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_DATASETS_LOADING });
 
-    return fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=${[process.env.APPLICATIONS]}&status=saved&published=true&includes=widget,layer,metadata,vocabulary&page[size]=${pageSize || 999}&page[number]=${pageNumber || 1}&sort=-updatedAt`))
+    return fetch(new Request(`${process.env.WRI_API_URL}/dataset?application=${process.env.APPLICATIONS}&status=saved&published=true&includes=widget,layer,metadata,vocabulary&page[size]=${pageSize || 999}&page[number]=${pageNumber || 1}&sort=-updatedAt`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
@@ -597,42 +545,6 @@ export function setDatasetsSearchFilter(search) {
   };
 }
 
-export function setDatasetsTopicsFilter(topics) {
-  return (dispatch) => {
-    dispatch({
-      type: SET_DATASETS_TOPICS_FILTER,
-      payload: topics
-    });
-
-    // We also update the URL
-    if (typeof window !== 'undefined') dispatch(setUrlParams());
-  };
-}
-
-export function setDatasetsGeographiesFilter(topics) {
-  return (dispatch) => {
-    dispatch({
-      type: SET_DATASETS_GEOGRAPHIES_FILTER,
-      payload: topics
-    });
-
-    // We also update the URL
-    if (typeof window !== 'undefined') dispatch(setUrlParams());
-  };
-}
-
-export function setDatasetsDataTypeFilter(dataTypes) {
-  return (dispatch) => {
-    dispatch({
-      type: SET_DATASETS_DATA_TYPE_FILTER,
-      payload: dataTypes
-    });
-
-    // We also update the URL
-    if (typeof window !== 'undefined') dispatch(setUrlParams());
-  };
-}
-
 export function setDatasetsFilteredByConcepts(datasetList) {
   return (dispatch) => {
     dispatch({
@@ -696,27 +608,6 @@ export function setDatasetsSorting(sorting) {
 
     // We also update the URL
     if (typeof window !== 'undefined') dispatch(setUrlParams());
-  };
-}
-
-export function setTopicsTree(tree) {
-  return {
-    type: SET_TOPICS_TREE,
-    payload: tree
-  };
-}
-
-export function setDataTypeTree(tree) {
-  return {
-    type: SET_DATA_TYPE_TREE,
-    payload: tree
-  };
-}
-
-export function setGeographiesTree(tree) {
-  return {
-    type: SET_GEOGRAPHIES_TREE,
-    payload: tree
   };
 }
 

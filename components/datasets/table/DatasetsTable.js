@@ -33,12 +33,10 @@ class DatasetsTable extends React.Component {
   }
 
   componentDidMount() {
-    const { getDatasetsFilters } = this.props;
-    this.props.setFilters([]);
-
+    this.props.setFilters({});
     this.props.getDatasets({
       includes: 'widget,layer,metadata,vocabulary,user',
-      filters: getDatasetsFilters
+      filters: { 'user.role': 'ADMIN' }
     });
   }
 
