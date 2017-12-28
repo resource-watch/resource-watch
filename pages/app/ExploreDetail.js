@@ -8,7 +8,7 @@ import classnames from 'classnames';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { setTopicsTree, toggleLayerGroup } from 'redactions/explore';
+import { toggleLayerGroup } from 'redactions/explore';
 import { resetDataset } from 'redactions/exploreDetail';
 import { getDataset } from 'redactions/exploreDataset';
 import { toggleModal, setModalOptions } from 'redactions/modal';
@@ -116,7 +116,6 @@ class ExploreDetail extends Page {
   componentDidMount() {
     this.getDataset();
     this.getSimilarDatasets();
-    this.loadTopicsTree();
     this.countView(this.props.url.query.id);
   }
 
@@ -149,21 +148,8 @@ class ExploreDetail extends Page {
    * HELPERS
    * - getDataset
    * - getSimilarDatasets
-   * - loadTopicsTree
    * - loadInferredTags
   */
-  loadTopicsTree() {
-    const { topicsTree } = this.props;
-
-    if (!topicsTree) {
-      fetch(new Request('/static/data/TopicsTreeLite.json', { credentials: 'same-origin' }))
-        .then(response => response.json())
-        .then((data) => {
-          // Save the topics tree as variable for later use
-          this.props.setTopicsTree(data);
-        });
-    }
-  }
 
   getDataset() {
     this.setState({
@@ -335,14 +321,14 @@ class ExploreDetail extends Page {
   }
 
   handleTagSelected(tag, labels = ['TOPIC']) { // eslint-disable-line class-methods-use-this
-    const tagSt = `["${tag}"]`;
+    const tagSt = `["${tag.id}"]`;
     let treeSt = 'topics';
     if (labels.includes('TOPIC')) {
       treeSt = 'topics';
     } else if (labels.includes('GEOGRAPHY')) {
       treeSt = 'geographies';
     } else if (labels.includes('DATA_TYPE')) {
-      treeSt = 'dataType';
+      treeSt = 'dataTypes';
     }
 
     Router.pushRoute('explore', { [treeSt]: tagSt });
@@ -828,14 +814,12 @@ ExploreDetail.propTypes = {
   setBand: PropTypes.func.isRequired,
   setLayer: PropTypes.func.isRequired,
   setTitle: PropTypes.func.isRequired,
-  setTopicsTree: PropTypes.func.isRequired,
   toggleLayerGroup: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   // Store
   user: state.user,
-  topicsTree: state.explore.topicsTree,
   exploreDetail: state.exploreDetail,
   exploreDataset: state.exploreDataset,
   layersShown: updateLayersShown(state),
@@ -869,7 +853,6 @@ const mapDispatchToProps = dispatch => ({
       });
   },
   setTitle: title => dispatch(setTitle(title)),
-  setTopicsTree: tree => dispatch(setTopicsTree(tree)),
   toggleLayerGroup: (datasetID, addLayer) => dispatch(toggleLayerGroup(datasetID, addLayer)),
   toggleFavourite: options => dispatch(toggleFavourite(options))
 });
