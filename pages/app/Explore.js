@@ -111,9 +111,14 @@ class Explore extends Page {
     // ----------------------------------------------------------
   }
 
-  componentWillMount() {
-    const query = this.props.url.query;
+  componentDidMount() {
+    const { url, user } = this.props;
+    const query = url.query;
     const { topics, geographies, dataType } = query || {};
+
+    if (query.page) {
+      this.props.setDatasetsPage(+query.page);
+    }
 
     if (topics || geographies || dataType) {
       const filters = {
@@ -122,14 +127,6 @@ class Explore extends Page {
         dataType: dataType ? JSON.parse(dataType) : []
       };
       this.props.setFilters(filters);
-    }
-  }
-
-  componentDidMount() {
-    const { url, user } = this.props;
-    const query = url.query;
-    if (query.page) {
-      this.props.setDatasetsPage(+query.page);
     }
 
     if (query.layers) {
