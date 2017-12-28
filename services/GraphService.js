@@ -11,7 +11,7 @@ export default class GraphService {
    * Get all tags
    */
   getAllTags() {
-    return fetch(`${this.opts.apiURL}/graph/query/list-concepts?application=${[process.env.APPLICATIONS]}`)
+    return fetch(`${this.opts.apiURL}/graph/query/list-concepts?application=${process.env.APPLICATIONS}`)
       .then(response => response.json())
       .then(response => response.data);
   }
@@ -19,7 +19,7 @@ export default class GraphService {
    * Get inferred tags
    */
   getInferredTags(tags) {
-    return fetch(`${this.opts.apiURL}/graph/query/concepts-inferred?concepts=${tags}&application=${[process.env.APPLICATIONS]}`)
+    return fetch(`${this.opts.apiURL}/graph/query/concepts-inferred?concepts=${tags}&application=${process.env.APPLICATIONS}`)
       .then(response => response.json())
       .then(response => response.data);
   }
@@ -28,7 +28,7 @@ export default class GraphService {
   * Get dataset tags
   */
   getDatasetTags(datasetId) {
-    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/vocabulary?application=${[process.env.APPLICATIONS]}`)
+    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/vocabulary?application=${process.env.APPLICATIONS}`)
       .then(response => response.json())
       .then(response => response.data);
   }
@@ -36,14 +36,28 @@ export default class GraphService {
   /**
   * Update dataset tags
   */
-  updateDatasetTags(datasetId, tags, token) {
-    const bodyObj = {
+  updateDatasetTags(datasetId, tags, token, usePatch = false) {
+    let bodyObj = {
       knowledge_graph: {
-        tags
+        tags,
+        application: process.env.APPLICATIONS
       }
     };
-    const method = tags.length > 0 ? 'PUT' : 'DELETE';
-    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/vocabulary`, {
+    let method = tags.length > 0 ? 'PUT' : 'DELETE';
+    let url = `${this.opts.apiURL}/dataset/${datasetId}/vocabulary`;
+
+    if (usePatch) {
+      method = 'PATCH';
+      bodyObj = { tags, application: process.env.APPLICATIONS };
+      url = `${url}/knowledge_graph`;
+    }
+
+    if (method === 'DELETE') {
+      url = `${url}/knowledge_graph?application=${process.env.APPLICATIONS}`;
+      bodyObj = {};
+    }
+
+    return fetch(url, {
       method,
       body: JSON.stringify(bodyObj),
       headers: {
@@ -68,7 +82,7 @@ export default class GraphService {
       headers.Authorization = token;
     }
 
-    return fetch(`${this.opts.apiURL}/graph/dataset/${datasetId}/visited`, {
+    return fetch(`${this.opts.apiURL}/graph/dataset/${datasetId}/visited?application=${process.env.APPLICATIONS}`, {
       method: 'POST',
       headers
     })
@@ -80,7 +94,7 @@ export default class GraphService {
    * @returns {Promise<string[]>} List of sorted ids
    */
   getMostViewedDatasets() {
-    return fetch(`${this.opts.apiURL}/graph/query/most-viewed`)
+    return fetch(`${this.opts.apiURL}/graph/query/most-viewed?application=${process.env.APPLICATIONS}`)
       .then((res) => {
         if (res.ok) return res.json();
         throw new Error('Unable to fetch the most viewed datasets');
@@ -93,7 +107,7 @@ export default class GraphService {
    * @returns {Promise<string[]>} List of sorted ids
    */
   getMostFavoritedDatasets() {
-    return fetch(`${this.opts.apiURL}/graph/query/most-liked-datasets`)
+    return fetch(`${this.opts.apiURL}/graph/query/most-liked-datasets?application=${process.env.APPLICATIONS}`)
       .then((res) => {
         if (res.ok) return res.json();
         throw new Error('Unable to fetch the most favourited datasets');

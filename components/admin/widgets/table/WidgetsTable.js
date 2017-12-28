@@ -23,7 +23,6 @@ import DeleteAction from './actions/DeleteAction';
 import TitleTD from './td/TitleTD';
 import PublishedTD from './td/PublishedTD';
 import OwnershipTD from './td/OwnershipTD';
-// import DatasetTD from './td/DatasetTD';
 
 
 class WidgetsTable extends React.Component {
