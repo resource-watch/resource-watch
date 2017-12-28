@@ -6,7 +6,6 @@ import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import MediaQuery from 'react-responsive';
-import DropdownTreeSelect from 'react-dropdown-tree-select';
 
 // Utils
 import { logEvent } from 'utils/analytics';
@@ -24,18 +23,13 @@ import {
   getFavoriteDatasets,
   setDatasetsPage,
   setDatasetsSearchFilter,
-  setDatasetsTopicsFilter,
-  setDatasetsGeographiesFilter,
-  setDatasetsDataTypeFilter,
   setDatasetsFilteredByConcepts,
   setFiltersLoading,
-  setTopicsTree,
-  setGeographiesTree,
-  setDataTypeTree,
   setZoom,
   setLatLng,
   setDatasetsSorting
 } from 'redactions/explore';
+import { setFilters } from 'components/app/explore/explore-dataset-filters/explore-dataset-filters-actions';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import { setUser } from 'redactions/user';
@@ -58,6 +52,7 @@ import ShareControl from 'components/widgets/editor/map/controls/ShareControl';
 import Legend from 'components/widgets/editor/ui/Legend';
 import Spinner from 'components/ui/Spinner';
 import SearchInput from 'components/ui/SearchInput';
+import ExploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';
 
 // Layout
 import Page from 'components/app/layout/Page';
@@ -65,31 +60,11 @@ import Layout from 'components/app/layout/Layout';
 
 // Utils
 import LayerManager from 'components/widgets/editor/helpers/LayerManager';
-import { findTagInSelectorTree } from 'utils/explore/TreeUtil';
 
 // Services
 import DatasetService from 'services/DatasetService';
 
 class Explore extends Page {
-  static sortTree(tree) {
-    if (tree.length && tree.length > 1) {
-      tree.sort((a, b) => {
-        if (a.label < b.label) {
-          return -1;
-        } else if (a.label > b.label) {
-          return 1;
-        } else { // eslint-disable-line no-else-return
-          return 0;
-        }
-      });
-
-      tree.forEach(val => Explore.sortTree(val));
-    } else if (tree.children && tree.children.length > 0) {
-      tree.children = Explore.sortTree(tree.children); // eslint-disable-line no-param-reassign
-    }
-    return tree;
-  }
-
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
@@ -119,12 +94,6 @@ class Explore extends Page {
       showFilters: false
     };
 
-    this.filters = {
-      topics: [],
-      geographies: [],
-      dataType: []
-    };
-
     // Services
     this.datasetService = new DatasetService(null, {
       apiURL: process.env.WRI_API_URL,
@@ -142,26 +111,22 @@ class Explore extends Page {
     // ----------------------------------------------------------
   }
 
-  componentWillMount() {
-    const query = this.props.url.query;
+  componentDidMount() {
+    const { url, user } = this.props;
+    const query = url.query;
     const { topics, geographies, dataType } = query || {};
 
+    if (query.page) {
+      this.props.setDatasetsPage(+query.page);
+    }
+
     if (topics || geographies || dataType) {
-      this.filters = {
+      const filters = {
         topics: topics ? JSON.parse(topics) : [],
         geographies: geographies ? JSON.parse(geographies) : [],
         dataType: dataType ? JSON.parse(dataType) : []
       };
-
-      this.applyFilters();
-    }
-  }
-
-  componentDidMount() {
-    const { url, user } = this.props;
-    const query = url.query;
-    if (query.page) {
-      this.props.setDatasetsPage(+query.page);
+      this.props.setFilters(filters);
     }
 
     if (query.layers) {
@@ -177,18 +142,6 @@ class Explore extends Page {
       this.props.setDatasetsSearchFilter({ value: query.search, key: 'name' });
     }
 
-    if (query.topics) {
-      this.props.setDatasetsTopicsFilter(JSON.parse(query.topics));
-    }
-
-    if (query.geographies) {
-      this.props.setDatasetsGeographiesFilter(JSON.parse(query.geographies));
-    }
-
-    if (query.dataType) {
-      this.props.setDatasetsDataTypeFilter(JSON.parse(query.dataType));
-    }
-
     if (query.sort) {
       this.props.setDatasetsSorting(query.sort);
     }
@@ -198,35 +151,33 @@ class Explore extends Page {
       const token = user.token.includes('Bearer') ? user.token : `Bearer ${user.token}`;
       this.props.getFavoriteDatasets(token);
     }
-    this.loadKnowledgeGraph();
   }
 
   componentWillReceiveProps(nextProps) {
-    const oldFilters = this.props.explore.filters;
-    const { topics, geographies, dataType } = oldFilters;
-    const newFilters = nextProps.explore.filters;
+    const oldFilters = this.props.exploreDatasetFilters.filters;
+    const { topics, geographies, dataTypes } = oldFilters;
+    const newFilters = nextProps.exploreDatasetFilters.filters;
 
     const conceptsUpdated = topics !== newFilters.topics ||
       geographies !== newFilters.geographies ||
-      dataType !== newFilters.dataType;
+      dataTypes !== newFilters.dataTypes;
 
     const newFiltersHaveData = (newFilters.topics && newFilters.topics.length > 0) ||
-      (newFilters.dataType && newFilters.dataType.length > 0) ||
+      (newFilters.dataTypes && newFilters.dataTypes.length > 0) ||
       (newFilters.geographies && newFilters.geographies.length > 0);
 
-    if (conceptsUpdated && !newFiltersHaveData) {
-      this.props.setDatasetsFilteredByConcepts([]);
-    }
-
-    // ----- selectors' trees ----------------
-    if (nextProps.explore.topicsTree) {
-      this.topicsTree = nextProps.explore.topicsTree;
-    }
-    if (nextProps.explore.dataTypeTree) {
-      this.dataTypeTree = nextProps.explore.dataTypeTree;
-    }
-    if (nextProps.explore.geographiesTree) {
-      this.geographiesTree = nextProps.explore.geographiesTree;
+    if (conceptsUpdated) {
+      if (newFiltersHaveData) {
+        this.props.setFiltersLoading(true);
+        this.datasetService.searchDatasetsByConcepts(
+          newFilters.topics, newFilters.geographies, newFilters.dataTypes)
+          .then((datasetList) => {
+            this.props.setFiltersLoading(false);
+            this.props.setDatasetsFilteredByConcepts(datasetList || []);
+          });
+      } else {
+        this.props.setDatasetsFilteredByConcepts([]);
+      }
     }
   }
 
@@ -235,119 +186,22 @@ class Explore extends Page {
       || !isEqual(nextState, this.state);
   }
 
-  loadKnowledgeGraph() {
-    const query = this.props.url.query;
-    const { topics, dataType, geographies } = query;
-
-    // Topics selector
-    fetch(new Request('/static/data/TopicsTreeLite.json', { credentials: 'same-origin' }))
-      .then(response => response.json())
-      .then((data) => {
-        const sortedTopicsTree = Explore.sortTree(data);
-
-        if (topics) {
-          data.forEach(child => this.selectElementsFromTree(child, JSON.parse(topics)));
-
-          const topicsVal = JSON.parse(topics).map((type) => {
-            const match = data.find(d => d.value === type) || {};
-            return match.value;
-          });
-
-          this.filters.topics = topicsVal;
-        }
-
-        // Save the topics tree as variable for later use
-        this.props.setTopicsTree(sortedTopicsTree);
-      });
-
-    // Data types selector
-    fetch(new Request('/static/data/DataTypesTreeLite.json', { credentials: 'same-origin' }))
-      .then(response => response.json())
-      .then((data) => {
-        const sortedDataTypeTree = Explore.sortTree(data);
-        if (dataType) {
-          data.forEach(child => this.selectElementsFromTree(child, JSON.parse(dataType)));
-          const dataTypesVal = JSON.parse(dataType).map((type) => {
-            const match = data.find(d => d.value === type) || {};
-            return match.value;
-          });
-
-          this.filters.dataType = dataTypesVal;
-        }
-
-        // Save the data types tree as a variable for later use
-        this.props.setDataTypeTree(sortedDataTypeTree);
-      });
-
-    // Geographies selector
-    fetch(new Request('/static/data/GeographiesTreeLite.json', { credentials: 'same-origin' }))
-      .then(response => response.json())
-      .then((data) => {
-        const sortedGeographiesTree = Explore.sortTree(data);
-        if (geographies) {
-          data.forEach(child => this.selectElementsFromTree(child, JSON.parse(geographies)));
-          const geographiesVal = [];
-
-          const searchFunction = (item) => {
-            data.forEach((d) => {
-              if (d.value === item) {
-                geographiesVal.push(d.value);
-              }
-
-              if (d.children) {
-                d.children.forEach((child) => {
-                  if (child.value === item) geographiesVal.push(child.value);
-                });
-              }
-            });
-          };
-
-          JSON.parse(geographies).forEach(geography => searchFunction(geography));
-
-          this.filters.geographies = geographiesVal;
-        }
-
-        // Save the data types tree as variable for later use
-        this.props.setGeographiesTree(sortedGeographiesTree);
-      });
-
-    const hasSelectedValues = [
-      ...(dataType || []),
-      ...(geographies || []),
-      ...(topics || [])
-    ].length;
-
-    // updates filters visibility based on selected values
-    this.setState({
-      showFilters: hasSelectedValues
-    });
-  }
-
-  /**
-   * Sets checked values for selector based on previous one chosen.
-   *
-   * @param {Object} tree used to populate selectors. Contains all options available.
-   * @param {Object[]} elements Contains values to be selected in the data tree.
-   */
-  selectElementsFromTree(tree = {}, elements = [], deselect = false) {
-    let found = false; // We're using this loop because indexOf was finding elements
-    // that were substrings, e.g. "co" and "economic" when only "economic" should have been found
-    for (let i = 0; i < elements.length && !found; i++) {
-      if (elements[i] === tree.value) {
-        tree.checked = !deselect; // eslint-disable-line no-param-reassign
-        found = true;
-      }
-    }
-
-    (tree.children || []).forEach((child) => {
-      this.selectElementsFromTree(child, elements, deselect);
-    });
-  }
-
   handleRedirect(item) {
     if (item && item.value) {
       this.props.redirectTo(`explore/${item.value}`);
     }
+  }
+
+  handleTagSelected(tag) {
+    const newFilters = {};
+    if (tag.type === 'TOPIC') {
+      newFilters.topics = [tag.id];
+    } else if (tag.type === 'GEOGRAPHY') {
+      newFilters.geographies = [tag.id];
+    } else if (tag.type === 'DATA_TYPE') {
+      newFilters.dataTypes = [tag.id];
+    }
+    this.props.setFilters(newFilters);
   }
 
   handleFilterDatasetsSearch(value) {
@@ -395,74 +249,6 @@ class Explore extends Page {
    */
   onSetLayerGroupActiveLayer(dataset, layer) {
     this.props.setLayerGroupActiveLayer(dataset, layer);
-  }
-
-  /**
-   * Return the current value of the vocabulary filter
-   * @returns {string}
-   */
-  getCurrentVocabularyFilter() {
-    const filters = this.props.explore.filters;
-    if (!filters.length) return null;
-
-    const filter = filters.find(f => f.key === 'vocabulary');
-
-    return filter && filter.value;
-  }
-
-  /**
-   * Return the current search made on the name of the
-   * datasets
-   * @returns {string}
-   */
-  getCurrentNameFilter() {
-    const filters = this.props.explore.filters;
-    if (!filters.length) return null;
-
-    const filter = filters.find(f => f.key === 'name');
-
-    return filter && filter.value;
-  }
-
-  handleTagSelected(tag) {
-    const { geographies, dataType, topics } = this.filters;
-
-    // clear previous selection
-    if (topics.length && topics.length > 0) {
-      this.topicsTree.forEach(child => this.selectElementsFromTree(child, topics, true));
-    }
-
-    if (tag.type === 'TOPIC') {
-      this.topicsTree.forEach(child => this.selectElementsFromTree(child, [tag.id]));
-      this.filters = { topics: [tag.id], geographies, dataType };
-      this.applyFilters();
-    }
-  }
-
-  applyFilters() {
-    const { topics, geographies, dataType } = this.filters;
-    const { page } = this.props.url.query || {};
-    const hasValues = [...topics, ...geographies, ...dataType].length;
-
-    if (page !== 1) this.props.setDatasetsPage(1);
-
-    // updates URL
-    this.props.setDatasetsTopicsFilter(topics);
-    this.props.setDatasetsGeographiesFilter(geographies);
-    this.props.setDatasetsDataTypeFilter(dataType);
-
-    if (!hasValues) {
-      this.props.setDatasetsFilteredByConcepts([]);
-      return;
-    }
-
-    this.props.setFiltersLoading(true);
-    this.datasetService.searchDatasetsByConcepts(
-      topics, geographies, dataType)
-      .then((datasetList) => {
-        this.props.setFiltersLoading(false);
-        this.props.setDatasetsFilteredByConcepts(datasetList || []);
-      });
   }
 
   toggleFilters() {
@@ -513,22 +299,10 @@ class Explore extends Page {
 
     const { explore, totalDatasets, filteredDatasets, user } = this.props;
     const { search } = explore.filters;
-    const { geographiesTree, topicsTree, dataTypeTree, zoom, latLng } = explore;
+    const { zoom, latLng } = explore;
     const { showFilters } = this.state;
-    const { topics, geographies, dataType } = this.filters;
-    const topicsLabels = topics.map(topic => findTagInSelectorTree(topicsTree, topic).label);
-    const geographiesLabels = geographies.map(geography =>
-      findTagInSelectorTree(geographiesTree, geography).label);
-    const dataTypeLabels = dataType.map(dType => findTagInSelectorTree(dataTypeTree, dType).label);
-
-    const allTagsSt = [].concat(topicsLabels).concat(geographiesLabels)
-      .concat(dataTypeLabels).join(', ');
-    const filtersSumUp = !showFilters && allTagsSt.length > 0 ? `Filtering by ${allTagsSt}` : '';
 
     const buttonFilterContent = showFilters ? 'Hide filters' : 'Show filters';
-    const filterContainerClass = classnames('filters-container', {
-      '_is-hidden': !showFilters
-    });
 
     const showFiltersClassName = classnames({
       'c-btn': true,
@@ -565,92 +339,9 @@ class Explore extends Page {
                       {buttonFilterContent}
                     </button>
                   </div>
-                  <div className="filters-sum-up">
-                    {filtersSumUp}
-                  </div>
-                  <div className={filterContainerClass}>
-                    <div className="row">
-                      <div className="column small-12">
-                        <div className="c-tree-selector -explore topics-selector">
-                          {topicsTree &&
-                            <DropdownTreeSelect
-                              showDropdown
-                              placeholderText="Topics"
-                              data={this.topicsTree || { label: '', value: '', children: [] }}
-                              onChange={(currentNode, selectedNodes) => {
-                                this.filters.topics = selectedNodes.map(val => val.value);
-                                const deselect = !selectedNodes.includes(currentNode);
-
-                                if (deselect) {
-                                  this.topicsTree.forEach(child => this.selectElementsFromTree(
-                                    child, [currentNode.value], deselect));
-                                } else {
-                                  this.topicsTree.forEach(child => this.selectElementsFromTree(
-                                    child, this.filters.topics, deselect));
-                                }
-
-                                logEvent('Explore', 'Filter Topic', this.filters.topics.join(','));
-
-                                this.applyFilters();
-                              }}
-                            />
-                          }
-                        </div>
-                      </div>
-                      <div className="column small-12">
-                        <div className="c-tree-selector -explore geographies-selector ">
-                          {geographiesTree &&
-                            <DropdownTreeSelect
-                              data={this.geographiesTree || { label: '', value: '', children: [] }}
-                              placeholderText="Geographies"
-                              onChange={(currentNode, selectedNodes) => {
-                                this.filters.geographies = selectedNodes.map(val => val.value);
-                                const deselect = !selectedNodes.includes(currentNode);
-
-                                if (deselect) {
-                                  this.geographiesTree.forEach(child => this.selectElementsFromTree(
-                                    child, [currentNode.value], deselect));
-                                } else {
-                                  this.geographiesTree.forEach(child => this.selectElementsFromTree(
-                                    child, this.filters.geographies, deselect));
-                                }
-
-                                logEvent('Explore', 'Filter Geography', this.filters.geographies.join(','));
-
-                                this.applyFilters();
-                              }}
-                            />
-                          }
-                        </div>
-                      </div>
-                      <div className="column small-12">
-                        <div className="c-tree-selector -explore data-types-selector">
-                          {dataTypeTree &&
-                            <DropdownTreeSelect
-                              data={this.dataTypeTree || { label: '', value: '', children: [] }}
-                              placeholderText="Data types"
-                              onChange={(currentNode, selectedNodes) => {
-                                this.filters.dataType = selectedNodes.map(val => val.value);
-                                const deselect = !selectedNodes.includes(currentNode);
-
-                                if (deselect) {
-                                  this.dataTypeTree.forEach(child => this.selectElementsFromTree(
-                                    child, [currentNode.value], deselect));
-                                } else {
-                                  this.dataTypeTree.forEach(child => this.selectElementsFromTree(
-                                    child, this.filters.dataType, deselect));
-                                }
-
-                                logEvent('Explore', 'Filter Data Type', this.filters.dataType.join(','));
-
-                                this.applyFilters();
-                              }}
-                            />
-                          }
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <ExploreDatasetFilters
+                    showFilters={showFilters}
+                  />
                   <DatasetListHeader
                     list={totalDatasets}
                     mode={explore.datasets.mode}
@@ -747,9 +438,6 @@ Explore.propTypes = {
   redirectTo: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
-  setTopicsTree: PropTypes.func.isRequired,
-  setDataTypeTree: PropTypes.func.isRequired,
-  setGeographiesTree: PropTypes.func.isRequired,
   setDatasetsSorting: PropTypes.func.isRequired,
 
   // Toggle the visibility of a layer group based on the layer passed as argument
@@ -772,6 +460,7 @@ const mapStateToProps = (state) => {
   return {
     user: state.user,
     explore: state.explore,
+    exploreDatasetFilters: state.exploreDatasetFilters,
     filteredDatasets,
     totalDatasets: totalFilteredDatasets,
     layerGroups: getLayerGroups(state),
@@ -784,11 +473,9 @@ const mapDispatchToProps = dispatch => ({
   getDatasets: () => { dispatch(getDatasets({})); },
   getFavoriteDatasets: (token) => { dispatch(getFavoriteDatasets(token)); },
   setDatasetsSearchFilter: search => dispatch(setDatasetsSearchFilter(search)),
-  setDatasetsTopicsFilter: topics => dispatch(setDatasetsTopicsFilter(topics)),
-  setDatasetsDataTypeFilter: dataType => dispatch(setDatasetsDataTypeFilter(dataType)),
-  setDatasetsGeographiesFilter: geographies => dispatch(setDatasetsGeographiesFilter(geographies)),
   setDatasetsFilteredByConcepts: datasetList =>
     dispatch(setDatasetsFilteredByConcepts(datasetList)),
+  setFilters: (filters) => { dispatch(setFilters(filters)); },
   setFiltersLoading: isLoading => dispatch(setFiltersLoading(isLoading)),
   redirectTo: (url) => { dispatch(redirectTo(url)); },
   toggleModal: (open, options) => dispatch(toggleModal(open, options)),
@@ -801,9 +488,6 @@ const mapDispatchToProps = dispatch => ({
   setLayerGroupsOrder: datasets => dispatch(setLayerGroupsOrder(datasets)),
   setLayerGroupActiveLayer: (dataset, layer) => dispatch(setLayerGroupActiveLayer(dataset, layer)),
   setLayerGroups: layerGroups => dispatch(setLayerGroups(layerGroups)),
-  setTopicsTree: tree => dispatch(setTopicsTree(tree)),
-  setGeographiesTree: tree => dispatch(setGeographiesTree(tree)),
-  setDataTypeTree: tree => dispatch(setDataTypeTree(tree)),
   setZoom: (zoom, updateUrl) => dispatch(setZoom(zoom, updateUrl)),
   setLatLng: (latLng, updateUrl) => dispatch(setLatLng(latLng, updateUrl)),
   setMapParams: debounce((params) => { // Debounce for performance reasons

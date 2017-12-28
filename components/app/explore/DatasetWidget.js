@@ -87,7 +87,7 @@ class DatasetWidget extends React.Component {
     const classes = classnames({
       '-secondary': !isActive,
       '-primary': isActive,
-      '-fullwidth': true,
+      '-compressed': true,
       '-disable': !hasLayer
     });
 
@@ -219,19 +219,11 @@ class DatasetWidget extends React.Component {
 
     if (widget && !isWidgetMap) {
       return (
-        <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
-          <a>
-            <DatasetWidgetChart widget={element} mode="thumbnail" />
-          </a>
-        </Link>
+        <DatasetWidgetChart widget={element} mode="thumbnail" />
       );
     } else if (layer || isWidgetMap) {
       return (
-        <Link route={'explore_detail'} params={{ id: this.props.dataset.id }}>
-          <a>
-            <DatasetLayerChart layer={element} />
-          </a>
-        </Link>
+        <DatasetLayerChart layer={element} />
       );
     }
 
@@ -327,10 +319,17 @@ class DatasetWidget extends React.Component {
             }
           </div>
           <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
-            <div className="actions">
-              {/* Layer Button */}
-              {showActions && this.getButton()}
-            </div>
+            {showActions &&
+              <div className="actions">
+                <Link route="explore_detail" params={{ id: this.props.dataset.id }}>
+                  <a className="c-button -secondary -compressed">
+                    Explore
+                  </a>
+                </Link>
+                {/* Add to Map Button */}
+                {this.getButton()}
+              </div>
+            }
           </MediaQuery>
         </div>
       </div>

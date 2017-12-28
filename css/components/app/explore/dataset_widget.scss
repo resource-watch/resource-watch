@@ -5,7 +5,7 @@
   flex: 1 0 auto;
   background: $ui-bg-color;
   box-shadow: 0 0 0 rgba(0,0,0,0.1);
-  transition: all 0.3s;
+  min-width: 240px;
 
   .info {
     background: $color-white;
@@ -33,9 +33,17 @@
     }
 
     .actions {
+      display: flex;
+      justify-content: space-between;
       padding-left: $margin-size-extra-small;
       padding-bottom: $margin-size-extra-small;
       padding-right: $margin-size-extra-small;
+
+      button {
+        &:last-of-type {
+          margin-left: 10px;
+        }
+      }
     }
   }
 
@@ -67,6 +75,7 @@
           .tags-button {
             position: relative;
             margin-left: 5px;
+            fill: $charcoal-grey;
           }
         }
       }
@@ -96,11 +105,6 @@
 
     .info {
       flex-direction: column;
-    }
-
-    &:hover {
-      box-shadow: 0 20px 30px rgba(0,0,0,0.2);
-      transform: translateY(-4px);
     }
   }
 

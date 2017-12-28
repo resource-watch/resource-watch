@@ -12,6 +12,7 @@ import * as dashboardDetail from 'components/dashboards/detail/dashboard-detail'
 import * as dashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
 import * as widgetBlockModule from 'components/dashboards/wysiwyg/widget-block/widget-block';
 import * as widgetBlockEditionModule from 'components/dashboards/wysiwyg/widget-block-edition/widget-block-edition';
+import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';
 
 if (process.env.NODE_ENV === 'production') {
   initOpbeat({
@@ -29,7 +30,10 @@ const reducer = combineReducers({
   dashboardDetail: handleModule(dashboardDetail),
   dashboardThumbnailList: handleModule(dashboardThumbnailList),
   widgetBlock: handleModule(widgetBlockModule),
-  widgetBlockEdition: handleModule(widgetBlockEditionModule)
+  widgetBlockEdition: handleModule(widgetBlockEditionModule),
+
+  // Explore
+  exploreDatasetFilters: handleModule(exploreDatasetFilters)
 });
 
 const composeEnhancers = composeWithDevTools({});
