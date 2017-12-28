@@ -24,8 +24,6 @@ export default class DatasetsService {
       ...filters
     };
 
-    console.log(qParams, filters);
-
     return new Promise((resolve, reject) => {
       get({
         url: `${process.env.WRI_API_URL}/dataset?${Object.keys(qParams).map(k => `${k}=${qParams[k]}`).join('&')}`,
