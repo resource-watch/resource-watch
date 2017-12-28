@@ -81,7 +81,7 @@ class DashboardWidget extends React.Component {
   getData(widgetId) {
     this.setState({ loading: true });
 
-    fetch(`${process.env.WRI_API_URL}/widget/${widgetId}?&application=${[process.env.APPLICATIONS]}`)
+    fetch(`${process.env.WRI_API_URL}/widget/${widgetId}?&application=${process.env.APPLICATIONS}`)
       .then((res) => {
         if (res.ok) return res.json();
         throw new Error(res.statusText);
@@ -104,7 +104,7 @@ class DashboardWidget extends React.Component {
     // At this point, loading is still true
     const { widgetConfig } = this.state.widget;
 
-    fetch(`${process.env.WRI_API_URL}/layer/${widgetConfig.layer_id}?&application=${[process.env.APPLICATIONS]}`)
+    fetch(`${process.env.WRI_API_URL}/layer/${widgetConfig.layer_id}?&application=${process.env.APPLICATIONS}`)
       .then((res) => {
         if (res.ok) return res.json();
         throw new Error(res.statusText);

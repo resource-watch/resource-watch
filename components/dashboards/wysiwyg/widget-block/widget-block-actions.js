@@ -31,41 +31,13 @@ export const setFavouriteLoading = createAction('WIDGET_BLOCK_FAVOURITE_LOADING'
 export const setFavouriteError = createAction('WIDGET_BLOCK_FAVOURITE_ERROR');
 
 // Async actions
-export const fetchWidget = createThunkAction('WIDGET_BLOCK_FETCH_DATA', (payload = {}) => (dispatch) => {
-  const id = `${payload.id}/${payload.itemId}`;
-
-  dispatch(setWidgetLoading({ id, value: true }));
-  dispatch(setWidgetError({ id, value: null }));
-
-  fetch(`${process.env.WRI_API_URL}/widget/${payload.id}?&application=${[process.env.APPLICATIONS]}`)
-    .then(response => response.json())
-    .then(({ data }) => {
-      const widget = { id: data.id, ...data.attributes };
-      const { widgetConfig } = widget;
-
-      dispatch(setWidgetLoading({ id, value: false }));
-      dispatch(setWidgetError({ id, value: null }));
-      dispatch(setWidgetType({ id, value: (widgetConfig && widgetConfig.type) || 'vega' }));
-      dispatch(setWidget({ id, value: widget }));
-
-      if (widgetConfig.type && widgetConfig.type === 'map') {
-        dispatch(fetchLayers({ id, widget }));
-      }
-    })
-    .catch((err) => {
-      dispatch(setWidgetLoading(false));
-      dispatch(setWidgetError(err));
-    });
-});
-
-
 export const fetchLayers = createThunkAction('WIDGET_BLOCK_LAYERS_FETCH_DATA', (payload = {}) => (dispatch) => {
   const id = payload.id;
 
   dispatch(setLayersLoading({ id, value: true }));
   dispatch(setLayersError({ id, value: null }));
 
-  fetch(`${process.env.WRI_API_URL}/layer/${payload.widget.widgetConfig.layer_id}?&application=${[process.env.APPLICATIONS]}`)
+  fetch(`${process.env.WRI_API_URL}/layer/${payload.widget.widgetConfig.layer_id}?&application=${process.env.APPLICATIONS}`)
     .then(response => response.json())
     .then(({ data }) => {
       dispatch(setLayersLoading({ id, value: false }));
@@ -89,6 +61,32 @@ export const fetchLayers = createThunkAction('WIDGET_BLOCK_LAYERS_FETCH_DATA', (
     });
 });
 
+export const fetchWidget = createThunkAction('WIDGET_BLOCK_FETCH_DATA', (payload = {}) => (dispatch) => {
+  const id = `${payload.id}/${payload.itemId}`;
+
+  dispatch(setWidgetLoading({ id, value: true }));
+  dispatch(setWidgetError({ id, value: null }));
+
+  fetch(`${process.env.WRI_API_URL}/widget/${payload.id}?&application=${process.env.APPLICATIONS}`)
+    .then(response => response.json())
+    .then(({ data }) => {
+      const widget = { id: data.id, ...data.attributes };
+      const { widgetConfig } = widget;
+
+      dispatch(setWidgetLoading({ id, value: false }));
+      dispatch(setWidgetError({ id, value: null }));
+      dispatch(setWidgetType({ id, value: (widgetConfig && widgetConfig.type) || 'vega' }));
+      dispatch(setWidget({ id, value: widget }));
+
+      if (widgetConfig.type && widgetConfig.type === 'map') {
+        dispatch(fetchLayers({ id, widget }));
+      }
+    })
+    .catch((err) => {
+      dispatch(setWidgetLoading(false));
+      dispatch(setWidgetError(err));
+    });
+});
 
 export const toggleFavourite = createThunkAction('WIDGET_BLOCK_TOGGLE_FAVOURITE', payload => (dispatch, getState) => {
   const id = payload.id;

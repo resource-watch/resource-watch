@@ -37,7 +37,7 @@ export default class DatasetService {
    * Get subscribable datasets
    */
   getSubscribableDatasets(includes = '') {
-    return fetch(`${this.opts.apiURL}/dataset?application=${[process.env.APPLICATIONS]}&language=${this.opts.language}&includes=${includes}&subscribable=true&page[size]=999`)
+    return fetch(`${this.opts.apiURL}/dataset?application=${process.env.APPLICATIONS}&language=${this.opts.language}&includes=${includes}&subscribable=true&page[size]=999`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
@@ -187,14 +187,14 @@ export default class DatasetService {
           return response.json();
         })
         .then((jsonData) => {
-          const parsedData = (jsonData.data || []).map(data => data[columnName]);
+          const parsedData = (jsonData.data || []).map(data => data[columnName]);
           resolve(parsedData);
         });
     });
   }
 
   getLayers() {
-    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}/layer?application=${[process.env.APPLICATIONS]}&env=${process.env.API_ENV}`)
+    return fetch(`${this.opts.apiURL}/dataset/${this.datasetId}/layer?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
@@ -214,7 +214,7 @@ export default class DatasetService {
   }
 
   getSimilarDatasets() {
-    return fetch(`${this.opts.apiURL}/graph/query/similar-dataset/${this.datasetId}?application=${[process.env.APPLICATIONS]}`)
+    return fetch(`${this.opts.apiURL}/graph/query/similar-dataset/${this.datasetId}?application=${process.env.APPLICATIONS}`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
@@ -251,7 +251,7 @@ export default class DatasetService {
     const querySt = `&${topicsSt}${geographiesSt}${dataTypesSt}`;
 
 
-    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}&application=${[process.env.APPLICATIONS]}`)
+    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}&application=${process.env.APPLICATIONS}`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
