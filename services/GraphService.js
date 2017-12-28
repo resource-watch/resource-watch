@@ -53,8 +53,8 @@ export default class GraphService {
     }
 
     if (method === 'DELETE') {
-      url = `${url}/knowledge_graph`;
-      bodyObj = { application: process.env.APPLICATIONS };
+      url = `${url}/knowledge_graph?application=${process.env.APPLICATIONS}`;
+      bodyObj = {};
     }
 
     return fetch(url, {
