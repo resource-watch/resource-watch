@@ -108,7 +108,6 @@ class Explore extends Page {
     this.onSetLayerGroupsOrder = this.onSetLayerGroupsOrder.bind(this);
     this.onSetLayerGroupActiveLayer = this.onSetLayerGroupActiveLayer.bind(this);
     this.handleTagSelected = this.handleTagSelected.bind(this);
-    this.handleOnRequestData = this.handleOnRequestData.bind(this);
     // ----------------------------------------------------------
   }
 
@@ -213,10 +212,6 @@ class Explore extends Page {
     this.props.setDatasetsPage(1);
 
     logEvent('Explore', 'search', value);
-  }
-
-  handleOnRequestData() {
-
   }
 
   /**
@@ -374,6 +369,18 @@ class Explore extends Page {
                           />
                         </div>
                       </div>
+                      <Paginator
+                        options={{
+                          page: explore.datasets.page,
+                          limit: explore.datasets.limit,
+                          size: totalDatasets.length
+                        }}
+                        onChange={(page) => {
+                          this.props.setDatasetsPage(page);
+                          // Scroll to the top of the list
+                          document.getElementsByClassName('sidebar-content')[0].scrollTop = 0;
+                        }}
+                      />
                     </div>
                   }
 
@@ -382,27 +389,14 @@ class Explore extends Page {
                       <div className="request-data-text">
                         Oops! We couldn&#39;t find data for your search...
                       </div>
-                      <button
+                      <a
                         className="c-button -primary"
-                        onClick={this.handleOnRequestData}
+                        href=""
                       >
                         Request data
-                      </button>
+                      </a>
                     </div>
                   }
-
-                  <Paginator
-                    options={{
-                      page: explore.datasets.page,
-                      limit: explore.datasets.limit,
-                      size: totalDatasets.length
-                    }}
-                    onChange={(page) => {
-                      this.props.setDatasetsPage(page);
-                      // Scroll to the top of the list
-                      document.getElementsByClassName('sidebar-content')[0].scrollTop = 0;
-                    }}
-                  />
                 </div>
               </div>
             </Sidebar>
