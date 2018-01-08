@@ -392,6 +392,7 @@ class Explore extends Page {
                       <a
                         className="c-button -primary"
                         href="https://docs.google.com/forms/d/e/1FAIpQLSfXsPGQxM6p8KloU920t5Tfhx9FYFOq8-Rjml07UDH9EvsI1w/viewform"
+                        target="_blank"
                       >
                         Request data
                       </a>
