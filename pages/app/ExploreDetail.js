@@ -142,6 +142,7 @@ class ExploreDetail extends Page {
 
   componentWillUnmount() {
     this.props.resetDataset();
+    this.props.toggleModal(false);
   }
 
   /**
