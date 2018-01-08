@@ -108,6 +108,7 @@ class Explore extends Page {
     this.onSetLayerGroupsOrder = this.onSetLayerGroupsOrder.bind(this);
     this.onSetLayerGroupActiveLayer = this.onSetLayerGroupActiveLayer.bind(this);
     this.handleTagSelected = this.handleTagSelected.bind(this);
+    this.handleOnRequestData = this.handleOnRequestData.bind(this);
     // ----------------------------------------------------------
   }
 
@@ -212,6 +213,10 @@ class Explore extends Page {
     this.props.setDatasetsPage(1);
 
     logEvent('Explore', 'search', value);
+  }
+
+  handleOnRequestData() {
+
   }
 
   /**
@@ -346,26 +351,28 @@ class Explore extends Page {
                   <ExploreDatasetFilters
                     showFilters={showFilters}
                   />
-                  <DatasetListHeader
-                    list={totalDatasets}
-                    mode={explore.datasets.mode}
-                  />
                   <Spinner
                     isLoading={explore.datasets.loading || explore.filters.loading}
                     className="-light"
                   />
 
                   {!noDataToBeShown &&
-                    <div className="row collapse">
-                      <div className="column small-12">
-                        <DatasetList
-                          list={filteredDatasets}
-                          favourites={user.favourites}
-                          mode={explore.datasets.mode}
-                          showActions
-                          showFavorite
-                          onTagSelected={this.handleTagSelected}
-                        />
+                    <div>
+                      <DatasetListHeader
+                        list={totalDatasets}
+                        mode={explore.datasets.mode}
+                      />
+                      <div className="row collapse">
+                        <div className="column small-12">
+                          <DatasetList
+                            list={filteredDatasets}
+                            favourites={user.favourites}
+                            mode={explore.datasets.mode}
+                            showActions
+                            showFavorite
+                            onTagSelected={this.handleTagSelected}
+                          />
+                        </div>
                       </div>
                     </div>
                   }
@@ -377,6 +384,7 @@ class Explore extends Page {
                       </div>
                       <button
                         className="c-button -primary"
+                        onClick={this.handleOnRequestData}
                       >
                         Request data
                       </button>
