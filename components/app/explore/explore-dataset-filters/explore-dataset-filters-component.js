@@ -18,13 +18,12 @@ class ExploreDatasetFilters extends PureComponent {
     const { topics, dataTypes, geographies } = filters;
 
     const newTopics = topics ?
-      topics.map(t => findTagInSelectorTree(data.topics, t)) : [];
+      topics.map(t => findTagInSelectorTree(data.topics, t)) : {};
     const newGeographies = geographies ?
-      geographies.map(t => findTagInSelectorTree(data.geographies, t)) : [];
+      geographies.map(t => findTagInSelectorTree(data.geographies, t)) : {};
     const newDataTypes = dataTypes ?
-      dataTypes.map(t => findTagInSelectorTree(data.dataTypes, t)) : [];
+      dataTypes.map(t => findTagInSelectorTree(data.dataTypes, t)) : {};
     const selectedTags = [...newTopics, ...newGeographies, ...newDataTypes];
-
     return (
       <div className="c-explore-dataset-filters">
         {selectedTags.length > 0 &&
