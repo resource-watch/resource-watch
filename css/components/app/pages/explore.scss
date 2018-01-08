@@ -29,4 +29,16 @@
       margin-left: 10px;
     }
   }
+
+  .request-data-container {
+    
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    button {
+      margin-top: 20px;
+    }
+  }
 }

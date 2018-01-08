@@ -299,7 +299,8 @@ class Explore extends Page {
 
     const { explore, totalDatasets, filteredDatasets, user } = this.props;
     const { search } = explore.filters;
-    const { zoom, latLng } = explore;
+    const { zoom, latLng, datasets } = explore;
+    const { loading, list } = datasets;
     const { showFilters } = this.state;
 
     const buttonFilterContent = showFilters ? 'Hide filters' : 'Show filters';
@@ -309,6 +310,9 @@ class Explore extends Page {
       '-b': !showFilters,
       '-a': showFilters
     });
+
+    const noDataToBeShown = !loading && filteredDatasets.length === 0 &&
+      list.length > 0;
 
     return (
       <Layout
@@ -351,18 +355,33 @@ class Explore extends Page {
                     className="-light"
                   />
 
-                  <div className="row collapse">
-                    <div className="column small-12">
-                      <DatasetList
-                        list={filteredDatasets}
-                        favourites={user.favourites}
-                        mode={explore.datasets.mode}
-                        showActions
-                        showFavorite
-                        onTagSelected={this.handleTagSelected}
-                      />
+                  {!noDataToBeShown &&
+                    <div className="row collapse">
+                      <div className="column small-12">
+                        <DatasetList
+                          list={filteredDatasets}
+                          favourites={user.favourites}
+                          mode={explore.datasets.mode}
+                          showActions
+                          showFavorite
+                          onTagSelected={this.handleTagSelected}
+                        />
+                      </div>
                     </div>
-                  </div>
+                  }
+
+                  {noDataToBeShown &&
+                    <div className="request-data-container">
+                      <div className="request-data-text">
+                        Oops! We couldn&#39;t find data for your search...
+                      </div>
+                      <button
+                        className="c-button -primary"
+                      >
+                        Request data
+                      </button>
+                    </div>
+                  }
 
                   <Paginator
                     options={{
