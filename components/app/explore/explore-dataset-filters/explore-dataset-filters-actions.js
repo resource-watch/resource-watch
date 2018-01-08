@@ -10,7 +10,8 @@ export const getFiltersData = createThunkAction('explore-dataset-filters/getFilt
   (dispatch) => {
     Promise.all([
       FiltersService.getTopics(),
-      FiltersService.getGeographies(),
+      // NOTE: We're temporarily hiding the geographies filter
+      // FiltersService.getGeographies(),
       FiltersService.getDataTypes()
     ]
     ).then((values = []) => {
