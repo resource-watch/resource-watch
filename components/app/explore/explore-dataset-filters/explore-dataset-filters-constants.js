@@ -1,6 +1,7 @@
+// NOTE: We're temporarily hiding the geographies filter
 const PLACEHOLDERS_DATASET_FILTERS = {
   topics: 'Topics',
-  geographies: 'Geographies',
+  // geographies: 'Geographies',
   dataTypes: 'Data Types'
 };
 
