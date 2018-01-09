@@ -15,6 +15,7 @@ import Header from 'components/splash/layout/Header';
 // Components
 import Spinner from 'components/ui/Spinner';
 import Modal from 'components/ui/Modal';
+import Icon from 'components/ui/Icon';
 
 // Utils
 import { PANORAMAS } from 'utils/splash/Panoramas';
@@ -42,6 +43,7 @@ class SplashDetail extends Page {
     this.handleImageLoaded = this.handleImageLoaded.bind(this);
     this.handleSoundChange = this.handleSoundChange.bind(this);
     this.handleCloseRightMenu = this.handleCloseRightMenu.bind(this);
+    this.handleToggleIntro = this.handleToggleIntro.bind(this);
     // ------------------------------------------------
   }
 
@@ -114,6 +116,11 @@ class SplashDetail extends Page {
     this.setState({ selectedHotspot: null });
   }
 
+  handleToggleIntro() {
+    console.log('hey!');
+    this.setState({ introOpened: !this.state.introOpened });
+  }
+
   render() {
     const { modal } = this.props;
     const {
@@ -123,12 +130,14 @@ class SplashDetail extends Page {
       soundActivated,
       selectedHotspot,
       earthMode,
-      mouseHovering
+      mouseHovering,
+      introOpened
     } = this.state;
     const skyImage = selectedPanorama && selectedPanorama.image;
     const hotspots = selectedPanorama && selectedPanorama.hotspots;
     const options = panorama && panorama.options;
     const backgroundSound = panorama.backgroundSound;
+    const hasIntro = selectedPanorama && selectedPanorama.intro;
 
     const pageClass = classnames({
       'p-splash-detail': true,
@@ -147,6 +156,20 @@ class SplashDetail extends Page {
         <Header
           showEarthViewLink
         />
+        {hasIntro &&
+          <div className={classnames('intro-container', `-${introOpened ? 'opened' : 'closed'}`)}>
+            <div className={classnames('text-container', `-${introOpened ? 'opened' : 'closed'}`)}>
+              {selectedPanorama.intro}
+            </div>
+            <button
+              type="button"
+              className={classnames('l-sidebar-toggle', 'btn-toggle', `-${introOpened ? 'opened' : ''}`)}
+              onClick={this.handleToggleIntro}
+            >
+              <Icon className={classnames('-little', `-${introOpened ? 'left' : 'right'}`)} name="icon-arrow-down" />
+            </button>
+          </div>
+        }
         {selectedHotspot &&
           <div className="hotspot-section">
             <div

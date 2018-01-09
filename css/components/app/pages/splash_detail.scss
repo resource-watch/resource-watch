@@ -2,6 +2,59 @@
   width: 100%;
   height: 100vh;
 
+  .intro-container {
+    position: absolute;
+    top: 100px;
+    left: 20px;
+    border-radius: 4px;
+    max-width: 300px;
+    max-height: 300px;
+    background-color: $white;
+    z-index: 9999999;
+
+    &.-closed {
+      left: 0px;
+    }
+
+    .text-container {
+      overflow: auto;
+      padding: 30px;
+      max-height: 300px;
+
+      a {
+        color: $link-font-color;
+      }
+
+      &.-closed {
+        display: none;
+      }
+    }
+
+    .btn-toggle {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      position: absolute;
+      top: 20px;
+      right: -30px;
+      width: 30px;
+      height: 50px;
+      cursor: pointer;
+      background-color: $ui-font-color;
+      border: none;
+      outline: none;
+      transition: background $animation-time-2 $ease-in-out-sine;
+
+      svg {
+        fill: $color-white;
+      }
+
+      &:hover {
+        background-color: darken($ui-font-color, 5%);
+      }
+    }
+  }
+
   .hotspot-section {
     position: absolute;
     transition: all 1s linear;
