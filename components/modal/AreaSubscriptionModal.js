@@ -30,9 +30,6 @@ class AreaSubscriptionModal extends React.Component {
           selectedThreshold: elem.threshold }))
       : [{ index: 0, selectedDataset: null, selectedType: null, selectedThreshold: 1 }];
 
-    console.log('props', props);
-    console.log('initialSubscriptionSelectors BEFORE', initialSubscriptionSelectors);
-
     if (subscriptionDataset) {
       const selectorFound = initialSubscriptionSelectors
         .find(selector => selector.selectedDataset === subscriptionDataset);
@@ -48,8 +45,6 @@ class AreaSubscriptionModal extends React.Component {
         });
       }
     }
-
-    console.log('initialSubscriptionSelectors after', initialSubscriptionSelectors);
 
     this.state = {
       loadingDatasets: false,

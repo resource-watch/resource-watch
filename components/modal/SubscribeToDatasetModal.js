@@ -60,7 +60,11 @@ class SubscribeToDatasetModal extends React.Component {
       Router.pushRoute('myrw_detail', {
         tab: 'areas',
         id: 'new',
-        subscribeToDataset: { dataset: this.props.dataset.id, type: this.state.selectedType } });
+        subscriptionDataset: this.props.dataset.id,
+        subscriptionType: this.state.selectedType,
+        subscriptionThreshold: this.state.selectedThreshold,
+        openUploadAreaModal: true
+      });
     } else {
       this.setState({
         selectedArea: value,

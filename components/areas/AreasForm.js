@@ -59,14 +59,15 @@ class AreasForm extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log('props', props);
+    const { openUploadAreaModal } = props.query;
 
     this.state = {
       areaOptions: [],
       loadingAreaOptions: false,
       loading: false,
       name: '',
-      geostore: null
+      geostore: null,
+      openUploadAreaModal
     };
 
     // Services
@@ -81,9 +82,14 @@ class AreasForm extends React.Component {
   }
 
   componentDidMount() {
+    const { openUploadAreaModal } = this.state;
     this.loadAreas();
     if (this.props.id) {
       this.loadArea();
+    }
+
+    if (openUploadAreaModal) {
+      this.openUploadAreaModal();
     }
   }
 
@@ -147,6 +153,13 @@ class AreasForm extends React.Component {
         resolve(true);
       }
     });
+  }
+
+  openUploadAreaModal() {
+    this.setState({
+      geostore: 'custom'
+    },
+    () => this.onChangeSelectedArea({ value: 'upload' }));
   }
 
   handleNameChange(value) {
@@ -239,9 +252,14 @@ class AreasForm extends React.Component {
   }
 }
 
+AreasForm.defaultProps = {
+  openUploadAreaModal: false
+};
+
 AreasForm.propTypes = {
   mode: PropTypes.string.isRequired, // edit | new
-  id: PropTypes.string, // area id for edit mode
+  id: PropTypes.string, // area id for edit mode,
+  query: PropTypes.object,
   // Store
   user: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired

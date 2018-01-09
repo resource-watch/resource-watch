@@ -18,7 +18,7 @@ function AreasTab(props) {
       }
 
       {id && id === 'new' && user.token &&
-        <AreasNew tab={tab} subtab={subtab} id={id} />
+        <AreasNew tab={tab} subtab={subtab} id={id} query={query} />
       }
 
       {id && id !== 'new' && user.token &&
