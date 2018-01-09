@@ -169,7 +169,7 @@ class SplashDetail extends Page {
               <img src={selectedHotspot.imageSelected} alt={selectedHotspot.title} />
             </div>
             <div className="detail-container">
-              <h2>{selectedHotspot.title}</h2>
+              { /* Hide this to make more room for the text <h2>{selectedHotspot.title}</h2> */}
               <div className="text-container">
                 {selectedHotspot.markup}
               </div>
