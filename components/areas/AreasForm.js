@@ -59,6 +59,8 @@ class AreasForm extends React.Component {
   constructor(props) {
     super(props);
 
+    console.log('props', props);
+
     this.state = {
       areaOptions: [],
       loadingAreaOptions: false,
@@ -71,7 +73,7 @@ class AreasForm extends React.Component {
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
-    //---------------- Bindings --------------------
+    // ---------------- Bindings --------------------
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangeSelectedArea = this.onChangeSelectedArea.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);

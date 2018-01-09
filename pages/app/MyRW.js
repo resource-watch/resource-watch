@@ -73,7 +73,6 @@ class MyRW extends Page {
     const { tab, subtab } = this.state;
     const userName = user && user.name ? ` ${user.name.split(' ')[0]}` : '';
     const title = `Hi${userName}!`;
-
     return (
       <Layout
         title="My Resource Watch Edit Profile"
@@ -118,7 +117,7 @@ class MyRW extends Page {
                 }
 
                 {tab === 'areas' &&
-                  <AreasTab tag={tab} subtab={subtab} />
+                  <AreasTab tag={tab} subtab={subtab} query={url.query} />
                 }
 
                 {tab === 'widgets' &&

@@ -128,7 +128,8 @@ class SubscribeToDatasetModal extends React.Component {
                       tab: 'areas',
                       subscriptionType: selectedType.value,
                       subscriptionThreshold: selectedThreshold,
-                      dataset: dataset.id
+                      subscriptionDataset: dataset.id,
+                      openModal: selectedArea.areaID
                     });
                   },
                   onCancel: () => {

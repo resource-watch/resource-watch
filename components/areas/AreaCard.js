@@ -75,7 +75,16 @@ class AreaCard extends React.Component {
   }
 
   componentDidMount() {
+    const {
+      openSubscriptionsModal,
+      subscriptionThreshold,
+      subscriptionType,
+      subscriptionDataset
+    } = this.props;
     this.loadData();
+    if (openSubscriptionsModal) {
+      this.handleEditSubscription(subscriptionDataset, subscriptionType, subscriptionThreshold);
+    }
   }
 
   loadData() {
@@ -154,7 +163,11 @@ class AreaCard extends React.Component {
     Router.pushRoute('myrw_detail', { id: this.props.area.id, tab: 'areas' });
   }
 
-  handleEditSubscription() {
+  handleEditSubscription(
+    subscriptionDataset = null,
+    subscriptionType = null,
+    subscriptionThreshold = null
+  ) {
     const mode = this.props.area.subscription ? 'edit' : 'new';
     const options = {
       children: AreaSubscriptionModal,
@@ -163,7 +176,10 @@ class AreaCard extends React.Component {
         toggleModal: this.props.toggleModal,
         onSubscriptionUpdated: this.handleSubscriptionUpdated,
         onSubscriptionCreated: this.handleSubscriptionUpdated,
-        mode
+        mode,
+        subscriptionDataset,
+        subscriptionType,
+        subscriptionThreshold
       }
     };
     this.props.toggleModal(true);
@@ -320,10 +336,15 @@ class AreaCard extends React.Component {
   }
 }
 
+AreaCard.defaultProps = {
+  openSubscriptionsModal: false
+};
+
 AreaCard.propTypes = {
   token: PropTypes.string.isRequired,
   area: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
+  openSubscriptionsModal: PropTypes.bool,
   // Callbacks
   onAreaRemoved: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
