@@ -124,7 +124,12 @@ class SubscribeToDatasetModal extends React.Component {
               toastr.confirm(`There already exist a subscription for the selected area.
                 Do you want to update it? `, {
                   onOk: () => {
-                    Router.pushRoute('myrw', { tab: 'areas' });
+                    Router.pushRoute('myrw', {
+                      tab: 'areas',
+                      subscriptionType: selectedType.value,
+                      subscriptionThreshold: selectedThreshold,
+                      dataset: dataset.id
+                    });
                   },
                   onCancel: () => {
                     this.setState({ loading: false });
