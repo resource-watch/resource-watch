@@ -97,8 +97,8 @@ class AreasForm extends React.Component {
     e.preventDefault();
 
     const { name, geostore } = this.state;
-    const { user, mode, id } = this.props;
-
+    const { user, mode, id, query } = this.props;
+    const { subscriptionDataset } = query;
     if (geostore) {
       this.setState({
         loading: true
@@ -106,8 +106,12 @@ class AreasForm extends React.Component {
 
       if (mode === 'new') {
         this.userService.createNewArea(name, geostore, user.token)
-          .then(() => {
-            Router.pushRoute('myrw', { tab: 'areas' });
+          .then((response) => {
+            Router.pushRoute('myrw', {
+              tab: 'areas',
+              openModal: response.data.id,
+              subscriptionDataset
+            });
             toastr.success('Success', 'Area successfully created!');
           })
           .catch(err => this.setState({ error: err, loading: false }));

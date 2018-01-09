@@ -36,13 +36,17 @@ class AreaSubscriptionModal extends React.Component {
       if (selectorFound) {
         selectorFound.selectedType = subscriptionType;
         selectorFound.selectedThreshold = subscriptionThreshold;
-      } else {
+      } else if (subscription) {
         initialSubscriptionSelectors.push({
           index: initialSubscriptionSelectors.length,
           selectedDataset: subscriptionDataset,
           selectedType: subscriptionType,
           selectedThreshold: subscriptionThreshold
         });
+      } else {
+        initialSubscriptionSelectors[0].selectedType = subscriptionType;
+        initialSubscriptionSelectors[0].selectedThreshold = subscriptionThreshold || 1;
+        initialSubscriptionSelectors[0].selectedDataset = subscriptionDataset;
       }
     }
 
