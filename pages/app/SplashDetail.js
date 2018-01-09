@@ -14,7 +14,6 @@ import Header from 'components/splash/layout/Header';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import SplashDetailModal from 'components/modal/SplashDetailModal';
 import Modal from 'components/ui/Modal';
 
 // Utils
@@ -35,7 +34,8 @@ class SplashDetail extends Page {
       selectedHotspot: null,
       earthMode,
       mouseHovering: false,
-      modalOpen: false
+      modalOpen: false,
+      introOpened: true
     };
     // --------------- Bindings -----------------------
     this.handlePanoramaChange = this.handlePanoramaChange.bind(this);
@@ -46,17 +46,6 @@ class SplashDetail extends Page {
   }
 
   componentDidMount() {
-    const { selectedPanorama } = this.state;
-
-    const options = {
-      children: SplashDetailModal,
-      childrenProps: {
-        markup: selectedPanorama.intro,
-        className: 'no-borders'
-      }
-    };
-    this.props.toggleModal(true, options);
-
     this.panoramaSky = document.getElementById('panorama-sky');
     this.panoramaSky.addEventListener('materialtextureloaded', this.handleImageLoaded);
 
