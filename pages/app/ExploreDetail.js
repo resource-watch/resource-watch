@@ -420,6 +420,9 @@ class ExploreDetail extends Page {
       '-empty': !favourite
     });
 
+    const isSubscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
+      Object.keys(dataset.attributes.subscribable).length > 0;
+
     if (exploreDataset && exploreDataset.error === 'Not Found') return <Error status={404} />;
     if (dataset && !dataset.attributes.published) return <Error status={404} />;
 
@@ -543,7 +546,7 @@ class ExploreDetail extends Page {
                         Learn more
                       </a>
                     }
-                    {dataset && dataset.attributes && dataset.attributes.subscribable &&
+                    {isSubscribable &&
                       <button
                         className="c-button -secondary -fullwidth"
                         onClick={this.handleSubscribe}
