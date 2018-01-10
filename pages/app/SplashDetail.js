@@ -14,8 +14,8 @@ import Header from 'components/splash/layout/Header';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import SplashDetailModal from 'components/modal/SplashDetailModal';
 import Modal from 'components/ui/Modal';
+import Icon from 'components/ui/Icon';
 
 // Utils
 import { PANORAMAS } from 'utils/splash/Panoramas';
@@ -35,28 +35,19 @@ class SplashDetail extends Page {
       selectedHotspot: null,
       earthMode,
       mouseHovering: false,
-      modalOpen: false
+      modalOpen: false,
+      introOpened: true
     };
     // --------------- Bindings -----------------------
     this.handlePanoramaChange = this.handlePanoramaChange.bind(this);
     this.handleImageLoaded = this.handleImageLoaded.bind(this);
     this.handleSoundChange = this.handleSoundChange.bind(this);
     this.handleCloseRightMenu = this.handleCloseRightMenu.bind(this);
+    this.handleToggleIntro = this.handleToggleIntro.bind(this);
     // ------------------------------------------------
   }
 
   componentDidMount() {
-    const { selectedPanorama } = this.state;
-
-    const options = {
-      children: SplashDetailModal,
-      childrenProps: {
-        markup: selectedPanorama.intro,
-        className: 'no-borders'
-      }
-    };
-    this.props.toggleModal(true, options);
-
     this.panoramaSky = document.getElementById('panorama-sky');
     this.panoramaSky.addEventListener('materialtextureloaded', this.handleImageLoaded);
 
@@ -125,6 +116,11 @@ class SplashDetail extends Page {
     this.setState({ selectedHotspot: null });
   }
 
+  handleToggleIntro() {
+    console.log('hey!');
+    this.setState({ introOpened: !this.state.introOpened });
+  }
+
   render() {
     const { modal } = this.props;
     const {
@@ -134,12 +130,14 @@ class SplashDetail extends Page {
       soundActivated,
       selectedHotspot,
       earthMode,
-      mouseHovering
+      mouseHovering,
+      introOpened
     } = this.state;
     const skyImage = selectedPanorama && selectedPanorama.image;
     const hotspots = selectedPanorama && selectedPanorama.hotspots;
     const options = panorama && panorama.options;
     const backgroundSound = panorama.backgroundSound;
+    const hasIntro = selectedPanorama && selectedPanorama.intro;
 
     const pageClass = classnames({
       'p-splash-detail': true,
@@ -158,6 +156,20 @@ class SplashDetail extends Page {
         <Header
           showEarthViewLink
         />
+        {hasIntro &&
+          <div className={classnames('intro-container', `-${introOpened ? 'opened' : 'closed'}`)}>
+            <div className={classnames('text-container', `-${introOpened ? 'opened' : 'closed'}`)}>
+              {selectedPanorama.intro}
+            </div>
+            <button
+              type="button"
+              className={classnames('l-sidebar-toggle', 'btn-toggle', `-${introOpened ? 'opened' : ''}`)}
+              onClick={this.handleToggleIntro}
+            >
+              <Icon className={classnames('-little', `-${introOpened ? 'left' : 'right'}`)} name="icon-arrow-down" />
+            </button>
+          </div>
+        }
         {selectedHotspot &&
           <div className="hotspot-section">
             <div
@@ -169,7 +181,7 @@ class SplashDetail extends Page {
               <img src={selectedHotspot.imageSelected} alt={selectedHotspot.title} />
             </div>
             <div className="detail-container">
-              <h2>{selectedHotspot.title}</h2>
+              { /* Hide this to make more room for the text <h2>{selectedHotspot.title}</h2> */}
               <div className="text-container">
                 {selectedHotspot.markup}
               </div>
