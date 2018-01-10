@@ -181,6 +181,22 @@ class Step1 extends React.Component {
             {Checkbox}
           </Field>
 
+          {/* FREEZE */}
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
+            onChange={value => this.props.onChange({ published: value.checked })}
+            properties={{
+              name: 'freeze',
+              label: 'Do you want to freeze this widget?',
+              value: 'freeze',
+              title: 'Freeze',
+              defaultChecked: this.props.form.freeze,
+              checked: this.props.form.freeze
+            }}
+          >
+            {Checkbox}
+          </Field>
+
         </fieldset>
 
         {this.state.form.dataset &&
@@ -240,6 +256,7 @@ class Step1 extends React.Component {
                 {Code}
               </Field>
             }
+
           </fieldset>
         }
       </fieldset>
