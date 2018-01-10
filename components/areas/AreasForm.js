@@ -59,19 +59,22 @@ class AreasForm extends React.Component {
   constructor(props) {
     super(props);
 
+    const { openUploadAreaModal } = props.query;
+
     this.state = {
       areaOptions: [],
       loadingAreaOptions: false,
       loading: false,
       name: '',
-      geostore: null
+      geostore: null,
+      openUploadAreaModal
     };
 
     // Services
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
-    //---------------- Bindings --------------------
+    // ---------------- Bindings --------------------
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangeSelectedArea = this.onChangeSelectedArea.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -79,9 +82,14 @@ class AreasForm extends React.Component {
   }
 
   componentDidMount() {
+    const { openUploadAreaModal } = this.state;
     this.loadAreas();
     if (this.props.id) {
       this.loadArea();
+    }
+
+    if (openUploadAreaModal) {
+      this.openUploadAreaModal();
     }
   }
 
@@ -89,8 +97,8 @@ class AreasForm extends React.Component {
     e.preventDefault();
 
     const { name, geostore } = this.state;
-    const { user, mode, id } = this.props;
-
+    const { user, mode, id, query } = this.props;
+    const { subscriptionDataset } = query;
     if (geostore) {
       this.setState({
         loading: true
@@ -98,8 +106,12 @@ class AreasForm extends React.Component {
 
       if (mode === 'new') {
         this.userService.createNewArea(name, geostore, user.token)
-          .then(() => {
-            Router.pushRoute('myrw', { tab: 'areas' });
+          .then((response) => {
+            Router.pushRoute('myrw', {
+              tab: 'areas',
+              openModal: response.data.id,
+              subscriptionDataset
+            });
             toastr.success('Success', 'Area successfully created!');
           })
           .catch(err => this.setState({ error: err, loading: false }));
@@ -145,6 +157,13 @@ class AreasForm extends React.Component {
         resolve(true);
       }
     });
+  }
+
+  openUploadAreaModal() {
+    this.setState({
+      geostore: 'custom'
+    },
+    () => this.onChangeSelectedArea({ value: 'upload' }));
   }
 
   handleNameChange(value) {
@@ -237,9 +256,14 @@ class AreasForm extends React.Component {
   }
 }
 
+AreasForm.defaultProps = {
+  openUploadAreaModal: false
+};
+
 AreasForm.propTypes = {
   mode: PropTypes.string.isRequired, // edit | new
-  id: PropTypes.string, // area id for edit mode
+  id: PropTypes.string, // area id for edit mode,
+  query: PropTypes.object,
   // Store
   user: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired

@@ -17,14 +17,18 @@ import AreaCard from 'components/areas/AreaCard';
 class AreasList extends React.Component {
   constructor(props) {
     super(props);
-
+    const { openModal, subscriptionThreshold, subscriptionDataset, subscriptionType } = props.query;
     this.state = {
       loading: false,
       areas: [],
       areasLoaded: false,
       subscriptionsLoaded: false,
       subscriptionsToAReas: null,
-      areasMerged: false
+      areasMerged: false,
+      openSubscriptionsModal: openModal,
+      subscriptionThreshold,
+      subscriptionDataset,
+      subscriptionType
     };
 
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
@@ -132,7 +136,15 @@ class AreasList extends React.Component {
   }
 
   render() {
-    const { loading, areas, areasMerged } = this.state;
+    const {
+      loading,
+      areas,
+      areasMerged,
+      openSubscriptionsModal,
+      subscriptionDataset,
+      subscriptionType,
+      subscriptionThreshold
+    } = this.state;
     const { user } = this.props;
 
     return (
@@ -158,6 +170,14 @@ class AreasList extends React.Component {
                       area={val}
                       onAreaRemoved={this.handleAreaRemoved}
                       onChange={() => this.loadData()}
+                      openSubscriptionsModal={openSubscriptionsModal &&
+                        openSubscriptionsModal === val.id}
+                      subscriptionDataset={openSubscriptionsModal &&
+                        openSubscriptionsModal === val.id && subscriptionDataset}
+                      subscriptionThreshold={openSubscriptionsModal &&
+                        openSubscriptionsModal === val.id && subscriptionThreshold}
+                      subscriptionType={openSubscriptionsModal &&
+                        openSubscriptionsModal === val.id && subscriptionType}
                     />
                   </div>
                 </div>
@@ -177,7 +197,8 @@ class AreasList extends React.Component {
 
 AreasList.propTypes = {
   user: PropTypes.object.isRequired,
-  locale: PropTypes.string.isRequired
+  locale: PropTypes.string.isRequired,
+  query: PropTypes.object
 };
 
 const mapStateToProps = state => ({
