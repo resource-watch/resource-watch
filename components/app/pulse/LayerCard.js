@@ -113,10 +113,11 @@ class LayerCard extends React.Component {
   }
 
   render() {
-    const { pulse, user } = this.props;
+    const { pulse } = this.props;
     const { layerActive, layerPoints, similarWidgets } = pulse;
     const { dataset } = this.state;
-    const subscribable = dataset && dataset.attributes && dataset.attributes.subscribable;
+    const subscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
+      Object.keys(dataset.attributes.subscribable).length > 0;
 
     const className = classNames({
       'c-layer-card': true,
@@ -131,7 +132,8 @@ class LayerCard extends React.Component {
         {layerActive && layerActive.attributes.description &&
           <div
             className="description"
-            dangerouslySetInnerHTML={{ __html: layerActive.attributes.description }} // eslint-disble-line react/no-danger
+            dangerouslySetInnerHTML={{ __html:
+              layerActive.attributes.description }} // eslint-disble-line react/no-danger
           />
         }
         {layerPoints && layerPoints.length > 0 &&
