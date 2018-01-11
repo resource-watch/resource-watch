@@ -248,13 +248,15 @@ class WidgetsForm extends React.Component {
               datasetObj.slug
             ).then((dataURL) => {
               const sqlSt = dataURL.split('sql=')[1];
-              this.service.freezeWidget(sqlSt).then((jsonObjURL) => {
-                console.log('jsonObjURL', jsonObjURL);
+              this.service.freezeWidget(sqlSt).then((resp) => {
+                const url = resp.url;
+                formObj.queryUrl = url;
+                formObj.widgetConfig.data = { url };
               });
             });
-          } else {
-            this.saveWidget(obj);
+            obj.body = formObj;
           }
+          this.saveWidget(obj);
         } else {
           this.setState({
             step: this.state.step + 1
@@ -424,6 +426,7 @@ class WidgetsForm extends React.Component {
             mode={this.state.mode}
             onChange={value => this.onChange(value)}
             onModeChange={this.handleModeChange}
+            showEditor={this.props.showEditor}
           />
         }
 
@@ -440,11 +443,16 @@ class WidgetsForm extends React.Component {
   }
 }
 
+WidgetsForm.defaultProps = {
+  showEditor: true
+};
+
 WidgetsForm.propTypes = {
   authorization: PropTypes.string,
   id: PropTypes.string,
   onSubmit: PropTypes.func,
   dataset: PropTypes.string, // ID of the dataset that should be pre-selected
+  showEditor: PropTypes.bool,
   // Store
   widgetEditor: PropTypes.object,
   locale: PropTypes.string.isRequired,
