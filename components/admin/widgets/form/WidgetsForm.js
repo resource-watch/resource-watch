@@ -40,6 +40,9 @@ import Navigation from 'components/form/Navigation';
 import Step1 from 'components/admin/widgets/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
+// Utils
+import { getDataURL, getChartInfo } from 'utils/widgets/WidgetHelper';
+
 class WidgetsForm extends React.Component {
   constructor(props) {
     super(props);
@@ -102,14 +105,20 @@ class WidgetsForm extends React.Component {
           current &&
           (!current.widgetConfig.paramsConfig || isEmpty(current.widgetConfig.paramsConfig))
         ) ? 'advanced' : 'editor';
-
+        console.log('datasets', datasets);
         this.setState({
           // CURRENT DASHBOARD
           form: (id) ? this.setFormFromParams(current) : this.state.form,
           loading: false,
           mode,
+          dataset: current,
           // OPTIONS
-          datasets: datasets.map(p => ({ label: p.name, value: p.id }))
+          datasets: datasets.map(p => ({
+            label: p.name,
+            value: p.id,
+            type: p.type,
+            tableName: p.tableName
+          }))
         }, () => this.loadWidgetIntoRedux());
       })
       .catch((err) => {
@@ -221,7 +230,22 @@ class WidgetsForm extends React.Component {
 
           // The widget has to be "frozen" first
           if (formObj.freeze) {
-            //console.log('formObj', formObj);
+            const datasetObj = this.state.datasets.find(d => d.value === form.dataset);
+            console.log('formObj', formObj, 'dataset', datasetObj);
+            const dataURL = getDataURL(
+              datasetObj.value,
+              datasetObj.type,
+              datasetObj.tableName,
+              formObj.widgetConfig.paramsConfig.band,
+              datasetObj.provider,
+              getChartInfo(
+                datasetObj.value,
+                datasetObj.type,
+                datasetObj.provider,
+                formObj.widgetConfig.paramsConfig
+              )
+            );
+            console.log('dataURL', dataURL);
           } else  {
             this.saveWidget(obj);
           }
