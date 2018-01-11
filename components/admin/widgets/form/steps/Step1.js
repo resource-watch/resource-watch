@@ -183,8 +183,8 @@ class Step1 extends React.Component {
 
           {/* FREEZE */}
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
-            onChange={value => this.props.onChange({ published: value.checked })}
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.freeze = c; }}
+            onChange={value => this.props.onChange({ freeze: value.checked })}
             properties={{
               name: 'freeze',
               label: 'Do you want to freeze this widget?',
