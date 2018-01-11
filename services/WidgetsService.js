@@ -184,7 +184,7 @@ export default class WidgetsService {
   freezeWidget(sqlQuery) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/query?sql=${sqlQuery}`,
+        url: `${process.env.WRI_API_URL}/query?sql=${sqlQuery}&freeze=true`,
         headers: [{
           key: 'Authorization',
           value: this.opts.authorization

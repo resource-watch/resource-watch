@@ -105,7 +105,6 @@ class WidgetsForm extends React.Component {
           current &&
           (!current.widgetConfig.paramsConfig || isEmpty(current.widgetConfig.paramsConfig))
         ) ? 'advanced' : 'editor';
-        console.log('datasets', datasets);
         this.setState({
           // CURRENT DASHBOARD
           form: (id) ? this.setFormFromParams(current) : this.state.form,
@@ -231,8 +230,7 @@ class WidgetsForm extends React.Component {
           // The widget has to be "frozen" first
           if (formObj.freeze) {
             const datasetObj = this.state.datasets.find(d => d.value === form.dataset);
-            console.log('formObj', formObj, 'dataset', datasetObj);
-            const dataURL = getDataURL(
+            getDataURL(
               datasetObj.value,
               datasetObj.type,
               datasetObj.tableName,
@@ -242,11 +240,15 @@ class WidgetsForm extends React.Component {
                 datasetObj.value,
                 datasetObj.type,
                 datasetObj.provider,
-                formObj.widgetConfig.paramsConfig
+                widgetEditor
               )
-            );
-            console.log('dataURL', dataURL);
-          } else  {
+            ).then((dataURL) => {
+              const sqlSt = dataURL.split('sql=')[1];
+              this.service.freezeWidget(sqlSt).then((jsonObjURL) => {
+                console.log('jsonObjURL', jsonObjURL);
+              });
+            });
+          } else {
             this.saveWidget(obj);
           }
         } else {
