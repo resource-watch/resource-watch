@@ -199,12 +199,12 @@ class Step1 extends React.Component {
               onChange={value => this.props.onChange({ freeze: value.checked })}
               properties={{
                 name: 'freeze',
-                label: this.props.form.freeze ? '' : 'Do you want to freeze this widget?',
+                label: this.props.id ? '' : 'Do you want to freeze this widget?',
                 value: 'freeze',
                 title: 'Freeze',
                 defaultChecked: this.props.form.freeze,
                 checked: this.props.form.freeze,
-                disabled: this.props.form.freeze
+                disabled: this.props.id && this.props.form.freeze
               }}
             >
               {Checkbox}
