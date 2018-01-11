@@ -252,13 +252,12 @@ class WidgetsForm extends React.Component {
                 formObj.queryUrl = url;
                 formObj.widgetConfig.data = { url };
                 obj.body = formObj;
-                console.log('hey!');
+                this.saveWidget(obj);
               });
             });
+          } else {
+            this.saveWidget(obj);
           }
-          console.log('ho!');
-          console.log('obj', obj);
-          this.saveWidget(obj);
         } else {
           this.setState({
             step: this.state.step + 1
