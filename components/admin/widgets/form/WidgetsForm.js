@@ -116,7 +116,8 @@ class WidgetsForm extends React.Component {
             label: p.name,
             value: p.id,
             type: p.type,
-            tableName: p.tableName
+            tableName: p.tableName,
+            slug: p.slug
           }))
         }, () => this.loadWidgetIntoRedux());
       })
@@ -230,6 +231,7 @@ class WidgetsForm extends React.Component {
           // The widget has to be "frozen" first
           if (formObj.freeze) {
             const datasetObj = this.state.datasets.find(d => d.value === form.dataset);
+            console.log('datasetObj', datasetObj);
             getDataURL(
               datasetObj.value,
               datasetObj.type,
@@ -241,12 +243,15 @@ class WidgetsForm extends React.Component {
                 datasetObj.type,
                 datasetObj.provider,
                 widgetEditor
-              )
+              ),
+              false,
+              datasetObj.slug
             ).then((dataURL) => {
               const sqlSt = dataURL.split('sql=')[1];
-              this.service.freezeWidget(sqlSt).then((jsonObjURL) => {
-                console.log('jsonObjURL', jsonObjURL);
-              });
+              console.log('sqlSt', sqlSt);
+              // this.service.freezeWidget(sqlSt).then((jsonObjURL) => {
+              //   console.log('jsonObjURL', jsonObjURL);
+              // });
             });
           } else {
             this.saveWidget(obj);

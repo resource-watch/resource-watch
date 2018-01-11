@@ -21,7 +21,8 @@ export default function getQueryByFilters(
   filters = [],
   arrColumns = [],
   arrOrder = [],
-  sortOrder = 'asc'
+  sortOrder = 'asc',
+  datasetSlug = null
 ) {
   // We compute the WHERE part of the query which corresponds
   // to the filters
@@ -84,5 +85,7 @@ export default function getQueryByFilters(
     groupBy = groupBy.slice(0, -1); // remove extra comma at the end
   }
 
-  return `SELECT ${columns} FROM ${tableName} ${where} ${groupBy} ${orderBy}`;
+  const sourceSt = datasetSlug || tableName;
+
+  return `SELECT ${columns} FROM ${sourceSt} ${where} ${groupBy} ${orderBy}`;
 }
