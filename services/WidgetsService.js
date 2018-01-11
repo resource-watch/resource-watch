@@ -189,8 +189,8 @@ export default class WidgetsService {
           key: 'Authorization',
           value: this.opts.authorization
         }],
-        onSuccess: () => {
-          resolve();
+        onSuccess: (response) => {
+          resolve(response);
         },
         onError: (error) => {
           reject(error);

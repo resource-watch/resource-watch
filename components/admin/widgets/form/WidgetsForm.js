@@ -248,10 +248,9 @@ class WidgetsForm extends React.Component {
               datasetObj.slug
             ).then((dataURL) => {
               const sqlSt = dataURL.split('sql=')[1];
-              console.log('sqlSt', sqlSt);
-              // this.service.freezeWidget(sqlSt).then((jsonObjURL) => {
-              //   console.log('jsonObjURL', jsonObjURL);
-              // });
+              this.service.freezeWidget(sqlSt).then((jsonObjURL) => {
+                console.log('jsonObjURL', jsonObjURL);
+              });
             });
           } else {
             this.saveWidget(obj);
