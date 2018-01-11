@@ -219,24 +219,12 @@ class WidgetsForm extends React.Component {
             delete obj.body.sourceUrl;
           }
 
-          // Save data
-          this.service.saveData(obj)
-            .then((data) => {
-              toastr.success('Success', `The widget "${data.id}" - "${data.name}" has been uploaded correctly`);
-
-              if (this.props.onSubmit) this.props.onSubmit();
-            })
-            .catch((errors) => {
-              this.setState({ submitting: false });
-
-              try {
-                errors.forEach(er =>
-                  toastr.error('Error', er.detail)
-                );
-              } catch (e) {
-                toastr.error('Error', 'Oops! There was an error, try again.');
-              }
-            });
+          // The widget has to be "frozen" first
+          if (formObj.freeze) {
+            //console.log('formObj', formObj);
+          } else  {
+            this.saveWidget(obj);
+          }
         } else {
           this.setState({
             step: this.state.step + 1
@@ -251,6 +239,8 @@ class WidgetsForm extends React.Component {
       }
     }, 0);
   }
+
+
 
   onChange(obj) {
     const form = Object.assign({}, this.state.form, obj);
@@ -277,6 +267,27 @@ class WidgetsForm extends React.Component {
     });
 
     return newForm;
+  }
+
+  saveWidget(obj) {
+    // Save data
+    this.service.saveData(obj)
+      .then((data) => {
+        toastr.success('Success', `The widget "${data.id}" - "${data.name}" has been uploaded correctly`);
+
+        if (this.props.onSubmit) this.props.onSubmit();
+      })
+      .catch((errors) => {
+        this.setState({ submitting: false });
+
+        try {
+          errors.forEach(er =>
+            toastr.error('Error', er.detail)
+          );
+        } catch (e) {
+          toastr.error('Error', 'Oops! There was an error, try again.');
+        }
+      });
   }
 
   validateWidgetConfig() {
