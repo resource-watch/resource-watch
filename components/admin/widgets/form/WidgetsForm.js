@@ -231,7 +231,6 @@ class WidgetsForm extends React.Component {
           // The widget has to be "frozen" first
           if (formObj.freeze) {
             const datasetObj = this.state.datasets.find(d => d.value === form.dataset);
-            console.log('datasetObj', datasetObj);
             getDataURL(
               datasetObj.value,
               datasetObj.type,
@@ -252,10 +251,11 @@ class WidgetsForm extends React.Component {
                 const url = resp.url;
                 formObj.queryUrl = url;
                 formObj.widgetConfig.data = { url };
+                obj.body = formObj;
               });
             });
-            obj.body = formObj;
           }
+          console.log('obj', obj);
           this.saveWidget(obj);
         } else {
           this.setState({

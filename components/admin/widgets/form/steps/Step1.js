@@ -209,9 +209,9 @@ class Step1 extends React.Component {
             >
               {Checkbox}
             </Field>
-            {this.props.form.freeze &&
+            {this.props.form.freeze && this.props.mode === 'new' &&
               <div className="freeze-text">
-                This widget has been <strong>frozen</strong> and cannot be edited...
+                This widget has been <strong>frozen</strong> and cannot be modified...
               </div>
             }
           </div>
