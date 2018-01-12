@@ -20,6 +20,11 @@ import Code from 'components/form/Code';
 import Checkbox from 'components/form/Checkbox';
 import WidgetEditor from 'components/widgets/editor/WidgetEditor';
 import SwitchOptions from 'components/ui/SwitchOptions';
+import VegaChart from 'components/widgets/charts/VegaChart';
+import Spinner from 'components/ui/Spinner';
+
+// Utils
+import ChartTheme from 'utils/widgets/theme';
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -27,7 +32,8 @@ class Step1 extends React.Component {
 
     this.state = {
       id: props.id,
-      form: props.form
+      form: props.form,
+      loadingVegaChart: false
     };
 
     // BINDINGS
@@ -65,7 +71,7 @@ class Step1 extends React.Component {
   }
 
   render() {
-    const { id } = this.state;
+    const { id, loadingVegaChart } = this.state;
     const { widgetEditor } = this.props;
 
     // Reset FORM_ELEMENTS
@@ -227,18 +233,30 @@ class Step1 extends React.Component {
             }
 
             {this.props.mode === 'advanced' &&
-              <Field
-                ref={(c) => { if (c) FORM_ELEMENTS.elements.widgetConfig = c; }}
-                onChange={value => this.props.onChange({ widgetConfig: value })}
-                properties={{
-                  name: 'widgetConfig',
-                  label: 'Widget config',
-                  default: this.state.form.widgetConfig,
-                  value: this.state.form.widgetConfig
-                }}
-              >
-                {Code}
-              </Field>
+              <div>
+                <Field
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.widgetConfig = c; }}
+                  onChange={value => this.props.onChange({ widgetConfig: value })}
+                  properties={{
+                    name: 'widgetConfig',
+                    label: 'Widget config',
+                    default: this.state.form.widgetConfig,
+                    value: this.state.form.widgetConfig
+                  }}
+                >
+                  {Code}
+                </Field>
+                <div>
+                  <Spinner isLoading={loadingVegaChart} className="-light -relative" />
+                  <VegaChart
+                    data={this.state.form.widgetConfig}
+                    theme={ChartTheme()}
+                    showLegend
+                    reloadOnResize
+                    toggleLoading={this.triggerToggleLoadingVegaChart}
+                  />
+                </div>
+              </div>
             }
           </fieldset>
         }
