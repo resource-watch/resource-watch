@@ -374,6 +374,11 @@ class WidgetCard extends React.Component {
   }
 
   handleWidgetActionsClick(event) {
+    const { widget } = this.props;
+    const widgetAtts = widget.attributes;
+    const widgetLinks = (widgetAtts.metadata && widgetAtts.metadata.length > 0 &&
+      widgetAtts.metadata[0].attributes.info &&
+      widgetAtts.metadata[0].attributes.info.widgetLinks) || [];
     const position = WidgetCard.getClickPosition(event);
     this.props.toggleTooltip(true, {
       follow: false,
@@ -385,7 +390,8 @@ class WidgetCard extends React.Component {
         onAddToDashboard: this.handleAddToDashboard,
         onGoToDataset: this.handleGoToDataset,
         onEditWidget: this.handleEditWidget,
-        onDownloadPDF: this.handleDownloadPDF
+        onDownloadPDF: this.handleDownloadPDF,
+        widgetLinks
       }
     });
   }
@@ -453,6 +459,7 @@ class WidgetCard extends React.Component {
 
         {/* Actual widget */}
         <div
+          tabIndex={-1}
           role="button"
           onClick={() => this.props.onWidgetClick && this.props.onWidgetClick(widget)}
         >
@@ -462,6 +469,7 @@ class WidgetCard extends React.Component {
         <div className="info">
           <div
             className="detail"
+            tabIndex={-1}
             role="button"
             onClick={() => this.props.onWidgetClick && this.props.onWidgetClick(widget)}
           >
