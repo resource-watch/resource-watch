@@ -43,16 +43,40 @@ class EmbedWidget extends Page {
 
   componentDidMount() {
     const { url } = this.props;
-    this.props.getWidget(url.query.id);
+    this.props.getWidget(url.query.id, 'metadata');
     if (this.props.user.id) this.props.checkIfFavorited(url.query.id);
   }
 
   getModal() {
     const { widget, bandDescription, bandStats } = this.props;
+    const widgetAtts = widget.attributes;
+    const widgetLinks = (widgetAtts.metadata && widgetAtts.metadata.length > 0 &&
+      widgetAtts.metadata[0].attributes.info &&
+      widgetAtts.metadata[0].attributes.info.widgetLinks) || [];
+    const noAdditionalInfo = !widget.attributes.description && !bandDescription &&
+      isEmpty(bandStats) && widgetLinks.length === 0;
     return (
       <div className="widget-modal">
-        { !widget.attributes.description && !bandDescription && isEmpty(bandStats) &&
+        { noAdditionalInfo &&
           <p>No additional information is available</p>
+        }
+
+        { widgetLinks.length > 0 &&
+          <div className="widget-links-container">
+            <h4>Links</h4>
+            <ul>
+              { widgetLinks.map(link => (
+                <li>
+                  <a
+                    href={link.link}
+                    target="_blank"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         }
 
         { widget.attributes.description && (

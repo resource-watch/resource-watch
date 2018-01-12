@@ -67,7 +67,6 @@ class MyRWWidgetsMy extends React.Component {
     });
     this.widgetService.getUserWidgets(this.props.user.id, true, orderDirection, 'vocabulary,metadata')
       .then((response) => {
-        console.log('response', response);
         this.setState({
           myWidgetsLoaded: true,
           myWidgets: response
