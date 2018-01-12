@@ -49,7 +49,6 @@ class WidgetActionsTooltip extends React.Component {
 
   render() {
     const { widgetLinks } = this.props;
-    console.log('widgetLinks', widgetLinks);
     return (
       <div className="c-widget-actions-tooltip">
         <ul>
