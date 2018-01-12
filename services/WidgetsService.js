@@ -162,14 +162,35 @@ export default class WidgetsService {
           value: this.opts.authorization
         }],
         onSuccess: ({ data }) => {
-          const collections = flatten(data.map((d) => {
-            return d.attributes.resources
-              .filter(val => val.type === 'widget')
-              .map(val => ({ id: val.id, tags: val.tags }))
-              .filter(val => val.tags.find(tag => tag.includes(this.opts.user.id)));
-          }));
+          const collections = flatten(data.map(d => d.attributes.resources
+            .filter(val => val.type === 'widget')
+            .map(val => ({ id: val.id, tags: val.tags }))
+            .filter(val => val.tags.find(tag => tag.includes(this.opts.user.id)))
+          ));
 
           resolve(collections);
+        },
+        onError: (error) => {
+          reject(error);
+        }
+      });
+    });
+  }
+
+  /**
+  * This method freezes a widget and returns the URL of the corresponding JSON
+  * file that was created on the cloud
+  */
+  freezeWidget(sqlQuery) {
+    return new Promise((resolve, reject) => {
+      get({
+        url: `${process.env.WRI_API_URL}/query?sql=${sqlQuery}&freeze=true`,
+        headers: [{
+          key: 'Authorization',
+          value: this.opts.authorization
+        }],
+        onSuccess: (response) => {
+          resolve(response);
         },
         onError: (error) => {
           reject(error);

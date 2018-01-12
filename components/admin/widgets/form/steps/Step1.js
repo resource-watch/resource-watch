@@ -36,7 +36,7 @@ class Step1 extends React.Component {
       loadingVegaChart: false
     };
 
-    // BINDINGS
+    // ------------------- BINDINGS ---------------------------
     this.triggerChangeMode = this.triggerChangeMode.bind(this);
     this.triggerToggleLoadingVegaChart = this.triggerToggleLoadingVegaChart.bind(this);
     this.refreshWidgetPreview = this.refreshWidgetPreview.bind(this);
@@ -72,8 +72,8 @@ class Step1 extends React.Component {
     }
   }
 
-  triggerToggleLoadingVegaChart() {
-    this.setState({ loadingVegaChart: false });
+  triggerToggleLoadingVegaChart(loading) {
+    this.setState({ loadingVegaChart: loading });
   }
 
   refreshWidgetPreview() {
@@ -82,7 +82,7 @@ class Step1 extends React.Component {
 
   render() {
     const { id, loadingVegaChart } = this.state;
-    const { widgetEditor } = this.props;
+    const { widgetEditor, showEditor } = this.props;
 
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
@@ -197,9 +197,32 @@ class Step1 extends React.Component {
             {Checkbox}
           </Field>
 
+          {/* FREEZE */}
+          <div className="freeze-container">
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements.freeze = c; }}
+              onChange={value => this.props.onChange({ freeze: value.checked })}
+              properties={{
+                name: 'freeze',
+                label: this.props.id ? '' : 'Do you want to freeze this widget?',
+                value: 'freeze',
+                title: 'Freeze',
+                defaultChecked: this.props.form.freeze,
+                checked: this.props.form.freeze,
+                disabled: this.props.id && this.props.form.freeze
+              }}
+            >
+              {Checkbox}
+            </Field>
+            {this.props.form.freeze && this.props.id &&
+              <div className="freeze-text">
+                This widget has been <strong>frozen</strong> and cannot be modified...
+              </div>
+            }
+          </div>
         </fieldset>
 
-        {this.state.form.dataset &&
+        {this.state.form.dataset && showEditor &&
           <fieldset className={`c-field-container ${editorFieldContainerClass}`}>
             <div className="l-row row align-right">
               <div className="column shrink">
@@ -279,12 +302,29 @@ class Step1 extends React.Component {
                 </div>
               </div>
             }
+
           </fieldset>
+        }
+        {!showEditor && this.state.form.dataset &&
+          <div>
+            <Spinner isLoading={loadingVegaChart} className="-light -relative" />
+            <VegaChart
+              data={this.state.form.widgetConfig}
+              theme={ChartTheme()}
+              showLegend
+              reloadOnResize
+              toggleLoading={this.triggerToggleLoadingVegaChart}
+            />
+          </div>
         }
       </fieldset>
     );
   }
 }
+
+Step1.defaultProps = {
+  showEditor: true
+};
 
 Step1.propTypes = {
   id: PropTypes.string,
@@ -293,6 +333,7 @@ Step1.propTypes = {
   datasets: PropTypes.array,
   onChange: PropTypes.func,
   onModeChange: PropTypes.func,
+  showEditor: PropTypes.bool,
   // REDUX
   widgetEditor: PropTypes.object,
   setTitle: PropTypes.func

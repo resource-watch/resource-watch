@@ -40,6 +40,9 @@ import Navigation from 'components/form/Navigation';
 import Step1 from 'components/admin/widgets/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
+// Utils
+import { getDataURL, getChartInfo } from 'utils/widgets/WidgetHelper';
+
 class WidgetsForm extends React.Component {
   constructor(props) {
     super(props);
@@ -102,14 +105,20 @@ class WidgetsForm extends React.Component {
           current &&
           (!current.widgetConfig.paramsConfig || isEmpty(current.widgetConfig.paramsConfig))
         ) ? 'advanced' : 'editor';
-
         this.setState({
           // CURRENT DASHBOARD
           form: (id) ? this.setFormFromParams(current) : this.state.form,
           loading: false,
           mode,
+          dataset: current,
           // OPTIONS
-          datasets: datasets.map(p => ({ label: p.name, value: p.id }))
+          datasets: datasets.map(p => ({
+            label: p.name,
+            value: p.id,
+            type: p.type,
+            tableName: p.tableName,
+            slug: p.slug
+          }))
         }, () => this.loadWidgetIntoRedux());
       })
       .catch((err) => {
@@ -219,24 +228,47 @@ class WidgetsForm extends React.Component {
             delete obj.body.sourceUrl;
           }
 
-          // Save data
-          this.service.saveData(obj)
-            .then((data) => {
-              toastr.success('Success', `The widget "${data.id}" - "${data.name}" has been uploaded correctly`);
-
-              if (this.props.onSubmit) this.props.onSubmit();
-            })
-            .catch((errors) => {
-              this.setState({ submitting: false });
-
-              try {
-                errors.forEach(er =>
-                  toastr.error('Error', er.detail)
-                );
-              } catch (e) {
-                toastr.error('Error', 'Oops! There was an error, try again.');
-              }
+          // The widget has to be "frozen" first
+          if (formObj.freeze) {
+            const datasetObj = this.state.datasets.find(d => d.value === form.dataset);
+            const tempBand = formObj.widgetConfig.paramsConfig ?
+              formObj.widgetConfig.paramsConfig.band : null;
+            getDataURL(
+              datasetObj.value,
+              datasetObj.type,
+              datasetObj.tableName,
+              tempBand,
+              datasetObj.provider,
+              getChartInfo(
+                datasetObj.value,
+                datasetObj.type,
+                datasetObj.provider,
+                widgetEditor
+              ),
+              false,
+              datasetObj.slug
+            ).then((dataURL) => {
+              const sqlSt = dataURL.split('sql=')[1];
+              this.service.freezeWidget(sqlSt).then((resp) => {
+                const url = resp.url;
+                formObj.queryUrl = url;
+                formObj.widgetConfig.data = [
+                  {
+                    format: {
+                      property: 'data',
+                      type: 'json'
+                    },
+                    name: 'table',
+                    url
+                  }
+                ];
+                obj.body = formObj;
+                this.saveWidget(obj);
+              });
             });
+          } else {
+            this.saveWidget(obj);
+          }
         } else {
           this.setState({
             step: this.state.step + 1
@@ -251,6 +283,8 @@ class WidgetsForm extends React.Component {
       }
     }, 0);
   }
+
+
 
   onChange(obj) {
     const form = Object.assign({}, this.state.form, obj);
@@ -277,6 +311,27 @@ class WidgetsForm extends React.Component {
     });
 
     return newForm;
+  }
+
+  saveWidget(obj) {
+    // Save data
+    this.service.saveData(obj)
+      .then((data) => {
+        toastr.success('Success', `The widget "${data.id}" - "${data.name}" has been uploaded correctly`);
+
+        if (this.props.onSubmit) this.props.onSubmit();
+      })
+      .catch((errors) => {
+        this.setState({ submitting: false });
+
+        try {
+          errors.forEach(er =>
+            toastr.error('Error', er.detail)
+          );
+        } catch (e) {
+          toastr.error('Error', 'Oops! There was an error, try again.');
+        }
+      });
   }
 
   validateWidgetConfig() {
@@ -383,6 +438,7 @@ class WidgetsForm extends React.Component {
             mode={this.state.mode}
             onChange={value => this.onChange(value)}
             onModeChange={this.handleModeChange}
+            showEditor={this.props.showEditor}
           />
         }
 
@@ -399,11 +455,16 @@ class WidgetsForm extends React.Component {
   }
 }
 
+WidgetsForm.defaultProps = {
+  showEditor: true
+};
+
 WidgetsForm.propTypes = {
   authorization: PropTypes.string,
   id: PropTypes.string,
   onSubmit: PropTypes.func,
   dataset: PropTypes.string, // ID of the dataset that should be pre-selected
+  showEditor: PropTypes.bool,
   // Store
   widgetEditor: PropTypes.object,
   locale: PropTypes.string.isRequired,
