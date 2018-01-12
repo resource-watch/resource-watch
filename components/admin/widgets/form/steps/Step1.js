@@ -38,6 +38,8 @@ class Step1 extends React.Component {
 
     // BINDINGS
     this.triggerChangeMode = this.triggerChangeMode.bind(this);
+    this.triggerToggleLoadingVegaChart = this.triggerToggleLoadingVegaChart.bind(this);
+    this.refreshWidgetPreview = this.refreshWidgetPreview.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -68,6 +70,14 @@ class Step1 extends React.Component {
         }
       });
     }
+  }
+
+  triggerToggleLoadingVegaChart() {
+    this.setState({ loadingVegaChart: false });
+  }
+
+  refreshWidgetPreview() {
+    this.forceChartUpdate();
   }
 
   render() {
@@ -233,7 +243,7 @@ class Step1 extends React.Component {
             }
 
             {this.props.mode === 'advanced' &&
-              <div>
+              <div className="advanced-mode-container">
                 <Field
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.widgetConfig = c; }}
                   onChange={value => this.props.onChange({ widgetConfig: value })}
@@ -246,7 +256,7 @@ class Step1 extends React.Component {
                 >
                   {Code}
                 </Field>
-                <div>
+                <div className="vega-preview">
                   <Spinner isLoading={loadingVegaChart} className="-light -relative" />
                   <VegaChart
                     data={this.state.form.widgetConfig}
@@ -254,7 +264,17 @@ class Step1 extends React.Component {
                     showLegend
                     reloadOnResize
                     toggleLoading={this.triggerToggleLoadingVegaChart}
+                    getForceUpdate={(func) => { this.forceChartUpdate = func; }}
                   />
+                  <div className="actions">
+                    <button
+                      type="button"
+                      className="c-button -primary"
+                      onClick={this.refreshWidgetPreview}
+                    >
+                        Refresh
+                    </button>
+                  </div>
                 </div>
               </div>
             }
