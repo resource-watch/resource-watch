@@ -20,6 +20,7 @@ import { logEvent } from 'utils/analytics';
 class AreaSubscriptionModal extends React.Component {
   constructor(props) {
     super(props);
+    const { subscriptionDataset, subscriptionType, subscriptionThreshold } = props;
     const subscription = props.area.subscription;
     const initialSubscriptionSelectors = subscription
       ? subscription.attributes.datasetsQuery.map((elem, index) =>
@@ -28,6 +29,26 @@ class AreaSubscriptionModal extends React.Component {
           selectedType: elem.type,
           selectedThreshold: elem.threshold }))
       : [{ index: 0, selectedDataset: null, selectedType: null, selectedThreshold: 1 }];
+
+    if (subscriptionDataset) {
+      const selectorFound = initialSubscriptionSelectors
+        .find(selector => selector.selectedDataset === subscriptionDataset);
+      if (selectorFound) {
+        selectorFound.selectedType = subscriptionType;
+        selectorFound.selectedThreshold = subscriptionThreshold;
+      } else if (subscription) {
+        initialSubscriptionSelectors.push({
+          index: initialSubscriptionSelectors.length,
+          selectedDataset: subscriptionDataset,
+          selectedType: subscriptionType,
+          selectedThreshold: subscriptionThreshold
+        });
+      } else {
+        initialSubscriptionSelectors[0].selectedType = subscriptionType;
+        initialSubscriptionSelectors[0].selectedThreshold = subscriptionThreshold || 1;
+        initialSubscriptionSelectors[0].selectedDataset = subscriptionDataset;
+      }
+    }
 
     this.state = {
       loadingDatasets: false,
@@ -213,6 +234,9 @@ AreaSubscriptionModal.propTypes = {
   toggleModal: PropTypes.func.isRequired,
   mode: PropTypes.string.isRequired, // edit | new
   locale: PropTypes.string.isRequired,
+  subscriptionDataset: PropTypes.string,
+  subscriptionType: PropTypes.string,
+  subscriptionThreshold: PropTypes.number,
   // Store
   user: PropTypes.object.isRequired,
   // Callbacks

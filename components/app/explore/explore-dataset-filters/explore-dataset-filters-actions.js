@@ -2,7 +2,7 @@ import { createAction, createThunkAction } from 'redux-actions';
 
 import FiltersService from 'services/FiltersService';
 
-import { setDatasetsFilters, setUrlParams } from 'redactions/explore';
+import { setUrlParams } from 'redactions/explore';
 
 export const setDataFilters = createAction('explore-dataset-filters/setDataFilters');
 
@@ -10,7 +10,8 @@ export const getFiltersData = createThunkAction('explore-dataset-filters/getFilt
   (dispatch) => {
     Promise.all([
       FiltersService.getTopics(),
-      FiltersService.getGeographies(),
+      // NOTE: We're temporarily hiding the geographies filter
+      // FiltersService.getGeographies(),
       FiltersService.getDataTypes()
     ]
     ).then((values = []) => {
@@ -30,7 +31,6 @@ export const setFilters = createThunkAction('explore-dataset-filters/setFilters'
 export const onSetDatasetFilter = createThunkAction('explore-dataset-filters/onSetDatasetFilter', (filter = {}) =>
   (dispatch) => {
     dispatch(setFilters(filter));
-    dispatch(setDatasetsFilters(filter));
     dispatch(setUrlParams());
   }
 );

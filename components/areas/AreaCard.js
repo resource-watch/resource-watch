@@ -71,11 +71,21 @@ class AreaCard extends React.Component {
     this.handleSubscriptionUpdated = this.handleSubscriptionUpdated.bind(this);
     this.handleDeleteArea = this.handleDeleteArea.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.handleEditArea = this.handleEditArea.bind(this);
     // ----------------------------------------------------
   }
 
   componentDidMount() {
+    const {
+      openSubscriptionsModal,
+      subscriptionThreshold,
+      subscriptionType,
+      subscriptionDataset
+    } = this.props;
     this.loadData();
+    if (openSubscriptionsModal) {
+      this.handleEditSubscription(subscriptionDataset, subscriptionType, subscriptionThreshold);
+    }
   }
 
   loadData() {
@@ -154,7 +164,11 @@ class AreaCard extends React.Component {
     Router.pushRoute('myrw_detail', { id: this.props.area.id, tab: 'areas' });
   }
 
-  handleEditSubscription() {
+  handleEditSubscription(
+    subscriptionDataset = null,
+    subscriptionType = null,
+    subscriptionThreshold = null
+  ) {
     const mode = this.props.area.subscription ? 'edit' : 'new';
     const options = {
       children: AreaSubscriptionModal,
@@ -163,7 +177,10 @@ class AreaCard extends React.Component {
         toggleModal: this.props.toggleModal,
         onSubscriptionUpdated: this.handleSubscriptionUpdated,
         onSubscriptionCreated: this.handleSubscriptionUpdated,
-        mode
+        mode,
+        subscriptionDataset,
+        subscriptionType,
+        subscriptionThreshold
       }
     };
     this.props.toggleModal(true);
@@ -320,10 +337,18 @@ class AreaCard extends React.Component {
   }
 }
 
+AreaCard.defaultProps = {
+  openSubscriptionsModal: false
+};
+
 AreaCard.propTypes = {
   token: PropTypes.string.isRequired,
   area: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
+  openSubscriptionsModal: PropTypes.bool,
+  subscriptionThreshold: PropTypes.number,
+  subscriptionType: PropTypes.string,
+  subscriptionDataset: PropTypes.string,
   // Callbacks
   onAreaRemoved: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
