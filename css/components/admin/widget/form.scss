@@ -9,16 +9,21 @@
     }
 
     .vega-preview {
+      display: flex;
+      flex-direction: column;
       max-width: 50%;
+      min-height: 100%;
 
       .c-chart {
         height: 100%;
         overflow: auto;
+        border: solid 1px $light-grey;
       }
 
       .actions {
         display: flex;
         justify-content: flex-end;
+        margin-top: 20px;
       }
     }
   }

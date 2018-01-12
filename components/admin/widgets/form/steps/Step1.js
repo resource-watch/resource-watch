@@ -256,7 +256,8 @@ class Step1 extends React.Component {
                 >
                   {Code}
                 </Field>
-                <div className="vega-preview">
+                <div className="vega-preview c-field">
+                  <h5>Widget preview</h5>
                   <Spinner isLoading={loadingVegaChart} className="-light -relative" />
                   <VegaChart
                     data={this.state.form.widgetConfig}
