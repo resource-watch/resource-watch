@@ -71,6 +71,7 @@ class AreaCard extends React.Component {
     this.handleSubscriptionUpdated = this.handleSubscriptionUpdated.bind(this);
     this.handleDeleteArea = this.handleDeleteArea.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.handleEditArea = this.handleEditArea.bind(this);
     // ----------------------------------------------------
   }
 
@@ -345,6 +346,9 @@ AreaCard.propTypes = {
   area: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
   openSubscriptionsModal: PropTypes.bool,
+  subscriptionThreshold: PropTypes.number,
+  subscriptionType: PropTypes.string,
+  subscriptionDataset: PropTypes.string,
   // Callbacks
   onAreaRemoved: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
