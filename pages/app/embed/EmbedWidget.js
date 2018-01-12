@@ -127,6 +127,11 @@ class EmbedWidget extends Page {
 
     const favouriteIcon = favourited ? 'star-full' : 'star-empty';
 
+    const widgetAtts = widget && widget.attributes;
+    const widgetLinks = (widgetAtts && widgetAtts.metadata && widgetAtts.metadata.length > 0 &&
+      widgetAtts.metadata[0].attributes.info &&
+      widgetAtts.metadata[0].attributes.info.widgetLinks) || [];
+
     if (loading) {
       return (
         <EmbedLayout
@@ -179,9 +184,14 @@ class EmbedWidget extends Page {
         <div className="c-embed-widget">
           <Spinner isLoading={isLoading} className="-light" />
           <div className="widget-title">
-            <a href={`/data/explore/${widget.attributes.dataset}`} target="_blank" rel="noopener noreferrer">
+            {widgetLinks.length === 0 &&
+              <a href={`/data/explore/${widget.attributes.dataset}`} target="_blank" rel="noopener noreferrer">
+                <h4>{widget.attributes.name}</h4>
+              </a>
+            }
+            {widgetLinks.length > 0 &&
               <h4>{widget.attributes.name}</h4>
-            </a>
+            }
             <div className="buttons">
               {
                 user.id && (
