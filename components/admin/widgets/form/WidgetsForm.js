@@ -231,11 +231,13 @@ class WidgetsForm extends React.Component {
           // The widget has to be "frozen" first
           if (formObj.freeze) {
             const datasetObj = this.state.datasets.find(d => d.value === form.dataset);
+            const tempBand = formObj.widgetConfig.paramsConfig ?
+              formObj.widgetConfig.paramsConfig.band : null;
             getDataURL(
               datasetObj.value,
               datasetObj.type,
               datasetObj.tableName,
-              formObj.widgetConfig.paramsConfig.band,
+              tempBand,
               datasetObj.provider,
               getChartInfo(
                 datasetObj.value,
