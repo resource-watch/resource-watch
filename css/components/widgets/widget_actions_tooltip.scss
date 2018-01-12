@@ -13,5 +13,11 @@
       cursor: pointer;
       font-size: $font-size-medium;
     }
+
+    a {
+      padding-left: 6px;
+      font-size: $font-size-medium;
+      text-decoration: none;
+    }
   }
 }

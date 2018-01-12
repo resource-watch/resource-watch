@@ -68,7 +68,7 @@ class WidgetActionsTooltip extends React.Component {
               Add to dashboard
             </button>
           </li>
-          {!widgetLinks.length === 0 &&
+          {widgetLinks.length === 0 &&
             <li>
               <button onClick={() => this.handleClick('go_to_dataset')}>
                 Go to dataset
@@ -77,7 +77,7 @@ class WidgetActionsTooltip extends React.Component {
           }
           {widgetLinks.map(link =>
             (<li>
-              {link.name}
+              <a href={link.link} target="_blank">Go to {link.name}</a>
             </li>)
           )}
           <li>
