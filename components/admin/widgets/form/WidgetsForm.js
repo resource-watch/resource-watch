@@ -250,7 +250,16 @@ class WidgetsForm extends React.Component {
               this.service.freezeWidget(sqlSt).then((resp) => {
                 const url = resp.url;
                 formObj.queryUrl = url;
-                formObj.widgetConfig.data = { url };
+                formObj.widgetConfig.data = [
+                  {
+                    format: {
+                      property: 'data',
+                      type: 'json'
+                    },
+                    name: 'table',
+                    url
+                  }
+                ];
                 obj.body = formObj;
                 this.saveWidget(obj);
               });
