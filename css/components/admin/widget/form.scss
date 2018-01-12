@@ -1,3 +1,34 @@
 .c-widgets-form {
 
+  .advanced-mode-container {
+    display: flex;
+    flex-direction: row;
+
+    .c-field {
+      width: 100%;
+    }
+
+    .vega-preview {
+      display: flex;
+      flex-direction: column;
+      max-width: 50%;
+      min-height: 100%;
+
+      h5 {
+        margin: 0px;
+      }
+
+      .c-chart {
+        height: 100%;
+        overflow: auto;
+        border: solid 1px $light-grey;
+      }
+
+      .actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+      }
+    }
+  }
 }
