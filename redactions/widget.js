@@ -223,11 +223,11 @@ export function setLatLng(latLng) {
  * Retrieve the list of widgets
  * @param {string} widgetId
  */
-export function getWidget(widgetId) {
+export function getWidget(widgetId, includes = '') {
   return (dispatch) => {
     dispatch({ type: GET_WIDGET_LOADING });
     const service = new WidgetService(widgetId, { apiURL: process.env.WRI_API_URL });
-    return service.fetchData()
+    return service.fetchData(includes)
       .then((data) => {
         dispatch({ type: SET_WIDGET_DATA, payload: data });
         return data;

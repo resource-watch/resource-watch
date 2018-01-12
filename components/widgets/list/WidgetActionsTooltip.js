@@ -48,6 +48,7 @@ class WidgetActionsTooltip extends React.Component {
   }
 
   render() {
+    const { widgetLinks } = this.props;
     return (
       <div className="c-widget-actions-tooltip">
         <ul>
@@ -66,11 +67,18 @@ class WidgetActionsTooltip extends React.Component {
               Add to dashboard
             </button>
           </li>
-          <li>
-            <button onClick={() => this.handleClick('go_to_dataset')}>
-              Go to dataset
-            </button>
-          </li>
+          {widgetLinks.length === 0 &&
+            <li>
+              <button onClick={() => this.handleClick('go_to_dataset')}>
+                Go to dataset
+              </button>
+            </li>
+          }
+          {widgetLinks.map(link =>
+            (<li>
+              <a href={link.link} target="_blank">Go to {link.name}</a>
+            </li>)
+          )}
           <li>
             <button onClick={() => this.handleClick('download_pdf')}>
               Download as PDF
@@ -83,6 +91,7 @@ class WidgetActionsTooltip extends React.Component {
 }
 
 WidgetActionsTooltip.propTypes = {
+  widgetLinks: PropTypes.array,
   toggleTooltip: PropTypes.func.isRequired,
   // Callbacks
   onGoToDataset: PropTypes.func.isRequired,
