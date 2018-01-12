@@ -59,15 +59,13 @@ class AreasForm extends React.Component {
   constructor(props) {
     super(props);
 
-    const { openUploadAreaModal } = props.query;
-
     this.state = {
       areaOptions: [],
       loadingAreaOptions: false,
       loading: false,
       name: '',
       geostore: null,
-      openUploadAreaModal
+      openUploadAreaModal: props.query && props.query.openUploadAreaModal
     };
 
     // Services
