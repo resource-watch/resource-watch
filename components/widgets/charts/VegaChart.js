@@ -6,7 +6,6 @@ import isEmpty from 'lodash/isEmpty';
 import debounce from 'lodash/debounce';
 import throttle from 'lodash/throttle';
 import isEqual from 'lodash/isEqual';
-import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
@@ -384,6 +383,10 @@ class VegaChart extends React.Component {
     if (this.props.reloadOnResize) {
       this.renderChart();
     }
+  }
+
+  forceUpdate() {
+    this.renderChart();
   }
 
   renderChart() {

@@ -23,7 +23,7 @@ import SwitchOptions from 'components/ui/SwitchOptions';
 import VegaChart from 'components/widgets/charts/VegaChart';
 import Spinner from 'components/ui/Spinner';
 
-// utils
+// Utils
 import ChartTheme from 'utils/widgets/theme';
 
 class Step1 extends React.Component {
@@ -33,12 +33,13 @@ class Step1 extends React.Component {
     this.state = {
       id: props.id,
       form: props.form,
-      loadingVegaChart: true
+      loadingVegaChart: false
     };
 
     // ------------------- BINDINGS ---------------------------
     this.triggerChangeMode = this.triggerChangeMode.bind(this);
     this.triggerToggleLoadingVegaChart = this.triggerToggleLoadingVegaChart.bind(this);
+    this.refreshWidgetPreview = this.refreshWidgetPreview.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -73,6 +74,10 @@ class Step1 extends React.Component {
 
   triggerToggleLoadingVegaChart(loading) {
     this.setState({ loadingVegaChart: loading });
+  }
+
+  refreshWidgetPreview() {
+    this.forceChartUpdate();
   }
 
   render() {
@@ -261,18 +266,41 @@ class Step1 extends React.Component {
             }
 
             {this.props.mode === 'advanced' &&
-              <Field
-                ref={(c) => { if (c) FORM_ELEMENTS.elements.widgetConfig = c; }}
-                onChange={value => this.props.onChange({ widgetConfig: value })}
-                properties={{
-                  name: 'widgetConfig',
-                  label: 'Widget config',
-                  default: this.state.form.widgetConfig,
-                  value: this.state.form.widgetConfig
-                }}
-              >
-                {Code}
-              </Field>
+              <div className="advanced-mode-container">
+                <Field
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.widgetConfig = c; }}
+                  onChange={value => this.props.onChange({ widgetConfig: value })}
+                  properties={{
+                    name: 'widgetConfig',
+                    label: 'Widget config',
+                    default: this.state.form.widgetConfig,
+                    value: this.state.form.widgetConfig
+                  }}
+                >
+                  {Code}
+                </Field>
+                <div className="vega-preview c-field">
+                  <h5>Widget preview</h5>
+                  <Spinner isLoading={loadingVegaChart} className="-light -relative" />
+                  <VegaChart
+                    data={this.state.form.widgetConfig}
+                    theme={ChartTheme()}
+                    showLegend
+                    reloadOnResize
+                    toggleLoading={this.triggerToggleLoadingVegaChart}
+                    getForceUpdate={(func) => { this.forceChartUpdate = func; }}
+                  />
+                  <div className="actions">
+                    <button
+                      type="button"
+                      className="c-button -primary"
+                      onClick={this.refreshWidgetPreview}
+                    >
+                        Refresh
+                    </button>
+                  </div>
+                </div>
+              </div>
             }
 
           </fieldset>

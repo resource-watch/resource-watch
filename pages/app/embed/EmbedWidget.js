@@ -43,16 +43,40 @@ class EmbedWidget extends Page {
 
   componentDidMount() {
     const { url } = this.props;
-    this.props.getWidget(url.query.id);
+    this.props.getWidget(url.query.id, 'metadata');
     if (this.props.user.id) this.props.checkIfFavorited(url.query.id);
   }
 
   getModal() {
     const { widget, bandDescription, bandStats } = this.props;
+    const widgetAtts = widget.attributes;
+    const widgetLinks = (widgetAtts.metadata && widgetAtts.metadata.length > 0 &&
+      widgetAtts.metadata[0].attributes.info &&
+      widgetAtts.metadata[0].attributes.info.widgetLinks) || [];
+    const noAdditionalInfo = !widget.attributes.description && !bandDescription &&
+      isEmpty(bandStats) && widgetLinks.length === 0;
     return (
       <div className="widget-modal">
-        { !widget.attributes.description && !bandDescription && isEmpty(bandStats) &&
+        { noAdditionalInfo &&
           <p>No additional information is available</p>
+        }
+
+        { widgetLinks.length > 0 &&
+          <div className="widget-links-container">
+            <h4>Links</h4>
+            <ul>
+              { widgetLinks.map(link => (
+                <li>
+                  <a
+                    href={link.link}
+                    target="_blank"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         }
 
         { widget.attributes.description && (
@@ -102,6 +126,11 @@ class EmbedWidget extends Page {
     const { isLoading, modalOpened } = this.state;
 
     const favouriteIcon = favourited ? 'star-full' : 'star-empty';
+
+    const widgetAtts = widget && widget.attributes;
+    const widgetLinks = (widgetAtts && widgetAtts.metadata && widgetAtts.metadata.length > 0 &&
+      widgetAtts.metadata[0].attributes.info &&
+      widgetAtts.metadata[0].attributes.info.widgetLinks) || [];
 
     if (loading) {
       return (
@@ -155,9 +184,14 @@ class EmbedWidget extends Page {
         <div className="c-embed-widget">
           <Spinner isLoading={isLoading} className="-light" />
           <div className="widget-title">
-            <a href={`/data/explore/${widget.attributes.dataset}`} target="_blank" rel="noopener noreferrer">
+            {widgetLinks.length === 0 &&
+              <a href={`/data/explore/${widget.attributes.dataset}`} target="_blank" rel="noopener noreferrer">
+                <h4>{widget.attributes.name}</h4>
+              </a>
+            }
+            {widgetLinks.length > 0 &&
               <h4>{widget.attributes.name}</h4>
-            </a>
+            }
             <div className="buttons">
               {
                 user.id && (
