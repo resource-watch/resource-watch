@@ -179,7 +179,7 @@ class MyRWDetail extends Page {
                     <DatasetsTab tab={tab} subtab={subtab} id={id} />
                   }
                   {tab === 'areas' &&
-                    <AreasTab tab={tab} subtab={subtab} id={id} query={url.query} />
+                    <AreasTab tab={tab} subtab={subtab} id={id} />
                   }
                   {tab === 'widgets' &&
                     <WidgetsTab tab={tab} subtab={subtab} id={id} dataset={url.query.datasetId} />
