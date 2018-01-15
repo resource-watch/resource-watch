@@ -32,7 +32,6 @@ class EmbedMyWidgetModal extends React.Component {
     const { widget, visualizationType } = this.props;
     const { protocol, hostname, port } = window && window.location ? window.location : {};
     const embedHost = window && window.location ? `${protocol}//${hostname}${port !== '' ? `:${port}` : port}` : '';
-    console.log('widget', widget);
     let embedType;
     switch (visualizationType) {
       case 'map':
