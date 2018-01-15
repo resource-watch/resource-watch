@@ -331,7 +331,7 @@ class WidgetCard extends React.Component {
     const options = {
       children: EmbedMyWidgetModal,
       childrenProps: {
-        widgetId: this.props.widget.id,
+        widget: this.props.widget,
         visualizationType: (this.props.widget.attributes.widgetConfig
           && this.props.widget.attributes.widgetConfig.paramsConfig
           && this.props.widget.attributes.widgetConfig.paramsConfig.visualizationType)

@@ -2,6 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 
+// Components
+import Icon from 'components/ui/Icon';
+
+// Utils
+import { logEvent } from 'utils/analytics';
+
 class EmbedMyWidgetModal extends React.Component {
   constructor(props) {
     super(props);
@@ -23,10 +29,10 @@ class EmbedMyWidgetModal extends React.Component {
   }
 
   render() {
-    const { widgetId, visualizationType } = this.props;
+    const { widget, visualizationType } = this.props;
     const { protocol, hostname, port } = window && window.location ? window.location : {};
     const embedHost = window && window.location ? `${protocol}//${hostname}${port !== '' ? `:${port}` : port}` : '';
-
+    console.log('widget', widget);
     let embedType;
     switch (visualizationType) {
       case 'map':
@@ -43,7 +49,7 @@ class EmbedMyWidgetModal extends React.Component {
         break;
     }
 
-    const url = `${embedHost}/embed/${embedType}/${widgetId}`;
+    const url = `${embedHost}/embed/${embedType}/${widget.id}`;
     const iframeText = `<iframe src="${url}" width="100%" height="474" frameBorder="0"></iframe>`;
     return (
       <div className="c-embed-my-widget-modal">
@@ -61,6 +67,24 @@ class EmbedMyWidgetModal extends React.Component {
                 className="url"
                 readOnly
               />
+              <div className="media">
+                <a
+                  href={`http://www.facebook.com/sharer/sharer.php?u=${url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => logEvent('Share', `Share a specific widget: ${this.props.widget.id}`, 'Facebook')}
+                >
+                  <Icon name="icon-facebook" className="-medium" />
+                </a>
+                <a
+                  href={`https://twitter.com/share?url=${url}&text=${encodeURIComponent(widget.attributes.name)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => logEvent('Share', `Share a specific widget: ${this.props.widget.id}`, 'Twitter')}
+                >
+                  <Icon name="icon-twitter" className="-medium" />
+                </a>
+              </div>
               <div className="copy-button">
                 <a
                   className="c-btn"
@@ -85,7 +109,7 @@ class EmbedMyWidgetModal extends React.Component {
 }
 
 EmbedMyWidgetModal.propTypes = {
-  widgetId: PropTypes.string.isRequired,
+  widget: PropTypes.object.isRequired,
   visualizationType: PropTypes.string.isRequired,
   toggleModal: PropTypes.func.isRequired
 };
