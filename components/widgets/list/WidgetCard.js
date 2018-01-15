@@ -335,7 +335,8 @@ class WidgetCard extends React.Component {
         visualizationType: (this.props.widget.attributes.widgetConfig
           && this.props.widget.attributes.widgetConfig.paramsConfig
           && this.props.widget.attributes.widgetConfig.paramsConfig.visualizationType)
-          || 'chart'
+          || 'chart',
+        toggleModal: this.props.toggleModal
       }
     };
     this.props.toggleModal(true);

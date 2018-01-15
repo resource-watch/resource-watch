@@ -51,9 +51,32 @@ class EmbedMyWidgetModal extends React.Component {
         <p>You may include this content on your webpage. To do this, copy the following html
         code and insert it into the source code of your page:</p>
         <div className="url-container">
-          <input ref={(n) => { this.input = n; }} value={iframeText} className="url" readOnly />
-          <button className="c-btn -primary" onClick={() => this.onCopyClick()}>
-            Copy
+          <div className="c-field">
+            <label htmlFor="share-url">Code to embed</label>
+            <div className="url-input-div">
+              <input
+                id="share-url"
+                ref={(n) => { this.input = n; }}
+                value={iframeText}
+                className="url"
+                readOnly
+              />
+              <div className="copy-button">
+                <a
+                  className="c-btn"
+                  tabIndex={0}
+                  role="button"
+                  onClick={() => this.onCopyClick()}
+                >
+                  Copy code
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="buttons">
+          <button className="c-button -primary" onClick={() => this.props.toggleModal()}>
+            Close
           </button>
         </div>
       </div>
@@ -63,7 +86,8 @@ class EmbedMyWidgetModal extends React.Component {
 
 EmbedMyWidgetModal.propTypes = {
   widgetId: PropTypes.string.isRequired,
-  visualizationType: PropTypes.string.isRequired
+  visualizationType: PropTypes.string.isRequired,
+  toggleModal: PropTypes.func.isRequired
 };
 
 export default EmbedMyWidgetModal;
