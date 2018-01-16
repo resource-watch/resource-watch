@@ -12,6 +12,7 @@ import Textarea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
 import Code from 'components/form/Code';
 import Map from 'components/widgets/editor/map/Map';
+import Legend from 'components/widgets/editor/ui/Legend';
 
 // Utils
 import LayerManager from 'components/widgets/editor/helpers/LayerManager';
@@ -32,18 +33,48 @@ class Step1 extends React.Component {
 
     this.state = {
       id: props.id,
-      form: props.form
+      form: props.form,
+      layerGroups: []
     };
 
     // ------------------- BINDINGS -------------------------
     this.handleRefreshPreview = this.handleRefreshPreview.bind(this);
   }
 
-  handleRefreshPreview() {
+  componentDidMount() {
+    this.setLayerGroups();
+  }
 
+  setLayerGroups() {
+    const { form } = this.state;
+    console.log('form', form);
+    const layerGroups = [{
+      dataset: form.dataset,
+      visible: true,
+      layers: [{
+        active: true,
+        application: form.application,
+        layerConfig: form.layerConfig,
+        interactionConfig: form.interactionConfig,
+        legendConfig: form.legendConfig,
+        id: form.id,
+        name: form.name,
+        provider: form.provider,
+        slug: form.slug,
+        iso: form.iso,
+        description: form.description
+      }]
+    }];
+    this.setState({ layerGroups });
+  }
+
+  handleRefreshPreview() {
+    this.setLayerGroups();
   }
 
   render() {
+    const { layerGroups } = this.state;
+    console.log('layerGroups', layerGroups);
     return (
       <fieldset className="c-field-container">
         {!this.state.id &&
@@ -150,12 +181,23 @@ class Step1 extends React.Component {
             <Map
               LayerManager={LayerManager}
               mapConfig={MAP_CONFIG}
-              layerGroups={this.props.layerGroups}
+              layerGroups={layerGroups}
               setMapInstance={(map) => { this.map = map; }}
             />
+            {layerGroups.length > 0 &&
+              <Legend
+                layerGroups={this.state.layerGroups}
+                className={{ color: '-dark' }}
+                toggleLayerGroupVisibility={() => {}}
+                setLayerGroupsOrder={() => {}}
+                setLayerGroupActiveLayer={() => {}}
+                readonly
+              />
+            }
           </div>
           <div className="actions">
             <button
+              type="button"
               className="c-button -primary"
               onClick={this.handleRefreshPreview}
             >
