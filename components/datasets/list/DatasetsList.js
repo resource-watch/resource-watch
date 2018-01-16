@@ -55,10 +55,10 @@ class DatasetsList extends React.Component {
   }
 
   render() {
-    const { datasets, routes, user } = this.props;
+    const { datasets, routes, user, filters } = this.props;
 
     return (
-      <div className="c-dataset-list">
+      <div className="c-datasets-list">
         <Spinner className="-light" isLoading={this.props.loading} />
 
         <SearchInput
@@ -87,6 +87,16 @@ class DatasetsList extends React.Component {
               />
             </div>
           ))}
+          {datasets.length === 0 &&
+            <div className="text-container">
+              {filters.length > 0 &&
+                'There were no datasets found with the text provided'
+              }
+              {filters.length === 0 &&
+                'You currently have no datasets'
+              }
+            </div>
+          }
         </div>
       </div>
     );
@@ -121,7 +131,8 @@ const mapStateToProps = state => ({
   user: state.user,
   loading: state.datasets.datasets.loading,
   datasets: getFilteredDatasets(state),
-  error: state.datasets.datasets.error
+  error: state.datasets.datasets.error,
+  filters: state.datasets.datasets.filters
 });
 const mapDispatchToProps = dispatch => ({
   getDatasets: options => dispatch(getDatasets(options)),

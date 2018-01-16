@@ -175,7 +175,7 @@ class LayersForm extends React.Component {
 
   render() {
     return (
-      <form className="c-form" onSubmit={this.onSubmit} noValidate>
+      <form className="c-form c-layers-form" onSubmit={this.onSubmit} noValidate>
         <Spinner isLoading={this.state.loading} className="-light" />
 
         {(this.state.step === 1 && !this.state.loading) &&

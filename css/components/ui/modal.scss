@@ -72,11 +72,6 @@
     cursor: pointer;
     z-index: 2; /* Otherwise, it won't be reachable */
 
-    svg {
-      width: 20px;
-      height: 20px;
-    }
-
     &:hover {
       svg { fill: $color-primary; }
     }

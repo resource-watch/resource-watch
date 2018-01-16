@@ -1,0 +1,19 @@
+.c-layers-form {
+
+  .preview-container {
+    display: flex;
+    flex-direction: column;
+
+    .map-container {
+      position: relative;
+      min-height: 400px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+  }
+
+}

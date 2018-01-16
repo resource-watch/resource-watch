@@ -101,6 +101,20 @@
           text-decoration: underline;
           font-weight: bold;
         }
+        .video-container {
+          position: relative;
+          height: 0;
+          padding-bottom: 60%; /* This should be changed to match the aspect ratio of the video */
+          margin-bottom: 20px;
+
+          .video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+          }
+        }
       }
     }
 

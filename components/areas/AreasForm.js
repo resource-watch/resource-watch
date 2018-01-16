@@ -59,13 +59,16 @@ class AreasForm extends React.Component {
   constructor(props) {
     super(props);
 
+    const { query } = props.routes;
+    const { openUploadAreaModal } = query || {};
+
     this.state = {
       areaOptions: [],
       loadingAreaOptions: false,
       loading: false,
       name: '',
       geostore: null,
-      openUploadAreaModal: props.query && props.query.openUploadAreaModal
+      openUploadAreaModal
     };
 
     // Services
@@ -95,8 +98,9 @@ class AreasForm extends React.Component {
     e.preventDefault();
 
     const { name, geostore } = this.state;
-    const { user, mode, id, query } = this.props;
-    const { subscriptionDataset } = query;
+    const { user, mode, id, routes } = this.props;
+    const { query } = routes;
+    const { subscriptionDataset } = query || {};
     if (geostore) {
       this.setState({
         loading: true
@@ -107,7 +111,7 @@ class AreasForm extends React.Component {
           .then((response) => {
             Router.pushRoute('myrw', {
               tab: 'areas',
-              openModal: response.data.id,
+              openModal: response.data.id && subscriptionDataset,
               subscriptionDataset
             });
             toastr.success('Success', 'Area successfully created!');
@@ -261,14 +265,15 @@ AreasForm.defaultProps = {
 AreasForm.propTypes = {
   mode: PropTypes.string.isRequired, // edit | new
   id: PropTypes.string, // area id for edit mode,
-  query: PropTypes.object,
   // Store
   user: PropTypes.object.isRequired,
-  toggleModal: PropTypes.func.isRequired
+  toggleModal: PropTypes.func.isRequired,
+  routes: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  routes: state.routes
 });
 
 const mapDispatchToProps = dispatch => ({
