@@ -76,7 +76,7 @@ class MyRWDatasetsStarred extends React.Component {
               />
             }
 
-            {starredDatasetsLoaded === false && starredDatasets && starredDatasets.length === 0 &&
+            {starredDatasetsLoaded && starredDatasets && starredDatasets.length === 0 &&
               <div className="no-datasets-div">
                 You currently have no starred datasets
               </div>
