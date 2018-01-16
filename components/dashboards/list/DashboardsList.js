@@ -114,12 +114,12 @@ class DashboardsList extends React.Component {
           ))}
           {!loading && dashboards.length === 0 && filters.length === 0 &&
             <div className="text-container">
-              You currently have no dashboards...
+              You currently have no dashboards
             </div>
           }
           {!loading && dashboards.length === 0 && filters.length > 0 &&
             <div className="text-container">
-              There were no dashboards found for the text provided...
+              There were no dashboards found for the text provided
             </div>
           }
         </div>
