@@ -381,8 +381,7 @@ class Legend extends React.PureComponent {
 
       // Legend with timeline
       if (timelineLayers.length > 0) {
-        const sortedIimelineLayers = sortBy(timelineLayers, l => l.order);
-        console.log('sortedIimelineLayers', sortedIimelineLayers);
+        const sortedIimelineLayers = sortBy(timelineLayers, l => l.layerConfig.order);
         const firstLayer = sortedIimelineLayers[0];
         const lastLayer = sortedIimelineLayers[sortedIimelineLayers.length - 1];
         const minYear = moment(firstLayer.layerConfig.dateTime, 'YYYY-MM-DD').year();
