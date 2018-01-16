@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import sortBy from 'lodash/sortBy';
 
 // Components
 import Select from 'components/form/SelectInput';
@@ -91,8 +92,14 @@ class SubscriptionSelector extends React.Component {
     const { selectedDataset, selectedType, selectedThreshold, typeOptions } = this.state;
 
     const datasetOptions = (datasets.length > 0) ?
-      datasets.map(val => ({ label: val.attributes.metadata[0] && val.attributes.metadata[0].attributes.info ? val.attributes.metadata[0].attributes.info.name : val.attributes.name, value: val.id, id: val.id }))
+      datasets.map(val => ({
+        label: val.attributes.metadata[0] && val.attributes.metadata[0].attributes.info ?
+          val.attributes.metadata[0].attributes.info.name : val.attributes.name,
+        value: val.id,
+        id: val.id
+      }))
       : [];
+    const sortedDatasetOptions = sortBy(datasetOptions, d => d.label);
 
     return (
       <div className="c-subscription-selector" ref={(node) => { this.el = node; }}>
@@ -104,7 +111,7 @@ class SubscriptionSelector extends React.Component {
             default: selectedDataset,
             placeholder: 'Select a dataset'
           }}
-          options={datasetOptions}
+          options={sortedDatasetOptions}
           onChange={this.handleDatasetSelected}
         />
         <Select
