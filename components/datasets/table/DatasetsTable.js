@@ -35,8 +35,7 @@ class DatasetsTable extends React.Component {
   componentDidMount() {
     this.props.setFilters({});
     this.props.getDatasets({
-      includes: 'widget,layer,metadata,vocabulary,user',
-      filters: { 'user.role': 'ADMIN' }
+      includes: 'widget,layer,metadata,vocabulary,user'
     });
   }
 
@@ -53,18 +52,20 @@ class DatasetsTable extends React.Component {
   }
 
   getDatasets() {
-    return this.props.datasets.map((d) => {
-      const user = d.user || {};
+    return this.props.datasets
+      .map((d) => {
+        const user = d.user || {};
 
-      const metadata = d.metadata.length && d.metadata.length > 0 && d.metadata[0];
-      const metadataInfo = (metadata && metadata.attributes) && (metadata.attributes.info || {});
+        const metadata = d.metadata.length && d.metadata.length > 0 && d.metadata[0];
+        const metadataInfo = (metadata && metadata.attributes) && (metadata.attributes.info || {});
 
-      return {
-        ...d,
-        owner: user.email || '',
-        code: metadataInfo.rwId || ''
-      };
-    });
+        return {
+          ...d,
+          owner: user.email || '',
+          code: metadataInfo.rwId || ''
+        };
+      })
+      .filter(d => d.published === true || d.user.role === 'ADMIN');
   }
 
   render() {
