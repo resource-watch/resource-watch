@@ -46,7 +46,7 @@ class Step1 extends React.Component {
   }
 
   setLayerGroups() {
-    const { form } = this.state;
+    const { form } = this.props;
     const layerGroups = [{
       dataset: form.dataset,
       visible: true,
