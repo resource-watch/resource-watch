@@ -10,15 +10,15 @@ import AreasNew from 'components/app/myrw/areas/pages/new';
 import AreasEdit from 'components/app/myrw/areas/pages/show';
 
 function AreasTab(props) {
-  const { tab, subtab, id, user, query } = props;
+  const { tab, subtab, id, user } = props;
   return (
     <div className="c-areas-tab">
       {!id && user.token &&
-        <AreasIndex tab={tab} subtab={subtab} id={id} query={query} />
+        <AreasIndex tab={tab} subtab={subtab} id={id} />
       }
 
       {id && id === 'new' && user.token &&
-        <AreasNew tab={tab} subtab={subtab} id={id} query={query} />
+        <AreasNew tab={tab} subtab={subtab} id={id} />
       }
 
       {id && id !== 'new' && user.token &&
@@ -32,8 +32,7 @@ AreasTab.propTypes = {
   user: PropTypes.object,
   tab: PropTypes.string,
   id: PropTypes.string,
-  subtab: PropTypes.string,
-  query: PropTypes.object
+  subtab: PropTypes.string
 };
 
 const mapStateToProps = state => ({
