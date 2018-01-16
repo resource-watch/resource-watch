@@ -17,7 +17,8 @@ import AreaCard from 'components/areas/AreaCard';
 class AreasList extends React.Component {
   constructor(props) {
     super(props);
-    const { openModal, subscriptionThreshold, subscriptionDataset, subscriptionType } = props.query;
+    const { query } = props.routes;
+    const { openModal, subscriptionThreshold, subscriptionDataset, subscriptionType } = query || {};
     this.state = {
       loading: false,
       areas: [],
@@ -198,12 +199,13 @@ class AreasList extends React.Component {
 AreasList.propTypes = {
   user: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
-  query: PropTypes.object
+  routes: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user,
-  locale: state.common.locale
+  locale: state.common.locale,
+  routes: state.routes
 });
 
 export default connect(mapStateToProps, null)(AreasList);
