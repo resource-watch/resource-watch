@@ -144,9 +144,11 @@ class VegaChart extends React.Component {
 
     // If the cursor is on top of a mark, we display the data
     // associated to that mark
-    // The only exception is for the lines because the data
-    // they own is always the first one (first point)
-    if (!isEmpty(item) && item.datum.x && item.mark.marktype !== 'line') {
+    // The only exception is for the lines, areas and text because the
+    // data they own is always the first one (first point)
+    if (!isEmpty(item) && item.datum.x && item.mark.marktype !== 'line'
+      && item.mark.marktype !== 'area'
+      && item.mark.marktype !== 'text') {
       return this.props.toggleTooltip(true, {
         follow: true,
         direction: 'bottom',
@@ -173,8 +175,10 @@ class VegaChart extends React.Component {
 
     // If the chart doesn't have an x axis, if the data is undefined,
     // if the x value is null [1] or if the chart is a scatter plot [2],
-    // we don't determine the data to show in the tooltip depending
-    // on the x position of the cursor (based on the x scale)
+    // if the interaction_config object is not defined [3], if the data
+    // doesn't have "x" values [4], we don't determine the data to show
+    // in the tooltip depending on the x position of the cursor (based
+    // on the x scale)
     // We actually hide the tooltip
     //
     // [1] Null or undefined values can arise from the padding of
@@ -182,10 +186,16 @@ class VegaChart extends React.Component {
     // [2] As the scatter plot can have several points at the same
     //     x position, we want to avoid showing the data of a
     //     random point when not hovering a dot
+    // [3] Widgets created outside from the widget editor don't have
+    //     an interaction_config object
+    // [4] Same as [3]. We need an x value to be able to sort the data
+    //     for the bisect later on.
     const xAxis = vegaConfig.axes && vegaConfig.axes.find(axis => axis.type === 'x');
     const hasXAxis = !!(xAxis && (xAxis.real === undefined || xAxis.real));
     const isScatter = vegaConfig.marks.length === 1 && vegaConfig.marks[0].type === 'symbol';
-    if (!hasXAxis || !visData || x === undefined || x === null || isScatter) {
+    if (!hasXAxis || !visData || getTooltipConfigFields() === null
+      || (visData.length && visData[0].x === undefined)
+      || x === undefined || x === null || isScatter) {
       return this.props.toggleTooltip(false);
     }
 
@@ -216,6 +226,7 @@ class VegaChart extends React.Component {
     }
 
     if (data) {
+      const fields = getTooltipConfigFields().filter(f => f.key !== 'x');
       return this.props.toggleTooltip(true, {
         follow: true,
         direction: 'bottom',
@@ -228,12 +239,14 @@ class VegaChart extends React.Component {
               format: getFormat('x'),
               value: data.x
             },
-            y: {
-              type: getType('y', data.y),
-              label: getLabel('y'),
-              format: getFormat('y'),
-              value: data.y
-            }
+            ...fields.map(f => ({
+              [f.key]: {
+                type: getType(f.key, data[f.key]),
+                label: getLabel(f.key),
+                format: getFormat(f.key),
+                value: data[f.key]
+              }
+            })).reduce((res, field) => Object.assign({}, res, field), {})
           }
         }
       });
