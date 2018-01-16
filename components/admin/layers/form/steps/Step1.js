@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 // Constants
 import { PROVIDER_OPTIONS, FORM_ELEMENTS } from 'components/admin/layers/form/constants';
 
-
 // Components
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
@@ -12,6 +11,20 @@ import Select from 'components/form/SelectInput';
 import Textarea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
 import Code from 'components/form/Code';
+import Map from 'components/widgets/editor/map/Map';
+
+// Utils
+import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+
+// Constants
+const MAP_CONFIG = {
+  zoom: 3,
+  latLng: {
+    lat: 0,
+    lng: 0
+  },
+  zoomControl: false
+};
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -21,6 +34,13 @@ class Step1 extends React.Component {
       id: props.id,
       form: props.form
     };
+
+    // ------------------- BINDINGS -------------------------
+    this.handleRefreshPreview = this.handleRefreshPreview.bind(this);
+  }
+
+  handleRefreshPreview() {
+
   }
 
   render() {
@@ -126,6 +146,22 @@ class Step1 extends React.Component {
 
         <div className="c-field preview-container">
           <h5>Layer preview</h5>
+          <div className="map-container">
+            <Map
+              LayerManager={LayerManager}
+              mapConfig={MAP_CONFIG}
+              layerGroups={this.props.layerGroups}
+              setMapInstance={(map) => { this.map = map; }}
+            />
+          </div>
+          <div className="actions">
+            <button
+              className="c-button -primary"
+              onClick={this.handleRefreshPreview}
+            >
+              Refresh
+            </button>
+          </div>
         </div>
 
         <Field
