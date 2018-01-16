@@ -98,6 +98,9 @@
 @import "./components/areas/area_card";
 @import "./components/areas/area_actions_tooltip";
 
+// datasets
+@import './components/datasets/list';
+
 // Subscriptions
 @import "./components/subscriptions/subscriptions_form";
 @import "./components/subscriptions/subscription_selector";
@@ -159,7 +162,6 @@
 @import "./components/admin/dataset/filter";
 @import "./components/admin/dataset/filter-item";
 @import "./components/admin/dataset/form";
-@import "./components/admin/dataset/list";
 @import "./components/admin/dataset/datasets-list-card";
 @import "./components/admin/dataset/source-item";
 @import "./components/admin/dataset/metadata-source-list";
@@ -244,6 +246,7 @@
 // DASHBOARDS
 @import './components/dashboards/dashboard-thumbnail-list';
 @import './components/dashboards/dashboard-card';
+@import './components/dashboards/list';
 
 // MyRW
 // @import "./components/app/pages/myrw/activity";

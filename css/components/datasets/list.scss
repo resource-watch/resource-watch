@@ -1,0 +1,26 @@
+.c-datasets-list {
+
+  > .list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    > .list-item {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: $space-1 * 4;
+
+      &.-list {
+        padding-top: 12px;
+        border-top: 1px solid $border-color-1;
+      }
+    }
+  }
+
+  .text-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+}

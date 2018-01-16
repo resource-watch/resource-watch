@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 // Redux
 import { connect } from 'react-redux';
 
-
 // Components
 import DashboardsIndex from 'components/admin/dashboards/pages/index';
 import DashboardsNew from 'components/admin/dashboards/pages/new';
