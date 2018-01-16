@@ -47,7 +47,6 @@ class Step1 extends React.Component {
 
   setLayerGroups() {
     const { form } = this.state;
-    console.log('form', form);
     const layerGroups = [{
       dataset: form.dataset,
       visible: true,
@@ -74,7 +73,6 @@ class Step1 extends React.Component {
 
   render() {
     const { layerGroups } = this.state;
-    console.log('layerGroups', layerGroups);
     return (
       <fieldset className="c-field-container">
         {!this.state.id &&

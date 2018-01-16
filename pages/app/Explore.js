@@ -311,8 +311,6 @@ class Explore extends Page {
       '-a': showFilters
     });
 
-    console.log('this.props', this.props);
-
     const noDataToBeShown = !loading && filteredDatasets.length === 0 &&
       list.length > 0;
 
