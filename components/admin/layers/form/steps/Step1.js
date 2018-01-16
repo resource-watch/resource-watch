@@ -124,6 +124,10 @@ class Step1 extends React.Component {
           {Code}
         </Field>
 
+        <div className="c-field preview-container">
+          <h5>Layer preview</h5>
+        </div>
+
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.default = c; }}
           onChange={value => this.props.onChange({ default: value.checked })}
