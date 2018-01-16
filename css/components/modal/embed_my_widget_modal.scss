@@ -6,14 +6,56 @@
   }
 
   .url-container {
-    display: flex;
-    justify-content: space-between;
+    margin-bottom: 30px;
 
-    margin-top: 60px;
-
-    input {
-      width: 100%;
-      margin-right: 20px;
+    h5 {
+      margin-bottom: 10px;
     }
+
+    .url-input-div {
+      display: flex;
+      align-items: center;
+      border: 1px solid $border-color-1;
+      border-radius: 4px;
+
+      input {
+        border: none;
+        flex-grow: 1;
+        height: 45px;
+        padding: 0 15px;
+      }
+
+      .media {
+        a {
+          fill: $color-dark-pink;
+          margin-right: 10px;
+          cursor: pointer;
+        }
+      }
+
+      .copy-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        width: 100px;
+        margin: 4px;
+
+        cursor: pointer;
+        color: $color-dark-pink;
+
+        a {
+          text-align: center;
+        }
+
+        &:hover {
+          background-color: rgba(195,45,123,0.05);
+        }
+      }
+    }
+  }
+
+  .buttons-div {
+    margin-top: 60px;
   }
 }
