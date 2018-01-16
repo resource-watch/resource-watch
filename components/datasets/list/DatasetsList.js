@@ -58,7 +58,7 @@ class DatasetsList extends React.Component {
     const { datasets, routes, user } = this.props;
 
     return (
-      <div className="c-dataset-list">
+      <div className="c-datasets-list">
         <Spinner className="-light" isLoading={this.props.loading} />
 
         <SearchInput
@@ -87,6 +87,11 @@ class DatasetsList extends React.Component {
               />
             </div>
           ))}
+          {datasets.length === 0 &&
+            <div className="text-container">
+              There were no datasets found with the text provided
+            </div>
+          }
         </div>
       </div>
     );
