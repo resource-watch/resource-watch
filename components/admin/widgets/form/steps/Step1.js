@@ -7,9 +7,6 @@ import { toastr } from 'react-redux-toastr';
 // Constants
 import { FORM_ELEMENTS, CONFIG_TEMPLATE, CONFIG_TEMPLATE_OPTIONS } from 'components/admin/widgets/form/constants';
 
-// Redux
-import { connect } from 'react-redux';
-
 // Components
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
@@ -82,7 +79,7 @@ class Step1 extends React.Component {
 
   render() {
     const { id, loadingVegaChart } = this.state;
-    const { widgetEditor, showEditor } = this.props;
+    const { showEditor } = this.props;
 
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
@@ -336,13 +333,7 @@ Step1.propTypes = {
   onChange: PropTypes.func,
   onModeChange: PropTypes.func,
   showEditor: PropTypes.bool,
-  onGetWidgetConfig: PropTypes.func,
-  // REDUX
-  widgetEditor: PropTypes.object
+  onGetWidgetConfig: PropTypes.func
 };
 
-const mapStateToProps = state => ({
-  widgetEditor: state.widgetEditor
-});
-
-export default connect(mapStateToProps, null)(Step1);
+export default Step1;
