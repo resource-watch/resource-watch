@@ -13,23 +13,7 @@ import { toastr } from 'react-redux-toastr';
 import { connect } from 'react-redux';
 
 import {
-  setFilters,
-  setColor,
-  setCategory,
-  setValue,
-  setSize,
-  setOrderBy,
-  setAggregateFunction,
-  setLimit,
-  setChartType,
-  setBand,
-  setVisualizationType,
-  setLayer,
-  setTitle,
-  resetWidgetEditor,
-  setZoom,
-  setLatLng,
-  setEmbed
+  resetWidgetEditor
 } from 'components/widgets/editor/redux/widgetEditor';
 
 // Constants
@@ -135,26 +119,6 @@ class WidgetsForm extends React.Component {
   onSubmit(event) {
     const { submitting, stepLength, step, form, mode } = this.state;
     const { widgetEditor } = this.props;
-    const {
-      limit,
-      value,
-      category,
-      color,
-      size,
-      orderBy,
-      aggregateFunction,
-      chartType,
-      filters,
-      areaIntersection,
-      visualizationType,
-      band,
-      layer,
-      title,
-      zoom,
-      latLng,
-      embed
-    } = widgetEditor;
-
     event.preventDefault();
 
     // Validate the form
@@ -389,49 +353,11 @@ WidgetsForm.propTypes = {
   widgetEditor: PropTypes.object,
   locale: PropTypes.string.isRequired,
   // ACTIONS
-  setFilters: PropTypes.func.isRequired,
-  setSize: PropTypes.func.isRequired,
-  setColor: PropTypes.func.isRequired,
-  setCategory: PropTypes.func.isRequired,
-  setValue: PropTypes.func.isRequired,
-  setOrderBy: PropTypes.func.isRequired,
-  setAggregateFunction: PropTypes.func.isRequired,
-  setLimit: PropTypes.func.isRequired,
-  setChartType: PropTypes.func.isRequired,
-  setVisualizationType: PropTypes.func.isRequired,
-  setBand: PropTypes.func.isRequired,
-  setLayer: PropTypes.func.isRequired,
-  setTitle: PropTypes.func.isRequired,
-  resetWidgetEditor: PropTypes.func.isRequired,
-  setZoom: PropTypes.func.isRequired,
-  setLatLng: PropTypes.func.isRequired,
-  setEmbed: PropTypes.func.isRequired
+  resetWidgetEditor: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
-  setFilters: filter => dispatch(setFilters(filter)),
-  setColor: color => dispatch(setColor(color)),
-  setSize: size => dispatch(setSize(size)),
-  setCategory: category => dispatch(setCategory(category)),
-  setValue: value => dispatch(setValue(value)),
-  setOrderBy: value => dispatch(setOrderBy(value)),
-  setAggregateFunction: value => dispatch(setAggregateFunction(value)),
-  setLimit: value => dispatch(setLimit(value)),
-  setChartType: value => dispatch(setChartType(value)),
-  setVisualizationType: vis => dispatch(setVisualizationType(vis)),
-  setBand: band => dispatch(setBand(band)),
-  setTitle: title => dispatch(setTitle(title)),
-  setEmbed: title => dispatch(setEmbed(title)),
-  setLayer: (layerId) => {
-    new LayersService()
-      .fetchData({ id: layerId })
-      .then(layer => dispatch(setLayer(layer)))
-      // TODO: better handling of the error
-      .catch(err => toastr.error('Error', err));
-  },
-  resetWidgetEditor: () => dispatch(resetWidgetEditor()),
-  setZoom: zoom => dispatch(setZoom(zoom)),
-  setLatLng: latLng => dispatch(setLatLng(latLng))
+  resetWidgetEditor: () => dispatch(resetWidgetEditor())
 });
 
 const mapStateToProps = state => ({
