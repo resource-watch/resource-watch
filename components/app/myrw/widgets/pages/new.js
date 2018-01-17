@@ -297,11 +297,12 @@ class WidgetsNew extends React.Component {
         {selectedDataset &&
         <div>
           <WidgetEditor
-            widget={widget}
-            dataset={selectedDataset}
-            mode="widget"
-            onUpdateWidget={this.onSubmit}
-            showSaveButton
+            datasetId={selectedDataset}
+            widgetId={null}
+            saveButtonMode="never"
+            embedButtonMode="never"
+            titleMode="never"
+            provideWidgetConfig={this.props.onGetWidgetConfig}
           />
           <div className="form-container">
             <form className="form-container" onSubmit={this.onSubmit}>
@@ -315,8 +316,6 @@ class WidgetsNew extends React.Component {
                     label: 'Title',
                     type: 'text',
                     required: true,
-                    default: widgetEditor.title || '',
-                    value: widgetEditor.title || '',
                     placeholder: 'Widget title'
                   }}
                 >
