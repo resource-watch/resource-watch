@@ -544,7 +544,12 @@ class ExploreDetail extends Page {
                         target="_blank"
                         href={metadataInfo && metadataInfo.learn_more_link}
                       >
-                        Learn more ↗
+                        <div className="learn-more-button">
+                          <div>
+                            Learn more
+                          </div>
+                          <img src="/static/images/external.svg" alt="Learn more" />
+                        </div>
                       </a>
                     }
                     {isSubscribable &&
