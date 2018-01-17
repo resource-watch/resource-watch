@@ -119,7 +119,7 @@ class WidgetsForm extends React.Component {
             tableName: p.tableName,
             slug: p.slug
           }))
-        }, () => this.loadWidgetIntoRedux());
+        });
       })
       .catch((err) => {
         toastr.error(err);
@@ -161,7 +161,8 @@ class WidgetsForm extends React.Component {
     FORM_ELEMENTS.validate(step);
 
     // Set a timeout due to the setState function of react
-    setTimeout(() => {
+    setTimeout(async () => {
+      const widgetConfig = (this.onGetWidgetConfig) ? await this.getWidgetConfig() : {};
       // Validate all the inputs on the current step
       const validWidgetConfig = (mode === 'editor') ? this.validateWidgetConfig() : true;
       const valid = FORM_ELEMENTS.isValid(step) && validWidgetConfig;
@@ -170,52 +171,9 @@ class WidgetsForm extends React.Component {
         if (step === stepLength && !submitting) {
           const { id } = this.state;
 
-          // Start the submitting
+          // Start the submission
           this.setState({ submitting: true });
-
-          // The name of the widget is the title property of the
-          // widgetEditor reducer
-          let formObj = Object.assign({}, form, { name: title || '' });
-
-          if (mode === 'editor') {
-            const newWidgetConfig = {
-              widgetConfig: Object.assign(
-                {},
-                formObj.widgetConfig,
-                { type: visualizationType },
-                // If the widget is a map, we want to add some extra info
-                // in widgetConfig so the widget is compatible with other
-                // apps that use the same API
-                // layer_id are not necessary for the editor because it
-                // is already saved in widgetConfig.paramsConfig
-                (
-                  visualizationType === 'map'
-                    ? { layer_id: layer && layer.id, zoom, ...latLng }
-                    : {}
-                ),
-                {
-                  paramsConfig: {
-                    visualizationType,
-                    limit,
-                    value,
-                    category,
-                    color,
-                    size,
-                    orderBy,
-                    aggregateFunction,
-                    chartType,
-                    filters,
-                    areaIntersection,
-                    band: band && { name: band.name },
-                    layer: layer && layer.id,
-                    embed
-                  }
-                }
-              )
-            };
-
-            formObj = Object.assign({}, formObj, newWidgetConfig);
-          }
+          const formObj = (mode === 'editor') ? { ...form, widgetConfig } : form;
 
           const obj = {
             dataset: form.dataset,
@@ -284,8 +242,6 @@ class WidgetsForm extends React.Component {
     }, 0);
   }
 
-
-
   onChange(obj) {
     const form = Object.assign({}, this.state.form, obj);
     this.setState({ form });
@@ -311,6 +267,12 @@ class WidgetsForm extends React.Component {
     });
 
     return newForm;
+  }
+
+  getWidgetConfig() {
+    return this.onGetWidgetConfig()
+      .then(widgetConfig => widgetConfig)
+      .catch(() => ({}));
   }
 
   saveWidget(obj) {
@@ -365,49 +327,6 @@ class WidgetsForm extends React.Component {
         return toastr.error('Error', 'Embed url is mandatory field for a widget visualization.');
       default:
         return false;
-    }
-  }
-
-  loadWidgetIntoRedux() {
-    const { widgetConfig, name } = this.state.form;
-    const { paramsConfig, zoom, lat, lng } = widgetConfig;
-    if (paramsConfig) {
-      const {
-        visualizationType,
-        band,
-        value,
-        category,
-        color,
-        size,
-        aggregateFunction,
-        orderBy,
-        filters,
-        limit,
-        chartType,
-        layer,
-        embed
-      } = paramsConfig;
-
-      // We restore the type of visualization
-      // We default to "chart" to maintain the compatibility with previously created
-      // widgets (at that time, only "chart" widgets could be created)
-      this.props.setVisualizationType(visualizationType || 'chart');
-
-      if (band) this.props.setBand(band);
-      if (layer) this.props.setLayer(layer);
-      if (aggregateFunction) this.props.setAggregateFunction(aggregateFunction);
-      if (value) this.props.setValue(value);
-      if (size) this.props.setSize(size);
-      if (color) this.props.setColor(color);
-      if (orderBy) this.props.setOrderBy(orderBy);
-      if (category) this.props.setCategory(category);
-      if (filters) this.props.setFilters(filters);
-      if (limit) this.props.setLimit(limit);
-      if (chartType) this.props.setChartType(chartType);
-      if (name) this.props.setTitle(name);
-      if (zoom) this.props.setZoom(zoom);
-      if (lat && lng) this.props.setLatLng({ lat, lng });
-      if (embed) this.props.setEmbed(embed);
     }
   }
 
