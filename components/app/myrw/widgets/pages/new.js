@@ -249,10 +249,6 @@ class WidgetsNew extends React.Component {
   handleChange(value) {
     const newWidgetObj = Object.assign({}, this.state.widget, value);
     this.setState({ widget: newWidgetObj });
-
-    if (Object.keys(value).indexOf('name') !== -1) {
-      this.props.setTitle(value.name);
-    }
   }
 
   handleDatasetSelected(value) {
@@ -402,7 +398,6 @@ WidgetsNew.propTypes = {
   // Store
   user: PropTypes.object.isRequired,
   widgetEditor: PropTypes.object.isRequired,
-  setTitle: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired
 };
 
@@ -412,8 +407,4 @@ const mapStateToProps = state => ({
   locale: state.common.locale
 });
 
-const mapDispatchToProps = dispatch => ({
-  setTitle: title => dispatch(setTitle(title))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(WidgetsNew);
+export default connect(mapStateToProps, null)(WidgetsNew);
