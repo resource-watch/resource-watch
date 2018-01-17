@@ -439,6 +439,7 @@ class WidgetsForm extends React.Component {
             onChange={value => this.onChange(value)}
             onModeChange={this.handleModeChange}
             showEditor={this.props.showEditor}
+            onGetWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
           />
         }
 

@@ -18,10 +18,16 @@ import TextArea from 'components/form/TextArea';
 import Select from 'components/form/SelectInput';
 import Code from 'components/form/Code';
 import Checkbox from 'components/form/Checkbox';
-import WidgetEditor from 'components/widgets/editor/WidgetEditor';
 import SwitchOptions from 'components/ui/SwitchOptions';
 import VegaChart from 'components/widgets/charts/VegaChart';
 import Spinner from 'components/ui/Spinner';
+
+import WidgetEditor, {
+  Modal as WidgetModal,
+  Tooltip as WidgetTooltip,
+  Icons as WidgetIcons,
+  setConfig
+} from 'widget-editor';
 
 // Utils
 import ChartTheme from 'utils/widgets/theme';
@@ -40,6 +46,18 @@ class Step1 extends React.Component {
     this.triggerChangeMode = this.triggerChangeMode.bind(this);
     this.triggerToggleLoadingVegaChart = this.triggerToggleLoadingVegaChart.bind(this);
     this.refreshWidgetPreview = this.refreshWidgetPreview.bind(this);
+
+    // WIDGET EDITOR
+    // Change the configuration according to your needs
+    setConfig({
+      url: process.env.WRI_API_URL,
+      env: 'production,preproduction',
+      applications: process.env.APPLICATIONS,
+      authUrl: process.env.CONTROL_TOWER_URL, // is this the correct one????
+      assetsPath: '/static/images/widget-editor/',
+      userToken: props.user.token,
+      userEmail: props.user.email
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -241,12 +259,19 @@ class Step1 extends React.Component {
             </div>
 
             {this.props.mode === 'editor' &&
-              <WidgetEditor
-                dataset={this.state.form.dataset}
-                mode="dataset"
-                showSaveButton={false}
-                onChange={(value) => { this.props.onChange({ widgetConfig: value }); }}
-              />
+              <div>
+                <WidgetModal />
+                <WidgetTooltip />
+                <WidgetIcons />
+                <WidgetEditor
+                  datasetId={this.state.form.dataset}
+                  widgetId={this.props.id}
+                  saveButtonMode="never"
+                  embedButtonMode="never"
+                  titleMode="never"
+                  provideWidgetConfig={this.props.onGetWidgetConfig}
+                />
+              </div>
             }
 
             {this.props.mode === 'advanced' &&
@@ -334,13 +359,16 @@ Step1.propTypes = {
   onChange: PropTypes.func,
   onModeChange: PropTypes.func,
   showEditor: PropTypes.bool,
+  onGetWidgetConfig: PropTypes.func,
   // REDUX
   widgetEditor: PropTypes.object,
-  setTitle: PropTypes.func
+  setTitle: PropTypes.func,
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  widgetEditor: state.widgetEditor
+  widgetEditor: state.widgetEditor,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({
