@@ -24,6 +24,10 @@ import Modal from 'components/ui/Modal';
 import Toastr from 'react-redux-toastr';
 import Dock from 'components/ui/Dock';
 import Search from 'components/app/layout/search/search';
+import { setConfig,
+  Modal as WidgetModal,
+  Tooltip as WidgetTooltip,
+  Icons as WidgetIcons } from 'widget-editor';
 
 const fullScreenPages = [
   '/app/Explore',
@@ -37,6 +41,18 @@ class Layout extends React.Component {
     this.state = {
       modalOpen: false
     };
+
+    // WIDGET EDITOR
+    // Change the configuration according to your needs
+    setConfig({
+      url: process.env.WRI_API_URL,
+      env: 'production,preproduction',
+      applications: process.env.APPLICATIONS,
+      authUrl: process.env.CONTROL_TOWER_URL, // is this the correct one????
+      assetsPath: '/static/images/widget-editor/',
+      userToken: props.user.token,
+      userEmail: props.user.email
+    });
   }
 
   componentWillMount() {
@@ -131,6 +147,10 @@ class Layout extends React.Component {
         />
 
         <link rel="stylesheet" media="screen" href="/static/styles/add-search-results.css" />
+
+        <WidgetModal />
+        <WidgetTooltip />
+        <WidgetIcons />
       </div>
     );
   }
@@ -144,17 +164,19 @@ Layout.propTypes = {
   pageHeader: PropTypes.bool,
   className: PropTypes.string,
   // Store
-  modal: PropTypes.object,
-  toggleModal: PropTypes.func,
-  toggleTooltip: PropTypes.func,
-  setModalOptions: PropTypes.func,
-  updateIsLoading: PropTypes.func,
-  setLocale: PropTypes.func.isRequired
+  modal: PropTypes.object.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  toggleTooltip: PropTypes.func.isRequired,
+  setModalOptions: PropTypes.func.isRequired,
+  updateIsLoading: PropTypes.func.isRequired,
+  setLocale: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   modal: state.modal,
-  isLoading: state.page.isLoading
+  isLoading: state.page.isLoading,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({

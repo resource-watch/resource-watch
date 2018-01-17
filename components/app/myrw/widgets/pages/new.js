@@ -5,7 +5,6 @@ import { Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
-import { setTitle } from 'components/widgets/editor/redux/widgetEditor';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -13,7 +12,7 @@ import DatasetsService from 'services/DatasetsService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import WidgetEditor from 'components/widgets/editor/WidgetEditor';
+import WidgetEditor from 'widget-editor';
 import Button from 'components/ui/Button';
 import Input from 'components/form/Input';
 import Field from 'components/form/Field';
