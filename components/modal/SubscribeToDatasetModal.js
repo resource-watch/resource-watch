@@ -311,8 +311,9 @@ class SubscribeToDatasetModal extends React.Component {
       headerText = `Subscribe to ${dataset.attributes.name}`;
     }
     const paragraphText = saved ?
-      'Your subscription was successfully created. Please check your email address to confirm it.' :
-      'Please select an area and a subscription type.';
+      (<p>Your subscription was successfully created. <strong>Please check your
+         email address to confirm it.</strong></p>) :
+      <p>Please select an area and a subscription type</p>;
     const subscriptionTypes = Object.keys(dataset.attributes.subscribable)
       .map(val => ({ value: val, label: val }));
 
@@ -320,7 +321,7 @@ class SubscribeToDatasetModal extends React.Component {
       <div className="c-subscribe-to-dataset-modal" ref={(node) => { this.el = node; }}>
         <div className="header-div">
           <h2>{headerText}</h2>
-          <p>{paragraphText}</p>
+          {paragraphText}
         </div>
         {!saved &&
           <div>
