@@ -19,7 +19,6 @@ import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
 
 // Utils
-import { getChartConfig, canRenderChart, getChartInfo } from 'utils/widgets/WidgetHelper';
 import { logEvent } from 'utils/analytics';
 
 const FORM_ELEMENTS = {
@@ -76,132 +75,47 @@ class WidgetsNew extends React.Component {
   async onSubmit(event) {
     if (event) event.preventDefault();
 
-    const { widget, selectedDataset, datasets } = this.state;
-    const { widgetEditor, user } = this.props;
-    const {
-      visualizationType,
-      band,
-      limit,
-      value,
-      category,
-      color,
-      size,
-      orderBy,
-      aggregateFunction,
-      chartType,
-      filters,
-      areaIntersection,
-      layer,
-      title,
-      zoom,
-      latLng
-    } = widgetEditor;
-
-    const dataset = datasets.find(elem => elem.value === selectedDataset);
-    const { type, provider, tableName } = dataset;
-
-    if (!canRenderChart(widgetEditor, provider)) {
-      toastr.error('Error', 'Please create a widget in order to save it');
-      return;
-    }
+    const { widget, selectedDataset } = this.state;
+    const { user } = this.props;
 
     logEvent('My RW', 'User creates new widget', this.state.datasets.find(d => d.id === this.state.selectedDataset).label);
 
     this.setState({ loading: true });
 
-    let chartConfig;
+    setTimeout(async () => {
+      const widgetConfig = (this.onGetWidgetConfig) ? await this.getWidgetConfig() : {};
 
-    // If the visualization if a map, we don't have any chartConfig
-    if (visualizationType !== 'map') {
-      const chartInfo = getChartInfo(dataset.id, type, provider, widgetEditor);
-
-      try {
-        chartConfig = await getChartConfig(
-          dataset.id,
-          type,
-          tableName,
-          band,
-          provider,
-          chartInfo
-        );
-      } catch (err) {
-        this.setState({
-          saved: false,
-          loading: false
-        });
-        toastr.error('Error', 'Unable to generate the configuration of the chart');
-
-        return;
-      }
-    }
-
-    const widgetConfig = {
-      widgetConfig: Object.assign(
+      const widgetObj = Object.assign(
         {},
-        // If the widget is a map, we want to add some extra info
-        // in widgetConfig so the widget is compatible with other
-        // apps that use the same API
-        // The type and layer_id are not necessary for the editor
-        // because it is already saved in widgetConfig.paramsConfig
-        (
-          visualizationType === 'map'
-            ? { type: 'map', layer_id: layer && layer.id, zoom, ...latLng }
-            : {}
-        ),
-        {
-          paramsConfig: {
-            visualizationType,
-            band: band && { name: band.name },
-            limit,
-            value,
-            category,
-            color,
-            size,
-            orderBy,
-            aggregateFunction,
-            chartType,
-            filters,
-            areaIntersection,
-            layer: layer && layer.id
+        ...widget,
+        widgetConfig
+      );
+
+      debugger;
+
+      this.widgetService.saveUserWidget(widgetObj, selectedDataset, user.token)
+        .then((response) => {
+          if (response.errors) {
+            const errorMessage = response.errors[0].detail;
+            this.setState({
+              saved: false,
+              loading: false
+            });
+
+            toastr.error('Error', errorMessage);
+          } else {
+            Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
+            toastr.success('Success', 'Widget created successfully!');
           }
-        },
-        chartConfig
-      )
-    };
-
-    const widgetObj = Object.assign(
-      {},
-      {
-        name: title,
-        description: widget.description,
-        authors: widget.authors,
-        source: widget.source,
-        sourceUrl: widget.sourceUrl
-      },
-      widgetConfig
-    );
-
-    this.widgetService.saveUserWidget(widgetObj, selectedDataset, user.token)
-      .then((response) => {
-        if (response.errors) {
-          const errorMessage = response.errors[0].detail;
+        }).catch((err) => {
           this.setState({
             saved: false,
             loading: false
           });
-
-          toastr.error('Error', errorMessage);
-        } else {
-          Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
-          toastr.success('Success', 'Widget created successfully!');
-        }
-      }).catch((err) => {
-        this.setState({
-          saved: false,
-          loading: false
+          toastr.err('Error', err);
         });
-        toastr.err('Error', err);
-      });
+    }, 0);
+
   }
 
 
@@ -396,13 +310,11 @@ WidgetsNew.propTypes = {
   dataset: PropTypes.string,
   // Store
   user: PropTypes.object.isRequired,
-  widgetEditor: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user,
-  widgetEditor: state.widgetEditor,
   locale: state.common.locale
 });
 
