@@ -544,7 +544,7 @@ class ExploreDetail extends Page {
                         target="_blank"
                         href={metadataInfo && metadataInfo.learn_more_link}
                       >
-                        Learn more
+                        Learn more ↗
                       </a>
                     }
                     {isSubscribable &&
