@@ -76,7 +76,7 @@ class ShareModal extends React.Component {
                   readOnly
                 />
                 <div className="copy-button">
-                  <a tabIndex={0} role="button" onClick={() => this.onCopyClick('embed')}>
+                  <a className="c-btn" tabIndex={0} role="button" onClick={() => this.onCopyClick('embed')}>
                     Copy code
                   </a>
                 </div>
