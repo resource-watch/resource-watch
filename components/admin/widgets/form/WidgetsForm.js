@@ -5,16 +5,11 @@ import isEmpty from 'lodash/isEmpty';
 // Services
 import WidgetsService from 'services/WidgetsService';
 import DatasetsService from 'services/DatasetsService';
-import LayersService from 'services/LayersService';
 
 import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
-
-import {
-  resetWidgetEditor
-} from 'components/widgets/editor/redux/widgetEditor';
 
 // Constants
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/widgets/form/constants';
@@ -56,15 +51,6 @@ class WidgetsForm extends React.Component {
       authorization: props.authorization,
       language: props.locale
     });
-  }
-
-  componentWillMount() {
-    // If the user wants to create a new widget, we make
-    // sure that the name of the previous widget the
-    // user saw is not leaking in this new form
-    if (!this.props.id) {
-      this.props.resetWidgetEditor();
-    }
   }
 
   componentDidMount() {
@@ -351,18 +337,12 @@ WidgetsForm.propTypes = {
   showEditor: PropTypes.bool,
   // Store
   widgetEditor: PropTypes.object,
-  locale: PropTypes.string.isRequired,
-  // ACTIONS
-  resetWidgetEditor: PropTypes.func.isRequired
+  locale: PropTypes.string.isRequired
 };
-
-const mapDispatchToProps = dispatch => ({
-  resetWidgetEditor: () => dispatch(resetWidgetEditor())
-});
 
 const mapStateToProps = state => ({
   widgetEditor: state.widgetEditor,
   locale: state.common.locale
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(WidgetsForm);
+export default connect(mapStateToProps, null)(WidgetsForm);
