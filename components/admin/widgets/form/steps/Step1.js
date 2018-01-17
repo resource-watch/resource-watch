@@ -344,13 +344,11 @@ Step1.propTypes = {
   onGetWidgetConfig: PropTypes.func,
   // REDUX
   widgetEditor: PropTypes.object,
-  setTitle: PropTypes.func,
-  user: PropTypes.object.isRequired
+  setTitle: PropTypes.func
 };
 
 const mapStateToProps = state => ({
-  widgetEditor: state.widgetEditor,
-  user: state.user
+  widgetEditor: state.widgetEditor
 });
 
 const mapDispatchToProps = dispatch => ({
