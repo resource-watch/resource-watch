@@ -25,8 +25,7 @@ import Spinner from 'components/ui/Spinner';
 import WidgetEditor, {
   Modal as WidgetModal,
   Tooltip as WidgetTooltip,
-  Icons as WidgetIcons,
-  setConfig
+  Icons as WidgetIcons
 } from 'widget-editor';
 
 // Utils
@@ -46,18 +45,6 @@ class Step1 extends React.Component {
     this.triggerChangeMode = this.triggerChangeMode.bind(this);
     this.triggerToggleLoadingVegaChart = this.triggerToggleLoadingVegaChart.bind(this);
     this.refreshWidgetPreview = this.refreshWidgetPreview.bind(this);
-
-    // WIDGET EDITOR
-    // Change the configuration according to your needs
-    setConfig({
-      url: process.env.WRI_API_URL,
-      env: 'production,preproduction',
-      applications: process.env.APPLICATIONS,
-      authUrl: process.env.CONTROL_TOWER_URL, // is this the correct one????
-      assetsPath: '/static/images/widget-editor/',
-      userToken: props.user.token,
-      userEmail: props.user.email
-    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -259,19 +246,14 @@ class Step1 extends React.Component {
             </div>
 
             {this.props.mode === 'editor' &&
-              <div>
-                <WidgetModal />
-                <WidgetTooltip />
-                <WidgetIcons />
-                <WidgetEditor
-                  datasetId={this.state.form.dataset}
-                  widgetId={this.props.id}
-                  saveButtonMode="never"
-                  embedButtonMode="never"
-                  titleMode="never"
-                  provideWidgetConfig={this.props.onGetWidgetConfig}
-                />
-              </div>
+              <WidgetEditor
+                datasetId={this.state.form.dataset}
+                widgetId={this.props.id}
+                saveButtonMode="never"
+                embedButtonMode="never"
+                titleMode="never"
+                provideWidgetConfig={this.props.onGetWidgetConfig}
+              />
             }
 
             {this.props.mode === 'advanced' &&
