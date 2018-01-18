@@ -410,9 +410,9 @@ class ExploreDetail extends Page {
 
     const favourite = user.favourites.find(f => f.attributes.resourceId === url.query.id);
 
-    const formattedDescription = this.shortenAndFormat(description, 'showDescription');
-    const formattedFunctions = this.shortenAndFormat(functions, 'showFunction');
-    const formattedCautions = this.shortenAndFormat(cautions, 'showCautions');
+    const formattedDescription = description ? this.shortenAndFormat(description, 'showDescription') : '';
+    const formattedFunctions = functions ? this.shortenAndFormat(functions, 'showFunction') : '';
+    const formattedCautions = cautions ? this.shortenAndFormat(cautions, 'showCautions') : '';
 
     const starIconName = favourite ? 'icon-star-full' : 'icon-star-empty';
     const starIconClass = classnames({
