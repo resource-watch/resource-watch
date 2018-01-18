@@ -10,7 +10,7 @@
     max-width: 300px;
     max-height: 300px;
     background-color: $white;
-    z-index: 9999999;
+    z-index: 999;
 
     &.-closed {
       left: 0px;
@@ -81,8 +81,8 @@
     }
 
     .detail-container {
-      min-width: 500px;
-      max-width: 500px;
+      min-width: 600px;
+      max-width: 600px;
       height: 100%;
       padding-top: 10%;
       overflow: auto;
@@ -143,9 +143,12 @@
     width: 100%;
 
     .menu-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
       position: absolute;
       bottom: 50px;
-      left: 50px;
+      right: 50px;
       z-index: 9999;
 
       .scenario-box {

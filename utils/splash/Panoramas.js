@@ -92,7 +92,7 @@ export const PANORAMAS = [
       {
         name: 'dead',
         label: 'Dead',
-        image: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/images/dead-optimized.jpg',
+        image: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/images/360_AMsam-unhealthy_low.jpg',
         markup: ''
       }
     ]

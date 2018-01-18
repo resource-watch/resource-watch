@@ -231,6 +231,7 @@ class SplashDetail extends Page {
           <a-scene
             cursor="rayOrigin: mouse"
             embedded
+            vr-mode-ui="enabled: false"
           >
             {options &&
               <a-assets>
