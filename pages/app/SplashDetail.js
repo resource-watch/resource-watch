@@ -16,6 +16,7 @@ import Header from 'components/splash/layout/Header';
 import Spinner from 'components/ui/Spinner';
 import Modal from 'components/ui/Modal';
 import Icon from 'components/ui/Icon';
+import Icons from 'components/app/layout/icons';
 
 // Utils
 import { PANORAMAS } from 'utils/splash/Panoramas';
@@ -153,6 +154,7 @@ class SplashDetail extends Page {
           title="SplashDetail page"
           description="SplashDetail page description"
         />
+        <Icons />
         <Header
           showEarthViewLink
         />
@@ -166,7 +168,10 @@ class SplashDetail extends Page {
               className={classnames('l-sidebar-toggle', 'btn-toggle', `-${introOpened ? 'opened' : ''}`)}
               onClick={this.handleToggleIntro}
             >
-              <Icon className={classnames('-little', `-${introOpened ? 'left' : 'right'}`)} name="icon-arrow-down" />
+              <Icon
+                className={classnames('-little', `-${introOpened ? 'left' : 'right'}`)}
+                name={`icon-arrow-${introOpened ? 'left' : 'right'}`}
+              />
             </button>
           </div>
         }
@@ -226,6 +231,7 @@ class SplashDetail extends Page {
           <a-scene
             cursor="rayOrigin: mouse"
             embedded
+            vr-mode-ui="enabled: false"
           >
             {options &&
               <a-assets>

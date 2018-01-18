@@ -409,10 +409,9 @@ class ExploreDetail extends Page {
     const showOpenInExploreButton = dataset && dataset.attributes.layer && dataset.attributes.layer.length > 0;
 
     const favourite = user.favourites.find(f => f.attributes.resourceId === url.query.id);
-
-    const formattedDescription = this.shortenAndFormat(description, 'showDescription');
-    const formattedFunctions = this.shortenAndFormat(functions, 'showFunction');
-    const formattedCautions = this.shortenAndFormat(cautions, 'showCautions');
+    const formattedDescription = this.shortenAndFormat(description || '', 'showDescription');
+    const formattedFunctions = this.shortenAndFormat(functions || '', 'showFunction');
+    const formattedCautions = this.shortenAndFormat(cautions || '', 'showCautions');
 
     const starIconName = favourite ? 'icon-star-full' : 'icon-star-empty';
     const starIconClass = classnames({
