@@ -143,9 +143,12 @@
     width: 100%;
 
     .menu-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
       position: absolute;
       bottom: 50px;
-      left: 50px;
+      right: 50px;
       z-index: 9999;
 
       .scenario-box {
