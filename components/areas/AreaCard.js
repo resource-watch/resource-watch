@@ -21,7 +21,7 @@ import AreasService from 'services/AreasService';
 import UserService from 'services/UserService';
 
 // Utils
-import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import LayerManager from 'utils/layers/LayerManager';
 
 const MAP_CONFIG = {
   zoom: 3,

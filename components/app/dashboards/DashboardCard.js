@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 
 // Utils
 import getChartTheme from 'utils/widgets/theme';
-import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import LayerManager from 'utils/layers/LayerManager';
 
 // Services
 import UserService from 'services/UserService';

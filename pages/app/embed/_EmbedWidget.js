@@ -26,7 +26,7 @@ import RasterService from 'services/RasterService';
 
 // Utils
 import ChartTheme from 'utils/widgets/theme';
-import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import LayerManager from 'utils/layers/LayerManager';
 
 // Redux
 import withRedux from 'next-redux-wrapper';

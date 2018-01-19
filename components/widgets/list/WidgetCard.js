@@ -30,7 +30,7 @@ import UserService from 'services/UserService';
 import LayersService from 'services/LayersService';
 
 // Utils
-import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import LayerManager from 'utils/layers/LayerManager';
 
 class WidgetCard extends React.Component {
   /**

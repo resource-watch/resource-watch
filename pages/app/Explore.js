@@ -59,7 +59,7 @@ import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 
 // Utils
-import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import LayerManager from 'utils/layers/LayerManager';
 
 // Services
 import DatasetService from 'services/DatasetService';

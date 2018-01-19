@@ -15,7 +15,7 @@ import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
 
 // Utils
-import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import LayerManager from 'utils/layers/LayerManager';
 
 // Constants
 const MAP_CONFIG = {

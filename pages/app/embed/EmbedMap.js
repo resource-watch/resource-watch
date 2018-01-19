@@ -19,7 +19,7 @@ import Legend from 'components/ui/Legend';
 import Icon from 'components/widgets/editor/ui/Icon';
 
 // Utils
-import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import LayerManager from 'utils/layers/LayerManager';
 
 class EmbedMap extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {

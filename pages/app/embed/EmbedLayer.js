@@ -24,7 +24,7 @@ import { toggleTooltip } from 'redactions/tooltip';
 import { getLayerGroups } from 'selectors/explore/layersExplore';
 
 // Utils
-import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import LayerManager from 'utils/layers/LayerManager';
 
 class EmbedLayer extends Page {
   static async getInitialProps(...params) {
