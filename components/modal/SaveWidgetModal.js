@@ -68,32 +68,40 @@ class SaveWidgetModal extends React.Component {
       loading: true
     });
 
-    const { description } = this.state;
-    const { dataset, widgetConfig } = this.props;
+    const { description, name } = this.state;
+    const { dataset, getWidgetConfig, user } = this.props;
 
-    const widgetObj = Object.assign(
-      {},
-      {
-        name: title || null,
-        description
-      },
-      widgetConfig
-    );
+    getWidgetConfig()
+      .then((widgetConfig) => {
+        const widgetObj = Object.assign(
+          {},
+          {
+            name,
+            description
+          },
+          { widgetConfig }
+        );
 
-    this.widgetService.saveUserWidget(widgetObj, this.props.dataset, this.props.user.token)
-      .then((response) => {
-        if (response.errors) throw new Error(response.errors[0].detail);
+        this.widgetService.saveUserWidget(widgetObj, dataset, user.token)
+          .then((response) => {
+            if (response.errors) throw new Error(response.errors[0].detail);
+          })
+          .then(() => this.setState({ saved: true, error: false }))
+          .catch((err) => {
+            this.setState({
+              saved: false,
+              error: true,
+              errorMessage: err.message
+            });
+            toastr.error('There was a problem saving the widget');
+            console.err(err); // eslint-disable-line no-console
+          })
+          .then(() => this.setState({ loading: false }));
       })
-      .then(() => this.setState({ saved: true, error: false }))
-      .catch((err) => {
-        this.setState({
-          saved: false,
-          error: true,
-          errorMessage: err.message
-        });
-        toastr.error('Error', err); // eslint-disable-line no-console
-      })
-      .then(() => this.setState({ loading: false }));
+      .catch((error) => {
+        toastr.error('There was a problem saving the widget');
+        console.err(error); // eslint-disable-line no-console
+      });
   }
 
   /**
@@ -214,7 +222,7 @@ class SaveWidgetModal extends React.Component {
 
 SaveWidgetModal.propTypes = {
   dataset: PropTypes.string.isRequired,
-  widgetConfig: PropTypes.object.isRequired,
+  getWidgetConfig: PropTypes.func.isRequired,
   // Store
   user: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired

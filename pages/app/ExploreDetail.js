@@ -342,13 +342,13 @@ class ExploreDetail extends Page {
       });
   }
 
-  async handleSaveWidget() {
-    const { dataset } = this.props;
+  handleSaveWidget() {
+    const { dataset } = this.state;
     const options = {
       children: SaveWidgetModal,
       childrenProps: {
-        dataset,
-        widgetConfig: (this.onGetWidgetConfig) ? await this.getWidgetConfig() : {}
+        dataset: dataset.id,
+        getWidgetConfig: this.onGetWidgetConfig
       }
     };
     this.props.toggleModal(true);
