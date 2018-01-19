@@ -21,7 +21,6 @@ import { Link, Router } from 'routes';
 
 // Services
 import DatasetService from 'services/DatasetService';
-import LayersService from 'services/LayersService';
 import GraphService from 'services/GraphService';
 import UserService from 'services/UserService';
 
@@ -37,6 +36,7 @@ import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import LoginModal from 'components/modal/LoginModal';
 import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
+import SaveWidgetModal from 'components/modal/SaveWidgetModal';
 
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
@@ -89,6 +89,7 @@ class ExploreDetail extends Page {
     this.handleSubscribe = this.handleSubscribe.bind(this);
     this.handleTagClick = this.handleTagClick.bind(this);
     this.handleFavoriteButtonClick = this.handleFavoriteButtonClick.bind(this);
+    this.handleSaveWidget = this.handleSaveWidget.bind(this);
     //--------------------------------------------------------
   }
 
@@ -142,7 +143,6 @@ class ExploreDetail extends Page {
       loading: true
     }, () => {
       this.datasetService.fetchData('layer,metadata,vocabulary,widget').then((response) => {
-
         this.setState({
           dataset: response,
           datasetLoaded: true,
@@ -342,6 +342,19 @@ class ExploreDetail extends Page {
       });
   }
 
+  async handleSaveWidget() {
+    const { dataset } = this.props;
+    const options = {
+      children: SaveWidgetModal,
+      childrenProps: {
+        dataset,
+        widgetConfig: (this.onGetWidgetConfig) ? await this.getWidgetConfig() : {}
+      }
+    };
+    this.props.toggleModal(true);
+    this.props.setModalOptions(options);
+  }
+
   render() {
     const { url, user, exploreDataset } = this.props;
     const { dataset, loading, similarDatasets, similarDatasetsLoaded, inferredTags } = this.state;
@@ -351,6 +364,8 @@ class ExploreDetail extends Page {
     const metadataInfo = (metadataAttributes && metadataAttributes.info) || {};
     const { description } = metadataAttributes;
     const { functions, cautions } = metadataInfo;
+
+    const defaultEditableWidget = dataset && dataset.attributes.widget.find(widget => widget.attributes.defaultEditableWidget === true);
 
     const showOpenInExploreButton = dataset && dataset.attributes.layer && dataset.attributes.layer.length > 0;
 
@@ -511,10 +526,13 @@ class ExploreDetail extends Page {
           <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
             {dataset &&
               <WidgetEditor
-                dataset={dataset.id}
-                mode="dataset"
-                showSaveButton={!!(user && user.id)}
-                showNotLoggedInText
+                datasetId={dataset.id}
+                widgetId={defaultEditableWidget && defaultEditableWidget.id}
+                saveButtonMode="auto"
+                embedButtonMode="auto"
+                titleMode="auto"
+                provideWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
+                onSave={this.handleSaveWidget}
               />
             }
           </MediaQuery>
@@ -745,7 +763,6 @@ ExploreDetail.propTypes = {
   url: PropTypes.object.isRequired,
   // Store
   user: PropTypes.object,
-  widgetEditor: PropTypes.object,
   locale: PropTypes.string.isRequired,
   // ACTIONS
   resetDataset: PropTypes.func.isRequired,
@@ -763,14 +780,12 @@ const mapStateToProps = state => ({
   locale: state.common.locale
 });
 
-const mapDispatchToProps = dispatch => ({
-  resetDataset: () => {
-    dispatch(resetDataset());
-  },
-  toggleModal: (open) => { dispatch(toggleModal(open)); },
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
-  toggleLayerGroup: (datasetID, addLayer) => dispatch(toggleLayerGroup(datasetID, addLayer)),
-  toggleFavourite: options => dispatch(toggleFavourite(options))
-});
+const mapDispatchToProps = {
+  resetDataset,
+  toggleModal,
+  setModalOptions,
+  toggleLayerGroup,
+  toggleFavourite
+};
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);
