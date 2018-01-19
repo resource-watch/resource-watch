@@ -15,7 +15,7 @@ import Page from 'components/app/layout/Page';
 import EmbedLayout from 'components/app/layout/EmbedLayout';
 import Spinner from 'components/widgets/editor/ui/Spinner';
 import Map from 'components/widgets/editor/map/Map';
-import Legend from 'components/widgets/editor/ui/Legend';
+import Legend from 'components/ui/Legend';
 import Icon from 'components/widgets/editor/ui/Icon';
 
 // Utils

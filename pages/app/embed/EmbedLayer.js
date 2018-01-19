@@ -11,7 +11,7 @@ import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
 import Icons from 'components/app/layout/icons';
 import Map from 'components/widgets/editor/map/Map';
-import Legend from 'components/widgets/editor/ui/Legend';
+import Legend from 'components/ui/Legend';
 
 // Services
 import DatasetService from 'services/DatasetService';

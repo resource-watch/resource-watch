@@ -49,7 +49,7 @@ import Map from 'components/widgets/editor/map/Map';
 import MapControls from 'components/widgets/editor/map/MapControls';
 import BasemapControl from 'components/widgets/editor/map/controls/BasemapControl';
 import ShareControl from 'components/widgets/editor/map/controls/ShareControl';
-import Legend from 'components/widgets/editor/ui/Legend';
+import Legend from 'components/ui/Legend';
 import Spinner from 'components/ui/Spinner';
 import SearchInput from 'components/ui/SearchInput';
 import ExploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';

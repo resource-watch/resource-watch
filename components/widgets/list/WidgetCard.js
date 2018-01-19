@@ -20,8 +20,8 @@ import WidgetActionsTooltip from 'components/widgets/list/WidgetActionsTooltip';
 import AddWidgetToCollectionTooltip from 'components/widgets/list/AddWidgetToCollectionTooltip';
 import Icon from 'components/widgets/editor/ui/Icon';
 import Map from 'components/widgets/editor/map/Map';
-import Legend from 'components/widgets/editor/ui/Legend';
-import Spinner from 'components/widgets/editor/ui/Spinner';
+import Legend from 'components/ui/Legend';
+import Spinner from 'components/ui/Spinner';
 import TextChart from 'components/widgets/charts/TextChart';
 
 // Services

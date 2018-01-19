@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import LegendType from 'components/widgets/editor/ui/LegendType';
+import LegendType from 'components/ui/LegendType';
 
 function Legend(props) {
   if (props.layerActive) {

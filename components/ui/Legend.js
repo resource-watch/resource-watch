@@ -15,7 +15,7 @@ import { toggleTooltip, setTooltipPosition } from 'redactions/tooltip';
 import { setLayerGroupOpacity } from 'redactions/explore';
 
 // Components
-import LegendType from 'components/widgets/editor/ui/LegendType';
+import LegendType from 'components/ui/LegendType';
 import Icon from 'components/ui/Icon';
 import LayerInfoModal from 'components/modal/LayerInfoModal';
 import LayersTooltip from 'components/app/explore/LayersTooltip';
