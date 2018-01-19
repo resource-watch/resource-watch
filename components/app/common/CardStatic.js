@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { Router } from 'routes';
 
-export default class CardStatic extends React.Component {
+class CardStatic extends React.Component {
   constructor(props) {
     super(props);
 
@@ -58,3 +58,5 @@ CardStatic.propTypes = {
 CardStatic.defaultProps = {
   children: ''
 };
+
+export default CardStatic;
