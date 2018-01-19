@@ -232,9 +232,9 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-const mapDispatchToProps = dispatch => ({
-  toggleModal: open => dispatch(toggleModal(open))
-});
+const mapDispatchToProps = {
+  toggleModal
+};
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(SaveWidgetModal);
