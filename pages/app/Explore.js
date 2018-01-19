@@ -109,6 +109,7 @@ class Explore extends Page {
     this.onSetLayerGroupActiveLayer = this.onSetLayerGroupActiveLayer.bind(this);
     this.handleTagSelected = this.handleTagSelected.bind(this);
     // ----------------------------------------------------------
+    this.setMapParams = debounce(this.setMapParams, 1000); // Debounce for performance reasons
   }
 
   componentDidMount() {
@@ -229,7 +230,7 @@ class Explore extends Page {
    * @param {LayerGroup} layerGroup
    */
   onRemoveLayerGroup(layerGroup) {
-    this.props.removeLayerGroup(layerGroup.dataset);
+    this.props.toggleLayerGroup(layerGroup.dataset, false);
   }
 
   /**
@@ -249,6 +250,11 @@ class Explore extends Page {
    */
   onSetLayerGroupActiveLayer(dataset, layer) {
     this.props.setLayerGroupActiveLayer(dataset, layer);
+  }
+
+  setMapParams(params) {
+    this.props.setZoom(params.zoom);
+    this.props.setLatLng(params.latLng);
   }
 
   toggleFilters() {
@@ -393,6 +399,7 @@ class Explore extends Page {
                         className="c-button -primary"
                         href="https://docs.google.com/forms/d/e/1FAIpQLSfXsPGQxM6p8KloU920t5Tfhx9FYFOq8-Rjml07UDH9EvsI1w/viewform"
                         target="_blank"
+                        rel="noopener noreferrer"
                       >
                         Request data
                       </a>
@@ -407,7 +414,7 @@ class Explore extends Page {
                   LayerManager={LayerManager}
                   mapConfig={{ zoom, latLng }}
                   layerGroups={this.props.layerGroups}
-                  setMapParams={params => this.props.setMapParams(params)}
+                  setMapParams={params => this.setMapParams(params)}
                   setMapInstance={(map) => { this.map = map; }}
                 />
 
@@ -464,8 +471,6 @@ Explore.propTypes = {
 
   // Toggle the visibility of a layer group based on the layer passed as argument
   toggleLayerGroupVisibility: PropTypes.func.isRequired,
-  // Remove the layer group
-  removeLayerGroup: PropTypes.func.isRequired,
   // Set the active layer of a layer group
   setLayerGroupActiveLayer: PropTypes.func.isRequired,
   // Set the layer groups
@@ -491,32 +496,24 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  getDatasets: () => { dispatch(getDatasets({})); },
-  getFavoriteDatasets: (token) => { dispatch(getFavoriteDatasets(token)); },
-  setDatasetsSearchFilter: search => dispatch(setDatasetsSearchFilter(search)),
-  setDatasetsFilteredByConcepts: datasetList =>
-    dispatch(setDatasetsFilteredByConcepts(datasetList)),
-  setFilters: (filters) => { dispatch(setFilters(filters)); },
-  setFiltersLoading: isLoading => dispatch(setFiltersLoading(isLoading)),
-  redirectTo: (url) => { dispatch(redirectTo(url)); },
-  toggleModal: (open, options) => dispatch(toggleModal(open, options)),
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
-  setDatasetsPage: page => dispatch(setDatasetsPage(page)),
-  toggleLayerGroupVisibility: (dataset, visible) => {
-    dispatch(toggleLayerGroupVisibility(dataset, visible));
-  },
-  removeLayerGroup: dataset => dispatch(toggleLayerGroup(dataset, false)),
-  setLayerGroupsOrder: datasets => dispatch(setLayerGroupsOrder(datasets)),
-  setLayerGroupActiveLayer: (dataset, layer) => dispatch(setLayerGroupActiveLayer(dataset, layer)),
-  setLayerGroups: layerGroups => dispatch(setLayerGroups(layerGroups)),
-  setZoom: (zoom, updateUrl) => dispatch(setZoom(zoom, updateUrl)),
-  setLatLng: (latLng, updateUrl) => dispatch(setLatLng(latLng, updateUrl)),
-  setMapParams: debounce((params) => { // Debounce for performance reasons
-    dispatch(setZoom(params.zoom));
-    dispatch(setLatLng(params.latLng));
-  }, 1000),
-  setDatasetsSorting: sorting => dispatch(setDatasetsSorting(sorting))
-});
+const mapDispatchToProps = {
+  getDatasets,
+  getFavoriteDatasets,
+  setDatasetsSearchFilter,
+  setDatasetsFilteredByConcepts,
+  setFilters,
+  setFiltersLoading,
+  redirectTo,
+  toggleModal,
+  setModalOptions,
+  setDatasetsPage,
+  toggleLayerGroupVisibility,
+  setLayerGroupsOrder,
+  setLayerGroupActiveLayer,
+  setLayerGroups,
+  setZoom,
+  setLatLng,
+  setDatasetsSorting
+};
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Explore);
