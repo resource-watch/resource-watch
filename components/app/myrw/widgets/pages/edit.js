@@ -177,7 +177,7 @@ class WidgetsEdit extends React.Component {
     return (
       <div className="c-myrw-widgets-edit">
         <Spinner
-          className="-relative -light"
+          className="-light"
           isLoading={loading}
         />
         {widget &&
@@ -185,7 +185,7 @@ class WidgetsEdit extends React.Component {
           <WidgetEditor
             datasetId={datasetId}
             widgetId={widget.id}
-            saveButtonMode="auto"
+            saveButtonMode="never"
             embedButtonMode="never"
             titleMode="never"
             provideWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
