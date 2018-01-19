@@ -16,7 +16,7 @@ import EmbedLayout from 'components/app/layout/EmbedLayout';
 import Spinner from 'components/ui/Spinner';
 import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
-import Icon from 'components/widgets/editor/ui/Icon';
+import Icon from 'components/ui/Icon';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';

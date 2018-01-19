@@ -8,7 +8,7 @@ import VegaChart from 'components/widgets/charts/VegaChart';
 import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
 
-import Title from 'components/widgets/editor/ui/Title';
+import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
 
 // Redux

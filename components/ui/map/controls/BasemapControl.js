@@ -7,7 +7,7 @@ import { setBasemap, setLabels } from 'redactions/explore';
 
 // Components
 import TetherComponent from 'react-tether';
-import Icon from 'components/widgets/editor/ui/Icon';
+import Icon from 'components/ui/Icon';
 import Checkbox from 'components/form/Checkbox';
 import RadioGroup from 'components/form/RadioGroup';
 

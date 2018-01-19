@@ -12,13 +12,13 @@ import { toggleModal, setModalOptions } from 'redactions/modal';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
-import Title from 'components/widgets/editor/ui/Title';
+import Title from 'components/ui/Title';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import DatasetLayerChart from 'components/app/explore/DatasetLayerChart';
 import EmbedMyWidgetModal from 'components/modal/EmbedMyWidgetModal';
 import WidgetActionsTooltip from 'components/widgets/list/WidgetActionsTooltip';
 import AddWidgetToCollectionTooltip from 'components/widgets/list/AddWidgetToCollectionTooltip';
-import Icon from 'components/widgets/editor/ui/Icon';
+import Icon from 'components/ui/Icon';
 import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
 import Spinner from 'components/ui/Spinner';

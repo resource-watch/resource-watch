@@ -4,13 +4,13 @@ import 'isomorphic-fetch';
 import { toastr } from 'react-redux-toastr';
 
 // Components
-import Title from 'components/widgets/editor/ui/Title';
+import Title from 'components/ui/Title';
 import TextChart from 'components/widgets/charts/TextChart';
 import VegaChart from 'components/widgets/charts/VegaChart';
 import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
 import Spinner from 'components/ui/Spinner';
-import Icon from 'components/widgets/editor/ui/Icon';
+import Icon from 'components/ui/Icon';
 
 // Redux
 import { connect } from 'react-redux';
