@@ -87,11 +87,9 @@ class WidgetsNew extends React.Component {
 
       const widgetObj = Object.assign(
         {},
-        ...widget,
-        widgetConfig
+        widget,
+        { widgetConfig }
       );
-
-      debugger;
 
       this.widgetService.saveUserWidget(widgetObj, selectedDataset, user.token)
         .then((response) => {
@@ -115,9 +113,13 @@ class WidgetsNew extends React.Component {
           toastr.err('Error', err);
         });
     }, 0);
-
   }
 
+  getWidgetConfig() {
+    return this.onGetWidgetConfig()
+      .then(widgetConfig => widgetConfig)
+      .catch(() => ({}));
+  }
 
   loadDatasets() {
     this.datasetsService.fetchAllData({ filters: { published: true }, includes: 'metadata' }).then((response) => {
@@ -174,14 +176,12 @@ class WidgetsNew extends React.Component {
   render() {
     const {
       loading,
-      widget,
       submitting,
       datasets,
       selectedDataset,
       loadingUserDatasets,
       loadingPublishedDatasets
     } = this.state;
-    const { widgetEditor } = this.props;
 
     return (
       <div className="c-myrw-widgets-new">
@@ -216,7 +216,7 @@ class WidgetsNew extends React.Component {
             saveButtonMode="never"
             embedButtonMode="never"
             titleMode="never"
-            provideWidgetConfig={this.props.onGetWidgetConfig}
+            provideWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
           />
           <div className="form-container">
             <form className="form-container" onSubmit={this.onSubmit}>
