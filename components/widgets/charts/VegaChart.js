@@ -455,8 +455,8 @@ const mapStateToProps = ({ tooltip }) => ({
   tooltip
 });
 
-const mapDispatchToProps = dispatch => ({
-  toggleTooltip: (visibility, options) => dispatch(toggleTooltip(visibility, options))
-});
+const mapDispatchToProps = {
+  toggleTooltip
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(VegaChart);
