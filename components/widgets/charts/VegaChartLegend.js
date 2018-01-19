@@ -7,7 +7,8 @@ import uniqBy from 'lodash/uniqBy';
 import Title from 'components/widgets/editor/ui/Title';
 
 // Helpers
-import { getSINumber, getTimeFormat } from 'components/widgets/editor/helpers/WidgetHelper';
+// Utils
+import { WidgetHelper } from 'widget-editor';
 
 class VegaChartLegend extends React.Component {
   /**
@@ -24,7 +25,7 @@ class VegaChartLegend extends React.Component {
     // This is only used if the labels are dates
     let timeFormat;
     const formatDateLabel = (values, label) => {
-      if (!timeFormat) timeFormat = getTimeFormat(values.map(v => v.label));
+      if (!timeFormat) timeFormat = WidgetHelper.getTimeFormat(values.map(v => v.label));
       return time.format(timeFormat)(new Date(label));
     };
 
@@ -87,7 +88,7 @@ class VegaChartLegend extends React.Component {
                   }}
                 />
               </div>
-              <span className="label">{getSINumber(value.label)}</span>
+              <span className="label">{WidgetHelper.getSINumber(value.label)}</span>
             </div>
           ))}
         </div>
