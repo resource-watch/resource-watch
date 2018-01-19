@@ -15,7 +15,7 @@ import Spinner from 'components/ui/Spinner';
 import Modal from 'components/ui/Modal';
 import VegaChart from 'components/widgets/charts/VegaChart';
 import Tooltip from 'components/ui/Tooltip';
-import Map from 'components/widgets/editor/map/Map';
+import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
 
 // Services

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // Components
 import VegaChart from 'components/widgets/charts/VegaChart';
 import TextChart from 'components/widgets/charts/TextChart';
-import Map from 'components/widgets/editor/map/Map';
+import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
 
 import Icon from 'components/ui/Icon';

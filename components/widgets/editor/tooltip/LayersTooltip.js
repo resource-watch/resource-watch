@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Autobind } from 'es-decorators';
 
 // Components
-import RadioGroup from 'components/widgets/editor/form/RadioGroup';
+import RadioGroup from 'components/form/RadioGroup';
 
 class LayersTooltip extends React.Component {
   componentDidMount() {

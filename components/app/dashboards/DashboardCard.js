@@ -7,9 +7,9 @@ import { toastr } from 'react-redux-toastr';
 import Title from 'components/widgets/editor/ui/Title';
 import TextChart from 'components/widgets/charts/TextChart';
 import VegaChart from 'components/widgets/charts/VegaChart';
-import Map from 'components/widgets/editor/map/Map';
+import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
-import Spinner from 'components/widgets/editor/ui/Spinner';
+import Spinner from 'components/ui/Spinner';
 import Icon from 'components/widgets/editor/ui/Icon';
 
 // Redux

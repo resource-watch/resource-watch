@@ -6,7 +6,7 @@ import { toastr } from 'react-redux-toastr';
 import { connect } from 'react-redux';
 
 // Components
-import Spinner from 'components/widgets/editor/ui/Spinner';
+import Spinner from 'components/ui/Spinner';
 
 // Services
 import DatasetService from 'components/widgets/editor/services/DatasetService';

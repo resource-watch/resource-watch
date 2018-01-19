@@ -11,8 +11,8 @@ import { toggleTooltip } from 'redactions/tooltip';
 import DatasetService from 'components/widgets/editor/services/DatasetService';
 
 // Components
-import CheckboxGroup from 'components/widgets/editor/form/CheckboxGroup';
-import Button from 'components/widgets/editor/ui/Button';
+import CheckboxGroup from 'components/form/CheckboxGroup';
+import Button from 'components/ui/Button';
 
 class FilterStringTooltip extends React.Component {
   constructor(props) {

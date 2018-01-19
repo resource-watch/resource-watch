@@ -6,7 +6,7 @@ import { Autobind } from 'es-decorators';
 
 // Components
 import CustomSelect from 'components/widgets/editor/ui/CustomSelect';
-import Spinner from 'components/widgets/editor/ui/Spinner';
+import Spinner from 'components/ui/Spinner';
 import UploadAreaIntersectionModal from 'components/widgets/editor/modal/UploadAreaIntersectionModal';
 
 // Redux

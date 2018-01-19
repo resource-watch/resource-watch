@@ -11,7 +11,7 @@ import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import Map from 'components/widgets/editor/map/Map';
+import Map from 'components/ui/map/Map';
 import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 import AreaActionsTooltip from 'components/areas/AreaActionsTooltip';
 

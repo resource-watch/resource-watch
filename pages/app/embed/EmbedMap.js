@@ -13,8 +13,8 @@ import { setRouter } from 'redactions/routes';
 // Components
 import Page from 'components/app/layout/Page';
 import EmbedLayout from 'components/app/layout/EmbedLayout';
-import Spinner from 'components/widgets/editor/ui/Spinner';
-import Map from 'components/widgets/editor/map/Map';
+import Spinner from 'components/ui/Spinner';
+import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
 import Icon from 'components/widgets/editor/ui/Icon';
 

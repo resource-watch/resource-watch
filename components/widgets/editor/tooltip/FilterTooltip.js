@@ -9,8 +9,8 @@ import { toggleTooltip } from 'redactions/tooltip';
 import DatasetService from 'components/widgets/editor/services/DatasetService';
 
 // Components
-import Spinner from 'components/widgets/editor/ui/Spinner';
-import Checkbox from 'components/widgets/editor/form/Checkbox';
+import Spinner from 'components/ui/Spinner';
+import Checkbox from 'components/form/Checkbox';
 
 import FilterStringTooltip from 'components/widgets/editor/tooltip/FilterStringTooltip';
 import FilterNumberTooltip from 'components/widgets/editor/tooltip/FilterNumberTooltip';

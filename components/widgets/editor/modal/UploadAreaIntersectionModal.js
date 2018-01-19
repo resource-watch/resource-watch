@@ -5,7 +5,7 @@ import Dropzone from 'react-dropzone';
 import classnames from 'classnames';
 
 // Components
-import Spinner from 'components/widgets/editor/ui/Spinner';
+import Spinner from 'components/ui/Spinner';
 
 class UploadAreaIntersectionModal extends React.Component {
   /**

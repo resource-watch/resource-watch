@@ -11,7 +11,7 @@ import Select from 'components/form/SelectInput';
 import Textarea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
 import Code from 'components/form/Code';
-import Map from 'components/widgets/editor/map/Map';
+import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
 
 // Utils

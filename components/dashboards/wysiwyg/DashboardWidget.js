@@ -5,11 +5,11 @@ import 'isomorphic-fetch';
 // Components
 import TextChart from 'components/widgets/charts/TextChart';
 import VegaChart from 'components/widgets/charts/VegaChart';
-import Map from 'components/widgets/editor/map/Map';
+import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
 
 import Title from 'components/widgets/editor/ui/Title';
-import Spinner from 'components/widgets/editor/ui/Spinner';
+import Spinner from 'components/ui/Spinner';
 
 // Redux
 import { connect } from 'react-redux';
