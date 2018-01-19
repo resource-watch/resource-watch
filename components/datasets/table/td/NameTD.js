@@ -4,18 +4,16 @@ import PropTypes from 'prop-types';
 // Next components
 import { Link } from 'routes';
 
-class NameTD extends React.Component {
-  render() {
-    const { row, value, index, route } = this.props;
+function NameTD(props) {
+  const { row, value, index, route } = props;
 
-    return (
-      <td key={index} className="main">
-        <Link route={route} params={{ tab: 'datasets', id: row.id }}>
-          <a>{value}</a>
-        </Link>
-      </td>
-    );
-  }
+  return (
+    <td key={index} className="main">
+      <Link route={route} params={{ tab: 'datasets', id: row.id }}>
+        <a>{value}</a>
+      </Link>
+    </td>
+  );
 }
 
 NameTD.propTypes = {

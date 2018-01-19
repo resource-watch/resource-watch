@@ -362,12 +362,10 @@ const mapStateToProps = state => ({
   locale: state.common.locale
 });
 
-const mapDispatchToProps = dispatch => ({
-  toggleModal: (open, opts) => { dispatch(toggleModal(open, opts)); },
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
-  toggleTooltip: (opened, opts) => {
-    dispatch(toggleTooltip(opened, opts));
-  }
-});
+const mapDispatchToProps = {
+  toggleModal,
+  setModalOptions,
+  toggleTooltip
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AreaCard);

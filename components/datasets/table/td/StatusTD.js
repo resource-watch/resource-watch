@@ -11,19 +11,17 @@ const classesDic = {
   }
 };
 
-class StatusTD extends React.Component {
-  render() {
-    const { value, index } = this.props;
-    const className = `status ${classesDic.status[value]}`;
-    return (
-      <td
-        className={className}
-        key={index}
-      >
-        {value}
-      </td>
-    );
-  }
+function StatusTD(props) {
+  const { value, index } = props;
+  const className = `status ${classesDic.status[value]}`;
+  return (
+    <td
+      className={className}
+      key={index}
+    >
+      {value}
+    </td>
+  );
 }
 
 StatusTD.propTypes = {
