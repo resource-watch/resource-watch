@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function JoinCommunity() {
+function JoinCommunity() {
   return (
     <aside className="l-postcontent">
       <div className="l-container" />
