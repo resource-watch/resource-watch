@@ -108,7 +108,7 @@
           .video-container {
             position: relative;
             height: 0;
-            padding-bottom: 60%; /* This should be changed to match the aspect ratio of the video */
+            padding-bottom: 56.25%; /* This should be changed to match the aspect ratio of the video */
             margin-bottom: 20px;
 
             .video {
