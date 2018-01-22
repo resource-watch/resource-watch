@@ -63,7 +63,8 @@ class DatasetListHeader extends React.Component {
                 name: 'explore-sorting',
                 value: sortingOrder,
                 default: sortingOrder,
-                clearable: false
+                clearable: false,
+                instanceId: 'exploreSorting'
               }}
               options={SORTING_OPTIONS}
               onChange={sorting => this.props.setDatasetsSorting(sorting)}

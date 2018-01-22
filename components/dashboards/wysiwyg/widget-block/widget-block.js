@@ -1,9 +1,13 @@
 import React, { createElement } from 'react';
 import PropTypes from 'prop-types';
 
+// helpers
+import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
+
 import { connect } from 'react-redux';
+
 import * as actions from './widget-block-actions';
-import reducers from './widget-block-reducers';
+import * as reducers from './widget-block-reducers';
 import initialState from './widget-block-default-state';
 
 import WidgetBlockComponent from './widget-block-component';
@@ -17,6 +21,7 @@ class WidgetBlock extends React.Component {
   static propTypes = {
     item: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
 
     // Redux
     setWidgetLoading: PropTypes.func.isRequired,
@@ -54,10 +59,8 @@ class WidgetBlock extends React.Component {
    * - setFavourite
   */
   setFavourite = (props) => {
-    const { item } = props;
-    const favourite = props.user.favourites.find(f =>
-      f.attributes.resourceId === item.content.widgetId
-    );
+    const { item, user } = props;
+    const favourite = belongsToACollection(user, item);
 
     props.setFavourite({
       id: `${item.content.widgetId}/${item.id}`,

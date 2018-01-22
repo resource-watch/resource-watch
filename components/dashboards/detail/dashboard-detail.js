@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import * as actions from './dashboard-detail-actions';
-import reducers from './dashboard-detail-reducers';
+import * as reducers from './dashboard-detail-reducers';
 import initialState from './dashboard-detail-default-state';
 
 import DashboardDetail from './dashboard-detail-component';

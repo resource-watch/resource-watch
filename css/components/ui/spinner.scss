@@ -51,6 +51,14 @@
     }
   }
 
+  &.-yellow-icon {
+    .spinner-box {
+      .icon {
+        border-top-color: $yellow;
+      }
+    }
+  }
+
   // Position
   &.-fixed { position: fixed;}
   &.-relative { position: relative;}

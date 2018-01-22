@@ -1,5 +1,5 @@
 import 'isomorphic-fetch';
-import { createAction, createThunkAction } from 'redux-actions';
+import { createAction, createThunkAction } from 'redux-tools';
 
 // Services
 import UserService from 'services/UserService';

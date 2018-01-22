@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce';
 
 import { connect } from 'react-redux';
 import * as actions from './widget-block-edition-actions';
-import reducers from './widget-block-edition-reducers';
+import * as reducers from './widget-block-edition-reducers';
 import initialState from './widget-block-edition-default-state';
 
 import WidgetBlockEditionComponent from './widget-block-edition-component';

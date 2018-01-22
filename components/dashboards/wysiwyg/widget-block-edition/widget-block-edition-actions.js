@@ -1,6 +1,6 @@
 import 'isomorphic-fetch';
 import queryString from 'query-string';
-import { createAction, createThunkAction } from 'redux-actions';
+import { createAction, createThunkAction } from 'redux-tools';
 
 // Actions
 export const setWidgets = createAction('WIDGET_BLOCK_EDITION_GET_WIDGETS');

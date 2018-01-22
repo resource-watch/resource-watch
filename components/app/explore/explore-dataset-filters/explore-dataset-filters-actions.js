@@ -1,4 +1,4 @@
-import { createAction, createThunkAction } from 'redux-actions';
+import { createAction, createThunkAction } from 'redux-tools';
 
 import FiltersService from 'services/FiltersService';
 

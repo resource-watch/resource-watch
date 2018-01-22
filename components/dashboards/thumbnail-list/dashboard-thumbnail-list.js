@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import * as actions from './dashboard-thumbnail-list-actions';
-import reducers from './dashboard-thumbnail-list-reducers';
+import * as reducers from './dashboard-thumbnail-list-reducers';
 import initialState from './dashboard-thumbnail-list-default-state';
 import { getFilteredDashboards } from './dashboard-thumbnail-list-selectors';
 

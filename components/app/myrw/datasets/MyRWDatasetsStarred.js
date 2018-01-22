@@ -34,7 +34,7 @@ class MyRWDatasetsStarred extends React.Component {
     const { user } = this.props;
 
     const favourites = user.favourites;
-    const datasetIds = favourites.filter(f => f.attributes.resourceType === 'dataset').map(elem => elem.attributes.resourceId);
+    const datasetIds = favourites.items.filter(f => f.attributes.resourceType === 'dataset').map(elem => elem.attributes.resourceId);
 
     if (datasetIds.length) {
       DatasetService.getDatasets(datasetIds, this.props.locale, 'widget,layer,vocabulary,metadata')
