@@ -118,7 +118,6 @@ class SplashDetail extends Page {
   }
 
   handleToggleIntro() {
-    console.log('hey!');
     this.setState({ introOpened: !this.state.introOpened });
   }
 

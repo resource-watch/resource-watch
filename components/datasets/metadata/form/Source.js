@@ -138,8 +138,8 @@ const mapStateToProps = ({ sources }) => ({
   tmpSources: sources.tmpSources
 });
 
-const mapDispatchToProps = dispatch => ({
-  setTmpSources: sources => dispatch(setTmpSources(sources))
-});
+const mapDispatchToProps = {
+  setTmpSources
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Source);

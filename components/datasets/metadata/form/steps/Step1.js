@@ -7,7 +7,6 @@ import compact from 'lodash/compact';
 // redux
 import { connect } from 'react-redux';
 
-
 // redactions
 import { setSources } from 'redactions/admin/sources';
 
@@ -590,9 +589,9 @@ const mapStateToProps = state => ({
   sources: state.sources.sources
 });
 
-const mapDispatchToProps = dispatch => ({
-  toggleModal: (open, options) => dispatch(toggleModal(open, options)),
-  setSources: sources => dispatch(setSources(sources))
-});
+const mapDispatchToProps = {
+  toggleModal,
+  setSources
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Step1);

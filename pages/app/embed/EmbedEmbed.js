@@ -13,7 +13,7 @@ import { setRouter } from 'redactions/routes';
 import Page from 'components/app/layout/Page';
 import EmbedLayout from 'components/app/layout/EmbedLayout';
 import Spinner from 'components/ui/Spinner';
-import Icon from 'components/widgets/editor/ui/Icon';
+import Icon from 'components/ui/Icon';
 
 class EmbedWidget extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {

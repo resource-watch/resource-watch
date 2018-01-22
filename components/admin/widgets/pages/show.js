@@ -71,7 +71,7 @@ class WidgetsShow extends React.Component {
                     Router.pushRoute('admin_data', { tab: 'widgets' });
                   }
                 }}
-                showEditor={false}
+                showEditor
               />
               }
 

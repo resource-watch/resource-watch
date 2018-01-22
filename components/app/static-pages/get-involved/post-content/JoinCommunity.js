@@ -1,8 +1,4 @@
 import React from 'react';
-import { Link } from 'routes';
-
-// components
-import Banner from 'components/app/common/Banner';
 
 export default function JoinCommunity() {
   return (
@@ -15,4 +11,4 @@ export default function JoinCommunity() {
 JoinCommunity.propTypes = {};
 JoinCommunity.defaultProps = {};
 
-
+export default JoinCommunity;

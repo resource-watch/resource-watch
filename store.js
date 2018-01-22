@@ -13,6 +13,7 @@ import * as dashboardThumbnailList from 'components/dashboards/thumbnail-list/da
 import * as widgetBlockModule from 'components/dashboards/wysiwyg/widget-block/widget-block';
 import * as widgetBlockEditionModule from 'components/dashboards/wysiwyg/widget-block-edition/widget-block-edition';
 import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';
+import { reducers as widgetEditorModules } from 'widget-editor';
 
 if (process.env.NODE_ENV === 'production') {
   initOpbeat({
@@ -24,6 +25,7 @@ if (process.env.NODE_ENV === 'production') {
 // REDUCERS
 const reducer = combineReducers({
   ...reducers,
+  ...widgetEditorModules,
   search: handleModule(search),
 
   // Dashboards

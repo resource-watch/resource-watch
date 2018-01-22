@@ -6,12 +6,12 @@ import Page from 'components/app/layout/Page';
 import Head from 'components/app/layout/head';
 
 // Components
-import Spinner from 'components/widgets/editor/ui/Spinner';
+import Spinner from 'components/ui/Spinner';
 import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
 import Icons from 'components/app/layout/icons';
-import Map from 'components/widgets/editor/map/Map';
-import Legend from 'components/widgets/editor/ui/Legend';
+import Map from 'components/ui/map/Map';
+import Legend from 'components/ui/Legend';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -24,7 +24,7 @@ import { toggleTooltip } from 'redactions/tooltip';
 import { getLayerGroups } from 'selectors/explore/layersExplore';
 
 // Utils
-import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import LayerManager from 'utils/layers/LayerManager';
 
 class EmbedLayer extends Page {
   static async getInitialProps(...params) {

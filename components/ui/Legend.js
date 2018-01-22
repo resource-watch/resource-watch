@@ -15,7 +15,7 @@ import { toggleTooltip, setTooltipPosition } from 'redactions/tooltip';
 import { setLayerGroupOpacity } from 'redactions/explore';
 
 // Components
-import LegendType from 'components/widgets/editor/ui/LegendType';
+import LegendType from 'components/ui/LegendType';
 import Icon from 'components/ui/Icon';
 import LayerInfoModal from 'components/modal/LayerInfoModal';
 import LayersTooltip from 'components/app/explore/LayersTooltip';
@@ -593,13 +593,11 @@ Legend.defaultProps = {
 const mapStateToProps = state => ({
   tooltipOpened: state.tooltip.opened
 });
-const mapDispatchToProps = dispatch => ({
-  toggleModal: (open, options) => dispatch(toggleModal(open, options)),
-  toggleTooltip: (open, options) => dispatch(toggleTooltip(open, options)),
-  setTooltipPosition: pos => dispatch(setTooltipPosition(pos)),
-  setLayerGroupOpacity: (dataset, layers, opacity) => {
-    dispatch(setLayerGroupOpacity(dataset, layers, opacity));
-  }
-});
+const mapDispatchToProps = {
+  toggleModal,
+  toggleTooltip,
+  setTooltipPosition,
+  setLayerGroupOpacity
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Legend);

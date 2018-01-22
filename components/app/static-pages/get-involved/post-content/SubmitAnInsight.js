@@ -6,7 +6,7 @@ import { Link } from 'routes';
 import CardStatic from 'components/app/common/CardStatic';
 import Rating from 'components/app/common/Rating';
 
-export default function SubmitAnInsight({ insights }) {
+function SubmitAnInsight({ insights }) {
   const insightsCardsStatic = (insightsData) => {
     return insightsData.map(c =>
       (<CardStatic
@@ -79,3 +79,5 @@ SubmitAnInsight.propTypes = {
 SubmitAnInsight.defaultProps = {
   insights: []
 };
+
+export default SubmitAnInsight;

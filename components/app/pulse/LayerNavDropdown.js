@@ -58,11 +58,9 @@ const mapStateToProps = state => ({
   layerActive: state.pulse.layerActive
 });
 
-const mapDispatchToProps = dispatch => ({
-  toggleActiveLayer: (id, threedimensional, hemisphere) => {
-    dispatch(toggleActiveLayer(id, threedimensional, hemisphere));
-  },
-  resetLayerPoints: () => { dispatch(resetLayerPoints()); }
-});
+const mapDispatchToProps = {
+  toggleActiveLayer,
+  resetLayerPoints
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(LayerNavDropdown);

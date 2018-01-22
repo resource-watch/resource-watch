@@ -1,10 +1,6 @@
 import React from 'react';
-import { Link } from 'routes';
 
-// components
-import Banner from 'components/app/common/Banner';
-
-export default function ContributeData() {
+function ContributeData() {
   return (
     <aside className="l-postcontent">
       <div className="l-container" />
@@ -15,3 +11,4 @@ export default function ContributeData() {
 ContributeData.propTypes = {};
 ContributeData.defaultProps = {};
 
+export default ContributeData;

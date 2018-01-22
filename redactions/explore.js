@@ -7,7 +7,7 @@ import { toastr } from 'react-redux-toastr';
 import UserService from 'services/UserService';
 import GraphService from 'services/GraphService';
 
-import { BASEMAPS } from 'components/widgets/editor/map/constants';
+import { BASEMAPS } from 'components/ui/map/constants';
 
 /**
  * CONSTANTS

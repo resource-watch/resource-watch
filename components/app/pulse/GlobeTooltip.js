@@ -22,7 +22,8 @@ class GlobeTooltip extends React.Component {
     return (
       <div
         className="c-globe-tooltip"
-        onClick={this.handleClick}>
+        onClick={this.handleClick}
+      >
         {this.props.value.map(
           val =>
             (<div

@@ -5,41 +5,18 @@ import { toastr } from 'react-redux-toastr';
 // Redux
 import { connect } from 'react-redux';
 
-import {
-  setFilters,
-  setColor,
-  setCategory,
-  setValue,
-  setSize,
-  setOrderBy,
-  setAggregateFunction,
-  setLimit,
-  setChartType,
-  setBand,
-  setVisualizationType,
-  setLayer,
-  setAreaIntersection,
-  setTitle,
-  setZoom,
-  setLatLng,
-  setEmbed
-} from 'components/widgets/editor/redux/widgetEditor';
 import { setDataset } from 'redactions/myrwdetail';
 
 // Services
 import WidgetService from 'services/WidgetService';
 import DatasetService from 'services/DatasetService';
-import LayersService from 'services/LayersService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import WidgetEditor from 'components/widgets/editor/WidgetEditor';
+import WidgetEditor from 'widget-editor';
 import Button from 'components/ui/Button';
 import Input from 'components/form/Input';
 import Field from 'components/form/Field';
-
-// utils
-import { getChartConfig, getChartInfo } from 'utils/widgets/WidgetHelper';
 
 const FORM_ELEMENTS = {
   elements: {
@@ -85,9 +62,7 @@ class WidgetsEdit extends React.Component {
   componentDidMount() {
     this.widgetService.fetchData()
       .then((data) => {
-        this.setState({ widget: data }, () => {
-          this.loadWidgetIntoRedux();
-        });
+        this.setState({ widget: data });
         return data.attributes.dataset;
       })
       .then((datasetId) => {
@@ -123,77 +98,8 @@ class WidgetsEdit extends React.Component {
     const { widget } = this.state;
     const widgetAtts = widget.attributes;
     const dataset = widgetAtts.dataset;
-    const { widgetEditor, user } = this.props;
-    const {
-      visualizationType,
-      band,
-      limit,
-      value,
-      category,
-      color,
-      size,
-      orderBy,
-      aggregateFunction,
-      chartType,
-      filters,
-      areaIntersection,
-      layer,
-      embed
-    } = widgetEditor;
-    const { type, provider, tableName } = this.state.dataset.attributes;
-
-
-    let chartConfig;
-
-    // If the visualization if a map, we don't have any chartConfig
-    if (visualizationType !== 'map') {
-      const chartInfo = getChartInfo(dataset, type, provider, widgetEditor);
-
-      try {
-        chartConfig = await getChartConfig(
-          dataset,
-          type,
-          tableName,
-          band,
-          provider,
-          chartInfo
-        );
-      } catch (err) {
-        this.setState({
-          saved: false,
-          error: true,
-          loading: false,
-          errorMessage: 'Unable to generate the configuration of the chart'
-        });
-
-        return;
-      }
-    }
-
-    const widgetConfig = {
-      widgetConfig: Object.assign(
-        {},
-        {
-          paramsConfig: {
-            visualizationType,
-            band: band && { name: band.name },
-            limit,
-            value,
-            category,
-            color,
-            size,
-            orderBy,
-            aggregateFunction,
-            chartType,
-            filters,
-            areaIntersection,
-            layer: layer && layer.id,
-            embed
-          }
-        },
-        chartConfig
-      )
-    };
+    const { user } = this.props;
+    const widgetConfig = (this.onGetWidgetConfig) ? await this.getWidgetConfig() : {};
 
     const widgetObj = Object.assign(
       {},
@@ -206,7 +112,7 @@ class WidgetsEdit extends React.Component {
         source: widgetAtts.source,
         sourceUrl: widgetAtts.sourceUrl
       },
-      widgetConfig
+      { widgetConfig }
     );
 
     this.widgetService.updateUserWidget(widgetObj, dataset, user.token)
@@ -252,47 +158,10 @@ class WidgetsEdit extends React.Component {
     if (this.form) this.form.querySelector('button[type="submit"]').click();
   }
 
-  loadWidgetIntoRedux() {
-    const { widgetConfig, name } = this.state.widget.attributes;
-    const { paramsConfig, zoom, lat, lng } = widgetConfig;
-    const {
-      visualizationType,
-      band,
-      value,
-      category,
-      color,
-      size,
-      aggregateFunction,
-      orderBy,
-      filters,
-      limit,
-      chartType,
-      layer,
-      areaIntersection,
-      embed
-    } = paramsConfig;
-
-    // We restore the type of visualization
-    // We default to "chart" to maintain the compatibility with previously created
-    // widgets (at that time, only "chart" widgets could be created)
-    this.props.setVisualizationType(visualizationType || 'chart');
-
-    if (band) this.props.setBand(band);
-    if (layer) this.props.setLayer(layer);
-    if (aggregateFunction) this.props.setAggregateFunction(aggregateFunction);
-    if (value) this.props.setValue(value);
-    if (size) this.props.setSize(size);
-    if (color) this.props.setColor(color);
-    if (orderBy) this.props.setOrderBy(orderBy);
-    if (category) this.props.setCategory(category);
-    if (filters) this.props.setFilters(filters);
-    if (limit) this.props.setLimit(limit);
-    if (chartType) this.props.setChartType(chartType);
-    if (areaIntersection) this.props.setAreaIntersection(areaIntersection);
-    if (name) this.props.setTitle(name);
-    if (zoom) this.props.setZoom(zoom);
-    if (lat && lng) this.props.setLatLng({ lat, lng });
-    if (embed) this.props.setEmbed(embed);
+  getWidgetConfig() {
+    return this.onGetWidgetConfig()
+      .then(widgetConfig => widgetConfig)
+      .catch(() => ({}));
   }
 
   handleChange(value) {
@@ -304,21 +173,22 @@ class WidgetsEdit extends React.Component {
   render() {
     const { loading, widget, submitting } = this.state;
     const widgetAtts = widget && widget.attributes;
-
+    const datasetId = widgetAtts && widgetAtts.dataset;
     return (
       <div className="c-myrw-widgets-edit">
         <Spinner
-          className="-relative -light"
+          className="-light"
           isLoading={loading}
         />
         {widget &&
         <div>
           <WidgetEditor
-            widget={widget}
-            dataset={widget.attributes.dataset}
-            mode="widget"
-            onUpdateWidget={this.onUpdateWidget}
-            showSaveButton
+            datasetId={datasetId}
+            widgetId={widget.id}
+            saveButtonMode="never"
+            embedButtonMode="never"
+            titleMode="never"
+            provideWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
           />
           <div className="form-container">
             <form ref={(node) => { this.form = node; }} className="form-container" onSubmit={this.onSubmit}>
@@ -419,57 +289,16 @@ WidgetsEdit.propTypes = {
   user: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
   // ACTIONS
-  setFilters: PropTypes.func.isRequired,
-  setSize: PropTypes.func.isRequired,
-  setColor: PropTypes.func.isRequired,
-  setCategory: PropTypes.func.isRequired,
-  setValue: PropTypes.func.isRequired,
-  setOrderBy: PropTypes.func.isRequired,
-  setAggregateFunction: PropTypes.func.isRequired,
-  setLimit: PropTypes.func.isRequired,
-  setChartType: PropTypes.func.isRequired,
-  setVisualizationType: PropTypes.func.isRequired,
-  setAreaIntersection: PropTypes.func.isRequired,
-  setBand: PropTypes.func.isRequired,
-  setLayer: PropTypes.func.isRequired,
-  setDataset: PropTypes.func.isRequired,
-  setTitle: PropTypes.func.isRequired,
-  setZoom: PropTypes.func.isRequired,
-  setLatLng: PropTypes.func.isRequired,
-  setEmbed: PropTypes.func.isRequired
+  setDataset: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user,
-  widgetEditor: state.widgetEditor,
   locale: state.common.locale
 });
 
 const mapDispatchToProps = dispatch => ({
-  setFilters: filter => dispatch(setFilters(filter)),
-  setColor: color => dispatch(setColor(color)),
-  setSize: size => dispatch(setSize(size)),
-  setCategory: category => dispatch(setCategory(category)),
-  setValue: value => dispatch(setValue(value)),
-  setOrderBy: value => dispatch(setOrderBy(value)),
-  setAggregateFunction: value => dispatch(setAggregateFunction(value)),
-  setLimit: value => dispatch(setLimit(value)),
-  setChartType: value => dispatch(setChartType(value)),
-  setVisualizationType: vis => dispatch(setVisualizationType(vis)),
-  setAreaIntersection: value => dispatch(setAreaIntersection(value)),
-  setBand: band => dispatch(setBand(band)),
-  setTitle: title => dispatch(setTitle(title)),
-  setLayer: (layerId) => {
-    new LayersService()
-      .fetchData({ id: layerId })
-      .then(layer => dispatch(setLayer(layer)))
-      // TODO: better handling of the error
-      .catch(err => toastr.error('Error', err));
-  },
-  setDataset: dataset => dispatch(setDataset(dataset)),
-  setZoom: zoom => dispatch(setZoom(zoom)),
-  setLatLng: latLng => dispatch(setLatLng(latLng)),
-  setEmbed: embed => dispatch(setEmbed(embed))
+  setDataset: dataset => dispatch(setDataset(dataset))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WidgetsEdit);
