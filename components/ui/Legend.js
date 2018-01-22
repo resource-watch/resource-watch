@@ -343,23 +343,26 @@ class Legend extends React.PureComponent {
     );
   }
 
-  setPlayTimeline(isPlaying, datasetSpec, minValue, maxValue) {
+  setPlayTimeline(isPlaying, datasetSpec, firstLayer, lastLayer) {
     if (this.timer) clearInterval(this.timer);
 
     if (isPlaying) {
       this.timer = setInterval(() => {
-        if (this.state.currentStepTimeline === maxValue) {
+        if (this.state.currentStepTimeline === lastLayer.layerConfig.order) {
           clearInterval(this.timer);
           return this.setState({ currentStepTimeline: null, isTimelinePlaying: false });
         }
-        const currentValue = (this.state.currentStepTimeline || minValue);
-        const currentLayer = datasetSpec.layers.find((l) => {
-          return moment(l.layerConfig.dateTime, 'YYYY-MM-DD').year() === parseInt(currentValue);
-        });
+        const currentValue = (this.state.currentStepTimeline || firstLayer.layerConfig.order);
+        const currentLayer = datasetSpec.layers.find(l => l.layerConfig.order === currentValue);
         requestAnimationFrame(() => {
           this.props.setLayerGroupActiveLayer(datasetSpec.dataset, currentLayer.id);
         });
-        return this.setState({ currentStepTimeline: currentValue + 1 });
+
+        const sortedIimelineLayers = sortBy(datasetSpec.layers
+          .filter(l => l.layerConfig.timeline), l => l.layerConfig.order);
+        const index = sortedIimelineLayers.findIndex(e => e.layerConfig.order === currentValue);
+        const newCurrentStepTimeLine = sortedIimelineLayers[index + 1].layerConfig.order;
+        return this.setState({ currentStepTimeline: newCurrentStepTimeLine });
       }, TIMELINE_INTERVAL_TIMER, true);
     }
 
@@ -384,13 +387,10 @@ class Legend extends React.PureComponent {
         const sortedIimelineLayers = sortBy(timelineLayers, l => l.layerConfig.order);
         const firstLayer = sortedIimelineLayers[0];
         const lastLayer = sortedIimelineLayers[sortedIimelineLayers.length - 1];
-        const minYear = moment(firstLayer.layerConfig.dateTime, 'YYYY-MM-DD').year();
-        const maxYear = moment(lastLayer.layerConfig.dateTime, 'YYYY-MM-DD').year();
 
-        const currentLayer = datasetSpec.layers.find((l) => {
-          const lYear = moment(l.layerConfig.dateTime, 'YYYY-MM-DD').year();
-          return lYear === (this.state.currentStepTimeline || minYear);
-        });
+        const currentLayer = timelineLayers
+          .find(l => l.layerConfig.order ===
+            (this.state.currentStepTimeline || firstLayer.layerConfig.order));
 
         return (
           <li key={datasetSpec.dataset} className="c-legend-unit">
@@ -408,22 +408,30 @@ class Legend extends React.PureComponent {
                 { this.state.isTimelinePlaying &&
                   <button
                     type="button"
-                    onClick={() => { this.setPlayTimeline(false, datasetSpec, minYear, maxYear); }}
+                    onClick={() => {
+                      this.setPlayTimeline(false, datasetSpec, firstLayer, lastLayer);
+                    }}
                   >
                     <Icon name="icon-stop2" className="-small" />
                   </button> }
                 { !this.state.isTimelinePlaying &&
                   <button
                     type="button"
-                    onClick={() => { this.setPlayTimeline(true, datasetSpec, minYear, maxYear); }}
+                    onClick={() => {
+                      this.setPlayTimeline(true, datasetSpec, firstLayer, lastLayer);
+                    }}
                   >
                     <Icon name="icon-play3" className="-small" />
                   </button> }
                 { !!(datasetSpec.layers.length) &&
                   <InputRange
-                    minValue={minYear}
-                    maxValue={maxYear}
-                    value={this.state.currentStepTimeline || minYear}
+                    minValue={firstLayer.layerConfig.order}
+                    maxValue={lastLayer.layerConfig.order}
+                    formatLabel={(value) => {
+                      const layerValue = timelineLayers.find(l => l.layerConfig.order === value);
+                      return layerValue.layerConfig.timelineLabel;
+                    }}
+                    value={this.state.currentStepTimeline || firstLayer.layerConfig.order}
                     onChange={(value) => { this.onTimelineChange(value, datasetSpec); }}
                   /> }
               </div>

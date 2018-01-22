@@ -308,7 +308,7 @@ class AreaCard extends React.Component {
                   <div className="status-label">
                     {!subscriptionConfirmed &&
                     <div className="pending-label">
-                      Pending
+                      Pending email confirmation
                     </div>
                     }
                   </div>

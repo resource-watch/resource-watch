@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
+import sortBy from 'lodash/sortBy';
 
 // Components
 import Select from 'components/form/SelectInput';
@@ -18,6 +18,12 @@ class SubscriptionSelector extends React.Component {
       index: props.index,
       typeOptions: []
     };
+
+    // ----------------- BINDINGS -----------------------
+    this.handleDatasetSelected = this.handleDatasetSelected.bind(this);
+    this.handleTypeSelected = this.handleTypeSelected.bind(this);
+    this.handleThresholdChange = this.handleThresholdChange.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
   }
 
   componentWillReceiveProps(newProps) {
@@ -38,7 +44,6 @@ class SubscriptionSelector extends React.Component {
     }
   }
 
-  @Autobind
   handleDatasetSelected(value) {
     const { datasets } = this.props;
 
@@ -64,13 +69,11 @@ class SubscriptionSelector extends React.Component {
     }
   }
 
-  @Autobind
   handleTypeSelected(type) {
     this.setState({ selectedType: type },
       () => this.props.onUpdate(this.state));
   }
 
-  @Autobind
   handleThresholdChange(threshold) {
     let newThreshold = threshold;
     if (threshold <= 0) {
@@ -80,7 +83,6 @@ class SubscriptionSelector extends React.Component {
       () => this.props.onUpdate(this.state));
   }
 
-  @Autobind
   handleRemove() {
     this.props.onRemove(this.props.index);
   }
@@ -90,8 +92,14 @@ class SubscriptionSelector extends React.Component {
     const { selectedDataset, selectedType, selectedThreshold, typeOptions } = this.state;
 
     const datasetOptions = (datasets.length > 0) ?
-      datasets.map(val => ({ label: val.attributes.metadata[0] && val.attributes.metadata[0].attributes.info ? val.attributes.metadata[0].attributes.info.name : val.attributes.name, value: val.id, id: val.id }))
+      datasets.map(val => ({
+        label: val.attributes.metadata[0] && val.attributes.metadata[0].attributes.info ?
+          val.attributes.metadata[0].attributes.info.name : val.attributes.name,
+        value: val.id,
+        id: val.id
+      }))
       : [];
+    const sortedDatasetOptions = sortBy(datasetOptions, d => d.label);
 
     return (
       <div className="c-subscription-selector" ref={(node) => { this.el = node; }}>
@@ -103,7 +111,7 @@ class SubscriptionSelector extends React.Component {
             default: selectedDataset,
             placeholder: 'Select a dataset'
           }}
-          options={datasetOptions}
+          options={sortedDatasetOptions}
           onChange={this.handleDatasetSelected}
         />
         <Select
