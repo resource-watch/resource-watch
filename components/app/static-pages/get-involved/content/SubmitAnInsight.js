@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import renderHTML from 'react-render-html';
 import { Link } from 'routes';
 
-// components
-import Banner from 'components/app/common/Banner';
-
-export default function SubmitAnInsight({ content }) {
+function SubmitAnInsight({ content }) {
   return (
     <section className="l-content">
       <article className="l-content-body">
@@ -38,3 +35,5 @@ SubmitAnInsight.propTypes = {
 SubmitAnInsight.defaultProps = {
   content: ''
 };
+
+export default SubmitAnInsight;

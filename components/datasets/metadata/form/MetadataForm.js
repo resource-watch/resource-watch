@@ -221,9 +221,9 @@ const mapStateToProps = state => ({
   locale: state.common.locale
 });
 
-const mapDispatchToProps = dispatch => ({
-  setSources: sources => dispatch(setSources(sources)),
-  resetSources: () => dispatch(resetSources())
-});
+const mapDispatchToProps = {
+  setSources,
+  resetSources
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(MetadataForm);

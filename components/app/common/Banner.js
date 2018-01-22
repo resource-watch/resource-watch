@@ -37,7 +37,6 @@ Banner.propTypes = {
   children: PropTypes.any,
   className: PropTypes.string,
   styles: PropTypes.object,
-  containerGrid: PropTypes.bool,
   viel: PropTypes.bool,
   useBackground: PropTypes.bool
 };

@@ -101,7 +101,6 @@ class Pulse extends Page {
     Cesium = window.Cesium;
     Cesium.BingMapsApi.defaultKey = process.env.BING_MAPS_API_KEY;
 
-    
     this.mounted = true;
     // This is not sending anything, for the moment
     this.props.getLayers();
@@ -395,8 +394,7 @@ class Pulse extends Page {
   render() {
     const { url, layersGroup, pulse } = this.props;
     const { layerActive, layerPoints } = pulse;
-    const threedimensional = layerActive && layerActive.threedimensional === 'true';
-    const { markerType, texture, useDefaultLayer, zoom } = this.state;
+    const { markerType, texture, zoom } = this.state;
     const shapes = this.getShapes(layerPoints, markerType);
 
     return (
@@ -430,8 +428,8 @@ class Pulse extends Page {
               zoom={zoom}
               homeButton={false}
               navigationHelpButton={false}
-              showInfoWindow={true}
-              selectionIndicator={true}
+              showInfoWindow
+              selectionIndicator
             >
               {texture &&
                 <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />

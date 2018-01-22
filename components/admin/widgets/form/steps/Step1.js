@@ -7,10 +7,6 @@ import { toastr } from 'react-redux-toastr';
 // Constants
 import { FORM_ELEMENTS, CONFIG_TEMPLATE, CONFIG_TEMPLATE_OPTIONS } from 'components/admin/widgets/form/constants';
 
-// Redux
-import { connect } from 'react-redux';
-import { setTitle } from 'components/widgets/editor/redux/widgetEditor';
-
 // Components
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
@@ -18,10 +14,11 @@ import TextArea from 'components/form/TextArea';
 import Select from 'components/form/SelectInput';
 import Code from 'components/form/Code';
 import Checkbox from 'components/form/Checkbox';
-import WidgetEditor from 'components/widgets/editor/WidgetEditor';
 import SwitchOptions from 'components/ui/SwitchOptions';
 import VegaChart from 'components/widgets/charts/VegaChart';
 import Spinner from 'components/ui/Spinner';
+
+import WidgetEditor from 'widget-editor';
 
 // Utils
 import ChartTheme from 'utils/widgets/theme';
@@ -82,7 +79,7 @@ class Step1 extends React.Component {
 
   render() {
     const { id, loadingVegaChart } = this.state;
-    const { widgetEditor, showEditor } = this.props;
+    const { showEditor } = this.props;
 
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
@@ -120,7 +117,7 @@ class Step1 extends React.Component {
           {/* NAME */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
-            onChange={value => this.props.setTitle(value)}
+            onChange={value => this.props.onChange({ name: value })}
             validations={['required']}
             className="-fluid"
             properties={{
@@ -128,8 +125,8 @@ class Step1 extends React.Component {
               label: 'Name',
               type: 'text',
               required: true,
-              default: widgetEditor.title || '',
-              value: widgetEditor.title || ''
+              default: this.state.form.name,
+              value: this.state.form.name
             }}
           >
             {Input}
@@ -242,10 +239,12 @@ class Step1 extends React.Component {
 
             {this.props.mode === 'editor' &&
               <WidgetEditor
-                dataset={this.state.form.dataset}
-                mode="dataset"
-                showSaveButton={false}
-                onChange={(value) => { this.props.onChange({ widgetConfig: value }); }}
+                datasetId={this.state.form.dataset}
+                widgetId={this.props.id}
+                saveButtonMode="never"
+                embedButtonMode="never"
+                titleMode="never"
+                provideWidgetConfig={this.props.onGetWidgetConfig}
               />
             }
 
@@ -334,17 +333,7 @@ Step1.propTypes = {
   onChange: PropTypes.func,
   onModeChange: PropTypes.func,
   showEditor: PropTypes.bool,
-  // REDUX
-  widgetEditor: PropTypes.object,
-  setTitle: PropTypes.func
+  onGetWidgetConfig: PropTypes.func
 };
 
-const mapStateToProps = state => ({
-  widgetEditor: state.widgetEditor
-});
-
-const mapDispatchToProps = dispatch => ({
-  setTitle: title => dispatch(setTitle(title))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Step1);
+export default Step1;

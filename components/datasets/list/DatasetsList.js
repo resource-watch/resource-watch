@@ -134,9 +134,9 @@ const mapStateToProps = state => ({
   error: state.datasets.datasets.error,
   filters: state.datasets.datasets.filters
 });
-const mapDispatchToProps = dispatch => ({
-  getDatasets: options => dispatch(getDatasets(options)),
-  setFilters: filters => dispatch(setFilters(filters))
-});
+const mapDispatchToProps = {
+  getDatasets,
+  setFilters
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetsList);

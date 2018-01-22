@@ -101,9 +101,9 @@ const mapStateToProps = ({ sources }) => ({
   tmpSources: sources.tmpSources
 });
 
-const mapDispatchToProps = dispatch => ({
-  setSources: sources => dispatch(setSources(sources)),
-  setTmpSources: sources => dispatch(setTmpSources(sources))
-});
+const mapDispatchToProps = {
+  setSources,
+  setTmpSources
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SourcesContentModal);

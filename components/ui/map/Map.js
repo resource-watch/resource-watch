@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 
 // Components
-import Spinner from 'components/widgets/editor/ui/Spinner';
+import Spinner from 'components/ui/Spinner';
 
 // Redux
 import { connect } from 'react-redux';
 
-import { LABELS } from 'components/widgets/editor/map/constants';
+import { LABELS } from 'components/ui/map/constants';
 
 
 // Leaflet can't be imported on the server because it's not isomorphic

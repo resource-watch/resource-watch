@@ -213,10 +213,10 @@ const mapStateToProps = state => ({
   locale: state.common.locale
 });
 
-const mapDispatchToProps = dispatch => ({
-  toggleModal: (open) => { dispatch(toggleModal(open)); },
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
-  setSimilarWidgets: (widgets) => { dispatch(setSimilarWidgets(widgets)); }
-});
+const mapDispatchToProps = {
+  toggleModal,
+  setModalOptions,
+  setSimilarWidgets
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(LayerCard);
