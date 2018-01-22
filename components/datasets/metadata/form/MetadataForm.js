@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import { toastr } from 'react-redux-toastr';
 
-import { Autobind } from 'es-decorators';
-
 // redux
 import { connect } from 'react-redux';
 
@@ -36,6 +34,11 @@ class MetadataForm extends React.Component {
         authorization: props.authorization
       })
     });
+
+    // -------------------- BINDING -----------------------
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onStepChange = this.onStepChange.bind(this);
 
     this.service = new DatasetsService({
       authorization: props.authorization,
@@ -100,7 +103,6 @@ class MetadataForm extends React.Component {
    * - onSubmit
    * - onChange
   */
-  @Autobind
   onSubmit(event) {
     event.preventDefault();
 
@@ -153,13 +155,11 @@ class MetadataForm extends React.Component {
     }, 0);
   }
 
-  @Autobind
   onChange(obj) {
     const form = Object.assign({}, this.state.form, obj.form);
     this.setState({ form });
   }
 
-  @Autobind
   onStepChange(step) {
     this.setState({ step });
   }
