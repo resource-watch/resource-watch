@@ -254,8 +254,8 @@ class Home extends Page {
 
 const mapStateToProps = state => ({ insights: state.insights.list });
 
-const mapDispatchToProps = dispatch => ({
-  getInsights: () => dispatch(getInsights())
-});
+const mapDispatchToProps = {
+  getInsights
+};
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Home);

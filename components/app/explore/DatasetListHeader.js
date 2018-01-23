@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // Components
 import Button from 'components/ui/Button';
 import Icon from 'components/ui/Icon';
-import SelectInput from 'components/widgets/editor/form/SelectInput';
+import SelectInput from 'components/form/SelectInput';
 
 // Redux
 import { connect } from 'react-redux';
@@ -112,9 +112,9 @@ const mapStateToProps = ({ explore }) => ({
   sortingOrder: explore.sorting.order
 });
 
-const mapDispatchToProps = dispatch => ({
-  setDatasetsMode: mode => dispatch(setDatasetsMode(mode)),
-  setDatasetsSorting: sorting => dispatch(setDatasetsSorting(sorting))
-});
+const mapDispatchToProps = {
+  setDatasetsMode,
+  setDatasetsSorting
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetListHeader);

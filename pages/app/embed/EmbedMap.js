@@ -13,13 +13,13 @@ import { setRouter } from 'redactions/routes';
 // Components
 import Page from 'components/app/layout/Page';
 import EmbedLayout from 'components/app/layout/EmbedLayout';
-import Spinner from 'components/widgets/editor/ui/Spinner';
-import Map from 'components/widgets/editor/map/Map';
-import Legend from 'components/widgets/editor/ui/Legend';
-import Icon from 'components/widgets/editor/ui/Icon';
+import Spinner from 'components/ui/Spinner';
+import Map from 'components/ui/map/Map';
+import Legend from 'components/ui/Legend';
+import Icon from 'components/ui/Icon';
 
 // Utils
-import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import LayerManager from 'utils/layers/LayerManager';
 
 class EmbedMap extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {

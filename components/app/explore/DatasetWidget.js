@@ -12,7 +12,7 @@ import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import Button from 'components/ui/Button';
-import Icon from 'components/widgets/editor/ui/Icon';
+import Icon from 'components/ui/Icon';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import DatasetLayerChart from 'components/app/explore/DatasetLayerChart';
 import DatasetPlaceholderChart from 'components/app/explore/DatasetPlaceholderChart';

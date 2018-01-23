@@ -19,6 +19,10 @@ import Modal from 'components/ui/Modal';
 import Tooltip from 'components/ui/Tooltip';
 import Dock from 'components/ui/Dock';
 import Toastr from 'react-redux-toastr';
+import { setConfig,
+  Modal as WidgetModal,
+  Tooltip as WidgetTooltip,
+  Icons as WidgetIcons } from 'widget-editor';
 
 class Layout extends React.Component {
   constructor(props) {
@@ -27,6 +31,18 @@ class Layout extends React.Component {
     this.state = {
       modalOpen: false
     };
+
+    // WIDGET EDITOR
+    // Change the configuration according to your needs
+    setConfig({
+      url: process.env.WRI_API_URL,
+      env: 'production,preproduction',
+      applications: process.env.APPLICATIONS,
+      authUrl: process.env.CONTROL_TOWER_URL, // is this the correct one????
+      assetsPath: '/static/images/widget-editor/',
+      userToken: props.user.token,
+      userEmail: props.user.email
+    });
   }
 
   componentDidMount() {
@@ -83,6 +99,10 @@ class Layout extends React.Component {
           transitionIn="fadeIn"
           transitionOut="fadeOut"
         />
+
+        <WidgetModal />
+        <WidgetTooltip />
+        <WidgetIcons />
       </div>
     );
   }
@@ -94,15 +114,18 @@ Layout.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
 
-  modal: PropTypes.object,
-  toggleModal: PropTypes.func,
-  setModalOptions: PropTypes.func,
-  toggleTooltip: PropTypes.func,
-  updateIsLoading: PropTypes.func
+  // STORE
+  modal: PropTypes.object.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  setModalOptions: PropTypes.func.isRequired,
+  toggleTooltip: PropTypes.func.isRequired,
+  updateIsLoading: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  modal: state.modal
+  modal: state.modal,
+  user: state.user
 });
 
 

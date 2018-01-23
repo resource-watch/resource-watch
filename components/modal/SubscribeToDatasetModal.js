@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Router } from 'routes';
-import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 
 // Redux
@@ -45,6 +44,17 @@ class SubscribeToDatasetModal extends React.Component {
     // Services
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
+
+    // ------------------- Bindings -------------------------
+    this.onChangeSelectedArea = this.onChangeSelectedArea.bind(this);
+    this.onChangeSelectedDataset = this.onChangeSelectedDataset.bind(this);
+    this.onChangeSelectedType = this.onChangeSelectedType.bind(this);
+    this.handleThresholdChange = this.handleThresholdChange.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleSubscribe = this.handleSubscribe.bind(this);
+    this.handleGoToMySubscriptions = this.handleGoToMySubscriptions.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    // -------------------------------------------------------
   }
 
   componentDidMount() {
@@ -52,7 +62,6 @@ class SubscribeToDatasetModal extends React.Component {
     this.loadUserAreas();
   }
 
-  @Autobind
   onChangeSelectedArea(value) {
     if (value && value.value === 'upload_area') {
       this.setState({ loading: true });
@@ -73,19 +82,16 @@ class SubscribeToDatasetModal extends React.Component {
     }
   }
 
-  @Autobind
   onChangeSelectedDataset(value) {
     this.setState({
       selectedDataset: value
     });
   }
 
-  @Autobind
   onChangeSelectedType(type) {
     this.setState({ selectedType: type });
   }
 
-  @Autobind
   handleThresholdChange(threshold) {
     let newThreshold = threshold;
     if (threshold <= 0) {
@@ -94,7 +100,6 @@ class SubscribeToDatasetModal extends React.Component {
     this.setState({ selectedThreshold: newThreshold });
   }
 
-  @Autobind
   handleCancel() {
     this.setState({
       saved: false
@@ -102,7 +107,6 @@ class SubscribeToDatasetModal extends React.Component {
     this.props.toggleModal(false);
   }
 
-  @Autobind
   handleSubscribe() {
     const { selectedArea, selectedType, selectedThreshold, userAreas } = this.state;
     const { dataset, user } = this.props;
@@ -224,7 +228,6 @@ class SubscribeToDatasetModal extends React.Component {
     }
   }
 
-  @Autobind
   handleGoToMySubscriptions() {
     this.setState({
       saved: false
@@ -233,7 +236,6 @@ class SubscribeToDatasetModal extends React.Component {
     Router.pushRoute('myrw', { tab: 'areas' });
   }
 
-  @Autobind
   handleNameChange(event) {
     this.setState({
       name: event.target.value

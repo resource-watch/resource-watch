@@ -43,8 +43,8 @@ LayerInfoModal.propTypes = {
   data: PropTypes.object
 };
 
-const mapDispatchToProps = dispatch => ({
-  toggleModal: open => dispatch(toggleModal(open))
-});
+const mapDispatchToProps = {
+  toggleModal
+};
 
 export default connect(null, mapDispatchToProps)(LayerInfoModal);

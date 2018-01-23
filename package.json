@@ -24,10 +24,10 @@
     "classnames": "2.2.5",
     "connect-redis": "3.3.0",
     "cookie-parser": "1.4.3",
+    "copy-webpack-plugin": "^4.3.1",
     "d3": "3.5.17",
     "datalib": "1.7.3",
     "dotenv": "4.0.0",
-    "es-decorators": "1.0.0",
     "es6-promise": "4.1.1",
     "esri-leaflet": "2.1.1",
     "eventemitter3": "2.0.3",
@@ -95,7 +95,6 @@
     "react-sortable-hoc": "0.6.3",
     "react-sticky": "6.0.1",
     "react-tether": "0.5.7",
-    "react-tokeninput": "2.4.0",
     "react-upload-file": "2.0.0-beta.6",
     "react-vega": "2.3.1",
     "redis": "2.8.0",
@@ -112,7 +111,8 @@
     "vega": "2.6.0",
     "vizz-wysiwyg": "1.1.7",
     "webpack": "^3.6.0",
-    "whatwg-fetch": "2.0.2"
+    "whatwg-fetch": "2.0.2",
+    "widget-editor": "0.1.0"
   },
   "devDependencies": {
     "@storybook/react": "3.2.11",

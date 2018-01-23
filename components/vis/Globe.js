@@ -781,12 +781,8 @@ Globe.propTypes = {
   onMouseHold: PropTypes.func,
 
   // Markers
-  markerLowColor: PropTypes.number,
-  markerMediumColor: PropTypes.number,
-  markerHighColor: PropTypes.number,
   markerSelectedColor: PropTypes.number,
   markerDefaultColor: PropTypes.number,
-  markerSelectedSizeFactor: PropTypes.number,
   markerType: PropTypes.string
 };
 

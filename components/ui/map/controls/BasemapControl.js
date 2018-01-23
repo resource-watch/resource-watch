@@ -7,9 +7,9 @@ import { setBasemap, setLabels } from 'redactions/explore';
 
 // Components
 import TetherComponent from 'react-tether';
-import Icon from 'components/widgets/editor/ui/Icon';
-import Checkbox from 'components/widgets/editor/form/Checkbox';
-import RadioGroup from 'components/widgets/editor/form/RadioGroup';
+import Icon from 'components/ui/Icon';
+import Checkbox from 'components/form/Checkbox';
+import RadioGroup from 'components/form/RadioGroup';
 
 class BasemapControl extends React.Component {
   static propTypes = {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function LoginModal (props) {
+function LoginModal(props) {
   return (
     <div className="c-login-modal">
       <div className="header-div">
@@ -35,7 +35,7 @@ function LoginModal (props) {
         <button
           className="c-button -a"
           onClick={() => props.toggleModal()}
-          >
+        >
           Ok
         </button>
       </div>

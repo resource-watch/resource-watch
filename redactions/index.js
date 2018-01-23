@@ -9,7 +9,6 @@ export { default as partnerDetail } from './partnerDetail';
 export { default as tooltip } from './tooltip';
 export { default as staticPages } from './static_pages';
 export { default as modal } from './modal';
-export { default as widgetEditor } from 'components/widgets/editor/redux/widgetEditor';
 export { default as user } from './user';
 export { default as routes } from './routes';
 export { default as page } from './page';

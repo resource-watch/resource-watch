@@ -39,7 +39,7 @@ class SliderTooltip extends React.Component {
   }
 
   render() {
-    const { className, options } = this.props;
+    const { options } = this.props;
     const updateValue = debounce(value => this.setState({ value }), 0);
 
     return (
@@ -64,7 +64,6 @@ class SliderTooltip extends React.Component {
 
 SliderTooltip.propTypes = {
   // Layer group
-  className: PropTypes.string,
   options: PropTypes.object,
   // Callback to call when the layer changes with
   // the ID of the dataset and the ID of the layer
@@ -77,8 +76,7 @@ SliderTooltip.defaultProps = {
   min: 0,
   max: 1,
   step: 0.01,
-  defaultValue: 1,
-  className: '-something'
+  defaultValue: 1
 };
 
 export default SliderTooltip;

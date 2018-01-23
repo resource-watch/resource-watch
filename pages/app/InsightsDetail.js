@@ -2,8 +2,6 @@ import React from 'react';
 import withRedux from 'next-redux-wrapper';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import { initStore } from 'store';
-import { setUser } from 'redactions/user';
-import { setRouter } from 'redactions/routes';
 
 import { getInsightBySlug } from 'redactions/insights';
 
@@ -79,8 +77,8 @@ class InsightsDetail extends Page {
 
 const mapStateToProps = state => ({ insight: state.insights.data });
 
-const mapDispatchToProps = dispatch => ({
-  getInsightBySlug: slug => dispatch(getInsightBySlug(slug))
-});
+const mapDispatchToProps = {
+  getInsightBySlug
+};
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(InsightsDetail);

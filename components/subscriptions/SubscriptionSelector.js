@@ -154,7 +154,6 @@ class SubscriptionSelector extends React.Component {
 SubscriptionSelector.propTypes = {
   datasets: PropTypes.array.isRequired,
   index: PropTypes.number,
-  data: PropTypes.object,
   // CALLBACKS
   onRemove: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired

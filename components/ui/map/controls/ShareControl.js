@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Components
-import ShareModalExplore from 'components/widgets/editor/modal/ShareModalExplore';
-import Icon from 'components/widgets/editor/ui/Icon';
+import ShareModalExplore from 'components/modal/ShareModalExplore';
+import Icon from 'components/ui/Icon';
 
 class ShareControl extends React.Component {
   static propTypes = {

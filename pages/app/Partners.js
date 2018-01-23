@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
-import { bindActionCreators } from 'redux';
 import { initStore } from 'store';
 import { getPartners } from 'redactions/admin/partners';
 
@@ -142,8 +141,8 @@ Partners.defaultProps = {
 
 const mapStateToProps = state => ({ partners: state.partners.partners.list });
 
-const mapDispatchToProps = dispatch => ({
-  getPartners: bindActionCreators(getPartners, dispatch)
-});
+const mapDispatchToProps = {
+  getPartners
+};
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Partners);
