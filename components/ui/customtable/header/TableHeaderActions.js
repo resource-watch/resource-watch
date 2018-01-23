@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import TableFilters from './TableFilters';
 import TableSorts from './TableSorts';
 
-function TableHeaderActions() {
+function TableHeaderActions(props) {
   return (
     <div className="c-table-header-actions">
       <ul>
         <li className="action sortby-action">
-          <TableSorts {...this.props} />
+          <TableSorts {...props} />
         </li>
 
         {this.props.filters &&
           <li className="action filter-action">
-            <TableFilters {...this.props} />
+            <TableFilters {...props} />
           </li>
         }
       </ul>
