@@ -63,7 +63,7 @@ export default class WidgetList extends React.Component {
           <Spinner className="-light" isLoading={loading} />
         }
         <ul className="row list">
-          {widgets.map(widget =>
+          {widgets && widgets.map(widget =>
             (<li
               key={widget.id}
               className={newClassName}

@@ -17,7 +17,7 @@ import VegaChartTooltip from 'components/widgets/charts/VegaChartTooltip';
 import VegaChartLegend from 'components/widgets/charts/VegaChartLegend';
 
 // Utils
-import { WidgetHelper } from 'widget-editor';
+import { fetchRasterData } from 'utils/widgets/WidgetHelper';
 
 class VegaChart extends React.Component {
   constructor(props) {
@@ -309,7 +309,7 @@ class VegaChart extends React.Component {
       // If the widget represents a raster dataset, we need to fetch
       // and parse the data
       if (config.data[0].format && config.data[0].format.band) {
-        WidgetHelper.fetchRasterData(
+        fetchRasterData(
           config.data[0].url,
           config.data[0].format.band,
           config.data[0].format.provider
