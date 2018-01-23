@@ -6,7 +6,7 @@ import { StickyContainer, Sticky } from 'react-sticky';
 import { connect } from 'react-redux';
 
 // Components
-import CollectionListAside from 'components/app/myrw/collection-list-aside';
+import CollectionListAside from 'components/collection-list-aside';
 import DatasetsList from 'components/datasets/list/DatasetsList';
 import MyRWDatasetsStarred from 'components/app/myrw/datasets/MyRWDatasetsStarred';
 
