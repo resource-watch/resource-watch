@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as actions from './search-actions';
 import reducers from './search-reducers';
-import defaultState from './search-default-state';
+import initialState from './search-default-state';
 
 import SearchComponent from './search-component';
 
 // Mandatory
 export {
-  actions, reducers, defaultState
+  actions, reducers, initialState
 };
 
 

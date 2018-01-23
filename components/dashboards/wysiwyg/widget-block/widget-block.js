@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as actions from './widget-block-actions';
 import reducers from './widget-block-reducers';
-import defaultState from './widget-block-default-state';
+import initialState from './widget-block-default-state';
 
 import WidgetBlockComponent from './widget-block-component';
 
 // Mandatory
 export {
-  actions, reducers, defaultState
+  actions, reducers, initialState
 };
 
 class WidgetBlock extends React.Component {
