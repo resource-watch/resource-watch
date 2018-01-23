@@ -8,7 +8,9 @@ import Paginator from 'components/ui/Paginator';
 import SearchInput from 'components/ui/SearchInput';
 import WidgetList from 'components/widgets/list/WidgetList';
 
-export default function WidgetBlockEdition({ data, onChangeTab, onSelectWidget, onChangePage, onChangeSearch }) {
+export default function WidgetBlockEdition({ data, onChangeTab, onSelectWidget,
+  onChangePage, onChangeSearch }) {
+  console.log('data', data);
   return (
     <div className="c-dashboard-widget-edition">
       <div className="l-page">
@@ -48,22 +50,24 @@ export default function WidgetBlockEdition({ data, onChangeTab, onSelectWidget, 
 
                 <Spinner isLoading={data.loading} className="-relative -small -light" />
 
-                <WidgetList
-                  widgets={data.widgets}
-                  mode="grid"
-                  onWidgetClick={onSelectWidget}
-                />
+                {data.widgets &&
+                  <WidgetList
+                    widgets={data.widgets}
+                    mode="grid"
+                    onWidgetClick={onSelectWidget}
+                  />
+                }
 
-                <Spinner isLoading={data.loading} className="-relative -small -light" />
-
-                <Paginator
-                  options={{
-                    size: data.total,
-                    page: data.page,
-                    limit: data.pageSize
-                  }}
-                  onChange={onChangePage}
-                />
+                {data.total &&
+                  <Paginator
+                    options={{
+                      size: data.total,
+                      page: data.page,
+                      limit: data.pageSize || 9
+                    }}
+                    onChange={onChangePage}
+                  />
+                }
 
               </div>
             </div>
