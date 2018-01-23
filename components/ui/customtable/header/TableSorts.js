@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Icon from '../../Icon';
 
-function TableFilters(props) {
+function TableSorts(props) {
   const { field, sort } = props;
 
   return (
@@ -35,12 +35,14 @@ function TableFilters(props) {
   );
 }
 
-TableFilters.propTypes = {
+TableSorts.propTypes = {
   field: PropTypes.string.isRequired,
   sort: PropTypes.object
 };
 
-TableFilters.defaultProps = {
+TableSorts.defaultProps = {
   onChange: null,
   selected: null
 };
+
+export default TableSorts;

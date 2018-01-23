@@ -11,7 +11,7 @@ function TableHeaderActions(props) {
           <TableSorts {...props} />
         </li>
 
-        {this.props.filters &&
+        {props.filters &&
           <li className="action filter-action">
             <TableFilters {...props} />
           </li>
