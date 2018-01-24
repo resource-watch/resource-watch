@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import * as actions from './explore-dataset-filters-actions';
-import reducers, { initialState } from './explore-dataset-filters-reducer';
+import * as reducers from './explore-dataset-filters-reducer';
+import { initialState } from './explore-dataset-filters-reducer';
 
 import ExploreDatasetFiltersComponent from './explore-dataset-filters-component';
 import getFilterStatus from './explore-dataset-filters-selectors';

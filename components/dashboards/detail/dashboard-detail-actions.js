@@ -1,5 +1,5 @@
 import 'isomorphic-fetch';
-import { createAction, createThunkAction } from 'redux-actions';
+import { createAction, createThunkAction } from 'redux-tools';
 
 // Actions
 export const setDashboard = createAction('DASHBOARD_PREVIEW_GET_DASHBOARD');

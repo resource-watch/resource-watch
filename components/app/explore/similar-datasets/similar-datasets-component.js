@@ -11,7 +11,7 @@ import Spinner from 'components/ui/Spinner';
 class SimilarDatasets extends PureComponent {
   render() {
     const { similarDatasets, active } = this.props;
-    const { loading, data, error } = similarDatasets;
+    const { loading, data } = similarDatasets;
 
     return (
       <div className="c-similar-datasets">
@@ -23,7 +23,7 @@ class SimilarDatasets extends PureComponent {
             list={data}
             mode="grid"
             showActions={false}
-            showFavorite={false}
+            showFavorite
             onTagSelected={this.props.onTagSelected}
           />
         }

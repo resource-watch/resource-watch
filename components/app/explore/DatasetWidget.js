@@ -18,6 +18,8 @@ import DatasetLayerChart from 'components/app/explore/DatasetLayerChart';
 import DatasetPlaceholderChart from 'components/app/explore/DatasetPlaceholderChart';
 import DatasetTagsTooltip from 'components/app/explore/DatasetTagsTooltip';
 import Spinner from 'components/ui/Spinner';
+import Tooltip from 'rc-tooltip/dist/rc-tooltip';
+import CollectionsPanel from 'components/collections-panel';
 
 // Services
 import GraphService from 'services/GraphService';
@@ -26,6 +28,9 @@ import UserService from 'services/UserService';
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
 import { logEvent } from 'utils/analytics';
+
+// helpers
+import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
 class DatasetWidget extends React.Component {
   /**
@@ -184,28 +189,6 @@ class DatasetWidget extends React.Component {
     this.props.onTagSelected(tag);
   }
 
-  handleFavoriteButtonClick = () => {
-    const { favourite, dataset, user } = this.props;
-
-    this.setState({ loading: true });
-
-    this.props.toggleFavourite({
-      favourite,
-      user,
-      resource: {
-        type: 'dataset',
-        id: dataset.id
-      }
-    })
-      .then(() => {
-        this.setState({ loading: false });
-      })
-      .catch((err) => {
-        this.setState({ loading: false });
-        console.error(err);
-      });
-  }
-
   /**
    * HELPER
    * return chart
@@ -238,16 +221,19 @@ class DatasetWidget extends React.Component {
 
 
   render() {
-    const { mode, showActions, favourite, user, showFavorite } = this.props;
+    const { mode, showActions, user, showFavorite } = this.props;
     const { inferredTags, loading } = this.state;
-    const dataset = this.props.dataset.attributes;
+    const dataset = { ...this.props.dataset.attributes, id: this.props.dataset.id };
     const metadata = dataset.metadata && dataset.metadata[0];
-    const starIconName = favourite ? 'icon-star-full' : 'icon-star-empty';
-
+    const isInACollection = belongsToACollection(user, dataset);
+    const starIconName = classnames({
+      'icon-star-full': isInACollection,
+      'icon-star-empty': !isInACollection
+    });
     const starIconClass = classnames({
       '-small': true,
-      '-filled': favourite,
-      '-empty': !favourite
+      '-filled': isInACollection,
+      '-empty': !isInACollection
     });
 
     return (
@@ -286,18 +272,28 @@ class DatasetWidget extends React.Component {
               }
               {/* Favorite dataset icon */}
               {user && user.id && showFavorite &&
-                <div
-                  className="favourite-button"
-                  onClick={this.handleFavoriteButtonClick}
-                  title="Favorite dataset"
-                  role="button"
-                  tabIndex={-1}
+                <Tooltip
+                  overlay={<CollectionsPanel
+                    resource={dataset}
+                    resourceType="dataset"
+                  />}
+                  overlayClassName="c-rc-tooltip"
+                  overlayStyle={{
+                    color: '#fff'
+                  }}
+                  placement="bottom"
+                  trigger="click"
                 >
-                  <Icon
-                    name={starIconName}
-                    className={starIconClass}
-                  />
-                </div>
+                  <button
+                    className="c-btn favourite-button"
+                    tabIndex={-1}
+                  >
+                    <Icon
+                      name={starIconName}
+                      className={starIconClass}
+                    />
+                  </button>
+                </Tooltip>
               }
             </div>
 
@@ -346,7 +342,6 @@ DatasetWidget.propTypes = {
   mode: PropTypes.string,
   showActions: PropTypes.bool,
   showFavorite: PropTypes.bool,
-  favourite: PropTypes.object,
 
   // Callbacks
   onTagSelected: PropTypes.func,
@@ -356,8 +351,7 @@ DatasetWidget.propTypes = {
   isLayerGroupAdded: PropTypes.func.isRequired,
   // Add or remove a layer group from the map
   toggleLayerGroup: PropTypes.func.isRequired,
-  toggleTooltip: PropTypes.func.isRequired,
-  toggleFavourite: PropTypes.func.isRequired
+  toggleTooltip: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

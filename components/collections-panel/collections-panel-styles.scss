@@ -1,0 +1,148 @@
+@import "../css/settings";
+@import "../css/mixins";
+
+$color-1: $white;
+$color-2: $dark-pink;
+$color-3: $sea-blue;
+$color-4: $charcoal-grey;
+$color-5: $black;
+
+$font-size-regular: $font-size-medium;
+$font-size-small: $font-size-normal;
+
+.c-collections-panel {
+  position: relative;
+  max-width: 255px;
+  padding: 15px;
+  border: 1px solid rgba($color-4, .15);
+  border-radius: 4px;
+  background: $color-1;
+  box-shadow: 0 20px 30px 0 rgba($black, .1);
+
+  > .new-collection-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    border: 1px solid rgba($color-4, .15);
+    border-radius: 4px;
+
+    > .new-collection-input {
+      border: none;
+      background: none;
+      outline: none;
+
+      color: $color-4;
+      text-overflow: ellipsis;
+
+      &::placeholder {
+        font-size: $font-size-small;
+        color: rgba($charcoal-grey, .3);
+      }
+    }
+
+    > .c-button {
+      border: 0;
+      color: $color-2;
+    }
+  }
+
+  > .collection-list-container {
+    position: relative;
+    margin: 10px 0 0;
+
+    &:before {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      display: inline-block;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 25px;
+      background: linear-gradient(0deg, $color-1 0%, rgba(26,62,98,0) 100%);
+    }
+
+    > .collection-list {
+      overflow-y: auto;
+      max-height: 175px;
+      padding: 0 0 25px;
+    }
+  }
+
+  > .actions {
+    margin: 15px 0 0;
+
+    > .done-button {
+      padding: 10px 15px;
+      border: 2px solid $color-2;
+
+      font-size: $font-size-regular;
+      color: $color-2;
+    }
+  }
+}
+
+.collection-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  cursor: pointer;
+
+  &:not(:first-child) {
+    margin: 10px 0 0;
+  }
+
+  .fake-checkbox {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+
+    border: 1px solid rgba($color-3, .3);
+    border-radius: 2px;
+  }
+
+  input[type="checkbox"] {
+    appearance: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    outline: 0;
+  }
+
+  > .collection-name {
+    overflow: hidden;
+    max-width: 80%;
+    margin: 0 0 0 5px;
+
+    font-size: $font-size-small;
+    color: $color-4;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &.-selected {
+    .fake-checkbox {
+      position: relative;
+      border-color: transparent;
+      background: $color-3;
+
+      &:before {
+        content: '✔';
+        display: inline-block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: $color-1;
+      }
+    }
+
+    > .collection-name  {
+      color: $color-3;
+    }
+  }
+}

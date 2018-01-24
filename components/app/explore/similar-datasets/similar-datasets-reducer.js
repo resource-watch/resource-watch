@@ -1,10 +1,5 @@
 import * as actions from './similar-datasets-actions';
-
-export const initialState = {
-  data: [], // Similar datasets
-  loading: true, // Are we loading the data?
-  error: null // An error was produced while loading the data
-};
+import initialState from './similar-datasets-initial-state';
 
 export default {
   [actions.getSimilarDatasetsLoading]: state => ({ ...state, loading: true, error: null }),

@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import * as reducers from 'redactions';
 
 // New modules
-import { handleModule } from 'redux-actions';
+import { handleModule } from 'redux-tools';
 import * as search from 'components/app/layout/search/search';
 import * as dashboardDetail from 'components/dashboards/detail/dashboard-detail';
 import * as dashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
