@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Next
+import { Router } from 'routes';
+
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
@@ -10,7 +13,6 @@ import { setRouter } from 'redactions/routes';
 // Components
 import Page from 'components/app/layout/Page';
 import EmbedLayout from 'components/app/layout/EmbedLayout';
-import Spinner from 'components/ui/Spinner';
 import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
 
 class EmbedSimilarDatasets extends Page {
@@ -39,6 +41,7 @@ class EmbedSimilarDatasets extends Page {
         <div className="c-embed-similar-datasets">
           <SimilarDatasets
             datasetId={url.query.id}
+            onTagSelected={tag => Router.pushRoute('explore', { topics: `["${tag.id}"]` })}
           />
         </div>
       </EmbedLayout>
