@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 // Redux
 import { connect } from 'react-redux';
+import { resetSimilarDatasets } from 'components/app/explore/similar-datasets/similar-datasets-actions';
 
 // Components
 import DatasetList from 'components/app/explore/DatasetList';
@@ -41,6 +42,10 @@ const mapStateToProps = state => ({
   similarDatasets: state.similarDatasets
 });
 
+const mapDispatchToProps = {
+  resetSimilarDatasets
+};
+
 SimilarDatasets.defaultProps = {
   active: []
 };
@@ -54,4 +59,4 @@ SimilarDatasets.propTypes = {
   resetSimilarDatasets: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps, null)(SimilarDatasets);
+export default connect(mapStateToProps, mapDispatchToProps)(SimilarDatasets);
