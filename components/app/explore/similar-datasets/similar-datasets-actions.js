@@ -10,7 +10,7 @@ export const setSimilarDatasets = createAction('similar-datasets/getSimilarDatas
 
 // Async actions
 export const getSimilarDatasets = createThunkAction('similar-datasets/getSimilarDatasets', (datasetId, locale = 'en') => (dispatch) => {
-  dispatch(getSimilarDatasetsLoading);
+  dispatch(getSimilarDatasetsLoading());
   const service = new DatasetService(datasetId, { apiURL: process.env.WRI_API_URL, language: 'en' });
   return service.getSimilarDatasets()
     .then((data) => {
@@ -20,7 +20,7 @@ export const getSimilarDatasets = createThunkAction('similar-datasets/getSimilar
           return similarDatasets;
         });
     })
-    .then(() => dispatch(getSimilarDatasetsSuccess))
+    .then(() => dispatch(getSimilarDatasetsSuccess()))
     .catch((err) => {
       dispatch(getSimilarDatasetsError({ payload: err.message }));
     });
