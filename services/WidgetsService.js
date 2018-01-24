@@ -13,16 +13,16 @@ export default class WidgetsService {
 
   // GET ALL DATA
   fetchAllData({ application = [process.env.APPLICATIONS], dataset = '', includes, filters }) {
-    const qParams = {
+    const qParams = queryString.stringify({
       application: application.join(','),
       ...!!includes && { includes },
       'page[size]': 9999999,
       ...filters
-    };
+    });
 
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/dataset/${dataset}?${Object.keys(qParams).map(k => `${k}=${qParams[k]}`).join('&')}`,
+        url: `${process.env.WRI_API_URL}/dataset/${dataset}?${qParams}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
