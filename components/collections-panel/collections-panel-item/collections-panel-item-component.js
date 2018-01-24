@@ -30,7 +30,7 @@ class CollectionPanelItem extends PureComponent {
         </style>
         {loading && <Spinner
           isLoading={loading}
-          className="-transparent -tiny -yellow-icon"
+          className="-transparent -tiny -pink-icon"
           style={{
             left: 'auto',
             right: 5

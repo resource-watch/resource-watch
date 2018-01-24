@@ -279,7 +279,7 @@ class DatasetWidget extends React.Component {
                   />}
                   overlayClassName="c-rc-tooltip"
                   overlayStyle={{
-                    color: '#c32d7b'
+                    color: '#fff'
                   }}
                   placement="bottom"
                   trigger="click"

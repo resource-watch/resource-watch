@@ -1,50 +1,49 @@
 @import "../css/settings";
 @import "../css/mixins";
 
-$color-1: $dark-pink;
-$color-2: $yellow;
-$color-3: $white;
-$color-4: $porcelain;
+$color-1: $white;
+$color-2: $dark-pink;
+$color-3: $sea-blue;
+$color-4: $charcoal-grey;
+$color-5: $black;
 
-$font-size-regular: $font-size-normal;
-$font-size-small: $font-size-small;
-$font-weight-bold: $font-weight-bold;
+$font-size-regular: $font-size-medium;
+$font-size-small: $font-size-normal;
 
 .c-collections-panel {
   position: relative;
   max-width: 255px;
   padding: 15px;
+  border: 1px solid rgba($color-4, .15);
   border-radius: 4px;
   background: $color-1;
+  box-shadow: 0 20px 30px 0 rgba($black, .1);
 
   > .new-collection-container {
     display: flex;
     justify-content: space-between;
+    padding: 5px 10px;
+    border: 1px solid rgba($color-4, .15);
+    border-radius: 4px;
 
     > .new-collection-input {
       border: none;
       background: none;
       outline: none;
 
-      font-size: $font-size-regular;
-      color: $color-3;
+      color: $color-4;
       text-overflow: ellipsis;
 
       &::placeholder {
-        font-size: $font-size-regular;
-        color: $color-4;
+        font-size: $font-size-small;
+        color: rgba($charcoal-grey, .3);
       }
     }
 
     > .c-button {
       border: 0;
-      font-size: $font-size-small;
-      font-weight: $font-weight-bold;
       color: $color-2;
-      text-transform: uppercase;
     }
-
-    border-bottom: 1px solid rgba($color-3, .2);
   }
 
   > .collection-list-container {
@@ -77,10 +76,8 @@ $font-weight-bold: $font-weight-bold;
       padding: 10px 15px;
       border: 2px solid $color-2;
 
-      font-size: $font-size-small;
-      font-weight: $font-weight-bold;
-      color: $color-3;
-      text-transform: uppercase;
+      font-size: $font-size-regular;
+      color: $color-2;
     }
   }
 }
@@ -121,9 +118,8 @@ $font-weight-bold: $font-weight-bold;
     max-width: 80%;
     margin: 0 0 0 5px;
 
-    font-size: $font-size-regular;
-    font-weight: $font-weight-regular;
-    color: $color-3;
+    font-size: $font-size-small;
+    color: $color-4;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
@@ -132,7 +128,7 @@ $font-weight-bold: $font-weight-bold;
     .fake-checkbox {
       position: relative;
       border-color: transparent;
-      background: $color-2;
+      background: $color-3;
 
       &:before {
         content: '✔';
@@ -146,9 +142,7 @@ $font-weight-bold: $font-weight-bold;
     }
 
     > .collection-name  {
-      font-weight: $font-weight-bold;
-
-      color: $color-2;
+      color: $color-3;
     }
   }
 }
