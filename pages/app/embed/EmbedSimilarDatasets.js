@@ -78,7 +78,7 @@ class EmbedSimilarDatasets extends Page {
 }
 
 EmbedSimilarDatasets.propTypes = {
-  similarDatasets: PropTypes.object.isRequired,
+  similarDatasets: PropTypes.array.isRequired,
   getSimilarDatasets: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.string.isRequired
