@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+// Next
+import { Router } from 'routes';
+
 // Redux
 import { connect } from 'react-redux';
 
@@ -24,7 +27,7 @@ class SimilarDatasets extends PureComponent {
             mode="grid"
             showActions={false}
             showFavorite={false}
-            onTagSelected={this.props.onTagSelected}
+            onTagSelected={tag => Router.pushRoute('explore', { topics: tag.id })}
           />
         }
       </div>
