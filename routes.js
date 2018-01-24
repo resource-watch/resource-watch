@@ -61,6 +61,7 @@ routes.add('embed_embed', '/embed/embed/:id', 'app/embed/EmbedEmbed');
 routes.add('embed_dataset', '/embed/dataset/:id', 'app/embed/EmbedDataset');
 routes.add('embed_layer', '/embed/layers', 'app/embed/EmbedLayer');
 routes.add('embed_table', '/embed/table', 'app/embed/EmbedTable');
+routes.add('embed_similar_datasets', '/embed/similar_datasets/:id', 'app/embed/EmbedSimilarDatasets');
 
 // ------ TERMS && POLICY -------------
 routes.add('terms-of-service', '/terms-of-service', 'app/Terms');
