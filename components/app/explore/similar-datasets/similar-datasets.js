@@ -18,6 +18,16 @@ class SimilarDatasetsContainer extends Component {
     this.props.getSimilarDatasets(this.props.datasetId);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.datasetId !== nextProps.datasetId) {
+      this.props.getSimilarDatasets(nextProps.datasetId);
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.resetSimilarDatasets();
+  }
+
   render() {
     return createElement(SimilarDatasetsComponent, {
       ...this.props
@@ -27,7 +37,8 @@ class SimilarDatasetsContainer extends Component {
 
 SimilarDatasetsContainer.propTypes = {
   datasetId: PropTypes.string.isRequired,
-  getSimilarDatasets: PropTypes.func.isRequired
+  getSimilarDatasets: PropTypes.func.isRequired,
+  resetSimilarDatasets: PropTypes.func.isRequired
 };
 
 export { actions, reducers, initialState };

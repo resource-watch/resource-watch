@@ -9,11 +9,6 @@ import DatasetList from 'components/app/explore/DatasetList';
 import Spinner from 'components/ui/Spinner';
 
 class SimilarDatasets extends PureComponent {
-
-  componentWillUnmount() {
-    this.props.resetSimilarDatasets();
-  }
-
   render() {
     const { similarDatasets, active } = this.props;
     const { loading, data, error } = similarDatasets;
@@ -50,8 +45,7 @@ SimilarDatasets.propTypes = {
   // Callbacks
   onTagSelected: PropTypes.func,
   // Store
-  similarDatasets: PropTypes.object.isRequired,
-  resetSimilarDatasets: PropTypes.func.isRequired
+  similarDatasets: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps, null)(SimilarDatasets);
