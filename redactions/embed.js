@@ -32,7 +32,8 @@ export default function (state = initialState, action) {
         loading: true,
         error: null
       };
-      return Object.assign({}, state.similarDatasets, similarDatasets);
+      const newSimilarDatasets = Object.assign({}, state.similarDatasets, similarDatasets);
+      return Object.assign(state, { similarDatasets: newSimilarDatasets });
     }
 
     case GET_SIMILAR_DATASETS_SUCCESS: {
@@ -40,7 +41,8 @@ export default function (state = initialState, action) {
         loading: false,
         error: null
       };
-      return Object.assign({}, state.similarDatasets, similarDatasets);
+      const newSimilarDatasets = Object.assign({}, state.similarDatasets, similarDatasets);
+      return Object.assign(state, { similarDatasets: newSimilarDatasets });
     }
 
     case GET_SIMILAR_DATASETS_ERROR: {
@@ -48,14 +50,16 @@ export default function (state = initialState, action) {
         loading: false,
         error: action.payload
       };
-      return Object.assign({}, state.similarDatasets, similarDatasets);
+      const newSimilarDatasets = Object.assign({}, state.similarDatasets, similarDatasets);
+      return Object.assign(state, { similarDatasets: newSimilarDatasets });
     }
 
     case SET_SIMILAR_DATASETS: {
       const similarDatasets = {
         data: action.payload
       };
-      return Object.assign({}, state.similarDatasets, similarDatasets);
+      const newSimilarDatasets = Object.assign({}, state.similarDatasets, similarDatasets);
+      return Object.assign(state, { similarDatasets: newSimilarDatasets });
     }
 
     default:
@@ -74,7 +78,7 @@ export default function (state = initialState, action) {
 export function getSimilarDatasets(datasetId) {
   return (dispatch) => {
     dispatch({ type: GET_SIMILAR_DATASETS_LOADING });
-    const service = new DatasetService(datasetId, { apiURL: process.env.WRI_API_URL });
+    const service = new DatasetService(datasetId, { apiURL: process.env.WRI_API_URL, language: 'en' });
     return service.getSimilarDatasets()
       .then((data) => {
         dispatch({ type: SET_SIMILAR_DATASETS, payload: data });
