@@ -7,8 +7,7 @@ import { connect } from 'react-redux';
 
 // Components
 import CollectionListAside from 'components/collection-list-aside';
-import DatasetsList from 'components/datasets/list/DatasetsList';
-import MyRWDatasetsStarred from 'components/app/myrw/datasets/MyRWDatasetsStarred';
+import DatasetsList from 'components/datasets/list';
 
 // Constants
 const DATASET_SUBTABS = [{
@@ -29,13 +28,11 @@ class DatasetsIndex extends PureComponent {
   };
 
   static propTypes = {
-    id: PropTypes.string,
-    subtab: PropTypes.string,
-    user: PropTypes.object
+    subtab: PropTypes.string
   };
 
   render() {
-    const { id, user, subtab } = this.props;
+    const { subtab } = this.props;
 
     return (
       <div className="c-datasets-index">
@@ -57,21 +54,12 @@ class DatasetsIndex extends PureComponent {
             </div>
 
             <div className="columns small-12 medium-9">
-              {subtab === 'starred' &&
-                <MyRWDatasetsStarred user={user} dataset={id} embed />
-              }
-
-              {subtab === 'my_datasets' &&
-                <DatasetsList
-                  getDatasetsFilters={{
-                    userId: user.id
-                  }}
-                  routes={{
-                    index: 'myrw',
-                    detail: 'myrw_detail'
-                  }}
-                />
-              }
+              <DatasetsList
+                routes={{
+                  index: 'myrw',
+                  detail: 'myrw_detail'
+                }}
+              />
             </div>
 
           </div>
@@ -82,7 +70,8 @@ class DatasetsIndex extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  subtab: state.routes.query.subtab
 });
 
 export default connect(mapStateToProps, null)(DatasetsIndex);

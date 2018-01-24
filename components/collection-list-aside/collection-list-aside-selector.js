@@ -7,9 +7,9 @@ const parseTabCollections = (collections, tab) =>
   collections.map(collection => ({
     id: collection.id,
     label: collection.attributes.name,
-    value: collection.attributes.name,
+    value: collection.id,
     route: 'myrw',
-    params: { tab, subtab: collection.attributes.name }
+    params: { tab, subtab: collection.id }
   }));
 
 export const getParsedCollections = createSelector([getCollections, getTab], parseTabCollections);
