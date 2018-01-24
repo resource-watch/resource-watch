@@ -11,6 +11,7 @@ import { getSimilarDatasets } from 'redactions/embed';
 import Page from 'components/app/layout/Page';
 import EmbedLayout from 'components/app/layout/EmbedLayout';
 import Spinner from 'components/ui/Spinner';
+import DatasetList from 'components/app/explore/DatasetList';
 
 class EmbedSimilarDatasets extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
@@ -19,7 +20,7 @@ class EmbedSimilarDatasets extends Page {
     const referer = isServer ? req.headers.referer : location.href;
     await store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
-    return { user, isServer, url, referer, isLoading: true };
+    return { user, isServer, url, referer };
   }
 
   isLoadedExternally() {
@@ -28,20 +29,17 @@ class EmbedSimilarDatasets extends Page {
 
   constructor(props) {
     super(props);
-    this.state = {
-      isLoading: props.isLoading
-    };
   }
 
   componentDidMount() {
-    const { url, similarDatasets, loading, error } = this.props;
+    const { url } = this.props;
     this.props.getSimilarDatasets(url.query.id);
   }
 
   render() {
-    const { user, loading } = this.props;
-    const { isLoading } = this.state;
+    const { loading, similarDatasets } = this.props;
 
+    console.log('loading', loading, 'similarDatasets', similarDatasets);
 
     if (loading) {
       return (
@@ -62,8 +60,17 @@ class EmbedSimilarDatasets extends Page {
         description={``}
       >
         <div className="c-embed-similar-datasets">
-          <Spinner isLoading={isLoading} className="-light" />
-
+          <Spinner isLoading={loading} className="-light" />
+          {similarDatasets && similarDatasets.length > 0 &&
+            <DatasetList
+              active={[]}
+              list={similarDatasets}
+              mode="grid"
+              showActions={false}
+              showFavorite={false}
+              onTagSelected={this.handleTagSelected}
+            />
+          }
         </div>
       </EmbedLayout>
     );
@@ -71,10 +78,10 @@ class EmbedSimilarDatasets extends Page {
 }
 
 EmbedSimilarDatasets.propTypes = {
-  similarDatasets: PropTypes.object,
-  getSimilarDatasets: PropTypes.func,
-  loading: PropTypes.bool,
-  error: PropTypes.string
+  similarDatasets: PropTypes.object.isRequired,
+  getSimilarDatasets: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.string.isRequired
 };
 
 EmbedSimilarDatasets.defaultProps = {
@@ -82,10 +89,9 @@ EmbedSimilarDatasets.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  similarDatasets: state.embed.similarDatasets,
+  similarDatasets: state.embed.similarDatasets.data,
   loading: state.embed.similarDatasets.loading,
-  error: state.embed.similarDatasets.error,
-  user: state.user
+  error: state.embed.similarDatasets.error
 });
 
 const mapDispatchToProps = {
