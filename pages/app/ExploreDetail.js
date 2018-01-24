@@ -37,6 +37,7 @@ import LoginModal from 'components/modal/LoginModal';
 import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
 import SaveWidgetModal from 'components/modal/SaveWidgetModal';
+import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
 
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
@@ -65,8 +66,6 @@ class ExploreDetail extends Page {
     this.state = {
       dataset: null,
       loading: false,
-      similarDatasetsLoaded: false,
-      similarDatasets: [],
       showDescription: false,
       showFunction: false,
       showCautions: false,
@@ -101,7 +100,6 @@ class ExploreDetail extends Page {
   */
   componentDidMount() {
     this.getDataset();
-    this.getSimilarDatasets();
     this.countView(this.props.url.query.id);
   }
 
@@ -109,7 +107,6 @@ class ExploreDetail extends Page {
     if (this.props.url.query.id !== nextProps.url.query.id) {
       this.props.resetDataset();
       this.setState({
-        similarDatasetsLoaded: false,
         datasetLoaded: false
       }, () => {
         this.datasetService = new DatasetService(nextProps.url.query.id, {
@@ -119,7 +116,6 @@ class ExploreDetail extends Page {
         // Scroll to the top of the page
         window.scrollTo(0, 0);
         this.getDataset();
-        this.getSimilarDatasets();
       });
 
       this.countView(nextProps.url.query.id);
@@ -134,7 +130,6 @@ class ExploreDetail extends Page {
   /**
    * HELPERS
    * - getDataset
-   * - getSimilarDatasets
    * - loadInferredTags
   */
 
@@ -180,24 +175,6 @@ class ExploreDetail extends Page {
         console.error(err);
       });
   }
-
-  getSimilarDatasets() {
-    this.setState({ similarDatasetsLoaded: false });
-
-    this.datasetService.getSimilarDatasets()
-      .then(res => res.map(val => val.dataset).slice(0, 7))
-      .then((ids) => {
-        if (ids.length === 0) return [];
-        return DatasetService.getDatasets(ids, this.props.locale, 'widget,metadata,layer,vocabulary');
-      })
-      .then(similarDatasets => this.setState({ similarDatasets }))
-      .catch((err) => {
-        console.error(err);
-        toastr.error('Error', 'Unable to load the similar datasets');
-      })
-      .then(() => this.setState({ similarDatasetsLoaded: true }));
-  }
-
 
   /**
    * Gather the number of views of this dataset
@@ -357,7 +334,7 @@ class ExploreDetail extends Page {
 
   render() {
     const { url, user, exploreDataset } = this.props;
-    const { dataset, loading, similarDatasets, similarDatasetsLoaded, inferredTags } = this.state;
+    const { dataset, loading, inferredTags } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
     const metadataAttributes = (metadata && metadata.attributes) || {};
@@ -694,20 +671,11 @@ class ExploreDetail extends Page {
                   <div className="l-section-mod similar-datasets">
                     <div className="row">
                       <div className="column small-12">
-                        <h3>Similar datasets</h3>
-                        <Spinner
-                          isLoading={!similarDatasetsLoaded}
-                          className="-relative -light"
-                        />
-                        {similarDatasets && similarDatasets.length > 0 &&
-                        <DatasetList
-                          active={[]}
-                          list={similarDatasets}
-                          mode="grid"
-                          showActions={false}
-                          showFavorite={false}
-                          onTagSelected={this.handleTagSelected}
-                        />
+                        {dataset &&
+                          <SimilarDatasets
+                            datasetId={dataset.id}
+                            onTagSelected={this.handleTagSelected}
+                          />
                         }
                       </div>
                     </div>
