@@ -27,7 +27,7 @@ class SimilarDatasets extends PureComponent {
             mode="grid"
             showActions={false}
             showFavorite={false}
-            onTagSelected={tag => Router.pushRoute('explore', { topics: tag.id })}
+            onTagSelected={tag => Router.pushRoute('explore', { topics: `["${tag.id}"]` })}
           />
         }
       </div>
