@@ -7,35 +7,9 @@ export const initialState = {
 };
 
 export default {
-  [actions.getSimilarDatasetsLoading]: (state) => {
-    const similarDatasets = {
-      loading: true,
-      error: null
-    };
-    const newSimilarDatasets = Object.assign({}, state.similarDatasets, similarDatasets);
-    return Object.assign(state, { similarDatasets: newSimilarDatasets });
-  },
-  [actions.getSimilarDatasetsError]: (state, { payload }) => {
-    const similarDatasets = {
-      loading: false,
-      error: payload
-    };
-    const newSimilarDatasets = Object.assign({}, state.similarDatasets, similarDatasets);
-    return Object.assign(state, { similarDatasets: newSimilarDatasets });
-  },
-  [actions.getSimilarDatasetsSuccess]: (state) => {
-    const similarDatasets = {
-      loading: false,
-      error: null
-    };
-    const newSimilarDatasets = Object.assign({}, state.similarDatasets, similarDatasets);
-    return Object.assign(state, { similarDatasets: newSimilarDatasets });
-  },
-  [actions.setSimilarDatasets]: (state, { payload }) => {
-    const similarDatasets = {
-      data: payload
-    };
-    const newSimilarDatasets = Object.assign({}, state.similarDatasets, similarDatasets);
-    return Object.assign(state, { similarDatasets: newSimilarDatasets });
-  }
+  [actions.getSimilarDatasetsLoading]: state => ({ ...state, loading: true, error: null }),
+  [actions.getSimilarDatasetsError]: (state, { payload }) =>
+    ({ ...state, loading: true, error: payload }),
+  [actions.getSimilarDatasetsSuccess]: state => ({ ...state, loading: false, error: null }),
+  [actions.setSimilarDatasets]: (state, { payload }) => ({ ...state, data: payload })
 };

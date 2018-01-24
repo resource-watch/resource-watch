@@ -1,13 +1,17 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+// Redux
+import { connect } from 'react-redux';
+
 // Components
 import DatasetList from 'components/app/explore/DatasetList';
 import Spinner from 'components/ui/Spinner';
 
 class SimilarDatasets extends PureComponent {
   render() {
-    const { data, loading } = this.props;
+    const { similarDatasets } = this.props;
+    const { loading, data, error } = similarDatasets;
 
     return (
       <div className="c-similar-datasets">
@@ -28,12 +32,15 @@ class SimilarDatasets extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  similarDatasets: state.similarDatasets
+});
+
 SimilarDatasets.propTypes = {
   // Callbacks
   onTagSelected: PropTypes.func,
   // Store
-  data: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired
+  similarDatasets: PropTypes.object.isRequired
 };
 
-export default SimilarDatasets;
+export default connect(mapStateToProps, null)(SimilarDatasets);

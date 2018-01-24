@@ -14,7 +14,7 @@ export const getSimilarDatasets = createThunkAction('similar-datasets/getSimilar
   const service = new DatasetService(datasetId, { apiURL: process.env.WRI_API_URL, language: 'en' });
   return service.getSimilarDatasets()
     .then((data) => {
-      dispatch(setSimilarDatasets({ payload: data }));
+      dispatch(setSimilarDatasets(data));
       return data;
     })
     .then(() => dispatch(getSimilarDatasetsSuccess))
