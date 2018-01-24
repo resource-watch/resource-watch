@@ -7,6 +7,7 @@ export const getSimilarDatasetsSuccess = createAction('similar-datasets/getSimil
 export const getSimilarDatasetsLoading = createAction('similar-datasets/getSimilarDatasetsLoading');
 export const getSimilarDatasetsError = createAction('similar-datasets/getSimilarDatasetsError');
 export const setSimilarDatasets = createAction('similar-datasets/getSimilarDatasets');
+export const resetSimilarDatasets = createAction('similar-datasets/resetSimilarDatasets');
 
 // Async actions
 export const getSimilarDatasets = createThunkAction('similar-datasets/getSimilarDatasets', (datasetId, locale = 'en') => (dispatch) => {

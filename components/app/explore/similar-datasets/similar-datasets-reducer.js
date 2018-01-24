@@ -11,5 +11,6 @@ export default {
   [actions.getSimilarDatasetsError]: (state, { payload }) =>
     ({ ...state, loading: true, error: payload }),
   [actions.getSimilarDatasetsSuccess]: state => ({ ...state, loading: false, error: null }),
-  [actions.setSimilarDatasets]: (state, { payload }) => ({ ...state, data: payload })
+  [actions.setSimilarDatasets]: (state, { payload }) => ({ ...state, data: payload }),
+  [actions.resetSimilarDatasets]: () => initialState
 };
