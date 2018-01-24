@@ -9,13 +9,16 @@ export const getSimilarDatasetsError = createAction('similar-datasets/getSimilar
 export const setSimilarDatasets = createAction('similar-datasets/getSimilarDatasets');
 
 // Async actions
-export const getSimilarDatasets = createThunkAction('similar-datasets/getSimilarDatasets', datasetId => (dispatch) => {
+export const getSimilarDatasets = createThunkAction('similar-datasets/getSimilarDatasets', (datasetId, locale = 'en') => (dispatch) => {
   dispatch(getSimilarDatasetsLoading);
   const service = new DatasetService(datasetId, { apiURL: process.env.WRI_API_URL, language: 'en' });
   return service.getSimilarDatasets()
     .then((data) => {
-      dispatch(setSimilarDatasets(data));
-      return data;
+      DatasetService.getDatasets(data.map(d => d.dataset), locale, 'widget,metadata,layer,vocabulary')
+        .then((similarDatasets) => {
+          dispatch(setSimilarDatasets(similarDatasets));
+          return similarDatasets;
+        });
     })
     .then(() => dispatch(getSimilarDatasetsSuccess))
     .catch((err) => {
