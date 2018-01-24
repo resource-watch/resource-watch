@@ -1,11 +1,9 @@
 import * as actions from './similar-datasets-actions';
 
 export const initialState = {
-  similarDatasets: {
-    data: [], // Similar datasets
-    loading: true, // Are we loading the data?
-    error: null // An error was produced while loading the data
-  }
+  data: [], // Similar datasets
+  loading: true, // Are we loading the data?
+  error: null // An error was produced while loading the data
 };
 
 export default {
@@ -33,7 +31,7 @@ export default {
     const newSimilarDatasets = Object.assign({}, state.similarDatasets, similarDatasets);
     return Object.assign(state, { similarDatasets: newSimilarDatasets });
   },
-  [actions.setSimilarDatasets]: (state) => {
+  [actions.setSimilarDatasets]: (state, { payload }) => {
     const similarDatasets = {
       data: payload
     };

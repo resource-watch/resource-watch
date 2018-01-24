@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
-import { getSimilarDatasets } from 'redactions/embed';
+import { getSimilarDatasets } from 'components/app/explore/similar-datasets/similar-datasets-actions';
 
 // Components
 import Page from 'components/app/layout/Page';
 import EmbedLayout from 'components/app/layout/EmbedLayout';
 import Spinner from 'components/ui/Spinner';
-import DatasetList from 'components/app/explore/DatasetList';
+import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
 
 class EmbedSimilarDatasets extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
@@ -27,17 +28,8 @@ class EmbedSimilarDatasets extends Page {
     return !/localhost|staging.resourcewatch.org/.test(this.props.referer);
   }
 
-  constructor(props) {
-    super(props);
-  }
-
-  componentDidMount() {
-    const { url } = this.props;
-    this.props.getSimilarDatasets(url.query.id);
-  }
-
   render() {
-    const { loading, similarDatasets } = this.props;
+    const { url } = this.props;
 
     console.log('loading', loading, 'similarDatasets', similarDatasets);
 
@@ -60,17 +52,9 @@ class EmbedSimilarDatasets extends Page {
         description={``}
       >
         <div className="c-embed-similar-datasets">
-          <Spinner isLoading={loading} className="-light" />
-          {similarDatasets && similarDatasets.length > 0 &&
-            <DatasetList
-              active={[]}
-              list={similarDatasets}
-              mode="grid"
-              showActions={false}
-              showFavorite={false}
-              onTagSelected={this.handleTagSelected}
-            />
-          }
+          <SimilarDatasets
+            datasetId={url.query.id}
+          />
         </div>
       </EmbedLayout>
     );
@@ -89,9 +73,9 @@ EmbedSimilarDatasets.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  similarDatasets: state.embed.similarDatasets.data,
-  loading: state.embed.similarDatasets.loading,
-  error: state.embed.similarDatasets.error
+  similarDatasets: state,
+  loading: state,
+  error: state
 });
 
 const mapDispatchToProps = {

@@ -7,7 +7,17 @@ import reducers, { initialState } from './similar-datasets-reducer';
 
 import SimilarDatasetsComponent from './similar-datasets-component';
 
+const mapStateToProps = state => ({
+  data: state.data,
+  loading: state.loading,
+  error: state.error
+});
+
 class SimilarDatasetsContainer extends Component {
+  componentDidMount() {
+    this.props.getSimilarDatasets(this.props.datasetId);
+  }
+
   render() {
     return createElement(SimilarDatasetsComponent, {
       ...this.props
@@ -16,9 +26,10 @@ class SimilarDatasetsContainer extends Component {
 }
 
 SimilarDatasetsContainer.propTypes = {
-  similarDatasets: PropTypes.array.isRequired
+  datasetId: PropTypes.string.isRequired,
+  getSimilarDatasets: PropTypes.func.isRequired
 };
 
 export { actions, reducers, initialState };
 
-export default connect(null, actions)(SimilarDatasetsContainer);
+export default connect(mapStateToProps, actions)(SimilarDatasetsContainer);
