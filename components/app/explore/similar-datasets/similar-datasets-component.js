@@ -3,18 +3,12 @@ import PropTypes from 'prop-types';
 
 // Redux
 import { connect } from 'react-redux';
-import { resetSimilarDatasets } from 'components/app/explore/similar-datasets/similar-datasets-actions';
 
 // Components
 import DatasetList from 'components/app/explore/DatasetList';
 import Spinner from 'components/ui/Spinner';
 
 class SimilarDatasets extends PureComponent {
-
-  componentWillUnmount() {
-    this.props.resetSimilarDatasets();
-  }
-
   render() {
     const { similarDatasets, active } = this.props;
     const { loading, data, error } = similarDatasets;
@@ -42,10 +36,6 @@ const mapStateToProps = state => ({
   similarDatasets: state.similarDatasets
 });
 
-const mapDispatchToProps = {
-  resetSimilarDatasets
-};
-
 SimilarDatasets.defaultProps = {
   active: []
 };
@@ -55,8 +45,7 @@ SimilarDatasets.propTypes = {
   // Callbacks
   onTagSelected: PropTypes.func,
   // Store
-  similarDatasets: PropTypes.object.isRequired,
-  resetSimilarDatasets: PropTypes.func.isRequired
+  similarDatasets: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SimilarDatasets);
+export default connect(mapStateToProps, null)(SimilarDatasets);
