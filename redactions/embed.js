@@ -15,9 +15,11 @@ const SET_SIMILAR_DATASETS = 'SET_SIMILAR_DATASETS';
  * STORE
  */
 const initialState = {
-  data: [], // Similar datasets
-  loading: true, // Are we loading the data?
-  error: null // An error was produced while loading the data
+  similarDatasets: {
+    data: [], // Similar datasets
+    loading: true, // Are we loading the data?
+    error: null // An error was produced while loading the data
+  }
 };
 
 /**

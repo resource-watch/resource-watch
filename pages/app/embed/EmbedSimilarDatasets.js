@@ -5,15 +5,12 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
-import { getSimilarDatasets } from 'redactions/dataset';
+import { getSimilarDatasets } from 'redactions/embed';
 
 // Components
 import Page from 'components/app/layout/Page';
 import EmbedLayout from 'components/app/layout/EmbedLayout';
-import VegaChart from 'components/widgets/charts/VegaChart';
 import Spinner from 'components/ui/Spinner';
-import ChartTheme from 'utils/widgets/theme';
-import Icon from 'components/ui/Icon';
 
 class EmbedSimilarDatasets extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
@@ -32,8 +29,7 @@ class EmbedSimilarDatasets extends Page {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: props.isLoading,
-      similarDatasets: []
+      isLoading: props.isLoading
     };
   }
 
@@ -67,7 +63,7 @@ class EmbedSimilarDatasets extends Page {
       >
         <div className="c-embed-similar-datasets">
           <Spinner isLoading={isLoading} className="-light" />
-          
+
         </div>
       </EmbedLayout>
     );
