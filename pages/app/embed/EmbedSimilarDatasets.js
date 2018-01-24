@@ -6,7 +6,6 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
-import { getSimilarDatasets } from 'components/app/explore/similar-datasets/similar-datasets-actions';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -29,26 +28,12 @@ class EmbedSimilarDatasets extends Page {
   }
 
   render() {
-    const { url } = this.props;
-
-    console.log('loading', loading, 'similarDatasets', similarDatasets);
-
-    if (loading) {
-      return (
-        <EmbedLayout
-          title={'Loading similar datasets...'}
-          description={''}
-        >
-          <div className="c-embed-similar-datasets">
-            <Spinner isLoading className="-light" />
-          </div>
-        </EmbedLayout>
-      );
-    }
+    const { url, loading } = this.props;
+    const titleSt = loading ? 'Loading similar datasets...' : '';
 
     return (
       <EmbedLayout
-        title={``}
+        title={titleSt}
         description={``}
       >
         <div className="c-embed-similar-datasets">
@@ -62,24 +47,15 @@ class EmbedSimilarDatasets extends Page {
 }
 
 EmbedSimilarDatasets.propTypes = {
-  similarDatasets: PropTypes.array.isRequired,
-  getSimilarDatasets: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.string.isRequired
+  loading: PropTypes.bool.isRequired
 };
 
 EmbedSimilarDatasets.defaultProps = {
-  similarDatasets: {}
+  loading: true
 };
 
 const mapStateToProps = state => ({
-  similarDatasets: state,
-  loading: state,
-  error: state
+  loading: state.similarDatasets.loading
 });
 
-const mapDispatchToProps = {
-  getSimilarDatasets
-};
-
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(EmbedSimilarDatasets);
+export default withRedux(initStore, mapStateToProps, null)(EmbedSimilarDatasets);
