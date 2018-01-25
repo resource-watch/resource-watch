@@ -294,8 +294,7 @@ class Legend extends React.PureComponent {
   getItemsActions(layerGroup) {
     return (
       <div className="item-actions">
-        { layerGroup.dataset !== 'c0c71e67-0088-4d69-b375-85297f79ee75'
-          && layerGroup.layers.length > 1 && (
+        { layerGroup.layers.length > 1 && (
             <button
               type="button"
               className="layers"
