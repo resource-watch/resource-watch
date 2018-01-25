@@ -34,7 +34,6 @@ import WidgetEditor from 'widget-editor';
 import ShareExploreDetailModal from 'components/modal/ShareExploreDetailModal';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import LoginModal from 'components/modal/LoginModal';
-import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
 import SaveWidgetModal from 'components/modal/SaveWidgetModal';
 import Tooltip from 'rc-tooltip/dist/rc-tooltip';
@@ -513,7 +512,12 @@ class ExploreDetail extends Page {
                         target="_blank"
                         href={metadataInfo && metadataInfo.learn_more_link}
                       >
-                        Learn more
+                        <div className="learn-more-button">
+                          <div>
+                            Learn more
+                          </div>
+                          <Icon name="icon-external" className="-smaller" />
+                        </div>
                       </a>
                     }
                     {isSubscribable &&

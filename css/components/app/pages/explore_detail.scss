@@ -53,6 +53,20 @@
     padding: 0px;
   }
 
+  .learn-more-button {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+
+    div {
+      padding-bottom: 4px;
+    }
+
+    svg {
+      margin-left: 5px;
+    }
+  }
+
   .tags {
     display: flex;
     justify-content: flex-start;

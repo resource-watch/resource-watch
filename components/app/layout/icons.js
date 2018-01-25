@@ -9,8 +9,12 @@ export default class Icons extends React.Component {
 
   render() {
     return (
-      <svg style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }} version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <svg aria-hidden="true" style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }} >
         <defs>
+          <symbol id="icon-external" viewBox="0 0 32 32">
+            <title>external</title>
+            <path fill="#c32d7b" style={{ fill: 'var(--color1, #c32d7b)' }} d="M22.068 5.818h-4.613v-5.818h14.545v14.545h-5.818v-4.613l-11.034 11.034-4.114-4.114 11.034-11.034zM26.182 26.182v-5.818h5.818v11.636h-32v-32h11.636v5.818h-5.818v20.364h20.364z" />
+          </symbol>
           <symbol id="icon-search" viewBox="0 0 32 32">
             <title>search</title>
             <path d="M29.853 31.869l-7.672-7.45c-2.338 1.879-5.297 3.010-8.518 3.010-7.534 0-13.662-6.152-13.662-13.713 0-7.563 6.129-13.716 13.662-13.716s13.662 6.153 13.662 13.716c0 3.232-1.126 6.202-2.997 8.549l7.672 7.45-2.147 2.155zM3.035 13.716c0 5.88 4.766 10.665 10.627 10.665 5.859 0 10.627-4.785 10.627-10.665 0-5.882-4.768-10.668-10.627-10.668-5.861 0-10.627 4.786-10.627 10.668z" />
