@@ -1,5 +1,18 @@
 .c-datasets-list-card {
 
+  .card-header {
+    position: relative;
+    padding-right: 20px;
+
+    > .favourite-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
   .actions {
     display: flex;
     justify-content: flex-end;

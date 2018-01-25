@@ -1,4 +1,3 @@
-import 'isomorphic-fetch';
 import { createAction, createThunkAction } from 'redux-tools';
 import WidgetsService from 'services/WidgetsService';
 
@@ -10,6 +9,10 @@ const GET_WIDGETS_ERROR = 'widgets/GET_WIDGETS_ERROR';
 const GET_WIDGETS_LOADING = 'widgets/GET_WIDGETS_LOADING';
 const SET_WIDGETS_FILTERS = 'widgets/SET_WIDGETS_FILTERS';
 const SET_WIDGETS_ORDER_DIRECTION = 'widgets/setOrderDirection';
+const SET_WIDGETS_PAGINATION_PAGE = 'widgets/setWidgetsPaginationPage';
+const SET_WIDGETS_PAGINATION_TOTAL = 'widgets/setWidgetsPaginationTotal';
+const SET_WIDGETS_PAGINATION_LIMIT = 'widgets/setWidgetsPaginationLimit';
+
 
 /**
  * STORE
@@ -22,11 +25,15 @@ const initialState = {
     loading: false, // Are we loading the data?
     error: null, // An error was produced while loading the data
     filters: [], // Filters for the list of widgets,
-    orderDirection: 'desc' // sort's direction of the list
+    orderDirection: 'desc', // sort's direction of the list
+    pagination: {
+      page: 1, // current page of the pagination
+      total: 0, // total items to be paginated
+      limit: 9 // size of the pagination
+    }
   }
 };
 
-const service = new WidgetsService();
 /**
  * REDUCER
  * @export
@@ -69,6 +76,45 @@ export default function (state = initialState, action) {
       return { ...state, widgets: { ...state.widgets, orderDirection: action.payload } };
     }
 
+    case SET_WIDGETS_PAGINATION_PAGE: {
+      return {
+        ...state,
+        widgets: {
+          ...state.widgets,
+          pagination: {
+            ...state.widgets.pagination,
+            page: action.payload
+          }
+        }
+      };
+    }
+
+    case SET_WIDGETS_PAGINATION_TOTAL: {
+      return {
+        ...state,
+        widgets: {
+          ...state.widgets,
+          pagination: {
+            ...state.widgets.pagination,
+            total: action.payload
+          }
+        }
+      };
+    }
+
+    case SET_WIDGETS_PAGINATION_LIMIT: {
+      return {
+        ...state,
+        widgets: {
+          ...state.widgets,
+          pagination: {
+            ...state.widgets.pagination,
+            limit: action.payload
+          }
+        }
+      };
+    }
+
     default:
       return state;
   }
@@ -76,6 +122,9 @@ export default function (state = initialState, action) {
 
 export const setFilters = createAction(SET_WIDGETS_FILTERS);
 export const setOrderDirection = createAction(SET_WIDGETS_ORDER_DIRECTION);
+export const setPaginationPage = createAction(SET_WIDGETS_PAGINATION_PAGE);
+export const setPaginationTotal = createAction(SET_WIDGETS_PAGINATION_TOTAL);
+export const setPaginationLimit = createAction(SET_WIDGETS_PAGINATION_LIMIT);
 
 /**
  * Retrieve the list of widgets
@@ -83,12 +132,18 @@ export const setOrderDirection = createAction(SET_WIDGETS_ORDER_DIRECTION);
  * @param {string[]} applications Name of the applications to load the widgets from
  */
 export const getWidgets = createThunkAction('widgets/getWidgets', options =>
-  (dispatch) => {
+  (dispatch, getState) => {
     dispatch({ type: GET_WIDGETS_LOADING });
+    const { user } = getState();
 
-    return service.fetchAllData({ includes: 'widget', ...options })
-      .then((data) => {
-        dispatch({ type: GET_WIDGETS_SUCCESS, payload: data });
+    return WidgetsService.getAllWidgets(user.token, { ...options })
+      .then(({ data, meta }) => {
+        const { 'total-items': totalItems } = meta;
+        dispatch({
+          type: GET_WIDGETS_SUCCESS,
+          payload: data.map(d => ({ ...{ id: d.id, type: d.type }, ...d.attributes }))
+        });
+        dispatch(setPaginationTotal(totalItems));
       })
       .catch((err) => {
         dispatch({ type: GET_WIDGETS_ERROR, payload: err.message });
@@ -97,20 +152,49 @@ export const getWidgets = createThunkAction('widgets/getWidgets', options =>
 
 export const getWidgetsByTab = createThunkAction('widgets/getWidgetsByTab', tab =>
   (dispatch, getState) => {
-    let options = {};
     const { user, widgets } = getState();
     const { id } = user;
-    const { orderDirection } = widgets.widgets;
+    const { orderDirection, pagination } = widgets.widgets;
+    const { page, limit } = pagination;
+    let options = {
+      filters: {
+        'page[size]': limit,
+        'page[number]': page,
+        sort: (orderDirection === 'asc') ? 'updatedAt' : '-updatedAt'
+      }
+    };
 
-    if (tab === 'my_widgets') {
-      options = {
-        env: process.env.API_ENV,
-        application: [process.env.APPLICATIONS],
-        filters: {
-          userId: id,
-          sort: (orderDirection === 'asc') ? 'updatedAt' : '-updatedAt'
-        }
-      };
+    switch (tab) {
+      // when the user asks for a its own widgets...
+      case 'my_widgets':
+        options = { ...options,
+          filters: {
+            ...options.filters,
+            userId: id
+          }
+        };
+
+        break;
+
+      // when the user asks for its favourites widgets...
+      case 'favourites':
+        options = { ...options,
+          filters: {
+            ...options.filters,
+            favourites: true
+          }
+        };
+        break;
+
+      // when the user asks for a specific collection...
+      default:
+        options = {
+          ...options,
+          filters: {
+            ...options.filters,
+            collection: tab
+          }
+        };
     }
 
     dispatch(getWidgets({ ...options }));

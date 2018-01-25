@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // actions
-import { getWidgets, setOrderDirection, getWidgetsByTab, setFilters } from 'redactions/admin/widgets';
+import { getWidgets, setOrderDirection, getWidgetsByTab, setFilters, setPaginationPage } from 'redactions/admin/widgets';
 
 // selectors
 import getFilteredWidgets from 'selectors/admin/widgets';
@@ -14,6 +14,8 @@ import MyRWWidgetsMy from './my-rw-widgets-component';
 class MyRWWidgetsContainer extends PureComponent {
   static propTypes = {
     currentTab: PropTypes.string,
+    orderDirection: PropTypes.string,
+    pagination: PropTypes.object,
     getWidgets: PropTypes.func,
     getWidgetsByTab: PropTypes.func
   }
@@ -23,9 +25,16 @@ class MyRWWidgetsContainer extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { currentTab } = this.props;
+    const { currentTab, orderDirection, pagination } = this.props;
+    const { page } = pagination;
 
-    if (currentTab !== nextProps.currentTab) this.props.getWidgetsByTab(nextProps.currentTab);
+    const tabChanged = currentTab !== nextProps.currentTab;
+    const paginationPageChanged = page !== nextProps.pagination.page;
+    const orderDirectionChanged = orderDirection !== nextProps.orderDirection;
+
+    if (tabChanged || paginationPageChanged || orderDirectionChanged) {
+      this.props.getWidgetsByTab(nextProps.currentTab);
+    }
   }
 
   render() {
@@ -43,6 +52,7 @@ const mapStateToProps = state => ({
   widgets: getFilteredWidgets(state),
   orderDirection: state.widgets.widgets.orderDirection,
   loading: state.widgets.widgets.loading,
+  pagination: state.widgets.widgets.pagination,
   currentTab: state.routes.query.subtab,
   user: state.user
 });
@@ -51,7 +61,8 @@ const mapDispatchToProps = {
   getWidgets,
   setOrderDirection,
   getWidgetsByTab,
-  setFilters
+  setFilters,
+  setPaginationPage
 };
 
 

@@ -7,7 +7,6 @@ import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
-
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import { toggleTooltip } from 'redactions/tooltip';
 
@@ -22,6 +21,8 @@ import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
 import Spinner from 'components/ui/Spinner';
 import TextChart from 'components/widgets/charts/TextChart';
+import Tooltip from 'rc-tooltip/dist/rc-tooltip';
+import CollectionsPanel from 'components/collections-panel';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -30,6 +31,9 @@ import LayersService from 'services/LayersService';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
+
+// helpers
+import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
 class WidgetCard extends PureComponent {
   /**
@@ -148,7 +152,6 @@ class WidgetCard extends PureComponent {
     this.handleGoToDataset = this.handleGoToDataset.bind(this);
     this.handleDownloadPDF = this.handleDownloadPDF.bind(this);
     this.handleWidgetActionsClick = this.handleWidgetActionsClick.bind(this);
-    this.handleStarClick = this.handleStarClick.bind(this);
     // ----------------------------------------------------------
   }
 
@@ -394,27 +397,21 @@ class WidgetCard extends PureComponent {
     });
   }
 
-  handleStarClick(event) {
-    event.preventDefault();
-    const { widget, user } = this.props;
-    toastr.confirm(`Are you sure you want to unfavourite the widget ${widget.name}?`, {
-      onOk: () => {
-        this.userService.deleteFavourite(widget.favouriteId, user.token)
-          .then(() => {
-            this.props.onWidgetUnfavourited();
-          });
-      }
-    });
-  }
-
   render() {
     const {
       widget,
       showRemove,
       showActions,
       showEmbed,
-      showStar
+      user
     } = this.props;
+
+    const isInACollection = belongsToACollection(user, widget);
+
+    const starIconName = classnames({
+      'icon-star-full': isInACollection,
+      'icon-star-empty': !isInACollection
+    });
 
     return (
       <div className={'c-widget-card'}>
@@ -441,6 +438,29 @@ class WidgetCard extends PureComponent {
             <p>
               {WidgetCard.getDescription(widget.description)}
             </p>
+
+            <Tooltip
+              overlay={<CollectionsPanel
+                resource={widget}
+                resourceType="widget"
+              />}
+              overlayClassName="c-rc-tooltip"
+              overlayStyle={{
+                color: '#fff'
+              }}
+              placement="bottom"
+              trigger="click"
+            >
+              <button
+                className="c-btn favourite-button"
+                tabIndex={-1}
+              >
+                <Icon
+                  name={starIconName}
+                  className="-star -small"
+                />
+              </button>
+            </Tooltip>
           </div>
 
           {(showActions || showRemove || showEmbed) &&
@@ -472,17 +492,6 @@ class WidgetCard extends PureComponent {
             </div>
           }
         </div>
-
-        {showStar &&
-          <a
-            className="star-icon"
-            role="button"
-            tabIndex={0}
-            onClick={this.handleStarClick}
-          >
-            <Icon name="icon-star-full" className="c-icon -small" />
-          </a>
-        }
       </div>
     );
   }
@@ -490,8 +499,7 @@ class WidgetCard extends PureComponent {
 
 WidgetCard.defaultProps = {
   showActions: false,
-  showRemove: false,
-  showWidgetColllections: false
+  showRemove: false
 };
 
 WidgetCard.propTypes = {
@@ -499,11 +507,9 @@ WidgetCard.propTypes = {
   showActions: PropTypes.bool,
   showRemove: PropTypes.bool,
   showEmbed: PropTypes.bool,
-  showStar: PropTypes.bool,
   mode: PropTypes.oneOf(['thumbnail', 'full']), // How to show the graph
   onWidgetClick: PropTypes.func,
   onWidgetRemove: PropTypes.func,
-  onWidgetUnfavourited: PropTypes.func,
   user: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,

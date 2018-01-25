@@ -9,6 +9,7 @@ import Icon from 'components/ui/Icon';
 import Spinner from 'components/ui/Spinner';
 import SearchInput from 'components/ui/SearchInput';
 import WidgetList from 'components/widgets/list/WidgetList';
+import Paginator from 'components/ui/Paginator';
 
 class MyRWWidgets extends PureComponent {
   static defaultProps = {
@@ -20,9 +21,11 @@ class MyRWWidgets extends PureComponent {
     orderDirection: PropTypes.oneOf(['asc', 'desc']),
     loading: PropTypes.bool,
     widgets: PropTypes.array,
+    pagination: PropTypes.object,
     routes: PropTypes.object,
     setOrderDirection: PropTypes.func,
-    setFilters: PropTypes.func
+    setFilters: PropTypes.func,
+    setPaginationPage: PropTypes.func
   }
 
   constructor(props) {
@@ -34,11 +37,10 @@ class MyRWWidgets extends PureComponent {
   }
 
   setListMode = () => { this.setState({ mode: 'list' }); }
+
   setGridMode = () => { this.setState({ mode: 'grid' }); }
 
-  handleNewWidget = () => {
-    Router.pushRoute('myrw_detail', { tab: 'widgets', id: 'new' });
-  }
+  handleNewWidget = () => Router.pushRoute('myrw_detail', { tab: 'widgets', id: 'new' });
 
   handleSearch = (value) => {
     if (!value.length) {
@@ -55,6 +57,8 @@ class MyRWWidgets extends PureComponent {
     setOrderDirection(orderDirection);
   }
 
+  handlePageChange = page => this.props.setPaginationPage(page);
+
   // TO-DO
   handleWidgetRemoved = () => {}
 
@@ -63,7 +67,8 @@ class MyRWWidgets extends PureComponent {
 
   render() {
     const { mode } = this.state;
-    const { widgets, loading, orderDirection, routes } = this.props;
+    const { widgets, loading, orderDirection, routes, pagination } = this.props;
+    const { page, total, limit } = pagination;
 
     const iconName = classnames({
       'icon-arrow-up': orderDirection === 'asc',
@@ -123,6 +128,14 @@ class MyRWWidgets extends PureComponent {
                 showRemove
                 onWidgetClick={this.handleWidgetClick}
               />}
+            {!!total && <Paginator
+              options={{
+                size: total,
+                page,
+                limit
+              }}
+              onChange={this.handlePageChange}
+            />}
             {!(widgets.length) &&
               <div className="no-widgets-div">
                 You currently have no widgets

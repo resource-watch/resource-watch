@@ -1,11 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { toastr } from 'react-redux-toastr';
 import { Link } from 'routes';
 
 // Components
 import Title from 'components/ui/Title';
 import DatasetsRelatedContent from 'components/datasets/common/DatasetsRelatedContent';
+import Icon from 'components/ui/Icon';
+import Tooltip from 'rc-tooltip/dist/rc-tooltip';
+import CollectionsPanel from 'components/collections-panel';
 
 // Redux
 import { connect } from 'react-redux';
@@ -13,13 +17,17 @@ import { connect } from 'react-redux';
 // Services
 import DatasetsService from 'services/DatasetsService';
 
+
+// helpers
+import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
+
 class DatasetsListCard extends React.Component {
   constructor(props) {
     super(props);
 
     // SERVICES
     this.service = new DatasetsService({
-      authorization: props.token,
+      authorization: props.user.token,
       language: props.locale
     });
 
@@ -44,8 +52,16 @@ class DatasetsListCard extends React.Component {
   }
 
   render() {
-    const { dataset, routes } = this.props;
+    const { dataset, routes, user } = this.props;
     const metadata = dataset.metadata[0];
+
+    const isInACollection = belongsToACollection(user, dataset);
+
+    const starIconName = classnames({
+      'icon-star-full': isInACollection,
+      'icon-star-empty': !isInACollection
+    });
+
     return (
       <div className="c-card c-datasets-list-card">
         <div className="card-container">
@@ -64,6 +80,28 @@ class DatasetsListCard extends React.Component {
             <Title className="-small">
               {dataset.provider}
             </Title>
+            <Tooltip
+              overlay={<CollectionsPanel
+                resource={dataset}
+                resourceType="dataset"
+              />}
+              overlayClassName="c-rc-tooltip"
+              overlayStyle={{
+                color: '#fff'
+              }}
+              placement="bottom"
+              trigger="click"
+            >
+              <button
+                className="c-btn favourite-button"
+                tabIndex={-1}
+              >
+                <Icon
+                  name={starIconName}
+                  className="-star -small"
+                />
+              </button>
+            </Tooltip>
           </header>
 
           <div className="card-content">
@@ -104,14 +142,14 @@ DatasetsListCard.defaultProps = {
 DatasetsListCard.propTypes = {
   dataset: PropTypes.object,
   routes: PropTypes.object,
-  token: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
-  // Callbacks
   onDatasetRemoved: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  locale: state.common.locale
+  locale: state.common.locale,
+  user: state.user
 });
 
 export default connect(mapStateToProps, null)(DatasetsListCard);
