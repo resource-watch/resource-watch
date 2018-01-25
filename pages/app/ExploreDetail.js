@@ -516,7 +516,7 @@ class ExploreDetail extends Page {
                           <div>
                             Learn more
                           </div>
-                          <Icon name="icon-external" />
+                          <Icon name="icon-external" className="-smaller" />
                         </div>
                       </a>
                     }
