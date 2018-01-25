@@ -70,7 +70,8 @@ class WidgetBlock extends React.Component {
 
   triggerFetch = props => props.fetchWidget({
     id: props.item.content.widgetId,
-    itemId: props.item.id
+    itemId: props.item.id,
+    includes: 'metadata'
   })
 
   render() {
