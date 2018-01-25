@@ -14,7 +14,9 @@ const TRANSIFEX_BLACKLIST = [
   '/app/embed/EmbedMap',
   '/app/embed/EmbedTable',
   '/app/embed/EmbedText',
-  '/app/embed/EmbedWidget'
+  '/app/embed/EmbedWidget',
+  '/app/embed/EmbedEmbed',
+  '/app/embed/EmbedSimilarDatasets'
 ];
 
 class Head extends React.PureComponent {
