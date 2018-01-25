@@ -178,6 +178,7 @@ class EmbedLayer extends Page {
                 }
                 expanded={false}
                 readonly
+                showLayersButton={false}
               />
             </div>
             {/* <div className="info">
