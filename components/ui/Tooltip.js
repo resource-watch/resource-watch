@@ -159,8 +159,8 @@ const mapStateToProps = ({ tooltip }) => ({
   tooltip
 });
 
-const mapDispatchToProps = dispatch => ({
-  setTooltipPosition: (pos) => { dispatch(setTooltipPosition(pos)); }
-});
+const mapDispatchToProps = {
+  setTooltipPosition
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tooltip);

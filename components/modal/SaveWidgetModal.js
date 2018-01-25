@@ -5,7 +5,6 @@ import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
-import { setTitle } from 'components/widgets/editor/redux/widgetEditor';
 import { toggleModal } from 'redactions/modal';
 
 // Components
@@ -16,9 +15,6 @@ import Spinner from 'components/ui/Spinner';
 
 // Services
 import WidgetService from 'services/WidgetService';
-
-// utils
-import { getChartConfig, getChartInfo } from 'utils/widgets/WidgetHelper';
 
 const FORM_ELEMENTS = {
   elements: {
@@ -72,98 +68,40 @@ class SaveWidgetModal extends React.Component {
       loading: true
     });
 
-    const { description } = this.state;
-    const { widgetEditor, tableName, dataset, datasetType, datasetProvider } = this.props;
-    const {
-      limit,
-      value,
-      category,
-      color,
-      size,
-      orderBy,
-      aggregateFunction,
-      chartType,
-      filters,
-      areaIntersection,
-      visualizationType,
-      band,
-      layer,
-      title
-    } = widgetEditor;
+    const { description, name } = this.state;
+    const { dataset, getWidgetConfig, user } = this.props;
 
-    let chartConfig = {};
-
-    // If the visualization if a map, we don't have any chartConfig
-    if (visualizationType !== 'map') {
-      const chartInfo = getChartInfo(dataset, datasetType, datasetProvider, widgetEditor);
-
-      try {
-        chartConfig = await getChartConfig(
-          dataset,
-          datasetType,
-          tableName,
-          band,
-          datasetProvider,
-          chartInfo
+    getWidgetConfig()
+      .then((widgetConfig) => {
+        const widgetObj = Object.assign(
+          {},
+          {
+            name,
+            description
+          },
+          { widgetConfig }
         );
-      } catch (err) {
-        this.setState({
-          saved: false,
-          error: true,
-          errorMessage: 'Unable to generate the configuration of the chart'
-        });
 
-        return;
-      }
-    }
-
-    const widgetConfig = {
-      widgetConfig: Object.assign(
-        {},
-        {
-          paramsConfig: {
-            visualizationType,
-            limit,
-            value,
-            category,
-            color,
-            size,
-            orderBy,
-            aggregateFunction,
-            chartType,
-            filters,
-            areaIntersection,
-            band: band && { name: band.name },
-            layer: layer && layer.id
-          }
-        },
-        chartConfig
-      )
-    };
-
-    const widgetObj = Object.assign(
-      {},
-      {
-        name: title || null,
-        description
-      },
-      widgetConfig
-    );
-
-    this.widgetService.saveUserWidget(widgetObj, this.props.dataset, this.props.user.token)
-      .then((response) => {
-        if (response.errors) throw new Error(response.errors[0].detail);
+        this.widgetService.saveUserWidget(widgetObj, dataset, user.token)
+          .then((response) => {
+            if (response.errors) throw new Error(response.errors[0].detail);
+          })
+          .then(() => this.setState({ saved: true, error: false }))
+          .catch((err) => {
+            this.setState({
+              saved: false,
+              error: true,
+              errorMessage: err.message
+            });
+            toastr.error('There was a problem saving the widget');
+            console.err(err); // eslint-disable-line no-console
+          })
+          .then(() => this.setState({ loading: false }));
       })
-      .then(() => this.setState({ saved: true, error: false }))
-      .catch((err) => {
-        this.setState({
-          saved: false,
-          error: true,
-          errorMessage: err.message
-        });
-        toastr.error('Error', err); // eslint-disable-line no-console
-      })
-      .then(() => this.setState({ loading: false }));
+      .catch((error) => {
+        toastr.error('There was a problem saving the widget');
+        console.err(error); // eslint-disable-line no-console
+      });
   }
 
   /**
@@ -185,7 +123,6 @@ class SaveWidgetModal extends React.Component {
 
   render() {
     const { submitting, loading, saved, error, errorMessage } = this.state;
-    const { widgetEditor } = this.props;
 
     return (
       <div className="c-save-widget-modal">
@@ -210,15 +147,13 @@ class SaveWidgetModal extends React.Component {
             <fieldset className="c-field-container">
               <Field
                 ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
-                onChange={value => this.props.setTitle(value)}
+                onChange={name => this.setState({ name })}
                 validations={['required']}
                 properties={{
                   title: 'title',
                   label: 'Title',
                   type: 'text',
                   required: true,
-                  default: widgetEditor.title,
-                  value: widgetEditor.title,
                   placeholder: 'Widget title'
                 }}
               >
@@ -287,25 +222,19 @@ class SaveWidgetModal extends React.Component {
 
 SaveWidgetModal.propTypes = {
   dataset: PropTypes.string.isRequired,
-  tableName: PropTypes.string.isRequired,
-  datasetType: PropTypes.string,
-  datasetProvider: PropTypes.string,
+  getWidgetConfig: PropTypes.func.isRequired,
   // Store
   user: PropTypes.object.isRequired,
-  widgetEditor: PropTypes.object.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  setTitle: PropTypes.func.isRequired
+  toggleModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  user: state.user,
-  widgetEditor: state.widgetEditor
+  user: state.user
 });
 
-const mapDispatchToProps = dispatch => ({
-  toggleModal: open => dispatch(toggleModal(open)),
-  setTitle: title => dispatch(setTitle(title))
-});
+const mapDispatchToProps = {
+  toggleModal
+};
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(SaveWidgetModal);

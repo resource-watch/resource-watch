@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { toastr } from 'react-redux-toastr';
-
 import { connect } from 'react-redux';
 
 // Constants

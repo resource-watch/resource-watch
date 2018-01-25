@@ -4,30 +4,15 @@ import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
 import { toastr } from 'react-redux-toastr';
 import classnames from 'classnames';
+import WidgetEditor from 'widget-editor';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { setTopicsTree } from 'redactions/explore';
 import { resetDataset } from 'redactions/exploreDetail';
 import { getDataset } from 'redactions/exploreDataset';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
-import {
-  setFilters,
-  setColor,
-  setCategory,
-  setValue,
-  setSize,
-  setOrderBy,
-  setAggregateFunction,
-  setLimit,
-  setChartType,
-  setBand,
-  setVisualizationType,
-  setLayer,
-  setTitle
-} from 'components/widgets/editor/redux/widgetEditor';
 import { setUser } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
@@ -36,7 +21,6 @@ import { Router } from 'routes';
 
 // Services
 import DatasetService from 'services/DatasetService';
-import LayersService from 'services/LayersService';
 import GraphService from 'services/GraphService';
 import UserService from 'services/UserService';
 
@@ -46,7 +30,6 @@ import Layout from 'components/app/layout/Layout';
 import Icon from 'components/ui/Icon';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
-import WidgetEditor from 'components/widgets/editor/WidgetEditor';
 import ShareExploreDetailModal from 'components/modal/ShareExploreDetailModal';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import LoginModal from 'components/modal/LoginModal';
@@ -111,7 +94,6 @@ class ExploreDetailPrivate extends Page {
     this.getDataset();
     this.getSimilarDatasets();
     this.getFavoriteDatasets();
-    this.loadTopicsTree();
     this.countView(this.props.url.query.id);
   }
 
@@ -140,26 +122,6 @@ class ExploreDetailPrivate extends Page {
     this.props.resetDataset();
   }
 
-  /**
-   * HELPERS
-   * - getDataset
-   * - getSimilarDatasets
-   * - loadTopicsTree
-   * - loadInferredTags
-  */
-  loadTopicsTree() {
-    const { topicsTree } = this.props;
-
-    if (!topicsTree) {
-      fetch(new Request('/static/data/TopicsTreeLite.json', { credentials: 'same-origin' }))
-        .then(response => response.json())
-        .then((data) => {
-          // Save the topics tree as variable for later use
-          this.props.setTopicsTree(data);
-        });
-    }
-  }
-
   getDataset() {
     this.setState({
       loading: true
@@ -171,7 +133,7 @@ class ExploreDetailPrivate extends Page {
           dataset: response,
           datasetLoaded: true,
           loading: false
-        }, () => defaultEditableWidget && this.loadDefaultWidgetIntoRedux(defaultEditableWidget));
+        });
 
         // Load inferred tags
         const tags = response.attributes.vocabulary[0].attributes.tags;
@@ -230,45 +192,6 @@ class ExploreDetailPrivate extends Page {
         toastr.error('Error', 'Unable to load the similar datasets');
       })
       .then(() => this.setState({ similarDatasetsLoaded: true }));
-  }
-
-  loadDefaultWidgetIntoRedux(defaultEditableWidget) {
-    const { paramsConfig } = defaultEditableWidget.attributes.widgetConfig;
-    const { name } = defaultEditableWidget.attributes;
-    if (paramsConfig) {
-      const {
-        visualizationType,
-        band,
-        value,
-        category,
-        color,
-        size,
-        aggregateFunction,
-        orderBy,
-        filters,
-        limit,
-        chartType,
-        layer
-      } = paramsConfig;
-
-      // We restore the type of visualization
-      // We default to "chart" to maintain the compatibility with previously created
-      // widgets (at that time, only "chart" widgets could be created)
-      this.props.setVisualizationType(visualizationType || 'chart');
-
-      if (band) this.props.setBand(band);
-      if (layer) this.props.setLayer(layer);
-      if (aggregateFunction) this.props.setAggregateFunction(aggregateFunction);
-      if (value) this.props.setValue(value);
-      if (size) this.props.setSize(size);
-      if (color) this.props.setColor(color);
-      if (orderBy) this.props.setOrderBy(orderBy);
-      if (category) this.props.setCategory(category);
-      if (filters) this.props.setFilters(filters);
-      if (limit) this.props.setLimit(limit);
-      if (chartType) this.props.setChartType(chartType);
-      if (name) this.props.setTitle(name);
-    }
   }
 
   /**
@@ -795,21 +718,7 @@ ExploreDetailPrivate.propTypes = {
   // ACTIONS
   resetDataset: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired,
-  setSize: PropTypes.func.isRequired,
-  setColor: PropTypes.func.isRequired,
-  setCategory: PropTypes.func.isRequired,
-  setValue: PropTypes.func.isRequired,
-  setOrderBy: PropTypes.func.isRequired,
-  setAggregateFunction: PropTypes.func.isRequired,
-  setLimit: PropTypes.func.isRequired,
-  setChartType: PropTypes.func.isRequired,
-  setVisualizationType: PropTypes.func.isRequired,
-  setBand: PropTypes.func.isRequired,
-  setLayer: PropTypes.func.isRequired,
-  setTitle: PropTypes.func.isRequired,
-  setTopicsTree: PropTypes.func.isRequired
+  setModalOptions: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -821,34 +730,10 @@ const mapStateToProps = state => ({
   locale: state.common.locale
 });
 
-const mapDispatchToProps = dispatch => ({
-  resetDataset: () => {
-    dispatch(resetDataset());
-  },
-  toggleModal: (open) => { dispatch(toggleModal(open)); },
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
-  setFilters: filter => dispatch(setFilters(filter)),
-  setColor: color => dispatch(setColor(color)),
-  setSize: size => dispatch(setSize(size)),
-  setCategory: category => dispatch(setCategory(category)),
-  setValue: value => dispatch(setValue(value)),
-  setOrderBy: value => dispatch(setOrderBy(value)),
-  setAggregateFunction: value => dispatch(setAggregateFunction(value)),
-  setLimit: value => dispatch(setLimit(value)),
-  setChartType: value => dispatch(setChartType(value)),
-  setVisualizationType: vis => dispatch(setVisualizationType(vis)),
-  setBand: band => dispatch(setBand(band)),
-  setLayer: (layerId) => {
-    new LayersService()
-      .fetchData({ id: layerId })
-      .then(layer => dispatch(setLayer(layer)))
-      .catch((err) => {
-        console.error(err);
-        toastr.error('Error', 'Unable to load the layer of the widget.');
-      });
-  },
-  setTitle: title => dispatch(setTitle(title)),
-  setTopicsTree: tree => dispatch(setTopicsTree(tree))
-});
+const mapDispatchToProps = {
+  resetDataset,
+  toggleModal,
+  setModalOptions
+};
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetailPrivate);

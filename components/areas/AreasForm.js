@@ -276,9 +276,9 @@ const mapStateToProps = state => ({
   routes: state.routes
 });
 
-const mapDispatchToProps = dispatch => ({
-  toggleModal: (open, opts) => { dispatch(toggleModal(open, opts)); },
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); }
-});
+const mapDispatchToProps = {
+  toggleModal,
+  setModalOptions
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AreasForm);

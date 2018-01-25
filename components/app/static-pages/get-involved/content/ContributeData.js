@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import renderHTML from 'react-render-html';
 import { Link } from 'routes';
 
-// components
-import Banner from 'components/app/common/Banner';
-
-export default function ContributeData({ content }) {
+function ContributeData({ content }) {
   return (
     <section className="l-content">
       <article className="l-content-body">
@@ -39,3 +36,4 @@ ContributeData.defaultProps = {
   content: ''
 };
 
+export default ContributeData;

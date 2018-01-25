@@ -10,7 +10,7 @@
     max-width: 300px;
     max-height: 300px;
     background-color: $white;
-    z-index: 9999999;
+    z-index: 999;
 
     &.-closed {
       left: 0px;
@@ -81,38 +81,43 @@
     }
 
     .detail-container {
-      min-width: 500px;
-      max-width: 500px;
+      min-width: 600px;
+      max-width: 600px;
       height: 100%;
       padding-top: 10%;
-      overflow: auto;
 
       h2 {
         color: $white;
       }
 
       .text-container {
-        margin-bottom: 20px;
+        height: 100%;
+        padding-bottom: 20px;
+        overflow: auto;
 
-        a, h3 {
-          color: $white;
-        }
-        a {
-          text-decoration: underline;
-          font-weight: bold;
-        }
-        .video-container {
-          position: relative;
-          height: 0;
-          padding-bottom: 60%; /* This should be changed to match the aspect ratio of the video */
-          margin-bottom: 20px;
+        .markup-container {
+          margin-right: 15px;
 
-          .video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+          a, h3 {
+            color: $white;
+          }
+          a {
+            text-decoration: underline;
+            font-weight: bold;
+          }
+          .video-container {
+            position: relative;
+            height: 0;
+            padding-bottom: 56.25%; /* This should be changed to match the aspect ratio of the video */
+            margin-bottom: 20px;
+
+            .video {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+            }
           }
         }
       }
@@ -143,9 +148,12 @@
     width: 100%;
 
     .menu-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
       position: absolute;
-      bottom: 50px;
-      left: 50px;
+      top: 100px;
+      right: 20px;
       z-index: 9999;
 
       .scenario-box {

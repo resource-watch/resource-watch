@@ -45,7 +45,6 @@ class Insights extends Page {
   }
 
   componentDidMount() {
-    
     this.props.getInsights();
   }
 
@@ -106,8 +105,8 @@ class Insights extends Page {
 
 const mapStateToProps = state => ({ insights: state.insights.list });
 
-const mapDispatchToProps = dispatch => ({
-  getInsights: () => dispatch(getInsights())
-});
+const mapDispatchToProps = {
+  getInsights
+};
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Insights);

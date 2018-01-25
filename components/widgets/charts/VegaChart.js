@@ -17,7 +17,7 @@ import VegaChartTooltip from 'components/widgets/charts/VegaChartTooltip';
 import VegaChartLegend from 'components/widgets/charts/VegaChartLegend';
 
 // Utils
-import { fetchRasterData } from 'components/widgets/editor/helpers/WidgetHelper';
+import { fetchRasterData } from 'utils/widgets/WidgetHelper';
 
 class VegaChart extends React.Component {
   constructor(props) {
@@ -455,8 +455,8 @@ const mapStateToProps = ({ tooltip }) => ({
   tooltip
 });
 
-const mapDispatchToProps = dispatch => ({
-  toggleTooltip: (visibility, options) => dispatch(toggleTooltip(visibility, options))
-});
+const mapDispatchToProps = {
+  toggleTooltip
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(VegaChart);

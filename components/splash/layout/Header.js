@@ -21,7 +21,7 @@ function Header(props) {
         </div>
         }
         <Link route="home">
-          <a>GO TO RESOURCE WATCH</a>
+          <a>GO TO SITE</a>
         </Link>
       </div>
     </div>

@@ -148,11 +148,8 @@ Table.propTypes = {
   data: PropTypes.array,
   columns: PropTypes.array,
   actionsColumn: PropTypes.bool,
-  editablePath: PropTypes.string,
-  removablePath: PropTypes.string,
   paginated: PropTypes.bool,
-  pageSize: PropTypes.number,
-  initialPage: PropTypes.number
+  pageSize: PropTypes.number
 };
 
 /* Property default values */
@@ -160,9 +157,6 @@ Table.defaultProps = {
   data: [],
   columns: [],
   actionsColumn: true,
-  editablePath: '/admin/datasets/:id/edit',
-  removablePath: '/admin/datasets/:id/remove',
   paginated: true,
-  pageSize: 10,
-  initialPage: 0
+  pageSize: 10
 };

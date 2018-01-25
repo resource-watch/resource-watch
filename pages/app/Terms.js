@@ -82,10 +82,8 @@ const mapStateToProps = state => ({
   data: state.staticPages['terms-of-service']
 });
 
-const mapDispatchToProps = dispatch => ({
-  getStaticData: (slug, ref) => {
-    dispatch(getStaticData(slug, ref));
-  }
-});
+const mapDispatchToProps = {
+  getStaticData
+};
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Terms);

@@ -135,12 +135,16 @@
       }
 
       .widget-links-container {
-        
+
         ul {
           list-style-type: circle;
 
           li {
             margin-left: 35px;
+
+            a {
+              color: $link-font-color;
+            }
           }
         }
       }

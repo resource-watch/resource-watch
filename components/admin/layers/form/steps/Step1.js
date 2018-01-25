@@ -11,11 +11,11 @@ import Select from 'components/form/SelectInput';
 import Textarea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
 import Code from 'components/form/Code';
-import Map from 'components/widgets/editor/map/Map';
-import Legend from 'components/widgets/editor/ui/Legend';
+import Map from 'components/ui/map/Map';
+import Legend from 'components/ui/Legend';
 
 // Utils
-import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import LayerManager from 'utils/layers/LayerManager';
 
 // Constants
 const MAP_CONFIG = {

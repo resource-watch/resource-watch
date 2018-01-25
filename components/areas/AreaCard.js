@@ -11,7 +11,7 @@ import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import Map from 'components/widgets/editor/map/Map';
+import Map from 'components/ui/map/Map';
 import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 import AreaActionsTooltip from 'components/areas/AreaActionsTooltip';
 
@@ -21,7 +21,7 @@ import AreasService from 'services/AreasService';
 import UserService from 'services/UserService';
 
 // Utils
-import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import LayerManager from 'utils/layers/LayerManager';
 
 const MAP_CONFIG = {
   zoom: 3,
@@ -308,7 +308,7 @@ class AreaCard extends React.Component {
                   <div className="status-label">
                     {!subscriptionConfirmed &&
                     <div className="pending-label">
-                      Pending
+                      Pending email confirmation
                     </div>
                     }
                   </div>
@@ -362,12 +362,10 @@ const mapStateToProps = state => ({
   locale: state.common.locale
 });
 
-const mapDispatchToProps = dispatch => ({
-  toggleModal: (open, opts) => { dispatch(toggleModal(open, opts)); },
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
-  toggleTooltip: (opened, opts) => {
-    dispatch(toggleTooltip(opened, opts));
-  }
-});
+const mapDispatchToProps = {
+  toggleModal,
+  setModalOptions,
+  toggleTooltip
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AreaCard);

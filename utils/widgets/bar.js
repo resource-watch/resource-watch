@@ -171,7 +171,6 @@ const defaultChart = {
           "tickSizeEnd": 0,
           "offset": 5,
           "properties": {"axis": {"strokeWidth": {"value": 0}}},
-          "name": "Total co2 emmissions",
           "grid": "true"
         }
       ]
@@ -202,10 +201,13 @@ const defaultChart = {
  * Return the Vega chart configuration
  *
  * @export
- * @param {any} { columns, data, url, embedData, provider, band }
+ * @param {any} { columns, data, url, embedData, provider, band, templateMode }
  */
-export default function ({ columns, data, url, embedData, provider, band  }) {
+export default function ({ columns, data, url, embedData, provider, band, templateMode  }) {
   const config = deepClone(defaultChart);
+
+  // Simple template used in the advanced mode of the editor
+  if (templateMode) return config;
 
   if (embedData) {
     // We directly set the data

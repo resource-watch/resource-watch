@@ -128,6 +128,7 @@
 
 
 // WIDGETS
+@import '../node_modules/widget-editor/dist/styles.min';
 @import "./components/widgets/add_widget_to_collection_tooltip";
 @import "./components/widgets/text_chart";
 @import "./components/widgets/widget_editor";
@@ -240,6 +241,7 @@
 @import "./components/app/explore/resume_filters";
 @import "./components/app/explore/dataset_tags_tooltip";
 @import "./components/app/explore/explore_dataset_filters";
+@import "./components/app/explore/similar_datasets";
 
 // EXPLORE DETAIL
 @import "./components/app/explore-detail/dataset-info";
@@ -271,3 +273,7 @@
 
 // ------ SPLASH -------
 @import "./components/splash/layout/splash_header";
+
+// RC-TOOLTIP
+@import '../node_modules/rc-tooltip/assets/bootstrap_white.css';
+@import "./components/ui/rc-tooltip";

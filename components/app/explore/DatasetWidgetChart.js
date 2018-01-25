@@ -74,9 +74,6 @@ class DatasetWidgetChart extends React.Component {
           getForceUpdate={(func) => { this.forceChartUpdate = func; }}
           onError={() => this.setState({ error: true })}
         />
-        <div className="actions">
-          
-        </div>
       </div>
     );
   }

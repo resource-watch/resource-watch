@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // Components
 import Button from 'components/ui/Button';
 import Icon from 'components/ui/Icon';
-import SelectInput from 'components/widgets/editor/form/SelectInput';
+import SelectInput from 'components/form/SelectInput';
 
 // Redux
 import { connect } from 'react-redux';
@@ -63,7 +63,8 @@ class DatasetListHeader extends React.Component {
                 name: 'explore-sorting',
                 value: sortingOrder,
                 default: sortingOrder,
-                clearable: false
+                clearable: false,
+                instanceId: 'exploreSorting'
               }}
               options={SORTING_OPTIONS}
               onChange={sorting => this.props.setDatasetsSorting(sorting)}
@@ -112,9 +113,9 @@ const mapStateToProps = ({ explore }) => ({
   sortingOrder: explore.sorting.order
 });
 
-const mapDispatchToProps = dispatch => ({
-  setDatasetsMode: mode => dispatch(setDatasetsMode(mode)),
-  setDatasetsSorting: sorting => dispatch(setDatasetsSorting(sorting))
-});
+const mapDispatchToProps = {
+  setDatasetsMode,
+  setDatasetsSorting
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetListHeader);

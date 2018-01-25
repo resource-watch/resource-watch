@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 // Components
 import VegaChart from 'components/widgets/charts/VegaChart';
 import TextChart from 'components/widgets/charts/TextChart';
-import Map from 'components/widgets/editor/map/Map';
-import Legend from 'components/widgets/editor/ui/Legend';
+import Map from 'components/ui/map/Map';
+import Legend from 'components/ui/Legend';
 
 import Icon from 'components/ui/Icon';
 import Title from 'components/ui/Title';
@@ -13,7 +13,7 @@ import Spinner from 'components/ui/Spinner';
 
 // Utils
 import getChartTheme from 'utils/widgets/theme';
-import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import LayerManager from 'utils/layers/LayerManager';
 
 export default function WidgetBlock({
   user,
@@ -43,6 +43,9 @@ export default function WidgetBlock({
     favouriteLoading
   } = data[id];
 
+  const widgetLinks = (widget && (widget.metadata && widget.metadata.length > 0 &&
+    widget.metadata[0].attributes.info &&
+    widget.metadata[0].attributes.info.widgetLinks)) || [];
   return (
     <div className="c-dashboard-card">
       <header>
@@ -145,6 +148,24 @@ export default function WidgetBlock({
                 <p>{widget.description}</p>
               </div>
             )}
+
+            { widgetLinks.length > 0 &&
+              <div className="widget-links-container">
+                <h4>Links</h4>
+                <ul>
+                  { widgetLinks.map(link => (
+                    <li>
+                      <a
+                        href={link.link}
+                        target="_blank"
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            }
           </div>
         }
       </div>

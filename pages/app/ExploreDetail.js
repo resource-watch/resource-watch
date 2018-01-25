@@ -13,22 +13,7 @@ import { resetDataset } from 'redactions/exploreDetail';
 import { getDataset } from 'redactions/exploreDataset';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
-import {
-  setFilters,
-  setColor,
-  setCategory,
-  setValue,
-  setSize,
-  setOrderBy,
-  setAggregateFunction,
-  setLimit,
-  setChartType,
-  setBand,
-  setVisualizationType,
-  setLayer,
-  setTitle
-} from 'components/widgets/editor/redux/widgetEditor';
-import { setUser, toggleFavourite } from 'redactions/user';
+import { setUser, getUserFavourites, getUserCollections } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
 // Next
@@ -36,7 +21,6 @@ import { Link, Router } from 'routes';
 
 // Services
 import DatasetService from 'services/DatasetService';
-import LayersService from 'services/LayersService';
 import GraphService from 'services/GraphService';
 import UserService from 'services/UserService';
 
@@ -46,24 +30,43 @@ import Layout from 'components/app/layout/Layout';
 import Icon from 'components/ui/Icon';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
-import WidgetEditor from 'components/widgets/editor/WidgetEditor';
+import WidgetEditor from 'widget-editor';
 import ShareExploreDetailModal from 'components/modal/ShareExploreDetailModal';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import LoginModal from 'components/modal/LoginModal';
 import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
-
-import Error from '../_error';
+import SaveWidgetModal from 'components/modal/SaveWidgetModal';
+import Tooltip from 'rc-tooltip/dist/rc-tooltip';
+import CollectionsPanel from 'components/collections-panel';
+import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
 
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
 import { logEvent } from 'utils/analytics';
 
+// helpers
+import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
+
+import Error from '../_error';
+
 class ExploreDetail extends Page {
+  static propTypes = {
+    url: PropTypes.object.isRequired,
+    user: PropTypes.object,
+    locale: PropTypes.string.isRequired,
+    resetDataset: PropTypes.func.isRequired,
+    toggleModal: PropTypes.func.isRequired,
+    setModalOptions: PropTypes.func.isRequired,
+    toggleLayerGroup: PropTypes.func.isRequired
+  };
+
   static async getInitialProps({ asPath, pathname, query, req, res, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
     await store.dispatch(setUser(user));
+    await store.dispatch(getUserFavourites());
+    await store.dispatch(getUserCollections());
     store.dispatch(setRouter(url));
     await store.dispatch(getDataset(url.query.id));
 
@@ -80,8 +83,6 @@ class ExploreDetail extends Page {
     this.state = {
       dataset: null,
       loading: false,
-      similarDatasetsLoaded: false,
-      similarDatasets: [],
       showDescription: false,
       showFunction: false,
       showCautions: false,
@@ -104,6 +105,7 @@ class ExploreDetail extends Page {
     this.handleSubscribe = this.handleSubscribe.bind(this);
     this.handleTagClick = this.handleTagClick.bind(this);
     this.handleFavoriteButtonClick = this.handleFavoriteButtonClick.bind(this);
+    this.handleSaveWidget = this.handleSaveWidget.bind(this);
     //--------------------------------------------------------
   }
 
@@ -115,7 +117,6 @@ class ExploreDetail extends Page {
   */
   componentDidMount() {
     this.getDataset();
-    this.getSimilarDatasets();
     this.countView(this.props.url.query.id);
   }
 
@@ -123,7 +124,6 @@ class ExploreDetail extends Page {
     if (this.props.url.query.id !== nextProps.url.query.id) {
       this.props.resetDataset();
       this.setState({
-        similarDatasetsLoaded: false,
         datasetLoaded: false
       }, () => {
         this.datasetService = new DatasetService(nextProps.url.query.id, {
@@ -133,7 +133,6 @@ class ExploreDetail extends Page {
         // Scroll to the top of the page
         window.scrollTo(0, 0);
         this.getDataset();
-        this.getSimilarDatasets();
       });
 
       this.countView(nextProps.url.query.id);
@@ -148,7 +147,6 @@ class ExploreDetail extends Page {
   /**
    * HELPERS
    * - getDataset
-   * - getSimilarDatasets
    * - loadInferredTags
   */
 
@@ -157,13 +155,11 @@ class ExploreDetail extends Page {
       loading: true
     }, () => {
       this.datasetService.fetchData('layer,metadata,vocabulary,widget').then((response) => {
-        const defaultEditableWidget = response.attributes.widget.find(widget => widget.attributes.defaultEditableWidget === true);
-
         this.setState({
           dataset: response,
           datasetLoaded: true,
           loading: false
-        }, () => defaultEditableWidget && this.loadDefaultWidgetIntoRedux(defaultEditableWidget));
+        });
 
         // Load inferred tags
         const vocabulary = response.attributes.vocabulary;
@@ -195,62 +191,6 @@ class ExploreDetail extends Page {
         this.setState({ inferredTags: [] });
         console.error(err);
       });
-  }
-
-  getSimilarDatasets() {
-    this.setState({ similarDatasetsLoaded: false });
-
-    this.datasetService.getSimilarDatasets()
-      .then(res => res.map(val => val.dataset).slice(0, 7))
-      .then((ids) => {
-        if (ids.length === 0) return [];
-        return DatasetService.getDatasets(ids, this.props.locale, 'widget,metadata,layer,vocabulary');
-      })
-      .then(similarDatasets => this.setState({ similarDatasets }))
-      .catch((err) => {
-        console.error(err);
-        toastr.error('Error', 'Unable to load the similar datasets');
-      })
-      .then(() => this.setState({ similarDatasetsLoaded: true }));
-  }
-
-  loadDefaultWidgetIntoRedux(defaultEditableWidget) {
-    const { paramsConfig } = defaultEditableWidget.attributes.widgetConfig;
-    const { name } = defaultEditableWidget.attributes;
-    if (paramsConfig) {
-      const {
-        visualizationType,
-        band,
-        value,
-        category,
-        color,
-        size,
-        aggregateFunction,
-        orderBy,
-        filters,
-        limit,
-        chartType,
-        layer
-      } = paramsConfig;
-
-      // We restore the type of visualization
-      // We default to "chart" to maintain the compatibility with previously created
-      // widgets (at that time, only "chart" widgets could be created)
-      this.props.setVisualizationType(visualizationType || 'chart');
-
-      if (band) this.props.setBand(band);
-      if (layer) this.props.setLayer(layer);
-      if (aggregateFunction) this.props.setAggregateFunction(aggregateFunction);
-      if (value) this.props.setValue(value);
-      if (size) this.props.setSize(size);
-      if (color) this.props.setColor(color);
-      if (orderBy) this.props.setOrderBy(orderBy);
-      if (category) this.props.setCategory(category);
-      if (filters) this.props.setFilters(filters);
-      if (limit) this.props.setLimit(limit);
-      if (chartType) this.props.setChartType(chartType);
-      if (name) this.props.setTitle(name);
-    }
   }
 
   /**
@@ -375,7 +315,7 @@ class ExploreDetail extends Page {
   handleFavoriteButtonClick() {
     const { user, url } = this.props;
     const { dataset } = this.state;
-    const favourite = user.favourites.find(f => f.attributes.resourceId === url.query.id);
+    const favourite = user.favourites.items.find(f => f.attributes.resourceId === url.query.id);
 
     this.setState({ loading: true });
 
@@ -396,9 +336,22 @@ class ExploreDetail extends Page {
       });
   }
 
+  handleSaveWidget() {
+    const { dataset } = this.state;
+    const options = {
+      children: SaveWidgetModal,
+      childrenProps: {
+        dataset: dataset.id,
+        getWidgetConfig: this.onGetWidgetConfig
+      }
+    };
+    this.props.toggleModal(true);
+    this.props.setModalOptions(options);
+  }
+
   render() {
     const { url, user, exploreDataset } = this.props;
-    const { dataset, loading, similarDatasets, similarDatasetsLoaded, inferredTags } = this.state;
+    const { dataset, loading, inferredTags } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
     const metadataAttributes = (metadata && metadata.attributes) || {};
@@ -406,19 +359,25 @@ class ExploreDetail extends Page {
     const { description } = metadataAttributes;
     const { functions, cautions } = metadataInfo;
 
+    const defaultEditableWidget = dataset && dataset.attributes.widget.find(widget => widget.attributes.defaultEditableWidget === true);
+
     const showOpenInExploreButton = dataset && dataset.attributes.layer && dataset.attributes.layer.length > 0;
 
-    const favourite = user.favourites.find(f => f.attributes.resourceId === url.query.id);
+    const datasetWithId = { id: exploreDataset.data.id };
+    const isInACollection = belongsToACollection(user, datasetWithId);
+    const formattedDescription = this.shortenAndFormat(description || '', 'showDescription');
+    const formattedFunctions = this.shortenAndFormat(functions || '', 'showFunction');
+    const formattedCautions = this.shortenAndFormat(cautions || '', 'showCautions');
 
-    const formattedDescription = this.shortenAndFormat(description, 'showDescription');
-    const formattedFunctions = this.shortenAndFormat(functions, 'showFunction');
-    const formattedCautions = this.shortenAndFormat(cautions, 'showCautions');
+    const starIconName = classnames({
+      'icon-star-full': isInACollection,
+      'icon-star-empty': !isInACollection
+    });
 
-    const starIconName = favourite ? 'icon-star-full' : 'icon-star-empty';
     const starIconClass = classnames({
       '-small': true,
-      '-filled': favourite,
-      '-empty': !favourite
+      '-filled': isInACollection,
+      '-empty': !isInACollection
     });
 
     const isSubscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
@@ -461,18 +420,28 @@ class ExploreDetail extends Page {
                     {/* Favorite dataset icon */}
                     {user && user.id &&
                       <li>
-                        <div
-                          className="favourite-button"
-                          onClick={this.handleFavoriteButtonClick}
-                          title="Favorite dataset"
-                          role="button"
-                          tabIndex={-1}
+                        <Tooltip
+                          overlay={<CollectionsPanel
+                            resource={datasetWithId}
+                            resourceType="dataset"
+                          />}
+                          overlayClassName="c-rc-tooltip"
+                          overlayStyle={{
+                            color: '#c32d7b'
+                          }}
+                          placement="bottom"
+                          trigger="click"
                         >
-                          <Icon
-                            name={starIconName}
-                            className={starIconClass}
-                          />
-                        </div>
+                          <button
+                            className="c-btn favourite-button"
+                            tabIndex={-1}
+                          >
+                            <Icon
+                              name={starIconName}
+                              className={starIconClass}
+                            />
+                          </button>
+                        </Tooltip>
                       </li>
                     }
                     {/* Favorites */}
@@ -570,10 +539,13 @@ class ExploreDetail extends Page {
           <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
             {dataset &&
               <WidgetEditor
-                dataset={dataset.id}
-                mode="dataset"
-                showSaveButton={!!(user && user.id)}
-                showNotLoggedInText
+                datasetId={dataset.id}
+                widgetId={defaultEditableWidget && defaultEditableWidget.id}
+                saveButtonMode="auto"
+                embedButtonMode="auto"
+                titleMode="auto"
+                provideWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
+                onSave={this.handleSaveWidget}
               />
             }
           </MediaQuery>
@@ -736,20 +708,11 @@ class ExploreDetail extends Page {
                   <div className="l-section-mod similar-datasets">
                     <div className="row">
                       <div className="column small-12">
-                        <h3>Similar datasets</h3>
-                        <Spinner
-                          isLoading={!similarDatasetsLoaded}
-                          className="-relative -light"
-                        />
-                        {similarDatasets && similarDatasets.length > 0 &&
-                        <DatasetList
-                          active={[]}
-                          list={similarDatasets}
-                          mode="grid"
-                          showActions={false}
-                          showFavorite={false}
-                          onTagSelected={this.handleTagSelected}
-                        />
+                        {dataset &&
+                          <SimilarDatasets
+                            datasetId={dataset.id}
+                            onTagSelected={this.handleTagSelected}
+                          />
                         }
                       </div>
                     </div>
@@ -800,32 +763,6 @@ class ExploreDetail extends Page {
   }
 }
 
-ExploreDetail.propTypes = {
-  url: PropTypes.object.isRequired,
-  // Store
-  user: PropTypes.object,
-  widgetEditor: PropTypes.object,
-  locale: PropTypes.string.isRequired,
-  // ACTIONS
-  resetDataset: PropTypes.func.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired,
-  setSize: PropTypes.func.isRequired,
-  setColor: PropTypes.func.isRequired,
-  setCategory: PropTypes.func.isRequired,
-  setValue: PropTypes.func.isRequired,
-  setOrderBy: PropTypes.func.isRequired,
-  setAggregateFunction: PropTypes.func.isRequired,
-  setLimit: PropTypes.func.isRequired,
-  setChartType: PropTypes.func.isRequired,
-  setVisualizationType: PropTypes.func.isRequired,
-  setBand: PropTypes.func.isRequired,
-  setLayer: PropTypes.func.isRequired,
-  setTitle: PropTypes.func.isRequired,
-  toggleLayerGroup: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => ({
   // Store
   user: state.user,
@@ -835,35 +772,11 @@ const mapStateToProps = state => ({
   locale: state.common.locale
 });
 
-const mapDispatchToProps = dispatch => ({
-  resetDataset: () => {
-    dispatch(resetDataset());
-  },
-  toggleModal: (open) => { dispatch(toggleModal(open)); },
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
-  setFilters: filter => dispatch(setFilters(filter)),
-  setColor: color => dispatch(setColor(color)),
-  setSize: size => dispatch(setSize(size)),
-  setCategory: category => dispatch(setCategory(category)),
-  setValue: value => dispatch(setValue(value)),
-  setOrderBy: value => dispatch(setOrderBy(value)),
-  setAggregateFunction: value => dispatch(setAggregateFunction(value)),
-  setLimit: value => dispatch(setLimit(value)),
-  setChartType: value => dispatch(setChartType(value)),
-  setVisualizationType: vis => dispatch(setVisualizationType(vis)),
-  setBand: band => dispatch(setBand(band)),
-  setLayer: (layerId) => {
-    new LayersService()
-      .fetchData({ id: layerId })
-      .then(layer => dispatch(setLayer(layer)))
-      .catch((err) => {
-        console.error(err);
-        toastr.error('Error', 'Unable to load the layer of the widget.');
-      });
-  },
-  setTitle: title => dispatch(setTitle(title)),
-  toggleLayerGroup: (datasetID, addLayer) => dispatch(toggleLayerGroup(datasetID, addLayer)),
-  toggleFavourite: options => dispatch(toggleFavourite(options))
-});
+const mapDispatchToProps = {
+  resetDataset,
+  toggleModal,
+  setModalOptions,
+  toggleLayerGroup
+};
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);

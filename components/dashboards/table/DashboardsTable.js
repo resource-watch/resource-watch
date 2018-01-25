@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 // Redux
 import { connect } from 'react-redux';
-
 import { getDashboards, setFilters } from 'redactions/admin/dashboards';
 
 // Selectors
@@ -144,9 +143,9 @@ const mapStateToProps = state => ({
   filteredDashboards: getFilteredDashboards(state),
   error: state.dashboards.dashboards.error
 });
-const mapDispatchToProps = dispatch => ({
-  getDashboards: () => dispatch(getDashboards()),
-  setFilters: filters => dispatch(setFilters(filters))
-});
+const mapDispatchToProps = {
+  getDashboards,
+  setFilters
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardsTable);

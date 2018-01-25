@@ -118,7 +118,6 @@ class SplashDetail extends Page {
   }
 
   handleToggleIntro() {
-    console.log('hey!');
     this.setState({ introOpened: !this.state.introOpened });
   }
 
@@ -188,7 +187,9 @@ class SplashDetail extends Page {
             <div className="detail-container">
               { /* Hide this to make more room for the text <h2>{selectedHotspot.title}</h2> */}
               <div className="text-container">
-                {selectedHotspot.markup}
+                <div className="markup-container">
+                  {selectedHotspot.markup}
+                </div>
               </div>
             </div>
             <div
@@ -231,6 +232,7 @@ class SplashDetail extends Page {
           <a-scene
             cursor="rayOrigin: mouse"
             embedded
+            vr-mode-ui="enabled: false"
           >
             {options &&
               <a-assets>

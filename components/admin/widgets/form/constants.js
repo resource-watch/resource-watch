@@ -1,6 +1,6 @@
-import bar from 'components/widgets/editor/helpers/bar';
-import pie from 'components/widgets/editor/helpers/pie';
-import line from 'components/widgets/editor/helpers/line';
+import bar from 'utils/widgets/bar';
+import pie from 'utils/widgets/pie';
+import line from 'utils/widgets/line';
 
 
 export const STATE_DEFAULT = {

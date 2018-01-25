@@ -17,7 +17,7 @@ import EmbedLayout from 'components/app/layout/EmbedLayout';
 import VegaChart from 'components/widgets/charts/VegaChart';
 import Spinner from 'components/ui/Spinner';
 import ChartTheme from 'utils/widgets/theme';
-import Icon from 'components/widgets/editor/ui/Icon';
+import Icon from 'components/ui/Icon';
 
 class EmbedWidget extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {

@@ -15,8 +15,8 @@ import Spinner from 'components/ui/Spinner';
 import Modal from 'components/ui/Modal';
 import VegaChart from 'components/widgets/charts/VegaChart';
 import Tooltip from 'components/ui/Tooltip';
-import Map from 'components/widgets/editor/map/Map';
-import Legend from 'components/widgets/editor/ui/Legend';
+import Map from 'components/ui/map/Map';
+import Legend from 'components/ui/Legend';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -26,7 +26,7 @@ import RasterService from 'services/RasterService';
 
 // Utils
 import ChartTheme from 'utils/widgets/theme';
-import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import LayerManager from 'utils/layers/LayerManager';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
