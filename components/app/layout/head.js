@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import Package from '../../../package.json';
 
 const TRANSIFEX_BLACKLIST = [
-  '/app/embed/EmbedEmbed',
   '/app/embed/EmbedDashboard',
   '/app/embed/EmbedLayer',
   '/app/embed/EmbedMap',
