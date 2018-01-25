@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { getDatasets, setFilters } from 'redactions/admin/datasets';
 
 // selectors
-import getFilteredDatasets from 'selectors/admin/datasets';
+import getFilteredDatasets from 'selectors/myrw/datasets';
 
 // components
 import DatasetList from './DatasetsList';
