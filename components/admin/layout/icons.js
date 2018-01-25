@@ -9,7 +9,7 @@ export default class Icons extends React.Component {
 
   render() {
     return (
-      <svg aria-hidden="true" style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }} version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <svg aria-hidden="true" style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }} >
         <defs>
           <symbol id="icon-external" viewBox="0 0 32 32">
             <title>external</title>

@@ -34,7 +34,6 @@ import WidgetEditor from 'widget-editor';
 import ShareExploreDetailModal from 'components/modal/ShareExploreDetailModal';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import LoginModal from 'components/modal/LoginModal';
-import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
 import SaveWidgetModal from 'components/modal/SaveWidgetModal';
 import Tooltip from 'rc-tooltip/dist/rc-tooltip';
@@ -517,7 +516,7 @@ class ExploreDetail extends Page {
                           <div>
                             Learn more
                           </div>
-                          <img src="/static/images/external.svg" alt="Learn more" />
+                          <Icon name="icon-external" />
                         </div>
                       </a>
                     }
