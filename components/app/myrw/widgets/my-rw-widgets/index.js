@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // actions
-import { getWidgets, setOrderDirection, getWidgetsByTab } from 'redactions/admin/widgets';
+import { getWidgets, setOrderDirection, getWidgetsByTab, setFilters } from 'redactions/admin/widgets';
 
 // selectors
 import getFilteredWidgets from 'selectors/admin/widgets';
@@ -29,7 +29,13 @@ class MyRWWidgetsContainer extends PureComponent {
   }
 
   render() {
-    return (<MyRWWidgetsMy {...this.props} />);
+    return (<MyRWWidgetsMy
+      {...this.props}
+      routes={{
+        index: 'myrw',
+        detail: 'myrw_detail'
+      }}
+    />);
   }
 }
 
@@ -44,7 +50,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   getWidgets,
   setOrderDirection,
-  getWidgetsByTab
+  getWidgetsByTab,
+  setFilters
 };
 
 

@@ -7,6 +7,7 @@ import { Router } from 'routes';
 // components
 import Icon from 'components/ui/Icon';
 import Spinner from 'components/ui/Spinner';
+import SearchInput from 'components/ui/SearchInput';
 import WidgetList from 'components/widgets/list/WidgetList';
 
 class MyRWWidgets extends PureComponent {
@@ -19,7 +20,9 @@ class MyRWWidgets extends PureComponent {
     orderDirection: PropTypes.oneOf(['asc', 'desc']),
     loading: PropTypes.bool,
     widgets: PropTypes.array,
-    setOrderDirection: PropTypes.func
+    routes: PropTypes.object,
+    setOrderDirection: PropTypes.func,
+    setFilters: PropTypes.func
   }
 
   constructor(props) {
@@ -37,6 +40,14 @@ class MyRWWidgets extends PureComponent {
     Router.pushRoute('myrw_detail', { tab: 'widgets', id: 'new' });
   }
 
+  handleSearch = (value) => {
+    if (!value.length) {
+      this.props.setFilters([]);
+    } else {
+      this.props.setFilters([{ key: 'name', value }]);
+    }
+  }
+
   handleOrderChange = () => {
     const { setOrderDirection } = this.props;
     const orderDirection = this.props.orderDirection === 'asc' ? 'desc' : 'asc';
@@ -52,7 +63,7 @@ class MyRWWidgets extends PureComponent {
 
   render() {
     const { mode } = this.state;
-    const { widgets, loading, orderDirection } = this.props;
+    const { widgets, loading, orderDirection, routes } = this.props;
 
     const iconName = classnames({
       'icon-arrow-up': orderDirection === 'asc',
@@ -61,17 +72,20 @@ class MyRWWidgets extends PureComponent {
 
     return (
       <div className="c-myrw-widgets-my">
+        <SearchInput
+          input={{
+            placeholder: 'Search dataset'
+          }}
+          link={{
+            label: 'New widget',
+            route: routes.detail,
+            params: { tab: 'widgets', id: 'new' }
+          }}
+          onSearch={this.handleSearch}
+        />
         <div className="row">
           <div className="column small-12">
             <div className="list-actions">
-              <div className="left-container">
-                <button
-                  className="c-btn -a"
-                  onClick={this.handleNewWidget}
-                >
-                  New widget
-                </button>
-              </div>
               <div className="buttons-container">
                 <button
                   className="last-modified-container"
