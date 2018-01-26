@@ -247,44 +247,6 @@ class WidgetsNew extends React.Component {
                 >
                   {Input}
                 </Field>
-                <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.authors = c; }}
-                  onChange={value => this.handleChange({ authors: value })}
-                  properties={{
-                    title: 'authors',
-                    label: 'Authors',
-                    type: 'text',
-                    placeholder: 'Author name'
-                  }}
-                >
-                  {Input}
-                </Field>
-                <div className="source-container">
-                  <Field
-                    ref={(c) => { if (c) FORM_ELEMENTS.elements.source = c; }}
-                    onChange={value => this.handleChange({ source: value })}
-                    properties={{
-                      title: 'source',
-                      label: 'Source name',
-                      type: 'text',
-                      placeholder: 'Source name'
-                    }}
-                  >
-                    {Input}
-                  </Field>
-                  <Field
-                    ref={(c) => { if (c) FORM_ELEMENTS.elements.sourceUrl = c; }}
-                    onChange={value => this.handleChange({ sourceUrl: value })}
-                    properties={{
-                      title: 'sourceUrl',
-                      label: 'Source URL',
-                      type: 'text',
-                      placeholder: 'Paste a URL here'
-                    }}
-                  >
-                    {Input}
-                  </Field>
-                </div>
               </fieldset>
               <div className="buttons-container">
                 <Button
