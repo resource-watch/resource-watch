@@ -292,21 +292,25 @@ class Legend extends React.PureComponent {
    * @returns {HTMLElement}
    */
   getItemsActions(layerGroup) {
+    const {
+      showLayersButton,
+      interactionDisabled,
+      readonly
+    } = this.props;
     return (
       <div className="item-actions">
-        { layerGroup.dataset !== 'c0c71e67-0088-4d69-b375-85297f79ee75'
-          && layerGroup.layers.length > 1 && (
-            <button
-              type="button"
-              className="layers"
-              onClick={e => this.onClickLayers(e, layerGroup)}
-              aria-label="Select other layer"
-              ref={(node) => { if (node) this.layersButtons.push(node); }}
-            >
-              <Icon name="icon-layers" />
-            </button>
-          ) }
-        { !this.props.interactionDisabled
+        { layerGroup.layers.length > 1 && showLayersButton && (
+          <button
+            type="button"
+            className="layers"
+            onClick={e => this.onClickLayers(e, layerGroup)}
+            aria-label="Select other layer"
+            ref={(node) => { if (node) this.layersButtons.push(node); }}
+          >
+            <Icon name="icon-layers" />
+          </button>
+        ) }
+        { !interactionDisabled
           &&
           <button
             type="button"
@@ -318,7 +322,7 @@ class Legend extends React.PureComponent {
             <Icon name="icon-opacity" />
           </button>
         }
-        { !this.props.interactionDisabled
+        { !interactionDisabled
           && <button
             type="button"
             className="toggle"
@@ -328,13 +332,13 @@ class Legend extends React.PureComponent {
             <Icon name={layerGroup.visible ? 'icon-hide' : 'icon-show'} />
           </button>
         }
-        { !this.props.interactionDisabled
+        { !interactionDisabled
           && <button type="button" className="info" onClick={() => this.onLayerInfoModal(layerGroup)} aria-label="More information">
             <Icon name="icon-info" />
           </button>
         }
-        { !this.props.readonly
-          && !this.props.interactionDisabled
+        { !readonly
+          && !interactionDisabled
           && <button type="button" className="close" onClick={() => this.onRemoveLayerGroup(layerGroup)} aria-label="Remove">
             <Icon name="icon-cross" />
           </button>
@@ -560,6 +564,8 @@ Legend.propTypes = {
   expanded: PropTypes.bool,
   // Tooltip open state
   tooltipOpened: PropTypes.bool,
+  // Show layers button or not
+  showLayersButton: PropTypes.bool,
 
   // Functions
 
@@ -587,7 +593,8 @@ Legend.propTypes = {
 Legend.defaultProps = {
   readonly: false,
   interactionDisabled: false,
-  expanded: true
+  expanded: true,
+  showLayersButton: true
 };
 
 const mapStateToProps = state => ({

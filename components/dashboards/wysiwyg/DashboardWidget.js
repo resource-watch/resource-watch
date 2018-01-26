@@ -224,7 +224,7 @@ class DashboardWidget extends React.Component {
 
 const mapStateToProps = state => ({
   user: state.user,
-  favourites: state.user.favourites
+  favourites: state.user.favourites.items
 });
 
 const mapDispatchToProps = () => ({});

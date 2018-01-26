@@ -51,6 +51,14 @@
     }
   }
 
+  &.-pink-icon {
+    .spinner-box {
+      .icon {
+        border-top-color: $dark-pink;
+      }
+    }
+  }
+
   // Position
   &.-fixed { position: fixed;}
   &.-relative { position: relative;}

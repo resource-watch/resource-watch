@@ -13,7 +13,7 @@ import { resetDataset } from 'redactions/exploreDetail';
 import { getDataset } from 'redactions/exploreDataset';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
-import { setUser, toggleFavourite } from 'redactions/user';
+import { setUser, getUserFavourites, getUserCollections } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 
 // Next
@@ -34,21 +34,38 @@ import WidgetEditor from 'widget-editor';
 import ShareExploreDetailModal from 'components/modal/ShareExploreDetailModal';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import LoginModal from 'components/modal/LoginModal';
-import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
 import SaveWidgetModal from 'components/modal/SaveWidgetModal';
+import Tooltip from 'rc-tooltip/dist/rc-tooltip';
+import CollectionsPanel from 'components/collections-panel';
+import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
 
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
 import { logEvent } from 'utils/analytics';
 
+// helpers
+import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
+
 import Error from '../_error';
 
 class ExploreDetail extends Page {
+  static propTypes = {
+    url: PropTypes.object.isRequired,
+    user: PropTypes.object,
+    locale: PropTypes.string.isRequired,
+    resetDataset: PropTypes.func.isRequired,
+    toggleModal: PropTypes.func.isRequired,
+    setModalOptions: PropTypes.func.isRequired,
+    toggleLayerGroup: PropTypes.func.isRequired
+  };
+
   static async getInitialProps({ asPath, pathname, query, req, res, store, isServer }) {
     const { user } = isServer ? req : store.getState();
     const url = { asPath, pathname, query };
     await store.dispatch(setUser(user));
+    await store.dispatch(getUserFavourites());
+    await store.dispatch(getUserCollections());
     store.dispatch(setRouter(url));
     await store.dispatch(getDataset(url.query.id));
 
@@ -65,8 +82,6 @@ class ExploreDetail extends Page {
     this.state = {
       dataset: null,
       loading: false,
-      similarDatasetsLoaded: false,
-      similarDatasets: [],
       showDescription: false,
       showFunction: false,
       showCautions: false,
@@ -101,7 +116,6 @@ class ExploreDetail extends Page {
   */
   componentDidMount() {
     this.getDataset();
-    this.getSimilarDatasets();
     this.countView(this.props.url.query.id);
   }
 
@@ -109,7 +123,6 @@ class ExploreDetail extends Page {
     if (this.props.url.query.id !== nextProps.url.query.id) {
       this.props.resetDataset();
       this.setState({
-        similarDatasetsLoaded: false,
         datasetLoaded: false
       }, () => {
         this.datasetService = new DatasetService(nextProps.url.query.id, {
@@ -119,7 +132,6 @@ class ExploreDetail extends Page {
         // Scroll to the top of the page
         window.scrollTo(0, 0);
         this.getDataset();
-        this.getSimilarDatasets();
       });
 
       this.countView(nextProps.url.query.id);
@@ -134,7 +146,6 @@ class ExploreDetail extends Page {
   /**
    * HELPERS
    * - getDataset
-   * - getSimilarDatasets
    * - loadInferredTags
   */
 
@@ -180,24 +191,6 @@ class ExploreDetail extends Page {
         console.error(err);
       });
   }
-
-  getSimilarDatasets() {
-    this.setState({ similarDatasetsLoaded: false });
-
-    this.datasetService.getSimilarDatasets()
-      .then(res => res.map(val => val.dataset).slice(0, 7))
-      .then((ids) => {
-        if (ids.length === 0) return [];
-        return DatasetService.getDatasets(ids, this.props.locale, 'widget,metadata,layer,vocabulary');
-      })
-      .then(similarDatasets => this.setState({ similarDatasets }))
-      .catch((err) => {
-        console.error(err);
-        toastr.error('Error', 'Unable to load the similar datasets');
-      })
-      .then(() => this.setState({ similarDatasetsLoaded: true }));
-  }
-
 
   /**
    * Gather the number of views of this dataset
@@ -321,7 +314,7 @@ class ExploreDetail extends Page {
   handleFavoriteButtonClick() {
     const { user, url } = this.props;
     const { dataset } = this.state;
-    const favourite = user.favourites.find(f => f.attributes.resourceId === url.query.id);
+    const favourite = user.favourites.items.find(f => f.attributes.resourceId === url.query.id);
 
     this.setState({ loading: true });
 
@@ -357,7 +350,7 @@ class ExploreDetail extends Page {
 
   render() {
     const { url, user, exploreDataset } = this.props;
-    const { dataset, loading, similarDatasets, similarDatasetsLoaded, inferredTags } = this.state;
+    const { dataset, loading, inferredTags } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
     const metadataAttributes = (metadata && metadata.attributes) || {};
@@ -369,16 +362,21 @@ class ExploreDetail extends Page {
 
     const showOpenInExploreButton = dataset && dataset.attributes.layer && dataset.attributes.layer.length > 0;
 
-    const favourite = user.favourites.find(f => f.attributes.resourceId === url.query.id);
+    const datasetWithId = { id: exploreDataset.data.id };
+    const isInACollection = belongsToACollection(user, datasetWithId);
     const formattedDescription = this.shortenAndFormat(description || '', 'showDescription');
     const formattedFunctions = this.shortenAndFormat(functions || '', 'showFunction');
     const formattedCautions = this.shortenAndFormat(cautions || '', 'showCautions');
 
-    const starIconName = favourite ? 'icon-star-full' : 'icon-star-empty';
+    const starIconName = classnames({
+      'icon-star-full': isInACollection,
+      'icon-star-empty': !isInACollection
+    });
+
     const starIconClass = classnames({
       '-small': true,
-      '-filled': favourite,
-      '-empty': !favourite
+      '-filled': isInACollection,
+      '-empty': !isInACollection
     });
 
     const isSubscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
@@ -421,18 +419,28 @@ class ExploreDetail extends Page {
                     {/* Favorite dataset icon */}
                     {user && user.id &&
                       <li>
-                        <div
-                          className="favourite-button"
-                          onClick={this.handleFavoriteButtonClick}
-                          title="Favorite dataset"
-                          role="button"
-                          tabIndex={-1}
+                        <Tooltip
+                          overlay={<CollectionsPanel
+                            resource={datasetWithId}
+                            resourceType="dataset"
+                          />}
+                          overlayClassName="c-rc-tooltip"
+                          overlayStyle={{
+                            color: '#c32d7b'
+                          }}
+                          placement="bottom"
+                          trigger="click"
                         >
-                          <Icon
-                            name={starIconName}
-                            className={starIconClass}
-                          />
-                        </div>
+                          <button
+                            className="c-btn favourite-button"
+                            tabIndex={-1}
+                          >
+                            <Icon
+                              name={starIconName}
+                              className={starIconClass}
+                            />
+                          </button>
+                        </Tooltip>
                       </li>
                     }
                     {/* Favorites */}
@@ -504,7 +512,12 @@ class ExploreDetail extends Page {
                         target="_blank"
                         href={metadataInfo && metadataInfo.learn_more_link}
                       >
-                        Learn more
+                        <div className="learn-more-button">
+                          <div>
+                            Learn more
+                          </div>
+                          <Icon name="icon-external" className="-smaller" />
+                        </div>
                       </a>
                     }
                     {isSubscribable &&
@@ -694,20 +707,11 @@ class ExploreDetail extends Page {
                   <div className="l-section-mod similar-datasets">
                     <div className="row">
                       <div className="column small-12">
-                        <h3>Similar datasets</h3>
-                        <Spinner
-                          isLoading={!similarDatasetsLoaded}
-                          className="-relative -light"
-                        />
-                        {similarDatasets && similarDatasets.length > 0 &&
-                        <DatasetList
-                          active={[]}
-                          list={similarDatasets}
-                          mode="grid"
-                          showActions={false}
-                          showFavorite={false}
-                          onTagSelected={this.handleTagSelected}
-                        />
+                        {dataset &&
+                          <SimilarDatasets
+                            datasetId={dataset.id}
+                            onTagSelected={this.handleTagSelected}
+                          />
                         }
                       </div>
                     </div>
@@ -758,18 +762,6 @@ class ExploreDetail extends Page {
   }
 }
 
-ExploreDetail.propTypes = {
-  url: PropTypes.object.isRequired,
-  // Store
-  user: PropTypes.object,
-  locale: PropTypes.string.isRequired,
-  // ACTIONS
-  resetDataset: PropTypes.func.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired,
-  toggleLayerGroup: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => ({
   // Store
   user: state.user,
@@ -783,8 +775,7 @@ const mapDispatchToProps = {
   resetDataset,
   toggleModal,
   setModalOptions,
-  toggleLayerGroup,
-  toggleFavourite
+  toggleLayerGroup
 };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);

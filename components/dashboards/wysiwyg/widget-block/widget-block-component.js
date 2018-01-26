@@ -43,6 +43,9 @@ export default function WidgetBlock({
     favouriteLoading
   } = data[id];
 
+  const widgetLinks = (widget && (widget.metadata && widget.metadata.length > 0 &&
+    widget.metadata[0].attributes.info &&
+    widget.metadata[0].attributes.info.widgetLinks)) || [];
   return (
     <div className="c-dashboard-card">
       <header>
@@ -145,6 +148,24 @@ export default function WidgetBlock({
                 <p>{widget.description}</p>
               </div>
             )}
+
+            { widgetLinks.length > 0 &&
+              <div className="widget-links-container">
+                <h4>Links</h4>
+                <ul>
+                  { widgetLinks.map(link => (
+                    <li>
+                      <a
+                        href={link.link}
+                        target="_blank"
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            }
           </div>
         }
       </div>

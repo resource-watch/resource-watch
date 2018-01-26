@@ -14,8 +14,8 @@ import { logEvent } from 'utils/analytics';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import {
-  toggleLayerGroupVisibility,
   toggleLayerGroup,
+  toggleLayerGroupVisibility,
   setLayerGroupsOrder,
   setLayerGroupActiveLayer,
   setLayerGroups,
@@ -32,7 +32,7 @@ import {
 import { setFilters } from 'components/app/explore/explore-dataset-filters/explore-dataset-filters-actions';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
-import { setUser } from 'redactions/user';
+import { setUser, getUserFavourites, getUserCollections } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 import { Link } from 'routes';
 
@@ -71,6 +71,8 @@ class Explore extends Page {
     const botUserAgent = isServer && /AddSearchBot/.test(req.headers['user-agent']);
     await store.dispatch(setUser(user));
     store.dispatch(setRouter(url));
+    await store.dispatch(getUserFavourites());
+    await store.dispatch(getUserCollections());
 
     // We set the initial state of the map
     // NOTE: we can't move these two dispatch in
@@ -279,7 +281,7 @@ class Explore extends Page {
     const { latLng, sidebar } = explore;
     const sidebarWidth = sidebar.width;
     const center = this.map.latLngToContainerPoint([latLng.lat, latLng.lng]);
-    const newCenter = [center.x + sidebarWidth / 2, center.y];
+    const newCenter = [(center.x + sidebarWidth) / 2, center.y];
 
     return this.map.containerPointToLatLng(newCenter);
   }
@@ -507,6 +509,7 @@ const mapDispatchToProps = {
   toggleModal,
   setModalOptions,
   setDatasetsPage,
+  toggleLayerGroup,
   toggleLayerGroupVisibility,
   setLayerGroupsOrder,
   setLayerGroupActiveLayer,

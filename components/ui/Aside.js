@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
@@ -8,30 +8,33 @@ import { Link } from 'routes';
 // Components
 import Icon from 'components/ui/Icon';
 
-function Aside(props) {
-  return (
-    <aside className="c-aside" style={props.style}>
-      <nav>
-        <ul>
-          {props.items.map((s) => {
-            const active = s.params.subtab === props.selected;
-            const activeClass = classnames({ '-active': active });
+class Aside extends PureComponent {
+  render() {
+    const { style, selected, items } = this.props;
+    return (
+      <aside className="c-aside" style={style}>
+        <nav>
+          <ul>
+            {items.filter(i => i.params).map((s) => {
+              const active = (s.params || {}).subtab === selected;
+              const activeClass = classnames({ '-active': active });
 
-            return (
-              <li key={s.value}>
-                <Link route={s.route} params={s.params}>
-                  <a className={activeClass}>
-                    {active && <Icon className="c-icon -tiny" name="icon-arrow-right" />}
-                    {s.label}
-                  </a>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
-    </aside>
-  );
+              return (
+                <li key={s.value}>
+                  <Link route={s.route} params={s.params}>
+                    <a className={activeClass}>
+                      {active && <Icon className="c-icon -tiny" name="icon-arrow-right" />}
+                      {s.label}
+                    </a>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </aside>
+    );
+  }
 }
 
 Aside.propTypes = {

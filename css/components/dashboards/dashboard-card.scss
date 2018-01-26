@@ -89,6 +89,21 @@
       h4 {
         color: $base-font-color;
       }
+
+      .widget-links-container {
+
+        ul {
+          list-style-type: circle;
+
+          li {
+            margin-left: 35px;
+
+            a {
+              color: $link-font-color;
+            }
+          }
+        }
+      }
     }
   }
 }

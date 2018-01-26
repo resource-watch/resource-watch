@@ -11,8 +11,8 @@ const filters = state => state.datasets.datasets.filters;
 const getFilteredDatasets = (datasets, filters) => { // eslint-disable-line no-shadow
   if (!filters.length) return datasets;
 
-  return datasets.filter((dataset) => { // eslint-disable-line arrow-body-style
-    return filters.every((filter) => {
+  return datasets.filter(dataset =>
+    filters.every((filter) => {
       if (filter.key === 'id') return dataset.id === filter.value;
       if (!dataset[filter.key]) return false;
 
@@ -21,8 +21,8 @@ const getFilteredDatasets = (datasets, filters) => { // eslint-disable-line no-s
       }
 
       return dataset[filter.key] === filter.value;
-    });
-  });
+    }));
 };
+
 
 export default createSelector(datasets, filters, getFilteredDatasets);
