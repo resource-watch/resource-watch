@@ -14,6 +14,7 @@ import { logEvent } from 'utils/analytics';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import {
+  toggleLayerGroup,
   toggleLayerGroupVisibility,
   setLayerGroupsOrder,
   setLayerGroupActiveLayer,
@@ -508,6 +509,7 @@ const mapDispatchToProps = {
   toggleModal,
   setModalOptions,
   setDatasetsPage,
+  toggleLayerGroup,
   toggleLayerGroupVisibility,
   setLayerGroupsOrder,
   setLayerGroupActiveLayer,
