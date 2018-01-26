@@ -113,7 +113,7 @@
     "vizz-wysiwyg": "1.1.7",
     "webpack": "^3.6.0",
     "whatwg-fetch": "2.0.2",
-    "widget-editor": "0.1.0"
+    "widget-editor": "0.1.1"
   },
   "devDependencies": {
     "@storybook/react": "3.2.11",
