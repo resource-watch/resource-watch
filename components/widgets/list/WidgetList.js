@@ -18,6 +18,7 @@ class WidgetList extends PureComponent {
     showActions: PropTypes.bool,
     showRemove: PropTypes.bool,
     showEmbed: PropTypes.bool,
+    showFavourite: PropTypes.bool,
     loading: PropTypes.bool,
     mode: PropTypes.oneOf(['grid', 'list']).isRequired,
     onWidgetClick: PropTypes.func,
@@ -32,6 +33,7 @@ class WidgetList extends PureComponent {
       showRemove,
       showActions,
       showEmbed,
+      showFavourite,
       mode,
       loading
     } = this.props;
@@ -46,12 +48,10 @@ class WidgetList extends PureComponent {
 
     return (
       <div className="c-widget-list">
-        {loading &&
-          <Spinner className="-light" isLoading />
-        }
+        {loading && <Spinner className="-light" isLoading />}
         <ul className="row list">
           {/* REMOVE THIS!! */ }
-          {widgets && widgets.slice(0, 30).filter(w => w.widgetConfig).map(widget =>
+          {widgets.map(widget =>
             (<li
               key={widget.id}
               className={newClassName}
@@ -60,10 +60,10 @@ class WidgetList extends PureComponent {
                 widget={widget}
                 onWidgetClick={this.props.onWidgetClick}
                 onWidgetRemove={this.handleWidgetRemoved}
-                onWidgetUnfavourited={this.handleWidgetUnfavourited}
                 showActions={showActions}
                 showRemove={showRemove}
                 showEmbed={showEmbed}
+                showFavourite={showFavourite}
                 mode={mode === 'grid' ? 'thumbnail' : 'full'}
               />
             </li>)

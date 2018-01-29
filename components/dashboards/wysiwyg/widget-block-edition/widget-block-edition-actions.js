@@ -32,7 +32,7 @@ export const fetchWidgets = createThunkAction('WIDGET_BLOCK_EDITION_FETCH_DATA',
     .then(({ data, meta }) => {
       dispatch(setLoading(false));
       dispatch(setError(null));
-      dispatch(setWidgets(data));
+      dispatch(setWidgets(data.map(d => ({ id: d.id, ...d.attributes }))));
       dispatch(setTotal(meta['total-items']));
     })
     .catch((err) => {
