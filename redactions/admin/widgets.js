@@ -154,13 +154,14 @@ export const getWidgetsByTab = createThunkAction('widgets/getWidgetsByTab', tab 
   (dispatch, getState) => {
     const { user, widgets } = getState();
     const { id } = user;
-    const { orderDirection, pagination } = widgets.widgets;
+    const { orderDirection, pagination, filters } = widgets.widgets;
     const { page, limit } = pagination;
     let options = {
       filters: {
         'page[size]': limit,
         'page[number]': page,
-        sort: (orderDirection === 'asc') ? 'updatedAt' : '-updatedAt'
+        sort: (orderDirection === 'asc') ? 'updatedAt' : '-updatedAt',
+        name: (filters.find(filter => filter.key === 'name') || {}).value
       }
     };
 

@@ -11,6 +11,9 @@ import SearchInput from 'components/ui/SearchInput';
 import WidgetList from 'components/widgets/list/WidgetList';
 import Paginator from 'components/ui/Paginator';
 
+// utils
+import debounce from 'lodash/debounce';
+
 class MyRWWidgets extends PureComponent {
   static defaultProps = {
     mode: 'grid'
@@ -21,11 +24,14 @@ class MyRWWidgets extends PureComponent {
     orderDirection: PropTypes.oneOf(['asc', 'desc']),
     loading: PropTypes.bool,
     widgets: PropTypes.array,
+    subtab: PropTypes.string,
     pagination: PropTypes.object,
+    filters: PropTypes.array,
     routes: PropTypes.object,
     setOrderDirection: PropTypes.func,
     setFilters: PropTypes.func,
-    setPaginationPage: PropTypes.func
+    setPaginationPage: PropTypes.func,
+    getWidgetsByTab: PropTypes.func
   }
 
   constructor(props) {
@@ -42,13 +48,16 @@ class MyRWWidgets extends PureComponent {
 
   handleNewWidget = () => Router.pushRoute('myrw_detail', { tab: 'widgets', id: 'new' });
 
-  handleSearch = (value) => {
+  handleSearch = debounce((value) => {
     if (!value.length) {
       this.props.setFilters([]);
     } else {
       this.props.setFilters([{ key: 'name', value }]);
     }
-  }
+
+    this.props.getWidgetsByTab(this.props.subtab);
+    this.props.setPaginationPage(1);
+  }, 300)
 
   handleOrderChange = () => {
     const { setOrderDirection } = this.props;
@@ -67,8 +76,9 @@ class MyRWWidgets extends PureComponent {
 
   render() {
     const { mode } = this.state;
-    const { widgets, loading, orderDirection, routes, pagination } = this.props;
+    const { widgets, loading, orderDirection, routes, pagination, filters } = this.props;
     const { page, total, limit } = pagination;
+    const nameSearchValue = ((filters.find(filter => filter.key === 'name') || {}).value || '');
 
     const iconName = classnames({
       'icon-arrow-up': orderDirection === 'asc',
@@ -79,7 +89,8 @@ class MyRWWidgets extends PureComponent {
       <div className="c-myrw-widgets-my c-my-rw">
         <SearchInput
           input={{
-            placeholder: 'Search dataset'
+            placeholder: 'Search dataset',
+            value: nameSearchValue
           }}
           link={{
             label: 'New widget',

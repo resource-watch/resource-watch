@@ -13,28 +13,31 @@ import MyRWWidgetsMy from './my-rw-widgets-component';
 
 class MyRWWidgetsContainer extends PureComponent {
   static propTypes = {
-    currentTab: PropTypes.string,
+    subtab: PropTypes.string,
     orderDirection: PropTypes.string,
     pagination: PropTypes.object,
     getWidgets: PropTypes.func,
-    getWidgetsByTab: PropTypes.func
+    getWidgetsByTab: PropTypes.func,
+    setFilters: PropTypes.func
   }
 
   componentWillMount() {
-    this.props.getWidgetsByTab(this.props.currentTab);
+    this.props.getWidgetsByTab(this.props.subtab);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { currentTab, orderDirection, pagination } = this.props;
+    const { subtab, orderDirection, pagination } = this.props;
     const { page } = pagination;
 
-    const tabChanged = currentTab !== nextProps.currentTab;
+    const tabChanged = subtab !== nextProps.subtab;
     const paginationPageChanged = page !== nextProps.pagination.page;
     const orderDirectionChanged = orderDirection !== nextProps.orderDirection;
 
     if (tabChanged || paginationPageChanged || orderDirectionChanged) {
-      this.props.getWidgetsByTab(nextProps.currentTab);
+      this.props.getWidgetsByTab(nextProps.subtab);
     }
+
+    if (tabChanged) this.props.setFilters([]);
   }
 
   render() {
@@ -51,9 +54,10 @@ class MyRWWidgetsContainer extends PureComponent {
 const mapStateToProps = state => ({
   widgets: getFilteredWidgets(state),
   orderDirection: state.widgets.widgets.orderDirection,
+  filters: state.widgets.widgets.filters,
   loading: state.widgets.widgets.loading,
   pagination: state.widgets.widgets.pagination,
-  currentTab: state.routes.query.subtab,
+  subtab: state.routes.query.subtab,
   user: state.user
 });
 

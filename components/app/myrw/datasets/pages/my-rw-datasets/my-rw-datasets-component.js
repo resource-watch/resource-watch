@@ -4,18 +4,20 @@ import classnames from 'classnames';
 
 import { Router } from 'routes';
 
+// utils
+import debounce from 'lodash/debounce';
+
 // components
 import Icon from 'components/ui/Icon';
 import SearchInput from 'components/ui/SearchInput';
 import Paginator from 'components/ui/Paginator';
 import DatasetsList from './dataset-list';
 
-// utils
-import debounce from 'lodash/debounce';
 
 class MyRWDatasets extends PureComponent {
   static propTypes = {
     orderDirection: PropTypes.oneOf(['asc', 'desc']),
+    filters: PropTypes.array,
     pagination: PropTypes.object,
     routes: PropTypes.object,
     subtab: PropTypes.string,
@@ -35,6 +37,7 @@ class MyRWDatasets extends PureComponent {
     }
 
     this.props.getDatasetsByTab(this.props.subtab);
+    this.props.setPaginationPage(1);
   }, 300)
 
   handleOrderChange = () => {
@@ -47,8 +50,10 @@ class MyRWDatasets extends PureComponent {
   handlePageChange = page => this.props.setPaginationPage(page);
 
   render() {
-    const { orderDirection, routes, pagination } = this.props;
+    const { orderDirection, routes, pagination, filters } = this.props;
     const { page, total, limit } = pagination;
+    const nameSearchValue = (filters.find(filter => filter.key === 'name') || {}).value || '';
+
 
     const iconName = classnames({
       'icon-arrow-up': orderDirection === 'asc',
@@ -59,7 +64,8 @@ class MyRWDatasets extends PureComponent {
       <div className="c-my-rw">
         <SearchInput
           input={{
-            placeholder: 'Search dataset'
+            placeholder: 'Search dataset',
+            value: nameSearchValue
           }}
           link={{
             label: 'New dataset',
