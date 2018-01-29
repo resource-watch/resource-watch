@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { toastr } from 'react-redux-toastr';
 import { Link } from 'routes';
 
 // Components
@@ -11,52 +10,34 @@ import Icon from 'components/ui/Icon';
 import Tooltip from 'rc-tooltip/dist/rc-tooltip';
 import CollectionsPanel from 'components/collections-panel';
 
-// Redux
-import { connect } from 'react-redux';
-
-// Services
-import DatasetsService from 'services/DatasetsService';
-
-
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
-class DatasetsListCard extends React.Component {
-  constructor(props) {
-    super(props);
+class DatasetsListCard extends PureComponent {
+  static defaultProps = {
+    routes: {
+      index: '',
+      detail: ''
+    },
+    dataset: {}
+  };
 
-    // SERVICES
-    this.service = new DatasetsService({
-      authorization: props.user.token,
-      language: props.locale
-    });
+  static propTypes = {
+    dataset: PropTypes.object,
+    routes: PropTypes.object,
+    user: PropTypes.object.isRequired,
+    onDatasetRemoved: PropTypes.func.isRequired
+  };
 
-    // ------------------- Bindings -----------------------
-    this.handleDelete = this.handleDelete.bind(this);
-    // ----------------------------------------------------
-  }
-
-  handleDelete() {
+  handleDelete = () => {
     const { dataset } = this.props;
-    const metadata = dataset.metadata[0];
-    toastr.confirm(`Are you sure you want to delete the dataset: ${metadata && metadata.attributes.info ? metadata.attributes.info.name : dataset.name}?`, {
-      onOk: () => {
-        this.service.deleteData(dataset.id)
-          .then(() => {
-            toastr.success('Success', 'Dataset removed successfully');
-            this.props.onDatasetRemoved(dataset.id);
-          })
-          .catch(err => toastr.error('Error deleting the dataset', err));
-      }
-    });
+    this.props.onDatasetRemoved(dataset);
   }
 
   render() {
     const { dataset, routes, user } = this.props;
     const metadata = dataset.metadata[0];
-
     const isInACollection = belongsToACollection(user, dataset);
-
     const starIconName = classnames({
       'icon-star-full': isInACollection,
       'icon-star-empty': !isInACollection
@@ -131,25 +112,4 @@ class DatasetsListCard extends React.Component {
   }
 }
 
-DatasetsListCard.defaultProps = {
-  routes: {
-    index: '',
-    detail: ''
-  },
-  dataset: {}
-};
-
-DatasetsListCard.propTypes = {
-  dataset: PropTypes.object,
-  routes: PropTypes.object,
-  user: PropTypes.object.isRequired,
-  locale: PropTypes.string.isRequired,
-  onDatasetRemoved: PropTypes.func.isRequired
-};
-
-const mapStateToProps = state => ({
-  locale: state.common.locale,
-  user: state.user
-});
-
-export default connect(mapStateToProps, null)(DatasetsListCard);
+export default DatasetsListCard;

@@ -169,7 +169,7 @@ class MyRWWidgetsMy extends React.Component {
             />
             }
             {myWidgets && myWidgets.length === 0 &&
-            <div className="no-widgets-div">
+            <div className="no-resources">
               You currently have no widgets
             </div>
             }
