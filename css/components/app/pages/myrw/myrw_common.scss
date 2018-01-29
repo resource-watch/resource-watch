@@ -1,4 +1,4 @@
-.c-myrw-widgets-my {
+.c-my-rw {
 
   .list-actions {
     display: flex;
@@ -47,19 +47,11 @@
         }
       }
     }
-
-    .widget-collections-selector {
-      min-width: 250px;
-    }
   }
 
-  .no-widgets-div {
+  .no-resources {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-
-  .list {
-    padding: 0px;
   }
 }

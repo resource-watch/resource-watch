@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 // Components
 import CollectionListAside from 'components/collection-list-aside';
-import DatasetsList from 'components/datasets/list';
+import MyRWDatasetsMy from 'components/app/myrw/datasets/pages/my-rw-datasets';
 
 // Constants
 const DATASET_SUBTABS = [{
@@ -22,7 +22,7 @@ const DATASET_SUBTABS = [{
   params: { tab: 'datasets', subtab: 'favourites' }
 }];
 
-class DatasetsIndex extends PureComponent {
+class DatasetIndex extends PureComponent {
   static defaultProps = {
     subtab: 'my_datasets'
   };
@@ -33,7 +33,6 @@ class DatasetsIndex extends PureComponent {
 
   render() {
     const { subtab } = this.props;
-
     return (
       <div className="c-datasets-index">
         <StickyContainer>
@@ -54,12 +53,7 @@ class DatasetsIndex extends PureComponent {
             </div>
 
             <div className="columns small-12 medium-9">
-              <DatasetsList
-                routes={{
-                  index: 'myrw',
-                  detail: 'myrw_detail'
-                }}
-              />
+              <MyRWDatasetsMy />
             </div>
 
           </div>
@@ -74,4 +68,4 @@ const mapStateToProps = state => ({
   subtab: state.routes.query.subtab
 });
 
-export default connect(mapStateToProps, null)(DatasetsIndex);
+export default connect(mapStateToProps, null)(DatasetIndex);

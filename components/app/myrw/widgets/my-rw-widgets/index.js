@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // actions
-import { getWidgets, setOrderDirection, getWidgetsByTab, setFilters, setPaginationPage } from 'redactions/admin/widgets';
+import { setOrderDirection, getWidgetsByTab, setFilters, setPaginationPage } from 'redactions/admin/widgets';
 
 // selectors
 import getFilteredWidgets from 'selectors/admin/widgets';
@@ -58,7 +58,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getWidgets,
   setOrderDirection,
   getWidgetsByTab,
   setFilters,

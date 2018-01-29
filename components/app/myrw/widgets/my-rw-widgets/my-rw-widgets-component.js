@@ -76,7 +76,7 @@ class MyRWWidgets extends PureComponent {
     });
 
     return (
-      <div className="c-myrw-widgets-my">
+      <div className="c-myrw-widgets-my c-my-rw">
         <SearchInput
           input={{
             placeholder: 'Search dataset'
