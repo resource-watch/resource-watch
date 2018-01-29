@@ -12,6 +12,7 @@ import { fetchDashboards, setPagination, setExpanded } from 'components/dashboar
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import DashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
+import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
 
 class Dashboards extends Page {
   static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {

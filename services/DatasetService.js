@@ -218,7 +218,7 @@ export default class DatasetService {
     document.body.removeChild(a);
   }
 
-  getSimilarDatasets(withAncestors = true) {
+  getSimilarDatasets(datasetIds, withAncestors = true) {
     const endpoint = withAncestors ? 'similar-dataset-including-descendent' : 'similar-dataset';
     return fetch(`${this.opts.apiURL}/graph/query/${endpoint}/${this.datasetId}?published=true&env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}&limit=6`)
       .then((response) => {
