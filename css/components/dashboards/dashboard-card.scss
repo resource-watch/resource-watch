@@ -22,14 +22,22 @@
 
       .buttons {
         position: absolute;
-        top: 2px;
+        top: 0;
         right: 0;
+        display: flex;
+        align-items: center;
         margin: 0;
         padding: 0;
 
         button {
           position: relative;
+          display: inline-flex;
+          padding: 0;
           cursor: pointer;
+
+          & + button {
+            margin: 0 0 0 5px;
+          }
         }
       }
     }

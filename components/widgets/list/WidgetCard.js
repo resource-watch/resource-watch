@@ -403,6 +403,7 @@ class WidgetCard extends PureComponent {
       showRemove,
       showActions,
       showEmbed,
+      showFavourite,
       user
     } = this.props;
 
@@ -439,7 +440,7 @@ class WidgetCard extends PureComponent {
               {WidgetCard.getDescription(widget.description)}
             </p>
 
-            <Tooltip
+            {showFavourite && <Tooltip
               overlay={<CollectionsPanel
                 resource={widget}
                 resourceType="widget"
@@ -460,7 +461,7 @@ class WidgetCard extends PureComponent {
                   className="-star -small"
                 />
               </button>
-            </Tooltip>
+            </Tooltip>}
           </div>
 
           {(showActions || showRemove || showEmbed) &&
@@ -499,7 +500,8 @@ class WidgetCard extends PureComponent {
 
 WidgetCard.defaultProps = {
   showActions: false,
-  showRemove: false
+  showRemove: false,
+  showFavourite: true
 };
 
 WidgetCard.propTypes = {
@@ -507,6 +509,7 @@ WidgetCard.propTypes = {
   showActions: PropTypes.bool,
   showRemove: PropTypes.bool,
   showEmbed: PropTypes.bool,
+  showFavourite: PropTypes.bool,
   mode: PropTypes.oneOf(['thumbnail', 'full']), // How to show the graph
   onWidgetClick: PropTypes.func,
   onWidgetRemove: PropTypes.func,
