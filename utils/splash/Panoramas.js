@@ -10,7 +10,27 @@ export const PANORAMAS = [
         name: 'healthy',
         label: 'Healthy',
         image: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/images/healthy-optimized.jpg',
-        markup: ''
+        intro:
+          <div>
+            <p>Airport Reef is located off the island of Tutuila, the largest island in American Samoa. It’s part of the National Marine Sanctuary of American Samoa, a NOAA protected area. In this photo, the staghorn corals are healthy and abundant. But researchers returned just two months later to find the reef completely transformed by severe coral bleaching. Around the world, coral reefs feed and shelter thousands of species of fish, buffer coastal areas against damaging waves, and support local economies through tourism and fishing.
+            </p>
+            <p>Photo date: December 1, 2014</p>
+          </div>,
+        hotspots: [
+          {
+            title: 'Coral reefs by the numbers',
+            id: 'coral_reefs_by_the_numbers',
+            position: '0 2 -12',
+            rotation: '0 0 0',
+            markup:
+              <div>
+                <h3>More than 4000</h3>
+                <p>fish species call <a href="http://www.wri.org/blog/2011/02/wake-call-save-coral-reefs" target="_blank">reefs home</a></p>
+              </div>,
+            image: '../../static/images/splash/coral_bleaching_on_the_rise.png',
+            imageSelected: '../../static/images/splash/coral_bleaching_on_the_rise_active.png'
+          }
+        ]
       },
       {
         name: 'bleached',
