@@ -21,16 +21,32 @@ class LayerInfoModal extends React.Component {
   }
 
   render() {
+    const { embed, data } = this.props;
+
     return (
       <div className="layer-info-modal">
         <div className="layer-info-content">
-          <h2>{this.props.data.name}</h2>
-          <p>{this.props.data.description}</p>
+          <h2>{data.name}</h2>
+          <p>{data.description}</p>
           <div className="buttons">
-            <button
-              className="c-btn -primary"
-              onClick={this.handleMoreInfo}
-            >More info</button>
+            {embed &&
+              <a
+                className="c-btn -primary"
+                href={`${window.location.origin}/data/explore/${data.dataset}`}
+                target="_blank"
+              >
+                More info
+              </a>
+            }
+
+            {!embed &&
+              <button
+                className="c-btn -primary"
+                onClick={this.handleMoreInfo}
+              >
+                More info
+              </button>
+            }
           </div>
         </div>
       </div>
@@ -40,11 +56,13 @@ class LayerInfoModal extends React.Component {
 
 LayerInfoModal.propTypes = {
   toggleModal: PropTypes.func.isRequired,
-  data: PropTypes.object
+  data: PropTypes.object,
+  embed: PropTypes.bool
 };
 
-const mapDispatchToProps = {
-  toggleModal
-};
-
-export default connect(null, mapDispatchToProps)(LayerInfoModal);
+export default connect(
+  state => ({
+    embed: state.common.embed
+  }),
+  { toggleModal }
+)(LayerInfoModal);

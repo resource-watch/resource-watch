@@ -22,18 +22,22 @@ import { initStore } from 'store';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import { toggleTooltip } from 'redactions/tooltip';
 import { getLayerGroups } from 'selectors/explore/layersExplore';
+import { setEmbed } from 'redactions/common';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
 
 class EmbedLayer extends Page {
-  static async getInitialProps(...params) {
-    const props = await super.getInitialProps(...params);
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    const { store, isServer, req } = context;
 
-    if (props.url.query.zoom) props.zoom = +props.url.query.zoom;
-    if (props.url.query.latLng) props.latLng = JSON.parse(props.url.query.latLng);
+    store.dispatch(setEmbed(true));
 
-    return props;
+    return {
+      ...props,
+      referer: isServer ? req.headers.referer : location.href
+    };
   }
 
   constructor(props) {
@@ -58,7 +62,7 @@ class EmbedLayer extends Page {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // FIXME: this is a hack to apply specific styles to
     // the embed page
     if (typeof window !== 'undefined') {
