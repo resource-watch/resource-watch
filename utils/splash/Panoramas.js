@@ -37,6 +37,31 @@ export const PANORAMAS = [
               </div>,
             image: '../../static/images/splash/coral_bleaching_on_the_rise.png',
             imageSelected: '../../static/images/splash/coral_bleaching_on_the_rise_active.png'
+          },
+          {
+            title: 'Pharmacies of the Sea',
+            id: 'pharmacies_of_the_sea',
+            position: '0 2 16',
+            rotation: "0 180 0",
+            markup:
+              <div>
+                Scientists are now <a href="http://issues.org/18-3/p_bruckner/" target="_blank" rel="noreferrer noopener">more likely to discover</a> new drugs in the ocean than on land, according to one reef ecologist. Studying the plants and animals found in reefs may help us to fight Alzheimer&rsquo;s disease, cancer, heart disease, <a href="https://oceanservice.noaa.gov/facts/coral_medicine.html" target="_blank" rel="noopener noreferrer">and more.</a> We&rsquo;re already using secosteroids, which corals create to protect themselves against illness, to treat asthma and arthritis.
+              </div>,
+            image: '../../static/images/splash/coral_bleaching_on_the_rise.png',
+            imageSelected: '../../static/images/splash/coral_bleaching_on_the_rise_active.png'
+          },
+          {
+            title: 'Fisheries rely on reefs',
+            id: 'fisheries_rely_on_reefs',
+            position: '-14 2 0',
+            rotation: "0 90 0",
+            markup:
+              <div>
+                <iframe src="https://staging.resourcewatch.org/embed/map/9027ee71-fd13-4035-83b6-bb8d0a3a65e9" width="100%" height="474" frameBorder="0"></iframe>
+                <i>Which countries depend most on coral reefs? Click and drag the map to explore.</i>
+                <p>Coral reef fisheries employ more than <a href="http://www.reefresilience.org/coral-reef-fisheries-module/coral-reef-fisheries/overfishing/" target="_blank" rel="noopener noreferrer">6 million fishers and gleaners</a> and are worth an estimated <a href="http://www.reefresilience.org/pdf/Reefs_at_Risk_Revisited.pdf" target="_blank" rel="noopener noreferrer">$6.8 billion</a> per year.</p>
+                <p>Reef fish are an important source of protein for many people, especially in developing countries, where they can contribute up to <a href="http://www.reefresilience.org/coral-reefs/reefs-and-resilience/value-of-reefs/" target="_blank" rel="noopener noreferrer">one quarter</a> of the total fish catch. (Reef fish feed <a href="http://www.reefresilience.org/coral-reefs/reefs-and-resilience/value-of-reefs/" target="_blank" rel="noopener noreferrer">an estimated one billion people</a> in Asia alone.) Fish stock around the world have declined, however, and over <a href="https://oceanservice.noaa.gov/news/weeklynews/feb11/reefs-at-risk.html" target="_blank" rel="noopener noreferrer">60 percent</a> of reef fisheries are considered threatened by local stressors, including overfishing, pollution and coastal development.</p>
+              </div>
           }
         ]
       },
