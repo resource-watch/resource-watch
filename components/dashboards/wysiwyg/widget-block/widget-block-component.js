@@ -63,28 +63,29 @@ export default function WidgetBlock({
           <Title className="-default">{widget ? widget.name : '–'}</Title>
 
           <div className="buttons">
-            <Tooltip
-              overlay={<CollectionsPanel
-                resource={widget}
-                resourceType="widget"
-              />}
-              overlayClassName="c-rc-tooltip"
-              overlayStyle={{
-                color: '#fff'
-              }}
-              placement="bottom"
-              trigger="click"
-            >
-              <button
-                className="c-btn favourite-button"
-                tabIndex={-1}
+            {user.token &&
+              <Tooltip
+                overlay={<CollectionsPanel
+                  resource={widget}
+                  resourceType="widget"
+                />}
+                overlayClassName="c-rc-tooltip"
+                overlayStyle={{
+                  color: '#fff'
+                }}
+                placement="bottom"
+                trigger="click"
               >
-                <Icon
-                  name={starIconName}
-                  className="-star -small"
-                />
-              </button>
-            </Tooltip>
+                <button
+                  className="c-btn favourite-button"
+                  tabIndex={-1}
+                >
+                  <Icon
+                    name={starIconName}
+                    className="-star -small"
+                  />
+                </button>
+              </Tooltip>}
 
             <button
               type="button"
