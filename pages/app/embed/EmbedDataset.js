@@ -8,6 +8,8 @@ import { initStore } from 'store';
 import Spinner from 'components/ui/Spinner';
 import VegaChart from 'components/widgets/charts/VegaChart';
 import EmbedLayout from 'components/app/layout/EmbedLayout';
+import Page from 'components/app/layout/Page';
+import { setEmbed } from 'redactions/common';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -15,7 +17,23 @@ import DatasetService from 'services/DatasetService';
 // Utils
 import ChartTheme from 'utils/widgets/theme';
 
-class EmbedDataset extends React.Component {
+class EmbedDataset extends Page {
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    const { store, isServer, req } = context;
+
+    store.dispatch(setEmbed(true));
+
+    return {
+      ...props,
+      referer: isServer ? req.headers.referer : location.href
+    };
+  }
+
+  isLoadedExternally() {
+    return !/localhost|staging.resourcewatch.org/.test(this.props.referer);
+  }
+
   constructor(props) {
     super(props);
 
