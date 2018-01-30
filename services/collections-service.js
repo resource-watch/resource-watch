@@ -7,7 +7,7 @@ class CollectionsService {
    */
   static getAllCollections(token) {
     const queryParams = queryString.stringify({
-      application: process.env.APPLICATIONS
+      application: [process.env.APPLICATIONS]
     });
 
     return new Promise((resolve, reject) => {
@@ -71,18 +71,15 @@ class CollectionsService {
    * @param {*} resources List of resources attached to the new collection (optional)
    */
   static createCollection(token, name, resources = []) {
-    const queryParams = queryString.stringify({
-      application: process.env.APPLICATIONS
-    });
-
     return new Promise((resolve, reject) => {
-      fetch(`${process.env.WRI_API_URL}/collection?${queryParams}`, {
+      fetch(`${process.env.WRI_API_URL}/collection`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: token
         },
         body: JSON.stringify({
+          application: process.env.APPLICATIONS,
           name,
           resources
         })
