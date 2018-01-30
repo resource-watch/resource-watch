@@ -119,6 +119,10 @@
               height: 100%;
             }
           }
+          .image-container {
+            display: flex;
+            align-items: center;
+          }
         }
       }
     }
