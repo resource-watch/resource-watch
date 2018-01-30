@@ -161,7 +161,7 @@
     .menu-container {
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
+      align-items: center;
       position: absolute;
       top: 100px;
       right: 20px;
@@ -180,10 +180,11 @@
 
       .menu {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         background: $white;
-        padding: 10px;
+        padding: 15px;
         border-radius: 4px;
+        flex-direction: column;
 
         .option {
           display: flex;
@@ -196,10 +197,6 @@
           label {
             cursor: pointer;
             margin-left: 10px;
-          }
-
-          &:not(:last-child) {
-            margin-right: 40px;
           }
         }
       }
