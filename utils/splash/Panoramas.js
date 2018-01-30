@@ -173,7 +173,9 @@ export const PANORAMAS = [
                 <p>
                   This large, slow-growing fish is <a href="http://www.iucnredlist.org/details/4592/0" target="_blank" rel="noopener noreferrer">native</a> to the waters around American Samoa but is now rarely seen. Largely due to overfishing and loss of habitat, the humphead wrasse population has been in decline for decades. (The fish was <a href="https://www.iucn.org/ssc-groups/fishes/grouper-and-wrasse-specialist-group/humphead-wrasse" target="_blank" rel="noopener noreferrer">designated an endangered species</a> in 2004.) Juvenile humphead wrasse depend on coral reefs for food and protection, and <a href="http://www.nmfs.noaa.gov/pr/pdfs/species/humpheadwrasse_detailed.pdf" target="_blank" rel="noopener noreferrer">coral bleaching</a> poses a serious threat to their habitat.
                 </p>
-              </div>
+              </div>,
+            image: '../../static/images/splash/global_coral_bleaching_events.png',
+            imageSelected: '../../static/images/splash/global_coral_bleaching_events_active.png'
           },
           {
             title: 'Sharks at risk',
@@ -192,7 +194,9 @@ export const PANORAMAS = [
                 <p>
                   The presence of sharks on coral reefs has been found to contribute to <a href="https://www.aims.gov.au/docs/media/latest-releases/-/asset_publisher/8Kfw/content/sharks-increase-reef-resilience/" target="_blank" rel="noopener noreferrer">reef resiliency</a> against events like coral bleaching.
                 </p>
-              </div>
+              </div>,
+            image: '../../static/images/splash/global_coral_bleaching_events.png',
+            imageSelected: '../../static/images/splash/global_coral_bleaching_events_active.png'
           },
           {
             title: "Coral bleaching: What's next",
@@ -211,7 +215,9 @@ export const PANORAMAS = [
                 <p>
                   The brighter the color, the more frequently these events are likely to occur. So, that wash of yellow and green that spreads across the map? It signifies a dramatic rise in both the range and frequency of the most severe levels of bleaching if carbon emissions continue unchecked.
                 </p>
-              </div>
+              </div>,
+            image: '../../static/images/splash/global_coral_bleaching_events.png',
+            imageSelected: '../../static/images/splash/global_coral_bleaching_events_active.png'
           },
           {
             title: 'How can I help?',
@@ -243,7 +249,9 @@ export const PANORAMAS = [
                 <p>
                   <i>Looking for more ways to reduce your coral reef footprint? <a href="http://www.wri.org/blog/2011/08/how-reduce-your-coral-reef-footprint" target="_blank" rel="noopener noreferrer">Read on.</a></i>
                 </p>
-              </div>
+              </div>,
+            image: '../../static/images/splash/global_coral_bleaching_events.png',
+            imageSelected: '../../static/images/splash/global_coral_bleaching_events_active.png'
           }
         ]
       }
