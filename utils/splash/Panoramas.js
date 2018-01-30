@@ -35,8 +35,8 @@ export const PANORAMAS = [
                 <h3>75</h3>
                 <p>percent of reefs worldwide <a href="http://www.reefresilience.org/pdf/Reefs_at_Risk_Revisited.pdf" target="_blank" rel="noopener noreferrer">are threatened</a> by warmer oceans and local threats such as coastal development, overfishing and pollution</p>
               </div>,
-            image: '/static/images/splash/coral_bleaching_on_the_rise.png',
-            imageSelected: '/static/images/splash/coral_bleaching_on_the_rise_active.png'
+            image: '/static/images/splash/1-1_coral_reefs_by_the_numbers.png',
+            imageSelected: '/static/images/splash/1_coral_reefs_by_the_numbers-active.png'
           },
           {
             title: 'Pharmacies of the Sea',
@@ -62,8 +62,8 @@ export const PANORAMAS = [
                 <p>Coral reef fisheries employ more than <a href="http://www.reefresilience.org/coral-reef-fisheries-module/coral-reef-fisheries/overfishing/" target="_blank" rel="noopener noreferrer">6 million fishers and gleaners</a> and are worth an estimated <a href="http://www.reefresilience.org/pdf/Reefs_at_Risk_Revisited.pdf" target="_blank" rel="noopener noreferrer">$6.8 billion</a> per year.</p>
                 <p>Reef fish are an important source of protein for many people, especially in developing countries, where they can contribute up to <a href="http://www.reefresilience.org/coral-reefs/reefs-and-resilience/value-of-reefs/" target="_blank" rel="noopener noreferrer">one quarter</a> of the total fish catch. (Reef fish feed <a href="http://www.reefresilience.org/coral-reefs/reefs-and-resilience/value-of-reefs/" target="_blank" rel="noopener noreferrer">an estimated one billion people</a> in Asia alone.) Fish stock around the world have declined, however, and over <a href="https://oceanservice.noaa.gov/news/weeklynews/feb11/reefs-at-risk.html" target="_blank" rel="noopener noreferrer">60 percent</a> of reef fisheries are considered threatened by local stressors, including overfishing, pollution and coastal development.</p>
               </div>,
-            image: '/static/images/splash/coral_bleaching_on_the_rise.png',
-            imageSelected: '/static/images/splash/coral_bleaching_on_the_rise_active.png'
+            image: '/static/images/splash/1-3_fisheries_rely_on_reefs.png',
+            imageSelected: '/static/images/splash/1-3_fisheries_rely_on_reefs-active.png'
           }
         ]
       },
