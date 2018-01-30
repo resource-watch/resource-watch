@@ -11,6 +11,7 @@ class DatasetList extends PureComponent {
   static propTypes = {
     list: PropTypes.array,
     user: PropTypes.object,
+    routes: PropTypes.object,
     mode: PropTypes.string,
     showActions: PropTypes.bool.isRequired,
     showFavorite: PropTypes.bool.isRequired,
@@ -18,7 +19,7 @@ class DatasetList extends PureComponent {
   };
 
   render() {
-    const { list, mode, showActions, showFavorite, user, onTagSelected } = this.props;
+    const { list, mode, showActions, showFavorite, user, routes, onTagSelected } = this.props;
 
     const newClassName = classNames({
       column: true,
@@ -26,7 +27,7 @@ class DatasetList extends PureComponent {
       [`-${mode}`]: true,
       'small-12': true,
       'medium-6': mode === 'grid',
-      'xxlarge-4': mode === 'grid'
+      [routes.pathname === '/app/Explore' ? 'xxlarge-4' : 'large-4']: mode === 'grid'
     });
 
     return (
@@ -54,6 +55,7 @@ class DatasetList extends PureComponent {
 
 export default connect(
   state => ({
-    user: state.user
+    user: state.user,
+    routes: state.routes
   })
 )(DatasetList);
