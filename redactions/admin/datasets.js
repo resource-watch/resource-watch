@@ -206,7 +206,7 @@ export const getDatasetsByTab = createThunkAction('datasets/getDatasetsByTab', t
         options = { ...options,
           filters: {
             ...options.filters,
-            favourites: true
+            favourite: true
           }
         };
         break;
