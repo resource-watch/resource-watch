@@ -226,8 +226,8 @@ export const PANORAMAS = [
           {
             title: 'How can I help?',
             id: 'how_can_i_help',
-            position: '0 -16 10',
-            rotation: '0 0 0',
+            position: '14 2 0',
+            rotation: '0 -90 0',
             markup:
               <div>
                 <h3>Limit household waste</h3>
