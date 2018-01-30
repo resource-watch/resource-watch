@@ -167,7 +167,7 @@ export const PANORAMAS = [
             markup:
               <div>
                 <div className="image-container">
-                  <img src="" alt="Humphead wrasse at risk"/>
+                  <img src="../../static/images/splash/humpheadWrasseAtRisk.png" alt="Humphead wrasse at risk" />
                   <p>
                     <i>Photo by <a href="https://www.flickr.com/photos/travels_with_tam/32828868944/in/photolist-S1YwZN-7pTeih-53CDnm-68xUDN-8a1GLP-5eMKt-68Hims-Wcgp3W-u5ckV-bHdAKH-buiNqL-bHdAx6-9SxRHy-aLyYd-audraQ-buiNoo-6dw6bM-dXb1Ym-tJTSh-7XFLEG-52FSAK-zNpnRD-4JBbui-68itCP-5Bt6SY-auaLx4-4JBbL2-dyF4sg-t27QF-dyF4Gz-oJDWwu-buiNyY-bHdACX-bHdAHB-4WVKT5-auaM1r-eSVvJY-7x2bwZ-dGMUxo-9DfWFh-auaLrg-aqUVBZ-7uhhfe-9Dd2Kt-9DfXyW-3fMBfE-9yUnYo-7qHs7q-9Dd3ug-HCSn8v" target="_blank" rel="noopener noreferrer">Tam Warner Minton/Flickr</a></i>
                   </p>
@@ -187,7 +187,7 @@ export const PANORAMAS = [
             markup:
               <div>
                 <div className="image-container">
-                  <img />
+                  <img src="../../static/images/splash/sharksAtRisk.png" alt="Sharks at risk" />
                   <p>
                     <i>Photo by <a href="https://www.flickr.com/photos/noaaphotolib/27831790160/in/photolist-565CxK-yv4473-msGxA4-msJAPo-msFQuB-msGf4v-msJBRd-msGxtk-6D6vWJ-5662Pz-6u7SJP-7ZRfE6-YnFSYe-7L96p3-7L58p4-XeM91d-7L58BT-GqmhHb-JbHUH1-msJBzm-6Dr17G-WTBgYq-7ZRfEa-565Ant-6DrKJJ-msJxbb-6D2WPD-6D6pMm-yLEif7-msGa4i-6D2YFM-6D31y6-6DrymS-JbJQos-6D2Zm8-Jppcxu-w6snm1-Jppcz3-yNqqk4-msJuhA-msJtA5-msHaqZ-msHc1c-msJy7u-msBzs8-msJtWq-msGFZD-msJrML-xShoAH-6Drfeo" target="_blank" rel="noopener noreferrer">Kevin Lino (NOAA)/Flickr</a></i>
                   </p>
