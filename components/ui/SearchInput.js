@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import escapeRegExp from 'lodash/escapeRegExp';
 
@@ -8,7 +8,20 @@ import { Link } from 'routes';
 // Components
 import Icon from 'components/ui/Icon';
 
-class SearchInput extends React.Component {
+class SearchInput extends PureComponent {
+  static defaultProps = {
+    input: {},
+    link: {},
+    escapeText: true
+  }
+
+  static propTypes = {
+    input: PropTypes.object.isRequired,
+    link: PropTypes.object.isRequired,
+    onSearch: PropTypes.func.isRequired,
+    escapeText: PropTypes.bool.isRequired
+  };
+
   constructor(props) {
     super(props);
 
@@ -19,22 +32,16 @@ class SearchInput extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { input } = nextProps;
-    const { value } = this.state;
-    if (input && input.value && input.value !== value) {
-      this.setState({
-        value: input.value
-      });
-    }
+
+    this.setState({ value: input.value });
   }
 
   onSearch = (e) => {
     this.setState({
       value: e.currentTarget.value || ''
     }, () => {
-      if (this.props.onSearch) {
-        this.props.escapeText ? this.props.onSearch(escapeRegExp(this.state.value)) :
-          this.props.onSearch(this.state.value);
-      }
+      if (this.props.escapeText) this.props.onSearch(escapeRegExp(this.state.value));
+      if (!this.props.escapeText) this.props.onSearch(this.state.value);
     });
   }
 
@@ -63,18 +70,5 @@ class SearchInput extends React.Component {
     );
   }
 }
-
-SearchInput.propTypes = {
-  input: PropTypes.object.isRequired,
-  link: PropTypes.object.isRequired,
-  onSearch: PropTypes.func.isRequired,
-  escapeText: PropTypes.bool.isRequired
-};
-
-SearchInput.defaultProps = {
-  input: {},
-  link: {},
-  escapeText: true
-};
 
 export default SearchInput;

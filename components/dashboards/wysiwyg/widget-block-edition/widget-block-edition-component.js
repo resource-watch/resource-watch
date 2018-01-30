@@ -58,6 +58,7 @@ export default function WidgetBlockEdition({
                   widgets={data.widgets}
                   mode="grid"
                   onWidgetClick={onSelectWidget}
+                  showFavourite={false}
                 />
 
                 <Paginator

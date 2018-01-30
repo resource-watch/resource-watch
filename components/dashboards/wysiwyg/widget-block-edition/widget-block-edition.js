@@ -65,6 +65,7 @@ class WidgetBlockEdition extends React.Component {
       onSelectWidget: (widget) => {
         this.props.onSubmit({
           widgetId: widget.id,
+          datasetId: widget.dataset,
           categories: []
         });
       },

@@ -17,17 +17,17 @@
     &:hover { text-decoration: none; }
   }
 
-  .widget-collections {
-    display: flex;
-    justify-content: flex-start;
-    padding: 6px 15px;
+  .detail {
+    position: relative;
+    padding-right: 20px;
 
-    button {
-      cursor: pointer;
-      margin: 0;
+    > .favourite-button {
+      z-index: 2;
+      position: absolute;
+      top: 0;
+      right: 0;
       padding: 0;
-      font-size: $font-size-small;
-      color: $color-dark-grey;
+      cursor: pointer;
     }
   }
 
@@ -86,19 +86,7 @@
     }
   }
 
-  .star-icon {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    cursor: pointer;
-
-    svg {
-      fill: #FAB72E;
-    }
-  }
-
   &.-selected {
     border-color: $color-primary;
   }
-
 }

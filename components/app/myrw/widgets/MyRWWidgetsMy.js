@@ -13,7 +13,6 @@ import WidgetService from 'services/WidgetService';
 import Spinner from 'components/ui/Spinner';
 import WidgetList from 'components/widgets/list/WidgetList';
 import Icon from 'components/ui/Icon';
-import CustomSelect from 'components/ui/CustomSelect';
 
 class MyRWWidgetsMy extends React.Component {
   constructor(props) {
@@ -24,9 +23,7 @@ class MyRWWidgetsMy extends React.Component {
       myWidgetsLoaded: false,
       myWidgets: null,
       mode: 'grid',
-      orderDirection: 'desc',
-      selectedWidgetCollection: 'All collections',
-      widgetCollections: []
+      orderDirection: 'desc'
     };
 
     // User service
@@ -71,7 +68,7 @@ class MyRWWidgetsMy extends React.Component {
           myWidgetsLoaded: true,
           myWidgets: response
         });
-      }).catch(err => toastr.error('Error', err)); // eslint-disable-line no-console
+      }).catch(err => toastr.error('Error', err));
   }
 
   handleWidgetRemoved() {
@@ -104,57 +101,10 @@ class MyRWWidgetsMy extends React.Component {
       myWidgetsLoaded,
       myWidgets,
       mode,
-      orderDirection,
-      widgetCollections,
-      selectedWidgetCollection
+      orderDirection
     } = this.state;
+
     const { user } = this.props;
-
-    const widgetCollectionOptionsSet = new Set();
-    let widgetCollectionOptionsArray = [{ label: 'All collections', value: 'All collections' }];
-
-    if (widgetCollections.length > 0) {
-      widgetCollections
-        .map(val => val.tags)
-        .forEach(val => val.forEach(val2 => widgetCollectionOptionsSet.add(val2)));
-
-      widgetCollectionOptionsArray = widgetCollectionOptionsArray.concat(
-        Array.from(widgetCollectionOptionsSet)
-          .map((val) => {
-            const newVal = val.replace(`${user.id}-`, '');
-            return { label: newVal, value: newVal };
-          })
-      );
-    }
-
-    let widgetsFiltered = [];
-    if (selectedWidgetCollection === 'All collections') {
-      widgetsFiltered = myWidgets;
-    } else {
-      widgetsFiltered = myWidgets && myWidgets.filter((widget) => {
-        const vocabulary = widget.attributes.vocabulary;
-
-        if (vocabulary && vocabulary.length > 0) {
-          const widgetCollectionsVoc = vocabulary.find(voc => voc.id === 'widget_collections');
-
-          if (widgetCollectionsVoc) {
-            let found = false;
-            widgetCollectionsVoc.attributes.tags.forEach((tag) => {
-              const tagFound = selectedWidgetCollection === tag.replace(`${user.id}-`, '');
-              if (tagFound) {
-                found = true;
-              }
-            });
-
-            return found;
-          }
-
-          return false;
-        }
-
-        return false;
-      });
-    }
 
     return (
       <div className="c-myrw-widgets-my">
@@ -168,15 +118,6 @@ class MyRWWidgetsMy extends React.Component {
                 >
                   New widget
                 </button>
-                <div className="widget-collections-selector">
-                  <CustomSelect
-                    placeholder="Select a widget collection"
-                    options={widgetCollectionOptionsArray}
-                    onValueChange={this.handleSelectedWidgetCollectionChange}
-                    allowNonLeafSelection={false}
-                    value={selectedWidgetCollection}
-                  />
-                </div>
               </div>
               <div className="buttons-container">
                 <div
@@ -219,20 +160,16 @@ class MyRWWidgetsMy extends React.Component {
             />
             {myWidgets &&
             <WidgetList
-              widgets={widgetsFiltered}
+              widgets={[]}
               mode={mode}
               onWidgetRemove={this.handleWidgetRemoved}
               showActions
               showRemove
-              showWidgetColllections
-              widgetCollections={widgetCollections}
-              widgetCollectionsOptions={widgetCollectionOptionsArray.filter(elem => (elem.value !== 'All collections'))}
               onWidgetClick={this.handleWidgetClick}
-              onUpdateWidgetCollections={this.handleUpdateWidgetCollections}
             />
             }
             {myWidgets && myWidgets.length === 0 &&
-            <div className="no-widgets-div">
+            <div className="no-resources">
               You currently have no widgets
             </div>
             }

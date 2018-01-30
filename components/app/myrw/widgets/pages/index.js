@@ -7,8 +7,7 @@ import { connect } from 'react-redux';
 
 // Components
 import CollectionListAside from 'components/collection-list-aside';
-import MyRWWidgetsMy from 'components/app/myrw/widgets/MyRWWidgetsMy';
-import MyRWWidgetsStarred from 'components/app/myrw/widgets/MyRWWidgetsStarred';
+import MyRWWidgetsMy from 'components/app/myrw/widgets/my-rw-widgets';
 
 // Constants
 const WIDGET_SUBTABS = [{
@@ -29,13 +28,11 @@ class WidgetsIndex extends PureComponent {
   };
 
   static propTypes = {
-    id: PropTypes.string,
-    subtab: PropTypes.string,
-    user: PropTypes.object
+    subtab: PropTypes.string
   };
 
   render() {
-    const { id, user, subtab } = this.props;
+    const { subtab } = this.props;
     return (
       <div className="c-widgets-index">
         <StickyContainer>
@@ -56,13 +53,7 @@ class WidgetsIndex extends PureComponent {
             </div>
 
             <div className="columns small-12 medium-9">
-              {subtab === 'starred' && user.id &&
-                <MyRWWidgetsStarred user={user} dataset={id} embed />
-              }
-
-              {subtab === 'my_widgets' && user.id &&
-                <MyRWWidgetsMy user={user} dataset={id} />
-              }
+              <MyRWWidgetsMy />
             </div>
 
           </div>
@@ -73,7 +64,8 @@ class WidgetsIndex extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  subtab: state.routes.query.subtab
 });
 
 export default connect(mapStateToProps, null)(WidgetsIndex);

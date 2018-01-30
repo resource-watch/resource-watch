@@ -33,7 +33,7 @@ const MYRW_TABS = [{
   label: 'Widgets',
   value: 'widgets',
   route: 'myrw',
-  params: { tab: 'widgets' }
+  params: { tab: 'widgets', subtab: 'my_widgets' }
 }, {
   label: 'Dashboards',
   value: 'dashboards',
