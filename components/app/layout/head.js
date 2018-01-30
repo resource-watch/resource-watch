@@ -9,13 +9,13 @@ import Package from '../../../package.json';
 
 const TRANSIFEX_BLACKLIST = [
   '/app/embed/EmbedDashboard',
-  '/app/embed/EmbedDataset',
   '/app/embed/EmbedLayer',
   '/app/embed/EmbedMap',
   '/app/embed/EmbedTable',
   '/app/embed/EmbedText',
   '/app/embed/EmbedWidget',
   '/app/embed/EmbedEmbed',
+  '/app/embed/EmbedDataset',
   '/app/embed/EmbedSimilarDatasets'
 ];
 

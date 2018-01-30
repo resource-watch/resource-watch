@@ -1,0 +1,79 @@
+.c-embed-dataset {
+  position: relative; // Limit the scope of the map and spinner
+
+  // We use all the space available of the
+  // iframe and prevent any scroll
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  // We share the vertical space between
+  // the title and the widget
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid $border-color-1;
+  border-radius: 4px;
+
+  .widget-content {
+    position: relative;
+    display: flex; // Do not change this without testing (see comment on .c-map)
+    align-items: stretch;
+    flex-grow: 1;
+    padding: $margin-size-extra-small;
+    overflow: hidden;
+    height: 100%;
+
+    &.-external {
+      .c-map { // Do not change this without testing (see comment on .c-map)
+        height: calc(100% - #{$margin-size-extra-small});
+      }
+    }
+
+    iframe {
+      width: 100%;
+    }
+
+    .c-chart {
+      height: auto; // Do not change this without testing (see comment on .c-map)
+      display: flex;
+      flex-direction: column;
+      // In case of a bar chart with scrolling, we need
+      // to use an overflow
+      overflow-x: auto;
+      max-width: 100%;
+
+      .chart {
+        height: 100%;
+
+        .vega {
+          height: 100%;
+
+          canvas {
+            display: block; // Prevent a UA margin
+            margin: 0 auto;
+          }
+        }
+      }
+    }
+  }
+
+  .info {
+    padding: 15px;
+    max-height: 300px;
+    overflow: auto;
+  }
+
+  .widget-footer {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 0 $margin-size-extra-small $margin-size-extra-small;
+
+    .embed-logo {
+      display: block;
+      height: 21px;
+      margin-left: 10px;
+    }
+  }
+}
