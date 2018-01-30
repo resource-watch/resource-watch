@@ -15,11 +15,16 @@ export const getSimilarDatasets = createThunkAction('similar-datasets/getSimilar
   const service = new DatasetService(null, { apiURL: process.env.WRI_API_URL, language: 'en' });
   return service.getSimilarDatasets(datasetIds)
     .then((data) => {
-      DatasetService.getDatasets(data.map(d => d.dataset), locale, 'widget,metadata,layer,vocabulary')
-        .then((similarDatasets) => {
-          dispatch(setSimilarDatasets(similarDatasets));
-          return similarDatasets;
-        });
+      if (data.length > 0) {
+        DatasetService.getDatasets(data.map(d => d.dataset), locale, 'widget,metadata,layer,vocabulary')
+          .then((similarDatasets) => {
+            dispatch(setSimilarDatasets(similarDatasets));
+            return similarDatasets;
+          });
+      } else {
+        dispatch(setSimilarDatasets([]));
+        return [];
+      }
     })
     .then(() => dispatch(getSimilarDatasetsSuccess()))
     .catch((err) => {
