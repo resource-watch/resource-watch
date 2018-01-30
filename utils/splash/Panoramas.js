@@ -35,8 +35,8 @@ export const PANORAMAS = [
                 <h3>75</h3>
                 <p>percent of reefs worldwide <a href="http://www.reefresilience.org/pdf/Reefs_at_Risk_Revisited.pdf" target="_blank" rel="noopener noreferrer">are threatened</a> by warmer oceans and local threats such as coastal development, overfishing and pollution</p>
               </div>,
-            image: '../../static/images/splash/coral_bleaching_on_the_rise.png',
-            imageSelected: '../../static/images/splash/coral_bleaching_on_the_rise_active.png'
+            image: '/static/images/splash/coral_bleaching_on_the_rise.png',
+            imageSelected: '/static/images/splash/coral_bleaching_on_the_rise_active.png'
           },
           {
             title: 'Pharmacies of the Sea',
@@ -47,8 +47,8 @@ export const PANORAMAS = [
               <div>
                 Scientists are now <a href="http://issues.org/18-3/p_bruckner/" target="_blank" rel="noreferrer noopener">more likely to discover</a> new drugs in the ocean than on land, according to one reef ecologist. Studying the plants and animals found in reefs may help us to fight Alzheimer&rsquo;s disease, cancer, heart disease, <a href="https://oceanservice.noaa.gov/facts/coral_medicine.html" target="_blank" rel="noopener noreferrer">and more.</a> We&rsquo;re already using secosteroids, which corals create to protect themselves against illness, to treat asthma and arthritis.
               </div>,
-            image: '../../static/images/splash/coral_bleaching_on_the_rise.png',
-            imageSelected: '../../static/images/splash/coral_bleaching_on_the_rise_active.png'
+            image: '/static/images/splash/1-2_pharmacies_of_the_sea.png',
+            imageSelected: '/static/images/splash/1-2_pharmacies_of_the_sea-active.png'
           },
           {
             title: 'Fisheries rely on reefs',
@@ -62,8 +62,8 @@ export const PANORAMAS = [
                 <p>Coral reef fisheries employ more than <a href="http://www.reefresilience.org/coral-reef-fisheries-module/coral-reef-fisheries/overfishing/" target="_blank" rel="noopener noreferrer">6 million fishers and gleaners</a> and are worth an estimated <a href="http://www.reefresilience.org/pdf/Reefs_at_Risk_Revisited.pdf" target="_blank" rel="noopener noreferrer">$6.8 billion</a> per year.</p>
                 <p>Reef fish are an important source of protein for many people, especially in developing countries, where they can contribute up to <a href="http://www.reefresilience.org/coral-reefs/reefs-and-resilience/value-of-reefs/" target="_blank" rel="noopener noreferrer">one quarter</a> of the total fish catch. (Reef fish feed <a href="http://www.reefresilience.org/coral-reefs/reefs-and-resilience/value-of-reefs/" target="_blank" rel="noopener noreferrer">an estimated one billion people</a> in Asia alone.) Fish stock around the world have declined, however, and over <a href="https://oceanservice.noaa.gov/news/weeklynews/feb11/reefs-at-risk.html" target="_blank" rel="noopener noreferrer">60 percent</a> of reef fisheries are considered threatened by local stressors, including overfishing, pollution and coastal development.</p>
               </div>,
-            image: '../../static/images/splash/coral_bleaching_on_the_rise.png',
-            imageSelected: '../../static/images/splash/coral_bleaching_on_the_rise_active.png'
+            image: '/static/images/splash/coral_bleaching_on_the_rise.png',
+            imageSelected: '/static/images/splash/coral_bleaching_on_the_rise_active.png'
           }
         ]
       },
@@ -101,8 +101,8 @@ export const PANORAMAS = [
                   Another spike in 2005 was attributed to an underwater heat wave in the Caribbean, leaving <a href="https://www.coris.noaa.gov/activities/caribbean_rpt/SCRBH2005_rpt.pdf" target="_blank" rel="noopener noreferrer">up to 40 percent</a> of reefs bleached there.
                 </p>
               </div>,
-            image: '../../static/images/splash/coral_bleaching_on_the_rise.png',
-            imageSelected: '../../static/images/splash/coral_bleaching_on_the_rise_active.png'
+            image: '/static/images/splash/coral_bleaching_on_the_rise.png',
+            imageSelected: '/static/images/splash/coral_bleaching_on_the_rise_active.png'
           },
           {
             title: 'Coral bleaching up close',
@@ -121,8 +121,8 @@ export const PANORAMAS = [
                   Normally symbiotic, Symbiodinium actually <a href="https://news.nationalgeographic.com/2016/08/coral-bleaching-video-algae-warming-oceans-environment-science/" target="_blank" rel="noopener noreferrer">becomes toxic to corals</a> at higher temperatures; the process on display in this video (called pulsed inflation) is a defense mechanism. It may protect them in the short term, but corals need this algae to recolonize quickly, because they rely on the sugar the algae produce for nourishment. If temperatures remain high over time, the Symbiodinium will not return, leaving the corals’ white skeletons exposed and the animals defenseless against diseases and other stressors.
                 </p>
               </div>,
-            image: '../../static/images/splash/coral_bleaching_up_close.png',
-            imageSelected: '../../static/images/splash/coral_bleaching_up_close_active.png'
+            image: '/static/images/splash/coral_bleaching_up_close.png',
+            imageSelected: '/static/images/splash/coral_bleaching_up_close_active.png'
           },
           {
             title: 'Global coral bleaching events',
@@ -139,8 +139,8 @@ export const PANORAMAS = [
                 <li><strong>Third Event (2014-2017):</strong> This has been the longest and most widespread global coral bleaching event to date. From 2014 to 2017, coral reefs around the world experienced higher-than-normal ocean temperatures, fueled by a partial <a href="https://coralreefwatch.noaa.gov/satellite/analyses_guidance/global_coral_bleaching_2014-17_status.php" target="_blank" rel="noopener noreferrer">El Niño in 2014-15</a> and worsened by a strong El Niño and a La Niña in the following years. This is the event that caused the bleaching here at Airport Reef. The Great Barrier Reef was heavily affected in 2015 and again in early 2017, leaving the <a href="http://www.noaa.gov/media-release/us-coral-reefs-facing-warming-waters-increased-bleaching" target="_blank" rel="noopener noreferrer">majority of coral</a> bleached.</li>
               </ul>
             </div>,
-            image: '../../static/images/splash/global_coral_bleaching_events.png',
-            imageSelected: '../../static/images/splash/global_coral_bleaching_events_active.png'
+            image: '/static/images/splash/global_coral_bleaching_events.png',
+            imageSelected: '/static/images/splash/global_coral_bleaching_events_active.png'
           }
         ]
       },
@@ -167,17 +167,17 @@ export const PANORAMAS = [
             markup:
               <div>
                 <div className="image-container">
-                  <img src="../../static/images/splash/humpheadWrasseAtRisk.png" alt="Humphead wrasse at risk" />
-                  <p>
+                  <img src="/static/images/splash/humpheadWrasseAtRisk.png" alt="Humphead wrasse at risk" />
+                  <div className="caption">
                     <i>Photo by <a href="https://www.flickr.com/photos/travels_with_tam/32828868944/in/photolist-S1YwZN-7pTeih-53CDnm-68xUDN-8a1GLP-5eMKt-68Hims-Wcgp3W-u5ckV-bHdAKH-buiNqL-bHdAx6-9SxRHy-aLyYd-audraQ-buiNoo-6dw6bM-dXb1Ym-tJTSh-7XFLEG-52FSAK-zNpnRD-4JBbui-68itCP-5Bt6SY-auaLx4-4JBbL2-dyF4sg-t27QF-dyF4Gz-oJDWwu-buiNyY-bHdACX-bHdAHB-4WVKT5-auaM1r-eSVvJY-7x2bwZ-dGMUxo-9DfWFh-auaLrg-aqUVBZ-7uhhfe-9Dd2Kt-9DfXyW-3fMBfE-9yUnYo-7qHs7q-9Dd3ug-HCSn8v" target="_blank" rel="noopener noreferrer">Tam Warner Minton/Flickr</a></i>
-                  </p>
+                  </div>
                 </div>
                 <p>
                   This large, slow-growing fish is <a href="http://www.iucnredlist.org/details/4592/0" target="_blank" rel="noopener noreferrer">native</a> to the waters around American Samoa but is now rarely seen. Largely due to overfishing and loss of habitat, the humphead wrasse population has been in decline for decades. (The fish was <a href="https://www.iucn.org/ssc-groups/fishes/grouper-and-wrasse-specialist-group/humphead-wrasse" target="_blank" rel="noopener noreferrer">designated an endangered species</a> in 2004.) Juvenile humphead wrasse depend on coral reefs for food and protection, and <a href="http://www.nmfs.noaa.gov/pr/pdfs/species/humpheadwrasse_detailed.pdf" target="_blank" rel="noopener noreferrer">coral bleaching</a> poses a serious threat to their habitat.
                 </p>
               </div>,
-            image: '../../static/images/splash/global_coral_bleaching_events.png',
-            imageSelected: '../../static/images/splash/global_coral_bleaching_events_active.png'
+            image: '/static/images/splash/global_coral_bleaching_events.png',
+            imageSelected: '/static/images/splash/global_coral_bleaching_events_active.png'
           },
           {
             title: 'Sharks at risk',
@@ -187,10 +187,10 @@ export const PANORAMAS = [
             markup:
               <div>
                 <div className="image-container">
-                  <img src="../../static/images/splash/sharksAtRisk.png" alt="Sharks at risk" />
-                  <p>
+                  <img src="/static/images/splash/sharksAtRisk.png" alt="Sharks at risk" />
+                  <div className="caption">
                     <i>Photo by <a href="https://www.flickr.com/photos/noaaphotolib/27831790160/in/photolist-565CxK-yv4473-msGxA4-msJAPo-msFQuB-msGf4v-msJBRd-msGxtk-6D6vWJ-5662Pz-6u7SJP-7ZRfE6-YnFSYe-7L96p3-7L58p4-XeM91d-7L58BT-GqmhHb-JbHUH1-msJBzm-6Dr17G-WTBgYq-7ZRfEa-565Ant-6DrKJJ-msJxbb-6D2WPD-6D6pMm-yLEif7-msGa4i-6D2YFM-6D31y6-6DrymS-JbJQos-6D2Zm8-Jppcxu-w6snm1-Jppcz3-yNqqk4-msJuhA-msJtA5-msHaqZ-msHc1c-msJy7u-msBzs8-msJtWq-msGFZD-msJrML-xShoAH-6Drfeo" target="_blank" rel="noopener noreferrer">Kevin Lino (NOAA)/Flickr</a></i>
-                  </p>
+                  </div>
                 </div>
                 <p>
                   The whale shark and scalloped hammerhead are both listed as <a href="http://www.iucnredlist.org/search" target="_blank" rel="noopener noreferrer">endangered species</a>, primarily due to overfishing. These sharks are found in the tropical waters of the western Pacific and provide crucial stability in reef ecosystems. (The scalloped hammerhead is a <a href="http://www.fpir.noaa.gov/PRD/prd_marine_protected_species_of_american_samoa_list.html" target="_blank" rel="noopener noreferrer">marine protected species</a> of American Samoa.) The presence of sharks on coral reefs has been found to contribute to reef resiliency against events like coral bleaching.
@@ -199,8 +199,8 @@ export const PANORAMAS = [
                   The presence of sharks on coral reefs has been found to contribute to <a href="https://www.aims.gov.au/docs/media/latest-releases/-/asset_publisher/8Kfw/content/sharks-increase-reef-resilience/" target="_blank" rel="noopener noreferrer">reef resiliency</a> against events like coral bleaching.
                 </p>
               </div>,
-            image: '../../static/images/splash/global_coral_bleaching_events.png',
-            imageSelected: '../../static/images/splash/global_coral_bleaching_events_active.png'
+            image: '/static/images/splash/3-2_sharks_at_risk.png',
+            imageSelected: '/static/images/splash/3-2_sharks_at_risk-active.png'
           },
           {
             title: "Coral bleaching: What's next",
@@ -220,14 +220,14 @@ export const PANORAMAS = [
                   The brighter the color, the more frequently these events are likely to occur. So, that wash of yellow and green that spreads across the map? It signifies a dramatic rise in both the range and frequency of the most severe levels of bleaching if carbon emissions continue unchecked.
                 </p>
               </div>,
-            image: '../../static/images/splash/global_coral_bleaching_events.png',
-            imageSelected: '../../static/images/splash/global_coral_bleaching_events_active.png'
+            image: '/static/images/splash/3-3_coral_bleaching_whats_next.png',
+            imageSelected: '/static/images/splash/3-3_coral_bleaching_whats_next-active.png'
           },
           {
             title: 'How can I help?',
             id: 'how_can_i_help',
-            position: '0 -14 0',
-            rotation: '0 45 0',
+            position: '0 -16 10',
+            rotation: '0 0 0',
             markup:
               <div>
                 <h3>Limit household waste</h3>
@@ -254,8 +254,8 @@ export const PANORAMAS = [
                   <i>Looking for more ways to reduce your coral reef footprint? <a href="http://www.wri.org/blog/2011/08/how-reduce-your-coral-reef-footprint" target="_blank" rel="noopener noreferrer">Read on.</a></i>
                 </p>
               </div>,
-            image: '../../static/images/splash/global_coral_bleaching_events.png',
-            imageSelected: '../../static/images/splash/global_coral_bleaching_events_active.png'
+            image: '/static/images/splash/3-4_how_can_i_help.png',
+            imageSelected: '/static/images/splash/3-4_how_can_i_help-active.png'
           }
         ]
       }
