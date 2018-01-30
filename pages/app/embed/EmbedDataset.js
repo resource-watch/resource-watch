@@ -73,11 +73,14 @@ class EmbedDataset extends React.Component {
         />
         {widget &&
           <div>
-            <VegaChart
-              data={widget.attributes.widgetConfig}
-              theme={ChartTheme()}
-              toggleLoading={this.triggerToggleLoading}
-            />
+            <div className="widget-content">
+              <VegaChart
+                data={widget.attributes.widgetConfig}
+                theme={ChartTheme()}
+                toggleLoading={this.triggerToggleLoading}
+                reloadOnResize
+              />
+            </div>
             <div className="info">
               <div className="widget-title">
                 <h2>
