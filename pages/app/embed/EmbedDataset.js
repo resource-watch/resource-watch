@@ -39,7 +39,8 @@ class EmbedDataset extends Page {
 
     this.state = {
       dataset: null,
-      loading: true
+      loadingWidget: true,
+      loadingDataset: true
     };
 
     // DatasetService
@@ -57,17 +58,17 @@ class EmbedDataset extends Page {
     this.datasetService.fetchData('widget, metadata').then((data) => {
       this.setState({
         dataset: data,
-        loading: false
+        loadingDataset: false
       });
     });
   }
 
-  triggerToggleLoading(loading) {
-    this.setState({ loading });
+  triggerToggleLoading() {
+    this.setState({ loadingWidget: false });
   }
 
   render() {
-    const { dataset, loading } = this.state;
+    const { dataset, loadingDataset, loadingWidget } = this.state;
     const widgets = dataset && dataset.attributes.widget;
     const metadataObj = dataset && dataset.attributes.metadata[0];
     const datasetName = metadataObj && metadataObj.attributes.info ?
@@ -80,43 +81,63 @@ class EmbedDataset extends Page {
       widget = widgets.find(value => value.attributes.default === true);
     }
 
+    if (loadingDataset) {
+      return (
+        <EmbedLayout
+          title={'Loading dataset...'}
+          description={''}
+        >
+          <div className="c-embed-widget">
+            <Spinner isLoading className="-light" />
+          </div>
+        </EmbedLayout>
+      );
+    }
+
     return (
       <EmbedLayout
         title={datasetName}
         description={datasetDescription}
       >
         <div className="c-embed-dataset">
-          <Spinner
-            isLoading={loading}
-            className="-light"
-          />
           {widget &&
-            <div>
-              <div className="widget-content">
-                <VegaChart
-                  data={widget.attributes.widgetConfig}
-                  theme={ChartTheme()}
-                  toggleLoading={this.triggerToggleLoading}
-                  reloadOnResize
-                />
-              </div>
-              <div className="info">
-                <div className="widget-title">
-                  <h2>
-                    <Link
-                      route="explore_detail"
-                      params={{ id: dataset.id }}
-                    >
-                      <a>{datasetName}</a>
-                    </Link>
-                  </h2>
-                </div>
-                <div className="widget-description">
-                  {datasetDescription}
-                </div>
-              </div>
+            <div className="widget-content">
+              <VegaChart
+                data={widget.attributes.widgetConfig}
+                theme={ChartTheme()}
+                toggleLoading={this.triggerToggleLoading}
+                reloadOnResize
+              />
             </div>
           }
+          <Spinner isLoading={loadingWidget} className="-light -relative" />
+          <div className="info">
+            <div className="widget-title">
+              <h2>
+                <Link
+                  route="explore_detail"
+                  params={{ id: dataset.id }}
+                >
+                  <a>{datasetName}</a>
+                </Link>
+              </h2>
+            </div>
+            <div className="widget-description">
+              {datasetDescription}
+            </div>
+          </div>
+          { this.isLoadedExternally() && (
+            <div className="widget-footer">
+              Powered by
+              <a href="/" target="_blank" rel="noopener noreferrer">
+                <img
+                  className="embed-logo"
+                  src={'/static/images/logo-embed.png'}
+                  alt="Resource Watch"
+                />
+              </a>
+            </div>
+          ) }
         </div>
       </EmbedLayout>
     );

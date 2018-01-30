@@ -22,6 +22,7 @@
     flex-grow: 1;
     padding: $margin-size-extra-small;
     overflow: hidden;
+    height: 100%;
 
     &.-external {
       .c-map { // Do not change this without testing (see comment on .c-map)
@@ -54,6 +55,25 @@
           }
         }
       }
+    }
+  }
+
+  .info {
+    padding: 15px;
+    max-height: 300px;
+    overflow: auto;
+  }
+
+  .widget-footer {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 0 $margin-size-extra-small $margin-size-extra-small;
+
+    .embed-logo {
+      display: block;
+      height: 21px;
+      margin-left: 10px;
     }
   }
 }
