@@ -182,7 +182,7 @@ export const getWidgetsByTab = createThunkAction('widgets/getWidgetsByTab', tab 
         options = { ...options,
           filters: {
             ...options.filters,
-            favourites: true
+            favourite: true
           }
         };
         break;

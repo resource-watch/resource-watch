@@ -3,8 +3,6 @@ import React from 'react';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { setUser } from 'redactions/user';
-import { setRouter } from 'redactions/routes';
 import { fetchDashboard } from 'components/dashboards/detail/dashboard-detail-actions';
 
 // Components
@@ -14,15 +12,11 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 import DashboardDetail from 'components/dashboards/detail/dashboard-detail';
 
 class DashboardsDetail extends Page {
-  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
-    const { user } = isServer ? req : store.getState();
-    const url = { asPath, pathname, query };
-    await store.dispatch(setUser(user));
-    store.dispatch(setRouter(url));
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    await context.store.dispatch(fetchDashboard({ id: props.url.query.slug }));
 
-    await store.dispatch(fetchDashboard({ id: url.query.slug }));
-
-    return { isServer, user, url };
+    return { props };
   }
 
   render() {
