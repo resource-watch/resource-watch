@@ -21,6 +21,7 @@ class WidgetBlock extends React.Component {
   static propTypes = {
     item: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
+    user: PropTypes.object,
     // Redux
     setWidgetLoading: PropTypes.func.isRequired,
     setWidgetModal: PropTypes.func.isRequired,
