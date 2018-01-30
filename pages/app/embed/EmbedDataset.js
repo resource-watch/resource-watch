@@ -54,7 +54,8 @@ class EmbedDataset extends React.Component {
     const meatadataObj = dataset && dataset.attributes.metadata[0];
     const datasetName = meatadataObj && meatadataObj.attributes.info ?
       meatadataObj.attributes.info.name : dataset && dataset.attributes.name;
-    const datasetDescription = dataset && dataset.attributes.description;
+    const datasetDescription = meatadataObj && meatadataObj.attributes.info ?
+      meatadataObj.attributes.info.description : dataset && dataset.attributes.description;
     let widget = null;
 
     if (widgets) {
@@ -88,12 +89,12 @@ class EmbedDataset extends React.Component {
                       route="explore_detail"
                       params={{ id: dataset.id }}
                     >
-                      <a>{dataset.attributes.name}</a>
+                      <a>{datasetName}</a>
                     </Link>
                   </h2>
                 </div>
                 <div className="widget-description">
-                  {dataset.attributes.metadata[0].attributes.description}
+                  {datasetDescription}
                 </div>
               </div>
             </div>
