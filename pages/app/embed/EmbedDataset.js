@@ -51,11 +51,11 @@ class EmbedDataset extends React.Component {
   render() {
     const { dataset, loading } = this.state;
     const widgets = dataset && dataset.attributes.widget;
-    const meatadataObj = dataset && dataset.attributes.metadata[0];
-    const datasetName = meatadataObj && meatadataObj.attributes.info ?
-      meatadataObj.attributes.info.name : dataset && dataset.attributes.name;
-    const datasetDescription = meatadataObj && meatadataObj.attributes.info ?
-      meatadataObj.attributes.info.description : dataset && dataset.attributes.description;
+    const metadataObj = dataset && dataset.attributes.metadata[0];
+    const datasetName = metadataObj && metadataObj.attributes.info ?
+      metadataObj.attributes.info.name : dataset && dataset.attributes.name;
+    const datasetDescription = metadataObj && metadataObj.attributes ?
+      metadataObj.attributes.description : dataset && dataset.attributes.description;
     let widget = null;
 
     if (widgets) {
