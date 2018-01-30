@@ -178,9 +178,10 @@ class ExploreDetailPrivate extends Page {
   }
 
   getSimilarDatasets() {
+    const { dataset } = this.state;
     this.setState({ similarDatasetsLoaded: false });
 
-    this.datasetService.getSimilarDatasets()
+    this.datasetService.getSimilarDatasets(dataset.id)
       .then(res => res.map(val => val.dataset).slice(0, 7))
       .then((ids) => {
         if (ids.length === 0) return [];
