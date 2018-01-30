@@ -36,7 +36,7 @@ export const PANORAMAS = [
                 <p>percent of reefs worldwide <a href="http://www.reefresilience.org/pdf/Reefs_at_Risk_Revisited.pdf" target="_blank" rel="noopener noreferrer">are threatened</a> by warmer oceans and local threats such as coastal development, overfishing and pollution</p>
               </div>,
             image: '/static/images/splash/1-1_coral_reefs_by_the_numbers.png',
-            imageSelected: '/static/images/splash/1_coral_reefs_by_the_numbers-active.png'
+            imageSelected: '/static/images/splash/1-1_coral_reefs_by_the_numbers-active.png'
           },
           {
             title: 'Pharmacies of the Sea',
@@ -176,8 +176,8 @@ export const PANORAMAS = [
                   This large, slow-growing fish is <a href="http://www.iucnredlist.org/details/4592/0" target="_blank" rel="noopener noreferrer">native</a> to the waters around American Samoa but is now rarely seen. Largely due to overfishing and loss of habitat, the humphead wrasse population has been in decline for decades. (The fish was <a href="https://www.iucn.org/ssc-groups/fishes/grouper-and-wrasse-specialist-group/humphead-wrasse" target="_blank" rel="noopener noreferrer">designated an endangered species</a> in 2004.) Juvenile humphead wrasse depend on coral reefs for food and protection, and <a href="http://www.nmfs.noaa.gov/pr/pdfs/species/humpheadwrasse_detailed.pdf" target="_blank" rel="noopener noreferrer">coral bleaching</a> poses a serious threat to their habitat.
                 </p>
               </div>,
-            image: '/static/images/splash/global_coral_bleaching_events.png',
-            imageSelected: '/static/images/splash/global_coral_bleaching_events_active.png'
+            image: '/static/images/splash/3-1_humphead_wrasse_at_risk.png',
+            imageSelected: '/static/images/splash/3-1_humphead_wrasse_at_risk-active.png'
           },
           {
             title: 'Sharks at risk',
@@ -220,8 +220,8 @@ export const PANORAMAS = [
                   The brighter the color, the more frequently these events are likely to occur. So, that wash of yellow and green that spreads across the map? It signifies a dramatic rise in both the range and frequency of the most severe levels of bleaching if carbon emissions continue unchecked.
                 </p>
               </div>,
-            image: '/static/images/splash/3-3_coral_bleaching_whats_next.png',
-            imageSelected: '/static/images/splash/3-3_coral_bleaching_whats_next-active.png'
+            image: '/static/images/splash/3-3_coral_bleaching__whats_next.png',
+            imageSelected: '/static/images/splash/3-3_coral_bleaching__whats_next-active.png'
           },
           {
             title: 'How can I help?',
