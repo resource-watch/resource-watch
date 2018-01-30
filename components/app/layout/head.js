@@ -15,6 +15,7 @@ const TRANSIFEX_BLACKLIST = [
   '/app/embed/EmbedText',
   '/app/embed/EmbedWidget',
   '/app/embed/EmbedEmbed',
+  '/app/embed/EmbedDataset',
   '/app/embed/EmbedSimilarDatasets'
 ];
 

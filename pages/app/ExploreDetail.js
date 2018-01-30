@@ -709,7 +709,7 @@ class ExploreDetail extends Page {
                       <div className="column small-12">
                         {dataset &&
                           <SimilarDatasets
-                            datasetId={dataset.id}
+                            datasetIds={[dataset.id]}
                             onTagSelected={this.handleTagSelected}
                           />
                         }

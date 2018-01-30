@@ -16,12 +16,12 @@ const mapStateToProps = state => ({
 
 class SimilarDatasetsContainer extends Component {
   componentDidMount() {
-    this.props.getSimilarDatasets(this.props.datasetId);
+    this.props.getSimilarDatasets(this.props.datasetIds.join());
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.datasetId !== nextProps.datasetId) {
-      this.props.getSimilarDatasets(nextProps.datasetId);
+    if (this.props.datasetIds !== nextProps.datasetIds) {
+      this.props.getSimilarDatasets(nextProps.datasetIds.join());
     }
   }
 
@@ -37,7 +37,7 @@ class SimilarDatasetsContainer extends Component {
 }
 
 SimilarDatasetsContainer.propTypes = {
-  datasetId: PropTypes.string.isRequired,
+  datasetIds: PropTypes.array.isRequired,
   getSimilarDatasets: PropTypes.func.isRequired,
   resetSimilarDatasets: PropTypes.func.isRequired
 };
