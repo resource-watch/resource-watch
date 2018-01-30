@@ -15,7 +15,7 @@
 
     font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans;
     font-size: $font-size-normal;
-    color: $base-font-color;
+    color: $body-font-color;
 
     background: none;
 
@@ -35,6 +35,6 @@
     top: 50%;
     right: 5px;
     transform: translateY(-50%);
-    fill: $base-font-color;
+    fill: $body-font-color;
   }
 }

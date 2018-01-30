@@ -1,16 +1,9 @@
 // Reset
 // Project settings (it doesn't include Grid system)
 @import "settings";
+@import 'foundation_settings';
 
 @import "../node_modules/normalize.css/normalize";
-
-// Foundation:
-// We are using this library only for grid system
-@import '../node_modules/foundation-sites/scss/foundation';
-@import 'foundation_settings';
-@include foundation-flex-classes;
-@include foundation-flex-grid;
-@include foundation-responsive-embed;
 
 // Libraries
 @import '../node_modules/leaflet/dist/leaflet';
@@ -278,3 +271,10 @@
 // RC-TOOLTIP
 @import '../node_modules/rc-tooltip/assets/bootstrap_white.css';
 @import "./components/ui/rc-tooltip";
+
+// Foundation:
+// We are using this library only for grid system
+@import '../node_modules/foundation-sites/scss/foundation';
+@include foundation-flex-classes;
+@include foundation-flex-grid;
+@include foundation-responsive-embed;

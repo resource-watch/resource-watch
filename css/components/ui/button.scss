@@ -53,7 +53,7 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
     }
 
     &.-alt {
-      background-color: $base-bg-color;
+      background-color: $body-bg-color;
       color: $color-primary;
 
       &:hover{
@@ -64,7 +64,7 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
 
   &.-b, &.-secondary {
     color: $color-primary;
-    background-color: $base-bg-color;
+    background-color: $body-bg-color;
     border-color: $btn-border-color;
     &:hover {
       background-color: $btn-bg-hover-color;
@@ -97,7 +97,7 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
       color: $alt-font-color;
 
       &:hover{
-        background-color: rgba($base-bg-color, 0.1);
+        background-color: rgba($body-bg-color, 0.1);
       }
     }
   }

@@ -11,10 +11,10 @@ $breakpoints: (
   medium: 720px,
   large: 960px,
   xlarge: 1260px,
-  xxlarge: 1440px,
+  xxlarge: 1560px,
 );
 $print-breakpoint: large;
-$breakpoint-classes: (small medium large);
+$breakpoint-classes: (small medium large xlarge xxlarge);
 
 // 3. The Grid
 // -----------
