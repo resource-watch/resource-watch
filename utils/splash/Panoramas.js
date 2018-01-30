@@ -148,7 +148,20 @@ export const PANORAMAS = [
         name: 'dead',
         label: 'Dead',
         image: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/images/360_AMsam-unhealthy_low.jpg',
-        markup: ''
+        intro:
+          <div>
+            <p>
+              After the bleaching event in 2015, few healthy corals were left in Airport Reef. The algae seen here are not the symbiotic kind that usually keep company with corals, but rather a type of overgrown turf algae living on the skeletons of the dead animals.
+            </p>
+            <p>
+              Widespread coral death can have <a href="http://time.com/coral/" target="_blank" rel="noopener noreferrer">dire consequences</a> for reef fish and coastal communities that depend on reefs for food, jobs and tourism. <a href="http://www.reefresilience.org/coral-reefs/stressors/local-stressors/overfishing-and-destructive-fishing-threats/" target="_blank" rel="noopener noreferrer">Nearly 95 percent of reefs</a> in Southeast Asia are already considered threatened. Without major progress in curbing global CO2 emissions that drive warmer ocean temperatures, and meaningful restrictions on such local threats as pollution and coastal development, coral reefs face an <a href="https://news.nationalgeographic.com/2017/06/coral-reef-bleaching-global-warming-unesco-sites/" target="_blank" rel="noopener noreferrer">uncertain future.</a>
+            </p>
+          </div>,
+        hotspots: [
+          {
+
+          }
+        ]
       }
     ]
   }
