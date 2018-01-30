@@ -10,13 +10,17 @@ import MyRWDatasetsMy from './my-rw-datasets-component';
 class MyRWDatasetsMyContainer extends PureComponent {
   static propTypes = {
     subtab: PropTypes.string,
-    setFilters: PropTypes.func
+    setFilters: PropTypes.func,
+    setPaginationPage: PropTypes.func
   };
 
   componentWillReceiveProps(nextProps) {
     const { subtab } = this.props;
 
-    if (subtab !== nextProps.subtab) this.props.setFilters([]);
+    if (subtab !== nextProps.subtab) {
+      this.props.setPaginationPage(1);
+      this.props.setFilters([]);
+    }
   }
 
   render() {

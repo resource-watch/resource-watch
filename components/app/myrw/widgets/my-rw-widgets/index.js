@@ -18,7 +18,8 @@ class MyRWWidgetsContainer extends PureComponent {
     pagination: PropTypes.object,
     getWidgets: PropTypes.func,
     getWidgetsByTab: PropTypes.func,
-    setFilters: PropTypes.func
+    setFilters: PropTypes.func,
+    setPaginationPage: PropTypes.func
   }
 
   componentWillMount() {
@@ -37,7 +38,10 @@ class MyRWWidgetsContainer extends PureComponent {
       this.props.getWidgetsByTab(nextProps.subtab);
     }
 
-    if (tabChanged) this.props.setFilters([]);
+    if (tabChanged) {
+      this.props.setFilters([]);
+      this.props.setPaginationPage(1);
+    }
   }
 
   render() {
