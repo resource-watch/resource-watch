@@ -10,10 +10,10 @@ export const setSimilarDatasets = createAction('similar-datasets/getSimilarDatas
 export const resetSimilarDatasets = createAction('similar-datasets/resetSimilarDatasets');
 
 // Async actions
-export const getSimilarDatasets = createThunkAction('similar-datasets/getSimilarDatasets', (datasetId, locale = 'en') => (dispatch) => {
+export const getSimilarDatasets = createThunkAction('similar-datasets/getSimilarDatasets', (datasetIds, locale = 'en') => (dispatch) => {
   dispatch(getSimilarDatasetsLoading());
-  const service = new DatasetService(datasetId, { apiURL: process.env.WRI_API_URL, language: 'en' });
-  return service.getSimilarDatasets()
+  const service = new DatasetService(null, { apiURL: process.env.WRI_API_URL, language: 'en' });
+  return service.getSimilarDatasets(datasetIds)
     .then((data) => {
       DatasetService.getDatasets(data.map(d => d.dataset), locale, 'widget,metadata,layer,vocabulary')
         .then((similarDatasets) => {
