@@ -1,0 +1,15 @@
+.c-embed-dataset {
+  position: relative; // Limit the scope of the map and spinner
+
+  // We use all the space available of the
+  // iframe and prevent any scroll
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+
+  .c-chart {
+    min-height: 250px;
+    height: 100%;
+  }
+}
