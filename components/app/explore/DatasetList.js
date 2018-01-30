@@ -26,7 +26,7 @@ class DatasetList extends PureComponent {
       [`-${mode}`]: true,
       'small-12': true,
       'medium-6': mode === 'grid',
-      'large-4': mode === 'grid'
+      'xxlarge-4': mode === 'grid'
     });
 
     return (

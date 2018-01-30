@@ -8,7 +8,7 @@
     margin-bottom: 5px;
 
     font-size: $font-size-small;
-    color: $base-font-color;
+    color: $body-font-color;
     font-weight: 700;
     line-height: 1.8; // Prevent style issues with inline loaders
 
@@ -52,7 +52,7 @@
 
     font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans;
     font-size: $font-size-normal;
-    color: $base-font-color;
+    color: $body-font-color;
 
     border-radius: 4px;
     border: 1px solid $border-color-2;
@@ -71,7 +71,7 @@
   > textarea::placeholder,
   > select::placeholder,
   .input::placeholder {
-    color: rgba($base-font-color, .3);
+    color: rgba($body-font-color, .3);
   }
 
 

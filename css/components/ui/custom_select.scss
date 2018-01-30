@@ -197,7 +197,7 @@
 
   .custom-select-search {
     background-color: transparent;
-    color: $base-font-color;
+    color: $body-font-color;
     outline: none;
     border: none;
     position: absolute;
@@ -206,7 +206,7 @@
     width: 100%;
     height: 100%;
     padding: 10px $margin-size-extra-small;
-    font-family: $base-font-family;
+    font-family: $body-font-family;
     // Make sure that if you have a z-index here, you don't
     // cause issues with dropdowns being the one below another
     // (unable to select an option of the first dropdown because
