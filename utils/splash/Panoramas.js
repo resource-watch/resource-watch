@@ -42,7 +42,7 @@ export const PANORAMAS = [
             title: 'Pharmacies of the Sea',
             id: 'pharmacies_of_the_sea',
             position: '0 2 16',
-            rotation: "0 180 0",
+            rotation: '0 180 0',
             markup:
               <div>
                 Scientists are now <a href="http://issues.org/18-3/p_bruckner/" target="_blank" rel="noreferrer noopener">more likely to discover</a> new drugs in the ocean than on land, according to one reef ecologist. Studying the plants and animals found in reefs may help us to fight Alzheimer&rsquo;s disease, cancer, heart disease, <a href="https://oceanservice.noaa.gov/facts/coral_medicine.html" target="_blank" rel="noopener noreferrer">and more.</a> We&rsquo;re already using secosteroids, which corals create to protect themselves against illness, to treat asthma and arthritis.
@@ -54,7 +54,7 @@ export const PANORAMAS = [
             title: 'Fisheries rely on reefs',
             id: 'fisheries_rely_on_reefs',
             position: '-14 2 0',
-            rotation: "0 90 0",
+            rotation: '0 90 0',
             markup:
               <div>
                 <iframe src="https://staging.resourcewatch.org/embed/map/9027ee71-fd13-4035-83b6-bb8d0a3a65e9" width="100%" height="474" frameBorder="0"></iframe>
@@ -80,7 +80,7 @@ export const PANORAMAS = [
             title: 'Coral bleaching on the rise',
             id: 'coral_bleaching_on_the_rise',
             position: '0 2 -12',
-            rotation: "0 0 0",
+            rotation: '0 0 0',
             markup:
               <div>
                 <p>
@@ -108,7 +108,7 @@ export const PANORAMAS = [
             title: 'Coral bleaching up close',
             id: 'coral_bleaching_up_close',
             position: '0 2 16',
-            rotation: "0 180 0",
+            rotation: '0 180 0',
             markup:
               <div>
                 <div className="video-container">
@@ -128,7 +128,7 @@ export const PANORAMAS = [
             title: 'Global coral bleaching events',
             id: 'global_coral_bleaching_events',
             position: '-14 2 0',
-            rotation: "0 90 0",
+            rotation: '0 90 0',
             markup: <div>
               <h3>
                 Global coral bleaching events
@@ -163,7 +163,7 @@ export const PANORAMAS = [
             title: 'Humphead wrasse at risk',
             id: 'humphead_wrasse_at_risk',
             position: '0 2 -12',
-            rotation: "0 0 0",
+            rotation: '0 0 0',
             markup:
               <div>
                 <img src="" alt="Humphead wrasse at risk"/>
@@ -179,7 +179,7 @@ export const PANORAMAS = [
             title: 'Sharks at risk',
             id: 'sharks_at_risk',
             position: '0 2 16',
-            rotation: "0 180 0",
+            rotation: '0 180 0',
             markup:
               <div>
                 <img />
@@ -191,6 +191,57 @@ export const PANORAMAS = [
                 </p>
                 <p>
                   The presence of sharks on coral reefs has been found to contribute to <a href="https://www.aims.gov.au/docs/media/latest-releases/-/asset_publisher/8Kfw/content/sharks-increase-reef-resilience/" target="_blank" rel="noopener noreferrer">reef resiliency</a> against events like coral bleaching.
+                </p>
+              </div>
+          },
+          {
+            title: "Coral bleaching: What's next",
+            id: 'coral_bleaching_whats_next',
+            position: '-14 2 0',
+            rotation: '0 90 0',
+            markup:
+              <div>
+                <p>
+                  The National Oceanic and Atmospheric Organization (NOAA) announced in summer 2017 that the third global coral bleaching event <a href="http://www.noaa.gov/media-release/global-coral-bleaching-event-likely-ending" target="_blank" rel="noopener noreferrer">appeared to be on the wane.</a> But it’s a temporary reprieve. As this map reveals, things are set to get much worse.
+                </p>
+                <iframe src="https://staging.resourcewatch.org/embed/layers/?layers=%5B%7B%22dataset%22%3A%221ef55baf-bbbe-480d-85e9-7132c742f196%22%2C%22visible%22%3Atrue%2C%22layers%22%3A%5B%7B%22id%22%3A%22dc2c2cc8-a351-4221-ad16-0671bc430ada%22%2C%22active%22%3Atrue%2C%22opacity%22%3A1%7D%2C%7B%22id%22%3A%22f7862c92-3300-40d0-bc59-17ce5769646a%22%2C%22active%22%3Afalse%2C%22opacity%22%3A1%7D%5D%7D%5D" width="100%" height="474px" frameBorder="0"></iframe>
+                <p>
+                  This map shows the projected frequency of what NOAA calls <a href="http://coralreefwatch-satops.noaa.gov/" target="_blank" rel="noopener noreferrer">Bleaching Alert Level 2 Events</a> for the 2030s and 2050s. These events are basically code red for corals, indicating intense heat stress and a likelihood that the corals will die.
+                </p>
+                <p>
+                  The brighter the color, the more frequently these events are likely to occur. So, that wash of yellow and green that spreads across the map? It signifies a dramatic rise in both the range and frequency of the most severe levels of bleaching if carbon emissions continue unchecked.
+                </p>
+              </div>
+          },
+          {
+            title: 'How can I help?',
+            id: 'how_can_i_help',
+            position: '0 -14 0',
+            rotation: '0 45 0',
+            markup:
+              <div>
+                <h3>Limit household waste</h3>
+                <p>
+                  such as fertilizer and chemicals, that could make it into waterways and <a href="https://blog.nature.org/conservancy/2010/03/23/how-lawn-chemicals-affect-the-oceans-how-you-can-help/" target="_blank" rel="noreferrer noopener">choke coral reefs.</a>
+                </p>
+                <h3>Eat sustainably</h3>
+                <p>
+                  <a href="https://www.fishwatch.gov/" target="_blank" rel="noopener noreferrer">This database</a> can help you choose seafood caught from sustainably managed fisheries that don’t threaten marine ecosystems.
+                </p>
+                <h3>Avoid damaging coral</h3>
+                <p>
+                  with boat anchors when you visit a reef. Don’t participate in destructive fishing practices, such as poison and blast fishing. And keep your flippers to yourself when diving.
+                </p>
+                <h3>Volunteer for beach or reef cleanups</h3>
+                <p>
+                  or get involved in protecting your local waterways.
+                </p>
+                <h3>Conserve water and energy</h3>
+                <p>
+                  in your daily life to avoid unnecessary runoff, wastewater and CO2 emissions that pollute the ocean and contribute to climate change.
+                </p>
+                <p>
+                  <i>Looking for more ways to reduce your coral reef footprint? <a href="http://www.wri.org/blog/2011/08/how-reduce-your-coral-reef-footprint" target="_blank" rel="noopener noreferrer">Read on.</a></i>
                 </p>
               </div>
           }
