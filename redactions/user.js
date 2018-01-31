@@ -253,14 +253,15 @@ export const addCollection = createThunkAction('user/addCollection', (payload = 
 export const deleteCollection = createThunkAction('user/deleteCollection', (payload = {}) =>
   (dispatch, getState) => {
     const { token } = getState().user;
-    const { collectionId } = payload;
+    const { collection } = payload;
+    const { id, name } = collection;
 
-    CollectionsService.deleteCollection(token, collectionId)
+    CollectionsService.deleteCollection(token, id)
       .then(() => {
         // we ask for the updated list of collections
         dispatch(getUserCollections());
         dispatch(setUserCollectionsErrors(null));
-        toastr.success('Collection deleted', 'The collection was deleted successfully.');
+        toastr.success('Collection deleted', `The collection "${name}" was deleted successfully.`);
       })
       .catch(({ errors }) => {
         dispatch(setUserCollectionsErrors(errors));
