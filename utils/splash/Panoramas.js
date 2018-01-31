@@ -71,10 +71,18 @@ export const PANORAMAS = [
         name: 'bleached',
         label: 'Bleached',
         image: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/images/bleached-optimized.jpg',
-        intro: <div>
-          <p>What might resemble a beautiful snowfall is actually a destructive stress response known as coral bleaching, which occurred in Airport Reef in 2015. Prolonged exposure to warmer ocean temperatures can cause corals to expel their symbiotic algae (which gives color to corals and nourishes them through photosynthesis), leaving the corals’ white skeletons visible. Some corals are able to bounce back from a bleaching event if water temperatures decrease fast enough. In a warming ocean, however, <a href="https://www.coralcoe.org.au/media-releases/two-thirds-of-great-barrier-reef-hit-by-back-to-back-mass-coral-bleaching" target="_blank" rel="noopener noreferrer">corals will have less time to recover</a> between bleaching events, and widespread die-off could occur.</p>
-          <p><i>Photo date: February 2, 2015</i></p>
-        </div>,
+        intro:
+          <div>
+            <p>
+              This is Airport Reef off American Samoa. In 2015, many corals here lost their color in a dramatic—and destructive—stress response known as coral bleaching.</p>
+            <p>
+              Prolonged exposure to warmer ocean temperatures and other stressors can cause corals to <a href="https://oceanservice.noaa.gov/facts/coral_bleach.html" target="_blank" rel="noopener noreferrer">expel their symbiotic algae</a>, leaving the corals’ white skeletons visible. (These algae give corals their color and nourish them through photosynthesis.) Some corals are able to bounce back from bleaching events if water temperatures decrease fast enough. In a warming ocean, however, <a href="https://www.coralcoe.org.au/media-releases/two-thirds-of-great-barrier-reef-hit-by-back-to-back-mass-coral-bleaching" target="_blank" rel="noopener noreferrer">corals will have less time to recover</a> between bouts of bleaching, and widespread die-off could occur.
+            </p>
+            <p>
+              Airport Reef wasn’t alone. During a global bleaching event that lasted from 2014 to 2017, <a href="http://www.noaa.gov/media-release/global-coral-bleaching-event-likely-ending" target="_blank" rel="noopener noreferrer">more than 70 percent of the world’s reefs</a> experienced high ocean temperatures that lasted long enough to put them at risk of bleaching. Explore the other layers to see what Airport Reef looked like before and after this photo was taken. 
+            </p>
+            <p><i>Photo date: February 2, 2015</i></p>
+          </div>,
         hotspots: [
           {
             title: 'Coral bleaching on the rise',
