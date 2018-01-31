@@ -207,7 +207,7 @@ export const toggleFavourite = createThunkAction('user/toggleFavourite', (payloa
 
 // COLLECTIONS
 export const setUserCollections = createAction(SET_USER_COLLECTIONS);
-export const setCollectionsErrros = createAction(SET_USER_COLLECTIONS_ERROR);
+export const setCollectionsErrors = createAction(SET_USER_COLLECTIONS_ERROR);
 export const setUserCollectionsLoading = createAction(SET_USER_COLLECTIONS_LOADING);
 export const setUserCollectionsUpdateLoading = createAction(SET_USER_COLLECTIONS_UPDATE_LOADING);
 
@@ -221,7 +221,7 @@ export const getUserCollections = createThunkAction('user/getUserCollections', (
         dispatch(setUserCollectionsLoading(data));
       })
       .catch(({ errors }) => {
-        dispatch(setCollectionsErrros(errors));
+        dispatch(setCollectionsErrors(errors));
       });
   });
 
@@ -237,7 +237,7 @@ export const addCollection = createThunkAction('user/addCollection', (payload = 
         dispatch(getUserCollections());
       })
       .catch(({ errors }) => {
-        dispatch(setCollectionsErrros(errors));
+        dispatch(setCollectionsErrors(errors));
         const { status } = errors;
 
         // we shouldn't assume 400 is duplicated collection,
@@ -247,6 +247,23 @@ export const addCollection = createThunkAction('user/addCollection', (payload = 
         } else {
           toastr.error('Ops, something went wrong.');
         }
+      });
+  });
+
+export const deleteCollection = createThunkAction('user/deleteCollection', (payload = {}) =>
+  (dispatch, getState) => {
+    const { token } = getState().user;
+    const { collectionId } = payload;
+
+    CollectionsService.deleteCollection(token, collectionId)
+      .then(() => {
+        // we ask for the updated list of collections
+        dispatch(getUserCollections());
+        dispatch(setCollectionsErrors(null));
+        toastr.success('Collection deleted', 'The collection was deleted successfully.');
+      })
+      .catch(({ errors }) => {
+        dispatch(setCollectionsErrors(errors));
       });
   });
 
@@ -270,7 +287,7 @@ export const addResourceToCollection = createThunkAction('user/addResourceToColl
         })
         .catch(({ errors }) => {
           dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: false }));
-          dispatch(setCollectionsErrros(errors));
+          dispatch(setCollectionsErrors(errors));
         });
     });
 
@@ -294,7 +311,7 @@ export const removeResourceFromCollection = createThunkAction('user/removeResour
         })
         .catch(({ errors }) => {
           dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: false }));
-          dispatch(setCollectionsErrros(errors));
+          dispatch(setCollectionsErrors(errors));
         });
     });
 
