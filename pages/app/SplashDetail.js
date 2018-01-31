@@ -267,16 +267,19 @@ class SplashDetail extends Page {
             }
 
             { /* Hotspots */ }
-            {hotspots && hotspots.map(elem => (
-              <a-entity
+            {hotspots && hotspots.map((elem) => {
+              const width = elem.imageWidth / 100;
+              const height = elem.imageHeight / 100;
+              const geometrySt = `primitive: plane; height: ${height}; width: ${width}`;
+              return (<a-entity
                 id={elem.id}
                 position={elem.position}
                 rotation={elem.rotation}
                 key={elem.title}
-                geometry="primitive: plane; height: 4; width: 6"
+                geometry={geometrySt}
                 material={`shader: flat; src: ${(selectedHotspot && selectedHotspot.id === elem.id) ? elem.imageSelected : elem.image}; transparent: true`}
-              />
-            ))}
+              />);
+            })}
 
             { /* Camera */ }
             <a-camera look-controls="reverseMouseDrag: true" />
