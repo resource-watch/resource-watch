@@ -268,8 +268,8 @@ class SplashDetail extends Page {
 
             { /* Hotspots */ }
             {hotspots && hotspots.map((elem) => {
-              const width = elem.imageWidth / 100;
-              const height = elem.imageHeight / 100;
+              const width = elem.imageWidth / 100 * 1.2;
+              const height = elem.imageHeight / 100 * 1.2;
               const geometrySt = `primitive: plane; height: ${height}; width: ${width}`;
               return (<a-entity
                 id={elem.id}
