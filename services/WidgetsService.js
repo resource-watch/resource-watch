@@ -1,6 +1,3 @@
-import 'isomorphic-fetch';
-import flatten from 'lodash/flatten';
-import sortBy from 'lodash/sortBy';
 import queryString from 'query-string';
 
 // Utils
@@ -11,45 +8,35 @@ export default class WidgetsService {
     this.opts = options;
   }
 
-  // GET ALL DATA
-  fetchAllData({ application = [process.env.APPLICATIONS], dataset = '', includes, filters }) {
-    const qParams = {
-      application: application.join(','),
-      ...!!includes && { includes },
-      'page[size]': 9999999,
+  static getAllWidgets(token, options) {
+    const { filters } = options;
+    const queryParams = queryString.stringify({
+      application: process.env.APPLICATIONS,
+      env: process.env.API_ENV,
       ...filters
-    };
+    });
 
     return new Promise((resolve, reject) => {
-      get({
-        url: `${process.env.WRI_API_URL}/dataset/${dataset}?${Object.keys(qParams).map(k => `${k}=${qParams[k]}`).join('&')}`,
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
-          key: 'Authorization',
-          value: this.opts.authorization
-        }],
-        onSuccess: ({ data }) => {
-          if (Array.isArray(data)) {
-            const widgets = flatten(data.map(d => d.attributes.widget.map(widget => ({
-              ...widget.attributes,
-              id: widget.id
-            }))));
-
-            resolve(sortBy(widgets, 'name'));
-          } else {
-            const widgets = data.attributes.widget.map(widget => ({
-              ...widget.attributes,
-              id: widget.id
-            }));
-            resolve(sortBy(widgets, 'name'));
-          }
-        },
-        onError: (error) => {
-          reject(error);
+      fetch(`${process.env.WRI_API_URL}/widget?${queryParams}`, {
+        method: 'GET',
+        headers: {
+          Authorization: token
         }
-      });
+      })
+        .then((response) => {
+          const { status, statusText } = response;
+          if (status === 200) return response.json();
+
+          const errorObject = {
+            errors: {
+              status,
+              details: statusText
+            }
+          };
+          throw errorObject;
+        })
+        .then(data => resolve(data))
+        .catch(errors => reject(errors));
     });
   }
 
@@ -142,33 +129,6 @@ export default class WidgetsService {
         }],
         onSuccess: () => {
           resolve();
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
-  }
-
-  fetchCollections() {
-    return new Promise((resolve, reject) => {
-      get({
-        url: `${process.env.WRI_API_URL}/vocabulary/widget_collections?application=${process.env.APPLICATIONS}`,
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
-          key: 'Authorization',
-          value: this.opts.authorization
-        }],
-        onSuccess: ({ data }) => {
-          const collections = flatten(data.map(d => d.attributes.resources
-            .filter(val => val.type === 'widget')
-            .map(val => ({ id: val.id, tags: val.tags }))
-            .filter(val => val.tags.find(tag => tag.includes(this.opts.user.id)))
-          ));
-
-          resolve(collections);
         },
         onError: (error) => {
           reject(error);

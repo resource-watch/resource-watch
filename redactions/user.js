@@ -1,6 +1,10 @@
 import { toastr } from 'react-redux-toastr';
 import { createAction, createThunkAction } from 'redux-tools';
 
+// actions
+import { getDatasetsByTab } from 'redactions/admin/datasets';
+import { getWidgetsByTab } from 'redactions/admin/widgets';
+
 // services
 import FavouritesService from 'services/favourites-service';
 import CollectionsService from 'services/collections-service';
@@ -249,16 +253,20 @@ export const addCollection = createThunkAction('user/addCollection', (payload = 
 export const addResourceToCollection = createThunkAction('user/addResourceToCollection',
   (payload = {}) =>
     (dispatch, getState) => {
-      const { token } = getState().user;
+      const { user, routes } = getState();
       const { collectionId, resource } = payload;
+      const { subtab } = routes.query;
 
       dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: true }));
 
-      CollectionsService.addResourceToCollection(token, collectionId, resource)
+      CollectionsService.addResourceToCollection(user.token, collectionId, resource)
         .then(() => {
           dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: false }));
           // we ask for the updated list of collections
           dispatch(getUserCollections());
+
+          if (resource.type === 'dataset') dispatch(getDatasetsByTab(subtab));
+          if (resource.type === 'widget') dispatch(getWidgetsByTab(subtab));
         })
         .catch(({ errors }) => {
           dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: false }));
@@ -269,16 +277,20 @@ export const addResourceToCollection = createThunkAction('user/addResourceToColl
 export const removeResourceFromCollection = createThunkAction('user/removeResourceFromCollection',
   (payload = {}) =>
     (dispatch, getState) => {
-      const { token } = getState().user;
+      const { user, routes } = getState();
       const { collectionId, resource } = payload;
+      const { subtab } = routes.query;
 
       dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: true }));
 
-      CollectionsService.removeResourceFromCollection(token, collectionId, resource)
+      CollectionsService.removeResourceFromCollection(user.token, collectionId, resource)
         .then(() => {
           dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: false }));
           // we ask for the updated list of collections
           dispatch(getUserCollections());
+
+          if (resource.type === 'dataset') dispatch(getDatasetsByTab(subtab));
+          if (resource.type === 'widget') dispatch(getWidgetsByTab(subtab));
         })
         .catch(({ errors }) => {
           dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: false }));

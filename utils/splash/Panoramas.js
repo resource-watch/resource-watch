@@ -36,7 +36,9 @@ export const PANORAMAS = [
                 <p>percent of reefs worldwide <a href="http://www.reefresilience.org/pdf/Reefs_at_Risk_Revisited.pdf" target="_blank" rel="noopener noreferrer">are threatened</a> by warmer oceans and local threats such as coastal development, overfishing and pollution</p>
               </div>,
             image: '/static/images/splash/1-1_coral_reefs_by_the_numbers.png',
-            imageSelected: '/static/images/splash/1-1_coral_reefs_by_the_numbers-active.png'
+            imageSelected: '/static/images/splash/1-1_coral_reefs_by_the_numbers-active.png',
+            imageWidth: 582,
+            imageHeight: 458
           },
           {
             title: 'Pharmacies of the Sea',
@@ -48,7 +50,9 @@ export const PANORAMAS = [
                 Scientists are now <a href="http://issues.org/18-3/p_bruckner/" target="_blank" rel="noreferrer noopener">more likely to discover</a> new drugs in the ocean than on land, according to one reef ecologist. Studying the plants and animals found in reefs may help us to fight Alzheimer&rsquo;s disease, cancer, heart disease, <a href="https://oceanservice.noaa.gov/facts/coral_medicine.html" target="_blank" rel="noopener noreferrer">and more.</a> We&rsquo;re already using secosteroids, which corals create to protect themselves against illness, to treat asthma and arthritis.
               </div>,
             image: '/static/images/splash/1-2_pharmacies_of_the_sea.png',
-            imageSelected: '/static/images/splash/1-2_pharmacies_of_the_sea-active.png'
+            imageSelected: '/static/images/splash/1-2_pharmacies_of_the_sea-active.png',
+            imageWidth: 502,
+            imageHeight: 458
           },
           {
             title: 'Fisheries rely on reefs',
@@ -63,7 +67,9 @@ export const PANORAMAS = [
                 <p>Reef fish are an important source of protein for many people, especially in developing countries, where they can contribute up to <a href="http://www.reefresilience.org/coral-reefs/reefs-and-resilience/value-of-reefs/" target="_blank" rel="noopener noreferrer">one quarter</a> of the total fish catch. (Reef fish feed <a href="http://www.reefresilience.org/coral-reefs/reefs-and-resilience/value-of-reefs/" target="_blank" rel="noopener noreferrer">an estimated one billion people</a> in Asia alone.) Fish stock around the world have declined, however, and over <a href="https://oceanservice.noaa.gov/news/weeklynews/feb11/reefs-at-risk.html" target="_blank" rel="noopener noreferrer">60 percent</a> of reef fisheries are considered threatened by local stressors, including overfishing, pollution and coastal development.</p>
               </div>,
             image: '/static/images/splash/1-3_fisheries_rely_on_reefs.png',
-            imageSelected: '/static/images/splash/1-3_fisheries_rely_on_reefs-active.png'
+            imageSelected: '/static/images/splash/1-3_fisheries_rely_on_reefs-active.png',
+            imageWidth: 502,
+            imageHeight: 458
           }
         ]
       },
@@ -71,10 +77,18 @@ export const PANORAMAS = [
         name: 'bleached',
         label: 'Bleached',
         image: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/images/bleached-optimized.jpg',
-        intro: <div>
-          <p>What might resemble a beautiful snowfall is actually a destructive stress response known as coral bleaching, which occurred in Airport Reef in 2015. Prolonged exposure to warmer ocean temperatures can cause corals to expel their symbiotic algae (which gives color to corals and nourishes them through photosynthesis), leaving the corals’ white skeletons visible. Some corals are able to bounce back from a bleaching event if water temperatures decrease fast enough. In a warming ocean, however, <a href="https://www.coralcoe.org.au/media-releases/two-thirds-of-great-barrier-reef-hit-by-back-to-back-mass-coral-bleaching" target="_blank" rel="noopener noreferrer">corals will have less time to recover</a> between bleaching events, and widespread die-off could occur.</p>
-          <p><i>Photo date: February 2, 2015</i></p>
-        </div>,
+        intro:
+          <div>
+            <p>
+              This is Airport Reef off American Samoa. In 2015, many corals here lost their color in a dramatic—and destructive—stress response known as coral bleaching.</p>
+            <p>
+              Prolonged exposure to warmer ocean temperatures and other stressors can cause corals to <a href="https://oceanservice.noaa.gov/facts/coral_bleach.html" target="_blank" rel="noopener noreferrer">expel their symbiotic algae</a>, leaving the corals’ white skeletons visible. (These algae give corals their color and nourish them through photosynthesis.) Some corals are able to bounce back from bleaching events if water temperatures decrease fast enough. In a warming ocean, however, <a href="https://www.coralcoe.org.au/media-releases/two-thirds-of-great-barrier-reef-hit-by-back-to-back-mass-coral-bleaching" target="_blank" rel="noopener noreferrer">corals will have less time to recover</a> between bouts of bleaching, and widespread die-off could occur.
+            </p>
+            <p>
+              Airport Reef wasn’t alone. During a global bleaching event that lasted from 2014 to 2017, <a href="http://www.noaa.gov/media-release/global-coral-bleaching-event-likely-ending" target="_blank" rel="noopener noreferrer">more than 70 percent of the world’s reefs</a> experienced high ocean temperatures that lasted long enough to put them at risk of bleaching. Explore the other layers to see what Airport Reef looked like before and after this photo was taken. 
+            </p>
+            <p><i>Photo date: February 2, 2015</i></p>
+          </div>,
         hotspots: [
           {
             title: 'Coral bleaching on the rise',
@@ -84,25 +98,27 @@ export const PANORAMAS = [
             markup:
               <div>
                 <p>
-                  Since the 1980s, warmer ocean temperatures have contributed to more frequent and more harmful coral bleaching events around the world. From 1980 to 1997, some 370 incidents of coral bleaching and disease were reported. From 1998 to 2010, that number exploded to more than 3,700. (This jump mostly reflects the destructive effect of rising ocean temperatures, though it should be noted that growing awareness, monitoring, and communication of coral bleaching as an issue also played a role.)
+                  In the past few decades, warmer ocean temperatures have contributed to more frequent and more harmful coral bleaching events around the world.
+                </p>
+                <iframe src="https://staging.resourcewatch.org/embed/widget/0ce14e1a-57e1-429f-b0d3-1b082a3c4a94" width="100%" height="474" frameBorder="0"></iframe>
+                <p>
+                  From 1980 to 1997, some 370 incidents of coral bleaching and disease were reported. From 1998 to 2012, that number exploded to more than 4,000. (This jump mostly reflects the destructive effect of rising ocean temperatures, though it should be noted that growing awareness, monitoring and communication of coral bleaching as an issue also played a role.)
                 </p>
                 <p>
-                  The spike in 1998, which represents the first global coral bleaching event, was abnormally high; but, as the graph shows, the frequency and severity of coral bleaching events dramatically increased in the following years as well.
+                  The spike in 1998, which represents the first global coral bleaching event, was abnormally high; but, as the graph shows, the frequency of coral bleaching events dramatically increased in the following years as well.
                 </p>
-                <iframe src="https://staging.resourcewatch.org/embed/widget/a47df7b0-0cdb-4fc2-a877-7c4324c1d6fa" width="100%" height="474" frameBorder="0" />
-                <p/>
-                <h3>
-                  What happened in 2002 and 2005?
-                </h3>
+                <h3>What happened in 2002 and 2005?</h3>
                 <p>
-                  Warm ocean temperatures in 2002 caused widespread bleaching, hitting the area around the Great Barrier Reef the hardest. <a href="https://link.springer.com/article/10.1007/s00338-003-0353-y" target="_blank" rel="noopener noreferrer">More than half</a> of the Great Barrier Reef’s corals bleached that year.
+                  Warm ocean temperatures around Australia in 2002 caused widespread bleaching, leaving <a href="https://www.aims.gov.au/docs/research/climate-change/coral-bleaching/bleaching-events.html" target="_blank" rel="noopener noreferrer">more than half of the Great Barrier Reef&rsquo;s coral</a> bleached.
                 </p>
                 <p>
-                  Another spike in 2005 was attributed to an underwater heat wave in the Caribbean, leaving <a href="https://www.coris.noaa.gov/activities/caribbean_rpt/SCRBH2005_rpt.pdf" target="_blank" rel="noopener noreferrer">up to 40 percent</a> of reefs bleached there.
+                  Another spike, in 2005, was attributed to particularly warm water in the Caribbean that left <a href="https://www.coris.noaa.gov/activities/caribbean_rpt/SCRBH2005_rpt.pdf" target="_blank" rel="noopener noreferrer">up to 40 percent</a> of reefs in the area bleached.
                 </p>
               </div>,
             image: '/static/images/splash/coral_bleaching_on_the_rise.png',
-            imageSelected: '/static/images/splash/coral_bleaching_on_the_rise_active.png'
+            imageSelected: '/static/images/splash/coral_bleaching_on_the_rise_active.png',
+            imageWidth: 578,
+            imageHeight: 456
           },
           {
             title: 'Coral bleaching up close',
@@ -115,14 +131,16 @@ export const PANORAMAS = [
                   <iframe className="video" src="https://www.youtube.com/embed/bFdPmiwZzVE?rel=0&amp;showinfo=0" allowFullScreen />
                 </div>
                 <p>
-                  When researchers at the <a href="https://www.qut.edu.au/news/news?news-id=108238" target="_blank" rel="noopener noreferrer">Queensland University of Technology in Australia</a> put corals in tanks and turned up the heat by several degrees, the corals began violently spewing out the algae Symbiodinium in a matter of hours. It’s essentially coral bleaching on fast-forward. The university captured the process in this time-lapse video.
+                  When researchers at the <a href="https://www.qut.edu.au/news/news?news-id=108238" target="_blank" rel="noopener noreferrer">Queensland University of Technology in Australia</a> put corals in tanks and turned up the heat, the corals began violently spewing out the algae <i>Symbiodinium</i> in a matter of hours. It’s essentially coral bleaching on fast-forward. The university captured the process in this time-lapse video.
                 </p>
                 <p>
-                  Normally symbiotic, Symbiodinium actually <a href="https://news.nationalgeographic.com/2016/08/coral-bleaching-video-algae-warming-oceans-environment-science/" target="_blank" rel="noopener noreferrer">becomes toxic to corals</a> at higher temperatures; the process on display in this video (called pulsed inflation) is a defense mechanism. It may protect them in the short term, but corals need this algae to recolonize quickly, because they rely on the sugar the algae produce for nourishment. If temperatures remain high over time, the Symbiodinium will not return, leaving the corals’ white skeletons exposed and the animals defenseless against diseases and other stressors.
+                  Normally symbiotic, <i>Symbiodinium</i> actually <a href="https://news.nationalgeographic.com/2016/08/coral-bleaching-video-algae-warming-oceans-environment-science/" target="_blank" rel="noopener noreferrer">becomes toxic to corals</a> at higher temperatures; the process on display in this video (called pulsed inflation) is a defense mechanism. It may protect them in the short term, but corals need the algae to recolonize quickly, because they rely on the algae to survive. If temperatures remain high over time, the <i>Symbiodinium</i> will not return, leaving the corals’ white skeletons exposed and the animals vulnerable to diseases and other stressors.
                 </p>
               </div>,
             image: '/static/images/splash/coral_bleaching_up_close.png',
-            imageSelected: '/static/images/splash/coral_bleaching_up_close_active.png'
+            imageSelected: '/static/images/splash/coral_bleaching_up_close_active.png',
+            imageWidth: 578,
+            imageHeight: 456
           },
           {
             title: 'Global coral bleaching events',
@@ -134,13 +152,15 @@ export const PANORAMAS = [
                 Global coral bleaching events
               </h3>
               <ul>
-                <li><strong>First Event (1998):</strong> In 1997, an unusually strong El Niño followed by a La Niña dramatically changed global ocean surface temperatures. Exacerbated by the general effects of global warming, these temperature changes led to the first mass coral bleaching in 1998. An estimated 16 percent of coral died in 1998 alone.</li>
-                <li><strong>Second Event (2010):</strong> 2010 set a new record for the hottest year, surpassing 1998. Warm ocean temperatures and a moderate El Niño caused another global bleaching event, affecting reefs in every ocean basin.</li>
-                <li><strong>Third Event (2014-2017):</strong> This has been the longest and most widespread global coral bleaching event to date. From 2014 to 2017, coral reefs around the world experienced higher-than-normal ocean temperatures, fueled by a partial <a href="https://coralreefwatch.noaa.gov/satellite/analyses_guidance/global_coral_bleaching_2014-17_status.php" target="_blank" rel="noopener noreferrer">El Niño in 2014-15</a> and worsened by a strong El Niño and a La Niña in the following years. This is the event that caused the bleaching here at Airport Reef. The Great Barrier Reef was heavily affected in 2015 and again in early 2017, leaving the <a href="http://www.noaa.gov/media-release/us-coral-reefs-facing-warming-waters-increased-bleaching" target="_blank" rel="noopener noreferrer">majority of coral</a> bleached.</li>
+                <li><strong>First Event (1998):</strong> <a href="http://www.globalcoralbleaching.org/" target="_blank" rel="noopener noreferrer">Sixteen percent of corals worldwide</a> died in 1998 during the first global bleaching event. In 1997, a strong El Niño, followed by an equally strong La Niña, <a href="http://www.noaanews.noaa.gov/stories2015/100815-noaa-declares-third-ever-global-coral-bleaching-event.html" target="_blank" rel="noopener noreferrer">dramatically raised</a> global ocean surface temperatures. This change, on top of ocean warming from climate change, led to the first global coral bleaching event in 1998.</li>
+                <li><strong>Second Event (2010):</strong> 2010 tied 2005 as <a href="https://www.nasa.gov/topics/earth/features/2010-warmest-year.html" target="_blank" rel="noopener noreferrer">the hottest year since 1998.</a> Warm ocean temperatures and <a href="https://news.agu.org/press-release/el-nino-prolongs-longest-global-coral-bleaching-event/" target="_blank" rel="noopener noreferrer">a moderate El Niño</a> touched off another global bleaching event, affecting reefs in <a href="https://www.nature.com/news/2010/101119/full/news.2010.621.html" target="_blank" rel="noopener noreferrer">every ocean and major sea</a> where corals are found.</li>
+                <li><strong>Third Event (2014-2017):</strong> This has been the <a href="http://www.noaa.gov/media-release/global-coral-bleaching-event-likely-ending" target="_blank" rel="noopener noreferrer">longest and most widespread</a> global coral bleaching event to date. From 2014 to 2017, coral reefs around the world experienced higher-than-normal ocean temperatures, fueled by a partial <a href="https://coralreefwatch.noaa.gov/satellite/analyses_guidance/global_coral_bleaching_2014-17_status.php" target="_blank" rel="noopener noreferrer">El Niño in 2014-15</a> and worsened in the following years by a strong El Niño and a La Niña. This is the event that caused the bleaching here at Airport Reef. The Great Barrier Reef was heavily affected in 2015 and again in early 2017, leaving the <a href="http://www.noaa.gov/media-release/us-coral-reefs-facing-warming-waters-increased-bleaching" target="_blank" rel="noopener noreferrer">majority of coral bleached.</a></li>
               </ul>
             </div>,
             image: '/static/images/splash/global_coral_bleaching_events.png',
-            imageSelected: '/static/images/splash/global_coral_bleaching_events_active.png'
+            imageSelected: '/static/images/splash/global_coral_bleaching_events_active.png',
+            imageWidth: 622,
+            imageHeight: 458
           }
         ]
       },
@@ -177,7 +197,9 @@ export const PANORAMAS = [
                 </p>
               </div>,
             image: '/static/images/splash/3-1_humphead_wrasse_at_risk.png',
-            imageSelected: '/static/images/splash/3-1_humphead_wrasse_at_risk-active.png'
+            imageSelected: '/static/images/splash/3-1_humphead_wrasse_at_risk-active.png',
+            imageWidth: 542,
+            imageHeight: 458
           },
           {
             title: 'Sharks at risk',
@@ -200,7 +222,9 @@ export const PANORAMAS = [
                 </p>
               </div>,
             image: '/static/images/splash/3-2_sharks_at_risk.png',
-            imageSelected: '/static/images/splash/3-2_sharks_at_risk-active.png'
+            imageSelected: '/static/images/splash/3-2_sharks_at_risk-active.png',
+            imageWidth: 382,
+            imageHeight: 458
           },
           {
             title: "Coral bleaching: What's next",
@@ -221,7 +245,9 @@ export const PANORAMAS = [
                 </p>
               </div>,
             image: '/static/images/splash/3-3_coral_bleaching__whats_next.png',
-            imageSelected: '/static/images/splash/3-3_coral_bleaching__whats_next-active.png'
+            imageSelected: '/static/images/splash/3-3_coral_bleaching__whats_next-active.png',
+            imageWidth: 602,
+            imageHeight: 458
           },
           {
             title: 'How can I help?',
@@ -255,7 +281,9 @@ export const PANORAMAS = [
                 </p>
               </div>,
             image: '/static/images/splash/3-4_how_can_i_help.png',
-            imageSelected: '/static/images/splash/3-4_how_can_i_help-active.png'
+            imageSelected: '/static/images/splash/3-4_how_can_i_help-active.png',
+            imageWidth: 422,
+            imageHeight: 458
           }
         ]
       }
