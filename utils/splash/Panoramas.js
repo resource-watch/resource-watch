@@ -92,21 +92,21 @@ export const PANORAMAS = [
             markup:
               <div>
                 <p>
-                  Since the 1980s, warmer ocean temperatures have contributed to more frequent and more harmful coral bleaching events around the world. From 1980 to 1997, some 370 incidents of coral bleaching and disease were reported. From 1998 to 2010, that number exploded to more than 3,700. (This jump mostly reflects the destructive effect of rising ocean temperatures, though it should be noted that growing awareness, monitoring, and communication of coral bleaching as an issue also played a role.)
+                  In the past few decades, warmer ocean temperatures have contributed to more frequent and more harmful coral bleaching events around the world.
+                </p>
+                <iframe src="https://staging.resourcewatch.org/embed/widget/0ce14e1a-57e1-429f-b0d3-1b082a3c4a94" width="100%" height="474" frameBorder="0"></iframe>
+                <p>
+                  From 1980 to 1997, some 370 incidents of coral bleaching and disease were reported. From 1998 to 2012, that number exploded to more than 4,000. (This jump mostly reflects the destructive effect of rising ocean temperatures, though it should be noted that growing awareness, monitoring and communication of coral bleaching as an issue also played a role.)
                 </p>
                 <p>
-                  The spike in 1998, which represents the first global coral bleaching event, was abnormally high; but, as the graph shows, the frequency and severity of coral bleaching events dramatically increased in the following years as well.
+                  The spike in 1998, which represents the first global coral bleaching event, was abnormally high; but, as the graph shows, the frequency of coral bleaching events dramatically increased in the following years as well.
                 </p>
-                <iframe src="https://staging.resourcewatch.org/embed/widget/a47df7b0-0cdb-4fc2-a877-7c4324c1d6fa" width="100%" height="474" frameBorder="0" />
-                <p/>
-                <h3>
-                  What happened in 2002 and 2005?
-                </h3>
+                <h3>What happened in 2002 and 2005?</h3>
                 <p>
-                  Warm ocean temperatures in 2002 caused widespread bleaching, hitting the area around the Great Barrier Reef the hardest. <a href="https://link.springer.com/article/10.1007/s00338-003-0353-y" target="_blank" rel="noopener noreferrer">More than half</a> of the Great Barrier Reef’s corals bleached that year.
+                  Warm ocean temperatures around Australia in 2002 caused widespread bleaching, leaving <a href="https://www.aims.gov.au/docs/research/climate-change/coral-bleaching/bleaching-events.html" target="_blank" rel="noopener noreferrer">more than half of the Great Barrier Reef&rsquo;s coral</a> bleached.
                 </p>
                 <p>
-                  Another spike in 2005 was attributed to an underwater heat wave in the Caribbean, leaving <a href="https://www.coris.noaa.gov/activities/caribbean_rpt/SCRBH2005_rpt.pdf" target="_blank" rel="noopener noreferrer">up to 40 percent</a> of reefs bleached there.
+                  Another spike, in 2005, was attributed to particularly warm water in the Caribbean that left <a href="https://www.coris.noaa.gov/activities/caribbean_rpt/SCRBH2005_rpt.pdf" target="_blank" rel="noopener noreferrer">up to 40 percent</a> of reefs in the area bleached.
                 </p>
               </div>,
             image: '/static/images/splash/coral_bleaching_on_the_rise.png',
