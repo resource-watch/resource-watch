@@ -15,6 +15,7 @@ import { toggleModal, setModalOptions } from 'redactions/modal';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 import { setUser, getUserFavourites, getUserCollections } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
+import { getPartnerData } from 'redactions/partnerDetail';
 
 // Next
 import { Link, Router } from 'routes';
@@ -43,6 +44,7 @@ import SimilarDatasets from 'components/app/explore/similar-datasets/similar-dat
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
 import { logEvent } from 'utils/analytics';
+import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
@@ -165,6 +167,12 @@ class ExploreDetail extends Page {
         const tags = vocabulary && vocabulary.length > 0 && vocabulary[0].attributes.tags;
         if (tags) {
           this.loadInferredTags(tags);
+        }
+
+        // Load connected partner
+        const partnerConnection = PARTNERS_CONNECTIONS.find(pc => pc.datasetId === response.id);
+        if (partnerConnection) {
+          this.props.getPartnerData(partnerConnection.partnerId);
         }
       }).catch((error) => {
         toastr.error('Error', 'Unable to load the dataset');
@@ -349,7 +357,7 @@ class ExploreDetail extends Page {
   }
 
   render() {
-    const { url, user, exploreDataset } = this.props;
+    const { url, user, exploreDataset, partnerDetail } = this.props;
     const { dataset, loading, inferredTags } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
@@ -378,6 +386,8 @@ class ExploreDetail extends Page {
       '-filled': isInACollection,
       '-empty': !isInACollection
     });
+
+    //const partnerConnectionFound = dataset &&
 
     const isSubscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
       Object.keys(dataset.attributes.subscribable).length > 0;
@@ -529,6 +539,16 @@ class ExploreDetail extends Page {
                       </button>
                     }
                   </div>
+                  { partnerDetail.logo &&
+                    <div className="partner-container">
+                      <div className="partner-text-container">
+                        Partner:
+                      </div>
+                      <div className="partner-logo-container">
+                        <img src={partnerDetail.logo && partnerDetail.logo.medium} alt={partnerDetail.name} />
+                      </div>
+                    </div>
+                  }
                 </div>
               </div>
             </div>
@@ -767,6 +787,7 @@ const mapStateToProps = state => ({
   user: state.user,
   exploreDetail: state.exploreDetail,
   exploreDataset: state.exploreDataset,
+  partnerDetail: state.partnerDetail.data,
   layersShown: updateLayersShown(state),
   locale: state.common.locale
 });
@@ -775,7 +796,8 @@ const mapDispatchToProps = {
   resetDataset,
   toggleModal,
   setModalOptions,
-  toggleLayerGroup
+  toggleLayerGroup,
+  getPartnerData
 };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);

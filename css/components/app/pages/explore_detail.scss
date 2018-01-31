@@ -139,4 +139,16 @@
     }
   }
 
+  .partner-container {
+
+    .partner-text-container {
+      margin-bottom: 15px;
+    }
+
+    .partner-logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 }
