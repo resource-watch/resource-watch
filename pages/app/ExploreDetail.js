@@ -14,6 +14,7 @@ import { getDataset } from 'redactions/exploreDataset';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 import { setUser, getUserFavourites, getUserCollections } from 'redactions/user';
+import { getTools } from 'redactions/admin/tools';
 import { setRouter } from 'redactions/routes';
 
 // Next
@@ -43,6 +44,7 @@ import SimilarDatasets from 'components/app/explore/similar-datasets/similar-dat
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
 import { logEvent } from 'utils/analytics';
+import { APPS_CONNECTIONS } from 'utils/apps/appsConnections';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
@@ -165,6 +167,12 @@ class ExploreDetail extends Page {
         const tags = vocabulary && vocabulary.length > 0 && vocabulary[0].attributes.tags;
         if (tags) {
           this.loadInferredTags(tags);
+        }
+
+        // Load connected apps
+        const appConnections = APPS_CONNECTIONS.filter(appC => appC.datasetId === response.id);
+        if (appConnections.length > 0) {
+          this.props.getTools();
         }
       }).catch((error) => {
         toastr.error('Error', 'Unable to load the dataset');
@@ -378,6 +386,8 @@ class ExploreDetail extends Page {
       '-filled': isInACollection,
       '-empty': !isInACollection
     });
+
+    //const connectedApps =
 
     const isSubscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
       Object.keys(dataset.attributes.subscribable).length > 0;
@@ -775,7 +785,8 @@ const mapDispatchToProps = {
   resetDataset,
   toggleModal,
   setModalOptions,
-  toggleLayerGroup
+  toggleLayerGroup,
+  getTools
 };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);
