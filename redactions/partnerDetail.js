@@ -1,6 +1,9 @@
 /* global config */
 import 'isomorphic-fetch';
 
+// Services
+import DatasetService from 'services/DatasetService';
+
 /**
  * CONSTANTS
 */
@@ -65,7 +68,7 @@ export default function (state = initialState, action) {
         datasets: {
           list: [],
           loading: false,
-          error: true
+          error: action.payload
         }
       });
     }
@@ -85,6 +88,7 @@ export default function (state = initialState, action) {
 /**
  * ACTIONS
  * - getPartnerData
+ * - getDatasets
 */
 export function getPartnerData(id) {
   return (dispatch) => {
@@ -107,6 +111,27 @@ export function getPartnerData(id) {
         dispatch({
           type: GET_PARTNER_ERROR,
           payload: err.message
+        });
+      });
+  };
+}
+
+export function getDatasets(ids) {
+  return (dispatch) => {
+    // Waiting for fetch from server -> Dispatch loading
+    dispatch({ type: GET_DATASETS_LOADING });
+
+    DatasetService.getDatasets(ids)
+      .then((response) => {
+        dispatch({
+          type: GET_PARTNER_SUCCESS,
+          payload: response
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: GET_PARTNER_ERROR,
+          payload: error
         });
       });
   };

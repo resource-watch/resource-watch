@@ -4,12 +4,14 @@ import PropTypes from 'prop-types';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { getPartnerData } from 'redactions/partnerDetail';
+import { getPartnerData, getDatasets } from 'redactions/partnerDetail';
 
 // Components
 import Banner from 'components/app/common/Banner';
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
+import Spinner from 'components/ui/Spinner';
+import DatasetList from 'components/app/explore/DatasetList';
 
 // Utils
 import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
@@ -22,13 +24,13 @@ class PartnerDetail extends Page {
   */
   componentDidMount() {
     this.props.getPartnerData(this.props.url.query.id);
+    const datasetIds = PARTNERS_CONNECTIONS
+      .filter(p => p.partnerId === this.props.url.query.id).map(elem => elem.datasetId);
+    this.props.getDatasets(datasetIds);
   }
   componentWillReceiveProps(newProps) {
     if (this.props.url.query.id !== newProps.url.query.id) {
       this.props.getPartnerData(newProps.url.query.id);
-    }
-    if (this.props.data !== newProps.data) {
-      const datasetIds = PARTNERS_CONNECTIONS.filter(p => p.partnerId === newProps.data.id).map(elem => elem.datasetId);
     }
   }
 
@@ -42,7 +44,8 @@ class PartnerDetail extends Page {
   }
 
   render() {
-    const { data } = this.props;
+    const { data, datasets } = this.props;
+    const { loading, list } = datasets;
     const logoPath = data['white-logo'] ? data['white-logo'].medium : '';
     const coverPath = data.cover && data.cover.cover;
     const logo = data.website !== '' ?
@@ -51,6 +54,8 @@ class PartnerDetail extends Page {
       </a>) :
       <img src={`${process.env.STATIC_SERVER_URL}${logoPath}`} className="logo" title={data.name} alt={data.name} />;
     const backgroundImage = { 'background-image': `url(${process.env.STATIC_SERVER_URL}${coverPath})` };
+
+    console.log('list', list);
 
     return (
       <Layout
@@ -81,11 +86,20 @@ class PartnerDetail extends Page {
               </div>
             </div>
           </Banner>
-          {data.name &&
+          {list && list.length > 0 &&
             <div className="l-container">
               <div className="row  align-center">
                 <div className="column small-12 datasets-container">
                   <h3>{`Datasets by ${data.name}`}</h3>
+                  <Spinner isLoading={loading} className="-light" />
+                  <DatasetList
+                    active={[]}
+                    list={list}
+                    mode="grid"
+                    showActions={false}
+                    showFavorite
+                    onTagSelected={this.props.onTagSelected}
+                  />
                 </div>
               </div>
             </div>
@@ -122,15 +136,18 @@ PartnerDetail.propTypes = {
 };
 
 PartnerDetail.defaultProps = {
-  data: {}
+  data: {},
+  datasets: []
 };
 
 const mapStateToProps = state => ({
-  data: state.partnerDetail.data
+  data: state.partnerDetail.data,
+  datasets: state.partnerDetail.datasets
 });
 
 const mapDispatchToProps = {
-  getPartnerData
+  getPartnerData,
+  getDatasets
 };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(PartnerDetail);
