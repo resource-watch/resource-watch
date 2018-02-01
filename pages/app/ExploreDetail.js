@@ -723,7 +723,7 @@ class ExploreDetail extends Page {
 
 
           {/* RELATED TOOLS */}
-          {/*
+          {
           <div className="l-section related-tools">
             <div className="row">
               <div className="column small-12">
@@ -731,7 +731,7 @@ class ExploreDetail extends Page {
               </div>
             </div>
           </div>
-          */}
+          }
 
           {/* RELATED INSIGHTS */}
           {/* <div className="c-page-section related-insights">
