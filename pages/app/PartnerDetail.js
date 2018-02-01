@@ -1,11 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Banner from 'components/app/common/Banner';
-import Page from 'components/app/layout/Page';
-import Layout from 'components/app/layout/Layout';
+
+// Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { getPartnerData } from 'redactions/partnerDetail';
+
+// Components
+import Banner from 'components/app/common/Banner';
+import Page from 'components/app/layout/Page';
+import Layout from 'components/app/layout/Layout';
+
+// Utils
+import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
 
 class PartnerDetail extends Page {
   /**
@@ -19,6 +26,9 @@ class PartnerDetail extends Page {
   componentWillReceiveProps(newProps) {
     if (this.props.url.query.id !== newProps.url.query.id) {
       this.props.getPartnerData(newProps.url.query.id);
+    }
+    if (this.props.data !== newProps.data) {
+      const datasetIds = PARTNERS_CONNECTIONS.filter(p.partnerId === newProps.data.id).map(elem => elem.datasetId);
     }
   }
 

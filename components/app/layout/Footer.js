@@ -142,7 +142,7 @@ Footer.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  partners: state.partners.partners.list
+  partners: state.partners.list
 });
 
 const mapDispatchToProps = dispatch => ({

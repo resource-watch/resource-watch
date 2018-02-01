@@ -140,10 +140,10 @@ PartnersTable.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  loading: state.partners.partners.loading,
-  partners: state.partners.partners.list,
+  loading: state.partners.loading,
+  partners: state.partners.list,
   filteredPartners: getFilteredPartners(state),
-  error: state.partners.partners.error
+  error: state.partners.error
 });
 const mapDispatchToProps = dispatch => ({
   getPartners: () => dispatch(getPartners()),
