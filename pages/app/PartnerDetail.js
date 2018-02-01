@@ -28,7 +28,7 @@ class PartnerDetail extends Page {
       this.props.getPartnerData(newProps.url.query.id);
     }
     if (this.props.data !== newProps.data) {
-      const datasetIds = PARTNERS_CONNECTIONS.filter(p.partnerId === newProps.data.id).map(elem => elem.datasetId);
+      const datasetIds = PARTNERS_CONNECTIONS.filter(p => p.partnerId === newProps.data.id).map(elem => elem.datasetId);
     }
   }
 
@@ -83,11 +83,9 @@ class PartnerDetail extends Page {
           </Banner>
           {data.name &&
             <div className="l-container">
-              <div className="l-section-mod related-tools">
-                <div className="row">
-                  <div className="column small-12 datasets-container">
-                    <h3>{`Datasets by ${data.name}`}</h3>
-                  </div>
+              <div className="row  align-center">
+                <div className="column small-12 datasets-container">
+                  <h3>{`Datasets by ${data.name}`}</h3>
                 </div>
               </div>
             </div>
