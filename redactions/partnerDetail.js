@@ -4,15 +4,23 @@ import 'isomorphic-fetch';
 /**
  * CONSTANTS
 */
-const GET_PARTNER_SUCCESS = 'explore/GET_PARTNER_SUCCESS';
-const GET_PARTNER_ERROR = 'explore/GET_PARTNER_ERROR';
-const GET_PARTNER_LOADING = 'explore/GET_PARTNER_LOADING';
+const GET_PARTNER_SUCCESS = 'partnerDetail/GET_PARTNER_SUCCESS';
+const GET_PARTNER_ERROR = 'partnerDetail/GET_PARTNER_ERROR';
+const GET_PARTNER_LOADING = 'partnerDetail/GET_PARTNER_LOADING';
+const GET_DATASETS_SUCCESS = 'partnerDetail/GET_DATASETS_SUCCESS';
+const GET_DATASETS_ERROR = 'partnerDetail/GET_DATASETS_ERROR';
+const GET_DATASETS_LOADING = 'partnerDetail/GET_DATASETS_LOADING';
 
 /**
  * REDUCER
 */
 const initialState = {
-  data: {}
+  data: {},
+  datasets: {
+    loading: false,
+    error: null,
+    list: []
+  }
 };
 
 export default function (state = initialState, action) {
@@ -33,6 +41,36 @@ export default function (state = initialState, action) {
     }
 
     case GET_PARTNER_LOADING: {
+      return Object.assign({}, state, {
+        datasets: {
+          list: [],
+          loading: true,
+          error: null
+        }
+      });
+    }
+
+    case GET_DATASETS_SUCCESS: {
+      return Object.assign({}, state, {
+        datasets: {
+          list: action.payload,
+          loading: false,
+          error: null
+        }
+      });
+    }
+
+    case GET_DATASETS_ERROR: {
+      return Object.assign({}, state, {
+        datasets: {
+          list: [],
+          loading: false,
+          error: true
+        }
+      });
+    }
+
+    case GET_DATASETS_LOADING: {
       return Object.assign({}, state, {
         loading: true,
         error: false
