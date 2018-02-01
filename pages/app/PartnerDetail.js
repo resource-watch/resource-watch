@@ -71,6 +71,17 @@ class PartnerDetail extends Page {
               </div>
             </div>
           </Banner>
+          {data.name &&
+            <div className="l-container">
+              <div className="l-section-mod related-tools">
+                <div className="row">
+                  <div className="column small-12 datasets-container">
+                    <h3>{`Datasets by ${data.name}`}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
         </div>
 
         <div className="l-container learn-more">
