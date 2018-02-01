@@ -829,7 +829,7 @@ const mapDispatchToProps = {
   toggleModal,
   setModalOptions,
   toggleLayerGroup,
-  getPartnerData
+  getPartnerData,
   getTools
 };
 
