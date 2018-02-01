@@ -14,6 +14,7 @@ import { getDataset } from 'redactions/exploreDataset';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 import { setUser, getUserFavourites, getUserCollections } from 'redactions/user';
+import { getTools } from 'redactions/admin/tools';
 import { setRouter } from 'redactions/routes';
 
 // Next
@@ -39,10 +40,12 @@ import SaveWidgetModal from 'components/modal/SaveWidgetModal';
 import Tooltip from 'rc-tooltip/dist/rc-tooltip';
 import CollectionsPanel from 'components/collections-panel';
 import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
+import CardApp from 'components/app/common/CardApp';
 
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
 import { logEvent } from 'utils/analytics';
+import { APPS_CONNECTIONS } from 'utils/apps/appsConnections';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
@@ -85,7 +88,8 @@ class ExploreDetail extends Page {
       showDescription: false,
       showFunction: false,
       showCautions: false,
-      inferredTags: []
+      inferredTags: [],
+      relatedTools: []
     };
 
     // DatasetService
@@ -154,18 +158,25 @@ class ExploreDetail extends Page {
       loading: true
     }, () => {
       this.datasetService.fetchData('layer,metadata,vocabulary,widget').then((response) => {
-        this.setState({
-          dataset: response,
-          datasetLoaded: true,
-          loading: false
-        });
-
         // Load inferred tags
         const vocabulary = response.attributes.vocabulary;
         const tags = vocabulary && vocabulary.length > 0 && vocabulary[0].attributes.tags;
         if (tags) {
           this.loadInferredTags(tags);
         }
+
+        // Load connected apps
+        const appConnections = APPS_CONNECTIONS.filter(appC => appC.datasetId === response.id).map(v => v.appSlug);
+        if (appConnections.length > 0) {
+          this.props.getTools();
+        }
+
+        this.setState({
+          dataset: response,
+          datasetLoaded: true,
+          loading: false,
+          relatedTools: appConnections
+        });
       }).catch((error) => {
         toastr.error('Error', 'Unable to load the dataset');
         console.error(error);
@@ -349,8 +360,8 @@ class ExploreDetail extends Page {
   }
 
   render() {
-    const { url, user, exploreDataset } = this.props;
-    const { dataset, loading, inferredTags } = this.state;
+    const { url, user, exploreDataset, tools } = this.props;
+    const { dataset, loading, inferredTags, relatedTools } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
     const metadataAttributes = (metadata && metadata.attributes) || {};
@@ -378,6 +389,8 @@ class ExploreDetail extends Page {
       '-filled': isInACollection,
       '-empty': !isInACollection
     });
+
+    const relatedToolsWithData = relatedTools && tools && tools.filter(t => relatedTools.find(r => r === t.slug));
 
     const isSubscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
       Object.keys(dataset.attributes.subscribable).length > 0;
@@ -718,20 +731,37 @@ class ExploreDetail extends Page {
                   </div>
                 </div>
               </div>
+
+              {/* RELATED TOOLS */}
+              {relatedToolsWithData.length > 0 &&
+                <div className="row">
+                  <div className="column small-12">
+                    <div className="l-section-mod related-tools">
+                      <div className="row">
+                        <div className="column small-12">
+                          <h3 className="c-text title -thin">Related Tools</h3>
+                          {
+                            relatedToolsWithData.map(relatedTool => (
+                              <CardApp
+                                background={relatedTool.thumbnail.original}
+                                title={relatedTool.title}
+                                description={relatedTool.summary}
+                                link={{
+                                  label: 'Go to site',
+                                  route: relatedTool.url,
+                                  external: true
+                                }}
+                              />
+                            ))
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
             </div>
           </section>
-
-
-          {/* RELATED TOOLS */}
-          {/*
-          <div className="l-section related-tools">
-            <div className="row">
-              <div className="column small-12">
-                <h3 className="c-text title -thin">Related Tools</h3>
-              </div>
-            </div>
-          </div>
-          */}
 
           {/* RELATED INSIGHTS */}
           {/* <div className="c-page-section related-insights">
@@ -768,14 +798,16 @@ const mapStateToProps = state => ({
   exploreDetail: state.exploreDetail,
   exploreDataset: state.exploreDataset,
   layersShown: updateLayersShown(state),
-  locale: state.common.locale
+  locale: state.common.locale,
+  tools: state.tools.list
 });
 
 const mapDispatchToProps = {
   resetDataset,
   toggleModal,
   setModalOptions,
-  toggleLayerGroup
+  toggleLayerGroup,
+  getTools
 };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);

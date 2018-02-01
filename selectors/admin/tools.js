@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
-const tools = state => state.tools.tools.list;
-const filters = state => state.tools.tools.filters;
+const tools = state => state.tools.list;
+const filters = state => state.tools.filters;
 
 /**
  * Return the tools that comply with the filters
