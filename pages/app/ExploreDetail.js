@@ -545,7 +545,9 @@ class ExploreDetail extends Page {
                         Partner:
                       </div>
                       <div className="partner-logo-container">
-                        <img src={partnerDetail.logo && partnerDetail.logo.medium} alt={partnerDetail.name} />
+                        <a href={partnerDetail.website} target="_blank" rel="noopener noreferrer">
+                          <img src={partnerDetail.logo && partnerDetail.logo.medium} alt={partnerDetail.name} />
+                        </a>
                       </div>
                     </div>
                   }
