@@ -146,4 +146,17 @@
     }
   }
 
+  .partner-container {
+
+    .partner-text-container {
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+
+    .partner-logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 }

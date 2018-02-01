@@ -16,6 +16,7 @@ import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 import { setUser, getUserFavourites, getUserCollections } from 'redactions/user';
 import { getTools } from 'redactions/admin/tools';
 import { setRouter } from 'redactions/routes';
+import { getPartnerData } from 'redactions/partnerDetail';
 
 // Next
 import { Link, Router } from 'routes';
@@ -45,7 +46,9 @@ import CardApp from 'components/app/common/CardApp';
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
 import { logEvent } from 'utils/analytics';
+import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
 import { APPS_CONNECTIONS } from 'utils/apps/appsConnections';
+
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
@@ -163,6 +166,12 @@ class ExploreDetail extends Page {
         const tags = vocabulary && vocabulary.length > 0 && vocabulary[0].attributes.tags;
         if (tags) {
           this.loadInferredTags(tags);
+        }
+
+        // Load connected partner
+        const partnerConnection = PARTNERS_CONNECTIONS.find(pc => pc.datasetId === response.id);
+        if (partnerConnection) {
+          this.props.getPartnerData(partnerConnection.partnerId);
         }
 
         // Load connected apps
@@ -360,7 +369,7 @@ class ExploreDetail extends Page {
   }
 
   render() {
-    const { url, user, exploreDataset, tools } = this.props;
+    const { url, user, exploreDataset, partnerDetail, tools } = this.props;
     const { dataset, loading, inferredTags, relatedTools } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
@@ -542,6 +551,18 @@ class ExploreDetail extends Page {
                       </button>
                     }
                   </div>
+                  { partnerDetail.logo &&
+                    <div className="partner-container">
+                      <div className="partner-text-container">
+                        Partner:
+                      </div>
+                      <div className="partner-logo-container">
+                        <a href={partnerDetail.website} target="_blank" rel="noopener noreferrer">
+                          <img src={partnerDetail.logo && partnerDetail.logo.medium} alt={partnerDetail.name} />
+                        </a>
+                      </div>
+                    </div>
+                  }
                 </div>
               </div>
             </div>
@@ -797,6 +818,7 @@ const mapStateToProps = state => ({
   user: state.user,
   exploreDetail: state.exploreDetail,
   exploreDataset: state.exploreDataset,
+  partnerDetail: state.partnerDetail.data,
   layersShown: updateLayersShown(state),
   locale: state.common.locale,
   tools: state.tools.list
@@ -807,6 +829,7 @@ const mapDispatchToProps = {
   toggleModal,
   setModalOptions,
   toggleLayerGroup,
+  getPartnerData
   getTools
 };
 
