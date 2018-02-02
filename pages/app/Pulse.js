@@ -399,12 +399,6 @@ class Pulse extends Page {
 
     // Check if there's a custom basemap
     const basemap = layerActive && layerActive.basemap;
-    const imageryProvider = basemap && new Cesium.MapboxImageryProvider({
-      mapId: basemap.mapId,
-      accessToken: basemap.token
-    });
-
-    console.log('imageryProvider', imageryProvider);
 
     return (
       <Layout
@@ -439,8 +433,10 @@ class Pulse extends Page {
               navigationHelpButton={false}
               showInfoWindow
               selectionIndicator
-              imageryProvider={imageryProvider}
             >
+              {basemap &&
+                <ImageProvider key={basemap.url} url={basemap.url} type="UrlTemplate" visible />
+              }
               {texture &&
                 <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />
               }

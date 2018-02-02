@@ -10,8 +10,7 @@ export const LAYERS_PLANET_PULSE = [
         contextLayer: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         widgets: ['d409858d-9beb-4df5-ae48-bc0d6e9cda25'],
         basemap: {
-          mapId: 'resourcewatch/cj1erey1c00ia2rqmvh6htv3x',
-          token: 'pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
         }
       },
       {
