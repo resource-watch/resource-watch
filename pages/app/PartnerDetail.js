@@ -20,13 +20,18 @@ import DatasetList from 'components/app/explore/DatasetList';
 import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
 
 class PartnerDetail extends Page {
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    await context.store.dispatch(getPartnerData(props.url.query.id));
+
+    return { props };
+  }
   /**
   * COMPONENT LIFECYCLE
   * - componentDidMount
   * - componentWillReceiveProps
   */
   componentDidMount() {
-    this.props.getPartnerData(this.props.url.query.id);
     const datasetIds = PARTNERS_CONNECTIONS
       .filter(p => p.partnerId === this.props.url.query.id).map(elem => elem.datasetId);
     if (datasetIds.length > 0) {
@@ -93,12 +98,12 @@ class PartnerDetail extends Page {
               </div>
             </div>
           </Banner>
-          {list && list.length > 0 &&
-            <div className="l-container">
-              <div className="row  align-center">
-                <div className="column small-12 datasets-container">
-                  <h3>{`Datasets by ${data.name}`}</h3>
-                  <Spinner isLoading={loading} className="-light" />
+          <div className="l-container">
+            <div className="row  align-center">
+              <div className="column small-12 datasets-container">
+                <h3>{`Datasets by ${data.name}`}</h3>
+                <Spinner isLoading={loading} className="-light -relative" />
+                {list && list.length > 0 &&
                   <DatasetList
                     active={[]}
                     list={list}
@@ -107,10 +112,10 @@ class PartnerDetail extends Page {
                     showFavorite
                     onTagSelected={this.handleTagSelected}
                   />
-                </div>
+                }
               </div>
             </div>
-          }
+          </div>
         </div>
 
         <div className="l-container learn-more">
