@@ -12,7 +12,10 @@ export default class LayerGlobeManager {
     Public methods
   */
   addLayer(layer, opts = {}) {
-    const method = { cartodb: this.addCartoLayer }[layer.provider];
+    const method = {
+      cartodb: this.addCartoLayer,
+      leaflet: this.addLeafletLayer
+    }[layer.provider];
 
     // Check for active request to prevent adding more than one layer at a time
     this.abortRequest();
@@ -33,6 +36,10 @@ export default class LayerGlobeManager {
         this.layer = {};
       }
     }
+  }
+
+  addLeafletLayer(layerSpec, opts) {
+    opts.onLayerAddedSuccess(layerSpec.layerConfig.url);
   }
 
   addCartoLayer(layerSpec, opts) {
