@@ -26,7 +26,9 @@ class PartnerDetail extends Page {
     this.props.getPartnerData(this.props.url.query.id);
     const datasetIds = PARTNERS_CONNECTIONS
       .filter(p => p.partnerId === this.props.url.query.id).map(elem => elem.datasetId);
-    this.props.getDatasets(datasetIds);
+    if (datasetIds.length > 0) {
+      this.props.getDatasets(datasetIds);
+    }
   }
   componentWillReceiveProps(newProps) {
     if (this.props.url.query.id !== newProps.url.query.id) {
@@ -54,8 +56,6 @@ class PartnerDetail extends Page {
       </a>) :
       <img src={`${process.env.STATIC_SERVER_URL}${logoPath}`} className="logo" title={data.name} alt={data.name} />;
     const backgroundImage = { 'background-image': `url(${process.env.STATIC_SERVER_URL}${coverPath})` };
-
-    console.log('list', list);
 
     return (
       <Layout

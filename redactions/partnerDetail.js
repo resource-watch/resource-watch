@@ -45,11 +45,8 @@ export default function (state = initialState, action) {
 
     case GET_PARTNER_LOADING: {
       return Object.assign({}, state, {
-        datasets: {
-          list: [],
-          loading: true,
-          error: null
-        }
+        loading: true,
+        error: null
       });
     }
 
@@ -75,8 +72,11 @@ export default function (state = initialState, action) {
 
     case GET_DATASETS_LOADING: {
       return Object.assign({}, state, {
-        loading: true,
-        error: false
+        datasets: {
+          loading: true,
+          error: false,
+          list: []
+        }
       });
     }
 
@@ -121,16 +121,16 @@ export function getDatasets(ids) {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_DATASETS_LOADING });
 
-    DatasetService.getDatasets(ids)
+    DatasetService.getDatasets(ids, 'en', 'widget,layer,metadata')
       .then((response) => {
         dispatch({
-          type: GET_PARTNER_SUCCESS,
+          type: GET_DATASETS_SUCCESS,
           payload: response
         });
       })
       .catch((error) => {
         dispatch({
-          type: GET_PARTNER_ERROR,
+          type: GET_DATASETS_ERROR,
           payload: error
         });
       });
