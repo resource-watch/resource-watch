@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
-const partners = state => state.partners.partners.list;
-const filters = state => state.partners.partners.filters;
+const partners = state => state.partners.list;
+const filters = state => state.partners.filters;
 
 /**
  * Return the partners that comply with the filters
