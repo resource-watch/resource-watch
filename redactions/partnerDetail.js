@@ -121,7 +121,7 @@ export function getDatasets(ids) {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_DATASETS_LOADING });
 
-    DatasetService.getDatasets(ids, 'en', 'widget,layer,metadata')
+    DatasetService.getDatasets(ids, 'en', 'widget,layer,metadata,vocabulary')
       .then((response) => {
         dispatch({
           type: GET_DATASETS_SUCCESS,

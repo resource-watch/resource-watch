@@ -6,6 +6,9 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { getPartnerData, getDatasets } from 'redactions/partnerDetail';
 
+// Next
+import { Router } from 'routes';
+
 // Components
 import Banner from 'components/app/common/Banner';
 import Page from 'components/app/layout/Page';
@@ -43,6 +46,10 @@ class PartnerDetail extends Page {
       strArray.slice(0, midIndex).join(' '),
       strArray.slice(midIndex + 1, strArray.length).join(' ')
     ];
+  }
+
+  handleTagSelected(tag) {
+    Router.pushRoute('explore', { topics: `["${tag.id}"]` });
   }
 
   render() {
@@ -98,7 +105,7 @@ class PartnerDetail extends Page {
                     mode="grid"
                     showActions={false}
                     showFavorite
-                    onTagSelected={this.props.onTagSelected}
+                    onTagSelected={this.handleTagSelected}
                   />
                 </div>
               </div>
