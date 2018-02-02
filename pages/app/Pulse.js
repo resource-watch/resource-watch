@@ -399,6 +399,8 @@ class Pulse extends Page {
 
     // Check if there's a custom basemap
     const basemap = layerActive && layerActive.basemap;
+    const contextLayers = layerActive && layerActive.contextLayers;
+    console.log('contextLayers', contextLayers);
 
     return (
       <Layout
@@ -436,6 +438,9 @@ class Pulse extends Page {
             >
               {basemap &&
                 <ImageProvider key={basemap.url} url={basemap.url} type="UrlTemplate" visible />
+              }
+              {contextLayers &&
+                contextLayers.map(l => (<ImageProvider key={l} url={l} type="UrlTemplate" visible />))
               }
               {texture &&
                 <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />
