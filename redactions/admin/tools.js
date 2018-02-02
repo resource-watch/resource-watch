@@ -15,12 +15,10 @@ const SET_TOOLS_FILTERS = 'tools/SET_TOOLS_FILTERS';
  * @property {{ key: string, value: string|number }[]} tools.filters
  */
 const initialState = {
-  tools: {
-    list: [], // Actual list of tools
-    loading: false, // Are we loading the data?
-    error: null, // An error was produced while loading the data
-    filters: [] // Filters for the list of tools
-  }
+  list: [], // Actual list of tools
+  loading: false, // Are we loading the data?
+  error: null, // An error was produced while loading the data
+  filters: [] // Filters for the list of tools
 };
 
 const service = new ToolsService();
@@ -33,33 +31,33 @@ const service = new ToolsService();
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_TOOLS_LOADING: {
-      const tools = Object.assign({}, state.tools, {
+      const tools = Object.assign({}, state, {
         loading: true,
         error: null
       });
-      return Object.assign({}, state, { tools });
+      return tools;
     }
 
     case GET_TOOLS_SUCCESS: {
-      const tools = Object.assign({}, state.tools, {
+      const tools = Object.assign({}, state, {
         list: action.payload,
         loading: false,
         error: null
       });
-      return Object.assign({}, state, { tools });
+      return tools;
     }
 
     case GET_TOOLS_ERROR: {
-      const tools = Object.assign({}, state.tools, {
+      const tools = Object.assign({}, state, {
         loading: false,
         error: action.payload
       });
-      return Object.assign({}, state, { tools });
+      return tools;
     }
 
     case SET_TOOLS_FILTERS: {
-      const tools = Object.assign({}, state.tools, { filters: action.payload });
-      return Object.assign({}, state, { tools });
+      const tools = Object.assign({}, state, { filters: action.payload });
+      return tools;
     }
 
     default:

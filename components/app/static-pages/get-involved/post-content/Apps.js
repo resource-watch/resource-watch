@@ -51,7 +51,7 @@ Apps.defaultProps = {
 
 export default connect(
   state => ({
-    tools: state.tools.tools
+    tools: state.tools
   }),
   { getTools, setFilters }
 )(Apps);

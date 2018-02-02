@@ -15,12 +15,10 @@ const SET_PARTNERS_FILTERS = 'partners/SET_PARTNERS_FILTERS';
  * @property {{ key: string, value: string|number }[]} partners.filters
  */
 const initialState = {
-  partners: {
-    list: [], // Actual list of partners
-    loading: false, // Are we loading the data?
-    error: null, // An error was produced while loading the data
-    filters: [] // Filters for the list of partners
-  }
+  list: [], // Actual list of partners
+  loading: false, // Are we loading the data?
+  error: null, // An error was produced while loading the data
+  filters: [] // Filters for the list of partners
 };
 
 const service = new PartnersService();
@@ -33,33 +31,33 @@ const service = new PartnersService();
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_PARTNERS_LOADING: {
-      const partners = Object.assign({}, state.partners, {
+      const partners = Object.assign({}, state, {
         loading: true,
         error: null
       });
-      return Object.assign({}, state, { partners });
+      return partners;
     }
 
     case GET_PARTNERS_SUCCESS: {
-      const partners = Object.assign({}, state.partners, {
+      const partners = Object.assign({}, state, {
         list: action.payload,
         loading: false,
         error: null
       });
-      return Object.assign({}, state, { partners });
+      return partners;
     }
 
     case GET_PARTNERS_ERROR: {
-      const partners = Object.assign({}, state.partners, {
+      const partners = Object.assign({}, state, {
         loading: false,
         error: action.payload
       });
-      return Object.assign({}, state, { partners });
+      return partners;
     }
 
     case SET_PARTNERS_FILTERS: {
-      const partners = Object.assign({}, state.partners, { filters: action.payload });
-      return Object.assign({}, state, { partners });
+      const partners = Object.assign({}, state, { filters: action.payload });
+      return partners;
     }
 
     default:
