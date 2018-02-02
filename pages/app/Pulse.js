@@ -397,6 +397,15 @@ class Pulse extends Page {
     const { markerType, texture, zoom } = this.state;
     const shapes = this.getShapes(layerPoints, markerType);
 
+    // Check if there's a custom basemap
+    const basemap = layerActive && layerActive.basemap;
+    const imageryProvider = basemap && new Cesium.MapboxImageryProvider({
+      mapId: basemap.mapId,
+      accessToken: basemap.token
+    });
+
+    console.log('imageryProvider', imageryProvider);
+
     return (
       <Layout
         title="Planet Pulse"
@@ -430,6 +439,7 @@ class Pulse extends Page {
               navigationHelpButton={false}
               showInfoWindow
               selectionIndicator
+              imageryProvider={imageryProvider}
             >
               {texture &&
                 <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />

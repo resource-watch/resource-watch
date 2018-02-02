@@ -83,7 +83,7 @@ export function getLayers() {
   };
 }
 
-export function toggleActiveLayer(id, threedimensional, markerType) {
+export function toggleActiveLayer(id, threedimensional, markerType, basemap) {
   return (dispatch) => {
     if (id) {
       fetch(new Request(`${process.env.WRI_API_URL}/layer/${id}`))
@@ -95,6 +95,7 @@ export function toggleActiveLayer(id, threedimensional, markerType) {
           const layer = response.data;
           layer.threedimensional = threedimensional;
           layer.markerType = markerType;
+          layer.basemap = basemap;
           dispatch({
             type: SET_ACTIVE_LAYER,
             payload: layer
