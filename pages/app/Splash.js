@@ -22,7 +22,7 @@ let Map;
 let Cesium;
 if (typeof window !== 'undefined') {
   /* eslint-disable */
-  Map = require('react-cesium').Map;
+  Map = require('/components/cesium/Map');
   /* eslint-enable */
 }
 

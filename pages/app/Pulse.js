@@ -34,8 +34,8 @@ let ImageProvider;
 let Cesium;
 if (typeof window !== 'undefined') {
   /* eslint-disable */
-  Map = require('react-cesium').Map;
-  ImageProvider = require('react-cesium').ImageProvider;
+  Map = require('components/cesium/map/map');
+  ImageProvider = require('components/cesium/providers/image/image');
   /* eslint-enable */
 }
 

@@ -22,7 +22,7 @@ const disablePanning = (v) => {
   return v;
 };
 
-class CesiumComponent extends Component {
+class Map extends Component {
   constructor(props) {
     super(props);
     this.rotatingEvent = false;
@@ -305,12 +305,12 @@ class CesiumComponent extends Component {
       viewer,
       clickedPosition,
       hoverPosition,
-      ...props,
+      ...props
     });
   }
 }
 
-CesiumComponent.propTypes = {
+Map.propTypes = {
   zoomLevel: PropTypes.object,
   shapes: PropTypes.array,
 
@@ -319,4 +319,4 @@ CesiumComponent.propTypes = {
   onShapesCreated: PropTypes.function
 };
 
-export default CesiumComponent;
+export default Map;
