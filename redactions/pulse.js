@@ -1,5 +1,10 @@
 /* global config */
 import 'isomorphic-fetch';
+
+// Components
+import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
+
+// Utils
 import { LAYERS_PLANET_PULSE } from 'utils/layers/pulse_layers';
 
 
@@ -83,7 +88,7 @@ export function getLayers() {
   };
 }
 
-export function toggleActiveLayer(id, threedimensional, markerType) {
+export function toggleActiveLayer(id, threedimensional, markerType, basemap, contextLayers) {
   return (dispatch) => {
     if (id) {
       fetch(new Request(`${process.env.WRI_API_URL}/layer/${id}`))
@@ -91,14 +96,47 @@ export function toggleActiveLayer(id, threedimensional, markerType) {
           if (response.ok) return response.json();
           throw new Error(response.statusText);
         })
-        .then((response) => {
+        .then(async (response) => {
           const layer = response.data;
           layer.threedimensional = threedimensional;
           layer.markerType = markerType;
-          dispatch({
-            type: SET_ACTIVE_LAYER,
-            payload: layer
-          });
+          layer.basemap = basemap;
+          layer.contextLayers = [];
+
+          if (contextLayers.length > 0) {
+            let layersLoaded = 0;
+            const urlSt = `${process.env.WRI_API_URL}/layer/?ids=${contextLayers.join()}&env=production,preproduction`;
+            fetch(new Request(urlSt))
+              .then((resp) => {
+                return resp.json();
+              })
+              .then((res) => {
+                const layerGlobeManager = new LayerGlobeManager();
+                res.data.forEach((l) => {
+                  layerGlobeManager.addLayer(
+                    { ...l.attributes, id: l.id },
+                    {
+                      onLayerAddedSuccess: function success(result) {
+                        layer.contextLayers.push(result);
+                        layersLoaded++;
+                        if (contextLayers.length === layersLoaded) {
+                          dispatch({
+                            type: SET_ACTIVE_LAYER,
+                            payload: layer
+                          });
+                        }
+                      }
+                    },
+                    true
+                  );
+                });
+              });
+          } else {
+            dispatch({
+              type: SET_ACTIVE_LAYER,
+              payload: layer
+            });
+          }
         })
         .catch(() => {
           // Fetch from server ko -> Dispatch error

@@ -34,8 +34,8 @@ let ImageProvider;
 let Cesium;
 if (typeof window !== 'undefined') {
   /* eslint-disable */
-  Map = require('react-cesium').Map;
-  ImageProvider = require('react-cesium').ImageProvider;
+  Map = require('components/cesium/map/map').default;
+  ImageProvider = require('components/cesium/providers/image/image').default;
   /* eslint-enable */
 }
 
@@ -397,6 +397,10 @@ class Pulse extends Page {
     const { markerType, texture, zoom } = this.state;
     const shapes = this.getShapes(layerPoints, markerType);
 
+    // Check if there's a custom basemap
+    const basemap = layerActive && layerActive.basemap;
+    const contextLayers = layerActive && layerActive.contextLayers;
+
     return (
       <Layout
         title="Planet Pulse"
@@ -431,13 +435,18 @@ class Pulse extends Page {
               showInfoWindow
               selectionIndicator
             >
+              {basemap &&
+                <ImageProvider key={basemap.url} url={basemap.url} type="UrlTemplate" visible />
+              }
+              {contextLayers &&
+                contextLayers.map(l => (<ImageProvider key={l} url={l} type="UrlTemplate" visible />))
+              }
               {texture &&
                 <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />
               }
             </Map>
           }
           <ZoomControl
-            ref={zoomControl => (this.zoomControl = zoomControl)}
             onZoomIn={this.triggerZoomIn}
             onZoomOut={this.triggerZoomOut}
           />

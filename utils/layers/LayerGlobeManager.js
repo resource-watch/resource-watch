@@ -1,5 +1,3 @@
-import { substitution } from 'utils/utils';
-
 export default class LayerGlobeManager {
   // Constructor
   constructor(map, defaults = {}) {
@@ -11,13 +9,17 @@ export default class LayerGlobeManager {
   /*
     Public methods
   */
-  addLayer(layer, opts = {}) {
-    const method = { cartodb: this.addCartoLayer }[layer.provider];
+  addLayer(layer, opts = {}, awaitMode = false) {
+    const method = {
+      cartodb: this.addCartoLayer,
+      leaflet: this.addLeafletLayer,
+      gee: this.addGeeLayer
+    }[layer.provider];
 
     // Check for active request to prevent adding more than one layer at a time
     this.abortRequest();
 
-    return method && method.call(this, layer, opts);
+    return method && method.call(this, layer, opts, awaitMode);
   }
 
   /**
@@ -35,7 +37,15 @@ export default class LayerGlobeManager {
     }
   }
 
-  addCartoLayer(layerSpec, opts) {
+  addLeafletLayer(layerSpec, opts) {
+    opts.onLayerAddedSuccess(layerSpec.layerConfig.url);
+  }
+
+  addGeeLayer(layerSpec, opts) {
+    opts.onLayerAddedSuccess(`${process.env.WRI_API_URL}/layer/${layerSpec.id}/tile/gee/{z}/{x}/{y}`);
+  }
+
+  async addCartoLayer(layerSpec, opts, awaitMode = false) {
     const layer = Object.assign({}, layerSpec.layerConfig, {
       id: layerSpec.id,
       order: layerSpec.order,
@@ -50,7 +60,7 @@ export default class LayerGlobeManager {
     };
     const params = `?stat_tag=API&config=${encodeURIComponent(JSON.stringify(layerTpl))}`;
 
-    fetch(`https://${layer.account}.carto.com/api/v1/map${params}`)
+    const f = fetch(`https://${layer.account}.carto.com/api/v1/map${params}`)
       .then((response) => {
         if (response.status >= 400) {
           this.rejectLayersLoading = true;
@@ -64,5 +74,9 @@ export default class LayerGlobeManager {
 
         opts.onLayerAddedSuccess(tileUrl);
       });
+
+    if (awaitMode) {
+      await f;
+    }
   }
 }
