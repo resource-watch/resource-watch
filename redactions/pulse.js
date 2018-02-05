@@ -104,25 +104,21 @@ export function toggleActiveLayer(id, threedimensional, markerType, basemap, con
           layer.contextLayers = [];
 
           if (contextLayers.length > 0) {
-            console.log('contextLayers', contextLayers);
             let layersLoaded = 0;
             const urlSt = `${process.env.WRI_API_URL}/layer/?ids=${contextLayers.join()}&env=production,preproduction`;
             fetch(new Request(urlSt))
               .then((resp) => {
-                if (resp.ok) {
-                  return resp.json();
-                }
+                return resp.json();
               })
               .then((res) => {
                 const layerGlobeManager = new LayerGlobeManager();
                 res.data.forEach((l) => {
                   layerGlobeManager.addLayer(
-                    l.attributes,
+                    { ...l.attributes, id },
                     {
                       onLayerAddedSuccess: function success(result) {
                         layer.contextLayers.push(result);
                         layersLoaded++;
-                        console.log('hey!', result);
                         if (contextLayers.length === layersLoaded) {
                           dispatch({
                             type: SET_ACTIVE_LAYER,
