@@ -101,9 +101,13 @@ export function toggleActiveLayer(id, threedimensional, markerType, basemap, con
           layer.threedimensional = threedimensional;
           layer.markerType = markerType;
           layer.basemap = basemap;
+          layer.contextLayers = [];
 
           if (contextLayers.length > 0) {
-            fetch(new Request(`${process.env.WRI_API_URL}/layer/?ids=${contextLayers.join()}`))
+            console.log('contextLayers', contextLayers);
+            let layersLoaded = 0;
+            const urlSt = `${process.env.WRI_API_URL}/layer/?ids=${contextLayers.join()}&env=production,preproduction`;
+            fetch(new Request(urlSt))
               .then((resp) => {
                 if (resp.ok) {
                   return resp.json();
@@ -111,22 +115,24 @@ export function toggleActiveLayer(id, threedimensional, markerType, basemap, con
               })
               .then((res) => {
                 const layerGlobeManager = new LayerGlobeManager();
-                layer.contextLayers = res.data.map((l) => {
-                  let layerResult;
+                res.data.forEach((l) => {
                   layerGlobeManager.addLayer(
                     l.attributes,
                     {
                       onLayerAddedSuccess: function success(result) {
-                        layerResult = result;
+                        layer.contextLayers.push(result);
+                        layersLoaded++;
+                        console.log('hey!', result);
+                        if (contextLayers.length === layersLoaded) {
+                          dispatch({
+                            type: SET_ACTIVE_LAYER,
+                            payload: layer
+                          });
+                        }
                       }
                     },
                     true
                   );
-                  return layerResult;
-                });
-                dispatch({
-                  type: SET_ACTIVE_LAYER,
-                  payload: layer
                 });
               });
           } else {

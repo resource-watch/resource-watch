@@ -12,7 +12,8 @@ export default class LayerGlobeManager {
   addLayer(layer, opts = {}, awaitMode = false) {
     const method = {
       cartodb: this.addCartoLayer,
-      leaflet: this.addLeafletLayer
+      leaflet: this.addLeafletLayer,
+      gee: this.addGeeLayer
     }[layer.provider];
 
     // Check for active request to prevent adding more than one layer at a time
@@ -38,6 +39,10 @@ export default class LayerGlobeManager {
 
   addLeafletLayer(layerSpec, opts) {
     opts.onLayerAddedSuccess(layerSpec.layerConfig.url);
+  }
+
+  addGeeLayer(layerSpec, opts) {
+    opts.onLayerAddedSuccess(`${process.env.WRI_API_URL}/layer/${layerSpec.id}/tile/gee/{z}/{x}/{y}`);
   }
 
   async addCartoLayer(layerSpec, opts, awaitMode = false) {
