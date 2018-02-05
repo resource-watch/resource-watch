@@ -150,8 +150,8 @@ class Map extends Component {
       imageryProvider: imageryProvider || new Cesium.BingMapsImageryProvider({
         url: 'https://dev.virtualearth.net',
         key: Cesium.BingMapsApi.defaultKey,
-        mapStyle: Cesium.BingMapsStyle.AERIAL,
-      }),
+        mapStyle: Cesium.BingMapsStyle.AERIAL
+      })
     };
 
     const viewer = (this.state.viewer || new Cesium.Viewer(mapId, mapConfig));
@@ -314,8 +314,14 @@ Map.propTypes = {
   shapes: PropTypes.array,
 
   // Callbacks
-  onInit: PropTypes.function,
-  onShapesCreated: PropTypes.function
+  onClick: PropTypes.function,
+  onBillboardClick: PropTypes.function,
+  onShapesCreated: PropTypes.function,
+  onMoveEnd: PropTypes.function,
+  onMoveStart: PropTypes.funcion,
+  onMouseMove: PropTypes.function,
+  onBillboardOut: PropTypes.function,
+  onBillboardHover: PropTypes.function
 };
 
 export default Map;
