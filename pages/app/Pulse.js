@@ -34,8 +34,8 @@ let ImageProvider;
 let Cesium;
 if (typeof window !== 'undefined') {
   /* eslint-disable */
-  Map = require('components/cesium/map/map');
-  ImageProvider = require('components/cesium/providers/image/image');
+  Map = require('components/cesium/map/map').default;
+  ImageProvider = require('components/cesium/providers/image/image').default;
   /* eslint-enable */
 }
 
@@ -436,7 +436,7 @@ class Pulse extends Page {
               selectionIndicator
             >
               {basemap &&
-                <ImageProvider key={basemap.url} url={basemap.url} type="UrlTemplate" visible sort={0}/>
+                <ImageProvider key={basemap.url} url={basemap.url} type="UrlTemplate" visible sort={0} />
               }
               {contextLayers &&
                 contextLayers.map(l => (<ImageProvider key={l} url={l} type="UrlTemplate" visible sort={1} />))
@@ -447,7 +447,6 @@ class Pulse extends Page {
             </Map>
           }
           <ZoomControl
-            ref={zoomControl => (this.zoomControl = zoomControl)}
             onZoomIn={this.triggerZoomIn}
             onZoomOut={this.triggerZoomOut}
           />
