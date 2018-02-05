@@ -203,7 +203,7 @@ class Map extends Component {
 
     this.setState({
       layers,
-      viewer,
+      viewer
     });
   }
 
@@ -295,10 +295,9 @@ class Map extends Component {
     const { props, state } = this;
     const { rotate } = props;
     const {
-      layers, viewer, clickedPosition, hoverPosition,
+      layers, viewer, clickedPosition, hoverPosition
     } = state;
     if (viewer) this[rotate ? 'addRotation' : 'removeRotation']();
-
     return createElement(CesiumMapComponent, {
       mapId,
       layers,

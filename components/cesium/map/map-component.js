@@ -12,7 +12,7 @@ class CesiumMap extends Component {
       children,
       viewer,
       clickedPosition,
-      hoverPosition,
+      hoverPosition
     } = this.props;
     return (
       <div className={className} id={mapId}>
@@ -27,7 +27,7 @@ class CesiumMap extends Component {
             hoverPosition,
             ref: () => {
               this[id] = Boolean(ch.props.url);
-            },
+            }
           });
         })}
       </div>

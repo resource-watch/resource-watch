@@ -436,13 +436,13 @@ class Pulse extends Page {
               selectionIndicator
             >
               {basemap &&
-                <ImageProvider key={basemap.url} url={basemap.url} type="UrlTemplate" visible sort={0} />
+                <ImageProvider key={basemap.url} url={basemap.url} type="UrlTemplate" visible />
               }
               {contextLayers &&
-                contextLayers.map(l => (<ImageProvider key={l} url={l} type="UrlTemplate" visible sort={1} />))
+                contextLayers.map(l => (<ImageProvider key={l} url={l} type="UrlTemplate" visible />))
               }
               {texture &&
-                <ImageProvider key={texture} url={texture} type="UrlTemplate" visible sort={2} />
+                <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />
               }
             </Map>
           }
