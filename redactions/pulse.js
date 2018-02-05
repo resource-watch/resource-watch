@@ -114,7 +114,7 @@ export function toggleActiveLayer(id, threedimensional, markerType, basemap, con
                 const layerGlobeManager = new LayerGlobeManager();
                 res.data.forEach((l) => {
                   layerGlobeManager.addLayer(
-                    { ...l.attributes, id },
+                    { ...l.attributes, id: l.id },
                     {
                       onLayerAddedSuccess: function success(result) {
                         layer.contextLayers.push(result);
