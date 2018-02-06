@@ -121,13 +121,14 @@ class LayerCard extends React.Component {
   }
 
   handleContextLayerClick(event, layerId) {
-    const classList = event.target.classList;
-    if (Array.from(classList).find(e => e === '-active')) {
-      classList.remove(['-active', '-primary']);
-      classList.add(['-secondary']);
+    if (Array.from(event.target.classList).find(e => e === '-active')) {
+      event.target.classList.remove('-active');
+      event.target.classList.remove('-primary');
+      event.target.classList.add('-secondary');
     } else {
-      classList.remove(['-secondary']);
-      classList.add(['-active', '-primary']);
+      event.target.classList.remove('-secondary');
+      event.target.classList.add('-active');
+      event.target.classList.add('-primary');
     }
     this.props.toggleContextualLayer(layerId);
   }
