@@ -26,9 +26,10 @@ class LayerCard extends React.Component {
     super(props);
 
     this.state = {
-      dataset: null,
-      buttonsListenersAdded: false
+      dataset: null
     };
+
+    this.buttonsListenersAdded = false;
 
     // ------------------- Bindings -----------------------
     this.handleSubscribeToAlerts = this.handleSubscribeToAlerts.bind(this);
@@ -87,12 +88,9 @@ class LayerCard extends React.Component {
   }
 
   addListenersToLayerButtons() {
-    console.log('addListenersToLayerButtons!');
     const buttons = Array.from(document.getElementsByClassName('layer-button'));
-    console.log('buttons', buttons);
     buttons.forEach(button =>
       button.addEventListener('click', () => this.handleContextLayerClick(button.id)));
-    this.setState({ buttonsListenersAdded: true });
   }
 
   handleSubscribeToAlerts() {
@@ -129,7 +127,7 @@ class LayerCard extends React.Component {
   render() {
     const { pulse, contextualLayers } = this.props;
     const { layerActive, layerPoints, similarWidgets } = pulse;
-    const { dataset, buttonsListenersAdded } = this.state;
+    const { dataset } = this.state;
     const subscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
       Object.keys(dataset.attributes.subscribable).length > 0;
 
@@ -140,7 +138,8 @@ class LayerCard extends React.Component {
 
     const datasetId = (layerActive !== null) ? layerActive.attributes.dataset : null;
 
-    if (layerActive && layerActive.descriptionPulse && !buttonsListenersAdded) {
+    if (layerActive && layerActive.descriptionPulse && !this.buttonsListenersAdded) {
+      this.buttonsListenersAdded = true;
       setTimeout(() => this.addListenersToLayerButtons(), 500);
     }
 
