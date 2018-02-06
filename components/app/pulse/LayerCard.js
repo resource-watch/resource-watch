@@ -6,7 +6,7 @@ import { Link, Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
-import { setSimilarWidgets } from 'redactions/pulse';
+import { setSimilarWidgets, toggleContextualLayer } from 'redactions/pulse';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Components
@@ -121,7 +121,7 @@ class LayerCard extends React.Component {
   }
 
   handleContextLayerClick(layerId) {
-    console.log('hey!', layerId);
+    this.props.toggleContextualLayer(layerId);
   }
 
   render() {
@@ -237,7 +237,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   toggleModal,
   setModalOptions,
-  setSimilarWidgets
+  setSimilarWidgets,
+  toggleContextualLayer
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LayerCard);

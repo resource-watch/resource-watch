@@ -42,7 +42,8 @@ export default class LayerGlobeManager {
       attributes: {
         ...layerSpec
       },
-      url: layerSpec.layerConfig.url
+      url: layerSpec.layerConfig.url,
+      active: false
     });
   }
 
@@ -51,7 +52,8 @@ export default class LayerGlobeManager {
       attributes: {
         ...layerSpec
       },
-      url: `${process.env.WRI_API_URL}/layer/${layerSpec.id}/tile/gee/{z}/{x}/{y}`
+      url: `${process.env.WRI_API_URL}/layer/${layerSpec.id}/tile/gee/{z}/{x}/{y}`,
+      active: false
     });
   }
 
@@ -85,7 +87,8 @@ export default class LayerGlobeManager {
           attributes: {
             ...layerSpec
           },
-          url: tileUrl
+          url: tileUrl,
+          active: false
         });
       });
 
