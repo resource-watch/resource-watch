@@ -26,7 +26,7 @@ export const LAYERS_PLANET_PULSE = [
         markerType: 'default',
         descriptionPulse:
           <div className="description">
-            Deforestation alerts in the past 7 days affecting <span className="c-button -secondary layer-button"id="84229e01-4e61-4c08-a7dd-efb7259dd85d">Intact forest landscapes</span> and <span className="c-button -secondary layer-button" id="dabcca67-037c-4d11-afc4-69559edec4dc">Protected areas</span>
+            Deforestation alerts in the past 7 days affecting <span className="c-button -secondary layer-button" id="84229e01-4e61-4c08-a7dd-efb7259dd85d">Intact forest landscapes</span> and <span className="c-button -secondary layer-button" id="dabcca67-037c-4d11-afc4-69559edec4dc">Protected areas</span>
           </div>,
         contextLayers: ['cbb309b7-1df1-4638-b821-48db53053d38', 'dabcca67-037c-4d11-afc4-69559edec4dc'],
         widgets: ['5f5f7899-ccd2-4477-aa7e-43805880eb33']

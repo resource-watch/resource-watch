@@ -90,7 +90,7 @@ class LayerCard extends React.Component {
   addListenersToLayerButtons() {
     const buttons = Array.from(document.getElementsByClassName('layer-button'));
     buttons.forEach(button =>
-      button.addEventListener('click', () => this.handleContextLayerClick(button.id)));
+      button.addEventListener('click', (event) => this.handleContextLayerClick(event, button.id)));
   }
 
   handleSubscribeToAlerts() {
@@ -120,7 +120,15 @@ class LayerCard extends React.Component {
     this.props.setModalOptions(options);
   }
 
-  handleContextLayerClick(layerId) {
+  handleContextLayerClick(event, layerId) {
+    const classList = event.target.classList;
+    if (Array.from(classList).find(e => e === '-active')) {
+      classList.remove(['-active', '-primary']);
+      classList.add(['-secondary']);
+    } else {
+      classList.remove(['-secondary']);
+      classList.add(['-active', '-primary']);
+    }
     this.props.toggleContextualLayer(layerId);
   }
 
@@ -225,7 +233,8 @@ LayerCard.propTypes = {
   // Actions
   setSimilarWidgets: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired
+  setModalOptions: PropTypes.func.isRequired,
+  toggleContextualLayer: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

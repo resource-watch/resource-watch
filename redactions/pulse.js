@@ -75,7 +75,6 @@ export default function (state = initialState, action) {
       });
       const newLayerActive = { ...state.layerActive, contextLayers: newContextLayers };
       const newState = { ...state, layerActive: newLayerActive };
-      console.log('newState', newState);
       return newState;
     }
     default:
