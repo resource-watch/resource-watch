@@ -113,7 +113,7 @@ class LayerCard extends React.Component {
   }
 
   render() {
-    const { pulse } = this.props;
+    const { pulse, contextualLayers } = this.props;
     const { layerActive, layerPoints, similarWidgets } = pulse;
     const { dataset } = this.state;
     const subscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
@@ -145,6 +145,18 @@ class LayerCard extends React.Component {
           layerActive={layerActive}
           className={{ color: '-dark' }}
         />
+        {contextualLayers &&
+          <div className="context-layers-legends">
+            {
+              contextualLayers.map(ctLayer => (
+                <Legend
+                  layerActive={ctLayer}
+                  className={{ color: '-dark' }}
+                />
+              ))
+            }
+          </div>
+        }
         {similarWidgets && similarWidgets.length > 0 &&
           <div>
             <h5>Similar content</h5>
@@ -197,7 +209,7 @@ LayerCard.propTypes = {
   // PROPS
   pulse: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  locale: PropTypes.string.isRequired,
+  contextualLayers: PropTypes.array,
 
   // Actions
   setSimilarWidgets: PropTypes.func.isRequired,

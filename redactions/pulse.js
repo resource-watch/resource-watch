@@ -117,7 +117,6 @@ export function toggleActiveLayer(id, threedimensional, markerType, basemap, con
                     { ...l.attributes, id: l.id },
                     {
                       onLayerAddedSuccess: function success(result) {
-                        console.log('l', l);
                         layer.contextLayers.push(result);
                         layersLoaded++;
                         if (contextLayers.length === layersLoaded) {
@@ -127,8 +126,7 @@ export function toggleActiveLayer(id, threedimensional, markerType, basemap, con
                           });
                         }
                       }
-                    },
-                    true
+                    }
                   );
                 });
               });

@@ -417,6 +417,7 @@ class Pulse extends Page {
           />
           <LayerCard
             layerActive={layerActive}
+            contextualLayers={contextLayers}
           />
           <Spinner
             isLoading={this.state.loading}
@@ -439,7 +440,7 @@ class Pulse extends Page {
                 <ImageProvider key={basemap.url} url={basemap.url} type="UrlTemplate" visible />
               }
               {contextLayers &&
-                contextLayers.map(l => (<ImageProvider key={l} url={l} type="UrlTemplate" visible />))
+                contextLayers.map(l => (<ImageProvider key={l.url} url={l.url} type="UrlTemplate" visible />))
               }
               {texture &&
                 <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />

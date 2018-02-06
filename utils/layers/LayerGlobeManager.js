@@ -39,14 +39,18 @@ export default class LayerGlobeManager {
 
   addLeafletLayer(layerSpec, opts) {
     opts.onLayerAddedSuccess({
-      ...layerSpec,
+      attributes: {
+        ...layerSpec
+      },
       url: layerSpec.layerConfig.url
     });
   }
 
   addGeeLayer(layerSpec, opts) {
     opts.onLayerAddedSuccess({
-      ...layerSpec,
+      attributes: {
+        ...layerSpec
+      },
       url: `${process.env.WRI_API_URL}/layer/${layerSpec.id}/tile/gee/{z}/{x}/{y}`
     });
   }
@@ -78,7 +82,12 @@ export default class LayerGlobeManager {
         // const tileUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
         const tileUrl = `${data.cdn_url.templates.https.url}/${layer.account}/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
 
-        opts.onLayerAddedSuccess(tileUrl);
+        opts.onLayerAddedSuccess({
+          attributes: {
+            ...layerSpec
+          },
+          url: tileUrl
+        });
       });
   }
 }
