@@ -14,7 +14,7 @@ import Legend from 'components/app/pulse/Legend';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import LoginModal from 'components/modal/LoginModal';
-
+import Icon from 'components/ui/Icon';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -149,26 +149,24 @@ class LayerCard extends React.Component {
           <div>
             <h5>Similar content</h5>
             <div className="similar-widgets">
-              <div className="row list">
-                {similarWidgets.map(widget =>
-                  (<div
-                    key={widget.id}
-                    className="widget-card"
-                    onClick={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
-                    role="button"
-                    tabIndex={-1}
-                  >
-                    <div className="widget-title">
-                      {widget.attributes.name}
-                    </div>
-                    <DatasetWidgetChart
-                      widget={widget.attributes}
-                      mode="thumbnail"
-                    />
+              {similarWidgets.map(widget =>
+                (<div
+                  key={widget.id}
+                  className="widget-card"
+                  onClick={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
+                  role="button"
+                  tabIndex={-1}
+                >
+                  <div className="widget-title">
+                    {widget.attributes.name}
                   </div>
-                  ))
-                }
-              </div>
+                  <DatasetWidgetChart
+                    widget={widget.attributes}
+                    mode="thumbnail"
+                  />
+                </div>
+                ))
+              }
             </div>
           </div>
         }

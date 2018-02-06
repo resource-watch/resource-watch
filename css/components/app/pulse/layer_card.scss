@@ -1,13 +1,16 @@
 .c-layer-card {
   position: absolute;
   top: 200px;
-  left: 50px;
+  left: 25px;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
   background-color: $color-white;
   max-width: 400px;
-  max-height: 550px;
+  max-height: calc(100% - 200px - 100px);
   border-radius: 4px;
   z-index: 999;
+  overflow: auto;
 
   h3, h5 {
     color: $color-dark-pink;
@@ -30,12 +33,18 @@
     }
   }
 
-  .widget-card {
-    cursor: pointer;
-    width: 100%;
+  .similar-widgets {
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
 
-    .c-chart {
-      overflow: auto;
+    .widget-card {
+      cursor: pointer;
+      width: 100%;
+
+      .c-chart {
+        overflow: auto;
+      }
     }
   }
 
