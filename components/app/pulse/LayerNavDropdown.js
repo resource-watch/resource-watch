@@ -19,9 +19,16 @@ class LayerNavDropdown extends React.Component {
   }
 
   triggerClick(layer) {
-    const { id, markerType, basemap, contextLayers } = layer;
+    const { id, markerType, basemap, contextLayers, descriptionPulse } = layer;
     this.props.resetLayerPoints();
-    this.props.toggleActiveLayer(id, layer['3d'], markerType, basemap, contextLayers);
+    this.props.toggleActiveLayer({
+      id,
+      threedimensional: layer['3d'],
+      markerType,
+      basemap,
+      contextLayers,
+      descriptionPulse
+    });
     logEvent('Planet Pulse', 'Choose layer to view', layer.label);
   }
 

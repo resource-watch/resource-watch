@@ -38,11 +38,23 @@ export default class LayerGlobeManager {
   }
 
   addLeafletLayer(layerSpec, opts) {
-    opts.onLayerAddedSuccess(layerSpec.layerConfig.url);
+    opts.onLayerAddedSuccess({
+      attributes: {
+        ...layerSpec
+      },
+      url: layerSpec.layerConfig.url,
+      active: false
+    });
   }
 
   addGeeLayer(layerSpec, opts) {
-    opts.onLayerAddedSuccess(`${process.env.WRI_API_URL}/layer/${layerSpec.id}/tile/gee/{z}/{x}/{y}`);
+    opts.onLayerAddedSuccess({
+      attributes: {
+        ...layerSpec
+      },
+      url: `${process.env.WRI_API_URL}/layer/${layerSpec.id}/tile/gee/{z}/{x}/{y}`,
+      active: false
+    });
   }
 
   async addCartoLayer(layerSpec, opts, awaitMode = false) {
@@ -69,10 +81,15 @@ export default class LayerGlobeManager {
         return response.json();
       })
       .then((data) => {
-        // const tileUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
         const tileUrl = `${data.cdn_url.templates.https.url}/${layer.account}/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
 
-        opts.onLayerAddedSuccess(tileUrl);
+        opts.onLayerAddedSuccess({
+          attributes: {
+            ...layerSpec
+          },
+          url: tileUrl,
+          active: false
+        });
       });
 
     if (awaitMode) {

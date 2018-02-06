@@ -6,7 +6,7 @@ import { Link, Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
-import { setSimilarWidgets } from 'redactions/pulse';
+import { setSimilarWidgets, toggleContextualLayer } from 'redactions/pulse';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Components
@@ -14,7 +14,6 @@ import Legend from 'components/app/pulse/Legend';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import LoginModal from 'components/modal/LoginModal';
-
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -30,15 +29,25 @@ class LayerCard extends React.Component {
       dataset: null
     };
 
+    this.buttonsListenersAdded = false;
+
     // ------------------- Bindings -----------------------
     this.handleSubscribeToAlerts = this.handleSubscribeToAlerts.bind(this);
+    this.handleContextLayerClick = this.handleContextLayerClick.bind(this);
     // ----------------------------------------------------
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.pulse.layerActive !== this.props.pulse.layerActive) {
+    if ((nextProps.pulse.layerActive && nextProps.pulse.layerActive.id) !==
+      (this.props.pulse.layerActive && this.props.pulse.layerActive.id )) {
       this.loadWidgets(nextProps);
       this.loadDatasetData(nextProps);
+      // clear active state of pills
+      const buttons = Array.from(document.getElementsByClassName('layer-button'));
+      buttons.forEach((b) => {
+        b.classList.remove('-active');
+        b.classList.remove('-primary');
+      });
     }
   }
 
@@ -85,6 +94,12 @@ class LayerCard extends React.Component {
     }
   }
 
+  addListenersToLayerButtons() {
+    const buttons = Array.from(document.getElementsByClassName('layer-button'));
+    buttons.forEach(button =>
+      button.addEventListener('click', event => this.handleContextLayerClick(event, button.getAttribute('data-layer-id'))));
+  }
+
   handleSubscribeToAlerts() {
     const { user } = this.props;
     const userLoggedIn = user && user.id;
@@ -112,8 +127,21 @@ class LayerCard extends React.Component {
     this.props.setModalOptions(options);
   }
 
+  handleContextLayerClick(event, layerId) {
+    if (Array.from(event.target.classList).find(e => e === '-active')) {
+      event.target.classList.remove('-active');
+      event.target.classList.remove('-primary');
+      event.target.classList.add('-secondary');
+    } else {
+      event.target.classList.remove('-secondary');
+      event.target.classList.add('-active');
+      event.target.classList.add('-primary');
+    }
+    this.props.toggleContextualLayer(layerId);
+  }
+
   render() {
-    const { pulse } = this.props;
+    const { pulse, contextualLayers } = this.props;
     const { layerActive, layerPoints, similarWidgets } = pulse;
     const { dataset } = this.state;
     const subscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
@@ -126,16 +154,15 @@ class LayerCard extends React.Component {
 
     const datasetId = (layerActive !== null) ? layerActive.attributes.dataset : null;
 
+    if (layerActive && layerActive.descriptionPulse && !this.buttonsListenersAdded) {
+      this.buttonsListenersAdded = true;
+      setTimeout(() => this.addListenersToLayerButtons(), 500);
+    }
+
     return (
       <div className={className}>
         <h3>{layerActive && layerActive.attributes.name}</h3>
-        {layerActive && layerActive.attributes.description &&
-          <div
-            className="description"
-            dangerouslySetInnerHTML={{ __html:
-              layerActive.attributes.description }} // eslint-disble-line react/no-danger
-          />
-        }
+        {layerActive && layerActive.descriptionPulse}
         {layerPoints && layerPoints.length > 0 &&
           <div className="number-of-points">
             Number of objects: {layerPoints.length}
@@ -145,30 +172,40 @@ class LayerCard extends React.Component {
           layerActive={layerActive}
           className={{ color: '-dark' }}
         />
+        {contextualLayers &&
+          <div className="context-layers-legends">
+            {
+              contextualLayers.map(ctLayer => (
+                <Legend
+                  layerActive={ctLayer}
+                  className={{ color: '-dark' }}
+                />
+              ))
+            }
+          </div>
+        }
         {similarWidgets && similarWidgets.length > 0 &&
           <div>
             <h5>Similar content</h5>
             <div className="similar-widgets">
-              <div className="row list">
-                {similarWidgets.map(widget =>
-                  (<div
-                    key={widget.id}
-                    className="widget-card"
-                    onClick={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
-                    role="button"
-                    tabIndex={-1}
-                  >
-                    <div className="widget-title">
-                      {widget.attributes.name}
-                    </div>
-                    <DatasetWidgetChart
-                      widget={widget.attributes}
-                      mode="thumbnail"
-                    />
+              {similarWidgets.map(widget =>
+                (<div
+                  key={widget.id}
+                  className="widget-card"
+                  onClick={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
+                  role="button"
+                  tabIndex={-1}
+                >
+                  <div className="widget-title">
+                    {widget.attributes.name}
                   </div>
-                  ))
-                }
-              </div>
+                  <DatasetWidgetChart
+                    widget={widget.attributes}
+                    mode="thumbnail"
+                  />
+                </div>
+                ))
+              }
             </div>
           </div>
         }
@@ -199,12 +236,13 @@ LayerCard.propTypes = {
   // PROPS
   pulse: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  locale: PropTypes.string.isRequired,
+  contextualLayers: PropTypes.array,
 
   // Actions
   setSimilarWidgets: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired
+  setModalOptions: PropTypes.func.isRequired,
+  toggleContextualLayer: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -216,7 +254,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   toggleModal,
   setModalOptions,
-  setSimilarWidgets
+  setSimilarWidgets,
+  toggleContextualLayer
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LayerCard);

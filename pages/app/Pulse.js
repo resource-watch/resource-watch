@@ -124,9 +124,9 @@ class Pulse extends Page {
           this.props.getLayerPoints(url);
         } else {
           this.layerGlobeManager.addLayer(nextLayerActive.attributes, {
-            onLayerAddedSuccess: function success(texture) {
+            onLayerAddedSuccess: function success(result) {
               this.setState({
-                texture,
+                texture: result.url,
                 loading: false,
                 layerPoints: []
               });
@@ -417,6 +417,7 @@ class Pulse extends Page {
           />
           <LayerCard
             layerActive={layerActive}
+            contextualLayers={contextLayers}
           />
           <Spinner
             isLoading={this.state.loading}
@@ -439,7 +440,7 @@ class Pulse extends Page {
                 <ImageProvider key={basemap.url} url={basemap.url} type="UrlTemplate" visible />
               }
               {contextLayers &&
-                contextLayers.map(l => (<ImageProvider key={l} url={l} type="UrlTemplate" visible />))
+                contextLayers.map(l => (<ImageProvider key={l.url} url={l.url} type="UrlTemplate" visible={l.active} />))
               }
               {texture &&
                 <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />
