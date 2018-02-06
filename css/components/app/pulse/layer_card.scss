@@ -25,11 +25,17 @@
   }
 
   .description {
+    min-height: 30px;
     max-height: 50px;
     overflow: auto;
 
     p {
       margin-bottom: 0px;
+    }
+
+    .c-button {
+      padding: 5px;
+      height: 25px;
     }
   }
 

@@ -14,7 +14,6 @@ import Legend from 'components/app/pulse/Legend';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import LoginModal from 'components/modal/LoginModal';
-import Icon from 'components/ui/Icon';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -27,11 +26,13 @@ class LayerCard extends React.Component {
     super(props);
 
     this.state = {
-      dataset: null
+      dataset: null,
+      buttonsListenersAdded: false
     };
 
     // ------------------- Bindings -----------------------
     this.handleSubscribeToAlerts = this.handleSubscribeToAlerts.bind(this);
+    this.handleContextLayerClick = this.handleContextLayerClick.bind(this);
     // ----------------------------------------------------
   }
 
@@ -85,6 +86,15 @@ class LayerCard extends React.Component {
     }
   }
 
+  addListenersToLayerButtons() {
+    console.log('addListenersToLayerButtons!');
+    const buttons = Array.from(document.getElementsByClassName('layer-button'));
+    console.log('buttons', buttons);
+    buttons.forEach(button =>
+      button.addEventListener('click', () => this.handleContextLayerClick(button.id)));
+    this.setState({ buttonsListenersAdded: true });
+  }
+
   handleSubscribeToAlerts() {
     const { user } = this.props;
     const userLoggedIn = user && user.id;
@@ -112,10 +122,14 @@ class LayerCard extends React.Component {
     this.props.setModalOptions(options);
   }
 
+  handleContextLayerClick(layerId) {
+    console.log('hey!', layerId);
+  }
+
   render() {
     const { pulse, contextualLayers } = this.props;
     const { layerActive, layerPoints, similarWidgets } = pulse;
-    const { dataset } = this.state;
+    const { dataset, buttonsListenersAdded } = this.state;
     const subscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
       Object.keys(dataset.attributes.subscribable).length > 0;
 
@@ -126,16 +140,14 @@ class LayerCard extends React.Component {
 
     const datasetId = (layerActive !== null) ? layerActive.attributes.dataset : null;
 
+    if (layerActive && layerActive.descriptionPulse && !buttonsListenersAdded) {
+      setTimeout(() => this.addListenersToLayerButtons(), 500);
+    }
+
     return (
       <div className={className}>
         <h3>{layerActive && layerActive.attributes.name}</h3>
-        {layerActive && layerActive.attributes.description &&
-          <div
-            className="description"
-            dangerouslySetInnerHTML={{ __html:
-              layerActive.attributes.description }} // eslint-disble-line react/no-danger
-          />
-        }
+        {layerActive && layerActive.descriptionPulse}
         {layerPoints && layerPoints.length > 0 &&
           <div className="number-of-points">
             Number of objects: {layerPoints.length}

@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const LAYERS_PLANET_PULSE = [
   {
     label: 'Forests',
@@ -7,6 +9,10 @@ export const LAYERS_PLANET_PULSE = [
         id: '5ca12eec-f8fe-49eb-b353-67c9eeb5bc6a',
         '3d': false,
         markerType: 'default',
+        descriptionPulse:
+          <div className="description">
+            Blablablablabla <span className="c-button -secondary layer-button"id="84229e01-4e61-4c08-a7dd-efb7259dd85d">Text test</span> lablablablablablab.
+          </div>,
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         widgets: ['d409858d-9beb-4df5-ae48-bc0d6e9cda25'],
         basemap: {

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import LegendType from 'components/ui/LegendType';
 
 function Legend(props) {
-  console.log('props', props);
   if (props.layerActive) {
     return (
       <div className="c-legend">
