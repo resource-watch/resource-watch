@@ -124,9 +124,9 @@ class Pulse extends Page {
           this.props.getLayerPoints(url);
         } else {
           this.layerGlobeManager.addLayer(nextLayerActive.attributes, {
-            onLayerAddedSuccess: function success(texture) {
+            onLayerAddedSuccess: function success(result) {
               this.setState({
-                texture,
+                texture: result.url,
                 loading: false,
                 layerPoints: []
               });

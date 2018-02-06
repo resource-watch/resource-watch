@@ -126,7 +126,8 @@ export function toggleActiveLayer(id, threedimensional, markerType, basemap, con
                           });
                         }
                       }
-                    }
+                    },
+                    true
                   );
                 });
               });
