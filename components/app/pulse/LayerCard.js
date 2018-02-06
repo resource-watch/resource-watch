@@ -38,9 +38,16 @@ class LayerCard extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.pulse.layerActive !== this.props.pulse.layerActive) {
+    if ((nextProps.pulse.layerActive && nextProps.pulse.layerActive.id) !==
+      (this.props.pulse.layerActive && this.props.pulse.layerActive.id )) {
       this.loadWidgets(nextProps);
       this.loadDatasetData(nextProps);
+      // clear active state of pills
+      const buttons = Array.from(document.getElementsByClassName('layer-button'));
+      buttons.forEach((b) => {
+        b.classList.remove('-active');
+        b.classList.remove('-primary');
+      });
     }
   }
 
@@ -90,7 +97,7 @@ class LayerCard extends React.Component {
   addListenersToLayerButtons() {
     const buttons = Array.from(document.getElementsByClassName('layer-button'));
     buttons.forEach(button =>
-      button.addEventListener('click', (event) => this.handleContextLayerClick(event, button.id)));
+      button.addEventListener('click', event => this.handleContextLayerClick(event, button.getAttribute('data-layer-id'))));
   }
 
   handleSubscribeToAlerts() {

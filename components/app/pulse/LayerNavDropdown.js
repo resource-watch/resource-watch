@@ -23,7 +23,7 @@ class LayerNavDropdown extends React.Component {
     this.props.resetLayerPoints();
     this.props.toggleActiveLayer({
       id,
-      '3d': layer['3d'],
+      threedimensional: layer['3d'],
       markerType,
       basemap,
       contextLayers,
