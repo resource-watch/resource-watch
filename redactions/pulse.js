@@ -101,7 +101,14 @@ export function getLayers() {
   };
 }
 
-export function toggleActiveLayer({ id, threedimensional, markerType, basemap, contextLayers, descriptionPulse }) {
+export function toggleActiveLayer({
+  id,
+  threedimensional,
+  markerType,
+  basemap,
+  contextLayers,
+  descriptionPulse
+}) {
   return (dispatch) => {
     if (id) {
       fetch(new Request(`${process.env.WRI_API_URL}/layer/${id}`))

@@ -415,10 +415,7 @@ class Pulse extends Page {
             layerActive={layerActive}
             layersGroup={layersGroup}
           />
-          <LayerCard
-            layerActive={layerActive}
-            contextualLayers={contextLayers}
-          />
+          <LayerCard />
           <Spinner
             isLoading={this.state.loading}
           />

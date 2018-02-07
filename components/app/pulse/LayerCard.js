@@ -30,6 +30,7 @@ class LayerCard extends React.Component {
     };
 
     this.buttonsListenersAdded = false;
+    this.buttonsWithListeners = [];
 
     // ------------------- Bindings -----------------------
     this.handleSubscribeToAlerts = this.handleSubscribeToAlerts.bind(this);
@@ -39,7 +40,7 @@ class LayerCard extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if ((nextProps.pulse.layerActive && nextProps.pulse.layerActive.id) !==
-      (this.props.pulse.layerActive && this.props.pulse.layerActive.id )) {
+      (this.props.pulse.layerActive && this.props.pulse.layerActive.id)) {
       this.loadWidgets(nextProps);
       this.loadDatasetData(nextProps);
       // clear active state of pills
@@ -48,6 +49,7 @@ class LayerCard extends React.Component {
         b.classList.remove('-active');
         b.classList.remove('-primary');
       });
+      this.buttonsListenersAdded = false;
     }
   }
 
@@ -95,9 +97,18 @@ class LayerCard extends React.Component {
   }
 
   addListenersToLayerButtons() {
+    console.log('addListenersToLayerButtons');
     const buttons = Array.from(document.getElementsByClassName('layer-button'));
-    buttons.forEach(button =>
-      button.addEventListener('click', event => this.handleContextLayerClick(event, button.getAttribute('data-layer-id'))));
+    buttons.forEach((button) => {
+      const buttonLayerId = button.getAttribute('data-layer-id');
+      const buttonId = button.id;
+      console.log('this.buttonsWithListeners', this.buttonsWithListeners);
+      if (!this.buttonsWithListeners.includes(buttonId)) {
+        button.addEventListener('click', event => this.handleContextLayerClick(event, buttonLayerId));
+        console.log('listener added! ', buttonId);
+        this.buttonsWithListeners.push(buttonId);
+      }
+    });
   }
 
   handleSubscribeToAlerts() {
@@ -128,7 +139,8 @@ class LayerCard extends React.Component {
   }
 
   handleContextLayerClick(event, layerId) {
-    if (Array.from(event.target.classList).find(e => e === '-active')) {
+    console.log('layerId', layerId);
+    if (Array.from(event.currentTarget.classList).find(e => e === '-active')) {
       event.target.classList.remove('-active');
       event.target.classList.remove('-primary');
       event.target.classList.add('-secondary');
@@ -141,7 +153,7 @@ class LayerCard extends React.Component {
   }
 
   render() {
-    const { pulse, contextualLayers } = this.props;
+    const { pulse } = this.props;
     const { layerActive, layerPoints, similarWidgets } = pulse;
     const { dataset } = this.state;
     const subscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
@@ -153,6 +165,7 @@ class LayerCard extends React.Component {
     });
 
     const datasetId = (layerActive !== null) ? layerActive.attributes.dataset : null;
+    const contextLayers = layerActive && layerActive.contextLayers;
 
     if (layerActive && layerActive.descriptionPulse && !this.buttonsListenersAdded) {
       this.buttonsListenersAdded = true;
@@ -172,10 +185,10 @@ class LayerCard extends React.Component {
           layerActive={layerActive}
           className={{ color: '-dark' }}
         />
-        {contextualLayers &&
+        {contextLayers &&
           <div className="context-layers-legends">
             {
-              contextualLayers.map(ctLayer => ctLayer.active && (
+              contextLayers.map(ctLayer => ctLayer.active && (
                 <Legend
                   layerActive={ctLayer}
                   className={{ color: '-dark' }}

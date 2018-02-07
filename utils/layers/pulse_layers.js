@@ -1,5 +1,8 @@
 import React from 'react';
 
+// Components
+import LayerPill from 'components/app/pulse/layer-pill/layer-pill';
+
 export const LAYERS_PLANET_PULSE = [
   {
     label: 'Forests',
@@ -10,7 +13,7 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         descriptionPulse:
           <div className="description">
-            Fires in the past 7 days affecting <button className="c-button -secondary layer-button"data-layer-id="84229e01-4e61-4c08-a7dd-efb7259dd85d">Population density</button>
+            Fires in the past 7 days affecting <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population density" />
           </div>,
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         widgets: ['d409858d-9beb-4df5-ae48-bc0d6e9cda25'],
@@ -24,7 +27,7 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         descriptionPulse:
           <div className="description">
-            Deforestation alerts in the past 7 days affecting <button className="c-button -secondary layer-button" data-layer-id="cbb309b7-1df1-4638-b821-48db53053d38">Intact forest landscapes</button> and <button className="c-button -secondary layer-button" data-layer-id="dabcca67-037c-4d11-afc4-69559edec4dc">Protected areas</button>
+            Deforestation alerts in the past 7 days affecting <button id="2" className="c-button -secondary layer-button" data-layer-id="cbb309b7-1df1-4638-b821-48db53053d38">Intact forest landscapes</button> and <button id="3" className="c-button -secondary layer-button" data-layer-id="dabcca67-037c-4d11-afc4-69559edec4dc">Protected areas</button>
           </div>,
         contextLayers: ['cbb309b7-1df1-4638-b821-48db53053d38', 'dabcca67-037c-4d11-afc4-69559edec4dc'],
         widgets: ['5f5f7899-ccd2-4477-aa7e-43805880eb33']
@@ -35,7 +38,7 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         descriptionPulse:
           <div className="description">
-            Deforestation alerts in the past 7 days affecting <button className="c-button -secondary layer-button" data-layer-id="cbb309b7-1df1-4638-b821-48db53053d38">Intact forest landscapes</button> and <button className="c-button -secondary layer-button" data-layer-id="dabcca67-037c-4d11-afc4-69559edec4dc">Protected areas</button>
+            Deforestation alerts in the past 7 days affecting <button id="4" className="c-button -secondary layer-button" data-layer-id="cbb309b7-1df1-4638-b821-48db53053d38">Intact forest landscapes</button> and <button id="5" className="c-button -secondary layer-button" data-layer-id="dabcca67-037c-4d11-afc4-69559edec4dc">Protected areas</button>
           </div>,
         contextLayers: ['cbb309b7-1df1-4638-b821-48db53053d38', 'dabcca67-037c-4d11-afc4-69559edec4dc'],
         widgets: ['5f5f7899-ccd2-4477-aa7e-43805880eb33']
@@ -51,7 +54,7 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         descriptionPulse:
           <div className="description">
-            Current floods affecting <button className="c-button -secondary layer-button"data-layer-id="84229e01-4e61-4c08-a7dd-efb7259dd85d">Population density</button>
+            Current floods affecting <button id="6" className="c-button -secondary layer-button"data-layer-id="84229e01-4e61-4c08-a7dd-efb7259dd85d">Population density</button>
           </div>,
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         widgets: ['279f8f52-83df-417d-a32e-f433c49e3288']
@@ -62,7 +65,7 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         descriptionPulse:
           <div className="description">
-            Bleaching alerts affecting <button className="c-button -secondary layer-button"data-layer-id="5522b6ee-66d5-4d2d-9109-ae8e6b7e3a26">coral reefs</button>
+            Bleaching alerts affecting <button id="7" className="c-button -secondary layer-button"data-layer-id="5522b6ee-66d5-4d2d-9109-ae8e6b7e3a26">coral reefs</button>
           </div>,
         contextLayers: ['5522b6ee-66d5-4d2d-9109-ae8e6b7e3a26'],
         widgets: ['279f8f52-83df-417d-a32e-f433c49e3288']
@@ -79,7 +82,7 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         descriptionPulse:
           <div className="description">
-            Current and projected food insecurity affecting <button className="c-button -secondary layer-button"data-layer-id="84229e01-4e61-4c08-a7dd-efb7259dd85d">population</button>
+            Current and projected food insecurity affecting <button id="8" className="c-button -secondary layer-button"data-layer-id="84229e01-4e61-4c08-a7dd-efb7259dd85d">population</button>
           </div>
       }
     ]
@@ -96,7 +99,7 @@ export const LAYERS_PLANET_PULSE = [
         widgets: ['b3065d7e-b63b-40e2-9dd1-b95ad8e5aee1'],
         descriptionPulse:
           <div className="description">
-            Significant earthquakes over the past 30 days affecting <button className="c-button -secondary layer-button"data-layer-id="84229e01-4e61-4c08-a7dd-efb7259dd85d">population</button>
+            Significant earthquakes over the past 30 days affecting <button id="9" className="c-button -secondary layer-button"data-layer-id="84229e01-4e61-4c08-a7dd-efb7259dd85d">population</button>
           </div>
       },
       {
@@ -107,7 +110,7 @@ export const LAYERS_PLANET_PULSE = [
         markerType: 'volcano',
         descriptionPulse:
           <div className="description">
-            Volcanoes over the past 7 days affecting <button className="c-button -secondary layer-button"data-layer-id="84229e01-4e61-4c08-a7dd-efb7259dd85d">population</button>
+            Volcanoes over the past 7 days affecting <button id="10" className="c-button -secondary layer-button"data-layer-id="84229e01-4e61-4c08-a7dd-efb7259dd85d">population</button>
           </div>
       },
       {
@@ -118,7 +121,7 @@ export const LAYERS_PLANET_PULSE = [
         widgets: ['279f8f52-83df-417d-a32e-f433c49e3288'],
         descriptionPulse:
           <div className="description">
-            Landslide hazard alerts affecting <button className="c-button -secondary layer-button"data-layer-id="84229e01-4e61-4c08-a7dd-efb7259dd85d">population</button>
+            Landslide hazard alerts affecting <button id="11" className="c-button -secondary layer-button"data-layer-id="84229e01-4e61-4c08-a7dd-efb7259dd85d">population</button>
           </div>
       }
     ]
@@ -181,7 +184,7 @@ export const LAYERS_PLANET_PULSE = [
         widgets: ['349aae2c-d39f-4a9f-8a90-3fe7f73a25ce'],
         descriptionPulse:
           <div className="description">
-            Air temperature anomalies affecting <button className="c-button -secondary layer-button"data-layer-id="84229e01-4e61-4c08-a7dd-efb7259dd85d">population</button>
+            Air temperature anomalies affecting <button id="12" className="c-button -secondary layer-button"data-layer-id="84229e01-4e61-4c08-a7dd-efb7259dd85d">population</button>
           </div>
       }
     ]
