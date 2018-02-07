@@ -23,7 +23,8 @@ class LayerPillComponent extends PureComponent {
     return (
       <button
         className={className}
-        click={() => {
+        onclick={() => {
+          console.log('hey!', layerId);
           this.props.toggleContextualLayer(layerId);
         }}
       >

@@ -29,12 +29,8 @@ class LayerCard extends React.Component {
       dataset: null
     };
 
-    this.buttonsListenersAdded = false;
-    this.buttonsWithListeners = [];
-
     // ------------------- Bindings -----------------------
     this.handleSubscribeToAlerts = this.handleSubscribeToAlerts.bind(this);
-    this.handleContextLayerClick = this.handleContextLayerClick.bind(this);
     // ----------------------------------------------------
   }
 
@@ -43,13 +39,6 @@ class LayerCard extends React.Component {
       (this.props.pulse.layerActive && this.props.pulse.layerActive.id)) {
       this.loadWidgets(nextProps);
       this.loadDatasetData(nextProps);
-      // clear active state of pills
-      const buttons = Array.from(document.getElementsByClassName('layer-button'));
-      buttons.forEach((b) => {
-        b.classList.remove('-active');
-        b.classList.remove('-primary');
-      });
-      this.buttonsListenersAdded = false;
     }
   }
 
@@ -96,21 +85,6 @@ class LayerCard extends React.Component {
     }
   }
 
-  addListenersToLayerButtons() {
-    console.log('addListenersToLayerButtons');
-    const buttons = Array.from(document.getElementsByClassName('layer-button'));
-    buttons.forEach((button) => {
-      const buttonLayerId = button.getAttribute('data-layer-id');
-      const buttonId = button.id;
-      console.log('this.buttonsWithListeners', this.buttonsWithListeners);
-      if (!this.buttonsWithListeners.includes(buttonId)) {
-        button.addEventListener('click', event => this.handleContextLayerClick(event, buttonLayerId));
-        console.log('listener added! ', buttonId);
-        this.buttonsWithListeners.push(buttonId);
-      }
-    });
-  }
-
   handleSubscribeToAlerts() {
     const { user } = this.props;
     const userLoggedIn = user && user.id;
@@ -138,20 +112,6 @@ class LayerCard extends React.Component {
     this.props.setModalOptions(options);
   }
 
-  handleContextLayerClick(event, layerId) {
-    console.log('layerId', layerId);
-    if (Array.from(event.currentTarget.classList).find(e => e === '-active')) {
-      event.target.classList.remove('-active');
-      event.target.classList.remove('-primary');
-      event.target.classList.add('-secondary');
-    } else {
-      event.target.classList.remove('-secondary');
-      event.target.classList.add('-active');
-      event.target.classList.add('-primary');
-    }
-    this.props.toggleContextualLayer(layerId);
-  }
-
   render() {
     const { pulse } = this.props;
     const { layerActive, layerPoints, similarWidgets } = pulse;
@@ -166,11 +126,6 @@ class LayerCard extends React.Component {
 
     const datasetId = (layerActive !== null) ? layerActive.attributes.dataset : null;
     const contextLayers = layerActive && layerActive.contextLayers;
-
-    if (layerActive && layerActive.descriptionPulse && !this.buttonsListenersAdded) {
-      this.buttonsListenersAdded = true;
-      setTimeout(() => this.addListenersToLayerButtons(), 500);
-    }
 
     return (
       <div className={className}>
