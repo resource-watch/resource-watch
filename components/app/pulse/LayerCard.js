@@ -6,7 +6,7 @@ import { Link, Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
-import { setSimilarWidgets } from 'redactions/pulse';
+import { setSimilarWidgets, toggleContextualLayer } from 'redactions/pulse';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Components
@@ -14,7 +14,6 @@ import Legend from 'components/app/pulse/Legend';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import LoginModal from 'components/modal/LoginModal';
-
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -36,7 +35,8 @@ class LayerCard extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.pulse.layerActive !== this.props.pulse.layerActive) {
+    if ((nextProps.pulse.layerActive && nextProps.pulse.layerActive.id) !==
+      (this.props.pulse.layerActive && this.props.pulse.layerActive.id)) {
       this.loadWidgets(nextProps);
       this.loadDatasetData(nextProps);
     }
@@ -125,17 +125,12 @@ class LayerCard extends React.Component {
     });
 
     const datasetId = (layerActive !== null) ? layerActive.attributes.dataset : null;
+    const contextLayers = layerActive && layerActive.contextLayers;
 
     return (
       <div className={className}>
         <h3>{layerActive && layerActive.attributes.name}</h3>
-        {layerActive && layerActive.attributes.description &&
-          <div
-            className="description"
-            dangerouslySetInnerHTML={{ __html:
-              layerActive.attributes.description }} // eslint-disble-line react/no-danger
-          />
-        }
+        {layerActive && layerActive.descriptionPulse}
         {layerPoints && layerPoints.length > 0 &&
           <div className="number-of-points">
             Number of objects: {layerPoints.length}
@@ -145,30 +140,40 @@ class LayerCard extends React.Component {
           layerActive={layerActive}
           className={{ color: '-dark' }}
         />
+        {contextLayers &&
+          <div className="context-layers-legends">
+            {
+              contextLayers.map(ctLayer => ctLayer.active && (
+                <Legend
+                  layerActive={ctLayer}
+                  className={{ color: '-dark' }}
+                />
+              ))
+            }
+          </div>
+        }
         {similarWidgets && similarWidgets.length > 0 &&
           <div>
             <h5>Similar content</h5>
             <div className="similar-widgets">
-              <div className="row list">
-                {similarWidgets.map(widget =>
-                  (<div
-                    key={widget.id}
-                    className="widget-card"
-                    onClick={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
-                    role="button"
-                    tabIndex={-1}
-                  >
-                    <div className="widget-title">
-                      {widget.attributes.name}
-                    </div>
-                    <DatasetWidgetChart
-                      widget={widget.attributes}
-                      mode="thumbnail"
-                    />
+              {similarWidgets.map(widget =>
+                (<div
+                  key={widget.id}
+                  className="widget-card"
+                  onClick={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
+                  role="button"
+                  tabIndex={-1}
+                >
+                  <div className="widget-title">
+                    {widget.attributes.name}
                   </div>
-                  ))
-                }
-              </div>
+                  <DatasetWidgetChart
+                    widget={widget.attributes}
+                    mode="thumbnail"
+                  />
+                </div>
+                ))
+              }
             </div>
           </div>
         }
@@ -199,12 +204,13 @@ LayerCard.propTypes = {
   // PROPS
   pulse: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  locale: PropTypes.string.isRequired,
+  contextualLayers: PropTypes.array,
 
   // Actions
   setSimilarWidgets: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired
+  setModalOptions: PropTypes.func.isRequired,
+  toggleContextualLayer: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -216,7 +222,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   toggleModal,
   setModalOptions,
-  setSimilarWidgets
+  setSimilarWidgets,
+  toggleContextualLayer
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LayerCard);

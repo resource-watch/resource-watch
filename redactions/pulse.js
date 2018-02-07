@@ -1,5 +1,10 @@
 /* global config */
 import 'isomorphic-fetch';
+
+// Components
+import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
+
+// Utils
 import { LAYERS_PLANET_PULSE } from 'utils/layers/pulse_layers';
 
 
@@ -17,6 +22,7 @@ const GET_LAYER_POINTS_ERROR = 'planetpulse/GET_LAYER_POINTS_ERROR';
 const RESET_LAYER_POINTS = 'planetpulse/RESET_LAYER_POINTS';
 
 const SET_SIMILAR_WIDGETS = 'planetpulse/SET_SIMILAR_WIDGETS';
+const TOGGLE_CONTEXTUAL_LAYER = 'planetpulse/TOGGLE_CONTEXTUAL_LAYER';
 
 /**
  * REDUCER
@@ -59,6 +65,18 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, {
         layerPoints: null
       });
+    case TOGGLE_CONTEXTUAL_LAYER: {
+      const newContextLayers = state.layerActive.contextLayers.map((l) => {
+        if (l.attributes.id === action.payload) {
+          return { ...l, active: !l.active };
+        } else { // eslint-disable-line no-else-return
+          return l;
+        }
+      });
+      const newLayerActive = { ...state.layerActive, contextLayers: newContextLayers };
+      const newState = { ...state, layerActive: newLayerActive };
+      return newState;
+    }
     default:
       return state;
   }
@@ -83,7 +101,14 @@ export function getLayers() {
   };
 }
 
-export function toggleActiveLayer(id, threedimensional, markerType) {
+export function toggleActiveLayer({
+  id,
+  threedimensional,
+  markerType,
+  basemap,
+  contextLayers,
+  descriptionPulse
+}) {
   return (dispatch) => {
     if (id) {
       fetch(new Request(`${process.env.WRI_API_URL}/layer/${id}`))
@@ -91,14 +116,48 @@ export function toggleActiveLayer(id, threedimensional, markerType) {
           if (response.ok) return response.json();
           throw new Error(response.statusText);
         })
-        .then((response) => {
+        .then(async (response) => {
           const layer = response.data;
           layer.threedimensional = threedimensional;
           layer.markerType = markerType;
-          dispatch({
-            type: SET_ACTIVE_LAYER,
-            payload: layer
-          });
+          layer.basemap = basemap;
+          layer.contextLayers = [];
+          layer.descriptionPulse = descriptionPulse;
+
+          if (contextLayers.length > 0) {
+            let layersLoaded = 0;
+            const urlSt = `${process.env.WRI_API_URL}/layer/?ids=${contextLayers.join()}&env=production,preproduction`;
+            fetch(new Request(urlSt))
+              .then((resp) => {
+                return resp.json();
+              })
+              .then((res) => {
+                const layerGlobeManager = new LayerGlobeManager();
+                res.data.forEach((l) => {
+                  layerGlobeManager.addLayer(
+                    { ...l.attributes, id: l.id },
+                    {
+                      onLayerAddedSuccess: function success(result) {
+                        layer.contextLayers.push(result);
+                        layersLoaded++;
+                        if (contextLayers.length === layersLoaded) {
+                          dispatch({
+                            type: SET_ACTIVE_LAYER,
+                            payload: layer
+                          });
+                        }
+                      }
+                    },
+                    true
+                  );
+                });
+              });
+          } else {
+            dispatch({
+              type: SET_ACTIVE_LAYER,
+              payload: layer
+            });
+          }
         })
         .catch(() => {
           // Fetch from server ko -> Dispatch error
@@ -148,4 +207,8 @@ export function setSimilarWidgets(value) {
 
 export function resetLayerPoints() {
   return dispatch => dispatch({ type: RESET_LAYER_POINTS, payload: null });
+}
+
+export function toggleContextualLayer(layerId) {
+  return dispatch => dispatch({ type: TOGGLE_CONTEXTUAL_LAYER, payload: layerId });
 }

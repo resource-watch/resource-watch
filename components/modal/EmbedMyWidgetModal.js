@@ -76,7 +76,7 @@ class EmbedMyWidgetModal extends React.Component {
                   <Icon name="icon-facebook" className="-medium" />
                 </a>
                 <a
-                  href={`https://twitter.com/share?url=${url}&text=${encodeURIComponent(widget.attributes.name)}`}
+                  href={`https://twitter.com/share?url=${url}&text=${encodeURIComponent(widget.name)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => logEvent('Share', `Share a specific widget: ${this.props.widget.id}`, 'Twitter')}

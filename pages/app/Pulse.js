@@ -34,8 +34,8 @@ let ImageProvider;
 let Cesium;
 if (typeof window !== 'undefined') {
   /* eslint-disable */
-  Map = require('react-cesium').Map;
-  ImageProvider = require('react-cesium').ImageProvider;
+  Map = require('components/cesium/map/map').default;
+  ImageProvider = require('components/cesium/providers/image/image').default;
   /* eslint-enable */
 }
 
@@ -124,9 +124,9 @@ class Pulse extends Page {
           this.props.getLayerPoints(url);
         } else {
           this.layerGlobeManager.addLayer(nextLayerActive.attributes, {
-            onLayerAddedSuccess: function success(texture) {
+            onLayerAddedSuccess: function success(result) {
               this.setState({
-                texture,
+                texture: result.url,
                 loading: false,
                 layerPoints: []
               });
@@ -397,6 +397,10 @@ class Pulse extends Page {
     const { markerType, texture, zoom } = this.state;
     const shapes = this.getShapes(layerPoints, markerType);
 
+    // Check if there's a custom basemap
+    const basemap = layerActive && layerActive.basemap;
+    const contextLayers = layerActive && layerActive.contextLayers;
+
     return (
       <Layout
         title="Planet Pulse"
@@ -411,9 +415,7 @@ class Pulse extends Page {
             layerActive={layerActive}
             layersGroup={layersGroup}
           />
-          <LayerCard
-            layerActive={layerActive}
-          />
+          <LayerCard />
           <Spinner
             isLoading={this.state.loading}
           />
@@ -431,13 +433,18 @@ class Pulse extends Page {
               showInfoWindow
               selectionIndicator
             >
+              {basemap &&
+                <ImageProvider key={basemap.url} url={basemap.url} type="UrlTemplate" visible />
+              }
+              {contextLayers &&
+                contextLayers.map(l => (<ImageProvider key={l.url} url={l.url} type="UrlTemplate" visible={l.active} />))
+              }
               {texture &&
                 <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />
               }
             </Map>
           }
           <ZoomControl
-            ref={zoomControl => (this.zoomControl = zoomControl)}
             onZoomIn={this.triggerZoomIn}
             onZoomOut={this.triggerZoomOut}
           />
