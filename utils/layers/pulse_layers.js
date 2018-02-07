@@ -178,7 +178,7 @@ export const LAYERS_PLANET_PULSE = [
       },
       {
         label: 'Air Temperature Anomolies',
-        id: '1002c7f6-78f7-4fde-a8c3-ba8f8abf2b7f',
+        id: 'f1d841cb-a959-4b54-8472-e28f794b2c6a',
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         '3d': false,
         widgets: ['349aae2c-d39f-4a9f-8a90-3fe7f73a25ce'],
