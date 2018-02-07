@@ -27,7 +27,7 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         descriptionPulse:
           <div className="description">
-            Brazil deforestation alerts in the past 4 months is affecting <LayerPill layerId="cbb309b7-1df1-4638-b821-48db53053d38" label="Intact forest landscapes" /> and <LayerPill layerId="dabcca67-037c-4d11-afc4-69559edec4dc" label="Protected areas" />
+            Brazil deforestation alerts in the past 4 months are affecting <LayerPill layerId="cbb309b7-1df1-4638-b821-48db53053d38" label="Intact forest landscapes" /> and <LayerPill layerId="dabcca67-037c-4d11-afc4-69559edec4dc" label="Protected areas" />
           </div>,
         contextLayers: ['cbb309b7-1df1-4638-b821-48db53053d38', 'dabcca67-037c-4d11-afc4-69559edec4dc'],
         widgets: ['5f5f7899-ccd2-4477-aa7e-43805880eb33'],
@@ -41,7 +41,7 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         descriptionPulse:
           <div className="description">
-            Deforestation alerts in the past 24 months is affecting <LayerPill layerId="cbb309b7-1df1-4638-b821-48db53053d38" label="Intact forest landscapes" /> and <LayerPill layerId="dabcca67-037c-4d11-afc4-69559edec4dc" label="Protected areas" />
+            Deforestation alerts in the past 24 months are affecting <LayerPill layerId="cbb309b7-1df1-4638-b821-48db53053d38" label="Intact forest landscapes" /> and <LayerPill layerId="dabcca67-037c-4d11-afc4-69559edec4dc" label="Protected areas" />
           </div>,
         contextLayers: ['cbb309b7-1df1-4638-b821-48db53053d38', 'dabcca67-037c-4d11-afc4-69559edec4dc'],
         widgets: [],
@@ -60,7 +60,7 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         descriptionPulse:
           <div className="description">
-            Current floods, detected and how they affect <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Populated areas" />
+            Detected current floods can affect <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Populated areas" />
           </div>,
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         widgets: ['f5989675-c8ca-4e75-8631-0867b08513ac'],
@@ -153,42 +153,42 @@ export const LAYERS_PLANET_PULSE = [
   {
     label: 'Society',
     layers: [
-       {
+      {
         label: 'Conflict and Protest Events in African States',
         id: 'b508a5f8-28f2-41c6-b0f7-eac918083062',
         contextLayers: [],
         '3d': false,
         markerType: 'default',
-          basemap: {
+        basemap: {
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
-       },
-       {
+      },
+      {
         label: 'Conflict and Protest Events in Asian States',
         id: '029b6b49-dd20-4172-8842-6cbba6bdaf87',
         contextLayers: [],
         '3d': false,
         markerType: 'default',
-          basemap: {
+        basemap: {
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
-       },
-       {
+      },
+      {
         label: 'Global Database of Events, Language, and Tone',
         id: 'b51c7412-cb4d-4dab-8eeb-8cc31c131195',
         contextLayers: [],
         '3d': false,
         markerType: 'default',
-          basemap: {
+        basemap: {
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
-       },
+      },
       {
         label: 'Migrant Deaths',
         id: 'b51c7412-cb4d-4dab-8eeb-8cc31c131195',
         contextLayers: [],
         '3d': false,
-         basemap: {
+        basemap: {
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       }
@@ -204,7 +204,7 @@ export const LAYERS_PLANET_PULSE = [
         contextLayers: [],
         '3d': false,
         widgets: [],
-         basemap: {
+        basemap: {
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       },
@@ -214,7 +214,7 @@ export const LAYERS_PLANET_PULSE = [
         contextLayers: [],
         '3d': false,
         widgets: [],
-         basemap: {
+        basemap: {
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       },
