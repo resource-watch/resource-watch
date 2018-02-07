@@ -97,15 +97,18 @@ class DatasetsListCard extends PureComponent {
             }
           </div>
 
-          <div className="actions">
-            <a
-              role="button"
-              tabIndex={0}
-              onClick={this.handleDelete}
-            >
-              Delete
-            </a>
-          </div>
+          { (dataset.userId === user.id) &&
+            <div className="actions">
+              <a
+                role="button"
+                className="c-button -tertiary -compressed"
+                tabIndex={0}
+                onClick={this.handleDelete}
+              >
+                Delete
+              </a>
+            </div>
+          }
         </div>
       </div>
     );
