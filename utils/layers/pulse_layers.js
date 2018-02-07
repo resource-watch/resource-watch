@@ -13,7 +13,7 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         descriptionPulse:
           <div className="description">
-            Fires in the past 7 days affecting <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population density" />
+            High confidence fires in the past 7 days affecting <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
           </div>,
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         widgets: ['d409858d-9beb-4df5-ae48-bc0d6e9cda25'],
@@ -27,10 +27,13 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         descriptionPulse:
           <div className="description">
-            Deforestation alerts in the past 7 days affecting <LayerPill layerId="cbb309b7-1df1-4638-b821-48db53053d38" label="Intact forest landscapes" /> and <LayerPill layerId="dabcca67-037c-4d11-afc4-69559edec4dc" label="Protected areas" />
+            Brazil deforestation alerts in the past 4 months is affecting <LayerPill layerId="cbb309b7-1df1-4638-b821-48db53053d38" label="Intact forest landscapes" /> and <LayerPill layerId="dabcca67-037c-4d11-afc4-69559edec4dc" label="Protected areas" />
           </div>,
         contextLayers: ['cbb309b7-1df1-4638-b821-48db53053d38', 'dabcca67-037c-4d11-afc4-69559edec4dc'],
-        widgets: ['5f5f7899-ccd2-4477-aa7e-43805880eb33']
+        widgets: ['5f5f7899-ccd2-4477-aa7e-43805880eb33'],
+        basemap: {
+          url: 'https://api.mapbox.com/styles/v1/wri/cjd56ttip0i1s2rnxv8py2km5/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid3JpIiwiYSI6Ik9TY2w5RTQifQ.0HV7dQTjK40mk7GpNNA64g'
+        }
       },
       {
         label: 'GLAD Deforestation Alerts',
@@ -38,10 +41,13 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         descriptionPulse:
           <div className="description">
-            Deforestation alerts in the past 7 days affecting <LayerPill layerId="cbb309b7-1df1-4638-b821-48db53053d38" label="Intact forest landscapes" /> and <LayerPill layerId="dabcca67-037c-4d11-afc4-69559edec4dc" label="Protected areas" />
+            Deforestation alerts in the past 24 months is affecting <LayerPill layerId="cbb309b7-1df1-4638-b821-48db53053d38" label="Intact forest landscapes" /> and <LayerPill layerId="dabcca67-037c-4d11-afc4-69559edec4dc" label="Protected areas" />
           </div>,
         contextLayers: ['cbb309b7-1df1-4638-b821-48db53053d38', 'dabcca67-037c-4d11-afc4-69559edec4dc'],
-        widgets: ['5f5f7899-ccd2-4477-aa7e-43805880eb33']
+        widgets: [],
+        basemap: {
+          url: 'https://api.mapbox.com/styles/v1/wri/cjd56ttip0i1s2rnxv8py2km5/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid3JpIiwiYSI6Ik9TY2w5RTQifQ.0HV7dQTjK40mk7GpNNA64g'
+        }
       }
     ]
   },
@@ -54,10 +60,13 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         descriptionPulse:
           <div className="description">
-            Current floods affecting <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population density" />
+            Current floods, detected and how they affect <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Populated areas" />
           </div>,
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
-        widgets: ['279f8f52-83df-417d-a32e-f433c49e3288']
+        widgets: ['f5989675-c8ca-4e75-8631-0867b08513ac'],
+         basemap: {
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
       },
       {
         label: 'Coral Reef Bleaching Alerts',
@@ -68,7 +77,10 @@ export const LAYERS_PLANET_PULSE = [
             Bleaching alerts affecting <LayerPill layerId="5522b6ee-66d5-4d2d-9109-ae8e6b7e3a26" label="coral reefs" />
           </div>,
         contextLayers: ['5522b6ee-66d5-4d2d-9109-ae8e6b7e3a26'],
-        widgets: ['279f8f52-83df-417d-a32e-f433c49e3288']
+        widgets: ['279f8f52-83df-417d-a32e-f433c49e3288'],
+           basemap: {
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
       }
     ]
   },
@@ -83,7 +95,10 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             Current and projected food insecurity affecting <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="population" />
-          </div>
+          </div>,
+         basemap: {
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
       }
     ]
   },
@@ -100,7 +115,10 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             Significant earthquakes over the past 30 days affecting <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="population" />
-          </div>
+          </div>,
+         basemap: {
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
       },
       {
         label: 'Weekly Volcano Report',
@@ -111,50 +129,68 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             Volcanoes over the past 7 days affecting <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="population" />
-          </div>
+          </div>,
+     basemap: {
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
       },
       {
         label: 'Landslide Hazard Alerts',
         id: '50ef9f99-ddca-46b9-bb69-690f0b2ced88',
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         '3d': false,
-        widgets: ['279f8f52-83df-417d-a32e-f433c49e3288'],
+        widgets: [],
         descriptionPulse:
           <div className="description">
             Landslide hazard alerts affecting <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="population" />
-          </div>
+          </div>,
+         basemap: {
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
       }
     ]
   },
   {
     label: 'Society',
     layers: [
-      // {
-      //  label: 'Conflict and Protest Events in African States',
-      //  id: 'b508a5f8-28f2-41c6-b0f7-eac918083062',
-      //  contextLayers: [],
-      //  '3d': false,
-      //  markerType: 'default'
-      // },
-      // {
-      //  label: 'Conflict and Protest Events in Asian States',
-      //  id: '029b6b49-dd20-4172-8842-6cbba6bdaf87',
-      //  contextLayers: [],
-      //  '3d': false,
-      //  markerType: 'default'
-      // },
-      // {
-      //  label: 'Global Database of Events, Language, and Tone',
-      //  id: 'b51c7412-cb4d-4dab-8eeb-8cc31c131195',
-      //  contextLayers: [],
-      //  '3d': false,
-      //  markerType: 'default'
-      // },
+       {
+        label: 'Conflict and Protest Events in African States',
+        id: 'b508a5f8-28f2-41c6-b0f7-eac918083062',
+        contextLayers: [],
+        '3d': false,
+        markerType: 'default',
+          basemap: {
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
+       },
+       {
+        label: 'Conflict and Protest Events in Asian States',
+        id: '029b6b49-dd20-4172-8842-6cbba6bdaf87',
+        contextLayers: [],
+        '3d': false,
+        markerType: 'default',
+          basemap: {
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
+       },
+       {
+        label: 'Global Database of Events, Language, and Tone',
+        id: 'b51c7412-cb4d-4dab-8eeb-8cc31c131195',
+        contextLayers: [],
+        '3d': false,
+        markerType: 'default',
+          basemap: {
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
+       },
       {
         label: 'Migrant Deaths',
         id: 'b51c7412-cb4d-4dab-8eeb-8cc31c131195',
         contextLayers: [],
-        '3d': false
+        '3d': false,
+         basemap: {
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
       }
 
     ]
@@ -167,21 +203,27 @@ export const LAYERS_PLANET_PULSE = [
         id: '52a0250f-ae97-462d-b8fb-995e3d8fc084',
         contextLayers: [],
         '3d': false,
-        widgets: ['349aae2c-d39f-4a9f-8a90-3fe7f73a25ce']
+        widgets: [],
+         basemap: {
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
       },
       {
         label: 'Air Quality - PM 10',
         id: '1002c7f6-78f7-4fde-a8c3-ba8f8abf2b7f',
         contextLayers: [],
         '3d': false,
-        widgets: ['349aae2c-d39f-4a9f-8a90-3fe7f73a25ce']
+        widgets: [],
+         basemap: {
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
       },
       {
         label: 'Air Temperature Anomolies',
         id: 'f1d841cb-a959-4b54-8472-e28f794b2c6a',
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         '3d': false,
-        widgets: ['349aae2c-d39f-4a9f-8a90-3fe7f73a25ce'],
+        widgets: [],
         descriptionPulse:
           <div className="description">
             Air temperature anomalies affecting <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="population" />
