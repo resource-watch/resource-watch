@@ -175,7 +175,7 @@ class LayerCard extends React.Component {
         {contextualLayers &&
           <div className="context-layers-legends">
             {
-              contextualLayers.map(ctLayer => (
+              contextualLayers.map(ctLayer => ctLayer.active && (
                 <Legend
                   layerActive={ctLayer}
                   className={{ color: '-dark' }}
