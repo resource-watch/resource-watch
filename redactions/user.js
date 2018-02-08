@@ -180,6 +180,8 @@ export const toggleFavourite = createThunkAction('user/toggleFavourite', (payloa
     const { token } = getState().user;
     const { favourite, resource } = payload;
 
+    dispatch(setFavouriteLoading(true));
+
     if (favourite.id) {
       const { id } = favourite;
       FavouritesService.deleteFavourite(token, id)
@@ -188,6 +190,7 @@ export const toggleFavourite = createThunkAction('user/toggleFavourite', (payloa
           dispatch(getUserFavourites());
         })
         .catch((error) => {
+          dispatch(setFavouriteLoading(false));
           dispatch(setFavouriteError(error));
         });
 
@@ -196,11 +199,11 @@ export const toggleFavourite = createThunkAction('user/toggleFavourite', (payloa
 
     FavouritesService.createFavourite(token, resource)
       .then(() => {
-        dispatch(setFavouriteLoading(false));
         // asks for the new updated list of favourites
         dispatch(getUserFavourites());
       })
       .catch(({ errors }) => {
+        dispatch(setFavouriteLoading(false));
         dispatch(setFavouriteError(errors));
       });
   });

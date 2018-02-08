@@ -4,8 +4,6 @@ import { Router } from 'routes';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { setUser } from 'redactions/user';
-import { setRouter } from 'redactions/routes';
 import { fetchDashboards, setPagination, setExpanded } from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list-actions';
 
 // Components
@@ -14,18 +12,15 @@ import Layout from 'components/app/layout/Layout';
 import DashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
 
 class Dashboards extends Page {
-  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
-    const { user } = isServer ? req : store.getState();
-    const url = { asPath, pathname, query };
-    await store.dispatch(setUser(user));
-    store.dispatch(setRouter(url));
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
 
-    store.dispatch(setPagination(false));
-    await store.dispatch(fetchDashboards({
+    context.store.dispatch(setPagination(false));
+    await context.store.dispatch(fetchDashboards({
       filters: { 'filter[published]': 'true' }
     }));
 
-    return { isServer, user, url };
+    return { ...props };
   }
 
 
