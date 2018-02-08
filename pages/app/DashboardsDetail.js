@@ -1,4 +1,5 @@
 import React from 'react';
+import { Router } from 'routes';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -90,9 +91,11 @@ class DashboardsDetail extends Page {
                     // We need to make an amendment in the Wysiwyg to have this working
                     window.location = `/data/dashboards/${slug}`;
                   }}
-                  onAdd={({ slug }) => {
-                    // We need to make an amendment in the Wysiwyg to have this working
-                    window.location = `/data/dashboards/${slug}`;
+                  onAdd={() => {
+                    Router.pushRoute('myrw_detail', { tab: 'dashboards', id: 'new' })
+                      .then(() => {
+                        window.scrollTo(0, 0);
+                      });
                   }}
                   onExpand={(bool) => {
                     this.props.setExpanded(bool);
