@@ -5,11 +5,15 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { fetchDashboard } from 'components/dashboards/detail/dashboard-detail-actions';
 
+// Next
+import { Router } from 'routes';
+
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import DashboardDetail from 'components/dashboards/detail/dashboard-detail';
+import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
 
 class DashboardsDetail extends Page {
   static async getInitialProps(context) {
@@ -17,6 +21,20 @@ class DashboardsDetail extends Page {
     await context.store.dispatch(fetchDashboard({ id: props.url.query.slug }));
 
     return { props };
+  }
+
+  handleTagSelected(tag, labels = ['TOPIC']) { // eslint-disable-line class-methods-use-this
+    const tagSt = `["${tag.id}"]`;
+    let treeSt = 'topics';
+    if (labels.includes('TOPIC')) {
+      treeSt = 'topics';
+    } else if (labels.includes('GEOGRAPHY')) {
+      treeSt = 'geographies';
+    } else if (labels.includes('DATA_TYPE')) {
+      treeSt = 'dataTypes';
+    }
+
+    Router.pushRoute('explore', { [treeSt]: tagSt });
   }
 
   render() {
@@ -49,6 +67,18 @@ class DashboardsDetail extends Page {
             <div className="row">
               <div className="column small-12">
                 <DashboardDetail />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="l-section">
+          <div className="l-container">
+            <div className="row">
+              <div className="column small-12">
+                <SimilarDatasets
+                  datasetIds={[]}
+                  onTagSelected={this.handleTagSelected}
+                />
               </div>
             </div>
           </div>
