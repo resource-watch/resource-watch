@@ -29,10 +29,16 @@ import AreasTab from 'components/app/myrw/areas/AreasTab';
 import DatasetsTab from 'components/app/myrw/datasets/DatasetsTab';
 import WidgetsTab from 'components/app/myrw/widgets/WidgetsTab';
 import DashboardsTab from 'components/app/myrw/dashboards/DashboardsTab';
-// import LayersTab from 'components/app/myrw/layers/LayersTab';
 
 // Components
 import Title from 'components/ui/Title';
+
+const subTabs = {
+  datasets: 'my_datasets',
+  widgets: 'my_widgets',
+  dashboards: undefined,
+  areas: undefined
+};
 
 class MyRWDetail extends Page {
   constructor(props) {
@@ -153,7 +159,7 @@ class MyRWDetail extends Page {
               <div className="column small-12">
                 <div className="page-header-content">
                   <Breadcrumbs
-                    items={[{ name: capitalizeFirstLetter(tab), route: 'myrw', params: { tab } }]}
+                    items={[{ name: capitalizeFirstLetter(tab), route: 'myrw', params: { tab, subtab: subTabs[tab] } }]}
                   />
                   <Title className="-primary -huge page-header-title" >
                     {this.getName()}
