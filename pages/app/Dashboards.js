@@ -4,7 +4,7 @@ import { Router } from 'routes';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { fetchDashboards, setPagination, setExpanded, setAdd } from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list-actions';
+import { fetchDashboards, setPagination, setExpanded, setAdd, setSelected } from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list-actions';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -18,6 +18,8 @@ class Dashboards extends Page {
     // Dashboard thumbnail list
     context.store.dispatch(setPagination(false));
     context.store.dispatch(setAdd(false));
+    context.store.dispatch(setSelected(null));
+
     await context.store.dispatch(fetchDashboards({
       filters: { 'filter[published]': 'true' }
     }));
@@ -81,7 +83,8 @@ const mapDispatchToProps = {
   fetchDashboards,
   setExpanded,
   setPagination,
-  setAdd
+  setAdd,
+  setSelected
 };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Dashboards);

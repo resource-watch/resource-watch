@@ -106,7 +106,7 @@
 @import "./components/map/map-controls";
 
 // Form
-@import '../node_modules/vizz-wysiwyg/build/wysiwyg';
+@import '../node_modules/vizz-wysiwyg/build/rw';
 @import "./components/form/form";
 @import "./components/form/field";
 @import "./components/form/field-container";
@@ -118,6 +118,7 @@
 @import "./components/form/select";
 @import "./components/form/token";
 @import "./components/form/toggle-search";
+@import "./components/form/wysiwyg";
 
 
 // WIDGETS
@@ -193,7 +194,6 @@
 // PAGES
 @import "./components/app/pages/explore";
 @import "./components/app/pages/explore_detail";
-@import "./components/app/pages/dashboards";
 @import "./components/app/pages/about";
 @import "./components/app/pages/pulse";
 @import "./components/app/pages/home";

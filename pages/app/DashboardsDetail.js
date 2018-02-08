@@ -1,4 +1,6 @@
 import React from 'react';
+import flatten from 'lodash/flatten';
+import compact from 'lodash/compact';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -60,6 +62,32 @@ class DashboardsDetail extends Page {
     Router.pushRoute('explore', { [treeSt]: tagSt });
   }
 
+  getDatasetIds() {
+    const { dashboardDetail } = this.props;
+
+    const content = JSON.parse(dashboardDetail.dashboard.content);
+
+    const datasetIds = content.map((block) => {
+      if (block.type === 'widget') {
+        return block.content.datasetId;
+      }
+
+      if (block.type === 'grid') {
+        return block.content.map((b) => {
+          if (b.type === 'widget') {
+            return b.content.datasetId;
+          }
+
+          return null;
+        });
+      }
+
+      return null;
+    });
+
+    return compact(flatten(datasetIds));
+  }
+
   render() {
     const { dashboardDetail } = this.props;
 
@@ -94,6 +122,7 @@ class DashboardsDetail extends Page {
             </div>
           </div>
         </div>
+
         <div className="l-section">
           <div className="l-container">
             <div className="row">
@@ -117,12 +146,18 @@ class DashboardsDetail extends Page {
                     this.props.setExpanded(bool);
                   }}
                 />
-
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="l-section">
+          <div className="l-container">
+            <div className="row">
+              <div className="column small-12">
                 <SimilarDatasets
-                  datasetIds={[]}
+                  datasetIds={this.getDatasetIds()}
                   onTagSelected={this.handleTagSelected}
                 />
-
               </div>
             </div>
           </div>

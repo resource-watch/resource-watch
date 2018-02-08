@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 // Components
 import DatasetList from 'components/app/explore/DatasetList';
+import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
 
 class SimilarDatasets extends PureComponent {
@@ -16,7 +17,11 @@ class SimilarDatasets extends PureComponent {
     return (
       <div className="c-similar-datasets">
         <Spinner isLoading={loading} className="-light" />
-        <h3>Similar datasets</h3>
+
+        <Title className="-extrabig -secondary -p-secondary">
+          Similar datasets
+        </Title>
+
         {data && data.length > 0 &&
           <DatasetList
             active={active}
