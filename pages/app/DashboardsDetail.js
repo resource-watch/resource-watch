@@ -1,11 +1,13 @@
 import React from 'react';
-import { Router } from 'routes';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { fetchDashboard } from 'components/dashboards/detail/dashboard-detail-actions';
 import { fetchDashboards, setPagination, setAdd, setSelected, setExpanded } from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list-actions';
+
+// Next
+import { Router } from 'routes';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -15,6 +17,7 @@ import Title from 'components/ui/Title';
 
 import DashboardDetail from 'components/dashboards/detail/dashboard-detail';
 import DashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
+import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
 
 class DashboardsDetail extends Page {
   static async getInitialProps(context) {
@@ -41,6 +44,20 @@ class DashboardsDetail extends Page {
     );
 
     return { ...props };
+  }
+
+  handleTagSelected(tag, labels = ['TOPIC']) { // eslint-disable-line class-methods-use-this
+    const tagSt = `["${tag.id}"]`;
+    let treeSt = 'topics';
+    if (labels.includes('TOPIC')) {
+      treeSt = 'topics';
+    } else if (labels.includes('GEOGRAPHY')) {
+      treeSt = 'geographies';
+    } else if (labels.includes('DATA_TYPE')) {
+      treeSt = 'dataTypes';
+    }
+
+    Router.pushRoute('explore', { [treeSt]: tagSt });
   }
 
   render() {
@@ -77,7 +94,6 @@ class DashboardsDetail extends Page {
             </div>
           </div>
         </div>
-
         <div className="l-section">
           <div className="l-container">
             <div className="row">
@@ -101,11 +117,16 @@ class DashboardsDetail extends Page {
                     this.props.setExpanded(bool);
                   }}
                 />
+
+                <SimilarDatasets
+                  datasetIds={[]}
+                  onTagSelected={this.handleTagSelected}
+                />
+
               </div>
             </div>
           </div>
         </div>
-
       </Layout>
     );
   }
