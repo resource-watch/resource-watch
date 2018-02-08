@@ -319,7 +319,7 @@ class DatasetWidget extends React.Component {
               <div className="actions">
                 <Link route="explore_detail" params={{ id: this.props.dataset.id }}>
                   <a className="c-button -secondary -compressed">
-                    Explore
+                    More info
                   </a>
                 </Link>
                 {/* Add to Map Button */}
