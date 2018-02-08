@@ -13,13 +13,24 @@
     }
   }
 
-  .actions {
-    display: flex;
-    justify-content: flex-end;
+  &.-owner {
+    .card-container {
+      padding-bottom: 50px;
+    }
 
-    a {
-      color: $color-dark-pink;
-      text-decoration: none;
+    .actions {
+      width: 100%;
+      padding: 0 30px;
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      display: flex;
+      justify-content: flex-end;
+
+      a {
+        color: $color-dark-pink;
+        text-decoration: none;
+      }
     }
   }
 }
