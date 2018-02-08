@@ -69,7 +69,7 @@ const initialState = {
     loading: false,
     error: false,
     page: 1,
-    limit: 9,
+    limit: 12,
     mode: 'grid' // 'grid' or 'list'
   },
   // List of layers (corresponding to the datasets
