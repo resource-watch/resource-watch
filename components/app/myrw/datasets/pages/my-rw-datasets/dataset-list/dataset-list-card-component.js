@@ -5,7 +5,6 @@ import { Link } from 'routes';
 
 // Components
 import Title from 'components/ui/Title';
-import DatasetsRelatedContent from 'components/datasets/common/DatasetsRelatedContent';
 import Icon from 'components/ui/Icon';
 import Tooltip from 'rc-tooltip/dist/rc-tooltip';
 import CollectionsPanel from 'components/collections-panel';
@@ -47,15 +46,22 @@ class DatasetsListCard extends PureComponent {
 
   render() {
     const { dataset, routes, user } = this.props;
+
+
+    const isOwnerOrAdmin = (dataset.userId === user.id || user.role === 'ADMIN');
     const isInACollection = belongsToACollection(user, dataset);
+
+    const classNames = classnames({
+      '-owner': isOwnerOrAdmin
+    });
+
     const starIconName = classnames({
       'icon-star-full': isInACollection,
       'icon-star-empty': !isInACollection
     });
-    const isOwnerOrAdmin = (dataset.userId === user.id || user.role === 'ADMIN');
 
     return (
-      <div className="c-card c-datasets-list-card">
+      <div className={`c-card c-datasets-list-card ${classNames}`}>
         <div className="card-container">
           <header className="card-header">
             {isOwnerOrAdmin &&
@@ -115,29 +121,23 @@ class DatasetsListCard extends PureComponent {
           </header>
 
           <div className="card-content">
-            {dataset.status === 'saved' &&
-              <DatasetsRelatedContent
-                dataset={dataset}
-                route={routes.detail}
-              />
-            }
             {dataset.status !== 'saved' &&
               dataset.status
             }
           </div>
 
-          <div className="actions">
-            {isOwnerOrAdmin &&
+          {isOwnerOrAdmin &&
+            <div className="actions">
               <a
                 role="button"
-                className="c-button -tertiary -compressed"
+                className="c-button -secondary -compressed"
                 tabIndex={0}
                 onClick={this.handleDelete}
               >
                 Delete
               </a>
-            }
-          </div>
+            </div>
+          }
         </div>
       </div>
     );
