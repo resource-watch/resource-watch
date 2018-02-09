@@ -44,6 +44,7 @@ const SET_ZOOM = 'explore/SET_ZOOM';
 const SET_LATLNG = 'explore/SET_LATLNG';
 const SET_BASEMAP = 'explore/SET_BASEMAP';
 const SET_LABELS = 'explore/SET_LABELS';
+const SET_BOUNDARIES = 'explore/SET_BOUNDARIES';
 
 /**
  * Layer
@@ -105,6 +106,7 @@ const initialState = {
   dataTypeTree: null,
   /** @type {string} labels */
   labels: 'none',
+  boundaries: false,
   sorting: {
     /** @type {'modified'|'viewed'|'favourited'} order */
     order: 'modified',
@@ -251,6 +253,12 @@ export default function (state = initialState, action) {
     case SET_LABELS: {
       return Object.assign({}, state, {
         labels: action.payload
+      });
+    }
+
+    case SET_BOUNDARIES: {
+      return Object.assign({}, state, {
+        boundaries: action.payload
       });
     }
 
@@ -623,6 +631,13 @@ export function setLabels(labelEnabled) {
   return {
     type: SET_LABELS,
     payload: labelEnabled
+  };
+}
+
+export function setBoundaries(boundaries) {
+  return {
+    type: SET_BOUNDARIES,
+    payload: boundaries
   };
 }
 

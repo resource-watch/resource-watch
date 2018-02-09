@@ -5,12 +5,13 @@ import { LABELS } from 'components/ui/map/constants';
 
 // Redux
 import { connect } from 'react-redux';
-import { setBasemap, setLabels } from 'redactions/explore';
+import { setBasemap, setLabels, setBoundaries } from 'redactions/explore';
 
 // Components
 import TetherComponent from 'react-tether';
 import Icon from 'components/ui/Icon';
 import RadioGroup from 'components/form/RadioGroup';
+import Checkbox from 'components/form/Checkbox';
 
 class BasemapControl extends React.Component {
   static propTypes = {
@@ -18,10 +19,12 @@ class BasemapControl extends React.Component {
     basemapControl: PropTypes.object,
     basemap: PropTypes.object,
     labels: PropTypes.string,
+    boundaries: PropTypes.bool,
 
     // ACTIONS
     setBasemap: PropTypes.func,
-    setLabels: PropTypes.func
+    setLabels: PropTypes.func,
+    setBoundaries: PropTypes.func
   };
 
   state = {
@@ -51,6 +54,10 @@ class BasemapControl extends React.Component {
     this.props.setLabels(labels);
   }
 
+  onBoundariesChange = (boundaries) => {
+    this.props.setBoundaries(boundaries.checked);
+  }
+
   toggleDropdown = (to) => {
     const active = (typeof to !== 'undefined' && to !== null) ? to : !this.state.active;
 
@@ -68,7 +75,7 @@ class BasemapControl extends React.Component {
 
   // RENDER
   render() {
-    const { basemap, basemapControl, labels } = this.props;
+    const { basemap, basemapControl, labels, boundaries } = this.props;
     const { active } = this.state;
 
     return (
@@ -116,6 +123,16 @@ class BasemapControl extends React.Component {
               }}
               onChange={this.onLabelChange}
             />
+            <div className="divisor" />
+            <Checkbox
+              properties={{
+                name: 'boundaries',
+                title: 'Boundaries',
+                value: 'boundaries',
+                checked: boundaries
+              }}
+              onChange={this.onBoundariesChange}
+            />
           </div>
         }
       </TetherComponent>
@@ -127,10 +144,12 @@ export default (connect(
   state => ({
     basemap: state.explore.basemap,
     basemapControl: state.explore.basemapControl,
-    labels: state.explore.labels
+    labels: state.explore.labels,
+    boundaries: state.explore.boundaries
   }),
   {
     setBasemap,
-    setLabels
+    setLabels,
+    setBoundaries
   }
 )(BasemapControl));

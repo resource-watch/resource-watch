@@ -51,4 +51,12 @@ const LABELS = {
   }
 };
 
-export { BASEMAPS, LABELS };
+const BOUNDARIES = {
+  dark: {
+    id: 'dark',
+    label: 'Boundaries',
+    value: 'https://api.mapbox.com/styles/v1/prepdata/cjbfcn5o51al72so1u5avqcur/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHJlcGRhdGEiLCJhIjoiY2piZmNrcTRjMXRsdzJxbm9uNm1nOXJtNSJ9.Jm14P-FBGvNxiaB-3mzSPw'
+  }
+};
+
+export { BASEMAPS, LABELS, BOUNDARIES };

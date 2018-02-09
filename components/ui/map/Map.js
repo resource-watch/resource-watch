@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 
-import { LABELS } from 'components/ui/map/constants';
+import { LABELS, BOUNDARIES } from 'components/ui/map/constants';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -70,6 +70,7 @@ class Map extends React.Component {
     this.setMapEventListeners();
 
     this.setLabels(this.props.labels);
+    this.setBoundaries(this.props.boundaries);
 
     // Add layers
     this.setLayerManager();
@@ -138,6 +139,9 @@ class Map extends React.Component {
     if (this.props.labels !== nextProps.labels) {
       this.setLabels(nextProps.labels);
     }
+    if (this.props.boundaries !== nextProps.boundaries) {
+      this.setBoundaries(nextProps.boundaries);
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -199,6 +203,22 @@ class Map extends React.Component {
       const labels = LABELS[labelsId];
 
       this.labelLayer = L.tileLayer(labels.value, labels.options || {})
+        .addTo(this.map)
+        .setZIndex(this.props.layerGroups.length + 2);
+    }
+  }
+
+  /**
+   * Set the boundaries layer
+   * @param {boolean} visible Whether the boundaries are visible or not
+   */
+  setBoundaries(visible) {
+    if (!visible && this.boundariesLayer) {
+      this.boundariesLayer.remove();
+      this.boundariesLayer = undefined;
+    } else if (visible && !this.boundariesLayer) {
+      const boundaries = BOUNDARIES.dark;
+      this.boundariesLayer = L.tileLayer(boundaries.value, boundaries.options || {})
         .addTo(this.map)
         .setZIndex(this.props.layerGroups.length + 1);
     }
@@ -299,6 +319,7 @@ Map.propTypes = {
   // STORE
   basemap: PropTypes.object,
   labels: PropTypes.string,
+  boundaries: PropTypes.bool,
   mapConfig: PropTypes.object,
   filters: PropTypes.object,
   sidebar: PropTypes.object,
@@ -311,6 +332,7 @@ Map.propTypes = {
 const mapStateToProps = state => ({
   basemap: state.explore.basemap,
   labels: state.explore.labels,
+  boundaries: state.explore.boundaries,
   sidebar: state.explore.sidebar
 });
 
