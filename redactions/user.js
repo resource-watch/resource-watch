@@ -159,11 +159,15 @@ export const setFavouriteError = createAction(SET_USER_FAVOURITES_ERROR);
 
 export const getUserFavourites = createThunkAction('user/getUserFavourites', () =>
   (dispatch, getState) => {
-    const { user = {} } = getState();
+    const { token } = getState().user;
+
+    if (!token) {
+      return;
+    }
 
     dispatch(setFavouriteLoading(true));
 
-    return FavouritesService.getFavourites(user.token)
+    return FavouritesService.getFavourites(token)
       .then(({ data }) => {
         dispatch(setFavouriteLoading(false));
         dispatch({ type: SET_USER_FAVOURITES, payload: data });
@@ -217,6 +221,10 @@ export const setUserCollectionsUpdateLoading = createAction(SET_USER_COLLECTIONS
 export const getUserCollections = createThunkAction('user/getUserCollections', () =>
   (dispatch, getState) => {
     const { token } = getState().user;
+
+    if (!token) {
+      return;
+    }
 
     return CollectionsService.getAllCollections(token)
       .then(({ data }) => {
