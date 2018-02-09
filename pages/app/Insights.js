@@ -17,18 +17,22 @@ class Insights extends Page {
   static insightsCardsStatic(insightsData) {
     return insightsData.map(c =>
       (<CardStatic
-        key={`insight-card-${c.tag}`}
-        className="-alt"
+        key={`insight-card-${c.slug}`}
+        className={`-alt ${c.link ? '-clickable' : ''}`}
         background={c.background}
-        clickable
-        route={`/blog/${c.slug}`}
+        clickable={!!c.link}
+        route={c.link ? c.link : ''}
       >
         <div>
           <h4>{c.tag}</h4>
           <h3>
-            <Link route={`/blog/${c.slug}`}>
-              <a>{c.title}</a>
-            </Link>
+            { c.link ?
+              <Link route={`/blog/${c.slug}`}>
+                <a>{c.title}</a>
+              </Link>
+              :
+              <span>{c.title}</span>
+            }
           </h3>
         </div>
         <div className="footer">
