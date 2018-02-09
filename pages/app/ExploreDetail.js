@@ -29,6 +29,7 @@ import UserService from 'services/UserService';
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
+import Title from 'components/ui/Title';
 import Icon from 'components/ui/Icon';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
@@ -734,11 +735,15 @@ class ExploreDetail extends Page {
                   </div>
                 </div>
               </div>
+            </div>
+          </section>
 
+          <section className="l-section">
+            <div className="l-container">
               <div className="row">
                 <div className="column small-12">
                   {/* SIMILAR DATASETS */}
-                  <div className="l-section-mod similar-datasets">
+                  <div className="similar-datasets">
                     <div className="row">
                       <div className="column small-12">
                         {dataset &&
@@ -752,15 +757,21 @@ class ExploreDetail extends Page {
                   </div>
                 </div>
               </div>
+            </div>
+          </section>
 
-              {/* RELATED TOOLS */}
-              {relatedToolsWithData.length > 0 &&
+          {/* RELATED TOOLS */}
+          {relatedToolsWithData.length > 0 &&
+            <section className="l-section">
+              <div className="l-container">
                 <div className="row">
                   <div className="column small-12">
-                    <div className="l-section-mod related-tools">
+                    <div className="related-tools">
                       <div className="row">
                         <div className="column small-12">
-                          <h3 className="c-text title -thin">Related Tools</h3>
+                          <Title className="-extrabig">
+                            Related Tools
+                          </Title>
                           {
                             relatedToolsWithData.map(relatedTool => (
                               <CardApp
@@ -780,9 +791,9 @@ class ExploreDetail extends Page {
                     </div>
                   </div>
                 </div>
-              }
-            </div>
-          </section>
+              </div>
+            </section>
+          }
 
           {/* RELATED INSIGHTS */}
           {/* <div className="c-page-section related-insights">

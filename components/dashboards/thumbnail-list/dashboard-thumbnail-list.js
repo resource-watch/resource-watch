@@ -16,6 +16,7 @@ export default connect(
     dashboards: getFilteredDashboards(state),
     total: state.dashboardThumbnailList.total,
     pagination: state.dashboardThumbnailList.pagination,
+    add: state.dashboardThumbnailList.add,
     selected: state.dashboardThumbnailList.selected,
     expanded: state.dashboardThumbnailList.expanded
   }),

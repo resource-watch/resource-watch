@@ -20,5 +20,9 @@ export default {
     ({ ...state, total: action.payload }),
 
   [actions.setPagination]: (state, action) =>
-    ({ ...state, pagination: action.payload })
+    ({ ...state, pagination: action.payload }),
+
+  [actions.setAdd]: (state, action) =>
+    ({ ...state, add: action.payload })
+
 };
