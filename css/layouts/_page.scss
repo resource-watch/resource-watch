@@ -62,7 +62,7 @@
     }
 
     .page-header-info {
-      margin: $space-1 * 2 0 0 $space-1;
+      margin: $space-1 * 2 0 0;
 
       ul {
         margin: 0;
@@ -76,7 +76,7 @@
         li {
           margin: 0 0 0 $space-1 * 4;
 
-          &:first-child { margin: 0; }
+          &:first-child{ margin: 0; }
 
           a {
             color: $white;
