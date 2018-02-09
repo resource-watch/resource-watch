@@ -103,7 +103,8 @@ const initialState = {
   geographiesTree: null,
   topicsTree: null,
   dataTypeTree: null,
-  labels: false,
+  /** @type {string} labels */
+  labels: 'none',
   sorting: {
     /** @type {'modified'|'viewed'|'favourited'} order */
     order: 'modified',

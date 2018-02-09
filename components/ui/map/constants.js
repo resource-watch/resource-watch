@@ -34,9 +34,21 @@ const BASEMAPS = {
 };
 
 const LABELS = {
-  id: 'labels',
-  label: 'Labels',
-  value: 'https://api.mapbox.com/styles/v1/jcawri/cj8lr4oo566da2rqrmuu9btmz/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamNhd3JpIiwiYSI6ImNqMDd6N2NybzAwMHcyd29iZWlsems0enEifQ.eIqQeyQn5oCLkyivGtiVLg'
+  none: {
+    id: 'none',
+    label: 'No labels',
+    value: 'no_labels'
+  },
+  light: {
+    id: 'light',
+    label: 'Labels light',
+    value: 'https://api.mapbox.com/styles/v1/prepdata/cjc6dank251222rnm74g4qmin/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHJlcGRhdGEiLCJhIjoiY2piZmNrcTRjMXRsdzJxbm9uNm1nOXJtNSJ9.Jm14P-FBGvNxiaB-3mzSPw'
+  },
+  dark: {
+    id: 'dark',
+    label: 'Labels dark',
+    value: 'https://api.mapbox.com/styles/v1/prepdata/cjc6c1e9o4wa42slf54h8ccix/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHJlcGRhdGEiLCJhIjoiY2piZmNrcTRjMXRsdzJxbm9uNm1nOXJtNSJ9.Jm14P-FBGvNxiaB-3mzSPw'
+  }
 };
 
 export { BASEMAPS, LABELS };

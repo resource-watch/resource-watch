@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { LABELS } from 'components/ui/map/constants';
+
 // Redux
 import { connect } from 'react-redux';
 import { setBasemap, setLabels } from 'redactions/explore';
@@ -8,7 +10,6 @@ import { setBasemap, setLabels } from 'redactions/explore';
 // Components
 import TetherComponent from 'react-tether';
 import Icon from 'components/ui/Icon';
-import Checkbox from 'components/form/Checkbox';
 import RadioGroup from 'components/form/RadioGroup';
 
 class BasemapControl extends React.Component {
@@ -16,16 +17,11 @@ class BasemapControl extends React.Component {
     // STORE
     basemapControl: PropTypes.object,
     basemap: PropTypes.object,
-    labelsVisible: PropTypes.bool,
+    labels: PropTypes.string,
 
     // ACTIONS
     setBasemap: PropTypes.func,
     setLabels: PropTypes.func
-  };
-
-  static defaultProps = {
-    // STORE
-    labelsVisible: false
   };
 
   state = {
@@ -51,8 +47,8 @@ class BasemapControl extends React.Component {
     this.props.setBasemap(basemapControl.basemaps[basemap]);
   }
 
-  onLabelChange = (label) => {
-    this.props.setLabels(label.checked);
+  onLabelChange = (labels) => {
+    this.props.setLabels(labels);
   }
 
   toggleDropdown = (to) => {
@@ -72,7 +68,7 @@ class BasemapControl extends React.Component {
 
   // RENDER
   render() {
-    const { basemap, basemapControl, labelsVisible } = this.props;
+    const { basemap, basemapControl, labels } = this.props;
     const { active } = this.state;
 
     return (
@@ -109,12 +105,14 @@ class BasemapControl extends React.Component {
               onChange={this.onBasemapChange}
             />
             <div className="divisor" />
-            <Checkbox
+            <RadioGroup
+              options={Object.keys(LABELS).map(k => ({
+                label: LABELS[k].label,
+                value: LABELS[k].id
+              }))}
+              name="labels"
               properties={{
-                name: 'labels',
-                title: 'Labels',
-                value: 'labels',
-                checked: labelsVisible
+                default: labels
               }}
               onChange={this.onLabelChange}
             />
@@ -129,7 +127,7 @@ export default (connect(
   state => ({
     basemap: state.explore.basemap,
     basemapControl: state.explore.basemapControl,
-    labelsVisible: state.explore.labels
+    labels: state.explore.labels
   }),
   {
     setBasemap,

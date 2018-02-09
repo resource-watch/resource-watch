@@ -2,14 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 
+import { LABELS } from 'components/ui/map/constants';
+
 // Components
 import Spinner from 'components/ui/Spinner';
 
 // Redux
 import { connect } from 'react-redux';
-
-import { LABELS } from 'components/ui/map/constants';
-
 
 // Leaflet can't be imported on the server because it's not isomorphic
 const L = (typeof window !== 'undefined') ? require('leaflet') : null;
@@ -189,11 +188,17 @@ class Map extends React.Component {
       .setZIndex(0);
   }
 
-  setLabels(enabled) {
-    if (this.labelLayer && !enabled) this.labelLayer.remove();
+  /**
+   * Set the labels layer
+   * @param {string} labelsId
+   */
+  setLabels(labelsId) {
+    if (this.labelLayer) this.labelLayer.remove();
 
-    if (enabled) {
-      this.labelLayer = L.tileLayer(LABELS.value, LABELS.options || {})
+    if (labelsId !== 'none') {
+      const labels = LABELS[labelsId];
+
+      this.labelLayer = L.tileLayer(labels.value, labels.options || {})
         .addTo(this.map)
         .setZIndex(this.props.layerGroups.length + 1);
     }
@@ -293,7 +298,7 @@ Map.propTypes = {
   setMapInstance: PropTypes.func,
   // STORE
   basemap: PropTypes.object,
-  labels: PropTypes.bool,
+  labels: PropTypes.string,
   mapConfig: PropTypes.object,
   filters: PropTypes.object,
   sidebar: PropTypes.object,
