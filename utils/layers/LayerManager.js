@@ -294,11 +294,7 @@ export default class LayerManager {
         });
 
         // Add interactivity
-        const hasInteractivity = (
-          !isEmpty(layerSpec.interactionConfig)
-        );
-
-        if (hasInteractivity) {
+        if (!isEmpty(layerSpec.interactionConfig)) {
           const gridUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/0/{z}/{x}/{y}.grid.json`;
           this.interactionLayers[layer.id] = L.utfGrid(gridUrl).addTo(this.map).setZIndex(995);
 

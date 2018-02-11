@@ -28,9 +28,13 @@ import {
   setFiltersLoading,
   setZoom,
   setLatLng,
+  // Interaction
   setLayerInteraction,
+  setLayerInteractionSelected,
+  setLayerInteractionLatLng,
   resetLayerInteraction
 } from 'redactions/explore';
+
 import { setFilters } from 'components/app/explore/explore-dataset-filters/explore-dataset-filters-actions';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
@@ -309,7 +313,7 @@ class Explore extends Page {
 
     const { explore, totalDatasets, filteredDatasets, user } = this.props;
     const { search } = explore.filters;
-    const { zoom, latLng, datasets, interaction } = explore;
+    const { zoom, latLng, datasets, interaction, interactionLatLng, interactionSelected } = explore;
     const { loading, list } = datasets;
     const { showFilters } = this.state;
 
@@ -416,13 +420,20 @@ class Explore extends Page {
               <div className="l-map">
                 <Map
                   mapConfig={{ zoom, latLng }}
-                  layerGroups={this.props.layerGroups}
-                  layerInteraction={interaction}
                   setMapParams={params => this.setMapParams(params)}
                   setMapInstance={(map) => { this.map = map; }}
-                  setLayerInteraction={this.props.setLayerInteraction}
-                  resetLayerInteraction={this.props.resetLayerInteraction}
+                  // layerManager
+                  layerGroups={this.props.layerGroups}
                   LayerManager={LayerManager}
+                  // Interaction
+                  interaction={interaction}
+                  interactionLatLng={interactionLatLng}
+                  interactionSelected={interactionSelected}
+                  setLayerInteraction={this.props.setLayerInteraction}
+                  setLayerInteractionSelected={this.props.setLayerInteractionSelected}
+                  setLayerInteractionLatLng={this.props.setLayerInteractionLatLng}
+                  resetLayerInteraction={this.props.resetLayerInteraction}
+
                 />
 
                 <MapControls>
@@ -526,6 +537,8 @@ const mapDispatchToProps = {
   setLatLng,
   setDatasetsSorting,
   setLayerInteraction,
+  setLayerInteractionSelected,
+  setLayerInteractionLatLng,
   resetLayerInteraction
 };
 

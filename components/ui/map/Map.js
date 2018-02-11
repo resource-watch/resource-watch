@@ -147,27 +147,28 @@ class Map extends React.Component {
 
     // POPUP
     if (
-      !isEmpty(nextProps.layerInteraction) &&
-      !isEqual(this.props.layerInteraction, nextProps.layerInteraction)
+      (
+        !isEmpty(nextProps.interaction) &&
+        !isEqual(this.props.interaction, nextProps.interaction)
+      ) ||
+      (
+        this.props.interactionSelected !== nextProps.interactionSelected)
     ) {
-      // Get the interactive layers
-      const interactiveLayers = compact(nextLayerGroups.map(g =>
-        g.layers.find(l => l.active && !isEmpty(l.interactionConfig))
-      ));
-
-      // Get the current interactive layer
-      const currentInteractiveLayer = nextProps.layerInteraction[interactiveLayers[0].id];
-
       // Get the current interactive layer content
       const currentContent = render(
         MapPopup({
-          layer: currentInteractiveLayer
+          interaction: nextProps.interaction,
+          interactionSelected: nextProps.interactionSelected,
+          interactionLayers: compact(nextLayerGroups.map(g =>
+            g.layers.find(l => l.active && !isEmpty(l.interactionConfig))
+          )),
+          onChangeInteractiveLayer: this.props.setLayerInteractionSelected
         }),
         window.document.createElement('div')
       );
 
       this.popup = L.popup()
-        .setLatLng(currentInteractiveLayer.latlng)
+        .setLatLng(nextProps.interactionLatLng)
         .setContent(currentContent)
         .openOn(this.map);
 
@@ -204,7 +205,10 @@ class Map extends React.Component {
     this.layerManager = new this.props.LayerManager(this.map, {
       onLayerAddedSuccess: stopLoading,
       onLayerAddedError: stopLoading,
-      onLayerClick: this.props.setLayerInteraction
+      onLayerClick: (layer) => {
+        this.props.setLayerInteractionLatLng(layer.latlng);
+        this.props.setLayerInteraction(layer);
+      }
     });
   }
 
@@ -339,12 +343,16 @@ Map.propTypes = {
   labels: PropTypes.bool,
   filters: PropTypes.object,
   layerGroups: PropTypes.array, // List of LayerGroup items
-  layerInteraction: PropTypes.object,
+  interaction: PropTypes.object,
+  interactionSelected: PropTypes.string,
+  interactionLatLng: PropTypes.object,
   LayerManager: PropTypes.func,
 
   // ACTIONS
   setMapParams: PropTypes.func,
   setLayerInteraction: PropTypes.func,
+  setLayerInteractionSelected: PropTypes.func,
+  setLayerInteractionLatLng: PropTypes.func,
   resetLayerInteraction: PropTypes.func
 };
 

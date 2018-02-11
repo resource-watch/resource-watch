@@ -1,44 +1,74 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Title from 'components/ui/Title';
+// Components
+import Icon from 'components/ui/Icon';
 
-function MapPopup(props) {
-  const { name, data, interactionConfig } = props.layer;
-  const { output } = interactionConfig;
-  console.log(output);
+function MapPopup({
+  interaction,
+  interactionSelected,
+  interactionLayers,
+  onChangeInteractiveLayer
+}) {
+  const layer =
+    interactionLayers.find(l => l.id === interactionSelected) ||
+    interactionLayers[0];
+
+  const layerInteraction = interaction[layer.id] || {};
+
+  const { data, interactionConfig } = layerInteraction;
 
   return (
     <div className="c-map-popup">
-      <Title className="-small">
-        {name}
-      </Title>
+      <header>
+        <select
+          name="interactionLayers"
+          value={layer.id}
+          onChange={e => onChangeInteractiveLayer(e.target.value)}
+        >
+          {interactionLayers.map(o =>
+            <option key={o.id} value={o.id}>{o.name}</option>
+          )}
+        </select>
+
+        <button className="">
+          <Icon
+            name="icon-close"
+            className="-default"
+          />
+        </button>
+      </header>
 
       {data &&
-        <dl className="dl">
-          {Object.keys(data).map((d) => {
-            const outputItem = output.find(o => o.column === d) || {};
+        <table className="dl">
+          <tbody>
+            {Object.keys(data).map((d) => {
+              const outputItem = interactionConfig.output.find(o => o.column === d) || {};
 
-            return (
-              <div
-                className="dc"
-                key={d}
-              >
-                <dt className="dt">
-                  {outputItem.property || d}:
-                </dt>
-                <dd className="dd">{data[d]}</dd>
-              </div>
-            );
-          })}
-        </dl>
+              return (
+                <tr
+                  className="dc"
+                  key={d}
+                >
+                  <td className="dt">
+                    {outputItem.property || d}:
+                  </td>
+                  <td className="dd">{data[d]}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       }
     </div>
   );
 }
 
 MapPopup.propTypes = {
-  layer: PropTypes.object
+  interaction: PropTypes.object,
+  interactionLayers: PropTypes.array,
+  interactionSelected: PropTypes.string,
+  onChangeInteractiveLayer: PropTypes.func
 };
 
 export default MapPopup;
