@@ -44,6 +44,7 @@
     "json-loader": "0.5.4",
     "jsonapi-serializer": "3.5.3",
     "leaflet": "1.0.3",
+    "leaflet-utfgrid": "0.3.0",
     "lodash": "4.17.4",
     "lusca": "1.4.1",
     "moment": "^2.18.1",

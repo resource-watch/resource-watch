@@ -14,20 +14,22 @@ import { logEvent } from 'utils/analytics';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import {
+  getDatasets,
+  getFavoriteDatasets,
   toggleLayerGroup,
   toggleLayerGroupVisibility,
   setLayerGroupsOrder,
   setLayerGroupActiveLayer,
   setLayerGroups,
-  getDatasets,
-  getFavoriteDatasets,
   setDatasetsPage,
   setDatasetsSearchFilter,
   setDatasetsFilteredByConcepts,
+  setDatasetsSorting,
   setFiltersLoading,
   setZoom,
   setLatLng,
-  setDatasetsSorting
+  setLayerInteraction,
+  resetLayerInteraction
 } from 'redactions/explore';
 import { setFilters } from 'components/app/explore/explore-dataset-filters/explore-dataset-filters-actions';
 import { redirectTo } from 'redactions/common';
@@ -307,7 +309,7 @@ class Explore extends Page {
 
     const { explore, totalDatasets, filteredDatasets, user } = this.props;
     const { search } = explore.filters;
-    const { zoom, latLng, datasets } = explore;
+    const { zoom, latLng, datasets, interaction } = explore;
     const { loading, list } = datasets;
     const { showFilters } = this.state;
 
@@ -413,11 +415,14 @@ class Explore extends Page {
             <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
               <div className="l-map">
                 <Map
-                  LayerManager={LayerManager}
                   mapConfig={{ zoom, latLng }}
                   layerGroups={this.props.layerGroups}
+                  layerInteraction={interaction}
                   setMapParams={params => this.setMapParams(params)}
                   setMapInstance={(map) => { this.map = map; }}
+                  setLayerInteraction={this.props.setLayerInteraction}
+                  resetLayerInteraction={this.props.resetLayerInteraction}
+                  LayerManager={LayerManager}
                 />
 
                 <MapControls>
@@ -462,7 +467,6 @@ Explore.propTypes = {
 
 
   // ACTIONS
-
   getDatasets: PropTypes.func.isRequired,
   getFavoriteDatasets: PropTypes.func.isRequired,
   setDatasetsPage: PropTypes.func.isRequired,
@@ -476,7 +480,11 @@ Explore.propTypes = {
   // Set the active layer of a layer group
   setLayerGroupActiveLayer: PropTypes.func.isRequired,
   // Set the layer groups
-  setLayerGroups: PropTypes.func.isRequired
+  setLayerGroups: PropTypes.func.isRequired,
+
+  // Layer Interaction
+  setLayerInteraction: PropTypes.func.isRequired,
+  resetLayerInteraction: PropTypes.func.isRequired
 };
 
 Explore.defaultProps = {
@@ -516,7 +524,9 @@ const mapDispatchToProps = {
   setLayerGroups,
   setZoom,
   setLatLng,
-  setDatasetsSorting
+  setDatasetsSorting,
+  setLayerInteraction,
+  resetLayerInteraction
 };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Explore);

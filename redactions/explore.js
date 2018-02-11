@@ -38,6 +38,10 @@ const SET_LAYERGROUP_ORDER = 'explore/SET_LAYERGROUP_ORDER';
 const SET_LAYERGROUP_OPACITY = 'explore/SET_LAYERGROUP_OPACITY';
 const SET_LAYERGROUPS = 'explore/SET_LAYERGROUPS';
 
+// Interaction
+const SET_LAYER_INTERACTION = 'explore/SET_LAYER_INTERACTION';
+const RESET_LAYER_INTERACTION = 'explore/RESET_LAYER_INTERACTION';
+
 const SET_SIDEBAR = 'explore/SET_SIDEBAR';
 
 const SET_ZOOM = 'explore/SET_ZOOM';
@@ -85,6 +89,7 @@ const initialState = {
   // user has set in the legend
   /** @type {LayerGroup[]} */
   layers: [],
+  interaction: {},
   filters: {
     search: null,
     datasetsFilteredByConcepts: [],
@@ -198,6 +203,19 @@ export default function (state = initialState, action) {
 
     case SET_LAYERGROUPS: {
       return Object.assign({}, state, { layers: action.payload });
+    }
+
+    case SET_LAYER_INTERACTION: {
+      const interaction = {
+        ...state.interaction,
+        [action.payload.id]: action.payload
+      };
+
+      return Object.assign({}, state, { interaction });
+    }
+
+    case RESET_LAYER_INTERACTION: {
+      return Object.assign({}, state, { interaction: {} });
     }
 
     case SET_DATASETS_PAGE: {
@@ -525,6 +543,34 @@ export function setLayerGroups(layerGroups) {
     if (typeof window !== 'undefined') dispatch(setUrlParams());
   };
 }
+
+/**
+ * Set the layer interaction of the store
+ * @export
+ * @param {Layer{}} layer
+ */
+export function setLayerInteraction(layer) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_LAYER_INTERACTION,
+      payload: layer
+    });
+  };
+}
+
+/**
+ * Set the layer interaction of the store
+ * @export
+ * @param {Layer{}} layer
+ */
+export function resetLayerInteraction() {
+  return (dispatch) => {
+    dispatch({
+      type: RESET_LAYER_INTERACTION
+    });
+  };
+}
+
 
 export function setSidebar(options) {
   return {

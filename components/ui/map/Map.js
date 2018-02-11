@@ -1,8 +1,13 @@
 import React from 'react';
+import { render } from 'react-dom';
 import PropTypes from 'prop-types';
+
+import compact from 'lodash/compact';
 import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 
 // Components
+import MapPopup from 'components/ui/map/MapPopup';
 import Spinner from 'components/ui/Spinner';
 
 // Redux
@@ -139,6 +144,37 @@ class Map extends React.Component {
     if (this.props.labels !== nextProps.labels) {
       this.setLabels(nextProps.labels);
     }
+
+    // POPUP
+    if (
+      !isEmpty(nextProps.layerInteraction) &&
+      !isEqual(this.props.layerInteraction, nextProps.layerInteraction)
+    ) {
+      // Get the interactive layers
+      const interactiveLayers = compact(nextLayerGroups.map(g =>
+        g.layers.find(l => l.active && !isEmpty(l.interactionConfig))
+      ));
+
+      // Get the current interactive layer
+      const currentInteractiveLayer = nextProps.layerInteraction[interactiveLayers[0].id];
+
+      // Get the current interactive layer content
+      const currentContent = render(
+        MapPopup({
+          layer: currentInteractiveLayer
+        }),
+        window.document.createElement('div')
+      );
+
+      this.popup = L.popup()
+        .setLatLng(currentInteractiveLayer.latlng)
+        .setContent(currentContent)
+        .openOn(this.map);
+
+      this.popup.on('popupclose', () => {
+        this.props.resetLayerInteraction();
+      });
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -167,7 +203,8 @@ class Map extends React.Component {
 
     this.layerManager = new this.props.LayerManager(this.map, {
       onLayerAddedSuccess: stopLoading,
-      onLayerAddedError: stopLoading
+      onLayerAddedError: stopLoading,
+      onLayerClick: this.props.setLayerInteraction
     });
   }
 
@@ -193,10 +230,14 @@ class Map extends React.Component {
     if (this.labelLayer && !enabled) this.labelLayer.remove();
 
     if (enabled) {
-      this.labelLayer = L.tileLayer(LABELS.value, LABELS.options || {})
+      this.labelLayer = L.tileLayer(LABELS.value, LABELS.options || {})
         .addTo(this.map)
         .setZIndex(this.props.layerGroups.length + 1);
     }
+  }
+
+  setInteraction() {
+
   }
 
   // GETTERS
@@ -292,15 +333,19 @@ Map.propTypes = {
   interactionEnabled: PropTypes.bool.isRequired,
   setMapInstance: PropTypes.func,
   // STORE
+  mapConfig: PropTypes.object,
+  sidebar: PropTypes.object,
   basemap: PropTypes.object,
   labels: PropTypes.bool,
-  mapConfig: PropTypes.object,
   filters: PropTypes.object,
-  sidebar: PropTypes.object,
-  LayerManager: PropTypes.func,
   layerGroups: PropTypes.array, // List of LayerGroup items
+  layerInteraction: PropTypes.object,
+  LayerManager: PropTypes.func,
+
   // ACTIONS
-  setMapParams: PropTypes.func
+  setMapParams: PropTypes.func,
+  setLayerInteraction: PropTypes.func,
+  resetLayerInteraction: PropTypes.func
 };
 
 const mapStateToProps = state => ({
