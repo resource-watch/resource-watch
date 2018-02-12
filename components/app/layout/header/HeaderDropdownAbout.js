@@ -45,6 +45,11 @@ export default function HeaderDropdownData(props) {
             </Link>
           </li>
 
+          <li className="header-dropdown-list-item">
+            <Link route="about_contact-us">
+              <a>Contact us</a>
+            </Link>
+          </li>
         </ul>
       }
     </TetherComponent>
