@@ -1,12 +1,16 @@
 /* eslint import/no-unresolved: 0 */
 /* eslint import/extensions: 0 */
 /* eslint global-require: 0 */
-
 import 'isomorphic-fetch';
+import isEmpty from 'lodash/isEmpty';
 
 let L;
 if (typeof window !== 'undefined') {
   L = require('leaflet/dist/leaflet');
+
+  // adding support for UTFGrid
+  require('leaflet-utfgrid/L.UTFGrid-min');
+
   // adding support for esri
   const esri = require('esri-leaflet');
   L.esri = esri;
@@ -17,10 +21,12 @@ export default class LayerManager {
   constructor(map, options = {}) {
     this.map = map;
     this.mapLayers = {};
+    this.interactionLayers = {};
     this.layersLoading = {};
     this.rejectLayersLoading = false;
     this.onLayerAddedSuccess = options.onLayerAddedSuccess;
     this.onLayerAddedError = options.onLayerAddedError;
+    this.onLayerClick = options.onLayerClick;
   }
 
   /*
@@ -65,19 +71,24 @@ export default class LayerManager {
   }
 
   removeLayer(layerId) {
+    // Remove layer
     if (this.mapLayers[layerId]) {
       this.map.removeLayer(this.mapLayers[layerId]);
       delete this.mapLayers[layerId];
+    }
+
+    // Remove interaction layer
+    if (this.interactionLayers[layerId]) {
+      this.map.removeLayer(this.interactionLayers[layerId]);
+      delete this.interactionLayers[layerId];
     }
   }
 
   removeLayers() {
     Object.keys(this.mapLayers).forEach((id) => {
-      if (this.mapLayers[id]) {
-        this.map.removeLayer(this.mapLayers[id]);
-        delete this.mapLayers[id];
-      }
+      this.removeLayer(id);
     });
+
     this.layersLoading = {};
   }
 
@@ -243,6 +254,7 @@ export default class LayerManager {
   addCartoLayer(layerSpec) {
     const layer = Object.assign({}, layerSpec.layerConfig, {
       id: layerSpec.id,
+      name: layerSpec.name,
       order: layerSpec.order,
       opacity: layerSpec.opacity,
       hidden: layerSpec.hidden
@@ -266,7 +278,6 @@ export default class LayerManager {
         return response.json();
       })
       .then((data) => {
-        // const tileUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
         const tileUrl = `${data.cdn_url.templates.https.url}/${layer.account}/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
 
         this.mapLayers[layer.id] = L.tileLayer(tileUrl).addTo(this.map);
@@ -277,9 +288,20 @@ export default class LayerManager {
         this.mapLayers[layer.id].on('load', () => {
           delete this.layersLoading[layer.id];
         });
+
         this.mapLayers[layer.id].on('tileerror', () => {
           this.rejectLayersLoading = true;
         });
+
+        // Add interactivity
+        if (!isEmpty(layerSpec.interactionConfig)) {
+          const gridUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/0/{z}/{x}/{y}.grid.json`;
+          this.interactionLayers[layer.id] = L.utfGrid(gridUrl).addTo(this.map).setZIndex(995);
+
+          this.interactionLayers[layer.id].on('click', (e) => {
+            this.onLayerClick({ ...e, ...layer, ...layerSpec });
+          });
+        }
       });
   }
 

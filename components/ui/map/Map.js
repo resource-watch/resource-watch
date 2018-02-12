@@ -1,10 +1,15 @@
 import React from 'react';
+import { render } from 'react-dom';
 import PropTypes from 'prop-types';
+
+import compact from 'lodash/compact';
 import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 
 import { LABELS, BOUNDARIES } from 'components/ui/map/constants';
 
 // Components
+import MapPopup from 'components/ui/map/MapPopup';
 import Spinner from 'components/ui/Spinner';
 
 // Redux
@@ -139,8 +144,42 @@ class Map extends React.Component {
     if (this.props.labels !== nextProps.labels) {
       this.setLabels(nextProps.labels);
     }
+
     if (this.props.boundaries !== nextProps.boundaries) {
       this.setBoundaries(nextProps.boundaries);
+    }
+
+    // POPUP
+    if (
+      nextProps.interactionLatLng &&
+      (
+        // interactionSelected changed
+        this.props.interactionSelected !== nextProps.interactionSelected) ||
+
+        // interaction changed
+        (
+          !isEmpty(nextProps.interaction) &&
+          !isEqual(this.props.interaction, nextProps.interaction)
+        )
+    ) {
+      // Get the current interactive layer content
+      const currentContent = render(
+        MapPopup({
+          interaction: nextProps.interaction,
+          interactionSelected: nextProps.interactionSelected,
+          interactionLayers: compact(nextLayerGroups.map(g =>
+            g.layers.find(l => l.active && !isEmpty(l.interactionConfig))
+          )),
+          onChangeInteractiveLayer: this.props.setLayerInteractionSelected
+        }),
+        window.document.createElement('div')
+      );
+
+      this.popup = this.popup || L.popup();
+      this.popup
+        .setLatLng(nextProps.interactionLatLng)
+        .setContent(currentContent)
+        .openOn(this.map);
     }
   }
 
@@ -170,7 +209,11 @@ class Map extends React.Component {
 
     this.layerManager = new this.props.LayerManager(this.map, {
       onLayerAddedSuccess: stopLoading,
-      onLayerAddedError: stopLoading
+      onLayerAddedError: stopLoading,
+      onLayerClick: (layer) => {
+        this.props.setLayerInteractionLatLng(layer.latlng);
+        this.props.setLayerInteraction(layer);
+      }
     });
   }
 
@@ -222,6 +265,10 @@ class Map extends React.Component {
         .addTo(this.map)
         .setZIndex(this.props.layerGroups.length + 1);
     }
+  }
+
+  setInteraction() {
+
   }
 
   // GETTERS
@@ -317,16 +364,24 @@ Map.propTypes = {
   interactionEnabled: PropTypes.bool.isRequired,
   setMapInstance: PropTypes.func,
   // STORE
+  mapConfig: PropTypes.object,
+  sidebar: PropTypes.object,
   basemap: PropTypes.object,
   labels: PropTypes.string,
   boundaries: PropTypes.bool,
-  mapConfig: PropTypes.object,
   filters: PropTypes.object,
-  sidebar: PropTypes.object,
-  LayerManager: PropTypes.func,
   layerGroups: PropTypes.array, // List of LayerGroup items
+  interaction: PropTypes.object,
+  interactionSelected: PropTypes.string,
+  interactionLatLng: PropTypes.object,
+  LayerManager: PropTypes.func,
+
   // ACTIONS
-  setMapParams: PropTypes.func
+  setMapParams: PropTypes.func,
+  setLayerInteraction: PropTypes.func,
+  setLayerInteractionSelected: PropTypes.func,
+  setLayerInteractionLatLng: PropTypes.func,
+  resetLayerInteraction: PropTypes.func
 };
 
 const mapStateToProps = state => ({

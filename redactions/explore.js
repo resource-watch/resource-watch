@@ -38,6 +38,12 @@ const SET_LAYERGROUP_ORDER = 'explore/SET_LAYERGROUP_ORDER';
 const SET_LAYERGROUP_OPACITY = 'explore/SET_LAYERGROUP_OPACITY';
 const SET_LAYERGROUPS = 'explore/SET_LAYERGROUPS';
 
+// Interaction
+const SET_LAYERS_INTERACTION = 'explore/SET_LAYERS_INTERACTION';
+const SET_LAYER_INTERACTION_SELECTED = 'explore/SET_LAYER_INTERACTION_SELECTED';
+const SET_LAYER_INTERACTION_LATLNG = 'explore/SET_LAYER_INTERACTION_LATLNG';
+const RESET_LAYERS_INTERACTION = 'explore/RESET_LAYERS_INTERACTION';
+
 const SET_SIDEBAR = 'explore/SET_SIDEBAR';
 
 const SET_ZOOM = 'explore/SET_ZOOM';
@@ -86,6 +92,7 @@ const initialState = {
   // user has set in the legend
   /** @type {LayerGroup[]} */
   layers: [],
+  interaction: {},
   filters: {
     search: null,
     datasetsFilteredByConcepts: [],
@@ -202,6 +209,32 @@ export default function (state = initialState, action) {
     case SET_LAYERGROUPS: {
       return Object.assign({}, state, { layers: action.payload });
     }
+
+    case SET_LAYERS_INTERACTION: {
+      const interaction = {
+        ...state.interaction,
+        [action.payload.id]: action.payload
+      };
+
+      return Object.assign({}, state, { interaction });
+    }
+
+    case SET_LAYER_INTERACTION_SELECTED: {
+      return Object.assign({}, state, { interactionSelected: action.payload });
+    }
+
+    case SET_LAYER_INTERACTION_LATLNG: {
+      return Object.assign({}, state, { interactionLatLng: action.payload });
+    }
+
+    case RESET_LAYERS_INTERACTION: {
+      return Object.assign({}, state, {
+        interaction: {},
+        interactionSelected: null,
+        interactionLatLng: null
+      });
+    }
+
 
     case SET_DATASETS_PAGE: {
       const datasets = Object.assign({}, state.datasets, {
@@ -532,6 +565,52 @@ export function setLayerGroups(layerGroups) {
 
     // We also update the URL
     if (typeof window !== 'undefined') dispatch(setUrlParams());
+  };
+}
+
+/**
+ * Set the layer interaction of the store
+ * @export
+ * @param {Layer{}} layer
+ */
+export function setLayerInteraction(layer) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_LAYERS_INTERACTION,
+      payload: layer
+    });
+  };
+}
+
+export function setLayerInteractionSelected(id) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_LAYER_INTERACTION_SELECTED,
+      payload: id
+    });
+  };
+}
+
+
+export function setLayerInteractionLatLng(latlng) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_LAYER_INTERACTION_LATLNG,
+      payload: latlng
+    });
+  };
+}
+
+/**
+ * Reset the layer interaction of the store
+ * @export
+ * @param {Layer{}} layer
+ */
+export function resetLayerInteraction() {
+  return (dispatch) => {
+    dispatch({
+      type: RESET_LAYERS_INTERACTION
+    });
   };
 }
 
