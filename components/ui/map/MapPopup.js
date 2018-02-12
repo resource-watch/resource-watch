@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// Components
-import Icon from 'components/ui/Icon';
-
 function MapPopup({
   interaction,
   interactionSelected,
@@ -42,7 +39,7 @@ function MapPopup({
 
       <div className="popup-content">
         {data &&
-          <table className="dl">
+          <table className="popup-table">
             <tbody>
               {Object.keys(data).map((d) => {
                 const outputItem = interactionConfig.output.find(o => o.column === d) || {};

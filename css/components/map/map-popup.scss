@@ -9,7 +9,6 @@
       width: calc(100% - 46px);
       margin: 0;
       border: none;
-      border-right: 1px solid #CCC;
       border-radius: 0;
       padding: 10px;
       box-shadow: none;
@@ -23,16 +22,16 @@
     padding: 20px;
   }
 
-  .dl {
-    .dc {
+  .popup-table {
+    .dt {
+      padding: 2px;
+      font-weight: $font-weight-bold;
+      vertical-align: baseline;
+    }
 
-      .dt {
-        font-weight: $font-weight-bold;
-      }
-
-      .dd {
-
-      }
+    .dd {
+      padding: 2px;
+      vertical-align: baseline;
     }
   }
 }
@@ -97,6 +96,7 @@
   right: 0;
   padding: 0;
   border: none;
+  border-left: 1px solid #CCC;
   text-align: center;
   width: 46px;
   height: 46px;
