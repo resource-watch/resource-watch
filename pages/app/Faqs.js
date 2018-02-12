@@ -17,7 +17,7 @@ class Faqs extends Page {
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
 
-    // Dashboard detail
+    // Get Faqs
     await context.store.dispatch(getFaqs());
 
     return { ...props };
