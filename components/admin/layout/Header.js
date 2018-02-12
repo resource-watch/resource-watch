@@ -57,6 +57,11 @@ export default class Header extends React.Component {
         component: <Link route="admin_tools"><a>Tools</a></Link>
       },
       {
+        name: 'Faqs',
+        pathnames: ['/admin/Faqs', '/admin/FaqsDetail'],
+        component: <Link route="admin_faqs"><a>Faqs</a></Link>
+      },
+      {
         name: 'Pages',
         pathnames: ['/admin/Pages', '/admin/PagesDetail'],
         component: <Link route="admin_pages"><a>Pages</a></Link>
