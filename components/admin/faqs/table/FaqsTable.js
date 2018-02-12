@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc';
 
 // Redux
 import { connect } from 'react-redux';
@@ -14,7 +13,6 @@ import getFilteredFaqs from 'selectors/admin/faqs';
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
-import Icon from 'components/ui/Icon';
 
 // Table components
 import EditAction from './actions/EditAction';
@@ -22,23 +20,6 @@ import DeleteAction from './actions/DeleteAction';
 
 // TDs
 import QuestionTD from './td/QuestionTD';
-
-const SortableItem = SortableElement(({ value }) => value);
-
-const DragHandle = SortableHandle(() => (
-  <span className="handler">
-    <Icon name="icon-drag-dots" className="-small" />
-  </span>
-));
-
-const SortableList = SortableContainer(({ items }) => (
-  <ul className="faqs-list">
-    {items.map((value, index) =>
-      <SortableItem key={value.key} index={index} value={value} />
-    )}
-  </ul>
-));
-
 
 class FaqsTable extends React.Component {
   constructor(props) {
@@ -79,39 +60,10 @@ class FaqsTable extends React.Component {
     return this.props.filteredFaqs;
   }
 
-  getLegendItems() {
-    const { faqs } = this.props;
-
-    return faqs.map(faq => (
-      <li key={faq.answer}>
-        <span>{faq.id}</span>
-        <span>{faq.answer}</span>
-
-        <DragHandle />
-      </li>
-    ));
-  }
-
-  onSortEnd = ({ oldIndex, newIndex }) => {
-    const { faqs } = this.props;
-    const newFaqsList = arrayMove(faqs, oldIndex, newIndex);
-    console.log(newFaqsList);
-  }
-
   render() {
     return (
       <div className="c-faqs-table">
         <Spinner className="-light" isLoading={this.props.loading} />
-
-        <SortableList
-          items={this.getLegendItems()}
-          helperClass=""
-          axis="y"
-          lockAxis="y"
-          useDragHandle
-          onSortEnd={this.onSortEnd}
-        />
-
 
         {this.props.error && (
           <p>Error: {this.props.error}</p>
