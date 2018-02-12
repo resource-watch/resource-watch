@@ -20,6 +20,9 @@ routes.add('admin_pages_detail', '/admin/pages/:tab/:id/:subtab?', 'admin/PagesD
 // TOOLS
 routes.add('admin_tools', '/admin/tools/:tab?', 'admin/Tools');
 routes.add('admin_tools_detail', '/admin/tools/:tab/:id/:subtab?', 'admin/ToolsDetail');
+// PARTNERS
+routes.add('admin_faqs', '/admin/faqs/:tab?', 'admin/Faqs');
+routes.add('admin_faqs_detail', '/admin/faqs/:tab/:id/:subtab?', 'admin/FaqsDetail');
 
 // ========================= APP ROUTES =====================
 routes.add('home', '/', 'app/Home');
@@ -29,6 +32,7 @@ routes.add('splash_detail', '/splash/:id', 'app/SplashDetail');
 // ---- ABOUT ----
 routes.add('about', '/about', 'app/About');
 routes.add('about_partners', '/about/partners', 'app/Partners');
+routes.add('about_faqs', '/about/faqs', 'app/Faqs');
 routes.add('partner', '/about/partners/:id', 'app/PartnerDetail');
 
 // ----- DATA -----
@@ -62,6 +66,7 @@ routes.add('embed_dataset', '/embed/dataset/:id', 'app/embed/EmbedDataset');
 routes.add('embed_layer', '/embed/layers', 'app/embed/EmbedLayer');
 routes.add('embed_table', '/embed/table', 'app/embed/EmbedTable');
 routes.add('embed_similar_datasets', '/embed/similar_datasets/:id', 'app/embed/EmbedSimilarDatasets');
+routes.add('embed_dashboard', '/embed/dashboard/:slug', 'app/embed/EmbedDashboard');
 
 // ------ TERMS && POLICY -------------
 routes.add('terms-of-service', '/terms-of-service', 'app/Terms');

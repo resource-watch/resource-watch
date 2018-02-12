@@ -38,12 +38,19 @@ const SET_LAYERGROUP_ORDER = 'explore/SET_LAYERGROUP_ORDER';
 const SET_LAYERGROUP_OPACITY = 'explore/SET_LAYERGROUP_OPACITY';
 const SET_LAYERGROUPS = 'explore/SET_LAYERGROUPS';
 
+// Interaction
+const SET_LAYERS_INTERACTION = 'explore/SET_LAYERS_INTERACTION';
+const SET_LAYER_INTERACTION_SELECTED = 'explore/SET_LAYER_INTERACTION_SELECTED';
+const SET_LAYER_INTERACTION_LATLNG = 'explore/SET_LAYER_INTERACTION_LATLNG';
+const RESET_LAYERS_INTERACTION = 'explore/RESET_LAYERS_INTERACTION';
+
 const SET_SIDEBAR = 'explore/SET_SIDEBAR';
 
 const SET_ZOOM = 'explore/SET_ZOOM';
 const SET_LATLNG = 'explore/SET_LATLNG';
 const SET_BASEMAP = 'explore/SET_BASEMAP';
 const SET_LABELS = 'explore/SET_LABELS';
+const SET_BOUNDARIES = 'explore/SET_BOUNDARIES';
 
 /**
  * Layer
@@ -69,7 +76,7 @@ const initialState = {
     loading: false,
     error: false,
     page: 1,
-    limit: 9,
+    limit: 12,
     mode: 'grid' // 'grid' or 'list'
   },
   // List of layers (corresponding to the datasets
@@ -85,6 +92,7 @@ const initialState = {
   // user has set in the legend
   /** @type {LayerGroup[]} */
   layers: [],
+  interaction: {},
   filters: {
     search: null,
     datasetsFilteredByConcepts: [],
@@ -103,7 +111,9 @@ const initialState = {
   geographiesTree: null,
   topicsTree: null,
   dataTypeTree: null,
-  labels: false,
+  /** @type {string} labels */
+  labels: 'none',
+  boundaries: false,
   sorting: {
     /** @type {'modified'|'viewed'|'favourited'} order */
     order: 'modified',
@@ -200,6 +210,32 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { layers: action.payload });
     }
 
+    case SET_LAYERS_INTERACTION: {
+      const interaction = {
+        ...state.interaction,
+        [action.payload.id]: action.payload
+      };
+
+      return Object.assign({}, state, { interaction });
+    }
+
+    case SET_LAYER_INTERACTION_SELECTED: {
+      return Object.assign({}, state, { interactionSelected: action.payload });
+    }
+
+    case SET_LAYER_INTERACTION_LATLNG: {
+      return Object.assign({}, state, { interactionLatLng: action.payload });
+    }
+
+    case RESET_LAYERS_INTERACTION: {
+      return Object.assign({}, state, {
+        interaction: {},
+        interactionSelected: null,
+        interactionLatLng: null
+      });
+    }
+
+
     case SET_DATASETS_PAGE: {
       const datasets = Object.assign({}, state.datasets, {
         page: action.payload
@@ -250,6 +286,12 @@ export default function (state = initialState, action) {
     case SET_LABELS: {
       return Object.assign({}, state, {
         labels: action.payload
+      });
+    }
+
+    case SET_BOUNDARIES: {
+      return Object.assign({}, state, {
+        boundaries: action.payload
       });
     }
 
@@ -526,6 +568,52 @@ export function setLayerGroups(layerGroups) {
   };
 }
 
+/**
+ * Set the layer interaction of the store
+ * @export
+ * @param {Layer{}} layer
+ */
+export function setLayerInteraction(layer) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_LAYERS_INTERACTION,
+      payload: layer
+    });
+  };
+}
+
+export function setLayerInteractionSelected(id) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_LAYER_INTERACTION_SELECTED,
+      payload: id
+    });
+  };
+}
+
+
+export function setLayerInteractionLatLng(latlng) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_LAYER_INTERACTION_LATLNG,
+      payload: latlng
+    });
+  };
+}
+
+/**
+ * Reset the layer interaction of the store
+ * @export
+ * @param {Layer{}} layer
+ */
+export function resetLayerInteraction() {
+  return (dispatch) => {
+    dispatch({
+      type: RESET_LAYERS_INTERACTION
+    });
+  };
+}
+
 export function setSidebar(options) {
   return {
     type: SET_SIDEBAR,
@@ -622,6 +710,13 @@ export function setLabels(labelEnabled) {
   return {
     type: SET_LABELS,
     payload: labelEnabled
+  };
+}
+
+export function setBoundaries(boundaries) {
+  return {
+    type: SET_BOUNDARIES,
+    payload: boundaries
   };
 }
 

@@ -159,11 +159,15 @@ export const setFavouriteError = createAction(SET_USER_FAVOURITES_ERROR);
 
 export const getUserFavourites = createThunkAction('user/getUserFavourites', () =>
   (dispatch, getState) => {
-    const { user = {} } = getState();
+    const { token } = getState().user;
+
+    if (!token) {
+      return;
+    }
 
     dispatch(setFavouriteLoading(true));
 
-    return FavouritesService.getFavourites(user.token)
+    return FavouritesService.getFavourites(token)
       .then(({ data }) => {
         dispatch(setFavouriteLoading(false));
         dispatch({ type: SET_USER_FAVOURITES, payload: data });
@@ -180,6 +184,8 @@ export const toggleFavourite = createThunkAction('user/toggleFavourite', (payloa
     const { token } = getState().user;
     const { favourite, resource } = payload;
 
+    dispatch(setFavouriteLoading(true));
+
     if (favourite.id) {
       const { id } = favourite;
       FavouritesService.deleteFavourite(token, id)
@@ -188,6 +194,7 @@ export const toggleFavourite = createThunkAction('user/toggleFavourite', (payloa
           dispatch(getUserFavourites());
         })
         .catch((error) => {
+          dispatch(setFavouriteLoading(false));
           dispatch(setFavouriteError(error));
         });
 
@@ -196,11 +203,11 @@ export const toggleFavourite = createThunkAction('user/toggleFavourite', (payloa
 
     FavouritesService.createFavourite(token, resource)
       .then(() => {
-        dispatch(setFavouriteLoading(false));
         // asks for the new updated list of favourites
         dispatch(getUserFavourites());
       })
       .catch(({ errors }) => {
+        dispatch(setFavouriteLoading(false));
         dispatch(setFavouriteError(errors));
       });
   });
@@ -214,6 +221,10 @@ export const setUserCollectionsUpdateLoading = createAction(SET_USER_COLLECTIONS
 export const getUserCollections = createThunkAction('user/getUserCollections', () =>
   (dispatch, getState) => {
     const { token } = getState().user;
+
+    if (!token) {
+      return;
+    }
 
     return CollectionsService.getAllCollections(token)
       .then(({ data }) => {

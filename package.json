@@ -44,6 +44,7 @@
     "json-loader": "0.5.4",
     "jsonapi-serializer": "3.5.3",
     "leaflet": "1.0.3",
+    "leaflet-utfgrid": "0.3.0",
     "lodash": "4.17.4",
     "lusca": "1.4.1",
     "moment": "^2.18.1",
@@ -109,7 +110,7 @@
     "three": "0.83.0",
     "url-loader": "0.5.8",
     "vega": "2.6.0",
-    "vizz-wysiwyg": "1.1.7",
+    "vizz-wysiwyg": "1.1.9",
     "webpack": "^3.6.0",
     "whatwg-fetch": "2.0.2",
     "widget-editor": "0.1.1"

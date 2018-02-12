@@ -5,7 +5,6 @@ import { Link } from 'routes';
 
 // Components
 import Title from 'components/ui/Title';
-import DatasetsRelatedContent from 'components/datasets/common/DatasetsRelatedContent';
 import Icon from 'components/ui/Icon';
 import Tooltip from 'rc-tooltip/dist/rc-tooltip';
 import CollectionsPanel from 'components/collections-panel';
@@ -29,6 +28,17 @@ class DatasetsListCard extends PureComponent {
     onDatasetRemoved: PropTypes.func.isRequired
   };
 
+  getDatasetName() {
+    const { dataset } = this.props;
+    const metadata = dataset.metadata[0];
+
+    if (metadata && metadata.attributes.info && metadata.attributes.info.name) {
+      return metadata.attributes.info.name;
+    }
+
+    return dataset.name;
+  }
+
   handleDelete = () => {
     const { dataset } = this.props;
     this.props.onDatasetRemoved(dataset);
@@ -36,36 +46,61 @@ class DatasetsListCard extends PureComponent {
 
   render() {
     const { dataset, routes, user } = this.props;
-    const metadata = dataset.metadata[0];
+
+
+    const isOwnerOrAdmin = (dataset.userId === user.id || user.role === 'ADMIN');
     const isInACollection = belongsToACollection(user, dataset);
+
+    const classNames = classnames({
+      '-owner': isOwnerOrAdmin
+    });
+
     const starIconName = classnames({
       'icon-star-full': isInACollection,
       'icon-star-empty': !isInACollection
     });
 
     return (
-      <div className="c-card c-datasets-list-card">
+      <div className={`c-card c-datasets-list-card ${classNames}`}>
         <div className="card-container">
           <header className="card-header">
-            <Link
-              route={routes.detail}
-              params={{ tab: 'datasets', id: dataset.id }}
-            >
-              <a>
-                <Title className="-default">
-                  {metadata && metadata.attributes.info ? metadata.attributes.info.name :
-                    dataset.name}
-                </Title>
-              </a>
-            </Link>
+            {isOwnerOrAdmin &&
+              <Link
+                route={routes.detail}
+                params={{ tab: 'datasets', id: dataset.id }}
+              >
+                <a>
+                  <Title className="-default">
+                    {this.getDatasetName()}
+                  </Title>
+                </a>
+              </Link>
+            }
+
+            {!isOwnerOrAdmin &&
+              <Link
+                route="explore_detail"
+                params={{ id: dataset.id }}
+              >
+                <a>
+                  <Title className="-default">
+                    {this.getDatasetName()}
+                  </Title>
+                </a>
+              </Link>
+            }
+
             <Title className="-small">
               {dataset.provider}
             </Title>
+
             <Tooltip
-              overlay={<CollectionsPanel
-                resource={dataset}
-                resourceType="dataset"
-              />}
+              overlay={
+                <CollectionsPanel
+                  resource={dataset}
+                  resourceType="dataset"
+                />
+              }
               overlayClassName="c-rc-tooltip"
               overlayStyle={{
                 color: '#fff'
@@ -86,26 +121,23 @@ class DatasetsListCard extends PureComponent {
           </header>
 
           <div className="card-content">
-            {dataset.status === 'saved' &&
-              <DatasetsRelatedContent
-                dataset={dataset}
-                route={routes.detail}
-              />
-            }
             {dataset.status !== 'saved' &&
               dataset.status
             }
           </div>
 
-          <div className="actions">
-            <a
-              role="button"
-              tabIndex={0}
-              onClick={this.handleDelete}
-            >
-              Delete
-            </a>
-          </div>
+          {isOwnerOrAdmin &&
+            <div className="actions">
+              <a
+                role="button"
+                className="c-button -secondary -compressed"
+                tabIndex={0}
+                onClick={this.handleDelete}
+              >
+                Delete
+              </a>
+            </div>
+          }
         </div>
       </div>
     );

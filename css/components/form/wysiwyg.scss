@@ -1,0 +1,29 @@
+.cw-wysiwyg {
+  // GRID
+  .cw-wysiwyg-grid .wysiwyg-grid-column {
+    padding-bottom: 0;
+  }
+
+  .cw-wysiwyg-list-item {
+    .list-item-container {
+      display: block;
+    }
+  }
+
+  // ITEM CONTENT
+  .cw-wysiwyg-item-content {
+    &.-text {
+      display: block;
+    }
+  }
+
+  // TEXT
+  .cw-wysiwyg-text {
+    max-width: none;
+  }
+
+  // QUILL
+  .cw-quill {
+    // Stuff
+  }
+}

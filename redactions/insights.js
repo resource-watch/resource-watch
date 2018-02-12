@@ -6,31 +6,32 @@ import find from 'lodash/find';
 */
 const INSIGHTS_DATA = [
   {
-    tag: 'Signal of the Week',
-    date: 'October 12, 2017',
-    title: 'Map: As wildfires burn, nearby air quality suffers in California',
-    slug: 'map-as-wildfires-burn-nearby-air-quality-suffers-in-california',
+    tag: 'Spotlight',
+    date: 'Spotlight',
+    title: 'Welcome to Resource Watch',
+    slug: 'welcome-to-resource-watch',
     source: { name: 'World Resources Institute', path: 'http://www.wri.org/', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
-    background: 'url(/static/tempImages/backgrounds/usda_smoke2.jpg) center',
-    body: '/static/insights/map-as-wildfires-burn-nearby-air-quality-suffers-in-california.html'
+    background: 'url(/static/tempImages/backgrounds/rw_welcome.jpg) top',
+    body: ''
   },
   {
-    tag: 'Sept 2, 2017',
-    date: 'Sept 2, 2017',
-    title: 'A factory is built in your neighborhood. Can you do anything about it?',
-    slug: 'interactive-edi',
+    tag: 'April 11, 2018',
+    date: 'April 11, 2018',
+    title: 'Experience a bleached coral reef in 360°',
+    slug: 'experience-a-bleached-coral-reef-in-360',
+    link: '/splash/coral',
     source: { name: 'World Resources Institute', path: 'http://www.wri.org/', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
-    background: 'url(/static/tempImages/backgrounds/discovery_insights_image.jpg) center',
-    body: '/static/insights/interactive-edi.html'
+    background: 'url(/static/tempImages/backgrounds/BLEACHED-American-Samoa-2-February-2015.jpg)',
+    body: ''
   },
   {
-    tag: 'Sept 1, 2017',
-    date: 'Sept 1, 2017',
-    title: 'Farms to feel squeeze as competition for water increases',
-    slug: 'interactive-map',
+    tag: 'April 11, 2018',
+    date: 'April 11, 2018',
+    title: "We mapped the world's power plants. Here's what we learned.",
+    slug: 'we-mapped-the-worlds-power-plants-heres-what-we-learned',
     source: { name: 'World Resources Institute', path: 'http://www.wri.org/', img: 'https://vizzuality.github.io/WRW-Prototype/img/avatar-wri.png' },
-    background: 'url(/static/tempImages/backgrounds/world_farms.jpg)',
-    body: '/static/insights/interactive-map.html'
+    background: 'url(/static/tempImages/backgrounds/rw_powerwatch.jpg)',
+    body: ''
   }
 ];
 

@@ -13,6 +13,7 @@ const SET_DATASETS_ORDER_DIRECTION = 'datasets/setOrderDirection';
 const SET_DATASETS_PAGINATION_PAGE = 'datasets/setDatasetsPaginationPage';
 const SET_DATASETS_PAGINATION_TOTAL = 'datasets/setDatasetsPaginationTotal';
 const SET_DATASETS_PAGINATION_LIMIT = 'datasets/setDatasetsPaginationLimit';
+const RESET_DATASETS = 'datasets/resetDatasets';
 
 /**
  * STORE
@@ -115,6 +116,15 @@ export default function (state = initialState, action) {
       };
     }
 
+    case RESET_DATASETS: {
+      const datasets = Object.assign({}, state.datasets, {
+        list: [],
+        loading: false,
+        error: null
+      });
+      return Object.assign({}, state, { datasets });
+    }
+
     default:
       return state;
   }
@@ -128,6 +138,7 @@ export const setOrderDirection = createAction(SET_DATASETS_ORDER_DIRECTION);
 export const setPaginationPage = createAction(SET_DATASETS_PAGINATION_PAGE);
 export const setPaginationTotal = createAction(SET_DATASETS_PAGINATION_TOTAL);
 export const setPaginationLimit = createAction(SET_DATASETS_PAGINATION_LIMIT);
+export const resetDatasets = createAction(RESET_DATASETS);
 
 /**
  * Retrieve the list of datasets
@@ -184,7 +195,7 @@ export const getDatasetsByTab = createThunkAction('datasets/getDatasetsByTab', t
         'page[size]': limit,
         'page[number]': page,
         sort: (orderDirection === 'asc') ? 'updatedAt' : '-updatedAt',
-        name: (filters.find(filter => filter.key === 'name') || {}).value
+        name: (filters.find(filter => filter.key === 'name') || {}).value
       },
       includes: ['widget', 'layer', 'metadata', 'vocabulary'].join(',')
     };
@@ -224,4 +235,3 @@ export const getDatasetsByTab = createThunkAction('datasets/getDatasetsByTab', t
 
     dispatch(getAllDatasets({ ...options }));
   });
-

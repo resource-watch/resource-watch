@@ -104,9 +104,10 @@
 // Map
 @import "./components/map/map";
 @import "./components/map/map-controls";
+@import "./components/map/map-popup";
 
 // Form
-@import '../node_modules/vizz-wysiwyg/build/wysiwyg';
+@import '../node_modules/vizz-wysiwyg/build/rw';
 @import "./components/form/form";
 @import "./components/form/field";
 @import "./components/form/field-container";
@@ -118,6 +119,7 @@
 @import "./components/form/select";
 @import "./components/form/token";
 @import "./components/form/toggle-search";
+@import "./components/form/wysiwyg";
 
 
 // WIDGETS
@@ -179,6 +181,9 @@
 // Tags
 @import "./components/admin/tags/tags_form";
 
+// FAQs
+@import "./components/admin/faqs/faqs_table";
+
 // ================== APP ======================
 
 // COMMON
@@ -187,13 +192,13 @@
 @import "./components/app/common/text";
 @import "./components/app/common/viel";
 @import "./components/app/common/card_static";
+@import "./components/app/common/faq";
 @import "./components/app/common/partner_block";
 @import "./components/app/common/partners_slider";
 
 // PAGES
 @import "./components/app/pages/explore";
 @import "./components/app/pages/explore_detail";
-@import "./components/app/pages/dashboards";
 @import "./components/app/pages/about";
 @import "./components/app/pages/pulse";
 @import "./components/app/pages/home";

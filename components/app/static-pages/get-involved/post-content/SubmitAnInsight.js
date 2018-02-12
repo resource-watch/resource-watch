@@ -7,35 +7,37 @@ import CardStatic from 'components/app/common/CardStatic';
 import Rating from 'components/app/common/Rating';
 
 function SubmitAnInsight({ insights }) {
-  const insightsCardsStatic = (insightsData) => {
-    return insightsData.map(c =>
-      (<CardStatic
-        key={`insight-card-${c.tag}`}
-        className="-alt"
-        background={c.background}
-        clickable
-        route={`/insights/${c.slug}`}
-      >
-        <div>
-          <h4>{c.tag}</h4>
-          <h3>
-            <Link route={`/insights/${c.slug}`}>
+  const insightsCardsStatic = insightsData => insightsData.map(c =>
+    (<CardStatic
+      key={`insight-card-${c.slug}`}
+      className={`-alt ${c.link ? '-clickable' : ''}`}
+      background={c.background}
+      clickable={!!c.link}
+      route={c.link ? c.link : ''}
+    >
+      <div>
+        <h4>{c.tag}</h4>
+        <h3>
+          { c.link ?
+            <Link route={`/blog/${c.slug}`}>
               <a>{c.title}</a>
             </Link>
-          </h3>
-        </div>
-        <div className="footer">
-          <div className="source">
-            <img src={c.source.img || ''} alt={c.slug} />
-            <div className="source-name">
+            :
+            <span>{c.title}</span>
+          }
+        </h3>
+      </div>
+      <div className="footer">
+        <div className="source">
+          <img src={c.source.img || ''} alt={c.slug} />
+          <div className="source-name">
               by <a href={c.source.path} target="_blank">{c.source.name}</a>
-            </div>
           </div>
-          {c.ranking && <Rating rating={c.ranking} />}
         </div>
-      </CardStatic>)
-    );
-  };
+        {c.ranking && <Rating rating={c.ranking} />}
+      </div>
+    </CardStatic>)
+  );
 
   const insightCards = insightsCardsStatic(insights);
 
