@@ -148,7 +148,11 @@ class Map extends React.Component {
     // POPUP
     if (
       nextProps.interactionLatLng &&
-      ((!isEmpty(nextProps.interaction) && !isEqual(this.props.interaction, nextProps.interaction)) ||
+      (
+        (
+          !isEmpty(nextProps.interaction) &&
+          !isEqual(this.props.interaction, nextProps.interaction)
+        ) ||
         this.props.interactionSelected !== nextProps.interactionSelected)
     ) {
       // Get the current interactive layer content
@@ -164,7 +168,8 @@ class Map extends React.Component {
         window.document.createElement('div')
       );
 
-      this.popup = L.popup()
+      this.popup = this.popup || L.popup();
+      this.popup
         .setLatLng(nextProps.interactionLatLng)
         .setContent(currentContent)
         .openOn(this.map);

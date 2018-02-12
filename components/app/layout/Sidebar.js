@@ -31,7 +31,7 @@ class Sidebar extends React.Component {
   componentDidMount() {
     const options = {
       width: this.sidebarNode.offsetWidth,
-      open: false
+      open: true
     };
     this.props.setSidebar(options);
 
