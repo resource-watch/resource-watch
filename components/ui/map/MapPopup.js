@@ -20,8 +20,9 @@ function MapPopup({
 
   return (
     <div className="c-map-popup">
-      <header>
+      <header className="popup-header">
         <select
+          className="popup-header-select"
           name="interactionLayers"
           value={layer.id}
           onChange={e => onChangeInteractiveLayer(e.target.value)}
@@ -31,35 +32,41 @@ function MapPopup({
           )}
         </select>
 
-        <button className="">
+        {/* <button className="">
           <Icon
             name="icon-close"
             className="-default"
           />
-        </button>
+        </button> */}
       </header>
 
-      {data &&
-        <table className="dl">
-          <tbody>
-            {Object.keys(data).map((d) => {
-              const outputItem = interactionConfig.output.find(o => o.column === d) || {};
+      <div className="popup-content">
+        {data &&
+          <table className="dl">
+            <tbody>
+              {Object.keys(data).map((d) => {
+                const outputItem = interactionConfig.output.find(o => o.column === d) || {};
 
-              return (
-                <tr
-                  className="dc"
-                  key={d}
-                >
-                  <td className="dt">
-                    {outputItem.property || d}:
-                  </td>
-                  <td className="dd">{data[d]}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      }
+                return (
+                  <tr
+                    className="dc"
+                    key={d}
+                  >
+                    <td className="dt">
+                      {outputItem.property || d}:
+                    </td>
+                    <td className="dd">{data[d]}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        }
+
+        {!data &&
+          'No data available'
+        }
+      </div>
     </div>
   );
 }
