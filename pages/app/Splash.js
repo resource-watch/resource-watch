@@ -195,7 +195,7 @@ class Splash extends Page {
                   tabIndex={-1}
                 >
                   <img src="/static/images/splash/play.svg" alt="Visit this place" />
-                  VISIT THIS PLACE
+                  {selectedMarker.cta}
                 </a>
               </div>
             </div>

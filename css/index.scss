@@ -181,6 +181,9 @@
 // Tags
 @import "./components/admin/tags/tags_form";
 
+// FAQs
+@import "./components/admin/faqs/faqs_table";
+
 // ================== APP ======================
 
 // COMMON
@@ -189,6 +192,7 @@
 @import "./components/app/common/text";
 @import "./components/app/common/viel";
 @import "./components/app/common/card_static";
+@import "./components/app/common/faq";
 @import "./components/app/common/partner_block";
 @import "./components/app/common/partners_slider";
 

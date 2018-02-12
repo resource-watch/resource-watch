@@ -1,31 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { LABELS } from 'components/ui/map/constants';
+
 // Redux
 import { connect } from 'react-redux';
-import { setBasemap, setLabels } from 'redactions/explore';
+import { setBasemap, setLabels, setBoundaries } from 'redactions/explore';
 
 // Components
 import TetherComponent from 'react-tether';
 import Icon from 'components/ui/Icon';
-import Checkbox from 'components/form/Checkbox';
 import RadioGroup from 'components/form/RadioGroup';
+import Checkbox from 'components/form/Checkbox';
 
 class BasemapControl extends React.Component {
   static propTypes = {
     // STORE
     basemapControl: PropTypes.object,
     basemap: PropTypes.object,
-    labelsVisible: PropTypes.bool,
+    labels: PropTypes.string,
+    boundaries: PropTypes.bool,
 
     // ACTIONS
     setBasemap: PropTypes.func,
-    setLabels: PropTypes.func
-  };
-
-  static defaultProps = {
-    // STORE
-    labelsVisible: false
+    setLabels: PropTypes.func,
+    setBoundaries: PropTypes.func
   };
 
   state = {
@@ -51,8 +50,12 @@ class BasemapControl extends React.Component {
     this.props.setBasemap(basemapControl.basemaps[basemap]);
   }
 
-  onLabelChange = (label) => {
-    this.props.setLabels(label.checked);
+  onLabelChange = (labels) => {
+    this.props.setLabels(labels);
+  }
+
+  onBoundariesChange = (boundaries) => {
+    this.props.setBoundaries(boundaries.checked);
   }
 
   toggleDropdown = (to) => {
@@ -72,7 +75,7 @@ class BasemapControl extends React.Component {
 
   // RENDER
   render() {
-    const { basemap, basemapControl, labelsVisible } = this.props;
+    const { basemap, basemapControl, labels, boundaries } = this.props;
     const { active } = this.state;
 
     return (
@@ -109,14 +112,26 @@ class BasemapControl extends React.Component {
               onChange={this.onBasemapChange}
             />
             <div className="divisor" />
-            <Checkbox
+            <RadioGroup
+              options={Object.keys(LABELS).map(k => ({
+                label: LABELS[k].label,
+                value: LABELS[k].id
+              }))}
+              name="labels"
               properties={{
-                name: 'labels',
-                title: 'Labels',
-                value: 'labels',
-                checked: labelsVisible
+                default: labels
               }}
               onChange={this.onLabelChange}
+            />
+            <div className="divisor" />
+            <Checkbox
+              properties={{
+                name: 'boundaries',
+                title: 'Boundaries',
+                value: 'boundaries',
+                checked: boundaries
+              }}
+              onChange={this.onBoundariesChange}
             />
           </div>
         }
@@ -129,10 +144,12 @@ export default (connect(
   state => ({
     basemap: state.explore.basemap,
     basemapControl: state.explore.basemapControl,
-    labelsVisible: state.explore.labels
+    labels: state.explore.labels,
+    boundaries: state.explore.boundaries
   }),
   {
     setBasemap,
-    setLabels
+    setLabels,
+    setBoundaries
   }
 )(BasemapControl));
