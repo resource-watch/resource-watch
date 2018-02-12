@@ -13,7 +13,7 @@ class Howto extends Page {
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
 
-    // Dashboard detail
+    // Get static data
     await context.store.dispatch(getStaticData('how-to'));
 
     return { ...props };
