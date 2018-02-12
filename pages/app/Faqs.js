@@ -14,8 +14,13 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 import FaqBlock from 'components/app/common/Faqs/FaqBlock';
 
 class Faqs extends Page {
-  componentDidMount() {
-    this.props.getFaqs();
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+
+    // Get Faqs
+    await context.store.dispatch(getFaqs());
+
+    return { ...props };
   }
 
   render() {

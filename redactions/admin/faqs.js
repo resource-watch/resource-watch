@@ -78,7 +78,7 @@ export function getFaqs() {
   return (dispatch) => {
     dispatch({ type: GET_FAQS_LOADING });
 
-    service.fetchAllData()
+    return service.fetchAllData()
       .then((data) => {
         dispatch({ type: GET_FAQS_SUCCESS, payload: data });
       })
