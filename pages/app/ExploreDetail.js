@@ -13,9 +13,7 @@ import { resetDataset } from 'redactions/exploreDetail';
 import { getDataset } from 'redactions/exploreDataset';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
-import { setUser, getUserFavourites, getUserCollections } from 'redactions/user';
 import { getTools } from 'redactions/admin/tools';
-import { setRouter } from 'redactions/routes';
 import { getPartnerData } from 'redactions/partnerDetail';
 
 // Next
@@ -34,7 +32,6 @@ import Icon from 'components/ui/Icon';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
 import WidgetEditor from 'widget-editor';
-import ShareExploreDetailModal from 'components/modal/ShareExploreDetailModal';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import LoginModal from 'components/modal/LoginModal';
 import Banner from 'components/app/common/Banner';
@@ -71,20 +68,17 @@ class ExploreDetail extends Page {
     toggleLayerGroup: PropTypes.func.isRequired
   };
 
-  static async getInitialProps({ asPath, pathname, query, req, res, store, isServer }) {
-    const { user } = isServer ? req : store.getState();
-    const url = { asPath, pathname, query };
-    await store.dispatch(setUser(user));
-    await store.dispatch(getUserFavourites());
-    await store.dispatch(getUserCollections());
-    store.dispatch(setRouter(url));
-    await store.dispatch(getDataset(url.query.id));
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    const { store, res } = context;
+
+    await store.dispatch(getDataset(props.url.query.id));
 
     const { exploreDataset } = store.getState();
     if (!exploreDataset && res) res.statusCode = 404;
     if (exploreDataset && !exploreDataset.data.published && res) res.statusCode = 404;
 
-    return { user, isServer, url };
+    return { ...props };
   }
 
   constructor(props) {
@@ -428,34 +422,6 @@ class ExploreDetail extends Page {
                   <ul>
                     <li>Source: {(metadata && metadata.attributes.source) || '-'}</li>
                     <li>Last update: {dataset && dataset.attributes && new Date(dataset.attributes.updatedAt).toJSON().slice(0, 10).replace(/-/g, '/')}</li>
-                    {/* Favorite dataset icon */}
-                    {user && user.id &&
-                      <li>
-                        <Tooltip
-                          overlay={<CollectionsPanel
-                            resource={datasetWithId}
-                            resourceType="dataset"
-                          />}
-                          overlayClassName="c-rc-tooltip"
-                          overlayStyle={{
-                            color: '#c32d7b'
-                          }}
-                          placement="bottom"
-                          trigger="click"
-                        >
-                          <button
-                            className="c-btn favourite-button"
-                            tabIndex={-1}
-                          >
-                            <Icon
-                              name={starIconName}
-                              className={starIconClass}
-                            />
-                          </button>
-                        </Tooltip>
-                      </li>
-                    }
-                    {/* Favorites */}
                     <li>
                       <button className="c-btn -tertiary -alt -clean" onClick={() => this.handleToggleShareModal(true)}>
                         <Icon name="icon-share" className="-small" />
@@ -479,6 +445,38 @@ class ExploreDetail extends Page {
                         />
                       </Modal>
                     </li>
+
+                    {/* Favorite dataset icon */}
+                    {user && user.id &&
+                      <li>
+                        <Tooltip
+                          overlay={
+                            <CollectionsPanel
+                              resource={datasetWithId}
+                              resourceType="dataset"
+                            />
+                          }
+                          overlayClassName="c-rc-tooltip"
+                          overlayStyle={{
+                            color: '#c32d7b'
+                          }}
+                          placement="bottom"
+                          trigger="click"
+                        >
+                          <button
+                            className="c-btn -tertiary -alt -clean"
+                            tabIndex={-1}
+                          >
+                            <Icon
+                              name={starIconName}
+                              className={starIconClass}
+                            />
+                            <span>Favorite</span>
+                          </button>
+                        </Tooltip>
+                      </li>
+                    }
+                    {/* Favorites */}
                   </ul>
                 </div>
               </div>
