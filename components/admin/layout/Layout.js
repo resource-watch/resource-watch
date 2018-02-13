@@ -66,7 +66,7 @@ class Layout extends React.Component {
   render() {
     const { title, description, url, modal } = this.props;
     return (
-      <div className="l-page">
+      <div id="#main" className="l-page">
         <Head
           title={title}
           description={description}

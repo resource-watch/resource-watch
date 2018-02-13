@@ -8,6 +8,9 @@ import { initStore } from 'store';
 import { fetchDashboard } from 'components/dashboards/detail/dashboard-detail-actions';
 import { fetchDashboards, setPagination, setAdd, setSelected, setExpanded } from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list-actions';
 
+// Modal
+import { PortalWithState } from 'react-portal';
+
 // Next
 import { Router } from 'routes';
 
@@ -17,9 +20,14 @@ import Layout from 'components/app/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Title from 'components/ui/Title';
 
+
 import DashboardDetail from 'components/dashboards/detail/dashboard-detail';
 import DashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
 import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
+
+// Modal
+import Modal from 'components/modal/modal-component';
+import ShareModal from 'components/modal/share-modal';
 
 class DashboardsDetail extends Page {
   static async getInitialProps(context) {
@@ -46,6 +54,14 @@ class DashboardsDetail extends Page {
     );
 
     return { ...props };
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showShareModal: false
+    };
   }
 
   handleTagSelected(tag, labels = ['TOPIC']) { // eslint-disable-line class-methods-use-this
@@ -88,6 +104,14 @@ class DashboardsDetail extends Page {
     return compact(flatten(datasetIds));
   }
 
+  handleOpenModal = () => {
+    this.setState({ showShareModal: true });
+  }
+
+  handleCloseModal = () => {
+    this.setState({ showShareModal: false });
+  }
+
   render() {
     const { dashboardDetail } = this.props;
 
@@ -107,6 +131,25 @@ class DashboardsDetail extends Page {
                 <div className="page-header-content">
                   <Breadcrumbs items={[{ name: 'Dashboards', href: '/data/dashboards' }]} />
                   <h1>{dashboardDetail.dashboard.name}</h1>
+
+                  <div className="page-header-info">
+                    <ul>
+                      <li>
+                        <button className="c-btn -tertiary -alt" onClick={this.handleOpenModal}>
+                          Share
+                        </button>
+
+                        <Modal
+                          isOpen={this.state.showShareModal}
+                          className="-medium"
+                          onRequestClose={this.handleCloseModal}
+                        >
+                          <ShareModal />
+                        </Modal>
+                      </li>
+                    </ul>
+                  </div>
+
                 </div>
               </div>
             </div>

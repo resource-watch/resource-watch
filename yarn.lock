@@ -9441,6 +9441,14 @@ react-medium-editor@^1.8.1:
     medium-editor "^5.10.0"
     object-assign "^4.0.1"
 
+react-modal@3.1.13:
+  version "3.1.13"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.1.13.tgz#9b27e7774e6ecdc255f489487f518eb4361716ab"
+  dependencies:
+    exenv "^1.2.0"
+    prop-types "^15.5.10"
+    warning "^3.0.0"
+
 react-modal@^2.2.4:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-2.4.1.tgz#cb09b26711b148eb9f59cb180e1b7d82980ded05"
@@ -9474,6 +9482,12 @@ react-popper@^0.7.4:
 react-portal@3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/react-portal/-/react-portal-3.2.0.tgz#4224e19b2b05d5cbe730a7ba0e34ec7585de0043"
+  dependencies:
+    prop-types "^15.5.8"
+
+react-portal@4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/react-portal/-/react-portal-4.1.2.tgz#7f28f3c8c2ed5c541907c0ed0f24e8996acf627f"
   dependencies:
     prop-types "^15.5.8"
 
