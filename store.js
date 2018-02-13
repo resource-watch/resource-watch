@@ -9,9 +9,6 @@ import * as reducers from 'redactions';
 import { handleModule } from 'redux-tools';
 import * as search from 'components/app/layout/search/search';
 
-// Modal
-import * as shareModal from 'components/modal/share-modal';
-
 // Dashboard
 import * as dashboardDetail from 'components/dashboards/detail/dashboard-detail';
 import * as dashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
@@ -38,7 +35,6 @@ const reducer = combineReducers({
   ...widgetEditorModules,
 
   search: handleModule(search),
-  shareModal: handleModule(shareModal),
 
   // Dashboards
   dashboardDetail: handleModule(dashboardDetail),

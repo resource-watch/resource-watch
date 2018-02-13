@@ -44,6 +44,10 @@ import CollectionsPanel from 'components/collections-panel';
 import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
 import CardApp from 'components/app/common/CardApp';
 
+// Modal
+import Modal from 'components/modal/modal-component';
+import ShareModal from 'components/modal/share-modal';
+
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
 import { logEvent } from 'utils/analytics';
@@ -93,7 +97,8 @@ class ExploreDetail extends Page {
       showFunction: false,
       showCautions: false,
       inferredTags: [],
-      relatedTools: []
+      relatedTools: [],
+      showShareModal: false
     };
 
     // DatasetService
@@ -108,7 +113,6 @@ class ExploreDetail extends Page {
 
     // ----------------------- Bindings ----------------------
     this.handleOpenInExplore = this.handleOpenInExplore.bind(this);
-    this.handleShare = this.handleShare.bind(this);
     this.handleSubscribe = this.handleSubscribe.bind(this);
     this.handleTagClick = this.handleTagClick.bind(this);
     this.handleFavoriteButtonClick = this.handleFavoriteButtonClick.bind(this);
@@ -228,26 +232,36 @@ class ExploreDetail extends Page {
    * - handleOpenInExplore
    * - handleTagSelected
   */
-  handleShare() {
-    const { dataset } = this.state;
-    const widgets = dataset && dataset.attributes.widget;
-    let widget = null;
-    if (widgets) {
-      widget = widgets.find(value => value.attributes.default === true);
-    }
-    const options = {
-      children: ShareExploreDetailModal,
-      childrenProps: {
-        url: window.location.href,
-        datasetId: this.state.dataset.id,
-        datasetName: this.state.dataset.attributes.name,
-        showEmbed: widget && widget.attributes !== null,
-        toggleModal: this.props.toggleModal
-      }
-    };
-    this.props.toggleModal(true);
-    this.props.setModalOptions(options);
+  handleOpenShareModal = () => {
+    this.setState({ showShareModal: true });
   }
+
+  handleCloseShareModal = () => {
+    this.setState({ showShareModal: false });
+  }
+
+  // handleOpenShareModal() {
+  //   const { dataset } = this.state;
+  //   const widgets = dataset && dataset.attributes.widget;
+  //   let widget = null;
+  //   if (widgets) {
+  //     widget = widgets.find(value => value.attributes.default === true);
+  //   }
+  //   const options = {
+  //     children: ShareExploreDetailModal,
+  //     childrenProps: {
+  //       url: window.location.href,
+  //       datasetId: this.state.dataset.id,
+  //       datasetName: this.state.dataset.attributes.name,
+  //       showEmbed: widget && widget.attributes !== null,
+  //       toggleModal: this.props.toggleModal
+  //     }
+  //   };
+  //   this.props.toggleModal(true);
+  //   this.props.setModalOptions(options);
+  // }
+
+
   handleSubscribe() {
     const { user } = this.props;
     let options = null;
@@ -467,6 +481,24 @@ class ExploreDetail extends Page {
                       </li>
                     }
                     {/* Favorites */}
+                    <li>
+                      <button className="c-btn -tertiary -alt -clean" onClick={this.handleOpenShareModal}>
+                        <Icon name="icon-share" className="-small" />
+                        <span>Share</span>
+                      </button>
+
+                      <Modal
+                        isOpen={this.state.showShareModal}
+                        className="-medium"
+                        onRequestClose={this.handleCloseShareModal}
+                      >
+                        <ShareModal
+                          links={{
+                            link: typeof window !== 'undefined' && window.location.href
+                          }}
+                        />
+                      </Modal>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -486,12 +518,6 @@ class ExploreDetail extends Page {
                 </div>
                 <div className="column large-offset-2 small-12 medium-3">
                   <div className="dataset-info-actions">
-                    <button
-                      className="c-button -primary -fullwidth"
-                      onClick={this.handleShare}
-                    >
-                      Share dataset
-                    </button>
                     {showOpenInExploreButton &&
                       <Link
                         route="explore"

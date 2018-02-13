@@ -1,76 +1,154 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+
+import { toastr } from 'react-redux-toastr';
 
 // Components
-// import ShareUrl from 'components/modal-container/share-url';
+import Icon from 'components/ui/Icon';
 
 class ShareModalComponent extends PureComponent {
-  componentWillMount() {
-    const { link, embed } = this.props.links;
+  constructor(props) {
+    super(props);
+    this.inputs = {};
 
-    if (!link && embed) {
-      this.props.setTab('embed');
+    this.state = {
+      copied: {}
+    };
+  }
+
+  /**
+   * - onCopyClick
+   * @param  {string} type
+   * @return
+   */
+  onCopyClick = (type) => {
+    const input = this.inputs[type];
+    input.select();
+
+    try {
+      document.execCommand('copy');
+
+      this.setState({
+        copied: {
+          ...this.state.copied,
+          [type]: true
+        }
+      });
+
+      setTimeout(() => {
+        this.setState({
+          copied: {
+            ...this.state.copied,
+            [type]: false
+          }
+        });
+      }, 1000);
+    } catch (err) {
+      toastr.warning('Oops, unable to copy');
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { link, embed } = nextProps.links;
-
-    if (!link && embed) {
-      this.props.setTab('embed');
-    }
-  }
 
   render() {
-    const { links, tab } = this.props;
+    const { links } = this.props;
 
     return (
       <div className="c-share-modal">
-        <div className="c-nav-tab">
-          <ul>
-            {Object.keys(this.props.links).map((t) => {
-              const classNames = classnames({
-                '-active': this.props.tab === t
-              });
 
-              return (
-                <li
-                  key={t}
-                  className={classNames}
-                  onClick={() => this.props.setTab(t)}
-                >
-                  <span className="link">{t}</span>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        <h2>Share</h2>
 
-        <div className="content">
+        <div className="share-content">
+          {Object.keys(links).map((type) => {
+            const htmlFor = `share-${type}`;
 
-          <div className="embed-content">
-            Share modal
-            {/* <h3>
-              {tab === 'embed' ?
-                'Share into my web' :
-                'Share this page'
-              }
-            </h3>
+            switch (type) {
+              case 'link':
 
-            <p>
-              {tab === 'embed' ?
-                'You may include this content on your webpage. To do this, copy the following html code and insert it into the source code of your page:' :
-                'Click and paste link in email or IM'
-              }
-            </p> */}
+                return (
+                  <div key={type} className="c-field">
+                    <label htmlFor={htmlFor}>
+                      Public url to share
+                    </label>
 
-            {/* <ShareUrl
-              url={links[tab]}
-              iframe={tab === 'embed'}
-              analytics={this.props.analytics}
-            /> */}
-          </div>
+                    <div className="share-input-container">
+                      <input
+                        ref={(n) => { this.inputs[type] = n; }}
+                        id={htmlFor}
+                        name={htmlFor}
+                        className="share-input"
+                        value={links[type]}
+                        readOnly
+                      />
+
+                      <div className="share-buttons">
+                        <a
+                          className="c-btn -tertiary -compressed -square"
+                          href={`http://www.facebook.com/sharer/sharer.php?u=${links[type]}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          // onClick={() => logEvent('Share', `Share a specific dataset: ${this.props.datasetName}`, 'Facebook')}
+                        >
+                          <Icon name="icon-facebook" className="-small" />
+                        </a>
+
+                        <a
+                          className="c-btn -tertiary -compressed -square"
+                          href={`https://twitter.com/share?url=${links[type]}&text=${encodeURIComponent(document.title)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          // onClick={() => logEvent('Share', `Share a specific dataset: ${this.props.datasetName}`, 'Twitter')}
+                        >
+                          <Icon name="icon-twitter" className="-small" />
+                        </a>
+
+                        <a
+                          className="c-btn -tertiary -compressed"
+                          tabIndex={0}
+                          role="button"
+                          onClick={() => this.onCopyClick(type)}
+                        >
+                          {this.state.copied[type] ? 'Copied' : 'Copy link'}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                );
+
+              case 'embed':
+                return (
+                  <div key={type} className="c-field">
+                    <label htmlFor={htmlFor}>
+                      Code to embed
+                    </label>
+
+                    <div className="share-input-container">
+                      <input
+                        ref={(n) => { this.inputs[type] = n; }}
+                        id={htmlFor}
+                        name={htmlFor}
+                        className="share-input"
+                        value={`<iframe src=${links[type]} width="100%" height="500px" frameBorder="0" />`}
+                        readOnly
+                      />
+
+                      <div className="share-buttons">
+                        <a
+                          className="c-btn -tertiary -compressed"
+                          tabIndex={0}
+                          role="button"
+                          onClick={() => this.onCopyClick(type)}
+                        >
+                          {this.state.copied[type] ? 'Copied' : 'Copy link'}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                );
+
+              default:
+                return null;
+            }
+          })}
         </div>
       </div>
     );
@@ -78,9 +156,7 @@ class ShareModalComponent extends PureComponent {
 }
 
 ShareModalComponent.propTypes = {
-  tab: PropTypes.string,
-  links: PropTypes.object,
-  setTab: PropTypes.func,
+  links: PropTypes.object.isRequired,
   /**
    * Define the category and action for the analytics
    * event

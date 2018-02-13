@@ -50,7 +50,7 @@ ModalComponent.propTypes = {
   className: PropTypes.string,
   // Content
   children: PropTypes.node.isRequired,
-  header: PropTypes.node.isRequired,
+  header: PropTypes.node,
   // Func
   onAfterOpen: PropTypes.func,
   onRequestClose: PropTypes.func.isRequired

@@ -8,9 +8,6 @@ import { initStore } from 'store';
 import { fetchDashboard } from 'components/dashboards/detail/dashboard-detail-actions';
 import { fetchDashboards, setPagination, setAdd, setSelected, setExpanded } from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list-actions';
 
-// Modal
-import { PortalWithState } from 'react-portal';
-
 // Next
 import { Router } from 'routes';
 
@@ -19,7 +16,7 @@ import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Title from 'components/ui/Title';
-
+import Icon from 'components/ui/Icon';
 
 import DashboardDetail from 'components/dashboards/detail/dashboard-detail';
 import DashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
@@ -104,11 +101,11 @@ class DashboardsDetail extends Page {
     return compact(flatten(datasetIds));
   }
 
-  handleOpenModal = () => {
+  handleOpenShareModal = () => {
     this.setState({ showShareModal: true });
   }
 
-  handleCloseModal = () => {
+  handleCloseShareModal = () => {
     this.setState({ showShareModal: false });
   }
 
@@ -135,16 +132,22 @@ class DashboardsDetail extends Page {
                   <div className="page-header-info">
                     <ul>
                       <li>
-                        <button className="c-btn -tertiary -alt" onClick={this.handleOpenModal}>
-                          Share
+                        <button className="c-btn -tertiary -alt -clean" onClick={this.handleOpenShareModal}>
+                          <Icon name="icon-share" className="-small" />
+                          <span>Share</span>
                         </button>
 
                         <Modal
                           isOpen={this.state.showShareModal}
                           className="-medium"
-                          onRequestClose={this.handleCloseModal}
+                          onRequestClose={this.handleCloseShareModal}
                         >
-                          <ShareModal />
+                          <ShareModal
+                            links={{
+                              link: typeof window !== 'undefined' && window.location.href,
+                              embed: typeof window !== 'undefined' && `${window.location.origin}/embed/dashboard/${dashboardDetail.dashboard.slug}`
+                            }}
+                          />
                         </Modal>
                       </li>
                     </ul>
