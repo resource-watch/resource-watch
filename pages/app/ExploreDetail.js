@@ -227,40 +227,14 @@ class ExploreDetail extends Page {
 
   /**
    * UI EVENTS
-   * - handleShare
+   * - handleToggleShareModal
    * - handleSubscribe
    * - handleOpenInExplore
    * - handleTagSelected
   */
-  handleOpenShareModal = () => {
-    this.setState({ showShareModal: true });
+  handleToggleShareModal = (bool) => {
+    this.setState({ showShareModal: bool });
   }
-
-  handleCloseShareModal = () => {
-    this.setState({ showShareModal: false });
-  }
-
-  // handleOpenShareModal() {
-  //   const { dataset } = this.state;
-  //   const widgets = dataset && dataset.attributes.widget;
-  //   let widget = null;
-  //   if (widgets) {
-  //     widget = widgets.find(value => value.attributes.default === true);
-  //   }
-  //   const options = {
-  //     children: ShareExploreDetailModal,
-  //     childrenProps: {
-  //       url: window.location.href,
-  //       datasetId: this.state.dataset.id,
-  //       datasetName: this.state.dataset.attributes.name,
-  //       showEmbed: widget && widget.attributes !== null,
-  //       toggleModal: this.props.toggleModal
-  //     }
-  //   };
-  //   this.props.toggleModal(true);
-  //   this.props.setModalOptions(options);
-  // }
-
 
   handleSubscribe() {
     const { user } = this.props;
@@ -390,6 +364,7 @@ class ExploreDetail extends Page {
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
     const metadataAttributes = (metadata && metadata.attributes) || {};
     const metadataInfo = (metadataAttributes && metadataAttributes.info) || {};
+    const datasetName = metadataInfo && metadataInfo.name ? metadataInfo.name : (dataset && dataset.attributes && dataset.attributes.name);
     const { description } = metadataAttributes;
     const { functions, cautions } = metadataInfo;
 
@@ -424,7 +399,7 @@ class ExploreDetail extends Page {
 
     return (
       <Layout
-        title={metadataInfo && metadataInfo.name ? metadataInfo.name : (dataset && dataset.attributes && dataset.attributes.name)}
+        title={datasetName}
         description={description || ''}
         category="Dataset"
         url={url}
@@ -446,7 +421,7 @@ class ExploreDetail extends Page {
                 />
 
                 <h1>
-                  {metadataInfo && metadataInfo.name ? metadataInfo.name : (dataset && dataset.attributes && dataset.attributes.name)}
+                  {datasetName}
                 </h1>
 
                 <div className="page-header-info">
@@ -482,7 +457,7 @@ class ExploreDetail extends Page {
                     }
                     {/* Favorites */}
                     <li>
-                      <button className="c-btn -tertiary -alt -clean" onClick={this.handleOpenShareModal}>
+                      <button className="c-btn -tertiary -alt -clean" onClick={() => this.handleToggleShareModal(true)}>
                         <Icon name="icon-share" className="-small" />
                         <span>Share</span>
                       </button>
@@ -490,11 +465,16 @@ class ExploreDetail extends Page {
                       <Modal
                         isOpen={this.state.showShareModal}
                         className="-medium"
-                        onRequestClose={this.handleCloseShareModal}
+                        onRequestClose={() => this.handleToggleShareModal(false)}
                       >
                         <ShareModal
                           links={{
                             link: typeof window !== 'undefined' && window.location.href
+                          }}
+                          analytics={{
+                            facebook: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Facebook'),
+                            twitter: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Twitter'),
+                            copy: type => logEvent('Share', `Share dataset: ${datasetName}`, `Copy ${type}`)
                           }}
                         />
                       </Modal>

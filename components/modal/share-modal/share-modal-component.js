@@ -35,6 +35,8 @@ class ShareModalComponent extends PureComponent {
         }
       });
 
+      this.props.analytics.copy(type);
+
       setTimeout(() => {
         this.setState({
           copied: {
@@ -86,7 +88,7 @@ class ShareModalComponent extends PureComponent {
                           href={`http://www.facebook.com/sharer/sharer.php?u=${links[type]}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          // onClick={() => logEvent('Share', `Share a specific dataset: ${this.props.datasetName}`, 'Facebook')}
+                          onClick={() => this.props.analytics.facebook(type)}
                         >
                           <Icon name="icon-facebook" className="-small" />
                         </a>
@@ -96,7 +98,7 @@ class ShareModalComponent extends PureComponent {
                           href={`https://twitter.com/share?url=${links[type]}&text=${encodeURIComponent(document.title)}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          // onClick={() => logEvent('Share', `Share a specific dataset: ${this.props.datasetName}`, 'Twitter')}
+                          onClick={() => this.props.analytics.twitter(type)}
                         >
                           <Icon name="icon-twitter" className="-small" />
                         </a>
@@ -162,9 +164,19 @@ ShareModalComponent.propTypes = {
    * event
    */
   analytics: PropTypes.shape({
-    category: PropTypes.string,
-    action: PropTypes.string
+    facebook: PropTypes.func.isRequired,
+    twitter: PropTypes.func.isRequired,
+    copy: PropTypes.func.isRequired
   })
+};
+
+ShareModalComponent.defaultProps = {
+  links: {},
+  analytics: {
+    facebook: () => {},
+    twitter: () => {},
+    copy: () => {}
+  }
 };
 
 export default ShareModalComponent;

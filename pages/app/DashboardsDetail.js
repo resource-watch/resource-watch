@@ -11,6 +11,9 @@ import { fetchDashboards, setPagination, setAdd, setSelected, setExpanded } from
 // Next
 import { Router } from 'routes';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
@@ -101,12 +104,8 @@ class DashboardsDetail extends Page {
     return compact(flatten(datasetIds));
   }
 
-  handleOpenShareModal = () => {
-    this.setState({ showShareModal: true });
-  }
-
-  handleCloseShareModal = () => {
-    this.setState({ showShareModal: false });
+  handleToggleShareModal = (bool) => {
+    this.setState({ showShareModal: bool });
   }
 
   render() {
@@ -132,7 +131,7 @@ class DashboardsDetail extends Page {
                   <div className="page-header-info">
                     <ul>
                       <li>
-                        <button className="c-btn -tertiary -alt -clean" onClick={this.handleOpenShareModal}>
+                        <button className="c-btn -tertiary -alt -clean" onClick={() => this.handleToggleShareModal(true)}>
                           <Icon name="icon-share" className="-small" />
                           <span>Share</span>
                         </button>
@@ -140,12 +139,17 @@ class DashboardsDetail extends Page {
                         <Modal
                           isOpen={this.state.showShareModal}
                           className="-medium"
-                          onRequestClose={this.handleCloseShareModal}
+                          onRequestClose={() => this.handleToggleShareModal(false)}
                         >
                           <ShareModal
                             links={{
                               link: typeof window !== 'undefined' && window.location.href,
                               embed: typeof window !== 'undefined' && `${window.location.origin}/embed/dashboard/${dashboardDetail.dashboard.slug}`
+                            }}
+                            analytics={{
+                              facebook: () => logEvent('Share', `Share dashboard: ${dashboardDetail.dashboard.name}`, 'Facebook'),
+                              twitter: () => logEvent('Share', `Share dashboard: ${dashboardDetail.dashboard.name}`, 'Twitter'),
+                              copy: type => logEvent('Share', `Share dashboard: ${dashboardDetail.dashboard.name}`, `Copy ${type}`)
                             }}
                           />
                         </Modal>
