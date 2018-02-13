@@ -24,8 +24,8 @@ module.exports = {
       {
         test: /\.s(a|c)ss$/,
         use: [
-          'babel-loader',
-          'raw-loader',
+          { loader: 'babel-loader', query: { compact: false } },
+          { loader: 'raw-loader' },
           { loader: 'postcss-loader' },
           {
             loader: 'sass-loader',
