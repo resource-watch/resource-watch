@@ -1,48 +1,53 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
-// Redux
-import { connect } from 'react-redux';
-import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Components
-import ShareModalExplore from 'components/modal/ShareModalExplore';
 import Icon from 'components/ui/Icon';
 
-class ShareControl extends React.Component {
-  static propTypes = {
-    // ACTIONS
-    toggleModal: PropTypes.func,
-    setModalOptions: PropTypes.func
-  };
+// Utils
+import { logEvent } from 'utils/analytics';
 
-  handleShareModal = () => {
-    const options = {
-      children: ShareModalExplore,
-      childrenProps: {
-        ...this.props,
-        url: window.location.href,
-        toggleModal: this.props.toggleModal
-      }
+// Modal
+import Modal from 'components/modal/modal-component';
+import ShareModal from 'components/modal/share-modal';
+
+class ShareControl extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showShareModal: false
     };
-    this.props.toggleModal(true);
-    this.props.setModalOptions(options);
+  }
+
+  handleToggleShareModal = (bool) => {
+    this.setState({ showShareModal: bool });
   }
 
   // RENDER
   render() {
     return (
-      <button type="button" className="share-button" onClick={() => this.handleShareModal()}>
+      <button type="button" className="share-button" onClick={() => this.handleToggleShareModal(true)}>
         <Icon name="icon-share" className="-small" />
+
+        <Modal
+          isOpen={this.state.showShareModal}
+          className="-medium"
+          onRequestClose={() => this.handleToggleShareModal(false)}
+        >
+          <ShareModal
+            links={{
+              link: typeof window !== 'undefined' && window.location.href
+            }}
+            analytics={{
+              facebook: () => logEvent('Share', 'Share explore', 'Facebook'),
+              twitter: () => logEvent('Share', 'Share explore', 'Twitter'),
+              copy: type => logEvent('Share', 'Share explore', `Copy ${type}`)
+            }}
+          />
+        </Modal>
       </button>
     );
   }
 }
 
-export default connect(
-  null,
-  {
-    toggleModal,
-    setModalOptions
-  }
-)(ShareControl);
+export default ShareControl;

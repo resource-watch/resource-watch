@@ -11,15 +11,23 @@ import { fetchDashboards, setPagination, setAdd, setSelected, setExpanded } from
 // Next
 import { Router } from 'routes';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Title from 'components/ui/Title';
+import Icon from 'components/ui/Icon';
 
 import DashboardDetail from 'components/dashboards/detail/dashboard-detail';
 import DashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
 import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
+
+// Modal
+import Modal from 'components/modal/modal-component';
+import ShareModal from 'components/modal/share-modal';
 
 class DashboardsDetail extends Page {
   static async getInitialProps(context) {
@@ -46,6 +54,14 @@ class DashboardsDetail extends Page {
     );
 
     return { ...props };
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showShareModal: false
+    };
   }
 
   handleTagSelected(tag, labels = ['TOPIC']) { // eslint-disable-line class-methods-use-this
@@ -88,6 +104,10 @@ class DashboardsDetail extends Page {
     return compact(flatten(datasetIds));
   }
 
+  handleToggleShareModal = (bool) => {
+    this.setState({ showShareModal: bool });
+  }
+
   render() {
     const { dashboardDetail } = this.props;
 
@@ -107,6 +127,36 @@ class DashboardsDetail extends Page {
                 <div className="page-header-content">
                   <Breadcrumbs items={[{ name: 'Dashboards', href: '/data/dashboards' }]} />
                   <h1>{dashboardDetail.dashboard.name}</h1>
+
+                  <div className="page-header-info">
+                    <ul>
+                      <li>
+                        <button className="c-btn -tertiary -alt -clean" onClick={() => this.handleToggleShareModal(true)}>
+                          <Icon name="icon-share" className="-small" />
+                          <span>Share</span>
+                        </button>
+
+                        <Modal
+                          isOpen={this.state.showShareModal}
+                          className="-medium"
+                          onRequestClose={() => this.handleToggleShareModal(false)}
+                        >
+                          <ShareModal
+                            links={{
+                              link: typeof window !== 'undefined' && window.location.href,
+                              embed: typeof window !== 'undefined' && `${window.location.origin}/embed/dashboard/${dashboardDetail.dashboard.slug}`
+                            }}
+                            analytics={{
+                              facebook: () => logEvent('Share', `Share dashboard: ${dashboardDetail.dashboard.name}`, 'Facebook'),
+                              twitter: () => logEvent('Share', `Share dashboard: ${dashboardDetail.dashboard.name}`, 'Twitter'),
+                              copy: type => logEvent('Share', `Share dashboard: ${dashboardDetail.dashboard.name}`, `Copy ${type}`)
+                            }}
+                          />
+                        </Modal>
+                      </li>
+                    </ul>
+                  </div>
+
                 </div>
               </div>
             </div>
