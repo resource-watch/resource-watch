@@ -26,6 +26,7 @@ import UserService from 'services/UserService';
 
 // Explore Detail Component
 import ExploreDetailHeader from 'components/explore-detail/explore-detail-header';
+import ExploreDetailInfo from 'components/explore-detail/explore-detail-info';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -47,10 +48,6 @@ import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
 import { logEvent } from 'utils/analytics';
 import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
 import { APPS_CONNECTIONS } from 'utils/apps/appsConnections';
-
-
-// helpers
-import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
 import Error from '../_error';
 
@@ -106,7 +103,6 @@ class ExploreDetail extends Page {
     this.handleOpenInExplore = this.handleOpenInExplore.bind(this);
     this.handleSubscribe = this.handleSubscribe.bind(this);
     this.handleTagClick = this.handleTagClick.bind(this);
-    this.handleFavoriteButtonClick = this.handleFavoriteButtonClick.bind(this);
     this.handleSaveWidget = this.handleSaveWidget.bind(this);
     //--------------------------------------------------------
   }
@@ -218,14 +214,10 @@ class ExploreDetail extends Page {
 
   /**
    * UI EVENTS
-   * - handleToggleShareModal
    * - handleSubscribe
    * - handleOpenInExplore
    * - handleTagSelected
   */
-  handleToggleShareModal = (bool) => {
-    this.setState({ showShareModal: bool });
-  }
 
   handleSubscribe() {
     const { user } = this.props;
@@ -309,30 +301,6 @@ class ExploreDetail extends Page {
         </button>
       </div>
     );
-  }
-
-  handleFavoriteButtonClick() {
-    const { user, url } = this.props;
-    const { dataset } = this.state;
-    const favourite = user.favourites.items.find(f => f.attributes.resourceId === url.query.id);
-
-    this.setState({ loading: true });
-
-    this.props.toggleFavourite({
-      favourite,
-      user,
-      resource: {
-        type: 'dataset',
-        id: dataset.id
-      }
-    })
-      .then(() => {
-        this.setState({ loading: false });
-      })
-      .catch((err) => {
-        this.setState({ loading: false });
-        console.error(err);
-      });
   }
 
   handleSaveWidget() {
@@ -511,128 +479,7 @@ class ExploreDetail extends Page {
             <div className="l-container">
               <div className="row">
                 <div className="column small-12 medium-7">
-
-                  {metadataInfo && metadataInfo.technical_title ? (
-                    <div className="l-section-mod">
-                      <h3>Formal name</h3>
-                      <p>{metadataInfo.technical_title}</p>
-                    </div>
-                  ) : null}
-
-                  {functions ? (
-                    <div className="dataset-info-description">
-                      <h3>Description</h3>
-                      {formattedDescription}
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.geographic_coverage ? (
-                    <div className="l-section-mod">
-                      <h3>Geographic coverage</h3>
-                      <p>{metadataInfo.geographic_coverage}</p>
-                    </div>
-                  ) : null}
-
-                  {dataset && dataset.attributes && dataset.attributes.type ? (
-                    <div className="l-section-mod">
-                      <h3>Data type</h3>
-                      <p>{dataset.attributes.type}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.spatial_resolution ? (
-                    <div className="l-section-mod">
-                      <h3>Spatial resolution</h3>
-                      <p>{metadataInfo.spatial_resolution}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.date_of_content ? (
-                    <div className="l-section-mod">
-                      <h3>Date of content</h3>
-                      <p>{metadataInfo.date_of_content}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.frequency_of_updates ? (
-                    <div className="l-section-mod">
-                      <h3>Frequency of updates</h3>
-                      <p>{metadataInfo.frequency_of_updates}</p>
-                    </div>
-                  ) : null}
-
-                  {cautions ? (
-                    <div className="l-section-mod">
-                      <h3>Cautions</h3>
-                      <p>{formattedCautions}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.license ? (
-                    <div className="l-section-mod">
-                      <h3>License</h3>
-                      <p>
-                        {!!metadataInfo.license_link &&
-                          <a href={metadataInfo.license_link} target="_blank" rel="noopener noreferrer">{metadataInfo.license}</a>
-                        }
-                        {!metadataInfo.license_link &&
-                          metadataInfo.license
-                        }
-                      </p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.summary_of_license ? (
-                    <div className="l-section-mod">
-                      <h3>Summary of license</h3>
-                      <p>{metadataInfo.summary_of_license}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.link_to_license ? (
-                    <div className="l-section-mod">
-                      <h3>Link to full license</h3>
-                      <a href={metadataInfo.link_to_license} target="_blank">
-                        {metadataInfo.link_to_license}
-                      </a>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.sources ? (
-                    <div className="l-section-mod">
-                      <h3>Sources</h3>
-                      {metadataInfo.sources.map(source => (
-                        <div
-                          key={source['source-name']}
-                        >
-                          {source['source-name']}
-                          {source['source-description']}
-                        </div>)
-                      )
-                      }
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.citation ? (
-                    <div className="l-section-mod">
-                      <h3>Citation</h3>
-                      <p>{metadataInfo && metadataInfo.citation}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataAttributes && metadataAttributes.language ? (
-                    <div className="l-section-mod">
-                      <h3>Published language</h3>
-                      <p>{metadataAttributes.language}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.language && metadataInfo.language.toLowerCase() !== 'en' ? (
-                    <div className="l-section-mod">
-                      <h3>Translated title</h3>
-                      <p>{metadataInfo && metadataInfo.translated_title}</p>
-                    </div>
-                  ) : null}
+                  <ExploreDetailInfo />
                 </div>
               </div>
 
