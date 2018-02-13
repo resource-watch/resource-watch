@@ -76,7 +76,7 @@ export function getDataset(datasetId) {
       language: state.common.locale
     });
 
-    return service.fetchDataset('metadata,widget')
+    return service.fetchDataset('layer,metadata,vocabulary,widget')
       .then((data) => {
         dispatch({ type: GET_EXPLORE_DATASET_SUCCESS, payload: data });
       })

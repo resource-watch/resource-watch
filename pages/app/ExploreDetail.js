@@ -9,8 +9,8 @@ import classnames from 'classnames';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { toggleLayerGroup } from 'redactions/explore';
-import { resetDataset } from 'redactions/exploreDetail';
 import { getDataset } from 'redactions/exploreDataset';
+import { resetDataset } from 'redactions/exploreDetail';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 import { getTools } from 'redactions/admin/tools';
@@ -24,26 +24,23 @@ import DatasetService from 'services/DatasetService';
 import GraphService from 'services/GraphService';
 import UserService from 'services/UserService';
 
+// Explore Detail Component
+import ExploreDetailHeader from 'components/explore-detail/explore-detail-header';
+
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import Title from 'components/ui/Title';
 import Icon from 'components/ui/Icon';
-import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
 import WidgetEditor from 'widget-editor';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import LoginModal from 'components/modal/LoginModal';
 import Banner from 'components/app/common/Banner';
 import SaveWidgetModal from 'components/modal/SaveWidgetModal';
-import Tooltip from 'rc-tooltip/dist/rc-tooltip';
-import CollectionsPanel from 'components/collections-panel';
 import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
 import CardApp from 'components/app/common/CardApp';
 
-// Modal
-import Modal from 'components/modal/modal-component';
-import ShareModal from 'components/modal/share-modal';
 
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
@@ -352,8 +349,12 @@ class ExploreDetail extends Page {
   }
 
   render() {
-    const { url, user, exploreDataset, partnerDetail, tools } = this.props;
-    const { dataset, loading, inferredTags, relatedTools } = this.state;
+    const {
+      url, user, exploreDataset, partnerDetail, tools
+    } = this.props;
+    const {
+      dataset, loading, inferredTags, relatedTools
+    } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
     const metadataAttributes = (metadata && metadata.attributes) || {};
@@ -366,22 +367,9 @@ class ExploreDetail extends Page {
 
     const showOpenInExploreButton = dataset && dataset.attributes.layer && dataset.attributes.layer.length > 0;
 
-    const datasetWithId = { id: exploreDataset.data.id };
-    const isInACollection = belongsToACollection(user, datasetWithId);
     const formattedDescription = this.shortenAndFormat(description || '', 'showDescription');
     const formattedFunctions = this.shortenAndFormat(functions || '', 'showFunction');
     const formattedCautions = this.shortenAndFormat(cautions || '', 'showCautions');
-
-    const starIconName = classnames({
-      'icon-star-full': isInACollection,
-      'icon-star-empty': !isInACollection
-    });
-
-    const starIconClass = classnames({
-      '-small': true,
-      '-filled': isInACollection,
-      '-empty': !isInACollection
-    });
 
     const relatedToolsWithData = relatedTools && tools && tools.filter(t => relatedTools.find(r => r === t.slug));
 
@@ -409,77 +397,7 @@ class ExploreDetail extends Page {
           {/* PAGE HEADER */}
           <div className="c-page-header">
             <div className="l-container">
-              <div className="page-header-content">
-                <Breadcrumbs
-                  items={[{ name: 'Explore datasets', route: 'explore' }]}
-                />
-
-                <h1>
-                  {datasetName}
-                </h1>
-
-                <div className="page-header-info">
-                  <ul>
-                    <li>Source: {(metadata && metadata.attributes.source) || '-'}</li>
-                    <li>Last update: {dataset && dataset.attributes && new Date(dataset.attributes.updatedAt).toJSON().slice(0, 10).replace(/-/g, '/')}</li>
-                    <li>
-                      <button className="c-btn -tertiary -alt -clean" onClick={() => this.handleToggleShareModal(true)}>
-                        <Icon name="icon-share" className="-small" />
-                        <span>Share</span>
-                      </button>
-
-                      <Modal
-                        isOpen={this.state.showShareModal}
-                        className="-medium"
-                        onRequestClose={() => this.handleToggleShareModal(false)}
-                      >
-                        <ShareModal
-                          links={{
-                            link: typeof window !== 'undefined' && window.location.href
-                          }}
-                          analytics={{
-                            facebook: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Facebook'),
-                            twitter: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Twitter'),
-                            copy: type => logEvent('Share', `Share dataset: ${datasetName}`, `Copy ${type}`)
-                          }}
-                        />
-                      </Modal>
-                    </li>
-
-                    {/* Favorite dataset icon */}
-                    {user && user.id &&
-                      <li>
-                        <Tooltip
-                          overlay={
-                            <CollectionsPanel
-                              resource={datasetWithId}
-                              resourceType="dataset"
-                            />
-                          }
-                          overlayClassName="c-rc-tooltip"
-                          overlayStyle={{
-                            color: '#c32d7b'
-                          }}
-                          placement="bottom"
-                          trigger="click"
-                        >
-                          <button
-                            className="c-btn -tertiary -alt -clean"
-                            tabIndex={-1}
-                          >
-                            <Icon
-                              name={starIconName}
-                              className={starIconClass}
-                            />
-                            <span>Favorite</span>
-                          </button>
-                        </Tooltip>
-                      </li>
-                    }
-                    {/* Favorites */}
-                  </ul>
-                </div>
-              </div>
+              <ExploreDetailHeader />
             </div>
           </div>
 
@@ -840,6 +758,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  getDataset,
   resetDataset,
   toggleModal,
   setModalOptions,
