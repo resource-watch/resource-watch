@@ -9,12 +9,10 @@ import classnames from 'classnames';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { toggleLayerGroup } from 'redactions/explore';
-import { getDataset } from 'redactions/exploreDataset';
+import { getDataset, getPartner, getTools, setTools } from 'redactions/exploreDataset';
 import { resetDataset } from 'redactions/exploreDetail';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
-import { getTools } from 'redactions/admin/tools';
-import { getPartnerData } from 'redactions/partnerDetail';
 
 // Next
 import { Link, Router } from 'routes';
@@ -27,6 +25,7 @@ import UserService from 'services/UserService';
 // Explore Detail Component
 import ExploreDetailHeader from 'components/explore-detail/explore-detail-header';
 import ExploreDetailInfo from 'components/explore-detail/explore-detail-info';
+import ExploreDetailRelatedTools from 'components/explore-detail/explore-detail-related-tools';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -40,14 +39,13 @@ import LoginModal from 'components/modal/LoginModal';
 import Banner from 'components/app/common/Banner';
 import SaveWidgetModal from 'components/modal/SaveWidgetModal';
 import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
-import CardApp from 'components/app/common/CardApp';
 
 
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
 import { logEvent } from 'utils/analytics';
 import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
-import { APPS_CONNECTIONS } from 'utils/apps/appsConnections';
+import { TOOLS_CONNECTIONS } from 'utils/apps/toolsConnections';
 
 import Error from '../_error';
 
@@ -68,9 +66,24 @@ class ExploreDetail extends Page {
 
     await store.dispatch(getDataset(props.url.query.id));
 
+    // Check if the dataset exists and it is published
     const { exploreDataset } = store.getState();
     if (!exploreDataset && res) res.statusCode = 404;
     if (exploreDataset && !exploreDataset.data.published && res) res.statusCode = 404;
+
+
+    // Load connected partner
+    const partnerConnection = PARTNERS_CONNECTIONS.find(pc => pc.datasetId === exploreDataset.data.id);
+    if (partnerConnection) {
+      await store.dispatch(getPartner(partnerConnection.partnerId));
+    }
+
+    // Load connected tools
+    const toolsConnections = TOOLS_CONNECTIONS.filter(appC => appC.datasetId === exploreDataset.data.id).map(v => v.appSlug);
+    if (toolsConnections.length > 0) {
+      store.dispatch(setTools(toolsConnections));
+      await store.dispatch(getTools());
+    }
 
     return { ...props };
   }
@@ -81,12 +94,8 @@ class ExploreDetail extends Page {
     this.state = {
       dataset: null,
       loading: false,
-      showDescription: false,
       showFunction: false,
-      showCautions: false,
-      inferredTags: [],
-      relatedTools: [],
-      showShareModal: false
+      inferredTags: []
     };
 
     // DatasetService
@@ -160,23 +169,10 @@ class ExploreDetail extends Page {
           this.loadInferredTags(tags);
         }
 
-        // Load connected partner
-        const partnerConnection = PARTNERS_CONNECTIONS.find(pc => pc.datasetId === response.id);
-        if (partnerConnection) {
-          this.props.getPartnerData(partnerConnection.partnerId);
-        }
-
-        // Load connected apps
-        const appConnections = APPS_CONNECTIONS.filter(appC => appC.datasetId === response.id).map(v => v.appSlug);
-        if (appConnections.length > 0) {
-          this.props.getTools();
-        }
-
         this.setState({
           dataset: response,
           datasetLoaded: true,
-          loading: false,
-          relatedTools: appConnections
+          loading: false
         });
       }).catch((error) => {
         toastr.error('Error', 'Unable to load the dataset');
@@ -318,10 +314,10 @@ class ExploreDetail extends Page {
 
   render() {
     const {
-      url, user, exploreDataset, partnerDetail, tools
+      url, user, exploreDataset
     } = this.props;
     const {
-      dataset, loading, inferredTags, relatedTools
+      dataset, loading, inferredTags
     } = this.state;
     const metadataObj = dataset && dataset.attributes.metadata;
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
@@ -336,8 +332,6 @@ class ExploreDetail extends Page {
     const showOpenInExploreButton = dataset && dataset.attributes.layer && dataset.attributes.layer.length > 0;
 
     const formattedFunctions = this.shortenAndFormat(functions || '', 'showFunction');
-
-    const relatedToolsWithData = relatedTools && tools && tools.filter(t => relatedTools.find(r => r === t.slug));
 
     const isSubscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
       Object.keys(dataset.attributes.subscribable).length > 0;
@@ -440,14 +434,15 @@ class ExploreDetail extends Page {
                       </button>
                     }
                   </div>
-                  { partnerDetail.logo &&
+
+                  {exploreDataset.partner.data.logo &&
                     <div className="partner-container">
                       <div className="partner-text-container">
                         Partner:
                       </div>
                       <div className="partner-logo-container">
-                        <a href={partnerDetail.website} target="_blank" rel="noopener noreferrer">
-                          <img src={partnerDetail.logo && partnerDetail.logo.medium} alt={partnerDetail.name} />
+                        <a href={exploreDataset.partner.data.website} target="_blank" rel="noopener noreferrer">
+                          <img src={exploreDataset.partner.data.logo && exploreDataset.partner.data.logo.medium} alt={exploreDataset.partner.data.name} />
                         </a>
                       </div>
                     </div>
@@ -513,6 +508,10 @@ class ExploreDetail extends Page {
                   <div className="similar-datasets">
                     <div className="row">
                       <div className="column small-12">
+                        <Title className="-extrabig -secondary -p-secondary">
+                          Similar datasets
+                        </Title>
+
                         {dataset &&
                           <SimilarDatasets
                             datasetIds={[dataset.id]}
@@ -528,7 +527,7 @@ class ExploreDetail extends Page {
           </section>
 
           {/* RELATED TOOLS */}
-          {relatedToolsWithData.length > 0 &&
+          {exploreDataset.tools.active.length > 0 &&
             <section className="l-section">
               <div className="l-container">
                 <div className="row">
@@ -536,23 +535,11 @@ class ExploreDetail extends Page {
                     <div className="related-tools">
                       <div className="row">
                         <div className="column small-12">
-                          <Title className="-extrabig">
-                            Related Tools
+                          <Title className="-extrabig -secondary -p-secondary">
+                            Related tools
                           </Title>
-                          {
-                            relatedToolsWithData.map(relatedTool => (
-                              <CardApp
-                                background={relatedTool.thumbnail.original}
-                                title={relatedTool.title}
-                                description={relatedTool.summary}
-                                link={{
-                                  label: 'Go to site',
-                                  route: relatedTool.url,
-                                  external: true
-                                }}
-                              />
-                            ))
-                          }
+
+                          <ExploreDetailRelatedTools />
                         </div>
                       </div>
                     </div>
@@ -594,8 +581,10 @@ class ExploreDetail extends Page {
 const mapStateToProps = state => ({
   // Store
   user: state.user,
-  exploreDetail: state.exploreDetail,
   exploreDataset: state.exploreDataset,
+
+  // Unnecessary?
+  exploreDetail: state.exploreDetail,
   partnerDetail: state.partnerDetail.data,
   layersShown: updateLayersShown(state),
   locale: state.common.locale,
@@ -604,11 +593,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getDataset,
+  getPartner,
   resetDataset,
   toggleModal,
   setModalOptions,
   toggleLayerGroup,
-  getPartnerData,
   getTools
 };
 

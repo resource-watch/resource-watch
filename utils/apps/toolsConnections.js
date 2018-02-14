@@ -1,4 +1,4 @@
-export const APPS_CONNECTIONS = [
+export const TOOLS_CONNECTIONS = [
   {
     datasetId: '7bcf2f48-8ebd-4900-a485-57a75f9f4e85',
     appSlug: 'global-forest-watch'

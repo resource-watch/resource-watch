@@ -204,6 +204,10 @@ class DashboardsDetail extends Page {
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
+                <Title className="-extrabig -secondary -p-secondary">
+                  Similar datasets
+                </Title>
+
                 <SimilarDatasets
                   datasetIds={this.getDatasetIds()}
                   onTagSelected={this.handleTagSelected}
