@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import sortBy from 'lodash/sortBy';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -25,6 +26,7 @@ class Faqs extends Page {
 
   render() {
     const { faqs } = this.props;
+    const orderedFaqs = sortBy(faqs, faq => faq.order);
 
     return (
       <Layout
@@ -76,9 +78,9 @@ class Faqs extends Page {
               </div>
             </div>
 
-            {faqs.map(faq =>
-              (<div className="row">
-                <div className="column small-12" key={faq.id}>
+            {orderedFaqs.map(faq =>
+              (<div className="row" key={faq.id}>
+                <div className="column small-12">
                   <FaqBlock item={faq} />
                 </div>
               </div>)
