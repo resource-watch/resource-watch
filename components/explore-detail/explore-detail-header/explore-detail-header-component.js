@@ -112,7 +112,7 @@ class ExploreDetailHeader extends PureComponent {
                   overlayStyle={{
                     color: '#c32d7b'
                   }}
-                  placement="bottom"
+                  placement="bottomLeft"
                   trigger="click"
                 >
                   <button

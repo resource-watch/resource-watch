@@ -329,15 +329,13 @@ class ExploreDetail extends Page {
     const metadataInfo = (metadataAttributes && metadataAttributes.info) || {};
     const datasetName = metadataInfo && metadataInfo.name ? metadataInfo.name : (dataset && dataset.attributes && dataset.attributes.name);
     const { description } = metadataAttributes;
-    const { functions, cautions } = metadataInfo;
+    const { functions } = metadataInfo;
 
     const defaultEditableWidget = dataset && dataset.attributes.widget.find(widget => widget.attributes.defaultEditableWidget === true);
 
     const showOpenInExploreButton = dataset && dataset.attributes.layer && dataset.attributes.layer.length > 0;
 
-    const formattedDescription = this.shortenAndFormat(description || '', 'showDescription');
     const formattedFunctions = this.shortenAndFormat(functions || '', 'showFunction');
-    const formattedCautions = this.shortenAndFormat(cautions || '', 'showCautions');
 
     const relatedToolsWithData = relatedTools && tools && tools.filter(t => relatedTools.find(r => r === t.slug));
 

@@ -40,7 +40,7 @@ class ExploreDetailInfo extends PureComponent {
     }
 
     const visible = this.state[fieldToManage] || false;
-    const shortenedText = truncate(text, { length: limitChar, separator: '' });
+    const shortenedText = truncate(text, { length: limitChar, separator: '', omission: '...' });
 
     return (
       <div className="shortened-text">
