@@ -1,7 +1,9 @@
 import React from 'react';
+import { Serializer } from 'jsonapi-serializer';
 
 // Services
 import { toastr } from 'react-redux-toastr';
+import ContactUsService from 'services/ContactUsService';
 
 // Components
 import Field from 'components/form/Field';
@@ -19,6 +21,8 @@ class ContactUsForm extends React.Component {
     this.state = Object.assign({}, STATE_DEFAULT, {
       form: STATE_DEFAULT.form
     });
+
+    this.service = new ContactUsService();
   }
 
   /**
@@ -37,6 +41,14 @@ class ContactUsForm extends React.Component {
       const valid = FORM_ELEMENTS.isValid(this.state.form);
 
       if (valid) {
+        // Save data
+        this.service.saveData({
+          body: new Serializer('contact-us', {
+            keyForAttribute: 'dash-case',
+            attributes: Object.keys(this.state.form)
+          }).serialize(this.state.form)
+        });
+
         toastr.success('Success', 'Your message has been sent!');
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
