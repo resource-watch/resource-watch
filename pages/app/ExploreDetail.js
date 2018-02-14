@@ -357,7 +357,11 @@ class ExploreDetail extends Page {
           {/* PAGE HEADER */}
           <div className="c-page-header">
             <div className="l-container">
-              <ExploreDetailHeader />
+              <div className="row">
+                <div className="column small-12">
+                  <ExploreDetailHeader />
+                </div>
+              </div>
             </div>
           </div>
 
@@ -368,10 +372,10 @@ class ExploreDetail extends Page {
                 <div className="column small-12 medium-7">
                   {/* Function */}
                   <div className="l-section-mod">
-                    <h3>Function</h3>
-                    <p>{formattedFunctions}</p>
+                    <p>{exploreDataset.data.metadata.description}</p>
                   </div>
                 </div>
+
                 <div className="column large-offset-2 small-12 medium-3">
                   <div className="dataset-info-actions">
                     {showOpenInExploreButton &&

@@ -70,6 +70,8 @@ class ExploreDetailHeader extends PureComponent {
 
         <h1>{datasetName}</h1>
 
+        <h3>{metadata && metadata.info.functions}</h3>
+
         <div className="page-header-info">
           <ul>
             <li>Source: {(metadata && metadata.source) || '-'}</li>
