@@ -30,7 +30,7 @@ class DeleteAction extends React.Component {
       onOk: () => {
         this.service.deleteData(data.id)
           .then(() => {
-            this.props.onRowDelete(data.id);
+            this.props.onFaqDelete();
             toastr.success('Success', `The faq "${data.id}" - "${data.question}" has been removed correctly`);
           })
           .catch((err) => {
@@ -52,7 +52,7 @@ class DeleteAction extends React.Component {
 DeleteAction.propTypes = {
   data: PropTypes.object,
   authorization: PropTypes.string,
-  onRowDelete: PropTypes.func
+  onFaqDelete: PropTypes.func
 };
 
 export default DeleteAction;
