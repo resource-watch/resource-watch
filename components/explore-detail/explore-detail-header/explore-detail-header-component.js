@@ -80,24 +80,24 @@ class ExploreDetailHeader extends PureComponent {
               <button className="c-btn -tertiary -alt -clean" onClick={() => this.handleToggleShareModal(true)}>
                 <Icon name="icon-share" className="-small" />
                 <span>Share</span>
-              </button>
 
-              <Modal
-                isOpen={this.state.showShareModal}
-                className="-medium"
-                onRequestClose={() => this.handleToggleShareModal(false)}
-              >
-                <ShareModal
-                  links={{
-                    link: typeof window !== 'undefined' && window.location.href
-                  }}
-                  analytics={{
-                    facebook: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Facebook'),
-                    twitter: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Twitter'),
-                    copy: type => logEvent('Share', `Share dataset: ${datasetName}`, `Copy ${type}`)
-                  }}
-                />
-              </Modal>
+                <Modal
+                  isOpen={this.state.showShareModal}
+                  className="-medium"
+                  onRequestClose={() => this.handleToggleShareModal(false)}
+                >
+                  <ShareModal
+                    links={{
+                      link: typeof window !== 'undefined' && window.location.href
+                    }}
+                    analytics={{
+                      facebook: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Facebook'),
+                      twitter: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Twitter'),
+                      copy: type => logEvent('Share', `Share dataset: ${datasetName}`, `Copy ${type}`)
+                    }}
+                  />
+                </Modal>
+              </button>
             </li>
 
             {/* Favorite dataset icon */}

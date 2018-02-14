@@ -15,7 +15,7 @@ import { toggleModal, setModalOptions } from 'redactions/modal';
 import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 
 // Next
-import { Link, Router } from 'routes';
+import { Router } from 'routes';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -26,12 +26,12 @@ import UserService from 'services/UserService';
 import ExploreDetailHeader from 'components/explore-detail/explore-detail-header';
 import ExploreDetailInfo from 'components/explore-detail/explore-detail-info';
 import ExploreDetailRelatedTools from 'components/explore-detail/explore-detail-related-tools';
+import ExploreDetailActions from 'components/explore-detail/explore-detail-actions';
 
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import Title from 'components/ui/Title';
-import Icon from 'components/ui/Icon';
 import Spinner from 'components/ui/Spinner';
 import WidgetEditor from 'widget-editor';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
@@ -43,7 +43,6 @@ import SimilarDatasets from 'components/app/explore/similar-datasets/similar-dat
 
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
-import { logEvent } from 'utils/analytics';
 import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
 import { TOOLS_CONNECTIONS } from 'utils/apps/toolsConnections';
 
@@ -109,8 +108,6 @@ class ExploreDetail extends Page {
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
     // ----------------------- Bindings ----------------------
-    this.handleOpenInExplore = this.handleOpenInExplore.bind(this);
-    this.handleSubscribe = this.handleSubscribe.bind(this);
     this.handleTagClick = this.handleTagClick.bind(this);
     this.handleSaveWidget = this.handleSaveWidget.bind(this);
     //--------------------------------------------------------
@@ -210,44 +207,8 @@ class ExploreDetail extends Page {
 
   /**
    * UI EVENTS
-   * - handleSubscribe
-   * - handleOpenInExplore
    * - handleTagSelected
   */
-
-  handleSubscribe() {
-    const { user } = this.props;
-    let options = null;
-    // ----- the user is logged in ------
-    if (user.id) {
-      options = {
-        children: SubscribeToDatasetModal,
-        childrenProps: {
-          toggleModal: this.props.toggleModal,
-          dataset: this.state.dataset,
-          showDatasetSelector: false
-        }
-      };
-    } else {
-    // ------ anonymous user ---------
-      options = {
-        children: LoginModal,
-        childrenProps: {
-          toggleModal: this.props.toggleModal,
-          text: 'Log in to subscribe to dataset changes'
-        }
-      };
-    }
-
-    this.props.toggleModal(true);
-    this.props.setModalOptions(options);
-  }
-
-  handleOpenInExplore() {
-    const { dataset } = this.state;
-    this.props.toggleLayerGroup(dataset.id, true);
-  }
-
   handleTagSelected(tag, labels = ['TOPIC']) { // eslint-disable-line class-methods-use-this
     const tagSt = `["${tag.id}"]`;
     let treeSt = 'topics';
@@ -325,16 +286,8 @@ class ExploreDetail extends Page {
     const metadataInfo = (metadataAttributes && metadataAttributes.info) || {};
     const datasetName = metadataInfo && metadataInfo.name ? metadataInfo.name : (dataset && dataset.attributes && dataset.attributes.name);
     const { description } = metadataAttributes;
-    const { functions } = metadataInfo;
 
     const defaultEditableWidget = dataset && dataset.attributes.widget.find(widget => widget.attributes.defaultEditableWidget === true);
-
-    const showOpenInExploreButton = dataset && dataset.attributes.layer && dataset.attributes.layer.length > 0;
-
-    const formattedFunctions = this.shortenAndFormat(functions || '', 'showFunction');
-
-    const isSubscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
-      Object.keys(dataset.attributes.subscribable).length > 0;
 
     if (exploreDataset && exploreDataset.error === 'Not Found') return <Error status={404} />;
     if (dataset && !dataset.attributes.published) return <Error status={404} />;
@@ -371,86 +324,11 @@ class ExploreDetail extends Page {
               <div className="row">
                 <div className="column small-12 medium-7">
                   {/* Function */}
-                  <div className="l-section-mod">
-                    <p>{exploreDataset.data.metadata.description}</p>
-                  </div>
+                  <p>{exploreDataset.data.metadata.description}</p>
                 </div>
 
                 <div className="column large-offset-2 small-12 medium-3">
-                  <div className="dataset-info-actions">
-                    {showOpenInExploreButton &&
-                      <Link
-                        route="explore"
-                        params={{
-                          layers: encodeURIComponent(JSON.stringify([{
-                            dataset: dataset.id,
-                            visible: true,
-                            layers: dataset.attributes.layer.map(((l, i) => ({
-                              id: l.id, active: i === 0
-                            })))
-                          }]))
-                        }}
-                      >
-                        <a className="c-button -primary -fullwidth">
-                          Open in Explore
-                        </a>
-                      </Link>
-                    }
-                    {metadataInfo && metadataInfo.data_download_link &&
-                      <a
-                        className="c-button -primary -fullwidth"
-                        target="_blank"
-                        href={metadataInfo && metadataInfo.data_download_link}
-                        onClick={() => logEvent('Explore', 'Download data', dataset && dataset.attributes.name)}
-                      >
-                        Download
-                      </a>
-                    }
-                    {metadataInfo && metadataInfo.data_download_original_link &&
-                      <a
-                        className="c-button -secondary -fullwidth"
-                        target="_blank"
-                        href={metadataInfo && metadataInfo.data_download_original_link}
-                      >
-                        Download from source
-                      </a>
-                    }
-                    {metadataInfo && metadataInfo.learn_more_link &&
-                      <a
-                        className="c-button -secondary -fullwidth"
-                        target="_blank"
-                        href={metadataInfo && metadataInfo.learn_more_link}
-                      >
-                        <div className="learn-more-button">
-                          <div>
-                            Learn more
-                          </div>
-                          <Icon name="icon-external" className="-smaller" />
-                        </div>
-                      </a>
-                    }
-                    {isSubscribable &&
-                      <button
-                        className="c-button -secondary -fullwidth"
-                        onClick={this.handleSubscribe}
-                      >
-                        Subscribe to alerts
-                      </button>
-                    }
-                  </div>
-
-                  {exploreDataset.partner.data.logo &&
-                    <div className="partner-container">
-                      <div className="partner-text-container">
-                        Partner:
-                      </div>
-                      <div className="partner-logo-container">
-                        <a href={exploreDataset.partner.data.website} target="_blank" rel="noopener noreferrer">
-                          <img src={exploreDataset.partner.data.logo && exploreDataset.partner.data.logo.medium} alt={exploreDataset.partner.data.name} />
-                        </a>
-                      </div>
-                    </div>
-                  }
+                  <ExploreDetailActions />
                 </div>
               </div>
             </div>

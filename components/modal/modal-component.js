@@ -38,7 +38,7 @@ class ModalComponent extends PureComponent {
           <Icon name="icon-cross" className="-small" />
         </button>
         <div className="modal-content">
-          {children}
+          {this.props.children}
         </div>
       </Modal>
     );

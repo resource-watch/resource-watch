@@ -84,7 +84,7 @@ class ShareModalComponent extends PureComponent {
 
                       <div className="share-buttons">
                         <a
-                          className="c-btn -tertiary -compressed -square"
+                          className="c-btn -secondary -compressed -square"
                           href={`http://www.facebook.com/sharer/sharer.php?u=${links[type]}`}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -94,7 +94,7 @@ class ShareModalComponent extends PureComponent {
                         </a>
 
                         <a
-                          className="c-btn -tertiary -compressed -square"
+                          className="c-btn -secondary -compressed -square"
                           href={`https://twitter.com/share?url=${links[type]}&text=${encodeURIComponent(document.title)}`}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -104,7 +104,7 @@ class ShareModalComponent extends PureComponent {
                         </a>
 
                         <a
-                          className="c-btn -tertiary -compressed"
+                          className="c-btn -secondary -compressed"
                           tabIndex={0}
                           role="button"
                           onClick={() => this.onCopyClick(type)}
@@ -135,7 +135,7 @@ class ShareModalComponent extends PureComponent {
 
                       <div className="share-buttons">
                         <a
-                          className="c-btn -tertiary -compressed"
+                          className="c-btn -secondary -compressed"
                           tabIndex={0}
                           role="button"
                           onClick={() => this.onCopyClick(type)}
