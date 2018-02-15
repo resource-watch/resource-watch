@@ -1,7 +1,6 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
-import MediaQuery from 'react-responsive';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -9,16 +8,13 @@ import { initStore } from 'store';
 import { getDataset, getPartner, getTools, getTags, setTools, setTags, setCountView } from 'redactions/exploreDataset';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 
-// Services
-import GraphService from 'services/GraphService';
-import UserService from 'services/UserService';
-
 // Explore Detail Component
 import ExploreDetailHeader from 'components/explore-detail/explore-detail-header';
 import ExploreDetailInfo from 'components/explore-detail/explore-detail-info';
 import ExploreDetailRelatedTools from 'components/explore-detail/explore-detail-related-tools';
 import ExploreDetailActions from 'components/explore-detail/explore-detail-actions';
 import ExploreDetailTags from 'components/explore-detail/explore-detail-tags';
+import ExploreDetailWidgetEditor from 'components/explore-detail/explore-detail-widget-editor';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -26,11 +22,8 @@ import Layout from 'components/app/layout/Layout';
 import Title from 'components/ui/Title';
 import ReadMore from 'components/ui/ReadMore';
 
-import WidgetEditor from 'widget-editor';
 import Banner from 'components/app/common/Banner';
-import SaveWidgetModal from 'components/modal/SaveWidgetModal';
 import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
-
 
 // Utils
 import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
@@ -39,8 +32,7 @@ import { TOOLS_CONNECTIONS } from 'utils/apps/toolsConnections';
 // Utils
 import {
   getDatasetMetadata,
-  getDatasetName,
-  getDatasetDefaultEditableWidget
+  getDatasetName
 } from 'components/explore-detail/explore-detail-helpers';
 
 import Error from '../_error';
@@ -90,18 +82,6 @@ class ExploreDetail extends Page {
     return { ...props };
   }
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      dataset: null
-    };
-
-    // ----------------------- Bindings ----------------------
-    this.handleSaveWidget = this.handleSaveWidget.bind(this);
-    //--------------------------------------------------------
-  }
-
   /**
    * Component Lifecycle
    * - componentDidMount
@@ -121,23 +101,6 @@ class ExploreDetail extends Page {
     }
   }
 
-  componentWillUnmount() {
-    // this.props.toggleModal(false);
-  }
-
-  handleSaveWidget() {
-    const { dataset } = this.state;
-    const options = {
-      children: SaveWidgetModal,
-      childrenProps: {
-        dataset: dataset.id,
-        getWidgetConfig: this.onGetWidgetConfig
-      }
-    };
-    this.props.toggleModal(true);
-    this.props.setModalOptions(options);
-  }
-
   render() {
     const {
       url, user, exploreDataset
@@ -146,7 +109,6 @@ class ExploreDetail extends Page {
     const dataset = exploreDataset.data;
     const datasetName = getDatasetName(dataset);
     const metadata = getDatasetMetadata(dataset);
-    const defaultEditableWidget = getDatasetDefaultEditableWidget(dataset);
 
     if (exploreDataset && exploreDataset.error === 'Not Found') return <Error status={404} />;
     if (dataset && !dataset.published) return <Error status={404} />;
@@ -191,19 +153,7 @@ class ExploreDetail extends Page {
           </section>
 
           {/* WIDGET EDITOR */}
-          <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
-            {dataset &&
-              <WidgetEditor
-                datasetId={dataset.id}
-                widgetId={defaultEditableWidget && defaultEditableWidget.id}
-                saveButtonMode="auto"
-                embedButtonMode="auto"
-                titleMode="auto"
-                provideWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
-                onSave={this.handleSaveWidget}
-              />
-            }
-          </MediaQuery>
+          <ExploreDetailWidgetEditor />
 
           {/* METADATA */}
           <section className="l-section">
@@ -218,7 +168,6 @@ class ExploreDetail extends Page {
                 <div className="column small-12">
                   {/* TAGS SECTION */}
                   <h3>Tags</h3>
-
                   <ExploreDetailTags />
                 </div>
               </div>
@@ -237,12 +186,10 @@ class ExploreDetail extends Page {
                           Similar datasets
                         </Title>
 
-                        {dataset &&
-                          <SimilarDatasets
-                            datasetIds={[dataset.id]}
-                            onTagSelected={this.handleTagSelected}
-                          />
-                        }
+                        <SimilarDatasets
+                          datasetIds={[dataset.id]}
+                          onTagSelected={this.handleTagSelected}
+                        />
                       </div>
                     </div>
                   </div>
