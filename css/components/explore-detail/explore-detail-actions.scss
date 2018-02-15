@@ -1,0 +1,9 @@
+.c-explore-detail-actions {
+  > * {
+    margin: 0 0 $space-1 * 2;
+
+    &:last-child {
+      margin: 0;
+    }
+  }
+}

@@ -46,18 +46,23 @@
 @import "./components/ui/card";
 @import "./components/ui/card-app";
 @import "./components/ui/compound_menu";
+@import "./components/ui/contact-us";
 @import "./components/ui/custom_select";
 @import "./components/ui/dock";
 @import "./components/ui/header-dropdown";
 @import "./components/ui/icon";
 @import "./components/ui/legend";
 @import "./components/ui/modal";
+@import "./components/ui/modal2";
 @import "./components/ui/paginator";
+@import "./components/ui/progress-bar";
+@import "./components/ui/read-more";
 @import "./components/ui/related-content";
 @import "./components/ui/search";
 @import "./components/ui/search-input";
 @import "./components/ui/slider-tooltip";
 @import "./components/ui/spinner";
+@import "./components/ui/sortable-row";
 @import "./components/ui/switch-options";
 @import "./components/ui/switch";
 @import "./components/ui/table";
@@ -70,9 +75,10 @@
 @import "./components/ui/tooltip-global";
 @import "./components/ui/tree_selector";
 @import "./components/ui/zoom_control";
-@import "./components/ui/progress-bar";
 
 // Modal
+@import "./components/modal/share-modal";
+
 @import "./components/modal/save_widget_modal";
 @import "./components/modal/how_to_widget_editor_modal";
 @import "./components/modal/embed_my_widget_modal";
@@ -242,7 +248,8 @@
 @import "./components/app/explore/similar_datasets";
 
 // EXPLORE DETAIL
-@import "./components/app/explore-detail/dataset-info";
+@import "./components/explore-detail/explore-detail-actions";
+@import "./components/explore-detail/explore-detail-tags";
 
 // DASHBOARDS
 @import './components/dashboards/dashboard-thumbnail-list';

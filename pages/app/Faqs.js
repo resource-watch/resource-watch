@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import sortBy from 'lodash/sortBy';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -14,12 +15,18 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 import FaqBlock from 'components/app/common/Faqs/FaqBlock';
 
 class Faqs extends Page {
-  componentDidMount() {
-    this.props.getFaqs();
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+
+    // Get Faqs
+    await context.store.dispatch(getFaqs());
+
+    return { ...props };
   }
 
   render() {
     const { faqs } = this.props;
+    const orderedFaqs = sortBy(faqs, faq => faq.order);
 
     return (
       <Layout
@@ -71,9 +78,9 @@ class Faqs extends Page {
               </div>
             </div>
 
-            {faqs.map(faq =>
-              (<div className="row">
-                <div className="column small-12" key={faq.id}>
+            {orderedFaqs.map(faq =>
+              (<div className="row" key={faq.id}>
+                <div className="column small-12">
                   <FaqBlock item={faq} />
                 </div>
               </div>)

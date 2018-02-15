@@ -18,7 +18,7 @@ import Title from 'components/ui/Title';
 
 // Contants
 const DATA_TABS = [{
-  label: 'Faqs',
+  label: 'FAQs',
   value: 'faqs',
   route: 'admin_faqs',
   params: { tab: 'faqs' }
@@ -53,7 +53,7 @@ class Faqs extends Page {
 
     return (
       <Layout
-        title="Faqs"
+        title="FAQs"
         description="Faqs description..."
         user={user}
         url={url}
@@ -63,7 +63,7 @@ class Faqs extends Page {
           <div className="l-container -admin">
             <div className="page-header-content -with-tabs">
               <Title className="-primary -huge page-header-title" >
-                Faqs
+                FAQs
               </Title>
               <Tabs
                 options={DATA_TABS}

@@ -1,0 +1,28 @@
+.c-sortable-row {
+  list-style: none;
+  font-size: 13px;
+  border: 1px solid rgba(26, 28, 34, 0.1);
+  margin: 0 0 -1px;
+  display: flex;
+  background-color: $white;
+  padding: 20px 15px;
+  display: flex;
+  align-items: center;
+
+  .row-content {
+    width: 100%;
+    padding: 0 15px;
+  }
+
+  .row-item {
+    margin-bottom: 5px;
+  }
+
+  .row-actions {
+    display: flex;
+
+    li:first-child {
+      margin-right: 20px;
+    }
+  }
+}

@@ -437,11 +437,7 @@ class Explore extends Page {
                 />
 
                 <MapControls>
-                  <ShareControl
-                    zoom={zoom}
-                    latLng={this.getPerceivedMapCenter()}
-                    layerGroups={this.props.rawLayerGroups}
-                  />
+                  <ShareControl />
                   <BasemapControl />
                 </MapControls>
 

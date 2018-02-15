@@ -1,0 +1,35 @@
+.c-share-modal {
+  .share-input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid $border-color-1;
+    border-radius: 4px;
+    padding: 0 15px;
+
+    > * {
+      margin: 0 0 0 10px;
+
+      &:first-child { margin: 0 }
+    }
+
+    .share-input {
+      border: none;
+      flex-grow: 1;
+      height: 45px;
+      max-width: 300px;
+    }
+
+    .share-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      > * {
+        margin: 0 0 0 $space-1;
+
+        &:first-child { margin: 0 }
+      }
+    }
+  }
+}

@@ -105,7 +105,7 @@ class DatasetsListCard extends PureComponent {
               overlayStyle={{
                 color: '#fff'
               }}
-              placement="bottom"
+              placement="bottomLeft"
               trigger="click"
             >
               <button

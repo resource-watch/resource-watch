@@ -439,28 +439,32 @@ class WidgetCard extends PureComponent {
               {WidgetCard.getDescription(widget.description)}
             </p>
 
-            {showFavourite && <Tooltip
-              overlay={<CollectionsPanel
-                resource={widget}
-                resourceType="widget"
-              />}
-              overlayClassName="c-rc-tooltip"
-              overlayStyle={{
-                color: '#fff'
-              }}
-              placement="bottom"
-              trigger="click"
-            >
-              <button
-                className="c-btn favourite-button"
-                tabIndex={-1}
+            {showFavourite &&
+              <Tooltip
+                overlay={
+                  <CollectionsPanel
+                    resource={widget}
+                    resourceType="widget"
+                  />
+                }
+                overlayClassName="c-rc-tooltip"
+                overlayStyle={{
+                  color: '#fff'
+                }}
+                placement="bottomLeft"
+                trigger="click"
               >
-                <Icon
-                  name={starIconName}
-                  className="-star -small"
-                />
-              </button>
-            </Tooltip>}
+                <button
+                  className="c-btn favourite-button"
+                  tabIndex={-1}
+                >
+                  <Icon
+                    name={starIconName}
+                    className="-star -small"
+                  />
+                </button>
+              </Tooltip>
+            }
           </div>
 
           {(showActions || showRemove || showEmbed) &&

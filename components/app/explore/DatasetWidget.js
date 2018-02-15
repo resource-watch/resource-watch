@@ -281,7 +281,7 @@ class DatasetWidget extends React.Component {
                   overlayStyle={{
                     color: '#fff'
                   }}
-                  placement="bottom"
+                  placement="bottomLeft"
                   trigger="click"
                 >
                   <button

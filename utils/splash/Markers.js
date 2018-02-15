@@ -22,7 +22,7 @@ export const MARKERS = [
     image: '../../static/images/splash/marker.svg',
     imageSelected: '../../static/images/splash/marker.svg',
     imageNotSelected: '../../static/images/splash/marker.svg',
-    thumbnail: '../../static/images/splash/rw-neonroads-thumbnail.jpg'
+    thumbnail: '../../static/images/splash/neonroads-thumbnail.jpg'
   },
   {
     name: 'Lake Chad',
@@ -34,7 +34,7 @@ export const MARKERS = [
     image: '../../static/images/splash/marker.svg',
     imageSelected: '../../static/images/splash/marker.svg',
     imageNotSelected: '../../static/images/splash/marker.svg',
-    thumbnail: '../../static/images/splash/rw-lakechad-thumbnail.jpg'
+    thumbnail: '../../static/images/splash/lakechad-thumbnail.jpg'
   },
   {
     name: 'Cities and rising seas',
