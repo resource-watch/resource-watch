@@ -1,18 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import truncate from 'lodash/truncate';
-import classnames from 'classnames';
+
+// Components
+import ReadMore from 'components/ui/ReadMore';
 
 // Constants
 class ExploreDetailInfo extends PureComponent {
   static propTypes = {
     dataset: PropTypes.object
-  }
-
-  state = {
-    showDescription: false,
-    showFunction: false,
-    showCautions: false
   }
 
   getDatasetMetadata() {
@@ -26,43 +21,9 @@ class ExploreDetailInfo extends PureComponent {
     return metadata.info && metadata.info.name ? metadata.info.name : dataset.name;
   }
 
-  /**
-   * Shorten the given text and format it so the full length
-   * can be toggled via a button modifying the state
-   * @param {string} [text=''] Text to shorten
-   * @param {string} fieldToManage Property of the state to toggle
-   * @param {number} [limitChar=1120] Limit of characters
-   * @returns
-   */
-  shortenAndFormat(text = '', fieldToManage, limitChar = 1120) {
-    if (text.length <= limitChar) {
-      return text;
-    }
-
-    const visible = this.state[fieldToManage] || false;
-    const shortenedText = truncate(text, { length: limitChar, separator: '', omission: '...' });
-
-    return (
-      <div className="shortened-text">
-        {!visible ? `${shortenedText}...` : text}
-        <button
-          className={classnames('read-more', { '-less': visible })}
-          onClick={() => this.setState({ [fieldToManage]: !visible })}
-        >
-          {visible ? 'Read less' : 'Read more'}
-        </button>
-      </div>
-    );
-  }
-
   render() {
     const { dataset } = this.props;
     const metadata = this.getDatasetMetadata();
-
-    // const formattedDescription = this.shortenAndFormat(description, 'showDescription');
-    // const formattedFunctions = this.shortenAndFormat(functions || '', 'showFunction');
-    // const formattedCautions = this.shortenAndFormat(cautions || '', 'showCautions');
-
 
     return (
       <div className="c-explore-detail-info">
@@ -73,12 +34,14 @@ class ExploreDetailInfo extends PureComponent {
           </div>
         ) : null}
 
-        {metadata.description ? (
+        {/* {metadata.description ? (
           <div className="dataset-info-description">
             <h3>Description</h3>
-            {this.shortenAndFormat(metadata.description, 'showDescription')}
+            <ReadMore
+              text={metadata.description}
+            />
           </div>
-        ) : null}
+        ) : null} */}
 
         {metadata.info && metadata.info.geographic_coverage ? (
           <div className="l-section-mod">
@@ -118,7 +81,9 @@ class ExploreDetailInfo extends PureComponent {
         {metadata.info && metadata.info.cautions ? (
           <div className="l-section-mod">
             <h3>Cautions</h3>
-            <p>{this.shortenAndFormat(metadata.info.cautions, 'showCautions')}</p>
+            <ReadMore
+              text={metadata.info.cautions}
+            />
           </div>
         ) : null}
 

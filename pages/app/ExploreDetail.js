@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
 import { toastr } from 'react-redux-toastr';
-import classnames from 'classnames';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -33,9 +32,9 @@ import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
+import ReadMore from 'components/ui/ReadMore';
+
 import WidgetEditor from 'widget-editor';
-import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
-import LoginModal from 'components/modal/LoginModal';
 import Banner from 'components/app/common/Banner';
 import SaveWidgetModal from 'components/modal/SaveWidgetModal';
 import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
@@ -93,7 +92,6 @@ class ExploreDetail extends Page {
     this.state = {
       dataset: null,
       loading: false,
-      showFunction: false,
       inferredTags: []
     };
 
@@ -231,35 +229,6 @@ class ExploreDetail extends Page {
     this.handleTagSelected(element.getAttribute('id'), element.getAttribute('data-labels'));
   }
 
-  /**
-   * Shorten the given text and format it so the full length
-   * can be toggled via a button modifying the state
-   * @param {string} [text=''] Text to shorten
-   * @param {string} fieldToManage Property of the state to toggle
-   * @param {number} [limitChar=1120] Limit of characters
-   * @returns
-   */
-  shortenAndFormat(text = '', fieldToManage, limitChar = 1120) {
-    if (text.length <= limitChar) {
-      return text;
-    }
-
-    const visible = this.state[fieldToManage] || false;
-    const shortenedText = text.substr(0, limitChar);
-
-    return (
-      <div className="shortened-text">
-        {!visible ? `${shortenedText}...` : text}
-        <button
-          className={classnames('read-more', { '-less': visible })}
-          onClick={() => this.setState({ [fieldToManage]: !visible })}
-        >
-          {visible ? 'Read less' : 'Read more'}
-        </button>
-      </div>
-    );
-  }
-
   handleSaveWidget() {
     const { dataset } = this.state;
     const options = {
@@ -285,7 +254,7 @@ class ExploreDetail extends Page {
     const metadataAttributes = (metadata && metadata.attributes) || {};
     const metadataInfo = (metadataAttributes && metadataAttributes.info) || {};
     const datasetName = metadataInfo && metadataInfo.name ? metadataInfo.name : (dataset && dataset.attributes && dataset.attributes.name);
-    const { description } = metadataAttributes;
+    const description = exploreDataset.data.metadata.description;
 
     const defaultEditableWidget = dataset && dataset.attributes.widget.find(widget => widget.attributes.defaultEditableWidget === true);
 
@@ -324,7 +293,9 @@ class ExploreDetail extends Page {
               <div className="row">
                 <div className="column small-12 medium-7">
                   {/* Function */}
-                  <p>{exploreDataset.data.metadata.description}</p>
+                  <ReadMore
+                    text={description}
+                  />
                 </div>
 
                 <div className="column large-offset-2 small-12 medium-3">
