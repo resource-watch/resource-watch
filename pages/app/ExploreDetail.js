@@ -6,15 +6,10 @@ import MediaQuery from 'react-responsive';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { getDataset, getPartner, getTools, getTags, setTools, setTags } from 'redactions/exploreDataset';
-import { resetDataset } from 'redactions/exploreDetail';
+import { getDataset, getPartner, getTools, getTags, setTools, setTags, setCountView } from 'redactions/exploreDataset';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 
-// Next
-import { Router } from 'routes';
-
 // Services
-import DatasetService from 'services/DatasetService';
 import GraphService from 'services/GraphService';
 import UserService from 'services/UserService';
 
@@ -40,8 +35,13 @@ import SimilarDatasets from 'components/app/explore/similar-datasets/similar-dat
 // Utils
 import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
 import { TOOLS_CONNECTIONS } from 'utils/apps/toolsConnections';
+
 // Utils
-import { getDatasetMetadata, getDatasetName, getDatasetDefaultEditableWidget } from 'components/explore-detail/explore-detail-helpers';
+import {
+  getDatasetMetadata,
+  getDatasetName,
+  getDatasetDefaultEditableWidget
+} from 'components/explore-detail/explore-detail-helpers';
 
 import Error from '../_error';
 
@@ -50,7 +50,6 @@ class ExploreDetail extends Page {
     url: PropTypes.object.isRequired,
     user: PropTypes.object,
     locale: PropTypes.string.isRequired,
-    resetDataset: PropTypes.func.isRequired,
     toggleModal: PropTypes.func.isRequired,
     setModalOptions: PropTypes.func.isRequired
   };
@@ -69,7 +68,7 @@ class ExploreDetail extends Page {
 
     const { id, vocabulary } = dataset;
 
-    // Load tags
+    // Set tags
     const tags = vocabulary && vocabulary.length > 0 && vocabulary[0].tags;
     if (tags) {
       store.dispatch(setTags(tags));
@@ -81,7 +80,7 @@ class ExploreDetail extends Page {
       await store.dispatch(getPartner(partnerConnection.partnerId));
     }
 
-    // Load connected tools
+    // Set tools and load connected tools
     const toolsConnections = TOOLS_CONNECTIONS.filter(appC => appC.datasetId === id).map(v => v.appSlug);
     if (toolsConnections.length > 0) {
       store.dispatch(setTools(toolsConnections));
@@ -98,11 +97,6 @@ class ExploreDetail extends Page {
       dataset: null
     };
 
-    // GraphService
-    this.graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
-    // UserService
-    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
-
     // ----------------------- Bindings ----------------------
     this.handleSaveWidget = this.handleSaveWidget.bind(this);
     //--------------------------------------------------------
@@ -115,30 +109,20 @@ class ExploreDetail extends Page {
    * - componentWillUnmount
   */
   componentDidMount() {
-    this.countView(this.props.url.query.id);
+    this.props.setCountView();
     this.props.getTags();
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.url.query.id !== nextProps.url.query.id) {
       window.scrollTo(0, 0);
-      this.props.resetDataset();
-      this.countView(nextProps.url.query.id);
+      this.props.setCountView();
       this.props.getTags();
     }
   }
 
   componentWillUnmount() {
-    this.props.resetDataset();
-    this.props.toggleModal(false);
-  }
-
-  /**
-   * Gather the number of views of this dataset
-   * @param {string} datasetId Dataset ID
-   */
-  countView(datasetId) {
-    this.graphService.countDatasetView(datasetId, this.props.user.token);
+    // this.props.toggleModal(false);
   }
 
   handleSaveWidget() {
@@ -311,9 +295,9 @@ class ExploreDetail extends Page {
 
 const mapStateToProps = state => ({
   // Store
+  locale: state.common.locale,
   user: state.user,
-  exploreDataset: state.exploreDataset,
-  locale: state.common.locale
+  exploreDataset: state.exploreDataset
 });
 
 const mapDispatchToProps = {
@@ -323,7 +307,7 @@ const mapDispatchToProps = {
   setTools,
   getTags,
   setTags,
-  resetDataset,
+  setCountView,
   toggleModal,
   setModalOptions
 };

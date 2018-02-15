@@ -28,6 +28,8 @@ const GET_EXPLORE_DATASET_TAGS_SUCCESS = 'datasets/GET_EXPLORE_DATASET_TAGS_SUCC
 const GET_EXPLORE_DATASET_TAGS_ERROR = 'datasets/GET_EXPLORE_DATASET_TAGS_ERROR';
 const GET_EXPLORE_DATASET_TAGS_LOADING = 'datasets/GET_EXPLORE_DATASET_TAGS_LOADING';
 
+// COUNT VIEW
+const SET_EXPLORE_DATASET_COUNT_VIEW = 'datasets/SET_EXPLORE_DATASET_COUNT_VIEW';
 
 /**
  * STORE
@@ -363,5 +365,24 @@ export function setTags(activeTags) {
   return {
     type: SET_EXPLORE_DATASET_TAGS,
     payload: activeTags
+  };
+}
+
+export function setCountView() {
+  return (dispatch, getState) => {
+    const { exploreDataset, user } = getState();
+
+    const service = new GraphService();
+
+    if (!user.token) {
+      return;
+    }
+
+    service.countDatasetView(exploreDataset.data.id, user.token)
+      .then(() => {
+        dispatch({
+          type: SET_EXPLORE_DATASET_COUNT_VIEW
+        });
+      });
   };
 }
