@@ -5,8 +5,15 @@ import PropTypes from 'prop-types';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { getDataset, getPartner, getTools, getTags, setTools, setTags, setCountView } from 'redactions/exploreDataset';
-import { toggleModal, setModalOptions } from 'redactions/modal';
+import {
+  getDataset,
+  getPartner,
+  getTools,
+  getTags,
+  setTools,
+  setTags,
+  setCountView
+} from 'redactions/exploreDataset';
 
 // Explore Detail Component
 import ExploreDetailHeader from 'components/explore-detail/explore-detail-header';
@@ -19,17 +26,16 @@ import ExploreDetailWidgetEditor from 'components/explore-detail/explore-detail-
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
+
 import Title from 'components/ui/Title';
 import ReadMore from 'components/ui/ReadMore';
-
 import Banner from 'components/app/common/Banner';
+
 import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
 
 // Utils
 import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
 import { TOOLS_CONNECTIONS } from 'utils/apps/toolsConnections';
-
-// Utils
 import {
   getDatasetMetadata,
   getDatasetName
@@ -41,6 +47,7 @@ class ExploreDetail extends Page {
   static propTypes = {
     url: PropTypes.object.isRequired,
     user: PropTypes.object,
+    exploreDataset: PropTypes.object,
     locale: PropTypes.string.isRequired
   };
 
@@ -252,9 +259,7 @@ const mapDispatchToProps = {
   setTools,
   getTags,
   setTags,
-  setCountView,
-  toggleModal,
-  setModalOptions
+  setCountView
 };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);
