@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+// Utils
+import { getDatasetMetadata } from 'components/explore-detail/explore-detail-helpers';
+
 // Components
 import ReadMore from 'components/ui/ReadMore';
 
@@ -10,20 +13,9 @@ class ExploreDetailInfo extends PureComponent {
     dataset: PropTypes.object
   }
 
-  getDatasetMetadata() {
-    const { dataset } = this.props;
-    return dataset.metadata || {};
-  }
-
-  getDatasetName() {
-    const { dataset } = this.props;
-    const metadata = this.getDatasetMetadata();
-    return metadata.info && metadata.info.name ? metadata.info.name : dataset.name;
-  }
-
   render() {
     const { dataset } = this.props;
-    const metadata = this.getDatasetMetadata();
+    const metadata = getDatasetMetadata(dataset);
 
     return (
       <div className="c-explore-detail-info">

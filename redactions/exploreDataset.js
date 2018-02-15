@@ -1,4 +1,7 @@
 import DatasetService from 'services/DatasetService';
+import GraphService from 'services/GraphService';
+
+import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
 
 /**
  * CONSTANTS
@@ -19,6 +22,13 @@ const GET_EXPLORE_DATASET_TOOLS_SUCCESS = 'datasets/GET_EXPLORE_DATASET_TOOLS_SU
 const GET_EXPLORE_DATASET_TOOLS_ERROR = 'datasets/GET_EXPLORE_DATASET_TOOLS_ERROR';
 const GET_EXPLORE_DATASET_TOOLS_LOADING = 'datasets/GET_EXPLORE_DATASET_TOOLS_LOADING';
 
+// TAGS
+const SET_EXPLORE_DATASET_TAGS = 'datasets/SET_EXPLORE_DATASET_TAGS';
+const GET_EXPLORE_DATASET_TAGS_SUCCESS = 'datasets/GET_EXPLORE_DATASET_TAGS_SUCCESS';
+const GET_EXPLORE_DATASET_TAGS_ERROR = 'datasets/GET_EXPLORE_DATASET_TAGS_ERROR';
+const GET_EXPLORE_DATASET_TAGS_LOADING = 'datasets/GET_EXPLORE_DATASET_TAGS_LOADING';
+
+
 /**
  * STORE
  * @property {string} datasets.error
@@ -30,13 +40,19 @@ const initialState = {
   error: null, // An error was produced while loading the data
   partner: {
     data: {},
-    loading: false,
+    loading: true,
     error: null
   },
   tools: {
     list: [],
     active: [],
-    loading: false,
+    loading: true,
+    error: null
+  },
+  tags: {
+    list: [],
+    active: [],
+    loading: true,
     error: null
   }
 };
@@ -172,6 +188,59 @@ export default function (state = initialState, action) {
     }
 
 
+    // Tools
+    case SET_EXPLORE_DATASET_TAGS: {
+      const tags = Object.assign({}, state.tags, {
+        active: action.payload
+      });
+
+      const exploreDataset = Object.assign({}, state, {
+        tags
+      });
+
+      return Object.assign({}, state, exploreDataset);
+    }
+
+    case GET_EXPLORE_DATASET_TAGS_LOADING: {
+      const tags = Object.assign({}, state.tags, {
+        loading: true,
+        error: null
+      });
+
+      const exploreDataset = Object.assign({}, state, {
+        tags
+      });
+
+      return Object.assign({}, state, exploreDataset);
+    }
+
+    case GET_EXPLORE_DATASET_TAGS_SUCCESS: {
+      const tags = Object.assign({}, state.tags, {
+        list: action.payload,
+        loading: false,
+        error: null
+      });
+
+      const exploreDataset = Object.assign({}, state, {
+        tags
+      });
+
+      return Object.assign({}, state, exploreDataset);
+    }
+
+    case GET_EXPLORE_DATASET_TAGS_ERROR: {
+      const tags = Object.assign({}, state.tags, {
+        loading: false,
+        error: action.payload
+      });
+
+      const exploreDataset = Object.assign({}, state, {
+        tags
+      });
+
+      return Object.assign({}, state, exploreDataset);
+    }
+
     default:
       return state;
   }
@@ -261,5 +330,38 @@ export function setTools(activeTools) {
   return {
     type: SET_EXPLORE_DATASET_TOOLS,
     payload: activeTools
+  };
+}
+
+export function getTags() {
+  return (dispatch, getState) => {
+    dispatch({ type: GET_EXPLORE_DATASET_TAGS_LOADING });
+
+    const tags = getState().exploreDataset.tags.active;
+    const service = new GraphService();
+
+    return service.getInferredTags(tags)
+      .then((response) => {
+        dispatch({
+          type: GET_EXPLORE_DATASET_TAGS_SUCCESS,
+          payload: response.filter(tag =>
+            tag.labels.find(type => type === 'TOPIC' || type === 'GEOGRAPHY') &&
+            !TAGS_BLACKLIST.includes(tag.id))
+        });
+      })
+      .catch((err) => {
+        // Fetch from server ko -> Dispatch error
+        dispatch({
+          type: GET_EXPLORE_DATASET_TAGS_ERROR,
+          payload: err.message
+        });
+      });
+  };
+}
+
+export function setTags(activeTags) {
+  return {
+    type: SET_EXPLORE_DATASET_TAGS,
+    payload: activeTags
   };
 }

@@ -2,16 +2,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
-import { toastr } from 'react-redux-toastr';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { toggleLayerGroup } from 'redactions/explore';
-import { getDataset, getPartner, getTools, setTools } from 'redactions/exploreDataset';
+import { getDataset, getPartner, getTools, getTags, setTools, setTags } from 'redactions/exploreDataset';
 import { resetDataset } from 'redactions/exploreDetail';
 import { toggleModal, setModalOptions } from 'redactions/modal';
-import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
 
 // Next
 import { Router } from 'routes';
@@ -26,12 +23,12 @@ import ExploreDetailHeader from 'components/explore-detail/explore-detail-header
 import ExploreDetailInfo from 'components/explore-detail/explore-detail-info';
 import ExploreDetailRelatedTools from 'components/explore-detail/explore-detail-related-tools';
 import ExploreDetailActions from 'components/explore-detail/explore-detail-actions';
+import ExploreDetailTags from 'components/explore-detail/explore-detail-tags';
 
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 import Title from 'components/ui/Title';
-import Spinner from 'components/ui/Spinner';
 import ReadMore from 'components/ui/ReadMore';
 
 import WidgetEditor from 'widget-editor';
@@ -41,9 +38,10 @@ import SimilarDatasets from 'components/app/explore/similar-datasets/similar-dat
 
 
 // Utils
-import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
 import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
 import { TOOLS_CONNECTIONS } from 'utils/apps/toolsConnections';
+// Utils
+import { getDatasetMetadata, getDatasetName, getDatasetDefaultEditableWidget } from 'components/explore-detail/explore-detail-helpers';
 
 import Error from '../_error';
 
@@ -54,8 +52,7 @@ class ExploreDetail extends Page {
     locale: PropTypes.string.isRequired,
     resetDataset: PropTypes.func.isRequired,
     toggleModal: PropTypes.func.isRequired,
-    setModalOptions: PropTypes.func.isRequired,
-    toggleLayerGroup: PropTypes.func.isRequired
+    setModalOptions: PropTypes.func.isRequired
   };
 
   static async getInitialProps(context) {
@@ -66,18 +63,26 @@ class ExploreDetail extends Page {
 
     // Check if the dataset exists and it is published
     const { exploreDataset } = store.getState();
-    if (!exploreDataset && res) res.statusCode = 404;
-    if (exploreDataset && !exploreDataset.data.published && res) res.statusCode = 404;
+    const dataset = exploreDataset.data;
+    if (!dataset && res) res.statusCode = 404;
+    if (dataset && !dataset.published && res) res.statusCode = 404;
 
+    const { id, vocabulary } = dataset;
+
+    // Load tags
+    const tags = vocabulary && vocabulary.length > 0 && vocabulary[0].tags;
+    if (tags) {
+      store.dispatch(setTags(tags));
+    }
 
     // Load connected partner
-    const partnerConnection = PARTNERS_CONNECTIONS.find(pc => pc.datasetId === exploreDataset.data.id);
+    const partnerConnection = PARTNERS_CONNECTIONS.find(pc => pc.datasetId === id);
     if (partnerConnection) {
       await store.dispatch(getPartner(partnerConnection.partnerId));
     }
 
     // Load connected tools
-    const toolsConnections = TOOLS_CONNECTIONS.filter(appC => appC.datasetId === exploreDataset.data.id).map(v => v.appSlug);
+    const toolsConnections = TOOLS_CONNECTIONS.filter(appC => appC.datasetId === id).map(v => v.appSlug);
     if (toolsConnections.length > 0) {
       store.dispatch(setTools(toolsConnections));
       await store.dispatch(getTools());
@@ -90,23 +95,15 @@ class ExploreDetail extends Page {
     super(props);
 
     this.state = {
-      dataset: null,
-      loading: false,
-      inferredTags: []
+      dataset: null
     };
 
-    // DatasetService
-    this.datasetService = new DatasetService(props.url.query.id, {
-      apiURL: process.env.WRI_API_URL,
-      language: props.locale
-    });
     // GraphService
     this.graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
     // UserService
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
     // ----------------------- Bindings ----------------------
-    this.handleTagClick = this.handleTagClick.bind(this);
     this.handleSaveWidget = this.handleSaveWidget.bind(this);
     //--------------------------------------------------------
   }
@@ -118,26 +115,16 @@ class ExploreDetail extends Page {
    * - componentWillUnmount
   */
   componentDidMount() {
-    this.getDataset();
     this.countView(this.props.url.query.id);
+    this.props.getTags();
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.url.query.id !== nextProps.url.query.id) {
+      window.scrollTo(0, 0);
       this.props.resetDataset();
-      this.setState({
-        datasetLoaded: false
-      }, () => {
-        this.datasetService = new DatasetService(nextProps.url.query.id, {
-          apiURL: process.env.WRI_API_URL,
-          language: nextProps.locale
-        });
-        // Scroll to the top of the page
-        window.scrollTo(0, 0);
-        this.getDataset();
-      });
-
       this.countView(nextProps.url.query.id);
+      this.props.getTags();
     }
   }
 
@@ -147,86 +134,11 @@ class ExploreDetail extends Page {
   }
 
   /**
-   * HELPERS
-   * - getDataset
-   * - loadInferredTags
-  */
-
-  getDataset() {
-    this.setState({
-      loading: true
-    }, () => {
-      this.datasetService.fetchData('layer,metadata,vocabulary,widget').then((response) => {
-        // Load inferred tags
-        const vocabulary = response.attributes.vocabulary;
-        const tags = vocabulary && vocabulary.length > 0 && vocabulary[0].attributes.tags;
-        if (tags) {
-          this.loadInferredTags(tags);
-        }
-
-        this.setState({
-          dataset: response,
-          datasetLoaded: true,
-          loading: false
-        });
-      }).catch((error) => {
-        toastr.error('Error', 'Unable to load the dataset');
-        console.error(error);
-        this.setState({
-          loading: false
-        });
-      });
-    });
-  }
-
-  loadInferredTags(tags) {
-    this.graphService.getInferredTags(tags)
-      .then((response) => {
-        this.setState({
-          inferredTags: response.filter(tag => tag.labels
-            .find(type => type === 'TOPIC' || type === 'GEOGRAPHY') &&
-            !TAGS_BLACKLIST.includes(tag.id)
-          )
-        });
-      })
-      .catch((err) => {
-        this.setState({ inferredTags: [] });
-        console.error(err);
-      });
-  }
-
-  /**
    * Gather the number of views of this dataset
    * @param {string} datasetId Dataset ID
    */
   countView(datasetId) {
     this.graphService.countDatasetView(datasetId, this.props.user.token);
-  }
-
-  /**
-   * UI EVENTS
-   * - handleTagSelected
-  */
-  handleTagSelected(tag, labels = ['TOPIC']) { // eslint-disable-line class-methods-use-this
-    const tagSt = `["${tag.id}"]`;
-    let treeSt = 'topics';
-    if (labels.includes('TOPIC')) {
-      treeSt = 'topics';
-    } else if (labels.includes('GEOGRAPHY')) {
-      treeSt = 'geographies';
-    } else if (labels.includes('DATA_TYPE')) {
-      treeSt = 'dataTypes';
-    }
-
-    Router.pushRoute('explore', { [treeSt]: tagSt });
-  }
-
-  // FIXME: refactor this, if a UI element's purpose is to
-  // redirect the user, then use a link
-  // A button is semantically different
-  handleTagClick(event) {
-    const element = event.target;
-    this.handleTagSelected(element.getAttribute('id'), element.getAttribute('data-labels'));
   }
 
   handleSaveWidget() {
@@ -246,36 +158,25 @@ class ExploreDetail extends Page {
     const {
       url, user, exploreDataset
     } = this.props;
-    const {
-      dataset, loading, inferredTags
-    } = this.state;
-    const metadataObj = dataset && dataset.attributes.metadata;
-    const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
-    const metadataAttributes = (metadata && metadata.attributes) || {};
-    const metadataInfo = (metadataAttributes && metadataAttributes.info) || {};
-    const datasetName = metadataInfo && metadataInfo.name ? metadataInfo.name : (dataset && dataset.attributes && dataset.attributes.name);
-    const description = exploreDataset.data.metadata.description;
 
-    const defaultEditableWidget = dataset && dataset.attributes.widget.find(widget => widget.attributes.defaultEditableWidget === true);
+    const dataset = exploreDataset.data;
+    const datasetName = getDatasetName(dataset);
+    const metadata = getDatasetMetadata(dataset);
+    const defaultEditableWidget = getDatasetDefaultEditableWidget(dataset);
 
     if (exploreDataset && exploreDataset.error === 'Not Found') return <Error status={404} />;
-    if (dataset && !dataset.attributes.published) return <Error status={404} />;
+    if (dataset && !dataset.published) return <Error status={404} />;
 
     return (
       <Layout
         title={datasetName}
-        description={description || ''}
+        description={metadata.description || ''}
         category="Dataset"
         url={url}
         user={user}
         pageHeader
       >
         <div className="c-page-explore-detail">
-          <Spinner
-            isLoading={loading}
-            className="-fixed -light"
-          />
-
           {/* PAGE HEADER */}
           <div className="c-page-header">
             <div className="l-container">
@@ -294,7 +195,7 @@ class ExploreDetail extends Page {
                 <div className="column small-12 medium-7">
                   {/* Function */}
                   <ReadMore
-                    text={description}
+                    text={metadata.description}
                   />
                 </div>
 
@@ -333,21 +234,8 @@ class ExploreDetail extends Page {
                 <div className="column small-12">
                   {/* TAGS SECTION */}
                   <h3>Tags</h3>
-                  <div className="tags">
-                    {inferredTags && inferredTags.map(tag => (
-                      <div
-                        role="button"
-                        tabIndex={-1}
-                        className="tag"
-                        id={tag.id}
-                        data-labels={tag.labels}
-                        key={tag.id}
-                        onClick={this.handleTagClick}
-                      >
-                        {tag.label}
-                      </div>
-                    ))}
-                  </div>
+
+                  <ExploreDetailTags />
                 </div>
               </div>
             </div>
@@ -402,22 +290,12 @@ class ExploreDetail extends Page {
             </section>
           }
 
-          {/* RELATED INSIGHTS */}
-          {/* <div className="c-page-section related-insights">
-            <div className="row">
-              <div className="column small-12">
-                <h2 className="c-text title -thin">Related Insights</h2>
-              </div>
-            </div>
-          </div> */}
-
           <aside className="l-postcontent">
             <div className="l-container">
               <div className="row align-center">
                 <div className="column small-12">
                   <Banner className="partners -text-center">
                     <p className="-claim">Take the pulse of our planet.</p>
-
                     <a href="/data/pulse" className="c-button -primary -alt">Launch Planet Pulse</a>
                   </Banner>
                 </div>
@@ -435,23 +313,19 @@ const mapStateToProps = state => ({
   // Store
   user: state.user,
   exploreDataset: state.exploreDataset,
-
-  // Unnecessary?
-  exploreDetail: state.exploreDetail,
-  partnerDetail: state.partnerDetail.data,
-  layersShown: updateLayersShown(state),
-  locale: state.common.locale,
-  tools: state.tools.list
+  locale: state.common.locale
 });
 
 const mapDispatchToProps = {
   getDataset,
   getPartner,
+  getTools,
+  setTools,
+  getTags,
+  setTags,
   resetDataset,
   toggleModal,
-  setModalOptions,
-  toggleLayerGroup,
-  getTools
+  setModalOptions
 };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);
