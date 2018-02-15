@@ -2,8 +2,6 @@ import 'isomorphic-fetch';
 
 export default class GraphService {
   constructor(options) {
-    if (!options) throw new Error('options params is required.');
-    if (!options.apiURL || options.apiURL === '') throw new Error('options.apiURL param is required.');
     this.opts = options;
   }
 
@@ -11,7 +9,7 @@ export default class GraphService {
    * Get all tags
    */
   getAllTags() {
-    return fetch(`${this.opts.apiURL}/graph/query/list-concepts?application=${process.env.APPLICATIONS}`)
+    return fetch(`${process.env.WRI_API_URL}/graph/query/list-concepts?application=${process.env.APPLICATIONS}`)
       .then(response => response.json())
       .then(response => response.data);
   }
@@ -19,7 +17,7 @@ export default class GraphService {
    * Get inferred tags
    */
   getInferredTags(tags) {
-    return fetch(`${this.opts.apiURL}/graph/query/concepts-inferred?concepts=${tags}&application=${process.env.APPLICATIONS}`)
+    return fetch(`${process.env.WRI_API_URL}/graph/query/concepts-inferred?concepts=${tags}&application=${process.env.APPLICATIONS}`)
       .then(response => response.json())
       .then(response => response.data);
   }
@@ -28,7 +26,7 @@ export default class GraphService {
   * Get dataset tags
   */
   getDatasetTags(datasetId) {
-    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/vocabulary?application=${process.env.APPLICATIONS}`)
+    return fetch(`${process.env.WRI_API_URL}/dataset/${datasetId}/vocabulary?application=${process.env.APPLICATIONS}`)
       .then(response => response.json())
       .then(response => response.data);
   }
@@ -44,7 +42,7 @@ export default class GraphService {
       }
     };
     let method = tags.length > 0 ? 'PUT' : 'DELETE';
-    let url = `${this.opts.apiURL}/dataset/${datasetId}/vocabulary`;
+    let url = `${process.env.WRI_API_URL}/dataset/${datasetId}/vocabulary`;
 
     if (usePatch) {
       method = 'PATCH';
@@ -82,7 +80,7 @@ export default class GraphService {
       headers.Authorization = token;
     }
 
-    return fetch(`${this.opts.apiURL}/graph/dataset/${datasetId}/visited?application=${process.env.APPLICATIONS}`, {
+    return fetch(`${process.env.WRI_API_URL}/graph/dataset/${datasetId}/visited?application=${process.env.APPLICATIONS}`, {
       method: 'POST',
       headers
     })
@@ -94,7 +92,7 @@ export default class GraphService {
    * @returns {Promise<string[]>} List of sorted ids
    */
   getMostViewedDatasets() {
-    return fetch(`${this.opts.apiURL}/graph/query/most-viewed?application=${process.env.APPLICATIONS}`)
+    return fetch(`${process.env.WRI_API_URL}/graph/query/most-viewed?application=${process.env.APPLICATIONS}`)
       .then((res) => {
         if (res.ok) return res.json();
         throw new Error('Unable to fetch the most viewed datasets');
@@ -107,7 +105,7 @@ export default class GraphService {
    * @returns {Promise<string[]>} List of sorted ids
    */
   getMostFavoritedDatasets() {
-    return fetch(`${this.opts.apiURL}/graph/query/most-liked-datasets?application=${process.env.APPLICATIONS}`)
+    return fetch(`${process.env.WRI_API_URL}/graph/query/most-liked-datasets?application=${process.env.APPLICATIONS}`)
       .then((res) => {
         if (res.ok) return res.json();
         throw new Error('Unable to fetch the most favourited datasets');

@@ -1,59 +1,45 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
-import MediaQuery from 'react-responsive';
-import { toastr } from 'react-redux-toastr';
-import classnames from 'classnames';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { toggleLayerGroup } from 'redactions/explore';
-import { resetDataset } from 'redactions/exploreDetail';
-import { getDataset } from 'redactions/exploreDataset';
-import { toggleModal, setModalOptions } from 'redactions/modal';
-import updateLayersShown from 'selectors/explore/layersShownExploreDetail';
-import { getTools } from 'redactions/admin/tools';
-import { getPartnerData } from 'redactions/partnerDetail';
+import {
+  getDataset,
+  getPartner,
+  getTools,
+  getTags,
+  setTools,
+  setTags,
+  setCountView
+} from 'redactions/exploreDataset';
 
-// Next
-import { Link, Router } from 'routes';
-
-// Services
-import DatasetService from 'services/DatasetService';
-import GraphService from 'services/GraphService';
-import UserService from 'services/UserService';
+// Explore Detail Component
+import ExploreDetailHeader from 'components/explore-detail/explore-detail-header';
+import ExploreDetailInfo from 'components/explore-detail/explore-detail-info';
+import ExploreDetailRelatedTools from 'components/explore-detail/explore-detail-related-tools';
+import ExploreDetailActions from 'components/explore-detail/explore-detail-actions';
+import ExploreDetailTags from 'components/explore-detail/explore-detail-tags';
+import ExploreDetailWidgetEditor from 'components/explore-detail/explore-detail-widget-editor';
 
 // Components
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
-import Title from 'components/ui/Title';
-import Icon from 'components/ui/Icon';
-import Breadcrumbs from 'components/ui/Breadcrumbs';
-import Spinner from 'components/ui/Spinner';
-import WidgetEditor from 'widget-editor';
-import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
-import LoginModal from 'components/modal/LoginModal';
-import Banner from 'components/app/common/Banner';
-import SaveWidgetModal from 'components/modal/SaveWidgetModal';
-import Tooltip from 'rc-tooltip/dist/rc-tooltip';
-import CollectionsPanel from 'components/collections-panel';
-import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
-import CardApp from 'components/app/common/CardApp';
 
-// Modal
-import Modal from 'components/modal/modal-component';
-import ShareModal from 'components/modal/share-modal';
+import Title from 'components/ui/Title';
+import ReadMore from 'components/ui/ReadMore';
+import Banner from 'components/app/common/Banner';
+
+import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
 
 // Utils
-import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
-import { logEvent } from 'utils/analytics';
 import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
-import { APPS_CONNECTIONS } from 'utils/apps/appsConnections';
-
-
-// helpers
-import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
+import { TOOLS_CONNECTIONS } from 'utils/apps/toolsConnections';
+import {
+  getDatasetMetadata,
+  getDatasetName
+} from 'components/explore-detail/explore-detail-helpers';
 
 import Error from '../_error';
 
@@ -61,11 +47,8 @@ class ExploreDetail extends Page {
   static propTypes = {
     url: PropTypes.object.isRequired,
     user: PropTypes.object,
-    locale: PropTypes.string.isRequired,
-    resetDataset: PropTypes.func.isRequired,
-    toggleModal: PropTypes.func.isRequired,
-    setModalOptions: PropTypes.func.isRequired,
-    toggleLayerGroup: PropTypes.func.isRequired
+    exploreDataset: PropTypes.object,
+    locale: PropTypes.string.isRequired
   };
 
   static async getInitialProps(context) {
@@ -74,44 +57,34 @@ class ExploreDetail extends Page {
 
     await store.dispatch(getDataset(props.url.query.id));
 
+    // Check if the dataset exists and it is published
     const { exploreDataset } = store.getState();
-    if (!exploreDataset && res) res.statusCode = 404;
-    if (exploreDataset && !exploreDataset.data.published && res) res.statusCode = 404;
+    const dataset = exploreDataset.data;
+    if (!dataset && res) res.statusCode = 404;
+    if (dataset && !dataset.published && res) res.statusCode = 404;
+
+    const { id, vocabulary } = dataset;
+
+    // Set tags
+    const tags = vocabulary && vocabulary.length > 0 && vocabulary[0].tags;
+    if (tags) {
+      store.dispatch(setTags(tags));
+    }
+
+    // Load connected partner
+    const partnerConnection = PARTNERS_CONNECTIONS.find(pc => pc.datasetId === id);
+    if (partnerConnection) {
+      await store.dispatch(getPartner(partnerConnection.partnerId));
+    }
+
+    // Set tools and load connected tools
+    const toolsConnections = TOOLS_CONNECTIONS.filter(appC => appC.datasetId === id).map(v => v.appSlug);
+    if (toolsConnections.length > 0) {
+      store.dispatch(setTools(toolsConnections));
+      await store.dispatch(getTools());
+    }
 
     return { ...props };
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      dataset: null,
-      loading: false,
-      showDescription: false,
-      showFunction: false,
-      showCautions: false,
-      inferredTags: [],
-      relatedTools: [],
-      showShareModal: false
-    };
-
-    // DatasetService
-    this.datasetService = new DatasetService(props.url.query.id, {
-      apiURL: process.env.WRI_API_URL,
-      language: props.locale
-    });
-    // GraphService
-    this.graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
-    // UserService
-    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
-
-    // ----------------------- Bindings ----------------------
-    this.handleOpenInExplore = this.handleOpenInExplore.bind(this);
-    this.handleSubscribe = this.handleSubscribe.bind(this);
-    this.handleTagClick = this.handleTagClick.bind(this);
-    this.handleFavoriteButtonClick = this.handleFavoriteButtonClick.bind(this);
-    this.handleSaveWidget = this.handleSaveWidget.bind(this);
-    //--------------------------------------------------------
   }
 
   /**
@@ -121,363 +94,46 @@ class ExploreDetail extends Page {
    * - componentWillUnmount
   */
   componentDidMount() {
-    this.getDataset();
-    this.countView(this.props.url.query.id);
+    this.props.setCountView();
+    this.props.getTags();
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.url.query.id !== nextProps.url.query.id) {
-      this.props.resetDataset();
-      this.setState({
-        datasetLoaded: false
-      }, () => {
-        this.datasetService = new DatasetService(nextProps.url.query.id, {
-          apiURL: process.env.WRI_API_URL,
-          language: nextProps.locale
-        });
-        // Scroll to the top of the page
-        window.scrollTo(0, 0);
-        this.getDataset();
-      });
-
-      this.countView(nextProps.url.query.id);
+      window.scrollTo(0, 0);
+      this.props.setCountView();
+      this.props.getTags();
     }
-  }
-
-  componentWillUnmount() {
-    this.props.resetDataset();
-    this.props.toggleModal(false);
-  }
-
-  /**
-   * HELPERS
-   * - getDataset
-   * - loadInferredTags
-  */
-
-  getDataset() {
-    this.setState({
-      loading: true
-    }, () => {
-      this.datasetService.fetchData('layer,metadata,vocabulary,widget').then((response) => {
-        // Load inferred tags
-        const vocabulary = response.attributes.vocabulary;
-        const tags = vocabulary && vocabulary.length > 0 && vocabulary[0].attributes.tags;
-        if (tags) {
-          this.loadInferredTags(tags);
-        }
-
-        // Load connected partner
-        const partnerConnection = PARTNERS_CONNECTIONS.find(pc => pc.datasetId === response.id);
-        if (partnerConnection) {
-          this.props.getPartnerData(partnerConnection.partnerId);
-        }
-
-        // Load connected apps
-        const appConnections = APPS_CONNECTIONS.filter(appC => appC.datasetId === response.id).map(v => v.appSlug);
-        if (appConnections.length > 0) {
-          this.props.getTools();
-        }
-
-        this.setState({
-          dataset: response,
-          datasetLoaded: true,
-          loading: false,
-          relatedTools: appConnections
-        });
-      }).catch((error) => {
-        toastr.error('Error', 'Unable to load the dataset');
-        console.error(error);
-        this.setState({
-          loading: false
-        });
-      });
-    });
-  }
-
-  loadInferredTags(tags) {
-    this.graphService.getInferredTags(tags)
-      .then((response) => {
-        this.setState({
-          inferredTags: response.filter(tag => tag.labels
-            .find(type => type === 'TOPIC' || type === 'GEOGRAPHY') &&
-            !TAGS_BLACKLIST.includes(tag.id)
-          )
-        });
-      })
-      .catch((err) => {
-        this.setState({ inferredTags: [] });
-        console.error(err);
-      });
-  }
-
-  /**
-   * Gather the number of views of this dataset
-   * @param {string} datasetId Dataset ID
-   */
-  countView(datasetId) {
-    this.graphService.countDatasetView(datasetId, this.props.user.token);
-  }
-
-  /**
-   * UI EVENTS
-   * - handleToggleShareModal
-   * - handleSubscribe
-   * - handleOpenInExplore
-   * - handleTagSelected
-  */
-  handleToggleShareModal = (bool) => {
-    this.setState({ showShareModal: bool });
-  }
-
-  handleSubscribe() {
-    const { user } = this.props;
-    let options = null;
-    // ----- the user is logged in ------
-    if (user.id) {
-      options = {
-        children: SubscribeToDatasetModal,
-        childrenProps: {
-          toggleModal: this.props.toggleModal,
-          dataset: this.state.dataset,
-          showDatasetSelector: false
-        }
-      };
-    } else {
-    // ------ anonymous user ---------
-      options = {
-        children: LoginModal,
-        childrenProps: {
-          toggleModal: this.props.toggleModal,
-          text: 'Log in to subscribe to dataset changes'
-        }
-      };
-    }
-
-    this.props.toggleModal(true);
-    this.props.setModalOptions(options);
-  }
-
-  handleOpenInExplore() {
-    const { dataset } = this.state;
-    this.props.toggleLayerGroup(dataset.id, true);
-  }
-
-  handleTagSelected(tag, labels = ['TOPIC']) { // eslint-disable-line class-methods-use-this
-    const tagSt = `["${tag.id}"]`;
-    let treeSt = 'topics';
-    if (labels.includes('TOPIC')) {
-      treeSt = 'topics';
-    } else if (labels.includes('GEOGRAPHY')) {
-      treeSt = 'geographies';
-    } else if (labels.includes('DATA_TYPE')) {
-      treeSt = 'dataTypes';
-    }
-
-    Router.pushRoute('explore', { [treeSt]: tagSt });
-  }
-
-  // FIXME: refactor this, if a UI element's purpose is to
-  // redirect the user, then use a link
-  // A button is semantically different
-  handleTagClick(event) {
-    const element = event.target;
-    this.handleTagSelected(element.getAttribute('id'), element.getAttribute('data-labels'));
-  }
-
-  /**
-   * Shorten the given text and format it so the full length
-   * can be toggled via a button modifying the state
-   * @param {string} [text=''] Text to shorten
-   * @param {string} fieldToManage Property of the state to toggle
-   * @param {number} [limitChar=1120] Limit of characters
-   * @returns
-   */
-  shortenAndFormat(text = '', fieldToManage, limitChar = 1120) {
-    if (text.length <= limitChar) {
-      return text;
-    }
-
-    const visible = this.state[fieldToManage] || false;
-    const shortenedText = text.substr(0, limitChar);
-
-    return (
-      <div className="shortened-text">
-        {!visible ? `${shortenedText}...` : text}
-        <button
-          className={classnames('read-more', { '-less': visible })}
-          onClick={() => this.setState({ [fieldToManage]: !visible })}
-        >
-          {visible ? 'Read less' : 'Read more'}
-        </button>
-      </div>
-    );
-  }
-
-  handleFavoriteButtonClick() {
-    const { user, url } = this.props;
-    const { dataset } = this.state;
-    const favourite = user.favourites.items.find(f => f.attributes.resourceId === url.query.id);
-
-    this.setState({ loading: true });
-
-    this.props.toggleFavourite({
-      favourite,
-      user,
-      resource: {
-        type: 'dataset',
-        id: dataset.id
-      }
-    })
-      .then(() => {
-        this.setState({ loading: false });
-      })
-      .catch((err) => {
-        this.setState({ loading: false });
-        console.error(err);
-      });
-  }
-
-  handleSaveWidget() {
-    const { dataset } = this.state;
-    const options = {
-      children: SaveWidgetModal,
-      childrenProps: {
-        dataset: dataset.id,
-        getWidgetConfig: this.onGetWidgetConfig
-      }
-    };
-    this.props.toggleModal(true);
-    this.props.setModalOptions(options);
   }
 
   render() {
-    const { url, user, exploreDataset, partnerDetail, tools } = this.props;
-    const { dataset, loading, inferredTags, relatedTools } = this.state;
-    const metadataObj = dataset && dataset.attributes.metadata;
-    const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
-    const metadataAttributes = (metadata && metadata.attributes) || {};
-    const metadataInfo = (metadataAttributes && metadataAttributes.info) || {};
-    const datasetName = metadataInfo && metadataInfo.name ? metadataInfo.name : (dataset && dataset.attributes && dataset.attributes.name);
-    const { description } = metadataAttributes;
-    const { functions, cautions } = metadataInfo;
+    const {
+      url, user, exploreDataset
+    } = this.props;
 
-    const defaultEditableWidget = dataset && dataset.attributes.widget.find(widget => widget.attributes.defaultEditableWidget === true);
-
-    const showOpenInExploreButton = dataset && dataset.attributes.layer && dataset.attributes.layer.length > 0;
-
-    const datasetWithId = { id: exploreDataset.data.id };
-    const isInACollection = belongsToACollection(user, datasetWithId);
-    const formattedDescription = this.shortenAndFormat(description || '', 'showDescription');
-    const formattedFunctions = this.shortenAndFormat(functions || '', 'showFunction');
-    const formattedCautions = this.shortenAndFormat(cautions || '', 'showCautions');
-
-    const starIconName = classnames({
-      'icon-star-full': isInACollection,
-      'icon-star-empty': !isInACollection
-    });
-
-    const starIconClass = classnames({
-      '-small': true,
-      '-filled': isInACollection,
-      '-empty': !isInACollection
-    });
-
-    const relatedToolsWithData = relatedTools && tools && tools.filter(t => relatedTools.find(r => r === t.slug));
-
-    const isSubscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
-      Object.keys(dataset.attributes.subscribable).length > 0;
+    const dataset = exploreDataset.data;
+    const datasetName = getDatasetName(dataset);
+    const metadata = getDatasetMetadata(dataset);
 
     if (exploreDataset && exploreDataset.error === 'Not Found') return <Error status={404} />;
-    if (dataset && !dataset.attributes.published) return <Error status={404} />;
+    if (dataset && !dataset.published) return <Error status={404} />;
 
     return (
       <Layout
         title={datasetName}
-        description={description || ''}
+        description={metadata.description || ''}
         category="Dataset"
         url={url}
         user={user}
         pageHeader
       >
         <div className="c-page-explore-detail">
-          <Spinner
-            isLoading={loading}
-            className="-fixed -light"
-          />
-
           {/* PAGE HEADER */}
           <div className="c-page-header">
             <div className="l-container">
-              <div className="page-header-content">
-                <Breadcrumbs
-                  items={[{ name: 'Explore datasets', route: 'explore' }]}
-                />
-
-                <h1>
-                  {datasetName}
-                </h1>
-
-                <div className="page-header-info">
-                  <ul>
-                    <li>Source: {(metadata && metadata.attributes.source) || '-'}</li>
-                    <li>Last update: {dataset && dataset.attributes && new Date(dataset.attributes.updatedAt).toJSON().slice(0, 10).replace(/-/g, '/')}</li>
-                    <li>
-                      <button className="c-btn -tertiary -alt -clean" onClick={() => this.handleToggleShareModal(true)}>
-                        <Icon name="icon-share" className="-small" />
-                        <span>Share</span>
-                      </button>
-
-                      <Modal
-                        isOpen={this.state.showShareModal}
-                        className="-medium"
-                        onRequestClose={() => this.handleToggleShareModal(false)}
-                      >
-                        <ShareModal
-                          links={{
-                            link: typeof window !== 'undefined' && window.location.href
-                          }}
-                          analytics={{
-                            facebook: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Facebook'),
-                            twitter: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Twitter'),
-                            copy: type => logEvent('Share', `Share dataset: ${datasetName}`, `Copy ${type}`)
-                          }}
-                        />
-                      </Modal>
-                    </li>
-
-                    {/* Favorite dataset icon */}
-                    {user && user.id &&
-                      <li>
-                        <Tooltip
-                          overlay={
-                            <CollectionsPanel
-                              resource={datasetWithId}
-                              resourceType="dataset"
-                            />
-                          }
-                          overlayClassName="c-rc-tooltip"
-                          overlayStyle={{
-                            color: '#c32d7b'
-                          }}
-                          placement="bottom"
-                          trigger="click"
-                        >
-                          <button
-                            className="c-btn -tertiary -alt -clean"
-                            tabIndex={-1}
-                          >
-                            <Icon
-                              name={starIconName}
-                              className={starIconClass}
-                            />
-                            <span>Favorite</span>
-                          </button>
-                        </Tooltip>
-                      </li>
-                    }
-                    {/* Favorites */}
-                  </ul>
+              <div className="row">
+                <div className="column small-12">
+                  <ExploreDetailHeader />
                 </div>
               </div>
             </div>
@@ -489,232 +145,27 @@ class ExploreDetail extends Page {
               <div className="row">
                 <div className="column small-12 medium-7">
                   {/* Function */}
-                  <div className="l-section-mod">
-                    <h3>Function</h3>
-                    <p>{formattedFunctions}</p>
-                  </div>
+                  <ReadMore
+                    text={metadata.description}
+                  />
                 </div>
+
                 <div className="column large-offset-2 small-12 medium-3">
-                  <div className="dataset-info-actions">
-                    {showOpenInExploreButton &&
-                      <Link
-                        route="explore"
-                        params={{
-                          layers: encodeURIComponent(JSON.stringify([{
-                            dataset: dataset.id,
-                            visible: true,
-                            layers: dataset.attributes.layer.map(((l, i) => ({
-                              id: l.id, active: i === 0
-                            })))
-                          }]))
-                        }}
-                      >
-                        <a className="c-button -primary -fullwidth">
-                          Open in Explore
-                        </a>
-                      </Link>
-                    }
-                    {metadataInfo && metadataInfo.data_download_link &&
-                      <a
-                        className="c-button -primary -fullwidth"
-                        target="_blank"
-                        href={metadataInfo && metadataInfo.data_download_link}
-                        onClick={() => logEvent('Explore', 'Download data', dataset && dataset.attributes.name)}
-                      >
-                        Download
-                      </a>
-                    }
-                    {metadataInfo && metadataInfo.data_download_original_link &&
-                      <a
-                        className="c-button -secondary -fullwidth"
-                        target="_blank"
-                        href={metadataInfo && metadataInfo.data_download_original_link}
-                      >
-                        Download from source
-                      </a>
-                    }
-                    {metadataInfo && metadataInfo.learn_more_link &&
-                      <a
-                        className="c-button -secondary -fullwidth"
-                        target="_blank"
-                        href={metadataInfo && metadataInfo.learn_more_link}
-                      >
-                        <div className="learn-more-button">
-                          <div>
-                            Learn more
-                          </div>
-                          <Icon name="icon-external" className="-smaller" />
-                        </div>
-                      </a>
-                    }
-                    {isSubscribable &&
-                      <button
-                        className="c-button -secondary -fullwidth"
-                        onClick={this.handleSubscribe}
-                      >
-                        Subscribe to alerts
-                      </button>
-                    }
-                  </div>
-                  { partnerDetail.logo &&
-                    <div className="partner-container">
-                      <div className="partner-text-container">
-                        Partner:
-                      </div>
-                      <div className="partner-logo-container">
-                        <a href={partnerDetail.website} target="_blank" rel="noopener noreferrer">
-                          <img src={partnerDetail.logo && partnerDetail.logo.medium} alt={partnerDetail.name} />
-                        </a>
-                      </div>
-                    </div>
-                  }
+                  <ExploreDetailActions />
                 </div>
               </div>
             </div>
           </section>
 
           {/* WIDGET EDITOR */}
-          <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
-            {dataset &&
-              <WidgetEditor
-                datasetId={dataset.id}
-                widgetId={defaultEditableWidget && defaultEditableWidget.id}
-                saveButtonMode="auto"
-                embedButtonMode="auto"
-                titleMode="auto"
-                provideWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
-                onSave={this.handleSaveWidget}
-              />
-            }
-          </MediaQuery>
+          <ExploreDetailWidgetEditor />
 
           {/* METADATA */}
           <section className="l-section">
             <div className="l-container">
               <div className="row">
                 <div className="column small-12 medium-7">
-
-                  {metadataInfo && metadataInfo.technical_title ? (
-                    <div className="l-section-mod">
-                      <h3>Formal name</h3>
-                      <p>{metadataInfo.technical_title}</p>
-                    </div>
-                  ) : null}
-
-                  {functions ? (
-                    <div className="dataset-info-description">
-                      <h3>Description</h3>
-                      {formattedDescription}
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.geographic_coverage ? (
-                    <div className="l-section-mod">
-                      <h3>Geographic coverage</h3>
-                      <p>{metadataInfo.geographic_coverage}</p>
-                    </div>
-                  ) : null}
-
-                  {dataset && dataset.attributes && dataset.attributes.type ? (
-                    <div className="l-section-mod">
-                      <h3>Data type</h3>
-                      <p>{dataset.attributes.type}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.spatial_resolution ? (
-                    <div className="l-section-mod">
-                      <h3>Spatial resolution</h3>
-                      <p>{metadataInfo.spatial_resolution}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.date_of_content ? (
-                    <div className="l-section-mod">
-                      <h3>Date of content</h3>
-                      <p>{metadataInfo.date_of_content}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.frequency_of_updates ? (
-                    <div className="l-section-mod">
-                      <h3>Frequency of updates</h3>
-                      <p>{metadataInfo.frequency_of_updates}</p>
-                    </div>
-                  ) : null}
-
-                  {cautions ? (
-                    <div className="l-section-mod">
-                      <h3>Cautions</h3>
-                      <p>{formattedCautions}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.license ? (
-                    <div className="l-section-mod">
-                      <h3>License</h3>
-                      <p>
-                        {!!metadataInfo.license_link &&
-                          <a href={metadataInfo.license_link} target="_blank" rel="noopener noreferrer">{metadataInfo.license}</a>
-                        }
-                        {!metadataInfo.license_link &&
-                          metadataInfo.license
-                        }
-                      </p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.summary_of_license ? (
-                    <div className="l-section-mod">
-                      <h3>Summary of license</h3>
-                      <p>{metadataInfo.summary_of_license}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.link_to_license ? (
-                    <div className="l-section-mod">
-                      <h3>Link to full license</h3>
-                      <a href={metadataInfo.link_to_license} target="_blank">
-                        {metadataInfo.link_to_license}
-                      </a>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.sources ? (
-                    <div className="l-section-mod">
-                      <h3>Sources</h3>
-                      {metadataInfo.sources.map(source => (
-                        <div
-                          key={source['source-name']}
-                        >
-                          {source['source-name']}
-                          {source['source-description']}
-                        </div>)
-                      )
-                      }
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.citation ? (
-                    <div className="l-section-mod">
-                      <h3>Citation</h3>
-                      <p>{metadataInfo && metadataInfo.citation}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataAttributes && metadataAttributes.language ? (
-                    <div className="l-section-mod">
-                      <h3>Published language</h3>
-                      <p>{metadataAttributes.language}</p>
-                    </div>
-                  ) : null}
-
-                  {metadataInfo && metadataInfo.language && metadataInfo.language.toLowerCase() !== 'en' ? (
-                    <div className="l-section-mod">
-                      <h3>Translated title</h3>
-                      <p>{metadataInfo && metadataInfo.translated_title}</p>
-                    </div>
-                  ) : null}
+                  <ExploreDetailInfo />
                 </div>
               </div>
 
@@ -722,21 +173,7 @@ class ExploreDetail extends Page {
                 <div className="column small-12">
                   {/* TAGS SECTION */}
                   <h3>Tags</h3>
-                  <div className="tags">
-                    {inferredTags && inferredTags.map(tag => (
-                      <div
-                        role="button"
-                        tabIndex={-1}
-                        className="tag"
-                        id={tag.id}
-                        data-labels={tag.labels}
-                        key={tag.id}
-                        onClick={this.handleTagClick}
-                      >
-                        {tag.label}
-                      </div>
-                    ))}
-                  </div>
+                  <ExploreDetailTags />
                 </div>
               </div>
             </div>
@@ -750,12 +187,14 @@ class ExploreDetail extends Page {
                   <div className="similar-datasets">
                     <div className="row">
                       <div className="column small-12">
-                        {dataset &&
-                          <SimilarDatasets
-                            datasetIds={[dataset.id]}
-                            onTagSelected={this.handleTagSelected}
-                          />
-                        }
+                        <Title className="-extrabig -secondary -p-secondary">
+                          Similar datasets
+                        </Title>
+
+                        <SimilarDatasets
+                          datasetIds={[dataset.id]}
+                          onTagSelected={this.handleTagSelected}
+                        />
                       </div>
                     </div>
                   </div>
@@ -765,7 +204,7 @@ class ExploreDetail extends Page {
           </section>
 
           {/* RELATED TOOLS */}
-          {relatedToolsWithData.length > 0 &&
+          {exploreDataset.tools.active.length > 0 &&
             <section className="l-section">
               <div className="l-container">
                 <div className="row">
@@ -773,23 +212,11 @@ class ExploreDetail extends Page {
                     <div className="related-tools">
                       <div className="row">
                         <div className="column small-12">
-                          <Title className="-extrabig">
-                            Related Tools
+                          <Title className="-extrabig -secondary -p-secondary">
+                            Related tools
                           </Title>
-                          {
-                            relatedToolsWithData.map(relatedTool => (
-                              <CardApp
-                                background={relatedTool.thumbnail.original}
-                                title={relatedTool.title}
-                                description={relatedTool.summary}
-                                link={{
-                                  label: 'Go to site',
-                                  route: relatedTool.url,
-                                  external: true
-                                }}
-                              />
-                            ))
-                          }
+
+                          <ExploreDetailRelatedTools />
                         </div>
                       </div>
                     </div>
@@ -799,22 +226,12 @@ class ExploreDetail extends Page {
             </section>
           }
 
-          {/* RELATED INSIGHTS */}
-          {/* <div className="c-page-section related-insights">
-            <div className="row">
-              <div className="column small-12">
-                <h2 className="c-text title -thin">Related Insights</h2>
-              </div>
-            </div>
-          </div> */}
-
           <aside className="l-postcontent">
             <div className="l-container">
               <div className="row align-center">
                 <div className="column small-12">
                   <Banner className="partners -text-center">
                     <p className="-claim">Take the pulse of our planet.</p>
-
                     <a href="/data/pulse" className="c-button -primary -alt">Launch Planet Pulse</a>
                   </Banner>
                 </div>
@@ -830,22 +247,19 @@ class ExploreDetail extends Page {
 
 const mapStateToProps = state => ({
   // Store
-  user: state.user,
-  exploreDetail: state.exploreDetail,
-  exploreDataset: state.exploreDataset,
-  partnerDetail: state.partnerDetail.data,
-  layersShown: updateLayersShown(state),
   locale: state.common.locale,
-  tools: state.tools.list
+  user: state.user,
+  exploreDataset: state.exploreDataset
 });
 
 const mapDispatchToProps = {
-  resetDataset,
-  toggleModal,
-  setModalOptions,
-  toggleLayerGroup,
-  getPartnerData,
-  getTools
+  getDataset,
+  getPartner,
+  getTools,
+  setTools,
+  getTags,
+  setTags,
+  setCountView
 };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);

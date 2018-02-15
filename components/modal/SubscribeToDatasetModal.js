@@ -65,7 +65,7 @@ class SubscribeToDatasetModal extends React.Component {
   onChangeSelectedArea(value) {
     if (value && value.value === 'upload_area') {
       this.setState({ loading: true });
-      this.props.toggleModal(false);
+      this.props.onRequestClose();
       Router.pushRoute('myrw_detail', {
         tab: 'areas',
         id: 'new',
@@ -104,7 +104,7 @@ class SubscribeToDatasetModal extends React.Component {
     this.setState({
       saved: false
     });
-    this.props.toggleModal(false);
+    this.props.onRequestClose();
   }
 
   handleSubscribe() {
@@ -232,7 +232,7 @@ class SubscribeToDatasetModal extends React.Component {
     this.setState({
       saved: false
     });
-    this.props.toggleModal(false);
+    this.props.onRequestClose();
     Router.pushRoute('myrw', { tab: 'areas' });
   }
 
@@ -310,13 +310,15 @@ class SubscribeToDatasetModal extends React.Component {
     if (saved) {
       headerText = 'Subscription saved!';
     } else if (dataset) {
-      headerText = `Subscribe to ${dataset.attributes.name}`;
+      headerText = `Subscribe to ${dataset.name || dataset.attributes.name}`;
     }
     const paragraphText = saved ?
-      (<p>Your subscription was successfully created. <strong>Please check your
-         email address to confirm it.</strong></p>) :
+      (<p>
+        Your subscription was successfully created.
+        <strong>Please check your email address to confirm it.</strong>
+      </p>) :
       <p>Please select an area and a subscription type</p>;
-    const subscriptionTypes = Object.keys(dataset.attributes.subscribable)
+    const subscriptionTypes = Object.keys(dataset.subscribable || dataset.attributes.subscribable)
       .map(val => ({ value: val, label: val }));
 
     return (
@@ -402,7 +404,7 @@ class SubscribeToDatasetModal extends React.Component {
 
 SubscribeToDatasetModal.propTypes = {
   dataset: PropTypes.object.isRequired,
-  toggleModal: PropTypes.func.isRequired,
+  onRequestClose: PropTypes.func.isRequired,
   // Store
   user: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired

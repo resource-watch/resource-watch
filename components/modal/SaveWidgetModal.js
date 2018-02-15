@@ -5,11 +5,11 @@ import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
-import { toggleModal } from 'redactions/modal';
 
 // Components
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
+import TextArea from 'components/form/TextArea';
 import Button from 'components/ui/Button';
 import Spinner from 'components/ui/Spinner';
 
@@ -20,13 +20,13 @@ const FORM_ELEMENTS = {
   elements: {
   },
   validate() {
-    const elements = this.elements;
+    const { elements } = this;
     Object.keys(elements).forEach((k) => {
       elements[k].validate();
     });
   },
   isValid() {
-    const elements = this.elements;
+    const { elements } = this;
     const valid = Object.keys(elements)
       .map(k => elements[k].isValid())
       .filter(v => v !== null)
@@ -109,7 +109,7 @@ class SaveWidgetModal extends React.Component {
    * cancel button of the modal
    */
   handleCancel() {
-    this.props.toggleModal(false);
+    this.props.onRequestClose();
   }
 
   /**
@@ -117,7 +117,7 @@ class SaveWidgetModal extends React.Component {
    * "Check my widgets" button
    */
   handleGoToMyRW() {
-    this.props.toggleModal(false);
+    this.props.onRequestClose(false);
     Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
   }
 
@@ -166,10 +166,11 @@ class SaveWidgetModal extends React.Component {
                   title: 'description',
                   label: 'Description',
                   type: 'text',
+                  rows: '4',
                   placeholder: 'Widget description'
                 }}
               >
-                {Input}
+                {TextArea}
               </Field>
             </fieldset>
             <div className="buttons-container">
@@ -225,16 +226,11 @@ SaveWidgetModal.propTypes = {
   getWidgetConfig: PropTypes.func.isRequired,
   // Store
   user: PropTypes.object.isRequired,
-  toggleModal: PropTypes.func.isRequired
+  onRequestClose: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user
 });
 
-const mapDispatchToProps = {
-  toggleModal
-};
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(SaveWidgetModal);
+export default connect(mapStateToProps)(SaveWidgetModal);
