@@ -41,9 +41,7 @@ class ExploreDetail extends Page {
   static propTypes = {
     url: PropTypes.object.isRequired,
     user: PropTypes.object,
-    locale: PropTypes.string.isRequired,
-    toggleModal: PropTypes.func.isRequired,
-    setModalOptions: PropTypes.func.isRequired
+    locale: PropTypes.string.isRequired
   };
 
   static async getInitialProps(context) {

@@ -33,7 +33,7 @@ class ExploreDetailTags extends PureComponent {
 
     return (
       <div className="c-explore-detail-tags">
-        {tags.loading && <Spinner isLoading className="-tiny -light" />}
+        {tags.loading && <Spinner isLoading className="-light" />}
         {tags.list.map(tag => (
           <Link
             route="explore"
