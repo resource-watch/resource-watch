@@ -52,6 +52,7 @@ class ExploreDetailWidgetEditor extends PureComponent {
           <SaveWidgetModal
             dataset={dataset.id}
             getWidgetConfig={this.onGetWidgetConfig}
+            onRequestClose={() => this.handleToggleSaveWidget(false)}
           />
         </Modal>
       </MediaQuery>
