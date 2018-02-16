@@ -38,11 +38,15 @@ class Faqs extends Page {
       >
         <div className="c-page-header">
           <div className="l-container">
-            <div className="page-header-content">
-              <Breadcrumbs
-                items={[{ name: 'About', route: 'about' }]}
-              />
-              <h1>FAQs</h1>
+            <div className="row">
+              <div className="column small-12">
+                <div className="page-header-content">
+                  <Breadcrumbs
+                    items={[{ name: 'About', route: 'about' }]}
+                  />
+                  <h1>FAQs</h1>
+                </div>
+              </div>
             </div>
           </div>
         </div>
