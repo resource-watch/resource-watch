@@ -22,7 +22,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: $header-main-height;
+    height: $header-main-height-mobile;
+
+    @media screen and (min-width: map-get($breakpoints, medium)) {
+      height: $header-main-height;
+    }
   }
 
   // Logo

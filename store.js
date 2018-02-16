@@ -24,6 +24,9 @@ import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-f
 // Widget editor
 import { reducers as widgetEditorModules } from 'widget-editor';
 
+// React responsive redux
+import { reducer as responsiveReducer } from 'react-responsive-redux'
+
 if (process.env.NODE_ENV === 'production') {
   initOpbeat({
     orgId: '17ab8eb501d2418a81f3167c10407e90',
@@ -37,6 +40,9 @@ const reducer = combineReducers({
 
   // widgetEditor
   ...widgetEditorModules,
+
+  // React responsive
+  responsive: responsiveReducer,
 
   search: handleModule(search),
 

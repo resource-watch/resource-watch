@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
+
+// Responsive
 import MediaQuery from 'react-responsive';
+import { breakpoints } from 'utils/responsive';
 
 // Connect
 import { connect } from 'react-redux';
@@ -56,7 +59,14 @@ class Header extends React.Component {
     const items = [
       {
         name: 'Data',
+        route: 'data',
         pathnames: ['/app/Explore', '/app/ExploreDetail', '/app/Pulse'],
+        children: [
+          { label: 'Explore Datasets', route: 'explore' },
+          { label: 'Dashboards', route: 'dashboards' },
+          { label: 'Planet Pulse', href: '/data/pulse' },
+          { label: 'Planet Pulse', route: 'get_involved_detail', params: { id: 'apps' } }
+        ],
         component: <HeaderDropdownData
           active={this.state.dataActive}
           onMouseEnter={() => this.toggleDropdown('dataActive', true)}
@@ -65,12 +75,20 @@ class Header extends React.Component {
       },
       {
         name: 'Blog',
+        route: 'insights',
         pathnames: ['/app/Insights'],
         component: <Link route="insights"><a>Blog</a></Link>
       },
       {
         name: 'About',
+        route: 'about',
         pathnames: ['/app/About'],
+        children: [
+          { label: 'Partners', route: 'about_partners' },
+          { label: 'FAQs', route: 'about_faqs' },
+          { label: 'How to', route: 'about_howto' },
+          { label: 'Contact us', route: 'about_contact-us' }
+        ],
         component: <HeaderDropdownAbout
           active={this.state.aboutActive}
           onMouseEnter={() => this.toggleDropdown('aboutActive', true)}
@@ -79,6 +97,7 @@ class Header extends React.Component {
       },
       {
         name: 'Get Involved',
+        route: 'get_involved',
         pathnames: ['/app/GetInvolved'],
         component: <Link route="get_involved"><a>Get Involved</a></Link>
       },
@@ -89,6 +108,7 @@ class Header extends React.Component {
       },
       {
         name: 'Personal Area',
+        route: 'myrw',
         component: <HeaderUser
           active={this.state.myrwActive}
           onMouseEnter={() => this.toggleDropdown('myrwActive', true)}
@@ -118,7 +138,45 @@ class Header extends React.Component {
                   </Link>
                 </div>
 
-                <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
+                {/* Mobile header */}
+                <MediaQuery
+                  maxDeviceWidth={breakpoints.medium - 1}
+                  values={{ deviceWidth: this.props.responsive.fakeWidth }}
+                >
+                  <button className="c-button -secondary -alt -compressed header-burger-menu">
+                    Menu
+                  </button>
+                </MediaQuery>
+
+                {/* <MediaQuery
+                  maxDeviceWidth={breakpoints.medium - 1}
+                  values={{ deviceWidth: this.props.responsive.fakeWidth }}
+                >
+                  <nav className="header-mobile-menu">
+                    <ul>
+                      {items.map((item) => {
+                        const activeClassName = classnames({
+                          '-active': item.pathnames && item.pathnames.includes(url.pathname)
+                        });
+
+                        return (
+                          <li
+                            key={item.name}
+                            className={activeClassName}
+                          >
+                            {item.component}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </nav>
+                </MediaQuery> */}
+
+                {/* Desktop header */}
+                <MediaQuery
+                  minDeviceWidth={breakpoints.medium}
+                  values={{ deviceWidth: this.props.responsive.fakeWidth }}
+                >
                   <nav className="header-menu">
                     <ul>
                       {items.map((item) => {
@@ -152,12 +210,14 @@ Header.defaultProps = {
 Header.propTypes = {
   user: PropTypes.object,
   url: PropTypes.object,
+  responsive: PropTypes.object,
   pageHeader: PropTypes.bool
 };
 
 export default connect(
   state => ({
-    user: state.user
+    user: state.user,
+    responsive: state.responsive
   }),
   null
 )(Header);

@@ -33,7 +33,7 @@ class ExploreDetailWidgetEditor extends PureComponent {
     const defaultEditableWidget = getDatasetDefaultEditableWidget(dataset);
 
     return (
-      <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
+      <MediaQuery minDeviceWidth={720}>
         <WidgetEditor
           datasetId={dataset.id}
           widgetId={defaultEditableWidget && defaultEditableWidget.id}

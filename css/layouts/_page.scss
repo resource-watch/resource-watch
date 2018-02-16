@@ -14,12 +14,6 @@
 
   .c-page-header,
   .l-page-header {
-    $header-main-height: rem(75);
-    $header-secondary-height: rem(0);
-    $header-bg-image: url("/static/images/components/layout/header-bg-texture.png");
-    $header-gradient-color-1: rgba(#c32d7b, 0.8);
-    $header-gradient-color-2: rgba(#c90e39, 0.7);
-
     background-color: $color-primary;
     background-image: $header-bg-image,
       linear-gradient(
@@ -30,8 +24,13 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    margin: -($header-main-height + $header-secondary-height) 0 0;
-    padding: ($header-main-height + $header-secondary-height) 0 0;
+    margin: -($header-main-height-mobile + $header-secondary-height) 0 0;
+    padding: ($header-main-height-mobile + $header-secondary-height) 0 0;
+
+    @media screen and (min-width: map-get($breakpoints, medium)) {
+      margin: -($header-main-height + $header-secondary-height) 0 0;
+      padding: ($header-main-height + $header-secondary-height) 0 0;
+    }
 
     &.-admin {
       background-color: #A5177E;
@@ -60,6 +59,14 @@
 
       &.-with-tabs {
         padding: $margin-size-small 0 0;
+      }
+
+      @media screen and (min-width: map-get($breakpoints, medium)) {
+        padding: $margin-size-small 0 $margin-size;
+
+        h1 {
+          margin-bottom: inherit;
+        }
       }
     }
 
@@ -90,16 +97,5 @@
         }
       }
     }
-
-    @media screen and (min-width: map-get($breakpoints, medium)) {
-      .page-header-content {
-        padding: $margin-size-small 0 $margin-size;
-
-        h1 {
-          margin-bottom: inherit;
-        }
-      }
-    }
   }
-
 }
