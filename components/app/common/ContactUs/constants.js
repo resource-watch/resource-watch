@@ -2,7 +2,7 @@ export const STATE_DEFAULT = {
   submitting: false,
   form: {
     email: '',
-    message: ''
+    text: ''
   }
 };
 

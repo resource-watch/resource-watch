@@ -43,13 +43,14 @@ class ContactUsForm extends React.Component {
       if (valid) {
         // Save data
         this.service.saveData({
-          body: new Serializer('contact-us', {
-            keyForAttribute: 'dash-case',
-            attributes: Object.keys(this.state.form)
-          }).serialize(this.state.form)
-        });
-
-        toastr.success('Success', 'Your message has been sent!');
+          body: this.state.form
+        })
+          .then(() => {
+            toastr.success('Success', 'Your message has been sent!');
+          })
+          .catch(() => {
+            toastr.error('Error', 'Oops!! There was an error. Try again');
+          });
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
@@ -82,13 +83,13 @@ class ContactUsForm extends React.Component {
           </Field>
 
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.message = c; }}
-            onChange={value => this.onChange({ message: value })}
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.text = c; }}
+            onChange={value => this.onChange({ text: value })}
             className="-fluid"
             properties={{
-              name: 'message',
+              name: 'text',
               label: 'Message',
-              default: this.state.form.message
+              default: this.state.form.text
             }}
           >
             {TextArea}
