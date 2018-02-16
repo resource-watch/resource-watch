@@ -162,7 +162,7 @@ class Pulse extends Page {
   componentWillUnmount() {
     document.removeEventListener('click', this.handleMouseClick);
     this.props.toggleTooltip(false);
-    this.props.toggleActiveLayer(null);
+    this.props.toggleActiveLayer({});
     this.props.resetLayerPoints();
     this.mounted = false;
   }
