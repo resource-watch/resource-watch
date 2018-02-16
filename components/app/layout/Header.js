@@ -158,5 +158,6 @@ Header.propTypes = {
 export default connect(
   state => ({
     user: state.user
-  })
+  }),
+  null
 )(Header);
