@@ -9,6 +9,9 @@ import * as reducers from 'redactions';
 import { handleModule } from 'redux-tools';
 import * as search from 'components/app/layout/search/search';
 
+// Header
+import * as header from 'components/app/layout/header';
+
 // Dashboard
 import * as dashboardDetail from 'components/dashboards/detail/dashboard-detail';
 import * as dashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
@@ -25,7 +28,7 @@ import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-f
 import { reducers as widgetEditorModules } from 'widget-editor';
 
 // React responsive redux
-import { reducer as responsiveReducer } from 'react-responsive-redux'
+import { reducer as responsiveReducer } from 'react-responsive-redux';
 
 if (process.env.NODE_ENV === 'production') {
   initOpbeat({
@@ -44,6 +47,8 @@ const reducer = combineReducers({
   // React responsive
   responsive: responsiveReducer,
 
+  // Header
+  header: handleModule(header),
   search: handleModule(search),
 
   // Dashboards

@@ -103,20 +103,4 @@
       }
     }
   }
-
-  .header-mobile-menu {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: calc(100% - #{$header-main-height-mobile});
-    transform: translate(100%, 0);
-    height: 100%;
-    max-width: 400px;
-    background: $color-white;
-    transition: transform $animation-time-2 $ease-in-out-cubic;
-
-    &.-open {
-      transform: translate(0, 0);
-    }
-  }
 }

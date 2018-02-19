@@ -5,7 +5,7 @@ import { Link } from 'routes';
 // Components
 import TetherComponent from 'react-tether';
 
-export default function HeaderDropdownData(props) {
+export default function HeaderAbout(props) {
   return (
     <TetherComponent
       attachment="top center"
@@ -18,36 +18,42 @@ export default function HeaderDropdownData(props) {
       }}
     >
       {/* First child: This is what the item will be tethered to */}
-      <a
-        href="/data"
-        onMouseEnter={props.onMouseEnter}
-        onMouseLeave={props.onMouseLeave}
-      >
-        Data
-      </a>
+      <Link route="about" >
+        <a
+          onMouseEnter={() => props.setDropdownOpened({ about: true })}
+          onMouseLeave={() => props.setDropdownOpened({ about: false })}
+        >
+          About
+        </a>
+      </Link>
       {/* Second child: If present, this item will be tethered to the the first child */}
-      {props.active &&
+      {props.header.dropdownOpened.about &&
         <ul
           className="header-dropdown-list"
-          onMouseEnter={props.onMouseEnter}
-          onMouseLeave={props.onMouseLeave}
+          onMouseEnter={() => props.setDropdownOpened({ about: true })}
+          onMouseLeave={() => props.setDropdownOpened({ about: false })}
         >
           <li className="header-dropdown-list-item">
-            <Link route="explore">
-              <a>Explore Datasets</a>
+            <Link route="about_partners">
+              <a>Partners</a>
             </Link>
           </li>
+
           <li className="header-dropdown-list-item">
-            <Link route="dashboards">
-              <a>Dashboards</a>
+            <Link route="about_faqs">
+              <a>FAQs</a>
             </Link>
           </li>
+
           <li className="header-dropdown-list-item">
-            <a href="/data/pulse">Planet Pulse</a>
+            <Link route="about_howto">
+              <a>How to</a>
+            </Link>
           </li>
+
           <li className="header-dropdown-list-item">
-            <Link route="get_involved_detail" params={{ id: 'apps' }}>
-              <a>App Gallery</a>
+            <Link route="about_contact-us">
+              <a>Contact us</a>
             </Link>
           </li>
         </ul>
@@ -56,8 +62,7 @@ export default function HeaderDropdownData(props) {
   );
 }
 
-HeaderDropdownData.propTypes = {
-  active: PropTypes.bool,
-  onMouseEnter: PropTypes.func,
-  onMouseLeave: PropTypes.func
+HeaderAbout.propTypes = {
+  header: PropTypes.object,
+  setDropdownOpened: PropTypes.func
 };

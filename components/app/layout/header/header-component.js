@@ -9,19 +9,29 @@ import isEqual from 'lodash/isEqual';
 import MediaQuery from 'react-responsive';
 import { breakpoints } from 'utils/responsive';
 
-// Connect
-import { connect } from 'react-redux';
-
 // Next
 import { Link } from 'routes';
 
 // Components
-import HeaderDropdownData from 'components/app/layout/header/HeaderDropdownData';
-import HeaderDropdownAbout from 'components/app/layout/header/HeaderDropdownAbout';
-import HeaderUser from 'components/app/layout/header/HeaderUser';
-import HeaderSearch from 'components/app/layout/header/HeaderSearch';
+import HeaderData from 'components/app/layout/header/header-data';
+import HeaderAbout from 'components/app/layout/header/header-about';
+import HeaderSearch from 'components/app/layout/header/header-search';
+import HeaderUser from 'components/app/layout/header/header-user';
+
+import HeaderMenuMobile from 'components/app/layout/header/header-menu-mobile';
 
 class Header extends React.Component {
+  static defaultProps = {
+    pageHeader: false
+  };
+
+  static propTypes = {
+    user: PropTypes.object,
+    routes: PropTypes.object,
+    responsive: PropTypes.object,
+    pageHeader: PropTypes.bool
+  };
+
   constructor(props) {
     super(props);
 
@@ -41,7 +51,7 @@ class Header extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     return nextProps.pageHeader !== this.props.pageHeader
       || !isEqual(nextProps.user, this.props.user)
-      || !isEqual(nextProps.url, this.props.url)
+      || !isEqual(nextProps.routes, this.props.routes)
       || !isEqual(nextState, this.state);
   }
 
@@ -61,7 +71,7 @@ class Header extends React.Component {
 
   render() {
     // TODO: improve pathnames behaviour
-    const { pageHeader, url } = this.props;
+    const { pageHeader, routes } = this.props;
 
     const items = [
       {
@@ -74,11 +84,7 @@ class Header extends React.Component {
           { label: 'Planet Pulse', href: '/data/pulse' },
           { label: 'Planet Pulse', route: 'get_involved_detail', params: { id: 'apps' } }
         ],
-        component: <HeaderDropdownData
-          active={this.state.dataActive}
-          onMouseEnter={() => this.toggleDropdown('dataActive', true)}
-          onMouseLeave={() => this.toggleDropdown('dataActive', false)}
-        />
+        component: <HeaderData />
       },
       {
         label: 'Blog',
@@ -96,11 +102,7 @@ class Header extends React.Component {
           { label: 'How to', route: 'about_howto' },
           { label: 'Contact us', route: 'about_contact-us' }
         ],
-        component: <HeaderDropdownAbout
-          active={this.state.aboutActive}
-          onMouseEnter={() => this.toggleDropdown('aboutActive', true)}
-          onMouseLeave={() => this.toggleDropdown('aboutActive', false)}
-        />
+        component: <HeaderAbout />
       },
       {
         label: 'Get Involved',
@@ -110,27 +112,18 @@ class Header extends React.Component {
       },
       {
         label: 'Search',
-        pathnames: [],
         component: <HeaderSearch />
       },
       {
         label: 'Personal Area',
         route: 'myrw',
-        component: <HeaderUser
-          active={this.state.myrwActive}
-          onMouseEnter={() => this.toggleDropdown('myrwActive', true)}
-          onMouseLeave={() => this.toggleDropdown('myrwActive', false)}
-        />
+        component: <HeaderUser />
       }
     ];
 
     const headerClass = classnames({
       '-transparent': pageHeader
     });
-
-    const mobileOpenedClass = classnames({
-      '-open': this.state.mobileOpened
-    })
 
     return (
       <header className={`l-header ${headerClass}`}>
@@ -154,77 +147,7 @@ class Header extends React.Component {
                   maxDeviceWidth={breakpoints.medium - 1}
                   values={{ deviceWidth: this.props.responsive.fakeWidth }}
                 >
-                  <button
-                    className="c-button -secondary -alt -compressed header-burger-menu"
-                    onClick={this.triggerClickMobileMenu}
-                  >
-                    Menu
-                  </button>
-                </MediaQuery>
-
-                <MediaQuery
-                  maxDeviceWidth={breakpoints.medium - 1}
-                  values={{ deviceWidth: this.props.responsive.fakeWidth }}
-                >
-                  <nav className={`header-mobile-menu ${mobileOpenedClass}`}>
-                    <button
-                      className="c-button -secondary -alt -compressed header-burger-menu"
-                      onClick={this.triggerClickMobileMenu}
-                    >
-                      Menu
-                    </button>
-
-                    <ul>
-                      {items.map((item) => {
-                        const activeClassName = classnames({
-                          '-active': item.pathnames && item.pathnames.includes(url.pathname)
-                        });
-
-                        return (
-                          <li
-                            key={item.label}
-                            className={activeClassName}
-                          >
-                            {item.route &&
-                              <h2>
-                                <Link
-                                  route={item.route}
-                                  params={item.params}
-                                >
-                                  <a>{item.label}</a>
-                                </Link>
-                              </h2>
-                            }
-
-                            {item.children &&
-                              <ul>
-                                {item.children.map(c => (
-                                  <li>
-                                    {!!c.route &&
-                                      <Link
-                                        route={c.route}
-                                        params={c.params}
-                                      >
-                                        <a>{c.label}</a>
-                                      </Link>
-                                    }
-
-                                    {!!c.href &&
-                                      <a
-                                        href={c.href}
-                                      >
-                                        {c.label}
-                                      </a>
-                                    }
-                                   </li>
-                                 ))}
-                              </ul>
-                            }
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </nav>
+                  <HeaderMenuMobile />
                 </MediaQuery>
 
                 {/* Desktop header */}
@@ -236,7 +159,7 @@ class Header extends React.Component {
                     <ul>
                       {items.map((item) => {
                         const activeClassName = classnames({
-                          '-active': item.pathnames && item.pathnames.includes(url.pathname)
+                          '-active': item.pathnames && item.pathnames.includes(routes.pathname)
                         });
 
                         return (
@@ -257,22 +180,4 @@ class Header extends React.Component {
   }
 }
 
-Header.defaultProps = {
-  url: {},
-  pageHeader: false
-};
-
-Header.propTypes = {
-  user: PropTypes.object,
-  url: PropTypes.object,
-  responsive: PropTypes.object,
-  pageHeader: PropTypes.bool
-};
-
-export default connect(
-  state => ({
-    user: state.user,
-    responsive: state.responsive
-  }),
-  null
-)(Header);
+export default Header;

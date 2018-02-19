@@ -11,6 +11,8 @@
 
 .l-page {
   background-color: $body-bg-color;
+  width: 100%;
+  overflow: hidden;
 
   .c-page-header,
   .l-page-header {
