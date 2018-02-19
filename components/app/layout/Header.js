@@ -28,7 +28,8 @@ class Header extends React.Component {
     this.state = {
       dataActive: false,
       aboutActive: false,
-      myrwActive: false
+      myrwActive: false,
+      mobileOpened: false
     };
 
     this.listeners = {};
@@ -52,13 +53,19 @@ class Header extends React.Component {
     });
   }
 
+  triggerClickMobileMenu = () => {
+    this.setState({
+      mobileOpened: !this.state.mobileOpened
+    });
+  }
+
   render() {
     // TODO: improve pathnames behaviour
     const { pageHeader, url } = this.props;
 
     const items = [
       {
-        name: 'Data',
+        label: 'Data',
         route: 'data',
         pathnames: ['/app/Explore', '/app/ExploreDetail', '/app/Pulse'],
         children: [
@@ -74,13 +81,13 @@ class Header extends React.Component {
         />
       },
       {
-        name: 'Blog',
+        label: 'Blog',
         route: 'insights',
         pathnames: ['/app/Insights'],
         component: <Link route="insights"><a>Blog</a></Link>
       },
       {
-        name: 'About',
+        label: 'About',
         route: 'about',
         pathnames: ['/app/About'],
         children: [
@@ -96,18 +103,18 @@ class Header extends React.Component {
         />
       },
       {
-        name: 'Get Involved',
+        label: 'Get Involved',
         route: 'get_involved',
         pathnames: ['/app/GetInvolved'],
         component: <Link route="get_involved"><a>Get Involved</a></Link>
       },
       {
-        name: 'Search',
+        label: 'Search',
         pathnames: [],
         component: <HeaderSearch />
       },
       {
-        name: 'Personal Area',
+        label: 'Personal Area',
         route: 'myrw',
         component: <HeaderUser
           active={this.state.myrwActive}
@@ -120,6 +127,10 @@ class Header extends React.Component {
     const headerClass = classnames({
       '-transparent': pageHeader
     });
+
+    const mobileOpenedClass = classnames({
+      '-open': this.state.mobileOpened
+    })
 
     return (
       <header className={`l-header ${headerClass}`}>
@@ -143,16 +154,26 @@ class Header extends React.Component {
                   maxDeviceWidth={breakpoints.medium - 1}
                   values={{ deviceWidth: this.props.responsive.fakeWidth }}
                 >
-                  <button className="c-button -secondary -alt -compressed header-burger-menu">
+                  <button
+                    className="c-button -secondary -alt -compressed header-burger-menu"
+                    onClick={this.triggerClickMobileMenu}
+                  >
                     Menu
                   </button>
                 </MediaQuery>
 
-                {/* <MediaQuery
+                <MediaQuery
                   maxDeviceWidth={breakpoints.medium - 1}
                   values={{ deviceWidth: this.props.responsive.fakeWidth }}
                 >
-                  <nav className="header-mobile-menu">
+                  <nav className={`header-mobile-menu ${mobileOpenedClass}`}>
+                    <button
+                      className="c-button -secondary -alt -compressed header-burger-menu"
+                      onClick={this.triggerClickMobileMenu}
+                    >
+                      Menu
+                    </button>
+
                     <ul>
                       {items.map((item) => {
                         const activeClassName = classnames({
@@ -161,16 +182,50 @@ class Header extends React.Component {
 
                         return (
                           <li
-                            key={item.name}
+                            key={item.label}
                             className={activeClassName}
                           >
-                            {item.component}
+                            {item.route &&
+                              <h2>
+                                <Link
+                                  route={item.route}
+                                  params={item.params}
+                                >
+                                  <a>{item.label}</a>
+                                </Link>
+                              </h2>
+                            }
+
+                            {item.children &&
+                              <ul>
+                                {item.children.map(c => (
+                                  <li>
+                                    {!!c.route &&
+                                      <Link
+                                        route={c.route}
+                                        params={c.params}
+                                      >
+                                        <a>{c.label}</a>
+                                      </Link>
+                                    }
+
+                                    {!!c.href &&
+                                      <a
+                                        href={c.href}
+                                      >
+                                        {c.label}
+                                      </a>
+                                    }
+                                   </li>
+                                 ))}
+                              </ul>
+                            }
                           </li>
                         );
                       })}
                     </ul>
                   </nav>
-                </MediaQuery> */}
+                </MediaQuery>
 
                 {/* Desktop header */}
                 <MediaQuery
@@ -185,7 +240,7 @@ class Header extends React.Component {
                         });
 
                         return (
-                          <li key={item.name} className={activeClassName}>
+                          <li key={item.label} className={activeClassName}>
                             {item.component}
                           </li>
                         );
