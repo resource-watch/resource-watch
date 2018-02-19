@@ -2,7 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 
 // Responsive
@@ -13,113 +12,21 @@ import { breakpoints } from 'utils/responsive';
 import { Link } from 'routes';
 
 // Components
-import HeaderData from 'components/app/layout/header/header-data';
-import HeaderAbout from 'components/app/layout/header/header-about';
-import HeaderSearch from 'components/app/layout/header/header-search';
-import HeaderUser from 'components/app/layout/header/header-user';
-
+import HeaderMenu from 'components/app/layout/header/header-menu';
 import HeaderMenuMobile from 'components/app/layout/header/header-menu-mobile';
 
-class Header extends React.Component {
+class Header extends React.PureComponent {
   static defaultProps = {
     pageHeader: false
   };
 
   static propTypes = {
-    user: PropTypes.object,
-    routes: PropTypes.object,
     responsive: PropTypes.object,
     pageHeader: PropTypes.bool
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      dataActive: false,
-      aboutActive: false,
-      myrwActive: false,
-      mobileOpened: false
-    };
-
-    this.listeners = {};
-
-    // BINDINGS
-    this.toggleDropdown = debounce(this.toggleDropdown.bind(this), 50);
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.pageHeader !== this.props.pageHeader
-      || !isEqual(nextProps.user, this.props.user)
-      || !isEqual(nextProps.routes, this.props.routes)
-      || !isEqual(nextState, this.state);
-  }
-
-  // This function is debounced. If you don't do that insane things will happen
-  toggleDropdown(specificDropdown, to) {
-    this.setState({
-      ...{ dataActive: false, aboutActive: false, myrwActive: false },
-      [specificDropdown]: to
-    });
-  }
-
-  triggerClickMobileMenu = () => {
-    this.setState({
-      mobileOpened: !this.state.mobileOpened
-    });
-  }
-
   render() {
-    // TODO: improve pathnames behaviour
-    const { pageHeader, routes } = this.props;
-
-    const items = [
-      {
-        label: 'Data',
-        route: 'data',
-        pathnames: ['/app/Explore', '/app/ExploreDetail', '/app/Pulse'],
-        children: [
-          { label: 'Explore Datasets', route: 'explore' },
-          { label: 'Dashboards', route: 'dashboards' },
-          { label: 'Planet Pulse', href: '/data/pulse' },
-          { label: 'Planet Pulse', route: 'get_involved_detail', params: { id: 'apps' } }
-        ],
-        component: <HeaderData />
-      },
-      {
-        label: 'Blog',
-        route: 'insights',
-        pathnames: ['/app/Insights'],
-        component: <Link route="insights"><a>Blog</a></Link>
-      },
-      {
-        label: 'About',
-        route: 'about',
-        pathnames: ['/app/About'],
-        children: [
-          { label: 'Partners', route: 'about_partners' },
-          { label: 'FAQs', route: 'about_faqs' },
-          { label: 'How to', route: 'about_howto' },
-          { label: 'Contact us', route: 'about_contact-us' }
-        ],
-        component: <HeaderAbout />
-      },
-      {
-        label: 'Get Involved',
-        route: 'get_involved',
-        pathnames: ['/app/GetInvolved'],
-        component: <Link route="get_involved"><a>Get Involved</a></Link>
-      },
-      {
-        label: 'Search',
-        component: <HeaderSearch />
-      },
-      {
-        label: 'Personal Area',
-        route: 'myrw',
-        component: <HeaderUser />
-      }
-    ];
+    const { pageHeader } = this.props;
 
     const headerClass = classnames({
       '-transparent': pageHeader
@@ -155,21 +62,7 @@ class Header extends React.Component {
                   minDeviceWidth={breakpoints.medium}
                   values={{ deviceWidth: this.props.responsive.fakeWidth }}
                 >
-                  <nav className="header-menu">
-                    <ul>
-                      {items.map((item) => {
-                        const activeClassName = classnames({
-                          '-active': item.pathnames && item.pathnames.includes(routes.pathname)
-                        });
-
-                        return (
-                          <li key={item.label} className={activeClassName}>
-                            {item.component}
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </nav>
+                  <HeaderMenu />
                 </MediaQuery>
               </div>
             </div>

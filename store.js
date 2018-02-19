@@ -7,7 +7,6 @@ import * as reducers from 'redactions';
 
 // New modules
 import { handleModule } from 'redux-tools';
-import * as search from 'components/app/layout/search/search';
 
 // Header
 import * as header from 'components/app/layout/header';
@@ -49,7 +48,6 @@ const reducer = combineReducers({
 
   // Header
   header: handleModule(header),
-  search: handleModule(search),
 
   // Dashboards
   dashboardDetail: handleModule(dashboardDetail),

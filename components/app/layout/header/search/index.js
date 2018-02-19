@@ -2,17 +2,9 @@ import React, { createElement } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import * as actions from './search-actions';
-import * as reducers from './search-reducers';
-import initialState from './search-default-state';
+import * as actions from '../header-actions';
 
 import SearchComponent from './search-component';
-
-// Mandatory
-export {
-  actions, reducers, initialState
-};
-
 
 class Search extends React.Component {
   componentDidMount() {
@@ -28,7 +20,7 @@ class Search extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.search.opened) {
+    if (this.props.header.searchOpened) {
       // If we don't wait until animation is over it won't focus
       // If we only animate opcity it won't make the leave animation
       setTimeout(() => {
@@ -61,12 +53,12 @@ class Search extends React.Component {
 }
 
 Search.propTypes = {
-  search: PropTypes.object
+  header: PropTypes.object
 };
 
 export default connect(
   state => ({
-    search: state.search
+    header: state.header
   }),
   actions
 )(Search);

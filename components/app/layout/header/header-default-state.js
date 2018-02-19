@@ -6,9 +6,9 @@ export default {
   },
   mobileOpened: false,
   searchOpened: false,
-
   items: [
     {
+      id: 'data',
       label: 'Data',
       route: 'data',
       pathnames: ['/app/Explore', '/app/ExploreDetail', '/app/Pulse'],
@@ -20,14 +20,16 @@ export default {
       ]
     },
     {
+      id: 'blog',
       label: 'Blog',
       route: 'insights',
       pathnames: ['/app/Insights']
     },
     {
+      id: 'about',
       label: 'About',
       route: 'about',
-      pathnames: ['/app/About'],
+      pathnames: ['/app/About', '/app/Partners'],
       children: [
         { label: 'Partners', route: 'about_partners' },
         { label: 'FAQs', route: 'about_faqs' },
@@ -36,14 +38,17 @@ export default {
       ]
     },
     {
+      id: 'get_involved',
       label: 'Get Involved',
       route: 'get_involved',
       pathnames: ['/app/GetInvolved']
     },
     {
+      id: 'search',
       label: 'Search'
     },
     {
+      id: 'myrw',
       label: 'Personal Area',
       route: 'myrw'
     }
