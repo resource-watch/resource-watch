@@ -7,6 +7,34 @@ import { toastr } from 'react-redux-toastr';
 import Icon from 'components/ui/Icon';
 
 class ShareModalComponent extends PureComponent {
+  static propTypes = {
+    links: PropTypes.object.isRequired,
+    shortLinks: PropTypes.object,
+    /**
+     * Define the category and action for the analytics
+     * event
+     */
+    analytics: PropTypes.shape({
+      facebook: PropTypes.func.isRequired,
+      twitter: PropTypes.func.isRequired,
+      copy: PropTypes.func.isRequired
+    }),
+
+    // Actions
+    fetchShortUrl: PropTypes.func,
+    resetShortLinks: PropTypes.func
+  };
+
+  static defaultProps = {
+    links: {},
+    analytics: {
+      facebook: () => {},
+      twitter: () => {},
+      copy: () => {}
+    }
+  };
+
+
   constructor(props) {
     super(props);
     this.inputs = {};
@@ -14,6 +42,19 @@ class ShareModalComponent extends PureComponent {
     this.state = {
       copied: {}
     };
+  }
+
+  componentDidMount() {
+    const { links } = this.props;
+    if (links.link) {
+      this.props.fetchShortUrl({
+        longUrl: links.link
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.resetShortLinks();
   }
 
   /**
@@ -52,7 +93,7 @@ class ShareModalComponent extends PureComponent {
 
 
   render() {
-    const { links } = this.props;
+    const { links, shortLinks } = this.props;
 
     return (
       <div className="c-share-modal">
@@ -62,6 +103,7 @@ class ShareModalComponent extends PureComponent {
         <div className="share-content">
           {Object.keys(links).map((type) => {
             const htmlFor = `share-${type}`;
+            const url = shortLinks[type] || links[type];
 
             switch (type) {
               case 'link':
@@ -78,14 +120,14 @@ class ShareModalComponent extends PureComponent {
                         id={htmlFor}
                         name={htmlFor}
                         className="share-input"
-                        value={links[type]}
+                        value={url}
                         readOnly
                       />
 
                       <div className="share-buttons">
                         <a
                           className="c-btn -secondary -compressed -square"
-                          href={`http://www.facebook.com/sharer/sharer.php?u=${links[type]}`}
+                          href={`http://www.facebook.com/sharer/sharer.php?u=${url}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={() => this.props.analytics.facebook(type)}
@@ -95,7 +137,7 @@ class ShareModalComponent extends PureComponent {
 
                         <a
                           className="c-btn -secondary -compressed -square"
-                          href={`https://twitter.com/share?url=${links[type]}&text=${encodeURIComponent(document.title)}`}
+                          href={`https://twitter.com/share?url=${url}&text=${encodeURIComponent(document.title)}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={() => this.props.analytics.twitter(type)}
@@ -129,7 +171,7 @@ class ShareModalComponent extends PureComponent {
                         id={htmlFor}
                         name={htmlFor}
                         className="share-input"
-                        value={`<iframe src=${links[type]} width="100%" height="500px" frameBorder="0" />`}
+                        value={`<iframe src=${url} width="100%" height="500px" frameBorder="0" />`}
                         readOnly
                       />
 
@@ -156,27 +198,5 @@ class ShareModalComponent extends PureComponent {
     );
   }
 }
-
-ShareModalComponent.propTypes = {
-  links: PropTypes.object.isRequired,
-  /**
-   * Define the category and action for the analytics
-   * event
-   */
-  analytics: PropTypes.shape({
-    facebook: PropTypes.func.isRequired,
-    twitter: PropTypes.func.isRequired,
-    copy: PropTypes.func.isRequired
-  })
-};
-
-ShareModalComponent.defaultProps = {
-  links: {},
-  analytics: {
-    facebook: () => {},
-    twitter: () => {},
-    copy: () => {}
-  }
-};
 
 export default ShareModalComponent;
