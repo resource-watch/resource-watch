@@ -6,8 +6,6 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { getStaticData } from 'redactions/static_pages';
 import { getInsights } from 'redactions/insights';
-import { setUser } from 'redactions/user';
-import { setRouter } from 'redactions/routes';
 
 // Components
 import Page from 'components/app/layout/Page';
@@ -28,17 +26,19 @@ import DevelopYourAppPostContent from 'components/app/static-pages/get-involved/
 import AppsPostContent from 'components/app/static-pages/get-involved/post-content/Apps';
 
 class GetInvolvedDetail extends Page {
-  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
-    const { user } = isServer ? req : store.getState();
-    const url = { asPath, pathname, query };
-    await store.dispatch(setUser(user));
-    store.dispatch(setRouter(url));
-    await store.dispatch(getStaticData(query.id));
-    if (query.id === 'submit-an-insight') {
-      await store.dispatch(getInsights());
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+
+    const { routes } = context.store.getState();
+
+    // Get static data
+    context.store.dispatch(getStaticData(routes.query.id));
+    if (routes.query.id === 'submit-an-insight') {
+      await context.store.dispatch(getInsights());
     }
-    return { isServer, user, url };
+    return { ...props };
   }
+
 
   static getContent(id, props = {}) {
     const pageNotFound = () => null;
