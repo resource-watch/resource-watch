@@ -1,10 +1,13 @@
 .l-map {
-  $header-height: 75px;
-
   position: absolute;
-  top: $header-height;
+  top: $header-main-height-mobile;
   left: 0;
   right: 0;
   bottom: 0;
   width: 100%;
+  overflow: hidden;
+
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    top: $header-main-height;
+  }
 }

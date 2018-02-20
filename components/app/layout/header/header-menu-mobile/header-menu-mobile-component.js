@@ -13,7 +13,7 @@ export default class HeaderMenuMobile extends React.PureComponent {
     header: PropTypes.object,
     routes: PropTypes.object,
     // Actions
-    setMobileOpened: PropTypes.func9
+    setMobileOpened: PropTypes.func
   }
 
   static defaultProps = {
@@ -94,7 +94,7 @@ export default class HeaderMenuMobile extends React.PureComponent {
                     {item.children &&
                       <ul>
                         {item.children.map(c => (
-                          <li>
+                          <li key={c.route}>
                             {!!c.route &&
                               <Link
                                 route={c.route}
