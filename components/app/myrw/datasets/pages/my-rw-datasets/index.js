@@ -24,7 +24,15 @@ class MyRWDatasetsMyContainer extends PureComponent {
   }
 
   render() {
-    return (<MyRWDatasetsMy {...this.props} />);
+    return (
+      <MyRWDatasetsMy
+        {...this.props}
+        routes={{
+          index: 'myrw',
+          detail: 'myrw_detail'
+        }}
+      />
+    );
   }
 }
 

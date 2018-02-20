@@ -73,7 +73,7 @@ export default function WidgetBlock({
                 overlayStyle={{
                   color: '#fff'
                 }}
-                placement="bottom"
+                placement="bottomLeft"
                 trigger="click"
               >
                 <button

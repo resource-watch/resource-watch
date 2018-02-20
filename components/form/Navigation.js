@@ -8,10 +8,6 @@ import Spinner from 'components/ui/Spinner';
 class Navigation extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      step: props.step,
-      stepLength: props.stepLength
-    };
 
     this.onStepChange = this.onStepChange.bind(this);
     this.onBack = this.onBack.bind(this);
@@ -35,7 +31,10 @@ class Navigation extends React.Component {
   }
 
   render() {
-    const { step, stepLength, submitting, hideCancel } = this.props;
+    const {
+      step, stepLength, submitting, hideCancel
+    } = this.props;
+
     const submittingClassName = classnames({
       '-submitting': submitting
     });

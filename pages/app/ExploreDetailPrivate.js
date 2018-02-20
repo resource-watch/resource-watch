@@ -30,11 +30,14 @@ import Layout from 'components/app/layout/Layout';
 import Icon from 'components/ui/Icon';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Spinner from 'components/ui/Spinner';
-import ShareExploreDetailModal from 'components/modal/ShareExploreDetailModal';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import LoginModal from 'components/modal/LoginModal';
 import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';
+
+// Modal
+import Modal from 'components/modal/modal-component';
+import ShareModal from 'components/modal/share-modal';
 
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
@@ -63,7 +66,8 @@ class ExploreDetailPrivate extends Page {
       showFunction: false,
       showCautions: false,
       inferredTags: [],
-      favourite: null
+      favourite: null,
+      showShareModal: false
     };
 
     // DatasetService
@@ -77,7 +81,6 @@ class ExploreDetailPrivate extends Page {
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
     // ---------------------- Bindings --------------------------
-    this.handleShare = this.handleShare.bind(this);
     this.handleSubscribe = this.handleSubscribe.bind(this);
     this.handleTagClick = this.handleTagClick.bind(this);
     this.handleFavoriteButtonClick = this.handleFavoriteButtonClick.bind(this);
@@ -205,29 +208,13 @@ class ExploreDetailPrivate extends Page {
 
   /**
    * UI EVENTS
-   * - handleShare
+   * - handleToggleShareModal
    * - handleSubscribe
   */
-  handleShare() {
-    const { dataset } = this.state;
-    const widgets = dataset && dataset.attributes.widget;
-    let widget = null;
-    if (widgets) {
-      widget = widgets.find(value => value.attributes.default === true);
-    }
-    const options = {
-      children: ShareExploreDetailModal,
-      childrenProps: {
-        url: window.location.href,
-        datasetId: this.state.dataset.id,
-        datasetName: this.state.dataset.attributes.name,
-        showEmbed: widget && widget.attributes !== null,
-        toggleModal: this.props.toggleModal
-      }
-    };
-    this.props.toggleModal(true);
-    this.props.setModalOptions(options);
+  handleToggleShareModal = (bool) => {
+    this.setState({ showShareModal: bool });
   }
+
 
   handleSubscribe() {
     const { user } = this.props;
@@ -347,6 +334,7 @@ class ExploreDetailPrivate extends Page {
     const metadata = metadataObj && metadataObj.length > 0 && metadataObj[0];
     const metadataAttributes = (metadata && metadata.attributes) || {};
     const metadataInfo = (metadataAttributes && metadataAttributes.info) || {};
+    const datasetName = metadataInfo && metadataInfo.name ? metadataInfo.name : (dataset && dataset.attributes && dataset.attributes.name);
     const { description } = metadataAttributes;
     const { functions, cautions } = metadataInfo;
 
@@ -363,7 +351,7 @@ class ExploreDetailPrivate extends Page {
 
     return (
       <Layout
-        title={metadataInfo && metadataInfo.name ? metadataInfo.name : (dataset && dataset.attributes && dataset.attributes.name)}
+        title={datasetName}
         description={description || ''}
         category="Dataset"
         url={url}
@@ -385,7 +373,7 @@ class ExploreDetailPrivate extends Page {
                 />
 
                 <h1>
-                  {metadataInfo && metadataInfo.name ? metadataInfo.name : (dataset && dataset.attributes && dataset.attributes.name)}
+                  {datasetName}
                 </h1>
 
                 <div className="page-header-info">
@@ -410,6 +398,31 @@ class ExploreDetailPrivate extends Page {
                       </li>
                     }
                     {/* Favorites */}
+
+                    {/* Favorites */}
+                    <li>
+                      <button className="c-btn -tertiary -alt -clean" onClick={() => this.handleToggleShareModal(true)}>
+                        <Icon name="icon-share" className="-small" />
+                        <span>Share</span>
+                      </button>
+
+                      <Modal
+                        isOpen={this.state.showShareModal}
+                        className="-medium"
+                        onRequestClose={() => this.handleToggleShareModal(false)}
+                      >
+                        <ShareModal
+                          links={{
+                            link: typeof window !== 'undefined' && window.location.href
+                          }}
+                          analytics={{
+                            facebook: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Facebook'),
+                            twitter: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Twitter'),
+                            copy: type => logEvent('Share', `Share dataset: ${datasetName}`, `Copy ${type}`)
+                          }}
+                        />
+                      </Modal>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -429,12 +442,6 @@ class ExploreDetailPrivate extends Page {
                 </div>
                 <div className="column large-offset-2 small-12 medium-3">
                   <div className="dataset-info-actions">
-                    <button
-                      className="c-button -primary -fullwidth"
-                      onClick={this.handleShare}
-                    >
-                      Share dataset
-                    </button>
                     {metadataInfo && metadataInfo.data_download_link &&
                       <a
                         className="c-button -primary -fullwidth"

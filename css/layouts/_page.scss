@@ -45,11 +45,17 @@
 
     .page-header-content {
       color: $alt-font-color;
-      padding: $margin-size-small 0;
+      padding: $margin-size-small 0 $margin-size-small;
 
       h1 {
         color: $alt-font-color;
         margin-bottom: 0;
+      }
+
+      h3 {
+        color: $alt-font-color;
+        margin: $space-1 * 2 0px $space-1 * 5;
+        font-weight: $font-weight-light;
       }
 
       &.-with-tabs {
@@ -62,7 +68,7 @@
     }
 
     .page-header-info {
-      margin: $space-1 * 2 0 0 $space-1;
+      margin: $space-1 * 2 0 0;
 
       ul {
         margin: 0;
@@ -76,7 +82,7 @@
         li {
           margin: 0 0 0 $space-1 * 4;
 
-          &:first-child { margin: 0; }
+          &:first-child{ margin: 0; }
 
           a {
             color: $white;
@@ -87,7 +93,8 @@
 
     @media screen and (min-width: map-get($breakpoints, medium)) {
       .page-header-content {
-        padding: $margin-size 0;
+        padding: $margin-size-small 0 $margin-size;
+
         h1 {
           margin-bottom: inherit;
         }

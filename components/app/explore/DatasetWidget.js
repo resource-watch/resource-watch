@@ -281,7 +281,7 @@ class DatasetWidget extends React.Component {
                   overlayStyle={{
                     color: '#fff'
                   }}
-                  placement="bottom"
+                  placement="bottomLeft"
                   trigger="click"
                 >
                   <button
@@ -319,7 +319,7 @@ class DatasetWidget extends React.Component {
               <div className="actions">
                 <Link route="explore_detail" params={{ id: this.props.dataset.id }}>
                   <a className="c-button -secondary -compressed">
-                    Explore
+                    More info
                   </a>
                 </Link>
                 {/* Add to Map Button */}

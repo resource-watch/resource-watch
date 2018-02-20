@@ -24,8 +24,8 @@ module.exports = {
       {
         test: /\.s(a|c)ss$/,
         use: [
-          'babel-loader',
-          'raw-loader',
+          { loader: 'babel-loader', query: { compact: false } },
+          { loader: 'raw-loader' },
           { loader: 'postcss-loader' },
           {
             loader: 'sass-loader',
@@ -60,7 +60,8 @@ module.exports = {
         'process.env.TRANSIFEX_LIVE_API': JSON.stringify(process.env.TRANSIFEX_LIVE_API),
         'process.env.BING_MAPS_API_KEY': JSON.stringify(process.env.BING_MAPS_API_KEY),
         'process.env.API_ENV': JSON.stringify(process.env.API_ENV),
-        'process.env.GOOGLE_ANALYTICS': JSON.stringify(process.env.GOOGLE_ANALYTICS)
+        'process.env.GOOGLE_ANALYTICS': JSON.stringify(process.env.GOOGLE_ANALYTICS),
+        'process.env.GOGGLE_API_TOKEN_SHORTENER': JSON.stringify(process.env.GOGGLE_API_TOKEN_SHORTENER)
       }),
       new CopyWebpackPlugin([
         {

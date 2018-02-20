@@ -10,6 +10,7 @@ export default class Page extends PureComponent {
     await store.dispatch(setUser(user));
     await store.dispatch(getUserFavourites());
     await store.dispatch(getUserCollections());
+
     return { user, isServer, url };
   }
 }

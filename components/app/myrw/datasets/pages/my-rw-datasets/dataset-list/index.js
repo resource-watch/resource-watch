@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // actions
-import { getDatasetsByTab, setPaginationPage, setPaginationTotal } from 'redactions/admin/datasets';
+import { getDatasetsByTab, setPaginationPage, setPaginationTotal, resetDatasets } from 'redactions/admin/datasets';
 
 // components
 import DatasetList from './dataset-list-component';
@@ -16,7 +16,8 @@ class DatasetListContainer extends PureComponent {
     getDatasetsByTab: PropTypes.func,
     setFilters: PropTypes.func,
     setPaginationPage: PropTypes.func,
-    setPaginationTotal: PropTypes.func
+    setPaginationTotal: PropTypes.func,
+    resetDatasets: PropTypes.func
   }
 
   componentWillMount() {
@@ -34,6 +35,10 @@ class DatasetListContainer extends PureComponent {
     if (tabChanged || paginationPageChanged || orderDirectionChanged) {
       this.props.getDatasetsByTab(nextProps.currentTab);
     }
+  }
+
+  componentWillUnmount() {
+    this.props.resetDatasets();
   }
 
   render() {
@@ -55,7 +60,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   getDatasetsByTab,
   setPaginationPage,
-  setPaginationTotal
+  setPaginationTotal,
+  resetDatasets
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetListContainer);

@@ -1,15 +1,19 @@
 import React from 'react';
+import { render } from 'react-dom';
 import PropTypes from 'prop-types';
+
+import compact from 'lodash/compact';
 import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
+
+import { LABELS, BOUNDARIES } from 'components/ui/map/constants';
 
 // Components
+import MapPopup from 'components/ui/map/MapPopup';
 import Spinner from 'components/ui/Spinner';
 
 // Redux
 import { connect } from 'react-redux';
-
-import { LABELS } from 'components/ui/map/constants';
-
 
 // Leaflet can't be imported on the server because it's not isomorphic
 const L = (typeof window !== 'undefined') ? require('leaflet') : null;
@@ -71,6 +75,7 @@ class Map extends React.Component {
     this.setMapEventListeners();
 
     this.setLabels(this.props.labels);
+    this.setBoundaries(this.props.boundaries);
 
     // Add layers
     this.setLayerManager();
@@ -139,6 +144,43 @@ class Map extends React.Component {
     if (this.props.labels !== nextProps.labels) {
       this.setLabels(nextProps.labels);
     }
+
+    if (this.props.boundaries !== nextProps.boundaries) {
+      this.setBoundaries(nextProps.boundaries);
+    }
+
+    // POPUP
+    if (
+      nextProps.interactionLatLng &&
+      (
+        // interactionSelected changed
+        this.props.interactionSelected !== nextProps.interactionSelected) ||
+
+        // interaction changed
+        (
+          !isEmpty(nextProps.interaction) &&
+          !isEqual(this.props.interaction, nextProps.interaction)
+        )
+    ) {
+      // Get the current interactive layer content
+      const currentContent = render(
+        MapPopup({
+          interaction: nextProps.interaction,
+          interactionSelected: nextProps.interactionSelected,
+          interactionLayers: compact(nextLayerGroups.map(g =>
+            g.layers.find(l => l.active && !isEmpty(l.interactionConfig))
+          )),
+          onChangeInteractiveLayer: this.props.setLayerInteractionSelected
+        }),
+        window.document.createElement('div')
+      );
+
+      this.popup = this.popup || L.popup();
+      this.popup
+        .setLatLng(nextProps.interactionLatLng)
+        .setContent(currentContent)
+        .openOn(this.map);
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -167,7 +209,11 @@ class Map extends React.Component {
 
     this.layerManager = new this.props.LayerManager(this.map, {
       onLayerAddedSuccess: stopLoading,
-      onLayerAddedError: stopLoading
+      onLayerAddedError: stopLoading,
+      onLayerClick: (layer) => {
+        this.props.setLayerInteractionLatLng(layer.latlng);
+        this.props.setLayerInteraction(layer);
+      }
     });
   }
 
@@ -189,14 +235,40 @@ class Map extends React.Component {
       .setZIndex(0);
   }
 
-  setLabels(enabled) {
-    if (this.labelLayer && !enabled) this.labelLayer.remove();
+  /**
+   * Set the labels layer
+   * @param {string} labelsId
+   */
+  setLabels(labelsId) {
+    if (this.labelLayer) this.labelLayer.remove();
 
-    if (enabled) {
-      this.labelLayer = L.tileLayer(LABELS.value, LABELS.options || {})
+    if (labelsId !== 'none') {
+      const labels = LABELS[labelsId];
+
+      this.labelLayer = L.tileLayer(labels.value, labels.options || {})
+        .addTo(this.map)
+        .setZIndex(this.props.layerGroups.length + 2);
+    }
+  }
+
+  /**
+   * Set the boundaries layer
+   * @param {boolean} visible Whether the boundaries are visible or not
+   */
+  setBoundaries(visible) {
+    if (!visible && this.boundariesLayer) {
+      this.boundariesLayer.remove();
+      this.boundariesLayer = undefined;
+    } else if (visible && !this.boundariesLayer) {
+      const boundaries = BOUNDARIES.dark;
+      this.boundariesLayer = L.tileLayer(boundaries.value, boundaries.options || {})
         .addTo(this.map)
         .setZIndex(this.props.layerGroups.length + 1);
     }
+  }
+
+  setInteraction() {
+
   }
 
   // GETTERS
@@ -292,20 +364,30 @@ Map.propTypes = {
   interactionEnabled: PropTypes.bool.isRequired,
   setMapInstance: PropTypes.func,
   // STORE
-  basemap: PropTypes.object,
-  labels: PropTypes.bool,
   mapConfig: PropTypes.object,
-  filters: PropTypes.object,
   sidebar: PropTypes.object,
-  LayerManager: PropTypes.func,
+  basemap: PropTypes.object,
+  labels: PropTypes.string,
+  boundaries: PropTypes.bool,
+  filters: PropTypes.object,
   layerGroups: PropTypes.array, // List of LayerGroup items
+  interaction: PropTypes.object,
+  interactionSelected: PropTypes.string,
+  interactionLatLng: PropTypes.object,
+  LayerManager: PropTypes.func,
+
   // ACTIONS
-  setMapParams: PropTypes.func
+  setMapParams: PropTypes.func,
+  setLayerInteraction: PropTypes.func,
+  setLayerInteractionSelected: PropTypes.func,
+  setLayerInteractionLatLng: PropTypes.func,
+  resetLayerInteraction: PropTypes.func
 };
 
 const mapStateToProps = state => ({
   basemap: state.explore.basemap,
   labels: state.explore.labels,
+  boundaries: state.explore.boundaries,
   sidebar: state.explore.sidebar
 });
 

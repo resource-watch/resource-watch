@@ -14,7 +14,7 @@ import FileImage from 'components/form/FileImage';
 import Checkbox from 'components/form/Checkbox';
 
 // Wysiwyg
-import Wysiwyg from 'components/form/Wysiwyg';
+import Wysiwyg from 'components/form/VizzWysiwyg';
 import WidgetBlock from 'components/dashboards/wysiwyg/widget-block/widget-block';
 import WidgetBlockEdition from 'components/dashboards/wysiwyg/widget-block-edition/widget-block-edition';
 

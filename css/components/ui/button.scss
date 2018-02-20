@@ -18,6 +18,7 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
   background: none;
 
   color: $color-primary;
+  fill: $color-primary;
   font-size: $font-size-medium;
   font-weight: $font-weight-regular;
   font-family: inherit;
@@ -37,6 +38,14 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
   }
 
+  > * {
+    margin-left: 5px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
   &.-a, &.-b, &.-c,
   &.-primary, &.-secondary, &.-tertiary {
     padding: 0 $margin-size-small;
@@ -45,6 +54,7 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
 
   &.-a, &.-primary {
     color: $alt-font-color;
+    fill: $alt-font-color;
     background-color: $color-primary;
 
     &:hover {
@@ -55,6 +65,7 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
     &.-alt {
       background-color: $body-bg-color;
       color: $color-primary;
+      fill: $color-primary;
 
       &:hover{
         box-shadow: $btn-hover-shadow;
@@ -64,6 +75,7 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
 
   &.-b, &.-secondary {
     color: $color-primary;
+    fill: $color-primary;
     background-color: $body-bg-color;
     border-color: $btn-border-color;
     &:hover {
@@ -72,6 +84,7 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
     &.-alt {
       background-color: transparent;
       color: $alt-font-color;
+      fill: $alt-font-color;
       border-color: $btn-border-alt-color;
       &:hover{
         background-color: $btn-bg-hover-alt-color;
@@ -80,6 +93,7 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
 
     &[disabled], &.-disabled {
       color: rgba($ui-font-color, 0.5);
+      fill: rgba($ui-font-color, 0.5);
       border-color: $border-color-1;
       cursor: default;
 
@@ -90,13 +104,15 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
   }
 
   &.-c, &.-tertiary {
-    &:hover {
+    &:not(.-clean):hover {
       background-color: $btn-bg-hover-color;
     }
+
     &.-alt {
       color: $alt-font-color;
+      fill: $alt-font-color;
 
-      &:hover{
+      &:not(.-clean):hover {
         background-color: rgba($body-bg-color, 0.1);
       }
     }
@@ -112,6 +128,18 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
     padding-left: $margin-size-extra-small;
     padding-right: $margin-size-extra-small;
     height: 30px;
+    font-size: $font-size-small;
+
+    &.-square {
+      padding: 0;
+      width: 30px;
+    }
+  }
+
+  &.-clean {
+    padding: 0;
+    height: auto;
+    line-height: normal;
   }
 }
 

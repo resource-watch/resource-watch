@@ -71,7 +71,7 @@ class WidgetCard extends PureComponent {
    * @returns {boolean}
    */
   static isMapWidget(widget) {
-    return !!(widget
+    return !!(widget && widget.widgetConfig
       // Some widgets have not been created with the widget editor
       // so the paramsConfig attribute doesn't exist
       && (
@@ -95,7 +95,7 @@ class WidgetCard extends PureComponent {
    * @returns {boolean}
    */
   static isEmbedWidget(widget) {
-    return !!(widget
+    return !!(widget && widget.widgetConfig
       // Some widgets have not been created with the widget editor
       // so the paramsConfig attribute doesn't exist
       && (
@@ -119,7 +119,7 @@ class WidgetCard extends PureComponent {
    * @returns {boolean}
    */
   static isTextualWidget(widget) {
-    return !!(widget
+    return !!(widget && widget.widgetConfig
       // The widgets that are created through the widget editor
       // don't have any "type" attribute
       && widget.widgetConfig.type
@@ -151,7 +151,6 @@ class WidgetCard extends PureComponent {
     this.handleEditWidget = this.handleEditWidget.bind(this);
     this.handleGoToDataset = this.handleGoToDataset.bind(this);
     this.handleDownloadPDF = this.handleDownloadPDF.bind(this);
-    this.handleWidgetActionsClick = this.handleWidgetActionsClick.bind(this);
     // ----------------------------------------------------------
   }
 
@@ -373,7 +372,7 @@ class WidgetCard extends PureComponent {
     link.dispatchEvent(event);
   }
 
-  handleWidgetActionsClick(event) {
+  handleWidgetActionsClick(event, isWidgetOwner) {
     const { widget } = this.props;
     const widgetAtts = widget;
     const widgetLinks = (widgetAtts.metadata && widgetAtts.metadata.length > 0 &&
@@ -391,7 +390,8 @@ class WidgetCard extends PureComponent {
         onGoToDataset: this.handleGoToDataset,
         onEditWidget: this.handleEditWidget,
         onDownloadPDF: this.handleDownloadPDF,
-        widgetLinks
+        widgetLinks,
+        isWidgetOwner
       }
     });
   }
@@ -439,28 +439,32 @@ class WidgetCard extends PureComponent {
               {WidgetCard.getDescription(widget.description)}
             </p>
 
-            {showFavourite && <Tooltip
-              overlay={<CollectionsPanel
-                resource={widget}
-                resourceType="widget"
-              />}
-              overlayClassName="c-rc-tooltip"
-              overlayStyle={{
-                color: '#fff'
-              }}
-              placement="bottom"
-              trigger="click"
-            >
-              <button
-                className="c-btn favourite-button"
-                tabIndex={-1}
+            {showFavourite &&
+              <Tooltip
+                overlay={
+                  <CollectionsPanel
+                    resource={widget}
+                    resourceType="widget"
+                  />
+                }
+                overlayClassName="c-rc-tooltip"
+                overlayStyle={{
+                  color: '#fff'
+                }}
+                placement="bottomLeft"
+                trigger="click"
               >
-                <Icon
-                  name={starIconName}
-                  className="-star -small"
-                />
-              </button>
-            </Tooltip>}
+                <button
+                  className="c-btn favourite-button"
+                  tabIndex={-1}
+                >
+                  <Icon
+                    name={starIconName}
+                    className="-star -small"
+                  />
+                </button>
+              </Tooltip>
+            }
           </div>
 
           {(showActions || showRemove || showEmbed) &&
@@ -468,12 +472,12 @@ class WidgetCard extends PureComponent {
               {showActions &&
                 <button
                   className="c-button -secondary widget-actions"
-                  onClick={this.handleWidgetActionsClick}
+                  onClick={e => this.handleWidgetActionsClick(e, (widget.userId === user.id))}
                 >
                   Widget actions
                 </button>
               }
-              {showRemove &&
+              {showRemove && (widget.userId === user.id) &&
                 <button
                   className="c-button -tertiary"
                   onClick={this.handleRemoveWidget}

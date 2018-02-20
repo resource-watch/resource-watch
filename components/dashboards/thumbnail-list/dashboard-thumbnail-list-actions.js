@@ -10,6 +10,7 @@ export const setSelected = createAction('DASHBOARD_THUMBNAIL_LIST_SELECTED');
 export const setExpanded = createAction('DASHBOARD_THUMBNAIL_LIST_EXPANDED');
 export const setTotal = createAction('DASHBOARD_THUMBNAIL_LIST_TOTAL');
 export const setPagination = createAction('DASHBOARD_THUMBNAIL_LIST_PAGINATION');
+export const setAdd = createAction('DASHBOARD_THUMBNAIL_ADD');
 
 // Async actions
 export const fetchDashboards = createThunkAction('DASHBOARD_THUMBNAIL_LIST_FETCH_DATA', (payload = {}) => (dispatch) => {

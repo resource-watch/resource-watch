@@ -107,7 +107,7 @@ class Layout extends React.Component {
     const fullScreen = url.pathname && fullScreenPages.indexOf(url.pathname) !== -1;
 
     return (
-      <div className={`l-page ${className}`}>
+      <div id="#main" className={`l-page ${className}`}>
         <Head
           title={title}
           description={description}

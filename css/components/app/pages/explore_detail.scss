@@ -1,10 +1,5 @@
 .c-page-explore-detail {
 
-  .favourite-button {
-    fill: $white;
-    cursor: pointer;
-  }
-
   .c-configurable-widget {
 
     position:relative;
@@ -53,20 +48,6 @@
     padding: 0px;
   }
 
-  .learn-more-button {
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
-
-    div {
-      padding-bottom: 4px;
-    }
-
-    svg {
-      margin-left: 5px;
-    }
-  }
-
   .tags {
     display: flex;
     justify-content: flex-start;
@@ -87,13 +68,6 @@
 
   .c-page-section.similar-datasets {
     padding: 0px;
-  }
-
-  .related-tools {
-
-    .c-card-app {
-      max-width: 340px;
-    }
   }
 
   .c-page-section.pulse-banner-section {
@@ -130,20 +104,6 @@
 
   h2 {
     color: $color-dark-pink;
-  }
-
-  .shortened-text {
-    .read-more {
-      padding: 0;
-      margin-left: 5px;
-      color: $color-primary;
-      cursor: pointer;
-
-      &.-less {
-        display: block;
-        margin: 5px 0 0 0;
-      }
-    }
   }
 
   .partner-container {

@@ -22,7 +22,6 @@ import Layout from 'components/app/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 // import Spinner from 'components/ui/Spinner';
 // import WidgetEditor from 'components/widgets/editor/WidgetEditor';
-// import ShareExploreDetailModal from 'components/modal/ShareExploreDetailModal';
 // import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 // import DatasetList from 'components/app/explore/DatasetList';
 import Banner from 'components/app/common/Banner';

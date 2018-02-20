@@ -6,9 +6,11 @@ import PropTypes from 'prop-types';
 import Title from 'components/ui/Title';
 
 function CardApp(props) {
-  const { background, title, description, link, className } = props;
+  const {
+    background, title, description, link, className
+  } = props;
+
   const classNames = classnames({
-    'c-card-app': true,
     [className]: className
   });
 
@@ -20,7 +22,7 @@ function CardApp(props) {
         <div
           className="card-background"
           style={{
-            background: `url(${background})`
+            backgroundImage: `url(${background})`
           }}
         />
       }
