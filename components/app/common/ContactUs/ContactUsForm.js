@@ -1,11 +1,11 @@
 import React from 'react';
-import { Serializer } from 'jsonapi-serializer';
 
 // Services
 import { toastr } from 'react-redux-toastr';
 import ContactUsService from 'services/ContactUsService';
 
 // Components
+import Spinner from 'components/ui/Spinner';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import TextArea from 'components/form/TextArea';
@@ -41,14 +41,17 @@ class ContactUsForm extends React.Component {
       const valid = FORM_ELEMENTS.isValid(this.state.form);
 
       if (valid) {
+        this.setState({ submitting: true });
         // Save data
         this.service.saveData({
           body: this.state.form
         })
           .then(() => {
+            this.setState({ submitting: false });
             toastr.success('Success', 'Your message has been sent!');
           })
           .catch(() => {
+            this.setState({ submitting: false });
             toastr.error('Error', 'Oops!! There was an error. Try again');
           });
       } else {
@@ -63,13 +66,15 @@ class ContactUsForm extends React.Component {
   }
 
   render() {
+    const { submitting } = this.state;
+
     return (
       <div className="c-contact-us">
         <form className="c-form" onSubmit={this.onSubmit} noValidate>
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
             onChange={value => this.onChange({ email: value })}
-            validations={['required']}
+            validations={['required', 'email']}
             className="-fluid"
             properties={{
               name: 'email',
@@ -85,10 +90,12 @@ class ContactUsForm extends React.Component {
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.text = c; }}
             onChange={value => this.onChange({ text: value })}
+            validations={['required']}
             className="-fluid"
             properties={{
               name: 'text',
               label: 'Message',
+              required: true,
               default: this.state.form.text
             }}
           >
@@ -97,7 +104,8 @@ class ContactUsForm extends React.Component {
 
           <div className="actions-container -align-right">
             <button type="submit" className="c-btn -primary">
-                Send
+              {submitting && <Spinner className="-small -transparent -white-icon" isLoading={submitting} />}
+              Save
             </button>
           </div>
         </form>
