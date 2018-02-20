@@ -27,7 +27,7 @@ class LayerMenuComponent extends PureComponent {
       <div className="c-layer-nav">
         <div className="l-container">
           <ul className="layer-nav-list">
-            {layersGroup.length > 0 && layersGroup[0].layers.map(this.createItemGroup)}
+            {layersGroup.length > 0 && layersGroup[0].layers.map(g => this.createItemGroup(g))}
           </ul>
         </div>
       </div>
