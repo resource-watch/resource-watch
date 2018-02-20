@@ -21,7 +21,7 @@ import { substitution } from 'utils/utils';
 import { logEvent } from 'utils/analytics';
 
 // Components
-import LayerNav from 'components/app/pulse/LayerNav';
+import LayerNav from 'components/app/pulse/layer-menu';
 import LayerCard from 'components/app/pulse/LayerCard';
 import Spinner from 'components/ui/Spinner';
 import ZoomControl from 'components/ui/ZoomControl';
