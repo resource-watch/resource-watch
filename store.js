@@ -7,6 +7,11 @@ import * as reducers from 'redactions';
 
 // New modules
 import { handleModule } from 'redux-tools';
+
+// Share
+import * as shareModal from 'components/modal/share-modal';
+
+// Search
 import * as search from 'components/app/layout/search/search';
 
 // Dashboard
@@ -39,6 +44,8 @@ const reducer = combineReducers({
   ...widgetEditorModules,
 
   search: handleModule(search),
+
+  shareModal: handleModule(shareModal),
 
   // Dashboards
   dashboardDetail: handleModule(dashboardDetail),
