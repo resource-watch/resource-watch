@@ -105,7 +105,7 @@ class ContactUsForm extends React.Component {
           <div className="actions-container -align-right">
             <button type="submit" className="c-btn -primary">
               {submitting && <Spinner className="-small -transparent -white-icon" isLoading={submitting} />}
-              Save
+              Submit
             </button>
           </div>
         </form>
