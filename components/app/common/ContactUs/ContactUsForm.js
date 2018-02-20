@@ -2,8 +2,10 @@ import React from 'react';
 
 // Services
 import { toastr } from 'react-redux-toastr';
+import ContactUsService from 'services/ContactUsService';
 
 // Components
+import Spinner from 'components/ui/Spinner';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import TextArea from 'components/form/TextArea';
@@ -19,6 +21,8 @@ class ContactUsForm extends React.Component {
     this.state = Object.assign({}, STATE_DEFAULT, {
       form: STATE_DEFAULT.form
     });
+
+    this.service = new ContactUsService();
   }
 
   /**
@@ -37,7 +41,19 @@ class ContactUsForm extends React.Component {
       const valid = FORM_ELEMENTS.isValid(this.state.form);
 
       if (valid) {
-        toastr.success('Success', 'Your message has been sent!');
+        this.setState({ submitting: true });
+        // Save data
+        this.service.saveData({
+          body: this.state.form
+        })
+          .then(() => {
+            this.setState({ submitting: false });
+            toastr.success('Success', 'Your message has been sent!');
+          })
+          .catch(() => {
+            this.setState({ submitting: false });
+            toastr.error('Error', 'Oops!! There was an error. Try again');
+          });
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
@@ -50,13 +66,15 @@ class ContactUsForm extends React.Component {
   }
 
   render() {
+    const { submitting } = this.state;
+
     return (
       <div className="c-contact-us">
         <form className="c-form" onSubmit={this.onSubmit} noValidate>
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
             onChange={value => this.onChange({ email: value })}
-            validations={['required']}
+            validations={['required', 'email']}
             className="-fluid"
             properties={{
               name: 'email',
@@ -70,13 +88,15 @@ class ContactUsForm extends React.Component {
           </Field>
 
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.message = c; }}
-            onChange={value => this.onChange({ message: value })}
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.text = c; }}
+            onChange={value => this.onChange({ text: value })}
+            validations={['required']}
             className="-fluid"
             properties={{
-              name: 'message',
+              name: 'text',
               label: 'Message',
-              default: this.state.form.message
+              required: true,
+              default: this.state.form.text
             }}
           >
             {TextArea}
@@ -84,7 +104,8 @@ class ContactUsForm extends React.Component {
 
           <div className="actions-container -align-right">
             <button type="submit" className="c-btn -primary">
-                Send
+              {submitting && <Spinner className="-small -transparent -white-icon" isLoading={submitting} />}
+              Submit
             </button>
           </div>
         </form>

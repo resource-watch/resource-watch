@@ -11,6 +11,9 @@ import { handleModule } from 'redux-tools';
 // Header
 import * as header from 'components/app/layout/header';
 
+// Share
+import * as shareModal from 'components/modal/share-modal';
+
 // Dashboard
 import * as dashboardDetail from 'components/dashboards/detail/dashboard-detail';
 import * as dashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
@@ -48,6 +51,8 @@ const reducer = combineReducers({
 
   // Header
   header: handleModule(header),
+
+  shareModal: handleModule(shareModal),
 
   // Dashboards
   dashboardDetail: handleModule(dashboardDetail),
