@@ -5,8 +5,6 @@ import renderHTML from 'react-render-html';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { getStaticData } from 'redactions/static_pages';
-import { setUser } from 'redactions/user';
-import { setRouter } from 'redactions/routes';
 
 import { Link } from 'routes';
 import Banner from 'components/app/common/Banner';
@@ -80,13 +78,12 @@ const cards = [
 ];
 
 class GetInvolved extends Page {
-  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
-    const { user } = isServer ? req : store.getState();
-    const url = { asPath, pathname, query };
-    await store.dispatch(setUser(user));
-    store.dispatch(setRouter(url));
-    await store.dispatch(getStaticData('get-involved'));
-    return { isServer, user, url };
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+
+    // Get static data
+    await context.store.dispatch(getStaticData('get-involved'));
+    return { ...props };
   }
 
   render() {

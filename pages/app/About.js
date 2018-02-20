@@ -6,8 +6,6 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { bindActionCreators } from 'redux';
 import { getStaticData } from 'redactions/static_pages';
-import { setUser } from 'redactions/user';
-import { setRouter } from 'redactions/routes';
 
 import { Link } from 'routes';
 import Page from 'components/app/layout/Page';
@@ -15,13 +13,13 @@ import Layout from 'components/app/layout/Layout';
 import Banner from 'components/app/common/Banner';
 
 class About extends Page {
-  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
-    const { user } = isServer ? req : store.getState();
-    const url = { asPath, pathname, query };
-    await store.dispatch(setUser(user));
-    store.dispatch(setRouter(url));
-    await store.dispatch(getStaticData('about'));
-    return { isServer, user, url };
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+
+    // Get static data
+    await context.store.dispatch(getStaticData('about'));
+
+    return { ...props };
   }
 
   componentDidMount() {
@@ -75,7 +73,7 @@ class About extends Page {
           <div className="l-container">
             <div className="row align-center">
               <div className="column small-12">
-                <Banner className="-text-center" bgImage={'/static/images/backgrounds/partners-02@2x.jpg'}>
+                <Banner className="-text-center" bgImage="/static/images/backgrounds/partners-02@2x.jpg">
                   <p className="-claim">Let’s build a more <br /> sustainable world together.</p>
                   <Link to="about_partners"><a className="c-button -alt -primary">Partners</a></Link>
                 </Banner>

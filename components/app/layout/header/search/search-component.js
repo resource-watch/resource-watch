@@ -5,9 +5,9 @@ import classnames from 'classnames';
 // Components
 import Icon from 'components/ui/Icon';
 
-export default function Search({ search, setOpened, getInputRef }) {
+export default function Search({ header, setSearchOpened, getInputRef }) {
   const classNames = classnames({
-    '-opened': search.opened
+    '-opened': header.searchOpened
   });
 
   return (
@@ -31,7 +31,7 @@ export default function Search({ search, setOpened, getInputRef }) {
           <button
             className="search-close"
             type="button"
-            onClick={() => setOpened(false)}
+            onClick={() => setSearchOpened(false)}
           >
             <Icon name="icon-cross" className="-smaller" />
           </button>
@@ -39,7 +39,7 @@ export default function Search({ search, setOpened, getInputRef }) {
       </div>
 
       <button
-        onClick={() => setOpened(false)}
+        onClick={() => setSearchOpened(false)}
         className="search-backdrop"
       />
     </div>
@@ -47,14 +47,14 @@ export default function Search({ search, setOpened, getInputRef }) {
 }
 
 Search.propTypes = {
-  search: PropTypes.object,
+  header: PropTypes.object,
   // Actions
-  setOpened: PropTypes.func,
+  setSearchOpened: PropTypes.func,
   getInputRef: PropTypes.func
 };
 
 Search.defaultProps = {
-  search: {},
-  setOpened: null,
+  header: {},
+  setSearchOpened: null,
   getInputRef: null
 };

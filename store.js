@@ -8,11 +8,11 @@ import * as reducers from 'redactions';
 // New modules
 import { handleModule } from 'redux-tools';
 
+// Header
+import * as header from 'components/app/layout/header';
+
 // Share
 import * as shareModal from 'components/modal/share-modal';
-
-// Search
-import * as search from 'components/app/layout/search/search';
 
 // Dashboard
 import * as dashboardDetail from 'components/dashboards/detail/dashboard-detail';
@@ -29,6 +29,9 @@ import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-f
 // Widget editor
 import { reducers as widgetEditorModules } from 'widget-editor';
 
+// React responsive redux
+import { reducer as responsiveReducer } from 'react-responsive-redux';
+
 if (process.env.NODE_ENV === 'production') {
   initOpbeat({
     orgId: '17ab8eb501d2418a81f3167c10407e90',
@@ -43,7 +46,11 @@ const reducer = combineReducers({
   // widgetEditor
   ...widgetEditorModules,
 
-  search: handleModule(search),
+  // React responsive
+  responsive: responsiveReducer,
+
+  // Header
+  header: handleModule(header),
 
   shareModal: handleModule(shareModal),
 

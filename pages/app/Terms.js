@@ -5,20 +5,17 @@ import renderHTML from 'react-render-html';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { getStaticData } from 'redactions/static_pages';
-import { setUser } from 'redactions/user';
-import { setRouter } from 'redactions/routes';
 
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
 
 class Terms extends Page {
-  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
-    const { user } = isServer ? req : store.getState();
-    const url = { asPath, pathname, query };
-    await store.dispatch(setUser(user));
-    store.dispatch(setRouter(url));
-    await store.dispatch(getStaticData('terms-of-service'));
-    return { isServer, user, url };
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+
+    // Get static data
+    await context.store.dispatch(getStaticData('terms-of-service'));
+    return { ...props };
   }
 
   render() {
