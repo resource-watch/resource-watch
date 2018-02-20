@@ -17,7 +17,8 @@ class About extends Page {
     const props = await super.getInitialProps(context);
 
     // Get static data
-    context.store.dispatch(getStaticData('about'));
+    await context.store.dispatch(getStaticData('about'));
+
     return { ...props };
   }
 

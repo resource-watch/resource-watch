@@ -14,7 +14,7 @@ class Policy extends Page {
     const props = await super.getInitialProps(context);
 
     // Get static data
-    context.store.dispatch(getStaticData('privacy-policy'));
+    await context.store.dispatch(getStaticData('privacy-policy'));
     return { ...props };
   }
 

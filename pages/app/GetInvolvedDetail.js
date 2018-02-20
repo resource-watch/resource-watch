@@ -32,7 +32,7 @@ class GetInvolvedDetail extends Page {
     const { routes } = context.store.getState();
 
     // Get static data
-    context.store.dispatch(getStaticData(routes.query.id));
+    await context.store.dispatch(getStaticData(routes.query.id));
     if (routes.query.id === 'submit-an-insight') {
       await context.store.dispatch(getInsights());
     }

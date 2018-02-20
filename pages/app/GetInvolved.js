@@ -82,7 +82,7 @@ class GetInvolved extends Page {
     const props = await super.getInitialProps(context);
 
     // Get static data
-    context.store.dispatch(getStaticData('get-involved'));
+    await context.store.dispatch(getStaticData('get-involved'));
     return { ...props };
   }
 

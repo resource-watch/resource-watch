@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
-import { toastr } from 'react-redux-toastr';
+import debounce from 'lodash/debounce';
 
 // Utils
 import { get } from 'utils/request';
+
+import { Link } from 'routes';
+import { toastr } from 'react-redux-toastr';
 
 // Components
 import TetherComponent from 'react-tether';
@@ -33,6 +35,9 @@ class HeaderUser extends React.Component {
     });
   }
 
+  toggleDropdown = debounce((bool) => {
+    this.props.setDropdownOpened({ myrw: bool });
+  }, 50)
 
   render() {
     const { user } = this.props;
@@ -55,8 +60,8 @@ class HeaderUser extends React.Component {
             {/* First child: This is what the item will be tethered to */}
             <Link route="myrw">
               <a
-                onMouseEnter={() => this.props.setDropdownOpened({ myrw: true })}
-                onMouseLeave={() => this.props.setDropdownOpened({ myrw: false })}
+                onMouseEnter={() => this.toggleDropdown(true)}
+                onMouseLeave={() => this.toggleDropdown(false)}
               >
                 {(!user.photo && user.email) &&
                   <span className="avatar-letter" >
@@ -69,8 +74,8 @@ class HeaderUser extends React.Component {
             {this.props.header.dropdownOpened.myrw &&
               <ul
                 className="header-dropdown-list"
-                onMouseEnter={() => this.props.setDropdownOpened({ myrw: true })}
-                onMouseLeave={() => this.props.setDropdownOpened({ myrw: false })}
+                onMouseEnter={() => this.toggleDropdown(true)}
+                onMouseLeave={() => this.toggleDropdown(false)}
               >
                 <li className="header-dropdown-list-item">
                   <Link route="myrw">
@@ -107,8 +112,8 @@ class HeaderUser extends React.Component {
           {/* First child: This is what the item will be tethered to */}
           <span
             className="header-menu-link"
-            onMouseEnter={() => this.props.setDropdownOpened({ myrw: true })}
-            onMouseLeave={() => this.props.setDropdownOpened({ myrw: false })}
+            onMouseEnter={() => this.toggleDropdown(true)}
+            onMouseLeave={() => this.toggleDropdown(false)}
           >
             <Icon name="icon-user" className="-medium" />
           </span>
@@ -117,8 +122,8 @@ class HeaderUser extends React.Component {
           {this.props.header.dropdownOpened.myrw &&
             <ul
               className="header-dropdown-list"
-              onMouseEnter={() => this.props.setDropdownOpened({ myrw: true })}
-              onMouseLeave={() => this.props.setDropdownOpened({ myrw: false })}
+              onMouseEnter={() => this.toggleDropdown(true)}
+              onMouseLeave={() => this.toggleDropdown(false)}
             >
               <li className="header-dropdown-list-item">
                 <a href={`https://production-api.globalforestwatch.org/auth/facebook?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`}>

@@ -14,7 +14,7 @@ class Terms extends Page {
     const props = await super.getInitialProps(context);
 
     // Get static data
-    context.store.dispatch(getStaticData('terms-of-service'));
+    await context.store.dispatch(getStaticData('terms-of-service'));
     return { ...props };
   }
 
