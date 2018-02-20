@@ -24,9 +24,9 @@ class LayerMenuComponent extends PureComponent {
   render() {
     const { layersGroup } = this.props;
     return (
-      <div className="c-layer-nav">
+      <div className="c-layer-menu">
         <div className="l-container">
-          <ul className="layer-nav-list">
+          <ul className="layer-menu-list">
             {layersGroup.length > 0 && layersGroup[0].layers.map(g => this.createItemGroup(g))}
           </ul>
         </div>
