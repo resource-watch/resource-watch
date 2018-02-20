@@ -75,7 +75,7 @@ export const STATE_DEFAULT = {
     provider: null,
     connectorType: '',
     connectorUrlHint: '',
-    published: false,
+    published: [],
     geoInfo: false,
     verified: false,
     protected: false,

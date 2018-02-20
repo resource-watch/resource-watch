@@ -30,7 +30,7 @@ class Step1 extends React.Component {
       subscribableSelected: props.form.subscribable.length > 0
     };
 
-    // BINDINGS
+    // ------------------ BINDINGS -------------------------------------
     this.onCartoFieldsChange = this.onCartoFieldsChange.bind(this);
     this.handleAddSubscription = this.handleAddSubscription.bind(this);
   }
@@ -83,6 +83,16 @@ class Step1 extends React.Component {
     }
   }
 
+  onPublishedChange(checked) {
+    if (checked) {
+      const newPublished = this.state.form.published;
+      newPublished.push('rw');
+      this.props.onChange({ published: newPublished });
+    } else {
+      this.props.onChange({ published: this.state.form.published.filter(elem => elem !== 'rw') });
+    }
+  }
+
   /**
    * HELPERS
    * - setProviderOptions
@@ -128,7 +138,7 @@ class Step1 extends React.Component {
   render() {
     const { user, columns, loadingColumns, basic } = this.props;
     const { dataset, subscribableSelected } = this.state;
-    const { provider, columnFields } = this.state.form;
+    const { provider, columnFields, published } = this.state.form;
 
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
@@ -146,20 +156,22 @@ class Step1 extends React.Component {
 
     const columnFieldsOptions = (columnFields || []).map(f => ({ label: f, value: f }));
 
+    const isPublished = published.includes('rw');
+
     return (
       <div>
         <fieldset className="c-field-container">
           {user.role === 'ADMIN' && !basic &&
             <Field
               ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
-              onChange={value => this.props.onChange({ published: value.checked })}
+              onChange={value => this.onPublishedChange(value.checked)}
               validations={['required']}
               properties={{
                 name: 'published',
                 label: 'Do you want to set this dataset as published?',
-                value: 'published',
+                value: isPublished,
                 title: 'Published',
-                defaultChecked: (!dataset) ? user.role === 'ADMIN' : this.props.form.published
+                defaultChecked: (!dataset) ? user.role === 'ADMIN' : isPublished
               }}
             >
               {Checkbox}
