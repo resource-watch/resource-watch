@@ -414,6 +414,7 @@ class Explore extends Page {
                   mapConfig={{ zoom, latLng }}
                   setMapParams={params => this.setMapParams(params)}
                   setMapInstance={(map) => { this.map = map; }}
+                  disableScrollZoom={false}
                   // layerManager
                   layerGroups={this.props.layerGroups}
                   LayerManager={LayerManager}
