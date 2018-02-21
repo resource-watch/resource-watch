@@ -36,7 +36,7 @@ class Field extends React.Component {
   }
 
   render() {
-    const { properties, className, hint } = this.props;
+    const { properties, className, hint, button } = this.props;
     const { valid, error } = this.state;
 
     // Set classes
@@ -59,11 +59,17 @@ class Field extends React.Component {
           <p className="hint" dangerouslySetInnerHTML={{ __html: hint }} />
         }
 
-        <this.props.children
-          {...this.props}
-          ref={(c) => { if (c) this.child = c; }}
-          onValid={this.onValid}
-        />
+        <div className="field-container">
+          <this.props.children
+            {...this.props}
+            ref={(c) => { if (c) this.child = c; }}
+            onValid={this.onValid}
+          />
+
+          {!!button &&
+            button
+          }
+        </div>
 
         {error &&
           error.map((err, i) => {

@@ -24,6 +24,7 @@ import * as widgetBlockEditionModule from 'components/dashboards/wysiwyg/widget-
 
 // Dataset
 import * as similarDatasets from 'components/datasets/similar-datasets/similar-datasets';
+import * as trySubscriptionModal from 'components/datasets/form/try-subscription-modal';
 
 // Explore
 import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';
@@ -67,8 +68,9 @@ const reducer = combineReducers({
   // Explore
   exploreDatasetFilters: handleModule(exploreDatasetFilters),
 
-  // Explore detail
-  similarDatasets: handleModule(similarDatasets)
+  // Datasets
+  similarDatasets: handleModule(similarDatasets),
+  trySubscriptionModal: handleModule(trySubscriptionModal)
 });
 
 const composeEnhancers = composeWithDevTools({});
