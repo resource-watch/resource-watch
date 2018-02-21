@@ -13,8 +13,9 @@ import { updateIsLoading } from 'redactions/page';
 
 // Components
 import Header from 'components/layout/header-admin';
+import Icons from 'components/layout/icons';
+
 import Head from 'components/admin/layout/head';
-import Icons from 'components/admin/layout/icons';
 import Modal from 'components/ui/Modal';
 import Tooltip from 'components/ui/Tooltip';
 import Dock from 'components/ui/Dock';

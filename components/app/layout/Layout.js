@@ -15,15 +15,16 @@ import { setLocale } from 'redactions/common';
 
 // Components
 import { Router } from 'routes';
-import Icons from 'components/app/layout/icons';
 import Header from 'components/layout/header';
+import Icons from 'components/layout/icons';
+
 import Footer from 'components/app/layout/Footer';
 import Tooltip from 'components/ui/Tooltip';
 import Head from 'components/app/layout/head';
 import Modal from 'components/ui/Modal';
 import Toastr from 'react-redux-toastr';
 import Dock from 'components/ui/Dock';
-import Search from 'components/app/layout/header/search';
+import Search from 'components/layout/header/search';
 
 import { setConfig,
   Modal as WidgetModal,
