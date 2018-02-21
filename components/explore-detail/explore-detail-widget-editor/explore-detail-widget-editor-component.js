@@ -2,14 +2,14 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Utils
-import { getDatasetDefaultWidget, getDatasetDefaultEditableWidget } from 'components/explore-detail/explore-detail-helpers';
+import { getDatasetDefaultEditableWidget } from 'components/explore-detail/explore-detail-helpers';
 import { breakpoints } from 'utils/responsive';
 
 // Components
 import MediaQuery from 'react-responsive';
 
 // Widget editor
-import WidgetEditor from 'widget-editor';
+import WidgetEditor, { VegaChart } from 'widget-editor';
 
 // Modal
 import Modal from 'components/modal/modal-component';
@@ -32,7 +32,6 @@ class ExploreDetailWidgetEditor extends PureComponent {
 
   render() {
     const { dataset, responsive } = this.props;
-    const defaultWidget = getDatasetDefaultWidget(dataset);
     const defaultEditableWidget = getDatasetDefaultEditableWidget(dataset);
 
     return (
@@ -64,12 +63,15 @@ class ExploreDetailWidgetEditor extends PureComponent {
           </Modal>
         </MediaQuery>
 
-        {defaultWidget &&
+        {defaultEditableWidget &&
           <MediaQuery
             maxDeviceWidth={breakpoints.large - 1}
             values={{ deviceWidth: responsive.fakeWidth }}
           >
-            {/* Widget Card */}
+            <VegaChart
+              data={defaultEditableWidget.widgetConfig}
+              reloadOnResize
+            />
           </MediaQuery>
         }
 
