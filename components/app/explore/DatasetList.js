@@ -19,7 +19,9 @@ class DatasetList extends PureComponent {
   };
 
   render() {
-    const { list, mode, showActions, showFavorite, user, routes, onTagSelected } = this.props;
+    const {
+      list, mode, showActions, showFavorite, user, routes, onTagSelected
+    } = this.props;
 
     const newClassName = classNames({
       column: true,

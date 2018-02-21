@@ -24,14 +24,14 @@ import ExploreDetailTags from 'components/explore-detail/explore-detail-tags';
 import ExploreDetailWidgetEditor from 'components/explore-detail/explore-detail-widget-editor';
 
 // Components
-import Page from 'components/app/layout/Page';
-import Layout from 'components/app/layout/Layout';
+import Page from 'components/layout/page';
+import Layout from 'components/layout/layout/layout-app';
 
 import Title from 'components/ui/Title';
 import ReadMore from 'components/ui/ReadMore';
 import Banner from 'components/app/common/Banner';
 
-import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
+import SimilarDatasets from 'components/datasets/similar-datasets/similar-datasets';
 
 // Utils
 import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
@@ -143,14 +143,14 @@ class ExploreDetail extends Page {
           <section className="l-section">
             <div className="l-container">
               <div className="row">
-                <div className="column small-12 medium-7">
+                <div className="column small-12 large-7">
                   {/* Function */}
                   <ReadMore
                     text={metadata.description}
                   />
                 </div>
 
-                <div className="column large-offset-2 small-12 medium-3">
+                <div className="column small-12 large-4 large-offset-1">
                   <ExploreDetailActions />
                 </div>
               </div>

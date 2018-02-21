@@ -19,13 +19,20 @@ import LoginModal from 'components/modal/LoginModal';
 class ExploreDetailInfo extends PureComponent {
   static propTypes = {
     dataset: PropTypes.object,
-    partner: PropTypes.object
+    partner: PropTypes.object,
+    user: PropTypes.object
   }
 
   state = {
     showSubscribeModal: false
   }
 
+  /**
+   * HELPERS
+   * - getDatasetMetadata
+   * - getDatasetName
+   * - isSubscribable
+  */
   getDatasetMetadata() {
     const { dataset } = this.props;
     return dataset.metadata || {};
@@ -42,37 +49,13 @@ class ExploreDetailInfo extends PureComponent {
     return dataset && !isEmpty(dataset.subscribable);
   }
 
+  /**
+   * UI EVENTS
+   * - handleToggleSubscribeModal
+  */
   handleToggleSubscribeModal = (bool) => {
     this.setState({ showSubscribeModal: bool });
   }
-
-  // handleSubscribe() {
-  //   const { user } = this.props;
-  //   let options = null;
-  //   // ----- the user is logged in ------
-  //   if (user.id) {
-  //     options = {
-  //       children: SubscribeToDatasetModal,
-  //       childrenProps: {
-  //         toggleModal: this.props.toggleModal,
-  //         dataset: this.state.dataset,
-  //         showDatasetSelector: false
-  //       }
-  //     };
-  //   } else {
-  //   // ------ anonymous user ---------
-  //     options = {
-  //       children: LoginModal,
-  //       childrenProps: {
-  //         toggleModal: this.props.toggleModal,
-  //         text: 'Log in to subscribe to dataset changes'
-  //       }
-  //     };
-  //   }
-  //
-  //   this.props.toggleModal(true);
-  //   this.props.setModalOptions(options);
-  // }
 
   render() {
     const { dataset, partner, user } = this.props;

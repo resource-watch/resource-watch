@@ -52,7 +52,7 @@ class Map extends React.Component {
 
     if (this.props.setMapInstance) {
       this.props.setMapInstance(this.map);
-    }
+    } 
 
     if (this.props.mapConfig && this.props.mapConfig.bounds) {
       this.fitBounds(this.props.mapConfig.bounds.geometry);
@@ -68,6 +68,10 @@ class Map extends React.Component {
       this.map.keyboard.disable();
     }
 
+    if (this.props.disableScrollZoom) {
+      this.map.scrollWheelZoom.disable();
+    }
+    
     // SETTERS
     this.setAttribution();
     this.setZoomControl();
@@ -357,11 +361,13 @@ class Map extends React.Component {
 
 Map.defaultProps = {
   interactionEnabled: true,
+  disableScrollZoom: true,
   useLightBasemap: false
 };
 
 Map.propTypes = {
   interactionEnabled: PropTypes.bool.isRequired,
+  disableScrollZoom: PropTypes.bool.isRequired,
   setMapInstance: PropTypes.func,
   // STORE
   mapConfig: PropTypes.object,
