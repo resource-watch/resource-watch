@@ -16,7 +16,7 @@ import { setLocale } from 'redactions/common';
 // Components
 import { Router } from 'routes';
 import Icons from 'components/app/layout/icons';
-import Header from 'components/app/layout/header';
+import Header from 'components/layout/header';
 import Footer from 'components/app/layout/Footer';
 import Tooltip from 'components/ui/Tooltip';
 import Head from 'components/app/layout/head';

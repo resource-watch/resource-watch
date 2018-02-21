@@ -12,7 +12,7 @@ import { toggleTooltip } from 'redactions/tooltip';
 import { updateIsLoading } from 'redactions/page';
 
 // Components
-import Header from 'components/admin/layout/Header';
+import Header from 'components/layout/header-admin';
 import Head from 'components/admin/layout/head';
 import Icons from 'components/admin/layout/icons';
 import Modal from 'components/ui/Modal';

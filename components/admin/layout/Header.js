@@ -7,7 +7,7 @@ import debounce from 'lodash/debounce';
 import { Link } from 'routes';
 
 // Components
-import HeaderUser from 'components/app/layout/header/HeaderUser';
+import HeaderUser from 'components/app/layout/header/header-user';
 
 export default class Header extends React.Component {
   constructor(props) {
