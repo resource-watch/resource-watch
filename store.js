@@ -23,7 +23,7 @@ import * as widgetBlockModule from 'components/dashboards/wysiwyg/widget-block/w
 import * as widgetBlockEditionModule from 'components/dashboards/wysiwyg/widget-block-edition/widget-block-edition';
 
 // Dataset
-import * as similarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
+import * as similarDatasets from 'components/datasets/similar-datasets/similar-datasets';
 
 // Explore
 import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';

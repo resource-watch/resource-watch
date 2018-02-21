@@ -23,7 +23,7 @@ import Icon from 'components/ui/Icon';
 
 import DashboardDetail from 'components/dashboards/detail/dashboard-detail';
 import DashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
-import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
+import SimilarDatasets from 'components/datasets/similar-datasets/similar-datasets';
 
 // Modal
 import Modal from 'components/modal/modal-component';

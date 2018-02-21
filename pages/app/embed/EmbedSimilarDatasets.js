@@ -12,7 +12,7 @@ import { setEmbed } from 'redactions/common';
 // Components
 import Page from 'components/layout/page';
 import LayoutEmbed from 'components/layout/layout/layout-embed';
-import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
+import SimilarDatasets from 'components/datasets/similar-datasets/similar-datasets';
 
 class EmbedSimilarDatasets extends Page {
   static async getInitialProps(context) {

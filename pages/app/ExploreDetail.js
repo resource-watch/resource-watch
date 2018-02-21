@@ -31,7 +31,7 @@ import Title from 'components/ui/Title';
 import ReadMore from 'components/ui/ReadMore';
 import Banner from 'components/app/common/Banner';
 
-import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
+import SimilarDatasets from 'components/datasets/similar-datasets/similar-datasets';
 
 // Utils
 import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
