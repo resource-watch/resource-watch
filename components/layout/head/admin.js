@@ -4,8 +4,6 @@ import HeadNext from 'next/head';
 
 import Package from '../../../package.json';
 
-console.log(Package.version);
-
 export default class Head extends React.Component {
   static getStyles() {
     if (process.env.NODE_ENV === 'production') {
@@ -39,7 +37,9 @@ export default class Head extends React.Component {
         {/* Windows Phone */}
         <meta name="msapplication-navbutton-color" content="#A5177E" />
         {/* iOS Safari */}
-        <meta name="apple-mobile-web-app-status-bar-style" content="#A5177E" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
       </HeadNext>
     );
   }

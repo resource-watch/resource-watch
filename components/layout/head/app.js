@@ -33,7 +33,7 @@ class Head extends React.PureComponent {
   }
 
   getCrazyEgg() {
-    return <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0069/4623.js" async="async"></script>;
+    return <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0069/4623.js" async="async" />;
   }
 
   getUserReport() {
@@ -47,16 +47,18 @@ class Head extends React.PureComponent {
       <script
         type="text/javascript"
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: `
-          window._urq = window._urq || [];
-          _urq.push(['setGACode', 'UA-67196006-1']);
-          _urq.push(['initSite', '085d5a65-977b-4c3d-af9f-d0a3624e276f']);
-          (function() {
-          var ur = document.createElement('script'); ur.type = 'text/javascript'; ur.async = true;
-          ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/userreport.js' : 'http://cdn.userreport.com/userreport.js');
-          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
-          })();
-        ` }}
+        dangerouslySetInnerHTML={{
+          __html: `
+            window._urq = window._urq || [];
+            _urq.push(['setGACode', 'UA-67196006-1']);
+            _urq.push(['initSite', '085d5a65-977b-4c3d-af9f-d0a3624e276f']);
+            (function() {
+            var ur = document.createElement('script'); ur.type = 'text/javascript'; ur.async = true;
+            ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/userreport.js' : 'http://cdn.userreport.com/userreport.js');
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
+            })();
+          `
+        }}
       />
     );
   }
@@ -68,14 +70,15 @@ class Head extends React.PureComponent {
       return null;
     }
 
-    const TRANSIFEX_LIVE_API = process.env.TRANSIFEX_LIVE_API;
     return (
       <script
         type="text/javascript"
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: `
-          window.liveSettings = { api_key: '${TRANSIFEX_LIVE_API}' }
-        ` }}
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.liveSettings = { api_key: '${process.env.TRANSIFEX_LIVE_API}' }
+          `
+        }}
       />
     );
   }
@@ -147,7 +150,8 @@ class Head extends React.PureComponent {
         {/* Windows Phone */}
         <meta name="msapplication-navbutton-color" content="#c32d7b" />
         {/* iOS Safari */}
-        <meta name="apple-mobile-web-app-status-bar-style" content="#c32d7b" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
         {Head.getStyles()}
         {this.getCesiumStyles()}
