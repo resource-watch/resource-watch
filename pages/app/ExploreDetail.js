@@ -143,14 +143,14 @@ class ExploreDetail extends Page {
           <section className="l-section">
             <div className="l-container">
               <div className="row">
-                <div className="column small-12 medium-7">
+                <div className="column small-12 large-7">
                   {/* Function */}
                   <ReadMore
                     text={metadata.description}
                   />
                 </div>
 
-                <div className="column large-offset-2 small-12 medium-3">
+                <div className="column small-12 large-4 large-offset-1">
                   <ExploreDetailActions />
                 </div>
               </div>

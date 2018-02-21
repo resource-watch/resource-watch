@@ -146,7 +146,8 @@ class Head extends React.PureComponent {
         {/* Windows Phone */}
         <meta name="msapplication-navbutton-color" content="#c32d7b" />
         {/* iOS Safari */}
-        <meta name="apple-mobile-web-app-status-bar-style" content="#c32d7b" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
         {Head.getStyles()}
         {this.getCesiumStyles()}
