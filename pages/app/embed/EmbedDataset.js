@@ -7,8 +7,8 @@ import { initStore } from 'store';
 // Components
 import Spinner from 'components/ui/Spinner';
 import VegaChart from 'components/widgets/charts/VegaChart';
-import EmbedLayout from 'components/app/layout/EmbedLayout';
-import Page from 'components/app/layout/Page';
+import LayoutEmbed from 'components/layout/layout/layout-embed';
+import Page from 'components/layout/page';
 import { setEmbed } from 'redactions/common';
 
 // Services
@@ -26,7 +26,7 @@ class EmbedDataset extends Page {
 
     return {
       ...props,
-      referer: isServer ? req.headers.referer : location.href
+      referer: isServer ? req.headers.referer : window.location.href
     };
   }
 
@@ -83,19 +83,19 @@ class EmbedDataset extends Page {
 
     if (loadingDataset) {
       return (
-        <EmbedLayout
-          title={'Loading dataset...'}
-          description={''}
+        <LayoutEmbed
+          title="Loading dataset..."
+          description=""
         >
           <div className="c-embed-widget">
             <Spinner isLoading className="-light" />
           </div>
-        </EmbedLayout>
+        </LayoutEmbed>
       );
     }
 
     return (
-      <EmbedLayout
+      <LayoutEmbed
         title={datasetName}
         description={datasetDescription}
       >
@@ -132,14 +132,14 @@ class EmbedDataset extends Page {
               <a href="/" target="_blank" rel="noopener noreferrer">
                 <img
                   className="embed-logo"
-                  src={'/static/images/logo-embed.png'}
+                  src="/static/images/logo-embed.png"
                   alt="Resource Watch"
                 />
               </a>
             </div>
           ) }
         </div>
-      </EmbedLayout>
+      </LayoutEmbed>
     );
   }
 }

@@ -10,8 +10,8 @@ import { initStore } from 'store';
 import { setEmbed } from 'redactions/common';
 
 // Components
-import Page from 'components/app/layout/Page';
-import EmbedLayout from 'components/app/layout/EmbedLayout';
+import Page from 'components/layout/page';
+import LayoutEmbed from 'components/layout/layout/layout-embed';
 import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
 
 class EmbedSimilarDatasets extends Page {
@@ -23,7 +23,7 @@ class EmbedSimilarDatasets extends Page {
 
     return {
       ...props,
-      referer: isServer ? req.headers.referer : location.href
+      referer: isServer ? req.headers.referer : window.location.href
     };
   }
 
@@ -36,9 +36,9 @@ class EmbedSimilarDatasets extends Page {
     const titleSt = loading ? 'Loading similar datasets...' : '';
 
     return (
-      <EmbedLayout
+      <LayoutEmbed
         title={titleSt}
-        description={``}
+        description=""
       >
         <div className="c-embed-similar-datasets">
           <SimilarDatasets
@@ -46,7 +46,7 @@ class EmbedSimilarDatasets extends Page {
             onTagSelected={tag => Router.pushRoute('explore', { topics: `["${tag.id}"]` })}
           />
         </div>
-      </EmbedLayout>
+      </LayoutEmbed>
     );
   }
 }

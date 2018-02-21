@@ -6,8 +6,8 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { getStaticData } from 'redactions/static_pages';
 
-import Page from 'components/app/layout/Page';
-import Layout from 'components/app/layout/Layout';
+import Page from 'components/layout/page';
+import Layout from 'components/layout/layout/layout-app';
 
 class Terms extends Page {
   static async getInitialProps(context) {

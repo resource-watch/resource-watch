@@ -2,10 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'routes';
 
-// Redux
-import { connect } from 'react-redux';
-import { getPartners } from 'redactions/admin/partners';
-
 // Components
 import CompoundMenu from 'components/ui/CompoundMenu';
 import Carousel from 'components/ui/Carousel';
@@ -41,14 +37,19 @@ const getInvolved = [
 ];
 
 class Footer extends React.Component {
+  static propTypes = {
+    fetchPartners: PropTypes.func,
+    footer: PropTypes.object
+  };
+
   componentDidMount() {
-    this.props.getPartners();
+    this.props.fetchPartners();
   }
 
-  setPartnersList() {
-    const featured = this.props.partners.filter(p => p.featured);
+  getPartners() {
+    const { footer } = this.props;
 
-    return featured.map(p => (
+    return footer.partners.list.map(p => (
       <div key={p.id} className="item">
         <Link route="partner" params={{ id: p.id }}>
           <a>
@@ -60,8 +61,8 @@ class Footer extends React.Component {
   }
 
   render() {
+    const { footer } = this.props;
     const menuData = [data, about, insights, getInvolved];
-    const items = this.setPartnersList();
 
     return (
       <footer className="l-footer">
@@ -73,7 +74,7 @@ class Footer extends React.Component {
                   className="footer-logo"
                   height={21}
                   width={129}
-                  src={'/static/images/logo-embed.png'}
+                  src="/static/images/logo-embed.png"
                   alt="Resource Watch"
                 />
               </div>
@@ -101,11 +102,12 @@ class Footer extends React.Component {
           <div className="title">
             <Link route="about_partners"><a>Partners</a></Link>
           </div>
+
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
                 <div className="c-partners-slider">
-                  {items.length ? <Carousel items={items} /> : ''}
+                  {footer.partners.list.length ? <Carousel items={this.getPartners()} /> : ''}
                 </div>
               </div>
             </div>
@@ -137,17 +139,4 @@ class Footer extends React.Component {
   }
 }
 
-Footer.propTypes = {
-  getPartners: PropTypes.func,
-  partners: PropTypes.array
-};
-
-const mapStateToProps = state => ({
-  partners: state.partners.list
-});
-
-const mapDispatchToProps = dispatch => ({
-  getPartners: () => { dispatch(getPartners()); }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Footer);
+export default Footer;

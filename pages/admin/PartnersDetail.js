@@ -14,8 +14,8 @@ import PartnersService from 'services/PartnersService';
 import { capitalizeFirstLetter } from 'utils/utils';
 
 // Layout
-import Page from 'components/admin/layout/Page';
-import Layout from 'components/admin/layout/Layout';
+import Page from 'components/layout/page';
+import Layout from 'components/layout/layout/layout-admin';
 
 // Tabs
 import PartnersTab from 'components/admin/partners/PartnersTab';

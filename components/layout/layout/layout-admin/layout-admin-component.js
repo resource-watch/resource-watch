@@ -5,38 +5,44 @@ import Progress from 'react-progress-2';
 // Utils
 import { initGA, logPageView } from 'utils/analytics';
 
-// Redux
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { toggleModal, setModalOptions } from 'redactions/modal';
-import { toggleTooltip } from 'redactions/tooltip';
-import { updateIsLoading } from 'redactions/page';
-import { setLocale } from 'redactions/common';
-
 // Components
 import { Router } from 'routes';
-import Icons from 'components/app/layout/icons';
-import Header from 'components/app/layout/header';
-import Footer from 'components/app/layout/Footer';
+
+import Head from 'components/layout/head/admin';
+import Header from 'components/layout/header-admin';
+import Icons from 'components/layout/icons';
+
 import Tooltip from 'components/ui/Tooltip';
-import Head from 'components/app/layout/head';
 import Modal from 'components/ui/Modal';
 import Toastr from 'react-redux-toastr';
 import Dock from 'components/ui/Dock';
-import Search from 'components/app/layout/header/search';
+import Search from 'components/layout/header/search';
 
-import { setConfig,
+import {
+  setConfig,
   Modal as WidgetModal,
   Tooltip as WidgetTooltip,
-  Icons as WidgetIcons } from 'widget-editor';
+  Icons as WidgetIcons
+} from 'widget-editor';
 
-const fullScreenPages = [
-  '/app/Explore',
-  '/app/Pulse',
-  '/app/Splash'
-];
+class LayoutAdmin extends React.Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    pageHeader: PropTypes.bool,
+    className: PropTypes.string,
+    category: PropTypes.string,
+    // Store
+    modal: PropTypes.object.isRequired,
+    toggleModal: PropTypes.func.isRequired,
+    toggleTooltip: PropTypes.func.isRequired,
+    setModalOptions: PropTypes.func.isRequired,
+    updateIsLoading: PropTypes.func.isRequired,
+    setLocale: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
+  };
 
-class Layout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -49,7 +55,7 @@ class Layout extends React.Component {
       url: process.env.WRI_API_URL,
       env: 'production,preproduction',
       applications: process.env.APPLICATIONS,
-      authUrl: process.env.CONTROL_TOWER_URL, // is this the correct one????
+      authUrl: process.env.CONTROL_TOWER_URL,
       assetsPath: '/static/images/widget-editor/',
       userToken: props.user.token,
       userEmail: props.user.email
@@ -63,7 +69,7 @@ class Layout extends React.Component {
     // The way we prevent this is by listening to the router
     // and whenever we navigate, we hide the tooltip
     // NOTE: we can't just call this.props.toggleTooltip here
-    // because for some pages, we don't re-mount the Layout
+    // because for some pages, we don't re-mount the LayoutAdmin
     // component. If we listen for events from the router,
     // we're sure to not miss any page.
     this.props.toggleTooltip(false);
@@ -84,7 +90,7 @@ class Layout extends React.Component {
       window.Transifex.live.onReady(() => {
         window.Transifex.live.onTranslatePage((locale) => {
           this.props.setLocale(locale);
-          location.reload();
+          window.location.reload();
         });
       });
     }
@@ -104,8 +110,9 @@ class Layout extends React.Component {
   }
 
   render() {
-    const { title, description, url, pageHeader, modal, className, category } = this.props;
-    const fullScreen = url.pathname && fullScreenPages.indexOf(url.pathname) !== -1;
+    const {
+      title, description, pageHeader, modal, className, category
+    } = this.props;
 
     return (
       <div id="#main" className={`l-page ${className}`}>
@@ -124,8 +131,6 @@ class Layout extends React.Component {
         />
 
         {this.props.children}
-
-        {!fullScreen && <Footer />}
 
         <Tooltip />
 
@@ -147,8 +152,7 @@ class Layout extends React.Component {
           transitionOut="fadeOut"
         />
 
-        <link rel="stylesheet" media="screen" href="/static/styles/add-search-results.css" />
-
+        {/* Widget editor */}
         <WidgetModal />
         <WidgetTooltip />
         <WidgetIcons />
@@ -157,35 +161,4 @@ class Layout extends React.Component {
   }
 }
 
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
-  title: PropTypes.string,
-  description: PropTypes.string,
-  url: PropTypes.object,
-  pageHeader: PropTypes.bool,
-  className: PropTypes.string,
-  // Store
-  modal: PropTypes.object.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  toggleTooltip: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired,
-  updateIsLoading: PropTypes.func.isRequired,
-  setLocale: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-  modal: state.modal,
-  isLoading: state.page.isLoading,
-  user: state.user
-});
-
-const mapDispatchToProps = dispatch => ({
-  toggleTooltip: () => dispatch(toggleTooltip()),
-  toggleModal: open => dispatch(toggleModal(open, {}, true)),
-  setModalOptions: options => dispatch(setModalOptions(options)),
-  updateIsLoading: bindActionCreators(isLoading => updateIsLoading(isLoading), dispatch),
-  setLocale: locale => dispatch(setLocale(locale))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default LayoutAdmin;

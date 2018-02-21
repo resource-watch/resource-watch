@@ -6,10 +6,7 @@ import classnames from 'classnames';
 import { Link } from 'routes';
 
 // Components
-import HeaderData from 'components/app/layout/header/header-data';
-import HeaderAbout from 'components/app/layout/header/header-about';
-import HeaderSearch from 'components/app/layout/header/header-search';
-import HeaderUser from 'components/app/layout/header/header-user';
+import HeaderUser from 'components/layout/header-admin/header-admin-user';
 
 export default class HeaderMenu extends React.PureComponent {
   static propTypes = {
@@ -23,10 +20,7 @@ export default class HeaderMenu extends React.PureComponent {
   }
 
   headerComponents = {
-    data: <HeaderData />,
-    about: <HeaderAbout />,
-    myrw: <HeaderUser />,
-    search: <HeaderSearch />
+    myrw: <HeaderUser />
   }
 
   render() {

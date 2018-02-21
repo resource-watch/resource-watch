@@ -11,30 +11,36 @@ import { breakpoints } from 'utils/responsive';
 import { Link } from 'routes';
 
 // Components
-import HeaderMenu from 'components/app/layout/header/header-menu';
-import HeaderMenuMobile from 'components/app/layout/header/header-menu-mobile';
+import HeaderMenu from 'components/layout/header-admin/header-admin-menu';
+import HeaderMenuMobile from 'components/layout/header-admin/header-admin-menu-mobile';
 
 class Header extends React.PureComponent {
   static defaultProps = {
+    header: {},
     pageHeader: false
   };
 
   static propTypes = {
+    header: PropTypes.object,
     responsive: PropTypes.object,
     pageHeader: PropTypes.bool
   };
 
   render() {
-    const { pageHeader } = this.props;
+    const { header, pageHeader } = this.props;
 
     const headerClass = classnames({
       '-transparent': pageHeader
     });
 
+    const containerClass = classnames({
+      '-admin': header.admin
+    });
+
     return (
       <header className={`l-header ${headerClass}`}>
         {/* <div className="header-secondary"></div> */}
-        <div className="l-container">
+        <div className={`l-container ${containerClass}`}>
           <div className="row">
             <div className="column small-12">
               <div className="header-main">

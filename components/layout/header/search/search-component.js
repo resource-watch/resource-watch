@@ -31,7 +31,7 @@ export default function Search({ header, setSearchOpened, getInputRef }) {
           <button
             className="search-close"
             type="button"
-            onClick={() => setSearchOpened(false)}
+            onClick={() => console.log(setSearchOpened) || setSearchOpened(false)}
           >
             <Icon name="icon-cross" className="-smaller" />
           </button>

@@ -26,8 +26,8 @@ import LayerCard from 'components/app/pulse/LayerCard';
 import Spinner from 'components/ui/Spinner';
 import ZoomControl from 'components/ui/ZoomControl';
 import GlobeTooltip from 'components/app/pulse/GlobeTooltip';
-import Page from 'components/app/layout/Page';
-import Layout from 'components/app/layout/Layout';
+import Page from 'components/layout/page';
+import Layout from 'components/layout/layout/layout-app';
 
 let Map;
 let ImageProvider;
