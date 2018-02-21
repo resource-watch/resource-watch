@@ -538,7 +538,6 @@ class Step1 extends React.Component {
                               className="c-button -secondary"
                               onClick={() => this.onToggleSubscribableModal(true)}
                             >
-                              {this.state.form.subscribable.try && <Spinner isLoading className="-light -tiny" />}
                               Try it
                             </button>
                           }
