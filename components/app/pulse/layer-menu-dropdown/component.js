@@ -22,7 +22,6 @@ class LayerMenuDropdownComponent extends PureComponent {
       id, markerType, basemap, contextLayers, descriptionPulse
     } = layer;
     this.props.resetLayerPoints();
-    console.log('this.props', this.props);
     this.props.toggleActiveLayer({
       id,
       threedimensional: layer['3d'],
