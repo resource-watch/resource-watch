@@ -94,7 +94,7 @@ export default class HeaderMenuMobile extends React.PureComponent {
                     {item.children &&
                       <ul>
                         {item.children.map(c => (
-                          <li key={c.route}>
+                          <li key={c.route || c.href}>
                             {!!c.route &&
                               <Link
                                 route={c.route}

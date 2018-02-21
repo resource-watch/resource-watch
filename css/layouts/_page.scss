@@ -90,6 +90,7 @@
 
         li {
           margin: 0 0 0 $space-1 * 4;
+          word-break: break-word;
 
           &:first-child{ margin: 0; }
 
