@@ -98,6 +98,32 @@ export function getLayers() {
   };
 }
 
+export function getLayerPoints(queryUrl) {
+  return (dispatch) => {
+    // Waiting for fetch from server -> Dispatch loading
+    // dispatch({ type: GET_LAYERS_LOADING });
+    // TODO: remove the date now
+    fetch(new Request(queryUrl))
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then((response) => {
+        dispatch({
+          type: GET_LAYER_POINTS_SUCCESS,
+          payload: response.data
+        });
+      })
+      .catch((err) => {
+      // Fetch from server ko -> Dispatch error
+        dispatch({
+          type: GET_LAYER_POINTS_ERROR,
+          payload: err.message
+        });
+      });
+  };
+}
+
 export function setSimilarWidgets(value) {
   return dispatch => dispatch({ type: SET_SIMILAR_WIDGETS, payload: value });
 }

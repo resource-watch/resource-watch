@@ -67,8 +67,6 @@ class Pulse extends Page {
       texture: null,
       loading: false,
       selectedMarker: null,
-      useDefaultLayer: true,
-      markerType: 'default',
       interactionConfig: null,
       zoom: 0
     };
@@ -145,17 +143,6 @@ class Pulse extends Page {
       } else {
         this.layerGlobeManager.abortRequest();
         this.setState({ texture: null });
-      }
-    }
-
-    if (nextProps.layerMenuPulse.layerPoints !== this.props.layerMenuPulse.layerPoints) {
-      if (nextProps.layerMenuPulse.layerPoints && nextProps.layerMenuPulse.layerPoints.length > 0) {
-        this.setState({
-          layerPoints: nextProps.layerMenuPulse.layerPoints.slice(0),
-          texture: null,
-          useDefaultLayer: false,
-          markerType: nextLayerActive.markerType
-        });
       }
     }
   }
@@ -393,10 +380,11 @@ class Pulse extends Page {
   }
 
   render() {
-    const { url, layersGroup, layerMenuPulse } = this.props;
-    const { layerActive, layerPoints } = layerMenuPulse;
-    const { markerType, texture, zoom } = this.state;
-    const shapes = this.getShapes(layerPoints, markerType);
+    const { url, layersGroup, layerMenuPulse, pulse } = this.props;
+    const { layerActive } = layerMenuPulse;
+    const { layerPoints } = pulse;
+    const { texture, zoom } = this.state;
+    const shapes = this.getShapes(layerPoints, layerActive && layerActive.markerType);
 
     // Check if there's a custom basemap
     const basemap = layerActive && layerActive.basemap;
@@ -470,6 +458,7 @@ Pulse.propTypes = {
 
 const mapStateToProps = state => ({
   layerMenuPulse: state.layerMenuPulse,
+  pulse: state.pulse,
   layersGroup: getLayersGroupPulse(state),
   layerActive: getActiveLayersPulse(state)
 });
