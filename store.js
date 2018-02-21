@@ -8,9 +8,10 @@ import * as reducers from 'redactions';
 // New modules
 import { handleModule } from 'redux-tools';
 
-// Header
+// Layout
 import * as header from 'components/layout/header';
 import * as headerAdmin from 'components/layout/header-admin';
+import * as footer from 'components/layout/footer';
 
 // Share
 import * as shareModal from 'components/modal/share-modal';
@@ -53,6 +54,7 @@ const reducer = combineReducers({
   // Header
   header: handleModule(header),
   headerAdmin: handleModule(headerAdmin),
+  footer: handleModule(footer),
 
   shareModal: handleModule(shareModal),
 

@@ -17,8 +17,8 @@ import { setLocale } from 'redactions/common';
 import { Router } from 'routes';
 import Header from 'components/layout/header';
 import Icons from 'components/layout/icons';
+import Footer from 'components/layout/footer';
 
-import Footer from 'components/app/layout/Footer';
 import Tooltip from 'components/ui/Tooltip';
 import Head from 'components/app/layout/head';
 import Modal from 'components/ui/Modal';
@@ -105,7 +105,9 @@ class Layout extends React.Component {
   }
 
   render() {
-    const { title, description, url, pageHeader, modal, className, category } = this.props;
+    const {
+      title, description, url, pageHeader, modal, className, category
+    } = this.props;
     const fullScreen = url.pathname && fullScreenPages.indexOf(url.pathname) !== -1;
 
     return (
