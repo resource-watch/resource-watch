@@ -12,7 +12,7 @@ import { getDatasets } from 'redactions/explore';
 
 // Components
 import { Router } from 'routes';
-import Page from 'components/app/layout/Page';
+import Page from 'components/layout/page';
 import Layout from 'components/app/layout/Layout';
 import Sidebar from 'components/app/layout/Sidebar';
 import DatasetList from 'components/app/explore/DatasetList';

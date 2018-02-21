@@ -6,7 +6,7 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
 // Layout
-import Page from 'components/admin/layout/Page';
+import Page from 'components/layout/page';
 import Layout from 'components/admin/layout/Layout';
 import Tabs from 'components/ui/Tabs';
 

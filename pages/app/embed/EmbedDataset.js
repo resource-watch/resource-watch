@@ -8,7 +8,7 @@ import { initStore } from 'store';
 import Spinner from 'components/ui/Spinner';
 import VegaChart from 'components/widgets/charts/VegaChart';
 import EmbedLayout from 'components/app/layout/EmbedLayout';
-import Page from 'components/app/layout/Page';
+import Page from 'components/layout/page';
 import { setEmbed } from 'redactions/common';
 
 // Services

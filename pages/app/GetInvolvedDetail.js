@@ -8,7 +8,7 @@ import { getStaticData } from 'redactions/static_pages';
 import { getInsights } from 'redactions/insights';
 
 // Components
-import Page from 'components/app/layout/Page';
+import Page from 'components/layout/page';
 import Layout from 'components/app/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 

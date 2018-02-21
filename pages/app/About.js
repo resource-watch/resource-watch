@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import { getStaticData } from 'redactions/static_pages';
 
 import { Link } from 'routes';
-import Page from 'components/app/layout/Page';
+import Page from 'components/layout/page';
 import Layout from 'components/app/layout/Layout';
 import Banner from 'components/app/common/Banner';
 

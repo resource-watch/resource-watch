@@ -9,7 +9,7 @@ import { getWidget } from 'redactions/widget';
 import { setEmbed } from 'redactions/common';
 
 // Components
-import Page from 'components/app/layout/Page';
+import Page from 'components/layout/page';
 import EmbedLayout from 'components/app/layout/EmbedLayout';
 import TextChart from 'components/widgets/charts/TextChart';
 import Spinner from 'components/ui/Spinner';

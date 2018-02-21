@@ -17,7 +17,7 @@ import Error from '../_error';
 
 
 // Components
-import Page from 'components/app/layout/Page';
+import Page from 'components/layout/page';
 import Layout from 'components/app/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 // import Spinner from 'components/ui/Spinner';

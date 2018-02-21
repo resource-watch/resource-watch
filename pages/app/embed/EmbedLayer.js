@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Layout
-import Page from 'components/app/layout/Page';
+import Page from 'components/layout/page';
 import Head from 'components/app/layout/head';
 
 // Components

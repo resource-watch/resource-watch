@@ -20,7 +20,7 @@ import DashboardsService from 'services/DashboardsService';
 import UserService from 'services/UserService';
 
 // Layout
-import Page from 'components/app/layout/Page';
+import Page from 'components/layout/page';
 import Layout from 'components/app/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 

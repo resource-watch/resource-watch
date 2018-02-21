@@ -6,7 +6,7 @@ import { initStore } from 'store';
 import { getInsights } from 'redactions/insights';
 
 // Layout
-import Page from 'components/app/layout/Page';
+import Page from 'components/layout/page';
 import Layout from 'components/app/layout/Layout';
 
 // Components

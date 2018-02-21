@@ -24,7 +24,7 @@ import ExploreDetailTags from 'components/explore-detail/explore-detail-tags';
 import ExploreDetailWidgetEditor from 'components/explore-detail/explore-detail-widget-editor';
 
 // Components
-import Page from 'components/app/layout/Page';
+import Page from 'components/layout/page';
 import Layout from 'components/app/layout/Layout';
 
 import Title from 'components/ui/Title';

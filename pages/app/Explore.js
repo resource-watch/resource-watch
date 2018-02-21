@@ -61,7 +61,7 @@ import SearchInput from 'components/ui/SearchInput';
 import ExploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';
 
 // Layout
-import Page from 'components/app/layout/Page';
+import Page from 'components/layout/page';
 import Layout from 'components/app/layout/Layout';
 
 // Utils

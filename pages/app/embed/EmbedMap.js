@@ -10,7 +10,7 @@ import { getWidget, toggleLayerGroupVisibility, checkIfFavorited, setIfFavorited
 import { setEmbed } from 'redactions/common';
 
 // Components
-import Page from 'components/app/layout/Page';
+import Page from 'components/layout/page';
 import EmbedLayout from 'components/app/layout/EmbedLayout';
 import Spinner from 'components/ui/Spinner';
 import Map from 'components/ui/map/Map';

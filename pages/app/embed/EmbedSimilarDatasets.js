@@ -10,7 +10,7 @@ import { initStore } from 'store';
 import { setEmbed } from 'redactions/common';
 
 // Components
-import Page from 'components/app/layout/Page';
+import Page from 'components/layout/page';
 import EmbedLayout from 'components/app/layout/EmbedLayout';
 import SimilarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
 

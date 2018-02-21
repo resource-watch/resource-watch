@@ -16,7 +16,7 @@ import WidgetsService from 'services/WidgetsService';
 import LayersService from 'services/LayersService';
 
 // Layout
-import Page from 'components/admin/layout/Page';
+import Page from 'components/layout/page';
 import Layout from 'components/admin/layout/Layout';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 

@@ -25,7 +25,7 @@ import GraphService from 'services/GraphService';
 import UserService from 'services/UserService';
 
 // Components
-import Page from 'components/app/layout/Page';
+import Page from 'components/layout/page';
 import Layout from 'components/app/layout/Layout';
 import Icon from 'components/ui/Icon';
 import Breadcrumbs from 'components/ui/Breadcrumbs';

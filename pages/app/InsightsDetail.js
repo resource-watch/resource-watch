@@ -6,7 +6,7 @@ import { initStore } from 'store';
 import { getInsightBySlug } from 'redactions/insights';
 
 // Layout
-import Page from 'components/app/layout/Page';
+import Page from 'components/layout/page';
 import Layout from 'components/app/layout/Layout';
 
 class InsightsDetail extends Page {
