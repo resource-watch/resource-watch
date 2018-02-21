@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 
 import Package from '../../../package.json';
 
+console.log(Package.version);
+
 const TRANSIFEX_BLACKLIST = [
   '/app/embed/EmbedDashboard',
   '/app/embed/EmbedLayer',
@@ -140,14 +142,13 @@ class Head extends React.PureComponent {
         <link rel="icon" href="/static/favicon.ico" />
         <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700" />
 
-        {/* Adress background */}
+        {/* Mobile Adress background */}
         {/* Chrome, Firefox OS and Opera */}
         <meta name="theme-color" content="#c32d7b" />
         {/* Windows Phone */}
         <meta name="msapplication-navbutton-color" content="#c32d7b" />
         {/* iOS Safari */}
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="#c32d7b" />
 
         {Head.getStyles()}
         {this.getCesiumStyles()}
@@ -176,5 +177,6 @@ export default connect(
   state => ({
     dataset: state.exploreDataset.data,
     routes: state.routes
-  })
+  }),
+  null
 )(Head);

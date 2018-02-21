@@ -15,12 +15,12 @@ import { setLocale } from 'redactions/common';
 
 // Components
 import { Router } from 'routes';
+import Head from 'components/layout/head/app';
 import Header from 'components/layout/header';
 import Icons from 'components/layout/icons';
 import Footer from 'components/layout/footer';
 
 import Tooltip from 'components/ui/Tooltip';
-import Head from 'components/app/layout/head';
 import Modal from 'components/ui/Modal';
 import Toastr from 'react-redux-toastr';
 import Dock from 'components/ui/Dock';
