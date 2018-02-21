@@ -16,7 +16,6 @@ export const STATE_DEFAULT = {
   }
 };
 
-
 export const FORM_ELEMENTS = {
   elements: {
   },
