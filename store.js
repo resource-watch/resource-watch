@@ -63,7 +63,7 @@ const reducer = combineReducers({
   similarDatasets: handleModule(similarDatasets),
 
   // Pulse
-  pulse: handleModule(layerMenuDropdown)
+  layerMenuPulse: handleModule(layerMenuDropdown)
 });
 
 const composeEnhancers = composeWithDevTools({});

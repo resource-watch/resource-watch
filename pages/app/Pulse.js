@@ -6,7 +6,8 @@ import compact from 'lodash/compact';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { getLayers, getLayerPoints, toggleActiveLayer, resetLayerPoints } from 'redactions/pulse';
+import { getLayers, getLayerPoints, resetLayerPoints } from 'redactions/pulse';
+import { toggleActiveLayer } from 'components/app/pulse/layer-menu-dropdown/actions';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Selectors
@@ -108,8 +109,8 @@ class Pulse extends Page {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { layerActive } = this.props.pulse;
-    const nextLayerActive = nextProps.pulse.layerActive;
+    const { layerActive } = this.props.layerMenuPulse;
+    const nextLayerActive = nextProps.layerMenuPulse.layerActive;
     const lastId = (layerActive) ? layerActive.id : null;
     const newId = (nextLayerActive) ? nextLayerActive.id : null;
     if (lastId !== newId) {
@@ -147,10 +148,10 @@ class Pulse extends Page {
       }
     }
 
-    if (nextProps.pulse.layerPoints !== this.props.pulse.layerPoints) {
-      if (nextProps.pulse.layerPoints && nextProps.pulse.layerPoints.length > 0) {
+    if (nextProps.layerMenuPulse.layerPoints !== this.props.layerMenuPulse.layerPoints) {
+      if (nextProps.layerMenuPulse.layerPoints && nextProps.layerMenuPulse.layerPoints.length > 0) {
         this.setState({
-          layerPoints: nextProps.pulse.layerPoints.slice(0),
+          layerPoints: nextProps.layerMenuPulse.layerPoints.slice(0),
           texture: null,
           useDefaultLayer: false,
           markerType: nextLayerActive.markerType
@@ -361,8 +362,8 @@ class Pulse extends Page {
   }
 
   handleCesiumClick(e) {
-    const threedimensional = this.props.pulse.layerActive &&
-      this.props.pulse.layerActive.threedimensional;
+    const threedimensional = this.props.layerMenuPulse.layerActive &&
+      this.props.layerMenuPulse.layerActive.threedimensional;
     const viewer = e.viewer;
     const clickedPosition = e.clickedPosition;
     const mousePosition = new Cesium.Cartesian2(clickedPosition.x, clickedPosition.y);
@@ -392,8 +393,8 @@ class Pulse extends Page {
   }
 
   render() {
-    const { url, layersGroup, pulse } = this.props;
-    const { layerActive, layerPoints } = pulse;
+    const { url, layersGroup, layerMenuPulse } = this.props;
+    const { layerActive, layerPoints } = layerMenuPulse;
     const { markerType, texture, zoom } = this.state;
     const shapes = this.getShapes(layerPoints, markerType);
 
@@ -468,7 +469,7 @@ Pulse.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  pulse: state.pulse,
+  layerMenuPulse: state.layerMenuPulse,
   layersGroup: getLayersGroupPulse(state),
   layerActive: getActiveLayersPulse(state)
 });
