@@ -1,6 +1,12 @@
 .c-field {
   margin-bottom: 20px;
 
+  // temporary... 
+  &-flex {
+    display: flex;
+    justify-content: space-between;
+  }
+
   label, .label {
     font-size: $font-size-extra-small;
     display: block;
