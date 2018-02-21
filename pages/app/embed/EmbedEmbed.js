@@ -10,7 +10,7 @@ import { setEmbed } from 'redactions/common';
 
 // Components
 import Page from 'components/layout/page';
-import EmbedLayout from 'components/app/layout/EmbedLayout';
+import LayoutEmbed from 'components/layout/layout/layout-embed';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
 
@@ -23,7 +23,7 @@ class EmbedEmbed extends Page {
 
     return {
       ...props,
-      referer: isServer ? req.headers.referer : location.href
+      referer: isServer ? req.headers.referer : window.location.href
     };
   }
 
@@ -38,28 +38,30 @@ class EmbedEmbed extends Page {
   }
 
   render() {
-    const { widget, loading, error, favourited, user } = this.props;
+    const {
+      widget, loading, error, favourited, user
+    } = this.props;
 
     const favouriteIcon = favourited ? 'star-full' : 'star-empty';
 
     if (loading) {
       return (
-        <EmbedLayout
-          title={'Loading widget...'}
-          description={''}
+        <LayoutEmbed
+          title="Loading widget..."
+          description=""
         >
           <div className="c-embed-widget">
             <Spinner isLoading className="-light" />
           </div>
-        </EmbedLayout>
+        </LayoutEmbed>
       );
     }
 
     if (error) {
       return (
-        <EmbedLayout
-          title={'Resource Watch'}
-          description={''}
+        <LayoutEmbed
+          title="Resource Watch"
+          description=""
         >
           <div className="c-embed-widget">
             <div className="widget-title">
@@ -75,19 +77,19 @@ class EmbedEmbed extends Page {
                 <a href="/" target="_blank" rel="noopener noreferrer">
                   <img
                     className="embed-logo"
-                    src={'/static/images/logo-embed.png'}
+                    src="/static/images/logo-embed.png"
                     alt="Resource Watch"
                   />
                 </a>
               </div>
             ) }
           </div>
-        </EmbedLayout>
+        </LayoutEmbed>
       );
     }
 
     return (
-      <EmbedLayout
+      <LayoutEmbed
         title={`${widget.attributes.name}`}
         description={`${widget.attributes.description || ''}`}
       >
@@ -120,14 +122,14 @@ class EmbedEmbed extends Page {
               <a href="/" target="_blank" rel="noopener noreferrer">
                 <img
                   className="embed-logo"
-                  src={'/static/images/logo-embed.png'}
+                  src="/static/images/logo-embed.png"
                   alt="Resource Watch"
                 />
               </a>
             </div>
           ) }
         </div>
-      </EmbedLayout>
+      </LayoutEmbed>
     );
   }
 }

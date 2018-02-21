@@ -27,7 +27,7 @@ import Spinner from 'components/ui/Spinner';
 import ZoomControl from 'components/ui/ZoomControl';
 import GlobeTooltip from 'components/app/pulse/GlobeTooltip';
 import Page from 'components/layout/page';
-import Layout from 'components/app/layout/Layout';
+import Layout from 'components/layout/layout/layout-app';
 
 let Map;
 let ImageProvider;

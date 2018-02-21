@@ -7,7 +7,7 @@ import { getInsights } from 'redactions/insights';
 
 // Layout
 import Page from 'components/layout/page';
-import Layout from 'components/app/layout/Layout';
+import Layout from 'components/layout/layout/layout-app';
 
 // Components
 import CardStatic from 'components/app/common/CardStatic';

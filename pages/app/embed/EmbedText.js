@@ -10,7 +10,7 @@ import { setEmbed } from 'redactions/common';
 
 // Components
 import Page from 'components/layout/page';
-import EmbedLayout from 'components/app/layout/EmbedLayout';
+import LayoutEmbed from 'components/layout/layout/layout-embed';
 import TextChart from 'components/widgets/charts/TextChart';
 import Spinner from 'components/ui/Spinner';
 
@@ -23,7 +23,7 @@ class EmbedText extends Page {
 
     return {
       ...props,
-      referer: isServer ? req.headers.referer : location.href
+      referer: isServer ? req.headers.referer : window.location.href
     };
   }
 
@@ -48,17 +48,17 @@ class EmbedText extends Page {
 
     if (loading) {
       return (
-        <EmbedLayout
-          title={'Loading widget...'}
-          description={''}
+        <LayoutEmbed
+          title="Loading widget..."
+          description=""
         >
           <Spinner isLoading className="-light" />
-        </EmbedLayout>
+        </LayoutEmbed>
       );
     }
 
     return (
-      <EmbedLayout
+      <LayoutEmbed
         title={`${widget.attributes.name}`}
         description={`${widget.attributes.description || ''}`}
       >
@@ -83,11 +83,11 @@ class EmbedText extends Page {
               className="embed-logo"
               height={21}
               width={129}
-              src={'/static/images/logo-embed.png'}
+              src="/static/images/logo-embed.png"
               alt="Resource Watch"
             /> }
         </div>
-      </EmbedLayout>
+      </LayoutEmbed>
     );
   }
 }

@@ -10,7 +10,7 @@ import { Link } from 'routes';
 import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
 import Page from 'components/layout/page';
-import Layout from 'components/app/layout/Layout';
+import Layout from 'components/layout/layout/layout-app';
 
 const cards = [
   {

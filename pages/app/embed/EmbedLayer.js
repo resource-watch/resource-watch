@@ -36,7 +36,7 @@ class EmbedLayer extends Page {
 
     return {
       ...props,
-      referer: isServer ? req.headers.referer : location.href
+      referer: isServer ? req.headers.referer : window.location.href
     };
   }
 
@@ -152,8 +152,8 @@ class EmbedLayer extends Page {
         />
         <Tooltip />
 
-        { this.state.error
-          && <div className="message">
+        {this.state.error &&
+          <div className="message">
             <div className="error">Unable to load the map <span>{this.state.error}</span></div>
           </div>
         }

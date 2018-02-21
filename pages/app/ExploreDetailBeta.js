@@ -18,7 +18,7 @@ import Error from '../_error';
 
 // Components
 import Page from 'components/layout/page';
-import Layout from 'components/app/layout/Layout';
+import Layout from 'components/layout/layout/layout-app';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 // import Spinner from 'components/ui/Spinner';
 // import WidgetEditor from 'components/widgets/editor/WidgetEditor';

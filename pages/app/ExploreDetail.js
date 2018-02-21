@@ -25,7 +25,7 @@ import ExploreDetailWidgetEditor from 'components/explore-detail/explore-detail-
 
 // Components
 import Page from 'components/layout/page';
-import Layout from 'components/app/layout/Layout';
+import Layout from 'components/layout/layout/layout-app';
 
 import Title from 'components/ui/Title';
 import ReadMore from 'components/ui/ReadMore';

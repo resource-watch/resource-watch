@@ -16,7 +16,7 @@ import { logEvent } from 'utils/analytics';
 
 // Components
 import Page from 'components/layout/page';
-import Layout from 'components/app/layout/Layout';
+import Layout from 'components/layout/layout/layout-app';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Title from 'components/ui/Title';
 import Icon from 'components/ui/Icon';

@@ -7,8 +7,6 @@ import { connect } from 'react-redux';
 
 import Package from '../../../package.json';
 
-console.log(Package.version);
-
 const TRANSIFEX_BLACKLIST = [
   '/app/embed/EmbedDashboard',
   '/app/embed/EmbedLayer',
@@ -141,6 +139,7 @@ class Head extends React.PureComponent {
 
         <link rel="icon" href="/static/favicon.ico" />
         <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700" />
+        <link rel="stylesheet" media="screen" href="/static/styles/add-search-results.css" />
 
         {/* Mobile Adress background */}
         {/* Chrome, Firefox OS and Opera */}

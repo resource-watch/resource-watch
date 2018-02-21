@@ -8,7 +8,7 @@ import { fetchDashboards, setPagination, setExpanded, setAdd, setSelected } from
 
 // Components
 import Page from 'components/layout/page';
-import Layout from 'components/app/layout/Layout';
+import Layout from 'components/layout/layout/layout-app';
 import DashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
 
 class Dashboards extends Page {

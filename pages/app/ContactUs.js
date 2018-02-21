@@ -6,7 +6,7 @@ import { initStore } from 'store';
 
 // Components
 import Page from 'components/layout/page';
-import Layout from 'components/app/layout/Layout';
+import Layout from 'components/layout/layout/layout-app';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import ContactUsForm from 'components/app/common/ContactUs/ContactUsForm';

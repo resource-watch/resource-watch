@@ -13,7 +13,7 @@ import { Router } from 'routes';
 
 // Components
 import Page from 'components/layout/page';
-import EmbedLayout from 'components/app/layout/EmbedLayout';
+import LayoutEmbed from 'components/layout/layout/layout-embed';
 
 import DashboardDetail from 'components/dashboards/detail/dashboard-detail';
 
@@ -22,11 +22,9 @@ class EmbedDashboard extends Page {
     const props = await super.getInitialProps(context);
 
     // Dashboard detail
-    await context.store.dispatch(
-      fetchDashboard({
-        id: props.url.query.slug
-      })
-    );
+    await context.store.dispatch(fetchDashboard({
+      id: props.url.query.slug
+    }));
 
     return { ...props };
   }
@@ -75,7 +73,7 @@ class EmbedDashboard extends Page {
     const { dashboardDetail } = this.props;
 
     return (
-      <EmbedLayout
+      <LayoutEmbed
         title={dashboardDetail.dashboard.name}
         description={dashboardDetail.dashboard.summary}
         pageHeader
@@ -102,7 +100,7 @@ class EmbedDashboard extends Page {
             </div>
           </div>
         </div>
-      </EmbedLayout>
+      </LayoutEmbed>
     );
   }
 }

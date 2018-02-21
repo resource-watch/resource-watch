@@ -7,7 +7,7 @@ import { initStore } from 'store';
 import { getStaticData } from 'redactions/static_pages';
 
 import Page from 'components/layout/page';
-import Layout from 'components/app/layout/Layout';
+import Layout from 'components/layout/layout/layout-app';
 
 class Howto extends Page {
   static async getInitialProps(context) {

@@ -15,7 +15,7 @@ import { capitalizeFirstLetter } from 'utils/utils';
 
 // Layout
 import Page from 'components/layout/page';
-import Layout from 'components/admin/layout/Layout';
+import Layout from 'components/layout/layout/layout-admin';
 
 // Tabs
 import DashboardsTab from 'components/admin/dashboards/DashboardsTab';

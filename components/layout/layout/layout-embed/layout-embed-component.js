@@ -1,19 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// Redux
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { updateIsLoading } from 'redactions/page';
-import { toggleTooltip } from 'redactions/tooltip';
-
 // Components
 import { Router } from 'routes';
-import Icons from 'components/app/layout/icons';
-import Tooltip from 'components/ui/Tooltip';
-import Head from 'components/app/layout/head';
 
-class Layout extends React.Component {
+import Head from 'components/layout/head/app';
+import Icons from 'components/layout/icons';
+import Tooltip from 'components/ui/Tooltip';
+
+class LayoutEmbed extends React.Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    className: PropTypes.string,
+    // Store
+    toggleTooltip: PropTypes.func,
+    updateIsLoading: PropTypes.func
+  };
+
   componentWillMount() {
     // When a tooltip is shown and the router navigates to a
     // another page, the tooltip stays in place because it is
@@ -21,7 +26,7 @@ class Layout extends React.Component {
     // The way we prevent this is by listening to the router
     // and whenever we navigate, we hide the tooltip
     // NOTE: we can't just call this.props.toggleTooltip here
-    // because for some pages, we don't re-mount the Layout
+    // because for some pages, we don't re-mount the LayoutEmbed
     // component. If we listen for events from the router,
     // we're sure to not miss any page.
     this.props.toggleTooltip(false);
@@ -57,24 +62,4 @@ class Layout extends React.Component {
   }
 }
 
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
-  title: PropTypes.string,
-  description: PropTypes.string,
-  className: PropTypes.string,
-  // Store
-  toggleTooltip: PropTypes.func,
-  updateIsLoading: PropTypes.func
-};
-
-const mapStateToProps = state => ({
-  modal: state.modal,
-  isLoading: state.page.isLoading
-});
-
-const mapDispatchToProps = dispatch => ({
-  toggleTooltip: () => dispatch(toggleTooltip()),
-  updateIsLoading: bindActionCreators(isLoading => updateIsLoading(isLoading), dispatch)
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default LayoutEmbed;
