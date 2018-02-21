@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Layout
+import Head from 'components/layout/head/app';
 import Page from 'components/layout/page';
-import Head from 'components/app/layout/head';
+import Icons from 'components/layout/icons';
 
 // Components
 import Spinner from 'components/ui/Spinner';
 import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
-import Icons from 'components/app/layout/icons';
 import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
 

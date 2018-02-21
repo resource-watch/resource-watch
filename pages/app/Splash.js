@@ -10,7 +10,7 @@ import { getInsights } from 'redactions/insights';
 
 // Layout
 import Page from 'components/layout/page';
-import Head from 'components/app/layout/head';
+import Head from 'components/layout/head/app';
 import Header from 'components/splash/layout/Header';
 
 // Utils
