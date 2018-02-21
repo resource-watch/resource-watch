@@ -7,8 +7,9 @@ import { Link } from 'routes';
 // Components
 import TetherComponent from 'react-tether';
 
-export default class HeaderAbout extends React.PureComponent {
+export default class HeaderTopics extends React.PureComponent {
   toggleDropdown = debounce((bool) => {
+    console.log('hey!');
     this.props.setDropdownOpened({ topics: bool });
   }, 50)
 
@@ -94,7 +95,7 @@ export default class HeaderAbout extends React.PureComponent {
   }
 }
 
-HeaderAbout.propTypes = {
+HeaderTopics.propTypes = {
   header: PropTypes.object,
   setDropdownOpened: PropTypes.func
 };
