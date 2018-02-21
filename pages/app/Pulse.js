@@ -29,16 +29,7 @@ import ZoomControl from 'components/ui/ZoomControl';
 import GlobeTooltip from 'components/app/pulse/GlobeTooltip';
 import Page from 'components/app/layout/Page';
 import Layout from 'components/app/layout/Layout';
-
-let Map;
-let ImageProvider;
-let Cesium;
-if (typeof window !== 'undefined') {
-  /* eslint-disable */
-  Map = require('components/cesium/map/map').default;
-  ImageProvider = require('components/cesium/providers/image/image').default;
-  /* eslint-enable */
-}
+import GlobeCesium from 'components/app/pulse/globe-cesium';
 
 //----------------------------------------------------------
 // TO-DO move this to somewhere else that makes more sense
@@ -96,12 +87,6 @@ class Pulse extends Page {
    * - componentWillUnmount
   */
   componentDidMount() {
-    // Init Cesium var
-    Cesium = window.Cesium;
-    Cesium.BingMapsApi.defaultKey = process.env.BING_MAPS_API_KEY;
-
-    this.mounted = true;
-    // This is not sending anything, for the moment
     this.props.getLayers();
     document.addEventListener('click', this.handleMouseClick);
   }
@@ -408,31 +393,7 @@ class Pulse extends Page {
           <Spinner
             isLoading={this.state.loading}
           />
-          {this.mounted &&
-            <Map
-              className="cesium-map"
-              onClick={this.handleCesiumClick}
-              onMouseDown={this.handleCesiumMouseDown}
-              onMoveStart={this.handleCesiumMoveStart}
-              onShapesCreated={this.handleShapesCreated}
-              shapes={shapes}
-              zoom={zoom}
-              homeButton={false}
-              navigationHelpButton={false}
-              showInfoWindow
-              selectionIndicator
-            >
-              {basemap &&
-                <ImageProvider key={basemap.url} url={basemap.url} type="UrlTemplate" visible />
-              }
-              {contextLayers &&
-                contextLayers.map(l => (<ImageProvider key={l.url} url={l.url} type="UrlTemplate" visible={l.active} />))
-              }
-              {texture &&
-                <ImageProvider key={texture} url={texture} type="UrlTemplate" visible />
-              }
-            </Map>
-          }
+          <GlobeCesium />
           <ZoomControl
             onZoomIn={this.triggerZoomIn}
             onZoomOut={this.triggerZoomOut}
