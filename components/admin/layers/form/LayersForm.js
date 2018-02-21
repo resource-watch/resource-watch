@@ -33,7 +33,8 @@ class LayersForm extends React.Component {
       dataset: props.dataset,
       datasets: [],
       form: formObj,
-      loading: !!props.id
+      loading: !!props.id,
+      availableColumns: null
     });
 
     // Service
@@ -50,6 +51,7 @@ class LayersForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onChangeDataset = this.onChangeDataset.bind(this);
+    this.onChangeColumn = this.onChangeColumn.bind(this);
     this.onStepChange = this.onStepChange.bind(this);
   }
 
@@ -69,8 +71,18 @@ class LayersForm extends React.Component {
       .then((response) => {
         const datasets = response[0];
         const current = response[1];
+
         const formState = (id) ? this.setFormFromParams(current) : this.state.form;
 
+        const { provider, dataset } = current || {};
+
+        if (provider !== 'wms') {
+          this.service.getColumns({ dataset })
+            .then((availableColumns) => {
+              this.setState({ availableColumns });
+            });
+        }
+        
         this.setState({
           // CURRENT LAYER
           form: formState,
@@ -155,6 +167,24 @@ class LayersForm extends React.Component {
     this.setState({ step });
   }
 
+  onChangeColumn(obj) {
+    console.log('add column', obj);
+    return null;
+    const { interactionConfig } = this.state.form;
+
+    interactionConfig.output.push({
+      obj,
+      format: null,
+      property: '',
+      prefix: '',
+      suffix: '',
+      type: 'string'
+    });
+
+    const form = Object.assign({}, this.state.form, interactionConfig);
+    this.setState({ form });
+  }
+
   // HELPERS
   setFormFromParams(params) {
     const newForm = {};
@@ -182,11 +212,13 @@ class LayersForm extends React.Component {
           <Step1
             ref={(c) => { this.step = c; }}
             form={this.state.form}
+            availableColumns={this.state.availableColumns}
             id={this.state.id}
             dataset={this.state.dataset}
             datasets={this.state.datasets}
             onChange={value => this.onChange(value)}
             onChangeDataset={value => this.onChangeDataset(value)}
+            onChangeColumn={value => this.onChangeColumn(value)}
           />
         }
 

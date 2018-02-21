@@ -14,8 +14,12 @@ import Code from 'components/form/Code';
 import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
 
+
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
+
+// tmp placement
+import ColumnsForm from 'components/admin/layers/form/columns';
 
 // Constants
 const MAP_CONFIG = {
@@ -73,6 +77,9 @@ class Step1 extends React.Component {
 
   render() {
     const { layerGroups } = this.state;
+    const { availableColumns, form } = this.props;
+    const { interactionConfig } = form;
+
     return (
       <fieldset className="c-field-container">
         {!this.state.id &&
@@ -160,18 +167,34 @@ class Step1 extends React.Component {
         >
           {Code}
         </Field>
+          
+        <div className="c-field preview-container">
+          <h5>Interactions</h5>
 
-        <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.interactionConfig = c; }}
-          onChange={value => this.props.onChange({ interactionConfig: value })}
-          properties={{
-            name: 'interactionConfig',
-            label: 'Interaction config',
-            default: this.state.form.interactionConfig
-          }}
-        >
-          {Code}
-        </Field>
+          <ColumnsForm form={this.state.form} />
+
+          {availableColumns && availableColumns.fields && <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.dataset = c; }}
+            validations={['required']}
+            options={availableColumns.fields}
+            onChange={value => this.props.onChangeColumn({ field: value })}
+            properties={{
+              name: 'more_columns',
+              label: 'Add more fields',
+              placeholder: 'Select a field',
+              type: 'text',
+              removeSelected: true,
+              multi: true,
+              simpleValue: true,
+              valueKey: 'column',
+              labelKey: 'column',
+              default: interactionConfig.output
+            }}
+          >
+            {Select}
+          </Field>}
+                
+        </div>
 
         <div className="c-field preview-container">
           <h5>Layer preview</h5>
@@ -203,7 +226,7 @@ class Step1 extends React.Component {
             </button>
           </div>
         </div>
-
+        
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.default = c; }}
           onChange={value => this.props.onChange({ default: value.checked })}
@@ -233,8 +256,10 @@ Step1.propTypes = {
   id: PropTypes.string,
   datasets: PropTypes.array,
   form: PropTypes.object,
+  availableColumns: PropTypes.object,
   onChange: PropTypes.func,
-  onChangeDataset: PropTypes.func
+  onChangeDataset: PropTypes.func,
+  onChangeColumn: PropTypes.func
 };
 
 export default Step1;
