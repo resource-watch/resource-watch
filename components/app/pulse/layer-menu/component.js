@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Components
-import LayerNavDropdown from 'components/app/pulse/LayerNavDropdown';
+import LayerMenuDropdown from 'components/app/pulse/layer-menu-dropdown';
 
 class LayerMenuComponent extends PureComponent {
   createItemGroup(group) {
@@ -16,7 +16,7 @@ class LayerMenuComponent extends PureComponent {
         <span className="name">
           {group.label}
         </span>
-        <LayerNavDropdown layers={group.layers} />
+        <LayerMenuDropdown layers={group.layers} />
       </li>
     );
   }
