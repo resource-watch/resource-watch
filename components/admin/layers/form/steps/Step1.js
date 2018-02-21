@@ -38,6 +38,7 @@ class Step1 extends React.Component {
     this.state = {
       id: props.id,
       form: props.form,
+      availableColumns: props.availableColumns,
       layerGroups: []
     };
 
@@ -76,9 +77,14 @@ class Step1 extends React.Component {
   }
 
   render() {
-    const { layerGroups } = this.state;
-    const { availableColumns, form } = this.props;
+    const { layerGroups, form } = this.state;
+    const { availableColumns } = this.props;
     const { interactionConfig } = form;
+
+    // temporary, fix me
+    const testValues = interactionConfig.output.map((item) => {
+      return { label: item.column, value: item.column }
+    });
 
     return (
       <fieldset className="c-field-container">
@@ -167,34 +173,48 @@ class Step1 extends React.Component {
         >
           {Code}
         </Field>
-          
+
         <div className="c-field preview-container">
           <h5>Interactions</h5>
 
           <ColumnsForm form={this.state.form} />
 
-          {availableColumns && availableColumns.fields && <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.dataset = c; }}
+          {availableColumns && availableColumns.fields &&
+          <Field
             validations={['required']}
             options={availableColumns.fields}
-            onChange={value => this.props.onChangeColumn({ field: value })}
+            onChange={value => this.props.changeColumn(value)}
             properties={{
-              name: 'more_columns',
+              name: 'selected_columns',
               label: 'Add more fields',
               placeholder: 'Select a field',
               type: 'text',
               removeSelected: true,
               multi: true,
-              simpleValue: true,
-              valueKey: 'column',
-              labelKey: 'column',
-              default: interactionConfig.output
+              default: testValues
             }}
           >
             {Select}
           </Field>}
-                
+
         </div>
+
+        <Field
+          ref={(c) => { if (c) FORM_ELEMENTS.elements.provider = c; }}
+          onChange={value => this.props.onChange({ provider: value })}
+          validations={['required']}
+          options={PROVIDER_OPTIONS}
+          properties={{
+            name: 'provider',
+            label: 'Provider',
+            type: 'text',
+            required: true,
+            default: this.state.form.provider
+          }}
+        >
+          {Select}
+        </Field>
+
 
         <div className="c-field preview-container">
           <h5>Layer preview</h5>
@@ -226,7 +246,7 @@ class Step1 extends React.Component {
             </button>
           </div>
         </div>
-        
+
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.default = c; }}
           onChange={value => this.props.onChange({ default: value.checked })}
@@ -259,7 +279,7 @@ Step1.propTypes = {
   availableColumns: PropTypes.object,
   onChange: PropTypes.func,
   onChangeDataset: PropTypes.func,
-  onChangeColumn: PropTypes.func
+  changeColumn: PropTypes.func
 };
 
 export default Step1;

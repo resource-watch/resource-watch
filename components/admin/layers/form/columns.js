@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// Redux
-import { connect } from 'react-redux';
-
 // Constants
 import { FORM_ELEMENTS } from 'components/admin/layers/form/constants';
 
@@ -14,7 +11,7 @@ import Input from 'components/form/Input';
 // Utils
 import { capitalizeFirstLetter } from 'utils/utils';
 
-function ColumnsForm(props) {  
+function ColumnsForm(props) {
   const { form } = props;
 
   if (!form || !form.interactionConfig || !form.interactionConfig.output) return null;
@@ -54,13 +51,7 @@ function ColumnsForm(props) {
 }
 
 ColumnsForm.propTypes = {
-  interactionConfig: PropTypes.object,
-  availableColumns: PropTypes.object,
   form: PropTypes.object
 };
 
-const mapStateToProps = state => ({
-  user: state.form
-});
-
-export default connect(mapStateToProps, null)(ColumnsForm);
+export default ColumnsForm;

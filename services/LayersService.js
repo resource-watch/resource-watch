@@ -84,11 +84,8 @@ export default class LayersService {
           const parsedData = {
             tableName: response.tableName,
             fields: (Object.keys(fieldsObj) || []).map(key => ({
-              column: key,
-              property: '',
-              prefix: '',
-              suffix: '',
-              type: fieldsObj[key].type
+              label: key,
+              value: key
             }))
           };
 
