@@ -77,7 +77,7 @@
     .actions {
       display: flex;
       justify-content: space-between;
-      height: 30px;
+      flex-wrap: wrap;
 
       .c-button {
         height: 30px;
