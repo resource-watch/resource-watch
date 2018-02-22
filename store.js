@@ -28,6 +28,9 @@ import * as similarDatasets from 'components/datasets/similar-datasets/similar-d
 // Explore
 import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';
 
+// Widget
+import * as widgetDetail from 'pages/app/widget-detail/widget-detail';
+
 // Widget editor
 import { reducers as widgetEditorModules } from 'widget-editor';
 
@@ -56,6 +59,7 @@ const reducer = combineReducers({
   headerAdmin: handleModule(headerAdmin),
   footer: handleModule(footer),
 
+  // Share
   shareModal: handleModule(shareModal),
 
   // Dashboards
@@ -67,8 +71,12 @@ const reducer = combineReducers({
   // Explore
   exploreDatasetFilters: handleModule(exploreDatasetFilters),
 
-  // Explore detail
-  similarDatasets: handleModule(similarDatasets)
+  // Dataset
+  similarDatasets: handleModule(similarDatasets),
+
+  // Widget
+  widgetDetail: handleModule(widgetDetail)
+
 });
 
 const composeEnhancers = composeWithDevTools({});
