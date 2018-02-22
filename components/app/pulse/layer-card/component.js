@@ -27,8 +27,35 @@ class LayerCardComponent extends PureComponent {
     if ((nextProps.pulse.layerActive && nextProps.pulse.layerActive.id) !==
       (this.props.pulse.layerActive && this.props.pulse.layerActive.id)) {
       this.loadWidgets(nextProps);
-      this.loadDatasetData(nextProps);
+      this.props.loadDatasetData(nextProps.pulse.layerActive.id);
     }
+  }
+
+  handleSubscribeToAlerts() {
+    const { user } = this.props;
+    const userLoggedIn = user && user.id;
+
+    let options = null;
+    if (!userLoggedIn) {
+      options = {
+        children: LoginModal,
+        childrenProps: {
+          toggleModal: this.props.toggleModal,
+          text: 'Log in to subscribe to near-real time datasets'
+        }
+      };
+    } else {
+      options = {
+        children: SubscribeToDatasetModal,
+        childrenProps: {
+          toggleModal: this.props.toggleModal,
+          dataset: this.state.dataset,
+          showDatasetSelector: false
+        }
+      };
+    }
+    this.props.toggleModal(true);
+    this.props.setModalOptions(options);
   }
 
   render() {
@@ -99,7 +126,7 @@ class LayerCardComponent extends PureComponent {
         <div className="buttons">
           { datasetId &&
             <Link
-              route={'explore_detail'}
+              route="explore_detail"
               params={{ id: datasetId }}
             >
               <a className="link_button" >Explore the data</a>
@@ -119,7 +146,7 @@ class LayerCardComponent extends PureComponent {
   }
 }
 
-LayerCard.propTypes = {
+LayerCardComponent.propTypes = {
   // PROPS
   pulse: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
@@ -129,7 +156,8 @@ LayerCard.propTypes = {
   setSimilarWidgets: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
-  toggleContextualLayer: PropTypes.func.isRequired
+  toggleContextualLayer: PropTypes.func.isRequired,
+  loadDatasetData: PropTypes.func.isRequired
 };
 
 export default LayerCardComponent;
