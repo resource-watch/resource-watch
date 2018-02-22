@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import { Router } from 'routes';
+import { toastr } from 'react-redux-toastr';
 
 // components
 import Icon from 'components/ui/Icon';
@@ -68,8 +69,10 @@ class MyRWWidgets extends PureComponent {
 
   handlePageChange = page => this.props.setPaginationPage(page);
 
-  // TO-DO
-  handleWidgetRemoved = () => {}
+  handleWidgetRemoved = () => {
+    toastr.success('Success', 'Widget removed');
+    this.props.getWidgetsByTab(this.props.subtab);
+  }
 
   // TO-DO
   handleWidgetClick = () => {}
