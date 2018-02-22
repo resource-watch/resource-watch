@@ -8,6 +8,7 @@ import Layout from 'components/layout/layout/layout-app';
 
 // Widget Detail Component
 import WidgetDetailHeader from 'pages/app/widget-detail/widget-detail-header';
+import WidgetCard from 'components/widgets/list/WidgetCard';
 
 class WidgetDetailComponent extends Page {
   static propTypes = {
@@ -35,6 +36,19 @@ class WidgetDetailComponent extends Page {
               <div className="row">
                 <div className="column small-12">
                   <WidgetDetailHeader />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="l-section">
+            <div className="l-container">
+              <div className="row">
+                <div className="column small-12">
+                  {/* I'm using this component but we need to create a proper one */}
+                  <WidgetCard
+                    widget={widget}
+                  />
                 </div>
               </div>
             </div>
