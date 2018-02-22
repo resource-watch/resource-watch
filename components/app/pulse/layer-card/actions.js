@@ -5,8 +5,9 @@ import WidgetService from 'services/WidgetService';
 import DatasetService from 'services/DatasetService';
 
 export const setDatasetData = createAction('layer-card/setDatasetData');
+export const setWidgetData = createAction('layer-card/setWidgetData');
 
-export const loadDatasetData = createThunkAction('layer-card/loadDa', ({ id, locale = 'en' }) =>
+export const loadDatasetData = createThunkAction('layer-card/loadDatasetData', ({ id, locale = 'en' }) =>
   (dispatch) => {
     if (id) {
       const datasetService = new DatasetService(id, {
@@ -17,5 +18,14 @@ export const loadDatasetData = createThunkAction('layer-card/loadDa', ({ id, loc
       datasetService.fetchData().then((data) => {
         dispatch(setDatasetData(data));
       });
+    }
+  });
+
+export const loadWidgetData = createThunkAction('layer-card/loadWidgetData', id =>
+  (dispatch) => {
+    if (id) {
+      const widgetService = new WidgetService(id, { apiURL: process.env.WRI_API_URL });
+      widgetService.fetchData().then(response =>
+        dispatch(setWidgetData(response)));
     }
   });
