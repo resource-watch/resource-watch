@@ -70,6 +70,8 @@ class GlobeCesiumComponent extends PureComponent {
       }
     };
 
+    console.log('this.props', this.props);
+
     this.baseLayers = this.viewModel.baseLayers;
     this.contextLayers = this.viewModel.contextLayers;
 
@@ -82,7 +84,7 @@ class GlobeCesiumComponent extends PureComponent {
     if (nextProps.basemap !== this.props.basemap ||
       nextProps.contextLayers !== this.props.contextLayers ||
       nextProps.mainLayer !== this.props.mainLayer) {
-      this.updateLayers();
+      this.updateLayers(nextProps);
     }
   }
 
@@ -123,12 +125,19 @@ class GlobeCesiumComponent extends PureComponent {
     Cesium.knockout.track(layer, ['alpha', 'show', 'name']);
   }
 
-  updateLayers() {
+  removeMainLayer() {
+    for (let i = 0; i < this.imageryLayers.length; i++) {
+      if (this.imageryLayers.get(i).name === 'mainLayer') {
+        this.imageryLayers.remove(this.imageryLayers.get(i), false);
+      }
+    }
+  }
+
+  updateLayers(props) {
     console.log('updateLayers!');
-    const { basemap, contextLayers, mainLayer } = this.props;
+    const { basemap, contextLayers, mainLayer } = props;
 
     if (basemap) {
-      console.log('basemap', basemap);
       const basemapFound = this.baseLayers.find(l => l.name === basemap.name);
       // Check if the basemap provided has already been added
       if (!basemapFound) {
@@ -147,7 +156,12 @@ class GlobeCesiumComponent extends PureComponent {
 
     }
 
-    console.log('mainLayer', mainLayer);
+    if (mainLayer) {
+      // Remove previous mainLayer
+      this.removeMainLayer();
+
+      this.addAdditionalLayerOption('mainLayer', new Cesium.UrlTemplateImageryProvider({ url: mainLayer }), 1, true);
+    }
 
     const numContextLayers = this.imageryLayers.length;
     this.viewModel.layers.splice(0, this.viewModel.layers.length);
