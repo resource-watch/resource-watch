@@ -14,7 +14,6 @@ export const getTrySubscriptionModal = createThunkAction('try-subscription-modal
     .then(response => response.json())
     .then(({ data, errors }) => {
       if (errors) {
-        // toastr.error('Error', `${errors[0].status}: ${errors[0].detail}`);
         dispatch(setTrySubscriptionModalLoading(false));
         dispatch(setTrySubscriptionModalError(errors));
       } else {
