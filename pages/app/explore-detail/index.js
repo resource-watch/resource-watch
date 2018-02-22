@@ -17,9 +17,7 @@ import { TOOLS_CONNECTIONS } from 'utils/apps/toolsConnections';
 
 class ExploreDetailPage extends Page {
   static propTypes = {
-    user: PropTypes.object,
-    exploreDetail: PropTypes.object,
-    locale: PropTypes.string.isRequired
+    exploreDetail: PropTypes.object
   };
 
   static async getInitialProps(context) {
@@ -32,7 +30,7 @@ class ExploreDetailPage extends Page {
     const { exploreDetail } = store.getState();
     const dataset = exploreDetail.data;
     if (!dataset && res) res.statusCode = 404;
-    if (dataset && !dataset.published && res) res.statusCode = 404;
+    if (dataset && res && !dataset.published) res.statusCode = 404;
 
     const { id, vocabulary } = dataset;
 

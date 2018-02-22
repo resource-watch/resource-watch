@@ -28,10 +28,7 @@ import {
 
 class ExploreDetail extends Page {
   static propTypes = {
-    url: PropTypes.object.isRequired,
-    user: PropTypes.object,
-    exploreDetail: PropTypes.object,
-    locale: PropTypes.string.isRequired
+    exploreDetail: PropTypes.object
   };
 
   render() {
