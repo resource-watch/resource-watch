@@ -2,10 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-// Redux
-import { connect } from 'react-redux';
-import { toggleContextualLayer } from 'redactions/pulse';
-
 class LayerPillComponent extends PureComponent {
   render() {
     const { layerActive, layerId, label } = this.props;
@@ -33,14 +29,6 @@ class LayerPillComponent extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  layerActive: state.pulse.layerActive
-});
-
-const mapDispatchToProps = {
-  toggleContextualLayer
-};
-
 LayerPillComponent.propTypes = {
   layerId: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
@@ -49,4 +37,4 @@ LayerPillComponent.propTypes = {
   toggleContextualLayer: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LayerPillComponent);
+export default LayerPillComponent;
