@@ -101,16 +101,20 @@ export const fetchTags = createThunkAction('WIDGET-DETAIL/fetchTags', () => (dis
   const tags = getState().exploreDetail.tags.active;
   const service = new GraphService();
 
-  return service.getInferredTags(tags)
-    .then((response) => {
-      dispatch(setTags(response.filter(tag =>
-        tag.labels.find(type => type === 'TOPIC' || type === 'GEOGRAPHY') &&
-        !TAGS_BLACKLIST.includes(tag.id))));
-    })
-    .catch((err) => {
-      dispatch(setTagsLoading(false));
-      dispatch(setTagsError(err));
-    });
+  if (tags.length) {
+    return service.getInferredTags(tags)
+      .then((response) => {
+        dispatch(setTags(response.filter(tag =>
+          tag.labels.find(type => type === 'TOPIC' || type === 'GEOGRAPHY') &&
+          !TAGS_BLACKLIST.includes(tag.id))));
+      })
+      .catch((err) => {
+        dispatch(setTagsLoading(false));
+        dispatch(setTagsError(err));
+      });
+  }
+
+  return null;
 });
 
 // COUNT VIEW

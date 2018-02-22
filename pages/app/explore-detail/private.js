@@ -32,7 +32,6 @@ class ExploreDetailPage extends Page {
     const { exploreDetail } = store.getState();
     const dataset = exploreDetail.data;
     if (!dataset && res) res.statusCode = 404;
-    if (dataset && !dataset.published && res) res.statusCode = 404;
 
     const { id, vocabulary } = dataset;
 
@@ -78,13 +77,6 @@ class ExploreDetailPage extends Page {
   }
 
   render() {
-    const {
-      exploreDetail
-    } = this.props;
-
-    const { data: dataset } = exploreDetail;
-    if (dataset) return <Error status={404} />;
-
     return <ExploreDetail />;
   }
 }

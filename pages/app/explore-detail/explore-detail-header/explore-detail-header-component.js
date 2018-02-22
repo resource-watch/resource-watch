@@ -70,11 +70,13 @@ class ExploreDetailHeader extends PureComponent {
 
         <h1>{datasetName}</h1>
 
-        <h3>{metadata && metadata.info.functions}</h3>
+        {metadata.info && metadata.info.functions &&
+          <h3>{metadata.info.functions}</h3>
+        }
 
         <div className="page-header-info">
           <ul>
-            <li>Source: {(metadata && metadata.source) || '-'}</li>
+            <li>Source: {(metadata.source) || '-'}</li>
             <li>Last update: {dataset && new Date(dataset.updatedAt).toJSON().slice(0, 10).replace(/-/g, '/')}</li>
             <li>
               <button className="c-btn -tertiary -alt -clean" onClick={() => this.handleToggleShareModal(true)}>
