@@ -132,8 +132,8 @@ class GlobeCesiumComponent extends PureComponent {
           basemap.name,
           new Cesium.UrlTemplateImageryProvider({ url: basemap.url })
         );
+        this.imageryLayers.add(newBasemap, 1);
         this.imageryLayers.remove(this.viewModel.layers[0]);
-        this.imageryLayers.add(newBasemap, 0);
         console.log('imageryLayers', this.imageryLayers, 'baseLayers', this.baseLayers);
       }
     }
