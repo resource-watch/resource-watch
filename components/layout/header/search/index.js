@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as actions from '../header-actions';
 
-import SearchComponent from './search-component';
+import SearchComponent from './component';
 
 class Search extends React.Component {
   componentDidMount() {

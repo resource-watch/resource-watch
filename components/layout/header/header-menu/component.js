@@ -28,7 +28,7 @@ export default class HeaderMenu extends React.PureComponent {
     about: <HeaderAbout />,
     topics: <HeaderTopics />,
     myrw: <HeaderUser />,
-    search: <HeaderSearch />,
+    search: <HeaderSearch />
   }
 
   render() {

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import * as actions from '../header-actions';
 
-import HeaderMenuComponent from './header-menu-component';
+import HeaderMenuComponent from './component';
 
 export default connect(
   state => ({

@@ -9,7 +9,6 @@ import TetherComponent from 'react-tether';
 
 export default class HeaderTopics extends React.PureComponent {
   toggleDropdown = debounce((bool) => {
-    console.log('hey!');
     this.props.setDropdownOpened({ topics: bool });
   }, 50)
 
