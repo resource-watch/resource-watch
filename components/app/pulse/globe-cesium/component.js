@@ -34,6 +34,7 @@ class GlobeCesiumComponent extends PureComponent {
     this.viewModel = {
       layers: [],
       baseLayers: [],
+      contextLayers: [],
       upLayer: null,
       downLayer: null,
       selectedLayer: null,
@@ -70,6 +71,7 @@ class GlobeCesiumComponent extends PureComponent {
     };
 
     this.baseLayers = this.viewModel.baseLayers;
+    this.contextLayers = this.viewModel.contextLayers;
 
     Cesium.knockout.track(this.viewModel);
 
@@ -124,18 +126,25 @@ class GlobeCesiumComponent extends PureComponent {
   updateLayers() {
     const { basemap, contextLayers, mainLayer } = this.props;
 
-    // Check if the basemap provided has already been added
     if (basemap) {
       const basemapFound = this.baseLayers.find(l => l.name === basemap.name);
+      // Check if the basemap provided has already been added
       if (!basemapFound) {
         const newBasemap = this.addBaseLayerOption(
           basemap.name,
           new Cesium.UrlTemplateImageryProvider({ url: basemap.url })
         );
-        this.imageryLayers.add(newBasemap, 1);
-        this.imageryLayers.remove(this.viewModel.layers[0]);
-        console.log('imageryLayers', this.imageryLayers, 'baseLayers', this.baseLayers);
+        this.imageryLayers.add(newBasemap, 0);
+        console.log('this.viewModel.layers', this.viewModel.layers);
+        this.imageryLayers.remove(this.viewModel.layers[1], false);
+        console.log('this.viewModel.layers after', this.viewModel.layers);
+      } else {
+        this.imageryLayers.remove(basemapFound, false);
       }
+    }
+
+    if (contextLayers) {
+
     }
 
     const numContextLayers = this.imageryLayers.length;
