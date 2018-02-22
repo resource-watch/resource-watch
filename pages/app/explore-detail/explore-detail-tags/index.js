@@ -4,7 +4,7 @@ import ExploreDetailTagsComponent from './explore-detail-tags-component';
 
 export default connect(
   state => ({
-    tags: state.exploreDataset.tags
+    tags: state.exploreDetail.tags
   }),
   null
 )(ExploreDetailTagsComponent);

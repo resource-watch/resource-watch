@@ -4,7 +4,7 @@ import ExploreDetailInfoComponent from './explore-detail-info-component';
 
 export default connect(
   state => ({
-    dataset: state.exploreDataset.data
+    dataset: state.exploreDetail.data
   }),
   null
 )(ExploreDetailInfoComponent);

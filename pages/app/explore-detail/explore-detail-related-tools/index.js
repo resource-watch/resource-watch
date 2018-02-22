@@ -5,7 +5,7 @@ import { relatedTools } from './explore-detail-related-tools-selectors';
 
 export default connect(
   state => ({
-    tools: relatedTools(state.exploreDataset.tools)
+    tools: relatedTools(state.exploreDetail.tools)
   }),
   null
 )(ExploreDetailRelatedToolsComponent);

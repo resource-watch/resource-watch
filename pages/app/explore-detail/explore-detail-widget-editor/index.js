@@ -4,7 +4,7 @@ import ExploreDetailWidgetEditorComponent from './explore-detail-widget-editor-c
 
 export default connect(
   state => ({
-    dataset: state.exploreDataset.data,
+    dataset: state.exploreDetail.data,
     responsive: state.responsive
   }),
   null

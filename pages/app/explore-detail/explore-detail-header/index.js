@@ -4,7 +4,7 @@ import ExploreDetailHeaderComponent from './explore-detail-header-component';
 
 export default connect(
   state => ({
-    dataset: state.exploreDataset.data,
+    dataset: state.exploreDetail.data,
     user: state.user
   }),
   null

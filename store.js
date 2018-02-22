@@ -26,6 +26,7 @@ import * as widgetBlockEditionModule from 'components/dashboards/wysiwyg/widget-
 import * as similarDatasets from 'components/datasets/similar-datasets/similar-datasets';
 
 // Explore
+import * as exploreDetail from 'pages/app/explore-detail/explore-detail';
 import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';
 
 // Widget
@@ -69,6 +70,7 @@ const reducer = combineReducers({
   widgetBlockEdition: handleModule(widgetBlockEditionModule),
 
   // Explore
+  exploreDetail: handleModule(exploreDetail),
   exploreDatasetFilters: handleModule(exploreDatasetFilters),
 
   // Dataset

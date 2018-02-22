@@ -16,7 +16,7 @@ import Modal from 'components/modal/modal-component';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import LoginModal from 'components/modal/LoginModal';
 
-class ExploreDetailInfo extends PureComponent {
+class ExploreDetailButtons extends PureComponent {
   static propTypes = {
     dataset: PropTypes.object,
     partner: PropTypes.object,
@@ -167,4 +167,4 @@ class ExploreDetailInfo extends PureComponent {
   }
 }
 
-export default ExploreDetailInfo;
+export default ExploreDetailButtons;
