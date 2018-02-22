@@ -124,6 +124,12 @@ class Step1 extends React.Component {
     this.props.onChange({ subscribable });
   }
 
+  renderMainDateOptions(option) {
+    return (
+      <div>{option.value} {option.type && typeof option.type === 'string' ?
+        <small className="_right">{option.type}</small> : null}
+      </div>);
+  }
 
   render() {
     const { user, columns, loadingColumns, basic } = this.props;
@@ -144,9 +150,7 @@ class Step1 extends React.Component {
     const isWMS = (provider === 'wms');
     const isDocument = (isJson || isXml || isCsv || isTsv);
 
-    const dateColumns = columns.filter(item => item.type === 'date')
-      .map(f => ({ label: f.name, value: f.name }));
-
+    const dateColumns = columns.map(f => ({ label: f.name, value: f.name, type: f.type }));
     const columnFieldsOptions = (columnFields || []).map(f => ({ label: f, value: f }));
 
     return (
@@ -671,6 +675,7 @@ class Step1 extends React.Component {
               label: 'Main date',
               type: 'text',
               placeholder: 'Select or type',
+              optionRenderer: this.renderMainDateOptions,
               default: this.state.form.mainDateField
             }}
           >
