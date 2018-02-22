@@ -144,7 +144,7 @@ class Step1 extends React.Component {
     const isWMS = (provider === 'wms');
     const isDocument = (isJson || isXml || isCsv || isTsv);
 
-    const mainDateOptions = columns.filter(item => item.type === 'date')
+    const dateColumns = columns.filter(item => item.type === 'date')
       .map(f => ({ label: f.name, value: f.name }));
 
     const columnFieldsOptions = (columnFields || []).map(f => ({ label: f, value: f }));
@@ -660,11 +660,11 @@ class Step1 extends React.Component {
             </Field>
           }
 
-          {mainDateOptions.length &&
+          {dateColumns.length > 0 &&
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.mainDateField = c; }}
             onChange={value => this.props.onChange({ mainDateField: value })}
-            options={mainDateOptions}
+            options={dateColumns}
             className="-fluid"
             properties={{
               name: 'mainDateField',
