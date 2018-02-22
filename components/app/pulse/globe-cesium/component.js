@@ -124,9 +124,11 @@ class GlobeCesiumComponent extends PureComponent {
   }
 
   updateLayers() {
+    console.log('updateLayers!');
     const { basemap, contextLayers, mainLayer } = this.props;
 
     if (basemap) {
+      console.log('basemap', basemap);
       const basemapFound = this.baseLayers.find(l => l.name === basemap.name);
       // Check if the basemap provided has already been added
       if (!basemapFound) {
@@ -135,17 +137,17 @@ class GlobeCesiumComponent extends PureComponent {
           new Cesium.UrlTemplateImageryProvider({ url: basemap.url })
         );
         this.imageryLayers.add(newBasemap, 0);
-        console.log('this.viewModel.layers', this.viewModel.layers);
-        this.imageryLayers.remove(this.viewModel.layers[1], false);
-        console.log('this.viewModel.layers after', this.viewModel.layers);
+        this.imageryLayers.remove(this.viewModel.layers[0], false);
       } else {
-        this.imageryLayers.remove(basemapFound, false);
+        this.imageryLayers.add(basemapFound);
       }
     }
 
     if (contextLayers) {
 
     }
+
+    console.log('mainLayer', mainLayer);
 
     const numContextLayers = this.imageryLayers.length;
     this.viewModel.layers.splice(0, this.viewModel.layers.length);
