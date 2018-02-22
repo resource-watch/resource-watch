@@ -34,6 +34,11 @@ class ExploreDetailTags extends PureComponent {
     return (
       <div className="c-explore-detail-tags">
         {tags.loading && <Spinner isLoading className="-light" />}
+
+        {!tags.loading && !tags.list.length &&
+          <p>No data available</p>
+        }
+
         {tags.list.map(tag => (
           <Link
             route="explore"

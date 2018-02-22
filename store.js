@@ -27,7 +27,11 @@ import * as similarDatasets from 'components/datasets/similar-datasets/similar-d
 import * as trySubscriptionModal from 'components/datasets/form/try-subscription-modal';
 
 // Explore
+import * as exploreDetail from 'pages/app/explore-detail/explore-detail';
 import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';
+
+// Widget
+import * as widgetDetail from 'pages/app/widget-detail/widget-detail';
 
 // Widget editor
 import { reducers as widgetEditorModules } from 'widget-editor';
@@ -57,6 +61,7 @@ const reducer = combineReducers({
   headerAdmin: handleModule(headerAdmin),
   footer: handleModule(footer),
 
+  // Share
   shareModal: handleModule(shareModal),
 
   // Dashboards
@@ -66,11 +71,15 @@ const reducer = combineReducers({
   widgetBlockEdition: handleModule(widgetBlockEditionModule),
 
   // Explore
+  exploreDetail: handleModule(exploreDetail),
   exploreDatasetFilters: handleModule(exploreDatasetFilters),
 
-  // Datasets
+  // Dataset
   similarDatasets: handleModule(similarDatasets),
-  trySubscriptionModal: handleModule(trySubscriptionModal)
+  trySubscriptionModal: handleModule(trySubscriptionModal),
+  
+  // Widget
+  widgetDetail: handleModule(widgetDetail)
 });
 
 const composeEnhancers = composeWithDevTools({});

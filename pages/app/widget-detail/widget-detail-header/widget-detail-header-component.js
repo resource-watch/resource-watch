@@ -19,9 +19,9 @@ import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 
 // Constants
-class ExploreDetailHeader extends PureComponent {
+class WidgetDetailHeader extends PureComponent {
   static propTypes = {
-    dataset: PropTypes.object,
+    widget: PropTypes.object,
     user: PropTypes.object
   }
 
@@ -29,26 +29,13 @@ class ExploreDetailHeader extends PureComponent {
     showShareModal: false
   }
 
-  getDatasetMetadata() {
-    const { dataset } = this.props;
-    return dataset.metadata || {};
-  }
-
-  getDatasetName() {
-    const { dataset } = this.props;
-    const metadata = this.getDatasetMetadata();
-    return metadata.info && metadata.info.name ? metadata.info.name : dataset.name;
-  }
-
   handleToggleShareModal = (bool) => {
     this.setState({ showShareModal: bool });
   }
 
   render() {
-    const { dataset, user } = this.props;
-    const metadata = this.getDatasetMetadata();
-    const datasetName = this.getDatasetName();
-    const isInACollection = belongsToACollection(user, { id: dataset.id });
+    const { widget, user } = this.props;
+    const isInACollection = belongsToACollection(user, { id: widget.id });
 
     // Favorites
     const starIconName = classnames({
@@ -64,18 +51,12 @@ class ExploreDetailHeader extends PureComponent {
 
     return (
       <div className="page-header-content">
-        <Breadcrumbs
-          items={[{ name: 'Explore datasets', route: 'explore' }]}
-        />
+        <h1>{widget.name}</h1>
 
-        <h1>{datasetName}</h1>
-
-        <h3>{metadata && metadata.info.functions}</h3>
+        <h3>{widget.description}</h3>
 
         <div className="page-header-info">
           <ul>
-            <li>Source: {(metadata && metadata.source) || '-'}</li>
-            <li>Last update: {dataset && new Date(dataset.updatedAt).toJSON().slice(0, 10).replace(/-/g, '/')}</li>
             <li>
               <button className="c-btn -tertiary -alt -clean" onClick={() => this.handleToggleShareModal(true)}>
                 <Icon name="icon-share" className="-small" />
@@ -88,26 +69,27 @@ class ExploreDetailHeader extends PureComponent {
                 >
                   <ShareModal
                     links={{
-                      link: typeof window !== 'undefined' && window.location.href
+                      link: typeof window !== 'undefined' && window.location.href,
+                      embed: typeof window !== 'undefined' && `${window.location.origin}/embed/${widget.widgetConfig.type || 'widget'}/${widget.id}`
                     }}
                     analytics={{
-                      facebook: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Facebook'),
-                      twitter: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Twitter'),
-                      copy: type => logEvent('Share', `Share dataset: ${datasetName}`, `Copy ${type}`)
+                      facebook: () => logEvent('Share', `Share widget: ${widget.name}`, 'Facebook'),
+                      twitter: () => logEvent('Share', `Share widget: ${widget.name}`, 'Twitter'),
+                      copy: type => logEvent('Share', `Share widget: ${widget.name}`, `Copy ${type}`)
                     }}
                   />
                 </Modal>
               </button>
             </li>
 
-            {/* Favorite dataset icon */}
+            {/* Favorite widget icon */}
             {user && user.id &&
               <li>
                 <Tooltip
                   overlay={
                     <CollectionsPanel
-                      resource={{ id: dataset.id }}
-                      resourceType="dataset"
+                      resource={{ id: widget.id }}
+                      resourceType="widget"
                     />
                   }
                   overlayClassName="c-rc-tooltip"
@@ -138,4 +120,4 @@ class ExploreDetailHeader extends PureComponent {
   }
 }
 
-export default ExploreDetailHeader;
+export default WidgetDetailHeader;

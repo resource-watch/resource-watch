@@ -2,26 +2,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-import {
-  getDataset,
-  getPartner,
-  getTools,
-  getTags,
-  setTools,
-  setTags,
-  setCountView
-} from 'redactions/exploreDataset';
-
 // Explore Detail Component
-import ExploreDetailHeader from 'components/explore-detail/explore-detail-header';
-import ExploreDetailInfo from 'components/explore-detail/explore-detail-info';
-import ExploreDetailRelatedTools from 'components/explore-detail/explore-detail-related-tools';
-import ExploreDetailActions from 'components/explore-detail/explore-detail-actions';
-import ExploreDetailTags from 'components/explore-detail/explore-detail-tags';
-import ExploreDetailWidgetEditor from 'components/explore-detail/explore-detail-widget-editor';
+import ExploreDetailHeader from 'pages/app/explore-detail/explore-detail-header';
+import ExploreDetailInfo from 'pages/app/explore-detail/explore-detail-info';
+import ExploreDetailRelatedTools from 'pages/app/explore-detail/explore-detail-related-tools';
+import ExploreDetailButtons from 'pages/app/explore-detail/explore-detail-buttons';
+import ExploreDetailTags from 'pages/app/explore-detail/explore-detail-tags';
+import ExploreDetailWidgetEditor from 'pages/app/explore-detail/explore-detail-widget-editor';
 
 // Components
 import Page from 'components/layout/page';
@@ -34,97 +21,30 @@ import Banner from 'components/app/common/Banner';
 import SimilarDatasets from 'components/datasets/similar-datasets/similar-datasets';
 
 // Utils
-import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
-import { TOOLS_CONNECTIONS } from 'utils/apps/toolsConnections';
 import {
   getDatasetMetadata,
   getDatasetName
-} from 'components/explore-detail/explore-detail-helpers';
-
-import Error from '../_error';
+} from 'pages/app/explore-detail/explore-detail-helpers';
 
 class ExploreDetail extends Page {
   static propTypes = {
-    url: PropTypes.object.isRequired,
-    user: PropTypes.object,
-    exploreDataset: PropTypes.object,
-    locale: PropTypes.string.isRequired
+    exploreDetail: PropTypes.object
   };
-
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store, res } = context;
-
-    await store.dispatch(getDataset(props.url.query.id));
-
-    // Check if the dataset exists and it is published
-    const { exploreDataset } = store.getState();
-    const dataset = exploreDataset.data;
-    if (!dataset && res) res.statusCode = 404;
-    if (dataset && !dataset.published && res) res.statusCode = 404;
-
-    const { id, vocabulary } = dataset;
-
-    // Set tags
-    const tags = vocabulary && vocabulary.length > 0 && vocabulary[0].tags;
-    if (tags) {
-      store.dispatch(setTags(tags));
-    }
-
-    // Load connected partner
-    const partnerConnection = PARTNERS_CONNECTIONS.find(pc => pc.datasetId === id);
-    if (partnerConnection) {
-      await store.dispatch(getPartner(partnerConnection.partnerId));
-    }
-
-    // Set tools and load connected tools
-    const toolsConnections = TOOLS_CONNECTIONS.filter(appC => appC.datasetId === id).map(v => v.appSlug);
-    if (toolsConnections.length > 0) {
-      store.dispatch(setTools(toolsConnections));
-      await store.dispatch(getTools());
-    }
-
-    return { ...props };
-  }
-
-  /**
-   * Component Lifecycle
-   * - componentDidMount
-   * - componentWillReceiveProps
-   * - componentWillUnmount
-  */
-  componentDidMount() {
-    this.props.setCountView();
-    this.props.getTags();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.url.query.id !== nextProps.url.query.id) {
-      window.scrollTo(0, 0);
-      this.props.setCountView();
-      this.props.getTags();
-    }
-  }
 
   render() {
     const {
-      url, user, exploreDataset
+      exploreDetail
     } = this.props;
 
-    const dataset = exploreDataset.data;
+    const dataset = exploreDetail.data;
     const datasetName = getDatasetName(dataset);
     const metadata = getDatasetMetadata(dataset);
-
-    if (exploreDataset && exploreDataset.error === 'Not Found') return <Error status={404} />;
-    if (dataset && !dataset.published) return <Error status={404} />;
 
     return (
       <Layout
         title={datasetName}
         description={metadata.description || ''}
         category="Dataset"
-        url={url}
-        user={user}
         pageHeader
       >
         <div className="c-page-explore-detail">
@@ -151,7 +71,7 @@ class ExploreDetail extends Page {
                 </div>
 
                 <div className="column small-12 large-4 large-offset-1">
-                  <ExploreDetailActions />
+                  <ExploreDetailButtons />
                 </div>
               </div>
             </div>
@@ -204,7 +124,7 @@ class ExploreDetail extends Page {
           </section>
 
           {/* RELATED TOOLS */}
-          {exploreDataset.tools.active.length > 0 &&
+          {exploreDetail.tools.active.length > 0 &&
             <section className="l-section">
               <div className="l-container">
                 <div className="row">
@@ -245,21 +165,4 @@ class ExploreDetail extends Page {
   }
 }
 
-const mapStateToProps = state => ({
-  // Store
-  locale: state.common.locale,
-  user: state.user,
-  exploreDataset: state.exploreDataset
-});
-
-const mapDispatchToProps = {
-  getDataset,
-  getPartner,
-  getTools,
-  setTools,
-  getTags,
-  setTags,
-  setCountView
-};
-
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(ExploreDetail);
+export default ExploreDetail;

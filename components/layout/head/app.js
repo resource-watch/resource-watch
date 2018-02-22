@@ -178,7 +178,7 @@ Head.propTypes = {
 
 export default connect(
   state => ({
-    dataset: state.exploreDataset.data,
+    dataset: state.exploreDetail.data,
     routes: state.routes
   }),
   null
