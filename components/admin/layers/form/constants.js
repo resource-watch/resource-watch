@@ -21,6 +21,19 @@ export const FORMAT = {
     return o.map((item) => {
       return { label: item.column, value: item.column };
     });
+  },
+  resolveKey(label) {
+    const labelLower = label.toLowerCase();
+    switch (labelLower) {
+      case 'field':
+        return 'column';
+      case 'label':
+        return 'property';
+      case 'format':
+        return 'type';
+      default:
+        return labelLower;
+    }
   }
 };
 
@@ -28,13 +41,13 @@ export const FORM_ELEMENTS = {
   elements: {
   },
   validate() {
-    const elements = this.elements;
+    const { elements } = this;
     Object.keys(elements).forEach((k) => {
       elements[k].validate();
     });
   },
   isValid() {
-    const elements = this.elements;
+    const { elements } = this;
     const valid = Object.keys(elements)
       .map(k => elements[k].isValid())
       .filter(v => v !== null)

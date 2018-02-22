@@ -14,10 +14,8 @@ import Code from 'components/form/Code';
 import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
 
-
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
-import { capitalizeFirstLetter } from 'utils/utils';
 
 // Constants
 const MAP_CONFIG = {
@@ -75,21 +73,22 @@ class Step1 extends React.Component {
   }
 
   renderInteractionFields(data) {
-    return Object.entries(data).map((item, key) => {
-      const fieldType = item[0];
-      const fieldValue = item[1];
+    return ['Field', 'Label', 'Prefix', 'Suffix', 'Format'].map((label) => {
+      const validations = label === 'Label' ? ['required'] : [];
       return (
         <Field
-          key={data.column + key}
+          key={data.column + label}
+          ref={(c) => { if (c) FORM_ELEMENTS.elements[label.toLowerCase() + data.column] = c; }}
           onChange={value => this.props
-            .editInteraction({ value, key: fieldType, field: data })}
+            .editInteraction({ value, key: label, field: data })}
+          validations={validations}
           properties={{
-            name: key,
-            label: /property/.test(fieldType) ? 'Label' : capitalizeFirstLetter(fieldType),
+            name: label.toLowerCase() + data.column,
+            label,
             type: 'text',
-            disabled: /column/.test(fieldType),
-            required: /property/.test(fieldType),
-            default: fieldValue
+            disabled: /Field/.test(label),
+            required: /Label/.test(label),
+            default: data[FORMAT.resolveKey(label)]
           }}
         >
           {Input}
