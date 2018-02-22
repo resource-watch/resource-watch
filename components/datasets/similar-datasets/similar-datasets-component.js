@@ -15,12 +15,12 @@ class SimilarDatasets extends PureComponent {
     // Callbacks
     onTagSelected: PropTypes.func,
     // Store
-    similarDatasets: PropTypes.object.isRequired
+    data: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired
   };
 
   render() {
-    const { similarDatasets, active } = this.props;
-    const { loading, data } = similarDatasets;
+    const { loading, data, active } = this.props;
 
     return (
       <div className="c-similar-datasets">
