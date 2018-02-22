@@ -365,7 +365,12 @@ class Pulse extends Page {
   }
 
   render() {
-    const { url, layersGroup, layerMenuPulse, pulse } = this.props;
+    const {
+      url,
+      layersGroup,
+      layerMenuPulse,
+      pulse
+    } = this.props;
     const { layerActive } = layerMenuPulse;
     const { layerPoints } = pulse;
     const { texture, zoom } = this.state;
@@ -393,7 +398,13 @@ class Pulse extends Page {
           <Spinner
             isLoading={this.state.loading}
           />
-          <GlobeCesium />
+          <GlobeCesium
+            basemap={basemap}
+            contextLayers={contextLayers}
+            shapes={shapes}
+            zoom={zoom}
+            mainLayer={texture}
+          />
           <ZoomControl
             onZoomIn={this.triggerZoomIn}
             onZoomOut={this.triggerZoomOut}

@@ -18,6 +18,7 @@ export const LAYERS_PLANET_PULSE = [
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         widgets: ['d409858d-9beb-4df5-ae48-bc0d6e9cda25'],
         basemap: {
+          name: 'sentinel',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       },
@@ -32,6 +33,7 @@ export const LAYERS_PLANET_PULSE = [
         contextLayers: ['cbb309b7-1df1-4638-b821-48db53053d38', 'dabcca67-037c-4d11-afc4-69559edec4dc'],
         widgets: ['5f5f7899-ccd2-4477-aa7e-43805880eb33'],
         basemap: {
+          name: 'other',
           url: 'https://api.mapbox.com/styles/v1/wri/cjd56ttip0i1s2rnxv8py2km5/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid3JpIiwiYSI6Ik9TY2w5RTQifQ.0HV7dQTjK40mk7GpNNA64g'
         }
       },
@@ -46,6 +48,7 @@ export const LAYERS_PLANET_PULSE = [
         contextLayers: ['cbb309b7-1df1-4638-b821-48db53053d38', 'dabcca67-037c-4d11-afc4-69559edec4dc'],
         widgets: [],
         basemap: {
+          name: 'other',
           url: 'https://api.mapbox.com/styles/v1/wri/cjd56ttip0i1s2rnxv8py2km5/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid3JpIiwiYSI6Ik9TY2w5RTQifQ.0HV7dQTjK40mk7GpNNA64g'
         }
       }
@@ -64,7 +67,8 @@ export const LAYERS_PLANET_PULSE = [
           </div>,
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         widgets: ['f5989675-c8ca-4e75-8631-0867b08513ac'],
-         basemap: {
+        basemap: {
+          name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       },
@@ -78,7 +82,8 @@ export const LAYERS_PLANET_PULSE = [
           </div>,
         contextLayers: ['5522b6ee-66d5-4d2d-9109-ae8e6b7e3a26'],
         widgets: ['279f8f52-83df-417d-a32e-f433c49e3288'],
-           basemap: {
+        basemap: {
+          name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       }
@@ -96,7 +101,8 @@ export const LAYERS_PLANET_PULSE = [
           <div className="description">
             Current and projected food insecurity affecting <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="population" />
           </div>,
-         basemap: {
+        basemap: {
+          name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       }
@@ -116,7 +122,8 @@ export const LAYERS_PLANET_PULSE = [
           <div className="description">
             Significant earthquakes over the past 30 days affecting <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="population" />
           </div>,
-         basemap: {
+        basemap: {
+          name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       },
@@ -130,7 +137,8 @@ export const LAYERS_PLANET_PULSE = [
           <div className="description">
             Volcanoes over the past 7 days affecting <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="population" />
           </div>,
-     basemap: {
+        basemap: {
+          name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       },
@@ -144,7 +152,8 @@ export const LAYERS_PLANET_PULSE = [
           <div className="description">
             Landslide hazard alerts affecting <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="population" />
           </div>,
-         basemap: {
+        basemap: {
+          name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       }
@@ -160,6 +169,7 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         markerType: 'default',
         basemap: {
+          name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       },
@@ -170,6 +180,7 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         markerType: 'default',
         basemap: {
+          name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       },
@@ -180,6 +191,7 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         markerType: 'default',
         basemap: {
+          name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       },
@@ -189,6 +201,7 @@ export const LAYERS_PLANET_PULSE = [
         contextLayers: [],
         '3d': false,
         basemap: {
+          name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       }
@@ -205,6 +218,7 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         widgets: [],
         basemap: {
+          name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       },
@@ -215,6 +229,7 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         widgets: [],
         basemap: {
+          name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       },
