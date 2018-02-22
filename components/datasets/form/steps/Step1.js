@@ -17,6 +17,9 @@ import Checkbox from 'components/form/Checkbox';
 import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
 
+// Modal
+import Modal from 'components/modal/modal-component';
+import TrySubscriptionModal from 'components/datasets/form/try-subscription-modal';
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -26,8 +29,8 @@ class Step1 extends React.Component {
       dataset: props.dataset,
       form: props.form,
       carto: {},
-      document: {},
-      subscribableSelected: props.form.subscribable.length > 0
+      subscribableSelected: props.form.subscribable.length > 0,
+      showSubscribableModal: false
     };
 
     // BINDINGS
@@ -81,6 +84,10 @@ class Step1 extends React.Component {
     } else {
       this.props.onChange({ subscribable: [] });
     }
+  }
+
+  onToggleSubscribableModal(bool) {
+    this.setState({ showSubscribableModal: bool })
   }
 
   /**
@@ -528,6 +535,15 @@ class Step1 extends React.Component {
                           onChange={value => this.onSubscribableChange({ value, id: elem.id })}
                           validations={['required']}
                           className="-fluid"
+                          button={
+                            <button
+                              type="button"
+                              className="c-button -secondary"
+                              onClick={() => this.onToggleSubscribableModal(true)}
+                            >
+                              Try it
+                            </button>
+                          }
                           properties={{
                             name: 'subscribableText',
                             label: 'Query',
@@ -538,6 +554,15 @@ class Step1 extends React.Component {
                         >
                           {Input}
                         </Field>
+
+                        <Modal
+                          isOpen={this.state.showSubscribableModal}
+                          onRequestClose={() => this.onToggleSubscribableModal(false)}
+                        >
+                          <TrySubscriptionModal
+                            query={elem.value}
+                          />
+                        </Modal>
                       </div>
                       <div className="column small-3 remove-subscribable-container">
                         <button

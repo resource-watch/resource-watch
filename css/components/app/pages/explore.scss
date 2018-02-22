@@ -7,25 +7,7 @@
   .search-container {
     display: flex;
 
-    height: 45px;
-    margin-bottom: 10px;
-
-    .c-search-input {
-      color: $color-text-1;
-      margin: 0px;
-      height: 100%;
-
-      .c-field {
-        margin: 0px;
-        height: 100%;
-        input {
-          height: 100%;
-        }
-      }
-    }
-
     .c-btn {
-      width: 125px;
       margin-left: 10px;
     }
   }
