@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import findIndex from 'lodash/findIndex';
+
 // Redux
 import { connect } from 'react-redux';
 
@@ -33,8 +35,11 @@ class LayersForm extends React.Component {
       dataset: props.dataset,
       datasets: [],
       form: formObj,
-      loading: !!props.id,
-      availableColumns: null
+      interactions: [],
+      interactionsForm: {
+        output: []
+      },
+      loading: !!props.id
     });
 
     // Service
@@ -51,7 +56,8 @@ class LayersForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onChangeDataset = this.onChangeDataset.bind(this);
-    this.changeColumn = this.changeColumn.bind(this);
+    this.modifyInteractions = this.modifyInteractions.bind(this);
+    this.editInteraction = this.editInteraction.bind(this);
     this.onStepChange = this.onStepChange.bind(this);
   }
 
@@ -78,14 +84,16 @@ class LayersForm extends React.Component {
 
         if (provider !== 'wms') {
           this.service.getColumns({ dataset })
-            .then((availableColumns) => {
-              this.setState({ availableColumns });
+            .then((interactions) => {
+              this.setState({ interactions });
             });
         }
 
         this.setState({
           // CURRENT LAYER
           form: formState,
+          interactionsForm: formState.interactionConfig.output ?
+            formState.interactionConfig : { output: [] },
           loading: false,
           // CURRENT DATASET
           dataset: formState.dataset,
@@ -114,6 +122,10 @@ class LayersForm extends React.Component {
     setTimeout(() => {
       // Validate all the inputs on the current step
       const valid = FORM_ELEMENTS.isValid(this.state.step);
+      const { interactionsForm } = this.state;
+
+      // Attach the interactions form to the interationsConfig
+      const form = Object.assign({}, this.state.form, { interactionConfig: interactionsForm });
 
       if (valid) {
         // if we are in the last step we will submit the form
@@ -127,7 +139,7 @@ class LayersForm extends React.Component {
             dataset,
             id: id || '',
             type: (id) ? 'PATCH' : 'POST',
-            body: this.state.form
+            body: form
           })
             .then((data) => {
               toastr.success('Success', `The layer "${data.id}" - "${data.name}" has been uploaded correctly`);
@@ -185,23 +197,36 @@ class LayersForm extends React.Component {
     return newForm;
   }
 
-  changeColumn(data) {
-    // TODO : need to take in count that you can remove items also..
-    const selected = data[data.length - 1];
+  modifyInteractions(options) {
+    const { interactionsForm } = this.state;
 
-    const output = this.state.form.interactionConfig.output.push({
-      column: selected,
-      format: null,
-      prefix: '',
-      property: '',
-      suffix: '',
-      type: 'string'
-    });
+    // Remove layer if its not in options
+    if (interactionsForm.output) {
+      interactionsForm.output = interactionsForm.output
+        .filter(item => options.includes(item.column));
+    }
 
-    const interactionConfig = Object.assign({}, this.state.form.interactionConfig, output);
-    const form = Object.assign({}, this.state.form, interactionConfig);
+    if (options.length > interactionsForm.output.length) {
+      const selected = options[options.length - 1];
+      interactionsForm.output.push({
+        column: selected,
+        format: null,
+        prefix: '',
+        property: '',
+        suffix: '',
+        type: 'string'
+      });
+    }
 
-    this.setState({ form });
+    this.setState({ interactionsForm });
+  }
+
+  editInteraction(data) {
+    const { interactionsForm } = this.state;
+    data.field[data.key] = data.value;
+    interactionsForm.output[findIndex(interactionsForm.output, data.field)] =
+      Object.assign({}, data.field);
+    this.setState({ interactionsForm });
   }
 
   render() {
@@ -213,13 +238,15 @@ class LayersForm extends React.Component {
           <Step1
             ref={(c) => { this.step = c; }}
             form={this.state.form}
-            availableColumns={this.state.availableColumns}
+            interactions={this.state.interactions}
+            interactionsForm={this.state.interactionsForm}
             id={this.state.id}
             dataset={this.state.dataset}
             datasets={this.state.datasets}
             onChange={value => this.onChange(value)}
             onChangeDataset={value => this.onChangeDataset(value)}
-            changeColumn={value => this.changeColumn(value)}
+            modifyInteractions={value => this.modifyInteractions(value)}
+            editInteraction={value => this.editInteraction(value)}
           />
         }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Constants
-import { PROVIDER_OPTIONS, FORM_ELEMENTS } from 'components/admin/layers/form/constants';
+import { PROVIDER_OPTIONS, FORM_ELEMENTS, FORMAT } from 'components/admin/layers/form/constants';
 
 // Components
 import Field from 'components/form/Field';
@@ -17,9 +17,7 @@ import Legend from 'components/ui/Legend';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
-
-// tmp placement
-import ColumnsForm from 'components/admin/layers/form/columns';
+import { capitalizeFirstLetter } from 'utils/utils';
 
 // Constants
 const MAP_CONFIG = {
@@ -38,7 +36,7 @@ class Step1 extends React.Component {
     this.state = {
       id: props.id,
       form: props.form,
-      availableColumns: props.availableColumns,
+      interactionsForm: props.interactionsForm,
       layerGroups: []
     };
 
@@ -76,15 +74,36 @@ class Step1 extends React.Component {
     this.setLayerGroups();
   }
 
-  render() {
-    const { layerGroups, form } = this.state;
-    const { availableColumns } = this.props;
-    const { interactionConfig } = form;
-
-    // temporary, fix me
-    const testValues = interactionConfig.output.map((item) => {
-      return { label: item.column, value: item.column }
+  renderInteractionFields(data) {
+    return Object.entries(data).map((item, key) => {
+      const fieldType = item[0];
+      const fieldValue = item[1];
+      return (
+        <Field
+          key={data.column + key}
+          onChange={value => this.props
+            .editInteraction({ value, key: fieldType, field: data })}
+          properties={{
+            name: key,
+            label: /property/.test(fieldType) ? 'Label' : capitalizeFirstLetter(fieldType),
+            type: 'text',
+            disabled: /column/.test(fieldType),
+            required: /property/.test(fieldType),
+            default: fieldValue
+          }}
+        >
+          {Input}
+        </Field>
+      );
     });
+  }
+
+  render() {
+    const { interactions } = this.props;
+    const {
+      layerGroups,
+      interactionsForm
+    } = this.state;
 
     return (
       <fieldset className="c-field-container">
@@ -174,24 +193,31 @@ class Step1 extends React.Component {
           {Code}
         </Field>
 
+        <h5>Interactions</h5>
+
+        {interactionsForm && interactionsForm.output &&
+          interactionsForm.output.map((data) => {
+            return (
+              <section className="c-field-flex" key={data.column}>
+                {this.renderInteractionFields(data)}
+              </section>
+            );
+          })}
+
         <div className="c-field preview-container">
-          <h5>Interactions</h5>
-
-          <ColumnsForm form={this.state.form} />
-
-          {availableColumns && availableColumns.fields &&
+          {interactions && interactions.fields &&
           <Field
             validations={['required']}
-            options={availableColumns.fields}
-            onChange={value => this.props.changeColumn(value)}
+            options={interactions.fields}
+            onChange={(value, other) => this.props.modifyInteractions(value, other)}
             properties={{
               name: 'selected_columns',
-              label: 'Add more fields',
-              placeholder: 'Select a field',
+              label: 'Add interactions',
               type: 'text',
               removeSelected: true,
               multi: true,
-              default: testValues
+              value: interactionsForm.output ? FORMAT.options(interactionsForm.output) : [],
+              default: interactionsForm.output ? FORMAT.options(interactionsForm.output) : []
             }}
           >
             {Select}
@@ -276,10 +302,12 @@ Step1.propTypes = {
   id: PropTypes.string,
   datasets: PropTypes.array,
   form: PropTypes.object,
-  availableColumns: PropTypes.object,
   onChange: PropTypes.func,
   onChangeDataset: PropTypes.func,
-  changeColumn: PropTypes.func
+  modifyInteractions: PropTypes.func,
+  interactions: PropTypes.object,
+  interactionsForm: PropTypes.object,
+  editInteraction: PropTypes.func
 };
 
 export default Step1;
