@@ -16,6 +16,14 @@ export const STATE_DEFAULT = {
   }
 };
 
+export const FORMAT = {
+  options(o) {
+    return o.map((item) => {
+      return { label: item.column, value: item.column };
+    });
+  }
+};
+
 export const FORM_ELEMENTS = {
   elements: {
   },
