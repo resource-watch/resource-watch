@@ -15,7 +15,7 @@ import WidgetDetail from 'pages/app/widget-detail/widget-detail';
 class WidgetDetailPage extends Page {
   static propTypes = {
     user: PropTypes.object,
-    exploreDataset: PropTypes.object,
+    widgetDetail: PropTypes.object,
     locale: PropTypes.string.isRequired
   };
 
@@ -27,10 +27,6 @@ class WidgetDetailPage extends Page {
     await store.dispatch(actions.fetchWidget({ id: props.url.query.id }));
 
     return { ...props };
-  }
-
-  componentDidMount() {
-    this.props.fetchWidget({ id: this.props.url.query.id });
   }
 
   componentWillReceiveProps(nextProps) {
