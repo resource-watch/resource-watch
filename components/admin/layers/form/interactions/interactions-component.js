@@ -18,12 +18,15 @@ import { FORM_ELEMENTS, FORMAT } from 'components/admin/layers/form/constants';
 const DATA_FORMATS = {
   string: [],
   number: [
-    { label: '0.0', value: '0.0' },
-    { label: '0e', value: '0e' }
+    { label: '00000', value: '00000' },
+    { label: '0,0', value: '0,0' },
+    { label: '0a', value: '0a' }
   ],
   date: [
     { label: 'YYYY/MM/DD', value: 'YYYY/MM/DD' },
-    { label: 'YYYY', value: 'YYYY' }
+    { label: 'YYYY', value: 'YYYY' },
+    { label: 'MM', value: 'MM' },
+    { label: 'DD', value: 'DD' }
   ]
 };
 
@@ -113,7 +116,6 @@ class InteractionsComponent extends PureComponent {
           type: 'text',
           disabled: /string/.test(data.type),
           default: /string/.test(data.type) ? 'string' : null
-
         }}
       >
         {Select}
