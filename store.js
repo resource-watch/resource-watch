@@ -31,6 +31,7 @@ import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-f
 // Pulse
 import * as layerMenuDropdown from 'components/app/pulse/layer-menu-dropdown';
 import * as layerCard from 'components/app/pulse/layer-card';
+import * as layerPill from 'components/app/pulse/layer-pill';
 
 // Widget editor
 import { reducers as widgetEditorModules } from 'widget-editor';
@@ -76,7 +77,8 @@ const reducer = combineReducers({
 
   // Pulse
   layerMenuPulse: handleModule(layerMenuDropdown),
-  layerCardPulse: handleModule(layerCard)
+  layerCardPulse: handleModule(layerCard),
+  contextLayersPulse: handleModule(layerPill)
 });
 
 const composeEnhancers = composeWithDevTools({});

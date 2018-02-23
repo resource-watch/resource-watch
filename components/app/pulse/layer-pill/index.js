@@ -8,7 +8,7 @@ import initialState from './initial-state';
 import LayerPillComponent from './component';
 
 const mapStateToProps = state => ({
-  layerActive: state.pulse.layerActive
+  contextLayersPulse: state.contextLayersPulse
 });
 
 class LayerPillContainer extends Component {

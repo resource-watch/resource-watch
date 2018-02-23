@@ -4,16 +4,16 @@ import classnames from 'classnames';
 
 class LayerPillComponent extends PureComponent {
   render() {
-    const { layerActive, layerId, label } = this.props;
-    const contextLayer = layerActive && layerActive.contextLayers &&
-      layerActive.contextLayers.find(ctxL => ctxL.attributes.id === layerId);
+    const { contextLayersPulse, layerId, label } = this.props;
+    const contextLayer = contextLayersPulse.contextLayers &&
+      contextLayersPulse.contextLayers.find(l => l === layerId);
 
     const className = classnames({
       'layer-pill': true,
       'c-button': true,
-      '-secondary': contextLayer && !contextLayer.active,
-      '-primary': contextLayer && contextLayer.active,
-      '-active': contextLayer && contextLayer.active
+      '-secondary': !contextLayer,
+      '-primary': contextLayer,
+      '-active': contextLayer
     });
 
     return (
@@ -33,7 +33,7 @@ LayerPillComponent.propTypes = {
   layerId: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   // Store
-  layerActive: PropTypes.object.isRequired,
+  contextLayersPulse: PropTypes.object.isRequired,
   toggleContextualLayer: PropTypes.func.isRequired
 };
 
