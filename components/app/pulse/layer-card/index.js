@@ -8,7 +8,8 @@ import initialState from './initial-state';
 import LayerCardComponent from './component';
 
 const mapStateToProps = state => ({
-  pulse: state.pulse,
+  layerMenuPulse: state.layerMenuPulse,
+  layerCardPulse: state.layerCardPulse,
   user: state.user,
   locale: state.common.locale
 });

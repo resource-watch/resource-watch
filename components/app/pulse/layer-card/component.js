@@ -4,6 +4,9 @@ import classNames from 'classnames';
 
 import { Link, Router } from 'routes';
 
+// Utils
+import { LAYERS_PLANET_PULSE } from 'utils/layers/pulse_layers';
+
 // Components
 import Legend from 'components/app/pulse/Legend';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
@@ -24,16 +27,16 @@ class LayerCardComponent extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((nextProps.pulse.layerActive && nextProps.pulse.layerActive.id) !==
-      (this.props.pulse.layerActive && this.props.pulse.layerActive.id)) {
+    if ((nextProps.layerMenuPulse.layerActive && nextProps.layerMenuPulse.layerActive.id) !==
+      (this.props.layerMenuPulse.layerActive && this.props.layerMenuPulse.layerActive.id)) {
       this.loadWidgets(nextProps);
-      this.props.loadDatasetData(nextProps.pulse.layerActive.id);
+      this.props.loadDatasetData(nextProps.layerMenuPulse.layerActive.id);
     }
   }
 
   loadWidgets(nextProps) {
-    const { pulse } = nextProps;
-    const layerActive = pulse.layerActive && pulse.layerActive.id;
+    const { layerMenuPulse } = nextProps;
+    const layerActive = layerMenuPulse.layerActive && layerMenuPulse.layerActive.id;
 
     if (layerActive) {
       let found = false;
@@ -42,16 +45,9 @@ class LayerCardComponent extends PureComponent {
       }
       if (found) {
         const { widgets } = found;
-        if (widgets && widgets.length && widgets.length > 0) {
-          const widgetService = new WidgetService(widgets[0], { apiURL: process.env.WRI_API_URL });
-          widgetService.fetchData().then((response) => {
-            this.props.setSimilarWidgets([response]);
-          });
-        } else {
-          this.props.setSimilarWidgets([]);
+        if (widgets && widgets.length > 0) {
+          this.props.loadWidgetData(widgets[0]);
         }
-      } else {
-        this.props.setSimilarWidgets([]);
       }
     }
   }
@@ -84,9 +80,9 @@ class LayerCardComponent extends PureComponent {
   }
 
   render() {
-    const { pulse } = this.props;
-    const { layerActive, layerPoints, similarWidgets } = pulse;
-    const { dataset } = this.state;
+    const { layerMenuPulse, layerCardPulse } = this.props;
+    const { layerActive, layerPoints } = layerMenuPulse;
+    const { dataset, widget } = layerCardPulse;
     const subscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
       Object.keys(dataset.attributes.subscribable).length > 0;
 
@@ -123,28 +119,23 @@ class LayerCardComponent extends PureComponent {
             }
           </div>
         }
-        {similarWidgets && similarWidgets.length > 0 &&
+        {widget &&
           <div>
             <h5>Similar content</h5>
-            <div className="similar-widgets">
-              {similarWidgets.map(widget =>
-                (<div
-                  key={widget.id}
-                  className="widget-card"
-                  onClick={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
-                  role="button"
-                  tabIndex={-1}
-                >
-                  <div className="widget-title">
-                    {widget.attributes.name}
-                  </div>
-                  <DatasetWidgetChart
-                    widget={widget.attributes}
-                    mode="thumbnail"
-                  />
-                </div>
-                ))
-              }
+            <div
+              key={widget.id}
+              className="widget-card"
+              onClick={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
+              role="button"
+              tabIndex={-1}
+            >
+              <div className="widget-title">
+                {widget.attributes.name}
+              </div>
+              <DatasetWidgetChart
+                widget={widget.attributes}
+                mode="thumbnail"
+              />
             </div>
           </div>
         }
@@ -173,16 +164,17 @@ class LayerCardComponent extends PureComponent {
 
 LayerCardComponent.propTypes = {
   // PROPS
-  pulse: PropTypes.object.isRequired,
+  layerMenuPulse: PropTypes.object.isRequired,
+  layerCardPulse: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   contextualLayers: PropTypes.array,
 
   // Actions
-  setSimilarWidgets: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
   toggleContextualLayer: PropTypes.func.isRequired,
-  loadDatasetData: PropTypes.func.isRequired
+  loadDatasetData: PropTypes.func.isRequired,
+  loadWidgetData: PropTypes.func.isRequired
 };
 
 export default LayerCardComponent;

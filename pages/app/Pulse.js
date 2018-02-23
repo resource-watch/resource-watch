@@ -23,7 +23,7 @@ import { logEvent } from 'utils/analytics';
 
 // Components
 import LayerMenu from 'components/app/pulse/layer-menu';
-import LayerCard from 'components/app/pulse/LayerCard';
+import LayerCard from 'components/app/pulse/layer-card';
 import Spinner from 'components/ui/Spinner';
 import ZoomControl from 'components/ui/ZoomControl';
 import GlobeTooltip from 'components/app/pulse/GlobeTooltip';

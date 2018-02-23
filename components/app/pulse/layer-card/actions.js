@@ -5,7 +5,7 @@ import WidgetService from 'services/WidgetService';
 import DatasetService from 'services/DatasetService';
 
 export const setDatasetData = createAction('layer-card/setDatasetData');
-export const setWidgetData = createAction('layer-card/setWidgetData');
+export const setWidget = createAction('layer-card/setWidget');
 
 export const loadDatasetData = createThunkAction('layer-card/loadDatasetData', ({ id, locale = 'en' }) =>
   (dispatch) => {
@@ -26,6 +26,6 @@ export const loadWidgetData = createThunkAction('layer-card/loadWidgetData', id 
     if (id) {
       const widgetService = new WidgetService(id, { apiURL: process.env.WRI_API_URL });
       widgetService.fetchData().then(response =>
-        dispatch(setWidgetData(response)));
+        dispatch(setWidget(response)));
     }
   });
