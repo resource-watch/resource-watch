@@ -40,12 +40,12 @@ routes.add('partner', '/about/partners/:id', 'app/PartnerDetail');
 // ----- DATA -----
 // routes.add('data', '/data', 'app/Explore'); // TODO: create the data page
 routes.add('explore', '/data/explore', 'app/Explore');
-routes.add('explore_detail', '/data/explore/:id', 'app/ExploreDetail');
-routes.add('explore_detail_beta', '/data/explore/:id/beta', 'app/ExploreDetailBeta');
-routes.add('explore_detail_private', '/data/private/:id', 'app/ExploreDetailPrivate');
+routes.add('explore_detail_private', '/data/explore/private/:id', 'app/explore-detail/private');
+routes.add('explore_detail', '/data/explore/:id', 'app/explore-detail');
 routes.add('pulse', '/data/pulse', 'app/Pulse');
 routes.add('dashboards', '/data/dashboards/', 'app/Dashboards');
 routes.add('dashboards_detail', '/data/dashboards/:slug', 'app/DashboardsDetail');
+routes.add('widget_detail', '/data/widget/:id', 'app/widget-detail');
 
 // ----- INSIGHTS -----
 routes.add('insights', '/blog', 'app/Insights');

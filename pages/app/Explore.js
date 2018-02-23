@@ -61,8 +61,8 @@ import SearchInput from 'components/ui/SearchInput';
 import ExploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';
 
 // Layout
-import Page from 'components/app/layout/Page';
-import Layout from 'components/app/layout/Layout';
+import Page from 'components/layout/page';
+import Layout from 'components/layout/layout/layout-app';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
@@ -71,28 +71,20 @@ import LayerManager from 'utils/layers/LayerManager';
 import DatasetService from 'services/DatasetService';
 
 class Explore extends Page {
-  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
-    const { user } = isServer ? req : store.getState();
-    const url = { asPath, pathname, query };
-    const botUserAgent = isServer && /AddSearchBot/.test(req.headers['user-agent']);
-    await store.dispatch(setUser(user));
-    store.dispatch(setRouter(url));
-    await store.dispatch(getUserFavourites());
-    await store.dispatch(getUserCollections());
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    const { isServer, req } = context;
+    const { routes } = context.store.getState();
 
-    // We set the initial state of the map
-    // NOTE: we can't move these two dispatch in
-    // componentWillMount or componentDidMount
-    // because the map only take into account its props
-    // at instantiation (and we can't change that
-    // without breaking panning and zooming)
-    if (query.zoom) store.dispatch(setZoom(+query.zoom, false));
-    if (query.latLng) {
-      store.dispatch(setLatLng(JSON.parse(query.latLng), false));
+    if (routes.query.zoom) context.store.dispatch(setZoom(+routes.query.zoom, false));
+    if (routes.query.latLng) {
+      context.store.dispatch(setLatLng(JSON.parse(routes.query.latLng), false));
     }
 
-    if (isServer && botUserAgent) await store.dispatch(getDatasets({}));
-    return { user, isServer, url, botUserAgent };
+    const botUserAgent = isServer && /AddSearchBot/.test(req.headers['user-agent']);
+    if (isServer && botUserAgent) await context.store.dispatch(getDatasets({}));
+
+    return { ...props };
   }
 
   constructor(props) {
@@ -416,12 +408,14 @@ class Explore extends Page {
                 </div>
               </div>
             </Sidebar>
+
             <MediaQuery minDeviceWidth={720} values={{ deviceWidth: 720 }}>
               <div className="l-map">
                 <Map
                   mapConfig={{ zoom, latLng }}
                   setMapParams={params => this.setMapParams(params)}
                   setMapInstance={(map) => { this.map = map; }}
+                  disableScrollZoom={false}
                   // layerManager
                   layerGroups={this.props.layerGroups}
                   LayerManager={LayerManager}

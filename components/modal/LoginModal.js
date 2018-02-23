@@ -34,7 +34,7 @@ function LoginModal(props) {
       <div className="buttons">
         <button
           className="c-button -a"
-          onClick={() => props.toggleModal()}
+          onClick={() => props.onRequestClose()}
         >
           Ok
         </button>
@@ -44,8 +44,8 @@ function LoginModal(props) {
 }
 
 LoginModal.propTypes = {
-  text: PropTypes.object.isRequired,
-  toggleModal: PropTypes.func.isRequired
+  text: PropTypes.string.isRequired,
+  onRequestClose: PropTypes.func.isRequired
 };
 
 export default LoginModal;

@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Layout
-import Page from 'components/app/layout/Page';
-import Head from 'components/app/layout/head';
+import Head from 'components/layout/head/app';
+import Page from 'components/layout/page';
+import Icons from 'components/layout/icons';
 
 // Components
 import Spinner from 'components/ui/Spinner';
 import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
-import Icons from 'components/app/layout/icons';
 import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
 
@@ -36,7 +36,7 @@ class EmbedLayer extends Page {
 
     return {
       ...props,
-      referer: isServer ? req.headers.referer : location.href
+      referer: isServer ? req.headers.referer : window.location.href
     };
   }
 
@@ -152,8 +152,8 @@ class EmbedLayer extends Page {
         />
         <Tooltip />
 
-        { this.state.error
-          && <div className="message">
+        {this.state.error &&
+          <div className="message">
             <div className="error">Unable to load the map <span>{this.state.error}</span></div>
           </div>
         }

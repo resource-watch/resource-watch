@@ -9,8 +9,8 @@ import { initStore } from 'store';
 import { setEmbed } from 'redactions/common';
 
 // Components
-import Page from 'components/app/layout/Page';
-import EmbedLayout from 'components/app/layout/EmbedLayout';
+import Page from 'components/layout/page';
+import LayoutEmbed from 'components/layout/layout/layout-embed';
 import Spinner from 'components/ui/Spinner';
 
 class EmbedTable extends Page {
@@ -22,7 +22,7 @@ class EmbedTable extends Page {
 
     return {
       ...props,
-      referer: isServer ? req.headers.referer : location.href
+      referer: isServer ? req.headers.referer : window.location.href
     };
   }
 
@@ -67,17 +67,17 @@ class EmbedTable extends Page {
 
     if (isEmpty(tableData)) {
       return (
-        <EmbedLayout
-          title={'Loading widget...'}
-          description={''}
+        <LayoutEmbed
+          title="Loading widget..."
+          description=""
         >
           <Spinner isLoading className="-light" />
-        </EmbedLayout>
+        </LayoutEmbed>
       );
     }
 
     return (
-      <EmbedLayout>
+      <LayoutEmbed>
         <div className="c-embed-table">
           <div className="visualization">
             <Spinner isLoading={isLoading} className="-light" />
@@ -107,8 +107,7 @@ class EmbedTable extends Page {
                               Object.keys(row).map(column => (<td key={`td${column}`}>{row[column]}</td>))
                             }
                           </tr>
-                        )
-                      )
+                        ))
                     }
                   </tbody>
                 </table>
@@ -120,11 +119,11 @@ class EmbedTable extends Page {
               className="embed-logo"
               height={21}
               width={129}
-              src={'/static/images/logo-embed.png'}
+              src="/static/images/logo-embed.png"
               alt="Resource Watch"
             /> }
         </div>
-      </EmbedLayout>
+      </LayoutEmbed>
     );
   }
 }

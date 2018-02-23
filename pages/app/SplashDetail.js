@@ -8,15 +8,15 @@ import { initStore } from 'store';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Layout
-import Page from 'components/app/layout/Page';
-import Head from 'components/app/layout/head';
+import Page from 'components/layout/page';
+import Head from 'components/layout/head/app';
+import Icons from 'components/layout/icons';
 import Header from 'components/splash/layout/Header';
 
 // Components
 import Spinner from 'components/ui/Spinner';
 import Modal from 'components/ui/Modal';
 import Icon from 'components/ui/Icon';
-import Icons from 'components/app/layout/icons';
 
 // Utils
 import { PANORAMAS } from 'utils/splash/Panoramas';

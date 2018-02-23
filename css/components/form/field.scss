@@ -44,40 +44,46 @@
     font-size: 12px;
   }
 
-  > input,
-  > textarea,
-  > select,
-  .input {
-    display: inline-block;
-    box-shadow: none;
-    outline: none;
-    font-size: $font-size-medium;
-    padding: $margin-size-extra-small/2 10px;
-    margin: 0;
-    width: 100%;
+  .field-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans;
-    font-size: $font-size-normal;
-    color: $body-font-color;
+    > input,
+    > textarea,
+    > select,
+    .input {
+      display: inline-block;
+      box-shadow: none;
+      outline: none;
+      font-size: $font-size-medium;
+      padding: $margin-size-extra-small/2 10px;
+      margin: 0;
+      width: 100%;
 
-    border-radius: 4px;
-    border: 1px solid $border-color-2;
-  }
+      font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans;
+      font-size: $font-size-normal;
+      color: $body-font-color;
 
-  // I don't know why are we using height attribute... For me this is completely wrong
-  // https://github.com/resource-watch/resource-watch/commit/d9f7325a02b81366db3b067009e87808e158d8cf
-  // https://github.com/resource-watch/resource-watch/blob/d9f7325a02b81366db3b067009e87808e158d8cf/css/components/form/field.scss#L41
-  > input,
-  > select,
-  .input {
-    height: 45px;
-  }
+      border-radius: 4px;
+      border: 1px solid $border-color-2;
+    }
 
-  > input::placeholder,
-  > textarea::placeholder,
-  > select::placeholder,
-  .input::placeholder {
-    color: rgba($body-font-color, .3);
+    // I don't know why are we using height attribute... For me this is completely wrong
+    // https://github.com/resource-watch/resource-watch/commit/d9f7325a02b81366db3b067009e87808e158d8cf
+    // https://github.com/resource-watch/resource-watch/blob/d9f7325a02b81366db3b067009e87808e158d8cf/css/components/form/field.scss#L41
+    > input,
+    > select,
+    .input {
+      height: 45px;
+    }
+
+    > input::placeholder,
+    > textarea::placeholder,
+    > select::placeholder,
+    .input::placeholder {
+      color: rgba($body-font-color, .3);
+    }
   }
 
 
@@ -90,42 +96,50 @@
   &.-fluid {
     width: 100%;
 
-    > input,
-    > textarea,
-    > select,
-    .input,
-    .Select {
-      max-width: none;
+    .field-container {
+      > input,
+      > textarea,
+      > select,
+      .input,
+      .Select {
+        max-width: none;
+      }
     }
   }
 
   &.-disabled {
-    > input,
-    > textarea,
-    > select,
-    .input,
-    .Select {
-      background: $color-tertiary;
+    .field-container {
+      > input,
+      > textarea,
+      > select,
+      .input,
+      .Select {
+        background: $color-tertiary;
+      }
     }
   }
 
   &.-valid {
-    > input,
-    > textarea,
-    > select,
-    .input,
-    .Select-control {
-      // border-color: $color-green;
+    .field-container {
+      > input,
+      > textarea,
+      > select,
+      .input,
+      .Select-control {
+        // border-color: $color-green;
+      }
     }
   }
 
   &.-error {
-    > input,
-    > textarea,
-    > select,
-    .input,
-    .Select-control {
-      border-color: $color-red;
+    .field-container {
+      > input,
+      > textarea,
+      > select,
+      .input,
+      .Select-control {
+        border-color: $color-red;
+      }
     }
   }
 }

@@ -8,11 +8,13 @@ import * as reducers from 'redactions';
 // New modules
 import { handleModule } from 'redux-tools';
 
+// Layout
+import * as header from 'components/layout/header';
+import * as headerAdmin from 'components/layout/header-admin';
+import * as footer from 'components/layout/footer';
+
 // Share
 import * as shareModal from 'components/modal/share-modal';
-
-// Search
-import * as search from 'components/app/layout/search/search';
 
 // Dashboard
 import * as dashboardDetail from 'components/dashboards/detail/dashboard-detail';
@@ -21,13 +23,21 @@ import * as widgetBlockModule from 'components/dashboards/wysiwyg/widget-block/w
 import * as widgetBlockEditionModule from 'components/dashboards/wysiwyg/widget-block-edition/widget-block-edition';
 
 // Dataset
-import * as similarDatasets from 'components/app/explore/similar-datasets/similar-datasets';
+import * as similarDatasets from 'components/datasets/similar-datasets/similar-datasets';
+import * as trySubscriptionModal from 'components/datasets/form/try-subscription-modal';
 
 // Explore
+import * as exploreDetail from 'pages/app/explore-detail/explore-detail';
 import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';
+
+// Widget
+import * as widgetDetail from 'pages/app/widget-detail/widget-detail';
 
 // Widget editor
 import { reducers as widgetEditorModules } from 'widget-editor';
+
+// React responsive redux
+import { reducer as responsiveReducer } from 'react-responsive-redux';
 
 if (process.env.NODE_ENV === 'production') {
   initOpbeat({
@@ -43,8 +53,15 @@ const reducer = combineReducers({
   // widgetEditor
   ...widgetEditorModules,
 
-  search: handleModule(search),
+  // React responsive
+  responsive: responsiveReducer,
 
+  // Header
+  header: handleModule(header),
+  headerAdmin: handleModule(headerAdmin),
+  footer: handleModule(footer),
+
+  // Share
   shareModal: handleModule(shareModal),
 
   // Dashboards
@@ -54,10 +71,15 @@ const reducer = combineReducers({
   widgetBlockEdition: handleModule(widgetBlockEditionModule),
 
   // Explore
+  exploreDetail: handleModule(exploreDetail),
   exploreDatasetFilters: handleModule(exploreDatasetFilters),
 
-  // Explore detail
-  similarDatasets: handleModule(similarDatasets)
+  // Dataset
+  similarDatasets: handleModule(similarDatasets),
+  trySubscriptionModal: handleModule(trySubscriptionModal),
+  
+  // Widget
+  widgetDetail: handleModule(widgetDetail)
 });
 
 const composeEnhancers = composeWithDevTools({});
