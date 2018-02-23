@@ -38,8 +38,6 @@ import {
 import { setFilters } from 'components/app/explore/explore-dataset-filters/explore-dataset-filters-actions';
 import { redirectTo } from 'redactions/common';
 import { toggleModal, setModalOptions } from 'redactions/modal';
-import { setUser, getUserFavourites, getUserCollections } from 'redactions/user';
-import { setRouter } from 'redactions/routes';
 import { Link } from 'routes';
 
 // Selectors
@@ -49,7 +47,7 @@ import getLayerGroups from 'selectors/explore/layersExplore';
 // Components
 import Sidebar from 'components/app/layout/Sidebar';
 import DatasetListHeader from 'components/app/explore/DatasetListHeader';
-import DatasetList from 'components/app/explore/DatasetList';
+import DatasetList from 'components/datasets/list';
 import Paginator from 'components/ui/Paginator';
 import Map from 'components/ui/map/Map';
 import MapControls from 'components/ui/map/MapControls';
