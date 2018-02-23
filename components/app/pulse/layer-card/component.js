@@ -169,15 +169,13 @@ LayerCardComponent.propTypes = {
   layerMenuPulse: PropTypes.object.isRequired,
   layerCardPulse: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  contextualLayers: PropTypes.array,
 
   // Actions
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
-  toggleContextualLayer: PropTypes.func.isRequired,
   loadDatasetData: PropTypes.func.isRequired,
   loadWidgetData: PropTypes.func.isRequired,
-  setWidget: PropTypes.func.isRequired,
+  setWidget: PropTypes.func.isRequired
 };
 
 export default LayerCardComponent;
