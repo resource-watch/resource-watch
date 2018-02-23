@@ -35,10 +35,6 @@ class LayersForm extends React.Component {
       dataset: props.dataset,
       datasets: [],
       form: formObj,
-      interactions: [],
-      interactionsForm: {
-        output: []
-      },
       loading: !!props.id
     });
 
@@ -56,8 +52,6 @@ class LayersForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onChangeDataset = this.onChangeDataset.bind(this);
-    this.modifyInteractions = this.modifyInteractions.bind(this);
-    this.editInteraction = this.editInteraction.bind(this);
     this.onStepChange = this.onStepChange.bind(this);
   }
 
@@ -82,18 +76,9 @@ class LayersForm extends React.Component {
 
         const { provider, dataset } = current || {};
 
-        if (provider !== 'wms') {
-          this.service.getColumns({ dataset })
-            .then((interactions) => {
-              this.setState({ interactions });
-            });
-        }
-
         this.setState({
           // CURRENT LAYER
           form: formState,
-          interactionsForm: formState.interactionConfig.output ?
-            formState.interactionConfig : { output: [] },
           loading: false,
           // CURRENT DATASET
           dataset: formState.dataset,
@@ -122,10 +107,16 @@ class LayersForm extends React.Component {
     setTimeout(() => {
       // Validate all the inputs on the current step
       const valid = FORM_ELEMENTS.isValid(this.state.step);
-      const { interactionsForm } = this.state;
+      const { interactions } = this.props;
 
-      // Attach the interactions form to the interationsConfig
-      const form = Object.assign({}, this.state.form, { interactionConfig: interactionsForm });
+      // Grab all the interactions from the redux store
+      const interactionConfig = Object.assign(
+        {},
+        this.state.form.interactionConfig,
+        { output: interactions.added }
+      );
+
+      const form = Object.assign({}, this.state.form, { interactionConfig });
 
       if (valid) {
         // if we are in the last step we will submit the form
@@ -197,38 +188,6 @@ class LayersForm extends React.Component {
     return newForm;
   }
 
-  modifyInteractions(options) {
-    const { interactionsForm } = this.state;
-
-    // Remove layer if its not in options
-    if (interactionsForm.output) {
-      interactionsForm.output = interactionsForm.output
-        .filter(item => options.includes(item.column));
-    }
-
-    if (options.length > interactionsForm.output.length) {
-      const selected = options[options.length - 1];
-      interactionsForm.output.push({
-        column: selected,
-        format: null,
-        prefix: '',
-        property: '',
-        suffix: '',
-        type: 'string'
-      });
-    }
-
-    this.setState({ interactionsForm });
-  }
-
-  editInteraction(data) {
-    const { interactionsForm } = this.state;
-    data.field[data.key] = data.value;
-    interactionsForm.output[findIndex(interactionsForm.output, data.field)] =
-      Object.assign({}, data.field);
-    this.setState({ interactionsForm });
-  }
-
   render() {
     return (
       <form className="c-form c-layers-form" onSubmit={this.onSubmit} noValidate>
@@ -238,15 +197,11 @@ class LayersForm extends React.Component {
           <Step1
             ref={(c) => { this.step = c; }}
             form={this.state.form}
-            interactions={this.state.interactions}
-            interactionsForm={this.state.interactionsForm}
             id={this.state.id}
             dataset={this.state.dataset}
             datasets={this.state.datasets}
             onChange={value => this.onChange(value)}
             onChangeDataset={value => this.onChangeDataset(value)}
-            modifyInteractions={value => this.modifyInteractions(value)}
-            editInteraction={value => this.editInteraction(value)}
           />
         }
 
@@ -269,11 +224,13 @@ LayersForm.propTypes = {
   authorization: PropTypes.string,
   application: PropTypes.array,
   onSubmit: PropTypes.func,
-  locale: PropTypes.string.isRequired
+  locale: PropTypes.string.isRequired,
+  interactions: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  locale: state.common.locale
+  locale: state.common.locale,
+  interactions: state.interactions
 });
 
 export default connect(mapStateToProps, null)(LayersForm);

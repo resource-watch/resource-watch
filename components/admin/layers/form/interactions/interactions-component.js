@@ -1,16 +1,19 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import findIndex from 'lodash/findIndex';
+
 // Redux
 import { connect } from 'react-redux';
 
 // Components
 import Field from 'components/form/Field';
+import Input from 'components/form/Input';
 import Select from 'components/form/SelectInput';
 
 import { getInteractions, modifyInteractions } from 'components/admin/layers/form/interactions/interactions-actions';
 
-import { FORMAT } from 'components/admin/layers/form/constants';
+import { FORM_ELEMENTS, FORMAT } from 'components/admin/layers/form/constants';
 
 class InteractionsComponent extends PureComponent {
   componentWillMount() {
@@ -40,12 +43,48 @@ class InteractionsComponent extends PureComponent {
     this.props.dispatch(modifyInteractions(interactions.added));
   }
 
+  editInteraction(data) {
+    const { interactions } = this.props;
+
+    if (data.key.toLowerCase() === 'label') {
+      data.field.property = data.value;
+    } else {
+      data.field[data.key] = data.value;
+    }
+    interactions.added[findIndex(interactions.added, data.field)] =
+      Object.assign({}, data.field);
+    this.props.dispatch(modifyInteractions(interactions.added));
+  }
+
+  renderInteractionFields(data) {
+    return ['Field', 'Label', 'Prefix', 'Suffix', 'Format'].map((label) => {
+      const validations = label === 'Label' ? ['required'] : [];
+      return (
+        <Field
+          key={data.column + label}
+          ref={(c) => { if (c) FORM_ELEMENTS.elements[label.toLowerCase() + data.column] = c; }}
+          onChange={value => this.editInteraction({ value, key: label, field: data })}
+          validations={validations}
+          properties={{
+            name: label.toLowerCase() + data.column,
+            label,
+            type: 'text',
+            disabled: /Field/.test(label),
+            required: /Label/.test(label),
+            default: data[FORMAT.resolveKey(label)]
+          }}
+        >
+          {Input}
+        </Field>
+      );
+    });
+  }
+
   render() {
     const { interactions } = this.props;
 
     return (
-      <div>Interactions component
-
+      <div>
         <div className="c-field preview-container">
           {interactions.available &&
           <Field
@@ -64,8 +103,17 @@ class InteractionsComponent extends PureComponent {
           >
             {Select}
           </Field>}
-        </div>
 
+        {interactions.added &&
+          interactions.added.map((data) => {
+            return (
+              <section className="c-field-flex" key={data.column}>
+                {this.renderInteractionFields(data)}
+              </section>
+            );
+          })}
+
+        </div>
       </div>
     );
   }

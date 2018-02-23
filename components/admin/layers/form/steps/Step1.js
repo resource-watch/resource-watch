@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import findIndex from 'lodash/findIndex';
+
 // Constants
 import { PROVIDER_OPTIONS, FORM_ELEMENTS, FORMAT } from 'components/admin/layers/form/constants';
 
@@ -35,7 +37,6 @@ class Step1 extends React.Component {
     this.state = {
       id: props.id,
       form: props.form,
-      interactionsForm: props.interactionsForm,
       layerGroups: []
     };
 
@@ -71,31 +72,6 @@ class Step1 extends React.Component {
 
   handleRefreshPreview() {
     this.setLayerGroups();
-  }
-
-  renderInteractionFields(data) {
-    return ['Field', 'Label', 'Prefix', 'Suffix', 'Format'].map((label) => {
-      const validations = label === 'Label' ? ['required'] : [];
-      return (
-        <Field
-          key={data.column + label}
-          ref={(c) => { if (c) FORM_ELEMENTS.elements[label.toLowerCase() + data.column] = c; }}
-          onChange={value => this.props
-            .editInteraction({ value, key: label, field: data })}
-          validations={validations}
-          properties={{
-            name: label.toLowerCase() + data.column,
-            label,
-            type: 'text',
-            disabled: /Field/.test(label),
-            required: /Label/.test(label),
-            default: data[FORMAT.resolveKey(label)]
-          }}
-        >
-          {Input}
-        </Field>
-      );
-    });
   }
 
   render() {
@@ -199,35 +175,6 @@ class Step1 extends React.Component {
           form={this.state.form}
         />
 
-        {interactionsForm && interactionsForm.output &&
-          interactionsForm.output.map((data) => {
-            return (
-              <section className="c-field-flex" key={data.column}>
-                {this.renderInteractionFields(data)}
-              </section>
-            );
-          })}
-
-        <div className="c-field preview-container">
-          {interactions && interactions.fields &&
-          <Field
-            validations={['required']}
-            options={interactions.fields}
-            onChange={(value, other) => this.props.modifyInteractions(value, other)}
-            properties={{
-              name: 'selected_columns',
-              label: 'Add interactions',
-              type: 'text',
-              removeSelected: true,
-              multi: true,
-              value: interactionsForm.output ? FORMAT.options(interactionsForm.output) : [],
-              default: interactionsForm.output ? FORMAT.options(interactionsForm.output) : []
-            }}
-          >
-            {Select}
-          </Field>}
-        </div>
-
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.provider = c; }}
           onChange={value => this.props.onChange({ provider: value })}
@@ -306,11 +253,7 @@ Step1.propTypes = {
   datasets: PropTypes.array,
   form: PropTypes.object,
   onChange: PropTypes.func,
-  onChangeDataset: PropTypes.func,
-  modifyInteractions: PropTypes.func,
-  interactions: PropTypes.object,
-  interactionsForm: PropTypes.object,
-  editInteraction: PropTypes.func
+  onChangeDataset: PropTypes.func
 };
 
 export default Step1;
