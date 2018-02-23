@@ -1,8 +1,8 @@
 import * as actions from './interactions-actions';
 
 export const initialState = {
-  added: null,
-  available: null,
+  added: [],
+  available: [],
   loading: false
 };
 
