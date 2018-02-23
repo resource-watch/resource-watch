@@ -22,7 +22,7 @@ class DatasetList extends PureComponent {
       medium: 'medium-6',
       large: 'large-4',
       xlarge: 'xlarge-4',
-      xxlarge: 'xxlarge-3'
+      xxlarge: 'xxlarge-4'
     }
   }
 
