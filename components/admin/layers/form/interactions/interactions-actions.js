@@ -19,7 +19,7 @@ export const getInteractions = createThunkAction('ADMIN_GET_INTERACTIONS', props
     layerService.getColumns({ dataset: form.dataset })
       .then((interactions) => {
         dispatch(setInteractions({
-          added: form.interactionConfig.output,
+          added: form.interactionConfig.output || [],
           available: interactions.fields
         }));
         dispatch(toggleLoading());

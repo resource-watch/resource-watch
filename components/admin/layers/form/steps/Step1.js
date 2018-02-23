@@ -169,8 +169,6 @@ class Step1 extends React.Component {
           {Code}
         </Field>
 
-        <h5>Interactions</h5>
-
         <InteractionsComponent
           form={this.state.form}
         />

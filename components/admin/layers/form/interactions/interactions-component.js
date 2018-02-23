@@ -13,7 +13,7 @@ import Select from 'components/form/SelectInput';
 
 import { getInteractions, modifyInteractions } from 'components/admin/layers/form/interactions/interactions-actions';
 
-import { FORM_ELEMENTS, FORMAT } from 'components/admin/layers/form/constants';
+import { FORM_ELEMENTS, DATA_FORMATS, FORMAT } from 'components/admin/layers/form/constants';
 
 class InteractionsComponent extends PureComponent {
   componentWillMount() {
@@ -28,7 +28,7 @@ class InteractionsComponent extends PureComponent {
         .filter(item => options.includes(item.column));
     }
 
-    if (options.length > interactions.added.length) {
+    if (!interactions.added || options.length > interactions.added.length) {
       const selected = options[options.length - 1];
       interactions.added.push({
         column: selected,
@@ -56,8 +56,19 @@ class InteractionsComponent extends PureComponent {
     this.props.dispatch(modifyInteractions(interactions.added));
   }
 
+  removeInteraction(interaction) {
+    const { interactions } = this.props;
+    interactions.added = interactions.added.filter(item => item.column !== interaction.column);
+    this.props.dispatch(modifyInteractions(interactions.added));
+  }
+
+  resolveFormatOptions(value) {
+    console.log(value);
+    return value;
+  }
+
   renderInteractionFields(data) {
-    return ['Field', 'Label', 'Prefix', 'Suffix', 'Format'].map((label) => {
+    return ['Field', 'Label', 'Prefix', 'Suffix'].map((label) => {
       const validations = label === 'Label' ? ['required'] : [];
       return (
         <Field
@@ -80,6 +91,25 @@ class InteractionsComponent extends PureComponent {
     });
   }
 
+  renderFormatField(data) {
+    return (
+      <Field
+        key={`${data.column}format`}
+        ref={(c) => { if (c) FORM_ELEMENTS.elements[`${data.column}format`] = c; }}
+        onChange={value => this.editInteraction({ value, key: 'format', field: data })}
+        options={this.resolveFormatOptions(data.format)}
+        properties={{
+          name: `${data.column}format`,
+          label: 'Format',
+          type: 'text',
+          disabled: false
+        }}
+      >
+        {Select}
+      </Field>
+    );
+  }
+
   render() {
     const { interactions } = this.props;
 
@@ -88,7 +118,6 @@ class InteractionsComponent extends PureComponent {
         <div className="c-field preview-container">
           {interactions.available &&
           <Field
-            validations={['required']}
             options={interactions.available}
             onChange={value => this.modifyInteractions(value)}
             properties={{
@@ -104,14 +133,18 @@ class InteractionsComponent extends PureComponent {
             {Select}
           </Field>}
 
-        {interactions.added &&
-          interactions.added.map((data) => {
-            return (
-              <section className="c-field-flex" key={data.column}>
-                {this.renderInteractionFields(data)}
-              </section>
-            );
-          })}
+          {interactions.added.length ? <h5>Interactions ({interactions.added.length})</h5> : null}
+
+          {interactions.added &&
+            interactions.added.map((data) => {
+              return (
+                <section className="c-field-flex" key={data.column}>
+                  {this.renderInteractionFields(data)}
+                  {this.renderFormatField(data)}
+                  <button type="button" className="c-btn" onClick={() => this.removeInteraction(data)}>Remove</button>
+                </section>
+              );
+            })}
 
         </div>
       </div>
