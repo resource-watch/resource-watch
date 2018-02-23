@@ -13,6 +13,7 @@ import Checkbox from 'components/form/Checkbox';
 import Code from 'components/form/Code';
 import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
+import InteractionsComponent from '../interactions/interactions-component';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
@@ -194,6 +195,10 @@ class Step1 extends React.Component {
 
         <h5>Interactions</h5>
 
+        <InteractionsComponent
+          form={this.state.form}
+        />
+
         {interactionsForm && interactionsForm.output &&
           interactionsForm.output.map((data) => {
             return (
@@ -221,7 +226,6 @@ class Step1 extends React.Component {
           >
             {Select}
           </Field>}
-
         </div>
 
         <Field
