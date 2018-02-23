@@ -13,14 +13,26 @@ import Select from 'components/form/SelectInput';
 
 import { getInteractions, modifyInteractions } from 'components/admin/layers/form/interactions/interactions-actions';
 
-import { FORM_ELEMENTS, DATA_FORMATS, FORMAT } from 'components/admin/layers/form/constants';
+import { FORM_ELEMENTS, FORMAT } from 'components/admin/layers/form/constants';
+
+const DATA_FORMATS = {
+  string: [],
+  number: [
+    { label: '0.0', value: '0.0' },
+    { label: '0e', value: '0e' }
+  ],
+  date: [
+    { label: 'YYYY/MM/DD', value: 'YYYY/MM/DD' },
+    { label: 'YYYY', value: 'YYYY' }
+  ]
+};
 
 class InteractionsComponent extends PureComponent {
   componentWillMount() {
     this.props.dispatch(getInteractions({ ...this.props }));
   }
 
-  modifyInteractions(options) {
+  addInteractions(options) {
     const { interactions } = this.props;
     // Remove layer if its not in options
     if (interactions.added) {
@@ -29,14 +41,16 @@ class InteractionsComponent extends PureComponent {
     }
 
     if (!interactions.added || options.length > interactions.added.length) {
-      const selected = options[options.length - 1];
+      const optionSelected = options[options.length - 1];
+      const selected = interactions.available.find(item => item.label === optionSelected);
+
       interactions.added.push({
-        column: selected,
+        column: selected.label,
         format: null,
         prefix: '',
         property: '',
         suffix: '',
-        type: 'string'
+        type: selected.type
       });
     }
 
@@ -60,11 +74,6 @@ class InteractionsComponent extends PureComponent {
     const { interactions } = this.props;
     interactions.added = interactions.added.filter(item => item.column !== interaction.column);
     this.props.dispatch(modifyInteractions(interactions.added));
-  }
-
-  resolveFormatOptions(value) {
-    console.log(value);
-    return value;
   }
 
   renderInteractionFields(data) {
@@ -97,12 +106,14 @@ class InteractionsComponent extends PureComponent {
         key={`${data.column}format`}
         ref={(c) => { if (c) FORM_ELEMENTS.elements[`${data.column}format`] = c; }}
         onChange={value => this.editInteraction({ value, key: 'format', field: data })}
-        options={this.resolveFormatOptions(data.format)}
+        options={DATA_FORMATS[data.type]}
         properties={{
           name: `${data.column}format`,
           label: 'Format',
           type: 'text',
-          disabled: false
+          disabled: /string/.test(data.type),
+          default: /string/.test(data.type) ? 'string' : null
+
         }}
       >
         {Select}
@@ -119,7 +130,7 @@ class InteractionsComponent extends PureComponent {
           {interactions.available &&
           <Field
             options={interactions.available}
-            onChange={value => this.modifyInteractions(value)}
+            onChange={value => this.addInteractions(value)}
             properties={{
               name: 'selected_columns',
               label: 'Add interactions',

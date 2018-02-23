@@ -80,15 +80,14 @@ export default class LayersService {
         }],
         onSuccess: (response) => {
           const fieldsObj = response.fields;
-
           const parsedData = {
             tableName: response.tableName,
-            fields: (Object.keys(fieldsObj) || []).map(key => ({
-              label: key,
-              value: key
+            fields: (Object.entries(fieldsObj) || []).map(data => ({
+              label: data[0],
+              value: data[0],
+              type: data[1].type
             }))
           };
-
           resolve({ ...parsedData });
         },
         onError: (error) => {

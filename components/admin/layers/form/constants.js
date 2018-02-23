@@ -16,12 +16,6 @@ export const STATE_DEFAULT = {
   }
 };
 
-export const DATA_FORMATS = [
-  { label: 'string', value: 'string' },
-  { label: 'number', value: 'number' },
-  { label: 'date', value: 'date' }
-];
-
 export const FORMAT = {
   options(o) {
     return o.map((item) => {
