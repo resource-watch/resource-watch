@@ -2,13 +2,13 @@ import * as actions from './actions';
 
 export default {
   [actions.toggleContextualLayer]: (state, { payload }) => {
-    const { contextLayers } = state;
-    const index = contextLayers.indexOf(payload);
+    const { activeLayers } = state;
+    const index = activeLayers.indexOf(payload.id);
     if (index < 0) {
-      contextLayers.push(payload);
+      activeLayers.push(payload.id);
     } else {
-      contextLayers.splice(index, 1);
+      activeLayers.splice(index, 1);
     }
-    return { ...state, contextLayers };
+    return { ...state, activeLayers, contextLayers: payload.contextLayers };
   }
 };
