@@ -47,6 +47,8 @@ class LayerCardComponent extends PureComponent {
         const { widgets } = found;
         if (widgets && widgets.length > 0) {
           this.props.loadWidgetData(widgets[0]);
+        } else {
+          this.props.setWidget(null);
         }
       }
     }
@@ -174,7 +176,8 @@ LayerCardComponent.propTypes = {
   setModalOptions: PropTypes.func.isRequired,
   toggleContextualLayer: PropTypes.func.isRequired,
   loadDatasetData: PropTypes.func.isRequired,
-  loadWidgetData: PropTypes.func.isRequired
+  loadWidgetData: PropTypes.func.isRequired,
+  setWidget: PropTypes.func.isRequired,
 };
 
 export default LayerCardComponent;
