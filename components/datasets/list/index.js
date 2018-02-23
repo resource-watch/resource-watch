@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 // Components
-import DatasetListComponent from './dataset-list-component';
+import DatasetListComponent from './component';
 
 export default connect(
   state => ({
