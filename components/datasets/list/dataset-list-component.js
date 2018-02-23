@@ -9,24 +9,36 @@ class DatasetList extends PureComponent {
   static propTypes = {
     list: PropTypes.array,
     user: PropTypes.object,
-    routes: PropTypes.object,
     mode: PropTypes.string,
+    grid: PropTypes.object,
     showActions: PropTypes.bool.isRequired,
     showFavorite: PropTypes.bool.isRequired,
     onTagSelected: PropTypes.func
   };
 
+  static defaultProps = {
+    grid: {
+      small: 'small-12',
+      medium: 'medium-6',
+      large: 'large-4',
+      xlarge: 'xlarge-4',
+      xxlarge: 'xxlarge-3'
+    }
+  }
+
   render() {
     const {
-      list, mode, showActions, showFavorite, user, routes, onTagSelected
+      list, mode, showActions, showFavorite, user, grid, onTagSelected
     } = this.props;
 
     const newClassName = classNames({
       column: true,
       [`-${mode}`]: true,
-      'small-12': true,
-      'medium-6': mode === 'grid',
-      [routes.pathname === '/app/Explore' ? 'xxlarge-4' : 'large-4']: mode === 'grid'
+      [grid.small]: true,
+      [grid.medium]: mode === 'grid',
+      [grid.large]: mode === 'grid',
+      [grid.xlarge]: mode === 'grid',
+      [grid.xxlarge]: mode === 'grid'
     });
 
     return (
