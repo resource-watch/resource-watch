@@ -37,28 +37,6 @@ class LayerPreviewComponent extends PureComponent {
     this.props.dispatch(setLayerInteractionLatLng({ interactionLatLng }));
   }
 
-  setLayerGroups() {
-    const { form } = this.props;
-    const layerGroups = [{
-      dataset: form.dataset,
-      visible: true,
-      layers: [{
-        active: true,
-        application: form.application,
-        layerConfig: form.layerConfig,
-        interactionConfig: form.interactionConfig,
-        legendConfig: form.legendConfig,
-        id: form.id,
-        name: form.name,
-        provider: form.provider,
-        slug: form.slug,
-        iso: form.iso,
-        description: form.description
-      }]
-    }];
-    return layerGroups;
-  }
-
   handleRefreshPreview() {
     const { form, interactions } = this.props;
     this.props.dispatch(generateLayerGroups({ form, interactions }));

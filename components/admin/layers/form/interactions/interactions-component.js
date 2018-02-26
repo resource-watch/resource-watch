@@ -12,7 +12,6 @@ import Input from 'components/form/Input';
 import Select from 'components/form/SelectInput';
 
 import { getInteractions, modifyInteractions } from 'components/admin/layers/form/interactions/interactions-actions';
-import { generateLayerGroups } from 'components/admin/layers/form/layer-preview/layer-preview-actions';
 
 import { FORM_ELEMENTS, FORMAT } from 'components/admin/layers/form/constants';
 
@@ -58,7 +57,7 @@ class InteractionsComponent extends PureComponent {
       });
     }
 
-    this.props.dispatch(modifyInteractions(interactions.added));
+    this.props.dispatch(modifyInteractions({ ...this.props }, interactions.added));
   }
 
   editInteraction(data) {
@@ -71,13 +70,13 @@ class InteractionsComponent extends PureComponent {
     }
     interactions.added[findIndex(interactions.added, data.field)] =
       Object.assign({}, data.field);
-    this.props.dispatch(modifyInteractions(interactions.added));
+    this.props.dispatch(modifyInteractions({ ...this.props }, interactions.added));
   }
 
   removeInteraction(interaction) {
     const { interactions } = this.props;
     interactions.added = interactions.added.filter(item => item.column !== interaction.column);
-    this.props.dispatch(modifyInteractions(interactions.added));
+    this.props.dispatch(modifyInteractions({ ...this.props }, interactions.added));
   }
 
   renderInteractionFields(data) {
