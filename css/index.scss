@@ -27,8 +27,10 @@
   "layouts/page",
   "layouts/section",
   "layouts/header",
+  "layouts/header-menu-mobile",
   "layouts/content",
   "layouts/postcontent",
+  "layouts/row",
   "layouts/footer",
   "layouts/sidebar",
   "layouts/map",
@@ -217,14 +219,6 @@
 @import "./components/app/pages/p-app-detail";
 @import "./components/app/pages/splash";
 @import "./components/app/pages/splash_detail";
-
-// LAYOUT
-// @import "./components/app/layout/page";
-// @import "./components/app/layout/page-header";
-// @import "./components/app/layout/page-section";
-// @import "./components/app/layout/footer";
-// @import "./components/app/layout/sidebar";
-// @import "./components/app/layout/header";
 
 // PULSE
 @import "./components/app/pulse/globe_tooltip";

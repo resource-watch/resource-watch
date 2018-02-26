@@ -7,8 +7,8 @@ import { initStore } from 'store';
 import { getPartners } from 'redactions/admin/partners';
 
 // Components
-import Page from 'components/app/layout/Page';
-import Layout from 'components/app/layout/Layout';
+import Page from 'components/layout/page';
+import Layout from 'components/layout/layout/layout-app';
 import PartnerBlock from 'components/app/common/Partners/PartnerBlock';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';

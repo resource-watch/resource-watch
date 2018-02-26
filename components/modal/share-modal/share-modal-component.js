@@ -176,7 +176,7 @@ class ShareModalComponent extends PureComponent {
                         id={htmlFor}
                         name={htmlFor}
                         className="share-input"
-                        value={`<iframe src=${url} width="100%" height="500px" frameBorder="0" />`}
+                        value={`<iframe src="${url}" width="100%" height="500px" frameBorder="0" />`}
                         readOnly
                       />
 
