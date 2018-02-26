@@ -211,8 +211,6 @@ class Map extends React.Component {
       this.setState({ loading: false });
     };
 
-    console.log('set layer mannager');
-
     this.layerManager = new this.props.LayerManager(this.map, {
       onLayerAddedSuccess: stopLoading,
       onLayerAddedError: stopLoading,

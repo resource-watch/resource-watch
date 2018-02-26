@@ -8,10 +8,12 @@ import { generateLayerGroups } from 'components/admin/layers/form/layer-preview/
 
 export const toggleLoading = createAction('ADMIN_TOGGLE_INTERACTIONS_LOADING');
 export const setInteractions = createAction('ADMIN_SET_INTERACTIONS');
-export const modifyInteractions = createThunkAction('ADMIN_MODIFY_INTERACTION', props => (dispatch, getState) => {
+
+export const modifyInteractions = createThunkAction('ADMIN_MODIFY_INTERACTION', (props, added) => (dispatch, getState) => {
   const { interactions } = getState();
   const { form } = props;
   dispatch(generateLayerGroups({ form, interactions }));
+  dispatch(setInteractions(added));
 });
 
 export const getInteractions = createThunkAction('ADMIN_GET_INTERACTIONS', props => (dispatch) => {
