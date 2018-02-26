@@ -35,6 +35,7 @@ import * as widgetDetail from 'pages/app/widget-detail/widget-detail';
 
 // Admin Interactions
 import * as adminInteractions from 'components/admin/layers/form/interactions';
+import * as adminLayerPreview from 'components/admin/layers/form/layer-preview';
 
 // Widget editor
 import { reducers as widgetEditorModules } from 'widget-editor';
@@ -85,8 +86,10 @@ const reducer = combineReducers({
   widgetDetail: handleModule(widgetDetail),
 
   // Admin interactions
-  interactions: handleModule(adminInteractions)
+  interactions: handleModule(adminInteractions),
 
+  // Admin layer preview
+  adminLayerPreview: handleModule(adminLayerPreview)
 });
 
 const composeEnhancers = composeWithDevTools({});
