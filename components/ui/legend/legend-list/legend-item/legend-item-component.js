@@ -1,24 +1,42 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
 // Components
 import LegendItemType from './legend-item-type';
 import LegendItemDrag from './legend-item-drag';
+import LegendItemButtons from './legend-item-buttons';
 
 class LegendItem extends PureComponent {
+  static propTypes = {
+    dataset: PropTypes.string,
+    layers: PropTypes.array
+  }
+
+  static defaultProps = {
+    dataset: '',
+    layers: []
+  }
+
   render() {
+    const { dataset, layers } = this.props;
+    const activeLayer = layers.find(l => l.active);
+
     return (
-      <li key={layerGroup.dataset} className="c-legend-unit">
+      <li key={dataset} className="c-legend-unit">
         <div className="legend-info">
           <header className="legend-item-header">
-            <h3 className={this.props.className.color}>
+            <h3>
               <span className="name">{activeLayer.name}</span>
             </h3>
-            {this.getItemsActions(layerGroup)}
+
+            <LegendItemButtons
+              {...this.props}
+              activeLayer={activeLayer}
+            />
           </header>
 
           <LegendItemType
-            config={activeLayer.legendConfig}
-            className={this.props.className}
+            activeLayer={activeLayer}
           />
         </div>
 

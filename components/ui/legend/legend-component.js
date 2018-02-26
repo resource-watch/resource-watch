@@ -37,7 +37,7 @@ class Legend extends React.PureComponent {
     this.setState({ expanded: bool });
   }
 
-  onSortEnd({ oldIndex, newIndex }) {
+  onSortEnd = ({ oldIndex, newIndex }) => {
     const layers = [...this.props.layerGroups];
     const datasets = arrayMove(layers, oldIndex, newIndex)
       .map(l => l.dataset);
@@ -69,6 +69,7 @@ class Legend extends React.PureComponent {
             lockToContainerEdges
             lockOffset="50%"
             useDragHandle
+            onChangeLayer={l => console.info(l)}
           />
         </div>
 
