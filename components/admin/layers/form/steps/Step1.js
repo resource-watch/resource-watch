@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import findIndex from 'lodash/findIndex';
-
 // Constants
 import { PROVIDER_OPTIONS, FORM_ELEMENTS } from 'components/admin/layers/form/constants';
 
