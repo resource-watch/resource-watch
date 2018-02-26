@@ -9,9 +9,6 @@ export const setLayerInteraction = createAction('ADMIN_LAYER_PREVIEW_SET_LAYER_I
 export const setLayerInteractionSelected = createAction('ADMIN_LAYER_PREVIEW_SET_LAYER_INTERACTION_SELECTED');
 export const setLayerInteractionLatLng = createAction('ADMIN_LAYER_PREVIEW_SET_LAYER_INTERACTION_LATLNG');
 export const generateLayerGroups = createThunkAction('ADMIN_LAYER_PREVIEW_GENERATE_LAYER_GROUPS', payload => (dispatch) => {
-
-  console.log('generate layer groups', payload);
-
   const { form, interactions } = payload;
   const layerGroups = [{
     dataset: form.dataset,

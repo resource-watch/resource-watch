@@ -5,12 +5,12 @@ import moment from 'moment';
 import numeral from 'numeral';
 
 function _formatValue(item, data) {
-  if (!item.format || typeof item.format !== 'string') return `${item.prefix}${data}${item.suffix}`;
   if (item.type === 'date') {
     data = moment(data, item.format);
   } else if (item.type === 'number') {
     data = numeral(data).format(item.format);
   }
+
   return `${item.prefix}${data}${item.suffix}`;
 }
 
