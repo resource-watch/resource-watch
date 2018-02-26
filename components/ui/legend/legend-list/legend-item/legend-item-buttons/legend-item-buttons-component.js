@@ -8,6 +8,7 @@ import LegendItemButtonLayers from './legend-item-button-layers';
 import LegendItemButtonOpacity from './legend-item-button-opacity';
 import LegendItemButtonVisibility from './legend-item-button-visibility';
 import LegendItemButtonInfo from './legend-item-button-info';
+import LegendItemButtonRemove from './legend-item-button-remove';
 
 class LegendItemButtons extends PureComponent {
   static propTypes = {
@@ -47,14 +48,9 @@ class LegendItemButtons extends PureComponent {
         />
 
         {/* CLOSE */}
-        <button
-          type="button"
-          className="close"
-          onClick={() => this.onRemoveLayerGroup(activeLayer)}
-          aria-label="Remove"
-        >
-          <Icon name="icon-cross" />
-        </button>
+        <LegendItemButtonRemove
+          {...this.props}
+        />
       </div>
     );
   }

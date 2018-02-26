@@ -72,6 +72,7 @@ class Legend extends React.PureComponent {
             onChangeLayer={l => console.info(l)}
             onChangeOpacity={(l, o) => console.info(l, o)}
             onChangeVisibility={(l, v) => console.info(l, v)}
+            onRemoveLayer={l => console.info(l)}
           />
         </div>
 
