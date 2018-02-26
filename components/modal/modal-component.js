@@ -30,12 +30,14 @@ class ModalComponent extends PureComponent {
         onRequestClose={this.props.onRequestClose}
       >
         {header}
+
         <button
           className="modal-close"
           onClick={onRequestClose}
         >
           <Icon name="icon-cross" className="-small" />
         </button>
+
         <div className="modal-content">
           {this.props.children}
         </div>
