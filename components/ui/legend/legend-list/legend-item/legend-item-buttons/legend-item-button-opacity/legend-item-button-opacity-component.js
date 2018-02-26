@@ -15,7 +15,7 @@ class LegendItemButtonOpacity extends PureComponent {
     activeLayer: PropTypes.object,
     visible: PropTypes.bool,
 
-    onChange: PropTypes.func
+    onChangeOpacity: PropTypes.func
   }
 
   render() {
@@ -27,7 +27,7 @@ class LegendItemButtonOpacity extends PureComponent {
           <LegendOpacityTooltip
             layers={layers}
             activeLayer={activeLayer}
-            onChange={this.props.onChange}
+            onChangeOpacity={this.props.onChangeOpacity}
           />
         }
         overlayClassName="c-rc-tooltip -default"

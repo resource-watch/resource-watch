@@ -7,6 +7,7 @@ import Icon from 'components/ui/Icon';
 
 import LegendItemButtonLayers from './legend-item-button-layers';
 import LegendItemButtonOpacity from './legend-item-button-opacity';
+import LegendItemButtonVisibility from './legend-item-button-visibility';
 
 class LegendItemButtons extends PureComponent {
   static propTypes = {
@@ -27,25 +28,18 @@ class LegendItemButtons extends PureComponent {
         {layers.length > 1 && (
           <LegendItemButtonLayers
             {...this.props}
-            onChange={this.props.onChangeLayer}
           />
         )}
 
         {/* OPACITY */}
         <LegendItemButtonOpacity
           {...this.props}
-          onChange={this.props.onChangeOpacity}
         />
 
         {/* VISIBILITY */}
-        <button
-          type="button"
-          className="toggle"
-          onClick={() => this.onToggleLayerGroupVisibility(activeLayer)}
-          aria-label="Toggle the visibility"
-        >
-          <Icon name={activeLayer.visible ? 'icon-hide' : 'icon-show'} />
-        </button>
+        <LegendItemButtonVisibility
+          {...this.props}
+        />
 
         {/* INFO */}
         <button

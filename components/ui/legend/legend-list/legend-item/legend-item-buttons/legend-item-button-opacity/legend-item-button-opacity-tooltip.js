@@ -13,7 +13,7 @@ class LegendOpacityTooltip extends React.Component {
     step: PropTypes.number,
     // Callback to call when the layer changes with
     // the ID of the dataset and the ID of the layer
-    onChange: PropTypes.func.isRequired
+    onChangeOpacity: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -30,7 +30,7 @@ class LegendOpacityTooltip extends React.Component {
     const { activeLayer } = this.props;
 
     this.setState({ value: v });
-    this.props.onChange(activeLayer, v);
+    this.props.onChangeOpacity(activeLayer, v);
   }
 
   render() {
@@ -67,44 +67,3 @@ class LegendOpacityTooltip extends React.Component {
 }
 
 export default LegendOpacityTooltip;
-
-//
-// import React from 'react';
-// import PropTypes from 'prop-types';
-//
-//
-// // Components
-//
-//
-// class SliderTooltip extends React.Component {
-//   constructor(props) {
-//     super(props);
-//
-//     this.state = {
-//       value: props.defaultValue
-//     };
-//
-//     this.onMouseDown = this.onMouseDown.bind(this);
-//     this.onChange = this.onChange.bind(this);
-//   }
-//
-//   componentDidMount() {
-//     document.addEventListener('mousedown', this.onMouseDown);
-//   }
-//
-//   componentWillUnmount() {
-//     document.removeEventListener('mousedown', this.onMouseDown);
-//   }
-//
-//   onMouseDown(e) {
-//     const clickOutside = this.el && this.el.contains && !this.el.contains(e.target);
-//     if (clickOutside) {
-//       this.props.onClose();
-//     }
-//   }
-//
-//   onChange(value) {
-//     this.setState({ value });
-//     this.props.onChange(value);
-//   }
-// }

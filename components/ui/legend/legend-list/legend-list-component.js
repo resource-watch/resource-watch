@@ -10,7 +10,8 @@ class Legend extends PureComponent {
 
     // FUNC
     onChangeLayer: PropTypes.func,
-    onChangeOpacity: PropTypes.func
+    onChangeOpacity: PropTypes.func,
+    onChangeVisibility: PropTypes.func
   }
 
   static defaultProps = {
@@ -28,6 +29,7 @@ class Legend extends PureComponent {
             value={value}
             onChangeLayer={this.props.onChangeLayer}
             onChangeOpacity={this.props.onChangeOpacity}
+            onChangeVisibility={this.props.onChangeVisibility}
           />
         ))}
       </ul>
