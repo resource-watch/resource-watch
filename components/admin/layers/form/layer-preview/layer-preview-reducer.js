@@ -8,8 +8,7 @@ export const initialState = {
 };
 
 export default {
-  [actions.setLayerGroups]: (state, { payload }) =>
-    Object.assign(initialState, { ...payload }),
+  [actions.setLayerGroups]: (state, { payload }) => ({ ...state, ...payload, interaction: {} }),
   [actions.setLayerInteractionLatLng]: (state, { payload }) => ({ ...state, ...payload }),
   [actions.setLayerInteraction]: (state, { payload }) => {
     const interaction = {

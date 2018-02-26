@@ -4,6 +4,16 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import numeral from 'numeral';
 
+function _formatValue(item, data) {
+  if (!item.format || typeof item.format !== 'string') return `${item.prefix}${data}${item.suffix}`;
+  if (item.type === 'date') {
+    data = moment(data, item.format);
+  } else if (item.type === 'number') {
+    data = numeral(data).format(item.format);
+  }
+  return `${item.prefix}${data}${item.suffix}`;
+}
+
 function MapPopup({
   interaction,
   interactionSelected,
@@ -16,19 +26,8 @@ function MapPopup({
 
   const layerInteraction = interaction[layer.id] || {};
 
-  const { data, interactionConfig } = layerInteraction;
-
-  function formatValue(item, value) {
-    if (!item.format || typeof item.format !== 'string') return `${item.prefix}${value}${item.suffix}`;
-
-    if (item.type === 'date') {
-      value = moment(value, item.format);
-    } else if (item.type === 'number') {
-      value = numeral(value).format(item.format);
-    }
-
-    return `${item.prefix}${value}${item.suffix}`;
-  }
+  const { data } = layerInteraction;
+  const { interactionConfig } = layer;
 
   return (
     <div className="c-map-popup">
@@ -56,17 +55,16 @@ function MapPopup({
         {data &&
           <table className="popup-table">
             <tbody>
-              {Object.keys(data).map((d) => {
-                const outputItem = interactionConfig.output.find(o => o.column === d) || {};
+              {interactionConfig.output.map((outputItem, key) => {
                 return (
                   <tr
                     className="dc"
-                    key={d}
+                    key={key}
                   >
                     <td className="dt">
-                      {outputItem.property || d}:
+                      {outputItem.property || outputItem.column}:
                     </td>
-                    <td className="dd">{formatValue(outputItem, data[d])}</td>
+                    <td className="dd">{_formatValue(outputItem, data[outputItem.column])}</td>
                   </tr>
                 );
               })}
