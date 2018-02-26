@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 
 // Components
 import Icon from 'components/ui/Icon';
@@ -8,6 +7,7 @@ import Icon from 'components/ui/Icon';
 import LegendItemButtonLayers from './legend-item-button-layers';
 import LegendItemButtonOpacity from './legend-item-button-opacity';
 import LegendItemButtonVisibility from './legend-item-button-visibility';
+import LegendItemButtonInfo from './legend-item-button-info';
 
 class LegendItemButtons extends PureComponent {
   static propTypes = {
@@ -42,14 +42,9 @@ class LegendItemButtons extends PureComponent {
         />
 
         {/* INFO */}
-        <button
-          type="button"
-          className="info"
-          onClick={() => this.onLayerInfoModal(activeLayer)}
-          aria-label="More information"
-        >
-          <Icon name="icon-info" />
-        </button>
+        <LegendItemButtonInfo
+          {...this.props}
+        />
 
         {/* CLOSE */}
         <button
