@@ -1,8 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class LegendType extends React.Component {
-  getLegendType() {
+class LegendItemType extends React.Component {
+  static propTypes = {
+    // PROPS
+    config: PropTypes.object,
+    className: PropTypes.object
+  };
+
+  getLegendItemType() {
     const { config } = this.props;
 
     switch (config.type) {
@@ -86,17 +92,10 @@ class LegendType extends React.Component {
   render() {
     return (
       <div className="c-legend-type">
-        {this.getLegendType()}
+        {this.getLegendItemType()}
       </div>
     );
   }
 }
 
-LegendType.propTypes = {
-  // PROPS
-  config: PropTypes.object,
-  className: PropTypes.object
-};
-
-
-export default LegendType;
+export default LegendItemType;
