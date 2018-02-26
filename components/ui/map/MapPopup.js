@@ -5,13 +5,13 @@ import moment from 'moment';
 import numeral from 'numeral';
 
 function _formatValue(item, data) {
-  if (item.type === 'date') {
+  if (item.type === 'date' && item.format && data) {
     data = moment(data, item.format);
-  } else if (item.type === 'number') {
+  } else if (item.type === 'number' && item.format && data) {
     data = numeral(data).format(item.format);
   }
 
-  return `${item.prefix}${data}${item.suffix}`;
+  return `${item.prefix || ''}${data || '-'}${item.suffix || ''}`;
 }
 
 function MapPopup({
