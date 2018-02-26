@@ -12,6 +12,7 @@ import Input from 'components/form/Input';
 import Select from 'components/form/SelectInput';
 
 import { getInteractions, modifyInteractions } from 'components/admin/layers/form/interactions/interactions-actions';
+import { generateLayerGroups } from 'components/admin/layers/form/layer-preview/layer-preview-actions';
 
 import { FORM_ELEMENTS, FORMAT } from 'components/admin/layers/form/constants';
 
@@ -66,7 +67,7 @@ class InteractionsComponent extends PureComponent {
     if (data.key.toLowerCase() === 'label') {
       data.field.property = data.value;
     } else {
-      data.field[data.key] = data.value;
+      data.field[data.key.toLowerCase()] = data.value;
     }
     interactions.added[findIndex(interactions.added, data.field)] =
       Object.assign({}, data.field);
@@ -172,7 +173,8 @@ const mapStateToProps = state => ({
 
 InteractionsComponent.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  interactions: PropTypes.object.isRequired
+  interactions: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired
 };
 
 InteractionsComponent.defaultProps = {

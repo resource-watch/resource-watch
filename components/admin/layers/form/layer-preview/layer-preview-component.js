@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
 
-import { setLayerInteraction, setLayerInteractionLatLng, setLayerGroups } from 'components/admin/layers/form/layer-preview/layer-preview-actions';
+import { generateLayerGroups, setLayerInteraction, setLayerInteractionLatLng } from 'components/admin/layers/form/layer-preview/layer-preview-actions';
 
 import LayerManager from 'utils/layers/LayerManager';
 
@@ -24,7 +24,20 @@ const MAP_CONFIG = {
 
 
 class LayerPreviewComponent extends PureComponent {
-  componentWillMount() {
+  setLayerInteraction(interaction) {
+    this.props.dispatch(setLayerInteraction({ interaction }));
+  }
+
+  setLayerInteractionSelected(interactionSelected) {
+    this.props.dispatch(setLayerInteraction({ interactionSelected }));
+  }
+
+
+  setLayerInteractionLatLng(interactionLatLng) {
+    this.props.dispatch(setLayerInteractionLatLng({ interactionLatLng }));
+  }
+
+  setLayerGroups() {
     const { form } = this.props;
     const layerGroups = [{
       dataset: form.dataset,
@@ -43,24 +56,22 @@ class LayerPreviewComponent extends PureComponent {
         description: form.description
       }]
     }];
-    this.props.dispatch(setLayerGroups({ layerGroups }));
+    return layerGroups;
   }
 
-  setLayerInteraction(interaction) {
-    this.props.dispatch(setLayerInteraction({ interaction }));
-  }
-
-  setLayerInteractionSelected() {
-
-  }
-
-  setLayerInteractionLatLng(interactionLatLng) {
-    this.props.dispatch(setLayerInteractionLatLng({ interactionLatLng }));
+  handleRefreshPreview() {
+    const { form, interactions } = this.props;
+    this.props.dispatch(generateLayerGroups({ form, interactions }));
   }
 
   render() {
     const { adminLayerPreview } = this.props;
-    const { layerGroups, interaction, interactionLatLng } = adminLayerPreview;
+    const {
+      layerGroups,
+      interaction,
+      interactionLatLng,
+      interactionSelected
+    } = adminLayerPreview;
 
     return (
       <div className="c-field preview-container">
@@ -71,9 +82,12 @@ class LayerPreviewComponent extends PureComponent {
             mapConfig={MAP_CONFIG}
             layerGroups={layerGroups}
             interaction={interaction}
+            interactionSelected={interactionSelected}
             interactionLatLng={interactionLatLng}
-            setLayerInteraction={layer => this.setLayerInteraction(layer)}
-            setLayerInteractionLatLng={latlng => this.setLayerInteractionLatLng(latlng)}
+            setLayerInteraction={data => this.setLayerInteraction(data)}
+            setLayerInteractionSelected={data => this.setLayerInteractionSelected(data)}
+            setLayerInteractionLatLng={data => this.setLayerInteractionLatLng(data)}
+
             setMapInstance={(map) => { this.map = map; }}
           />
           {layerGroups.length > 0 &&
@@ -91,7 +105,7 @@ class LayerPreviewComponent extends PureComponent {
           <button
             type="button"
             className="c-button -primary"
-            onClick={this.handleRefreshPreview}
+            onClick={() => this.handleRefreshPreview()}
           >
             Refresh
           </button>
@@ -103,13 +117,15 @@ class LayerPreviewComponent extends PureComponent {
 
 const mapStateToProps = state => ({
   user: state.user,
-  adminLayerPreview: state.adminLayerPreview
+  adminLayerPreview: state.adminLayerPreview,
+  interactions: state.interactions
 });
 
 LayerPreviewComponent.propTypes = {
   dispatch: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
-  adminLayerPreview: PropTypes.object.isRequired
+  adminLayerPreview: PropTypes.object.isRequired,
+  interactions: PropTypes.object.isRequired
 };
 
 LayerPreviewComponent.defaultProps = {

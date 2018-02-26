@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import moment from 'moment';
+import numeral from 'numeral';
+
 function MapPopup({
   interaction,
   interactionSelected,
@@ -14,6 +17,18 @@ function MapPopup({
   const layerInteraction = interaction[layer.id] || {};
 
   const { data, interactionConfig } = layerInteraction;
+
+  function formatValue(item, value) {
+    if (!item.format || typeof item.format !== 'string') return `${item.prefix}${value}${item.suffix}`;
+
+    if (item.type === 'date') {
+      value = moment(value, item.format);
+    } else if (item.type === 'number') {
+      value = numeral(value).format(item.format);
+    }
+
+    return `${item.prefix}${value}${item.suffix}`;
+  }
 
   return (
     <div className="c-map-popup">
@@ -43,7 +58,6 @@ function MapPopup({
             <tbody>
               {Object.keys(data).map((d) => {
                 const outputItem = interactionConfig.output.find(o => o.column === d) || {};
-
                 return (
                   <tr
                     className="dc"
@@ -52,7 +66,7 @@ function MapPopup({
                     <td className="dt">
                       {outputItem.property || d}:
                     </td>
-                    <td className="dd">{data[d]}</td>
+                    <td className="dd">{formatValue(outputItem, data[d])}</td>
                   </tr>
                 );
               })}
