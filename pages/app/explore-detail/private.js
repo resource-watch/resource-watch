@@ -29,9 +29,9 @@ class ExploreDetailPage extends Page {
     await store.dispatch(actions.fetchDataset({ id: props.url.query.id }));
 
     // Check if the dataset exists and it is published
-    const { exploreDetail } = store.getState();
+    const { exploreDetail, user } = store.getState();
     const dataset = exploreDetail.data;
-    if (!dataset && res) res.statusCode = 404;
+    if ((!dataset && res) || (dataset && dataset.userId !== user.id)) res.statusCode = 404;
 
     const { id, vocabulary } = dataset;
 
@@ -77,6 +77,14 @@ class ExploreDetailPage extends Page {
   }
 
   render() {
+    const {
+      exploreDetail,
+      user
+    } = this.props;
+
+    const { data: dataset } = exploreDetail;
+    if (dataset && dataset.userId !== user.id) return <Error status={404} />;
+
     return <ExploreDetail />;
   }
 }
@@ -85,7 +93,8 @@ export default withRedux(
   initStore,
   state => ({
     // Store
-    exploreDetail: state.exploreDetail
+    exploreDetail: state.exploreDetail,
+    user: state.user
   }),
   actions
 )(ExploreDetailPage);
