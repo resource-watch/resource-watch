@@ -18,6 +18,7 @@ import {
   getFavoriteDatasets,
   toggleLayerGroup,
   toggleLayerGroupVisibility,
+  setLayerGroupOpacity,
   setLayerGroupsOrder,
   setLayerGroupActiveLayer,
   setLayerGroups,
@@ -102,10 +103,11 @@ class Explore extends Page {
     // ------------------------ BINDINGS -----------------------
     this.handleFilterDatasetsSearch = debounce(this.handleFilterDatasetsSearch.bind(this), 500);
     this.handleRedirect = this.handleRedirect.bind(this);
-    this.onToggleLayerGroupVisibility = this.onToggleLayerGroupVisibility.bind(this);
-    this.onRemoveLayerGroup = this.onRemoveLayerGroup.bind(this);
-    this.onSetLayerGroupsOrder = this.onSetLayerGroupsOrder.bind(this);
-    this.onSetLayerGroupActiveLayer = this.onSetLayerGroupActiveLayer.bind(this);
+    this.onChangeOpacity = debounce(this.onChangeOpacity.bind(this), 100);
+    this.onChangeVisibility = this.onChangeVisibility.bind(this);
+    this.onRemoveLayer = this.onRemoveLayer.bind(this);
+    this.onChangeOrder = this.onChangeOrder.bind(this);
+    this.onChangeLayer = this.onChangeLayer.bind(this);
     this.handleTagSelected = this.handleTagSelected.bind(this);
     // ----------------------------------------------------------
     this.setMapParams = debounce(this.setMapParams, 1000); // Debounce for performance reasons
@@ -219,8 +221,12 @@ class Explore extends Page {
    * of a layer group in the legend
    * @param {LayerGroup} layerGroup
    */
-  onToggleLayerGroupVisibility(layerGroup) {
-    this.props.toggleLayerGroupVisibility(layerGroup.dataset, !layerGroup.visible);
+  onChangeVisibility(layerGroup, visibility) {
+    this.props.toggleLayerGroupVisibility(layerGroup.dataset, visibility);
+  }
+
+  onChangeOpacity(layerGroup, opacity) {
+    this.props.setLayerGroupOpacity(layerGroup.dataset, opacity);
   }
 
   /**
@@ -228,7 +234,7 @@ class Explore extends Page {
    * group from the map
    * @param {LayerGroup} layerGroup
    */
-  onRemoveLayerGroup(layerGroup) {
+  onRemoveLayer(layerGroup) {
     this.props.toggleLayerGroup(layerGroup.dataset, false);
   }
 
@@ -237,7 +243,7 @@ class Explore extends Page {
    * layer groups
    * @param {string[]} datasets - List of datasets IDs
    */
-  onSetLayerGroupsOrder(datasets) {
+  onChangeOrder(datasets) {
     this.props.setLayerGroupsOrder(datasets);
   }
 
@@ -247,8 +253,8 @@ class Explore extends Page {
    * @param {string} dataset - Dataset ID
    * @param {string} layer - Layer ID
    */
-  onSetLayerGroupActiveLayer(dataset, layer) {
-    this.props.setLayerGroupActiveLayer(dataset, layer);
+  onChangeLayer(layerGroup) {
+    this.props.setLayerGroupActiveLayer(layerGroup.dataset, layerGroup.id);
   }
 
   setMapParams(params) {
@@ -442,11 +448,11 @@ class Explore extends Page {
                 {this.props.layerGroups && this.props.layerGroups.length &&
                   <Legend
                     layerGroups={this.props.layerGroups}
-                    className={{ color: '-dark' }}
-                    toggleLayerGroupVisibility={this.onToggleLayerGroupVisibility}
-                    setLayerGroupsOrder={this.onSetLayerGroupsOrder}
-                    removeLayerGroup={this.onRemoveLayerGroup}
-                    setLayerGroupActiveLayer={this.onSetLayerGroupActiveLayer}
+                    onChangeOpacity={this.onChangeOpacity}
+                    onChangeVisibility={this.onChangeVisibility}
+                    onChangeLayer={this.onChangeLayer}
+                    onChangeOrder={this.onChangeOrder}
+                    onRemoveLayer={this.onRemoveLayer}
                   />
                 }
               </div>
@@ -524,6 +530,7 @@ const mapDispatchToProps = {
   setDatasetsPage,
   toggleLayerGroup,
   toggleLayerGroupVisibility,
+  setLayerGroupOpacity,
   setLayerGroupsOrder,
   setLayerGroupActiveLayer,
   setLayerGroups,

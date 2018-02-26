@@ -13,7 +13,7 @@ import LegendItemButtonRemove from './legend-item-button-remove';
 class LegendItemButtons extends PureComponent {
   static propTypes = {
     layers: PropTypes.array,
-    activeLayer: PropTypes.object,
+    readonly: PropTypes.bool,
 
     // FUNC
     onChangeLayer: PropTypes.func,
@@ -21,7 +21,7 @@ class LegendItemButtons extends PureComponent {
   }
 
   render() {
-    const { layers, activeLayer } = this.props;
+    const { layers, readonly } = this.props;
 
     return (
       <div className="item-actions">
@@ -48,9 +48,11 @@ class LegendItemButtons extends PureComponent {
         />
 
         {/* CLOSE */}
-        <LegendItemButtonRemove
-          {...this.props}
-        />
+        {!readonly &&
+          <LegendItemButtonRemove
+            {...this.props}
+          />
+        }
       </div>
     );
   }

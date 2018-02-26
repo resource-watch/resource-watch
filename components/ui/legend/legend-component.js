@@ -13,14 +13,27 @@ class Legend extends React.PureComponent {
   static propTypes = {
     layerGroups: PropTypes.array,
     expanded: PropTypes.bool,
+    readonly: PropTypes.bool,
 
     // ACTIONS
-    setLayerGroupsOrder: PropTypes.func
+    onChangeLayer: PropTypes.func,
+    onChangeVisibility: PropTypes.func,
+    onChangeOpacity: PropTypes.func,
+    onChangeOrder: PropTypes.func,
+    onRemoveLayer: PropTypes.func
   }
 
   static defaultProps = {
     layerGroups: [],
-    expanded: true
+    expanded: true,
+    readonly: false,
+
+    // FUNCTIONS
+    onChangeLayer: l => console.info(l),
+    onChangeVisibility: (l, v) => console.info(l, v),
+    onChangeOpacity: (l, o) => console.info(l, o),
+    onChangeOrder: ({ oldIndex, newIndex }) => console.info(oldIndex, newIndex),
+    onRemoveLayer: l => console.info(l)
   }
 
   state = {
@@ -42,7 +55,7 @@ class Legend extends React.PureComponent {
     const datasets = arrayMove(layers, oldIndex, newIndex)
       .map(l => l.dataset);
 
-    this.props.setLayerGroupsOrder && this.props.setLayerGroupsOrder(datasets);
+    this.props.onChangeOrder && this.props.onChangeOrder(datasets);
   }
 
 
@@ -69,10 +82,11 @@ class Legend extends React.PureComponent {
             lockToContainerEdges
             lockOffset="50%"
             useDragHandle
-            onChangeLayer={l => console.info(l)}
-            onChangeOpacity={(l, o) => console.info(l, o)}
-            onChangeVisibility={(l, v) => console.info(l, v)}
-            onRemoveLayer={l => console.info(l)}
+            readonly={this.props.readonly}
+            onChangeLayer={this.props.onChangeLayer}
+            onChangeOpacity={this.props.onChangeOpacity}
+            onChangeVisibility={this.props.onChangeVisibility}
+            onRemoveLayer={this.props.onRemoveLayer}
           />
         </div>
 
