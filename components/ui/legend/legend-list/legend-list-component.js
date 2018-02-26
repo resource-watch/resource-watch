@@ -2,11 +2,14 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Components
-import LegendListItem from './legend-item-component';
+import LegendListItem from './legend-item';
 
 class Legend extends PureComponent {
   static propTypes = {
-    items: PropTypes.array
+    items: PropTypes.array,
+
+    // FUNC
+    onChangeLayer: PropTypes.func
   }
 
   static defaultProps = {
@@ -18,9 +21,13 @@ class Legend extends PureComponent {
 
     return (
       <ul className="legend-list">
-        {items.map((value, index) =>
-          <LegendListItem key={value.key} index={index} value={value} />)
-        }
+        {items.map((value, index) => (
+          <LegendListItem
+            index={index}
+            value={value}
+            onChangeLayer={this.props.onChangeLayer}
+          />
+        ))}
       </ul>
     );
   }

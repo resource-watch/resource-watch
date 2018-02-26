@@ -11,7 +11,7 @@ import Spinner from 'components/ui/Spinner';
 import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
 import Map from 'components/ui/map/Map';
-import Legend from 'components/ui/Legend';
+import Legend from 'components/ui/legend';
 
 // Services
 import DatasetService from 'services/DatasetService';

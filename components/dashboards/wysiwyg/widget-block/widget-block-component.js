@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import VegaChart from 'components/widgets/charts/VegaChart';
 import TextChart from 'components/widgets/charts/TextChart';
 import Map from 'components/ui/map/Map';
-import Legend from 'components/ui/Legend';
+import Legend from 'components/ui/legend';
 
 import Icon from 'components/ui/Icon';
 import Title from 'components/ui/Title';

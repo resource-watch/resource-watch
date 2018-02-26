@@ -12,7 +12,7 @@ import Textarea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
 import Code from 'components/form/Code';
 import Map from 'components/ui/map/Map';
-import Legend from 'components/ui/Legend';
+import Legend from 'components/ui/legend';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';

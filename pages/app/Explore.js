@@ -55,10 +55,11 @@ import Map from 'components/ui/map/Map';
 import MapControls from 'components/ui/map/MapControls';
 import BasemapControl from 'components/ui/map/controls/BasemapControl';
 import ShareControl from 'components/ui/map/controls/ShareControl';
-import Legend from 'components/ui/Legend';
 import Spinner from 'components/ui/Spinner';
 import SearchInput from 'components/ui/SearchInput';
 import ExploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';
+
+import Legend from 'components/ui/legend';
 
 // Layout
 import Page from 'components/layout/page';

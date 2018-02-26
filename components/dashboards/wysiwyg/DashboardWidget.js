@@ -6,7 +6,7 @@ import 'isomorphic-fetch';
 import TextChart from 'components/widgets/charts/TextChart';
 import VegaChart from 'components/widgets/charts/VegaChart';
 import Map from 'components/ui/map/Map';
-import Legend from 'components/ui/Legend';
+import Legend from 'components/ui/legend';
 
 import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';

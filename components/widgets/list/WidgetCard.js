@@ -18,7 +18,7 @@ import EmbedMyWidgetModal from 'components/modal/EmbedMyWidgetModal';
 import WidgetActionsTooltip from 'components/widgets/list/WidgetActionsTooltip';
 import Icon from 'components/ui/Icon';
 import Map from 'components/ui/map/Map';
-import Legend from 'components/ui/Legend';
+import Legend from 'components/ui/legend';
 import Spinner from 'components/ui/Spinner';
 import TextChart from 'components/widgets/charts/TextChart';
 import Tooltip from 'rc-tooltip/dist/rc-tooltip';
