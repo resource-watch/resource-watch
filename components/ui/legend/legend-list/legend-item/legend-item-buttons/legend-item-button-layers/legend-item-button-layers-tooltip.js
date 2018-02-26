@@ -11,7 +11,7 @@ class LegendLayersTooltip extends React.Component {
     activeLayer: PropTypes.object.isRequired,
     // Callback to call when the layer changes with
     // the ID of the dataset and the ID of the layer
-    onChange: PropTypes.func.isRequired
+    onChangeLayer: PropTypes.func.isRequired
   };
 
   render() {
@@ -30,7 +30,7 @@ class LegendLayersTooltip extends React.Component {
           properties={{ default: activeLayer.id }}
           options={options}
           onChange={id =>
-            this.props.onChange(layers.find(l => l.id === id))
+            this.props.onChangeLayer(layers.find(l => l.id === id))
           }
         />
       </div>

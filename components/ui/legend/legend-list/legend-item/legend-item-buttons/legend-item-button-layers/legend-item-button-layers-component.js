@@ -13,7 +13,7 @@ class LegendItemButtonLayers extends PureComponent {
     layers: PropTypes.array,
     activeLayer: PropTypes.object,
 
-    onChange: PropTypes.func
+    onChangeLayer: PropTypes.func
   }
 
   render() {
@@ -25,7 +25,7 @@ class LegendItemButtonLayers extends PureComponent {
           <LegendLayersTooltip
             layers={layers}
             activeLayer={activeLayer}
-            onChange={this.props.onChange}
+            onChangeLayer={this.props.onChangeLayer}
           />
         }
         overlayClassName="c-rc-tooltip -default"

@@ -71,6 +71,7 @@ class Legend extends React.PureComponent {
             useDragHandle
             onChangeLayer={l => console.info(l)}
             onChangeOpacity={(l, o) => console.info(l, o)}
+            onChangeVisibility={(l, v) => console.info(l, v)}
           />
         </div>
 
