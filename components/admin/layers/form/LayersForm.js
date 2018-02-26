@@ -186,6 +186,39 @@ class LayersForm extends React.Component {
     return newForm;
   }
 
+  /**
+   * Set the layer interaction of the store
+   * @export
+   * @param {Layer{}} layer
+   */
+  setLayerInteraction(layer) {
+    return (dispatch) => {
+      dispatch({
+        type: SET_LAYERS_INTERACTION,
+        payload: layer
+      });
+    };
+  }
+
+  setLayerInteractionSelected(id) {
+    return (dispatch) => {
+      dispatch({
+        type: SET_LAYER_INTERACTION_SELECTED,
+        payload: id
+      });
+    };
+  }
+
+
+  setLayerInteractionLatLng(latlng) {
+    return (dispatch) => {
+      dispatch({
+        type: SET_LAYER_INTERACTION_LATLNG,
+        payload: latlng
+      });
+    };
+  }
+
   render() {
     return (
       <form className="c-form c-layers-form" onSubmit={this.onSubmit} noValidate>
@@ -200,6 +233,9 @@ class LayersForm extends React.Component {
             datasets={this.state.datasets}
             onChange={value => this.onChange(value)}
             onChangeDataset={value => this.onChangeDataset(value)}
+            setLayerInteraction={this.setLayerInteraction}
+            setLayerInteractionSelected={this.setLayerInteractionSelected}
+            setLayerInteractionLatLng={this.setLayerInteractionLatLng}
           />
         }
 
