@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import Icon from 'components/ui/Icon';
 
 import LegendItemButtonLayers from './legend-item-button-layers';
-
+import LegendItemButtonOpacity from './legend-item-button-opacity';
 
 class LegendItemButtons extends PureComponent {
   static propTypes = {
@@ -14,7 +14,8 @@ class LegendItemButtons extends PureComponent {
     activeLayer: PropTypes.object,
 
     // FUNC
-    onChangeLayer: PropTypes.func
+    onChangeLayer: PropTypes.func,
+    onChangeOpacity: PropTypes.func
   }
 
   render() {
@@ -31,15 +32,10 @@ class LegendItemButtons extends PureComponent {
         )}
 
         {/* OPACITY */}
-        <button
-          type="button"
-          className={`opacity ${classnames({ '-disabled': !activeLayer.visible })}`}
-          onClick={e => this.onClickOpacity(e, activeLayer)}
-          disabled={!activeLayer.visible}
-          aria-label="Change opacity"
-        >
-          <Icon name="icon-opacity" />
-        </button>
+        <LegendItemButtonOpacity
+          {...this.props}
+          onChange={this.props.onChangeOpacity}
+        />
 
         {/* VISIBILITY */}
         <button

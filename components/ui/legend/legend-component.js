@@ -70,6 +70,7 @@ class Legend extends React.PureComponent {
             lockOffset="50%"
             useDragHandle
             onChangeLayer={l => console.info(l)}
+            onChangeOpacity={(l, o) => console.info(l, o)}
           />
         </div>
 
