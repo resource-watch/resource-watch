@@ -18,11 +18,11 @@ class LegendItem extends PureComponent {
   }
 
   render() {
-    const { dataset, layers } = this.props;
+    const { layers } = this.props;
     const activeLayer = layers.find(l => l.active);
 
     return (
-      <li key={dataset} className="c-legend-unit">
+      <li className="c-legend-unit">
         <div className="legend-info">
           <header className="legend-item-header">
             <h3>
