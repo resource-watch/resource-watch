@@ -7,19 +7,20 @@ import Icon from 'components/ui/Icon';
 // Tooltip
 import Tooltip from 'rc-tooltip/dist/rc-tooltip';
 
-class LegendItemButtonVisibility extends PureComponent {
+class LegendItemButtonRemove extends PureComponent {
   static propTypes = {
     activeLayer: PropTypes.object,
-    visible: PropTypes.bool,
-    onChangeVisibility: PropTypes.func
+
+    // ACTIONS
+    onRemoveLayer: PropTypes.func
   }
 
   render() {
-    const { activeLayer, visible } = this.props;
+    const { activeLayer } = this.props;
 
     return (
       <Tooltip
-        overlay="Visibility"
+        overlay="Remove"
         overlayClassName="c-rc-tooltip -default"
         overlayStyle={{
           color: '#fff'
@@ -29,15 +30,15 @@ class LegendItemButtonVisibility extends PureComponent {
       >
         <button
           type="button"
-          className="toggle"
-          onClick={() => this.props.onChangeVisibility(activeLayer, !visible)}
-          aria-label="Toggle the visibility"
+          className="close"
+          onClick={() => this.props.onRemoveLayer(activeLayer)}
+          aria-label="Remove"
         >
-          <Icon name={visible ? 'icon-hide' : 'icon-show'} />
+          <Icon name="icon-cross" />
         </button>
       </Tooltip>
     );
   }
 }
 
-export default LegendItemButtonVisibility;
+export default LegendItemButtonRemove;
