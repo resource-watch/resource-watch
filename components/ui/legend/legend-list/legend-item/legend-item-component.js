@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 // Components
 import LegendItemType from './legend-item-type';
 import LegendItemDrag from './legend-item-drag';
+import LegendItemTimeline from './legend-item-timeline';
 import LegendItemButtons from './legend-item-buttons';
 
 class LegendItem extends PureComponent {
@@ -37,6 +38,10 @@ class LegendItem extends PureComponent {
 
           <LegendItemType
             activeLayer={activeLayer}
+          />
+
+          <LegendItemTimeline
+            {...this.props}
           />
         </div>
 

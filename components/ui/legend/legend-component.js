@@ -66,7 +66,6 @@ class Legend extends React.PureComponent {
       <div className="c-legend-map">
         <div
           className={`open-legend ${this.state.expanded ? '-active' : ''}`}
-          // onScroll={this.onScrollLegend}
         >
           {/* Toggle button */}
           <button type="button" className="toggle-legend" onClick={() => this.onToggleLegend(false)}>
