@@ -63,8 +63,6 @@ class ExploreDetailPage extends Page {
    * - componentWillUnmount
   */
   componentDidMount() {
-    // Testing
-    // this.props.fetchDataset({ id: this.props.url.query.id });
     this.props.fetchTags();
     this.props.setCountView();
   }
