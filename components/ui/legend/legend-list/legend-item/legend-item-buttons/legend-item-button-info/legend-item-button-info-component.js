@@ -33,6 +33,8 @@ class LegendItemButtonInfo extends PureComponent {
         }}
         placement="top"
         trigger="hover"
+        mouseLeaveDelay={0}
+        destroyTooltipOnHide
       >
         <button
           type="button"

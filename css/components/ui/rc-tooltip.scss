@@ -21,12 +21,14 @@
   &.-default {
     .rc-tooltip-inner {
       position: relative;
-      max-width: 255px;
-      padding: 15px;
-      border: 1px solid rgba(57,63,68,0.15);
+      max-width: 200px;
+      padding: $space-1 $space-1 * 2;
+      text-align: center;
+      border: 1px solid rgba($border-color-1,0.15);
       border-radius: 4px;
-      background: #ffffff;
+      background: $color-white;
       box-shadow: 0 20px 30px 0 rgba(0,0,0,0.1);
+      font-size: $font-size-small;
     }
   }
 }
