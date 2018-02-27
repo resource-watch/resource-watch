@@ -172,7 +172,6 @@ class EmbedLayer extends Page {
               />
               <Legend
                 layerGroups={this.state.layerGroups}
-                className={{ color: '-dark' }}
                 toggleLayerGroupVisibility={
                   layerGroup => this.onToggleLayerGroupVisibility(layerGroup)
                 }
@@ -182,7 +181,6 @@ class EmbedLayer extends Page {
                 }
                 expanded={false}
                 readonly
-                showLayersButton={false}
               />
             </div>
             {/* <div className="info">

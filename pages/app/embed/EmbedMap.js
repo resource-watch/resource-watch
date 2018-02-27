@@ -159,14 +159,9 @@ class EmbedMap extends Page {
 
             <Legend
               layerGroups={layerGroups}
-              className={{ color: '-dark' }}
-              toggleLayerGroupVisibility={
-                layerGroup => this.props.toggleLayerGroupVisibility(layerGroup)
-              }
-              setLayerGroupsOrder={() => {}}
-              setLayerGroupActiveLayer={() => {}}
-              interactionDisabled
               expanded={false}
+              interaction={false}
+              readonly
             />
 
             { modalOpened && this.getModal() }

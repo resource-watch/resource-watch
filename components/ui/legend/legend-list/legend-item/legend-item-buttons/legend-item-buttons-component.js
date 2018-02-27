@@ -13,6 +13,7 @@ class LegendItemButtons extends PureComponent {
   static propTypes = {
     layers: PropTypes.array,
     readonly: PropTypes.bool,
+    interaction: PropTypes.bool,
 
     // FUNC
     onChangeLayer: PropTypes.func,
@@ -33,32 +34,39 @@ class LegendItemButtons extends PureComponent {
   }
 
   render() {
-    const { layers, readonly } = this.props;
+    const { layers, readonly, interaction } = this.props;
     const timelineLayers = this.getTimelineLayers();
 
     return (
       <div className="item-actions">
         {/* MULTILAYER */}
-        {!!layers.length && !timelineLayers.length && (
+        {layers.length > 1 && !timelineLayers.length && !readonly && (
           <LegendItemButtonLayers
             {...this.props}
           />
         )}
 
         {/* OPACITY */}
-        <LegendItemButtonOpacity
-          {...this.props}
-        />
+        {!readonly &&
+          <LegendItemButtonOpacity
+            {...this.props}
+          />
+        }
 
         {/* VISIBILITY */}
-        <LegendItemButtonVisibility
-          {...this.props}
-        />
+        {!readonly &&
+          <LegendItemButtonVisibility
+            {...this.props}
+          />
+        }
+
+        {interaction &&
+          <LegendItemButtonInfo
+            {...this.props}
+          />
+        }
 
         {/* INFO */}
-        <LegendItemButtonInfo
-          {...this.props}
-        />
 
         {/* CLOSE */}
         {!readonly &&
