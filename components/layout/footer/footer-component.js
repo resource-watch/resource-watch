@@ -85,7 +85,7 @@ class Footer extends React.Component {
         <div className="footer-main">
           <div className="l-container">
             <div className="row">
-              <div className="column small-9">
+              <div className="column small-12">
                 <img
                   className="footer-logo"
                   height={21}
@@ -94,24 +94,25 @@ class Footer extends React.Component {
                   alt="Resource Watch"
                 />
               </div>
-              <div className="column small-3">
-                <button
-                  className="c-button -secondary -fullwidth join-us-button"
-                  onClick={() => this.handleToggleShareModal(true)}
-                >
-                  Subscribe to the Newsletter
-                  <Modal
-                    isOpen={this.state.showNewsletterModal}
-                    className="-medium"
-                    onRequestClose={() => this.handleToggleShareModal(false)}
-                  >
-                    <NewsletterModal />
-                  </Modal>
-                </button>
-              </div>
             </div>
           </div>
           <CompoundMenu items={menuData} />
+        </div>
+
+        <div className="footer-newsletter">
+          <button
+            className="c-button -secondary join-us-button"
+            onClick={() => this.handleToggleShareModal(true)}
+          >
+            Subscribe to our Newsletter
+            <Modal
+              isOpen={this.state.showNewsletterModal}
+              className="-medium"
+              onRequestClose={() => this.handleToggleShareModal(false)}
+            >
+              <NewsletterModal />
+            </Modal>
+          </button>
         </div>
 
         <div className="footer-social">

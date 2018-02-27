@@ -5,10 +5,6 @@
     margin-bottom: 20px;
   }
 
-  .join-us-button {
-    margin-bottom: 20px;
-  }
-
   .footer-intro {
     position: relative;
     padding: $margin-size 0;
@@ -55,6 +51,14 @@
     padding: $margin-size 0;
 
     color: $ui-font-color;
+  }
+
+  .footer-newsletter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 50px;
   }
 
   .footer-social {
