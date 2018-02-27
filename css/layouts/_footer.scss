@@ -1,6 +1,14 @@
 .l-footer {
   margin-top: $margin-size;
 
+  .footer-logo {
+    margin-bottom: 20px;
+  }
+
+  .join-us-button {
+    margin-bottom: 20px;
+  }
+
   .footer-intro {
     position: relative;
     padding: $margin-size 0;
@@ -47,18 +55,6 @@
     padding: $margin-size 0;
 
     color: $ui-font-color;
-
-    .buttons-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      min-width: 100%;
-      margin-bottom: 20px;
-
-      .join-us-container {
-        margin-right: 40px;
-      }
-    }
   }
 
   .footer-social {
