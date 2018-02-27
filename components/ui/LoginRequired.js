@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -6,12 +6,7 @@ import { connect } from 'react-redux';
 import ModalComponent from 'components/modal/modal-component';
 import LoginModal from 'components/modal/LoginModal';
 
-// Actions
-// import * as actions from 'redactions/dock';
-
-// Services
-
-class LoginRequired extends React.Component {
+class LoginRequired extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
