@@ -8,6 +8,5 @@ export const initialState = {
 
 export default {
   [actions.setInteractions]: (state, { payload }) => ({ ...state, ...payload }),
-  [actions.modifyInteractions]: state => ({ ...state }),
   [actions.toggleLoading]: state => ({ ...state, loading: !state.loading })
 };
