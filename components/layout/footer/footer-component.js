@@ -99,7 +99,7 @@ class Footer extends React.Component {
                   className="c-button -secondary -fullwidth join-us-button"
                   onClick={() => this.handleToggleShareModal(true)}
                 >
-                  Join us
+                  Subscribe to the Newsletter
                   <Modal
                     isOpen={this.state.showNewsletterModal}
                     className="-medium"
