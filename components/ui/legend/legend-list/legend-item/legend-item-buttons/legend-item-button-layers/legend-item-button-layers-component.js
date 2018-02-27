@@ -33,7 +33,8 @@ class LegendItemButtonLayers extends PureComponent {
           color: '#fff'
         }}
         placement="top"
-        trigger="click"
+        trigger={['hover', 'click']}
+        destroyTooltipOnHide
       >
         <button
           type="button"

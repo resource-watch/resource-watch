@@ -24,23 +24,24 @@ class LegendItemButtonOpacity extends PureComponent {
     return (
       <Tooltip
         overlay={
-          <LegendOpacityTooltip
-            layers={layers}
-            activeLayer={activeLayer}
-            onChangeOpacity={this.props.onChangeOpacity}
-          />
+          visible &&
+            <LegendOpacityTooltip
+              layers={layers}
+              activeLayer={activeLayer}
+              onChangeOpacity={this.props.onChangeOpacity}
+            />
         }
-        overlayClassName="c-rc-tooltip -default"
+        overlayClassName={`c-rc-tooltip ${classnames({ '-default': visible })}`}
         overlayStyle={{
           color: '#fff'
         }}
         placement="top"
-        trigger="click"
+        trigger={['hover', 'click']}
+        destroyTooltipOnHide
       >
         <button
           type="button"
           className={`opacity ${classnames({ '-disabled': !visible })}`}
-          disabled={!visible}
           aria-label="Change opacity"
         >
           <Icon name="icon-opacity" />

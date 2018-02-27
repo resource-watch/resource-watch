@@ -32,7 +32,7 @@ class LegendItemButtonInfo extends PureComponent {
           color: '#fff'
         }}
         placement="top"
-        trigger="hover"
+        trigger={['hover', 'click']}
         mouseLeaveDelay={0}
         destroyTooltipOnHide
       >
