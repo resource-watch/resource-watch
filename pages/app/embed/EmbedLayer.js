@@ -172,14 +172,7 @@ class EmbedLayer extends Page {
               />
               <Legend
                 layerGroups={this.state.layerGroups}
-                toggleLayerGroupVisibility={
-                  layerGroup => this.onToggleLayerGroupVisibility(layerGroup)
-                }
-                setLayerGroupsOrder={layerGroups => this.onSetLayerGroupsOrder(layerGroups)}
-                setLayerGroupActiveLayer={
-                  (dataset, layer) => this.onSetLayerGroupActiveLayer(dataset, layer)
-                }
-                expanded={false}
+                interaction={false}
                 readonly
               />
             </div>

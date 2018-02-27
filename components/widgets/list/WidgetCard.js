@@ -254,7 +254,6 @@ class WidgetCard extends PureComponent {
           />
           <Legend
             layerGroups={this.state.layerGroups}
-            expanded={false}
             readonly
           />
         </div>

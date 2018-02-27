@@ -27,8 +27,7 @@ export default function WidgetBlock({
   data,
   item,
   onToggleModal,
-  onToggleLoading,
-  onToggleLayerGroupVisibility
+  onToggleLoading
 }) {
   const id = `${item.content.widgetId}/${item.id}`;
 
@@ -133,7 +132,6 @@ export default function WidgetBlock({
             />
             <Legend
               layerGroups={layers}
-              expanded={false}
               readonly
             />
           </div>
