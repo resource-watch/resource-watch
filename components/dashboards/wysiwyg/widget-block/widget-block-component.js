@@ -131,12 +131,6 @@ export default function WidgetBlock({
             />
             <Legend
               layerGroups={layers}
-              className={{ color: '-dark' }}
-              toggleLayerGroupVisibility={
-                layerGroup => onToggleLayerGroupVisibility(layerGroup)
-              }
-              setLayerGroupsOrder={() => {}}
-              setLayerGroupActiveLayer={() => {}}
               expanded={false}
               readonly
             />

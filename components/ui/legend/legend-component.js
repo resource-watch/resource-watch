@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import classnames from 'classnames';
 
 import { arrayMove } from 'react-sortable-hoc';
 
@@ -14,6 +14,7 @@ class Legend extends React.PureComponent {
     layerGroups: PropTypes.array,
     expanded: PropTypes.bool,
     readonly: PropTypes.bool,
+    interaction: PropTypes.bool,
 
     // ACTIONS
     onChangeLayer: PropTypes.func,
@@ -27,12 +28,13 @@ class Legend extends React.PureComponent {
     layerGroups: [],
     expanded: true,
     readonly: false,
+    interaction: true,
 
     // FUNCTIONS
     onChangeLayer: l => console.info(l),
     onChangeVisibility: (l, v) => console.info(l, v),
     onChangeOpacity: (l, o) => console.info(l, o),
-    onChangeOrder: ({ oldIndex, newIndex }) => console.info(oldIndex, newIndex),
+    onChangeOrder: ids => console.info(ids),
     onRemoveLayer: l => console.info(l)
   }
 
@@ -52,10 +54,10 @@ class Legend extends React.PureComponent {
 
   onSortEnd = ({ oldIndex, newIndex }) => {
     const layers = [...this.props.layerGroups];
-    const datasets = arrayMove(layers, oldIndex, newIndex)
+    const layersDatasets = arrayMove(layers, oldIndex, newIndex)
       .map(l => l.dataset);
 
-    this.props.onChangeOrder && this.props.onChangeOrder(datasets);
+    this.props.onChangeOrder(layersDatasets);
   }
 
 
@@ -65,7 +67,7 @@ class Legend extends React.PureComponent {
     return (
       <div className="c-legend-map">
         <div
-          className={`open-legend ${this.state.expanded ? '-active' : ''}`}
+          className={`open-legend ${classnames({ '-active': this.state.expanded })}`}
         >
           {/* Toggle button */}
           <button type="button" className="toggle-legend" onClick={() => this.onToggleLegend(false)}>
@@ -82,6 +84,7 @@ class Legend extends React.PureComponent {
             lockOffset="50%"
             useDragHandle
             readonly={this.props.readonly}
+            interaction={this.props.interaction}
             onChangeLayer={this.props.onChangeLayer}
             onChangeOpacity={this.props.onChangeOpacity}
             onChangeVisibility={this.props.onChangeVisibility}
@@ -89,12 +92,15 @@ class Legend extends React.PureComponent {
           />
         </div>
 
-        <div className={`close-legend ${!this.state.expanded ? '-active' : ''}`}>
+        <div
+          className={`close-legend ${classnames({ '-active': !this.state.expanded })}`}
+          onClick={() => this.onToggleLegend(true)}
+        >
           <h1 className="legend-title">
             Legend
 
             {/* Toggle button */}
-            <button type="button" className="toggle-legend" onClick={() => this.onToggleLegend(true)}>
+            <button type="button" className="toggle-legend">
               <Icon name="icon-arrow-up" className="-small" />
             </button>
           </h1>

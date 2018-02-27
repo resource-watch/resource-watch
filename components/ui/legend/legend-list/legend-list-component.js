@@ -8,6 +8,7 @@ class Legend extends PureComponent {
   static propTypes = {
     items: PropTypes.array,
     readonly: PropTypes.bool,
+    interaction: PropTypes.bool,
 
     // FUNC
     onChangeLayer: PropTypes.func,
@@ -30,6 +31,7 @@ class Legend extends PureComponent {
             index={index}
             value={value}
             readonly={this.props.readonly}
+            interaction={this.props.interaction}
             onChangeLayer={this.props.onChangeLayer}
             onChangeOpacity={this.props.onChangeOpacity}
             onChangeVisibility={this.props.onChangeVisibility}

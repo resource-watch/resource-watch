@@ -66,7 +66,9 @@ class LegendItemTimeline extends PureComponent {
           this.props.onChangeLayer(currentLayer);
         });
 
-        return this.setState({ step: timelineLayers[currentIndex + 1].layerConfig.order });
+        return this.setState({
+          step: timelineLayers[currentIndex + 1].layerConfig.order
+        });
       }, 3000, true);
     }
 

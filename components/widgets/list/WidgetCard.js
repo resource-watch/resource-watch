@@ -253,12 +253,6 @@ class WidgetCard extends PureComponent {
           />
           <Legend
             layerGroups={this.state.layerGroups}
-            className={{ color: '-dark' }}
-            toggleLayerGroupVisibility={
-              layerGroup => this.onToggleLayerGroupVisibility(layerGroup)
-            }
-            setLayerGroupsOrder={() => {}}
-            setLayerGroupActiveLayer={() => {}}
             expanded={false}
             readonly
           />
