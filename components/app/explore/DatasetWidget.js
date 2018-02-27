@@ -20,6 +20,7 @@ import DatasetTagsTooltip from 'components/app/explore/DatasetTagsTooltip';
 import Spinner from 'components/ui/Spinner';
 import Tooltip from 'rc-tooltip/dist/rc-tooltip';
 import CollectionsPanel from 'components/collections-panel';
+import LoginRequired from 'components/ui/LoginRequired';
 
 // Services
 import GraphService from 'services/GraphService';
@@ -221,7 +222,7 @@ class DatasetWidget extends React.Component {
 
 
   render() {
-    const { mode, showActions, user, showFavorite } = this.props;
+    const { mode, showActions, user } = this.props;
     const { inferredTags, loading } = this.state;
     const dataset = { ...this.props.dataset.attributes, id: this.props.dataset.id };
     const metadata = dataset.metadata && dataset.metadata[0];
@@ -271,7 +272,7 @@ class DatasetWidget extends React.Component {
                 </div>
               }
               {/* Favorite dataset icon */}
-              {user && user.id && showFavorite &&
+              <LoginRequired text="Log in to save items in favorites">
                 <Tooltip
                   overlay={<CollectionsPanel
                     resource={dataset}
@@ -294,7 +295,8 @@ class DatasetWidget extends React.Component {
                     />
                   </button>
                 </Tooltip>
-              }
+              </LoginRequired>
+
             </div>
 
             {/* Description */}
@@ -341,7 +343,6 @@ DatasetWidget.propTypes = {
   layer: PropTypes.object,
   mode: PropTypes.string,
   showActions: PropTypes.bool,
-  showFavorite: PropTypes.bool,
 
   // Callbacks
   onTagSelected: PropTypes.func,

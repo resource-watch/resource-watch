@@ -7,6 +7,7 @@ import VegaChart from 'components/widgets/charts/VegaChart';
 import TextChart from 'components/widgets/charts/TextChart';
 import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
+import LoginRequired from 'components/ui/LoginRequired';
 
 import Icon from 'components/ui/Icon';
 import Title from 'components/ui/Title';
@@ -63,7 +64,7 @@ export default function WidgetBlock({
           <Title className="-default">{widget ? widget.name : '–'}</Title>
 
           <div className="buttons">
-            {user.token &&
+            <LoginRequired text="Log in to save items in favorites">
               <Tooltip
                 overlay={<CollectionsPanel
                   resource={widget}
@@ -85,7 +86,8 @@ export default function WidgetBlock({
                     className="-star -small"
                   />
                 </button>
-              </Tooltip>}
+              </Tooltip>
+            </LoginRequired>
 
             <button
               type="button"
