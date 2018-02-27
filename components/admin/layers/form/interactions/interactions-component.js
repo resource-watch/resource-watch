@@ -16,7 +16,6 @@ import { getInteractions, modifyInteractions } from 'components/admin/layers/for
 import { FORM_ELEMENTS, FORMAT } from 'components/admin/layers/form/constants';
 
 const DATA_FORMATS = {
-  string: [],
   number: [
     { label: '00000', value: '00000' },
     { label: '0,0', value: '0,0' },
@@ -129,7 +128,7 @@ class InteractionsComponent extends PureComponent {
           label: 'Format',
           type: 'text',
           disabled: /string/.test(data.type),
-          default: /string/.test(data.type) ? 'string' : null
+          default: data.format
         }}
       >
         {Select}
