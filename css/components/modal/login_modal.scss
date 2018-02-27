@@ -7,10 +7,17 @@
   .log-in-container {
     margin-bottom: 90px;
       .log-in-buttons {
+
         a {
+          margin: 10px 0;
           &:not(:last-of-type) {
             margin-right: 20px;
           }
+
+          @media screen and (max-width: map-get($breakpoints, medium)) {
+            width: 100%;
+          }
+
         }
       }
   }

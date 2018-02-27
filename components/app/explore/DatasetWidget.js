@@ -272,7 +272,7 @@ class DatasetWidget extends React.Component {
                 </div>
               }
               {/* Favorite dataset icon */}
-              <LoginRequired text="Log in to save items in favorites">
+              <LoginRequired text="Log in or sign up to save items in favorites">
                 <Tooltip
                   overlay={<CollectionsPanel
                     resource={dataset}

@@ -6,25 +6,24 @@ function LoginModal(props) {
     <div className="c-login-modal">
       <div className="header-div">
         <h2>Log in to Resource Watch</h2>
-        <p>{props.text}</p>
+        <p>{props.text || 'Log in or sign up with...'}</p>
       </div>
       <div className="log-in-container">
-        <p>Log in or sign up with...</p>
         <div className="log-in-buttons">
           <a
-            className="c-button -b"
+            className="c-button -a"
             href={`https://production-api.globalforestwatch.org/auth/google?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`}
           >
             Google
           </a>
           <a
-            className="c-button -b"
+            className="c-button -a"
             href={`https://production-api.globalforestwatch.org/auth/facebook?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`}
           >
             Facebook
           </a>
           <a
-            className="c-button -b"
+            className="c-button -a"
             href={`https://production-api.globalforestwatch.org/auth/twitter?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`}
           >
             Twitter
@@ -33,10 +32,10 @@ function LoginModal(props) {
       </div>
       <div className="buttons">
         <button
-          className="c-button -a"
+          className="c-button -b"
           onClick={() => props.onRequestClose()}
         >
-          Ok
+          Close
         </button>
       </div>
     </div>

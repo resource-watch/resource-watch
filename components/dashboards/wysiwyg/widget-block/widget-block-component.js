@@ -64,7 +64,7 @@ export default function WidgetBlock({
           <Title className="-default">{widget ? widget.name : '–'}</Title>
 
           <div className="buttons">
-            <LoginRequired text="Log in to save items in favorites">
+            <LoginRequired text="Log in or sign up to save items in favorites">
               <Tooltip
                 overlay={<CollectionsPanel
                   resource={widget}

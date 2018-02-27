@@ -105,7 +105,7 @@ class ExploreDetailHeader extends PureComponent {
 
             {/* Favorite dataset icon */}
             <li>
-              <LoginRequired text="Log in to save items in favorites">
+              <LoginRequired text="Log in or sign up to save items in favorites">
                 <Tooltip
                   overlay={
                     <CollectionsPanel
