@@ -22,6 +22,20 @@ export const FORMAT = {
       return { label: item.column, value: item.column };
     });
   },
+  mapInteractionTypes(interactions, added) {
+    if (!interactions || !added) {
+      return [];
+    }
+    return added.map((item) => {
+      const interaction = interactions.fields.find(field => field.label === item.column);
+
+      if (interaction) {
+        item.type = interaction.type;
+      }
+
+      return item;
+    });
+  },
   resolveKey(label) {
     const labelLower = label.toLowerCase();
     switch (labelLower) {
