@@ -7,6 +7,10 @@ import CompoundMenu from 'components/ui/CompoundMenu';
 import Carousel from 'components/ui/Carousel';
 import Icon from 'components/ui/Icon';
 
+// Modal
+import Modal from 'components/modal/modal-component';
+import NewsletterModal from 'components/modal/newsletter-modal';
+
 const data = [
   { name: 'Data', route: 'explore' },
   { name: 'Explore Datasets', route: 'explore' },
@@ -42,6 +46,14 @@ class Footer extends React.Component {
     footer: PropTypes.object
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showNewsletterModal: false
+    };
+  }
+
   componentDidMount() {
     this.props.fetchPartners();
   }
@@ -60,6 +72,10 @@ class Footer extends React.Component {
     ));
   }
 
+  handleToggleShareModal = (bool) => {
+    this.setState({ showNewsletterModal: bool });
+  }
+
   render() {
     const { footer } = this.props;
     const menuData = [data, about, insights, getInvolved];
@@ -70,13 +86,32 @@ class Footer extends React.Component {
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
-                <img
-                  className="footer-logo"
-                  height={21}
-                  width={129}
-                  src="/static/images/logo-embed.png"
-                  alt="Resource Watch"
-                />
+                <div className="buttons-container">
+                  <div className="resource-watch-logo-container">
+                    <img
+                      className="footer-logo"
+                      height={21}
+                      width={129}
+                      src="/static/images/logo-embed.png"
+                      alt="Resource Watch"
+                    />
+                  </div>
+                  <div className="join-us-container">
+                    <button
+                      className="c-button -secondary"
+                      onClick={() => this.handleToggleShareModal(true)}
+                    >
+                      Join us
+                      <Modal
+                        isOpen={this.state.showNewsletterModal}
+                        className="-medium"
+                        onRequestClose={() => this.handleToggleShareModal(false)}
+                      >
+                        <NewsletterModal />
+                      </Modal>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
