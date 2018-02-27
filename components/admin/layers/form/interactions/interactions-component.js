@@ -37,6 +37,16 @@ class InteractionsComponent extends PureComponent {
 
   addInteractions(options) {
     const { interactions } = this.props;
+
+    // Check if we are removing interactions, then remove the reference(es) to it
+    if (options.length < interactions.added.length) {
+      let interactionsRemoved = interactions.added;
+      options.map((item) => {
+        interactionsRemoved = interactionsRemoved.filter(t => t.column !== item);
+      });
+      interactionsRemoved.forEach(interaction => FORM_ELEMENTS.removeInteraction(interaction));
+    }
+
     // Remove layer if its not in options
     if (interactions.added) {
       interactions.added = interactions.added
@@ -76,6 +86,10 @@ class InteractionsComponent extends PureComponent {
   removeInteraction(interaction) {
     const { interactions } = this.props;
     interactions.added = interactions.added.filter(item => item.column !== interaction.column);
+
+    // Remove interaction references from validation
+    FORM_ELEMENTS.removeInteraction(interaction);
+
     this.props.dispatch(modifyInteractions({ ...this.props }, interactions.added));
   }
 
@@ -107,7 +121,7 @@ class InteractionsComponent extends PureComponent {
     return (
       <Field
         key={`${data.column}format`}
-        ref={(c) => { if (c) FORM_ELEMENTS.elements[`${data.column}format`] = c; }}
+        ref={(c) => { if (c) FORM_ELEMENTS.elements[`format${data.column}`] = c; }}
         onChange={value => this.editInteraction({ value, key: 'format', field: data })}
         options={DATA_FORMATS[data.type]}
         properties={{

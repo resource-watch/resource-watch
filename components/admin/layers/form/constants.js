@@ -40,6 +40,11 @@ export const FORMAT = {
 export const FORM_ELEMENTS = {
   elements: {
   },
+  removeInteraction(interaction) {
+    const { elements } = this;
+    ['Field', 'Label', 'Prefix', 'Suffix', 'Format'].map(item =>
+      delete elements[`${item.toLowerCase()}${interaction.column}`]);
+  },
   validate() {
     const { elements } = this;
     Object.keys(elements).forEach((k) => {

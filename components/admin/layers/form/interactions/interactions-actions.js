@@ -13,7 +13,7 @@ export const modifyInteractions = createThunkAction('ADMIN_MODIFY_INTERACTION', 
   const { interactions } = getState();
   const { form } = props;
   dispatch(generateLayerGroups({ form, interactions }));
-  dispatch(setInteractions(added));
+  dispatch(setInteractions(interactions));
 });
 
 export const getInteractions = createThunkAction('ADMIN_GET_INTERACTIONS', props => (dispatch) => {
