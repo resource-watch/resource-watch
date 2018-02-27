@@ -185,10 +185,7 @@ class Step1 extends React.Component {
             {layerGroups.length > 0 &&
               <Legend
                 layerGroups={this.state.layerGroups}
-                className={{ color: '-dark' }}
-                toggleLayerGroupVisibility={() => {}}
-                setLayerGroupsOrder={() => {}}
-                setLayerGroupActiveLayer={() => {}}
+                interaction={false}
                 readonly
               />
             }
