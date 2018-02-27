@@ -6,6 +6,9 @@ import LayersService from 'services/LayersService';
 // Actions
 import { generateLayerGroups } from 'components/admin/layers/form/layer-preview/layer-preview-actions';
 
+// Constants
+import { FORMAT } from '../constants';
+
 export const toggleLoading = createAction('ADMIN_TOGGLE_INTERACTIONS_LOADING');
 export const setInteractions = createAction('ADMIN_SET_INTERACTIONS');
 
@@ -26,7 +29,7 @@ export const getInteractions = createThunkAction('ADMIN_GET_INTERACTIONS', props
     layerService.getColumns({ dataset: form.dataset })
       .then((data) => {
         const interactions = {
-          added: form.interactionConfig.output || [],
+          added: FORMAT.mapInteractionTypes(data, form.interactionConfig.output),
           available: data.fields
         };
         dispatch(setInteractions(interactions));
