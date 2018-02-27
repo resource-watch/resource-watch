@@ -85,33 +85,29 @@ class Footer extends React.Component {
         <div className="footer-main">
           <div className="l-container">
             <div className="row">
-              <div className="column small-12">
-                <div className="buttons-container">
-                  <div className="resource-watch-logo-container">
-                    <img
-                      className="footer-logo"
-                      height={21}
-                      width={129}
-                      src="/static/images/logo-embed.png"
-                      alt="Resource Watch"
-                    />
-                  </div>
-                  <div className="join-us-container">
-                    <button
-                      className="c-button -secondary"
-                      onClick={() => this.handleToggleShareModal(true)}
-                    >
-                      Join us
-                      <Modal
-                        isOpen={this.state.showNewsletterModal}
-                        className="-medium"
-                        onRequestClose={() => this.handleToggleShareModal(false)}
-                      >
-                        <NewsletterModal />
-                      </Modal>
-                    </button>
-                  </div>
-                </div>
+              <div className="column small-9">
+                <img
+                  className="footer-logo"
+                  height={21}
+                  width={129}
+                  src="/static/images/logo-embed.png"
+                  alt="Resource Watch"
+                />
+              </div>
+              <div className="column small-3">
+                <button
+                  className="c-button -secondary -fullwidth join-us-button"
+                  onClick={() => this.handleToggleShareModal(true)}
+                >
+                  Join us
+                  <Modal
+                    isOpen={this.state.showNewsletterModal}
+                    className="-medium"
+                    onRequestClose={() => this.handleToggleShareModal(false)}
+                  >
+                    <NewsletterModal />
+                  </Modal>
+                </button>
               </div>
             </div>
           </div>
