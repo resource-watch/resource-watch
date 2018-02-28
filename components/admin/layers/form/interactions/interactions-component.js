@@ -159,19 +159,15 @@ class InteractionsComponent extends PureComponent {
             {Select}
           </Field>}
 
-          {interactions.added.length ? <h5>Interactions ({interactions.added.length})</h5> : null}
-
           {interactions.added &&
-            interactions.added.map((data) => {
-              return (
-                <section className="c-field-flex" key={data.column}>
-                  {this.renderInteractionFields(data)}
-                  {this.renderFormatField(data)}
-                  <button type="button" className="c-btn" onClick={() => this.removeInteraction(data)}>Remove</button>
-                </section>
-              );
-            })}
-
+            interactions.added.map(data => (
+              <section className="c-field-flex" key={data.column}>
+                {this.renderInteractionFields(data)}
+                {this.renderFormatField(data)}
+                <button type="button" className="c-btn" onClick={() => this.removeInteraction(data)}>Remove</button>
+              </section>
+            ))
+          }
         </div>
       </div>
     );

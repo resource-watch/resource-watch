@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import * as actions from './layer-preview-actions';
 import * as reducers from './layer-preview-reducer';
-import { initialState } from './layer-preview-reducer';
+import initialState from './layer-preview-default-state';
 
 import LayerPreviewComponent from './layer-preview-component';
 
