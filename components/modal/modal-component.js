@@ -12,7 +12,6 @@ class ModalComponent extends PureComponent {
       isOpen,
       className,
       header,
-      children,
       onRequestClose
     } = this.props;
 

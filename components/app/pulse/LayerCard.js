@@ -13,7 +13,7 @@ import { toggleModal, setModalOptions } from 'redactions/modal';
 import Legend from 'components/app/pulse/Legend';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
-import LoginRequired from 'components/ui/LoginRequired';
+import LoginRequired from 'components/ui/login-required';
 
 // Services
 import WidgetService from 'services/WidgetService';

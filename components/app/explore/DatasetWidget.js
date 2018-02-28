@@ -20,7 +20,7 @@ import DatasetTagsTooltip from 'components/app/explore/DatasetTagsTooltip';
 import Spinner from 'components/ui/Spinner';
 import Tooltip from 'rc-tooltip/dist/rc-tooltip';
 import CollectionsPanel from 'components/collections-panel';
-import LoginRequired from 'components/ui/LoginRequired';
+import LoginRequired from 'components/ui/login-required';
 
 // Services
 import GraphService from 'services/GraphService';

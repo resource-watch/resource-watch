@@ -7,7 +7,7 @@ import VegaChart from 'components/widgets/charts/VegaChart';
 import TextChart from 'components/widgets/charts/TextChart';
 import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/Legend';
-import LoginRequired from 'components/ui/LoginRequired';
+import LoginRequired from 'components/ui/login-required';
 
 import Icon from 'components/ui/Icon';
 import Title from 'components/ui/Title';

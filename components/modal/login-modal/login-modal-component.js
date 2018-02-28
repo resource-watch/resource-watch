@@ -30,21 +30,12 @@ function LoginModal(props) {
           </a>
         </div>
       </div>
-      <div className="buttons">
-        <button
-          className="c-button -b"
-          onClick={() => props.onRequestClose()}
-        >
-          Close
-        </button>
-      </div>
     </div>
   );
 }
 
 LoginModal.propTypes = {
-  text: PropTypes.string.isRequired,
-  onRequestClose: PropTypes.func.isRequired
+  text: PropTypes.string.isRequired
 };
 
 export default LoginModal;

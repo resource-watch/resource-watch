@@ -10,7 +10,7 @@ import { Link } from 'routes';
 
 // Components
 import Icon from 'components/ui/Icon';
-import LoginRequired from 'components/ui/LoginRequired';
+import LoginRequired from 'components/ui/login-required';
 
 // Modal
 import Modal from 'components/modal/modal-component';
