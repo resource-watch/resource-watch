@@ -14,7 +14,7 @@ import Banner from 'components/app/common/Banner';
 import Page from 'components/layout/page';
 import Layout from 'components/layout/layout/layout-app';
 import Spinner from 'components/ui/Spinner';
-import DatasetList from 'components/app/explore/DatasetList';
+import DatasetList from 'components/datasets/list';
 
 // Utils
 import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';

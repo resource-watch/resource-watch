@@ -1,8 +1,8 @@
 import 'isomorphic-fetch';
 import { createAction, createThunkAction } from 'redux-tools';
+import WRISerializer from 'wri-json-api-serializer';
 
 // Services
-import DatasetService from 'services/DatasetService';
 import GraphService from 'services/GraphService';
 
 // Helpers
@@ -15,15 +15,15 @@ export const setDatasetLoading = createAction('EXPLORE-DETAIL/setDatasetLoading'
 export const setDatasetError = createAction('EXPLORE-DETAIL/setDatasetError');
 export const fetchDataset = createThunkAction('WIDGET-DETAIL/fetchDataset', (payload = {}) => (dispatch, getState) => {
   const state = getState();
-  const service = new DatasetService(payload.id, {
-    apiURL: process.env.WRI_API_URL,
-    language: state.common.locale
-  });
-
   dispatch(setDatasetLoading(true));
   dispatch(setDatasetError(null));
 
-  return service.fetchDataset('layer,metadata,vocabulary,widget')
+  return fetch(`${process.env.WRI_API_URL}/dataset/${payload.id}?application=${process.env.APPLICATIONS}&language=${state.common.locale}&includes=layer,metadata,vocabulary,widget&page[size]=9999`)
+    .then((response) => {
+      if (response.status >= 400) throw Error(response.statusText);
+      return response.json();
+    })
+    .then(body => WRISerializer(body, { locale: state.common.locale }))
     .then((data) => {
       dispatch(setDatasetLoading(false));
       dispatch(setDatasetError(null));

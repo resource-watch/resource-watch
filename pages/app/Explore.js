@@ -48,7 +48,7 @@ import getLayerGroups from 'selectors/explore/layersExplore';
 // Components
 import Sidebar from 'components/app/layout/Sidebar';
 import DatasetListHeader from 'components/app/explore/DatasetListHeader';
-import DatasetList from 'components/app/explore/DatasetList';
+import DatasetList from 'components/datasets/list';
 import Paginator from 'components/ui/Paginator';
 import Map from 'components/ui/map/Map';
 import MapControls from 'components/ui/map/MapControls';
@@ -372,8 +372,14 @@ class Explore extends Page {
                         <div className="column small-12">
                           <DatasetList
                             list={filteredDatasets}
-                            favourites={user.favourites}
                             mode={explore.datasets.mode}
+                            grid={{
+                              small: 'small-12',
+                              medium: 'medium-6',
+                              large: 'xxlarge-4',
+                              xlarge: 'xxlarge-4',
+                              xxlarge: 'xxlarge-4'
+                            }}
                             showActions
                             showFavorite
                             onTagSelected={this.handleTagSelected}
