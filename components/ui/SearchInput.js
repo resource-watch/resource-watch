@@ -52,14 +52,16 @@ class SearchInput extends PureComponent {
     return (
       <div className="c-search-input">
         <div className="c-field -fluid">
-          <input
-            className="-fluid"
-            onChange={this.onSearch}
-            placeholder={input.placeholder}
-            value={value}
-            type="search"
-          />
-          <Icon name="icon-search" className="-small" />
+          <div className="field-container">
+            <input
+              className="-fluid"
+              onChange={this.onSearch}
+              placeholder={input.placeholder}
+              value={value}
+              type="search"
+            />
+            <Icon name="icon-search" className="-small" />
+          </div>
         </div>
         {link.route &&
           <Link route={link.route} params={link.params}>

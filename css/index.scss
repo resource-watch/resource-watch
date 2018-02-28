@@ -30,6 +30,7 @@
   "layouts/header-menu-mobile",
   "layouts/content",
   "layouts/postcontent",
+  "layouts/row",
   "layouts/footer",
   "layouts/sidebar",
   "layouts/map",
@@ -53,6 +54,7 @@
 @import "./components/ui/header-dropdown";
 @import "./components/ui/icon";
 @import "./components/ui/legend";
+@import "./components/ui/legend-timeline";
 @import "./components/ui/modal";
 @import "./components/ui/modal2";
 @import "./components/ui/paginator";

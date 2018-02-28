@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Components
-import Editor from 'vizz-wysiwyg';
+import VizzWysiwyg from 'vizz-wysiwyg';
 import FormElement from './FormElement';
 
 class Wysiwyg extends FormElement {
@@ -47,14 +47,12 @@ class Wysiwyg extends FormElement {
 
   render() {
     return (
-      <div className="c-wysiwyg">
-        <Editor
-          items={this.getValue()}
-          blocks={this.props.properties.blocks}
-          onChange={this.triggerChange}
-          onUploadImage={this.props.properties.onUploadImage}
-        />
-      </div>
+      <VizzWysiwyg
+        items={this.getValue()}
+        blocks={this.props.properties.blocks}
+        onChange={this.triggerChange}
+        onUploadImage={this.props.properties.onUploadImage}
+      />
     );
   }
 }

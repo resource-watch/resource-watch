@@ -6,7 +6,8 @@ import classnames from 'classnames';
 import VegaChart from 'components/widgets/charts/VegaChart';
 import TextChart from 'components/widgets/charts/TextChart';
 import Map from 'components/ui/map/Map';
-import Legend from 'components/ui/Legend';
+import Legend from 'components/ui/legend';
+import LoginRequired from 'components/ui/login-required';
 
 import Icon from 'components/ui/Icon';
 import Title from 'components/ui/Title';
@@ -26,8 +27,7 @@ export default function WidgetBlock({
   data,
   item,
   onToggleModal,
-  onToggleLoading,
-  onToggleLayerGroupVisibility
+  onToggleLoading
 }) {
   const id = `${item.content.widgetId}/${item.id}`;
 
@@ -63,7 +63,7 @@ export default function WidgetBlock({
           <Title className="-default">{widget ? widget.name : '–'}</Title>
 
           <div className="buttons">
-            {user.token &&
+            <LoginRequired text="Log in or sign up to save items in favorites">
               <Tooltip
                 overlay={<CollectionsPanel
                   resource={widget}
@@ -85,7 +85,8 @@ export default function WidgetBlock({
                     className="-star -small"
                   />
                 </button>
-              </Tooltip>}
+              </Tooltip>
+            </LoginRequired>
 
             <button
               type="button"
@@ -131,13 +132,6 @@ export default function WidgetBlock({
             />
             <Legend
               layerGroups={layers}
-              className={{ color: '-dark' }}
-              toggleLayerGroupVisibility={
-                layerGroup => onToggleLayerGroupVisibility(layerGroup)
-              }
-              setLayerGroupsOrder={() => {}}
-              setLayerGroupActiveLayer={() => {}}
-              expanded={false}
               readonly
             />
           </div>
@@ -197,8 +191,7 @@ WidgetBlock.propTypes = {
   data: PropTypes.object,
   item: PropTypes.object,
   onToggleModal: PropTypes.func,
-  onToggleLoading: PropTypes.func,
-  onToggleLayerGroupVisibility: PropTypes.func
+  onToggleLoading: PropTypes.func
 };
 
 WidgetBlock.defaultProps = {
@@ -206,6 +199,5 @@ WidgetBlock.defaultProps = {
   data: {},
   item: {},
   onToggleModal: null,
-  onToggleLoading: null,
-  onToggleLayerGroupVisibility: null
+  onToggleLoading: null
 };

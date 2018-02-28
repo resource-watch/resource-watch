@@ -5,13 +5,10 @@
   }
 
   .log-in-container {
-    margin-bottom: 90px;
-      .log-in-buttons {
-        a {
-          &:not(:last-of-type) {
-            margin-right: 20px;
-          }
-        }
-      }
+    width: 100%;
+
+    a {
+      margin: 10px 0 0 0;
+    }
   }
 }

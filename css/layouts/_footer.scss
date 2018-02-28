@@ -2,7 +2,7 @@
   margin-top: $margin-size;
 
   .footer-logo {
-    margin-bottom: $margin-size-small;
+    margin-bottom: 20px;
   }
 
   .footer-intro {
@@ -51,6 +51,14 @@
     padding: $margin-size 0;
 
     color: $ui-font-color;
+  }
+
+  .footer-newsletter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 50px;
   }
 
   .footer-social {

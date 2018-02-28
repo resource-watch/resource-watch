@@ -11,21 +11,8 @@ import Select from 'components/form/SelectInput';
 import Textarea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
 import Code from 'components/form/Code';
-import Map from 'components/ui/map/Map';
-import Legend from 'components/ui/Legend';
-
-// Utils
-import LayerManager from 'utils/layers/LayerManager';
-
-// Constants
-const MAP_CONFIG = {
-  zoom: 3,
-  latLng: {
-    lat: 0,
-    lng: 0
-  },
-  zoomControl: false
-};
+import InteractionsComponent from '../interactions/interactions-component';
+import LayerPreviewComponent from '../layer-preview/layer-preview-component';
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -33,38 +20,11 @@ class Step1 extends React.Component {
 
     this.state = {
       id: props.id,
-      form: props.form,
-      layerGroups: []
+      form: props.form
     };
 
     // ------------------- BINDINGS -------------------------
     this.handleRefreshPreview = this.handleRefreshPreview.bind(this);
-  }
-
-  componentDidMount() {
-    this.setLayerGroups();
-  }
-
-  setLayerGroups() {
-    const { form } = this.props;
-    const layerGroups = [{
-      dataset: form.dataset,
-      visible: true,
-      layers: [{
-        active: true,
-        application: form.application,
-        layerConfig: form.layerConfig,
-        interactionConfig: form.interactionConfig,
-        legendConfig: form.legendConfig,
-        id: form.id,
-        name: form.name,
-        provider: form.provider,
-        slug: form.slug,
-        iso: form.iso,
-        description: form.description
-      }]
-    }];
-    this.setState({ layerGroups });
   }
 
   handleRefreshPreview() {
@@ -72,7 +32,6 @@ class Step1 extends React.Component {
   }
 
   render() {
-    const { layerGroups } = this.state;
     return (
       <fieldset className="c-field-container">
         {!this.state.id &&
@@ -161,48 +120,29 @@ class Step1 extends React.Component {
           {Code}
         </Field>
 
+        <InteractionsComponent
+          form={this.state.form}
+        />
+
         <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.interactionConfig = c; }}
-          onChange={value => this.props.onChange({ interactionConfig: value })}
+          ref={(c) => { if (c) FORM_ELEMENTS.elements.provider = c; }}
+          onChange={value => this.props.onChange({ provider: value })}
+          validations={['required']}
+          options={PROVIDER_OPTIONS}
           properties={{
-            name: 'interactionConfig',
-            label: 'Interaction config',
-            default: this.state.form.interactionConfig
+            name: 'provider',
+            label: 'Provider',
+            type: 'text',
+            required: true,
+            default: this.state.form.provider
           }}
         >
-          {Code}
+          {Select}
         </Field>
 
-        <div className="c-field preview-container">
-          <h5>Layer preview</h5>
-          <div className="map-container">
-            <Map
-              LayerManager={LayerManager}
-              mapConfig={MAP_CONFIG}
-              layerGroups={layerGroups}
-              setMapInstance={(map) => { this.map = map; }}
-            />
-            {layerGroups.length > 0 &&
-              <Legend
-                layerGroups={this.state.layerGroups}
-                className={{ color: '-dark' }}
-                toggleLayerGroupVisibility={() => {}}
-                setLayerGroupsOrder={() => {}}
-                setLayerGroupActiveLayer={() => {}}
-                readonly
-              />
-            }
-          </div>
-          <div className="actions">
-            <button
-              type="button"
-              className="c-button -primary"
-              onClick={this.handleRefreshPreview}
-            >
-              Refresh
-            </button>
-          </div>
-        </div>
+        <LayerPreviewComponent
+          form={this.state.form}
+        />
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.default = c; }}

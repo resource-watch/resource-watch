@@ -7,6 +7,10 @@ import CompoundMenu from 'components/ui/CompoundMenu';
 import Carousel from 'components/ui/Carousel';
 import Icon from 'components/ui/Icon';
 
+// Modal
+import Modal from 'components/modal/modal-component';
+import NewsletterModal from 'components/modal/newsletter-modal';
+
 const data = [
   { name: 'Data', route: 'explore' },
   { name: 'Explore Datasets', route: 'explore' },
@@ -42,6 +46,14 @@ class Footer extends React.Component {
     footer: PropTypes.object
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showNewsletterModal: false
+    };
+  }
+
   componentDidMount() {
     this.props.fetchPartners();
   }
@@ -58,6 +70,10 @@ class Footer extends React.Component {
         </Link>
       </div>
     ));
+  }
+
+  handleToggleShareModal = (bool) => {
+    this.setState({ showNewsletterModal: bool });
   }
 
   render() {
@@ -81,6 +97,22 @@ class Footer extends React.Component {
             </div>
           </div>
           <CompoundMenu items={menuData} />
+        </div>
+
+        <div className="footer-newsletter">
+          <button
+            className="c-button -secondary join-us-button"
+            onClick={() => this.handleToggleShareModal(true)}
+          >
+            Subscribe to our Newsletter
+            <Modal
+              isOpen={this.state.showNewsletterModal}
+              className="-medium"
+              onRequestClose={() => this.handleToggleShareModal(false)}
+            >
+              <NewsletterModal />
+            </Modal>
+          </button>
         </div>
 
         <div className="footer-social">

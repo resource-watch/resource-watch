@@ -133,11 +133,12 @@ class LayoutApp extends React.Component {
 
         <Icons />
 
-        <Progress.Component />
 
         <Header
           pageHeader={pageHeader}
         />
+
+        <Progress.Component />
 
         {this.props.children}
 
