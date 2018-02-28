@@ -33,6 +33,10 @@ import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-f
 // Widget
 import * as widgetDetail from 'pages/app/widget-detail/widget-detail';
 
+// Admin Interactions
+import * as adminInteractions from 'components/admin/layers/form/interactions';
+import * as adminLayerPreview from 'components/admin/layers/form/layer-preview';
+
 // Widget editor
 import { reducers as widgetEditorModules } from 'widget-editor';
 
@@ -77,9 +81,15 @@ const reducer = combineReducers({
   // Dataset
   similarDatasets: handleModule(similarDatasets),
   trySubscriptionModal: handleModule(trySubscriptionModal),
-  
+
   // Widget
-  widgetDetail: handleModule(widgetDetail)
+  widgetDetail: handleModule(widgetDetail),
+
+  // Admin interactions
+  interactions: handleModule(adminInteractions),
+
+  // Admin layer preview
+  adminLayerPreview: handleModule(adminLayerPreview)
 });
 
 const composeEnhancers = composeWithDevTools({});
