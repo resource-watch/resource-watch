@@ -11,8 +11,26 @@ import Select from 'components/form/SelectInput';
 import Textarea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
 import Code from 'components/form/Code';
+<<<<<<< HEAD
+import Map from 'components/ui/map/Map';
+import Legend from 'components/ui/legend';
+
+// Utils
+import LayerManager from 'utils/layers/LayerManager';
+
+// Constants
+const MAP_CONFIG = {
+  zoom: 3,
+  latLng: {
+    lat: 0,
+    lng: 0
+  },
+  zoomControl: false
+};
+=======
 import InteractionsComponent from '../interactions/interactions-component';
 import LayerPreviewComponent from '../layer-preview/layer-preview-component';
+>>>>>>> 66bac4c38b674484797a00790903e74cbe5dbec7
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -140,9 +158,39 @@ class Step1 extends React.Component {
           {Select}
         </Field>
 
+<<<<<<< HEAD
+        <div className="c-field preview-container">
+          <h5>Layer preview</h5>
+          <div className="map-container">
+            <Map
+              LayerManager={LayerManager}
+              mapConfig={MAP_CONFIG}
+              layerGroups={layerGroups}
+              setMapInstance={(map) => { this.map = map; }}
+            />
+            {layerGroups.length > 0 &&
+              <Legend
+                layerGroups={this.state.layerGroups}
+                interaction={false}
+                readonly
+              />
+            }
+          </div>
+          <div className="actions">
+            <button
+              type="button"
+              className="c-button -primary"
+              onClick={this.handleRefreshPreview}
+            >
+              Refresh
+            </button>
+          </div>
+        </div>
+=======
         <LayerPreviewComponent
           form={this.state.form}
         />
+>>>>>>> 66bac4c38b674484797a00790903e74cbe5dbec7
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.default = c; }}

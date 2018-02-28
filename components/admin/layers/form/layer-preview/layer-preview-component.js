@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 // Components
 import Map from 'components/ui/map/Map';
-import Legend from 'components/ui/Legend';
+import Legend from 'components/ui/legend';
 
 import { generateLayerGroups, setLayerInteraction, setLayerInteractionLatLng } from 'components/admin/layers/form/layer-preview/layer-preview-actions';
 
@@ -71,10 +71,7 @@ class LayerPreviewComponent extends PureComponent {
           {layerGroups.length > 0 &&
             <Legend
               layerGroups={layerGroups}
-              className={{ color: '-dark' }}
-              toggleLayerGroupVisibility={() => {}}
-              setLayerGroupsOrder={() => {}}
-              setLayerGroupActiveLayer={() => {}}
+              interaction={false}
               readonly
             />
           }

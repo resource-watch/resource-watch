@@ -4,19 +4,10 @@ import { Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
-import { toggleModal } from 'redactions/modal';
 
 class LayerInfoModal extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // ------------------- Bindings -----------------------
-    this.handleMoreInfo = this.handleMoreInfo.bind(this);
-    // ----------------------------------------------------
-  }
-
-  handleMoreInfo() {
-    this.props.toggleModal(false);
+  handleMoreInfo = () => {
+    this.props.onRequestClose(false);
     Router.pushRoute('explore_detail', { id: this.props.data.dataset });
   }
 
@@ -55,7 +46,7 @@ class LayerInfoModal extends React.Component {
 }
 
 LayerInfoModal.propTypes = {
-  toggleModal: PropTypes.func.isRequired,
+  onRequestClose: PropTypes.func.isRequired,
   data: PropTypes.object,
   embed: PropTypes.bool
 };
@@ -64,5 +55,5 @@ export default connect(
   state => ({
     embed: state.common.embed
   }),
-  { toggleModal }
+  null
 )(LayerInfoModal);

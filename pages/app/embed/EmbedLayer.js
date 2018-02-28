@@ -11,7 +11,7 @@ import Spinner from 'components/ui/Spinner';
 import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
 import Map from 'components/ui/map/Map';
-import Legend from 'components/ui/Legend';
+import Legend from 'components/ui/legend';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -172,17 +172,8 @@ class EmbedLayer extends Page {
               />
               <Legend
                 layerGroups={this.state.layerGroups}
-                className={{ color: '-dark' }}
-                toggleLayerGroupVisibility={
-                  layerGroup => this.onToggleLayerGroupVisibility(layerGroup)
-                }
-                setLayerGroupsOrder={layerGroups => this.onSetLayerGroupsOrder(layerGroups)}
-                setLayerGroupActiveLayer={
-                  (dataset, layer) => this.onSetLayerGroupActiveLayer(dataset, layer)
-                }
-                expanded={false}
+                interaction={false}
                 readonly
-                showLayersButton={false}
               />
             </div>
             {/* <div className="info">
