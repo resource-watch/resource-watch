@@ -123,12 +123,15 @@ class Map extends React.Component {
       const union = new Set([...layers, ...nextLayers]);
       const difference = layersIds.filter(id => !nextLayersIds.find(id2 => id === id2));
 
+      const interactionsChanged = this.interactionsChanged(layers, nextLayers);
+
       // Test whether old & new layers are the same & only have to change the order
-      if (layers.length === nextLayers.length && !difference.length) {
+      // Also check if interactions have changed, then we want to add the new layers
+      if (layers.length === nextLayers.length && !difference.length && !interactionsChanged) {
         this.layerManager.setZIndex(nextLayers);
       } else {
         union.forEach((layer) => {
-          if (!layersIds.find(id => id === layer.id)) {
+          if (!layersIds.find(id => id === layer.id) || interactionsChanged) {
             this.addLayers([layer]);
           } else if (!nextLayersIds.find(id => id === layer.id)) {
             this.removeLayer(layer);
@@ -303,6 +306,19 @@ class Map extends React.Component {
     const sidebarWidth = this.state.sidebar.width;
 
     return ((windowWidth - sidebarWidth) / 2);
+  }
+
+  interactionsChanged(layers, nextLayers) {
+    let same = layers.length === nextLayers.length;
+
+    if (same) {
+      layers.forEach((layer, key) => {
+        same = !same ||
+          !isEqual(layer.interactionConfig, nextLayers[key].interactionConfig);
+      });
+    }
+
+    return same;
   }
 
   fitBounds(geoJson, sidebarWidth) {
