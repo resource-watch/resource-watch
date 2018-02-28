@@ -381,7 +381,6 @@ class Explore extends Page {
                               xxlarge: 'xxlarge-4'
                             }}
                             showActions
-                            showFavorite
                             onTagSelected={this.handleTagSelected}
                           />
                         </div>

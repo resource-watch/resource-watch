@@ -9,6 +9,7 @@ import { belongsToACollection } from 'components/collections-panel/collections-p
 // Components
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Icon from 'components/ui/Icon';
+import LoginRequired from 'components/ui/login-required';
 
 // Tooltip
 import Tooltip from 'rc-tooltip/dist/rc-tooltip';
@@ -103,8 +104,8 @@ class ExploreDetailHeader extends PureComponent {
             </li>
 
             {/* Favorite dataset icon */}
-            {user && user.id &&
-              <li>
+            <li>
+              <LoginRequired text="Log in or sign up to save items in favorites">
                 <Tooltip
                   overlay={
                     <CollectionsPanel
@@ -130,8 +131,8 @@ class ExploreDetailHeader extends PureComponent {
                     <span>Favorite</span>
                   </button>
                 </Tooltip>
-              </li>
-            }
+              </LoginRequired>
+            </li>
             {/* Favorites */}
           </ul>
         </div>

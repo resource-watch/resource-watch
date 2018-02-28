@@ -10,11 +10,11 @@ import { Link } from 'routes';
 
 // Components
 import Icon from 'components/ui/Icon';
+import LoginRequired from 'components/ui/login-required';
 
 // Modal
 import Modal from 'components/modal/modal-component';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
-import LoginModal from 'components/modal/LoginModal';
 
 class ExploreDetailButtons extends PureComponent {
   static propTypes = {
@@ -94,32 +94,24 @@ class ExploreDetailButtons extends PureComponent {
         }
 
         {this.isSubscribable() &&
-          <button
-            className="c-button -secondary -fullwidth"
-            onClick={() => this.handleToggleSubscribeModal(true)}
-          >
-            Subscribe to alerts
-
-            <Modal
-              isOpen={this.state.showSubscribeModal}
-              onRequestClose={() => this.handleToggleSubscribeModal(false)}
+          <LoginRequired text="Log in to subscribe to dataset changes">
+            <button
+              className="c-button -secondary -fullwidth"
+              onClick={() => this.handleToggleSubscribeModal(true)}
             >
-              {user.id &&
+            Subscribe to alerts
+              <Modal
+                isOpen={this.state.showSubscribeModal}
+                onRequestClose={() => this.handleToggleSubscribeModal(false)}
+              >
                 <SubscribeToDatasetModal
                   dataset={dataset}
                   showDatasetSelector={false}
                   onRequestClose={() => this.handleToggleSubscribeModal(false)}
                 />
-              }
-
-              {!user.id &&
-                <LoginModal
-                  text="Log in to subscribe to dataset changes"
-                  onRequestClose={() => this.handleToggleSubscribeModal(false)}
-                />
-              }
-            </Modal>
-          </button>
+              </Modal>
+            </button>
+          </LoginRequired>
         }
 
         {metadata.info && metadata.info.data_download_original_link &&
