@@ -69,7 +69,10 @@ class LayersForm extends React.Component {
       .then((response) => {
         const datasets = response[0];
         const current = response[1];
+
         const formState = (id) ? this.setFormFromParams(current) : this.state.form;
+
+        const { provider, dataset } = current || {};
 
         this.setState({
           // CURRENT LAYER
@@ -102,6 +105,16 @@ class LayersForm extends React.Component {
     setTimeout(() => {
       // Validate all the inputs on the current step
       const valid = FORM_ELEMENTS.isValid(this.state.step);
+      const { interactions } = this.props;
+
+      // Grab all the interactions from the redux store
+      const interactionConfig = Object.assign(
+        {},
+        this.state.form.interactionConfig,
+        { output: interactions.added }
+      );
+
+      const form = Object.assign({}, this.state.form, { interactionConfig });
 
       if (valid) {
         // if we are in the last step we will submit the form
@@ -115,7 +128,7 @@ class LayersForm extends React.Component {
             dataset,
             id: id || '',
             type: (id) ? 'PATCH' : 'POST',
-            body: this.state.form
+            body: form
           })
             .then((data) => {
               toastr.success('Success', `The layer "${data.id}" - "${data.name}" has been uploaded correctly`);
@@ -173,6 +186,39 @@ class LayersForm extends React.Component {
     return newForm;
   }
 
+  /**
+   * Set the layer interaction of the store
+   * @export
+   * @param {Layer{}} layer
+   */
+  setLayerInteraction(layer) {
+    return (dispatch) => {
+      dispatch({
+        type: SET_LAYERS_INTERACTION,
+        payload: layer
+      });
+    };
+  }
+
+  setLayerInteractionSelected(id) {
+    return (dispatch) => {
+      dispatch({
+        type: SET_LAYER_INTERACTION_SELECTED,
+        payload: id
+      });
+    };
+  }
+
+
+  setLayerInteractionLatLng(latlng) {
+    return (dispatch) => {
+      dispatch({
+        type: SET_LAYER_INTERACTION_LATLNG,
+        payload: latlng
+      });
+    };
+  }
+
   render() {
     return (
       <form className="c-form c-layers-form" onSubmit={this.onSubmit} noValidate>
@@ -187,6 +233,9 @@ class LayersForm extends React.Component {
             datasets={this.state.datasets}
             onChange={value => this.onChange(value)}
             onChangeDataset={value => this.onChangeDataset(value)}
+            setLayerInteraction={this.setLayerInteraction}
+            setLayerInteractionSelected={this.setLayerInteractionSelected}
+            setLayerInteractionLatLng={this.setLayerInteractionLatLng}
           />
         }
 
@@ -209,11 +258,13 @@ LayersForm.propTypes = {
   authorization: PropTypes.string,
   application: PropTypes.array,
   onSubmit: PropTypes.func,
-  locale: PropTypes.string.isRequired
+  locale: PropTypes.string.isRequired,
+  interactions: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  locale: state.common.locale
+  locale: state.common.locale,
+  interactions: state.interactions
 });
 
 export default connect(mapStateToProps, null)(LayersForm);

@@ -19,7 +19,8 @@ class LoginRequired extends PureComponent {
   }
 
   promptLogin(e) {
-    e.preventDefault() && e.stopPropagation();
+    e.stopPropagation();
+    e.preventDefault();
     this.setState({ isOpen: true });
   }
 

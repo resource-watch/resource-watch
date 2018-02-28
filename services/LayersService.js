@@ -67,6 +67,36 @@ export default class LayersService {
     });
   }
 
+  getColumns({ dataset }) {
+    return new Promise((resolve, reject) => {
+      get({
+        url: `${process.env.WRI_API_URL}/fields/${dataset}`,
+        headers: [{
+          key: 'Content-Type',
+          value: 'application/json'
+        }, {
+          key: 'Authorization',
+          value: this.opts.authorization
+        }],
+        onSuccess: (response) => {
+          const fieldsObj = response.fields;
+          const parsedData = {
+            tableName: response.tableName,
+            fields: (Object.entries(fieldsObj) || []).map(data => ({
+              label: data[0],
+              value: data[0],
+              type: data[1].type
+            }))
+          };
+          resolve({ ...parsedData });
+        },
+        onError: (error) => {
+          reject(error);
+        }
+      });
+    });
+  }
+
   saveData({ type, body, id, dataset }) {
     return new Promise((resolve, reject) => {
       post({

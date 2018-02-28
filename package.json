@@ -57,6 +57,7 @@
     "nodemon": "1.11.0",
     "normalize.css": "7.0.0",
     "now-logs": "0.0.7",
+    "numeral": "^2.0.6",
     "opbeat-react": "3.4.0",
     "orm": "3.2.3",
     "passport": "0.3.2",

@@ -262,10 +262,26 @@ export default class LayerManager {
 
     this.layersLoading[layer.id] = true;
 
+    // is it interactive?
+    const isInteractive = !isEmpty(layerSpec.interactionConfig) &&
+                          !!layerSpec.interactionConfig.output &&
+                          !!layerSpec.interactionConfig.output.length;
+
     const layerTpl = {
       version: '1.3.0',
       stat_tag: 'API',
-      layers: layer.body.layers
+      layers: layer.body.layers.map((l) => {
+        if (isInteractive) {
+          return {
+            ...l,
+            options: {
+              ...l.options,
+              interactivity: layerSpec.interactionConfig.output.map(o => o.column)
+            }
+          };
+        }
+        return l;
+      })
     };
     const params = `?stat_tag=API&config=${encodeURIComponent(JSON.stringify(layerTpl))}`;
 
@@ -294,7 +310,7 @@ export default class LayerManager {
         });
 
         // Add interactivity
-        if (!isEmpty(layerSpec.interactionConfig)) {
+        if (isInteractive) {
           const gridUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/0/{z}/{x}/{y}.grid.json`;
           this.interactionLayers[layer.id] = L.utfGrid(gridUrl).addTo(this.map).setZIndex(995);
 
