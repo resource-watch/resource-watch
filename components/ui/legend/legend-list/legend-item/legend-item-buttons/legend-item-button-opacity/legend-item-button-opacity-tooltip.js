@@ -44,23 +44,30 @@ class LegendOpacityTooltip extends React.Component {
 
     return (
       <div className="c-explore-slider-tooltip" ref={(node) => { this.el = node; }}>
-        <Slider
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          defaultValue={value}
-          onChange={this.onChange}
-          onAfterChange={this.onChange}
-        />
-        <div className="actions-container">
+        <h4>
+          Opacity
+        </h4>
+
+        <div className="slider-tooltip-container">
+          <Slider
+            min={min}
+            max={max}
+            step={step}
+            value={value}
+            defaultValue={value}
+            onChange={this.onChange}
+            onAfterChange={this.onChange}
+          />
+        </div>
+
+        {/* <div className="slider-tooltip-actions">
           <button
             className="c-button -secondary -compressed"
             onClick={() => this.onChange(max)}
           >
             Reset
           </button>
-        </div>
+        </div> */}
       </div>
     );
   }
