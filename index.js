@@ -153,14 +153,18 @@ app.prepare()
         return res.redirect('/');
       }
 
-      // save the current url for redirect if successfull, set it to expire in 5 min
-      res.cookie('authUrl', req.headers.referer, { maxAge: 3E5 });
+      if (req.cookies.authUrl) {
+        res.clearCookie('authUrl');
+      }
 
+      // save the current url for redirect if successfull, set it to expire in 5 min
+      res.cookie('authUrl', req.headers.referer, { maxAge: 3E5, httpOnly: true });
       return res.redirect(`https://production-api.globalforestwatch.org/auth/${service}?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`);
     });
 
     server.get('/login', auth.login);
     server.get('/logout', (req, res) => {
+      req.session.destroy();
       req.logout();
       res.redirect('/');
     });
