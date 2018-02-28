@@ -135,8 +135,30 @@ app.prepare()
     // Authentication
     server.get('/auth', auth.authenticate({ failureRedirect: '/login' }), (req, res) => {
       if (req.user.role === 'ADMIN' && /admin/.test(req.session.referrer)) return res.redirect('/admin');
-      return res.redirect('/myrw');
+
+      const authRedirect = req.cookies.authUrl || '/myrw';
+
+      if (req.cookies.authUrl) {
+        res.clearCookie('authUrl');
+      }
+
+      return res.redirect(authRedirect);
     });
+
+    // Redirect to specific service authentication
+    server.get('/auth/:service', (req, res) => {
+      const { service } = req.params;
+
+      if (!/facebook|google|twitter/.test(service)) {
+        return res.redirect('/');
+      }
+
+      // save the current url for redirect if successfull, set it to expire in 5 min
+      res.cookie('authUrl', req.headers.referer, { maxAge: 3E5 });
+
+      return res.redirect(`https://production-api.globalforestwatch.org/auth/${service}?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`);
+    });
+
     server.get('/login', auth.login);
     server.get('/logout', (req, res) => {
       req.logout();

@@ -126,17 +126,17 @@ class HeaderUser extends React.Component {
               onMouseLeave={() => this.toggleDropdown(false)}
             >
               <li className="header-dropdown-list-item">
-                <a href={`https://production-api.globalforestwatch.org/auth/facebook?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`}>
+                <a href="/auth/facebook">
                   Facebook
                 </a>
               </li>
               <li className="header-dropdown-list-item">
-                <a href={`https://production-api.globalforestwatch.org/auth/google?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`}>
+                <a href="/auth/google">
                   Google
                 </a>
               </li>
               <li className="header-dropdown-list-item">
-                <a href={`https://production-api.globalforestwatch.org/auth/twitter?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`}>
+                <a href="/auth/twitter">
                   Twitter
                 </a>
               </li>
