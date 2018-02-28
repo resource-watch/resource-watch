@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import LegendType from 'components/ui/LegendType';
+import LegendType from 'components/ui/legend/legend-list/legend-item/legend-item-type';
 
 function Legend(props) {
   if (props.layerActive) {
@@ -14,9 +14,9 @@ function Legend(props) {
                   <span className="name">{props.layerActive.name}</span>
                 </h3>
               </header>
+
               <LegendType
-                config={props.layerActive.attributes.legendConfig}
-                className={props.className}
+                activeLayer={{ ...props.layerActive, ...props.layerActive.attributes }}
               />
             </li>
           </ul>
