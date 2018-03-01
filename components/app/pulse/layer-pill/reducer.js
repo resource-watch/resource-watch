@@ -1,23 +1,13 @@
 import * as actions from './actions';
 
 export default {
-  [actions.toggleContextualLayer]: (state, { payload }) => {
-    const { activeLayers, contextLayers } = state;
-    console.log('activeLayers', activeLayers, 'contextLayers', activeLayers, 'payload', payload);
-    const newActiveLayers = [...activeLayers];
-    const newContextLayers = [...payload.contextLayers, ...contextLayers];
-
-    const index = newActiveLayers.indexOf(payload);
-    if (index < 0) {
-      newActiveLayers.push(payload.id);
-    } else {
-      newActiveLayers.splice(index, 1);
-    }
-
-    return {
-      ...state,
-      activeLayers: newActiveLayers,
-      contextLayers: newContextLayers
-    };
-  }
+  [actions.setContextLayers]: (state, { payload }) => ({ ...state, contextLayers: payload }),
+  [actions.setActiveLayers]: (state, { payload }) => ({
+    ...state,
+    activeLayers: payload,
+    activeLayersLoading: false
+  }),
+  [actions.setContextLayersLoading]: (state, { payload }) =>
+    ({ ...state, contextLayersLoading: payload }),
+  [actions.setContextLayersError]: (state, { payload }) => ({ ...state, error: payload })
 };
