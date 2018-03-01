@@ -27,7 +27,6 @@ class TopicDetailHeader extends PureComponent {
 
   render() {
     const { topic } = this.props;
-    console.log(topic);
 
     return (
       <div className="page-header-content">
