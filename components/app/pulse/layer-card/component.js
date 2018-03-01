@@ -11,7 +11,7 @@ import { LAYERS_PLANET_PULSE } from 'utils/layers/pulse_layers';
 import Legend from 'components/app/pulse/Legend';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
-import LoginModal from 'components/modal/login-modal';
+import LoginRequired from 'components/ui/login-required';
 
 class LayerCardComponent extends PureComponent {
   constructor(props) {
@@ -153,12 +153,14 @@ class LayerCardComponent extends PureComponent {
             </Link>
           }
           { subscribable &&
-            <button
-              className="link_button"
-              onClick={this.handleSubscribeToAlerts}
-            >
-              Subscribe to alerts
-            </button>
+            <LoginRequired text="Log in or sign up to subscribe to alerts from this dataset">
+              <button
+                className="link_button"
+                onClick={this.handleSubscribeToAlerts}
+              >
+                Subscribe to alerts
+              </button>
+            </LoginRequired>
           }
         </div>
       </div>
