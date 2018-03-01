@@ -23,7 +23,6 @@ export const loadDatasetData = createThunkAction('layer-card/loadDatasetData', (
 
 export const loadWidgetData = createThunkAction('layer-card/loadWidgetData', id =>
   (dispatch) => {
-    console.log('id', id);
     if (id) {
       const widgetService = new WidgetService(id, { apiURL: process.env.WRI_API_URL });
       widgetService.fetchData().then(response =>

@@ -70,8 +70,6 @@ class GlobeCesiumComponent extends PureComponent {
       }
     };
 
-    console.log('this.props', this.props);
-
     this.baseLayers = this.viewModel.baseLayers;
     this.contextLayers = this.viewModel.contextLayers;
 
@@ -153,7 +151,11 @@ class GlobeCesiumComponent extends PureComponent {
     }
 
     if (contextLayers && activeLayers) {
-      console.log('contextLayers',contextLayers, 'activeLayers', activeLayers);
+      const ctxLayersToDisplay = contextLayers.filter(l => activeLayers.includes(l.attributes.id));
+      ctxLayersToDisplay.forEach(l => this.addAdditionalLayerOption(
+        l.id,
+        new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
+      ));
     }
 
     if (mainLayer) {
