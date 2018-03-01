@@ -7,6 +7,10 @@ import initialState from './initial-state';
 
 import GlobeCesiumComponent from './component';
 
+const mapStateToProps = state => ({
+  contextLayersPulse: state.contextLayersPulse
+});
+
 class GlobeCesiumContainer extends Component {
   render() {
     return createElement(GlobeCesiumComponent, {
@@ -17,4 +21,4 @@ class GlobeCesiumContainer extends Component {
 
 export { actions, reducers, initialState };
 
-export default connect(null, actions)(GlobeCesiumContainer);
+export default connect(mapStateToProps, actions)(GlobeCesiumContainer);

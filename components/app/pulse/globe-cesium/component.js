@@ -82,7 +82,7 @@ class GlobeCesiumComponent extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.basemap !== this.props.basemap ||
-      nextProps.contextLayers !== this.props.contextLayers ||
+      nextProps.contextLayersPulse !== this.props.contextLayersPulse ||
       nextProps.mainLayer !== this.props.mainLayer) {
       this.updateLayers(nextProps);
     }
@@ -134,8 +134,8 @@ class GlobeCesiumComponent extends PureComponent {
   }
 
   updateLayers(props) {
-    console.log('updateLayers!');
-    const { basemap, contextLayers, mainLayer } = props;
+    const { basemap, contextLayersPulse, mainLayer } = props;
+    const { contextLayers, activeLayers } = contextLayersPulse;
 
     if (basemap) {
       const basemapFound = this.baseLayers.find(l => l.name === basemap.name);
@@ -152,8 +152,8 @@ class GlobeCesiumComponent extends PureComponent {
       }
     }
 
-    if (contextLayers) {
-
+    if (contextLayers && activeLayers) {
+      console.log('contextLayers',contextLayers, 'activeLayers', activeLayers);
     }
 
     if (mainLayer) {
@@ -180,7 +180,7 @@ class GlobeCesiumComponent extends PureComponent {
 
 GlobeCesiumComponent.propTypes = {
   basemap: PropTypes.object,
-  contextLayers: PropTypes.array,
+  contextLayersPulse: PropTypes.array,
   mainLayer: PropTypes.object
 };
 

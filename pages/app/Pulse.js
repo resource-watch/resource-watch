@@ -400,7 +400,6 @@ class Pulse extends Page {
           />
           <GlobeCesium
             basemap={basemap}
-            contextLayers={contextLayers}
             shapes={shapes}
             zoom={zoom}
             mainLayer={texture}
