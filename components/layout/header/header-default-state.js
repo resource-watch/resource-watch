@@ -15,7 +15,6 @@ export default {
       pathnames: ['/app/Explore', '/app/ExploreDetail', '/app/Pulse'],
       children: [
         { label: 'Explore Datasets', route: 'explore' },
-        { label: 'Dashboards', route: 'dashboards' },
         { label: 'Planet Pulse', href: '/data/pulse' },
         { label: 'App Gallery', route: 'get_involved_detail', params: { id: 'apps' } }
       ]
