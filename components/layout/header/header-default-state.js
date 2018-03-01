@@ -30,16 +30,16 @@ export default {
       id: 'topics',
       label: 'Topics',
       route: 'topics',
-      pathnames: ['/app/Topics', '/app/TopicDetail'],
+      pathnames: ['/app/topic-detail'],
       children: [
-        { label: 'Biodiversity', route: 'topic_detail', params: { id: 'biodiversity' } },
-        { label: 'Cities', route: 'topic_detail', params: { id: 'cities' } },
-        { label: 'Climate', route: 'topic_detail', params: { id: 'climate' } },
-        { label: 'Commerce', route: 'topic_detail', params: { id: 'commerce' } },
-        { label: 'Energy', route: 'topic_detail', params: { id: 'energy' } },
-        { label: 'Food and Agriculture', route: 'topic_detail', params: { id: 'food_and_agriculture' } },
-        { label: 'Forests', route: 'topic_detail', params: { id: 'forest' } },
-        { label: 'Water', route: 'topic_detail', params: { id: 'water' } }
+        { label: 'Biodiversity', route: 'topics_detail', params: { id: 'biodiversity' } },
+        { label: 'Cities', route: 'topics_detail', params: { id: 'cities' } },
+        { label: 'Climate', route: 'topics_detail', params: { id: 'climate' } },
+        { label: 'Commerce', route: 'topics_detail', params: { id: 'commerce' } },
+        { label: 'Energy', route: 'topics_detail', params: { id: 'energy' } },
+        { label: 'Food and Agriculture', route: 'topics_detail', params: { id: 'food_and_agriculture' } },
+        { label: 'Forests', route: 'topics_detail', params: { id: 'forest' } },
+        { label: 'Water', route: 'topics_detail', params: { id: 'water' } }
       ]
     },
     {

@@ -13,6 +13,8 @@ export default class HeaderAbout extends React.PureComponent {
   }, 50)
 
   render() {
+    const { children } = this.props;
+
     return (
       <TetherComponent
         attachment="top center"
@@ -40,31 +42,32 @@ export default class HeaderAbout extends React.PureComponent {
           onMouseEnter={() => this.toggleDropdown(true)}
           onMouseLeave={() => this.toggleDropdown(false)}
         >
-          <li className="header-dropdown-list-item">
-            <Link route="about_partners">
-              <a>Partners</a>
-            </Link>
-          </li>
-
-          <li className="header-dropdown-list-item">
-            <Link route="about_faqs">
-              <a>FAQs</a>
-            </Link>
-          </li>
-
-          <li className="header-dropdown-list-item">
-            <Link route="about_howto">
-              <a>How to</a>
-            </Link>
-          </li>
-
-          <li className="header-dropdown-list-item">
-            <Link route="about_contact-us">
-              <a>Contact us</a>
-            </Link>
-          </li>
-        </ul>
+          {children.map(c => (
+            <li
+              className="header-dropdown-list-item"
+              key={c.label}
+            >
+              {!!c.route &&
+                <Link route={c.route} params={c.params}>
+                  <a>{c.label}</a>
+                </Link>
               }
+
+              {!!c.href &&
+                <a href={c.href}>
+                  {c.label}
+                </a>
+              }
+
+              {!c.route && !c.href &&
+                <span>
+                  {c.label}
+                </span>
+              }
+            </li>
+          ))}
+        </ul>
+      }
       </TetherComponent>
     );
   }
@@ -72,5 +75,6 @@ export default class HeaderAbout extends React.PureComponent {
 
 HeaderAbout.propTypes = {
   header: PropTypes.object,
+  children: PropTypes.array,
   setDropdownOpened: PropTypes.func
 };

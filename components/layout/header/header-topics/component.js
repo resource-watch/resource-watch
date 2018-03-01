@@ -13,82 +13,62 @@ export default class HeaderTopics extends React.PureComponent {
   }, 50)
 
   render() {
+    const { children } = this.props;
+
     return (
       <TetherComponent
         attachment="top center"
         constraints={[{
           to: 'window'
-        }]}
+        }
+      ]}
         targetOffset="0 0"
         classes={{
-          element: 'c-header-dropdown'
-        }}
+        element: 'c-header-dropdown'
+      }}
       >
         {/* First child: This is what the item will be tethered to */}
-        <Link route="topics" >
+        <Link route="topics">
           <a
             onMouseEnter={() => this.toggleDropdown(true)}
             onMouseLeave={() => this.toggleDropdown(false)}
           >
-                Topics
+            Topics
           </a>
         </Link>
         {/* Second child: If present, this item will be tethered to the the first child */}
         {this.props.header.dropdownOpened.topics &&
-        <ul
-          className="header-dropdown-list"
-          onMouseEnter={() => this.toggleDropdown(true)}
-          onMouseLeave={() => this.toggleDropdown(false)}
-        >
-          <li className="header-dropdown-list-item">
-            <Link route="topic_detail" params={{ id: 'biodiversity' }}>
-              <a>Biodiversity</a>
-            </Link>
-          </li>
+          <ul
+            className="header-dropdown-list"
+            onMouseEnter={() => this.toggleDropdown(true)}
+            onMouseLeave={() => this.toggleDropdown(false)}
+          >
+            {children.map(c => (
+              <li
+                className="header-dropdown-list-item"
+                key={c.label}
+              >
+                {!!c.route &&
+                  <Link route={c.route} params={c.params}>
+                    <a>{c.label}</a>
+                  </Link>
+                }
 
-          <li className="header-dropdown-list-item">
-            <Link route="topic_detail" params={{ id: 'cities' }}>
-              <a>Cities</a>
-            </Link>
-          </li>
+                {!!c.href &&
+                  <a href={c.href}>
+                    {c.label}
+                  </a>
+                }
 
-          <li className="header-dropdown-list-item">
-            <Link route="topic_detail" params={{ id: 'climate' }}>
-              <a>Climate</a>
-            </Link>
-          </li>
-
-          <li className="header-dropdown-list-item">
-            <Link route="topic_detail" params={{ id: 'commerce' }}>
-              <a>Commerce</a>
-            </Link>
-          </li>
-
-          <li className="header-dropdown-list-item">
-            <Link route="topic_detail" params={{ id: 'energy' }}>
-              <a>Energy</a>
-            </Link>
-          </li>
-
-          <li className="header-dropdown-list-item">
-            <Link route="topic_detail" params={{ id: 'food_and_agriculture' }}>
-              <a>Food and Agriculture</a>
-            </Link>
-          </li>
-
-          <li className="header-dropdown-list-item">
-            <Link route="topic_detail" params={{ id: 'forest' }}>
-              <a>Forests</a>
-            </Link>
-          </li>
-
-          <li className="header-dropdown-list-item">
-            <Link route="topic_detail" params={{ id: 'water' }}>
-              <a>Water</a>
-            </Link>
-          </li>
-        </ul>
-              }
+                {!c.route && !c.href &&
+                  <span>
+                    {c.label}
+                  </span>
+                }
+              </li>
+            ))}
+          </ul>
+      }
       </TetherComponent>
     );
   }
@@ -96,5 +76,6 @@ export default class HeaderTopics extends React.PureComponent {
 
 HeaderTopics.propTypes = {
   header: PropTypes.object,
+  children: PropTypes.array,
   setDropdownOpened: PropTypes.func
 };

@@ -64,7 +64,10 @@ export default class HeaderMenu extends React.PureComponent {
                 }
 
                 {!!component &&
-                  component
+                  React.cloneElement(
+                    component,
+                    item
+                  )
                 }
               </li>
             );
