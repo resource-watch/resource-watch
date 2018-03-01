@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'routes';
 
 function Header(props) {
+  const { skipAnimation } = props;
+
   return (
     <div className="c-splash-header">
       <Link route="home">
@@ -23,6 +25,7 @@ function Header(props) {
         <Link route="home">
           <a>GO TO SITE</a>
         </Link>
+        <button onClick={skipAnimation} className="c-splash-header-skip-intro">SKIP INTRO</button>
       </div>
     </div>
   );
@@ -33,7 +36,8 @@ Header.defaultProps = {
 };
 
 Header.propTypes = {
-  showEarthViewLink: PropTypes.bool
+  showEarthViewLink: PropTypes.bool,
+  skipAnimation: PropTypes.func.isRequired
 };
 
 export default Header;
