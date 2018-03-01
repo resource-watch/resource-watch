@@ -3,6 +3,7 @@ import * as actions from './actions';
 export default {
   [actions.toggleContextualLayer]: (state, { payload }) => {
     const { activeLayers, contextLayers } = state;
+    console.log('activeLayers', activeLayers, 'contextLayers', activeLayers, 'payload', payload);
     const newActiveLayers = [...activeLayers];
     const newContextLayers = [...payload.contextLayers, ...contextLayers];
 

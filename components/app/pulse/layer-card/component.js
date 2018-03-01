@@ -88,8 +88,6 @@ class LayerCardComponent extends PureComponent {
     const subscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
       Object.keys(dataset.attributes.subscribable).length > 0;
 
-    console.log('subscribable', subscribable, 'dataset', dataset);
-
     const className = classNames({
       'c-layer-card': true,
       '-hidden': layerActive === null

@@ -12,5 +12,7 @@ export const toggleContextualLayer = createThunkAction('layer-pill/toggleContext
       const layersService = new LayersService();
       await layersService.fetchData({ id }).then(response => contextLayers.push(response));
     }
-    return { contextLayers, id };
+    const result = { contextLayers, id };
+    console.log('result', result);
+    return result;
   });
