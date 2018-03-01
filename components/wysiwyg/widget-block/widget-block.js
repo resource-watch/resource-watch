@@ -91,15 +91,6 @@ class WidgetBlock extends React.Component {
           value: loading
         });
       },
-      onToggleFavourite: (favourite, widget) => {
-        const { item } = this.props;
-
-        this.props.toggleFavourite({
-          id: `${item.content.widgetId}/${item.id}`,
-          favourite,
-          widget
-        });
-      },
       onToggleLayerGroupVisibility: (layerGroup) => {
         const { data, item } = this.props;
         const layers = [...data[`${item.content.widgetId}/${item.id}`].layers];

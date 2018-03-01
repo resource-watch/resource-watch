@@ -57,7 +57,7 @@ export default function WidgetBlock({
   });
 
   return (
-    <div className="c-dashboard-card">
+    <div className="c-widget-block-card">
       <header>
         <div className="header-container">
           <Title className="-default">{widget ? widget.name : '–'}</Title>

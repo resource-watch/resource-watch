@@ -2,12 +2,12 @@ import 'isomorphic-fetch';
 import { createAction, createThunkAction } from 'redux-tools';
 
 // Actions
-export const setTopic = createAction('DASHBOARD_PREVIEW_GET_DASHBOARD');
-export const setLoading = createAction('DASHBOARD_PREVIEW_LOADING');
-export const setError = createAction('DASHBOARD_PREVIEW_ERROR');
+export const setTopic = createAction('TOPIC_PREVIEW_GET_TOPIC');
+export const setLoading = createAction('TOPIC_PREVIEW_LOADING');
+export const setError = createAction('TOPIC_PREVIEW_ERROR');
 
 // Async actions
-export const fetchTopic = createThunkAction('DASHBOARD_PREVIEW_FETCH_DATA', (payload = {}) => (dispatch) => {
+export const fetchTopic = createThunkAction('TOPIC_PREVIEW_FETCH_DATA', (payload = {}) => (dispatch) => {
   dispatch(setLoading(true));
   dispatch(setError(null));
 

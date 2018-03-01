@@ -15,8 +15,8 @@ import Checkbox from 'components/form/Checkbox';
 
 // Wysiwyg
 import Wysiwyg from 'components/form/VizzWysiwyg';
-import WidgetBlock from 'components/topics/wysiwyg/widget-block/widget-block';
-import WidgetBlockEdition from 'components/topics/wysiwyg/widget-block-edition/widget-block-edition';
+import WidgetBlock from 'components/wysiwyg/widget-block/widget-block';
+import WidgetBlockEdition from 'components/wysiwyg/widget-block-edition/widget-block-edition';
 
 class Step1 extends React.Component {
   constructor(props) {
