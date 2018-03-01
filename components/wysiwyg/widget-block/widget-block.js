@@ -29,16 +29,16 @@ class WidgetBlock extends React.Component {
     setLayers: PropTypes.func.isRequired
   };
 
-  async componentWillMount() {
+  componentWillMount() {
     if (this.props.item.content.widgetId) {
-      await this.triggerFetch(this.props);
+      this.triggerFetch(this.props);
       this.setFavourite(this.props);
     }
   }
 
-  async componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.item.content.widgetId !== this.props.item.content.widgetId) {
-      await this.triggerFetch(nextProps);
+      this.triggerFetch(nextProps);
       this.setFavourite(nextProps);
     }
   }

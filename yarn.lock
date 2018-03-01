@@ -34,16 +34,6 @@
   version "9.4.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.0.tgz#b85a0bcf1e1cc84eb4901b7e96966aedc6f078d1"
 
-"@types/quill@*":
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/@types/quill/-/quill-1.3.5.tgz#0109281352e08aa686160633a86c99d468d961a4"
-  dependencies:
-    parchment "^1.1.2"
-
-"@types/react@*":
-  version "16.0.35"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.35.tgz#7ce8a83cad9690fd965551fc513217a74fc9e079"
-
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -6469,7 +6459,7 @@ parallel-transform@^1.1.0:
     inherits "^2.0.3"
     readable-stream "^2.1.5"
 
-parchment@^1.1.2, parchment@^1.1.3:
+parchment@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/parchment/-/parchment-1.1.3.tgz#c0fd5c2765eb73b30bfe171d6567cb1ae748e9af"
 
@@ -7452,18 +7442,6 @@ react-quill@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-quill/-/react-quill-1.1.0.tgz#348dbd36252607fd31cad140f1c95e969da18d53"
   dependencies:
-    create-react-class "^15.6.0"
-    lodash "^4.17.4"
-    prop-types "^15.5.10"
-    quill "^1.2.6"
-    react-dom-factories "^1.0.0"
-
-react-quill@^1.1.0:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/react-quill/-/react-quill-1.2.3.tgz#d5e7c5f6d3b25916485538ea80d9b5f2262d3823"
-  dependencies:
-    "@types/quill" "*"
-    "@types/react" "*"
     create-react-class "^15.6.0"
     lodash "^4.17.4"
     prop-types "^15.5.10"
@@ -9591,9 +9569,9 @@ vis@^4.18.1:
     moment "^2.18.1"
     propagating-hammerjs "^1.4.6"
 
-vizz-wysiwyg@1.1.10:
-  version "1.1.10"
-  resolved "https://registry.yarnpkg.com/vizz-wysiwyg/-/vizz-wysiwyg-1.1.10.tgz#e40e9bff97c52e672a09b38614d813fed801d61e"
+vizz-wysiwyg@1.1.11:
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/vizz-wysiwyg/-/vizz-wysiwyg-1.1.11.tgz#fd5f97cd3478de7c89ad1f1d1824bc2c1b9e009f"
   dependencies:
     autoprefixer "6.7.6"
     babel-core "^6.26.0"
@@ -9642,7 +9620,7 @@ vizz-wysiwyg@1.1.10:
     react-player "^0.24.6"
     react-popper "^0.7.4"
     react-portal "3.2.0"
-    react-quill "^1.1.0"
+    react-quill "1.1.0"
     react-redux "5.0.5"
     react-sortable-hoc "^0.6.8"
     react-transition-group "^2.2.0"
