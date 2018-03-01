@@ -19,7 +19,6 @@ const GET_LAYER_POINTS_ERROR = 'planetpulse/GET_LAYER_POINTS_ERROR';
 const RESET_LAYER_POINTS = 'planetpulse/RESET_LAYER_POINTS';
 
 const SET_SIMILAR_WIDGETS = 'planetpulse/SET_SIMILAR_WIDGETS';
-const TOGGLE_CONTEXTUAL_LAYER = 'planetpulse/TOGGLE_CONTEXTUAL_LAYER';
 
 /**
  * REDUCER
@@ -62,18 +61,6 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, {
         layerPoints: null
       });
-    case TOGGLE_CONTEXTUAL_LAYER: {
-      const newContextLayers = state.layerActive.contextLayers.map((l) => {
-        if (l.attributes.id === action.payload) {
-          return { ...l, active: !l.active };
-        } else { // eslint-disable-line no-else-return
-          return l;
-        }
-      });
-      const newLayerActive = { ...state.layerActive, contextLayers: newContextLayers };
-      const newState = { ...state, layerActive: newLayerActive };
-      return newState;
-    }
     default:
       return state;
   }
@@ -130,8 +117,4 @@ export function setSimilarWidgets(value) {
 
 export function resetLayerPoints() {
   return dispatch => dispatch({ type: RESET_LAYER_POINTS, payload: null });
-}
-
-export function toggleContextualLayer(layerId) {
-  return dispatch => dispatch({ type: TOGGLE_CONTEXTUAL_LAYER, payload: layerId });
 }
