@@ -166,7 +166,7 @@ app.prepare()
 
       // save the current url for redirect if successfull, set it to expire in 5 min
       res.cookie('authUrl', req.headers.referer, { maxAge: 3E5, httpOnly: true });
-      return res.redirect(`https://production-api.globalforestwatch.org/auth/${service}?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`);
+      return res.redirect(`${process.env.CONTROL_TOWER_URL}/auth/${service}?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`);
     });
 
     server.get('/login', auth.login);
