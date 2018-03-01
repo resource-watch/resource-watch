@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import findIndex from 'lodash/findIndex';
 
+import { arrayMove } from 'react-sortable-hoc';
+
 // Redux
 import { connect } from 'react-redux';
 
@@ -14,6 +16,8 @@ import Select from 'components/form/SelectInput';
 import { getInteractions, modifyInteractions } from 'components/admin/layers/form/interactions/interactions-actions';
 
 import { FORM_ELEMENTS, FORMAT } from 'components/admin/layers/form/constants';
+
+import InteractionsItems from './interactions-items';
 
 const DATA_FORMATS = {
   number: [
@@ -32,6 +36,12 @@ const DATA_FORMATS = {
 class InteractionsComponent extends PureComponent {
   componentWillMount() {
     this.props.dispatch(getInteractions({ ...this.props }));
+  }
+
+  onSortInteractions = ({ oldIndex, newIndex }) => {
+    const { interactions } = this.props;
+    interactions.added = arrayMove(interactions.added, oldIndex, newIndex);
+    this.props.dispatch(modifyInteractions({ ...this.props }, interactions.added));
   }
 
   addInteractions(options) {
@@ -141,8 +151,7 @@ class InteractionsComponent extends PureComponent {
 
     return (
       <div>
-        <div className="c-field preview-container">
-          {interactions.available &&
+        {interactions.available &&
           <Field
             options={interactions.available}
             onChange={value => this.addInteractions(value)}
@@ -159,16 +168,17 @@ class InteractionsComponent extends PureComponent {
             {Select}
           </Field>}
 
-          {interactions.added &&
-            interactions.added.map(data => (
-              <section className="c-field-flex" key={data.column}>
-                {this.renderInteractionFields(data)}
-                {this.renderFormatField(data)}
-                <button type="button" className="c-btn" onClick={() => this.removeInteraction(data)}>Remove</button>
-              </section>
-            ))
-          }
-        </div>
+        <InteractionsItems
+          interactions={interactions}
+          renderInteractionFields={this.renderInteractionFields}
+          renderFormatField={this.renderFormatField}
+          removeInteraction={this.removeInteraction}
+          axis="y"
+          lockAxis="y"
+          useDragHandle
+          onSortEnd={this.onSortInteractions}
+        />
+
       </div>
     );
   }
@@ -181,8 +191,7 @@ const mapStateToProps = state => ({
 
 InteractionsComponent.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  interactions: PropTypes.object.isRequired,
-  form: PropTypes.object.isRequired
+  interactions: PropTypes.object.isRequired
 };
 
 InteractionsComponent.defaultProps = {
