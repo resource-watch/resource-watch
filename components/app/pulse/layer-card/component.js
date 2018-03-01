@@ -11,7 +11,7 @@ import { LAYERS_PLANET_PULSE } from 'utils/layers/pulse_layers';
 import Legend from 'components/app/pulse/Legend';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
-import LoginModal from 'components/modal/LoginModal';
+import LoginModal from 'components/modal/login-modal';
 
 class LayerCardComponent extends PureComponent {
   constructor(props) {
@@ -30,7 +30,7 @@ class LayerCardComponent extends PureComponent {
     if ((nextProps.layerMenuPulse.layerActive && nextProps.layerMenuPulse.layerActive.id) !==
       (this.props.layerMenuPulse.layerActive && this.props.layerMenuPulse.layerActive.id)) {
       this.loadWidgets(nextProps);
-      this.props.loadDatasetData(nextProps.layerMenuPulse.layerActive.id);
+      this.props.loadDatasetData({ id: nextProps.layerMenuPulse.layerActive.attributes.dataset });
     }
   }
 
@@ -87,6 +87,8 @@ class LayerCardComponent extends PureComponent {
     const { dataset, widget } = layerCardPulse;
     const subscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
       Object.keys(dataset.attributes.subscribable).length > 0;
+
+    console.log('subscribable', subscribable, 'dataset', dataset);
 
     const className = classNames({
       'c-layer-card': true,
