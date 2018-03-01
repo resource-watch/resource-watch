@@ -100,6 +100,14 @@ server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 server.use(session(sessionOptions));
 
+// Middleware check: Make sure that we trigger auth if a token is passed to RW
+server.use((req, res, nextAction) => {
+  if (req.query && req.query.token && !/auth/.test(req.url)) {
+    return res.redirect(`/auth?token=${req.query.token}`);
+  }
+  return nextAction();
+});
+
 // Authentication
 auth.initialize(server);
 
@@ -135,7 +143,6 @@ app.prepare()
     // Authentication
     server.get('/auth', auth.authenticate({ failureRedirect: '/login' }), (req, res) => {
       if (req.user.role === 'ADMIN' && /admin/.test(req.session.referrer)) return res.redirect('/admin');
-
       const authRedirect = req.cookies.authUrl || '/myrw';
 
       if (req.cookies.authUrl) {
@@ -145,7 +152,7 @@ app.prepare()
       return res.redirect(authRedirect);
     });
 
-    // Redirect to specific service authentication
+    // Authenticate specific service, and set authUrl cookie so we remember where we where
     server.get('/auth/:service', (req, res) => {
       const { service } = req.params;
 
@@ -166,7 +173,7 @@ app.prepare()
     server.get('/logout', (req, res) => {
       req.session.destroy();
       req.logout();
-      res.redirect('/');
+      res.redirect('back');
     });
 
     // Routes with required authentication
