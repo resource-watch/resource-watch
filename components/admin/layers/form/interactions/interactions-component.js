@@ -97,6 +97,7 @@ class InteractionsComponent extends PureComponent {
             options={interactions.available}
             onChange={value => this.addInteractions(value)}
             properties={{
+              className: 'Select--large',
               name: 'selected_columns',
               label: 'Add interactions',
               type: 'text',

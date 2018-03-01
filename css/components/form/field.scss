@@ -1,7 +1,7 @@
 .c-field {
   margin-bottom: 20px;
 
-  // temporary... 
+  // temporary...
   &-flex {
     display: flex;
     justify-content: space-between;
@@ -86,6 +86,12 @@
     }
   }
 
+  .Select {
+    &--large {
+      width: 100%;
+      max-width: none;
+    }
+  }
 
   /**
    * STATES
