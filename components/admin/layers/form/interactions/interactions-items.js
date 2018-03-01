@@ -10,8 +10,7 @@ import InteractionsItem from './interactions-item';
 const InteractionsItems = (props) => {
   const {
     interactions,
-    renderInteractionFields,
-    renderFormatField,
+    editInteraction,
     removeInteraction
   } = props;
 
@@ -20,10 +19,9 @@ const InteractionsItems = (props) => {
       {interactions.added && interactions.added.map((interaction, key) =>
         (
           <InteractionsItem
-            key={key}
+            key={interaction.column + key}
             index={key}
-            renderInteractionFields={data => renderInteractionFields(data)}
-            renderFormatField={data => renderFormatField(data)}
+            editInteraction={data => editInteraction(data)}
             removeInteraction={data => removeInteraction(data)}
             interaction={interaction}
           />
@@ -35,8 +33,7 @@ const InteractionsItems = (props) => {
 InteractionsItems.propTypes = {
   interactions: PropTypes.object.isRequired,
   removeInteraction: PropTypes.func.isRequired,
-  renderInteractionFields: PropTypes.func.isRequired,
-  renderFormatField: PropTypes.func.isRequired
+  editInteraction: PropTypes.func.isRequired
 };
 
 export default SortableContainer(InteractionsItems);
