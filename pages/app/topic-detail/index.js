@@ -40,8 +40,7 @@ class TopicDetailPage extends Page {
       topicDetail
     } = this.props;
 
-    const { data: topic } = topicDetail;
-    if (topic && !topic.published) return <Error status={404} />;
+    if (!topicDetail) return <Error status={404} />;
 
     return <TopicDetail />;
   }

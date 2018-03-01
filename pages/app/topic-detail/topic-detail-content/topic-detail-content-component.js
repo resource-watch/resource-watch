@@ -6,11 +6,11 @@ import VizzWysiwyg from 'vizz-wysiwyg';
 import WidgetBlock from 'components/wysiwyg/widget-block/widget-block';
 import WidgetBlockEdition from 'components/wysiwyg/widget-block-edition/widget-block-edition';
 
-export default function TopicDetail({ topicDetail }) {
+export default function TopicDetail({ topic }) {
   let items = [];
 
   try {
-    items = JSON.parse(topicDetail.topic.content);
+    items = JSON.parse(topic.content);
   } catch (e) {
     console.error(e);
   }
@@ -31,9 +31,9 @@ export default function TopicDetail({ topicDetail }) {
 }
 
 TopicDetail.propTypes = {
-  topicDetail: PropTypes.object
+  topic: PropTypes.object
 };
 
 TopicDetail.defaultProps = {
-  topicDetail: {}
+  topic: {}
 };

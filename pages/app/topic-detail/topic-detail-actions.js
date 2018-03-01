@@ -11,7 +11,7 @@ export const fetchTopic = createThunkAction('TOPIC-DETAIL/fetchTopic', (payload 
   dispatch(setTopicLoading(true));
   dispatch(setTopicError(null));
 
-  return fetch(new Request(`${process.env.WRI_API_URL}/topic/${payload.id}`))
+  return fetch(new Request(`${process.env.API_URL}/topics/${payload.id}`))
     .then((response) => {
       if (response.ok) return response.json();
       throw new Error(response.statusText);

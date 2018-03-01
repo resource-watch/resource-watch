@@ -8,7 +8,7 @@ import Layout from 'components/layout/layout/layout-app';
 
 // Topic Detail Component
 import TopicDetailHeader from 'pages/app/topic-detail/topic-detail-header';
-import TopicCard from 'components/topics/list/TopicCard';
+import TopicDetailContent from 'pages/app/topic-detail/topic-detail-content';
 
 class TopicDetailComponent extends Page {
   static propTypes = {
@@ -45,10 +45,7 @@ class TopicDetailComponent extends Page {
             <div className="l-container">
               <div className="row">
                 <div className="column small-12">
-                  {/* I'm using this component but we need to create a proper one */}
-                  <TopicCard
-                    topic={topic}
-                  />
+                  <TopicDetailContent />
                 </div>
               </div>
             </div>
