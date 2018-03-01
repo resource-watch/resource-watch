@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import Icon from '../../Icon';
 
 function TableSorts(props) {
-  const { field, sort } = props;
+  const { field, sort, onSort } = props;
 
   return (
     <div>
@@ -12,8 +12,8 @@ function TableSorts(props) {
         className={classnames({
           '-active': sort.field === field && sort.value === 1
         })}
-        onClick={() => this.props.onSort && this.props.onSort({
-          field: this.props.field,
+        onClick={() => onSort && onSort({
+          field,
           value: 1
         })}
       >
@@ -24,8 +24,8 @@ function TableSorts(props) {
         className={classnames({
           '-active': sort.field === field && sort.value === -1
         })}
-        onClick={() => this.props.onSort && this.props.onSort({
-          field: this.props.field,
+        onClick={() => onSort && onSort({
+          field,
           value: -1
         })}
       >
@@ -37,12 +37,8 @@ function TableSorts(props) {
 
 TableSorts.propTypes = {
   field: PropTypes.string.isRequired,
+  onSort: PropTypes.func.isRequired,
   sort: PropTypes.object
-};
-
-TableSorts.defaultProps = {
-  onChange: null,
-  selected: null
 };
 
 export default TableSorts;
