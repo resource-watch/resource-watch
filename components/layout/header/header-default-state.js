@@ -21,12 +21,6 @@ export default {
       ]
     },
     {
-      id: 'blog',
-      label: 'Blog',
-      route: 'insights',
-      pathnames: ['/app/Insights']
-    },
-    {
       id: 'topics',
       label: 'Topics',
       route: 'topics',
@@ -37,10 +31,16 @@ export default {
         { label: 'Climate', route: 'topics_detail', params: { id: 'climate' } },
         { label: 'Commerce', route: 'topics_detail', params: { id: 'commerce' } },
         { label: 'Energy', route: 'topics_detail', params: { id: 'energy' } },
-        { label: 'Food and Agriculture', route: 'topics_detail', params: { id: 'food_and_agriculture' } },
+        { label: 'Food and Agriculture', route: 'topics_detail', params: { id: 'food-and-agriculture' } },
         { label: 'Forests', route: 'topics_detail', params: { id: 'forest' } },
         { label: 'Water', route: 'topics_detail', params: { id: 'water' } }
       ]
+    },
+    {
+      id: 'blog',
+      label: 'Blog',
+      route: 'insights',
+      pathnames: ['/app/Insights']
     },
     {
       id: 'about',

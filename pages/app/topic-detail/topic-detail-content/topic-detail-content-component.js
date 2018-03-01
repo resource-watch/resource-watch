@@ -17,6 +17,7 @@ export default function TopicDetail({ topic }) {
 
   return (
     <VizzWysiwyg
+      id={topic.id}
       readOnly
       items={items}
       blocks={{
