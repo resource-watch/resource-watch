@@ -1,6 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import moment from 'moment';
+import numeral from 'numeral';
+
+function _formatValue(item, data) {
+  if (item.type === 'date' && item.format && data) {
+    data = moment(data, item.format);
+  } else if (item.type === 'number' && item.format && data) {
+    data = numeral(data).format(item.format);
+  }
+
+  return `${item.prefix || ''}${data || '-'}${item.suffix || ''}`;
+}
+
 function MapPopup({
   interaction,
   interactionSelected,
@@ -13,7 +26,8 @@ function MapPopup({
 
   const layerInteraction = interaction[layer.id] || {};
 
-  const { data, interactionConfig } = layerInteraction;
+  const { data } = layerInteraction;
+  const { interactionConfig } = layer;
 
   return (
     <div className="c-map-popup">
@@ -41,18 +55,16 @@ function MapPopup({
         {data &&
           <table className="popup-table">
             <tbody>
-              {Object.keys(data).map((d) => {
-                const outputItem = interactionConfig.output.find(o => o.column === d) || {};
-
+              {interactionConfig.output.map((outputItem, key) => {
                 return (
                   <tr
                     className="dc"
-                    key={d}
+                    key={key}
                   >
                     <td className="dt">
-                      {outputItem.property || d}:
+                      {outputItem.property || outputItem.column}:
                     </td>
-                    <td className="dd">{data[d]}</td>
+                    <td className="dd">{_formatValue(outputItem, data[outputItem.column])}</td>
                   </tr>
                 );
               })}

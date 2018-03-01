@@ -4,19 +4,17 @@ $btn-border-color: rgba(195, 45, 123, 0.3);
 $btn-border-alt-color: rgba(255, 255, 255, 0.3);
 $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
 
-.c-button, .c-btn {
+.c-btn,
+.c-button {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 4px;
-
   border: 1px solid transparent;
   border-radius: 4px;
   outline: none;
-
   background: none;
-
   color: $color-primary;
   fill: $color-primary;
   font-size: $font-size-medium;
@@ -28,10 +26,8 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
   text-decoration: none;
   text-transform: none;
   white-space: nowrap;
-
   appearance: none;
-
-  transition: all .16s ease-in-out;
+  transition: all 0.16s ease-in-out;
 
   &:hover {
     text-decoration: none;
@@ -46,13 +42,22 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
     }
   }
 
-  &.-a, &.-b, &.-c,
-  &.-primary, &.-secondary, &.-tertiary {
+  &.-a,
+  &.-b,
+  &.-c,
+  &.-primary,
+  &.-secondary,
+  &.-tertiary,
+  &.-facebook,
+  &.-twitter,
+  &.-google
+   {
     padding: 0 $margin-size-small;
     height: 45px;
   }
 
-  &.-a, &.-primary {
+  &.-a,
+  &.-primary {
     color: $alt-font-color;
     fill: $alt-font-color;
     background-color: $color-primary;
@@ -67,43 +72,49 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
       color: $color-primary;
       fill: $color-primary;
 
-      &:hover{
+      &:hover {
         box-shadow: $btn-hover-shadow;
       }
     }
   }
 
-  &.-b, &.-secondary {
+  &.-b,
+  &.-secondary {
     color: $color-primary;
     fill: $color-primary;
     background-color: $body-bg-color;
     border-color: $btn-border-color;
+
     &:hover {
       background-color: $btn-bg-hover-color;
     }
+
     &.-alt {
       background-color: transparent;
       color: $alt-font-color;
       fill: $alt-font-color;
       border-color: $btn-border-alt-color;
-      &:hover{
+
+      &:hover {
         background-color: $btn-bg-hover-alt-color;
       }
     }
 
-    &[disabled], &.-disabled {
+    &.-disabled,
+    &[disabled] {
       color: rgba($ui-font-color, 0.5);
       fill: rgba($ui-font-color, 0.5);
       border-color: $border-color-1;
       cursor: default;
 
-      &:hover{
+      &:hover {
         background-color: transparent;
       }
     }
   }
 
-  &.-c, &.-tertiary {
+  &.-c,
+  &.-tertiary {
     &:not(.-clean):hover {
       background-color: $btn-bg-hover-color;
     }
@@ -141,6 +152,39 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
     height: auto;
     line-height: normal;
   }
+
+  &.-facebook {
+    display: inline-flex;
+    background: #3b5998;
+    color: $color-white;
+    border-color: #3b5998;
+
+    &:hover {
+      background: darken(#3b5998, 10%);
+    }
+  }
+
+  &.-twitter {
+    display: inline-flex;
+    background: #55acee;
+    color: $color-white;
+    border-color: #55acee;
+
+    &:hover {
+      background: darken(#55acee, 10%);
+    }
+  }
+
+  &.-google {
+    display: inline-flex;
+    background: #D62D20;
+    color: $color-white;
+    border-color: #D62D20;
+
+    &:hover {
+      background: darken(#D62D20, 10%);
+    }
+  }
 }
 
 .buttons {
@@ -152,14 +196,18 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
 
   &.-align-left {
     justify-content: flex-start;
-    .c-btn, .c-button {
+
+    .c-btn,
+    .c-button {
       margin-right: $margin-size-extra-small;
     }
   }
 
   &.-align-right {
     justify-content: flex-end;
-    .c-btn, .c-button {
+
+    .c-btn,
+    .c-button {
       margin-left: $margin-size-extra-small;
     }
   }
@@ -167,16 +215,15 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
   &.-align-between {
     justify-content: space-between;
   }
-
   @media screen and (max-width: map-get($breakpoints, medium)) {
-    .c-btn, .c-button {
+    .c-btn,
+    .c-button {
       margin-top: $margin-size-extra-small;
       width: 100%;
       padding-left: $margin-size-small;
       padding-right: $margin-size-small;
     }
   }
-
   @media screen and (min-width: map-get($breakpoints, medium)) {
     display: flex;
     justify-content: space-between;
