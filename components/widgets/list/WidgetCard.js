@@ -18,11 +18,12 @@ import EmbedMyWidgetModal from 'components/modal/EmbedMyWidgetModal';
 import WidgetActionsTooltip from 'components/widgets/list/WidgetActionsTooltip';
 import Icon from 'components/ui/Icon';
 import Map from 'components/ui/map/Map';
-import Legend from 'components/ui/Legend';
+import Legend from 'components/ui/legend';
 import Spinner from 'components/ui/Spinner';
 import TextChart from 'components/widgets/charts/TextChart';
 import Tooltip from 'rc-tooltip/dist/rc-tooltip';
 import CollectionsPanel from 'components/collections-panel';
+import LoginRequired from 'components/ui/login-required';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -253,13 +254,6 @@ class WidgetCard extends PureComponent {
           />
           <Legend
             layerGroups={this.state.layerGroups}
-            className={{ color: '-dark' }}
-            toggleLayerGroupVisibility={
-              layerGroup => this.onToggleLayerGroupVisibility(layerGroup)
-            }
-            setLayerGroupsOrder={() => {}}
-            setLayerGroupActiveLayer={() => {}}
-            expanded={false}
             readonly
           />
         </div>
@@ -439,7 +433,7 @@ class WidgetCard extends PureComponent {
               {WidgetCard.getDescription(widget.description)}
             </p>
 
-            {showFavourite &&
+            <LoginRequired text="Log in or sign up to save items in favorites">
               <Tooltip
                 overlay={
                   <CollectionsPanel
@@ -464,7 +458,8 @@ class WidgetCard extends PureComponent {
                   />
                 </button>
               </Tooltip>
-            }
+            </LoginRequired>
+
           </div>
 
           {(showActions || showRemove || showEmbed) &&

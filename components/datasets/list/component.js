@@ -12,7 +12,6 @@ class DatasetList extends PureComponent {
     mode: PropTypes.string,
     grid: PropTypes.object,
     showActions: PropTypes.bool.isRequired,
-    showFavorite: PropTypes.bool.isRequired,
     onTagSelected: PropTypes.func
   };
 
@@ -28,7 +27,7 @@ class DatasetList extends PureComponent {
 
   render() {
     const {
-      list, mode, showActions, showFavorite, user, grid, onTagSelected
+      list, mode, showActions, user, grid, onTagSelected
     } = this.props;
 
     const newClassName = classNames({
@@ -53,7 +52,6 @@ class DatasetList extends PureComponent {
                 layer={dataset.attributes.layer.find(l => l.attributes.default)}
                 mode={mode}
                 showActions={showActions}
-                showFavorite={showFavorite}
                 onTagSelected={tag => onTagSelected(tag)}
               />
             </div>

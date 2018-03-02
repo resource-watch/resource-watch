@@ -1,0 +1,42 @@
+.c-legend-timeline {
+  display: flex;
+  margin: $space-1 * 3 $space-1 * 3 $space-1 * 2 0;
+
+  > button {
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .c-icon {
+    fill: $color-charcoal-grey;
+    margin-right: 12px;
+  }
+
+  .input-range__label {
+    font-size: 8px;
+    color: #717171;
+    top: -24px;
+  }
+
+  .input-range__slider {
+    border: 0;
+    background-color: $color-primary;
+    width: 14px;
+    height: 14px;
+    margin-top: -9px;
+  }
+
+  .input-range__track {
+    height: 3px;
+  }
+
+  .input-range__track--active {
+    background-color: $color-primary;
+  }
+
+  .input-range__label--min, .input-range__label--max {
+    font-size: 10px;
+    top: auto;
+    bottom: -16px;
+  }
+}

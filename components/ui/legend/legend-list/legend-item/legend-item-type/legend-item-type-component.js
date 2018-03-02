@@ -1,20 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class LegendType extends React.Component {
-  getLegendType() {
-    const config = this.props.config;
-    switch (config.type) {
+class LegendItemType extends React.Component {
+  static propTypes = {
+    // PROPS
+    activeLayer: PropTypes.object
+  };
+
+  getLegendItemType() {
+    const { activeLayer } = this.props;
+
+    switch (activeLayer.legendConfig.type) {
       case 'basic': {
-        const items = config.items;
+        const { items } = activeLayer.legendConfig;
 
         return (
-          <div className={`type -${config.type}`}>
+          <div className={`type -${activeLayer.legendConfig.type}`}>
             <div className="type-list">
               {items.map(item => (
                 <div className="type-list-item" key={`type-list-item-${item.value || item.name}`}>
                   <span className="color" style={{ background: item.color }} />
-                  <span className={`name ${this.props.className.color}`}>{item.name || item.value}{config.unit}</span>
+                  <span className="name">{item.name || item.value}{activeLayer.legendConfig.unit}</span>
                 </div>
               ))}
             </div>
@@ -23,13 +29,13 @@ class LegendType extends React.Component {
       }
 
       case 'gradient': {
-        const items = config.items;
+        const { items } = activeLayer.legendConfig;
         // Gradient & values
         const gradient = items.map(item => item.color);
         const values = [items[0], items[items.length - 1]];
 
         return (
-          <div className={`type -${config.type}`}>
+          <div className={`type -${activeLayer.legendConfig.type}`}>
             <div className="type-list">
               <div className="type-list-item" style={{ width: '100%', backgroundImage: `linear-gradient(to right, ${gradient.join(',')})` }}>
                 <span className="color" />
@@ -38,7 +44,7 @@ class LegendType extends React.Component {
             <div className="type-list">
               {values.map(item => (
                 <div className="type-list-item" key={`type-list-item-${item.value || item.name}`}>
-                  <span className={`value ${this.props.className.color}`}>{item.value || item.name}{config.unit}</span>
+                  <span className="value">{item.value || item.name}{activeLayer.legendConfig.unit}</span>
                 </div>
               ))}
             </div>
@@ -49,12 +55,12 @@ class LegendType extends React.Component {
 
       case 'choropleth': {
         return (
-          <div className={`type -${config.type}`}>
+          <div className={`type -${activeLayer.legendConfig.type}`}>
             <div className="type-list">
-              {config.items.map(item => (
+              {activeLayer.legendConfig.items.map(item => (
                 <div
                   className="type-list-item"
-                  style={{ width: `${100 / config.items.length}%` }}
+                  style={{ width: `${100 / activeLayer.legendConfig.items.length}%` }}
                   key={`type-list-item-${item.name || item.value}`}
                 >
                   <span className="color" style={{ background: item.color }} />
@@ -62,13 +68,13 @@ class LegendType extends React.Component {
               ))}
             </div>
             <div className="type-list">
-              {config.items.map(item => (
+              {activeLayer.legendConfig.items.map(item => (
                 <div
                   className="type-list-item"
-                  style={{ width: `${100 / config.items.length}%` }}
+                  style={{ width: `${100 / activeLayer.legendConfig.items.length}%` }}
                   key={`type-list-item-${item.name || item.value}`}
                 >
-                  <span className={`value ${this.props.className.color}`}>{item.value || item.name}</span>
+                  <span className="value">{item.value || item.name}</span>
                 </div>
               ))}
             </div>
@@ -85,17 +91,10 @@ class LegendType extends React.Component {
   render() {
     return (
       <div className="c-legend-type">
-        {this.getLegendType()}
+        {this.getLegendItemType()}
       </div>
     );
   }
 }
 
-LegendType.propTypes = {
-  // PROPS
-  config: PropTypes.object,
-  className: PropTypes.object
-};
-
-
-export default LegendType;
+export default LegendItemType;

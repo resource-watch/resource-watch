@@ -19,6 +19,10 @@ const TRANSIFEX_BLACKLIST = [
   '/app/embed/EmbedSimilarDatasets'
 ];
 
+const USERREPORT_BLACKLIST = [
+  '/app/Splash'
+];
+
 class Head extends React.PureComponent {
   static getStyles() {
     if (process.env.NODE_ENV === 'production') {
@@ -38,8 +42,7 @@ class Head extends React.PureComponent {
 
   getUserReport() {
     const { pathname } = this.props.routes;
-
-    if (TRANSIFEX_BLACKLIST.includes(pathname)) {
+    if (TRANSIFEX_BLACKLIST.includes(pathname) || USERREPORT_BLACKLIST.includes(pathname)) {
       return null;
     }
 

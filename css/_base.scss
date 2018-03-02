@@ -148,6 +148,10 @@ input, button, select, textarea {
   text-align: center;
 }
 
+.-dragger {
+  cursor: move;
+}
+
 .-columnize {
   @media screen and (min-width: map-get($breakpoints, medium)) {
     columns: 2;

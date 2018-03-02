@@ -29,16 +29,17 @@
         margin: 0;
         padding: 0;
 
+        & > :nth-child(even) {
+          margin: 0 0 0 5px;
+        }
+
         button {
           position: relative;
           display: inline-flex;
           padding: 0;
           cursor: pointer;
-
-          & + button {
-            margin: 0 0 0 5px;
-          }
         }
+
       }
     }
   }

@@ -109,7 +109,6 @@ class PartnerDetail extends Page {
                     list={list}
                     mode="grid"
                     showActions={false}
-                    showFavorite
                     onTagSelected={this.handleTagSelected}
                   />
                 }

@@ -14,7 +14,7 @@ import Page from 'components/layout/page';
 import LayoutEmbed from 'components/layout/layout/layout-embed';
 import Spinner from 'components/ui/Spinner';
 import Map from 'components/ui/map/Map';
-import Legend from 'components/ui/Legend';
+import Legend from 'components/ui/legend';
 import Icon from 'components/ui/Icon';
 
 // Utils
@@ -159,14 +159,9 @@ class EmbedMap extends Page {
 
             <Legend
               layerGroups={layerGroups}
-              className={{ color: '-dark' }}
-              toggleLayerGroupVisibility={
-                layerGroup => this.props.toggleLayerGroupVisibility(layerGroup)
-              }
-              setLayerGroupsOrder={() => {}}
-              setLayerGroupActiveLayer={() => {}}
-              interactionDisabled
               expanded={false}
+              interaction={false}
+              readonly
             />
 
             { modalOpened && this.getModal() }

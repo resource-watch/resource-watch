@@ -13,7 +13,7 @@ import { toggleModal, setModalOptions } from 'redactions/modal';
 import Legend from 'components/app/pulse/Legend';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
-import LoginModal from 'components/modal/LoginModal';
+import LoginRequired from 'components/ui/login-required';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -86,28 +86,14 @@ class LayerCard extends React.Component {
   }
 
   handleSubscribeToAlerts() {
-    const { user } = this.props;
-    const userLoggedIn = user && user.id;
-
-    let options = null;
-    if (!userLoggedIn) {
-      options = {
-        children: LoginModal,
-        childrenProps: {
-          toggleModal: this.props.toggleModal,
-          text: 'Log in to subscribe to near-real time datasets'
-        }
-      };
-    } else {
-      options = {
-        children: SubscribeToDatasetModal,
-        childrenProps: {
-          toggleModal: this.props.toggleModal,
-          dataset: this.state.dataset,
-          showDatasetSelector: false
-        }
-      };
-    }
+    const options = {
+      children: SubscribeToDatasetModal,
+      childrenProps: {
+        toggleModal: this.props.toggleModal,
+        dataset: this.state.dataset,
+        showDatasetSelector: false
+      }
+    };
     this.props.toggleModal(true);
     this.props.setModalOptions(options);
   }
@@ -187,12 +173,14 @@ class LayerCard extends React.Component {
             </Link>
           }
           { subscribable &&
-            <button
-              className="link_button"
-              onClick={this.handleSubscribeToAlerts}
-            >
-              Subscribe to alerts
-            </button>
+            <LoginRequired text="Log in to subscribe to near-real time datasets">
+              <button
+                className="link_button"
+                onClick={this.handleSubscribeToAlerts}
+              >
+                Subscribe to alerts
+              </button>
+            </LoginRequired>
           }
         </div>
       </div>

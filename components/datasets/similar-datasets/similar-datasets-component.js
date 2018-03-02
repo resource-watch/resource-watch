@@ -36,7 +36,6 @@ class SimilarDatasets extends PureComponent {
             list={data}
             mode="grid"
             showActions={false}
-            showFavorite
             onTagSelected={this.props.onTagSelected}
           />
         }
