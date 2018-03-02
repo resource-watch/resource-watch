@@ -41,7 +41,8 @@ class Splash extends Page {
       selectedMarker: null,
       viewer: null,
       firstFlight: null,
-      secondFlight: null
+      secondFlight: null,
+      hideSkip: false
     };
 
     // ---------------------- Bindings --------------------------
@@ -118,6 +119,8 @@ class Splash extends Page {
       maximumHeight: initialHeight + 9000000
     }), timeoutTime + INITIAL_WAIT);
 
+    setTimeout(() => this.setState({ hideSkip: true }), (timeoutTime + INITIAL_WAIT) + finalAnimationDuration);
+
     this.setState({ firstFlight, secondFlight });
   }
 
@@ -169,10 +172,12 @@ class Splash extends Page {
         roll: 0.0
       }
     });
+
+    this.setState({ hideSkip: true });
   }
 
   render() {
-    const { mounted, billboardHover, selectedMarker } = this.state;
+    const { mounted, billboardHover, selectedMarker, hideSkip } = this.state;
     const cesiumClassname = classnames({
       'cesium-map': true,
       '-cursor-pointer': billboardHover
@@ -190,6 +195,7 @@ class Splash extends Page {
         <Header
           showEarthViewLink={false}
           skipAnimation={() => this.skipAnimation()}
+          hideSkip={hideSkip}
         />
         {mounted &&
           <Map
