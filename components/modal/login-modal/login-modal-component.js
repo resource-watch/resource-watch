@@ -14,7 +14,7 @@ function LoginModal(props) {
             <div className="column small-12 medium-4">
               <a
                 className="c-button -google -fullwidth"
-                href={`https://production-api.globalforestwatch.org/auth/google?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`}
+                href="/auth/google"
               >
                 Google
               </a>
@@ -22,7 +22,7 @@ function LoginModal(props) {
             <div className="column small-12 medium-4">
               <a
                 className="c-button -facebook -fullwidth"
-                href={`https://production-api.globalforestwatch.org/auth/facebook?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`}
+                href="/auth/facebook"
               >
                 Facebook
               </a>
@@ -30,7 +30,7 @@ function LoginModal(props) {
             <div className="column small-12 medium-4">
               <a
                 className="c-button -twitter -fullwidth"
-                href={`https://production-api.globalforestwatch.org/auth/twitter?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`}
+                href="/auth/twitter"
               >
                 Twitter
               </a>

@@ -39,7 +39,10 @@ class Splash extends Page {
     this.state = {
       billboardHover: false,
       selectedMarker: null,
-      viewer: null
+      viewer: null,
+      firstFlight: null,
+      secondFlight: null,
+      hideSkip: false
     };
 
     // ---------------------- Bindings --------------------------
@@ -60,8 +63,9 @@ class Splash extends Page {
   }
 
   runInitialAnimation() {
-    const { viewer } = this.state;
+    const { viewer, cancelAnimations } = this.state;
     const { camera } = viewer;
+
     // ------ INIT VARIABLES -----
     const { query } = this.props.url;
     const duration = query.duration ? Number(query.duration) : ANIMATION_DURATION;
@@ -90,7 +94,7 @@ class Splash extends Page {
       }
     });
     // ------- FIRST FLY -------
-    setTimeout(() => camera.flyTo({
+    const firstFlight = setTimeout(() => camera.flyTo({
       destination: Cesium.Cartesian3.fromDegrees(finalLon, finalLat, initialHeight),
       orientation: {
         heading: finalHeading,
@@ -104,7 +108,7 @@ class Splash extends Page {
     const timeoutTime = (Number(duration) + 1) * 1000;
 
     // ------- SECOND FLY -------
-    setTimeout(() => camera.flyTo({
+    const secondFlight = setTimeout(() => camera.flyTo({
       destination: Cesium.Cartesian3.fromDegrees(finalLon, finalLat, finalHeight),
       orientation: {
         heading: 0.0,
@@ -114,6 +118,10 @@ class Splash extends Page {
       duration: finalAnimationDuration,
       maximumHeight: initialHeight + 9000000
     }), timeoutTime + INITIAL_WAIT);
+
+    setTimeout(() => this.setState({ hideSkip: true }), (timeoutTime + INITIAL_WAIT) + finalAnimationDuration);
+
+    this.setState({ firstFlight, secondFlight });
   }
 
   handleBillboardClick(e) {
@@ -143,8 +151,33 @@ class Splash extends Page {
     this.setState({ viewer }, this.runInitialAnimation);
   }
 
+  skipAnimation() {
+    const { viewer, firstFlight, secondFlight } = this.state;
+    const { query } = this.props.url;
+
+    const finalHeight = query.finalHeight ? Number(query.finalHeight) : CAMERA_FINAL_POSITION.height;
+    const finalLat = query.finalLat ? Number(query.finalLat) : CAMERA_FINAL_POSITION.lat;
+    const finalLon = query.finalLon ? Number(query.finalLon) : CAMERA_FINAL_POSITION.lon;
+
+    // remember to cancel any active or qued animation
+    viewer.camera.cancelFlight();
+    clearTimeout(firstFlight);
+    clearTimeout(secondFlight);
+
+    viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(finalLon, finalLat, finalHeight),
+      orientation: {
+        heading: 0.0,
+        pitch: -Cesium.Math.PI_OVER_TWO,
+        roll: 0.0
+      }
+    });
+
+    this.setState({ hideSkip: true });
+  }
+
   render() {
-    const { mounted, billboardHover, selectedMarker } = this.state;
+    const { mounted, billboardHover, selectedMarker, hideSkip } = this.state;
     const cesiumClassname = classnames({
       'cesium-map': true,
       '-cursor-pointer': billboardHover
@@ -161,6 +194,8 @@ class Splash extends Page {
         />
         <Header
           showEarthViewLink={false}
+          skipAnimation={() => this.skipAnimation()}
+          hideSkip={hideSkip}
         />
         {mounted &&
           <Map

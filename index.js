@@ -100,6 +100,14 @@ server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 server.use(session(sessionOptions));
 
+// Middleware check: Make sure that we trigger auth if a token is passed to RW
+server.use((req, res, nextAction) => {
+  if (req.query && req.query.token && !/auth/.test(req.url)) {
+    return res.redirect(`/auth?token=${req.query.token}`);
+  }
+  return nextAction();
+});
+
 // Authentication
 auth.initialize(server);
 
@@ -135,12 +143,37 @@ app.prepare()
     // Authentication
     server.get('/auth', auth.authenticate({ failureRedirect: '/login' }), (req, res) => {
       if (req.user.role === 'ADMIN' && /admin/.test(req.session.referrer)) return res.redirect('/admin');
-      return res.redirect('/myrw');
+      const authRedirect = req.cookies.authUrl || '/myrw';
+
+      if (req.cookies.authUrl) {
+        res.clearCookie('authUrl');
+      }
+
+      return res.redirect(authRedirect);
     });
+
+    // Authenticate specific service, and set authUrl cookie so we remember where we where
+    server.get('/auth/:service', (req, res) => {
+      const { service } = req.params;
+
+      if (!/facebook|google|twitter/.test(service)) {
+        return res.redirect('/');
+      }
+
+      if (req.cookies.authUrl) {
+        res.clearCookie('authUrl');
+      }
+
+      // save the current url for redirect if successfull, set it to expire in 5 min
+      res.cookie('authUrl', req.headers.referer, { maxAge: 3E5, httpOnly: true });
+      return res.redirect(`${process.env.CONTROL_TOWER_URL}/auth/${service}?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`);
+    });
+
     server.get('/login', auth.login);
     server.get('/logout', (req, res) => {
+      req.session.destroy();
       req.logout();
-      res.redirect('/');
+      res.redirect('back');
     });
 
     // Routes with required authentication

@@ -51,6 +51,7 @@ export default class CustomTable extends React.Component {
       pagination: props.pagination,
       // Sort
       sort: props.sort,
+      initialSort: props.sort,
       // Search
       search: {},
       // Columns
@@ -179,11 +180,18 @@ export default class CustomTable extends React.Component {
   }
 
   onSort(s) {
-    const sort = {
-      field: s.field,
-      value: s.value
-    };
-    this.setState({ sort }, () => this.onChangePage(0));
+    const { sort, initialSort } = this.state;
+
+    // check if we are trying to sort on the same as before, then return to initial sorting
+    if (isEqual(s, sort)) {
+      this.setState({ sort: initialSort }, () => this.onChangePage(0));
+    } else {
+      const newSortingRule = {
+        field: s.field,
+        value: s.value
+      };
+      this.setState({ sort: newSortingRule }, () => this.onChangePage(0));
+    }
   }
 
   onSearch(s) {
