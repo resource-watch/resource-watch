@@ -1,5 +1,8 @@
 import { createAction, createThunkAction } from 'redux-tools';
 
+// Actions
+import { setContextActiveLayers } from 'components/app/pulse/layer-pill/actions';
+
 // Components
 import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
 
@@ -16,6 +19,9 @@ export const toggleActiveLayer = createThunkAction('layer-menu-dropdown/toggleAc
 }) =>
   (dispatch) => {
     if (id) {
+      // Clear the possible active layers from the previous layer selection
+      dispatch(setContextActiveLayers([]));
+
       fetch(new Request(`${process.env.WRI_API_URL}/layer/${id}`))
         .then((response) => {
           if (response.ok) return response.json();

@@ -79,6 +79,7 @@ class GlobeCesiumComponent extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('nextProps', nextProps);
     if (nextProps.basemap !== this.props.basemap ||
       nextProps.contextLayersPulse !== this.props.contextLayersPulse ||
       nextProps.mainLayer !== this.props.mainLayer) {

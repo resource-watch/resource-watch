@@ -7,7 +7,7 @@ import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
 import LayersService from 'services/LayersService';
 
 export const setContextLayers = createAction('layer-pill/setContextLayers');
-export const setActiveLayers = createAction('layer-pill/setActiveLayers');
+export const setContextActiveLayers = createAction('layer-pill/setContextActiveLayers');
 export const setContextLayersLoading = createAction('layer-pill/setContextLayersLoading');
 export const setContextLayersError = createAction('layer-pill/setContextLayersError');
 
@@ -48,5 +48,5 @@ export const toggleContextualLayer = createThunkAction('layer-pill/toggleContext
       newActiveLayers.splice(index, 1);
     }
 
-    dispatch(setActiveLayers(newActiveLayers));
+    dispatch(setContextActiveLayers(newActiveLayers));
   });

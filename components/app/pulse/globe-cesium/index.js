@@ -1,5 +1,6 @@
 import { Component, createElement } from 'react';
 import { connect } from 'react-redux';
+import { activeContextLayers } from './selectors';
 
 import * as actions from './actions';
 import * as reducers from './reducer';
@@ -8,7 +9,7 @@ import initialState from './initial-state';
 import GlobeCesiumComponent from './component';
 
 const mapStateToProps = state => ({
-  contextLayersPulse: state.contextLayersPulse
+  activeContextLayers: activeContextLayers(state)
 });
 
 class GlobeCesiumContainer extends Component {
