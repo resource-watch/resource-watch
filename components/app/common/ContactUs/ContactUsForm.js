@@ -47,7 +47,7 @@ class ContactUsForm extends React.Component {
           body: this.state.form
         })
           .then(() => {
-            this.setState({ submitting: false, submitted: true });
+            this.setState({ submitting: false });
             toastr.success('Success', 'Your message has been sent!');
           })
           .catch(() => {
@@ -62,7 +62,7 @@ class ContactUsForm extends React.Component {
 
   onChange(obj) {
     const form = Object.assign({}, this.state.form, obj);
-    this.setState({ form, submitted: false });
+    this.setState({ form });
   }
 
   render() {
@@ -103,7 +103,7 @@ class ContactUsForm extends React.Component {
           </Field>
 
           <div className="actions-container -align-right">
-            <button type="submit" className={`c-btn -primary ${this.state.submitted ? '-disabled' : null}`} disabled={this.state.submitted}>
+            <button type="submit" className={`c-btn -primary ${submitting ? '-disabled' : null}`} disabled={submitting}>
               {submitting && <Spinner className="-small -transparent -white-icon" isLoading={submitting} />}
               Submit
             </button>
