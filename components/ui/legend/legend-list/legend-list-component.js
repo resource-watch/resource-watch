@@ -28,6 +28,7 @@ class Legend extends PureComponent {
       <ul className="legend-list">
         {items.map((value, index) => (
           <LegendListItem
+            key={index}
             index={index}
             value={value}
             readonly={this.props.readonly}
