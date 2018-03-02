@@ -4,9 +4,9 @@ const nextRoutes = require('next-routes');
 const routes = nextRoutes();
 
 // ========================= ADMIN ROUTES =====================
-routes.add('admin_home', '/admin', 'admin/Data');
+routes.add('admin_home', '/admin', 'admin/data');
 // DATA
-routes.add('admin_data', '/admin/data/:tab?', 'admin/Data');
+routes.add('admin_data', '/admin/data/:tab?', 'admin/data');
 routes.add('admin_data_detail', '/admin/data/:tab/:id/:subtab?', 'admin/DataDetail');
 // DASHBOARDS
 routes.add('admin_dashboards', '/admin/dashboards/:tab?', 'admin/Dashboards');

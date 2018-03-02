@@ -37,6 +37,9 @@ import * as widgetDetail from 'pages/app/widget-detail/widget-detail';
 import * as adminInteractions from 'components/admin/layers/form/interactions';
 import * as adminLayerPreview from 'components/admin/layers/form/layer-preview';
 
+// Admin pages
+import * as adminDataPage from 'pages/admin/data/data-details';
+
 // Widget editor
 import { reducers as widgetEditorModules } from 'widget-editor';
 
@@ -84,6 +87,9 @@ const reducer = combineReducers({
 
   // Widget
   widgetDetail: handleModule(widgetDetail),
+
+  // Admin pages
+  adminDataPage: handleModule(adminDataPage),
 
   // Admin interactions
   interactions: handleModule(adminInteractions),
