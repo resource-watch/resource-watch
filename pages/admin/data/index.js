@@ -11,6 +11,7 @@ import Error from 'pages/_error';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import * as actions from 'pages/admin/data/data-actions';
+import { getWidgets } from 'redactions/admin/widgets';
 
 import DataDetails from 'pages/admin/data/data-details';
 
@@ -23,10 +24,12 @@ class DataPage extends Page {
     const props = await super.getInitialProps(context);
     const { store, res } = context;
 
-    // await store.dispatch(actions.fetchDataset({ id: props.url.query.id }));
+    if (props.url.query.tab === 'widgets') {
+      await store.dispatch(getWidgets());
+    }
+
     return { ...props };
   }
-
 
   componentDidMount() {
     // this.props.fetchTags();
@@ -58,7 +61,8 @@ export default withRedux(
   state => ({
     // Store
     adminDataPage: state.adminDataPage,
-    user: state.user
+    user: state.user,
+    widgets: state.widgets
   }),
   actions
 )(DataPage);

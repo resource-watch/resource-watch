@@ -34,17 +34,6 @@ class WidgetsTable extends React.Component {
     // ----------------------------------------------------
   }
 
-  componentDidMount() {
-    this.props.setFilters([]);
-    // TODO: get filtered widgets
-    this.props.getWidgets({
-      filters: {
-        ...this.props.dataset && { dataset: this.props.dataset },
-        'page[size]': 9999
-      }
-    });
-  }
-
   /**
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
@@ -63,15 +52,14 @@ class WidgetsTable extends React.Component {
    * - getFilteredWidgets
   */
   getWidgets() {
-    return this.props.widgets;
-  }
-
-  getFilteredWidgets() {
-    return this.props.filteredWidgets;
+    return this.props.widgets.list;
   }
 
   render() {
-    const { user, dataset } = this.props;
+    const { user, dataset, widgets } = this.props;
+
+    console.log('widgets table', widgets);
+
     return (
       <div className="c-widgets-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -116,15 +104,15 @@ class WidgetsTable extends React.Component {
               value: 1
             }}
             filters={false}
-            data={this.getFilteredWidgets()}
-            pageSize={20}
+            data={widgets.list}
+            pageSize={widgets.pagination.total}
             onRowDelete={() => this.props.getWidgets({
-              dataset: this.props.dataset
+              dataset
             })}
             pagination={{
               enabled: true,
-              pageSize: 20,
-              page: 0
+              pageSize: widgets.pagination.total,
+              page: widgets.pagination.page
             }}
           />
         )}
@@ -133,23 +121,12 @@ class WidgetsTable extends React.Component {
   }
 }
 
-WidgetsTable.defaultProps = {
-  columns: [],
-  actions: {},
-  dataset: '',
-  // Store
-  widgets: [],
-  filteredWidgets: [],
-  user: {}
-};
-
 WidgetsTable.propTypes = {
   authorization: PropTypes.string,
   dataset: PropTypes.string,
   // Store
   loading: PropTypes.bool.isRequired,
-  widgets: PropTypes.array.isRequired,
-  filteredWidgets: PropTypes.array.isRequired,
+  widgets: PropTypes.object.isRequired,
   error: PropTypes.string,
   user: PropTypes.object,
 
@@ -160,8 +137,7 @@ WidgetsTable.propTypes = {
 
 const mapStateToProps = state => ({
   loading: state.widgets.widgets.loading,
-  widgets: state.widgets.widgets.list,
-  filteredWidgets: getFilteredWidgets(state),
+  widgets: state.widgets.widgets,
   error: state.widgets.widgets.error,
   user: state.user
 });

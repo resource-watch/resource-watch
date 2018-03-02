@@ -7,15 +7,19 @@ import Page from 'components/layout/page';
 import Layout from 'components/layout/layout/layout-app';
 import Tabs from 'components/ui/Tabs';
 
+// Tabs
+import DatasetsTab from 'components/admin/datasets/DatasetsTab';
+import WidgetsTab from 'components/admin/widgets/WidgetsTab';
+import LayersTab from 'components/admin/layers/LayersTab';
+
 class DataPage extends Page {
   static propTypes = {
     adminDataPage: PropTypes.object
   };
 
   render() {
-    console.log('data page', this);
-
     const { url, user, adminDataPage } = this.props;
+    const { tab, subtab, id } = adminDataPage;
 
     return (
       <Layout
@@ -46,7 +50,19 @@ class DataPage extends Page {
           <div className="l-container -admin">
             <div className="row">
               <div className="column small-12">
-                content here
+
+                {tab === 'datasets' &&
+                  <DatasetsTab tab={tab} subtab={subtab} id={id} />
+                }
+
+                {tab === 'widgets' &&
+                  <WidgetsTab tab={tab} subtab={subtab} id={id} />
+                }
+
+                {tab === 'layers' &&
+                  <LayersTab tab={tab} subtab={subtab} id={id} />
+                }
+
               </div>
             </div>
           </div>

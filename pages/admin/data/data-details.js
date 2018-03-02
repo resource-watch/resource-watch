@@ -15,7 +15,8 @@ export default connect(
   state => ({
     // Store
     adminDataPage: state.adminDataPage,
-    user: state.user
+    user: state.user,
+    widgets: state.widgets
   }),
   actions
 )(DataComponent);

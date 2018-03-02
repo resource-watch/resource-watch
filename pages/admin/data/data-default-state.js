@@ -1,9 +1,9 @@
 export default {
-  data: {},
   loading: false,
   error: null,
   tab: 'datasets',
   defaultTab: 'datasets',
+  id: null,
   availableTabs: [
     {
       label: 'Datasets',
