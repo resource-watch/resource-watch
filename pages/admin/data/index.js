@@ -14,28 +14,6 @@ import * as actions from 'pages/admin/data/data-actions';
 
 import DataDetails from 'pages/admin/data/data-details';
 
-// Contants
-const DATA_TABS = [
-  {
-    label: 'Datasets',
-    value: 'datasets',
-    route: 'admin_data',
-    params: { tab: 'datasets' }
-  },
-  {
-    label: 'Widgets',
-    value: 'widgets',
-    route: 'admin_data',
-    params: { tab: 'widgets' }
-  },
-  {
-    label: 'Layers',
-    value: 'layers',
-    route: 'admin_data',
-    params: { tab: 'layers' }
-  }
-];
-
 class DataPage extends Page {
   static propTypes = {
     exploreDetail: PropTypes.object
@@ -54,14 +32,20 @@ class DataPage extends Page {
     // this.props.fetchTags();
   }
 
-  componentWillReceiveProps(nextProps) {
-    /*
-    if (this.props.url.query.id !== nextProps.url.query.id) {
-      window.scrollTo(0, 0);
-      this.props.fetchTags();
-      this.props.setCountView();
+  componentWillMount() {
+    const { url, adminDataPage, setActiveTab } = this.props;
+    if (url.query && url.query.tab !== adminDataPage.defaultTab &&
+       adminDataPage.availableTabs.find(tab => tab.value === url.query.tab)) {
+      setActiveTab(url.query.tab);
     }
-    */
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { adminDataPage, setActiveTab } = this.props;
+    if (nextProps.url.query.tab !== adminDataPage.tab &&
+        adminDataPage.availableTabs.find(tab => tab.value === nextProps.url.query.tab)) {
+      setActiveTab(nextProps.url.query.tab);
+    }
   }
 
   render() {

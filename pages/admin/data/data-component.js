@@ -9,7 +9,7 @@ import Tabs from 'components/ui/Tabs';
 
 class DataPage extends Page {
   static propTypes = {
-    exploreDetail: PropTypes.object
+    adminDataPage: PropTypes.object
   };
 
   render() {

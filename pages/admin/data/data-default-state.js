@@ -3,6 +3,7 @@ export default {
   loading: false,
   error: null,
   tab: 'datasets',
+  defaultTab: 'datasets',
   availableTabs: [
     {
       label: 'Datasets',
