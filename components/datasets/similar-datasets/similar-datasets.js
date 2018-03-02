@@ -16,12 +16,12 @@ class SimilarDatasetsContainer extends Component {
   };
 
   componentDidMount() {
-    this.props.getSimilarDatasets(this.props.datasetIds.join());
+    this.props.getSimilarDatasets(this.props.datasetIds);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.datasetIds !== nextProps.datasetIds) {
-      this.props.getSimilarDatasets(nextProps.datasetIds.join());
+      this.props.getSimilarDatasets(nextProps.datasetIds);
     }
   }
 
