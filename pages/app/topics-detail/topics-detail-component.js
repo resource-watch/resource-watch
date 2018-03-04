@@ -65,9 +65,9 @@ class TopicDetailComponent extends Page {
                   </Title>
 
                   <TopicThumbnailList
-                    onSelect={({ id }) => {
+                    onSelect={({ slug }) => {
                       // We need to make an amendment in the Wysiwyg to have this working
-                      Router.pushRoute('topics_detail', { id })
+                      Router.pushRoute('topics_detail', { id: slug })
                         .then(() => {
                           window.scrollTo(0, 0);
                         });

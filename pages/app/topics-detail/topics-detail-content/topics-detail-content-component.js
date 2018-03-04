@@ -6,7 +6,7 @@ import VizzWysiwyg from 'vizz-wysiwyg';
 import WidgetBlock from 'components/wysiwyg/widget-block/widget-block';
 import WidgetBlockEdition from 'components/wysiwyg/widget-block-edition/widget-block-edition';
 
-export default function TopicDetail({ topic }) {
+export default function TopicDetailComponent({ topic }) {
   let items = [];
 
   try {
@@ -31,10 +31,10 @@ export default function TopicDetail({ topic }) {
   );
 }
 
-TopicDetail.propTypes = {
+TopicDetailComponent.propTypes = {
   topic: PropTypes.object
 };
 
-TopicDetail.defaultProps = {
+TopicDetailComponent.defaultProps = {
   topic: {}
 };

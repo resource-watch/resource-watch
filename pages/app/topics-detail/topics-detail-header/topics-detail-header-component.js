@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 // Utils
@@ -12,7 +12,7 @@ import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 
 // Constants
-class TopicDetailHeader extends PureComponent {
+class TopicDetailHeader extends React.Component {
   static propTypes = {
     topic: PropTypes.object
   }

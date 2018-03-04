@@ -12,7 +12,7 @@ export default function TopicThumbnailList({
       <div className="row l-row -equal-height">
         {
           topics.map(topic => (
-            <div className="column small-12 medium-6 large-3">
+            <div key={topic.slug} className="column small-12 medium-6 large-3">
               <button
                 key={topic.slug}
                 tabIndex="0"
