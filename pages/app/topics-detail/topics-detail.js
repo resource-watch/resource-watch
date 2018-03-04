@@ -1,10 +1,10 @@
 // Redux
 import { connect } from 'react-redux';
-import * as actions from './topic-detail-actions';
-import * as reducers from './topic-detail-reducers';
-import initialState from './topic-detail-default-state';
+import * as actions from './topics-detail-actions';
+import * as reducers from './topics-detail-reducers';
+import initialState from './topics-detail-default-state';
 
-import TopicDetailComponent from './topic-detail-component';
+import TopicDetailComponent from './topics-detail-component';
 
 // Mandatory
 export {

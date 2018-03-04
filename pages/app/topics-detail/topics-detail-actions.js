@@ -26,3 +26,7 @@ export const fetchTopic = createThunkAction('TOPIC-DETAIL/fetchTopic', (payload 
       dispatch(setTopicError(err));
     });
 });
+
+
+// Thumbnail Actions
+export * from 'components/topics/thumbnail-list/actions';

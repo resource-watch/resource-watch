@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import TopicDetailContentComponent from './topic-detail-content-component';
+import TopicDetailHeaderComponent from './topics-detail-header-component';
 
 export default connect(
   state => ({
@@ -8,4 +8,4 @@ export default connect(
     user: state.user
   }),
   null
-)(TopicDetailContentComponent);
+)(TopicDetailHeaderComponent);

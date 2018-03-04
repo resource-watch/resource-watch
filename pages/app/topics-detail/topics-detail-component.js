@@ -2,13 +2,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Router } from 'routes';
+
 // Components
 import Page from 'components/layout/page';
 import Layout from 'components/layout/layout/layout-app';
 
 // Topic Detail Component
-import TopicDetailHeader from 'pages/app/topic-detail/topic-detail-header';
-import TopicDetailContent from 'pages/app/topic-detail/topic-detail-content';
+import TopicDetailHeader from 'pages/app/topics-detail/topics-detail-header';
+import TopicDetailContent from 'pages/app/topics-detail/topics-detail-content';
+import TopicThumbnailList from 'components/topics/thumbnail-list';
+
+import Title from 'components/ui/Title';
 
 class TopicDetailComponent extends Page {
   static propTypes = {
@@ -46,6 +51,28 @@ class TopicDetailComponent extends Page {
               <div className="row">
                 <div className="column small-12">
                   <TopicDetailContent />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="l-section">
+            <div className="l-container">
+              <div className="row">
+                <div className="column small-12">
+                  <Title className="-extrabig -secondary -p-secondary">
+                    Other topics
+                  </Title>
+
+                  <TopicThumbnailList
+                    onSelect={({ id }) => {
+                      // We need to make an amendment in the Wysiwyg to have this working
+                      Router.pushRoute('topics_detail', { id })
+                        .then(() => {
+                          window.scrollTo(0, 0);
+                        });
+                    }}
+                  />
                 </div>
               </div>
             </div>

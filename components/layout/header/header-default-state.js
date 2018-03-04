@@ -23,7 +23,7 @@ export default {
       id: 'topics',
       label: 'Topics',
       route: 'topics',
-      pathnames: ['/app/topic-detail'],
+      pathnames: ['/app/topics', '/app/topics-detail'],
       children: [
         { label: 'Biodiversity', route: 'topics_detail', params: { id: 'biodiversity' } },
         { label: 'Cities', route: 'topics_detail', params: { id: 'cities' } },

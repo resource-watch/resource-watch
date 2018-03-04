@@ -1,4 +1,4 @@
-import * as actions from './topic-detail-actions';
+import * as actions from './topics-detail-actions';
 
 export default {
   [actions.setTopic]: (state, action) =>

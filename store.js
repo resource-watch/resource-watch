@@ -34,7 +34,9 @@ import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-f
 import * as widgetDetail from 'pages/app/widget-detail/widget-detail';
 
 // Topic
-import * as topicDetail from 'pages/app/topic-detail/topic-detail';
+import * as topics from 'pages/app/topics/topics';
+import * as topicDetail from 'pages/app/topics-detail/topics-detail';
+import * as topicThumbnailList from 'components/topics/thumbnail-list';
 
 // Admin Interactions
 import * as adminInteractions from 'components/admin/layers/form/interactions';
@@ -89,7 +91,9 @@ const reducer = combineReducers({
   widgetDetail: handleModule(widgetDetail),
 
   // Topic
+  topics: handleModule(topics),
   topicDetail: handleModule(topicDetail),
+  topicThumbnailList: handleModule(topicThumbnailList),
 
   // Admin interactions
   interactions: handleModule(adminInteractions),

@@ -9,14 +9,13 @@ import Error from 'pages/_error';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import * as actions from 'pages/app/topic-detail/topic-detail-actions';
-import TopicDetail from 'pages/app/topic-detail/topic-detail';
+import * as actions from 'pages/app/topics-detail/topics-detail-actions';
+import TopicDetail from 'pages/app/topics-detail/topics-detail';
 
 class TopicDetailPage extends Page {
   static propTypes = {
     user: PropTypes.object,
-    topicDetail: PropTypes.object,
-    locale: PropTypes.string.isRequired
+    topicDetail: PropTypes.object
   };
 
   static async getInitialProps(context) {
@@ -25,6 +24,13 @@ class TopicDetailPage extends Page {
 
     // Fetch topic
     await store.dispatch(actions.fetchTopic({ id: props.url.query.id }));
+
+    // Dashboard thumbnail list
+    context.store.dispatch(actions.setSelected(props.url.query.id));
+
+    await context.store.dispatch(actions.fetchTopics({
+      filters: { 'filter[published]': 'true' }
+    }));
 
     return { ...props };
   }

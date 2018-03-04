@@ -51,7 +51,8 @@ routes.add('dashboards_detail', '/data/dashboards/:slug', 'app/DashboardsDetail'
 routes.add('widget_detail', '/data/widget/:id', 'app/widget-detail');
 
 // ----- TOPICS -----
-routes.add('topics_detail', '/topics/:id', 'app/topic-detail');
+routes.add('topics', '/topics', 'app/topics');
+routes.add('topics_detail', '/topics/:id', 'app/topics-detail');
 
 // ----- INSIGHTS -----
 routes.add('insights', '/blog', 'app/Insights');
