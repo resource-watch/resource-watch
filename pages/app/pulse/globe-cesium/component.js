@@ -49,6 +49,10 @@ class GlobeCesiumComponent extends PureComponent {
       skyAtmosphere: false
     });
 
+    // Set maximum/minimum zoom values
+    this.viewer.scene.screenSpaceCameraController.maximumZoomDistance = 30000000;
+    this.viewer.scene.screenSpaceCameraController.minimumZoomDistance = 99;
+
     this.imageryLayers = this.viewer.imageryLayers;
 
     this.viewModel = {
@@ -160,7 +164,7 @@ class GlobeCesiumComponent extends PureComponent {
   }
 
   updateLayers(props) {
-    console.log('updateLayers', updateLayers);
+    console.log('updateLayers');
     const {
       basemap,
       activeContextLayers,
