@@ -44,7 +44,6 @@ class SearchListComponent extends React.PureComponent {
             placeholder: 'Search term',
             value: term
           }}
-          escapeText
           onSearch={this.onSearch}
         />
 

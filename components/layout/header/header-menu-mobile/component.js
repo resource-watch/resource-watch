@@ -7,11 +7,13 @@ import { Link } from 'routes';
 
 // Components
 import Icon from 'components/ui/Icon';
+import SearchMobile from 'components/layout/header/search-mobile';
 
 export default class HeaderMenuMobile extends React.PureComponent {
   static propTypes = {
     header: PropTypes.object,
     routes: PropTypes.object,
+
     // Actions
     setMobileOpened: PropTypes.func
   }
@@ -29,7 +31,9 @@ export default class HeaderMenuMobile extends React.PureComponent {
   }
 
   render() {
-    const { header, routes, setMobileOpened } = this.props;
+    const {
+      header, routes, setMobileOpened
+    } = this.props;
 
     const classNames = classnames({
       '-opened': header.mobileOpened
@@ -59,6 +63,8 @@ export default class HeaderMenuMobile extends React.PureComponent {
             >
               <Icon name="icon-cross" className="-smaller" />
             </button>
+
+            <SearchMobile />
 
             <ul>
               {header.items.map((item) => {
@@ -94,7 +100,7 @@ export default class HeaderMenuMobile extends React.PureComponent {
                     {item.children &&
                       <ul>
                         {item.children.map(c => (
-                          <li key={c.route}>
+                          <li key={c.label}>
                             {!!c.route &&
                               <Link
                                 route={c.route}
