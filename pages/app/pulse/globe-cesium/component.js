@@ -153,7 +153,6 @@ class GlobeCesiumComponent extends PureComponent {
 
   updateLayers(props) {
     const { basemap, activeContextLayers, mainLayer } = props;
-    console.log('activeContextLayers', activeContextLayers);
 
     if (basemap) {
       const basemapFound = this.baseLayers.find(l => l.name === basemap.name);
