@@ -160,6 +160,7 @@ class GlobeCesiumComponent extends PureComponent {
   }
 
   updateLayers(props) {
+    console.log('updateLayers', updateLayers);
     const {
       basemap,
       activeContextLayers,
