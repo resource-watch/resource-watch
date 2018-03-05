@@ -65,7 +65,7 @@ class GlobeCesiumComponent extends PureComponent {
         this.imageryLayers.raise(layer);
         this.viewModel.upLayer = layer;
         this.viewModel.downLayer = this.viewModel.layers[Math.max(0, index - 1)];
-        this.updateLayerList();
+        this.updateLayers();
         window.setTimeout(() => {
           this.viewModel.upLayer = null;
           this.viewModel.downLayer = null;
@@ -76,7 +76,7 @@ class GlobeCesiumComponent extends PureComponent {
         this.viewModel.upLayer =
           this.viewModel.layers[Math.min(this.viewModel.layers.length - 1, index + 1)];
         this.viewModel.downLayer = layer;
-        this.updateLayerList();
+        this.updateLayers();
         window.setTimeout(() => {
           this.viewModel.upLayer = null;
           this.viewModel.downLayer = null;
@@ -251,7 +251,7 @@ class GlobeCesiumComponent extends PureComponent {
       this.removeBasemap();
       this.addAdditionalLayerOption(
         basemap.name,
-        new Cesium.UrlTemplateImageryProvider({ url: basemap.url })
+        new Cesium.UrlTemplateImageryProvider({ url: basemap.url }), 1, true
       );
     }
 
