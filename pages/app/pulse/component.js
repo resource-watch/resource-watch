@@ -265,7 +265,7 @@ class Pulse extends Page {
           />
           <LayerCard />
           <Spinner
-            isLoading={this.state.loading}
+            isLoading={this.state.loading || layerMenuPulse.loading}
           />
           <GlobeCesium
             basemap={basemap}
