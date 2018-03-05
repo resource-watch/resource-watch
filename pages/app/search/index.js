@@ -20,10 +20,14 @@ class SearchPage extends Page {
 
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
+    const { term, page } = props.url.query;
 
-    if (props.url.query.term) {
-      context.store.dispatch(actions.setSearchTerm(props.url.query.term));
+    if (page) {
+      context.store.dispatch(actions.setSearchPage(page));
+    }
 
+    if (term) {
+      context.store.dispatch(actions.setSearchTerm(term));
       await context.store.dispatch(actions.fetchSearch());
     }
 

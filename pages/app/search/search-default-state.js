@@ -4,6 +4,6 @@ export default {
   error: null,
   term: '',
   page: 1,
-  total: null,
+  total: 0,
   limit: 10
 };

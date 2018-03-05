@@ -12,7 +12,7 @@ import SearchList from './search-list';
 class SearchComponent extends React.PureComponent {
   static propTypes = {
     term: PropTypes.string,
-    loading: PropTypes.boolean
+    loading: PropTypes.bool
   }
 
   render() {
