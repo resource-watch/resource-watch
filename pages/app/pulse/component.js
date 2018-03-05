@@ -271,6 +271,7 @@ class Pulse extends Page {
             basemap={basemap}
             zoom={zoom}
             mainLayer={texture}
+            contextLayersOnTop={layerActive && layerActive.contextLayersOnTop}
           />
           <ZoomControl
             onZoomIn={this.triggerZoomIn}

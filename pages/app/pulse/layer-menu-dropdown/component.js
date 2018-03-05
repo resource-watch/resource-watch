@@ -19,7 +19,7 @@ class LayerMenuDropdownComponent extends PureComponent {
 
   triggerClick(layer) {
     const {
-      id, markerType, basemap, contextLayers, descriptionPulse
+      id, markerType, basemap, contextLayers, descriptionPulse, contextLayersOnTop
     } = layer;
     this.props.resetLayerPoints();
     this.props.toggleActiveLayer({
@@ -28,7 +28,8 @@ class LayerMenuDropdownComponent extends PureComponent {
       markerType,
       basemap,
       contextLayers,
-      descriptionPulse
+      descriptionPulse,
+      contextLayersOnTop
     });
     logEvent('Planet Pulse', 'Choose layer to view', layer.label);
   }

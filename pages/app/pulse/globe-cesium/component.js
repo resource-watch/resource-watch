@@ -152,7 +152,12 @@ class GlobeCesiumComponent extends PureComponent {
   }
 
   updateLayers(props) {
-    const { basemap, activeContextLayers, mainLayer } = props;
+    const {
+      basemap,
+      activeContextLayers,
+      mainLayer,
+      contextLayersOnTop
+    } = props;
 
     if (basemap) {
       const basemapFound = this.baseLayers.find(l => l.name === basemap.name);
@@ -169,16 +174,25 @@ class GlobeCesiumComponent extends PureComponent {
       }
     }
 
-    activeContextLayers.forEach(l => this.addAdditionalLayerOption(
-      l.id,
-      new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
-    ));
+    if (!contextLayersOnTop) {
+      activeContextLayers.forEach(l => this.addAdditionalLayerOption(
+        l.id,
+        new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
+      ));
+    }
 
     if (mainLayer) {
       // Remove previous mainLayer
       this.removeMainLayer();
 
       this.addAdditionalLayerOption('mainLayer', new Cesium.UrlTemplateImageryProvider({ url: mainLayer }), 1, true);
+    }
+
+    if (contextLayersOnTop) {
+      activeContextLayers.forEach(l => this.addAdditionalLayerOption(
+        l.id,
+        new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
+      ));
     }
 
     const numContextLayers = this.imageryLayers.length;
@@ -305,6 +319,7 @@ class GlobeCesiumComponent extends PureComponent {
 GlobeCesiumComponent.propTypes = {
   basemap: PropTypes.object,
   activeContextLayers: PropTypes.array,
+  contextLayersOnTop: PropTypes.bool,
   mainLayer: PropTypes.object
 };
 

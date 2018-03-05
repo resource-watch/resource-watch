@@ -17,7 +17,8 @@ export const toggleActiveLayer = createThunkAction('layer-menu-dropdown/toggleAc
   markerType,
   basemap,
   contextLayers,
-  descriptionPulse
+  descriptionPulse,
+  contextLayersOnTop
 }) =>
   (dispatch) => {
     if (id) {
@@ -34,6 +35,7 @@ export const toggleActiveLayer = createThunkAction('layer-menu-dropdown/toggleAc
           const layer = response.data;
           layer.threedimensional = threedimensional;
           layer.markerType = markerType;
+          layer.contextLayersOnTop = contextLayersOnTop;
           layer.basemap = basemap;
           layer.contextLayers = [];
           layer.descriptionPulse = descriptionPulse;
