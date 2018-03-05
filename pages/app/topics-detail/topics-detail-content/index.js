@@ -4,7 +4,7 @@ import TopicDetailContentComponent from './topics-detail-content-component';
 
 export default connect(
   state => ({
-    topic: state.topicDetail.data,
+    topic: state.topicsDetail.data,
     user: state.user
   }),
   null

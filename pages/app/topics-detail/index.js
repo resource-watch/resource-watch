@@ -15,7 +15,7 @@ import TopicDetail from 'pages/app/topics-detail/topics-detail';
 class TopicDetailPage extends Page {
   static propTypes = {
     user: PropTypes.object,
-    topicDetail: PropTypes.object
+    topicsDetail: PropTypes.object
   };
 
   static async getInitialProps(context) {
@@ -43,10 +43,10 @@ class TopicDetailPage extends Page {
 
   render() {
     const {
-      topicDetail
+      topicsDetail
     } = this.props;
 
-    if (!topicDetail) return <Error status={404} />;
+    if (!topicsDetail) return <Error status={404} />;
 
     return <TopicDetail />;
   }
@@ -56,7 +56,7 @@ export default withRedux(
   initStore,
   state => ({
     // Store
-    topicDetail: state.topicDetail
+    topicsDetail: state.topicsDetail
   }),
   actions
 )(TopicDetailPage);

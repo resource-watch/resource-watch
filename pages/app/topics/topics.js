@@ -14,7 +14,7 @@ export {
 export default connect(
   state => ({
     // Store
-    topics: state.topics
+    topics: state.topicsIndex
   }),
   actions
 )(TopicsComponent);

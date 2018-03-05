@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { Router } from 'routes';
 
 // Components
-import Page from 'components/layout/page';
 import Layout from 'components/layout/layout/layout-app';
 
 // Topic Detail Component
@@ -15,17 +14,17 @@ import TopicThumbnailList from 'components/topics/thumbnail-list';
 
 import Title from 'components/ui/Title';
 
-class TopicDetailComponent extends Page {
+class TopicDetailComponent extends React.Component {
   static propTypes = {
-    topicDetail: PropTypes.object
+    topicsDetail: PropTypes.object
   };
 
   render() {
     const {
-      topicDetail
+      topicsDetail
     } = this.props;
 
-    const { data: topic } = topicDetail;
+    const { data: topic } = topicsDetail;
 
     return (
       <Layout

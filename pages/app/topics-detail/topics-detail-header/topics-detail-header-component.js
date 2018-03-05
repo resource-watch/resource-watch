@@ -32,7 +32,9 @@ class TopicDetailHeader extends React.Component {
       <div className="page-header-content">
         <h1>{topic.name}</h1>
 
-        <h3>{topic.description}</h3>
+        {topic.summary &&
+          <h3>{topic.summary}</h3>
+        }
 
         <div className="page-header-info">
           <ul>

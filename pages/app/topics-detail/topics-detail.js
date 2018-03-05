@@ -4,7 +4,7 @@ import * as actions from './topics-detail-actions';
 import * as reducers from './topics-detail-reducers';
 import initialState from './topics-detail-default-state';
 
-import TopicDetailComponent from './topics-detail-component';
+import TopicsDetailComponent from './topics-detail-component';
 
 // Mandatory
 export {
@@ -14,7 +14,7 @@ export {
 export default connect(
   state => ({
     // Store
-    topicDetail: state.topicDetail
+    topicsDetail: state.topicsDetail
   }),
   actions
-)(TopicDetailComponent);
+)(TopicsDetailComponent);

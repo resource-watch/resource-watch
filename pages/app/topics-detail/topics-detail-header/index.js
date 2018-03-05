@@ -4,7 +4,7 @@ import TopicDetailHeaderComponent from './topics-detail-header-component';
 
 export default connect(
   state => ({
-    topic: state.topicDetail.data,
+    topic: state.topicsDetail.data,
     user: state.user
   }),
   null
