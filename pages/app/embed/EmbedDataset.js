@@ -103,7 +103,7 @@ class EmbedDataset extends Page {
             <div className="widget-content">
               <VegaChart
                 data={widget.attributes.widgetConfig}
-                theme={getVegaTheme(true)}
+                theme={getVegaTheme()}
                 toggleLoading={this.triggerToggleLoading}
                 reloadOnResize
               />

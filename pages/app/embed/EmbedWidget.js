@@ -218,7 +218,7 @@ class EmbedWidget extends Page {
           <div className="widget-content">
             <VegaChart
               data={widget.attributes.widgetConfig}
-              theme={getVegaTheme(true)}
+              theme={getVegaTheme()}
               toggleLoading={l => this.setState({ isLoading: l })}
               reloadOnResize
             />

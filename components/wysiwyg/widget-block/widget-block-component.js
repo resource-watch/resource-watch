@@ -118,7 +118,7 @@ export default function WidgetBlock({
         {!widgetError && widgetType === 'vega' && widget.widgetConfig && widget &&
           <VegaChart
             data={widget.widgetConfig}
-            theme={getVegaTheme(true)}
+            theme={getVegaTheme()}
             toggleLoading={loading => onToggleLoading(loading)}
             reloadOnResize
           />

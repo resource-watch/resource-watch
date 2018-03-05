@@ -307,7 +307,7 @@ class Step1 extends React.Component {
             <Spinner isLoading={loadingVegaChart} className="-light -relative" />
             <VegaChart
               data={this.state.form.widgetConfig}
-              theme={getVegaTheme(true)}
+              theme={getVegaTheme()}
               showLegend
               reloadOnResize
               toggleLoading={this.triggerToggleLoadingVegaChart}
