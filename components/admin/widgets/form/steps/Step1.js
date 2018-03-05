@@ -15,13 +15,11 @@ import Select from 'components/form/SelectInput';
 import Code from 'components/form/Code';
 import Checkbox from 'components/form/Checkbox';
 import SwitchOptions from 'components/ui/SwitchOptions';
-import VegaChart from 'components/widgets/charts/VegaChart';
 import Spinner from 'components/ui/Spinner';
 
-import WidgetEditor from 'widget-editor';
+// Widget editor
+import WidgetEditor, { VegaChart, getVegaTheme } from 'widget-editor';
 
-// Utils
-import ChartTheme from 'utils/widgets/theme';
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -283,7 +281,7 @@ class Step1 extends React.Component {
                   <Spinner isLoading={loadingVegaChart} className="-light -relative" />
                   <VegaChart
                     data={this.state.form.widgetConfig}
-                    theme={ChartTheme()}
+                    theme={getVegaTheme(true)}
                     showLegend
                     reloadOnResize
                     toggleLoading={this.triggerToggleLoadingVegaChart}
@@ -309,7 +307,7 @@ class Step1 extends React.Component {
             <Spinner isLoading={loadingVegaChart} className="-light -relative" />
             <VegaChart
               data={this.state.form.widgetConfig}
-              theme={ChartTheme()}
+              theme={getVegaTheme(true)}
               showLegend
               reloadOnResize
               toggleLoading={this.triggerToggleLoadingVegaChart}

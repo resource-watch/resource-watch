@@ -13,10 +13,11 @@ import { setEmbed } from 'redactions/common';
 // Components
 import Page from 'components/layout/page';
 import LayoutEmbed from 'components/layout/layout/layout-embed';
-import VegaChart from 'components/widgets/charts/VegaChart';
 import Spinner from 'components/ui/Spinner';
-import ChartTheme from 'utils/widgets/theme';
 import Icon from 'components/ui/Icon';
+
+// Widget editor
+import { VegaChart, getVegaTheme } from 'widget-editor';
 
 class EmbedWidget extends Page {
   static async getInitialProps(context) {
@@ -217,7 +218,7 @@ class EmbedWidget extends Page {
           <div className="widget-content">
             <VegaChart
               data={widget.attributes.widgetConfig}
-              theme={ChartTheme()}
+              theme={getVegaTheme(true)}
               toggleLoading={l => this.setState({ isLoading: l })}
               reloadOnResize
             />
