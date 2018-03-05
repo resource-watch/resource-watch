@@ -49,7 +49,8 @@ class DatasetsTable extends React.Component {
   }
 
   getDatasets() {
-    return this.props.datasets.list
+    const { adminDataPage } = this.props;
+    return adminDataPage.datasets.datasets
       .map((d) => {
         const user = d.user || {};
 
@@ -70,7 +71,8 @@ class DatasetsTable extends React.Component {
       routes,
       getDatasetsFilters,
       error,
-      loading
+      loading,
+      adminDataPage
     } = this.props;
 
     return (
@@ -155,7 +157,7 @@ DatasetsTable.propTypes = {
   // Store
   user: PropTypes.object,
   loading: PropTypes.bool.isRequired,
-  datasets: PropTypes.object.isRequired,
+  adminDataPage: PropTypes.object.isRequired,
   error: PropTypes.string,
 
   // Actions
@@ -167,6 +169,7 @@ const mapStateToProps = state => ({
   user: state.user,
   loading: state.datasets.datasets.loading,
   datasets: state.datasets.datasets,
+  adminDataPage: state.adminDataPage,
   error: state.datasets.datasets.error
 });
 const mapDispatchToProps = {
