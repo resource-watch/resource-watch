@@ -5,7 +5,15 @@ export default {
   defaultTab: 'datasets',
   id: null,
   subtab: null,
-  datasets: {},
+  datasets: {
+    activePage: 1,
+    list: [],
+    pagination: {
+      size: 20,
+      total: null,
+      limit: 20
+    }
+  },
   availableTabs: [
     {
       label: 'Datasets',

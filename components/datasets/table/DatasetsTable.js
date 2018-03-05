@@ -50,7 +50,9 @@ class DatasetsTable extends React.Component {
 
   getDatasets() {
     const { adminDataPage } = this.props;
-    return adminDataPage.datasets.datasets
+    const { datasets } = adminDataPage;
+
+    return datasets.list
       .map((d) => {
         const user = d.user || {};
 
@@ -129,7 +131,8 @@ class DatasetsTable extends React.Component {
             pagination={{
               enabled: true,
               pageSize: 20,
-              page: 0
+              items: adminDataPage.datasets.pagination.total,
+              page: adminDataPage.datasets.activePage - 1
             }}
           />
         )}

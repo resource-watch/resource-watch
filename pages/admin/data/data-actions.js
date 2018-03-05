@@ -16,17 +16,19 @@ export const setError = createAction('ADMIN_DATA_PAGE/setError');
 
 export const setWidgets = createAction('ADMIN_DATA_PAGE/setWidgets');
 
-export const getDatasets = createThunkAction('ADMIN_DATA_PAGE/getDatasets', () =>
+export const getDatasets = createThunkAction('ADMIN_DATA_PAGE/getDatasets', page =>
   (dispatch, getState) => {
-    const { user } = getState();
+    const { user, adminDataPage } = getState();
 
     const qParams = queryString.stringify({
       application: process.env.APPLICATIONS,
       env: process.env.API_ENV,
+      'page[size]': 20,
+      'page[number]': page || 1,
       includes: 'widget,layer,metadata,vocabulary,user'
     });
 
-    fetch(`${process.env.WRI_API_URL}/dataset?${qParams}`, {
+    return fetch(`${process.env.WRI_API_URL}/dataset?${qParams}`, {
       headers: {
         Authorization: user.token
       }
@@ -41,9 +43,15 @@ export const getDatasets = createThunkAction('ADMIN_DATA_PAGE/getDatasets', () =
       };
       throw errorObject;
     })
-      .then(({ data, meta }) => {
-        const datasets = data.map(dataset => ({ ...dataset.attributes, id: dataset.id }));
-        dispatch(setDatasets({ datasets: sortBy(datasets, 'name'), pagination: meta }));
+      .then((res) => {
+        const { data, meta } = res;
+        const list = data && data.length ?
+          data.map(dataset => ({ ...dataset.attributes, id: dataset.id })) : [];
+        dispatch(setDatasets({
+          list,
+          activePage: adminDataPage.datasets.activePage,
+          pagination: { size: meta.size, total: meta['total-items'], limit: meta['total-pages'] }
+        }));
       })
-      .catch(errors => errors);
+      .catch(errors => console.error(errors));
   });

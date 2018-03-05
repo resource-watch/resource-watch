@@ -11,13 +11,17 @@ export default class TableFooter extends React.Component {
 
   render() {
     const { pagination, showTotalPages } = this.props;
-    const maxPage = Math.ceil(pagination.total / pagination.pageSize) || 1;
+
+    console.log('pagination', pagination);
+
+    const maxPage = Math.ceil((pagination.items || pagination.total) / pagination.pageSize) || 1;
+
     return (
       <div className="table-footer">
         <Paginator
           options={{
             page: pagination.page + 1,
-            size: pagination.total,
+            size: pagination.items || pagination.total,
             limit: pagination.pageSize
           }}
           onChange={page => this.onChangePage(page)}

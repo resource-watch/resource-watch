@@ -19,7 +19,9 @@ class DataPage extends Page {
     const props = await super.getInitialProps(context);
     const { store } = context;
 
-    await store.dispatch(actions.getDatasets());
+    if (!props.url.query.tab || props.url.query.tab === 'datasets') {
+      await store.dispatch(actions.getDatasets());
+    }
 
     if (props.url.query.tab === 'widgets') {
       await store.dispatch(getWidgets({
