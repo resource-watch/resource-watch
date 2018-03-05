@@ -29,6 +29,19 @@ const tone_2orMoreColor = '#fef0d9'; // eslint-disable-line camelcase
 //----------------------------------------------------------
 
 class GlobeCesiumComponent extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      billboardHover: false
+    };
+
+    // Bindings
+    this.onMouseClick = this.onMouseClick.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
+    this.onMouseDown = this.onMouseDown.bind(this);
+  }
+
   componentDidMount() {
     // Init Cesium var
     Cesium = window.Cesium; // eslint-disable-line prefer-destructuring
@@ -128,6 +141,11 @@ class GlobeCesiumComponent extends PureComponent {
       nextProps.mainLayer !== this.props.mainLayer) {
       this.updateLayers(nextProps);
     }
+    if (nextProps.layerPoints !== this.props.layerPoints) {
+      if (this.props.layerPoints.length > 0) {
+        this.createShapes(this.getShapes());
+      }
+    }
   }
 
   onMouseClick(click) {
@@ -148,7 +166,6 @@ class GlobeCesiumComponent extends PureComponent {
       });
       this.props.onBillboardClick(pickedFeature);
     }
-    this.setState({ clickedPosition: click.position });
   }
 
   onMouseDown(click) {
@@ -158,7 +175,6 @@ class GlobeCesiumComponent extends PureComponent {
         viewer: this.viewer
       });
     }
-    this.setState({ clickedPosition: click.position });
   }
 
   onMouseMove(mouse) {
@@ -183,11 +199,11 @@ class GlobeCesiumComponent extends PureComponent {
       }
       this.setState({ billboardHover: false });
     }
-
-    this.setState({ hoverPosition: mouse.startPosition });
   }
 
-  getShapes(layerPoints, markerType) {
+  getShapes() {
+    const { layerActive, layerPoints } = this.props;
+    const { markerType } = layerActive;
     let shapes = [];
     if (layerPoints) {
       shapes = compact(layerPoints.map((elem) => {
@@ -385,14 +401,12 @@ class GlobeCesiumComponent extends PureComponent {
   }
 
   createShapes(shapes) {
-    const { viewer } = this.state;
-
-    if (shapes && viewer) {
-      viewer.entities.removeAll();
+    if (shapes) {
+      this.viewer.entities.removeAll();
       shapes.forEach((shape) => {
         if (shape.type === 'billboard') {
           const position = Cesium.Cartesian3.fromDegrees(shape.lon, shape.lat);
-          viewer.entities.add({
+          this.viewer.entities.add({
             position,
             billboard: {
               image: shape.image
@@ -404,7 +418,7 @@ class GlobeCesiumComponent extends PureComponent {
           });
         } else if (shape.type === 'cylinder') {
           const position = Cesium.Cartesian3.fromDegrees(shape.lon, shape.lat, shape.height * 0.5);
-          viewer.entities.add({
+          this.viewer.entities.add({
             position,
             cylinder: {
               length: shape.height,
@@ -442,6 +456,8 @@ GlobeCesiumComponent.propTypes = {
   activeContextLayers: PropTypes.array,
   contextLayersOnTop: PropTypes.bool,
   mainLayer: PropTypes.object,
+  layerPoints: PropTypes.array,
+  layerActive: PropTypes.object,
 
   // Callbacks
   onClick: PropTypes.func,
