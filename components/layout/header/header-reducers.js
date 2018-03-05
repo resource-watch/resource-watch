@@ -8,7 +8,7 @@ export default {
     ({
       ...state,
       dropdownOpened: {
-        ...{ data: false, about: false, myrw: false },
+        ...{ data: false, about: false, myrw: false, topics: false },
         ...action.payload
       }
     }),

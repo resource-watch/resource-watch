@@ -11,6 +11,12 @@ export default {
       pathnames: ['/admin/Data', '/admin/DataDetail']
     },
     {
+      id: 'topics',
+      label: 'Topics',
+      route: 'admin_topics',
+      pathnames: ['/admin/Topics', '/admin/TopicsDetail']
+    },
+    {
       id: 'dashboards',
       label: 'Dashboards',
       route: 'admin_dashboards',

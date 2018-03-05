@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import * as actions from '../header-actions';
 
-import HeaderSearchComponent from './header-search-component';
+import HeaderSearchComponent from './component';
 
 export default connect(
   state => ({

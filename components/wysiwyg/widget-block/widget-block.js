@@ -21,25 +21,24 @@ class WidgetBlock extends React.Component {
   static propTypes = {
     item: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
-    user: PropTypes.object,
+
     // Redux
     setWidgetLoading: PropTypes.func.isRequired,
     setWidgetModal: PropTypes.func.isRequired,
     removeWidget: PropTypes.func.isRequired,
-    setLayers: PropTypes.func.isRequired,
-    toggleFavourite: PropTypes.func.isRequired
+    setLayers: PropTypes.func.isRequired
   };
 
-  async componentWillMount() {
+  componentWillMount() {
     if (this.props.item.content.widgetId) {
-      await this.triggerFetch(this.props);
+      this.triggerFetch(this.props);
       this.setFavourite(this.props);
     }
   }
 
-  async componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.item.content.widgetId !== this.props.item.content.widgetId) {
-      await this.triggerFetch(nextProps);
+      this.triggerFetch(nextProps);
       this.setFavourite(nextProps);
     }
   }
@@ -74,50 +73,44 @@ class WidgetBlock extends React.Component {
   })
 
   render() {
-    return createElement(WidgetBlockComponent, {
-      onToggleModal: (modal) => {
-        const { item } = this.props;
+    return (
+      <WidgetBlockComponent
+        onToggleModal={(modal) => {
+          const { item } = this.props;
 
-        this.props.setWidgetModal({
-          id: `${item.content.widgetId}/${item.id}`,
-          value: modal
-        });
-      },
-      onToggleLoading: (loading) => {
-        const { item } = this.props;
+          this.props.setWidgetModal({
+            id: `${item.content.widgetId}/${item.id}`,
+            value: modal
+          });
+        }}
+        onToggleLoading={(loading) => {
+          const { item } = this.props;
 
-        this.props.setWidgetLoading({
-          id: `${item.content.widgetId}/${item.id}`,
-          value: loading
-        });
-      },
-      onToggleFavourite: (favourite, widget) => {
-        const { item } = this.props;
+          this.props.setWidgetLoading({
+            id: `${item.content.widgetId}/${item.id}`,
+            value: loading
+          });
+        }}
+        onToggleLayerGroupVisibility={(layerGroup) => {
+          const { data, item } = this.props;
+          const layers = [...data[`${item.content.widgetId}/${item.id}`].layers];
 
-        this.props.toggleFavourite({
-          id: `${item.content.widgetId}/${item.id}`,
-          favourite,
-          widget
-        });
-      },
-      onToggleLayerGroupVisibility: (layerGroup) => {
-        const { data, item } = this.props;
-        const layers = [...data[`${item.content.widgetId}/${item.id}`].layers];
+          const layerGroups = layers.map((l) => {
+            if (l.dataset !== layerGroup.dataset) return l;
+            return Object.assign({}, l, { visible: !layerGroup.visible });
+          });
 
-        const layerGroups = layers.map((l) => {
-          if (l.dataset !== layerGroup.dataset) return l;
-          return Object.assign({}, l, { visible: !layerGroup.visible });
-        });
-
-        this.props.setLayers({
-          id: `${item.content.widgetId}/${item.id}`,
-          value: layerGroups
-        });
-      },
-      ...this.props
-    });
+          this.props.setLayers({
+            id: `${item.content.widgetId}/${item.id}`,
+            value: layerGroups
+          });
+        }}
+        {...this.props}
+      />
+    );
   }
 }
+
 export default connect(
   state => ({
     data: state.widgetBlock,

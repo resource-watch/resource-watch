@@ -16,7 +16,7 @@ export default function WidgetBlockEdition({
   onChangeSearch
 }) {
   return (
-    <div className="c-dashboard-widget-edition">
+    <div className="c-topic-widget-edition">
       <div className="l-page">
         <div className="c-page-header -admin">
           <div className="l-container">

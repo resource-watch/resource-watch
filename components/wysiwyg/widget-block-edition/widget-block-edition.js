@@ -61,26 +61,28 @@ class WidgetBlockEdition extends React.Component {
   }
 
   render() {
-    return createElement(WidgetBlockEditionComponent, {
-      onSelectWidget: (widget) => {
-        this.props.onSubmit({
-          widgetId: widget.id,
-          datasetId: widget.dataset,
-          categories: []
-        });
-      },
-      onChangeTab: (tab) => {
-        this.props.setTab(tab);
-        this.props.setPage(1);
-      },
-      onChangePage: (page) => {
-        this.props.setPage(page);
-      },
-      onChangeSearch: debounce((search) => {
-        this.props.setSearch(search);
-      }, 250),
-      ...this.props
-    });
+    return (
+      <WidgetBlockEditionComponent
+        onSelectWidget={(widget) => {
+          this.props.onSubmit({
+            widgetId: widget.id,
+            datasetId: widget.dataset,
+            categories: []
+          });
+        }}
+        onChangeTab={(tab) => {
+          this.props.setTab(tab);
+          this.props.setPage(1);
+        }}
+        onChangePage={(page) => {
+          this.props.setPage(page);
+        }}
+        onChangeSearch={debounce((search) => {
+          this.props.setSearch(search);
+        }, 250)}
+        {...this.props}
+      />
+    );
   }
 }
 export default connect(

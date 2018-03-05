@@ -19,8 +19,8 @@ import * as shareModal from 'components/modal/share-modal';
 // Dashboard
 import * as dashboardDetail from 'components/dashboards/detail/dashboard-detail';
 import * as dashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
-import * as widgetBlockModule from 'components/dashboards/wysiwyg/widget-block/widget-block';
-import * as widgetBlockEditionModule from 'components/dashboards/wysiwyg/widget-block-edition/widget-block-edition';
+import * as widgetBlockModule from 'components/wysiwyg/widget-block/widget-block';
+import * as widgetBlockEditionModule from 'components/wysiwyg/widget-block-edition/widget-block-edition';
 
 // Dataset
 import * as similarDatasets from 'components/datasets/similar-datasets/similar-datasets';
@@ -32,6 +32,11 @@ import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-f
 
 // Widget
 import * as widgetDetail from 'pages/app/widget-detail/widget-detail';
+
+// Topic
+import * as topicsIndex from 'pages/app/topics/topics';
+import * as topicsDetail from 'pages/app/topics-detail/topics-detail';
+import * as topicThumbnailList from 'components/topics/thumbnail-list';
 
 // Admin Interactions
 import * as adminInteractions from 'components/admin/layers/form/interactions';
@@ -84,6 +89,11 @@ const reducer = combineReducers({
 
   // Widget
   widgetDetail: handleModule(widgetDetail),
+
+  // Topic
+  topicsIndex: handleModule(topicsIndex),
+  topicsDetail: handleModule(topicsDetail),
+  topicThumbnailList: handleModule(topicThumbnailList),
 
   // Admin interactions
   interactions: handleModule(adminInteractions),
