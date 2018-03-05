@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 
 // Redux
 import { connect } from 'react-redux';
-import { getDatasets, setFilters } from 'redactions/admin/datasets';
+import { setFilters } from 'redactions/admin/datasets';
 
-// Selectors
-import getFilteredDatasets from 'selectors/admin/datasets';
+import { changeDatasetPage } from 'pages/admin/data/data-actions';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -48,7 +47,7 @@ class DatasetsTable extends React.Component {
     }
   }
 
-  getDatasets() {
+  getFilteredDatasets() {
     const { adminDataPage } = this.props;
     const { datasets } = adminDataPage;
 
@@ -71,12 +70,10 @@ class DatasetsTable extends React.Component {
   render() {
     const {
       routes,
-      getDatasetsFilters,
       error,
       loading,
       adminDataPage
     } = this.props;
-
     return (
       <div className="c-dataset-table">
         <Spinner className="-light" isLoading={loading} />
@@ -122,12 +119,10 @@ class DatasetsTable extends React.Component {
               value: -1
             }}
             filters={false}
-            data={this.getDatasets()}
-            onRowDelete={() => this.props.getDatasets({
-              includes: 'widget,layer,metadata,vocabulary,user',
-              filters: getDatasetsFilters
-            })}
+            data={this.getFilteredDatasets()}
+            onRowDelete={() => this.props.changeDatasetPage()}
             pageSize={20}
+            onChangePage={page => this.props.changeDatasetPage(page + 1)}
             pagination={{
               enabled: true,
               pageSize: 20,
@@ -146,11 +141,7 @@ DatasetsTable.defaultProps = {
     index: '',
     detail: ''
   },
-  columns: [],
-  actions: {},
-  getDatasetsFilters: {},
-  // Store
-  datasets: []
+  getDatasetsFilters: {}
 };
 
 DatasetsTable.propTypes = {
@@ -164,7 +155,7 @@ DatasetsTable.propTypes = {
   error: PropTypes.string,
 
   // Actions
-  getDatasets: PropTypes.func.isRequired,
+  changeDatasetPage: PropTypes.func,
   setFilters: PropTypes.func.isRequired
 };
 
@@ -175,9 +166,10 @@ const mapStateToProps = state => ({
   adminDataPage: state.adminDataPage,
   error: state.datasets.datasets.error
 });
+
 const mapDispatchToProps = {
-  getDatasets,
-  setFilters
+  setFilters,
+  changeDatasetPage
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetsTable);

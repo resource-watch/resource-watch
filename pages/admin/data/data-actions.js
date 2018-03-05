@@ -3,14 +3,13 @@ import { createAction, createThunkAction } from 'redux-tools';
 import * as queryString from 'query-string';
 import WRISerializer from 'wri-json-api-serializer';
 
-import sortBy from 'lodash/sortBy';
-
 export const setActiveTab = createAction('ADMIN_DATA_PAGE/setActiveTab');
 
 export const setPageParams = createAction('ADMIN_DATA_PAGE/setPageParams');
 
 export const setPagination = createAction('ADMIN_DATA_PAGE/setPagination');
 export const setDatasets = createAction('ADMIN_DATA_PAGE/setDatasets');
+export const changeDatasetPage = createAction('ADMIN_DATA_PAGE/changeDatasetPage');
 
 export const setError = createAction('ADMIN_DATA_PAGE/setError');
 
@@ -49,7 +48,7 @@ export const getDatasets = createThunkAction('ADMIN_DATA_PAGE/getDatasets', page
           data.map(dataset => ({ ...dataset.attributes, id: dataset.id })) : [];
         dispatch(setDatasets({
           list,
-          activePage: adminDataPage.datasets.activePage,
+          activePage: page || adminDataPage.datasets.activePage,
           pagination: { size: meta.size, total: meta['total-items'], limit: meta['total-pages'] }
         }));
       })

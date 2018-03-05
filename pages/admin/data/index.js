@@ -52,7 +52,13 @@ class DataPage extends Page {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { adminDataPage, setActiveTab, setPageParams } = this.props;
+    const {
+      adminDataPage,
+      setActiveTab,
+      setPageParams,
+      getDatasets
+    } = this.props;
+
     if (nextProps.url.query.tab !== adminDataPage.tab &&
         adminDataPage.availableTabs.find(tab => tab.value === nextProps.url.query.tab)) {
       setActiveTab(nextProps.url.query.tab);
@@ -61,6 +67,10 @@ class DataPage extends Page {
     if (nextProps.url.query.id !== adminDataPage.id ||
         nextProps.url.query.subtab !== adminDataPage.subtab) {
       setPageParams({ id: nextProps.url.query.id, subtab: nextProps.url.query.subtab });
+    }
+
+    if (adminDataPage.datasets.activePage !== nextProps.adminDataPage.datasets.activePage) {
+      getDatasets(nextProps.adminDataPage.datasets.activePage);
     }
   }
 

@@ -81,10 +81,7 @@ export default class CustomTable extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const currentLength = this.state.data.length;
     const currentColumnsKeys = CustomTable.getColumnKeys(this.state.data).sort();
-
-    const nextLength = nextProps.data.length;
     const nextColumnsKeys = CustomTable.getColumnKeys(nextProps.data).sort();
 
 
@@ -92,15 +89,12 @@ export default class CustomTable extends React.Component {
     // if you only check the length, sometimes you have only edited one dataset,
     // so the table will not render the new values
 
-    // if (currentLength !== nextLength) {
     this.setState(CustomTable.setTableData(nextProps), () => {
       this.filter();
     });
-    // }
 
     if (!isEqual(currentColumnsKeys, nextColumnsKeys)) {
       this.setState({
-        ...CustomTable.setTableData(nextProps),
         // Sort
         sort: nextProps.sort,
         // Search
@@ -206,6 +200,10 @@ export default class CustomTable extends React.Component {
   }
 
   onChangePage(page) {
+    if (this.props.onChangePage) {
+      this.props.onChangePage(page);
+    }
+
     this.setState({
       pagination: {
         ...this.state.pagination,
@@ -219,8 +217,9 @@ export default class CustomTable extends React.Component {
    * - filter
   */
   filter() {
-    const { columnQueries, search, pagination } = this.state;
+    const { pagination, columnQueries, search } = this.state;
 
+    // TODO: Verify if we need the old logic, now we will do a DB search
     const filteredData = this.state.data.filter((row) => {
       let filteredBySearch = true;
 
@@ -302,6 +301,7 @@ CustomTable.propTypes = {
   filters: PropTypes.bool,
   sort: PropTypes.object,
   onToggleSelectedRow: PropTypes.func,
+  onChangePage: PropTypes.func,
   onRowDelete: PropTypes.func
 };
 
