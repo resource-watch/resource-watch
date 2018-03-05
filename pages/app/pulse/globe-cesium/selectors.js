@@ -7,7 +7,6 @@ export const activeContextLayers = createSelector(
   [getContextLayers],
   [getActiveLayers],
   (contextLayers, activeLayers) => {
-    debugger;
     return contextLayers.filter(l => activeLayers.includes(l.attributes.id));
   }
 );

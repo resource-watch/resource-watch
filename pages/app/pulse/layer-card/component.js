@@ -8,7 +8,7 @@ import { Link, Router } from 'routes';
 import { LAYERS_PLANET_PULSE } from 'utils/layers/pulse_layers';
 
 // Components
-import Legend from 'components/app/pulse/Legend';
+import Legend from 'pages/app/pulse/Legend';
 import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 import LoginRequired from 'components/ui/login-required';

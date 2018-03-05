@@ -31,9 +31,10 @@ import * as exploreDetail from 'pages/app/explore-detail/explore-detail';
 import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';
 
 // Pulse
-import * as layerMenuDropdown from 'components/app/pulse/layer-menu-dropdown';
-import * as layerCard from 'components/app/pulse/layer-card';
-import * as layerPill from 'components/app/pulse/layer-pill';
+import * as layerMenuDropdown from 'pages/app/pulse/layer-menu-dropdown';
+import * as layerCard from 'pages/app/pulse/layer-card';
+import * as layerPill from 'pages/app/pulse/layer-pill';
+import * as pulse from 'pages/app/pulse/pulse';
 
 // Widget
 import * as widgetDetail from 'pages/app/widget-detail/widget-detail';
@@ -87,6 +88,7 @@ const reducer = combineReducers({
   layerMenuPulse: handleModule(layerMenuDropdown),
   layerCardPulse: handleModule(layerCard),
   contextLayersPulse: handleModule(layerPill),
+  pulse: handleModule(pulse),
 
   // Dataset
   similarDatasets: handleModule(similarDatasets),
@@ -110,6 +112,5 @@ export const initStore = (initialState = {}) => createStore(
   composeEnhancers(
     /* The router middleware MUST be before thunk otherwise the URL changes
     * inside a thunk function won't work properly */
-    applyMiddleware(thunk, createOpbeatMiddleware())
-  )
+    applyMiddleware(thunk, createOpbeatMiddleware()))
 );

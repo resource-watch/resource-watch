@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Components
-import LayerPill from 'components/app/pulse/layer-pill';
+import LayerPill from 'pages/app/pulse/layer-pill';
 
 export const LAYERS_PLANET_PULSE = [
   {

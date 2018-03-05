@@ -1,7 +1,7 @@
 import { createAction, createThunkAction } from 'redux-tools';
 
 // Actions
-import { setContextActiveLayers } from 'components/app/pulse/layer-pill/actions';
+import { setContextActiveLayers } from 'pages/app/pulse/layer-pill/actions';
 
 // Components
 import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
