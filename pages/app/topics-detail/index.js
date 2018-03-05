@@ -1,6 +1,7 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 
 // Components
 import Page from 'components/layout/page';
@@ -46,7 +47,7 @@ class TopicDetailPage extends Page {
       topicsDetail
     } = this.props;
 
-    if (!topicsDetail) return <Error status={404} />;
+    if (isEmpty(topicsDetail.data)) return <Error status={404} />;
 
     return <TopicDetail />;
   }
