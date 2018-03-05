@@ -42,7 +42,7 @@ class EmbedSimilarDatasets extends Page {
       >
         <div className="c-embed-similar-datasets">
           <SimilarDatasets
-            datasetId={url.query.id}
+            datasetIds={url.query.id}
             onTagSelected={tag => Router.pushRoute('explore', { topics: `["${tag.id}"]` })}
           />
         </div>

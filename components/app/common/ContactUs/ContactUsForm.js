@@ -103,7 +103,7 @@ class ContactUsForm extends React.Component {
           </Field>
 
           <div className="actions-container -align-right">
-            <button type="submit" className="c-btn -primary">
+            <button type="submit" className={`c-btn -primary ${submitting ? '-disabled' : null}`} disabled={submitting}>
               {submitting && <Spinner className="-small -transparent -white-icon" isLoading={submitting} />}
               Submit
             </button>

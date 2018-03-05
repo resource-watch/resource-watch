@@ -10,22 +10,18 @@ export default class ContactUsService {
       headers: {
         'Content-Type': 'application/json'
       }
-    })
-      .then((response) => {
-        const { status, statusText } = response;
-        if (response.ok) return response;
+    }).then((response) => {
+      const { status, statusText } = response;
+      if (response.ok) return response;
 
-        const errorObject = {
-          errors: {
-            status,
-            details: statusText
-          }
-        };
-        throw errorObject;
-      })
-      .then(response => new Deserializer({
-        keyForAttribute: 'underscore_case'
-      }).deserialize(response, (err, message) => message));
+      const errorObject = {
+        errors: {
+          status,
+          details: statusText
+        }
+      };
+      throw errorObject;
+    });
   }
 }
 
