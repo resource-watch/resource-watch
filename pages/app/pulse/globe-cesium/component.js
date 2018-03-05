@@ -100,7 +100,7 @@ class GlobeCesiumComponent extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.basemap !== this.props.basemap ||
-      nextProps.contextLayersPulse !== this.props.contextLayersPulse ||
+      nextProps.activeContextLayers !== this.props.activeContextLayers ||
       nextProps.mainLayer !== this.props.mainLayer) {
       this.updateLayers(nextProps);
     }
@@ -152,8 +152,8 @@ class GlobeCesiumComponent extends PureComponent {
   }
 
   updateLayers(props) {
-    const { basemap, contextLayersPulse, mainLayer } = props;
-    const { contextLayers, activeLayers } = contextLayersPulse;
+    const { basemap, activeContextLayers, mainLayer } = props;
+    console.log('activeContextLayers', activeContextLayers);
 
     if (basemap) {
       const basemapFound = this.baseLayers.find(l => l.name === basemap.name);
@@ -170,13 +170,10 @@ class GlobeCesiumComponent extends PureComponent {
       }
     }
 
-    if (contextLayers && activeLayers) {
-      const ctxLayersToDisplay = contextLayers.filter(l => activeLayers.includes(l.attributes.id));
-      ctxLayersToDisplay.forEach(l => this.addAdditionalLayerOption(
-        l.id,
-        new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
-      ));
-    }
+    activeContextLayers.forEach(l => this.addAdditionalLayerOption(
+      l.id,
+      new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
+    ));
 
     if (mainLayer) {
       // Remove previous mainLayer
@@ -308,7 +305,7 @@ class GlobeCesiumComponent extends PureComponent {
 
 GlobeCesiumComponent.propTypes = {
   basemap: PropTypes.object,
-  contextLayersPulse: PropTypes.array,
+  activeContextLayers: PropTypes.array,
   mainLayer: PropTypes.object
 };
 

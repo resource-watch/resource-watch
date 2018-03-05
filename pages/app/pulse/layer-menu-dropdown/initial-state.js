@@ -1,4 +1,5 @@
 export default {
   layerActive: null,
-  layerPoints: []
+  layerPoints: [],
+  activeLayers: []
 };

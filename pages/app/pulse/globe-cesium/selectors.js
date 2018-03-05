@@ -4,11 +4,8 @@ const getContextLayers = state => state.contextLayersPulse.contextLayers;
 const getActiveLayers = state => state.contextLayersPulse.activeLayers;
 
 export const activeContextLayers = createSelector(
-  [getContextLayers],
-  [getActiveLayers],
-  (contextLayers, activeLayers) => {
-    return contextLayers.filter(l => activeLayers.includes(l.attributes.id));
-  }
+  [getContextLayers, getActiveLayers],
+  (contextLayers, activeLayers) => contextLayers.filter(l => activeLayers.includes(l.attributes.id))
 );
 
 
