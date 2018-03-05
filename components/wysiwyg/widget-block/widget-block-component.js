@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 // Components
-import VegaChart from 'components/widgets/charts/VegaChart';
 import TextChart from 'components/widgets/charts/TextChart';
 import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/legend';
@@ -16,8 +15,10 @@ import Tooltip from 'rc-tooltip/dist/rc-tooltip';
 import CollectionsPanel from 'components/collections-panel';
 
 // Utils
-import getChartTheme from 'utils/widgets/theme';
 import LayerManager from 'utils/layers/LayerManager';
+
+// Widget editor
+import { VegaChart, getVegaTheme } from 'widget-editor';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
@@ -117,7 +118,7 @@ export default function WidgetBlock({
         {!widgetError && widgetType === 'vega' && widget.widgetConfig && widget &&
           <VegaChart
             data={widget.widgetConfig}
-            theme={getChartTheme()}
+            theme={getVegaTheme()}
             toggleLoading={loading => onToggleLoading(loading)}
             reloadOnResize
           />

@@ -6,16 +6,15 @@ import { initStore } from 'store';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import VegaChart from 'components/widgets/charts/VegaChart';
 import LayoutEmbed from 'components/layout/layout/layout-embed';
 import Page from 'components/layout/page';
 import { setEmbed } from 'redactions/common';
 
+// Widget editor
+import { VegaChart, getVegaTheme } from 'widget-editor';
+
 // Services
 import DatasetService from 'services/DatasetService';
-
-// Utils
-import ChartTheme from 'utils/widgets/theme';
 
 class EmbedDataset extends Page {
   static async getInitialProps(context) {
@@ -104,7 +103,7 @@ class EmbedDataset extends Page {
             <div className="widget-content">
               <VegaChart
                 data={widget.attributes.widgetConfig}
-                theme={ChartTheme()}
+                theme={getVegaTheme()}
                 toggleLoading={this.triggerToggleLoading}
                 reloadOnResize
               />
