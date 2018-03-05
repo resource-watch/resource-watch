@@ -73,41 +73,44 @@ class WidgetBlock extends React.Component {
   })
 
   render() {
-    return createElement(WidgetBlockComponent, {
-      onToggleModal: (modal) => {
-        const { item } = this.props;
+    return (
+      <WidgetBlockComponent
+        onToggleModal={(modal) => {
+          const { item } = this.props;
 
-        this.props.setWidgetModal({
-          id: `${item.content.widgetId}/${item.id}`,
-          value: modal
-        });
-      },
-      onToggleLoading: (loading) => {
-        const { item } = this.props;
+          this.props.setWidgetModal({
+            id: `${item.content.widgetId}/${item.id}`,
+            value: modal
+          });
+        }}
+        onToggleLoading={(loading) => {
+          const { item } = this.props;
 
-        this.props.setWidgetLoading({
-          id: `${item.content.widgetId}/${item.id}`,
-          value: loading
-        });
-      },
-      onToggleLayerGroupVisibility: (layerGroup) => {
-        const { data, item } = this.props;
-        const layers = [...data[`${item.content.widgetId}/${item.id}`].layers];
+          this.props.setWidgetLoading({
+            id: `${item.content.widgetId}/${item.id}`,
+            value: loading
+          });
+        }}
+        onToggleLayerGroupVisibility={(layerGroup) => {
+          const { data, item } = this.props;
+          const layers = [...data[`${item.content.widgetId}/${item.id}`].layers];
 
-        const layerGroups = layers.map((l) => {
-          if (l.dataset !== layerGroup.dataset) return l;
-          return Object.assign({}, l, { visible: !layerGroup.visible });
-        });
+          const layerGroups = layers.map((l) => {
+            if (l.dataset !== layerGroup.dataset) return l;
+            return Object.assign({}, l, { visible: !layerGroup.visible });
+          });
 
-        this.props.setLayers({
-          id: `${item.content.widgetId}/${item.id}`,
-          value: layerGroups
-        });
-      },
-      ...this.props
-    });
+          this.props.setLayers({
+            id: `${item.content.widgetId}/${item.id}`,
+            value: layerGroups
+          });
+        }}
+        {...this.props}
+      />
+    );
   }
 }
+
 export default connect(
   state => ({
     data: state.widgetBlock,
