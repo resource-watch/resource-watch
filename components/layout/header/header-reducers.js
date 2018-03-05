@@ -8,12 +8,18 @@ export default {
     ({
       ...state,
       dropdownOpened: {
-        ...{ data: false, about: false, myrw: false, topics: false },
+        ...{
+          data: false, about: false, myrw: false, topics: false
+        },
         ...action.payload
       }
     }),
 
   [actions.setSearchOpened]: (state, action) =>
-    ({ ...state, searchOpened: action.payload })
+    ({ ...state, searchOpened: action.payload }),
+
+  [actions.setSearchTerm]: (state, action) =>
+    ({ ...state, searchTerm: action.payload })
+
 
 };
