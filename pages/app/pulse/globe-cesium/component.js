@@ -53,6 +53,31 @@ class GlobeCesiumComponent extends PureComponent {
     this.viewer.scene.screenSpaceCameraController.maximumZoomDistance = 30000000;
     this.viewer.scene.screenSpaceCameraController.minimumZoomDistance = 99;
 
+    this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
+    this.handler.setInputAction(
+      this.onMouseClick,
+      Cesium.ScreenSpaceEventType.LEFT_CLICK,
+    );
+    this.handler.setInputAction(
+      this.onMouseDown,
+      Cesium.ScreenSpaceEventType.LEFT_DOWN,
+    );
+    this.handler.setInputAction(
+      this.onMouseMove,
+      Cesium.ScreenSpaceEventType.MOUSE_MOVE,
+    );
+
+    this.viewer.camera.moveStart.addEventListener(() => {
+      if (this.props.onMoveStart) {
+        this.props.onMoveStart();
+      }
+    });
+    this.viewer.camera.moveEnd.addEventListener(() => {
+      if (this.props.onMoveEnd) {
+        this.props.onMoveEnd();
+      }
+    });
+
     this.imageryLayers = this.viewer.imageryLayers;
 
     this.viewModel = {
@@ -103,6 +128,63 @@ class GlobeCesiumComponent extends PureComponent {
       nextProps.mainLayer !== this.props.mainLayer) {
       this.updateLayers(nextProps);
     }
+  }
+
+  onMouseClick(click) {
+    if (this.props.onClick) {
+      this.props.onClick({ clickedPosition: click.position, viewer: this.viewer });
+    }
+
+    const pickedFeature = this.viewer.scene.pick(click.position);
+    if (pickedFeature && pickedFeature.id.type === 'billboard' && this.props.onBillboardClick) {
+      pickedFeature.id.highlighted = true;
+      pickedFeature.id.billboard.image = pickedFeature.id.imageSelected;
+      // Dehighlight the rest of billboards
+      this.viewer.entities.values.forEach((entity) => {
+        if (entity.type === 'billboard' && entity.id !== pickedFeature.id.id) {
+          entity.highlighted = false;
+          entity.billboard.image = entity.imageNotSelected;
+        }
+      });
+      this.props.onBillboardClick(pickedFeature);
+    }
+    this.setState({ clickedPosition: click.position });
+  }
+
+  onMouseDown(click) {
+    if (this.props.onMouseDown) {
+      this.props.onMouseDown({
+        clickedPosition: click.position,
+        viewer: this.viewer
+      });
+    }
+    this.setState({ clickedPosition: click.position });
+  }
+
+  onMouseMove(mouse) {
+    const { billboardHover } = this.state;
+
+    if (this.props.onMouseMove) {
+      this.props.onMouseMove({
+        hoverPosition: mouse.startPosition,
+        endPosition: mouse.endPosition,
+        viewer: this.viewer
+      });
+    }
+    const pickedFeature = this.viewer.scene.pick(mouse.endPosition);
+
+    if (Cesium.defined(pickedFeature) && pickedFeature.id.type === 'billboard'
+      && this.props.onBillboardHover && !billboardHover) {
+      this.setState({ billboardHover: true });
+      this.props.onBillboardHover(pickedFeature);
+    } else if (!Cesium.defined(pickedFeature) && billboardHover) {
+      if (this.props.onBillboardOut) {
+        this.props.onBillboardOut();
+      }
+      this.setState({ billboardHover: false });
+    }
+
+    this.setState({ hoverPosition: mouse.startPosition });
   }
 
   getShapes(layerPoints, markerType) {
@@ -302,6 +384,51 @@ class GlobeCesiumComponent extends PureComponent {
     );
   }
 
+  createShapes(shapes) {
+    const { viewer } = this.state;
+
+    if (shapes && viewer) {
+      viewer.entities.removeAll();
+      shapes.forEach((shape) => {
+        if (shape.type === 'billboard') {
+          const position = Cesium.Cartesian3.fromDegrees(shape.lon, shape.lat);
+          viewer.entities.add({
+            position,
+            billboard: {
+              image: shape.image
+            },
+            name: shape.name,
+            type: 'billboard',
+            imageSelected: shape.imageSelected,
+            imageNotSelected: shape.imageNotSelected
+          });
+        } else if (shape.type === 'cylinder') {
+          const position = Cesium.Cartesian3.fromDegrees(shape.lon, shape.lat, shape.height * 0.5);
+          viewer.entities.add({
+            position,
+            cylinder: {
+              length: shape.height,
+              topRadius: shape.topRadius,
+              bottomRadius: shape.bottomRadius,
+              outlineWidth: 4,
+              material: shape.color,
+              minimumPixelSize: 128,
+              maximumScale: 20000
+            },
+            description: shape.description,
+            name: shape.name,
+            type: 'cylinder'
+          });
+        }
+      });
+
+      if (shapes && shapes.length > 0 && this.props.onShapesCreated) {
+        const delay = shapes.length * 2;
+        setTimeout(() => this.props.onShapesCreated(), delay);
+      }
+    }
+  }
+
   render() {
     return (
       <div id="cesiumContainer" className="c-globe-cesium" />
@@ -314,7 +441,18 @@ GlobeCesiumComponent.propTypes = {
   basemap: PropTypes.object,
   activeContextLayers: PropTypes.array,
   contextLayersOnTop: PropTypes.bool,
-  mainLayer: PropTypes.object
+  mainLayer: PropTypes.object,
+
+  // Callbacks
+  onClick: PropTypes.func,
+  onBillboardClick: PropTypes.func,
+  onShapesCreated: PropTypes.func,
+  onMoveEnd: PropTypes.func,
+  onMoveStart: PropTypes.func,
+  onMouseMove: PropTypes.func,
+  onMouseDown: PropTypes.func,
+  onBillboardOut: PropTypes.func,
+  onBillboardHover: PropTypes.func
 };
 
 export default connect(null, null)(GlobeCesiumComponent);
