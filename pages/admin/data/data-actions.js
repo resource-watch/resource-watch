@@ -4,6 +4,8 @@ import WRISerializer from 'wri-json-api-serializer';
 
 export const setActiveTab = createAction('ADMIN_DATA_PAGE/setActiveTab');
 
+export const setPageParams = createAction('ADMIN_DATA_PAGE/setPageParams');
+
 export const setPagination = createAction('ADMIN_DATA_PAGE/setPagination');
 export const setError = createAction('ADMIN_DATA_PAGE/setError');
 

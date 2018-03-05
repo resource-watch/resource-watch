@@ -4,6 +4,7 @@ export default {
   tab: 'datasets',
   defaultTab: 'datasets',
   id: null,
+  subtab: null,
   availableTabs: [
     {
       label: 'Datasets',

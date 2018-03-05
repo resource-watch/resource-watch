@@ -34,9 +34,6 @@ class DatasetsTable extends React.Component {
 
   componentDidMount() {
     this.props.setFilters({});
-    this.props.getDatasets({
-      includes: 'widget,layer,metadata,vocabulary,user'
-    });
   }
 
   /**
@@ -52,7 +49,7 @@ class DatasetsTable extends React.Component {
   }
 
   getDatasets() {
-    return this.props.datasets
+    return this.props.datasets.list
       .map((d) => {
         const user = d.user || {};
 
@@ -65,18 +62,23 @@ class DatasetsTable extends React.Component {
           code: metadataInfo.rwId || ''
         };
       })
-      .filter(d => d.published === true || d.user.role === 'ADMIN');
+      .filter(d => d && (d.published === true || d.user.role === 'ADMIN'));
   }
 
   render() {
-    const { routes, getDatasetsFilters } = this.props;
+    const {
+      routes,
+      getDatasetsFilters,
+      error,
+      loading
+    } = this.props;
 
     return (
       <div className="c-dataset-table">
-        <Spinner className="-light" isLoading={this.props.loading} />
+        <Spinner className="-light" isLoading={loading} />
 
-        {this.props.error && (
-          <p>Error: {this.props.error}</p>
+        {error && (
+          <p>Error: {error}</p>
         )}
 
         <SearchInput
@@ -153,7 +155,7 @@ DatasetsTable.propTypes = {
   // Store
   user: PropTypes.object,
   loading: PropTypes.bool.isRequired,
-  datasets: PropTypes.array.isRequired,
+  datasets: PropTypes.object.isRequired,
   error: PropTypes.string,
 
   // Actions
@@ -164,7 +166,7 @@ DatasetsTable.propTypes = {
 const mapStateToProps = state => ({
   user: state.user,
   loading: state.datasets.datasets.loading,
-  datasets: getFilteredDatasets(state),
+  datasets: state.datasets.datasets,
   error: state.datasets.datasets.error
 });
 const mapDispatchToProps = {

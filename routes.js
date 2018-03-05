@@ -7,7 +7,7 @@ const routes = nextRoutes();
 routes.add('admin_home', '/admin', 'admin/data');
 // DATA
 routes.add('admin_data', '/admin/data/:tab?', 'admin/data');
-routes.add('admin_data_detail', '/admin/data/:tab/:id/:subtab?', 'admin/DataDetail');
+routes.add('admin_data_detail', '/admin/data/:tab/:id/:subtab?', 'admin/data');
 // DASHBOARDS
 routes.add('admin_dashboards', '/admin/dashboards/:tab?', 'admin/Dashboards');
 routes.add('admin_dashboards_detail', '/admin/dashboards/:tab/:id/:subtab?', 'admin/DashboardsDetail');

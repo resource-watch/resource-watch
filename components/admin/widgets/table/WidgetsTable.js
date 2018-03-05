@@ -56,16 +56,22 @@ class WidgetsTable extends React.Component {
   }
 
   render() {
-    const { user, dataset, widgets } = this.props;
+    const {
+      user,
+      dataset,
+      widgets,
+      loading,
+      error
+    } = this.props;
 
-    console.log('widgets table', widgets);
+    console.log('widget', widgets.pagination);
 
     return (
       <div className="c-widgets-table">
-        <Spinner className="-light" isLoading={this.props.loading} />
+        <Spinner className="-light" isLoading={loading} />
 
-        {this.props.error && (
-          <p>Error: {this.props.error}</p>
+        {error && (
+          <p>Error: {error}</p>
         )}
 
         <SearchInput
@@ -84,7 +90,7 @@ class WidgetsTable extends React.Component {
           onSearch={this.onSearch}
         />
 
-        {!this.props.error && (
+        {!error && (
           <CustomTable
             columns={[
               { label: 'Title', value: 'name', td: TitleTD, tdProps: { dataset } },
@@ -105,14 +111,14 @@ class WidgetsTable extends React.Component {
             }}
             filters={false}
             data={widgets.list}
-            pageSize={widgets.pagination.total}
+            pageSize={20}
             onRowDelete={() => this.props.getWidgets({
               dataset
             })}
             pagination={{
               enabled: true,
-              pageSize: widgets.pagination.total,
-              page: widgets.pagination.page
+              pageSize: 20,
+              page: widgets.pagination.page - 1
             }}
           />
         )}

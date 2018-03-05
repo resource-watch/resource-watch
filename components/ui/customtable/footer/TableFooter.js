@@ -12,7 +12,6 @@ export default class TableFooter extends React.Component {
   render() {
     const { pagination, showTotalPages } = this.props;
     const maxPage = Math.ceil(pagination.total / pagination.pageSize) || 1;
-
     return (
       <div className="table-footer">
         <Paginator
