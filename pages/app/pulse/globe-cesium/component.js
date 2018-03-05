@@ -57,14 +57,10 @@ class GlobeCesiumComponent extends PureComponent {
 
     this.viewModel = {
       layers: [],
-      baseLayers: [],
       contextLayers: [],
       upLayer: null,
       downLayer: null,
       selectedLayer: null,
-      isSelectableLayer(layer) {
-        return this.baseLayers.indexOf(layer) >= 0;
-      },
       raise(layer, index) {
         this.imageryLayers.raise(layer);
         this.viewModel.upLayer = layer;
@@ -94,12 +90,11 @@ class GlobeCesiumComponent extends PureComponent {
       }
     };
 
-    this.baseLayers = this.viewModel.baseLayers;
     this.contextLayers = this.viewModel.contextLayers;
 
     Cesium.knockout.track(this.viewModel);
 
-    this.setupLayers();
+    this.initGlobe();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -107,111 +102,6 @@ class GlobeCesiumComponent extends PureComponent {
       nextProps.activeContextLayers !== this.props.activeContextLayers ||
       nextProps.mainLayer !== this.props.mainLayer) {
       this.updateLayers(nextProps);
-    }
-  }
-
-  setupLayers() {
-    // Create all the base layers that this example will support.
-    // These base layers aren't really special.  It's possible to have multiple of them
-    // enabled at once, just like the other layers, but it doesn't make much sense because
-    // all of these layers cover the entire globe and are opaque.
-    this.addBaseLayerOption(
-      'default',
-      new Cesium.BingMapsImageryProvider({
-        url: 'https://dev.virtualearth.net',
-        key: Cesium.BingMapsApi.defaultKey,
-        mapStyle: Cesium.BingMapsStyle.AERIAL
-      })
-    );
-  }
-
-  addBaseLayerOption(name, imageryProvider) {
-    let layer;
-    if (typeof imageryProvider === 'undefined') {
-      layer = this.imageryLayers.get(0);
-      this.viewModel.selectedLayer = layer;
-    } else {
-      layer = new Cesium.ImageryLayer(imageryProvider);
-    }
-
-    layer.name = name;
-    this.baseLayers.push(layer);
-    return layer;
-  }
-
-  addAdditionalLayerOption(name, imageryProvider, alpha, show) {
-    const layer = this.imageryLayers.addImageryProvider(imageryProvider);
-    layer.alpha = Cesium.defaultValue(alpha, 0.5);
-    layer.show = Cesium.defaultValue(show, true);
-    layer.name = name;
-    Cesium.knockout.track(layer, ['alpha', 'show', 'name']);
-  }
-
-  removeMainLayer() {
-    for (let i = 0; i < this.imageryLayers.length; i++) {
-      if (this.imageryLayers.get(i).name === 'mainLayer') {
-        this.imageryLayers.remove(this.imageryLayers.get(i), false);
-      }
-    }
-  }
-
-  removeContextLayers() {
-    for (let i = 1; i < this.imageryLayers.length; i++) {
-      if (this.imageryLayers.get(i).name !== 'mainLayer') {
-        this.imageryLayers.remove(this.imageryLayers.get(i), false);
-      }
-    }
-  }
-
-  updateLayers(props) {
-    console.log('updateLayers');
-    const {
-      basemap,
-      activeContextLayers,
-      mainLayer,
-      contextLayersOnTop
-    } = props;
-
-    if (basemap) {
-      const basemapFound = this.baseLayers.find(l => l.name === basemap.name);
-      // Check if the basemap provided has already been added
-      if (!basemapFound) {
-        const newBasemap = this.addBaseLayerOption(
-          basemap.name,
-          new Cesium.UrlTemplateImageryProvider({ url: basemap.url })
-        );
-        this.imageryLayers.add(newBasemap, 0);
-        this.imageryLayers.remove(this.viewModel.layers[0], false);
-      } else {
-        this.imageryLayers.add(basemapFound);
-      }
-    }
-
-    if (!contextLayersOnTop) {
-      this.removeContextLayers();
-      activeContextLayers.forEach(l => this.addAdditionalLayerOption(
-        l.id,
-        new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
-      ));
-    }
-
-    if (mainLayer) {
-      this.removeMainLayer();
-      this.addAdditionalLayerOption('mainLayer', new Cesium.UrlTemplateImageryProvider({ url: mainLayer }), 1, true);
-    }
-
-    if (contextLayersOnTop) {
-      this.removeContextLayers();
-      activeContextLayers.forEach(l => this.addAdditionalLayerOption(
-        l.id,
-        new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
-      ));
-    }
-
-    const numContextLayers = this.imageryLayers.length;
-    this.viewModel.layers.splice(0, this.viewModel.layers.length);
-    for (let i = numContextLayers - 1; i >= 0; --i) {
-      this.viewModel.layers.push(this.imageryLayers.get(i));
     }
   }
 
@@ -319,6 +209,89 @@ class GlobeCesiumComponent extends PureComponent {
       }));
     }
     return shapes;
+  }
+
+  addAdditionalLayerOption(name, imageryProvider, alpha, show) {
+    const layer = this.imageryLayers.addImageryProvider(imageryProvider);
+    layer.alpha = Cesium.defaultValue(alpha, 0.5);
+    layer.show = Cesium.defaultValue(show, true);
+    layer.name = name;
+    Cesium.knockout.track(layer, ['alpha', 'show', 'name']);
+  }
+
+  removeMainLayer() {
+    for (let i = 0; i < this.imageryLayers.length; i++) {
+      if (this.imageryLayers.get(i).name === 'mainLayer') {
+        this.imageryLayers.remove(this.imageryLayers.get(i), false);
+      }
+    }
+  }
+
+  removeContextLayers() {
+    for (let i = 1; i < this.imageryLayers.length; i++) {
+      if (this.imageryLayers.get(i).name !== 'mainLayer') {
+        this.imageryLayers.remove(this.imageryLayers.get(i), false);
+      }
+    }
+  }
+
+  removeBasemap() {
+    this.imageryLayers.remove(this.imageryLayers.get(0), false);
+  }
+
+  updateLayers(props) {
+    const {
+      basemap,
+      activeContextLayers,
+      mainLayer,
+      contextLayersOnTop
+    } = props;
+
+    if (basemap) {
+      this.removeBasemap();
+      this.addAdditionalLayerOption(
+        basemap.name,
+        new Cesium.UrlTemplateImageryProvider({ url: basemap.url })
+      );
+    }
+
+    if (!contextLayersOnTop) {
+      this.removeContextLayers();
+      activeContextLayers.forEach(l => this.addAdditionalLayerOption(
+        l.id,
+        new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
+      ));
+    }
+
+    if (mainLayer) {
+      this.removeMainLayer();
+      this.addAdditionalLayerOption('mainLayer', new Cesium.UrlTemplateImageryProvider({ url: mainLayer }), 1, true);
+    }
+
+    if (contextLayersOnTop) {
+      this.removeContextLayers();
+      activeContextLayers.forEach(l => this.addAdditionalLayerOption(
+        l.id,
+        new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
+      ));
+    }
+
+    const numContextLayers = this.imageryLayers.length;
+    this.viewModel.layers.splice(0, this.viewModel.layers.length);
+    for (let i = numContextLayers - 1; i >= 0; --i) {
+      this.viewModel.layers.push(this.imageryLayers.get(i));
+    }
+  }
+
+  initGlobe() {
+    this.addAdditionalLayerOption(
+      'default',
+      new Cesium.BingMapsImageryProvider({
+        url: 'https://dev.virtualearth.net',
+        key: Cesium.BingMapsApi.defaultKey,
+        mapStyle: Cesium.BingMapsStyle.AERIAL
+      })
+    );
   }
 
   render() {
