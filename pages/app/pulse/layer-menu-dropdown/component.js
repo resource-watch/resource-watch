@@ -64,7 +64,7 @@ LayerMenuDropdownComponent.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  layerActive: state.pulse.layerActive
+  layerActive: state.layerMenuPulse.layerActive
 });
 
 

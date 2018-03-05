@@ -219,6 +219,14 @@ class GlobeCesiumComponent extends PureComponent {
     Cesium.knockout.track(layer, ['alpha', 'show', 'name']);
   }
 
+  addBasemap(name, imageryProvider, alpha, show) {
+    const layer = this.imageryLayers.addImageryProvider(imageryProvider, 0);
+    layer.alpha = Cesium.defaultValue(alpha, 0.5);
+    layer.show = Cesium.defaultValue(show, true);
+    layer.name = name;
+    Cesium.knockout.track(layer, ['alpha', 'show', 'name']);
+  }
+
   removeMainLayer() {
     for (let i = 0; i < this.imageryLayers.length; i++) {
       if (this.imageryLayers.get(i).name === 'mainLayer') {
@@ -249,7 +257,7 @@ class GlobeCesiumComponent extends PureComponent {
 
     if (basemap) {
       this.removeBasemap();
-      this.addAdditionalLayerOption(
+      this.addBasemap(
         basemap.name,
         new Cesium.UrlTemplateImageryProvider({ url: basemap.url }), 1, true
       );
