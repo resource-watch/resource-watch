@@ -50,6 +50,9 @@ routes.add('dashboards', '/data/dashboards/', 'app/Dashboards');
 routes.add('dashboards_detail', '/data/dashboards/:slug', 'app/DashboardsDetail');
 routes.add('widget_detail', '/data/widget/:id', 'app/widget-detail');
 
+// SEARCH
+routes.add('search', '/search', 'app/search');
+
 // ----- TOPICS -----
 routes.add('topics', '/topics', 'app/topics');
 routes.add('topics_detail', '/topics/:id', 'app/topics-detail');

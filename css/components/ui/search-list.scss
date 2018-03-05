@@ -1,0 +1,12 @@
+.c-search-list {
+  .search-list {
+  }
+
+  .search-list-item {
+    margin: $space-1 * 4 0 0;
+
+    &:first-child {
+      margin: 0;
+    }
+  }
+}
