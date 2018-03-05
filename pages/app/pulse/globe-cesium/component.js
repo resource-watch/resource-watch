@@ -151,6 +151,14 @@ class GlobeCesiumComponent extends PureComponent {
     }
   }
 
+  removeContextLayers() {
+    for (let i = 1; i < this.imageryLayers.length; i++) {
+      if (this.imageryLayers.get(i).name !== 'mainLayer') {
+        this.imageryLayers.remove(this.imageryLayers.get(i), false);
+      }
+    }
+  }
+
   updateLayers(props) {
     const {
       basemap,
@@ -175,6 +183,7 @@ class GlobeCesiumComponent extends PureComponent {
     }
 
     if (!contextLayersOnTop) {
+      this.removeContextLayers();
       activeContextLayers.forEach(l => this.addAdditionalLayerOption(
         l.id,
         new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
@@ -182,13 +191,12 @@ class GlobeCesiumComponent extends PureComponent {
     }
 
     if (mainLayer) {
-      // Remove previous mainLayer
       this.removeMainLayer();
-
       this.addAdditionalLayerOption('mainLayer', new Cesium.UrlTemplateImageryProvider({ url: mainLayer }), 1, true);
     }
 
     if (contextLayersOnTop) {
+      this.removeContextLayers();
       activeContextLayers.forEach(l => this.addAdditionalLayerOption(
         l.id,
         new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
