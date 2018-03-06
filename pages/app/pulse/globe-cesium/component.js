@@ -142,11 +142,10 @@ class GlobeCesiumComponent extends PureComponent {
       this.updateLayers(nextProps);
     }
     if (nextProps.layerPoints !== this.props.layerPoints) {
+      this.removeShapes();
       if (nextProps.layerPoints.length > 0) {
         this.props.setShapesCreated(false);
         this.createShapes(this.getShapes(nextProps));
-      } else {
-        this.removeShapes();
       }
     }
   }
@@ -438,7 +437,7 @@ class GlobeCesiumComponent extends PureComponent {
         }
       });
 
-      this.props.setShapesCreated(true);
+      setTimeout(() => this.props.setShapesCreated(true), shapes.length * 2);
     }
   }
 
