@@ -26,6 +26,8 @@ export const toggleActiveLayer = createThunkAction('layer-menu-dropdown/toggleAc
       dispatch(setContextActiveLayers([]));
       dispatch(setActiveLayerLoading(true));
 
+      const layerGlobeManager = new LayerGlobeManager();
+
       fetch(new Request(`${process.env.WRI_API_URL}/layer/${id}`))
         .then((response) => {
           if (response.ok) return response.json();
@@ -40,6 +42,16 @@ export const toggleActiveLayer = createThunkAction('layer-menu-dropdown/toggleAc
           layer.contextLayers = [];
           layer.descriptionPulse = descriptionPulse;
 
+          layerGlobeManager.addLayer(
+            layer.attributes,
+            {
+              onLayerAddedSuccess: function success(result) {
+                layer.url = result.url;
+              }
+            },
+            true
+          );
+
           if (contextLayers.length > 0) {
             let layersLoaded = 0;
             const urlSt = `${process.env.WRI_API_URL}/layer/?ids=${contextLayers.join()}&env=production,preproduction`;
@@ -48,7 +60,6 @@ export const toggleActiveLayer = createThunkAction('layer-menu-dropdown/toggleAc
                 return resp.json();
               })
               .then((res) => {
-                const layerGlobeManager = new LayerGlobeManager();
                 res.data.forEach((l) => {
                   layerGlobeManager.addLayer(
                     { ...l.attributes, id: l.id },
