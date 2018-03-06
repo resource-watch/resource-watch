@@ -7,6 +7,8 @@ export default {
   subtab: null,
   datasets: {
     activePage: 1,
+    sort: null,
+    search: null,
     offset: 0,
     list: [],
     pagination: {

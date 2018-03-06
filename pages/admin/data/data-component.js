@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 // Components
 import Page from 'components/layout/page';
-import Layout from 'components/layout/layout/layout-app';
+import Layout from 'components/layout/layout/layout-admin';
 import Tabs from 'components/ui/Tabs';
 
 // Tabs

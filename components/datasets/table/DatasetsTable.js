@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import debounce from 'lodash/debounce';
+
 // Redux
 import { connect } from 'react-redux';
 import { setFilters } from 'redactions/admin/datasets';
 
-import { changeDatasetPage } from 'pages/admin/data/data-actions';
+import { changeDatasetPage, setDatasetSearchTerm, setDatasetPage, setDatasetUrl } from 'pages/admin/data/data-actions';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -39,13 +41,11 @@ class DatasetsTable extends React.Component {
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  onSearch(value) {
-    if (!value.length) {
-      this.props.setFilters([]);
-    } else {
-      this.props.setFilters([{ key: 'name', value }]);
-    }
-  }
+  onSearch = debounce((term) => {
+    this.props.setDatasetPage(1);
+    this.props.setDatasetSearchTerm(term);
+    this.props.setDatasetUrl();
+  }, 500)
 
   getFilteredDatasets() {
     const { adminDataPage } = this.props;
@@ -84,7 +84,8 @@ class DatasetsTable extends React.Component {
 
         <SearchInput
           input={{
-            placeholder: 'Search dataset'
+            placeholder: 'Search dataset',
+            value: adminDataPage.datasets.search
           }}
           link={{
             label: 'New dataset',
@@ -154,6 +155,9 @@ DatasetsTable.propTypes = {
 
   // Actions
   changeDatasetPage: PropTypes.func,
+  setDatasetPage: PropTypes.func,
+  setDatasetSearchTerm: PropTypes.func,
+  setDatasetUrl: PropTypes.func,
   setFilters: PropTypes.func.isRequired
 };
 
@@ -167,7 +171,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setFilters,
-  changeDatasetPage
+  changeDatasetPage,
+  setDatasetPage,
+  setDatasetSearchTerm,
+  setDatasetUrl
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetsTable);

@@ -2,15 +2,20 @@ import 'isomorphic-fetch';
 import { createAction, createThunkAction } from 'redux-tools';
 import * as queryString from 'query-string';
 
-import WRISerializer from 'wri-json-api-serializer';
+import { Router } from 'routes';
+
+export const toggleLoading = createAction('ADMIN_DATA_PAGE/toggleLoading');
+export const setDataError = createAction('ADMIN_DATA_PAGE/setDataError');
+
+export const setDatasetSearchTerm = createAction('ADMIN_DATA_PAGE/setDatasetSearchTerm');
 
 export const setActiveTab = createAction('ADMIN_DATA_PAGE/setActiveTab');
 
 export const setPageParams = createAction('ADMIN_DATA_PAGE/setPageParams');
-
-export const toggleLoading = createAction('ADMIN_DATA_PAGE/toggleLoading');
+export const setDatasetPage = createAction('ADMIN_DATA_PAGE/setDatasetPage');
 
 export const setPagination = createAction('ADMIN_DATA_PAGE/setPagination');
+
 export const setDatasets = createAction('ADMIN_DATA_PAGE/setDatasets');
 export const changeDatasetPage = createAction('ADMIN_DATA_PAGE/changeDatasetPage');
 
@@ -18,20 +23,23 @@ export const setError = createAction('ADMIN_DATA_PAGE/setError');
 
 export const setWidgets = createAction('ADMIN_DATA_PAGE/setWidgets');
 
-export const getDatasets = createThunkAction('ADMIN_DATA_PAGE/getDatasets', page =>
+export const getDatasets = createThunkAction('ADMIN_DATA_PAGE/getDatasets', () =>
   (dispatch, getState) => {
     dispatch(toggleLoading());
 
-    const { user } = getState();
+    const { user, adminDataPage } = getState();
+    const { search, activePage } = adminDataPage.datasets;
 
     const qParams = queryString.stringify({
       application: process.env.APPLICATIONS,
       env: process.env.API_ENV,
-      'page[size]': 99999,
-      // If we only want to get 1 page from the api
-      // 'page[number]': page || 1,
+      'page[size]': 20,
+      search,
+      'page[number]': activePage,
       includes: 'widget,layer,metadata,vocabulary,user'
     });
+
+    console.log(qParams);
 
     return fetch(`${process.env.WRI_API_URL}/dataset?${qParams}`, {
       headers: {
@@ -54,11 +62,35 @@ export const getDatasets = createThunkAction('ADMIN_DATA_PAGE/getDatasets', page
           data.map(dataset => ({ ...dataset.attributes, id: dataset.id })) : [];
 
         dispatch(setDatasets({
-          page,
           list,
           pagination: { size: meta.size, total: meta['total-items'], limit: meta['total-pages'] }
         }));
+
         dispatch(toggleLoading());
       })
-      .catch(errors => console.error(errors));
+      .catch(errors => dispatch(setDataError(errors)));
   });
+
+export const setDatasetUrl = createThunkAction('ADMIN_DATA_PAGE/setUrl', options => (dispatch, getState) => {
+  const { adminDataPage } = getState();
+  const { activePage, sort, search } = adminDataPage.datasets;
+
+  const params = {};
+
+  if (sort) {
+    params.sort = sort;
+  }
+
+  if (search) {
+    params.search = search;
+  }
+
+  Router.replaceRoute('admin_data', Object.assign(
+    {},
+    {
+      tab: 'datasets',
+      page: activePage
+    },
+    params
+  ), options || {});
+});

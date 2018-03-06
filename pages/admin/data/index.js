@@ -1,6 +1,7 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Router } from 'routes';
 
 // Components
 import Page from 'components/layout/page';
@@ -18,10 +19,20 @@ class DataPage extends Page {
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
     const { store } = context;
+    const { tab, page, search } = props.url.query;
 
-    await store.dispatch(actions.getDatasets(props.url.query.page));
+    await context.store.dispatch(actions.setDatasetPage(page || 1));
 
-    if (props.url.query.tab === 'widgets') {
+    if (search) {
+      context.store.dispatch(actions.setDatasetSearchTerm(search));
+    }
+
+    if (!tab || tab === 'datasets') {
+      context.store.dispatch(actions.setActiveTab('datasets'));
+      await context.store.dispatch(actions.getDatasets());
+    }
+
+    if (tab === 'widgets') {
       await store.dispatch(getWidgets({
         filters: {
           ...props.dataset && { dataset: props.dataset },
@@ -50,12 +61,23 @@ class DataPage extends Page {
     }
   }
 
+  componentDidMount() {
+    const {
+      url,
+      setDatasetUrl
+    } = this.props;
+
+    // if user enters /admin, we need to shallow update the url
+    if (!url.query.tab || url.query.tab === 'datasets') {
+      setDatasetUrl({ shallow: true });
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     const {
       adminDataPage,
       setActiveTab,
-      setPageParams,
-      getDatasets
+      setPageParams
     } = this.props;
 
     if (nextProps.url.query.tab !== adminDataPage.tab &&
@@ -67,13 +89,6 @@ class DataPage extends Page {
         nextProps.url.query.subtab !== adminDataPage.subtab) {
       setPageParams({ id: nextProps.url.query.id, subtab: nextProps.url.query.subtab });
     }
-    /*
-    // If we want to get only the current page, activate these lines
-    if (adminDataPage.datasets.activePage !== nextProps.adminDataPage.datasets.activePage) {
-      window.scrollTo(0, 0);
-      getDatasets(nextProps.adminDataPage.datasets.activePage);
-    }
-    */
   }
 
   render() {
