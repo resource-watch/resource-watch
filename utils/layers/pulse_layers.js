@@ -32,6 +32,7 @@ export const LAYERS_PLANET_PULSE = [
             Brazil deforestation alerts in the past 4 months are affecting <LayerPill layerId="cbb309b7-1df1-4638-b821-48db53053d38" label="Intact forest landscapes" /> and <LayerPill layerId="dabcca67-037c-4d11-afc4-69559edec4dc" label="Protected areas" />
           </div>,
         contextLayers: ['cbb309b7-1df1-4638-b821-48db53053d38', 'dabcca67-037c-4d11-afc4-69559edec4dc'],
+        contextLayersOnTop: false,
         widgets: [],
         basemap: {
           name: 'other',
@@ -120,6 +121,7 @@ export const LAYERS_PLANET_PULSE = [
         label: 'Significant Earthquakes over the past 30 Days',
         id: '5939b34f-42bb-4861-bd4a-308a0ae7a1d6',
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayersOnTop: false,
         '3d': true,
         markerType: 'bar',
         widgets: [],
@@ -136,6 +138,7 @@ export const LAYERS_PLANET_PULSE = [
         label: 'Weekly Volcano Report',
         id: '667ae321-649e-4caa-b761-35e370c776b0',
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayersOnTop: false,
         '3d': true,
         markerType: 'volcano',
         descriptionPulse:

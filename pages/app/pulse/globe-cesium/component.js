@@ -142,8 +142,8 @@ class GlobeCesiumComponent extends PureComponent {
       this.updateLayers(
         nextProps,
         nextProps.basemap !== this.props.basemap,
-        nextProps.activeContextLayers !== this.props.activeContextLayers,
-        nextProps.mainLayer !== this.props.mainLayer
+        (nextProps.activeContextLayers !== this.props.activeContextLayers) ||
+        (nextProps.mainLayer !== this.props.mainLayer)
       );
     }
     if (nextProps.layerPoints !== this.props.layerPoints) {
@@ -355,8 +355,7 @@ class GlobeCesiumComponent extends PureComponent {
   updateLayers(
     props,
     updateBasemap = true,
-    updateContextLayers = true,
-    updateMainLayer = true
+    updateLayers = true
   ) {
     const {
       basemap,
@@ -373,7 +372,7 @@ class GlobeCesiumComponent extends PureComponent {
       );
     }
 
-    if (!contextLayersOnTop && updateContextLayers) {
+    if (!contextLayersOnTop && updateLayers) {
       this.removeContextLayers();
       activeContextLayers.forEach(l => this.addAdditionalLayerOption(
         l.id,
@@ -381,12 +380,12 @@ class GlobeCesiumComponent extends PureComponent {
       ));
     }
 
-    if (mainLayer && updateMainLayer) {
+    if (mainLayer && updateLayers) {
       this.removeMainLayer();
       this.addAdditionalLayerOption('mainLayer', new Cesium.UrlTemplateImageryProvider({ url: mainLayer }), 1, true);
     }
 
-    if (contextLayersOnTop && updateContextLayers) {
+    if (contextLayersOnTop && updateLayers) {
       this.removeContextLayers();
       activeContextLayers.forEach(l => this.addAdditionalLayerOption(
         l.id,
