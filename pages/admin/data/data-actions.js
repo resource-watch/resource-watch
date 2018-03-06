@@ -27,8 +27,9 @@ export const getDatasets = createThunkAction('ADMIN_DATA_PAGE/getDatasets', page
     const qParams = queryString.stringify({
       application: process.env.APPLICATIONS,
       env: process.env.API_ENV,
-      'page[size]': 20,
-      'page[number]': page || 1,
+      'page[size]': 99999,
+      // If we only want to get 1 page from the api
+      // 'page[number]': page || 1,
       includes: 'widget,layer,metadata,vocabulary,user'
     });
 

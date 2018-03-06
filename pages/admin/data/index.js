@@ -48,8 +48,6 @@ class DataPage extends Page {
     if (url.query.id || url.query.subtab) {
       setPageParams({ id: url.query.id, subtab: url.query.subtab });
     }
-
-
   }
 
   componentWillReceiveProps(nextProps) {
@@ -69,11 +67,13 @@ class DataPage extends Page {
         nextProps.url.query.subtab !== adminDataPage.subtab) {
       setPageParams({ id: nextProps.url.query.id, subtab: nextProps.url.query.subtab });
     }
-
+    /*
+    // If we want to get only the current page, activate these lines
     if (adminDataPage.datasets.activePage !== nextProps.adminDataPage.datasets.activePage) {
       window.scrollTo(0, 0);
       getDatasets(nextProps.adminDataPage.datasets.activePage);
     }
+    */
   }
 
   render() {
