@@ -29,6 +29,10 @@ export function concatenation(string, params) {
   return str;
 }
 
+export function paramIsTrue(param) {
+  return param && /1|true/.test(param);
+}
+
 export function capitalizeFirstLetter(string) {
   if (typeof string === 'string') {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();

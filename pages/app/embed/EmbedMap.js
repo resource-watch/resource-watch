@@ -19,6 +19,8 @@ import Icon from 'components/ui/Icon';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
+import { paramIsTrue } from 'utils/utils';
+
 
 class EmbedMap extends Page {
   static async getInitialProps(context) {
@@ -156,14 +158,14 @@ class EmbedMap extends Page {
           <div className={classnames('widget-content', { '-external': this.isLoadedExternally() })}>
             <Map
               LayerManager={LayerManager}
-              mapConfig={{ zoom, latLng, zoomControl: disableZoom !== '1' }}
+              mapConfig={{ zoom, latLng, zoomControl: !paramIsTrue(disableZoom) }}
               layerGroups={layerGroups}
             />
 
             <Legend
               layerGroups={layerGroups}
-              expanded={legendExpanded === '1'}
-              hideTimeline={hideTimeline === '1'}
+              expanded={paramIsTrue(legendExpanded)}
+              hideTimeline={paramIsTrue(hideTimeline)}
               interaction={false}
               readonly
             />
