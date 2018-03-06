@@ -30,6 +30,9 @@ import GlobeCesium from 'pages/app/pulse/globe-cesium';
 import Page from 'components/layout/page';
 import Layout from 'components/layout/layout/layout-app';
 
+// Cesium
+let Cesium;
+
 class Pulse extends Page {
   constructor(props) {
     super(props);
@@ -65,6 +68,10 @@ class Pulse extends Page {
    * - componentWillUnmount
   */
   componentDidMount() {
+    // Init Cesium var
+    Cesium = window.Cesium; // eslint-disable-line prefer-destructuring
+    Cesium.BingMapsApi.defaultKey = process.env.BING_MAPS_API_KEY;
+
     this.props.getLayers();
     document.addEventListener('click', this.handleMouseClick);
   }
@@ -156,13 +163,15 @@ class Pulse extends Page {
     }
   }
   handleEarthClicked(latLon, clientX, clientY) {
-    const { pulse } = this.props;
+    const { layerMenuPulse } = this.props;
     const { interactionConfig } = this.state;
     this.props.toggleTooltip(false);
 
-    if (pulse.layerActive && interactionConfig.pulseConfig) {
-      const requestURL = substitution(interactionConfig.pulseConfig.url,
-        [{ key: 'point', value: `[${latLon.longitude}, ${latLon.latitude}]` }]);
+    if (layerMenuPulse.layerActive && interactionConfig.pulseConfig) {
+      const requestURL = substitution(
+        interactionConfig.pulseConfig.url,
+        [{ key: 'point', value: `[${latLon.longitude}, ${latLon.latitude}]` }]
+      );
       this.setTooltipValue(requestURL, clientX, clientY);
       logEvent('Planet Pulse', 'Click a datapoint', `${latLon.latitude},${latLon.longitude}`);
     }
@@ -200,21 +209,25 @@ class Pulse extends Page {
   }
 
   handleCesiumClick(e) {
-    const threedimensional = this.props.layerMenuPulse.layerActive &&
-      this.props.layerMenuPulse.layerActive.threedimensional;
-    const viewer = e.viewer;
-    const clickedPosition = e.clickedPosition;
+    const { layerMenuPulse } = this.props;
+    const { viewer, clickedPosition } = e;
+    const { scene, camera } = viewer;
+    const { globe } = scene;
+    const { ellipsoid } = globe;
+    const threedimensional = layerMenuPulse.layerActive &&
+      layerMenuPulse.layerActive.threedimensional;
     const mousePosition = new Cesium.Cartesian2(clickedPosition.x, clickedPosition.y);
 
-    const ellipsoid = viewer.scene.globe.ellipsoid;
-    const cartesian = viewer.camera.pickEllipsoid(mousePosition, ellipsoid);
+    const cartesian = camera.pickEllipsoid(mousePosition, ellipsoid);
 
     if (cartesian && threedimensional !== 'true') {
       const cartographic = ellipsoid.cartesianToCartographic(cartesian);
       const longitudeString = Cesium.Math.toDegrees(cartographic.longitude).toFixed(2);
       const latitudeString = Cesium.Math.toDegrees(cartographic.latitude).toFixed(2);
-      this.handleEarthClicked({ longitude: longitudeString, latitude: latitudeString },
-        clickedPosition.x, clickedPosition.y + 75); // TODO: 75 is the header height
+      this.handleEarthClicked(
+        { longitude: longitudeString, latitude: latitudeString },
+        clickedPosition.x, clickedPosition.y + 75
+      ); // TODO: 75 is the header height
     }
   }
 
@@ -273,6 +286,10 @@ class Pulse extends Page {
             zoom={zoom}
             mainLayer={texture}
             contextLayersOnTop={layerActive && layerActive.contextLayersOnTop}
+            onClick={this.handleCesiumClick}
+            onMouseDown={this.handleCesiumMouseDown}
+            onMoveStart={this.handleCesiumMoveStart}
+            onShapesCreated={this.handleShapesCreated}
           />
           <ZoomControl
             onZoomIn={this.triggerZoomIn}
