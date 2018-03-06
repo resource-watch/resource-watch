@@ -9,8 +9,10 @@ import { connect } from 'react-redux';
 
 let Cesium;
 
-//----------------------------------------------------------
-// TO-DO move this to somewhere else that makes more sense
+//-----------------GLOBE CONSTANTS-------------------
+/* Zoom defaults */
+const MAXIMUM_ZOOM_DISTANCE = 30000000;
+const MINIMUM_ZOOM_DISTANCE = 99;
 /* Severity colors */
 const severityLowColor = '#2C7FB8';
 const severityMediumColor = '#7FCDBB';
@@ -63,8 +65,8 @@ class GlobeCesiumComponent extends PureComponent {
     });
 
     // Set maximum/minimum zoom values
-    this.viewer.scene.screenSpaceCameraController.maximumZoomDistance = 30000000;
-    this.viewer.scene.screenSpaceCameraController.minimumZoomDistance = 99;
+    this.viewer.scene.screenSpaceCameraController.maximumZoomDistance = MAXIMUM_ZOOM_DISTANCE;
+    this.viewer.scene.screenSpaceCameraController.minimumZoomDistance = MINIMUM_ZOOM_DISTANCE;
 
     this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
     this.handler.setInputAction(
@@ -138,6 +140,8 @@ class GlobeCesiumComponent extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const mainLayer = this.props.layerActive && this.props.layerActive.url;
     const newMainLayer = nextProps.layerActive && nextProps.layerActive.url;
+
+    // ----- Updates in layers ----------
     if (nextProps.basemap !== this.props.basemap ||
       nextProps.activeContextLayers !== this.props.activeContextLayers ||
       newMainLayer !== mainLayer) {
@@ -148,12 +152,30 @@ class GlobeCesiumComponent extends PureComponent {
         (newMainLayer !== mainLayer)
       );
     }
+    // ----- 3D layer points ------
     if (nextProps.layerPoints !== this.props.layerPoints) {
       this.removeShapes();
       if (nextProps.layerPoints.length > 0) {
         this.props.setShapesCreated(false);
         this.createShapes(this.getShapes(nextProps));
       }
+    }
+    // -------- zoom level updates -------------
+    if (this.props.zoom !== nextProps.zoom) {
+      const { camera } = this.viewer;
+      const increment = this.props.zoom - nextProps.zoom;
+      const difference = camera.getMagnitude() - this.viewer.scene.globe.ellipsoid.maximumRadius;
+      const smallerScalar = difference < 1000000;
+      let scalar = smallerScalar ? 0.95 : 0.9;
+      if (increment < 0) {
+        scalar = smallerScalar ? 1.005 : 1.1;
+      }
+      const newPosition = {
+        x: camera.position.x * scalar,
+        y: camera.position.y * scalar,
+        z: camera.position.z * scalar
+      };
+      this.viewer.camera.flyTo({ destination: newPosition, duration: 1.5 });
     }
   }
 
@@ -471,6 +493,7 @@ GlobeCesiumComponent.propTypes = {
   contextLayersOnTop: PropTypes.bool,
   layerPoints: PropTypes.array,
   layerActive: PropTypes.object,
+  zoom: PropTypes.number,
 
   // Store
   setShapesCreated: PropTypes.func.isRequired,
