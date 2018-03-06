@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import * as actions from '../header-actions';
 
-import HeaderMenuMobileComponent from './header-menu-mobile-component';
+import HeaderMenuMobileComponent from './component';
 
 export default connect(
   state => ({

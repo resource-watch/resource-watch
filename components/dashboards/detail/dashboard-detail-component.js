@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 // Wysiwyg
 import Wysiwyg from 'vizz-wysiwyg';
-import WidgetBlock from 'components/dashboards/wysiwyg/widget-block/widget-block';
-import WidgetBlockEdition from 'components/dashboards/wysiwyg/widget-block-edition/widget-block-edition';
+import WidgetBlock from 'components/wysiwyg/widget-block/widget-block';
+import WidgetBlockEdition from 'components/wysiwyg/widget-block-edition/widget-block-edition';
 
 export default function DashboardDetail({ dashboardDetail }) {
   let items = [];

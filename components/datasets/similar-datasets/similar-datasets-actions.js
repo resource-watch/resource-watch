@@ -22,6 +22,10 @@ export const getSimilarDatasets = createThunkAction('similar-datasets/getSimilar
             dispatch(setSimilarDatasetsLoading(false));
             dispatch(setSimilarDatasets(similarDatasets));
             return similarDatasets;
+          })
+          .catch((err) => {
+            dispatch(setSimilarDatasetsLoading(false));
+            dispatch(setSimilarDatasetsError({ payload: err.message }));
           });
       } else {
         dispatch(setSimilarDatasetsLoading(false));

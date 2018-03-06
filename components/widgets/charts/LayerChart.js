@@ -130,7 +130,7 @@ class LayerChart extends React.Component {
 
   render() {
     return (
-      <div className="c-chart">
+      <div className="c-we-chart">
         <div
           ref={(c) => { this.chart = c; }}
           className="chart"
