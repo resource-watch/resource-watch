@@ -67,6 +67,7 @@ class GlobeCesiumComponent extends PureComponent {
     // Set maximum/minimum zoom values
     this.viewer.scene.screenSpaceCameraController.maximumZoomDistance = MAXIMUM_ZOOM_DISTANCE;
     this.viewer.scene.screenSpaceCameraController.minimumZoomDistance = MINIMUM_ZOOM_DISTANCE;
+    this.viewer.scene.globe.baseColor = Cesium.Color.BLACK;
 
     this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
     this.handler.setInputAction(
