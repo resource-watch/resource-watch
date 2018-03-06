@@ -236,9 +236,14 @@ export const PANORAMAS = [
                 <p>
                   The National Oceanic and Atmospheric Organization (NOAA) announced in summer 2017 that the third global coral bleaching event <a href="http://www.noaa.gov/media-release/global-coral-bleaching-event-likely-ending" target="_blank" rel="noopener noreferrer">appeared to be on the wane.</a> But it’s a temporary reprieve. As this map reveals, things are set to get much worse.
                 </p>
-                <iframe src="https://staging.resourcewatch.org/embed/layers/?layers=%5B%7B%22dataset%22%3A%221ef55baf-bbbe-480d-85e9-7132c742f196%22%2C%22visible%22%3Atrue%2C%22layers%22%3A%5B%7B%22id%22%3A%22dc2c2cc8-a351-4221-ad16-0671bc430ada%22%2C%22active%22%3Atrue%2C%22opacity%22%3A1%7D%2C%7B%22id%22%3A%22f7862c92-3300-40d0-bc59-17ce5769646a%22%2C%22active%22%3Afalse%2C%22opacity%22%3A1%7D%5D%7D%5D" width="100%" height="474px" frameBorder="0"></iframe>
+                <div className="image-container">
+                  <iframe src="https://staging.resourcewatch.org/embed/map/bec6033c-e202-4b48-97a7-89093fdf31cc" width="100%" height="400" frameBorder="0"></iframe>
+                  <div className="caption">
+                    <i>Data source: WRI <a href="https://staging.resourcewatch.org/data/explore/894f43a8-ce8e-43a5-a4c7-fa80faa43d63" target="_blank" rel="noopener noreferrer">Reefs at Risk</a>, adapted from Donner, S.D., 2009 <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0005712" target="_blank" rel="noopener noreferrer">study in PLoS ONE.</a></i>
+                  </div>
+                </div>
                 <p>
-                  This map shows the projected frequency of what NOAA calls <a href="http://coralreefwatch-satops.noaa.gov/" target="_blank" rel="noopener noreferrer">Bleaching Alert Level 2 Events</a> for the 2030s and 2050s. These events are basically code red for corals, indicating intense heat stress and a likelihood that the corals will die.
+                  This map shows the projected frequency of what NOAA calls <a href="http://coralreefwatch-satops.noaa.gov/" target="_blank" rel="noopener noreferrer">Bleaching Alert Level 2 Events</a> for the 2030s and 2050s. (Specifically, it shows the percentage of years in each decade in which these events will likely occur.) A Bleaching Alert Level 2 Event is basically code red for corals, indicating intense heat stress and a likelihood that the corals will die.
                 </p>
                 <p>
                   The brighter the color, the more frequently these events are likely to occur. So, that wash of yellow and green that spreads across the map? It signifies a dramatic rise in both the range and frequency of the most severe levels of bleaching if carbon emissions continue unchecked.
