@@ -3,11 +3,17 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 20px;
+
+  > * {
+    margin-right: 20px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
 
   > .c-field {
     position: relative;
-    margin-right: 20px;
 
     svg {
       position: absolute;

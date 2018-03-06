@@ -217,7 +217,7 @@ class WidgetCard extends PureComponent {
       if (this.props.mode === 'thumbnail') {
         return (
           <div className="c-widget-chart -thumbnail">
-            <div className="c-chart -no-preview">
+            <div className="c-we-chart -no-preview">
               <span>No preview</span>
             </div>
           </div>

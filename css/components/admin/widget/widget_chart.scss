@@ -5,7 +5,7 @@
 
   // These following styles are used in MY RW,
   // specifically in "My Widgets"
-  .c-chart {
+  .c-we-chart {
     // The pie and bar chart will overflow without
     // this property because they auto determine the
     // space they need
@@ -53,7 +53,7 @@
   &.-thumbnail {
     max-height: 180px;
 
-    .c-chart {
+    .c-we-chart {
       display: block;
       height: 160px;
       min-height: 160px; // Override a rule above

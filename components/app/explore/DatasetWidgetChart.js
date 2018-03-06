@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 // Components
-import VegaChart from 'components/widgets/charts/VegaChart';
 import Spinner from 'components/ui/Spinner';
 import DatasetPlaceholderChart from 'components/app/explore/DatasetPlaceholderChart';
 
-// Helpers
-import ChartTheme from 'utils/widgets/theme';
+// Widget editor
+import { VegaChart, getVegaTheme } from 'widget-editor';
 
 class DatasetWidgetChart extends React.Component {
   constructor(props) {
@@ -49,7 +48,7 @@ class DatasetWidgetChart extends React.Component {
   render() {
     const { widgetConfig } = this.state.widget;
     const { mode } = this.props;
-    const themeObj = ChartTheme(mode === 'thumbnail');
+    const themeObj = getVegaTheme(mode === 'thumbnail');
     const classname = classnames({
       'c-widget-chart': true,
       '-thumbnail': (mode === 'thumbnail')
@@ -69,10 +68,9 @@ class DatasetWidgetChart extends React.Component {
           data={widgetConfig}
           theme={themeObj}
           showLegend={mode !== 'thumbnail'}
-          reloadOnResize={mode !== 'thumbnail'}
+          reloadOnResize
           toggleLoading={this.triggerToggleLoading}
           getForceUpdate={(func) => { this.forceChartUpdate = func; }}
-          onError={() => this.setState({ error: true })}
         />
       </div>
     );

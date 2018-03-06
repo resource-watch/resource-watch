@@ -1,5 +1,6 @@
 export const STATE_DEFAULT = {
   submitting: false,
+  submitted: false,
   form: {
     email: '',
     text: ''
