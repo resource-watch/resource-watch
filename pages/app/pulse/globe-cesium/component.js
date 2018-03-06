@@ -142,8 +142,8 @@ class GlobeCesiumComponent extends PureComponent {
       this.updateLayers(nextProps);
     }
     if (nextProps.layerPoints !== this.props.layerPoints) {
-      if (this.props.layerPoints.length > 0) {
-        this.createShapes(this.getShapes());
+      if (nextProps.layerPoints.length > 0) {
+        this.createShapes(this.getShapes(nextProps));
       }
     }
   }
@@ -201,17 +201,17 @@ class GlobeCesiumComponent extends PureComponent {
     }
   }
 
-  getShapes() {
-    const { layerActive, layerPoints } = this.props;
+  getShapes(props) {
+    const { layerActive, layerPoints } = props;
     const { markerType } = layerActive;
     let shapes = [];
     if (layerPoints) {
       shapes = compact(layerPoints.map((elem) => {
-        if (!this.state.interactionConfig) {
+        if (!layerActive.attributes.interactionConfig) {
           return null;
         }
 
-        const tooltipContentObj = this.state.interactionConfig.output.map(obj =>
+        const tooltipContentObj = layerActive.attributes.interactionConfig.output.map(obj =>
           ({ key: obj.property, value: elem[obj.column], type: obj.type }));
         const description = tooltipContentObj.map((val) => {
           if (val.type === 'url') {
