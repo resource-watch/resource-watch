@@ -133,6 +133,9 @@ export const PANORAMAS = [
               <div>
                 <div className="video-container">
                   <iframe className="video" src="https://www.youtube.com/embed/bFdPmiwZzVE?rel=0&amp;showinfo=0" allowFullScreen />
+                  <div className="caption">
+                    <i>Video courtesy Queensland University of Technology / National Geographic</i>
+                  </div>
                 </div>
                 <p>
                   When researchers at the <a href="https://www.qut.edu.au/news/news?news-id=108238" target="_blank" rel="noopener noreferrer">Queensland University of Technology in Australia</a> put corals in tanks and turned up the heat, the corals began violently spewing out the algae <i>Symbiodinium</i> in a matter of hours. It’s essentially coral bleaching on fast-forward. The university captured the process in this time-lapse video.
