@@ -133,9 +133,9 @@ export const PANORAMAS = [
               <div>
                 <div className="video-container">
                   <iframe className="video" src="https://www.youtube.com/embed/bFdPmiwZzVE?rel=0&amp;showinfo=0" allowFullScreen />
-                  <div className="caption">
-                    <i>Video courtesy Queensland University of Technology / National Geographic</i>
-                  </div>
+                </div>
+                <div className="video-caption">
+                  <i>Video courtesy Queensland University of Technology / National Geographic</i>
                 </div>
                 <p>
                   When researchers at the <a href="https://www.qut.edu.au/news/news?news-id=108238" target="_blank" rel="noopener noreferrer">Queensland University of Technology in Australia</a> put corals in tanks and turned up the heat, the corals began violently spewing out the algae <i>Symbiodinium</i> in a matter of hours. It’s essentially coral bleaching on fast-forward. The university captured the process in this time-lapse video.
@@ -268,16 +268,16 @@ export const PANORAMAS = [
             rotation: '0 -90 0',
             markup:
               <div>
-                <h3>Limit household waste</h3>
                 <p>
-                  such as fertilizer and chemicals, that could make it into waterways and <a href="https://blog.nature.org/conservancy/2010/03/23/how-lawn-chemicals-affect-the-oceans-how-you-can-help/" target="_blank" rel="noreferrer noopener">choke coral reefs.</a>
+                  <span className="header-text">Limit household waste</span>
+                   such as fertilizer and chemicals, that could make it into waterways and <a href="https://blog.nature.org/conservancy/2010/03/23/how-lawn-chemicals-affect-the-oceans-how-you-can-help/" target="_blank" rel="noreferrer noopener">choke coral reefs.</a>
                 </p>
-                <h3>Eat sustainably</h3>
                 <p>
+                  <span className="header-text">Eat sustainably</span>
                   <a href="https://www.fishwatch.gov/" target="_blank" rel="noopener noreferrer">This database</a> can help you choose seafood caught from sustainably managed fisheries that don’t threaten marine ecosystems.
                 </p>
-                <h3>Avoid damaging coral</h3>
                 <p>
+                  <span className="header-text">Avoid damaging coral</span>
                   with boat anchors when you visit a reef. Don’t participate in destructive fishing practices, such as poison and blast fishing. And keep your flippers to yourself when diving.
                 </p>
                 <h3>Volunteer for beach or reef cleanups</h3>
