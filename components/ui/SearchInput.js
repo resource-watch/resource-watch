@@ -31,15 +31,18 @@ class SearchInput extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const { input } = nextProps;
 
-    this.setState({ value: input.value });
+    if (input.value) {
+      this.setState({ value: input.value });
+    }
   }
 
   onSearch = (e) => {
     this.setState({
       value: e.currentTarget.value || ''
     }, () => {
-      if (this.props.escapeText) this.props.onSearch(escapeRegExp(this.state.value));
-      if (!this.props.escapeText) this.props.onSearch(this.state.value);
+      const { value } = this.state;
+      if (this.props.escapeText) this.props.onSearch(escapeRegExp(value));
+      if (!this.props.escapeText) this.props.onSearch(value);
     });
   }
 
