@@ -32,7 +32,7 @@ class SplashDetail extends Page {
       skyLoading: false,
       panorama,
       selectedPanorama,
-      soundActivated: true,
+      soundActivated: false,
       selectedHotspot: null,
       earthMode,
       mouseHovering: false,
