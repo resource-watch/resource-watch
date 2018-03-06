@@ -143,7 +143,10 @@ class GlobeCesiumComponent extends PureComponent {
     }
     if (nextProps.layerPoints !== this.props.layerPoints) {
       if (nextProps.layerPoints.length > 0) {
+        this.props.setShapesCreated(false);
         this.createShapes(this.getShapes(nextProps));
+      } else {
+        this.removeShapes();
       }
     }
   }
@@ -402,7 +405,6 @@ class GlobeCesiumComponent extends PureComponent {
 
   createShapes(shapes) {
     if (shapes) {
-      this.viewer.entities.removeAll();
       shapes.forEach((shape) => {
         if (shape.type === 'billboard') {
           const position = Cesium.Cartesian3.fromDegrees(shape.lon, shape.lat);
@@ -436,11 +438,12 @@ class GlobeCesiumComponent extends PureComponent {
         }
       });
 
-      if (shapes && shapes.length > 0 && this.props.onShapesCreated) {
-        const delay = shapes.length * 2;
-        setTimeout(() => this.props.onShapesCreated(), delay);
-      }
+      this.props.setShapesCreated(true);
     }
+  }
+
+  removeShapes() {
+    this.viewer.entities.removeAll();
   }
 
   render() {
@@ -459,10 +462,12 @@ GlobeCesiumComponent.propTypes = {
   layerPoints: PropTypes.array,
   layerActive: PropTypes.object,
 
+  // Store
+  setShapesCreated: PropTypes.func.isRequired,
+
   // Callbacks
   onClick: PropTypes.func,
   onBillboardClick: PropTypes.func,
-  onShapesCreated: PropTypes.func,
   onMoveEnd: PropTypes.func,
   onMoveStart: PropTypes.func,
   onMouseMove: PropTypes.func,

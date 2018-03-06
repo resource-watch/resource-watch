@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { activeContextLayers } from './selectors';
 
 import * as actions from './actions';
-import * as reducers from './reducer';
+import * as reducers from './reducers';
 import initialState from './initial-state';
 
 import GlobeCesiumComponent from './component';

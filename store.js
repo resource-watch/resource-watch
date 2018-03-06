@@ -34,6 +34,7 @@ import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-f
 import * as layerMenuDropdown from 'pages/app/pulse/layer-menu-dropdown';
 import * as layerCard from 'pages/app/pulse/layer-card';
 import * as layerPill from 'pages/app/pulse/layer-pill';
+import * as globeCesium from 'pages/app/pulse/globe-cesium';
 import * as pulse from 'pages/app/pulse/pulse';
 
 // Widget
@@ -88,6 +89,7 @@ const reducer = combineReducers({
   layerMenuPulse: handleModule(layerMenuDropdown),
   layerCardPulse: handleModule(layerCard),
   contextLayersPulse: handleModule(layerPill),
+  globeCesium: handleModule(globeCesium),
   pulse: handleModule(pulse),
 
   // Dataset

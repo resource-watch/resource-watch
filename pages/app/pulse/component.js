@@ -35,7 +35,6 @@ class Pulse extends Page {
     super(props);
     this.state = {
       texture: null,
-      loading: false,
       selectedMarker: null,
       interactionConfig: null,
       zoom: 0
@@ -78,7 +77,6 @@ class Pulse extends Page {
     if (lastId !== newId) {
       if (nextLayerActive) {
         this.setState({
-          loading: true,
           interactionConfig: nextLayerActive.attributes.interactionConfig
         });
 
@@ -86,20 +84,17 @@ class Pulse extends Page {
           const url = nextLayerActive.attributes.layerConfig.pulseConfig.url;
           this.props.getLayerPoints(url);
         } else {
+          this.props.resetLayerPoints();
           this.layerGlobeManager.addLayer(nextLayerActive.attributes, {
             onLayerAddedSuccess: function success(result) {
               this.setState({
-                texture: result.url,
-                loading: false,
-                layerPoints: []
+                texture: result.url
               });
             }.bind(this),
             onLayerAddedError: function error(err) {
               console.error(err);
               this.setState({
-                texture: null,
-                loading: false,
-                layerPoints: []
+                texture: null
               });
             }.bind(this)
           });
@@ -239,7 +234,9 @@ class Pulse extends Page {
     const {
       url,
       layersGroup,
-      layerMenuPulse
+      layerMenuPulse,
+      pulse,
+      globeCesium
     } = this.props;
     const { layerActive } = layerMenuPulse;
     // const { layerPoints } = pulse;
@@ -265,7 +262,11 @@ class Pulse extends Page {
           />
           <LayerCard />
           <Spinner
-            isLoading={this.state.loading || layerMenuPulse.loading}
+            isLoading={
+              pulse.loading ||
+              layerMenuPulse.loading ||
+              (pulse.layerPoints.length > 0 && !globeCesium.shapesCreated)
+            }
           />
           <GlobeCesium
             basemap={basemap}
@@ -300,7 +301,8 @@ const mapStateToProps = state => ({
   layerMenuPulse: state.layerMenuPulse,
   pulse: state.pulse,
   layersGroup: getLayersGroupPulse(state),
-  layerActive: getActiveLayersPulse(state)
+  layerActive: getActiveLayersPulse(state),
+  globeCesium: state.globeCesium
 });
 
 const mapDispatchToProps = {
