@@ -71,9 +71,12 @@ class EmbedMap extends Page {
 
   render() {
     const {
-      widget, loading, layerGroups, error, zoom, latLng, favourited, user
+      widget, loading, layerGroups, error, zoom, latLng, favourited, user, url
     } = this.props;
+
     const { modalOpened } = this.state;
+
+    const { disableZoom, legendExpanded, hideTimeline } = url.query;
 
     const favouriteIcon = favourited ? 'star-full' : 'star-empty';
 
@@ -153,13 +156,14 @@ class EmbedMap extends Page {
           <div className={classnames('widget-content', { '-external': this.isLoadedExternally() })}>
             <Map
               LayerManager={LayerManager}
-              mapConfig={{ zoom, latLng }}
+              mapConfig={{ zoom, latLng, zoomControl: disableZoom !== '1' }}
               layerGroups={layerGroups}
             />
 
             <Legend
               layerGroups={layerGroups}
-              expanded={false}
+              expanded={legendExpanded === '1'}
+              hideTimeline={hideTimeline === '1'}
               interaction={false}
               readonly
             />

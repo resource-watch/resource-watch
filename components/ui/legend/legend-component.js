@@ -15,6 +15,7 @@ class Legend extends React.PureComponent {
     expanded: PropTypes.bool,
     readonly: PropTypes.bool,
     interaction: PropTypes.bool,
+    hideTimeline: PropTypes.bool,
 
     // ACTIONS
     onChangeLayer: PropTypes.func,
@@ -62,8 +63,7 @@ class Legend extends React.PureComponent {
 
 
   render() {
-    const { layerGroups } = this.props;
-
+    const { layerGroups, hideTimeline } = this.props;
     return (
       <div className="c-legend-map">
         <div
@@ -76,6 +76,7 @@ class Legend extends React.PureComponent {
 
           <LegendList
             items={layerGroups}
+            hideTimeline={hideTimeline}
             helperClass="c-legend-unit -sort"
             onSortEnd={this.onSortEnd}
             axis="y"
