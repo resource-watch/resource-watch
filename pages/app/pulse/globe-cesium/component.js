@@ -139,7 +139,12 @@ class GlobeCesiumComponent extends PureComponent {
     if (nextProps.basemap !== this.props.basemap ||
       nextProps.activeContextLayers !== this.props.activeContextLayers ||
       nextProps.mainLayer !== this.props.mainLayer) {
-      this.updateLayers(nextProps);
+      this.updateLayers(
+        nextProps,
+        nextProps.basemap !== this.props.basemap,
+        nextProps.activeContextLayers !== this.props.activeContextLayers,
+        nextProps.mainLayer !== this.props.mainLayer
+      );
     }
     if (nextProps.layerPoints !== this.props.layerPoints) {
       this.removeShapes();
@@ -347,7 +352,12 @@ class GlobeCesiumComponent extends PureComponent {
     this.imageryLayers.remove(this.imageryLayers.get(0), false);
   }
 
-  updateLayers(props) {
+  updateLayers(
+    props,
+    updateBasemap = true,
+    updateContextLayers = true,
+    updateMainLayer = true
+  ) {
     const {
       basemap,
       activeContextLayers,
@@ -355,7 +365,7 @@ class GlobeCesiumComponent extends PureComponent {
       contextLayersOnTop
     } = props;
 
-    if (basemap) {
+    if (basemap && updateBasemap) {
       this.removeBasemap();
       this.addBasemap(
         basemap.name,
@@ -363,7 +373,7 @@ class GlobeCesiumComponent extends PureComponent {
       );
     }
 
-    if (!contextLayersOnTop) {
+    if (!contextLayersOnTop && updateContextLayers) {
       this.removeContextLayers();
       activeContextLayers.forEach(l => this.addAdditionalLayerOption(
         l.id,
@@ -371,12 +381,12 @@ class GlobeCesiumComponent extends PureComponent {
       ));
     }
 
-    if (mainLayer) {
+    if (mainLayer && updateMainLayer) {
       this.removeMainLayer();
       this.addAdditionalLayerOption('mainLayer', new Cesium.UrlTemplateImageryProvider({ url: mainLayer }), 1, true);
     }
 
-    if (contextLayersOnTop) {
+    if (contextLayersOnTop && updateContextLayers) {
       this.removeContextLayers();
       activeContextLayers.forEach(l => this.addAdditionalLayerOption(
         l.id,
