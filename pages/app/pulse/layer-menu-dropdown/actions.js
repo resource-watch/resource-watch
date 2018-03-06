@@ -47,38 +47,37 @@ export const toggleActiveLayer = createThunkAction('layer-menu-dropdown/toggleAc
             {
               onLayerAddedSuccess: function success(result) {
                 layer.url = result.url;
+                if (contextLayers.length > 0) {
+                  let layersLoaded = 0;
+                  const urlSt = `${process.env.WRI_API_URL}/layer/?ids=${contextLayers.join()}&env=production,preproduction`;
+                  fetch(new Request(urlSt))
+                    .then((resp) => {
+                      return resp.json();
+                    })
+                    .then((res) => {
+                      res.data.forEach((l) => {
+                        layerGlobeManager.addLayer(
+                          { ...l.attributes, id: l.id },
+                          {
+                            onLayerAddedSuccess: function successContextLayers(ctxtLayer) {
+                              layer.contextLayers.push(ctxtLayer);
+                              layersLoaded++;
+                              if (contextLayers.length === layersLoaded) {
+                                dispatch(setActiveLayer(layer));
+                              }
+                            }
+                          },
+                          true
+                        );
+                      });
+                    });
+                } else {
+                  dispatch(setActiveLayer(layer));
+                }
               }
             },
             true
           );
-
-          if (contextLayers.length > 0) {
-            let layersLoaded = 0;
-            const urlSt = `${process.env.WRI_API_URL}/layer/?ids=${contextLayers.join()}&env=production,preproduction`;
-            fetch(new Request(urlSt))
-              .then((resp) => {
-                return resp.json();
-              })
-              .then((res) => {
-                res.data.forEach((l) => {
-                  layerGlobeManager.addLayer(
-                    { ...l.attributes, id: l.id },
-                    {
-                      onLayerAddedSuccess: function success(result) {
-                        layer.contextLayers.push(result);
-                        layersLoaded++;
-                        if (contextLayers.length === layersLoaded) {
-                          dispatch(setActiveLayer(layer));
-                        }
-                      }
-                    },
-                    true
-                  );
-                });
-              });
-          } else {
-            dispatch(setActiveLayer(layer));
-          }
         })
         .catch((error) => {
           // Fetch from server ko -> Dispatch error

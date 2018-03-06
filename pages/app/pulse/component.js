@@ -37,7 +37,6 @@ class Pulse extends Page {
   constructor(props) {
     super(props);
     this.state = {
-      texture: null,
       selectedMarker: null,
       interactionConfig: null,
       zoom: 0
@@ -92,23 +91,9 @@ class Pulse extends Page {
           this.props.getLayerPoints(url);
         } else {
           this.props.resetLayerPoints();
-          this.layerGlobeManager.addLayer(nextLayerActive.attributes, {
-            onLayerAddedSuccess: function success(result) {
-              this.setState({
-                texture: result.url
-              });
-            }.bind(this),
-            onLayerAddedError: function error(err) {
-              console.error(err);
-              this.setState({
-                texture: null
-              });
-            }.bind(this)
-          });
         }
       } else {
         this.layerGlobeManager.abortRequest();
-        this.setState({ texture: null });
       }
     }
   }
@@ -253,7 +238,7 @@ class Pulse extends Page {
     } = this.props;
     const { layerActive } = layerMenuPulse;
     // const { layerPoints } = pulse;
-    const { texture, zoom } = this.state;
+    const { zoom } = this.state;
     // const shapes = this.getShapes(layerPoints, layerActive && layerActive.markerType);
 
     // Check if there's a custom basemap
@@ -284,7 +269,6 @@ class Pulse extends Page {
           <GlobeCesium
             basemap={basemap}
             zoom={zoom}
-            mainLayer={texture}
             contextLayersOnTop={layerActive && layerActive.contextLayersOnTop}
             onClick={this.handleCesiumClick}
             onMouseDown={this.handleCesiumMouseDown}
