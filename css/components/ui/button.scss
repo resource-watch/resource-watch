@@ -76,6 +76,21 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
         box-shadow: $btn-hover-shadow;
       }
     }
+
+    &.-disabled,
+    &[disabled] {
+      color: rgba($ui-font-color, 0.5);
+      fill: rgba($ui-font-color, 0.5);
+      background-color: rgba($ui-font-color, 0.5);
+      border-color: $border-color-1;
+      cursor: default;
+
+      &:hover {
+        transform: translateY(0);
+        box-shadow: none;
+      }
+    }
+
   }
 
   &.-b,

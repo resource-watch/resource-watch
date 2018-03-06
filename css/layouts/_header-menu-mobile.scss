@@ -25,6 +25,7 @@
       overflow-x: hidden;
       overflow-y: auto;
       padding: $margin-size-small;
+      padding-top: 60px;
       background: $color-white;
       transform: translate(100%, 0);
       transition: transform $animation-time-2 $ease-in-out-cubic;

@@ -9,6 +9,7 @@ class Legend extends PureComponent {
     items: PropTypes.array,
     readonly: PropTypes.bool,
     interaction: PropTypes.bool,
+    hideTimeline: PropTypes.bool,
 
     // FUNC
     onChangeLayer: PropTypes.func,
@@ -22,7 +23,7 @@ class Legend extends PureComponent {
   }
 
   render() {
-    const { items } = this.props;
+    const { items, hideTimeline } = this.props;
 
     return (
       <ul className="legend-list">
@@ -31,6 +32,7 @@ class Legend extends PureComponent {
             key={index}
             index={index}
             value={value}
+            hideTimeline={hideTimeline}
             readonly={this.props.readonly}
             interaction={this.props.interaction}
             onChangeLayer={this.props.onChangeLayer}

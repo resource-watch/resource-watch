@@ -2,7 +2,8 @@ export default {
   dropdownOpened: {
     data: false,
     about: false,
-    myrw: false
+    myrw: false,
+    topics: false
   },
   mobileOpened: false,
   searchOpened: false,
@@ -14,9 +15,24 @@ export default {
       pathnames: ['/app/Explore', '/app/ExploreDetail', '/app/Pulse'],
       children: [
         { label: 'Explore Datasets', route: 'explore' },
-        { label: 'Dashboards', route: 'dashboards' },
         { label: 'Planet Pulse', href: '/data/pulse' },
         { label: 'App Gallery', route: 'get_involved_detail', params: { id: 'apps' } }
+      ]
+    },
+    {
+      id: 'topics',
+      label: 'Topics',
+      route: 'topics',
+      pathnames: ['/app/topics', '/app/topics-detail'],
+      children: [
+        { label: 'Biodiversity', route: 'topics_detail', params: { id: 'biodiversity' } },
+        { label: 'Cities', route: 'topics_detail', params: { id: 'cities' } },
+        { label: 'Climate', route: 'topics_detail', params: { id: 'climate' } },
+        { label: 'Commerce', route: 'topics_detail', params: { id: 'commerce' } },
+        { label: 'Energy', route: 'topics_detail', params: { id: 'energy' } },
+        { label: 'Food and Agriculture', route: 'topics_detail', params: { id: 'food-and-agriculture' } },
+        { label: 'Forests', route: 'topics_detail', params: { id: 'forest' } },
+        { label: 'Water', route: 'topics_detail', params: { id: 'water' } }
       ]
     },
     {

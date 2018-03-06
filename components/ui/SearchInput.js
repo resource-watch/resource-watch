@@ -10,16 +10,14 @@ import Icon from 'components/ui/Icon';
 
 class SearchInput extends PureComponent {
   static defaultProps = {
-    input: {},
-    link: {},
-    escapeText: true
+    link: {}
   }
 
   static propTypes = {
     input: PropTypes.object.isRequired,
-    link: PropTypes.object.isRequired,
-    onSearch: PropTypes.func.isRequired,
-    escapeText: PropTypes.bool.isRequired
+    link: PropTypes.object,
+    escapeText: PropTypes.bool,
+    onSearch: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -57,12 +55,13 @@ class SearchInput extends PureComponent {
               className="-fluid"
               onChange={this.onSearch}
               placeholder={input.placeholder}
-              value={value}
+              value={value || ''}
               type="search"
             />
             <Icon name="icon-search" className="-small" />
           </div>
         </div>
+
         {link.route &&
           <Link route={link.route} params={link.params}>
             <a className="c-button -primary">{link.label}</a>
