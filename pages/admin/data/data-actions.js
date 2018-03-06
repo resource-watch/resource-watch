@@ -1,11 +1,14 @@
 import 'isomorphic-fetch';
 import { createAction, createThunkAction } from 'redux-tools';
 import * as queryString from 'query-string';
+
 import WRISerializer from 'wri-json-api-serializer';
 
 export const setActiveTab = createAction('ADMIN_DATA_PAGE/setActiveTab');
 
 export const setPageParams = createAction('ADMIN_DATA_PAGE/setPageParams');
+
+export const toggleLoading = createAction('ADMIN_DATA_PAGE/toggleLoading');
 
 export const setPagination = createAction('ADMIN_DATA_PAGE/setPagination');
 export const setDatasets = createAction('ADMIN_DATA_PAGE/setDatasets');
@@ -17,7 +20,9 @@ export const setWidgets = createAction('ADMIN_DATA_PAGE/setWidgets');
 
 export const getDatasets = createThunkAction('ADMIN_DATA_PAGE/getDatasets', page =>
   (dispatch, getState) => {
-    const { user, adminDataPage } = getState();
+    dispatch(toggleLoading());
+
+    const { user } = getState();
 
     const qParams = queryString.stringify({
       application: process.env.APPLICATIONS,
@@ -46,11 +51,13 @@ export const getDatasets = createThunkAction('ADMIN_DATA_PAGE/getDatasets', page
         const { data, meta } = res;
         const list = data && data.length ?
           data.map(dataset => ({ ...dataset.attributes, id: dataset.id })) : [];
+
         dispatch(setDatasets({
+          page,
           list,
-          activePage: page || adminDataPage.datasets.activePage,
           pagination: { size: meta.size, total: meta['total-items'], limit: meta['total-pages'] }
         }));
+        dispatch(toggleLoading());
       })
       .catch(errors => console.error(errors));
   });

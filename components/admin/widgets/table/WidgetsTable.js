@@ -64,8 +64,6 @@ class WidgetsTable extends React.Component {
       error
     } = this.props;
 
-    console.log('widget', widgets.pagination);
-
     return (
       <div className="c-widgets-table">
         <Spinner className="-light" isLoading={loading} />

@@ -71,12 +71,12 @@ class DatasetsTable extends React.Component {
     const {
       routes,
       error,
-      loading,
       adminDataPage
     } = this.props;
+
     return (
       <div className="c-dataset-table">
-        <Spinner className="-light" isLoading={loading} />
+        <Spinner className="-light" isLoading={adminDataPage.loading} />
 
         {error && (
           <p>Error: {error}</p>
@@ -122,9 +122,10 @@ class DatasetsTable extends React.Component {
             data={this.getFilteredDatasets()}
             onRowDelete={() => this.props.changeDatasetPage()}
             pageSize={20}
-            onChangePage={page => this.props.changeDatasetPage(page + 1)}
+            onChangePage={page => this.props.changeDatasetPage(page)}
             pagination={{
               enabled: true,
+              dynamic: true,
               pageSize: 20,
               items: adminDataPage.datasets.pagination.total,
               page: adminDataPage.datasets.activePage - 1
@@ -140,17 +141,14 @@ DatasetsTable.defaultProps = {
   routes: {
     index: '',
     detail: ''
-  },
-  getDatasetsFilters: {}
+  }
 };
 
 DatasetsTable.propTypes = {
   routes: PropTypes.object,
-  getDatasetsFilters: PropTypes.object,
 
   // Store
   user: PropTypes.object,
-  loading: PropTypes.bool.isRequired,
   adminDataPage: PropTypes.object.isRequired,
   error: PropTypes.string,
 

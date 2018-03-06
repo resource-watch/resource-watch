@@ -7,6 +7,7 @@ export default {
   subtab: null,
   datasets: {
     activePage: 1,
+    offset: 0,
     list: [],
     pagination: {
       size: 20,

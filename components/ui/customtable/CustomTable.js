@@ -236,8 +236,9 @@ export default class CustomTable extends React.Component {
     });
 
     const maxPage = Math.ceil(filteredData.length / pagination.pageSize);
+
     // Check if the page is equal to the total
-    const page = (pagination.page !== 0 && pagination.page === maxPage) ?
+    const page = (pagination.page !== 0 && pagination.page === maxPage) && !pagination.dynamic ?
       pagination.page - 1 : pagination.page;
 
     this.setState({

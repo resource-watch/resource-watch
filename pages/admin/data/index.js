@@ -19,9 +19,7 @@ class DataPage extends Page {
     const props = await super.getInitialProps(context);
     const { store } = context;
 
-    if (!props.url.query.tab || props.url.query.tab === 'datasets') {
-      await store.dispatch(actions.getDatasets());
-    }
+    await store.dispatch(actions.getDatasets(props.url.query.page));
 
     if (props.url.query.tab === 'widgets') {
       await store.dispatch(getWidgets({
@@ -31,16 +29,17 @@ class DataPage extends Page {
         }
       }));
     }
-
     return { ...props };
   }
 
-  componentDidMount() {
-    // this.props.fetchTags();
-  }
-
   componentWillMount() {
-    const { url, adminDataPage, setActiveTab, setPageParams } = this.props;
+    const {
+      url,
+      adminDataPage,
+      setActiveTab,
+      setPageParams
+    } = this.props;
+
     if (url.query && url.query.tab !== adminDataPage.defaultTab &&
        adminDataPage.availableTabs.find(tab => tab.value === url.query.tab)) {
       setActiveTab(url.query.tab);
@@ -49,6 +48,8 @@ class DataPage extends Page {
     if (url.query.id || url.query.subtab) {
       setPageParams({ id: url.query.id, subtab: url.query.subtab });
     }
+
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -70,6 +71,7 @@ class DataPage extends Page {
     }
 
     if (adminDataPage.datasets.activePage !== nextProps.adminDataPage.datasets.activePage) {
+      window.scrollTo(0, 0);
       getDatasets(nextProps.adminDataPage.datasets.activePage);
     }
   }
