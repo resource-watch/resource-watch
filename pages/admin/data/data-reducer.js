@@ -9,22 +9,26 @@ export default {
   [actions.changeDatasetPage]: (state, action) => {
     const datasets = Object.assign({}, state.datasets, {
       activePage: action.payload + 1, offset: action.payload * state.datasets.pagination.size });
-    return Object.assign({}, state, { datasets });
+    return { ...state, datasets };
   },
   [actions.setDatasets]: (state, action) => {
     const { list, pagination, page } = action.payload;
     const datasets = Object.assign({}, state.datasets, {
       list, pagination, activePage: page || state.datasets.activePage });
-    return Object.assign({}, state, { datasets });
+    return { ...state, datasets };
   },
   [actions.setWidgets]: (state, action) => ({ ...state, widgets: action.payload }),
   [actions.setPagination]: (state, action) => ({ ...state, pagination: action.payload }),
   [actions.setDatasetPage]: (state, action) => {
     const datasets = Object.assign({}, state.datasets, { activePage: action.payload });
-    return Object.assign({}, state, { datasets });
+    return { ...state, datasets };
+  },
+  [actions.setDatasetSort]: (state, action) => {
+    const datasets = Object.assign({}, state.datasets, { sort: JSON.stringify(action.payload) });
+    return { ...state, datasets };
   },
   [actions.setDatasetSearchTerm]: (state, action) => {
     const datasets = Object.assign({}, state.datasets, { search: action.payload });
-    return Object.assign({}, state, { datasets });
+    return { ...state, datasets };
   }
 };

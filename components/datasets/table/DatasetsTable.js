@@ -7,7 +7,7 @@ import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
 import { setFilters } from 'redactions/admin/datasets';
 
-import { changeDatasetPage, setDatasetSearchTerm, setDatasetPage, setDatasetUrl } from 'pages/admin/data/data-actions';
+import { changeDatasetPage, setDatasetSearchTerm, setDatasetPage, setDatasetUrl, setDatasetSort } from 'pages/admin/data/data-actions';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -47,6 +47,10 @@ class DatasetsTable extends React.Component {
     this.props.setDatasetUrl();
   }, 500)
 
+  onSort(sort) {
+    this.props.setDatasetSort(sort);
+  }
+
   getFilteredDatasets() {
     const { adminDataPage } = this.props;
     const { datasets } = adminDataPage;
@@ -67,6 +71,11 @@ class DatasetsTable extends React.Component {
       .filter(d => d && (d.published === true || d.user.role === 'ADMIN'));
   }
 
+  changePage(page) {
+    this.props.setDatasetPage(page + 1);
+    this.props.setDatasetUrl();
+  }
+
   render() {
     const {
       routes,
@@ -74,9 +83,11 @@ class DatasetsTable extends React.Component {
       adminDataPage
     } = this.props;
 
+    const { datasets, loading } = adminDataPage;
+
     return (
       <div className="c-dataset-table">
-        <Spinner className="-light" isLoading={adminDataPage.loading} />
+        <Spinner className="-light" isLoading={loading} />
 
         {error && (
           <p>Error: {error}</p>
@@ -85,7 +96,7 @@ class DatasetsTable extends React.Component {
         <SearchInput
           input={{
             placeholder: 'Search dataset',
-            value: adminDataPage.datasets.search
+            value: datasets.search
           }}
           link={{
             label: 'New dataset',
@@ -115,21 +126,22 @@ class DatasetsTable extends React.Component {
                 { name: 'Remove', route: routes.detail, params: { tab: 'datasets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.user.token } }
               ]
             }}
-            sort={{
+            sort={JSON.parse(datasets.sort) || {
               field: 'updatedAt',
               value: -1
             }}
             filters={false}
             data={this.getFilteredDatasets()}
-            onRowDelete={() => this.props.changeDatasetPage()}
+            onRowDelete={() => this.changePage()}
             pageSize={20}
-            onChangePage={page => this.props.changeDatasetPage(page)}
+            onChangePage={page => this.changePage(page)}
+            onSort={sort => this.onSort(sort)}
             pagination={{
               enabled: true,
               dynamic: true,
               pageSize: 20,
-              items: adminDataPage.datasets.pagination.total,
-              page: adminDataPage.datasets.activePage - 1
+              items: datasets.pagination.total,
+              page: datasets.activePage - 1
             }}
           />
         )}
@@ -158,6 +170,7 @@ DatasetsTable.propTypes = {
   setDatasetPage: PropTypes.func,
   setDatasetSearchTerm: PropTypes.func,
   setDatasetUrl: PropTypes.func,
+  setDatasetSort: PropTypes.func,
   setFilters: PropTypes.func.isRequired
 };
 
@@ -174,7 +187,8 @@ const mapDispatchToProps = {
   changeDatasetPage,
   setDatasetPage,
   setDatasetSearchTerm,
-  setDatasetUrl
+  setDatasetUrl,
+  setDatasetSort
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetsTable);

@@ -176,15 +176,20 @@ export default class CustomTable extends React.Component {
   onSort(s) {
     const { sort, initialSort } = this.state;
 
+    const newSortingRule = {
+      field: s.field,
+      value: s.value
+    };
+
     // check if we are trying to sort on the same as before, then return to initial sorting
     if (isEqual(s, sort)) {
       this.setState({ sort: initialSort }, () => this.onChangePage(0));
     } else {
-      const newSortingRule = {
-        field: s.field,
-        value: s.value
-      };
       this.setState({ sort: newSortingRule }, () => this.onChangePage(0));
+    }
+
+    if (this.props.onSort) {
+      this.props.onSort(newSortingRule);
     }
   }
 

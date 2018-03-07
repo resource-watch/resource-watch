@@ -19,12 +19,18 @@ class DataPage extends Page {
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
     const { store } = context;
-    const { tab, page, search } = props.url.query;
-
-    await context.store.dispatch(actions.setDatasetPage(page || 1));
+    const { tab, page, search, sort } = props.url.query;
 
     if (search) {
       context.store.dispatch(actions.setDatasetSearchTerm(search));
+    }
+
+    if (sort) {
+      context.store.dispatch(actions.setDatasetSort(JSON.parse(sort)));
+    }
+
+    if (page) {
+      context.store.dispatch(actions.setDatasetPage(page));
     }
 
     if (!tab || tab === 'datasets') {

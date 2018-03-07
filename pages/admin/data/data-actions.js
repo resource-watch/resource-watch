@@ -8,6 +8,7 @@ export const toggleLoading = createAction('ADMIN_DATA_PAGE/toggleLoading');
 export const setDataError = createAction('ADMIN_DATA_PAGE/setDataError');
 
 export const setDatasetSearchTerm = createAction('ADMIN_DATA_PAGE/setDatasetSearchTerm');
+export const setDatasetSort = createAction('ADMIN_DATA_PAGE/setDatasetSort');
 
 export const setActiveTab = createAction('ADMIN_DATA_PAGE/setActiveTab');
 
@@ -38,8 +39,6 @@ export const getDatasets = createThunkAction('ADMIN_DATA_PAGE/getDatasets', () =
       'page[number]': activePage,
       includes: 'widget,layer,metadata,vocabulary,user'
     });
-
-    console.log(qParams);
 
     return fetch(`${process.env.WRI_API_URL}/dataset?${qParams}`, {
       headers: {
