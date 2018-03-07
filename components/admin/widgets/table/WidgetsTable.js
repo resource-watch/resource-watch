@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import includes from 'lodash/includes';
+
 // Redux
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { getWidgets, setFilters } from 'redactions/admin/widgets';
-
-// Selectors
-import getFilteredWidgets from 'selectors/admin/widgets';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -29,6 +28,10 @@ class WidgetsTable extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      searchValue: ''
+    };
+
     // ------------------- Bindings -----------------------
     this.onSearch = this.onSearch.bind(this);
     // ----------------------------------------------------
@@ -38,12 +41,14 @@ class WidgetsTable extends React.Component {
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  onSearch(value) {
-    if (!value.length) {
+  onSearch(searchValue) {
+    if (!searchValue.length) {
       this.props.setFilters([]);
     } else {
-      this.props.setFilters([{ key: 'name', value }]);
+      this.props.setFilters([{ key: 'name', value: searchValue }]);
     }
+
+    this.setState({ searchValue });
   }
 
   /**
@@ -52,7 +57,13 @@ class WidgetsTable extends React.Component {
    * - getFilteredWidgets
   */
   getWidgets() {
-    return this.props.widgets.list;
+    const { widgets } = this.props;
+    const { searchValue } = this.state;
+    if (searchValue.length > 0) {
+      return widgets.list.filter(widget =>
+        includes(widget.name.toLowerCase(), searchValue.toLowerCase()));
+    }
+    return widgets.list;
   }
 
   render() {
@@ -74,7 +85,8 @@ class WidgetsTable extends React.Component {
 
         <SearchInput
           input={{
-            placeholder: 'Search widget'
+            placeholder: 'Search widget',
+            value: this.state.searchValue
           }}
           link={{
             label: 'New widget',
@@ -108,7 +120,7 @@ class WidgetsTable extends React.Component {
               value: 1
             }}
             filters={false}
-            data={widgets.list}
+            data={this.getWidgets()}
             pageSize={20}
             onRowDelete={() => this.props.getWidgets({
               dataset

@@ -1,7 +1,6 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
 
 // Components
 import Page from 'components/layout/page';

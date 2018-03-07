@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import includes from 'lodash/includes';
+
 // Redux
 import { connect } from 'react-redux';
 
@@ -29,6 +31,10 @@ class LayersTable extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      searchValue: ''
+    };
+
     // ---------------- Bindings ---------------------
     this.onSearch = this.onSearch.bind(this);
     // -----------------------------------------------
@@ -44,16 +50,25 @@ class LayersTable extends React.Component {
    * Event handler executed when the user search for a layer
    * @param {string} { value } Search keywords
    */
-  onSearch(value) {
-    if (!value.length) {
+  onSearch(searchValue) {
+    if (!searchValue.length) {
       this.props.setFilters([]);
     } else {
-      this.props.setFilters([{ key: 'name', value }]);
+      this.props.setFilters([{ key: 'name', value: searchValue }]);
     }
+
+    this.setState({ searchValue });
   }
 
   getLayers() {
-    return this.props.layers;
+    const { layers } = this.props;
+    const { searchValue } = this.state;
+
+    if (searchValue.length > 0) {
+      return layers.filter(layer =>
+        includes(layer.name.toLowerCase(), searchValue.toLowerCase()));
+    }
+    return layers;
   }
 
   render() {
@@ -68,7 +83,8 @@ class LayersTable extends React.Component {
 
         <SearchInput
           input={{
-            placeholder: 'Search layer'
+            placeholder: 'Search layer',
+            value: this.state.searchValue
           }}
           link={{
             label: 'New layer',
