@@ -278,15 +278,16 @@ export const PANORAMAS = [
                 </p>
                 <p>
                   <span className="header-text">Avoid damaging coral</span>
-                  with boat anchors when you visit a reef. Don’t participate in destructive fishing practices, such as poison and blast fishing. And keep your flippers to yourself when diving.
+                   with boat anchors when you visit a reef. Don’t participate in destructive fishing practices, such as poison and blast fishing. And keep your flippers to yourself when diving.
                 </p>
-                <h3>Volunteer for beach or reef cleanups</h3>
                 <p>
-                  or get involved in protecting your local waterways.
+                  <span className="header-text">Volunteer for beach or reef cleanups</span>
+                   or get involved in protecting your local waterways.
                 </p>
-                <h3>Conserve water and energy</h3>
+                <h3></h3>
                 <p>
-                  in your daily life to avoid unnecessary runoff, wastewater and CO2 emissions that pollute the ocean and contribute to climate change.
+                  <span className="header-text">Conserve water and energy</span>
+                   in your daily life to avoid unnecessary runoff, wastewater and CO2 emissions that pollute the ocean and contribute to climate change.
                 </p>
                 <p>
                   <i>Looking for more ways to reduce your coral reef footprint? <a href="http://www.wri.org/blog/2011/08/how-reduce-your-coral-reef-footprint" target="_blank" rel="noopener noreferrer">Read on.</a></i>
