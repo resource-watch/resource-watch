@@ -12,7 +12,11 @@ export const PANORAMAS = [
         image: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/images/healthy-optimized.jpg',
         intro:
           <div>
-            <p>Airport Reef is located off the island of Tutuila, the largest island in American Samoa. It’s part of the National Marine Sanctuary of American Samoa, a NOAA protected area. In this photo, the staghorn corals are healthy and abundant. But researchers returned just two months later to find the reef completely transformed by severe coral bleaching. Around the world, coral reefs feed and shelter thousands of species of fish, buffer coastal areas against damaging waves, and support local economies through tourism and fishing.
+            <p>
+              Airport Reef is located off the island of Tutuila, the largest island in American Samoa. It’s part of the National Marine Sanctuary of American Samoa, a NOAA protected area. In this photo, the staghorn corals are healthy and abundant. But researchers returned just two months later to find the reef completely transformed by severe coral bleaching.
+            </p>
+            <p>
+              Around the world, coral reefs feed and shelter thousands of species of fish, buffer coastal areas against damaging waves, and support local economies through tourism and fishing.
             </p>
             <p><i>Photo date: December 1, 2014</i></p>
           </div>,
@@ -24,16 +28,26 @@ export const PANORAMAS = [
             rotation: '0 0 0',
             markup:
               <div>
-                <h3>More than 4000</h3>
-                <p>fish species call <a href="http://www.wri.org/blog/2011/02/wake-call-save-coral-reefs" target="_blank" rel="noopener noreferrer">reefs home</a></p>
-                <h3>One quarter to one third</h3>
-                <p>of ocean species <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0025026" target="_blank" rel="noopener noreferrer">depend on tropical reefs.</a></p>
-                <h3>$29.8 billion</h3>
-                <p>is the <a href="http://www.icriforum.org/sites/default/files/Economic_values_global compilation.pdf" target="_blank" rel="noopener noreferrer">estimated yearly value</a> of all the services reefs provide, including tourism, coastal protection, fisheries and biodiversity</p>
-                <h3>500 million</h3>
-                <p>people <a href="http://www.noaa.gov/explainers/coral-reefs-essential-and-threatened" target="_blank" rel="noopener noreferrer">depend on coral reefs</a> for their food and livelihoods</p>
-                <h3>75</h3>
-                <p>percent of reefs worldwide <a href="http://www.reefresilience.org/pdf/Reefs_at_Risk_Revisited.pdf" target="_blank" rel="noopener noreferrer">are threatened</a> by warmer oceans and local threats such as coastal development, overfishing and pollution</p>
+                <p>
+                  <span className="header-text">More than 4000</span>
+                   fish species <a href="http://www.wri.org/blog/2011/02/wake-call-save-coral-reefs" target="_blank" rel="noopener noreferrer">call reefs home</a>
+                </p>
+                <p>
+                  <span className="header-text">One quarter to one third</span>
+                   of ocean species <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0025026" target="_blank" rel="noopener noreferrer">depend on tropical reefs</a>
+                </p>
+                <p>
+                  <span className="header-text">$29.8 billion</span>
+                   is the <a href="http://www.icriforum.org/sites/default/files/Economic_values_global compilation.pdf" target="_blank" rel="noopener noreferrer">estimated yearly value</a> of all the services reefs provide, including tourism, coastal protection, fisheries and biodiversity
+                </p>
+                <p>
+                  <span className="header-text">500 million</span>
+                  people <a href="http://www.noaa.gov/explainers/coral-reefs-essential-and-threatened" target="_blank" rel="noopener noreferrer">depend on coral reefs</a> for their food and livelihoods
+                </p>
+                <p>
+                  <span className="header-text">75</span>
+                   percent of reefs worldwide <a href="http://www.reefresilience.org/pdf/Reefs_at_Risk_Revisited.pdf" target="_blank" rel="noopener noreferrer">are threatened</a> by warmer oceans and local threats such as coastal development, overfishing and pollution
+                </p>
               </div>,
             image: '/static/images/splash/1-1_coral_reefs_by_the_numbers.png',
             imageSelected: '/static/images/splash/1-1_coral_reefs_by_the_numbers-active.png',
@@ -61,8 +75,12 @@ export const PANORAMAS = [
             rotation: '0 90 0',
             markup:
               <div>
-                <iframe src="https://staging.resourcewatch.org/embed/map/9027ee71-fd13-4035-83b6-bb8d0a3a65e9" width="100%" height="474" frameBorder="0"></iframe>
-                <i>Which countries depend most on coral reefs? Click and drag the map to explore.</i>
+                <div className="image-container">
+                  <iframe src="https://staging.resourcewatch.org/embed/map/bc0ceb8f-f06c-4c3c-8433-548e900ff93b" width="100%" height="400" frameBorder="0"></iframe>
+                  <div className="caption">
+                    <i>Which countries depend most on coral reefs? Click and drag the map to explore. (Data source: WRI <a href="https://staging.resourcewatch.org/data/explore/894f43a8-ce8e-43a5-a4c7-fa80faa43d63" target="_blank" rel="noopener noreferrer">Reefs at Risk</a>)</i>
+                  </div>
+                </div>
                 <p>Coral reef fisheries employ more than <a href="http://www.reefresilience.org/coral-reef-fisheries-module/coral-reef-fisheries/overfishing/" target="_blank" rel="noopener noreferrer">6 million fishers and gleaners</a> and are worth an estimated <a href="http://www.reefresilience.org/pdf/Reefs_at_Risk_Revisited.pdf" target="_blank" rel="noopener noreferrer">$6.8 billion</a> per year.</p>
                 <p>Reef fish are an important source of protein for many people, especially in developing countries, where they can contribute up to <a href="http://www.reefresilience.org/coral-reefs/reefs-and-resilience/value-of-reefs/" target="_blank" rel="noopener noreferrer">one quarter</a> of the total fish catch. (Reef fish feed <a href="http://www.reefresilience.org/coral-reefs/reefs-and-resilience/value-of-reefs/" target="_blank" rel="noopener noreferrer">an estimated one billion people</a> in Asia alone.) Fish stock around the world have declined, however, and over <a href="https://oceanservice.noaa.gov/news/weeklynews/feb11/reefs-at-risk.html" target="_blank" rel="noopener noreferrer">60 percent</a> of reef fisheries are considered threatened by local stressors, including overfishing, pollution and coastal development.</p>
               </div>,
@@ -80,9 +98,9 @@ export const PANORAMAS = [
         intro:
           <div>
             <p>
-              This is Airport Reef off American Samoa. In 2015, many corals here lost their color in a dramatic—and destructive—stress response known as coral bleaching.</p>
+              This is Airport Reef off American Samoa. In 2015, many corals here lost their color in a dramatic—and destructive—stress response known as <a href="https://oceanservice.noaa.gov/facts/coral_bleach.html" target="_blank" rel="noopener noreferrer">coral bleaching.</a></p>
             <p>
-              Prolonged exposure to warmer ocean temperatures and other stressors can cause corals to <a href="https://oceanservice.noaa.gov/facts/coral_bleach.html" target="_blank" rel="noopener noreferrer">expel their symbiotic algae</a>, leaving the corals’ white skeletons visible. (These algae give corals their color and nourish them through photosynthesis.) Some corals are able to bounce back from bleaching events if water temperatures decrease fast enough. In a warming ocean, however, <a href="https://www.coralcoe.org.au/media-releases/two-thirds-of-great-barrier-reef-hit-by-back-to-back-mass-coral-bleaching" target="_blank" rel="noopener noreferrer">corals will have less time to recover</a> between bouts of bleaching, and widespread die-off could occur.
+              Prolonged exposure to warmer ocean temperatures and other stressors can cause corals to expel their symbiotic algae, leaving the corals’ white skeletons visible. (These algae give corals their color and nourish them through photosynthesis.) Some corals are able to bounce back from bleaching events if water temperatures decrease fast enough. In a warming ocean, however, <a href="https://www.coralcoe.org.au/media-releases/two-thirds-of-great-barrier-reef-hit-by-back-to-back-mass-coral-bleaching" target="_blank" rel="noopener noreferrer">corals will have less time to recover</a> between bouts of bleaching, and widespread die-off could occur.
             </p>
             <p>
               Airport Reef wasn’t alone. During a global bleaching event that lasted from 2014 to 2017, <a href="http://www.noaa.gov/media-release/global-coral-bleaching-event-likely-ending" target="_blank" rel="noopener noreferrer">more than 70 percent of the world’s reefs</a> experienced high ocean temperatures that lasted long enough to put them at risk of bleaching. Explore the other layers to see what Airport Reef looked like before and after this photo was taken. 
@@ -130,6 +148,9 @@ export const PANORAMAS = [
                 <div className="video-container">
                   <iframe className="video" src="https://www.youtube.com/embed/bFdPmiwZzVE?rel=0&amp;showinfo=0" allowFullScreen />
                 </div>
+                <div className="video-caption">
+                  <i>Video courtesy Queensland University of Technology / National Geographic</i>
+                </div>
                 <p>
                   When researchers at the <a href="https://www.qut.edu.au/news/news?news-id=108238" target="_blank" rel="noopener noreferrer">Queensland University of Technology in Australia</a> put corals in tanks and turned up the heat, the corals began violently spewing out the algae <i>Symbiodinium</i> in a matter of hours. It’s essentially coral bleaching on fast-forward. The university captured the process in this time-lapse video.
                 </p>
@@ -154,7 +175,7 @@ export const PANORAMAS = [
               <ul>
                 <li><strong>First Event (1998):</strong> <a href="http://www.globalcoralbleaching.org/" target="_blank" rel="noopener noreferrer">Sixteen percent of corals worldwide</a> died in 1998 during the first global bleaching event. In 1997, a strong El Niño, followed by an equally strong La Niña, <a href="http://www.noaanews.noaa.gov/stories2015/100815-noaa-declares-third-ever-global-coral-bleaching-event.html" target="_blank" rel="noopener noreferrer">dramatically raised</a> global ocean surface temperatures. This change, on top of ocean warming from climate change, led to the first global coral bleaching event in 1998.</li>
                 <li><strong>Second Event (2010):</strong> 2010 tied 2005 as <a href="https://www.nasa.gov/topics/earth/features/2010-warmest-year.html" target="_blank" rel="noopener noreferrer">the hottest year since 1998.</a> Warm ocean temperatures and <a href="https://news.agu.org/press-release/el-nino-prolongs-longest-global-coral-bleaching-event/" target="_blank" rel="noopener noreferrer">a moderate El Niño</a> touched off another global bleaching event, affecting reefs in <a href="https://www.nature.com/news/2010/101119/full/news.2010.621.html" target="_blank" rel="noopener noreferrer">every ocean and major sea</a> where corals are found.</li>
-                <li><strong>Third Event (2014-2017):</strong> This has been the <a href="http://www.noaa.gov/media-release/global-coral-bleaching-event-likely-ending" target="_blank" rel="noopener noreferrer">longest and most widespread</a> global coral bleaching event to date. From 2014 to 2017, coral reefs around the world experienced higher-than-normal ocean temperatures, fueled by a partial <a href="https://coralreefwatch.noaa.gov/satellite/analyses_guidance/global_coral_bleaching_2014-17_status.php" target="_blank" rel="noopener noreferrer">El Niño in 2014-15</a> and worsened in the following years by a strong El Niño and a La Niña. This is the event that caused the bleaching here at Airport Reef. The Great Barrier Reef was heavily affected in 2015 and again in early 2017, leaving the <a href="http://www.noaa.gov/media-release/us-coral-reefs-facing-warming-waters-increased-bleaching" target="_blank" rel="noopener noreferrer">majority of coral bleached.</a></li>
+                <li><strong>Third Event (2014-2017):</strong> This has been the <a href="http://www.noaa.gov/media-release/global-coral-bleaching-event-likely-ending" target="_blank" rel="noopener noreferrer">longest and most widespread</a> global coral bleaching event to date. From 2014 to 2017, coral reefs around the world experienced higher-than-normal ocean temperatures, fueled by a partial <a href="https://coralreefwatch.noaa.gov/satellite/analyses_guidance/global_coral_bleaching_2014-17_status.php" target="_blank" rel="noopener noreferrer">El Niño in 2014-15</a> and worsened in the following years by a strong El Niño and a La Niña. This is the event that caused the bleaching here at Airport Reef. The Great Barrier Reef was heavily affected in 2015 and again in early 2017, leaving the <a href="http://www.noaa.gov/media-release/us-coral-reefs-facing-warming-waters-increased-bleaching" target="_blank" rel="noopener noreferrer">majority of corals bleached.</a></li>
               </ul>
             </div>,
             image: '/static/images/splash/global_coral_bleaching_events.png',
@@ -193,7 +214,7 @@ export const PANORAMAS = [
                   </div>
                 </div>
                 <p>
-                  This large, slow-growing fish is <a href="http://www.iucnredlist.org/details/4592/0" target="_blank" rel="noopener noreferrer">native</a> to the waters around American Samoa but is now rarely seen. Largely due to overfishing and loss of habitat, the humphead wrasse population has been in decline for decades. (The fish was <a href="https://www.iucn.org/ssc-groups/fishes/grouper-and-wrasse-specialist-group/humphead-wrasse" target="_blank" rel="noopener noreferrer">designated an endangered species</a> in 2004.) Juvenile humphead wrasse depend on coral reefs for food and protection, and <a href="http://www.nmfs.noaa.gov/pr/pdfs/species/humpheadwrasse_detailed.pdf" target="_blank" rel="noopener noreferrer">coral bleaching</a> poses a serious threat to their habitat.
+                  This large, slow-growing fish is <a href="http://www.iucnredlist.org/details/4592/0" target="_blank" rel="noopener noreferrer">native</a> to the waters around American Samoa and throughout the Indo-Pacific but is now rarely seen. Largely due to overfishing and loss of habitat, the humphead wrasse population has been in decline for decades. (The fish was <a href="https://www.iucn.org/ssc-groups/fishes/grouper-and-wrasse-specialist-group/humphead-wrasse" target="_blank" rel="noopener noreferrer">designated an endangered species</a> in 2004.) Juvenile humphead wrasse depend on coral reefs for food and protection, and <a href="http://www.nmfs.noaa.gov/pr/pdfs/species/humpheadwrasse_detailed.pdf" target="_blank" rel="noopener noreferrer">coral bleaching</a> poses a serious threat to their habitat.
                 </p>
               </div>,
             image: '/static/images/splash/3-1_humphead_wrasse_at_risk.png',
@@ -236,9 +257,14 @@ export const PANORAMAS = [
                 <p>
                   The National Oceanic and Atmospheric Organization (NOAA) announced in summer 2017 that the third global coral bleaching event <a href="http://www.noaa.gov/media-release/global-coral-bleaching-event-likely-ending" target="_blank" rel="noopener noreferrer">appeared to be on the wane.</a> But it’s a temporary reprieve. As this map reveals, things are set to get much worse.
                 </p>
-                <iframe src="https://staging.resourcewatch.org/embed/layers/?layers=%5B%7B%22dataset%22%3A%221ef55baf-bbbe-480d-85e9-7132c742f196%22%2C%22visible%22%3Atrue%2C%22layers%22%3A%5B%7B%22id%22%3A%22dc2c2cc8-a351-4221-ad16-0671bc430ada%22%2C%22active%22%3Atrue%2C%22opacity%22%3A1%7D%2C%7B%22id%22%3A%22f7862c92-3300-40d0-bc59-17ce5769646a%22%2C%22active%22%3Afalse%2C%22opacity%22%3A1%7D%5D%7D%5D" width="100%" height="474px" frameBorder="0"></iframe>
+                <div className="image-container">
+                  <iframe src="https://staging.resourcewatch.org/embed/map/bec6033c-e202-4b48-97a7-89093fdf31cc" width="100%" height="400" frameBorder="0"></iframe>
+                  <div className="caption">
+                    <i>Data source: WRI <a href="https://staging.resourcewatch.org/data/explore/894f43a8-ce8e-43a5-a4c7-fa80faa43d63" target="_blank" rel="noopener noreferrer">Reefs at Risk</a>, adapted from Donner, S.D., 2009 <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0005712" target="_blank" rel="noopener noreferrer">study in PLoS ONE.</a></i>
+                  </div>
+                </div>
                 <p>
-                  This map shows the projected frequency of what NOAA calls <a href="http://coralreefwatch-satops.noaa.gov/" target="_blank" rel="noopener noreferrer">Bleaching Alert Level 2 Events</a> for the 2030s and 2050s. These events are basically code red for corals, indicating intense heat stress and a likelihood that the corals will die.
+                  This map shows the projected frequency of what NOAA calls <a href="http://coralreefwatch-satops.noaa.gov/" target="_blank" rel="noopener noreferrer">Bleaching Alert Level 2 Events</a> for the 2030s and 2050s. (Specifically, it shows the percentage of years in each decade in which these events will likely occur.) A Bleaching Alert Level 2 Event is basically code red for corals, indicating intense heat stress and a likelihood that the corals will die.
                 </p>
                 <p>
                   The brighter the color, the more frequently these events are likely to occur. So, that wash of yellow and green that spreads across the map? It signifies a dramatic rise in both the range and frequency of the most severe levels of bleaching if carbon emissions continue unchecked.
@@ -256,25 +282,26 @@ export const PANORAMAS = [
             rotation: '0 -90 0',
             markup:
               <div>
-                <h3>Limit household waste</h3>
                 <p>
-                  such as fertilizer and chemicals, that could make it into waterways and <a href="https://blog.nature.org/conservancy/2010/03/23/how-lawn-chemicals-affect-the-oceans-how-you-can-help/" target="_blank" rel="noreferrer noopener">choke coral reefs.</a>
+                  <span className="header-text">Limit household waste</span>
+                   such as fertilizer and chemicals, which can make it into waterways and <a href="https://blog.nature.org/conservancy/2010/03/23/how-lawn-chemicals-affect-the-oceans-how-you-can-help/" target="_blank" rel="noreferrer noopener">choke coral reefs.</a>
                 </p>
-                <h3>Eat sustainably</h3>
                 <p>
-                  <a href="https://www.fishwatch.gov/" target="_blank" rel="noopener noreferrer">This database</a> can help you choose seafood caught from sustainably managed fisheries that don’t threaten marine ecosystems.
+                  <span className="header-text">Eat sustainably</span>
+                   and use <a href="https://www.fishwatch.gov/" target="_blank" rel="noopener noreferrer">this database</a> to choose seafood caught from sustainably managed fisheries that don’t threaten marine ecosystems.
                 </p>
-                <h3>Avoid damaging coral</h3>
                 <p>
-                  with boat anchors when you visit a reef. Don’t participate in destructive fishing practices, such as poison and blast fishing. And keep your flippers to yourself when diving.
+                  <span className="header-text">Avoid damaging coral</span>
+                   with boat anchors when you visit a reef. Don’t participate in destructive fishing practices, such as poison and blast fishing. And keep your flippers to yourself when diving.
                 </p>
-                <h3>Volunteer for beach or reef cleanups</h3>
                 <p>
-                  or get involved in protecting your local waterways.
+                  <span className="header-text">Volunteer for beach or reef cleanups</span>
+                   or get involved in protecting your local waterways.
                 </p>
-                <h3>Conserve water and energy</h3>
+                <h3></h3>
                 <p>
-                  in your daily life to avoid unnecessary runoff, wastewater and CO2 emissions that pollute the ocean and contribute to climate change.
+                  <span className="header-text">Conserve water and energy</span>
+                   in your daily life to avoid unnecessary runoff, wastewater and CO2 emissions that pollute the ocean and contribute to climate change.
                 </p>
                 <p>
                   <i>Looking for more ways to reduce your coral reef footprint? <a href="http://www.wri.org/blog/2011/08/how-reduce-your-coral-reef-footprint" target="_blank" rel="noopener noreferrer">Read on.</a></i>
