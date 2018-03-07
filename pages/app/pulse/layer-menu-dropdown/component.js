@@ -1,17 +1,16 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Utils
 import { logEvent } from 'utils/analytics';
 
 // Redux
-import { toggleActiveLayer, resetLayerPoints } from 'redactions/pulse';
 import { connect } from 'react-redux';
 
 // Components
 import Switch from 'components/ui/Switch';
 
-class LayerNavDropdown extends React.Component {
+class LayerMenuDropdownComponent extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -19,7 +18,9 @@ class LayerNavDropdown extends React.Component {
   }
 
   triggerClick(layer) {
-    const { id, markerType, basemap, contextLayers, descriptionPulse } = layer;
+    const {
+      id, markerType, basemap, contextLayers, descriptionPulse, contextLayersOnTop
+    } = layer;
     this.props.resetLayerPoints();
     this.props.toggleActiveLayer({
       id,
@@ -27,34 +28,35 @@ class LayerNavDropdown extends React.Component {
       markerType,
       basemap,
       contextLayers,
-      descriptionPulse
+      descriptionPulse,
+      contextLayersOnTop
     });
     logEvent('Planet Pulse', 'Choose layer to view', layer.label);
   }
-
   render() {
     const { layerActive, layers } = this.props;
     return (
-      <div className="c-layer-nav-dropdown dropdown">
+      <div className="c-layer-menu-dropdown dropdown">
         <ul>
           {layers.map(layer =>
-            (<li
-              key={layer.id}
-              onClick={() => this.triggerClick(layer)}
-            >
-              <Switch active={(layerActive && (layerActive.id === layer.id))} />
-              <span className="name">
-                {layer.label}
-              </span>
-            </li>)
-          )}
+            (
+              <li
+                key={layer.id}
+                onClick={() => this.triggerClick(layer)}
+              >
+                <Switch active={(layerActive && (layerActive.id === layer.id))} />
+                <span className="name">
+                  {layer.label}
+                </span>
+              </li>
+            ))}
         </ul>
       </div>
     );
   }
 }
 
-LayerNavDropdown.propTypes = {
+LayerMenuDropdownComponent.propTypes = {
   layers: PropTypes.array,
   layerActive: PropTypes.object,
   toggleActiveLayer: PropTypes.func.isRequired,
@@ -62,12 +64,8 @@ LayerNavDropdown.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  layerActive: state.pulse.layerActive
+  layerActive: state.layerMenuPulse.layerActive
 });
 
-const mapDispatchToProps = {
-  toggleActiveLayer,
-  resetLayerPoints
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(LayerNavDropdown);
+export default connect(mapStateToProps, null)(LayerMenuDropdownComponent);

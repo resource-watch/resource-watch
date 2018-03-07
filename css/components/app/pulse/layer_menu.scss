@@ -1,4 +1,4 @@
-.c-layer-nav {
+.c-layer-menu {
   position: absolute;
   top: $margin-size-small;
   left: 0;
@@ -6,7 +6,7 @@
   z-index: 9;
 
   // List
-  .layer-nav-list {
+  .layer-menu-list {
     display: flex;
     justify-content: flex-start;
     padding: 0;
