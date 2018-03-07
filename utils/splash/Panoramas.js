@@ -24,16 +24,26 @@ export const PANORAMAS = [
             rotation: '0 0 0',
             markup:
               <div>
-                <h3>More than 4000</h3>
-                <p>fish species call <a href="http://www.wri.org/blog/2011/02/wake-call-save-coral-reefs" target="_blank" rel="noopener noreferrer">reefs home</a></p>
-                <h3>One quarter to one third</h3>
-                <p>of ocean species <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0025026" target="_blank" rel="noopener noreferrer">depend on tropical reefs.</a></p>
-                <h3>$29.8 billion</h3>
-                <p>is the <a href="http://www.icriforum.org/sites/default/files/Economic_values_global compilation.pdf" target="_blank" rel="noopener noreferrer">estimated yearly value</a> of all the services reefs provide, including tourism, coastal protection, fisheries and biodiversity</p>
-                <h3>500 million</h3>
-                <p>people <a href="http://www.noaa.gov/explainers/coral-reefs-essential-and-threatened" target="_blank" rel="noopener noreferrer">depend on coral reefs</a> for their food and livelihoods</p>
-                <h3>75</h3>
-                <p>percent of reefs worldwide <a href="http://www.reefresilience.org/pdf/Reefs_at_Risk_Revisited.pdf" target="_blank" rel="noopener noreferrer">are threatened</a> by warmer oceans and local threats such as coastal development, overfishing and pollution</p>
+                <p>
+                  <span className="header-text">More than 4000</span>
+                   fish species <a href="http://www.wri.org/blog/2011/02/wake-call-save-coral-reefs" target="_blank" rel="noopener noreferrer">call reefs home</a>
+                </p>
+                <p>
+                  <span className="header-text">One quarter to one third</span>
+                   of ocean species <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0025026" target="_blank" rel="noopener noreferrer">depend on tropical reefs</a>
+                </p>
+                <p>
+                  <span className="header-text">$29.8 billion</span>
+                   is the <a href="http://www.icriforum.org/sites/default/files/Economic_values_global compilation.pdf" target="_blank" rel="noopener noreferrer">estimated yearly value</a> of all the services reefs provide, including tourism, coastal protection, fisheries and biodiversity
+                </p>
+                <p>
+                  <span className="header-text">500 million</span>
+                  people <a href="http://www.noaa.gov/explainers/coral-reefs-essential-and-threatened" target="_blank" rel="noopener noreferrer">depend on coral reefs</a> for their food and livelihoods
+                </p>
+                <p>
+                  <span className="header-text">75</span>
+                   percent of reefs worldwide <a href="http://www.reefresilience.org/pdf/Reefs_at_Risk_Revisited.pdf" target="_blank" rel="noopener noreferrer">are threatened</a> by warmer oceans and local threats such as coastal development, overfishing and pollution
+                </p>
               </div>,
             image: '/static/images/splash/1-1_coral_reefs_by_the_numbers.png',
             imageSelected: '/static/images/splash/1-1_coral_reefs_by_the_numbers-active.png',
@@ -200,7 +210,7 @@ export const PANORAMAS = [
                   </div>
                 </div>
                 <p>
-                  This large, slow-growing fish is <a href="http://www.iucnredlist.org/details/4592/0" target="_blank" rel="noopener noreferrer">native</a> to the waters around American Samoa but is now rarely seen. Largely due to overfishing and loss of habitat, the humphead wrasse population has been in decline for decades. (The fish was <a href="https://www.iucn.org/ssc-groups/fishes/grouper-and-wrasse-specialist-group/humphead-wrasse" target="_blank" rel="noopener noreferrer">designated an endangered species</a> in 2004.) Juvenile humphead wrasse depend on coral reefs for food and protection, and <a href="http://www.nmfs.noaa.gov/pr/pdfs/species/humpheadwrasse_detailed.pdf" target="_blank" rel="noopener noreferrer">coral bleaching</a> poses a serious threat to their habitat.
+                  This large, slow-growing fish is <a href="http://www.iucnredlist.org/details/4592/0" target="_blank" rel="noopener noreferrer">native</a> to the waters around American Samoa and throughout the Indo-Pacific but is now rarely seen. Largely due to overfishing and loss of habitat, the humphead wrasse population has been in decline for decades. (The fish was <a href="https://www.iucn.org/ssc-groups/fishes/grouper-and-wrasse-specialist-group/humphead-wrasse" target="_blank" rel="noopener noreferrer">designated an endangered species</a> in 2004.) Juvenile humphead wrasse depend on coral reefs for food and protection, and <a href="http://www.nmfs.noaa.gov/pr/pdfs/species/humpheadwrasse_detailed.pdf" target="_blank" rel="noopener noreferrer">coral bleaching</a> poses a serious threat to their habitat.
                 </p>
               </div>,
             image: '/static/images/splash/3-1_humphead_wrasse_at_risk.png',
@@ -270,11 +280,11 @@ export const PANORAMAS = [
               <div>
                 <p>
                   <span className="header-text">Limit household waste</span>
-                   such as fertilizer and chemicals, that could make it into waterways and <a href="https://blog.nature.org/conservancy/2010/03/23/how-lawn-chemicals-affect-the-oceans-how-you-can-help/" target="_blank" rel="noreferrer noopener">choke coral reefs.</a>
+                   such as fertilizer and chemicals, which can make it into waterways and <a href="https://blog.nature.org/conservancy/2010/03/23/how-lawn-chemicals-affect-the-oceans-how-you-can-help/" target="_blank" rel="noreferrer noopener">choke coral reefs.</a>
                 </p>
                 <p>
                   <span className="header-text">Eat sustainably</span>
-                  <a href="https://www.fishwatch.gov/" target="_blank" rel="noopener noreferrer">This database</a> can help you choose seafood caught from sustainably managed fisheries that don’t threaten marine ecosystems.
+                   and use <a href="https://www.fishwatch.gov/" target="_blank" rel="noopener noreferrer">this database</a> to choose seafood caught from sustainably managed fisheries that don’t threaten marine ecosystems.
                 </p>
                 <p>
                   <span className="header-text">Avoid damaging coral</span>
