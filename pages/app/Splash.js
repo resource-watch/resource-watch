@@ -57,6 +57,7 @@ class Splash extends Page {
   componentDidMount() {
     // Init Cesium var
     Cesium = window.Cesium;
+
     Cesium.BingMapsApi.defaultKey = process.env.BING_MAPS_API_KEY;
 
     this.setState({ mounted: true }); // eslint-disable-line react/no-did-mount-set-state
@@ -178,6 +179,7 @@ class Splash extends Page {
 
   render() {
     const { mounted, billboardHover, selectedMarker, hideSkip } = this.state;
+
     const cesiumClassname = classnames({
       'cesium-map': true,
       '-cursor-pointer': billboardHover
