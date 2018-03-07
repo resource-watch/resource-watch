@@ -70,11 +70,13 @@ class DataPage extends Page {
   componentDidMount() {
     const {
       url,
-      setDatasetUrl
+      setDatasetUrl,
+      setDatasetPage
     } = this.props;
 
     // if user enters /admin, we need to shallow update the url
     if (!url.query.tab || url.query.tab === 'datasets') {
+      setDatasetPage(1);
       setDatasetUrl({ shallow: true });
     }
   }

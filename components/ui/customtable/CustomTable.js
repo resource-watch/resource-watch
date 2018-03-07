@@ -34,7 +34,7 @@ export default class CustomTable extends React.Component {
   }
 
   static setTableData(props) {
-    const data = props.data;
+    const { data } = props;
 
     return {
       // Data
@@ -183,9 +183,21 @@ export default class CustomTable extends React.Component {
 
     // check if we are trying to sort on the same as before, then return to initial sorting
     if (isEqual(s, sort)) {
-      this.setState({ sort: initialSort }, () => this.onChangePage(0));
+      this.setState({ sort: initialSort }, () => {
+        if (this.props.onSort) {
+          this.props.onSort(newSortingRule);
+        } else {
+          this.onChangePage(0);
+        }
+      });
     } else {
-      this.setState({ sort: newSortingRule }, () => this.onChangePage(0));
+      this.setState({ sort: newSortingRule }, () => {
+        if (this.props.onSort) {
+          this.props.onSort(newSortingRule);
+        } else {
+          this.onChangePage(0);
+        }
+      });
     }
 
     if (this.props.onSort) {
@@ -308,7 +320,8 @@ CustomTable.propTypes = {
   sort: PropTypes.object,
   onToggleSelectedRow: PropTypes.func,
   onChangePage: PropTypes.func,
-  onRowDelete: PropTypes.func
+  onRowDelete: PropTypes.func,
+  onSort: PropTypes.func
 };
 
 /* Property default values */

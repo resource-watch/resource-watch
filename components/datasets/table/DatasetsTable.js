@@ -49,6 +49,7 @@ class DatasetsTable extends React.Component {
 
   onSort(sort) {
     this.props.setDatasetSort(sort);
+    this.props.setDatasetUrl({ shallow: true });
   }
 
   getFilteredDatasets() {
@@ -126,10 +127,7 @@ class DatasetsTable extends React.Component {
                 { name: 'Remove', route: routes.detail, params: { tab: 'datasets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.user.token } }
               ]
             }}
-            sort={JSON.parse(datasets.sort) || {
-              field: 'updatedAt',
-              value: -1
-            }}
+            sort={JSON.parse(datasets.sort)}
             filters={false}
             data={this.getFilteredDatasets()}
             onRowDelete={() => this.changePage()}
