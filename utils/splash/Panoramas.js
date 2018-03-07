@@ -12,7 +12,11 @@ export const PANORAMAS = [
         image: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/images/healthy-optimized.jpg',
         intro:
           <div>
-            <p>Airport Reef is located off the island of Tutuila, the largest island in American Samoa. It’s part of the National Marine Sanctuary of American Samoa, a NOAA protected area. In this photo, the staghorn corals are healthy and abundant. But researchers returned just two months later to find the reef completely transformed by severe coral bleaching. Around the world, coral reefs feed and shelter thousands of species of fish, buffer coastal areas against damaging waves, and support local economies through tourism and fishing.
+            <p>
+              Airport Reef is located off the island of Tutuila, the largest island in American Samoa. It’s part of the National Marine Sanctuary of American Samoa, a NOAA protected area. In this photo, the staghorn corals are healthy and abundant. But researchers returned just two months later to find the reef completely transformed by severe coral bleaching.
+            </p>
+            <p>
+              Around the world, coral reefs feed and shelter thousands of species of fish, buffer coastal areas against damaging waves, and support local economies through tourism and fishing.
             </p>
             <p><i>Photo date: December 1, 2014</i></p>
           </div>,
@@ -94,9 +98,9 @@ export const PANORAMAS = [
         intro:
           <div>
             <p>
-              This is Airport Reef off American Samoa. In 2015, many corals here lost their color in a dramatic—and destructive—stress response known as coral bleaching.</p>
+              This is Airport Reef off American Samoa. In 2015, many corals here lost their color in a dramatic—and destructive—stress response known as <a href="https://oceanservice.noaa.gov/facts/coral_bleach.html" target="_blank" rel="noopener noreferrer">coral bleaching.</a></p>
             <p>
-              Prolonged exposure to warmer ocean temperatures and other stressors can cause corals to <a href="https://oceanservice.noaa.gov/facts/coral_bleach.html" target="_blank" rel="noopener noreferrer">expel their symbiotic algae</a>, leaving the corals’ white skeletons visible. (These algae give corals their color and nourish them through photosynthesis.) Some corals are able to bounce back from bleaching events if water temperatures decrease fast enough. In a warming ocean, however, <a href="https://www.coralcoe.org.au/media-releases/two-thirds-of-great-barrier-reef-hit-by-back-to-back-mass-coral-bleaching" target="_blank" rel="noopener noreferrer">corals will have less time to recover</a> between bouts of bleaching, and widespread die-off could occur.
+              Prolonged exposure to warmer ocean temperatures and other stressors can cause corals to expel their symbiotic algae, leaving the corals’ white skeletons visible. (These algae give corals their color and nourish them through photosynthesis.) Some corals are able to bounce back from bleaching events if water temperatures decrease fast enough. In a warming ocean, however, <a href="https://www.coralcoe.org.au/media-releases/two-thirds-of-great-barrier-reef-hit-by-back-to-back-mass-coral-bleaching" target="_blank" rel="noopener noreferrer">corals will have less time to recover</a> between bouts of bleaching, and widespread die-off could occur.
             </p>
             <p>
               Airport Reef wasn’t alone. During a global bleaching event that lasted from 2014 to 2017, <a href="http://www.noaa.gov/media-release/global-coral-bleaching-event-likely-ending" target="_blank" rel="noopener noreferrer">more than 70 percent of the world’s reefs</a> experienced high ocean temperatures that lasted long enough to put them at risk of bleaching. Explore the other layers to see what Airport Reef looked like before and after this photo was taken. 
