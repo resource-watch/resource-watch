@@ -32,7 +32,7 @@ class SplashDetail extends Page {
       skyLoading: false,
       panorama,
       selectedPanorama,
-      soundActivated: true,
+      soundActivated: false,
       selectedHotspot: null,
       earthMode,
       mouseHovering: false,
@@ -89,7 +89,8 @@ class SplashDetail extends Page {
     const radioButtonId = event.target.getAttribute('id');
     this.setState({
       selectedPanorama: panorama.options.find(e => e.name === radioButtonId),
-      skyLoading: true
+      skyLoading: true,
+      introOpened: true
     }, () => this.addEventListenersToHotspots());
   }
 

@@ -19,6 +19,8 @@ import Icon from 'components/ui/Icon';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
+import { paramIsTrue } from 'utils/utils';
+
 
 class EmbedMap extends Page {
   static async getInitialProps(context) {
@@ -71,9 +73,12 @@ class EmbedMap extends Page {
 
   render() {
     const {
-      widget, loading, layerGroups, error, zoom, latLng, favourited, user
+      widget, loading, layerGroups, error, zoom, latLng, favourited, user, url
     } = this.props;
+
     const { modalOpened } = this.state;
+
+    const { disableZoom, legendExpanded, hideTimeline } = url.query;
 
     const favouriteIcon = favourited ? 'star-full' : 'star-empty';
 
@@ -153,13 +158,14 @@ class EmbedMap extends Page {
           <div className={classnames('widget-content', { '-external': this.isLoadedExternally() })}>
             <Map
               LayerManager={LayerManager}
-              mapConfig={{ zoom, latLng }}
+              mapConfig={{ zoom, latLng, zoomControl: !paramIsTrue(disableZoom) }}
               layerGroups={layerGroups}
             />
 
             <Legend
               layerGroups={layerGroups}
-              expanded={false}
+              expanded={paramIsTrue(legendExpanded)}
+              hideTimeline={paramIsTrue(hideTimeline)}
               interaction={false}
               readonly
             />

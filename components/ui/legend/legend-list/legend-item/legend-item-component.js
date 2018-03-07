@@ -10,7 +10,8 @@ import LegendItemButtons from './legend-item-buttons';
 class LegendItem extends PureComponent {
   static propTypes = {
     dataset: PropTypes.string,
-    layers: PropTypes.array
+    layers: PropTypes.array,
+    hideTimeline: PropTypes.bool
   }
 
   static defaultProps = {
@@ -19,7 +20,7 @@ class LegendItem extends PureComponent {
   }
 
   render() {
-    const { layers } = this.props;
+    const { layers, hideTimeline } = this.props;
     const activeLayer = layers.find(l => l.active);
 
     return (
@@ -40,9 +41,10 @@ class LegendItem extends PureComponent {
             activeLayer={activeLayer}
           />
 
-          <LegendItemTimeline
+          {!hideTimeline && <LegendItemTimeline
             {...this.props}
-          />
+          />}
+
         </div>
 
         <LegendItemDrag />

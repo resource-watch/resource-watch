@@ -105,6 +105,13 @@
             text-decoration: underline;
             font-weight: bold;
           }
+          li {
+            margin-bottom: 20px;
+          }
+          .header-text {
+            font-size: 25px;
+            margin-right: 5px;
+          }
           .video-container {
             position: relative;
             height: 0;
@@ -118,6 +125,11 @@
               width: 100%;
               height: 100%;
             }
+          }
+          .video-caption {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
           }
           .image-container {
             display: flex;

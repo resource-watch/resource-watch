@@ -300,7 +300,8 @@ export function checkIfFavorited(widgetId) {
       const userService = new UserService({ apiURL: process.env.WRI_API_URL });
       userService.getFavouriteWidgets(user.token)
         .then((res) => {
-          const favourite = res.find(elem => elem.attributes.resourceId === widgetId);
+          const favourite = res.find && res.find(elem => elem.attributes.resourceId === widgetId);
+
           dispatch({
             type: GET_WIDGET_FAVORITE,
             payload: {

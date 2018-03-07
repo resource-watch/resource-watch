@@ -33,6 +33,13 @@ import * as trySubscriptionModal from 'components/datasets/form/try-subscription
 import * as exploreDetail from 'pages/app/explore-detail/explore-detail';
 import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';
 
+// Pulse
+import * as layerMenuDropdown from 'pages/app/pulse/layer-menu-dropdown';
+import * as layerCard from 'pages/app/pulse/layer-card';
+import * as layerPill from 'pages/app/pulse/layer-pill';
+import * as globeCesium from 'pages/app/pulse/globe-cesium';
+import * as pulse from 'pages/app/pulse/pulse';
+
 // Widget
 import * as widgetDetail from 'pages/app/widget-detail/widget-detail';
 
@@ -89,6 +96,13 @@ const reducer = combineReducers({
   exploreDetail: handleModule(exploreDetail),
   exploreDatasetFilters: handleModule(exploreDatasetFilters),
 
+  // Pulse
+  layerMenuPulse: handleModule(layerMenuDropdown),
+  layerCardPulse: handleModule(layerCard),
+  contextLayersPulse: handleModule(layerPill),
+  globeCesium: handleModule(globeCesium),
+  pulse: handleModule(pulse),
+
   // Dataset
   similarDatasets: handleModule(similarDatasets),
   trySubscriptionModal: handleModule(trySubscriptionModal),
@@ -116,6 +130,5 @@ export const initStore = (initialState = {}) => createStore(
   composeEnhancers(
     /* The router middleware MUST be before thunk otherwise the URL changes
     * inside a thunk function won't work properly */
-    applyMiddleware(thunk, createOpbeatMiddleware())
-  )
+    applyMiddleware(thunk, createOpbeatMiddleware()))
 );
