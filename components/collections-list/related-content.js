@@ -6,6 +6,9 @@ import { connect } from 'react-redux';
 
 import TetherComponent from 'react-tether';
 
+import { Link } from 'routes';
+
+
 // Components
 import Icon from 'components/ui/Icon';
 
@@ -53,11 +56,13 @@ class CollectionsRelatedContent extends React.Component {
                 element: 'c-tooltip'
               }}
             >
-              <a
-                onMouseEnter={() => this.toggleTooltip('datasetsActive', true)}
-                onMouseLeave={() => this.toggleTooltip('datasetsActive', false)}>
-                <Icon name="icon-table2" className="c-icon -small" /> <span>{this.state.datasets.length}</span>
-              </a>
+              <Link route="myrw" params={{ tab: 'datasets', subtab: row.id }}>
+                <a
+                  onMouseEnter={() => this.toggleTooltip('datasetsActive', true)}
+                  onMouseLeave={() => this.toggleTooltip('datasetsActive', false)}>
+                  <Icon name="icon-table2" className="c-icon -small" /> <span>{this.state.datasets.length}</span>
+                </a>
+              </Link>
 
               {this.state.datasetsActive &&
                 <div><span>Datasets {this.state.datasets.length}</span></div>}
@@ -75,11 +80,13 @@ class CollectionsRelatedContent extends React.Component {
                 element: 'c-tooltip'
               }}
             >
-              <a
-                onMouseEnter={() => this.toggleTooltip('widgetsActive', true)}
-                onMouseLeave={() => this.toggleTooltip('widgetsActive', false)}>
-                <Icon name="icon-widgets" className="c-icon -small" /> <span>{this.state.widgets.length}</span>
-              </a>
+              <Link route="myrw" params={{ tab: 'widgets', subtab: row.id }}>
+                <a
+                  onMouseEnter={() => this.toggleTooltip('widgetsActive', true)}
+                  onMouseLeave={() => this.toggleTooltip('widgetsActive', false)}>
+                  <Icon name="icon-widgets" className="c-icon -small" /> <span>{this.state.widgets.length}</span>
+                </a>
+              </Link>
               {this.state.widgetsActive &&
                 <div><span>Widgets {this.state.widgets.length}</span></div>}
             </TetherComponent>
