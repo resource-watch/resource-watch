@@ -7,11 +7,10 @@ import { connect } from 'react-redux';
 import CollectionsList from 'components/collections-list';
 
 function CollectionsIndex(props) {
-  const { user } = props;
-
+  const { collections } = props.user;
   return (
     <div className="c-collections-index">
-      <CollectionsList />
+      <CollectionsList routes={{ detail: 'myrw_detail' }} collections={collections} />
     </div>
   );
 }

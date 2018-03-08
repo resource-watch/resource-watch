@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import includes from 'lodash/includes';
+
 // Redux
 import { connect } from 'react-redux';
 
@@ -24,35 +26,40 @@ class CollectionsList extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      filter: ''
+    };
+
     this.onSearch = this.onSearch.bind(this);
   }
 
-  componentDidMount() {
-
-  }
-
-  /**
-   * Event handler executed when the user search for a dataset
-   * @param {string} { value } Search keywords
-   */
   onSearch(value) {
-    console.log('search', value);
+    this.setState({ filter: value });
   }
 
   getCollections() {
-    const { user } = this.props;
-    return user.collections.items;
+    const { collections } = this.props;
+    const { filter } = this.state;
+
+    if (filter && filter.length) {
+      return collections.items.filter(col =>
+        includes(col.attributes.name.toLowerCase(), filter.toLowerCase()));
+    }
+
+    return collections.items;
   }
 
   render() {
-    const { routes } = this.props;
+    const { routes, collections, user } = this.props;
     return (
       <div className="c-dataset-table">
-        <Spinner className="-light" isLoading={this.props.loading} />
+
+        <Spinner className="-light" isLoading={collections.loading} />
 
         <SearchInput
           input={{
-            placeholder: 'Search collections'
+            placeholder: 'Search collections',
+            value: this.state.filter
           }}
           link={{
             label: 'New Collection',
@@ -62,19 +69,19 @@ class CollectionsList extends React.Component {
           onSearch={this.onSearch}
         />
 
-        <CustomTable
+        {!collections.loading && <CustomTable
           columns={[
             {
               label: 'Name',
               value: 'attributes',
               td: NameTD,
-              tdProps: { route: routes.detail }
+              tdProps: { route: routes.detail },
+              params: { tab: 'collections', id: '{{id}}' }
             },
             {
               label: 'Related content',
               value: 'attributes',
-              td: RelatedContentTD,
-              tdProps: { route: routes.detail }
+              td: RelatedContentTD
             }
           ]}
           actions={{
@@ -82,6 +89,7 @@ class CollectionsList extends React.Component {
             list: [
               {
                 name: 'Edit',
+                params: { tab: 'collections', subtab: '{{id}}' },
                 show: true,
                 component: EditAction
               },
@@ -90,7 +98,7 @@ class CollectionsList extends React.Component {
                 route: routes.detail,
                 params: { tab: 'collections', subtab: 'remove', id: '{{id}}' },
                 component: DeleteAction,
-                componentProps: { authorization: this.props.user.token }
+                componentProps: { authorization: user.token }
               }
             ]
           }}
@@ -107,7 +115,7 @@ class CollectionsList extends React.Component {
             pageSize: 20,
             page: 0
           }}
-        />
+        />}
 
       </div>
     );
@@ -123,17 +131,12 @@ CollectionsList.defaultProps = {
 
 CollectionsList.propTypes = {
   routes: PropTypes.object,
-
-  // Store
-  user: PropTypes.object
+  user: PropTypes.object,
+  collections: PropTypes.object
 };
 
 const mapStateToProps = state => ({
   user: state.user
 });
 
-const mapDispatchToProps = {
-  // getDatasets
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CollectionsList);
+export default connect(mapStateToProps, null)(CollectionsList);

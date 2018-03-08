@@ -8,7 +8,7 @@ function NameTD(props) {
   const { row, value, index, route } = props;
   return (
     <td key={index} className="main">
-      <Link route={route} params={{ tab: 'datasets', id: row.id }}>
+      <Link route={route} params={{ tab: 'collections', id: row.id }}>
         <a>{value.name}</a>
       </Link>
     </td>

@@ -10,8 +10,9 @@ import { Link } from 'routes';
 
 function CollectionsEdit(props) {
   const { user, id } = props;
+
   const { collections } = user;
-  const collection = collections.items.filter(col => col.id === id)[0];
+  const collection = id === 'new' ? 'new' : collections.items.filter(col => col.id === id)[0];
 
   return (
     <div className="c-collections-edit">
