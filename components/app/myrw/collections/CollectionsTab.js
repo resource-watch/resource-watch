@@ -12,12 +12,12 @@ function CollectionsTab(props) {
   const { tab, subtab, id, user } = props;
   return (
     <div className="c-collections-tab">
-      {user.token && !subtab &&
+      {user.token && !id &&
         <CollectionsIndex tab={tab} subtab={subtab} id={id} user={user} />
       }
 
-      {user.token && subtab &&
-        <CollectionsEdit tab={tab} subtab={subtab} user={user} />
+      {user.token && id &&
+        <CollectionsEdit tab={tab} subtab={subtab} id={id} user={user} />
       }
 
     </div>

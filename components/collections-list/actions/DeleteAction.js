@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // SERVICES
-import DatasetsService from 'services/DatasetsService';
+import CollectionsService from 'services/collections-service';
 import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
+
+import { getUserCollections } from 'redactions/user';
 
 class DeleteAction extends React.Component {
   constructor(props) {
@@ -14,12 +16,6 @@ class DeleteAction extends React.Component {
 
     // BINDINGS
     this.handleOnClickDelete = this.handleOnClickDelete.bind(this);
-
-    // SERVICES
-    this.service = new DatasetsService({
-      authorization: props.authorization,
-      language: props.locale
-    });
   }
 
   handleOnClickDelete(e) {
@@ -28,24 +24,16 @@ class DeleteAction extends React.Component {
       e.stopPropagation();
     }
 
-    const { data } = this.props;
+    const { data, authorization } = this.props;
 
-    toastr.confirm(`Are you sure that you want to delete: "${data.name}"`, {
+    toastr.confirm(`Are you sure that you want to delete: "${data.attributes.name}"`, {
       onOk: () => {
-        this.service.deleteData(data.id)
-          .then(() => {
-            this.props.onRowDelete(data.id);
-            toastr.success('Success', `The dataset "${data.id}" - "${data.name}" has been removed correctly`);
-          })
-          .catch((err) => {
-            try {
-              err.map(er =>
-                toastr.error('Error', `The dataset "${data.id}" - "${data.name}" was not deleted. ${er.detail}`)
-              );
-            } catch (e) {
-              toastr.error('Error', `The dataset "${data.id}" - "${data.name}" was not deleted. Try again.`);
-            }
-          });
+        CollectionsService.deleteCollection(authorization, data.id).then(() => {
+          toastr.success('Success', 'Collection succesfully removed.');
+          this.props.dispatch(getUserCollections());
+        }, () => {
+          toastr.error('Error', 'Could not remove collection at this time.');
+        });
       }
     });
   }
@@ -61,13 +49,12 @@ class DeleteAction extends React.Component {
 
 DeleteAction.propTypes = {
   data: PropTypes.object,
-  locale: PropTypes.string.isRequired,
   authorization: PropTypes.string,
-  onRowDelete: PropTypes.func
+  dispatch: PropTypes.func
 };
 
 const mapStateToProps = state => ({
-  locale: state.common.locale
+  user: state.user
 });
 
 export default connect(mapStateToProps, null)(DeleteAction);

@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Serializer } from 'jsonapi-serializer';
+import { Router } from 'routes';
 import { toastr } from 'react-redux-toastr';
+
+import CollectionsService from 'services/collections-service';
 
 // Redux
 import { connect } from 'react-redux';
@@ -14,34 +16,66 @@ import Navigation from 'components/form/Navigation';
 // Utils
 import { logEvent } from 'utils/analytics';
 
+export const FORM_ELEMENTS = {
+  elements: {
+  },
+  validate() {
+    const { elements } = this;
+    Object.keys(elements).forEach((k) => {
+      elements[k].validate();
+    });
+  },
+  isValid() {
+    const { elements } = this;
+    const valid = Object.keys(elements)
+      .map(k => elements[k].isValid())
+      .filter(v => v !== null)
+      .every(element => element);
+
+    return valid;
+  }
+};
+
+
 class CollectionsForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false
+      name: ''
     };
   }
 
   onSubmit(e) {
     e.preventDefault();
-    console.log('submitted');
-    return 1;
+    const { user, collection } = this.props;
+    const { name } = this.state;
+
+    CollectionsService.editCollection(user.token, collection.id, name).then(() => {
+      logEvent('Myrw Collections', 'Edit collection', collection.id);
+      toastr.success('Success', 'Collection successully updated');
+      Router.pushRoute('myrw', { tab: 'collections' });
+    }, () => toastr.error('Error', `Could not edit Collection ${collection.attributes.name}`));
+  }
+
+  onChange(name) {
+    this.setState({ ...name });
   }
 
   render() {
+    const { collection } = this.props;
     return (
-      <form className="c-form c-collections-form" onSubmit={this.onSubmit} noValidate>
+      <form className="c-form c-collections-form" onSubmit={e => this.onSubmit(e)} noValidate>
 
         <Field
-          // ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
-          // onChange={value => this.onChange({ name: value })}
+          ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
+          onChange={value => this.onChange({ name: value })}
           validations={['required']}
           properties={{
             name: 'name',
             label: 'Name',
             type: 'text',
             required: true,
-            // default: user.name
+            default: collection.attributes.name
           }}
         >
           {Input}
@@ -60,6 +94,7 @@ class CollectionsForm extends React.Component {
 
 CollectionsForm.propTypes = {
   // Store
+  collection: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired
 };
 

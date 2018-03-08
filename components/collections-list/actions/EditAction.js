@@ -8,8 +8,8 @@ class EditAction extends React.Component {
     return (
       <span>
         <Link
-          route="myrw"
-          params={{ tab: 'collections', subtab: this.props.data.id }}
+          route="myrw_detail"
+          params={{ tab: 'collections', id: this.props.data.id }}
         >
           <a className="c-btn">Edit</a>
         </Link>

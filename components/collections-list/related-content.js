@@ -56,7 +56,7 @@ class CollectionsRelatedContent extends React.Component {
               <a
                 onMouseEnter={() => this.toggleTooltip('datasetsActive', true)}
                 onMouseLeave={() => this.toggleTooltip('datasetsActive', false)}>
-                <Icon name="icon-layers" className="c-icon -small" /> <span>{this.state.datasets.length}</span>
+                <Icon name="icon-table2" className="c-icon -small" /> <span>{this.state.datasets.length}</span>
               </a>
 
               {this.state.datasetsActive &&
