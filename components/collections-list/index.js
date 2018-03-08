@@ -46,7 +46,6 @@ class CollectionsList extends React.Component {
 
   render() {
     const { routes } = this.props;
-
     return (
       <div className="c-dataset-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -83,16 +82,13 @@ class CollectionsList extends React.Component {
             list: [
               {
                 name: 'Edit',
-                route: routes.detail,
-                params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' },
                 show: true,
-                component: EditAction,
-                componentProps: { route: routes.detail }
+                component: EditAction
               },
               {
                 name: 'Remove',
                 route: routes.detail,
-                params: { tab: 'datasets', subtab: 'remove', id: '{{id}}' },
+                params: { tab: 'collections', subtab: 'remove', id: '{{id}}' },
                 component: DeleteAction,
                 componentProps: { authorization: this.props.user.token }
               }

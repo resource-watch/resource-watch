@@ -18,7 +18,7 @@ function NameTD(props) {
 NameTD.propTypes = {
   row: PropTypes.object,
   route: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.object,
   index: PropTypes.string
 };
 

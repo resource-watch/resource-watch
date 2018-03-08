@@ -6,15 +6,20 @@ import { connect } from 'react-redux';
 
 // Components
 import CollectionsIndex from 'components/app/myrw/collections/pages/index';
+import CollectionsEdit from 'components/app/myrw/collections/pages/edit';
 
 function CollectionsTab(props) {
   const { tab, subtab, id, user } = props;
-
   return (
     <div className="c-collections-tab">
-      {user.token && !id &&
+      {user.token && !subtab &&
         <CollectionsIndex tab={tab} subtab={subtab} id={id} user={user} />
       }
+
+      {user.token && subtab &&
+        <CollectionsEdit tab={tab} subtab={subtab} user={user} />
+      }
+
     </div>
   );
 }

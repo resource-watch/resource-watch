@@ -59,7 +59,8 @@ class CollectionsRelatedContent extends React.Component {
                 <Icon name="icon-layers" className="c-icon -small" /> <span>{this.state.datasets.length}</span>
               </a>
 
-              {this.state.datasetsActive && <div><span>Datasets {this.state.datasets.length}</span></div>}
+              {this.state.datasetsActive &&
+                <div><span>Datasets {this.state.datasets.length}</span></div>}
             </TetherComponent>
           </li>
 
@@ -79,7 +80,8 @@ class CollectionsRelatedContent extends React.Component {
                 onMouseLeave={() => this.toggleTooltip('widgetsActive', false)}>
                 <Icon name="icon-widgets" className="c-icon -small" /> <span>{this.state.widgets.length}</span>
               </a>
-              {this.state.widgetsActive && <div><span>Widgets {this.state.widgets.length}</span></div>}
+              {this.state.widgetsActive &&
+                <div><span>Widgets {this.state.widgets.length}</span></div>}
             </TetherComponent>
           </li>
 
