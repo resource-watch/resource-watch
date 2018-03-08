@@ -13,10 +13,8 @@ import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 
 // Table components
-/*
 import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
-*/
 
 // TDs
 import NameTD from './td/NameTD';
@@ -88,14 +86,14 @@ class CollectionsList extends React.Component {
                 route: routes.detail,
                 params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' },
                 show: true,
-                // component: EditAction,
+                component: EditAction,
                 componentProps: { route: routes.detail }
               },
               {
                 name: 'Remove',
                 route: routes.detail,
                 params: { tab: 'datasets', subtab: 'remove', id: '{{id}}' },
-                // component: DeleteAction,
+                component: DeleteAction,
                 componentProps: { authorization: this.props.user.token }
               }
             ]
@@ -106,7 +104,7 @@ class CollectionsList extends React.Component {
           }}
           filters={false}
           data={this.getCollections()}
-          onRowDelete={() => console.log('row delete')}
+          onRowDelete={() => this.getCollections()}
           pageSize={20}
           pagination={{
             enabled: true,

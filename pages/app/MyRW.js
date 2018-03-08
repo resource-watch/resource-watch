@@ -48,7 +48,7 @@ const MYRW_TABS = [{
   params: { tab: 'areas' }
 },
 {
-  label: 'My Collections',
+  label: 'Collections',
   value: 'collections',
   route: 'myrw',
   params: { tab: 'collections' }
