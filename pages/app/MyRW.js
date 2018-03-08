@@ -17,6 +17,7 @@ import DatasetsTab from 'components/app/myrw/datasets/DatasetsTab';
 import DashboardsTab from 'components/app/myrw/dashboards/DashboardsTab';
 import WidgetsTab from 'components/app/myrw/widgets/WidgetsTab';
 import AreasTab from 'components/app/myrw/areas/AreasTab';
+import CollectionsTab from 'components/app/myrw/collections/CollectionsTab';
 
 // Contants
 const MYRW_TABS = [{
@@ -45,6 +46,12 @@ const MYRW_TABS = [{
   value: 'areas',
   route: 'myrw',
   params: { tab: 'areas' }
+},
+{
+  label: 'My Collections',
+  value: 'collections',
+  route: 'myrw',
+  params: { tab: 'collections' }
 }];
 
 class MyRW extends Page {
@@ -104,6 +111,7 @@ class MyRW extends Page {
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
+
                 {tab === 'profile' &&
                   <ProfilesTab tab={tab} subtab={subtab} />
                 }
@@ -123,6 +131,11 @@ class MyRW extends Page {
                 {tab === 'widgets' &&
                   <WidgetsTab tab={tab} subtab={subtab} />
                 }
+
+                {tab === 'collections' &&
+                  <CollectionsTab tab={tab} subtab={subtab} />
+                }
+
               </div>
             </div>
           </div>
