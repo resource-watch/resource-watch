@@ -118,7 +118,7 @@ export const PANORAMAS = [
                 <p>
                   In the past few decades, warmer ocean temperatures have contributed to more frequent and more harmful coral bleaching events around the world.
                 </p>
-                <iframe src="https://staging.resourcewatch.org/embed/widget/0ce14e1a-57e1-429f-b0d3-1b082a3c4a94" width="100%" height="474" frameBorder="0"></iframe>
+                <iframe src="https://staging.resourcewatch.org/embed/widget/b3882230-334c-4c02-84f2-287aa9636ad2" width="100%" height="474" frameBorder="0"></iframe>
                 <p>
                   From 1980 to 1997, some 370 incidents of coral bleaching and disease were reported. From 1998 to 2012, that number exploded to more than 4,000. (This jump mostly reflects the destructive effect of rising ocean temperatures, though it should be noted that growing awareness, monitoring and communication of coral bleaching as an issue also played a role.)
                 </p>
