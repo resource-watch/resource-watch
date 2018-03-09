@@ -12,29 +12,31 @@ import * as actions from 'pages/admin/data/data-actions';
 
 import { getWidgets } from 'redactions/admin/widgets';
 
-import DataDetails from 'pages/admin/data/data-details';
+import DataContainer from './data-container';
 
 class DataPage extends Page {
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
     const { store } = context;
-    const { tab, page, search, sort } = props.url.query;
+    const {
+      tab, page, search, sort
+    } = props.url.query;
 
     if (search) {
-      context.store.dispatch(actions.setDatasetSearchTerm(search));
+      store.dispatch(actions.setDatasetSearchTerm(search));
     }
 
     if (sort) {
-      context.store.dispatch(actions.setDatasetSort(JSON.parse(sort)));
+      store.dispatch(actions.setDatasetSort(JSON.parse(sort)));
     }
 
     if (page) {
-      context.store.dispatch(actions.setDatasetPage(page));
+      store.dispatch(actions.setDatasetPage(page));
     }
 
     if (!tab || tab === 'datasets') {
-      context.store.dispatch(actions.setActiveTab('datasets'));
-      await context.store.dispatch(actions.getDatasets());
+      store.dispatch(actions.setActiveTab('datasets'));
+      await store.dispatch(actions.getDatasets());
     }
 
     if (tab === 'widgets') {
@@ -99,7 +101,7 @@ class DataPage extends Page {
   }
 
   render() {
-    return <DataDetails {...this.props} />;
+    return <DataContainer {...this.props} />;
   }
 }
 

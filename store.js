@@ -46,7 +46,7 @@ import * as adminInteractions from 'components/admin/layers/form/interactions';
 import * as adminLayerPreview from 'components/admin/layers/form/layer-preview';
 
 // Admin pages
-import * as adminDataPage from 'pages/admin/data/data-details';
+import * as adminDataPage from 'pages/admin/data/data-container';
 
 // Widget editor
 import { reducers as widgetEditorModules } from 'widget-editor';
