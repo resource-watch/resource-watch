@@ -1,7 +1,4 @@
 .c-search-list {
-  .search-list {
-  }
-
   .search-list-item {
     margin: $space-1 * 4 0 0;
 
@@ -9,4 +6,27 @@
       margin: 0;
     }
   }
+
+  &--header {
+    position: absolute;
+    top: 75px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 700px;
+    max-height: calc(100vh - 110px);
+
+    background: #FFF;
+    overflow-y: scroll;
+    border-radius: 0 0 5px 5px;
+
+    & .search-list {
+      max-height: calc(100% - 60px);
+      padding: 20px 20px 0 20px;
+
+      overflow-y: scroll;
+    }
+
+  }
+
 }
