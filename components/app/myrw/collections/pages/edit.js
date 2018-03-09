@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 
 import CollectionsForm from 'components/app/myrw/collections/form/CollectionsForm';
 
-import { Link } from 'routes';
-
 function CollectionsEdit(props) {
   const { user, id } = props;
 

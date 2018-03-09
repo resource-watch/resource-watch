@@ -64,7 +64,6 @@ class CollectionsForm extends React.Component {
         Router.pushRoute('myrw', { tab: 'collections' });
       }, () => toastr.error('Error', `Could not edit Collection ${collection.attributes.name}`));
     }
-
   }
 
   onChange(name) {

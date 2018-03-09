@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import includes from 'lodash/includes';
-
 // Redux
 import { connect } from 'react-redux';
 
+import { setUserCollectionsFilter } from 'redactions/user';
+
 // Selectors
-// import getFilteredDatasets from 'selectors/admin/datasets';
+import getUserCollections from 'selectors/myrw/collections';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -25,32 +25,21 @@ import RelatedContentTD from './td/RelatedContentTD';
 class CollectionsList extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      filter: ''
-    };
-
     this.onSearch = this.onSearch.bind(this);
   }
 
   onSearch(value) {
-    this.setState({ filter: value });
-  }
-
-  getCollections() {
-    const { collections } = this.props;
-    const { filter } = this.state;
-
-    if (filter && filter.length) {
-      return collections.items.filter(col =>
-        includes(col.attributes.name.toLowerCase(), filter.toLowerCase()));
-    }
-
-    return collections.items;
+    this.props.setUserCollectionsFilter(value);
   }
 
   render() {
-    const { routes, collections, user } = this.props;
+    const {
+      routes,
+      collections,
+      filteredCollections,
+      user
+    } = this.props;
+
     return (
       <div className="c-dataset-table">
 
@@ -59,7 +48,7 @@ class CollectionsList extends React.Component {
         <SearchInput
           input={{
             placeholder: 'Search collections',
-            value: this.state.filter
+            value: collections.filter
           }}
           link={{
             label: 'New Collection',
@@ -107,7 +96,7 @@ class CollectionsList extends React.Component {
             value: -1
           }}
           filters={false}
-          data={this.getCollections()}
+          data={filteredCollections}
           onRowDelete={() => this.getCollections()}
           pageSize={20}
           pagination={{
@@ -132,11 +121,18 @@ CollectionsList.defaultProps = {
 CollectionsList.propTypes = {
   routes: PropTypes.object,
   user: PropTypes.object,
-  collections: PropTypes.object
+  collections: PropTypes.object,
+  filteredCollections: PropTypes.array,
+  setUserCollectionsFilter: PropTypes.func
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  filteredCollections: getUserCollections(state)
 });
 
-export default connect(mapStateToProps, null)(CollectionsList);
+const mapDispatchToProps = dispatch => ({
+  setUserCollectionsFilter: value => dispatch(setUserCollectionsFilter(value))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CollectionsList);

@@ -12,6 +12,7 @@ function CollectionsTab(props) {
   const { tab, subtab, id, user } = props;
   return (
     <div className="c-collections-tab">
+
       {user.token && !id &&
         <CollectionsIndex tab={tab} subtab={subtab} id={id} user={user} />
       }

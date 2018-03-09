@@ -22,6 +22,7 @@ const SET_USER_COLLECTIONS = 'user/setUserCollections';
 const SET_USER_COLLECTIONS_LOADING = 'user/setUserCollectionsLoading';
 const SET_USER_COLLECTIONS_UPDATE_LOADING = 'user/setUserCollectionsUpdateLoading';
 const TOGGLE_COLLECTIONS_LOADING = 'user/toggleCollectionsLoading';
+const SET_USER_COLLECTIONS_FILTER = 'user/setUserCollectionsFilter';
 const SET_USER_COLLECTIONS_ERROR = 'user/setUserCollectionsError';
 
 
@@ -35,6 +36,7 @@ const initialState = {
     error: null
   },
   collections: {
+    filter: '',
     loading: false,
     items: [],
     loadingQueue: [],
@@ -105,6 +107,16 @@ export default function (state = initialState, action) {
         collections: {
           ...state.collections,
           loading: !state.collections.loading
+        }
+      };
+    }
+
+    case SET_USER_COLLECTIONS_FILTER: {
+      return {
+        ...state,
+        collections: {
+          ...state.collections,
+          filter: action.payload
         }
       };
     }
@@ -230,6 +242,7 @@ export const toggleCollectionsLoading = createAction(TOGGLE_COLLECTIONS_LOADING)
 export const setUserCollectionsErrors = createAction(SET_USER_COLLECTIONS_ERROR);
 export const setUserCollectionsLoading = createAction(SET_USER_COLLECTIONS_LOADING);
 export const setUserCollectionsUpdateLoading = createAction(SET_USER_COLLECTIONS_UPDATE_LOADING);
+export const setUserCollectionsFilter = createAction(SET_USER_COLLECTIONS_FILTER);
 
 export const getUserCollections = createThunkAction('user/getUserCollections', () =>
   (dispatch, getState) => {
