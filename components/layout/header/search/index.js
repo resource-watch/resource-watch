@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 // Components
 import Icon from 'components/ui/Icon';
 import SearchResults from 'components/search/search-results';
+import Spinner from 'components/ui/Spinner';
 
 import { fetchSearch, setSearchTerm } from 'redactions/search';
 
@@ -76,6 +77,7 @@ class Search extends React.Component {
               <Icon name="icon-cross" className="-smaller" />
             </button>
           </form>
+          {this.props.search.loading && <Spinner isLoading className="-light" />}
 
           <SearchResults hideSearchInput headerSearch />
         </div>

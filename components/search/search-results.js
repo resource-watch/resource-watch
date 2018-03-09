@@ -18,10 +18,11 @@ class SearchResultsComponent extends React.PureComponent {
       total: PropTypes.number,
       page: PropTypes.number,
       limit: PropTypes.number,
-      term: PropTypes.string
+      term: PropTypes.string,
+      loading: PropTypes.bool
     }),
     headerSearch: PropTypes.bool,
-    hideSearchInput: PropTypes.bool,
+    hideSearchInput: PropTypes,
     // ACTIONS
     setSearchPage: PropTypes.func,
     setSearchTerm: PropTypes.func,
@@ -41,7 +42,7 @@ class SearchResultsComponent extends React.PureComponent {
 
   render() {
     const {
-      term, list, total, page, limit
+      term, list, total, page, limit, loading
     } = this.props.search;
 
     const classNames = classnames({
@@ -59,7 +60,7 @@ class SearchResultsComponent extends React.PureComponent {
           onSearch={this.onSearch}
         />}
 
-        {term &&
+        {term && list.length > 0 &&
           <ul className="search-list">
             {list.map(l => (
               <li
@@ -81,11 +82,11 @@ class SearchResultsComponent extends React.PureComponent {
           </ul>
         }
 
-        {(!term || !total) &&
+        {((!term) || !total) && term.length !== 0 && !loading &&
           <p>No results</p>
         }
 
-        {!!total && total > limit &&
+        {!!total && total > limit && !loading && list.length > 0 &&
           <Paginator
             options={{
               size: total,
