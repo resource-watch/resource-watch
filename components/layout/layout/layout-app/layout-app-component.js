@@ -27,7 +27,7 @@ import {
 
 const fullScreenPages = [
   '/app/Explore',
-  '/app/Pulse',
+  '/app/pulse',
   '/app/Splash'
 ];
 

@@ -40,18 +40,12 @@
     }
   }
 
-  .similar-widgets {
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
+  .widget-card {
+    cursor: pointer;
+    width: 100%;
 
-    .widget-card {
-      cursor: pointer;
-      width: 100%;
-
-      .c-we-chart {
-        overflow: auto;
-      }
+    .c-we-chart {
+      overflow: auto;
     }
   }
 

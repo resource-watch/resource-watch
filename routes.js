@@ -45,7 +45,7 @@ routes.add('partner', '/about/partners/:id', 'app/PartnerDetail');
 routes.add('explore', '/data/explore', 'app/Explore');
 routes.add('explore_detail_private', '/data/explore/private/:id', 'app/explore-detail/private');
 routes.add('explore_detail', '/data/explore/:id', 'app/explore-detail');
-routes.add('pulse', '/data/pulse', 'app/Pulse');
+routes.add('pulse', '/data/pulse', 'app/pulse');
 routes.add('dashboards', '/data/dashboards/', 'app/Dashboards');
 routes.add('dashboards_detail', '/data/dashboards/:slug', 'app/DashboardsDetail');
 routes.add('widget_detail', '/data/widget/:id', 'app/widget-detail');
