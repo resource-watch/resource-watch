@@ -156,6 +156,7 @@ class SplashDetail extends Page {
         />
         <Icons />
         <Header
+          hideSkip
           showEarthViewLink
         />
         {hasIntro &&
