@@ -17,14 +17,9 @@ import Header from 'components/splash/layout/Header';
 import { MARKERS } from 'utils/splash/Markers';
 
 // Components
+import GlobeCesium from 'pages/app/pulse/globe-cesium';
 
-let Map;
 let Cesium;
-if (typeof window !== 'undefined') {
-  /* eslint-disable */
-  Map = require('components/cesium/map/map').default;
-  /* eslint-enable */
-}
 
 const CAMERA_INITIAL_POSITION = { lat: 35.46, lon: -3.55, height: 90000, pitch: -0.3, heading: 0, roll: 0 };
 const CAMERA_FINAL_POSITION = { lat: 49.2002, lon: -0.1382, height: 20000000, pitch: -0.3, heading: 0, roll: 0 };
@@ -56,8 +51,7 @@ class Splash extends Page {
 
   componentDidMount() {
     // Init Cesium var
-    Cesium = window.Cesium;
-
+    Cesium = window.Cesium; // eslint-disable-line prefer-destructuring
     Cesium.BingMapsApi.defaultKey = process.env.BING_MAPS_API_KEY;
 
     this.setState({ mounted: true }); // eslint-disable-line react/no-did-mount-set-state
@@ -200,13 +194,9 @@ class Splash extends Page {
           hideSkip={hideSkip}
         />
         {mounted &&
-          <Map
+          <GlobeCesium
             className={cesiumClassname}
             shapes={MARKERS}
-            homeButton={false}
-            navigationHelpButton={false}
-            selectionIndicator={false}
-            showInfoWindow={false}
             onBillboardClick={this.handleBillboardClick}
             onBillboardHover={this.handleBillboardHover}
             onBillboardOut={this.handleBillboardOut}
