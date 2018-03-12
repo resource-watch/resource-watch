@@ -6,7 +6,7 @@ import CollectionsRelatedContent from '../related-content';
 function RelatedContentTD(props) {
   const { index } = props;
   return (
-    <td key={index} className="main">
+    <td key={index} className="c-related-content">
       <CollectionsRelatedContent {...props} />
     </td>
   );

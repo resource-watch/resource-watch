@@ -21,7 +21,7 @@ const SET_USER_FAVOURITES_ERROR = 'user/setUserFavouritesError';
 const SET_USER_COLLECTIONS = 'user/setUserCollections';
 const SET_USER_COLLECTIONS_LOADING = 'user/setUserCollectionsLoading';
 const SET_USER_COLLECTIONS_UPDATE_LOADING = 'user/setUserCollectionsUpdateLoading';
-const TOGGLE_COLLECTIONS_LOADING = 'user/toggleCollectionsLoading';
+const SET_COLLECTIONS_LOADING = 'user/setCollectionsLoading';
 const SET_USER_COLLECTIONS_FILTER = 'user/setUserCollectionsFilter';
 const SET_USER_COLLECTIONS_ERROR = 'user/setUserCollectionsError';
 
@@ -101,12 +101,12 @@ export default function (state = initialState, action) {
       };
     }
 
-    case TOGGLE_COLLECTIONS_LOADING: {
+    case SET_COLLECTIONS_LOADING: {
       return {
         ...state,
         collections: {
           ...state.collections,
-          loading: !state.collections.loading
+          loading: action.payload
         }
       };
     }
@@ -238,7 +238,7 @@ export const toggleFavourite = createThunkAction('user/toggleFavourite', (payloa
 
 // COLLECTIONS
 export const setUserCollections = createAction(SET_USER_COLLECTIONS);
-export const toggleCollectionsLoading = createAction(TOGGLE_COLLECTIONS_LOADING);
+export const setCollectionsLoading = createAction(SET_COLLECTIONS_LOADING);
 export const setUserCollectionsErrors = createAction(SET_USER_COLLECTIONS_ERROR);
 export const setUserCollectionsLoading = createAction(SET_USER_COLLECTIONS_LOADING);
 export const setUserCollectionsUpdateLoading = createAction(SET_USER_COLLECTIONS_UPDATE_LOADING);
@@ -252,17 +252,17 @@ export const getUserCollections = createThunkAction('user/getUserCollections', (
       return;
     }
 
-    dispatch(toggleCollectionsLoading());
+    dispatch(setCollectionsLoading(true));
 
     return CollectionsService.getAllCollections(token)
       .then(({ data }) => {
         dispatch(setUserCollections(data));
         dispatch(setUserCollectionsLoading(data));
-        dispatch(toggleCollectionsLoading());
+        dispatch(setCollectionsLoading(false));
       })
       .catch(({ errors }) => {
         dispatch(setUserCollectionsErrors(errors));
-        dispatch(toggleCollectionsLoading());
+        dispatch(setCollectionsLoading(false));
       });
   });
 

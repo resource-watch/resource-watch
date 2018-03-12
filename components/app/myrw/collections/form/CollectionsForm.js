@@ -51,17 +51,21 @@ class CollectionsForm extends React.Component {
     const { user, collection } = this.props;
     const { name, isNew } = this.state;
 
+    this.setState({ submitting: true });
+
     if (isNew) {
       CollectionsService.createCollection(user.token, name).then(() => {
         logEvent('Myrw Collections', 'Edit collection', collection.id);
         toastr.success('Success', 'Collection successully Created');
         Router.pushRoute('myrw', { tab: 'collections' });
+        this.setState({ submitting: false });
       }, () => toastr.error('Error', `Could not create Collection ${collection.attributes.name}`));
     } else {
       CollectionsService.editCollection(user.token, collection.id, name).then(() => {
         logEvent('Myrw Collections', 'Edit collection', collection.id);
         toastr.success('Success', 'Collection successully updated');
         Router.pushRoute('myrw', { tab: 'collections' });
+        this.setState({ submitting: false });
       }, () => toastr.error('Error', `Could not edit Collection ${collection.attributes.name}`));
     }
   }
