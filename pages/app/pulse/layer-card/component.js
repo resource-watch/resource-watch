@@ -55,28 +55,14 @@ class LayerCardComponent extends PureComponent {
   }
 
   handleSubscribeToAlerts() {
-    const { user } = this.props;
-    const userLoggedIn = user && user.id;
-
-    let options = null;
-    if (!userLoggedIn) {
-      options = {
-        children: LoginModal,
-        childrenProps: {
-          toggleModal: this.props.toggleModal,
-          text: 'Log in to subscribe to near-real time datasets'
-        }
-      };
-    } else {
-      options = {
-        children: SubscribeToDatasetModal,
-        childrenProps: {
-          toggleModal: this.props.toggleModal,
-          dataset: this.state.dataset,
-          showDatasetSelector: false
-        }
-      };
-    }
+    const options = {
+      children: SubscribeToDatasetModal,
+      childrenProps: {
+        toggleModal: this.props.toggleModal,
+        dataset: this.state.dataset,
+        showDatasetSelector: false
+      }
+    };
     this.props.toggleModal(true);
     this.props.setModalOptions(options);
   }
@@ -141,19 +127,19 @@ class LayerCardComponent extends PureComponent {
             </div>
           </div>
         }
-        <div className="buttons">
+        <div className="card-buttons">
           { datasetId &&
             <Link
               route="explore_detail"
               params={{ id: datasetId }}
             >
-              <a className="link_button" >Explore the data</a>
+              <a className="c-button -tertiary link_button" >Explore the data</a>
             </Link>
           }
           { subscribable &&
             <LoginRequired text="Log in or sign up to subscribe to alerts from this dataset">
               <button
-                className="link_button"
+                className="c-button -tertiary link_button"
                 onClick={this.handleSubscribeToAlerts}
               >
                 Subscribe to alerts
