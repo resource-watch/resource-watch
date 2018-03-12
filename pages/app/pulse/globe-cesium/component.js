@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 
 let Cesium;
 
-//-----------------GLOBE CONSTANTS-------------------
+// -----------------GLOBE CONSTANTS-------------------
 /* Zoom defaults */
 const MAXIMUM_ZOOM_DISTANCE = 30000000;
 const MINIMUM_ZOOM_DISTANCE = 99;
@@ -61,7 +61,8 @@ class GlobeCesiumComponent extends PureComponent {
       timeline: false,
       creditsDisplay: false,
       fullscreenButton: false,
-      skyAtmosphere: false
+      skyAtmosphere: false,
+      ...this.props.viewerOptions
     });
 
     // Set maximum/minimum zoom values
@@ -136,6 +137,11 @@ class GlobeCesiumComponent extends PureComponent {
     Cesium.knockout.track(this.viewModel);
 
     this.initGlobe();
+
+    // ----- Markers ---------
+    if (this.props.markers) {
+      this.createShapes(this.props.markers);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -152,6 +158,11 @@ class GlobeCesiumComponent extends PureComponent {
         (nextProps.activeContextLayers !== this.props.activeContextLayers) ||
         (newMainLayer !== mainLayer)
       );
+    }
+    // ----- Markers ---------
+    if (nextProps.markers !== this.props.markers) {
+      this.removeShapes();
+      this.createShapes(nextProps.markers);
     }
     // ----- 3D layer points ------
     if (nextProps.layerPoints !== this.props.layerPoints) {
@@ -495,6 +506,8 @@ GlobeCesiumComponent.propTypes = {
   layerPoints: PropTypes.array,
   layerActive: PropTypes.object,
   zoom: PropTypes.number,
+  markers: PropTypes.array,
+  viewerOptions: PropTypes.object,
 
   // Store
   setShapesCreated: PropTypes.func.isRequired,
