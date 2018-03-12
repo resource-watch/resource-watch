@@ -9,8 +9,8 @@ import Error from 'pages/_error';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import * as actions from 'pages/app/widget-detail/widget-detail-actions';
-import WidgetDetail from 'pages/app/widget-detail/widget-detail';
+import * as actions from 'layout/widget-detail/widget-detail-actions';
+import WidgetDetail from 'layout/widget-detail';
 
 class WidgetDetailPage extends Page {
   static propTypes = {

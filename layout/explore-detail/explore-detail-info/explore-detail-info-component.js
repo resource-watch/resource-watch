@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Utils
-import { getDatasetMetadata } from 'pages/app/explore-detail/explore-detail-helpers';
+import { getDatasetMetadata } from 'layout/explore-detail/explore-detail-helpers';
 
 // Components
 import ReadMore from 'components/ui/ReadMore';

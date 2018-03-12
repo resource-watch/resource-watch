@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Utils
-import { getDatasetDefaultEditableWidget } from 'pages/app/explore-detail/explore-detail-helpers';
+import { getDatasetDefaultEditableWidget } from 'layout/explore-detail/explore-detail-helpers';
 import { breakpoints } from 'utils/responsive';
 
 // Components

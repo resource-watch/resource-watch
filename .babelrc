@@ -9,6 +9,7 @@
         "alias": {
           "css": "./css",
           "components": "./components",
+          "layout": "./layout",
           "redactions": "./redactions",
           "utils": "./utils",
           "selectors": "./selectors",

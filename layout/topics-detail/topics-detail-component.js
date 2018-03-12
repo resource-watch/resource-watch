@@ -8,8 +8,8 @@ import { Router } from 'routes';
 import Layout from 'components/layout/layout/layout-app';
 
 // Topic Detail Component
-import TopicDetailHeader from 'pages/app/topics-detail/topics-detail-header';
-import TopicDetailContent from 'pages/app/topics-detail/topics-detail-content';
+import TopicDetailHeader from 'layout/topics-detail/topics-detail-header';
+import TopicDetailContent from 'layout/topics-detail/topics-detail-content';
 import TopicThumbnailList from 'components/topics/thumbnail-list';
 
 import Title from 'components/ui/Title';
