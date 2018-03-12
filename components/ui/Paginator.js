@@ -5,23 +5,8 @@ import Pagination from 'rc-pagination';
 class Paginator extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      size: props.options.size,
-      page: props.options.page,
-      limit: props.options.limit
-    };
-
     // BINDINGS
     this.triggerChangePage = this.triggerChangePage.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      size: nextProps.options.size,
-      page: nextProps.options.page,
-      limit: nextProps.options.limit
-    });
   }
 
   /**
@@ -29,16 +14,11 @@ class Paginator extends React.Component {
    * - triggerChangePage (page, size)
   */
   triggerChangePage(page) {
-    this.setState({
-      page
-    }, () => {
-      if (this.props.onChange) this.props.onChange(this.state.page);
-    });
+    if (this.props.onChange) this.props.onChange(page);
   }
 
   render() {
-    const { size, page, limit } = this.state;
-
+    const { size, page, limit } = this.props.options;
     return (
       <div className="c-paginator">
         <Pagination

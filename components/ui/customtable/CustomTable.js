@@ -34,7 +34,7 @@ export default class CustomTable extends React.Component {
   }
 
   static setTableData(props) {
-    const data = props.data;
+    const { data } = props;
 
     return {
       // Data
@@ -81,10 +81,7 @@ export default class CustomTable extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const currentLength = this.state.data.length;
     const currentColumnsKeys = CustomTable.getColumnKeys(this.state.data).sort();
-
-    const nextLength = nextProps.data.length;
     const nextColumnsKeys = CustomTable.getColumnKeys(nextProps.data).sort();
 
 
@@ -92,15 +89,12 @@ export default class CustomTable extends React.Component {
     // if you only check the length, sometimes you have only edited one dataset,
     // so the table will not render the new values
 
-    // if (currentLength !== nextLength) {
     this.setState(CustomTable.setTableData(nextProps), () => {
       this.filter();
     });
-    // }
 
     if (!isEqual(currentColumnsKeys, nextColumnsKeys)) {
       this.setState({
-        ...CustomTable.setTableData(nextProps),
         // Sort
         sort: nextProps.sort,
         // Search
@@ -182,15 +176,32 @@ export default class CustomTable extends React.Component {
   onSort(s) {
     const { sort, initialSort } = this.state;
 
+    const newSortingRule = {
+      field: s.field,
+      value: s.value
+    };
+
     // check if we are trying to sort on the same as before, then return to initial sorting
     if (isEqual(s, sort)) {
-      this.setState({ sort: initialSort }, () => this.onChangePage(0));
+      this.setState({ sort: initialSort }, () => {
+        if (this.props.onSort) {
+          this.props.onSort(newSortingRule);
+        } else {
+          this.onChangePage(0);
+        }
+      });
     } else {
-      const newSortingRule = {
-        field: s.field,
-        value: s.value
-      };
-      this.setState({ sort: newSortingRule }, () => this.onChangePage(0));
+      this.setState({ sort: newSortingRule }, () => {
+        if (this.props.onSort) {
+          this.props.onSort(newSortingRule);
+        } else {
+          this.onChangePage(0);
+        }
+      });
+    }
+
+    if (this.props.onSort) {
+      this.props.onSort(newSortingRule);
     }
   }
 
@@ -206,6 +217,10 @@ export default class CustomTable extends React.Component {
   }
 
   onChangePage(page) {
+    if (this.props.onChangePage) {
+      this.props.onChangePage(page);
+    }
+
     this.setState({
       pagination: {
         ...this.state.pagination,
@@ -219,8 +234,9 @@ export default class CustomTable extends React.Component {
    * - filter
   */
   filter() {
-    const { columnQueries, search, pagination } = this.state;
+    const { pagination, columnQueries, search } = this.state;
 
+    // TODO: Verify if we need the old logic, now we will do a DB search
     const filteredData = this.state.data.filter((row) => {
       let filteredBySearch = true;
 
@@ -237,8 +253,9 @@ export default class CustomTable extends React.Component {
     });
 
     const maxPage = Math.ceil(filteredData.length / pagination.pageSize);
+
     // Check if the page is equal to the total
-    const page = (pagination.page !== 0 && pagination.page === maxPage) ?
+    const page = (pagination.page !== 0 && pagination.page === maxPage) && !pagination.dynamic ?
       pagination.page - 1 : pagination.page;
 
     this.setState({
@@ -302,7 +319,9 @@ CustomTable.propTypes = {
   filters: PropTypes.bool,
   sort: PropTypes.object,
   onToggleSelectedRow: PropTypes.func,
-  onRowDelete: PropTypes.func
+  onChangePage: PropTypes.func,
+  onRowDelete: PropTypes.func,
+  onSort: PropTypes.func
 };
 
 /* Property default values */

@@ -52,7 +52,9 @@ export default class TableContent extends React.Component {
     }
 
     /* Apply pagination to data */
-    data = data.slice(bottom, top);
+    if (data.length > bottom) {
+      data = data.slice(bottom, top);
+    }
 
     return (
       <tbody>

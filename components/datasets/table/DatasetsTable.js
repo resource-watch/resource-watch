@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import debounce from 'lodash/debounce';
+
 // Redux
 import { connect } from 'react-redux';
-import { getDatasets, setFilters } from 'redactions/admin/datasets';
+import { setFilters } from 'redactions/admin/datasets';
 
-// Selectors
-import getFilteredDatasets from 'selectors/admin/datasets';
+import { changeDatasetPage, setDatasetSearchTerm, setDatasetPage, setDatasetUrl, setDatasetSort } from 'pages/admin/data/data-actions';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -34,25 +35,28 @@ class DatasetsTable extends React.Component {
 
   componentDidMount() {
     this.props.setFilters({});
-    this.props.getDatasets({
-      includes: 'widget,layer,metadata,vocabulary,user'
-    });
   }
 
   /**
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  onSearch(value) {
-    if (!value.length) {
-      this.props.setFilters([]);
-    } else {
-      this.props.setFilters([{ key: 'name', value }]);
-    }
+  onSearch = debounce((term) => {
+    this.props.setDatasetPage(1);
+    this.props.setDatasetSearchTerm(term);
+    this.props.setDatasetUrl();
+  }, 500)
+
+  onSort(sort) {
+    this.props.setDatasetSort(sort);
+    this.props.setDatasetUrl({ shallow: true });
   }
 
-  getDatasets() {
-    return this.props.datasets
+  getFilteredDatasets() {
+    const { adminDataPage } = this.props;
+    const { datasets } = adminDataPage;
+
+    return datasets.list
       .map((d) => {
         const user = d.user || {};
 
@@ -65,23 +69,35 @@ class DatasetsTable extends React.Component {
           code: metadataInfo.rwId || ''
         };
       })
-      .filter(d => d.published === true || d.user.role === 'ADMIN');
+      .filter(d => d && (d.published === true || d.user.role === 'ADMIN'));
+  }
+
+  changePage(page) {
+    this.props.setDatasetPage(page + 1);
+    this.props.setDatasetUrl();
   }
 
   render() {
-    const { routes, getDatasetsFilters } = this.props;
+    const {
+      routes,
+      error,
+      adminDataPage
+    } = this.props;
+
+    const { datasets, loading } = adminDataPage;
 
     return (
       <div className="c-dataset-table">
-        <Spinner className="-light" isLoading={this.props.loading} />
+        <Spinner className="-light" isLoading={loading} />
 
-        {this.props.error && (
-          <p>Error: {this.props.error}</p>
+        {error && (
+          <p>Error: {error}</p>
         )}
 
         <SearchInput
           input={{
-            placeholder: 'Search dataset'
+            placeholder: 'Search dataset',
+            value: datasets.search
           }}
           link={{
             label: 'New dataset',
@@ -111,21 +127,19 @@ class DatasetsTable extends React.Component {
                 { name: 'Remove', route: routes.detail, params: { tab: 'datasets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.user.token } }
               ]
             }}
-            sort={{
-              field: 'updatedAt',
-              value: -1
-            }}
+            sort={JSON.parse(datasets.sort)}
             filters={false}
-            data={this.getDatasets()}
-            onRowDelete={() => this.props.getDatasets({
-              includes: 'widget,layer,metadata,vocabulary,user',
-              filters: getDatasetsFilters
-            })}
+            data={this.getFilteredDatasets()}
+            onRowDelete={() => this.changePage()}
             pageSize={20}
+            onChangePage={page => this.changePage(page)}
+            onSort={sort => this.onSort(sort)}
             pagination={{
               enabled: true,
+              dynamic: true,
               pageSize: 20,
-              page: 0
+              items: datasets.pagination.total,
+              page: datasets.activePage - 1
             }}
           />
         )}
@@ -138,38 +152,41 @@ DatasetsTable.defaultProps = {
   routes: {
     index: '',
     detail: ''
-  },
-  columns: [],
-  actions: {},
-  getDatasetsFilters: {},
-  // Store
-  datasets: []
+  }
 };
 
 DatasetsTable.propTypes = {
   routes: PropTypes.object,
-  getDatasetsFilters: PropTypes.object,
 
   // Store
   user: PropTypes.object,
-  loading: PropTypes.bool.isRequired,
-  datasets: PropTypes.array.isRequired,
+  adminDataPage: PropTypes.object.isRequired,
   error: PropTypes.string,
 
   // Actions
-  getDatasets: PropTypes.func.isRequired,
+  changeDatasetPage: PropTypes.func,
+  setDatasetPage: PropTypes.func,
+  setDatasetSearchTerm: PropTypes.func,
+  setDatasetUrl: PropTypes.func,
+  setDatasetSort: PropTypes.func,
   setFilters: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user,
   loading: state.datasets.datasets.loading,
-  datasets: getFilteredDatasets(state),
+  datasets: state.datasets.datasets,
+  adminDataPage: state.adminDataPage,
   error: state.datasets.datasets.error
 });
+
 const mapDispatchToProps = {
-  getDatasets,
-  setFilters
+  setFilters,
+  changeDatasetPage,
+  setDatasetPage,
+  setDatasetSearchTerm,
+  setDatasetUrl,
+  setDatasetSort
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetsTable);
