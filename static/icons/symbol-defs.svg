@@ -184,5 +184,9 @@
 <title>stop2</title>
 <path d="M4 4h24v24h-24z"></path>
 </symbol>
+<symbol id="icon-table2" viewBox="0 0 32 32">
+<title>table2</title>
+<path d="M0 2v28h32v-28h-32zM12 20v-6h8v6h-8zM20 22v6h-8v-6h8zM20 6v6h-8v-6h8zM10 6v6h-8v-6h8zM2 14h8v6h-8v-6zM22 14h8v6h-8v-6zM22 12v-6h8v6h-8zM2 22h8v6h-8v-6zM22 28v-6h8v6h-8z"></path>
+</symbol>
 </defs>
 </svg>
