@@ -434,7 +434,6 @@ class GlobeCesiumComponent extends PureComponent {
     for (let i = this.imageryLayers.length - 1; i >= 0; --i) {
       this.viewModel.layers.push(this.imageryLayers.get(i));
     }
-    console.log('this.viewModel.layers', this.viewModel.layers);
   }
 
   initGlobe() {
