@@ -27,17 +27,8 @@
     }
   }
 
-  .cesium-map {
-    height: 100%;
-    width: 100%;
-
-    &.-cursor-pointer {
-      cursor: pointer;
-    }
-
-    .cesium-viewer-infoBoxContainer {
-      display: none;
-    }
+  &.-cursor-pointer {
+    cursor: pointer;
   }
 
   .right-section {

@@ -144,11 +144,12 @@ class CollectionsService {
       fetch(`${process.env.WRI_API_URL}/collection/${collectionId}`, {
         method: 'PATCH',
         headers: {
+          'content-type': 'application/json',
           Authorization: token
         },
-        body: {
+        body: JSON.stringify({
           name
-        }
+        })
       })
         .then((response) => {
           const { status, statusText } = response;

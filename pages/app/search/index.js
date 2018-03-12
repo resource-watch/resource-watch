@@ -47,6 +47,12 @@ class SearchPage extends Page {
     }
   }
 
+  // Clear search results if we unmount the search view
+  componentWillUnmount() {
+    this.props.setSearchTerm('');
+    this.props.fetchSearch();
+  }
+
   render() {
     return <Search />;
   }

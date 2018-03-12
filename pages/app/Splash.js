@@ -17,17 +17,26 @@ import Header from 'components/splash/layout/Header';
 import { MARKERS } from 'utils/splash/Markers';
 
 // Components
+import GlobeCesium from 'components/vis/globe-cesium';
 
-let Map;
 let Cesium;
-if (typeof window !== 'undefined') {
-  /* eslint-disable */
-  Map = require('components/cesium/map/map').default;
-  /* eslint-enable */
-}
 
-const CAMERA_INITIAL_POSITION = { lat: 35.46, lon: -3.55, height: 90000, pitch: -0.3, heading: 0, roll: 0 };
-const CAMERA_FINAL_POSITION = { lat: 49.2002, lon: -0.1382, height: 20000000, pitch: -0.3, heading: 0, roll: 0 };
+const CAMERA_INITIAL_POSITION = {
+  lat: 35.46,
+  lon: -3.55,
+  height: 90000,
+  pitch: -0.3,
+  heading: 0,
+  roll: 0
+};
+const CAMERA_FINAL_POSITION = {
+  lat: 49.2002,
+  lon: -0.1382,
+  height: 20000000,
+  pitch: -0.3,
+  heading: 0,
+  roll: 0
+};
 const ANIMATION_DURATION = 15;
 const INITIAL_WAIT = 6000;
 const FINAL_ANIMATION_DURATION = 8;
@@ -56,11 +65,8 @@ class Splash extends Page {
 
   componentDidMount() {
     // Init Cesium var
-    Cesium = window.Cesium;
-
+    Cesium = window.Cesium; // eslint-disable-line prefer-destructuring
     Cesium.BingMapsApi.defaultKey = process.env.BING_MAPS_API_KEY;
-
-    this.setState({ mounted: true }); // eslint-disable-line react/no-did-mount-set-state
   }
 
   runInitialAnimation() {
@@ -126,7 +132,7 @@ class Splash extends Page {
   }
 
   handleBillboardClick(e) {
-    const name = e.id.name;
+    const name = e.id.name; // eslint-disable-line prefer-destructuring
     this.setState({ selectedMarker: MARKERS.find(elem => elem.name === name) });
   }
 
@@ -178,17 +184,17 @@ class Splash extends Page {
   }
 
   render() {
-    const { mounted, billboardHover, selectedMarker, hideSkip } = this.state;
+    const { billboardHover, selectedMarker, hideSkip } = this.state;
 
-    const cesiumClassname = classnames({
-      'cesium-map': true,
+    const pageClassnames = classnames({
+      'page-splash': true,
       '-cursor-pointer': billboardHover
     });
 
     return (
       <div
         title="Resource Watch"
-        className="page-splash"
+        className={pageClassnames}
       >
         <Head
           title="Splash page"
@@ -199,21 +205,19 @@ class Splash extends Page {
           skipAnimation={() => this.skipAnimation()}
           hideSkip={hideSkip}
         />
-        {mounted &&
-          <Map
-            className={cesiumClassname}
-            shapes={MARKERS}
-            homeButton={false}
-            navigationHelpButton={false}
-            selectionIndicator={false}
-            showInfoWindow={false}
-            onBillboardClick={this.handleBillboardClick}
-            onBillboardHover={this.handleBillboardHover}
-            onBillboardOut={this.handleBillboardOut}
-            onClick={this.handleMouseClick}
-            onInit={this.handleOnInit}
-          />
-        }
+        <GlobeCesium
+          markers={MARKERS}
+          onBillboardClick={this.handleBillboardClick}
+          onBillboardHover={this.handleBillboardHover}
+          onBillboardOut={this.handleBillboardOut}
+          onClick={this.handleMouseClick}
+          onInit={this.handleOnInit}
+          viewerOptions={{
+            sceneModePicker: false,
+            selectionIndicator: false,
+            infoBox: false
+          }}
+        />
         {selectedMarker &&
           <div className="right-section">
             <div className="detail-container">

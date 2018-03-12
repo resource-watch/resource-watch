@@ -29,6 +29,7 @@ import AreasTab from 'components/app/myrw/areas/AreasTab';
 import DatasetsTab from 'components/app/myrw/datasets/DatasetsTab';
 import WidgetsTab from 'components/app/myrw/widgets/WidgetsTab';
 import DashboardsTab from 'components/app/myrw/dashboards/DashboardsTab';
+import CollectionsTab from 'components/app/myrw/collections/CollectionsTab';
 
 // Components
 import Title from 'components/ui/Title';
@@ -44,12 +45,13 @@ class MyRWDetail extends Page {
   constructor(props) {
     super(props);
 
-    const { tab, id, subtab } = props.url.query;
+    const { tab, id, subtab, title } = props.url.query;
 
     this.state = {
       tab,
       id,
       subtab,
+      title,
       data: {}
     };
 
@@ -81,7 +83,6 @@ class MyRWDetail extends Page {
           this.service = new UserService({ apiURL: process.env.WRI_API_URL });
         }
         break;
-
       default:
     }
   }
@@ -126,8 +127,8 @@ class MyRWDetail extends Page {
   getName() {
     const { tab, id, data } = this.state;
 
-    if (id === 'new') {
-      return `New ${singular(tab)}`;
+    if (id) {
+      return id === 'new' ? `New ${singular(tab)}` : 'Edit';
     }
 
     if (data.name) {
@@ -193,6 +194,10 @@ class MyRWDetail extends Page {
                   {tab === 'dashboards' &&
                     <DashboardsTab tab={tab} subtab={subtab} id={id} />
                   }
+                  {tab === 'collections' &&
+                    <CollectionsTab tab={tab} subtab={subtab} id={id} />
+                  }
+
                 </div>
               </div>
             </div>
