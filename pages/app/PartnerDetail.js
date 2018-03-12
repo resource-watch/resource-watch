@@ -11,8 +11,8 @@ import { Router } from 'routes';
 
 // Components
 import Banner from 'components/app/common/Banner';
-import Page from 'components/layout/page';
-import Layout from 'components/layout/layout/layout-app';
+import Page from 'layout/page';
+import Layout from 'layout/layout/layout-app';
 import Spinner from 'components/ui/Spinner';
 import DatasetList from 'components/datasets/list';
 

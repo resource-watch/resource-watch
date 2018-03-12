@@ -2,7 +2,7 @@ import { PureComponent } from 'react';
 import { setUser, getUserFavourites, getUserCollections } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 import { setMobileDetect, mobileParser } from 'react-responsive-redux';
-import { setMobileOpened } from 'components/layout/header/header-actions';
+import { setMobileOpened } from 'layout/header/header-actions';
 
 export default class Page extends PureComponent {
   static async getInitialProps({

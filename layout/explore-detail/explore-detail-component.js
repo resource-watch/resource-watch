@@ -11,8 +11,8 @@ import ExploreDetailTags from 'layout/explore-detail/explore-detail-tags';
 import ExploreDetailWidgetEditor from 'layout/explore-detail/explore-detail-widget-editor';
 
 // Components
-import Page from 'components/layout/page';
-import Layout from 'components/layout/layout/layout-app';
+import Page from 'layout/page';
+import Layout from 'layout/layout/layout-app';
 
 import Title from 'components/ui/Title';
 import ReadMore from 'components/ui/ReadMore';

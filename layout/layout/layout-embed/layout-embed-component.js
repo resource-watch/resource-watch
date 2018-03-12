@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 // Components
 import { Router } from 'routes';
 
-import Head from 'components/layout/head/app';
-import Icons from 'components/layout/icons';
+import Head from 'layout/head/app';
+import Icons from 'layout/icons';
 import Tooltip from 'components/ui/Tooltip';
 
 class LayoutEmbed extends React.Component {

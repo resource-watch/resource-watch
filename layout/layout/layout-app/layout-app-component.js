@@ -7,16 +7,16 @@ import { initGA, logPageView } from 'utils/analytics';
 
 // Components
 import { Router } from 'routes';
-
-import Head from 'components/layout/head/admin';
-import Header from 'components/layout/header-admin';
-import Icons from 'components/layout/icons';
+import Head from 'layout/head/app';
+import Header from 'layout/header';
+import Icons from 'layout/icons';
+import Footer from 'layout/footer';
 
 import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
 import Toastr from 'react-redux-toastr';
 import Dock from 'components/ui/Dock';
-import Search from 'components/layout/header/search';
+import Search from 'layout/header/search';
 
 import {
   setConfig,
@@ -25,11 +25,18 @@ import {
   Icons as WidgetIcons
 } from 'widget-editor';
 
-class LayoutAdmin extends React.Component {
+const fullScreenPages = [
+  '/app/Explore',
+  '/app/pulse',
+  '/app/Splash'
+];
+
+class LayoutApp extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.string,
     description: PropTypes.string,
+    routes: PropTypes.object,
     pageHeader: PropTypes.bool,
     className: PropTypes.string,
     category: PropTypes.string,
@@ -69,7 +76,7 @@ class LayoutAdmin extends React.Component {
     // The way we prevent this is by listening to the router
     // and whenever we navigate, we hide the tooltip
     // NOTE: we can't just call this.props.toggleTooltip here
-    // because for some pages, we don't re-mount the LayoutAdmin
+    // because for some pages, we don't re-mount the LayoutApp
     // component. If we listen for events from the router,
     // we're sure to not miss any page.
     this.props.toggleTooltip(false);
@@ -111,8 +118,10 @@ class LayoutAdmin extends React.Component {
 
   render() {
     const {
-      title, description, pageHeader, modal, className, category
+      title, description, routes, pageHeader, modal, className, category
     } = this.props;
+
+    const fullScreen = routes.pathname && fullScreenPages.indexOf(routes.pathname) !== -1;
 
     return (
       <div id="#main" className={`l-page ${className}`}>
@@ -124,13 +133,16 @@ class LayoutAdmin extends React.Component {
 
         <Icons />
 
-        <Progress.Component />
 
         <Header
           pageHeader={pageHeader}
         />
 
+        <Progress.Component />
+
         {this.props.children}
+
+        {!fullScreen && <Footer />}
 
         <Tooltip />
 
@@ -161,4 +173,4 @@ class LayoutAdmin extends React.Component {
   }
 }
 
-export default LayoutAdmin;
+export default LayoutApp;

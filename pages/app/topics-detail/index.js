@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 
 // Components
-import Page from 'components/layout/page';
+import Page from 'layout/page';
 import Error from 'pages/_error';
 
 // Redux

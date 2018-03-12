@@ -8,8 +8,8 @@ import { bindActionCreators } from 'redux';
 import { getStaticData } from 'redactions/static_pages';
 
 import { Link } from 'routes';
-import Page from 'components/layout/page';
-import Layout from 'components/layout/layout/layout-app';
+import Page from 'layout/page';
+import Layout from 'layout/layout/layout-app';
 import Banner from 'components/app/common/Banner';
 
 class About extends Page {

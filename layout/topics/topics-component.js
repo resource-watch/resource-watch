@@ -4,7 +4,7 @@ import React from 'react';
 import { Router } from 'routes';
 
 // Components
-import Layout from 'components/layout/layout/layout-app';
+import Layout from 'layout/layout/layout-app';
 import TopicThumbnailList from 'components/topics/thumbnail-list';
 
 class TopicsComponent extends React.PureComponent {

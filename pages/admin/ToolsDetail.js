@@ -14,8 +14,8 @@ import ToolsService from 'services/ToolsService';
 import { capitalizeFirstLetter } from 'utils/utils';
 
 // Layout
-import Page from 'components/layout/page';
-import Layout from 'components/layout/layout/layout-admin';
+import Page from 'layout/page';
+import Layout from 'layout/layout/layout-admin';
 
 // Tabs
 import ToolsTab from 'components/admin/tools/ToolsTab';
