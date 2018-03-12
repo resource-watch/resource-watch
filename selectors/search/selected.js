@@ -1,7 +1,5 @@
 import { createSelector } from 'reselect';
 
-// Get the layers and filters from state
-
 const search = state => state.search;
 
 // Create a function to compare the current layers and the current layersShownIds
