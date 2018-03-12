@@ -145,6 +145,7 @@ class GlobeCesiumComponent extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('this.props.layerActive', this.props.layerActive, 'nextProps.layerActive', nextProps.layerActive);
     const mainLayer = this.props.layerActive && this.props.layerActive.url;
     const newMainLayer = nextProps.layerActive && nextProps.layerActive.url;
 
@@ -419,7 +420,9 @@ class GlobeCesiumComponent extends PureComponent {
 
     if (mainLayer && updateLayers) {
       this.removeMainLayer();
-      this.addAdditionalLayerOption('mainLayer', new Cesium.UrlTemplateImageryProvider({ url: mainLayer }), 1, true);
+      if (!layerActive.threedimensional) {
+        this.addAdditionalLayerOption('mainLayer', new Cesium.UrlTemplateImageryProvider({ url: mainLayer }), 1, true);
+      }
     }
 
     if (contextLayersOnTop && updateLayers) {
