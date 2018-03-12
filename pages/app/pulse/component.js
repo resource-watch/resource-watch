@@ -26,7 +26,7 @@ import LayerCard from 'pages/app/pulse/layer-card';
 import Spinner from 'components/ui/Spinner';
 import ZoomControl from 'components/ui/ZoomControl';
 import GlobeTooltip from 'pages/app/pulse/globe-tooltip';
-import GlobeCesium from 'pages/app/pulse/globe-cesium';
+import GlobeCesium from 'components/vis/globe-cesium';
 import Page from 'components/layout/page';
 import Layout from 'components/layout/layout/layout-app';
 

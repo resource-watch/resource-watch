@@ -17,7 +17,7 @@ import Header from 'components/splash/layout/Header';
 import { MARKERS } from 'utils/splash/Markers';
 
 // Components
-import GlobeCesium from 'pages/app/pulse/globe-cesium';
+import GlobeCesium from 'components/vis/globe-cesium';
 
 let Cesium;
 
