@@ -136,12 +136,12 @@ class LayerCardComponent extends PureComponent {
                 Subscribe to alerts
                 <Modal
                   isOpen={showSubscribeToDatasetModal}
-                  className="-medium"
                   onRequestClose={() => this.handleToggleSubscribeToDatasetModal(false)}
                 >
                   <SubscribeToDatasetModal
                     dataset={dataset}
                     showDatasetSelector={false}
+                    onRequestClose={() => this.handleToggleSubscribeToDatasetModal(false)}
                   />
                 </Modal>
               </button>
