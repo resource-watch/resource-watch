@@ -9,6 +9,7 @@ import Spinner from 'components/ui/Spinner';
 
 // Search components
 import SearchResults from 'components/search/search-results';
+import SearchTerm from 'components/search/search-term';
 
 class SearchComponent extends React.PureComponent {
   static propTypes = {
@@ -46,6 +47,7 @@ class SearchComponent extends React.PureComponent {
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
+                <SearchTerm />
                 <SearchResults />
               </div>
             </div>

@@ -3,15 +3,13 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
 
 import Title from 'components/ui/Title';
 import Paginator from 'components/ui/Paginator';
-import SearchInput from 'components/ui/SearchInput';
 
-import { setSearchPage, setSearchUrl, setSearchTerm } from 'redactions/search';
+import { setSearchPage, setSearchUrl } from './actions';
 
-class SearchResultsComponent extends React.PureComponent {
+class SearchResults extends React.PureComponent {
   static propTypes = {
     search: PropTypes.shape({
       list: PropTypes.array,
@@ -22,10 +20,8 @@ class SearchResultsComponent extends React.PureComponent {
       loading: PropTypes.bool
     }),
     headerSearch: PropTypes.bool,
-    hideSearchInput: PropTypes,
     // ACTIONS
     setSearchPage: PropTypes.func,
-    setSearchTerm: PropTypes.func,
     setSearchUrl: PropTypes.func
   }
 
@@ -33,12 +29,6 @@ class SearchResultsComponent extends React.PureComponent {
     this.props.setSearchPage(page);
     this.props.setSearchUrl();
   }
-
-  onSearch = debounce((term) => {
-    this.props.setSearchPage(1);
-    this.props.setSearchTerm(term);
-    this.props.setSearchUrl();
-  }, 500)
 
   render() {
     const {
@@ -51,15 +41,6 @@ class SearchResultsComponent extends React.PureComponent {
 
     return (
       <div className={`c-search-list ${classNames}`}>
-
-        {!this.props.hideSearchInput && <SearchInput
-          input={{
-            placeholder: 'Search term',
-            value: term
-          }}
-          onSearch={this.onSearch}
-        />}
-
         {term && list.length > 0 &&
           <ul className="search-list">
             {list.map(l => (
@@ -83,7 +64,7 @@ class SearchResultsComponent extends React.PureComponent {
         }
 
         {((!term) || !total) && term.length !== 0 && !loading &&
-          <p>No results</p>
+          <p className="c-search-list--empty">No results</p>
         }
 
         {!!total && total > limit && !loading && list.length > 0 &&
@@ -107,8 +88,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   setSearchPage: page => dispatch(setSearchPage(page)),
-  setSearchUrl: url => dispatch(setSearchUrl(url)),
-  setSearchTerm: term => dispatch(setSearchTerm(term))
+  setSearchUrl: url => dispatch(setSearchUrl(url))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchResultsComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);

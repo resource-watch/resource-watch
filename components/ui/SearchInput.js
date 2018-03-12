@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import escapeRegExp from 'lodash/escapeRegExp';
+import classnames from 'classnames';
 
 // Next
 import { Link } from 'routes';
@@ -16,6 +17,8 @@ class SearchInput extends PureComponent {
   static propTypes = {
     input: PropTypes.object.isRequired,
     link: PropTypes.object,
+    getRef: PropTypes.func,
+    isHeader: PropTypes.bool,
     escapeText: PropTypes.bool,
     onSearch: PropTypes.func.isRequired
   };
@@ -43,22 +46,39 @@ class SearchInput extends PureComponent {
     });
   }
 
+  getInputRef(c) {
+    const { getRef } = this.props;
+    if (getRef && typeof getRef === 'function') {
+      return getRef(c);
+    }
+    return null;
+  }
+
   render() {
     const { value } = this.state;
-    const { link, input } = this.props;
+    const { link, input, isHeader } = this.props;
+
+    const classNames = classnames({
+      'c-search-input--header': isHeader
+    });
+
+    const inputClassNames = classnames({
+      'c-search-input--header': isHeader
+    });
 
     return (
-      <div className="c-search-input">
+      <div className={`c-search-input ${classNames}`}>
         <div className="c-field -fluid">
           <div className="field-container">
             <input
-              className="-fluid"
+              className={`-fluid ${inputClassNames}`}
+              ref={c => this.getInputRef(c)}
               onChange={this.onSearch}
               placeholder={input.placeholder}
               value={value || ''}
               type="search"
             />
-            <Icon name="icon-search" className="-small" />
+            {!isHeader && <Icon name="icon-search" className="-small" />}
           </div>
         </div>
 

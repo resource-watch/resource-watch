@@ -13,6 +13,9 @@ import * as header from 'components/layout/header';
 import * as headerAdmin from 'components/layout/header-admin';
 import * as footer from 'components/layout/footer';
 
+// Search
+import * as search from 'pages/app/search/search';
+
 // Share
 import * as shareModal from 'components/modal/share-modal';
 
@@ -76,6 +79,9 @@ const reducer = combineReducers({
   header: handleModule(header),
   headerAdmin: handleModule(headerAdmin),
   footer: handleModule(footer),
+
+  // Search
+  search: handleModule(search),
 
   // Share
   shareModal: handleModule(shareModal),

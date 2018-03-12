@@ -26,7 +26,15 @@
 
       overflow-y: scroll;
     }
+  }
 
+  &--empty {
+    padding: 10px 0;
+    font-size: 20px;
+
+    color: rgba(00,00,00,0.4);
+    font-weight: 600;
+    text-align: center;
   }
 
 }

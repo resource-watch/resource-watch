@@ -8,9 +8,8 @@ import Page from 'components/layout/page';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { setSearchPage, setSearchUrl, setSearchTerm, fetchSearch } from 'redactions/search';
-
-import SearchComponent from './search-component';
+import * as actions from 'pages/app/search/search-actions';
+import Search from 'pages/app/search/search';
 
 class SearchPage extends Page {
   static propTypes = {
@@ -24,12 +23,12 @@ class SearchPage extends Page {
     const { term, page } = props.url.query;
 
     if (page) {
-      context.store.dispatch(setSearchPage(page));
+      context.store.dispatch(actions.setSearchPage(page));
     }
 
     if (term) {
-      context.store.dispatch(setSearchTerm(term));
-      await context.store.dispatch(fetchSearch());
+      context.store.dispatch(actions.setSearchTerm(term));
+      await context.store.dispatch(actions.fetchSearch());
     }
 
     return { ...props };
@@ -44,26 +43,19 @@ class SearchPage extends Page {
       newPage !== oldPage
     ) {
       window.scrollTo(0, 0);
-      fetchSearch();
+      this.props.fetchSearch();
     }
   }
 
   render() {
-    return <SearchComponent />;
+    return <Search />;
   }
 }
-
-const mapDispatchToProps = {
-  setSearchPage,
-  setSearchUrl,
-  setSearchTerm,
-  fetchSearch
-};
 
 export default withRedux(
   initStore,
   state => ({
     ...state.search
   }),
-  mapDispatchToProps
+  actions
 )(SearchPage);
