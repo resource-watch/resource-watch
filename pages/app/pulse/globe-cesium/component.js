@@ -446,6 +446,9 @@ class GlobeCesiumComponent extends PureComponent {
         mapStyle: Cesium.BingMapsStyle.AERIAL
       })
     );
+    if (this.props.onInit) {
+      this.props.onInit(this.viewer);
+    }
   }
 
   createShapes(shapes) {
@@ -520,7 +523,8 @@ GlobeCesiumComponent.propTypes = {
   onMouseMove: PropTypes.func,
   onMouseDown: PropTypes.func,
   onBillboardOut: PropTypes.func,
-  onBillboardHover: PropTypes.func
+  onBillboardHover: PropTypes.func,
+  onInit: PropTypes.func
 };
 
 export default connect(null, null)(GlobeCesiumComponent);
