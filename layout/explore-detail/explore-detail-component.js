@@ -3,12 +3,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Explore Detail Component
-import ExploreDetailHeader from 'pages/app/explore-detail/explore-detail-header';
-import ExploreDetailInfo from 'pages/app/explore-detail/explore-detail-info';
-import ExploreDetailRelatedTools from 'pages/app/explore-detail/explore-detail-related-tools';
-import ExploreDetailButtons from 'pages/app/explore-detail/explore-detail-buttons';
-import ExploreDetailTags from 'pages/app/explore-detail/explore-detail-tags';
-import ExploreDetailWidgetEditor from 'pages/app/explore-detail/explore-detail-widget-editor';
+import ExploreDetailHeader from 'layout/explore-detail/explore-detail-header';
+import ExploreDetailInfo from 'layout/explore-detail/explore-detail-info';
+import ExploreDetailRelatedTools from 'layout/explore-detail/explore-detail-related-tools';
+import ExploreDetailButtons from 'layout/explore-detail/explore-detail-buttons';
+import ExploreDetailTags from 'layout/explore-detail/explore-detail-tags';
+import ExploreDetailWidgetEditor from 'layout/explore-detail/explore-detail-widget-editor';
 
 // Components
 import Page from 'components/layout/page';
@@ -24,7 +24,7 @@ import SimilarDatasets from 'components/datasets/similar-datasets/similar-datase
 import {
   getDatasetMetadata,
   getDatasetName
-} from 'pages/app/explore-detail/explore-detail-helpers';
+} from 'layout/explore-detail/explore-detail-helpers';
 
 class ExploreDetail extends Page {
   static propTypes = {

@@ -7,8 +7,8 @@ import Page from 'components/layout/page';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import * as actions from 'pages/app/pulse/actions';
-import Pulse from 'pages/app/pulse/pulse';
+import * as actions from 'layout/pulse/actions';
+import Pulse from 'layout/pulse';
 
 class PulsePage extends Page {
   render() {

@@ -7,7 +7,7 @@ import Page from 'components/layout/page';
 import Layout from 'components/layout/layout/layout-app';
 
 // Widget Detail Component
-import WidgetDetailHeader from 'pages/app/widget-detail/widget-detail-header';
+import WidgetDetailHeader from 'layout/widget-detail/widget-detail-header';
 import WidgetCard from 'components/widgets/list/WidgetCard';
 
 class WidgetDetailComponent extends Page {

@@ -9,8 +9,8 @@ import Error from 'pages/_error';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import * as actions from 'pages/app/explore-detail/explore-detail-actions';
-import ExploreDetail from 'pages/app/explore-detail/explore-detail';
+import * as actions from 'layout/explore-detail/explore-detail-actions';
+import ExploreDetail from 'layout/explore-detail';
 
 import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
 import { TOOLS_CONNECTIONS } from 'utils/apps/toolsConnections';
