@@ -8,8 +8,8 @@ import Page from 'components/layout/page';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import * as actions from 'pages/app/topics/topics-actions';
-import Topics from 'pages/app/topics/topics';
+import * as actions from 'layout/topics/topics-actions';
+import Topics from 'layout/topics';
 
 class TopicsPage extends Page {
   static propTypes = {

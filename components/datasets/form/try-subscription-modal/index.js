@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import * as actions from './try-subscription-modal-actions';
-import * as reducers from './try-subscription-modal-reducer';
+import * as reducers from './try-subscription-modal-reducers';
 import initialState from './try-subscription-modal-initial-state';
 
 import TrySubscriptionModalComponent from './try-subscription-modal-component';

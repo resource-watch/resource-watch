@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import * as actions from './similar-datasets-actions';
-import * as reducers from './similar-datasets-reducer';
+import * as reducers from './similar-datasets-reducers';
 import initialState from './similar-datasets-initial-state';
 
 import SimilarDatasetsComponent from './similar-datasets-component';

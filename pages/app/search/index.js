@@ -8,8 +8,8 @@ import Page from 'components/layout/page';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import * as actions from 'pages/app/search/search-actions';
-import Search from 'pages/app/search/search';
+import * as actions from 'layout/search/search-actions';
+import Search from 'layout/search';
 
 class SearchPage extends Page {
   static propTypes = {
