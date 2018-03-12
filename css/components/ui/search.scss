@@ -20,6 +20,18 @@
     }
   }
 
+  &--term {
+    width: 100%;
+
+    .search-close {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+  }
+
   .search-container {
     display: flex;
     align-items: center;
@@ -51,29 +63,6 @@
     margin: 0 auto;
     transition: transform $animation-time-2 $ease-out-cubic;
     transform: translateY(-100%);
-  }
-
-  .search-input {
-    display: block;
-    padding: $margin-size-extra-small/2 $margin-size-extra-small;
-    padding-right: 25px;
-    margin: 0;
-    width: 100%;
-
-    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans;
-    font-size: $font-size-medium;
-    color: $color-white;
-
-    background: none;
-
-    border-radius: 4px;
-    border: 1px solid transparent;
-    outline: none;
-    box-shadow: none;
-
-    &::placeholder {
-      color: darken($color-white, 20%);
-    }
   }
 
   .search-icon {

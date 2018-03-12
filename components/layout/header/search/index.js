@@ -1,64 +1,83 @@
-import React, { createElement } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 import { connect } from 'react-redux';
+
+// Components
+import Icon from 'components/ui/Icon';
+import SearchResults from 'components/search/search-results';
+import SearchTerm from 'components/search/search-term';
+
+import Spinner from 'components/ui/Spinner';
+
+import { setSearchTerm, fetchSearch } from 'components/search/actions';
 import * as actions from '../header-actions';
 
-import SearchComponent from './component';
 
 class Search extends React.Component {
-  componentDidMount() {
-    const addSearchConfigScript = document.createElement('script');
-    addSearchConfigScript.innerHTML = 'window.addsearch_settings = { display_url: true, display_category: false, display_resultscount: true }';
+  closeSearch() {
+    document.documentElement.classList.remove('-no-scroll');
+    document.body.classList.remove('-no-scroll');
 
-    const addSearchLibScript = document.createElement('script');
-    addSearchLibScript.src = `https://addsearch.com/js/?key=${process.env.ADD_SEARCH_KEY}`;
-    addSearchLibScript.async = true;
-
-    document.body.appendChild(addSearchConfigScript);
-    document.body.appendChild(addSearchLibScript);
-  }
-
-  componentDidUpdate() {
-    if (this.props.header.searchOpened) {
-      // If we don't wait until animation is over it won't focus
-      // If we only animate opcity it won't make the leave animation
-      setTimeout(() => {
-        this.input.focus();
-
-        // Prevent body scroll
-        document.documentElement.classList.add('-no-scroll');
-        document.body.classList.add('-no-scroll');
-      }, 160);
-    } else {
-      this.input.value = '';
-      this.input.blur();
-
-      // Allow body scroll
-      document.documentElement.classList.remove('-no-scroll');
-      document.body.classList.remove('-no-scroll');
-    }
-  }
-
-  getInputRef = (c) => {
-    this.input = c;
+    this.props.setSearchOpened(false);
+    this.props.setSearchTerm('');
+    this.props.fetchSearch();
   }
 
   render() {
-    return createElement(SearchComponent, {
-      ...this.props,
-      getInputRef: this.getInputRef
+    const classNames = classnames({
+      '-opened': this.props.header.searchOpened
     });
+
+    return (
+      <div className={`c-search ${classNames}`}>
+        <div className="search-container">
+
+          <form
+            className="search-form"
+            noValidate
+          >
+            <Icon name="icon-search" className="search-icon -medium" />
+            <SearchTerm isHeader />
+
+          </form>
+
+          {this.props.search.loading && <Spinner isLoading className="-light" />}
+
+          <SearchResults headerSearch />
+        </div>
+
+        <button
+          onClick={() => this.closeSearch()}
+          className="search-backdrop"
+        />
+      </div>
+    );
   }
 }
 
 Search.propTypes = {
-  header: PropTypes.object
+  search: PropTypes.shape({
+    loading: PropTypes.bool
+  }),
+  header: PropTypes.object,
+  // ACTIONS
+  setSearchOpened: PropTypes.func,
+  setSearchTerm: PropTypes.func,
+  fetchSearch: PropTypes.func
 };
 
-export default connect(
-  state => ({
-    header: state.header
-  }),
-  actions
-)(Search);
+const mapStateToProps = state => ({
+  header: state.header,
+  search: state.search
+});
+
+const mapDispatchToProps = dispatch => ({
+  setSearchOpened: opened => dispatch(actions.setSearchOpened(opened)),
+  setSearchTerm: term => dispatch(setSearchTerm(term)),
+  fetchSearch: () => dispatch(fetchSearch())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);
+

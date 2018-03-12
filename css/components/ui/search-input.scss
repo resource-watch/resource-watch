@@ -1,4 +1,6 @@
-.c-search-input {
+$this: 'c-search-input';
+
+.#{$this} {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -9,6 +11,35 @@
 
     &:last-child {
       margin-right: 0;
+    }
+  }
+
+  &--header {
+    .c-field {
+      margin: 0;
+    }
+  }
+
+  .c-field .field-container .#{$this}--header {
+    display: block;
+    padding: $margin-size-extra-small/2 $margin-size-extra-small;
+    padding-right: 25px;
+    margin: 0;
+    width: 100%;
+
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans;
+    font-size: $font-size-medium;
+    color: $color-white;
+
+    background: none;
+
+    border-radius: 4px;
+    border: 1px solid transparent;
+    outline: none;
+    box-shadow: none;
+
+    &::placeholder {
+      color: darken($color-white, 20%);
     }
   }
 
