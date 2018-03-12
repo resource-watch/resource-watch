@@ -1,6 +1,8 @@
 import * as actions from './search-actions';
 
 export default {
+  [actions.setSearchSelected]: (state, action) =>
+    ({ ...state, selected: action.payload }),
   [actions.setSearchList]: (state, action) =>
     ({ ...state, list: action.payload }),
 

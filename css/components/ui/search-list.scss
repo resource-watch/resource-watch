@@ -1,9 +1,17 @@
 .c-search-list {
-  .search-list-item {
-    margin: $space-1 * 4 0 0;
 
-    &:first-child {
+  .search-list {
+    &-item {
+      padding: 10px 20px;
       margin: 0;
+
+      &:first-child {
+        margin: 0;
+      }
+
+      &--selected {
+        background:rgba(00,00,00,0.1);
+      }
     }
   }
 
@@ -22,7 +30,6 @@
 
     & .search-list {
       max-height: calc(100% - 60px);
-      padding: 20px;
 
       overflow-y: scroll;
     }

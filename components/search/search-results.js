@@ -17,7 +17,8 @@ class SearchResults extends React.PureComponent {
       page: PropTypes.number,
       limit: PropTypes.number,
       term: PropTypes.string,
-      loading: PropTypes.bool
+      loading: PropTypes.bool,
+      selected: PropTypes.number
     }),
     headerSearch: PropTypes.bool,
     // ACTIONS
@@ -32,21 +33,26 @@ class SearchResults extends React.PureComponent {
 
   render() {
     const {
-      term, list, total, page, limit, loading
+      term, list, total, page, limit, loading, selected
     } = this.props.search;
 
+    const { headerSearch } = this.props;
+
     const classNames = classnames({
-      'c-search-list--header': this.props.headerSearch
+      'c-search-list--header': headerSearch
     });
+
+    const showPagination = !!total && total > limit && !loading && list.length > 0;
+    const noResults = ((!term) || !total) && term.length !== 0 && !loading;
 
     return (
       <div className={`c-search-list ${classNames}`}>
         {term && list.length > 0 &&
           <ul className="search-list">
-            {list.map(l => (
+            {list.map((l, k) => (
               <li
                 key={l.id}
-                className="search-list-item"
+                className={`search-list-item ${k === (selected - 1) ? 'search-list-item--selected' : null}`}
               >
                 <Title className="-default">
                   <a href={l.url}>
@@ -63,11 +69,11 @@ class SearchResults extends React.PureComponent {
           </ul>
         }
 
-        {((!term) || !total) && term.length !== 0 && !loading &&
+        {noResults &&
           <p className="c-search-list--empty">No results</p>
         }
 
-        {!!total && total > limit && !loading && list.length > 0 &&
+        {!headerSearch && showPagination &&
           <Paginator
             options={{
               size: total,

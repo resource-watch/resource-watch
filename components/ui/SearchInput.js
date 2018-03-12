@@ -18,6 +18,7 @@ class SearchInput extends PureComponent {
     input: PropTypes.object.isRequired,
     link: PropTypes.object,
     getRef: PropTypes.func,
+    onKeyDown: PropTypes.func,
     isHeader: PropTypes.bool,
     escapeText: PropTypes.bool,
     onSearch: PropTypes.func.isRequired
@@ -46,6 +47,14 @@ class SearchInput extends PureComponent {
     });
   }
 
+  onKeyDown(c) {
+    const { onKeyDown } = this.props;
+    if (onKeyDown && typeof onKeyDown === 'function') {
+      return onKeyDown(c);
+    }
+    return null;
+  }
+
   getInputRef(c) {
     const { getRef } = this.props;
     if (getRef && typeof getRef === 'function') {
@@ -53,6 +62,7 @@ class SearchInput extends PureComponent {
     }
     return null;
   }
+
 
   render() {
     const { value } = this.state;
@@ -73,6 +83,7 @@ class SearchInput extends PureComponent {
             <input
               className={`-fluid ${inputClassNames}`}
               ref={c => this.getInputRef(c)}
+              onKeyDown={c => this.onKeyDown(c)}
               onChange={this.onSearch}
               placeholder={input.placeholder}
               value={value || ''}

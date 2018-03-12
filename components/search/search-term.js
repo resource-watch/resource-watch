@@ -7,29 +7,34 @@ import debounce from 'lodash/debounce';
 import SearchInput from 'components/ui/SearchInput';
 import Icon from 'components/ui/Icon';
 
-import { setSearchOpened } from 'components/layout/header/header-actions';
-import { setSearchPage, setSearchUrl, setSearchTerm, fetchSearch } from './actions';
+import selectedSearchItem from 'selectors/search/selected';
 
+import { setSearchOpened } from 'components/layout/header/header-actions';
+import { setSearchPage, setSearchUrl, setSearchTerm, fetchSearch, setSearchSelected } from './actions';
 
 class SearchTerm extends React.PureComponent {
   static propTypes = {
     search: PropTypes.shape({
-      term: PropTypes.string
+      term: PropTypes.string,
+      selected: PropTypes.number,
+      list: PropTypes.array
     }),
     header: PropTypes.shape({
       searchOpened: PropTypes
     }),
     isHeader: PropTypes.bool,
+    selected: PropTypes.object,
     // ACTIONS
     setSearchPage: PropTypes.func,
     setSearchTerm: PropTypes.func,
     setSearchUrl: PropTypes.func,
     fetchSearch: PropTypes.func,
-    setSearchOpened: PropTypes.func
+    setSearchOpened: PropTypes.func,
+    setSearchSelected: PropTypes.func
   }
 
   componentDidUpdate() {
-    const { header, search } = this.props;
+    const { header } = this.props;
     if (header.searchOpened) {
       // If we don't wait until animation is over it won't focus
       // If we only animate opcity it won't make the leave animation
@@ -40,17 +45,6 @@ class SearchTerm extends React.PureComponent {
         document.documentElement.classList.add('-no-scroll');
         document.body.classList.add('-no-scroll');
       }, 160);
-    } else {
-      if (search.term.length > 0) {
-        this.props.setSearchTerm('');
-        this.props.fetchSearch();
-      }
-
-      this.input.blur();
-
-      // Allow body scroll
-      document.documentElement.classList.remove('-no-scroll');
-      document.body.classList.remove('-no-scroll');
     }
   }
 
@@ -66,8 +60,45 @@ class SearchTerm extends React.PureComponent {
     }
   }, 500)
 
-  setSearchOpened(bool) {
-    this.props.setSearchOpened(bool);
+  onKeyDown(e) {
+    const { key } = e;
+    const { search, selected } = this.props;
+
+    const keyTargets = /Arrow(Up|Down)|Enter/.test(key);
+
+    if (keyTargets) {
+      e.preventDefault();
+    }
+
+    if (key === 'ArrowDown') {
+      if (search.list.length !== search.selected) {
+        this.props.setSearchSelected(search.selected + 1);
+      } else {
+        this.props.setSearchSelected(1);
+      }
+    } else if (key === 'ArrowUp') {
+      if (search.selected !== 1) {
+        this.props.setSearchSelected(search.selected - 1);
+      } else {
+        this.props.setSearchSelected(search.list.length);
+      }
+    } else if (key === 'Enter' && selected) {
+      window.location = selected.url;
+    }
+
+    if (!keyTargets && search.selected) {
+      this.props.setSearchSelected(null);
+    }
+  }
+
+  setSearchOpened(opened) {
+    if (!opened) {
+      document.documentElement.classList.remove('-no-scroll');
+      document.body.classList.remove('-no-scroll');
+      this.props.setSearchTerm('');
+      this.props.fetchSearch();
+    }
+    this.props.setSearchOpened(opened);
   }
 
   getInputRef = (c) => {
@@ -86,6 +117,7 @@ class SearchTerm extends React.PureComponent {
         <SearchInput
           isHeader={isHeader}
           getRef={this.getInputRef}
+          onKeyDown={e => this.onKeyDown(e)}
           input={{
             placeholder: 'Search term',
             value: term
@@ -110,6 +142,7 @@ class SearchTerm extends React.PureComponent {
 
 const mapStateToProps = state => ({
   search: state.search,
+  selected: selectedSearchItem(state),
   header: state.header
 });
 
@@ -118,7 +151,8 @@ const mapDispatchToProps = dispatch => ({
   setSearchUrl: url => dispatch(setSearchUrl(url)),
   setSearchTerm: term => dispatch(setSearchTerm(term)),
   fetchSearch: () => dispatch(fetchSearch()),
-  setSearchOpened: b => dispatch(setSearchOpened(b))
+  setSearchOpened: b => dispatch(setSearchOpened(b)),
+  setSearchSelected: n => dispatch(setSearchSelected(n))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchTerm);

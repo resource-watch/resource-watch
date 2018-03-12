@@ -4,6 +4,7 @@ import { createAction, createThunkAction } from 'redux-tools';
 
 // SEARCH
 export const setSearchList = createAction('SEARCH/setSearchList');
+export const setSearchSelected = createAction('SEARCH/setSearchSelected');
 export const setSearchTerm = createAction('SEARCH/setSearchTerm');
 export const setSearchPage = createAction('SEARCH/setSearchPage');
 export const setSearchTotal = createAction('SEARCH/setSearchTotal');
@@ -14,7 +15,7 @@ export const fetchSearch = createThunkAction('SEARCH/fetchSearch', () => (dispat
   const { search } = getState();
   const { term, page, limit } = search;
 
-  if (term && term.length > 0) {
+  if (term) {
     dispatch(setSearchLoading(true));
     dispatch(setSearchError(null));
 
@@ -41,6 +42,7 @@ export const fetchSearch = createThunkAction('SEARCH/fetchSearch', () => (dispat
 
   dispatch(setSearchTotal(0));
   dispatch(setSearchList([]));
+  dispatch(setSearchSelected(null));
 });
 
 
