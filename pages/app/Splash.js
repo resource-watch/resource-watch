@@ -155,7 +155,6 @@ class Splash extends Page {
   }
 
   handleOnInit(viewer) {
-    console.log('onINit');
     this.setState({ viewer }, this.runInitialAnimation);
   }
 
