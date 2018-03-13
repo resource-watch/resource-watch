@@ -8,9 +8,9 @@ export default {
     error: null,
     page: 1,
     limit: 12,
-    total: 0
+    total: 0,
+    mode: 'grid' // 'grid' or 'list'
   },
-  mode: 'grid', // 'grid' or 'list'
   filters: {
     search: '',
     concepts: []

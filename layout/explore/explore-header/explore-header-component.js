@@ -41,12 +41,6 @@ class ExploreHeaderComponent extends React.Component {
             }}
             escapeText={false}
           />
-          {/* <button
-            className={showFiltersClassName}
-            onClick={() => this.toggleFilters()}
-          >
-            {buttonFilterContent}
-          </button> */}
         </div>
       </div>
     );

@@ -79,7 +79,7 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     .then((response) => {
       const { meta } = response;
       dispatch(setDatasetsTotal(meta['total-items']));
-      return WRISerializer(response, { locale: state.common.locale });
+      return WRISerializer(response, { locale: common.locale });
     })
     .then((data) => {
       dispatch(setDatasetsLoading(false));
