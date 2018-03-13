@@ -19,8 +19,7 @@ import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
 class ExploreDetailButtons extends PureComponent {
   static propTypes = {
     dataset: PropTypes.object,
-    partner: PropTypes.object,
-    user: PropTypes.object
+    partner: PropTypes.object
   }
 
   state = {
@@ -58,11 +57,23 @@ class ExploreDetailButtons extends PureComponent {
   }
 
   render() {
-    const { dataset, partner, user } = this.props;
+    const { dataset, partner } = this.props;
     const metadata = this.getDatasetMetadata();
 
     return (
       <div className="c-explore-detail-actions">
+        {partner.logo &&
+          <div className="partner-container">
+            <div className="partner-text-container">
+              Partner:
+            </div>
+            <div className="partner-logo-container">
+              <a href={partner.website} target="_blank" rel="noopener noreferrer">
+                <img src={partner.logo && partner.logo.medium} alt={partner.name} />
+              </a>
+            </div>
+          </div>
+        }
         {!!dataset.layer.length &&
           <Link
             route="explore"
@@ -139,19 +150,6 @@ class ExploreDetailButtons extends PureComponent {
             </span>
             <Icon name="icon-external" className="-smaller" />
           </a>
-        }
-
-        {partner.logo &&
-          <div className="partner-container">
-            <div className="partner-text-container">
-              Partner:
-            </div>
-            <div className="partner-logo-container">
-              <a href={partner.website} target="_blank" rel="noopener noreferrer">
-                <img src={partner.logo && partner.logo.medium} alt={partner.name} />
-              </a>
-            </div>
-          </div>
         }
 
       </div>
