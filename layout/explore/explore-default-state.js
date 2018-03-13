@@ -12,7 +12,7 @@ export default {
   },
   mode: 'grid', // 'grid' or 'list'
   filters: {
-    search: null,
+    search: '',
     concepts: []
   },
   sort: 'modified', /** @type {'modified'|'viewed'|'favourited'} order */

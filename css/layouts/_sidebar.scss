@@ -10,7 +10,7 @@ $min-width-sidebar-closed: 10px;
   color: $color-text-1;
   z-index: 3;
 
-  &.-opened {
+  &.-open {
     transform: translate(0,0);
   }
 

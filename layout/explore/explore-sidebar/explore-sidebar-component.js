@@ -29,26 +29,25 @@ class ExploreSidebarComponent extends React.Component {
 
     // Analytics
     if (!open) {
-      logEvent('Explore Map', 'Expand Map', 'Expand explore menu');
+      logEvent('Explore Map', 'Sidebar', 'Expand sidebar');
     } else {
-      logEvent('Explore Map', 'Expand Map', 'Collapse explore menu');
+      logEvent('Explore Map', 'Sidebar', 'Collapse sidebar');
     }
   }
 
   render() {
     const { open } = this.props;
-    const openedClass = (open) ? '-opened' : '';
 
     return (
       <aside
         className={classnames({
           'c-sidebar': true,
-          '-opened': open
+          '-open': open
         })}
       >
         <button
           type="button"
-          className={`c-sidebar-toggle btn-toggle ${openedClass}`}
+          className="btn-toggle"
           onClick={this.triggerToggle}
         >
           <Icon

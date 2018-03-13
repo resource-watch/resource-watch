@@ -31,6 +31,15 @@ export default {
 
 
   //
+  // FILTERS
+  //
+  [actions.setFiltersSearch]: (state, action) => {
+    const filters = { ...state.filters, search: action.payload };
+    return { ...state, filters };
+  },
+
+
+  //
   // SIDEBAR
   //
   [actions.setSidebarOpen]: (state, action) => {

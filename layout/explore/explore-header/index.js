@@ -1,0 +1,13 @@
+// Redux
+import { connect } from 'react-redux';
+import * as actions from '../explore-actions';
+
+import ExploreHeaderComponent from './explore-header-component';
+
+export default connect(
+  state => ({
+    // Store
+    ...state.explore.filters
+  }),
+  actions
+)(ExploreHeaderComponent);

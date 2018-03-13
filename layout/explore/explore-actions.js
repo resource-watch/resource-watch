@@ -61,6 +61,9 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     application: process.env.APPLICATIONS,
     language: common.locale,
     includes: 'layer,metadata,vocabulary,widget',
+    search: explore.filters.search,
+    status: 'saved',
+    published: true,
     'page[number]': explore.datasets.page,
     'page[size]': explore.datasets.limit
   });
@@ -88,6 +91,10 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
       dispatch(setDatasetsError(err));
     });
 });
+
+// FILTERS
+export const setFiltersSearch = createAction('EXPLORE/setFiltersSearch');
+export const setFiltersConcepts = createAction('EXPLORE/setFiltersConcepts');
 
 // SIDEBAR
 export const setSidebarOpen = createAction('EXPLORE/setSidebarOpen');

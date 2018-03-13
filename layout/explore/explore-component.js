@@ -14,11 +14,9 @@ import PropTypes from 'prop-types';
 import Page from 'layout/page';
 import Layout from 'layout/layout/layout-app';
 
-// Components
-import Title from 'components/ui/Title';
-
 // Explore components
-import Sidebar from 'layout/explore/explore-sidebar';
+import ExploreSidebar from 'layout/explore/explore-sidebar';
+import ExploreHeader from 'layout/explore/explore-header';
 
 class Explore extends Page {
   static propTypes = {
@@ -26,10 +24,6 @@ class Explore extends Page {
   };
 
   render() {
-    const {
-      explore
-    } = this.props;
-
     return (
       <Layout
         title="Explore"
@@ -38,9 +32,9 @@ class Explore extends Page {
         category="Dataset"
       >
         <div className="c-page-explore">
-          <Sidebar>
-            Explore
-          </Sidebar>
+          <ExploreSidebar>
+            <ExploreHeader />
+          </ExploreSidebar>
         </div>
       </Layout>
     );
