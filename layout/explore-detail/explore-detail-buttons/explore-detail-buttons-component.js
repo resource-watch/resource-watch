@@ -87,15 +87,15 @@ class ExploreDetailButtons extends PureComponent {
               }]))
             }}
           >
-            <a href="/data/explore" className="c-button -primary -fullwidth">
-              Open in Explore
+            <a href="/data/explore" className="c-button -primary">
+              Open in data map
             </a>
           </Link>
         }
 
         {metadata && metadata.info && metadata.info.data_download_link &&
           <a
-            className="c-button -secondary -fullwidth"
+            className="c-button -tertiary"
             target="_blank"
             href={metadata.info && metadata.info.data_download_link}
             onClick={() => logEvent('Explore', 'Download data', dataset && dataset.attributes.name)}
@@ -107,7 +107,7 @@ class ExploreDetailButtons extends PureComponent {
         {this.isSubscribable() &&
           <LoginRequired text="Log in to subscribe to dataset changes">
             <button
-              className="c-button -secondary -fullwidth"
+              className="c-button -tertiary"
               onClick={() => this.handleToggleSubscribeModal(true)}
             >
             Subscribe to alerts
@@ -127,7 +127,7 @@ class ExploreDetailButtons extends PureComponent {
 
         {metadata.info && metadata.info.data_download_original_link &&
           <a
-            className="c-button -secondary -fullwidth"
+            className="c-button -tertiary"
             target="_blank"
             href={metadata.info && metadata.info.data_download_original_link}
           >
@@ -141,7 +141,7 @@ class ExploreDetailButtons extends PureComponent {
 
         {metadata.info && metadata.info.learn_more_link &&
           <a
-            className="c-button -secondary -fullwidth"
+            className="c-button -tertiary"
             target="_blank"
             href={metadata.info && metadata.info.learn_more_link}
           >
