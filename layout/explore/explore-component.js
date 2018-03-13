@@ -9,6 +9,7 @@ import Layout from 'layout/layout/layout-app';
 // Explore components
 import ExploreSidebar from 'layout/explore/explore-sidebar';
 import ExploreHeader from 'layout/explore/explore-header';
+import ExploreDatasetsHeader from 'layout/explore/explore-datasets-header';
 import ExploreDatasets from 'layout/explore/explore-datasets';
 
 class Explore extends Page {
@@ -27,6 +28,7 @@ class Explore extends Page {
         <div className="c-page-explore">
           <ExploreSidebar>
             <ExploreHeader />
+            <ExploreDatasetsHeader />
             <ExploreDatasets />
           </ExploreSidebar>
         </div>

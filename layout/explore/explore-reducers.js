@@ -28,6 +28,10 @@ export default {
     const datasets = { ...state.datasets, limit: action.payload };
     return { ...state, datasets };
   },
+  [actions.setDatasetsMode]: (state, action) => {
+    const datasets = { ...state.datasets, mode: action.payload };
+    return { ...state, datasets };
+  },
 
 
   //

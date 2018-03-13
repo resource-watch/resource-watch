@@ -15,7 +15,14 @@ export default {
     search: '',
     concepts: []
   },
-  sort: 'modified', /** @type {'modified'|'viewed'|'favourited'} order */
+  sort: {
+    selected: 'modified',
+    options: [
+      { value: 'modified', label: 'Last modified' },
+      { value: 'viewed', label: 'Most viewed' },
+      { value: 'favourited', label: 'Most favourited' }
+    ]
+  },
 
   // Map
   map: {

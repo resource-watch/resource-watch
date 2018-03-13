@@ -19,7 +19,7 @@ export const setExploreURL = createThunkAction('EXPLORE/fetchDatasets', () => (d
 
     // Datasets
     page: datasets.page,
-    sort,
+    sort: sort.selected,
     search: filters.search
     //   if (topics) {
     //     if (topics.length > 0) {
@@ -54,6 +54,8 @@ export const setDatasetsError = createAction('EXPLORE/setDatasetsError');
 export const setDatasetsPage = createAction('EXPLORE/setDatasetsPage');
 export const setDatasetsTotal = createAction('EXPLORE/setDatasetsTotal');
 export const setDatasetsLimit = createAction('EXPLORE/setDatasetsLimit');
+export const setDatasetsMode = createAction('EXPLORE/setDatasetsMode');
+
 export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (dispatch, getState) => {
   const { explore, common } = getState();
 
@@ -62,6 +64,7 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     language: common.locale,
     includes: 'layer,metadata,vocabulary,widget',
     search: explore.filters.search,
+    sort: explore.sort.selected,
     status: 'saved',
     published: true,
     'page[number]': explore.datasets.page,

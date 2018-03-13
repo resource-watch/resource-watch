@@ -5,7 +5,6 @@ import debounce from 'lodash/debounce';
 // Components
 import DatasetList from 'components/datasets/list';
 import Paginator from 'components/ui/Paginator';
-import Spinner from 'components/ui/Spinner';
 
 class ExploreDatasetsComponent extends React.Component {
   static propTypes = {
@@ -54,7 +53,8 @@ class ExploreDatasetsComponent extends React.Component {
             mode={mode}
             grid={{
               small: 'small-12',
-              medium: 'medium-6'
+              medium: 'medium-6',
+              large: 'xxlarge-4'
             }}
           />
         }

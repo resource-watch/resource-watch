@@ -234,10 +234,10 @@
 // EXPLORE
 // new
 @import "./components/app/explore/explore-datasets";
+@import "./components/app/explore/explore-datasets-header";
 
 // old
 @import "./components/app/explore/configurable_widget";
-@import "./components/app/explore/dataset_list_header";
 @import "./components/app/explore/dataset_widget";
 @import "./components/app/explore/dataset_placeholder_chart";
 @import "./components/app/explore/widget_configurator";
