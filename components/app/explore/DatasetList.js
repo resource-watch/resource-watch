@@ -28,7 +28,7 @@ class DatasetList extends PureComponent {
       [`-${mode}`]: true,
       'small-12': true,
       'medium-6': mode === 'grid',
-      [routes.pathname === '/app/Explore' ? 'xxlarge-4' : 'large-4']: mode === 'grid'
+      [routes.pathname === '/app/explore' ? 'xxlarge-4' : 'large-4']: mode === 'grid'
     });
 
     return (

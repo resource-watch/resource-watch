@@ -15,7 +15,6 @@ import Footer from 'layout/footer';
 import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
 import Toastr from 'react-redux-toastr';
-import Dock from 'components/ui/Dock';
 import Search from 'layout/header/search';
 
 import {
@@ -26,7 +25,7 @@ import {
 } from 'widget-editor';
 
 const fullScreenPages = [
-  '/app/Explore',
+  '/app/explore',
   '/app/pulse',
   '/app/Splash'
 ];
@@ -145,8 +144,6 @@ class LayoutApp extends React.Component {
         {!fullScreen && <Footer />}
 
         <Tooltip />
-
-        <Dock />
 
         <Search />
 
