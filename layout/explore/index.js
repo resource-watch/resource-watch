@@ -14,7 +14,8 @@ export {
 export default connect(
   state => ({
     // Store
-    explore: state.explore
+    explore: state.explore,
+    responsive: state.responsive
   }),
   actions
 )(ExploreComponent);

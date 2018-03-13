@@ -95,6 +95,10 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     });
 });
 
+// MAP
+export const setMapZoom = createAction('EXPLORE/setMapZoom');
+export const setMapLatLng = createAction('EXPLORE/setMapLatLng');
+
 // FILTERS
 export const setFiltersSearch = createAction('EXPLORE/setFiltersSearch');
 export const setFiltersConcepts = createAction('EXPLORE/setFiltersConcepts');

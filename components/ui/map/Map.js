@@ -403,9 +403,9 @@ Map.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  basemap: state.explore.basemap,
-  labels: state.explore.labels,
-  boundaries: state.explore.boundaries,
+  basemap: state.explore.map.basemap,
+  labels: state.explore.map.labels,
+  boundaries: state.explore.map.boundaries,
   sidebar: state.explore.sidebar
 });
 

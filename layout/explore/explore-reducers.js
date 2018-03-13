@@ -44,6 +44,19 @@ export default {
 
 
   //
+  // MAP
+  //
+  [actions.setMapZoom]: (state, action) => {
+    const map = { ...state.map, zoom: action.payload };
+    return { ...state, map };
+  },
+  [actions.setMapLatLng]: (state, action) => {
+    const map = { ...state.map, latLng: action.payload };
+    return { ...state, map };
+  },
+
+
+  //
   // SIDEBAR
   //
   [actions.setSidebarOpen]: (state, action) => {
