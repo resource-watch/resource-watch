@@ -17,6 +17,10 @@
       font-size: $font-size-normal;
       padding: $margin-size-extra-small;
 
+      h4 {
+        margin: 0 0 $space-1/2;
+      }
+
       a {
         text-decoration: none;
         color: $color-text-1;
@@ -37,12 +41,6 @@
       padding-left: $margin-size-extra-small;
       padding-bottom: $margin-size-extra-small;
       padding-right: $margin-size-extra-small;
-
-      button {
-        &:last-of-type {
-          margin-left: 10px;
-        }
-      }
     }
   }
 

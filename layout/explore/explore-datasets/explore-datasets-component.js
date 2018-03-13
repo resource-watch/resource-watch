@@ -6,6 +6,9 @@ import debounce from 'lodash/debounce';
 import DatasetList from 'components/datasets/list';
 import Paginator from 'components/ui/Paginator';
 
+// Explore components
+import ExploreDatasetsActions from './explore-datasets-actions';
+
 class ExploreDatasetsComponent extends React.Component {
   static propTypes = {
     list: PropTypes.array,
@@ -56,6 +59,9 @@ class ExploreDatasetsComponent extends React.Component {
               medium: 'medium-6',
               large: 'xxlarge-4'
             }}
+            actions={
+              <ExploreDatasetsActions />
+            }
           />
         }
 

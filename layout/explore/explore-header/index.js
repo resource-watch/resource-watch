@@ -1,6 +1,6 @@
 // Redux
 import { connect } from 'react-redux';
-import * as actions from '../explore-actions';
+import * as actions from 'layout/explore/explore-actions';
 
 import ExploreHeaderComponent from './explore-header-component';
 

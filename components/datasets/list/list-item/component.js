@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MediaQuery from 'react-responsive';
 import classnames from 'classnames';
 
 // Redux
 import { Link } from 'routes';
 
 // Components
-import Button from 'components/ui/Button';
 import Icon from 'components/ui/Icon';
 
 import Spinner from 'components/ui/Spinner';
@@ -30,6 +28,16 @@ import LayerChart from './layer-chart';
 import PlaceholderChart from './placeholder-chart';
 
 class DatasetListItem extends React.Component {
+  static propTypes = {
+    // STATE
+    dataset: PropTypes.object,
+    widget: PropTypes.object,
+    layer: PropTypes.object,
+    mode: PropTypes.string,
+    user: PropTypes.object,
+    actions: PropTypes.object
+  };
+
   componentDidMount() {
     // this.loadInferredTags();
   }
@@ -128,7 +136,7 @@ class DatasetListItem extends React.Component {
 
   render() {
     const {
-      dataset, widget, layer, metadata, mode, user
+      dataset, widget, layer, metadata, mode, user, actions
     } = this.props;
 
     const isInACollection = belongsToACollection(user, dataset);
@@ -201,19 +209,16 @@ class DatasetListItem extends React.Component {
               <p>Source: {metadata.source}</p>
             }
           </div>
+          {!!actions &&
+            React.cloneElement(
+              actions,
+              { ...this.props }
+            )
+          }
         </div>
       </div>
     );
   }
 }
-
-DatasetListItem.propTypes = {
-  // STATE
-  user: PropTypes.object.isRequired,
-  dataset: PropTypes.object,
-  widget: PropTypes.object,
-  layer: PropTypes.object,
-  mode: PropTypes.string
-};
 
 export default DatasetListItem;
