@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Layout
-import Head from 'components/layout/head/app';
-import Page from 'components/layout/page';
-import Icons from 'components/layout/icons';
+import Head from 'layout/head/app';
+import Page from 'layout/page';
+import Icons from 'layout/icons';
 
 // Components
 import Spinner from 'components/ui/Spinner';

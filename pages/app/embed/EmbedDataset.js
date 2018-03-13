@@ -6,8 +6,8 @@ import { initStore } from 'store';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import LayoutEmbed from 'components/layout/layout/layout-embed';
-import Page from 'components/layout/page';
+import LayoutEmbed from 'layout/layout/layout-embed';
+import Page from 'layout/page';
 import { setEmbed } from 'redactions/common';
 
 // Widget editor

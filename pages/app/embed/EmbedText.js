@@ -9,8 +9,8 @@ import { getWidget } from 'redactions/widget';
 import { setEmbed } from 'redactions/common';
 
 // Components
-import Page from 'components/layout/page';
-import LayoutEmbed from 'components/layout/layout/layout-embed';
+import Page from 'layout/page';
+import LayoutEmbed from 'layout/layout/layout-embed';
 import TextChart from 'components/widgets/charts/TextChart';
 import Spinner from 'components/ui/Spinner';
 

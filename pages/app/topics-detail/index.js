@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 
 // Components
-import Page from 'components/layout/page';
+import Page from 'layout/page';
 import Error from 'pages/_error';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import * as actions from 'pages/app/topics-detail/topics-detail-actions';
-import TopicDetail from 'pages/app/topics-detail/topics-detail';
+import * as actions from 'layout/topics-detail/topics-detail-actions';
+import TopicDetail from 'layout/topics-detail';
 
 class TopicDetailPage extends Page {
   static propTypes = {

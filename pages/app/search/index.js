@@ -3,13 +3,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Components
-import Page from 'components/layout/page';
+import Page from 'layout/page';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import * as actions from 'pages/app/search/search-actions';
-import Search from 'pages/app/search/search';
+import * as actions from 'layout/search/search-actions';
+import Search from 'layout/search';
 
 class SearchPage extends Page {
   static propTypes = {
@@ -45,6 +45,12 @@ class SearchPage extends Page {
       window.scrollTo(0, 0);
       this.props.fetchSearch();
     }
+  }
+
+  // Clear search results if we unmount the search view
+  componentWillUnmount() {
+    this.props.setSearchTerm('');
+    this.props.fetchSearch();
   }
 
   render() {

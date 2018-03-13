@@ -9,12 +9,12 @@ import * as reducers from 'redactions';
 import { handleModule } from 'redux-tools';
 
 // Layout
-import * as header from 'components/layout/header';
-import * as headerAdmin from 'components/layout/header-admin';
-import * as footer from 'components/layout/footer';
+import * as header from 'layout/header';
+import * as headerAdmin from 'layout/header-admin';
+import * as footer from 'layout/footer';
 
 // Search
-import * as search from 'pages/app/search/search';
+import * as search from 'layout/search';
 
 // Share
 import * as shareModal from 'components/modal/share-modal';
@@ -29,23 +29,23 @@ import * as widgetBlockEditionModule from 'components/wysiwyg/widget-block-editi
 import * as similarDatasets from 'components/datasets/similar-datasets/similar-datasets';
 import * as trySubscriptionModal from 'components/datasets/form/try-subscription-modal';
 
-// Explore
-import * as exploreDetail from 'pages/app/explore-detail/explore-detail';
+// Explore detail
+import * as exploreDetail from 'layout/explore-detail';
 import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';
 
 // Pulse
-import * as layerMenuDropdown from 'pages/app/pulse/layer-menu-dropdown';
-import * as layerCard from 'pages/app/pulse/layer-card';
-import * as layerPill from 'pages/app/pulse/layer-pill';
+import * as pulse from 'layout/pulse';
+import * as layerMenuDropdown from 'layout/pulse/layer-menu-dropdown';
+import * as layerCard from 'layout/pulse/layer-card';
+import * as layerPill from 'layout/pulse/layer-pill';
 import * as globeCesium from 'components/vis/globe-cesium';
-import * as pulse from 'pages/app/pulse/pulse';
 
 // Widget
-import * as widgetDetail from 'pages/app/widget-detail/widget-detail';
+import * as widgetDetail from 'layout/widget-detail';
 
 // Topic
-import * as topicsIndex from 'pages/app/topics/topics';
-import * as topicsDetail from 'pages/app/topics-detail/topics-detail';
+import * as topicsIndex from 'layout/topics';
+import * as topicsDetail from 'layout/topics-detail';
 import * as topicThumbnailList from 'components/topics/thumbnail-list';
 
 // Admin Interactions
