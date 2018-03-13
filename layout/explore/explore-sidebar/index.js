@@ -6,7 +6,7 @@ import ExploreSidebarComponent from './explore-sidebar-component';
 
 export default connect(
   state => ({
-    // Store
+    loading: state.explore.datasets.loading,
     ...state.explore.sidebar
   }),
   actions

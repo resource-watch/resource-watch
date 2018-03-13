@@ -61,7 +61,7 @@ class DatasetWidgetChart extends React.Component {
 
         <Spinner
           isLoading={this.state.loading}
-          className="-light"
+          className="-tiny -light"
         />
 
         <VegaChart

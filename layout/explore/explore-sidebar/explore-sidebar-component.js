@@ -7,11 +7,13 @@ import { logEvent } from 'utils/analytics';
 
 // Components
 import Icon from 'components/ui/Icon';
+import Spinner from 'components/ui/Spinner';
 
 class ExploreSidebarComponent extends React.Component {
   static propTypes = {
     children: PropTypes.node,
     open: PropTypes.bool,
+    loading: PropTypes.bool,
 
     // Actions
     setSidebarOpen: PropTypes.func
@@ -36,7 +38,7 @@ class ExploreSidebarComponent extends React.Component {
   }
 
   render() {
-    const { open } = this.props;
+    const { open, loading } = this.props;
 
     return (
       <aside
@@ -59,6 +61,8 @@ class ExploreSidebarComponent extends React.Component {
             name="icon-arrow-down"
           />
         </button>
+
+        {loading && <Spinner isLoading className="-light" />}
 
         <div
           className="sidebar-content"

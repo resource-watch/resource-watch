@@ -30,7 +30,7 @@ class DatasetLayerChart extends React.PureComponent {
       <div className="c-layer-chart">
         <Spinner
           isLoading={this.state.loading}
-          className="-light"
+          className="-tiny -light"
         />
         <LayerChart
           data={layer.layerConfig}
