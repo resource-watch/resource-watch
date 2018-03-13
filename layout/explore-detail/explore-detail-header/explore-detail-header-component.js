@@ -128,7 +128,7 @@ class ExploreDetailHeader extends PureComponent {
                       name={starIconName}
                       className={starIconClass}
                     />
-                    <span>Favorite</span>
+                    <span>Save</span>
                   </button>
                 </Tooltip>
               </LoginRequired>
