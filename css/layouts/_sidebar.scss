@@ -19,7 +19,7 @@ $min-width-sidebar-closed: 10px;
     overflow: auto;
     width: 100%;
     height: 100%;
-    padding: 32px $fullscreen-margin;
+    padding: 32px 16px;
 
     > * {
       &:last-child {

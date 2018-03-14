@@ -21,7 +21,7 @@ class ExploreMapComponent extends React.Component {
   static propTypes = {
     zoom: PropTypes.number,
     latLng: PropTypes.object,
-    layers: PropTypes.array,
+    layers: PropTypes.object,
 
     // Actions
     setMapZoom: PropTypes.func,

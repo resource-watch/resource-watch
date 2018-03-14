@@ -33,6 +33,11 @@
       p:last-child {
         margin-bottom: 0;
       }
+
+      .title-container {
+        position: relative;
+        padding-right: $space-1 * 4;
+      }
     }
 
     .actions {
@@ -117,8 +122,8 @@
 
   .favourite-button {
     position: absolute;
-    right: 5px;
-    top: 5px;
+    right: 0px;
+    top: -2px;
     z-index: 4;
     cursor: pointer;
 

@@ -34,9 +34,13 @@ class Explore extends Page {
       >
         <div className="c-page-explore">
           <ExploreSidebar>
-            <ExploreHeader />
-            <ExploreDatasetsHeader />
-            <ExploreDatasets />
+            <div className="row">
+              <div className="column small-12">
+                <ExploreHeader />
+                <ExploreDatasetsHeader />
+                <ExploreDatasets />
+              </div>
+            </div>
           </ExploreSidebar>
 
           {/* Desktop map */}

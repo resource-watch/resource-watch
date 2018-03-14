@@ -32,7 +32,7 @@ class ExploreDatasetsHeaderComponent extends React.Component {
             <Tooltip
               overlay="Sort options dropdown (TBD)"
               overlayClassName="c-rc-tooltip -default"
-              placement="bottomRight"
+              placement="top"
               trigger={['click']}
               mouseLeaveDelay={0}
               destroyTooltipOnHide

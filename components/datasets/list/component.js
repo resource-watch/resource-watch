@@ -41,22 +41,24 @@ class DatasetList extends PureComponent {
     return (
       <div className="c-dataset-list">
         <div className="row">
-          <div className="l-row -equal-height row">
-            {list.map(dataset => (
-              <div
-                className={columnClassName}
-                key={dataset.id}
-              >
-                <DatasetListItem
-                  dataset={dataset}
-                  metadata={dataset.metadata}
-                  widget={dataset.widget.find(w => w.default)}
-                  layer={dataset.layer.find(l => l.default)}
-                  mode={mode}
-                  actions={actions}
-                />
-              </div>
-            ))}
+          <div className="column small-12">
+            <div className="l-row -equal-height row">
+              {list.map(dataset => (
+                <div
+                  className={columnClassName}
+                  key={dataset.id}
+                >
+                  <DatasetListItem
+                    dataset={dataset}
+                    metadata={dataset.metadata}
+                    widget={dataset.widget.find(w => w.default)}
+                    layer={dataset.layer.find(l => l.default)}
+                    mode={mode}
+                    actions={actions}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
