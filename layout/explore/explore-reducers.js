@@ -80,8 +80,8 @@ export default {
     const { dataset, visibility } = action.payload;
     const layerGroups = state.map.layerGroups.map((lg) => {
       if (lg.dataset !== dataset.id) return lg;
-
-      return { ...lg, visible: visibility };
+      const layers = lg.layers.map(l => ({ ...l, visible: visibility }));
+      return { ...lg, layers, visible: visibility };
     });
 
     const map = { ...state.map, layerGroups };
@@ -91,8 +91,8 @@ export default {
     const { dataset, opacity } = action.payload;
     const layerGroups = state.map.layerGroups.map((lg) => {
       if (lg.dataset !== dataset.id) return lg;
-
-      return { ...lg, opacity };
+      const layers = lg.layers.map(l => ({ ...l, opacity }));
+      return { ...lg, layers, opacity };
     });
 
     const map = { ...state.map, layerGroups };
@@ -103,19 +103,10 @@ export default {
     const layerGroups = state.map.layerGroups.map((lg) => {
       if (lg.dataset !== dataset.id) return lg;
 
-      const layers = lg.layers.map((l) => { // eslint-disable-line arrow-body-style
-        return { ...l, active: l.id === active };
-      });
+      const layers = lg.layers.map(l => ({ ...l, active: l.id === active }));
 
       return { ...lg, layers };
     });
-
-    const map = { ...state.map, layerGroups };
-    return { ...state, map };
-  },
-  // Multiple
-  [actions.setMapLayerGroups]: (state, action) => {
-    const layerGroups = [...state.map.layerGroups];
 
     const map = { ...state.map, layerGroups };
     return { ...state, map };
@@ -126,7 +117,7 @@ export default {
 
     // Sort by new order
     layerGroups.sort((a, b) =>
-      (datasetIds.indexOf(a.id) > datasetIds.indexOf(b.id) ? 1 : -1));
+      (datasetIds.indexOf(a.dataset) > datasetIds.indexOf(b.dataset) ? 1 : -1));
 
     const map = { ...state.map, layerGroups };
     return { ...state, map };

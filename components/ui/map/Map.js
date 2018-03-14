@@ -101,30 +101,23 @@ class Map extends React.Component {
     const nextLayersIds = nextLayers.map(l => l.id);
 
     if (oldLayers.length !== nextLayers.length) {
+      // Test whether old & new layers are the same
       const union = new Set([...oldLayers, ...nextLayers]);
-
-      // Test whether old & new layers are the same & only have to change the order
-      // Also check if interactions have changed, then we want to add the new layers
-      if (oldLayers.length === nextLayers.length) {
-        this.layerManager.setZIndex(nextLayers);
-      } else {
-        union.forEach((layer) => {
-          if (!oldLayersIds.find(id => id === layer.id)) {
-            this.addLayers([layer]);
-          } else if (!nextLayersIds.find(id => id === layer.id)) {
-            this.removeLayer(layer);
-          }
-        });
-      }
+      union.forEach((layer) => {
+        if (!oldLayersIds.find(id => id === layer.id)) {
+          this.addLayers([layer]);
+        } else if (!nextLayersIds.find(id => id === layer.id)) {
+          this.removeLayers([layer]);
+        }
+      });
     } else {
       // Set layer opacity
       const oldOpacities = oldlayerGroups.map(d => d.opacity);
       const nextOpacities = nextLayerGroups.map(d => d.opacity);
 
       if (!isEqual(oldOpacities, nextOpacities)) {
-        // Set opacity if changed
         const layers = nextLayerGroups.map(lg =>
-          ({ ...lg.layers.find(l => l.active), opacity: lg.opacity }));
+          ({ ...lg.layers.find(l => l.active), opacity: lg.opacity, visible: lg.visible }));
 
         this.layerManager.setOpacity(layers);
       }
@@ -134,16 +127,14 @@ class Map extends React.Component {
       const nextVisibilities = nextLayerGroups.map(d => d.visible);
 
       if (!isEqual(oldVisibilities, nextVisibilities)) {
-        // Set visibility if changed
         const layers = nextLayerGroups.map(lg =>
-          ({ ...lg.layers.find(l => l.active), visible: lg.visible }));
+          ({ ...lg.layers.find(l => l.active), opacity: lg.opacity, visible: lg.visible }));
 
         this.layerManager.setVisibility(layers);
       }
 
       // Set layer order
-      const difference = oldLayersIds.filter(id => !nextLayersIds.includes(id));
-      if (!difference.length) {
+      if (!isEqual(oldLayersIds, nextLayersIds)) {
         this.layerManager.setZIndex(nextLayers);
       }
     }
@@ -218,6 +209,10 @@ class Map extends React.Component {
       // Don't execute callback if component has been unmounted
       if (!this.hasBeenMounted) return;
       this.setState({ loading: false });
+
+      // Set the zIndex after each layer add
+      const layers = this.props.layerGroups.map(l => l.layers.find(la => la.active));
+      this.layerManager.setZIndex(layers);
     };
 
     this.layerManager = new this.props.LayerManager(this.map, {
@@ -260,7 +255,7 @@ class Map extends React.Component {
 
       this.labelLayer = L.tileLayer(labels.value, labels.options || {})
         .addTo(this.map)
-        .setZIndex(this.props.layerGroups.length + 2);
+        .setZIndex(1002);
     }
   }
 
@@ -276,7 +271,7 @@ class Map extends React.Component {
       const boundaries = BOUNDARIES.dark;
       this.boundariesLayer = L.tileLayer(boundaries.value, boundaries.options || {})
         .addTo(this.map)
-        .setZIndex(this.props.layerGroups.length + 1);
+        .setZIndex(1001);
     }
   }
 
@@ -344,17 +339,20 @@ class Map extends React.Component {
   addLayers(layers, filters) {
     if (!layers) return;
     if (layers.length) this.setState({ loading: true });
+
     layers.forEach((layer) => {
       this.layerManager.addLayer(layer, {
-        ...(filters || this.props.filters),
-        zIndex: layer.order
+        ...(filters || this.props.filters)
       });
     });
   }
 
-  removeLayer(layer) {
-    if (layer) this.layerManager.removeLayer(layer.id);
-    else this.layerManager.removeLayers();
+  removeLayers(layers) {
+    if (!layers) this.layerManager.removeLayers();
+
+    layers.forEach((layer) => {
+      this.layerManager.removeLayer(layer);
+    });
   }
 
   // RENDER

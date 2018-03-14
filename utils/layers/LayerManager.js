@@ -298,7 +298,6 @@ export default class LayerManager {
 
         this.mapLayers[layer.id] = L.tileLayer(tileUrl).addTo(this.map);
 
-        this.mapLayers[layer.id].setZIndex(layer.hidden ? -1 : layer.order);
         this.mapLayers[layer.id].setOpacity(layer.opacity !== undefined ? layer.opacity : 1);
 
         this.mapLayers[layer.id].on('load', () => {
@@ -324,8 +323,8 @@ export default class LayerManager {
   setZIndex(layers) {
     const layerIds = Object.keys(this.mapLayers);
     layerIds.forEach((layerId) => {
-      const { order } = layers.find(l => l.id === layerId);
-      this.mapLayers[layerId].setZIndex(order);
+      const order = layers.findIndex(l => l.id === layerId);
+      this.mapLayers[layerId].setZIndex(100 - order);
     });
   }
 
@@ -333,7 +332,8 @@ export default class LayerManager {
     const layerIds = Object.keys(this.mapLayers);
     layerIds.forEach((layerId) => {
       const layer = layers.find(l => l.id === layerId);
-      const opacity = layer.opacity !== undefined ? layer.opacity : 1;
+      let opacity = layer.opacity !== undefined ? layer.opacity : 1;
+      opacity = layer.visible === false ? 0 : opacity;
       this.mapLayers[layerId].setOpacity(opacity);
     });
   }
@@ -342,7 +342,8 @@ export default class LayerManager {
     const layerIds = Object.keys(this.mapLayers);
     layerIds.forEach((layerId) => {
       const layer = layers.find(l => l.id === layerId);
-      const opacity = layer.visible === false ? 0 : 1;
+      let opacity = layer.opacity !== undefined ? layer.opacity : 1;
+      opacity = layer.visible === false ? 0 : opacity;
       this.mapLayers[layerId].setOpacity(opacity);
     });
   }
