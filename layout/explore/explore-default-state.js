@@ -1,4 +1,4 @@
-import { BASEMAPS } from 'components/ui/map/constants';
+import { BASEMAPS, LABELS } from 'components/ui/map/constants';
 
 export default {
   // Datasets
@@ -29,7 +29,7 @@ export default {
     zoom: 3,
     latLng: { lat: 0, lng: 0 },
     basemap: BASEMAPS.dark,
-    labels: 'none',
+    labels: LABELS.light,
     boundaries: false,
     layerGroups: [],
     interaction: {}

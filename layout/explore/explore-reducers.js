@@ -54,6 +54,18 @@ export default {
     const map = { ...state.map, latLng: action.payload };
     return { ...state, map };
   },
+  [actions.setMapBasemap]: (state, action) => {
+    const map = { ...state.map, basemap: action.payload };
+    return { ...state, map };
+  },
+  [actions.setMapLabels]: (state, action) => {
+    const map = { ...state.map, labels: action.payload };
+    return { ...state, map };
+  },
+  [actions.setMapBoundaries]: (state, action) => {
+    const map = { ...state.map, boundaries: action.payload };
+    return { ...state, map };
+  },
 
 
   // LAYERS

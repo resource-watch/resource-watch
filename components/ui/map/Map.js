@@ -49,10 +49,7 @@ class Map extends React.Component {
     if (!this.mapNode) return;
 
     this.map = L.map(this.mapNode, mapOptions);
-
-    if (this.props.setMapInstance) {
-      this.props.setMapInstance(this.map);
-    }
+    this.props.onMapInstance && this.props.onMapInstance(this.map);
 
     if (this.props.mapConfig && this.props.mapConfig.bounds) {
       this.fitBounds(this.props.mapConfig.bounds.geometry);
@@ -75,11 +72,12 @@ class Map extends React.Component {
     // SETTERS
     this.setAttribution();
     this.setZoomControl();
-    this.setBasemap(this.props.basemap);
-    this.setMapEventListeners();
 
+    this.setBasemap(this.props.basemap);
     this.setLabels(this.props.labels);
     this.setBoundaries(this.props.boundaries);
+
+    this.setMapEventListeners();
 
     // Add layers
     this.setLayerManager();
@@ -258,16 +256,11 @@ class Map extends React.Component {
    * Set the labels layer
    * @param {string} labelsId
    */
-  setLabels(labelsId) {
+  setLabels(labels) {
     if (this.labelLayer) this.labelLayer.remove();
-
-    if (labelsId !== 'none') {
-      const labels = LABELS[labelsId];
-
-      this.labelLayer = L.tileLayer(labels.value, labels.options || {})
-        .addTo(this.map)
-        .setZIndex(1002);
-    }
+    this.labelLayer = L.tileLayer(labels.value, labels.options || {})
+      .addTo(this.map)
+      .setZIndex(1002);
   }
 
   /**
@@ -395,12 +388,12 @@ Map.defaultProps = {
 Map.propTypes = {
   interactionEnabled: PropTypes.bool.isRequired,
   disableScrollZoom: PropTypes.bool.isRequired,
-  setMapInstance: PropTypes.func,
+  onMapInstance: PropTypes.func,
   // STORE
   mapConfig: PropTypes.object,
   sidebar: PropTypes.object,
   basemap: PropTypes.object,
-  labels: PropTypes.string,
+  labels: PropTypes.object,
   boundaries: PropTypes.bool,
   filters: PropTypes.object,
   layerGroups: PropTypes.array, // List of LayerGroup items

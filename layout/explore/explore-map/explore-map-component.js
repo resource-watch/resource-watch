@@ -21,11 +21,18 @@ class ExploreMapComponent extends React.Component {
   static propTypes = {
     zoom: PropTypes.number,
     latLng: PropTypes.object,
+    basemap: PropTypes.string,
+    labels: PropTypes.string,
+    boundaries: PropTypes.bool,
     layerGroups: PropTypes.array,
 
     // Actions
     setMapZoom: PropTypes.func,
     setMapLatLng: PropTypes.func,
+    setMapBasemap: PropTypes.func,
+    setMapLabels: PropTypes.func,
+    setMapBoundaries: PropTypes.func,
+
     toggleMapLayerGroup: PropTypes.func,
     setMapLayerGroupVisibility: PropTypes.func,
     setMapLayerGroupOpacity: PropTypes.func,
@@ -33,7 +40,6 @@ class ExploreMapComponent extends React.Component {
     setMapLayerGroupsOrder: PropTypes.func
   };
 
-  // Legend actions
   onChangeOpacity = debounce((l, opacity) => {
     this.props.setMapLayerGroupOpacity({ dataset: { id: l.dataset }, opacity });
   }, 500)
@@ -61,15 +67,16 @@ class ExploreMapComponent extends React.Component {
   }, 1000)
 
   render() {
-    const { zoom, latLng, layerGroups } = this.props;
+    const {
+      zoom, latLng, basemap, labels, boundaries, layerGroups
+    } = this.props;
 
     return (
       <div className="l-map">
         <Map
           mapConfig={{ zoom, latLng }}
-          onMapParams={this.onMapParams}
-          setMapInstance={(map) => { this.map = map; }}
           disableScrollZoom={false}
+
           // layerManager
           layerGroups={layerGroups}
           LayerManager={LayerManager}
@@ -81,11 +88,20 @@ class ExploreMapComponent extends React.Component {
           // setLayerInteractionSelected={this.props.setLayerInteractionSelected}
           // setLayerInteractionLatLng={this.props.setLayerInteractionLatLng}
           // resetLayerInteraction={this.props.resetLayerInteraction}
+          onMapParams={this.onMapParams}
         />
 
         <MapControls>
           <ShareControl />
-          <BasemapControl />
+
+          <BasemapControl
+            basemap={basemap}
+            labels={labels}
+            boundaries={boundaries}
+            onChangeBasemap={this.props.setMapBasemap}
+            onChangeLabels={this.props.setMapLabels}
+            onChangeBoundaries={this.props.setMapBoundaries}
+          />
         </MapControls>
 
         <div className="c-legend-map">

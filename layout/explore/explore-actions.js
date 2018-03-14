@@ -99,6 +99,9 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
 // MAP
 export const setMapZoom = createAction('EXPLORE/setMapZoom');
 export const setMapLatLng = createAction('EXPLORE/setMapLatLng');
+export const setMapBasemap = createAction('EXPLORE/setMapBasemap');
+export const setMapLabels = createAction('EXPLORE/setMapLabels');
+export const setMapBoundaries = createAction('EXPLORE/setMapBoundaries');
 
 
 // LAYERS
