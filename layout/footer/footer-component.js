@@ -111,33 +111,45 @@ class Footer extends React.Component {
         </div>
 
         <div className="footer-social">
-          <ul>
-            <li>
-              <button
-                className="c-button -secondary join-us-button"
-                onClick={() => this.handleToggleShareModal(true)}
-              >
-                Subscribe to our Newsletter
-                <Modal
-                  isOpen={this.state.showNewsletterModal}
-                  className="-medium"
-                  onRequestClose={() => this.handleToggleShareModal(false)}
+          <div className="l-container">
+            <ul>
+              <li>
+                <button
+                  className="c-button -secondary join-us-button"
+                  onClick={() => this.handleToggleShareModal(true)}
                 >
-                  <NewsletterModal />
-                </Modal>
-              </button>
-            </li>
-            <li>
-              <a href="https://twitter.com/resource_watch" target="_blank" rel="noopener noreferrer">
-                <Icon name="icon-twitter" />
-              </a>
-            </li>
-            <li>
-              <a href="https://www.facebook.com/ResourceWatch/" target="_blank" rel="noopener noreferrer">
-                <Icon name="icon-facebook" />
-              </a>
-            </li>
-          </ul>
+                  Subscribe to our Newsletter
+                  <Modal
+                    isOpen={this.state.showNewsletterModal}
+                    className="-medium"
+                    onRequestClose={() => this.handleToggleShareModal(false)}
+                  >
+                    <NewsletterModal />
+                  </Modal>
+                </button>
+              </li>
+              <li>
+                <a
+                  className="c-button -secondary"
+                  href="https://twitter.com/resource_watch"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Icon name="icon-twitter" />
+                </a>
+              </li>
+              <li>
+                <a
+                  className="c-button -secondary"
+                  href="https://www.facebook.com/ResourceWatch/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Icon name="icon-facebook" />
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
 
         <div className="footer-intro">
