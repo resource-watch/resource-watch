@@ -324,7 +324,7 @@ export default class LayerManager {
   setZIndex(layers) {
     const layerIds = Object.keys(this.mapLayers);
     layerIds.forEach((layerId) => {
-      const order = layers.find(l => l.id === layerId).order;
+      const { order } = layers.find(l => l.id === layerId);
       this.mapLayers[layerId].setZIndex(order);
     });
   }
@@ -333,7 +333,16 @@ export default class LayerManager {
     const layerIds = Object.keys(this.mapLayers);
     layerIds.forEach((layerId) => {
       const layer = layers.find(l => l.id === layerId);
-      const opacity = layer && layer.opacity !== undefined ? layer.opacity : 1;
+      const opacity = layer.opacity !== undefined ? layer.opacity : 1;
+      this.mapLayers[layerId].setOpacity(opacity);
+    });
+  }
+
+  setVisibility(layers) {
+    const layerIds = Object.keys(this.mapLayers);
+    layerIds.forEach((layerId) => {
+      const layer = layers.find(l => l.id === layerId);
+      const opacity = layer.visible === false ? 0 : 1;
       this.mapLayers[layerId].setOpacity(opacity);
     });
   }

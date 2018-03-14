@@ -95,9 +95,22 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     });
 });
 
+
 // MAP
 export const setMapZoom = createAction('EXPLORE/setMapZoom');
 export const setMapLatLng = createAction('EXPLORE/setMapLatLng');
+
+
+// LAYERS
+// uniq
+export const toggleMapLayerGroup = createAction('EXPLORE/toggleMapLayerGroup');
+export const setMapLayerGroupVisibility = createAction('EXPLORE/setMapLayerGroupVisibility');
+export const setMapLayerGroupOpacity = createAction('EXPLORE/setMapLayerGroupOpacity');
+export const setMapLayerGroupActive = createAction('EXPLORE/setMapLayerGroupActive');
+// all
+export const setMapLayerGroupsOrder = createAction('EXPLORE/setMapLayerGroupsOrder');
+export const setMapLayerGroups = createAction('EXPLORE/setMapLayerGroups');
+
 
 // FILTERS
 export const setFiltersSearch = createAction('EXPLORE/setFiltersSearch');

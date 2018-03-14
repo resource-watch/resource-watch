@@ -31,10 +31,8 @@ export default {
     basemap: BASEMAPS.dark,
     labels: 'none',
     boundaries: false,
-    layers: {
-      list: [],
-      interaction: {}
-    }
+    layerGroups: [],
+    interaction: {}
   },
 
   // Sidebar

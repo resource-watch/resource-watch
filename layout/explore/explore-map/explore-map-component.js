@@ -21,31 +21,57 @@ class ExploreMapComponent extends React.Component {
   static propTypes = {
     zoom: PropTypes.number,
     latLng: PropTypes.object,
-    layers: PropTypes.object,
+    layerGroups: PropTypes.array,
 
     // Actions
     setMapZoom: PropTypes.func,
-    setMapLatLng: PropTypes.func
+    setMapLatLng: PropTypes.func,
+    toggleMapLayerGroup: PropTypes.func,
+    setMapLayerGroupVisibility: PropTypes.func,
+    setMapLayerGroupOpacity: PropTypes.func,
+    setMapLayerGroupActive: PropTypes.func,
+    setMapLayerGroupsOrder: PropTypes.func
   };
 
+  // Legend actions
+  onChangeOpacity = debounce((l, opacity) => {
+    this.props.setMapLayerGroupOpacity({ dataset: { id: l.dataset }, opacity });
+  }, 500)
+
+  onChangeVisibility = (l, visibility) => {
+    this.props.setMapLayerGroupVisibility({ dataset: { id: l.dataset }, visibility });
+  }
+
+  onChangeLayer = (l) => {
+    this.props.setMapLayerGroupActive({ dataset: { id: l.dataset }, active: l.id });
+  }
+
+  onRemoveLayer = (l) => {
+    this.props.toggleMapLayerGroup({ dataset: { id: l.dataset }, toggle: false });
+  }
+
+  onChangeOrder = (datasetIds) => {
+    this.props.setMapLayerGroupsOrder({ datasetIds });
+  }
+
   // Map params
-  setMapParams = debounce(({ zoom, latLng }) => {
+  onMapParams = debounce(({ zoom, latLng }) => {
     this.props.setMapZoom(zoom);
     this.props.setMapLatLng(latLng);
   }, 1000)
 
   render() {
-    const { zoom, latLng, layers } = this.props;
+    const { zoom, latLng, layerGroups } = this.props;
 
     return (
       <div className="l-map">
         <Map
           mapConfig={{ zoom, latLng }}
-          setMapParams={this.setMapParams}
+          onMapParams={this.onMapParams}
           setMapInstance={(map) => { this.map = map; }}
           disableScrollZoom={false}
           // layerManager
-          layerGroups={layers.list}
+          layerGroups={layerGroups}
           LayerManager={LayerManager}
           // // Interaction
           // interaction={interaction}
@@ -62,21 +88,22 @@ class ExploreMapComponent extends React.Component {
           <BasemapControl />
         </MapControls>
 
-        <Legend
-          maxWidth={300}
-          maxHeight={300}
-          layerGroups={layers.list}
-          // Item
-          LegendItemToolbar={<LegendItemToolbar />}
-          LegendItemTypes={<LegendItemTypes />}
-          // Actions
-          onChangeInfo={this.onChangeInfo}
-          onChangeOpacity={this.onChangeOpacity}
-          onChangeVisibility={this.onChangeVisibility}
-          onChangeLayer={this.onChangeLayer}
-          onChangeOrder={this.onChangeOrder}
-          onRemoveLayer={this.onRemoveLayer}
-        />
+        <div className="c-legend-map">
+          <Legend
+            maxHeight={300}
+            layerGroups={layerGroups}
+            // Item
+            LegendItemToolbar={<LegendItemToolbar />}
+            LegendItemTypes={<LegendItemTypes />}
+            // Actions
+            onChangeInfo={this.onChangeInfo}
+            onChangeOpacity={this.onChangeOpacity}
+            onChangeVisibility={this.onChangeVisibility}
+            onChangeLayer={this.onChangeLayer}
+            onChangeOrder={this.onChangeOrder}
+            onRemoveLayer={this.onRemoveLayer}
+          />
+        </div>
       </div>
     );
   }

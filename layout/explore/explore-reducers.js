@@ -56,6 +56,83 @@ export default {
   },
 
 
+  // LAYERS
+  [actions.toggleMapLayerGroup]: (state, action) => {
+    const layerGroups = [...state.map.layerGroups];
+    const { dataset, toggle } = action.payload;
+
+    if (toggle) {
+      layerGroups.unshift({
+        dataset: dataset.id,
+        visible: true,
+        layers: dataset.layer.map((l, index) => ({ ...l, active: index === 0 }))
+      });
+    } else {
+      const index = layerGroups.findIndex(l => l.dataset === dataset.id);
+      layerGroups.splice(index, 1);
+    }
+
+    // Return map
+    const map = { ...state.map, layerGroups };
+    return { ...state, map };
+  },
+  [actions.setMapLayerGroupVisibility]: (state, action) => {
+    const { dataset, visibility } = action.payload;
+    const layerGroups = state.map.layerGroups.map((lg) => {
+      if (lg.dataset !== dataset.id) return lg;
+
+      return { ...lg, visible: visibility };
+    });
+
+    const map = { ...state.map, layerGroups };
+    return { ...state, map };
+  },
+  [actions.setMapLayerGroupOpacity]: (state, action) => {
+    const { dataset, opacity } = action.payload;
+    const layerGroups = state.map.layerGroups.map((lg) => {
+      if (lg.dataset !== dataset.id) return lg;
+
+      return { ...lg, opacity };
+    });
+
+    const map = { ...state.map, layerGroups };
+    return { ...state, map };
+  },
+  [actions.setMapLayerGroupActive]: (state, action) => {
+    const { dataset, active } = action.payload;
+    const layerGroups = state.map.layerGroups.map((lg) => {
+      if (lg.dataset !== dataset.id) return lg;
+
+      const layers = lg.layers.map((l) => { // eslint-disable-line arrow-body-style
+        return { ...l, active: l.id === active };
+      });
+
+      return { ...lg, layers };
+    });
+
+    const map = { ...state.map, layerGroups };
+    return { ...state, map };
+  },
+  // Multiple
+  [actions.setMapLayerGroups]: (state, action) => {
+    const layerGroups = [...state.map.layerGroups];
+
+    const map = { ...state.map, layerGroups };
+    return { ...state, map };
+  },
+  [actions.setMapLayerGroupsOrder]: (state, action) => {
+    const { datasetIds } = action.payload;
+    const layerGroups = [...state.map.layerGroups];
+
+    // Sort by new order
+    layerGroups.sort((a, b) =>
+      (datasetIds.indexOf(a.id) > datasetIds.indexOf(b.id) ? 1 : -1));
+
+    const map = { ...state.map, layerGroups };
+    return { ...state, map };
+  },
+
+
   //
   // SIDEBAR
   //

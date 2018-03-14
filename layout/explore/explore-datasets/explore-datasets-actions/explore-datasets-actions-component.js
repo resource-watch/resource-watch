@@ -9,15 +9,15 @@ class ExploreDatasetsActionsComponent extends React.Component {
   static propTypes = {
     dataset: PropTypes.object,
     layer: PropTypes.object,
-    layers: PropTypes.array,
+    layerGroups: PropTypes.array,
 
     // Actions
-    setMapLayers: PropTypes.func
+    toggleMapLayerGroup: PropTypes.func
   };
 
   isActive = () => {
-    const { dataset, layers } = this.props;
-    return !!layers.find(l => l.dataset === dataset.id);
+    const { dataset, layerGroups } = this.props;
+    return !!layerGroups.find(l => l.dataset === dataset.id);
   }
 
   render() {
@@ -35,7 +35,7 @@ class ExploreDatasetsActionsComponent extends React.Component {
             '-disable': !layer
           })}
           disabled={!layer}
-          onClick={() => this.props.setMapLayers(layer)}
+          onClick={() => this.props.toggleMapLayerGroup({ dataset, toggle: !isActive })}
         >
           {isActive ? 'Active' : 'Add to map'}
         </button>

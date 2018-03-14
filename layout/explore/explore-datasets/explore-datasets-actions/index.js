@@ -6,7 +6,7 @@ import ExploreDatasetsActionsComponent from './explore-datasets-actions-componen
 
 export default connect(
   state => ({
-    layers: state.explore.map.layers.list
+    ...state.explore.map
   }),
   actions
 )(ExploreDatasetsActionsComponent);

@@ -90,68 +90,75 @@ class Map extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const filtersChanged = !isEqual(nextProps.filters, this.props.filters);
+    // LAYER GROUPS
+    const oldlayerGroups = this.props.layerGroups;
+    const nextLayerGroups = nextProps.layerGroups;
 
-    const layerGroups = this.props.layerGroups.filter(l => l.visible);
-    const nextLayerGroups = nextProps.layerGroups.filter(l => l.visible);
+    const oldLayers = oldlayerGroups.map(l => l.layers.find(la => la.active));
+    const nextLayers = nextLayerGroups.map(l => l.layers.find(la => la.active));
 
-    const layerGroupsChanged = !isEqual(layerGroups, nextLayerGroups);
+    const oldLayersIds = oldLayers.map(l => l.id);
+    const nextLayersIds = nextLayers.map(l => l.id);
 
-    const opacities = layerGroups.map(d => ({
-      dataset: d.dataset, opacity: d.layers[0].opacity !== undefined ? d.layers[0].opacity : 1
-    }));
-    const nextOpacities = nextLayerGroups.map(d => ({
-      dataset: d.dataset, opacity: d.layers[0].opacity !== undefined ? d.layers[0].opacity : 1
-    }));
-
-    if (!isEqual(opacities, nextOpacities)) {
-      // Set opacity if changed
-      const nextLayers = nextLayerGroups
-        .map(l => l.layers.find(la => la.active));
-      this.layerManager.setOpacity(nextLayers);
-    }
-
-    if (filtersChanged || layerGroupsChanged) {
-      const layers = layerGroups
-        .map(l => l.layers.find(la => la.active));
-      const nextLayers = nextLayerGroups
-        .map(l => l.layers.find(la => la.active));
-
-      const layersIds = layers.map(l => l.id);
-      const nextLayersIds = nextLayers.map(l => l.id);
-
-      const union = new Set([...layers, ...nextLayers]);
-      const difference = layersIds.filter(id => !nextLayersIds.find(id2 => id === id2));
-
-      const interactionsChanged = this.interactionsChanged(layers, nextLayers);
+    if (oldLayers.length !== nextLayers.length) {
+      const union = new Set([...oldLayers, ...nextLayers]);
 
       // Test whether old & new layers are the same & only have to change the order
       // Also check if interactions have changed, then we want to add the new layers
-      if (layers.length === nextLayers.length && !difference.length && !interactionsChanged) {
+      if (oldLayers.length === nextLayers.length) {
         this.layerManager.setZIndex(nextLayers);
       } else {
         union.forEach((layer) => {
-          if (!layersIds.find(id => id === layer.id) || interactionsChanged) {
+          if (!oldLayersIds.find(id => id === layer.id)) {
             this.addLayers([layer]);
           } else if (!nextLayersIds.find(id => id === layer.id)) {
             this.removeLayer(layer);
           }
         });
       }
+    } else {
+      // Set layer opacity
+      const oldOpacities = oldlayerGroups.map(d => d.opacity);
+      const nextOpacities = nextLayerGroups.map(d => d.opacity);
+
+      if (!isEqual(oldOpacities, nextOpacities)) {
+        // Set opacity if changed
+        const layers = nextLayerGroups.map(lg =>
+          ({ ...lg.layers.find(l => l.active), opacity: lg.opacity }));
+
+        this.layerManager.setOpacity(layers);
+      }
+
+      // Set layer visibility
+      const oldVisibilities = oldlayerGroups.map(d => d.visible);
+      const nextVisibilities = nextLayerGroups.map(d => d.visible);
+
+      if (!isEqual(oldVisibilities, nextVisibilities)) {
+        // Set visibility if changed
+        const layers = nextLayerGroups.map(lg =>
+          ({ ...lg.layers.find(l => l.active), visible: lg.visible }));
+
+        this.layerManager.setVisibility(layers);
+      }
+
+      // Set layer order
+      const difference = oldLayersIds.filter(id => !nextLayersIds.includes(id));
+      if (!difference.length) {
+        this.layerManager.setZIndex(nextLayers);
+      }
     }
 
-    if (this.props.sidebar.width !== nextProps.sidebar.width) {
-      this.setState({
-        sidebar: nextProps.sidebar
-      });
-    }
+    // BASEMAP
     if (this.props.basemap !== nextProps.basemap) {
       this.setBasemap(nextProps.basemap);
     }
+
+    // LABELS
     if (this.props.labels !== nextProps.labels) {
       this.setLabels(nextProps.labels);
     }
 
+    // BOUNDARIES
     if (this.props.boundaries !== nextProps.boundaries) {
       this.setBoundaries(nextProps.boundaries);
     }
@@ -175,8 +182,7 @@ class Map extends React.Component {
           interaction: nextProps.interaction,
           interactionSelected: nextProps.interactionSelected,
           interactionLayers: compact(nextLayerGroups.map(g =>
-            g.layers.find(l => l.active && !isEmpty(l.interactionConfig))
-          )),
+            g.layers.find(l => l.active && !isEmpty(l.interactionConfig)))),
           onChangeInteractiveLayer: this.props.setLayerInteractionSelected
         }),
         window.document.createElement('div')
