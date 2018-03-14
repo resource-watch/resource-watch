@@ -332,6 +332,7 @@ export default class LayerManager {
     const layerIds = Object.keys(this.mapLayers);
     layerIds.forEach((layerId) => {
       const layer = layers.find(l => l.id === layerId);
+      if (!layer) return;
       let opacity = layer.opacity !== undefined ? layer.opacity : 1;
       opacity = layer.visible === false ? 0 : opacity;
       this.mapLayers[layerId].setOpacity(opacity);
@@ -342,6 +343,7 @@ export default class LayerManager {
     const layerIds = Object.keys(this.mapLayers);
     layerIds.forEach((layerId) => {
       const layer = layers.find(l => l.id === layerId);
+      if (!layer) return;
       let opacity = layer.opacity !== undefined ? layer.opacity : 1;
       opacity = layer.visible === false ? 0 : opacity;
       this.mapLayers[layerId].setOpacity(opacity);

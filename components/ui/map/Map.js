@@ -96,14 +96,14 @@ class Map extends React.Component {
 
     const oldLayers = oldlayerGroups.map(l => l.layers.find(la => la.active));
     const nextLayers = nextLayerGroups.map(l => l.layers.find(la => la.active));
+    const unionLayers = new Set([...oldLayers, ...nextLayers]);
 
     const oldLayersIds = oldLayers.map(l => l.id);
     const nextLayersIds = nextLayers.map(l => l.id);
 
-    if (oldLayers.length !== nextLayers.length) {
+    if (oldLayersIds.length !== nextLayersIds.length) {
       // Test whether old & new layers are the same
-      const union = new Set([...oldLayers, ...nextLayers]);
-      union.forEach((layer) => {
+      unionLayers.forEach((layer) => {
         if (!oldLayersIds.find(id => id === layer.id)) {
           this.addLayers([layer]);
         } else if (!nextLayersIds.find(id => id === layer.id)) {
@@ -112,10 +112,10 @@ class Map extends React.Component {
       });
     } else {
       // Set layer opacity
-      const oldOpacities = oldlayerGroups.map(d => d.opacity);
-      const nextOpacities = nextLayerGroups.map(d => d.opacity);
-
-      if (!isEqual(oldOpacities, nextOpacities)) {
+      if (!isEqual(
+        oldlayerGroups.map(d => d.opacity),
+        nextLayerGroups.map(d => d.opacity)
+      )) {
         const layers = nextLayerGroups.map(lg =>
           ({ ...lg.layers.find(l => l.active), opacity: lg.opacity, visible: lg.visible }));
 
@@ -123,10 +123,10 @@ class Map extends React.Component {
       }
 
       // Set layer visibility
-      const oldVisibilities = oldlayerGroups.map(d => d.visible);
-      const nextVisibilities = nextLayerGroups.map(d => d.visible);
-
-      if (!isEqual(oldVisibilities, nextVisibilities)) {
+      if (!isEqual(
+        oldlayerGroups.map(d => d.visible),
+        nextLayerGroups.map(d => d.visible)
+      )) {
         const layers = nextLayerGroups.map(lg =>
           ({ ...lg.layers.find(l => l.active), opacity: lg.opacity, visible: lg.visible }));
 
@@ -136,6 +136,17 @@ class Map extends React.Component {
       // Set layer order
       if (!isEqual(oldLayersIds, nextLayersIds)) {
         this.layerManager.setZIndex(nextLayers);
+      }
+
+      if (!isEqual(oldLayersIds, nextLayersIds)) {
+        // Set layer active
+        unionLayers.forEach((layer) => {
+          if (!oldLayersIds.find(id => id === layer.id)) {
+            this.addLayers([layer]);
+          } else if (!nextLayersIds.find(id => id === layer.id)) {
+            this.removeLayers([layer]);
+          }
+        });
       }
     }
 
@@ -351,7 +362,7 @@ class Map extends React.Component {
     if (!layers) this.layerManager.removeLayers();
 
     layers.forEach((layer) => {
-      this.layerManager.removeLayer(layer);
+      this.layerManager.removeLayer(layer.id);
     });
   }
 
