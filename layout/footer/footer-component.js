@@ -14,9 +14,19 @@ import NewsletterModal from 'components/modal/newsletter-modal';
 const data = [
   { name: 'Data', route: 'explore' },
   { name: 'Explore Datasets', route: 'explore' },
-  { name: 'Dashboards', route: 'dashboards' },
-  { name: 'Planet Pulse', anchor: '/data/pulse' },
-  { name: 'App Gallery', route: 'get_involved_detail', params: { id: 'apps' } }
+  { name: 'Planet Pulse', anchor: '/data/pulse' }
+];
+
+const topics = [
+  { name: 'Topics', route: 'topics' },
+  { name: 'Biodiversity', route: 'topics_detail', params: { id: 'biodiversity' } },
+  { name: 'Cities', route: 'topics_detail', params: { id: 'cities' } },
+  { name: 'Climate', route: 'topics_detail', params: { id: 'climate' } },
+  { name: 'Commerce', route: 'topics_detail', params: { id: 'commerce' } },
+  { name: 'Energy', route: 'topics_detail', params: { id: 'energy' } },
+  { name: 'Food and Agriculture', route: 'topics_detail', params: { id: 'food-and-agriculture' } },
+  { name: 'Forests', route: 'topics_detail', params: { id: 'forests' } },
+  { name: 'Water', route: 'topics_detail', params: { id: 'water' } }
 ];
 
 const about = [
@@ -27,7 +37,7 @@ const about = [
   { name: 'Privacy', route: 'privacy-policy' }
 ];
 
-const insights = [
+const blog = [
   { name: 'Blog', route: 'insights' },
   { name: 'Recent Signals', route: 'insights' },
   { name: 'Highlighted Signals', route: 'insights' }
@@ -37,7 +47,8 @@ const getInvolved = [
   { name: 'Get Involved', route: 'get_involved' },
   { name: 'Submit a Story', route: 'get_involved_detail', params: { id: 'submit-an-insight' } },
   { name: 'Contribute Data', route: 'get_involved_detail', params: { id: 'contribute-data' } },
-  { name: 'Join the Community', route: 'get_involved_detail', params: { id: 'join-community' } }
+  { name: 'Join the Community', route: 'get_involved_detail', params: { id: 'join-community' } },
+  { name: 'App Gallery', route: 'get_involved_detail', params: { id: 'apps' } }
 ];
 
 class Footer extends React.Component {
@@ -78,7 +89,7 @@ class Footer extends React.Component {
 
   render() {
     const { footer } = this.props;
-    const menuData = [data, about, insights, getInvolved];
+    const menuData = [data, topics, blog, about, getInvolved];
 
     return (
       <footer className="l-footer">
@@ -99,24 +110,23 @@ class Footer extends React.Component {
           <CompoundMenu items={menuData} />
         </div>
 
-        <div className="footer-newsletter">
-          <button
-            className="c-button -secondary join-us-button"
-            onClick={() => this.handleToggleShareModal(true)}
-          >
-            Subscribe to our Newsletter
-            <Modal
-              isOpen={this.state.showNewsletterModal}
-              className="-medium"
-              onRequestClose={() => this.handleToggleShareModal(false)}
-            >
-              <NewsletterModal />
-            </Modal>
-          </button>
-        </div>
-
         <div className="footer-social">
           <ul>
+            <li>
+              <button
+                className="c-button -secondary join-us-button"
+                onClick={() => this.handleToggleShareModal(true)}
+              >
+                Subscribe to our Newsletter
+                <Modal
+                  isOpen={this.state.showNewsletterModal}
+                  className="-medium"
+                  onRequestClose={() => this.handleToggleShareModal(false)}
+                >
+                  <NewsletterModal />
+                </Modal>
+              </button>
+            </li>
             <li>
               <a href="https://twitter.com/resource_watch" target="_blank" rel="noopener noreferrer">
                 <Icon name="icon-twitter" />
