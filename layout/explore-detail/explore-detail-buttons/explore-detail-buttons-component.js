@@ -75,81 +75,92 @@ class ExploreDetailButtons extends PureComponent {
           </div>
         }
         {!!dataset.layer.length &&
-          <Link
-            route="explore"
-            params={{
-              layers: encodeURIComponent(JSON.stringify([{
-                dataset: dataset.id,
-                visible: true,
-                layers: dataset.layer.map(((l, i) => ({
-                  id: l.id, active: i === 0
-                })))
-              }]))
-            }}
-          >
-            <a href="/data/explore" className="c-button -primary">
-              Open in data map
-            </a>
-          </Link>
+          <div>
+            <Link
+              route="explore"
+              params={{
+                layers: encodeURIComponent(JSON.stringify([{
+                  dataset: dataset.id,
+                  visible: true,
+                  layers: dataset.layer.map(((l, i) => ({
+                    id: l.id, active: i === 0
+                  })))
+                }]))
+              }}
+            >
+              <a href="/data/explore" className="c-button -primary">
+                Open in data map
+              </a>
+            </Link>
+          </div>
         }
 
         {metadata && metadata.info && metadata.info.data_download_link &&
-          <a
-            className="c-button -tertiary"
-            target="_blank"
-            href={metadata.info && metadata.info.data_download_link}
-            onClick={() => logEvent('Explore', 'Download data', dataset && dataset.attributes.name)}
-          >
-            Download
-          </a>
+          <div>
+            <a
+              className="c-button -tertiary"
+              target="_blank"
+              href={metadata.info && metadata.info.data_download_link}
+              onClick={() => logEvent('Explore', 'Download data', dataset && dataset.attributes.name)}
+            >
+              Download
+            </a>
+          </div>
         }
 
         {this.isSubscribable() &&
-          <LoginRequired text="Log in to subscribe to dataset changes">
-            <button
-              className="c-button -tertiary"
-              onClick={() => this.handleToggleSubscribeModal(true)}
-            >
-            Subscribe to alerts
-              <Modal
-                isOpen={this.state.showSubscribeModal}
-                onRequestClose={() => this.handleToggleSubscribeModal(false)}
+          <div>
+            <LoginRequired text="Log in to subscribe to dataset changes">
+              <button
+                className="c-button -tertiary"
+                onClick={() => this.handleToggleSubscribeModal(true)}
               >
-                <SubscribeToDatasetModal
-                  dataset={dataset}
-                  showDatasetSelector={false}
+              Subscribe to alerts
+                <Modal
+                  isOpen={this.state.showSubscribeModal}
                   onRequestClose={() => this.handleToggleSubscribeModal(false)}
-                />
-              </Modal>
-            </button>
-          </LoginRequired>
+                >
+                  <SubscribeToDatasetModal
+                    dataset={dataset}
+                    showDatasetSelector={false}
+                    onRequestClose={() => this.handleToggleSubscribeModal(false)}
+                  />
+                </Modal>
+              </button>
+            </LoginRequired>
+          </div>
         }
 
         {metadata.info && metadata.info.data_download_original_link &&
-          <a
-            className="c-button -tertiary"
-            target="_blank"
-            href={metadata.info && metadata.info.data_download_original_link}
-          >
-            <span>
-              Download from source
-            </span>
+          <div>
+            <a
+              className="c-button -tertiary"
+              target="_blank"
+              href={metadata.info && metadata.info.data_download_original_link}
+            >
+              <span>
+                Download from source
+              </span>
 
-            <Icon name="icon-external" className="-smaller" />
-          </a>
+              <Icon name="icon-external" className="-smaller" />
+            </a>
+          </div>
+
         }
 
         {metadata.info && metadata.info.learn_more_link &&
-          <a
-            className="c-button -tertiary"
-            target="_blank"
-            href={metadata.info && metadata.info.learn_more_link}
-          >
-            <span>
-              Learn more
-            </span>
-            <Icon name="icon-external" className="-smaller" />
-          </a>
+          <div>
+            <a
+              className="c-button -tertiary"
+              target="_blank"
+              href={metadata.info && metadata.info.learn_more_link}
+            >
+              <span>
+                Learn more
+              </span>
+              <Icon name="icon-external" className="-smaller" />
+            </a>
+          </div>
         }
 
       </div>
