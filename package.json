@@ -77,6 +77,7 @@
     "rc-tooltip": "^3.7.0",
     "react": "15.6.2",
     "react-ace": "4.3.0",
+    "react-css-modules": "^4.7.1",
     "react-dnd": "2.4.0",
     "react-dnd-html5-backend": "2.4.1",
     "react-dom": "15.6.2",
@@ -117,6 +118,7 @@
     "webpack": "^3.6.0",
     "whatwg-fetch": "2.0.2",
     "widget-editor": "1.0.1",
+    "wri-api-components": "file:.yalc/wri-api-components",
     "wri-json-api-serializer": "1.0.1"
   },
   "devDependencies": {

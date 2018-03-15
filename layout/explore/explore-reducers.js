@@ -137,17 +137,31 @@ export default {
 
   [actions.setMapLayerGroups]: (state, action) => {
     const { datasets, params } = action.payload;
+    // const paramsDatasetsIds = params.map(p => p.dataset);
 
-    const layerGroups = datasets.map((d) => {
-      const dParams = params.find(p => p.dataset === d.id);
+    const layerGroups = datasets
+      .map((d) => {
+        const dParams = params.find(p => p.dataset === d.id);
 
-      return {
-        dataset: d.id,
-        opacity: dParams.opacity,
-        visible: dParams.visible,
-        layers: d.layer.map(l => ({ ...l, active: dParams.layer === l.id }))
-      };
-    });
+        return {
+          dataset: d.id,
+          opacity: dParams.opacity,
+          visible: dParams.visible,
+          layers: d.layer.map(l => ({
+            ...l,
+            active: dParams.layer === l.id,
+            opacity: dParams.opacity,
+            visible: dParams.visible
+          }))
+        };
+      })
+      .sort((a, b) => {
+        const aIndex = params.findIndex(p => p.dataset === a.dataset);
+        const bIndex = params.findIndex(p => p.dataset === b.dataset);
+
+        return (aIndex > bIndex ? 1 : -1);
+      });
+
 
     const map = { ...state.map, layerGroups };
     return { ...state, map };

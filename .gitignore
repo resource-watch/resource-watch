@@ -15,6 +15,7 @@
 # Compiled files
 /dist
 .next
+.yalc
 
 # Next files
 .next

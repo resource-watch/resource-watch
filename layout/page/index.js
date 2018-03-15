@@ -14,8 +14,8 @@ export default class Page extends PureComponent {
     isServer
   }) {
     // Routes
-    const routes = { asPath, pathname, query };
-    store.dispatch(setRouter(routes));
+    const url = { asPath, pathname, query };
+    store.dispatch(setRouter(url));
 
     // User favourites and collection
     const { user } = isServer ? req : store.getState();
@@ -33,7 +33,7 @@ export default class Page extends PureComponent {
     store.dispatch(setMobileOpened(false));
 
     return {
-      user, isServer
+      user, isServer, url
     };
   }
 }

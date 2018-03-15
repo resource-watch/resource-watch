@@ -136,8 +136,8 @@ class Map extends React.Component {
         this.layerManager.setZIndex(nextLayers);
       }
 
+      // Set layer active
       if (!isEqual(oldLayersIds, nextLayersIds)) {
-        // Set layer active
         unionLayers.forEach((layer) => {
           if (!oldLayersIds.find(id => id === layer.id)) {
             this.addLayers([layer]);
@@ -214,7 +214,7 @@ class Map extends React.Component {
 
   // SETTERS
   setLayerManager() {
-    const stopLoading = () => {
+    const onLayerAdded = () => {
       // Don't execute callback if component has been unmounted
       if (!this.hasBeenMounted) return;
       this.setState({ loading: false });
@@ -222,11 +222,13 @@ class Map extends React.Component {
       // Set the zIndex after each layer add
       const layers = this.props.layerGroups.map(l => l.layers.find(la => la.active));
       this.layerManager.setZIndex(layers);
+      this.layerManager.setVisibility(layers);
+      this.layerManager.setOpacity(layers);
     };
 
     this.layerManager = new this.props.LayerManager(this.map, {
-      onLayerAddedSuccess: stopLoading,
-      onLayerAddedError: stopLoading,
+      onLayerAddedSuccess: onLayerAdded,
+      onLayerAddedError: onLayerAdded,
       onLayerClick: (layer) => {
         this.props.setLayerInteractionLatLng(layer.latlng);
         this.props.setLayerInteraction(layer);
