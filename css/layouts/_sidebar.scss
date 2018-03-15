@@ -1,4 +1,4 @@
-$max-width-sidebar: 850px;
+$max-width-sidebar: 650px;
 $min-width-sidebar: 650px;
 $min-width-sidebar-closed: 10px;
 
@@ -61,7 +61,7 @@ $min-width-sidebar-closed: 10px;
     width: 50%;
     height: 100%;
     min-width: $min-width-sidebar;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
     transform: translate(calc(-100% + #{$min-width-sidebar-closed}),0);
     transition: all $animation-time-2 $ease-in-out-sine;
   }

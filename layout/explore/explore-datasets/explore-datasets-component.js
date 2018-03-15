@@ -56,8 +56,7 @@ class ExploreDatasetsComponent extends React.Component {
             mode={mode}
             grid={{
               small: 'small-12',
-              medium: 'medium-6',
-              large: 'xxlarge-4'
+              medium: 'medium-6'
             }}
             actions={
               <ExploreDatasetsActions />

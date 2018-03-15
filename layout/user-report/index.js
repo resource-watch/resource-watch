@@ -1,4 +1,10 @@
 // Redux
-import PulseComponent from './component';
+import { connect } from 'react-redux';
+import UserReportComponent from './component';
 
-export default PulseComponent;
+export default connect(
+  state => ({
+    routes: state.routes
+  }),
+  null
+)(UserReportComponent);

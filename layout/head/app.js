@@ -5,6 +5,9 @@ import HeadNext from 'next/head';
 // Redux
 import { connect } from 'react-redux';
 
+// Utils
+import { USERREPORT_BLACKLIST } from 'utils/user-report';
+
 import Package from '../../package.json';
 
 const TRANSIFEX_BLACKLIST = [
@@ -17,10 +20,6 @@ const TRANSIFEX_BLACKLIST = [
   '/app/embed/EmbedEmbed',
   '/app/embed/EmbedDataset',
   '/app/embed/EmbedSimilarDatasets'
-];
-
-const USERREPORT_BLACKLIST = [
-  '/app/Splash'
 ];
 
 class Head extends React.PureComponent {
@@ -42,7 +41,7 @@ class Head extends React.PureComponent {
 
   getUserReport() {
     const { pathname } = this.props.routes;
-    if (TRANSIFEX_BLACKLIST.includes(pathname) || USERREPORT_BLACKLIST.includes(pathname)) {
+    if (USERREPORT_BLACKLIST.includes(pathname)) {
       return null;
     }
 
