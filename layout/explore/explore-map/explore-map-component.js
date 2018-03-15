@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
-import classnames from 'classnames';
-
-// Utils
-import { logEvent } from 'utils/analytics';
 
 // Components
 import Map from 'components/ui/map/Map';
@@ -21,8 +17,8 @@ class ExploreMapComponent extends React.Component {
   static propTypes = {
     zoom: PropTypes.number,
     latLng: PropTypes.object,
-    basemap: PropTypes.string,
-    labels: PropTypes.string,
+    basemap: PropTypes.object,
+    labels: PropTypes.object,
     boundaries: PropTypes.bool,
     layerGroups: PropTypes.array,
 
@@ -42,7 +38,7 @@ class ExploreMapComponent extends React.Component {
 
   onChangeOpacity = debounce((l, opacity) => {
     this.props.setMapLayerGroupOpacity({ dataset: { id: l.dataset }, opacity });
-  }, 500)
+  }, 250)
 
   onChangeVisibility = (l, visibility) => {
     this.props.setMapLayerGroupVisibility({ dataset: { id: l.dataset }, visibility });
@@ -64,7 +60,7 @@ class ExploreMapComponent extends React.Component {
   onMapParams = debounce(({ zoom, latLng }) => {
     this.props.setMapZoom(zoom);
     this.props.setMapLatLng(latLng);
-  }, 1000)
+  }, 250)
 
   render() {
     const {

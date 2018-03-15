@@ -207,7 +207,7 @@ class Map extends React.Component {
 
     // Remember to remove the listeners before removing the map
     // or they will stay in memory
-    if (this.props.setMapParams) this.removeMapEventListeners();
+    if (this.props.onMapParams) this.removeMapEventListeners();
     if (this.map) this.map.remove();
   }
 
@@ -297,10 +297,10 @@ class Map extends React.Component {
   setMapEventListeners() {
     function mapChangeHandler() {
       // Dispatch the action to set the params
-      this.props.setMapParams(this.getMapParams());
+      this.props.onMapParams(this.getMapParams());
     }
 
-    if (this.props.setMapParams) {
+    if (this.props.onMapParams) {
       this.map.on('zoomend', mapChangeHandler.bind(this));
       this.map.on('dragend', mapChangeHandler.bind(this));
     }
@@ -381,13 +381,12 @@ class Map extends React.Component {
 
 Map.defaultProps = {
   interactionEnabled: true,
-  disableScrollZoom: true,
-  useLightBasemap: false
+  disableScrollZoom: true
 };
 
 Map.propTypes = {
-  interactionEnabled: PropTypes.bool.isRequired,
-  disableScrollZoom: PropTypes.bool.isRequired,
+  interactionEnabled: PropTypes.bool,
+  disableScrollZoom: PropTypes.bool,
   onMapInstance: PropTypes.func,
   // STORE
   mapConfig: PropTypes.object,
@@ -403,7 +402,7 @@ Map.propTypes = {
   LayerManager: PropTypes.func,
 
   // ACTIONS
-  setMapParams: PropTypes.func,
+  onMapParams: PropTypes.func,
   setLayerInteraction: PropTypes.func,
   setLayerInteractionSelected: PropTypes.func,
   setLayerInteractionLatLng: PropTypes.func,

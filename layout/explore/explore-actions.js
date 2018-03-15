@@ -1,51 +1,7 @@
 import 'isomorphic-fetch';
 import queryString from 'query-string';
-import { Router } from 'routes';
 import { createAction, createThunkAction } from 'redux-tools';
 import WRISerializer from 'wri-json-api-serializer';
-
-// URL
-export const setExploreURL = createThunkAction('EXPLORE/fetchDatasets', () => (dispatch, getState) => {
-  const {
-    datasets, filters, sort, map
-  } = getState().explore;
-
-  Router.replaceRoute('explore', {
-    // Map
-    zoom: map.zoom,
-    lat: map.lat,
-    lng: map.lng,
-    ...!!map.layers.length && { layers: encodeURIComponent(JSON.stringify(map.layers)) },
-
-    // Datasets
-    page: datasets.page,
-    sort: sort.selected,
-    search: filters.search
-    //   if (topics) {
-    //     if (topics.length > 0) {
-    //       query.topics = JSON.stringify(topics);
-    //     } else {
-    //       delete query.topics;
-    //     }
-    //   }
-    //
-    //   if (dataTypes) {
-    //     if (dataTypes.length > 0) {
-    //       query.dataTypes = JSON.stringify(dataTypes);
-    //     } else {
-    //       delete query.dataType;
-    //     }
-    //   }
-    //
-    //   if (geographies) {
-    //     if (geographies.length > 0) {
-    //       query.geographies = JSON.stringify(geographies);
-    //     } else {
-    //       delete query.geographies;
-    //     }
-    //   }
-  });
-});
 
 // DATASETS
 export const setDatasets = createAction('EXPLORE/setDatasetsList');

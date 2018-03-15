@@ -18,9 +18,9 @@ import ExploreDatasets from 'layout/explore/explore-datasets';
 
 import ExploreMap from 'layout/explore/explore-map';
 
-class Explore extends Page {
+class Explore extends React.Component {
   static propTypes = {
-    explore: PropTypes.object
+    responsive: PropTypes.object
   };
 
   render() {

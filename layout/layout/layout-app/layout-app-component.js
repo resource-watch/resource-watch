@@ -42,7 +42,6 @@ class LayoutApp extends React.Component {
     // Store
     modal: PropTypes.object.isRequired,
     toggleModal: PropTypes.func.isRequired,
-    toggleTooltip: PropTypes.func.isRequired,
     setModalOptions: PropTypes.func.isRequired,
     updateIsLoading: PropTypes.func.isRequired,
     setLocale: PropTypes.func.isRequired,
@@ -68,23 +67,9 @@ class LayoutApp extends React.Component {
     });
   }
 
-  componentWillMount() {
-    // When a tooltip is shown and the router navigates to a
-    // another page, the tooltip stays in place because it is
-    // managed in Redux
-    // The way we prevent this is by listening to the router
-    // and whenever we navigate, we hide the tooltip
-    // NOTE: we can't just call this.props.toggleTooltip here
-    // because for some pages, we don't re-mount the LayoutApp
-    // component. If we listen for events from the router,
-    // we're sure to not miss any page.
-    this.props.toggleTooltip(false);
-  }
-
   componentDidMount() {
     Router.onRouteChangeStart = () => {
       if (Progress && Progress.Component.instance) Progress.show();
-      this.props.toggleTooltip(false);
       this.props.updateIsLoading(true);
     };
     Router.onRouteChangeComplete = () => {
