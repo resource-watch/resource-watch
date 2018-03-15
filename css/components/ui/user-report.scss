@@ -17,7 +17,7 @@
   cursor: pointer;
 
   &:hover {
-    transform: rotate(-90deg);
+    transform: rotate(-90deg) translate(0, 8px);
   }
 }
 
