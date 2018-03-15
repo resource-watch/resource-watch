@@ -37,7 +37,7 @@ class ExploreDatasetsActionsComponent extends React.Component {
           disabled={!layer}
           onClick={() => this.props.toggleMapLayerGroup({ dataset, toggle: !isActive })}
         >
-          {isActive ? 'Active' : 'Add to map'}
+          {isActive ? 'Remove from map' : 'Add to map'}
         </button>
 
         <Link

@@ -96,8 +96,6 @@ class ExplorePage extends Page {
       //   }
     };
 
-    console.log(query);
-
     window.history.replaceState({}, `/data/explore?${queryString.stringify(query)}`, `/data/explore?${queryString.stringify(query)}`);
   }
 

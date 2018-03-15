@@ -8,7 +8,12 @@ import MapControls from 'components/ui/map/MapControls';
 import BasemapControl from 'components/ui/map/controls/BasemapControl';
 import ShareControl from 'components/ui/map/controls/ShareControl';
 
+// WRI components
 import { Legend, LegendItemToolbar, LegendItemTypes } from 'wri-api-components';
+
+// Modal
+import Modal from 'components/modal/modal-component';
+import LayerInfoModal from 'components/modal/layer-info-modal';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
@@ -35,6 +40,14 @@ class ExploreMapComponent extends React.Component {
     setMapLayerGroupActive: PropTypes.func,
     setMapLayerGroupsOrder: PropTypes.func
   };
+
+  state = {
+    layer: null
+  }
+
+  onChangeInfo = (layer) => {
+    this.setState({ layer });
+  }
 
   onChangeOpacity = debounce((l, opacity) => {
     this.props.setMapLayerGroupOpacity({ dataset: { id: l.dataset }, opacity });
@@ -116,6 +129,19 @@ class ExploreMapComponent extends React.Component {
             onRemoveLayer={this.onRemoveLayer}
           />
         </div>
+
+        {!!this.state.layer &&
+          <Modal
+            isOpen={!!this.state.layer}
+            className="-medium"
+            onRequestClose={() => this.onChangeInfo(null)}
+          >
+            <LayerInfoModal
+              layer={this.state.layer}
+              onRequestClose={() => this.onChangeInfo(null)}
+            />
+          </Modal>
+        }
       </div>
     );
   }
