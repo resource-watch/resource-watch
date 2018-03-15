@@ -20,7 +20,7 @@ class SearchTerm extends React.PureComponent {
       list: PropTypes.array
     }),
     header: PropTypes.shape({
-      searchOpened: PropTypes
+      searchOpened: PropTypes.bool
     }),
     isHeader: PropTypes.bool,
     selected: PropTypes.object,
