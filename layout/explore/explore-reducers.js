@@ -135,6 +135,24 @@ export default {
     return { ...state, map };
   },
 
+  [actions.setMapLayerGroups]: (state, action) => {
+    const { datasets, params } = action.payload;
+
+    const layerGroups = datasets.map((d) => {
+      const dParams = params.find(p => p.dataset === d.id);
+
+      return {
+        dataset: d.id,
+        opacity: dParams.opacity,
+        visible: dParams.visible,
+        layers: d.layer.map(l => ({ ...l, active: dParams.layer === l.id }))
+      };
+    });
+
+    const map = { ...state.map, layerGroups };
+    return { ...state, map };
+  },
+
 
   //
   // SIDEBAR

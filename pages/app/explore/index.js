@@ -26,7 +26,8 @@ class ExplorePage extends Page {
       zoom,
       lat,
       lng,
-      search
+      search,
+      layers
     } = routes.query;
 
     // Query
@@ -35,6 +36,10 @@ class ExplorePage extends Page {
     if (lat && lng) store.dispatch(actions.setMapLatLng({ lat: +lat, lng: +lng }));
     if (search) store.dispatch(actions.setFiltersSearch(search));
 
+    // Fetch layers
+    if (layers) await store.dispatch(actions.fetchMapLayerGroups(JSON.parse(decodeURIComponent(layers))));
+
+    // Fetch datasets
     await store.dispatch(actions.fetchDatasets());
 
     return { ...props };
@@ -51,12 +56,21 @@ class ExplorePage extends Page {
       zoom: map.zoom,
       lat: map.latLng.lat,
       lng: map.latLng.lng,
-      ...!!map.layerGroups.length && { layers: encodeURIComponent(JSON.stringify(map.layerGroups.map(lg => lg.dataset))) },
+      ...!!map.layerGroups.length &&
+        {
+          layers: encodeURIComponent(JSON.stringify(map.layerGroups.map(lg => ({
+            dataset: lg.dataset,
+            opacity: lg.opacity || 1,
+            visible: lg.visible,
+            layer: lg.layers.find(l => l.active === true).id
+          }))))
+        },
 
       // Datasets
       page: datasets.page,
       sort: sort.selected,
-      ...filters.search && { search: filters.search }
+      ...filters.search &&
+        { search: filters.search }
       //   if (topics) {
       //     if (topics.length > 0) {
       //       query.topics = JSON.stringify(topics);
@@ -96,7 +110,8 @@ export default withRedux(
   initStore,
   state => ({
     // Store
-    explore: state.explore
+    explore: state.explore,
+    routes: state.routes
   }),
   actions
 )(ExplorePage);

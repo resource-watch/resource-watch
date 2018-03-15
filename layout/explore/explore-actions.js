@@ -61,14 +61,40 @@ export const setMapBoundaries = createAction('EXPLORE/setMapBoundaries');
 
 
 // LAYERS
-// uniq
 export const toggleMapLayerGroup = createAction('EXPLORE/toggleMapLayerGroup');
 export const setMapLayerGroupVisibility = createAction('EXPLORE/setMapLayerGroupVisibility');
 export const setMapLayerGroupOpacity = createAction('EXPLORE/setMapLayerGroupOpacity');
 export const setMapLayerGroupActive = createAction('EXPLORE/setMapLayerGroupActive');
-// all
 export const setMapLayerGroupsOrder = createAction('EXPLORE/setMapLayerGroupsOrder');
+
 export const setMapLayerGroups = createAction('EXPLORE/setMapLayerGroups');
+export const fetchMapLayerGroups = createThunkAction('EXPLORE/fetchMapLayers', payload => (dispatch, getState) => {
+  const { common } = getState();
+
+  const qParams = queryString.stringify({
+    application: process.env.APPLICATIONS,
+    language: common.locale,
+    includes: 'layer',
+    ids: payload.map(lg => lg.dataset).join(','),
+    'page[size]': 999
+  });
+
+  return fetch(`${process.env.WRI_API_URL}/dataset?${qParams}`)
+    .then((response) => {
+      if (response.status >= 400) throw Error(response.statusText);
+      return response.json();
+    })
+    .then(response => WRISerializer(response, { locale: common.locale }))
+    .then((data) => {
+      dispatch(setMapLayerGroups({
+        datasets: data,
+        params: payload
+      }));
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
 
 
 // FILTERS
