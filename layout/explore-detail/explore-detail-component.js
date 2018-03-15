@@ -84,7 +84,7 @@ class ExploreDetail extends Page {
           <section className="l-section">
             <div className="l-container">
               <div className="row">
-                <div className="column small-12 medium-7">
+                <div className="column small-12">
                   <ExploreDetailInfo />
                 </div>
               </div>
