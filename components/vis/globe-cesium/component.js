@@ -178,9 +178,9 @@ class GlobeCesiumComponent extends PureComponent {
       const increment = this.props.zoom - nextProps.zoom;
       const difference = camera.getMagnitude() - this.viewer.scene.globe.ellipsoid.maximumRadius;
       const smallerScalar = difference < 1000000;
-      let scalar = smallerScalar ? 0.95 : 0.9;
+      let scalar = smallerScalar ? 0.95 : 0.7;
       if (increment < 0) {
-        scalar = smallerScalar ? 1.005 : 1.1;
+        scalar = smallerScalar ? 1.005 : 1.3;
       }
       const newPosition = {
         x: camera.position.x * scalar,
