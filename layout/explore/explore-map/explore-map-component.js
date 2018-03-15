@@ -138,7 +138,6 @@ class ExploreMapComponent extends React.Component {
           >
             <LayerInfoModal
               layer={this.state.layer}
-              onRequestClose={() => this.onChangeInfo(null)}
             />
           </Modal>
         }

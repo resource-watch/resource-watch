@@ -56,9 +56,12 @@ class Head extends React.PureComponent {
             _urq.push(['setGACode', 'UA-67196006-1']);
             _urq.push(['initSite', '085d5a65-977b-4c3d-af9f-d0a3624e276f']);
             (function() {
-            var ur = document.createElement('script'); ur.type = 'text/javascript'; ur.async = true;
+            var ur = document.createElement('script');
+            ur.type = 'text/javascript';
+            ur.async = true;
             ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/userreport.js' : 'http://cdn.userreport.com/userreport.js');
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ur, s);
             })();
           `
         }}
@@ -94,17 +97,6 @@ class Head extends React.PureComponent {
     }
 
     return <script type="text/javascript" src="//cdn.transifex.com/live.js" />;
-  }
-
-  getAddSearchConfig() {
-    const { pathname } = this.props.routes;
-    const { dataset } = this.props;
-
-    if (pathname === '/app/ExploreDetail' && dataset && !dataset.published) {
-      return <meta name="robots" content="noindex" />;
-    }
-
-    return null;
   }
 
   getCesium() {
@@ -162,7 +154,6 @@ class Head extends React.PureComponent {
         {this.getUserReport()}
         {this.getTransifexSettings()}
         {this.getTransifex()}
-        {this.getAddSearchConfig()}
         {this.getCesium()}
         {this.getAFrame()}
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
@@ -175,13 +166,11 @@ Head.propTypes = {
   title: PropTypes.string, // Some pages don't have any title (think embed)
   description: PropTypes.string.isRequired,
   routes: PropTypes.object.isRequired,
-  category: PropTypes.string,
-  dataset: PropTypes.object
+  category: PropTypes.string
 };
 
 export default connect(
   state => ({
-    dataset: state.exploreDetail.data,
     routes: state.routes
   }),
   null
