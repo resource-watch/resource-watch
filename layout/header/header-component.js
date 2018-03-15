@@ -11,8 +11,8 @@ import { breakpoints } from 'utils/responsive';
 import { Link } from 'routes';
 
 // Components
-import HeaderMenu from 'components/layout/header-admin/header-admin-menu';
-import HeaderMenuMobile from 'components/layout/header-admin/header-admin-menu-mobile';
+import HeaderMenu from 'layout/header/header-menu';
+import HeaderMenuMobile from 'layout/header/header-menu-mobile';
 
 class Header extends React.PureComponent {
   static defaultProps = {

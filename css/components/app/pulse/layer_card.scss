@@ -49,16 +49,14 @@
     }
   }
 
-  .buttons {
+  .card-buttons {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
     .link_button {
       text-transform: uppercase;
-      color: $color-dark-pink;
-      text-decoration: none;
-      cursor: pointer;
+      padding: 0px 5px 0px 5px;
     }
   }
 }

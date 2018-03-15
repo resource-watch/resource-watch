@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Components
-import Page from 'components/layout/page';
+import Page from 'layout/page';
 
 // Redux
 import withRedux from 'next-redux-wrapper';

@@ -7,7 +7,7 @@ import { Link } from 'routes';
 
 // Components
 import Icon from 'components/ui/Icon';
-import SearchMobile from 'components/layout/header/search-mobile';
+import SearchMobile from 'layout/header/search-mobile';
 
 export default class HeaderMenuMobile extends React.PureComponent {
   static propTypes = {

@@ -12,8 +12,8 @@ import { getDatasets } from 'redactions/explore';
 
 // Components
 import { Router } from 'routes';
-import Page from 'components/layout/page';
-import Layout from 'components/layout/layout/layout-app';
+import Page from 'layout/page';
+import Layout from 'layout/layout/layout-app';
 import Sidebar from 'components/app/layout/Sidebar';
 import DatasetList from 'components/datasets/list';
 import Paginator from 'components/ui/Paginator';

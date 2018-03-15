@@ -7,8 +7,8 @@ import { initStore } from 'store';
 import { fetchDashboards, setPagination, setExpanded, setAdd, setSelected } from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list-actions';
 
 // Components
-import Page from 'components/layout/page';
-import Layout from 'components/layout/layout/layout-app';
+import Page from 'layout/page';
+import Layout from 'layout/layout/layout-app';
 import DashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
 
 class Dashboards extends Page {

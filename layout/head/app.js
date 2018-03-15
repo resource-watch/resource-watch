@@ -5,7 +5,7 @@ import HeadNext from 'next/head';
 // Redux
 import { connect } from 'react-redux';
 
-import Package from '../../../package.json';
+import Package from '../../package.json';
 
 const TRANSIFEX_BLACKLIST = [
   '/app/embed/EmbedDashboard',

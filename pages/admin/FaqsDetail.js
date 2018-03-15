@@ -14,8 +14,8 @@ import FaqsService from 'services/FaqsService';
 import { capitalizeFirstLetter } from 'utils/utils';
 
 // Layout
-import Page from 'components/layout/page';
-import Layout from 'components/layout/layout/layout-admin';
+import Page from 'layout/page';
+import Layout from 'layout/layout/layout-admin';
 
 // Tabs
 import FaqsTab from 'components/admin/faqs/FaqsTab';

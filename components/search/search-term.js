@@ -9,7 +9,7 @@ import Icon from 'components/ui/Icon';
 
 import selectedSearchItem from 'selectors/search/selected';
 
-import { setSearchOpened } from 'components/layout/header/header-actions';
+import { setSearchOpened } from 'layout/header/header-actions';
 import { setSearchPage, setSearchUrl, setSearchTerm, fetchSearch, setSearchSelected } from './actions';
 
 class SearchTerm extends React.PureComponent {

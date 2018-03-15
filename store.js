@@ -9,9 +9,9 @@ import * as reducers from 'redactions';
 import { handleModule } from 'redux-tools';
 
 // Layout
-import * as header from 'components/layout/header';
-import * as headerAdmin from 'components/layout/header-admin';
-import * as footer from 'components/layout/footer';
+import * as header from 'layout/header';
+import * as headerAdmin from 'layout/header-admin';
+import * as footer from 'layout/footer';
 
 // Search
 import * as search from 'layout/search';

@@ -8,9 +8,9 @@ import { initStore } from 'store';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 
 // Layout
-import Page from 'components/layout/page';
-import Head from 'components/layout/head/app';
-import Icons from 'components/layout/icons';
+import Page from 'layout/page';
+import Head from 'layout/head/app';
+import Icons from 'layout/icons';
 import Header from 'components/splash/layout/Header';
 
 // Components

@@ -6,7 +6,11 @@ import classnames from 'classnames';
 import { Link } from 'routes';
 
 // Components
-import HeaderUser from 'components/layout/header-admin/header-admin-user';
+import HeaderData from 'layout/header/header-data';
+import HeaderAbout from 'layout/header/header-about';
+import HeaderSearch from 'layout/header/header-search';
+import HeaderUser from 'layout/header/header-user';
+import HeaderTopics from 'layout/header/header-topics';
 
 export default class HeaderMenu extends React.PureComponent {
   static propTypes = {
@@ -20,7 +24,11 @@ export default class HeaderMenu extends React.PureComponent {
   }
 
   headerComponents = {
-    myrw: <HeaderUser />
+    data: <HeaderData />,
+    about: <HeaderAbout />,
+    topics: <HeaderTopics />,
+    myrw: <HeaderUser />,
+    search: <HeaderSearch />
   }
 
   render() {
@@ -56,7 +64,10 @@ export default class HeaderMenu extends React.PureComponent {
                 }
 
                 {!!component &&
-                  component
+                  React.cloneElement(
+                    component,
+                    item
+                  )
                 }
               </li>
             );

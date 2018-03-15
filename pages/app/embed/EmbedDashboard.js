@@ -12,8 +12,8 @@ import { fetchDashboards, setPagination, setAdd, setSelected, setExpanded } from
 import { Router } from 'routes';
 
 // Components
-import Page from 'components/layout/page';
-import LayoutEmbed from 'components/layout/layout/layout-embed';
+import Page from 'layout/page';
+import LayoutEmbed from 'layout/layout/layout-embed';
 
 import DashboardDetail from 'components/dashboards/detail/dashboard-detail';
 

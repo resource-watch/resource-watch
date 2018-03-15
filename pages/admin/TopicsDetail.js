@@ -14,8 +14,8 @@ import TopicsService from 'services/TopicsService';
 import { capitalizeFirstLetter } from 'utils/utils';
 
 // Layout
-import Page from 'components/layout/page';
-import Layout from 'components/layout/layout/layout-admin';
+import Page from 'layout/page';
+import Layout from 'layout/layout/layout-admin';
 
 // Tabs
 import TopicsTab from 'components/admin/topics/TopicsTab';

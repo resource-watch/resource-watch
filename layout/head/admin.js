@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import HeadNext from 'next/head';
 
-import Package from '../../../package.json';
+import Package from '../../package.json';
 
 export default class Head extends React.Component {
   static getStyles() {

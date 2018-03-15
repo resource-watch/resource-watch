@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Router } from 'routes';
 
 // Components
-import Layout from 'components/layout/layout/layout-app';
+import Layout from 'layout/layout/layout-app';
 
 // Topic Detail Component
 import TopicDetailHeader from 'layout/topics-detail/topics-detail-header';
