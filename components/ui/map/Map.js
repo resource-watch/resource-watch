@@ -54,8 +54,14 @@ class Map extends React.Component {
       this.props.setMapInstance(this.map);
     }
 
-    if (this.props.mapConfig && this.props.mapConfig.bounds) {
-      this.fitBounds(this.props.mapConfig.bounds.geometry);
+    // BBox
+    console.log(mapOptions.bbox);
+    if (mapOptions && mapOptions.bbox) {
+      this.fitBounds({ bbox: mapOptions.bbox });
+    }
+
+    if (mapOptions && mapOptions.bounds) {
+      this.fitBounds({ geometry: mapOptions.bounds.geometry });
     }
 
     // Disable interaction if necessary
@@ -321,11 +327,23 @@ class Map extends React.Component {
     return same;
   }
 
-  fitBounds(geoJson, sidebarWidth) {
-    const geojsonLayer = L.geoJson(geoJson);
-    this.map.fitBounds(geojsonLayer.getBounds(), {
-      paddingTopLeft: [sidebarWidth || 0, 0],
-      paddingBottomRight: [0, 0]
+  fitBounds({ bbox, geometry }) {
+    let bounds;
+    if (bbox) {
+      bounds = [
+        [bbox[1], bbox[0]],
+        [bbox[3], bbox[2]]
+      ];
+    }
+
+    if (geometry) {
+      bounds = geometry.getBounds();
+    }
+
+    console.log(bounds);
+
+    this.map.fitBounds(bounds, {
+      padding: [20, 20]
     });
   }
 
