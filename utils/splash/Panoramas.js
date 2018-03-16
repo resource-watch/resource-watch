@@ -78,7 +78,7 @@ export const PANORAMAS = [
                 <div className="image-container">
                   <iframe src="https://staging.resourcewatch.org/embed/map/bc0ceb8f-f06c-4c3c-8433-548e900ff93b" width="100%" height="400" frameBorder="0"></iframe>
                   <div className="caption">
-                    <i>Which countries depend most on coral reefs? Click and drag the map to explore. (Data source: WRI <a href="https://staging.resourcewatch.org/data/explore/894f43a8-ce8e-43a5-a4c7-fa80faa43d63" target="_blank" rel="noopener noreferrer">Reefs at Risk</a>)</i>
+                    <i>Which countries depend most on coral reefs? Click and drag the map to explore. (Data source: WRI <a href="https://resourcewatch.org/data/explore/894f43a8-ce8e-43a5-a4c7-fa80faa43d63" target="_blank" rel="noopener noreferrer">Reefs at Risk</a>)</i>
                   </div>
                 </div>
                 <p>Coral reef fisheries employ more than <a href="http://www.reefresilience.org/coral-reef-fisheries-module/coral-reef-fisheries/overfishing/" target="_blank" rel="noopener noreferrer">6 million fishers and gleaners</a> and are worth an estimated <a href="http://www.reefresilience.org/pdf/Reefs_at_Risk_Revisited.pdf" target="_blank" rel="noopener noreferrer">$6.8 billion</a> per year.</p>
