@@ -130,22 +130,6 @@ class Step1 extends React.Component {
             {Input}
           </Field>
 
-          {/* CAPTION */}
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.caption = c; }}
-            onChange={value => this.props.onChange({ caption: value })}
-            className="-fluid"
-            properties={{
-              name: 'caption',
-              label: 'Caption',
-              type: 'text',
-              default: this.state.form.caption,
-              value: this.state.form.caption
-            }}
-          >
-            {Input}
-          </Field>
-
           {/* DESCRIPTION */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
