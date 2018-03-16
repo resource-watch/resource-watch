@@ -43,6 +43,10 @@ import * as globeCesium from 'components/vis/globe-cesium';
 // Widget
 import * as widgetDetail from 'layout/widget-detail';
 
+// Catalog
+
+import * as catalog from 'layout/catalog';
+
 // Topic
 import * as topicsIndex from 'layout/topics';
 import * as topicsDetail from 'layout/topics-detail';
@@ -109,6 +113,9 @@ const reducer = combineReducers({
 
   // Widget
   widgetDetail: handleModule(widgetDetail),
+
+  // Catalog
+  catalog: handleModule(catalog),
 
   // Topic
   topicsIndex: handleModule(topicsIndex),
