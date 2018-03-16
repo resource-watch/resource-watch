@@ -47,9 +47,11 @@ export default function WidgetBlock({
     layersError
   } = data[id];
 
-  const widgetLinks = (widget && (widget.metadata && widget.metadata.length > 0 &&
-    widget.metadata[0].attributes.info &&
-    widget.metadata[0].attributes.info.widgetLinks)) || [];
+  const metadataInfo = (widget && (widget.metadata && widget.metadata.length > 0 &&
+    widget.metadata[0].attributes.info));
+  const widgetLinks = (metadataInfo && metadataInfo.widgetLinks) || [];
+  const caption = metadataInfo && metadataInfo.caption;
+  console.log('caption', caption);
 
   const isInACollection = belongsToACollection(user, widget);
   const starIconName = classnames({
@@ -183,6 +185,11 @@ export default function WidgetBlock({
           </div>
         }
       </div>
+      {caption &&
+        <div className="caption-container">
+          {caption}
+        </div>
+      }
     </div>
   );
 }
