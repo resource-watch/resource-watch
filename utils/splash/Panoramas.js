@@ -223,31 +223,6 @@ export const PANORAMAS = [
             imageHeight: 458
           },
           {
-            title: 'Sharks at risk',
-            id: 'sharks_at_risk',
-            position: '0 2 16',
-            rotation: '0 180 0',
-            markup:
-              <div>
-                <div className="image-container">
-                  <img src="/static/images/splash/sharksAtRisk.png" alt="Sharks at risk" />
-                  <div className="caption">
-                    <i>Photo by <a href="https://www.flickr.com/photos/noaaphotolib/27831790160/in/photolist-565CxK-yv4473-msGxA4-msJAPo-msFQuB-msGf4v-msJBRd-msGxtk-6D6vWJ-5662Pz-6u7SJP-7ZRfE6-YnFSYe-7L96p3-7L58p4-XeM91d-7L58BT-GqmhHb-JbHUH1-msJBzm-6Dr17G-WTBgYq-7ZRfEa-565Ant-6DrKJJ-msJxbb-6D2WPD-6D6pMm-yLEif7-msGa4i-6D2YFM-6D31y6-6DrymS-JbJQos-6D2Zm8-Jppcxu-w6snm1-Jppcz3-yNqqk4-msJuhA-msJtA5-msHaqZ-msHc1c-msJy7u-msBzs8-msJtWq-msGFZD-msJrML-xShoAH-6Drfeo" target="_blank" rel="noopener noreferrer">Kevin Lino (NOAA)/Flickr</a></i>
-                  </div>
-                </div>
-                <p>
-                  The whale shark and scalloped hammerhead are both listed as <a href="http://www.iucnredlist.org/search" target="_blank" rel="noopener noreferrer">endangered species</a>, primarily due to overfishing. These sharks are found in the tropical waters of the western Pacific and provide crucial stability in reef ecosystems. (The scalloped hammerhead is a <a href="http://www.fpir.noaa.gov/PRD/prd_marine_protected_species_of_american_samoa_list.html" target="_blank" rel="noopener noreferrer">marine protected species</a> of American Samoa.) The presence of sharks on coral reefs has been found to contribute to reef resiliency against events like coral bleaching.
-                </p>
-                <p>
-                  The presence of sharks on coral reefs has been found to contribute to <a href="https://www.aims.gov.au/docs/media/latest-releases/-/asset_publisher/8Kfw/content/sharks-increase-reef-resilience/" target="_blank" rel="noopener noreferrer">reef resiliency</a> against events like coral bleaching.
-                </p>
-              </div>,
-            image: '/static/images/splash/3-2_sharks_at_risk.png',
-            imageSelected: '/static/images/splash/3-2_sharks_at_risk-active.png',
-            imageWidth: 382,
-            imageHeight: 458
-          },
-          {
             title: "Coral bleaching: What's next",
             id: 'coral_bleaching_whats_next',
             position: '-14 2 0',
