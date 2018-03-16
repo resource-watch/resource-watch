@@ -106,6 +106,7 @@
 
 // datasets
 @import './components/datasets/list';
+@import './components/datasets/list-item';
 
 // Subscriptions
 @import "./components/subscriptions/subscriptions_form";
@@ -241,7 +242,6 @@
 
 // old
 @import "./components/app/explore/configurable_widget";
-@import "./components/app/explore/dataset_widget";
 @import "./components/app/explore/dataset_placeholder_chart";
 @import "./components/app/explore/widget_configurator";
 @import "./components/app/explore/explore_layers_tooltip";

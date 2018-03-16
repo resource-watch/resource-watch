@@ -39,7 +39,7 @@ class DatasetList extends PureComponent {
     });
 
     return (
-      <div className="c-dataset-list">
+      <div className={`c-dataset-list -${mode}`}>
         <div className="row">
           <div className="column small-12">
             <div className="l-row -equal-height row">

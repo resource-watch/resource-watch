@@ -173,35 +173,35 @@ class DatasetListItem extends React.Component {
                     {(metadata && metadata.info && metadata.info.name) || dataset.name}
                   </a>
                 </Link>
-              </h4>
 
-              {/* Favorite dataset icon */}
-              <LoginRequired text="Log in or sign up to save items in favorites">
-                <Tooltip
-                  overlay={
-                    <CollectionsPanel
-                      resource={dataset}
-                      resourceType="dataset"
-                    />
-                  }
-                  overlayClassName="c-rc-tooltip"
-                  overlayStyle={{
-                    color: '#fff'
-                  }}
-                  placement="bottomLeft"
-                  trigger="click"
-                >
-                  <button
-                    className="c-btn favourite-button"
-                    tabIndex={-1}
+                {/* Favorite dataset icon */}
+                <LoginRequired text="Log in or sign up to save items in favorites">
+                  <Tooltip
+                    overlay={
+                      <CollectionsPanel
+                        resource={dataset}
+                        resourceType="dataset"
+                      />
+                    }
+                    overlayClassName="c-rc-tooltip"
+                    overlayStyle={{
+                      color: '#fff'
+                    }}
+                    placement="bottomLeft"
+                    trigger="click"
                   >
-                    <Icon
-                      name={starIconName}
-                      className={starIconClass}
-                    />
-                  </button>
-                </Tooltip>
-              </LoginRequired>
+                    <button
+                      className="c-btn favourite-button"
+                      tabIndex={-1}
+                    >
+                      <Icon
+                        name={starIconName}
+                        className={starIconClass}
+                      />
+                    </button>
+                  </Tooltip>
+                </LoginRequired>
+              </h4>
             </div>
 
             {/* Source */}
