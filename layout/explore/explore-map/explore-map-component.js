@@ -81,7 +81,7 @@ class ExploreMapComponent extends React.Component {
     } = this.props;
 
     return (
-      <div className="l-map">
+      <div className="l-map -relative">
         <Map
           mapConfig={{ zoom, latLng }}
           disableScrollZoom={false}

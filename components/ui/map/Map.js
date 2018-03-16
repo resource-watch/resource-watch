@@ -194,6 +194,10 @@ class Map extends React.Component {
         .setContent(currentContent)
         .openOn(this.map);
     }
+
+    if (this.props.sidebar.open !== nextProps.sidebar.open) {
+      this.map.invalidateSize();
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -306,13 +310,6 @@ class Map extends React.Component {
       this.map.on('zoomend', mapChangeHandler.bind(this));
       this.map.on('dragend', mapChangeHandler.bind(this));
     }
-  }
-
-  setSpinnerPosition() {
-    const windowWidth = window.innerWidth;
-    const sidebarWidth = this.state.sidebar.width;
-
-    return ((windowWidth - sidebarWidth) / 2);
   }
 
   interactionsChanged(layers, nextLayers) {
