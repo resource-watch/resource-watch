@@ -14,7 +14,7 @@ export const getDatasets = createThunkAction('CATALOG/getDatasets', payload => (
   const qParams = queryString.stringify({
     application: process.env.APPLICATIONS,
     language: 'en',
-    includes: 'metadata',
+    includes: 'metadata,widget,layer,vocabulary',
     search: payload,
     status: 'saved',
     published: true,
@@ -27,7 +27,6 @@ export const getDatasets = createThunkAction('CATALOG/getDatasets', payload => (
       throw new Error(response.statusText);
     })
     .then(({ data }) => {
-      console.log('data', data);
       dispatch(setDatasets(data));
     })
     .catch((err) => {

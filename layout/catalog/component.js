@@ -9,13 +9,14 @@ import { Router } from 'routes';
 import Layout from 'layout/layout/layout-app';
 import SearchInput from 'components/ui/SearchInput';
 import Spinner from 'components/ui/Spinner';
+import DatasetList from 'components/app/explore/DatasetList';
 
 // Utils
 import { logEvent } from 'utils/analytics';
 
 class CatalogComponent extends React.Component {
   static propTypes = {
-    loading: PropTypes.bool,
+    catalog: PropTypes.object.isRequired,
 
     // Actions
     getDatasets: PropTypes.func.isRequired
@@ -38,7 +39,7 @@ class CatalogComponent extends React.Component {
   }
 
   render() {
-    const { loading } = this.props;
+    const { loading, datasets } = this.props.catalog;
 
     return (
       <Layout
@@ -72,7 +73,16 @@ class CatalogComponent extends React.Component {
                 </div>
               </div>
               <div className="column small-12">
-                <Spinner isLoading={loading} />
+                <Spinner isLoading={loading} className="-light -relative" />
+              </div>
+            </div>
+            <div className="row">
+              <div className="column small-12">
+                <DatasetList
+                  list={datasets}
+                  mode="grid"
+                  showActions={false}
+                />
               </div>
             </div>
           </div>
