@@ -29,7 +29,7 @@ export const PANORAMAS = [
             markup:
               <div>
                 <p>
-                  <span className="header-text">More than 4000</span>
+                  <span className="header-text">More than 4,000</span>
                    fish species <a href="http://www.wri.org/blog/2011/02/wake-call-save-coral-reefs" target="_blank" rel="noopener noreferrer">call reefs home</a>.
                 </p>
                 <p>
@@ -45,8 +45,8 @@ export const PANORAMAS = [
                   people <a href="http://www.noaa.gov/explainers/coral-reefs-essential-and-threatened" target="_blank" rel="noopener noreferrer">depend on coral reefs</a> for their food and livelihoods.
                 </p>
                 <p>
-                  <span className="header-text">75</span>
-                   percent of reefs worldwide <a href="http://www.reefresilience.org/pdf/Reefs_at_Risk_Revisited.pdf" target="_blank" rel="noopener noreferrer">are threatened</a> by warmer oceans and local threats such as coastal development, overfishing and pollution.
+                  <span className="header-text">75 percent</span>
+                   of reefs worldwide <a href="http://www.reefresilience.org/pdf/Reefs_at_Risk_Revisited.pdf" target="_blank" rel="noopener noreferrer">are threatened</a> by warmer oceans and local threats such as coastal development, overfishing and pollution.
                 </p>
               </div>,
             image: '/static/images/splash/1-1_coral_reefs_by_the_numbers.png',
@@ -235,7 +235,7 @@ export const PANORAMAS = [
                 <div className="image-container">
                   <iframe src="https://staging.resourcewatch.org/embed/map/bec6033c-e202-4b48-97a7-89093fdf31cc" width="100%" height="400" frameBorder="0"></iframe>
                   <div className="caption">
-                    <i>Data source: WRI <a href="https://staging.resourcewatch.org/data/explore/894f43a8-ce8e-43a5-a4c7-fa80faa43d63" target="_blank" rel="noopener noreferrer">Reefs at Risk</a>, adapted from Donner, S.D., 2009 <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0005712" target="_blank" rel="noopener noreferrer">study in PLoS ONE.</a></i>
+                    <i>Data source: WRI <a href="https://resourcewatch.org/data/explore/894f43a8-ce8e-43a5-a4c7-fa80faa43d63" target="_blank" rel="noopener noreferrer">Reefs at Risk</a>, adapted from Donner, S.D., 2009 <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0005712" target="_blank" rel="noopener noreferrer">study in PLoS ONE.</a></i>
                   </div>
                 </div>
                 <p>
