@@ -30,23 +30,23 @@ export const PANORAMAS = [
               <div>
                 <p>
                   <span className="header-text">More than 4000</span>
-                   fish species <a href="http://www.wri.org/blog/2011/02/wake-call-save-coral-reefs" target="_blank" rel="noopener noreferrer">call reefs home</a>
+                   fish species <a href="http://www.wri.org/blog/2011/02/wake-call-save-coral-reefs" target="_blank" rel="noopener noreferrer">call reefs home</a>.
                 </p>
                 <p>
                   <span className="header-text">One quarter to one third</span>
-                   of ocean species <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0025026" target="_blank" rel="noopener noreferrer">depend on tropical reefs</a>
+                   of ocean species <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0025026" target="_blank" rel="noopener noreferrer">depend on tropical reefs</a>.
                 </p>
                 <p>
                   <span className="header-text">$29.8 billion</span>
-                   is the <a href="http://www.icriforum.org/sites/default/files/Economic_values_global compilation.pdf" target="_blank" rel="noopener noreferrer">estimated yearly value</a> of all the services reefs provide, including tourism, coastal protection, fisheries and biodiversity
+                   is the <a href="http://www.icriforum.org/sites/default/files/Economic_values_global compilation.pdf" target="_blank" rel="noopener noreferrer">estimated yearly value</a> of all the services reefs provide, including tourism, coastal protection, fisheries and biodiversity.
                 </p>
                 <p>
                   <span className="header-text">500 million</span>
-                  people <a href="http://www.noaa.gov/explainers/coral-reefs-essential-and-threatened" target="_blank" rel="noopener noreferrer">depend on coral reefs</a> for their food and livelihoods
+                  people <a href="http://www.noaa.gov/explainers/coral-reefs-essential-and-threatened" target="_blank" rel="noopener noreferrer">depend on coral reefs</a> for their food and livelihoods.
                 </p>
                 <p>
                   <span className="header-text">75</span>
-                   percent of reefs worldwide <a href="http://www.reefresilience.org/pdf/Reefs_at_Risk_Revisited.pdf" target="_blank" rel="noopener noreferrer">are threatened</a> by warmer oceans and local threats such as coastal development, overfishing and pollution
+                   percent of reefs worldwide <a href="http://www.reefresilience.org/pdf/Reefs_at_Risk_Revisited.pdf" target="_blank" rel="noopener noreferrer">are threatened</a> by warmer oceans and local threats such as coastal development, overfishing and pollution.
                 </p>
               </div>,
             image: '/static/images/splash/1-1_coral_reefs_by_the_numbers.png',
