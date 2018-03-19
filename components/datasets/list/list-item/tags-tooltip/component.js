@@ -6,11 +6,12 @@ import Tag from 'components/ui/Tag';
 
 class DatasetTagsTooltip extends React.Component {
   static propTypes = {
-    tags: PropTypes.array.isRequired
+    tags: PropTypes.array.isRequired,
+    onTagSelected: PropTypes.func
   };
 
   render() {
-    const { tags } = this.props;
+    const { tags, onTagSelected } = this.props;
 
     return (
       <div className="c-dataset-tags-tooltip">
@@ -20,6 +21,7 @@ class DatasetTagsTooltip extends React.Component {
               className="-primary"
               key={tag.id}
               name={tag.label}
+              onClick={() => onTagSelected(tag)}
             />
           ))}
         </div>

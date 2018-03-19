@@ -37,11 +37,19 @@ class DatasetListItem extends React.Component {
     tags: PropTypes.array,
     mode: PropTypes.string,
     user: PropTypes.object,
-    actions: PropTypes.object
+    actions: PropTypes.object,
+
+    // CALLBACKS
+    onTagSelected: PropTypes.func,
+
+    // ACTIONS
+    fetchTags: PropTypes.func,
+    resetTags: PropTypes.func
   };
 
   state = {
-    tagsOpened: false
+    tagsOpened: false,
+    tagsLoading: false
   }
 
   /**
@@ -82,10 +90,10 @@ class DatasetListItem extends React.Component {
       dataset, metadata, vocabulary, mode, user, actions, tags
     } = this.props;
 
-    const { tagsOpened } = this.state;
+    const { tagsOpened, tagsLoading } = this.state;
     const vTags = vocabulary.tags
       .sort()
-      .filter(t => !TAGS_BLACKLIST.includes(t))
+      .filter(t => !TAGS_BLACKLIST.includes(t));
 
 
     const isInACollection = belongsToACollection(user, dataset);
@@ -168,7 +176,7 @@ class DatasetListItem extends React.Component {
                       <Tag
                         name={`${upperFirst(t.replace('_', ' '))}${i !== vTags.length - 1 ? ', ' : ''}`}
                         className="-clean"
-                        onClick={() => console.info(t)}
+                        onClick={() => this.props.onTagSelected(t)}
                       />
                     ))
                 }
@@ -180,6 +188,7 @@ class DatasetListItem extends React.Component {
                     overlay={
                       <TagsTooltip
                         tags={tags}
+                        onTagSelected={t => this.props.onTagSelected(t)}
                       />
                     }
                     visible={tagsOpened}
@@ -191,52 +200,27 @@ class DatasetListItem extends React.Component {
                     destroyTooltipOnHide
                     onVisibleChange={(visible) => {
                       if (visible) {
+                        this.setState({ tagsLoading: true });
+
                         this.props.fetchTags(vocabulary.tags)
                           .then(() => {
-                            this.setState({ tagsOpened: true });
-                          });
+                            this.setState({ tagsOpened: true, tagsLoading: false });
+                          })
+                          .catch(() => {
+                            this.setState({ tagsLoading: false });
+                          })
                       } else {
                         this.props.resetTags();
-                        this.setState({ tagsOpened: false });
+                        this.setState({ tagsOpened: false, tagsLoading: false });
                       }
                     }}
                   >
                     <button>
-                      more...
+                      {tagsLoading && 'loading...'}
+                      {!tagsLoading && 'more...'}
                     </button>
                   </Tooltip>
                 </div>
-
-                {/* <Tooltip
-                  overlay={
-                    <TagsTooltip
-                      tags={tags}
-                    />
-                  }
-                  visible={this.state.tooltip}
-                  overlayClassName="c-rc-tooltip -default"
-                  placement="top"
-                  trigger="click"
-                  getTooltipContainer={() => typeof document !== 'undefined' && document.querySelector('.sidebar-content')}
-                  monitorWindowResize
-                  destroyTooltipOnHide
-                  onVisibleChange={(visible) => {
-                    if (visible) {
-                      this.props.fetchTags(vocabulary.tags)
-                        .then(() => {
-                          this.setState({ tooltip: true });
-                        });
-                    } else {
-                      this.props.resetTags();
-                      this.setState({ tooltip: false });
-                    }
-                  }}
-                >
-                  <Tag
-                    name="more"
-                    className="-secondary"
-                  />
-                </Tooltip> */}
               </div>
             </div>
           </div>

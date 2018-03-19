@@ -25,9 +25,9 @@
         position: absolute;
         right: 100%;
         top: 0;
-        width: 80px;
+        width: 40px;
         height: 100%;
-        background: linear-gradient(to left, rgba($color-white, 1), rgba($color-white, 0));
+        background: linear-gradient(to left, rgba($color-white, 1) 20%, rgba($color-white, 0) 100%);
       }
 
       button {
