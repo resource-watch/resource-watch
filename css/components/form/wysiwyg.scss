@@ -10,6 +10,10 @@
     .list-item-container {
       display: block;
     }
+
+    &.-isReadOnly {
+      padding: $space-1 * 4 0 0;
+    }
   }
 
   // ITEM CONTENT
@@ -22,10 +26,43 @@
   // TEXT
   .cw-wysiwyg-text {
     max-width: none;
-  }
 
-  // QUILL
-  .cw-quill {
-    // Stuff
+    // QUILL
+    .cw-quill {
+      // Stuff
+      .ql-editor {
+        overflow-y: visible;
+
+        h1 {
+          font-size: $font-size-h2 / 2;
+          color: $color-primary;
+          font-weight: $font-weight-light;
+
+          @media screen and (min-width: map-get($breakpoints, medium)) {
+            font-size: $font-size-h2;
+          }
+        }
+
+        h2 {
+          font-size: $font-size-h3 / 2;
+          color: $color-primary;
+          font-weight: $font-weight-light;
+
+          @media screen and (min-width: map-get($breakpoints, medium)) {
+            font-size: $font-size-h3;
+          }
+        }
+
+        p {
+          font-size: $font-size-default;
+        }
+
+        ul {
+          li {
+            font-size: $font-size-default;
+          }
+        }
+      }
+    }
   }
 }
