@@ -59,8 +59,13 @@ class Step1 extends React.Component {
     if (checked) {
       newWidgetLinks = [{ name: '', link: '', id: Date.now() }];
     }
-    this.props.onChange({ info: Object.assign({}, this.state.form.info,
-      { widgetLinks: newWidgetLinks }) });
+    this.props.onChange({
+      info: Object.assign(
+        {},
+        this.state.form.info,
+        { widgetLinks: newWidgetLinks }
+      )
+    });
   }
   handleRemoveWidgetLink(id) {
     const widgetLinks = this.props.form.info.widgetLinks.slice(0);
@@ -85,6 +90,23 @@ class Step1 extends React.Component {
           <Title className="-big -secondary">
             Edit metadata
           </Title>
+          {/* CAPTION */}
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.caption = c; }}
+            onChange={value => this.props.onChange({
+              info: Object.assign({}, this.state.form.info, { caption: value })
+            })}
+            className="-fluid"
+            properties={{
+              name: 'caption',
+              label: 'Caption',
+              type: 'text',
+              default: this.state.form.info.caption,
+              value: this.state.form.info.caption
+            }}
+          >
+            {Input}
+          </Field>
           {/*
           *****************************************************
           ****************** WIDGET LINKS *********************
@@ -115,7 +137,9 @@ class Step1 extends React.Component {
                           <Field
                             ref={(c) => { if (c) FORM_ELEMENTS.elements.widgetLinkName = c; }}
                             onChange={value => this.onWidgetLinkChange({
-                              name: value, id: elem.id })}
+                                name: value,
+                                id: elem.id
+                              })}
                             validations={['required']}
                             className="-fluid"
                             properties={{
