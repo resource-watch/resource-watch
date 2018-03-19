@@ -102,11 +102,13 @@ class DatasetsForm extends React.Component {
       // Validate all the inputs on the current step
       const valid = FORM_ELEMENTS.isValid(this.state.step);
 
+      return;
+
       if (valid) {
         // if we are in the last step we will submit the form
         if (this.state.step === this.state.stepLength && !this.state.submitting) {
-          const dataset = this.props.dataset;
-
+          const { dataset } = this.props;
+          const { form } = this.state;
           logEvent('My RW', 'Add New Dataset', this.state.name);
 
           // Start the submitting
@@ -118,11 +120,12 @@ class DatasetsForm extends React.Component {
             omit: (dataset) ? ['connectorUrlHint', 'authorization', 'connectorType', 'provider'] : ['connectorUrlHint', 'authorization']
           };
 
-          const bodyObj = omit(this.state.form, requestOptions.omit);
-          bodyObj.subscribable = bodyObj.subscribable.reduce((o, val) => ({
-            ...o,
-            [val.type]: val.value
-          }), {});
+          const bodyObj = omit(form, requestOptions.omit);
+
+          bodyObj.subscribable = {};
+          form.subscribable.map((s) => {
+            bodyObj.subscribable[s.type || s.key] = s.value;
+          });
 
           // Save the data
           this.service.saveData({
@@ -180,7 +183,7 @@ class DatasetsForm extends React.Component {
         if (f === 'subscribable') {
           const subscribable = params[f] || this.state.form[f];
           newForm.subscribable = Object.keys(subscribable)
-            .map((prop, i) => ({ key: prop, value: subscribable[prop], id: i }));
+            .map((prop, i) => ({ type: subscribable[prop], value: subscribable[prop], id: i }));
         } else {
           newForm[f] = params[f] || this.state.form[f];
         }
