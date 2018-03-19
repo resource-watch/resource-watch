@@ -102,8 +102,6 @@ class DatasetsForm extends React.Component {
       // Validate all the inputs on the current step
       const valid = FORM_ELEMENTS.isValid(this.state.step);
 
-      return;
-
       if (valid) {
         // if we are in the last step we will submit the form
         if (this.state.step === this.state.stepLength && !this.state.submitting) {
