@@ -80,7 +80,7 @@ class CatalogComponent extends React.Component {
               <div className="column small-12">
                 <DatasetList
                   list={datasets}
-                  mode="grid"
+                  mode="list"
                   showActions={false}
                 />
               </div>
