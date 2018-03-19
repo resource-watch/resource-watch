@@ -45,7 +45,7 @@ class ExploreDatasetsActionsComponent extends React.Component {
           params={{ id: dataset.id }}
         >
           <a className="c-button -tertiary -compressed">
-            More info
+            Details
           </a>
         </Link>
       </div>

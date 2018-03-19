@@ -26,6 +26,7 @@ import * as widgetBlockModule from 'components/wysiwyg/widget-block/widget-block
 import * as widgetBlockEditionModule from 'components/wysiwyg/widget-block-edition/widget-block-edition';
 
 // Dataset
+import * as datasetListItem from 'components/datasets/list/list-item';
 import * as similarDatasets from 'components/datasets/similar-datasets/similar-datasets';
 import * as trySubscriptionModal from 'components/datasets/form/try-subscription-modal';
 
@@ -108,6 +109,7 @@ const reducer = combineReducers({
   pulse: handleModule(pulse),
 
   // Dataset
+  datasetListItem: handleModule(datasetListItem),
   similarDatasets: handleModule(similarDatasets),
   trySubscriptionModal: handleModule(trySubscriptionModal),
 

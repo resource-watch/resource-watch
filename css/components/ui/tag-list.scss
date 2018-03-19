@@ -1,0 +1,42 @@
+.c-tag-list {
+  position: relative;
+  margin: -5px 0 0;
+
+  > * {
+    margin: 5px 5px 0 0;
+  }
+
+  &.-inline {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+
+    .btn-more-container {
+      margin: 5px 0 0;
+      background: $color-white;
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      right: 0;
+      height: calc(100% - 5px);
+
+      &:after {
+        content: "";
+        position: absolute;
+        right: 100%;
+        top: 0;
+        width: 80px;
+        height: 100%;
+        background: linear-gradient(to left, rgba($color-white, 1), rgba($color-white, 0));
+      }
+
+      button {
+        display: block;
+        font-size: 11px;
+        height: 100%;
+        padding: 0 0 0 10px;
+        cursor: pointer;
+      }
+    }
+  }
+}

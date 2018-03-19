@@ -1,20 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import upperFirst from 'lodash/upperFirst';
 
 // Redux
 import { Link } from 'routes';
 
 // Components
 import Icon from 'components/ui/Icon';
-
-import Spinner from 'components/ui/Spinner';
-import Tooltip from 'rc-tooltip/dist/rc-tooltip';
-import CollectionsPanel from 'components/collections-panel';
+import Tag from 'components/ui/Tag';
 import LoginRequired from 'components/ui/login-required';
 
-// Services
-// import GraphService from 'services/GraphService';
+import Tooltip from 'rc-tooltip/dist/rc-tooltip';
+import CollectionsPanel from 'components/collections-panel';
 
 // Utils
 import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
@@ -26,6 +24,7 @@ import { belongsToACollection } from 'components/collections-panel/collections-p
 import WidgetChart from './widget-chart';
 import LayerChart from './layer-chart';
 import PlaceholderChart from './placeholder-chart';
+import TagsTooltip from './tags-tooltip';
 
 class DatasetListItem extends React.Component {
   static propTypes = {
@@ -33,73 +32,17 @@ class DatasetListItem extends React.Component {
     dataset: PropTypes.object,
     widget: PropTypes.object,
     layer: PropTypes.object,
+    metadata: PropTypes.object,
+    vocabulary: PropTypes.object,
+    tags: PropTypes.array,
     mode: PropTypes.string,
     user: PropTypes.object,
     actions: PropTypes.object
   };
 
-  componentDidMount() {
-    // this.loadInferredTags();
+  state = {
+    tagsOpened: false
   }
-
-  /**
-  * Load inferred tags
-  */
-  // loadInferredTags() {
-  //   const { dataset } = this.props;
-  //   const vocabulary = dataset.attributes.vocabulary && dataset.attributes.vocabulary.length > 0 &&
-  //     dataset.attributes.vocabulary[0];
-  //   const tags = vocabulary && vocabulary.attributes && vocabulary.attributes.tags;
-  //
-  //   if (tags && tags.length > 0) {
-  //     this.graphService.getInferredTags(tags)
-  //       .then((response) => {
-  //         this.setState({
-  //           inferredTags: response.filter(tag => tag.labels
-  //             .find(type => (type === 'TOPIC') && !TAGS_BLACKLIST.includes(tag.id)))
-  //         });
-  //       })
-  //       .catch((err) => {
-  //         this.setState({ inferredTags: [] });
-  //         console.error('Error loading inferred tags', err);
-  //       });
-  //   }
-  // }
-
-  // /**
-  //  * Add or remove a layer group from the map
-  //  */
-  // triggerToggleLayerGroup() {
-  //   const datasetID = this.props.dataset.id;
-  //   const addLayerGroup = !this.props.isLayerGroupAdded(datasetID);
-  //   this.props.toggleLayerGroup(datasetID, addLayerGroup);
-  //
-  //   if (addLayerGroup) {
-  //     logEvent('Explore', 'Add dataset to map', this.props.dataset.attributes.name);
-  //   }
-  // }
-
-  // handleTagsClick = (event) => {
-  //   const { inferredTags } = this.state;
-  //
-  //   const position = DatasetWidget.getClickPosition(event);
-  //   this.props.toggleTooltip(true, {
-  //     follow: false,
-  //     position,
-  //     children: DatasetTagsTooltip,
-  //     childrenProps: {
-  //       toggleTooltip: this.props.toggleTooltip,
-  //       onTagClick: this.handleTagClick,
-  //       tags: inferredTags
-  //     }
-  //   });
-  // }
-
-  // handleTagClick = (event) => {
-  //   const tag = { id: event.target.getAttribute('id'),
-  //     type: event.target.getAttribute('data-type') };
-  //   this.props.onTagSelected(tag);
-  // }
 
   /**
    * HELPER
@@ -136,8 +79,14 @@ class DatasetListItem extends React.Component {
 
   render() {
     const {
-      dataset, widget, layer, metadata, mode, user, actions
+      dataset, metadata, vocabulary, mode, user, actions, tags
     } = this.props;
+
+    const { tagsOpened } = this.state;
+    const vTags = vocabulary.tags
+      .sort()
+      .filter(t => !TAGS_BLACKLIST.includes(t))
+
 
     const isInACollection = belongsToACollection(user, dataset);
     const starIconName = classnames({
@@ -152,14 +101,10 @@ class DatasetListItem extends React.Component {
 
     return (
       <div className={`c-dataset-list-item -${mode}`}>
-
-        {/* <Spinner
-          isLoading={loading}
-          className="-small -light -tiny"
-        /> */}
-
+        {/* CHART */}
         {this.renderChart()}
 
+        {/* INFO */}
         <div className="info">
           <div className="detail">
             {/* Title */}
@@ -184,11 +129,10 @@ class DatasetListItem extends React.Component {
                       />
                     }
                     overlayClassName="c-rc-tooltip"
-                    overlayStyle={{
-                      color: '#fff'
-                    }}
                     placement="bottomLeft"
                     trigger="click"
+                    getTooltipContainer={() => typeof document !== 'undefined' && document.querySelector('.sidebar-content')}
+                    monitorWindowResize
                   >
                     <button
                       className="c-btn favourite-button"
@@ -205,9 +149,96 @@ class DatasetListItem extends React.Component {
             </div>
 
             {/* Source */}
-            {metadata && metadata.source &&
-              <p>Source: {metadata.source}</p>
-            }
+            <div className="metadata-container">
+              {metadata && metadata.source &&
+                <p>Source: {metadata.source}</p>
+              }
+            </div>
+
+            {/* Tags */}
+            <div className="tags-container">
+              <div
+                className="c-tag-list -inline"
+              >
+                {vTags &&
+                  vTags
+                    .sort()
+                    .filter(t => !TAGS_BLACKLIST.includes(t))
+                    .map((t, i) => (
+                      <Tag
+                        name={`${upperFirst(t.replace('_', ' '))}${i !== vTags.length - 1 ? ', ' : ''}`}
+                        className="-clean"
+                        onClick={() => console.info(t)}
+                      />
+                    ))
+                }
+
+                <div
+                  className="btn-more-container"
+                >
+                  <Tooltip
+                    overlay={
+                      <TagsTooltip
+                        tags={tags}
+                      />
+                    }
+                    visible={tagsOpened}
+                    overlayClassName="c-rc-tooltip"
+                    placement="top"
+                    trigger="click"
+                    getTooltipContainer={() => typeof document !== 'undefined' && document.querySelector('.sidebar-content')}
+                    monitorWindowResize
+                    destroyTooltipOnHide
+                    onVisibleChange={(visible) => {
+                      if (visible) {
+                        this.props.fetchTags(vocabulary.tags)
+                          .then(() => {
+                            this.setState({ tagsOpened: true });
+                          });
+                      } else {
+                        this.props.resetTags();
+                        this.setState({ tagsOpened: false });
+                      }
+                    }}
+                  >
+                    <button>
+                      more...
+                    </button>
+                  </Tooltip>
+                </div>
+
+                {/* <Tooltip
+                  overlay={
+                    <TagsTooltip
+                      tags={tags}
+                    />
+                  }
+                  visible={this.state.tooltip}
+                  overlayClassName="c-rc-tooltip -default"
+                  placement="top"
+                  trigger="click"
+                  getTooltipContainer={() => typeof document !== 'undefined' && document.querySelector('.sidebar-content')}
+                  monitorWindowResize
+                  destroyTooltipOnHide
+                  onVisibleChange={(visible) => {
+                    if (visible) {
+                      this.props.fetchTags(vocabulary.tags)
+                        .then(() => {
+                          this.setState({ tooltip: true });
+                        });
+                    } else {
+                      this.props.resetTags();
+                      this.setState({ tooltip: false });
+                    }
+                  }}
+                >
+                  <Tag
+                    name="more"
+                    className="-secondary"
+                  />
+                </Tooltip> */}
+              </div>
+            </div>
           </div>
           {!!actions &&
             React.cloneElement(
