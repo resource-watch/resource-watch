@@ -16,7 +16,6 @@ const MAP_CONFIG = {
 };
 
 function AreasEdit(props) {
-  console.log(props);
   return (
     <div className="c-areas-edit">
       <AreasForm

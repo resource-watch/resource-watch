@@ -49,7 +49,7 @@ class MyRWDetail extends Page {
     const { tab } = props.url.query;
 
     if (tab === 'areas') {
-      await context.store.dispatch(props.getUserAreas({ layerGroups: true }));
+      await context.store.dispatch(getUserAreas({ layerGroups: true }));
     }
 
     return { ...props };
@@ -163,7 +163,6 @@ class MyRWDetail extends Page {
   render() {
     const { url, user, myrwdetail } = this.props;
     const { tab, subtab, id } = this.state;
-    console.log(user);
     return (
       <Layout
         title={this.getName()}
