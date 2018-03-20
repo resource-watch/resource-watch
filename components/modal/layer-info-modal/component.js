@@ -45,7 +45,6 @@ class LayerInfoModal extends React.Component {
 }
 
 LayerInfoModal.propTypes = {
-  onRequestClose: PropTypes.func.isRequired,
   data: PropTypes.object,
   embed: PropTypes.bool
 };
