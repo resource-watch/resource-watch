@@ -1,6 +1,5 @@
 export const USERREPORT_BLACKLIST = [
   '/app/embed/EmbedDashboard',
-  '/app/embed/EmbedLayer',
   '/app/embed/EmbedMap',
   '/app/embed/EmbedTable',
   '/app/embed/EmbedText',

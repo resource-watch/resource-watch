@@ -56,7 +56,23 @@ class DatasetListItem extends React.Component {
 
   /**
    * HELPER
-   * return chart
+   * - getTooltipContainer
+  */
+  getTooltipContainer() {
+    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+      if (document.querySelector('.sidebar-content')) {
+        return document.querySelector('.sidebar-content');
+      }
+
+      return document.body;
+    }
+
+    return null;
+  }
+
+  /**
+   * HELPER
+   * - renderChart
   */
   renderChart = () => {
     const {
@@ -86,14 +102,13 @@ class DatasetListItem extends React.Component {
     );
   }
 
-
   render() {
     const {
       dataset, metadata, vocabulary, mode, user, actions, tags
     } = this.props;
 
     const { tagsOpened, tagsLoading } = this.state;
-    const vTags = vocabulary.tags
+    const vTags = (vocabulary.tags || [])
       .sort()
       .filter(t => !TAGS_BLACKLIST.includes(t));
 
@@ -141,7 +156,7 @@ class DatasetListItem extends React.Component {
                     overlayClassName="c-rc-tooltip"
                     placement="bottomLeft"
                     trigger="click"
-                    getTooltipContainer={() => typeof document !== 'undefined' && document.querySelector('.sidebar-content')}
+                    getTooltipContainer={this.getTooltipContainer}
                     monitorWindowResize
                   >
                     <button
@@ -198,7 +213,7 @@ class DatasetListItem extends React.Component {
                     overlayClassName="c-rc-tooltip"
                     placement="top"
                     trigger="click"
-                    getTooltipContainer={() => typeof document !== 'undefined' && document.querySelector('.sidebar-content')}
+                    getTooltipContainer={this.getTooltipContainer}
                     monitorWindowResize
                     destroyTooltipOnHide
                     onVisibleChange={(visible) => {
@@ -211,7 +226,7 @@ class DatasetListItem extends React.Component {
                           })
                           .catch(() => {
                             this.setState({ tagsLoading: false });
-                          })
+                          });
                       } else {
                         this.props.resetTags();
                         this.setState({ tagsOpened: false, tagsLoading: false });

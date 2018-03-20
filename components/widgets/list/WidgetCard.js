@@ -18,10 +18,15 @@ import EmbedMyWidgetModal from 'components/modal/EmbedMyWidgetModal';
 import WidgetActionsTooltip from 'components/widgets/list/WidgetActionsTooltip';
 import Icon from 'components/ui/Icon';
 import Map from 'components/ui/map/Map';
-import Legend from 'components/ui/legend';
 import Spinner from 'components/ui/Spinner';
 import TextChart from 'components/widgets/charts/TextChart';
-import { Tooltip } from 'wri-api-components';
+
+import {
+  Tooltip,
+  Legend,
+  LegendItemTypes
+} from 'wri-api-components';
+
 import CollectionsPanel from 'components/collections-panel';
 import LoginRequired from 'components/ui/login-required';
 
@@ -252,10 +257,14 @@ class WidgetCard extends PureComponent {
             mapConfig={{}}
             layerGroups={this.state.layerGroups}
           />
-          <Legend
-            layerGroups={this.state.layerGroups}
-            readonly
-          />
+
+          <div className="c-legend-map">
+            <Legend
+              sortable={false}
+              layerGroups={this.state.layerGroups}
+              LegendItemTypes={<LegendItemTypes />}
+            />
+          </div>
         </div>
       );
     }

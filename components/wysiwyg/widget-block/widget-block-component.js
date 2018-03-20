@@ -7,9 +7,8 @@ import isEmpty from 'lodash/isEmpty';
 import TextChart from 'components/widgets/charts/TextChart';
 import Map from 'components/ui/map/Map';
 import {
+  Tooltip,
   Legend,
-  LegendItemToolbar,
-  LegendItemButtonInfo,
   LegendItemTypes
 } from 'wri-api-components';
 
@@ -18,7 +17,6 @@ import LoginRequired from 'components/ui/login-required';
 import Icon from 'components/ui/Icon';
 import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
-import { Tooltip } from 'wri-api-components';
 import CollectionsPanel from 'components/collections-panel';
 
 // Utils
@@ -189,11 +187,6 @@ class WidgetBlock extends React.Component {
                   layerGroups={layers}
                   sortable={false}
                   LegendItemTypes={<LegendItemTypes />}
-                  // LegendItemToolbar={
-                  //   <LegendItemToolbar>
-                  //     <LegendItemButtonInfo />
-                  //   </LegendItemToolbar>
-                  // }
                 />
               </div>
             </div>

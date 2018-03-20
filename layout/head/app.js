@@ -12,7 +12,6 @@ import Package from '../../package.json';
 
 const TRANSIFEX_BLACKLIST = [
   '/app/embed/EmbedDashboard',
-  '/app/embed/EmbedLayer',
   '/app/embed/EmbedMap',
   '/app/embed/EmbedTable',
   '/app/embed/EmbedText',
