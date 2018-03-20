@@ -5,7 +5,13 @@ import classnames from 'classnames';
 // Components
 import TextChart from 'components/widgets/charts/TextChart';
 import Map from 'components/ui/map/Map';
-import Legend from 'components/ui/legend';
+import {
+  Legend,
+  LegendItemToolbar,
+  LegendItemButtonInfo,
+  LegendItemTypes
+} from 'wri-api-components';
+
 import LoginRequired from 'components/ui/login-required';
 
 import Icon from 'components/ui/Icon';
@@ -131,10 +137,19 @@ export default function WidgetBlock({
               mapConfig={{}}
               layerGroups={layers}
             />
-            <Legend
-              layerGroups={layers}
-              readonly
-            />
+            <div className="c-legend-map">
+              <Legend
+                maxHeight={140}
+                layerGroups={layers}
+                sortable={false}
+                LegendItemTypes={<LegendItemTypes />}
+                // LegendItemToolbar={
+                //   <LegendItemToolbar>
+                //     <LegendItemButtonInfo />
+                //   </LegendItemToolbar>
+                // }
+              />
+            </div>
           </div>
         )}
 
