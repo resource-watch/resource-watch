@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 
 class LayerInfoModal extends React.Component {
   handleMoreInfo = () => {
-    this.props.onRequestClose(false);
     Router.pushRoute('explore_detail', { id: this.props.data.dataset });
   }
 
@@ -46,7 +45,6 @@ class LayerInfoModal extends React.Component {
 }
 
 LayerInfoModal.propTypes = {
-  onRequestClose: PropTypes.func.isRequired,
   data: PropTypes.object,
   embed: PropTypes.bool
 };

@@ -9,7 +9,7 @@ import Tooltip from 'rc-tooltip/dist/rc-tooltip';
 
 // Modal
 import Modal from 'components/modal/modal-component';
-import LayerInfoModal from 'components/modal/LayerInfoModal';
+import LayerInfoModal from 'components/modal/layer-info-modal';
 
 class LegendItemButtonInfo extends PureComponent {
   static propTypes = {
