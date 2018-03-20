@@ -118,7 +118,6 @@
     "webpack": "^3.6.0",
     "whatwg-fetch": "2.0.2",
     "widget-editor": "1.0.1",
-    "wri-api-components": "file:.yalc/wri-api-components",
     "wri-json-api-serializer": "1.0.1"
   },
   "devDependencies": {
