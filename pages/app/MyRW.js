@@ -62,7 +62,7 @@ class MyRW extends Page {
     const { tab } = props.url.query;
 
     if (tab === 'areas') {
-      await context.store.dispatch(getUserAreas());
+      await context.store.dispatch(getUserAreas({ layerGroups: true }));
     }
 
     return { ...props };

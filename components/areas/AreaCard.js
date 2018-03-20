@@ -8,6 +8,7 @@ import { Link, Router } from 'routes';
 import { connect } from 'react-redux';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import { toggleTooltip } from 'redactions/tooltip';
+import { removeUserArea, getUserAreaLayerGroups } from 'redactions/user';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -16,9 +17,7 @@ import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 import AreaActionsTooltip from 'components/areas/AreaActionsTooltip';
 
 // Services
-import DatasetService from 'services/DatasetService';
 import AreasService from 'services/AreasService';
-import UserService from 'services/UserService';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
@@ -52,23 +51,14 @@ class AreaCard extends React.Component {
     super(props);
 
     this.state = {
-      loading: false,
-      country: null,
-      layer: {}
+      loading: false
     };
 
     // Services
-    this.datasetService = new DatasetService(null, {
-      apiURL: process.env.WRI_API_URL,
-      language: props.locale
-    });
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
-    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
     // ------------------- Bindings -----------------------
     this.handleEditSubscription = this.handleEditSubscription.bind(this);
-    this.handleSubscriptionCreated = this.handleSubscriptionCreated.bind(this);
-    this.handleSubscriptionUpdated = this.handleSubscriptionUpdated.bind(this);
     this.handleDeleteArea = this.handleDeleteArea.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleEditArea = this.handleEditArea.bind(this);
@@ -80,83 +70,14 @@ class AreaCard extends React.Component {
       openSubscriptionsModal,
       subscriptionThreshold,
       subscriptionType,
-      subscriptionDataset
+      subscriptionDataset,
+      area
     } = this.props;
-    this.loadData();
+
+    this.props.getUserAreaLayerGroups(area);
+
     if (openSubscriptionsModal) {
       this.handleEditSubscription(subscriptionDataset, subscriptionType, subscriptionThreshold);
-    }
-  }
-
-  loadData() {
-    this.setState({ loading: true });
-    const attsObj = this.props.area.attributes;
-
-    if (attsObj.geostore) {
-      this.areasService.getGeostore(attsObj.geostore)
-        .then((res) => {
-          const obj = res.data;
-          const bounds = [
-            [obj.attributes.bbox[0], obj.attributes.bbox[1]],
-            [obj.attributes.bbox[2], obj.attributes.bbox[3]]
-          ];
-          const fakeLayer = {
-            id: `${obj.id}`,
-            provider: 'geojson',
-            active: true,
-            layerConfig: {
-              data: obj.attributes.geojson,
-              fitBounds: true,
-              bounds: { type: 'Polygon', coordinates: [bounds] }
-            }
-          };
-
-          this.setState({
-            loading: false,
-            country: obj.id,
-            layerGroups: [{
-              dataset: null,
-              visible: true,
-              layers: [fakeLayer]
-            }]
-          });
-        });
-    } else if (attsObj.iso.country) {
-      this.areasService.getCountry(attsObj.iso.country)
-        .then((res) => {
-          const country = res.data[0];
-          const newGeoJson = {
-            type: 'FeatureCollection',
-            features: [
-              {
-                type: 'Feature',
-                properties: {},
-                geometry: JSON.parse(country.geojson)
-              }
-            ]
-          };
-
-          const fakeLayer = {
-            id: `-${country.label}`,
-            provider: 'geojson',
-            active: true,
-            layerConfig: {
-              data: newGeoJson,
-              fitBounds: true,
-              bounds: JSON.parse(country.bounds)
-            }
-          };
-
-          this.setState({
-            loading: false,
-            country: country.label,
-            layerGroups: [{
-              dataset: null,
-              visible: true,
-              layers: [fakeLayer]
-            }]
-          });
-        });
     }
   }
 
@@ -187,43 +108,11 @@ class AreaCard extends React.Component {
     this.props.setModalOptions(options);
   }
 
-  handleSubscriptionCreated() {
-    this.props.onChange();
-  }
-
-  handleSubscriptionUpdated() {
-    this.props.onChange();
-  }
-
   handleDeleteArea() {
-    const { area, token } = this.props;
+    const { area } = this.props;
     const toastrConfirmOptions = {
       onOk: () => {
-        this.setState({ loading: true });
-
-        // Delete subscription associated to area if there's one
-        if (area.subscription) {
-          this.userService.deleteSubscription(area.subscription.id, token)
-            .then(() => {
-              this.userService.deleteArea(area.id, token)
-                .then(() => {
-                  this.props.onAreaRemoved();
-                })
-                // Fetch throws an error for some reason but the request is successful...
-                .catch(err => this.props.onAreaRemoved()); // eslint-disable-line
-            })
-            .catch((err) => {
-              this.setState({ loading: false });
-              toastr.error('Error removing area', err);
-            });
-        } else {
-          this.userService.deleteArea(area.id, token)
-            .then(() => {
-              this.props.onAreaRemoved();
-            })
-            // Fetch throws an error for some reason but the request is successful...
-            .catch(err => this.props.onAreaRemoved()); // eslint-disable-line
-        }
+        this.props.removeUserArea(area);
       }
     };
     toastr.confirm(`Are you sure you want to delete the area ${area.attributes.name}?
@@ -246,7 +135,7 @@ class AreaCard extends React.Component {
   }
 
   render() {
-    const { loading, layerGroups } = this.state;
+    const { loading } = this.state;
     const { area } = this.props;
     const { name } = area.attributes;
     const { subscription } = area;
@@ -264,7 +153,7 @@ class AreaCard extends React.Component {
             <Map
               LayerManager={LayerManager}
               mapConfig={MAP_CONFIG}
-              layerGroups={layerGroups || []}
+              layerGroups={area.layerGroups || []}
               interactionEnabled={false}
               useLightBasemap
             />
@@ -343,20 +232,17 @@ AreaCard.defaultProps = {
 };
 
 AreaCard.propTypes = {
-  token: PropTypes.string.isRequired,
   area: PropTypes.object.isRequired,
-  locale: PropTypes.string.isRequired,
   openSubscriptionsModal: PropTypes.bool,
-  subscriptionThreshold: PropTypes.number,
-  subscriptionType: PropTypes.string,
-  subscriptionDataset: PropTypes.string,
-  // Callbacks
-  onAreaRemoved: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
+  subscriptionThreshold: PropTypes.bool,
+  subscriptionType: PropTypes.bool,
+  subscriptionDataset: PropTypes.bool,
   // Store
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
-  toggleTooltip: PropTypes.func.isRequired
+  toggleTooltip: PropTypes.func.isRequired,
+  getUserAreaLayerGroups: PropTypes.func.isRequired,
+  removeUserArea: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -366,7 +252,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   toggleModal,
   setModalOptions,
-  toggleTooltip
+  toggleTooltip,
+  removeUserArea,
+  getUserAreaLayerGroups
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AreaCard);

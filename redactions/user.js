@@ -1,20 +1,19 @@
 import { toastr } from 'react-redux-toastr';
 import { createAction, createThunkAction } from 'redux-tools';
 
-// Services
-import UserService from 'services/UserService';
-import DatasetService from 'services/DatasetService';
-
 // Utils
-import { mergeSubscriptions } from 'utils/user/areas';
+import { mergeSubscriptions, setGeoLayer, setCountryLayer } from 'utils/user/areas';
 
 // actions
 import { getDatasetsByTab } from 'redactions/admin/datasets';
 import { getWidgetsByTab } from 'redactions/admin/widgets';
 
 // services
+import UserService from 'services/UserService';
 import FavouritesService from 'services/favourites-service';
 import CollectionsService from 'services/collections-service';
+import DatasetService from 'services/DatasetService';
+import AreasService from 'services/AreasService';
 
 /**
  * CONSTANTS
@@ -34,6 +33,7 @@ const SET_USER_COLLECTIONS_ERROR = 'user/setUserCollectionsError';
 // areas
 const SET_USER_AREAS = 'user/setUserAreas';
 const SET_USER_AREAS_ERROR = 'user/serUserAreasError';
+const SET_USER_AREA_LAYER_GROUP = 'user/setUserAreaLayerGroup';
 
 /**
  * REDUCER
@@ -169,6 +169,23 @@ export default function (state = initialState, action) {
         areas: {
           ...state.areas,
           items: action.payload
+        }
+      };
+    }
+
+    case SET_USER_AREA_LAYER_GROUP: {
+      const items = state.areas.items.map((item) => {
+        if (item.id === action.payload.area.id) {
+          item.layerGroups = action.payload.layerGroups;
+        }
+        return item;
+      });
+
+      return {
+        ...state,
+        areas: {
+          ...state.areas,
+          items
         }
       };
     }
@@ -409,10 +426,30 @@ export const toggleCollection = createThunkAction(
 // Areas
 export const setUserAreas = createAction(SET_USER_AREAS);
 export const setUserAreasError = createAction(SET_USER_AREAS_ERROR);
+export const setUserAreaLayerGroup = createAction(SET_USER_AREA_LAYER_GROUP);
+
+export const getUserAreaLayerGroups = createThunkAction(
+  'user/getUserAreaLayerGroups',
+  (area = {}) =>
+    (dispatch) => {
+      const { attributes } = area;
+      const areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
+
+      if (attributes.geostore) {
+        return areasService.getGeostore(attributes.geostore).then((geo) => {
+          dispatch(setUserAreaLayerGroup({ area, layerGroups: [setGeoLayer(geo)] }));
+        });
+      }
+
+      return areasService.getCountry(attributes.iso.country).then((country) => {
+        dispatch(setUserAreaLayerGroup({ area, layerGroups: [setCountryLayer(country)] }));
+      });
+    }
+);
 
 export const getUserAreas = createThunkAction(
   'user/getUserAreas',
-  () =>
+  (payload = {}) =>
     (dispatch, getState) => {
       const { user, common } = getState();
       const userService = new UserService({ apiURL: process.env.WRI_API_URL });
@@ -434,9 +471,35 @@ export const getUserAreas = createThunkAction(
             return DatasetService.getDatasets([...datasetsSet], common.locale, 'metadata')
               .then((datasets) => {
                 dispatch(setUserAreas(mergeSubscriptions(areas, subs, datasets)));
+                if (payload.layerGroups) {
+                  // TODO: Get layer groups in a nice way here
+                }
               });
           });
         })
         .catch(err => dispatch(setUserAreasError(err)));
     }
 );
+
+export const removeUserArea = createThunkAction(
+  'user/removeUserArea',
+  (area = {}) => (dispatch, getState) => {
+    const { user } = getState();
+    const userService = new UserService({ apiURL: process.env.WRI_API_URL });
+
+    if (area.subscription) {
+      return userService.deleteSubscription(area.subscription.id, user.token).then(() => {
+        return userService.deleteArea(area.id, user.token).then(() => {
+          toastr.success('Area deleted', `The area "${area.attributes.name}" was deleted successfully.`);
+          dispatch(getUserAreas());
+        });
+      });
+    }
+
+    return userService.deleteArea(area.id, user.token).then(() => {
+      toastr.success('Area deleted', `The area "${area.attributes.name}" was deleted successfully.`);
+      dispatch(getUserAreas());
+    });
+  }
+);
+

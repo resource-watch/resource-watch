@@ -1,14 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'routes';
-import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
-
-// Services
-import UserService from 'services/UserService';
-import DatasetService from 'services/DatasetService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -32,17 +27,6 @@ class AreasList extends React.Component {
       subscriptionDataset,
       subscriptionType
     };
-
-    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
-
-    // ------------------- Bindings -----------------------
-    this.handleAreaRemoved = this.handleAreaRemoved.bind(this);
-    // ----------------------------------------------------
-  }
-
-  // TODO : Area removed redux call
-  handleAreaRemoved() {
-    // this.loadData();
   }
 
   render() {
@@ -69,25 +53,23 @@ class AreasList extends React.Component {
             </Link>
           </div>
           <div className="row">
-            {areas.items.map(val =>
+            {areas.items.map(area =>
               (
-                <div key={val.id} className="column small-12 medium-4">
+                <div key={area.id} className="column small-12 medium-4">
                   <div
                     className="card-container"
                   >
                     <AreaCard
                       token={user.token}
-                      area={val}
-                      onAreaRemoved={this.handleAreaRemoved}
-                      onChange={() => this.loadData()}
+                      area={area}
                       openSubscriptionsModal={openSubscriptionsModal &&
-                        openSubscriptionsModal === val.id}
+                        openSubscriptionsModal === area.id}
                       subscriptionDataset={openSubscriptionsModal &&
-                        openSubscriptionsModal === val.id && subscriptionDataset}
+                        openSubscriptionsModal === area.id && subscriptionDataset}
                       subscriptionThreshold={openSubscriptionsModal &&
-                        openSubscriptionsModal === val.id && subscriptionThreshold}
+                        openSubscriptionsModal === area.id && subscriptionThreshold}
                       subscriptionType={openSubscriptionsModal &&
-                        openSubscriptionsModal === val.id && subscriptionType}
+                        openSubscriptionsModal === area.id && subscriptionType}
                     />
                   </div>
                 </div>
@@ -116,7 +98,6 @@ class AreasList extends React.Component {
 
 AreasList.propTypes = {
   user: PropTypes.object.isRequired,
-  locale: PropTypes.string.isRequired,
   routes: PropTypes.object.isRequired
 };
 
