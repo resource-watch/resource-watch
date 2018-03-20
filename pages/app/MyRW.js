@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
+import { getUserAreas } from 'redactions/user';
+
 // Components
 import Page from 'layout/page';
 import Layout from 'layout/layout/layout-app';
@@ -55,6 +57,17 @@ const MYRW_TABS = [{
 }];
 
 class MyRW extends Page {
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    const { tab } = props.url.query;
+
+    if (tab === 'areas') {
+      await context.store.dispatch(getUserAreas());
+    }
+
+    return { ...props };
+  }
+
   constructor(props) {
     super(props);
 

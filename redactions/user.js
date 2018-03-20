@@ -1,6 +1,12 @@
 import { toastr } from 'react-redux-toastr';
 import { createAction, createThunkAction } from 'redux-tools';
+
+// Services
 import UserService from 'services/UserService';
+import DatasetService from 'services/DatasetService';
+
+// Utils
+import { mergeSubscriptions } from 'utils/user/areas';
 
 // actions
 import { getDatasetsByTab } from 'redactions/admin/datasets';
@@ -408,11 +414,29 @@ export const getUserAreas = createThunkAction(
   'user/getUserAreas',
   () =>
     (dispatch, getState) => {
-      const { user } = getState();
+      const { user, common } = getState();
       const userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
       return userService.getUserAreas(user.token)
-        .then(data => dispatch(setUserAreas(data)))
+        .then((areas) => {
+          // fetch subscriptions then merge them with the area
+          return userService.getSubscriptions(user.token).then((subs) => {
+            subs = subs.filter((sub) => {
+              const areaValue = sub.attributes.params.area;
+              return areaValue;
+            });
+
+            const datasetsSet = new Set();
+            subs.forEach(sub => sub.attributes.datasets
+              .forEach(dataset => datasetsSet.add(dataset)));
+
+            // Get datasets used in subscriptions
+            return DatasetService.getDatasets([...datasetsSet], common.locale, 'metadata')
+              .then((datasets) => {
+                dispatch(setUserAreas(mergeSubscriptions(areas, subs, datasets)));
+              });
+          });
+        })
         .catch(err => dispatch(setUserAreasError(err)));
     }
 );

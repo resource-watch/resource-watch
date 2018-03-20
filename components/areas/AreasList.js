@@ -18,14 +18,15 @@ class AreasList extends React.Component {
   constructor(props) {
     super(props);
     const { query } = props.routes;
-    const { openModal, subscriptionThreshold, subscriptionDataset, subscriptionType } = query || {};
+    const {
+      openModal,
+      subscriptionThreshold,
+      subscriptionDataset,
+      subscriptionType
+    } = query || {};
+
     this.state = {
       loading: false,
-      areas: [],
-      areasLoaded: false,
-      subscriptionsLoaded: false,
-      subscriptionsToAReas: null,
-      areasMerged: false,
       openSubscriptionsModal: openModal,
       subscriptionThreshold,
       subscriptionDataset,
@@ -39,119 +40,27 @@ class AreasList extends React.Component {
     // ----------------------------------------------------
   }
 
-  componentDidMount() {
-    this.loadData();
-  }
-
-  loadData() {
-    this.loadAreas();
-    this.loadSubscriptions();
-  }
-
-  loadSubscriptions() {
-    this.setState({
-      loading: true,
-      subscriptionsLoaded: false
-    });
-    this.userService.getSubscriptions(this.props.user.token)
-      .then((data) => {
-        const subscriptionsToAReas = data.filter((subscription) => {
-          const areaValue = subscription.attributes.params.area;
-          return areaValue;
-        });
-        this.setState({
-          subscriptionsToAReas,
-          subscriptionsLoaded: true
-        });
-        if (this.state.areasLoaded) {
-          this.mergeSubscriptionsIntoAreas();
-        }
-      })
-      .catch((err) => {
-        toastr.error('Error loading subscriptions');
-        console.error(err);
-        this.setState({ loading: false });
-      });
-  }
-
-  loadAreas() {
-    this.setState({
-      loading: true,
-      areasLoaded: false
-    });
-    this.userService.getUserAreas(this.props.user.token)
-      .then((data) => {
-        this.setState({
-          loading: false,
-          areas: data,
-          areasLoaded: true
-        });
-        if (this.state.subscriptionsLoaded) {
-          this.mergeSubscriptionsIntoAreas();
-        }
-      })
-      .catch((err) => {
-        toastr.error('Error', err);
-        this.setState({ loading: false });
-      });
-  }
-
-  mergeSubscriptionsIntoAreas() {
-    const { areas, subscriptionsToAReas } = this.state;
-
-    // Get datasets used in subscriptions
-    const datasetsSet = new Set();
-    subscriptionsToAReas.forEach(subscription =>
-      subscription.attributes.datasets.forEach(dataset => datasetsSet.add(dataset)));
-    // Fetch data for the datasets needed
-
-    DatasetService.getDatasets([...datasetsSet], this.props.locale, 'metadata')
-      .then((data) => {
-        const datasetsWithLabels = data.map(elem => ({
-          id: elem.id,
-          label: elem.attributes.metadata && elem.attributes.metadata[0] &&
-            elem.attributes.metadata[0].attributes.info &&
-            elem.attributes.metadata[0].attributes.info.name ?
-            elem.attributes.metadata[0].attributes.info.name :
-            elem.attributes.name
-        }));
-        // Merge datasets with labels inside of subscriptions
-        subscriptionsToAReas.forEach((subscription) => {
-          subscription.attributes.datasets = subscription.attributes.datasets
-            .map(val => datasetsWithLabels.find(elem => elem.id === val));
-        });
-
-        // Load datasets info
-        subscriptionsToAReas.forEach((subscription) => {
-          const tempArea = areas.find(val => val.id === subscription.attributes.params.area);
-          if (tempArea) {
-            tempArea.subscription = subscription;
-          }
-        });
-        this.setState({ areas, areasMerged: true });
-      });
-  }
-
+  // TODO : Area removed redux call
   handleAreaRemoved() {
-    this.loadData();
+    // this.loadData();
   }
 
   render() {
     const {
       loading,
-      areas,
-      areasMerged,
       openSubscriptionsModal,
       subscriptionDataset,
       subscriptionType,
       subscriptionThreshold
     } = this.state;
+
     const { user } = this.props;
+    const { areas } = user;
 
     return (
       <div className="c-areas-list">
         <div className="l-container">
-          <Spinner isLoading={loading || !areasMerged} className="-small -light" />
+          <Spinner isLoading={loading} className="-small -light" />
           <div className="actions-div">
             <Link route="myrw_detail" params={{ id: 'new', tab: 'areas' }}>
               <a className="c-button -secondary">
@@ -160,7 +69,7 @@ class AreasList extends React.Component {
             </Link>
           </div>
           <div className="row">
-            {areasMerged && areas.map(val =>
+            {areas.items.map(val =>
               (
                 <div key={val.id} className="column small-12 medium-4">
                   <div
@@ -185,16 +94,15 @@ class AreasList extends React.Component {
               )
             )}
 
-            {areasMerged &&
             <Link route="myrw_detail" params={{ id: 'new', tab: 'areas' }}>
               <div className="column small-12 medium-4 c-area-card--add-card">
                 <a>
                   <span>New Area</span>
                 </a>
               </div>
-            </Link>}
+            </Link>
 
-            {areasMerged && areas.length === 0 &&
+            { areas.items.length === 0 &&
               <div className="no-areas-container">
                 <p>You have not created any areas yet</p>
               </div>
