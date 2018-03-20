@@ -43,6 +43,7 @@ routes.add('partner', '/about/partners/:id', 'app/PartnerDetail');
 // ----- DATA -----
 // routes.add('data', '/data', 'app/Explore'); // TODO: create the data page
 routes.add('explore', '/data/explore', 'app/explore');
+routes.add('explore_embed', '/embed/data/explore', 'app/explore/embed');
 
 routes.add('explore_detail_private', '/data/explore/private/:id', 'app/explore-detail/private');
 routes.add('explore_detail', '/data/explore/:id', 'app/explore-detail');

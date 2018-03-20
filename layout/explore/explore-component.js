@@ -7,7 +7,6 @@ import MediaQuery from 'react-responsive';
 import { breakpoints } from 'utils/responsive';
 
 // Components
-import Page from 'layout/page';
 import Layout from 'layout/layout/layout-app';
 
 // Explore components

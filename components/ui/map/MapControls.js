@@ -11,9 +11,10 @@ export default function MapControls({ children, className }) {
     <div className={`c-map-controls ${classNames}`}>
       <ul className="map-controls-list">
         {React.Children.map(children, (ch, i) => (
-          <li className="map-controls-item" key={i}>
-            {ch}
-          </li>
+          ch &&
+            <li className="map-controls-item" key={i}>
+              {ch}
+            </li>
         ))}
       </ul>
     </div>

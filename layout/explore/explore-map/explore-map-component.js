@@ -9,7 +9,15 @@ import BasemapControl from 'components/ui/map/controls/BasemapControl';
 import ShareControl from 'components/ui/map/controls/ShareControl';
 
 // WRI components
-import { Legend, LegendItemToolbar, LegendItemTypes } from 'wri-api-components';
+import {
+  Legend,
+  LegendItemToolbar,
+  LegendItemButtonLayers,
+  LegendItemButtonOpacity,
+  LegendItemButtonVisibility,
+  LegendItemButtonInfo,
+  LegendItemTypes
+} from 'wri-api-components';
 
 // Modal
 import Modal from 'components/modal/modal-component';
@@ -20,6 +28,8 @@ import LayerManager from 'utils/layers/LayerManager';
 
 class ExploreMapComponent extends React.Component {
   static propTypes = {
+    embed: PropTypes.bool,
+
     zoom: PropTypes.number,
     latLng: PropTypes.object,
     basemap: PropTypes.object,
@@ -77,7 +87,7 @@ class ExploreMapComponent extends React.Component {
 
   render() {
     const {
-      zoom, latLng, basemap, labels, boundaries, layerGroups
+      embed, zoom, latLng, basemap, labels, boundaries, layerGroups
     } = this.props;
 
     return (
@@ -101,7 +111,9 @@ class ExploreMapComponent extends React.Component {
         />
 
         <MapControls>
-          <ShareControl />
+          {!embed &&
+            <ShareControl />
+          }
 
           <BasemapControl
             basemap={basemap}
@@ -118,7 +130,17 @@ class ExploreMapComponent extends React.Component {
             maxHeight={300}
             layerGroups={layerGroups}
             // Item
-            LegendItemToolbar={<LegendItemToolbar />}
+            LegendItemToolbar={
+              (embed) ?
+                <LegendItemToolbar>
+                  <LegendItemButtonLayers />
+                  <LegendItemButtonOpacity />
+                  <LegendItemButtonVisibility />
+                  <LegendItemButtonInfo />
+                </LegendItemToolbar> :
+
+                <LegendItemToolbar />
+            }
             LegendItemTypes={<LegendItemTypes />}
             // Actions
             onChangeInfo={this.onChangeInfo}

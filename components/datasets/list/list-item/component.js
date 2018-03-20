@@ -174,6 +174,7 @@ class DatasetListItem extends React.Component {
                     .filter(t => !TAGS_BLACKLIST.includes(t))
                     .map((t, i) => (
                       <Tag
+                        key={t}
                         name={`${upperFirst(t.replace('_', ' '))}${i !== vTags.length - 1 ? ', ' : ''}`}
                         className="-clean"
                         onClick={() => this.props.onTagSelected(t)}

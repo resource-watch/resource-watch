@@ -3,6 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 
+import { BASEMAPS, LABELS } from 'components/ui/map/constants';
+
 // Components
 import Page from 'layout/page';
 
@@ -23,18 +25,27 @@ class ExplorePage extends Page {
     const { routes } = store.getState();
     const {
       page,
+      search,
+
       zoom,
       lat,
       lng,
-      search,
+      basemap,
+      labels,
+      boundaries,
       layers
     } = routes.query;
 
     // Query
     if (page) store.dispatch(actions.setDatasetsPage(+page));
+    if (search) store.dispatch(actions.setFiltersSearch(search));
+
+    // Map
     if (zoom) store.dispatch(actions.setMapZoom(+zoom));
     if (lat && lng) store.dispatch(actions.setMapLatLng({ lat: +lat, lng: +lng }));
-    if (search) store.dispatch(actions.setFiltersSearch(search));
+    if (basemap) store.dispatch(actions.setMapBasemap(BASEMAPS[basemap]));
+    if (labels) store.dispatch(actions.setMapLabels(LABELS[labels]));
+    if (boundaries) store.dispatch(actions.setMapBoundaries(!!boundaries));
 
     // Fetch layers
     if (layers) await store.dispatch(actions.fetchMapLayerGroups(JSON.parse(decodeURIComponent(layers))));
@@ -56,6 +67,9 @@ class ExplorePage extends Page {
       zoom: map.zoom,
       lat: map.latLng.lat,
       lng: map.latLng.lng,
+      basemap: map.basemap.id,
+      labels: map.labels.id,
+      ...!!map.boundaries && { boundaries: map.boundaries },
       ...!!map.layerGroups.length &&
         {
           layers: encodeURIComponent(JSON.stringify(map.layerGroups.map(lg => ({
