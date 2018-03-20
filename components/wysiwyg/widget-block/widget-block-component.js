@@ -18,7 +18,7 @@ import LoginRequired from 'components/ui/login-required';
 import Icon from 'components/ui/Icon';
 import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
-import Tooltip from 'rc-tooltip/dist/rc-tooltip';
+import { Tooltip } from 'wri-api-components';
 import CollectionsPanel from 'components/collections-panel';
 
 // Utils

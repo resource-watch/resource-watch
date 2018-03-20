@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 import { getLayers, getLayerPoints, resetLayerPoints } from 'layout/pulse/actions';
 import { toggleActiveLayer } from 'layout/pulse/layer-menu-dropdown/actions';
@@ -314,4 +314,4 @@ const mapDispatchToProps = {
   resetLayerPoints
 };
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Pulse);
+export default connect(mapStateToProps, mapDispatchToProps)(Pulse);

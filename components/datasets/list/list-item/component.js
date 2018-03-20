@@ -11,7 +11,8 @@ import Icon from 'components/ui/Icon';
 import Tag from 'components/ui/Tag';
 import LoginRequired from 'components/ui/login-required';
 
-import Tooltip from 'rc-tooltip/dist/rc-tooltip';
+// Tooltip
+import { Tooltip } from 'wri-api-components';
 import CollectionsPanel from 'components/collections-panel';
 
 // Utils
@@ -20,10 +21,11 @@ import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
-// Dataset Card Components
-import WidgetChart from './widget-chart';
-import LayerChart from './layer-chart';
-import PlaceholderChart from './placeholder-chart';
+// Thumbnails charts
+import WidgetChart from 'components/charts/widget-chart';
+import LayerChart from 'components/charts/layer-chart';
+import PlaceholderChart from 'components/charts/placeholder-chart';
+
 import TagsTooltip from './tags-tooltip';
 
 class DatasetListItem extends React.Component {

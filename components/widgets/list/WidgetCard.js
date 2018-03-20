@@ -12,8 +12,8 @@ import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import Title from 'components/ui/Title';
-import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
-import DatasetLayerChart from 'components/app/explore/DatasetLayerChart';
+import WidgetChart from 'components/charts/widget-chart';
+import LayerChart from 'components/charts/layer-chart';
 import EmbedMyWidgetModal from 'components/modal/EmbedMyWidgetModal';
 import WidgetActionsTooltip from 'components/widgets/list/WidgetActionsTooltip';
 import Icon from 'components/ui/Icon';
@@ -21,7 +21,7 @@ import Map from 'components/ui/map/Map';
 import Legend from 'components/ui/legend';
 import Spinner from 'components/ui/Spinner';
 import TextChart from 'components/widgets/charts/TextChart';
-import Tooltip from 'rc-tooltip/dist/rc-tooltip';
+import { Tooltip } from 'wri-api-components';
 import CollectionsPanel from 'components/collections-panel';
 import LoginRequired from 'components/ui/login-required';
 
@@ -240,7 +240,7 @@ class WidgetCard extends PureComponent {
       // We render the thumbnail of a map
       if (this.props.mode === 'thumbnail') {
         return (
-          <DatasetLayerChart layer={this.state.layer} />
+          <LayerChart layer={this.state.layer} />
         );
       }
 
@@ -271,7 +271,7 @@ class WidgetCard extends PureComponent {
 
     // We render a Vega chart
     return (
-      <DatasetWidgetChart
+      <WidgetChart
         widget={this.props.widget}
         mode={this.props.mode}
       />

@@ -9,7 +9,7 @@ import { LAYERS_PLANET_PULSE } from 'utils/layers/pulse_layers';
 
 // Components
 import Legend from 'layout/pulse/legend';
-import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
+import WidgetChart from 'components/charts/widget-chart';
 import LoginRequired from 'components/ui/login-required';
 
 // Modal
@@ -111,7 +111,8 @@ class LayerCardComponent extends PureComponent {
               <div className="widget-title">
                 {widget.attributes.name}
               </div>
-              <DatasetWidgetChart
+
+              <WidgetChart
                 widget={widget.attributes}
                 mode="thumbnail"
               />
