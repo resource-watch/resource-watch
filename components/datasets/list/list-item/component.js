@@ -154,7 +154,7 @@ class DatasetListItem extends React.Component {
                       />
                     }
                     overlayClassName="c-rc-tooltip"
-                    placement="bottomLeft"
+                    placement="bottomRight"
                     trigger="click"
                     getTooltipContainer={this.getTooltipContainer}
                     monitorWindowResize
@@ -211,7 +211,7 @@ class DatasetListItem extends React.Component {
                     }
                     visible={tagsOpened}
                     overlayClassName="c-rc-tooltip"
-                    placement="top"
+                    placement="bottomRight"
                     trigger="click"
                     getTooltipContainer={this.getTooltipContainer}
                     monitorWindowResize
@@ -235,7 +235,8 @@ class DatasetListItem extends React.Component {
                   >
                     <button>
                       {tagsLoading && 'loading...'}
-                      {!tagsLoading && 'more...'}
+                      {!tagsLoading && !tagsOpened && 'more...'}
+                      {!tagsLoading && tagsOpened && 'less...'}
                     </button>
                   </Tooltip>
                 </div>
