@@ -50,11 +50,24 @@ class AreaSubscriptionModal extends React.Component {
       }
     }
 
+
+    const { user, area } = props;
+    const { items } = user.areas;
+    let selectors = [];
+
+    if (area.subscription) {
+      const { attributes } = area.subscription;
+      selectors = attributes.datasets.map((item, key) => {
+        return { title: item.label, query: attributes.datasetsQuery[key] };
+      });
+    }
+
     this.state = {
       loadingDatasets: false,
       loading: false,
       datasets: [],
-      subscriptionSelectors: initialSubscriptionSelectors
+      subscriptionSelectors: initialSubscriptionSelectors,
+      selectors
     };
 
     // Services

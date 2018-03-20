@@ -51,7 +51,7 @@ class AreaCard extends React.Component {
     super(props);
 
     this.state = {
-      loading: false
+      loading: true
     };
 
     // Services
@@ -74,7 +74,9 @@ class AreaCard extends React.Component {
       area
     } = this.props;
 
-    this.props.getUserAreaLayerGroups(area);
+    this.props.getUserAreaLayerGroups(area).then(() => {
+      this.setState({ loading: false });
+    });
 
     if (openSubscriptionsModal) {
       this.handleEditSubscription(subscriptionDataset, subscriptionType, subscriptionThreshold);
@@ -150,15 +152,15 @@ class AreaCard extends React.Component {
       <div className="c-area-card">
         <div className={borderContainerClassNames}>
           <div className="map-container">
-            <Map
+            <Spinner isLoading={loading} />
+            {!loading && <Map
               LayerManager={LayerManager}
               mapConfig={MAP_CONFIG}
-              layerGroups={area.layerGroups || []}
+              layerGroups={area.layerGroups}
               interactionEnabled={false}
               useLightBasemap
-            />
+            />}
           </div>
-          <Spinner isLoading={loading} className="-small -light -relative -center" />
           <div className="text-container">
             <div className="name-container">
               <h4>{name}</h4>
