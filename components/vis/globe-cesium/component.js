@@ -178,9 +178,9 @@ class GlobeCesiumComponent extends PureComponent {
       const increment = this.props.zoom - nextProps.zoom;
       const difference = camera.getMagnitude() - this.viewer.scene.globe.ellipsoid.maximumRadius;
       const smallerScalar = difference < 1000000;
-      let scalar = smallerScalar ? 0.95 : 0.9;
+      let scalar = smallerScalar ? 0.95 : 0.7;
       if (increment < 0) {
-        scalar = smallerScalar ? 1.005 : 1.1;
+        scalar = smallerScalar ? 1.005 : 1.3;
       }
       const newPosition = {
         x: camera.position.x * scalar,
@@ -412,27 +412,28 @@ class GlobeCesiumComponent extends PureComponent {
     if (!contextLayersOnTop && updateLayers) {
       this.removeContextLayers();
       activeContextLayers.forEach(l => this.addAdditionalLayerOption(
-        l.id,
+        l.attributes.id,
         new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
       ));
     }
 
     if (mainLayer && updateLayers) {
       this.removeMainLayer();
-      this.addAdditionalLayerOption('mainLayer', new Cesium.UrlTemplateImageryProvider({ url: mainLayer }), 1, true);
+      if (!layerActive.threedimensional) {
+        this.addAdditionalLayerOption('mainLayer', new Cesium.UrlTemplateImageryProvider({ url: mainLayer }), 1, true);
+      }
     }
 
     if (contextLayersOnTop && updateLayers) {
       this.removeContextLayers();
       activeContextLayers.forEach(l => this.addAdditionalLayerOption(
-        l.id,
+        l.attributes.id,
         new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
       ));
     }
 
-    const numContextLayers = this.imageryLayers.length;
-    this.viewModel.layers.splice(0, this.viewModel.layers.length);
-    for (let i = numContextLayers - 1; i >= 0; --i) {
+    this.viewModel.layers = [];
+    for (let i = this.imageryLayers.length - 1; i >= 0; --i) {
       this.viewModel.layers.push(this.imageryLayers.get(i));
     }
   }

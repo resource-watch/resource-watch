@@ -5,7 +5,7 @@ import { Link } from 'routes';
 
 const CompoundMenu = ({ items }) => {
   const menuItems = items.map(submenu => (
-    <div className="column small-6 medium-3" key={submenu[0].name}>
+    <div className="column small-4 medium-2" key={submenu[0].name}>
       <ul className="submenu">
         {submenu.map((item, j) => { // eslint-disable-line arrow-body-style
           let link;

@@ -31,7 +31,7 @@ export default {
         { label: 'Commerce', route: 'topics_detail', params: { id: 'commerce' } },
         { label: 'Energy', route: 'topics_detail', params: { id: 'energy' } },
         { label: 'Food and Agriculture', route: 'topics_detail', params: { id: 'food-and-agriculture' } },
-        { label: 'Forests', route: 'topics_detail', params: { id: 'forest' } },
+        { label: 'Forests', route: 'topics_detail', params: { id: 'forests' } },
         { label: 'Water', route: 'topics_detail', params: { id: 'water' } }
       ]
     },

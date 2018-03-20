@@ -13,15 +13,19 @@
     }
   }
 
-  .partner-text-container {
-    margin-top: 15px;
-    margin-bottom: 15px;
-    text-align: center;
-  }
+  .partner-container {
+    margin-bottom: 30px;
 
-  .partner-logo-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    .partner-text-container {
+      margin-top: 15px;
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .partner-logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }

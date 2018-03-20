@@ -89,5 +89,8 @@ routes.add('embed_dashboard', '/embed/dashboard/:slug', 'app/embed/EmbedDashboar
 routes.add('terms-of-service', '/terms-of-service', 'app/Terms');
 routes.add('privacy-policy', '/privacy-policy', 'app/Policy');
 
+// ------- CATALOG -------------
+routes.add('catalog', '/catalog', 'app/catalog');
+
 
 module.exports = routes;
