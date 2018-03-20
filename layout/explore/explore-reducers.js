@@ -167,6 +167,34 @@ export default {
     return { ...state, map };
   },
 
+  // INTERACTION
+  [actions.setMapLayerGroupsInteraction]: (state, action) => {
+    const layerGroupsInteraction = {
+      ...state.map.layerGroupsInteraction,
+      [action.payload.id]: action.payload
+    };
+
+    const map = { ...state.map, layerGroupsInteraction };
+    return { ...state, map };
+  },
+  [actions.setMapLayerGroupsInteractionSelected]: (state, action) => {
+    const map = { ...state.map, layerGroupsInteractionSelected: action.payload };
+    return { ...state, map };
+  },
+  [actions.setMapLayerGroupsInteractionLatLng]: (state, action) => {
+    const map = { ...state.map, layerGroupsInteractionLatLng: action.payload };
+    return { ...state, map };
+  },
+  [actions.resetMapLayerGroupsInteraction]: (state) => {
+    const map = {
+      ...state.map,
+      layerGroupsInteraction: {},
+      layerGroupsInteractionLatLng: null,
+      layerGroupsInteractionSelected: null
+    };
+    return { ...state, map };
+  },
+
 
   //
   // SIDEBAR

@@ -36,6 +36,9 @@ class ExploreMapComponent extends React.Component {
     labels: PropTypes.object,
     boundaries: PropTypes.bool,
     layerGroups: PropTypes.array,
+    layerGroupsInteraction: PropTypes.object,
+    layerGroupsInteractionSelected: PropTypes.string,
+    layerGroupsInteractionLatLng: PropTypes.object,
 
     // Actions
     setMapZoom: PropTypes.func,
@@ -48,7 +51,12 @@ class ExploreMapComponent extends React.Component {
     setMapLayerGroupVisibility: PropTypes.func,
     setMapLayerGroupOpacity: PropTypes.func,
     setMapLayerGroupActive: PropTypes.func,
-    setMapLayerGroupsOrder: PropTypes.func
+    setMapLayerGroupsOrder: PropTypes.func,
+
+    setMapLayerGroupsInteraction: PropTypes.func,
+    setMapLayerGroupsInteractionLatLng: PropTypes.func,
+    setMapLayerGroupsInteractionSelected: PropTypes.func,
+    resetMapLayerGroupsInteraction: PropTypes.func
   };
 
   state = {
@@ -87,10 +95,20 @@ class ExploreMapComponent extends React.Component {
 
   render() {
     const {
-      embed, zoom, latLng, basemap, labels, boundaries, layerGroups
+      embed,
+      zoom,
+      latLng,
+      basemap,
+      labels,
+      boundaries,
+      layerGroups,
+      layerGroupsInteraction,
+      layerGroupsInteractionSelected,
+      layerGroupsInteractionLatLng
     } = this.props;
 
     return (
+
       <div className="l-map -relative">
         <Map
           mapConfig={{ zoom, latLng }}
@@ -99,14 +117,15 @@ class ExploreMapComponent extends React.Component {
           // layerManager
           layerGroups={layerGroups}
           LayerManager={LayerManager}
-          // // Interaction
-          // interaction={interaction}
-          // interactionLatLng={interactionLatLng}
-          // interactionSelected={interactionSelected}
-          // setLayerInteraction={this.props.setLayerInteraction}
-          // setLayerInteractionSelected={this.props.setLayerInteractionSelected}
-          // setLayerInteractionLatLng={this.props.setLayerInteractionLatLng}
-          // resetLayerInteraction={this.props.resetLayerInteraction}
+
+          // Interaction
+          interaction={layerGroupsInteraction}
+          interactionLatLng={layerGroupsInteractionLatLng}
+          interactionSelected={layerGroupsInteractionSelected}
+          setLayerInteraction={this.props.setMapLayerGroupsInteraction}
+          setLayerInteractionSelected={this.props.setMapLayerGroupsInteractionSelected}
+          setLayerInteractionLatLng={this.props.setMapLayerGroupsInteractionLatLng}
+          resetLayerInteraction={this.props.resetMapLayerGroupsInteraction}
           onMapParams={this.onMapParams}
         />
 
@@ -129,7 +148,7 @@ class ExploreMapComponent extends React.Component {
           <Legend
             maxHeight={300}
             layerGroups={layerGroups}
-            // Item
+            // List item
             LegendItemToolbar={
               (embed) ?
                 <LegendItemToolbar>

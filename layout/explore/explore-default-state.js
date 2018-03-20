@@ -32,7 +32,9 @@ export default {
     labels: LABELS.light,
     boundaries: false,
     layerGroups: [],
-    interaction: {}
+    layerGroupsInteraction: {},
+    layerGroupsInteractionSelected: null,
+    layerGroupsInteractionLatLng: null
   },
 
   // Sidebar

@@ -67,6 +67,13 @@ export const setMapLayerGroupOpacity = createAction('EXPLORE/setMapLayerGroupOpa
 export const setMapLayerGroupActive = createAction('EXPLORE/setMapLayerGroupActive');
 export const setMapLayerGroupsOrder = createAction('EXPLORE/setMapLayerGroupsOrder');
 
+// INTERACTION
+export const setMapLayerGroupsInteraction = createAction('EXPLORE/setMapLayerGroupsInteraction');
+export const setMapLayerGroupsInteractionSelected = createAction('EXPLORE/setMapLayerGroupsInteractionSelected');
+export const setMapLayerGroupsInteractionLatLng = createAction('EXPLORE/setMapLayerGroupsInteractionLatLng');
+export const resetMapLayerGroupsInteraction = createAction('EXPLORE/resetMapLayerGroupsInteraction');
+
+
 export const setMapLayerGroups = createAction('EXPLORE/setMapLayerGroups');
 export const fetchMapLayerGroups = createThunkAction('EXPLORE/fetchMapLayers', payload => (dispatch, getState) => {
   const { common } = getState();
