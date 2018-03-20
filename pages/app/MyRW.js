@@ -58,7 +58,7 @@ class MyRW extends Page {
   constructor(props) {
     super(props);
 
-    const { url } = props;
+    const { url, tab } = props;
 
     this.state = {
       tab: url.query.tab || 'profile',

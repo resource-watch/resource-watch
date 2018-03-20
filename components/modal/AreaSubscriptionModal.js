@@ -21,7 +21,7 @@ class AreaSubscriptionModal extends React.Component {
   constructor(props) {
     super(props);
     const { subscriptionDataset, subscriptionType, subscriptionThreshold } = props;
-    const subscription = props.area.subscription;
+    const { subscription } = props.area;
     const initialSubscriptionSelectors = subscription
       ? subscription.attributes.datasetsQuery.map((elem, index) =>
         ({ index,
@@ -79,9 +79,6 @@ class AreaSubscriptionModal extends React.Component {
   }
 
   handleCancel() {
-    this.setState({
-      saved: false
-    });
     this.props.toggleModal(false);
   }
 
@@ -189,6 +186,8 @@ class AreaSubscriptionModal extends React.Component {
       subscriptionSelectors
     } = this.state;
     const { area } = this.props;
+
+    console.log('modal', this);
 
     return (
       <div className="c-area-subscription-modal" ref={(node) => { this.el = node; }}>

@@ -154,15 +154,15 @@ class AreasList extends React.Component {
           <Spinner isLoading={loading || !areasMerged} className="-small -light" />
           <div className="actions-div">
             <Link route="myrw_detail" params={{ id: 'new', tab: 'areas' }}>
-              <a className="c-button -primary">
-                New
+              <a className="c-button -secondary">
+                New area
               </a>
             </Link>
           </div>
           <div className="row">
             {areasMerged && areas.map(val =>
               (
-                <div key={val.id} className="column small-12 medium-6">
+                <div key={val.id} className="column small-12 medium-4">
                   <div
                     className="card-container"
                   >
@@ -184,6 +184,16 @@ class AreasList extends React.Component {
                 </div>
               )
             )}
+
+            {areasMerged &&
+            <Link route="myrw_detail" params={{ id: 'new', tab: 'areas' }}>
+              <div className="column small-12 medium-4 c-area-card--add-card">
+                <a>
+                  <span>New Area</span>
+                </a>
+              </div>
+            </Link>}
+
             {areasMerged && areas.length === 0 &&
               <div className="no-areas-container">
                 <p>You have not created any areas yet</p>

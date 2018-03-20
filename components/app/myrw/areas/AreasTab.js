@@ -10,7 +10,13 @@ import AreasNew from 'components/app/myrw/areas/pages/new';
 import AreasEdit from 'components/app/myrw/areas/pages/show';
 
 function AreasTab(props) {
-  const { tab, subtab, id, user } = props;
+  const {
+    tab,
+    subtab,
+    id,
+    user
+  } = props;
+
   return (
     <div className="c-areas-tab">
       {!id && user.token &&

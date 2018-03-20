@@ -47,10 +47,14 @@ body {
   }
 }
 
+hr {
+  margin: 50px 0;
+  border-top: 1px solid #CBCCD0;
+}
+
 a {
   color: $body-font-color;
   text-decoration: none;
-
   &:hover {
     text-decoration: underline;
   }
@@ -122,6 +126,11 @@ h4 {
 
 p {
   margin-top: 0;
+
+  > a {
+    color: $link-font-color;
+    text-decoration: underline;
+  }
 
   &:last-child {
     margin-bottom: 0;

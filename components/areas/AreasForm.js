@@ -219,7 +219,7 @@ class AreasForm extends React.Component {
               validations={['required']}
               properties={{
                 name: 'name',
-                label: 'Name',
+                label: 'Title',
                 type: 'text',
                 value: name,
                 required: true

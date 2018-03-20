@@ -10,6 +10,8 @@ import { Link } from 'routes';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
+import { getUserAreas } from 'redactions/user';
+
 // Utils
 import { capitalizeFirstLetter } from 'utils/utils';
 
@@ -42,10 +44,26 @@ const subTabs = {
 };
 
 class MyRWDetail extends Page {
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    const { tab } = props.url.query;
+
+    if (tab === 'areas') {
+      await context.store.dispatch(getUserAreas());
+    }
+
+    return { ...props };
+  }
+
   constructor(props) {
     super(props);
 
-    const { tab, id, subtab, title } = props.url.query;
+    const {
+      tab,
+      id,
+      subtab,
+      title
+    } = props.url.query;
 
     this.state = {
       tab,
@@ -145,7 +163,7 @@ class MyRWDetail extends Page {
   render() {
     const { url, user, myrwdetail } = this.props;
     const { tab, subtab, id } = this.state;
-
+    console.log(user);
     return (
       <Layout
         title={this.getName()}
@@ -221,4 +239,9 @@ const mapStateToProps = state => ({
   locale: state.common.locale
 });
 
-export default withRedux(initStore, mapStateToProps, null)(MyRWDetail);
+
+const mapDispatchToProps = {
+  getUserAreas
+};
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(MyRWDetail);

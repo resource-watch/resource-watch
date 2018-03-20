@@ -1,5 +1,6 @@
 import { toastr } from 'react-redux-toastr';
 import { createAction, createThunkAction } from 'redux-tools';
+import UserService from 'services/UserService';
 
 // actions
 import { getDatasetsByTab } from 'redactions/admin/datasets';
@@ -24,7 +25,9 @@ const SET_USER_COLLECTIONS_UPDATE_LOADING = 'user/setUserCollectionsUpdateLoadin
 const SET_COLLECTIONS_LOADING = 'user/setCollectionsLoading';
 const SET_USER_COLLECTIONS_FILTER = 'user/setUserCollectionsFilter';
 const SET_USER_COLLECTIONS_ERROR = 'user/setUserCollectionsError';
-
+// areas
+const SET_USER_AREAS = 'user/setUserAreas';
+const SET_USER_AREAS_ERROR = 'user/serUserAreasError';
 
 /**
  * REDUCER
@@ -40,6 +43,11 @@ const initialState = {
     loading: false,
     items: [],
     loadingQueue: [],
+    error: null
+  },
+  areas: {
+    items: [],
+    loading: false,
     error: null
   }
 };
@@ -144,6 +152,26 @@ export default function (state = initialState, action) {
         ...state,
         collections: {
           ...state.collections,
+          error: action.payload
+        }
+      };
+    }
+
+    case SET_USER_AREAS: {
+      return {
+        ...state,
+        areas: {
+          ...state.areas,
+          items: action.payload
+        }
+      };
+    }
+
+    case SET_USER_AREAS_ERROR: {
+      return {
+        ...state,
+        areas: {
+          ...state.areas,
           error: action.payload
         }
       };
@@ -309,7 +337,8 @@ export const deleteCollection = createThunkAction('user/deleteCollection', (payl
       });
   });
 
-export const addResourceToCollection = createThunkAction('user/addResourceToCollection',
+export const addResourceToCollection = createThunkAction(
+  'user/addResourceToCollection',
   (payload = {}) =>
     (dispatch, getState) => {
       const { user, routes } = getState();
@@ -331,9 +360,11 @@ export const addResourceToCollection = createThunkAction('user/addResourceToColl
           dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: false }));
           dispatch(setUserCollectionsErrors(errors));
         });
-    });
+    }
+);
 
-export const removeResourceFromCollection = createThunkAction('user/removeResourceFromCollection',
+export const removeResourceFromCollection = createThunkAction(
+  'user/removeResourceFromCollection',
   (payload = {}) =>
     (dispatch, getState) => {
       const { user, routes } = getState();
@@ -355,13 +386,33 @@ export const removeResourceFromCollection = createThunkAction('user/removeResour
           dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: false }));
           dispatch(setUserCollectionsErrors(errors));
         });
-    });
+    }
+);
 
-export const toggleCollection = createThunkAction('user/toggleCollection',
+export const toggleCollection = createThunkAction(
+  'user/toggleCollection',
   (payload = {}) =>
     (dispatch) => {
       const { isAdded, collectionId, resource } = payload;
 
       if (isAdded) dispatch(addResourceToCollection({ collectionId, resource }));
       if (!isAdded) dispatch(removeResourceFromCollection({ collectionId, resource }));
-    });
+    }
+);
+
+// Areas
+export const setUserAreas = createAction(SET_USER_AREAS);
+export const setUserAreasError = createAction(SET_USER_AREAS_ERROR);
+
+export const getUserAreas = createThunkAction(
+  'user/getUserAreas',
+  () =>
+    (dispatch, getState) => {
+      const { user } = getState();
+      const userService = new UserService({ apiURL: process.env.WRI_API_URL });
+
+      return userService.getUserAreas(user.token)
+        .then(data => dispatch(setUserAreas(data)))
+        .catch(err => dispatch(setUserAreasError(err)));
+    }
+);

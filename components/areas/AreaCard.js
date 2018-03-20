@@ -239,7 +239,8 @@ class AreaCard extends React.Component {
       childrenProps: {
         toggleTooltip: this.props.toggleTooltip,
         onEditArea: this.handleEditArea,
-        onEditSubscriptions: this.handleEditSubscription
+        onEditSubscriptions: this.handleEditSubscription,
+        onDeleteArea: this.handleDeleteArea
       }
     });
   }
@@ -247,8 +248,8 @@ class AreaCard extends React.Component {
   render() {
     const { loading, layerGroups } = this.state;
     const { area } = this.props;
-    const name = area.attributes.name;
-    const subscription = area.subscription;
+    const { name } = area.attributes;
+    const { subscription } = area;
     const subscriptionConfirmed = area.subscription && area.subscription.attributes.confirmed;
 
     const borderContainerClassNames = classnames({
@@ -280,11 +281,11 @@ class AreaCard extends React.Component {
                     {subscription.attributes.datasets.map((datasetObj, index) =>
                       (<div
                         className="dataset-element"
-                        key={`${datasetObj}-${index}`} // eslint-disable-line
+                        key={`${datasetObj}-${index}`}
                       >
                         <div className="dataset-name">
                           <Link
-                            route={'explore_detail'}
+                            route="explore_detail"
                             params={{ id: datasetObj.id }}
                           >
                             <a>
@@ -320,15 +321,14 @@ class AreaCard extends React.Component {
                 className="c-btn -b -compressed"
                 onClick={this.handleEdit}
               >
-                Edit
+                Area Options
               </button>
-              <a
-                tabIndex={-1}
-                role="button"
-                onClick={this.handleDeleteArea}
+              <Link
+                route="myrw_detail"
+                params={{ id: area.id, tab: 'areas' }}
               >
-                Delete
-              </a>
+                <a>View alerts</a>
+              </Link>
             </div>
           </div>
         </div>
@@ -336,6 +336,7 @@ class AreaCard extends React.Component {
     );
   }
 }
+
 
 AreaCard.defaultProps = {
   openSubscriptionsModal: false
