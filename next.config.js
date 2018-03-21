@@ -7,6 +7,13 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   webpack: (config) => {
+    config.resolve = Object.assign({}, config.resolve, {
+      alias: {
+        react: path.resolve(__dirname, 'node_modules', 'react'),
+        'react-dom': path.resolve(__dirname, 'node_modules', 'react-dom')
+      }
+    });
+
     config.module.rules.push(
       {
         test: /\.(css|scss)/,

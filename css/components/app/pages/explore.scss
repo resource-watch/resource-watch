@@ -1,28 +1,30 @@
-.p-explore {
+.c-page-explore {
+  display: flex;
+  flex: 1;
 
-  .c-title {
-    margin-bottom: 30px;
-  }
-
-  .search-container {
-    display: flex;
-
-    .c-btn {
-      margin-left: 10px;
-    }
-  }
-
-  .request-data-container {
-    height: 100%;
-    width: 100%;
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    a {
-      margin-top: 20px;
-    }
-  }
+  // .c-title {
+  //   margin-bottom: 30px;
+  // }
+  //
+  // .search-container {
+  //   display: flex;
+  //
+  //   .c-btn {
+  //     margin-left: 10px;
+  //   }
+  // }
+  //
+  // .request-data-container {
+  //   height: 100%;
+  //   width: 100%;
+  //   margin-top: 20px;
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-items: center;
+  //   justify-content: center;
+  //
+  //   a {
+  //     margin-top: 20px;
+  //   }
+  // }
 }

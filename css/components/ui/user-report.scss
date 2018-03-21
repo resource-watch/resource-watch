@@ -1,0 +1,26 @@
+.c-user-report {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  width: 72px;
+  z-index: 10000000;
+  background-color: $color-primary;
+  box-shadow: 0 0 2px rgba($color-black, 0.125);
+  color: $color-white;
+  font-size: $font-size-small;
+  border: 1px solid $border-color-1;
+  transform: rotate(-90deg) translate(0, 12px);
+  transform-origin: 50% 0%;
+  transition: transform .3s ease-in-out;
+  border-radius: 4px 4px 0 0;
+  padding: 4px 0 16px;
+  cursor: pointer;
+
+  &:hover {
+    transform: rotate(-90deg) translate(0, 8px);
+  }
+}
+
+#crowd-shortcut {
+  display: none !important;
+}

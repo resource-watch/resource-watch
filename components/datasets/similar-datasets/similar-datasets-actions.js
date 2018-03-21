@@ -1,3 +1,4 @@
+import WRISerializer from 'wri-json-api-serializer';
 import { createAction, createThunkAction } from 'redux-tools';
 
 // Services
@@ -18,6 +19,7 @@ export const getSimilarDatasets = createThunkAction('similar-datasets/getSimilar
     .then((data) => {
       if (data.length > 0) {
         DatasetService.getDatasets(data.map(d => d.dataset), locale, 'widget,metadata,layer,vocabulary')
+          .then(response => WRISerializer({ data: response }, { locale }))
           .then((similarDatasets) => {
             dispatch(setSimilarDatasetsLoading(false));
             dispatch(setSimilarDatasets(similarDatasets));
