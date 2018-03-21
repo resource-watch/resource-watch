@@ -113,7 +113,7 @@ class EmbedEmbed extends Page {
           <div className="widget-content">
             <iframe
               title={widget.attributes.name}
-              src={widget.attributes.widgetConfig.paramsConfig.embed.src}
+              src={widget.attributes.widgetConfig.url}
               frameBorder="0"
             />
           </div>
