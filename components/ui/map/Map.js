@@ -52,7 +52,6 @@ class Map extends React.Component {
     this.props.onMapInstance && this.props.onMapInstance(this.map);
 
     // BBox
-    console.log(mapOptions.bbox);
     if (mapOptions && mapOptions.bbox) {
       this.fitBounds({ bbox: mapOptions.bbox });
     }
@@ -114,6 +113,11 @@ class Map extends React.Component {
           this.removeLayers([layer]);
         }
       });
+
+      // POPUP
+      if (this.popup) {
+        this.popup.remove();
+      }
     } else {
       // Set layer opacity
       if (!isEqual(
@@ -124,6 +128,11 @@ class Map extends React.Component {
           ({ ...lg.layers.find(l => l.active), opacity: lg.opacity, visible: lg.visible }));
 
         this.layerManager.setOpacity(layers);
+
+        // POPUP
+        if (this.popup) {
+          this.popup.remove();
+        }
       }
 
       // Set layer visibility
@@ -135,6 +144,11 @@ class Map extends React.Component {
           ({ ...lg.layers.find(l => l.active), opacity: lg.opacity, visible: lg.visible }));
 
         this.layerManager.setVisibility(layers);
+
+        // POPUP
+        if (this.popup) {
+          this.popup.remove();
+        }
       }
 
       // Set layer order
@@ -151,6 +165,11 @@ class Map extends React.Component {
             this.removeLayers([layer]);
           }
         });
+
+        // POPUP
+        if (this.popup) {
+          this.popup.remove();
+        }
       }
     }
 
@@ -169,18 +188,18 @@ class Map extends React.Component {
       this.setBoundaries(nextProps.boundaries);
     }
 
-    // POPUP
     if (
       nextProps.interactionLatLng &&
       (
         // interactionSelected changed
-        this.props.interactionSelected !== nextProps.interactionSelected) ||
+        (this.props.interactionSelected !== nextProps.interactionSelected) ||
 
         // interaction changed
         (
           !isEmpty(nextProps.interaction) &&
           !isEqual(this.props.interaction, nextProps.interaction)
         )
+      )
     ) {
       // Get the current interactive layer content
       const currentContent = render(
