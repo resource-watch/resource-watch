@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 // Redux
 import { connect } from 'react-redux';
 
+// Selectors
+import areaAlerts from 'selectors/user/areaAlerts';
+
 // Components
 import AreasIndex from 'components/app/myrw/areas/pages/index';
 import AreasNew from 'components/app/myrw/areas/pages/new';
@@ -15,7 +18,8 @@ function AreasTab(props) {
     tab,
     subtab,
     id,
-    user
+    user,
+    alerts
   } = props;
 
   return (
@@ -33,7 +37,7 @@ function AreasTab(props) {
       }
 
       {id && id !== 'new' && (subtab === 'alerts') && user.token &&
-        <AreasAlerts tab={tab} subtab={subtab} id={id} user={user} />
+        <AreasAlerts tab={tab} subtab={subtab} id={id} user={user} alerts={alerts} />
       }
 
     </div>
@@ -48,7 +52,8 @@ AreasTab.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  alerts: areaAlerts(state)
 });
 
 export default connect(mapStateToProps, null)(AreasTab);

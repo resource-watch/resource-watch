@@ -15,8 +15,8 @@ const MAP_CONFIG = {
 };
 
 function AreasAlerts(props) {
-  const { user } = props;
-  console.log(user);
+  const { user, id, alerts } = props;
+  console.log('alerts', alerts[id]);
 
   return (
     <div className="c-areas-alerts">
