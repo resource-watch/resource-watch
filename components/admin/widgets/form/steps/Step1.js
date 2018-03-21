@@ -28,7 +28,7 @@ class Step1 extends React.Component {
     this.state = {
       id: props.id,
       form: props.form,
-      loadingVegaChart: false
+      loadingVegaChart: false,
     };
 
     // ------------------- BINDINGS ---------------------------
@@ -85,6 +85,9 @@ class Step1 extends React.Component {
     const editorFieldContainerClass = classnames({
       '-expanded': this.props.mode === 'editor'
     });
+
+    const widgetTypeEmbed = this.state.form.widgetConfig.type === 'embed';
+    console.log('widgetTypeEmbed', widgetTypeEmbed);
 
     return (
       <fieldset className="c-field-container">
@@ -276,26 +279,33 @@ class Step1 extends React.Component {
                 >
                   {Code}
                 </Field>
-                <div className="vega-preview c-field">
+                <div className="c-field vega-preview">
                   <h5>Widget preview</h5>
-                  <Spinner isLoading={loadingVegaChart} className="-light -relative" />
-                  <VegaChart
-                    data={this.state.form.widgetConfig}
-                    theme={getVegaTheme(true)}
-                    showLegend
-                    reloadOnResize
-                    toggleLoading={this.triggerToggleLoadingVegaChart}
-                    getForceUpdate={(func) => { this.forceChartUpdate = func; }}
-                  />
-                  <div className="actions">
-                    <button
-                      type="button"
-                      className="c-button -primary"
-                      onClick={this.refreshWidgetPreview}
-                    >
-                        Refresh
-                    </button>
-                  </div>
+                  {!widgetTypeEmbed &&
+                    <div className="">
+                      <Spinner isLoading={loadingVegaChart} className="-light -relative" />
+                      <VegaChart
+                        data={this.state.form.widgetConfig}
+                        theme={getVegaTheme(true)}
+                        showLegend
+                        reloadOnResize
+                        toggleLoading={this.triggerToggleLoadingVegaChart}
+                        getForceUpdate={(func) => { this.forceChartUpdate = func; }}
+                      />
+                      <div className="actions">
+                        <button
+                          type="button"
+                          className="c-button -primary"
+                          onClick={this.refreshWidgetPreview}
+                        >
+                            Refresh
+                        </button>
+                      </div>
+                    </div>
+                  }
+                  {widgetTypeEmbed &&
+                    <iframe src={this.state.form.widgetConfig.url} width="100%" height="100%" frameBorder="0"></iframe>
+                  }
                 </div>
               </div>
             }
