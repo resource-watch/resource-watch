@@ -32,6 +32,15 @@ class Validator {
         }
       },
 
+      unique: {
+        validate(value, condition, data) {
+          return data.filter(d => d[condition] === value).length <= 1;
+        },
+        message(condition) {
+          return `${condition} fields can not have the same value`;
+        }
+      },
+
       min: {
         validate(value, condition) {
           return parseFloat(value) >= parseFloat(condition);
@@ -66,7 +75,7 @@ class Validator {
 
       if (typeof validation === 'object') {
         const validObj = this.validations[validation.type];
-        valid = validObj.validate(value, validation.condition);
+        valid = validObj.validate(value, validation.condition, validation.data);
         message = validObj.message(validation.condition);
       }
 
