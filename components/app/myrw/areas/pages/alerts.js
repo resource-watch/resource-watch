@@ -3,23 +3,20 @@ import PropTypes from 'prop-types';
 import { Link } from 'routes';
 
 // Components
-import Map from 'components/ui/map/Map';
-
-const MAP_CONFIG = {
-  zoom: 3,
-  latLng: {
-    lat: 0,
-    lng: 0
-  },
-  zoomControl: false
-};
+import AlertWidget from 'components/areas/AlertWidget';
 
 function AreasAlerts(props) {
-  const { user, id, alerts } = props;
-  console.log('alerts', alerts[id]);
+  const { user, id } = props;
+  const { subscription } = user.areas.items.find(alert => alert.id === id);
+
+  // console.log('subscription found', subscription);
 
   return (
     <div className="c-areas-alerts">
+
+      {subscription && subscription.attributes &&
+        subscription.attributes.datasets.map(dataset =>
+          <AlertWidget key={dataset.id} dataset={dataset} />)}
 
       <p>
         This notification reports {'<'}type of alert(s){'>'} for the area of interest you subscribed to.
@@ -47,7 +44,8 @@ function AreasAlerts(props) {
 
 
 AreasAlerts.propTypes = {
-  id: PropTypes.string
+  id: PropTypes.string,
+  user: PropTypes.object.isRequired
 };
 
 export default AreasAlerts;

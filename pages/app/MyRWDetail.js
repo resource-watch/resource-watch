@@ -15,6 +15,9 @@ import { getUserAreas } from 'redactions/user';
 // Utils
 import { capitalizeFirstLetter } from 'utils/utils';
 
+// Selectors
+import areaAlerts from 'selectors/user/areaAlerts';
+
 // Services
 import DatasetsService from 'services/DatasetsService';
 import WidgetsService from 'services/WidgetsService';
@@ -46,7 +49,7 @@ const subTabs = {
 class MyRWDetail extends Page {
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
-    const { tab } = props.url.query;
+    const { tab, subtab } = props.url.query;
 
     if (tab === 'areas') {
       await context.store.dispatch(getUserAreas({ layerGroups: true }));

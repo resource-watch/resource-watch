@@ -6,7 +6,8 @@ export function mergeSubscriptions(areas, subs, datasets) {
       elem.attributes.metadata[0].attributes.info &&
       elem.attributes.metadata[0].attributes.info.name ?
       elem.attributes.metadata[0].attributes.info.name :
-      elem.attributes.name
+      elem.attributes.name,
+    ...elem.attributes
   }));
 
   // Merge datasets with labels inside of subscriptions

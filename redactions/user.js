@@ -462,12 +462,11 @@ export const getUserAreas = createThunkAction(
             subs.forEach(sub => sub.attributes.datasets
               .forEach(dataset => datasetsSet.add(dataset)));
 
-            return DatasetService.getDatasets([...datasetsSet], common.locale, 'metadata')
+            return DatasetService.getDatasets([...datasetsSet],
+              common.locale, 'layer,metadata,vocabulary,widget')
               .then((datasets) => {
-
                 if (payload.layerGroups) {
                   let layerGroups = [];
-
                   areas.forEach(area => {
                     layerGroups.push(dispatch(getUserAreaLayerGroups(area)));
                   });
@@ -478,7 +477,6 @@ export const getUserAreas = createThunkAction(
                 }
 
                 dispatch(setUserAreas(mergeSubscriptions(areas, subs, datasets)));
-
               });
           });
         })
