@@ -16,11 +16,12 @@ export default {
     concepts: []
   },
   sort: {
-    selected: 'modified',
+    selected: 'updatedAt',
+    direction: -1,
     options: [
-      { value: 'modified', label: 'Last modified' },
-      { value: 'viewed', label: 'Most viewed' },
-      { value: 'favourited', label: 'Most favourited' }
+      { value: 'updatedAt', label: 'Last modified' },
+      { value: 'most-viewed', label: 'Most viewed' },
+      { value: 'most-favorited', label: 'Most favorited' }
     ]
   },
 

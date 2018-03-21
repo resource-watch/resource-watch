@@ -23,9 +23,6 @@ class ExplorePage extends Page {
     const { store } = context;
     const { routes } = store.getState();
     const {
-      page,
-      search,
-
       zoom,
       lat,
       lng,
@@ -34,10 +31,6 @@ class ExplorePage extends Page {
       boundaries,
       layers
     } = routes.query;
-
-    // Query
-    if (page) store.dispatch(actions.setDatasetsPage(+page));
-    if (search) store.dispatch(actions.setFiltersSearch(search));
 
     // Map
     if (zoom) store.dispatch(actions.setMapZoom(+zoom));

@@ -43,6 +43,17 @@ export default {
   },
 
 
+  // SORT
+  [actions.setSortSelected]: (state, action) => {
+    const sort = { ...state.sort, selected: action.payload };
+    return { ...state, sort };
+  },
+  [actions.setSortDirection]: (state, action) => {
+    const sort = { ...state.sort, direction: action.payload };
+    return { ...state, sort };
+  },
+
+
   //
   // MAP
   //

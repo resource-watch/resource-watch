@@ -15,6 +15,18 @@ class ExploreDatasetsSortComponent extends React.Component {
     setDatasetsMode: PropTypes.func
   };
 
+  getTooltipContainer() {
+    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+      if (document.querySelector('.sidebar-content')) {
+        return document.querySelector('.sidebar-content');
+      }
+
+      return document.body;
+    }
+
+    return null;
+  }
+
   render() {
     const {
       mode
@@ -28,6 +40,7 @@ class ExploreDatasetsSortComponent extends React.Component {
           placement="top"
           trigger={['hover', 'click']}
           mouseLeaveDelay={0}
+          getTooltipContainer={this.getTooltipContainer}
           destroyTooltipOnHide
         >
           <button
@@ -46,6 +59,7 @@ class ExploreDatasetsSortComponent extends React.Component {
           overlayClassName="c-rc-tooltip -default"
           placement="top"
           trigger={['hover', 'click']}
+          getTooltipContainer={this.getTooltipContainer}
           mouseLeaveDelay={0}
           destroyTooltipOnHide
         >

@@ -26,6 +26,8 @@ class ExplorePage extends Page {
     const {
       page,
       search,
+      sort,
+      sortDirection,
 
       zoom,
       lat,
@@ -39,6 +41,8 @@ class ExplorePage extends Page {
     // Query
     if (page) store.dispatch(actions.setDatasetsPage(+page));
     if (search) store.dispatch(actions.setFiltersSearch(search));
+    if (sort) store.dispatch(actions.setSortSelected(sort));
+    if (sortDirection) store.dispatch(actions.setSortDirection(+sortDirection));
 
     // Map
     if (zoom) store.dispatch(actions.setMapZoom(+zoom));
@@ -83,6 +87,7 @@ class ExplorePage extends Page {
       // Datasets
       page: datasets.page,
       sort: sort.selected,
+      sortDirection: sort.direction,
       ...filters.search &&
         { search: filters.search }
       //   if (topics) {

@@ -20,7 +20,7 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     language: common.locale,
     includes: 'layer,metadata,vocabulary,widget',
     search: explore.filters.search,
-    sort: explore.sort.selected,
+    sort: `${explore.sort.direction < 0 ? '-' : ''}${explore.sort.selected}`,
     status: 'saved',
     published: true,
     'page[number]': explore.datasets.page,
@@ -110,6 +110,7 @@ export const setFiltersConcepts = createAction('EXPLORE/setFiltersConcepts');
 
 // SORT
 export const setSortSelected = createAction('EXPLORE/setSortSelected');
+export const setSortDirection = createAction('EXPLORE/setSortDirection');
 
 // SIDEBAR
 export const setSidebarOpen = createAction('EXPLORE/setSidebarOpen');
