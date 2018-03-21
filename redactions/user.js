@@ -53,6 +53,7 @@ const initialState = {
   },
   areas: {
     items: [],
+    layerGroups: {},
     loading: false,
     error: null
   }
@@ -174,18 +175,14 @@ export default function (state = initialState, action) {
     }
 
     case SET_USER_AREA_LAYER_GROUP: {
-      const items = state.areas.items.map((item) => {
-        if (item.id === action.payload.area.id) {
-          item.layerGroups = action.payload.layerGroups;
-        }
-        return item;
-      });
+      const layerGroup = { [action.payload.area.id]: action.payload.layerGroups };
+      const layerGroups = Object.assign({}, state.areas.layerGroups, layerGroup);
 
       return {
         ...state,
         areas: {
           ...state.areas,
-          items
+          layerGroups
         }
       };
     }
@@ -456,24 +453,32 @@ export const getUserAreas = createThunkAction(
 
       return userService.getUserAreas(user.token)
         .then((areas) => {
-          // fetch subscriptions then merge them with the area
+          // 1. fetch subscriptions then merge them with the area
+          // 2. Get datasets
+          // 3. Merge the 2 of them into the area
           return userService.getSubscriptions(user.token).then((subs) => {
-            subs = subs.filter((sub) => {
-              const areaValue = sub.attributes.params.area;
-              return areaValue;
-            });
-
+            subs = subs.filter(sub => sub.attributes.params.area);
             const datasetsSet = new Set();
             subs.forEach(sub => sub.attributes.datasets
               .forEach(dataset => datasetsSet.add(dataset)));
 
-            // Get datasets used in subscriptions
             return DatasetService.getDatasets([...datasetsSet], common.locale, 'metadata')
               .then((datasets) => {
-                dispatch(setUserAreas(mergeSubscriptions(areas, subs, datasets)));
+
                 if (payload.layerGroups) {
-                  // TODO: Get layer groups in a nice way here
+                  let layerGroups = [];
+
+                  areas.forEach(area => {
+                    layerGroups.push(dispatch(getUserAreaLayerGroups(area)));
+                  });
+
+                  return Promise.all(layerGroups).then(() => {
+                    dispatch(setUserAreas(mergeSubscriptions(areas, subs, datasets)));
+                  });
                 }
+
+                dispatch(setUserAreas(mergeSubscriptions(areas, subs, datasets)));
+
               });
           });
         })

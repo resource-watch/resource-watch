@@ -51,7 +51,7 @@ class AreaCard extends React.Component {
     super(props);
 
     this.state = {
-      loading: true
+      loading: false
     };
 
     // Services
@@ -73,10 +73,6 @@ class AreaCard extends React.Component {
       subscriptionDataset,
       area
     } = this.props;
-
-    this.props.getUserAreaLayerGroups(area).then(() => {
-      this.setState({ loading: false });
-    });
 
     if (openSubscriptionsModal) {
       this.handleEditSubscription(subscriptionDataset, subscriptionType, subscriptionThreshold);
@@ -138,8 +134,8 @@ class AreaCard extends React.Component {
 
   render() {
     const { loading } = this.state;
-    const { area } = this.props;
-    const { name } = area.attributes;
+    const { area, user } = this.props;
+    const { name, id } = area.attributes;
     const { subscription } = area;
     const subscriptionConfirmed = area.subscription && area.subscription.attributes.confirmed;
 
@@ -147,6 +143,12 @@ class AreaCard extends React.Component {
       'border-container': true,
       'blue-background': subscription && !subscriptionConfirmed
     });
+
+    // TODO: Selector
+    let layerGroups = [];
+    if (user.areas.layerGroups.hasOwnProperty(area.id)) {
+      layerGroups = user.areas.layerGroups[area.id];
+    }
 
     return (
       <div className="c-area-card">
@@ -156,7 +158,7 @@ class AreaCard extends React.Component {
             {!loading && <Map
               LayerManager={LayerManager}
               mapConfig={MAP_CONFIG}
-              layerGroups={area.layerGroups}
+              layerGroups={layerGroups}
               interactionEnabled={false}
               useLightBasemap
             />}
@@ -216,7 +218,7 @@ class AreaCard extends React.Component {
               </button>
               <Link
                 route="myrw_detail"
-                params={{ id: area.id, tab: 'areas' }}
+                params={{ id: area.id, tab: 'areas', subtab: 'alerts' }}
               >
                 <a>View alerts</a>
               </Link>
@@ -248,7 +250,8 @@ AreaCard.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  locale: state.common.locale
+  locale: state.common.locale,
+  user: state.user
 });
 
 const mapDispatchToProps = {

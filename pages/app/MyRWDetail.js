@@ -132,7 +132,6 @@ class MyRWDetail extends Page {
 
   componentWillReceiveProps(nextProps) {
     const { tab, id, subtab } = nextProps.url.query;
-
     this.setState({ tab, id, subtab });
   }
 
