@@ -9,7 +9,7 @@ import { Router } from 'routes';
 import Layout from 'layout/layout/layout-app';
 import SearchInput from 'components/ui/SearchInput';
 import Spinner from 'components/ui/Spinner';
-import DatasetList from 'components/app/explore/DatasetList';
+import DatasetList from 'components/datasets/list';
 
 // Utils
 import { logEvent } from 'utils/analytics';
@@ -76,12 +76,12 @@ class CatalogComponent extends React.Component {
                 <Spinner isLoading={loading} className="-light -relative" />
               </div>
             </div>
+
             <div className="row">
               <div className="column small-12">
                 <DatasetList
                   list={datasets}
                   mode="list"
-                  showActions={false}
                 />
               </div>
             </div>

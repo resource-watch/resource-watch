@@ -32,6 +32,8 @@ export default class Page extends PureComponent {
     // Hide mobile header
     store.dispatch(setMobileOpened(false));
 
-    return { user, isServer, url };
+    return {
+      user, isServer, url
+    };
   }
 }

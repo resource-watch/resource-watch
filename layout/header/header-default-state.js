@@ -12,7 +12,7 @@ export default {
       id: 'data',
       label: 'Data',
       route: 'data',
-      pathnames: ['/app/Explore', '/app/ExploreDetail', '/app/Pulse'],
+      pathnames: ['/app/explore', '/app/explore-detail', '/app/pulse'],
       children: [
         { label: 'Explore Datasets', route: 'explore' },
         { label: 'Planet Pulse', href: '/data/pulse' },

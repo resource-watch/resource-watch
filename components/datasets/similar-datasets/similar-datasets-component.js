@@ -6,21 +6,14 @@ import DatasetList from 'components/datasets/list';
 import Spinner from 'components/ui/Spinner';
 
 class SimilarDatasets extends PureComponent {
-  static defaultProps = {
-    active: []
-  };
-
   static propTypes = {
-    active: PropTypes.array,
-    // Callbacks
-    onTagSelected: PropTypes.func,
     // Store
     data: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired
   };
 
   render() {
-    const { loading, data, active } = this.props;
+    const { loading, data } = this.props;
 
     return (
       <div className="c-similar-datasets">
@@ -32,11 +25,8 @@ class SimilarDatasets extends PureComponent {
 
         {!!data.length &&
           <DatasetList
-            active={active}
             list={data}
             mode="grid"
-            showActions={false}
-            onTagSelected={this.props.onTagSelected}
           />
         }
       </div>

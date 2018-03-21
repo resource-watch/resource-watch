@@ -4,7 +4,6 @@
   flex-direction: column;
   flex: 1 0 auto;
   background: $ui-bg-color;
-  box-shadow: 0 0 0 rgba(0,0,0,0.1);
   min-width: 240px;
 
   .info {
@@ -18,6 +17,10 @@
       font-size: $font-size-normal;
       padding: $margin-size-extra-small;
 
+      h4 {
+        margin: 0 0 $space-1/2;
+      }
+
       a {
         text-decoration: none;
         color: $color-text-1;
@@ -30,6 +33,11 @@
       p:last-child {
         margin-bottom: 0;
       }
+
+      .title-container {
+        position: relative;
+        padding-right: $space-1 * 4;
+      }
     }
 
     .actions {
@@ -38,12 +46,6 @@
       padding-left: $margin-size-extra-small;
       padding-bottom: $margin-size-extra-small;
       padding-right: $margin-size-extra-small;
-
-      button {
-        &:last-of-type {
-          margin-left: 10px;
-        }
-      }
     }
   }
 
@@ -102,6 +104,7 @@
   &.-grid {
     border: 1px solid $border-color-1;
     border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 
     .info {
       flex-direction: column;
@@ -119,8 +122,8 @@
 
   .favourite-button {
     position: absolute;
-    right: 5px;
-    top: 5px;
+    right: 0px;
+    top: -2px;
     z-index: 4;
     cursor: pointer;
 

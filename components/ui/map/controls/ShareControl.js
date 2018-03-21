@@ -25,6 +25,8 @@ class ShareControl extends React.Component {
 
   // RENDER
   render() {
+    const location = typeof window !== 'undefined' && window.location;
+
     return (
       <button type="button" className="share-button" onClick={() => this.handleToggleShareModal(true)}>
         <Icon name="icon-share" className="-small" />
@@ -36,7 +38,8 @@ class ShareControl extends React.Component {
         >
           <ShareModal
             links={{
-              link: typeof window !== 'undefined' && window.location.href
+              link: location && location.href,
+              embed: location && `${location.origin}/embed${location.pathname}${location.search}`
             }}
             analytics={{
               facebook: () => logEvent('Share', 'Share explore', 'Facebook'),

@@ -14,7 +14,7 @@ import Page from 'layout/page';
 import LayoutEmbed from 'layout/layout/layout-embed';
 import Spinner from 'components/ui/Spinner';
 import Map from 'components/ui/map/Map';
-import Legend from 'components/ui/legend';
+import { Legend, LegendItemTypes } from 'wri-api-components';
 import Icon from 'components/ui/Icon';
 
 // Utils
@@ -163,11 +163,10 @@ class EmbedMap extends Page {
             />
 
             <Legend
-              layerGroups={layerGroups}
+              sortable={false}
               expanded={paramIsTrue(legendExpanded)}
-              hideTimeline={paramIsTrue(hideTimeline)}
-              interaction={false}
-              readonly
+              layerGroups={layerGroups}
+              LegendItemTypes={<LegendItemTypes />}
             />
 
             { modalOpened && this.getModal() }

@@ -1,0 +1,41 @@
+.c-tag {
+  appearance: none;
+  display: inline-block;
+  border-radius: 20px;
+  padding: 2px 10px;
+  font-size: 11px;
+  white-space: nowrap;
+  cursor: pointer;
+
+
+  &.-primary {
+    background: $color-primary;
+    color: $color-white;
+    border: 1px solid $color-primary;
+    font-weight: $font-weight-bold;
+
+    &:hover {
+      background: darken($color-primary, 10%);
+    }
+  }
+
+  &.-secondary {
+    background: transparent;
+    color: $color-text-1;
+    border: 1px solid $color-primary;
+    font-weight: $font-weight-bold;
+
+    &:hover {
+      background: rgba($color-primary, 0.2);
+    }
+  }
+
+  &.-clean {
+    padding: 0;
+    color: $color-text-1;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
