@@ -49,13 +49,9 @@ class Map extends React.Component {
     if (!this.mapNode) return;
 
     this.map = L.map(this.mapNode, mapOptions);
-
-    if (this.props.setMapInstance) {
-      this.props.setMapInstance(this.map);
-    }
+    this.props.onMapInstance && this.props.onMapInstance(this.map);
 
     // BBox
-    console.log(mapOptions.bbox);
     if (mapOptions && mapOptions.bbox) {
       this.fitBounds({ bbox: mapOptions.bbox });
     }
@@ -81,11 +77,12 @@ class Map extends React.Component {
     // SETTERS
     this.setAttribution();
     this.setZoomControl();
-    this.setBasemap(this.props.basemap);
-    this.setMapEventListeners();
 
+    this.setBasemap(this.props.basemap);
     this.setLabels(this.props.labels);
     this.setBoundaries(this.props.boundaries);
+
+    this.setMapEventListeners();
 
     // Add layers
     this.setLayerManager();
@@ -96,84 +93,113 @@ class Map extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const filtersChanged = !isEqual(nextProps.filters, this.props.filters);
+    // LAYER GROUPS
+    const oldlayerGroups = this.props.layerGroups;
+    const nextLayerGroups = nextProps.layerGroups;
 
-    const layerGroups = this.props.layerGroups.filter(l => l.visible);
-    const nextLayerGroups = nextProps.layerGroups.filter(l => l.visible);
+    const oldLayers = oldlayerGroups.map(l => l.layers.find(la => la.active));
+    const nextLayers = nextLayerGroups.map(l => l.layers.find(la => la.active));
+    const unionLayers = new Set([...oldLayers, ...nextLayers]);
 
-    const layerGroupsChanged = !isEqual(layerGroups, nextLayerGroups);
+    const oldLayersIds = oldLayers.map(l => l.id);
+    const nextLayersIds = nextLayers.map(l => l.id);
 
-    const opacities = layerGroups.map(d => ({
-      dataset: d.dataset, opacity: d.layers[0].opacity !== undefined ? d.layers[0].opacity : 1
-    }));
-    const nextOpacities = nextLayerGroups.map(d => ({
-      dataset: d.dataset, opacity: d.layers[0].opacity !== undefined ? d.layers[0].opacity : 1
-    }));
+    if (oldLayersIds.length !== nextLayersIds.length) {
+      // Test whether old & new layers are the same
+      unionLayers.forEach((layer) => {
+        if (!oldLayersIds.find(id => id === layer.id)) {
+          this.addLayers([layer]);
+        } else if (!nextLayersIds.find(id => id === layer.id)) {
+          this.removeLayers([layer]);
+        }
+      });
 
-    if (!isEqual(opacities, nextOpacities)) {
-      // Set opacity if changed
-      const nextLayers = nextLayerGroups
-        .map(l => l.layers.find(la => la.active));
-      this.layerManager.setOpacity(nextLayers);
-    }
+      // POPUP
+      if (this.popup) {
+        this.popup.remove();
+      }
+    } else {
+      // Set layer opacity
+      if (!isEqual(
+        oldlayerGroups.map(d => d.opacity),
+        nextLayerGroups.map(d => d.opacity)
+      )) {
+        const layers = nextLayerGroups.map(lg =>
+          ({ ...lg.layers.find(l => l.active), opacity: lg.opacity, visible: lg.visible }));
 
-    if (filtersChanged || layerGroupsChanged) {
-      const layers = layerGroups
-        .map(l => l.layers.find(la => la.active));
-      const nextLayers = nextLayerGroups
-        .map(l => l.layers.find(la => la.active));
+        this.layerManager.setOpacity(layers);
 
-      const layersIds = layers.map(l => l.id);
-      const nextLayersIds = nextLayers.map(l => l.id);
+        // POPUP
+        if (this.popup) {
+          this.popup.remove();
+        }
+      }
 
-      const union = new Set([...layers, ...nextLayers]);
-      const difference = layersIds.filter(id => !nextLayersIds.find(id2 => id === id2));
+      // Set layer visibility
+      if (!isEqual(
+        oldlayerGroups.map(d => d.visible),
+        nextLayerGroups.map(d => d.visible)
+      )) {
+        const layers = nextLayerGroups.map(lg =>
+          ({ ...lg.layers.find(l => l.active), opacity: lg.opacity, visible: lg.visible }));
 
-      const interactionsChanged = this.interactionsChanged(layers, nextLayers);
+        this.layerManager.setVisibility(layers);
 
-      // Test whether old & new layers are the same & only have to change the order
-      // Also check if interactions have changed, then we want to add the new layers
-      if (layers.length === nextLayers.length && !difference.length && !interactionsChanged) {
+        // POPUP
+        if (this.popup) {
+          this.popup.remove();
+        }
+      }
+
+      // Set layer order
+      if (!isEqual(oldLayersIds, nextLayersIds)) {
         this.layerManager.setZIndex(nextLayers);
-      } else {
-        union.forEach((layer) => {
-          if (!layersIds.find(id => id === layer.id) || interactionsChanged) {
+      }
+
+      // Set layer active
+      if (!isEqual(oldLayersIds, nextLayersIds)) {
+        unionLayers.forEach((layer) => {
+          if (!oldLayersIds.find(id => id === layer.id)) {
             this.addLayers([layer]);
           } else if (!nextLayersIds.find(id => id === layer.id)) {
-            this.removeLayer(layer);
+            this.removeLayers([layer]);
           }
         });
+
+        // POPUP
+        if (this.popup) {
+          this.popup.remove();
+        }
       }
     }
 
-    if (this.props.sidebar.width !== nextProps.sidebar.width) {
-      this.setState({
-        sidebar: nextProps.sidebar
-      });
-    }
+    // BASEMAP
     if (this.props.basemap !== nextProps.basemap) {
       this.setBasemap(nextProps.basemap);
     }
+
+    // LABELS
     if (this.props.labels !== nextProps.labels) {
       this.setLabels(nextProps.labels);
     }
 
+    // BOUNDARIES
     if (this.props.boundaries !== nextProps.boundaries) {
       this.setBoundaries(nextProps.boundaries);
     }
 
-    // POPUP
     if (
       nextProps.interactionLatLng &&
       (
         // interactionSelected changed
-        this.props.interactionSelected !== nextProps.interactionSelected) ||
+        (this.props.interactionSelected !== nextProps.interactionSelected) ||
 
         // interaction changed
         (
           !isEmpty(nextProps.interaction) &&
           !isEqual(this.props.interaction, nextProps.interaction)
         )
+      )
     ) {
       // Get the current interactive layer content
       const currentContent = render(
@@ -181,8 +207,7 @@ class Map extends React.Component {
           interaction: nextProps.interaction,
           interactionSelected: nextProps.interactionSelected,
           interactionLayers: compact(nextLayerGroups.map(g =>
-            g.layers.find(l => l.active && !isEmpty(l.interactionConfig))
-          )),
+            g.layers.find(l => l.active && !isEmpty(l.interactionConfig)))),
           onChangeInteractiveLayer: this.props.setLayerInteractionSelected
         }),
         window.document.createElement('div')
@@ -193,6 +218,10 @@ class Map extends React.Component {
         .setLatLng(nextProps.interactionLatLng)
         .setContent(currentContent)
         .openOn(this.map);
+    }
+
+    if (this.props.sidebar.open !== nextProps.sidebar.open) {
+      this.map.invalidateSize();
     }
   }
 
@@ -207,22 +236,28 @@ class Map extends React.Component {
 
     // Remember to remove the listeners before removing the map
     // or they will stay in memory
-    if (this.props.setMapParams) this.removeMapEventListeners();
+    if (this.props.onMapParams) this.removeMapEventListeners();
     if (this.map) this.map.remove();
   }
 
 
   // SETTERS
   setLayerManager() {
-    const stopLoading = () => {
+    const onLayerAdded = () => {
       // Don't execute callback if component has been unmounted
       if (!this.hasBeenMounted) return;
       this.setState({ loading: false });
+
+      // Set the zIndex after each layer add
+      const layers = this.props.layerGroups.map(l => l.layers.find(la => la.active));
+      this.layerManager.setZIndex(layers);
+      this.layerManager.setVisibility(layers);
+      this.layerManager.setOpacity(layers);
     };
 
     this.layerManager = new this.props.LayerManager(this.map, {
-      onLayerAddedSuccess: stopLoading,
-      onLayerAddedError: stopLoading,
+      onLayerAddedSuccess: onLayerAdded,
+      onLayerAddedError: onLayerAdded,
       onLayerClick: (layer) => {
         this.props.setLayerInteractionLatLng(layer.latlng);
         this.props.setLayerInteraction(layer);
@@ -252,16 +287,11 @@ class Map extends React.Component {
    * Set the labels layer
    * @param {string} labelsId
    */
-  setLabels(labelsId) {
+  setLabels(labels) {
     if (this.labelLayer) this.labelLayer.remove();
-
-    if (labelsId !== 'none') {
-      const labels = LABELS[labelsId];
-
-      this.labelLayer = L.tileLayer(labels.value, labels.options || {})
-        .addTo(this.map)
-        .setZIndex(this.props.layerGroups.length + 2);
-    }
+    this.labelLayer = L.tileLayer(labels.value, labels.options || {})
+      .addTo(this.map)
+      .setZIndex(1002);
   }
 
   /**
@@ -276,7 +306,7 @@ class Map extends React.Component {
       const boundaries = BOUNDARIES.dark;
       this.boundariesLayer = L.tileLayer(boundaries.value, boundaries.options || {})
         .addTo(this.map)
-        .setZIndex(this.props.layerGroups.length + 1);
+        .setZIndex(1001);
     }
   }
 
@@ -298,20 +328,13 @@ class Map extends React.Component {
   setMapEventListeners() {
     function mapChangeHandler() {
       // Dispatch the action to set the params
-      this.props.setMapParams(this.getMapParams());
+      this.props.onMapParams(this.getMapParams());
     }
 
-    if (this.props.setMapParams) {
+    if (this.props.onMapParams) {
       this.map.on('zoomend', mapChangeHandler.bind(this));
       this.map.on('dragend', mapChangeHandler.bind(this));
     }
-  }
-
-  setSpinnerPosition() {
-    const windowWidth = window.innerWidth;
-    const sidebarWidth = this.state.sidebar.width;
-
-    return ((windowWidth - sidebarWidth) / 2);
   }
 
   interactionsChanged(layers, nextLayers) {
@@ -356,17 +379,20 @@ class Map extends React.Component {
   addLayers(layers, filters) {
     if (!layers) return;
     if (layers.length) this.setState({ loading: true });
+
     layers.forEach((layer) => {
       this.layerManager.addLayer(layer, {
-        ...(filters || this.props.filters),
-        zIndex: layer.order
+        ...(filters || this.props.filters)
       });
     });
   }
 
-  removeLayer(layer) {
-    if (layer) this.layerManager.removeLayer(layer.id);
-    else this.layerManager.removeLayers();
+  removeLayers(layers) {
+    if (!layers) this.layerManager.removeLayers();
+
+    layers.forEach((layer) => {
+      this.layerManager.removeLayer(layer.id);
+    });
   }
 
   // RENDER
@@ -391,19 +417,18 @@ class Map extends React.Component {
 
 Map.defaultProps = {
   interactionEnabled: true,
-  disableScrollZoom: true,
-  useLightBasemap: false
+  disableScrollZoom: true
 };
 
 Map.propTypes = {
-  interactionEnabled: PropTypes.bool.isRequired,
-  disableScrollZoom: PropTypes.bool.isRequired,
-  setMapInstance: PropTypes.func,
+  interactionEnabled: PropTypes.bool,
+  disableScrollZoom: PropTypes.bool,
+  onMapInstance: PropTypes.func,
   // STORE
   mapConfig: PropTypes.object,
   sidebar: PropTypes.object,
   basemap: PropTypes.object,
-  labels: PropTypes.string,
+  labels: PropTypes.object,
   boundaries: PropTypes.bool,
   filters: PropTypes.object,
   layerGroups: PropTypes.array, // List of LayerGroup items
@@ -413,7 +438,7 @@ Map.propTypes = {
   LayerManager: PropTypes.func,
 
   // ACTIONS
-  setMapParams: PropTypes.func,
+  onMapParams: PropTypes.func,
   setLayerInteraction: PropTypes.func,
   setLayerInteractionSelected: PropTypes.func,
   setLayerInteractionLatLng: PropTypes.func,
@@ -421,9 +446,9 @@ Map.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  basemap: state.explore.basemap,
-  labels: state.explore.labels,
-  boundaries: state.explore.boundaries,
+  basemap: state.explore.map.basemap,
+  labels: state.explore.map.labels,
+  boundaries: state.explore.map.boundaries,
   sidebar: state.explore.sidebar
 });
 

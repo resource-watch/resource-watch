@@ -12,6 +12,8 @@
 @import '../node_modules/react-progress-2/main';
 @import '../node_modules/rc-slider/assets/index';
 @import '../node_modules/react-input-range/src/scss/index.scss';
+@import '../node_modules/wri-api-components/dist/components';
+
 
 // Editor
 @import '../node_modules/react-quill/dist/quill.snow';
@@ -73,11 +75,14 @@
 @import "./components/ui/table_header_actions";
 @import "./components/ui/table_tooltip";
 @import "./components/ui/tabs";
+@import "./components/ui/tag";
+@import "./components/ui/tag-list";
 @import "./components/ui/terms";
 @import "./components/ui/title";
 @import "./components/ui/tooltip";
 @import "./components/ui/tooltip-global";
 @import "./components/ui/tree_selector";
+@import "./components/ui/user-report";
 @import "./components/ui/zoom_control";
 
 // Modal
@@ -103,6 +108,7 @@
 
 // datasets
 @import './components/datasets/list';
+@import './components/datasets/list-item';
 
 // Subscriptions
 @import "./components/subscriptions/subscriptions_form";
@@ -232,9 +238,11 @@
 @import "./components/app/pulse/legend";
 
 // EXPLORE
-@import "./components/app/explore/dataset_list_header";
-@import "./components/app/explore/dataset_list";
-@import "./components/app/explore/dataset_widget";
+// new
+@import "./components/app/explore/explore-datasets";
+@import "./components/app/explore/explore-datasets-header";
+
+// old
 @import "./components/app/explore/dataset_placeholder_chart";
 @import "./components/app/explore/widget_configurator";
 @import "./components/app/explore/explore_layers_tooltip";

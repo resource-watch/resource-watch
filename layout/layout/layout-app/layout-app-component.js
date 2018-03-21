@@ -11,11 +11,11 @@ import Head from 'layout/head/app';
 import Header from 'layout/header';
 import Icons from 'layout/icons';
 import Footer from 'layout/footer';
+import UserReport from 'layout/user-report';
 
 import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
 import Toastr from 'react-redux-toastr';
-import Dock from 'components/ui/Dock';
 import Search from 'layout/header/search';
 
 import {
@@ -26,7 +26,7 @@ import {
 } from 'widget-editor';
 
 const fullScreenPages = [
-  '/app/Explore',
+  '/app/explore',
   '/app/pulse',
   '/app/Splash'
 ];
@@ -43,7 +43,6 @@ class LayoutApp extends React.Component {
     // Store
     modal: PropTypes.object.isRequired,
     toggleModal: PropTypes.func.isRequired,
-    toggleTooltip: PropTypes.func.isRequired,
     setModalOptions: PropTypes.func.isRequired,
     updateIsLoading: PropTypes.func.isRequired,
     setLocale: PropTypes.func.isRequired,
@@ -69,23 +68,9 @@ class LayoutApp extends React.Component {
     });
   }
 
-  componentWillMount() {
-    // When a tooltip is shown and the router navigates to a
-    // another page, the tooltip stays in place because it is
-    // managed in Redux
-    // The way we prevent this is by listening to the router
-    // and whenever we navigate, we hide the tooltip
-    // NOTE: we can't just call this.props.toggleTooltip here
-    // because for some pages, we don't re-mount the LayoutApp
-    // component. If we listen for events from the router,
-    // we're sure to not miss any page.
-    this.props.toggleTooltip(false);
-  }
-
   componentDidMount() {
     Router.onRouteChangeStart = () => {
       if (Progress && Progress.Component.instance) Progress.show();
-      this.props.toggleTooltip(false);
       this.props.updateIsLoading(true);
     };
     Router.onRouteChangeComplete = () => {
@@ -146,8 +131,6 @@ class LayoutApp extends React.Component {
 
         <Tooltip />
 
-        <Dock />
-
         <Search />
 
         <Modal
@@ -163,6 +146,8 @@ class LayoutApp extends React.Component {
           transitionIn="fadeIn"
           transitionOut="fadeOut"
         />
+
+        <UserReport />
 
         {/* Widget editor */}
         <WidgetModal />

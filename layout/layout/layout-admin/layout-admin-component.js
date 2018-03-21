@@ -15,7 +15,6 @@ import Icons from 'layout/icons';
 import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
 import Toastr from 'react-redux-toastr';
-import Dock from 'components/ui/Dock';
 import Search from 'layout/header/search';
 
 import {
@@ -133,8 +132,6 @@ class LayoutAdmin extends React.Component {
         {this.props.children}
 
         <Tooltip />
-
-        <Dock />
 
         <Search />
 

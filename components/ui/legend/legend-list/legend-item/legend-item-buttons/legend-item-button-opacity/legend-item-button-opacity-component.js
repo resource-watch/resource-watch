@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import Icon from 'components/ui/Icon';
 
 // Tooltip
-import Tooltip from 'rc-tooltip/dist/rc-tooltip';
+import { Tooltip } from 'wri-api-components';
 import LegendOpacityTooltip from './legend-item-button-opacity-tooltip';
 
 class LegendItemButtonOpacity extends PureComponent {
