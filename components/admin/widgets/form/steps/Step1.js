@@ -87,7 +87,6 @@ class Step1 extends React.Component {
     });
 
     const widgetTypeEmbed = this.state.form.widgetConfig.type === 'embed';
-    console.log('widgetTypeEmbed', widgetTypeEmbed);
 
     return (
       <fieldset className="c-field-container">
