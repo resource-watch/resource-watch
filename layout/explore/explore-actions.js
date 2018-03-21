@@ -108,5 +108,8 @@ export const fetchMapLayerGroups = createThunkAction('EXPLORE/fetchMapLayers', p
 export const setFiltersSearch = createAction('EXPLORE/setFiltersSearch');
 export const setFiltersConcepts = createAction('EXPLORE/setFiltersConcepts');
 
+// SORT
+export const setSortSelected = createAction('EXPLORE/setSortSelected');
+
 // SIDEBAR
 export const setSidebarOpen = createAction('EXPLORE/setSidebarOpen');

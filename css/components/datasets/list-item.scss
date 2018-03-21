@@ -73,7 +73,7 @@
         }
 
         @media screen and (min-width: map-get($breakpoints, medium)) {
-          max-width: calc(100% - 150px);
+          max-width: calc(100% - 250px);
         }
 
         .title-container {

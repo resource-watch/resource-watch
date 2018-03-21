@@ -18,7 +18,15 @@
       &:first-child { margin-left: 0; }
     }
 
-    .actions-sort {
+    .c-explore-datasets-sort {
+      display: flex;
+
+      > * {
+        margin-left: 5px;
+
+        &:first-child { margin-left: 0; }
+      }
+
       .actions-sort-button {
         padding: 0;
         font-size: $font-size-small;
@@ -27,12 +35,6 @@
         display: flex;
         cursor: pointer;
 
-        > * {
-          margin-left: 5px;
-
-          &:first-child { margin-left: 0; }
-        }
-
         &:hover {
           color: darken($color-charcoal-grey, 15%);
           fill: rgba($color-charcoal-grey, 0.5);
@@ -40,7 +42,7 @@
       }
     }
 
-    .actions-mode {
+    .c-explore-datasets-mode {
       position: relative;
       top: 2px;
       display: flex;

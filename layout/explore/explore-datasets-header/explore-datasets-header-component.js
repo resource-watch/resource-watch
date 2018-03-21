@@ -1,24 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 
-import { Tooltip } from 'wri-api-components';
-
-// Components
-import Icon from 'components/ui/Icon';
+import ExploreDatasetsSort from './explore-datasets-sort';
+import ExploreDatasetsMode from './explore-datasets-mode';
 
 class ExploreDatasetsHeaderComponent extends React.Component {
   static propTypes = {
-    mode: PropTypes.string,
-    total: PropTypes.number,
-
-    // Actions
-    setDatasetsMode: PropTypes.func
+    total: PropTypes.number
   };
 
   render() {
     const {
-      mode, total
+      total
     } = this.props;
 
     return (
@@ -28,63 +21,9 @@ class ExploreDatasetsHeaderComponent extends React.Component {
         </div>
 
         <div className="actions">
-          <div className="actions-sort">
-            <Tooltip
-              overlay="Sort options dropdown (TBD)"
-              overlayClassName="c-rc-tooltip -default"
-              placement="top"
-              trigger={['click']}
-              mouseLeaveDelay={0}
-              destroyTooltipOnHide
-            >
-              <button
-                className="actions-sort-button"
-              >
-                <span>Last modified</span>
-                <Icon className="-small" name="icon-arrow-down" />
-              </button>
-            </Tooltip>
-          </div>
+          <ExploreDatasetsSort />
 
-          <div className="actions-mode">
-            <Tooltip
-              overlay="Grid mode"
-              overlayClassName="c-rc-tooltip -default"
-              placement="top"
-              trigger={['hover', 'click']}
-              mouseLeaveDelay={0}
-              destroyTooltipOnHide
-            >
-              <button
-                className={classnames({
-                  'actions-mode-button': true,
-                  '-active': (mode === 'grid')
-                })}
-                onClick={() => this.props.setDatasetsMode('grid')}
-              >
-                <Icon name="icon-view-grid" />
-              </button>
-            </Tooltip>
-
-            <Tooltip
-              overlay="List mode"
-              overlayClassName="c-rc-tooltip -default"
-              placement="top"
-              trigger={['hover', 'click']}
-              mouseLeaveDelay={0}
-              destroyTooltipOnHide
-            >
-              <button
-                className={classnames({
-                  'actions-mode-button': true,
-                  '-active': (mode === 'list')
-                })}
-                onClick={() => this.props.setDatasetsMode('list')}
-              >
-                <Icon name="icon-view-list" />
-              </button>
-            </Tooltip>
-          </div>
+          <ExploreDatasetsMode />
         </div>
       </div>
     );
