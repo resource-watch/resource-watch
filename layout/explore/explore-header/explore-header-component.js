@@ -1,45 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
 
 // Components
-import SearchInput from 'components/ui/SearchInput';
+import DatasetSearch from 'components/datasets/search';
 
 class ExploreHeaderComponent extends React.Component {
   static propTypes = {
-    search: PropTypes.string,
+    open: PropTypes.bool,
+    tab: PropTypes.string,
+    options: PropTypes.object,
 
-    // Actions
-    fetchDatasets: PropTypes.func,
-    setDatasetsPage: PropTypes.func,
-    setFiltersSearch: PropTypes.func
-  };
-
-  onSearch = (search) => {
-    this.props.setFiltersSearch(search);
-    this.fetchDatasets();
+    // ACTIONS
+    setFiltersOpen: PropTypes.func,
+    setFiltersTab: PropTypes.func
   }
 
-  fetchDatasets = debounce(() => {
-    this.props.setDatasetsPage(1);
-    this.props.fetchDatasets();
-  }, 300);
-
   render() {
-    const { search } = this.props;
+    const { open, options, tab } = this.props;
 
     return (
       <div className="c-explore-header">
         <h1>Explore</h1>
+        {/* <p>Identify patterns between data sets on the map or download data for analysis.</p> */}
 
         <div className="explore-header-container">
-          <SearchInput
-            onSearch={this.onSearch}
-            input={{
-              defaultValue: search,
-              placeholder: 'Search dataset'
-            }}
-            escapeText={false}
+          <DatasetSearch
+            open={open}
+            tab={tab}
+            options={options}
+            onChangeOpen={this.props.setFiltersOpen}
+            onChangeSearch={null}
+            onChangeSelected={null}
+            onChangeTab={this.props.setFiltersTab}
           />
         </div>
       </div>

@@ -33,10 +33,15 @@ export default class Tabs extends React.Component {
 
   render() {
     const { selected } = this.state;
-    const { options } = this.props;
+    const { options, className } = this.props;
 
     return (
-      <header className="c-tabs">
+      <header
+        className={classnames({
+          'c-tabs': true,
+          [className]: !!className
+        })}
+      >
         <div className="row l-row">
           {options.map((option) => {
             const btnClasses = classnames({
@@ -72,6 +77,7 @@ export default class Tabs extends React.Component {
 }
 
 Tabs.propTypes = {
+  className: PropTypes.string,
   options: PropTypes.array.isRequired,
   selected: PropTypes.string,
   defaultSelected: PropTypes.string,

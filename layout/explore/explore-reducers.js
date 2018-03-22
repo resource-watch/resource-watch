@@ -44,6 +44,14 @@ export default {
     const filters = { ...state.filters, search: action.payload };
     return { ...state, filters };
   },
+  [actions.setFiltersTab]: (state, action) => {
+    const filters = { ...state.filters, tab: action.payload };
+    return { ...state, filters };
+  },
+  [actions.setFiltersOpen]: (state, action) => {
+    const filters = { ...state.filters, open: action.payload };
+    return { ...state, filters };
+  },
 
 
   // SORT

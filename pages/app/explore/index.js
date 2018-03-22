@@ -61,12 +61,14 @@ class ExplorePage extends Page {
   }
 
   componentWillUnmount() {
-    this.props.resetExplore();
+    // this.props.resetExplore();
   }
 
   componentDidUpdate() {
     // URL
     const { isServer } = this.props;
+    console.log(this.props);
+
     const {
       datasets, filters, sort, map
     } = this.props.explore;

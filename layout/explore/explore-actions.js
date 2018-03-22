@@ -108,7 +108,9 @@ export const fetchMapLayerGroups = createThunkAction('EXPLORE/fetchMapLayers', p
 
 
 // FILTERS
+export const setFiltersOpen = createAction('EXPLORE/setFiltersOpen');
 export const setFiltersSearch = createAction('EXPLORE/setFiltersSearch');
+export const setFiltersTab = createAction('EXPLORE/setFiltersTab');
 export const setFiltersConcepts = createAction('EXPLORE/setFiltersConcepts');
 
 // SORT

@@ -1,0 +1,71 @@
+.c-dataset-search {
+  position: relative;
+
+  .search-container {
+    position: relative;
+
+    .search-input {
+      width: 100%;
+      height: 45px;
+      box-shadow: none;
+      outline: none;
+      font-size: $font-size-medium;
+      padding: $margin-size-extra-small/2 40px;
+      margin: 0;
+      width: 100%;
+
+      font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans;
+      font-size: $font-size-normal;
+      color: $body-font-color;
+
+      border-radius: 4px;
+      border: 1px solid $border-color-2;
+
+      &.-open {
+        border-radius: 4px 4px 0 0;
+      }
+    }
+
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      transform: translate(0, -50%);
+      background: transparent;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      transition: all $animation-time $ease-in-out-cubic;
+
+      &.-search {
+        left: 16px;
+        fill: $color-text-1;
+      }
+
+      &.-arrow {
+        right: 16px;
+        fill: $color-primary;
+
+        &.-open {
+          transform: translate(0, -50%) rotate(180deg);
+        }
+      }
+
+      svg {
+        display: block;
+      }
+    }
+  }
+
+  .search-dropdown {
+    border-radius: 0 0 4px 4px;
+    border: 1px solid $border-color-2;
+    border-top: none;
+
+    .search-dropdown-list {
+      padding: $space-1 * 2;
+      font-size: $font-size-normal;
+      // column-count: 2;
+      // column-gap: 10px;
+    }
+  }
+}
