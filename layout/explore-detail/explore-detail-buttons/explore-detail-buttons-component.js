@@ -81,10 +81,9 @@ class ExploreDetailButtons extends PureComponent {
               params={{
                 layers: encodeURIComponent(JSON.stringify([{
                   dataset: dataset.id,
+                  opacity: 1,
                   visible: true,
-                  layers: dataset.layer.map(((l, i) => ({
-                    id: l.id, active: i === 0
-                  })))
+                  layer: dataset.layer[0].id
                 }]))
               }}
             >

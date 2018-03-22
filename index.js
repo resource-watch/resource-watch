@@ -125,6 +125,7 @@ app.prepare()
 
     // Configuring next routes with express
     const handleUrl = (req, res) => {
+      console.log(req.url);
       const parsedUrl = parse(req.url, true);
       return handle(req, res, parsedUrl);
     };

@@ -1,17 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Responsive
+import MediaQuery from 'react-responsive';
+import { breakpoints } from 'utils/responsive';
+
+// Components
 import ExploreDatasetsSort from './explore-datasets-sort';
 import ExploreDatasetsMode from './explore-datasets-mode';
 
 class ExploreDatasetsHeaderComponent extends React.Component {
   static propTypes = {
-    total: PropTypes.number
+    total: PropTypes.number,
+    responsive: PropTypes.object
   };
 
   render() {
     const {
-      total
+      total,
+      responsive
     } = this.props;
 
     return (
@@ -23,7 +30,13 @@ class ExploreDatasetsHeaderComponent extends React.Component {
         <div className="actions">
           <ExploreDatasetsSort />
 
-          <ExploreDatasetsMode />
+          {/* Desktop map */}
+          <MediaQuery
+            minDeviceWidth={breakpoints.medium}
+            values={{ deviceWidth: responsive.fakeWidth }}
+          >
+            <ExploreDatasetsMode />
+          </MediaQuery>
         </div>
       </div>
     );

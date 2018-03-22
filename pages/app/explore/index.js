@@ -60,6 +60,10 @@ class ExplorePage extends Page {
     return { ...props };
   }
 
+  componentWillUnmount() {
+    this.props.resetExplore();
+  }
+
   componentDidUpdate() {
     // URL
     const {
