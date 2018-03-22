@@ -6,6 +6,7 @@ import { Link, Router } from 'routes';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { getInsights } from 'redactions/insights';
+import * as topicsActions from 'layout/topics/topics-actions';
 
 // Layout
 import Page from 'layout/page';
@@ -79,6 +80,18 @@ const exploreCards = [
 ];
 
 class Home extends Page {
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+
+    // Dashboard thumbnail list
+    context.store.dispatch(topicsActions.setSelected(null));
+
+    await context.store.dispatch(topicsActions.fetchTopics({
+      filters: { 'filter[published]': 'true' }
+    }));
+
+    return { ...props };
+  }
   static insightsCardsStatic(insightsData) {
     return insightsData.map(c =>
       (<CardStatic
@@ -267,6 +280,7 @@ class Home extends Page {
               <div className="row">
                 <div className="column small-12">
                   <TopicThumbnailList
+                    portraitMode
                     onSelect={({ slug }) => {
                       // We need to make an amendment in the Wysiwyg to have this working
                       Router.pushRoute('topics_detail', { id: slug })
