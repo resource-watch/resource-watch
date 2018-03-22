@@ -1,6 +1,6 @@
 /* eslint max-len: 0 */
 import React from 'react';
-import { Link } from 'routes';
+import { Link, Router } from 'routes';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -15,6 +15,7 @@ import Layout from 'layout/layout/layout-app';
 import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
 import Rating from 'components/app/common/Rating';
+import TopicThumbnailList from 'components/topics/thumbnail-list';
 
 // Modal
 import Modal from 'components/modal/modal-component';
@@ -23,11 +24,11 @@ import NewsletterModal from 'components/modal/newsletter-modal';
 const exploreCards = [
   {
     tag: 'Explore Data',
-    title: 'Dive into the data',
-    intro: 'Create and download custom visualisations using our collection of datasets related to natural resources.',
+    title: 'Check data on the map',
+    intro: 'Identify patterns between data sets on the map or download data for analysis.',
     buttons: [
       {
-        text: 'Explore data',
+        text: 'Explore datasets',
         path: 'explore',
         className: '-primary'
       }
@@ -36,16 +37,30 @@ const exploreCards = [
   },
   {
     tag: 'Dashboards',
-    title: 'Review the topic or country you care about most',
-    intro: 'Find facts and figures about a country or topic, or build your own dashboard to monitor the data you care about.',
+    title: 'Create and share visualizations',
+    intro: 'Create and share custom visualizations using out collection of datasets related to natural resources.',
     buttons: [
       {
-        text: 'View dashboards',
+        text: 'Create a dashboard',
         path: 'dashboards',
         className: '-primary'
       }
     ],
     background: 'url(/static/tempImages/backgrounds/explore_data_2.png)'
+  },
+  {
+    tag: 'Subscriptions',
+    title: 'Track indicators over time',
+    intro: 'Subscribe to near-real-time updates in key datasets in the areas you care about.',
+    buttons: [
+      {
+        text: 'Sign up for Alerts',
+        path: '/data/pulse',
+        anchor: true,
+        className: '-primary'
+      }
+    ],
+    background: 'url(/static/tempImages/backgrounds/planetpulse.jpg) 67% center'
   },
   {
     tag: 'Planet Pulse',
@@ -94,13 +109,12 @@ class Home extends Page {
           </div>
           {c.ranking && <Rating rating={c.ranking} />}
         </div>
-      </CardStatic>)
-    );
+      </CardStatic>));
   }
 
   static exploreCardsStatic() {
     return exploreCards.map(c =>
-      (<div key={`explore-card-${c.title}`} className="column small-12 medium-4">
+      (<div key={`explore-card-${c.title}`} className="column small-12 medium-6">
         <CardStatic
           className="-alt"
           background={c.background}
@@ -109,8 +123,8 @@ class Home extends Page {
           anchor={c.buttons[0].anchor}
         >
           <div>
-            <h4>{c.tag}</h4>
-            <h3>{c.title}</h3>
+            <h4 className="tag-name">{c.tag}</h4>
+            <h3 className="title">{c.title}</h3>
             <p>{c.intro}</p>
           </div>
           <div className="buttons -align-center">
@@ -238,12 +252,41 @@ class Home extends Page {
             </div>
           </div>
         </section>
+
         <section className="l-section -secondary">
           <div className="l-container">
             <header>
               <div className="row">
                 <div className="column small-12 medium-8">
-                  <h2>Explore the data</h2>
+                  <h2>Topics</h2>
+                  <p>Find facts and figures on people and the enviornment, or see the latest data on the world today.</p>
+                </div>
+              </div>
+            </header>
+            <div className="topics-container">
+              <div className="row">
+                <div className="column small-12">
+                  <TopicThumbnailList
+                    onSelect={({ slug }) => {
+                      // We need to make an amendment in the Wysiwyg to have this working
+                      Router.pushRoute('topics_detail', { id: slug })
+                        .then(() => {
+                          window.scrollTo(0, 0);
+                        });
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="l-section -secondary">
+          <div className="l-container">
+            <header>
+              <div className="row">
+                <div className="column small-12 medium-8">
+                  <h2>Dive into the data</h2>
                   <p>Discover data, create visualizations, and subscribe to updates on key datasets.</p>
                 </div>
               </div>

@@ -61,8 +61,8 @@
   }
 
   .explore-cards .c-card-static {
-    height: 590px;
-    margin-top: $margin-size;
+    height: 360px;
+    margin-top: 20px;
   }
 }
 
@@ -92,6 +92,23 @@
     .c-card-static {
       margin-top: $margin-size-extra-small;
       height: 288px;
+    }
+  }
+}
+
+.explore-cards {
+  .c-card-static {
+
+    .tag-name {
+      text-transform: uppercase;
+      font-size: $font-size-small;
+    }
+    .title {
+      font-weight: bold;
+      font-size: $font-size-big;
+    }
+    .buttons {
+      justify-content: flex-start;
     }
   }
 }
