@@ -7,7 +7,8 @@ import ExploreDatasetsHeaderComponent from './explore-datasets-header-component'
 export default connect(
   state => ({
     // Store
-    ...state.explore.datasets
+    ...state.explore.datasets,
+    responsive: state.responsive
   }),
   actions
 )(ExploreDatasetsHeaderComponent);

@@ -85,20 +85,26 @@ class DatasetListItem extends React.Component {
 
     if (widget && !isWidgetMap) {
       return (
-        <WidgetChart widget={widget} mode="thumbnail" />
+        <div className="list-item-chart">
+          <WidgetChart widget={widget} mode="thumbnail" />
+        </div>
       );
     } else if (layer || isWidgetMap) {
       return (
-        <LayerChart layer={layer} />
+        <div className="list-item-chart">
+          <LayerChart layer={layer} />
+        </div>
       );
     }
 
     return (
-      <Link route="explore_detail" params={{ id: dataset.id }}>
-        <a>
-          <PlaceholderChart />
-        </a>
-      </Link>
+      <div className="list-item-chart">
+        <Link route="explore_detail" params={{ id: dataset.id }}>
+          <a>
+            <PlaceholderChart />
+          </a>
+        </Link>
+      </div>
     );
   }
 
