@@ -16,6 +16,10 @@ import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
 import Rating from 'components/app/common/Rating';
 
+// Modal
+import Modal from 'components/modal/modal-component';
+import NewsletterModal from 'components/modal/newsletter-modal';
+
 const exploreCards = [
   {
     tag: 'Explore Data',
@@ -126,8 +130,20 @@ class Home extends Page {
     );
   }
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showNewsletterModal: false
+    };
+  }
+
   componentDidMount() {
     this.props.getInsights();
+  }
+
+  handleToggleShareModal = (bool) => {
+    this.setState({ showNewsletterModal: bool });
   }
 
   render() {
@@ -158,8 +174,15 @@ class Home extends Page {
           </div>
           <div className="video-text">
             <div>
-              <h1>Explore a world <br />of natural resource data</h1>
-              <p>Discover the latest data, make connections, and help create a more sustainable planet.</p>
+              <h1>Monitoring the Planet&apos;s Pulse</h1>
+              <p>Resource Watch provides timely and trusted data to monitor the Earth for a sustainable future</p>
+              <Link route="explore">
+                <a
+                  className="c-button -secondary"
+                >
+                  Explore Data
+                </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -169,8 +192,8 @@ class Home extends Page {
             <header>
               <div className="row">
                 <div className="column small-12 medium-8">
-                  <h2>Discover Signals</h2>
-                  <p>Read the stories behind the data on our Signals blog.</p>
+                  <h2>Discover Stories</h2>
+                  <p>Read the latest  analysis from our community or submit your own original story</p>
                 </div>
               </div>
             </header>
@@ -189,12 +212,27 @@ class Home extends Page {
               </div>
             </div>
 
-            <div className="buttons -text-center">
+            <div className="-text-center">
               <div className="row">
                 <div className="column small-12 medium-12">
-                  <Link route="insights">
-                    <a className="c-btn -primary">More Signals</a>
-                  </Link>
+                  <div className=" buttons">
+                    <button
+                      className="c-button -secondary join-us-button"
+                      onClick={() => this.handleToggleShareModal(true)}
+                    >
+                      Subscribe to our Newsletter
+                      <Modal
+                        isOpen={this.state.showNewsletterModal}
+                        className="-medium"
+                        onRequestClose={() => this.handleToggleShareModal(false)}
+                      >
+                        <NewsletterModal />
+                      </Modal>
+                    </button>
+                    <Link route="insights">
+                      <a className="c-btn -primary">More Stories</a>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

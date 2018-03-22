@@ -36,10 +36,20 @@
       h1 {
         color: $alt-font-color;
       }
+
+      a {
+        padding: 20px;
+      }
     }
 
     @media screen and (min-width: map-get($breakpoints, medium)) {
       height: 560px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
   }
 
