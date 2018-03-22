@@ -1,7 +1,13 @@
 .c-widget-chart {
   position: relative;
   width: 100%;
-  padding: 20px;
+  height: 100%;
+  padding: 10px;
+
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    padding: 20px;
+  }
+
 
   // These following styles are used in MY RW,
   // specifically in "My Widgets"

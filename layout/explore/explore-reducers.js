@@ -1,6 +1,9 @@
 import * as actions from './explore-actions';
+import initialState from './explore-default-state';
 
 export default {
+  // EXPLORE
+  [actions.resetExplore]: () => initialState,
   //
   // DATASET
   //

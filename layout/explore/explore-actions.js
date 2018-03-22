@@ -3,6 +3,9 @@ import queryString from 'query-string';
 import { createAction, createThunkAction } from 'redux-tools';
 import WRISerializer from 'wri-json-api-serializer';
 
+// RESET
+export const resetExplore = createAction('EXPLORE/resetExplore');
+
 // DATASETS
 export const setDatasets = createAction('EXPLORE/setDatasetsList');
 export const setDatasetsLoading = createAction('EXPLORE/setDatasetsLoading');

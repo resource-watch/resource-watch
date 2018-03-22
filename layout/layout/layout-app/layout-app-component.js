@@ -70,8 +70,8 @@ class LayoutApp extends React.Component {
 
   componentDidMount() {
     Router.onRouteChangeStart = () => {
-      if (Progress && Progress.Component.instance) Progress.show();
       this.props.updateIsLoading(true);
+      if (Progress && Progress.Component.instance) Progress.show();
     };
     Router.onRouteChangeComplete = () => {
       this.props.updateIsLoading(false);
