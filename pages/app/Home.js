@@ -55,7 +55,7 @@ const exploreCards = [
     buttons: [
       {
         text: 'Sign up for Alerts',
-        path: '/data/pulse',
+        path: '/myrw/areas',
         anchor: true,
         className: '-primary'
       }
