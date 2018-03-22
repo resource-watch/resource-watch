@@ -66,6 +66,10 @@
   }
 }
 
+.l-section {
+  padding: 100px 0px;
+}
+
 .insight-cards {
   .c-card-static {
     margin-top: $margin-size;
@@ -97,6 +101,8 @@
 }
 
 .explore-cards {
+  margin-top: 20px;
+
   .c-card-static {
 
     .tag-name {

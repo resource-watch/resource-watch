@@ -281,7 +281,7 @@ class Home extends Page {
           </div>
         </section>
 
-        <section className="l-section -secondary">
+        <section className="l-section">
           <div className="l-container">
             <header>
               <div className="row">
