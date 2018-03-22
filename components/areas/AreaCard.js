@@ -70,8 +70,7 @@ class AreaCard extends React.Component {
       openSubscriptionsModal,
       subscriptionThreshold,
       subscriptionType,
-      subscriptionDataset,
-      area
+      subscriptionDataset
     } = this.props;
 
     if (openSubscriptionsModal) {
@@ -140,8 +139,7 @@ class AreaCard extends React.Component {
     const subscriptionConfirmed = area.subscription && area.subscription.attributes.confirmed;
 
     const borderContainerClassNames = classnames({
-      'border-container': true,
-      'blue-background': subscription && !subscriptionConfirmed
+      'border-container': true
     });
 
     // TODO: Selector
@@ -171,7 +169,7 @@ class AreaCard extends React.Component {
               {subscription &&
                 <div className="datasets-container">
                   <div className="datasets-list">
-                    {subscription.attributes.datasets.map((datasetObj, index) =>
+                    {subscription.attributes.datasets.map((datasetObj, index) => datasetObj &&
                       (<div
                         className="dataset-element"
                         key={`${datasetObj}-${index}`}
@@ -189,7 +187,7 @@ class AreaCard extends React.Component {
                         <div className="dataset-subscription-type">
                           {subscription.attributes.datasetsQuery
                             .find(elem => elem.id === datasetObj.id).type}
-                          &nbsp;(&ge;{subscription.attributes.datasetsQuery
+                          &nbsp;({subscription.attributes.datasetsQuery
                             .find(elem => elem.id === datasetObj.id).threshold})
                         </div>
                       </div>)
@@ -245,7 +243,6 @@ AreaCard.propTypes = {
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
   toggleTooltip: PropTypes.func.isRequired,
-  getUserAreaLayerGroups: PropTypes.func.isRequired,
   removeUserArea: PropTypes.func.isRequired
 };
 

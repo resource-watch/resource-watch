@@ -39,13 +39,11 @@ class AlertWidget extends React.Component {
         </a>
       </Link>
     );
-
   }
 }
 
 AlertWidget.propTypes = {
-  dataset: PropTypes.object,
-  widget: PropTypes.object
+  dataset: PropTypes.object
 };
 
 const mapStateToProps = state => ({

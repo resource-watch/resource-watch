@@ -1,9 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
+import isEqual from 'lodash/isEqual';
 
 // Redux
 import { connect } from 'react-redux';
+
+import { getUserAreas } from 'redactions/user';
+
+// Selectors
+import areaAlerts from 'selectors/user/areaAlerts';
 
 // Services
 import AreasService from 'services/AreasService';
@@ -15,59 +21,19 @@ import Spinner from 'components/ui/Spinner';
 import SubscriptionSelector from 'components/subscriptions/SubscriptionSelector';
 
 // Utils
+import { getLabel } from 'utils/datasets/dataset-helpers';
 import { logEvent } from 'utils/analytics';
 
 class AreaSubscriptionModal extends React.Component {
   constructor(props) {
     super(props);
-    const { subscriptionDataset, subscriptionType, subscriptionThreshold } = props;
-    const { subscription } = props.area;
-    const initialSubscriptionSelectors = subscription
-      ? subscription.attributes.datasetsQuery.map((elem, index) =>
-        ({ index,
-          selectedDataset: elem.id,
-          selectedType: elem.type,
-          selectedThreshold: elem.threshold }))
-      : [{ index: 0, selectedDataset: null, selectedType: null, selectedThreshold: 1 }];
-
-    if (subscriptionDataset) {
-      const selectorFound = initialSubscriptionSelectors
-        .find(selector => selector.selectedDataset === subscriptionDataset);
-      if (selectorFound) {
-        selectorFound.selectedType = subscriptionType;
-        selectorFound.selectedThreshold = subscriptionThreshold;
-      } else if (subscription) {
-        initialSubscriptionSelectors.push({
-          index: initialSubscriptionSelectors.length,
-          selectedDataset: subscriptionDataset,
-          selectedType: subscriptionType,
-          selectedThreshold: subscriptionThreshold
-        });
-      } else {
-        initialSubscriptionSelectors[0].selectedType = subscriptionType;
-        initialSubscriptionSelectors[0].selectedThreshold = subscriptionThreshold || 1;
-        initialSubscriptionSelectors[0].selectedDataset = subscriptionDataset;
-      }
-    }
-
-
-    const { user, area } = props;
-    const { items } = user.areas;
-    let selectors = [];
-
-    if (area.subscription) {
-      const { attributes } = area.subscription;
-      selectors = attributes.datasets.map((item, key) => {
-        return { title: item.label, query: attributes.datasetsQuery[key] };
-      });
-    }
 
     this.state = {
-      loadingDatasets: false,
+      loadingDatasets: true,
       loading: false,
       datasets: [],
-      subscriptionSelectors: initialSubscriptionSelectors,
-      selectors
+      alerts: props.alerts[props.area.id],
+      sortedDatasets: []
     };
 
     // Services
@@ -81,9 +47,6 @@ class AreaSubscriptionModal extends React.Component {
     // ------------------- Bindings -----------------------
     this.handleCancel = this.handleCancel.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleRemoveSubscriptionSelector = this.handleRemoveSubscriptionSelector.bind(this);
-    this.handleUpdateSubscriptionSelector = this.handleUpdateSubscriptionSelector.bind(this);
-    this.handleNewSubscriptionSelector = this.handleNewSubscriptionSelector.bind(this);
     // ----------------------------------------------------
   }
 
@@ -91,116 +54,145 @@ class AreaSubscriptionModal extends React.Component {
     this.loadDatasets();
   }
 
-  handleCancel() {
-    this.props.toggleModal(false);
-  }
-
-  handleSubmit() {
-    const { subscriptionSelectors } = this.state;
-    const { mode, area, user } = this.props;
-    let incomplete = false;
-    subscriptionSelectors.forEach((val) => {
-      if (!val.selectedType || !val.selectedDataset || !val.selectedThreshold) {
-        incomplete = true;
+  onChangeSubscription(value, type, key) {
+    let modified = false;
+    const { alerts, datasets } = this.state;
+    alerts.map((a, k) => {
+      if (k === key) {
+        if (type === 'dataset') {
+          let dataset = datasets.find(d => d.id === value);
+          modified = dataset.id !== a.dataset;
+          const label = getLabel(dataset);
+          dataset = { ...dataset.attributes };
+          dataset.label = label;
+          a.dataset = dataset;
+        } else {
+          modified = a[type] !== value;
+          a[type] = value;
+        }
       }
+      return a;
     });
 
-    if (incomplete) {
-      toastr.error('Data missing', 'Please select a dataset, subscription type and threshold for all items');
-    } else {
-      logEvent('My RW', 'Edit subscription', area.attributes.name);
-
-      const datasets = subscriptionSelectors.map(val => val.selectedDataset);
-      const datasetsQuery = subscriptionSelectors
-        .map(val => ({
-          id: val.selectedDataset,
-          type: val.selectedType,
-          threshold: val.selectedThreshold }
-        ));
-
-      if (mode === 'new') {
-        if (datasets.length >= 1) {
-          this.userService.createSubscriptionToArea(
-            area.id,
-            datasets,
-            datasetsQuery,
-            user,
-            this.props.locale
-          ).then(() => {
-            toastr.success('Success!', 'Subscription created successfully');
-            this.props.toggleModal(false);
-            this.props.onSubscriptionCreated();
-          })
-            .catch(err => toastr.error('Error creating the subscription', err));
-        } else {
-          toastr.error('Error', 'Please select at least one dataset');
-        }
-      } else if (mode === 'edit') {
-        if (datasets.length >= 1) {
-          this.userService.updateSubscriptionToArea(
-            area.subscription.id,
-            datasets,
-            datasetsQuery,
-            user,
-            this.props.locale
-          ).then(() => {
-            toastr.success('Success!', 'Subscription updated successfully');
-            this.props.toggleModal(false);
-            this.props.onSubscriptionUpdated();
-          }).catch(err => toastr.error('Error updating the subscription', err));
-        } else {
-          this.userService.deleteSubscription(area.subscription.id, user.token)
-            .then(() => {
-              toastr.success('Success!', 'Subscription updated successfully');
-              this.props.toggleModal(false);
-              this.props.onSubscriptionUpdated();
-            })
-            .catch(err => toastr.error('Error updating the subscription', err));
-        }
-      }
+    if (modified) {
+      this.setState({ alerts });
     }
+  }
+
+  onRemoveDataset(key) {
+    let { alerts } = this.state;
+    alerts = alerts.filter((a, k) => k !== key);
+    this.setState({ alerts });
+  }
+
+  onAddAlert() {
+    const { alerts } = this.state;
+    const newAlert = {
+      dataset: {
+        subscribable: {}
+      },
+      id: null,
+      lastSeenDate: null,
+      threshold: 1,
+      type: null
+    };
+    alerts.push(newAlert);
+    this.setState({ alerts });
   }
 
   loadDatasets() {
     this.datasetService.getSubscribableDatasets('metadata').then((response) => {
       this.setState({
         loadingDatasets: false,
-        datasets: response.filter(val => Object.keys(val.attributes.subscribable).length > 0)
+        datasets: response,
+        sortedDatasets: response.map((dataset) => {
+          const label = getLabel(dataset);
+          return { value: dataset.id, label };
+        })
       });
     }).catch(err => toastr.error('Error', err)); // TODO: update the UI
   }
 
-  handleRemoveSubscriptionSelector(index) {
-    const { subscriptionSelectors } = this.state;
-    subscriptionSelectors.splice(index, 1);
-    this.setState({ subscriptionSelectors });
-  }
+  handleSubmit() {
+    const { area, user, locale } = this.props;
+    const { alerts } = this.state;
+    const { userService } = this;
 
-  handleUpdateSubscriptionSelector(element) {
-    const { subscriptionSelectors } = this.state;
-    subscriptionSelectors[element.index] = element;
-    this.setState({ subscriptionSelectors });
-  }
+    let missingValues = false;
 
-  handleNewSubscriptionSelector() {
-    const { subscriptionSelectors } = this.state;
-    subscriptionSelectors.push({ index: subscriptionSelectors.length, dataset: null, type: null });
-
-    this.setState({
-      subscriptionSelectors
+    const datasets = alerts.map(a => a.dataset.id);
+    const datasetsQuery = alerts.map((a) => {
+      missingValues = missingValues || (!a.dataset.id || !a.type || !a.threshold);
+      return {
+        id: a.dataset.id,
+        type: a.type,
+        threshold: a.threshold
+      };
     });
+
+    if (missingValues) {
+      toastr.error('Data missing', 'Please select a dataset, subscription type and threshold for all items');
+      return;
+    }
+
+    logEvent('My RW', 'Edit subscription', area.attributes.name);
+
+    if (!area.subscription.id) {
+
+      if (!datasets.length) {
+        toastr.error('Error', 'Please select at least one dataset');
+        return;
+      }
+
+      userService.createSubscriptionToArea(
+        area.id,
+        datasets,
+        datasetsQuery,
+        user,
+        locale
+      ).then(() => {
+        toastr.success('Success!', 'Subscription created successfully');
+        this.props.toggleModal(false);
+        this.props.dispatch(getUserAreas());
+      }).catch(err => toastr.error('Error creating the subscription', err));
+    } else {
+      if (!datasets.length) {
+        userService.deleteSubscription(area.subscription.id, user.token)
+          .then(() => {
+            toastr.success('Success!', 'Subscription updated successfully');
+            this.props.toggleModal(false);
+            this.props.dispatch(getUserAreas());
+          }).catch(err => toastr.error('Error updating the subscription', err));
+        return;
+      }
+
+      userService.updateSubscriptionToArea(
+        area.subscription.id,
+        datasets,
+        datasetsQuery,
+        user,
+        locale
+      ).then(() => {
+        toastr.success('Success!', 'Subscription updated successfully');
+        this.props.toggleModal(false);
+        this.props.dispatch(getUserAreas());
+      }).catch(err => toastr.error('Error updating the subscription', err));
+    }
+  }
+
+  handleCancel() {
+    this.props.toggleModal(false);
   }
 
   render() {
     const {
-      datasets,
       loading,
       loadingDatasets,
-      subscriptionSelectors
+      sortedDatasets,
+      alerts
     } = this.state;
-    const { area } = this.props;
 
-    console.log('modal', this);
+    const { area } = this.props;
 
     return (
       <div className="c-area-subscription-modal" ref={(node) => { this.el = node; }}>
@@ -210,29 +202,34 @@ class AreaSubscriptionModal extends React.Component {
         <div className="header-text">
           Select the datasets that you want to subscribe to.
         </div>
+
         <Spinner isLoading={loading || loadingDatasets} className="-light" />
+
         <div className="datasets-container">
-          {subscriptionSelectors.map((val, index) =>
-            (<SubscriptionSelector
-              datasets={datasets}
-              data={val}
-              onRemove={this.handleRemoveSubscriptionSelector}
-              onUpdate={this.handleUpdateSubscriptionSelector}
-              index={index}
-              key={val.index}
-            />)
-          )}
+          {!loadingDatasets && sortedDatasets && alerts.map((alert, key) => (alert &&
+            <SubscriptionSelector
+              onChangeSubscription={(value, type, k) => this.onChangeSubscription(value, type, k)}
+              onRemoveDataset={k => this.onRemoveDataset(k)}
+              index={key}
+              key={key}
+              datasets={sortedDatasets}
+              alert={alert}
+            />
+            ))}
         </div>
+
         <div className="new-container">
-          <button className="c-btn -b -fullwidth" onClick={this.handleNewSubscriptionSelector}>
-            Add dataset
+          <button
+            className="c-btn -b -fullwidth"
+            onClick={() => this.onAddAlert()}
+          >Add dataset
           </button>
         </div>
         <div className="buttons">
-          <button className="c-btn -primary" onClick={this.handleSubmit}>
+          <button className="c-btn -primary" onClick={() => this.handleSubmit()}>
             Done
           </button>
-          <button className="c-btn -secondary" onClick={this.handleCancel}>
+          <button className="c-btn -secondary" onClick={() => this.handleCancel()}>
             Cancel
           </button>
         </div>
@@ -242,23 +239,19 @@ class AreaSubscriptionModal extends React.Component {
 }
 
 AreaSubscriptionModal.propTypes = {
+  alerts: PropTypes.object.isRequired,
   area: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  mode: PropTypes.string.isRequired, // edit | new
+  dispatch: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
-  subscriptionDataset: PropTypes.string,
-  subscriptionType: PropTypes.string,
-  subscriptionThreshold: PropTypes.number,
   // Store
-  user: PropTypes.object.isRequired,
-  // Callbacks
-  onSubscriptionCreated: PropTypes.func,
-  onSubscriptionUpdated: PropTypes.func
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user,
-  locale: state.common.locale
+  locale: state.common.locale,
+  alerts: areaAlerts(state)
 });
 
 export default connect(mapStateToProps, null)(AreaSubscriptionModal);
