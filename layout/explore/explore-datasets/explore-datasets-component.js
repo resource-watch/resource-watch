@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
+// Responsive
+import MediaQuery from 'react-responsive';
+import { breakpoints } from 'utils/responsive';
+
 // Components
 import DatasetList from 'components/datasets/list';
 import Paginator from 'components/ui/Paginator';
@@ -16,6 +20,7 @@ class ExploreDatasetsComponent extends React.Component {
     page: PropTypes.number,
     total: PropTypes.number,
     limit: PropTypes.number,
+    responsive: PropTypes.object,
 
     // Actions
     fetchDatasets: PropTypes.func,
@@ -29,7 +34,7 @@ class ExploreDatasetsComponent extends React.Component {
 
   render() {
     const {
-      list, mode, page, limit, total
+      list, mode, page, limit, total, responsive
     } = this.props;
 
     return (
@@ -59,7 +64,12 @@ class ExploreDatasetsComponent extends React.Component {
               medium: 'medium-6'
             }}
             actions={
-              <ExploreDatasetsActions />
+              <MediaQuery
+                minDeviceWidth={breakpoints.medium}
+                values={{ deviceWidth: responsive.fakeWidth }}
+              >
+                <ExploreDatasetsActions />
+              </MediaQuery>
             }
           />
         }
@@ -72,9 +82,11 @@ class ExploreDatasetsComponent extends React.Component {
               size: total
             }}
             onChange={(p) => {
-              this.fetchDatasets(p);
               // Scroll to the top of the list
-              document.getElementsByClassName('sidebar-content')[0].scrollTop = 0;
+              window.scrollTo(0, 0);
+              document.querySelector('.sidebar-content').scrollTo(0, 0);
+
+              this.fetchDatasets(p);
             }}
           />
         }
