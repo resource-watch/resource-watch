@@ -34,7 +34,7 @@ const exploreCards = [
         className: '-primary'
       }
     ],
-    background: 'url(/static/tempImages/backgrounds/explore_data_1.png)'
+    background: 'url(/static/images/homepage/home-data-bg1.png)'
   },
   {
     tag: 'Dashboards',
@@ -47,7 +47,7 @@ const exploreCards = [
         className: '-primary'
       }
     ],
-    background: 'url(/static/tempImages/backgrounds/explore_data_2.png)'
+    background: 'url(/static/images/homepage/home-data-bg2.png)'
   },
   {
     tag: 'Subscriptions',
@@ -61,7 +61,7 @@ const exploreCards = [
         className: '-primary'
       }
     ],
-    background: 'url(/static/tempImages/backgrounds/planetpulse.jpg) 67% center'
+    background: 'url(/static/images/homepage/home-data-bg3.png) 67% center'
   },
   {
     tag: 'Planet Pulse',
@@ -75,7 +75,7 @@ const exploreCards = [
         className: '-primary'
       }
     ],
-    background: 'url(/static/tempImages/backgrounds/planetpulse.jpg) 67% center'
+    background: 'url(/static/images/homepage/home-data-bg4.png) 67% center'
   }
 ];
 
