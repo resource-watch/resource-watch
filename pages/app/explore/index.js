@@ -66,60 +66,63 @@ class ExplorePage extends Page {
 
   componentDidUpdate() {
     // URL
+    const { isServer } = this.props;
     const {
       datasets, filters, sort, map
     } = this.props.explore;
 
-    const query = {
-      // Map
-      zoom: map.zoom,
-      lat: map.latLng.lat,
-      lng: map.latLng.lng,
-      basemap: map.basemap.id,
-      labels: map.labels.id,
-      ...!!map.boundaries && { boundaries: map.boundaries },
-      ...!!map.layerGroups.length &&
-        {
-          layers: encodeURIComponent(JSON.stringify(map.layerGroups.map(lg => ({
-            dataset: lg.dataset,
-            opacity: lg.opacity || 1,
-            visible: lg.visible,
-            layer: lg.layers.find(l => l.active === true).id
-          }))))
-        },
+    if (!isServer) {
+      const query = {
+        // Map
+        zoom: map.zoom,
+        lat: map.latLng.lat,
+        lng: map.latLng.lng,
+        basemap: map.basemap.id,
+        labels: map.labels.id,
+        ...!!map.boundaries && { boundaries: map.boundaries },
+        ...!!map.layerGroups.length &&
+          {
+            layers: encodeURIComponent(JSON.stringify(map.layerGroups.map(lg => ({
+              dataset: lg.dataset,
+              opacity: lg.opacity || 1,
+              visible: lg.visible,
+              layer: lg.layers.find(l => l.active === true).id
+            }))))
+          },
 
-      // Datasets
-      page: datasets.page,
-      sort: sort.selected,
-      sortDirection: sort.direction,
-      ...filters.search &&
-        { search: filters.search }
-      //   if (topics) {
-      //     if (topics.length > 0) {
-      //       query.topics = JSON.stringify(topics);
-      //     } else {
-      //       delete query.topics;
-      //     }
-      //   }
-      //
-      //   if (dataTypes) {
-      //     if (dataTypes.length > 0) {
-      //       query.dataTypes = JSON.stringify(dataTypes);
-      //     } else {
-      //       delete query.dataType;
-      //     }
-      //   }
-      //
-      //   if (geographies) {
-      //     if (geographies.length > 0) {
-      //       query.geographies = JSON.stringify(geographies);
-      //     } else {
-      //       delete query.geographies;
-      //     }
-      //   }
-    };
+        // Datasets
+        page: datasets.page,
+        sort: sort.selected,
+        sortDirection: sort.direction,
+        ...filters.search &&
+          { search: filters.search }
+        //   if (topics) {
+        //     if (topics.length > 0) {
+        //       query.topics = JSON.stringify(topics);
+        //     } else {
+        //       delete query.topics;
+        //     }
+        //   }
+        //
+        //   if (dataTypes) {
+        //     if (dataTypes.length > 0) {
+        //       query.dataTypes = JSON.stringify(dataTypes);
+        //     } else {
+        //       delete query.dataType;
+        //     }
+        //   }
+        //
+        //   if (geographies) {
+        //     if (geographies.length > 0) {
+        //       query.geographies = JSON.stringify(geographies);
+        //     } else {
+        //       delete query.geographies;
+        //     }
+        //   }
+      };
 
-    window.history.replaceState({}, `/data/explore?${queryString.stringify(query)}`, `/data/explore?${queryString.stringify(query)}`);
+      window.history.replaceState({}, `/data/explore?${queryString.stringify(query)}`, `/data/explore?${queryString.stringify(query)}`);
+    }
   }
 
   render() {

@@ -20,7 +20,9 @@ const prod = process.env.NODE_ENV === 'production';
 
 // Next app creation
 const app = next({ dev: !prod });
-const handle = routes.getRequestHandler(app, ({ req, res, route, query }) => {
+const handle = routes.getRequestHandler(app, ({
+  req, res, route, query
+}) => {
   app.render(req, res, route.page, query);
 });
 
@@ -32,8 +34,8 @@ function checkBasicAuth(users) {
     if (!/(AddSearchBot)|(HeadlessChrome)/.test(req.headers['user-agent'])) {
       const user = basicAuth(req);
       let authorized = false;
-      if (user && ( (user.name === users[0].name && user.pass === users[0].pass) ||
-        (user.name === users[1].name && user.pass === users[1].pass) ) ) {
+      if (user && ((user.name === users[0].name && user.pass === users[0].pass) ||
+        (user.name === users[1].name && user.pass === users[1].pass))) {
         authorized = true;
       }
 
@@ -125,7 +127,6 @@ app.prepare()
 
     // Configuring next routes with express
     const handleUrl = (req, res) => {
-      console.log(req.url);
       const parsedUrl = parse(req.url, true);
       return handle(req, res, parsedUrl);
     };
