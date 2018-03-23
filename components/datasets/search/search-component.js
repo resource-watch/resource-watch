@@ -1,20 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import flatten from 'lodash/flatten';
 
 // Components
-import Icon from 'components/ui/Icon';
 import Tabs from 'components/ui/Tabs';
+import Tag from 'components/ui/Tag';
+import Icon from 'components/ui/Icon';
+
 
 class SearchComponent extends React.Component {
   static propTypes = {
     open: PropTypes.bool,
     options: PropTypes.object,
+    selected: PropTypes.object,
     tab: PropTypes.string,
 
     // CALLBACKS
     onChangeOpen: PropTypes.func,
-    onChangeTab: PropTypes.func
+    onChangeTab: PropTypes.func,
+    onChangeSelected: PropTypes.func,
+    onResetSelected: PropTypes.func
   };
 
   onScreenClick = (e) => {
@@ -40,13 +46,21 @@ class SearchComponent extends React.Component {
 
 
   render() {
-    const { open, options, tab } = this.props;
+    const {
+      open, options, selected, tab
+    } = this.props;
+
     const tabs = Object
       .keys(options)
       .map(o => ({
         label: options[o].label,
-        value: options[o].value
+        value: options[o].value,
+        ...selected[o].length && { number: selected[o].length }
       }));
+
+    const selectedArr = flatten(Object.keys(selected).map((s) => {
+      return selected[s].map(c => ({ ...options[s].list.find(o => o.id === c), tab: s }));
+    }));
 
     return (
       <div className="c-dataset-search">
@@ -101,9 +115,42 @@ class SearchComponent extends React.Component {
             <div className="search-dropdown-list">
               <ul>
                 {options[tab].list.map(o => (
-                  <li>{o.label}</li>
+                  <li key={o.id}>
+                    <button
+                      className={classnames({
+                        'search-dropdown-list-btn': true,
+                        '-active': selected[tab].includes(o.id)
+                      })}
+                      onClick={() => this.props.onChangeSelected({ tag: o, tab })}
+                    >
+                      {o.label}
+                    </button>
+                  </li>
                 ))}
               </ul>
+            </div>
+          </div>
+        }
+
+        {/* Selected */}
+        {!open && !!selectedArr.length &&
+          <div className="search-selected">
+            <div className="c-tag-list">
+              {selectedArr.map(s => (
+                <Tag
+                  key={s.id}
+                  name={s.label}
+                  className="-secondary"
+                  onClick={() => this.props.onChangeSelected({ tag: s, tab: s.tab })}
+                />
+              ))}
+
+              <Tag
+                key="clear-filters"
+                name="Clear filters"
+                className="-primary"
+                onClick={() => this.props.onResetSelected()}
+              />
             </div>
           </div>
         }

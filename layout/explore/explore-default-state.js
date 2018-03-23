@@ -17,15 +17,17 @@ export default {
     open: false,
     search: '',
     tab: 'topics',
-    topics: [],
-    data_types: [],
-    frequencies: [],
-    time_periods: [],
     options: {
       topics: TOPICS,
       data_types: DATA_TYPES,
       frequencies: FREQUENCIES,
       time_periods: TIME_PERIODS
+    },
+    selected: {
+      topics: [],
+      data_types: [],
+      frequencies: [],
+      time_periods: []
     }
   },
   sort: {

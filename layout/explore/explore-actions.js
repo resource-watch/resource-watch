@@ -26,6 +26,11 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     sort: `${explore.sort.direction < 0 ? '-' : ''}${explore.sort.selected}`,
     status: 'saved',
     published: true,
+    // WOOOOOOW transform an array into an object, only if it is present
+    ...Object.keys(explore.filters.selected).reduce((o, s, i) => ({
+      ...o,
+      ...explore.filters.selected[s].length && { [`concepts[${i}][0]`]: explore.filters.selected[s].join(',') }
+    }), {}),
     'page[number]': explore.datasets.page,
     'page[size]': explore.datasets.limit
   });
@@ -109,9 +114,11 @@ export const fetchMapLayerGroups = createThunkAction('EXPLORE/fetchMapLayers', p
 
 // FILTERS
 export const setFiltersOpen = createAction('EXPLORE/setFiltersOpen');
-export const setFiltersSearch = createAction('EXPLORE/setFiltersSearch');
 export const setFiltersTab = createAction('EXPLORE/setFiltersTab');
-export const setFiltersConcepts = createAction('EXPLORE/setFiltersConcepts');
+export const setFiltersSearch = createAction('EXPLORE/setFiltersSearch');
+export const setFiltersSelected = createAction('EXPLORE/setFiltersSelected');
+export const toggleFiltersSelected = createAction('EXPLORE/toggleFiltersSelected');
+export const resetFiltersSelected = createAction('EXPLORE/resetFiltersSelected');
 
 // SORT
 export const setSortSelected = createAction('EXPLORE/setSortSelected');

@@ -65,6 +65,7 @@ export default class Tabs extends React.Component {
                 {!option.route &&
                   <button className={`tabs-btn ${btnClasses}`} onClick={() => this.onChangeTab(option.value)}>
                     <span className="title">{option.label}</span>
+                    {!!option.number && <span className="number">{option.number}</span>}
                   </button>
                 }
               </div>
