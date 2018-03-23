@@ -9,14 +9,12 @@ function AreasAlerts(props) {
   const { user, id } = props;
   const { subscription } = user.areas.items.find(alert => alert.id === id);
 
-  // console.log('subscription found', subscription);
-
   return (
-    <div className="c-areas-alerts">
+    <div className="c-alerts-page">
 
       {subscription && subscription.attributes &&
-        subscription.attributes.datasets.map(dataset =>
-          <AlertWidget key={dataset.id} dataset={dataset} />)}
+        subscription.attributes.datasets.map((dataset, key) =>
+          <AlertWidget key={key} dataset={dataset} layerGroup={id} />)}
 
       <p>
         This notification reports {'<'}type of alert(s){'>'} for the area of interest you subscribed to.

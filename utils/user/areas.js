@@ -2,12 +2,12 @@ export function mergeSubscriptions(areas, subs, datasets) {
   // Fetch data for the datasets needed
   const datasetsWithLabels = datasets.map(elem => ({
     id: elem.id,
-    label: elem.attributes.metadata && elem.attributes.metadata[0] &&
-      elem.attributes.metadata[0].attributes.info &&
-      elem.attributes.metadata[0].attributes.info.name ?
-      elem.attributes.metadata[0].attributes.info.name :
-      elem.attributes.name,
-    ...elem.attributes
+    label: elem.metadata && elem.metadata[0] &&
+      elem.metadata[0].info &&
+      elem.metadata[0].info.name ?
+      elem.metadata[0].info.name :
+      elem.name,
+    ...elem
   }));
 
   // Merge datasets with labels inside of subscriptions

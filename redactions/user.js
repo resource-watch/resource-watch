@@ -2,6 +2,7 @@ import { toastr } from 'react-redux-toastr';
 import { createAction, createThunkAction } from 'redux-tools';
 
 // Utils
+import WRISerializer from 'wri-json-api-serializer';
 import { mergeSubscriptions, setGeoLayer, setCountryLayer } from 'utils/user/areas';
 
 // actions
@@ -462,21 +463,30 @@ export const getUserAreas = createThunkAction(
             subs.forEach(sub => sub.attributes.datasets
               .forEach(dataset => datasetsSet.add(dataset)));
 
-            return DatasetService.getDatasets([...datasetsSet],
-              common.locale, 'layer,metadata,vocabulary,widget')
+            return DatasetService.getDatasets(
+              [...datasetsSet],
+              common.locale,
+              'layer,metadata,vocabulary,widget'
+            )
               .then((datasets) => {
+                // Should we attach layer groups to the area
                 if (payload.layerGroups) {
-                  let layerGroups = [];
-                  areas.forEach(area => {
-                    layerGroups.push(dispatch(getUserAreaLayerGroups(area)));
-                  });
-
+                  const layerGroups = [];
+                  areas.forEach(area => layerGroups.push(dispatch(getUserAreaLayerGroups(area))));
                   return Promise.all(layerGroups).then(() => {
-                    dispatch(setUserAreas(mergeSubscriptions(areas, subs, datasets)));
+                    dispatch(setUserAreas(mergeSubscriptions(
+                      areas,
+                      subs,
+                      WRISerializer({ data: datasets })
+                    )));
                   });
                 }
 
-                dispatch(setUserAreas(mergeSubscriptions(areas, subs, datasets)));
+                dispatch(setUserAreas(mergeSubscriptions(
+                  areas,
+                  subs,
+                  WRISerializer({ data: datasets })
+                )));
               });
           });
         })

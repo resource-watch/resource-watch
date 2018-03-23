@@ -1,0 +1,23 @@
+$this: 'c-alerts-page';
+
+.#{$this} {
+  display: block;
+
+  &__widget {
+    position: relative;
+    margin: 0 0 50px 0;
+
+    &--heading {
+      padding: 0;
+    }
+
+  }
+
+  &__graph {
+    height: 320px;
+    box-shadow: 0 3px 6px 0 rgba(0,0,0,0.15);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
-import isEqual from 'lodash/isEqual';
+import WRISerializer from 'wri-json-api-serializer';
 
 // Redux
 import { connect } from 'react-redux';
@@ -65,6 +65,7 @@ class AreaSubscriptionModal extends React.Component {
           const label = getLabel(dataset);
           dataset = { ...dataset.attributes };
           dataset.label = label;
+          dataset.id = value;
           a.dataset = dataset;
         } else {
           modified = a[type] !== value;
@@ -102,12 +103,14 @@ class AreaSubscriptionModal extends React.Component {
 
   loadDatasets() {
     this.datasetService.getSubscribableDatasets('metadata').then((response) => {
+      const datasets = WRISerializer({ data: response });
+
       this.setState({
         loadingDatasets: false,
-        datasets: response,
-        sortedDatasets: response.map((dataset) => {
-          const label = getLabel(dataset);
-          return { value: dataset.id, label };
+        datasets,
+        sortedDatasets: datasets.map((d) => {
+          const label = getLabel(d);
+          return { value: d.id, label };
         })
       });
     }).catch(err => toastr.error('Error', err)); // TODO: update the UI
@@ -126,7 +129,7 @@ class AreaSubscriptionModal extends React.Component {
       return {
         id: a.dataset.id,
         type: a.type,
-        threshold: a.threshold
+        threshold: parseFloat(a.threshold)
       };
     });
 
