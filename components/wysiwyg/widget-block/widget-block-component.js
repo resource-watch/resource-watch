@@ -98,6 +98,8 @@ class WidgetBlock extends React.Component {
       widget.metadata[0].attributes.info)) || {};
 
     const widgetLinks = metadataInfo.widgetLinks || [];
+    const widgetIsEmbed = widget && widget.widgetConfig && widget.widgetConfig.type === 'embed';
+    const widgetEmbedUrl = widgetIsEmbed && widget.widgetConfig.url;
 
     const caption = metadataInfo && metadataInfo.caption;
 
@@ -106,6 +108,8 @@ class WidgetBlock extends React.Component {
       'icon-star-full': isInACollection,
       'icon-star-empty': !isInACollection
     });
+
+    console.log('widgetIsEmbed', widgetIsEmbed);
 
     return (
       <div className="c-widget-block-card">
@@ -122,8 +126,8 @@ class WidgetBlock extends React.Component {
                   />}
                   overlayClassName="c-rc-tooltip"
                   overlayStyle={{
-                    color: '#fff'
-                  }}
+                        color: '#fff'
+                      }}
                   placement="bottomLeft"
                   trigger="click"
                 >
@@ -172,6 +176,10 @@ class WidgetBlock extends React.Component {
               toggleLoading={loading => onToggleLoading(loading)}
               reloadOnResize
             />
+          }
+
+          {widgetIsEmbed &&
+            <iframe src={widgetEmbedUrl} width="100%" height="100%" frameBorder="0"></iframe>
           }
 
           {!isEmpty(widget) && !widgetLoading && !widgetError && !layersError && widgetType === 'map' && layers && (
@@ -230,7 +238,7 @@ class WidgetBlock extends React.Component {
                           {link.name}
                         </a>
                       </li>
-                    ))}
+                            ))}
                   </ul>
                 </div>
               }
