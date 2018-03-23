@@ -1,12 +1,15 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
-import queryString from 'query-string';
 
+// Utils
 import { BASEMAPS, LABELS } from 'components/ui/map/constants';
 
 // Components
 import Page from 'layout/page';
+
+// Next
+import { Router } from 'routes';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -64,66 +67,109 @@ class ExplorePage extends Page {
     // this.props.resetExplore();
   }
 
-  componentDidUpdate() {
-    // URL
-    const { isServer } = this.props;
-    console.log(this.props);
+  componentDidUpdate(prevProps) {
+    if (this.shouldUpdateUrl(prevProps)) {
+      this.setExploreURL();
+    }
+  }
 
+  shouldUpdateUrl(prevProps) {
     const {
       datasets, filters, sort, map
     } = this.props.explore;
 
-    if (!isServer) {
-      const query = {
-        // Map
-        zoom: map.zoom,
-        lat: map.latLng.lat,
-        lng: map.latLng.lng,
-        basemap: map.basemap.id,
-        labels: map.labels.id,
-        ...!!map.boundaries && { boundaries: map.boundaries },
-        ...!!map.layerGroups.length &&
-          {
-            layers: encodeURIComponent(JSON.stringify(map.layerGroups.map(lg => ({
-              dataset: lg.dataset,
-              opacity: lg.opacity || 1,
-              visible: lg.visible,
-              layer: lg.layers.find(l => l.active === true).id
-            }))))
-          },
+    const {
+      datasets: prevDatasets, filters: prevFilters, sort: prevSort, map: prevMap
+    } = prevProps.explore;
 
-        // Datasets
-        page: datasets.page,
-        sort: sort.selected,
-        sortDirection: sort.direction,
-        ...filters.search &&
-          { search: filters.search }
-        //   if (topics) {
-        //     if (topics.length > 0) {
-        //       query.topics = JSON.stringify(topics);
-        //     } else {
-        //       delete query.topics;
-        //     }
-        //   }
-        //
-        //   if (dataTypes) {
-        //     if (dataTypes.length > 0) {
-        //       query.dataTypes = JSON.stringify(dataTypes);
-        //     } else {
-        //       delete query.dataType;
-        //     }
-        //   }
-        //
-        //   if (geographies) {
-        //     if (geographies.length > 0) {
-        //       query.geographies = JSON.stringify(geographies);
-        //     } else {
-        //       delete query.geographies;
-        //     }
-        //   }
-      };
+    const layers = encodeURIComponent(JSON.stringify(map.layerGroups.map(lg => ({
+      dataset: lg.dataset,
+      opacity: lg.opacity || 1,
+      visible: lg.visible,
+      layer: lg.layers.find(l => l.active === true).id
+    }))));
 
-      window.history.replaceState({}, `/data/explore?${queryString.stringify(query)}`, `/data/explore?${queryString.stringify(query)}`);
+    const prevLayers = encodeURIComponent(JSON.stringify(prevMap.layerGroups.map(lg => ({
+      dataset: lg.dataset,
+      opacity: lg.opacity || 1,
+      visible: lg.visible,
+      layer: lg.layers.find(l => l.active === true).id
+    }))));
+
+    return (
+      // Map
+      map.zoom !== prevMap.zoom ||
+      map.latLng.lat !== prevMap.latLng.lat ||
+      map.latLng.lng !== prevMap.latLng.lng ||
+      map.basemap.id !== prevMap.basemap.id ||
+      map.labels.id !== prevMap.labels.id ||
+      map.boundaries !== prevMap.boundaries ||
+      layers !== prevLayers ||
+
+      // Datasets
+      datasets.page !== prevDatasets.page ||
+      sort.selected !== prevSort.selected ||
+      sort.direction !== prevSort.direction ||
+      filters.search !== prevFilters.search
+    );
+  }
+
+  setExploreURL() {
+    // URL
+    const {
+      datasets, filters, sort, map
+    } = this.props.explore;
+
+    const query = {
+      // Map
+      zoom: map.zoom,
+      lat: map.latLng.lat,
+      lng: map.latLng.lng,
+      basemap: map.basemap.id,
+      labels: map.labels.id,
+      ...!!map.boundaries && { boundaries: map.boundaries },
+      ...!!map.layerGroups.length &&
+        {
+          layers: encodeURIComponent(JSON.stringify(map.layerGroups.map(lg => ({
+            dataset: lg.dataset,
+            opacity: lg.opacity || 1,
+            visible: lg.visible,
+            layer: lg.layers.find(l => l.active === true).id
+          }))))
+        },
+
+      // Datasets
+      page: datasets.page,
+      sort: sort.selected,
+      sortDirection: sort.direction,
+      ...filters.search && { search: filters.search }
+      //   if (topics) {
+      //     if (topics.length > 0) {
+      //       query.topics = JSON.stringify(topics);
+      //     } else {
+      //       delete query.topics;
+      //     }
+      //   }
+      //
+      //   if (dataTypes) {
+      //     if (dataTypes.length > 0) {
+      //       query.dataTypes = JSON.stringify(dataTypes);
+      //     } else {
+      //       delete query.dataType;
+      //     }
+      //   }
+      //
+      //   if (geographies) {
+      //     if (geographies.length > 0) {
+      //       query.geographies = JSON.stringify(geographies);
+      //     } else {
+      //       delete query.geographies;
+      //     }
+      //   }
+    };
+
+    if (typeof window !== 'undefined') {
+      Router.replaceRoute('explore', query, { shallow: true });
     }
   }
 
@@ -136,8 +182,7 @@ export default withRedux(
   initStore,
   state => ({
     // Store
-    explore: state.explore,
-    routes: state.routes
+    explore: state.explore
   }),
   actions
 )(ExplorePage);
