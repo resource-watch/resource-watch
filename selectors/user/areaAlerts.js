@@ -1,4 +1,3 @@
-import find from 'lodash/find';
 import { createSelector } from 'reselect';
 
 // Get the pulse
@@ -9,10 +8,14 @@ const getAreaAlerts = (user) => {
   const { areas } = user;
   const alerts = {};
 
-  areas.items.map(area => {
+  areas.items.map((area) => {
     const { subscription } = area;
+
+    if (!subscription) return null;
+
     const { datasetsQuery, datasets } = subscription.attributes;
     alerts[area.id] = [];
+
     if (datasetsQuery && datasets) {
       datasetsQuery.map((query, key) => {
         alerts[area.id].push({
