@@ -109,8 +109,6 @@ class WidgetBlock extends React.Component {
       'icon-star-empty': !isInACollection
     });
 
-    console.log('widgetIsEmbed', widgetIsEmbed);
-
     return (
       <div className="c-widget-block-card">
         <header>
