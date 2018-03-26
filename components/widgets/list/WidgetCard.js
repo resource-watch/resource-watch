@@ -322,7 +322,7 @@ class WidgetCard extends PureComponent {
     const widgetId = this.props.widget.id;
     const widgetName = this.props.widget.name;
     // eslint-disable-next-line no-alert
-    if (confirm(`Are you sure you want to remove the widget: ${widgetName}?`)) {
+    if (confirm(`Are you sure you want to remove the visualization: ${widgetName}?`)) {
       this.widgetService.removeUserWidget(widgetId, this.props.user.token)
         .then(() => this.props.onWidgetRemove())
         .catch(err => toastr.error('Error', err));
