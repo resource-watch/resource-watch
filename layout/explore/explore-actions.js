@@ -29,9 +29,9 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     // Concepts
     ...Object.keys(explore.filters.selected).reduce((o, s, i) => ({
       ...o,
-      ...explore.filters.selected[s].length && explore.filters.selected[s].reduce((o2, s2, i2) => ({
+      ...explore.filters.selected[s].reduce((o2, s2, j) => ({
         ...o2,
-        [`concepts[${i}][${i2}]`]: s2
+        [`concepts[${i}][${j}]`]: s2
       }), {})
     }), {}),
     // Page
