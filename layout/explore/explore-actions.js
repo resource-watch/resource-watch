@@ -34,7 +34,7 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
         [`concepts[${i}][${i2}]`]: s2
       }), {})
     }), {}),
-    //
+    // Page
     'page[number]': explore.datasets.page,
     'page[size]': explore.datasets.limit
   });
@@ -48,8 +48,8 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
       return response.json();
     })
     .then((response) => {
-      const { meta } = response;
-      dispatch(setDatasetsTotal(meta['total-items']));
+      const { meta = {} } = response;
+      dispatch(setDatasetsTotal(meta['total-items'] || 0));
       return WRISerializer(response, { locale: common.locale });
     })
     .then((data) => {
