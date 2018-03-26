@@ -26,11 +26,15 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     sort: `${explore.sort.direction < 0 ? '-' : ''}${explore.sort.selected}`,
     status: 'saved',
     published: true,
-    // WOOOOOOW transform an array into an object, only if it is present
+    // Concepts
     ...Object.keys(explore.filters.selected).reduce((o, s, i) => ({
       ...o,
-      ...explore.filters.selected[s].length && { [`concepts[${i}][0]`]: explore.filters.selected[s].join(',') }
+      ...explore.filters.selected[s].length && explore.filters.selected[s].reduce((o2, s2, i2) => ({
+        ...o2,
+        [`concepts[${i}][${i2}]`]: s2
+      }), {})
     }), {}),
+    //
     'page[number]': explore.datasets.page,
     'page[size]': explore.datasets.limit
   });
