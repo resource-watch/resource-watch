@@ -18,6 +18,10 @@ export const setDatasetsMode = createAction('EXPLORE/setDatasetsMode');
 export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (dispatch, getState) => {
   const { explore, common } = getState();
 
+  const concepts = Object.keys(explore.filters.selected)
+    .map(s => explore.filters.selected[s])
+    .filter(selected => selected.length);
+
   const qParams = queryString.stringify({
     application: process.env.APPLICATIONS,
     language: common.locale,
@@ -27,9 +31,9 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     status: 'saved',
     published: true,
     // Concepts
-    ...Object.keys(explore.filters.selected).reduce((o, s, i) => ({
+    ...concepts.reduce((o, s, i) => ({
       ...o,
-      ...explore.filters.selected[s].reduce((o2, s2, j) => ({
+      ...s.reduce((o2, s2, j) => ({
         ...o2,
         [`concepts[${i}][${j}]`]: s2
       }), {})
