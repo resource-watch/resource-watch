@@ -31,7 +31,7 @@ const MYRW_TABS = [{
   route: 'myrw',
   params: { tab: 'datasets', subtab: 'my_datasets' }
 }, {
-  label: 'Widgets',
+  label: 'Visualizations',
   value: 'widgets',
   route: 'myrw',
   params: { tab: 'widgets', subtab: 'my_widgets' }

@@ -55,7 +55,7 @@ class WidgetActionsTooltip extends React.Component {
           { this.props.isWidgetOwner &&
             <li>
               <button onClick={() => this.handleClick('edit_widget')}>
-                Edit widget
+                Edit visualization
               </button>
             </li>
           }

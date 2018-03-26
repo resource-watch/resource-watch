@@ -26,8 +26,8 @@ export default function WidgetBlockEdition({
                   <h1>Select widget</h1>
                   <Tabs
                     options={[
-                      { label: 'My widgets', value: 'my-widgets' },
-                      { label: 'All widgets', value: 'all-widgets' }
+                      { label: 'My visualizations', value: 'my-widgets' },
+                      { label: 'All visualizations', value: 'all-widgets' }
                     ]}
                     defaultSelected={data.tab}
                     selected={data.tab}

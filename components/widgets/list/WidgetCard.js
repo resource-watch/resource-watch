@@ -478,7 +478,7 @@ class WidgetCard extends PureComponent {
                   className="c-button -secondary widget-actions"
                   onClick={e => this.handleWidgetActionsClick(e, (widget.userId === user.id))}
                 >
-                  Widget actions
+                  Visualization actions
                 </button>
               }
               {showRemove && (widget.userId === user.id) &&

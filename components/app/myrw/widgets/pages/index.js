@@ -11,7 +11,7 @@ import MyRWWidgetsMy from 'components/app/myrw/widgets/my-rw-widgets';
 
 // Constants
 const WIDGET_SUBTABS = [{
-  label: 'My widgets',
+  label: 'My visualizations',
   value: 'my_wigets',
   route: 'myrw',
   params: { tab: 'widgets', subtab: 'my_widgets' }
