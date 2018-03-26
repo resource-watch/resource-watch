@@ -1,6 +1,10 @@
 .c-tabs {
   margin: $space-1 * 4 0 0;
 
+  &.-no-margin {
+    margin: 0;
+  }
+
   // Tabs-btn
   .tabs-btn {
     display: flex;
@@ -18,7 +22,17 @@
     cursor: pointer;
 
     .number {
-      color: $color-mango;
+      position: absolute;
+      top: 4px;
+      right: -10px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 14px;
+      font-size: 10px;
+      font-weight: $font-weight-bold;
+      background: $color-mango;
     }
 
     &:after {
@@ -45,6 +59,34 @@
       &:after {
         height: 5px;
         opacity: 1;
+      }
+    }
+  }
+
+  &.-dark {
+    background: $ui-bg-color;
+    padding: 0 $space-1 * 2;
+
+    .tabs-btn {
+      color: $color-text-1;
+      font-size: $font-size-normal;
+      padding: 14px 0;
+
+      .number {
+        color: $color-primary;
+        background: transparent;
+      }
+
+      &:after {
+        background: $color-primary;
+      }
+
+      &:hover {
+        color: $color-primary;
+      }
+
+      &.-active {
+        color: $color-primary;
       }
     }
   }

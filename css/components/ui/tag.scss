@@ -7,6 +7,11 @@
   white-space: nowrap;
   cursor: pointer;
 
+  > * {
+    margin: 0 0 0 4px;
+
+    &:first-child { margin: 0 }
+  }
 
   &.-primary {
     background: $color-primary;
