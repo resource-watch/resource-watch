@@ -15,10 +15,12 @@ class SearchComponent extends React.Component {
     options: PropTypes.object,
     selected: PropTypes.object,
     tab: PropTypes.string,
+    search: PropTypes.string,
 
     // CALLBACKS
     onChangeOpen: PropTypes.func,
     onChangeTab: PropTypes.func,
+    onChangeSearch: PropTypes.func,
     onChangeSelected: PropTypes.func,
     onResetSelected: PropTypes.func
   };
@@ -44,10 +46,13 @@ class SearchComponent extends React.Component {
     this.props.onChangeOpen(to);
   }
 
+  onChangeSearch = (e) => {
+    this.props.onChangeSearch(e.currentTarget.value);
+  }
 
   render() {
     const {
-      open, options, selected, tab
+      open, options, selected, tab, search
     } = this.props;
 
     const tabs = Object
@@ -82,11 +87,11 @@ class SearchComponent extends React.Component {
             })}
             type="search"
             placeholder="Search and filter datasets"
-            value=""
+            value={search}
             // ref={c => this.getInputRef(c)}
             // onKeyDown={c => this.onKeyDown(c)}
             onClick={() => this.onToggleOpen(true)}
-            onChange={this.onSearch}
+            onChange={this.onChangeSearch}
           />
 
           <button

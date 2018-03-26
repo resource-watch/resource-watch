@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'lodash/debounce';
 
 // Components
 import DatasetSearch from 'components/datasets/search';
@@ -11,14 +12,21 @@ class ExploreHeaderComponent extends React.Component {
     tab: PropTypes.string,
     options: PropTypes.object,
     selected: PropTypes.object,
+    search: PropTypes.string,
 
     // ACTIONS
     fetchDatasets: PropTypes.func,
     setDatasetsPage: PropTypes.func,
     setFiltersOpen: PropTypes.func,
     setFiltersTab: PropTypes.func,
+    setFiltersSearch: PropTypes.func,
     toggleFiltersSelected: PropTypes.func,
     resetFiltersSelected: PropTypes.func
+  }
+
+  onChangeSearch = (search) => {
+    this.props.setFiltersSearch(search);
+    this.fetchDatasets();
   }
 
   onChangeSelected = (payload) => {
@@ -31,16 +39,17 @@ class ExploreHeaderComponent extends React.Component {
     this.fetchDatasets();
   }
 
-  fetchDatasets = () => {
+  fetchDatasets = debounce(() => {
     this.props.setDatasetsPage(1);
     this.props.fetchDatasets();
-  };
+  }, 250);
 
   render() {
     const {
       open,
       options,
       tab,
+      search,
       selected
     } = this.props;
 
@@ -53,13 +62,14 @@ class ExploreHeaderComponent extends React.Component {
           <DatasetSearch
             open={open}
             tab={tab}
+            search={search}
             options={options}
             selected={selected}
             onChangeOpen={this.props.setFiltersOpen}
             onChangeTab={this.props.setFiltersTab}
+            onChangeSearch={this.onChangeSearch}
             onChangeSelected={this.onChangeSelected}
             onResetSelected={this.onResetSelected}
-            onChangeSearch={null}
           />
         </div>
       </div>
