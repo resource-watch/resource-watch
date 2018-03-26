@@ -124,6 +124,7 @@ export const fetchMapLayerGroups = createThunkAction('EXPLORE/fetchMapLayers', p
 export const setFiltersOpen = createAction('EXPLORE/setFiltersOpen');
 export const setFiltersTab = createAction('EXPLORE/setFiltersTab');
 export const setFiltersSearch = createAction('EXPLORE/setFiltersSearch');
+export const setFiltersOption = createAction('EXPLORE/setFiltersOption');
 export const setFiltersSelected = createAction('EXPLORE/setFiltersSelected');
 export const toggleFiltersSelected = createAction('EXPLORE/toggleFiltersSelected');
 export const resetFiltersSelected = createAction('EXPLORE/resetFiltersSelected');
