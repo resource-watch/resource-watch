@@ -75,8 +75,6 @@ class SaveWidgetModal extends React.Component {
     const { description, name, caption } = this.state;
     const { dataset, getWidgetConfig, user } = this.props;
 
-    console.log('description, name, caption', description, name, caption);
-
     this.setState({
       loading: true
     });
