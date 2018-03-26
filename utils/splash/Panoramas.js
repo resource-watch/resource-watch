@@ -263,7 +263,7 @@ export const PANORAMAS = [
                 </p>
                 <p>
                   <span className="header-text">Eat sustainably</span>
-                   and use <a href="https://www.fishwatch.gov/" target="_blank" rel="noopener noreferrer">this database</a> to choose seafood caught from sustainably managed fisheries that don’t threaten marine ecosystems.
+                   and use <a href="https://www.fishwatch.gov/" target="_blank" rel="noopener noreferrer">this database</a> (<a href="http://wwf.panda.org/how_you_can_help/live_green/out_shopping/seafood_guides/" target="_blank" rel="noreferrer noopener">and this guide</a>) to choose seafood caught from sustainably managed fisheries that don’t threaten marine ecosystems. (Businesses can follow <a href="http://www.theoceaniseverybodysbusiness.org/take-action/only-consume-sustainable-seafood/" target="_blank" rel="noreferrer noopener">these guidelines</a>.)
                 </p>
                 <p>
                   <span className="header-text">Avoid damaging coral</span>
