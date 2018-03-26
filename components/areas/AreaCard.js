@@ -10,6 +10,9 @@ import { toggleModal, setModalOptions } from 'redactions/modal';
 import { toggleTooltip } from 'redactions/tooltip';
 import { removeUserArea, getUserAreaLayerGroups } from 'redactions/user';
 
+// Selectors
+import areaAlerts from 'selectors/user/areaAlerts';
+
 // Components
 import Spinner from 'components/ui/Spinner';
 import Map from 'components/ui/map/Map';
@@ -133,7 +136,7 @@ class AreaCard extends React.Component {
 
   render() {
     const { loading } = this.state;
-    const { area, user } = this.props;
+    const { area, user, alerts } = this.props;
     const { name, id } = area.attributes;
     const { subscription } = area;
     const subscriptionConfirmed = area.subscription && area.subscription.attributes.confirmed;
@@ -147,6 +150,8 @@ class AreaCard extends React.Component {
     if (user.areas.layerGroups.hasOwnProperty(area.id)) {
       layerGroups = user.areas.layerGroups[area.id];
     }
+
+    const activeAlerts = area.id in alerts ? alerts[area.id] : [];
 
     return (
       <div className="c-area-card">
@@ -166,29 +171,27 @@ class AreaCard extends React.Component {
               <h4>{name}</h4>
             </div>
             <div className="subscriptions-container">
-              {subscription &&
+              {activeAlerts &&
                 <div className="datasets-container">
                   <div className="datasets-list">
-                    {subscription.attributes.datasets.map((datasetObj, index) => datasetObj &&
+                    {activeAlerts.map((alert, index) =>
                       (<div
                         className="dataset-element"
-                        key={`${datasetObj}-${index}`}
+                        key={`${alert.id}-${index}`}
                       >
                         <div className="dataset-name">
                           <Link
                             route="explore_detail"
-                            params={{ id: datasetObj.id }}
+                            params={{ id: alert.id }}
                           >
                             <a>
-                              {datasetObj.label}
+                              {alert.dataset.label}
                             </a>
                           </Link>
                         </div>
                         <div className="dataset-subscription-type">
-                          {subscription.attributes.datasetsQuery
-                            .find(elem => elem.id === datasetObj.id).type}
-                          &nbsp;({subscription.attributes.datasetsQuery
-                            .find(elem => elem.id === datasetObj.id).threshold})
+                          {alert.type}
+                          &nbsp;({alert.threshold})
                         </div>
                       </div>)
                     )}
@@ -248,7 +251,8 @@ AreaCard.propTypes = {
 
 const mapStateToProps = state => ({
   locale: state.common.locale,
-  user: state.user
+  user: state.user,
+  alerts: areaAlerts(state)
 });
 
 const mapDispatchToProps = {
