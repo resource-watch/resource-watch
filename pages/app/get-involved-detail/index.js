@@ -8,7 +8,6 @@ import Page from 'layout/page';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-// import { getInsights } from 'redactions/insights';
 
 import * as actions from 'layout/get-involved-detail/get-involved-detail-actions';
 
@@ -27,10 +26,6 @@ class GetInvolvedDetailPage extends Page {
 
     // Get static data
     await context.store.dispatch(actions.fetchStaticData(routes.query.id));
-
-    // if (routes.query.id === 'submit-an-insight') {
-    //   await context.store.dispatch(getInsights());
-    // }
 
     const breadcrumbsItems = routes.query.source === 'home' ?
       [{ name: 'Home', href: '/' }] :

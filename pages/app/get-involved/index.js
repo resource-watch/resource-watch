@@ -10,7 +10,6 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
 import * as actions from 'layout/get-involved/get-involved-actions';
-// import { getStaticData } from 'redactions/static_pages';
 
 import GetInvolved from 'layout/get-involved';
 

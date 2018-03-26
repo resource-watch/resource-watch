@@ -58,7 +58,7 @@ export default {
       id: 'get_involved',
       label: 'Get Involved',
       route: 'get_involved',
-      pathnames: ['/app/get-involved', '/app/get-involved'],
+      pathnames: ['/app/get-involved', '/app/get-involved-detail'],
       children: [
         { label: 'Suggest a story', route: 'get_involved_detail', params: { id: 'suggest-a-story' } },
         { label: 'Contribute data', route: 'get_involved_detail', params: { id: 'contribute-data' } },

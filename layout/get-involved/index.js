@@ -16,7 +16,6 @@ export default connect(
     // Store
     getInvolvedIndex: state.getInvolvedIndex,
     user: state.user
-    // insights: state.insights.list
   }),
   actions
 )(GetInvolvedComponent);
