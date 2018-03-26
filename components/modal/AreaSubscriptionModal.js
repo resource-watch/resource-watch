@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 import WRISerializer from 'wri-json-api-serializer';
 
+import isEmpty from 'lodash/isEmpty';
+
 // Redux
 import { connect } from 'react-redux';
 
@@ -32,7 +34,7 @@ class AreaSubscriptionModal extends React.Component {
       loadingDatasets: true,
       loading: false,
       datasets: [],
-      alerts: props.alerts[props.area.id],
+      alerts: props.area.id in props.alerts ? props.alerts[props.area.id] : [],
       sortedDatasets: []
     };
 
@@ -60,12 +62,10 @@ class AreaSubscriptionModal extends React.Component {
     alerts.map((a, k) => {
       if (k === key) {
         if (type === 'dataset') {
-          let dataset = datasets.find(d => d.id === value);
+          const dataset = datasets.find(d => d.id === value);
           modified = dataset.id !== a.dataset;
           const label = getLabel(dataset);
-          dataset = { ...dataset.attributes };
           dataset.label = label;
-          dataset.id = value;
           a.dataset = dataset;
         } else {
           modified = a[type] !== value;
@@ -103,8 +103,7 @@ class AreaSubscriptionModal extends React.Component {
 
   loadDatasets() {
     this.datasetService.getSubscribableDatasets('metadata').then((response) => {
-      const datasets = WRISerializer({ data: response });
-
+      const datasets = WRISerializer({ data: response }).filter(a => !isEmpty(a.subscribable));
       this.setState({
         loadingDatasets: false,
         datasets,
@@ -117,7 +116,7 @@ class AreaSubscriptionModal extends React.Component {
   }
 
   handleSubmit() {
-    const { area, user, locale } = this.props;
+    const { area, user, locale, mode } = this.props;
     const { alerts } = this.state;
     const { userService } = this;
 
@@ -140,7 +139,7 @@ class AreaSubscriptionModal extends React.Component {
 
     logEvent('My RW', 'Edit subscription', area.attributes.name);
 
-    if (!area.subscription.id) {
+    if (mode === 'new') {
 
       if (!datasets.length) {
         toastr.error('Error', 'Please select at least one dataset');

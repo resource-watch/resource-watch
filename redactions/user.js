@@ -432,7 +432,6 @@ export const getUserAreaLayerGroups = createThunkAction(
     (dispatch) => {
       const { attributes } = area;
       const areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
-
       if (attributes.geostore) {
         return areasService.getGeostore(attributes.geostore).then((geo) => {
           dispatch(setUserAreaLayerGroup({ area, layerGroups: [setGeoLayer(geo)] }));
