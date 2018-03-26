@@ -1,4 +1,3 @@
-import sortBy from 'lodash/sortBy';
 import { TOPICS, DATA_TYPES, FREQUENCIES, TIME_PERIODS } from 'utils/concepts';
 import { BASEMAPS, LABELS } from 'components/ui/map/constants';
 

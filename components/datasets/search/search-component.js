@@ -146,6 +146,7 @@ class SearchComponent extends React.Component {
                   key={s.id}
                   name={s.label}
                   className="-secondary"
+                  isRemovable
                   onClick={() => this.props.onChangeSelected({ tag: s, tab: s.tab })}
                 />
               ))}
