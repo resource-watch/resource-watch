@@ -2,9 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'routes';
 
-import { toggleModal, setModalOptions } from 'redactions/modal';
-import { toggleTooltip } from 'redactions/tooltip';
-
 import { connect } from 'react-redux';
 
 // Selectors
@@ -12,57 +9,18 @@ import areaAlerts from 'selectors/user/areaAlerts';
 
 // Components
 import AlertWidget from 'components/areas/AlertWidget';
-import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 
 class AreasAlerts extends React.Component  {
-
-  constructor(props) {
-    super(props);
-    const { user, id } = props;
-    const { subscription } = user.areas.items.find(alert => alert.id === id);
-    const { areas } = user;
-
-    this.state = {
-      area: areas.items.find(a => a.id === id),
-      subscription
-    };
-  }
-
-  handleEditSubscription() {
-    const mode = this.state.subscription ? 'edit' : 'new';
-    const options = {
-      children: AreaSubscriptionModal,
-      childrenProps: {
-        area: this.state.area,
-        toggleModal: this.props.toggleModal,
-        onSubscriptionUpdated: this.handleSubscriptionUpdated,
-        onSubscriptionCreated: this.handleSubscriptionUpdated,
-        mode,
-        subscriptionDataset: true,
-        subscriptionType: true,
-        subscriptionThreshold: true
-      }
-    };
-    this.props.toggleModal(true);
-    this.props.setModalOptions(options);
-  }
-
   render() {
     const { user, id, alerts } = this.props;
     const { subscription } = user.areas.items.find(alert => alert.id === id);
 
     return (
       <div className="c-alerts-page">
-        <button
-            className="c-btn -b -compressed"
-            onClick={() => this.handleEditSubscription()}
-          >
-            Edit Subscriptions
-          </button>
 
         {subscription && subscription.attributes && subscription.attributes.datasets &&
           subscription.attributes.datasets.map((dataset, key) =>
-            <AlertWidget key={key} dataset={dataset} layerGroup={id} subscription={subscription} />)}
+            <AlertWidget key={key} dataset={dataset} id={id} layerGroup={id} subscription={subscription} />)}
 
         <p>
           This notification reports {alerts[id].map(a => a.dataset.label).join(', ')} for the area of interest you subscribed to.
@@ -91,7 +49,8 @@ class AreasAlerts extends React.Component  {
 
 AreasAlerts.propTypes = {
   id: PropTypes.string,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  alerts: PropTypes.object
 };
 
 const mapStateToProps = state => ({
@@ -99,10 +58,4 @@ const mapStateToProps = state => ({
   alerts: areaAlerts(state)
 });
 
-const mapDispatchToProps = {
-  toggleModal,
-  setModalOptions,
-  toggleTooltip
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AreasAlerts);
+export default connect(mapStateToProps, null)(AreasAlerts);

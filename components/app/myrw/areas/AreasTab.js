@@ -33,7 +33,7 @@ function AreasTab(props) {
       }
 
       {id && id !== 'new' && (subtab === 'alerts') && user.token &&
-        <AreasAlerts tab={tab} subtab={subtab} id={id} />
+        <AreasAlerts tab={tab} subtab={subtab} id={id} user={user} />
       }
 
     </div>
