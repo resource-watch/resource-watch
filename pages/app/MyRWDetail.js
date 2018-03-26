@@ -138,16 +138,15 @@ class MyRWDetail extends Page {
     this.setState({ tab, id, subtab });
   }
 
-
   /**
    * HELPERS
    * - getName
    * - getDatasetName
   */
   getName() {
-    const { tab, id, data } = this.state;
+    const { tab, id, data, subtab } = this.state;
 
-    if (id) {
+    if (id && subtab !== 'alerts') {
       return id === 'new' ? `New ${singular(tab)}` : 'Edit';
     }
 
@@ -160,6 +159,18 @@ class MyRWDetail extends Page {
     }
 
     return '-';
+  }
+
+  getAlerts() {
+    const { id } = this.state;
+    const { alerts } = this.props;
+
+    if (id in alerts) {
+      return `Alerts for ${alerts[id].map(a => a.dataset.label).join(', ')}`;
+    }
+
+    return '';
+
   }
 
   render() {
@@ -184,6 +195,7 @@ class MyRWDetail extends Page {
                   <Title className="-primary -huge page-header-title" >
                     {this.getName()}
                   </Title>
+                  {subtab === 'alerts' && <div className="page-header-info">{this.getAlerts()}</div>}
                   {myrwdetail.dataset &&
                     <div className="page-header-info">
                       <ul>
@@ -237,7 +249,8 @@ const mapStateToProps = state => ({
   user: state.user,
   // Store
   myrwdetail: state.myrwdetail,
-  locale: state.common.locale
+  locale: state.common.locale,
+  alerts: areaAlerts(state)
 });
 
 

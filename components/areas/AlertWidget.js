@@ -46,7 +46,9 @@ class AlertWidget extends React.Component {
         layers: dataset.layer.map(d => ({
           active: true,
           id: d.id,
+          name: d.name,
           layerConfig: d.layerConfig,
+          legendConfig: d.legendConfig,
           provider: d.provider
         }))
       }]
@@ -84,7 +86,7 @@ class AlertWidget extends React.Component {
 
           <div className="c-legend-map">
             <Legend
-              maxHeight={300}
+              maxHeight={250}
               layerGroups={this.state.layerGroups}
               // List item
               LegendItemToolbar={

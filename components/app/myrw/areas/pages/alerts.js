@@ -47,22 +47,8 @@ class AreasAlerts extends React.Component  {
     this.props.setModalOptions(options);
   }
 
-  /*
-    <AreaCard
-      token={user.token}
-      area={area}
-      openSubscriptionsModal={openSubscriptionsModal &&
-        openSubscriptionsModal === area.id}
-      subscriptionDataset={openSubscriptionsModal &&
-        openSubscriptionsModal === area.id && subscriptionDataset}
-      subscriptionThreshold={openSubscriptionsModal &&
-        openSubscriptionsModal === area.id && subscriptionThreshold}
-      subscriptionType={openSubscriptionsModal &&
-        openSubscriptionsModal === area.id && subscriptionType}
-  */
-
   render() {
-    const { user, id } = this.props;
+    const { user, id, alerts } = this.props;
     const { subscription } = user.areas.items.find(alert => alert.id === id);
 
     return (
@@ -79,7 +65,7 @@ class AreasAlerts extends React.Component  {
             <AlertWidget key={key} dataset={dataset} layerGroup={id} subscription={subscription} />)}
 
         <p>
-          This notification reports {'<'}type of alert(s){'>'} for the area of interest you subscribed to.
+          This notification reports {alerts[id].map(a => a.dataset.label).join(', ')} for the area of interest you subscribed to.
           You will receive a separate email for each area and each alert you subscribe to.
           Date of alerts refers to the date range within which change was detected.
           There may be a lag between detection and when you receive this notification.
