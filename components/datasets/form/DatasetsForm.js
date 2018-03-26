@@ -122,7 +122,10 @@ class DatasetsForm extends React.Component {
 
           bodyObj.subscribable = {};
           form.subscribable.map((s) => {
-            bodyObj.subscribable[s.type || s.key] = s.value;
+            bodyObj.subscribable[s.type] = Object.assign({}, {
+              dataQuery: s.dataQuery,
+              subscriptionQuery: s.subscriptionQuery
+            });
           });
 
           // Save the data
@@ -181,7 +184,12 @@ class DatasetsForm extends React.Component {
         if (f === 'subscribable') {
           const subscribable = params[f] || this.state.form[f];
           newForm.subscribable = Object.keys(subscribable)
-            .map((prop, i) => ({ type: subscribable[prop], value: subscribable[prop], id: i }));
+            .map((prop, i) => ({
+              type: prop,
+              dataQuery: subscribable[prop].dataQuery,
+              subscriptionQuery: subscribable[prop].subscriptionQuery,
+              id: i
+            }));
         } else {
           newForm[f] = params[f] || this.state.form[f];
         }

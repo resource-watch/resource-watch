@@ -509,16 +509,20 @@ class Step1 extends React.Component {
               {Checkbox}
             </Field>
           }
+
+          {subscribableSelected && this.state.form.subscribable.length &&
+            <h3>Subscriptions ({this.state.form.subscribable.length})</h3>}
+
           {subscribableSelected &&
             <div>
               {
-                this.state.form.subscribable.map(elem => (
+                this.state.form.subscribable.map((elem, key) => (
                   <div
-                    className="c-field-row"
+                    className="c-field-row subscription-container"
                     key={elem.id}
                   >
                     <div className="l-row row">
-                      <div className="column small-3">
+                      <div className="column small-12">
                         <Field
                           ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribableType = c; }}
                           onChange={type => this.onSubscribableChange({
@@ -541,10 +545,11 @@ class Step1 extends React.Component {
                           {Input}
                         </Field>
                       </div>
-                      <div className="column small-6">
+
+                      <div className="column small-12">
                         <Field
-                          ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribableText = c; }}
-                          onChange={value => this.onSubscribableChange({ value, id: elem.id })}
+                          ref={(c) => { if (c) FORM_ELEMENTS.elements.dataQuery = c; }}
+                          onChange={dataQuery => this.onSubscribableChange({ dataQuery, id: elem.id })}
                           validations={['required']}
                           className="-fluid"
                           button={
@@ -557,10 +562,10 @@ class Step1 extends React.Component {
                             </button>
                           }
                           properties={{
-                            name: 'subscribableText',
-                            label: 'Query',
+                            name: 'dataQuery',
+                            label: 'Data query',
                             type: 'text',
-                            default: elem.value,
+                            default: elem.dataQuery,
                             required: true
                           }}
                         >
@@ -573,16 +578,54 @@ class Step1 extends React.Component {
                             onRequestClose={() => this.onToggleSubscribableModal(null)}
                           >
                             <TrySubscriptionModal
-                              query={elem.value}
+                              query={elem.dataQuery}
                             />
                           </Modal>
                         }
-
                       </div>
-                      <div className="column small-3 remove-subscribable-container">
+
+                      <div className="column small-12">
+                        <Field
+                          ref={(c) => { if (c) FORM_ELEMENTS.elements.subscriptionQuery = c; }}
+                          onChange={subscriptionQuery => this.onSubscribableChange({ subscriptionQuery, id: elem.id })}
+                          validations={['required']}
+                          className="-fluid"
+                          button={
+                            <button
+                              type="button"
+                              className="c-button -secondary"
+                              onClick={() => this.onToggleSubscribableModal(elem.id)}
+                            >
+                              Try it
+                            </button>
+                          }
+                          properties={{
+                            name: 'subscriptionQuery',
+                            label: 'Subscription query',
+                            type: 'text',
+                            default: elem.subscriptionQuery,
+                            required: true
+                          }}
+                        >
+                          {Input}
+                        </Field>
+
+                        {this.state.activeSubscriptionModal === elem.id &&
+                          <Modal
+                            isOpen
+                            onRequestClose={() => this.onToggleSubscribableModal(null)}
+                          >
+                            <TrySubscriptionModal
+                              query={elem.subscriptionQuery}
+                            />
+                          </Modal>
+                        }
+                      </div>
+
+                      <div className="column small-12 remove-subscribable-container">
                         <button
                           type="button"
-                          className="c-button -secondary -fullwidth"
+                          className="c-button -secondary"
                           onClick={() => this.handleRemoveSubscription(elem.id)}
                           disabled={this.state.form.subscribable.length === 1}
                         >
@@ -590,6 +633,7 @@ class Step1 extends React.Component {
                         </button>
                       </div>
                     </div>
+
                   </div>
                 ))
               }
@@ -601,7 +645,7 @@ class Step1 extends React.Component {
                       className="c-button -secondary -fullwidth"
                       onClick={this.handleAddSubscription}
                     >
-                      Add
+                      Add subscription
                     </button>
                   </div>
                 </div>
