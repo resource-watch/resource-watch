@@ -3,7 +3,8 @@ export default {
     data: false,
     about: false,
     myrw: false,
-    topics: false
+    topics: false,
+    get_involved: false
   },
   mobileOpened: false,
   searchOpened: false,
@@ -57,7 +58,13 @@ export default {
       id: 'get_involved',
       label: 'Get Involved',
       route: 'get_involved',
-      pathnames: ['/app/GetInvolved']
+      pathnames: ['/app/get-involved', '/app/get-involved'],
+      children: [
+        { label: 'Suggest a story', route: 'get_involved_detail', params: { id: 'suggest-a-story' } },
+        { label: 'Contribute data', route: 'get_involved_detail', params: { id: 'contribute-data' } },
+        { label: 'Join the community', route: 'get_involved_detail', params: { id: 'join-the-community' } },
+        { label: 'Develop your app', route: 'get_involved_detail', params: { id: 'develop-your-app' } }
+      ]
     },
     {
       id: 'search',
