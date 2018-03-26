@@ -1,3 +1,4 @@
+import { TOPICS, DATA_TYPES, FREQUENCIES, TIME_PERIODS } from 'utils/concepts';
 import { BASEMAPS, LABELS } from 'components/ui/map/constants';
 
 export default {
@@ -12,8 +13,21 @@ export default {
     mode: 'grid' // 'grid' or 'list'
   },
   filters: {
+    open: false,
     search: '',
-    concepts: []
+    tab: 'topics',
+    options: {
+      topics: TOPICS,
+      data_types: DATA_TYPES,
+      frequencies: FREQUENCIES,
+      time_periods: TIME_PERIODS
+    },
+    selected: {
+      topics: [],
+      data_types: [],
+      frequencies: [],
+      time_periods: []
+    }
   },
   sort: {
     selected: 'updatedAt',
