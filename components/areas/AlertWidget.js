@@ -25,8 +25,6 @@ import LayerManager from 'utils/layers/LayerManager';
 
 import { BASEMAPS, LABELS } from 'components/ui/map/constants';
 
-import DatasetService from 'services/DatasetService';
-
 // WRI components
 import {
   Legend,
@@ -37,10 +35,14 @@ import {
 } from 'wri-api-components';
 
 class AlertWidget extends React.Component {
-
   constructor(props) {
     super(props);
-    const { dataset, subscription, user, id } = props;
+    const {
+      dataset,
+      subscription,
+      user,
+      id
+    } = props;
     const { areas } = user;
 
     this.state = {
@@ -91,19 +93,20 @@ class AlertWidget extends React.Component {
   }
 
   render() {
-    const { dataset, user, subscription } = this.props;
+    const { dataset } = this.props;
     const layer = dataset.layer.find(l => l.default);
     const { zoom, latLng } = this.state;
     return (
       <div className="c-alerts-page__widget">
-        <h2 className="c-alerts-page__widget--heading">{layer && layer.name ? layer.name : 'not defined'}</h2>
-
-        <button
-          className="c-btn -b"
-          onClick={() => this.handleEditSubscription()}
-        >
-          Edit Subscriptions
-        </button>
+        <div className="c-alerts-page__widget--header">
+          <h2 className="c-alerts-page__widget--heading">{layer && layer.name ? layer.name : 'not defined'}</h2>
+          <button
+            className="c-btn -b"
+            onClick={() => this.handleEditSubscription()}
+          >
+            Edit Subscriptions
+          </button>
+        </div>
 
         {layer && <div className="c-alerts-page__graph">
           <Map
@@ -143,7 +146,12 @@ class AlertWidget extends React.Component {
 }
 
 AlertWidget.propTypes = {
-  dataset: PropTypes.object
+  dataset: PropTypes.object,
+  subscription: PropTypes.object,
+  user: PropTypes.object,
+  id: PropTypes.string.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  setModalOptions: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

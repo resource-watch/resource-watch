@@ -13,7 +13,7 @@ import { initStore } from 'store';
 import { getUserAreas } from 'redactions/user';
 
 // Utils
-import { capitalizeFirstLetter } from 'utils/utils';
+import { capitalizeFirstLetter, listSeperator } from 'utils/utils';
 
 // Selectors
 import areaAlerts from 'selectors/user/areaAlerts';
@@ -166,11 +166,19 @@ class MyRWDetail extends Page {
     const { alerts } = this.props;
 
     if (id in alerts) {
-      return `Alerts for ${alerts[id].map(a => a.dataset.label).join(', ')}`;
+      const alert = alerts[id];
+      return alert.map((a, k) => {
+        return (<span><Link
+          route="explore_detail"
+          params={{ id: a.id }}
+        >
+          <a>
+            {a.dataset.label}
+          </a>
+        </Link>{listSeperator(alert, k)} </span>);
+      });
     }
-
     return '';
-
   }
 
   render() {
@@ -195,7 +203,7 @@ class MyRWDetail extends Page {
                   <Title className="-primary -huge page-header-title" >
                     {this.getName()}
                   </Title>
-                  {subtab === 'alerts' && <div className="page-header-info">{this.getAlerts()}</div>}
+                  {subtab === 'alerts' && <div className="page-header-info">Alerts for {this.getAlerts()}</div>}
                   {myrwdetail.dataset &&
                     <div className="page-header-info">
                       <ul>
