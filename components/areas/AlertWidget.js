@@ -16,6 +16,7 @@ import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import { toggleTooltip } from 'redactions/tooltip';
 
+import DataTable from 'components/ui/DataTable';
 import MapControls from 'components/ui/map/MapControls';
 import ShareControl from 'components/ui/map/controls/ShareControl';
 import BasemapControl from 'components/ui/map/controls/BasemapControl';
@@ -33,6 +34,25 @@ import {
   LegendItemButtonInfo,
   LegendItemTypes
 } from 'wri-api-components';
+
+// TODO:
+// For now, we are faking this data
+// Fetch real data when we have it :)
+const fakeRecentChangesData = {
+  columns: ['Latitude', 'Longitude', 'Date & Time', 'FRP'],
+  data: [
+    [38.3131, -5.5552, '2017-11-07 02.42', 'xxx'],
+    [32.3131, -5.5552, '2017-11-07 02.42', 'xxx'],
+    [64.3231, -5.5552, '2017-11-07 02.42', 'xxx'],
+    [66.5631, -4.2552, '2017-11-07 02.42', 'xxx'],
+    [38.3131, -5.5552, '2017-11-07 02.42', 'xxx'],
+    [44.3131, -1.2552, '2017-11-07 02.42', 'xxx'],
+    [38.3131, -44.552, '2017-11-07 02.42', 'xxx'],
+    [55.3131, -12.552, '2017-11-07 02.42', 'xxx'],
+    [11.3131, -5.5552, '2017-11-07 02.42', 'xxx'],
+    [66.3131, -3.5552, '2017-11-07 02.42', 'xxx']
+  ]
+};
 
 class AlertWidget extends React.Component {
   constructor(props) {
@@ -108,7 +128,8 @@ class AlertWidget extends React.Component {
           </button>
         </div>
 
-        {layer && <div className="c-alerts-page__graph">
+        {layer &&
+        <div className="c-alerts-page__graph">
           <Map
             mapConfig={{ zoom, latLng }}
             LayerManager={LayerManager}
@@ -139,9 +160,13 @@ class AlertWidget extends React.Component {
               LegendItemTypes={<LegendItemTypes />}
             />
           </div>
-
         </div>}
-    </div>);
+
+        <DataTable
+          title="10 Most Recent Changes (fake data)"
+          table={fakeRecentChangesData}
+        />
+      </div>);
   }
 }
 
