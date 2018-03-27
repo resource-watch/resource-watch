@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
 import { initStore } from 'store';
 import { getLayers, getLayerPoints, resetLayerPoints } from 'layout/pulse/actions';
-import { toggleActiveLayer } from 'layout/pulse/layer-menu-dropdown/actions';
+import { toggleActiveLayer } from 'layout/pulse/layer-menu/actions';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Selectors

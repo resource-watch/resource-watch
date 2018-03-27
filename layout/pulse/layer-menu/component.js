@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Redux
 import { connect } from 'react-redux';
 
@@ -8,6 +11,23 @@ import { connect } from 'react-redux';
 import LayerMenuDropdown from 'layout/pulse/layer-menu-dropdown';
 
 class LayerMenuComponent extends PureComponent {
+  handleLayerClick(layer) {
+    const {
+      id, markerType, basemap, contextLayers, descriptionPulse, contextLayersOnTop
+    } = layer;
+    this.props.resetLayerPoints();
+    this.props.toggleActiveLayer({
+      id,
+      threedimensional: layer['3d'],
+      markerType,
+      basemap,
+      contextLayers,
+      descriptionPulse,
+      contextLayersOnTop
+    });
+    logEvent('Planet Pulse', 'Choose layer to view', layer.label);
+  }
+
   createItemGroup(group) {
     const { layerActive } = this.props;
     const activeGroup = layerActive && layerActive.group === group.label ? '-active' : '';
@@ -16,7 +36,10 @@ class LayerMenuComponent extends PureComponent {
         <span className="name">
           {group.label}
         </span>
-        <LayerMenuDropdown layers={group.layers} />
+        <LayerMenuDropdown
+          layers={group.layers}
+          triggerClick={layer => this.handleLayerClick(layer)}
+        />
       </li>
     );
   }
@@ -41,7 +64,9 @@ const mapStateToProps = state => ({
 
 LayerMenuComponent.propTypes = {
   layersGroup: PropTypes.array,
-  layerActive: PropTypes.any
+  layerActive: PropTypes.any,
+  toggleActiveLayer: PropTypes.func.isRequired,
+  resetLayerPoints: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, null)(LayerMenuComponent);

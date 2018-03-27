@@ -11,30 +11,8 @@ import { connect } from 'react-redux';
 import Switch from 'components/ui/Switch';
 
 class LayerMenuDropdownComponent extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.triggerClick = this.triggerClick.bind(this);
-  }
-
-  triggerClick(layer) {
-    const {
-      id, markerType, basemap, contextLayers, descriptionPulse, contextLayersOnTop
-    } = layer;
-    this.props.resetLayerPoints();
-    this.props.toggleActiveLayer({
-      id,
-      threedimensional: layer['3d'],
-      markerType,
-      basemap,
-      contextLayers,
-      descriptionPulse,
-      contextLayersOnTop
-    });
-    logEvent('Planet Pulse', 'Choose layer to view', layer.label);
-  }
   render() {
-    const { layerActive, layers } = this.props;
+    const { layerActive, layers, triggerClick } = this.props;
     return (
       <div className="c-layer-menu-dropdown dropdown">
         <ul>
@@ -42,7 +20,7 @@ class LayerMenuDropdownComponent extends PureComponent {
             (
               <li
                 key={layer.id}
-                onClick={() => this.triggerClick(layer)}
+                onClick={() => triggerClick(layer)}
               >
                 <Switch active={(layerActive && (layerActive.id === layer.id))} />
                 <span className="name">
@@ -58,9 +36,8 @@ class LayerMenuDropdownComponent extends PureComponent {
 
 LayerMenuDropdownComponent.propTypes = {
   layers: PropTypes.array,
-  layerActive: PropTypes.object,
-  toggleActiveLayer: PropTypes.func.isRequired,
-  resetLayerPoints: PropTypes.func.isRequired
+  triggerClick: PropTypes.func,
+  layerActive: PropTypes.object
 };
 
 const mapStateToProps = state => ({
