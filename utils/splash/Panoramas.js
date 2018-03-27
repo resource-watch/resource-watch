@@ -147,7 +147,7 @@ export const PANORAMAS = [
             markup:
               <div>
                 <div className="video-container">
-                  <iframe className="video" src="https://www.youtube.com/embed/-L8z-WF-HqA&t=34m3s" frameBorder="0" allowFullScreen />
+                  <iframe className="video" src="https://youtu.be/-L8z-WF-HqA?t=34m3s" frameBorder="0" allowFullScreen />
                 </div>
                 <div className="video-caption">
                   <i>Video source: Tara Expeditions</i>
