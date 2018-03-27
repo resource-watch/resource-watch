@@ -116,21 +116,22 @@ export const PANORAMAS = [
             markup:
               <div>
                 <p>
-                  In the past few decades, warmer ocean temperatures have contributed to more frequent and more harmful coral bleaching events around the world.
-                </p>
-                <iframe src="https://staging.resourcewatch.org/embed/widget/fdaabfda-9562-4562-a124-67c987a7e156" width="100%" height="474" frameBorder="0"></iframe>
-                <p>
-                  From 1980 to 1997, some 370 incidents of coral bleaching and disease were reported. From 1998 to 2012, that number exploded to more than 4,000. (This jump mostly reflects the destructive effect of rising ocean temperatures, though it should be noted that growing awareness, monitoring and communication of coral bleaching as an issue also played a role.)
+                  A recent <a href="http://science.sciencemag.org/content/359/6371/80" target="_blank" rel="noopener noreferrer">study</a> found that tropical coral reefs are heading into “a new era” in which bleaching occurs too frequently for corals to bounce back. The study drew its findings from 100 tropical reefs around the world.
                 </p>
                 <p>
-                  The spike in 1998, which represents the first global coral bleaching event, was abnormally high; but, as the graph shows, the frequency of coral bleaching events dramatically increased in the following years as well.
+                  In the 1980s, as climate change magnified thermal stress from strong El Niño events, bouts of global bleaching began to occur. The study says that the past two decades have witnessed a new trend: regional-scale bleaching even in years outside El Niño periods. (Before 1980, bleaching at a regional scale was seldom seen.)
                 </p>
-                <h3>What happened in 2002 and 2005?</h3>
+                <div className="image-container">
+                  <iframe src="https://staging.resourcewatch.org/embed/widget/fdaabfda-9562-4562-a124-67c987a7e156" width="100%" height="474" frameBorder="0"></iframe>
+                  <div className="caption">
+                    <i>Severe and moderate bleaching by year in the study locations. Strong El Niño periods occurred 1982-1983, 1997-1998, 2009-2010 and 2015-2016. Data source: Hughes, et. al. study in <a href="http://science.sciencemag.org/content/359/6371/80.full" target="_blank" rel="noopener noreferrer">Science</a>.</i>
+                  </div>
+                </div>
                 <p>
-                  Warm ocean temperatures around Australia in 2002 caused widespread bleaching, leaving <a href="https://www.aims.gov.au/docs/research/climate-change/coral-bleaching/bleaching-events.html" target="_blank" rel="noopener noreferrer">more than half of the Great Barrier Reef&rsquo;s coral</a> bleached.
+                  Here, severe bleaching refers to locations in which at least 30 percent of corals bleached at a scale of between tens and hundreds of kilometers. (Moderate bleaching refers to sites where less than 30 percent of corals bleached to that extent.)
                 </p>
                 <p>
-                  Another spike, in 2005, was attributed to particularly warm water in the Caribbean that left <a href="https://www.coris.noaa.gov/activities/caribbean_rpt/SCRBH2005_rpt.pdf" target="_blank" rel="noopener noreferrer">up to 40 percent</a> of reefs in the area bleached.
+                  The study found that 42% of severe bleaching events among the reefs have occurred during hot summers outside of El Niño periods. As climate change progresses, the study notes, “average tropical sea surface temperatures are warmer today under La Niña conditions than they were during El Niño events only three decades ago.”
                 </p>
               </div>,
             image: '/static/images/splash/coral_bleaching_on_the_rise.png',
