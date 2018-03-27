@@ -35,7 +35,7 @@
     overflow: auto;
     padding: $space-1 * 6;
     -webkit-overflow-scrolling: touch;
-    box-shadow: 0 7px 15px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: $thick-shadow;
   }
 
   .modal-close {
