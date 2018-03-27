@@ -8,10 +8,12 @@ import Tabs from 'components/ui/Tabs';
 import Tag from 'components/ui/Tag';
 import Icon from 'components/ui/Icon';
 
+import CheckboxGroup from 'components/form/CheckboxGroup';
 
 class SearchComponent extends React.Component {
   static propTypes = {
     open: PropTypes.bool,
+    list: PropTypes.array,
     options: PropTypes.object,
     selected: PropTypes.object,
     tab: PropTypes.string,
@@ -21,9 +23,14 @@ class SearchComponent extends React.Component {
     onChangeOpen: PropTypes.func,
     onChangeTab: PropTypes.func,
     onChangeSearch: PropTypes.func,
+    onToggleSelected: PropTypes.func,
     onChangeSelected: PropTypes.func,
     onResetSelected: PropTypes.func
   };
+
+  state = {
+    value: this.props.search
+  }
 
   onScreenClick = (e) => {
     const el = document.querySelector('.c-dataset-search');
@@ -34,38 +41,69 @@ class SearchComponent extends React.Component {
     }
   }
 
+  onScreenKeyup = (e) => {
+    if (e.keyCode === 27) {
+      this.onToggleOpen(false);
+    }
+  }
+
   onToggleOpen = (to) => {
     requestAnimationFrame(() => {
       if (to) {
         window.addEventListener('click', this.onScreenClick);
+        window.addEventListener('keyup', this.onScreenKeyup);
       } else {
         window.removeEventListener('click', this.onScreenClick);
+        window.removeEventListener('keyup', this.onScreenKeyup);
       }
     });
 
     this.props.onChangeOpen(to);
   }
 
+  onChangeTab = (t) => {
+    const { tab } = this.props;
+    if (t === tab) {
+      this.onToggleOpen(false);
+    } else {
+      this.props.onChangeTab(t);
+    }
+  }
+
   onChangeSearch = (e) => {
+    this.setState({ value: e.currentTarget.value });
     this.props.onChangeSearch(e.currentTarget.value);
   }
 
   render() {
     const {
-      open, options, selected, tab, search
+      open, options, selected, tab, list
     } = this.props;
+
+    const { value } = this.state;
 
     const tabs = Object
       .keys(options)
+      .filter((o) => {
+        if (o === 'custom') {
+          return selected.custom.length;
+        }
+        return o !== 'custom';
+      })
       .map(o => ({
         label: options[o].label,
         value: options[o].value,
         ...selected[o].length && { number: selected[o].length }
       }));
 
-    const selectedArr = flatten(Object.keys(selected).map((s) => {
-      return selected[s].map(c => ({ ...options[s].list.find(o => o.id === c), tab: s }));
-    }));
+    const mainArr = options[tab].list;
+    const secondaryArr = selected[tab]
+      .filter(s => !options[tab].list.find(l => l.id === s))
+      .map(s => list.find(l => l.id === s));
+
+    const selectedAllArr = flatten(Object.keys(selected).map(s =>
+      selected[s].map(c =>
+        ({ ...list.find(o => o.id === c), tab: s }))));
 
     return (
       <div className="c-dataset-search">
@@ -87,9 +125,7 @@ class SearchComponent extends React.Component {
             })}
             type="search"
             placeholder="Search and filter datasets"
-            value={search}
-            // ref={c => this.getInputRef(c)}
-            // onKeyDown={c => this.onKeyDown(c)}
+            value={value}
             onClick={() => this.onToggleOpen(true)}
             onChange={this.onChangeSearch}
           />
@@ -114,40 +150,44 @@ class SearchComponent extends React.Component {
               options={tabs}
               defaultSelected={tab}
               selected={tab}
-              onChange={this.props.onChangeTab}
+              onChange={this.onChangeTab}
             />
 
             <div className="search-dropdown-list">
-              <ul>
-                {options[tab].list.map(o => (
-                  <li key={o.id}>
-                    <button
-                      className={classnames({
-                        'search-dropdown-list-btn': true,
-                        '-active': selected[tab].includes(o.id)
-                      })}
-                      onClick={() => this.props.onChangeSelected({ tag: o, tab })}
-                    >
-                      {o.label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              {!!mainArr.length &&
+                <CheckboxGroup
+                  name="mainArr"
+                  selected={selected[tab]}
+                  className="mainArr-checkbox-group"
+                  options={mainArr.map(o => ({ value: o.id, label: o.label }))}
+                  onChange={s => this.props.onChangeSelected(s)}
+                />
+              }
+
+              {!!secondaryArr.length &&
+                <CheckboxGroup
+                  name="secondaryArr"
+                  selected={selected[tab]}
+                  className="secondaryArr-checkbox-group"
+                  options={secondaryArr.map(o => ({ value: o.id, label: o.label }))}
+                  onChange={s => this.props.onChangeSelected(s)}
+                />
+              }
             </div>
           </div>
         }
 
         {/* Selected */}
-        {!open && !!selectedArr.length &&
+        {!open && !!selectedAllArr.length &&
           <div className="search-selected">
             <div className="c-tag-list">
-              {selectedArr.map(s => (
+              {selectedAllArr.map(s => (
                 <Tag
                   key={s.id}
                   name={s.label}
                   className="-secondary"
                   isRemovable
-                  onClick={() => this.props.onChangeSelected({ tag: s, tab: s.tab })}
+                  onClick={() => this.props.onToggleSelected({ tag: s, tab: s.tab })}
                 />
               ))}
 

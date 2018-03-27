@@ -52,22 +52,8 @@ export default {
     const filters = { ...state.filters, search: action.payload };
     return { ...state, filters };
   },
-  [actions.setFiltersOption]: (state, action) => {
-    const { tab, tag } = action.payload;
-    const arr = [...state.filters.options[tab].list];
-
-    if (!arr.find(t => t.id === tag.id)) {
-      arr.push(tag);
-    }
-
-    const options = {
-      ...state.filters.options,
-      [tab]: {
-        ...state.filters.options[tab],
-        list: arr
-      }
-    };
-    const filters = { ...state.filters, options };
+  [actions.setFiltersTags]: (state, action) => {
+    const filters = { ...state.filters, tags: action.payload };
     return { ...state, filters };
   },
   [actions.setFiltersSelected]: (state, action) => {

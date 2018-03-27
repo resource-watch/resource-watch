@@ -20,8 +20,15 @@ class ExploreHeaderComponent extends React.Component {
     setFiltersOpen: PropTypes.func,
     setFiltersTab: PropTypes.func,
     setFiltersSearch: PropTypes.func,
+    setFiltersSelected: PropTypes.func,
     toggleFiltersSelected: PropTypes.func,
     resetFiltersSelected: PropTypes.func
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.fetchDatasets = debounce(this.fetchDatasets.bind(this), 500);
   }
 
   onChangeSearch = (search) => {
@@ -29,8 +36,15 @@ class ExploreHeaderComponent extends React.Component {
     this.fetchDatasets();
   }
 
-  onChangeSelected = (payload) => {
+  onToggleSelected = (payload) => {
     this.props.toggleFiltersSelected(payload);
+    this.fetchDatasets();
+  }
+
+  onChangeSelected = (payload) => {
+    const { tab } = this.props;
+
+    this.props.setFiltersSelected({ key: tab, list: payload });
     this.fetchDatasets();
   }
 
@@ -39,16 +53,17 @@ class ExploreHeaderComponent extends React.Component {
     this.fetchDatasets();
   }
 
-  fetchDatasets = debounce(() => {
+  fetchDatasets() {
     this.props.setDatasetsPage(1);
     this.props.fetchDatasets();
-  }, 250);
+  }
 
   render() {
     const {
       open,
       options,
       tab,
+      tags,
       search,
       selected
     } = this.props;
@@ -62,12 +77,14 @@ class ExploreHeaderComponent extends React.Component {
           <DatasetSearch
             open={open}
             tab={tab}
+            list={tags}
             search={search}
             options={options}
             selected={selected}
             onChangeOpen={this.props.setFiltersOpen}
             onChangeTab={this.props.setFiltersTab}
             onChangeSearch={this.onChangeSearch}
+            onToggleSelected={this.onToggleSelected}
             onChangeSelected={this.onChangeSelected}
             onResetSelected={this.onResetSelected}
           />

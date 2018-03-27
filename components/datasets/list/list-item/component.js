@@ -200,7 +200,10 @@ class DatasetListItem extends React.Component {
                         key={t}
                         name={`${upperFirst(t.replace('_', ' '))}${i !== vTags.length - 1 ? ', ' : ''}`}
                         className="-clean"
-                        onClick={() => this.props.onTagSelected(t)}
+                        onClick={() => {
+                          this.setState({ tagsOpened: false });
+                          this.props.onTagSelected(t);
+                        }}
                       />
                     ))
                 }
@@ -212,7 +215,10 @@ class DatasetListItem extends React.Component {
                     overlay={
                       <TagsTooltip
                         tags={tags}
-                        onTagSelected={t => this.props.onTagSelected(t)}
+                        onTagSelected={(t) => {
+                          this.setState({ tagsOpened: false });
+                          this.props.onTagSelected(t);
+                        }}
                       />
                     }
                     visible={tagsOpened}

@@ -22,7 +22,7 @@ export default {
       frequencies: FREQUENCIES,
       time_periods: TIME_PERIODS,
       custom: {
-        label: 'Custom',
+        label: 'Others',
         value: 'custom',
         list: []
       }
