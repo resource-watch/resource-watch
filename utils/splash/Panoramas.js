@@ -147,16 +147,22 @@ export const PANORAMAS = [
             markup:
               <div>
                 <div className="video-container">
-                  <iframe className="video" src="https://www.youtube.com/embed/bFdPmiwZzVE?rel=0&amp;showinfo=0" allowFullScreen />
+                  <iframe className="video" src="https://www.youtube.com/embed/-L8z-WF-HqA&t=34m3s" frameBorder="0" allowFullScreen />
                 </div>
                 <div className="video-caption">
-                  <i>Video courtesy Queensland University of Technology / National Geographic</i>
+                  <i>Video source: Tara Expeditions</i>
                 </div>
                 <p>
-                  When researchers at the <a href="https://www.qut.edu.au/news/news?news-id=108238" target="_blank" rel="noopener noreferrer">Queensland University of Technology in Australia</a> put corals in tanks and turned up the heat, the corals began violently spewing out the algae <i>Symbiodinium</i> in a matter of hours. It’s essentially coral bleaching on fast-forward. The university captured the process in this time-lapse video.
+                  A scene from a recent video by French research organization Tara Expeditions offers a sobering look at coral bleaching and its aftermath.
                 </p>
                 <p>
-                  Normally symbiotic, <i>Symbiodinium</i> actually <a href="https://news.nationalgeographic.com/2016/08/coral-bleaching-video-algae-warming-oceans-environment-science/" target="_blank" rel="noopener noreferrer">becomes toxic to corals</a> at higher temperatures; the process on display in this video (called pulsed inflation) is a defense mechanism. It may protect them in the short term, but corals need the algae to recolonize quickly, because they rely on the algae to survive. If temperatures remain high over time, the <i>Symbiodinium</i> will not return, leaving the corals’ white skeletons exposed and the animals vulnerable to diseases and other stressors.
+                  The footage shows a reef off Ducie Island, an atoll in the remote Pitcairn Islands in the South Pacific Ocean. A diver swims through a landscape devoid of color, the site of significant bleaching.
+                </p>
+                <p>
+                  The video was shown at the <a href="http://www.ourocean2017.org/" target="_blank" rel="noopener noreferrer">Our Ocean 2017</a> conference in Valletta, Malta.
+                </p>
+                <p>
+                  Tara Expeditions is conducting a <a href="https://oceans.taraexpeditions.org/m/science/les-objectifs/tara-pacific/" target="_blank" rel="noopener noreferrer">two-year field study</a> of Pacific coral reefs, including the effects of climate change on reefs’ health and resilience. The expedition team has documented severe bleaching in multiple locations, including the Samoan Islands, where nearby coral colonies have seen rates of bleaching <a href="https://phys.org/news/2017-09-pacific-corals-state.html" target="_blank" rel="noopener noreferrer">as high as 90 percent</a>.
                 </p>
               </div>,
             image: '/static/images/splash/coral_bleaching_up_close.png',
