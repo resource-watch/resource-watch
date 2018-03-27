@@ -24,48 +24,57 @@ class SubscriptionSelector extends React.Component {
     return (
       <div className="c-subscription-selector" ref={(node) => { this.el = node; }}>
 
-        <SelectInput
-          className="dataset-select"
-          properties={{
-            value: selectedDataset,
-            default: selectedDataset,
-            placeholder: 'Select a dataset'
-          }}
-          options={datasets}
-          onChange={v => onChangeSubscription(v, 'dataset', this.props.index)}
-        />
+        <div className="col col--dataset">
+          <SelectInput
+            className="dataset-select"
+            properties={{
+              value: selectedDataset,
+              default: selectedDataset,
+              placeholder: 'Select a dataset'
+            }}
+            options={datasets}
+            onChange={v => onChangeSubscription(v, 'dataset', this.props.index)}
+          />
+        </div>
 
-        <SelectInput
-          properties={{
-            name: 'type',
-            default: alert.type,
-            placeholder: 'Select a type',
-            className: 'type-select',
-            disabled: typeOptions.length === 0
-          }}
-          options={typeOptions}
-          onChange={v => onChangeSubscription(v, 'type', this.props.index)}
-        />
+        <div className="col col--type">
+          <SelectInput
+            properties={{
+              name: 'type',
+              default: alert.type,
+              placeholder: 'Select a type',
+              className: 'type-select',
+              disabled: typeOptions.length === 0
+            }}
+            options={typeOptions}
+            onChange={v => onChangeSubscription(v, 'type', this.props.index)}
+          />
+        </div>
 
-        <Field
-          className="threshold-input"
-          onChange={v => onChangeSubscription(v, 'threshold', this.props.index)}
-          properties={{
-            name: 'threshold',
-            type: 'number',
-            default: alert.threshold,
-            value: alert.threshold
-          }}
-        >
-          {Input}
-        </Field>
+        <div className="col col--threshhold">
+          <Field
+            className="threshold-input"
+            onChange={v => onChangeSubscription(v, 'threshold', this.props.index)}
+            properties={{
+              name: 'threshold',
+              type: 'number',
+              default: alert.threshold,
+              value: alert.threshold
+            }}
+          >
+            {Input}
+          </Field>
+        </div>
 
-        <button
-          className="c-btn -b"
-          onClick={() => this.props.onRemoveDataset(this.props.index)}
-        >
-          Delete
-        </button>
+        <div className="col">
+          <button
+            className="c-btn"
+            onClick={() => this.props.onRemoveDataset(this.props.index)}
+          >
+            Delete
+          </button>
+        </div>
+
       </div>
     );
   }

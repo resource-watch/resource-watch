@@ -208,6 +208,20 @@ class AreaSubscriptionModal extends React.Component {
         <Spinner isLoading={loading || loadingDatasets} className="-light" />
 
         <div className="datasets-container">
+
+          {!loadingDatasets && sortedDatasets && alerts.length > 0 && <div className="c-subscription-selector">
+            <div className="col col--dataset">
+              <h5>Dataset</h5>
+            </div>
+            <div className="col col--type">
+              <h5>Type</h5>
+            </div>
+            <div className="col col--threshhold">
+              <h5>Minimum</h5>
+            </div>
+            <div className="col hidden"><h5>Actions</h5></div>
+          </div>}
+
           {!loadingDatasets && sortedDatasets && alerts.map((alert, key) => (alert &&
             <SubscriptionSelector
               onChangeSubscription={(value, type, k) => this.onChangeSubscription(value, type, k)}

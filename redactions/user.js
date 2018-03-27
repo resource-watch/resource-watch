@@ -462,7 +462,6 @@ export const getUserAreas = createThunkAction(
             subs.forEach(sub => sub.attributes.datasets
               .forEach(dataset => datasetsSet.add(dataset)));
 
-
             return DatasetService.getDatasets(
               [...datasetsSet],
               common.locale,

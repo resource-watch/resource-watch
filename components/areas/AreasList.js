@@ -76,13 +76,13 @@ class AreasList extends React.Component {
               )
             )}
 
-            <Link route="myrw_detail" params={{ id: 'new', tab: 'areas' }}>
+            {areas.items.length !== 0 && <Link route="myrw_detail" params={{ id: 'new', tab: 'areas' }}>
               <div className="column small-12 medium-4 c-area-card--add-card">
                 <a>
                   <span>New Area</span>
                 </a>
               </div>
-            </Link>
+            </Link>}
 
             { areas.items.length === 0 &&
               <div className="no-areas-container">

@@ -1,20 +1,35 @@
 .c-subscription-selector {
   display: flex;
-  justify-content: space-around;
   align-items: center;
 
   button {
     cursor: pointer;
   }
 
+  .col {
+    margin: 0 20px 0 0;
+
+    &.hidden {
+      visibility: hidden;
+    }
+
+    h5 { margin: 0; }
+
+    &--dataset {
+      width: 340px;
+    }
+    &--type {
+      width: 200px;
+    }
+    &--threshhold {
+      width: 60px;
+    }
+  }
+
   .Select {
     width: 100%;
     margin-right: 20px;
     height: 45px;
-
-    &.type-select {
-      max-width: 160px;
-    }
   }
 
   .threshold-div {
