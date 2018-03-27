@@ -1,5 +1,11 @@
 .credits-modal {
+  
   .upper-container {
     display: flex;
+    margin-bottom: 20px;
+  }
+
+  a {
+    color: $link-font-color;
   }
 }

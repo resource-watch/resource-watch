@@ -45,7 +45,6 @@ class Header extends React.Component {
             Credits
             <Modal
               isOpen={this.state.showCreditsModal}
-              className="-medium"
               onRequestClose={() => this.handleToggleCreditsModal(false)}
             >
               <CreditsModal onRequestClose={this.handleToggleCreditsModal} />
