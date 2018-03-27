@@ -53,7 +53,7 @@ function JoinCommunity() {
       <div className="l-container">
         <div className="l-section">
           <div className="row align-center">
-            <div className="column small-12 medium-8">
+            <div className="column small-12">
               <p>
                 Have questions about Resource Watch or suggestions for how improve the
                 platform? How about an idea for a bold new data partnership? We want to
@@ -68,8 +68,10 @@ function JoinCommunity() {
             <div key={card.id} className="column small-12 medium-6 large-6 c-card-column">
               <CardApp
                 title={card.title}
+                className="-compact"
                 description={card.description}
                 link={{ ...card.link }}
+                buttonType="primary"
               />
             </div>
             ))}

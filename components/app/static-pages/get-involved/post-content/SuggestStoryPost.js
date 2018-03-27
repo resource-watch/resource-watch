@@ -48,7 +48,7 @@ function SuggestStoryPost({ insights }) {
         <div className="l-container">
           <div className="l-section">
             <div className="row align-center">
-              <div className="column small-12 medium-8">
+              <div className="column small-12">
                 <p>
                   See a connection in the data worth exploring? Let us know about
                   it. We might craft a story around on the lead you sent. Send us

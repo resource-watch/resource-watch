@@ -34,7 +34,7 @@ function ContributeData() {
     <aside className="l-postcontent">
       <div className="l-container">
         <div className="row align-center">
-          <div className="column small-12 medium-8">
+          <div className="column small-12">
             <h3>Guiding principles</h3>
             <p>
               We seek to develop and acquire data that cover a diverse range of
@@ -57,7 +57,7 @@ function ContributeData() {
           </div>
         </div>
         <div className="row align-center">
-          <div className="column small-12 medium-8">
+          <div className="column small-12">
             <p>
               Before submitting a dataset, please make sure to browse our
               selection and review our data policy and submission <Link route="get_involved_detail" params={{ id: 'data-policy' }}><a>guidelines</a></Link>.
@@ -72,8 +72,10 @@ function ContributeData() {
               <div key={card.id} className="column small-12 medium-6 large-6 c-card-column">
                 <CardApp
                   title={card.title}
+                  className="-compact"
                   description={card.description}
                   link={{ ...card.link }}
+                  buttonType="primary"
                 />
               </div>
             ))}

@@ -3,6 +3,7 @@ import { Link } from 'routes';
 
 // Components
 import CardApp from 'components/app/common/CardApp';
+import Banner from 'components/app/common/Banner';
 
 function DevelopYourApp() {
   const cards = [
@@ -39,26 +40,48 @@ function DevelopYourApp() {
   ];
 
   return (
-    <aside className="l-postcontent">
-      <div className="l-container">
-        <div className="row">
-          {cards.map(card => (
-            <div key={card.id} className="column small-12 medium-6 large-4 c-card-column">
-              <CardApp
-                title={card.title}
-                description={card.description}
-                link={{ ...card.link }}
-              />
-            </div>
-            ))}
+    <div>
+      <aside className="l-postcontent">
+        <div className="l-container">
+          <div className="row">
+            {cards.map(card => (
+              <div key={card.id} className="column small-12 medium-6 large-4 c-card-column">
+                <CardApp
+                  title={card.title}
+                  className="-compact"
+                  description={card.description}
+                  link={{ ...card.link }}
+                  buttonType="primary"
+                />
+              </div>
+              ))}
+          </div>
+          {/* Temporary link to App Review Policy */}
+          <Link route="get_involved_detail" params={{ id: 'app-review-policy' }}>
+            <a>App Review Policy</a>
+          </Link>
         </div>
-        {/* Temporary link to App Review Policy */}
-        <Link route="get_involved_detail" params={{ id: 'app-review-policy' }}>
-          <a>App Review Policy</a>
-        </Link>
-      </div>
-    </aside>
-
+      </aside>
+      <aside className="l-postcontent">
+        <div className="l-container">
+          <div className="row align-center">
+            <div className="column small-12">
+              <Banner className="-text-center" bgImage="/static/images/backgrounds/bg-partner-maryland.jpg">
+                <p className="-claim">
+                  Explore maps and apps curated <br />
+                  by the Resource Watch community of this team?
+                </p>
+                <Link route="get_involved_detail" params={{ id: 'develop-your-app' }}>
+                  <a className="c-button -primary -alt">
+                    App gallery
+                  </a>
+                </Link>
+              </Banner>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
   );
 }
 

@@ -49,6 +49,7 @@ class GetInvolvedDetail extends Page {
     if (!data) return null;
 
     const postContent = this.getPostContent(id, data);
+    const descriptions = data.description.split('\n').filter(line => line.length > 0);
 
     return (
       <Layout
@@ -78,10 +79,15 @@ class GetInvolvedDetail extends Page {
                 <div className="row">
                   <div className="column small-12 large-7">
                     <h2>{data.summary}</h2>
-                    {data.description &&
-                      <p>{data.description}</p>}
                   </div>
                 </div>
+                { descriptions.length > 0 &&
+                  <div className="row">
+                    { descriptions.map(description => (
+                      <div className={`column small-${12 / descriptions.length}`}>{description}</div>
+                    ))}
+                  </div>
+                }
               </div>
             </header>
           </section> }
