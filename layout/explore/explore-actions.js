@@ -18,6 +18,10 @@ export const setDatasetsMode = createAction('EXPLORE/setDatasetsMode');
 export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (dispatch, getState) => {
   const { explore, common } = getState();
 
+  const concepts = Object.keys(explore.filters.selected)
+    .map(s => explore.filters.selected[s])
+    .filter(selected => selected.length);
+
   const qParams = queryString.stringify({
     application: process.env.APPLICATIONS,
     language: common.locale,
@@ -26,6 +30,15 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     sort: `${explore.sort.direction < 0 ? '-' : ''}${explore.sort.selected}`,
     status: 'saved',
     published: true,
+    // Concepts
+    ...concepts.reduce((o, s, i) => ({
+      ...o,
+      ...s.reduce((o2, s2, j) => ({
+        ...o2,
+        [`concepts[${i}][${j}]`]: s2
+      }), {})
+    }), {}),
+    // Page
     'page[number]': explore.datasets.page,
     'page[size]': explore.datasets.limit
   });
@@ -39,8 +52,8 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
       return response.json();
     })
     .then((response) => {
-      const { meta } = response;
-      dispatch(setDatasetsTotal(meta['total-items']));
+      const { meta = {} } = response;
+      dispatch(setDatasetsTotal(meta['total-items'] || 0));
       return WRISerializer(response, { locale: common.locale });
     })
     .then((data) => {
@@ -108,8 +121,12 @@ export const fetchMapLayerGroups = createThunkAction('EXPLORE/fetchMapLayers', p
 
 
 // FILTERS
+export const setFiltersOpen = createAction('EXPLORE/setFiltersOpen');
+export const setFiltersTab = createAction('EXPLORE/setFiltersTab');
 export const setFiltersSearch = createAction('EXPLORE/setFiltersSearch');
-export const setFiltersConcepts = createAction('EXPLORE/setFiltersConcepts');
+export const setFiltersSelected = createAction('EXPLORE/setFiltersSelected');
+export const toggleFiltersSelected = createAction('EXPLORE/toggleFiltersSelected');
+export const resetFiltersSelected = createAction('EXPLORE/resetFiltersSelected');
 
 // SORT
 export const setSortSelected = createAction('EXPLORE/setSortSelected');

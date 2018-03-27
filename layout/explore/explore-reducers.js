@@ -40,11 +40,44 @@ export default {
   //
   // FILTERS
   //
+  [actions.setFiltersOpen]: (state, action) => {
+    const filters = { ...state.filters, open: action.payload };
+    return { ...state, filters };
+  },
+  [actions.setFiltersTab]: (state, action) => {
+    const filters = { ...state.filters, tab: action.payload };
+    return { ...state, filters };
+  },
   [actions.setFiltersSearch]: (state, action) => {
     const filters = { ...state.filters, search: action.payload };
     return { ...state, filters };
   },
+  [actions.setFiltersSelected]: (state, action) => {
+    const { key, list } = action.payload;
+    const selected = { ...state.filters.selected, [key]: list };
+    const filters = { ...state.filters, selected };
+    return { ...state, filters };
+  },
+  [actions.toggleFiltersSelected]: (state, action) => {
+    const { tab, tag } = action.payload;
+    const arr = [...state.filters.selected[tab]];
 
+    if (!arr.includes(tag.id)) {
+      arr.push(tag.id);
+    } else {
+      const index = arr.findIndex(s => s === tag.id);
+      arr.splice(index, 1);
+    }
+
+    const selected = { ...state.filters.selected, [tab]: arr };
+    const filters = { ...state.filters, selected };
+    return { ...state, filters };
+  },
+
+  [actions.resetFiltersSelected]: (state) => {
+    const filters = { ...state.filters, selected: initialState.filters.selected };
+    return { ...state, filters };
+  },
 
   // SORT
   [actions.setSortSelected]: (state, action) => {

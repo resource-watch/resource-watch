@@ -35,7 +35,6 @@ import * as explore from 'layout/explore';
 
 // Explore detail
 import * as exploreDetail from 'layout/explore-detail';
-import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';
 
 // Pulse
 import * as pulse from 'layout/pulse';
@@ -103,7 +102,6 @@ const reducer = combineReducers({
   // Explore
   explore: handleModule(explore),
   exploreDetail: handleModule(exploreDetail),
-  exploreDatasetFilters: handleModule(exploreDatasetFilters),
 
   // Pulse
   layerMenuPulse: handleModule(layerMenuDropdown),
