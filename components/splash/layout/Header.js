@@ -15,13 +15,19 @@ function Header(props) {
         {props.showEarthViewLink &&
         <div className="earth-view-link">
           <a href="/splash">
-            <img src="/static/images/splash/globe.svg" alt="Earth view" />EARTH VIEW
+            <img src="/static/images/splash/globe.svg" alt="Earth view" /><span className="link-text">Earth View</span>
           </a>
         </div>
         }
+        <a
+          role="button"
+          onClick=""
+        >
+          Credits
+        </a>
         {!hideSkip && <button onClick={skipAnimation} className="c-splash-header-skip-intro">SKIP INTRO</button>}
         <Link route="home">
-          <a>GO TO SITE</a>
+          <a>Go to Resource Watch</a>
         </Link>
       </div>
     </div>
