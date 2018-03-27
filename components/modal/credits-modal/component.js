@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 class CreditsModal extends React.Component {
   render() {
     return (
-      <div className="credits-modal">
+      <div className="c-credits-modal">
         <h2>Credits</h2>
         <div className="upper-container">
           <div className="row">
