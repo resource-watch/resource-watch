@@ -29,16 +29,19 @@
 
   .links {
     display: flex;
+    align-items: center;
     a {
       color: white;
       text-decoration: none;
     }
 
-    .earth-view-link {
-      margin-right: 45px;
+    >:not(:last-child) {
+      margin-right: 30px;
+    }
 
-      a {
-        margin-left: 15px;
+    .earth-view-link {
+      .link-text {
+        margin-left: 10px;
       }
     }
   }
