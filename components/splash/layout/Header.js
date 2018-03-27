@@ -48,7 +48,7 @@ class Header extends React.Component {
               className="-medium"
               onRequestClose={() => this.handleToggleCreditsModal(false)}
             >
-              <CreditsModal />
+              <CreditsModal onRequestClose={this.handleToggleCreditsModal} />
             </Modal>
           </a>
           {!hideSkip && <button onClick={skipAnimation} className="c-splash-header-skip-intro">SKIP INTRO</button>}

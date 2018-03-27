@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class CreditsModal extends React.Component {
   render() {
     return (
       <div className="credits-modal">
         <h2>Credits</h2>
-        <div className="upper-container">
-          <div>
+        <div className="upper-container row">
+          <div className="column small-6">
             <div>
               <strong>Text:</strong> Maria Hart and Will Halicks
             </div>
@@ -17,7 +18,7 @@ class CreditsModal extends React.Component {
               <strong>Research:</strong> Rosie Gilroy
             </div>
           </div>
-          <div>
+          <div className="column small-6">
             <div>
               <strong>Review:</strong> Katie Reytar and Kristian Teleki
             </div>
@@ -40,9 +41,21 @@ class CreditsModal extends React.Component {
             Scuba audio courtesy HDVideoGuy/<a href="https://freesound.org/people/HDVideoGuy/sounds/156011/" target="_blank" rel="noopener noreferrer">freesound.org</a> and used here under a <a href="https://creativecommons.org/licenses/by-nc/3.0/" target="_blank" rel="noopener noreferrer">CC BY-NC 3.0 license</a>.
           </p>
         </div>
+        <div className="buttons">
+          <button
+            className="c-button -primary"
+            onClick={() => this.props.onRequestClose(false)}
+          >
+            Ok
+          </button>
+        </div>
       </div>
     );
   }
 }
+
+CreditsModal.propTypes = {
+  onRequestClose: PropTypes.func.isRequired
+};
 
 export default CreditsModal;
