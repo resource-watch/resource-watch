@@ -47,7 +47,6 @@ class AreaSubscriptionModal extends React.Component {
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
     // ------------------- Bindings -----------------------
-    this.handleCancel = this.handleCancel.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     // ----------------------------------------------------
   }
@@ -209,7 +208,8 @@ class AreaSubscriptionModal extends React.Component {
 
         <div className="datasets-container">
 
-          {!loadingDatasets && sortedDatasets && alerts.length > 0 && <div className="c-subscription-selector">
+          {!loadingDatasets && sortedDatasets && alerts.length > 0 &&
+          <div className="c-subscription-selector">
             <div className="col col--dataset">
               <h5>Dataset</h5>
             </div>
@@ -245,7 +245,7 @@ class AreaSubscriptionModal extends React.Component {
           <button className="c-btn -primary" onClick={() => this.handleSubmit()}>
             Done
           </button>
-          <button className="c-btn -secondary" onClick={() => this.handleCancel()}>
+          <button className="c-btn -secondary" onClick={() => this.props.onRequestClose()}>
             Cancel
           </button>
         </div>
@@ -257,9 +257,9 @@ class AreaSubscriptionModal extends React.Component {
 AreaSubscriptionModal.propTypes = {
   alerts: PropTypes.object.isRequired,
   area: PropTypes.object.isRequired,
-  toggleModal: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
+  onRequestClose: PropTypes.func,
   // Store
   user: PropTypes.object.isRequired
 };

@@ -6,7 +6,6 @@ import { Link, Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
-import { toggleModal, setModalOptions } from 'redactions/modal';
 import { toggleTooltip } from 'redactions/tooltip';
 import { removeUserArea, getUserAreaLayerGroups } from 'redactions/user';
 
@@ -16,8 +15,11 @@ import areaAlerts from 'selectors/user/areaAlerts';
 // Components
 import Spinner from 'components/ui/Spinner';
 import Map from 'components/ui/map/Map';
-import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 import AreaActionsTooltip from 'components/areas/AreaActionsTooltip';
+
+// Modal
+import Modal from 'components/modal/modal-component';
+import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 
 // Services
 import AreasService from 'services/AreasService';
@@ -54,7 +56,11 @@ class AreaCard extends React.Component {
     super(props);
 
     this.state = {
-      loading: false
+      loading: false,
+      modal: {
+        open: false,
+        mode: 'new'
+      }
     };
 
     // Services
@@ -68,44 +74,17 @@ class AreaCard extends React.Component {
     // ----------------------------------------------------
   }
 
-  componentDidMount() {
-    const {
-      openSubscriptionsModal,
-      subscriptionThreshold,
-      subscriptionType,
-      subscriptionDataset
-    } = this.props;
-
-    if (openSubscriptionsModal) {
-      this.handleEditSubscription(subscriptionDataset, subscriptionType, subscriptionThreshold);
-    }
-  }
-
   handleEditArea() {
     Router.pushRoute('myrw_detail', { id: this.props.area.id, tab: 'areas' });
   }
 
-  handleEditSubscription(
-    subscriptionDataset = null,
-    subscriptionType = null,
-    subscriptionThreshold = null
-  ) {
-    const mode = this.props.area.subscription ? 'edit' : 'new';
-    const options = {
-      children: AreaSubscriptionModal,
-      childrenProps: {
-        area: this.props.area,
-        toggleModal: this.props.toggleModal,
-        onSubscriptionUpdated: this.handleSubscriptionUpdated,
-        onSubscriptionCreated: this.handleSubscriptionUpdated,
-        mode,
-        subscriptionDataset,
-        subscriptionType,
-        subscriptionThreshold
+  handleEditSubscription(modalState = true) {
+    this.setState({
+      modal: {
+        open: modalState,
+        mode: this.props.area.subscription ? 'edit' : 'new'
       }
-    };
-    this.props.toggleModal(true);
-    this.props.setModalOptions(options);
+    });
   }
 
   handleDeleteArea() {
@@ -212,7 +191,7 @@ class AreaCard extends React.Component {
             </div>
             <div className="actions-div">
               <button
-                className="c-btn -b -compressed"
+                className="c-btn -secondary -compressed"
                 onClick={this.handleEdit}
               >
                 Area Options
@@ -226,6 +205,22 @@ class AreaCard extends React.Component {
             </div>
           </div>
         </div>
+
+        {this.state.modal.open &&
+          <Modal
+            isOpen
+            onRequestClose={() => this.handleEditSubscription(false)}
+          >
+            <AreaSubscriptionModal
+              area={this.props.area}
+              mode={this.state.modal.mode}
+              onRequestClose={() => this.handleEditSubscription(false)}
+              subscriptionDataset
+              subscriptionType
+              subscriptionThreshold
+            />
+          </Modal>}
+
       </div>
     );
   }
@@ -243,8 +238,6 @@ AreaCard.propTypes = {
   subscriptionType: PropTypes.bool,
   subscriptionDataset: PropTypes.bool,
   // Store
-  toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired,
   toggleTooltip: PropTypes.func.isRequired,
   removeUserArea: PropTypes.func.isRequired
 };
@@ -256,8 +249,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  toggleModal,
-  setModalOptions,
   toggleTooltip,
   removeUserArea,
   getUserAreaLayerGroups

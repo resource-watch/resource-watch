@@ -12,14 +12,14 @@ import areaAlerts from 'selectors/user/areaAlerts';
 // Components
 import Map from 'components/ui/map/Map';
 
-import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
-import { toggleModal, setModalOptions } from 'redactions/modal';
-import { toggleTooltip } from 'redactions/tooltip';
-
 import DataTable from 'components/ui/DataTable';
 import MapControls from 'components/ui/map/MapControls';
 import ShareControl from 'components/ui/map/controls/ShareControl';
 import BasemapControl from 'components/ui/map/controls/BasemapControl';
+
+// Modal
+import Modal from 'components/modal/modal-component';
+import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
@@ -68,6 +68,7 @@ class AlertWidget extends React.Component {
     this.state = {
       area: areas.items.find(a => a.id === id),
       subscription,
+      modalOpen: false,
       zoom: 3,
       latLng: {
         lat: 0,
@@ -93,36 +94,36 @@ class AlertWidget extends React.Component {
     this.setState({ zoom, latLng });
   }, 250);
 
-  handleEditSubscription() {
-    const mode = this.state.subscription ? 'edit' : 'new';
-    const options = {
-      children: AreaSubscriptionModal,
-      childrenProps: {
-        area: this.state.area,
-        toggleModal: this.props.toggleModal,
-        onSubscriptionUpdated: this.handleSubscriptionUpdated,
-        onSubscriptionCreated: this.handleSubscriptionUpdated,
-        mode,
-        subscriptionDataset: true,
-        subscriptionType: true,
-        subscriptionThreshold: true
-      }
-    };
-    this.props.toggleModal(true);
-    this.props.setModalOptions(options);
+  onChangeLayer = (l) => {
+    const { layerGroups } = this.state;
+
+    const layers = layerGroups[0].layers.map((layer) => {
+      layer.active = layer.id === l.id;
+      return layer;
+    });
+
+    layerGroups[0] = Object.assign({}, layerGroups[0], layers);
+    this.setState({ layerGroups });
+  }
+
+  handleEditSubscription(modalOpen = true) {
+    this.setState({
+      modalOpen
+    });
   }
 
   render() {
     const { dataset } = this.props;
     const layer = dataset.layer.find(l => l.default);
-    const { zoom, latLng } = this.state;
+    const { zoom, latLng, layerGroups } = this.state;
+
     return (
       <div className="c-alerts-page__widget">
         <div className="c-alerts-page__widget--header">
           <h2 className="c-alerts-page__widget--heading">{layer && layer.name ? layer.name : 'not defined'}</h2>
           <button
             className="c-btn -b"
-            onClick={() => this.handleEditSubscription()}
+            onClick={() => this.handleEditSubscription(true)}
           >
             Edit Subscriptions
           </button>
@@ -133,7 +134,7 @@ class AlertWidget extends React.Component {
           <Map
             mapConfig={{ zoom, latLng }}
             LayerManager={LayerManager}
-            layerGroups={this.state.layerGroups}
+            layerGroups={layerGroups}
             onMapParams={this.onMapParams}
             useLightBasemap
           />
@@ -149,7 +150,8 @@ class AlertWidget extends React.Component {
           <div className="c-legend-map">
             <Legend
               maxHeight={250}
-              layerGroups={this.state.layerGroups}
+              sortable={false}
+              layerGroups={layerGroups}
               // List item
               LegendItemToolbar={
                 <LegendItemToolbar>
@@ -158,6 +160,8 @@ class AlertWidget extends React.Component {
                 </LegendItemToolbar>
               }
               LegendItemTypes={<LegendItemTypes />}
+              onChangeLayer={l => this.onChangeLayer(l)}
+              onChangeInfo={this.onChangeInfo}
             />
           </div>
         </div>}
@@ -166,6 +170,22 @@ class AlertWidget extends React.Component {
           title="10 Most Recent Changes (fake data)"
           table={fakeRecentChangesData}
         />
+
+        {this.state.modalOpen &&
+          <Modal
+            isOpen
+            onRequestClose={() => this.handleEditSubscription(false)}
+          >
+            <AreaSubscriptionModal
+              area={this.state.area}
+              mode="edit"
+              onRequestClose={() => this.handleEditSubscription(false)}
+              subscriptionDataset
+              subscriptionType
+              subscriptionThreshold
+            />
+          </Modal>}
+
       </div>);
   }
 }
@@ -174,9 +194,7 @@ AlertWidget.propTypes = {
   dataset: PropTypes.object,
   subscription: PropTypes.object,
   user: PropTypes.object,
-  id: PropTypes.string.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired
+  id: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -185,10 +203,4 @@ const mapStateToProps = state => ({
   alerts: areaAlerts(state)
 });
 
-const mapDispatchToProps = {
-  toggleModal,
-  setModalOptions,
-  toggleTooltip
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AlertWidget);
+export default connect(mapStateToProps, null)(AlertWidget);
