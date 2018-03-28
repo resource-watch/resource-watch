@@ -20,12 +20,26 @@ class ExploreDatasetsComponent extends React.Component {
     page: PropTypes.number,
     total: PropTypes.number,
     limit: PropTypes.number,
+    options: PropTypes.object,
     responsive: PropTypes.object,
 
     // Actions
     fetchDatasets: PropTypes.func,
-    setDatasetsPage: PropTypes.func
+    setDatasetsPage: PropTypes.func,
+    toggleFiltersSelected: PropTypes.func
   };
+
+  onTagSelected = (tag) => {
+    const options = Object.keys(this.props.options).map(o => this.props.options[o]);
+
+    const tab = options.find(o => o.type === tag.labels[1]) || {};
+
+    this.props.toggleFiltersSelected({
+      tab: tab.value || 'custom',
+      tag
+    });
+    this.fetchDatasets(1);
+  }
 
   fetchDatasets = debounce((page) => {
     this.props.setDatasetsPage(page);
@@ -71,6 +85,7 @@ class ExploreDatasetsComponent extends React.Component {
                 <ExploreDatasetsActions />
               </MediaQuery>
             }
+            onTagSelected={this.onTagSelected}
           />
         }
 

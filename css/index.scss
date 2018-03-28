@@ -84,6 +84,7 @@
 @import "./components/ui/tree_selector";
 @import "./components/ui/user-report";
 @import "./components/ui/zoom_control";
+@import "./components/ui/dataset-table";
 
 // Modal
 @import "./components/modal/share-modal";
@@ -228,6 +229,7 @@
 @import "./components/app/pages/p-app-detail";
 @import "./components/app/pages/splash";
 @import "./components/app/pages/splash_detail";
+@import "./components/app/pages/alerts_page";
 
 // PULSE
 @import "./components/app/pulse/globe_cesium";

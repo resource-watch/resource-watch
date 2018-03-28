@@ -1,6 +1,7 @@
 export const TOPICS = {
   label: 'Topics',
   value: 'topics',
+  type: 'TOPIC',
   list: [
     {
       id: 'biodiversity',
@@ -140,6 +141,7 @@ export const TOPICS = {
 export const DATA_TYPES = {
   label: 'Data types',
   value: 'data_types',
+  type: 'DATA_TYPE',
   list: [
 
     {
@@ -184,6 +186,7 @@ export const DATA_TYPES = {
 export const FREQUENCIES = {
   label: 'Frequencies',
   value: 'frequencies',
+  type: 'FREQUENCY',
   list: [
 
     {
@@ -255,6 +258,7 @@ export const FREQUENCIES = {
 export const TIME_PERIODS = {
   label: 'Time periods',
   value: 'time_periods',
+  type: 'TIME_PERIOD',
   list: [
     {
       id: 'future',

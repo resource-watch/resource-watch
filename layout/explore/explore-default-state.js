@@ -20,13 +20,19 @@ export default {
       topics: TOPICS,
       data_types: DATA_TYPES,
       frequencies: FREQUENCIES,
-      time_periods: TIME_PERIODS
+      time_periods: TIME_PERIODS,
+      custom: {
+        label: 'Others',
+        value: 'custom',
+        list: []
+      }
     },
     selected: {
       topics: [],
       data_types: [],
       frequencies: [],
-      time_periods: []
+      time_periods: [],
+      custom: []
     }
   },
   sort: {

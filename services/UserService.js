@@ -283,8 +283,7 @@ export default class UserService {
       headers: {
         Authorization: token
       }
-    })
-      .then(response => response.json());
+    });
   }
 
   /**
