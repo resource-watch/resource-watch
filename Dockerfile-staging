@@ -1,10 +1,10 @@
 FROM node:8.1.2
 
 ENV NODE_ENV production
-ENV WRI_API_URL https://api.resourcewatch.org/v1
+ENV WRI_API_URL https://staging-api.globalforestwatch.org/v1
 ENV BASEMAP_TILE_URL https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
 ENV API_URL https://resourcewatch.vizzuality.com/api
-ENV CONTROL_TOWER_URL https://production-api.globalforestwatch.org
+ENV CONTROL_TOWER_URL https://staging-api.globalforestwatch.org
 ENV CALLBACK_URL https://resourcewatch.vizzuality.com/auth
 ENV STATIC_SERVER_URL=
 ENV APPLICATIONS rw
