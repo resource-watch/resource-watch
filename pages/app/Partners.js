@@ -96,7 +96,7 @@ class Partners extends Page {
           </div>
         </section>
 
-        <section className="l-section -secondary">
+        <section className="l-section">
           <div className="l-container">
             <div className="row">
               <div className="column small-12">

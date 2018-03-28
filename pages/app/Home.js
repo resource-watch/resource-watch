@@ -214,7 +214,7 @@ class Home extends Page {
           </div>
         </div>
 
-        <section id="discoverIsights" className="l-section">
+        <section id="discoverIsights" className="l-section -big">
           <div className="l-container">
             <header>
               <div className="row">
@@ -266,7 +266,7 @@ class Home extends Page {
           </div>
         </section>
 
-        <section className="l-section -secondary">
+        <section className="l-section -big -secondary">
           <div className="l-container">
             <header>
               <div className="row">
@@ -295,7 +295,7 @@ class Home extends Page {
           </div>
         </section>
 
-        <section className="l-section">
+        <section className="l-section -big">
           <div className="l-container">
             <header>
               <div className="row">
