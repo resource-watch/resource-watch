@@ -11,6 +11,7 @@ import HeaderAbout from 'layout/header/header-about';
 import HeaderSearch from 'layout/header/header-search';
 import HeaderUser from 'layout/header/header-user';
 import HeaderTopics from 'layout/header/header-topics';
+import HeaderGetInvolved from 'layout/header/header-get-involved';
 
 export default class HeaderMenu extends React.PureComponent {
   static propTypes = {
@@ -28,7 +29,8 @@ export default class HeaderMenu extends React.PureComponent {
     about: <HeaderAbout />,
     topics: <HeaderTopics />,
     myrw: <HeaderUser />,
-    search: <HeaderSearch />
+    search: <HeaderSearch />,
+    get_involved: <HeaderGetInvolved />
   }
 
   render() {
