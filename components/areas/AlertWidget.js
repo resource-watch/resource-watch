@@ -20,6 +20,7 @@ import BasemapControl from 'components/ui/map/controls/BasemapControl';
 // Modal
 import Modal from 'components/modal/modal-component';
 import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
+import LayerInfoModal from 'components/modal/layer-info-modal';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
@@ -70,6 +71,7 @@ class AlertWidget extends React.Component {
       subscription,
       modalOpen: false,
       zoom: 3,
+      layer: null,
       latLng: {
         lat: 0,
         lng: 0
@@ -77,8 +79,8 @@ class AlertWidget extends React.Component {
       layerGroups: [{
         dataset: dataset.id,
         visible: true,
-        layers: dataset.layer.map(d => ({
-          active: true,
+        layers: dataset.layer.map((d, k) => ({
+          active: k === 0,
           id: d.id,
           name: d.name,
           layerConfig: d.layerConfig,
@@ -104,6 +106,14 @@ class AlertWidget extends React.Component {
 
     layerGroups[0] = Object.assign({}, layerGroups[0], layers);
     this.setState({ layerGroups });
+  }
+
+  onChangeInfo = (layer) => {
+    if (layer) {
+      layer = { ...layer, dataset: this.props.dataset.id };
+    }
+
+    this.setState({ layer });
   }
 
   handleEditSubscription(modalOpen = true) {
@@ -185,6 +195,18 @@ class AlertWidget extends React.Component {
               subscriptionThreshold
             />
           </Modal>}
+
+        {!!this.state.layer &&
+          <Modal
+            isOpen={!!this.state.layer}
+            className="-medium"
+            onRequestClose={() => this.onChangeInfo(null)}
+          >
+            <LayerInfoModal
+              layer={this.state.layer}
+            />
+          </Modal>
+        }
 
       </div>);
   }
