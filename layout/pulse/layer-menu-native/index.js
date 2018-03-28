@@ -5,16 +5,15 @@ import * as actions from './actions';
 import * as reducers from './reducer';
 import initialState from './initial-state';
 
-import LayerMenuComponent from './component';
+import LayerMenuNativeComponent from './component';
 
 const mapStateToProps = state => ({
-  responsive: state.responsive,
   layerActive: state.pulse.layerActive
 });
 
-class LayerMenuContainer extends Component {
+class LayerMenuNativeContainer extends Component {
   render() {
-    return createElement(LayerMenuComponent, {
+    return createElement(LayerMenuNativeComponent, {
       ...this.props
     });
   }
@@ -22,4 +21,4 @@ class LayerMenuContainer extends Component {
 
 export { actions, reducers, initialState };
 
-export default connect(mapStateToProps, actions)(LayerMenuContainer);
+export default connect(mapStateToProps, actions)(LayerMenuNativeContainer);
