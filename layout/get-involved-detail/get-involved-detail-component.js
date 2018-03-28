@@ -49,7 +49,7 @@ class GetInvolvedDetail extends Page {
     if (!data) return null;
 
     const postContent = this.getPostContent(id, data);
-    const descriptions = data.description.split('\n').filter(line => line.length > 0);
+    const descriptions = data.description && data.description.split('\n').filter(line => line.length > 0);
 
     return (
       <Layout

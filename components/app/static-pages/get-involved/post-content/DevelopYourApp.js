@@ -71,7 +71,7 @@ function DevelopYourApp() {
                   Explore maps and apps curated <br />
                   by the Resource Watch community of this team?
                 </p>
-                <Link route="get_involved_detail" params={{ id: 'develop-your-app' }}>
+                <Link route="get_involved_detail" params={{ id: 'apps' }}>
                   <a className="c-button -primary -alt">
                     App gallery
                   </a>
