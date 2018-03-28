@@ -16,7 +16,7 @@ import { Tooltip } from 'wri-api-components';
 import CollectionsPanel from 'components/collections-panel';
 
 // Utils
-import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
+import { TAGS_BLACKLIST } from 'utils/tags';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';

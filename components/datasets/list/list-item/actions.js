@@ -2,7 +2,7 @@ import sortBy from 'lodash/sortBy';
 import { createAction, createThunkAction } from 'redux-tools';
 
 // Utils
-import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
+import { TAGS_BLACKLIST } from 'utils/tags';
 
 export const setTags = createAction('DATASET_LIST_ITEM/setTags');
 export const setTagsTooltip = createAction('DATASET_LIST_ITEM/setTagsTooltip');
@@ -20,14 +20,14 @@ export const fetchTags = createThunkAction('DATASET_LIST_ITEM/fetchTags', tags =
       return response.json();
     })
     .then(({ data }) => {
-      dispatch(setTagsLoading(false));
+      console.log(data);
       dispatch(setTags(
         sortBy(
-          data,
-          // data.filter(tag => tag.labels.find(type => (type === 'TOPIC') && !TAGS_BLACKLIST.includes(tag.id))),
+          data.filter(tag => !TAGS_BLACKLIST.includes(tag.id)),
           t => t.label
         )
       ));
+      dispatch(setTagsLoading(false));
     })
     .catch((err) => {
       dispatch(setTagsLoading(false));

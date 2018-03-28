@@ -6,7 +6,7 @@ import WRISerializer from 'wri-json-api-serializer';
 import GraphService from 'services/GraphService';
 
 // Helpers
-import { TAGS_BLACKLIST } from 'utils/graph/TagsUtil';
+import { TAGS_BLACKLIST } from 'utils/tags';
 
 
 // DATASET
