@@ -19,7 +19,7 @@ class LayerMenuDropdownComponent extends PureComponent {
           {layers.map(layer =>
             (
               <li
-                key={layer.id}
+                key={layer.label}
                 onClick={() => triggerClick(layer)}
               >
                 <Switch active={(layerActive && (layerActive.id === layer.id))} />
