@@ -92,7 +92,7 @@ export const STATE_DEFAULT = {
       country: []
     },
     subscribable: [],
-    mainDateField: null
+    mainDateField: ''
   }
 };
 

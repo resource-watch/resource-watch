@@ -63,7 +63,7 @@ class LayoutApp extends React.Component {
       applications: process.env.APPLICATIONS,
       authUrl: process.env.CONTROL_TOWER_URL,
       assetsPath: '/static/images/widget-editor/',
-      userToken: props.user.token,
+      userToken: props.user.token2,
       userEmail: props.user.email
     });
   }
