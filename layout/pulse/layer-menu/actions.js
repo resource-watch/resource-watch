@@ -20,8 +20,9 @@ export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer
   descriptionPulse,
   contextLayersOnTop
 }) =>
-  (dispatch) => {
-    if (id) {
+  (dispatch, state) => {
+    const { layerActive } = state().layerMenuPulse;
+    if (!layerActive || layerActive.id !== id) {
       // Clear the possible active layers from the previous layer selection
       dispatch(setContextActiveLayers([]));
       dispatch(setActiveLayerLoading(true));
@@ -51,9 +52,7 @@ export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer
                   let layersLoaded = 0;
                   const urlSt = `${process.env.WRI_API_URL}/layer/?ids=${contextLayers.join()}&env=production,preproduction`;
                   fetch(new Request(urlSt))
-                    .then((resp) => {
-                      return resp.json();
-                    })
+                    .then(resp => resp.json())
                     .then((res) => {
                       res.data.forEach((l) => {
                         layerGlobeManager.addLayer(
@@ -84,6 +83,8 @@ export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer
           dispatch(setActiveLayerError(error));
         });
     } else {
+      dispatch(setContextActiveLayers([]));
       dispatch(setActiveLayer(null));
+      dispatch(setActiveLayerLoading(false));
     }
   });
