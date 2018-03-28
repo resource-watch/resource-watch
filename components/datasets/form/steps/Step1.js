@@ -526,6 +526,7 @@ class Step1 extends React.Component {
                           validations={['required', {
                             type: 'unique',
                             value: elem.type,
+                            default: elem.type,
                             condition: 'type',
                             data: this.state.form.subscribable
                           }]}

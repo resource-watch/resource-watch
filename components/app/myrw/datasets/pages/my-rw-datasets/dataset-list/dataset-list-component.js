@@ -23,11 +23,11 @@ class DatasetsList extends PureComponent {
 
   static propTypes = {
     routes: PropTypes.object,
+    datasets: PropTypes.array,
+    filters: PropTypes.array,
+    loading: PropTypes.bool,
     user: PropTypes.object,
     locale: PropTypes.string.isRequired,
-    filters: PropTypes.array,
-    datasets: PropTypes.array.isRequired,
-    loading: PropTypes.bool,
     currentTab: PropTypes.string,
     getDatasetsByTab: PropTypes.func
   };
@@ -59,7 +59,9 @@ class DatasetsList extends PureComponent {
   }
 
   render() {
-    const { datasets, routes, user, filters, loading } = this.props;
+    const {
+      datasets, routes, user, filters, loading
+    } = this.props;
 
     return (
       <div className="c-datasets-list">

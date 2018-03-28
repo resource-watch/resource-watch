@@ -84,6 +84,7 @@
 @import "./components/ui/tree_selector";
 @import "./components/ui/user-report";
 @import "./components/ui/zoom_control";
+@import "./components/ui/dataset-table";
 
 // Modal
 @import "./components/modal/share-modal";
@@ -219,15 +220,14 @@
 @import "./components/app/pages/about";
 @import "./components/app/pages/pulse";
 @import "./components/app/pages/home";
-@import "./components/app/pages/partners";
 @import "./components/app/pages/submit_insight";
 @import "./components/app/pages/partner_detail";
 @import "./components/app/pages/getInvolved";
 @import "./components/app/pages/develop_app";
 @import "./components/app/pages/apps";
-@import "./components/app/pages/p-app-detail";
 @import "./components/app/pages/splash";
 @import "./components/app/pages/splash_detail";
+@import "./components/app/pages/alerts_page";
 
 // PULSE
 @import "./components/app/pulse/globe_cesium";
@@ -255,6 +255,7 @@
 // EXPLORE DETAIL
 @import "./components/explore-detail/explore-detail-actions";
 @import "./components/explore-detail/explore-detail-tags";
+@import "./components/explore-detail/explore-detail-widget-editor";
 
 // DASHBOARDS
 @import './components/dashboards/dashboard-thumbnail-list';

@@ -9,7 +9,7 @@ import { breakpoints } from 'utils/responsive';
 import MediaQuery from 'react-responsive';
 
 // Widget editor
-import WidgetEditor, { VegaChart } from 'widget-editor';
+import WidgetEditor, { VegaChart, getVegaTheme } from 'widget-editor';
 
 // Modal
 import Modal from 'components/modal/modal-component';
@@ -68,10 +68,17 @@ class ExploreDetailWidgetEditor extends PureComponent {
             maxDeviceWidth={breakpoints.large - 1}
             values={{ deviceWidth: responsive.fakeWidth }}
           >
-            <VegaChart
-              data={defaultEditableWidget.widgetConfig}
-              reloadOnResize
-            />
+            <div className="l-container">
+              <div className="row">
+                <div className="column small-12">
+                  <VegaChart
+                    data={defaultEditableWidget.widgetConfig}
+                    theme={getVegaTheme()}
+                    reloadOnResize
+                  />
+                </div>
+              </div>
+            </div>
           </MediaQuery>
         }
 

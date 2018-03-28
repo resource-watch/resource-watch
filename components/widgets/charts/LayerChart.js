@@ -144,6 +144,7 @@ class LayerChart extends React.Component {
 LayerChart.propTypes = {
   // Define the chart data
   data: PropTypes.object,
+  dimensions: PropTypes.object,
   toggleLoading: PropTypes.func
 };
 

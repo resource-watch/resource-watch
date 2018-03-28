@@ -29,6 +29,14 @@ export function concatenation(string, params) {
   return str;
 }
 
+export function listSeperator(arr, key) {
+  const l = arr.length - 1;
+  if (l !== key) {
+    return (l - 1) === key ? 'and' : ',';
+  }
+  return null;
+}
+
 export function paramIsTrue(param) {
   return param && /1|true/.test(param);
 }

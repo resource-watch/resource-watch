@@ -1,13 +1,20 @@
 import { toastr } from 'react-redux-toastr';
 import { createAction, createThunkAction } from 'redux-tools';
 
+// Utils
+import WRISerializer from 'wri-json-api-serializer';
+import { mergeSubscriptions, setGeoLayer, setCountryLayer } from 'utils/user/areas';
+
 // actions
 import { getDatasetsByTab } from 'redactions/admin/datasets';
 import { getWidgetsByTab } from 'redactions/admin/widgets';
 
 // services
+import UserService from 'services/UserService';
 import FavouritesService from 'services/favourites-service';
 import CollectionsService from 'services/collections-service';
+import DatasetService from 'services/DatasetService';
+import AreasService from 'services/AreasService';
 
 /**
  * CONSTANTS
@@ -24,7 +31,10 @@ const SET_USER_COLLECTIONS_UPDATE_LOADING = 'user/setUserCollectionsUpdateLoadin
 const SET_COLLECTIONS_LOADING = 'user/setCollectionsLoading';
 const SET_USER_COLLECTIONS_FILTER = 'user/setUserCollectionsFilter';
 const SET_USER_COLLECTIONS_ERROR = 'user/setUserCollectionsError';
-
+// areas
+const SET_USER_AREAS = 'user/setUserAreas';
+const SET_USER_AREAS_ERROR = 'user/serUserAreasError';
+const SET_USER_AREA_LAYER_GROUP = 'user/setUserAreaLayerGroup';
 
 /**
  * REDUCER
@@ -40,6 +50,12 @@ const initialState = {
     loading: false,
     items: [],
     loadingQueue: [],
+    error: null
+  },
+  areas: {
+    items: [],
+    layerGroups: {},
+    loading: false,
     error: null
   }
 };
@@ -144,6 +160,39 @@ export default function (state = initialState, action) {
         ...state,
         collections: {
           ...state.collections,
+          error: action.payload
+        }
+      };
+    }
+
+    case SET_USER_AREAS: {
+      return {
+        ...state,
+        areas: {
+          ...state.areas,
+          items: action.payload
+        }
+      };
+    }
+
+    case SET_USER_AREA_LAYER_GROUP: {
+      const layerGroup = { [action.payload.area.id]: action.payload.layerGroups };
+      const layerGroups = Object.assign({}, state.areas.layerGroups, layerGroup);
+
+      return {
+        ...state,
+        areas: {
+          ...state.areas,
+          layerGroups
+        }
+      };
+    }
+
+    case SET_USER_AREAS_ERROR: {
+      return {
+        ...state,
+        areas: {
+          ...state.areas,
           error: action.payload
         }
       };
@@ -309,7 +358,8 @@ export const deleteCollection = createThunkAction('user/deleteCollection', (payl
       });
   });
 
-export const addResourceToCollection = createThunkAction('user/addResourceToCollection',
+export const addResourceToCollection = createThunkAction(
+  'user/addResourceToCollection',
   (payload = {}) =>
     (dispatch, getState) => {
       const { user, routes } = getState();
@@ -331,9 +381,11 @@ export const addResourceToCollection = createThunkAction('user/addResourceToColl
           dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: false }));
           dispatch(setUserCollectionsErrors(errors));
         });
-    });
+    }
+);
 
-export const removeResourceFromCollection = createThunkAction('user/removeResourceFromCollection',
+export const removeResourceFromCollection = createThunkAction(
+  'user/removeResourceFromCollection',
   (payload = {}) =>
     (dispatch, getState) => {
       const { user, routes } = getState();
@@ -355,13 +407,111 @@ export const removeResourceFromCollection = createThunkAction('user/removeResour
           dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: false }));
           dispatch(setUserCollectionsErrors(errors));
         });
-    });
+    }
+);
 
-export const toggleCollection = createThunkAction('user/toggleCollection',
+export const toggleCollection = createThunkAction(
+  'user/toggleCollection',
   (payload = {}) =>
     (dispatch) => {
       const { isAdded, collectionId, resource } = payload;
 
       if (isAdded) dispatch(addResourceToCollection({ collectionId, resource }));
       if (!isAdded) dispatch(removeResourceFromCollection({ collectionId, resource }));
+    }
+);
+
+// Areas
+export const setUserAreas = createAction(SET_USER_AREAS);
+export const setUserAreasError = createAction(SET_USER_AREAS_ERROR);
+export const setUserAreaLayerGroup = createAction(SET_USER_AREA_LAYER_GROUP);
+
+export const getUserAreaLayerGroups = createThunkAction(
+  'user/getUserAreaLayerGroups',
+  (area = {}) =>
+    (dispatch) => {
+      const { attributes } = area;
+      const areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
+      if (attributes.geostore) {
+        return areasService.getGeostore(attributes.geostore).then((geo) => {
+          dispatch(setUserAreaLayerGroup({ area, layerGroups: [setGeoLayer(geo)] }));
+        });
+      }
+
+      return areasService.getCountry(attributes.iso.country).then((country) => {
+        dispatch(setUserAreaLayerGroup({ area, layerGroups: [setCountryLayer(country)] }));
+      });
+    }
+);
+
+export const getUserAreas = createThunkAction(
+  'user/getUserAreas',
+  (payload = {}) =>
+    (dispatch, getState) => {
+      const { user, common } = getState();
+      const userService = new UserService({ apiURL: process.env.WRI_API_URL });
+
+      return userService.getUserAreas(user.token)
+        .then((areas) => {
+          // 1. fetch subscriptions then merge them with the area
+          // 2. Get datasets
+          // 3. Merge the 2 of them into the area
+          return userService.getSubscriptions(user.token).then((subs) => {
+            subs = subs.filter(sub => sub.attributes.params.area);
+            const datasetsSet = new Set();
+            subs.forEach(sub => sub.attributes.datasets
+              .forEach(dataset => datasetsSet.add(dataset)));
+
+            return DatasetService.getDatasets(
+              [...datasetsSet],
+              common.locale,
+              'layer,metadata,vocabulary,widget'
+            )
+              .then((datasets) => {
+                // Should we attach layer groups to the area
+                if (payload.layerGroups) {
+                  const layerGroups = [];
+                  areas.forEach(area => layerGroups.push(dispatch(getUserAreaLayerGroups(area))));
+                  return Promise.all(layerGroups).then(() => {
+                    dispatch(setUserAreas(mergeSubscriptions(
+                      areas,
+                      subs,
+                      WRISerializer({ data: datasets })
+                    )));
+                  });
+                }
+
+                dispatch(setUserAreas(mergeSubscriptions(
+                  areas,
+                  subs,
+                  WRISerializer({ data: datasets })
+                )));
+              });
+          });
+        })
+        .catch(err => dispatch(setUserAreasError(err)));
+    }
+);
+
+export const removeUserArea = createThunkAction(
+  'user/removeUserArea',
+  (area = {}) => (dispatch, getState) => {
+    const { user } = getState();
+    const userService = new UserService({ apiURL: process.env.WRI_API_URL });
+
+    if (area.subscription) {
+      return userService.deleteSubscription(area.subscription.id, user.token).then(() => {
+        return userService.deleteArea(area.id, user.token).then(() => {
+          toastr.success('Area deleted', `The area "${area.attributes.name}" was deleted successfully.`);
+          dispatch(getUserAreas());
+        });
+      });
+    }
+
+    return userService.deleteArea(area.id, user.token).then(() => {
+      toastr.success('Area deleted', `The area "${area.attributes.name}" was deleted successfully.`);
+      dispatch(getUserAreas());
     });
+  }
+);
+

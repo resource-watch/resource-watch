@@ -25,13 +25,13 @@ const FORM_ELEMENTS = {
   elements: {
   },
   validate() {
-    const elements = this.elements;
+    const { elements } = this;
     Object.keys(elements).forEach((k) => {
       elements[k].validate();
     });
   },
   isValid() {
-    const elements = this.elements;
+    const { elements } = this;
     const valid = Object.keys(elements)
       .map(k => elements[k].isValid())
       .filter(v => v !== null)
@@ -61,13 +61,17 @@ class AreasForm extends React.Component {
 
     const { query } = props.routes;
     const { openUploadAreaModal } = query || {};
+    const { areas } = props.user;
+
+    const area = areas.items.find(a => a.id === query.id);
+    let { name, geostore } = area ? area.attributes : {};
 
     this.state = {
       areaOptions: [],
       loadingAreaOptions: false,
       loading: false,
-      name: '',
-      geostore: null,
+      name: name || '',
+      geostore: geostore || '',
       openUploadAreaModal
     };
 
@@ -84,9 +88,10 @@ class AreasForm extends React.Component {
 
   componentDidMount() {
     const { openUploadAreaModal } = this.state;
-    this.loadAreas();
-    if (this.props.id) {
-      this.loadArea();
+    const { query } = this.props.routes;
+
+    if (query.id && query.id === 'new') {
+      this.loadAreas();
     }
 
     if (openUploadAreaModal) {
@@ -187,17 +192,6 @@ class AreasForm extends React.Component {
     });
   }
 
-  loadArea() {
-    const { id, user } = this.props;
-    this.userService.getArea(id, user.token).then((response) => {
-      const area = response.data.attributes;
-      this.setState({
-        name: area.name,
-        geostore: area.geostore
-      });
-    });
-  }
-
   render() {
     const {
       areaOptions,
@@ -219,9 +213,10 @@ class AreasForm extends React.Component {
               validations={['required']}
               properties={{
                 name: 'name',
-                label: 'Name',
+                label: 'Title',
                 type: 'text',
                 value: name,
+                default: name,
                 required: true
               }}
             >
