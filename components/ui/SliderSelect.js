@@ -431,7 +431,7 @@ export default class SliderSelect extends React.Component {
                 onClick={this.onSliderPrev}
               >
                 <div>
-                  <Icon name="icon-arrow-left" className="-small icon-arrow-left" />
+                  <Icon name="icon-arrow-left-2" className="-small icon-arrow-left-2" />
                   <span>{pathToCurrentItemsList[pathToCurrentItemsList.length - 1].label}</span>
                 </div>
               </li>
@@ -448,7 +448,7 @@ export default class SliderSelect extends React.Component {
                 <span className="label">{item.label}</span>
                 {item.items && item.items.length &&
                   <button className="next" onClick={e => this.onSliderNext(e, item)}>
-                    <Icon name="icon-arrow-right" className="-small icon-arrow-right" />
+                    <Icon name="icon-arrow-right-2" className="-small icon-arrow-right-2" />
                   </button>
                 }
               </li>
