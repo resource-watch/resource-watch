@@ -6,7 +6,8 @@ $translate-dropdown: 5px;
   left: 0;
   min-width: 100%;
   background: $color-white;
-  border-radius: 3px;
+  border-radius: 4px;
+  box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.1);
   transform: translate(0,$translate-dropdown);
 
   &:before {
