@@ -124,9 +124,26 @@ export const fetchMapLayerGroups = createThunkAction('EXPLORE/fetchMapLayers', p
 export const setFiltersOpen = createAction('EXPLORE/setFiltersOpen');
 export const setFiltersTab = createAction('EXPLORE/setFiltersTab');
 export const setFiltersSearch = createAction('EXPLORE/setFiltersSearch');
+export const setFiltersTags = createAction('EXPLORE/setFiltersTags');
 export const setFiltersSelected = createAction('EXPLORE/setFiltersSelected');
 export const toggleFiltersSelected = createAction('EXPLORE/toggleFiltersSelected');
 export const resetFiltersSelected = createAction('EXPLORE/resetFiltersSelected');
+
+export const fetchFiltersTags = createThunkAction('EXPLORE/fetchFiltersTags', () => (dispatch) => {
+  const qParams = queryString.stringify({});
+
+  return fetch(`${process.env.WRI_API_URL}/graph/query/list-concepts?${qParams}`)
+    .then((response) => {
+      if (response.status >= 400) throw Error(response.statusText);
+      return response.json();
+    })
+    .then(({ data }) => {
+      dispatch(setFiltersTags(data));
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
 
 // SORT
 export const setSortSelected = createAction('EXPLORE/setSortSelected');

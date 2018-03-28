@@ -8,6 +8,7 @@ export default connect(
   state => ({
     // Store
     ...state.explore.datasets,
+    ...state.explore.filters,
     responsive: state.responsive
   }),
   actions

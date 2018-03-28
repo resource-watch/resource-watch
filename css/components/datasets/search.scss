@@ -65,16 +65,15 @@
       padding: $space-1 * 2;
       font-size: $font-size-normal;
 
-      .search-dropdown-list-btn {
-        padding: 0;
-        cursor: pointer;
+      > * {
+        margin: $space-1 * 2 0 0;
+        padding: $space-1 * 2 0 0;
+        border-top: 1px solid $border-color-2;
 
-        &:hover {
-          text-decoration: underline;
-        }
-
-        &.-active {
-          color: $color-primary;
+        &:first-child {
+          margin: 0;
+          padding: 0;
+          border: none;
         }
       }
     }

@@ -52,6 +52,10 @@ export default {
     const filters = { ...state.filters, search: action.payload };
     return { ...state, filters };
   },
+  [actions.setFiltersTags]: (state, action) => {
+    const filters = { ...state.filters, tags: action.payload };
+    return { ...state, filters };
+  },
   [actions.setFiltersSelected]: (state, action) => {
     const { key, list } = action.payload;
     const selected = { ...state.filters.selected, [key]: list };

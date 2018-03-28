@@ -69,6 +69,9 @@ class ExplorePage extends Page {
     // Fetch datasets
     await store.dispatch(actions.fetchDatasets());
 
+    // Fetch tags
+    await store.dispatch(actions.fetchFiltersTags());
+
     return { ...props };
   }
 
