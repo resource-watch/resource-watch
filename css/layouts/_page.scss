@@ -90,6 +90,10 @@
     .page-header-info {
       margin: $space-1 * 2 0 0;
 
+      a {
+        color: inherit;
+      }
+
       ul {
         margin: 0;
         padding: 0;

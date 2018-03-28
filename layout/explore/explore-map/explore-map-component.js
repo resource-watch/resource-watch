@@ -8,6 +8,8 @@ import MapControls from 'components/ui/map/MapControls';
 import BasemapControl from 'components/ui/map/controls/BasemapControl';
 import ShareControl from 'components/ui/map/controls/ShareControl';
 
+import { BASEMAPS, LABELS } from 'components/ui/map/constants';
+
 // WRI components
 import {
   Legend,
