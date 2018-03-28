@@ -1,22 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import upperFirst from 'lodash/upperFirst';
 
 // Redux
 import { Link } from 'routes';
 
 // Components
 import Icon from 'components/ui/Icon';
-import Tag from 'components/ui/Tag';
 import LoginRequired from 'components/ui/login-required';
 
 // Tooltip
 import { Tooltip } from 'wri-api-components';
 import CollectionsPanel from 'components/collections-panel';
-
-// Utils
-import { TAGS_BLACKLIST } from 'utils/tags';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
@@ -25,8 +20,6 @@ import { belongsToACollection } from 'components/collections-panel/collections-p
 import WidgetChart from 'components/charts/widget-chart';
 import LayerChart from 'components/charts/layer-chart';
 import PlaceholderChart from 'components/charts/placeholder-chart';
-
-import TagsTooltip from './tags-tooltip';
 
 class DatasetListItem extends React.Component {
   static propTypes = {
@@ -48,11 +41,6 @@ class DatasetListItem extends React.Component {
     fetchTags: PropTypes.func,
     resetTags: PropTypes.func
   };
-
-  state = {
-    tagsOpened: false,
-    tagsLoading: false
-  }
 
   /**
    * HELPER
@@ -112,11 +100,6 @@ class DatasetListItem extends React.Component {
     const {
       dataset, metadata, vocabulary, mode, user, actions, tags
     } = this.props;
-
-    const { tagsOpened, tagsLoading } = this.state;
-    const vTags = (vocabulary.tags || [])
-      .sort()
-      .filter(t => !TAGS_BLACKLIST.includes(t));
 
 
     const isInACollection = belongsToACollection(user, dataset);
@@ -186,75 +169,14 @@ class DatasetListItem extends React.Component {
               }
             </div>
 
-            {/* Tags */}
-            <div className="tags-container">
-              <div
-                className="c-tag-list -inline"
-              >
-                {vTags &&
-                  vTags
-                    .sort()
-                    .filter(t => !TAGS_BLACKLIST.includes(t))
-                    .map((t, i) => (
-                      <Tag
-                        key={t}
-                        name={`${upperFirst(t.replace('_', ' '))}${i !== vTags.length - 1 ? ', ' : ''}`}
-                        className="-clean"
-                        onClick={() => {
-                          this.setState({ tagsOpened: false });
-                          this.props.onTagSelected(t);
-                        }}
-                      />
-                    ))
-                }
-
-                <div
-                  className="btn-more-container"
-                >
-                  <Tooltip
-                    overlay={
-                      <TagsTooltip
-                        tags={tags}
-                        onTagSelected={(t) => {
-                          this.setState({ tagsOpened: false });
-                          this.props.onTagSelected(t);
-                        }}
-                      />
-                    }
-                    visible={tagsOpened}
-                    overlayClassName="c-rc-tooltip"
-                    placement="bottomRight"
-                    trigger="click"
-                    getTooltipContainer={this.getTooltipContainer}
-                    monitorWindowResize
-                    destroyTooltipOnHide
-                    onVisibleChange={(visible) => {
-                      if (visible) {
-                        this.setState({ tagsLoading: true });
-
-                        this.props.fetchTags(vocabulary.tags)
-                          .then(() => {
-                            this.setState({ tagsOpened: true, tagsLoading: false });
-                          })
-                          .catch(() => {
-                            this.setState({ tagsLoading: false });
-                          });
-                      } else {
-                        this.props.resetTags();
-                        this.setState({ tagsOpened: false, tagsLoading: false });
-                      }
-                    }}
-                  >
-                    <button>
-                      {tagsLoading && 'loading...'}
-                      {!tagsLoading && !tagsOpened && 'more...'}
-                      {!tagsLoading && tagsOpened && 'less...'}
-                    </button>
-                  </Tooltip>
-                </div>
-              </div>
-            </div>
+            {!!tags &&
+              React.cloneElement(
+                tags,
+                { ...this.props }
+              )
+            }
           </div>
+
           {!!actions &&
             React.cloneElement(
               actions,

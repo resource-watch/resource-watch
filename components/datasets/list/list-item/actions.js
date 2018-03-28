@@ -20,13 +20,10 @@ export const fetchTags = createThunkAction('DATASET_LIST_ITEM/fetchTags', tags =
       return response.json();
     })
     .then(({ data }) => {
-      console.log(data);
-      dispatch(setTags(
-        sortBy(
-          data.filter(tag => !TAGS_BLACKLIST.includes(tag.id)),
-          t => t.label
-        )
-      ));
+      dispatch(setTags(sortBy(
+        data.filter(tag => !TAGS_BLACKLIST.includes(tag.id)),
+        t => t.label
+      )));
       dispatch(setTagsLoading(false));
     })
     .catch((err) => {
