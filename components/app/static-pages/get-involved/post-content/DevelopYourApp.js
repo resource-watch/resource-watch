@@ -30,7 +30,7 @@ function DevelopYourApp() {
     {
       id: 'submit-app',
       title: 'Submit an app',
-      description: 'Share your map or app with the Resource Watch community. Please review our app review [guidelines] before submission.',
+      description: 'Share your map or app with the Resource Watch community. Please review our app review guidelines before submission.',
       link: {
         route: 'https://docs.google.com/forms/d/e/1FAIpQLSfZ79GW0jF7BL_-mUjHOgXEUN3U2p95FgiOp-_ZaqqwTfI7Gg/viewform?usp=sf_link',
         label: 'Submit your app',
@@ -56,10 +56,6 @@ function DevelopYourApp() {
               </div>
               ))}
           </div>
-          {/* Temporary link to App Review Policy */}
-          <Link route="get_involved_detail" params={{ id: 'app-review-policy' }}>
-            <a>App Review Policy</a>
-          </Link>
         </div>
       </aside>
       <aside className="l-postcontent">
@@ -69,7 +65,7 @@ function DevelopYourApp() {
               <Banner className="-text-center" bgImage="/static/images/backgrounds/bg-partner-maryland.jpg">
                 <p className="-claim">
                   Explore maps and apps curated <br />
-                  by the Resource Watch community of this team?
+                  by the Resource Watch community.
                 </p>
                 <Link route="get_involved_detail" params={{ id: 'apps' }}>
                   <a className="c-button -primary -alt">
