@@ -22,7 +22,9 @@ class TopicsComponent extends React.PureComponent {
               <div className="column small-12">
                 <div className="page-header-content">
                   <h1>Topics</h1>
-                  <p>Find facts and figures on people and the enviornment, or see the latest data on the world today.</p>
+                  <div className="page-header-info">
+                    <p>Find facts and figures on people and the enviornment, or see the latest data on the world today.</p>
+                  </div>
                 </div>
               </div>
             </div>
