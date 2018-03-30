@@ -67,8 +67,9 @@ class About extends Page {
         title:'More',
         description:'Learn what you can do with Resource Watch.',
         link: {
-          route: '/about/how-to',
+          route: 'about_howto',
           label: 'Learn more',
+          className: '-primary',
           external: false
         }
       }
