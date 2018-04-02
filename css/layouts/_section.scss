@@ -21,6 +21,6 @@
   }
 
   @media screen and (min-width: map-get($breakpoints, medium)) {
-    padding: $margin-size 0;
+    padding: $margin-size * 2 0;
   }
 }

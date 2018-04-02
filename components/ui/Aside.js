@@ -23,7 +23,7 @@ class Aside extends PureComponent {
                 <li key={s.value}>
                   <Link route={s.route} params={s.params}>
                     <a className={activeClass}>
-                      {active && <Icon className="c-icon -tiny" name="icon-arrow-right" />}
+                      {active && <Icon className="c-icon -tiny" name="icon-arrow-right-2" />}
                       {s.label}
                     </a>
                   </Link>

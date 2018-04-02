@@ -2,9 +2,32 @@ export const STATE_DEFAULT = {
   submitting: false,
   submitted: false,
   form: {
+    topic: 'General question or feedback',
     email: '',
     text: ''
   }
+};
+
+export const FORM_TOPICS = {
+  options: [
+    {
+      value: 'General question or feedback',
+      label: 'General question or feedback'
+    },
+    { value: 'Bug report',
+      label: 'Bug report'
+    },
+    {
+      value: 'Data request or suggestion',
+      label: 'Data request or suggestion'
+    },
+    { value: 'Media inquiry',
+      label: 'Media inquiry'
+    },
+    { value: 'Other',
+      label: 'Other'
+    }
+  ]
 };
 
 export const FORM_ELEMENTS = {

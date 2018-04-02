@@ -36,7 +36,7 @@ export default {
     }
   },
   sort: {
-    selected: 'updatedAt',
+    selected: 'most-viewed',
     direction: -1,
     options: [
       { value: 'updatedAt', label: 'Last modified' },
