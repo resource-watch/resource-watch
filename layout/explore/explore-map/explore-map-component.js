@@ -110,7 +110,6 @@ class ExploreMapComponent extends React.Component {
     } = this.props;
 
     return (
-
       <div className="l-map -relative">
         <Map
           mapConfig={{ zoom, latLng }}
@@ -148,7 +147,7 @@ class ExploreMapComponent extends React.Component {
 
         <div className="c-legend-map">
           <Legend
-            maxHeight={300}
+            maxHeight={embed ? 100 : 300}
             layerGroups={layerGroups}
             // List item
             LegendItemToolbar={
