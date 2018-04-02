@@ -11,6 +11,17 @@ import * as actions from 'layout/catalog/actions';
 import Catalog from 'layout/catalog';
 
 class CatalogPage extends Page {
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    const { store } = context;
+
+    // Fetch datasets
+    await store.dispatch(actions.fetchDatasets());
+
+    return { ...props };
+  }
+
+
   render() {
     return <Catalog />;
   }
