@@ -354,8 +354,11 @@ class SplashDetail extends Page {
                   </a-assets>
                 }
                 { /* 360-degree image */ }
-                {!earthMode &&
+                {!earthMode && skyLoading &&
                   <a-sky id="panorama-sky" src={skyImage} color="#393f44" />
+                }
+                {!earthMode && !skyLoading &&
+                  <a-sky id="panorama-sky" src={skyImage}/>
                 }
                 {earthMode &&
                   <a-sky id="panorama-sky" src="../../static/images/splash/earthExperiment.jpg" />
