@@ -233,7 +233,7 @@ class SplashDetail extends Page {
                     </a>
                   </Link>
                   <Link
-                    route="home"
+                    route="splash"
                   >
                     <a className="c-button -primary -fullwidth">
                       Go to Resource Watch
