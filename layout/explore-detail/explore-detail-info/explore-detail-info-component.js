@@ -3,9 +3,14 @@ import PropTypes from 'prop-types';
 
 // Utils
 import { getDatasetMetadata } from 'layout/explore-detail/explore-detail-helpers';
+import { logEvent } from 'utils/analytics';
 
 // Components
 import ReadMore from 'components/ui/ReadMore';
+
+// Modal
+import Modal from 'components/modal/modal-component';
+import ShareModal from 'components/modal/share-modal';
 
 // Constants
 class ExploreDetailInfo extends PureComponent {
@@ -13,18 +18,66 @@ class ExploreDetailInfo extends PureComponent {
     dataset: PropTypes.object
   }
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showShareModal: false
+    };
+  }
+
+  getDatasetMetadata() {
+    const { dataset } = this.props;
+    return dataset.metadata || {};
+  }
+
+  getDatasetName() {
+    const { dataset } = this.props;
+    const metadata = this.getDatasetMetadata();
+    return metadata.info && metadata.info.name ? metadata.info.name : dataset.name;
+  }
+
+  handleToggleShareModal = (bool) => {
+    this.setState({ showShareModal: bool });
+  }
+
   render() {
     const { dataset } = this.props;
     const metadata = getDatasetMetadata(dataset);
+    const datasetName = this.getDatasetName();
 
     return (
       <div className="c-explore-detail-info">
-        {metadata.info && metadata.info.technical_title ? (
-          <div className="l-section-mod medium-7">
-            <h3>Formal name</h3>
-            <p>{metadata.info.technical_title}</p>
-          </div>
-        ) : null}
+        <div className="first-row-container">
+          {metadata.info && metadata.info.technical_title ? (
+            <div className="l-section-mod medium-7">
+              <h3>Formal name</h3>
+              <p>{metadata.info.technical_title}</p>
+            </div>
+          ) : null}
+          <button
+            className="c-button -secondary"
+            onClick=""
+          >
+            Share dataset
+            <Modal
+              isOpen={this.state.showShareModal}
+              className="-medium"
+              onRequestClose={() => this.handleToggleShareModal(false)}
+            >
+              <ShareModal
+                links={{
+                  link: typeof window !== 'undefined' && window.location.href
+                }}
+                analytics={{
+                  facebook: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Facebook'),
+                  twitter: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Twitter'),
+                  copy: type => logEvent('Share', `Share dataset: ${datasetName}`, `Copy ${type}`)
+                }}
+              />
+            </Modal>
+          </button>
+        </div>
 
         {/* {metadata.description ? (
           <div className="dataset-info-description">
