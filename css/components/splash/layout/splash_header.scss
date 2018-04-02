@@ -40,8 +40,14 @@
     }
 
     .earth-view-link {
-      .link-text {
-        margin-left: 10px;
+      
+      .earth-view-link-container {
+        display: flex;
+        align-items: center;
+
+        .link-text {
+          margin-left: 10px;
+        }
       }
     }
   }
