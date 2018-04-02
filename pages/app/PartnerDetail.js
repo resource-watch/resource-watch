@@ -98,40 +98,50 @@ class PartnerDetail extends Page {
               </div>
             </div>
           </Banner>
-          <div className="l-container">
-            <div className="row  align-center">
-              <div className="column small-12 datasets-container">
-                <h3>{`Datasets by ${data.name}`}</h3>
-                <Spinner isLoading={loading} className="-light -relative" />
-                {list && list.length > 0 &&
-                  <DatasetList
-                    active={[]}
-                    list={list}
-                    mode="grid"
-                    showActions={false}
-                    onTagSelected={this.handleTagSelected}
-                  />
-                }
+          <section className="l-section">
+            <div className="l-container">
+              <div className="row align-center">
+                <div className="column small-12 medium-8">
+                  <p>{data.body}</p>
+                </div>
+              </div>
+              <div className="row align-center">
+                <div className="column small-12 datasets-container">
+                  <Spinner isLoading={loading} className="-light -relative" />
+                  {list && list.length > 0 &&
+                    <div>
+                      <h3>{`Datasets by ${data.name}`}</h3>
+                      <DatasetList
+                          active={[]}
+                          list={list}
+                          mode="grid"
+                          showActions={false}
+                          onTagSelected={this.handleTagSelected}
+                          />
+                    </div>
+                  }
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </section>
 
-        <div className="l-container learn-more">
-          <div className="row align-center">
-            <div className="column small-12">
-              <Banner className="-text-center">
-                <p className="-claim">
-                  Important work,<br /> beautifully crafted
-                </p>
-                <a
-                  className="c-btn -primary -filled"
-                  href={data.website}
-                  target="_blank"
-                >
-                  LEARN ABOUT OUR WORK
-                </a>
-              </Banner>
+          <div className="l-container learn-more">
+            <div className="row align-center">
+              <div className="column small-12">
+                <Banner className="-text-center">
+                  <p className="-claim">
+                    Learn more about <br />
+                    {data.name}
+                  </p>
+                  <a
+                    className="c-btn -primary -alt"
+                    href={data.website}
+                    target="_blank"
+                    >
+                    Our work
+                  </a>
+                </Banner>
+              </div>
             </div>
           </div>
         </div>
