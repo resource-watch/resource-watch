@@ -34,7 +34,7 @@ spec:
                 - key: name
                   operator: In
                   values:
-                  - {name}
+                  - {name}-staging
               topologyKey: kubernetes.io/hostname
       containers:
       - name: {name}-staging
