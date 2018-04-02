@@ -58,14 +58,19 @@ class EmbedMapSwipe extends React.Component {
               LayerManager={LayerManager}
             />
 
-            {/* <Legend
-              sortable={false}
-              expanded={paramIsTrue(legendExpanded)}
-              layerGroups={layerGroups}
-              LegendItemTypes={<LegendItemTypes />}
-            /> */}
           </div>
-          {isLoadedExternally && (
+
+          <div className="widget-footer">
+            {layerGroups.map(lg => (
+              <Legend
+                maxHeight={150}
+                sortable={false}
+                layerGroups={[lg]}
+                LegendItemTypes={<LegendItemTypes />}
+              />
+            ))}
+          </div>
+          {/* {isLoadedExternally && (
             <div className="widget-footer">
               Powered by
               <a href="/" target="_blank" rel="noopener noreferrer">
@@ -76,7 +81,7 @@ class EmbedMapSwipe extends React.Component {
                 />
               </a>
             </div>
-          )}
+          )} */}
         </div>
       </LayoutEmbed>
     );

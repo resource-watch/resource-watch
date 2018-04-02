@@ -2,6 +2,8 @@ const L = require('leaflet');
 require('./layout.css');
 require('./range.css');
 
+let dragCancelled;
+
 let mapWasDragEnabled;
 let mapWasTapEnabled;
 
@@ -24,10 +26,13 @@ function getRangeEvent(rangeInput) {
 }
 
 function cancelMapDrag() {
-  mapWasDragEnabled = this._map.dragging.enabled();
-  mapWasTapEnabled = this._map.tap && this._map.tap.enabled();
-  this._map.dragging.disable();
-  this._map.tap && this._map.tap.disable();
+  if (!dragCancelled) {
+    mapWasDragEnabled = this._map.dragging.enabled();
+    mapWasTapEnabled = this._map.tap && this._map.tap.enabled();
+    this._map.dragging.disable();
+    this._map.tap && this._map.tap.disable();
+  }
+  dragCancelled = true;
 }
 
 function uncancelMapDrag(e) {
@@ -38,6 +43,7 @@ function uncancelMapDrag(e) {
   if (mapWasTapEnabled) {
     this._map.tap.enable();
   }
+  dragCancelled = false;
 }
 
 // convert arg to an array - returns empty array if arg is undefined

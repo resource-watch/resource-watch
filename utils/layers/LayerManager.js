@@ -19,11 +19,6 @@ if (typeof window !== 'undefined') {
   require('static/leaflet-side-by-side');
 }
 
-// if (this.props.swipe) {
-//   this.sideBySideControl = L.control.sideBySide();
-//   this.sideBySideControl.addTo(this.map);
-// }
-
 export default class LayerManager {
   // Constructor
   constructor(map, options = {}) {
@@ -310,42 +305,46 @@ export default class LayerManager {
         return response.json();
       })
       .then((data) => {
-        const tileUrl = `${data.cdn_url.templates.https.url}/${layer.account}/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
+        requestAnimationFrame(() => {
+          const tileUrl = `${data.cdn_url.templates.https.url}/${layer.account}/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
 
-        this.mapLayers[layer.id] = L.tileLayer(tileUrl).addTo(this.map);
+          this.mapLayers[layer.id] = L.tileLayer(tileUrl).addTo(this.map);
 
-        this.mapLayers[layer.id].setOpacity(layer.opacity !== undefined ? layer.opacity : 1);
+          this.mapLayers[layer.id].setOpacity(layer.opacity !== undefined ? layer.opacity : 1);
 
-        this.mapLayers[layer.id].on('load', () => {
-          delete this.layersLoading[layer.id];
-        });
-
-        this.mapLayers[layer.id].on('tileerror', () => {
-          this.rejectLayersLoading = true;
-        });
-
-        // Add interactivity
-        if (isInteractive) {
-          const gridUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/0/{z}/{x}/{y}.grid.json`;
-          this.interactionLayers[layer.id] = L.utfGrid(gridUrl).addTo(this.map).setZIndex(995);
-
-          this.interactionLayers[layer.id].on('click', (e) => {
-            this.onLayerClick({ ...e, ...layer, ...layerSpec });
+          this.mapLayers[layer.id].on('load', () => {
+            delete this.layersLoading[layer.id];
           });
-        }
 
-        if (this.options.swipe) {
-          switch (layer.sideBySide) {
-            case 'left':
-              this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
-              break;
-            case 'right':
-              this.sideBySideControl.setRightLayers(this.mapLayers[layer.id]);
-              break;
-            default:
-              this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
+          this.mapLayers[layer.id].on('tileerror', () => {
+            this.rejectLayersLoading = true;
+          });
+
+          // Add interactivity
+          if (isInteractive) {
+            const gridUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/0/{z}/{x}/{y}.grid.json`;
+            this.interactionLayers[layer.id] = L.utfGrid(gridUrl).addTo(this.map).setZIndex(995);
+
+            this.interactionLayers[layer.id].on('click', (e) => {
+              this.onLayerClick({ ...e, ...layer, ...layerSpec });
+            });
           }
-        }
+
+          if (this.options.swipe) {
+            switch (layer.sideBySide) {
+              case 'left':
+                this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
+                break;
+              case 'right':
+                this.sideBySideControl.setRightLayers(this.mapLayers[layer.id]);
+                break;
+              default:
+                this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
+            }
+
+            this.map.invalidateSize();
+          }
+        });
       });
   }
 
