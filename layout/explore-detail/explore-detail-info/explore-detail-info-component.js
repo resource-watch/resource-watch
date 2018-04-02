@@ -57,7 +57,7 @@ class ExploreDetailInfo extends PureComponent {
           ) : null}
           <button
             className="c-button -secondary"
-            onClick=""
+            onClick={() => this.handleToggleShareModal(true)}
           >
             Share dataset
             <Modal
