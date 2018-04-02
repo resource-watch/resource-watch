@@ -36,7 +36,7 @@ class SplashDetail extends Page {
     const earthMode = props.url.query.earthMode;
 
     this.state = {
-      skyLoading: false,
+      skyLoading: true,
       panorama,
       selectedPanorama,
       soundActivated: false,
@@ -353,10 +353,9 @@ class SplashDetail extends Page {
                     }
                   </a-assets>
                 }
-
                 { /* 360-degree image */ }
                 {!earthMode &&
-                  <a-sky id="panorama-sky" src={skyImage} />
+                  <a-sky id="panorama-sky" src={skyImage} color="#CACCD0" />
                 }
                 {earthMode &&
                   <a-sky id="panorama-sky" src="../../static/images/splash/earthExperiment.jpg" />
