@@ -16,6 +16,7 @@
   z-index: 100000; // Just to be sure that is over all the content
 
   @media screen and (min-width: map-get($breakpoints, medium)) {
+    width: calc(100% - 50px);
     padding: 20px 0 40px;
   }
 }
