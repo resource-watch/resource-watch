@@ -35,8 +35,7 @@ class SubscriptionCard extends React.Component {
       loading: false,
       dataset: null,
       country: null,
-      type: props.subscription.attributes.datasetsQuery[0].type,
-      layer: {}
+      type: props.subscription.attributes.datasetsQuery[0].type
     };
 
     // Services
@@ -147,10 +146,16 @@ class SubscriptionCard extends React.Component {
   }
 
   render() {
-    const { loading, dataset, country, layerGroups, type } = this.state;
+    const {
+      loading,
+      dataset,
+      country,
+      layerGroups,
+      type
+    } = this.state;
+
     const { subscription } = this.props;
-    const confirmed = subscription.attributes.confirmed;
-    const name = subscription.attributes.name;
+    const { confirmed, name } = subscription.attributes;
 
     return (
       <div className="c-subscription-card">

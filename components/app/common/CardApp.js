@@ -7,11 +7,16 @@ import Title from 'components/ui/Title';
 
 function CardApp(props) {
   const {
-    background, title, description, link, className
+    background, title, description, link, className, buttonType
   } = props;
 
   const classNames = classnames({
     [className]: className
+  });
+
+  const buttonClasses = classnames({
+    '-secondary': !buttonType,
+    '-primary': buttonType && buttonType === 'primary'
   });
 
   return (
@@ -37,11 +42,11 @@ function CardApp(props) {
         </div>
 
         <div className="card-footer">
-          {!!link && link.external &&
+          {!!link &&
             <a
               href={link.route}
-              target="_blank"
-              className="c-button -secondary -fullwidth"
+              target={!!link.external && "_blank" || "_self"}
+              className={`c-button ${buttonClasses} -fullwidth`}
             >
               {link.label}
             </a>
@@ -57,6 +62,7 @@ CardApp.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   link: PropTypes.object,
+  buttonType: PropTypes.string,
   className: PropTypes.any
 };
 

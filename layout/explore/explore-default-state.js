@@ -20,17 +20,23 @@ export default {
       topics: TOPICS,
       data_types: DATA_TYPES,
       frequencies: FREQUENCIES,
-      time_periods: TIME_PERIODS
+      time_periods: TIME_PERIODS,
+      custom: {
+        label: 'Others',
+        value: 'custom',
+        list: []
+      }
     },
     selected: {
       topics: [],
       data_types: [],
       frequencies: [],
-      time_periods: []
+      time_periods: [],
+      custom: []
     }
   },
   sort: {
-    selected: 'updatedAt',
+    selected: 'most-viewed',
     direction: -1,
     options: [
       { value: 'updatedAt', label: 'Last modified' },

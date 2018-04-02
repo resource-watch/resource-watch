@@ -2,6 +2,49 @@
   width: 100%;
   height: 100vh;
 
+  &.--mobile {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/static/images/splash/coral-modal-bg-mobile.jpg');
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 0 20px;
+
+    & .logo {
+      width: auto;
+      height: 30px;
+    }
+
+    .c-card-app {
+      &.-compact {
+        flex: 0 1 auto;
+
+        .c-title {
+          margin-top: 0;
+          color: $header-font-color;
+          font-size: 26px;
+          font-weight: 300;
+        }
+
+        .c-button:first-child {
+          margin-bottom: 10px;
+        }
+
+        .c-btn {
+          margin-top: 20px;
+        }
+
+        .card-container {
+          padding: 20px;
+        }
+      }
+    }
+  }
+
   .intro-container {
     position: absolute;
     top: 100px;
@@ -129,6 +172,7 @@
           .video-caption {
             display: flex;
             justify-content: center;
+            text-align: center;
             margin-bottom: 20px;
           }
           .image-container {
@@ -140,6 +184,7 @@
             .caption {
               display: flex;
               justify-content: center;
+              text-align: center;
             }
           }
         }

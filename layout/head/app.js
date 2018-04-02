@@ -19,7 +19,7 @@ const TRANSIFEX_BLACKLIST = [
   '/app/embed/EmbedEmbed',
   '/app/embed/EmbedDataset',
   '/app/embed/EmbedSimilarDatasets',
-  '/app/embed/explore'
+  '/app/explore/embed'
 ];
 
 class Head extends React.PureComponent {
@@ -148,13 +148,13 @@ class Head extends React.PureComponent {
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
         {Head.getStyles()}
-        {this.getCesiumStyles()}
         {this.getCrazyEgg()}
         {this.getUserReport()}
         {this.getTransifexSettings()}
         {this.getTransifex()}
         {this.getCesium()}
         {this.getAFrame()}
+        {this.getCesiumStyles()}
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
       </HeadNext>
     );

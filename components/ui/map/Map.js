@@ -363,8 +363,6 @@ class Map extends React.Component {
       bounds = geometry.getBounds();
     }
 
-    console.log(bounds);
-
     this.map.fitBounds(bounds, {
       padding: [20, 20]
     });

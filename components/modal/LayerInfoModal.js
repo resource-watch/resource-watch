@@ -13,7 +13,6 @@ class LayerInfoModal extends React.Component {
 
   render() {
     const { embed, data } = this.props;
-
     return (
       <div className="layer-info-modal">
         <div className="layer-info-content">

@@ -56,6 +56,10 @@ import * as topicsIndex from 'layout/topics';
 import * as topicsDetail from 'layout/topics-detail';
 import * as topicThumbnailList from 'components/topics/thumbnail-list';
 
+// Get Involved
+import * as getInvolvedIndex from 'layout/get-involved';
+import * as getInvolvedDetail from 'layout/get-involved-detail';
+
 // Admin Interactions
 import * as adminInteractions from 'components/admin/layers/form/interactions';
 import * as adminLayerPreview from 'components/admin/layers/form/layer-preview';
@@ -127,6 +131,10 @@ const reducer = combineReducers({
   topicsIndex: handleModule(topicsIndex),
   topicsDetail: handleModule(topicsDetail),
   topicThumbnailList: handleModule(topicThumbnailList),
+
+  // Get Involved
+  getInvolvedIndex: handleModule(getInvolvedIndex),
+  getInvolvedDetail: handleModule(getInvolvedDetail),
 
   // Admin interactions
   interactions: handleModule(adminInteractions),
