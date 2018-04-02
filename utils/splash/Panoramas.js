@@ -115,20 +115,17 @@ export const PANORAMAS = [
             rotation: '0 0 0',
             markup:
               <div>
+                <div className="image-container">
+                  <img src="/static/images/splash/coral_reef_palmyra.jpg" alt="A coral reef at Palmyra Atoll National Wildlife Refuge"/>
+                  <div className="caption">
+                    <i>A coral reef at Palmyra Atoll National Wildlife Refuge. <br/>Image courtesy USFWS/Jim Maragos</i>
+                  </div>
+                </div>
                 <p>
                   A recent <a href="http://science.sciencemag.org/content/359/6371/80" target="_blank" rel="noopener noreferrer">study</a> found that tropical coral reefs are heading into “a new era” in which bleaching occurs too frequently for corals to bounce back. The study drew its findings from 100 tropical reefs around the world.
                 </p>
                 <p>
                   In the 1980s, as climate change magnified thermal stress from strong El Niño events, bouts of global bleaching began to occur. The study says that the past two decades have witnessed a new trend: regional-scale bleaching even in years outside El Niño periods. (Before 1980, bleaching at a regional scale was seldom seen.)
-                </p>
-                <div className="image-container">
-                  <iframe src="https://staging.resourcewatch.org/embed/widget/fdaabfda-9562-4562-a124-67c987a7e156" width="100%" height="474" frameBorder="0"></iframe>
-                  <div className="caption">
-                    <i>Severe and moderate bleaching by year in the study locations. Strong El Niño periods occurred 1982-1983, 1997-1998, 2009-2010 and 2015-2016. Data source: Hughes, et. al. study in <a href="http://science.sciencemag.org/content/359/6371/80.full" target="_blank" rel="noopener noreferrer">Science</a>.</i>
-                  </div>
-                </div>
-                <p>
-                  Here, severe bleaching refers to locations in which at least 30 percent of corals bleached at a scale of between tens and hundreds of kilometers. (Moderate bleaching refers to sites where less than 30 percent of corals bleached to that extent.)
                 </p>
                 <p>
                   The study found that 42% of severe bleaching events among the reefs have occurred during hot summers outside of El Niño periods. As climate change progresses, the study notes, “average tropical sea surface temperatures are warmer today under La Niña conditions than they were during El Niño events only three decades ago.”
