@@ -162,12 +162,15 @@ class EmbedMap extends Page {
               layerGroups={layerGroups}
             />
 
-            <Legend
-              sortable={false}
-              expanded={paramIsTrue(legendExpanded)}
-              layerGroups={layerGroups}
-              LegendItemTypes={<LegendItemTypes />}
-            />
+            <div className="c-legend-map">
+              <Legend
+                maxHeight={200}
+                sortable={false}
+                expanded={paramIsTrue(!!legendExpanded)}
+                layerGroups={layerGroups}
+                LegendItemTypes={<LegendItemTypes />}
+              />
+            </div>
 
             { modalOpened && this.getModal() }
           </div>
