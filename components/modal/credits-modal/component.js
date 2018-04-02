@@ -24,7 +24,7 @@ class CreditsModal extends React.Component {
                 <strong>Review:</strong> Katie Reytar and Kristian Teleki
               </div>
               <div>
-                <strong>Data Preparation:</strong> Nathan Suberi
+                <strong>Data Preparation:</strong> Nathan Suberi and Elise Mazur
               </div>
             </div>
           </div>

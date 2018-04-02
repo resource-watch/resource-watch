@@ -237,19 +237,22 @@ export const PANORAMAS = [
             markup:
               <div>
                 <p>
-                  The National Oceanic and Atmospheric Organization (NOAA) announced in summer 2017 that the third global coral bleaching event <a href="http://www.noaa.gov/media-release/global-coral-bleaching-event-likely-ending" target="_blank" rel="noopener noreferrer">appeared to be on the wane.</a> But it’s a temporary reprieve. As this map reveals, things are set to get much worse.
+                  The National Oceanic and Atmospheric Administration (NOAA) announced in summer 2017 that the third global coral bleaching event <a href="http://www.noaa.gov/media-release/global-coral-bleaching-event-likely-ending" target="_blank" rel="noopener noreferrer">appeared to be on the wane.</a> But it’s a temporary reprieve. As this map reveals, things are set to get much worse.
                 </p>
                 <div className="image-container">
-                	<iframe src="https://staging.resourcewatch.org/embed/data/explore?zoom=3&lat=-0.9081686709296029&lng=-189.28712189197543&basemap=dark&labels=light&layers=%255B%257B%2522dataset%2522%253A%25221ef55baf-bbbe-480d-85e9-7132c742f196%2522%252C%2522opacity%2522%253A1%252C%2522visible%2522%253Atrue%252C%2522layer%2522%253A%2522dc2c2cc8-a351-4221-ad16-0671bc430ada%2522%257D%255D&page=1&sort=updatedAt&sortDirection=-1&search=bleaching" width="100%" height="500px" frameBorder="0" />
+                	<iframe src="https://staging.resourcewatch.org/embed/data/explore?zoom=3&lat=-0.9081686709296029&lng=-189.28712189197543&basemap=dark&labels=light&layers=%255B%257B%2522dataset%2522%253A%25221ef55baf-bbbe-480d-85e9-7132c742f196%2522%252C%2522opacity%2522%253A1%252C%2522visible%2522%253Atrue%252C%2522layer%2522%253A%2522dc2c2cc8-a351-4221-ad16-0671bc430ada%2522%257D%255D&page=1&sort=updatedAt&sortDirection=-1&search=bleaching" width="100%" height="400px" frameBorder="0" />
                   <div className="caption">
                     <i>Data source: WRI <a href="https://resourcewatch.org/data/explore/894f43a8-ce8e-43a5-a4c7-fa80faa43d63" target="_blank" rel="noopener noreferrer">Reefs at Risk</a>, adapted from Donner, S.D., 2009 <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0005712" target="_blank" rel="noopener noreferrer">study in PLoS ONE.</a></i>
                   </div>
                 </div>
                 <p>
-                  This map shows the projected frequency of what NOAA calls <a href="http://coralreefwatch-satops.noaa.gov/" target="_blank" rel="noopener noreferrer">Bleaching Alert Level 2 Events</a> for the 2030s and 2050s. (Specifically, it shows the percentage of years in each decade in which these events will likely occur.) A Bleaching Alert Level 2 Event is basically code red for corals, indicating intense heat stress and a likelihood that the corals will die.
+                  This map shows the projected frequency of what NOAA calls <a href="http://coralreefwatch-satops.noaa.gov/" target="_blank" rel="noopener noreferrer">Bleaching Alert Level 2 Events</a> for the 2030s and 2050s. (Specifically, it shows the percentage of years in each decade in which these events will likely occur.) A Bleaching Alert Level 2 Event indicates intense heat stress and a likelihood that the corals will die.
                 </p>
                 <p>
                   The brighter the color, the more frequently these events are likely to occur. So, that wash of yellow and green that spreads across the map? It signifies a dramatic rise in both the range and frequency of the most severe levels of bleaching if carbon emissions continue unchecked.
+                </p>
+                <p>
+                  An analysis in WRI&rsquo;s <a href="http://www.wri.org/publication/reefs-risk-revisited" target='_blank' rel="noopener noreferrer">Reefs at Risk Revisited</a> report found that, under a “business-as-usual” scenario for greenhouse gas emissions, roughly half of the world’s reefs could experience enough thermal stress to induce severe bleaching in five out of ten years during the 2030s. During the 2050s, this percentage is expected to grow to more than 95 percent.
                 </p>
               </div>,
             image: '/static/images/splash/3-3_coral_bleaching__whats_next.png',
