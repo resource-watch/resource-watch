@@ -37,6 +37,8 @@
           font-size: $font-size-h2 / 2;
           color: $color-primary;
           font-weight: $font-weight-light;
+          font-family: $body-font-family;
+          margin-bottom: $font-size-h2 * 0.5;
 
           @media screen and (min-width: map-get($breakpoints, medium)) {
             font-size: $font-size-h2;
@@ -47,6 +49,8 @@
           font-size: $font-size-h3 / 2;
           color: $color-primary;
           font-weight: $font-weight-light;
+          font-family: $body-font-family;
+          margin-bottom: $font-size-h3 * 0.5;
 
           @media screen and (min-width: map-get($breakpoints, medium)) {
             font-size: $font-size-h3;
@@ -54,7 +58,18 @@
         }
 
         p {
-          font-size: $font-size-default;
+          color: $body-font-color;
+          font-size: $global-font-size;
+          font-family: $body-font-family;
+          line-height: $global-lineheight;
+
+          > a {
+              color: $link-font-color;
+              text-decoration: underline;
+          }
+          &:last-child {
+              margin-bottom: 0;
+          }
         }
 
         ul {

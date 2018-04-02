@@ -24,12 +24,26 @@ import NewsletterModal from 'components/modal/newsletter-modal';
 
 const exploreCards = [
   {
+    tag: 'Planet Pulse',
+    title: 'View near-real-time data on the planet',
+    intro: '',
+    buttons: [
+      {
+        text: 'Launch Planet Pulse',
+        path: '/data/pulse',
+        anchor: true,
+        className: '-primary'
+      }
+    ],
+    background: 'url(/static/images/homepage/home-data-bg4.png) 67% center'
+  },
+  {
     tag: 'Explore Data',
-    title: 'Check data on the map',
+    title: 'Access data on the map',
     intro: 'Identify patterns between data sets on the map or download data for analysis.',
     buttons: [
       {
-        text: 'Explore datasets',
+        text: 'Explore data',
         path: 'explore',
         className: '-primary'
       }
@@ -39,7 +53,7 @@ const exploreCards = [
   {
     tag: 'Dashboards',
     title: 'Create and share visualizations',
-    intro: 'Create and share custom visualizations using out collection of datasets related to natural resources.',
+    intro: 'Create overlays, share visualizations, and subscribe to updates on your favorite issues.',
     buttons: [
       {
         text: 'Create a dashboard',
@@ -50,32 +64,18 @@ const exploreCards = [
     background: 'url(/static/images/homepage/home-data-bg2.png)'
   },
   {
-    tag: 'Subscriptions',
-    title: 'Track indicators over time',
-    intro: 'Subscribe to near-real-time updates in key datasets in the areas you care about.',
+    tag: 'Alerts',
+    title: 'Track data in near-real-time',
+    intro: 'Get updates on world events as they unfold.',
     buttons: [
       {
-        text: 'Sign up for Alerts',
+        text: 'Sign up for alerts',
         path: '/myrw/areas',
         anchor: true,
         className: '-primary'
       }
     ],
     background: 'url(/static/images/homepage/home-data-bg3.png) 67% center'
-  },
-  {
-    tag: 'Planet Pulse',
-    title: 'Take the pulse of our planet',
-    intro: 'A global snapshot of key impacts on livelihoods from the latest data.',
-    buttons: [
-      {
-        text: 'Launch Planet Pulse',
-        path: '/data/pulse',
-        anchor: true,
-        className: '-primary'
-      }
-    ],
-    background: 'url(/static/images/homepage/home-data-bg4.png) 67% center'
   }
 ];
 
@@ -181,7 +181,7 @@ class Home extends Page {
     return (
       <Layout
         title="Resource Watch"
-        description="Resource Watch description"
+        description="Monitoring the Planet’s Pulse"
         url={this.props.url}
         user={this.props.user}
         className="page-home"
@@ -201,13 +201,13 @@ class Home extends Page {
           </div>
           <div className="video-text">
             <div>
-              <h1>Monitoring the Planet&apos;s Pulse</h1>
-              <p>Resource Watch provides timely and trusted data to monitor the Earth for a sustainable future</p>
+              <h1>Monitoring the Planet&rsquo;s Pulse</h1>
+              <p>Resource Watch provides trusted and timely data for a sustainable future.</p>
               <Link route="explore">
                 <a
                   className="c-button -secondary"
                 >
-                  Explore Data
+                  Explore data
                 </a>
               </Link>
             </div>
@@ -219,8 +219,8 @@ class Home extends Page {
             <header>
               <div className="row">
                 <div className="column small-12 medium-8">
-                  <h2>Discover Stories</h2>
-                  <p>Read the latest  analysis from our community or submit your own original story</p>
+                  <h2>Latest stories</h2>
+                  <p>Discover data insights on the Resource Watch blog.</p>
                 </div>
               </div>
             </header>
@@ -247,7 +247,7 @@ class Home extends Page {
                       className="c-button -secondary join-us-button"
                       onClick={() => this.handleToggleShareModal(true)}
                     >
-                      Subscribe to our Newsletter
+                      Subscribe to our newsletter
                       <Modal
                         isOpen={this.state.showNewsletterModal}
                         className="-medium"
@@ -257,7 +257,7 @@ class Home extends Page {
                       </Modal>
                     </button>
                     <Link route="insights">
-                      <a className="c-btn -primary">More Stories</a>
+                      <a className="c-btn -primary">More stories</a>
                     </Link>
                   </div>
                 </div>
@@ -272,7 +272,10 @@ class Home extends Page {
               <div className="row">
                 <div className="column small-12 medium-8">
                   <h2>Topics</h2>
-                  <p>Find facts and figures on people and the enviornment, or see the latest data on the world today.</p>
+                  <p>
+                    Find facts and figures on people and the environment, <br/>
+                    or visualize the latest data on the world today.
+                  </p>
                 </div>
               </div>
             </header>
@@ -301,7 +304,7 @@ class Home extends Page {
               <div className="row">
                 <div className="column small-12 medium-8">
                   <h2>Dive into the data</h2>
-                  <p>Discover data, create visualizations, and subscribe to updates on key datasets.</p>
+                  <p>Create overlays, share visualizations, and subscribe to updates on your favorite issues.</p>
                 </div>
               </div>
             </header>
@@ -314,29 +317,27 @@ class Home extends Page {
           </div>
         </section>
 
+
         <Banner className="get-involved" bgImage={'/static/images/backgrounds/mod_getInvolved.jpg'}>
           <div className="l-container">
             <div className="l-row row">
-              <div className="column small-12 medium-6">
+              <div className="column small-12 medium-8">
                 <h2>Get involved</h2>
                 <p>
-                  We{'’'}ve brought together the best datasets related to natural resources,
-                  so you can find new insights, influence decisions and change the world.
-                  There{'’'}s a world of opportunity to take this futher. Here are
-                  some ideas to get you started.
+                  Use data to drive change in your community and around the world.
                 </p>
               </div>
             </div>
             <div className="buttons">
               <div className="l-row row">
                 <div className="column small-12 medium-3">
-                  <Link route="get_involved_detail" params={{ id: 'contribute-data', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Contribute data</a></Link>
-                </div>
-                <div className="column small-12 medium-3">
                   <Link route="get_involved_detail" params={{ id: 'join-community', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Join the community</a></Link>
                 </div>
                 <div className="column small-12 medium-3">
-                  <Link route="get_involved_detail" params={{ id: 'submit-an-insight', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Submit a story</a></Link>
+                  <Link route="get_involved_detail" params={{ id: 'contribute-data', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Contribute data</a></Link>
+                </div>
+                <div className="column small-12 medium-3">
+                  <Link route="get_involved_detail" params={{ id: 'submit-an-insight', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Suggest a story</a></Link>
                 </div>
                 <div className="column small-12 medium-3">
                   <Link route="get_involved_detail" params={{ id: 'develop-app', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Develop your app</a></Link>
@@ -345,6 +346,8 @@ class Home extends Page {
             </div>
           </div>
         </Banner>
+
+
 
       </Layout>
     );
