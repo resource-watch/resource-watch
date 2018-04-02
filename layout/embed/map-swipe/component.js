@@ -61,10 +61,12 @@ class EmbedMapSwipe extends React.Component {
           </div>
 
           <div className="widget-footer">
-            {layerGroups.map(lg => (
+            {layerGroups.map((lg, i) => (
               <Legend
-                maxHeight={150}
+                key={`${lg.id}${i}`}
                 sortable={false}
+                collapsable={false}
+                maxHeight={150}
                 layerGroups={[lg]}
                 LegendItemTypes={<LegendItemTypes />}
               />

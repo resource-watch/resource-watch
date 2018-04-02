@@ -16,7 +16,7 @@ if (typeof window !== 'undefined') {
   L.esri = esri;
 
   // adding support for Side by Side
-  require('static/leaflet-side-by-side');
+  require('lib/leaflet-side-by-side');
 }
 
 export default class LayerManager {
@@ -305,32 +305,32 @@ export default class LayerManager {
         return response.json();
       })
       .then((data) => {
-        requestAnimationFrame(() => {
-          const tileUrl = `${data.cdn_url.templates.https.url}/${layer.account}/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
+        const tileUrl = `${data.cdn_url.templates.https.url}/${layer.account}/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
 
-          this.mapLayers[layer.id] = L.tileLayer(tileUrl).addTo(this.map);
+        this.mapLayers[layer.id] = L.tileLayer(tileUrl).addTo(this.map);
 
-          this.mapLayers[layer.id].setOpacity(layer.opacity !== undefined ? layer.opacity : 1);
+        this.mapLayers[layer.id].setOpacity(layer.opacity !== undefined ? layer.opacity : 1);
 
-          this.mapLayers[layer.id].on('load', () => {
-            delete this.layersLoading[layer.id];
+        this.mapLayers[layer.id].on('load', () => {
+          delete this.layersLoading[layer.id];
+        });
+
+        this.mapLayers[layer.id].on('tileerror', () => {
+          this.rejectLayersLoading = true;
+        });
+
+        // Add interactivity
+        if (isInteractive) {
+          const gridUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/0/{z}/{x}/{y}.grid.json`;
+          this.interactionLayers[layer.id] = L.utfGrid(gridUrl).addTo(this.map).setZIndex(995);
+
+          this.interactionLayers[layer.id].on('click', (e) => {
+            this.onLayerClick({ ...e, ...layer, ...layerSpec });
           });
+        }
 
-          this.mapLayers[layer.id].on('tileerror', () => {
-            this.rejectLayersLoading = true;
-          });
-
-          // Add interactivity
-          if (isInteractive) {
-            const gridUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/0/{z}/{x}/{y}.grid.json`;
-            this.interactionLayers[layer.id] = L.utfGrid(gridUrl).addTo(this.map).setZIndex(995);
-
-            this.interactionLayers[layer.id].on('click', (e) => {
-              this.onLayerClick({ ...e, ...layer, ...layerSpec });
-            });
-          }
-
-          if (this.options.swipe) {
+        if (this.options.swipe) {
+          requestAnimationFrame(() => {
             switch (layer.sideBySide) {
               case 'left':
                 this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
@@ -343,8 +343,8 @@ export default class LayerManager {
             }
 
             this.map.invalidateSize();
-          }
-        });
+          });
+        }
       });
   }
 
