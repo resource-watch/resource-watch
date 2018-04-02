@@ -45,6 +45,7 @@ class SplashDetail extends Page {
       mouseHovering: false,
       modalOpen: false,
       introOpened: true,
+      hideDragHelp: false,
       copied: { }
     };
 
@@ -63,6 +64,16 @@ class SplashDetail extends Page {
     this.panoramaSky = document.getElementById('panorama-sky');
     if (this.panoramaSky) {
       this.panoramaSky.addEventListener('materialtextureloaded', this.handleImageLoaded);
+    }
+
+    const camera = document.getElementById('camera');
+
+    if (camera) {
+      camera.addEventListener('componentchanged', (e) => {
+        const { name } = e.detail;
+        if (name !== 'rotation' || this.state.hideDragHelp) return;
+        this.setState({ hideDragHelp: true });
+      });
     }
 
     this.addEventListenersToHotspots();
@@ -174,7 +185,8 @@ class SplashDetail extends Page {
       selectedHotspot,
       earthMode,
       mouseHovering,
-      introOpened
+      introOpened,
+      hideDragHelp
     } = this.state;
     const skyImage = selectedPanorama && selectedPanorama.image;
     const hotspots = selectedPanorama && selectedPanorama.hotspots;
@@ -390,8 +402,15 @@ class SplashDetail extends Page {
                 })}
 
                 { /* Camera */ }
-                <a-camera look-controls="reverseMouseDrag: true" />
+                <a-camera id="camera" look-controls="reverseMouseDrag: true" />
+
               </a-scene>
+
+              {!hideDragHelp &&
+              <div className="drag-help">
+                <img src="../../static/images/splash/drag.svg" alt="Drag" />
+              </div>}
+
             </div>
             <Modal
               open={this.state.modalOpen}

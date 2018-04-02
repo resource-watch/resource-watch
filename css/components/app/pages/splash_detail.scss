@@ -268,8 +268,9 @@
   .drag-help {
     position: absolute;
     width: 100px;
-    top: calc(50% - 50px);
-    left: calc(50% - 50px);
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   &.-hovering {
