@@ -220,20 +220,21 @@ class SplashDetail extends Page {
                   tabIndex={0}
                   role="button"
                   onClick={() => this.onCopyClick('link')}
+                  onKeyDown={() => this.onCopyClick('link')}
                 >
                   {this.state.copied.link ? 'Copied' : 'Copy link'}
                 </a>
 
                 <div className="card-footer">
                   <Link
-                    route="pulse"
+                    route="splash"
                   >
                     <a className="c-button -secondary -fullwidth">
                       Earth view
                     </a>
                   </Link>
                   <Link
-                    route="splash"
+                    route="home"
                   >
                     <a className="c-button -primary -fullwidth">
                       Go to Resource Watch
