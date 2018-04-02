@@ -45,7 +45,7 @@ function SuggestStoryPost({ insights }) {
 
   return (
     <div>
-      <aside>
+      <aside className="l-postcontent">
         <div className="l-container">
           <div className="row">
             <div className="column small-12 medium-8">
@@ -69,7 +69,7 @@ function SuggestStoryPost({ insights }) {
         </div>
       </aside>
       <aside className="l-postcontent">
-        <section id="discoverIsights" className="l-section">
+        <section id="discoverIsights" className="l-container">
           <div className="insight-cards">
             <div className="row">
               <div className="column small-12 medium-8">
