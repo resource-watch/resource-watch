@@ -1,0 +1,14 @@
+.c-layer-container {
+  @media screen and (max-width: map-get($breakpoints, medium)) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    transform: translateY(calc(100% - 96px));
+    transition: transform 0.3s ease-out;
+
+    &.-displayed {
+      transform: translateY(0);
+    }
+  }
+}

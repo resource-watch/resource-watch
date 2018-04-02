@@ -28,7 +28,12 @@ class LayerMenuNativeComponent extends PureComponent {
           {layers.map(group => (
             <optgroup label={group.label} key={group.label}>
               {group.layers.map(layer => (
-                <option value={layer.label}>{layer.label}</option>
+                <option
+                  value={layer.label}
+                  key={layer.label}
+                >
+                  {layer.label}
+                </option>
               ))}
             </optgroup>
           ))}

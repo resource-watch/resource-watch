@@ -38,6 +38,7 @@ import * as exploreDetail from 'layout/explore-detail';
 
 // Pulse
 import * as pulse from 'layout/pulse';
+import * as layerContainer from 'layout/pulse/layer-container';
 import * as layerMenu from 'layout/pulse/layer-menu';
 import * as layerCard from 'layout/pulse/layer-card';
 import * as layerPill from 'layout/pulse/layer-pill';
@@ -104,6 +105,7 @@ const reducer = combineReducers({
   exploreDetail: handleModule(exploreDetail),
 
   // Pulse
+  layerContainerPulse: handleModule(layerContainer),
   layerMenuPulse: handleModule(layerMenu),
   layerCardPulse: handleModule(layerCard),
   contextLayersPulse: handleModule(layerPill),
