@@ -6,7 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 
 let L;
 if (typeof window !== 'undefined') {
-  L = require('leaflet/dist/leaflet');
+  L = require('leaflet');
 
   // adding support for UTFGrid
   require('leaflet-utfgrid/L.UTFGrid-min');
@@ -14,12 +14,21 @@ if (typeof window !== 'undefined') {
   // adding support for esri
   const esri = require('esri-leaflet');
   L.esri = esri;
+
+  // adding support for Side by Side
+  require('static/leaflet-side-by-side');
 }
+
+// if (this.props.swipe) {
+//   this.sideBySideControl = L.control.sideBySide();
+//   this.sideBySideControl.addTo(this.map);
+// }
 
 export default class LayerManager {
   // Constructor
   constructor(map, options = {}) {
     this.map = map;
+    this.options = options;
     this.mapLayers = {};
     this.interactionLayers = {};
     this.layersLoading = {};
@@ -27,6 +36,11 @@ export default class LayerManager {
     this.onLayerAddedSuccess = options.onLayerAddedSuccess;
     this.onLayerAddedError = options.onLayerAddedError;
     this.onLayerClick = options.onLayerClick;
+
+    if (options.swipe) {
+      this.sideBySideControl = L.control.sideBySide();
+      this.sideBySideControl.addTo(this.map);
+    }
   }
 
   /*
@@ -57,7 +71,7 @@ export default class LayerManager {
       nexgddp: this.addNexGDDPLayer
     }[layer.provider];
 
-    if (method) method.call(this, layer, opts);
+    if (method) method.call(this, layer, { ...opts });
 
     this.execCallback()
       .then(() => {
@@ -124,6 +138,7 @@ export default class LayerManager {
 
     if (layer.layerConfig.fitBounds) {
       const bounds = geojsonLayer.getBounds();
+
       this.map.fitBounds([
         bounds.getNorthWest(),
         bounds.getSouthEast()
@@ -257,7 +272,8 @@ export default class LayerManager {
       name: layerSpec.name,
       order: layerSpec.order,
       opacity: layerSpec.opacity,
-      hidden: layerSpec.hidden
+      hidden: layerSpec.hidden,
+      sideBySide: layerSpec.sideBySide
     });
 
     this.layersLoading[layer.id] = true;
@@ -316,6 +332,19 @@ export default class LayerManager {
           this.interactionLayers[layer.id].on('click', (e) => {
             this.onLayerClick({ ...e, ...layer, ...layerSpec });
           });
+        }
+
+        if (this.options.swipe) {
+          switch (layer.sideBySide) {
+            case 'left':
+              this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
+              break;
+            case 'right':
+              this.sideBySideControl.setRightLayers(this.mapLayers[layer.id]);
+              break;
+            default:
+              this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
+          }
         }
       });
   }
