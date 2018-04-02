@@ -4,13 +4,14 @@ import { createAction, createThunkAction } from 'redux-tools';
 
 // The pages have chnged titles and lookup required to match to old slug
 const lookup = {
-  'suggest-a-story': 'submit-an-insight',
+  'suggest-a-story': 'suggest-a-story',
   'contribute-data': 'contribute-data',
   'join-the-community': 'join-community',
   'develop-your-app': 'develop-app',
   'app-review-policy': 'app-review-policy',
   'partner-application-guidelines': 'partner-application-guidelines',
-  'data-policy': 'data-policy'
+  'data-policy': 'data-policy',
+  'apps': 'app-gallery'
 };
 
 // Actions

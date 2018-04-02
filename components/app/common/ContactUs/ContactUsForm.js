@@ -9,9 +9,13 @@ import Spinner from 'components/ui/Spinner';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import TextArea from 'components/form/TextArea';
+import Select from 'components/form/SelectInput';
+
+import Modal from 'components/modal/modal-component';
+import SubmitModalComponent from 'components/modal/submit-modal';
 
 // Constants
-import { FORM_ELEMENTS, STATE_DEFAULT } from './constants';
+import { FORM_ELEMENTS, STATE_DEFAULT, FORM_TOPICS } from './constants';
 
 
 class ContactUsForm extends React.Component {
@@ -19,7 +23,8 @@ class ContactUsForm extends React.Component {
     super(props);
 
     this.state = Object.assign({}, STATE_DEFAULT, {
-      form: STATE_DEFAULT.form
+      form: STATE_DEFAULT.form,
+      showSubmitModal: false
     });
 
     this.service = new ContactUsService();
@@ -48,7 +53,7 @@ class ContactUsForm extends React.Component {
         })
           .then(() => {
             this.setState({ submitting: false });
-            toastr.success('Success', 'Your message has been sent!');
+            this.handleToggleModal(true);
           })
           .catch(() => {
             this.setState({ submitting: false });
@@ -65,12 +70,33 @@ class ContactUsForm extends React.Component {
     this.setState({ form });
   }
 
+  handleToggleModal = (bool) => {
+    this.setState({ showSubmitModal: bool });
+  }
+
   render() {
     const { submitting } = this.state;
 
     return (
       <div className="c-contact-us">
         <form className="c-form" onSubmit={this.onSubmit} noValidate>
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.topic = c; }}
+            onChange={value => this.onChange({ topic: value })}
+            validations={['required']}
+            className="-fluid"
+            options={ FORM_TOPICS.options }
+            properties={{
+              name: 'topic',
+              label: 'Topic',
+              type: 'text',
+              required: true,
+              default: this.state.form.topic
+            }}
+          >
+            {Select}
+          </Field>
+
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
             onChange={value => this.onChange({ email: value })}
@@ -81,6 +107,7 @@ class ContactUsForm extends React.Component {
               label: 'Email',
               type: 'email',
               required: true,
+              placeholder: 'Your Email',
               default: this.state.form.email
             }}
           >
@@ -96,6 +123,7 @@ class ContactUsForm extends React.Component {
               name: 'text',
               label: 'Message',
               required: true,
+              placeholder: 'Tell us how we can help.',
               default: this.state.form.text
             }}
           >
@@ -109,6 +137,16 @@ class ContactUsForm extends React.Component {
             </button>
           </div>
         </form>
+        <Modal
+          isOpen={this.state.showSubmitModal}
+          className="-medium"
+          onRequestClose={() => this.handleToggleModal(false)}
+          >
+          <SubmitModalComponent
+            header='Thanks for your message.'
+            text='Someone from our team will be in touch shortly.'
+            />
+        </Modal>
       </div>
     );
   }

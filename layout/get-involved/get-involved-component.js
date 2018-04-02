@@ -111,12 +111,12 @@ class GetInvolvedComponent extends React.PureComponent {
               <div className="column small-12">
                 <Banner className="-text-center" bgImage="/static/images/backgrounds/partners-02@2x.jpg">
                   <p className="-claim">
-                    Let’s build a more sustainable <br />
-                    world together
+                    Questions, comments, or feedback? <br />
+                    Help us improve Resource Watch.
                   </p>
-                  <button className="c-button -primary -alt">
-                    Contact us
-                  </button>
+                  <Link to="about_contact-us">
+                    <a className="c-button -alt -primary">Contact us</a>
+                  </Link>
                 </Banner>
               </div>
             </div>

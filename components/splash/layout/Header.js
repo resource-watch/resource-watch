@@ -30,11 +30,15 @@ class Header extends React.Component {
         </Link>
         <div className="links">
           {showEarthViewLink &&
-          <div className="earth-view-link">
-            <a href="/splash">
-              <img src="/static/images/splash/globe.svg" alt="Earth view" /><span className="link-text">Earth View</span>
+            <a
+              className="earth-view-link"
+              href="/splash"
+            >
+              <div className="earth-view-link-container">
+                <img src="/static/images/splash/globe.svg" alt="Earth view" />
+                <span className="link-text">Earth View</span>
+              </div>
             </a>
-          </div>
           }
           <a
             role="button"

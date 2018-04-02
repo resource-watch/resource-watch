@@ -42,10 +42,10 @@ function CardApp(props) {
         </div>
 
         <div className="card-footer">
-          {!!link && link.external &&
+          {!!link &&
             <a
               href={link.route}
-              target="_blank"
+              target={!!link.external && "_blank" || "_self"}
               className={`c-button ${buttonClasses} -fullwidth`}
             >
               {link.label}

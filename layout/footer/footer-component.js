@@ -14,18 +14,19 @@ import NewsletterModal from 'components/modal/newsletter-modal';
 const data = [
   { name: 'Data', route: 'explore' },
   { name: 'Explore Datasets', route: 'explore' },
-  { name: 'Planet Pulse', anchor: '/data/pulse' }
+  { name: 'Planet Pulse', route: 'pulse' },
+  { name: 'App Gallery', route: 'get_involved_detail', params: { id: 'apps' } }
 ];
 
 const topics = [
   { name: 'Topics', route: 'topics' },
-  { name: 'Biodiversity', route: 'topics_detail', params: { id: 'biodiversity' } },
   { name: 'Cities', route: 'topics_detail', params: { id: 'cities' } },
   { name: 'Climate', route: 'topics_detail', params: { id: 'climate' } },
-  { name: 'Commerce', route: 'topics_detail', params: { id: 'commerce' } },
   { name: 'Energy', route: 'topics_detail', params: { id: 'energy' } },
   { name: 'Food and Agriculture', route: 'topics_detail', params: { id: 'food-and-agriculture' } },
   { name: 'Forests', route: 'topics_detail', params: { id: 'forests' } },
+  { name: 'Oceans', route: 'topics_detail', params: { id: 'oceans' } },
+  { name: 'Society', route: 'topics_detail', params: { id: 'society' } },
   { name: 'Water', route: 'topics_detail', params: { id: 'water' } }
 ];
 
@@ -33,14 +34,14 @@ const about = [
   { name: 'About', route: 'about' },
   { name: 'Partners', route: 'about_partners' },
   { name: 'FAQs', route: 'about_faqs' },
+  { name: 'How To', route: 'about_howto' },
+  { name: 'Contact Us', route: 'about_contact-us' },
   { name: 'Terms of Service', route: 'terms-of-service' },
-  { name: 'Privacy', route: 'privacy-policy' }
+  { name: 'Privacy Policy', route: 'privacy-policy' }
 ];
 
 const blog = [
-  { name: 'Blog', route: 'insights' },
-  { name: 'Recent Signals', route: 'insights' },
-  { name: 'Highlighted Signals', route: 'insights' }
+  { name: 'Blog', route: 'insights' }
 ];
 
 const getInvolved = [
@@ -48,7 +49,7 @@ const getInvolved = [
   { name: 'Submit a Story', route: 'get_involved_detail', params: { id: 'submit-an-insight' } },
   { name: 'Contribute Data', route: 'get_involved_detail', params: { id: 'contribute-data' } },
   { name: 'Join the Community', route: 'get_involved_detail', params: { id: 'join-community' } },
-  { name: 'App Gallery', route: 'get_involved_detail', params: { id: 'apps' } }
+  { name: 'Develop Your App', route: 'get_involved_detail', params: { id: 'develop-your-app' } }
 ];
 
 class Footer extends React.Component {
@@ -121,7 +122,7 @@ class Footer extends React.Component {
                       className="c-button -secondary join-us-button"
                       onClick={() => this.handleToggleShareModal(true)}
                     >
-                      Subscribe to our Newsletter
+                      Subscribe to our newsletter
                       <Modal
                         isOpen={this.state.showNewsletterModal}
                         className="-medium"
@@ -139,16 +140,6 @@ class Footer extends React.Component {
                       rel="noopener noreferrer"
                     >
                       <Icon name="icon-twitter" />
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      className="c-button -secondary"
-                      href="https://www.facebook.com/ResourceWatch/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Icon name="icon-facebook" />
                     </a>
                   </li>
                 </ul>

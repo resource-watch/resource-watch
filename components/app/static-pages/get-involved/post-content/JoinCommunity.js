@@ -3,6 +3,7 @@ import { Link } from 'routes';
 
 // Components
 import CardApp from 'components/app/common/CardApp';
+import Banner from 'components/app/common/Banner';
 
 function JoinCommunity() {
   const cards = [
@@ -11,9 +12,9 @@ function JoinCommunity() {
       title: '',
       description: 'Reach out with comments, questions, or suggestions.',
       link: {
-        route: 'about_contact-us',
+        route: '/about/contact-us',
         label: 'Contact us',
-        external: true
+        external: false
       }
     },
     {
@@ -31,57 +32,49 @@ function JoinCommunity() {
       title: '',
       description: 'Sign up for our newsletter to receive highlights and updates.',
       link: {
-        route: '',
-        label: 'Subscribe to our Newsletter',
-        external: true
-      }
-    },
-    {
-      id: 'partner',
-      title: '',
-      description: 'Thinking of a partnership? Let’s see what we can do together.',
-      link: {
-        route: 'https://docs.google.com/forms/d/e/1FAIpQLSdr-dUO07dUNas6XYhq_Hmy_lsRQRtW6U6tsp0Ie4jx7dyFJA/viewform?usp=sf_link',
-        label: 'Apply to be a partner',
-        external: true
+        route: '/about/contact-us',
+        label: 'Subscribe to our newsletter',
+        external: false
       }
     }
   ];
 
   return (
-    <aside className="l-postcontent">
-      <div className="l-container">
-        <div className="l-section">
+    <div>
+      <aside className="l-postcontent">
+        <div className="l-container">
+          <div className="row">
+            {cards.map(card => (
+              <div key={card.id} className="column small-12 medium-4 large-4 c-card-column">
+                <CardApp
+                  title={card.title}
+                  className="-compact"
+                  description={card.description}
+                  link={{ ...card.link }}
+                  buttonType="primary"
+                  />
+              </div>
+            ))}
+          </div>
+        </div>
+      </aside>
+      <aside>
+        <div className="l-container">
           <div className="row align-center">
             <div className="column small-12">
-              <p>
-                Have questions about Resource Watch or suggestions for how improve the
-                platform? How about an idea for a bold new data partnership? We want to
-                hear from you. Join us in the movement to build a more sustainable
-                future.
-              </p>
+              <Banner className="-text-center" bgImage={'/static/images/backgrounds/partners-02@2x.jpg'}>
+                <p className="-claim">
+                  Let&rsquo;s build a more sustainable<br /> world together.
+                </p>
+                <Link to="about_partners">
+                  <a className="c-btn -primary">Partners</a>
+                </Link>
+              </Banner>
             </div>
           </div>
         </div>
-        <div className="row">
-          {cards.map(card => (
-            <div key={card.id} className="column small-12 medium-6 large-6 c-card-column">
-              <CardApp
-                title={card.title}
-                className="-compact"
-                description={card.description}
-                link={{ ...card.link }}
-                buttonType="primary"
-              />
-            </div>
-            ))}
-        </div>
-        {/* Temporary link to Partner Application Guidelines */}
-        <Link route="get_involved_detail" params={{ id: 'partner-application-guidelines' }}>
-          <a>Partner Application Guidelines</a>
-        </Link>
-      </div>
-    </aside>
+      </aside>
+    </div>
   );
 }
 
