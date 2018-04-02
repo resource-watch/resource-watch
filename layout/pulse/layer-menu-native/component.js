@@ -38,7 +38,7 @@ class LayerMenuNativeComponent extends PureComponent {
             </optgroup>
           ))}
         </select>
-        <Icon name="icon-arrow-down" className="arrow" />
+        <Icon name="icon-arrow-down-2" className="arrow" />
       </div>
     );
   }

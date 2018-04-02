@@ -22,11 +22,11 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    right: 0;
+    right: 35px;
     margin: auto;
-    width: 10px;
-    height: 10px;
-    background-color: red;
+    width: 11px;
+    height: 11px;
+    fill: $color-primary;
     z-index: 1;
   }
 }
