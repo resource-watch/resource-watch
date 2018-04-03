@@ -253,5 +253,30 @@ export default {
   [actions.setSidebarOpen]: (state, action) => {
     const sidebar = { ...state.sidebar, open: action.payload };
     return { ...state, sidebar };
+  },
+
+
+  //
+  // TAGS
+  //
+  [actions.setTagsTooltip]: (state, { payload }) => {
+    const tags = { ...state.tags, tooltip: payload };
+    return { ...state, tags };
+  },
+  [actions.setTags]: (state, { payload }) => {
+    const tags = { ...state.tags, list: payload };
+    return { ...state, tags };
+  },
+  [actions.setTagsLoading]: (state, { payload }) => {
+    const tags = { ...state.tags, loading: payload };
+    return { ...state, tags };
+  },
+  [actions.setTagsError]: (state, { payload }) => {
+    const tags = { ...state.tags, error: payload };
+    return { ...state, tags };
+  },
+  [actions.resetTags]: (state) => {
+    const { tags } = initialState;
+    return { ...state, tags };
   }
 };

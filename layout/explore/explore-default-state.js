@@ -61,5 +61,12 @@ export default {
   // Sidebar
   sidebar: {
     open: true
+  },
+
+  tags: {
+    tooltip: false,
+    list: [],
+    loading: false,
+    error: null
   }
 };
