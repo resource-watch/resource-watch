@@ -38,9 +38,9 @@ class EmbedMapSwipe extends React.Component {
         description=""
       >
         <div className="c-embed-widget">
-          <div className="widget-title">
+          {/* <div className="widget-title">
             Map comparison
-          </div>
+          </div> */}
 
           <div
             className={classnames({
