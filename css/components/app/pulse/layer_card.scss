@@ -34,7 +34,15 @@
     }
 
     .view-with-container {
-
+      .view-with-label {
+        margin-right: 10px;
+        font-size: $font-size-small;
+      }
+      .layer-pill {
+        &:not(:last-child) {
+          margin-right: 10px;
+        }
+      }
     }
 
     .c-button {
