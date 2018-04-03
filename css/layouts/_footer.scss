@@ -53,17 +53,10 @@
     color: $ui-font-color;
   }
 
-  .footer-newsletter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 50px;
-  }
-
   .footer-social {
     display: flex;
-    justify-content: center;
+    justify-content: left;
+    align-items: center;
     padding: 0 0 $margin-size;
 
     ul {
@@ -77,19 +70,7 @@
     }
 
     a {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 1px solid $color-text-1;
-      border-radius: 50%;
-      padding: 10px;
-      fill: $color-text-1;
-      background: transparent;
-
-      &:hover {
-        background: $color-text-1;
-        fill: $color-white;
-      }
+      padding: 13px;
     }
   }
 

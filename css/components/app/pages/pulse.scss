@@ -1,12 +1,5 @@
 .p-pulse {
-  background-color: white;
-  background-image:
-    linear-gradient(
-      to right,
-      rgba(0, 0, 0, 0.5) 0%,
-      rgba(0, 0, 0, 0) 53%
-    ),
-    url("/static/images/components/vis/galaxy.jpg");
+  background-color: black;
   background-repeat: no-repeat;
   background-position: left top;
   background-size: cover;
@@ -21,5 +14,9 @@
 
   .c-zoom-control {
     z-index: 11;
+
+    @media screen and (max-width: map-get($breakpoints, medium)) {
+      top: 30px;
+    }
   }
 }

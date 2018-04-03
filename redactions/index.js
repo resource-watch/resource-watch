@@ -27,6 +27,3 @@ export { default as faqs } from './admin/faqs';
 
 // Toastr
 export { reducer as toastr } from 'react-redux-toastr';
-
-// Dock
-export { default as dock } from './dock';

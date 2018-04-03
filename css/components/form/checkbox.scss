@@ -57,6 +57,8 @@
   }
 
   input[type=checkbox]:checked + label {
+    color: black;
+
     .checkbox-icon {
       &:after {
         transform: translate(-50%,-50%) rotate(-40deg) scale(1);

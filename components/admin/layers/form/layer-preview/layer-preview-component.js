@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 // Components
 import Map from 'components/ui/map/Map';
-import Legend from 'components/ui/legend';
+import { Legend, LegendItemTypes } from 'wri-api-components';
 
 import { generateLayerGroups, setLayerInteraction, setLayerInteractionLatLng } from 'components/admin/layers/form/layer-preview/layer-preview-actions';
 
@@ -68,13 +68,15 @@ class LayerPreviewComponent extends PureComponent {
 
             setMapInstance={(map) => { this.map = map; }}
           />
-          {layerGroups.length > 0 &&
+
+          <div className="c-legend-map">
             <Legend
+              maxHeight={140}
               layerGroups={layerGroups}
-              interaction={false}
-              readonly
+              sortable={false}
+              LegendItemTypes={<LegendItemTypes />}
             />
-          }
+          </div>
         </div>
         <div className="actions">
           <button

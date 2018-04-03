@@ -5,9 +5,19 @@
   right: 0;
   bottom: 0;
   width: 100%;
+  height: calc(100% - #{$header-main-height-mobile});
   overflow: hidden;
 
   @media screen and (min-width: map-get($breakpoints, medium)) {
     top: $header-main-height;
+    height: calc(100% - #{$header-main-height});
+  }
+
+  &.-relative {
+    position: relative;
+    flex: 1;
+    top: 0;
+    left: 0;
+    height: 100%;
   }
 }

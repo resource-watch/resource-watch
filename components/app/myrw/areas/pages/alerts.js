@@ -1,0 +1,61 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'routes';
+
+import { connect } from 'react-redux';
+
+// Selectors
+import areaAlerts from 'selectors/user/areaAlerts';
+
+// Components
+import AlertWidget from 'components/areas/AlertWidget';
+
+class AreasAlerts extends React.Component  {
+  render() {
+    const { user, id, alerts } = this.props;
+    const { subscription } = user.areas.items.find(alert => alert.id === id);
+
+    return (
+      <div className="c-alerts-page">
+
+        {subscription && subscription.attributes && subscription.attributes.datasets &&
+          subscription.attributes.datasets.map((dataset, key) =>
+            <AlertWidget key={key} dataset={dataset} id={id} layerGroup={id} subscription={subscription} />)}
+
+        <p>
+          This notification reports {alerts[id].map(a => a.dataset.label).join(', ')} for the area of interest you subscribed to.
+          You will receive a separate email for each area and each alert you subscribe to.
+          Date of alerts refers to the date range within which change was detected.
+          There may be a lag between detection and when you receive this notification.
+        </p>
+
+        <p>
+          For questions or if you would like more information,
+          please email: [resourcewatch@wri.org]
+        </p>
+
+        <p>
+          Please note that this information is subject to the <Link route="terms-of-service">
+            <a>Resource Watch Terms of Service</a></Link>.
+          You can unsubscribe or manage your subscriptions at
+          <Link route="myrw" params={{ tab: 'areas' }}><a> My Resource Watch</a>
+          </Link> [my resource watch aoi page].
+        </p>
+
+      </div>
+    );
+  }
+}
+
+AreasAlerts.propTypes = {
+  id: PropTypes.string,
+  user: PropTypes.object.isRequired,
+  alerts: PropTypes.object
+};
+
+const mapStateToProps = state => ({
+  user: state.user,
+  alerts: areaAlerts(state)
+});
+
+export default connect(mapStateToProps, null)(AreasAlerts);

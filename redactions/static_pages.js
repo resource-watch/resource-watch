@@ -20,7 +20,8 @@ const initialState = {
   'submit-an-insight': {},
   'join-community': {},
   'develop-app': {},
-  'contribute-data': {}
+  'contribute-data': {},
+  topics: {}
 };
 
 export default function (state = initialState, action) {

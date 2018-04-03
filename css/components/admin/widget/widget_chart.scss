@@ -1,7 +1,13 @@
 .c-widget-chart {
   position: relative;
   width: 100%;
-  padding: 20px;
+  height: 100%;
+  padding: 10px;
+
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    padding: 20px;
+  }
+
 
   // These following styles are used in MY RW,
   // specifically in "My Widgets"
@@ -19,6 +25,7 @@
     // In case of a bar chart with scrolling, we need
     // to use an overflow
     overflow-x: auto;
+    overflow-y: hidden;
     max-width: 100%;
 
     .chart {
@@ -51,12 +58,12 @@
   // (the list of datasets) and My RW > Widgets
   // when in grid mode
   &.-thumbnail {
-    max-height: 180px;
+    max-height: 150px;
 
     .c-we-chart {
       display: block;
-      height: 160px;
-      min-height: 160px; // Override a rule above
+      height: 130px;
+      min-height: 130px; // Override a rule above
 
       .chart {
         display: block;

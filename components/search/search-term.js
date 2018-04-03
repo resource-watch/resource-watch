@@ -9,7 +9,7 @@ import Icon from 'components/ui/Icon';
 
 import selectedSearchItem from 'selectors/search/selected';
 
-import { setSearchOpened } from 'components/layout/header/header-actions';
+import { setSearchOpened } from 'layout/header/header-actions';
 import { setSearchPage, setSearchUrl, setSearchTerm, fetchSearch, setSearchSelected } from './actions';
 
 class SearchTerm extends React.PureComponent {
@@ -20,7 +20,7 @@ class SearchTerm extends React.PureComponent {
       list: PropTypes.array
     }),
     header: PropTypes.shape({
-      searchOpened: PropTypes
+      searchOpened: PropTypes.bool
     }),
     isHeader: PropTypes.bool,
     selected: PropTypes.object,

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Icon from 'components/ui/Icon';
 
 // Tooltip
-import Tooltip from 'rc-tooltip/dist/rc-tooltip';
+import { Tooltip } from 'wri-api-components';
 import LegendLayersTooltip from './legend-item-button-layers-tooltip';
 
 class LegendItemButtonLayers extends PureComponent {

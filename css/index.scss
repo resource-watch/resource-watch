@@ -12,6 +12,8 @@
 @import '../node_modules/react-progress-2/main';
 @import '../node_modules/rc-slider/assets/index';
 @import '../node_modules/react-input-range/src/scss/index.scss';
+@import '../node_modules/wri-api-components/dist/components';
+
 
 // Editor
 @import '../node_modules/react-quill/dist/quill.snow';
@@ -73,16 +75,20 @@
 @import "./components/ui/table_header_actions";
 @import "./components/ui/table_tooltip";
 @import "./components/ui/tabs";
+@import "./components/ui/tag";
+@import "./components/ui/tag-list";
 @import "./components/ui/terms";
 @import "./components/ui/title";
 @import "./components/ui/tooltip";
 @import "./components/ui/tooltip-global";
 @import "./components/ui/tree_selector";
+@import "./components/ui/user-report";
 @import "./components/ui/zoom_control";
+@import "./components/ui/dataset-table";
 
 // Modal
 @import "./components/modal/share-modal";
-
+@import "./components/modal/credits_modal";
 @import "./components/modal/save_widget_modal";
 @import "./components/modal/how_to_widget_editor_modal";
 @import "./components/modal/embed_my_widget_modal";
@@ -103,6 +109,8 @@
 
 // datasets
 @import './components/datasets/list';
+@import './components/datasets/list-item';
+@import './components/datasets/search';
 
 // Subscriptions
 @import "./components/subscriptions/subscriptions_form";
@@ -212,30 +220,32 @@
 @import "./components/app/pages/about";
 @import "./components/app/pages/pulse";
 @import "./components/app/pages/home";
-@import "./components/app/pages/partners";
 @import "./components/app/pages/submit_insight";
 @import "./components/app/pages/partner_detail";
 @import "./components/app/pages/getInvolved";
 @import "./components/app/pages/develop_app";
 @import "./components/app/pages/apps";
-@import "./components/app/pages/p-app-detail";
 @import "./components/app/pages/splash";
 @import "./components/app/pages/splash_detail";
+@import "./components/app/pages/alerts_page";
 
 // PULSE
 @import "./components/app/pulse/globe_cesium";
 @import "./components/app/pulse/globe_tooltip";
+@import "./components/app/pulse/layer_container";
 @import "./components/app/pulse/layer_menu_dropdown";
+@import "./components/app/pulse/layer_menu_native";
 @import "./components/app/pulse/layer_menu";
 @import "./components/app/pulse/layer_card";
 @import "./components/app/pulse/legend_type";
 @import "./components/app/pulse/legend";
 
 // EXPLORE
-@import "./components/app/explore/configurable_widget";
-@import "./components/app/explore/dataset_list_header";
-@import "./components/app/explore/dataset_list";
-@import "./components/app/explore/dataset_widget";
+// new
+@import "./components/app/explore/explore-datasets";
+@import "./components/app/explore/explore-datasets-header";
+
+// old
 @import "./components/app/explore/dataset_placeholder_chart";
 @import "./components/app/explore/widget_configurator";
 @import "./components/app/explore/explore_layers_tooltip";
@@ -247,6 +257,8 @@
 // EXPLORE DETAIL
 @import "./components/explore-detail/explore-detail-actions";
 @import "./components/explore-detail/explore-detail-tags";
+@import "./components/explore-detail/explore-detail-widget-editor";
+@import "./components/explore-detail/explore-detail-info";
 
 // DASHBOARDS
 @import './components/dashboards/dashboard-thumbnail-list';

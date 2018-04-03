@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Components
-import Layout from 'components/layout/layout/layout-app';
+import Layout from 'layout/layout/layout-app';
 import Spinner from 'components/ui/Spinner';
 
 // Search components

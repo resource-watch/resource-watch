@@ -3,16 +3,15 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 // Components
-import DatasetWidget from 'components/app/explore/DatasetWidget';
+import DatasetListItem from 'components/datasets/list/list-item';
 
 class DatasetList extends PureComponent {
   static propTypes = {
     list: PropTypes.array,
-    user: PropTypes.object,
     mode: PropTypes.string,
     grid: PropTypes.object,
-    showActions: PropTypes.bool.isRequired,
-    onTagSelected: PropTypes.func
+    actions: PropTypes.node,
+    tags: PropTypes.node
   };
 
   static defaultProps = {
@@ -27,10 +26,10 @@ class DatasetList extends PureComponent {
 
   render() {
     const {
-      list, mode, showActions, user, grid, onTagSelected
+      list, mode, actions, tags, grid
     } = this.props;
 
-    const newClassName = classNames({
+    const columnClassName = classNames({
       column: true,
       [`-${mode}`]: true,
       [grid.small]: true,
@@ -41,21 +40,29 @@ class DatasetList extends PureComponent {
     });
 
     return (
-      <div className="c-dataset-list">
-        <div className="l-row -equal-height row">
-          {list.map(dataset => (
-            <div className={newClassName} key={dataset.id}>
-              <DatasetWidget
-                dataset={dataset}
-                favourite={user.favourites.items.find(f => f.attributes.resourceId === dataset.id)}
-                widget={dataset.attributes.widget.find(w => w.attributes.default)}
-                layer={dataset.attributes.layer.find(l => l.attributes.default)}
-                mode={mode}
-                showActions={showActions}
-                onTagSelected={tag => onTagSelected(tag)}
-              />
+      <div className={`c-dataset-list -${mode}`}>
+        <div className="row">
+          <div className="column small-12">
+            <div className="l-row -equal-height row">
+              {list.map(dataset => (
+                <div
+                  className={columnClassName}
+                  key={dataset.id}
+                >
+                  <DatasetListItem
+                    dataset={dataset}
+                    widget={dataset.widget.find(w => w.default)}
+                    layer={dataset.layer.find(l => l.default)}
+                    metadata={dataset.metadata}
+                    vocabulary={dataset.vocabulary.find(v => v.name === 'knowledge_graph') || {}}
+                    mode={mode}
+                    actions={actions}
+                    tags={tags}
+                  />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     );

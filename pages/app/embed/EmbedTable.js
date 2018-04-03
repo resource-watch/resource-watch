@@ -9,8 +9,8 @@ import { initStore } from 'store';
 import { setEmbed } from 'redactions/common';
 
 // Components
-import Page from 'components/layout/page';
-import LayoutEmbed from 'components/layout/layout/layout-embed';
+import Page from 'layout/page';
+import LayoutEmbed from 'layout/layout/layout-embed';
 import Spinner from 'components/ui/Spinner';
 
 class EmbedTable extends Page {

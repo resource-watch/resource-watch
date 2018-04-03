@@ -35,6 +35,9 @@ class AreaActionsTooltip extends React.Component {
       case 'edit_subscriptions':
         this.props.onEditSubscriptions();
         break;
+      case 'delete_area':
+        this.props.onDeleteArea();
+        break;
     }
     this.props.toggleTooltip(false);
   }
@@ -53,6 +56,11 @@ class AreaActionsTooltip extends React.Component {
               Edit subscriptions
             </button>
           </li>
+          <li>
+            <button onClick={() => this.handleClick('delete_area')}>
+              Delete area
+            </button>
+          </li>
         </ul>
       </div>
     );
@@ -63,7 +71,8 @@ AreaActionsTooltip.propTypes = {
   toggleTooltip: PropTypes.func.isRequired,
   // Callbacks
   onEditArea: PropTypes.func.isRequired,
-  onEditSubscriptions: PropTypes.func.isRequired
+  onEditSubscriptions: PropTypes.func.isRequired,
+  onDeleteArea: PropTypes.func.isRequired
 };
 
 export default AreaActionsTooltip;

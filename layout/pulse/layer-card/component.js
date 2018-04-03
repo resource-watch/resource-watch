@@ -9,28 +9,29 @@ import { LAYERS_PLANET_PULSE } from 'utils/layers/pulse_layers';
 
 // Components
 import Legend from 'layout/pulse/legend';
-import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
-import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
+import WidgetChart from 'components/charts/widget-chart';
 import LoginRequired from 'components/ui/login-required';
+
+// Modal
+import Modal from 'components/modal/modal-component';
+import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
+
 
 class LayerCardComponent extends PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      dataset: null
+      showSubscribeToDatasetModal: false
     };
-
-    // ------------------- Bindings -----------------------
-    this.handleSubscribeToAlerts = this.handleSubscribeToAlerts.bind(this);
-    // ----------------------------------------------------
   }
-
   componentWillReceiveProps(nextProps) {
     if ((nextProps.layerMenuPulse.layerActive && nextProps.layerMenuPulse.layerActive.id) !==
       (this.props.layerMenuPulse.layerActive && this.props.layerMenuPulse.layerActive.id)) {
       this.loadWidgets(nextProps);
-      this.props.loadDatasetData({ id: nextProps.layerMenuPulse.layerActive.attributes.dataset });
+      this.props.loadDatasetData(nextProps.layerMenuPulse.layerActive
+        ? { id: nextProps.layerMenuPulse.layerActive.attributes.dataset }
+        : null);
     }
   }
 
@@ -54,34 +55,12 @@ class LayerCardComponent extends PureComponent {
     }
   }
 
-  handleSubscribeToAlerts() {
-    const { user } = this.props;
-    const userLoggedIn = user && user.id;
-
-    let options = null;
-    if (!userLoggedIn) {
-      options = {
-        children: LoginModal,
-        childrenProps: {
-          toggleModal: this.props.toggleModal,
-          text: 'Log in to subscribe to near-real time datasets'
-        }
-      };
-    } else {
-      options = {
-        children: SubscribeToDatasetModal,
-        childrenProps: {
-          toggleModal: this.props.toggleModal,
-          dataset: this.state.dataset,
-          showDatasetSelector: false
-        }
-      };
-    }
-    this.props.toggleModal(true);
-    this.props.setModalOptions(options);
+  handleToggleSubscribeToDatasetModal = (bool) => {
+    this.setState({ showSubscribeToDatasetModal: bool });
   }
 
   render() {
+    const { showSubscribeToDatasetModal } = this.state;
     const { layerMenuPulse, layerCardPulse } = this.props;
     const { layerActive, layerPoints } = layerMenuPulse;
     const { dataset, widget } = layerCardPulse;
@@ -134,29 +113,40 @@ class LayerCardComponent extends PureComponent {
               <div className="widget-title">
                 {widget.attributes.name}
               </div>
-              <DatasetWidgetChart
+
+              <WidgetChart
                 widget={widget.attributes}
                 mode="thumbnail"
               />
             </div>
           </div>
         }
-        <div className="buttons">
+        <div className="card-buttons">
           { datasetId &&
             <Link
               route="explore_detail"
               params={{ id: datasetId }}
             >
-              <a className="link_button" >Explore the data</a>
+              <a className="c-button -tertiary link_button" >Explore the data</a>
             </Link>
           }
           { subscribable &&
             <LoginRequired text="Log in or sign up to subscribe to alerts from this dataset">
               <button
-                className="link_button"
-                onClick={this.handleSubscribeToAlerts}
+                className="c-button -tertiary link_button"
+                onClick={() => this.handleToggleSubscribeToDatasetModal(true)}
               >
                 Subscribe to alerts
+                <Modal
+                  isOpen={showSubscribeToDatasetModal}
+                  onRequestClose={() => this.handleToggleSubscribeToDatasetModal(false)}
+                >
+                  <SubscribeToDatasetModal
+                    dataset={dataset}
+                    showDatasetSelector={false}
+                    onRequestClose={() => this.handleToggleSubscribeToDatasetModal(false)}
+                  />
+                </Modal>
               </button>
             </LoginRequired>
           }
@@ -173,8 +163,6 @@ LayerCardComponent.propTypes = {
   user: PropTypes.object.isRequired,
 
   // Actions
-  toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired,
   loadDatasetData: PropTypes.func.isRequired,
   loadWidgetData: PropTypes.func.isRequired,
   setWidget: PropTypes.func.isRequired

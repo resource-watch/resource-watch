@@ -42,12 +42,17 @@ routes.add('partner', '/about/partners/:id', 'app/PartnerDetail');
 
 // ----- DATA -----
 // routes.add('data', '/data', 'app/Explore'); // TODO: create the data page
-routes.add('explore', '/data/explore', 'app/Explore');
+routes.add('explore', '/data/explore', 'app/explore');
+routes.add('explore_embed', '/embed/data/explore', 'app/explore/embed');
+
 routes.add('explore_detail_private', '/data/explore/private/:id', 'app/explore-detail/private');
 routes.add('explore_detail', '/data/explore/:id', 'app/explore-detail');
+
 routes.add('pulse', '/data/pulse', 'app/pulse');
+
 routes.add('dashboards', '/data/dashboards/', 'app/Dashboards');
 routes.add('dashboards_detail', '/data/dashboards/:slug', 'app/DashboardsDetail');
+
 routes.add('widget_detail', '/data/widget/:id', 'app/widget-detail');
 
 // SEARCH
@@ -62,8 +67,8 @@ routes.add('insights', '/blog', 'app/Insights');
 routes.add('insights_detail', '/blog/:slug', 'app/InsightsDetail');
 
 // ----- GET INVOLVED -----
-routes.add('get_involved', '/get-involved', 'app/GetInvolved');
-routes.add('get_involved_detail', '/get-involved/:id', 'app/GetInvolvedDetail');
+routes.add('get_involved', '/get-involved', 'app/get-involved');
+routes.add('get_involved_detail', '/get-involved/:id', 'app/get-involved-detail');
 
 // ------ MY RW ------------
 routes.add('myrw', '/myrw/:tab?/:subtab?', 'app/MyRW');
@@ -75,7 +80,6 @@ routes.add('embed_text', '/embed/text/:id', 'app/embed/EmbedText');
 routes.add('embed_map', '/embed/map/:id', 'app/embed/EmbedMap');
 routes.add('embed_embed', '/embed/embed/:id', 'app/embed/EmbedEmbed');
 routes.add('embed_dataset', '/embed/dataset/:id', 'app/embed/EmbedDataset');
-routes.add('embed_layer', '/embed/layers', 'app/embed/EmbedLayer');
 routes.add('embed_table', '/embed/table', 'app/embed/EmbedTable');
 routes.add('embed_similar_datasets', '/embed/similar_datasets/:id', 'app/embed/EmbedSimilarDatasets');
 routes.add('embed_dashboard', '/embed/dashboard/:slug', 'app/embed/EmbedDashboard');
@@ -83,6 +87,9 @@ routes.add('embed_dashboard', '/embed/dashboard/:slug', 'app/embed/EmbedDashboar
 // ------ TERMS && POLICY -------------
 routes.add('terms-of-service', '/terms-of-service', 'app/Terms');
 routes.add('privacy-policy', '/privacy-policy', 'app/Policy');
+
+// ------- CATALOG -------------
+routes.add('catalog', '/catalog', 'app/catalog');
 
 
 module.exports = routes;

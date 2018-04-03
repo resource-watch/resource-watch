@@ -4,7 +4,11 @@ $button-size: 30px;
   position: absolute;
   top: 90px;
   right: 30px;
-  z-index: 999;
+  z-index: $map-controls-index;
+
+  .c-embed-widget & {
+    right: $margin-size-extra-small !important;
+  }
 
   &.-left {
     top: $space-1 * 2;

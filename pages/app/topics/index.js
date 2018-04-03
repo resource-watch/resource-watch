@@ -3,12 +3,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Components
-import Page from 'components/layout/page';
+import Page from 'layout/page';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import * as actions from 'layout/topics/topics-actions';
+
+import { getStaticData } from 'redactions/static_pages';
+
 import Topics from 'layout/topics';
 
 class TopicsPage extends Page {
@@ -27,6 +30,8 @@ class TopicsPage extends Page {
     await context.store.dispatch(actions.fetchTopics({
       filters: { 'filter[published]': 'true' }
     }));
+
+    await context.store.dispatch(getStaticData('topics'));
 
     return { ...props };
   }

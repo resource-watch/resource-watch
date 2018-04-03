@@ -28,7 +28,7 @@ class SearchInput extends PureComponent {
     super(props);
 
     this.state = {
-      value: props.input.value || undefined
+      value: props.input.value || props.input.defaultValue || undefined
     };
   }
 

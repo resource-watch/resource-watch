@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 import { getLayers, getLayerPoints, resetLayerPoints } from 'layout/pulse/actions';
-import { toggleActiveLayer } from 'layout/pulse/layer-menu-dropdown/actions';
+import { toggleActiveLayer } from 'layout/pulse/layer-menu/actions';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Selectors
@@ -21,14 +21,15 @@ import { substitution } from 'utils/utils';
 import { logEvent } from 'utils/analytics';
 
 // Components
+import LayerContainer from 'layout/pulse/layer-container';
 import LayerMenu from 'layout/pulse/layer-menu';
 import LayerCard from 'layout/pulse/layer-card';
 import Spinner from 'components/ui/Spinner';
 import ZoomControl from 'components/ui/ZoomControl';
 import GlobeTooltip from 'layout/pulse/globe-tooltip';
 import GlobeCesium from 'components/vis/globe-cesium';
-import Page from 'components/layout/page';
-import Layout from 'components/layout/layout/layout-app';
+import Page from 'layout/page';
+import Layout from 'layout/layout/layout-app';
 
 // Cesium
 let Cesium;
@@ -254,11 +255,6 @@ class Pulse extends Page {
         <div
           className="p-pulse l-map -dark"
         >
-          <LayerMenu
-            layerActive={layerActive}
-            layersGroup={layersGroup}
-          />
-          <LayerCard />
           <Spinner
             isLoading={
               pulse.loading ||
@@ -275,6 +271,13 @@ class Pulse extends Page {
             onMoveStart={this.handleCesiumMoveStart}
             onShapesCreated={this.handleShapesCreated}
           />
+          <LayerContainer>
+            <LayerMenu
+              layerActive={layerActive}
+              layersGroup={layersGroup}
+            />
+            <LayerCard />
+          </LayerContainer>
           <ZoomControl
             onZoomIn={this.triggerZoomIn}
             onZoomOut={this.triggerZoomOut}
@@ -314,4 +317,4 @@ const mapDispatchToProps = {
   resetLayerPoints
 };
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Pulse);
+export default connect(mapStateToProps, mapDispatchToProps)(Pulse);

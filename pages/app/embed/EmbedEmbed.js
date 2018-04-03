@@ -9,8 +9,8 @@ import { getWidget, checkIfFavorited, setIfFavorited } from 'redactions/widget';
 import { setEmbed } from 'redactions/common';
 
 // Components
-import Page from 'components/layout/page';
-import LayoutEmbed from 'components/layout/layout/layout-embed';
+import Page from 'layout/page';
+import LayoutEmbed from 'layout/layout/layout-embed';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
 
@@ -31,16 +31,43 @@ class EmbedEmbed extends Page {
     return !/localhost|staging.resourcewatch.org/.test(this.props.referer);
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalOpened: false
+    };
+  }
+
   componentDidMount() {
     const { url } = this.props;
     this.props.getWidget(url.query.id);
     if (this.props.user.id) this.props.checkIfFavorited(url.query.id);
   }
 
+  getModal() {
+    const { widget } = this.props;
+    return (
+      <div className="widget-modal">
+        { !widget.attributes.description &&
+          <p>No additional information is available</p>
+        }
+
+        { widget.attributes.description && (
+          <div>
+            <h4>Description</h4>
+            <p>{widget.attributes.description}</p>
+          </div>
+        ) }
+      </div>
+    );
+  }
+
   render() {
     const {
       widget, loading, error, favourited, user
     } = this.props;
+
+    const { modalOpened } = this.state;
 
     const favouriteIcon = favourited ? 'star-full' : 'star-empty';
 
@@ -108,14 +135,23 @@ class EmbedEmbed extends Page {
                   </button>
                 )
               }
+              <button
+                aria-label={`${modalOpened ? 'Close' : 'Open'} information modal`}
+                onClick={() => this.setState({ modalOpened: !modalOpened })}
+              >
+                <Icon name={`icon-${modalOpened ? 'cross' : 'info'}`} className="c-icon -small" />
+              </button>
             </div>
           </div>
           <div className="widget-content">
-            <iframe
-              title={widget.attributes.name}
-              src={widget.attributes.widgetConfig.paramsConfig.embed.src}
-              frameBorder="0"
-            />
+            { !modalOpened &&
+              <iframe
+                title={widget.attributes.name}
+                src={widget.attributes.widgetConfig.url}
+                frameBorder="0"
+              />
+            }
+            { modalOpened && this.getModal() }
           </div>
           { this.isLoadedExternally() && (
             <div className="widget-footer">

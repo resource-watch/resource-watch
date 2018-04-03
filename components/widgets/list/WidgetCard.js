@@ -12,16 +12,21 @@ import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import Title from 'components/ui/Title';
-import DatasetWidgetChart from 'components/app/explore/DatasetWidgetChart';
-import DatasetLayerChart from 'components/app/explore/DatasetLayerChart';
+import WidgetChart from 'components/charts/widget-chart';
+import LayerChart from 'components/charts/layer-chart';
 import EmbedMyWidgetModal from 'components/modal/EmbedMyWidgetModal';
 import WidgetActionsTooltip from 'components/widgets/list/WidgetActionsTooltip';
 import Icon from 'components/ui/Icon';
 import Map from 'components/ui/map/Map';
-import Legend from 'components/ui/legend';
 import Spinner from 'components/ui/Spinner';
 import TextChart from 'components/widgets/charts/TextChart';
-import Tooltip from 'rc-tooltip/dist/rc-tooltip';
+
+import {
+  Tooltip,
+  Legend,
+  LegendItemTypes
+} from 'wri-api-components';
+
 import CollectionsPanel from 'components/collections-panel';
 import LoginRequired from 'components/ui/login-required';
 
@@ -240,7 +245,7 @@ class WidgetCard extends PureComponent {
       // We render the thumbnail of a map
       if (this.props.mode === 'thumbnail') {
         return (
-          <DatasetLayerChart layer={this.state.layer} />
+          <LayerChart layer={this.state.layer} />
         );
       }
 
@@ -252,10 +257,14 @@ class WidgetCard extends PureComponent {
             mapConfig={{}}
             layerGroups={this.state.layerGroups}
           />
-          <Legend
-            layerGroups={this.state.layerGroups}
-            readonly
-          />
+
+          <div className="c-legend-map">
+            <Legend
+              sortable={false}
+              layerGroups={this.state.layerGroups}
+              LegendItemTypes={<LegendItemTypes />}
+            />
+          </div>
         </div>
       );
     }
@@ -271,7 +280,7 @@ class WidgetCard extends PureComponent {
 
     // We render a Vega chart
     return (
-      <DatasetWidgetChart
+      <WidgetChart
         widget={this.props.widget}
         mode={this.props.mode}
       />
@@ -313,7 +322,7 @@ class WidgetCard extends PureComponent {
     const widgetId = this.props.widget.id;
     const widgetName = this.props.widget.name;
     // eslint-disable-next-line no-alert
-    if (confirm(`Are you sure you want to remove the widget: ${widgetName}?`)) {
+    if (confirm(`Are you sure you want to remove the visualization: ${widgetName}?`)) {
       this.widgetService.removeUserWidget(widgetId, this.props.user.token)
         .then(() => this.props.onWidgetRemove())
         .catch(err => toastr.error('Error', err));
@@ -469,7 +478,7 @@ class WidgetCard extends PureComponent {
                   className="c-button -secondary widget-actions"
                   onClick={e => this.handleWidgetActionsClick(e, (widget.userId === user.id))}
                 >
-                  Widget actions
+                  Visualization actions
                 </button>
               }
               {showRemove && (widget.userId === user.id) &&

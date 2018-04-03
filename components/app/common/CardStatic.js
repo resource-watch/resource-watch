@@ -52,7 +52,7 @@ CardStatic.propTypes = {
   className: PropTypes.any,
   clickable: PropTypes.bool.isRequired,
   route: PropTypes.string,
-  anchor: PropTypes.string
+  anchor: PropTypes.bool
 };
 
 CardStatic.defaultProps = {

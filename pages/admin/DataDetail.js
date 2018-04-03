@@ -16,8 +16,8 @@ import WidgetsService from 'services/WidgetsService';
 import LayersService from 'services/LayersService';
 
 // Layout
-import Page from 'components/layout/page';
-import Layout from 'components/layout/layout/layout-admin';
+import Page from 'layout/page';
+import Layout from 'layout/layout/layout-admin';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 // Tabs

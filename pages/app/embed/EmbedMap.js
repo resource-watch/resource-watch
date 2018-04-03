@@ -10,11 +10,11 @@ import { getWidget, toggleLayerGroupVisibility, checkIfFavorited, setIfFavorited
 import { setEmbed } from 'redactions/common';
 
 // Components
-import Page from 'components/layout/page';
-import LayoutEmbed from 'components/layout/layout/layout-embed';
+import Page from 'layout/page';
+import LayoutEmbed from 'layout/layout/layout-embed';
 import Spinner from 'components/ui/Spinner';
 import Map from 'components/ui/map/Map';
-import Legend from 'components/ui/legend';
+import { Legend, LegendItemTypes } from 'wri-api-components';
 import Icon from 'components/ui/Icon';
 
 // Utils
@@ -162,13 +162,15 @@ class EmbedMap extends Page {
               layerGroups={layerGroups}
             />
 
-            <Legend
-              layerGroups={layerGroups}
-              expanded={paramIsTrue(legendExpanded)}
-              hideTimeline={paramIsTrue(hideTimeline)}
-              interaction={false}
-              readonly
-            />
+            <div className="c-legend-map">
+              <Legend
+                maxHeight={200}
+                sortable={false}
+                expanded={paramIsTrue(!!legendExpanded)}
+                layerGroups={layerGroups}
+                LegendItemTypes={<LegendItemTypes />}
+              />
+            </div>
 
             { modalOpened && this.getModal() }
           </div>

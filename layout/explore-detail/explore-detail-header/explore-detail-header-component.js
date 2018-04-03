@@ -12,7 +12,7 @@ import Icon from 'components/ui/Icon';
 import LoginRequired from 'components/ui/login-required';
 
 // Tooltip
-import Tooltip from 'rc-tooltip/dist/rc-tooltip';
+import { Tooltip } from 'wri-api-components';
 import CollectionsPanel from 'components/collections-panel';
 
 // Modal
@@ -128,7 +128,7 @@ class ExploreDetailHeader extends PureComponent {
                       name={starIconName}
                       className={starIconClass}
                     />
-                    <span>Favorite</span>
+                    <span>Save</span>
                   </button>
                 </Tooltip>
               </LoginRequired>

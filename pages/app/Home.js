@@ -1,52 +1,37 @@
 /* eslint max-len: 0 */
 import React from 'react';
-import { Link } from 'routes';
+import { Link, Router } from 'routes';
+
+// Utils
+import { breakpoints } from 'utils/responsive';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { getInsights } from 'redactions/insights';
+import * as topicsActions from 'layout/topics/topics-actions';
 
 // Layout
-import Page from 'components/layout/page';
-import Layout from 'components/layout/layout/layout-app';
+import Page from 'layout/page';
+import Layout from 'layout/layout/layout-app';
 
 // Components
 import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
 import Rating from 'components/app/common/Rating';
+import TopicThumbnailList from 'components/topics/thumbnail-list';
+import YouTube from 'react-youtube';
+import MediaQuery from 'react-responsive';
+
+// Modal
+import Modal from 'components/modal/modal-component';
+import NewsletterModal from 'components/modal/newsletter-modal';
 
 const exploreCards = [
   {
-    tag: 'Explore Data',
-    title: 'Dive into the data',
-    intro: 'Create and download custom visualisations using our collection of datasets related to natural resources.',
-    buttons: [
-      {
-        text: 'Explore data',
-        path: 'explore',
-        className: '-primary'
-      }
-    ],
-    background: 'url(/static/tempImages/backgrounds/explore_data_1.png)'
-  },
-  {
-    tag: 'Dashboards',
-    title: 'Review the topic or country you care about most',
-    intro: 'Find facts and figures about a country or topic, or build your own dashboard to monitor the data you care about.',
-    buttons: [
-      {
-        text: 'View dashboards',
-        path: 'dashboards',
-        className: '-primary'
-      }
-    ],
-    background: 'url(/static/tempImages/backgrounds/explore_data_2.png)'
-  },
-  {
     tag: 'Planet Pulse',
-    title: 'Take the pulse of our planet',
-    intro: 'A global snapshot of key impacts on livelihoods from the latest data.',
+    title: 'View near-real-time data on the planet',
+    intro: '',
     buttons: [
       {
         text: 'Launch Planet Pulse',
@@ -55,11 +40,63 @@ const exploreCards = [
         className: '-primary'
       }
     ],
-    background: 'url(/static/tempImages/backgrounds/planetpulse.jpg) 67% center'
+    background: 'url(/static/images/homepage/home-data-bg4.png) 67% center'
+  },
+  {
+    tag: 'Explore Data',
+    title: 'Access data on the map',
+    intro: 'Identify patterns between data sets on the map or download data for analysis.',
+    buttons: [
+      {
+        text: 'Explore data',
+        path: 'explore',
+        className: '-primary'
+      }
+    ],
+    background: 'url(/static/images/homepage/home-data-bg1.png)'
+  },
+  {
+    tag: 'Dashboards',
+    title: 'Create and share visualizations',
+    intro: 'Create overlays, share visualizations, and subscribe to updates on your favorite issues.',
+    buttons: [
+      {
+        text: 'Create a dashboard',
+        path: 'dashboards',
+        className: '-primary'
+      }
+    ],
+    background: 'url(/static/images/homepage/home-data-bg2.png)'
+  },
+  {
+    tag: 'Alerts',
+    title: 'Track data in near-real-time',
+    intro: 'Get updates on world events as they unfold.',
+    buttons: [
+      {
+        text: 'Sign up for alerts',
+        path: '/myrw/areas',
+        anchor: true,
+        className: '-primary'
+      }
+    ],
+    background: 'url(/static/images/homepage/home-data-bg3.png) 67% center'
   }
 ];
 
 class Home extends Page {
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+
+    // Dashboard thumbnail list
+    context.store.dispatch(topicsActions.setSelected(null));
+
+    await context.store.dispatch(topicsActions.fetchTopics({
+      filters: { 'filter[published]': 'true' }
+    }));
+
+    return { ...props };
+  }
   static insightsCardsStatic(insightsData) {
     return insightsData.map(c =>
       (<CardStatic
@@ -90,23 +127,22 @@ class Home extends Page {
           </div>
           {c.ranking && <Rating rating={c.ranking} />}
         </div>
-      </CardStatic>)
-    );
+      </CardStatic>));
   }
 
   static exploreCardsStatic() {
     return exploreCards.map(c =>
-      (<div key={`explore-card-${c.title}`} className="column small-12 medium-4">
+      (<div key={`explore-card-${c.title}`} className="column small-12 medium-6">
         <CardStatic
-          className="-alt"
+          className="-alt -clickable"
           background={c.background}
           clickable
           route={c.buttons[0].path}
           anchor={c.buttons[0].anchor}
         >
           <div>
-            <h4>{c.tag}</h4>
-            <h3>{c.title}</h3>
+            <h4 className="tag-name">{c.tag}</h4>
+            <h3 className="title">{c.title}</h3>
             <p>{c.intro}</p>
           </div>
           <div className="buttons -align-center">
@@ -126,40 +162,82 @@ class Home extends Page {
     );
   }
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showNewsletterModal: false,
+      videoReady: false,
+      videoHeight: 0,
+      videoWidth: 0
+    };
+  }
+
   componentDidMount() {
     this.props.getInsights();
   }
 
+  handleToggleShareModal = (bool) => {
+    this.setState({ showNewsletterModal: bool });
+  }
+
+  onVideoStateChange = (state) => {
+    const { data } = state;
+    if (data === 1) { // eslint disable
+      this.setState({ videoReady: true });
+    } else {
+      this.setState({ videoReady: false });
+    }
+  }
+
   render() {
-    const { insights } = this.props;
+    const { insights, responsive } = this.props;
+    const { videoReady } = this.state;
     const insightsCardsStatic = Home.insightsCardsStatic(insights);
     const exploreCardsStatic = Home.exploreCardsStatic();
-
+    const videoOpts = {
+      playerVars: {
+        modestbranding: 1,
+        autoplay: 1,
+        controls: 0,
+        showinfo: 0,
+        rel: 0,
+        loop: 1,
+        playlist: 'XryMlA-8IwE'
+      }
+    };
     return (
       <Layout
         title="Resource Watch"
-        description="Resource Watch description"
+        description="Monitoring the Planet’s Pulse"
         url={this.props.url}
         user={this.props.user}
         className="page-home"
       >
         <div className="video-intro">
-          <div className="video-foreground">
-            <iframe
-              id="video-intro"
-              title="Video Intro"
-              frameBorder="0"
-              allowFullScreen
-              // Loop parameter has limited support in the AS3 player and in IFrame embeds, which could load either the AS3 or HTML5 player.
-              // Currently, the loop parameter only works in the AS3 player when used in conjunction with the playlist parameter.
-              // To loop a single video, set the loop parameter value to 1 and set the playlist parameter value to the same video ID already specified in the Player API URL
-              src="https://youtube.com/embed/XryMlA-8IwE?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=XryMlA-8IwE"
-            />
-          </div>
+          <MediaQuery
+            minDeviceWidth={breakpoints.medium}
+            values={{ deviceWidth: responsive.fakeWidth }}
+          >
+            <div className={`video-foreground ${videoReady ? '-ready' : ''}`}>
+              <YouTube
+                videoId="XryMlA-8IwE"
+                opts={videoOpts}
+                onStateChange={this.onVideoStateChange}
+              />
+            </div>
+          </MediaQuery>
           <div className="video-text">
             <div>
-              <h1>Explore a world <br />of natural resource data</h1>
-              <p>Discover the latest data, make connections, and help create a more sustainable planet.</p>
+              <h1>Monitoring the Planet&rsquo;s Pulse</h1>
+              <p>Resource Watch provides trusted and timely data for a sustainable future.</p>
+              <Link route="explore">
+                <a
+                  className="c-button -alt -primary"
+                >
+                  Explore data
+                </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -169,8 +247,8 @@ class Home extends Page {
             <header>
               <div className="row">
                 <div className="column small-12 medium-8">
-                  <h2>Discover Signals</h2>
-                  <p>Read the stories behind the data on our Signals blog.</p>
+                  <h2>Latest stories</h2>
+                  <p>Discover data insights on the Resource Watch blog.</p>
                 </div>
               </div>
             </header>
@@ -189,24 +267,72 @@ class Home extends Page {
               </div>
             </div>
 
-            <div className="buttons -text-center">
+            <div className="-text-center">
               <div className="row">
                 <div className="column small-12 medium-12">
-                  <Link route="insights">
-                    <a className="c-btn -primary">More Signals</a>
-                  </Link>
+                  <div className=" buttons">
+                    <button
+                      className="c-button -secondary join-us-button"
+                      onClick={() => this.handleToggleShareModal(true)}
+                    >
+                      Subscribe to our newsletter
+                      <Modal
+                        isOpen={this.state.showNewsletterModal}
+                        className="-medium"
+                        onRequestClose={() => this.handleToggleShareModal(false)}
+                      >
+                        <NewsletterModal />
+                      </Modal>
+                    </button>
+                    <Link route="insights">
+                      <a className="c-btn -primary">More stories</a>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
+
         <section className="l-section -secondary">
           <div className="l-container">
             <header>
               <div className="row">
                 <div className="column small-12 medium-8">
-                  <h2>Explore the data</h2>
-                  <p>Discover data, create visualizations, and subscribe to updates on key datasets.</p>
+                  <h2>Topics</h2>
+                  <p>
+                    Find facts and figures on people and the environment, <br/>
+                    or visualize the latest data on the world today.
+                  </p>
+                </div>
+              </div>
+            </header>
+            <div className="topics-container">
+              <div className="row">
+                <div className="column small-12">
+                  <TopicThumbnailList
+                    portraitMode
+                    onSelect={({ slug }) => {
+                      // We need to make an amendment in the Wysiwyg to have this working
+                      Router.pushRoute('topics_detail', { id: slug })
+                        .then(() => {
+                          window.scrollTo(0, 0);
+                        });
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="l-section">
+          <div className="l-container">
+            <header>
+              <div className="row">
+                <div className="column small-12 medium-8">
+                  <h2>Dive into the data</h2>
+                  <p>Create overlays, share visualizations, and subscribe to updates on your favorite issues.</p>
                 </div>
               </div>
             </header>
@@ -219,29 +345,27 @@ class Home extends Page {
           </div>
         </section>
 
+
         <Banner className="get-involved" bgImage={'/static/images/backgrounds/mod_getInvolved.jpg'}>
           <div className="l-container">
             <div className="l-row row">
-              <div className="column small-12 medium-6">
+              <div className="column small-12 medium-8">
                 <h2>Get involved</h2>
                 <p>
-                  We{'’'}ve brought together the best datasets related to natural resources,
-                  so you can find new insights, influence decisions and change the world.
-                  There{'’'}s a world of opportunity to take this futher. Here are
-                  some ideas to get you started.
+                  Use data to drive change in your community and around the world.
                 </p>
               </div>
             </div>
             <div className="buttons">
               <div className="l-row row">
                 <div className="column small-12 medium-3">
-                  <Link route="get_involved_detail" params={{ id: 'contribute-data', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Contribute data</a></Link>
-                </div>
-                <div className="column small-12 medium-3">
                   <Link route="get_involved_detail" params={{ id: 'join-community', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Join the community</a></Link>
                 </div>
                 <div className="column small-12 medium-3">
-                  <Link route="get_involved_detail" params={{ id: 'submit-an-insight', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Submit a story</a></Link>
+                  <Link route="get_involved_detail" params={{ id: 'contribute-data', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Contribute data</a></Link>
+                </div>
+                <div className="column small-12 medium-3">
+                  <Link route="get_involved_detail" params={{ id: 'submit-an-insight', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Suggest a story</a></Link>
                 </div>
                 <div className="column small-12 medium-3">
                   <Link route="get_involved_detail" params={{ id: 'develop-app', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Develop your app</a></Link>
@@ -250,13 +374,15 @@ class Home extends Page {
             </div>
           </div>
         </Banner>
-
       </Layout>
     );
   }
 }
 
-const mapStateToProps = state => ({ insights: state.insights.list });
+const mapStateToProps = state => ({
+  insights: state.insights.list,
+  responsive: state.responsive
+});
 
 const mapDispatchToProps = {
   getInsights

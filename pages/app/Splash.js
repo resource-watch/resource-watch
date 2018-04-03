@@ -9,8 +9,8 @@ import { initStore } from 'store';
 import { getInsights } from 'redactions/insights';
 
 // Layout
-import Page from 'components/layout/page';
-import Head from 'components/layout/head/app';
+import Page from 'layout/page';
+import Head from 'layout/head/app';
 import Header from 'components/splash/layout/Header';
 
 // Utils

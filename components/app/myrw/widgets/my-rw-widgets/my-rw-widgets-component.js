@@ -79,7 +79,14 @@ class MyRWWidgets extends PureComponent {
 
   render() {
     const { mode } = this.state;
-    const { widgets, loading, orderDirection, routes, pagination, filters } = this.props;
+    const {
+      widgets,
+      loading,
+      orderDirection,
+      routes,
+      pagination,
+      filters
+    } = this.props;
     const { page, total, limit } = pagination;
     const nameSearchValue = ((filters.find(filter => filter.key === 'name') || {}).value || '');
 
@@ -92,11 +99,11 @@ class MyRWWidgets extends PureComponent {
       <div className="c-myrw-widgets-my c-my-rw">
         <SearchInput
           input={{
-            placeholder: 'Search dataset',
+            placeholder: 'Search visualization',
             value: nameSearchValue
           }}
           link={{
-            label: 'New widget',
+            label: 'New visualization',
             route: routes.detail,
             params: { tab: 'widgets', id: 'new' }
           }}
@@ -152,7 +159,7 @@ class MyRWWidgets extends PureComponent {
             />}
             {!(widgets.length) &&
               <div className="no-widgets-div">
-                You currently have no widgets
+                You currently have no visualizations
               </div>}
           </div>
         </div>

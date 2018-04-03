@@ -2,7 +2,7 @@
 <defs>
 <symbol id="icon-external" viewBox="0 0 32 32">
 <title>external</title>
-<path fill="#c32d7b" style="fill: var(--color1, #c32d7b)" d="M22.068 5.818h-4.613v-5.818h14.545v14.545h-5.818v-4.613l-11.034 11.034-4.114-4.114 11.034-11.034zM26.182 26.182v-5.818h5.818v11.636h-32v-32h11.636v5.818h-5.818v20.364h20.364z"></path>
+<path d="M22.068 5.818h-4.613v-5.818h14.545v14.545h-5.818v-4.613l-11.034 11.034-4.114-4.114 11.034-11.034zM26.182 26.182v-5.818h5.818v11.636h-32v-32h11.636v5.818h-5.818v20.364h20.364z"></path>
 </symbol>
 <symbol id="icon-search" viewBox="0 0 32 32">
 <title>search</title>
@@ -63,14 +63,6 @@
 <symbol id="icon-arrow-up" viewBox="0 0 38 32">
 <title>arrow-up</title>
 <path d="M22.2 13.364l9.879 9.879 5.121-4.243-18-18-18 18 5.121 4.243 9.879-9.879v17.636h6v-17.636z"></path>
-</symbol>
-<symbol id="icon-arrow-left" viewBox="0 0 20 32">
-<title>arrow-left</title>
-<path d="M20.364 5.071l-4.364-5.071-16 16 16 16 4.364-5.071-12.143-10.929z"></path>
-</symbol>
-<symbol id="icon-arrow-right" viewBox="0 0 20 32">
-<title>arrow-right</title>
-<path d="M0.011 26.929l4.364 5.071 16-16-16-16-4.364 5.071 12.143 10.929z"></path>
 </symbol>
 <symbol id="icon-view-grid" viewBox="0 0 37 32">
 <title>view-grid</title>
@@ -187,6 +179,22 @@
 <symbol id="icon-table2" viewBox="0 0 32 32">
 <title>table2</title>
 <path d="M0 2v28h32v-28h-32zM12 20v-6h8v6h-8zM20 22v6h-8v-6h8zM20 6v6h-8v-6h8zM10 6v6h-8v-6h8zM2 14h8v6h-8v-6zM22 14h8v6h-8v-6zM22 12v-6h8v6h-8zM2 22h8v6h-8v-6zM22 28v-6h8v6h-8z"></path>
+</symbol>
+<symbol id="icon-arrow-down-2" viewBox="0 0 32 32">
+<title>arrow-down-2</title>
+<path d="M3.75 4.875l12.25 12.25 12.25-12.25 3.75 3.75-16 16-16-16z"></path>
+</symbol>
+<symbol id="icon-arrow-up-2" viewBox="0 0 32 32">
+<title>arrow-up-2</title>
+<path d="M3.75 25.125l-3.75-3.75 16-16 16 16-3.75 3.75-12.25-12.25z"></path>
+</symbol>
+<symbol id="icon-arrow-left-2" viewBox="0 0 32 32">
+<title>arrow-left-2</title>
+<path d="M25.125 3.75l-12.25 12.25 12.25 12.25-3.75 3.75-16-16 16-16z"></path>
+</symbol>
+<symbol id="icon-arrow-right-2" viewBox="0 0 32 32">
+<title>arrow-right-2</title>
+<path d="M10.625 0l16 16-16 16-3.75-3.75 12.25-12.25-12.25-12.25z"></path>
 </symbol>
 </defs>
 </svg>

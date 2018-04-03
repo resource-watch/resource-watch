@@ -20,15 +20,10 @@ const prod = process.env.NODE_ENV === 'production';
 
 // Next app creation
 const app = next({ dev: !prod });
-const handle = routes.getRequestHandler(app, ({ req, res, route, query }) => {
-  // Server rendering for AddSearch and Explore detail page
-  const newRoute = Object.assign({}, route);
-  if (route.name === 'explore_detail' && /AddSearchBot/.test(req.headers['user-agent'])) {
-    newRoute.pattern = `${route.pattern}/beta`;
-    newRoute.name = 'explore_detail_beta';
-    newRoute.page = '/app/ExploreDetailBeta';
-  }
-  app.render(req, res, newRoute.page, query);
+const handle = routes.getRequestHandler(app, ({
+  req, res, route, query
+}) => {
+  app.render(req, res, route.page, query);
 });
 
 // Express app creation
@@ -39,8 +34,8 @@ function checkBasicAuth(users) {
     if (!/(AddSearchBot)|(HeadlessChrome)/.test(req.headers['user-agent'])) {
       const user = basicAuth(req);
       let authorized = false;
-      if (user && ( (user.name === users[0].name && user.pass === users[0].pass) ||
-        (user.name === users[1].name && user.pass === users[1].pass) ) ) {
+      if (user && ((user.name === users[0].name && user.pass === users[0].pass) ||
+        (user.name === users[1].name && user.pass === users[1].pass))) {
         authorized = true;
       }
 
@@ -156,6 +151,9 @@ app.prepare()
     server.get('/auth/:service', (req, res) => {
       const { service } = req.params;
 
+      // Returning user data
+      if (service === 'user') return res.json(req.user || {}));
+
       if (!/facebook|google|twitter/.test(service)) {
         return res.redirect('/');
       }
@@ -166,7 +164,7 @@ app.prepare()
 
       // save the current url for redirect if successfull, set it to expire in 5 min
       res.cookie('authUrl', req.headers.referer, { maxAge: 3E5, httpOnly: true });
-      return res.redirect(`${process.env.CONTROL_TOWER_URL}/auth/${service}?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`);
+      return res.redirect(`${process.env.CONTROL_TOWER_URL}/auth/${service}?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true&origin=rw`);
     });
 
     server.get('/login', auth.login);
@@ -177,7 +175,6 @@ app.prepare()
     });
 
     // Routes with required authentication
-    server.get('/auth/user', (req, res) => res.json(req.user || {}));
     server.get('/myrw-detail*?', isAuthenticated, handleUrl); // TODO: review these routes
     server.get('/myrw*?', isAuthenticated, handleUrl);
     server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);

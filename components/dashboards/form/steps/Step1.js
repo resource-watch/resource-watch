@@ -151,6 +151,8 @@ class Step1 extends React.Component {
                 widget: {
                   Component: WidgetBlock,
                   EditionComponent: WidgetBlockEdition,
+                  icon: 'icon-widget',
+                  label: 'Visualization',
                   renderer: 'modal'
                 }
               },
