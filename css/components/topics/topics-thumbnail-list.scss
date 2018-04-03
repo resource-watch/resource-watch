@@ -14,9 +14,7 @@
     background-position: center center;
     outline: none;
     padding: 0;
-    transition: all .3s;
-
-    transition: all .3s;
+    transition: all $animation-time-2 $ease-in-out-sine;
 
     &:nth-of-type(6n) {
       margin-right: 0;
@@ -52,7 +50,7 @@
     &:hover {
       box-shadow: 0 20px 30px rgba($black, .2);
       transform: translateY(-4px);
-      transition: all .3s;
+      transition: all $animation-time-2 $ease-in-out-sine;
       cursor: pointer;
     }
 
