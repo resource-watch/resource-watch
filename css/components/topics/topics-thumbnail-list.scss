@@ -7,13 +7,15 @@
 
   .thumbnail-list-item {
     position: relative;
-    height: 150px;
+    height: 200px;
     border-radius: 4px;
     background-color: $color-dark-grey;
     background-size: cover;
     background-position: center center;
     outline: none;
     padding: 0;
+
+    transition: all .3s;
 
     &:nth-of-type(6n) {
       margin-right: 0;
@@ -48,18 +50,15 @@
 
     &:hover {
       background-color: transparent;
-      box-shadow: 0 0 0 1px $color-secondary;
-
-      .content {
-        background-color: rgba($color-secondary, .25);
-      }
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+      transform: translateY(-4px);
+      transition: all .3s;
     }
 
     &.-active {
       box-shadow: none;
 
       .content {
-        background-color: rgba($color-secondary, .8);
         cursor: auto;
       }
     }
