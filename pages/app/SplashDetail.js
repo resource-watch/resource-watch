@@ -115,7 +115,10 @@ class SplashDetail extends Page {
       selectedPanorama: panorama.options.find(e => e.name === radioButtonId),
       skyLoading: true,
       introOpened: true
-    }, () => this.addEventListenersToHotspots());
+    }, () => {
+      this.addEventListenersToHotspots();
+      this.setState({ skyLoading: false });
+    });
   }
 
   handleImageLoaded() {
@@ -290,7 +293,7 @@ class SplashDetail extends Page {
                 >
                   <Icon
                     className={classnames('-little', `-${introOpened ? 'left' : 'right'}`)}
-                    name={`icon-arrow-${introOpened ? 'left' : 'right'}`}
+                    name={`icon-arrow-${introOpened ? 'left-2' : 'right-2'}`}
                   />
                 </button>
               </div>
