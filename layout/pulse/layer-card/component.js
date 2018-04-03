@@ -65,7 +65,8 @@ class LayerCardComponent extends PureComponent {
     const subscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
       Object.keys(dataset.attributes.subscribable).length > 0;
 
-    const source = layerActive && layerActive.metadata && layerActive.metadata[0].attributes.source;
+    const source = dataset && dataset.attributes && dataset.attributes.metadata &&
+      dataset.attributes.metadata[0].attributes.source;
 
     const className = classNames({
       'c-layer-card': true,
@@ -80,7 +81,7 @@ class LayerCardComponent extends PureComponent {
         <h3>{layerActive && layerActive.label}</h3>
         {source &&
           <div className="source-container">
-            source
+            {source}
           </div>
         }
         {layerActive && layerActive.descriptionPulse}

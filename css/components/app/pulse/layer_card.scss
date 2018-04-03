@@ -14,9 +14,6 @@
 
   h3, h5 {
     color: $color-dark-pink;
-  }
-
-  h5 {
     margin: 0px;
   }
 
@@ -26,6 +23,8 @@
 
   .source-container {
     font-size: $font-size-small;
+    font-weight: bold;
+    margin-bottom: 10px;
   }
 
   .description {
