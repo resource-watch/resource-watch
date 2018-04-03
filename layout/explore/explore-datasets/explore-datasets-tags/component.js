@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'lodash/debounce';
 import upperFirst from 'lodash/upperFirst';
 
 // Utils
@@ -14,10 +15,14 @@ class ExploreDatasetsTagsComponent extends React.Component {
   static propTypes = {
     vocabulary: PropTypes.object,
     list: PropTypes.array,
+    options: PropTypes.object,
 
+    // Actions
+    fetchDatasets: PropTypes.func,
+    setDatasetsPage: PropTypes.func,
     fetchTags: PropTypes.func,
     resetTags: PropTypes.func,
-    onTagSelected: PropTypes.func
+    toggleFiltersSelected: PropTypes.func
   };
 
   state = {
@@ -25,9 +30,43 @@ class ExploreDatasetsTagsComponent extends React.Component {
     tagsLoading: false
   }
 
+  onTagSelected = (tag) => {
+    const options = Object.keys(this.props.options).map(o => this.props.options[o]);
+
+    const tab = options.find(o => o.type === tag.labels[1]) || {};
+
+    this.props.toggleFiltersSelected({
+      tab: tab.value || 'custom',
+      tag
+    });
+    this.fetchDatasets(1);
+  }
+
+  onVisibleChange = (visible) => {
+    const {
+      vocabulary
+    } = this.props;
+
+    if (visible) {
+      this.setState({ tagsLoading: true });
+
+      this.props.fetchTags(vocabulary.tags)
+        .then(() => {
+          this.setState({ tagsOpened: true, tagsLoading: false });
+        })
+        .catch(() => {
+          this.setState({ tagsLoading: false });
+        });
+    } else {
+      this.props.resetTags();
+      this.setState({ tagsOpened: false, tagsLoading: false });
+    }
+  }
+
   /**
    * HELPER
    * - getTooltipContainer
+   * - fetchDatasets
   */
   getTooltipContainer() {
     if (typeof window !== 'undefined' && typeof document !== 'undefined') {
@@ -40,6 +79,11 @@ class ExploreDatasetsTagsComponent extends React.Component {
 
     return null;
   }
+
+  fetchDatasets = debounce((page) => {
+    this.props.setDatasetsPage(page);
+    this.props.fetchDatasets();
+  });
 
   render() {
     const {
@@ -68,7 +112,7 @@ class ExploreDatasetsTagsComponent extends React.Component {
                   className="-clean"
                   onClick={() => {
                     this.setState({ tagsOpened: false });
-                    this.props.onTagSelected(t);
+                    this.onTagSelected(t);
                   }}
                 />
               ))
@@ -83,7 +127,7 @@ class ExploreDatasetsTagsComponent extends React.Component {
                   tags={list}
                   onTagSelected={(t) => {
                     this.setState({ tagsOpened: false });
-                    this.props.onTagSelected(t);
+                    this.onTagSelected(t);
                   }}
                 />
               }
@@ -91,25 +135,10 @@ class ExploreDatasetsTagsComponent extends React.Component {
               overlayClassName="c-rc-tooltip"
               placement="bottomRight"
               trigger="click"
-              getTooltipContainer={this.getTooltipContainer}
               monitorWindowResize
               destroyTooltipOnHide
-              onVisibleChange={(visible) => {
-                if (visible) {
-                  this.setState({ tagsLoading: true });
-
-                  this.props.fetchTags(vocabulary.tags)
-                    .then(() => {
-                      this.setState({ tagsOpened: true, tagsLoading: false });
-                    })
-                    .catch(() => {
-                      this.setState({ tagsLoading: false });
-                    });
-                } else {
-                  this.props.resetTags();
-                  this.setState({ tagsOpened: false, tagsLoading: false });
-                }
-              }}
+              getTooltipContainer={this.getTooltipContainer}
+              onVisibleChange={this.onVisibleChange}
             >
               <button>
                 {tagsLoading && 'loading...'}

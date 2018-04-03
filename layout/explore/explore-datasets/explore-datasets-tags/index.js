@@ -6,6 +6,7 @@ import ExploreDatasetsTagsComponent from './component';
 
 export default connect(
   state => ({
+    ...state.explore.filters,
     ...state.explore.tags
   }),
   actions
