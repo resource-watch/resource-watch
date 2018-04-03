@@ -115,26 +115,32 @@ export default class LayerManager {
     });
   }
 
+  swipeLayer(layer, sideBySide) {
+    if (layer) {
+      requestAnimationFrame(() => {
+        switch (sideBySide) {
+          case 'left':
+            this.sideBySideControl.setLeftLayers(layer);
+            break;
+          case 'right':
+            this.sideBySideControl.setRightLayers(layer);
+            break;
+          default:
+            this.sideBySideControl.setLeftLayers(layer);
+        }
+
+        this.map.invalidateSize();
+      });
+    }
+  }
+
   addNexGDDPLayer(layer) {
     const tileUrl = `${process.env.WRI_API_URL}/layer/${layer.id}/tile/nexgddp/{z}/{x}/{y}`;
     const tileLayer = L.tileLayer(tileUrl).addTo(this.map);
     this.mapLayers[layer.id] = tileLayer;
 
-    if (this.options.swipe && this.mapLayers[layer.id]) {
-      requestAnimationFrame(() => {
-        switch (layer.sideBySide) {
-          case 'left':
-            this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
-            break;
-          case 'right':
-            this.sideBySideControl.setRightLayers(this.mapLayers[layer.id]);
-            break;
-          default:
-            this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
-        }
-
-        this.map.invalidateSize();
-      });
+    if (this.options.swipe) {
+      this.swipeLayer(this.mapLayers[layer.id], layer.sideBySide);
     }
   }
 
@@ -143,21 +149,8 @@ export default class LayerManager {
     const tileLayer = L.tileLayer(tileUrl).addTo(this.map);
     this.mapLayers[layer.id] = tileLayer;
 
-    if (this.options.swipe && this.mapLayers[layer.id]) {
-      requestAnimationFrame(() => {
-        switch (layer.sideBySide) {
-          case 'left':
-            this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
-            break;
-          case 'right':
-            this.sideBySideControl.setRightLayers(this.mapLayers[layer.id]);
-            break;
-          default:
-            this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
-        }
-
-        this.map.invalidateSize();
-      });
+    if (this.options.swipe) {
+      this.swipeLayer(this.mapLayers[layer.id], layer.sideBySide);
     }
   }
 
@@ -174,21 +167,8 @@ export default class LayerManager {
       ], { padding: [20, 20] });
     }
 
-    if (this.options.swipe && this.mapLayers[layer.id]) {
-      requestAnimationFrame(() => {
-        switch (layer.sideBySide) {
-          case 'left':
-            this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
-            break;
-          case 'right':
-            this.sideBySideControl.setRightLayers(this.mapLayers[layer.id]);
-            break;
-          default:
-            this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
-        }
-
-        this.map.invalidateSize();
-      });
+    if (this.options.swipe) {
+      this.swipeLayer(this.mapLayers[layer.id], layer.sideBySide);
     }
   }
 
@@ -237,20 +217,7 @@ export default class LayerManager {
       this.mapLayers[layerData.id] = layer;
 
       if (this.options.swipe) {
-        requestAnimationFrame(() => {
-          switch (layerSpec.sideBySide) {
-            case 'left':
-              this.sideBySideControl.setLeftLayers(this.mapLayers[layerSpec.id]);
-              break;
-            case 'right':
-              this.sideBySideControl.setRightLayers(this.mapLayers[layerSpec.id]);
-              break;
-            default:
-              this.sideBySideControl.setLeftLayers(this.mapLayers[layerSpec.id]);
-          }
-
-          this.map.invalidateSize();
-        });
+        this.swipeLayer(this.mapLayers[layerSpec.id], layerSpec.sideBySide);
       }
     }
   }
@@ -314,27 +281,11 @@ export default class LayerManager {
         }
         layerElement.id = layer.id;
 
-        if (this.options.swipe && this.mapLayers[layerSpec.id]) {
-          requestAnimationFrame(() => {
-            if (!this.mapLayers[layerSpec.id].getContainer) {
-              this.mapLayers[layerSpec.id].getContainer = () => layerElement;
-            }
-
-            console.log(this.mapLayers[layerSpec.id].getContainer);
-
-            switch (layerSpec.sideBySide) {
-              case 'left':
-                this.sideBySideControl.setLeftLayers(this.mapLayers[layerSpec.id]);
-                break;
-              case 'right':
-                this.sideBySideControl.setRightLayers(this.mapLayers[layerSpec.id]);
-                break;
-              default:
-                this.sideBySideControl.setLeftLayers(this.mapLayers[layerSpec.id]);
-            }
-
-            this.map.invalidateSize();
-          });
+        if (this.options.swipe) {
+          if (!this.mapLayers[layerSpec.id].getContainer) {
+            this.mapLayers[layerSpec.id].getContainer = () => layerElement;
+          }
+          this.swipeLayer(this.mapLayers[layerSpec.id], layerSpec.sideBySide);
         }
       });
 
@@ -421,20 +372,7 @@ export default class LayerManager {
         }
 
         if (this.options.swipe) {
-          requestAnimationFrame(() => {
-            switch (layer.sideBySide) {
-              case 'left':
-                this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
-                break;
-              case 'right':
-                this.sideBySideControl.setRightLayers(this.mapLayers[layer.id]);
-                break;
-              default:
-                this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
-            }
-
-            this.map.invalidateSize();
-          });
+          this.swipeLayer(this.mapLayers[layer.id], layer.sideBySide);
         }
       });
   }
