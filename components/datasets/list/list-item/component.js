@@ -72,6 +72,23 @@ class DatasetListItem extends React.Component {
     );
   }
 
+  /**
+   * HELPER
+   * - getTooltipContainer
+   * - fetchDatasets
+  */
+  getTooltipContainer() {
+    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+      if (document.querySelector('.sidebar-content')) {
+        return document.querySelector('.sidebar-content');
+      }
+
+      return document.body;
+    }
+
+    return null;
+  }
+
   render() {
     const {
       dataset, metadata, mode, user, actions, tags
