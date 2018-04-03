@@ -14,7 +14,7 @@ export const resetTags = createAction('DATASET_LIST_ITEM/resetTags');
 export const fetchTags = createThunkAction('DATASET_LIST_ITEM/fetchTags', tags => (dispatch) => {
   dispatch(setTagsLoading(true));
 
-  return fetch(`${process.env.WRI_API_URL}/graph/query/concepts-inferred?concepts=${tags}&application=${process.env.APPLICATIONS}`)
+  return fetch(`${process.env.WRI_API_URL}//dataset/${this.datasetId}?application=${process.env.APPLICATIONS}&language=${this.opts.language}&includes="metadata"&page[size]=999`)
     .then((response) => {
       if (response.status >= 400) throw Error(response.statusText);
       return response.json();
