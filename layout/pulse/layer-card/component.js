@@ -129,7 +129,7 @@ class LayerCardComponent extends PureComponent {
                 activeContextLayers.map(ctLayer => (
                   <div>
                     <div className="layer-container">
-                      <span>{layerName}</span>
+                      <span>{ctLayer.attributes.name}</span>
                       <button
                         type="button"
                         className="info"
@@ -144,7 +144,7 @@ class LayerCardComponent extends PureComponent {
                           onRequestClose={() => this.setState({ showInfoModal: false })}
                         >
                           <LayerInfoModal
-                            data={layerActive && layerActive.attributes}
+                            data={ctLayer.attributes}
                           />
                         </Modal>
                       </button>
