@@ -11,6 +11,8 @@ import { LAYERS_PLANET_PULSE } from 'utils/layers/pulse_layers';
 import Legend from 'layout/pulse/legend';
 import WidgetChart from 'components/charts/widget-chart';
 import LoginRequired from 'components/ui/login-required';
+import LayerInfoModal from 'components/modal/LayerInfoModal';
+import Icon from 'components/ui/Icon';
 
 // Modal
 import Modal from 'components/modal/modal-component';
@@ -22,7 +24,8 @@ class LayerCardComponent extends PureComponent {
     super(props);
 
     this.state = {
-      showSubscribeToDatasetModal: false
+      showSubscribeToDatasetModal: false,
+      showInfoModal: false
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -58,7 +61,7 @@ class LayerCardComponent extends PureComponent {
   }
 
   render() {
-    const { showSubscribeToDatasetModal } = this.state;
+    const { showSubscribeToDatasetModal, showInfoModal } = this.state;
     const { layerMenuPulse, layerCardPulse } = this.props;
     const { layerActive, layerPoints } = layerMenuPulse;
     const { dataset, widget } = layerCardPulse;
@@ -67,6 +70,7 @@ class LayerCardComponent extends PureComponent {
 
     const source = dataset && dataset.attributes && dataset.attributes.metadata &&
       dataset.attributes.metadata[0].attributes.source;
+    const layerName = layerActive && layerActive.attributes && layerActive.attributes.name;
 
     const className = classNames({
       'c-layer-card': true,
@@ -88,6 +92,29 @@ class LayerCardComponent extends PureComponent {
         {layerPoints && layerPoints.length > 0 &&
           <div className="number-of-points">
             Number of objects: {layerPoints.length}
+          </div>
+        }
+        {layerName &&
+          <div className="layer-container">
+            <span>{layerName}</span>
+            <button
+              type="button"
+              className="info"
+              aria-label="More information"
+              onClick={() => this.setState({ showInfoModal: true })}
+            >
+              <Icon name="icon-info" />
+
+              <Modal
+                isOpen={showInfoModal}
+                className="-medium"
+                onRequestClose={() => this.setState({ showInfoModal: false })}
+              >
+                <LayerInfoModal
+                  data={layerActive}
+                />
+              </Modal>
+            </button>
           </div>
         }
         <Legend
