@@ -1,22 +1,27 @@
 import 'isomorphic-fetch';
 import queryString from 'query-string';
 import { createAction, createThunkAction } from 'redux-tools';
+import WRISerializer from 'wri-json-api-serializer';
 
 // Actions
 export const setDatasets = createAction('CATALOG/setDatasets');
-export const setDatasetsLoading = createAction('TOPIC-DETAIL/setDatasetsLoading');
-export const setDatasetsError = createAction('TOPIC-DETAIL/setDatasetsError');
+export const setDatasetsLoading = createAction('CATALOG/setDatasetsLoading');
+export const setDatasetsError = createAction('CATALOG/setDatasetsError');
+export const setDatasetsSearch = createAction('CATALOG/setDatasetsSearch');
 
 // Async actions
-export const getDatasets = createThunkAction('CATALOG/getDatasets', payload => (dispatch) => {
+export const fetchDatasets = createThunkAction('CATALOG/fetchDatasets', () => (dispatch, getState) => {
+  const { catalog, common } = getState();
+
   dispatch(setDatasetsLoading(true));
 
   const qParams = queryString.stringify({
     application: process.env.APPLICATIONS,
     language: 'en',
     includes: 'metadata,widget,layer,vocabulary',
-    search: payload,
+    search: catalog.search,
     status: 'saved',
+    // sort: '-name',
     published: true,
     'page[size]': 99999
   });
@@ -26,7 +31,10 @@ export const getDatasets = createThunkAction('CATALOG/getDatasets', payload => (
       if (response.ok) return response.json();
       throw new Error(response.statusText);
     })
-    .then(({ data }) => {
+    .then(response => WRISerializer(response, { locale: common.locale }))
+    .then((data) => {
+      dispatch(setDatasetsLoading(false));
+      dispatch(setDatasetsError(null));
       dispatch(setDatasets(data));
     })
     .catch((err) => {
