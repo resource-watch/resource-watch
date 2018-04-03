@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
 
 // Components
 import DatasetSearch from 'components/datasets/search';
@@ -10,6 +9,7 @@ class ExploreHeaderComponent extends React.Component {
   static propTypes = {
     open: PropTypes.bool,
     tab: PropTypes.string,
+    tags: PropTypes.array,
     options: PropTypes.object,
     selected: PropTypes.object,
     search: PropTypes.string,
@@ -23,12 +23,6 @@ class ExploreHeaderComponent extends React.Component {
     setFiltersSelected: PropTypes.func,
     toggleFiltersSelected: PropTypes.func,
     resetFiltersSelected: PropTypes.func
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.fetchDatasets = debounce(this.fetchDatasets.bind(this), 500);
   }
 
   onChangeSearch = (search) => {

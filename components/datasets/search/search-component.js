@@ -45,6 +45,11 @@ class SearchComponent extends React.Component {
     if (e.keyCode === 27) {
       this.onToggleOpen(false);
     }
+
+    if (e.keyCode === 13) {
+      this.props.onChangeSearch(this.state.value);
+      // this.onToggleOpen(false);
+    }
   }
 
   onToggleOpen = (to) => {
@@ -72,7 +77,6 @@ class SearchComponent extends React.Component {
 
   onChangeSearch = (e) => {
     this.setState({ value: e.currentTarget.value });
-    this.props.onChangeSearch(e.currentTarget.value);
   }
 
   render() {
