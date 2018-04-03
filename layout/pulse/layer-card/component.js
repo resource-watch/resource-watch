@@ -111,7 +111,7 @@ class LayerCardComponent extends PureComponent {
                 onRequestClose={() => this.setState({ showInfoModal: false })}
               >
                 <LayerInfoModal
-                  data={layerActive}
+                  data={layerActive && layerActive.attributes}
                 />
               </Modal>
             </button>
