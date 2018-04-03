@@ -18,8 +18,8 @@ class FavouritesService {
         }
       })
         .then((response) => {
+          if (response.ok) return response.json();
           const { status, statusText } = response;
-          if (status === 200) return response.json();
 
           const errorObject = {
             errors: {
@@ -57,9 +57,8 @@ class FavouritesService {
         })
       })
         .then((response) => {
+          if (response.ok) return resolve();
           const { status, statusText } = response;
-
-          if (status === 200) return resolve();
 
           const errorObject = {
             errors: {
@@ -88,9 +87,8 @@ class FavouritesService {
         }
       })
         .then((response) => {
+          if (response.ok) return resolve();
           const { status, statusText } = response;
-
-          if (status === 200) return resolve();
 
           const errorObject = {
             errors: {

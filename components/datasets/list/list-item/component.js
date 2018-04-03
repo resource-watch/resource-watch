@@ -1,20 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 
 // Redux
 import { Link } from 'routes';
 
-// Components
-import Icon from 'components/ui/Icon';
-import LoginRequired from 'components/ui/login-required';
-
-// Tooltip
-import { Tooltip } from 'wri-api-components';
-import CollectionsPanel from 'components/collections-panel';
-
-// helpers
-import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
+import ToggleFavorite from 'components/favorites/ToggleFavorite';
 
 // Thumbnails charts
 import WidgetChart from 'components/charts/widget-chart';
@@ -25,19 +15,17 @@ class DatasetListItem extends React.Component {
   static propTypes = {
     // STATE
     dataset: PropTypes.object,
+    favourites: PropTypes.array,
     widget: PropTypes.object,
     layer: PropTypes.object,
     metadata: PropTypes.object,
     mode: PropTypes.string,
     user: PropTypes.object,
+    toggleFavourite: PropTypes.func,
     tags: PropTypes.node,
     actions: PropTypes.node
   };
 
-  /**
-   * HELPER
-   * - renderChart
-  */
   renderChart = () => {
     const {
       dataset, widget, layer, mode
@@ -72,39 +60,10 @@ class DatasetListItem extends React.Component {
     );
   }
 
-  /**
-   * HELPER
-   * - getTooltipContainer
-   * - fetchDatasets
-  */
-  getTooltipContainer() {
-    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-      if (document.querySelector('.sidebar-content')) {
-        return document.querySelector('.sidebar-content');
-      }
-
-      return document.body;
-    }
-
-    return null;
-  }
-
   render() {
     const {
-      dataset, metadata, mode, user, actions, tags
+      dataset, metadata, mode, actions, tags
     } = this.props;
-
-
-    const isInACollection = belongsToACollection(user, dataset);
-    const starIconName = classnames({
-      'icon-star-full': isInACollection,
-      'icon-star-empty': !isInACollection
-    });
-    const starIconClass = classnames({
-      '-small': true,
-      '-filled': isInACollection,
-      '-empty': !isInACollection
-    });
 
     return (
       <div className={`c-dataset-list-item -${mode}`}>
@@ -126,32 +85,8 @@ class DatasetListItem extends React.Component {
                   </a>
                 </Link>
 
-                {/* Favorite dataset icon */}
-                <LoginRequired text="Log in or sign up to save items in favorites">
-                  <Tooltip
-                    overlay={
-                      <CollectionsPanel
-                        resource={dataset}
-                        resourceType="dataset"
-                      />
-                    }
-                    overlayClassName="c-rc-tooltip"
-                    placement="bottomRight"
-                    trigger="click"
-                    getTooltipContainer={this.getTooltipContainer}
-                    monitorWindowResize
-                  >
-                    <button
-                      className="c-btn favourite-button"
-                      tabIndex={-1}
-                    >
-                      <Icon
-                        name={starIconName}
-                        className={starIconClass}
-                      />
-                    </button>
-                  </Tooltip>
-                </LoginRequired>
+                <ToggleFavorite data={dataset} type="dataset" />
+
               </h4>
             </div>
 

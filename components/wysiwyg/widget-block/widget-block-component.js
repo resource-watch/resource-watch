@@ -1,23 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 
 // Components
 import TextChart from 'components/widgets/charts/TextChart';
+import ToggleFavorite from 'components/favorites/ToggleFavorite';
 import Map from 'components/ui/map/Map';
 import {
-  Tooltip,
   Legend,
   LegendItemTypes
 } from 'wri-api-components';
 
-import LoginRequired from 'components/ui/login-required';
-
 import Icon from 'components/ui/Icon';
 import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
-import CollectionsPanel from 'components/collections-panel';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
@@ -25,12 +21,8 @@ import LayerManager from 'utils/layers/LayerManager';
 // Widget editor
 import { VegaChart, getVegaTheme } from 'widget-editor';
 
-// helpers
-import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
-
 class WidgetBlock extends React.Component {
   static propTypes = {
-    user: PropTypes.object,
     data: PropTypes.object,
     item: PropTypes.object,
     onToggleModal: PropTypes.func,
@@ -38,7 +30,6 @@ class WidgetBlock extends React.Component {
   };
 
   static defaultProps = {
-    user: {},
     data: {},
     item: {},
     onToggleModal: null,
@@ -70,7 +61,6 @@ class WidgetBlock extends React.Component {
 
   render() {
     const {
-      user,
       data,
       item,
       onToggleModal,
@@ -103,12 +93,6 @@ class WidgetBlock extends React.Component {
 
     const caption = metadataInfo && metadataInfo.caption;
 
-    const isInACollection = belongsToACollection(user, widget);
-    const starIconName = classnames({
-      'icon-star-full': isInACollection,
-      'icon-star-empty': !isInACollection
-    });
-
     return (
       <div className="c-widget-block-card">
         <header>
@@ -116,30 +100,7 @@ class WidgetBlock extends React.Component {
             <Title className="-default">{widget ? widget.name : '–'}</Title>
 
             <div className="buttons">
-              <LoginRequired text="Log in or sign up to save items in favorites">
-                <Tooltip
-                  overlay={<CollectionsPanel
-                    resource={widget}
-                    resourceType="widget"
-                  />}
-                  overlayClassName="c-rc-tooltip"
-                  overlayStyle={{
-                        color: '#fff'
-                      }}
-                  placement="bottomLeft"
-                  trigger="click"
-                >
-                  <button
-                    className="c-btn favourite-button"
-                    tabIndex={-1}
-                  >
-                    <Icon
-                      name={starIconName}
-                      className="-star -small"
-                    />
-                  </button>
-                </Tooltip>
-              </LoginRequired>
+              <ToggleFavorite data={widget} type="widget" />
 
               <button
                 type="button"
@@ -177,7 +138,7 @@ class WidgetBlock extends React.Component {
           }
 
           {widgetIsEmbed &&
-            <iframe src={widgetEmbedUrl} width="100%" height="100%" frameBorder="0"></iframe>
+            <iframe title="Widget embedd" src={widgetEmbedUrl} width="100%" height="100%" frameBorder="0" />
           }
 
           {!isEmpty(widget) && !widgetLoading && !widgetError && !layersError && widgetType === 'map' && layers && (

@@ -162,6 +162,15 @@ input, button, select, textarea {
   cursor: move;
 }
 
+.favourite-button {
+  cursor: pointer;
+  &.-loading {
+    opacity: 0.4;
+    user-select: none;
+    cursor: initial;
+  }
+}
+
 .-columnize {
   @media screen and (min-width: map-get($breakpoints, medium)) {
     columns: 2;

@@ -248,7 +248,7 @@ export function getWidget(widgetId, includes = '') {
         if (isMap) {
           const datasetId = data.attributes.dataset;
           const layerId = widgetConfig.paramsConfig && widgetConfig.paramsConfig.layer;
-          const zoom = widgetConfig.zoom;
+          const { zoom } = widgetConfig;
           const latLng = widgetConfig.lat && widgetConfig.lng
             && { lat: widgetConfig.lat, lng: widgetConfig.lng };
 
@@ -338,7 +338,7 @@ export function setIfFavorited(widgetId, toFavorite) {
         .then(res => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: res.data.id } }))
         .catch(() => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: null } }));
     } else {
-      const id = widget.favourite.id;
+      const { id } = widget.favourite;
 
       userService.deleteFavourite(id, user.token)
         .then(() => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: null } }))
