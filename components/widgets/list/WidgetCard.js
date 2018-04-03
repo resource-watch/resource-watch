@@ -20,6 +20,7 @@ import Icon from 'components/ui/Icon';
 import Map from 'components/ui/map/Map';
 import Spinner from 'components/ui/Spinner';
 import TextChart from 'components/widgets/charts/TextChart';
+import Dotdotdot from 'react-dotdotdot'
 
 import {
   Tooltip,
@@ -55,19 +56,6 @@ class WidgetCard extends PureComponent {
       x: window.scrollX + e.clientX,
       y: window.scrollY + e.clientY
     };
-  }
-
-  /**
-   * HELPERS
-   * - getDescription
-  */
-  static getDescription(_text) {
-    let text = _text;
-    if (typeof text === 'string' && text.length > 70) {
-      text = text.replace(/^(.{70}[^\s]*).*/, '$1');
-      return `${text}...`;
-    }
-    return text;
   }
 
   /**
@@ -438,10 +426,11 @@ class WidgetCard extends PureComponent {
             <Title className="-default -primary">
               {widget.name}
             </Title>
-            <p>
-              {WidgetCard.getDescription(widget.description)}
-            </p>
-
+            <Dotdotdot clamp={3}>
+              <p>
+                {widget.description}
+              </p>
+            </Dotdotdot>
             <LoginRequired text="Log in or sign up to save items in favorites">
               <Tooltip
                 overlay={
