@@ -38,7 +38,8 @@ import * as exploreDetail from 'layout/explore-detail';
 
 // Pulse
 import * as pulse from 'layout/pulse';
-import * as layerMenuDropdown from 'layout/pulse/layer-menu-dropdown';
+import * as layerContainer from 'layout/pulse/layer-container';
+import * as layerMenu from 'layout/pulse/layer-menu';
 import * as layerCard from 'layout/pulse/layer-card';
 import * as layerPill from 'layout/pulse/layer-pill';
 import * as globeCesium from 'components/vis/globe-cesium';
@@ -108,7 +109,8 @@ const reducer = combineReducers({
   exploreDetail: handleModule(exploreDetail),
 
   // Pulse
-  layerMenuPulse: handleModule(layerMenuDropdown),
+  layerContainerPulse: handleModule(layerContainer),
+  layerMenuPulse: handleModule(layerMenu),
   layerCardPulse: handleModule(layerCard),
   contextLayersPulse: handleModule(layerPill),
   globeCesium: handleModule(globeCesium),

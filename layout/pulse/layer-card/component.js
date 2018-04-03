@@ -29,7 +29,9 @@ class LayerCardComponent extends PureComponent {
     if ((nextProps.layerMenuPulse.layerActive && nextProps.layerMenuPulse.layerActive.id) !==
       (this.props.layerMenuPulse.layerActive && this.props.layerMenuPulse.layerActive.id)) {
       this.loadWidgets(nextProps);
-      this.props.loadDatasetData({ id: nextProps.layerMenuPulse.layerActive.attributes.dataset });
+      this.props.loadDatasetData(nextProps.layerMenuPulse.layerActive
+        ? { id: nextProps.layerMenuPulse.layerActive.attributes.dataset }
+        : null);
     }
   }
 

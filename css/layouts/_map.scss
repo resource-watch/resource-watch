@@ -5,11 +5,12 @@
   right: 0;
   bottom: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100% - #{$header-main-height-mobile});
   overflow: hidden;
 
   @media screen and (min-width: map-get($breakpoints, medium)) {
     top: $header-main-height;
+    height: calc(100% - #{$header-main-height});
   }
 
   &.-relative {
