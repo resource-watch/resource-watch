@@ -15,7 +15,7 @@ export const loadDatasetData = createThunkAction('layer-card/loadDatasetData', (
         language: locale
       });
 
-      datasetService.fetchData().then((data) => {
+      datasetService.fetchData('metadata').then((data) => {
         dispatch(setDatasetData(data));
       });
     }
