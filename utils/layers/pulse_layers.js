@@ -396,7 +396,7 @@ export const LAYERS_PLANET_PULSE = [
         id: 'd63fff22-8cda-467e-b4ef-df3ab2613505',
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d', '47a1b1d7-e5ad-4b79-9f52-bc9435c6ca06'],
         contextLayersOnTop: false,
-        '3d': false,
+        '3d': true,
         markerType: 'bar',
         widgets: [],
         descriptionPulse:

@@ -187,7 +187,7 @@ class LayerCardComponent extends PureComponent {
               route="explore_detail"
               params={{ id: datasetId }}
             >
-              <a className="c-button -tertiary link_button" >Explore the data</a>
+              <a className="c-button -tertiary link_button" >Details</a>
             </Link>
           }
           { subscribable &&
