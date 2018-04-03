@@ -2,11 +2,6 @@
 .c-page-section {
   padding: $margin-size-small 0;
 
-  // .page-home & {
-  //   padding-top: $margin-size-big;
-  //   padding-bottom: $margin-size-big;
-  // }
-
   &.-small {
     padding: $margin-size-small 0;
   }
@@ -23,4 +18,5 @@
   @media screen and (min-width: map-get($breakpoints, medium)) {
     padding: $margin-size * 2 0;
   }
+
 }
