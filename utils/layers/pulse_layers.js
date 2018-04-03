@@ -8,7 +8,7 @@ export const LAYERS_PLANET_PULSE = [
     label: 'Land use',
     layers: [
       {
-        label: 'Crop and vegitation health',
+        label: 'Crop and vegetation health',
         id: '17b9bf19-e116-4a22-b71a-fe67ce7fd552',
         '3d': false,
         descriptionPulse:
