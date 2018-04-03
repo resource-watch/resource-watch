@@ -95,30 +95,30 @@ class LayerCardComponent extends PureComponent {
             Number of objects: {layerPoints.length}
           </div>
         }
-        {layerName &&
-          <div className="layer-container">
-            <span>{layerName}</span>
-            <button
-              type="button"
-              className="info"
-              aria-label="More information"
-              onClick={() => this.setState({ showInfoModal: true })}
-            >
-              <Icon name="icon-info" />
-
-              <Modal
-                isOpen={showInfoModal}
-                className="-medium"
-                onRequestClose={() => this.setState({ showInfoModal: false })}
-              >
-                <LayerInfoModal
-                  data={layerActive && layerActive.attributes}
-                />
-              </Modal>
-            </button>
-          </div>
-        }
         <div className="legends">
+          {layerName &&
+            <div className="layer-container">
+              <span>{layerName}</span>
+              <button
+                type="button"
+                className="info"
+                aria-label="More information"
+                onClick={() => this.setState({ showInfoModal: true })}
+              >
+                <Icon name="icon-info" />
+
+                <Modal
+                  isOpen={showInfoModal}
+                  className="-medium"
+                  onRequestClose={() => this.setState({ showInfoModal: false })}
+                >
+                  <LayerInfoModal
+                    data={layerActive && layerActive.attributes}
+                  />
+                </Modal>
+              </button>
+            </div>
+          }
           <Legend
             layerActive={layerActive}
             className={{ color: '-dark' }}
@@ -127,10 +127,33 @@ class LayerCardComponent extends PureComponent {
             <div className="context-layers-legends">
               {
                 activeContextLayers.map(ctLayer => (
-                  <Legend
-                    layerActive={ctLayer}
-                    className={{ color: '-dark' }}
-                  />
+                  <div>
+                    <div className="layer-container">
+                      <span>{layerName}</span>
+                      <button
+                        type="button"
+                        className="info"
+                        aria-label="More information"
+                        onClick={() => this.setState({ showInfoModal: true })}
+                      >
+                        <Icon name="icon-info" />
+
+                        <Modal
+                          isOpen={showInfoModal}
+                          className="-medium"
+                          onRequestClose={() => this.setState({ showInfoModal: false })}
+                        >
+                          <LayerInfoModal
+                            data={layerActive && layerActive.attributes}
+                          />
+                        </Modal>
+                      </button>
+                    </div>
+                    <Legend
+                      layerActive={ctLayer}
+                      className={{ color: '-dark' }}
+                    />
+                  </div>
                 ))
               }
             </div>

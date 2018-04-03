@@ -55,22 +55,26 @@
     }
   }
 
-  .layer-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-    text-transform: uppercase;
-    font-size: $font-size-extra-small;
-    font-weight: bold;
+  .legends {
+    overflow: auto;
 
-    button {
-      padding: 0px;
-      cursor: pointer;
+    .layer-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      text-transform: uppercase;
+      font-size: $font-size-extra-small;
+      font-weight: bold;
 
-      svg {
-        width: 15px;
-        height: 15px;
+      button {
+        padding: 0px;
+        cursor: pointer;
+
+        svg {
+          width: 15px;
+          height: 15px;
+        }
       }
     }
   }
