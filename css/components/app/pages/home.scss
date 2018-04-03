@@ -19,6 +19,13 @@
       pointer-events: none;
     }
 
+    @media (min-aspect-ratio: 16/9) {
+      .video-foreground { height: 300%; top: -100%; }
+    }
+    @media (max-aspect-ratio: 16/9) {
+      .video-foreground { height: 250%; top: -75%; }
+    }
+
     .video-foreground {
       opacity: 0;
       transition: opacity 2s;
@@ -64,13 +71,6 @@
       justify-content: space-between;
       align-items: center;
     }
-  }
-
-  @media (min-aspect-ratio: 16/9) {
-    .video-intro >.video-foreground { height: 300%; top: -100%; }
-  }
-  @media (max-aspect-ratio: 16/9) {
-    .video-intro > .video-foreground { height: 250%; top: -75%; }
   }
 
   .topics-container {

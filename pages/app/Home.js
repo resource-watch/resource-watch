@@ -2,12 +2,14 @@
 import React from 'react';
 import { Link, Router } from 'routes';
 
+// Utils
+import { breakpoints } from 'utils/responsive';
+
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { getInsights } from 'redactions/insights';
 import * as topicsActions from 'layout/topics/topics-actions';
-import YouTube from 'react-youtube';
 
 // Layout
 import Page from 'layout/page';
@@ -18,6 +20,8 @@ import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
 import Rating from 'components/app/common/Rating';
 import TopicThumbnailList from 'components/topics/thumbnail-list';
+import YouTube from 'react-youtube';
+import MediaQuery from 'react-responsive';
 
 // Modal
 import Modal from 'components/modal/modal-component';
@@ -163,7 +167,9 @@ class Home extends Page {
 
     this.state = {
       showNewsletterModal: false,
-      videoReady: false
+      videoReady: false,
+      videoHeight: 0,
+      videoWidth: 0
     };
   }
 
@@ -175,19 +181,23 @@ class Home extends Page {
     this.setState({ showNewsletterModal: bool });
   }
 
-  onVideoReady = () => {
-    if (YT.PlayerState.PLAYING === 1) { // eslint disable
+  onVideoStateChange = (state) => {
+    const { data } = state;
+    if (data === 1) { // eslint disable
       this.setState({ videoReady: true });
+    } else {
+      this.setState({ videoReady: false });
     }
   }
 
   render() {
-    const { insights } = this.props;
+    const { insights, responsive } = this.props;
     const { videoReady } = this.state;
     const insightsCardsStatic = Home.insightsCardsStatic(insights);
     const exploreCardsStatic = Home.exploreCardsStatic();
-    const opts = {
+    const videoOpts = {
       playerVars: {
+        modestbranding: 1,
         autoplay: 1,
         controls: 0,
         showinfo: 0,
@@ -205,13 +215,18 @@ class Home extends Page {
         className="page-home"
       >
         <div className="video-intro">
-          <div className={`video-foreground ${videoReady ? '-ready' : ''}`}>
-            <YouTube
-              videoId="XryMlA-8IwE"
-              opts={opts}
-              onStateChange={this.onVideoReady}
-            />
-          </div>
+          <MediaQuery
+            minDeviceWidth={breakpoints.medium}
+            values={{ deviceWidth: responsive.fakeWidth }}
+          >
+            <div className={`video-foreground ${videoReady ? '-ready' : ''}`}>
+              <YouTube
+                videoId="XryMlA-8IwE"
+                opts={videoOpts}
+                onStateChange={this.onVideoStateChange}
+              />
+            </div>
+          </MediaQuery>
           <div className="video-text">
             <div>
               <h1>Monitoring the Planet&rsquo;s Pulse</h1>
@@ -359,15 +374,15 @@ class Home extends Page {
             </div>
           </div>
         </Banner>
-
-
-
       </Layout>
     );
   }
 }
 
-const mapStateToProps = state => ({ insights: state.insights.list });
+const mapStateToProps = state => ({
+  insights: state.insights.list,
+  responsive: state.responsive
+});
 
 const mapDispatchToProps = {
   getInsights
