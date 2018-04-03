@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import findIndex from 'lodash/findIndex';
 
 import Icon from 'components/ui/Icon';
 
@@ -16,7 +15,7 @@ class LayerMenuNativeComponent extends PureComponent {
               triggerClick(null);
             } else {
               layers.forEach((g) => {
-                const index = findIndex(g.layers, layer => event.target.value === layer.label);
+                const index = g.layers.findIndex(layer => event.target.value === layer.label);
                 if (index !== -1) {
                   triggerClick(g.layers[index]);
                 }
