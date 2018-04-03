@@ -24,7 +24,7 @@ class LayerContainerComponent extends PureComponent {
     );
   }
 }
-// setDisplayed
+
 LayerContainerComponent.propTypes = {
   displayed: PropTypes.bool,
   layerActive: PropTypes.object,
