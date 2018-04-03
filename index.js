@@ -152,7 +152,7 @@ app.prepare()
       const { service } = req.params;
 
       // Returning user data
-      if (service === 'user') return res.json(req.user || {}));
+      if (service === 'user') return res.json(req.user || {});
 
       if (!/facebook|google|twitter/.test(service)) {
         return res.redirect('/');
