@@ -67,11 +67,11 @@ class LayerCardComponent extends PureComponent {
     const { layerMenuPulse, layerCardPulse, activeContextLayers } = this.props;
     const { layerActive, layerPoints } = layerMenuPulse;
     const { dataset, widget } = layerCardPulse;
-    const subscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
-      Object.keys(dataset.attributes.subscribable).length > 0;
+    const subscribable = dataset && dataset.subscribable &&
+      Object.keys(dataset.subscribable).length > 0;
 
-    const source = dataset && dataset.attributes && dataset.attributes.metadata &&
-      dataset.attributes.metadata[0].attributes.source;
+    const source = dataset && dataset.metadata &&
+      dataset.metadata[0].attributes.source;
     const layerName = layerActive && layerActive.attributes && layerActive.attributes.name;
 
     const className = classNames({
