@@ -151,6 +151,9 @@ app.prepare()
     server.get('/auth/:service', (req, res) => {
       const { service } = req.params;
 
+      // Returning user data
+      if (service === 'user') return res.json(req.user || {}));
+
       if (!/facebook|google|twitter/.test(service)) {
         return res.redirect('/');
       }
@@ -172,7 +175,6 @@ app.prepare()
     });
 
     // Routes with required authentication
-    server.get('/auth/user', (req, res) => res.json(req.user || {}));
     server.get('/myrw-detail*?', isAuthenticated, handleUrl); // TODO: review these routes
     server.get('/myrw*?', isAuthenticated, handleUrl);
     server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);
