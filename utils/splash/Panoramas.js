@@ -1,5 +1,7 @@
 import React from 'react';
 
+const ORIGIN = (typeof window !== 'undefined') ? window.location.origin : 'https://staging.resourcewatch.org';
+
 export const PANORAMAS = [
   {
     name: 'coral',
@@ -76,13 +78,20 @@ export const PANORAMAS = [
             markup:
               <div>
                 <div className="image-container">
-                  <iframe src="https://staging.resourcewatch.org/embed/map/bc0ceb8f-f06c-4c3c-8433-548e900ff93b" width="100%" height="400" frameBorder="0"></iframe>
+                  <iframe
+                    title="Fisheries rely on reefs"
+                    src={`${ORIGIN}/embed/map/bc0ceb8f-f06c-4c3c-8433-548e900ff93b`}
+                    width="100%"
+                    height="400"
+                    frameBorder="0"
+                  />
+
                   <div className="caption">
                     <i>Which countries depend most on coral reefs? Click and drag the map to explore. (Data source: WRI <a href="https://resourcewatch.org/data/explore/894f43a8-ce8e-43a5-a4c7-fa80faa43d63" target="_blank" rel="noopener noreferrer">Reefs at Risk</a>)</i>
                   </div>
                 </div>
                 <p>Coral reef fisheries employ more than <a href="http://www.reefresilience.org/coral-reef-fisheries-module/coral-reef-fisheries/overfishing/" target="_blank" rel="noopener noreferrer">6 million fishers and gleaners</a> and are worth an estimated <a href="http://www.reefresilience.org/pdf/Reefs_at_Risk_Revisited.pdf" target="_blank" rel="noopener noreferrer">$6.8 billion</a> per year.</p>
-                <p>Reef fish are an important source of protein for many people, especially in developing countries, where they can contribute up to <a href="http://www.reefresilience.org/coral-reefs/reefs-and-resilience/value-of-reefs/" target="_blank" rel="noopener noreferrer">one quarter</a> of the total fish catch. (Reef fish feed <a href="http://www.reefresilience.org/coral-reefs/reefs-and-resilience/value-of-reefs/" target="_blank" rel="noopener noreferrer">an estimated one billion people</a> in Asia alone.) Global fish stocks are under significant pressure, however, with <a href="http://www.theoceaniseverybodysbusiness.org/take-action/only-consume-sustainable-seafood/" target="_blank" rel="noopener noreferrer">90</a> percent either fully fished, overfished or depleted.</p>
+                <p>Reef fish are an important source of protein for many people, especially in developing countries, where they can contribute up to <a href="http://www.reefresilience.org/coral-reefs/reefs-and-resilience/value-of-reefs/" target="_blank" rel="noopener noreferrer">one quarter</a> of the total fish catch. (Reef fish feed <a href="http://www.reefresilience.org/coral-reefs/reefs-and-resilience/value-of-reefs/" target="_blank" rel="noopener noreferrer">an estimated one billion people</a> in Asia alone.) Global fish stocks are under significant pressure, however, with <a href="http://www.theoceaniseverybodysbusiness.org/take-action/only-consume-sustainable-seafood/" target="_blank" rel="noopener noreferrer">90 percent</a> either fully fished, overfished or depleted.</p>
               </div>,
             image: '/static/images/splash/1-3_fisheries_rely_on_reefs.png',
             imageSelected: '/static/images/splash/1-3_fisheries_rely_on_reefs-active.png',
@@ -115,20 +124,17 @@ export const PANORAMAS = [
             rotation: '0 0 0',
             markup:
               <div>
+                <div className="image-container">
+                  <img src="/static/images/splash/coral_reef_palmyra.jpg" alt="A coral reef at Palmyra Atoll National Wildlife Refuge"/>
+                  <div className="caption">
+                    <i>A coral reef at Palmyra Atoll National Wildlife Refuge. <br/>Image courtesy USFWS/Jim Maragos</i>
+                  </div>
+                </div>
                 <p>
                   A recent <a href="http://science.sciencemag.org/content/359/6371/80" target="_blank" rel="noopener noreferrer">study</a> found that tropical coral reefs are heading into “a new era” in which bleaching occurs too frequently for corals to bounce back. The study drew its findings from 100 tropical reefs around the world.
                 </p>
                 <p>
                   In the 1980s, as climate change magnified thermal stress from strong El Niño events, bouts of global bleaching began to occur. The study says that the past two decades have witnessed a new trend: regional-scale bleaching even in years outside El Niño periods. (Before 1980, bleaching at a regional scale was seldom seen.)
-                </p>
-                <div className="image-container">
-                  <iframe src="https://staging.resourcewatch.org/embed/widget/fdaabfda-9562-4562-a124-67c987a7e156" width="100%" height="474" frameBorder="0"></iframe>
-                  <div className="caption">
-                    <i>Severe and moderate bleaching by year in the study locations. Strong El Niño periods occurred 1982-1983, 1997-1998, 2009-2010 and 2015-2016. Data source: Hughes, et. al. study in <a href="http://science.sciencemag.org/content/359/6371/80.full" target="_blank" rel="noopener noreferrer">Science</a>.</i>
-                  </div>
-                </div>
-                <p>
-                  Here, severe bleaching refers to locations in which at least 30 percent of corals bleached at a scale of between tens and hundreds of kilometers. (Moderate bleaching refers to sites where less than 30 percent of corals bleached to that extent.)
                 </p>
                 <p>
                   The study found that 42% of severe bleaching events among the reefs have occurred during hot summers outside of El Niño periods. As climate change progresses, the study notes, “average tropical sea surface temperatures are warmer today under La Niña conditions than they were during El Niño events only three decades ago.”
@@ -181,8 +187,8 @@ export const PANORAMAS = [
               </h3>
               <ul>
                 <li><strong>First Event (1998):</strong> <a href="http://www.globalcoralbleaching.org/" target="_blank" rel="noopener noreferrer">Sixteen percent of corals worldwide</a> died in 1998 during the first global bleaching event. In 1997, a strong El Niño, followed by an equally strong La Niña, <a href="http://www.noaanews.noaa.gov/stories2015/100815-noaa-declares-third-ever-global-coral-bleaching-event.html" target="_blank" rel="noopener noreferrer">dramatically raised</a> global ocean surface temperatures. This change, on top of ocean warming from climate change, led to the first global coral bleaching event in 1998.</li>
-                <li><strong>Second Event (2010):</strong> 2010 was the <a href="https://www.nasa.gov/topics/earth/features/2010-warmest-year.html" target="_blank" rel="noopener noreferrer">fifth-hottest year on record.</a> Warm ocean temperatures and <a href="https://news.agu.org/press-release/el-nino-prolongs-longest-global-coral-bleaching-event/" target="_blank" rel="noopener noreferrer">a moderate El Niño</a> touched off another global bleaching event, affecting reefs in <a href="https://www.nature.com/news/2010/101119/full/news.2010.621.html" target="_blank" rel="noopener noreferrer">every ocean and major sea</a> where corals are found.</li>
-                <li><strong>Third Event (2014-2017):</strong> This has been the <a href="http://www.noaa.gov/media-release/global-coral-bleaching-event-likely-ending" target="_blank" rel="noopener noreferrer">longest and most widespread</a> global coral bleaching event to date. From 2014 to 2017, coral reefs around the world experienced higher-than-normal ocean temperatures, fueled by a partial <a href="https://coralreefwatch.noaa.gov/satellite/analyses_guidance/global_coral_bleaching_2014-17_status.php" target="_blank" rel="noopener noreferrer">El Niño in 2014-15</a> and worsened in the following years by a strong El Niño and a La Niña. This is the event that caused the bleaching here at Airport Reef. The Great Barrier Reef was heavily affected in 2016 and again in early 2017, leaving the <a href="http://www.noaa.gov/media-release/us-coral-reefs-facing-warming-waters-increased-bleaching" target="_blank" rel="noopener noreferrer">majority of corals bleached.</a></li>
+                <li><strong>Second Event (2010):</strong> 2010 was the <a href="http://www.climatecentral.org/gallery/graphics/the-10-hottest-global-years-on-record" target="_blank" rel="noopener noreferrer">fifth-hottest year on record.</a> Warm ocean temperatures and <a href="https://news.agu.org/press-release/el-nino-prolongs-longest-global-coral-bleaching-event/" target="_blank" rel="noopener noreferrer">a moderate El Niño</a> touched off another global bleaching event, affecting reefs in <a href="https://www.nature.com/news/2010/101119/full/news.2010.621.html" target="_blank" rel="noopener noreferrer">every ocean and major sea</a> where corals are found.</li>
+                <li><strong>Third Event (2014-2017):</strong> This has been the <a href="http://www.noaa.gov/media-release/global-coral-bleaching-event-likely-ending" target="_blank" rel="noopener noreferrer">longest and most widespread</a> global coral bleaching event to date. From 2014 to 2017, coral reefs around the world experienced higher-than-normal ocean temperatures, fueled by a partial <a href="https://coralreefwatch.noaa.gov/satellite/analyses_guidance/global_coral_bleaching_2014-17_status.php" target="_blank" rel="noopener noreferrer">El Niño in 2014-15</a> and worsened in the following years by a strong El Niño and a La Niña. This is the event that caused the bleaching here at Airport Reef. The Great Barrier Reef was heavily affected <a href="https://www.npr.org/sections/thetwo-way/2017/04/10/523254085/great-barrier-reef-hit-by-bleaching-for-the-second-year-in-a-row" target="_blank" rel="noopener noreferrer">in 2016 and again in early 2017</a>, leaving the <a href="http://www.noaa.gov/media-release/us-coral-reefs-facing-warming-waters-increased-bleaching" target="_blank" rel="noopener noreferrer">majority of corals bleached.</a></li>
               </ul>
             </div>,
             image: '/static/images/splash/global_coral_bleaching_events.png',
@@ -237,19 +243,30 @@ export const PANORAMAS = [
             markup:
               <div>
                 <p>
-                  The National Oceanic and Atmospheric Organization (NOAA) announced in summer 2017 that the third global coral bleaching event <a href="http://www.noaa.gov/media-release/global-coral-bleaching-event-likely-ending" target="_blank" rel="noopener noreferrer">appeared to be on the wane.</a> But it’s a temporary reprieve. As this map reveals, things are set to get much worse.
+                  The National Oceanic and Atmospheric Administration (NOAA) announced in summer 2017 that the third global coral bleaching event <a href="http://www.noaa.gov/media-release/global-coral-bleaching-event-likely-ending" target="_blank" rel="noopener noreferrer">appeared to be on the wane.</a> But it’s a temporary reprieve. As this map reveals, things are set to get much worse.
                 </p>
                 <div className="image-container">
-                	<iframe src="https://staging.resourcewatch.org/embed/data/explore?zoom=3&lat=-0.9081686709296029&lng=-189.28712189197543&basemap=dark&labels=light&layers=%255B%257B%2522dataset%2522%253A%25221ef55baf-bbbe-480d-85e9-7132c742f196%2522%252C%2522opacity%2522%253A1%252C%2522visible%2522%253Atrue%252C%2522layer%2522%253A%2522dc2c2cc8-a351-4221-ad16-0671bc430ada%2522%257D%255D&page=1&sort=updatedAt&sortDirection=-1&search=bleaching" width="100%" height="500px" frameBorder="0" />
+
+                  <iframe
+                    title="Coral bleaching, whats next"
+                    src={`${ORIGIN}/embed/data/explore?zoom=3&lat=-0.9081686709296029&lng=-189.28712189197543&basemap=dark&labels=light&layers=%255B%257B%2522dataset%2522%253A%25221ef55baf-bbbe-480d-85e9-7132c742f196%2522%252C%2522opacity%2522%253A1%252C%2522visible%2522%253Atrue%252C%2522layer%2522%253A%2522dc2c2cc8-a351-4221-ad16-0671bc430ada%2522%257D%255D&page=1&sort=updatedAt&sortDirection=-1&search=bleaching`}
+                    width="100%"
+                    height="500px"
+                    frameBorder="0"
+                  />
+
                   <div className="caption">
                     <i>Data source: WRI <a href="https://resourcewatch.org/data/explore/894f43a8-ce8e-43a5-a4c7-fa80faa43d63" target="_blank" rel="noopener noreferrer">Reefs at Risk</a>, adapted from Donner, S.D., 2009 <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0005712" target="_blank" rel="noopener noreferrer">study in PLoS ONE.</a></i>
                   </div>
                 </div>
                 <p>
-                  This map shows the projected frequency of what NOAA calls <a href="http://coralreefwatch-satops.noaa.gov/" target="_blank" rel="noopener noreferrer">Bleaching Alert Level 2 Events</a> for the 2030s and 2050s. (Specifically, it shows the percentage of years in each decade in which these events will likely occur.) A Bleaching Alert Level 2 Event is basically code red for corals, indicating intense heat stress and a likelihood that the corals will die.
+                  This map shows the projected frequency of what NOAA calls <a href="http://coralreefwatch-satops.noaa.gov/" target="_blank" rel="noopener noreferrer">Bleaching Alert Level 2 Events</a> for the 2030s and 2050s. (Specifically, it shows the percentage of years in each decade in which these events will likely occur.) A Bleaching Alert Level 2 Event indicates intense heat stress and a likelihood that the corals will die.
                 </p>
                 <p>
                   The brighter the color, the more frequently these events are likely to occur. So, that wash of yellow and green that spreads across the map? It signifies a dramatic rise in both the range and frequency of the most severe levels of bleaching if carbon emissions continue unchecked.
+                </p>
+                <p>
+                  An analysis in WRI&rsquo;s <a href="http://www.wri.org/publication/reefs-risk-revisited" target='_blank' rel="noopener noreferrer">Reefs at Risk Revisited</a> report found that, under a “business-as-usual” scenario for greenhouse gas emissions, roughly half of the world’s reefs could experience enough thermal stress to induce severe bleaching in five out of ten years during the 2030s. During the 2050s, this percentage is expected to grow to more than 95 percent.
                 </p>
               </div>,
             image: '/static/images/splash/3-3_coral_bleaching__whats_next.png',

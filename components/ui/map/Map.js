@@ -273,8 +273,8 @@ class Map extends React.Component {
       onLayerAddedSuccess: onLayerAdded,
       onLayerAddedError: onLayerAdded,
       onLayerClick: (layer) => {
-        this.props.setLayerInteractionLatLng(layer.latlng);
-        this.props.setLayerInteraction(layer);
+        this.props.setLayerInteractionLatLng && this.props.setLayerInteractionLatLng(layer.latlng);
+        this.props.setLayerInteraction && this.props.setLayerInteraction(layer);
       }
     });
   }

@@ -36,7 +36,7 @@ class SplashDetail extends Page {
     const earthMode = props.url.query.earthMode;
 
     this.state = {
-      skyLoading: false,
+      skyLoading: true,
       panorama,
       selectedPanorama,
       soundActivated: false,
@@ -45,6 +45,7 @@ class SplashDetail extends Page {
       mouseHovering: false,
       modalOpen: false,
       introOpened: true,
+      hideDragHelp: false,
       copied: { }
     };
 
@@ -63,6 +64,16 @@ class SplashDetail extends Page {
     this.panoramaSky = document.getElementById('panorama-sky');
     if (this.panoramaSky) {
       this.panoramaSky.addEventListener('materialtextureloaded', this.handleImageLoaded);
+    }
+
+    const camera = document.getElementById('camera');
+
+    if (camera) {
+      camera.addEventListener('componentchanged', (e) => {
+        const { name } = e.detail;
+        if (name !== 'rotation' || this.state.hideDragHelp) return;
+        this.setState({ hideDragHelp: true });
+      });
     }
 
     this.addEventListenersToHotspots();
@@ -174,7 +185,8 @@ class SplashDetail extends Page {
       selectedHotspot,
       earthMode,
       mouseHovering,
-      introOpened
+      introOpened,
+      hideDragHelp
     } = this.state;
     const skyImage = selectedPanorama && selectedPanorama.image;
     const hotspots = selectedPanorama && selectedPanorama.hotspots;
@@ -220,13 +232,14 @@ class SplashDetail extends Page {
                   tabIndex={0}
                   role="button"
                   onClick={() => this.onCopyClick('link')}
+                  onKeyDown={() => this.onCopyClick('link')}
                 >
                   {this.state.copied.link ? 'Copied' : 'Copy link'}
                 </a>
 
                 <div className="card-footer">
                   <Link
-                    route="pulse"
+                    route="splash"
                   >
                     <a className="c-button -secondary -fullwidth">
                       Earth view
@@ -352,10 +365,12 @@ class SplashDetail extends Page {
                     }
                   </a-assets>
                 }
-
                 { /* 360-degree image */ }
-                {!earthMode &&
-                  <a-sky id="panorama-sky" src={skyImage} />
+                {!earthMode && skyLoading &&
+                  <a-sky id="panorama-sky" src={skyImage} color="#393f44" />
+                }
+                {!earthMode && !skyLoading &&
+                  <a-sky id="panorama-sky" src={skyImage}/>
                 }
                 {earthMode &&
                   <a-sky id="panorama-sky" src="../../static/images/splash/earthExperiment.jpg" />
@@ -389,8 +404,15 @@ class SplashDetail extends Page {
                 })}
 
                 { /* Camera */ }
-                <a-camera look-controls="reverseMouseDrag: true" />
+                <a-camera id="camera" look-controls="reverseMouseDrag: true" />
+
               </a-scene>
+
+              {!hideDragHelp &&
+              <div className="drag-help">
+                <img src="../../static/images/splash/drag.svg" alt="Drag" />
+              </div>}
+
             </div>
             <Modal
               open={this.state.modalOpen}
