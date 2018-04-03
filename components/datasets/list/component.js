@@ -11,10 +11,7 @@ class DatasetList extends PureComponent {
     mode: PropTypes.string,
     grid: PropTypes.object,
     actions: PropTypes.node,
-    tags: PropTypes.node,
-
-    // CALLBACKS
-    onTagSelected: PropTypes.func
+    tags: PropTypes.node
   };
 
   static defaultProps = {
@@ -24,14 +21,12 @@ class DatasetList extends PureComponent {
       large: 'large-4',
       xlarge: 'xlarge-4',
       xxlarge: 'xxlarge-4'
-    },
-
-    onTagSelected: (t) => { console.info(t); }
+    }
   }
 
   render() {
     const {
-      list, mode, actions, tags, grid, onTagSelected
+      list, mode, actions, tags, grid
     } = this.props;
 
     const columnClassName = classNames({
@@ -63,7 +58,6 @@ class DatasetList extends PureComponent {
                     mode={mode}
                     actions={actions}
                     tags={tags}
-                    onTagSelected={onTagSelected}
                   />
                 </div>
               ))}
