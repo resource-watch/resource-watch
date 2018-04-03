@@ -75,7 +75,7 @@ class LayerCardComponent extends PureComponent {
 
     return (
       <div className={className}>
-        <h3>{layerActive && layerActive.attributes.name}</h3>
+        <h3>{layerActive && layerActive.label}</h3>
         {layerActive && layerActive.descriptionPulse}
         {layerPoints && layerPoints.length > 0 &&
           <div className="number-of-points">

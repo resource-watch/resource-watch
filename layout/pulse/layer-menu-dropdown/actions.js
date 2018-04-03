@@ -18,7 +18,8 @@ export const toggleActiveLayer = createThunkAction('layer-menu-dropdown/toggleAc
   basemap,
   contextLayers,
   descriptionPulse,
-  contextLayersOnTop
+  contextLayersOnTop,
+  label
 }) =>
   (dispatch) => {
     if (id) {
@@ -41,6 +42,7 @@ export const toggleActiveLayer = createThunkAction('layer-menu-dropdown/toggleAc
           layer.basemap = basemap;
           layer.contextLayers = [];
           layer.descriptionPulse = descriptionPulse;
+          layer.label = label;
 
           layerGlobeManager.addLayer(
             layer.attributes,
