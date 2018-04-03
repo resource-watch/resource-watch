@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import Hammer from 'react-hammerjs';
 
 class LayerContainerComponent extends PureComponent {
@@ -12,12 +13,17 @@ class LayerContainerComponent extends PureComponent {
 
   render() {
     const { displayed, children } = this.props;
+    const classNames = classnames({
+      'c-layer-container': true,
+      '-displayed': displayed
+    });
+
     return (
       <Hammer
         onSwipe={() => this.handleSwipe()}
         direction="DIRECTION_VERTICAL"
       >
-        <div className={`c-layer-container ${displayed ? '-displayed' : ''}`}>
+        <div className={classNames}>
           {children}
         </div>
       </Hammer>
