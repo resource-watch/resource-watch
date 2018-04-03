@@ -218,7 +218,7 @@ class Home extends Page {
               <p>Resource Watch provides trusted and timely data for a sustainable future.</p>
               <Link route="explore">
                 <a
-                  className="c-button -secondary"
+                  className="c-button -alt -primary"
                 >
                   Explore data
                 </a>
