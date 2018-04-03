@@ -7,8 +7,6 @@
 
 // Libraries
 @import '../node_modules/leaflet/dist/leaflet';
-@import '../lib/leaflet-side-by-side/layout';
-@import '../lib/leaflet-side-by-side/range';
 @import '../node_modules/slick-carousel/slick/slick.scss';
 @import '../node_modules/slick-carousel/slick/slick-theme.scss';
 @import '../node_modules/react-progress-2/main';
@@ -125,6 +123,8 @@
 @import "./components/map/map";
 @import "./components/map/map-controls";
 @import "./components/map/map-popup";
+@import './components/map/map-side-by-side-layout';
+@import './components/map/map-side-by-side-range';
 
 // Form
 @import '../node_modules/vizz-wysiwyg/build/rw';

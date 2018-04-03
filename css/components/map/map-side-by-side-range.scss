@@ -43,7 +43,7 @@
     cursor: ew-resize;
     pointer-events: auto;
     border: 1px solid #ddd;
-    background-image: url(range-icon.png);
+    background-image: url('/static/images/map/side-by-side-range-icon.png');
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: 40px 40px;
@@ -58,7 +58,7 @@
     cursor: ew-resize;
     pointer-events: auto;
     border: 1px solid #ddd;
-    background-image: url(range-icon.png);
+    background-image: url('/static/images/map/side-by-side-range-icon.png');
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: 40px 40px;
@@ -73,7 +73,7 @@
     cursor: ew-resize;
     pointer-events: auto;
     border: 1px solid #ddd;
-    background-image: url(range-icon.png);
+    background-image: url('/static/images/map/side-by-side-range-icon.png');
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: 40px 40px;
@@ -96,4 +96,3 @@
 .leaflet-sbs-range::-moz-focus-outer {
     border: 0;
 }
-

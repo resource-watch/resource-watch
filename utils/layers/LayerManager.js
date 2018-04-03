@@ -115,16 +115,50 @@ export default class LayerManager {
     });
   }
 
-  addNexGDDPLayer(layerData) {
-    const tileUrl = `${process.env.WRI_API_URL}/layer/${layerData.id}/tile/nexgddp/{z}/{x}/{y}`;
+  addNexGDDPLayer(layer) {
+    const tileUrl = `${process.env.WRI_API_URL}/layer/${layer.id}/tile/nexgddp/{z}/{x}/{y}`;
     const tileLayer = L.tileLayer(tileUrl).addTo(this.map);
-    this.mapLayers[layerData.id] = tileLayer;
+    this.mapLayers[layer.id] = tileLayer;
+
+    if (this.options.swipe && this.mapLayers[layer.id]) {
+      requestAnimationFrame(() => {
+        switch (layer.sideBySide) {
+          case 'left':
+            this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
+            break;
+          case 'right':
+            this.sideBySideControl.setRightLayers(this.mapLayers[layer.id]);
+            break;
+          default:
+            this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
+        }
+
+        this.map.invalidateSize();
+      });
+    }
   }
 
-  addGeeLayer(layerData) {
-    const tileUrl = `${process.env.WRI_API_URL}/layer/${layerData.id}/tile/gee/{z}/{x}/{y}`;
+  addGeeLayer(layer) {
+    const tileUrl = `${process.env.WRI_API_URL}/layer/${layer.id}/tile/gee/{z}/{x}/{y}`;
     const tileLayer = L.tileLayer(tileUrl).addTo(this.map);
-    this.mapLayers[layerData.id] = tileLayer;
+    this.mapLayers[layer.id] = tileLayer;
+
+    if (this.options.swipe && this.mapLayers[layer.id]) {
+      requestAnimationFrame(() => {
+        switch (layer.sideBySide) {
+          case 'left':
+            this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
+            break;
+          case 'right':
+            this.sideBySideControl.setRightLayers(this.mapLayers[layer.id]);
+            break;
+          default:
+            this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
+        }
+
+        this.map.invalidateSize();
+      });
+    }
   }
 
   addGeoJsonLayer(layer) {
@@ -138,6 +172,23 @@ export default class LayerManager {
         bounds.getNorthWest(),
         bounds.getSouthEast()
       ], { padding: [20, 20] });
+    }
+
+    if (this.options.swipe && this.mapLayers[layer.id]) {
+      requestAnimationFrame(() => {
+        switch (layer.sideBySide) {
+          case 'left':
+            this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
+            break;
+          case 'right':
+            this.sideBySideControl.setRightLayers(this.mapLayers[layer.id]);
+            break;
+          default:
+            this.sideBySideControl.setLeftLayers(this.mapLayers[layer.id]);
+        }
+
+        this.map.invalidateSize();
+      });
     }
   }
 
@@ -184,6 +235,23 @@ export default class LayerManager {
       }
       layer.addTo(this.map);
       this.mapLayers[layerData.id] = layer;
+
+      if (this.options.swipe) {
+        requestAnimationFrame(() => {
+          switch (layerSpec.sideBySide) {
+            case 'left':
+              this.sideBySideControl.setLeftLayers(this.mapLayers[layerSpec.id]);
+              break;
+            case 'right':
+              this.sideBySideControl.setRightLayers(this.mapLayers[layerSpec.id]);
+              break;
+            default:
+              this.sideBySideControl.setLeftLayers(this.mapLayers[layerSpec.id]);
+          }
+
+          this.map.invalidateSize();
+        });
+      }
     }
   }
 
@@ -245,6 +313,29 @@ export default class LayerManager {
           layerElement.style.zIndex = zIndex;
         }
         layerElement.id = layer.id;
+
+        if (this.options.swipe && this.mapLayers[layerSpec.id]) {
+          requestAnimationFrame(() => {
+            if (!this.mapLayers[layerSpec.id].getContainer) {
+              this.mapLayers[layerSpec.id].getContainer = () => layerElement;
+            }
+
+            console.log(this.mapLayers[layerSpec.id].getContainer);
+
+            switch (layerSpec.sideBySide) {
+              case 'left':
+                this.sideBySideControl.setLeftLayers(this.mapLayers[layerSpec.id]);
+                break;
+              case 'right':
+                this.sideBySideControl.setRightLayers(this.mapLayers[layerSpec.id]);
+                break;
+              default:
+                this.sideBySideControl.setLeftLayers(this.mapLayers[layerSpec.id]);
+            }
+
+            this.map.invalidateSize();
+          });
+        }
       });
 
       newLayer.addTo(this.map);

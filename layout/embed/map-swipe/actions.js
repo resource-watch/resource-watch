@@ -28,14 +28,23 @@ export const fetchLayerGroups = createThunkAction('EMBED-MAP-SWIPE/fetchLayerGro
     })
     .then(response => WRISerializer(response, { locale: common.locale }))
     .then((data) => {
+      const layerGroups = data
+        .sort((a, b) => {
+          const aIndex = payload.layers.findIndex(p => p === a.id);
+          const bIndex = payload.layers.findIndex(p => p === b.id);
+
+          return (aIndex > bIndex ? 1 : -1);
+        })
+        .map((l, i) => ({
+          dataset: l.dataset,
+          visible: true,
+          opacity: 1,
+          layers: [{ ...l, active: true, sideBySide: i === 0 ? 'left' : 'right' }]
+        }));
+
       dispatch(setLayerGroupsLoading(false));
       dispatch(setLayerGroupsError(null));
-      dispatch(setLayerGroups(data.map((l, i) => ({
-        dataset: l.dataset,
-        visible: true,
-        opacity: 1,
-        layers: [{ ...l, active: true, sideBySide: i === 0 ? 'left' : 'right' }]
-      }))));
+      dispatch(setLayerGroups(layerGroups));
     })
     .catch((err) => {
       dispatch(setLayerGroupsLoading(false));
