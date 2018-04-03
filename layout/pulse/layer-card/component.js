@@ -79,8 +79,6 @@ class LayerCardComponent extends PureComponent {
 
     const datasetId = (layerActive !== null) ? layerActive.attributes.dataset : null;
 
-    console.log('activeContextLayers', activeContextLayers);
-
     return (
       <div className={className}>
         <h3>{layerActive && layerActive.label}</h3>
