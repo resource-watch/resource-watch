@@ -5,7 +5,7 @@
     left: 0;
     width: 100%;
     transform: translateY(calc(100% - 96px));
-    transition: transform 0.3s ease-out;
+    transition: transform $animation-time $ease-in-out-cubic;
 
     .c-button {
       font-size: 11px;
