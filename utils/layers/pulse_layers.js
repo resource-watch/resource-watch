@@ -13,13 +13,13 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         descriptionPulse:
           <div className="description">
-            <p>
+            <div className="description-text">
         The vegetation health index (VHI) is an indicator of water and heat stress on crops and natural vegetation. Values below 40 may indicate reduced crop yields or greater fire risk. VHI is derived from data from the VIIRS sensor on the Suomi NPP satellite.
-            </p>
-            <p>
+            </div>
+            <div className="view-with-container">
               <strong>View with:</strong>
               <LayerPill layerId="c7e76588-6da5-4645-8842-2d2ac0001110" label="Cropland" />
-            </p>
+            </div>
           </div>,
         contextLayers: ['c7e76588-6da5-4645-8842-2d2ac0001110'],
         contextLayersOnTop: true,
@@ -35,15 +35,15 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         descriptionPulse:
           <div className="description">
-            <p>
+            <div className="description-text">
               Trees are cut for timber or cleared for agriculture, mining and development. FORMA Active Clearing Alerts detect likely tree cover loss across the tropics using data from the MODIS sensors aboard NASA’s Terra and Aqua satellites. Data only covers select countries.
-            </p>
-            <p>
+            </div>
+            <div className="view-with-container">
               <strong>View with:</strong>
               <LayerPill layerId="7a270c3a-1161-4fb2-a613-090d3e603126" label="Forests" />
               <LayerPill layerId="ed051817-1cb3-42cc-91b5-1caaea6f8ca6" label="Forest loss" />
               <LayerPill layerId="bd9ec0da-84a0-4429-bf30-ffcbe64fbe7b" label="Data coverage" />
-            </p>
+            </div>
           </div>,
         contextLayers: ['7a270c3a-1161-4fb2-a613-090d3e603126',
                         'ed051817-1cb3-42cc-91b5-1caaea6f8ca6',
@@ -105,7 +105,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <p>
-              Dust particles less than 10 microns in diameter from road dust, industrial pollution and other sources affect human health. These air quality measurements are collected from government and research sources by OpenAQ. 
+              Dust particles less than 10 microns in diameter from road dust, industrial pollution and other sources affect human health. These air quality measurements are collected from government and research sources by OpenAQ.
             </p>
             <p>
               <strong>View with:</strong>
@@ -170,7 +170,7 @@ export const LAYERS_PLANET_PULSE = [
     label: 'Climate',
     layers: [
       {
-        label: 'Temperature anomolies',
+        label: 'Temperature anomalies',
         id: 'f1d841cb-a959-4b54-8472-e28f794b2c6a',
         contextLayers: [],
         contextLayersOnTop: true,
@@ -327,7 +327,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <p>
-              People who wish to be resettled in another country can apply for refugee status with a specific destination country. 38 European and 6 non-European countries report the number of asylum requests they receive each month to the United Nations High Commission on Refugees. 
+              People who wish to be resettled in another country can apply for refugee status with a specific destination country. 38 European and 6 non-European countries report the number of asylum requests they receive each month to the United Nations High Commission on Refugees.
             </p>
             <p>
               <strong>View with:</strong>

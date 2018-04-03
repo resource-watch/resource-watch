@@ -26,11 +26,15 @@
 
   .description {
     min-height: 55px;
-    max-height: 100px;
-    overflow: auto;
+    max-height: 120px;
 
-    p {
-      margin-bottom: 0px;
+    .description-text {
+      max-height: 80px;
+      overflow: auto;
+    }
+
+    .view-with-container {
+
     }
 
     .c-button {
