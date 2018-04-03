@@ -34,12 +34,12 @@ class EmbedMapSwipe extends React.Component {
 
     return (
       <LayoutEmbed
-        title="Map swipe"
+        title="Map comparison"
         description=""
       >
         <div className="c-embed-widget">
           <div className="widget-title">
-            Map swipe
+            Map comparison
           </div>
 
           <div
@@ -57,13 +57,13 @@ class EmbedMapSwipe extends React.Component {
               layerGroups={layerGroups}
               LayerManager={LayerManager}
             />
-
           </div>
 
-          <div className="widget-footer">
+          <div className="widget-content-row">
             {layerGroups.map((lg, i) => (
               <Legend
                 key={`${lg.id}${i}`}
+                maxWidth="50%"
                 sortable={false}
                 collapsable={false}
                 maxHeight={150}
@@ -72,18 +72,22 @@ class EmbedMapSwipe extends React.Component {
               />
             ))}
           </div>
+
           {/* {isLoadedExternally && (
             <div className="widget-footer">
-              Powered by
-              <a href="/" target="_blank" rel="noopener noreferrer">
-                <img
-                  className="embed-logo"
-                  src="/static/images/logo-embed.png"
-                  alt="Resource Watch"
-                />
-              </a>
+              <div className="widget-footer">
+                Powered by
+                <a href="/" target="_blank" rel="noopener noreferrer">
+                  <img
+                    className="embed-logo"
+                    src="/static/images/logo-embed.png"
+                    alt="Resource Watch"
+                  />
+                </a>
+              </div>
             </div>
           )} */}
+
         </div>
       </LayoutEmbed>
     );

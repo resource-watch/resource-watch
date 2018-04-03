@@ -25,12 +25,20 @@ class EmbedMapSwipePage extends Page {
     // Fetch layers
     const { routes } = store.getState();
     const {
+      zoom,
+      lat,
+      lng,
       layers
     } = routes.query;
 
-    await store.dispatch(actions.fetchLayerGroups({
-      layers: ['5868a183-0f99-4c6d-93d1-8ddb7b4f2784', '155968b5-7c59-4065-9e3a-0a81d52d50de']
-    }));
+    if (zoom) store.dispatch(actions.setZoom(+zoom));
+    if (lat && lng) store.dispatch(actions.setLatLng({ lat: +lat, lng: +lng }));
+
+    if (layers && layers.split(',').length === 2) {
+      await store.dispatch(actions.fetchLayerGroups({
+        layers: layers.split(',')
+      }));
+    }
 
     return {
       ...props

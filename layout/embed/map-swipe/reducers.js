@@ -1,8 +1,11 @@
 import * as actions from './actions';
 
 export default {
-  [actions.setLayers]: (state, action) =>
-    ({ ...state, layers: action.payload }),
+  [actions.setZoom]: (state, action) =>
+    ({ ...state, zoom: action.payload }),
+
+  [actions.setLatLng]: (state, action) =>
+    ({ ...state, latLng: action.payload }),
 
   [actions.setLayerGroups]: (state, action) =>
     ({ ...state, layerGroups: action.payload }),

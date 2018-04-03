@@ -7,8 +7,8 @@
 
 // Libraries
 @import '../node_modules/leaflet/dist/leaflet';
-@import 'static/leaflet-side-by-side/layout';
-@import 'static/leaflet-side-by-side/range';
+@import '../lib/leaflet-side-by-side/layout';
+@import '../lib/leaflet-side-by-side/range';
 @import '../node_modules/slick-carousel/slick/slick.scss';
 @import '../node_modules/slick-carousel/slick/slick-theme.scss';
 @import '../node_modules/react-progress-2/main';

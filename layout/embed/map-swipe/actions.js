@@ -5,7 +5,8 @@ import WRISerializer from 'wri-json-api-serializer';
 import { createAction, createThunkAction } from 'redux-tools';
 
 // Actions
-export const setLayers = createAction('EMBED-MAP-SWIPE/setLayers');
+export const setZoom = createAction('EMBED-MAP-SWIPE/setZoom');
+export const setLatLng = createAction('EMBED-MAP-SWIPE/setLatLng');
 export const setLayerGroups = createAction('EMBED-MAP-SWIPE/setLayerGroups');
 export const setLayerGroupsLoading = createAction('EMBED-MAP-SWIPE/setLayerGroupsLoading');
 export const setLayerGroupsError = createAction('EMBED-MAP-SWIPE/setLayerGroupsError');
