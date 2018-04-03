@@ -2,23 +2,42 @@
   .share-input-container {
     position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-    border: 1px solid $border-color-1;
-    border-radius: 4px;
-    padding: 0 15px;
+    align-items: flex-start;
 
-    > * {
-      margin: 0 0 0 10px;
+    @media screen and (min-width: map-get($breakpoints, medium)) {
+      flex-direction: row;
+      align-items: center;
+      padding: 0 15px;
+      border: 1px solid $border-color-1;
+      border-radius: 4px;
 
-      &:first-child { margin: 0 }
+      > * {
+        margin: 0 0 0 10px;
+
+        &:first-child { margin: 0 }
+      }
     }
+
 
     .share-input {
       border: none;
       flex-grow: 1;
       height: 45px;
       max-width: 300px;
+      min-width: 250px;
+      border: 1px solid $border-color-1;
+      border-radius: 4px;
+      width: 100%;
+      padding: 0 15px;
+      margin-bottom: 10px;
+
+      @media screen and (min-width: map-get($breakpoints, medium)) {
+        border: 0;
+        margin-bottom: 0;
+        padding: 0;
+      }
     }
 
     .share-buttons {

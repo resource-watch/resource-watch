@@ -2,11 +2,12 @@
 import { connect } from 'react-redux';
 import * as actions from 'layout/explore/explore-actions';
 
-import ExploreDatasetsActionsComponent from './component';
+import ExploreDatasetsTagsComponent from './component';
 
 export default connect(
   state => ({
-    ...state.explore.map
+    ...state.explore.filters,
+    ...state.explore.tags
   }),
   actions
-)(ExploreDatasetsActionsComponent);
+)(ExploreDatasetsTagsComponent);

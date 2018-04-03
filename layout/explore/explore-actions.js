@@ -1,7 +1,11 @@
 import 'isomorphic-fetch';
 import queryString from 'query-string';
-import { createAction, createThunkAction } from 'redux-tools';
 import WRISerializer from 'wri-json-api-serializer';
+import sortBy from 'lodash/sortBy';
+import { createAction, createThunkAction } from 'redux-tools';
+
+// Utils
+import { TAGS_BLACKLIST } from 'utils/tags';
 
 // RESET
 export const resetExplore = createAction('EXPLORE/resetExplore');
@@ -151,3 +155,33 @@ export const setSortDirection = createAction('EXPLORE/setSortDirection');
 
 // SIDEBAR
 export const setSidebarOpen = createAction('EXPLORE/setSidebarOpen');
+
+// TAGS TOOLTIP
+export const setTags = createAction('EXPLORE/setTags');
+export const setTagsTooltip = createAction('EXPLORE/setTagsTooltip');
+export const setTagsLoading = createAction('EXPLORE/setTagsLoading');
+export const setTagsError = createAction('EXPLORE/setTagsError');
+export const resetTags = createAction('EXPLORE/resetTags');
+
+// Async actions
+export const fetchTags = createThunkAction('EXPLORE/fetchTags', tags => (dispatch) => {
+  dispatch(setTagsLoading(true));
+
+  return fetch(`${process.env.WRI_API_URL}/graph/query/concepts-inferred?concepts=${tags}&application=${process.env.APPLICATIONS}`)
+    .then((response) => {
+      if (response.status >= 400) throw Error(response.statusText);
+      return response.json();
+    })
+    .then(({ data }) => {
+      dispatch(setTags(sortBy(
+        data.filter(tag => !TAGS_BLACKLIST.includes(tag.id)),
+        t => t.label
+      )));
+      dispatch(setTagsLoading(false));
+      dispatch(setTagsError(null));
+    })
+    .catch((err) => {
+      dispatch(setTagsLoading(false));
+      dispatch(setTagsError(err.message));
+    });
+});

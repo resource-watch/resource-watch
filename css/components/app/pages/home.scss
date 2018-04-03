@@ -100,11 +100,31 @@
       bottom: 0;
       right: 0;
       background-color: rgba(0, 0, 0, .7);
+      border-radius: 4px;
     }
 
     div {
       z-index: 1;
     };
+
+    h3 {
+      font-weight: 600;
+      font-size: 20px;
+    }
+
+    h4 {
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    a:hover {
+      text-decoration: none;
+    }
+
+    .source-name a:hover {
+      text-decoration: underline;
+    }
   }
 
   .dual {
