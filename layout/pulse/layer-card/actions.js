@@ -1,23 +1,26 @@
 import { createAction, createThunkAction } from 'redux-tools';
+import 'isomorphic-fetch';
+import WRISerializer from 'wri-json-api-serializer';
 
 // Services
 import WidgetService from 'services/WidgetService';
-import DatasetService from 'services/DatasetService';
 
 export const setDatasetData = createAction('layer-card/setDatasetData');
 export const setWidget = createAction('layer-card/setWidget');
 
 export const loadDatasetData = createThunkAction('layer-card/loadDatasetData', params =>
-  (dispatch) => {
+  (dispatch, getState) => {
+    const { common } = getState();
     if (params && params.id) {
-      const datasetService = new DatasetService(params.id, {
-        apiURL: process.env.WRI_API_URL,
-        language: params.locale || 'en'
-      });
-
-      datasetService.fetchData().then((data) => {
-        dispatch(setDatasetData(data));
-      });
+      fetch(`${process.env.WRI_API_URL}/dataset/${params.id}?application=${process.env.APPLICATIONS}&language=${common.locale}&includes=metadata&page[size]=999`)
+        .then((response) => {
+          if (response.ok) return response.json();
+          throw new Error(response.statusText);
+        })
+        .then(response => WRISerializer(response, { locale: common.locale }))
+        .then((data) => {
+          dispatch(setDatasetData(data));
+        });
     } else {
       dispatch(setDatasetData(null));
     }

@@ -18,7 +18,8 @@ export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer
   basemap,
   contextLayers,
   descriptionPulse,
-  contextLayersOnTop
+  contextLayersOnTop,
+  label
 }) =>
   (dispatch, state) => {
     const { layerActive } = state().layerMenuPulse;
@@ -42,6 +43,7 @@ export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer
           layer.basemap = basemap;
           layer.contextLayers = [];
           layer.descriptionPulse = descriptionPulse;
+          layer.label = label;
 
           layerGlobeManager.addLayer(
             layer.attributes,

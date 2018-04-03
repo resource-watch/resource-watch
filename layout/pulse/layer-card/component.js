@@ -11,6 +11,8 @@ import { LAYERS_PLANET_PULSE } from 'utils/layers/pulse_layers';
 import Legend from 'layout/pulse/legend';
 import WidgetChart from 'components/charts/widget-chart';
 import LoginRequired from 'components/ui/login-required';
+import LayerInfoModal from 'components/modal/LayerInfoModal';
+import Icon from 'components/ui/Icon';
 
 // Modal
 import Modal from 'components/modal/modal-component';
@@ -22,7 +24,8 @@ class LayerCardComponent extends PureComponent {
     super(props);
 
     this.state = {
-      showSubscribeToDatasetModal: false
+      showSubscribeToDatasetModal: false,
+      showInfoModal: false
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -60,12 +63,15 @@ class LayerCardComponent extends PureComponent {
   }
 
   render() {
-    const { showSubscribeToDatasetModal } = this.state;
-    const { layerMenuPulse, layerCardPulse } = this.props;
+    const { showSubscribeToDatasetModal, showInfoModal } = this.state;
+    const { layerMenuPulse, layerCardPulse, activeContextLayers } = this.props;
     const { layerActive, layerPoints } = layerMenuPulse;
     const { dataset, widget } = layerCardPulse;
-    const subscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
-      Object.keys(dataset.attributes.subscribable).length > 0;
+    const subscribable = dataset && dataset.subscribable &&
+      Object.keys(dataset.subscribable).length > 0;
+
+    const source = dataset && dataset.metadata && dataset.metadata.source;
+    const layerName = layerActive && layerActive.attributes && layerActive.attributes.name;
 
     const className = classNames({
       'c-layer-card': true,
@@ -73,33 +79,85 @@ class LayerCardComponent extends PureComponent {
     });
 
     const datasetId = (layerActive !== null) ? layerActive.attributes.dataset : null;
-    const contextLayers = layerActive && layerActive.contextLayers;
 
     return (
       <div className={className}>
-        <h3>{layerActive && layerActive.attributes.name}</h3>
+        <h3>{layerActive && layerActive.label}</h3>
+        {source &&
+          <div className="source-container">
+            {source}
+          </div>
+        }
         {layerActive && layerActive.descriptionPulse}
         {layerPoints && layerPoints.length > 0 &&
           <div className="number-of-points">
             Number of objects: {layerPoints.length}
           </div>
         }
-        <Legend
-          layerActive={layerActive}
-          className={{ color: '-dark' }}
-        />
-        {contextLayers &&
-          <div className="context-layers-legends">
-            {
-              contextLayers.map(ctLayer => ctLayer.active && (
-                <Legend
-                  layerActive={ctLayer}
-                  className={{ color: '-dark' }}
-                />
-              ))
-            }
-          </div>
-        }
+        <div className="legends">
+          {layerName &&
+            <div className="layer-container">
+              <span>{layerName}</span>
+              <button
+                type="button"
+                className="info"
+                aria-label="More information"
+                onClick={() => this.setState({ showInfoModal: true })}
+              >
+                <Icon name="icon-info" />
+
+                <Modal
+                  isOpen={showInfoModal}
+                  className="-medium"
+                  onRequestClose={() => this.setState({ showInfoModal: false })}
+                >
+                  <LayerInfoModal
+                    data={layerActive && layerActive.attributes}
+                  />
+                </Modal>
+              </button>
+            </div>
+          }
+          <Legend
+            layerActive={layerActive}
+            className={{ color: '-dark' }}
+          />
+          {activeContextLayers.length > 0 &&
+            <div className="context-layers-legends">
+              {
+                activeContextLayers.map(ctLayer => (
+                  <div>
+                    <div className="layer-container">
+                      <span>{ctLayer.attributes.name}</span>
+                      <button
+                        type="button"
+                        className="info"
+                        aria-label="More information"
+                        onClick={() => this.setState({ showInfoModal: true })}
+                      >
+                        <Icon name="icon-info" />
+
+                        <Modal
+                          isOpen={showInfoModal}
+                          className="-medium"
+                          onRequestClose={() => this.setState({ showInfoModal: false })}
+                        >
+                          <LayerInfoModal
+                            data={ctLayer.attributes}
+                          />
+                        </Modal>
+                      </button>
+                    </div>
+                    <Legend
+                      layerActive={ctLayer}
+                      className={{ color: '-dark' }}
+                    />
+                  </div>
+                ))
+              }
+            </div>
+          }
+        </div>
         {widget &&
           <div>
             <h5>Similar content</h5>
@@ -107,6 +165,7 @@ class LayerCardComponent extends PureComponent {
               key={widget.id}
               className="widget-card"
               onClick={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
+              onKeyDown={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
               role="button"
               tabIndex={-1}
             >
@@ -127,13 +186,13 @@ class LayerCardComponent extends PureComponent {
               route="explore_detail"
               params={{ id: datasetId }}
             >
-              <a className="c-button -tertiary link_button" >Explore the data</a>
+              <a className="c-button -tertiary link_button" >Details</a>
             </Link>
           }
           { subscribable &&
             <LoginRequired text="Log in or sign up to subscribe to alerts from this dataset">
               <button
-                className="c-button -tertiary link_button"
+                className="c-button -secondary link_button"
                 onClick={() => this.handleToggleSubscribeToDatasetModal(true)}
               >
                 Subscribe to alerts
@@ -160,7 +219,7 @@ LayerCardComponent.propTypes = {
   // PROPS
   layerMenuPulse: PropTypes.object.isRequired,
   layerCardPulse: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
+  activeContextLayers: PropTypes.array.isRequired,
 
   // Actions
   loadDatasetData: PropTypes.func.isRequired,

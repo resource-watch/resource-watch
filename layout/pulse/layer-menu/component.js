@@ -18,7 +18,7 @@ import LayerMenuNative from 'layout/pulse/layer-menu-native';
 class LayerMenuComponent extends PureComponent {
   handleLayerClick(layer) {
     const {
-      id, markerType, basemap, contextLayers, descriptionPulse, contextLayersOnTop
+      id, markerType, basemap, contextLayers, descriptionPulse, contextLayersOnTop, label
     } = layer;
     this.props.resetLayerPoints();
     this.props.toggleActiveLayer({
@@ -28,7 +28,8 @@ class LayerMenuComponent extends PureComponent {
       basemap,
       contextLayers,
       descriptionPulse,
-      contextLayersOnTop
+      contextLayersOnTop,
+      label
     });
     logEvent('Planet Pulse', 'Choose layer to view', layer.label);
   }

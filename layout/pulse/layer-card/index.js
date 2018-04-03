@@ -1,5 +1,6 @@
 import { Component, createElement } from 'react';
 import { connect } from 'react-redux';
+import { activeContextLayers } from 'components/vis/globe-cesium/selectors';
 
 import * as actions from './actions';
 import * as reducers from './reducer';
@@ -10,8 +11,7 @@ import LayerCardComponent from './component';
 const mapStateToProps = state => ({
   layerMenuPulse: state.layerMenuPulse,
   layerCardPulse: state.layerCardPulse,
-  user: state.user,
-  locale: state.common.locale
+  activeContextLayers: activeContextLayers(state)
 });
 
 class LayerCardContainer extends Component {
