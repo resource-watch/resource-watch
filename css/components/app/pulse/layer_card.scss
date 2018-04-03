@@ -7,10 +7,13 @@
   flex-direction: column;
   background-color: $color-white;
   max-width: 400px;
-  max-height: calc(100% - 200px - 100px);
   border-radius: 4px;
   z-index: 999;
   overflow: auto;
+
+  @media screen and (max-width: map-get($breakpoints, small)) {
+    max-height: calc(100% - 200px - 100px);
+  }
 
   h3, h5 {
     color: $color-dark-pink;
