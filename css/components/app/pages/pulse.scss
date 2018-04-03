@@ -14,5 +14,9 @@
 
   .c-zoom-control {
     z-index: 11;
+
+    @media screen and (max-width: map-get($breakpoints, medium)) {
+      top: 30px;
+    }
   }
 }
