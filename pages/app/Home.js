@@ -7,6 +7,7 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { getInsights } from 'redactions/insights';
 import * as topicsActions from 'layout/topics/topics-actions';
+import YouTube from 'react-youtube';
 
 // Layout
 import Page from 'layout/page';
@@ -161,7 +162,8 @@ class Home extends Page {
     super(props);
 
     this.state = {
-      showNewsletterModal: false
+      showNewsletterModal: false,
+      videoReady: false
     };
   }
 
@@ -173,11 +175,27 @@ class Home extends Page {
     this.setState({ showNewsletterModal: bool });
   }
 
+  onVideoReady = () => {
+    if (YT.PlayerState.PLAYING === 1) { // eslint disable
+      this.setState({ videoReady: true });
+    }
+  }
+
   render() {
     const { insights } = this.props;
+    const { videoReady } = this.state;
     const insightsCardsStatic = Home.insightsCardsStatic(insights);
     const exploreCardsStatic = Home.exploreCardsStatic();
-
+    const opts = {
+      playerVars: {
+        autoplay: 1,
+        controls: 0,
+        showinfo: 0,
+        rel: 0,
+        loop: 1,
+        playlist: 'XryMlA-8IwE'
+      }
+    };
     return (
       <Layout
         title="Resource Watch"
@@ -187,16 +205,11 @@ class Home extends Page {
         className="page-home"
       >
         <div className="video-intro">
-          <div className="video-foreground">
-            <iframe
-              id="video-intro"
-              title="Video Intro"
-              frameBorder="0"
-              allowFullScreen
-              // Loop parameter has limited support in the AS3 player and in IFrame embeds, which could load either the AS3 or HTML5 player.
-              // Currently, the loop parameter only works in the AS3 player when used in conjunction with the playlist parameter.
-              // To loop a single video, set the loop parameter value to 1 and set the playlist parameter value to the same video ID already specified in the Player API URL
-              src="https://youtube.com/embed/XryMlA-8IwE?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=XryMlA-8IwE"
+          <div className={`video-foreground ${videoReady ? '-ready' : ''}`}>
+            <YouTube
+              videoId="XryMlA-8IwE"
+              opts={opts}
+              onStateChange={this.onVideoReady}
             />
           </div>
           <div className="video-text">
