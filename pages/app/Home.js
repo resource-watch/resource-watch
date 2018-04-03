@@ -129,7 +129,7 @@ class Home extends Page {
     return exploreCards.map(c =>
       (<div key={`explore-card-${c.title}`} className="column small-12 medium-6">
         <CardStatic
-          className="-alt"
+          className="-alt -clickable"
           background={c.background}
           clickable
           route={c.buttons[0].path}
