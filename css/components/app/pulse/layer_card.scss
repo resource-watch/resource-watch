@@ -99,4 +99,19 @@
       padding: 0px 5px 0px 5px;
     }
   }
+
+  @media screen and (max-width: map-get($breakpoints, medium)) {
+    position: relative;
+    top: -3px;
+    left: 0;
+    max-width: none;
+    margin: 0 3px;
+    padding: 0 29px 20px 29px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+
+    h3 {
+      display: none;
+    }
+  }
 }

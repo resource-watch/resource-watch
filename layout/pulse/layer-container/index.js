@@ -5,16 +5,16 @@ import * as actions from './actions';
 import * as reducers from './reducer';
 import initialState from './initial-state';
 
-import LayerMenuComponent from './component';
+import LayerContainerComponent from './component';
 
 const mapStateToProps = state => ({
-  responsive: state.responsive,
-  layerActive: state.pulse.layerActive
+  displayed: state.layerContainerPulse.displayed,
+  layerActive: state.layerMenuPulse.layerActive
 });
 
-class LayerMenuContainer extends Component {
+class LayerContainerContainer extends Component {
   render() {
-    return createElement(LayerMenuComponent, {
+    return createElement(LayerContainerComponent, {
       ...this.props
     });
   }
@@ -22,4 +22,4 @@ class LayerMenuContainer extends Component {
 
 export { actions, reducers, initialState };
 
-export default connect(mapStateToProps, actions)(LayerMenuContainer);
+export default connect(mapStateToProps, actions)(LayerContainerContainer);

@@ -11,6 +11,7 @@ import DatasetList from 'components/datasets/list';
 import Paginator from 'components/ui/Paginator';
 
 // Explore components
+import ExploreDatasetsTags from './explore-datasets-tags';
 import ExploreDatasetsActions from './explore-datasets-actions';
 
 class ExploreDatasetsComponent extends React.Component {
@@ -77,6 +78,11 @@ class ExploreDatasetsComponent extends React.Component {
               small: 'small-12',
               medium: 'medium-6'
             }}
+            tags={
+              <ExploreDatasetsTags
+                onTagSelected={this.onTagSelected}
+              />
+            }
             actions={
               <MediaQuery
                 minDeviceWidth={breakpoints.medium}
@@ -85,7 +91,6 @@ class ExploreDatasetsComponent extends React.Component {
                 <ExploreDatasetsActions />
               </MediaQuery>
             }
-            onTagSelected={this.onTagSelected}
           />
         }
 

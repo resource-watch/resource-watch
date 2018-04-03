@@ -10,7 +10,12 @@ import DashboardsNew from 'components/admin/dashboards/pages/new';
 import DashboardsShow from 'components/admin/dashboards/pages/show';
 
 function DashboardsTab(props) {
-  const { tab, subtab, id, user } = props;
+  const {
+    tab,
+    subtab,
+    id,
+    user
+  } = props;
 
   return (
     <div className="c-dashboards-tab">

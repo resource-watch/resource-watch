@@ -11,9 +11,7 @@ class DatasetList extends PureComponent {
     mode: PropTypes.string,
     grid: PropTypes.object,
     actions: PropTypes.node,
-
-    // CALLBACKS
-    onTagSelected: PropTypes.func
+    tags: PropTypes.node
   };
 
   static defaultProps = {
@@ -23,14 +21,12 @@ class DatasetList extends PureComponent {
       large: 'large-4',
       xlarge: 'xlarge-4',
       xxlarge: 'xxlarge-4'
-    },
-
-    onTagSelected: (t) => { console.info(t); }
+    }
   }
 
   render() {
     const {
-      list, mode, actions, grid, onTagSelected
+      list, mode, actions, tags, grid
     } = this.props;
 
     const columnClassName = classNames({
@@ -61,7 +57,7 @@ class DatasetList extends PureComponent {
                     vocabulary={dataset.vocabulary.find(v => v.name === 'knowledge_graph') || {}}
                     mode={mode}
                     actions={actions}
-                    onTagSelected={onTagSelected}
+                    tags={tags}
                   />
                 </div>
               ))}

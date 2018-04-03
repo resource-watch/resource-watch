@@ -213,7 +213,11 @@ class Map extends React.Component {
         window.document.createElement('div')
       );
 
-      this.popup = this.popup || L.popup();
+      this.popup = this.popup || L.popup({
+        maxWidth: 400,
+        minWidth: 240
+      });
+
       this.popup
         .setLatLng(nextProps.interactionLatLng)
         .setContent(currentContent)
