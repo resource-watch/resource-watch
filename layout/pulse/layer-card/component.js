@@ -62,7 +62,7 @@ class LayerCardComponent extends PureComponent {
 
   render() {
     const { showSubscribeToDatasetModal, showInfoModal } = this.state;
-    const { layerMenuPulse, layerCardPulse } = this.props;
+    const { layerMenuPulse, layerCardPulse, activeContextLayers } = this.props;
     const { layerActive, layerPoints } = layerMenuPulse;
     const { dataset, widget } = layerCardPulse;
     const subscribable = dataset && dataset.attributes && dataset.attributes.subscribable &&
@@ -78,7 +78,8 @@ class LayerCardComponent extends PureComponent {
     });
 
     const datasetId = (layerActive !== null) ? layerActive.attributes.dataset : null;
-    const contextLayers = layerActive && layerActive.contextLayers;
+
+    console.log('activeContextLayers', activeContextLayers);
 
     return (
       <div className={className}>
@@ -117,22 +118,24 @@ class LayerCardComponent extends PureComponent {
             </button>
           </div>
         }
-        <Legend
-          layerActive={layerActive}
-          className={{ color: '-dark' }}
-        />
-        {contextLayers &&
-          <div className="context-layers-legends">
-            {
-              contextLayers.map(ctLayer => ctLayer.active && (
-                <Legend
-                  layerActive={ctLayer}
-                  className={{ color: '-dark' }}
-                />
-              ))
-            }
-          </div>
-        }
+        <div className="legends">
+          <Legend
+            layerActive={layerActive}
+            className={{ color: '-dark' }}
+          />
+          {activeContextLayers.length > 0 &&
+            <div className="context-layers-legends">
+              {
+                activeContextLayers.map(ctLayer => (
+                  <Legend
+                    layerActive={ctLayer}
+                    className={{ color: '-dark' }}
+                  />
+                ))
+              }
+            </div>
+          }
+        </div>
         {widget &&
           <div>
             <h5>Similar content</h5>
@@ -140,6 +143,7 @@ class LayerCardComponent extends PureComponent {
               key={widget.id}
               className="widget-card"
               onClick={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
+              onKeyDown={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
               role="button"
               tabIndex={-1}
             >
@@ -193,7 +197,7 @@ LayerCardComponent.propTypes = {
   // PROPS
   layerMenuPulse: PropTypes.object.isRequired,
   layerCardPulse: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
+  activeContextLayers: PropTypes.array.isRequired,
 
   // Actions
   loadDatasetData: PropTypes.func.isRequired,
