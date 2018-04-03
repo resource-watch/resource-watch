@@ -23,7 +23,6 @@ class LegendItemButtonInfo extends PureComponent {
   render() {
     const { activeLayer } = this.props;
     const { showInfoModal } = this.state;
-
     return (
       <Tooltip
         overlay="Info"

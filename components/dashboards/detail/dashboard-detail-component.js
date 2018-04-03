@@ -23,6 +23,8 @@ export default function DashboardDetail({ dashboardDetail }) {
         widget: {
           Component: WidgetBlock,
           EditionComponent: WidgetBlockEdition,
+          icon: 'icon-widget',
+          label: 'Visualization',
           renderer: 'modal'
         }
       }}

@@ -1,24 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import renderHTML from 'react-render-html';
-import { Link } from 'routes';
 
-function JoinCommunity({ content }) {
+
+const StaticContentComponent = ({ content }) => {
+  const emptyContent = '<p><br></p>';
+  if (content === emptyContent) return null;
+
   return (
     <section className="l-content">
       <article className="l-content-body">
         <div className="l-container">
           <div className="row align-center">
             <div className="column small-12 medium-8">
-              { renderHTML(content) }
-            </div>
-            <div className="column small-12">
-              <div className="buttons -align-center ">
-                <Link
-                  route="get_involved"
-                >
-                  <a className="c-button -primary">Contact us</a>
-                </Link>
+              <div className="c-terms">
+                { renderHTML(content) }
               </div>
             </div>
           </div>
@@ -26,14 +22,14 @@ function JoinCommunity({ content }) {
       </article>
     </section>
   );
-}
+};
 
-JoinCommunity.propTypes = {
+StaticContentComponent.propTypes = {
   content: PropTypes.string
 };
 
-JoinCommunity.defaultProps = {
+StaticContentComponent.defaultProps = {
   content: ''
 };
 
-export default JoinCommunity;
+export default StaticContentComponent;

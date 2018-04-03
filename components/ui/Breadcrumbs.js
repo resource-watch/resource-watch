@@ -14,7 +14,7 @@ function Breadcrumbs(props) {
                 <Link route={item.route} params={item.params}>
                   <a>
                     {props.items.length === 1 &&
-                      <Icon className="c-icon -smaller" name="icon-arrow-left" />
+                      <Icon className="c-icon -smaller" name="icon-arrow-left-2" />
                     }
                     <span>{item.name}</span>
                   </a>
@@ -23,7 +23,7 @@ function Breadcrumbs(props) {
               : (
                 <a href={item.href}>
                   {props.items.length === 1 &&
-                    <Icon className="c-icon -smaller" name="icon-arrow-left" />
+                    <Icon className="c-icon -smaller" name="icon-arrow-left-2" />
                   }
                   <span>{item.name}</span>
                 </a>

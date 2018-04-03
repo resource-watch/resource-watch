@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
+import { getUserAreas } from 'redactions/user';
+
 // Components
 import Page from 'layout/page';
 import Layout from 'layout/layout/layout-app';
@@ -31,7 +33,7 @@ const MYRW_TABS = [{
   route: 'myrw',
   params: { tab: 'datasets', subtab: 'my_datasets' }
 }, {
-  label: 'Widgets',
+  label: 'Visualizations',
   value: 'widgets',
   route: 'myrw',
   params: { tab: 'widgets', subtab: 'my_widgets' }
@@ -55,10 +57,21 @@ const MYRW_TABS = [{
 }];
 
 class MyRW extends Page {
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    const { tab } = props.url.query;
+
+    if (tab === 'areas') {
+      await context.store.dispatch(getUserAreas({ layerGroups: true }));
+    }
+
+    return { ...props };
+  }
+
   constructor(props) {
     super(props);
 
-    const { url } = props;
+    const { url, tab } = props;
 
     this.state = {
       tab: url.query.tab || 'profile',

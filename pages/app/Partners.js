@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'routes';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -53,8 +54,8 @@ class Partners extends Page {
               <div className="row">
                 <div className="column small-12">
                   <h2>Let’s build a more sustainable world together.</h2>
-                  <p className="-columnize">
-                    Resource Watch connects leading technology companies and data providers dedicated to broadening access to timely, relevant natural resource information. This powerful partnership brings together trusted data sets from remote sensing systems, peer-reviewed research, and other reputable sources, making new data streams actionable for the first time. Open-access web and mobile apps deliver insights and information to decision-makers and passionate citizens working to make a difference.
+                  <p>
+                    We couldn’t do this on our own. Resource Watch is a global partnership of public, private, and civil society organizations convened by World Resources Institute to provide trusted and timely data for a sustainable future.
                   </p>
                 </div>
               </div>
@@ -96,11 +97,14 @@ class Partners extends Page {
           </div>
         </section>
 
-        <section className="l-section -secondary">
+        <section className="l-section">
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
-                <h2 className="-text-center">Partners</h2>
+                <h2 className="-text-center">Data providers</h2>
+                <p>
+                  The following data providers have been active in helping us access and interpret data that would otherwise not be available on Resource Watch. We also thank the many governments and institutions, not listed here, that have made their data widely open and accessible.
+                </p>
               </div>
             </div>
             <div className="row">
@@ -113,17 +117,50 @@ class Partners extends Page {
           </div>
         </section>
 
+        <aside>
+          <div className="l-container">
+            <div className="row align-center">
+              <div className="column small-12 medium-8">
+                <div className="c-terms">
+              <h2 className="-text-center">About the partnership</h2>
+              <p>Partners support Resource Watch by</p>
+              <ul>
+                <li>
+                  <strong>Providing technical resources</strong> such as storage, computing, and technical expertise,
+                </li>
+                <li>
+                  <strong>Contributing data and insights</strong> on what’s happening around the world and how data can be used to drive action,
+                </li>
+                <li>
+                  <strong>Guiding system design</strong> to ensure Resource Watch is useful to a wide variety of users,
+                </li>
+                <li>
+                  <strong>Supporting the use of Resource Watch</strong> in specific communities who can utilize the data to advance a more sustainable future,
+                </li>
+                <li>
+                  <strong>Building on Resource Watch</strong> to create custom products and applications, and
+                </li>
+                <li>
+                  <strong>Providing financial support</strong> to enable Resource Watch to stay up to date and provide free information to people around the globe.
+                </li>
+              </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
         <aside className="l-postcontent">
           <div className="l-container">
             <div className="row align-center">
               <div className="column small-12">
                 <Banner className="-text-center" bgImage={'/static/images/backgrounds/partners-02@2x.jpg'}>
                   <p className="-claim">
-                    See yourself as part<br /> of this team?
+                    Questions, comments, or feedback? <br />
+                    Help us improve Resource Watch.
                   </p>
-                  <button className="c-btn -primary -alt">
-                    Get in touch
-                  </button>
+                  <Link to="/about/contact-us">
+                    <a className="c-button -alt -primary">Contact us</a>
+                  </Link>
                 </Banner>
               </div>
             </div>

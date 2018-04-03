@@ -259,8 +259,8 @@ class Map extends React.Component {
       onLayerAddedSuccess: onLayerAdded,
       onLayerAddedError: onLayerAdded,
       onLayerClick: (layer) => {
-        this.props.setLayerInteractionLatLng(layer.latlng);
-        this.props.setLayerInteraction(layer);
+        this.props.setLayerInteractionLatLng && this.props.setLayerInteractionLatLng(layer.latlng);
+        this.props.setLayerInteraction && this.props.setLayerInteraction(layer);
       }
     });
   }
@@ -362,8 +362,6 @@ class Map extends React.Component {
     if (geometry) {
       bounds = geometry.getBounds();
     }
-
-    console.log(bounds);
 
     this.map.fitBounds(bounds, {
       padding: [20, 20]

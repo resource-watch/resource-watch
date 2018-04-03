@@ -21,7 +21,7 @@ function Banner(props) {
       style={styles}
     >
       {props.viel && <div className="c-viel" />}
-      <div>
+      <div className="l-container">
         {props.children}
       </div>
     </section>

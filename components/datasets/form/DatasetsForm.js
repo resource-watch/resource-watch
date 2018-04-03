@@ -181,7 +181,7 @@ class DatasetsForm extends React.Component {
         if (f === 'subscribable') {
           const subscribable = params[f] || this.state.form[f];
           newForm.subscribable = Object.keys(subscribable)
-            .map((prop, i) => ({ type: subscribable[prop], value: subscribable[prop], id: i }));
+            .map((prop, i) => ({ type: prop, value: subscribable[prop], id: i }));
         } else {
           newForm[f] = params[f] || this.state.form[f];
         }

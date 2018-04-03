@@ -10,8 +10,13 @@ import { Link } from 'routes';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
+import { getUserAreas } from 'redactions/user';
+
 // Utils
-import { capitalizeFirstLetter } from 'utils/utils';
+import { capitalizeFirstLetter, listSeperator } from 'utils/utils';
+
+// Selectors
+import areaAlerts from 'selectors/user/areaAlerts';
 
 // Services
 import DatasetsService from 'services/DatasetsService';
@@ -42,10 +47,26 @@ const subTabs = {
 };
 
 class MyRWDetail extends Page {
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    const { tab, subtab } = props.url.query;
+
+    if (tab === 'areas') {
+      await context.store.dispatch(getUserAreas({ layerGroups: true }));
+    }
+
+    return { ...props };
+  }
+
   constructor(props) {
     super(props);
 
-    const { tab, id, subtab, title } = props.url.query;
+    const {
+      tab,
+      id,
+      subtab,
+      title
+    } = props.url.query;
 
     this.state = {
       tab,
@@ -114,10 +135,8 @@ class MyRWDetail extends Page {
 
   componentWillReceiveProps(nextProps) {
     const { tab, id, subtab } = nextProps.url.query;
-
     this.setState({ tab, id, subtab });
   }
-
 
   /**
    * HELPERS
@@ -125,9 +144,9 @@ class MyRWDetail extends Page {
    * - getDatasetName
   */
   getName() {
-    const { tab, id, data } = this.state;
+    const { tab, id, data, subtab } = this.state;
 
-    if (id) {
+    if (id && subtab !== 'alerts') {
       return id === 'new' ? `New ${singular(tab)}` : 'Edit';
     }
 
@@ -142,10 +161,29 @@ class MyRWDetail extends Page {
     return '-';
   }
 
+  getAlerts() {
+    const { id } = this.state;
+    const { alerts } = this.props;
+
+    if (id in alerts) {
+      const alert = alerts[id];
+      return alert.map((a, k) => {
+        return (<span><Link
+          route="explore_detail"
+          params={{ id: a.id }}
+        >
+          <a>
+            {a.dataset.label}
+          </a>
+        </Link>{listSeperator(alert, k)} </span>);
+      });
+    }
+    return '';
+  }
+
   render() {
     const { url, user, myrwdetail } = this.props;
     const { tab, subtab, id } = this.state;
-
     return (
       <Layout
         title={this.getName()}
@@ -165,6 +203,7 @@ class MyRWDetail extends Page {
                   <Title className="-primary -huge page-header-title" >
                     {this.getName()}
                   </Title>
+                  {subtab === 'alerts' && <div className="page-header-info">Alerts for {this.getAlerts()}</div>}
                   {myrwdetail.dataset &&
                     <div className="page-header-info">
                       <ul>
@@ -218,7 +257,13 @@ const mapStateToProps = state => ({
   user: state.user,
   // Store
   myrwdetail: state.myrwdetail,
-  locale: state.common.locale
+  locale: state.common.locale,
+  alerts: areaAlerts(state)
 });
 
-export default withRedux(initStore, mapStateToProps, null)(MyRWDetail);
+
+const mapDispatchToProps = {
+  getUserAreas
+};
+
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(MyRWDetail);

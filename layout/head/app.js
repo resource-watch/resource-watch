@@ -19,7 +19,7 @@ const TRANSIFEX_BLACKLIST = [
   '/app/embed/EmbedEmbed',
   '/app/embed/EmbedDataset',
   '/app/embed/EmbedSimilarDatasets',
-  '/app/embed/explore'
+  '/app/explore/embed'
 ];
 
 class Head extends React.PureComponent {

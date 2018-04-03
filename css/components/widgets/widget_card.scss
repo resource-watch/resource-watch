@@ -1,6 +1,7 @@
 .c-widget-card {
   position: relative;
   width: 100%;
+  min-width: 200px;
   background: $color-tertiary;
   display: flex;
   flex-direction: column;

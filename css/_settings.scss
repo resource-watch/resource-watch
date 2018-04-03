@@ -84,3 +84,10 @@ $header-bg-color: $color-primary;
 $header-bg-image: url("/static/images/components/layout/header-bg-texture.png");
 $header-gradient-color-1: rgba(#c32d7b, 0.8);
 $header-gradient-color-2: rgba(#c90e39, 0.7);
+
+// Shadows
+$thick-shadow: 0 20px 30px 0 rgba(0,0,0,0.1);
+
+// Map specific settings
+$map-controls-index: 10;
+$map-labels-index: 11;

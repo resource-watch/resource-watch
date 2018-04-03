@@ -3,7 +3,8 @@ export default {
     data: false,
     about: false,
     myrw: false,
-    topics: false
+    topics: false,
+    get_involved: false
   },
   mobileOpened: false,
   searchOpened: false,
@@ -30,7 +31,7 @@ export default {
         { label: 'Climate', route: 'topics_detail', params: { id: 'climate' } },
         { label: 'Commerce', route: 'topics_detail', params: { id: 'commerce' } },
         { label: 'Energy', route: 'topics_detail', params: { id: 'energy' } },
-        { label: 'Food and Agriculture', route: 'topics_detail', params: { id: 'food-and-agriculture' } },
+        { label: 'Food and Agriculture', route: 'topics_detail', params: { id: 'food-agriculture' } },
         { label: 'Forests', route: 'topics_detail', params: { id: 'forests' } },
         { label: 'Water', route: 'topics_detail', params: { id: 'water' } }
       ]
@@ -57,7 +58,13 @@ export default {
       id: 'get_involved',
       label: 'Get Involved',
       route: 'get_involved',
-      pathnames: ['/app/GetInvolved']
+      pathnames: ['/app/get-involved', '/app/get-involved-detail'],
+      children: [
+        { label: 'Suggest a story', route: 'get_involved_detail', params: { id: 'suggest-a-story' } },
+        { label: 'Contribute data', route: 'get_involved_detail', params: { id: 'contribute-data' } },
+        { label: 'Join the community', route: 'get_involved_detail', params: { id: 'join-the-community' } },
+        { label: 'Develop your app', route: 'get_involved_detail', params: { id: 'develop-your-app' } }
+      ]
     },
     {
       id: 'search',

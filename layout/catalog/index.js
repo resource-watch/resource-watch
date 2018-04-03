@@ -14,7 +14,7 @@ export {
 export default connect(
   state => ({
     // Store
-    catalog: state.catalog
+    ...state.catalog
   }),
   actions
 )(CatalogComponent);

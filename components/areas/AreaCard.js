@@ -6,19 +6,23 @@ import { Link, Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
-import { toggleModal, setModalOptions } from 'redactions/modal';
 import { toggleTooltip } from 'redactions/tooltip';
+import { removeUserArea, getUserAreaLayerGroups } from 'redactions/user';
+
+// Selectors
+import areaAlerts from 'selectors/user/areaAlerts';
 
 // Components
 import Spinner from 'components/ui/Spinner';
 import Map from 'components/ui/map/Map';
-import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 import AreaActionsTooltip from 'components/areas/AreaActionsTooltip';
 
+// Modal
+import Modal from 'components/modal/modal-component';
+import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
+
 // Services
-import DatasetService from 'services/DatasetService';
 import AreasService from 'services/AreasService';
-import UserService from 'services/UserService';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
@@ -53,177 +57,41 @@ class AreaCard extends React.Component {
 
     this.state = {
       loading: false,
-      country: null,
-      layer: {}
+      modal: {
+        open: false,
+        mode: 'new'
+      }
     };
 
     // Services
-    this.datasetService = new DatasetService(null, {
-      apiURL: process.env.WRI_API_URL,
-      language: props.locale
-    });
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
-    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
     // ------------------- Bindings -----------------------
     this.handleEditSubscription = this.handleEditSubscription.bind(this);
-    this.handleSubscriptionCreated = this.handleSubscriptionCreated.bind(this);
-    this.handleSubscriptionUpdated = this.handleSubscriptionUpdated.bind(this);
     this.handleDeleteArea = this.handleDeleteArea.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleEditArea = this.handleEditArea.bind(this);
     // ----------------------------------------------------
   }
 
-  componentDidMount() {
-    const {
-      openSubscriptionsModal,
-      subscriptionThreshold,
-      subscriptionType,
-      subscriptionDataset
-    } = this.props;
-    this.loadData();
-    if (openSubscriptionsModal) {
-      this.handleEditSubscription(subscriptionDataset, subscriptionType, subscriptionThreshold);
-    }
-  }
-
-  loadData() {
-    this.setState({ loading: true });
-    const attsObj = this.props.area.attributes;
-
-    if (attsObj.geostore) {
-      this.areasService.getGeostore(attsObj.geostore)
-        .then((res) => {
-          const obj = res.data;
-          const bounds = [
-            [obj.attributes.bbox[0], obj.attributes.bbox[1]],
-            [obj.attributes.bbox[2], obj.attributes.bbox[3]]
-          ];
-          const fakeLayer = {
-            id: `${obj.id}`,
-            provider: 'geojson',
-            active: true,
-            layerConfig: {
-              data: obj.attributes.geojson,
-              fitBounds: true,
-              bounds: { type: 'Polygon', coordinates: [bounds] }
-            }
-          };
-
-          this.setState({
-            loading: false,
-            country: obj.id,
-            layerGroups: [{
-              dataset: null,
-              visible: true,
-              layers: [fakeLayer]
-            }]
-          });
-        });
-    } else if (attsObj.iso.country) {
-      this.areasService.getCountry(attsObj.iso.country)
-        .then((res) => {
-          const country = res.data[0];
-          const newGeoJson = {
-            type: 'FeatureCollection',
-            features: [
-              {
-                type: 'Feature',
-                properties: {},
-                geometry: JSON.parse(country.geojson)
-              }
-            ]
-          };
-
-          const fakeLayer = {
-            id: `-${country.label}`,
-            provider: 'geojson',
-            active: true,
-            layerConfig: {
-              data: newGeoJson,
-              fitBounds: true,
-              bounds: JSON.parse(country.bounds)
-            }
-          };
-
-          this.setState({
-            loading: false,
-            country: country.label,
-            layerGroups: [{
-              dataset: null,
-              visible: true,
-              layers: [fakeLayer]
-            }]
-          });
-        });
-    }
-  }
-
   handleEditArea() {
     Router.pushRoute('myrw_detail', { id: this.props.area.id, tab: 'areas' });
   }
 
-  handleEditSubscription(
-    subscriptionDataset = null,
-    subscriptionType = null,
-    subscriptionThreshold = null
-  ) {
-    const mode = this.props.area.subscription ? 'edit' : 'new';
-    const options = {
-      children: AreaSubscriptionModal,
-      childrenProps: {
-        area: this.props.area,
-        toggleModal: this.props.toggleModal,
-        onSubscriptionUpdated: this.handleSubscriptionUpdated,
-        onSubscriptionCreated: this.handleSubscriptionUpdated,
-        mode,
-        subscriptionDataset,
-        subscriptionType,
-        subscriptionThreshold
+  handleEditSubscription(modalState = true) {
+    this.setState({
+      modal: {
+        open: modalState,
+        mode: this.props.area.subscription ? 'edit' : 'new'
       }
-    };
-    this.props.toggleModal(true);
-    this.props.setModalOptions(options);
-  }
-
-  handleSubscriptionCreated() {
-    this.props.onChange();
-  }
-
-  handleSubscriptionUpdated() {
-    this.props.onChange();
+    });
   }
 
   handleDeleteArea() {
-    const { area, token } = this.props;
+    const { area } = this.props;
     const toastrConfirmOptions = {
       onOk: () => {
-        this.setState({ loading: true });
-
-        // Delete subscription associated to area if there's one
-        if (area.subscription) {
-          this.userService.deleteSubscription(area.subscription.id, token)
-            .then(() => {
-              this.userService.deleteArea(area.id, token)
-                .then(() => {
-                  this.props.onAreaRemoved();
-                })
-                // Fetch throws an error for some reason but the request is successful...
-                .catch(err => this.props.onAreaRemoved()); // eslint-disable-line
-            })
-            .catch((err) => {
-              this.setState({ loading: false });
-              toastr.error('Error removing area', err);
-            });
-        } else {
-          this.userService.deleteArea(area.id, token)
-            .then(() => {
-              this.props.onAreaRemoved();
-            })
-            // Fetch throws an error for some reason but the request is successful...
-            .catch(err => this.props.onAreaRemoved()); // eslint-disable-line
-        }
+        this.props.removeUserArea(area);
       }
     };
     toastr.confirm(`Are you sure you want to delete the area ${area.attributes.name}?
@@ -239,64 +107,70 @@ class AreaCard extends React.Component {
       childrenProps: {
         toggleTooltip: this.props.toggleTooltip,
         onEditArea: this.handleEditArea,
-        onEditSubscriptions: this.handleEditSubscription
+        onEditSubscriptions: this.handleEditSubscription,
+        onDeleteArea: this.handleDeleteArea
       }
     });
   }
 
   render() {
-    const { loading, layerGroups } = this.state;
-    const { area } = this.props;
-    const name = area.attributes.name;
-    const subscription = area.subscription;
+    const { loading } = this.state;
+    const { area, user, alerts } = this.props;
+    const { name, id } = area.attributes;
+    const { subscription } = area;
     const subscriptionConfirmed = area.subscription && area.subscription.attributes.confirmed;
 
     const borderContainerClassNames = classnames({
-      'border-container': true,
-      'blue-background': subscription && !subscriptionConfirmed
+      'border-container': true
     });
+
+    // TODO: Selector
+    let layerGroups = [];
+    if (user.areas.layerGroups.hasOwnProperty(area.id)) {
+      layerGroups = user.areas.layerGroups[area.id];
+    }
+
+    const activeAlerts = area.id in alerts ? alerts[area.id] : [];
 
     return (
       <div className="c-area-card">
         <div className={borderContainerClassNames}>
           <div className="map-container">
-            <Map
+            <Spinner isLoading={loading} />
+            {!loading && <Map
               LayerManager={LayerManager}
               mapConfig={MAP_CONFIG}
-              layerGroups={layerGroups || []}
+              layerGroups={layerGroups}
               interactionEnabled={false}
               useLightBasemap
-            />
+            />}
           </div>
-          <Spinner isLoading={loading} className="-small -light -relative -center" />
           <div className="text-container">
             <div className="name-container">
               <h4>{name}</h4>
             </div>
             <div className="subscriptions-container">
-              {subscription &&
+              {activeAlerts &&
                 <div className="datasets-container">
                   <div className="datasets-list">
-                    {subscription.attributes.datasets.map((datasetObj, index) =>
+                    {activeAlerts.map((alert, index) =>
                       (<div
                         className="dataset-element"
-                        key={`${datasetObj}-${index}`} // eslint-disable-line
+                        key={`${alert.id}-${index}`}
                       >
                         <div className="dataset-name">
                           <Link
-                            route={'explore_detail'}
-                            params={{ id: datasetObj.id }}
+                            route="explore_detail"
+                            params={{ id: alert.id }}
                           >
                             <a>
-                              {datasetObj.label}
+                              {alert.dataset.label}
                             </a>
                           </Link>
                         </div>
                         <div className="dataset-subscription-type">
-                          {subscription.attributes.datasetsQuery
-                            .find(elem => elem.id === datasetObj.id).type}
-                          &nbsp;(&ge;{subscription.attributes.datasetsQuery
-                            .find(elem => elem.id === datasetObj.id).threshold})
+                          {alert.type}
+                          &nbsp;({alert.threshold})
                         </div>
                       </div>)
                     )}
@@ -317,55 +191,67 @@ class AreaCard extends React.Component {
             </div>
             <div className="actions-div">
               <button
-                className="c-btn -b -compressed"
+                className="c-btn -secondary -compressed"
                 onClick={this.handleEdit}
               >
-                Edit
+                Area Options
               </button>
-              <a
-                tabIndex={-1}
-                role="button"
-                onClick={this.handleDeleteArea}
+              <Link
+                route="myrw_detail"
+                params={{ id: area.id, tab: 'areas', subtab: 'alerts' }}
               >
-                Delete
-              </a>
+                <a>View alerts</a>
+              </Link>
             </div>
           </div>
         </div>
+
+        {this.state.modal.open &&
+          <Modal
+            isOpen
+            onRequestClose={() => this.handleEditSubscription(false)}
+          >
+            <AreaSubscriptionModal
+              area={this.props.area}
+              mode={this.state.modal.mode}
+              onRequestClose={() => this.handleEditSubscription(false)}
+              subscriptionDataset
+              subscriptionType
+              subscriptionThreshold
+            />
+          </Modal>}
+
       </div>
     );
   }
 }
+
 
 AreaCard.defaultProps = {
   openSubscriptionsModal: false
 };
 
 AreaCard.propTypes = {
-  token: PropTypes.string.isRequired,
   area: PropTypes.object.isRequired,
-  locale: PropTypes.string.isRequired,
   openSubscriptionsModal: PropTypes.bool,
-  subscriptionThreshold: PropTypes.number,
-  subscriptionType: PropTypes.string,
-  subscriptionDataset: PropTypes.string,
-  // Callbacks
-  onAreaRemoved: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
+  subscriptionThreshold: PropTypes.bool,
+  subscriptionType: PropTypes.bool,
+  subscriptionDataset: PropTypes.bool,
   // Store
-  toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired,
-  toggleTooltip: PropTypes.func.isRequired
+  toggleTooltip: PropTypes.func.isRequired,
+  removeUserArea: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  locale: state.common.locale
+  locale: state.common.locale,
+  user: state.user,
+  alerts: areaAlerts(state)
 });
 
 const mapDispatchToProps = {
-  toggleModal,
-  setModalOptions,
-  toggleTooltip
+  toggleTooltip,
+  removeUserArea,
+  getUserAreaLayerGroups
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AreaCard);

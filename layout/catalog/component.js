@@ -3,8 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
-import { Router } from 'routes';
-
 // Components
 import Layout from 'layout/layout/layout-app';
 import SearchInput from 'components/ui/SearchInput';
@@ -16,30 +14,26 @@ import { logEvent } from 'utils/analytics';
 
 class CatalogComponent extends React.Component {
   static propTypes = {
-    catalog: PropTypes.object.isRequired,
+    list: PropTypes.array,
+    loading: PropTypes.bool,
 
-    // Actions
-    getDatasets: PropTypes.func.isRequired
+    fetchDatasets: PropTypes.func,
+    setDatasetsSearch: PropTypes.func
   };
 
-  constructor(props) {
-    super(props);
-
-    // ------------------------ BINDINGS -----------------------
-    this.handleSearch = debounce(this.handleSearch.bind(this), 500);
+  handleSearch = (value) => {
+    this.props.setDatasetsSearch(value);
+    this.fetchDatasets();
   }
 
-  componentDidMount() {
-    this.props.getDatasets();
-  }
-
-  handleSearch(value) {
-    this.props.getDatasets(value);
+  fetchDatasets = debounce((value) => {
     logEvent('Catalog page', 'search', value);
-  }
+    this.props.fetchDatasets();
+  }, 500);
+
 
   render() {
-    const { loading, datasets } = this.props.catalog;
+    const { loading, list } = this.props;
 
     return (
       <Layout
@@ -80,7 +74,7 @@ class CatalogComponent extends React.Component {
             <div className="row">
               <div className="column small-12">
                 <DatasetList
-                  list={datasets}
+                  list={list}
                   mode="list"
                 />
               </div>

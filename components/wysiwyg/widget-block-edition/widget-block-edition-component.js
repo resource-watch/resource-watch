@@ -23,11 +23,11 @@ export default function WidgetBlockEdition({
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content -with-tabs">
-                  <h1>Select widget</h1>
+                  <h1>Select visualization</h1>
                   <Tabs
                     options={[
-                      { label: 'My widgets', value: 'my-widgets' },
-                      { label: 'All widgets', value: 'all-widgets' }
+                      { label: 'My visualizations', value: 'my-widgets' },
+                      { label: 'All visualizations', value: 'all-widgets' }
                     ]}
                     defaultSelected={data.tab}
                     selected={data.tab}
@@ -46,7 +46,7 @@ export default function WidgetBlockEdition({
 
                 <SearchInput
                   input={{
-                    placeholder: 'Search widget'
+                    placeholder: 'Search visualization'
                   }}
                   link={{}}
                   onSearch={onChangeSearch}
