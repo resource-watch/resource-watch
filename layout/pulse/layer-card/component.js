@@ -70,8 +70,7 @@ class LayerCardComponent extends PureComponent {
     const subscribable = dataset && dataset.subscribable &&
       Object.keys(dataset.subscribable).length > 0;
 
-    const source = dataset && dataset.metadata &&
-      dataset.metadata[0].attributes.source;
+    const source = dataset && dataset.metadata && dataset.metadata.source;
     const layerName = layerActive && layerActive.attributes && layerActive.attributes.name;
 
     const className = classNames({

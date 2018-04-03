@@ -12,7 +12,7 @@ export const loadDatasetData = createThunkAction('layer-card/loadDatasetData', p
   (dispatch, getState) => {
     const { common } = getState();
     if (params && params.id) {
-      fetch(`${process.env.WRI_API_URL}/dataset/${params.id}?application=${process.env.APPLICATIONS}&language=${common.locale}&includes="metadata"&page[size]=999`)
+      fetch(`${process.env.WRI_API_URL}/dataset/${params.id}?application=${process.env.APPLICATIONS}&language=${common.locale}&includes=metadata&page[size]=999`)
         .then((response) => {
           if (response.ok) return response.json();
           throw new Error(response.statusText);
