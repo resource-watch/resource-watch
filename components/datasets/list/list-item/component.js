@@ -28,35 +28,11 @@ class DatasetListItem extends React.Component {
     widget: PropTypes.object,
     layer: PropTypes.object,
     metadata: PropTypes.object,
-    vocabulary: PropTypes.object,
-    tags: PropTypes.array,
     mode: PropTypes.string,
     user: PropTypes.object,
-    actions: PropTypes.object,
-
-    // CALLBACKS
-    onTagSelected: PropTypes.func,
-
-    // ACTIONS
-    fetchTags: PropTypes.func,
-    resetTags: PropTypes.func
+    tags: PropTypes.node,
+    actions: PropTypes.node
   };
-
-  /**
-   * HELPER
-   * - getTooltipContainer
-  */
-  getTooltipContainer() {
-    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-      if (document.querySelector('.sidebar-content')) {
-        return document.querySelector('.sidebar-content');
-      }
-
-      return document.body;
-    }
-
-    return null;
-  }
 
   /**
    * HELPER
@@ -98,7 +74,7 @@ class DatasetListItem extends React.Component {
 
   render() {
     const {
-      dataset, metadata, vocabulary, mode, user, actions, tags
+      dataset, metadata, mode, user, actions, tags
     } = this.props;
 
 

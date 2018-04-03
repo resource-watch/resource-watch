@@ -10,9 +10,14 @@ import { Tooltip } from 'wri-api-components';
 import Tag from 'components/ui/Tag';
 import TagsTooltip from './tooltip';
 
-class DatasetListItemTags extends React.Component {
+class ExploreDatasetsTagsComponent extends React.Component {
   static propTypes = {
-    vocabulary: PropTypes.object
+    vocabulary: PropTypes.object,
+    list: PropTypes.array,
+
+    fetchTags: PropTypes.func,
+    resetTags: PropTypes.func,
+    onTagSelected: PropTypes.func
   };
 
   state = {
@@ -20,9 +25,26 @@ class DatasetListItemTags extends React.Component {
     tagsLoading: false
   }
 
+  /**
+   * HELPER
+   * - getTooltipContainer
+  */
+  getTooltipContainer() {
+    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+      if (document.querySelector('.sidebar-content')) {
+        return document.querySelector('.sidebar-content');
+      }
+
+      return document.body;
+    }
+
+    return null;
+  }
+
   render() {
     const {
-      vocabulary
+      vocabulary,
+      list
     } = this.props;
 
     const { tagsOpened, tagsLoading } = this.state;
@@ -58,7 +80,7 @@ class DatasetListItemTags extends React.Component {
             <Tooltip
               overlay={
                 <TagsTooltip
-                  tags={tags}
+                  tags={list}
                   onTagSelected={(t) => {
                     this.setState({ tagsOpened: false });
                     this.props.onTagSelected(t);
@@ -102,4 +124,4 @@ class DatasetListItemTags extends React.Component {
   }
 }
 
-export default DatasetListItemTags;
+export default ExploreDatasetsTagsComponent;

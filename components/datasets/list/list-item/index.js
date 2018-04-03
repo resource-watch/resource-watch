@@ -10,8 +10,7 @@ export { actions, reducers, initialState };
 
 export default connect(
   state => ({
-    user: state.user,
-    ...state.datasetListItem
+    user: state.user
   }),
   actions
 )(DatasetListItemComponent);
