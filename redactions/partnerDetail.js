@@ -1,5 +1,6 @@
 /* global config */
 import 'isomorphic-fetch';
+import WRISerializer from 'wri-json-api-serializer';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -125,7 +126,7 @@ export function getDatasets(ids) {
       .then((response) => {
         dispatch({
           type: GET_DATASETS_SUCCESS,
-          payload: response
+          payload: WRISerializer({ data: response })
         });
       })
       .catch((error) => {

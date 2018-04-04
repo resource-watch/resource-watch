@@ -27,12 +27,29 @@ class DatasetListItem extends React.Component {
     dataset: PropTypes.object,
     widget: PropTypes.object,
     layer: PropTypes.object,
-    metadata: PropTypes.object,
+    metadata: PropTypes.array,
     mode: PropTypes.string,
     user: PropTypes.object,
     tags: PropTypes.node,
     actions: PropTypes.node
   };
+
+  /**
+   * HELPER
+   * - getTooltipContainer
+   * - fetchDatasets
+  */
+  getTooltipContainer() {
+    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+      if (document.querySelector('.sidebar-content')) {
+        return document.querySelector('.sidebar-content');
+      }
+
+      return document.body;
+    }
+
+    return null;
+  }
 
   /**
    * HELPER
@@ -70,23 +87,6 @@ class DatasetListItem extends React.Component {
         </Link>
       </div>
     );
-  }
-
-  /**
-   * HELPER
-   * - getTooltipContainer
-   * - fetchDatasets
-  */
-  getTooltipContainer() {
-    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-      if (document.querySelector('.sidebar-content')) {
-        return document.querySelector('.sidebar-content');
-      }
-
-      return document.body;
-    }
-
-    return null;
   }
 
   render() {

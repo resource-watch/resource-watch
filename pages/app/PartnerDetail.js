@@ -26,11 +26,7 @@ class PartnerDetail extends Page {
 
     return { props };
   }
-  /**
-  * COMPONENT LIFECYCLE
-  * - componentDidMount
-  * - componentWillReceiveProps
-  */
+
   componentDidMount() {
     const datasetIds = PARTNERS_CONNECTIONS
       .filter(p => p.partnerId === this.props.url.query.id).map(elem => elem.datasetId);
@@ -62,11 +58,24 @@ class PartnerDetail extends Page {
     const { loading, list } = datasets;
     const logoPath = data['white-logo'] ? data['white-logo'].medium : '';
     const coverPath = data.cover && data.cover.cover;
+
     const logo = data.website !== '' ?
-      (<a href={data.website} target="_blank" rel="noopener noreferrer">
-        <img src={`${process.env.STATIC_SERVER_URL}${logoPath}`} className="logo" title={data.name} alt={data.name} />
-      </a>) :
-      <img src={`${process.env.STATIC_SERVER_URL}${logoPath}`} className="logo" title={data.name} alt={data.name} />;
+      (
+        <a href={data.website} target="_blank" rel="noopener noreferrer">
+          <img
+            title={data.name}
+            alt={data.name}
+            className="logo"
+            src={`${process.env.STATIC_SERVER_URL}${logoPath}`}
+          />
+        </a>) :
+      (<img
+        title={data.name}
+        alt={data.name}
+        className="logo"
+        src={`${process.env.STATIC_SERVER_URL}${logoPath}`}
+      />);
+
     const backgroundImage = { 'background-image': `url(${process.env.STATIC_SERVER_URL}${coverPath})` };
 
     return (
@@ -108,16 +117,16 @@ class PartnerDetail extends Page {
               <div className="row align-center">
                 <div className="column small-12 datasets-container">
                   <Spinner isLoading={loading} className="-light -relative" />
-                  {list && list.length > 0 &&
+                  {list && list.length &&
                     <div>
                       <h3>{`Datasets by ${data.name}`}</h3>
                       <DatasetList
-                          active={[]}
-                          list={list}
-                          mode="grid"
-                          showActions={false}
-                          onTagSelected={this.handleTagSelected}
-                          />
+                        active={[]}
+                        list={list}
+                        mode="grid"
+                        showActions={false}
+                        onTagSelected={this.handleTagSelected}
+                      />
                     </div>
                   }
                 </div>
@@ -137,7 +146,7 @@ class PartnerDetail extends Page {
                     className="c-btn -primary -alt"
                     href={data.website}
                     target="_blank"
-                    >
+                  >
                     Our work
                   </a>
                 </Banner>

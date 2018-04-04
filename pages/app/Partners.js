@@ -72,10 +72,10 @@ class Partners extends Page {
             </div>
             <div className="row">
               {founders.map(p =>
-                (<div className="column small-12 medium-6" key={p.id}>
-                  <PartnerBlock item={p} />
-                </div>)
-              )}
+                (
+                  <div className="column small-12 medium-6" key={p.id}>
+                    <PartnerBlock item={p} />
+                  </div>))}
             </div>
           </div>
         </section>
@@ -89,10 +89,10 @@ class Partners extends Page {
             </div>
             <div className="row">
               {funders.map(p =>
-                (<div className="column small-12 medium-6" key={p.id}>
-                  <PartnerBlock item={p} />
-                </div>)
-              )}
+                (
+                  <div className="column small-12 medium-6" key={p.id}>
+                    <PartnerBlock item={p} />
+                  </div>))}
             </div>
           </div>
         </section>
@@ -109,10 +109,10 @@ class Partners extends Page {
             </div>
             <div className="row">
               {partners.map(p =>
-                (<div className="column small-12 medium-6" key={p.id}>
-                  <PartnerBlock item={p} />
-                </div>)
-              )}
+                (
+                  <div className="column small-12 medium-6" key={p.id}>
+                    <PartnerBlock item={p} />
+                  </div>))}
             </div>
           </div>
         </section>
@@ -122,28 +122,28 @@ class Partners extends Page {
             <div className="row align-center">
               <div className="column small-12 medium-8">
                 <div className="c-terms">
-              <h2 className="-text-center">About the partnership</h2>
-              <p>Partners support Resource Watch by</p>
-              <ul>
-                <li>
-                  <strong>Providing technical resources</strong> such as storage, computing, and technical expertise,
-                </li>
-                <li>
-                  <strong>Contributing data and insights</strong> on what’s happening around the world and how data can be used to drive action,
-                </li>
-                <li>
-                  <strong>Guiding system design</strong> to ensure Resource Watch is useful to a wide variety of users,
-                </li>
-                <li>
-                  <strong>Supporting the use of Resource Watch</strong> in specific communities who can utilize the data to advance a more sustainable future,
-                </li>
-                <li>
-                  <strong>Building on Resource Watch</strong> to create custom products and applications, and
-                </li>
-                <li>
-                  <strong>Providing financial support</strong> to enable Resource Watch to stay up to date and provide free information to people around the globe.
-                </li>
-              </ul>
+                  <h2 className="-text-center">About the partnership</h2>
+                  <p>Partners support Resource Watch by</p>
+                  <ul>
+                    <li>
+                      <strong>Providing technical resources</strong> such as storage, computing, and technical expertise,
+                    </li>
+                    <li>
+                      <strong>Contributing data and insights</strong> on what’s happening around the world and how data can be used to drive action,
+                    </li>
+                    <li>
+                      <strong>Guiding system design</strong> to ensure Resource Watch is useful to a wide variety of users,
+                    </li>
+                    <li>
+                      <strong>Supporting the use of Resource Watch</strong> in specific communities who can utilize the data to advance a more sustainable future,
+                    </li>
+                    <li>
+                      <strong>Building on Resource Watch</strong> to create custom products and applications, and
+                    </li>
+                    <li>
+                      <strong>Providing financial support</strong> to enable Resource Watch to stay up to date and provide free information to people around the globe.
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
