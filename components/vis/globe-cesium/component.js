@@ -201,12 +201,10 @@ class GlobeCesiumComponent extends PureComponent {
       this.setPosition(nextProps.globeCesium.initialPosition, 0);
     }
 
-    console.log(this.props.globeCesium.position, nextProps.globeCesium.position);
     // ---------- position ---------------
     if (this.props.globeCesium.position.latitude !== nextProps.globeCesium.position.latitude ||
       this.props.globeCesium.position.longitude !== nextProps.globeCesium.position.longitude ||
       this.props.globeCesium.position.height !== nextProps.globeCesium.position.height) {
-      console.log('alsdkfjaslkdfjlaksd');
       this.setPosition(nextProps.globeCesium.position, 1);
     }
   }
