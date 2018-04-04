@@ -16,7 +16,7 @@ function _formatValue(item, data) {
   // The html is already escaped so no injection can happen here
   // Simply remove the tags for estetic reasons.
   function removeHtmlTags(str) {
-    return str.replace(/<\/?[a-z]+>/gi, '');
+    return str ? str.replace(/<\/?[a-z]+>/gi, '') : '';
   }
 
   return `${item.prefix || ''}${removeHtmlTags(data) || '-'}${item.suffix || ''}`;
