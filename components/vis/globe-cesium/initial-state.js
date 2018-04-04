@@ -1,3 +1,5 @@
 export default {
-  shapesCreated: false
+  shapesCreated: false,
+  position: null,
+  initialPosition: null
 };

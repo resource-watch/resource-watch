@@ -143,8 +143,8 @@ class GlobeCesiumComponent extends PureComponent {
       this.createShapes(this.props.markers);
     }
 
-    if (this.props.position) {
-      this.setPosition(this.props.position, 0);
+    if (this.props.globeCesium.initialPosition) {
+      this.setPosition(this.props.globeCesium.initialPosition, 0);
     }
   }
 
@@ -194,9 +194,14 @@ class GlobeCesiumComponent extends PureComponent {
       this.viewer.camera.flyTo({ destination: newPosition, duration: 1.5 });
     }
 
+    // ---------- initialPosition ----------
+    if (this.props.globeCesium.initialPosition !== nextProps.globeCesium.initialPosition) {
+      this.setPosition(nextProps.globeCesium.initialPosition, 0);
+    }
+
     // ---------- position ---------------
-    if (this.props.position !== nextProps.position) {
-      this.setPosition(nextProps.position, 500);
+    if (this.props.globeCesium.position !== nextProps.globeCesium.position) {
+      this.setPosition(nextProps.globeCesium.position, 500);
     }
   }
 
@@ -537,10 +542,10 @@ GlobeCesiumComponent.propTypes = {
   zoom: PropTypes.number,
   markers: PropTypes.array,
   viewerOptions: PropTypes.object,
-  position: PropTypes.object,
 
   // Store
   setShapesCreated: PropTypes.func.isRequired,
+  globeCesium: PropTypes.object.isRequired,
 
   // Callbacks
   onClick: PropTypes.func,

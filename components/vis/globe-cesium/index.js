@@ -11,7 +11,8 @@ import GlobeCesiumComponent from './component';
 const mapStateToProps = state => ({
   activeContextLayers: activeContextLayers(state),
   layerPoints: state.pulse.layerPoints,
-  layerActive: state.layerMenuPulse.layerActive
+  layerActive: state.layerMenuPulse.layerActive,
+  globeCesium: state.globeCesium
 });
 
 class GlobeCesiumContainer extends Component {
