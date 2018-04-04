@@ -50,7 +50,7 @@ export const LAYERS_PLANET_PULSE = [
                         'bd9ec0da-84a0-4429-bf30-ffcbe64fbe7b'],
         contextLayersOnTop: true,
         rotatableGlobe: true,
-        initialPosition: { latitude: 37.174786, longitude: -3.618395, height: 2000000 },
+        initialPosition: { latitude: 90, longitude: 0, height: 20000000 },
         widgets: [],
         basemap: {
           name: 'other',

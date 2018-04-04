@@ -12,7 +12,7 @@ export default {
     newPosition.latitude = -state.position.latitude;
     if (state.position.longitude > 0) {
       newPosition.longitude = state.position.longitude - 180;
-    } else if (state.position.longitude < 0){
+    } else if (state.position.longitude < 0) {
       newPosition.longitude = state.position.longitude + 180;
     }
     return { ...state, position: newPosition };
