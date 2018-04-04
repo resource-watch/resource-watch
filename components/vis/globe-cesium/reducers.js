@@ -6,13 +6,11 @@ export default {
   [actions.setPosition]: (state, { payload }) =>
     ({ ...state, position: payload }),
   [actions.setInitialPosition]: (state, { payload }) =>
-    ({ ...state, initialPosition: payload }),
+    ({ ...state, initialPosition: payload, position: payload }),
   [actions.togglePosition]: (state) => {
-    if (state.position === 'north_pole') {
-      return { ...state, position: 'south_pole' };
-    } else if (state.position === 'south_pole') {
-      return { ...state, position: 'north_pole' };
-    }
-    return state;
+    const newPosition = { ...state.position };
+    newPosition.latitude = -state.position.latitude;
+    newPosition.longitude = (state.position.longitude + 180) % 180;
+    return { ...state, position: newPosition };
   }
 };

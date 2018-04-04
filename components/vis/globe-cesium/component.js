@@ -195,13 +195,19 @@ class GlobeCesiumComponent extends PureComponent {
     }
 
     // ---------- initialPosition ----------
-    if (this.props.globeCesium.initialPosition !== nextProps.globeCesium.initialPosition) {
+    if (this.props.globeCesium.initialPosition.latitude !== nextProps.globeCesium.initialPosition.latitude ||
+      this.props.globeCesium.initialPosition.longitude !== nextProps.globeCesium.initialPosition.longitude ||
+      this.props.globeCesium.initialPosition.height !== nextProps.globeCesium.initialPosition.height) {
       this.setPosition(nextProps.globeCesium.initialPosition, 0);
     }
 
+    console.log(this.props.globeCesium.position, nextProps.globeCesium.position);
     // ---------- position ---------------
-    if (this.props.globeCesium.position !== nextProps.globeCesium.position) {
-      this.setPosition(nextProps.globeCesium.position, 500);
+    if (this.props.globeCesium.position.latitude !== nextProps.globeCesium.position.latitude ||
+      this.props.globeCesium.position.longitude !== nextProps.globeCesium.position.longitude ||
+      this.props.globeCesium.position.height !== nextProps.globeCesium.position.height) {
+      console.log('alsdkfjaslkdfjlaksd');
+      this.setPosition(nextProps.globeCesium.position, 1);
     }
   }
 
@@ -366,18 +372,12 @@ class GlobeCesiumComponent extends PureComponent {
     return shapes;
   }
 
-  setPosition(position, duration = 0, height = 20000000) {
-    if (position === 'north_pole') {
-      this.viewer.camera.flyTo({
-        destination: Cesium.Cartesian3.fromDegrees(0, 90, height),
-        duration
-      });
-    } else if (position === 'south_pole') {
-      this.viewer.camera.flyTo({
-        destination: Cesium.Cartesian3.fromDegrees(-90, 0, height),
-        duration
-      });
-    }
+  setPosition(position, duration = 0) {
+    this.viewer.camera.flyTo({
+      destination:
+        Cesium.Cartesian3.fromDegrees(position.longitude, position.latitude, position.height),
+      duration
+    });
   }
 
   addAdditionalLayerOption(name, imageryProvider, alpha, show) {
