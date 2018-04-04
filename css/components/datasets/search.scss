@@ -89,6 +89,21 @@
         margin: 0;
         border-bottom: 1px solid $border-color-1;
       }
+
+      .list-item-results {
+        button {
+          width: 100%;
+          text-align: left;
+          margin: 0;
+          padding: 4px 8px;
+          color: $color-text-1;
+          cursor: pointer;
+
+          &.-active {
+            background: $color-pale-grey;
+          }
+        }
+      }
     }
   }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import flatten from 'lodash/flatten';
+import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import omit from 'lodash/omit';
 import Fuse from 'fuse.js';
@@ -53,6 +54,7 @@ class SearchComponent extends React.Component {
   }
 
   state = {
+    index: 0,
     value: '',
     filteredList: []
   }
@@ -62,6 +64,7 @@ class SearchComponent extends React.Component {
   // - onScreenClick
   // - onScreenKeyup
   // - onToggleOpen
+  // - onKeyArrow
   // - onChangeTab
   // - onChangeSearch
   onScreenClick = (e) => {
@@ -74,13 +77,27 @@ class SearchComponent extends React.Component {
   }
 
   onScreenKeyup = (e) => {
-    if (e.keyCode === 27) {
-      this.onToggleOpen(false);
-    }
+    switch (e.keyCode) {
+      case 27:
+        this.onToggleOpen(false);
+        break;
 
-    if (e.keyCode === 13) {
-      this.props.onChangeSearch(this.state.value);
-      this.onToggleOpen(false);
+      // ENTER
+      case 13:
+        this.onKeyEnter();
+        break;
+
+      // ARROWS
+      case 38:
+        this.onKeyArrow('up');
+        break;
+
+      case 40:
+        this.onKeyArrow('down');
+        break;
+
+      default:
+        return true;
     }
   }
 
@@ -90,14 +107,61 @@ class SearchComponent extends React.Component {
         window.addEventListener('click', this.onScreenClick);
         window.addEventListener('keyup', this.onScreenKeyup);
       } else {
-        this.setState({ value: '' });
-        this.input.blur();
         window.removeEventListener('click', this.onScreenClick);
         window.removeEventListener('keyup', this.onScreenKeyup);
+        this.setState({
+          index: 0,
+          filteredList: [],
+          value: ''
+        });
+        if (this.input) this.input.blur();
       }
     });
 
     this.props.onChangeOpen(to);
+  }
+
+  onKeyArrow = (direction) => {
+    const { index, filteredList } = this.state;
+    if (direction === 'up') {
+      this.setState({
+        index: (index !== 0) ? index - 1 : filteredList.length
+      });
+    }
+
+    if (direction === 'down') {
+      this.setState({
+        index: (index !== filteredList.length) ? index + 1 : 0
+      });
+    }
+  }
+
+  onKeyEnter = () => {
+    const tabs = this.getTabs();
+    const { value, index, groupedFilteredList } = this.state;
+
+    if (index === 0) {
+      this.props.onChangeSearch(value);
+    }
+
+    if (index !== 0) {
+      const filteredList = flatten(Object.keys(groupedFilteredList).map(g =>
+        groupedFilteredList[g]));
+
+      const l = filteredList[index - 1];
+      this.props.onToggleSelected({
+        tag: l,
+        tab: (tabs.find(t => t.type === l.labels[1]) || {}).value || 'custom'
+      });
+    }
+
+    this.onToggleOpen(false);
+  }
+
+  onListItemMouseOver = (index) => {
+    this.setState({
+      index
+    });
   }
 
   onChangeTab = (t) => {
@@ -112,23 +176,23 @@ class SearchComponent extends React.Component {
   onChangeSearch = (e) => {
     const { value } = e.currentTarget;
 
-    const filteredList = (value.length > 2) ? this.fuse.search(value) : [];
+    const filteredList = (value.length > 2) ? sortBy(this.fuse.search(value), 'label') : [];
 
     this.setState({
+      index: 0,
       value,
-      filteredList
+      filteredList,
+      groupedFilteredList: omit(groupBy(filteredList, l => l.labels[1]), 'undefined')
     });
   }
 
-  render() {
+  // HELPERS
+  getTabs = () => {
     const {
-      open, search, options, selected, tab, list
+      options, selected
     } = this.props;
 
-    const { value, filteredList } = this.state;
-    const groupedFilteredList = omit(groupBy(filteredList, l => l.labels[1]), 'undefined');
-
-    const tabs = Object
+    return Object
       .keys(options)
       .filter((o) => {
         if (o === 'custom') {
@@ -142,6 +206,20 @@ class SearchComponent extends React.Component {
         type: options[o].type,
         ...selected[o].length && { number: selected[o].length }
       }));
+  }
+
+  render() {
+    const {
+      open, search, options, selected, tab, list
+    } = this.props;
+
+    const {
+      index, value, groupedFilteredList
+    } = this.state;
+
+    let groupedFilteredListIndex = 0;
+
+    const tabs = this.getTabs();
 
     const mainArr = options[tab].list;
     const secondaryArr = selected[tab]
@@ -151,6 +229,7 @@ class SearchComponent extends React.Component {
     const selectedAllArr = flatten(Object.keys(selected).map(s =>
       selected[s].map(c =>
         ({ ...list.find(o => o.id === c), tab: s }))));
+
 
     return (
       <div className="c-dataset-search">
@@ -238,7 +317,11 @@ class SearchComponent extends React.Component {
                   <li>
                     <button
                       type="button"
+                      className={classnames({
+                        '-active': index === 0
+                      })}
                       onClick={() => this.props.onChangeSearch(value)}
+                      onMouseOver={() => this.onListItemMouseOver(0)}
                     >
                       {value}
                     </button>
@@ -251,23 +334,33 @@ class SearchComponent extends React.Component {
                   <h4>Filter by {g.toLowerCase()}:</h4>
 
                   <ul className="list-item-results">
-                    {groupedFilteredList[g].map(l => (
-                      <li>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            this.props.onToggleSelected({
-                              tag: l,
-                              tab: (tabs.find(t => t.type === l.labels[1]) || {}).value || 'custom'
-                            });
+                    {groupedFilteredList[g].map((l) => {
+                      const currentIndex = ++groupedFilteredListIndex;
 
-                            this.onToggleOpen(false);
-                          }}
+                      return (
+                        <li
+                          key={l.id}
                         >
-                          {l.label}
-                        </button>
-                      </li>
-                    ))}
+                          <button
+                            type="button"
+                            className={classnames({
+                              '-active': index === currentIndex
+                            })}
+                            onClick={() => {
+                              this.props.onToggleSelected({
+                                tag: l,
+                                tab: (tabs.find(t => t.type === l.labels[1]) || {}).value || 'custom'
+                              });
+
+                              this.onToggleOpen(false);
+                            }}
+                            onMouseOver={() => this.onListItemMouseOver(currentIndex)}
+                          >
+                            {l.label}
+                          </button>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               ))}
