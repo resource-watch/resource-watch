@@ -117,7 +117,7 @@ class PartnerDetail extends Page {
               <div className="row align-center">
                 <div className="column small-12 datasets-container">
                   <Spinner isLoading={loading} className="-light -relative" />
-                  {list && list.length &&
+                  {list && list.length > 0 &&
                     <div>
                       <h3>{`Datasets by ${data.name}`}</h3>
                       <DatasetList
