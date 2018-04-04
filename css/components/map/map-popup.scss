@@ -1,6 +1,5 @@
 .c-map-popup {
-  width: 240px;
-  // border: 1px solid #CCC;
+  width: 100%;
 
   .popup-header {
     border-bottom: 1px solid #CCC;
@@ -23,6 +22,8 @@
   }
 
   .popup-table {
+    width: inherit;
+
     .dt {
       padding: 2px;
       font-weight: $font-weight-bold;
@@ -30,7 +31,8 @@
     }
 
     .dd {
-      padding: 2px;
+      width: 60%; // Make sure data in tooltip always have 60% of the free space
+      padding: 0 0 0 10px;
       vertical-align: baseline;
     }
   }

@@ -8,6 +8,7 @@ import initialState from './initial-state';
 import LayerMenuComponent from './component';
 
 const mapStateToProps = state => ({
+  responsive: state.responsive,
   layerActive: state.pulse.layerActive
 });
 

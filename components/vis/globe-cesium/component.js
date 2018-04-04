@@ -422,6 +422,8 @@ class GlobeCesiumComponent extends PureComponent {
       if (!layerActive.threedimensional) {
         this.addAdditionalLayerOption('mainLayer', new Cesium.UrlTemplateImageryProvider({ url: mainLayer }), 1, true);
       }
+    } else {
+      this.removeMainLayer();
     }
 
     if (contextLayersOnTop && updateLayers) {

@@ -38,7 +38,8 @@ import * as exploreDetail from 'layout/explore-detail';
 
 // Pulse
 import * as pulse from 'layout/pulse';
-import * as layerMenuDropdown from 'layout/pulse/layer-menu-dropdown';
+import * as layerContainer from 'layout/pulse/layer-container';
+import * as layerMenu from 'layout/pulse/layer-menu';
 import * as layerCard from 'layout/pulse/layer-card';
 import * as layerPill from 'layout/pulse/layer-pill';
 import * as globeCesium from 'components/vis/globe-cesium';
@@ -68,6 +69,9 @@ import { reducers as widgetEditorModules } from 'widget-editor';
 
 // React responsive redux
 import { reducer as responsiveReducer } from 'react-responsive-redux';
+
+// Embed
+import * as embedMapSwipe from 'layout/embed/map-swipe';
 
 if (process.env.NODE_ENV === 'production') {
   initOpbeat({
@@ -108,7 +112,8 @@ const reducer = combineReducers({
   exploreDetail: handleModule(exploreDetail),
 
   // Pulse
-  layerMenuPulse: handleModule(layerMenuDropdown),
+  layerContainerPulse: handleModule(layerContainer),
+  layerMenuPulse: handleModule(layerMenu),
   layerCardPulse: handleModule(layerCard),
   contextLayersPulse: handleModule(layerPill),
   globeCesium: handleModule(globeCesium),
@@ -138,7 +143,10 @@ const reducer = combineReducers({
   interactions: handleModule(adminInteractions),
 
   // Admin layer preview
-  adminLayerPreview: handleModule(adminLayerPreview)
+  adminLayerPreview: handleModule(adminLayerPreview),
+
+  // Embed
+  embedMapSwipe: handleModule(embedMapSwipe)
 });
 
 const composeEnhancers = composeWithDevTools({});

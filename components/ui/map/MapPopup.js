@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import numeral from 'numeral';
 
+
 function _formatValue(item, data) {
   if (item.type === 'date' && item.format && data) {
     data = moment(data, item.format);
@@ -11,7 +12,14 @@ function _formatValue(item, data) {
     data = numeral(data).format(item.format);
   }
 
-  return `${item.prefix || ''}${data || '-'}${item.suffix || ''}`;
+  // If any html tags are present, remove them
+  // The html is already escaped so no injection can happen here
+  // Simply remove the tags for estetic reasons.
+  function removeHtmlTags(str) {
+    return str.replace(/<\/?[a-z]+>/gi, '');
+  }
+
+  return `${item.prefix || ''}${removeHtmlTags(data) || '-'}${item.suffix || ''}`;
 }
 
 function MapPopup({
