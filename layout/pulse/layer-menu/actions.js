@@ -19,7 +19,9 @@ export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer
   contextLayers,
   descriptionPulse,
   contextLayersOnTop,
-  label
+  label,
+  rotatableGlobe,
+  initialPosition
 }) =>
   (dispatch, state) => {
     const { layerActive } = state().layerMenuPulse;
@@ -44,6 +46,8 @@ export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer
           layer.contextLayers = [];
           layer.descriptionPulse = descriptionPulse;
           layer.label = label;
+          layer.rotatableGlobe = rotatableGlobe;
+          layer.initialPosition = initialPosition;
 
           layerGlobeManager.addLayer(
             layer.attributes,

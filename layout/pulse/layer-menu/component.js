@@ -29,7 +29,9 @@ class LayerMenuComponent extends PureComponent {
       contextLayers,
       descriptionPulse,
       contextLayersOnTop,
-      label
+      label,
+      rotatableGlobe,
+      initialPosition
     });
     logEvent('Planet Pulse', 'Choose layer to view', layer.label);
   }

@@ -85,6 +85,8 @@ export const LAYERS_PLANET_PULSE = [
           </div>,
         contextLayers: [],
         contextLayersOnTop: true,
+        rotatableGlobe: true,
+        initialPosition: 'north_pole',
         widgets: [],
         basemap: {
           name: 'other',
