@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import flatten from 'lodash/flatten';
+import groupBy from 'lodash/groupBy';
+import omit from 'lodash/omit';
+import Fuse from 'fuse.js';
 
 // Components
 import Tabs from 'components/ui/Tabs';
@@ -28,10 +31,39 @@ class SearchComponent extends React.Component {
     onResetSelected: PropTypes.func
   };
 
-  state = {
-    value: this.props.search
+  constructor(props) {
+    super(props);
+
+    const { list } = props;
+
+    this.fuse = new Fuse(list, {
+      keys: [{
+        name: 'label',
+        weight: 0.6
+      }, {
+        name: 'synonyms',
+        weight: 0.3
+      }, {
+        name: 'id',
+        weight: 0.1
+      }],
+      threshold: 0.2,
+      minMatchCharLength: 2
+    });
   }
 
+  state = {
+    value: '',
+    filteredList: []
+  }
+
+
+  // UI EVENTS:
+  // - onScreenClick
+  // - onScreenKeyup
+  // - onToggleOpen
+  // - onChangeTab
+  // - onChangeSearch
   onScreenClick = (e) => {
     const el = document.querySelector('.c-dataset-search');
     const clickOutside = el && el.contains && !el.contains(e.target);
@@ -48,7 +80,7 @@ class SearchComponent extends React.Component {
 
     if (e.keyCode === 13) {
       this.props.onChangeSearch(this.state.value);
-      // this.onToggleOpen(false);
+      this.onToggleOpen(false);
     }
   }
 
@@ -58,6 +90,8 @@ class SearchComponent extends React.Component {
         window.addEventListener('click', this.onScreenClick);
         window.addEventListener('keyup', this.onScreenKeyup);
       } else {
+        this.setState({ value: '' });
+        this.input.blur();
         window.removeEventListener('click', this.onScreenClick);
         window.removeEventListener('keyup', this.onScreenKeyup);
       }
@@ -76,15 +110,23 @@ class SearchComponent extends React.Component {
   }
 
   onChangeSearch = (e) => {
-    this.setState({ value: e.currentTarget.value });
+    const { value } = e.currentTarget;
+
+    const filteredList = (value.length > 2) ? this.fuse.search(value) : [];
+
+    this.setState({
+      value,
+      filteredList
+    });
   }
 
   render() {
     const {
-      open, options, selected, tab, list
+      open, search, options, selected, tab, list
     } = this.props;
 
-    const { value } = this.state;
+    const { value, filteredList } = this.state;
+    const groupedFilteredList = omit(groupBy(filteredList, l => l.labels[1]), 'undefined');
 
     const tabs = Object
       .keys(options)
@@ -97,6 +139,7 @@ class SearchComponent extends React.Component {
       .map(o => ({
         label: options[o].label,
         value: options[o].value,
+        type: options[o].type,
         ...selected[o].length && { number: selected[o].length }
       }));
 
@@ -123,6 +166,7 @@ class SearchComponent extends React.Component {
           </button>
 
           <input
+            ref={(c) => { this.input = c; }}
             className={classnames({
               'search-input': true,
               '-open': open
@@ -142,12 +186,13 @@ class SearchComponent extends React.Component {
             })}
             onClick={() => this.onToggleOpen(!open)}
           >
-            <Icon name="icon-arrow-down" className="-small" />
+            <Icon name="icon-arrow-down-2" className="-small" />
           </button>
         </div>
 
+
         {/* Dropdown */}
-        {open &&
+        {open && !value &&
           <div className="search-dropdown">
             <Tabs
               className="-dark -no-margin"
@@ -181,10 +226,70 @@ class SearchComponent extends React.Component {
           </div>
         }
 
+
+        {/* Dropdown search */}
+        {open && value &&
+          <div className="search-dropdown">
+            <div className="search-dropdown-list">
+              <div className="search-dropdown-list-item">
+                <h4>Search by text:</h4>
+
+                <ul className="list-item-results">
+                  <li>
+                    <button
+                      type="button"
+                      onClick={() => this.props.onChangeSearch(value)}
+                    >
+                      {value}
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              {Object.keys(groupedFilteredList).map(g => (
+                <div className="search-dropdown-list-item" key={g}>
+                  <h4>Filter by {g.toLowerCase()}:</h4>
+
+                  <ul className="list-item-results">
+                    {groupedFilteredList[g].map(l => (
+                      <li>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            this.props.onToggleSelected({
+                              tag: l,
+                              tab: (tabs.find(t => t.type === l.labels[1]) || {}).value || 'custom'
+                            });
+
+                            this.onToggleOpen(false);
+                          }}
+                        >
+                          {l.label}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        }
+
+
         {/* Selected */}
-        {!open && !!selectedAllArr.length &&
+        {!open && (!!selectedAllArr.length || !!search) &&
           <div className="search-selected">
             <div className="c-tag-list">
+              {!!search &&
+                <Tag
+                  key="clear-search"
+                  name={`Text: ${search}`}
+                  className="-secondary"
+                  isRemovable
+                  onClick={() => this.props.onChangeSearch('')}
+                />
+              }
+
               {selectedAllArr.map(s => (
                 <Tag
                   key={s.id}

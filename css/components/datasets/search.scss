@@ -77,6 +77,19 @@
         }
       }
     }
+
+    .search-dropdown-list-item {
+      margin: 0;
+      border: none;
+
+      h4 {
+        display: inline-block;
+        font-size: $font-size-normal;
+        font-weight: $font-weight-regular;
+        margin: 0;
+        border-bottom: 1px solid $border-color-1;
+      }
+    }
   }
 
   .search-selected {
