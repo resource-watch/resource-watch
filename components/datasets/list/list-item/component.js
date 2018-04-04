@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // Redux
 import { Link } from 'routes';
 
-import ToggleFavorite from 'components/favorites/ToggleFavorite';
+import ToggleFavorite from 'components/favorites/toggle-favorite';
 
 // Thumbnails charts
 import WidgetChart from 'components/charts/widget-chart';

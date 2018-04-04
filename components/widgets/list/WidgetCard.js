@@ -12,7 +12,7 @@ import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import Title from 'components/ui/Title';
-import ToggleFavorite from 'components/favorites/ToggleFavorite';
+import ToggleFavorite from 'components/favorites/toggle-favorite';
 import WidgetChart from 'components/charts/widget-chart';
 import LayerChart from 'components/charts/layer-chart';
 import EmbedMyWidgetModal from 'components/modal/EmbedMyWidgetModal';

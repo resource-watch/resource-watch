@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 
 // Components
 import TextChart from 'components/widgets/charts/TextChart';
-import ToggleFavorite from 'components/favorites/ToggleFavorite';
+import ToggleFavorite from 'components/favorites/toggle-favorite';
 import Map from 'components/ui/map/Map';
 import {
   Legend,

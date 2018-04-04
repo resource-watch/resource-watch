@@ -5,7 +5,7 @@ import { Link } from 'routes';
 
 // Components
 import Title from 'components/ui/Title';
-import ToggleFavorite from 'components/favorites/ToggleFavorite';
+import ToggleFavorite from 'components/favorites/toggle-favorite';
 
 class DatasetsListCard extends PureComponent {
   static defaultProps = {

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { logEvent } from 'utils/analytics';
 
 // Components
-import ToggleFavorite from 'components/favorites/ToggleFavorite';
+import ToggleFavorite from 'components/favorites/toggle-favorite';
 import Icon from 'components/ui/Icon';
 
 // Modal

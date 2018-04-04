@@ -8,5 +8,5 @@ export default connect(
   state => ({
     ...state.explore.map
   }),
-  ...actions
+  actions
 )(ExploreDatasetsActionsComponent);

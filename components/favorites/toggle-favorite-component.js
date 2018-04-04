@@ -2,14 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-// Redux
-import { connect } from 'react-redux';
-
-import { toggleFavourite } from 'redactions/user';
-
-// Selectors
-import { parseFavourites } from 'selectors/user/favorites';
-
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
@@ -17,7 +9,7 @@ import { belongsToACollection } from 'components/collections-panel/collections-p
 import Icon from 'components/ui/Icon';
 import LoginRequired from 'components/ui/login-required';
 
-class ToggleFavorite extends React.Component {
+class ToggleFavoriteComponent extends React.Component {
   toggleFavorite() {
     const {
       toggleFavourite,
@@ -59,7 +51,7 @@ class ToggleFavorite extends React.Component {
 
     const favoriteButtonClass = classnames({
       'c-btn': true,
-      'favourite-button': true,
+      'c-favourite-button': true,
       '-loading': user.favourites.loading === data.id
     });
 
@@ -80,7 +72,7 @@ class ToggleFavorite extends React.Component {
   }
 }
 
-ToggleFavorite.propTypes = {
+ToggleFavoriteComponent.propTypes = {
   user: PropTypes.object.isRequired,
   data: PropTypes.object,
   favourites: PropTypes.array,
@@ -88,13 +80,5 @@ ToggleFavorite.propTypes = {
   toggleFavourite: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  user: state.user,
-  favourites: parseFavourites(state)
-});
 
-const mapDispatchToProps = dispatch => ({
-  toggleFavourite: fav => dispatch(toggleFavourite(fav))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ToggleFavorite);
+export default ToggleFavoriteComponent;
