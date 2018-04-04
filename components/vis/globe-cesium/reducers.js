@@ -10,7 +10,11 @@ export default {
   [actions.togglePosition]: (state) => {
     const newPosition = { ...state.position };
     newPosition.latitude = -state.position.latitude;
-    newPosition.longitude = (state.position.longitude + 180) % 180;
+    if (state.position.longitude > 0) {
+      newPosition.longitude = state.position.longitude - 180;
+    } else if (state.position.longitude < 0){
+      newPosition.longitude = state.position.longitude + 180;
+    }
     return { ...state, position: newPosition };
   }
 };
