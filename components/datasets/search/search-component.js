@@ -56,7 +56,8 @@ class SearchComponent extends React.Component {
   state = {
     index: 0,
     value: '',
-    filteredList: []
+    filteredList: [],
+    groupedFilteredList: {}
   }
 
 
@@ -111,8 +112,9 @@ class SearchComponent extends React.Component {
         window.removeEventListener('keyup', this.onScreenKeyup);
         this.setState({
           index: 0,
+          value: '',
           filteredList: [],
-          value: ''
+          groupedFilteredList: {}
         });
         if (this.input) this.input.blur();
       }
@@ -159,9 +161,7 @@ class SearchComponent extends React.Component {
   }
 
   onListItemMouseOver = (index) => {
-    this.setState({
-      index
-    });
+    this.setState({ index });
   }
 
   onChangeTab = (t) => {
