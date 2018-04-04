@@ -2,6 +2,7 @@ import { createAction, createThunkAction } from 'redux-tools';
 
 // Actions
 import { setContextActiveLayers } from 'layout/pulse/layer-pill/actions';
+import { setInitialPosition } from 'components/vis/globe-cesium/actions';
 
 // Components
 import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
@@ -19,7 +20,9 @@ export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer
   contextLayers,
   descriptionPulse,
   contextLayersOnTop,
-  label
+  label,
+  rotatableGlobe,
+  initialPosition
 }) =>
   (dispatch, state) => {
     const { layerActive } = state().layerMenuPulse;
@@ -27,6 +30,10 @@ export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer
       // Clear the possible active layers from the previous layer selection
       dispatch(setContextActiveLayers([]));
       dispatch(setActiveLayerLoading(true));
+
+      if (initialPosition) {
+        dispatch(setInitialPosition(initialPosition));
+      }
 
       const layerGlobeManager = new LayerGlobeManager();
 
@@ -44,6 +51,8 @@ export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer
           layer.contextLayers = [];
           layer.descriptionPulse = descriptionPulse;
           layer.label = label;
+          layer.rotatableGlobe = rotatableGlobe;
+          layer.initialPosition = initialPosition;
 
           layerGlobeManager.addLayer(
             layer.attributes,

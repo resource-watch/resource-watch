@@ -72,6 +72,7 @@ class LayerCardComponent extends PureComponent {
 
     const source = dataset && dataset.metadata && dataset.metadata.source;
     const layerName = layerActive && layerActive.attributes && layerActive.attributes.name;
+    const rotatableGlobe = layerActive && layerActive.rotatableGlobe;
 
     const className = classNames({
       'c-layer-card': true,
@@ -92,6 +93,16 @@ class LayerCardComponent extends PureComponent {
         {layerPoints && layerPoints.length > 0 &&
           <div className="number-of-points">
             Number of objects: {layerPoints.length}
+          </div>
+        }
+        {rotatableGlobe &&
+          <div>
+            <button
+              className="c-button -secondary rotate-globe-button"
+              onClick={() => this.props.togglePosition()}
+            >
+              Rotate globe
+            </button>
           </div>
         }
         <div className="legends">
@@ -224,7 +235,8 @@ LayerCardComponent.propTypes = {
   // Actions
   loadDatasetData: PropTypes.func.isRequired,
   loadWidgetData: PropTypes.func.isRequired,
-  setWidget: PropTypes.func.isRequired
+  setWidget: PropTypes.func.isRequired,
+  togglePosition: PropTypes.func.isRequired
 };
 
 export default LayerCardComponent;
