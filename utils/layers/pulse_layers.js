@@ -49,8 +49,7 @@ export const LAYERS_PLANET_PULSE = [
                         'ed051817-1cb3-42cc-91b5-1caaea6f8ca6',
                         'bd9ec0da-84a0-4429-bf30-ffcbe64fbe7b'],
         contextLayersOnTop: true,
-        rotatableGlobe: true,
-        initialPosition: { latitude: 90, longitude: 0, height: 20000000 },
+        initialPosition: { latitude: -13.2399454992863, longitude: -52.734375, height: 20000000 },
         widgets: [],
         basemap: {
           name: 'other',
@@ -237,6 +236,7 @@ export const LAYERS_PLANET_PULSE = [
           </div>,
         contextLayers: ["c7e76588-6da5-4645-8842-2d2ac0001110"],
         contextLayersOnTop: true,
+        initialPosition: { latitude: -164.00390625, longitude: -8.233237111274553, height: 20000000 },
         widgets: [],
         basemap: {
           name: 'default',
@@ -434,6 +434,7 @@ export const LAYERS_PLANET_PULSE = [
               <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
             </div>
           </div>,
+        initialPosition: { latitude: -239.0625, longitude: 16.29905101458183, height: 20000000 },
         basemap: {
           name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
