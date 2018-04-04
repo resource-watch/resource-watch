@@ -12,23 +12,19 @@ import { toggleTooltip } from 'redactions/tooltip';
 
 // Components
 import Title from 'components/ui/Title';
+import ToggleFavorite from 'components/favorites/toggle-favorite';
 import WidgetChart from 'components/charts/widget-chart';
 import LayerChart from 'components/charts/layer-chart';
 import EmbedMyWidgetModal from 'components/modal/EmbedMyWidgetModal';
 import WidgetActionsTooltip from 'components/widgets/list/WidgetActionsTooltip';
-import Icon from 'components/ui/Icon';
 import Map from 'components/ui/map/Map';
 import Spinner from 'components/ui/Spinner';
 import TextChart from 'components/widgets/charts/TextChart';
 
 import {
-  Tooltip,
   Legend,
   LegendItemTypes
 } from 'wri-api-components';
-
-import CollectionsPanel from 'components/collections-panel';
-import LoginRequired from 'components/ui/login-required';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -37,9 +33,6 @@ import LayersService from 'services/LayersService';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
-
-// helpers
-import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
 class WidgetCard extends PureComponent {
   /**
@@ -360,7 +353,7 @@ class WidgetCard extends PureComponent {
   handleDownloadPDF() {
     toastr.info('Widget download', 'The file is being generated...');
 
-    const id = this.props.widget.id;
+    const { id } = this.props.widget;
     const type = this.props.widget.widgetConfig.type || 'widget';
     const { origin } = window.location;
     const filename = encodeURIComponent(this.props.widget.name);
@@ -405,16 +398,8 @@ class WidgetCard extends PureComponent {
       showRemove,
       showActions,
       showEmbed,
-      showFavourite,
       user
     } = this.props;
-
-    const isInACollection = belongsToACollection(user, widget);
-
-    const starIconName = classnames({
-      'icon-star-full': isInACollection,
-      'icon-star-empty': !isInACollection
-    });
 
     return (
       <div className={'c-widget-card'}>
@@ -442,33 +427,7 @@ class WidgetCard extends PureComponent {
               {WidgetCard.getDescription(widget.description)}
             </p>
 
-            <LoginRequired text="Log in or sign up to save items in favorites">
-              <Tooltip
-                overlay={
-                  <CollectionsPanel
-                    resource={widget}
-                    resourceType="widget"
-                  />
-                }
-                overlayClassName="c-rc-tooltip"
-                overlayStyle={{
-                  color: '#fff'
-                }}
-                placement="bottomLeft"
-                trigger="click"
-              >
-                <button
-                  className="c-btn favourite-button"
-                  tabIndex={-1}
-                >
-                  <Icon
-                    name={starIconName}
-                    className="-star -small"
-                  />
-                </button>
-              </Tooltip>
-            </LoginRequired>
-
+            <ToggleFavorite data={widget} type="widget" />
           </div>
 
           {(showActions || showRemove || showEmbed) &&
@@ -507,8 +466,7 @@ class WidgetCard extends PureComponent {
 
 WidgetCard.defaultProps = {
   showActions: false,
-  showRemove: false,
-  showFavourite: true
+  showRemove: false
 };
 
 WidgetCard.propTypes = {
@@ -516,7 +474,6 @@ WidgetCard.propTypes = {
   showActions: PropTypes.bool,
   showRemove: PropTypes.bool,
   showEmbed: PropTypes.bool,
-  showFavourite: PropTypes.bool,
   mode: PropTypes.oneOf(['thumbnail', 'full']), // How to show the graph
   onWidgetClick: PropTypes.func,
   onWidgetRemove: PropTypes.func,

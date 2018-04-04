@@ -5,12 +5,7 @@ import { Link } from 'routes';
 
 // Components
 import Title from 'components/ui/Title';
-import Icon from 'components/ui/Icon';
-import { Tooltip } from 'wri-api-components';
-import CollectionsPanel from 'components/collections-panel';
-
-// helpers
-import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
+import ToggleFavorite from 'components/favorites/toggle-favorite';
 
 class DatasetsListCard extends PureComponent {
   static defaultProps = {
@@ -47,17 +42,10 @@ class DatasetsListCard extends PureComponent {
   render() {
     const { dataset, routes, user } = this.props;
 
-
     const isOwnerOrAdmin = (dataset.userId === user.id || user.role === 'ADMIN');
-    const isInACollection = belongsToACollection(user, dataset);
 
     const classNames = classnames({
       '-owner': isOwnerOrAdmin
-    });
-
-    const starIconName = classnames({
-      'icon-star-full': isInACollection,
-      'icon-star-empty': !isInACollection
     });
 
     return (
@@ -94,30 +82,8 @@ class DatasetsListCard extends PureComponent {
               {dataset.provider}
             </Title>
 
-            <Tooltip
-              overlay={
-                <CollectionsPanel
-                  resource={dataset}
-                  resourceType="dataset"
-                />
-              }
-              overlayClassName="c-rc-tooltip"
-              overlayStyle={{
-                color: '#fff'
-              }}
-              placement="bottomLeft"
-              trigger="click"
-            >
-              <button
-                className="c-btn favourite-button"
-                tabIndex={-1}
-              >
-                <Icon
-                  name={starIconName}
-                  className="-star -small"
-                />
-              </button>
-            </Tooltip>
+            <ToggleFavorite data={dataset} type="dataset" />
+
           </header>
 
           <div className="card-content">

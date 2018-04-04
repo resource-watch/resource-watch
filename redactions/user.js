@@ -257,7 +257,7 @@ export const toggleFavourite = createThunkAction('user/toggleFavourite', (payloa
     const { token } = getState().user;
     const { favourite, resource } = payload;
 
-    dispatch(setFavouriteLoading(true));
+    dispatch(setFavouriteLoading(resource.resourceId || true));
 
     if (favourite.id) {
       const { id } = favourite;

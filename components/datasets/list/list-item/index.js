@@ -12,5 +12,5 @@ export default connect(
   state => ({
     user: state.user
   }),
-  actions
+  ...actions
 )(DatasetListItemComponent);
