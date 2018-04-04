@@ -62,7 +62,7 @@ class ExploreDetailButtons extends PureComponent {
 
     return (
       <div className="c-explore-detail-actions">
-        {partner.logo &&
+        {partner && partner.logo &&
           <div className="partner-container">
             <div className="partner-text-container">
               Partner:

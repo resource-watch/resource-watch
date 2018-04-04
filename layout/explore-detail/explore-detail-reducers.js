@@ -18,10 +18,10 @@ export default {
   // PARTNER
   //
   [actions.setPartner]: (state, action) => {
-    const partner = {
+    const partner = state.partner ? {
       ...state.partner,
       data: action.payload
-    };
+    } : {};
 
     return ({ ...state, partner });
   },
