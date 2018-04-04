@@ -19,6 +19,7 @@ import { FORM_ELEMENTS, FORMAT } from 'components/admin/layers/form/constants';
 import InteractionsItems from './interactions-items';
 
 class InteractionsComponent extends PureComponent {
+
   componentWillMount() {
     this.props.dispatch(getInteractions({ ...this.props }));
   }
@@ -101,6 +102,7 @@ class InteractionsComponent extends PureComponent {
               name: 'selected_columns',
               label: 'Add interactions',
               type: 'text',
+              creatable: true,
               removeSelected: true,
               multi: true,
               value: interactions.added ? FORMAT.options(interactions.added) : [],
@@ -133,10 +135,6 @@ const mapStateToProps = state => ({
 InteractionsComponent.propTypes = {
   dispatch: PropTypes.func.isRequired,
   interactions: PropTypes.object.isRequired
-};
-
-InteractionsComponent.defaultProps = {
-
 };
 
 export default connect(mapStateToProps, null)(InteractionsComponent);
