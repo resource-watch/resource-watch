@@ -59,6 +59,7 @@
 
       a {
         padding: 20px;
+        text-shadow: none;
       }
     }
 
@@ -87,6 +88,9 @@
 
 
 .insight-cards {
+  min-height: 590px;
+  position: relative;
+
   .c-card-static {
     margin-top: $margin-size;
     height: 590px;

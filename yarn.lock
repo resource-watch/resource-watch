@@ -3815,6 +3815,10 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
+flatpickr@^4.3.2:
+  version "4.4.3"
+  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-4.4.3.tgz#53ba7b06523f73ee69175b3ed808c7fc0f245c4f"
+
 flush-write-stream@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flush-write-stream/-/flush-write-stream-1.0.2.tgz#c81b90d8746766f1a609a46809946c45dd8ae417"
@@ -7384,6 +7388,13 @@ react-dropzone@^4.2.3:
     attr-accept "^1.0.3"
     prop-types "^15.5.7"
 
+react-flatpickr@^3.6.4:
+  version "3.6.4"
+  resolved "https://registry.yarnpkg.com/react-flatpickr/-/react-flatpickr-3.6.4.tgz#41a8406d00d787b629839ae1f5a01ed3bb6e84ac"
+  dependencies:
+    flatpickr "^4.3.2"
+    prop-types "^15.5.10"
+
 react-form@^2.10.0:
   version "2.16.1"
   resolved "https://registry.yarnpkg.com/react-form/-/react-form-2.16.1.tgz#c125d1c8903c7aa6ccff91ac2c87aa19a079e164"
@@ -10047,9 +10058,9 @@ wide-align@^1.1.0:
   dependencies:
     string-width "^1.0.2"
 
-widget-editor@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/widget-editor/-/widget-editor-1.0.3.tgz#924f108b8dc1c338cd200609c8ab962e66974fcc"
+widget-editor@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/widget-editor/-/widget-editor-1.0.4.tgz#a4360c4690e6d957e63509789a93c7bf1fca3238"
   dependencies:
     autobind-decorator "^2.1.0"
     babel-runtime "^6.26.0"
@@ -10064,6 +10075,7 @@ widget-editor@1.0.3:
     react-dnd "^2.5.4"
     react-dnd-html5-backend "^2.5.4"
     react-dropzone "^4.2.3"
+    react-flatpickr "^3.6.4"
     react-input-autosize "^2.0.1"
     react-redux "^5.0.6"
     react-redux-toastr "^7.1.6"

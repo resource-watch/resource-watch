@@ -48,8 +48,10 @@ import * as globeCesium from 'components/vis/globe-cesium';
 import * as widgetDetail from 'layout/widget-detail';
 
 // Catalog
-
 import * as catalog from 'layout/catalog';
+
+// Blog
+import * as latestBlogPosts from 'components/blog/latest-posts';
 
 // Topic
 import * as topicsIndex from 'layout/topics';
@@ -129,6 +131,9 @@ const reducer = combineReducers({
 
   // Catalog
   catalog: handleModule(catalog),
+
+  // Blog
+  latestBlogPosts: handleModule(latestBlogPosts),
 
   // Topic
   topicsIndex: handleModule(topicsIndex),

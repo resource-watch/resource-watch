@@ -62,6 +62,7 @@ module.exports = {
         'process.env.CALLBACK_URL': JSON.stringify(process.env.CALLBACK_URL),
         'process.env.CONTROL_TOWER_URL': JSON.stringify(process.env.CONTROL_TOWER_URL),
         'process.env.WRI_API_URL': JSON.stringify(process.env.WRI_API_URL),
+        'process.env.BLOG_API_URL': JSON.stringify(process.env.BLOG_API_URL),
         'process.env.STATIC_SERVER_URL': JSON.stringify(process.env.STATIC_SERVER_URL),
         'process.env.ADD_SEARCH_KEY': JSON.stringify(process.env.ADD_SEARCH_KEY),
         'process.env.TRANSIFEX_LIVE_API': JSON.stringify(process.env.TRANSIFEX_LIVE_API),
