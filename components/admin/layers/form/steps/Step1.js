@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 // Constants
 import { PROVIDER_OPTIONS, FORM_ELEMENTS } from 'components/admin/layers/form/constants';
@@ -11,17 +12,13 @@ import Select from 'components/form/SelectInput';
 import Textarea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
 import Code from 'components/form/Code';
+
 import InteractionsComponent from '../interactions/interactions-component';
 import LayerPreviewComponent from '../layer-preview/layer-preview-component';
 
 class Step1 extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      id: props.id,
-      form: props.form
-    };
 
     // ------------------- BINDINGS -------------------------
     this.handleRefreshPreview = this.handleRefreshPreview.bind(this);
@@ -31,10 +28,24 @@ class Step1 extends React.Component {
     this.setLayerGroups();
   }
 
+  layerConfigStatus(title, err) {
+    const classes = classnames({
+      'layer-config-status': true,
+      errors: !!err
+    });
+
+    return (
+      <section className={classes}>
+        <h4>{title}</h4>
+        {err && <ul>{err.errors.map((e, k) => <li key={k}>{e}</li>)}</ul>}
+      </section>);
+  }
+
   render() {
+    const { layerPreview, verifyLayerConfig, form, id } = this.props;
     return (
       <fieldset className="c-field-container">
-        {!this.state.id &&
+        {!id &&
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.dataset = c; }}
             onChange={value => this.props.onChangeDataset(value)}
@@ -45,7 +56,7 @@ class Step1 extends React.Component {
               label: 'Dataset',
               type: 'text',
               required: true,
-              default: this.state.form.dataset
+              default: form.dataset
             }}
           >
             {Select}
@@ -61,7 +72,7 @@ class Step1 extends React.Component {
             label: 'Title',
             type: 'text',
             required: true,
-            default: this.state.form.name
+            default: form.name
           }}
         >
           {Input}
@@ -77,7 +88,7 @@ class Step1 extends React.Component {
             label: 'Provider',
             type: 'text',
             required: true,
-            default: this.state.form.provider
+            default: form.provider
           }}
         >
           {Select}
@@ -90,7 +101,7 @@ class Step1 extends React.Component {
             name: 'description',
             label: 'Description',
             type: 'textarea',
-            default: this.state.form.description
+            default: form.description
           }}
         >
           {Textarea}
@@ -102,11 +113,26 @@ class Step1 extends React.Component {
           properties={{
             name: 'layerConfig',
             label: 'Layer config',
-            default: this.state.form.layerConfig
+            default: form.layerConfig
           }}
         >
           {Code}
         </Field>
+
+        {layerPreview.errors &&
+          this.layerConfigStatus('Layer config not valid!', layerPreview.errors)}
+
+        {layerPreview.errors === false &&
+          this.layerConfigStatus('Layer config valid')}
+
+
+        <button
+          type="button"
+          className="c-button -primary"
+          onClick={() => verifyLayerConfig()}
+        >
+          Verify config
+        </button>
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.legendConfig = c; }}
@@ -114,14 +140,14 @@ class Step1 extends React.Component {
           properties={{
             name: 'legendConfig',
             label: 'Legend config',
-            default: this.state.form.legendConfig
+            default: form.legendConfig
           }}
         >
           {Code}
         </Field>
 
         <InteractionsComponent
-          form={this.state.form}
+          form={form}
         />
 
         <Field
@@ -134,14 +160,14 @@ class Step1 extends React.Component {
             label: 'Provider',
             type: 'text',
             required: true,
-            default: this.state.form.provider
+            default: form.provider
           }}
         >
           {Select}
         </Field>
 
         <LayerPreviewComponent
-          form={this.state.form}
+          form={form}
         />
 
         <Field
@@ -153,7 +179,7 @@ class Step1 extends React.Component {
             label: 'Do you want to set this layer as the default one. (Only one default layer per dataset is allowed at a time)',
             value: 'default',
             title: 'Default',
-            checked: this.props.form.default
+            checked: form.default
           }}
         >
           {Checkbox}
@@ -173,8 +199,10 @@ Step1.propTypes = {
   id: PropTypes.string,
   datasets: PropTypes.array,
   form: PropTypes.object,
+  layerPreview: PropTypes.object,
   onChange: PropTypes.func,
-  onChangeDataset: PropTypes.func
+  onChangeDataset: PropTypes.func,
+  verifyLayerConfig: PropTypes.func
 };
 
 export default Step1;

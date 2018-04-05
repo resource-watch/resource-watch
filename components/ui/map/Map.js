@@ -6,7 +6,7 @@ import compact from 'lodash/compact';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 
-import { LABELS, BOUNDARIES } from 'components/ui/map/constants';
+import { BOUNDARIES } from 'components/ui/map/constants';
 
 // Components
 import MapPopup from 'components/ui/map/MapPopup';
@@ -426,6 +426,8 @@ Map.propTypes = {
   interactionEnabled: PropTypes.bool,
   disableScrollZoom: PropTypes.bool,
   onMapInstance: PropTypes.func,
+  onError: PropTypes.func,
+
   // STORE
   mapConfig: PropTypes.object,
   sidebar: PropTypes.object,

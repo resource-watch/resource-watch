@@ -27,6 +27,9 @@ export default class LayerManager {
     this.onLayerAddedSuccess = options.onLayerAddedSuccess;
     this.onLayerAddedError = options.onLayerAddedError;
     this.onLayerClick = options.onLayerClick;
+    this.onError = options.onError || null;
+    this.errors = false;
+    this.errorDetails = null;
   }
 
   /*
@@ -251,7 +254,11 @@ export default class LayerManager {
     }
   }
 
-  addCartoLayer(layerSpec) {
+  verifyCartoLayer(layerSpec, cb) {
+    return this.addCartoLayer(layerSpec, cb);
+  }
+
+  addCartoLayer(layerSpec, cb) {
     const layer = Object.assign({}, layerSpec.layerConfig, {
       id: layerSpec.id,
       name: layerSpec.name,
@@ -287,13 +294,20 @@ export default class LayerManager {
 
     fetch(`https://${layer.account}.carto.com/api/v1/map${params}`)
       .then((response) => {
-        if (response.status >= 400) {
-          this.rejectLayersLoading = true;
-          throw new Error(response.statusText);
-        }
+        if (response.ok) return response.json();
+        this.rejectLayersLoading = true;
+        this.errors = true;
         return response.json();
       })
       .then((data) => {
+
+        if (this.errors) {
+          if (this.onError && typeof this.onError === 'function') this.onError(data);
+          this.errorDetails = data;
+          if (cb) cb(false);
+          return;
+        }
+
         const tileUrl = `${data.cdn_url.templates.https.url}/${layer.account}/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
 
         this.mapLayers[layer.id] = L.tileLayer(tileUrl).addTo(this.map);
@@ -317,6 +331,12 @@ export default class LayerManager {
             this.onLayerClick({ ...e, ...layer, ...layerSpec });
           });
         }
+        console.log('hello', cb);
+        if (cb) {
+          cb(true);
+        }
+      }).catch(() => {
+        this.rejectLayersLoading = true;
       });
   }
 

@@ -6,17 +6,17 @@ import numeral from 'numeral';
 
 
 function _formatValue(item, data) {
-  if (item.type === 'date' && item.format && data) {
-    data = moment(data, item.format);
-  } else if (item.type === 'number' && item.format && data) {
-    data = numeral(data).format(item.format);
+  if (item.format && typeof item.format === 'string') {
+    if (item.type === 'date' && data) {
+      data = moment(data, item.format);
+    } else if (item.type === 'number' && data) {
+      data = numeral(data).format(item.format).toString();
+    }
   }
 
-  // If any html tags are present, remove them
-  // The html is already escaped so no injection can happen here
-  // Simply remove the tags for estetic reasons.
   function removeHtmlTags(str) {
-    return str ? str.replace(/<\/?[a-z]+>/gi, '') : '';
+    if (!str) return false;
+    return str.toString().replace(/<\/?[a-z]+>/gi, '');
   }
 
   return `${item.prefix || ''}${removeHtmlTags(data) || '-'}${item.suffix || ''}`;

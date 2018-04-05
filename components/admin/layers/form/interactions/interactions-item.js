@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import classnames from 'classnames';
+
 // Drag and drop
 import { SortableElement } from 'react-sortable-hoc';
 
@@ -37,12 +39,21 @@ const InteractionsItem = (props) => {
     custom
   } = props;
 
+  const interactionsFieldClasses = classnames({
+    'c-field-flex': true,
+    'c-sortable-row': true,
+    'c-interactions__field': true,
+    'c-interactions__field--custom': custom
+  });
+
   return (
     <li
-      className="c-field-flex c-sortable-row c-interactions__field"
+      className={interactionsFieldClasses}
       key={interaction.column}
     >
       <InteractionsHandler />
+
+      {custom && <p className="c-interactions__warning"><strong>Custom interaction</strong> Make sure the data matches the format you want. Otherwise it wont display correctly.</p>}
 
       {['Field', 'Label', 'Prefix', 'Suffix'].map((label) => {
       const validations = label === 'Label' ? ['required'] : [];
@@ -76,12 +87,11 @@ const InteractionsItem = (props) => {
             label: 'Format',
             type: 'text',
             disabled: /string/.test(interaction.type),
-            default: interaction.format
+            default: typeof interaction.format === 'string' ? interaction.format : ''
           }}
         >
           {Select}
         </Field>
-        {custom && <p className="c-interactions__warning"><strong>Warning! Custom interaction</strong> Make sure the data matches the format you want. Otherwise it wont display correctly.</p>}
       </section>
 
       <button type="button" className="c-btn" onClick={() => removeInteraction(interaction)}>Remove</button>

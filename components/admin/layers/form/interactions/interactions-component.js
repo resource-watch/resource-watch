@@ -90,7 +90,6 @@ class InteractionsComponent extends PureComponent {
 
   render() {
     const { interactions } = this.props;
-
     return (
       <div>
         {interactions.available &&
