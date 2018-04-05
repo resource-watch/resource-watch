@@ -37,7 +37,7 @@ class Step1 extends React.Component {
     return (
       <section className={classes}>
         <h4>{title}</h4>
-        {err && <ul>{err.errors.map((e, k) => <li key={k}>{e}</li>)}</ul>}
+        {err && err.errors && <ul>{err.errors.map((e, k) => <li key={k}>{e}</li>)}</ul>}
       </section>);
   }
 

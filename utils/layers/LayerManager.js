@@ -31,7 +31,7 @@ export default class LayerManager {
     this.onLayerAddedSuccess = options.onLayerAddedSuccess;
     this.onLayerAddedError = options.onLayerAddedError;
     this.onLayerClick = options.onLayerClick;
-    this.onError = options.onError || null;
+    this.layersUpdated = options.layersUpdated || null;
     this.errors = false;
     this.errorDetails = null;
 
@@ -306,11 +306,11 @@ export default class LayerManager {
     }
   }
 
-  verifyCartoLayer(layerSpec, cb) {
-    return this.addCartoLayer(layerSpec, cb);
+  verifyCartoLayer(layerSpec, callback) {
+    return this.addCartoLayer(layerSpec, true, callback);
   }
 
-  addCartoLayer(layerSpec, cb) {
+  addCartoLayer(layerSpec, verify, callback) {
     const layer = Object.assign({}, layerSpec.layerConfig, {
       id: layerSpec.id,
       name: layerSpec.name,
@@ -346,18 +346,16 @@ export default class LayerManager {
     const params = `?stat_tag=API&config=${encodeURIComponent(JSON.stringify(layerTpl))}`;
 
     fetch(`https://${layer.account}.carto.com/api/v1/map${params}`)
-      .then((response) => {
-        if (response.ok) return response.json();
-        this.rejectLayersLoading = true;
-        this.errors = true;
+    .then((response) => {
+        this.errors = !response.ok;
+        if (this.errors) this.rejectLayersLoading = true;
         return response.json();
       })
       .then((data) => {
-
-        if (this.errors) {
-          if (this.onError && typeof this.onError === 'function') this.onError(data);
-          this.errorDetails = data;
-          if (cb) cb(false);
+        if (this.errors || verify) {
+          if (this.layersUpdated && typeof this.layersUpdated === 'function') this.layersUpdated(!this.errors, data);
+          if (this.errors) this.errorDetails = data;
+          if (callback && typeof callback === 'function') callback(!this.errors);
           return;
         }
 
@@ -384,12 +382,10 @@ export default class LayerManager {
             this.onLayerClick({ ...e, ...layer, ...layerSpec });
           });
         }
-        if (cb) {
-          cb(true);
-        }
-      }).catch(() => {
-        this.rejectLayersLoading = true;
 
+        if (callback && typeof callback === 'function') callback(!this.errors);
+      }).catch((e) => {
+        this.rejectLayersLoading = true;
         if (this.options.swipe) {
           this.swipeLayer(this.mapLayers[layer.id], layer.sideBySide);
         }

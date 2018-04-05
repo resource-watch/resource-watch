@@ -51,8 +51,8 @@ class LayersForm extends React.Component {
     });
 
     this.layerManager = new LayerManager(null, {
-      onError: (err) => {
-        this.props.dispatch(setLayerInteractionError(err));
+      layersUpdated: (valid, err) => {
+        this.props.dispatch(setLayerInteractionError(valid ? false : err));
       }
     });
 
@@ -224,16 +224,13 @@ class LayersForm extends React.Component {
 
   verifyLayerConfig() {
     const { adminLayerPreview } = this.props;
+    const { layerGroups } = adminLayerPreview;
+
     const { form } = this.state;
 
-    const cartoLayer = adminLayerPreview.layerGroups[0].layers
-      .filter(layer => layer.provider === 'cartodb');
 
-    console.log(Object.assign(
-      {},
-      cartoLayer[0],
-      { layerConfig: form.layerConfig }
-    ));
+    const cartoLayer = layerGroups.length ? layerGroups[0].layers
+      .filter(layer => layer.provider === 'cartodb') : [];
 
     if (cartoLayer.length) {
       // If we have carto layers, make sure they work
@@ -241,11 +238,7 @@ class LayersForm extends React.Component {
         {},
         cartoLayer[0],
         { layerConfig: form.layerConfig }
-      ), (valid) => {
-        if (valid) {
-          this.props.dispatch(setLayerInteractionError(false));
-        }
-      });
+      ));
     }
   }
 
