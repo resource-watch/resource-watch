@@ -35,6 +35,17 @@
     }
   }
 
+  &.-tertiary {
+    background: transparent;
+    color: $color-text-1;
+    border: 1px solid $border-color-2;
+    font-weight: $font-weight-bold;
+
+    &:hover {
+      background: rgba($border-color-2, 0.2);
+    }
+  }
+
   &.-clean {
     cursor: default; // If we don't have include grapho we can't set this tags as clickable
     padding: 0;

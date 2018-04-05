@@ -79,7 +79,11 @@ export default {
   },
 
   [actions.resetFiltersSelected]: (state) => {
-    const filters = { ...state.filters, selected: initialState.filters.selected };
+    const filters = {
+      ...state.filters,
+      search: initialState.filters.search,
+      selected: initialState.filters.selected
+    };
     return { ...state, filters };
   },
 

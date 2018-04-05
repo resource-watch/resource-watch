@@ -9,6 +9,11 @@
     justify-content: center;
     margin-bottom: 35px;
     cursor: pointer;
+
+    img {
+      max-height: 100%;
+    }
+
   }
 
   .description {
