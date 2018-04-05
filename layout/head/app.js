@@ -150,8 +150,8 @@ class Head extends React.PureComponent {
         {Head.getStyles()}
         {this.getCrazyEgg()}
         {this.getUserReport()}
-        {this.getTransifexSettings()}
-        {this.getTransifex()}
+        {/* {this.getTransifexSettings()}
+        {this.getTransifex()} */}
         {this.getCesium()}
         {this.getAFrame()}
         {this.getCesiumStyles()}
