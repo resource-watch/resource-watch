@@ -39,8 +39,7 @@ export default {
     {
       id: 'blog',
       label: 'Blog',
-      route: 'insights',
-      pathnames: ['/app/Insights']
+      href: '/blog'
     },
     {
       id: 'about',

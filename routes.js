@@ -62,10 +62,6 @@ routes.add('search', '/search', 'app/search');
 routes.add('topics', '/topics', 'app/topics');
 routes.add('topics_detail', '/topics/:id', 'app/topics-detail');
 
-// ----- INSIGHTS -----
-routes.add('insights', '/blog', 'app/Insights');
-routes.add('insights_detail', '/blog/:slug', 'app/InsightsDetail');
-
 // ----- GET INVOLVED -----
 routes.add('get_involved', '/get-involved', 'app/get-involved');
 routes.add('get_involved_detail', '/get-involved/:id', 'app/get-involved-detail');
