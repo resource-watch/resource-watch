@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Router } from 'routes';
 import isEqual from 'lodash/isEqual';
+import truncate from 'lodash/truncate';
 import classnames from 'classnames';
 import { toastr } from 'react-redux-toastr';
-import { truncateText } from 'utils/utils';
 
 // Redux
 import { connect } from 'react-redux';
@@ -428,7 +428,7 @@ class WidgetCard extends PureComponent {
               {widget.name}
             </Title>
             <p>
-              {truncateText(widget.description, limitChar)}
+              {truncate(widget.description, { length: limitChar, separator: ' ', omission: '...' })}
             </p>
             <LoginRequired text="Log in or sign up to save items in favorites">
               <Tooltip

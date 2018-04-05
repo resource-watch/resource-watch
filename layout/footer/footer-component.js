@@ -23,7 +23,7 @@ const topics = [
   { name: 'Cities', route: 'topics_detail', params: { id: 'cities' } },
   { name: 'Climate', route: 'topics_detail', params: { id: 'climate' } },
   { name: 'Energy', route: 'topics_detail', params: { id: 'energy' } },
-  { name: 'Food and Agriculture', route: 'topics_detail', params: { id: 'food-agriculture' } },
+  { name: 'Food and Agriculture', route: 'topics_detail', params: { id: 'food-and-agriculture' } },
   { name: 'Forests', route: 'topics_detail', params: { id: 'forests' } },
   { name: 'Oceans', route: 'topics_detail', params: { id: 'oceans' } },
   { name: 'Society', route: 'topics_detail', params: { id: 'society' } },
