@@ -30,10 +30,11 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     application: process.env.APPLICATIONS,
     language: common.locale,
     includes: 'layer,metadata,vocabulary,widget',
-    search: explore.filters.search,
     sort: `${explore.sort.direction < 0 ? '-' : ''}${explore.sort.selected}`,
     status: 'saved',
     published: true,
+    // Search
+    ...explore.filters.search && { search: explore.filters.search },
     // Concepts
     ...concepts.reduce((o, s, i) => ({
       ...o,

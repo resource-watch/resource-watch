@@ -5,7 +5,7 @@
   width: 80%; // Limit the width for mobile devices
   max-width: 400px;
   background: $color-white;
-  z-index: $map-labels-index;
+  z-index: 9;
   border-radius: 4px;
 
   .c-embed-widget & {
