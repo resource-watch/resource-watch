@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
 
 import CardStatic from 'components/app/common/CardStatic';
 import Rating from 'components/app/common/Rating';
+import Spinner from 'components/ui/Spinner';
 
 class BlogPostsLatest extends React.Component {
   componentDidMount() {
@@ -22,15 +22,7 @@ class BlogPostsLatest extends React.Component {
       >
         <div>
           <h4>{p.date}</h4>
-          <h3>
-            { p.link ?
-              <Link route={`/blog/${p.slug}`}>
-                <a>{p.title}</a>
-              </Link>
-              :
-              <span>{p.title}</span>
-            }
-          </h3>
+          <h3>{p.title}</h3>
         </div>
         <div className="footer">
           <div className="source">
@@ -46,28 +38,34 @@ class BlogPostsLatest extends React.Component {
   );
 
   render() {
-    const { posts } = this.props;
-    return posts.length ? (
+    const { posts, loading } = this.props;
+    return (
       <div className="c-blog-latest-posts insight-cards">
-        <div className="row">
-          <div className="column small-12 medium-8">
-            {this.getCard(posts[0])}
-          </div>
-          <div className="column small-12 medium-4">
-            <div className="dual">
-              {this.getCard(posts[1])}
-              {this.getCard(posts[2])}
+        {loading &&
+          <Spinner className="-light" isLoading={loading} />
+        }
+        {!loading && posts.length > 0 &&
+          <div className="row">
+            <div className="column small-12 medium-8">
+              {this.getCard(posts[0])}
+            </div>
+            <div className="column small-12 medium-4">
+              <div className="dual">
+                {this.getCard(posts[1])}
+                {this.getCard(posts[2])}
+              </div>
             </div>
           </div>
-        </div>
+        }
       </div>
-    ) : null;
+    );
   }
 }
 
 BlogPostsLatest.propTypes = {
   posts: PropTypes.array,
-  fetchBlogPostsLatest: PropTypes.func
+  fetchBlogPostsLatest: PropTypes.func,
+  loading: PropTypes.bool
 };
 
 BlogPostsLatest.defaultProps = {

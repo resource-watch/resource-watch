@@ -13,7 +13,7 @@ export const setSelected = createAction('BLOG_POSTS_LATEST_SELECTED');
 export const fetchBlogPostsLatest = createThunkAction('BLOG_POSTS_LATEST_FETCH_DATA', (payload = {}) => (dispatch) => {
   dispatch(setLoading(true));
   dispatch(setError(null));
-  return fetch(new Request(`${process.env.BLOG_API_URL}/posts?_embed`))
+  return fetch(new Request(`${process.env.BLOG_API_URL}/posts?_embed&per_page=3`))
     .then((response) => {
       if (response.ok) return response.json();
       throw new Error(response.statusText);
