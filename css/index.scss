@@ -123,6 +123,8 @@
 @import "./components/map/map";
 @import "./components/map/map-controls";
 @import "./components/map/map-popup";
+@import './components/map/map-side-by-side-layout';
+@import './components/map/map-side-by-side-range';
 
 // Form
 @import '../node_modules/vizz-wysiwyg/build/rw';

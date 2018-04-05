@@ -51,10 +51,11 @@ class DatasetList extends PureComponent {
                 >
                   <DatasetListItem
                     dataset={dataset}
-                    widget={dataset.widget.find(w => w.default)}
-                    layer={dataset.layer.find(l => l.default)}
+                    widget={dataset.widget ? dataset.widget.find(w => w.default) : null}
+                    layer={dataset.layer ? dataset.layer.find(l => l.default) : null}
                     metadata={dataset.metadata}
-                    vocabulary={dataset.vocabulary.find(v => v.name === 'knowledge_graph') || {}}
+                    vocabulary={dataset.vocabulary ?
+                      dataset.vocabulary.find(v => v.name === 'knowledge_graph') || {} : null}
                     mode={mode}
                     actions={actions}
                     tags={tags}

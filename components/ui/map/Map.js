@@ -1,3 +1,5 @@
+/* eslint global-require: 0 */
+
 import React from 'react';
 import { render } from 'react-dom';
 import PropTypes from 'prop-types';
@@ -16,7 +18,10 @@ import Spinner from 'components/ui/Spinner';
 import { connect } from 'react-redux';
 
 // Leaflet can't be imported on the server because it's not isomorphic
-const L = (typeof window !== 'undefined') ? require('leaflet') : null;
+let L;
+if (typeof window !== 'undefined') {
+  L = require('leaflet');
+}
 
 const MAP_CONFIG = {
   zoom: 2,
@@ -44,23 +49,15 @@ class Map extends React.Component {
     this.hasBeenMounted = true;
 
     const mapOptions = Object.assign({}, MAP_CONFIG, this.props.mapConfig || {});
-    mapOptions.center = [mapOptions.latLng.lat, mapOptions.latLng.lng];
 
     if (!this.mapNode) return;
 
     this.map = L.map(this.mapNode, mapOptions);
-    this.props.onMapInstance && this.props.onMapInstance(this.map);
 
-    // BBox
-    if (mapOptions && mapOptions.bbox) {
-      this.fitBounds({ bbox: mapOptions.bbox });
-    }
+    // RETURN INSTANCE
+    this.props.onMapInstance(this.map);
 
-    if (mapOptions && mapOptions.bounds) {
-      this.fitBounds({ geometry: mapOptions.bounds.geometry });
-    }
-
-    // Disable interaction if necessary
+    // OPTIONS
     if (!this.props.interactionEnabled) {
       this.map.dragging.disable();
       this.map.touchZoom.disable();
@@ -74,22 +71,38 @@ class Map extends React.Component {
       this.map.scrollWheelZoom.disable();
     }
 
-    // SETTERS
+    // BBOX
+    if (mapOptions && mapOptions.bbox) {
+      this.fitBounds({ bbox: mapOptions.bbox });
+    }
+
+    if (mapOptions && mapOptions.bounds) {
+      this.fitBounds({ geometry: mapOptions.bounds.geometry });
+    }
+
+    // CONTROLS
     this.setAttribution();
     this.setZoomControl();
 
+    // BASEMAP && LABELS && BOUNDARIES
     this.setBasemap(this.props.basemap);
     this.setLabels(this.props.labels);
     this.setBoundaries(this.props.boundaries);
 
+    // LISTENERS
     this.setMapEventListeners();
 
-    // Add layers
+    // LAYERS
     this.setLayerManager();
+
     const layers = this.props.layerGroups
       .filter(l => l.visible)
       .map(l => l.layers.find(la => la.active));
+
     this.addLayers(layers, this.props.filters);
+
+    // SET VIEW
+    this.map.setView([mapOptions.latLng.lat, mapOptions.latLng.lng], mapOptions.zoom);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -260,6 +273,7 @@ class Map extends React.Component {
     };
 
     this.layerManager = new this.props.LayerManager(this.map, {
+      swipe: this.props.swipe,
       onLayerAddedSuccess: onLayerAdded,
       onLayerAddedError: onLayerAdded,
       onLayerClick: (layer) => {
@@ -418,11 +432,14 @@ class Map extends React.Component {
 }
 
 Map.defaultProps = {
+  swipe: false,
   interactionEnabled: true,
-  disableScrollZoom: true
+  disableScrollZoom: true,
+  onMapInstance: (map) => { console.info(map); }
 };
 
 Map.propTypes = {
+  swipe: PropTypes.bool,
   interactionEnabled: PropTypes.bool,
   disableScrollZoom: PropTypes.bool,
   onMapInstance: PropTypes.func,

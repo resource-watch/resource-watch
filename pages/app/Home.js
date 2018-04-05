@@ -2,10 +2,12 @@
 import React from 'react';
 import { Link, Router } from 'routes';
 
+// Utils
+import { breakpoints } from 'utils/responsive';
+
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { getInsights } from 'redactions/insights';
 import * as topicsActions from 'layout/topics/topics-actions';
 
 // Layout
@@ -15,8 +17,10 @@ import Layout from 'layout/layout/layout-app';
 // Components
 import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
-import Rating from 'components/app/common/Rating';
 import TopicThumbnailList from 'components/topics/thumbnail-list';
+import BlogLatestPosts from 'components/blog/latest-posts';
+import YouTube from 'react-youtube';
+import MediaQuery from 'react-responsive';
 
 // Modal
 import Modal from 'components/modal/modal-component';
@@ -92,38 +96,6 @@ class Home extends Page {
 
     return { ...props };
   }
-  static insightsCardsStatic(insightsData) {
-    return insightsData.map(c =>
-      (<CardStatic
-        key={`insight-card-${c.slug}`}
-        className={`-alt ${c.link ? '-clickable' : ''}`}
-        background={c.background}
-        clickable={!!c.link}
-        route={c.link ? c.link : ''}
-      >
-        <div>
-          <h4>{c.tag}</h4>
-          <h3>
-            { c.link ?
-              <Link route={`/blog/${c.slug}`}>
-                <a>{c.title}</a>
-              </Link>
-              :
-              <span>{c.title}</span>
-            }
-          </h3>
-        </div>
-        <div className="footer">
-          <div className="source">
-            <img src={c.source.img || ''} alt={c.slug} />
-            <div className="source-name">
-              by <a href={c.source.path} target="_blank">{c.source.name}</a>
-            </div>
-          </div>
-          {c.ranking && <Rating rating={c.ranking} />}
-        </div>
-      </CardStatic>));
-  }
 
   static exploreCardsStatic() {
     return exploreCards.map(c =>
@@ -161,23 +133,41 @@ class Home extends Page {
     super(props);
 
     this.state = {
-      showNewsletterModal: false
+      showNewsletterModal: false,
+      videoReady: false,
+      videoHeight: 0,
+      videoWidth: 0
     };
-  }
-
-  componentDidMount() {
-    this.props.getInsights();
   }
 
   handleToggleShareModal = (bool) => {
     this.setState({ showNewsletterModal: bool });
   }
 
-  render() {
-    const { insights } = this.props;
-    const insightsCardsStatic = Home.insightsCardsStatic(insights);
-    const exploreCardsStatic = Home.exploreCardsStatic();
+  onVideoStateChange = (state) => {
+    const { data } = state;
+    if (data === 1) { // eslint disable
+      this.setState({ videoReady: true });
+    } else {
+      this.setState({ videoReady: false });
+    }
+  }
 
+  render() {
+    const { responsive } = this.props;
+    const { videoReady } = this.state;
+    const exploreCardsStatic = Home.exploreCardsStatic();
+    const videoOpts = {
+      playerVars: {
+        modestbranding: 1,
+        autoplay: 1,
+        controls: 0,
+        showinfo: 0,
+        rel: 0,
+        loop: 1,
+        playlist: 'XryMlA-8IwE'
+      }
+    };
     return (
       <Layout
         title="Resource Watch"
@@ -187,25 +177,25 @@ class Home extends Page {
         className="page-home"
       >
         <div className="video-intro">
-          <div className="video-foreground">
-            <iframe
-              id="video-intro"
-              title="Video Intro"
-              frameBorder="0"
-              allowFullScreen
-              // Loop parameter has limited support in the AS3 player and in IFrame embeds, which could load either the AS3 or HTML5 player.
-              // Currently, the loop parameter only works in the AS3 player when used in conjunction with the playlist parameter.
-              // To loop a single video, set the loop parameter value to 1 and set the playlist parameter value to the same video ID already specified in the Player API URL
-              src="https://youtube.com/embed/XryMlA-8IwE?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=XryMlA-8IwE"
-            />
-          </div>
+          <MediaQuery
+            minDeviceWidth={breakpoints.medium}
+            values={{ deviceWidth: responsive.fakeWidth }}
+          >
+            <div className={`video-foreground ${videoReady ? '-ready' : ''}`}>
+              <YouTube
+                videoId="XryMlA-8IwE"
+                opts={videoOpts}
+                onStateChange={this.onVideoStateChange}
+              />
+            </div>
+          </MediaQuery>
           <div className="video-text">
             <div>
               <h1>Monitoring the Planet&rsquo;s Pulse</h1>
               <p>Resource Watch provides trusted and timely data for a sustainable future.</p>
               <Link route="explore">
                 <a
-                  className="c-button -secondary"
+                  className="c-button -alt -primary"
                 >
                   Explore data
                 </a>
@@ -225,19 +215,7 @@ class Home extends Page {
               </div>
             </header>
 
-            <div className="insight-cards">
-              <div className="row">
-                <div className="column small-12 medium-8">
-                  {insightsCardsStatic[0]}
-                </div>
-                <div className="column small-12 medium-4">
-                  <div className="dual">
-                    {insightsCardsStatic[1]}
-                    {insightsCardsStatic[2]}
-                  </div>
-                </div>
-              </div>
-            </div>
+            <BlogLatestPosts />
 
             <div className="-text-center">
               <div className="row">
@@ -346,18 +324,13 @@ class Home extends Page {
             </div>
           </div>
         </Banner>
-
-
-
       </Layout>
     );
   }
 }
 
-const mapStateToProps = state => ({ insights: state.insights.list });
+const mapStateToProps = state => ({
+  responsive: state.responsive
+});
 
-const mapDispatchToProps = {
-  getInsights
-};
-
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Home);
+export default withRedux(initStore, mapStateToProps, null)(Home);

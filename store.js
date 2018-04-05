@@ -48,8 +48,10 @@ import * as globeCesium from 'components/vis/globe-cesium';
 import * as widgetDetail from 'layout/widget-detail';
 
 // Catalog
-
 import * as catalog from 'layout/catalog';
+
+// Blog
+import * as latestBlogPosts from 'components/blog/latest-posts';
 
 // Topic
 import * as topicsIndex from 'layout/topics';
@@ -69,6 +71,9 @@ import { reducers as widgetEditorModules } from 'widget-editor';
 
 // React responsive redux
 import { reducer as responsiveReducer } from 'react-responsive-redux';
+
+// Embed
+import * as embedMapSwipe from 'layout/embed/map-swipe';
 
 if (process.env.NODE_ENV === 'production') {
   initOpbeat({
@@ -127,6 +132,9 @@ const reducer = combineReducers({
   // Catalog
   catalog: handleModule(catalog),
 
+  // Blog
+  latestBlogPosts: handleModule(latestBlogPosts),
+
   // Topic
   topicsIndex: handleModule(topicsIndex),
   topicsDetail: handleModule(topicsDetail),
@@ -140,7 +148,10 @@ const reducer = combineReducers({
   interactions: handleModule(adminInteractions),
 
   // Admin layer preview
-  adminLayerPreview: handleModule(adminLayerPreview)
+  adminLayerPreview: handleModule(adminLayerPreview),
+
+  // Embed
+  embedMapSwipe: handleModule(embedMapSwipe)
 });
 
 const composeEnhancers = composeWithDevTools({});

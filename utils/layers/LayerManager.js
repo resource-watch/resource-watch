@@ -6,7 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 
 let L;
 if (typeof window !== 'undefined') {
-  L = require('leaflet/dist/leaflet');
+  L = require('leaflet');
 
   // adding support for UTFGrid
   require('leaflet-utfgrid/L.UTFGrid-min');
@@ -14,12 +14,16 @@ if (typeof window !== 'undefined') {
   // adding support for esri
   const esri = require('esri-leaflet');
   L.esri = esri;
+
+  // adding support for Side by Side
+  require('lib/leaflet-side-by-side');
 }
 
 export default class LayerManager {
   // Constructor
   constructor(map, options = {}) {
     this.map = map;
+    this.options = options;
     this.mapLayers = {};
     this.interactionLayers = {};
     this.layersLoading = {};
@@ -30,6 +34,11 @@ export default class LayerManager {
     this.onError = options.onError || null;
     this.errors = false;
     this.errorDetails = null;
+
+    if (options.swipe) {
+      this.sideBySideControl = L.control.sideBySide();
+      this.sideBySideControl.addTo(this.map);
+    }
   }
 
   /*
@@ -60,7 +69,7 @@ export default class LayerManager {
       nexgddp: this.addNexGDDPLayer
     }[layer.provider];
 
-    if (method) method.call(this, layer, opts);
+    if (method) method.call(this, layer, { ...opts });
 
     this.execCallback()
       .then(() => {
@@ -109,16 +118,43 @@ export default class LayerManager {
     });
   }
 
-  addNexGDDPLayer(layerData) {
-    const tileUrl = `${process.env.WRI_API_URL}/layer/${layerData.id}/tile/nexgddp/{z}/{x}/{y}`;
-    const tileLayer = L.tileLayer(tileUrl).addTo(this.map);
-    this.mapLayers[layerData.id] = tileLayer;
+  swipeLayer(layer, sideBySide) {
+    if (layer) {
+      requestAnimationFrame(() => {
+        switch (sideBySide) {
+          case 'left':
+            this.sideBySideControl.setLeftLayers(layer);
+            break;
+          case 'right':
+            this.sideBySideControl.setRightLayers(layer);
+            break;
+          default:
+            this.sideBySideControl.setLeftLayers(layer);
+        }
+
+        this.map.invalidateSize();
+      });
+    }
   }
 
-  addGeeLayer(layerData) {
-    const tileUrl = `${process.env.WRI_API_URL}/layer/${layerData.id}/tile/gee/{z}/{x}/{y}`;
+  addNexGDDPLayer(layer) {
+    const tileUrl = `${process.env.WRI_API_URL}/layer/${layer.id}/tile/nexgddp/{z}/{x}/{y}`;
     const tileLayer = L.tileLayer(tileUrl).addTo(this.map);
-    this.mapLayers[layerData.id] = tileLayer;
+    this.mapLayers[layer.id] = tileLayer;
+
+    if (this.options.swipe) {
+      this.swipeLayer(this.mapLayers[layer.id], layer.sideBySide);
+    }
+  }
+
+  addGeeLayer(layer) {
+    const tileUrl = `${process.env.WRI_API_URL}/layer/${layer.id}/tile/gee/{z}/{x}/{y}`;
+    const tileLayer = L.tileLayer(tileUrl).addTo(this.map);
+    this.mapLayers[layer.id] = tileLayer;
+
+    if (this.options.swipe) {
+      this.swipeLayer(this.mapLayers[layer.id], layer.sideBySide);
+    }
   }
 
   addGeoJsonLayer(layer) {
@@ -127,10 +163,15 @@ export default class LayerManager {
 
     if (layer.layerConfig.fitBounds) {
       const bounds = geojsonLayer.getBounds();
+
       this.map.fitBounds([
         bounds.getNorthWest(),
         bounds.getSouthEast()
       ], { padding: [20, 20] });
+    }
+
+    if (this.options.swipe) {
+      this.swipeLayer(this.mapLayers[layer.id], layer.sideBySide);
     }
   }
 
@@ -177,6 +218,10 @@ export default class LayerManager {
       }
       layer.addTo(this.map);
       this.mapLayers[layerData.id] = layer;
+
+      if (this.options.swipe) {
+        this.swipeLayer(this.mapLayers[layerSpec.id], layerSpec.sideBySide);
+      }
     }
   }
 
@@ -238,6 +283,13 @@ export default class LayerManager {
           layerElement.style.zIndex = zIndex;
         }
         layerElement.id = layer.id;
+
+        if (this.options.swipe) {
+          if (!this.mapLayers[layerSpec.id].getContainer) {
+            this.mapLayers[layerSpec.id].getContainer = () => layerElement;
+          }
+          this.swipeLayer(this.mapLayers[layerSpec.id], layerSpec.sideBySide);
+        }
       });
 
       newLayer.addTo(this.map);
@@ -264,7 +316,8 @@ export default class LayerManager {
       name: layerSpec.name,
       order: layerSpec.order,
       opacity: layerSpec.opacity,
-      hidden: layerSpec.hidden
+      hidden: layerSpec.hidden,
+      sideBySide: layerSpec.sideBySide
     });
 
     this.layersLoading[layer.id] = true;
@@ -331,12 +384,15 @@ export default class LayerManager {
             this.onLayerClick({ ...e, ...layer, ...layerSpec });
           });
         }
-        console.log('hello', cb);
         if (cb) {
           cb(true);
         }
       }).catch(() => {
         this.rejectLayersLoading = true;
+
+        if (this.options.swipe) {
+          this.swipeLayer(this.mapLayers[layer.id], layer.sideBySide);
+        }
       });
   }
 

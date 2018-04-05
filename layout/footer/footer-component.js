@@ -14,7 +14,7 @@ import NewsletterModal from 'components/modal/newsletter-modal';
 const data = [
   { name: 'Data', route: 'explore' },
   { name: 'Explore Datasets', route: 'explore' },
-  { name: 'Planet Pulse', route: 'pulse' },
+  { name: 'Planet Pulse', anchor: '/data/pulse' },
   { name: 'App Gallery', route: 'get_involved_detail', params: { id: 'apps' } }
 ];
 
@@ -23,7 +23,7 @@ const topics = [
   { name: 'Cities', route: 'topics_detail', params: { id: 'cities' } },
   { name: 'Climate', route: 'topics_detail', params: { id: 'climate' } },
   { name: 'Energy', route: 'topics_detail', params: { id: 'energy' } },
-  { name: 'Food and Agriculture', route: 'topics_detail', params: { id: 'food-agriculture' } },
+  { name: 'Food and Agriculture', route: 'topics_detail', params: { id: 'food-and-agriculture' } },
   { name: 'Forests', route: 'topics_detail', params: { id: 'forests' } },
   { name: 'Oceans', route: 'topics_detail', params: { id: 'oceans' } },
   { name: 'Society', route: 'topics_detail', params: { id: 'society' } },
@@ -41,12 +41,12 @@ const about = [
 ];
 
 const blog = [
-  { name: 'Blog', route: 'insights' }
+  { name: 'Blog', anchor: '/blog' }
 ];
 
 const getInvolved = [
   { name: 'Get Involved', route: 'get_involved' },
-  { name: 'Submit a Story', route: 'get_involved_detail', params: { id: 'submit-an-insight' } },
+  { name: 'Suggest a Story', route: 'get_involved_detail', params: { id: 'suggest-a-story' } },
   { name: 'Contribute Data', route: 'get_involved_detail', params: { id: 'contribute-data' } },
   { name: 'Join the Community', route: 'get_involved_detail', params: { id: 'join-community' } },
   { name: 'Develop Your App', route: 'get_involved_detail', params: { id: 'develop-your-app' } }

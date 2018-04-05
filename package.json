@@ -36,6 +36,7 @@
     "extract-text-webpack-plugin": "3.0.0",
     "file-loader": "0.11.1",
     "foundation-sites": "6.3.1",
+    "fuse.js": "3.2.0",
     "glob": "7.1.1",
     "image-webpack-loader": "3.3.1",
     "immutable": "3.8.1",
@@ -103,6 +104,7 @@
     "react-tether": "0.5.7",
     "react-upload-file": "2.0.0-beta.6",
     "react-vega": "2.3.1",
+    "react-youtube": "7.5.0",
     "redis": "2.8.0",
     "redux": "3.6.0",
     "redux-devtools-extension": "2.13.2",
@@ -118,8 +120,8 @@
     "vizz-wysiwyg": "1.1.13",
     "webpack": "^3.6.0",
     "whatwg-fetch": "2.0.2",
-    "widget-editor": "1.0.3",
-    "wri-api-components": "1.0.0",
+    "widget-editor": "1.0.5",
+    "wri-api-components": "1.0.1",
     "wri-json-api-serializer": "1.0.1"
   },
   "devDependencies": {

@@ -92,7 +92,7 @@ class MyRW extends Page {
     const { url, user } = this.props;
     const { tab, subtab } = this.state;
     const userName = user && user.name ? ` ${user.name.split(' ')[0]}` : '';
-    const title = `Hi${userName}!`;
+    const title = userName ? `Hi${userName}!` : 'My Resource Watch';
     return (
       <Layout
         title="My Resource Watch Edit Profile"

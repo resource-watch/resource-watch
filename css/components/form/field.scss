@@ -149,4 +149,12 @@
       }
     }
   }
+
+  &.-pi-hidden {
+      position: absolute;
+      width: 190px;
+      left: -9999px;
+      top: -9999px;
+      visibility: hidden;
+  }
 }

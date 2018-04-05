@@ -15,7 +15,7 @@ function _formatValue(item, data) {
   }
 
   function removeHtmlTags(str) {
-    if (!str) return false;
+    if (!str || !str.toString) return str;
     return str.toString().replace(/<\/?[a-z]+>/gi, '');
   }
 
@@ -63,19 +63,17 @@ function MapPopup({
         {data &&
           <table className="popup-table">
             <tbody>
-              {interactionConfig.output.map((outputItem, key) => {
-                return (
-                  <tr
-                    className="dc"
-                    key={key}
-                  >
-                    <td className="dt">
-                      {outputItem.property || outputItem.column}:
-                    </td>
-                    <td className="dd">{_formatValue(outputItem, data[outputItem.column])}</td>
-                  </tr>
-                );
-              })}
+              {interactionConfig.output.map((outputItem, key) => (
+                <tr
+                  className="dc"
+                  key={key}
+                >
+                  <td className="dt">
+                    {outputItem.property || outputItem.column}:
+                  </td>
+                  <td className="dd">{_formatValue(outputItem, data[outputItem.column])}</td>
+                </tr>
+                ))}
             </tbody>
           </table>
         }

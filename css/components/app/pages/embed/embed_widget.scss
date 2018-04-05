@@ -64,12 +64,6 @@
     padding: $margin-size-extra-small;
     overflow: hidden;
 
-    &.-external {
-      .c-map { // Do not change this without testing (see comment on .c-map)
-        height: calc(100% - #{$margin-size-extra-small});
-      }
-    }
-
     iframe {
       width: 100%;
     }
@@ -149,6 +143,11 @@
         }
       }
     }
+  }
+
+  .widget-content-row {
+    display: flex;
+    justify-content: space-between;
   }
 
   .widget-footer {

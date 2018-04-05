@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Router } from 'routes';
 import isEqual from 'lodash/isEqual';
+import truncate from 'lodash/truncate';
 import classnames from 'classnames';
 import { toastr } from 'react-redux-toastr';
 
@@ -55,19 +56,6 @@ class WidgetCard extends PureComponent {
       x: window.scrollX + e.clientX,
       y: window.scrollY + e.clientY
     };
-  }
-
-  /**
-   * HELPERS
-   * - getDescription
-  */
-  static getDescription(_text) {
-    let text = _text;
-    if (typeof text === 'string' && text.length > 70) {
-      text = text.replace(/^(.{70}[^\s]*).*/, '$1');
-      return `${text}...`;
-    }
-    return text;
   }
 
   /**
@@ -406,7 +394,8 @@ class WidgetCard extends PureComponent {
       showActions,
       showEmbed,
       showFavourite,
-      user
+      user,
+      limitChar
     } = this.props;
 
     const isInACollection = belongsToACollection(user, widget);
@@ -439,9 +428,8 @@ class WidgetCard extends PureComponent {
               {widget.name}
             </Title>
             <p>
-              {WidgetCard.getDescription(widget.description)}
+              {truncate(widget.description, { length: limitChar, separator: ' ', omission: '...' })}
             </p>
-
             <LoginRequired text="Log in or sign up to save items in favorites">
               <Tooltip
                 overlay={
@@ -508,7 +496,8 @@ class WidgetCard extends PureComponent {
 WidgetCard.defaultProps = {
   showActions: false,
   showRemove: false,
-  showFavourite: true
+  showFavourite: true,
+  limitChar: 70
 };
 
 WidgetCard.propTypes = {

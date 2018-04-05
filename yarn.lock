@@ -2554,7 +2554,7 @@ debug@2.6.7:
   dependencies:
     ms "2.0.0"
 
-debug@2.6.9, debug@^2.1.1, debug@^2.2.0, debug@^2.6.0, debug@^2.6.8, debug@^2.6.9:
+debug@2.6.9, debug@^2.1.1, debug@^2.2.0, debug@^2.6.0, debug@^2.6.6, debug@^2.6.8, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
   dependencies:
@@ -3815,6 +3815,10 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
+flatpickr@^4.3.2:
+  version "4.4.3"
+  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-4.4.3.tgz#53ba7b06523f73ee69175b3ed808c7fc0f245c4f"
+
 flush-write-stream@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flush-write-stream/-/flush-write-stream-1.0.2.tgz#c81b90d8746766f1a609a46809946c45dd8ae417"
@@ -3976,6 +3980,10 @@ function-bind@^1.0.2, function-bind@^1.1.1:
 functional-red-black-tree@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
+
+fuse.js@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-3.2.0.tgz#f0448e8069855bf2a3e683cdc1d320e7e2a07ef4"
 
 gauge@~2.7.3:
   version "2.7.4"
@@ -6982,7 +6990,7 @@ prop-types@15.5.7:
   dependencies:
     fbjs "^0.8.9"
 
-prop-types@15.x, prop-types@^15.0.0, prop-types@^15.5.6, prop-types@^15.6.1:
+prop-types@15.x, prop-types@^15.0.0, prop-types@^15.5.3, prop-types@^15.5.6, prop-types@^15.6.1:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
   dependencies:
@@ -7380,6 +7388,13 @@ react-dropzone@^4.2.3:
     attr-accept "^1.0.3"
     prop-types "^15.5.7"
 
+react-flatpickr@^3.6.4:
+  version "3.6.4"
+  resolved "https://registry.yarnpkg.com/react-flatpickr/-/react-flatpickr-3.6.4.tgz#41a8406d00d787b629839ae1f5a01ed3bb6e84ac"
+  dependencies:
+    flatpickr "^4.3.2"
+    prop-types "^15.5.10"
+
 react-form@^2.10.0:
   version "2.16.1"
   resolved "https://registry.yarnpkg.com/react-form/-/react-form-2.16.1.tgz#c125d1c8903c7aa6ccff91ac2c87aa19a079e164"
@@ -7668,6 +7683,14 @@ react-vega@2.3.1:
   resolved "https://registry.yarnpkg.com/react-vega/-/react-vega-2.3.1.tgz#4a44c35fd2867da82155a224c9b8571e6654451e"
   dependencies:
     vega "^2.6.1"
+
+react-youtube@7.5.0:
+  version "7.5.0"
+  resolved "https://registry.yarnpkg.com/react-youtube/-/react-youtube-7.5.0.tgz#3175a9c4e078164cf103ce4bc780a9e4ca4f1f94"
+  dependencies:
+    lodash "^4.17.4"
+    prop-types "^15.5.3"
+    youtube-player "^5.4.0"
 
 react@15.6.1:
   version "15.6.1"
@@ -8421,6 +8444,10 @@ sigmund@~1.0.0:
 signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
+
+sister@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/sister/-/sister-3.0.0.tgz#88eb57047cb283da1e070b1a7cae8212f3bcb2db"
 
 slash@^1.0.0:
   version "1.0.0"
@@ -10031,9 +10058,9 @@ wide-align@^1.1.0:
   dependencies:
     string-width "^1.0.2"
 
-widget-editor@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/widget-editor/-/widget-editor-1.0.3.tgz#924f108b8dc1c338cd200609c8ab962e66974fcc"
+widget-editor@1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/widget-editor/-/widget-editor-1.0.5.tgz#4624e821294e9ebc2ab6d3ccd4ccc9247599f796"
   dependencies:
     autobind-decorator "^2.1.0"
     babel-runtime "^6.26.0"
@@ -10048,6 +10075,7 @@ widget-editor@1.0.3:
     react-dnd "^2.5.4"
     react-dnd-html5-backend "^2.5.4"
     react-dropzone "^4.2.3"
+    react-flatpickr "^3.6.4"
     react-input-autosize "^2.0.1"
     react-redux "^5.0.6"
     react-redux-toastr "^7.1.6"
@@ -10098,9 +10126,9 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
 
-wri-api-components@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-1.0.0.tgz#d82e6eb7b50266ef4d7ecf8e7f7dac8b9ff75c3b"
+wri-api-components@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-1.0.1.tgz#d58bed45df18fd3e148c20a1fc5dccab95159031"
   dependencies:
     prop-types "^15.6.1"
     rc-tooltip "3.7.0"
@@ -10349,3 +10377,11 @@ yauzl@^2.2.1:
 yeast@0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
+
+youtube-player@^5.4.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/youtube-player/-/youtube-player-5.5.0.tgz#95f058534f9544586185551d0d2d33f381f6587a"
+  dependencies:
+    debug "^2.6.6"
+    load-script "^1.0.0"
+    sister "^3.0.0"
