@@ -1,5 +1,6 @@
 /* global config */
 import 'isomorphic-fetch';
+import WRISerializer from 'wri-json-api-serializer';
 
 // Services
 import DatasetService from 'services/DatasetService';
@@ -117,7 +118,9 @@ export function getPartnerData(id) {
 }
 
 export function getDatasets(ids) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const { common } = getState();
+
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_DATASETS_LOADING });
 
@@ -125,7 +128,7 @@ export function getDatasets(ids) {
       .then((response) => {
         dispatch({
           type: GET_DATASETS_SUCCESS,
-          payload: response
+          payload: WRISerializer({ data: response, locale: common.locale })
         });
       })
       .catch((error) => {

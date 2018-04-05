@@ -36,6 +36,23 @@ class DatasetListItem extends React.Component {
 
   /**
    * HELPER
+   * - getTooltipContainer
+   * - fetchDatasets
+  */
+  getTooltipContainer() {
+    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+      if (document.querySelector('.sidebar-content')) {
+        return document.querySelector('.sidebar-content');
+      }
+
+      return document.body;
+    }
+
+    return null;
+  }
+
+  /**
+   * HELPER
    * - renderChart
   */
   renderChart = () => {
@@ -70,23 +87,6 @@ class DatasetListItem extends React.Component {
         </Link>
       </div>
     );
-  }
-
-  /**
-   * HELPER
-   * - getTooltipContainer
-   * - fetchDatasets
-  */
-  getTooltipContainer() {
-    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-      if (document.querySelector('.sidebar-content')) {
-        return document.querySelector('.sidebar-content');
-      }
-
-      return document.body;
-    }
-
-    return null;
   }
 
   render() {
