@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import renderHTML from 'react-render-html';
 
 function FaqBlock(props) {
   const faq = props.item;
@@ -11,7 +12,7 @@ function FaqBlock(props) {
   return (
     <article className="c-faq">
       <h3>{faq.question}</h3>
-      <p>{faq.answer}</p>
+      <p>{renderHTML(faq.answer)}</p>
     </article>
   );
 }
