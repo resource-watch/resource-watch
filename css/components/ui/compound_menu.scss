@@ -1,22 +1,43 @@
-.c-compound-menu .submenu {
-  padding: 0;
-  margin: 0 0 $margin-size 0;
-  list-style: none;
+.c-compound-menu {
+  .c-compound-menu-wrapper {
+    display: flex;
+    justify-content: space-between;
 
-  .item {
-    padding: 0;
-    margin: 0;
-
-    a {
-      color: $ui-font-color;
-    }
-
-    &.title a {
-      color: $header-font-color;
+    @media screen and (max-width: map-get($breakpoints, medium)) {
+      flex-wrap: wrap;
     }
   }
 
-  @media screen and (min-width: map-get($breakpoints, medium)) {
-    margin-bottom: 0;
+  .c-compound-menu-item {
+    width: 50%;
+    padding: 0 0.625rem;
+
+    @media screen and (min-width: map-get($breakpoints, medium)) {
+      width: auto;
+      flex: 1;
+    }
+  }
+
+  .submenu {
+    padding: 0;
+    margin: 0 0 $margin-size 0;
+    list-style: none;
+
+    .item {
+      padding: 0;
+      margin: 0;
+
+      a {
+        color: $ui-font-color;
+      }
+
+      &.title a {
+        color: $header-font-color;
+      }
+    }
+
+    @media screen and (min-width: map-get($breakpoints, medium)) {
+      margin-bottom: 0;
+    }
   }
 }
