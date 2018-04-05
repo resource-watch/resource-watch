@@ -8,7 +8,7 @@
   background-color: $color-white;
   max-width: 400px;
   border-radius: 4px;
-  z-index: 999;
+  z-index: 7;
   overflow: auto;
 
   @media screen and (max-width: map-get($breakpoints, small)) {
