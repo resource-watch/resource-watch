@@ -44,10 +44,11 @@ class DatasetListItem extends React.Component {
     } = this.props;
 
     const isWidgetMap = widget && widget.widgetConfig.type === 'map';
+    const isEmbedWidget = widget && widget.widgetConfig.type === 'embed';
 
     if (mode !== 'grid') return null;
 
-    if (widget && !isWidgetMap) {
+    if (widget && !isWidgetMap && !isEmbedWidget) {
       return (
         <div className="list-item-chart">
           <WidgetChart widget={widget} mode="thumbnail" />
