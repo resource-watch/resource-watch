@@ -62,7 +62,7 @@ class ExploreDetailButtons extends PureComponent {
 
     return (
       <div className="c-explore-detail-actions">
-        {partner.logo &&
+        {partner && partner.logo &&
           <div className="partner-container">
             <div className="partner-text-container">
               Partner:
@@ -97,7 +97,7 @@ class ExploreDetailButtons extends PureComponent {
         {metadata && metadata.info && metadata.info.data_download_link &&
           <div>
             <a
-              className="c-button -tertiary"
+              className="c-button -secondary"
               target="_blank"
               href={metadata.info && metadata.info.data_download_link}
               onClick={() => logEvent('Explore', 'Download data', dataset && dataset.attributes.name)}
@@ -111,7 +111,7 @@ class ExploreDetailButtons extends PureComponent {
           <div>
             <LoginRequired text="Log in to subscribe to dataset changes">
               <button
-                className="c-button -tertiary"
+                className="c-button -secondary"
                 onClick={() => this.handleToggleSubscribeModal(true)}
               >
               Subscribe to alerts
@@ -133,7 +133,7 @@ class ExploreDetailButtons extends PureComponent {
         {metadata.info && metadata.info.data_download_original_link &&
           <div>
             <a
-              className="c-button -tertiary"
+              className="c-button -secondary"
               target="_blank"
               href={metadata.info && metadata.info.data_download_original_link}
             >
@@ -150,7 +150,7 @@ class ExploreDetailButtons extends PureComponent {
         {metadata.info && metadata.info.learn_more_link &&
           <div>
             <a
-              className="c-button -tertiary"
+              className="c-button -secondary"
               target="_blank"
               href={metadata.info && metadata.info.learn_more_link}
             >

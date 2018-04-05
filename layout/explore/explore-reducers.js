@@ -40,11 +40,48 @@ export default {
   //
   // FILTERS
   //
+  [actions.setFiltersOpen]: (state, action) => {
+    const filters = { ...state.filters, open: action.payload };
+    return { ...state, filters };
+  },
+  [actions.setFiltersTab]: (state, action) => {
+    const filters = { ...state.filters, tab: action.payload };
+    return { ...state, filters };
+  },
   [actions.setFiltersSearch]: (state, action) => {
     const filters = { ...state.filters, search: action.payload };
     return { ...state, filters };
   },
+  [actions.setFiltersTags]: (state, action) => {
+    const filters = { ...state.filters, tags: action.payload };
+    return { ...state, filters };
+  },
+  [actions.setFiltersSelected]: (state, action) => {
+    const { key, list } = action.payload;
+    const selected = { ...state.filters.selected, [key]: list };
+    const filters = { ...state.filters, selected };
+    return { ...state, filters };
+  },
+  [actions.toggleFiltersSelected]: (state, action) => {
+    const { tab, tag } = action.payload;
+    const arr = [...state.filters.selected[tab]];
 
+    if (!arr.includes(tag.id)) {
+      arr.push(tag.id);
+    } else {
+      const index = arr.findIndex(s => s === tag.id);
+      arr.splice(index, 1);
+    }
+
+    const selected = { ...state.filters.selected, [tab]: arr };
+    const filters = { ...state.filters, selected };
+    return { ...state, filters };
+  },
+
+  [actions.resetFiltersSelected]: (state) => {
+    const filters = { ...state.filters, selected: initialState.filters.selected };
+    return { ...state, filters };
+  },
 
   // SORT
   [actions.setSortSelected]: (state, action) => {
@@ -216,5 +253,30 @@ export default {
   [actions.setSidebarOpen]: (state, action) => {
     const sidebar = { ...state.sidebar, open: action.payload };
     return { ...state, sidebar };
+  },
+
+
+  //
+  // TAGS
+  //
+  [actions.setTagsTooltip]: (state, { payload }) => {
+    const tags = { ...state.tags, tooltip: payload };
+    return { ...state, tags };
+  },
+  [actions.setTags]: (state, { payload }) => {
+    const tags = { ...state.tags, list: payload };
+    return { ...state, tags };
+  },
+  [actions.setTagsLoading]: (state, { payload }) => {
+    const tags = { ...state.tags, loading: payload };
+    return { ...state, tags };
+  },
+  [actions.setTagsError]: (state, { payload }) => {
+    const tags = { ...state.tags, error: payload };
+    return { ...state, tags };
+  },
+  [actions.resetTags]: (state) => {
+    const { tags } = initialState;
+    return { ...state, tags };
   }
 };

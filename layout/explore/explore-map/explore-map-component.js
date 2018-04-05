@@ -8,6 +8,8 @@ import MapControls from 'components/ui/map/MapControls';
 import BasemapControl from 'components/ui/map/controls/BasemapControl';
 import ShareControl from 'components/ui/map/controls/ShareControl';
 
+import { BASEMAPS, LABELS } from 'components/ui/map/constants';
+
 // WRI components
 import {
   Legend,
@@ -108,7 +110,6 @@ class ExploreMapComponent extends React.Component {
     } = this.props;
 
     return (
-
       <div className="l-map -relative">
         <Map
           mapConfig={{ zoom, latLng }}
@@ -146,7 +147,7 @@ class ExploreMapComponent extends React.Component {
 
         <div className="c-legend-map">
           <Legend
-            maxHeight={300}
+            maxHeight={embed ? 100 : 300}
             layerGroups={layerGroups}
             // List item
             LegendItemToolbar={

@@ -11,6 +11,7 @@ import DatasetList from 'components/datasets/list';
 import Paginator from 'components/ui/Paginator';
 
 // Explore components
+import ExploreDatasetsTags from './explore-datasets-tags';
 import ExploreDatasetsActions from './explore-datasets-actions';
 
 class ExploreDatasetsComponent extends React.Component {
@@ -20,12 +21,26 @@ class ExploreDatasetsComponent extends React.Component {
     page: PropTypes.number,
     total: PropTypes.number,
     limit: PropTypes.number,
+    options: PropTypes.object,
     responsive: PropTypes.object,
 
     // Actions
     fetchDatasets: PropTypes.func,
-    setDatasetsPage: PropTypes.func
+    setDatasetsPage: PropTypes.func,
+    toggleFiltersSelected: PropTypes.func
   };
+
+  onTagSelected = (tag) => {
+    const options = Object.keys(this.props.options).map(o => this.props.options[o]);
+
+    const tab = options.find(o => o.type === tag.labels[1]) || {};
+
+    this.props.toggleFiltersSelected({
+      tab: tab.value || 'custom',
+      tag
+    });
+    this.fetchDatasets(1);
+  }
 
   fetchDatasets = debounce((page) => {
     this.props.setDatasetsPage(page);
@@ -63,6 +78,11 @@ class ExploreDatasetsComponent extends React.Component {
               small: 'small-12',
               medium: 'medium-6'
             }}
+            tags={
+              <ExploreDatasetsTags
+                onTagSelected={this.onTagSelected}
+              />
+            }
             actions={
               <MediaQuery
                 minDeviceWidth={breakpoints.medium}

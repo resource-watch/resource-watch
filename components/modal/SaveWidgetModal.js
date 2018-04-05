@@ -15,6 +15,7 @@ import Spinner from 'components/ui/Spinner';
 
 // Services
 import WidgetService from 'services/WidgetService';
+import WidgetsService from 'services/WidgetsService';
 
 const FORM_ELEMENTS = {
   elements: {
@@ -41,17 +42,24 @@ class SaveWidgetModal extends React.Component {
   constructor(props) {
     super(props);
 
+    const { widgetEditor } = props;
+
     this.state = {
       submitting: false,
       loading: false,
       saved: false,
       error: false,
-      description: null // Description of the widget
+      description: null, // Description of the widget,
+      name: widgetEditor.title,
+      caption: widgetEditor.caption
     };
 
     // Services
     this.widgetService = new WidgetService(null, {
       apiURL: process.env.WRI_API_URL
+    });
+    this.widgetsService = new WidgetsService({
+      authorization: props.user.token
     });
 
     // ------------------- Bindings -----------------------
@@ -64,12 +72,12 @@ class SaveWidgetModal extends React.Component {
   async onSubmit(event) {
     event.preventDefault();
 
+    const { description, name, caption } = this.state;
+    const { dataset, getWidgetConfig, user } = this.props;
+
     this.setState({
       loading: true
     });
-
-    const { description, name } = this.state;
-    const { dataset, getWidgetConfig, user } = this.props;
 
     getWidgetConfig()
       .then((widgetConfig) => {
@@ -84,9 +92,27 @@ class SaveWidgetModal extends React.Component {
 
         this.widgetService.saveUserWidget(widgetObj, dataset, user.token)
           .then((response) => {
-            if (response.errors) throw new Error(response.errors[0].detail);
+            if (response.errors) {
+              throw new Error(response.errors[0].detail);
+            } else if (caption !== '') {
+              const { data } = response;
+              const { attributes, id } = data;
+              this.widgetsService.saveMetadata({
+                body: {
+                  language: 'en',
+                  application: process.env.APPLICATIONS,
+                  info: { caption }
+                },
+                id,
+                dataset: attributes.dataset
+              })
+                .then(() => {
+                  this.setState({ saved: true, error: false });
+                });
+            } else {
+              this.setState({ saved: true, error: false });
+            }
           })
-          .then(() => this.setState({ saved: true, error: false }))
           .catch((err) => {
             this.setState({
               saved: false,
@@ -122,7 +148,14 @@ class SaveWidgetModal extends React.Component {
   }
 
   render() {
-    const { submitting, loading, saved, error, errorMessage } = this.state;
+    const {
+      submitting,
+      loading,
+      saved,
+      error,
+      errorMessage
+    } = this.state;
+    const { widgetEditor } = this.props;
 
     return (
       <div className="c-save-widget-modal">
@@ -154,7 +187,21 @@ class SaveWidgetModal extends React.Component {
                   label: 'Title',
                   type: 'text',
                   required: true,
-                  placeholder: 'Widget title'
+                  default: widgetEditor.title,
+                  placeholder: 'Visualization title'
+                }}
+              >
+                {Input}
+              </Field>
+              <Field
+                ref={(c) => { if (c) FORM_ELEMENTS.elements.caption = c; }}
+                onChange={caption => this.setState({ caption })}
+                properties={{
+                  title: 'caption',
+                  label: 'Caption',
+                  type: 'text',
+                  default: widgetEditor.caption,
+                  placeholder: 'Visualization caption'
                 }}
               >
                 {Input}
@@ -167,7 +214,7 @@ class SaveWidgetModal extends React.Component {
                   label: 'Description',
                   type: 'text',
                   rows: '4',
-                  placeholder: 'Widget description'
+                  placeholder: 'Visualization description'
                 }}
               >
                 {TextArea}
@@ -226,11 +273,13 @@ SaveWidgetModal.propTypes = {
   getWidgetConfig: PropTypes.func.isRequired,
   // Store
   user: PropTypes.object.isRequired,
+  widgetEditor: PropTypes.object.isRequired,
   onRequestClose: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  widgetEditor: state.widgetEditor
 });
 
 export default connect(mapStateToProps)(SaveWidgetModal);

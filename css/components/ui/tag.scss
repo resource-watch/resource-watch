@@ -7,6 +7,11 @@
   white-space: nowrap;
   cursor: pointer;
 
+  > * {
+    margin: 0 0 0 4px;
+
+    &:first-child { margin: 0 }
+  }
 
   &.-primary {
     background: $color-primary;
@@ -31,11 +36,12 @@
   }
 
   &.-clean {
+    cursor: default; // If we don't have include grapho we can't set this tags as clickable
     padding: 0;
     color: $color-text-1;
 
     &:hover {
-      text-decoration: underline;
+      // text-decoration: underline; // If we don't have include grapho we can't set this tags as clickable
     }
   }
 }

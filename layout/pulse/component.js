@@ -4,9 +4,8 @@ import debounce from 'lodash/debounce';
 
 // Redux
 import { connect } from 'react-redux';
-import { initStore } from 'store';
 import { getLayers, getLayerPoints, resetLayerPoints } from 'layout/pulse/actions';
-import { toggleActiveLayer } from 'layout/pulse/layer-menu-dropdown/actions';
+import { toggleActiveLayer } from 'layout/pulse/layer-menu/actions';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Selectors
@@ -21,6 +20,7 @@ import { substitution } from 'utils/utils';
 import { logEvent } from 'utils/analytics';
 
 // Components
+import LayerContainer from 'layout/pulse/layer-container';
 import LayerMenu from 'layout/pulse/layer-menu';
 import LayerCard from 'layout/pulse/layer-card';
 import Spinner from 'components/ui/Spinner';
@@ -254,11 +254,6 @@ class Pulse extends Page {
         <div
           className="p-pulse l-map -dark"
         >
-          <LayerMenu
-            layerActive={layerActive}
-            layersGroup={layersGroup}
-          />
-          <LayerCard />
           <Spinner
             isLoading={
               pulse.loading ||
@@ -275,6 +270,13 @@ class Pulse extends Page {
             onMoveStart={this.handleCesiumMoveStart}
             onShapesCreated={this.handleShapesCreated}
           />
+          <LayerContainer>
+            <LayerMenu
+              layerActive={layerActive}
+              layersGroup={layersGroup}
+            />
+            <LayerCard />
+          </LayerContainer>
           <ZoomControl
             onZoomIn={this.triggerZoomIn}
             onZoomOut={this.triggerZoomOut}

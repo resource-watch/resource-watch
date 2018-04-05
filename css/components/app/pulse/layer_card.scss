@@ -7,16 +7,16 @@
   flex-direction: column;
   background-color: $color-white;
   max-width: 400px;
-  max-height: calc(100% - 200px - 100px);
   border-radius: 4px;
-  z-index: 999;
+  z-index: 7;
   overflow: auto;
+
+  @media screen and (max-width: map-get($breakpoints, small)) {
+    max-height: calc(100% - 200px - 100px);
+  }
 
   h3, h5 {
     color: $color-dark-pink;
-  }
-
-  h5 {
     margin: 0px;
   }
 
@@ -24,19 +24,68 @@
     display: none;
   }
 
+  .source-container {
+    font-size: $font-size-extra-small;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
   .description {
     min-height: 55px;
-    max-height: 100px;
-    overflow: auto;
+    max-height: 120px;
 
-    p {
-      margin-bottom: 0px;
+    .description-text {
+      max-height: 80px;
+      overflow: auto;
+    }
+
+    .view-with-container {
+      .view-with-label {
+        margin-right: 10px;
+        font-size: $font-size-small;
+      }
+      .layer-pill {
+        &:not(:last-child) {
+          margin-right: 10px;
+        }
+      }
     }
 
     .c-button {
       padding: 5px;
       height: 25px;
       transition: none;
+    }
+  }
+
+  .rotate-globe-button {
+    padding: 5px;
+    height: 30px;
+    margin-top: 5px;
+  }
+
+  .legends {
+    overflow: auto;
+    max-height: 140px;
+
+    .layer-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      text-transform: uppercase;
+      font-size: $font-size-extra-small;
+      font-weight: bold;
+
+      button {
+        padding: 0px;
+        cursor: pointer;
+
+        svg {
+          width: 15px;
+          height: 15px;
+        }
+      }
     }
   }
 
@@ -57,6 +106,21 @@
     .link_button {
       text-transform: uppercase;
       padding: 0px 5px 0px 5px;
+    }
+  }
+
+  @media screen and (max-width: map-get($breakpoints, medium)) {
+    position: relative;
+    top: -3px;
+    left: 0;
+    max-width: none;
+    margin: 0 3px;
+    padding: 0 29px 20px 29px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+
+    h3 {
+      display: none;
     }
   }
 }

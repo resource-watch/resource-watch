@@ -142,6 +142,10 @@ class GlobeCesiumComponent extends PureComponent {
     if (this.props.markers) {
       this.createShapes(this.props.markers);
     }
+
+    if (this.props.globeCesium.initialPosition) {
+      this.setPosition(this.props.globeCesium.initialPosition, 0);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -188,6 +192,20 @@ class GlobeCesiumComponent extends PureComponent {
         z: camera.position.z * scalar
       };
       this.viewer.camera.flyTo({ destination: newPosition, duration: 1.5 });
+    }
+
+    // ---------- initialPosition ----------
+    if (this.props.globeCesium.initialPosition.latitude !== nextProps.globeCesium.initialPosition.latitude ||
+      this.props.globeCesium.initialPosition.longitude !== nextProps.globeCesium.initialPosition.longitude ||
+      this.props.globeCesium.initialPosition.height !== nextProps.globeCesium.initialPosition.height) {
+      this.setPosition(nextProps.globeCesium.initialPosition, 0);
+    }
+
+    // ---------- position ---------------
+    if (this.props.globeCesium.position.latitude !== nextProps.globeCesium.position.latitude ||
+      this.props.globeCesium.position.longitude !== nextProps.globeCesium.position.longitude ||
+      this.props.globeCesium.position.height !== nextProps.globeCesium.position.height) {
+      this.setPosition(nextProps.globeCesium.position, 1);
     }
   }
 
@@ -352,6 +370,14 @@ class GlobeCesiumComponent extends PureComponent {
     return shapes;
   }
 
+  setPosition(position, duration = 0) {
+    this.viewer.camera.flyTo({
+      destination:
+        Cesium.Cartesian3.fromDegrees(position.longitude, position.latitude, position.height),
+      duration
+    });
+  }
+
   addAdditionalLayerOption(name, imageryProvider, alpha, show) {
     const layer = this.imageryLayers.addImageryProvider(imageryProvider);
     layer.alpha = Cesium.defaultValue(alpha, 0.5);
@@ -422,6 +448,8 @@ class GlobeCesiumComponent extends PureComponent {
       if (!layerActive.threedimensional) {
         this.addAdditionalLayerOption('mainLayer', new Cesium.UrlTemplateImageryProvider({ url: mainLayer }), 1, true);
       }
+    } else {
+      this.removeMainLayer();
     }
 
     if (contextLayersOnTop && updateLayers) {
@@ -515,6 +543,7 @@ GlobeCesiumComponent.propTypes = {
 
   // Store
   setShapesCreated: PropTypes.func.isRequired,
+  globeCesium: PropTypes.object.isRequired,
 
   // Callbacks
   onClick: PropTypes.func,

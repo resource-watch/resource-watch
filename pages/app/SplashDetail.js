@@ -6,6 +6,11 @@ import classnames from 'classnames';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { toggleModal, setModalOptions } from 'redactions/modal';
+import { toastr } from 'react-redux-toastr';
+
+// Responsive
+import MediaQuery from 'react-responsive';
+import { breakpoints } from 'utils/responsive';
 
 // Layout
 import Page from 'layout/page';
@@ -17,6 +22,8 @@ import Header from 'components/splash/layout/Header';
 import Spinner from 'components/ui/Spinner';
 import Modal from 'components/ui/Modal';
 import Icon from 'components/ui/Icon';
+import { Link } from 'routes';
+import Title from 'components/ui/Title';
 
 // Utils
 import { PANORAMAS } from 'utils/splash/Panoramas';
@@ -29,7 +36,7 @@ class SplashDetail extends Page {
     const earthMode = props.url.query.earthMode;
 
     this.state = {
-      skyLoading: false,
+      skyLoading: true,
       panorama,
       selectedPanorama,
       soundActivated: false,
@@ -37,8 +44,11 @@ class SplashDetail extends Page {
       earthMode,
       mouseHovering: false,
       modalOpen: false,
-      introOpened: true
+      introOpened: true,
+      hideDragHelp: false,
+      copied: { }
     };
+
     // --------------- Bindings -----------------------
     this.handlePanoramaChange = this.handlePanoramaChange.bind(this);
     this.handleImageLoaded = this.handleImageLoaded.bind(this);
@@ -49,8 +59,22 @@ class SplashDetail extends Page {
   }
 
   componentDidMount() {
+    if (this.props.responsive.fakeWidth < breakpoints.medium) return;
+
     this.panoramaSky = document.getElementById('panorama-sky');
-    this.panoramaSky.addEventListener('materialtextureloaded', this.handleImageLoaded);
+    if (this.panoramaSky) {
+      this.panoramaSky.addEventListener('materialtextureloaded', this.handleImageLoaded);
+    }
+
+    const camera = document.getElementById('camera');
+
+    if (camera) {
+      camera.addEventListener('componentchanged', (e) => {
+        const { name } = e.detail;
+        if (name !== 'rotation' || this.state.hideDragHelp) return;
+        this.setState({ hideDragHelp: true });
+      });
+    }
 
     this.addEventListenersToHotspots();
   }
@@ -91,7 +115,10 @@ class SplashDetail extends Page {
       selectedPanorama: panorama.options.find(e => e.name === radioButtonId),
       skyLoading: true,
       introOpened: true
-    }, () => this.addEventListenersToHotspots());
+    }, () => {
+      this.addEventListenersToHotspots();
+      this.setState({ skyLoading: false });
+    });
   }
 
   handleImageLoaded() {
@@ -122,8 +149,37 @@ class SplashDetail extends Page {
     this.setState({ introOpened: !this.state.introOpened });
   }
 
+  /**
+   * - onCopyClick
+   * @param  {string} type
+   * @return
+   */
+  onCopyClick = (type) => {
+    try {
+      document.execCommand('copy');
+
+      this.setState({
+        copied: {
+          ...this.state.copied,
+          [type]: true
+        }
+      });
+
+      setTimeout(() => {
+        this.setState({
+          copied: {
+            ...this.state.copied,
+            [type]: false
+          }
+        });
+      }, 1000);
+    } catch (err) {
+      toastr.warning('Oops, unable to copy');
+    }
+  }
+
   render() {
-    const { modal } = this.props;
+    const { modal, responsive } = this.props;
     const {
       selectedPanorama,
       skyLoading,
@@ -132,12 +188,13 @@ class SplashDetail extends Page {
       selectedHotspot,
       earthMode,
       mouseHovering,
-      introOpened
+      introOpened,
+      hideDragHelp
     } = this.state;
     const skyImage = selectedPanorama && selectedPanorama.image;
     const hotspots = selectedPanorama && selectedPanorama.hotspots;
     const options = panorama && panorama.options;
-    const backgroundSound = panorama.backgroundSound;
+    const { backgroundSound } = panorama;
     const hasIntro = selectedPanorama && selectedPanorama.intro;
 
     const pageClass = classnames({
@@ -146,162 +203,239 @@ class SplashDetail extends Page {
     });
 
     return (
-      <div
-        title="Resource Watch"
-        className={pageClass}
-      >
-        <Head
-          title="SplashDetail page"
-          description="SplashDetail page description"
-        />
-        <Icons />
-        <Header
-          hideSkip
-          showEarthViewLink
-        />
-        {hasIntro &&
-          <div className={classnames('intro-container', `-${introOpened ? 'opened' : 'closed'}`)}>
-            <div className={classnames('text-container', `-${introOpened ? 'opened' : 'closed'}`)}>
-              {selectedPanorama.intro}
-            </div>
-            <button
-              type="button"
-              className={classnames('l-sidebar-toggle', 'btn-toggle', `-${introOpened ? 'opened' : ''}`)}
-              onClick={this.handleToggleIntro}
-            >
-              <Icon
-                className={classnames('-little', `-${introOpened ? 'left' : 'right'}`)}
-                name={`icon-arrow-${introOpened ? 'left' : 'right'}`}
-              />
-            </button>
-          </div>
-        }
-        {selectedHotspot &&
-          <div className="hotspot-section">
-            <div
-              className="selected-hotspot-container"
-              role="button"
-              tabIndex={-1}
-              onClick={this.handleCloseRightMenu}
-            >
-              <img src={selectedHotspot.imageSelected} alt={selectedHotspot.title} />
-            </div>
-            <div className="detail-container">
-              { /* Hide this to make more room for the text <h2>{selectedHotspot.title}</h2> */}
-              <div className="text-container">
-                <div className="markup-container">
-                  {selectedHotspot.markup}
-                </div>
-              </div>
-            </div>
-            <div
-              className="close-button-container"
-              role="button"
-              tabIndex={-1}
-              onClick={this.handleCloseRightMenu}
-            >
-              <div className="close-button">
-                <img src="/static/images/splash/close-modal.svg" alt="Close" />
-                Close
-              </div>
-            </div>
-          </div>
-        }
-        <div className="panorama">
-          <Spinner isLoading={skyLoading} className="-light" />
-          <div className="menu-container">
-            <div className="scenario-box">
-              Scenario
-            </div>
-            <div className="menu">
-              {options && options.map(elem => (
-                <div className="option" key={elem.name}>
-                  <input type="radio" id={elem.name} checked={selectedPanorama.name === elem.name} onChange={this.handlePanoramaChange} />
-                  <label htmlFor={elem.name}>
-                    {elem.label}
-                  </label>
-                </div>
-              ))
-              }
-              <div className="option">
-                <input type="checkbox" id="soundCheckbox" checked={soundActivated} onChange={this.handleSoundChange} />
-                <label htmlFor="soundCheckbox">
-                  Sound
-                </label>
-              </div>
-            </div>
-          </div>
-          <a-scene
-            cursor="rayOrigin: mouse"
-            embedded
-            vr-mode-ui="enabled: false"
+      <div>
+        {/* Mobile Splash details page */}
+        <MediaQuery
+          maxDeviceWidth={breakpoints.medium - 1}
+          values={{ deviceWidth: responsive.fakeWidth }}
+        >
+          <div
+            title="Resource Watch"
+            className={`${pageClass} --mobile`}
           >
-            {options &&
-              <a-assets>
-                <img id="marker" src="../../static/images/splash/marker.svg" alt="" />
-                <img id="markerSelected" src="../../static/images/splash/marker.svg" alt="" />
-                {options && options.map(elem => (
-                  <img key={elem.name} id={elem.name} src={elem.image} alt="" crossOrigin="anonymous" />
-                ))
-                }
-              </a-assets>
-            }
+            <Head
+              title="SplashDetail page"
+              description="SplashDetail page description"
+            />
+            <div className="c-splash-header">
+              <Link route="home">
+                <img className="logo" src="/static/images/logo-resource-watch.png" alt="Resource Watch" />
+              </Link>
+            </div>
 
-            { /* 360-degree image */ }
-            {!earthMode &&
-              <a-sky id="panorama-sky" src={skyImage} />
-            }
-            {earthMode &&
-              <a-sky id="panorama-sky" src="../../static/images/splash/earthExperiment.jpg" />
-            }
+            <div className="c-card-app -compact">
+              <div className="card-container">
+                <Title className="-default">Check it on desktop</Title>
+                <div className="card-content">
+                  This page is best experienced on desktop.
+                </div>
 
+                <a
+                  className="c-btn -secondary -compressed"
+                  tabIndex={0}
+                  role="button"
+                  onClick={() => this.onCopyClick('link')}
+                  onKeyDown={() => this.onCopyClick('link')}
+                >
+                  {this.state.copied.link ? 'Copied' : 'Copy link'}
+                </a>
 
-            { /* Background sound */ }
-            {backgroundSound && soundActivated &&
-              <audio
-                src={backgroundSound}
-                autoPlay
-                loop
-                preload
+                <div className="card-footer">
+                  <Link
+                    route="splash"
+                  >
+                    <a className="c-button -secondary -fullwidth">
+                      Earth view
+                    </a>
+                  </Link>
+                  <Link
+                    route="home"
+                  >
+                    <a className="c-button -primary -fullwidth">
+                      Go to Resource Watch
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </MediaQuery>
+
+        {/* Desktop Splash details page */}
+        <MediaQuery
+          minDeviceWidth={breakpoints.medium}
+          values={{ deviceWidth: responsive.fakeWidth }}
+        >
+
+          <div
+            title="Resource Watch"
+            className={pageClass}
+          >
+            <Head
+              title="SplashDetail page"
+              description="SplashDetail page description"
+            />
+            <Icons />
+            <Header
+              hideSkip
+              showEarthViewLink
+            />
+            {hasIntro &&
+              <div className={classnames('intro-container', `-${introOpened ? 'opened' : 'closed'}`)}>
+                <div className={classnames('text-container', `-${introOpened ? 'opened' : 'closed'}`)}>
+                  {selectedPanorama.intro}
+                </div>
+                <button
+                  type="button"
+                  className={classnames('l-sidebar-toggle', 'btn-toggle', `-${introOpened ? 'opened' : ''}`)}
+                  onClick={this.handleToggleIntro}
+                >
+                  <Icon
+                    className={classnames('-little', `-${introOpened ? 'left' : 'right'}`)}
+                    name={`icon-arrow-${introOpened ? 'left-2' : 'right-2'}`}
+                  />
+                </button>
+              </div>
+            }
+            {selectedHotspot &&
+              <div className="hotspot-section">
+                <div
+                  className="selected-hotspot-container"
+                  role="button"
+                  tabIndex={-1}
+                  onClick={this.handleCloseRightMenu}
+                >
+                  <img src={selectedHotspot.imageSelected} alt={selectedHotspot.title} />
+                </div>
+                <div className="detail-container">
+                  { /* Hide this to make more room for the text <h2>{selectedHotspot.title}</h2> */}
+                  <div className="text-container">
+                    <div className="markup-container">
+                      {selectedHotspot.markup}
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="close-button-container"
+                  role="button"
+                  tabIndex={-1}
+                  onClick={this.handleCloseRightMenu}
+                >
+                  <div className="close-button">
+                    <img src="/static/images/splash/close-modal.svg" alt="Close" />
+                    Close
+                  </div>
+                </div>
+              </div>
+            }
+            <div className="panorama">
+              <Spinner isLoading={skyLoading} className="-light" />
+              <div className="menu-container">
+                <div className="scenario-box">
+                  Scenario
+                </div>
+                <div className="menu">
+                  {options && options.map(elem => (
+                    <div className="option" key={elem.name}>
+                      <input type="radio" id={elem.name} checked={selectedPanorama.name === elem.name} onChange={this.handlePanoramaChange} />
+                      <label htmlFor={elem.name}>
+                        {elem.label}
+                      </label>
+                    </div>
+                    ))
+                  }
+                  <div className="option">
+                    <input type="checkbox" id="soundCheckbox" checked={soundActivated} onChange={this.handleSoundChange} />
+                    <label htmlFor="soundCheckbox">
+                      Sound
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <a-scene
+                cursor="rayOrigin: mouse"
+                embedded
+                vr-mode-ui="enabled: false"
               >
-                <track kind="captions" /> { /* TO-DO add captions for deaf users */ }
-              </audio>
-            }
+                {options &&
+                  <a-assets>
+                    <img id="marker" src="../../static/images/splash/marker.svg" alt="" />
+                    <img id="markerSelected" src="../../static/images/splash/marker.svg" alt="" />
+                    {options && options.map(elem => (
+                      <img key={elem.name} id={elem.name} src={elem.image} alt="" crossOrigin="anonymous" />
+                      ))
+                    }
+                  </a-assets>
+                }
+                { /* 360-degree image */ }
+                {!earthMode && skyLoading &&
+                  <a-sky id="panorama-sky" src={skyImage} color="#393f44" />
+                }
+                {!earthMode && !skyLoading &&
+                  <a-sky id="panorama-sky" src={skyImage}/>
+                }
+                {earthMode &&
+                  <a-sky id="panorama-sky" src="../../static/images/splash/earthExperiment.jpg" />
+                }
 
-            { /* Hotspots */ }
-            {hotspots && hotspots.map((elem) => {
-              const width = elem.imageWidth / 100 * 1.2;
-              const height = elem.imageHeight / 100 * 1.2;
-              const geometrySt = `primitive: plane; height: ${height}; width: ${width}`;
-              return (<a-entity
-                id={elem.id}
-                position={elem.position}
-                rotation={elem.rotation}
-                key={elem.title}
-                geometry={geometrySt}
-                material={`shader: flat; src: ${(selectedHotspot && selectedHotspot.id === elem.id) ? elem.imageSelected : elem.image}; transparent: true`}
-              />);
-            })}
+                { /* Background sound */ }
+                {backgroundSound && soundActivated &&
+                  <audio
+                    src={backgroundSound}
+                    autoPlay
+                    loop
+                    preload
+                  >
+                    <track kind="captions" /> { /* TO-DO add captions for deaf users */ }
+                  </audio>
+                }
 
-            { /* Camera */ }
-            <a-camera look-controls="reverseMouseDrag: true" />
-          </a-scene>
-        </div>
-        <Modal
-          open={this.state.modalOpen}
-          options={modal.options}
-          className="no-borders"
-          loading={modal.loading}
-          toggleModal={this.props.toggleModal}
-          setModalOptions={this.props.setModalOptions}
-        />
+                { /* Hotspots */ }
+                {hotspots && hotspots.map((elem) => {
+                  const width = elem.imageWidth / 100 * 1.2;
+                  const height = elem.imageHeight / 100 * 1.2;
+                  const geometrySt = `primitive: plane; height: ${height}; width: ${width}`;
+                  return (<a-entity
+                    id={elem.id}
+                    position={elem.position}
+                    rotation={elem.rotation}
+                    key={elem.title}
+                    geometry={geometrySt}
+                    material={`shader: flat; src: ${(selectedHotspot && selectedHotspot.id === elem.id) ? elem.imageSelected : elem.image}; transparent: true`}
+                  />);
+                })}
+
+                { /* Camera */ }
+                <a-camera id="camera" look-controls="reverseMouseDrag: true" />
+
+              </a-scene>
+
+              {!hideDragHelp &&
+              <div className="drag-help">
+                <img src="../../static/images/splash/drag.svg" alt="Drag" />
+              </div>}
+
+            </div>
+            <Modal
+              open={this.state.modalOpen}
+              options={modal.options}
+              className="no-borders"
+              loading={modal.loading}
+              toggleModal={this.props.toggleModal}
+              setModalOptions={this.props.setModalOptions}
+            />
+          </div>
+        </MediaQuery>
+
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  modal: state.modal
+  modal: state.modal,
+  responsive: state.responsive
 });
 
 const mapDispatchToProps = {

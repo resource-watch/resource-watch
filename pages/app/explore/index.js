@@ -1,4 +1,5 @@
 /* eslint max-len: 0 */
+/* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -31,6 +32,10 @@ class ExplorePage extends Page {
       search,
       sort,
       sortDirection,
+      topics,
+      data_types,
+      frequencies,
+      time_periods,
 
       zoom,
       lat,
@@ -46,6 +51,10 @@ class ExplorePage extends Page {
     if (search) store.dispatch(actions.setFiltersSearch(search));
     if (sort) store.dispatch(actions.setSortSelected(sort));
     if (sortDirection) store.dispatch(actions.setSortDirection(+sortDirection));
+    if (topics) store.dispatch(actions.setFiltersSelected({ key: 'topics', list: JSON.parse(decodeURIComponent(topics)) }));
+    if (data_types) store.dispatch(actions.setFiltersSelected({ key: 'data_types', list: JSON.parse(decodeURIComponent(data_types)) }));
+    if (frequencies) store.dispatch(actions.setFiltersSelected({ key: 'frequencies', list: JSON.parse(decodeURIComponent(frequencies)) }));
+    if (time_periods) store.dispatch(actions.setFiltersSelected({ key: 'time_periods', list: JSON.parse(decodeURIComponent(time_periods)) }));
 
     // Map
     if (zoom) store.dispatch(actions.setMapZoom(+zoom));
@@ -60,11 +69,14 @@ class ExplorePage extends Page {
     // Fetch datasets
     await store.dispatch(actions.fetchDatasets());
 
+    // Fetch tags
+    await store.dispatch(actions.fetchFiltersTags());
+
     return { ...props };
   }
 
   componentWillUnmount() {
-    this.props.resetExplore();
+    // this.props.resetExplore();
   }
 
   componentDidUpdate(prevProps) {
@@ -110,7 +122,11 @@ class ExplorePage extends Page {
       datasets.page !== prevDatasets.page ||
       sort.selected !== prevSort.selected ||
       sort.direction !== prevSort.direction ||
-      filters.search !== prevFilters.search
+      filters.search !== prevFilters.search ||
+      filters.selected.topics.length !== prevFilters.selected.topics.length ||
+      filters.selected.data_types.length !== prevFilters.selected.data_types.length ||
+      filters.selected.frequencies.length !== prevFilters.selected.frequencies.length ||
+      filters.selected.time_periods.length !== prevFilters.selected.time_periods.length
     );
   }
 
@@ -142,30 +158,11 @@ class ExplorePage extends Page {
       page: datasets.page,
       sort: sort.selected,
       sortDirection: sort.direction,
-      ...filters.search && { search: filters.search }
-      //   if (topics) {
-      //     if (topics.length > 0) {
-      //       query.topics = JSON.stringify(topics);
-      //     } else {
-      //       delete query.topics;
-      //     }
-      //   }
-      //
-      //   if (dataTypes) {
-      //     if (dataTypes.length > 0) {
-      //       query.dataTypes = JSON.stringify(dataTypes);
-      //     } else {
-      //       delete query.dataType;
-      //     }
-      //   }
-      //
-      //   if (geographies) {
-      //     if (geographies.length > 0) {
-      //       query.geographies = JSON.stringify(geographies);
-      //     } else {
-      //       delete query.geographies;
-      //     }
-      //   }
+      ...filters.search && { search: filters.search },
+      ...!!filters.selected.topics.length && { topics: encodeURIComponent(JSON.stringify(filters.selected.topics)) },
+      ...!!filters.selected.data_types.length && { data_types: encodeURIComponent(JSON.stringify(filters.selected.data_types)) },
+      ...!!filters.selected.frequencies.length && { frequencies: encodeURIComponent(JSON.stringify(filters.selected.frequencies)) },
+      ...!!filters.selected.time_periods.length && { time_periods: encodeURIComponent(JSON.stringify(filters.selected.time_periods)) }
     };
 
     if (typeof window !== 'undefined') {

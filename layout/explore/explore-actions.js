@@ -1,7 +1,11 @@
 import 'isomorphic-fetch';
 import queryString from 'query-string';
-import { createAction, createThunkAction } from 'redux-tools';
 import WRISerializer from 'wri-json-api-serializer';
+import sortBy from 'lodash/sortBy';
+import { createAction, createThunkAction } from 'redux-tools';
+
+// Utils
+import { TAGS_BLACKLIST } from 'utils/tags';
 
 // RESET
 export const resetExplore = createAction('EXPLORE/resetExplore');
@@ -18,6 +22,10 @@ export const setDatasetsMode = createAction('EXPLORE/setDatasetsMode');
 export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (dispatch, getState) => {
   const { explore, common } = getState();
 
+  const concepts = Object.keys(explore.filters.selected)
+    .map(s => explore.filters.selected[s])
+    .filter(selected => selected.length);
+
   const qParams = queryString.stringify({
     application: process.env.APPLICATIONS,
     language: common.locale,
@@ -26,6 +34,15 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     sort: `${explore.sort.direction < 0 ? '-' : ''}${explore.sort.selected}`,
     status: 'saved',
     published: true,
+    // Concepts
+    ...concepts.reduce((o, s, i) => ({
+      ...o,
+      ...s.reduce((o2, s2, j) => ({
+        ...o2,
+        [`concepts[${i}][${j}]`]: s2
+      }), {})
+    }), {}),
+    // Page
     'page[number]': explore.datasets.page,
     'page[size]': explore.datasets.limit
   });
@@ -39,8 +56,8 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
       return response.json();
     })
     .then((response) => {
-      const { meta } = response;
-      dispatch(setDatasetsTotal(meta['total-items']));
+      const { meta = {} } = response;
+      dispatch(setDatasetsTotal(meta['total-items'] || 0));
       return WRISerializer(response, { locale: common.locale });
     })
     .then((data) => {
@@ -108,8 +125,29 @@ export const fetchMapLayerGroups = createThunkAction('EXPLORE/fetchMapLayers', p
 
 
 // FILTERS
+export const setFiltersOpen = createAction('EXPLORE/setFiltersOpen');
+export const setFiltersTab = createAction('EXPLORE/setFiltersTab');
 export const setFiltersSearch = createAction('EXPLORE/setFiltersSearch');
-export const setFiltersConcepts = createAction('EXPLORE/setFiltersConcepts');
+export const setFiltersTags = createAction('EXPLORE/setFiltersTags');
+export const setFiltersSelected = createAction('EXPLORE/setFiltersSelected');
+export const toggleFiltersSelected = createAction('EXPLORE/toggleFiltersSelected');
+export const resetFiltersSelected = createAction('EXPLORE/resetFiltersSelected');
+
+export const fetchFiltersTags = createThunkAction('EXPLORE/fetchFiltersTags', () => (dispatch) => {
+  const qParams = queryString.stringify({});
+
+  return fetch(`${process.env.WRI_API_URL}/graph/query/list-concepts?${qParams}`)
+    .then((response) => {
+      if (response.status >= 400) throw Error(response.statusText);
+      return response.json();
+    })
+    .then(({ data }) => {
+      dispatch(setFiltersTags(data));
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
 
 // SORT
 export const setSortSelected = createAction('EXPLORE/setSortSelected');
@@ -117,3 +155,33 @@ export const setSortDirection = createAction('EXPLORE/setSortDirection');
 
 // SIDEBAR
 export const setSidebarOpen = createAction('EXPLORE/setSidebarOpen');
+
+// TAGS TOOLTIP
+export const setTags = createAction('EXPLORE/setTags');
+export const setTagsTooltip = createAction('EXPLORE/setTagsTooltip');
+export const setTagsLoading = createAction('EXPLORE/setTagsLoading');
+export const setTagsError = createAction('EXPLORE/setTagsError');
+export const resetTags = createAction('EXPLORE/resetTags');
+
+// Async actions
+export const fetchTags = createThunkAction('EXPLORE/fetchTags', tags => (dispatch) => {
+  dispatch(setTagsLoading(true));
+
+  return fetch(`${process.env.WRI_API_URL}/graph/query/concepts-inferred?concepts=${tags}&application=${process.env.APPLICATIONS}`)
+    .then((response) => {
+      if (response.status >= 400) throw Error(response.statusText);
+      return response.json();
+    })
+    .then(({ data }) => {
+      dispatch(setTags(sortBy(
+        data.filter(tag => !TAGS_BLACKLIST.includes(tag.id)),
+        t => t.label
+      )));
+      dispatch(setTagsLoading(false));
+      dispatch(setTagsError(null));
+    })
+    .catch((err) => {
+      dispatch(setTagsLoading(false));
+      dispatch(setTagsError(err.message));
+    });
+});

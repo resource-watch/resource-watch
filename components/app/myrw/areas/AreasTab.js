@@ -8,9 +8,16 @@ import { connect } from 'react-redux';
 import AreasIndex from 'components/app/myrw/areas/pages/index';
 import AreasNew from 'components/app/myrw/areas/pages/new';
 import AreasEdit from 'components/app/myrw/areas/pages/show';
+import AreasAlerts from 'components/app/myrw/areas/pages/alerts';
 
 function AreasTab(props) {
-  const { tab, subtab, id, user } = props;
+  const {
+    tab,
+    subtab,
+    id,
+    user
+  } = props;
+
   return (
     <div className="c-areas-tab">
       {!id && user.token &&
@@ -21,9 +28,14 @@ function AreasTab(props) {
         <AreasNew tab={tab} subtab={subtab} id={id} />
       }
 
-      {id && id !== 'new' && user.token &&
+      {id && id !== 'new' && (subtab !== 'alerts') && user.token &&
         <AreasEdit tab={tab} subtab={subtab} id={id} />
       }
+
+      {id && id !== 'new' && (subtab === 'alerts') && user.token &&
+        <AreasAlerts tab={tab} subtab={subtab} id={id} user={user} />
+      }
+
     </div>
   );
 }

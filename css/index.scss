@@ -84,10 +84,11 @@
 @import "./components/ui/tree_selector";
 @import "./components/ui/user-report";
 @import "./components/ui/zoom_control";
+@import "./components/ui/dataset-table";
 
 // Modal
 @import "./components/modal/share-modal";
-
+@import "./components/modal/credits_modal";
 @import "./components/modal/save_widget_modal";
 @import "./components/modal/how_to_widget_editor_modal";
 @import "./components/modal/embed_my_widget_modal";
@@ -109,6 +110,7 @@
 // datasets
 @import './components/datasets/list';
 @import './components/datasets/list-item';
+@import './components/datasets/search';
 
 // Subscriptions
 @import "./components/subscriptions/subscriptions_form";
@@ -121,6 +123,8 @@
 @import "./components/map/map";
 @import "./components/map/map-controls";
 @import "./components/map/map-popup";
+@import './components/map/map-side-by-side-layout';
+@import './components/map/map-side-by-side-range';
 
 // Form
 @import '../node_modules/vizz-wysiwyg/build/rw';
@@ -218,20 +222,21 @@
 @import "./components/app/pages/about";
 @import "./components/app/pages/pulse";
 @import "./components/app/pages/home";
-@import "./components/app/pages/partners";
 @import "./components/app/pages/submit_insight";
 @import "./components/app/pages/partner_detail";
 @import "./components/app/pages/getInvolved";
 @import "./components/app/pages/develop_app";
 @import "./components/app/pages/apps";
-@import "./components/app/pages/p-app-detail";
 @import "./components/app/pages/splash";
 @import "./components/app/pages/splash_detail";
+@import "./components/app/pages/alerts_page";
 
 // PULSE
 @import "./components/app/pulse/globe_cesium";
 @import "./components/app/pulse/globe_tooltip";
+@import "./components/app/pulse/layer_container";
 @import "./components/app/pulse/layer_menu_dropdown";
+@import "./components/app/pulse/layer_menu_native";
 @import "./components/app/pulse/layer_menu";
 @import "./components/app/pulse/layer_card";
 @import "./components/app/pulse/legend_type";
@@ -254,6 +259,8 @@
 // EXPLORE DETAIL
 @import "./components/explore-detail/explore-detail-actions";
 @import "./components/explore-detail/explore-detail-tags";
+@import "./components/explore-detail/explore-detail-widget-editor";
+@import "./components/explore-detail/explore-detail-info";
 
 // DASHBOARDS
 @import './components/dashboards/dashboard-thumbnail-list';

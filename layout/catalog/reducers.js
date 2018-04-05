@@ -2,16 +2,15 @@ import * as actions from './actions';
 
 export default {
   [actions.setDatasets]: (state, action) =>
-    ({
-      ...state,
-      datasets: action.payload,
-      loading: false,
-      error: null
-    }),
+    ({ ...state, list: action.payload }),
 
   [actions.setDatasetsLoading]: (state, action) =>
     ({ ...state, loading: action.payload }),
 
   [actions.setDatasetsError]: (state, action) =>
-    ({ ...state, error: action.payload })
+    ({ ...state, error: action.payload }),
+
+  [actions.setDatasetsSearch]: (state, action) =>
+    ({ ...state, search: action.payload })
+
 };

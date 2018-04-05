@@ -151,6 +151,9 @@ app.prepare()
     server.get('/auth/:service', (req, res) => {
       const { service } = req.params;
 
+      // Returning user data
+      if (service === 'user') return res.json(req.user || {});
+
       if (!/facebook|google|twitter/.test(service)) {
         return res.redirect('/');
       }
@@ -161,7 +164,7 @@ app.prepare()
 
       // save the current url for redirect if successfull, set it to expire in 5 min
       res.cookie('authUrl', req.headers.referer, { maxAge: 3E5, httpOnly: true });
-      return res.redirect(`${process.env.CONTROL_TOWER_URL}/auth/${service}?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true`);
+      return res.redirect(`${process.env.CONTROL_TOWER_URL}/auth/${service}?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true&origin=rw`);
     });
 
     server.get('/login', auth.login);
@@ -172,7 +175,6 @@ app.prepare()
     });
 
     // Routes with required authentication
-    server.get('/auth/user', (req, res) => res.json(req.user || {}));
     server.get('/myrw-detail*?', isAuthenticated, handleUrl); // TODO: review these routes
     server.get('/myrw*?', isAuthenticated, handleUrl);
     server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);

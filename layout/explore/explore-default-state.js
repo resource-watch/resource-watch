@@ -1,3 +1,4 @@
+import { TOPICS, DATA_TYPES, FREQUENCIES, TIME_PERIODS } from 'utils/concepts';
 import { BASEMAPS, LABELS } from 'components/ui/map/constants';
 
 export default {
@@ -12,11 +13,30 @@ export default {
     mode: 'grid' // 'grid' or 'list'
   },
   filters: {
+    open: false,
     search: '',
-    concepts: []
+    tab: 'topics',
+    options: {
+      topics: TOPICS,
+      data_types: DATA_TYPES,
+      frequencies: FREQUENCIES,
+      time_periods: TIME_PERIODS,
+      custom: {
+        label: 'Others',
+        value: 'custom',
+        list: []
+      }
+    },
+    selected: {
+      topics: [],
+      data_types: [],
+      frequencies: [],
+      time_periods: [],
+      custom: []
+    }
   },
   sort: {
-    selected: 'updatedAt',
+    selected: 'most-viewed',
     direction: -1,
     options: [
       { value: 'updatedAt', label: 'Last modified' },
@@ -41,5 +61,12 @@ export default {
   // Sidebar
   sidebar: {
     open: true
+  },
+
+  tags: {
+    tooltip: false,
+    list: [],
+    loading: false,
+    error: null
   }
 };

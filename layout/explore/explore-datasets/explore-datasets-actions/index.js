@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import * as actions from 'layout/explore/explore-actions';
 
-import ExploreDatasetsActionsComponent from './explore-datasets-actions-component';
+import ExploreDatasetsActionsComponent from './component';
 
 export default connect(
   state => ({

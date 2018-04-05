@@ -35,11 +35,11 @@ import * as explore from 'layout/explore';
 
 // Explore detail
 import * as exploreDetail from 'layout/explore-detail';
-import * as exploreDatasetFilters from 'components/app/explore/explore-dataset-filters/explore-dataset-filters';
 
 // Pulse
 import * as pulse from 'layout/pulse';
-import * as layerMenuDropdown from 'layout/pulse/layer-menu-dropdown';
+import * as layerContainer from 'layout/pulse/layer-container';
+import * as layerMenu from 'layout/pulse/layer-menu';
 import * as layerCard from 'layout/pulse/layer-card';
 import * as layerPill from 'layout/pulse/layer-pill';
 import * as globeCesium from 'components/vis/globe-cesium';
@@ -56,6 +56,10 @@ import * as topicsIndex from 'layout/topics';
 import * as topicsDetail from 'layout/topics-detail';
 import * as topicThumbnailList from 'components/topics/thumbnail-list';
 
+// Get Involved
+import * as getInvolvedIndex from 'layout/get-involved';
+import * as getInvolvedDetail from 'layout/get-involved-detail';
+
 // Admin Interactions
 import * as adminInteractions from 'components/admin/layers/form/interactions';
 import * as adminLayerPreview from 'components/admin/layers/form/layer-preview';
@@ -65,6 +69,9 @@ import { reducers as widgetEditorModules } from 'widget-editor';
 
 // React responsive redux
 import { reducer as responsiveReducer } from 'react-responsive-redux';
+
+// Embed
+import * as embedMapSwipe from 'layout/embed/map-swipe';
 
 if (process.env.NODE_ENV === 'production') {
   initOpbeat({
@@ -103,10 +110,10 @@ const reducer = combineReducers({
   // Explore
   explore: handleModule(explore),
   exploreDetail: handleModule(exploreDetail),
-  exploreDatasetFilters: handleModule(exploreDatasetFilters),
 
   // Pulse
-  layerMenuPulse: handleModule(layerMenuDropdown),
+  layerContainerPulse: handleModule(layerContainer),
+  layerMenuPulse: handleModule(layerMenu),
   layerCardPulse: handleModule(layerCard),
   contextLayersPulse: handleModule(layerPill),
   globeCesium: handleModule(globeCesium),
@@ -128,11 +135,18 @@ const reducer = combineReducers({
   topicsDetail: handleModule(topicsDetail),
   topicThumbnailList: handleModule(topicThumbnailList),
 
+  // Get Involved
+  getInvolvedIndex: handleModule(getInvolvedIndex),
+  getInvolvedDetail: handleModule(getInvolvedDetail),
+
   // Admin interactions
   interactions: handleModule(adminInteractions),
 
   // Admin layer preview
-  adminLayerPreview: handleModule(adminLayerPreview)
+  adminLayerPreview: handleModule(adminLayerPreview),
+
+  // Embed
+  embedMapSwipe: handleModule(embedMapSwipe)
 });
 
 const composeEnhancers = composeWithDevTools({});

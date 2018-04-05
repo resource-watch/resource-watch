@@ -4,9 +4,15 @@
   .c-card-static {
     min-height: 290px;
     margin-top: 20px;
+    padding: 40px;
 
     @media screen and (min-width: map-get($breakpoints, medium)) {
       height: 400px;
+      padding-right: 40px;
+    }
+
+    @media screen and (min-width: map-get($breakpoints, large)) {
+      padding-right: 180px;
     }
 
     &.insights { background: url('/static/images/backgrounds/jellyfish.jpg'); }
