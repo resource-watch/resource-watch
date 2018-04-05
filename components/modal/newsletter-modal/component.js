@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 
 // Components
-import Spinner from 'components/ui/Spinner';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Select from 'components/form/SelectInput';
