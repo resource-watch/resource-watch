@@ -21,9 +21,7 @@ function SuggestStoryPost({ insights }) {
           <h4>{c.tag}</h4>
           <h3>
             { c.link ?
-              <Link route={`/blog/${c.slug}`}>
-                <a>{c.title}</a>
-              </Link>
+              <a href={`/blog/${c.slug}`}>{c.title}</a>
               :
               <span>{c.title}</span>
             }
@@ -60,7 +58,7 @@ function SuggestStoryPost({ insights }) {
                   href="https://docs.google.com/forms/d/e/1FAIpQLSeOiKYcmW6-SD2ScKHJ5gfq5X28sf3HtJkPDXJ90nWdpgPGuQ/viewform?usp=sf_link"
                   target="_blank"
                   rel="noopener noreferrer"
-                  >
+                >
                   Suggest a story
                 </a>
               </div>
@@ -88,7 +86,7 @@ function SuggestStoryPost({ insights }) {
               <div className="column small-12 medium-4">
                 <Link
                   route="insights"
-                  >
+                >
                   <a className="c-button -primary -fullwidth">More stories</a>
                 </Link>
               </div>

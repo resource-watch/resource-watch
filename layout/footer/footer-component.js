@@ -14,7 +14,7 @@ import NewsletterModal from 'components/modal/newsletter-modal';
 const data = [
   { name: 'Data', route: 'explore' },
   { name: 'Explore Datasets', route: 'explore' },
-  { name: 'Planet Pulse', route: 'pulse' },
+  { name: 'Planet Pulse', anchor: '/data/pulse' },
   { name: 'App Gallery', route: 'get_involved_detail', params: { id: 'apps' } }
 ];
 
@@ -41,7 +41,7 @@ const about = [
 ];
 
 const blog = [
-  { name: 'Blog', route: 'insights' }
+  { name: 'Blog', anchor: '/blog' }
 ];
 
 const getInvolved = [
