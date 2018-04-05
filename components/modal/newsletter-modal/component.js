@@ -17,7 +17,7 @@ class NewsletterModalComponent extends PureComponent {
         <p>Get the latest stoires on the data that powers your world.</p>
         <form
           className="c-form"
-          accept-charset="UTF-8"
+          acceptCharset="UTF-8"
           method="post"
           action="https://go.pardot.com/l/120942/2018-01-25/3nzl13"
           id="pardot-form"
