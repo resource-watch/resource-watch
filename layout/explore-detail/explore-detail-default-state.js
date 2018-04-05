@@ -7,12 +7,6 @@ export default {
     loading: true,
     error: null
   },
-  tools: {
-    list: [],
-    active: [],
-    loading: true,
-    error: null
-  },
   tags: {
     list: [],
     active: [],
