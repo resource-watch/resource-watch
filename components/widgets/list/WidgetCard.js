@@ -4,6 +4,7 @@ import { Router } from 'routes';
 import isEqual from 'lodash/isEqual';
 import classnames from 'classnames';
 import { toastr } from 'react-redux-toastr';
+import { truncateText } from 'utils/utils';
 
 // Redux
 import { connect } from 'react-redux';
@@ -20,7 +21,6 @@ import Icon from 'components/ui/Icon';
 import Map from 'components/ui/map/Map';
 import Spinner from 'components/ui/Spinner';
 import TextChart from 'components/widgets/charts/TextChart';
-import Dotdotdot from 'react-dotdotdot'
 
 import {
   Tooltip,
@@ -394,7 +394,8 @@ class WidgetCard extends PureComponent {
       showActions,
       showEmbed,
       showFavourite,
-      user
+      user,
+      limitChar
     } = this.props;
 
     const isInACollection = belongsToACollection(user, widget);
@@ -426,11 +427,9 @@ class WidgetCard extends PureComponent {
             <Title className="-default -primary">
               {widget.name}
             </Title>
-            <Dotdotdot clamp={3}>
-              <p>
-                {widget.description}
-              </p>
-            </Dotdotdot>
+            <p>
+              {truncateText(widget.description, limitChar)}
+            </p>
             <LoginRequired text="Log in or sign up to save items in favorites">
               <Tooltip
                 overlay={
@@ -497,7 +496,8 @@ class WidgetCard extends PureComponent {
 WidgetCard.defaultProps = {
   showActions: false,
   showRemove: false,
-  showFavourite: true
+  showFavourite: true,
+  limitChar: 70
 };
 
 WidgetCard.propTypes = {

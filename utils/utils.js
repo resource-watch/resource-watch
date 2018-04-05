@@ -1,4 +1,5 @@
 import compact from 'lodash/compact';
+import truncate from 'lodash/truncate';
 
 export function substitution(string, params) {
   // Params should have this format => [{key:'xxx', value:'xxx'},{key:'xxx', value:'xxx'}]
@@ -46,4 +47,8 @@ export function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   }
   return string;
+}
+
+export function truncateText(string, limit) {
+  return truncate(string, { length: limit, separator: '', omission: '...' });
 }
