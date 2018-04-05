@@ -16,7 +16,8 @@ function _formatValue(item, data) {
   // The html is already escaped so no injection can happen here
   // Simply remove the tags for estetic reasons.
   function removeHtmlTags(str) {
-    return str.replace(/<\/?[a-z]+>/gi, '');
+    if (!str || !str.toString) return str;
+    return str.toString().replace(/<\/?[a-z]+>/gi, '');
   }
 
   return `${item.prefix || ''}${removeHtmlTags(data) || '-'}${item.suffix || ''}`;
@@ -63,19 +64,17 @@ function MapPopup({
         {data &&
           <table className="popup-table">
             <tbody>
-              {interactionConfig.output.map((outputItem, key) => {
-                return (
-                  <tr
-                    className="dc"
-                    key={key}
-                  >
-                    <td className="dt">
-                      {outputItem.property || outputItem.column}:
-                    </td>
-                    <td className="dd">{_formatValue(outputItem, data[outputItem.column])}</td>
-                  </tr>
-                );
-              })}
+              {interactionConfig.output.map((outputItem, key) => (
+                <tr
+                  className="dc"
+                  key={key}
+                >
+                  <td className="dt">
+                    {outputItem.property || outputItem.column}:
+                  </td>
+                  <td className="dd">{_formatValue(outputItem, data[outputItem.column])}</td>
+                </tr>
+                ))}
             </tbody>
           </table>
         }
