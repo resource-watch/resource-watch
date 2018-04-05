@@ -310,7 +310,7 @@ export default class LayerManager {
     return this.addCartoLayer(layerSpec, true, callback);
   }
 
-  addCartoLayer(layerSpec, verify, callback) {
+  addCartoLayer(layerSpec, verifyLayersOnly = false, callback) {
     const layer = Object.assign({}, layerSpec.layerConfig, {
       id: layerSpec.id,
       name: layerSpec.name,
@@ -352,7 +352,7 @@ export default class LayerManager {
         return response.json();
       })
       .then((data) => {
-        if (this.errors || verify) {
+        if (verifyLayersOnly === true) {
           if (this.layersUpdated && typeof this.layersUpdated === 'function') this.layersUpdated(!this.errors, data);
           if (this.errors) this.errorDetails = data;
           if (callback && typeof callback === 'function') callback(!this.errors);
@@ -384,7 +384,7 @@ export default class LayerManager {
         }
 
         if (callback && typeof callback === 'function') callback(!this.errors);
-      }).catch((e) => {
+      }).catch(() => {
         this.rejectLayersLoading = true;
         if (this.options.swipe) {
           this.swipeLayer(this.mapLayers[layer.id], layer.sideBySide);

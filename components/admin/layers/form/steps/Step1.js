@@ -20,6 +20,11 @@ class Step1 extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      id: props.id,
+      form: props.form
+    };
+
     // ------------------- BINDINGS -------------------------
     this.handleRefreshPreview = this.handleRefreshPreview.bind(this);
   }
@@ -44,10 +49,10 @@ class Step1 extends React.Component {
   render() {
     const {
       layerPreview,
-      verifyLayerConfig,
-      form,
-      id
+      verifyLayerConfig
     } = this.props;
+
+    const { form, id } = this.state;
 
     return (
       <fieldset className="c-field-container">

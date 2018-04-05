@@ -6,12 +6,10 @@ import numeral from 'numeral';
 
 
 function _formatValue(item, data) {
-  if (item.format && typeof item.format === 'string') {
-    if (item.type === 'date' && data) {
-      data = moment(data, item.format);
-    } else if (item.type === 'number' && data) {
-      data = numeral(data).format(item.format).toString();
-    }
+  if (item.type === 'date' && item.format && data) {
+    data = moment(data, item.format);
+  } else if (item.type === 'number' && item.format && data) {
+    data = numeral(data).format(item.format);
   }
 
   function removeHtmlTags(str) {
