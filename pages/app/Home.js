@@ -8,7 +8,6 @@ import { breakpoints } from 'utils/responsive';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { getInsights } from 'redactions/insights';
 import * as topicsActions from 'layout/topics/topics-actions';
 
 // Layout
@@ -18,8 +17,8 @@ import Layout from 'layout/layout/layout-app';
 // Components
 import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
-import Rating from 'components/app/common/Rating';
 import TopicThumbnailList from 'components/topics/thumbnail-list';
+import BlogLatestPosts from 'components/blog/latest-posts';
 import YouTube from 'react-youtube';
 import MediaQuery from 'react-responsive';
 
@@ -97,38 +96,6 @@ class Home extends Page {
 
     return { ...props };
   }
-  static insightsCardsStatic(insightsData) {
-    return insightsData.map(c =>
-      (<CardStatic
-        key={`insight-card-${c.slug}`}
-        className={`-alt ${c.link ? '-clickable' : ''}`}
-        background={c.background}
-        clickable={!!c.link}
-        route={c.link ? c.link : ''}
-      >
-        <div>
-          <h4>{c.tag}</h4>
-          <h3>
-            { c.link ?
-              <Link route={`/blog/${c.slug}`}>
-                <a>{c.title}</a>
-              </Link>
-              :
-              <span>{c.title}</span>
-            }
-          </h3>
-        </div>
-        <div className="footer">
-          <div className="source">
-            <img src={c.source.img || ''} alt={c.slug} />
-            <div className="source-name">
-              by <a href={c.source.path} target="_blank">{c.source.name}</a>
-            </div>
-          </div>
-          {c.ranking && <Rating rating={c.ranking} />}
-        </div>
-      </CardStatic>));
-  }
 
   static exploreCardsStatic() {
     return exploreCards.map(c =>
@@ -173,10 +140,6 @@ class Home extends Page {
     };
   }
 
-  componentDidMount() {
-    this.props.getInsights();
-  }
-
   handleToggleShareModal = (bool) => {
     this.setState({ showNewsletterModal: bool });
   }
@@ -191,9 +154,8 @@ class Home extends Page {
   }
 
   render() {
-    const { insights, responsive } = this.props;
+    const { responsive } = this.props;
     const { videoReady } = this.state;
-    const insightsCardsStatic = Home.insightsCardsStatic(insights);
     const exploreCardsStatic = Home.exploreCardsStatic();
     const videoOpts = {
       playerVars: {
@@ -253,19 +215,7 @@ class Home extends Page {
               </div>
             </header>
 
-            <div className="insight-cards">
-              <div className="row">
-                <div className="column small-12 medium-8">
-                  {insightsCardsStatic[0]}
-                </div>
-                <div className="column small-12 medium-4">
-                  <div className="dual">
-                    {insightsCardsStatic[1]}
-                    {insightsCardsStatic[2]}
-                  </div>
-                </div>
-              </div>
-            </div>
+            <BlogLatestPosts />
 
             <div className="-text-center">
               <div className="row">
@@ -380,12 +330,7 @@ class Home extends Page {
 }
 
 const mapStateToProps = state => ({
-  insights: state.insights.list,
   responsive: state.responsive
 });
 
-const mapDispatchToProps = {
-  getInsights
-};
-
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Home);
+export default withRedux(initStore, mapStateToProps, null)(Home);
