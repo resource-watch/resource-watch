@@ -27,7 +27,7 @@ class DatasetListItem extends React.Component {
     dataset: PropTypes.object,
     widget: PropTypes.object,
     layer: PropTypes.object,
-    metadata: PropTypes.array,
+    metadata: PropTypes.object,
     mode: PropTypes.string,
     user: PropTypes.object,
     tags: PropTypes.node,

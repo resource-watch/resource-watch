@@ -118,7 +118,9 @@ export function getPartnerData(id) {
 }
 
 export function getDatasets(ids) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const { common } = getState();
+
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_DATASETS_LOADING });
 
@@ -126,7 +128,7 @@ export function getDatasets(ids) {
       .then((response) => {
         dispatch({
           type: GET_DATASETS_SUCCESS,
-          payload: WRISerializer({ data: response })
+          payload: WRISerializer({ data: response, locale: common.locale })
         });
       })
       .catch((error) => {
