@@ -57,11 +57,7 @@ class MapThumbnail extends React.Component {
   }
 
   render() {
-    const { name, provider } = this.props.layerSpec;
     const { imageSrc, basemapSrc } = this.state;
-
-    console.log('==>', name, provider);
-
     const bgImage = (imageSrc && imageSrc !== '') ? `url('${imageSrc}') , url('${basemapSrc}')` : `url('${basemapSrc}')`;
 
     return (

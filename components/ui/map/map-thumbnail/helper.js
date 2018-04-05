@@ -75,18 +75,37 @@ export const getBasemapImage = ({
     })
     .then((data) => {
       const { layergroupid } = data;
-      if (layerSpec.provider === 'gee' || layerSpec.provider === 'nexgddp') {
-        return `https://${data.cdn_url.https}/${account}/api/v1/map/${layergroupid}/${0}/${0}/${0}.${format || 'png'}`;
+      if (layerSpec.provider === 'gee' ||
+        layerSpec.provider === 'nexgddp' ||
+        layerSpec.provider === 'leaflet') {
+        return `https://${data.cdn_url.https}/${account}/api/v1/map/${layergroupid}/0/0/0.${format || 'png'}`;
       }
       return `https://${data.cdn_url.https}/${account}/api/v1/map/static/center/${layergroupid}/${zoom}/${lat}/${lng}/${width}/${height}.${format || 'png'}`;
     });
 };
 
-export const getImageForGEE = ({ layerId, layerConfig }) => {
+export const getImageForGEE = ({ layerSpec }) => {
+  const { layerConfig } = layerSpec;
+
   if (!layerConfig) throw Error('layerConfig param is required');
   if (!layerConfig.body) throw Error('layerConfig does not have body param');
 
-  const tile = `${process.env.WRI_API_URL}/layer/${layerId}/tile/gee/0/0/0`;
+  const tile = `${process.env.WRI_API_URL}/layer/${layerSpec.id}/tile/gee/0/0/0`;
+
+  return tile;
+};
+
+export const getImageForLeaflet = ({ layerSpec }) => {
+  const { layerConfig } = layerSpec;
+
+  if (!layerConfig) throw Error('layerConfig param is required');
+  if (!layerConfig.body) throw Error('layerConfig does not have body param');
+
+  if (layerConfig.type !== 'tileLayer') {
+    return null;
+  }
+
+  const tile = layerConfig.url.replace('{z}', '0').replace('{x}', '0').replace('{y}', '0');
 
   return tile;
 };
@@ -128,7 +147,10 @@ export const getLayerImage = async ({
       result = getImageFromMapService({ width, height, layerConfig });
       break;
     case 'gee':
-      result = getImageForGEE({ layerId: id, layerConfig });
+      result = getImageForGEE({ layerSpec });
+      break;
+    case 'leaflet':
+      result = getImageForLeaflet({ layerSpec });
       break;
     default:
       result = null;
