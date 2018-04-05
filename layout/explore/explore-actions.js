@@ -174,7 +174,7 @@ export const fetchTags = createThunkAction('EXPLORE/fetchTags', tags => (dispatc
     })
     .then(({ data }) => {
       dispatch(setTags(sortBy(
-        data.filter(tag => !TAGS_BLACKLIST.includes(tag.id)),
+        data.filter(tag => !TAGS_BLACKLIST.includes(tag.id) && !!tag.labels[1] && tag.labels[1] !== 'GEOGRAPHY'),
         t => t.label
       )));
       dispatch(setTagsLoading(false));
