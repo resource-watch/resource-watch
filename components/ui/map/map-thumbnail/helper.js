@@ -3,7 +3,6 @@ import 'isomorphic-fetch';
 const BASEMAP_QUERY = 'SELECT the_geom_webmercator FROM gadm28_countries';
 const BASEMAP_CARTOCSS = '#gadm28_countries { polygon-fill: #bbbbbb; polygon-opacity: 1; line-color: #FFFFFF; line-width: 0.5; line-opacity: 0.5; }';
 
-
 export const getImageFromCarto = ({
   width, height, zoom, lat, lng, layerConfig
 }) => {
@@ -18,7 +17,7 @@ export const getImageFromCarto = ({
 
   return fetch(url)
     .then((response) => {
-      if (response.status >= 400) throw new Error('Bad response from server');
+      if (response.status >= 400) throw new Error(response.json());
       return response.json();
     })
     .then((data) => {
@@ -45,8 +44,8 @@ export const getImageFromMapService = ({ width, height, layerConfig }) => {
   return result;
 };
 
-export const getBasemapImage = async ({
-  width, height, zoom, lat, lng
+export const getBasemapImage = ({
+  width, height, zoom, lat, lng, format, layerSpec
 }) => {
   const basemapSpec = {
     account: 'wri-01',
@@ -65,7 +64,6 @@ export const getBasemapImage = async ({
   };
 
   const { body, account } = basemapSpec;
-  const format = 'png';
   const layerTpl = { version: '1.3.0', stat_tag: 'API', layers: body.layers };
   const params = `?stat_tag=API&config=${encodeURIComponent(JSON.stringify(layerTpl))}`;
   const url = `https://${account}.carto.com/api/v1/map${params}`;
@@ -77,8 +75,20 @@ export const getBasemapImage = async ({
     })
     .then((data) => {
       const { layergroupid } = data;
-      return `https://${data.cdn_url.https}/${account}/api/v1/map/static/center/${layergroupid}/${zoom}/${lat}/${lng}/${width}/${height}.${format}`;
+      if (layerSpec.provider === 'gee' || layerSpec.provider === 'nexgddp') {
+        return `https://${data.cdn_url.https}/${account}/api/v1/map/${layergroupid}/${0}/${0}/${0}.${format || 'png'}`;
+      }
+      return `https://${data.cdn_url.https}/${account}/api/v1/map/static/center/${layergroupid}/${zoom}/${lat}/${lng}/${width}/${height}.${format || 'png'}`;
     });
+};
+
+export const getImageForGEE = ({ layerId, layerConfig }) => {
+  if (!layerConfig) throw Error('layerConfig param is required');
+  if (!layerConfig.body) throw Error('layerConfig does not have body param');
+
+  const tile = `${process.env.WRI_API_URL}/layer/${layerId}/tile/gee/0/0/0`;
+
+  return tile;
 };
 
 export const getLayerImage = async ({
@@ -86,19 +96,27 @@ export const getLayerImage = async ({
 }) => {
   if (!layerSpec) throw Error('No layerSpec specified.');
 
-  const { layerConfig, provider } = layerSpec;
+  const { id, layerConfig, provider } = layerSpec;
   let result;
 
   switch (provider) {
     case 'carto':
-      result = await getImageFromCarto({
-        width, height, zoom, lat, lng, layerConfig
-      });
+      try {
+        result = await getImageFromCarto({
+          width, height, zoom, lat, lng, layerConfig
+        });
+      } catch (e) {
+        result = null;
+      }
       break;
     case 'cartodb':
-      result = await getImageFromCarto({
-        width, height, zoom, lat, lng, layerConfig
-      });
+      try {
+        result = await getImageFromCarto({
+          width, height, zoom, lat, lng, layerConfig
+        });
+      } catch (e) {
+        result = null;
+      }
       break;
     case 'mapservice':
       result = getImageFromMapService({ width, height, layerConfig });
@@ -108,6 +126,9 @@ export const getLayerImage = async ({
       break;
     case 'arcgis':
       result = getImageFromMapService({ width, height, layerConfig });
+      break;
+    case 'gee':
+      result = getImageForGEE({ layerId: id, layerConfig });
       break;
     default:
       result = null;

@@ -25,8 +25,6 @@ class MapThumbnail extends React.Component {
   async componentDidMount() {
     const { width, height } = this.getSize();
 
-    console.log(this.chart);
-
     const {
       zoom, lat, lng, layerSpec
     } = this.props;
@@ -36,7 +34,7 @@ class MapThumbnail extends React.Component {
     });
 
     const basemap = await getBasemapImage({
-      width, height, zoom, lat, lng
+      width, height, zoom, lat, lng, layerSpec
     });
 
     this.setStateAsync({
@@ -59,9 +57,12 @@ class MapThumbnail extends React.Component {
   }
 
   render() {
+    const { name, provider } = this.props.layerSpec;
     const { imageSrc, basemapSrc } = this.state;
 
-    const bgImage = (imageSrc) ? `url('${imageSrc}') , url('${basemapSrc}')` : basemapSrc;
+    console.log('==>', name, provider);
+
+    const bgImage = (imageSrc && imageSrc !== '') ? `url('${imageSrc}') , url('${basemapSrc}')` : `url('${basemapSrc}')`;
 
     return (
       <div
