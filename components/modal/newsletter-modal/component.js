@@ -106,7 +106,7 @@ class NewsletterModalComponent extends PureComponent {
           >
             {Select}
           </Field>
-          // Pardot honeypot field
+          { /* pardot honeypot field */ }
           <Field
             className={'-pi-hidden'}
             properties={{
