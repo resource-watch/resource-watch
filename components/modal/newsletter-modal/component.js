@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 
 // Components
-import Spinner from 'components/ui/Spinner';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Select from 'components/form/SelectInput';
@@ -18,10 +17,11 @@ class NewsletterModalComponent extends PureComponent {
         <p>Get the latest stoires on the data that powers your world.</p>
         <form
           className="c-form"
-          accept-charset="UTF-8"
+          acceptCharset="UTF-8"
           method="post"
           action="https://go.pardot.com/l/120942/2018-01-25/3nzl13"
-          id="pardot-form">
+          id="pardot-form"
+        >
           <Field
             validations={['required']}
             className="-fluid"
@@ -29,7 +29,7 @@ class NewsletterModalComponent extends PureComponent {
               name: 'first_name',
               label: 'First name',
               type: 'text',
-              required: true,
+              required: true
             }}
           >
             {Input}
@@ -41,7 +41,7 @@ class NewsletterModalComponent extends PureComponent {
               name: 'last_name',
               label: 'Last name',
               type: 'text',
-              required: true,
+              required: true
             }}
           >
             {Input}
@@ -53,7 +53,7 @@ class NewsletterModalComponent extends PureComponent {
               name: 'email',
               label: 'Email',
               type: 'email',
-              required: true,
+              required: true
             }}
           >
             {Input}
@@ -65,7 +65,7 @@ class NewsletterModalComponent extends PureComponent {
               name: 'company',
               label: 'Company',
               type: 'text',
-              required: true,
+              required: true
             }}
           >
             {Input}
@@ -76,7 +76,7 @@ class NewsletterModalComponent extends PureComponent {
               name: 'job_title',
               label: 'Job title',
               type: 'text',
-              required: false,
+              required: false
             }}
           >
             {Input}
@@ -88,7 +88,7 @@ class NewsletterModalComponent extends PureComponent {
               name: 'city',
               label: 'City',
               type: 'text',
-              required: true,
+              required: true
             }}
           >
             {Input}
@@ -96,31 +96,31 @@ class NewsletterModalComponent extends PureComponent {
           <Field
             validations={['required']}
             className="-fluid"
-            options={ FORM_COUNTRIES.options }
+            options={FORM_COUNTRIES.options}
             properties={{
               name: 'country',
               label: 'Country',
               type: 'text',
-              required: true,
+              required: true
             }}
           >
             {Select}
           </Field>
           { /* pardot honeypot field */ }
           <Field
-            className={'-pi-hidden'}
+            className="-pi-hidden"
             properties={{
               name: 'pi_extra_field',
               label: 'Comments',
               type: 'text',
-              required: false,
+              required: false
             }}
           >
             {Input}
           </Field>
 
           <div className="actions-container -align-right">
-            <button type="submit" className={`c-btn -primary`}>
+            <button type="submit" className="c-btn -primary">
               Submit
             </button>
           </div>
