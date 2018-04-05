@@ -443,7 +443,6 @@ Map.propTypes = {
   interactionEnabled: PropTypes.bool,
   disableScrollZoom: PropTypes.bool,
   onMapInstance: PropTypes.func,
-  onError: PropTypes.func,
 
   // STORE
   mapConfig: PropTypes.object,

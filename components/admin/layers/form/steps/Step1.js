@@ -42,7 +42,13 @@ class Step1 extends React.Component {
   }
 
   render() {
-    const { layerPreview, verifyLayerConfig, form, id } = this.props;
+    const {
+      layerPreview,
+      verifyLayerConfig,
+      form,
+      id
+    } = this.props;
+
     return (
       <fieldset className="c-field-container">
         {!id &&

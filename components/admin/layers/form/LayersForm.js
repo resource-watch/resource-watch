@@ -252,7 +252,7 @@ class LayersForm extends React.Component {
     }).then((data) => {
       toastr.success('Success', `The layer "${data.id}" - "${data.name}" has been uploaded correctly`);
       if (this.props.onSubmit) this.props.onSubmit();
-      this.setState({ submitting: false });
+      this.setState({ submitting: false, form: data });
     }).catch((errors) => {
       this.setState({ submitting: false });
       try {

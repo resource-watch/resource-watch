@@ -48,12 +48,14 @@ class LayerPreviewComponent extends PureComponent {
 
   render() {
     const { adminLayerPreview } = this.props;
+
     const {
       layerGroups,
       interaction,
       interactionLatLng,
       interactionSelected
     } = adminLayerPreview;
+
     return (
       <div className="c-field preview-container">
         <h5>Layer preview</h5>
