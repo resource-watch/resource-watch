@@ -44,6 +44,9 @@ class ExploreDetailPage extends Page {
     const partnerConnection = PARTNERS_CONNECTIONS.find(pc => pc.datasetId === id);
     if (partnerConnection) {
       await store.dispatch(actions.fetchPartner({ id: partnerConnection.partnerId }));
+    } else {
+      // If we dont have a partner connection, make sure to remove the previous one if isset
+      store.dispatch(actions.setPartner(null));
     }
 
     // Set tools and load connected tools

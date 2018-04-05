@@ -70,6 +70,9 @@ import { reducers as widgetEditorModules } from 'widget-editor';
 // React responsive redux
 import { reducer as responsiveReducer } from 'react-responsive-redux';
 
+// Embed
+import * as embedMapSwipe from 'layout/embed/map-swipe';
+
 if (process.env.NODE_ENV === 'production') {
   initOpbeat({
     orgId: '17ab8eb501d2418a81f3167c10407e90',
@@ -140,7 +143,10 @@ const reducer = combineReducers({
   interactions: handleModule(adminInteractions),
 
   // Admin layer preview
-  adminLayerPreview: handleModule(adminLayerPreview)
+  adminLayerPreview: handleModule(adminLayerPreview),
+
+  // Embed
+  embedMapSwipe: handleModule(embedMapSwipe)
 });
 
 const composeEnhancers = composeWithDevTools({});

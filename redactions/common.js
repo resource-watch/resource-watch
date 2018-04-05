@@ -2,10 +2,13 @@ import { Router } from 'routes';
 
 const SET_LOCALE = 'common/SET_LOCALE';
 const SET_EMBED = 'common/SET_EMBED';
+const SET_IS_LOADED_EXTERNALY = 'common/SET_IS_LOADED_EXTERNALY';
+
 
 const initialState = {
   locale: 'en',
-  embed: false
+  embed: false,
+  isLoadedExternally: false
 };
 
 export default function (state = initialState, action) {
@@ -15,6 +18,9 @@ export default function (state = initialState, action) {
 
     case SET_EMBED:
       return Object.assign({}, state, { embed: action.payload });
+
+    case SET_IS_LOADED_EXTERNALY:
+      return Object.assign({}, state, { isLoadedExternally: action.payload });
 
     default:
       return state;
@@ -52,5 +58,16 @@ export function setEmbed(embed) {
   return {
     type: SET_EMBED,
     payload: embed
+  };
+}
+
+/**
+ * Set if we are on an embed or not
+ * @param {boolean} embed Two-letter locale
+ */
+export function setIsLoadedExternaly(isLoadedExternally) {
+  return {
+    type: SET_IS_LOADED_EXTERNALY,
+    payload: isLoadedExternally
   };
 }
