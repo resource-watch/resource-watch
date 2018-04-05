@@ -46,7 +46,7 @@
         fill: $color-primary;
 
         &.-open {
-          transform: translate(0, -50%) rotate(180deg);
+          transform: translate(0, -50%) rotate(-180deg);
         }
       }
 

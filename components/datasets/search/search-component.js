@@ -182,7 +182,7 @@ class SearchComponent extends React.Component {
       index: 0,
       value,
       filteredList,
-      groupedFilteredList: omit(groupBy(filteredList, l => l.labels[1]), 'undefined')
+      groupedFilteredList: omit(groupBy(filteredList, l => l.labels[1]), ['undefined', 'GEOGRAPHY'])
     });
   }
 
@@ -377,7 +377,7 @@ class SearchComponent extends React.Component {
                 <Tag
                   key="clear-search"
                   name={`Text: ${search}`}
-                  className="-secondary"
+                  className="-tertiary"
                   isRemovable
                   onClick={() => this.props.onChangeSearch('')}
                 />
