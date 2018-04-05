@@ -6,9 +6,13 @@ import flatten from 'lodash/flatten';
 
 import { Router } from 'routes';
 
+// Utils
+import { TOOLS_CONNECTIONS } from 'utils/apps/toolsConnections';
+
 // Components
 import Layout from 'layout/layout/layout-app';
 import SimilarDatasets from 'components/datasets/similar-datasets/similar-datasets';
+import RelatedTools from 'components/tools/related-tools';
 
 // Topic Detail Component
 import TopicDetailHeader from 'layout/topics-detail/topics-detail-header';
@@ -55,6 +59,9 @@ class TopicDetailComponent extends React.Component {
 
     const { data: topic } = topicsDetail;
 
+    const datasetsIds = this.getDatasetIds();
+    const toolsIds = TOOLS_CONNECTIONS.filter(appC => datasetsIds.includes(appC.datasetId)).map(v => v.appSlug);
+
     return (
       <Layout
         title={topic.name}
@@ -84,7 +91,7 @@ class TopicDetailComponent extends React.Component {
             </div>
           </div>
 
-          <div className="l-section">
+          <div className="l-section -small">
             <div className="l-container">
               <div className="row">
                 <div className="column small-12">
@@ -106,7 +113,7 @@ class TopicDetailComponent extends React.Component {
             </div>
           </div>
 
-          <div className="l-section">
+          <div className="l-section -small">
             <div className="l-container">
               <div className="row">
                 <div className="column small-12">
@@ -115,13 +122,31 @@ class TopicDetailComponent extends React.Component {
                   </Title>
 
                   <SimilarDatasets
-                    datasetIds={this.getDatasetIds()}
+                    datasetIds={datasetsIds}
                     onTagSelected={this.handleTagSelected}
                   />
                 </div>
               </div>
             </div>
           </div>
+
+          {!!toolsIds.length &&
+            <div className="l-section -small">
+              <div className="l-container">
+                <div className="row">
+                  <div className="column small-12">
+                    <Title className="-extrabig -secondary -p-secondary">
+                      Related tools
+                    </Title>
+
+                    <RelatedTools
+                      active={toolsIds}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
         </div>
       </Layout>
     );

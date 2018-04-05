@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 // Explore Detail Component
 import ExploreDetailHeader from 'layout/explore-detail/explore-detail-header';
 import ExploreDetailInfo from 'layout/explore-detail/explore-detail-info';
-import ExploreDetailRelatedTools from 'layout/explore-detail/explore-detail-related-tools';
 import ExploreDetailButtons from 'layout/explore-detail/explore-detail-buttons';
 import ExploreDetailTags from 'layout/explore-detail/explore-detail-tags';
 import ExploreDetailWidgetEditor from 'layout/explore-detail/explore-detail-widget-editor';
@@ -19,12 +18,15 @@ import ReadMore from 'components/ui/ReadMore';
 import Banner from 'components/app/common/Banner';
 
 import SimilarDatasets from 'components/datasets/similar-datasets/similar-datasets';
+import RelatedTools from 'components/tools/related-tools';
 
 // Utils
 import {
   getDatasetMetadata,
   getDatasetName
 } from 'layout/explore-detail/explore-detail-helpers';
+
+import { TOOLS_CONNECTIONS } from 'utils/apps/toolsConnections';
 
 class ExploreDetail extends Page {
   static propTypes = {
@@ -39,6 +41,8 @@ class ExploreDetail extends Page {
     const dataset = exploreDetail.data;
     const datasetName = getDatasetName(dataset);
     const metadata = getDatasetMetadata(dataset);
+
+    const toolsIds = TOOLS_CONNECTIONS.filter(appC => [dataset.id].includes(appC.datasetId)).map(v => v.appSlug);
 
     return (
       <Layout
@@ -99,7 +103,7 @@ class ExploreDetail extends Page {
             </div>
           </section>
 
-          <section className="l-section">
+          <section className="l-section -small">
             <div className="l-container">
               <div className="row">
                 <div className="column small-12">
@@ -124,8 +128,8 @@ class ExploreDetail extends Page {
           </section>
 
           {/* RELATED TOOLS */}
-          {exploreDetail.tools.active.length > 0 &&
-            <section className="l-section">
+          {!!toolsIds.length &&
+            <section className="l-section -small">
               <div className="l-container">
                 <div className="row">
                   <div className="column small-12">
@@ -136,7 +140,9 @@ class ExploreDetail extends Page {
                             Related tools
                           </Title>
 
-                          <ExploreDetailRelatedTools />
+                          <RelatedTools
+                            active={toolsIds}
+                          />
                         </div>
                       </div>
                     </div>

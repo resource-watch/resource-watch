@@ -30,6 +30,9 @@ import * as datasetListItem from 'components/datasets/list/list-item';
 import * as similarDatasets from 'components/datasets/similar-datasets/similar-datasets';
 import * as trySubscriptionModal from 'components/datasets/form/try-subscription-modal';
 
+// Tools
+import * as relatedTools from 'components/tools/related-tools';
+
 // Explore
 import * as explore from 'layout/explore';
 
@@ -125,6 +128,9 @@ const reducer = combineReducers({
   datasetListItem: handleModule(datasetListItem),
   similarDatasets: handleModule(similarDatasets),
   trySubscriptionModal: handleModule(trySubscriptionModal),
+
+  // Tools
+  relatedTools: handleModule(relatedTools),
 
   // Widget
   widgetDetail: handleModule(widgetDetail),

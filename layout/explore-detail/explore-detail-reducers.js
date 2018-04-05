@@ -44,43 +44,6 @@ export default {
 
 
   //
-  // TOOLS
-  //
-  [actions.setTools]: (state, action) => {
-    const tools = {
-      ...state.tools,
-      list: action.payload
-    };
-
-    return ({ ...state, tools });
-  },
-  [actions.setActiveTools]: (state, action) => {
-    const tools = {
-      ...state.tools,
-      active: action.payload
-    };
-
-    return ({ ...state, tools });
-  },
-  [actions.setToolsLoading]: (state, action) => {
-    const tools = {
-      ...state.tools,
-      loading: action.payload
-    };
-
-    return ({ ...state, tools });
-  },
-  [actions.setToolsError]: (state, action) => {
-    const tools = {
-      ...state.tools,
-      loading: action.payload
-    };
-
-    return ({ ...state, tools });
-  },
-
-
-  //
   // TAGS
   //
   [actions.setTags]: (state, action) => {
