@@ -7,7 +7,7 @@ import flatten from 'lodash/flatten';
 import { Router } from 'routes';
 
 // Utils
-import { TOOLS_CONNECTIONS } from 'utils/apps/toolsConnections';
+import { TOPICS_CONNECTIONS } from 'utils/topics';
 
 // Components
 import Layout from 'layout/layout/layout-app';
@@ -60,7 +60,9 @@ class TopicDetailComponent extends React.Component {
     const { data: topic } = topicsDetail;
 
     const datasetsIds = this.getDatasetIds();
-    const toolsIds = TOOLS_CONNECTIONS.filter(appC => datasetsIds.includes(appC.datasetId)).map(v => v.appSlug);
+    const toolsIds = TOPICS_CONNECTIONS
+      .filter(t => t.topic === topic.slug)
+      .map(v => v.appId);
 
     return (
       <Layout

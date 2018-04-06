@@ -32,7 +32,7 @@ class RelatedTools extends PureComponent {
 
         <div className="row">
           {list
-            .filter(t => active.includes(t.slug))
+            .filter(t => active.includes(t.slug) || active.includes(t.id))
             .map(tool => (
               <div key={tool.id} className="column small-12 medium-6 large-4 c-card-column">
                 <CardApp
