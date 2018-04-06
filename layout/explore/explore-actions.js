@@ -143,7 +143,13 @@ export const fetchFiltersTags = createThunkAction('EXPLORE/fetchFiltersTags', ()
       return response.json();
     })
     .then(({ data }) => {
-      dispatch(setFiltersTags(data));
+      dispatch(setFiltersTags(data.filter((tag) => {
+        const isBlack = TAGS_BLACKLIST.includes(tag.id);
+        const isGeography = (!!tag.labels[1] && tag.labels[1] === 'GEOGRAPHY');
+        const hasDatasets = !!tag.numberOfDatasetsTagged;
+
+        return !isBlack && !isGeography && hasDatasets;
+      })));
     })
     .catch((err) => {
       console.error(err);
