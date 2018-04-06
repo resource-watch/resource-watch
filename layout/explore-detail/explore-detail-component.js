@@ -113,7 +113,6 @@ class ExploreDetail extends Page {
 
                         <SimilarDatasets
                           datasetIds={[dataset.id]}
-                          onTagSelected={this.handleTagSelected}
                         />
                       </div>
                     </div>
