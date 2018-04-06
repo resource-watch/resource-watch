@@ -83,7 +83,7 @@ class TopicDetailComponent extends React.Component {
             </div>
           </div>
 
-          <div className="l-section">
+          <div className="l-section -small">
             <div className="l-container">
               <div className="row">
                 <div className="column small-12">
