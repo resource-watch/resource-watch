@@ -222,7 +222,7 @@ export const LAYERS_PLANET_PULSE = [
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
-              <LayerPill layerId="c7e76588-6da5-4645-8842-2d2ac0001110" label="Reef locations" />
+              <LayerPill layerId="c04b8f05-18d5-44cd-8cad-e5a171fe3034" label="Reef locations" />
             </div>
           </div>,
         contextLayers: ["c04b8f05-18d5-44cd-8cad-e5a171fe3034"],
