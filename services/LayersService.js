@@ -20,6 +20,9 @@ export default class LayersService {
         }, {
           key: 'Authorization',
           value: this.opts.authorization
+        }, {
+          key: 'Upgrade-Insecure-Requests',
+          value: 1
         }],
         onSuccess: ({ data }) => {
           if (Array.isArray(data)) {
@@ -53,6 +56,9 @@ export default class LayersService {
         }, {
           key: 'Authorization',
           value: this.opts.authorization
+        }, {
+          key: 'Upgrade-Insecure-Requests',
+          value: 1
         }],
         onSuccess: (response) => {
           resolve({
