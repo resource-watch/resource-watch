@@ -150,10 +150,15 @@ class SearchComponent extends React.Component {
       const filteredList = flatten(Object.keys(groupedFilteredList).map(g =>
         groupedFilteredList[g]));
 
-      const l = filteredList[index - 1];
+      const tag = filteredList[index - 1];
+      const tab = (tabs.find((t) => {
+        const labels = (tag && tag.labels) || [];
+        return t.type === labels[1];
+      }) || {}).value || 'custom';
+
       this.props.onToggleSelected({
-        tag: l,
-        tab: (tabs.find(t => t.type === l.labels[1]) || {}).value || 'custom'
+        tag,
+        tab
       });
     }
 
