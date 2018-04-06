@@ -19,6 +19,9 @@
 
   .popup-content {
     padding: 20px;
+    max-height: 290px;
+
+    overflow-y: scroll;
   }
 
   .popup-table {

@@ -157,6 +157,7 @@ class EmbedMap extends Page {
 
           <div className={classnames('widget-content', { '-external': this.isLoadedExternally() })}>
             <Map
+              disableScrollZoom
               LayerManager={LayerManager}
               mapConfig={{ zoom, latLng, zoomControl: !paramIsTrue(disableZoom) }}
               layerGroups={layerGroups}
