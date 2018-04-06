@@ -47,7 +47,7 @@ class LayerPreviewComponent extends PureComponent {
   }
 
   render() {
-    const { adminLayerPreview } = this.props;
+    const { adminLayerPreview, interactions } = this.props;
 
     const {
       layerGroups,
@@ -55,6 +55,8 @@ class LayerPreviewComponent extends PureComponent {
       interactionLatLng,
       interactionSelected
     } = adminLayerPreview;
+
+    const { added } = interactions;
 
     return (
       <div className="c-field preview-container">
@@ -64,6 +66,7 @@ class LayerPreviewComponent extends PureComponent {
             LayerManager={LayerManager}
             mapConfig={MAP_CONFIG}
             layerGroups={layerGroups}
+            availableInteractions={added}
             interaction={interaction}
             interactionSelected={interactionSelected}
             interactionLatLng={interactionLatLng}

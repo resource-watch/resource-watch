@@ -142,7 +142,7 @@ class LayersForm extends React.Component {
             { layerConfig: form.layerConfig }
           ), (cartoLayerValid) => {
             if (cartoLayerValid) {
-              this.saveLayer();
+              this.saveLayer(form);
             } else {
               toastr.error('Error', 'Layer config contains errors');
               this.setState({ submitting: false });
@@ -151,7 +151,7 @@ class LayersForm extends React.Component {
           return;
         }
 
-        this.saveLayer();
+        this.saveLayer(form);
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
@@ -242,8 +242,8 @@ class LayersForm extends React.Component {
     }
   }
 
-  saveLayer() {
-    const { id, dataset, form } = this.state;
+  saveLayer(form) {
+    const { id, dataset } = this.state;
     this.service.saveData({
       dataset,
       id: id || '',
