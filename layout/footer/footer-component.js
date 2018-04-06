@@ -46,7 +46,7 @@ const blog = [
 
 const getInvolved = [
   { name: 'Get Involved', route: 'get_involved' },
-  { name: 'Submit a Story', route: 'get_involved_detail', params: { id: 'submit-an-insight' } },
+  { name: 'Suggest a Story', route: 'get_involved_detail', params: { id: 'suggest-a-story' } },
   { name: 'Contribute Data', route: 'get_involved_detail', params: { id: 'contribute-data' } },
   { name: 'Join the Community', route: 'get_involved_detail', params: { id: 'join-community' } },
   { name: 'Develop Your App', route: 'get_involved_detail', params: { id: 'develop-your-app' } }

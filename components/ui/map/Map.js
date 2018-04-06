@@ -277,8 +277,10 @@ class Map extends React.Component {
       onLayerAddedSuccess: onLayerAdded,
       onLayerAddedError: onLayerAdded,
       onLayerClick: (layer) => {
-        this.props.setLayerInteractionLatLng && this.props.setLayerInteractionLatLng(layer.latlng);
-        this.props.setLayerInteraction && this.props.setLayerInteraction(layer);
+        if (this.props.setLayerInteractionLatLng) {
+          this.props.setLayerInteractionLatLng(layer.latlng);
+        }
+        if (this.props.setLayerInteraction) this.props.setLayerInteraction(layer);
       }
     });
   }
@@ -460,8 +462,7 @@ Map.propTypes = {
   onMapParams: PropTypes.func,
   setLayerInteraction: PropTypes.func,
   setLayerInteractionSelected: PropTypes.func,
-  setLayerInteractionLatLng: PropTypes.func,
-  resetLayerInteraction: PropTypes.func
+  setLayerInteractionLatLng: PropTypes.func
 };
 
 const mapStateToProps = state => ({
