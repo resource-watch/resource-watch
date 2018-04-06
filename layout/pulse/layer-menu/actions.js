@@ -55,7 +55,7 @@ export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer
           layer.initialPosition = initialPosition;
 
           layerGlobeManager.addLayer(
-            layer.attributes,
+            { ...layer.attributes, id },
             {
               onLayerAddedSuccess: function success(result) {
                 layer.url = result.url;
