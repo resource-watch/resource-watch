@@ -14,7 +14,8 @@ class FavouritesService {
       fetch(`${process.env.WRI_API_URL}/favourite?${queryParams}`, {
         method: 'GET',
         headers: {
-          Authorization: token
+          Authorization: token,
+          'Upgrade-Insecure-Requests': 1
         }
       })
         .then((response) => {

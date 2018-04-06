@@ -49,13 +49,6 @@ class ExploreDetailPage extends Page {
       store.dispatch(actions.setPartner(null));
     }
 
-    // Set tools and load connected tools
-    const toolsConnections = TOOLS_CONNECTIONS.filter(appC => appC.datasetId === id).map(v => v.appSlug);
-    if (toolsConnections.length > 0) {
-      store.dispatch(actions.setActiveTools(toolsConnections));
-      await store.dispatch(actions.fetchTools());
-    }
-
     return { ...props };
   }
 

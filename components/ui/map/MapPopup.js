@@ -33,6 +33,10 @@ function MapPopup({
     interactionLayers.find(l => l.id === interactionSelected) ||
     interactionLayers[0];
 
+  if (!layer) {
+    return null;
+  }
+
   const layerInteraction = interaction[layer.id] || {};
 
   const { data } = layerInteraction;
