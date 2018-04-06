@@ -5,11 +5,11 @@ import LayerPill from 'layout/pulse/layer-pill';
 
 export const LAYERS_PLANET_PULSE = [
   {
-    label: 'Land use',
+    label: 'Land',
     layers: [
       {
         label: 'Crop and vegetation health',
-        id: '17b9bf19-e116-4a22-b71a-fe67ce7fd552',
+        id: '7cacfb72-94ad-4137-b6a8-f5bdcbe0f4cc',
         '3d': false,
         descriptionPulse:
           <div className="description">
@@ -45,11 +45,13 @@ export const LAYERS_PLANET_PULSE = [
               <LayerPill layerId="bd9ec0da-84a0-4429-bf30-ffcbe64fbe7b" label="Data coverage" />
             </div>
           </div>,
-        contextLayers: ['7a270c3a-1161-4fb2-a613-090d3e603126',
-                        'ed051817-1cb3-42cc-91b5-1caaea6f8ca6',
-                        'bd9ec0da-84a0-4429-bf30-ffcbe64fbe7b'],
-        contextLayersOnTop: true,
         initialPosition: { latitude: -13.2399454992863, longitude: -52.734375, height: 20000000 },
+        contextLayers: [
+          'bd9ec0da-84a0-4429-bf30-ffcbe64fbe7b',
+          '7a270c3a-1161-4fb2-a613-090d3e603126',
+          'ed051817-1cb3-42cc-91b5-1caaea6f8ca6'
+        ],
+        contextLayersOnTop: false,
         widgets: [],
         basemap: {
           name: 'other',
@@ -58,7 +60,7 @@ export const LAYERS_PLANET_PULSE = [
       },
       {
         label: 'Satellite imagery',
-        id: 'f4897107-5ae5-4685-8eee-cd1a5745a384',
+        id: '275dcc83-673b-44e4-b7db-253ff1d2d867',
         '3d': false,
         descriptionPulse:
           <div className="description">
@@ -76,7 +78,7 @@ export const LAYERS_PLANET_PULSE = [
       },
       {
         label: 'Nighttime imagery',
-        id: 'f4897107-5ae5-4685-8eee-cd1a5745a384',
+        id: '9bcaa1e8-3181-441f-879a-060b068b7c2a',
         '3d': false,
         descriptionPulse:
           <div className="description">
@@ -91,6 +93,51 @@ export const LAYERS_PLANET_PULSE = [
           name: 'other',
           url: 'https://api.mapbox.com/styles/v1/wri/cjd56ttip0i1s2rnxv8py2km5/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid3JpIiwiYSI6Ik9TY2w5RTQifQ.0HV7dQTjK40mk7GpNNA64g'
         }
+      }
+    ]
+  },
+  {
+    label: 'Water',
+    layers: [
+      {
+        label: 'Floods',
+        id: '80d2665b-bba4-4de9-ba5e-d0487e920784',
+        '3d': false,
+        descriptionPulse:
+          <div className="description">
+            <div className="description-text">
+              Major floods can devastate affected areas, displacing people and disrupting the local economy. The Dartmouth Flood Observatory aggregates flood reports from news, governmental, instrumental, and remote sensing sources.
+            </div>
+            <div className="view-with-container">
+              <span className="view-with-label"><strong>View with:</strong></span>
+              <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+            </div>
+          </div>,
+        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayersOnTop: false,
+        widgets: [],
+        basemap: {
+          name: 'default',
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
+      },
+      {
+        label: 'Droughts',
+        id: '4d52872e-0653-4b28-a1a6-dd4edbb76dd3',
+        contextLayers: ['c7e76588-6da5-4645-8842-2d2ac0001110'],
+        contextLayersOnTop: true,
+        '3d': false,
+        widgets: [],
+        descriptionPulse:
+          <div className="description">
+            <div className="description-text">
+              The 3-month Standardised Precipitation-Evapotranspiration Index (SPEI) is an indicator of short term drought affecting rainfed crops and vegetation. SPEI is calculated by comparing the past three month’s rainfall and evaporation rate to a historical baseline (1950-2010).
+            </div>
+            <div className="view-with-container">
+              <span className="view-with-label"><strong>View with:</strong></span>
+              <LayerPill layerId="c7e76588-6da5-4645-8842-2d2ac0001110" label="Cropland" />
+            </div>
+          </div>
       }
     ]
   },
@@ -141,70 +188,14 @@ export const LAYERS_PLANET_PULSE = [
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       },
-      {
-        label: 'Fires',
-        id: '5ca12eec-f8fe-49eb-b353-67c9eeb5bc6a',
-        '3d': false,
-        descriptionPulse:
-          <div className="description">
-            <div className="description-text">
-              Fires may occur naturally or be lit to clear land or for other purposes. Smoke from fires can be a major health hazard. NASA detects fires using the VIIRS sensor on the Suomi NPP satellite.
-            </div>
-            <div className="view-with-container">
-              <span className="view-with-label"><strong>View with:</strong></span>
-              <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
-              <LayerPill layerId="7a270c3a-1161-4fb2-a613-090d3e603126" label="Forests" />
-            </div>
-          </div>,
-        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d',
-          '7a270c3a-1161-4fb2-a613-090d3e603126'],
-        contextLayersOnTop: false,
-        widgets: [],
-        basemap: {
-          name: 'sentinel',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
-      }
     ]
   },
   {
     label: 'Climate',
     layers: [
       {
-        label: 'Temperature anomalies',
-        id: 'f1d841cb-a959-4b54-8472-e28f794b2c6a',
-        contextLayers: [],
-        contextLayersOnTop: true,
-        '3d': false,
-        widgets: [],
-        descriptionPulse:
-          <div className="description">
-            <div className="description-text">
-              Global patterns behind warm winters and cold summers are revealed by measuring the difference between the current month and the historical average for that month. Globally temperatures have risen nearly 1ºC over the past half century. These temperature anomalies are computed by NASA from a combination of ground and satellite observations.
-            </div>
-          </div>
-      },
-      {
-        label: 'Droughts',
-        id: 'f1d841cb-a959-4b54-8472-e28f794b2c6a',
-        contextLayers: ['c7e76588-6da5-4645-8842-2d2ac0001110'],
-        contextLayersOnTop: true,
-        '3d': false,
-        widgets: [],
-        descriptionPulse:
-          <div className="description">
-            <div className="description-text">
-              The 3-month Standardised Precipitation-Evapotranspiration Index (SPEI) is an indicator of short term drought affecting rainfed crops and vegetation. SPEI is calculated by comparing the past three month’s rainfall and evaporation rate to a historical baseline (1950-2010).
-            </div>
-            <div className="view-with-container">
-              <span className="view-with-label"><strong>View with:</strong></span>
-              <LayerPill layerId="c7e76588-6da5-4645-8842-2d2ac0001110" label="Cropland" />
-            </div>
-          </div>
-      },
-      {
         label: 'Arctic sea ice',
-        id: 'f1d841cb-a959-4b54-8472-e28f794b2c6a',
+        id: 'b92c01ee-eb2c-4835-8625-d138db75a1cd',
         contextLayers: [],
         contextLayersOnTop: true,
         '3d': false,
@@ -222,7 +213,7 @@ export const LAYERS_PLANET_PULSE = [
       },
       {
         label: 'Coral reef bleaching',
-        id: '73db724d-87b9-41cd-912a-b66eb65eebdd',
+        id: '31429259-9a9a-4d66-a1b9-92c08aa407f3',
         '3d': false,
         descriptionPulse:
           <div className="description">
@@ -231,10 +222,10 @@ export const LAYERS_PLANET_PULSE = [
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
-              <LayerPill layerId="c7e76588-6da5-4645-8842-2d2ac0001110" label="Reef locations" />
+              <LayerPill layerId="c04b8f05-18d5-44cd-8cad-e5a171fe3034" label="Reef locations" />
             </div>
           </div>,
-        contextLayers: ["c7e76588-6da5-4645-8842-2d2ac0001110"],
+        contextLayers: ["c04b8f05-18d5-44cd-8cad-e5a171fe3034"],
         contextLayersOnTop: true,
         initialPosition: { latitude: -164.00390625, longitude: -8.233237111274553, height: 20000000 },
         widgets: [],
@@ -242,26 +233,11 @@ export const LAYERS_PLANET_PULSE = [
           name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
-      },
-      {
-        label: 'Tropospheric CO₂',
-        id: 'f1d841cb-a959-4b54-8472-e28f794b2c6a',
-        contextLayers: [],
-        contextLayersOnTop: true,
-        '3d': false,
-        widgets: [],
-        descriptionPulse:
-          <div className="description">
-            <div className="description-text">
-              Carbon dioxide gas (CO₂) affects global temperatures by trapping in heat from the sun. Global CO₂ concentrations vary with the seasonal growth of forests and human activities. CO₂ concentrations are detected by the AIRS sensor on NASA’s Aqua satellite.
-            </div>
-          </div>
-      },
+      }
     ]
   },
-
   {
-    label: 'Society',
+    label: 'Humanitarian',
     layers: [
       {
         label: 'Food insecurity',
@@ -310,10 +286,6 @@ export const LAYERS_PLANET_PULSE = [
             <div className="description-text">
               Migrants seek to cross international borders to flee hardship or find a better life. The International Organization for Migration (IOM) records deaths of migrants who die in accidents, shipwrecks, violent attacks, or medical complications during their journeys.
             </div>
-            <div className="view-with-container">
-              <span className="view-with-label"><strong>View with:</strong></span>
-              <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
-            </div>
           </div>,
         contextLayers: [],
         contextLayersOnTop: false,
@@ -333,7 +305,7 @@ export const LAYERS_PLANET_PULSE = [
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
-              <LayerPill layerId="af3513d5-284f-488c-8256-e90c30a1ca8b" label="Reporting countries" />
+              <LayerPill layerId="af3513d5-284f-488c-8256-e90c30a1ca8b" label="Reporting countries" />p
             </div>
           </div>,
         contextLayers: ['af3513d5-284f-488c-8256-e90c30a1ca8b'],
@@ -347,27 +319,29 @@ export const LAYERS_PLANET_PULSE = [
     ]
   },
   {
-    label: 'Disasters',
+    label: 'Hazards',
     layers: [
       {
-        label: 'Floods',
-        id: '80d2665b-bba4-4de9-ba5e-d0487e920784',
+        label: 'Fires',
+        id: '5ca12eec-f8fe-49eb-b353-67c9eeb5bc6a',
         '3d': false,
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              Major floods can devastate affected areas, displacing people and disrupting the local economy. The Dartmouth Flood Observatory aggregates flood reports from news, governmental, instrumental, and remote sensing sources.
+              Fires may occur naturally or be lit to clear land or for other purposes. Smoke from fires can be a major health hazard. NASA detects fires using the VIIRS sensor on the Suomi NPP satellite.
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
               <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+              <LayerPill layerId="7a270c3a-1161-4fb2-a613-090d3e603126" label="Forests" />
             </div>
           </div>,
-        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d',
+          '7a270c3a-1161-4fb2-a613-090d3e603126'],
         contextLayersOnTop: false,
         widgets: [],
         basemap: {
-          name: 'default',
+          name: 'sentinel',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       },
@@ -396,9 +370,12 @@ export const LAYERS_PLANET_PULSE = [
       {
         label: 'Earthquakes',
         id: 'd63fff22-8cda-467e-b4ef-df3ab2613505',
-        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d', '47a1b1d7-e5ad-4b79-9f52-bc9435c6ca06'],
+        contextLayers: [
+          '47a1b1d7-e5ad-4b79-9f52-bc9435c6ca06',
+          '84229e01-4e61-4c08-a7dd-efb7259dd85d'
+        ],
         contextLayersOnTop: false,
-        '3d': true,
+        '3d': false,
         markerType: 'bar',
         widgets: [],
         descriptionPulse:

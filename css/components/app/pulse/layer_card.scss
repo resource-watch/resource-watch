@@ -10,10 +10,7 @@
   border-radius: 4px;
   z-index: 7;
   overflow: auto;
-
-  @media screen and (max-width: map-get($breakpoints, small)) {
-    max-height: calc(100% - 200px - 100px);
-  }
+  max-height: calc(100% - 200px - 100px);
 
   h3, h5 {
     color: $color-dark-pink;
@@ -31,14 +28,6 @@
   }
 
   .description {
-    min-height: 55px;
-    max-height: 120px;
-
-    .description-text {
-      max-height: 80px;
-      overflow: auto;
-    }
-
     .view-with-container {
       .view-with-label {
         margin-right: 10px;
@@ -65,14 +54,12 @@
   }
 
   .legends {
-    overflow: auto;
-    max-height: 140px;
-
     .layer-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-top: 20px;
+      margin-bottom: -10px;
       text-transform: uppercase;
       font-size: $font-size-extra-small;
       font-weight: bold;
