@@ -196,6 +196,17 @@ class Map extends React.Component {
       this.setLabels(nextProps.labels);
     }
 
+    // SET VIEW
+    if (!isEqual(
+      this.props.mapConfig,
+      nextProps.mapConfig
+    )) {
+      this.map.setView(
+        [nextProps.mapConfig.latLng.lat, nextProps.mapConfig.latLng.lng],
+        nextProps.mapConfig.zoom
+      );
+    }
+
     // BOUNDARIES
     if (this.props.boundaries !== nextProps.boundaries) {
       this.setBoundaries(nextProps.boundaries);
