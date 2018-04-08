@@ -7,6 +7,7 @@ import Map from 'components/ui/map/Map';
 import MapControls from 'components/ui/map/MapControls';
 import BasemapControl from 'components/ui/map/controls/BasemapControl';
 import ShareControl from 'components/ui/map/controls/ShareControl';
+import SearchControl from 'components/ui/map/controls/SearchControl';
 
 import { BASEMAPS, LABELS } from 'components/ui/map/constants';
 
@@ -143,6 +144,7 @@ class ExploreMapComponent extends React.Component {
             onChangeLabels={this.props.setMapLabels}
             onChangeBoundaries={this.props.setMapBoundaries}
           />
+          <SearchControl />
         </MapControls>
 
         <div className="c-legend-map">
