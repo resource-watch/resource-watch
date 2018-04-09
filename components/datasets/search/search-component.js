@@ -292,7 +292,7 @@ class SearchComponent extends React.Component {
                   name="mainArr"
                   selected={selected[tab]}
                   className="mainArr-checkbox-group"
-                  options={mainArr.map(o => ({ value: o.id, label: o.label }))}
+                  options={sortBy(mainArr.map(o => ({ value: o.id, label: o.label })), 'label')}
                   onChange={s => this.props.onChangeSelected(s)}
                 />
               }
@@ -302,7 +302,7 @@ class SearchComponent extends React.Component {
                   name="secondaryArr"
                   selected={selected[tab]}
                   className="secondaryArr-checkbox-group"
-                  options={secondaryArr.map(o => ({ value: o.id, label: o.label }))}
+                  options={sortBy(secondaryArr.map(o => ({ value: o.id, label: o.label })), 'label')}
                   onChange={s => this.props.onChangeSelected(s)}
                 />
               }

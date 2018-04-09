@@ -9,7 +9,7 @@ export const LAYERS_PLANET_PULSE = [
     layers: [
       {
         label: 'Crop and vegetation health',
-        id: '7cacfb72-94ad-4137-b6a8-f5bdcbe0f4cc',
+        id: 'e9f9d20c-1924-48b2-97ed-6936e233adb2',
         '3d': false,
         descriptionPulse:
           <div className="description">
@@ -37,7 +37,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              Trees are cut for timber or cleared for agriculture, mining and development. FORMA Active Clearing Alerts detect likely tree cover loss across the tropics using data from the MODIS sensors aboard NASA’s Terra and Aqua satellites. Data only covers select countries.
+              Trees are cut for timber or cleared for agriculture, mining and development. FORMA Active Clearing Alerts detect likely tree cover loss across the tropics using data from the MODIS sensors aboard NASA’s Terra and Aqua satellites.
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
@@ -93,8 +93,8 @@ export const LAYERS_PLANET_PULSE = [
         contextLayersOnTop: true,
         widgets: [],
         basemap: {
-          name: 'other',
-          url: 'https://api.mapbox.com/styles/v1/wri/cjd56ttip0i1s2rnxv8py2km5/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid3JpIiwiYSI6Ik9TY2w5RTQifQ.0HV7dQTjK40mk7GpNNA64g'
+          name: 'default',
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       }
     ]
@@ -135,7 +135,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              The 3-month Standardised Precipitation-Evapotranspiration Index (SPEI) is an indicator of short term drought affecting rainfed crops and vegetation. SPEI is calculated by comparing the past three month’s rainfall and evaporation rate to a historical baseline (1950-2010).
+              The 6-month Standardized Precipitation-Evapotranspiration Index (SPEI) is an indicator of short-term drought affecting rainfed crops and vegetation. SPEI is calculated by comparing the past six months’ rainfall and evaporation rate to a historical baseline (1950-2010).
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
@@ -143,6 +143,10 @@ export const LAYERS_PLANET_PULSE = [
             </div>
           </div>,
         initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
+        basemap: {
+          name: 'other',
+          url: 'https://api.mapbox.com/styles/v1/wri/cjd56ttip0i1s2rnxv8py2km5/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid3JpIiwiYSI6Ik9TY2w5RTQifQ.0HV7dQTjK40mk7GpNNA64g'
+        }
       }
     ]
   },
@@ -212,7 +216,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              Sea ice grows and shrinks with temperature, affecting global weather patterns and shipping routes. Sea ice extent typically peaks in March reaches its lowest point in September in the northern hemisphere. Extents are measured by NOAA using data from the DSMP satellites.
+              Sea ice grows and shrinks with temperature, affecting global weather patterns and shipping routes. Sea ice extent typically peaks in March and reaches its lowest point in September in the Northern Hemisphere. Extents are measured the National Oceanic and Atmospheric Administration (NOAA) using data from the Defense Meteorological Satellite Program satellites.
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
@@ -220,6 +224,10 @@ export const LAYERS_PLANET_PULSE = [
             </div>
           </div>,
         initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
+        basemap: {
+          name: 'default',
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
       },
       {
         label: 'Coral reef bleaching',
@@ -228,7 +236,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              Abnormally high ocean temperatures can damage coral reefs, turning them a bleached white. NOAA generates bleaching alerts from sea surface temperature data derived from a combination of global weather satellites.
+              Abnormally high ocean temperatures can damage coral reefs, turning them a bleached white. The National Oceanic and Atmospheric Administration (NOAA) generates bleaching alerts from sea surface temperature data derived from a combination of global weather satellites.
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
@@ -258,7 +266,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              Crop failure, conflict, and market failures can limit people’s ability to access enough food to survive. FEWS NET monitors conditions that could lead to severe food insecurity through a combination of on-the-ground reports, satellite data, and expert knowledge of economic conditions. Data for select countries only.
+              Crop failure, conflict, and market failures can limit people’s ability to access enough food to survive. FEWS NET monitors conditions that could lead to severe food insecurity through a combination of on-the-ground reports, satellite data, and expert knowledge of economic conditions. The data are for select countries only.
             </div>
           </div>,
         basemap: {
@@ -273,7 +281,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              ACLED gathers and reports dates and locations of violence and protests in Africa and 10 countries in South and Southeast Asia. Larger point sizes indicate events with fatalities. Data for select countries only.
+              The Armed Conflict Location and Event Data Project (ACLED) gathers and reports dates and locations of violence and protests in Africa and 10 countries in South and Southeast Asia. Larger point sizes indicate events with fatalities. The data are for select countries only.
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
@@ -296,7 +304,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              Migrants seek to cross international borders to flee hardship or find a better life. The International Organization for Migration (IOM) records deaths of migrants who die in accidents, shipwrecks, violent attacks, or medical complications during their journeys.
+              Migrants seek to cross international borders to flee hardship or find a better life. The International Organization for Migration (IOM) records deaths of migrants who die during their journies in accidents, shipwrecks, violent attacks, or from medical complications.
             </div>
           </div>,
         contextLayers: [],
@@ -314,7 +322,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              People who wish to be resettled in another country can apply for refugee status with a specific destination country. 38 European and 6 non-European countries report the number of asylum requests they receive each month to the United Nations High Commission on Refugees.
+              People who wish to be resettled in another country can apply for refugee status with a specific destination country. 38 European and 6 non-European countries report the number of asylum requests they receive each month to the UN High Commission on Refugees.
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
@@ -342,7 +350,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              Fires may occur naturally or be lit to clear land or for other purposes. Smoke from fires can be a major health hazard. NASA detects fires using the VIIRS sensor on the Suomi NPP satellite.
+          Fires may occur naturally or be set by people, often to clear land or by accident. Smoke from fires can be a major health hazard. NASA detects fires using the VIIRS sensor on the Suomi NPP satellite.
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
@@ -350,15 +358,17 @@ export const LAYERS_PLANET_PULSE = [
               <LayerPill layerId="7a270c3a-1161-4fb2-a613-090d3e603126" label="Forests" />
             </div>
           </div>,
-        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d',
-          '7a270c3a-1161-4fb2-a613-090d3e603126'],
+        contextLayers: [
+          '7a270c3a-1161-4fb2-a613-090d3e603126',
+          '84229e01-4e61-4c08-a7dd-efb7259dd85d'
+        ],
         contextLayersOnTop: false,
         widgets: [],
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
         basemap: {
-          name: 'sentinel',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        },
-        initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
+          name: 'other',
+          url: 'https://api.mapbox.com/styles/v1/wri/cjd56ttip0i1s2rnxv8py2km5/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid3JpIiwiYSI6Ik9TY2w5RTQifQ.0HV7dQTjK40mk7GpNNA64g'
+        }
       },
       {
         label: 'Landslide warnings',
@@ -367,7 +377,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              Landslides often occur when heavy rains destabilize hillsides. NOAA publishes real-time landslide hazard alerts based on recent precipitation, combined with information on roads, tree cover loss, slope steepness, bedrock structure.
+              Landslides often occur when heavy rains destabilize hillsides. The National Oceanic and Atmospheric Administration (NOAA) publishes real-time landslide hazard alerts based on recent precipitation, combined with information on roads, tree cover loss, slope steepness, and bedrock structure.
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
@@ -397,7 +407,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              Earthquakes occur when the Earth’s crust shifts and releases energy in the form of massive vibrations. The USGS monitors earthquakes globally though a network of ground sensors.
+              Earthquakes occur when the Earth’s crust shifts and releases energy in the form of massive vibrations. The U.S. Geological Survey (USGS) monitors earthquakes globally though a network of ground sensors. Larger point sizes indicate larger Earthquakes.
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
@@ -412,8 +422,8 @@ export const LAYERS_PLANET_PULSE = [
         initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
       },
       {
-        label: 'Volcanos',
-        id: '667ae321-649e-4caa-b761-35e370c776b0',
+        label: 'Volcanoes',
+        id: 'a64f5142-e8ae-433f-afda-6628fc3255bf',
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         contextLayersOnTop: false,
         '3d': true,
@@ -421,7 +431,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              The Smithsonian Institution and USGS aggregate reports of volcanic ash cloud releases and new and significant changes in volcanic activity.
+              The Smithsonian Institution (SI) and U.S. Geological Survey (USGS) aggregate reports of volcanic ash cloud releases and new and significant changes in volcanic activity.
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
@@ -430,8 +440,8 @@ export const LAYERS_PLANET_PULSE = [
           </div>,
         initialPosition: { latitude: -239.0625, longitude: 16.29905101458183, height: 20000000 },
         basemap: {
-          name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+          name: 'other',
+          url: 'https://api.mapbox.com/styles/v1/wri/cjd56ttip0i1s2rnxv8py2km5/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid3JpIiwiYSI6Ik9TY2w5RTQifQ.0HV7dQTjK40mk7GpNNA64g'
         }
       }
     ]

@@ -26,13 +26,13 @@ export default {
       route: 'topics',
       pathnames: ['/app/topics', '/app/topics-detail'],
       children: [
-        { label: 'Biodiversity', route: 'topics_detail', params: { id: 'biodiversity' } },
         { label: 'Cities', route: 'topics_detail', params: { id: 'cities' } },
         { label: 'Climate', route: 'topics_detail', params: { id: 'climate' } },
         { label: 'Commerce', route: 'topics_detail', params: { id: 'commerce' } },
         { label: 'Energy', route: 'topics_detail', params: { id: 'energy' } },
         { label: 'Food and Agriculture', route: 'topics_detail', params: { id: 'food-and-agriculture' } },
         { label: 'Forests', route: 'topics_detail', params: { id: 'forests' } },
+        { label: 'Society', route: 'topics_detail', params: { id: 'society' } },
         { label: 'Water', route: 'topics_detail', params: { id: 'water' } }
       ]
     },

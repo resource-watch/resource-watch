@@ -49,6 +49,7 @@ export default {
   map: {
     zoom: 3,
     latLng: { lat: 0, lng: 0 },
+    location: {},
     basemap: BASEMAPS.dark,
     labels: LABELS.light,
     boundaries: false,

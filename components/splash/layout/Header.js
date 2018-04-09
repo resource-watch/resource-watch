@@ -21,7 +21,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const { skipAnimation, hideSkip, showEarthViewLink } = this.props;
+    const { skipAnimation, hideSkip, showEarthViewLink, showCredits } = this.props;
 
     return (
       <div className="c-splash-header">
@@ -40,20 +40,22 @@ class Header extends React.Component {
               </div>
             </a>
           }
-          <a
-            role="button"
-            tabIndex={0}
-            onKeyDown={() => this.handleToggleCreditsModal(true)}
-            onClick={() => this.handleToggleCreditsModal(true)}
-          >
-            Credits
-            <Modal
-              isOpen={this.state.showCreditsModal}
-              onRequestClose={() => this.handleToggleCreditsModal(false)}
+          {showCredits &&
+            <a
+              role="button"
+              tabIndex={0}
+              onKeyDown={() => this.handleToggleCreditsModal(true)}
+              onClick={() => this.handleToggleCreditsModal(true)}
             >
-              <CreditsModal onRequestClose={this.handleToggleCreditsModal} />
-            </Modal>
-          </a>
+              Credits
+              <Modal
+                isOpen={this.state.showCreditsModal}
+                onRequestClose={() => this.handleToggleCreditsModal(false)}
+              >
+                <CreditsModal onRequestClose={this.handleToggleCreditsModal} />
+              </Modal>
+            </a>
+          }
           {!hideSkip && <button onClick={skipAnimation} className="c-splash-header-skip-intro">SKIP INTRO</button>}
           <Link route="home">
             <a>Go to Resource Watch</a>
@@ -70,6 +72,7 @@ Header.defaultProps = {
 
 Header.propTypes = {
   showEarthViewLink: PropTypes.bool,
+  showCreditsModal: PropTypes.bool,
   skipAnimation: PropTypes.func.isRequired,
   hideSkip: PropTypes.bool
 };
