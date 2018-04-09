@@ -22,8 +22,8 @@ import GlobeCesium from 'components/vis/globe-cesium';
 let Cesium;
 
 const CAMERA_INITIAL_POSITION = {
-  lat: 35.46,
-  lon: -3.55,
+  lat: 46.88,
+  lon: -13,
   height: 90000,
   pitch: -0.3,
   heading: 0,
@@ -75,7 +75,7 @@ class Splash extends Page {
 
     // ------- CAMERA INITIAL POSITION -------
     camera.setView({
-      destination: Cesium.Cartesian3.fromDegrees(CAMERA_FINAL_POSITION.lon, CAMERA_FINAL_POSITION.lat, 90000),
+      destination: Cesium.Cartesian3.fromDegrees(CAMERA_INITIAL_POSITION.lon, CAMERA_INITIAL_POSITION.lat, 90000),
       orientation: {
         heading: 0.0,
         pitch: -1,
