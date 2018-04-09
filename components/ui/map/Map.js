@@ -117,6 +117,27 @@ class Map extends React.Component {
     const oldLayersIds = oldLayers.map(l => l.id);
     const nextLayersIds = nextLayers.map(l => l.id);
 
+    // Check if the interactions updated in admin,
+    // if so, we need to update the interaction for that layer
+    if (!isEqual(this.props.availableInteractions, nextProps.availableInteractions) &&
+        nextLayers.length === 1) {
+      this.removeLayers(oldLayers);
+
+      const modifyInteractionConfig = Object.assign(
+        {},
+        nextLayers[0].interactionConfig,
+        { output: nextProps.availableInteractions }
+      );
+
+      const addInteractionConfigToLayer = Object.assign(
+        {},
+        nextLayers[0],
+        { interactionConfig: modifyInteractionConfig }
+      );
+
+      this.addLayers([addInteractionConfigToLayer]);
+    }
+
     if (oldLayersIds.length !== nextLayersIds.length) {
       // Test whether old & new layers are the same
       unionLayers.forEach((layer) => {
@@ -226,6 +247,8 @@ class Map extends React.Component {
         window.document.createElement('div')
       );
 
+
+
       this.popup = this.popup || L.popup({
         maxWidth: 400,
         minWidth: 240
@@ -256,7 +279,6 @@ class Map extends React.Component {
     if (this.props.onMapParams) this.removeMapEventListeners();
     if (this.map) this.map.remove();
   }
-
 
   // SETTERS
   setLayerManager() {
@@ -370,6 +392,7 @@ class Map extends React.Component {
     return same;
   }
 
+
   fitBounds({ bbox, geometry }) {
     let bounds;
     if (bbox) {
@@ -445,6 +468,7 @@ Map.propTypes = {
   interactionEnabled: PropTypes.bool,
   disableScrollZoom: PropTypes.bool,
   onMapInstance: PropTypes.func,
+
   // STORE
   mapConfig: PropTypes.object,
   sidebar: PropTypes.object,

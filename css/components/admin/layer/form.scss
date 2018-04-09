@@ -1,5 +1,22 @@
 .c-layers-form {
 
+  .layer-config-status {
+    padding: 10px;
+
+    background: #85b73c;
+
+    &.errors {
+      background: #ff6161;
+    }
+
+    color: #FFF;
+    h4 {
+      color: #FFF;
+      font-size: $font-size-normal;
+      margin: 0;
+    }
+  }
+
   .preview-container {
     display: flex;
     flex-direction: column;
