@@ -156,6 +156,7 @@ class GlobeCesiumComponent extends PureComponent {
     if (nextProps.basemap !== this.props.basemap ||
       nextProps.activeContextLayers !== this.props.activeContextLayers ||
       newMainLayer !== mainLayer) {
+
       this.updateLayers(
         nextProps,
         nextProps.basemap !== this.props.basemap,
@@ -403,7 +404,7 @@ class GlobeCesiumComponent extends PureComponent {
   }
 
   removeContextLayers() {
-    for (let i = 1; i < this.imageryLayers.length; i++) {
+    for (let i = this.imageryLayers.length - 1; i > 0; i--) {
       if (this.imageryLayers.get(i).name !== 'mainLayer') {
         this.imageryLayers.remove(this.imageryLayers.get(i), false);
       }

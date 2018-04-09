@@ -3,7 +3,7 @@ export function getDatasetMetadata(dataset) {
 }
 
 export function getDatasetName(dataset) {
-  const metadata = dataset.metadata || {};
+  const metadata = dataset && dataset.metadata || {};
   return metadata.info && metadata.info.name ? metadata.info.name : dataset.name;
 }
 

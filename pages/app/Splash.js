@@ -22,8 +22,8 @@ import GlobeCesium from 'components/vis/globe-cesium';
 let Cesium;
 
 const CAMERA_INITIAL_POSITION = {
-  lat: 35.46,
-  lon: -3.55,
+  lat: 46.88,
+  lon: -13,
   height: 90000,
   pitch: -0.3,
   heading: 0,
@@ -33,12 +33,12 @@ const CAMERA_FINAL_POSITION = {
   lat: 49.2002,
   lon: -0.1382,
   height: 20000000,
-  pitch: -0.3,
+  pitch: 1.7,
   heading: 0,
   roll: 0
 };
-const ANIMATION_DURATION = 14;
-const INITIAL_WAIT = 5;
+const ANIMATION_DURATION = 0;
+const INITIAL_WAIT = 0.2;
 const FINAL_ANIMATION_DURATION = 8;
 
 class Splash extends Page {
@@ -73,58 +73,57 @@ class Splash extends Page {
     const { viewer, cancelAnimations } = this.state;
     const { camera } = viewer;
 
-    // ------ INIT VARIABLES -----
-    const { query } = this.props.url;
-    const duration = query.duration ? Number(query.duration) : ANIMATION_DURATION;
-    const initialLat = query.initialLat ? Number(query.initialLat) : CAMERA_INITIAL_POSITION.lat;
-    const initialLon = query.initialLon ? Number(query.initialLon) : CAMERA_INITIAL_POSITION.lon;
-    const initialHeight = query.initialHeight ? Number(query.initialHeight) : CAMERA_INITIAL_POSITION.height;
-    const finalLat = query.finalLat ? Number(query.finalLat) : CAMERA_FINAL_POSITION.lat;
-    const finalLon = query.finalLon ? Number(query.finalLon) : CAMERA_FINAL_POSITION.lon;
-    const finalHeight = query.finalHeight ? Number(query.finalHeight) : CAMERA_FINAL_POSITION.height;
-    const finalAnimationDuration = query.finalAnimationDuration ? Number(query.finalAnimationDuration) : FINAL_ANIMATION_DURATION;
-    const initialHeading = query.initialHeading ? Number(query.initialHeading) : CAMERA_INITIAL_POSITION.heading;
-    const initialRoll = query.initialRoll ? Number(query.initialRoll) : CAMERA_INITIAL_POSITION.roll;
-    const initialPitch = query.initialPitch ? Number(query.initialPitch) : CAMERA_INITIAL_POSITION.pitch;
-    const finalHeading = query.finalHeading ? Number(query.finalHeading) : CAMERA_FINAL_POSITION.heading;
-    const finalRoll = query.finalRoll ? Number(query.finalRoll) : CAMERA_FINAL_POSITION.roll;
-    const finalPitch = query.finalPitch ? Number(query.finalPitch) : CAMERA_FINAL_POSITION.pitch;
-    // --------------------------
-
     // ------- CAMERA INITIAL POSITION -------
     camera.setView({
-      destination: Cesium.Cartesian3.fromDegrees(initialLon, initialLat, initialHeight),
-      orientation: {
-        heading: initialHeading,
-        pitch: initialPitch,
-        roll: initialRoll
-      }
-    });
-    // ------- FIRST FLY -------
-    const firstFlight = setTimeout(() => camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(finalLon, finalLat, initialHeight),
-      orientation: {
-        heading: finalHeading,
-        pitch: finalPitch,
-        roll: finalRoll
-      },
-      duration,
-      maximumHeight: initialHeight
-    }), INITIAL_WAIT);
-
-    // ------- SECOND FLY -------
-    const secondFlight = setTimeout(() => camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(finalLon, finalLat, finalHeight),
+      destination: Cesium.Cartesian3.fromDegrees(CAMERA_INITIAL_POSITION.lon, CAMERA_INITIAL_POSITION.lat, 90000),
       orientation: {
         heading: 0.0,
-        pitch: -Cesium.Math.PI_OVER_TWO,
+        pitch: -1,
         roll: 0.0
-      },
-      duration: finalAnimationDuration,
-      maximumHeight: initialHeight + 9000000
-    }), INITIAL_WAIT);
+      }
+    });
 
-    setTimeout(() => this.setState({ hideSkip: true }), finalAnimationDuration);
+    const firstFlight = null;
+    // // ------- FIRST FLY -------
+    // const firstFlight = setTimeout(() => camera.flyTo({
+    //   destination: Cesium.Cartesian3.fromDegrees(CAMERA_FINAL_POSITION.lon, CAMERA_FINAL_POSITION.lat, CAMERA_INITIAL_POSITION.height),
+    //   orientation: {
+    //     heading: CAMERA_INITIAL_POSITION.heading,
+    //     pitch: CAMERA_INITIAL_POSITION.pitch,
+    //     roll: CAMERA_INITIAL_POSITION.roll
+    //   },
+    //   duration: ANIMATION_DURATION,
+    //   maximumHeight: CAMERA_INITIAL_POSITION.height
+    // }), INITIAL_WAIT * 1000);
+
+    // // --- CAMERA CHANGE -----
+    // setTimeout(() => {
+    //   camera.flyTo({
+    //     destination: Cesium.Cartesian3.fromDegrees(CAMERA_FINAL_POSITION.lon, CAMERA_FINAL_POSITION.lat, 900000),
+    //     orientation: {
+    //       heading: 0.0,
+    //       pitch: -Cesium.Math.PI_OVER_TWO,
+    //       roll: 0.0
+    //     },
+    //     duration: 2
+    //   });
+    // }, (ANIMATION_DURATION * 1000) + (INITIAL_WAIT * 1000));
+
+    // ------- SECOND FLY -------
+    const secondFlight = setTimeout(() => {
+      camera.flyTo({
+        destination: Cesium.Cartesian3.fromDegrees(CAMERA_FINAL_POSITION.lon, CAMERA_FINAL_POSITION.lat, CAMERA_FINAL_POSITION.height),
+        orientation: {
+          heading: 0.0,
+          pitch: -Cesium.Math.PI_OVER_TWO,
+          roll: 0.0
+        },
+        duration: FINAL_ANIMATION_DURATION,
+        maximumHeight: CAMERA_FINAL_POSITION.height
+      });
+    }, (ANIMATION_DURATION * 1000) + (INITIAL_WAIT * 1000) + 1000);
+
+    setTimeout(() => this.setState({ hideSkip: true }), FINAL_ANIMATION_DURATION * 1000);
 
     this.setState({ firstFlight, secondFlight });
   }
@@ -158,11 +157,10 @@ class Splash extends Page {
 
   skipAnimation() {
     const { viewer, firstFlight, secondFlight } = this.state;
-    const { query } = this.props.url;
 
-    const finalHeight = query.finalHeight ? Number(query.finalHeight) : CAMERA_FINAL_POSITION.height;
-    const finalLat = query.finalLat ? Number(query.finalLat) : CAMERA_FINAL_POSITION.lat;
-    const finalLon = query.finalLon ? Number(query.finalLon) : CAMERA_FINAL_POSITION.lon;
+    const finalHeight = CAMERA_FINAL_POSITION.height;
+    const finalLat = CAMERA_FINAL_POSITION.lat;
+    const finalLon = CAMERA_FINAL_POSITION.lon;
 
     // remember to cancel any active or qued animation
     viewer.camera.cancelFlight();

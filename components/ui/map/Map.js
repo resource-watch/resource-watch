@@ -34,15 +34,43 @@ const MAP_CONFIG = {
 };
 
 class Map extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: false,
-      sidebar: {
-        open: props.sidebar.open,
-        width: props.sidebar.width
-      }
-    };
+  static defaultProps = {
+    swipe: false,
+    interactionEnabled: true,
+    disableScrollZoom: true,
+    onMapInstance: () => { /* console.info(map); */ }
+  };
+
+  static propTypes = {
+    swipe: PropTypes.bool,
+    interactionEnabled: PropTypes.bool,
+    disableScrollZoom: PropTypes.bool,
+    onMapInstance: PropTypes.func,
+
+    // STORE
+    mapConfig: PropTypes.object,
+    location: PropTypes.object,
+    sidebar: PropTypes.object,
+    basemap: PropTypes.object,
+    labels: PropTypes.object,
+    boundaries: PropTypes.bool,
+    filters: PropTypes.object,
+    layerGroups: PropTypes.array, // List of LayerGroup items
+    interaction: PropTypes.object,
+    interactionSelected: PropTypes.string,
+    interactionLatLng: PropTypes.object,
+    availableInteractions: PropTypes.array,
+    LayerManager: PropTypes.func,
+
+    // ACTIONS
+    onMapParams: PropTypes.func,
+    setLayerInteraction: PropTypes.func,
+    setLayerInteractionSelected: PropTypes.func,
+    setLayerInteractionLatLng: PropTypes.func
+  };
+
+  state = {
+    loading: false
   }
 
   componentDidMount() {
@@ -71,15 +99,6 @@ class Map extends React.Component {
       this.map.scrollWheelZoom.disable();
     }
 
-    // BBOX
-    if (mapOptions && mapOptions.bbox) {
-      this.fitBounds({ bbox: mapOptions.bbox });
-    }
-
-    if (mapOptions && mapOptions.bounds) {
-      this.fitBounds({ geometry: mapOptions.bounds.geometry });
-    }
-
     // CONTROLS
     this.setAttribution();
     this.setZoomControl();
@@ -103,6 +122,15 @@ class Map extends React.Component {
 
     // SET VIEW
     this.map.setView([mapOptions.latLng.lat, mapOptions.latLng.lng], mapOptions.zoom);
+
+    // BBOX
+    if (mapOptions && mapOptions.bbox) {
+      this.fitBounds({ bbox: mapOptions.bbox });
+    }
+
+    if (mapOptions && mapOptions.bounds) {
+      this.fitBounds({ geometry: mapOptions.bounds.geometry });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -461,58 +489,14 @@ class Map extends React.Component {
 
   // RENDER
   render() {
-    // FIXME: First, the loader can't me just moved like that because the map
-    // can be used in a variety of context (different pages).
-    // Second, even in the case of the Explore page this rule doesn't make sense:
-    // if the sidebar is collapsed, the loader shouldn't be on the side
-    // eslint-disable-next-line max-len
-    // const spinnerStyles = (typeof window === 'undefined') ? {} : { marginLeft: this.setSpinnerPosition() };
-    const spinnerStyles = {};
-    const mapClass = !this.state.sidebar.open ? '-fullWidth' : '';
-
     return (
-      <div className={`c-map ${mapClass}`}>
-        {this.state.loading && <Spinner isLoading style={spinnerStyles} />}
+      <div className="c-map">
+        {this.state.loading && <Spinner isLoading />}
         <div ref={(node) => { this.mapNode = node; }} className="map-leaflet" />
       </div>
     );
   }
 }
-
-Map.defaultProps = {
-  swipe: false,
-  interactionEnabled: true,
-  disableScrollZoom: true,
-  onMapInstance: (map) => { console.info(map); }
-};
-
-Map.propTypes = {
-  swipe: PropTypes.bool,
-  interactionEnabled: PropTypes.bool,
-  disableScrollZoom: PropTypes.bool,
-  onMapInstance: PropTypes.func,
-
-  // STORE
-  mapConfig: PropTypes.object,
-  location: PropTypes.object,
-  sidebar: PropTypes.object,
-  basemap: PropTypes.object,
-  labels: PropTypes.object,
-  boundaries: PropTypes.bool,
-  filters: PropTypes.object,
-  layerGroups: PropTypes.array, // List of LayerGroup items
-  interaction: PropTypes.object,
-  interactionSelected: PropTypes.string,
-  interactionLatLng: PropTypes.object,
-  availableInteractions: PropTypes.array,
-  LayerManager: PropTypes.func,
-
-  // ACTIONS
-  onMapParams: PropTypes.func,
-  setLayerInteraction: PropTypes.func,
-  setLayerInteractionSelected: PropTypes.func,
-  setLayerInteractionLatLng: PropTypes.func
-};
 
 const mapStateToProps = state => ({
   basemap: state.explore.map.basemap,

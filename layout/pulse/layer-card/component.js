@@ -139,7 +139,7 @@ class LayerCardComponent extends PureComponent {
             <div className="context-layers-legends">
               {
                 activeContextLayers.map(ctLayer => (
-                  <div>
+                  <div key={ctLayer.attributes.name}>
                     <div className="layer-container">
                       <span>{ctLayer.attributes.name}</span>
                       <button

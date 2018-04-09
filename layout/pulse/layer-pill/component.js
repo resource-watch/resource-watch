@@ -19,6 +19,7 @@ class LayerPillComponent extends PureComponent {
     return (
       <button
         className={className}
+        disabled={contextLayersPulse.contextLayersLoading}
         onClick={() => {
           this.props.toggleContextualLayer(layerId);
         }}
