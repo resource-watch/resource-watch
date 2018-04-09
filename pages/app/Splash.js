@@ -37,8 +37,8 @@ const CAMERA_FINAL_POSITION = {
   heading: 0,
   roll: 0
 };
-const ANIMATION_DURATION = 15;
-const INITIAL_WAIT = 6000;
+const ANIMATION_DURATION = 14;
+const INITIAL_WAIT = 5;
 const FINAL_ANIMATION_DURATION = 8;
 
 class Splash extends Page {
@@ -112,8 +112,6 @@ class Splash extends Page {
       maximumHeight: initialHeight
     }), INITIAL_WAIT);
 
-    const timeoutTime = (Number(duration) + 1) * 1000;
-
     // ------- SECOND FLY -------
     const secondFlight = setTimeout(() => camera.flyTo({
       destination: Cesium.Cartesian3.fromDegrees(finalLon, finalLat, finalHeight),
@@ -124,9 +122,9 @@ class Splash extends Page {
       },
       duration: finalAnimationDuration,
       maximumHeight: initialHeight + 9000000
-    }), timeoutTime + INITIAL_WAIT);
+    }), INITIAL_WAIT);
 
-    setTimeout(() => this.setState({ hideSkip: true }), (timeoutTime + INITIAL_WAIT) + finalAnimationDuration);
+    setTimeout(() => this.setState({ hideSkip: true }), finalAnimationDuration);
 
     this.setState({ firstFlight, secondFlight });
   }
@@ -202,6 +200,7 @@ class Splash extends Page {
         />
         <Header
           showEarthViewLink={false}
+          showCredits={false}
           skipAnimation={() => this.skipAnimation()}
           hideSkip={hideSkip}
         />
