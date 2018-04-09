@@ -15,12 +15,13 @@ const InteractionsItems = (props) => {
   } = props;
 
   return (
-    <ul className="c-field preview-container">
+    <ul className="c-field preview-container c-interactions">
       {interactions.added && interactions.added.map((interaction, key) =>
         (
           <InteractionsItem
             key={interaction.column + key}
             index={key}
+            custom={!interaction.type}
             editInteraction={data => editInteraction(data)}
             removeInteraction={data => removeInteraction(data)}
             interaction={interaction}

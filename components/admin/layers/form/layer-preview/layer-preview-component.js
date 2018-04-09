@@ -8,7 +8,11 @@ import { connect } from 'react-redux';
 import Map from 'components/ui/map/Map';
 import { Legend, LegendItemTypes } from 'wri-api-components';
 
-import { generateLayerGroups, setLayerInteraction, setLayerInteractionLatLng } from 'components/admin/layers/form/layer-preview/layer-preview-actions';
+import {
+  generateLayerGroups,
+  setLayerInteraction,
+  setLayerInteractionLatLng
+} from 'components/admin/layers/form/layer-preview/layer-preview-actions';
 
 import LayerManager from 'utils/layers/LayerManager';
 
@@ -43,13 +47,16 @@ class LayerPreviewComponent extends PureComponent {
   }
 
   render() {
-    const { adminLayerPreview } = this.props;
+    const { adminLayerPreview, interactions } = this.props;
+
     const {
       layerGroups,
       interaction,
       interactionLatLng,
       interactionSelected
     } = adminLayerPreview;
+
+    const { added } = interactions;
 
     return (
       <div className="c-field preview-container">
@@ -59,6 +66,7 @@ class LayerPreviewComponent extends PureComponent {
             LayerManager={LayerManager}
             mapConfig={MAP_CONFIG}
             layerGroups={layerGroups}
+            availableInteractions={added}
             interaction={interaction}
             interactionSelected={interactionSelected}
             interactionLatLng={interactionLatLng}
@@ -103,10 +111,6 @@ LayerPreviewComponent.propTypes = {
   form: PropTypes.object.isRequired,
   adminLayerPreview: PropTypes.object.isRequired,
   interactions: PropTypes.object.isRequired
-};
-
-LayerPreviewComponent.defaultProps = {
-
 };
 
 export default connect(mapStateToProps, null)(LayerPreviewComponent);

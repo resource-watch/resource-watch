@@ -31,6 +31,9 @@ export default class LayerManager {
     this.onLayerAddedSuccess = options.onLayerAddedSuccess;
     this.onLayerAddedError = options.onLayerAddedError;
     this.onLayerClick = options.onLayerClick;
+    this.layersUpdated = options.layersUpdated || null;
+    this.errors = false;
+    this.errorDetails = null;
 
     if (options.swipe) {
       this.sideBySideControl = L.control.sideBySide();
@@ -303,7 +306,11 @@ export default class LayerManager {
     }
   }
 
-  addCartoLayer(layerSpec) {
+  verifyCartoLayer(layerSpec, callback) {
+    return this.addCartoLayer(layerSpec, true, callback);
+  }
+
+  addCartoLayer(layerSpec, verifyLayersOnly = false, callback) {
     const layer = Object.assign({}, layerSpec.layerConfig, {
       id: layerSpec.id,
       name: layerSpec.name,
@@ -339,14 +346,19 @@ export default class LayerManager {
     const params = `?stat_tag=API&config=${encodeURIComponent(JSON.stringify(layerTpl))}`;
 
     fetch(`https://${layer.account}.carto.com/api/v1/map${params}`)
-      .then((response) => {
-        if (response.status >= 400) {
-          this.rejectLayersLoading = true;
-          throw new Error(response.statusText);
-        }
+    .then((response) => {
+        this.errors = !response.ok;
+        if (this.errors) this.rejectLayersLoading = true;
         return response.json();
       })
       .then((data) => {
+        if (verifyLayersOnly === true) {
+          if (this.layersUpdated && typeof this.layersUpdated === 'function') this.layersUpdated(!this.errors, data);
+          if (this.errors) this.errorDetails = data;
+          if (callback && typeof callback === 'function') callback(!this.errors);
+          return;
+        }
+
         const tileUrl = `${data.cdn_url.templates.https.url}/${layer.account}/api/v1/map/${data.layergroupid}/{z}/{x}/{y}.png`;
 
         this.mapLayers[layer.id] = L.tileLayer(tileUrl).addTo(this.map);
@@ -371,6 +383,9 @@ export default class LayerManager {
           });
         }
 
+        if (callback && typeof callback === 'function') callback(!this.errors);
+      }).catch(() => {
+        this.rejectLayersLoading = true;
         if (this.options.swipe) {
           this.swipeLayer(this.mapLayers[layer.id], layer.sideBySide);
         }
