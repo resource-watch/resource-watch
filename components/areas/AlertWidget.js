@@ -176,10 +176,13 @@ class AlertWidget extends React.Component {
           </div>
         </div>}
 
+        {/*
+        Enabe data table when we got data :)
         <DataTable
           title="10 Most Recent Changes (fake data)"
           table={fakeRecentChangesData}
         />
+        */}
 
         {this.state.modalOpen &&
           <Modal
