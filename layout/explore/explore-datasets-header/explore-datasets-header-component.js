@@ -11,20 +11,38 @@ import ExploreDatasetsMode from './explore-datasets-mode';
 
 class ExploreDatasetsHeaderComponent extends React.Component {
   static propTypes = {
+    page: PropTypes.number,
+    limit: PropTypes.number,
     total: PropTypes.number,
     responsive: PropTypes.object
   };
 
+  getTotalDatasets = () => {
+    const {
+      page,
+      limit,
+      total
+    } = this.props;
+
+    const from = (page === 1) ? page : (page * limit) + 1;
+    const to = (page === 1) ? page * limit : (page * limit) + limit;
+
+    if (total < limit) {
+      return `${total}`;
+    }
+
+    return `${from}-${to} / ${total}`;
+  }
+
   render() {
     const {
-      total,
       responsive
     } = this.props;
 
     return (
       <div className="c-explore-datasets-header">
         <div className="total">
-          {total} datasets
+          {this.getTotalDatasets()} datasets
         </div>
 
         <div className="actions">
