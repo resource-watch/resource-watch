@@ -156,6 +156,12 @@ class GlobeCesiumComponent extends PureComponent {
     if (nextProps.basemap !== this.props.basemap ||
       nextProps.activeContextLayers !== this.props.activeContextLayers ||
       newMainLayer !== mainLayer) {
+
+      if (this.props.activeContextLayers.length !== 0 &&
+          nextProps.activeContextLayers.length === 0) {
+        this.removeAllContextLayers();
+      }
+
       this.updateLayers(
         nextProps,
         nextProps.basemap !== this.props.basemap,
@@ -407,6 +413,12 @@ class GlobeCesiumComponent extends PureComponent {
       if (this.imageryLayers.get(i).name !== 'mainLayer') {
         this.imageryLayers.remove(this.imageryLayers.get(i), false);
       }
+    }
+  }
+
+  removeAllContextLayers() {
+    for (let i = 1; i < this.imageryLayers.length; i++) {
+      this.imageryLayers.remove(this.imageryLayers.get(i), false);
     }
   }
 
