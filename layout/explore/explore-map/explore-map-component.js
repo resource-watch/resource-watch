@@ -115,7 +115,7 @@ class ExploreMapComponent extends React.Component {
         <Map
           mapConfig={{ zoom, latLng }}
           location={location}
-          disableScrollZoom={embed}
+          disableScrollZoom={!!embed}
 
           // layerManager
           layerGroups={layerGroups}
