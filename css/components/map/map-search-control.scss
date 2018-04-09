@@ -26,7 +26,7 @@ $map-search-border-color: $border-color-2 #d1d1d1 #dadada;
       border-bottom-left-radius: 4px;
       color: $charcoal-grey;
       outline: none;
-      transform: translateX(200px);
+      // transform: translateX(200px);
       transition: transform $animation-time $ease-in-out-cubic;
     }
 
@@ -74,7 +74,7 @@ $map-search-border-color: $border-color-2 #d1d1d1 #dadada;
 
     .geosuggest {
       &__input {
-        transform: translateX(0);
+        // transform: translateX(0);
       }
     }
   }

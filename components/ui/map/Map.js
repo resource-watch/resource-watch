@@ -222,10 +222,20 @@ class Map extends React.Component {
       this.props.location,
       nextProps.location
     )) {
-      this.map.setView(
-        [nextProps.location.lat, nextProps.location.lng],
-        nextProps.location.zoom
-      );
+      if (!isEqual(this.props.location.bbox, nextProps.location.bbox)) {
+        this.fitBounds({ bbox: nextProps.location.bbox });
+      }
+
+      if (!isEqual(this.props.location.geometry, nextProps.location.geometry)) {
+        this.fitBounds({ geometry: nextProps.location.geometry });
+      }
+
+      if (this.props.location.lat !== nextProps.location.lng) {
+        this.map.setView(
+          [nextProps.location.lat, nextProps.location.lng],
+          nextProps.location.zoom
+        );
+      }
     }
 
     // BOUNDARIES
@@ -233,6 +243,8 @@ class Map extends React.Component {
       this.setBoundaries(nextProps.boundaries);
     }
 
+
+    // INTERACTION
     if (
       nextProps.interactionLatLng &&
       (
@@ -492,6 +504,7 @@ Map.propTypes = {
   interaction: PropTypes.object,
   interactionSelected: PropTypes.string,
   interactionLatLng: PropTypes.object,
+  availableInteractions: PropTypes.array,
   LayerManager: PropTypes.func,
 
   // ACTIONS

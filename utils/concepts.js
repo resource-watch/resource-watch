@@ -94,7 +94,7 @@ export const TOPICS = {
       ]
     },
     {
-      id: 'settlements',
+      id: 'urban',
       label: 'Cities',
       type: [
         'CONCEPT',

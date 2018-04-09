@@ -28,11 +28,25 @@ class SearchControl extends React.Component {
 
   onSuggestSelect = (e) => {
     if (e) {
-      const { location } = e;
-      this.props.setMapLocation({
-        ...location,
-        zoom: 7
-      });
+      const { gmaps, location } = e;
+
+      const viewport = gmaps.geometry && gmaps.geometry.viewport;
+
+      if (viewport) {
+        this.props.setMapLocation({
+          bbox: [
+            viewport.b.b, viewport.f.b,
+            viewport.b.f, viewport.f.f
+          ]
+        });
+      }
+
+      if (!viewport && location) {
+        this.props.setMapLocation({
+          ...location,
+          zoom: 7
+        });
+      }
 
       this.onToggleSearchInput(false);
     }
