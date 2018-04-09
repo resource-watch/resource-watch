@@ -19,8 +19,8 @@
   .leaflet-right .leaflet-control {
     margin-top: $fullscreen-margin !important;
     margin-right: 30px !important;
-    border-width: 1px;
-    border-color: $border-color-2;
+    border: none;
+    box-shadow: $map-box-shadow;
 
     .c-embed-widget & {
       margin-right: $margin-size-extra-small !important;

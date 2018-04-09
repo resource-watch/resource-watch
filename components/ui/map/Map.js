@@ -217,11 +217,34 @@ class Map extends React.Component {
       this.setLabels(nextProps.labels);
     }
 
+    // LOCATION
+    if (!isEqual(
+      this.props.location,
+      nextProps.location
+    )) {
+      if (!isEqual(this.props.location.bbox, nextProps.location.bbox)) {
+        this.fitBounds({ bbox: nextProps.location.bbox });
+      }
+
+      if (!isEqual(this.props.location.geometry, nextProps.location.geometry)) {
+        this.fitBounds({ geometry: nextProps.location.geometry });
+      }
+
+      if (this.props.location.lat !== nextProps.location.lng) {
+        this.map.setView(
+          [nextProps.location.lat, nextProps.location.lng],
+          nextProps.location.zoom
+        );
+      }
+    }
+
     // BOUNDARIES
     if (this.props.boundaries !== nextProps.boundaries) {
       this.setBoundaries(nextProps.boundaries);
     }
 
+
+    // INTERACTION
     if (
       nextProps.interactionLatLng &&
       (
@@ -471,6 +494,7 @@ Map.propTypes = {
 
   // STORE
   mapConfig: PropTypes.object,
+  location: PropTypes.object,
   sidebar: PropTypes.object,
   basemap: PropTypes.object,
   labels: PropTypes.object,
@@ -480,6 +504,7 @@ Map.propTypes = {
   interaction: PropTypes.object,
   interactionSelected: PropTypes.string,
   interactionLatLng: PropTypes.object,
+  availableInteractions: PropTypes.array,
   LayerManager: PropTypes.func,
 
   // ACTIONS

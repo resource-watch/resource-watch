@@ -14,7 +14,7 @@ $min-width-sidebar-closed: 10px;
   @media screen and (min-width: map-get($breakpoints, medium)) {
     width: $min-width-sidebar-closed;
     height: 100%;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0 1px rgba($black, 0.1), 0 20px 30px 0 rgba($black, 0.1);
     transform: translate(calc(-100% + #{$min-width-sidebar-closed}),0);
     // transition: all $animation-time-2 $ease-in-out-sine; // Better perfomance and feeling
 

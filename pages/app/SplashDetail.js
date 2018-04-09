@@ -280,6 +280,7 @@ class SplashDetail extends Page {
             <Header
               hideSkip
               showEarthViewLink
+              showCredits
             />
             {hasIntro &&
               <div className={classnames('intro-container', `-${introOpened ? 'opened' : 'closed'}`)}>

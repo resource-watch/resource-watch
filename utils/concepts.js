@@ -13,8 +13,8 @@ export const TOPICS = {
       synonyms: ''
     },
     {
-      id: 'disasters',
-      label: 'Disasters',
+      id: 'natural_disaster',
+      label: 'Natural disasters',
       type: [
         'CONCEPT',
         'TOPIC'
@@ -94,7 +94,7 @@ export const TOPICS = {
       ]
     },
     {
-      id: 'settlements',
+      id: 'urban',
       label: 'Cities',
       type: [
         'CONCEPT',

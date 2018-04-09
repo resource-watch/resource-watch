@@ -121,6 +121,10 @@ export default {
     const map = { ...state.map, boundaries: action.payload };
     return { ...state, map };
   },
+  [actions.setMapLocation]: (state, action) => {
+    const map = { ...state.map, location: action.payload };
+    return { ...state, map };
+  },
 
 
   // LAYERS
