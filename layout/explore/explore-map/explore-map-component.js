@@ -7,8 +7,7 @@ import Map from 'components/ui/map/Map';
 import MapControls from 'components/ui/map/MapControls';
 import BasemapControl from 'components/ui/map/controls/BasemapControl';
 import ShareControl from 'components/ui/map/controls/ShareControl';
-
-import { BASEMAPS, LABELS } from 'components/ui/map/constants';
+import SearchControl from 'components/ui/map/controls/SearchControl';
 
 // WRI components
 import {
@@ -34,6 +33,7 @@ class ExploreMapComponent extends React.Component {
 
     zoom: PropTypes.number,
     latLng: PropTypes.object,
+    location: PropTypes.object,
     basemap: PropTypes.object,
     labels: PropTypes.object,
     boundaries: PropTypes.bool,
@@ -100,6 +100,7 @@ class ExploreMapComponent extends React.Component {
       embed,
       zoom,
       latLng,
+      location,
       basemap,
       labels,
       boundaries,
@@ -113,6 +114,7 @@ class ExploreMapComponent extends React.Component {
       <div className="l-map -relative">
         <Map
           mapConfig={{ zoom, latLng }}
+          location={location}
           disableScrollZoom={embed}
 
           // layerManager
@@ -143,6 +145,7 @@ class ExploreMapComponent extends React.Component {
             onChangeLabels={this.props.setMapLabels}
             onChangeBoundaries={this.props.setMapBoundaries}
           />
+          <SearchControl />
         </MapControls>
 
         <div className="c-legend-map">
