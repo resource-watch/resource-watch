@@ -261,7 +261,7 @@ class Home extends Page {
               <div className="row">
                 <div className="column small-12">
                   <TopicThumbnailList
-                    portraitMode
+                    // portraitMode
                     onSelect={({ slug }) => {
                       // We need to make an amendment in the Wysiwyg to have this working
                       Router.pushRoute('topics_detail', { id: slug })
