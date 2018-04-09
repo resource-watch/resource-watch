@@ -38,6 +38,7 @@ export const toggleContextualLayer = createThunkAction('layer-pill/toggleContext
             },
             true
           );
+          dispatch(setContextLayersLoading(false));
         })
         .catch(error => dispatch(setContextLayersError(error)));
     }
