@@ -21,6 +21,7 @@ export const LAYERS_PLANET_PULSE = [
               <LayerPill layerId="c7e76588-6da5-4645-8842-2d2ac0001110" label="Cropland" />
             </div>
           </div>,
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
         contextLayers: ['c7e76588-6da5-4645-8842-2d2ac0001110'],
         contextLayersOnTop: true,
         widgets: [],
@@ -68,6 +69,7 @@ export const LAYERS_PLANET_PULSE = [
               The VIIRS sensor aboard the Suomi NPP satellite collects imagery as it orbits the Earth every 100 minutes. Passing over the poles 14 times per day, it crosses the equator at at 1:30am local time, photographing the entire world each day.
             </div>
           </div>,
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
         contextLayers: [],
         contextLayersOnTop: true,
         widgets: [],
@@ -86,6 +88,7 @@ export const LAYERS_PLANET_PULSE = [
               The VIIRS sensor aboard the Suomi NPP satellite collects nighttime imagery as it orbits the Earth every 100 minutes. Passing over the poles 14 times per day, it crosses the equator at on the nighttime side of the Earth at 1:30am local time.
             </div>
           </div>,
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
         contextLayers: [],
         contextLayersOnTop: true,
         widgets: [],
@@ -113,6 +116,7 @@ export const LAYERS_PLANET_PULSE = [
               <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
             </div>
           </div>,
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         contextLayersOnTop: false,
         widgets: [],
@@ -137,7 +141,8 @@ export const LAYERS_PLANET_PULSE = [
               <span className="view-with-label"><strong>View with:</strong></span>
               <LayerPill layerId="c7e76588-6da5-4645-8842-2d2ac0001110" label="Cropland" />
             </div>
-          </div>
+          </div>,
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
       }
     ]
   },
@@ -160,6 +165,7 @@ export const LAYERS_PLANET_PULSE = [
               <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
             </div>
           </div>,
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
         widgets: [],
         basemap: {
           name: 'default',
@@ -180,6 +186,7 @@ export const LAYERS_PLANET_PULSE = [
             </div>
           </div>,
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
         contextLayersOnTop: false,
         '3d': false,
         widgets: [],
@@ -211,7 +218,8 @@ export const LAYERS_PLANET_PULSE = [
               <span className="view-with-label"><strong>View with:</strong></span>
               <LayerPill layerId="d87bb471-1ac0-4f79-818a-e270f04185bf" label="Historical extent" />
             </div>
-          </div>
+          </div>,
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
       },
       {
         label: 'Coral reef bleaching',
@@ -256,7 +264,8 @@ export const LAYERS_PLANET_PULSE = [
         basemap: {
           name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+        },
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
       },
       {
         label: 'Conflicts and protests',
@@ -278,7 +287,8 @@ export const LAYERS_PLANET_PULSE = [
         basemap: {
           name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+        },
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
       },
       {
         label: 'Migrant Deaths',
@@ -295,7 +305,8 @@ export const LAYERS_PLANET_PULSE = [
         basemap: {
           name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+        },
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
       },
       {
         label: 'Asylum requests',
@@ -316,7 +327,8 @@ export const LAYERS_PLANET_PULSE = [
         basemap: {
           name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+        },
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
       }
     ]
   },
@@ -345,7 +357,8 @@ export const LAYERS_PLANET_PULSE = [
         basemap: {
           name: 'sentinel',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+        },
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
       },
       {
         label: 'Landslide warnings',
@@ -367,7 +380,8 @@ export const LAYERS_PLANET_PULSE = [
         basemap: {
           name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+        },
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
       },
       {
         label: 'Earthquakes',
@@ -394,7 +408,8 @@ export const LAYERS_PLANET_PULSE = [
         basemap: {
           name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+        },
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
       },
       {
         label: 'Volcanos',
