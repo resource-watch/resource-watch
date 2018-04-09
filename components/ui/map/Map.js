@@ -71,15 +71,6 @@ class Map extends React.Component {
       this.map.scrollWheelZoom.disable();
     }
 
-    // BBOX
-    if (mapOptions && mapOptions.bbox) {
-      this.fitBounds({ bbox: mapOptions.bbox });
-    }
-
-    if (mapOptions && mapOptions.bounds) {
-      this.fitBounds({ geometry: mapOptions.bounds.geometry });
-    }
-
     // CONTROLS
     this.setAttribution();
     this.setZoomControl();
@@ -103,6 +94,15 @@ class Map extends React.Component {
 
     // SET VIEW
     this.map.setView([mapOptions.latLng.lat, mapOptions.latLng.lng], mapOptions.zoom);
+
+    // BBOX
+    if (mapOptions && mapOptions.bbox) {
+      this.fitBounds({ bbox: mapOptions.bbox });
+    }
+
+    if (mapOptions && mapOptions.bounds) {
+      this.fitBounds({ geometry: mapOptions.bounds.geometry });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
