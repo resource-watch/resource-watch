@@ -1,11 +1,15 @@
-FROM node:8.1.2
+FROM node:8.9.4
+
+ARG apiEnv=production
+ARG apiUrl=https://resourcewatch.org/api
+ARG callbackUrl=https://resourcewatch.org/auth
 
 ENV NODE_ENV production
 ENV WRI_API_URL https://api.resourcewatch.org/v1
-ENV BASEMAP_TILE_URL https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
-ENV API_URL https://staging.resourcewatch.org/api
+# ENV BASEMAP_TILE_URL https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
+ENV API_URL $apiUrl
 ENV CONTROL_TOWER_URL https://production-api.globalforestwatch.org
-ENV CALLBACK_URL https://staging.resourcewatch.org/auth
+ENV CALLBACK_URL $callbackUrl
 ENV STATIC_SERVER_URL=
 ENV APPLICATIONS rw
 ENV OPBEAT_ORG_ID 17ab8eb501d2418a81f3167c10407e90
@@ -14,9 +18,9 @@ ENV ADD_SEARCH_KEY cb7e797b8a3c0d09c323955f0c4f957a
 ENV TRANSIFEX_LIVE_API fca0343bce994bf8ba3dcdeaab389136
 ENV GOGGLE_API_TOKEN_SHORTENER AIzaSyAf0lJIKq32sQwrfiOKx0T6yFWnonbfOso
 ENV BING_MAPS_API_KEY PPB0chXATYqlJ5t8oMPp~8SV9SIe2D0Ntc5sW3HExZA~AqTJgLkvvOdot-y1QukRox537t604Je0pxhygfcraTQGVWr7Ko9LwPoS7-MHW0qY
-ENV API_ENV production,preproduction
+ENV API_ENV $apiEnv
 ENV GOOGLE_ANALYTICS UA-67196006-1
-ENV BLOG_API_URL https://staging.resourcewatch.org/blog/wp-json/wp/v2
+ENV BLOG_API_URL https://resourcewatch.org/blog/wp-json/wp/v2
 
 RUN apt-get update && \
     apt-get install -y bash git build-essential \
