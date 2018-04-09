@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import LayerChart from 'components/widgets/charts/LayerChart';
+import MapThumbnail from 'components/ui/map/map-thumbnail';
 import Spinner from 'components/ui/Spinner';
 
 class DatasetLayerChart extends React.PureComponent {
@@ -32,10 +32,12 @@ class DatasetLayerChart extends React.PureComponent {
           isLoading={this.state.loading}
           className="-tiny -light"
         />
-        <LayerChart
-          data={layer.layerConfig}
-          toggleLoading={this.triggerToggleLoading}
-        />
+        <div className="c-we-chart">
+          <MapThumbnail
+            layerSpec={layer}
+            // toggleLoading={this.triggerToggleLoading}
+          />
+        </div>
       </div>
     );
   }

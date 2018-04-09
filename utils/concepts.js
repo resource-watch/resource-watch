@@ -95,7 +95,7 @@ export const TOPICS = {
     },
     {
       id: 'settlements',
-      label: 'Settlements',
+      label: 'Cities',
       type: [
         'CONCEPT',
         'TOPIC'

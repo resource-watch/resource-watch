@@ -30,10 +30,11 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     application: process.env.APPLICATIONS,
     language: common.locale,
     includes: 'layer,metadata,vocabulary,widget',
-    search: explore.filters.search,
     sort: `${explore.sort.direction < 0 ? '-' : ''}${explore.sort.selected}`,
     status: 'saved',
     published: true,
+    // Search
+    ...explore.filters.search && { search: explore.filters.search },
     // Concepts
     ...concepts.reduce((o, s, i) => ({
       ...o,
@@ -142,7 +143,13 @@ export const fetchFiltersTags = createThunkAction('EXPLORE/fetchFiltersTags', ()
       return response.json();
     })
     .then(({ data }) => {
-      dispatch(setFiltersTags(data));
+      dispatch(setFiltersTags(data.filter((tag) => {
+        const isBlack = TAGS_BLACKLIST.includes(tag.id);
+        const isGeography = (!!tag.labels[1] && tag.labels[1] === 'GEOGRAPHY');
+        const hasDatasets = !!tag.numberOfDatasetsTagged;
+
+        return !isBlack && !isGeography && hasDatasets;
+      })));
     })
     .catch((err) => {
       console.error(err);

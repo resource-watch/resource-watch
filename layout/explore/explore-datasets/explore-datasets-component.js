@@ -33,10 +33,13 @@ class ExploreDatasetsComponent extends React.Component {
   onTagSelected = (tag) => {
     const options = Object.keys(this.props.options).map(o => this.props.options[o]);
 
-    const tab = options.find(o => o.type === tag.labels[1]) || {};
+    const tab = (options.find((o) => {
+      const labels = (tag && tag.labels) || [];
+      return o.type === labels[1];
+    }) || {}).value || 'custom';
 
     this.props.toggleFiltersSelected({
-      tab: tab.value || 'custom',
+      tab,
       tag
     });
     this.fetchDatasets(1);

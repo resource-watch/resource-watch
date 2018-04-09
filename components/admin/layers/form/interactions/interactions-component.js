@@ -89,7 +89,6 @@ class InteractionsComponent extends PureComponent {
 
   render() {
     const { interactions } = this.props;
-
     return (
       <div>
         {interactions.available &&
@@ -100,7 +99,9 @@ class InteractionsComponent extends PureComponent {
               className: 'Select--large',
               name: 'selected_columns',
               label: 'Add interactions',
+              placeholder: 'Select a column or type one...',
               type: 'text',
+              creatable: true,
               removeSelected: true,
               multi: true,
               value: interactions.added ? FORMAT.options(interactions.added) : [],
@@ -133,10 +134,6 @@ const mapStateToProps = state => ({
 InteractionsComponent.propTypes = {
   dispatch: PropTypes.func.isRequired,
   interactions: PropTypes.object.isRequired
-};
-
-InteractionsComponent.defaultProps = {
-
 };
 
 export default connect(mapStateToProps, null)(InteractionsComponent);

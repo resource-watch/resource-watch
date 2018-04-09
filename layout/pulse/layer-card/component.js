@@ -83,6 +83,7 @@ class LayerCardComponent extends PureComponent {
 
     return (
       <div className={className}>
+        <div>
         <h3>{layerActive && layerActive.label}</h3>
         {source &&
           <div className="source-container">
@@ -220,6 +221,7 @@ class LayerCardComponent extends PureComponent {
               </button>
             </LoginRequired>
           }
+        </div>
         </div>
       </div>
     );

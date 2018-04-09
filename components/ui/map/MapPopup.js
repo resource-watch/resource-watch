@@ -12,9 +12,6 @@ function _formatValue(item, data) {
     data = numeral(data).format(item.format);
   }
 
-  // If any html tags are present, remove them
-  // The html is already escaped so no injection can happen here
-  // Simply remove the tags for estetic reasons.
   function removeHtmlTags(str) {
     if (!str || !str.toString) return str;
     return str.toString().replace(/<\/?[a-z]+>/gi, '');
@@ -32,6 +29,10 @@ function MapPopup({
   const layer =
     interactionLayers.find(l => l.id === interactionSelected) ||
     interactionLayers[0];
+
+  if (!layer) {
+    return null;
+  }
 
   const layerInteraction = interaction[layer.id] || {};
 
