@@ -37,8 +37,8 @@ const CAMERA_FINAL_POSITION = {
   heading: 0,
   roll: 0
 };
-const ANIMATION_DURATION = 10;
-const INITIAL_WAIT = 5;
+const ANIMATION_DURATION = 0;
+const INITIAL_WAIT = 0.2;
 const FINAL_ANIMATION_DURATION = 8;
 
 class Splash extends Page {
@@ -75,36 +75,53 @@ class Splash extends Page {
 
     // ------- CAMERA INITIAL POSITION -------
     camera.setView({
-      destination: Cesium.Cartesian3.fromDegrees(CAMERA_INITIAL_POSITION.lon, CAMERA_INITIAL_POSITION.lat, CAMERA_INITIAL_POSITION.height),
-      orientation: {
-        heading: CAMERA_INITIAL_POSITION.heading,
-        pitch: CAMERA_INITIAL_POSITION.pitch,
-        roll: CAMERA_INITIAL_POSITION.roll
-      }
-    });
-    // ------- FIRST FLY -------
-    const firstFlight = setTimeout(() => camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(CAMERA_FINAL_POSITION.lon, CAMERA_FINAL_POSITION.lat, CAMERA_INITIAL_POSITION.height),
-      orientation: {
-        heading: CAMERA_INITIAL_POSITION.heading,
-        pitch: CAMERA_INITIAL_POSITION.pitch,
-        roll: CAMERA_INITIAL_POSITION.roll
-      },
-      duration: ANIMATION_DURATION,
-      maximumHeight: CAMERA_INITIAL_POSITION.height
-    }), INITIAL_WAIT * 1000);
-
-    // ------- SECOND FLY -------
-    const secondFlight = setTimeout(() => camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(CAMERA_FINAL_POSITION.lon, CAMERA_FINAL_POSITION.lat, CAMERA_FINAL_POSITION.height),
+      destination: Cesium.Cartesian3.fromDegrees(CAMERA_FINAL_POSITION.lon, CAMERA_FINAL_POSITION.lat, 90000),
       orientation: {
         heading: 0.0,
-        pitch: -Cesium.Math.PI_OVER_TWO,
+        pitch: -1,
         roll: 0.0
-      },
-      duration: FINAL_ANIMATION_DURATION,
-      maximumHeight: CAMERA_FINAL_POSITION.height + 9000000
-    }), (FINAL_ANIMATION_DURATION * 1000) + (INITIAL_WAIT * 1000));
+      }
+    });
+
+    const firstFlight = null;
+    // // ------- FIRST FLY -------
+    // const firstFlight = setTimeout(() => camera.flyTo({
+    //   destination: Cesium.Cartesian3.fromDegrees(CAMERA_FINAL_POSITION.lon, CAMERA_FINAL_POSITION.lat, CAMERA_INITIAL_POSITION.height),
+    //   orientation: {
+    //     heading: CAMERA_INITIAL_POSITION.heading,
+    //     pitch: CAMERA_INITIAL_POSITION.pitch,
+    //     roll: CAMERA_INITIAL_POSITION.roll
+    //   },
+    //   duration: ANIMATION_DURATION,
+    //   maximumHeight: CAMERA_INITIAL_POSITION.height
+    // }), INITIAL_WAIT * 1000);
+
+    // // --- CAMERA CHANGE -----
+    // setTimeout(() => {
+    //   camera.flyTo({
+    //     destination: Cesium.Cartesian3.fromDegrees(CAMERA_FINAL_POSITION.lon, CAMERA_FINAL_POSITION.lat, 900000),
+    //     orientation: {
+    //       heading: 0.0,
+    //       pitch: -Cesium.Math.PI_OVER_TWO,
+    //       roll: 0.0
+    //     },
+    //     duration: 2
+    //   });
+    // }, (ANIMATION_DURATION * 1000) + (INITIAL_WAIT * 1000));
+
+    // ------- SECOND FLY -------
+    const secondFlight = setTimeout(() => {
+      camera.flyTo({
+        destination: Cesium.Cartesian3.fromDegrees(CAMERA_FINAL_POSITION.lon, CAMERA_FINAL_POSITION.lat, CAMERA_FINAL_POSITION.height),
+        orientation: {
+          heading: 0.0,
+          pitch: -Cesium.Math.PI_OVER_TWO,
+          roll: 0.0
+        },
+        duration: FINAL_ANIMATION_DURATION,
+        maximumHeight: CAMERA_FINAL_POSITION.height
+      });
+    }, (ANIMATION_DURATION * 1000) + (INITIAL_WAIT * 1000) + 1000);
 
     setTimeout(() => this.setState({ hideSkip: true }), FINAL_ANIMATION_DURATION * 1000);
 
