@@ -103,6 +103,11 @@ class WidgetBlock extends React.Component {
 
     const caption = metadataInfo && metadataInfo.caption;
 
+    const classNames = classnames({
+      'c-widget-block-card': true,
+      [`-${widgetType}`]: true
+    });
+
     const isInACollection = belongsToACollection(user, widget);
     const starIconName = classnames({
       'icon-star-full': isInACollection,
@@ -110,7 +115,7 @@ class WidgetBlock extends React.Component {
     });
 
     return (
-      <div className="c-widget-block-card">
+      <div className={classNames}>
         <header>
           <div className="header-container">
             <Title className="-default">{widget ? widget.name : '–'}</Title>
