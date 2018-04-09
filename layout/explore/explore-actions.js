@@ -79,7 +79,7 @@ export const setMapLatLng = createAction('EXPLORE/setMapLatLng');
 export const setMapBasemap = createAction('EXPLORE/setMapBasemap');
 export const setMapLabels = createAction('EXPLORE/setMapLabels');
 export const setMapBoundaries = createAction('EXPLORE/setMapBoundaries');
-
+export const setMapLocation = createAction('EXPLORE/setMapLocation');
 
 // LAYERS
 export const toggleMapLayerGroup = createAction('EXPLORE/toggleMapLayerGroup');

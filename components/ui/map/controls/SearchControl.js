@@ -5,34 +5,42 @@ import classNames from 'classnames';
 import * as actions from 'layout/explore/explore-actions';
 
 // Components
-import LocationSearch from 'components/search/LocationSearch';
+import Geosuggest from 'react-geosuggest';
 import Icon from 'components/ui/Icon';
 
 class SearchControl extends React.Component {
   static propTypes = {
-    setMapLatLng: PropTypes.func,
-    setMapZoom: PropTypes.func
+    setMapLocation: PropTypes.func
   };
 
-  constructor(props) {
-    super(props);
+  state = {
+    showSearchInput: false
+  };
 
-    this.state = {
-      showSearchInput: false
-    };
+  // UI EVENTS
+  onToggleSearchInput = (to) => {
+    this.setState({ showSearchInput: to }, () => {
+      if (this.state.showSearchInput) {
+        this.geosuggest.focus();
+      }
+    });
   }
 
-  handleToggleSearchInput = () => {
-    const { showSearchInput } = this.state;
-    this.setState({ showSearchInput: !showSearchInput });
-  }
-
-  handleOnSuggestSelect = (e) => {
+  onSuggestSelect = (e) => {
     if (e) {
       const { location } = e;
-      this.props.setMapLatLng(location);
-      this.props.setMapZoom(7);
-      this.setState({ showSearchInput: false });
+      this.props.setMapLocation({
+        ...location,
+        zoom: 7
+      });
+
+      this.onToggleSearchInput(false);
+    }
+  }
+
+  onKeyDown = (e) => {
+    if (e.keyCode === 27) {
+      this.onToggleSearchInput(false);
     }
   }
 
@@ -40,13 +48,25 @@ class SearchControl extends React.Component {
   render() {
     const { showSearchInput } = this.state;
     const className = classNames({
-      'c-map-search-control': true,
-      '-show-input': showSearchInput
+      'c-map-search-control': true
     });
+
     return (
       <div className={className}>
-        <LocationSearch handleOnSuggestSelect={this.handleOnSuggestSelect} />
-        <button type="button" className="search-button" onClick={this.handleToggleSearchInput}>
+
+        {showSearchInput &&
+          <Geosuggest
+            ref={(r) => { this.geosuggest = r; }}
+            onSuggestSelect={this.onSuggestSelect}
+            onKeyDown={this.onKeyDown}
+          />
+        }
+
+        <button
+          type="button"
+          className="search-button"
+          onClick={() => this.onToggleSearchInput(!showSearchInput)}
+        >
           <Icon name="icon-search" className="-small" />
         </button>
       </div>
@@ -54,6 +74,4 @@ class SearchControl extends React.Component {
   }
 }
 
-const mapStateToProps = () => ({});
-
-export default connect(mapStateToProps, actions)(SearchControl);
+export default connect(null, actions)(SearchControl);

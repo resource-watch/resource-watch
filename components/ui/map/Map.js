@@ -217,14 +217,14 @@ class Map extends React.Component {
       this.setLabels(nextProps.labels);
     }
 
-    // SET VIEW
+    // LOCATION
     if (!isEqual(
-      this.props.mapConfig,
-      nextProps.mapConfig
+      this.props.location,
+      nextProps.location
     )) {
       this.map.setView(
-        [nextProps.mapConfig.latLng.lat, nextProps.mapConfig.latLng.lng],
-        nextProps.mapConfig.zoom
+        [nextProps.location.lat, nextProps.location.lng],
+        nextProps.location.zoom
       );
     }
 
@@ -482,6 +482,7 @@ Map.propTypes = {
 
   // STORE
   mapConfig: PropTypes.object,
+  location: PropTypes.object,
   sidebar: PropTypes.object,
   basemap: PropTypes.object,
   labels: PropTypes.object,

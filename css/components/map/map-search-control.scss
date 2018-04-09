@@ -32,6 +32,7 @@ $map-search-border-color: $border-color-2 #d1d1d1 #dadada;
 
     &__suggests {
       position: relative;
+      font-size: $font-size-default;
       top: -3px;
       background-color: $white;
       border-style: solid;
@@ -47,7 +48,7 @@ $map-search-border-color: $border-color-2 #d1d1d1 #dadada;
     }
 
     &__item {
-      padding-left: 10px;
+      padding: 4px 0 4px 10px;
       cursor: pointer;
 
       &__matched-text {
