@@ -19,7 +19,6 @@ import { FORM_ELEMENTS, FORMAT } from 'components/admin/layers/form/constants';
 import InteractionsItems from './interactions-items';
 
 class InteractionsComponent extends PureComponent {
-
   componentWillMount() {
     this.props.dispatch(getInteractions({ ...this.props }));
   }
@@ -100,6 +99,7 @@ class InteractionsComponent extends PureComponent {
               className: 'Select--large',
               name: 'selected_columns',
               label: 'Add interactions',
+              placeholder: 'Select a column or type one...',
               type: 'text',
               creatable: true,
               removeSelected: true,

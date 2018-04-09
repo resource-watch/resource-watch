@@ -161,22 +161,6 @@ class Step1 extends React.Component {
           form={form}
         />
 
-        <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.provider = c; }}
-          onChange={value => this.props.onChange({ provider: value })}
-          validations={['required']}
-          options={PROVIDER_OPTIONS}
-          properties={{
-            name: 'provider',
-            label: 'Provider',
-            type: 'text',
-            required: true,
-            default: form.provider
-          }}
-        >
-          {Select}
-        </Field>
-
         <LayerPreviewComponent
           form={form}
         />
