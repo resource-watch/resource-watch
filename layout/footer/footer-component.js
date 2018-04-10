@@ -38,7 +38,8 @@ const about = [
   { name: 'How To', route: 'about_howto' },
   { name: 'Contact Us', route: 'about_contact-us' },
   { name: 'Terms of Service', route: 'terms-of-service' },
-  { name: 'Privacy Policy', route: 'privacy-policy' }
+  { name: 'Privacy Policy', route: 'privacy-policy' },
+  { name: 'API attribution requirements', route: 'api-attribution-requirements' }
 ];
 
 const blog = [
