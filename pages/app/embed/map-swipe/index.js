@@ -19,8 +19,8 @@ class EmbedMapSwipePage extends Page {
     const { store, isServer, req } = context;
 
     store.dispatch(setEmbed(true));
-    if (isServer) store.dispatch(setIsLoadedExternaly(!/localhost|staging.resourcewatch.org/.test(req.headers.referer)));
-    if (!isServer) store.dispatch(setIsLoadedExternaly(!/localhost|staging.resourcewatch.org/.test(window.location.href)));
+    if (isServer) store.dispatch(setIsLoadedExternaly(!/localhost|(staging\.)?resourcewatch.org/.test(req.headers.referer)));
+    if (!isServer) store.dispatch(setIsLoadedExternaly(!/localhost|(staging\.)?resourcewatch.org/.test(window.location.href)));
 
     // Fetch layers
     const { routes } = store.getState();
