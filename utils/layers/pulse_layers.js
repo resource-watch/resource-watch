@@ -223,7 +223,6 @@ export const LAYERS_PLANET_PULSE = [
               <LayerPill layerId="d87bb471-1ac0-4f79-818a-e270f04185bf" label="Historical extent" />
             </div>
           </div>,
-        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
         basemap: {
           name: 'default',
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'

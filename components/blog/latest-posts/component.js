@@ -28,11 +28,12 @@ class BlogPostsLatest extends React.Component {
   getCard = p => (
     p && (
       <CardStatic
-        key={`insight-card-${p.slug}`}
+        key={`insight-card-${p.title}`}
         className={`-alt ${p.link ? '-clickable' : ''}`}
         background={`url(${p.image})`}
         clickable={!!p.link}
         route={p.link ? p.link : ''}
+        anchor
       >
         <div>
           <h4>{p.date}</h4>

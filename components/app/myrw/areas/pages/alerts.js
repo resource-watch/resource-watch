@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import areaAlerts from 'selectors/user/areaAlerts';
 
 // Components
+import { getLabel } from 'utils/datasets/dataset-helpers';
 import AlertWidget from 'components/areas/AlertWidget';
 
 class AreasAlerts extends React.Component  {
@@ -23,7 +24,7 @@ class AreasAlerts extends React.Component  {
             <AlertWidget key={key} dataset={dataset} id={id} layerGroup={id} subscription={subscription} />)}
 
         <p>
-          This notification reports {alerts[id].map(a => a.dataset.label).join(', ')} for the area of interest you subscribed to.
+          This notification reports {alerts[id].map(a => getLabel(a.dataset)).join(', ')} for the area of interest you subscribed to.
           You will receive a separate email for each area and each alert you subscribe to.
           Date of alerts refers to the date range within which change was detected.
           There may be a lag between detection and when you receive this notification.
