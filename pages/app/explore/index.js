@@ -20,7 +20,8 @@ import Explore from 'layout/explore';
 
 class ExplorePage extends Page {
   static propTypes = {
-    explore: PropTypes.object
+    explore: PropTypes.object,
+    resetExplore: PropTypes.func
   };
 
   static async getInitialProps(context) {
@@ -76,7 +77,7 @@ class ExplorePage extends Page {
   }
 
   componentWillUnmount() {
-    // this.props.resetExplore();
+    this.props.resetExplore();
   }
 
   componentDidUpdate(prevProps) {
