@@ -21,6 +21,7 @@ import TopicThumbnailList from 'components/topics/thumbnail-list';
 import BlogLatestPosts from 'components/blog/latest-posts';
 import YouTube from 'react-youtube';
 import MediaQuery from 'react-responsive';
+import LoginRequired from 'components/ui/login-required';
 
 // Modal
 import Modal from 'components/modal/modal-component';

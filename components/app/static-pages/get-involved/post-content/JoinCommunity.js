@@ -6,6 +6,20 @@ import CardApp from 'components/app/common/CardApp';
 import Banner from 'components/app/common/Banner';
 
 class JoinCommunity extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showNewsletterModal: false
+    };
+  }
+
+  handleToggleShareModal = (bool) => {
+    this.setState({ showNewsletterModal: bool });
+  }
+
+  render (
   const cards = [
     {
       id: 'contact-us',
@@ -27,19 +41,7 @@ class JoinCommunity extends React.Component {
         external: true
       }
     }
-  ];
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showNewsletterModal: false
-    };
-  }
-
-  handleToggleShareModal = (bool) => {
-    this.setState({ showNewsletterModal: bool });
-  }
+  ]
 
   return (
     <div>
@@ -101,6 +103,7 @@ class JoinCommunity extends React.Component {
       </aside>
     </div>
   );
+  )
 }
 
 JoinCommunity.propTypes = {};
