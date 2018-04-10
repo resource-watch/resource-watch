@@ -33,6 +33,7 @@ class BlogPostsLatest extends React.Component {
         background={`url(${p.image})`}
         clickable={!!p.link}
         route={p.link ? p.link : ''}
+        anchor
       >
         <div>
           <h4>{p.date}</h4>
