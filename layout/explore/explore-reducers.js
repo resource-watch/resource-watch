@@ -36,6 +36,7 @@ export default {
   },
   [actions.setDatasetsMode]: (state, action) => {
     const datasets = { ...state.datasets, mode: action.payload };
+    logEvent('Explore Menu', 'Change dataset view', action.payload);
     return { ...state, datasets };
   },
 
