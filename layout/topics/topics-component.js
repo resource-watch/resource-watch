@@ -11,6 +11,8 @@ import { connect } from 'react-redux';
 import Layout from 'layout/layout/layout-app';
 import TopicThumbnailList from 'components/topics/thumbnail-list';
 import Banner from 'components/app/common/Banner';
+import LoginRequired from 'components/ui/login-required';
+
 
 class TopicsComponent extends React.PureComponent {
   render() {
@@ -69,7 +71,9 @@ class TopicsComponent extends React.PureComponent {
                   <p className="-claim">
                     Create and share <br />custom visualizations.
                   </p>
-                  <a href='/myrw/dashboards'className="c-button -alt -primary">Create a dashboard</a>
+                  <LoginRequired text="Log in to create a dashboard">
+                    <a href='/myrw/dashboards'className="c-button -alt -primary">Create a dashboard</a>
+                  </LoginRequired>
                 </Banner>
               </div>
             </div>
