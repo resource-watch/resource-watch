@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 // Components
 import Layout from 'layout/layout/layout-app';
 import TopicThumbnailList from 'components/topics/thumbnail-list';
+import Banner from 'components/app/common/Banner';
 
 class TopicsComponent extends React.PureComponent {
   render() {
@@ -59,8 +60,21 @@ class TopicsComponent extends React.PureComponent {
               </div>
             </div>
           </div>
-
         </div>
+        <aside className="l-postcontent">
+          <div className="l-container">
+            <div className="row align-center">
+              <div className="column small-12">
+                <Banner className="-text-center">
+                  <p className="-claim">
+                    Create and share <br \>custom visualizations.
+                  </p>
+                  <a href='/myrw/dashboards'className="c-button -alt -primary">Create a dashboard</a>
+                </Banner>
+              </div>
+            </div>
+          </div>
+        </aside>
       </Layout>
     );
   }

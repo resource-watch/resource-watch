@@ -84,6 +84,7 @@ routes.add('embed_dashboard', '/embed/dashboard/:slug', 'app/embed/EmbedDashboar
 // ------ TERMS && POLICY -------------
 routes.add('terms-of-service', '/terms-of-service', 'app/Terms');
 routes.add('privacy-policy', '/privacy-policy', 'app/Policy');
+routes.add('attribution-requirements', '/attribution-requirements', 'app/Attribution-requirements');
 
 // ------- CATALOG -------------
 routes.add('catalog', '/catalog', 'app/catalog');

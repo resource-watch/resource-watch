@@ -8,7 +8,7 @@ const lookup = {
   'contribute-data': 'contribute-data',
   'join-the-community': 'join-community',
   'develop-your-app': 'develop-app',
-  'app-review-policy': 'app-review-policy',
+  'app-review-guidelines': 'app-review-guidelines',
   'partner-application-guidelines': 'partner-application-guidelines',
   'data-policy': 'data-policy',
   'apps': 'app-gallery'

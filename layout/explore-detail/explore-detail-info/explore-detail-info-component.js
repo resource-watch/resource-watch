@@ -99,7 +99,7 @@ class ExploreDetailInfo extends PureComponent {
 
         {metadata.info && metadata.info.citation ? (
           <div className="l-section-mod medium-7">
-            <h3>Citation</h3>
+            <h3>Suggested citation</h3>
             <p>{metadata.info && metadata.info.citation}</p>
           </div>
         ) : null}

@@ -15,9 +15,9 @@
       padding-right: 180px;
     }
 
-    &.insights { background: url('/static/images/backgrounds/jellyfish.jpg'); }
+    &.insights { background: $color-secondary; }
     &.contribute { background: $color-primary url('/static/images/components/layout/header-bg-texture.png') no-repeat center; }
-    &.join { background: $color-secondary; }
+    &.join { background: url('/static/images/backgrounds/california-01.jpg'); }
     &.develop { background: url('/static/images/backgrounds/develop_app.jpg'); }
   }
 }

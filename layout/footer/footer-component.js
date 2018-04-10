@@ -15,7 +15,8 @@ const data = [
   { name: 'Data', route: 'explore' },
   { name: 'Explore Datasets', route: 'explore' },
   { name: 'Planet Pulse', anchor: '/data/pulse' },
-  { name: 'App Gallery', route: 'get_involved_detail', params: { id: 'apps' } }
+  { name: 'App Gallery', route: 'get_involved_detail', params: { id: 'apps' } },
+  { name: 'Catalog', route: 'catalog' }
 ];
 
 const topics = [
@@ -23,7 +24,7 @@ const topics = [
   { name: 'Cities', route: 'topics_detail', params: { id: 'cities' } },
   { name: 'Climate', route: 'topics_detail', params: { id: 'climate' } },
   { name: 'Energy', route: 'topics_detail', params: { id: 'energy' } },
-  { name: 'Food and Agriculture', route: 'topics_detail', params: { id: 'food-and-agriculture' } },
+  { name: 'Food', route: 'topics_detail', params: { id: 'food' } },
   { name: 'Forests', route: 'topics_detail', params: { id: 'forests' } },
   { name: 'Oceans', route: 'topics_detail', params: { id: 'oceans' } },
   { name: 'Society', route: 'topics_detail', params: { id: 'society' } },

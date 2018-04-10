@@ -57,11 +57,13 @@ const exploreCards = [
   {
     tag: 'Dashboards',
     title: 'Create and share visualizations',
-    intro: 'Create overlays, share visualizations, and subscribe to updates on your favorite issues.',
+    intro: 'Create and share custom visualizations or craft your own personal monitoring system.',
     buttons: [
       {
         text: 'Create a dashboard',
-        path: 'dashboards',
+        path: '/myrw/dashboards',
+        anchor: true,
+        loginRequired: 'Log in to create a dashboard',
         className: '-primary'
       }
     ],
@@ -76,6 +78,7 @@ const exploreCards = [
         text: 'Sign up for alerts',
         path: '/myrw/areas',
         anchor: true,
+        loginRequired: 'Log in to sign up for alerts',
         className: '-primary'
       }
     ],
@@ -114,6 +117,13 @@ class Home extends Page {
           </div>
           <div className="buttons -align-center">
             {c.buttons.map((b) => {
+              if (b.loginRequired) {
+                return(
+                  <LoginRequired text={b.loginRequired}>
+                    <a href={b.path} key={b.path} className={`c-btn -alt ${b.className}`}>{b.text}</a>
+                  </LoginRequired>
+                );
+              }
               if (b.anchor) {
                 return (
                   <a href={b.path} key={b.path} className={`c-btn -alt ${b.className}`}>{b.text}</a>
@@ -123,6 +133,25 @@ class Home extends Page {
                 <Link route={b.path} key={b.path}><a className={`c-btn -alt ${b.className}`}>{b.text}</a></Link>
               );
             })}
+       <LoginRequired text="Log in to sign up for alerts">
+              <button
+                className="c-button -secondary"
+                onClick={() => this.handleToggleSubscribeModal(true)}
+              >
+              Subscribe to alerts
+                <Modal
+                  isOpen={this.state.showSubscribeModal}
+                  onRequestClose={() => this.handleToggleSubscribeModal(false)}
+                >
+                  <SubscribeToDatasetModal
+                    dataset={dataset}
+                    showDatasetSelector={false}
+                    onRequestClose={() => this.handleToggleSubscribeModal(false)}
+                  />
+                </Modal>
+              </button>
+            </LoginRequired>
+
           </div>
         </CardStatic>
       </div>)
@@ -234,7 +263,7 @@ class Home extends Page {
                         <NewsletterModal />
                       </Modal>
                     </button>
-                    <Link route="insights">
+                    <Link route="blog">
                       <a className="c-btn -primary">More stories</a>
                     </Link>
                   </div>

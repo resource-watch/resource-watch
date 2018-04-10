@@ -85,7 +85,7 @@ class AreasList extends React.Component {
 
           { areas.items.length === 0 &&
             <div className="no-areas-container">
-              <p>You have not created any areas yet</p>
+              <p>Create an area of interest to sign up for alerts.</p>
             </div>
           }
         </div>
