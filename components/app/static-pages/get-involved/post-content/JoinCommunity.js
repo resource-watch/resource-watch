@@ -19,7 +19,7 @@ class JoinCommunity extends React.Component {
     this.setState({ showNewsletterModal: bool });
   }
 
-  render (
+  render() {
   const cards = [
     {
       id: 'contact-us',
@@ -103,7 +103,7 @@ class JoinCommunity extends React.Component {
       </aside>
     </div>
   );
-  )
+  }
 }
 
 JoinCommunity.propTypes = {};

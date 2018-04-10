@@ -134,25 +134,6 @@ class Home extends Page {
                 <Link route={b.path} key={b.path}><a className={`c-btn -alt ${b.className}`}>{b.text}</a></Link>
               );
             })}
-       <LoginRequired text="Log in to sign up for alerts">
-              <button
-                className="c-button -secondary"
-                onClick={() => this.handleToggleSubscribeModal(true)}
-              >
-              Subscribe to alerts
-                <Modal
-                  isOpen={this.state.showSubscribeModal}
-                  onRequestClose={() => this.handleToggleSubscribeModal(false)}
-                >
-                  <SubscribeToDatasetModal
-                    dataset={dataset}
-                    showDatasetSelector={false}
-                    onRequestClose={() => this.handleToggleSubscribeModal(false)}
-                  />
-                </Modal>
-              </button>
-            </LoginRequired>
-
           </div>
         </CardStatic>
       </div>)
