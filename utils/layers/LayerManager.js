@@ -346,7 +346,7 @@ export default class LayerManager {
     const params = `?stat_tag=API&config=${encodeURIComponent(JSON.stringify(layerTpl))}`;
 
     fetch(`https://${layer.account}.carto.com/api/v1/map${params}`)
-    .then((response) => {
+      .then((response) => {
         this.errors = !response.ok;
         if (this.errors) this.rejectLayersLoading = true;
         return response.json();
@@ -407,7 +407,9 @@ export default class LayerManager {
       if (!layer) return;
       let opacity = layer.opacity !== undefined ? layer.opacity : 1;
       opacity = layer.visible === false ? 0 : opacity;
-      this.mapLayers[layerId].setOpacity(opacity);
+      if (layerId in this.mapLayers && 'setOpacity' in this.mapLayers[layerId]) {
+        this.mapLayers[layerId].setOpacity(opacity);
+      }
     });
   }
 
@@ -418,7 +420,9 @@ export default class LayerManager {
       if (!layer) return;
       let opacity = layer.opacity !== undefined ? layer.opacity : 1;
       opacity = layer.visible === false ? 0 : opacity;
-      this.mapLayers[layerId].setOpacity(opacity);
+      if (layerId in this.mapLayers && 'setOpacity' in this.mapLayers[layerId]) {
+        this.mapLayers[layerId].setOpacity(opacity);
+      }
     });
   }
 }

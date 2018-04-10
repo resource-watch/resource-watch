@@ -25,7 +25,8 @@ class LayerCardComponent extends PureComponent {
 
     this.state = {
       showSubscribeToDatasetModal: false,
-      showInfoModal: false
+      showInfoModal: false,
+      showContextLayersInfoModal: false
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -63,7 +64,7 @@ class LayerCardComponent extends PureComponent {
   }
 
   render() {
-    const { showSubscribeToDatasetModal, showInfoModal } = this.state;
+    const { showSubscribeToDatasetModal, showInfoModal, showContextLayersInfoModal } = this.state;
     const { layerMenuPulse, layerCardPulse, activeContextLayers } = this.props;
     const { layerActive, layerPoints } = layerMenuPulse;
     const { dataset, widget } = layerCardPulse;
@@ -138,21 +139,21 @@ class LayerCardComponent extends PureComponent {
             <div className="context-layers-legends">
               {
                 activeContextLayers.map(ctLayer => (
-                  <div>
+                  <div key={ctLayer.attributes.name}>
                     <div className="layer-container">
                       <span>{ctLayer.attributes.name}</span>
                       <button
                         type="button"
                         className="info"
                         aria-label="More information"
-                        onClick={() => this.setState({ showInfoModal: true })}
+                        onClick={() => this.setState({ showContextLayersInfoModal: true })}
                       >
                         <Icon name="icon-info" />
 
                         <Modal
-                          isOpen={showInfoModal}
+                          isOpen={showContextLayersInfoModal}
                           className="-medium"
-                          onRequestClose={() => this.setState({ showInfoModal: false })}
+                          onRequestClose={() => this.setState({ showContextLayersInfoModal: false })}
                         >
                           <LayerInfoModal
                             data={ctLayer.attributes}

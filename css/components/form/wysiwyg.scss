@@ -38,7 +38,7 @@
           color: $color-primary;
           font-weight: $font-weight-light;
           font-family: $body-font-family;
-          margin-bottom: $font-size-h2 * 0.5;
+          margin-top: $font-size-h2 * 0.5;
 
           @media screen and (min-width: map-get($breakpoints, medium)) {
             font-size: $font-size-h2;
@@ -62,11 +62,13 @@
           font-size: $global-font-size;
           font-family: $body-font-family;
           line-height: $global-lineheight;
+          max-width: 80ch;
 
           > a {
               color: $link-font-color;
               text-decoration: underline;
           }
+
           &:last-child {
               margin-bottom: 0;
           }

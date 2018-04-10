@@ -11,11 +11,6 @@ function SuggestStoryPost() {
     <div>
       <aside className="l-postcontent">
         <div className="l-container">
-          <div className="row">
-            <div className="column small-12 medium-8">
-              <h2>Latest stories</h2>
-            </div>
-          </div>
           <div className="row align-center">
             <div className="column small-12">
               <div className="buttons">
@@ -34,6 +29,11 @@ function SuggestStoryPost() {
       </aside>
       <aside className="l-postcontent">
         <div className="l-container">
+          <div className="row">
+            <div className="column small-12 medium-8">
+              <h2>Latest stories</h2>
+            </div>
+          </div>
           <BlogLatestPosts />
         </div>
       </aside>

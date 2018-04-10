@@ -156,6 +156,7 @@ class GlobeCesiumComponent extends PureComponent {
     if (nextProps.basemap !== this.props.basemap ||
       nextProps.activeContextLayers !== this.props.activeContextLayers ||
       newMainLayer !== mainLayer) {
+
       this.updateLayers(
         nextProps,
         nextProps.basemap !== this.props.basemap,
@@ -403,7 +404,7 @@ class GlobeCesiumComponent extends PureComponent {
   }
 
   removeContextLayers() {
-    for (let i = 1; i < this.imageryLayers.length; i++) {
+    for (let i = this.imageryLayers.length - 1; i > 0; i--) {
       if (this.imageryLayers.get(i).name !== 'mainLayer') {
         this.imageryLayers.remove(this.imageryLayers.get(i), false);
       }
@@ -469,11 +470,7 @@ class GlobeCesiumComponent extends PureComponent {
   initGlobe() {
     this.addAdditionalLayerOption(
       'default',
-      new Cesium.BingMapsImageryProvider({
-        url: 'https://dev.virtualearth.net',
-        key: Cesium.BingMapsApi.defaultKey,
-        mapStyle: Cesium.BingMapsStyle.AERIAL
-      })
+      new Cesium.UrlTemplateImageryProvider({ url: 'https://api.mapbox.com/styles/v1/wri/cjd56ttip0i1s2rnxv8py2km5/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid3JpIiwiYSI6Ik9TY2w5RTQifQ.0HV7dQTjK40mk7GpNNA64g' }), 1, true
     );
     if (this.props.onInit) {
       this.props.onInit(this.viewer);

@@ -88,11 +88,11 @@ export default class LayersService {
           const fieldsObj = response.fields;
           const parsedData = {
             tableName: response.tableName,
-            fields: (Object.entries(fieldsObj) || []).map(data => ({
-              label: data[0],
-              value: data[0],
-              type: data[1].type
-            }))
+            fields: ((fieldsObj && Object.entries(fieldsObj)) || []).map((data) => {
+              const { label, value } = data && data.length ? data[0] : {};
+              const { type } = data && data.length > 1 ? data[1].type : {};
+              return { label, value, type };
+            })
           };
           resolve({ ...parsedData });
         },

@@ -78,7 +78,6 @@ class ExploreDetailHeader extends PureComponent {
         <div className="page-header-info">
           <ul>
             <li>Source: {(metadata.source) || '-'}</li>
-            <li>Last update: {dataset && new Date(dataset.updatedAt).toJSON().slice(0, 10).replace(/-/g, '/')}</li>
             <li>
               <button className="c-btn -tertiary -alt -clean" onClick={() => this.handleToggleShareModal(true)}>
                 <Icon name="icon-share" className="-small" />

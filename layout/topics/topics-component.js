@@ -10,6 +10,9 @@ import { connect } from 'react-redux';
 // Components
 import Layout from 'layout/layout/layout-app';
 import TopicThumbnailList from 'components/topics/thumbnail-list';
+import Banner from 'components/app/common/Banner';
+import LoginRequired from 'components/ui/login-required';
+
 
 class TopicsComponent extends React.PureComponent {
   render() {
@@ -59,8 +62,23 @@ class TopicsComponent extends React.PureComponent {
               </div>
             </div>
           </div>
-
         </div>
+        <aside className="l-postcontent">
+          <div className="l-container">
+            <div className="row align-center">
+              <div className="column small-12">
+                <Banner className="-text-center">
+                  <p className="-claim">
+                    Create and share <br />custom visualizations.
+                  </p>
+                  <LoginRequired text="Log in to create a dashboard">
+                    <a href='/myrw/dashboards'className="c-button -alt -primary">Create a dashboard</a>
+                  </LoginRequired>
+                </Banner>
+              </div>
+            </div>
+          </div>
+        </aside>
       </Layout>
     );
   }

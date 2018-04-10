@@ -14,6 +14,7 @@ import { getUserAreas } from 'redactions/user';
 
 // Utils
 import { capitalizeFirstLetter, listSeperator } from 'utils/utils';
+import { getLabel } from 'utils/datasets/dataset-helpers';
 
 // Selectors
 import areaAlerts from 'selectors/user/areaAlerts';
@@ -173,7 +174,7 @@ class MyRWDetail extends Page {
           params={{ id: a.id }}
         >
           <a>
-            {a.dataset.label}
+            {getLabel(a.dataset)}
           </a>
         </Link>{listSeperator(alert, k)} </span>);
       });
