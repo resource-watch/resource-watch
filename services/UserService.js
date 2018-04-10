@@ -163,12 +163,14 @@ export default class UserService {
    *  Update Subscription
    */
   updateSubscriptionToArea(subscriptionId, datasets, datasetsQuery, user, language) {
+
     const bodyObj = {
       application: process.env.APPLICATIONS,
       language,
       datasets,
       datasetsQuery
     };
+
     return fetch(`${this.opts.apiURL}/subscriptions/${subscriptionId}`, {
       method: 'PATCH',
       body: JSON.stringify(bodyObj),

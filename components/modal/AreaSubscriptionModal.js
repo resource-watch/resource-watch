@@ -139,7 +139,6 @@ class AreaSubscriptionModal extends React.Component {
     logEvent('My RW', 'Edit subscription', area.attributes.name);
 
     if (mode === 'new') {
-
       if (!datasets.length) {
         toastr.error('Error', 'Please select at least one dataset');
         return;
@@ -153,16 +152,16 @@ class AreaSubscriptionModal extends React.Component {
         locale
       ).then(() => {
         toastr.success('Success!', 'Subscription created successfully');
-        this.props.toggleModal(false);
         this.props.dispatch(getUserAreas());
+        this.props.onRequestClose();
       }).catch(err => toastr.error('Error creating the subscription', err));
     } else {
       if (!datasets.length) {
         userService.deleteSubscription(area.subscription.id, user.token)
           .then(() => {
             toastr.success('Success!', 'Subscription updated successfully');
-            this.props.toggleModal(false);
             this.props.dispatch(getUserAreas());
+            this.props.onRequestClose();
           }).catch(err => toastr.error('Error updating the subscription', err));
         return;
       }
@@ -175,14 +174,10 @@ class AreaSubscriptionModal extends React.Component {
         locale
       ).then(() => {
         toastr.success('Success!', 'Subscription updated successfully');
-        this.props.toggleModal(false);
         this.props.dispatch(getUserAreas());
+        this.props.onRequestClose();
       }).catch(err => toastr.error('Error updating the subscription', err));
     }
-  }
-
-  handleCancel() {
-    this.props.toggleModal(false);
   }
 
   render() {
