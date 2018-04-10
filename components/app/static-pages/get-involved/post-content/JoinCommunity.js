@@ -4,6 +4,7 @@ import { Link } from 'routes';
 // Components
 import CardApp from 'components/app/common/CardApp';
 import Banner from 'components/app/common/Banner';
+import Modal from 'components/modal/modal-component';
 
 class JoinCommunity extends React.Component {
 
