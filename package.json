@@ -113,6 +113,7 @@
     "redux-tools": "vectorsize/redux-tools#v3.2.0",
     "reselect": "3.0.1",
     "sass-loader": "6.0.6",
+    "serve-static": "^1.13.2",
     "session-file-store": "1.0.0",
     "sqlite3": "^3.1.13",
     "three": "0.83.0",
