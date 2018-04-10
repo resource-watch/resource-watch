@@ -127,6 +127,7 @@ class AreaCard extends React.Component {
 
     // TODO: Selector
     let layerGroups = [];
+
     if (area.id in user.areas.layerGroups) {
       layerGroups = user.areas.layerGroups[area.id];
     }
@@ -138,13 +139,25 @@ class AreaCard extends React.Component {
         <div className={borderContainerClassNames}>
           <div className="map-container">
             <Spinner isLoading={loading} />
-            {!loading && <Map
-              LayerManager={LayerManager}
-              mapConfig={MAP_CONFIG}
-              layerGroups={layerGroups}
-              interactionEnabled={false}
-              useLightBasemap
-            />}
+
+            {!loading &&
+              <Map
+                mapConfig={{
+                  ...MAP_CONFIG,
+                  ...!!layerGroups.length && {
+                    bbox: [
+                      layerGroups[0].layers[0].layerConfig.bounds.coordinates[0][0][0],
+                      layerGroups[0].layers[0].layerConfig.bounds.coordinates[0][0][1],
+                      layerGroups[0].layers[0].layerConfig.bounds.coordinates[0][1][0],
+                      layerGroups[0].layers[0].layerConfig.bounds.coordinates[0][1][1]
+                    ]
+                  }
+                }}
+                LayerManager={LayerManager}
+                layerGroups={layerGroups}
+                interactionEnabled={false}
+              />
+            }
           </div>
           <div className="text-container">
             <div className="name-container">
