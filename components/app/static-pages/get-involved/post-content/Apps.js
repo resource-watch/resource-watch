@@ -41,7 +41,7 @@ class Apps extends React.Component {
           <div className="l-container">
             <div className="row align-center">
               <div className="column small-12">
-                <Banner className="-text-center" bgImage="/static/images/backgrounds/planet-pulse.jpg">
+                <Banner className="-text-center" bgImage="/static/images/pages/app/bg-banner-planetPulse.jpg">
                   <p className="-claim">
                     View near-real-time data <br />
                     on the Planet

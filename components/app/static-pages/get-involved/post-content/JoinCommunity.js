@@ -4,8 +4,23 @@ import { Link } from 'routes';
 // Components
 import CardApp from 'components/app/common/CardApp';
 import Banner from 'components/app/common/Banner';
+import Modal from 'components/modal/modal-component';
 
-function JoinCommunity() {
+class JoinCommunity extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showNewsletterModal: false
+    };
+  }
+
+  handleToggleShareModal = (bool) => {
+    this.setState({ showNewsletterModal: bool });
+  }
+
+  render() {
   const cards = [
     {
       id: 'contact-us',
@@ -26,18 +41,8 @@ function JoinCommunity() {
         label: '@resource_watch',
         external: true
       }
-    },
-    {
-      id: 'subscribe',
-      title: '',
-      description: 'Sign up for our newsletter to receive highlights and updates.',
-      link: {
-        route: '/about/contact-us',
-        label: 'Subscribe to our newsletter',
-        external: false
-      }
     }
-  ];
+  ]
 
   return (
     <div>
@@ -55,19 +60,42 @@ function JoinCommunity() {
                   />
               </div>
             ))}
+            <div className="c-card-app -compact" >
+              <div className="card-container">
+                <div className="card-content">
+                  Sign up for our newsletter to receive highlights and updates.
+                </div>
+                <div className="card-footer">
+                  <button
+                    className="c-button"
+                    onClick={() => this.handleToggleShareModal(true)}
+                    >
+                    Subscribe to our newsletter
+                    <Modal
+                      isOpen={this.state.showNewsletterModal}
+                      className="-medium"
+                      onRequestClose={() => this.handleToggleShareModal(false)}
+                      >
+                      <NewsletterModal />
+                    </Modal>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </aside>
+
       <aside>
         <div className="l-container">
           <div className="row align-center">
             <div className="column small-12">
-              <Banner className="-text-center" bgImage={'/static/images/backgrounds/partners-02@2x.jpg'}>
+              <Banner className="-text-center" bgImage={'/static/images/backgrounds/bg-partner-maryland.jpg'}>
                 <p className="-claim">
                   Let&rsquo;s build a more sustainable<br /> world together.
                 </p>
                 <Link to="about_partners">
-                  <a className="c-btn -primary">Partners</a>
+                  <a className="c-btn -primary -alt">Partners</a>
                 </Link>
               </Banner>
             </div>
@@ -76,6 +104,7 @@ function JoinCommunity() {
       </aside>
     </div>
   );
+  }
 }
 
 JoinCommunity.propTypes = {};

@@ -62,29 +62,6 @@ class NewsletterModalComponent extends PureComponent {
             validations={['required']}
             className="-fluid"
             properties={{
-              name: 'company',
-              label: 'Company',
-              type: 'text',
-              required: true
-            }}
-          >
-            {Input}
-          </Field>
-          <Field
-            className="-fluid"
-            properties={{
-              name: 'job_title',
-              label: 'Job title',
-              type: 'text',
-              required: false
-            }}
-          >
-            {Input}
-          </Field>
-          <Field
-            validations={['required']}
-            className="-fluid"
-            properties={{
               name: 'city',
               label: 'City',
               type: 'text',
@@ -105,6 +82,29 @@ class NewsletterModalComponent extends PureComponent {
             }}
           >
             {Select}
+          </Field>
+          <Field
+            validations={['required']}
+            className="-fluid"
+            properties={{
+              name: 'company',
+              label: 'Company',
+              type: 'text',
+              required: true
+            }}
+          >
+            {Input}
+          </Field>
+          <Field
+            className="-fluid"
+            properties={{
+              name: 'job_title',
+              label: 'Job title',
+              type: 'text',
+              required: false
+            }}
+          >
+            {Input}
           </Field>
           { /* pardot honeypot field */ }
           <Field

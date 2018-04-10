@@ -155,8 +155,8 @@ class ExploreDetail extends Page {
             <div className="l-container">
               <div className="row align-center">
                 <div className="column small-12">
-                  <Banner className="partners -text-center">
-                    <p className="-claim">Take the pulse of our planet.</p>
+                  <Banner className="-text-center" bgImage="/static/images/pages/app/bg-banner-planetPulse.jpg">
+                    <p className="-claim">View near-real-time data <br />on the planet.</p>
                     <a href="/data/pulse" className="c-button -primary -alt">Launch Planet Pulse</a>
                   </Banner>
                 </div>
