@@ -99,10 +99,11 @@ class AlertWidget extends React.Component {
   onChangeLayer = (l) => {
     const { layerGroups } = this.state;
 
-    const layers = layerGroups[0].layers.map((layer) => {
-      layer.active = layer.id === l.id;
-      return layer;
-    });
+    const layers = layerGroups.length && 'layers' in layerGroups[0] ?
+      layerGroups[0].layers.map((layer) => {
+        layer.active = layer.id === l.id;
+        return layer;
+      }) : [];
 
     layerGroups[0] = Object.assign({}, layerGroups[0], layers);
     this.setState({ layerGroups });
