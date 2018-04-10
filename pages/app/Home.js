@@ -102,8 +102,11 @@ class Home extends Page {
   }
 
   static exploreCardsStatic() {
-    return exploreCards.map(c =>
-      (<div key={`explore-card-${c.title}`} className="column small-12 medium-6">
+    return exploreCards.map(c => (
+      <div
+        key={`explore-card-${c.title}-${c.tag}`}
+        className="column small-12 medium-6"
+      >
         <CardStatic
           className="-alt -clickable"
           background={c.background}
@@ -119,7 +122,7 @@ class Home extends Page {
           <div className="buttons -align-center">
             {c.buttons.map((b) => {
               if (b.loginRequired) {
-                return(
+                return (
                   <LoginRequired text={b.loginRequired}>
                     <a href={b.path} key={b.path} className={`c-btn -alt ${b.className}`}>{b.text}</a>
                   </LoginRequired>
@@ -136,8 +139,8 @@ class Home extends Page {
             })}
           </div>
         </CardStatic>
-      </div>)
-    );
+      </div>
+    ));
   }
 
   constructor(props) {
@@ -245,9 +248,8 @@ class Home extends Page {
                         <NewsletterModal />
                       </Modal>
                     </button>
-                    <Link route="blog">
-                      <a className="c-btn -primary">More stories</a>
-                    </Link>
+
+                    <a href="/blog" className="c-btn -primary">More stories</a>
                   </div>
                 </div>
               </div>
@@ -262,7 +264,7 @@ class Home extends Page {
                 <div className="column small-12 medium-8">
                   <h2>Topics</h2>
                   <p>
-                    Find facts and figures on people and the environment, <br/>
+                    Find facts and figures on people and the environment, <br />
                     or visualize the latest data on the world today.
                   </p>
                 </div>
@@ -307,7 +309,7 @@ class Home extends Page {
         </section>
 
 
-        <Banner className="get-involved" bgImage={'/static/images/backgrounds/mod_getInvolved.jpg'}>
+        <Banner className="get-involved" bgImage="/static/images/backgrounds/mod_getInvolved.jpg">
           <div className="l-container">
             <div className="l-row row">
               <div className="column small-12 medium-8">
