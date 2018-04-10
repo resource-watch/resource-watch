@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ORIGIN = (typeof window !== 'undefined') ? window.location.origin : 'https://staging.resourcewatch.org';
+const ORIGIN = (typeof window !== 'undefined') ? window.location.origin : 'https://resourcewatch.org';
 
 export const PANORAMAS = [
   {
