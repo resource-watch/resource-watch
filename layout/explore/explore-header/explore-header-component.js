@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 // Components
 import DatasetSearch from 'components/datasets/search';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 class ExploreHeaderComponent extends React.Component {
   static propTypes = {
     open: PropTypes.bool,
@@ -28,6 +31,7 @@ class ExploreHeaderComponent extends React.Component {
   onChangeSearch = (search) => {
     this.props.setFiltersSearch(search);
     this.fetchDatasets();
+    logEvent('Explore Menu', 'search', search);
   }
 
   onToggleSelected = (payload) => {
@@ -39,12 +43,15 @@ class ExploreHeaderComponent extends React.Component {
     const { tab } = this.props;
 
     this.props.setFiltersSelected({ key: tab, list: payload });
+
     this.fetchDatasets();
+    logEvent('Explore Menu', `filter ${tab}`, payload);
   }
 
   onResetSelected = () => {
     this.props.resetFiltersSelected();
     this.fetchDatasets();
+    logEvent('Explore Menu', 'Clear filters', 'click');
   }
 
   fetchDatasets() {

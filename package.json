@@ -122,7 +122,7 @@
     "webpack": "^3.6.0",
     "whatwg-fetch": "2.0.2",
     "widget-editor": "1.0.6",
-    "wri-api-components": "1.0.1",
+    "wri-api-components": "1.0.2",
     "wri-json-api-serializer": "1.0.1"
   },
   "devDependencies": {
