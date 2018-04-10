@@ -53,26 +53,6 @@ spec:
                 secretKeyRef:
                   name: appsecrets
                   key: RW_SECRET
-          - name: USERNAME
-            valueFrom:
-                secretKeyRef:
-                  name: appsecrets
-                  key: RW_USERNAME
-          - name: PASSWORD
-            valueFrom:
-                secretKeyRef:
-                  name: appsecrets
-                  key: RW_PASSWORD
-          - name: RW_USERNAME
-            valueFrom:
-                secretKeyRef:
-                  name: appsecrets
-                  key: RW2_USERNAME
-          - name: RW_PASSWORD
-            valueFrom:
-                secretKeyRef:
-                  name: appsecrets
-                  key: RW2_PASSWORD
           - name: REDIS_URL
             valueFrom:
                 secretKeyRef:

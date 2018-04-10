@@ -7,10 +7,12 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const basicAuth = require('basic-auth');
 const sass = require('node-sass');
+const serveStatic = require('serve-static');
 const postcssMiddleware = require('postcss-middleware');
 const redis = require('redis');
 const RedisStore = require('connect-redis')(session);
 const { parse } = require('url');
+const path = require('path');
 const routes = require('./routes');
 const postcssConfig = require('./postcss.config');
 const auth = require('./auth');
@@ -79,13 +81,14 @@ if (prod) {
 }
 
 // Using basic auth in prod mode
-if (prod) {
+const { USERNAME, PASSWORD, RW_USERNAME, RW_PASSWORD } = process.env;
+if (prod && ((USERNAME && PASSWORD) || (RW_USERNAME && RW_PASSWORD))) {
   server.use(checkBasicAuth([{
-    name: process.env.USERNAME,
-    pass: process.env.PASSWORD
+    name: USERNAME,
+    pass: PASSWORD
   }, {
-    name: process.env.RW_USERNAME,
-    pass: process.env.RW_PASSWORD
+    name: RW_USERNAME,
+    pass: RW_PASSWORD
   }]));
 }
 
@@ -94,6 +97,7 @@ server.use(cookieParser());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 server.use(session(sessionOptions));
+server.use(serveStatic(path.join(__dirname, 'static')));
 
 // Middleware check: Make sure that we trigger auth if a token is passed to RW
 server.use((req, res, nextAction) => {
