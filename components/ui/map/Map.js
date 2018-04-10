@@ -129,7 +129,7 @@ class Map extends React.Component {
     }
 
     if (mapOptions && mapOptions.bounds) {
-      this.fitBounds({ geometry: mapOptions.bounds.geometry });
+      this.fitBounds({ geometry: mapOptions.bounds });
     }
   }
 

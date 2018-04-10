@@ -39,7 +39,7 @@ const about = [
   { name: 'Contact Us', route: 'about_contact-us' },
   { name: 'Terms of Service', route: 'terms-of-service' },
   { name: 'Privacy Policy', route: 'privacy-policy' },
-  { name: 'API attribution requirements', route: 'api-attribution-requirements' }
+  { name: 'API attribution requirements', route: 'attribution-requirements' }
 ];
 
 const blog = [
@@ -50,7 +50,7 @@ const getInvolved = [
   { name: 'Get Involved', route: 'get_involved' },
   { name: 'Suggest a Story', route: 'get_involved_detail', params: { id: 'suggest-a-story' } },
   { name: 'Contribute Data', route: 'get_involved_detail', params: { id: 'contribute-data' } },
-  { name: 'Join the Community', route: 'get_involved_detail', params: { id: 'join-community' } },
+  { name: 'Join the Community', route: 'get_involved_detail', params: { id: 'join-the-community' } },
   { name: 'Develop Your App', route: 'get_involved_detail', params: { id: 'develop-your-app' } }
 ];
 

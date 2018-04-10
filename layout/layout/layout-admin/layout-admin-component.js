@@ -8,9 +8,11 @@ import { initGA, logPageView } from 'utils/analytics';
 // Components
 import { Router } from 'routes';
 
+// Wri-api-components
+import { Icons } from 'wri-api-components';
+
 import Head from 'layout/head/admin';
 import Header from 'layout/header-admin';
-import Icons from 'layout/icons';
 
 import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';

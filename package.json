@@ -113,6 +113,7 @@
     "redux-tools": "github:vizzuality/redux-tools#3.3.0",
     "reselect": "3.0.1",
     "sass-loader": "6.0.6",
+    "serve-static": "^1.13.2",
     "session-file-store": "1.0.0",
     "sqlite3": "^3.1.13",
     "three": "0.83.0",
@@ -121,8 +122,8 @@
     "vizz-wysiwyg": "1.1.13",
     "webpack": "^3.6.0",
     "whatwg-fetch": "2.0.2",
-    "widget-editor": "1.0.5",
-    "wri-api-components": "1.0.1",
+    "widget-editor": "1.0.6",
+    "wri-api-components": "1.0.3",
     "wri-json-api-serializer": "1.0.1"
   },
   "devDependencies": {
