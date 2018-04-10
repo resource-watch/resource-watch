@@ -25,6 +25,7 @@ import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 import AreasService from 'services/AreasService';
 
 // Utils
+import { getLabel } from 'utils/datasets/dataset-helpers';
 import LayerManager from 'utils/layers/LayerManager';
 
 const MAP_CONFIG = {
@@ -116,7 +117,7 @@ class AreaCard extends React.Component {
   render() {
     const { loading } = this.state;
     const { area, user, alerts } = this.props;
-    const { name, id } = area.attributes;
+    const { name } = area.attributes;
     const { subscription } = area;
     const subscriptionConfirmed = area.subscription && area.subscription.attributes.confirmed;
 
@@ -126,7 +127,7 @@ class AreaCard extends React.Component {
 
     // TODO: Selector
     let layerGroups = [];
-    if (user.areas.layerGroups.hasOwnProperty(area.id)) {
+    if (area.id in user.areas.layerGroups) {
       layerGroups = user.areas.layerGroups[area.id];
     }
 
@@ -164,7 +165,7 @@ class AreaCard extends React.Component {
                             params={{ id: alert.id }}
                           >
                             <a>
-                              {alert.dataset.label}
+                              {getLabel(alert.dataset)}
                             </a>
                           </Link>
                         </div>
@@ -226,17 +227,10 @@ class AreaCard extends React.Component {
   }
 }
 
-
-AreaCard.defaultProps = {
-  openSubscriptionsModal: false
-};
-
 AreaCard.propTypes = {
   area: PropTypes.object.isRequired,
-  openSubscriptionsModal: PropTypes.bool,
-  subscriptionThreshold: PropTypes.bool,
-  subscriptionType: PropTypes.bool,
-  subscriptionDataset: PropTypes.bool,
+  user: PropTypes.object.isRequired,
+  alerts: PropTypes.object.isRequired,
   // Store
   toggleTooltip: PropTypes.func.isRequired,
   removeUserArea: PropTypes.func.isRequired
