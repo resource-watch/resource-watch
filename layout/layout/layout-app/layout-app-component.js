@@ -5,11 +5,13 @@ import Progress from 'react-progress-2';
 // Utils
 import { initGA, logPageView } from 'utils/analytics';
 
+// Wri-api-components
+import { Icons } from 'wri-api-components';
+
 // Components
 import { Router } from 'routes';
 import Head from 'layout/head/app';
 import Header from 'layout/header';
-import Icons from 'layout/icons';
 import Footer from 'layout/footer';
 import UserReport from 'layout/user-report';
 
