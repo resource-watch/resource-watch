@@ -70,7 +70,7 @@ class AttributionRequirements extends Page {
   }
 }
 
-Policy.propTypes = {
+AttributionRequirements.propTypes = {
   data: PropTypes.object,
   getStaticData: PropTypes.func
 };
