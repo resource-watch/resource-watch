@@ -11,9 +11,8 @@ export {
 };
 
 export default connect(
-  ({ latestBlogPosts }) => ({
-    posts: latestBlogPosts && latestBlogPosts.posts,
-    loading: latestBlogPosts.loading
+  state => ({
+    ...state.latestBlogPosts
   }),
   actions
 )(BlogLatestPosts);

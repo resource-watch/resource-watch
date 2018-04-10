@@ -92,9 +92,10 @@ class About extends Page {
         title: 'Openness',
         description: 'We are committed to making information accessible and usable. Whenever possible, our data are made publicly available under open licenses, and the Resource Watch platform is open source for others to use and build upon.',
         link: {
-          label: 'Explore data',
-          route: 'explore',
-          className: '-primary'
+          label: 'Visit our Github',
+          route: 'https://github.com/resource-watch',
+          className: '-primary',
+          external: true
         }
       },
       {
@@ -103,7 +104,7 @@ class About extends Page {
         description: 'A sustainable future is only possible when we work together. Resource Watch is a global partnership of public, private, and civil society organizations, supported by a growing community of users, including you. Learn more about how you can help.',
         link: {
           label: 'Get involved',
-          route: 'get_involved',
+          route: '/get-involved',
           className: '-primary'
         }
       }
@@ -156,7 +157,8 @@ class About extends Page {
                     title={card.title}
                     className="-compact"
                     description={card.description}
-                    buttonType="primary"
+                    link={card.link}
+                    buttonType="secondary"
                       />
                 </div>))}
             </div>

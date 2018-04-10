@@ -1,5 +1,9 @@
 export default {
   posts: [],
-  loading: false,
-  error: null
+  postsLoading: false,
+  postsError: null,
+
+  postsSpotlight: [],
+  postsSpotlightLoading: [],
+  postsSpotlightError: []
 };

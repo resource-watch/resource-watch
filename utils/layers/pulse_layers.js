@@ -212,7 +212,7 @@ export const LAYERS_PLANET_PULSE = [
         rotatableGlobe: true,
         initialPosition: { latitude: 80.4157074446218, longitude: -38.67187499999999, height: 20000000 },
         '3d': false,
-        widgets: ['d87bb471-1ac0-4f79-818a-e270f04185bf'],
+        widgets: [],
         descriptionPulse:
           <div className="description">
             <div className="description-text">

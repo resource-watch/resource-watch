@@ -21,6 +21,7 @@ import TopicThumbnailList from 'components/topics/thumbnail-list';
 import BlogLatestPosts from 'components/blog/latest-posts';
 import YouTube from 'react-youtube';
 import MediaQuery from 'react-responsive';
+import LoginRequired from 'components/ui/login-required';
 
 // Modal
 import Modal from 'components/modal/modal-component';
@@ -57,11 +58,13 @@ const exploreCards = [
   {
     tag: 'Dashboards',
     title: 'Create and share visualizations',
-    intro: 'Create overlays, share visualizations, and subscribe to updates on your favorite issues.',
+    intro: 'Create and share custom visualizations or craft your own personal monitoring system.',
     buttons: [
       {
         text: 'Create a dashboard',
-        path: 'dashboards',
+        path: '/myrw/dashboards',
+        anchor: true,
+        loginRequired: 'Log in to create a dashboard',
         className: '-primary'
       }
     ],
@@ -76,6 +79,7 @@ const exploreCards = [
         text: 'Sign up for alerts',
         path: '/myrw/areas',
         anchor: true,
+        loginRequired: 'Log in to sign up for alerts',
         className: '-primary'
       }
     ],
@@ -98,8 +102,11 @@ class Home extends Page {
   }
 
   static exploreCardsStatic() {
-    return exploreCards.map(c =>
-      (<div key={`explore-card-${c.title}`} className="column small-12 medium-6">
+    return exploreCards.map(c => (
+      <div
+        key={`explore-card-${c.title}-${c.tag}`}
+        className="column small-12 medium-6"
+      >
         <CardStatic
           className="-alt -clickable"
           background={c.background}
@@ -114,6 +121,13 @@ class Home extends Page {
           </div>
           <div className="buttons -align-center">
             {c.buttons.map((b) => {
+              if (b.loginRequired) {
+                return (
+                  <LoginRequired text={b.loginRequired}>
+                    <a href={b.path} key={b.path} className={`c-btn -alt ${b.className}`}>{b.text}</a>
+                  </LoginRequired>
+                );
+              }
               if (b.anchor) {
                 return (
                   <a href={b.path} key={b.path} className={`c-btn -alt ${b.className}`}>{b.text}</a>
@@ -125,8 +139,8 @@ class Home extends Page {
             })}
           </div>
         </CardStatic>
-      </div>)
-    );
+      </div>
+    ));
   }
 
   constructor(props) {
@@ -234,9 +248,8 @@ class Home extends Page {
                         <NewsletterModal />
                       </Modal>
                     </button>
-                    <Link route="insights">
-                      <a className="c-btn -primary">More stories</a>
-                    </Link>
+
+                    <a href="/blog" className="c-btn -primary">More stories</a>
                   </div>
                 </div>
               </div>
@@ -251,7 +264,7 @@ class Home extends Page {
                 <div className="column small-12 medium-8">
                   <h2>Topics</h2>
                   <p>
-                    Find facts and figures on people and the environment, <br/>
+                    Find facts and figures on people and the environment, <br />
                     or visualize the latest data on the world today.
                   </p>
                 </div>
@@ -296,7 +309,7 @@ class Home extends Page {
         </section>
 
 
-        <Banner className="get-involved" bgImage={'/static/images/backgrounds/mod_getInvolved.jpg'}>
+        <Banner className="get-involved" bgImage="/static/images/backgrounds/mod_getInvolved.jpg">
           <div className="l-container">
             <div className="l-row row">
               <div className="column small-12 medium-8">

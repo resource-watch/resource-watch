@@ -28,7 +28,7 @@ class EmbedSimilarDatasets extends Page {
   }
 
   isLoadedExternally() {
-    return !/localhost|staging.resourcewatch.org/.test(this.props.referer);
+    return !/localhost|(staging\.)?resourcewatch.org/.test(this.props.referer);
   }
 
   render() {
