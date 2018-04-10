@@ -4,6 +4,9 @@ export default {
   [actions.setBlogPostsLatest]: (state, action) =>
     ({ ...state, posts: action.payload }),
 
+  [actions.setBlogPostsSpotlightLatest]: (state, action) =>
+    ({ ...state, postsSpotlight: action.payload }),
+
   [actions.setLoading]: (state, action) =>
     ({ ...state, loading: action.payload }),
 
