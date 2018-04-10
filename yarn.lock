@@ -9535,9 +9535,9 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
 
-wri-api-components@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-1.0.1.tgz#d58bed45df18fd3e148c20a1fc5dccab95159031"
+wri-api-components@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-1.0.2.tgz#bfef14fe591a76565b50434620c6c70110e98354"
   dependencies:
     prop-types "^15.6.1"
     rc-tooltip "3.7.0"
