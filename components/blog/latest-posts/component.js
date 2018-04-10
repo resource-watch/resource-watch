@@ -6,10 +6,23 @@ import Rating from 'components/app/common/Rating';
 import Spinner from 'components/ui/Spinner';
 
 class BlogPostsLatest extends React.Component {
+  static propTypes = {
+    posts: PropTypes.array,
+    postsLoading: PropTypes.bool,
+    postsSpotlight: PropTypes.array,
+    postsSpotlightLoading: PropTypes.bool,
+
+    fetchBlogPostsLatest: PropTypes.func,
+    fetchBlogPostsSpotlightLatest: PropTypes.func
+  };
+
+  static defaultProps = {
+    posts: []
+  };
+
   componentDidMount() {
-    const { fetchBlogPostsLatest, fetchBlogPostsSpotlightLatest } = this.props;
-    fetchBlogPostsLatest();
-    fetchBlogPostsSpotlightLatest();
+    this.props.fetchBlogPostsLatest();
+    this.props.fetchBlogPostsSpotlightLatest();
   }
 
   getCard = p => (
@@ -39,17 +52,20 @@ class BlogPostsLatest extends React.Component {
   );
 
   render() {
-    const { posts, postsSpotlight, loading } = this.props;
+    const {
+      posts, postsLoading, postsSpotlight, postsSpotlightLoading
+    } = this.props;
+
     return (
       <div className="c-blog-latest-posts insight-cards">
-        {loading &&
-          <Spinner className="-light" isLoading={loading} />
+        {postsLoading && postsSpotlightLoading &&
+          <Spinner className="-light" isLoading />
         }
-        {!loading && posts.length > 0 &&
+        {!postsLoading && !!posts.length && !!postsSpotlight.length &&
           <div className="row">
             <div className="column small-12 medium-8">
-              {postsSpotlight.length > 0 &&
-                this.getCard(postsSpotlight[0]) ||
+              {postsSpotlight.length ?
+                this.getCard(postsSpotlight[0]) :
                 this.getCard(posts[2])
               }
             </div>
@@ -65,16 +81,5 @@ class BlogPostsLatest extends React.Component {
     );
   }
 }
-
-BlogPostsLatest.propTypes = {
-  posts: PropTypes.array,
-  fetchBlogPostsLatest: PropTypes.func,
-  fetchBlogPostsSpotlightLatest: PropTypes.func,
-  loading: PropTypes.bool
-};
-
-BlogPostsLatest.defaultProps = {
-  posts: []
-};
 
 export default BlogPostsLatest;

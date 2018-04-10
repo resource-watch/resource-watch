@@ -1,15 +1,23 @@
 import * as actions from './actions';
 
 export default {
-  [actions.setBlogPostsLatest]: (state, action) =>
+  [actions.setPosts]: (state, action) =>
     ({ ...state, posts: action.payload }),
 
-  [actions.setBlogPostsSpotlightLatest]: (state, action) =>
+  [actions.setPostsLoading]: (state, action) =>
+    ({ ...state, postsLoading: action.payload }),
+
+  [actions.setPostsError]: (state, action) =>
+    ({ ...state, postsError: action.payload }),
+
+  // SPOTLIGHT
+  [actions.setPostsSpotlight]: (state, action) =>
     ({ ...state, postsSpotlight: action.payload }),
 
-  [actions.setLoading]: (state, action) =>
-    ({ ...state, loading: action.payload }),
+  [actions.setPostsSpotlightLoading]: (state, action) =>
+    ({ ...state, postsSpotlightLoading: action.payload }),
 
-  [actions.setError]: (state, action) =>
-    ({ ...state, error: action.payload })
+  [actions.setPostsSpotlightError]: (state, action) =>
+    ({ ...state, postsSpotlightError: action.payload })
+
 };
