@@ -8,6 +8,9 @@ import * as actions from 'layout/explore/explore-actions';
 import Geosuggest from 'react-geosuggest';
 import Icon from 'components/ui/Icon';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 class SearchControl extends React.Component {
   static propTypes = {
     setMapLocation: PropTypes.func
@@ -46,6 +49,10 @@ class SearchControl extends React.Component {
           ...location,
           zoom: 7
         });
+      }
+
+      if ('label' in e) {
+        logEvent('Explore map', ' Search for a place', e.label);
       }
 
       this.onToggleSearchInput(false);
