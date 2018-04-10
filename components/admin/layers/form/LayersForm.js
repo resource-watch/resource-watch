@@ -126,8 +126,9 @@ class LayersForm extends React.Component {
 
       // Verify that layers are valid, otherwise render error
       const { adminLayerPreview } = this.props;
-      const cartoLayer = adminLayerPreview.layerGroups[0].layers
-      .filter(layer => layer.provider === 'cartodb');
+      const { layerGroups } = adminLayerPreview;
+      const cartoLayer = layerGroups.length && 'layers' in layerGroups[0] ?
+        layerGroups[0].layers.filter(layer => layer.provider === 'cartodb') : [];
 
       if (valid) {
         // Start the submitting
@@ -228,9 +229,8 @@ class LayersForm extends React.Component {
 
     const { form } = this.state;
 
-
-    const cartoLayer = layerGroups.length ? layerGroups[0].layers
-      .filter(layer => layer.provider === 'cartodb') : [];
+    const cartoLayer = layerGroups.length && 'layers' in layerGroups[0] ?
+      layerGroups[0].layers.filter(layer => layer.provider === 'cartodb') : [];
 
     if (cartoLayer.length) {
       // If we have carto layers, make sure they work
