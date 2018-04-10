@@ -5,7 +5,7 @@ import { Link } from 'routes';
 import CardApp from 'components/app/common/CardApp';
 import Banner from 'components/app/common/Banner';
 
-function JoinCommunity() {
+class JoinCommunity extends React.Component {
   const cards = [
     {
       id: 'contact-us',

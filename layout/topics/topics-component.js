@@ -67,7 +67,7 @@ class TopicsComponent extends React.PureComponent {
               <div className="column small-12">
                 <Banner className="-text-center">
                   <p className="-claim">
-                    Create and share <br \>custom visualizations.
+                    Create and share <br />custom visualizations.
                   </p>
                   <a href='/myrw/dashboards'className="c-button -alt -primary">Create a dashboard</a>
                 </Banner>
