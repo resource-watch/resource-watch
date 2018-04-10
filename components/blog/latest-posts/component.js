@@ -7,8 +7,9 @@ import Spinner from 'components/ui/Spinner';
 
 class BlogPostsLatest extends React.Component {
   componentDidMount() {
-    const { fetchBlogPostsLatest } = this.props;
+    const { fetchBlogPostsLatest, fetchBlogPostsSpotlightLatest } = this.props;
     fetchBlogPostsLatest();
+    fetchBlogPostsSpotlightLatest();
   }
 
   getCard = p => (
@@ -38,7 +39,7 @@ class BlogPostsLatest extends React.Component {
   );
 
   render() {
-    const { posts, loading } = this.props;
+    const { posts, postsSpotlight, loading } = this.props;
     return (
       <div className="c-blog-latest-posts insight-cards">
         {loading &&
@@ -47,12 +48,15 @@ class BlogPostsLatest extends React.Component {
         {!loading && posts.length > 0 &&
           <div className="row">
             <div className="column small-12 medium-8">
-              {this.getCard(posts[0])}
+              {postsSpotlight.length > 0 &&
+                this.getCard(postsSpotlight[0]) ||
+                this.getCard(posts[2])
+              }
             </div>
             <div className="column small-12 medium-4">
               <div className="dual">
+                {this.getCard(posts[0])}
                 {this.getCard(posts[1])}
-                {this.getCard(posts[2])}
               </div>
             </div>
           </div>
@@ -65,6 +69,7 @@ class BlogPostsLatest extends React.Component {
 BlogPostsLatest.propTypes = {
   posts: PropTypes.array,
   fetchBlogPostsLatest: PropTypes.func,
+  fetchBlogPostsSpotlightLatest: PropTypes.func,
   loading: PropTypes.bool
 };
 
