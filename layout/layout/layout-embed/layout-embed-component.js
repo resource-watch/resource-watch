@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 // Components
 import { Router } from 'routes';
 
+// Wri-api-components
+import { Icons } from 'wri-api-components';
+
 import Head from 'layout/head/app';
-import Icons from 'layout/icons';
 import Tooltip from 'components/ui/Tooltip';
 
 class LayoutEmbed extends React.Component {
