@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 // Utils
 import isEmpty from 'lodash/isEmpty';
+import { getLabel } from 'utils/datasets/dataset-helpers';
 import { logEvent } from 'utils/analytics';
 
 // Next
@@ -47,6 +48,7 @@ class ExploreDetailButtons extends PureComponent {
     const { dataset } = this.props;
     return dataset && !isEmpty(dataset.subscribable);
   }
+
 
   /**
    * UI EVENTS
@@ -100,7 +102,7 @@ class ExploreDetailButtons extends PureComponent {
               className="c-button -secondary"
               target="_blank"
               href={metadata.info && metadata.info.data_download_link}
-              onClick={() => logEvent('Explore', 'Download data', dataset && dataset.attributes.name)}
+              onClick={() => logEvent('Explore', 'Download data', getLabel(dataset))}
             >
               Download
             </a>
@@ -135,6 +137,7 @@ class ExploreDetailButtons extends PureComponent {
             <a
               className="c-button -secondary"
               target="_blank"
+              onClick={() => logEvent('Explore', 'Download data from source', getLabel(dataset))}
               href={metadata.info && metadata.info.data_download_original_link}
             >
               <span>

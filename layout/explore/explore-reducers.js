@@ -1,5 +1,8 @@
+import { logEvent } from 'utils/analytics';
+
 import * as actions from './explore-actions';
 import initialState from './explore-default-state';
+
 
 export default {
   // EXPLORE
@@ -33,6 +36,7 @@ export default {
   },
   [actions.setDatasetsMode]: (state, action) => {
     const datasets = { ...state.datasets, mode: action.payload };
+    logEvent('Explore Menu', 'Change dataset view', action.payload);
     return { ...state, datasets };
   },
 
@@ -138,6 +142,9 @@ export default {
         visible: true,
         layers: dataset.layer.map((l, index) => ({ ...l, active: index === 0 }))
       });
+      if (layerGroups[0].layers.length) {
+        logEvent('Explore Map', 'Add layer', layerGroups[0].layers[0].name);
+      }
     } else {
       const index = layerGroups.findIndex(l => l.dataset === dataset.id);
       layerGroups.splice(index, 1);
