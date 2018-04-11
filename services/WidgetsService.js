@@ -152,6 +152,9 @@ export default class WidgetsService {
         headers: [{
           key: 'Authorization',
           value: this.opts.authorization
+        }, {
+          key: 'Upgrade-Insecure-Requests',
+          value: 1
         }],
         onSuccess: (response) => {
           resolve(response);
