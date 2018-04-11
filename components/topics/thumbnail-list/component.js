@@ -33,7 +33,7 @@ export default function TopicThumbnailList({
                   '-active': topic.slug === selected
                 })}
                 style={{
-                  backgroundImage: `url(${topic.photo.original})`
+                  backgroundImage: `url(${topic.photo.medium})`
                 }}
                 onClick={() => onSelect(topic)}
               >

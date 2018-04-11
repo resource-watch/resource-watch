@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Router from 'next/router';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -59,10 +60,16 @@ const MYRW_TABS = [{
 class MyRW extends Page {
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
+    const { user } = props;
     const { tab } = props.url.query;
 
     if (tab === 'areas') {
       await context.store.dispatch(getUserAreas({ layerGroups: true }));
+    }
+
+    // If user is not logged redirect to login
+    if (!user.token && typeof window !== 'undefined') {
+      window.location.pathname = '/login';
     }
 
     return { ...props };
@@ -90,6 +97,9 @@ class MyRW extends Page {
 
   render() {
     const { url, user } = this.props;
+
+    if (!user.token) return null;
+
     const { tab, subtab } = this.state;
     const userName = user && user.name ? ` ${user.name.split(' ')[0]}` : '';
     const title = userName ? `Hi${userName}!` : 'My Resource Watch';

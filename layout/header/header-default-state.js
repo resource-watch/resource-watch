@@ -73,7 +73,7 @@ export default {
     {
       id: 'myrw',
       label: 'Personal Area',
-      route: 'myrw'
+      href: '/myrw'
     }
   ]
 };

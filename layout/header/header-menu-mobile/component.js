@@ -89,11 +89,13 @@ export default class HeaderMenuMobile extends React.PureComponent {
                     }
 
                     {item.href &&
-                      <a
-                        href={item.href}
-                      >
-                        {item.label}
-                      </a>
+                      <h2>
+                        <a
+                          href={item.href}
+                        >
+                          {item.label}
+                        </a>
+                      </h2>
                     }
 
 
