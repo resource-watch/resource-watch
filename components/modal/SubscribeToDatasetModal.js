@@ -306,11 +306,12 @@ class SubscribeToDatasetModal extends React.Component {
       saved
     } = this.state;
     const { dataset } = this.props;
+    const datasetName = (dataset.metadata && dataset.metadata.info && dataset.metadata.info.name) || (dataset.name);
     let headerText;
     if (saved) {
       headerText = 'Subscription saved!';
     } else if (dataset) {
-      headerText = `Subscribe to ${dataset.name || dataset.attributes.name}`;
+      headerText = `Subscribe to ${datasetName}`;
     }
     const paragraphText = saved ?
       (<p>
