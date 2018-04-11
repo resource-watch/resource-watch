@@ -72,7 +72,8 @@ export default class UserService {
     const resourceTypeSt = (resourceType !== null) ? `&resource-type=${resourceType}` : '';
     return fetch(`${this.opts.apiURL}/favourite?include=${include}${resourceTypeSt}&application=${process.env.APPLICATIONS}`, {
       headers: {
-        Authorization: token
+        Authorization: token,
+        'Upgrade-Insecure-Requests': 1
       }
     })
       .then((response) => {
@@ -220,7 +221,8 @@ export default class UserService {
     return new Promise((resolve, reject) => {
       fetch(`${this.opts.apiURL}/area?application=${process.env.APPLICATIONS}`, {
         headers: {
-          Authorization: token
+          Authorization: token,
+          'Upgrade-Insecure-Requests': 1
         }
       })
         .then((response) => {
@@ -296,7 +298,8 @@ export default class UserService {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: token
+        Authorization: token,
+        'Upgrade-Insecure-Requests': 1
       }
     })
       .then(response => response.json());

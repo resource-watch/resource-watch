@@ -50,7 +50,7 @@ class WidgetsEdit extends React.Component {
     };
 
     this.widgetService = new WidgetService(this.props.id,
-      { apiURL: process.env.CONTROL_TOWER_URL });
+      { apiURL: process.env.WRI_API_URL });
 
     // ------------------- Bindings -----------------------
     this.onSubmit = this.onSubmit.bind(this);
