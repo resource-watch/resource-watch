@@ -35,6 +35,9 @@ class WidgetActionsTooltip extends React.Component {
       case 'go_to_dataset':
         this.props.onGoToDataset();
         break;
+      case 'add_to_dashboard':
+        this.props.onAddToDashboard();
+        break;
       case 'share_embed':
         this.props.onShareEmbed();
         break;
@@ -59,6 +62,11 @@ class WidgetActionsTooltip extends React.Component {
           <li>
             <button onClick={() => this.handleClick('share_embed')}>
               Share/Embed
+            </button>
+          </li>
+          <li>
+            <button onClick={() => this.handleClick('add_to_dashboard')}>
+              Add to dashboard
             </button>
           </li>
           {widgetLinks.length === 0 &&
@@ -90,6 +98,7 @@ WidgetActionsTooltip.propTypes = {
   toggleTooltip: PropTypes.func.isRequired,
   // Callbacks
   onGoToDataset: PropTypes.func.isRequired,
+  onAddToDashboard: PropTypes.func.isRequired,
   onShareEmbed: PropTypes.func.isRequired,
   onEditWidget: PropTypes.func.isRequired,
   onDownloadPDF: PropTypes.func.isRequired
