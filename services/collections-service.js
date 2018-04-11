@@ -14,7 +14,8 @@ class CollectionsService {
       fetch(`${process.env.WRI_API_URL}/collection?${queryParams}`, {
         method: 'GET',
         headers: {
-          Authorization: token
+          Authorization: token,
+          'Upgrade-Insecure-Requests': 1
         }
       })
         .then((response) => {
@@ -44,7 +45,8 @@ class CollectionsService {
       fetch(`${process.env.WRI_API_URL}/collection/${collectionId}`, {
         method: 'GET',
         headers: {
-          Authorization: token
+          Authorization: token,
+          'Upgrade-Insecure-Requests': 1
         }
       })
         .then((response) => {

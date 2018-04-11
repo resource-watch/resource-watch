@@ -27,6 +27,9 @@ export default class DashboardsService {
         }, {
           key: 'Authorization',
           value: this.opts.authorization
+        }, {
+          key: 'Upgrade-Insecure-Requests',
+          value: 1
         }],
         onSuccess: response => new Deserializer({
           keyForAttribute: 'underscore_case'
@@ -44,6 +47,10 @@ export default class DashboardsService {
     return new Promise((resolve, reject) => {
       get({
         url: `${process.env.API_URL}/dashboards/${id}`,
+        headers: [{
+          key: 'Upgrade-Insecure-Requests',
+          value: 1
+        }],
         onSuccess: (response) => {
           new Deserializer({
             keyForAttribute: 'underscore_case'

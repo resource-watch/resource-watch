@@ -45,7 +45,15 @@ export default class DatasetService {
    */
   fetchData(includes = '', applications = [process.env.APPLICATIONS]) {
     const url = `${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&language=${this.opts.language}&includes=${includes}&page[size]=999`;
-    return fetch(url)
+    return fetch(
+      url,
+      {
+        method: 'GET',
+        headers: {
+          'Upgrade-Insecure-Requests': 1
+        }
+      }
+    )
       .then((response) => {
         if (response.status >= 400) throw Error(response.statusText);
         return response.json();
@@ -59,7 +67,15 @@ export default class DatasetService {
    */
   fetchDataset(includes = '', applications = [process.env.APPLICATIONS]) {
     const url = `${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&language=${this.opts.language}&includes=${includes}&page[size]=999`;
-    return fetch(url)
+    return fetch(
+      url,
+      {
+        method: 'GET',
+        headers: {
+          'Upgrade-Insecure-Requests': 1
+        }
+      }
+    )
       .then((response) => {
         if (response.status >= 400) throw Error(response.statusText);
         return response.json();
