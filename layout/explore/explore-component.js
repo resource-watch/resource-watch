@@ -27,7 +27,7 @@ class Explore extends React.Component {
     return (
       <Layout
         title="Explore"
-        description="Explore description"
+        description="Explore and overlay hundreds of datasets on climate change, poverty, state instability, urban infrastructure and more "
         className="-fullscreen"
         category="Dataset"
       >
