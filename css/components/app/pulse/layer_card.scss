@@ -10,13 +10,7 @@
   border-radius: 4px;
   z-index: 7;
   overflow: auto;
-
-  @media screen and (max-width: map-get($breakpoints, medium)) {
-    max-height: calc(100vh - 100px);
-  }
-  @media screen and (min-width: map-get($breakpoints, medium)) {
-    max-height: calc(100vh - 200px - 100px);
-  }
+  max-height: calc(100% - 200px - 100px);
 
   h3, h5 {
     color: $color-dark-pink;
