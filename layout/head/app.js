@@ -154,6 +154,13 @@ class Head extends React.PureComponent {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
+        {/* Social metadata */}
+        <meta property="og:title"       content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image"       content="/static/images/social-big.jpg" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@resource_watch" />
+
         {Head.getStyles()}
         {this.getCrazyEgg()}
         {this.getUserReport()}
