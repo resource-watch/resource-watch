@@ -6,6 +6,10 @@ import isEmpty from 'lodash/isEmpty';
 import { getLabel } from 'utils/datasets/dataset-helpers';
 import { logEvent } from 'utils/analytics';
 
+// Responsive
+import MediaQuery from 'react-responsive';
+import { breakpoints } from 'utils/responsive';
+
 // Next
 import { Link } from 'routes';
 
@@ -16,6 +20,7 @@ import LoginRequired from 'components/ui/login-required';
 // Modal
 import Modal from 'components/modal/modal-component';
 import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
+
 
 class ExploreDetailButtons extends PureComponent {
   static propTypes = {
@@ -77,23 +82,27 @@ class ExploreDetailButtons extends PureComponent {
           </div>
         }
         {!!dataset.layer.length &&
-          <div>
-            <Link
-              route="explore"
-              params={{
-                layers: encodeURIComponent(JSON.stringify([{
-                  dataset: dataset.id,
-                  opacity: 1,
-                  visible: true,
-                  layer: dataset.layer[0].id
-                }]))
-              }}
-            >
-              <a href="/data/explore" className="c-button -primary">
-                Open in map
-              </a>
-            </Link>
-          </div>
+          <MediaQuery
+            minDeviceWidth={breakpoints.medium - 1}
+          >
+            <div>
+              <Link
+                route="explore"
+                params={{
+                  layers: encodeURIComponent(JSON.stringify([{
+                    dataset: dataset.id,
+                    opacity: 1,
+                    visible: true,
+                    layer: dataset.layer[0].id
+                  }]))
+                }}
+              >
+                <a href="/data/explore" className="c-button -primary">
+                  Open in map
+                </a>
+              </Link>
+            </div>
+          </MediaQuery>
         }
 
         {metadata && metadata.info && metadata.info.data_download_link &&
