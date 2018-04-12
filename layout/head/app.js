@@ -157,7 +157,7 @@ class Head extends React.PureComponent {
         {/* Social metadata */}
         <meta property="og:title"       content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:image"       content="/static/images/social-big.jpg" />
+        <meta property="og:image"       content="https://resourcewatch.org/static/images/social-big.jpg" />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@resource_watch" />
 
