@@ -9498,7 +9498,7 @@ wide-align@^1.1.0:
   dependencies:
     string-width "^1.0.2"
 
-widget-editor@1.0.6:
+widget-editor@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/widget-editor/-/widget-editor-1.0.6.tgz#461815640329d07120387ef10557a10049503356"
   dependencies:
