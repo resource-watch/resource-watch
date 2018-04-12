@@ -63,7 +63,7 @@ class GetInvolvedComponent extends React.PureComponent {
     return (
       <Layout
         title="Get Involved"
-        description="Get Involved description"
+        description="Get Involved with Resource Watch and help us build a bigger and better platform"
         className="l-static p-get-involved"
         url={url}
         user={user}
