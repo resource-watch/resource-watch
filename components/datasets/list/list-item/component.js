@@ -9,6 +9,10 @@ import { Link } from 'routes';
 import Icon from 'components/ui/Icon';
 import LoginRequired from 'components/ui/login-required';
 
+// Responsive
+import MediaQuery from 'react-responsive';
+import { breakpoints } from 'utils/responsive';
+
 // Tooltip
 import { Tooltip } from 'wri-api-components';
 import CollectionsPanel from 'components/collections-panel';
@@ -110,7 +114,23 @@ class DatasetListItem extends React.Component {
     return (
       <div className={`c-dataset-list-item -${mode}`}>
         {/* CHART */}
-        {this.renderChart()}
+        <MediaQuery
+          minDeviceWidth={breakpoints.medium}
+        >
+          {this.renderChart()}
+        </MediaQuery>
+
+        {/* CHART MOBILE */}
+        <MediaQuery
+          maxDeviceWidth={breakpoints.medium}
+        >
+          <Link
+            route="explore_detail"
+            params={{ id: this.props.dataset.id }}
+          >
+            {this.renderChart()}
+          </Link>
+        </MediaQuery>
 
         {/* INFO */}
         <div className="info">
