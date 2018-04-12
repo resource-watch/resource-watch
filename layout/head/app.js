@@ -36,36 +36,43 @@ class Head extends React.PureComponent {
   }
 
   getCrazyEgg() {
-    return <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0069/4623.js" async="async" />;
+    if (typeof window !== 'undefined') {
+      return <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0069/4623.js" async="async" />;
+    }
+    return null;
   }
 
   getUserReport() {
     const { pathname } = this.props.routes;
+
     if (USERREPORT_BLACKLIST.includes(pathname)) {
       return null;
     }
 
-    return (
-      <script
-        type="text/javascript"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{
-          __html: `
-            window._urq = window._urq || [];
-            _urq.push(['setGACode', 'UA-67196006-1']);
-            _urq.push(['initSite', '085d5a65-977b-4c3d-af9f-d0a3624e276f']);
-            (function() {
-            var ur = document.createElement('script');
-            ur.type = 'text/javascript';
-            ur.async = true;
-            ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/userreport.js' : 'http://cdn.userreport.com/userreport.js');
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(ur, s);
-            })();
-          `
-        }}
-      />
-    );
+    if (typeof window !== 'undefined') {
+      return (
+        <script
+          type="text/javascript"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: `
+              window._urq = window._urq || [];
+              _urq.push(['setGACode', 'UA-67196006-1']);
+              _urq.push(['initSite', '085d5a65-977b-4c3d-af9f-d0a3624e276f']);
+              (function() {
+              var ur = document.createElement('script');
+              ur.type = 'text/javascript';
+              ur.async = true;
+              ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/userreport.js' : 'http://cdn.userreport.com/userreport.js');
+              var s = document.getElementsByTagName('script')[0];
+              s.parentNode.insertBefore(ur, s);
+              })();
+            `
+          }}
+        />
+      );
+    }
+    return null;
   }
 
   getTransifexSettings() {
