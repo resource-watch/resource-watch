@@ -141,7 +141,6 @@ class WidgetCard extends PureComponent {
     // ---------------------- Bindings --------------------------
     this.handleRemoveWidget = this.handleRemoveWidget.bind(this);
     this.handleEmbed = this.handleEmbed.bind(this);
-    this.handleAddToDashboard = this.handleAddToDashboard.bind(this);
     this.handleEditWidget = this.handleEditWidget.bind(this);
     this.handleGoToDataset = this.handleGoToDataset.bind(this);
     this.handleDownloadPDF = this.handleDownloadPDF.bind(this);
@@ -333,10 +332,6 @@ class WidgetCard extends PureComponent {
     this.props.setModalOptions(options);
   }
 
-  handleAddToDashboard() { // eslint-disable-line class-methods-use-this
-    // TO-DO implement this
-  }
-
   handleEditWidget() {
     Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: this.props.widget.id });
   }
@@ -377,7 +372,6 @@ class WidgetCard extends PureComponent {
       childrenProps: {
         toggleTooltip: this.props.toggleTooltip,
         onShareEmbed: this.handleEmbed,
-        onAddToDashboard: this.handleAddToDashboard,
         onGoToDataset: this.handleGoToDataset,
         onEditWidget: this.handleEditWidget,
         onDownloadPDF: this.handleDownloadPDF,
