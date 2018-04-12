@@ -140,7 +140,7 @@ export default {
       layerGroups.unshift({
         dataset: dataset.id,
         visible: true,
-        layers: dataset.layer.map((l, index) => ({ ...l, active: index === 0 }))
+        layers: dataset.layer.map(l => ({ ...l, active: l.default }))
       });
       if (layerGroups[0].layers.length) {
         logEvent('Explore Map', 'Add layer', layerGroups[0].layers[0].name);
