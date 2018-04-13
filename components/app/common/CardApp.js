@@ -52,7 +52,7 @@ function CardApp(props) {
               className={`c-button ${buttonClasses} -fullwidth`}
               onClick={() => {
                 if (props.logEvent) {
-                  logEvent('Related apps', title);
+                  logEvent('Related app Go to site clicked', title);
                 }
               }}
             >
