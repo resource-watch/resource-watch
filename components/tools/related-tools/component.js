@@ -39,6 +39,7 @@ class RelatedTools extends PureComponent {
                   background={tool.thumbnail.original}
                   title={tool.title}
                   description={tool.summary}
+                  logEvent
                   link={{
                     label: 'Go to site',
                     route: tool.url,
