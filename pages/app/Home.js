@@ -184,8 +184,8 @@ class Home extends Page {
     };
     return (
       <Layout
-        title="Resource Watch"
-        description="Monitoring the Planet’s Pulse"
+        title="Monitoring the Planet’s Pulse — Resource Watch"
+        description="Trusted and timely data for a sustainable future."
         url={this.props.url}
         user={this.props.user}
         className="page-home"

@@ -246,8 +246,8 @@ class Pulse extends Page {
 
     return (
       <Layout
-        title="Planet Pulse"
-        description="Monitor the Planet's Pulse with near real time data ranging from air quality, natural disasters, climate, forests, and much more"
+        title="Planet Pulse — Resource Watch"
+        description="Planet Pulse provides a snapshot of our changing world."
         url={url}
         user={this.props.user}
       >

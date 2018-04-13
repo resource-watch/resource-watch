@@ -25,12 +25,10 @@ class TopicsComponent extends React.PureComponent {
 
     return (
       <Layout
-        title="Topics"
-        description="Resource Watch Topics"
+        title="Topics — Resource Watch"
+        description="The latest facts and figures on cities, energy, food and more."
         className="l-static p-topics"
-
       >
-
         <div className="l-content">
           <div className="l-content-header">
             <div className="cover" style={styles}>
