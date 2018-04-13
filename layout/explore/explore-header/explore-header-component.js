@@ -39,13 +39,13 @@ class ExploreHeaderComponent extends React.Component {
     this.fetchDatasets();
   }
 
-  onChangeSelected = (payload) => {
+  onChangeSelected = (payload = []) => {
     const { tab } = this.props;
 
     this.props.setFiltersSelected({ key: tab, list: payload });
 
     this.fetchDatasets();
-    logEvent('Explore Menu', `filter ${tab}`, payload);
+    logEvent('Explore Menu', `filter ${tab}`, payload.join(','));
   }
 
   onResetSelected = () => {

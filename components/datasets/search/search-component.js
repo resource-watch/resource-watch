@@ -187,7 +187,10 @@ class SearchComponent extends React.Component {
       index: 0,
       value,
       filteredList,
-      groupedFilteredList: omit(groupBy(filteredList, l => l.labels[1]), ['undefined', 'GEOGRAPHY'])
+      groupedFilteredList: omit(groupBy(filteredList, (l) => {
+        const group = l.labels && l.labels[1];
+        return group || 'undefined';
+      }), ['undefined', 'GEOGRAPHY'])
     });
   }
 
@@ -336,7 +339,9 @@ class SearchComponent extends React.Component {
 
               {Object.keys(groupedFilteredList).map(g => (
                 <div className="search-dropdown-list-item" key={g}>
-                  <h4>Filter by {g.toLowerCase()}:</h4>
+                  {!!g && g.toLowerCase &&
+                    <h4>Filter by {g.toLowerCase()}:</h4>
+                  }
 
                   <ul className="list-item-results">
                     {groupedFilteredList[g].map((l) => {
