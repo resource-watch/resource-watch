@@ -106,8 +106,10 @@ class ExploreDatasetsComponent extends React.Component {
             }}
             onChange={(p) => {
               // Scroll to the top of the list
-              window.scrollTo(0, 0);
-              document.querySelector('.sidebar-content').scrollTo(0, 0);
+              if (window.scrollTo && document.querySelector('.sidebar-content').scrollTo) {
+                window.scrollTo(0, 0);
+                document.querySelector('.sidebar-content').scrollTo(0, 0);
+              }
 
               this.fetchDatasets(p);
             }}
