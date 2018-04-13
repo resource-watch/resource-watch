@@ -26,8 +26,8 @@ class Explore extends React.Component {
     const { responsive } = this.props;
     return (
       <Layout
-        title="Explore"
-        description="Explore and overlay hundreds of datasets on climate change, poverty, state instability, urban infrastructure and more "
+        title="Explore Data Sets — Resource Watch"
+        description="Browse more than 200 global data sets on the state of our planet."
         className="-fullscreen"
         category="Dataset"
       >
