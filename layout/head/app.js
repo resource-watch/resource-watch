@@ -155,9 +155,11 @@ class Head extends React.PureComponent {
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
         {/* Social metadata */}
-        <meta property="og:title"       content={title} />
+        <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:image"       content="https://resourcewatch.org/static/images/social-big.jpg" />
+        <meta property="og:image" content="https://resourcewatch.org/static/images/social-big.jpg" />
+        <meta property="og:url" content="https://resourcewatch.org" />
+        <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@resource_watch" />
 
