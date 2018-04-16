@@ -12,6 +12,12 @@ export const setActiveLayer = createAction('layer-menu/setActiveLayer');
 export const setActiveLayerLoading = createAction('layer-menu/setActiveLayerLoading');
 export const setActiveLayerError = createAction('layer-menu/setActiveLayerError');
 
+export const resetActiveLayer = createThunkAction('layer-menu/resetActiveLayer', () => (dispatch) => {
+  dispatch(setContextActiveLayers([]));
+  dispatch(setActiveLayer(null));
+  dispatch(setActiveLayerLoading(false));
+});
+
 export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer', ({
   id,
   threedimensional,
@@ -94,8 +100,6 @@ export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer
           dispatch(setActiveLayerError(error));
         });
     } else {
-      dispatch(setContextActiveLayers([]));
-      dispatch(setActiveLayer(null));
-      dispatch(setActiveLayerLoading(false));
+      dispatch(resetActiveLayer());
     }
   });

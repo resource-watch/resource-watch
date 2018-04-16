@@ -208,15 +208,6 @@ export const FREQUENCIES = {
       synonyms: ''
     },
     {
-      id: 'hourly',
-      label: 'Hourly',
-      type: [
-        'CONCEPT',
-        'FREQUENCY'
-      ],
-      synonyms: ''
-    },
-    {
       id: 'weekly',
       label: 'Weekly',
       type: [
