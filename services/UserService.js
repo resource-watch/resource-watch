@@ -150,8 +150,6 @@ export default class UserService {
       }
     };
 
-    console.log(bodyObj);
-
     return fetch(`${this.opts.apiURL}/subscriptions`, {
       method: 'POST',
       body: JSON.stringify(bodyObj),
