@@ -62,6 +62,8 @@ class GlobeCesiumComponent extends PureComponent {
       creditsDisplay: false,
       fullscreenButton: false,
       skyAtmosphere: false,
+      selectionIndicator: false,
+      infoBox: false,
       ...this.props.viewerOptions
     });
 
@@ -136,6 +138,12 @@ class GlobeCesiumComponent extends PureComponent {
 
     Cesium.knockout.track(this.viewModel);
 
+    // remove default behavior when double clicking on a 3D shape
+    const handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
+    handler.setInputAction(() => {
+      this.viewer.trackedEntity = undefined;
+    }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+
     this.initGlobe();
 
     // ----- Markers ---------
@@ -156,7 +164,6 @@ class GlobeCesiumComponent extends PureComponent {
     if (nextProps.basemap !== this.props.basemap ||
       nextProps.activeContextLayers !== this.props.activeContextLayers ||
       newMainLayer !== mainLayer) {
-
       this.updateLayers(
         nextProps,
         nextProps.basemap !== this.props.basemap,
@@ -196,9 +203,12 @@ class GlobeCesiumComponent extends PureComponent {
     }
 
     // ---------- initialPosition ----------
-    if (this.props.globeCesium.initialPosition.latitude !== nextProps.globeCesium.initialPosition.latitude ||
-      this.props.globeCesium.initialPosition.longitude !== nextProps.globeCesium.initialPosition.longitude ||
-      this.props.globeCesium.initialPosition.height !== nextProps.globeCesium.initialPosition.height) {
+    if (this.props.globeCesium.initialPosition.latitude !==
+      nextProps.globeCesium.initialPosition.latitude ||
+      this.props.globeCesium.initialPosition.longitude !==
+      nextProps.globeCesium.initialPosition.longitude ||
+      this.props.globeCesium.initialPosition.height !==
+      nextProps.globeCesium.initialPosition.height) {
       this.setPosition(nextProps.globeCesium.initialPosition, 0);
     }
 
@@ -222,8 +232,8 @@ class GlobeCesiumComponent extends PureComponent {
       // Dehighlight the rest of billboards
       this.viewer.entities.values.forEach((entity) => {
         if (entity.type === 'billboard' && entity.id !== pickedFeature.id.id) {
-          entity.highlighted = false;
-          entity.billboard.image = entity.imageNotSelected;
+          entity.highlighted = false; // eslint-disable-line no-param-reassign
+          entity.billboard.image = entity.imageNotSelected; // eslint-disable-line no-param-reassign
         }
       });
       this.props.onBillboardClick(pickedFeature);
