@@ -16,12 +16,14 @@ import HeaderGetInvolved from 'layout/header/header-get-involved';
 export default class HeaderMenu extends React.PureComponent {
   static propTypes = {
     header: PropTypes.object,
-    routes: PropTypes.object
+    routes: PropTypes.object,
+    user: PropTypes.object
   }
 
   static defaultProps = {
     header: {},
-    routes: {}
+    routes: {},
+    user: {}
   }
 
   headerComponents = {
@@ -34,12 +36,17 @@ export default class HeaderMenu extends React.PureComponent {
   }
 
   render() {
-    const { header, routes } = this.props;
+    const { header, user, routes } = this.props;
 
     return (
       <nav className="header-menu">
         <ul>
           {header.items.map((item) => {
+            // If user is defined and is not equal to the current token
+            if (typeof item.user !== 'undefined' && item.user !== !!user.token) {
+              return null;
+            }
+
             const activeClassName = classnames({
               '-active': item.pathnames && item.pathnames.includes(routes.pathname)
             });

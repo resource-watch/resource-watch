@@ -5,6 +5,8 @@ import classnames from 'classnames';
 // Next
 import { Link } from 'routes';
 
+import { toastr } from 'react-redux-toastr';
+
 // Components
 import Icon from 'components/ui/Icon';
 import SearchMobile from 'layout/header/search-mobile';
@@ -13,6 +15,7 @@ export default class HeaderMenuMobile extends React.PureComponent {
   static propTypes = {
     header: PropTypes.object,
     routes: PropTypes.object,
+    user: PropTypes.object,
 
     // Actions
     setMobileOpened: PropTypes.func
@@ -21,6 +24,7 @@ export default class HeaderMenuMobile extends React.PureComponent {
   static defaultProps = {
     header: {},
     routes: {},
+    user: {},
     setMobileOpened: () => {}
   }
 
@@ -30,9 +34,30 @@ export default class HeaderMenuMobile extends React.PureComponent {
     document.body.classList.toggle('no-scroll', header.mobileOpened);
   }
 
+  /**
+   * UI EVENTS
+   * - logout
+  */
+  logout(e) {
+    if (e) {
+      e.preventDefault();
+    }
+
+    // Get to logout
+    fetch(`${process.env.CONTROL_TOWER_URL}/auth/logout`, {
+      credentials: 'include'
+    })
+      .then(() => {
+        window.location.href = `/logout?callbackUrl=${window.location.href}`;
+      })
+      .catch((err) => {
+        toastr.error('Error', err);
+      });
+  }
+
   render() {
     const {
-      header, routes, setMobileOpened
+      header, routes, user, setMobileOpened
     } = this.props;
 
     const classNames = classnames({
@@ -68,6 +93,20 @@ export default class HeaderMenuMobile extends React.PureComponent {
 
             <ul>
               {header.items.map((item) => {
+                const isUserLogged = !!user.token;
+                const isUserAdmin = isUserLogged && user.role === 'ADMIN';
+
+                // If user is defined and is not equal to the current token
+                if (typeof item.user !== 'undefined' && item.user !== isUserLogged) {
+                  return null;
+                }
+
+                // If admin user is defined and is not equal to the current token
+                if (typeof item.admin !== 'undefined' && item.admin !== !isUserAdmin) {
+                  return null;
+                }
+
+
                 const activeClassName = classnames({
                   '-active': item.pathnames && item.pathnames.includes(routes.pathname)
                 });
@@ -98,29 +137,54 @@ export default class HeaderMenuMobile extends React.PureComponent {
                       </h2>
                     }
 
+                    {!item.route && !item.href &&
+                      <h2>{item.label}</h2>
+                    }
+
 
                     {item.children &&
                       <ul>
-                        {item.children.map(c => (
-                          <li key={c.label}>
-                            {!!c.route &&
-                              <Link
-                                route={c.route}
-                                params={c.params}
-                              >
-                                <a>{c.label}</a>
-                              </Link>
-                            }
+                        {item.children.map((c) => {
+                          // If user is defined and is not equal to the current token
+                          if (typeof c.user !== 'undefined' && c.user !== isUserLogged) {
+                            return null;
+                          }
 
-                            {!!c.href &&
-                              <a
-                                href={c.href}
-                              >
-                                {c.label}
-                              </a>
-                            }
-                          </li>
-                         ))}
+                          // If admin user is defined and is not equal to the current token
+                          if (typeof c.admin !== 'undefined' && c.admin !== isUserAdmin) {
+                            return null;
+                          }
+
+                          return (
+                            <li key={c.label}>
+                              {!!c.route &&
+                                <Link
+                                  route={c.route}
+                                  params={c.params}
+                                >
+                                  <a>{c.label}</a>
+                                </Link>
+                              }
+
+                              {!!c.href &&
+                                <a
+                                  href={c.href}
+                                >
+                                  {c.label}
+                                </a>
+                              }
+
+                              {c.id === 'logout' &&
+                                <a
+                                  onClick={this.logout}
+                                  href={c.href}
+                                >
+                                  {c.label}
+                                </a>
+                              }
+                            </li>
+                          );
+                        })}
                       </ul>
                     }
                   </li>
