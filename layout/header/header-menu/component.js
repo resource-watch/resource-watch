@@ -42,8 +42,10 @@ export default class HeaderMenu extends React.PureComponent {
       <nav className="header-menu">
         <ul>
           {header.items.map((item) => {
+            const isUserLogged = !!user.token;
+
             // If user is defined and is not equal to the current token
-            if (typeof item.user !== 'undefined' && item.user !== !!user.token) {
+            if (typeof item.user !== 'undefined' && item.user !== isUserLogged) {
               return null;
             }
 
