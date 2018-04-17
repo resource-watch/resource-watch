@@ -10,8 +10,24 @@
   border-radius: 4px;
   z-index: 7;
   overflow: auto;
-  max-height: calc(100% - 200px - 100px);
+  max-height: calc(100% - 200px - 100px);  
 
+  @media screen and (max-width: map-get($breakpoints, medium)) {
+    position: relative;
+    top: -3px;
+    left: 0;
+    max-width: none;
+    margin: 0 3px;
+    padding: 0 29px 20px 29px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    max-height: calc(100vh - 130px);
+
+    h3 {
+      display: none;
+    }
+  }
+  
   h3, h5 {
     color: $color-dark-pink;
     margin: 0px;
@@ -93,21 +109,6 @@
     .link_button {
       text-transform: uppercase;
       padding: 0px 5px 0px 5px;
-    }
-  }
-
-  @media screen and (max-width: map-get($breakpoints, medium)) {
-    position: relative;
-    top: -3px;
-    left: 0;
-    max-width: none;
-    margin: 0 3px;
-    padding: 0 29px 20px 29px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-
-    h3 {
-      display: none;
     }
   }
 }
