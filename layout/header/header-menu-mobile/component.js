@@ -102,7 +102,7 @@ export default class HeaderMenuMobile extends React.PureComponent {
                 }
 
                 // If admin user is defined and is not equal to the current token
-                if (typeof item.admin !== 'undefined' && item.admin !== !isUserAdmin) {
+                if (typeof item.admin !== 'undefined' && item.admin !== isUserAdmin) {
                   return null;
                 }
 
