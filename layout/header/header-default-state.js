@@ -71,9 +71,25 @@ export default {
       label: 'Search'
     },
     {
+      user: false,
       id: 'myrw',
-      label: 'Personal Area',
-      href: '/myrw'
+      label: 'Log in',
+      children: [
+        { label: 'Facebook', href: '/auth/facebook' },
+        { label: 'Google', href: '/auth/google' },
+        { label: 'Twitter', href: '/auth/twitter' }
+      ]
+    },
+    {
+      user: true,
+      id: 'myrw',
+      route: 'myrw',
+      label: 'My Resource Watch',
+      children: [
+        { label: 'Profile', route: 'myrw' },
+        { label: 'Admin', href: '/admin', admin: true },
+        { label: 'Logout', id: 'logout' } // It should make an ajax call
+      ]
     }
   ]
 };

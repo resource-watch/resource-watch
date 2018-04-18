@@ -1,6 +1,6 @@
 {
   "name": "resource-watch",
-  "version": "2.13.19",
+  "version": "2.13.20",
   "description": "Resource Watch",
   "author": "Vizzuality",
   "license": "MIT",
@@ -123,7 +123,7 @@
     "webpack": "^3.6.0",
     "whatwg-fetch": "2.0.2",
     "widget-editor": "^1.0.6",
-    "wri-api-components": "1.0.3",
+    "wri-api-components": "1.0.4",
     "wri-json-api-serializer": "1.0.1"
   },
   "devDependencies": {

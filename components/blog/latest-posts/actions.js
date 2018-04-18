@@ -39,7 +39,9 @@ export const fetchBlogPostsLatest = createThunkAction('BLOG_POSTS_LATEST_FETCH_D
             path: author.link,
             name: author.name
           },
-          image: media && media.media_details && media.media_details.sizes.medium_large.source_url,
+          image: media && media.media_details && media.media_details.sizes &&
+            media.media_details.sizes.medium_large &&
+            media.media_details.sizes.medium_large.source_url,
           description: p.except ? p.excerpt.rendered : p.content.rendered
         };
       });
@@ -48,6 +50,7 @@ export const fetchBlogPostsLatest = createThunkAction('BLOG_POSTS_LATEST_FETCH_D
       dispatch(setPosts(posts));
     })
     .catch((err) => {
+      console.log(err);
       dispatch(setPostsLoading(false));
       dispatch(setPostsError(err));
     });
@@ -75,7 +78,9 @@ export const fetchBlogPostsSpotlightLatest = createThunkAction('BLOG_POSTS_LATES
             path: author.link,
             name: author.name
           },
-          image: media && media.media_details && media.media_details.sizes.medium_large.source_url,
+          image: media && media.media_details && media.media_details.sizes &&
+            media.media_details.sizes.medium_large &&
+            media.media_details.sizes.medium_large.source_url,
           description: p.except ? p.excerpt.rendered : p.content.rendered
         };
       });

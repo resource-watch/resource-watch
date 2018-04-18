@@ -2,9 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
-// Utils
-import { get } from 'utils/request';
-
 import { Link } from 'routes';
 import { toastr } from 'react-redux-toastr';
 
@@ -23,16 +20,15 @@ class HeaderUser extends React.Component {
     }
 
     // Get to logout
-    get({
-      url: `${process.env.CONTROL_TOWER_URL}/auth/logout`,
-      withCredentials: true,
-      onSuccess: () => {
+    fetch(`${process.env.CONTROL_TOWER_URL}/auth/logout`, {
+      credentials: 'include'
+    })
+      .then(() => {
         window.location.href = `/logout?callbackUrl=${window.location.href}`;
-      },
-      onError: (err) => {
+      })
+      .catch((err) => {
         toastr.error('Error', err);
-      }
-    });
+      });
   }
 
   toggleDropdown = debounce((bool) => {
