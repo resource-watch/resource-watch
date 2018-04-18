@@ -9,6 +9,7 @@ import { breakpoints } from 'utils/responsive';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import * as topicsActions from 'layout/topics/topics-actions';
+import * as blogActions from 'components/blog/latest-posts/actions';
 
 // Layout
 import Page from 'layout/page';
@@ -97,6 +98,10 @@ class Home extends Page {
     await context.store.dispatch(topicsActions.fetchTopics({
       filters: { 'filter[published]': 'true' }
     }));
+
+    // Get blog posts
+    await context.store.dispatch(blogActions.fetchBlogPostsLatest());
+    await context.store.dispatch(blogActions.fetchBlogPostsSpotlightLatest());
 
     return { ...props };
   }

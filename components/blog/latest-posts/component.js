@@ -5,9 +5,6 @@ import CardStatic from 'components/app/common/CardStatic';
 import Rating from 'components/app/common/Rating';
 import Spinner from 'components/ui/Spinner';
 
-// actions
-import * as actions from './actions';
-
 class BlogPostsLatest extends React.Component {
   static propTypes = {
     posts: PropTypes.array,
@@ -23,15 +20,15 @@ class BlogPostsLatest extends React.Component {
     posts: []
   };
 
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
+  componentDidMount() {
+    const { posts, postsSpotlight } = this.props;
 
-    // Get blog posts
-    await context.store.dispatch(actions.fetchBlogPostsLatest());
-    await context.store.dispatch(actions.fetchBlogPostsSpotlightLatest());
-
-    return { ...props };
+    if (!posts.length || !postsSpotlight.length) {
+      this.props.fetchBlogPostsLatest();
+      this.props.fetchBlogPostsSpotlightLatest();
+    }
   }
+
 
   getCard = p => (
     p && (
