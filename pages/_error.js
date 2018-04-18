@@ -1,10 +1,15 @@
 import React from 'react';
 import HeadNext from 'next/head';
 import { Link } from 'routes';
+import PropTypes from 'prop-types';
 
-function Error (props) {
+// Utils
+import { logEvent } from 'utils/analytics';
+
+function Error(props) {
+  // log url requested
+  logEvent('404 page', props.url.pathname);
   return (
-
     <div className="p-error">
       <HeadNext>
         <style dangerouslySetInnerHTML={{ __html: require('css/index.scss') }} />
@@ -23,5 +28,9 @@ function Error (props) {
     </div>
   );
 }
+
+Error.propTypes = {
+  url: PropTypes.object.isRequired
+};
 
 export default Error;
