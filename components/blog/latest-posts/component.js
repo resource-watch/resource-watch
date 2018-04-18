@@ -27,8 +27,8 @@ class BlogPostsLatest extends React.Component {
     const props = await super.getInitialProps(context);
 
     // Get blog posts
-    context.store.dispatch(actions.fetchBlogPostsLatest());
-    context.store.dispatch(actions.fetchBlogPostsSpotlightLatest());
+    await context.store.dispatch(actions.fetchBlogPostsLatest());
+    await context.store.dispatch(actions.fetchBlogPostsSpotlightLatest());
 
     return { ...props };
   }
