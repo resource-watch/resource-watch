@@ -21,8 +21,8 @@ class BlogPostsLatest extends React.Component {
   };
 
   componentDidMount() {
-    // this.props.fetchBlogPostsLatest();
-    // this.props.fetchBlogPostsSpotlightLatest();
+    this.props.fetchBlogPostsLatest();
+    this.props.fetchBlogPostsSpotlightLatest();
   }
 
   getCard = p => (
