@@ -16,7 +16,6 @@ class Error extends React.Component {
     logPageView();
   }
   render() {
-    // log url requested
     return (
       <div className="p-error">
         <HeadNext>
@@ -37,9 +36,5 @@ class Error extends React.Component {
     );
   }
 }
-
-Error.propTypes = {
-  url: PropTypes.object.isRequired
-};
 
 export default Error;
