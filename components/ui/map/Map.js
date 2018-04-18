@@ -17,12 +17,6 @@ import Spinner from 'components/ui/Spinner';
 // Redux
 import { connect } from 'react-redux';
 
-// Leaflet can't be imported on the server because it's not isomorphic
-// let L;
-// if (typeof window !== 'undefined') {
-//   L = require('leaflet');
-// }
-
 const MAP_CONFIG = {
   zoom: 2,
   minZoom: 2,

@@ -56,6 +56,19 @@ const AREAS = [
 ];
 
 class AreasForm extends React.Component {
+  static defaultProps = {
+    openUploadAreaModal: false
+  };
+
+  static propTypes = {
+    mode: PropTypes.string.isRequired, // edit | new
+    id: PropTypes.string, // area id for edit mode,
+    // Store
+    user: PropTypes.object.isRequired,
+    toggleModal: PropTypes.func.isRequired,
+    routes: PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super(props);
 
@@ -252,19 +265,6 @@ class AreasForm extends React.Component {
     );
   }
 }
-
-AreasForm.defaultProps = {
-  openUploadAreaModal: false
-};
-
-AreasForm.propTypes = {
-  mode: PropTypes.string.isRequired, // edit | new
-  id: PropTypes.string, // area id for edit mode,
-  // Store
-  user: PropTypes.object.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  routes: PropTypes.object.isRequired
-};
 
 const mapStateToProps = state => ({
   user: state.user,

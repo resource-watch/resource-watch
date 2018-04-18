@@ -26,6 +26,19 @@ import SourcesContentModal from 'components/datasets/metadata/form/SourcesConten
 import { FORM_ELEMENTS, LANGUAGE_OPTIONS, RASTER_COLUMN_TYPES } from 'components/datasets/metadata/form/constants';
 
 class Step1 extends React.Component {
+  static propTypes = {
+    form: PropTypes.object,
+    columns: PropTypes.array,
+    type: PropTypes.string,
+    loadingColumns: PropTypes.bool,
+    onChange: PropTypes.func,
+    toggleModal: PropTypes.func
+  };
+
+  static defaultProps = {
+    type: 'tabular'
+  };
+
   componentWillReceiveProps(nextProps) {
     if (!isEqual(this.props.sources, nextProps.sources)) {
       this.changeMetadata({ info: { sources: nextProps.sources } });
@@ -571,19 +584,6 @@ class Step1 extends React.Component {
     );
   }
 }
-
-Step1.propTypes = {
-  form: PropTypes.object,
-  columns: PropTypes.array,
-  type: PropTypes.string,
-  loadingColumns: PropTypes.bool,
-  onChange: PropTypes.func,
-  toggleModal: PropTypes.func
-};
-
-Step1.defaultProps = {
-  type: 'tabular'
-};
 
 const mapStateToProps = state => ({
   sources: state.sources.sources

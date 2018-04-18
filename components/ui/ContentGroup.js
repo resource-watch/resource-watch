@@ -2,6 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class ContentGroup extends React.Component {
+  static propTypes = {
+    component: PropTypes.any.isRequired,
+    componentProps: PropTypes.object,
+    content: PropTypes.array,
+    onSubmit: PropTypes.func,
+    onAddComponent: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    content: []
+  };
+
   renderComponent(index, values = {}) {
     const { componentProps } = this.props;
     const newComponentProps = { ...componentProps, index, values };
@@ -34,15 +46,3 @@ export default class ContentGroup extends React.Component {
     );
   }
 }
-
-ContentGroup.propTypes = {
-  component: PropTypes.any.isRequired,
-  componentProps: PropTypes.object,
-  content: PropTypes.array,
-  onSubmit: PropTypes.func,
-  onAddComponent: PropTypes.func.isRequired
-};
-
-ContentGroup.defaultProps = {
-  content: []
-};

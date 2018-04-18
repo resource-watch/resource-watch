@@ -6,6 +6,20 @@ import Modal from 'react-modal';
 import Icon from 'components/ui/Icon';
 
 class ModalComponent extends PureComponent {
+  static propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    className: PropTypes.string,
+    // Content
+    children: PropTypes.node.isRequired,
+    header: PropTypes.node,
+    // Func
+    onAfterOpen: PropTypes.func,
+    onRequestClose: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+  };
+
   // eslint-disable-line react/prefer-stateless-function
   render() {
     const {
@@ -45,19 +59,5 @@ class ModalComponent extends PureComponent {
     );
   }
 }
-
-ModalComponent.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  className: PropTypes.string,
-  // Content
-  children: PropTypes.node.isRequired,
-  header: PropTypes.node,
-  // Func
-  onAfterOpen: PropTypes.func,
-  onRequestClose: PropTypes.func.isRequired
-};
-
-ModalComponent.defaultProps = {
-};
 
 export default ModalComponent;

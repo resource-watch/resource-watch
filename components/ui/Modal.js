@@ -4,6 +4,22 @@ import Icon from 'components/ui/Icon';
 import Spinner from 'components/ui/Spinner';
 
 export default class Modal extends React.Component {
+  static propTypes = {
+    // STORE
+    open: PropTypes.bool,
+    options: PropTypes.object,
+    className: PropTypes.string,
+    loading: PropTypes.bool,
+    // ACTIONS
+    toggleModal: PropTypes.func,
+    setModalOptions: PropTypes.func
+  };
+
+  static defaultProps = {
+    open: false,
+    options: {}
+  };
+
   componentDidMount() {
     this.el.addEventListener('transitionend', () => {
       if (!this.props.open) {
@@ -53,19 +69,3 @@ export default class Modal extends React.Component {
     );
   }
 }
-
-Modal.propTypes = {
-  // STORE
-  open: PropTypes.bool,
-  options: PropTypes.object,
-  className: PropTypes.string,
-  loading: PropTypes.bool,
-  // ACTIONS
-  toggleModal: PropTypes.func,
-  setModalOptions: PropTypes.func
-};
-
-Modal.defaultProps = {
-  open: false,
-  options: {}
-};

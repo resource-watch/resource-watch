@@ -9,6 +9,18 @@ import CardApp from 'components/app/common/CardApp';
 import Banner from 'components/app/common/Banner';
 
 class Apps extends React.Component {
+  static propTypes = {
+    tools: PropTypes.object.isRequired,
+    getTools: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    tools: {
+      list: []
+    }
+  };
+
   componentDidMount() {
     this.props.setFilters([]);
     this.props.getTools();
@@ -58,17 +70,6 @@ class Apps extends React.Component {
     );
   }
 }
-
-Apps.propTypes = {
-  tools: PropTypes.object.isRequired,
-  getTools: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired
-};
-Apps.defaultProps = {
-  tools: {
-    list: []
-  }
-};
 
 export default connect(
   state => ({

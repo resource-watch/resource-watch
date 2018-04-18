@@ -23,6 +23,27 @@ import PublishedTD from './td/PublishedTD';
 import PreviewTD from './td/PreviewTD';
 
 class TopicsTable extends React.Component {
+  static defaultProps = {
+    columns: [],
+    actions: {},
+    // Store
+    topics: [],
+    filteredTopics: []
+  };
+
+  static propTypes = {
+    authorization: PropTypes.string,
+    // Store
+    loading: PropTypes.bool.isRequired,
+    topics: PropTypes.array.isRequired,
+    filteredTopics: PropTypes.array.isRequired,
+    error: PropTypes.string,
+
+    // Actions
+    getTopics: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
 
@@ -115,27 +136,6 @@ class TopicsTable extends React.Component {
     );
   }
 }
-
-TopicsTable.defaultProps = {
-  columns: [],
-  actions: {},
-  // Store
-  topics: [],
-  filteredTopics: []
-};
-
-TopicsTable.propTypes = {
-  authorization: PropTypes.string,
-  // Store
-  loading: PropTypes.bool.isRequired,
-  topics: PropTypes.array.isRequired,
-  filteredTopics: PropTypes.array.isRequired,
-  error: PropTypes.string,
-
-  // Actions
-  getTopics: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired
-};
 
 const mapStateToProps = state => ({
   loading: state.topics.topics.loading,

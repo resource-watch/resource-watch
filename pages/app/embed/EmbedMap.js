@@ -23,6 +23,25 @@ import { paramIsTrue } from 'utils/utils';
 
 
 class EmbedMap extends Page {
+  static propTypes = {
+    widget: PropTypes.object,
+    isLoading: PropTypes.bool,
+    getWidget: PropTypes.func,
+    toggleLayerGroupVisibility: PropTypes.func,
+    checkIfFavorited: PropTypes.func,
+    setIfFavorited: PropTypes.func,
+    loading: PropTypes.bool,
+    layerGroups: PropTypes.array,
+    error: PropTypes.string,
+    zoom: PropTypes.number,
+    latLng: PropTypes.object,
+    favourited: PropTypes.bool
+  };
+
+  static defaultProps = {
+    widget: {}
+  };
+
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
     const { store, isServer, req } = context;
@@ -192,25 +211,6 @@ class EmbedMap extends Page {
     );
   }
 }
-
-EmbedMap.propTypes = {
-  widget: PropTypes.object,
-  isLoading: PropTypes.bool,
-  getWidget: PropTypes.func,
-  toggleLayerGroupVisibility: PropTypes.func,
-  checkIfFavorited: PropTypes.func,
-  setIfFavorited: PropTypes.func,
-  loading: PropTypes.bool,
-  layerGroups: PropTypes.array,
-  error: PropTypes.string,
-  zoom: PropTypes.number,
-  latLng: PropTypes.object,
-  favourited: PropTypes.bool
-};
-
-EmbedMap.defaultProps = {
-  widget: {}
-};
 
 const mapStateToProps = state => ({
   widget: state.widget.data,

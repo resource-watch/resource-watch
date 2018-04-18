@@ -123,8 +123,8 @@ class Home extends Page {
             {c.buttons.map((b) => {
               if (b.loginRequired) {
                 return (
-                  <LoginRequired text={b.loginRequired}>
-                    <a href={b.path} key={b.path} className={`c-btn -alt ${b.className}`}>{b.text}</a>
+                  <LoginRequired key={b.path} text={b.loginRequired}>
+                    <a href={b.path} className={`c-btn -alt ${b.className}`}>{b.text}</a>
                   </LoginRequired>
                 );
               }
