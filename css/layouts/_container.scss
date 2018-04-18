@@ -4,7 +4,8 @@
   max-width: $grid-row-width;
   margin: 0 auto;
   box-sizing: border-box;
-  padding: 0;
+  padding: 0 (map-get($grid-column-gutter, small)/2);
+
 
   @media screen and (min-width: map-get($breakpoints, medium)) {
     max-width: map-get($breakpoints, medium);

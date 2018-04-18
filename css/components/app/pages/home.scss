@@ -45,6 +45,7 @@
       justify-content: center;
       align-items: center;
       background: rgba(0,0,0,0.2);
+      padding: 0 32px;
 
       color: $alt-font-color;
       font-size: $font-size-big;
@@ -55,6 +56,12 @@
 
       h1 {
         color: $alt-font-color;
+        line-height: 1.35;
+        margin: 0 0 16px;
+
+        @media screen and (min-width: map-get($breakpoints, medium)) {
+          margin: 0 0 32px;
+        }        
       }
 
       a {
