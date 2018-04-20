@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 // Components
 import Title from 'components/ui/Title';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 function CardApp(props) {
   const {
     background, title, description, link, className, buttonType
@@ -45,8 +48,13 @@ function CardApp(props) {
           {!!link &&
             <a
               href={link.route}
-              target={!!link.external && "_blank" || "_self"}
+              target={(!!link.external && '_blank') || '_self'}
               className={`c-button ${buttonClasses} -fullwidth`}
+              onClick={() => {
+                if (props.logEvent) {
+                  logEvent('Related app Go to site clicked', title);
+                }
+              }}
             >
               {link.label}
             </a>
@@ -63,11 +71,13 @@ CardApp.propTypes = {
   description: PropTypes.string,
   link: PropTypes.object,
   buttonType: PropTypes.string,
-  className: PropTypes.any
+  className: PropTypes.any,
+  logEvent: PropTypes.bool
 };
 
 CardApp.defaultProps = {
-  children: ''
+  children: '',
+  logEvent: false
 };
 
 export default CardApp;
