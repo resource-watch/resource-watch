@@ -17,7 +17,12 @@ export default {
       children: [
         { label: 'Explore Datasets', route: 'explore' },
         { label: 'Planet Pulse', href: '/data/pulse' },
-        { label: 'App Gallery', route: 'get_involved_detail', params: { id: 'apps' } }
+        {
+          label: 'App Gallery',
+          route: 'get_involved_detail',
+          params: { id: 'apps' },
+          logEvent: true
+        }
       ]
     },
     {
