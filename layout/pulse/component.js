@@ -5,7 +5,7 @@ import debounce from 'lodash/debounce';
 // Redux
 import { connect } from 'react-redux';
 import { getLayers, getLayerPoints, resetLayerPoints } from 'layout/pulse/actions';
-import { toggleActiveLayer } from 'layout/pulse/layer-menu/actions';
+import { resetActiveLayer } from 'layout/pulse/layer-menu/actions';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Selectors
@@ -101,7 +101,7 @@ class Pulse extends Page {
   componentWillUnmount() {
     document.removeEventListener('click', this.handleMouseClick);
     this.props.toggleTooltip(false);
-    this.props.toggleActiveLayer({});
+    this.props.resetActiveLayer();
     this.props.resetLayerPoints();
     this.mounted = false;
   }
@@ -297,7 +297,7 @@ Pulse.propTypes = {
   getLayers: PropTypes.func.isRequired,
   getLayerPoints: PropTypes.func.isRequired,
   toggleTooltip: PropTypes.func.isRequired,
-  toggleActiveLayer: PropTypes.func.isRequired
+  resetActiveLayer: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -312,7 +312,7 @@ const mapDispatchToProps = {
   getLayers,
   toggleTooltip,
   getLayerPoints,
-  toggleActiveLayer,
+  resetActiveLayer,
   resetLayerPoints
 };
 

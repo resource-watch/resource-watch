@@ -138,7 +138,7 @@ export default class UserService {
     const bodyObj = {
       name,
       application: process.env.APPLICATIONS,
-      language,
+      language: language || 'en',
       datasets,
       datasetsQuery,
       resource: {
@@ -149,6 +149,7 @@ export default class UserService {
         area: areaId
       }
     };
+
     return fetch(`${this.opts.apiURL}/subscriptions`, {
       method: 'POST',
       body: JSON.stringify(bodyObj),
@@ -167,7 +168,7 @@ export default class UserService {
 
     const bodyObj = {
       application: process.env.APPLICATIONS,
-      language,
+      language: language || 'en',
       datasets,
       datasetsQuery
     };
