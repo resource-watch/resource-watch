@@ -35,7 +35,7 @@ class Apps extends React.Component {
             {this.props.tools.list.map(app => (
               <div key={app.id} className="column small-12 medium-4 c-card-column">
                 <CardApp
-                  background={app.thumbnail.original}
+                  background={app.thumbnail.medium}
                   title={app.title}
                   description={app.summary}
                   link={{
