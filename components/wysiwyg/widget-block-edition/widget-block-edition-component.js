@@ -9,11 +9,12 @@ import SearchInput from 'components/ui/SearchInput';
 import WidgetList from 'components/widgets/list/WidgetList';
 
 export default function WidgetBlockEdition({
-  data,
-  onChangeTab,
-  onSelectWidget,
-  onChangePage,
-  onChangeSearch
+  data = {},
+  user = {},
+  onChangeTab = null,
+  onChangePage = null,
+  onChangeSearch = null,
+  onSelectWidget = null
 }) {
   return (
     <div className="c-topic-widget-edition">
@@ -85,13 +86,4 @@ WidgetBlockEdition.propTypes = {
   onChangePage: PropTypes.func,
   onChangeSearch: PropTypes.func,
   onSelectWidget: PropTypes.func
-};
-
-WidgetBlockEdition.defaultProps = {
-  data: {},
-  user: {},
-  onChangeTab: null,
-  onChangePage: null,
-  onChangeSearch: null,
-  onSelectWidget: null
 };

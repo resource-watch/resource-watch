@@ -8,11 +8,7 @@ import Title from 'components/ui/Title';
 // Utils
 import { logEvent } from 'utils/analytics';
 
-function CardApp(props) {
-  const {
-    background, title, description, link, className, buttonType
-  } = props;
-
+function CardApp({ background, title, description, link, className, buttonType, logEvent = false }) {
   const classNames = classnames({
     [className]: className
   });
@@ -26,7 +22,7 @@ function CardApp(props) {
     <div
       className={`c-card-app ${classNames}`}
     >
-      {!!background &&
+      {!!(background) &&
         <div
           className="card-background"
           style={{
@@ -51,7 +47,7 @@ function CardApp(props) {
               target={(!!link.external && '_blank') || '_self'}
               className={`c-button ${buttonClasses} -fullwidth`}
               onClick={() => {
-                if (props.logEvent) {
+                if (logEvent) {
                   logEvent('Related app Go to site clicked', title);
                 }
               }}
@@ -73,11 +69,6 @@ CardApp.propTypes = {
   buttonType: PropTypes.string,
   className: PropTypes.any,
   logEvent: PropTypes.bool
-};
-
-CardApp.defaultProps = {
-  children: '',
-  logEvent: false
 };
 
 export default CardApp;

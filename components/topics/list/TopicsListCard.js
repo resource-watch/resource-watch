@@ -5,7 +5,7 @@ import { Link } from 'routes';
 // Components
 import Title from 'components/ui/Title';
 
-function TopicsListCard({ topic, routes, onDelete }) {
+function TopicsListCard({ topic = {}, routes = { index: '', detail: '' }, onDelete = null }) {
   return (
     <div className="c-card">
       <div className="card-container">
@@ -44,15 +44,6 @@ function TopicsListCard({ topic, routes, onDelete }) {
     </div>
   );
 }
-
-TopicsListCard.defaultProps = {
-  routes: {
-    index: '',
-    detail: ''
-  },
-  topic: {},
-  onDelete: null
-};
 
 TopicsListCard.propTypes = {
   topic: PropTypes.object,

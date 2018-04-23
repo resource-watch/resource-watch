@@ -6,7 +6,7 @@ import { Link } from 'routes';
 // Utils
 import { logEvent } from 'utils/analytics';
 
-const CompoundMenu = ({ items }) => {
+const CompoundMenu = ({ items = [] }) => {
   const menuItems = items.map(submenu => (
     <div className="c-compound-menu-item" key={submenu[0].name}>
       <ul className="submenu">
@@ -71,10 +71,6 @@ const CompoundMenu = ({ items }) => {
 CompoundMenu.propTypes = {
   /* Array of arrays */
   items: PropTypes.array
-};
-
-CompoundMenu.defaultProps = {
-  items: []
 };
 
 export default CompoundMenu;

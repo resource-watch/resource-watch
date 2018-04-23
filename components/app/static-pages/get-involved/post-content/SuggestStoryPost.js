@@ -6,7 +6,7 @@ import { Link } from 'routes';
 import Banner from 'components/app/common/Banner';
 import BlogLatestPosts from 'components/blog/latest-posts';
 
-function SuggestStoryPost() {
+function SuggestStoryPost({ insights = [] }) {
   return (
     <div>
       <aside className="l-postcontent">
@@ -60,9 +60,6 @@ function SuggestStoryPost() {
 
 SuggestStoryPost.propTypes = {
   insights: PropTypes.array
-};
-SuggestStoryPost.defaultProps = {
-  insights: []
 };
 
 export default SuggestStoryPost;

@@ -30,10 +30,10 @@ TableHeaderActions.propTypes = {
   onSort: PropTypes.func
 };
 
-TableHeaderActions.defaultProps = {
-  onChange: null,
-  selected: null,
-  filters: true
-};
+// TableHeaderActions.defaultProps = {
+//   onChange: null,
+//   selected: null,
+//   filters: true
+// };
 
 export default TableHeaderActions;

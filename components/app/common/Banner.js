@@ -2,35 +2,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-function Banner(props) {
-  const styles = props.styles || {};
-  const className = classNames({
+function Banner({ styles, useBackground = true, className, bgImage, viel, children }) {
+  const classNamesProps = classNames({
     'c-banner': true,
     '-light': true,
-    '-use-background': props.useBackground,
-    [props.className]: props.className
+    '-use-background': useBackground,
+    [className]: className
   });
 
-  if (props.bgImage) {
-    styles.backgroundImage = `url(${props.bgImage})`;
+  if (styles && bgImage) {
+    styles.backgroundImage = `url(${bgImage})`;
   }
 
   return (
     <section
-      className={className}
+      className={classNamesProps}
       style={styles}
     >
-      {props.viel && <div className="c-viel" />}
+      {viel && <div className="c-viel" />}
       <div className="l-container">
-        {props.children}
+        {children}
       </div>
     </section>
   );
 }
-
-Banner.defaultProps = {
-  useBackground: true
-};
 
 Banner.propTypes = {
   bgImage: PropTypes.string,

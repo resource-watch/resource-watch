@@ -16,9 +16,7 @@ const defaultSettings = {
   renderBottomCenterControls: () => {}
 };
 
-function Carousel(props) {
-  const settings = props.settings || defaultSettings;
-
+function Carousel({ settings = defaultSettings, items = [] }) {
   if (window.innerWidth < 720) {
     settings.slidesToShow = 2;
     settings.slidesToScroll = 2;
@@ -27,7 +25,7 @@ function Carousel(props) {
   return (
     <div className="c-carousel">
       <Slider {...settings}>
-        {props.items.map(item => item)}
+        {items.map(item => item)}
       </Slider>
     </div>
   );
@@ -36,10 +34,6 @@ function Carousel(props) {
 Carousel.propTypes = {
   items: PropTypes.array.isRequired,
   settings: PropTypes.object
-};
-
-Carousel.defaultProps = {
-  items: []
 };
 
 export default Carousel;

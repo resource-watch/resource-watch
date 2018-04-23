@@ -35,8 +35,13 @@ class DatasetListItem extends React.Component {
     mode: PropTypes.string,
     user: PropTypes.object,
     tags: PropTypes.node,
-    actions: PropTypes.node
+    actions: PropTypes.node,
+    responsive: PropTypes.object
   };
+
+  static defaultProps = {
+    mode: 'grid'
+  }
 
   /**
    * HELPER
@@ -96,7 +101,7 @@ class DatasetListItem extends React.Component {
 
   render() {
     const {
-      dataset, metadata, mode, user, actions, tags
+      dataset, metadata, mode, user, actions, tags, responsive
     } = this.props;
 
 
@@ -116,6 +121,7 @@ class DatasetListItem extends React.Component {
         {/* CHART */}
         <MediaQuery
           minDeviceWidth={breakpoints.medium}
+          values={{ deviceWidth: responsive.fakeWidth }}
         >
           {this.renderChart()}
         </MediaQuery>
@@ -123,6 +129,7 @@ class DatasetListItem extends React.Component {
         {/* CHART MOBILE */}
         <MediaQuery
           maxDeviceWidth={breakpoints.medium}
+          values={{ deviceWidth: responsive.fakeWidth }}
         >
           <Link
             route="explore_detail"

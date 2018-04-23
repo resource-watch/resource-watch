@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 export default function DashboardThumbnailList({
-  dashboards,
+  dashboards = [],
   total,
-  selected,
+  selected = '',
   pagination,
-  expanded,
-  add,
+  expanded = false,
+  add = false,
   onSelect,
   onAdd,
   onExpand
@@ -75,11 +75,4 @@ DashboardThumbnailList.propTypes = {
   onSelect: PropTypes.func,
   onExpand: PropTypes.func,
   onAdd: PropTypes.func
-};
-
-DashboardThumbnailList.defaultProps = {
-  dashboards: [],
-  selected: '',
-  expanded: false,
-  add: false
 };
