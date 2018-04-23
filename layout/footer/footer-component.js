@@ -15,7 +15,7 @@ const data = [
   { name: 'Data', route: 'explore' },
   { name: 'Explore Datasets', route: 'explore' },
   { name: 'Planet Pulse', anchor: '/data/pulse' },
-  { name: 'App Gallery', route: 'get_involved_detail', params: { id: 'apps' } },
+  { name: 'App Gallery', anchor: '/get-involved/apps', logEvent: true },
   { name: 'Catalog', route: 'catalog' }
 ];
 

@@ -7,7 +7,7 @@ import numeral from 'numeral';
 
 function _formatValue(item, data) {
   if (item.type === 'date' && item.format && data) {
-    data = moment(data, item.format);
+    data = moment(data).format(item.format);
   } else if (item.type === 'number' && item.format && data) {
     data = numeral(data).format(item.format);
   }
@@ -49,8 +49,7 @@ function MapPopup({
           onChange={e => onChangeInteractiveLayer(e.target.value)}
         >
           {interactionLayers.map(o =>
-            <option key={o.id} value={o.id}>{o.name}</option>
-          )}
+            <option key={o.id} value={o.id}>{o.name}</option>)}
         </select>
 
         {/* <button className="">

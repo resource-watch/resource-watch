@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Link } from 'routes';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 const CompoundMenu = ({ items }) => {
   const menuItems = items.map(submenu => (
     <div className="c-compound-menu-item" key={submenu[0].name}>
@@ -10,15 +13,33 @@ const CompoundMenu = ({ items }) => {
         {submenu.map((item, j) => { // eslint-disable-line arrow-body-style
           let link;
           if (item.route) {
-            link = <Link route={item.route} params={item.params}><a>{item.name}</a></Link>
+            link = <Link route={item.route} params={item.params}><a>{item.name}</a></Link>;
           }
 
           if (item.anchor) {
-            link = <a href={item.anchor}>{item.name}</a>
+            link = (
+              <a
+                href={item.anchor}
+                role="button"
+                tabIndex={-1}
+                onKeyPress={() => {
+                  if (item.logEvent) {
+                    logEvent('Menu link clicked', item.name);
+                  }
+                }}
+                onClick={() => {
+                  if (item.logEvent) {
+                    logEvent('Menu link clicked', item.name);
+                  }
+              }}
+              >
+                {item.name}
+              </a>
+            );
           }
 
           if (!item.route && !item.anchor) {
-            link = <a>{item.name}</a>
+            link = <a>{item.name}</a>;
           }
 
           return (

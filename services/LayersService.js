@@ -86,12 +86,12 @@ export default class LayersService {
         }],
         onSuccess: (response) => {
           const fieldsObj = response.fields;
+
           const parsedData = {
             tableName: response.tableName,
-            fields: ((fieldsObj && Object.entries(fieldsObj)) || []).map((data) => {
-              const { label, value } = data && data.length ? data[0] : {};
-              const { type } = data && data.length > 1 ? data[1].type : {};
-              return { label, value, type };
+            fields: ((fieldsObj && Object.keys(fieldsObj)) || []).map((fKey) => {
+              const { type } = fieldsObj[fKey] || null;
+              return { label: fKey || '', value: fKey || '', type };
             })
           };
           resolve({ ...parsedData });
@@ -103,7 +103,9 @@ export default class LayersService {
     });
   }
 
-  saveData({ type, body, id, dataset }) {
+  saveData({
+    type, body, id, dataset
+  }) {
     return new Promise((resolve, reject) => {
       post({
         url: `${process.env.WRI_API_URL}/dataset/${dataset}/layer/${id}`,
