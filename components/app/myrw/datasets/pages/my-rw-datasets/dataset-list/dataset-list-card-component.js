@@ -47,7 +47,6 @@ class DatasetsListCard extends PureComponent {
   render() {
     const { dataset, routes, user } = this.props;
 
-
     const isOwnerOrAdmin = (dataset.userId === user.id || user.role === 'ADMIN');
     const isInACollection = belongsToACollection(user, dataset);
 
@@ -65,16 +64,11 @@ class DatasetsListCard extends PureComponent {
         <div className="card-container">
           <header className="card-header">
             {isOwnerOrAdmin &&
-              <Link
-                route={routes.detail}
-                params={{ tab: 'datasets', id: dataset.id }}
-              >
-                <a>
-                  <Title className="-default">
-                    {this.getDatasetName()}
-                  </Title>
-                </a>
-              </Link>
+              <a href={`${routes.detail}/datasets/${dataset.id}`}>
+                <Title className="-default">
+                  {this.getDatasetName()}
+                </Title>
+              </a>
             }
 
             {!isOwnerOrAdmin &&
@@ -129,6 +123,7 @@ class DatasetsListCard extends PureComponent {
           {isOwnerOrAdmin &&
             <div className="actions">
               <a
+                onKeyPress={this.handleDelete}
                 role="button"
                 className="c-button -secondary -compressed"
                 tabIndex={0}
