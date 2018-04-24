@@ -2,16 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TableHeaderActions from './TableHeaderActions';
 
-export default function TableHeader({
-  columns = [],
-  columnValues = {},
-  columnQueries = {},
-  filters = true,
-  filteredData = [],
-  onFilter = null,
-  onSort = null,
-  onSearch = null
-}) {
+export default function TableHeader(props) {
   const {
     actions,
     columns,
@@ -53,6 +44,18 @@ export default function TableHeader({
     </thead>
   );
 }
+
+TableHeader.defaultProps = {
+  columns: [],
+  columnValues: {},
+  columnQueries: {},
+  filters: true,
+  onFilter: null,
+  onSort: null,
+  onSearch: null,
+  sort: null,
+  actions: {}
+};
 
 TableHeader.propTypes = {
   actions: PropTypes.object,
