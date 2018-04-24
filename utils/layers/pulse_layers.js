@@ -80,7 +80,7 @@ export const LAYERS_PLANET_PULSE = [
       },
       {
         label: 'Nighttime imagery',
-        id: '9bcaa1e8-3181-441f-879a-060b068b7c2a',
+        id: '55a1e0d5-5af9-4ebc-a261-e9c40606d81c',
         '3d': false,
         descriptionPulse:
           <div className="description">
