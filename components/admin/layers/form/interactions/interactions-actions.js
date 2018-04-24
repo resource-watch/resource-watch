@@ -25,6 +25,7 @@ export const getInteractions = createThunkAction('ADMIN_GET_INTERACTIONS', props
   const layerService = new LayersService({
     authorization: user.token
   });
+
   if (form && form.provider !== 'wms') {
     layerService.getColumns({ dataset: form.dataset })
       .then((data) => {
@@ -32,6 +33,7 @@ export const getInteractions = createThunkAction('ADMIN_GET_INTERACTIONS', props
           added: FORMAT.mapInteractionTypes(data, form.interactionConfig.output),
           available: data.fields
         };
+
         dispatch(setInteractions(interactions));
         dispatch(generateLayerGroups({ form, interactions }));
         dispatch(toggleLoading());

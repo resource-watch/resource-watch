@@ -120,7 +120,7 @@
     "vizz-wysiwyg": "1.1.13",
     "webpack": "^3.6.0",
     "whatwg-fetch": "2.0.2",
-    "widget-editor": "^1.0.6",
+    "widget-editor": "^1.1.0",
     "wri-api-components": "1.0.4",
     "wri-json-api-serializer": "1.0.1"
   },
