@@ -11381,9 +11381,9 @@ wide-align@^1.1.0:
   dependencies:
     string-width "^1.0.2"
 
-widget-editor@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/widget-editor/-/widget-editor-1.0.6.tgz#461815640329d07120387ef10557a10049503356"
+widget-editor@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/widget-editor/-/widget-editor-1.1.0.tgz#1279ec6c9b224a7b1d6531405f80cad1fef0979d"
   dependencies:
     autobind-decorator "^2.1.0"
     babel-runtime "^6.26.0"
@@ -11407,6 +11407,7 @@ widget-editor@^1.0.6:
     react-tether "^0.6.0"
     toastr "^2.1.2"
     vega-tooltip "^0.5.1"
+    wri-api-components "1.0.3"
 
 window-size@0.1.0:
   version "0.1.0"
@@ -11444,6 +11445,19 @@ wrap-fn@^0.1.0:
 wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
+
+wri-api-components@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-1.0.3.tgz#d3e3e04e1b427f1a6ee69645bf56578df163fd40"
+  dependencies:
+    prop-types "^15.6.1"
+    rc-tooltip "3.7.0"
+    react "15.6.2"
+    react-css-modules "^4.7.1"
+    react-dom "15.6.2"
+    react-input-range "1.3.0"
+    react-sortable-hoc "^0.6.8"
+    wri-json-api-serializer "^1.0.1"
 
 wri-api-components@1.0.4:
   version "1.0.4"
