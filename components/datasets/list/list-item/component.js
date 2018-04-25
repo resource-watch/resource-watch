@@ -133,7 +133,7 @@ class DatasetListItem extends React.Component {
         >
           <Link
             route="explore_detail"
-            params={{ id: this.props.dataset.id }}
+            params={{ id: this.props.dataset.slug }}
           >
             {this.renderChart()}
           </Link>
@@ -147,7 +147,7 @@ class DatasetListItem extends React.Component {
               <h4>
                 <Link
                   route="explore_detail"
-                  params={{ id: this.props.dataset.id }}
+                  params={{ id: this.props.dataset.slug }}
                 >
                   <a>
                     {(metadata && metadata.info && metadata.info.name) || dataset.name}
