@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // Components
 import WidgetsTable from 'components/admin/widgets/table/WidgetsTable';
 
-export default function WidgetsIndex({ user = {} }) {
+export default function WidgetsIndex(props) {
   const { user } = props;
 
   return (
@@ -16,6 +16,8 @@ export default function WidgetsIndex({ user = {} }) {
     </div>
   );
 }
+
+WidgetsIndex.defaultProps = { dataset: null };
 
 WidgetsIndex.propTypes = {
   user: PropTypes.object.isRequired,
