@@ -26,6 +26,7 @@ class ModalComponent extends PureComponent {
       isOpen,
       className,
       header,
+      onAfterOpen,
       onRequestClose
     } = this.props;
 
@@ -40,14 +41,14 @@ class ModalComponent extends PureComponent {
         bodyOpenClassName="-no-scroll"
         isOpen={isOpen}
         ariaHideApp={false}
-        onAfterOpen={this.props.onAfterOpen}
-        onRequestClose={this.props.onRequestClose}
+        onAfterOpen={onAfterOpen}
+        onRequestClose={onRequestClose}
       >
         {header}
 
         <button
           className="modal-close"
-          onClick={onRequestClose}
+          onClick={(e) => e.stopPropagation() || onRequestClose()}
         >
           <Icon name="icon-cross" className="-small" />
         </button>

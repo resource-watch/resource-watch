@@ -20,6 +20,7 @@ class ShareControl extends React.Component {
   }
 
   handleToggleShareModal = (bool) => {
+    console.log(bool);
     this.setState({ showShareModal: bool });
   }
 
