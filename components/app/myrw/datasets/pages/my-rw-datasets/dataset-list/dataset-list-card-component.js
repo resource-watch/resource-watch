@@ -47,7 +47,6 @@ class DatasetsListCard extends PureComponent {
   render() {
     const { dataset, routes, user } = this.props;
 
-
     const isOwnerOrAdmin = (dataset.userId === user.id || user.role === 'ADMIN');
     const isInACollection = belongsToACollection(user, dataset);
 
@@ -129,6 +128,7 @@ class DatasetsListCard extends PureComponent {
           {isOwnerOrAdmin &&
             <div className="actions">
               <a
+                onKeyPress={this.handleDelete}
                 role="button"
                 className="c-button -secondary -compressed"
                 tabIndex={0}
