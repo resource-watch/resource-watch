@@ -20,7 +20,6 @@ class ShareControl extends React.Component {
   }
 
   handleToggleShareModal = (bool) => {
-    console.log(bool);
     this.setState({ showShareModal: bool });
   }
 
@@ -29,13 +28,13 @@ class ShareControl extends React.Component {
     const location = typeof window !== 'undefined' && window.location;
 
     return (
-      <button type="button" className="share-button" onClick={() => this.handleToggleShareModal(true)}>
+      <button type="button" className="share-button" onClick={this.handleToggleShareModal(true)}>
         <Icon name="icon-share" className="-small" />
 
         <Modal
           isOpen={this.state.showShareModal}
           className="-medium"
-          onRequestClose={() => this.handleToggleShareModal(false)}
+          onRequestClose={this.handleToggleShareModal(false)}
         >
           <ShareModal
             links={{

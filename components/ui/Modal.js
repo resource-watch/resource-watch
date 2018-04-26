@@ -54,7 +54,7 @@ export default class Modal extends React.Component {
         className={`c-modal ${open ? '' : '-hidden'} ${options.size || ''} ${className || ''}`}
       >
         <div className="modal-container">
-          <button className="modal-close" onClick={() => this.props.toggleModal(false)}>
+          <button className="modal-close" onClick={(e) => e.stopPropagation() || this.props.toggleModal(false)}>
             <Icon name="icon-cross" className="-small" />
           </button>
           <div className="modal-content">
@@ -63,7 +63,7 @@ export default class Modal extends React.Component {
         </div>
         <div
           className="modal-backdrop"
-          onClick={() => this.props.toggleModal(false)}
+          onClick={(e) => e.stopPropagation() ||  this.props.toggleModal(false)}
         />
       </section>
     );
