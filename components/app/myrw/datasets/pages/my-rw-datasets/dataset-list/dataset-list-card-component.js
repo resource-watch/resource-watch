@@ -59,8 +59,6 @@ class DatasetsListCard extends PureComponent {
       'icon-star-empty': !isInACollection
     });
 
-    console.log(routes);
-
     return (
       <div className={`c-card c-datasets-list-card ${classNames}`}>
         <div className="card-container">
