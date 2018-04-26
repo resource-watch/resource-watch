@@ -59,16 +59,23 @@ class DatasetsListCard extends PureComponent {
       'icon-star-empty': !isInACollection
     });
 
+    console.log(routes);
+
     return (
       <div className={`c-card c-datasets-list-card ${classNames}`}>
         <div className="card-container">
           <header className="card-header">
             {isOwnerOrAdmin &&
-              <a href={`${routes.detail}/datasets/${dataset.id}`}>
-                <Title className="-default">
-                  {this.getDatasetName()}
-                </Title>
-              </a>
+              <Link
+                route={routes.detail}
+                params={{ tab: 'datasets', id: dataset.id }}
+              >
+                <a>
+                  <Title className="-default">
+                    {this.getDatasetName()}
+                  </Title>
+                </a>
+              </Link>
             }
 
             {!isOwnerOrAdmin &&
