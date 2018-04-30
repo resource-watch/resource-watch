@@ -34,9 +34,7 @@ class GlobeCesiumComponent extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      billboardHover: false
-    };
+    this.state = { billboardHover: false };
 
     // Bindings
     this.onMouseClick = this.onMouseClick.bind(this);
@@ -170,8 +168,7 @@ class GlobeCesiumComponent extends PureComponent {
         nextProps.basemap !== this.props.basemap,
         (nextProps.activeContextLayers !== this.props.activeContextLayers) ||
         (newMainLayer !== mainLayer) ||
-        (nextProps.labelsPulse !== this.props.labelsPulse),
-        nextProps.labelsPulse !== this.props.labelsPulse,
+        (nextProps.labelsPulse !== this.props.labelsPulse)
       );
     }
     // ----- Markers ---------
@@ -439,8 +436,7 @@ class GlobeCesiumComponent extends PureComponent {
   updateLayers(
     props,
     updateBasemap = true,
-    updateLayers = true,
-    updateLabels = false
+    updateLayers = true
   ) {
     const {
       basemap,
@@ -450,10 +446,6 @@ class GlobeCesiumComponent extends PureComponent {
       labelsPulse
     } = props;
     const mainLayer = layerActive && layerActive.url;
-    console.log('updateLayers', updateLayers);
-    console.log('updateLabels', updateLabels);
-    console.log('updateBasemap', updateBasemap);
-    console.log('props', props);
 
     if (basemap && updateBasemap) {
       this.removeBasemap();
@@ -465,10 +457,15 @@ class GlobeCesiumComponent extends PureComponent {
 
     if (!contextLayersOnTop && updateLayers) {
       this.removeContextLayers();
+      this.removeLabelsLayer();
       activeContextLayers.forEach(l => this.addAdditionalLayerOption(
         l.attributes.id,
         new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
       ));
+      if (labelsPulse.labelsLayerActive) {
+        this.addAdditionalLayerOption('labelsLayer',
+          new Cesium.UrlTemplateImageryProvider({ url: labelsPulse.url }), 1, true);
+      }
     }
 
     if (mainLayer && updateLayers) {
@@ -482,14 +479,11 @@ class GlobeCesiumComponent extends PureComponent {
 
     if (contextLayersOnTop && updateLayers) {
       this.removeContextLayers();
+      this.removeLabelsLayer();
       activeContextLayers.forEach(l => this.addAdditionalLayerOption(
         l.attributes.id,
         new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
       ));
-    }
-
-    if (updateLabels) {
-      this.removeLabelsLayer();
       if (labelsPulse.labelsLayerActive) {
         this.addAdditionalLayerOption('labelsLayer',
           new Cesium.UrlTemplateImageryProvider({ url: labelsPulse.url }), 1, true);

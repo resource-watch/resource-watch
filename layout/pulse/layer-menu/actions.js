@@ -17,7 +17,7 @@ export const resetActiveLayer = createThunkAction('layer-menu/resetActiveLayer',
   dispatch(setContextActiveLayers([]));
   dispatch(setActiveLayer(null));
   dispatch(setActiveLayerLoading(false));
-  dispatch(resetLabelsLayer())
+  dispatch(resetLabelsLayer());
 });
 
 export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer', ({
@@ -37,6 +37,7 @@ export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer
     if (!layerActive || layerActive.id !== id) {
       // Clear the possible active layers from the previous layer selection
       dispatch(setContextActiveLayers([]));
+      dispatch(resetLabelsLayer());
       dispatch(setActiveLayerLoading(true));
 
       if (initialPosition) {

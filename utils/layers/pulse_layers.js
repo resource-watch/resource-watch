@@ -128,6 +128,7 @@ export const LAYERS_PLANET_PULSE = [
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
               <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
         initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
@@ -154,6 +155,7 @@ export const LAYERS_PLANET_PULSE = [
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
               <LayerPill layerId="c7e76588-6da5-4645-8842-2d2ac0001110" label="Cropland" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
         initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
@@ -181,6 +183,7 @@ export const LAYERS_PLANET_PULSE = [
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
               <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
         initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
@@ -201,6 +204,7 @@ export const LAYERS_PLANET_PULSE = [
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
               <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
@@ -235,6 +239,7 @@ export const LAYERS_PLANET_PULSE = [
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
               <LayerPill layerId="d87bb471-1ac0-4f79-818a-e270f04185bf" label="Historical extent" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
         basemap: {
@@ -254,6 +259,7 @@ export const LAYERS_PLANET_PULSE = [
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
               <LayerPill layerId="c04b8f05-18d5-44cd-8cad-e5a171fe3034" label="Reef locations" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
         contextLayers: ["c04b8f05-18d5-44cd-8cad-e5a171fe3034"],
@@ -281,6 +287,10 @@ export const LAYERS_PLANET_PULSE = [
             <div className="description-text">
               Crop failure, conflict, and market failures can limit people’s ability to access enough food to survive. FEWS NET monitors conditions that could lead to severe food insecurity through a combination of on-the-ground reports, satellite data, and expert knowledge of economic conditions. The data are for select countries only.
             </div>
+            <div className="view-with-container">
+              <span className="view-with-label"><strong>View with:</strong></span>
+              <LabelsPill url={LABELS.light.value} label="Labels" />
+            </div>
           </div>,
         basemap: {
           name: 'default',
@@ -299,6 +309,7 @@ export const LAYERS_PLANET_PULSE = [
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
               <LayerPill layerId="117ef67f-0613-40de-8429-a0097fe4f262" label="Data coverage" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
         contextLayers: ['117ef67f-0613-40de-8429-a0097fe4f262'],
@@ -318,6 +329,10 @@ export const LAYERS_PLANET_PULSE = [
           <div className="description">
             <div className="description-text">
               Migrants seek to cross international borders to flee hardship or find a better life. The International Organization for Migration (IOM) records deaths of migrants who die during their journies in accidents, shipwrecks, violent attacks, or from medical complications.
+            </div>
+            <div className="view-with-container">
+              <span className="view-with-label"><strong>View with:</strong></span>
+              <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
         contextLayers: [],
@@ -339,7 +354,8 @@ export const LAYERS_PLANET_PULSE = [
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
-              <LayerPill layerId="af3513d5-284f-488c-8256-e90c30a1ca8b" label="Reporting countries" />p
+              <LayerPill layerId="af3513d5-284f-488c-8256-e90c30a1ca8b" label="Reporting countries" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
         contextLayers: ['af3513d5-284f-488c-8256-e90c30a1ca8b'],
@@ -369,6 +385,7 @@ export const LAYERS_PLANET_PULSE = [
               <span className="view-with-label"><strong>View with:</strong></span>
               <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
               <LayerPill layerId="7a270c3a-1161-4fb2-a613-090d3e603126" label="Forests" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
         contextLayers: [
@@ -395,6 +412,7 @@ export const LAYERS_PLANET_PULSE = [
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
               <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
@@ -426,6 +444,7 @@ export const LAYERS_PLANET_PULSE = [
               <span className="view-with-label"><strong>View with:</strong></span>
               <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
               <LayerPill layerId="47a1b1d7-e5ad-4b79-9f52-bc9435c6ca06" label="Fault lines" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
         basemap: {
@@ -449,6 +468,7 @@ export const LAYERS_PLANET_PULSE = [
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
               <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
         initialPosition: { latitude: -239.0625, longitude: 16.29905101458183, height: 20000000 },
