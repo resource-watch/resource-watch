@@ -1,0 +1,35 @@
+.rainy-cloud {
+  fill: #f3f5f6;
+}
+
+.rainy-cloud.-intensive {
+  fill: #dae1e6;
+}
+
+.rain {
+  stroke: #4fbad5;
+  stroke-width: 2;
+}
+
+.arrow {
+  fill: #4fbad5;
+}
+
+.arrow.-vapor {
+  fill: #e6eaed;
+}
+
+.tree {
+  fill: #64b60e;
+  /* #90969a */
+  /* #c42d7a */
+}
+
+.cow {
+  fill: #90969a;
+}
+
+.slider .track {
+  stroke: #f3f5f6;
+  stroke-width: 4;
+}
