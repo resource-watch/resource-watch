@@ -45,6 +45,18 @@ export default function TableHeader(props) {
   );
 }
 
+TableHeader.defaultProps = {
+  columns: [],
+  columnValues: {},
+  columnQueries: {},
+  filters: true,
+  onFilter: null,
+  onSort: null,
+  onSearch: null,
+  sort: null,
+  actions: {}
+};
+
 TableHeader.propTypes = {
   actions: PropTypes.object,
   columns: PropTypes.array,
@@ -55,15 +67,4 @@ TableHeader.propTypes = {
   onFilter: PropTypes.func,
   onSort: PropTypes.func,
   onSearch: PropTypes.func
-};
-
-TableHeader.defaultProps = {
-  columns: [],
-  columnValues: {},
-  columnQueries: {},
-  filters: true,
-  filteredData: [],
-  onFilter: null,
-  onSort: null,
-  onSearch: null
 };

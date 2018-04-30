@@ -65,6 +65,7 @@
   .list-item-chart {
     width: 100px;
     height: 100%;
+    min-height: 150px;
     flex-shrink: 0;
 
     @media screen and (min-width: map-get($breakpoints, medium)) {

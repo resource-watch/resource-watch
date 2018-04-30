@@ -14,6 +14,20 @@ import Source from 'components/datasets/metadata/form/Source';
 import { SOURCE_ELEMENTS } from 'components/datasets/metadata/form/constants';
 
 class SourcesContentModal extends React.Component {
+  static propTypes = {
+    sources: PropTypes.array,
+    tmpSources: PropTypes.array,
+    setSources: PropTypes.func.isRequired,
+    setTmpSources: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    sources: [{}],
+    tmpSources: []
+  };
+
   componentWillMount() {
     const { sources } = this.props;
     if (!sources.length) {
@@ -81,20 +95,6 @@ class SourcesContentModal extends React.Component {
     );
   }
 }
-
-SourcesContentModal.propTypes = {
-  sources: PropTypes.array,
-  tmpSources: PropTypes.array,
-  setSources: PropTypes.func.isRequired,
-  setTmpSources: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired
-};
-
-SourcesContentModal.defaultProps = {
-  sources: [{}],
-  tmpSources: []
-};
 
 const mapStateToProps = ({ sources }) => ({
   sources: sources.sources,

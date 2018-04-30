@@ -91,6 +91,5 @@ function DevelopYourApp() {
 }
 
 DevelopYourApp.propTypes = {};
-DevelopYourApp.defaultProps = {};
 
 export default DevelopYourApp;

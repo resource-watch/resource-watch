@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
@@ -21,7 +21,22 @@ import Spinner from 'components/ui/Spinner';
 import WidgetEditor, { VegaChart, getVegaTheme } from 'widget-editor';
 
 
-class Step1 extends React.Component {
+class Step1 extends Component {
+  static defaultProps = {
+    showEditor: true
+  };
+
+  static propTypes = {
+    id: PropTypes.string,
+    form: PropTypes.object,
+    mode: PropTypes.string,
+    datasets: PropTypes.array,
+    onChange: PropTypes.func,
+    onModeChange: PropTypes.func,
+    showEditor: PropTypes.bool,
+    onGetWidgetConfig: PropTypes.func
+  };
+
   constructor(props) {
     super(props);
 
@@ -327,20 +342,5 @@ class Step1 extends React.Component {
     );
   }
 }
-
-Step1.defaultProps = {
-  showEditor: true
-};
-
-Step1.propTypes = {
-  id: PropTypes.string,
-  form: PropTypes.object,
-  mode: PropTypes.string,
-  datasets: PropTypes.array,
-  onChange: PropTypes.func,
-  onModeChange: PropTypes.func,
-  showEditor: PropTypes.bool,
-  onGetWidgetConfig: PropTypes.func
-};
 
 export default Step1;

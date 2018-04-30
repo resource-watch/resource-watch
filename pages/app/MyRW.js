@@ -58,6 +58,14 @@ const MYRW_TABS = [{
 }];
 
 class MyRW extends Page {
+  static defaultProps = {
+  };
+
+  static propTypes = {
+    url: PropTypes.object,
+    user: PropTypes.object
+  };
+
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
     const { user } = props;
@@ -168,13 +176,5 @@ class MyRW extends Page {
     );
   }
 }
-
-MyRW.defaultProps = {
-};
-
-MyRW.propTypes = {
-  url: PropTypes.object,
-  user: PropTypes.object
-};
 
 export default withRedux(initStore, null, null)(MyRW);

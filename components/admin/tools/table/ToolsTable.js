@@ -23,6 +23,27 @@ import TitleTD from './td/TitleTD';
 import PublishedTD from './td/PublishedTD';
 
 class ToolsTable extends React.Component {
+  static defaultProps = {
+    columns: [],
+    actions: {},
+    // Store
+    tools: [],
+    filteredTools: []
+  };
+
+  static propTypes = {
+    authorization: PropTypes.string,
+    // Store
+    loading: PropTypes.bool.isRequired,
+    tools: PropTypes.array.isRequired,
+    filteredTools: PropTypes.array.isRequired,
+    error: PropTypes.string,
+
+    // Actions
+    getTools: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
 
@@ -114,27 +135,6 @@ class ToolsTable extends React.Component {
     );
   }
 }
-
-ToolsTable.defaultProps = {
-  columns: [],
-  actions: {},
-  // Store
-  tools: [],
-  filteredTools: []
-};
-
-ToolsTable.propTypes = {
-  authorization: PropTypes.string,
-  // Store
-  loading: PropTypes.bool.isRequired,
-  tools: PropTypes.array.isRequired,
-  filteredTools: PropTypes.array.isRequired,
-  error: PropTypes.string,
-
-  // Actions
-  getTools: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired
-};
 
 const mapStateToProps = state => ({
   loading: state.tools.loading,

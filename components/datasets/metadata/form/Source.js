@@ -16,6 +16,18 @@ import Input from 'components/form/Input';
 import { SOURCE_ELEMENTS } from 'components/datasets/metadata/form/constants';
 
 class Source extends React.Component {
+  static propTypes = {
+    index: Proptypes.number,
+    values: Proptypes.object,
+    setTmpSources: Proptypes.func,
+    tmpSources: Proptypes.array
+  };
+
+  static defaultProps = {
+    values: {},
+    tmpSources: []
+  };
+
   constructor(props) {
     super(props);
 
@@ -121,18 +133,6 @@ class Source extends React.Component {
     );
   }
 }
-
-Source.propTypes = {
-  index: Proptypes.number,
-  values: Proptypes.object,
-  setTmpSources: Proptypes.func,
-  tmpSources: Proptypes.array
-};
-
-Source.defaultProps = {
-  values: {},
-  tmpSources: []
-};
 
 const mapStateToProps = ({ sources }) => ({
   tmpSources: sources.tmpSources

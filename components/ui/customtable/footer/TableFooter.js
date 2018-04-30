@@ -3,6 +3,25 @@ import PropTypes from 'prop-types';
 import Paginator from '../../Paginator';
 
 export default class TableFooter extends React.Component {
+  static propTypes = {
+    pagination: PropTypes.object,
+    showTotalPages: PropTypes.bool,
+    // FUNCTIONS
+    onChangePage: PropTypes.func
+  };
+
+  static defaultProps = {
+    pagination: {
+      enabled: true,
+      pageSize: 20,
+      page: 1,
+      total: null
+    },
+    showTotalPages: false,
+    // FUNCTIONS
+    onChangePage: null
+  };
+
   // UI EVENTS
   // - onChangePage
   onChangePage(page) {
@@ -32,22 +51,3 @@ export default class TableFooter extends React.Component {
     );
   }
 }
-
-TableFooter.propTypes = {
-  pagination: PropTypes.object,
-  showTotalPages: PropTypes.bool,
-  // FUNCTIONS
-  onChangePage: PropTypes.func
-};
-
-TableFooter.defaultProps = {
-  pagination: {
-    enabled: true,
-    pageSize: 20,
-    page: 1,
-    total: null
-  },
-  showTotalPages: false,
-  // FUNCTIONS
-  onChangePage: null
-};

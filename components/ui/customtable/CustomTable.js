@@ -10,6 +10,41 @@ import TableContent from './content/TableContent';
 import TableFooter from './footer/TableFooter';
 
 export default class CustomTable extends React.Component {
+  /* Property typing */
+  static propTypes = {
+    actions: PropTypes.object,
+    columns: PropTypes.array,
+    data: PropTypes.array,
+    pagination: PropTypes.object,
+    filters: PropTypes.bool,
+    sort: PropTypes.object,
+    onToggleSelectedRow: PropTypes.func,
+    onRowDelete: PropTypes.func
+  };
+
+  /* Property default values */
+  static defaultProps = {
+    data: [],
+    columns: [],
+    pagination: {
+      enabled: true,
+      pageSize: 20,
+      page: 0,
+      total: null
+    },
+    sort: {},
+    actions: {
+      show: true,
+      list: [
+        { name: 'Edit', path: '#' },
+        { name: 'Remove', path: '#' }
+      ]
+    },
+    filters: true,
+    onToggleSelectedRow: null,
+    onRowDelete: null
+  };
+
   /**
    * STATIC METHODS
    * - getColumnKeys
@@ -292,38 +327,3 @@ export default class CustomTable extends React.Component {
     );
   }
 }
-
-/* Property typing */
-CustomTable.propTypes = {
-  actions: PropTypes.object,
-  columns: PropTypes.array,
-  data: PropTypes.array,
-  pagination: PropTypes.object,
-  filters: PropTypes.bool,
-  sort: PropTypes.object,
-  onToggleSelectedRow: PropTypes.func,
-  onRowDelete: PropTypes.func
-};
-
-/* Property default values */
-CustomTable.defaultProps = {
-  data: [],
-  columns: [],
-  pagination: {
-    enabled: true,
-    pageSize: 20,
-    page: 0,
-    total: null
-  },
-  sort: {},
-  actions: {
-    show: true,
-    list: [
-      { name: 'Edit', path: '#' },
-      { name: 'Remove', path: '#' }
-    ]
-  },
-  filters: true,
-  onToggleSelectedRow: null,
-  onRowDelete: null
-};

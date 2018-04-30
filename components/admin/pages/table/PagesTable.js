@@ -23,6 +23,27 @@ import TitleTD from './td/TitleTD';
 import PublishedTD from './td/PublishedTD';
 
 class PagesTable extends React.Component {
+  static defaultProps = {
+    columns: [],
+    actions: {},
+    // Store
+    pages: [],
+    filteredPages: []
+  };
+
+  static propTypes = {
+    authorization: PropTypes.string,
+    // Store
+    loading: PropTypes.bool.isRequired,
+    pages: PropTypes.array.isRequired,
+    filteredPages: PropTypes.array.isRequired,
+    error: PropTypes.string,
+
+    // Actions
+    getPages: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
 
@@ -114,27 +135,6 @@ class PagesTable extends React.Component {
     );
   }
 }
-
-PagesTable.defaultProps = {
-  columns: [],
-  actions: {},
-  // Store
-  pages: [],
-  filteredPages: []
-};
-
-PagesTable.propTypes = {
-  authorization: PropTypes.string,
-  // Store
-  loading: PropTypes.bool.isRequired,
-  pages: PropTypes.array.isRequired,
-  filteredPages: PropTypes.array.isRequired,
-  error: PropTypes.string,
-
-  // Actions
-  getPages: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired
-};
 
 const mapStateToProps = state => ({
   loading: state.pages.pages.loading,

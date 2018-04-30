@@ -8,6 +8,19 @@ import Spinner from 'components/ui/Spinner';
 import styles from '../collections-panel-styles.scss';
 
 class CollectionPanelItem extends PureComponent {
+  static defaultProps = {
+    collection: {},
+    isChecked: false,
+    onToggleCollection: () => { }
+  };
+
+  static propTypes = {
+    collection: PropTypes.object,
+    isChecked: PropTypes.bool,
+    loading: PropTypes.bool,
+    onToggleCollection: PropTypes.func
+  };
+
   onCheck = (evt) => {
     const isChecked = evt.currentTarget.checked;
     const { onToggleCollection, collection } = this.props;
@@ -48,18 +61,5 @@ class CollectionPanelItem extends PureComponent {
     );
   }
 }
-
-CollectionPanelItem.defaultProps = {
-  collection: {},
-  isChecked: false,
-  onToggleCollection: () => {}
-};
-
-CollectionPanelItem.propTypes = {
-  collection: PropTypes.object,
-  isChecked: PropTypes.bool,
-  loading: PropTypes.bool,
-  onToggleCollection: PropTypes.func
-};
 
 export default CollectionPanelItem;

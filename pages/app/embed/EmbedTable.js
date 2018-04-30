@@ -14,6 +14,15 @@ import LayoutEmbed from 'layout/layout/layout-embed';
 import Spinner from 'components/ui/Spinner';
 
 class EmbedTable extends Page {
+  static propTypes = {
+    queryURL: PropTypes.object,
+    isLoading: PropTypes.bool
+  };
+
+  static defaultProps = {
+    isLoading: true
+  };
+
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
     const { store, isServer, req } = context;
@@ -127,14 +136,5 @@ class EmbedTable extends Page {
     );
   }
 }
-
-EmbedTable.propTypes = {
-  queryURL: PropTypes.object,
-  isLoading: PropTypes.bool
-};
-
-EmbedTable.defaultProps = {
-  isLoading: true
-};
 
 export default withRedux(initStore, null, null)(EmbedTable);

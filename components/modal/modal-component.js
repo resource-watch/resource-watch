@@ -6,12 +6,27 @@ import Modal from 'react-modal';
 import Icon from 'components/ui/Icon';
 
 class ModalComponent extends PureComponent {
+  static propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    className: PropTypes.string,
+    // Content
+    children: PropTypes.node.isRequired,
+    header: PropTypes.node,
+    // Func
+    onAfterOpen: PropTypes.func,
+    onRequestClose: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+  };
+
   // eslint-disable-line react/prefer-stateless-function
   render() {
     const {
       isOpen,
       className,
       header,
+      onAfterOpen,
       onRequestClose
     } = this.props;
 
@@ -26,14 +41,14 @@ class ModalComponent extends PureComponent {
         bodyOpenClassName="-no-scroll"
         isOpen={isOpen}
         ariaHideApp={false}
-        onAfterOpen={this.props.onAfterOpen}
-        onRequestClose={this.props.onRequestClose}
+        onAfterOpen={onAfterOpen}
+        onRequestClose={onRequestClose}
       >
         {header}
 
         <button
           className="modal-close"
-          onClick={onRequestClose}
+          onClick={(e) => e.stopPropagation() || onRequestClose()}
         >
           <Icon name="icon-cross" className="-small" />
         </button>
@@ -45,19 +60,5 @@ class ModalComponent extends PureComponent {
     );
   }
 }
-
-ModalComponent.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  className: PropTypes.string,
-  // Content
-  children: PropTypes.node.isRequired,
-  header: PropTypes.node,
-  // Func
-  onAfterOpen: PropTypes.func,
-  onRequestClose: PropTypes.func.isRequired
-};
-
-ModalComponent.defaultProps = {
-};
 
 export default ModalComponent;

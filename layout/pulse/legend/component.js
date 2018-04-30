@@ -32,9 +32,9 @@ Legend.propTypes = {
   className: PropTypes.object
 };
 
-Legend.defaultProps = {
-  layerActive: null,
-  className: {}
-};
+// Legend.defaultProps = {
+//   layerActive: null,
+//   className: {}
+// };
 
 export default Legend;

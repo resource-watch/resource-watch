@@ -9,6 +9,18 @@ import { Link } from 'routes';
 import Icon from 'components/ui/Icon';
 
 class Aside extends PureComponent {
+  static propTypes = {
+    items: PropTypes.array,
+    style: PropTypes.object,
+    selected: PropTypes.string
+  };
+
+  static defaultProps = {
+    items: [],
+    style: {},
+    selected: null
+  };
+
   render() {
     const { style, selected, items } = this.props;
     return (
@@ -36,17 +48,5 @@ class Aside extends PureComponent {
     );
   }
 }
-
-Aside.propTypes = {
-  items: PropTypes.array,
-  style: PropTypes.object,
-  selected: PropTypes.string
-};
-
-Aside.defaultProps = {
-  items: [],
-  style: {},
-  selected: null
-};
 
 export default Aside;

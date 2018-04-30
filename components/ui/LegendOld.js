@@ -41,6 +41,52 @@ const SortableList = SortableContainer(({ items }) => (
 ));
 
 class Legend extends React.PureComponent {
+  static propTypes = {
+    className: PropTypes.object,
+    // List of LayerGroup items
+    layerGroups: PropTypes.array,
+    // Layers can't be removed or hidden
+    readonly: PropTypes.bool,
+    // Layers can't be removed, hidden or toggled
+    // and the information button is hidden
+    interactionDisabled: PropTypes.bool,
+    // Whether by default the legend is expanded or not
+    expanded: PropTypes.bool,
+    // Tooltip open state
+    tooltipOpened: PropTypes.bool,
+    // Show layers button or not
+    showLayersButton: PropTypes.bool,
+
+    // Functions
+
+    // Callback to hide/show a layer group
+    toggleLayerGroupVisibility: PropTypes.func.isRequired,
+    // Callback to re-order the layer groups
+    setLayerGroupsOrder: PropTypes.func.isRequired,
+    // Callback to remove a layer group
+    removeLayerGroup: PropTypes.func,
+    // Callback to change which layer of the layer group is active
+    setLayerGroupActiveLayer: PropTypes.func.isRequired,
+    // Set layers opacity
+    setLayerGroupOpacity: PropTypes.func,
+
+    // Redux
+
+    // Toggle the modal
+    toggleModal: PropTypes.func.isRequired,
+    // Toggle the tooltip
+    toggleTooltip: PropTypes.func.isRequired,
+    // Set the position of the tooltip
+    setTooltipPosition: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    readonly: false,
+    interactionDisabled: false,
+    expanded: true,
+    showLayersButton: true
+  };
+
   /**
    * Return the position of a DOM element
    * @static
@@ -550,52 +596,6 @@ class Legend extends React.PureComponent {
     );
   }
 }
-
-Legend.propTypes = {
-  className: PropTypes.object,
-  // List of LayerGroup items
-  layerGroups: PropTypes.array,
-  // Layers can't be removed or hidden
-  readonly: PropTypes.bool,
-  // Layers can't be removed, hidden or toggled
-  // and the information button is hidden
-  interactionDisabled: PropTypes.bool,
-  // Whether by default the legend is expanded or not
-  expanded: PropTypes.bool,
-  // Tooltip open state
-  tooltipOpened: PropTypes.bool,
-  // Show layers button or not
-  showLayersButton: PropTypes.bool,
-
-  // Functions
-
-  // Callback to hide/show a layer group
-  toggleLayerGroupVisibility: PropTypes.func.isRequired,
-  // Callback to re-order the layer groups
-  setLayerGroupsOrder: PropTypes.func.isRequired,
-  // Callback to remove a layer group
-  removeLayerGroup: PropTypes.func,
-  // Callback to change which layer of the layer group is active
-  setLayerGroupActiveLayer: PropTypes.func.isRequired,
-  // Set layers opacity
-  setLayerGroupOpacity: PropTypes.func,
-
-  // Redux
-
-  // Toggle the modal
-  toggleModal: PropTypes.func.isRequired,
-  // Toggle the tooltip
-  toggleTooltip: PropTypes.func.isRequired,
-  // Set the position of the tooltip
-  setTooltipPosition: PropTypes.func.isRequired
-};
-
-Legend.defaultProps = {
-  readonly: false,
-  interactionDisabled: false,
-  expanded: true,
-  showLayersButton: true
-};
 
 const mapStateToProps = state => ({
   tooltipOpened: state.tooltip.opened
