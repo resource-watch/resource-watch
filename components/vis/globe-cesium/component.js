@@ -163,12 +163,15 @@ class GlobeCesiumComponent extends PureComponent {
     // ----- Updates in layers ----------
     if (nextProps.basemap !== this.props.basemap ||
       nextProps.activeContextLayers !== this.props.activeContextLayers ||
-      newMainLayer !== mainLayer) {
+      newMainLayer !== mainLayer ||
+      nextProps.labelsPulse !== this.props.labelsPulse) {
       this.updateLayers(
         nextProps,
         nextProps.basemap !== this.props.basemap,
         (nextProps.activeContextLayers !== this.props.activeContextLayers) ||
-        (newMainLayer !== mainLayer)
+        (newMainLayer !== mainLayer) ||
+        (nextProps.labelsPulse !== this.props.labelsPulse),
+        nextProps.labelsPulse !== this.props.labelsPulse,
       );
     }
     // ----- Markers ---------
@@ -413,6 +416,14 @@ class GlobeCesiumComponent extends PureComponent {
     }
   }
 
+  removeLabelsLayer() {
+    for (let i = 0; i < this.imageryLayers.length; i++) {
+      if (this.imageryLayers.get(i).name === 'labelsLayer') {
+        this.imageryLayers.remove(this.imageryLayers.get(i), false);
+      }
+    }
+  }
+
   removeContextLayers() {
     for (let i = this.imageryLayers.length - 1; i > 0; i--) {
       if (this.imageryLayers.get(i).name !== 'mainLayer') {
@@ -428,15 +439,21 @@ class GlobeCesiumComponent extends PureComponent {
   updateLayers(
     props,
     updateBasemap = true,
-    updateLayers = true
+    updateLayers = true,
+    updateLabels = false
   ) {
     const {
       basemap,
       activeContextLayers,
       contextLayersOnTop,
-      layerActive
+      layerActive,
+      labelsPulse
     } = props;
     const mainLayer = layerActive && layerActive.url;
+    console.log('updateLayers', updateLayers);
+    console.log('updateLabels', updateLabels);
+    console.log('updateBasemap', updateBasemap);
+    console.log('props', props);
 
     if (basemap && updateBasemap) {
       this.removeBasemap();
@@ -469,6 +486,14 @@ class GlobeCesiumComponent extends PureComponent {
         l.attributes.id,
         new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
       ));
+    }
+
+    if (updateLabels) {
+      this.removeLabelsLayer();
+      if (labelsPulse.labelsLayerActive) {
+        this.addAdditionalLayerOption('labelsLayer',
+          new Cesium.UrlTemplateImageryProvider({ url: labelsPulse.url }), 1, true);
+      }
     }
 
     this.viewModel.layers = [];
@@ -551,6 +576,7 @@ GlobeCesiumComponent.propTypes = {
   // Store
   setShapesCreated: PropTypes.func.isRequired,
   globeCesium: PropTypes.object.isRequired,
+  labelsPulse:PropTypes.object.isRequired,
 
   // Callbacks
   onClick: PropTypes.func,

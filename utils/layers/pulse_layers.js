@@ -4,6 +4,9 @@ import React from 'react';
 import LayerPill from 'layout/pulse/layer-pill';
 import LabelsPill from 'layout/pulse/labels-pill';
 
+// Util
+import { LABELS } from 'components/ui/map/constants';
+
 export const LAYERS_PLANET_PULSE = [
   {
     label: 'Land',
@@ -20,7 +23,7 @@ export const LAYERS_PLANET_PULSE = [
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
               <LayerPill layerId="c7e76588-6da5-4645-8842-2d2ac0001110" label="Cropland" />
-              <LabelsPill url="https://api.mapbox.com/styles/v1/jcawri/cj0mhlipx00aa2slaxd738db2/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamNhd3JpIiwiYSI6ImNqMDd6N2NybzAwMHcyd29iZWlsems0enEifQ.eIqQeyQn5oCLkyivGtiVLg"  label="Labels" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
         initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
@@ -46,6 +49,7 @@ export const LAYERS_PLANET_PULSE = [
               <LayerPill layerId="7a270c3a-1161-4fb2-a613-090d3e603126" label="Forests" />
               <LayerPill layerId="ed051817-1cb3-42cc-91b5-1caaea6f8ca6" label="Forest loss" />
               <LayerPill layerId="bd9ec0da-84a0-4429-bf30-ffcbe64fbe7b" label="Data coverage" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
         initialPosition: { latitude: -13.2399454992863, longitude: -52.734375, height: 20000000 },
