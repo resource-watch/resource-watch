@@ -2,6 +2,7 @@ import React from 'react';
 
 // Components
 import LayerPill from 'layout/pulse/layer-pill';
+import LabelsPill from 'layout/pulse/labels-pill';
 
 export const LAYERS_PLANET_PULSE = [
   {
@@ -19,6 +20,7 @@ export const LAYERS_PLANET_PULSE = [
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
               <LayerPill layerId="c7e76588-6da5-4645-8842-2d2ac0001110" label="Cropland" />
+              <LabelsPill url="https://api.mapbox.com/styles/v1/jcawri/cj0mhlipx00aa2slaxd738db2/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamNhd3JpIiwiYSI6ImNqMDd6N2NybzAwMHcyd29iZWlsems0enEifQ.eIqQeyQn5oCLkyivGtiVLg"  label="Labels" />
             </div>
           </div>,
         initialPosition: { latitude: 0, longitude: 0, height: 20000000 },

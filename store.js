@@ -45,6 +45,7 @@ import * as layerContainer from 'layout/pulse/layer-container';
 import * as layerMenu from 'layout/pulse/layer-menu';
 import * as layerCard from 'layout/pulse/layer-card';
 import * as layerPill from 'layout/pulse/layer-pill';
+import * as labelsPill from 'layout/pulse/labels-pill';
 import * as globeCesium from 'components/vis/globe-cesium';
 
 // Widget
@@ -121,6 +122,7 @@ const reducer = combineReducers({
   layerMenuPulse: handleModule(layerMenu),
   layerCardPulse: handleModule(layerCard),
   contextLayersPulse: handleModule(layerPill),
+  labelsPulse: handleModule(labelsPill),
   globeCesium: handleModule(globeCesium),
   pulse: handleModule(pulse),
 
