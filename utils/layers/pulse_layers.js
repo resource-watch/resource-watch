@@ -74,6 +74,10 @@ export const LAYERS_PLANET_PULSE = [
             <div className="description-text">
               The VIIRS sensor aboard the Suomi NPP satellite collects imagery as it orbits the Earth every 100 minutes. Passing over the poles 14 times per day, it crosses the equator at at 1:30am local time, photographing the entire world each day.
             </div>
+            <div className="view-with-container">
+              <span className="view-with-label"><strong>View with:</strong></span>
+              <LabelsPill url={LABELS.dark.value} label="Labels" />
+            </div>
           </div>,
         initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
         contextLayers: [],
@@ -92,6 +96,10 @@ export const LAYERS_PLANET_PULSE = [
           <div className="description">
             <div className="description-text">
               The VIIRS sensor aboard the Suomi NPP satellite collects nighttime imagery as it orbits the Earth every 100 minutes. Passing over the poles 14 times per day, it crosses the equator at on the nighttime side of the Earth at 1:30am local time.
+            </div>
+            <div className="view-with-container">
+              <span className="view-with-label"><strong>View with:</strong></span>
+              <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
         initialPosition: { latitude: 0, longitude: 0, height: 20000000 },

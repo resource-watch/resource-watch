@@ -3,6 +3,7 @@ import { createAction, createThunkAction } from 'redux-tools';
 // Actions
 import { setContextActiveLayers } from 'layout/pulse/layer-pill/actions';
 import { setInitialPosition } from 'components/vis/globe-cesium/actions';
+import { resetLabelsLayer } from 'layout/pulse/labels-pill/actions';
 
 // Components
 import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
@@ -16,6 +17,7 @@ export const resetActiveLayer = createThunkAction('layer-menu/resetActiveLayer',
   dispatch(setContextActiveLayers([]));
   dispatch(setActiveLayer(null));
   dispatch(setActiveLayerLoading(false));
+  dispatch(resetLabelsLayer())
 });
 
 export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer', ({
