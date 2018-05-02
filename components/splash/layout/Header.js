@@ -8,6 +8,17 @@ import Modal from 'components/modal/modal-component';
 import CreditsModal from 'components/modal/credits-modal';
 
 class Header extends React.Component {
+  static defaultProps = {
+    showEarthViewLink: false
+  };
+
+  static propTypes = {
+    showEarthViewLink: PropTypes.bool,
+    showCreditsModal: PropTypes.bool,
+    skipAnimation: PropTypes.func.isRequired,
+    hideSkip: PropTypes.bool
+  };
+
   constructor(props) {
     super(props);
 
@@ -65,16 +76,5 @@ class Header extends React.Component {
     );
   }
 }
-
-Header.defaultProps = {
-  showEarthViewLink: false
-};
-
-Header.propTypes = {
-  showEarthViewLink: PropTypes.bool,
-  showCreditsModal: PropTypes.bool,
-  skipAnimation: PropTypes.func.isRequired,
-  hideSkip: PropTypes.bool
-};
 
 export default Header;

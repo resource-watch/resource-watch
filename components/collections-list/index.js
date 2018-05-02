@@ -23,6 +23,21 @@ import NameTD from './td/NameTD';
 import RelatedContentTD from './td/RelatedContentTD';
 
 class CollectionsList extends React.Component {
+  static defaultProps = {
+    routes: {
+      index: '',
+      detail: ''
+    }
+  };
+
+  static propTypes = {
+    routes: PropTypes.object,
+    user: PropTypes.object,
+    collections: PropTypes.object,
+    filteredCollections: PropTypes.array,
+    setUserCollectionsFilter: PropTypes.func
+  };
+
   constructor(props) {
     super(props);
     this.onSearch = this.onSearch.bind(this);
@@ -110,21 +125,6 @@ class CollectionsList extends React.Component {
     );
   }
 }
-
-CollectionsList.defaultProps = {
-  routes: {
-    index: '',
-    detail: ''
-  }
-};
-
-CollectionsList.propTypes = {
-  routes: PropTypes.object,
-  user: PropTypes.object,
-  collections: PropTypes.object,
-  filteredCollections: PropTypes.array,
-  setUserCollectionsFilter: PropTypes.func
-};
 
 const mapStateToProps = state => ({
   user: state.user,

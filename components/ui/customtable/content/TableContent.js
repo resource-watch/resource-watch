@@ -4,6 +4,30 @@ import classnames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 
 export default class TableContent extends React.Component {
+  static propTypes = {
+    actions: PropTypes.object,
+    columns: PropTypes.array,
+    filteredData: PropTypes.array,
+    pagination: PropTypes.object,
+    rowSelection: PropTypes.array,
+    sort: PropTypes.object,
+    // FUNCTIONS
+    onRowDelete: PropTypes.func,
+    onToggleSelectedRow: PropTypes.func
+  };
+
+  static defaultProps = {
+    actions: {},
+    columns: [],
+    filteredData: [],
+    pagination: {},
+    rowSelection: [],
+    sort: {},
+    // FUNCTIONS
+    onRowDelete: null,
+    onToggleSelectedRow: null
+  };
+
   getPageBounds() {
     const { pagination } = this.props;
 
@@ -108,27 +132,3 @@ export default class TableContent extends React.Component {
     );
   }
 }
-
-TableContent.propTypes = {
-  actions: PropTypes.object,
-  columns: PropTypes.array,
-  filteredData: PropTypes.array,
-  pagination: PropTypes.object,
-  rowSelection: PropTypes.array,
-  sort: PropTypes.object,
-  // FUNCTIONS
-  onRowDelete: PropTypes.func,
-  onToggleSelectedRow: PropTypes.func
-};
-
-TableContent.defaultProps = {
-  actions: {},
-  columns: [],
-  filteredData: [],
-  pagination: {},
-  rowSelection: [],
-  sort: {},
-  // FUNCTIONS
-  onRowDelete: null,
-  onToggleSelectedRow: null
-};

@@ -26,6 +26,31 @@ import OwnershipTD from './td/OwnershipTD';
 
 
 class WidgetsTable extends React.Component {
+  static defaultProps = {
+    columns: [],
+    actions: {},
+    dataset: '',
+    // Store
+    widgets: [],
+    filteredWidgets: [],
+    user: {}
+  };
+
+  static propTypes = {
+    authorization: PropTypes.string,
+    dataset: PropTypes.string,
+    // Store
+    loading: PropTypes.bool.isRequired,
+    widgets: PropTypes.array.isRequired,
+    filteredWidgets: PropTypes.array.isRequired,
+    error: PropTypes.string,
+    user: PropTypes.object,
+
+    // Actions
+    getWidgets: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
 
@@ -135,31 +160,6 @@ class WidgetsTable extends React.Component {
     );
   }
 }
-
-WidgetsTable.defaultProps = {
-  columns: [],
-  actions: {},
-  dataset: '',
-  // Store
-  widgets: [],
-  filteredWidgets: [],
-  user: {}
-};
-
-WidgetsTable.propTypes = {
-  authorization: PropTypes.string,
-  dataset: PropTypes.string,
-  // Store
-  loading: PropTypes.bool.isRequired,
-  widgets: PropTypes.array.isRequired,
-  filteredWidgets: PropTypes.array.isRequired,
-  error: PropTypes.string,
-  user: PropTypes.object,
-
-  // Actions
-  getWidgets: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired
-};
 
 const mapStateToProps = state => ({
   loading: state.widgets.widgets.loading,

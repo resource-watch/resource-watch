@@ -15,6 +15,31 @@ import SearchInput from 'components/ui/SearchInput';
 import DashboardsListCard from 'components/dashboards/list/DashboardsListCard';
 
 class DashboardsList extends React.Component {
+  static defaultProps = {
+    routes: {
+      index: '',
+      detail: ''
+    },
+    getDashboardsFilters: {},
+    // Store
+    dashboards: []
+  };
+
+  static propTypes = {
+    routes: PropTypes.object,
+    getDashboardsFilters: PropTypes.object,
+
+    // Store
+    dashboards: PropTypes.array.isRequired,
+    loading: PropTypes.bool,
+    filters: PropTypes.array,
+
+    // Actions
+    getDashboards: PropTypes.func.isRequired,
+    deleteDashboard: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
 
@@ -126,31 +151,6 @@ class DashboardsList extends React.Component {
     );
   }
 }
-
-DashboardsList.defaultProps = {
-  routes: {
-    index: '',
-    detail: ''
-  },
-  getDashboardsFilters: {},
-  // Store
-  dashboards: []
-};
-
-DashboardsList.propTypes = {
-  routes: PropTypes.object,
-  getDashboardsFilters: PropTypes.object,
-
-  // Store
-  dashboards: PropTypes.array.isRequired,
-  loading: PropTypes.bool,
-  filters: PropTypes.array,
-
-  // Actions
-  getDashboards: PropTypes.func.isRequired,
-  deleteDashboard: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired
-};
 
 const mapStateToProps = state => ({
   user: state.user,

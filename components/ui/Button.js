@@ -2,6 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Button extends React.Component {
+  static defaultProps = {
+    properties: {}
+  };
+
+  static propTypes = {
+    children: PropTypes.any,
+    properties: PropTypes.object,
+
+    onClick: PropTypes.func,
+    onMouseOver: PropTypes.func,
+    onMouseOut: PropTypes.func
+  };
+
   constructor(props) {
     super(props);
 
@@ -58,18 +71,5 @@ class Button extends React.Component {
     );
   }
 }
-
-Button.defaultProps = {
-  properties: {}
-};
-
-Button.propTypes = {
-  children: PropTypes.any,
-  properties: PropTypes.object,
-
-  onClick: PropTypes.func,
-  onMouseOver: PropTypes.func,
-  onMouseOut: PropTypes.func
-};
 
 export default Button;

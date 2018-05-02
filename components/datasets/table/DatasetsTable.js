@@ -26,6 +26,34 @@ import UpdatedAtTD from './td/UpdatedAtTD';
 import OwnerTD from './td/OwnerTD';
 
 class DatasetsTable extends React.Component {
+  static defaultProps = {
+    routes: {
+      index: '',
+      detail: ''
+    },
+    columns: [],
+    actions: {},
+    getDatasetsFilters: {},
+    // Store
+    datasets: []
+  };
+
+  static propTypes = {
+    routes: PropTypes.object,
+    getDatasetsFilters: PropTypes.object,
+
+    // Store
+    user: PropTypes.object,
+    loading: PropTypes.bool.isRequired,
+    datasets: PropTypes.array.isRequired,
+    error: PropTypes.string,
+
+    // Actions
+    getDatasets: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired
+  };
+
+
   constructor(props) {
     super(props);
 
@@ -133,33 +161,6 @@ class DatasetsTable extends React.Component {
     );
   }
 }
-
-DatasetsTable.defaultProps = {
-  routes: {
-    index: '',
-    detail: ''
-  },
-  columns: [],
-  actions: {},
-  getDatasetsFilters: {},
-  // Store
-  datasets: []
-};
-
-DatasetsTable.propTypes = {
-  routes: PropTypes.object,
-  getDatasetsFilters: PropTypes.object,
-
-  // Store
-  user: PropTypes.object,
-  loading: PropTypes.bool.isRequired,
-  datasets: PropTypes.array.isRequired,
-  error: PropTypes.string,
-
-  // Actions
-  getDatasets: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired
-};
 
 const mapStateToProps = state => ({
   user: state.user,

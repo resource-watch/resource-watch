@@ -15,6 +15,14 @@ import LayoutEmbed from 'layout/layout/layout-embed';
 import SimilarDatasets from 'components/datasets/similar-datasets/similar-datasets';
 
 class EmbedSimilarDatasets extends Page {
+  static propTypes = {
+    loading: PropTypes.bool.isRequired
+  };
+
+  static defaultProps = {
+    loading: true
+  };
+
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
     const { store, isServer, req } = context;
@@ -50,14 +58,6 @@ class EmbedSimilarDatasets extends Page {
     );
   }
 }
-
-EmbedSimilarDatasets.propTypes = {
-  loading: PropTypes.bool.isRequired
-};
-
-EmbedSimilarDatasets.defaultProps = {
-  loading: true
-};
 
 const mapStateToProps = state => ({
   loading: state.similarDatasets.loading

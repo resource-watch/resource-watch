@@ -18,36 +18,36 @@ class LoginRequired extends PureComponent {
     };
   }
 
-  promptLogin(e) {
+  promptLogin = (e) => {
     e.stopPropagation();
     e.preventDefault();
     this.setState({ isOpen: true });
   }
 
-  closePrompt() {
+  closePrompt = () => {
     this.setState({ isOpen: false });
   }
 
   render() {
-    const { user } = this.props;
+    const { user, text } = this.props;
     const { isOpen } = this.state;
 
     return user.token ? this.props.children : (
-      <div
-        className="c-login-required"
-        onClickCapture={e => this.promptLogin(e)}
-      >
+      <fragment>
+        <div
+          className="c-login-required"
+          onClickCapture={this.promptLogin}
+        >
+          {this.props.children}
+        </div>
         <Modal
           isOpen={isOpen}
           className="-medium"
-          onRequestClose={() => this.closePrompt()}
+          onRequestClose={this.closePrompt}
         >
-          <LoginModal
-            {...this.props}
-          />
+          <LoginModal text={ text || ''} />
         </Modal>
-        {this.props.children}
-      </div>
+      </fragment>
     );
   }
 }

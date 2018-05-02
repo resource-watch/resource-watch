@@ -15,6 +15,20 @@ import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
 
 class EmbedEmbed extends Page {
+  static propTypes = {
+    widget: PropTypes.object,
+    getWidget: PropTypes.func,
+    checkIfFavorited: PropTypes.func,
+    setIfFavorited: PropTypes.func,
+    loading: PropTypes.bool,
+    error: PropTypes.string,
+    favourited: PropTypes.bool
+  };
+
+  static defaultProps = {
+    widget: {}
+  };
+
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
     const { store, isServer, req } = context;
@@ -169,20 +183,6 @@ class EmbedEmbed extends Page {
     );
   }
 }
-
-EmbedEmbed.propTypes = {
-  widget: PropTypes.object,
-  getWidget: PropTypes.func,
-  checkIfFavorited: PropTypes.func,
-  setIfFavorited: PropTypes.func,
-  loading: PropTypes.bool,
-  error: PropTypes.string,
-  favourited: PropTypes.bool
-};
-
-EmbedEmbed.defaultProps = {
-  widget: {}
-};
 
 const mapStateToProps = state => ({
   widget: state.widget.data,

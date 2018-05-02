@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 // Components
 import DashboardsTable from 'components/dashboards/table/DashboardsTable';
 
-export default function DashboardsIndex(props) {
-  const { user } = props;
-
+export default function DashboardsIndex({ user = {} }) {
   return (
     <div className="c-dashboards-index">
       <DashboardsTable
@@ -18,8 +16,4 @@ export default function DashboardsIndex(props) {
 
 DashboardsIndex.propTypes = {
   user: PropTypes.object.isRequired
-};
-
-DashboardsIndex.defaultProps = {
-  user: {}
 };

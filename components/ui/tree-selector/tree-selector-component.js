@@ -5,6 +5,20 @@ import classnames from 'classnames';
 import DropdownTreeSelect from 'react-dropdown-tree-select';
 
 class TreeSelector extends PureComponent {
+  static propTypes = {
+    data: PropTypes.array.isRequired,
+    classNames: PropTypes.string,
+    onChange: PropTypes.func,
+    placeholderText: PropTypes.string,
+    showDropdown: PropTypes.bool
+  };
+
+  static defaultProps = {
+    data: [],
+    showDropdown: true,
+    onChange: () => { }
+  };
+
   render() {
     const { showDropdown, placeholderText, data, onChange, classNames } = this.props;
     const datasetFilterClass = classnames({
@@ -24,19 +38,5 @@ class TreeSelector extends PureComponent {
     );
   }
 }
-
-TreeSelector.propTypes = {
-  data: PropTypes.array.isRequired,
-  classNames: PropTypes.string,
-  onChange: PropTypes.func,
-  placeholderText: PropTypes.string,
-  showDropdown: PropTypes.bool
-};
-
-TreeSelector.defaultProps = {
-  data: [],
-  showDropdown: true,
-  onChange: () => {}
-};
 
 export default TreeSelector;

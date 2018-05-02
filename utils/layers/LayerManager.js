@@ -4,16 +4,9 @@
 import 'isomorphic-fetch';
 import isEmpty from 'lodash/isEmpty';
 
-let L;
 if (typeof window !== 'undefined') {
-  L = require('leaflet');
-
   // adding support for UTFGrid
   require('leaflet-utfgrid/L.UTFGrid-min');
-
-  // adding support for esri
-  const esri = require('esri-leaflet');
-  L.esri = esri;
 
   // adding support for Side by Side
   require('lib/leaflet-side-by-side');

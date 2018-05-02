@@ -11,6 +11,29 @@ import { FAVOURITES_COLLECTION } from './collections-panel-constants';
 import styles from './collections-panel-styles.scss';
 
 class CollectionsPanel extends PureComponent {
+  static defaultProps = {
+    collections: [],
+    favourites: [],
+    resource: {},
+    collectionsLoadingQueue: [],
+    favouritesLoading: false,
+    addCollection: () => { },
+    toggleCollection: () => { },
+    toggleFavourite: () => { }
+  };
+
+  static propTypes = {
+    collections: PropTypes.array,
+    favourites: PropTypes.array,
+    resource: PropTypes.object,
+    collectionsLoadingQueue: PropTypes.array,
+    favouritesLoading: PropTypes.bool,
+    addCollection: PropTypes.func,
+    toggleCollection: PropTypes.func,
+    toggleFavourite: PropTypes.func,
+    resourceType: PropTypes.oneOf(['dataset', 'layer', 'widget'])
+  };
+
   constructor(props) {
     super(props);
 
@@ -133,28 +156,5 @@ class CollectionsPanel extends PureComponent {
     );
   }
 }
-
-CollectionsPanel.defaultProps = {
-  collections: [],
-  favourites: [],
-  resource: {},
-  collectionsLoadingQueue: [],
-  favouritesLoading: false,
-  addCollection: () => {},
-  toggleCollection: () => {},
-  toggleFavourite: () => {}
-};
-
-CollectionsPanel.propTypes = {
-  collections: PropTypes.array,
-  favourites: PropTypes.array,
-  resource: PropTypes.object,
-  collectionsLoadingQueue: PropTypes.array,
-  favouritesLoading: PropTypes.bool,
-  addCollection: PropTypes.func,
-  toggleCollection: PropTypes.func,
-  toggleFavourite: PropTypes.func,
-  resourceType: PropTypes.oneOf(['dataset', 'layer', 'widget'])
-};
 
 export default CollectionsPanel;

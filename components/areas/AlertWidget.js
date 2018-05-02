@@ -12,7 +12,7 @@ import areaAlerts from 'selectors/user/areaAlerts';
 // Components
 import Map from 'components/ui/map/Map';
 
-import DataTable from 'components/ui/DataTable';
+// import DataTable from 'components/ui/DataTable';
 import MapControls from 'components/ui/map/MapControls';
 import ShareControl from 'components/ui/map/controls/ShareControl';
 import BasemapControl from 'components/ui/map/controls/BasemapControl';

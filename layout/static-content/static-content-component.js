@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import renderHTML from 'react-render-html';
 
 
-const StaticContentComponent = ({ content }) => {
+const StaticContentComponent = ({ content = '' }) => {
   const emptyContent = '<p><br></p>';
   if (content === emptyContent) return null;
 
@@ -26,10 +26,6 @@ const StaticContentComponent = ({ content }) => {
 
 StaticContentComponent.propTypes = {
   content: PropTypes.string
-};
-
-StaticContentComponent.defaultProps = {
-  content: ''
 };
 
 export default StaticContentComponent;

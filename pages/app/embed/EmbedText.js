@@ -15,6 +15,18 @@ import TextChart from 'components/widgets/charts/TextChart';
 import Spinner from 'components/ui/Spinner';
 
 class EmbedText extends Page {
+  static propTypes = {
+    widget: PropTypes.object,
+    getWidget: PropTypes.func,
+    bandDescription: PropTypes.string,
+    bandStats: PropTypes.object,
+    loading: PropTypes.bool
+  };
+
+  static defaultProps = {
+    widget: {}
+  };
+
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
     const { store, isServer, req } = context;
@@ -91,18 +103,6 @@ class EmbedText extends Page {
     );
   }
 }
-
-EmbedText.propTypes = {
-  widget: PropTypes.object,
-  getWidget: PropTypes.func,
-  bandDescription: PropTypes.string,
-  bandStats: PropTypes.object,
-  loading: PropTypes.bool
-};
-
-EmbedText.defaultProps = {
-  widget: {}
-};
 
 const mapStateToProps = state => ({
   widget: state.widget.data,
