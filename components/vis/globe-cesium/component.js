@@ -34,9 +34,7 @@ class GlobeCesiumComponent extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      billboardHover: false
-    };
+    this.state = { billboardHover: false };
 
     // Bindings
     this.onMouseClick = this.onMouseClick.bind(this);
@@ -163,12 +161,14 @@ class GlobeCesiumComponent extends PureComponent {
     // ----- Updates in layers ----------
     if (nextProps.basemap !== this.props.basemap ||
       nextProps.activeContextLayers !== this.props.activeContextLayers ||
-      newMainLayer !== mainLayer) {
+      newMainLayer !== mainLayer ||
+      nextProps.labelsPulse !== this.props.labelsPulse) {
       this.updateLayers(
         nextProps,
         nextProps.basemap !== this.props.basemap,
         (nextProps.activeContextLayers !== this.props.activeContextLayers) ||
-        (newMainLayer !== mainLayer)
+        (newMainLayer !== mainLayer) ||
+        (nextProps.labelsPulse !== this.props.labelsPulse)
       );
     }
     // ----- Markers ---------
@@ -413,6 +413,14 @@ class GlobeCesiumComponent extends PureComponent {
     }
   }
 
+  removeLabelsLayer() {
+    for (let i = 0; i < this.imageryLayers.length; i++) {
+      if (this.imageryLayers.get(i).name === 'labelsLayer') {
+        this.imageryLayers.remove(this.imageryLayers.get(i), false);
+      }
+    }
+  }
+
   removeContextLayers() {
     for (let i = this.imageryLayers.length - 1; i > 0; i--) {
       if (this.imageryLayers.get(i).name !== 'mainLayer') {
@@ -434,7 +442,8 @@ class GlobeCesiumComponent extends PureComponent {
       basemap,
       activeContextLayers,
       contextLayersOnTop,
-      layerActive
+      layerActive,
+      labelsPulse
     } = props;
     const mainLayer = layerActive && layerActive.url;
 
@@ -448,10 +457,15 @@ class GlobeCesiumComponent extends PureComponent {
 
     if (!contextLayersOnTop && updateLayers) {
       this.removeContextLayers();
+      this.removeLabelsLayer();
       activeContextLayers.forEach(l => this.addAdditionalLayerOption(
         l.attributes.id,
         new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
       ));
+      if (labelsPulse.labelsLayerActive) {
+        this.addAdditionalLayerOption('labelsLayer',
+          new Cesium.UrlTemplateImageryProvider({ url: labelsPulse.url }), 1, true);
+      }
     }
 
     if (mainLayer && updateLayers) {
@@ -465,10 +479,15 @@ class GlobeCesiumComponent extends PureComponent {
 
     if (contextLayersOnTop && updateLayers) {
       this.removeContextLayers();
+      this.removeLabelsLayer();
       activeContextLayers.forEach(l => this.addAdditionalLayerOption(
         l.attributes.id,
         new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
       ));
+      if (labelsPulse.labelsLayerActive) {
+        this.addAdditionalLayerOption('labelsLayer',
+          new Cesium.UrlTemplateImageryProvider({ url: labelsPulse.url }), 1, true);
+      }
     }
 
     this.viewModel.layers = [];
@@ -551,6 +570,7 @@ GlobeCesiumComponent.propTypes = {
   // Store
   setShapesCreated: PropTypes.func.isRequired,
   globeCesium: PropTypes.object.isRequired,
+  labelsPulse:PropTypes.object.isRequired,
 
   // Callbacks
   onClick: PropTypes.func,

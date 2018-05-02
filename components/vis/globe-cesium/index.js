@@ -12,14 +12,13 @@ const mapStateToProps = state => ({
   activeContextLayers: activeContextLayers(state),
   layerPoints: state.pulse.layerPoints,
   layerActive: state.layerMenuPulse.layerActive,
-  globeCesium: state.globeCesium
+  globeCesium: state.globeCesium,
+  labelsPulse: state.labelsPulse
 });
 
 class GlobeCesiumContainer extends Component {
   render() {
-    return createElement(GlobeCesiumComponent, {
-      ...this.props
-    });
+    return createElement(GlobeCesiumComponent, { ...this.props });
   }
 }
 
