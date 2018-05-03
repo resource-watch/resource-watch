@@ -14,6 +14,7 @@ import MyRWWidgetsMy from './my-rw-widgets-component';
 class MyRWWidgetsContainer extends PureComponent {
   static propTypes = {
     pathname: PropTypes.string,
+    tab: PropTypes.string,
     subtab: PropTypes.string,
     orderDirection: PropTypes.string,
     pagination: PropTypes.object,
@@ -28,9 +29,7 @@ class MyRWWidgetsContainer extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      pathname, subtab, orderDirection, pagination
-    } = this.props;
+    const { pathname, subtab, orderDirection, pagination } = this.props;
     const { page } = pagination;
 
     const isMyRW = pathname === '/app/MyRW';
@@ -39,7 +38,7 @@ class MyRWWidgetsContainer extends PureComponent {
     const orderDirectionChanged = orderDirection !== nextProps.orderDirection;
 
     if (tabChanged || paginationPageChanged || orderDirectionChanged) {
-      if (isMyRW) {
+      if (isMyRW && nextProps.tab === 'widgets') {
         this.props.getWidgetsByTab(nextProps.subtab);
       }
     }
@@ -68,6 +67,7 @@ const mapStateToProps = state => ({
   loading: state.widgets.widgets.loading,
   pagination: state.widgets.widgets.pagination,
   pathname: state.routes.pathname,
+  tab: state.routes.query.tab,
   subtab: state.routes.query.subtab,
   user: state.user
 });

@@ -10,7 +10,9 @@ import DatasetList from './dataset-list-component';
 
 class DatasetListContainer extends PureComponent {
   static propTypes = {
-    currentTab: PropTypes.string,
+    pathname: PropTypes.string,
+    tab: PropTypes.string,
+    subtab: PropTypes.string,
     orderDirection: PropTypes.string,
     pagination: PropTypes.object,
     getDatasetsByTab: PropTypes.func,
@@ -21,19 +23,22 @@ class DatasetListContainer extends PureComponent {
   }
 
   componentWillMount() {
-    this.props.getDatasetsByTab(this.props.currentTab);
+    this.props.getDatasetsByTab(this.props.subtab);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { currentTab, orderDirection, pagination } = this.props;
+    const { pathname, subtab, orderDirection, pagination } = this.props;
     const { page } = pagination;
 
-    const tabChanged = currentTab !== nextProps.currentTab;
+    const isMyRW = pathname === '/app/MyRW';
+    const tabChanged = subtab !== nextProps.subtab;
     const paginationPageChanged = page !== nextProps.pagination.page;
     const orderDirectionChanged = orderDirection !== nextProps.orderDirection;
 
     if (tabChanged || paginationPageChanged || orderDirectionChanged) {
-      this.props.getDatasetsByTab(nextProps.currentTab);
+      if (isMyRW && nextProps.tab === 'datasets') {
+        this.props.getDatasetsByTab(nextProps.subtab);
+      }
     }
   }
 
@@ -52,7 +57,9 @@ const mapStateToProps = state => ({
   loading: state.datasets.datasets.loading,
   orderDirection: state.datasets.datasets.orderDirection,
   pagination: state.datasets.datasets.pagination,
-  currentTab: state.routes.query.subtab,
+  pathname: state.routes.pathname,
+  tab: state.routes.query.tab,
+  subtab: state.routes.query.subtab,
   user: state.user,
   locale: state.common.locale
 });
