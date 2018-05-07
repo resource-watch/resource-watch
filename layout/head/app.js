@@ -108,7 +108,12 @@ class Head extends React.PureComponent {
   getCesium() {
     const { pathname } = this.props.routes;
     if (pathname === '/app/pulse' || pathname === '/app/Splash') {
-      return <script src="/static/cesium/cesium.js" />;
+      return (
+        <fragment>
+          <script src="/static/cesium/cesium.js" />
+          <script src="/static/cesium/cesium-navigation.js" />
+        </fragment>
+      );
     }
     return null;
   }
