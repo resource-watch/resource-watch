@@ -6,12 +6,11 @@ import initialState from './footer-default-state';
 import FooterComponent from './footer-component';
 
 // Mandatory
-export {
-  actions, reducers, initialState
-};
+export { actions, reducers, initialState };
 
 export default connect(
   state => ({
+    header: state.header,
     footer: state.footer
   }),
   actions
