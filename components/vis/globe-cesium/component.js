@@ -65,6 +65,13 @@ class GlobeCesiumComponent extends PureComponent {
       ...this.props.viewerOptions
     });
 
+    // Extend plugins
+    this.viewer.extend(Cesium.viewerCesiumNavigationMixin, {
+      enableCompass: false,
+      enableDistanceLegend: false,
+      enableCompassOuterRing: false
+    });
+
     // Set maximum/minimum zoom values
     this.viewer.scene.screenSpaceCameraController.maximumZoomDistance = MAXIMUM_ZOOM_DISTANCE;
     this.viewer.scene.screenSpaceCameraController.minimumZoomDistance = MINIMUM_ZOOM_DISTANCE;
@@ -183,23 +190,6 @@ class GlobeCesiumComponent extends PureComponent {
         this.props.setShapesCreated(false);
         this.createShapes(this.getShapes(nextProps));
       }
-    }
-    // -------- zoom level updates -------------
-    if (this.props.zoom !== nextProps.zoom) {
-      const { camera } = this.viewer;
-      const increment = this.props.zoom - nextProps.zoom;
-      const difference = camera.getMagnitude() - this.viewer.scene.globe.ellipsoid.maximumRadius;
-      const smallerScalar = difference < 1000000;
-      let scalar = smallerScalar ? 0.95 : 0.7;
-      if (increment < 0) {
-        scalar = smallerScalar ? 1.005 : 1.3;
-      }
-      const newPosition = {
-        x: camera.position.x * scalar,
-        y: camera.position.y * scalar,
-        z: camera.position.z * scalar
-      };
-      this.viewer.camera.flyTo({ destination: newPosition, duration: 1.5 });
     }
 
     // ---------- initialPosition ----------
@@ -563,7 +553,6 @@ GlobeCesiumComponent.propTypes = {
   contextLayersOnTop: PropTypes.bool,
   layerPoints: PropTypes.array,
   layerActive: PropTypes.object,
-  zoom: PropTypes.number,
   markers: PropTypes.array,
   viewerOptions: PropTypes.object,
 
