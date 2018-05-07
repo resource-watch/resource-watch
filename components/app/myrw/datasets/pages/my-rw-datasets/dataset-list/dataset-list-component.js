@@ -59,15 +59,13 @@ class DatasetsList extends PureComponent {
   }
 
   render() {
-    const {
-      datasets, routes, user, filters, loading
-    } = this.props;
+    const {datasets, routes, user, filters, loading} = this.props;
 
     return (
       <div className="c-datasets-list">
         {loading && <Spinner className="-light" isLoading={loading} />}
 
-        <div className="l-row row list">
+        <div className="l-row row list -equal-height">
           {datasets.map(dataset => (
             <div
               className="column list-item small-12 medium-4"
