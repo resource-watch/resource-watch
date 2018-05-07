@@ -6,9 +6,7 @@ import initialState from './default-state';
 import TopicThumbnailList from './component';
 
 // Mandatory
-export {
-  actions, reducers, initialState
-};
+export { actions, reducers, initialState };
 
 export default connect(
   state => ({

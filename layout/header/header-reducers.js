@@ -8,9 +8,7 @@ export default {
     ({
       ...state,
       dropdownOpened: {
-        ...{
-          data: false, about: false, myrw: false, topics: false, get_involved: false
-        },
+        ...{ data: false, about: false, myrw: false, topics: false, get_involved: false },
         ...action.payload
       }
     }),
@@ -19,7 +17,13 @@ export default {
     ({ ...state, searchOpened: action.payload }),
 
   [actions.setSearchTerm]: (state, action) =>
-    ({ ...state, searchTerm: action.payload })
+    ({ ...state, searchTerm: action.payload }),
 
+  [actions.setItem]: (state, { payload }) => {
+    const items = [...state.items];
+    const index = items.findIndex(i => i.id === payload.id);
+    items[index] = payload;
 
+    return ({ ...state, items });
+  }
 };

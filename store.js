@@ -58,6 +58,7 @@ import * as catalog from 'layout/catalog';
 import * as latestBlogPosts from 'components/blog/latest-posts';
 
 // Topic
+import * as topics from 'redactions/topics';
 import * as topicsIndex from 'layout/topics';
 import * as topicsDetail from 'layout/topics-detail';
 import * as topicThumbnailList from 'components/topics/thumbnail-list';
@@ -144,6 +145,7 @@ const reducer = combineReducers({
   latestBlogPosts: handleModule(latestBlogPosts),
 
   // Topic
+  topics: handleModule(topics),
   topicsIndex: handleModule(topicsIndex),
   topicsDetail: handleModule(topicsDetail),
   topicThumbnailList: handleModule(topicThumbnailList),
