@@ -36,7 +36,7 @@ class DatasetListContainer extends PureComponent {
     const orderDirectionChanged = orderDirection !== nextProps.orderDirection;
 
     if (tabChanged || paginationPageChanged || orderDirectionChanged) {
-      if (isMyRW && nextProps.tab === 'datasets') {
+      if (isMyRW && nextProps.tab === 'datasets' && nextProps.subtab !== 'edit') {
         this.props.getDatasetsByTab(nextProps.subtab);
       }
     }

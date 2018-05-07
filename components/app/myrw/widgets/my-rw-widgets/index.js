@@ -38,7 +38,7 @@ class MyRWWidgetsContainer extends PureComponent {
     const orderDirectionChanged = orderDirection !== nextProps.orderDirection;
 
     if (tabChanged || paginationPageChanged || orderDirectionChanged) {
-      if (isMyRW && nextProps.tab === 'widgets') {
+      if (isMyRW && nextProps.tab === 'widgets' && nextProps.subtab !== 'edit') {
         this.props.getWidgetsByTab(nextProps.subtab);
       }
     }
