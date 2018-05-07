@@ -407,8 +407,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              Landslides often occur when heavy rains destabilize hillsides. The National Oceanic and Atmospheric Administration (NOAA) publishes real-time landslide hazard alerts based on recent precipitation, combined with information on roads, tree cover loss, slope steepness, and bedrock structure.
-            </div>
+              Landslides often occur when heavy rains destabilize hillsides. The National Aeronautics and Space Administration (NASA) publishes real-time landslide hazard alerts based on recent precipitation, combined with information on roads, tree cover loss, slope steepness, and bedrock structure.            </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
               <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
