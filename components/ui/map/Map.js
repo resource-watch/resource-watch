@@ -375,9 +375,12 @@ class Map extends React.Component {
    */
   setLabels(labels) {
     if (this.labelLayer) this.labelLayer.remove();
-    this.labelLayer = L.tileLayer(labels.value, labels.options || {})
-      .addTo(this.map)
-      .setZIndex(1002);
+
+    if (labels.id !== 'none') {
+      this.labelLayer = L.tileLayer(labels.value, labels.options || {})
+        .addTo(this.map)
+        .setZIndex(1002);
+    }
   }
 
   /**
