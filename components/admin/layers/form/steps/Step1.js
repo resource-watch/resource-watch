@@ -136,14 +136,15 @@ class Step1 extends React.Component {
         {layerPreview.errors === false &&
           this.layerConfigStatus('Layer config valid')}
 
-
-        <button
-          type="button"
-          className="c-button -primary"
-          onClick={() => verifyLayerConfig()}
-        >
-          Verify config
-        </button>
+        {form.provider === 'cartodb' &&
+          <button
+            type="button"
+            className="c-button -primary"
+            onClick={() => verifyLayerConfig()}
+          >
+            Verify config
+          </button>
+        }
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.legendConfig = c; }}

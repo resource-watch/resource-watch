@@ -27,7 +27,9 @@ export const fetchWidgets = createThunkAction('WIDGET_BLOCK_EDITION_FETCH_DATA',
     ...payload.filters
   });
 
-  fetch(`${process.env.WRI_API_URL}/widget?${qParams}`)
+  fetch(`${process.env.WRI_API_URL}/widget?${qParams}`, {
+    headers: { 'Upgrade-Insecure-Requests': 1 }
+  })
     .then(response => response.json())
     .then(({ data, meta }) => {
       dispatch(setLoading(false));
