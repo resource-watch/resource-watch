@@ -2,10 +2,11 @@ FROM node:8.9.4
 
 ARG apiEnv=production
 ARG apiUrl=https://resourcewatch.org/api
+ARG wriApiUrl=https://api.resourcewatch.org/v1
 ARG callbackUrl=https://resourcewatch.org/auth
 
 ENV NODE_ENV production
-ENV WRI_API_URL https://api.resourcewatch.org/v1
+ENV WRI_API_URL $wriApiUrl
 # ENV BASEMAP_TILE_URL https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
 ENV API_URL $apiUrl
 ENV CONTROL_TOWER_URL https://production-api.globalforestwatch.org
