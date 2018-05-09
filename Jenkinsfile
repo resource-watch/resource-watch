@@ -72,6 +72,17 @@ node {
           sh("kubectl set image deployment ${appName}-staging ${appName}-staging=${imageTag} --record")
           break
 
+        case "preproduction":
+        sh("echo Deploying to PROD cluster")
+        sh("kubectl config use-context gke_${GCLOUD_PROJECT}_${GCLOUD_GCE_ZONE}_${KUBE_PROD_CLUSTER}")
+        def service = sh([returnStdout: true, script: "kubectl get deploy ${appName}-preproduction || echo NotFound"]).trim()
+        if ((service && service.indexOf("NotFound") > -1) || (forceCompleteDeploy)){
+          sh("sed -i -e 's/{name}/${appName}/g' k8s/preproduction/*.yaml")
+          sh("kubectl apply -f k8s/preproduction/")
+        }
+        sh("kubectl set image deployment ${appName}-preproduction ${appName}-preproduction=${imageTag} --record")
+        break
+
         // Roll out to production
         case "master":
           def userInput = true
