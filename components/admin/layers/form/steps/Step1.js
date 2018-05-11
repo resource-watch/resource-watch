@@ -175,7 +175,7 @@ class Step1 extends React.Component {
             label: 'Do you want to set this layer as the default one. (Only one default layer per dataset is allowed at a time)',
             value: 'default',
             title: 'Default',
-            checked: form.default
+            checked: this.props.form.default
           }}
         >
           {Checkbox}
