@@ -54,7 +54,7 @@ class WidgetBlockEdition extends React.Component {
     props.fetchWidgets({
       filters: {
         ...props.data.tab === 'my-widgets' && { userId: props.user.id },
-        ...props.data.tab === 'my-favourites' && { userId: props.user.id, favourite: true },
+        ...props.data.tab === 'my-favourites' && { favourite: true },
         ...!!props.data.search && { name: props.data.search },
         'page[number]': props.data.page
       }
